@@ -9,6 +9,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { clampText } from "@/lib/sanitize"
+import { reportModelError, modelErrorBody } from "@/lib/model-error"
 import {
   PHASES,
   buildTribunePrompt,
@@ -22,15 +23,17 @@ import {
   type TribuneContent,
   type TribunePhase,
 } from "@/lib/tribune"
+import { MODELS } from "@/lib/claude-models"
 
 export const dynamic = "force-dynamic"
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 // Anterior/Proactive are short reads → Haiku; Posterior weighs an outcome record → Sonnet.
-const MODEL: Record<TribunePhase, { model: string; max_tokens: number; temperature: number }> = {
-  anterior: { model: "claude-haiku-4-5-20251001", max_tokens: 1800, temperature: 0.2 },
-  proactive: { model: "claude-haiku-4-5-20251001", max_tokens: 1800, temperature: 0.2 },
-  posterior: { model: "claude-sonnet-4-6", max_tokens: 2200, temperature: 0.3 },
+// posterior runs deep (Sonnet 5.5): no temperature, thinking counts toward max_tokens.
+const MODEL: Record<TribunePhase, { model: string; max_tokens: number; temperature?: number; effort?: "low" | "medium" }> = {
+  anterior: { model: MODELS.fast, max_tokens: 1800, temperature: 0.2 },
+  proactive: { model: MODELS.fast, max_tokens: 1800, temperature: 0.2 },
+  posterior: { model: MODELS.deep, max_tokens: 4096, effort: "low" },
 }
 
 const CLARITY = new Set<ClarityMode>(["SIMPLE", "RICH", "DEEP"])
@@ -104,7 +107,7 @@ export async function POST(req: NextRequest) {
 
   // Kinematic signals — intra-session only (ADR-020 v1): NCI delta vs the session's seed receipt.
   const seed = await prisma.receipt.findFirst({
-    where: { sessionId: receipt.sessionId, parentId: null },
+    where: { sessionId: receipt.sessionId, parentId: null, userId: receipt.userId },
     orderBy: { createdAt: "asc" },
     select: { nciScore: true },
   })
@@ -152,18 +155,20 @@ export async function POST(req: NextRequest) {
     const msg = await anthropic.beta.messages.create({
       model: cfg.model,
       max_tokens: cfg.max_tokens,
-      temperature: cfg.temperature,
+      ...(cfg.temperature !== undefined ? { temperature: cfg.temperature } : {}),
+      ...(cfg.effort ? { output_config: { effort: cfg.effort } } : {}),
       betas: ["prompt-caching-2024-07-31"],
       system: [{ type: "text" as const, text: prompt.system, cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content: prompt.user }],
     })
-    const raw = msg.content[0]?.type === "text" ? msg.content[0].text : ""
+    const raw = msg.content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("")
     if (!raw.trim()) return NextResponse.json({ error: "Model returned empty response" }, { status: 502 })
     if (msg.stop_reason === "max_tokens") return NextResponse.json({ error: "Model response truncated" }, { status: 502 })
     content = parseTribuneContent(raw, phase)
   } catch (err) {
-    const m = err instanceof Error ? err.message : String(err)
-    return NextResponse.json({ error: err instanceof SyntaxError ? "Model returned non-JSON response" : m }, { status: 502 })
+    if (err instanceof SyntaxError) return NextResponse.json({ error: "Model returned non-JSON response" }, { status: 502 })
+    const info = reportModelError("tribune", err)
+    return NextResponse.json(modelErrorBody(info), { status: info.code === "rate_limited" ? 429 : 503 })
   }
 
   const row = await prisma.tribune.upsert({

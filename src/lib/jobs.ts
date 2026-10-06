@@ -1,5 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
+import { timingSafeEqual } from "node:crypto"
 import type { NextRequest } from "next/server"
 import { auth } from "@/lib/auth"
 import { isAdmin } from "@/lib/admin"
@@ -12,10 +13,18 @@ import { isAdmin } from "@/lib/admin"
 
 export type Caller = { kind: "admin"; email: string } | { kind: "pipeline" } | { kind: "dev" } | null
 
+// Constant-time compare so response timing does not leak the token prefix.
+function tokensMatch(a: string, b: string): boolean {
+  const ab = Buffer.from(a)
+  const bb = Buffer.from(b)
+  if (ab.length !== bb.length) return false
+  return timingSafeEqual(ab, bb)
+}
+
 export async function callerFor(req: NextRequest): Promise<Caller> {
   const token = req.headers.get("x-jobs-token")
   const expected = process.env.JOBS_PIPELINE_TOKEN
-  if (token && expected && token === expected) return { kind: "pipeline" }
+  if (token && expected && tokensMatch(token, expected)) return { kind: "pipeline" }
   const session = await auth()
   if (isAdmin(session)) return { kind: "admin", email: session!.user!.email! }
   if (process.env.NODE_ENV !== "production") return { kind: "dev" }

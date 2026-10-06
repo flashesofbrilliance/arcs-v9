@@ -4,6 +4,8 @@ FieldOS runbook. Data-driven: a findings JSON in, one exploded line-by-line HTML
 PDF optimized (print-color-adjust: exact, page-break control). Stdlib only, zero LLM.
 
 Usage: python3 scripts/gauntlet_report.py <findings.json> <out.html>
+       python3 scripts/gauntlet_report.py <findings.json> <out.html> --dry-run   # render, write nothing
+       python3 scripts/gauntlet_report.py --self-test
 """
 import html as h
 import json
@@ -139,20 +141,84 @@ PAGE = """<!doctype html>
 """
 
 
-def build(data, dst):
+def render(data):
     meta = " · ".join(f'<span><b>{h.escape(str(v))}</b> {h.escape(k)}</span>'
                       for k, v in data.get("meta", {}).items())
     body = "\n".join(lens_block(l) for l in data["lenses"])
-    dst.write_text(PAGE.format(
+    return PAGE.format(
         title=h.escape(data["title"]), desc=h.escape(data.get("lede", "")),
         eyebrow=h.escape(data.get("eyebrow", "")), h1=h.escape(data["title"]),
         lede=h.escape(data.get("lede", "")), meta=meta, body=body,
-        footer=h.escape(data.get("footer", ""))))
+        footer=h.escape(data.get("footer", "")))
+
+
+def build(data, dst):
+    dst.write_text(render(data))
     return dst
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print(__doc__); sys.exit(2)
-    out = build(json.loads(Path(sys.argv[1]).read_text()), Path(sys.argv[2]))
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(prog="gauntlet_report.py",
+                                 description="Render a gauntlet findings JSON to a printable HTML runbook.")
+    ap.add_argument("findings", nargs="?", type=Path, help="findings JSON")
+    ap.add_argument("out", nargs="?", type=Path, help="output HTML path")
+    ap.add_argument("--dry-run", action="store_true", help="render and report size, write nothing")
+    ap.add_argument("--self-test", action="store_true", help="argv contract in a temp dir")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if a.findings or a.out or a.dry_run:
+            ap.error("--self-test takes no other arguments")
+        return self_test()
+    if a.findings is None or a.out is None:
+        ap.error("findings and out are required")
+    data = json.loads(a.findings.read_text())
+    if a.dry_run:
+        page = render(data)
+        print(f"dry-run: would render {a.out} ({len(page.encode())} bytes); nothing written")
+        return 0
+    out = build(data, a.out)
     print(f"rendered {out} ({out.stat().st_size} bytes)")
+    return 0
+
+
+def self_test():
+    import hashlib, os, subprocess, tempfile
+    me = Path(__file__).resolve()
+    checks = []
+
+    def ok(name, cond):
+        checks.append(bool(cond))
+        print(f"  {'PASS' if cond else 'FAIL'}  {name}")
+
+    def snap(d):
+        return {str(p.relative_to(d)): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+                for p in sorted(d.rglob("*")) if p.is_file()}
+
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        fx = {"title": "Synthetic", "lede": "fixture", "meta": {"lenses": 1},
+              "lenses": [{"name": "L1", "findings": [{"title": "t", "severity": "high", "status": "fixed"}]}]}
+        (d / "f.json").write_text(json.dumps(fx))
+
+        def run(*args):
+            return subprocess.run([sys.executable, str(me), *args], cwd=d, capture_output=True, text=True)
+
+        ok("unknown flag exits 2", run("f.json", "o.html", "--bogus").returncode == 2)
+        ok("extra positional exits 2", run("f.json", "o.html", "x").returncode == 2)
+        ok("missing positionals exit 2", run("f.json").returncode == 2)
+        ok("--self-test with args exits 2", run("--self-test", "f.json").returncode == 2)
+        before = snap(d)
+        r = run("f.json", "o.html", "--dry-run")
+        ok("--dry-run exits 0", r.returncode == 0)
+        ok("--dry-run writes nothing", snap(d) == before)
+        r = run("f.json", "o.html")
+        ok("write mode renders o.html", r.returncode == 0 and (d / "o.html").exists()
+           and "Synthetic" in (d / "o.html").read_text())
+    n = sum(checks)
+    print(f"gauntlet_report self-test: {n}/{len(checks)}")
+    return 0 if n == len(checks) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

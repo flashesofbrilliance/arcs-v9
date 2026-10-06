@@ -29,6 +29,8 @@ Usage:
 """
 from __future__ import annotations
 
+import argparse
+import hashlib
 import json
 import os
 import re
@@ -193,12 +195,63 @@ def absorb() -> int:
     return 1 if orphans else 0
 
 
+def _snapshot(paths: list[Path]) -> dict:
+    """sha256 + mtime_ns of every file an emit or --absorb would write."""
+    out = {}
+    for p in paths:
+        out[str(p)] = (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns) if p.exists() else None
+    return out
+
+
+def argv_self_test() -> int:
+    """Run the CLI as a subprocess and assert the argv contract: bad args exit 2, --check writes nothing."""
+    me = str(Path(__file__).resolve())
+    watched = [RUNTIME, CANON]
+    fails, total = 0, 0
+
+    def run(*a):
+        return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=ROOT)
+
+    def ok(name, cond):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if cond else "FAIL ") + name)
+        fails += 0 if cond else 1
+
+    before = _snapshot(watched)
+    ok("unknown flag exits 2", run("--chek").returncode == 2)
+    ok("unknown flag writes nothing", _snapshot(watched) == before)
+    ok("extra positional exits 2", run("extra").returncode == 2)
+    ok("extra positional with --check exits 2", run("--check", "extra").returncode == 2)
+    ok("extra positional writes nothing", _snapshot(watched) == before)
+    r = run("--check")
+    ok("--check exits 0 or 1", r.returncode in (0, 1))
+    ok("--check writes nothing (hash + mtime)", _snapshot(watched) == before)
+    print(f"tao_project self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    ap = argparse.ArgumentParser(
+        prog="tao_project.py",
+        description="Project _CANON/tao-proverbs.jsonl into runtime/tao/proverbs.json. No flag: rebuild (writes).",
+    )
+    # Independent flags, resolved in the original priority order: --self-test > --check > --absorb.
+    ap.add_argument("--self-test", action="store_true", help="argv contract + zero rows lost + renderer HTML identical (writes nothing in the repo)")
+    ap.add_argument("--check", action="store_true", help="exit 1 if the runtime book is stale (read-only)")
+    ap.add_argument("--absorb", action="store_true", help="link unlinked runtime rows to canon by text (writes canon)")
+    return ap.parse_args(argv)
+
+
 def main(argv: list[str]) -> int:
-    if "--self-test" in argv:
-        return self_test()
-    if "--check" in argv:
+    args = parse_args(argv)
+    if args.self_test:
+        rc_argv = argv_self_test()
+        rc_rows = self_test()
+        return 1 if (rc_argv or rc_rows) else 0
+    if args.check:
         return check()
-    if "--absorb" in argv:
+    if args.absorb:
         return absorb()
     RUNTIME.parent.mkdir(parents=True, exist_ok=True)
     d = project()

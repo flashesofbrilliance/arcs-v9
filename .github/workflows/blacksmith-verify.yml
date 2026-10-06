@@ -40,7 +40,7 @@ jobs:
         run: npx playwright test tests/blacksmith.spec.ts
         env:
           BLACKSMITH_BASE_URL: ${{ github.event.inputs.base_url || 'https://blacksmith.arcs.care' }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: blacksmith-screenshots

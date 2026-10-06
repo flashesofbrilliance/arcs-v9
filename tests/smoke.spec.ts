@@ -28,16 +28,16 @@ for (const route of ROUTES) {
   })
 }
 
-// Recoil reports sit behind the unlock gate: every /recoil/[id] (existing or
-// not) 307s to /recoil/unlock?next=… — deliberately identical for both so the
-// gate doesn't leak which report ids exist. The pre-gate assertions (fixture
-// text visible, 404 for unknown ids) no longer describe the app.
-test("/recoil/demo redirects to the unlock gate", async ({ page }) => {
+// Recoil reports sit behind the Auth.js sign-in gate (the shared-password
+// /recoil/unlock gate was retired): a signed-out visit to any /recoil/[id],
+// existing or not, redirects to /compass?next=/recoil/<id>. Deliberately
+// identical for both so the gate doesn't leak which report ids exist.
+test("/recoil/demo redirects to the sign-in gate", async ({ page }) => {
   await page.goto("/recoil/demo", { waitUntil: "networkidle" })
-  await expect(page).toHaveURL(/\/recoil\/unlock\?next=/)
+  await expect(page).toHaveURL(/\/compass\?next=\/recoil\//)
 })
 
 test("/recoil/nonexistent-report-id gates identically (no id-existence leak)", async ({ page }) => {
   await page.goto("/recoil/nonexistent-report-id", { waitUntil: "networkidle" })
-  await expect(page).toHaveURL(/\/recoil\/unlock\?next=/)
+  await expect(page).toHaveURL(/\/compass\?next=\/recoil\//)
 })

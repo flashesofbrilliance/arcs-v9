@@ -1,0 +1,391 @@
+{
+  "version": "0.1.0",
+  "title": "Drishti",
+  "subtitle": "a Chronicle of ARCS",
+  "tenant": "chronicle",
+  "day_zero": "471d5739",
+  "notes": [
+    "Source of truth for the Chronicle (Reading Room tenant #3). Rendered by scripts/chronicle_render.py into _ARTIFACTS/atlas/chronicle.html.",
+    "Prose is authored here. Every count (fathom 4) and the mechanical half of each Shavasana are COMPUTED from git and the falsification ledger at render time, never typed.",
+    "Epigraph text is read from _CANON/tao-proverbs.jsonl by id (canon per _DECISIONS/CANON-COLLISION-tao-two-books.md, Option A); this file stores only the id.",
+    "Ranges: a book holds the commits in (open, close]; Genesis also holds the root commit. Boundaries approved by Zach 2026-09-29 (original ranges, Day 0 = 471d5739). Leviticus/Numbers and Numbers/Deuteronomy are calendar cuts pinned to the first first-parent commit on the date, not event cuts.",
+    "Fathoms are a descent in resolution (Zach 2026-09-29): 30,000 ft at 8-bit down to ground truth at 8K. Render treatment follows the WORLD.md render scale, grain at altitude, sharp at the ground."
+  ],
+  "fathoms": [
+    {
+      "n": 1,
+      "name": "Executive",
+      "altitude": "30,000 ft",
+      "resolution": "8-bit"
+    },
+    {
+      "n": 2,
+      "name": "Strategic",
+      "altitude": "10,000 ft",
+      "resolution": "480p"
+    },
+    {
+      "n": 3,
+      "name": "Operational",
+      "altitude": "1,000 ft",
+      "resolution": "1080p"
+    },
+    {
+      "n": 4,
+      "name": "Tactical",
+      "altitude": "100 ft",
+      "resolution": "4K"
+    },
+    {
+      "n": 5,
+      "name": "Surgical",
+      "altitude": "ground truth",
+      "resolution": "8K"
+    }
+  ],
+  "unreached": [
+    {
+      "chakra": "Ajna",
+      "gloss": "third eye, the seat of drishti",
+      "why": "not yet reached: the Chronicle has not earned a book that sees without being told where to look"
+    },
+    {
+      "chakra": "Sahasrara",
+      "gloss": "crown",
+      "why": "not yet reached"
+    }
+  ],
+  "books": [
+    {
+      "id": "genesis",
+      "n": 1,
+      "name": "Genesis",
+      "theme": "origin",
+      "chakra": "Muladhara",
+      "chakra_gloss": "root",
+      "open": "471d5739",
+      "close": "a61d492e",
+      "cut": "event",
+      "epigraph": "tao-137",
+      "status": "written",
+      "executive": "Two commits and thirty-nine days of silence between them: a scaffold that named itself Day 1, and a pipeline that arrived carrying the physics of the world it was built for.",
+      "strategic": {
+        "left": "Nothing yet. The only thing on the ground was a template: Next.js, Prisma, a magic link, and Tailwind, which the next book carries out.",
+        "taken": "A noun before a verb. The Receipt was a table in the first schema before there was any decision to put in it, and the compass, the Y-gate, and WORLD.md arrived to give it something to record.",
+        "seam": "Thirty-nine days with no commits. The record shows that work happened in them and not what it was."
+      },
+      "operational": [
+        "The first commit on main is 471d5739, at 11:39 on the morning of 9 April 2026. Its subject calls it Day 1. The status page counts differently: on 29 September it reads DAY 173, which only works if 9 April is Day 0. The world began on a disagreement about where to start counting, and both counts are in the record.",
+        "What the scaffold contains is plain. Next.js 16, Prisma 7, Auth.js with a magic link. A schema with a User, a Receipt, and an Outcome. A proxy that guards two routes and sends anyone without a session on them to /compass. A package manifest that pulls in Tailwind, which the next book will have to carry out. The commit message ends with a done-state rather than a boast: fill the environment file, migrate, click the link, arrive at /dashboard with a session.",
+        "Then the record goes quiet. Between 471d5739 and a61d492e there are no commits on main at all. Thirty-nine days. It would be easy to fill that silence with a story. The Chronicle does not, and the reason is written into the second commit itself.",
+        "a61d492e lands on 18 May at 13:32. It carries two database migrations whose own folder names are timestamps: 20260410143234 and 20260410143652, the afternoon of 10 April, the day after Day 0. The work was being done. It was not being committed. The pipeline, the Y-gate, the brief, the guide, and a 188-line WORLD.md all arrive together, thirty-one files and 5,762 lines in one breath, authored from a different address than the first commit.",
+        "Before any of it, there is an older book. ADR-071 and the apex-spine canon cite a Book of ARCS from November 2025 as the earliest artifact, the place where three was first named the minimum for coherence. It is not in this repository's history, so this Chronicle cannot prove it. It is cited here as what came before, and marked as such."
+      ],
+      "claims": [
+        {
+          "text": "The first commit on main is 471d5739, dated 2026-04-09 11:39, subject 'Day 1 scaffold'.",
+          "ref": "471d5739",
+          "proven": true
+        },
+        {
+          "text": "status.arcs.care reads DAY 173 on 2026-09-29, which counts 2026-04-09 as Day 0.",
+          "ref": "public/status.html",
+          "proven": true
+        },
+        {
+          "text": "The Day 1 schema declares User, Receipt, and Outcome; the scaffold depends on tailwindcss ^4.",
+          "ref": "471d5739:package.json",
+          "proven": true
+        },
+        {
+          "text": "No commits exist on main between 471d5739 and a61d492e.",
+          "ref": "git rev-list 471d5739..a61d492e",
+          "proven": true
+        },
+        {
+          "text": "a61d492e carries migrations named 20260410143234_dewy_v1 and 20260410143652_add_coherence_satoshi_clarity.",
+          "ref": "a61d492e",
+          "proven": true
+        },
+        {
+          "text": "a61d492e adds WORLD.md (188 lines) across 31 files and 5,762 insertions, under a different author email than 471d5739.",
+          "ref": "a61d492e",
+          "proven": true
+        },
+        {
+          "text": "What happened in the 39 uncommitted days, beyond the two migration timestamps.",
+          "ref": "none",
+          "proven": false
+        },
+        {
+          "text": "A Book of ARCS existed in November 2025 and named three as the minimum for coherence.",
+          "ref": "_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md",
+          "proven": false
+        }
+      ],
+      "shavasana": {
+        "release": "Released: any reading of the 39 days as idleness. The migration timestamps say work happened; they do not say what or how much, so the Chronicle keeps only the timestamps. Kept: every claim with a sha. Downgraded to unproven: the November 2025 book, which is cited by the canon but not held by git.",
+        "somatic": "Reading this now: is the origin you remember the one the record shows, or does Day 0 for you sit earlier than 471d5739?",
+        "disposition": "RETURN to Zach for the read."
+      }
+    },
+    {
+      "id": "exodus",
+      "n": 2,
+      "name": "Exodus",
+      "theme": "leaving the old stack and form",
+      "chakra": "Svadhisthana",
+      "chakra_gloss": "flow",
+      "open": "a61d492e",
+      "close": "445ebf08",
+      "cut": "event",
+      "epigraph": "tao-150",
+      "status": "written",
+      "executive": "Seven hundred sixty commits carried the work from a laptop to a live database and a public domain, and the book ends by walking back out of a stack the first commit never used.",
+      "strategic": {
+        "left": "A single machine and a single database file. And, at the last commit, Tailwind: a Day 1 dependency that no component had ever used, carried for ninety-three days.",
+        "taken": "Production. Postgres on Supabase with every table denied by default, deploys that run from main only, and a run of counterpart briefs on their own subdomains.",
+        "seam": "The first successful deploy is dated 28 May in the handoff record. Git holds the fix that made it possible, not the deploy itself."
+      },
+      "operational": [
+        "The leaving starts small. On 25 May, 6c03d396 adds one line so that Vercel generates the Prisma client when it installs, because the build server is not the laptop. The next day cb21d0fe moves the datasource to Postgres. On 27 May f4aa8336 teaches the database layer to tell the two worlds apart, SQLite at home and Postgres on the server, and 91b746c0 closes every one of the nine Supabase tables to the public until a rule opens it. The house was built with its doors locked.",
+        "Then the book fills up. Thirty-two ADRs are added in this range, and the surfaces multiply faster than the rules: briefs for people on the other side of a call, each on its own subdomain, some behind a password. By 7 July the deploy script has to learn to refuse any worktree but main (3f2c2c9f), and the subdomain registry has to be restored after it was lost (3b2cd16a). Motion was high. Not all of it was direction.",
+        "The commit tags tell the same story from inside. The NCI score in the subject line climbs until one commit reads 227 (e6b590e8), on a rubric whose thresholds sit at 45 and 50, and 213 commits in this book skip the score entirely. A number that only goes up has stopped measuring.",
+        "The book ends on 11 July with 445ebf08, and its subject is the plainest sentence in the whole history: pay down false-claim debt. Tailwind goes, 'unused Day-1 scaffold violating the inline-styles rule since the first commit.' A README that called the operator library production-ready canonical is relabeled a reference implementation. A stdlib-only claim is corrected, since 12 of 34 files import numpy or scipy. A guide that cited five files that do not exist gets a provenance notice. The exodus was out of a stack, and it was also out of a way of describing the stack."
+      ],
+      "claims": [
+        {
+          "text": "6c03d396 (2026-05-25) adds a postinstall prisma generate for the Vercel build.",
+          "ref": "6c03d396",
+          "proven": true
+        },
+        {
+          "text": "cb21d0fe (2026-05-26) switches the datasource to PostgreSQL.",
+          "ref": "cb21d0fe",
+          "proven": true
+        },
+        {
+          "text": "91b746c0 (2026-05-27) adds deny-all RLS policies to all 9 Supabase tables.",
+          "ref": "91b746c0",
+          "proven": true
+        },
+        {
+          "text": "32 ADR files are added in this range.",
+          "ref": "git log --diff-filter=A a61d492e..445ebf08",
+          "proven": true
+        },
+        {
+          "text": "3f2c2c9f (2026-07-07) makes deploy-prod.sh always deploy from the main worktree.",
+          "ref": "3f2c2c9f",
+          "proven": true
+        },
+        {
+          "text": "The highest NCI tag in the range is 227 (e6b590e8); 213 subjects carry NCI:SKIP.",
+          "ref": "git log a61d492e..445ebf08",
+          "proven": true
+        },
+        {
+          "text": "445ebf08 removes Tailwind and corrects the operators README (12/34 files import numpy/scipy) and a guide citing 5 nonexistent files.",
+          "ref": "445ebf08",
+          "proven": true
+        },
+        {
+          "text": "The first READY production deploy was on 2026-05-28.",
+          "ref": "~/.claude/CLAUDE.md P4 row; not in git",
+          "proven": false
+        }
+      ],
+      "shavasana": {
+        "release": "Released: the idea that the subdomain run was the product. It was motion; the book cannot say how much of it moved a decision. Kept: the database and deploy commits, each with a sha. Downgraded: the first-deploy date, held by a handoff, not by git.",
+        "somatic": "Reading the NCI line: were you trusting that number in June, and when did you stop?",
+        "disposition": "RETURN to Zach for the read."
+      }
+    },
+    {
+      "id": "leviticus",
+      "n": 3,
+      "name": "Leviticus",
+      "theme": "the laws and gates",
+      "chakra": "Manipura",
+      "chakra_gloss": "will, fire",
+      "open": "445ebf08",
+      "close": "1dffaa2e",
+      "cut": "calendar 2026-08-01",
+      "epigraph": "tao-099",
+      "status": "written",
+      "executive": "Three weeks in which the project wrote its laws faster than it could number them, and put its first automatic gates at the door to production.",
+      "strategic": {
+        "left": "Trust in the author's own word. After the false-claim debt, a claim needed a check, not a confident sentence.",
+        "taken": "Law and gates: enforcement parity, zero trust, a secrets inventory, a split between public and private, and a smoke gate that rolls a bad deploy back on its own.",
+        "seam": "Three ADRs share the number 033 and two share 032. The book of laws could not yet count them. Numbers is where that is repaired."
+      },
+      "operational": [
+        "Leviticus opens the day the Tailwind commit lands and runs to the first of August. Twenty-one days, 503 commits, and only six pull-request merges. Most of the law was written straight onto main.",
+        "On 15 July 2b69043c puts three machines at the crossing between a branch and the public: a drift check that compares stated state with real state, a front-end smoke gate, and a rollback that fires after a deploy goes bad. The same day c3835253 takes a phone number, an email, and a location off a public resume page. Both are the same instinct, a gate placed where the harm would cross, not after.",
+        "Nine ADRs are added, and they read like a code of conduct for a system that had just caught itself overclaiming: enforcement parity (e6c72e3e), a commit NCI rubric (f32d1323), secrets rotation (06ca51b0), a zero-trust posture (1e608106), a public and private repo split (70bf93ec), a stateless anonymous share (4ab01066).",
+        "And here is the seam, shown rather than smoothed. Enforcement parity, the NCI rubric, and the serialization pathogen family were all filed as ADR-033, on 16 and 19 July. Anonymous receipt remediation and zero trust were both ADR-032. Each author inferred the next number from what they could see, and parallel sessions saw the same thing. The law was sound. The ledger of laws was not, yet."
+      ],
+      "claims": [
+        {
+          "text": "Leviticus holds 503 commits and 6 pull-request merges (29 merge commits in all) between 445ebf08 and 1dffaa2e.",
+          "ref": "git log 445ebf08..1dffaa2e",
+          "proven": true
+        },
+        {
+          "text": "2b69043c (2026-07-15) adds a state-sync drift check, an FE smoke gate, and post-deploy auto-rollback.",
+          "ref": "2b69043c",
+          "proven": true
+        },
+        {
+          "text": "c3835253 (2026-07-15) removes phone, email, and location PII from resume.arcs.care.",
+          "ref": "c3835253",
+          "proven": true
+        },
+        {
+          "text": "Three ADR files are numbered 033 (e6c72e3e, f32d1323, b807edd0) and two are numbered 032 (750d2872, 1e608106).",
+          "ref": "_DECISIONS/",
+          "proven": true
+        },
+        {
+          "text": "The collisions came from sessions inferring highest-plus-one in parallel.",
+          "ref": "AGENTS.md gotcha 12",
+          "proven": false
+        }
+      ],
+      "shavasana": {
+        "release": "Released: the reading that the collisions were carelessness. The cause is stated in AGENTS.md, not proven by these commits, so it stays unproven. Kept: every gate and ADR with its sha.",
+        "somatic": "Which of these laws do you still feel in your hands when you ship, and which only live in the file?",
+        "disposition": "RETURN to Zach for the read."
+      }
+    },
+    {
+      "id": "numbers",
+      "n": 4,
+      "name": "Numbers",
+      "theme": "the census and counts",
+      "chakra": "Anahata",
+      "chakra_gloss": "heart, balance",
+      "open": "1dffaa2e",
+      "close": "d21c7ee6",
+      "cut": "calendar 2026-09-16",
+      "epigraph": "tao-012",
+      "status": "written",
+      "executive": "The largest book, 1,114 commits, is the one where the project learned to count: its laws, its files, and for the first time its own mistakes.",
+      "strategic": {
+        "left": "Numbers guessed from memory. ADR numbers inferred as highest plus one, file counts that disagreed with each other, beliefs that changed without a record of changing.",
+        "taken": "Numbers kept by a mechanism: a sequence oracle, a falsification ledger, a reconciled census, and a hundred and thirty-nine pull-request merges where Leviticus had six.",
+        "seam": "The belief log was written on 29 August inside this book's dates, but it reached main on 26 September, in Deuteronomy. By the record it belongs to the later book."
+      },
+      "operational": [
+        "The book opens on 1 August with the collision made visible. That single day files ADR-039 three times (3c8bee58, 13ec66de, 40cc05ee) and ADR-040 twice (5ad7be8e, 3fd32f77). Leviticus had doubled numbers across a week. Numbers doubles them in an afternoon.",
+        "On 13 August e5aa6b8c answers it: ADR-057, the sequence oracle, with scripts/oracle.py beside it. A number is no longer inferred. It is allocated, and the commit that claims it is the lock. Three days later a4f42f85 opens the falsification ledger, and the same day 779cf44f reconciles it to numbered rows. Row F1 records a cost estimate that came in thirteen times low, and records it as FALSIFIED rather than as a lesson in prose.",
+        "The counting reaches the code on 28 August. ab4018d7 lands Operator 21 and reconciles the file census, because three different counts of the same library had been in circulation. The next day d5bcf85c consolidates a belief-change log. It will wait twenty-eight days on its branch before it reaches main.",
+        "Thirty-eight ADRs are added in this range, more than in any other book, and 19 falsification rows carry dates inside it. The census is not only of what was built. It is of what was believed and then found wrong."
+      ],
+      "claims": [
+        {
+          "text": "On 2026-08-01, three files are numbered ADR-039 and two are numbered ADR-040.",
+          "ref": "3c8bee58 13ec66de 40cc05ee 5ad7be8e 3fd32f77",
+          "proven": true
+        },
+        {
+          "text": "e5aa6b8c (2026-08-13) adds ADR-057 and scripts/oracle.py.",
+          "ref": "e5aa6b8c",
+          "proven": true
+        },
+        {
+          "text": "a4f42f85 (2026-08-16) establishes _STATE/falsification-ledger.jsonl; 779cf44f the same day reconciles it to F-numbered rows, and F1 records a 13x cost underestimate as FALSIFIED.",
+          "ref": "a4f42f85 779cf44f",
+          "proven": true
+        },
+        {
+          "text": "ab4018d7 (2026-08-28) lands Operator 21 and reconciles the file census (PR #192).",
+          "ref": "ab4018d7",
+          "proven": true
+        },
+        {
+          "text": "d5bcf85c (2026-08-29) first reaches main through 2492e535 (PR #205, 2026-09-26).",
+          "ref": "2492e535",
+          "proven": true
+        },
+        {
+          "text": "Numbers holds 1,114 commits and 139 pull-request merges (214 merge commits); Leviticus held 6 (29).",
+          "ref": "git log 1dffaa2e..d21c7ee6",
+          "proven": true
+        }
+      ],
+      "shavasana": {
+        "release": "Released: the claim that more merges means more rigor. It is a count, and the book keeps it as a count. Kept: the oracle, the ledger, and the census, each with a sha.",
+        "somatic": "Of the numbers in this book, which one would you most want someone else to audit?",
+        "disposition": "RETURN to Zach for the read."
+      }
+    },
+    {
+      "id": "deuteronomy",
+      "n": 5,
+      "name": "Deuteronomy",
+      "theme": "the law restated, looking back",
+      "chakra": "Vishuddha",
+      "chakra_gloss": "throat, speech",
+      "open": "d21c7ee6",
+      "close": "aef6180a",
+      "cut": "open-ended; pinned to main at first render",
+      "epigraph": "tao-028",
+      "status": "written",
+      "executive": "Thirteen days and one new law. The book restates what was already decided, binds it to code that proves it, and says it in public.",
+      "strategic": {
+        "left": "New law as the unit of progress. Numbers added 38 ADRs; Deuteronomy adds one.",
+        "taken": "The law restated as running code and public speech: an operator registry generated from the periodic table, a scoreboard printed from real data, a falsification count stamped onto a public page, a Librarian, and a pause called Shavasana.",
+        "seam": "The Receipt was the first noun in Genesis. The outcome loop it was built for is still mostly open: AGENTS.md records 2 of 247 receipts closed. That count is cited, not re-measured here."
+      },
+      "operational": [
+        "Deuteronomy runs from 16 September to the render, and in thirteen days it adds a single ADR, 8595ed3e, on 26 September. Everything else is restatement. On 26 September the belief log from August finally reaches main (2492e535). On 27 September 373fc292 binds the operator suite to a registry that is generated from the periodic table and refuses any binding it cannot find in the code, and 42135091 prints the Accountant's scoreboard from real data.",
+        "The same day the law turns outward. 06ca7c8e stamps the count of falsified beliefs onto the public audit page on good.arcs.care, and merges as PR #591 (740aa55f). The number is never typed. A script computes it from the ledger, and the build fails if the page falls behind. This is the throat, Vishuddha: the system saying in public what it got wrong.",
+        "On 28 September PR #613 (150beb19) teaches Operator 21, the Librarian, to retrieve by expected value instead of by recency. On 27 September ac3163cc defines Operator 25, Shavasana, the pause before any irreversible act that adds no new claim, and 64d4f362 puts it at the handoff door. It is the same pause that closes each book of this Chronicle.",
+        "The book ends at aef6180a, which promotes a DAY 173 card to the front of the status page. Genesis began with a Receipt table and no decisions in it. Deuteronomy ends with the receipts spoken aloud and most of their outcomes still unrecorded. Ajna, the seat of the fixed gaze, is not reached. The record says so."
+      ],
+      "claims": [
+        {
+          "text": "One ADR file is added between d21c7ee6 and aef6180a: ADR-083 (8595ed3e, 2026-09-26).",
+          "ref": "git log --diff-filter=A d21c7ee6..aef6180a",
+          "proven": true
+        },
+        {
+          "text": "373fc292 (2026-09-27) adds the registry-driven MCP bridge for the operator suite.",
+          "ref": "373fc292",
+          "proven": true
+        },
+        {
+          "text": "42135091 (2026-09-27) binds Operator 19 Accountant and prints the scoreboard from real data.",
+          "ref": "42135091",
+          "proven": true
+        },
+        {
+          "text": "06ca7c8e stamps the falsification count on the good.arcs.care audit page; merged as PR #591.",
+          "ref": "740aa55f",
+          "proven": true
+        },
+        {
+          "text": "PR #613 rebinds Operator 21 to recommend by expected value.",
+          "ref": "150beb19",
+          "proven": true
+        },
+        {
+          "text": "ac3163cc defines Operator 25 and 64d4f362 invokes it at the handoff door.",
+          "ref": "ac3163cc 64d4f362",
+          "proven": true
+        },
+        {
+          "text": "2 of 247 receipts have a closed outcome.",
+          "ref": "AGENTS.md (2026-09-02 correction); not re-measured",
+          "proven": false
+        }
+      ],
+      "shavasana": {
+        "release": "Released: the sense that restating the law is the same as closing the loop. The 2 of 247 line stays in, and stays unproven until it is re-measured against the database. Kept: every restatement with a sha.",
+        "somatic": "At the end of the five books: is your certainty that ARCS works higher or lower than at Genesis, and is it the audited number or the assessed one?",
+        "disposition": "RETURN to Zach for the read before the manifest flips to built."
+      }
+    }
+  ]
+}

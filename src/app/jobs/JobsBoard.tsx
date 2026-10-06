@@ -9,6 +9,8 @@ import { SectionLabel } from "@/ui/SectionLabel"
 import { Button } from "@/ui/Button"
 import { AuthControl } from "@/molecules/AuthControl"
 import { BoardTabs } from "@/ui/BoardTabs"
+import { rowState, drift as computeDrift, MISSED_DAYS } from "@/lib/board-drift"
+import { REASONS } from "@/lib/lane-outcome"
 import Link from "next/link"
 
 // The Alert Swipe Board, product edition. Same loop as the artifact version
@@ -20,7 +22,7 @@ type Swipe = { direction: string; why: string | null; at: string }
 type Forge = { status: string; url: string | null; resumeUrl: string | null; hmKind: string | null; hmText: string | null; contactType: string | null; contactDetail: string | null; contactUrl: string | null; notes: string | null; requestedAt: string }
 type Row = {
   jobid: string; title: string; company: string; location: string | null; url: string; alertQuery: string | null; source: string
-  firstSeen: string; seenCount: number; salary: string | null; composite: number | null; band: string
+  firstSeen: string; trust?: { count: number; ids: string[] } | null; scoredAt?: string | null; seenCount: number; salary: string | null; composite: number | null; band: string
   dims: string | null; gates: string | null; assessment: string | null; atsClass: string | null; atsName: string | null
   companyType: string | null; compBand: string | null; hmKind: string | null; hmText: string | null
   contactType: string | null; contactDetail: string | null; contactUrl: string | null; nextStep: string | null; unscoredWhy: string | null
@@ -33,7 +35,7 @@ type Spec = {
 }
 type Payload = { rows: Row[]; settings: Record<string, string>; spec: Spec | null }
 
-const WHY = ["comp", "location", "role shape", "seniority", "culture", "company", "timing", "other"]
+const WHY = REASONS // one reason taxonomy for left swipes and Lane outcomes (src/lib/lane-outcome.ts)
 const ARCH: Record<string, string> = { "forward deployed engineer": "forward deployed", "applied ai engineer": "applied AI", "ai solutions engineer": "AI solutions", "product lead": "product lead", manual: "by hand" }
 const COTYPE: Record<string, string> = { startup: "startup", scaleup: "scale-up", enterprise: "enterprise" }
 const STAGES: Record<string, [string, number]> = { queued: ["generating", 0], gathering: ["gathering", 25], grading: ["grading", 50], rendering: ["rendering", 75], built: ["built, awaiting deploy", 90], live: ["live", 100] }
@@ -149,11 +151,12 @@ function Progress({ pct, indeterminate, done }: { pct: number; indeterminate?: b
 export function JobsBoard() {
   const vw = useVw()
   const phone = vw < 640
-  const tablet = vw < 1100
+  // Forge + Next step drop below 1280: the lane caps at 1280px (~1246 usable), the 8-column fixed set is 954px, and Role needs ~260 to stay readable
+  const tablet = vw < 1280
   const [data, setData] = useState<Payload | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [f, setF] = useState({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })
-  const [sort, setSort] = useState<{ key: "score" | "company" | "leverage"; dir: "asc" | "desc" }>({ key: "score", dir: "desc" })
+  const [sort, setSort] = useState<{ key: "score" | "company" | "leverage" | "date"; dir: "asc" | "desc" }>({ key: "score", dir: "desc" })
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const [adding, setAdding] = useState(false)
   const [weights, setWeights] = useState<Record<string, number> | null>(null)
@@ -197,6 +200,11 @@ export function JobsBoard() {
 
   const scored = useMemo(() => rows.filter((r) => tierOf(r.composite, spec) !== null), [rows, spec])
   const unscored = useMemo(() => rows.filter((r) => r.band === "UNSCORED"), [rows])
+  // Slice 2: Missed / not-reviewed states and the backlog drift signal (src/lib/board-drift.ts).
+  const boardSettings = useMemo(() => data?.settings ?? {}, [data])
+  const stateOf = useCallback((r: Row) => rowState(r, boardSettings, new Date()), [boardSettings])
+  const drift = useMemo(() => computeDrift(rows, boardSettings, new Date(), spec?.rubric.board_cutoff ?? 0.52), [rows, boardSettings, spec])
+  const missedCount = useMemo(() => scored.filter((r) => stateOf(r) === "missed").length, [scored, stateOf])
   // Why-not echo: companies Zach has already passed, with the reason. An unswiped
   // row at the same company gets a muted hint so a known anti-pattern is visible
   // before he swipes again. A HINT, never an auto-filter (he still decides).
@@ -214,6 +222,7 @@ export function JobsBoard() {
   const visible = useMemo(() => {
     const q = f.q.trim().toLowerCase()
     return scored.filter((r) => {
+      if (stateOf(r) === "not_reviewed") return false
       const t = tierOf(r.composite, spec)
       const sw = r.swipe?.direction ?? "none"
       if (f.tier !== "all" && t !== Number(f.tier)) return false
@@ -228,12 +237,15 @@ export function JobsBoard() {
       if (f.to && seen > f.to) return false
       return true
     }).sort((a, b) => {
+      const ma = stateOf(a) === "missed" ? 1 : 0, mb = stateOf(b) === "missed" ? 1 : 0
+      if (ma !== mb) return ma - mb // Missed rows sink below live rows, whatever the sort
       const d = sort.dir === "asc" ? 1 : -1
+      if (sort.key === "date") return d * a.firstSeen.localeCompare(b.firstSeen) || (b.composite ?? 0) - (a.composite ?? 0)
       if (sort.key === "company") return d * a.company.localeCompare(b.company) || (b.composite ?? 0) - (a.composite ?? 0)
       if (sort.key === "leverage") return d * (leverageScore(a) - leverageScore(b)) || (b.composite ?? 0) - (a.composite ?? 0)
       return d * ((a.composite ?? 0) - (b.composite ?? 0)) || a.company.localeCompare(b.company)
     })
-  }, [scored, f, sort, spec])
+  }, [scored, f, sort, spec, stateOf])
 
   const rights = useMemo(() => scored.filter((r) => r.swipe?.direction === "r").sort((a, b) => (a.swipe!.at < b.swipe!.at ? -1 : 1)), [scored])
   const swipes = useMemo(() => scored.filter((r) => r.swipe).sort((a, b) => (a.swipe!.at > b.swipe!.at ? -1 : 1)), [scored])
@@ -309,7 +321,7 @@ export function JobsBoard() {
     </>)
   }
 
-  const th = (label: string, key?: "score" | "company" | "leverage") => (
+  const th = (label: string, key?: "score" | "company" | "leverage" | "date") => (
     <th style={{ ...smallLabel, textAlign: "left", padding: "8px 12px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}`, whiteSpace: "nowrap", position: "sticky", top: 0 }}>
       {key ? <button onClick={() => setSort((s) => s.key === key ? { key, dir: s.dir === "asc" ? "desc" : "asc" } : { key, dir: key === "score" ? "desc" : "asc" })} style={{ background: "none", border: 0, padding: 0, color: sort.key === key ? fg1 : "inherit", cursor: "pointer", font: "inherit", letterSpacing: "inherit", textTransform: "inherit" }}>{label}{sort.key === key ? (sort.dir === "desc" ? " ▾" : " ▴") : ""}</button> : label}
     </th>
@@ -341,6 +353,14 @@ export function JobsBoard() {
         </header>
         {err && <div style={{ padding: 12, border: `1px solid ${signal.red}55`, borderRadius: 4, color: fg1, marginBottom: 12 }}>{err} {err.includes("Sign in") && <a href="/compass?next=/jobs" style={{ color: signal.cyan }}>Sign in</a>}</div>}
 
+        {(drift.fire || missedCount > 0 || !!boardSettings.missed_cleared_at) && (
+          <div role="status" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "10px 12px", marginBottom: 12, border: `1px solid ${border.subtle}`, borderLeft: `2px solid ${signal.gold}`, borderRadius: 4, background: surface.panel, fontSize: 13, color: fg2 }}>
+            {drift.fire && <span style={{ flex: "1 1 360px", color: fg1 }}>{drift.line} <Link href="/jobs/lane" style={{ color: signal.cyan }}>Sources</Link></span>}
+            {drift.fire && drift.signature && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { dismissDrift: drift.signature })} style={{ minHeight: 28, padding: "0 10px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: "transparent", color: fg2, cursor: "pointer" }}>Dismiss until it changes</button>}
+            {missedCount > 0 && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { clearMissed: true })} title="Marks them not reviewed. Never a left swipe; no preference is recorded." style={{ minHeight: 28, padding: "0 10px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: "transparent", color: fg2, cursor: "pointer" }}>Clear the Missed pile ({missedCount})</button>}
+            {boardSettings.missed_cleared_at && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { undoClearMissed: true })} title="Puts every row hidden by the last clear back in the queue. No swipes are touched." style={{ minHeight: 28, padding: "0 10px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: "transparent", color: fg2, cursor: "pointer" }}>Undo clear</button>}
+          </div>
+        )}
         {/* toolbar */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", padding: "8px 0 12px" }}>
           {seg("tier", [["all", "All tiers"], ["1", "≥ 0.80"], ["2", "0.70–0.79"], ["3", "0.52–0.69"]])}
@@ -349,7 +369,7 @@ export function JobsBoard() {
           <select aria-label="Saved search" value={f.arch} onChange={(e) => setF({ ...f, arch: e.target.value })} style={ctl}><option value="all">Any search</option>{Object.entries(ARCH).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
           <select aria-label="Company type" value={f.co} onChange={(e) => setF({ ...f, co: e.target.value })} style={ctl}><option value="all">Any company</option>{Object.entries(COTYPE).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
           <select aria-label="Tag" value={f.tag} onChange={(e) => setF({ ...f, tag: e.target.value })} style={ctl} title="Filter by a computed tag: Moat / Sleeper (leverage & hidden-fit), or role-shape flavor"><option value="all">Any tag</option>{TAG_OPTIONS.map((t) => <option key={t} value={t}>{t}</option>)}</select>
-          <select aria-label="Sort by" value={sort.key} onChange={(e) => { const k = e.target.value as "score" | "leverage" | "company"; setSort({ key: k, dir: k === "company" ? "asc" : "desc" }) }} style={ctl} title="Fit = would he do well here. Leverage = is his rare combination an unfair moat here."><option value="score">Sort: Fit score</option><option value="leverage">Sort: Leverage</option><option value="company">Sort: Company</option></select>
+          <select aria-label="Sort by" value={sort.key} onChange={(e) => { const k = e.target.value as "score" | "leverage" | "company" | "date"; setSort({ key: k, dir: k === "company" ? "asc" : "desc" }) }} style={ctl} title="Fit = would he do well here. Leverage = is his rare combination an unfair moat here."><option value="score">Sort: Fit score</option><option value="leverage">Sort: Leverage</option><option value="company">Sort: Company</option><option value="date">Sort: Newest listed</option></select>
           <input type="search" placeholder="Search role or company" aria-label="Search" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} style={{ ...ctl, flex: "1 1 160px", minWidth: 160 }} />
           <label style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, color: fg3, flexBasis: phone ? "100%" : undefined }}>Seen <input type="date" aria-label="Seen from" value={f.from} onChange={(e) => setF({ ...f, from: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /> to <input type="date" aria-label="Seen to" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /></label>
           <span style={{ flex: 1 }} />
@@ -407,9 +427,9 @@ export function JobsBoard() {
             <div>{visible.map((r, i) => { const t = tierOf(r.composite, spec)!; const prev = visible[i - 1]; const head = sort.key === "score" && (!prev || tierOf(prev.composite, spec) !== t); return (
               <div key={r.jobid}>
                 {head && <div style={{ ...labelStyle, padding: "4px 12px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}` }}><b style={{ color: fg1, fontFamily: sans, letterSpacing: 0, textTransform: "none", fontSize: 13, marginRight: 8 }}>{TIER_LABEL[t][0]}</b>{TIER_LABEL[t][1]}</div>}
-                <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 12, rowGap: 8, padding: 12, borderBottom: `1px solid ${border.subtle}`, boxShadow: r.swipe ? `inset 2px 0 0 ${r.swipe.direction === "r" ? signal.green : signal.red}` : undefined, opacity: r.swipe?.direction === "l" ? 0.5 : t === 3 ? 0.85 : 1 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 12, rowGap: 8, padding: 12, borderBottom: `1px solid ${border.subtle}`, boxShadow: r.swipe ? `inset 2px 0 0 ${r.swipe.direction === "r" ? signal.green : signal.red}` : undefined, opacity: r.swipe?.direction === "l" || stateOf(r) === "missed" ? 0.5 : t === 3 ? 0.85 : 1 }}>
                   <div style={{ fontFamily: mono, fontWeight: 600, fontSize: 16, color: r.swipe?.direction === "r" ? signal.green : fg1 }}>{r.composite!.toFixed(3)}<small style={{ display: "block", fontWeight: 400, fontSize: 10, color: fg3 }}>T{t}</small></div>
-                  <div><b style={{ display: "block", fontWeight: 500, color: fg1 }}><Link href={`/jobs/${r.jobid}`} style={{ color: fg1, textDecoration: "none" }} title="Open the Role Scan">{r.title}</Link></b><span style={{ color: fg2, fontSize: 12 }}>{r.company} · {r.location ?? ""}{r.compBand ? ` · ${r.compBand}` : ""}</span><div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 4 }}>{r.companyType && <Tag>{COTYPE[r.companyType] ?? r.companyType}</Tag>}<Tag>{ARCH[r.alertQuery ?? "manual"] ?? r.alertQuery}</Tag>{(() => { const m = flavorMotion(r), a = flavorAxis(r); const fl = [m, a].filter(Boolean) as string[]; return fl.map((f) => <span key={f} style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.cyan}44`, background: `${signal.cyan}12`, color: signal.cyan, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{f}</span>) })()}{whyNotEcho(r) && <span title="You passed this company before" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.red}44`, background: `${signal.red}12`, color: signal.red, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".04em" }}>{whyNotEcho(r)}</span>}{isSleeper(r, spec) && <span title="Strong fit that the title hides: scored high on the JD, not the keywords" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.gold}55`, background: `${signal.gold}14`, color: signal.gold, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Sleeper</span>}{isMoat(r) && <span title="Leverage, not fit: the role's shape rewards his rare combination (operator-who-builds · transversal · regulated breadth · 0→1) and the qualified pool for that shape is thin. Few others can even write this application." style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid #a78bfa66`, background: "#a78bfa1a", color: "#c4b5fd", fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Moat</span>}</div>{r.dims && <button onClick={() => setOpen({ ...open, [r.jobid]: !open[r.jobid] })} style={{ marginTop: 4, background: "none", border: 0, padding: 0, color: signal.cyan, fontSize: 12, cursor: "pointer" }}>{open[r.jobid] ? "Hide the score" : "Why this score"}</button>}</div>
+                  <div><b style={{ display: "block", fontWeight: 500, color: fg1 }}><Link href={`/jobs/${r.jobid}`} style={{ color: fg1, textDecoration: "none" }} title="Open the Role Scan">{r.title}</Link></b><span style={{ color: fg2, fontSize: 12 }}>{r.company} · {r.location ?? ""}{r.compBand ? ` · ${r.compBand}` : ""}</span><div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 4 }}>{r.companyType && <Tag>{COTYPE[r.companyType] ?? r.companyType}</Tag>}<Tag>{ARCH[r.alertQuery ?? "manual"] ?? r.alertQuery}</Tag>{stateOf(r) === "missed" && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { revive: r.jobid })} title={`Unswiped ${MISSED_DAYS}+ days since scored. Revive puts it back in the live queue.`} style={{ padding: "1px 7px", borderRadius: 6, border: `1px solid ${border.subtle}`, background: surface.panel, color: fg2, fontFamily: mono, fontSize: 10, cursor: "pointer" , whiteSpace: "nowrap" }}>missed · revive</button>}{r.trust && <Link href={`/jobs/champions?company=${encodeURIComponent(r.company)}`} title="Named people from your champion list work here. Names stay on the Champions tab." style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.green}55`, background: `${signal.green}12`, color: signal.green, fontFamily: mono, fontSize: 10, fontWeight: 600, textDecoration: "none" , whiteSpace: "nowrap" }}>{r.trust.count} in network</Link>}{(() => { const m = flavorMotion(r), a = flavorAxis(r); const fl = [m, a].filter(Boolean) as string[]; return fl.map((f) => <span key={f} style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.cyan}44`, background: `${signal.cyan}12`, color: signal.cyan, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{f}</span>) })()}{whyNotEcho(r) && <span title="You passed this company before" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.red}44`, background: `${signal.red}12`, color: signal.red, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".04em" }}>{whyNotEcho(r)}</span>}{isSleeper(r, spec) && <span title="Strong fit that the title hides: scored high on the JD, not the keywords" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.gold}55`, background: `${signal.gold}14`, color: signal.gold, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Sleeper</span>}{isMoat(r) && <span title="Leverage, not fit: the role's shape rewards his rare combination (operator-who-builds · transversal · regulated breadth · 0→1) and the qualified pool for that shape is thin. Few others can even write this application." style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid #a78bfa66`, background: "#a78bfa1a", color: "#c4b5fd", fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Moat</span>}</div>{r.dims && <button onClick={() => setOpen({ ...open, [r.jobid]: !open[r.jobid] })} style={{ marginTop: 4, background: "none", border: 0, padding: 0, color: signal.cyan, fontSize: 12, cursor: "pointer" }}>{open[r.jobid] ? "Hide the score" : "Why this score"}</button>}</div>
                   <div style={{ gridColumn: "1 / -1", display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}><Pill tone={(r.atsClass as "old" | "new" | "unk") ?? "unk"}>{r.atsName ?? "unverified"}</Pill><a href={r.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>Posting</a></div>
                   <div style={{ gridColumn: "1 / -1", fontSize: 12, color: fg2 }}>{forgeCell(r)}</div>
                   <div style={{ gridColumn: "1 / -1" }}>{hmCell(r)}</div>
@@ -420,15 +440,15 @@ export function JobsBoard() {
               </div>) })}</div>
           ) : (
             <div style={{ overflowX: "auto" }}>
-              <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
-                <colgroup><col style={{ width: 72 }} /><col /><col style={{ width: 132 }} /><col style={{ width: 92 }} />{!tablet && <col style={{ width: 150 }} />}<col style={{ width: 200 }} />{!tablet && <col style={{ width: 230 }} />}<col style={{ width: 158 }} /></colgroup>
+              <table style={{ borderCollapse: "collapse", width: "100%", minWidth: (tablet ? 654 : 954) + 260, tableLayout: "fixed" }}>
+                <colgroup><col style={{ width: 72 }} /><col /><col style={{ width: 132 }} /><col style={{ width: 92 }} />{!tablet && <col style={{ width: 150 }} />}<col style={{ width: tablet ? 200 : 170 }} />{!tablet && <col style={{ width: 180 }} />}<col style={{ width: 158 }} /></colgroup>
                 <thead><tr>{th("Score", "score")}{th("Role", "company")}{th("ATS")}{th("Apply")}{!tablet && th("Forge")}{th("Hiring manager")}{!tablet && th("Next step")}{th("Swipe")}</tr></thead>
                 <tbody>{visible.map((r, i) => { const t = tierOf(r.composite, spec)!; const prev = visible[i - 1]; const head = sort.key === "score" && (!prev || tierOf(prev.composite, spec) !== t); const left = r.swipe?.direction === "l"; return (
                   <React.Fragment key={r.jobid}>
-                    {head && <tr><td colSpan={8} style={{ ...labelStyle, padding: "4px 12px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}` }}><b style={{ color: fg1, fontFamily: sans, letterSpacing: 0, textTransform: "none", fontSize: 13, marginRight: 8 }}>{TIER_LABEL[t][0]}</b>{TIER_LABEL[t][1]}</td></tr>}
-                    <tr style={{ borderBottom: `1px solid ${border.subtle}`, opacity: left ? 0.5 : t === 3 ? 0.85 : 1 }}>
+                    {head && <tr><td colSpan={tablet ? 6 : 8} style={{ ...labelStyle, padding: "4px 12px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}` }}><b style={{ color: fg1, fontFamily: sans, letterSpacing: 0, textTransform: "none", fontSize: 13, marginRight: 8 }}>{TIER_LABEL[t][0]}</b>{TIER_LABEL[t][1]}</td></tr>}
+                    <tr style={{ borderBottom: `1px solid ${border.subtle}`, opacity: left || stateOf(r) === "missed" ? 0.5 : t === 3 ? 0.85 : 1 }}>
                       <td style={{ ...rowCell, fontFamily: mono, fontWeight: 600, fontSize: 14, whiteSpace: "nowrap", color: r.swipe?.direction === "r" ? signal.green : fg1, boxShadow: r.swipe ? `inset 2px 0 0 ${r.swipe.direction === "r" ? signal.green : signal.red}` : undefined }}>{r.composite!.toFixed(3)}<small style={{ display: "block", fontWeight: 400, fontSize: 10, color: fg3, letterSpacing: "0.06em" }}>T{t}</small></td>
-                      <td style={rowCell}><b style={{ display: "block", fontWeight: t === 1 ? 500 : 400, color: fg1, textWrap: "pretty" }}><Link href={`/jobs/${r.jobid}`} style={{ color: fg1, textDecoration: "none" }} title="Open the Role Scan">{r.title}</Link></b><span style={{ color: fg2, fontSize: 12 }}>{r.company} · {r.location ?? ""}{r.compBand ? ` · ${r.compBand}` : ""}</span><div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 4 }}>{r.companyType && <Tag>{COTYPE[r.companyType] ?? r.companyType}</Tag>}<Tag>{ARCH[r.alertQuery ?? "manual"] ?? r.alertQuery}</Tag>{(() => { const m = flavorMotion(r), a = flavorAxis(r); const fl = [m, a].filter(Boolean) as string[]; return fl.map((f) => <span key={f} style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.cyan}44`, background: `${signal.cyan}12`, color: signal.cyan, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{f}</span>) })()}{whyNotEcho(r) && <span title="You passed this company before" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.red}44`, background: `${signal.red}12`, color: signal.red, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".04em" }}>{whyNotEcho(r)}</span>}{isSleeper(r, spec) && <span title="Strong fit that the title hides: scored high on the JD, not the keywords" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.gold}55`, background: `${signal.gold}14`, color: signal.gold, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Sleeper</span>}{isMoat(r) && <span title="Leverage, not fit: the role's shape rewards his rare combination (operator-who-builds · transversal · regulated breadth · 0→1) and the qualified pool for that shape is thin. Few others can even write this application." style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid #a78bfa66`, background: "#a78bfa1a", color: "#c4b5fd", fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Moat</span>}</div>{r.dims && <button onClick={() => setOpen({ ...open, [r.jobid]: !open[r.jobid] })} aria-expanded={!!open[r.jobid]} style={{ marginTop: 4, background: "none", border: 0, padding: 0, color: signal.cyan, fontSize: 12, cursor: "pointer" }}>{open[r.jobid] ? "Hide the score" : "Why this score"}</button>}</td>
+                      <td style={rowCell}><b style={{ display: "block", fontWeight: t === 1 ? 500 : 400, color: fg1, textWrap: "pretty" }}><Link href={`/jobs/${r.jobid}`} style={{ color: fg1, textDecoration: "none" }} title="Open the Role Scan">{r.title}</Link></b><span style={{ color: fg2, fontSize: 12 }}>{r.company} · {r.location ?? ""}{r.compBand ? ` · ${r.compBand}` : ""}</span><div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 4 }}>{r.companyType && <Tag>{COTYPE[r.companyType] ?? r.companyType}</Tag>}<Tag>{ARCH[r.alertQuery ?? "manual"] ?? r.alertQuery}</Tag>{stateOf(r) === "missed" && <button type="button" onClick={() => post("/api/jobs/settings", "PATCH", { revive: r.jobid })} title={`Unswiped ${MISSED_DAYS}+ days since scored. Revive puts it back in the live queue.`} style={{ padding: "1px 7px", borderRadius: 6, border: `1px solid ${border.subtle}`, background: surface.panel, color: fg2, fontFamily: mono, fontSize: 10, cursor: "pointer" , whiteSpace: "nowrap" }}>missed · revive</button>}{r.trust && <Link href={`/jobs/champions?company=${encodeURIComponent(r.company)}`} title="Named people from your champion list work here. Names stay on the Champions tab." style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.green}55`, background: `${signal.green}12`, color: signal.green, fontFamily: mono, fontSize: 10, fontWeight: 600, textDecoration: "none" , whiteSpace: "nowrap" }}>{r.trust.count} in network</Link>}{(() => { const m = flavorMotion(r), a = flavorAxis(r); const fl = [m, a].filter(Boolean) as string[]; return fl.map((f) => <span key={f} style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.cyan}44`, background: `${signal.cyan}12`, color: signal.cyan, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{f}</span>) })()}{whyNotEcho(r) && <span title="You passed this company before" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.red}44`, background: `${signal.red}12`, color: signal.red, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".04em" }}>{whyNotEcho(r)}</span>}{isSleeper(r, spec) && <span title="Strong fit that the title hides: scored high on the JD, not the keywords" style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.gold}55`, background: `${signal.gold}14`, color: signal.gold, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Sleeper</span>}{isMoat(r) && <span title="Leverage, not fit: the role's shape rewards his rare combination (operator-who-builds · transversal · regulated breadth · 0→1) and the qualified pool for that shape is thin. Few others can even write this application." style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid #a78bfa66`, background: "#a78bfa1a", color: "#c4b5fd", fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>Moat</span>}</div>{r.dims && <button onClick={() => setOpen({ ...open, [r.jobid]: !open[r.jobid] })} aria-expanded={!!open[r.jobid]} style={{ marginTop: 4, background: "none", border: 0, padding: 0, color: signal.cyan, fontSize: 12, cursor: "pointer" }}>{open[r.jobid] ? "Hide the score" : "Why this score"}</button>}</td>
                       <td style={rowCell}><Pill tone={(r.atsClass as "old" | "new" | "unk") ?? "unk"}>{r.atsName ?? "unverified"}</Pill></td>
                       <td style={rowCell}><a href={r.url} target="_blank" rel="noopener" style={{ color: signal.cyan, display: "block" }}>{r.url.includes("linkedin") ? "LinkedIn" : "Posting"}</a></td>
                       {!tablet && <td style={{ ...rowCell, fontSize: 12, color: fg2 }}>{forgeCell(r)}</td>}
@@ -436,7 +456,7 @@ export function JobsBoard() {
                       {!tablet && <td style={{ ...rowCell, fontSize: 12, color: fg2, textWrap: "pretty" }}>{r.nextStep}</td>}
                       <td style={rowCell}>{swipeButtons(r)}</td>
                     </tr>
-                    {open[r.jobid] && <tr><td colSpan={8} style={{ padding: "0 12px 16px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}` }}>{anatomy(r, visible[i + 1])}</td></tr>}
+                    {open[r.jobid] && <tr><td colSpan={tablet ? 6 : 8} style={{ padding: "0 12px 16px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}` }}>{anatomy(r, visible[i + 1])}</td></tr>}
                   </React.Fragment>) })}</tbody>
               </table>
             </div>

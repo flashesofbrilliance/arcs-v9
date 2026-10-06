@@ -3,19 +3,17 @@
 <head>
 <meta charset="utf-8">
 <title>Notomation · NFTT</title>
+<meta property="article:published_time" content="2026-09-26T01:58:39-04:00">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="description" content="Automation is sold as the only near future there is. There is a second road, where the machine sharpens the person instead of replacing them. ARCS calls it notomation.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
     --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
     --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
     --cyan:#00F0FF; --cyan-dim:#3aa8b4; --green:#00FF9D; --gold:#FFD700;
-    --serif:"Newsreader",Georgia,"Times New Roman",serif;
-    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
     --measure:660px;
   }
   *{box-sizing:border-box}
@@ -48,8 +46,12 @@
   .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin:0 0 15px; font-weight:600}
   .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
   .panel .step b{color:var(--text); font-weight:500}
-  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:10px; white-space:nowrap; padding-top:2px}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px; white-space:nowrap; padding-top:2px}
   .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
   .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0; max-width:none}
   @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
 
@@ -71,6 +73,27 @@
   html,body{overflow-x:clip; overscroll-behavior-y:none}
   .mono{overflow-wrap:anywhere}
   footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -86,7 +109,7 @@
     <p class="eyebrow">The near future is not one road</p>
     <h1>Notomation</h1>
     <p class="standfirst">Automation is sold as the only near future there is. It is not. There is a second road, quieter and harder to put on a keynote slide, where the machine sharpens the person instead of editing them out.</p>
-    <p class="byline">Field notes · the sentiment numbers are Pew 2026, cited. The stance is ARCS canon, marked as thesis.</p>
+    <p class="byline"><time data-pub datetime="2026-09-26T01:58:39-04:00">Published Sep 26, 2026 &middot; 1:58 AM ET</time> &middot; Field notes · the sentiment numbers are Pew 2026, cited. The stance is ARCS canon, marked as thesis.</p>
   </header>
 
   <section>
@@ -102,11 +125,11 @@
       <h4>How the public actually feels, 2026</h4>
       <div class="step">
         <span class="k">Concerned</span><b>52% of US adults are more concerned than excited about AI in daily life, up from 37% in 2021. Only 9% are more excited than concerned.</b>
-        <span class="k">Impact</span><b>40% expect AI's impact on society to be negative over the next twenty years. 16% expect it to be positive.</b>
+        <span class="k">Impact</span><b>Four in ten expect AI's impact on society to be negative over the next twenty years. Far fewer expect it to be positive.</b>
         <span class="k">Under 30</span><b>For the first time, a majority of adults under thirty, 55%, are more concerned than excited.</b>
-        <span class="k">Pace</span><b>About two thirds say AI is moving too fast.</b>
+        <span class="k">Pace</span><b>About two thirds say AI is advancing too quickly.</b>
       </div>
-      <p>Source: Pew Research Center, 2026. A mood, measured honestly. Read it as the room's temperature, not as the fork.</p>
+      <p>Source: Pew Research Center, Americans and AI 2026 (June 17) and the August 18, 2026 short read. A mood, measured honestly. Read it as the room's temperature, not as the fork.</p>
     </div>
     <p>Now set the numbers down, because the mood is not the axis. Concern and excitement are a temperature reading. They tell you the room is uneasy. They do not tell you which future you are walking into, because the same person is glad the machine drafts their email and afraid it will grade their child's essay. The feeling is real, and it is not the fork.</p>
     <blockquote>Optimist or pessimist is a weather report. It tells you how the day feels, not which direction you are walking.</blockquote>
@@ -124,7 +147,7 @@
     <span class="num">IV · Slop is the tell</span>
     <p>You do not need a philosophy degree to tell which road a tool is on. You can read it in something as small as a dash. When a model writes for you and the output arrives dash-spliced, padded with the same tired phrases, the register slightly off, something quiet happens: you become its proofreader. You absorb its tics. You start writing a little more like it, so its drafts need less fixing. That is the whole failure mode in miniature. The human recalibrating to the machine's grain instead of the other way around.</p>
     <p>That is a person turning into a training agent one small edit at a time, and almost no one notices, because each edit is tiny and the tool feels helpful the entire way down. Slop is not just ugly writing. It is the visible residue of the polarity running backward.</p>
-    <p>And the tell goes deeper than the words. A 2026 study of commercial web writing, SlopShape, found that AI text carries a structural signature, a tidy and self-announcing shape in how it orders information and stages its evidence, and that signature is detectable at ninety-eight percent accuracy even after each post is reworded by the model that wrote it. You can strip out every cliche and every dash and the machine shape stays. Human writing, by contrast, occupies the rarest regions of that space.</p>
+    <p>And the tell goes deeper than the words. A 2026 study of commercial web writing, SlopShape, found that AI text carries a structural signature, a tidy and self-announcing shape in how it orders information and stages its evidence, and that structure alone identifies AI posts at a 97.0 macro-F1 score, and still at 96.1 after every post is reworded by the model that wrote it. You can strip out every cliche and every dash and the machine shape stays. Human posts, by contrast, occupy rare structural configurations.</p>
     <p>The study stops there, at detection. It makes no claim about agency, and the next step is ours to draw, so mark it as ours. That irregular, particular, hard-to-predict shape is the human fingerprint, and it is exactly what a person gives up by recalibrating to the tool. The drift is not a surface habit you can polish away. It moves your thinking into the shape a detector can already recognize as not you.</p>
     <blockquote>You can reword the slop and the shape remains. The only thing that changes the shape is a human actually thinking. The tell and the cure are the same act.</blockquote>
     <p>So the fix is not a better model, and it is not better polish. It is a stance. Make the instrument's output serve the reader, so the reader never has to finish the machine's sentence, and keep the reader's own shape intact instead of sanding it toward the tidy one. When the output reads like a machine, the reader does the machine's unfinished work, and serving has quietly become served. That is notomation in one gesture: the tool bends to the human's register, not the reverse.</p>
@@ -154,7 +177,7 @@
 
   <footer>
     <a href="/blog/nftt">&#9664; Notes from the Trenches</a> · open-source tools and field notes by ARCS.<br>
-    The sentiment figures are Pew Research Center, 2026. The structural-signature finding is SlopShape (Madler, arXiv:2609.15369, 2026). Notomation is ARCS's stated stance, offered as thesis, not as proven fact.
+    The sentiment figures are Pew Research Center, June 17 and August 18, 2026. The structural-signature finding is SlopShape (Madler, arXiv:2609.15369, 2026). Notomation is ARCS's stated stance, offered as thesis, not as proven fact.
   </footer>
 </div>
 </body>

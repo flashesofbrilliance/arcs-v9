@@ -1,142 +1,72 @@
 'use client'
 import React from 'react'
-import { font, signal, border, text, getWeather, nciColor, contentContainer } from '@/ui/tokens'
+import { font, text, contentContainer } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
 import { Rule } from '@/ui/Rule'
 import { Button } from '@/ui/Button'
-import { Label } from '@/ui/Label'
-import { Card } from '@/ui/Card'
-import { FatedGrid } from '@/molecules/FatedGrid'
-import { TerrainPaths } from '@/molecules/TerrainPaths'
-import { ExpandableTributaries } from '@/molecules/ExpandableTributaries'
+import { AhmedOrder, MEASURE } from '@/organisms/AhmedOrder'
+import { SITUATION_LABEL } from '@/lib/vocabulary'
 import type { CompassResult } from '@/lib/mockCompass'
 
+// The brief is the receipt in the Ahmed order plus the brief writer's framing.
+// Same slots, same words, same positions as /receipt (src/lib/vocabulary.ts).
 export interface BriefProps {
   result: CompassResult
   onBack?: () => void
   onTributary?: (prompt: string) => void
   onNewQuestion?: () => void
-  // AI situation framing — rendered just above the Tributaries block.
+  // Brief-writer situation framing (two paragraphs).
   situationFraming?: string
 }
 
 export function Brief({ result, onBack, onTributary, onNewQuestion, situationFraming }: BriefProps) {
   const r = result.reasoning || {}
-  const fated = r.fated || {}
-  const weather = getWeather(result.y_state)
-
-  const [narrow, setNarrow] = React.useState(false)
-  React.useEffect(() => {
-    const mq = window.matchMedia('(max-width: 720px)')
-    const sync = () => setNarrow(mq.matches)
-    sync()
-    mq.addEventListener('change', sync)
-    return () => mq.removeEventListener('change', sync)
-  }, [])
-
   const vw = useVw()
-  const cc = contentContainer(vw)
-
-  const nc = nciColor(result.nci_score)
+  const framing = situationFraming?.trim()
 
   return (
-    <div style={{ ...cc, paddingTop: '2rem', paddingBottom: '5rem' }}>
-      {/* Header — matches home/history/receipt Wordmark + Rule pattern */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+    <div style={{ ...contentContainer(vw), paddingTop: '2rem', paddingBottom: '5rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
         <Wordmark section="Decision Brief" />
         <div style={{ display: 'flex', gap: '0.25rem' }}>
-          <Button variant="ghost" size="sm" onClick={onBack}>← Ledger</Button>
+          {onBack && <Button variant="ghost" size="sm" onClick={onBack}>← Ledger</Button>}
           {onNewQuestion && <Button variant="ghost" size="sm" glyph="⊕" onClick={onNewQuestion}>New question</Button>}
         </div>
       </div>
-      <Rule style={{ marginBottom: '1.5rem' }} />
+      <Rule style={{ marginBottom: '1.75rem' }} />
 
-      {/* Status line — fog fidelity */}
-      <Label style={{ marginBottom: '1rem', color: weather.color }}>{weather.icon} {weather.label} · {result.render_resolution}</Label>
-
-      {/* Decision — the question, at the top (mirrors the receipt pattern) */}
-      <div style={{ marginBottom: '1.75rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
-        <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Decision</div>
-        <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.85 }}>{result.question}</div>
-      </div>
-
-      {/* True North */}
-      <div style={{ marginBottom: '1.75rem' }}>
-        <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.14em', color: signal.cyan, textTransform: 'uppercase', marginBottom: '0.5rem' }}>True North</div>
-        <div style={{ fontFamily: font.sans, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', fontWeight: 600, color: text.primary, lineHeight: 2.0 }}>{result.true_north}</div>
-      </div>
-
-      {/* Conviction — full-width, right below True North */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6, marginBottom: '1.75rem', flexWrap: narrow ? 'wrap' : 'nowrap' }}>
-        <div style={{ flexShrink: 0 }}>
-          <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Conviction</div>
-          <div style={{ fontFamily: font.sans, fontSize: '2.25rem', fontWeight: 700, color: nc, lineHeight: 1, textShadow: `0 0 12px ${nc}55` }}>{result.nci_score}</div>
-          <div style={{ fontFamily: font.mono, fontSize: '0.55rem', color: text.dimmed, marginTop: '0.2rem', letterSpacing: '0.06em' }}>/ 100</div>
-        </div>
-        {!narrow && <div style={{ width: '0.5px', height: 44, background: border.subtle, flexShrink: 0 }} />}
-        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-          {([
-            ['Mode', result.decision_mode],
-            ['Door', result.door_class?.replace(/_/g, ' ')],
-            ['Coherence', result.coherence_pct != null ? `${result.coherence_pct}%` : null],
-            ...(r.advisors?.bayesian_risk_pct != null ? [['Bayesian risk', `${r.advisors.bayesian_risk_pct}%`]] : []),
-          ].filter(([, v]) => v != null) as [string, string][]).map(([k, v]) => (
-            <div key={k}>
-              <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.1em', color: text.muted, textTransform: 'uppercase', marginBottom: '0.2rem' }}>{k}</div>
-              <div style={{ fontFamily: font.mono, fontSize: '0.75rem', color: text.secondary }}>{v}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Terrain Paths — single column, directly under Conviction */}
-      {r.paths?.length ? (
-        <div style={{ marginBottom: '1.75rem' }}>
-          <TerrainPaths paths={r.paths} />
-        </div>
-      ) : null}
-
-      {/* Two-col: FATED + Constitutional Court entries */}
-      {(Object.keys(fated).length > 0 || r.court) ? (
-        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : (Object.keys(fated).length > 0 && r.court ? '1fr 1fr' : '1fr'), gap: '1.5rem', marginBottom: '1.75rem' }}>
-          {Object.keys(fated).length > 0 ? <FatedGrid fated={fated} /> : null}
-          {r.court ? (
-            <Card>
-              <Label style={{ marginBottom: '1rem' }}>Constitutional Court</Label>
-              {r.court.map((c, i) => (
-                <div key={i} style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.65rem', fontSize: '0.82rem' }}>
-                  <span style={{ fontFamily: font.mono, color: c.verdict === 'PASS' ? signal.green : c.verdict === 'TENSION' ? signal.gold : signal.red, fontWeight: 700, minWidth: 64, lineHeight: 1.85 }}>{c.verdict}</span>
-                  <span style={{ color: text.secondary, lineHeight: 1.85 }}><strong style={{ color: text.primary }}>{c.name}</strong>: {c.detail}</span>
-                </div>
-              ))}
-            </Card>
-          ) : null}
-        </div>
-      ) : null}
-
-      {/* Court Verdict — single-column card, same atom as Decision box */}
-      {r.court_verdict && (
-        <div style={{ marginBottom: '1.75rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
-          <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Court Verdict</div>
-          <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.85 }}>{r.court_verdict}</div>
-        </div>
-      )}
-
-      {/* Situation Framing — above the tributaries block */}
-      {situationFraming && (
-        <Card style={{ marginBottom: '1.75rem' }}>
-          <Label style={{ marginBottom: '0.75rem' }}>Situation Framing</Label>
-          <p style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{situationFraming}</p>
-        </Card>
-      )}
-
-      {/* Where to Navigate Next — collapsible tributaries threads */}
-      {result.tributaries && result.tributaries.length > 0 && (
-        <div style={{ marginBottom: '1.75rem' }}>
-          <ExpandableTributaries tributaries={result.tributaries} onTributary={onTributary} />
-        </div>
-      )}
+      <AhmedOrder
+        data={{
+          decision: result.question ?? '',
+          trueNorth: result.true_north,
+          yState: result.y_state,
+          renderResolution: result.render_resolution,
+          mode: result.decision_mode,
+          doorClass: result.door_class,
+          stakes: result.stakes,
+          horizon: result.horizon,
+          reasons: result.why ?? [],
+          questions: result.tributaries ?? [],
+          paths: r.paths ?? [],
+          fated: r.fated,
+          court: r.court,
+          courtVerdict: r.court_verdict,
+          bayesianRiskPct: r.advisors?.bayesian_risk_pct,
+          nciScore: result.nci_score,
+          coherencePct: result.coherence_pct,
+          macroTags: result.macro_tags,
+        }}
+        onQuestion={onTributary}
+        after={framing ? (
+          <section aria-labelledby="slot-situation" style={{ marginTop: '2.75rem' }}>
+            <h2 id="slot-situation" style={{ fontFamily: font.mono, ...font.tier.t6, textTransform: 'uppercase', color: text.muted, margin: '0 0 0.9rem' }}>{SITUATION_LABEL}</h2>
+            {framing.split(/\n\s*\n/).map((para, i) => (
+              <p key={i} style={{ fontFamily: font.sans, fontSize: '0.925rem', color: text.secondary, lineHeight: 1.65, margin: i ? '0.9rem 0 0' : 0, maxWidth: MEASURE, textWrap: 'pretty' }}>{para}</p>
+            ))}
+          </section>
+        ) : null}
+      />
     </div>
   )
 }

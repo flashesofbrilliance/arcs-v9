@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
+import { isAdmin } from "@/lib/admin"
 import { prisma } from "@/lib/db"
 import { surface, text, signal, font, contentContainer } from "@/ui/tokens"
 import { Wordmark } from "@/ui/Wordmark"
@@ -9,18 +10,17 @@ import { Card } from "@/ui/Card"
 import { Badge } from "@/ui/Badge"
 
 // Internal review surface for the Lead table (waitlist + advisory captures
-// from /waitlist and the homepage). Server-rendered, gated to ADMIN_EMAIL —
+// from /waitlist and the homepage). Server-rendered, gated by isAdmin() (ADMIN_EMAILS, fail-closed in prod) —
 // no client fetch, no separate auth UI. Previously the only way to see a
 // lead was the per-submission email alert (api/lead/route.ts) or querying
 // Supabase directly; this is the persistent review surface for history.
 export const dynamic = "force-dynamic"
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "zach.harris@gmail.com"
-
 export default async function AdminLeadsPage() {
   const session = await auth()
   if (!session?.user?.email) redirect("/compass?next=/admin/leads")
-  if (session.user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) notFound()
+  // Same allowlist as /recoil (src/lib/admin.ts); dev passes through for local QA.
+  if (process.env.NODE_ENV === "production" && !isAdmin(session)) notFound()
 
   const leads = await prisma.lead.findMany({ orderBy: { createdAt: "desc" } })
 

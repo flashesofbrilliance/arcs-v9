@@ -17,11 +17,12 @@ Usage:
   python3 scripts/case_world_sync.py              # stamp all enrolled public/*.html
   python3 scripts/case_world_sync.py --check      # exit 1 if any enrolled page drifted
   python3 scripts/case_world_sync.py [--check] <page.html> ...
+  python3 scripts/case_world_sync.py --self-test
 
 Enrolled = a public/*.html file containing any case-world marker. A page with some but not
 all marker pairs is an error (half-enrolled pages are how drift starts). Stdlib only.
 """
-import glob, os, re, sys
+import argparse, glob, os, re, subprocess, sys
 
 KIT = "src/ui-kit/recoil-report/15-case-world.html"
 BLOCKS = {
@@ -65,12 +66,68 @@ def enrolled(root):
     return pages
 
 
+def self_test():
+    """Run a copy of the CLI in a temp dir (ROOT = cwd). Never touches the real repo."""
+    import hashlib, tempfile
+    me = os.path.abspath(__file__)
+    fails = total = 0
+    def check(name, ok):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
+    def snap(root):
+        out = {}
+        for dp, _, fs in os.walk(root):
+            for fn in fs:
+                fp = os.path.join(dp, fn); st = os.stat(fp)
+                with open(fp, "rb") as fh:
+                    out[fp] = (hashlib.sha256(fh.read()).hexdigest(), st.st_mtime_ns)
+        return out
+    def page(body):
+        return "".join(b + body + e + "\n" for b, e in BLOCKS.values())
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, os.path.dirname(KIT)))
+        os.makedirs(os.path.join(tmp, "public"))
+        open(os.path.join(tmp, KIT), "w").write(page("CANON"))
+        open(os.path.join(tmp, "public", "a.html"), "w").write(page("CANON"))
+        open(os.path.join(tmp, "public", "b.html"), "w").write(page("STALE"))
+        def cli(*a):
+            return subprocess.run([sys.executable, me, *a], cwd=tmp, capture_output=True, text=True)
+        before = snap(tmp)
+        check("unknown flag exits 2", cli("--dry-run").returncode == 2)
+        check("typo of --check exits 2", cli("--chek").returncode == 2)
+        check("unknown flag with --check exits 2", cli("--check", "--force").returncode == 2)
+        check("rejected argv writes nothing", snap(tmp) == before)
+        r = cli("--check")
+        check("--check flags the drifted page, exits 1", r.returncode == 1 and "public/b.html drifted" in r.stdout)
+        check("--check on a clean page exits 0", cli("--check", "public/a.html").returncode == 0)
+        check("--check after the page arg also works", cli("public/b.html", "--check").returncode == 1)
+        check("--check writes nothing", snap(tmp) == before)
+        r = cli()
+        check("stamp restamps the drifted page", r.returncode == 0 and "CANON" in open(os.path.join(tmp, "public", "b.html")).read())
+        check("--check is clean after a stamp", cli("--check").returncode == 0)
+    print(f"case_world_sync self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def build_parser():
+    ap = argparse.ArgumentParser(prog="case_world_sync.py",
+                                 description="Stamp the kit's Case World blocks into enrolled public/*.html pages (ROOT = cwd).")
+    ap.add_argument("pages", nargs="*", help="pages to sync (default: every enrolled public/*.html)")
+    ap.add_argument("--check", action="store_true", help="read-only: exit 1 if any enrolled page drifted")
+    ap.add_argument("--self-test", action="store_true", help="run the self-test and exit")
+    return ap
+
+
 def main(argv):
-    check = "--check" in argv
-    args = [a for a in argv if a != "--check"]
+    a = build_parser().parse_args(argv)  # unknown flags exit 2
+    if a.self_test:
+        return self_test()
+    check = a.check
     root = os.getcwd()
     canon = kit_blocks(root)
-    pages = args or enrolled(root)
+    pages = a.pages or enrolled(root)
     bad = 0
     for page in pages:
         text = open(os.path.join(root, page), encoding="utf-8").read()

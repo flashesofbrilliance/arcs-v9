@@ -1,0 +1,130 @@
+# arcs-verb-eval
+
+Check it before you say it: five evals, one per step between an idea and a message, each ending in a go or stop stamp.
+
+Each stage produces an artifact, the artifact goes through a gate, and the gate assigns it a fate. If a stage doesn't produce anything, it happened only in conversation. If an artifact skips its gate, it's just decoration.
+
+| Tool | Checks | Fates |
+|---|---|---|
+| **Analysis by ARCS** | a raw teardown: every claim cites a checkable source | sourced / unsourced |
+| **Assessment by ARCS** | claim against record: each claim gets a verdict and a severity | pass / fail (claims: verified / gap / unresolved) |
+| **Evaluation by ARCS** | a gauntlet of named lenses, at least one of which dissents | pass / conditional pass / fail |
+| **Synthesis by ARCS** | the finished surface: no new claims, conditions honored, render matches verdict | ship / hold |
+| **Recapitulation by ARCS** | the draft note: still a draft, receipts filed, not sycophantic | parked / blocked |
+
+Each tool has two halves:
+
+- **Mechanical.** Hard gates. Any failure exits 1.
+- **Judgment.** A 0 to 2 rubric that a human or model fills in. The tool never scores judgment itself.
+
+Each stage reads the previous stage's JSON output through `--upstream`. That means "verified must have been sourced", "no new claims" and "the note only says what the surface says" are all checked mechanically, not taken on trust.
+
+Everything uses the Python standard library only, with nothing to install. JSON config works on any Python 3; TOML config needs Python 3.11 or later.
+
+**New here? Read [docs/HOWTO.md](docs/HOWTO.md) first.** Copy-paste Shell, Python, GitHub Actions and pre-commit snippets for every step are in [docs/SNIPPETS.md](docs/SNIPPETS.md).
+
+## Quick start
+
+```bash
+./arcs-verb-eval --self-test                       # proves every gate passes good input AND fails bad input
+./arcs-verb-eval pipeline --config sample/arc.json # runs the whole sample arc, writing prints to sample/prints/
+```
+
+## One verb at a time
+
+```bash
+./arcs-verb-eval analysis     teardown.html --ledger evidence.jsonl --out p/analysis.json
+./arcs-verb-eval assessment   report.html   --upstream p/analysis.json   --out p/assessment.json
+./arcs-verb-eval evaluation   gauntlet.json --upstream p/assessment.json --out p/evaluation.json
+./arcs-verb-eval synthesis    surface.html  --upstream p/evaluation.json --out p/synthesis.json
+./arcs-verb-eval recapitulation note.md     --upstream p/synthesis.json
+```
+
+Each verb also has its own entry point in `bin/`, for example `bin/analysis-by-arcs teardown.html`.
+
+## Parameters, pass-through, config, runtime
+
+Settings are applied in this order, lowest to highest precedence:
+
+1. built-in defaults
+2. the config file (`--config` or `$ARCS_VERB_EVAL_CONFIG`)
+3. environment variables (`ARCS_VERB_EVAL_<KEY>` applies to all verbs; `ARCS_VERB_EVAL_<VERB>__<KEY>` applies to one)
+4. `--set key=value` or `--set verb.key=value`
+
+| Knob | Where | Effect |
+|---|---|---|
+| `min_lenses` | evaluation | Minimum number of lenses in the gauntlet (default 4) |
+| `ledger` | analysis | Every `data-src` must appear in this evidence.jsonl |
+| `public` | synthesis | Waives the noindex gate |
+| `slop` / `slop_lint` / `slop_args` | synthesis | Turns the slop-lint layer on or off, points it at a different linter, or passes arguments through to it (`--slop-arg`) |
+| `skip_gates` / `--skip-gate ID` | any | Waives a gate. It is still recorded as SKIPPED in the output, never silently dropped |
+| `PYTHON=` | runner | Chooses the interpreter (the runtime environment) |
+
+`arcs-verb-eval env` prints the resolved runtime, dependencies (none from third parties), source paths and the effective options for every verb.
+
+## Artifact conventions
+
+- **HTML claims** use the `teardown_eval.py` claim-span convention: `<span class="claim" data-id="c1" data-src="url1,url2" data-stakes="high" data-verdict="gap" data-severity="high" data-render="degraded">`.
+- **Assessment summary:** the assessment carries `data-summary="verified/gap/unresolved"` counts, which must match its rows.
+- **Gauntlet:** a JSON file of the form `{"lenses": [{"name", "result": "pass|fail|dissent", "reason"}], "verdict", "conditions": [{"id", "claim", "action": "drop|degrade"}]}`.
+- **Note:** front matter of `status: DRAFT`, `ex_ante: <path>` and `gauntlet: <path>`, with claims cited inline as `[claim:c1]`.
+
+Working examples of all of these are in `sample/`.
+
+## Pass floors (the rubric becomes a gate)
+
+Once a **person** has scored every rubric row, each step must clear a floor, the same idea as slop-gate's ship bar: the total must reach the step's minimum, and no must-pass row may be 0. Fail it and the step stops (`held`, `fail`, `hold` or `blocked`, depending on the step).
+
+| Step | Floor | Must-pass rows |
+|---|---|---|
+| Analysis | 5 of 8 | coverage, primary |
+| Assessment | 6 of 8 | severity-calibrated, gaps-plain |
+| Evaluation | 6 of 8 | dissent-real, conditions-concrete |
+| Synthesis | 7 of 10 | A-word, D-specificity |
+| Recapitulation | 6 of 8 | release-honest, ask-concrete |
+
+Until every row has a person's score, the floor is `pending` and blocks nothing. Scores from `--judge` (Claude) never trip the floor; they produce an advisory reading only, so an AI can never change go or stop. Override per step in config: `{"synthesis": {"floor": {"min_total": 8}}}`.
+
+## Fact-sourcing layer (reuses `scripts/provenance_lint.py`)
+
+At Analysis and Synthesis, every money, percent or "N+" figure must match a pattern in an evidence ledger (`{"pattern": "...", "source": "..."}` rows), found beside the artifact or passed with `--metrics-ledger`. With no such ledger the report says "not enrolled" instead of passing silently. A beside-the-file `evidence.jsonl` of `{"source": url}` rows is Analysis's source list, not a metrics ledger, and is recognised as such.
+
+## Output schema
+
+Every step report matches `schema/report.schema.json`. Check a saved one with `./arcs-verb-eval validate report.json`.
+
+## High-stakes lenses
+
+A gauntlet that declares `"stakes": "high"` (or runs with `--set evaluation.stakes=high`; config can raise stakes, never lower a gauntlet's own) runs the **mechanical half** of the five teardown lenses in `arcs_verb_eval_lenses.py`. Any miss exits 1.
+
+| Gate | Checks |
+|---|---|
+| `lens-all-five` | BAR, COURT, KKL, FUN HOUSE and ANTERIOR/POSTERIOR are all present |
+| `lens-contract` | each lens has `verdict` in survives / survives_with_fix / fails; at least one `evidence` cite as `path:line` that resolves in the repo; every `forces` item names an existing file or `file#heading`; `confirmed` and `untested` are separate lists with no overlap |
+| `lens-dissent` | at least one lens verdict is short of `survives` |
+| `probe-bar` | every locked station in the station-flags JSON refuses Auto |
+| `probe-court` | every `src/app/api/jobs/**/route.ts` that writes a swipe / outcome / rubric model requires an admin session, not the pipeline token |
+| `probe-kkl` | no open-loop deadline (backlog `review_by`, filtered the way `scripts/open_loops.py` filters it) lands inside a plan slice unless the plan acknowledges it |
+| `probe-fun-house` | stop-loss = slices shipped per send over the window, computed from the ledgers; `null` with a reason when a ledger is absent; a lens that claims a different number fails as fabricated |
+| `probe-anterior-posterior` | the prior file was committed, and never edited, before the evidence file's first commit; the posterior may move registered beliefs but not add new ones |
+
+COURT reads every extra `&& !(...)` / `&& !name` term on the admin guard as a carve-out. The dev-outside-production term (`src/lib/admin.ts` doctrine) is sanctioned by default; any other must be listed in `probes.COURT.allowed_carveouts` as `{route, term, why}` or the probe fails naming the route and term. Declared carve-outs are printed in the evidence. The probe asks only whether a carve-out was declared, never whether it is acceptable.
+
+Missing probe config is a failure, not a skip. The probes answer questions with one answer (does the line resolve, was the prior committed first, does the number match the ledger). Whether the ruin path is real stays the 0 to 2 rubric a person scores: a regex that pretends to judge ruin is the protection theater this tool refuses to be. Worked example: `sample/high-stakes/gauntlet.json` (the 2026-10-05 Job Factory teardown, re-run mechanically; it exits 1 today on COURT and ANTERIOR/POSTERIOR).
+
+## Anti-sycophancy
+
+This is the Operator 25 Shavasana check: it counts agreement markers against dissent markers. It returns RETURN when there are 5 or more agreements and no dissent, and THIN when the ratio is above 4. It is report-only at Analysis, Assessment and Synthesis, and blocks at Evaluation and Recapitulation, where agreement pressure costs the most. The Evaluation gate also has a **dissent floor**: if no lens dissented, it wasn't a real gauntlet.
+
+## Data in and out
+
+- `ingest` reads a notebook (`.ipynb`) or a claims table (`.csv`/`.jsonl`) and writes the step inputs, plus deliberately broken copies with `--mutate N`.
+- `export` writes your saved step outputs as `jsonl`, `csv`, `md`, `junit` or `receipt`.
+
+## Surfaces
+
+- CLI (`arcs-verb-eval`, plus the per-verb entry points in `bin/`)
+- Python module (`from arcs_verb_eval import evaluate`)
+- HTTP (`arcs-verb-eval serve --port 8787`, then `POST /eval/<verb>` with the body `{"artifact": "...", "upstream": {...}}`)
+
+Exit codes: 0 means every gate passed, 1 means a gate failed, 2 means a usage error.

@@ -1,0 +1,56 @@
+{
+  "_about": "NFTT posts written from earlier pieces of the author's own: the platform and the date each original first appeared. Every NFTT post is a new essay, so this records the ORIGINALS, never a claim that the post itself first ran elsewhere. Dates are only those the post's own text states (a date the source marks undated stays out). The platform comes from the post's text, or, where the post does not name it, from the publishing record plus the author's confirmation, and the evidence field says which. Rendered into the byline by scripts/nftt_published.py stamp; checked by --check.",
+  "posts": {
+    "the-instinct-before-it-had-a-name": {
+      "platform": "LinkedIn",
+      "dates": [
+        "2019-02-07",
+        "2025-09-12"
+      ],
+      "evidence": "footer: Sourced from two LinkedIn posts by the author: \"Imagineering\" (created 2019-02-06, published 2019-02-07) and \"Desktop From Hell: ...\" (created 2025-09-11, published 2025-09-12)."
+    },
+    "closing-the-loop-receipts": {
+      "platform": "LinkedIn",
+      "dates": [
+        "2026-01-30",
+        "2026-02-19",
+        "2026-05-25"
+      ],
+      "evidence": "footer: Source articles, in order: \"$2B Poker Face ...\" Jan 30, 2026; \"The Bloomberg Op-Ed Is Wrong About Tim Cook ...\" Feb 19, 2026; \"Apple's AI Strategy Wasn't Late. The Coverage Was.\" May 25, 2026; each linked at linkedin.com/pulse."
+    },
+    "the-method-that-was-already-built": {
+      "platform": "LinkedIn",
+      "dates": [
+        "2026-01-30"
+      ],
+      "evidence": "footer: Source: LinkedIn article \"From 133 to 1 Perfect Fit,\" published Jan 30, 2026, by the same author."
+    },
+    "the-same-rigor-applied-to-slang": {
+      "platform": "LinkedIn",
+      "dates": [
+        "2026-02-05"
+      ],
+      "evidence": "footer: Source: \"The Flow State is Dead. The Locked In Era is Born,\" published 2026-02-05, the author's own article; body: \"It is a LinkedIn post, and it reads like one.\""
+    },
+    "four-dates-one-thesis-three-confirmations": {
+      "platform": "LinkedIn",
+      "dates": [
+        "2026-01-30",
+        "2026-02-19",
+        "2026-03-13",
+        "2026-05-25"
+      ],
+      "evidence": "body: the three dated calls (Jan 30, Feb 19, May 25) and \"A fourth piece, published March 13\"; the three calls are the articles closing-the-loop-receipts links at linkedin.com/pulse; platform for all four per PR #411 (1b5750a4, \"synthesized from the LinkedIn corpus\") and confirmed by Zach 2026-10-04."
+    },
+    "the-pre-mortem-that-asked-to-be-wrong": {
+      "platform": "LinkedIn",
+      "dates": [
+        "2026-01-31",
+        "2026-02-02",
+        "2026-02-03",
+        "2026-02-13"
+      ],
+      "evidence": "footer: Source theses: Custody Collateral (Feb 2, 2026), Hedgefundization of Digital Assets (Jan 31, 2026), Collateral Wars (Feb 3, 2026), The Future Belongs to Deposit Tokens (Feb 13, 2026); the fifth (Mar 4, 2026) is marked undated in source export and is left out. Platform per PR #411 (1b5750a4, \"synthesized from the LinkedIn corpus\") and confirmed by Zach 2026-10-04."
+    }
+  }
+}

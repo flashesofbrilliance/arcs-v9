@@ -4,7 +4,7 @@ Build and edit sheets for the PRL Tidio to Sugar pipeline (sandbox: prlresinstes
 
 ## Artifact status
 
-### task7-state-parser.js + task7-state-parser.test.js
+### task7-state-parser.js + task7-state-parser.test.mjs
 Verdict: ship-with-notes. Drop-in replacement body for the Code step "Process State and Name Inputs" in Zap 376827315. Normalizes both full state names ("California") and 2-letter codes ("CA") seen in dirty historical data, keeps the existing output contract (state_code always valid 2-letter with CA fallback, state_parse_failed flag, raw passthrough keys unrenamed), and adds rep_email routing per the 2026-08-26 live 50-state sweep (12 states route to nobody and yield empty rep_email). Verified independently: author suite 39/39, expanded suite 55/55, exit 0. Runnable locally with node before pasting.
 
 ### task8-payload-hardening.md
@@ -25,7 +25,7 @@ Each sheet is written to work as a co-pilot prompt. Paste in this order; do not 
 
 1. task8-payload-hardening.md, Step 0 plus the empty-email Filter edit FIRST. This is the Task 1 filter verification: confirm the Filter (email non-empty before the dedup search; empty email routes to Path B create) exists or gets added, and prove it with the read-back checks. Nothing else ships before this, because every later edit assumes the Roger-class false match is closed.
 2. Remainder of task8-payload-hardening.md (sanitize Code-step extension, length caps, verification curls).
-3. task7-state-parser.js. Replace the body of "Process State and Name Inputs" with the verified parser (run task7-state-parser.test.js locally first: node task7-state-parser.test.js, expect 55/55). This lands state_code normalization plus the rep_email and company_display keys that tasks 4 depends on.
+3. task7-state-parser.js. Replace the body of "Process State and Name Inputs" with the verified parser (run task7-state-parser.test.mjs locally first: node task7-state-parser.test.mjs, expect 55/55). This lands state_code normalization plus the rep_email and company_display keys that tasks 4 depends on.
 4. task4-rep-notification.md. Add the notification email steps to both paths. Depends on rep_email and company_display from step 3.
 5. task3-sla-nudge.md. Finish draft Zap 376815688. Independent of the live Zap; safe to do after the pipeline edits.
 6. task9-unassigned-sweep.md. Build the new daily sweep Zap. Read-only, fully independent, last.

@@ -4,8 +4,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>arcs · public goods</title>
 <meta name="description" content="Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
@@ -14,7 +12,7 @@
     --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--btn2:#00c8dd;
     --glowA:rgba(0,240,255,.11);--glowB:rgba(0,255,157,.075);--kickbrd:rgba(0,240,255,.36);
     --btnglow:rgba(0,240,255,.5);--glowsoft:rgba(0,240,255,.25);--barbg:rgba(0,240,255,.045);
-    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+    --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',monospace;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
@@ -120,6 +118,17 @@
   .ct-link{display:inline-block;margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--cyan);border:1px solid var(--kickbrd);border-radius:9px;padding:11px 18px;transition:.16s;}
   .ct-link:hover{background:var(--barbg);}
 </style>
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -143,8 +152,17 @@
 
 <section>
   <div class="wrap">
-    <div class="sec-lbl"><span class="n">◆</span><h2>Featured</h2><span class="sub">fully baked · installable today</span></div>
+    <div class="sec-lbl"><span class="n">◆</span><h2>Featured</h2><span class="sub">fully baked · usable today</span></div>
     <div class="cards featured">
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#FFC24D,#FF8A3D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">check it before you say it</span></div>
+        <p class="cline">Five steps between an idea and a message, each stamped go or stop by rules you can read. It checks the facts you mark, not whether they are true. Runs in your browser; nothing is uploaded.</p>
+        <div class="chips"><span class="chip">web</span><span class="chip">clone</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://honest.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/check-it-before-you-say-it">github</a></div>
+    </div>
     <div class="card" style="">
       <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
       <div class="cbody">
@@ -218,46 +236,6 @@
 
 <section>
   <div class="wrap">
-    <div class="sec-lbl"><span class="n">◆</span><h2>Receipts in public</h2><span class="sub">the method, applied to our own work first</span></div>
-    <div class="cards minor">
-    <div class="card compact" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">agent receipts audit</span></div>
-        <p class="cline">Every claim an agent made about a repo, checked against the repo. The page carries a count of our own falsified beliefs, stamped by a script from the ledger, never typed by hand.</p>
-      </div>
-      <div class="cfoot"><a class="clink" href="/audit">open ↗</a></div>
-    </div>
-    <div class="card compact" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">playable cases</span></div>
-        <p class="cline">Two real incidents from the field notes. Defend each claim with evidence or concede it, and stake play-money conviction that is scored when the case resolves.</p>
-      </div>
-      <div class="cfoot"><a class="clink" href="/cases/six-week-outage">play ↗</a></div>
-    </div>
-    <div class="card compact" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">belief log</span></div>
-        <p class="cline">The running record of what we believed, what checked it, and which beliefs turned out false.</p>
-      </div>
-      <div class="cfoot"><a class="clink" href="https://status.arcs.care/beliefs">read ↗</a></div>
-    </div>
-    <div class="card compact" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">field notes</span></div>
-        <p class="cline">Long-form posts from the build, each one citing the commits it describes.</p>
-      </div>
-      <div class="cfoot"><a class="clink" href="/blog/nftt">read ↗</a></div>
-    </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
     <div class="sec-lbl"><span class="n">◆</span><h2>Coming soon</h2><span class="sub">repo public · package or build pending</span></div>
     <div class="cards minor">
     <div class="card" style="opacity:.5;filter:saturate(.35);">
@@ -306,6 +284,38 @@
   .mp-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
   .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);}
 </style>
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Field notes and series</h2><span class="sub">the writing behind the tools</span></div>
+    <div class="cards">
+    <div class="card compact">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">Notes from the Trenches</span></div>
+        <p class="cline">Real stories from building ARCS in the open, each with the receipts.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="/blog/nftt">read &#8594;</a></div>
+    </div>
+    <div class="card compact">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">Lore</span></div>
+        <p class="cline">The stories ARCS is built on, each filed with a verdict and the test that would retire it.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="/series/lore">read &#8594;</a></div>
+    </div>
+    <div class="card compact">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">Receipts</span></div>
+        <p class="cline">Dated public predictions, each with its own falsifier, re-scored against the primary documents.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="/series/receipts">read &#8594;</a></div>
+    </div>
+    </div>
+  </div>
+</section>
+
 <section class="mcp-probe" aria-label="Connect an agent (demand probe)">
   <div class="wrap">
     <div class="mp-card">

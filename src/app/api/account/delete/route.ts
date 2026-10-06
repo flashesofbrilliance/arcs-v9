@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { del } from "@vercel/blob"
 
 // Trust contract §3 (ledger DEL-003): "Account deletion removes all receipts,
 // outcomes, and personal data from the production database." This endpoint
@@ -12,6 +13,20 @@ export async function POST() {
   const userEmail = session?.user?.email ?? null
   if (!userId) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 })
+  }
+
+  // Uploaded files live in Vercel Blob, not the database. Delete them first:
+  // if this fails, nothing has been removed yet and the request can be retried,
+  // rather than leaving files behind a deleted account.
+  const upload = await prisma.profileUpload.findUnique({ where: { userId }, select: { pdfUrl: true, exportUrl: true } })
+  const blobUrls = [upload?.pdfUrl, upload?.exportUrl].filter((u): u is string => !!u)
+  if (blobUrls.length) {
+    try {
+      await del(blobUrls)
+    } catch (e) {
+      console.error("[account/delete] blob delete failed:", e instanceof Error ? e.name : "unknown")
+      return NextResponse.json({ error: "Could not delete uploaded files. Nothing was removed; try again." }, { status: 500 })
+    }
   }
 
   const receipts = await prisma.receipt.findMany({
@@ -40,6 +55,8 @@ export async function POST() {
     if (prepIds.length) {
       await tx.prepSession.deleteMany({ where: { id: { in: prepIds } } })
     }
+    // Owned prep rows never linked to a receipt (prep saved, compass not run).
+    await tx.prepSession.deleteMany({ where: { userId } })
     await tx.annotation.deleteMany({ where: { userId } })
 
     const signals = await tx.scanSignal.findMany({
@@ -58,7 +75,7 @@ export async function POST() {
 
     await tx.profileUpload.deleteMany({ where: { userId } })
     if (userEmail) {
-      await tx.lead.deleteMany({ where: { email: userEmail } })
+      await tx.lead.deleteMany({ where: { email: { equals: userEmail, mode: "insensitive" } } })
     }
     // Account + Session rows cascade via schema onDelete: Cascade.
     await tx.user.delete({ where: { id: userId } })

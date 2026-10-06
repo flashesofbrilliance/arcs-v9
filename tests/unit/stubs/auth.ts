@@ -1,5 +1,5 @@
-export let session: any = null
-export const setSession = (s: any) => { session = s }
+export let session: unknown = null
+export const setSession = (s: unknown) => { session = s }
 export const auth = async () => session
 export const signIn = async () => {}
 export const signOut = async () => {}

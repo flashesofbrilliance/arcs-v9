@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { pageViewerAllowed } from "@/lib/jobs"
 import { signal } from "@/ui/tokens"
+import { reasonOf } from "@/lib/lane-outcome"
 import { LaneSurfaces, type LaneData, type Stage, type StageItem } from "./LaneSurfaces"
 
 // jobs.arcs.care/jobs/lane — the three wired Compass Lane surfaces (Lane view,
@@ -46,24 +47,24 @@ export default async function LanePage() {
   const research = inStage("research"), qualify = inStage("qualify"), apply = inStage("apply"), interview = inStage("interview"), closed = inStage("outcome")
 
   const stages: Stage[] = [
-    { verb: "analyze", label: "Research", print: "JD read + record graded", sla: "2d", count: research.length,
-      items: research.slice(0, 4).map((r) => item(r, { score: undefined, meta: r.unscoredWhy ?? "awaiting score" })),
+    { verb: "analyze", key: "research", label: "Research", print: "JD read + record graded", sla: "2d", count: research.length,
+      items: research.map((r) => item(r, { score: undefined, meta: r.unscoredWhy ?? "awaiting score" })),
       empty: "Every row is scored. New ingest lands here first." },
-    { verb: "assess", label: "Qualify", print: "band, tier, one-line read", count: qualify.length,
-      items: qualify.slice(0, 4).map((r) => item(r, { meta: "unswiped" })), empty: "No scored rows awaiting a swipe." },
-    { verb: "evaluate", label: "Apply and screen", print: "resume cut, tailor notes, landing page", sla: "7d", count: apply.length,
-      items: apply.slice(0, 5).map((r) => item(r, { meta: r.forge ? r.forge.status : "swiped" })), empty: "Swipe right to move a role here." },
-    { verb: "synthesize", label: "Interview loop", print: "pre-call brief, full-tier artifacts", sla: "21d", count: interview.length,
-      items: interview.slice(0, 4).map((r) => item(r)), empty: "A row moves here when a recruiter or hiring manager responds. The full forge unlocks then." },
-    { verb: "recapitulate", label: "Outcome and correction", print: "outcome vs receipt + correction", count: closed.length,
-      items: closed.slice(0, 4).map((r) => item(r)), empty: "Nothing closed yet. Offer, reject, or withdrawn lands here and scores the prediction." },
+    { verb: "assess", key: "qualify", label: "Qualify", print: "band, tier, one-line read", count: qualify.length,
+      items: qualify.map((r) => item(r, { meta: "unswiped" })), empty: "No scored rows awaiting a swipe." },
+    { verb: "evaluate", key: "apply", label: "Apply and screen", print: "resume cut, tailor notes, landing page", sla: "7d", count: apply.length,
+      items: apply.map((r) => item(r, { meta: r.forge ? r.forge.status : "swiped" })), empty: "Swipe right to move a role here." },
+    { verb: "synthesize", key: "interview", label: "Interview loop", print: "pre-call brief, full-tier artifacts", sla: "21d", count: interview.length,
+      items: interview.map((r) => item(r)), empty: "A row moves here when a recruiter or hiring manager responds. The full forge unlocks then." },
+    { verb: "recapitulate", key: "outcome", label: "Outcome and correction", print: "outcome vs receipt + correction", count: closed.length,
+      items: closed.map((r) => item(r)), empty: "Nothing closed yet. Offer, reject, or withdrawn lands here and scores the prediction." },
   ]
 
   const data: LaneData = {
     stages,
     sources: sources.map((s) => ({ key: s.key, label: s.label, adapter: s.adapter, status: s.status, lastRunAt: s.lastRunAt?.toISOString() ?? null, pollWindow: s.pollWindow, note: s.note })),
     requests: requests.map((r) => ({ fromDate: r.fromDate, toDate: r.toDate, query: r.query, status: r.status, rowsAdded: r.rowsAdded, requestedAt: r.requestedAt.toISOString(), note: r.note })),
-    outcomes: outcomes.map((o) => ({ jobid: o.jobid, company: o.job.company, fate: o.fate, predicted: fmt(o.predictedComposite), actual: o.actualNote ?? o.fate, honesty: o.honestyLabel ?? "—" })),
+    outcomes: outcomes.map((o) => ({ jobid: o.jobid, company: o.job.company, fate: o.fate, predicted: fmt(o.predictedComposite), actual: o.actualNote ?? o.fate, honesty: o.honestyLabel ?? "—", reason: reasonOf(o.actualNote) })),
     corrections: corrections.map((c) => ({ learned: c.learned, pattern: c.pattern, avoid: c.avoid, logic: c.logic })),
     live: new Date().toISOString(),
   }

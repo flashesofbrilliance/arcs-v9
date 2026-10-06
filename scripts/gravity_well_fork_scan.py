@@ -20,9 +20,11 @@ via the ESCALATE→promotion path instead. That distinction is intentional.
 
 Usage:  python3 scripts/gravity_well_fork_scan.py <folksonomy.json> [--emit]
         --emit appends fork items to _INBOX/canon-propagation-queue.json.
-Stdlib only. Exit 0 always.
+        python3 scripts/gravity_well_fork_scan.py --self-test
+Without --emit it is read-only. Stdlib only. Exit 0 on success; 2 on a bad
+command line (unknown flag, extra or missing positional).
 """
-import json, os, sys
+import argparse, hashlib, json, os, sys
 
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
 QUEUE = os.path.join(ROOT, "_INBOX/canon-propagation-queue.json")
@@ -60,13 +62,79 @@ def scan(folk):
     return recs
 
 
-def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    emit = "--emit" in sys.argv
-    if not args:
-        print("usage: gravity_well_fork_scan.py <folksonomy.json> [--emit]")
-        return
-    folk = json.load(open(args[0], encoding="utf-8"))
+def _snapshot(root):
+    out = {}
+    for dp, _, fs in os.walk(root):
+        for f in fs:
+            fp = os.path.join(dp, f)
+            with open(fp, "rb") as fh:
+                out[fp] = (hashlib.sha256(fh.read()).hexdigest(), os.stat(fp).st_mtime_ns)
+    return out
+
+
+def _self_test():
+    import shutil, subprocess, tempfile
+    tmp = tempfile.mkdtemp(prefix="gravity-well-selftest-")
+    fails = total = 0
+    try:
+        me = os.path.join(tmp, "gravity_well_fork_scan.py")
+        shutil.copy2(os.path.abspath(__file__), me)
+        os.makedirs(os.path.join(tmp, "_INBOX"))
+        folk = os.path.join(tmp, "folk.json")
+        with open(folk, "w", encoding="utf-8") as fh:
+            json.dump({"clusters": [
+                {"tag": "wide", "count": 8, "member_refs": ["a:1", "b:2", "c:3"]},
+                {"tag": "solo", "count": 9, "member_refs": ["a:1", "a:2"]}]}, fh)
+        queue = os.path.join(tmp, "_INBOX/canon-propagation-queue.json")
+        env = dict(os.environ, CLAUDE_PROJECT_DIR=tmp)
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=tmp, env=env)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus", folk).returncode == 2)
+        ok("unknown flag with --emit exits 2 and writes nothing",
+           run("--emit", "--bogus", folk).returncode == 2 and _snapshot(tmp) == before)
+        ok("extra positional exits 2", run(folk, "extra").returncode == 2)
+        ok("missing positional exits 2", run().returncode == 2)
+        ok("--self-test with a path exits 2", run("--self-test", folk).returncode == 2)
+        r = run(folk)
+        ok("preview exits 0 and finds 1 fork", r.returncode == 0 and "1 fork-worthy" in r.stdout
+           and "fork-wide" not in r.stdout and "wide (8 members" in r.stdout)
+        ok("preview writes nothing", _snapshot(tmp) == before and not os.path.exists(queue))
+        r = run(folk, "--emit")
+        q = json.load(open(queue, encoding="utf-8")) if os.path.exists(queue) else {}
+        ok("--emit appends 1 item", r.returncode == 0 and [i["id"] for i in q.get("items", [])] == ["fork-wide"])
+        run(folk, "--emit")
+        q = json.load(open(queue, encoding="utf-8")) if os.path.exists(queue) else {}
+        ok("--emit is idempotent", len(q.get("items", [])) == 1)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"gravity_well_fork_scan self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="gravity_well_fork_scan.py",
+                                 description="Detect fork-worthy folksonomy clusters (mass x gravity).")
+    ap.add_argument("folksonomy", nargs="?", help="folksonomy.json")
+    ap.add_argument("--emit", action="store_true", help="append fork items to _INBOX/canon-propagation-queue.json")
+    ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    a = ap.parse_args(sys.argv[1:] if argv is None else argv)
+    if a.self_test:
+        if a.folksonomy or a.emit:
+            ap.error("--self-test takes no other arguments")
+        return _self_test()
+    if not a.folksonomy:
+        ap.error("the following arguments are required: <folksonomy.json>")
+    emit = a.emit
+    folk = json.load(open(a.folksonomy, encoding="utf-8"))
     recs = scan(folk)
     print(f"gravity-well: {len(recs)} fork-worthy cluster(s) (score>={FORK_SCORE_MIN}, mass>={FORK_MASS_MIN})")
     for r in recs:
@@ -85,7 +153,8 @@ def main():
         print(f"gravity-well: appended {len(added)} fork item(s) to the canon-propagation queue")
     elif not emit:
         print("gravity-well: dry-run (pass --emit to append fork recommendations to the queue)")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

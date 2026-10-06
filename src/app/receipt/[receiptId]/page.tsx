@@ -1,19 +1,17 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, border, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { surface, text, signal, font, border, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
-import { Button } from "@/ui/Button"
-import { FatedGrid } from "@/molecules/FatedGrid"
-import { TerrainPaths } from "@/molecules/TerrainPaths"
-import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
+import { Button, ButtonLink } from "@/ui/Button"
 import { TribunePanel } from "@/molecules/TribunePanel"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
-import type { CompassResult } from "@/lib/mockCompass"
+import type { CompassResult, FatedDecomposition, TerrainPath } from "@/lib/mockCompass"
+import { AhmedOrder, resolutionFor } from "@/organisms/AhmedOrder"
 import { encodeShare } from "@/lib/shareLink"
 import { track } from "@vercel/analytics"
 
@@ -35,12 +33,70 @@ interface ReceiptData {
   fated: string
   paths: string
   macroTags: string
-  stakesLevel?: string
-  horizon?: string
+  stakes?: string | null
+  horizon?: string | null
+  renderResolution?: string | null
   version: number
   createdAt: string
   courtVerdict?: string
   sessionId: string
+}
+
+const noopSubscribe = () => () => {}
+
+// Ephemeral anonymous bearing stash. Recovery (spec _SPECS/receipt-save-nudge-v1.md
+// §6.2): the bearing may be one storage layer over, not lost. "Sign in & save"
+// copies it to localStorage (arcs_pending_save, keyed by this eph id) before the
+// magic-link tab hop. If the visitor comes back to this URL in a tab whose
+// sessionStorage is gone, render from that stash. Never re-run the compass to
+// "recover" (client-fetch-failure-is-not-persistence-failure).
+function readEphemeralRaw(receiptId: string): string | null {
+  let raw: string | null = null
+  try { raw = sessionStorage.getItem(`arcs_eph_${receiptId}`) } catch { /* storage blocked */ }
+  if (raw) return raw
+  try {
+    const pending = JSON.parse(localStorage.getItem("arcs_pending_save") ?? "null")
+    if (pending?.ephId === receiptId && pending?.bearing && Date.now() - (pending.savedAt ?? 0) < 7 * 86400000) {
+      return JSON.stringify(pending.bearing)
+    }
+  } catch { /* fall through to the honest error */ }
+  return null
+}
+
+function parseEphemeral(receiptId: string, raw: string | null): { receipt: ReceiptData | null; tributaries: CompassResult["tributaries"]; error: string | null } {
+  if (!raw) {
+    return { receipt: null, tributaries: [], error: "This bearing wasn't stored. Anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts." }
+  }
+  try {
+    const d = JSON.parse(raw)
+    return {
+      receipt: {
+        id: receiptId,
+        decision: d.question ?? "",
+        trueNorth: d.true_north ?? "",
+        whyBullets: JSON.stringify(d.why ?? []),
+        nciScore: Number(d.nci_score ?? 0),
+        coherencePct: typeof d.coherence_pct === "number" ? d.coherence_pct : undefined,
+        mode: d.decision_mode ?? "",
+        doorClass: d.door_class ?? "",
+        yState: d.y_state ?? "",
+        renderResolution: typeof d.render_resolution === "string" ? d.render_resolution : null,
+        horizon: typeof d.horizon === "string" ? d.horizon : null,
+        stakes: typeof d.stakes === "string" ? d.stakes : null,
+        fated: JSON.stringify(d.reasoning?.fated ?? {}),
+        paths: JSON.stringify(d.reasoning?.paths ?? []),
+        macroTags: JSON.stringify(d.meta?.macro_tags ?? []),
+        version: 0,
+        createdAt: new Date().toISOString(),
+        courtVerdict: typeof d.reasoning?.court_verdict === "string" ? d.reasoning.court_verdict : undefined,
+        sessionId: d.session_id ?? "",
+      },
+      tributaries: Array.isArray(d.tributaries) ? d.tributaries : [],
+      error: null,
+    }
+  } catch {
+    return { receipt: null, tributaries: [], error: "Could not read this browser-local bearing." }
+  }
 }
 
 export default function ReceiptPage() {
@@ -54,76 +110,46 @@ export default function ReceiptPage() {
   // compass response in sessionStorage under this minted `eph_` id.
   const isEphemeral = receiptId.startsWith("eph_")
 
-  const [receipt, setReceipt] = useState<ReceiptData | null>(null)
+  const [fetched, setFetched] = useState<ReceiptData | null>(null)
   const [hasBrief, setHasBrief] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [fetchError, setError] = useState<string | null>(null)
   // /api/brief/[receiptId] already recovers tributaries from the receipt's
   // stored rawResponse (see that route) — just wasn't read here before.
-  const [tributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
+  const [fetchedTributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
   const [shareCopied, setShareCopied] = useState(false)
   // Save-nudge v1.1 (spec _SPECS/receipt-save-nudge-v1.md §6.3), dark by
   // default: OFF renders the July 2026 banner unchanged. Dismiss is scoped to
   // this one bearing (sessionStorage, keyed by eph id) and never carries to the
   // next run; each new bearing is a new consent moment.
   const saveNudgeV11 = process.env.NEXT_PUBLIC_RECEIPT_SAVE_NUDGE_V11 === "true"
-  const [saveDismissed, setSaveDismissed] = useState(false)
+  // Lazy read: only consulted once a receipt has rendered (client-side), so the
+  // server/client initial values never meet in markup.
+  const [saveDismissed, setSaveDismissed] = useState(() => {
+    try { return typeof window !== "undefined" && !!sessionStorage.getItem(`arcs_eph_dismiss_${receiptId}`) } catch { return false }
+  })
+
+  // Ephemeral bearings are derived, not fetched: read the browser-local stash
+  // through an external-store subscription (server snapshot = undefined, so the
+  // first paint is the loader and hydration never mismatches).
+  const ephRaw = useSyncExternalStore(
+    noopSubscribe,
+    () => (isEphemeral ? readEphemeralRaw(receiptId) : undefined),
+    () => undefined,
+  )
+  const eph = useMemo(() => (isEphemeral && ephRaw !== undefined ? parseEphemeral(receiptId, ephRaw) : null), [isEphemeral, ephRaw, receiptId])
+  const receipt = isEphemeral ? eph?.receipt ?? null : fetched
+  const error = isEphemeral ? eph?.error ?? null : fetchError
+  const tributaries = isEphemeral ? eph?.tributaries ?? [] : fetchedTributaries
 
   useEffect(() => {
-    if (isEphemeral) {
-      try { if (sessionStorage.getItem(`arcs_eph_dismiss_${receiptId}`)) setSaveDismissed(true) } catch {}
-      let raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
-      if (!raw) {
-        // Recovery (spec _SPECS/receipt-save-nudge-v1.md §6.2): the bearing
-        // may be one storage layer over, not lost. "Sign in & save" copies it
-        // to localStorage (arcs_pending_save, keyed by this eph id) before the
-        // magic-link tab hop. If the visitor comes back to this URL in a tab
-        // whose sessionStorage is gone, render from that stash. Never re-run
-        // the compass to "recover" (client-fetch-failure-is-not-persistence-failure).
-        try {
-          const pending = JSON.parse(localStorage.getItem("arcs_pending_save") ?? "null")
-          if (pending?.ephId === receiptId && pending?.bearing && Date.now() - (pending.savedAt ?? 0) < 7 * 86400000) {
-            raw = JSON.stringify(pending.bearing)
-          }
-        } catch { /* fall through to the honest error */ }
-      }
-      if (!raw) {
-        setError("This bearing wasn't stored. Anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts.")
-        return
-      }
-      try {
-        const d = JSON.parse(raw)
-        setReceipt({
-          id: receiptId,
-          decision: d.question ?? "",
-          trueNorth: d.true_north ?? "",
-          whyBullets: JSON.stringify(d.why ?? []),
-          nciScore: Number(d.nci_score ?? 0),
-          coherencePct: typeof d.coherence_pct === "number" ? d.coherence_pct : undefined,
-          mode: d.decision_mode ?? "",
-          doorClass: d.door_class ?? "",
-          yState: d.y_state ?? "",
-          fated: JSON.stringify(d.reasoning?.fated ?? {}),
-          paths: JSON.stringify(d.reasoning?.paths ?? []),
-          macroTags: JSON.stringify(d.meta?.macro_tags ?? []),
-          version: 0,
-          createdAt: new Date().toISOString(),
-          courtVerdict: typeof d.reasoning?.court_verdict === "string" ? d.reasoning.court_verdict : undefined,
-          sessionId: d.session_id ?? "",
-        })
-        setTributaries(Array.isArray(d.tributaries) ? d.tributaries : [])
-        setHasBrief(false)
-      } catch {
-        setError("Could not read this browser-local bearing.")
-      }
-      return
-    }
+    if (isEphemeral) return
     let cancelled = false
-    fetch(`/api/brief/${receiptId}`)
+    fetch(`/api/brief/${receiptId}?generate=0`)
       .then(async (r) => ({ ok: r.ok, data: await r.json() }))
       .then(({ ok, data }) => {
         if (cancelled) return
         if (!ok) { setError(data.error ?? "Could not load receipt"); return }
-        setReceipt(data.receipt as ReceiptData)
+        setFetched(data.receipt as ReceiptData)
         setHasBrief(!!data.brief)
         setTributaries(Array.isArray(data.tributaries) ? data.tributaries : [])
       })
@@ -135,9 +161,7 @@ export default function ReceiptPage() {
     return (
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", flexDirection: "column" }}>
         <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "1rem" }}>
-          <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-            <Wordmark section="Decision Receipt" />
-          </button>
+          <Wordmark section="Decision Receipt" />
           <Rule style={{ marginTop: "1rem" }} />
         </div>
         <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 7rem" }}>
@@ -150,10 +174,10 @@ export default function ReceiptPage() {
             </h1>
             <p style={{ fontFamily: font.sans, fontSize: "0.88rem", color: text.secondary, lineHeight: 1.6, margin: "0 0 1.5rem" }}>{error}</p>
             <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
-              <Button variant="primary" size="sm" onClick={() => router.push("/dashboard")}>Run the compass</Button>
+              <ButtonLink variant="primary" size="sm" href="/dashboard">Run the compass</ButtonLink>
               {isEphemeral
-                ? <Button variant="ghost" size="sm" onClick={() => router.push("/compass?next=/dashboard")}>Sign in to keep bearings</Button>
-                : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Your ledger</Button>}
+                ? <ButtonLink variant="ghost" size="sm" href="/compass?next=/dashboard">Sign in to keep bearings</ButtonLink>
+                : <ButtonLink variant="ghost" size="sm" href="/history">← Your ledger</ButtonLink>}
             </div>
           </div>
         </div>
@@ -177,8 +201,7 @@ export default function ReceiptPage() {
   const fated = safeParse<Record<string, unknown>>(receipt.fated, {})
   const paths = safeParse<unknown[]>(receipt.paths, [])
   const macroTags = safeParse<string[]>(receipt.macroTags, [])
-  const w = getWeather(receipt.yState)
-  const nc = nciColor(receipt.nciScore)
+  const resolution = resolutionFor(receipt.yState, receipt.renderResolution)
 
   const compassResult: CompassResult = {
     receipt_id: receipt.id,
@@ -191,7 +214,7 @@ export default function ReceiptPage() {
     decision_mode: receipt.mode,
     door_class: receipt.doorClass,
     y_state: receipt.yState,
-    render_resolution: "SHARP",
+    render_resolution: resolution,
     nci_delta: null,
     macro_tags: macroTags,
     tributaries: tributaries ?? [],
@@ -221,10 +244,10 @@ export default function ReceiptPage() {
           <Wordmark section="Decision Receipt" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
             {isEphemeral
-              ? <Button variant="ghost" size="sm" onClick={() => router.push("/dashboard")}>← Compass</Button>
-              : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>}
+              ? <ButtonLink variant="ghost" size="sm" href="/dashboard">← Compass</ButtonLink>
+              : <ButtonLink variant="ghost" size="sm" href="/history">← Ledger</ButtonLink>}
             {isEphemeral && <Button variant="ghost" size="sm" onClick={shareOneTime}>{shareCopied ? "One-time link copied ✓" : "Share ↗"}</Button>}
-            {hasBrief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>Brief →</Button>}
+            {!isEphemeral && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>{hasBrief ? "Brief →" : "Generate brief →"}</Button>}
           </div>
         </div>
         <div style={{ ...contentContainer(vw), paddingBottom: "1.5rem" }}>
@@ -263,7 +286,14 @@ export default function ReceiptPage() {
                   track("receipt_save_clicked", { receiptId })
                   const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
                   if (raw) {
-                    try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), ephId: receiptId, bearing: JSON.parse(raw) })) } catch {}
+                    // Strip the free-text "strongest argument against" before it
+                    // touches localStorage: /api/receipts/save never reads it, and
+                    // the stash outlives the tab until sign-in or the 7-day TTL.
+                    try {
+                      const bearing = JSON.parse(raw)
+                      if (bearing?.prep && typeof bearing.prep === "object") bearing.prep = { ...bearing.prep, adversarialInput: null }
+                      localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), ephId: receiptId, bearing }))
+                    } catch {}
                   }
                   router.push("/compass")
                 }}>{saveNudgeV11 ? "Keep this bearing" : "Sign in & save"}</Button>
@@ -274,78 +304,41 @@ export default function ReceiptPage() {
 
         {/* Body */}
         <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: "6rem" }}>
-          {/* Decision — the question, at the top */}
-          <div style={{ marginBottom: "2rem", padding: "1rem 1.25rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${signal.steel}33`, borderRadius: 6 }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
-            <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.6 }}>{receipt.decision}</div>
-          </div>
-
-          {/* True North */}
-          <div style={{ marginBottom: "2rem" }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.14em", color: signal.cyan, textTransform: "uppercase", marginBottom: "0.5rem" }}>True North</div>
-            <div style={{ fontFamily: font.sans, fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)", fontWeight: 600, color: text.primary, lineHeight: 1.35 }}>
-              {receipt.trueNorth}
-            </div>
-          </div>
-
-          {/* Conviction — directly below True North */}
-          <div style={{ marginBottom: "2rem" }}>
-            <ConvictionSidebar
-              result={compassResult}
-              onTributary={(prompt) => {
-                // Ephemeral bearings have no persisted row — omit `parent` so
-                // the follow-up doesn't reference a nonexistent receipt id.
-                const params = new URLSearchParams({ q: prompt })
-                if (!isEphemeral) params.set("parent", receipt.id)
-                if (receipt.sessionId) params.set("sid", receipt.sessionId)
-                router.push(`/dashboard?${params.toString()}`)
-              }}
-            />
-          </div>
-
-          {/* Tribune — ADR-020: three-phase annotation, owner-only, persisted receipts only */}
-          {!isEphemeral && (
-            <div style={{ marginBottom: "2rem" }}>
-              <TribunePanel receiptId={receipt.id} />
-            </div>
-          )}
-
-          {/* Why bullets */}
-          {why.length > 0 && (
-            <div style={{ marginBottom: "2rem" }}>
-              <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.75rem" }}>Why This</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                {why.map((bullet, i) => (
-                  <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
-                    <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: signal.cyan, fontWeight: 700, flexShrink: 0, marginTop: "0.15rem" }}>{String(i + 1).padStart(2, "0")}</span>
-                    <span style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.secondary, lineHeight: 1.6 }}>{bullet}</span>
-                  </div>
-                ))}
+          <AhmedOrder
+            data={{
+              decision: receipt.decision,
+              trueNorth: receipt.trueNorth,
+              yState: receipt.yState,
+              renderResolution: resolution,
+              mode: receipt.mode,
+              doorClass: receipt.doorClass,
+              stakes: receipt.stakes,
+              horizon: receipt.horizon,
+              reasons: why,
+              questions: tributaries ?? [],
+              paths: paths as TerrainPath[],
+              fated: fated as Partial<FatedDecomposition>,
+              courtVerdict: receipt.courtVerdict,
+              nciScore: receipt.nciScore,
+              coherencePct: receipt.coherencePct,
+              macroTags,
+              version: receipt.version,
+              createdAt: receipt.createdAt,
+            }}
+            onQuestion={(prompt) => {
+              // Ephemeral bearings have no persisted row: omit `parent` so
+              // the follow-up doesn't reference a nonexistent receipt id.
+              const params = new URLSearchParams({ q: prompt })
+              if (!isEphemeral) params.set("parent", receipt.id)
+              router.push(`/dashboard?${params.toString()}`)
+            }}
+            after={!isEphemeral ? (
+              // Tribune: ADR-020 three-phase annotation, owner-only, persisted receipts only
+              <div style={{ marginTop: "2.75rem" }}>
+                <TribunePanel receiptId={receipt.id} />
               </div>
-            </div>
-          )}
-
-          {/* FATED · Terrain Paths — single-column stack (Conviction lifted to top) */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "2rem" }}>
-            {fated && Object.keys(fated).length > 0 && <FatedGrid fated={fated} />}
-            {paths && paths.length > 0 && (
-              <TerrainPaths paths={paths as Parameters<typeof TerrainPaths>[0]["paths"]} />
-            )}
-          </div>
-
-          {/* Schema ledger pills */}
-          <div style={{ borderTop: `0.5px solid ${signal.steel}22`, paddingTop: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
-            <Pill label="MODE" value={receipt.mode} color={signal.gold} />
-            <Pill label="DOOR" value={receipt.doorClass?.replace(/_/g, " ")} color={signal.steel} />
-            {receipt.stakesLevel && <Pill label="STAKES" value={receipt.stakesLevel} color={signal.red} />}
-            {receipt.horizon && <Pill label="HORIZON" value={receipt.horizon} color={text.muted} />}
-            <Pill label="NCI" value={String(receipt.nciScore)} color={nc} />
-            {receipt.coherencePct != null && <Pill label="COHERENCE" value={`${receipt.coherencePct}%`} color={signal.green} />}
-            {macroTags.map((tag) => <Pill key={tag} label="MACRO" value={tag} color={text.dimmed} />)}
-            <Pill label="Y" value={`${w.icon} ${w.label}`} color={w.color} />
-            <Pill label="L" value={`${receipt.version}`} color={text.dimmed} />
-            <Pill label="DATE" value={new Date(receipt.createdAt).toLocaleDateString()} color={text.dimmed} />
-          </div>
+            ) : null}
+          />
         </div>
       </main>
   )
@@ -356,14 +349,5 @@ export default function ReceiptPage() {
     <ReflectLayer receiptId={receiptId} surface="RECEIPT" reflectUrl={`/receipt/reflect/${receiptId}`}>
       {page}
     </ReflectLayer>
-  )
-}
-
-function Pill({ label, value, color }: { label: string; value: string; color: string }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: "0", border: `0.5px solid ${color}44`, borderRadius: 3, overflow: "hidden", fontSize: "0.6rem", fontFamily: "font-mono" }}>
-      <span style={{ background: `${color}18`, padding: "0.2rem 0.4rem", color, fontFamily: "monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
-      <span style={{ padding: "0.2rem 0.5rem", color: "rgb(226,232,240)", fontFamily: "monospace", background: "rgba(13,17,23,0.5)" }}>{value}</span>
-    </div>
   )
 }

@@ -1,0 +1,600 @@
+{
+ "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. The disciplined internal method behind ahmed.arcs.care, parameterized.",
+ "_HOW_TO_USE": [
+  "1. cp this file to runtime/recoil/generated/<date>-<name>.json",
+  "2. Fill every {{PLACEHOLDER}} and each block's content. Delete blocks/tabs you don't need.",
+  "3. Tag each field/block audience:'internal' (default, war-room only) or 'both' (safe to share).",
+  "4. Generate: ./scripts/recoil --data <file> --audience internal --format html > public/<name>-war.html",
+  "5. Pass-through args: --audience internal|external  --format html|md|json  --set meta.key=value",
+  "6. Wire the subdomain in next.config.ts + vercel domains add; gate internal with a NON-guessable pw."
+ ],
+ "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+ "meta": {
+  "report_id": "2026-10-03-oh-vico",
+  "date": "2026-10-03",
+  "counterpart": "Lyndon Oh",
+  "company": "VICO Technologies (vico.io), co-founder and CTO; first principal call, intro via Joe Schriner (Oxenham Group). Sibling SSOT for the recruiter thread: runtime/recoil/generated/2026-09-14-schriner.json",
+  "segments": 5,
+  "gate": {
+   "internal": "zl2l5aee2a"
+  },
+  "provenance": {
+   "audience": "internal",
+   "captured": "Filed 2026-10-03, before the call (date not yet on the calendar). Sources: Granola verbatim transcripts of the Joe x Zach calls on 2026-09-30 (824f0855) and 2026-10-02 'VICO debrief.' (8a125b5f); the Schriner SSOT's 2026-09-17 call record; public/vico.html (the deck Lyndon read); web diligence 2026-10-03 (LinkedIn, PitchBook profile, Feb 2026 launch release, Anthony Vinci interviews). Everything Lyndon 'said' here is Joe's relay, second-hand. Refreshed 2026-10-04 by /recoil-prep: Gmail thread 1a0fdb05fd989ec6 (Joe, 2026-10-04 20:10 ET: \"I'll be in touch with Lyndon early tomorrow morning to set up timing\"); verbatim re-read of the 09-30 comp exchange; web re-check of funding.",
+   "load_bearing_quote": "Joe, relaying Lyndon (2026-10-02): \"it looks like the reason that we're really excited is the fact that it looks like Zach could solve some of our current problems.\" Joe, same call: \"I don't know what the problems are.\""
+  }
+ },
+ "opportunity": {
+  "audience": "internal",
+  "engagement_type": "candidacy",
+  "req_reality": 2,
+  "req_reality_basis": "JD posted and verified by its own text (Vico's Product Engineer, Front-End posting); budget implied only through Joe (2026-09-30: Lyndon \"is viewing this as a little bit closer to $300,000, $300,000 being that VP of engineering\"); decision-owner Lyndon not yet met by Zach. And the seat itself is unsettled: Joe (2026-10-02) relays Lyndon asking \"should it be a PE role? Should it be the VP of engineering? Like, where does Zach fit\". Holds at 2 until Lyndon is met; moves to 3 only if he names the seat and the budget himself.",
+  "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
+  "y_state": "YELLOW",
+  "topology": "CONVERGENT",
+  "nci_prior": 0,
+  "nci_post": 0,
+  "note": "Pre-call read: the strongest signal in the whole Oxenham engagement so far (a principal read the deck and asked for the call), sitting on two unresolved facts. One, the seat is undefined (Product Engineer vs VP of Engineering vs something co-designed). Two, the comp frame (~$300K, VP level) comes from a 2025-founded company with undisclosed pre-seed funding, relayed by a recruiter whose fee scales with it. Predicted YELLOW: real interest, unresolved shape."
+ },
+ "beliefs": [
+  {
+   "id": "P1",
+   "audience": "internal",
+   "claim": "Lyndon's interest is real and specific, not recruiter amplification",
+   "evidence": "Joe relay: \"Zach could solve some of our current problems\"; deck time confirmed by Zach's event tracking",
+   "inference": "EXP",
+   "confidence": [
+    0.7,
+    0.7
+   ],
+   "conviction": "MED",
+   "verdict": "PENDING"
+  },
+  {
+   "id": "P2",
+   "audience": "internal",
+   "claim": "The seat can be co-designed beyond the Product Engineer JD",
+   "evidence": "Joe: \"He is currently thinking single-threaded\"; Lyndon's own question \"where does Zach fit\"",
+   "inference": "EXP",
+   "confidence": [
+    0.5,
+    0.5
+   ],
+   "conviction": "LOW",
+   "verdict": "PENDING"
+  },
+  {
+   "id": "P3",
+   "audience": "internal",
+   "claim": "The ~$300K VP-level frame is Lyndon's own and is fundable",
+   "evidence": "Only via Joe (fee-interested); company is 2025 pre-seed per public reporting",
+   "inference": "EXP",
+   "confidence": [
+    0.4,
+    0.4
+   ],
+   "conviction": "LOW",
+   "verdict": "PENDING"
+  },
+  {
+   "id": "P4",
+   "audience": "internal",
+   "claim": "Private-market clients, not government, are the near-term revenue motion",
+   "evidence": "Bloomberg Terminal distribution; Joe: DOD customers exist but pool unclear",
+   "inference": "EXP",
+   "confidence": [
+    0.6,
+    0.6
+   ],
+   "conviction": "LOW",
+   "verdict": "PENDING"
+  }
+ ],
+ "kinematic_series": {
+  "dt": 1.0,
+  "series": [
+   {
+    "key": "belief_a",
+    "audience": "both",
+    "label": "{{a belief tracked over time}}",
+    "color": "#00F0FF",
+    "points": [
+     0.6,
+     0.55,
+     0.5,
+     0.45,
+     0.2
+    ],
+    "grounding_quote": "{{their words}}"
+   }
+  ]
+ },
+ "insights": [
+  {
+   "audience": "both",
+   "plane": "idea",
+   "title": "{{cross-plane insight, safe}}",
+   "text": "{{...}}"
+  },
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "{{read about them — INTERNAL ONLY}}",
+   "text": "{{...}}"
+  }
+ ],
+ "next_steps": [
+  {
+   "audience": "internal",
+   "owner": "Joe",
+   "text": "Confirm the times Zach texted work for Lyndon; send the NYC office address; flag alignment signals before the call (all owed from 2026-10-02)."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Before the call: re-read public/vico.html (what Lyndon saw) and skim VICO's Feb 2026 launch release and one Anthony Vinci interview."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "After the call: run /recoil-close on this file to score the ex-ante (hypothesis, falsifier, P1 to P4)."
+  }
+ ],
+ "redaction_policy": {
+  "rules": [
+   "Method can cross; subject-about-them cannot.",
+   "Show your own updates, never their intent-scores.",
+   "Architecture crosses; weights/sauce do not."
+  ]
+ },
+ "page": {
+  "layout": "tabs",
+  "header": {
+   "eyebrow": "ARCS &#183; War Room",
+   "title": "Lyndon Oh &#183; VICO",
+   "sub": "First principal call. Turn \"where does Zach fit\" into \"which problem first.\""
+  },
+  "tabs": [
+   {
+    "id": "pre",
+    "label": "Pre-Call"
+   },
+   {
+    "id": "exante",
+    "label": "Ex-Ante"
+   },
+   {
+    "id": "forge",
+    "label": "Forge"
+   },
+   {
+    "id": "recoil",
+    "label": "Recoil"
+   },
+   {
+    "id": "wargame",
+    "label": "War Game"
+   },
+   {
+    "id": "defense",
+    "label": "Defensibility"
+   }
+  ],
+  "blocks": [
+   {
+    "tab": "pre",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "TRUE NORTH: one sentence — the disciplined posture for this interaction.",
+    "h2": "True North",
+    "p": [
+     "Get Lyndon to name the two or three problems that are on fire now, then show, in his register (calibration, backtests, explainable reasoning), how I would attack one of them. Leave with a scoped next step (the Anthony call plus a written follow-up from me), not a title or a number."
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "keyvalue",
+    "audience": "internal",
+    "_doc": "CONTEXT: logistics + the two hardest reads (register, intent).",
+    "h2": "Context",
+    "rows": [
+     {
+      "k": "Date",
+      "v": "TBD. Zach emailed Joe 2026-10-04 asking to schedule this week; Joe replied same evening he would contact Lyndon the morning of 2026-10-05 to set timing. Not on the calendar as of 2026-10-04."
+     },
+     {
+      "k": "Register",
+      "v": "first principal call; co-founder and CTO, PhD economist and serial founder-CEO; warm intro via recruiter; he has already read the deck"
+     },
+     {
+      "k": "Their goal",
+      "v": "decide where Zach fits (Product Engineer, VP of Engineering, or neither) and whether he can solve current problems; then hand to Anthony"
+     },
+     {
+      "k": "Y-Gate",
+      "v": "YELLOW at filing time: real principal interest, undefined seat, comp frame unverified at pre-seed"
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "INTEL: who they are now, most-diagnostic facts first. dot: c/g/'' for cyan/gold/green.",
+    "h2": "Intel",
+    "intro": "Lyndon Oh, co-founder and CTO of VICO, an AI forecasting company for political, geopolitical and economic event risk. Everything about his view of Zach is second-hand through Joe; the company facts are public.",
+    "items": [
+     {
+      "dot": "g",
+      "html": "<strong>He read the deck, and liked it.</strong> Joe (2026-10-02): \"We obviously reviewed your profile and pulled up kind of the pitch deck and went through it... he has spent a decent amount of time in that.\" Zach's event tracking showed the same."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>What he responded to</strong> (Joe's relay): \"build capability. Prototype capability. IQ leadership.\" And: \"Zach could solve some of our current problems.\" Joe does not know which problems."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>His open question is the seat.</strong> Joe relaying Lyndon: \"we don't know where Zach would fit within our organization... should it be a PE role? Should it be the VP of engineering?\" Joe: \"He is currently thinking single-threaded.\" Joe says he will coach him toward a broader conversation; that may or may not happen before the call."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Comp frame, second-hand.</strong> Joe (2026-09-30): Lyndon \"is viewing this as a little bit closer to $300,000, $300,000 being that VP of engineering. He's hesitant... to have that conversation\" because of Oxenham's fee, which Joe plans to cap. Joe had floated \"mid-$200s\" with equity."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Company stage.</strong> VICO was founded in 2025 by Anthony Vinci and Lyndon Oh; public reporting shows an undisclosed pre-seed round. Platform launched 2026-02-03; forecasts on the Bloomberg Terminal; indexes on US hard power, tokenization and deglobalization. Joe (2026-10-02, unverified): \"they work with the DOD. Apparently they have a couple customers in there.\" A ~$300K VP seat at pre-seed is possible but unusual: verify runway before trusting the frame."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Lyndon's background</strong> (LinkedIn and data-broker profiles, grade B/C): PhD Economics (University of St. Gallen), MSc International Relations (LSE); before VICO, co-founder and CEO of Ozone, CEO of Findyr, founder and CEO of Leviathan Analytics; prior time at Google and Facebook. That matches Joe's 2026-09-14 claim of Meta then Google, previously unverified. Read: a founder-CEO and economist now carrying the CTO title, so build and prototype capacity is plausibly the gap he feels."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Anthony Vinci</strong>, CEO: first CTO of the National Geospatial-Intelligence Agency; senior roles at Bridgewater and Cerberus. The next call after Lyndon, per Joe."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Org shape</strong> (2026-09-17 call): flat org, the Product Engineer seat reports to Lyndon, and a VP of Engineering role is also open that would sit above it. A Solution Architect role is open too (2026-09-30)."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Competition.</strong> Joe is submitting other candidates. Joe (2026-09-30): \"Nick's a young gun out of DC.\" Lyndon himself first asked Joe about a \"young gun\" (2026-09-17 record)."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Office.</strong> Joe (2026-10-02): \"Lyndon and Anthony are in New York... I think that's their main one. DC is their secondary.\" \"You don't have to travel to DC.\" NYC address still owed by Joe."
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Comp floor already given (correction, 2026-10-04 verbatim re-read).</strong> Joe asked on 09-30 whether Zach would take \"somewhere in the mid-$200s\" with equity; Zach: \"Yeah, or even like less depending on what the cap table looks like.\" Joe therefore holds a number below the ~$300K Lyndon reportedly floated. Assume it may reach Lyndon."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Competition.</strong> Joe (09-30) is also submitting Nick, \"a young gun out of DC\", and always sends multiple profiles. The fight is not just the seat, it is senior-scope vs a cheaper Product Engineer."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Funding conflict (unresolved).</strong> This SSOT's 10-03 read is an undisclosed pre-seed; a Tracxn search snippet (2026-10-04) claims $103M over 3 rounds for \"Vico\", likely a name collision with another Vico. Do not rely on either; ask runway directly."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "QUESTIONS + LANDMINES: what to ask, what a good answer sounds like, what not to do.",
+    "h2": "Questions &amp; landmines",
+    "intro": "Ask before pitching. The first ten minutes should be his problems, not my deck: he has already read the deck.",
+    "items": [
+     {
+      "dot": "",
+      "html": "<strong>Open with his words:</strong> \"Joe said you think I could help with some current problems. Which ones are on fire right now?\" &#183; look for: two or three named, specific problems (a system, a customer, a deadline), not \"scaling\" in the abstract"
+     },
+     {
+      "dot": "",
+      "html": "<strong>The seat probe (req_reality gate question):</strong> \"Does this land in an existing function, or is it something you're still designing?\" &#183; look for: an answer in his own words. Bespoke-and-still-being-designed is the Fanatics/HypeLab shape: keep the next step to a written read on one problem, not a role negotiation"
+     },
+     {
+      "dot": "",
+      "html": "<strong>Where does revenue come from in the next 12 months?</strong> Bloomberg and private-market clients, or government pilots? &#183; look for: one motion he is betting on, with a reason. Public sector cycles run long; the private side is the faster proof"
+     },
+     {
+      "dot": "",
+      "html": "<strong>Who builds today?</strong> Engineering headcount, who ships the forecasts, how the open VP of Engineering role relates to this one &#183; look for: a real number and a clear reporting line"
+     },
+     {
+      "dot": "",
+      "html": "<strong>His CTO question, from the deck:</strong> how far down can a doubting analyst open the path from sources to a single forecast number? And how does the system notice its own calibration drifting after a shock? &#183; look for: whether he lights up (this is his domain) or deflects"
+     },
+     {
+      "dot": "",
+      "html": "<strong>Runway, asked plainly:</strong> \"What does the next 12 to 18 months look like on funding?\" &#183; look for: a straight answer. A pre-seed company with a $300K seat needs a reason"
+     },
+     {
+      "dot": "",
+      "html": "<strong>Close:</strong> offer to come back within a few days with a short written read on one of his named problems; confirm the Anthony call &#183; look for: he names the problem to write about"
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Landmine: comp.</strong> Do not raise it. Joe owns the fee and the number. If Lyndon raises it: flexible, people and problem first, Joe has the range. Zach (2026-09-30): \"I'm not going to negotiate against myself.\" If he cites a number Joe gave him: do not confirm or restate it. \"I'd rather we figure out what the seat is first; Joe and I can sort the number after.\""
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Landmine: pitching ARCS as a product.</strong> He builds explainable AI forecasting; ARCS reads as a neighboring product. Use it only as proof of how I work (source-graded, receipts, backtest-style scoring), never as a thing I want to bring with me"
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Landmine: the Solution Architect hat.</strong> Do not agree to forward-deployed, DC-heavy travel by default. Zach's limit (2026-09-30): not \"traveling 25 to 50% of the time\""
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Landmine: clearances.</strong> Do not overclaim government access. Ask what the DOD work requires instead"
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Landmine: seniority.</strong> Do not argue with the young-gun framing. Frame senior as de-risking, the line Zach already gave Joe: \"you're not paying somebody to learn on your dime\""
+     }
+    ]
+   },
+   {
+    "tab": "exante",
+    "type": "receipt",
+    "audience": "internal",
+    "_doc": "EX-ANTE RECEIPT filed BEFORE the event so it can be scored after. Keep every field.",
+    "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+    "fields": [
+     {
+      "label": "D &#183; Sharpened question",
+      "value": "Is there a real, fundable seat at VICO that fits how I work (build, prototype, lead, plus go-to-market), and will Lyndon co-design it with me rather than slot me into one fixed JD?"
+     },
+     {
+      "label": "E &#183; Entity",
+      "value": "Lyndon Oh (co-founder and CTO, decision-owner for this seat); Anthony Vinci (CEO, next call); Joe Schriner (recruiter, fee tied to the comp number); VICO itself (2025, pre-seed)"
+     },
+     {
+      "label": "W &#183; Window",
+      "value": "This week &#183; the intro call decides whether this becomes a co-designed engagement worth the Anthony call, or a fixed JD to evaluate on its own terms"
+     },
+     {
+      "label": "Hypothesis / expecting to see",
+      "value": "Lyndon names at least two specific current problems in the first half of the call, and at least one sits outside pure front-end engineering (data pipeline, prototype velocity, go-to-market or positioning). He is open to scoping a role around those problems rather than the Product Engineer JD as written."
+     },
+     {
+      "label": "Predicted Y-gate",
+      "value": "YELLOW &#183; principal interest is real, but the seat and the comp frame are both unverified until he states them himself"
+     },
+     {
+      "label": "Pre-committed move",
+      "value": "Ask for the problems first and listen. If he names them: offer a short written read on one within a few days, and ask for the Anthony call. Ask about runway plainly. Never raise comp. If he only describes the fixed JD: ask once whether the problems he mentioned to Joe live inside that JD; if not, say so and let Joe carry the reframe."
+     },
+     {
+      "label": "Belief most likely to update",
+      "value": "Whether the ~$300K VP-level frame is Lyndon's own at a 2025 pre-seed company, or Joe's packaging of a Product Engineer budget."
+     },
+     {
+      "label": "Falsifier",
+      "value": "If Lyndon cannot name one concrete current problem, or treats the call as a screen for the front-end JD with no interest in scope, the 'solve our current problems' relay was recruiter amplification: downgrade to FORK, treat the role as Product Engineer only, and weigh it against the other live threads on that basis."
+     }
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic — you cannot grade your own output.",
+    "h2": "Exhibit 2 &#183; Exogenous Forge",
+    "p": [
+     "Every load-bearing claim run against external substrates ({{sources}}) and adjudicated by an independent skeptic. GROUNDED = source-forced. INFERENCE = my read, not forced. STRUCK = overreach, corrected."
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "CLAIM ADJUDICATION. Ruling column values: GROUNDED / INFERENCE / STRUCK.",
+    "h2": "Claim adjudication",
+    "columns": [
+     "Claim",
+     "Ruling",
+     "Source force"
+    ],
+    "rows": [
+     [
+      "{{claim}}",
+      "GROUNDED",
+      "{{two-substrate / verbatim}}"
+     ],
+     [
+      "{{claim}}",
+      "STRUCK",
+      "{{why it was overreach}}"
+     ]
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "keyvalue",
+    "audience": "internal",
+    "_doc": "RECEIPT CLOSED: predicted vs actual, which fork hit, the load-bearing quote.",
+    "h2": "Receipt closed &#183; ex-ante vs actual",
+    "rows": [
+     {
+      "k": "Predicted",
+      "v": "{{from Exhibit 1}}"
+     },
+     {
+      "k": "Actual",
+      "v": "{{what happened}}"
+     },
+     {
+      "k": "Fork hit",
+      "v": "{{which branch}}"
+     },
+     {
+      "k": "Load-bearing",
+      "v": "{{their verbatim close}}"
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "belief_log",
+    "audience": "internal",
+    "h2": "Belief Log &#183; confidence x conviction"
+   },
+   {
+    "tab": "recoil",
+    "type": "worked_example",
+    "audience": "internal",
+    "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.",
+    "h2": "Belief trajectory",
+    "intro": "{{what moved}}",
+    "close": "{{the honest correction}}"
+   },
+   {
+    "tab": "recoil",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.",
+    "h2": "Kairos, quiet signals &amp; risks",
+    "intro": "{{...}}",
+    "items": [
+     {
+      "dot": "",
+      "html": "<strong>Kairos:</strong> {{peak-resonance moment}}"
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Quiet signal:</strong> {{non-obvious read}}"
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "kinematics_table",
+    "audience": "internal",
+    "h2": "Kinematic manifold &#183; measured (D1-D3)"
+   },
+   {
+    "tab": "wargame",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "GAUNTLET: BAR (ruin edge) / LAB (Loki/Advisor/Bayesian) / COURT (constitutional) / red-blue-steel.",
+    "h2": "The gauntlet",
+    "intro": "Adversarial pass on the opportunity, not the person.",
+    "items": [
+     {
+      "dot": "",
+      "html": "<strong>BAR (ruin):</strong> {{the exposed edge}}"
+     },
+     {
+      "dot": "g",
+      "html": "<strong>LAB &#183; Loki:</strong> {{adversarial read, steel-manned down}}"
+     },
+     {
+      "dot": "c",
+      "html": "<strong>COURT:</strong> {{constitutional check}}"
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "ATG PRE-MORTEM: assume it's dead in 90 days; walk the critical path, each node gated by THEIR actual objection. Mark the earliest in-your-court node the bottleneck.",
+    "h2": "ATG pre-mortem &#183; critical path x their objections",
+    "columns": [
+     "Node",
+     "Their objection (verbatim)",
+     "Failure mode",
+     "Handling"
+    ],
+    "rows": [
+     [
+      "1. {{node}}",
+      "{{their words}}",
+      "{{how it dies here}}",
+      "{{your move}}"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "rosetta",
+    "audience": "internal",
+    "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.",
+    "h2": "The same model, both directions",
+    "left": "Their world",
+    "right": "This engine",
+    "rows": [
+     [
+      "{{their primitive}}",
+      "{{your equivalent}}"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "DEFENSIBILITY MATRIX: the 5 verbs x 4 proofings. Air-gap=grounded-external. Water=survives messy input. Fire=survives adversarial scrutiny. Bomb=antifragile (being wrong sharpens it).",
+    "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+    "columns": [
+     "Verb",
+     "Air-gap",
+     "Water-proof",
+     "Fire-proof",
+     "Bomb-proof"
+    ],
+    "rows": [
+     [
+      "Analyze",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}"
+     ],
+     [
+      "Assess",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}"
+     ],
+     [
+      "Evaluate",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}"
+     ],
+     [
+      "Synthesize",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}"
+     ],
+     [
+      "Recapitulate",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}",
+      "{{...}}"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "ANTIFRAGILE CORE + LOSSLESS-TRANSLATION TEST. Prove being-wrong is the feature, then restate the whole thing in their vocabulary with zero loss.",
+    "h2": "Antifragile core &amp; the lossless test",
+    "p": [
+     "{{why a falsified prior is the highest-information event, not a failure}}",
+     "Lossless test: {{restate the method entirely in their register — if it holds with no jargon, it is defensible to them}}"
+    ]
+   }
+  ]
+ }
+}

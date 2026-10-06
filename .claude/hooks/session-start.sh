@@ -12,6 +12,51 @@ set -euo pipefail
 #     at pickup instead of discovering drift several turns in.
 echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
 
+# (0) Never block on a prompt (2026-10-04). Desktop-launched sessions run this hook with no
+#     terminal, so a git call that wants an SSH passphrase, a host-key "yes", or an HTTPS login
+#     waits forever and the session never gets past the spinner. Fail fast instead: every git call
+#     below (fetch, the memory timecapsule) inherits these. Existing user values are respected.
+export GIT_TERMINAL_PROMPT=0
+export GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -o BatchMode=yes -o ConnectTimeout=10}"
+export GIT_HTTP_LOW_SPEED_LIMIT="${GIT_HTTP_LOW_SPEED_LIMIT:-1000}"
+export GIT_HTTP_LOW_SPEED_TIME="${GIT_HTTP_LOW_SPEED_TIME:-15}"
+
+# (3) Arm the pre-commit gate chain (seed-gate-hookspath-bootstrap, germinated 2026-10-04).
+#     Fresh clones and every cloud container start with core.hooksPath unset, so the whole
+#     scripts/git-hooks chain silently never ran (2026-10-03: commits 43a3ff9 and 248036c went in
+#     ungated and an NFTT post skipped tao-coverage). Gotcha 12 said "install once" by hand; this
+#     makes it automatic. Idempotent, never overrides a deliberate value, never fails the hook.
+#     2026-10-05: the desktop app writes an ABSOLUTE main-checkout hooksPath into every worktree's
+#     config.worktree, so worktrees ran main's (stale) gates. scripts/hookspath_arm.sh repoints that
+#     per-worktree to the relative path (self-test: scripts/hookspath_arm.sh --self-test). Armed for
+#     both the project dir and the session cwd, since a worktree session's cwd is the worktree.
+for _d in "$CLAUDE_PROJECT_DIR" "$PWD"; do
+  [ -x "$_d/scripts/hookspath_arm.sh" ] && "$_d/scripts/hookspath_arm.sh" "$_d" 2>/dev/null || true
+  [ "$PWD" = "$CLAUDE_PROJECT_DIR" ] && break
+done
+
+# Cloud sessions run in throwaway containers, so the receipts and snapshot refresh written
+# below are discarded with the container. Writing them there only dirties tracked files and
+# trips the environment's stop-hook ("uncommitted changes") on every turn. In cloud: still run
+# every check and print the readout, then restore each of these files that was clean when the
+# hook started; a file already edited this session (e.g. by /handoff) is left alone. Local
+# machines keep writing them as before, since there they are the real ledger.
+_HOOK_STATE_FILES="_INBOX/pulse.jsonl _INBOX/lattice-drift.jsonl _INBOX/seedbank-drift.jsonl _STATE/pulse.json _STATE/snapshot.json runtime/specs/knowledge-lattice-v1.json"
+_CLEAN_AT_START=""
+if [ "${CLAUDE_CODE_REMOTE:-}" = "true" ]; then
+  for _f in $_HOOK_STATE_FILES; do
+    git -C "$CLAUDE_PROJECT_DIR" ls-files --error-unmatch -- "$_f" >/dev/null 2>&1 \
+      && git -C "$CLAUDE_PROJECT_DIR" diff --quiet HEAD -- "$_f" 2>/dev/null \
+      && _CLEAN_AT_START="$_CLEAN_AT_START $_f"
+  done
+  _restore_hook_state() {
+    for _f in $_CLEAN_AT_START; do
+      git -C "$CLAUDE_PROJECT_DIR" checkout -- "$_f" 2>/dev/null || true
+    done
+  }
+  trap _restore_hook_state EXIT
+fi
+
 # Pulse — the global heartbeat (Phase 0). The wall-clock twin of the git-backed oracle:
 # derives each subsystem's freshness from git commit timestamps (tamper-evident OT layer),
 # runs the pulse<->oracle mutual check, and ALARMS on flatline. This is the fix for the
@@ -28,6 +73,9 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 # (valid JSONL, orphan seeds, broken local paths, staleness, repo-coverage gap) and
 # emit a receipt; curation stays human-owned. Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
+# model drift: flag a newer Claude model per role in src/lib/claude-models.ts (advisory; free
+# GET /v1/models with ANTHROPIC_API_KEY, else silent skip). Never switches a model.
+python3 "$CLAUDE_PROJECT_DIR/scripts/model_drift_check.py" 2>/dev/null || true
 
 # Memory-index inchworm — self-cataloging: orphan files auto-append into an
 # "Uncurated (auto)" band rendered from their own frontmatter description (the

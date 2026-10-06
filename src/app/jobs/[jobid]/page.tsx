@@ -38,6 +38,11 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
   const { jobid } = await params
   if (!(await pageViewerAllowed())) redirect(`/compass?next=/jobs/${jobid}`)
   const row = await prisma.jobOpportunity.findUnique({ where: { jobid }, include: { swipe: true, forge: true } })
+  // The rubric that actually produced the row's current score: the latest Score row's
+  // targetVersion ("1.3" = target-role-scan, "bridge-1.x" = bridge-scan). Before 2026-10-05
+  // this line always claimed target-role-scan, even for bridge-scored rows.
+  const lastScore = row ? await prisma.score.findFirst({ where: { jobid }, orderBy: { scoredAt: "desc" }, select: { targetVersion: true } }) : null
+  const scoredBy = lastScore?.targetVersion?.startsWith("bridge") ? `runtime/specs/bridge-scan.json ${lastScore.targetVersion}` : `runtime/specs/target-role-scan.json v${lastScore?.targetVersion ?? "?"}`
   if (!row) notFound()
   const spec = loadScanSpec()
   const trig = loadTriggerSpec()
@@ -94,7 +99,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
                 <div style={{ fontFamily: mono, fontSize: 8.5, fontWeight: 600, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, marginTop: 7, lineHeight: 1.5 }}>{k}</div>
               </div>))}
           </div>
-          <div style={{ ...src, marginTop: 10 }}>SRC · <a href={row.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>the posting</a> · runtime/specs/target-role-scan.json v{spec?.version ?? "?"} · resume.arcs.care (record of record){row.scoredAt ? ` · scored ${row.scoredAt.toISOString().slice(0, 10)}` : ""}</div>
+          <div style={{ ...src, marginTop: 10 }}>SRC · <a href={row.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>the posting</a> · {scoredBy} · resume.arcs.care (record of record){row.scoredAt ? ` · scored ${row.scoredAt.toISOString().slice(0, 10)}` : ""}</div>
         </header>
 
         {/* 01 comparator: what the posting asks vs what the record shows, per differentiator */}
@@ -102,7 +107,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16 }}>
           <div style={{ padding: "18px 20px 16px", borderRadius: 10, border: `1px solid ${border.subtle}`, background: `linear-gradient(165deg,#ffffff05,#00000038), ${surface.bg}` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, paddingBottom: 10, borderBottom: `1px solid ${border.subtle}` }}>{led("#7d8fa3")}<span style={{ ...eyebrow, color: fg3 }}>CH·A — What the posting asks</span></div>
-            {Object.values(hits).some((h) => h?.length) ? (
+            {quads.some((q) => hits[q.id]?.length) ? (
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{quads.map((q) => (hits[q.id] ?? []).map((h, i) => <li key={q.id + i} style={{ position: "relative", paddingLeft: 16, fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 10, textWrap: "pretty" }}><span style={{ position: "absolute", left: 2, top: 8, width: 5, height: 5, borderRadius: "50%", border: `1px solid ${fg3}`, opacity: .55 }} /><b style={{ color: fg1, fontWeight: 600 }}>{q.id} ·</b> {h}</li>))}</ul>
             ) : (
               <p style={{ fontSize: 12, lineHeight: 1.6, color: fg3, fontStyle: "italic" }}>JD evidence per differentiator arrives with the next scoring pass (the scorer quotes the sentences of the posting itself under A through D). Until then the posting is linked above, not paraphrased here.</p>
@@ -114,6 +119,19 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
             <span style={{ ...src, display: "block", marginTop: 6 }}>SRC · target-role-scan.json quads · proof points from the profile scan</span>
           </div>
         </div>
+
+        {/* culture evidence: phrases quoted from the posting by the scorer's regex pass (rubric.culture_cues) */}
+        {(hits.culture_pos || hits.culture_neg) && (
+          <div style={{ marginTop: 16, padding: "14px 20px 12px", borderRadius: 10, border: `1px solid ${border.subtle}`, background: surface.bg }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>{led((hits.culture_neg?.length ?? 0) >= 2 ? signal.red : (hits.culture_pos?.length ?? 0) ? signal.green : "#7d8fa3")}<span style={{ ...eyebrow, color: fg3 }}>Culture · quoted from the posting</span></div>
+            {(hits.culture_pos?.length || hits.culture_neg?.length) ? (
+              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                {(hits.culture_pos ?? []).map((h, i) => <li key={"p" + i} style={{ fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 6, textWrap: "pretty" }}><b style={{ color: signal.green, fontWeight: 600 }}>+</b> {h}</li>)}
+                {(hits.culture_neg ?? []).map((h, i) => <li key={"n" + i} style={{ fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 6, textWrap: "pretty" }}><b style={{ color: signal.red, fontWeight: 600 }}>−</b> {h}</li>)}
+              </ul>
+            ) : <p style={{ fontSize: 12, color: fg3, margin: 0 }}>No culture signal in the posting. Not the same as neutral: the score had nothing to quote.</p>}
+          </div>
+        )}
 
         {/* 02 threads */}
         {secHd("02", "Thread Assessment", signal.green, "red risk · gold asset · green conviction · vermillion constraint")}

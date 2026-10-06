@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { font, signal, border, text, getWeather, resStyle, contentContainer } from '@/ui/tokens'
+import { font, signal, border, text, getWeather, resStyle, contentContainer, doorLabel } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
@@ -42,14 +42,14 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
       </div>
       <Rule style={{ marginBottom: '1.5rem' }} />
 
-      <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.5, marginBottom: '1.5rem', paddingLeft: '0.85rem', borderLeft: `2px solid ${signal.cyan}55` }}>
+      <h1 style={{ fontFamily: font.sans, fontSize: '0.9rem', fontWeight: 400, color: text.secondary, lineHeight: 1.5, margin: '0 0 1.5rem', paddingLeft: '0.85rem', borderLeft: `2px solid ${signal.cyan}55` }}>
         {result.question}
-      </div>
+      </h1>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
         <WeatherBar weather={weather} delta={result.nci_delta} resolution={result.render_resolution} />
 
-        <TrueNorthPanel heading={`True North · ${result.decision_mode} · ${result.door_class}`}
+        <TrueNorthPanel heading={`True North · ${result.decision_mode} · ${doorLabel(result.door_class)}`}
           footnotes={result.why?.length > 0 && (
             <ul style={{ position: 'relative', margin: '0.85rem 0 0', paddingLeft: '1.25rem', lineHeight: 1.7, color: '#bfeef5', fontSize: '0.875rem', ...rs }}>
               {result.why.map((w, i) => <li key={i}>{w}</li>)}

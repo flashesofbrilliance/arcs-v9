@@ -27,12 +27,9 @@ type RowState = 'done' | 'active' | 'last' | 'pending'
 function FillBar({ state, stepMs }: { state: RowState; stepMs: number }) {
   const [w, setW] = React.useState(state === 'done' ? 100 : 0)
   React.useEffect(() => {
-    if (state === 'done') { setW(100); return }
-    if (state === 'pending') { setW(0); return }
-    // active / last → animate from 0 toward the target on the next frame so the
-    // width transition actually runs.
-    setW(0)
-    const r = requestAnimationFrame(() => setW(state === 'last' ? 90 : 100))
+    // Set on the next frame (never synchronously in the effect body) so the
+    // width transition actually runs from the previous value.
+    const r = requestAnimationFrame(() => setW(state === 'done' ? 100 : state === 'pending' ? 0 : state === 'last' ? 90 : 100))
     return () => cancelAnimationFrame(r)
   }, [state])
   // The final stage's real duration is whatever the in-flight request

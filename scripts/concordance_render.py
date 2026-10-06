@@ -14,10 +14,13 @@ literal, sibling to the Phase 0 integrity gate).
 
 Usage:  python3 scripts/concordance_render.py [OUT.html] [DIGEST.json ...]
         (no args -> Atlas digests -> _ARTIFACTS/atlas/concordance.html)
+        python3 scripts/concordance_render.py --dry-run [OUT.html] [DIGEST.json ...]
+        (render and report, write nothing)
+        python3 scripts/concordance_render.py --self-test
 
 Stdlib only; data embedded inline (works from file://). Internal research: render LOCAL.
 """
-import json, sys, os, html, glob, datetime
+import argparse, hashlib, json, sys, os, html, glob, datetime, shutil, subprocess, tempfile
 from collections import defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -171,26 +174,109 @@ def render(byid, entries, verdict, meta):
             .replace("__DATA__", json.dumps(data, ensure_ascii=False)))
 
 
-def main():
-    args = sys.argv[1:]
+def _snapshot(root):
+    snap = {}
+    for d, _, fs in os.walk(root):
+        for f in fs:
+            p = os.path.join(d, f)
+            if "__pycache__" in p:
+                continue
+            with open(p, "rb") as fh:
+                snap[os.path.relpath(p, root)] = (hashlib.sha256(fh.read()).hexdigest(), os.stat(p).st_mtime_ns)
+    return snap
+
+
+def _self_test():
+    total = fails = 0
+
+    def ok(name, cond):
+        nonlocal total, fails
+        total += 1
+        if not cond:
+            fails += 1
+        print(f"  {'PASS' if cond else 'FAIL'}  {name}")
+
+    tmp = tempfile.mkdtemp(prefix="concordance-selftest-")
+    try:
+        os.makedirs(os.path.join(tmp, "scripts"))
+        os.makedirs(os.path.join(tmp, "_ARTIFACTS", "atlas"))
+        script = os.path.join(tmp, "scripts", "concordance_render.py")
+        shutil.copy(os.path.abspath(__file__), script)
+        digest = os.path.join(tmp, "_ARTIFACTS", "atlas", "digest-x.json")
+        json.dump({"domain": "x", "nodes": [
+            {"id": "a", "title": "A", "links": ["b", "c"]},
+            {"id": "b", "title": "B", "links": ["c"]},
+        ]}, open(digest, "w", encoding="utf-8"))
+        default_out = os.path.join(tmp, "_ARTIFACTS", "atlas", "concordance.html")
+        out = os.path.join(tmp, "out.html")
+
+        def run(*args):
+            return subprocess.run([sys.executable, script, *args], cwd=tmp, capture_output=True, text=True)
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("unknown flag with paths exits 2 and writes nothing",
+           run(out, digest, "--bogus").returncode == 2 and _snapshot(tmp) == before)
+        ok("--self-test with a path exits 2", run("--self-test", out).returncode == 2)
+        r = run("--dry-run")
+        ok("--dry-run (defaults) exits 0 and reports 2 concepts",
+           r.returncode == 0 and "rendered 2 concepts over 2 nodes" in r.stdout and "dry-run" in r.stdout)
+        ok("--dry-run (defaults) writes nothing", _snapshot(tmp) == before and not os.path.exists(default_out))
+        r = run("--dry-run", out, digest)
+        ok("--dry-run OUT DIGEST exits 0", r.returncode == 0 and "rendered 2 concepts" in r.stdout)
+        ok("--dry-run OUT DIGEST writes nothing", _snapshot(tmp) == before and not os.path.exists(out))
+        r = run(out, digest)
+        ok("write mode renders OUT", r.returncode == 0 and os.path.exists(out)
+           and '"slug": "c", "count": 2' in open(out, encoding="utf-8").read())
+        r = run()
+        ok("no-arg write mode renders default OUT", r.returncode == 0 and os.path.exists(default_out))
+        lone = os.path.join(tmp, "lone.html")
+        r = run(lone)
+        ok("OUT with no DIGEST exits 1 (HEAD contract) and writes nothing",
+           r.returncode == 1 and not os.path.exists(lone))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"concordance_render self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="concordance_render.py",
+                                 description="Render the Concordance (concept -> referencing nodes) from Atlas digests.")
+    ap.add_argument("paths", nargs="*", metavar="PATH",
+                    help="[OUT.html] [DIGEST.json ...]; no args -> Atlas digests -> _ARTIFACTS/atlas/concordance.html")
+    ap.add_argument("--dry-run", action="store_true", help="render and report, write nothing")
+    ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    a = ap.parse_args(sys.argv[1:] if argv is None else argv)
+    if a.self_test:
+        if a.paths or a.dry_run:
+            ap.error("--self-test takes no other arguments")
+        return _self_test()
+    args = a.paths
     if args and args[0].endswith((".html", ".htm")):
         out_path, digests = args[0], args[1:]
     else:
         out_path = os.path.join(ROOT, "_ARTIFACTS/atlas/concordance.html")
         digests = args or sorted(glob.glob(os.path.join(ROOT, "_ARTIFACTS/atlas/digest-*.json")))
     if not digests:
-        print("no digests found", file=sys.stderr); sys.exit(1)
+        print("no digests found", file=sys.stderr); return 1
     nodes = load_nodes(digests)
     byid, entries = build_concordance(nodes)
     verdict = residue_verdict(nodes, entries)
     meta = {"title": "ARCS Concordance", "eyebrow": "ARCS · the Concordance",
             "generated": datetime.date.today().isoformat()}
-    open(out_path, "w", encoding="utf-8").write(render(byid, entries, verdict, meta))
-    print(f"rendered {verdict['concepts']} concepts over {len(nodes)} nodes -> {out_path}")
+    page = render(byid, entries, verdict, meta)
+    if a.dry_run:
+        print(f"rendered {verdict['concepts']} concepts over {len(nodes)} nodes -> {out_path} (dry-run: not written, {len(page)} bytes)")
+    else:
+        with open(out_path, "w", encoding="utf-8") as fh:
+            fh.write(page)
+        print(f"rendered {verdict['concepts']} concepts over {len(nodes)} nodes -> {out_path}")
     print(f"PRE-GATE: judgment_residue={verdict['judgment_residue']} -> delegate={verdict['delegate']} "
           f"(pure deterministic render; no agents spawned). "
           f"{verdict['resolved_to_a_node']} resolve to a node, {verdict['concept_only']} concept-only.")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

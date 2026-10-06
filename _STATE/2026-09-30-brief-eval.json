@@ -1,0 +1,100 @@
+{
+  "date": "2026-09-30",
+  "what": "brief-writer prompt eval, base=origin/main vs candidate=src/lib/briefPrompt.ts (+scrubProse)",
+  "harness": "scripts/brief_eval.mts",
+  "fixtures": "10 founder receipts, most recent 45 days; kept local (private decisions), not in repo",
+  "rounds": 6,
+  "shipped_round": 5,
+  "mechanical": {
+    "base_ref": "origin/main",
+    "n": 10,
+    "model": "claude-sonnet-4-6",
+    "arms": {
+      "base": {
+        "totals": {
+          "dash": 50,
+          "standing_opener": 9,
+          "two_forces": 5,
+          "contrast": 13,
+          "kicker": 0,
+          "labeled_parts": 0,
+          "meta_comment": 0,
+          "internal_code": 4,
+          "landscape": 38
+        },
+        "outputs_with_tell": {
+          "dash": 10,
+          "standing_opener": 9,
+          "two_forces": 5,
+          "contrast": 8,
+          "kicker": 0,
+          "labeled_parts": 0,
+          "meta_comment": 0,
+          "internal_code": 4,
+          "landscape": 10
+        },
+        "template_openers": [
+          "two forces are (4)",
+          "what is specifically (5)",
+          "what has momentum (4)",
+          "what is resisted (4)"
+        ]
+      },
+      "candidate": {
+        "totals": {
+          "dash": 0,
+          "standing_opener": 0,
+          "two_forces": 0,
+          "contrast": 2,
+          "kicker": 0,
+          "labeled_parts": 0,
+          "meta_comment": 0,
+          "internal_code": 0,
+          "landscape": 0
+        },
+        "outputs_with_tell": {
+          "dash": 0,
+          "standing_opener": 0,
+          "two_forces": 0,
+          "contrast": 1,
+          "kicker": 0,
+          "labeled_parts": 0,
+          "meta_comment": 0,
+          "internal_code": 0,
+          "landscape": 0
+        },
+        "template_openers": [
+          "acting now makes (5)"
+        ]
+      }
+    }
+  },
+  "judgment_slop_eval": {
+    "base_round4": {
+      "verdict": "REVISE",
+      "total": 7,
+      "rows": {
+        "B1": 1,
+        "B2": 1,
+        "B3": 2,
+        "B4": 0,
+        "C1": 1,
+        "D1": 2
+      }
+    },
+    "candidate_round5": {
+      "verdict": "REVISE",
+      "total": 5,
+      "rows": {
+        "B1": 1,
+        "B2": 1,
+        "B3": 1,
+        "B4": 0,
+        "C1": 1,
+        "D1": 1
+      }
+    }
+  },
+  "not_met": "rubric ship bar is total<=3; candidate is 5 with no row at 2. Rounds 4-6 oscillated (judge and generator both stochastic, n=10); round 6 regressed D1 to 2 and was reverted.",
+  "lesson": "every noun phrase in the paragraph-2 instruction became the new template opener (the case for x18, the question that x8, acting now makes x5); the harness template_openers check exists to catch that."
+}

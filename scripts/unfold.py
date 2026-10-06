@@ -7,7 +7,8 @@ session (NOTOMATION): it lays cut stones on the bench for the human to pick.
 Bench sequence (Zach, 2026-09-27: "categorizing and pressurizing and cutting happens between
 handoff and handoff atomize"):
   GATHER      candidates from five sources
-                 a. latest `# Handoff` block in CLAUDE.md, its "## Open" numbered items
+                 a. "## Open" numbered items of every unfolded _HANDOFFS/fragments/*.md (newest
+                    first; ADR-085 d, newer than CLAUDE.md) and of the latest `# Handoff` block
                  b. _QUEUE/induced-backlog.jsonl rows whose status starts OPEN
                  c. _SEEDS/index.jsonl rows with lab_candidate.status in {ripe, seedling}
                  d. runtime/specs/lore.jsonl rows with binding_verdict == inspiration
@@ -25,7 +26,7 @@ handoff and handoff atomize"):
 Output: _INBOX/unfold-<date>.md (gitignored derived cache) + a summary on stdout.
 Usage:
   python3 scripts/unfold.py                 # gather, cluster, draft, lint, write the bench file
-  python3 scripts/unfold.py --json          # machine-readable
+  python3 scripts/unfold.py --json          # machine-readable (still writes the bench files)
   python3 scripts/unfold.py --self-test
 """
 from __future__ import annotations
@@ -65,18 +66,41 @@ def _main_tree() -> set[str]:
     return set(r.stdout.split())
 
 
-def gather() -> list[dict]:
+def _handoff_fold():
+    spec = importlib.util.spec_from_file_location("handoff_fold", Path(__file__).resolve().parent / "handoff_fold.py")
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)  # type: ignore[union-attr]
+    return mod
+
+
+def _open_items(body: str, label: str, trigger: str) -> list[dict]:
+    out = []
+    op = re.search(r"^## Open.*?$(.*?)(?=^## |\Z)", body, re.M | re.S)
+    if op:
+        for item in re.findall(r"^\s*\d+\.\s+(.*?)(?=^\s*\d+\.\s+|\Z)", op.group(1), re.M | re.S):
+            t = " ".join(item.split())
+            out.append({"source": label, "id": f"open:{t[:40]}", "text": t, "paths": PATH_RE.findall(t), "gates": [], "trigger": trigger, "heavy": len(t) > 240})
+    return out
+
+
+def handoff_open(root: Path = ROOT) -> list[dict]:
+    """Open items from the newest handoff state, newest first: every unfolded fragment
+    (_HANDOFFS/fragments, ADR-085 d; newer than any CLAUDE.md block), then the latest CLAUDE.md block."""
     c: list[dict] = []
-    # a. latest handoff Open items
-    cl = (ROOT / "CLAUDE.md").read_text(encoding="utf-8", errors="replace")
+    hf = _handoff_fold()
+    for fp in reversed(hf.fragments(str(root))):  # filenames sort by utc-ts; newest first
+        meta, body = hf.parse_fragment(fp)
+        name = Path(fp).name
+        c += _open_items(body, f"handoff fragment {name}", f"fragment {meta.get('branch', '?')} ({meta.get('created_at', name[:16])})")
+    cl = (root / "CLAUDE.md").read_text(encoding="utf-8", errors="replace") if (root / "CLAUDE.md").exists() else ""
     m = re.search(r"^# Handoff — (v[\d.]+) \((\d{4}-\d{2}-\d{2})\)(.*?)(?=^# Handoff — |\Z)", cl, re.M | re.S)
     if m:
-        ver, day, body = m.group(1), m.group(2), m.group(3)
-        op = re.search(r"^## Open.*?$(.*?)(?=^## |\Z)", body, re.M | re.S)
-        if op:
-            for item in re.findall(r"^\s*\d+\.\s+(.*?)(?=^\s*\d+\.\s+|\Z)", op.group(1), re.M | re.S):
-                t = " ".join(item.split())
-                c.append({"source": f"handoff {ver}", "id": f"open:{t[:40]}", "text": t, "paths": PATH_RE.findall(t), "gates": [], "trigger": f"handoff {ver} ({day})", "heavy": len(t) > 240})
+        c += _open_items(m.group(3), f"handoff {m.group(1)}", f"handoff {m.group(1)} ({m.group(2)})")
+    return c
+
+
+def gather() -> list[dict]:
+    # a. latest handoff Open items: unfolded fragments first, then the latest CLAUDE.md block
+    c: list[dict] = handoff_open()
     # b. backlog OPEN
     for r in _rows(ROOT / "_QUEUE" / "induced-backlog.jsonl"):
         st = str(r.get("status", "")).upper()
@@ -223,10 +247,51 @@ def self_test() -> int:
     for cat in ("Ground truth", "SSOT", "Routes", "Gates", "Corrections", "Close protocol"):
         check(f"draft carries category {cat}", cat in d)
     check("singleton light item does not earn a stone", not (len([items[0]]) >= 2 or items[0]["heavy"]))
-    print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
+    # CLI guard: run a copy of this script in a throwaway repo (ROOT = script's parent's parent)
+    import hashlib, os, shutil, tempfile
+    def snap(root):
+        out = {}
+        for dp, _, fs in os.walk(root):
+            for fn in fs:
+                fp = os.path.join(dp, fn); st = os.stat(fp)
+                out[fp] = (hashlib.sha256(open(fp, "rb").read()).hexdigest(), st.st_mtime_ns)
+        return out
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, "scripts"))
+        me = os.path.join(tmp, "scripts", "unfold.py")
+        shutil.copy2(__file__, me)
+        (Path(tmp) / "CLAUDE.md").write_text("# Handoff \u2014 v0.0.1 (2026-01-01)\n## Open\n1. x\n", encoding="utf-8")
+        def cli(*a):
+            return subprocess.run([sys.executable, me, *a], cwd=tmp, capture_output=True, text=True)
+        before = snap(tmp)
+        check("unknown flag exits 2", cli("--jsn").returncode == 2)
+        check("extra positional exits 2", cli("extra").returncode == 2)
+        check("--json with extra positional exits 2", cli("--json", "x").returncode == 2)
+        check("rejected argv writes nothing", snap(tmp) == before)
+    # fragment case: an unfolded fragment's Open items must be read (old code read CLAUDE.md only)
+    with tempfile.TemporaryDirectory() as tmp:
+        r = Path(tmp)
+        (r / "CLAUDE.md").write_text("# Handoff \u2014 v0.0.1 (2026-01-01)\n## Open\n1. old block item\n", encoding="utf-8")
+        (r / "_HANDOFFS" / "fragments").mkdir(parents=True)
+        (r / "_HANDOFFS" / "fragments" / "20260102T000000Z--b.md").write_text("<!--\nbranch: b\nhead: abc\ncreated_at: 2026-01-02T00:00:00Z\n-->\n## Open\n1. fragment item\n", encoding="utf-8")
+        got = [i["text"] for i in handoff_open(r)]
+        check("unfolded fragment Open items are gathered, before the CLAUDE.md block", got == ["fragment item", "old block item"], got)
+    total = 14
+    print(f"unfold self-test: {total - fails}/{total}")
     return 1 if fails else 0
 
 
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    ap = argparse.ArgumentParser(prog="unfold", description="pickup-side atomizer: gather, cluster, draft, lint; WRITES _INBOX/unfold-<date>*.md")
+    ap.add_argument("--json", action="store_true", help="machine-readable stdout (still writes the bench files)")
+    ap.add_argument("--self-test", action="store_true", help="run the self-test (writes nothing in the repo)")
+    ns = ap.parse_args(argv)
+    if ns.self_test:
+        return self_test()
+    run(as_json=ns.json)
+    return 0
+
+
 if __name__ == "__main__":
-    a = sys.argv[1:]
-    raise SystemExit(self_test() if a[:1] == ["--self-test"] else (run(as_json="--json" in a) and 0))
+    raise SystemExit(main())

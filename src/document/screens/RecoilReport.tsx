@@ -9,6 +9,7 @@ import { SidelineList } from '../patterns/SidelineList'
 import { ScenarioStack } from '../patterns/ScenarioStack'
 import { AsideBox, type AsideVariant } from '../patterns/AsideBox'
 import { ProcessSteps } from '../patterns/ProcessSteps'
+import { WarRoomReport, isWarRoomShape, stripGate, WARROOM_RENDERED_KEYS } from './WarRoomReport'
 
 export interface RecoilReportProps { data?: Partial<typeof RECOIL_SAMPLE> }
 
@@ -93,15 +94,15 @@ export interface RecoilReportData {
     title: string
     subtitle: string
     meta: string
-    actions: [string, string]
+    actions: string[] // [] hides the buttons (sources with no honest call to action)
   }
   loadBearingQuote: { text: string; attribution: string }
   callWalk: { label: string; title: string; body: string; peak?: boolean }[]
   signalThreads: { label: string; accent: string; title: string; body: string; note?: string }[]
   scenarios: {
-    best: { title: string; body: string; note?: string }
-    base: { title: string; body: string; note?: string }
-    worst: { title: string; body: string; note?: string }
+    best: { title: string; body: string; note?: string; empty?: boolean }
+    base: { title: string; body: string; note?: string; empty?: boolean }
+    worst: { title: string; body: string; note?: string; empty?: boolean }
   }
   riskFlags: { variant: 'warning' | 'caution' | 'info' | 'success'; label: string; body: string }[]
   protocol: { label: string; title: string; body: string; active?: boolean }[]
@@ -144,7 +145,7 @@ function normalizeCover(raw: RecoilReportRaw): RecoilReportData['cover'] {
       title: rc.title,
       subtitle: str(rc.subtitle),
       meta: str(rc.meta),
-      actions: (Array.isArray(rc.actions) ? rc.actions : ['Open Receipt', 'File to Prep Book']) as [string, string],
+      actions: Array.isArray(rc.actions) ? rc.actions.filter((a): a is string => typeof a === 'string') : ['Open Receipt', 'File to Prep Book'],
     }
   }
   // Richer shape: meta.callTitle + cover.{yGate,conviction,stability,nci,headline,subline}
@@ -161,7 +162,7 @@ function normalizeCover(raw: RecoilReportRaw): RecoilReportData['cover'] {
       typeof rc.nci === 'number' ? `NCI ${rc.nci}` : null,
       str(rc.stability) || null,
     ]),
-    actions: ['Open Receipt', 'File to Prep Book'],
+    actions: Array.isArray(rc.actions) ? rc.actions.filter((a): a is string => typeof a === 'string') : ['Open Receipt', 'File to Prep Book'],
   }
 }
 
@@ -199,11 +200,14 @@ function normalizeSignalThreads(raw: RecoilReportRaw): RecoilReportData['signalT
 
 function normalizeScenarios(raw: RecoilReportRaw): RecoilReportData['scenarios'] {
   const s = raw.scenarios
-  if (isRecord(s) && isRecord(s.best) && isRecord(s.base) && isRecord(s.worst)) {
-    return s as unknown as RecoilReportData['scenarios'] // already flat shape
+  const empty: RecoilReportData['scenarios']['best'] = { title: '—', body: 'No scenario data.', empty: true }
+  if (isRecord(s) && (isRecord(s.best) || isRecord(s.base) || isRecord(s.worst))) {
+    // Flat shape; a slot with no source (e.g. a war-room pre-mortem only
+    // yields `worst`) renders the empty placeholder rather than invented copy.
+    const slot = (v: unknown) => (isRecord(v) ? (v as unknown as RecoilReportData['scenarios']['best']) : empty)
+    return { best: slot(s.best), base: slot(s.base), worst: slot(s.worst) }
   }
   const list = Array.isArray(s) ? s.filter(isRecord) : []
-  const empty: RecoilReportData['scenarios']['best'] = { title: '—', body: 'No scenario data.' }
   if (list.length === 0) return { best: empty, base: empty, worst: empty }
   // Preserve authored order (already probability-ranked, highest first, per
   // recoil-modes-v1.md scenario generation) into the fixed 3-slot tab UI.
@@ -343,14 +347,14 @@ function StrataValue({ v, depth, amber }: { v: unknown; depth: number; amber: st
   )
 }
 
-function DeepStrata({ raw }: { raw: RecoilReportRaw }) {
+function DeepStrata({ raw, skip = [], idx = '07' }: { raw: RecoilReportRaw; skip?: string[]; idx?: string }) {
   const [open, setOpen] = React.useState(0) // FOCUS mode: only the top stratum open; -1 = all closed
   const strata: { name: string; value: unknown; tag: string }[] = []
   for (const k of STRATA_AUTHORITY) {
     if (raw[k] != null) strata.push({ name: k, value: raw[k], tag: k === 'recapitulation' ? 'CURRENT TRUTH' : 'PROVENANCE' })
   }
   for (const k of Object.keys(raw)) {
-    if (!STRATA_CANONICAL.has(k) && k !== STRATA_SUBSTRATE && !STRATA_AUTHORITY.includes(k) && raw[k] != null) {
+    if (!STRATA_CANONICAL.has(k) && !skip.includes(k) && k !== STRATA_SUBSTRATE && !STRATA_AUTHORITY.includes(k) && raw[k] != null) {
       strata.push({ name: k, value: raw[k], tag: 'PROVENANCE' })
     }
   }
@@ -358,7 +362,7 @@ function DeepStrata({ raw }: { raw: RecoilReportRaw }) {
   if (strata.length === 0) return null
 
   return (
-    <Sec id="r-strata" idx="07" label="Deeper Strata" title="Archaeology of the Ledger" accent={T.gold}>
+    <Sec id="r-strata" idx={idx} label="Deeper Strata" title="Archaeology of the Ledger" accent={T.gold}>
       <div style={{ marginBottom: 14 }}>
         <AsideBox variant="info" label="Dig Protocol">
           Anachronistic tread — the top stratum is current truth; deeper strata are preserved provenance, superseded
@@ -530,7 +534,16 @@ function ReceiptLifecycle({ lc }: { lc: Lifecycle }) {
   )
 }
 
-export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
+export function RecoilReportFromData({ data }: { data: RecoilReportRaw }) {
+  const raw = stripGate(data) // passcodes never render, in either path
+  if (isWarRoomShape(raw)) {
+    return (
+      <div>
+        <WarRoomReport raw={raw} />
+        <DeepStrata raw={raw} skip={WARROOM_RENDERED_KEYS} idx="S" />
+      </div>
+    )
+  }
   const A = T.cyan
   const d = normalizeRecoilReport(raw)
   const lifecycle = readLifecycle(raw)

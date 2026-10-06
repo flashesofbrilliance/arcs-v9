@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 
 const s = {
@@ -8,8 +8,8 @@ const s = {
   surface: "#0d1117",
   border: "#1e293b",
   text: "#e2e8f0",
-  muted: "#475569",
-  dimmed: "#64748b",
+  muted: "#7a8699",
+  dimmed: "#8391a7",
   cyan: "#00F0FF",
   green: "#00FF9D",
   gold: "#FFD700",
@@ -638,11 +638,15 @@ export default function GuidePage() {
   const [failureSignal, setFailureSignal] = useState("")
 
   // Density — persisted to localStorage, default Operational (3)
-  const [density, setDensity] = useState<Density>(3)
-  useEffect(() => {
-    const saved = localStorage.getItem(DENSITY_KEY)
-    if (saved && ["1","2","3","4","5"].includes(saved)) setDensity(Number(saved) as Density)
-  }, [])
+  // Read lazily: the page renders its loader until the guide arrives, so the
+  // server and first client markup never depend on this value.
+  const [density, setDensity] = useState<Density>(() => {
+    try {
+      const saved = typeof window !== "undefined" ? localStorage.getItem(DENSITY_KEY) : null
+      if (saved && ["1","2","3","4","5"].includes(saved)) return Number(saved) as Density
+    } catch { /* storage blocked */ }
+    return 3
+  })
   function changeDensity(d: Density) {
     setDensity(d)
     localStorage.setItem(DENSITY_KEY, String(d))
@@ -657,17 +661,6 @@ export default function GuidePage() {
   // Modals
   const [artifactModal, setArtifactModal] = useState<Artifact | null>(null)
   const [logModalOpen, setLogModalOpen] = useState(false)
-
-  const loadGuide = useCallback(async () => {
-    const res = await fetch(`/api/guide/${receiptId}`)
-    const data = await res.json()
-    if (data.ok && data.guide) {
-      applyGuide(data.guide, data.entity, data.decision)
-    }
-    setLoading(false)
-  }, [receiptId])
-
-  useEffect(() => { loadGuide() }, [loadGuide])
 
   function applyGuide(g: GuideData, ent: string | null, dec: string) {
     setGuide(g)
@@ -684,6 +677,20 @@ export default function GuidePage() {
     setStageLog(log)
     if (parsed.length > 0) setActiveStageId(parsed[0].id)
   }
+
+  useEffect(() => {
+    let cancelled = false
+    fetch(`/api/guide/${receiptId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return
+        if (data.ok && data.guide) applyGuide(data.guide, data.entity, data.decision)
+        setLoading(false)
+      })
+      .catch(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [receiptId])
+
 
   async function generateGuide(mode: string, entityOverride?: string) {
     setGenerating(true)

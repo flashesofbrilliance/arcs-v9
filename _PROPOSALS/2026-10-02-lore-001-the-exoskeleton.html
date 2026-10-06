@@ -1,0 +1,221 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>The Exoskeleton · Lore</title>
+<meta name="description" content="An exoskeleton does not walk for you. Why every ARCS instrument maps to an executive-function job, and the test that will say whether it works.">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Lore</span>
+    <span>Draft</span>
+    <span class="sp"><b>No. 1 · verdict undecided</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Lore // Entry one</p>
+    <h1>The <em>Exoskeleton</em></h1>
+    <p class="standfirst">An exoskeleton does not walk for you. It carries the load so your own legs can do the part only legs can do. Everything in ARCS that looks like process is load-bearing hardware for a mind that accelerates faster than it brakes. This is the story of why it was built, and the test that will tell us whether it works.</p>
+    <p class="byline">Receipts included · Every claim about the system cites a file; anything unverified says so</p>
+  </header>
+
+  <figure style="margin:8px 0 44px">
+    <video controls muted playsinline preload="none" poster="https://app.arcs.care/lore-exoskeleton-poster.jpg" style="display:block; width:100%; height:auto; border:1px solid var(--border); border-radius:10px; background:#000" aria-label="The essay in 31 seconds, no sound. The words are on screen: an exoskeleton does not walk for you; Lambo engine, bike brakes; each executive-function job and the ARCS strut that carries it; 261 receipts opened, 1 closed; a starter motor or an exoskeleton, verdict due 1 January 2027; build the charge, hold the gap, the spark is mine.">
+      <source src="https://app.arcs.care/lore-exoskeleton.mp4" type="video/mp4">
+    </video>
+  </figure>
+
+  <section>
+    <span class="num">I · Lambo engine, bike brakes</span>
+    <p class="lead">The description I have used for years is a Lambo engine with bike brakes: high acceleration, high synthesis, and throttle control as the edge I have never fully owned.</p>
+    <p>The record says it better than a scene could. The system has filed 261 decision receipts: 261 questions opened and given a bearing. One has a real outcome logged against it. Opening is cheap for an engine like this. Closing is where the brakes would have to be.</p>
+    <p>Executive function is the clinical name for the brakes, the clutch and the dashboard. Psychologists usually split it into a handful of jobs: holding things in mind (working memory), not acting on the first impulse (inhibition), laying out steps before taking them (planning), switching tasks without dropping the thread (shifting), and noticing when you have drifted (self-monitoring). For a mind like mine those jobs are not absent. They are expensive, and they run out first.</p>
+  </section>
+
+  <section>
+    <span class="num">II · The prosthetic I kept describing</span>
+    <p>Long before there was an app I kept reaching for the same metaphor. In my own notes it shows up as a "digital prosthetic surrogate prefrontal cortex," then as "an exoskeleton for the mind, not a replacement brain." I said it, and then I built it, mostly without noticing that every new instrument was another strut on the same frame.</p>
+    <p>Laid side by side, the mapping is almost embarrassing:</p>
+    <div class="panel">
+      <h4>Each job, and the strut that carries it</h4>
+      <div class="step">
+        <span class="k">Working memory</span><b><em>Receipts.</em> A decision frozen as a coordinate, so I carry two handles instead of twenty-five. <code>_CANON/ARCS-PHASE-CHANGE-THESIS-001.md</code></b>
+        <span class="k">Inhibition</span><b><em>The Y gate.</em> A deliberate yellow light before commitment; RED says you are free-soloing this. <code>src/lib/ygate.ts</code></b>
+        <span class="k">Planning</span><b><em>PrepSession.</em> Five fields, two minutes, including the strongest argument against my instinct. <code>src/app/api/prep/route.ts</code></b>
+        <span class="k">Self-monitoring</span><b><em>Drift Sentinel and Throttle Gate.</em> Five turns without an artifact and the system asks: land the plane, or keep exploring? <code>WORLD.md</code></b>
+        <span class="k">Shifting</span><b><em>Handoffs.</em> The session ends; the thread does not. The next session reads one block, not my whole head. <code>CLAUDE.md</code></b>
+        <span class="k">Capture under load</span><b><em>Witness.</em> When a flash lands mid-conversation, attest it now, verbatim, not reconstructed hours later. <code>WORLD.md</code></b>
+      </div>
+    </div>
+    <p>None of these were designed from that table. The table was found afterward, which is either the most honest kind of design or the most flattering kind of hindsight. Section IV is how we find out which.</p>
+  </section>
+
+  <section>
+    <span class="num">III · The rule that keeps it an exoskeleton</span>
+    <p>There is a version of this that becomes a wheelchair: the machine decides, the human rides. ARCS has a constitutional rule against that, NOTOMATION: tools may scaffold and sequence cognition, never compress, replace, or overrule a revealed preference. The machine explores options; the human commits reality.</p>
+    <blockquote>A prosthetic you stop noticing. A replacement you stop being.</blockquote>
+    <p>The rule is written down with its own test case. If the compass reads GREEN on a job offer and the person says it feels wrong, the system records the gate as undefined, not GREEN: lived experience outranks the inference. The scaffold is built to hand that decision back.</p>
+  </section>
+
+  <section>
+    <span class="num">IV · The crack, shown not hidden</span>
+    <p>Here is the uncomfortable part. Of the 261 receipts the system has filed, three carry a logged outcome, and only one of those is real. The other two were me testing the form: one says <em>I close the loop</em>, and the other, less eloquently, says <em>Blah</em>. One real closure in 261, counted from the production database on 3 October 2026.</p>
+    <p>The real one is worth showing. In June I asked whether to extend runway six months or take the Series A now. The bearing came back: extend only if one investor-legible milestone changes the valuation story; otherwise take the round before the market shifts. The conversation with the investor went better than expected. The lesson I logged that day: <em>stop thinking in what else and start maximizing shots on deck.</em></p>
+    <p>And the loop does close by hand. Three dated public calls on Apple, January to May 2026, each with its falsifier written in advance, checked against Apple's own filings, one number owned as wrong (<em>Closing the Loop: Receipts on Three Predictions</em>). Forty-two retired beliefs on the public belief log, each with the test that killed it. The closing half works when I do it in public, under a deadline. Inside the app, it barely exists yet.</p>
+    <p>An exoskeleton for executive function should help a mind like mine <em>finish</em>, not only <em>start</em>. Starting is where an engine like mine already has horsepower to spare. If ARCS is brilliant at opening loops and nearly silent at closing them, then what I have built so far is an exoskeleton for the engine, not the brakes. That is a real finding, and it goes on the page in gold, not under a patch.</p>
+  </section>
+
+  <section>
+    <span class="num">V · The falsifier</span>
+    <p>This story is filed as <em>myth, verdict undecided</em>: told, not yet cited.</p>
+    <div class="panel">
+      <h4>The falsifier <span class="sev">open</span></h4>
+      <div class="step">
+        <span class="k">Claim</span><b>ARCS scaffolds executive function, including the closing half of the loop.</b>
+        <span class="k">Kill</span><b>Outcome capture stays flat: if by 1 January 2027 no cohort reaches the Accountant's own calibration floor of 30 closed outcomes, the thesis is downgraded from exoskeleton to starter motor: it cranks the engine, it does not keep it running, publicly, here.</b>
+        <span class="k">Confirm</span><b>Closures climb to that floor, and the closed receipts show calibration (outcome versus conviction) rather than noise.</b>
+        <span class="k">Floor</span><b><code>operators/arcs_accountant.py</code> · <code>CALIBRATION_MIN_N = 30</code></b>
+      </div>
+    </div>
+    <p>Either way the entry stays up. The verdict changes; the story does not get rewritten.</p>
+  </section>
+
+  <section>
+    <span class="num">VI · The gap</span>
+    <p>A coil takes twelve volts and steps them up to tens of thousands. It never touches the cylinder. At the tip of the plug there is a gap, less than a millimeter, set on purpose. Close it and nothing fires. Open it too wide and the spark cannot jump. The ignition happens only in the gap.</p>
+    <blockquote>That is the job: build the charge, hold the gap, never close it. The spark is mine.</blockquote>
+  </section>
+
+  <footer>
+    <b>Lore, entry one. Draft, 2026.</b> Verdict: undecided. This story may be told, not cited, until the falsifier resolves.<br>
+    Outcome count from the production database, 3 October 2026 (three logged, one substantive); re-count on publish day.
+  </footer>
+</div>
+</body>
+</html>

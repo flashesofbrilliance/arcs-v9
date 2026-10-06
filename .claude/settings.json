@@ -8,7 +8,6 @@
       "Bash(npm run db\\:*)",
       "Bash(npx prisma generate:*)",
       "Bash(npx prisma migrate dev:*)",
-      "Bash(npx prisma db push:*)",
       "Bash(npx prisma studio:*)",
       "Bash(npx prisma migrate reset:*)",
       "Bash(npx tsc:*)",
@@ -30,7 +29,6 @@
       "Bash(vercel env pull *)",
       "Bash(gh pr create *)",
       "Bash(gh pr merge *)",
-      "Bash(git push *)",
       "Bash(git worktree list)",
       "Bash(git worktree list *)",
       "Bash(dig +short *)",
@@ -57,6 +55,14 @@
       "mcp__Claude_in_Chrome__navigate",
       "mcp__Claude_Browser__read_network_requests",
       "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__get_thread"
+    ],
+    "ask": [
+      "Bash(git push:*)"
+    ],
+    "deny": [
+      "Bash(npx prisma db push:*)",
+      "Bash(prisma db push:*)",
+      "Bash(npm run db\\:push:*)"
     ]
   },
   "hooks": {
@@ -75,7 +81,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh",
+            "timeout": 30
           }
         ]
       }
@@ -86,7 +93,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *schema.prisma ]]; then echo \"[prisma] Schema changed — run: npm run db:push (dev) or npm run db:migrate (named migration)\"; fi"
+            "command": "file=$(python3 -c \"import sys,json; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *schema.prisma ]]; then echo \"[prisma] Schema changed: run npm run db:migrate (named migration); db:push is dev-only\"; fi"
           }
         ]
       }

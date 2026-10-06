@@ -1,0 +1,23 @@
+{
+  "skill_name": "echo-scan",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "saw this on linkedin: 'Slime mold Physarum recreated the Tokyo rail network in 26 hours (Science, 2010). Brainless organisms solving optimization problems better than engineers.' what can arcs steal from this whole field?",
+      "expected_output": "Claim-check table first (Tero et al., Science 327, 2010; 'better than engineers' rated ROUNDED or UNCONFIRMED: comparable efficiency/fault tolerance, not better on every axis), survey incl. adjacent (biological network models, ant colony optimization) and orthogonal results, 10-15 isomorphisms each labelled MECHANISM or METAPHOR with real ARCS paths, 3-5 inventions each with a kill condition, note at _PATTERNS/<date>-<slug>-isomorphisms.md, 3 backlog rows that parse as JSONL.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "/echo-scan claim-check 'Einstein said compound interest is the eighth wonder of the world. Invest $10k at 10% and in 30 years you have $174k.'",
+      "expected_output": "Claim-check only, no survey or backlog writes. Einstein attribution rated FALSE (Calaprice's Ultimate Quotable Einstein lists it as probably not Einstein; earlier unattributed origin in a 1925 bank ad), or UNCONFIRMED with the unreachable primary page named. Arithmetic recomputed (10000*1.1**30 = 174,494, annual compounding stated) and rated CONFIRMED. The 10% rate gets its own Implied row rated INCOMPLETE. Central claim marked; source list with URLs present.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Here's a paper abstract on predictive coding in the cortex, the brain only sends prediction errors up the hierarchy. Are there isomorphisms for how ARCS receipts and handoffs should work? don't add anything to the backlog yet",
+      "expected_output": "Full scan with --no-queue behaviour: note written, no rows appended to _QUEUE/induced-backlog.jsonl. Mapping cites real ARCS files (handoff block in CLAUDE.md, receipts what_confirmed/what_unconfirmed). At least one row labelled METAPHOR with a stated reason.",
+      "files": []
+    }
+  ]
+}

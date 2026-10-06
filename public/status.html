@@ -6,9 +6,6 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ARCS: Day 0 to Today</title>
 <meta name="description" content="ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
@@ -17,8 +14,8 @@
   /* Radii - canonical scale (ARCS OS colors_and_type.css) */
   --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
   /* Fonts - canonical families; the adherence linter permits only these two */
-  --mono: 'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
-  --sans: 'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono: 'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+  --sans: 'Inter','Inter Fallback',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   /* Type scale - canonical, 8 steps */
   --text-xs: 10px; --text-sm: 12px; --text-md: 14px; --text-base: 16px;
   --text-lg: 18px; --text-xl: 22px; --text-2xl: 32px; --text-3xl: 48px;
@@ -570,13 +567,24 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   .cad-w { display: none; }
 }
 </style>
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
 </head>
 <body>
 
 <div class="page">
 
   <div class="eyebrow"><span class="eyebrow-dot"></span><span style="display:inline-flex;gap:.45em;align-items:baseline"><span style="font-weight:800;letter-spacing:.22em">ARCS</span><span style="color:var(--muted);font-weight:400;letter-spacing:.14em">Field OS</span></span> &middot; Live Build Status</div>
-  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">129</span>: a live product that grades itself.</h1>
+  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">173</span>: a live product that grades itself.</h1>
   <div class="byline">Live build status, measured directly from the repository, updated live</div>
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
@@ -585,11 +593,11 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     below lets you read the story at whatever depth you want: the one page version, or all the way down to the code.
   </div>
 
-  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>BUILD TELEMETRY · DAY 0 → DAY <span id="era-day">129</span> · SINCE APR 2026 · AS OF <span id="et-now">…</span></div>
+  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>BUILD TELEMETRY · DAY 0 → DAY <span id="era-day">173</span> · SINCE APR 2026 · AS OF <span id="et-now">Sep 29, 2026</span></div>
 
   <div class="stats">
-    <div class="stat"><div class="stat-val accent" id="sv-commits">1,488</div><div class="stat-label">Commits · Day 0 to today</div></div>
-    <div class="stat"><div class="stat-val" id="stat-days">129</div><div class="stat-label">Days · first commit to now</div></div>
+    <div class="stat"><div class="stat-val accent" id="sv-commits">2,794</div><div class="stat-label">Commits · Day 0 to today</div></div>
+    <div class="stat"><div class="stat-val" id="stat-days">173</div><div class="stat-label">Days · first commit to now</div></div>
     <div class="stat"><div class="stat-val">14+</div><div class="stat-label">Client surfaces · hours each</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
@@ -1442,7 +1450,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 173 · SEP 29", title: "The privacy promise now has a test that fails if it breaks.", rank: 2,
+    date: "DAY 173 · SEP 29", title: "The privacy promise now has a test that fails if it breaks.", rank: 1,
     alt: [
       "The trust page promises that visitors without an account are not saved. A unit test now runs the real prep and compass handlers anonymously and asserts zero database writes, no email and no cookie. Removing either route's guard makes the test fail; that was checked, not assumed. The decision-gate logic got 17 cases of its own. No new dependencies.",
       "A second guard fails CI on any Tailwind or className creep outside the two sanctioned exceptions. Both close findings on the project's own open-defect ledger."

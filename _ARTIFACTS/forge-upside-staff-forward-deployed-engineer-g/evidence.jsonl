@@ -1,0 +1,8 @@
+# Evidence ledger, Upside Staff FDE resume + cover letter. Lines reuse sources already vouched in forge-conduit-health-pm-patient-experience/evidence.jsonl and the vetted master.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25"}
+{"pattern": "\\$350M", "source": "self-reported:ZH-Resume-Scale-CoS.md (Squat)"}
+{"pattern": "seven-figure", "source": "vetted-master:resume-vico-product-engineer.html:149 ('Sole product and technology partner on a seven-figure embedded engagement')", "note": "Word claim; provenance_lint does not detect it, logged so it rides with a source anyway."}
+{"pattern": "[Tt]wo decades", "source": "vetted-master:resume-vico-product-engineer.html:106 ('Two decades taking products from zero to one'); career span 2006-present per the forge-conduit-health ledger", "note": "Word claim; logged for the same reason."}

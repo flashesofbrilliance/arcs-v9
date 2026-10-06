@@ -1,16 +1,22 @@
 import Anthropic from "@anthropic-ai/sdk"
+import { reminderUrl } from "@/lib/reminderLink"
 import { clampText, clampInt, clampTextArray } from "@/lib/sanitize"
+import { scrubProse, scrubProseArray } from "@/lib/prose"
 import { Resend } from "resend"
 import { NextRequest, NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/db"
+import { CompassBody } from "@/lib/request-schemas"
+import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 import { auth } from "@/lib/auth"
+import { reportModelError, modelErrorBody } from "@/lib/model-error"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
 import { receiptEmail } from "@/emails/receiptEmail"
+import { MODELS } from "@/lib/claude-models"
 
 const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null
 
@@ -88,7 +94,7 @@ RULES:
   - action: does true_north give one concrete next step, not a hedge?
   - notes: if ANY of the above is false, explain which claim/section is unsupported. Otherwise "".
 - Never add preamble. Return only the JSON object.
-- STYLE: Never use em-dashes. Write short, plain, direct sentences. If a clause needs a break, use a period, comma, or colon, never a dash. Dash-spliced prose reads as machine-generated.
+- STYLE: Never use em-dashes. Write short, plain, direct sentences. If a clause needs a break, use a period, comma, or colon, never a dash. Dash-spliced prose reads as machine-generated. No "not X, it is Y" or "not X but Y" contrasts in true_north or why. In any user-facing string, never name internal scores or codes (NCI, SATOSHI, SAGE, Y state, ONE_WAY/TWO_WAY); say "hard to reverse" or "easy to undo".
 
 OUTPUT SHAPE (strict JSON, no markdown fences):
 {
@@ -166,7 +172,10 @@ export async function POST(req: NextRequest) {
   const userId = session?.user?.id ?? null
   // ADR-016 Option C: compass open to anonymous users; userId written as null
 
-  const body = await req.json()
+  const parsedBody = CompassBody.safeParse(await req.json().catch(() => null))
+  if (!parsedBody.success) {
+    return NextResponse.json({ error: "invalid request body" }, { status: 400 })
+  }
   const {
     question,
     horizon = "THIS_WEEK",
@@ -176,7 +185,7 @@ export async function POST(req: NextRequest) {
     parentReceiptId,
     sessionId,
     clarityMode = "SIMPLE",
-  } = body
+  } = parsedBody.data
 
   if (!question?.trim()) {
     return NextResponse.json({ error: "question is required" }, { status: 400 })
@@ -185,12 +194,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "ANTHROPIC_API_KEY not configured" }, { status: 503 })
   }
 
-  // Resolve session ID (passed from client or new)
-  const resolvedSessionId = sessionId ?? crypto.randomUUID()
+  // Resolve session ID: reuse the client's only if the thread is the caller's.
+  const resolvedSessionId = await resolveOwnedSessionId(sessionId, userId)
+  // Re-minted (foreign or malformed thread id): stop before inference so the
+  // client can drop its stale id and re-run fresh. Persisting under a new id
+  // the client never saw would break its timeout-recovery poll (ledger CMP-018).
+  if (typeof sessionId === "string" && sessionId && resolvedSessionId !== sessionId) {
+    return NextResponse.json(
+      { error: "This decision thread isn't yours to extend. Starting a fresh one.", code: "session_reassigned", session_id: resolvedSessionId },
+      { status: 409 },
+    )
+  }
 
-  // Fetch prep session if provided (signed-in flow persists prep rows)
-  const prepRow = prepId
-    ? await prisma.prepSession.findUnique({ where: { id: prepId } })
+  // Fetch prep session if provided (signed-in flow persists prep rows).
+  // Scoped to the caller: a prep row owned by someone else, or any prepId
+  // from an anonymous caller (a null userId would match every unowned row),
+  // is dropped, so a client-supplied id cannot pull another user's stakes /
+  // protecting / adversarialInput into this run.
+  const prepRow = prepId && userId
+    ? await prisma.prepSession.findFirst({ where: { id: prepId, userId } })
     : null
 
   // Unified prep context. Anonymous clients pass prep inline in the request
@@ -216,11 +238,15 @@ export async function POST(req: NextRequest) {
         }
       : null
 
-  // Fetch parent receipt if enriched re-run
-  const parent = parentReceiptId
-    ? await prisma.receipt.findUnique({
-        where: { id: parentReceiptId },
-        select: { yState: true, nciScore: true, version: true },
+  // Fetch parent receipt if enriched re-run. Scoped to the caller: a parent
+  // that is missing or owned by someone else is dropped (no parent inputs, no
+  // parentId), so a client-supplied id cannot pull another user's yState /
+  // nciScore / version into this run. Anonymous callers never get a parent
+  // (a null userId in the where clause would match every anonymous row).
+  const parent = parentReceiptId && userId
+    ? await prisma.receipt.findFirst({
+        where: { id: parentReceiptId, userId },
+        select: { id: true, yState: true, nciScore: true, version: true },
       })
     : null
 
@@ -241,7 +267,7 @@ export async function POST(req: NextRequest) {
   // any client-facing route. Exists only for the with/without-SAGE efficacy
   // study once enough paired Outcomes accumulate (see scripts/sage_efficacy.py).
   let sageBlock = ""
-  let sageTraceData: { fired: boolean; signal: string | null; failureReason: string | null; latencyMs: number | null } = {
+  const sageTraceData: { fired: boolean; signal: string | null; failureReason: string | null; latencyMs: number | null } = {
     fired: false,
     signal: null,
     failureReason: process.env.SAGE_URL ? null : "SAGE_URL unset",
@@ -300,11 +326,14 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
   // Model routing: COURT needs Sonnet's adversarial depth; QUICKMOVE/PLAN use Haiku (~5x faster)
   // min viable JSON for this schema is ~1800 tokens; give each mode headroom above that
-  const MODEL_MAP = {
-    QUICKMOVE: { model: "claude-haiku-4-5-20251001", max_tokens: 2048, temperature: 0 },
-    PLAN:      { model: "claude-haiku-4-5-20251001", max_tokens: 3072, temperature: 0.3 },
-    COURT:     { model: "claude-sonnet-4-6",          max_tokens: 4096, temperature: 0.5 },
-  } as const
+  // COURT runs Sonnet 5.5 (deep): a non-default temperature is a 400 there, and adaptive
+  // thinking counts toward max_tokens, so it gets 8192 and depth via effort (eval 2026-10-06:
+  // 20/20 valid, median 17s vs 44s on 4.6, under the 60s maxDuration).
+  const MODEL_MAP: Record<"QUICKMOVE" | "PLAN" | "COURT", { model: string; max_tokens: number; temperature?: number; effort?: "low" | "medium" }> = {
+    QUICKMOVE: { model: MODELS.fast, max_tokens: 2048, temperature: 0 },
+    PLAN:      { model: MODELS.fast, max_tokens: 3072, temperature: 0.3 },
+    COURT:     { model: MODELS.deep, max_tokens: 8192, effort: "medium" },
+  }
   const modelConfig = MODEL_MAP[mode]
 
   const t1 = Date.now()
@@ -318,17 +347,20 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   const callClaude = (betas: string[]) => anthropic.beta.messages.create({
     model: modelConfig.model,
     max_tokens: modelConfig.max_tokens,
-    temperature: modelConfig.temperature,
+    ...(modelConfig.temperature !== undefined ? { temperature: modelConfig.temperature } : {}),
+    ...(modelConfig.effort ? { output_config: { effort: modelConfig.effort } } : {}),
     betas,
     system: [{ type: "text" as const, text: SYSTEM, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: userMsg }],
   })
 
-  const runInference = mode === "COURT"
+  // Anonymous questions are never cached server-side (/trust §1: they live only
+  // in the browser tab). Signed-in results cache per user, never across accounts.
+  const runInference = mode === "COURT" || !userId
     ? () => callClaude(["prompt-caching-2024-07-31"])
     : unstable_cache(
         () => callClaude(["prompt-caching-2024-07-31"]),
-        [modelConfig.model, String(modelConfig.max_tokens), mode, activeHorizon, activeStakes, clarityMode, question.trim().toLowerCase()],
+        [userId, modelConfig.model, String(modelConfig.max_tokens), mode, activeHorizon, activeStakes, clarityMode, question.trim().toLowerCase()],
         { revalidate: 3600 }
       )
 
@@ -337,13 +369,14 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     t2 = Date.now()
 
     if (!message.content || message.content.length === 0) {
-      return NextResponse.json({ error: "Claude returned empty response", raw }, { status: 502 })
+      return NextResponse.json({ error: "Claude returned empty response" }, { status: 502 })
     }
 
-    raw = message.content[0].type === "text" ? message.content[0].text : ""
+    // Thinking blocks may precede the text on deep (Sonnet 5.5): read text blocks only.
+    raw = message.content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join("")
 
     if (!raw || raw.trim().length === 0) {
-      return NextResponse.json({ error: "Claude returned empty text content", raw }, { status: 502 })
+      return NextResponse.json({ error: "Claude returned empty text content" }, { status: 502 })
     }
 
     // Truncation guard: a response cut off at max_tokens yields invalid JSON, which
@@ -352,19 +385,32 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     // nci_by_lens/nci_grade fields marginally increased output size.
     if (message.stop_reason === "max_tokens") {
       return NextResponse.json(
-        { error: "Model response truncated at max_tokens - retry, or use a lower mode / shorter question", raw },
+        { error: "Model response truncated at max_tokens - retry, or use a lower mode / shorter question" },
         { status: 502 },
       )
     }
 
     const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim()
     parsed = JSON.parse(cleaned)
+    // Backstop for the STYLE rule: user-facing prose leaves this route dash-free and
+    // without internal door codes, whatever the model did.
+    if (typeof parsed.true_north === "string") parsed.true_north = scrubProse(parsed.true_north)
+    if (Array.isArray(parsed.why)) parsed.why = scrubProseArray(parsed.why)
+    if (Array.isArray(parsed.tributaries)) {
+      parsed.tributaries = (parsed.tributaries as unknown[]).map((tr) => {
+        const o = (tr ?? {}) as Record<string, unknown>
+        return typeof o.prompt === "string" ? { ...o, prompt: scrubProse(o.prompt) } : o
+      })
+    }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     if (err instanceof SyntaxError) {
-      return NextResponse.json({ error: "Model returned non-JSON response", raw }, { status: 502 })
+      // Name only: a SyntaxError message quotes a slice of the model reply (decision content, /trust:67).
+      console.error(`[MODEL_OUTAGE] route=compass code=non_json err=${err.name}`)
+      return NextResponse.json({ error: "The bearing came back garbled. Re-run the compass. Your fork is held. Nothing was lost.", code: "model_error", retryable: true }, { status: 502 })
     }
-    return NextResponse.json({ error: msg }, { status: 500 })
+    const info = reportModelError("compass", err)
+    return NextResponse.json(modelErrorBody(info), { status: info.code === "rate_limited" ? 429 : 503 })
   }
 
   // Compute Y gate
@@ -390,7 +436,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     const receiptData = {
       userId: userId ?? null,
       prepId: prepRow?.id ?? null,
-      parentId: parentReceiptId ?? null,
+      parentId: parent?.id ?? null,
       sessionId: resolvedSessionId,
       version: sessionVersion,
       // D
@@ -564,8 +610,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           debriefUrl: `${APP_URL}/debrief/${receipt.id}`,
           token: receipt.id,
           isFirstDebrief,
-          optInUrl: isFirstDebrief && userId ? `${APP_URL}/api/account/reminders?action=opt-in&uid=${userId}` : undefined,
-          optOutUrl: !isFirstDebrief && userId ? `${APP_URL}/api/account/reminders?action=opt-out&uid=${userId}` : undefined,
+          optInUrl: isFirstDebrief && userId ? reminderUrl(userId, "opt-in") : undefined,
+          optOutUrl: userId ? reminderUrl(userId, "opt-out") : undefined,
         })
         resend.emails.send({
           from: "ARCS <noreply@arcs.care>",
@@ -617,9 +663,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
   // NOTE (2026-07-13, trust-contract conformance): the anonymous
   // `arcs_session_id` claim cookie is no longer set here - with no anonymous
-  // persistence there is nothing to claim. ClaimAnonymousReceipts.tsx stays
-  // in place (harmless no-op for new sessions) until Phase 2's opt-in save
-  // flow decides its future.
+  // persistence there is nothing to claim. The claim route itself was retired
+  // 2026-10-05; ClaimAnonymousReceipts.tsx now only runs the opt-in save.
 
   return response
 }

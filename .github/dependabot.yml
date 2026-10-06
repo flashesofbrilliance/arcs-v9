@@ -8,6 +8,11 @@ updates:
     groups:
       minor-and-patch:
         update-types: ["minor", "patch"]
+    ignore:
+      # eslint 10 crashes eslint-plugin-react 7.37.5 (pulled in by eslint-config-next;
+      # peer range ^9.7). Lift once that plugin supports eslint 10 (closed #556).
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Inter, Crimson_Pro, JetBrains_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { VercelTelemetry } from "@/components/VercelTelemetry"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
 import { ClaimAnonymousReceipts } from "@/components/ClaimAnonymousReceipts"
 import { EyebrowToast } from "@/ui/EyebrowToast"
@@ -34,17 +33,22 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "ARCS Field OS",
-  description: "Navigate to clarity. Make the decision visible.",
+  // Absolute base for OG/Twitter image URLs. Without it Next.js falls back to the
+  // Vercel production domain, which resolved to a client host (prl.arcs.care).
+  metadataBase: new URL("https://app.arcs.care"),
+  // Each route names itself via a sibling layout.tsx (pages are client components);
+  // the template keeps the brand on every tab.
+  title: { default: "ARCS Field OS", template: "%s · ARCS" },
+  description: "ARCS is a decision compass. Ask the question you are stuck on, see where you stand, and keep a receipt of what you decided.",
   openGraph: {
     title: "ARCS Field OS",
-    description: "Navigate to clarity. Make the decision visible.",
+    description: "ARCS is a decision compass. Ask the question you are stuck on, see where you stand, and keep a receipt of what you decided.",
     siteName: "ARCS",
   },
   twitter: {
     card: "summary_large_image",
     title: "ARCS Field OS",
-    description: "Navigate to clarity. Make the decision visible.",
+    description: "ARCS is a decision compass. Ask the question you are stuck on, see where you stand, and keep a receipt of what you decided.",
   },
 }
 
@@ -68,8 +72,7 @@ export default function RootLayout({
           <VercelToolbarToggle />
           {/* Both inject scripts served by Vercel's edge (/_vercel/*) — off
               Vercel (local prod, CI) those URLs 404 on every page. */}
-          {process.env.VERCEL ? <Analytics /> : null}
-          {process.env.VERCEL ? <SpeedInsights /> : null}
+          {process.env.VERCEL ? <VercelTelemetry /> : null}
         </Providers>
       </body>
     </html>

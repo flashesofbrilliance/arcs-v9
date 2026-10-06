@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+#
+# arcs-verb-eval - self-contained runner for the five-verb print-schedule evals (ADR-068).
+# ------------------------------------------------------------------
+# Zero third-party deps: pure python3 stdlib. TOML configs need python >= 3.11 (JSON works anywhere).
+#
+# Install (optional, put on PATH; the per-verb names dispatch by $0):
+#   ln -s "$(pwd)/tools/arcs-verb-eval/arcs-verb-eval" /usr/local/bin/arcs-verb-eval
+#   ln -s "$(pwd)/tools/arcs-verb-eval/bin/"*-by-arcs /usr/local/bin/
+#
+# Usage:
+#   arcs-verb-eval --self-test
+#   arcs-verb-eval analysis teardown.html --ledger evidence.jsonl --out prints/analysis.json
+#   arcs-verb-eval assessment report.html --upstream prints/analysis.json
+#   arcs-verb-eval evaluation gauntlet.json --upstream prints/assessment.json --set min_lenses=6
+#   arcs-verb-eval synthesis surface.html --upstream prints/evaluation.json --slop-arg --metrics
+#   arcs-verb-eval recapitulation note.md --upstream prints/synthesis.json
+#   arcs-verb-eval pipeline --config sample/arc.json            # the whole arc, chained
+#   arcs-verb-eval env --config sample/arc.json                 # runtime, deps, srcs, effective opts
+#   arcs-verb-eval serve --port 8787                            # POST /eval/<verb>
+#   analysis-by-arcs teardown.html                               # same as: arcs-verb-eval analysis ...
+#
+# Env:
+#   PYTHON=/path/to/python3            override the interpreter (runtime environment)
+#   ARCS_VERB_EVAL_CONFIG=path         default config file
+#   ARCS_VERB_EVAL_<KEY>=v             global override; ARCS_VERB_EVAL_<VERB>__<KEY>=v verb-scoped
+# Exit: 0 all gates pass · 1 a gate failed · 2 usage
+# ------------------------------------------------------------------
+set -euo pipefail
+
+SELF="${BASH_SOURCE[0]}"
+while [ -L "$SELF" ]; do
+  LINK="$(readlink "$SELF")"
+  case "$LINK" in /*) SELF="$LINK" ;; *) SELF="$(dirname "$SELF")/$LINK" ;; esac
+done
+HERE="$(cd "$(dirname "$SELF")" && pwd)"
+PY="${PYTHON:-python3}"
+
+if ! command -v "$PY" >/dev/null 2>&1; then
+  echo "arcs-verb-eval: python3 not found. Install it or set PYTHON=..." >&2
+  exit 127
+fi
+
+case "$(basename "$0")" in
+  analysis-by-arcs)       set -- analysis "$@" ;;
+  assessment-by-arcs)     set -- assessment "$@" ;;
+  evaluation-by-arcs)     set -- evaluation "$@" ;;
+  synthesis-by-arcs)      set -- synthesis "$@" ;;
+  recapitulation-by-arcs) set -- recapitulation "$@" ;;
+esac
+
+if [ "$#" -eq 0 ]; then
+  sed -n '2,29p' "$SELF" | sed 's/^# \{0,1\}//'
+  exit 0
+fi
+
+exec "$PY" "$HERE/arcs_verb_eval.py" "$@"

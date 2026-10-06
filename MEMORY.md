@@ -3,9 +3,185 @@
 > **Versioning convention (amended 2026-07-19):** append new entries at top; keep only the recent
 > window live. Relocate older entries to `_ARCHIVE/memory-archive.md` (never delete — archival honors
 > "never delete prior versions" without paying the per-read token tax).
-> Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
+> Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
+
+## [v3.104.0] 2026-10-06 - [MODEL_OUTAGE] alert proven end to end; throttle fix (#902)
+
+- Alert throttle armed only after env checks; skips logged. Preview E2E with branch-scoped fake key: one email, calm copy.
+
+## [v3.102.0] 2026-10-06 - Ahmed order: receipt, brief and ledger share one vocabulary (#880, #885, #890)
+
+- Labels live only in src/lib/vocabulary.ts; layout in src/organisms/AhmedOrder.tsx; spec runtime/specs/ahmed-order-vocabulary.md.
+- Earned fidelity restored on /receipt and /brief (both rendered every receipt SHARP). tao-285 minted as the open-question empty state.
+
+## [v3.101.0] 2026-10-06 - Receipt views no longer generate briefs (#888)
+
+- `GET /api/brief/[id]?generate=0` is a read-only path; receipt + reflect pages use it; "Generate brief →" makes spend explicit.
+
+## [v3.100.0] 2026-10-05 - Debrief reminders disclosed: /privacy v1.5, trust contract 1.8
+
+- Closes the last nit from the showcase privacy review (verdict SAFE on claude/showcase-mirror @ 47b86cd1).
+
+## [v3.99.0] 2026-10-05 - Privacy disclosure gaps closed: /privacy v1.4, trust contract 1.7
+
+- Disclosed: LinkedIn uploads (private Blob), demand probe (no IP/UA), owner-minted share tokens, calendar/X links, self-serve delete.
+- Code: save stash strips prep adversarialInput and expires at 7d signed-out; re-upload deletes the replaced blob; debrief footer always signed opt-out (dead /unsubscribe gone).
+
+## [v3.98.0] 2026-10-05 — prod migrate deploy wired per-service (#840) + lock-file hotfix (#857)
+
+- Top-level buildCommand is ignored under experimentalServices; moved to web.buildCommand. DIRECT_URL set (session pooler).
+- First run hit P3019 (sqlite migration_lock); #857 fixed. Prod migrations = repo, 22/22.
+
+## [v3.97.0] 2026-10-05 — cruft_sweep bundle path proven live (576B probe bundle); manifest names only real refs (#861, no CI)
+
+- Probe worktree pruned to a 576-byte incremental bundle that verifies and restores. Landed detached rows read `(detached)`.
+- GitHub Actions still blocked by billing.
+
+## [v3.95.0] 2026-10-05 — OG cards pinned to app.arcs.care (#848); icon sweep clean
+
+- No `metadataBase` had every share card pointing at prl.arcs.care; fixed. 3 retired Fanatics hosts still serve old pages (task_b1e9b3f7).
+
+## [v3.94.0] 2026-10-05 — Compass IDOR series live; claim route retired; prod migrate deploy restored
+
+- #813 #830 #836 #847 #853 merged and live (see CLAUDE.md v3.94.0). PrepSession.userId migration hand-applied, then #840/#857 restored prod `migrate deploy`.
+- `_CANON/trust-contract.md` 1.6: legacy anonymous receipts are claimed or deleted via the inquiry link only.
+
+## [v3.92.0] 2026-10-05 — Privacy PR 2 live (#770 `75418715`), field keys (#753 `a69e9daf`); CI billing block + Actions outage
+
+- Showcase-review bugs all fixed; second review NOT SAFE only on disclosure (task_cf4cfbac running). Mirror branch `claude/showcase-mirror` @ `caafa7eb`.
+- Lesson: a zero-step Actions failure is billing or an outage, not code (memory `ci-zero-steps-means-billing-or-outage`).
+
+## [v3.91.1] 2026-10-05 — Compass IDOR series closed; anonymous-receipt claim retired
+
+- Merged #813 (parentReceiptId scoped to caller), #830 (prepId scoped; PrepSession.userId added, migration applied by hand because Vercel skips buildCommand under experimentalServices), #836 (sessionId scoped to thread owner).
+- Retired PATCH /api/receipts/claim: a sessionId was never proof of possession, and no anonymous receipt has been persisted since 2026-07-13 (48 legacy rows stay unowned). `_CANON/trust-contract.md` 1.6 and the /trust repair-seam copy now route claim or delete through the inquiry link.
+
+## [v3.91.0] 2026-10-05 — cruft_sweep survey vs origin/<base> (#837, no CI); first live prune on fixed code
+
+- survey SAFE 7 -> 19 once the base is origin/main; detached worktrees listed; no pins for landed detached heads.
+- GitHub Actions blocked by billing on every PR until fixed.
+
+## [v3.90.0] 2026-10-05 — Job Factory second half: slices 2-4, 6-7 on main, job routes on Sonnet 5.5, three spending limits hit
+
+- Merged #782 #784 #789 (receipts); merge-train merged #761 #769 #771 #773 #775. #832 (security review scoped) open: GitHub Actions billing blocks CI.
+- Anthropic API workspace cap hit 2026-10-05 22:09 UTC (resets 11-01); main suspect claude-security-review on the repo secret (228 runs in Oct), unconfirmed.
+- Tenex Senior FDE application ready in iCloud; 11 shortlist cuts failed on the cap before writing.
+
+## [v3.89.0] 2026-10-05 — Preview sign-in fixed (#792), session JSON leak closed (#795), null-userId gate (#801)
+
+- Preview bounce = ADMIN_EMAILS Production-only (link host was already the preview). Preview var since removed.
+- Session callback now returns {expires,user:{id,email}}; `scripts/null_userid_gate.py` on pre-commit.
+
+## [v3.88.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
+
+- Cyan single-stroke Möbius favicon; wireframe raster for apple/PWA/OG; manifest.ts added. Subdomains needed both a proxy.ts passthrough and next.config.ts catch-all exclusions.
+
+## [v3.87.0] 2026-10-05 — owner-only briefs + revocable share tokens (#808)
+
+- `/brief/[id]` owner-only (404); share via `/shared/brief#<token>`, SHA-256 stored, revocable; raw-id links dead.
+- Prod migration via Supabase SQL + hand-written `_prisma_migrations` rows (sensitive DATABASE_URL blocks the CLI).
+
+## [v3.86.0] 2026-10-05 — cruft_sweep prune: own-HEAD bundles (#807) + incremental bundles (#809)
+
+- Prune refuses non-worktrees and tip != HEAD (exit 2); detached heads pinned `refs/cruft-archive/<name>-<sha8>`; bundles `^origin/<base>`.
+- `--self-test` 13 checks, fails on both prior versions; pre-commit runs it when staged. No live prune on the new code yet.
+
+## [v3.85.0] 2026-10-05 — Main CI green: Playwright ignores tests/unit (#806)
+
+- fe-smoke failed because Playwright loaded node:test files without the `@/` loader; `testIgnore: "unit/**"` fixed it. Main run 37384172495 all green.
+
+## [v3.83.0] 2026-10-05 — COURT probe declares admin-guard carve-outs (#780); #762 #780 #766 merged without full CI
+
+- `probes.COURT.allowed_carveouts` {route, term, why}: undeclared carve-out fails; dev-outside-prod sanctioned. Swipe `evalRow` declared.
+- Re-check main CI on the first non-cancelled run containing `eec73f51`.
+
+## [v3.82.0] 2026-10-05 — Worktree hooksPath repointed (PR #756); #760 + #756 merged without CI during an Actions outage
+
+- Desktop app writes the main checkout's absolute hooksPath per worktree; `scripts/hookspath_arm.sh` + session-start repoint it. Only worktrees containing `04622e99` self-heal; ordering vs the app untested.
+- GitHub Actions major outage 2026-10-05: re-check the unrun checks on #760 and #756.
+
+## [v3.81.1] 2026-10-05 — Backlog freshness clock + grooming (PRs #713 #759 #767); gh-actions-billing reopened
+
+- `scripts/backlog_freshness.py`: rows past review_by (explicit or derived P1 7d / P2,none 21d / P3 45d / HELD trigger); stalled STARTING/DELEGATED flagged revert-to-OPEN; decides nothing.
+- 33 rows groomed over 2026-10-04/05; ~13 P1 rows due 2026-10-12. Numbered .1 because a parallel session took v3.81.0.
+
+## [v3.81.0] 2026-10-05 — Job Factory: prototype read, gauntleted spec, slices 0+1 merged (#754 #757), morning loop dead since 9/11 and fixed
+
+- Spec is the claude.ai doc dd89f5d5; 5 slices open (#761 #769 #771 #773 #775), merge on green after the GitHub Actions outage.
+- Find stalled 2026-09-11: dirty main checkout broke `git pull --ff-only`, runs still read "succeeded"; task now runs in `.claude/worktrees/morning-jobs` with a loud preflight.
+- Seeds 5-16 planted from job-tracker-pro (9 candidates, 3 anti-seeds); culture cap unproven on live rows.
+
+## [v3.80.0] 2026-10-05 — Family-roster drift cleared; build.html glow overflow; stale worktree hooks found (PR #745)
+
+- `sync_family_roster.py` accepts locked (carded, non-linking) performers; ADR stat 79; masthead glow held to gutter below 1280px.
+- Kintsugi "77 -> 95" was a phantom: 25/27 worktrees run the main checkout's stale pre-commit via absolute `core.hooksPath`; chip task_bd140094.
+
+## [v3.79.0] 2026-10-05 — Schriner recoil-close on Vico calls; recoil gate fix; Lyndon pre-call refresh (PRs #742 #746)
+
+- Schriner SSOT closed YELLOW/CONVERGENT, req_reality 2; P10-P13 added (owner engaged, seat unarchitected, comp floor stated at <=2, Autopilot stalled).
+- `scripts/recoil_brief.py` gate: sessionStorage wrapped in try/catch; blocked storage had killed the Enter listener in data:/file-pane previews.
+- Lyndon pre-call (`2026-10-03-oh-vico.json`, from #699) refreshed, not rebuilt.
+
+## [v3.79.2] 2026-10-05 — Trust contract 1.5 + privacy v1.3: SAGE, analytics and shared-link disclosure (privacy PR 2)
+
+- Code: anon compass questions never cached; per-user cache key; account delete removes Blob uploads first; /api/brief response drops userId, prep.adversarialInput, raw output beyond reasoning; reminder links HMAC-signed with AUTH_SECRET.
+
+## [v3.78.0] 2026-10-04 — Cloud wind-down + v3.76.0 open items: shavasana exhale scoped by branch, post-1 measure pinned (PRs #714 #718 #721 #728)
+
+- `scripts/shavasana_handoff.py` exhale: counted by `git config user.name`, which reads 0 in cloud (author owner, committer Claude); now scoped to the session branch (merged PRs from it + their commits + unmerged), identity fallback on main. `--self-test` 8/8.
+- `post-1-brief` / `post-1-exec`: `max-width:68ch` → `680px` on `<main>`, and in `scripts/blog_render.py`; the renderer lags its outputs, so edit those pages in place.
+- Contrast ratchet: npm `impeccable@4.1.0` runs in cloud but 14/42 NFTT pages read over baseline; cause (version drift vs series-panel regression) to be settled by one Mac run.
+- Wind-down: all cloud + Remote Control sessions asked to push, then archived; open asks for Zach listed in the CLAUDE.md v3.78.0 block.
 
 ---
+
+## [vX.Y.Z] YYYY-MM-DD — <what changed>`
+
+---
+
+## [v3.79.0] 2026-10-04 — Field landing on arcs.care (PR #705 `81db248a`); privacy hotfix (PR #737 `85ec7a5d`)
+
+- Home = survey field + compact header waitlist; `/api/lead` hardened; trust 1.4 / privacy v1.2. Receipts `2026-10-04--field-landing-waitlist-pr705--ZH`, `2026-10-04--privacy-hotfix-annotations-pr737--ZH`.
+- Showcase mirror tooling on `claude/showcase-mirror` (unpublished); its review found the anon-read bug fixed in #737 and four more queued as privacy PR 2.
+
+## [v3.77.0] 2026-10-04 — Video cut type: one shot spec to an HTML scene + a prompt pack; exoskeleton video v2 merged (PRs #689 `6892b016`, #709 `8f2f98e2`)
+
+- `scripts/video_cut.py`: `_QUEUE/video/<id>.json` -> `_PROPOSALS/video/<id>-<16x9|9x16>.html` (seek(t) scenes for `html_video_render.mjs`, kit tokens, Inter + JetBrains Mono from `public/fonts/`) + `<id>-prompts.md` (per-beat prompts for external video models). Reuses linkedin_cut's gates; self-test 7 mutations. First input `tao-284`.
+- #689's conflict (`connector_render.py`) resolved to main's repo-keyed row. Receipts `2026-10-04--exoskeleton-video-v2-pr689--ZH`, `2026-10-04--video-cut-type-pr709--ZH`.
+- Lessons: fe-smoke page-gates fixed-size scene HTML at 375/790 (scale the stage to the viewport); the Write tool can turn escape sequences into literal em-dashes.
+
+## [v3.76.1] 2026-10-04 — Trust contract v1.4 + privacy v1.2: waitlist and advisory capture disclosed
+
+- `_CANON/trust-contract.md` 1.4: §1 "Waitlist and advisory requests" (stored fields, team email alert, Resend, one confirmation), §3 deletion covers lead rows case-insensitively. `/privacy` v1.2 mirrors it and names processors (Vercel, Supabase, Resend, Anthropic).
+- Triggered by the survey landing replacing `/` (waitlist form on the home page). Privacy-review found the old copy claimed "anonymous sessions store nothing" while the form wrote rows.
+
+## [v3.76.0] 2026-10-04 — NFTT bylines date the LinkedIn originals; main's generated-views fixed (PRs #697 `cb0d8772`, #703 `348ae373`, #706 pending)
+
+- **Originals, not "first published":** every NFTT post is a new essay, so bylines date the pieces it was written from ("From the LinkedIn original(s), <dates>"). SSOT `runtime/specs/nftt-originals.json` with quoted evidence; `nftt_published.py` stamps + gates it (self-test 21/21). Six of seven series posts carry it; Tuning cites, not adapts. Dates only where the post states them; a source marked undated stays out.
+- **generated-views:** #695 hand-edited `good.html`; the renderer keyed the honest card by page slug, the distribution row by repo name. `EXTERNAL_PAGES` entries may now name their row. A hand edit to a generated page reddens every PR.
+- Receipts `2026-10-04--nftt-linkedin-originals-pr697--ZH`, `2026-10-04--nftt-method-byline-dedup-pr703--ZH`. Lessons: read provenance before naming it; count what a check ran before trusting its pass.
+
+## [v3.75.0] 2026-10-04 — Stopped-light research -> 15 isomorphisms + /echo-scan skill + oracle strict-args fix + NFTT essay and companion (PRs #683 `5d64551`, #686 `44b80d1`; handoff renumbered from v3.73.0 after a parallel-session collision)
+
+- Research note `_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md`; 3 backlog rows with kill conditions. `/echo-scan` (nested `claim-check`, standalone-callable) minted and fresh-agent tested.
+- `scripts/oracle.py`: unknown flags/extra args now exit 2; real `next <ns> --dry-run`; `--self-test` 12/12 in pre-commit. Root cause of the session's false herald (a "dry run" that allocated and stamped `_STATE/pulse.json`).
+- NFTT "Light at Thirty-Eight Miles an Hour" + `/research` companion + `tao-284`. Receipts `2026-10-03--stopped-light-echo-scan-oracle-nftt-pr683--ZH`, `2026-10-04--nftt-research-companion-tao284-pr686--ZH`.
+- Seeds planted: `seed-gate-hookspath-bootstrap`, `seed-pattern-strict-cli-args` (61/63 argv scripts hand-parse, 38 write), `seed-skill-echo-scan`.
+- Lessons: a preview flag a tool does not recognize turns a look into a touch; a herald must come from the write it reports; `core.hooksPath` is unset in fresh clones, so gates silently skip.
+- Memory consolidation 2026-10-04: v3.53.0 to v3.63.0 (2026-09-04 to 09-15) relocated verbatim to `_ARCHIVE/memory-archive.md`.
+
+## [v3.74.0] 2026-10-04 — NFTT posts dated from git; the serialized thread denoted; index reorganized (PR #688 -> `0bfa5877`)
+
+- **Publish time is a git fact, frozen once:** `scripts/nftt_published.py` + `runtime/specs/nftt-published.json` (32 rows). Published = first commit on main's TRUE line holding the route commit; the line hops to the second parent at "Merge ... 'origin/main' into ..." sync merges, which fast-forwards had put on the first-parent line (it misdated five posts by a day). `a-draft-is-not-a-verb` = commit-time lower bound (direct push). Every post: `article:published_time` + byline `<time data-pub>`.
+- **Series as data:** `runtime/specs/nftt-series.json` + `scripts/nftt_series.py`. The seven PR #411 essays are one isomorphic series (one method, seven subjects); order/roles from Tuning's own map. Index: series 1 to 7; sections The serialized thread / The Factory on Itself / The Cold Reader / The Workshop / Field Accounts.
+- Gates: both `--check`s in CI + pre-commit. Receipt `2026-10-04--nftt-timestamps-serialized-thread-pr688--ZH`. Live verified via Vercel (`dpl_7C9ivtd9NHPeWZC99bs4T1bWBGgw`); good.arcs.care is proxy-blocked from the cloud container.
+- Lessons: check every git-derived row against the commit it names; generator comments that render into a page are public text (tripwire caught a repo path); `shavasana_handoff.py` misses cloud commits (author filter).
+
+## [v3.73.0] 2026-10-04 — Essay drafted: "Tribes, Vibes, Lies" (The Exoskeleton, Not the Oracle), demand piece for a paid tier; lives in a Claude Doc, not shipped
+
+- Doc: https://claude.ai/code/artifact/a2b5bb76-183c-4f0d-95f8-dc9f8a19e08f. Nine sections + short-version block + two pull quotes + six drawn share cards (prosthetic vs exoskeleton; Tribes/Vibes/Lies ladder; three dials + one tripwire; the decide/act/receipt/measure loop from tao-041/tao-222; the four zones from WORLD.md; a 2x2 of tao-227/220/194/045 quoted as minted) + three tributaries.
+- Zach's screening instrument, now canon-adjacent: dials = good use of my time / symmetric value / right time; tripwire = stated-vs-revealed gap (tao-220 is the same rule). Quid pro quo is not symmetry: symmetry is measured over the relationship, quid pro quo settles per transaction.
+- Owed: two worked examples (one pass, one yes), re-measure 2/247 against `Outcome`, port via `/nftt-story-factory`, decide what the 30-person cohort actually buys. No commits, no receipt (nothing merged or published). Backlog row `essay-tribes-vibes-lies`.
 
 ## [v3.71.0] 2026-09-28 — Chip rank 7: Librarian.recommend(q, budget), Operator 21 rebound latest -> recommend (PR #613 -> `150beb19`)
 
@@ -214,100 +390,7 @@
 - **Failure mode banked → lint:** a glossary `.term` wrapped in an `<a>` had its link nav blocked by the
   tooltip click handler's `preventDefault`. Fix = `if(t.closest('a'))return;` guard. Gated by
   `scripts/tooltip_link_lint.py` (fails-on-bad/passes-on-good, wired into pre-commit on added+modified
-  public/_ARTIFACTS HTML). Frustration Gate, AGENTS #15.
+  `public/` and `_ARTIFACTS/` HTML). Frustration Gate, AGENTS #15.
 - **Joe-beats eval** (`_ARTIFACTS/vico-joe-eval/`): 16 beats (12 email + 4 Sep-17 call) graded S against
   the live pages, one honesty asterisk (unverified 0.15 Brier premise, handled by omission). The eval is
   INTERNAL / do-not-send.
-
-## [v3.63.0] 2026-09-15 — arcs-algorethics: scaffold → tested repo; honest benchmarks; PR #446 held
-
-- **arcs-algorethics PRs #1–#8 merged** (main `a3ae0c3`): E2E suite (boots daemon), HF + AgentHarm
-  benchmarks with nightly history, `arcs ops` CLI, `specs/invariants.json` SSOT + parity gate, ledger
-  renamed `gate_receipts` + preflight, Ed25519-signed resume with operator key custody, unwired
-  scaffolding deleted, README honest inventory.
-- **Numbers:** ethics recall 0, JailBreakV 0/200, AgentHarm 0/176 harmful AND 0/176 benign. Purpose
-  settled: narrow brake on life/vital-care/livelihood one-way doors, not a harm classifier.
-- **arcs-v9:** keyed Edge gate route in PR #446, build green, unmerged by design. Empty Perplexity
-  branch deleted. Queue item `algorethics-in-scope-benchmark` (#449) replaces the drifted "widen" item.
-- **Blockers are credentials, not code:** algorethics schema not exposed (existence unverified);
-  `ARCS_GATE_KEY`/`SUPABASE_*` unset on Vercel + Actions. Supabase MCP here is wrong-org.
-- **Lesson:** assume the spec is stupid first; the Perplexity handoff carried four false premises.
-
-## [v3.62.0] 2026-09-14 — Schriner/Oxenham job-search engagement: full recoil lifecycle + resume correction
-
-- **`schriner.arcs.care`** (recruiter pitch + resume viewer/PDF/ATS) and **`schriner-ext.arcs.care`**
-  (safe external recoil twin, air-gap verified) shipped live via normal PR/merge.
-- **Resume correction shipped live**: technical-cut resume first sent to Joe had dropped real
-  leadership scope; corrected to a three-modes (builder/team-lead/executive-partner) framing and a
-  closed 2010-2016 work-history gap (Selectable Media, IBRShop), sourced from real iCloud PDFs.
-- **Internal recoil receipt** closed post-call at FORK/DIVERGENT; the CEO-identity gate was resolved
-  by independent search after the call, not by the recruiter on it — generalized into
-  `inbound-opportunity-three-gate-smoke-test` memory (verify identity BEFORE the call).
-- **Global memory**: new project memory `project_joe_schriner_oxenham_autopilot_vico`, new feedback
-  memory `technical-cut-resume-must-keep-leadership-scope`, `MEMORY.md` index deduped/tidied.
-- **Open**: Joe-facing fit-note drafted, held pending follow-up call; `resume-tailor` skill repo
-  itself not yet updated with the lesson (deferred to next session).
-
-## [v3.61.0] 2026-09-13 — Bridge employer index live · Triune Stream A/B/C landed · seed bank clean
-
-- **`scripts/bridge_index_scan.py`** (new, stdlib): curated employer lists → public ATS boards → winnable
-  reqs → jobs.arcs.care. 578 rows live as `bridge_scan` UNSCORED across 84 employers; index at
-  `_STATE/job-search/employer-index/`. Ingest skips existing jobids (API upsert would reset scores).
-- **ADR-078/079/080/081 + 041 on main** — the three 2026-08-03 hold branches renumbered through the
-  oracle and merged (#408–#413); `_STATE/worktree-audit-2026-09-11.md` is the patch-id sweep of all 74 worktrees.
-- **`scripts/scout_dossier_ingest.py`** (new): Perplexity dossier gate (validate/map/post). Caught real
-  drift on first use (Parloa lacks `extraction_risk`).
-- **Seed bank**: +4 candidates, 2 orphans receipted, 4 broken locals fixed; drift check OK (41/80).
-- **Receipts**: 8 `decision_receipt` rows this session; AGENTS.md now documents the CHECK enums.
-- Cross-harness: `_STATE/convergence.json` on `fresh-starts` beat 6; Hermes owns JTBD-004, Perplexity JTBD-007.
-- Next: Thread 2 scores the bridge rows; human prune call on 17 worktrees; Workday adapter seed.
-
-## [v3.57.0] 2026-09-07 — Reading Room back-propagation organ (1b gate MET)
-
-- **`scripts/cache_backprop.py`** (new, stdlib): the Metabolic Router's lazy pull-driven repair for a
-  DIRTY `(domain, epoch)` cache slice. `plan` (list dirty) → `packet` (assemble a Curator work-packet:
-  slice nodes + cited provenance AS-IS at HEAD + rubric) → `apply` (write graded statuses back into the
-  digest, stamp only THAT slice fresh). Grading is JUDGMENT and stays external by construction
-  (NOTOMATION) — the script never grades.
-- **Per-slice grade preservation** (the load-bearing fix in `cache_manifest.py`): `stamp`/`check` now
-  carry a prior slice's recorded `graded_at_sha` forward instead of recomputing it from the shared
-  digest file's last commit. Without this, re-grading one epoch falsely frees every sibling epoch that
-  shares the file. Only a *complete* re-grade advances the sha; `--partial` leaves the slice dirty and
-  says so (WITNESS honesty).
-- **Gauntlet before commit** (runner + adversarial skeptic, refuter per finding) — 3 real defects found
-  and fixed: (1) write-before-validate left a half-graded digest on a bad apply (KINTSUGI: all
-  validation now precedes the write); (2) `--partial` falsely stamped the whole slice fresh; (3) a
-  cleared note outlived a status change. 5 stdlib tests green (`scripts/tests/test_cache_backprop.py`).
-- **1b gate MET**: proved end-to-end — `product/2026-04` dirty → re-graded LIVE → fresh, 19 siblings
-  stay dirty; freshness survived a full re-stamp AND 11 commits of base advance. PR #320 → `343b266`.
-- **Lesson banked**: when many slices share one provenance/digest file, freshness MUST be tracked
-  per-slice in the manifest, never derived from the shared file's git history — the shared file is the
-  wrong granularity and silently over-frees.
-
-## [v3.56.0] 2026-09-07 — wrap-lint MODE 5 safeguard, post-4 s-tier pass, Dealroom research, ADR-076 MCP-led growth
-
-- **wrap-lint MODE 5** (`scripts/artifact_wrap_lint.py`, pre-commit wired, PRs #256/#258/#260): gates the
-  desktop measure/container-mismatch wrap bug that overflow checks miss. `<style>`-only scan, CSS-comment
-  strip, FP-reducer for `max-width:none` overrides, `wrap-lint-allow: measure-mismatch` opt-out for
-  intentional two-width designs. Fixed dossier + 3 ledes; marked wing/scott-cut/observatory. AEO
-  robots/sitemap reachable on good.arcs.care (proxy + next.config both layers).
-- **NFTT post-4 impeccable pass = s-tier, zero edits**; posts 1-3 swept clean. Template gives diamond-cut
-  text handling by construction; 4-width JS test method banked.
-- **Dealroom talent research** (`_ARTIFACTS/research/2026-09-04-dealroom-talent-report-grammar.md`, PR #273):
-  15 report/viz patterns + MCP-led-growth GTM analysis.
-- **ADR-076 — MCP-Led Growth: the attribution wedge** (PR #307). DRAFT/YELLOW, demand-probe gated.
-  Drafted as ADR-075; renumbered to 076 after a parallel session's DECIDED **ADR-075 Metabolic Router**
-  merged first (oracle-first: ratified canon keeps the number, unmerged draft renumbers; audit no-dup).
-- Housekeeping: lattice epoch re-pinned e9 (spot-check); iCloud deliverable→Files sync convention; 5 new
-  memories banked (MODE-5 tripwire doctrine, MCP-led-growth, dealroom grammar, NFTT provenance/aphorisms).
-
-## [v3.53.0] 2026-09-04 — The Reading Room: the Almanac, ADR-075 the Metabolic Router, locked build plan
-
-- **Almanac** (`scripts/research_render.py`): 264 full-temporal epoch-tagged nodes read at 3 altitudes
-  (Skim/Scan/Trenches); two-shelf Required Reading (Foundational by canon + Load-bearing by in-degree);
-  per-row export. Local-only. Library taxonomy: Alexandria index / Atlas map / Almanac dated state.
-- **ADR-075** minted through the oracle from a live witness: mechanical fan-out automatable, judgment
-  never; integrity gate = cites exist on origin/main (caught 5 memories describing never-merged gates).
-- **Locked plan** `_SPECS/reading-room-build-plan-v1.md`: spine (Desk+Reader+cache) first, tenants
-  cheap; token-savings-bank levers; CBA ledger. Loop: Desk -> Almanac -> Concordance -> Chronicle -> Lexicon.
-- growth-ai.arcs.care family live; recruithaus `/ammo` gated live; Blacksmith polish; drift swept.

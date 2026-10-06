@@ -507,3 +507,85 @@ positives; silencing them to force a green gate would be gate-gaming, the exact 
 exists to prevent. They ratchet/WARN and never block, so leaving them is zero-cost. No redesign either
 (taste choices on his own auxiliary pages). If a future session sees these findings, this is the
 record: audited, defensible, intentionally left — not an oversight, do not suppress.
+
+## 2026-09-29 · honest.arcs.care: kit page vs DESIGN.md, plus two detector blind spots
+
+**Break.** `public/honest.html` (Check It Before You Say It) was blocked as a new file with 21
+findings. 20 were `design-system-*` (fonts, sizes, colors, radii outside DESIGN.md): the page
+inherits `src/ui-kit/recoil-report/_tokens.css` verbatim (token_source_gate PASS), which is a
+different visual world from the app DESIGN.md. The 21st was `em-dash-overuse` ("33 em-dashes"), and
+earlier `cramped-padding` on result rows.
+
+**Repair.**
+- Kit fonts/sizes/colors/radii: per-file `ignoreValues` for `public/honest.html`, the same scope
+  decision as jack-rain, success-academy and loop-closing-wager (no path glob, no DESIGN.md rewrite).
+  Zach approved kit pages passing on 2026-09-29.
+- `em-dash-overuse`: verified false positive. Copy has 0 em-dashes (slop_lint PASS); the detector
+  counts the double hyphens in CLI flags (`--upstream`, `--judge`) inside code snippets. Per-file
+  ignore with that evidence.
+- `cramped-padding`: detector blind spot, not suppressed. Rows had `padding-block: 10px`; the
+  detector does not read `padding-block`. Rewritten as `padding: 10px 0 12px` and the finding cleared.
+- `repeating-stripes-gradient` on the "not scored yet" pips: real, fixed (inset outline instead).
+
+**Guard.** Two detector facts for the next kit page: write vertical padding with the `padding`
+shorthand, not `padding-block`, and expect CLI flags in code to read as em-dashes. When the
+`impeccable hooks ignore-value` helper writes `.impeccable/config.json` it re-indents the whole file;
+re-serialize with `indent=1` before committing so the diff is only the new entries.
+||||||| 68b6b7bd
+
+
+## Seam 2026-09-30: "ceremony and theater" in the bar-raiser NFTT post
+
+- **Break:** `blog-nftt-any-stranger-can-be-a-bar-raiser.html` section I paraphrased the hiring manager's
+  allergy as "ceremony and theater". The design detector flagged `theater-slop-phrase` on a new file.
+- **Repair:** changed to "ceremony and buzzwords", which is the record's own wording (the engagement
+  memory says "PM ceremony/buzzword theater"). Real signal, not a false positive: a post about a resume
+  reading as AI slop should not carry a stock AI phrase.
+- **Guard:** the kintsugi pre-commit hook already blocks this class on new files; no new gate needed.
+
+## 2026-10-05 · edit-from-seed forge resumes inherit the seed's print grammar (Upside FDE bundle)
+
+- **Break:** `scripts/forge_edit_from_seed.mjs --jobid bridge-upside-4e945c74` built
+  `_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/` from the Tenex FDE seed, and the commit
+  was blocked: 103 findings on a new file (39 tiny-body, 38 undersized-functional, 6 low-contrast
+  `#0089a8` at 4.1:1, 5 all-caps body, 15 DESIGN.md scope). There is no resume generator: 89 of 95
+  forge bundles carry one byte-identical `<style>` block copied seed to child, so every
+  edit-from-seed bundle inherited the debt. Earlier seams here (Vico 09-16, squad 09-24) accepted
+  it with `--no-verify` and named the template as the real fix; this is that fix.
+- **Repair:** one canonical stylesheet, `_PATTERNS/resume-print-base.css`. `--accent`/`--metric`
+  `#0089a8 -> #0e7490` (AA on white), `--faint` `#8a97a4 -> #64727f`, every text role >= 12px (the
+  detector's body floor; 11px still read as tiny body), uppercase kept only on the short section
+  and skill labels (tagline, gloss, fit, target, footer are sentence case now). Spacing and line
+  height tightened so the Upside resume still prints to exactly 2 letter pages. 103 -> 11, and the
+  11 are DESIGN.md scope only (paper sheet vs the app's dark ramp, Inter as primary font).
+- **Guard:** `forge_edit_from_seed.mjs` now swaps the canonical stylesheet in for the seed's
+  `<style>` on every run, so a seed's stale copy can no longer propagate. `.impeccable/config.json`
+  waives only `design-system-color`, `design-system-font-size` and `overused-font` for the glob
+  `_ARTIFACTS/forge-*/resume-*.html` (the same separate-visual-world call the kit pages get per
+  file; a glob here because the family grows by one bundle per run). Contrast, size floors and
+  all-caps stay live, so a regression in the stylesheet still blocks. CI fe-smoke then caught the
+  fixed 8.5in sheet overflowing 375/790px screens (inherited too); a screen-only <=860px block lets the
+  sheet reflow, print untouched. The 94 older bundles keep
+  their old block (frozen baseline, ratchet WARN on edit); restyle them by applying the stylesheet
+  and re-rendering if they are re-sent.
+- **Follow-up (2026-10-05, same day):** restyled all 89 files carrying the standard block (82
+  `resume-*.html` plus 7 `-ats.html` that are really the styled source: 5 render to `resume-<slug>.pdf`,
+  2 are copies). Every PDF stayed at 2 pages, every file scores 0 findings, iCloud re-mirrored where a
+  folder exists. Left alone on purpose: 3 true ATS renders (aircall, morgan-stanley, norm-ai: Arial,
+  black on white) and 3 custom resumes (people-in-ai, radar, recruithaus: extra classes the canonical
+  sheet does not style).
+- **Follow-up 2:** the 3 custom resumes now carry the canonical sheet plus an in-file variant block
+  (flat pillars, `.adv`/`.oss` grids at 12px, forced `.pb` print break; skill and section labels in
+  sentence case because theirs run 32 to 36 chars). Still 3 pages by design, 0 findings.
+
+### Seam: forge cover letters (2026-10-05, bridge bundles)
+- **Break:** the forge-render cover sheet v1.0 (one identical `<style>` in all 20 bridge covers)
+  set 9px labels, an 8px footer, 11px body and uppercase taglines: ~31 findings per cover.
+  The 21 bridge resumes carried the pre-#791 resume block (84 to 90 findings each).
+- **Repair:** resumes take `_PATTERNS/resume-print-base.css` (one 37-char uppercase skill label
+  shortened, Squarespace GTM). Covers take the new sibling `_PATTERNS/cover-print-base.css`:
+  same tokens and floors, 12px everywhere, uppercase dropped from tagline / Re / footer, letter
+  spacing tightened so all 20 still print to one page. One "roadmap theater" line reworded
+  (MongoDB). 41 files -> 0 findings.
+- **Guard:** the three DESIGN.md-scope waivers in `.impeccable/config.json` now also cover
+  `_ARTIFACTS/forge-*/cover-*.html`; contrast, size floors and all-caps stay live.

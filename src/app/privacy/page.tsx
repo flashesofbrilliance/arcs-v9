@@ -1,5 +1,5 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import Link from "next/link"
 import { surface, text, signal, font, border } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Rule } from '@/ui/Rule'
@@ -9,7 +9,7 @@ const sans = font.sans
 
 const ALWAYS = [
   { what: 'Input never trains a model', why: 'Anthropic API terms + architectural separation' },
-  { what: 'Anonymous sessions store nothing', why: 'No auth = no write path to DB' },
+  { what: 'Anonymous compass sessions store nothing', why: 'No auth = no write path to DB for your questions or receipts' },
   { what: 'Delete within 30 days, permanently', why: 'One-way gate: no backups retained after confirmation' },
   { what: 'Source code stays public', why: 'You can verify our architecture claims yourself' },
   { what: '30 days notice before material policy changes', why: 'You decide whether new terms apply before they do' },
@@ -19,6 +19,15 @@ const SOMETIMES = [
   { what: 'Receipts stored', trigger: 'Only when you sign in' },
   { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link. Content is encoded in the URL fragment (never sent to us); a per-device flag flips it to a sign-in page after the first view' },
   { what: 'Email contact', trigger: 'Only if you provided an address' },
+  { what: 'Debrief reminder emails', trigger: 'Signed in, the first time a receipt of yours reaches its horizon you get one check-in email asking how it landed. That is the only one sent without asking. Later ones come only if you turn reminders on, and every reminder carries a one-click link to turn them off' },
+  { what: 'Waitlist or advisory request stored', trigger: 'Only if you join the waitlist or ask for a consult. Stored in our database, emailed to the ARCS team, confirmation delivered through Resend' },
+  { what: 'Service providers process data to run ARCS', trigger: 'Vercel (hosting and privacy-friendly page analytics), Supabase (database), Resend (email), Anthropic (compass reasoning). None may use it for their own purposes' },
+  { what: 'Your question goes to the ARCS scoring service', trigger: 'Each compass run sends the question, horizon and stakes to SAGE, ARCS\'s own scoring pipeline, which returns an advisory signal. It informs the reasoning; it never decides' },
+  { what: 'Anyone with a share link you made can read that brief', trigger: 'A signed-in brief is visible only to you until you mint a share link. The link carries a random token in its fragment; we store only a hash of it, and you can revoke it. A shared view shows the decision and its reading, never your account id or your private prep notes' },
+  { what: 'Decision text in a link you open', trigger: 'Only if you click "add to calendar" or "share on X". Those buttons put the decision or its bearing into a Google Calendar or X link, so it reaches Google or X under their own terms. Nothing is sent until you click' },
+  { what: 'LinkedIn files you upload', trigger: 'Only if you upload them during onboarding. Your profile PDF and data export ZIP are stored as private files in Vercel Blob, linked to your account, and deleted when you delete your account. Nothing reads them yet' },
+  { what: 'Demand-probe clicks on good.arcs.care', trigger: 'If you view or click "I\'d use this" on a probe, we store the probe name, the action, the page and a random id your browser keeps so a repeat click counts once. No IP, no user agent, no account. Used only to decide whether to build the feature (ADR-076). Kept until that decision is made, then deleted' },
+  { what: 'Usage analytics', trigger: 'Vercel Analytics counts page views and a few actions, such as sharing a brief or saving a receipt, with the receipt id. No cookies, no decision text' },
   { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion. We notify you if permitted' },
   { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging, purged after 30 days' },
 ]
@@ -31,11 +40,15 @@ const NEVER = [
 ]
 
 const DATA_INVENTORY = [
-  { key: 'Question text', val: 'SESSION ONLY · anonymous / DB · signed-in' },
+  { key: 'Question text', val: 'BROWSER ONLY · anonymous (tab; up to 7 days in local storage if you choose to save, cleared on sign-in) / DB · signed-in' },
   { key: 'DEWY receipt (bearing, NCI, Y-gate)', val: 'DB · signed-in only' },
-  { key: 'Email address', val: 'DB · only if provided for magic link' },
+  { key: 'Email address', val: 'DB · only if you sign in (magic link) or join the waitlist' },
+  { key: 'Waitlist / advisory request', val: 'DB · email, time, optional brief link; advisory adds name + message · not tied to an account' },
   { key: 'Request metadata (timestamps, codes)', val: 'INFRA LOGS · 30d TTL · no decision content' },
   { key: 'Prep session (stakes, horizon, protecting)', val: 'DB · signed-in only · linked to receipt' },
+  { key: 'Brief share links', val: 'DB · token hash, brief, creator, revoked time · signed-in owners only' },
+  { key: 'LinkedIn profile PDF / export ZIP', val: 'VERCEL BLOB (private) · only if you upload · deleted with your account' },
+  { key: 'Demand probe (probe, action, page, random browser id)', val: 'DB · no IP, no user agent, no account · deleted once the build decision is made' },
 ]
 
 function SectionHeader({ n, title }: { n: string; title: string }) {
@@ -52,7 +65,6 @@ function Divider() {
 }
 
 export default function PrivacyPage() {
-  const router = useRouter()
 
   return (
     <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
@@ -60,9 +72,7 @@ export default function PrivacyPage() {
 
         {/* Nav */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
-          <button onClick={() => router.push('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-            <Wordmark section="Privacy Policy" />
-          </button>
+          <Wordmark section="Privacy Policy" />
         </div>
         <Rule style={{ marginBottom: '2rem' }} />
 
@@ -86,7 +96,7 @@ export default function PrivacyPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
             <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What</div>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Why it's locked</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Why it&apos;s locked</div>
           </div>
           {ALWAYS.map((row, i) => (
             <div key={row.what} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < ALWAYS.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
@@ -120,11 +130,11 @@ export default function PrivacyPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.7rem 1rem', background: surface.panel, borderBottom: `0.5px solid ${border.subtle}` }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: signal.red, flexShrink: 0 }} />
             <span style={{ fontFamily: mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: signal.red }}>Never</span>
-            <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Scout's honor. Enforced by architecture and covenant, not just policy.</span>
+            <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Scout&apos;s honor. Enforced by architecture and covenant, not just policy.</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What we won't do</div>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>How we're proving it</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What we won&apos;t do</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>How we&apos;re proving it</div>
           </div>
           {NEVER.map((row, i) => (
             <div key={row.what} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < NEVER.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
@@ -158,11 +168,11 @@ export default function PrivacyPage() {
             <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>§ 02</div>
             <span style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.08em', color: signal.gold, border: `0.5px solid ${signal.gold}40`, borderRadius: 4, padding: '1px 6px' }}>⚠ NOT BUILT YET</span>
           </div>
-          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>What we don't have yet but should</div>
+          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>What we don&apos;t have yet but should</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75 }}>
-            <strong style={{ color: text.primary }}>Export</strong>: not yet built. You can delete, but you can't yet download your receipt history in a portable format. This is on the roadmap. Until it ships, contact us directly if you need your data.<br /><br />
-            <strong style={{ color: text.primary }}>Audit log</strong>: you can't yet see a log of every time your data was accessed. We log it internally; the user-facing view isn't built. On the roadmap.<br /><br />
-            <strong style={{ color: text.primary }}>Consent revocation per-receipt</strong>: if a receipt was used in the journalism pipeline and you later want it removed, the workflow for that isn't formalized yet. Contact us directly.
+            <strong style={{ color: text.primary }}>Export</strong>: not yet built. You can delete, but you can&apos;t yet download your receipt history in a portable format. This is on the roadmap. Until it ships, contact us directly if you need your data.<br /><br />
+            <strong style={{ color: text.primary }}>Audit log</strong>: you can&apos;t yet see a log of every time your data was accessed. We log it internally; the user-facing view isn&apos;t built. On the roadmap.<br /><br />
+            <strong style={{ color: text.primary }}>Consent revocation per-receipt</strong>: if a receipt was used in the journalism pipeline and you later want it removed, the workflow for that isn&apos;t formalized yet. Contact us directly.
           </div>
         </div>
 
@@ -172,7 +182,7 @@ export default function PrivacyPage() {
         <div style={{ marginBottom: '1.75rem' }}>
           <SectionHeader n="§ 03 · Journalism pipeline" title="When ARCS produces content from sessions" />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginTop: '0.5rem' }}>
-            ARCS operates <strong style={{ color: text.primary }}>@TILbyARCS</strong> as a journalism engine. Content is produced from ARCS's own analysis, not from your sessions. Your compass queries are never published without an explicit, session-specific opt-in, not buried in account settings, not assumed from prior consent. If we ever build a feature where you can voluntarily contribute an anonymized receipt to the journalism corpus, that will be a separate, prominent, reversible consent step.
+            ARCS operates <strong style={{ color: text.primary }}>@TILbyARCS</strong> as a journalism engine. Content is produced from ARCS&apos;s own analysis, not from your sessions. Your compass queries are never published without an explicit, session-specific opt-in, not buried in account settings, not assumed from prior consent. If we ever build a feature where you can voluntarily contribute an anonymized receipt to the journalism corpus, that will be a separate, prominent, reversible consent step.
           </div>
         </div>
 
@@ -182,7 +192,7 @@ export default function PrivacyPage() {
         <div style={{ marginBottom: '2rem' }}>
           <SectionHeader n="§ 04 · Your rights" title="What you can do, right now" />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.8, marginTop: '0.5rem' }}>
-            <strong style={{ color: text.primary }}>Delete everything:</strong> Email to request full account deletion. 30-day window, one-way gate.<br />
+            <strong style={{ color: text.primary }}>Delete everything:</strong> Signed in, you can delete your account yourself, immediately (POST /api/account/delete; a settings button is coming). It removes your receipts, outcomes, uploaded files and personal data. Or email us and we do it within 30 days. One-way gate.<br />
             <strong style={{ color: text.primary }}>Correct your data:</strong> Email to correct stored information.<br />
             <strong style={{ color: text.primary }}>Question this policy:</strong> If something here conflicts with what you observe in the source code, flag it. We will investigate and correct the discrepancy or the code.<br />
             <strong style={{ color: text.primary }}>Exit without penalty:</strong> No dark patterns, no retention loops, no data held to encourage you to stay.
@@ -192,11 +202,11 @@ export default function PrivacyPage() {
         {/* Footer */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.1 · effective 2026-07-19</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.5 · effective 2026-10-05</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <button onClick={() => router.push('/trust')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Trust contract</button>
-            <button onClick={() => router.push('/terms')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Terms of service</button>
-            <button onClick={() => router.push('/dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, padding: 0 }}>Open the compass →</button>
+            <Link href='/trust' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Trust contract</Link>
+            <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms of service</Link>
+            <Link href='/dashboard' style={{ fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, textDecoration: 'none' }}>Open the compass →</Link>
           </div>
         </div>
       </div>

@@ -1,16 +1,17 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { text, signal, font } from './tokens'
-import { Button } from './Button'
+import { CloseButton } from './CloseButton'
+import { ButtonLink } from './Button'
 import { useToastDrawer } from './ToastDrawerContext'
 
 export const FOOTER_H = 60
 
 const legalLinkStyle: React.CSSProperties = {
   fontFamily: font.mono, fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase',
-  color: text.dimmed, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+  color: text.dimmed, textDecoration: 'underline',
 }
 
 // Single fixed bar. Two layers share the same space:
@@ -29,7 +30,6 @@ export function StickyFooter({
   maxWidth?: number
 }) {
   const { open } = useToastDrawer()
-  const router = useRouter()
   const [dismissed, setDismissed] = useState(false)
 
   // Legal links are visible when the drawer is open OR the CTA has been dismissed
@@ -52,19 +52,21 @@ export function StickyFooter({
         <div
           style={{
             position: 'absolute', inset: 0, paddingBottom: 'env(safe-area-inset-bottom)',
-            padding: '0 1.5rem', maxWidth, margin: '0 auto',
+            padding: '0 max(1.5rem, 52px) 0 1.5rem', maxWidth, margin: '0 auto',
             display: 'flex', alignItems: 'center', gap: '1rem',
             opacity: open ? 0 : 1,
-            transition: 'opacity 0.3s ease',
+            // visibility (not just opacity) so a faded layer leaves the tab order
+            visibility: open ? 'hidden' : 'visible',
+            transition: 'opacity 0.3s ease, visibility 0.3s',
             pointerEvents: open ? 'none' : 'auto',
           }}
         >
           <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed, flex: 1 }}>
             {message}
           </span>
-          <Button variant="gold" size="sm" onClick={() => router.push(ctaHref)}>
-            {ctaLabel}&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
-          </Button>
+          <ButtonLink variant="gold" size="sm" href={ctaHref}>
+            {ctaLabel}&nbsp;<span aria-hidden="true" style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
+          </ButtonLink>
         </div>
       )}
 
@@ -74,29 +76,26 @@ export function StickyFooter({
           position: 'absolute', inset: 0, paddingBottom: 'env(safe-area-inset-bottom)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem',
           opacity: showLegal ? 1 : 0,
-          transition: dismissed ? 'none' : 'opacity 0.3s ease',
+          // hidden layer must not take focus: visibility drops it from the tab order
+          visibility: showLegal ? 'visible' : 'hidden',
+          transition: dismissed ? 'none' : 'opacity 0.3s ease, visibility 0.3s',
           pointerEvents: showLegal ? 'auto' : 'none',
         }}
       >
-        <button onClick={() => router.push('/trust')} style={legalLinkStyle}>Trust</button>
-        <button onClick={() => router.push('/privacy')} style={legalLinkStyle}>Privacy</button>
-        <button onClick={() => router.push('/terms')} style={legalLinkStyle}>Terms</button>
+        <Link href="/trust" style={legalLinkStyle}>Trust</Link>
+        <Link href="/privacy" style={legalLinkStyle}>Privacy</Link>
+        <Link href="/terms" style={legalLinkStyle}>Terms</Link>
       </div>
 
-      {/* X — absolute at right:0, same axis as breadcrumb X; only shown while CTA is up */}
+      {/* Dismiss: same right-edge axis as the data-notice X. The CTA row
+          reserves that 48px lane (paddingRight below) so the two never overlap. */}
       {!dismissed && (
-        <button
+        <CloseButton
+          label="Dismiss sprint offer"
+          accent={signal.gold}
           onClick={() => setDismissed(true)}
-          aria-label="Dismiss"
-          style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0,
-            minWidth: 44, padding: '0 12px',
-            background: 'none', border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
-        >
-          <span style={{ fontFamily: font.mono, fontSize: 10, color: `${signal.gold}44`, lineHeight: 1 }}>✕</span>
-        </button>
+          style={{ position: 'absolute', right: 'max(4px, env(safe-area-inset-right))', top: '50%', transform: 'translateY(-50%)', marginTop: 'calc(env(safe-area-inset-bottom) / -2)' }}
+        />
       )}
     </div>
   )

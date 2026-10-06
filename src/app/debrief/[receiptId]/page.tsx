@@ -4,12 +4,13 @@
 // receipt: what actually happened. Writes an Outcome, flips status → LOGGED.
 "use client"
 
+import Link from "next/link"
 import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import { surface, text, signal, font, nciColor, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Card } from "@/ui/Card"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 import { SectionLabel } from "@/ui/SectionLabel"
 
 interface ReceiptRecap {
@@ -47,13 +48,14 @@ function daysSince(iso: string): number {
 
 export default function DebriefPage() {
   const params = useParams()
-  const router = useRouter()
   const receiptId = String(params.receiptId)
   const vw = useVw()
 
   const [recap, setRecap] = useState<ReceiptRecap | null>(null)
   const [logged, setLogged] = useState<LoggedOutcome | null>(null)
   const [error, setError] = useState<string | null>(null)
+  // GET answers 404 for no session, another account, or a missing id alike.
+  const [locked, setLocked] = useState(false)
 
   // form state
   const [matched, setMatched] = useState<boolean | null>(null)
@@ -66,9 +68,10 @@ export default function DebriefPage() {
   useEffect(() => {
     let cancelled = false
     fetch(`/api/receipts/${receiptId}/outcome`)
-      .then(async (r) => ({ ok: r.ok, data: await r.json() }))
-      .then(({ ok, data }) => {
+      .then(async (r) => ({ ok: r.ok, status: r.status, data: await r.json().catch(() => ({})) }))
+      .then(({ ok, status, data }) => {
         if (cancelled) return
+        if (status === 404) { setLocked(true); return }
         if (!ok) { setError(data.error ?? "Could not load receipt"); return }
         setRecap(data.receipt)
         if (data.outcome) setLogged(data.outcome)
@@ -101,9 +104,9 @@ export default function DebriefPage() {
       {/* breadcrumb */}
       <div style={{ borderBottom: `0.5px solid rgba(255,215,0,0.12)`, background: "rgba(255,215,0,0.03)" }}>
         <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <button onClick={() => router.push("/history")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Ledger</button>
+          <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
           <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-          <button onClick={() => router.push(`/brief/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Brief</button>
+          <Link href={`/brief/${receiptId}`} style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Brief</Link>
           <span style={{ color: signal.gold, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
           <span style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: signal.gold, textTransform: "uppercase" }}>◰ Debrief</span>
         </div>
@@ -112,6 +115,14 @@ export default function DebriefPage() {
     </main>
   )
 
+  if (locked) return shell(
+    <Card>
+      <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6, marginBottom: "1rem" }}>
+        This debrief opens only for the account that saved the receipt. Sign in with that email to log how it landed.
+      </div>
+      <ButtonLink variant="primary" size="sm" href={`/compass?next=${encodeURIComponent(`/debrief/${receiptId}`)}`}>Sign in</ButtonLink>
+    </Card>
+  )
   if (error) return shell(<div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.9rem" }}>{error}</div>)
   if (!recap) return shell(<div style={{ fontFamily: font.mono, fontSize: "0.75rem", color: text.dimmed, letterSpacing: "0.08em" }}>Loading the call you logged…</div>)
 
@@ -124,12 +135,12 @@ export default function DebriefPage() {
         The call you logged · {days} day{days === 1 ? "" : "s"} ago
       </div>
       <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>The question</div>
-      <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.primary, lineHeight: 1.6, marginBottom: "1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.question}</div>
+      <h1 style={{ fontFamily: font.sans, fontSize: "0.95rem", fontWeight: 400, color: text.primary, lineHeight: 1.6, margin: "0 0 1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.question}</h1>
       <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>True North · the bearing we set</div>
       <div style={{ fontFamily: font.sans, fontSize: "1.05rem", color: signal.cyan, lineHeight: 1.6, marginBottom: "1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.trueNorth}</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1.25rem", paddingTop: "0.75rem", borderTop: `0.5px solid ${signal.cyan}1a` }}>
         <div>
-          <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Conviction</div>
+          <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>NCI</div>
           <div style={{ fontFamily: font.mono, fontSize: "1rem", fontWeight: 700, color: nciColor(recap.nci) }}>{recap.nci}<span style={{ color: text.muted, fontWeight: 400 }}>/100</span></div>
         </div>
         {recap.mode && (
@@ -187,8 +198,8 @@ export default function DebriefPage() {
             </>
           ) : null}
           <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.5rem" }}>
-            <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>View brief</Button>
-            <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>Ledger</Button>
+            <ButtonLink variant="ghost" size="sm" href={`/brief/${receiptId}`}>View brief</ButtonLink>
+            <ButtonLink variant="ghost" size="sm" href="/history">Ledger</ButtonLink>
           </div>
         </Card>
       </>

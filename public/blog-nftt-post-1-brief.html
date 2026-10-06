@@ -8,13 +8,12 @@
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
   :root {
     --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b;
     --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
     --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
-    --font-sans:'Inter',system-ui,-apple-system,sans-serif;
-    --font-mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    --font-sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;
+    --font-mono:'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
     --track-widest:0.14em; --radius-sm:6px; --radius-md:10px;
     --emboss:inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
     --glass-surface:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
@@ -65,8 +64,19 @@
   nav a { text-decoration: none; }
   nav a:hover { text-decoration: underline; }
 </style>
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
-<main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
+<main style="max-width:680px;margin:0 auto;padding:64px 22px 96px">
 <nav style="margin:0 0 2.2em;padding:.55em .9em;background:var(--glass-surface),var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--emboss);font-family:var(--font-mono);font-size:.78rem;color:var(--fg3)">depth: <a style="text-decoration:none" href="/blog/nftt/post-1">90-second</a> · <span style="color:var(--fg1);font-weight:600">operational</span> · <a style="text-decoration:none" href="/blog/nftt/post-1/full">surgical</a></nav><article>
 <p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">Notes from the Trenches // Building in Public: ARCS // Field OS Edition</p>
 <h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,3rem);line-height:1.15;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">The week my notes started filing themselves</h1>

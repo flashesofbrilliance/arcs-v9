@@ -1,10 +1,9 @@
 'use client'
 import React from 'react'
-import { useRouter } from 'next/navigation'
 import { font, signal, text } from '@/ui/tokens'
 import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta, tribColor } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
-import { Button } from '@/ui/Button'
+import { Button, ButtonLink } from '@/ui/Button'
 
 import { AuthControl } from '@/molecules/AuthControl'
 import { Rule } from '@/ui/Rule'
@@ -68,7 +67,6 @@ export interface HomeProps {
 }
 
 export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProps) {
-  const router = useRouter()
   const d = demo ?? DEMO_FALLBACK
   const w = getWeather(d.yState)
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
@@ -78,7 +76,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark />
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-          <Button variant="ghost" size="sm" onClick={() => router.push('/history')}>History</Button>
+          <ButtonLink variant="ghost" size="sm" href='/history'>History</ButtonLink>
           <AuthControl next="/history" showWaitlist />
         </div>
       </div>
@@ -94,7 +92,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
             What are you really<br />trying to decide?
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: '1.125rem', color: text.secondary, lineHeight: 1.75, margin: '0 0 1.75rem' }}>
-            Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
+            ARCS questions your question first, so you don&rsquo;t accidentally solve the wrong problem.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
@@ -123,7 +121,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           </TrueNorthPanel>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', gap: '0.6rem', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-              <Gauge label="Conviction" value={`${d.nciScore}%`} color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
+              <Gauge label="NCI" value={d.nciScore} sub="/ 100" color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
               {d.coherence != null && (
                 <Gauge label="Coherence" value={`${d.coherence}%`} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
               )}

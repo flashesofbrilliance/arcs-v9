@@ -15,6 +15,8 @@ import sys
 import collections
 from datetime import datetime
 import anthropic
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from arcs_models import model as _model
 
 # ─────────────────────────────────────────────────────────────
 # PATHS
@@ -372,7 +374,7 @@ Rules:
 - Max 400 words total across all sections."""
 
     message = client.messages.create(
-        model="claude-opus-4-7",
+        model=_model("max"),
         max_tokens=1024,
         messages=[{"role": "user", "content": prompt}],
     )
