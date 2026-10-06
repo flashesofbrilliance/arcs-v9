@@ -788,16 +788,20 @@ if [ -f scripts/null_userid_gate.py ] && command -v python3 >/dev/null 2>&1; the
 fi
 # ---------------------------------------------------------------------------
 # handoff-direct-edit warning (non-blocking): a staged CLAUDE.md that ADDS a
-# '# Handoff — v' title line without a staged fragment deletion means the block
-# was written by hand, not via `scripts/handoff_fold.py fold` (ADR-085 (d)).
-# Hand-written blocks collide on version and can land out of order (v3.104.0
-# below v3.103.0, fixed by hand in #919). fold also deletes the fragment it
-# folded, so a deletion under _HANDOFFS/fragments/ marks a legitimate fold.
+# '# Handoff — v' title line outside a molt commit means the block was written
+# by hand, not via `scripts/handoff_fold.py molt` (ADR-085 (d) amendment). A molt
+# commit always stages both the molted-fragment deletions and _SEEDS/_oracle.json
+# (the version comes from `oracle.py next handoff`). Hand-written blocks collided
+# on version (v3.101.0 twice, #893/#894) and landed out of order (#919).
 if git diff --cached --name-only -- CLAUDE.md | grep -qx CLAUDE.md; then
-  if git diff --cached -U0 -- CLAUDE.md | grep -q '^+# Handoff — v' \
-     && [ -z "$(git diff --cached --name-only --diff-filter=D -- '_HANDOFFS/fragments/' 2>/dev/null)" ]; then
-    echo "⚠ pre-commit(handoff-fold): CLAUDE.md gains a '# Handoff — v' block but no fragment was folded." >&2
-    echo "  write a fragment instead: scripts/handoff_fold.py new < body.md, then scripts/handoff_fold.py fold" >&2
+  if git diff --cached -U0 -- CLAUDE.md | grep -q '^+# Handoff — v'; then
+    _molt_del="$(git diff --cached --name-only --diff-filter=D -- '_HANDOFFS/fragments/' 2>/dev/null)"
+    _molt_orc="$(git diff --cached --name-only -- _SEEDS/_oracle.json 2>/dev/null)"
+    if [ -z "$_molt_del" ] || [ -z "$_molt_orc" ]; then
+      echo "⚠ pre-commit(handoff-molt): CLAUDE.md gains a '# Handoff — v' block outside a molt commit." >&2
+      echo "  write a fragment (scripts/handoff_fold.py new < body.md); one session molts them all into one arc:" >&2
+      echo "  scripts/handoff_fold.py molt --dry-run, then molt; commit CLAUDE.md, _ARCHIVE, fragments and _SEEDS/_oracle.json together" >&2
+    fi
   fi
 fi
 
