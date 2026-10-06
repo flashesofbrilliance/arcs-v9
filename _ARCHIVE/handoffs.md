@@ -1,3 +1,31 @@
+# Handoff — v3.92.0 (2026-10-05)
+
+> **Field landing hardened and the showcase-review privacy bugs closed.** Since v3.79.1: PR #753 merged
+> `a69e9daf` (field keys work from the drawer; legend lists every control), receipt
+> `2026-10-05--field-keys-legend-pr753--ZH`. PR #770 merged `75418715` (no server cache of anonymous
+> questions; account delete removes Blob uploads; `/api/brief` drops userId, prep.adversarialInput and
+> raw output beyond reasoning; HMAC-signed reminder links in `src/lib/reminderLink.ts`; /privacy v1.3,
+> trust contract 1.5), live-verified, receipt `2026-10-05--privacy-pr2-pr770--ZH`. PR #738 (handoff
+> v3.79.1) merged `8ec8b6e9` on Zach's override with CI queued, receipt `2026-10-05--handoff-v3.79.1-pr738--ZH`.
+
+## CI incident (2026-10-05)
+- Actions billing/spending-limit block (jobs failed with zero steps), then a GitHub Actions major outage
+  (84 runs queued, 0 in progress). Zach fixed billing and raised the limit. At his request this session
+  re-ran 7 billing-killed runs on other branches; PR #763's session then asked that cross-session
+  re-runs not happen unasked. Memory `ci-zero-steps-means-billing-or-outage`.
+
+## Open (next session)
+1. **task_cf4cfbac (queued chip): privacy disclosure PR, then mirror re-review.** The second mirror review
+   was NOT SAFE only on disclosure: LinkedIn uploads, `/api/probe` + DemandSignal (localStorage vid, open
+   CORS), brief sharing is now owner-only + tokens (`BriefShare`, `src/lib/briefShare.ts`; /privacy row
+   from #770 is stale), `arcs_pending_save` localStorage stash, dead `/unsubscribe` link, calendar/X links
+   carry decision text, self-serve delete not mentioned.
+2. **Showcase mirror**: `claude/showcase-mirror` @ `caafa7eb` (save/claim/email/probe paths added,
+   job-search models dropped, schema validates). Add `briefShare.ts` + `api/shared/**`. Never create or
+   publish `arcs-field-os` without Zach's go; never make arcs-v9 public.
+3. **PR #727** (repo-public claim + promise ledger) still conflicting; its session ended.
+4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); waitlist alerts use the code fallback.
+
 # Handoff — v3.90.0 (2026-10-05)
 
 > **Job Factory session, second half: slices 2-4, 6-7 landed, the FDE handoff, the job routes on current

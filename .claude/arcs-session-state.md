@@ -1,3 +1,9 @@
+# ARCS session state — v3.94.0 (2026-10-05)
+
+- HEAD at handoff cut: 67a52bfc (origin/main)
+- Done: compass IDOR series #813 #830 #836, claim route retired #847 + smoke #853. All live on arcs-v9-r6l4w9055.
+- Next: confirm a completed green Actions run on main after a2aeedd8.
+
 # ARCS session state — v3.91.0 (2026-10-05)
 
 - HEAD at handoff cut: 942b0f46 (origin/main)
