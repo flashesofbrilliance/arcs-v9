@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   }
 
   const prep = await prisma.prepSession.create({
-    data: { ...fields, protecting: JSON.stringify(fields.protecting) },
+    data: { ...fields, protecting: JSON.stringify(fields.protecting), userId },
   })
 
   return NextResponse.json({ ok: true, prep_id: prep.id, persisted: true })
