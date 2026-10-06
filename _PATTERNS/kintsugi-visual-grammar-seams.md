@@ -568,3 +568,15 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   sheet reflow, print untouched. The 94 older bundles keep
   their old block (frozen baseline, ratchet WARN on edit); restyle them by applying the stylesheet
   and re-rendering if they are re-sent.
+
+### Seam: forge cover letters (2026-10-05, bridge bundles)
+- **Break:** the forge-render cover sheet v1.0 (one identical `<style>` in all 20 bridge covers)
+  set 9px labels, an 8px footer, 11px body and uppercase taglines: ~31 findings per cover.
+  The 21 bridge resumes carried the pre-#791 resume block (84 to 90 findings each).
+- **Repair:** resumes take `_PATTERNS/resume-print-base.css` (one 37-char uppercase skill label
+  shortened, Squarespace GTM). Covers take the new sibling `_PATTERNS/cover-print-base.css`:
+  same tokens and floors, 12px everywhere, uppercase dropped from tagline / Re / footer, letter
+  spacing tightened so all 20 still print to one page. One "roadmap theater" line reworded
+  (MongoDB). 41 files -> 0 findings.
+- **Guard:** the three DESIGN.md-scope waivers in `.impeccable/config.json` now also cover
+  `_ARTIFACTS/forge-*/cover-*.html`; contrast, size floors and all-caps stay live.

@@ -236,7 +236,7 @@ jobs:
           done
           echo "server never came up" && exit 1
 
-      # Forge resumes are fixed 8.5in print pages (always 'overflow' a phone viewport); they are gated by
+      # Forge resumes / covers and _ARTIFACTS/resume-*/ cuts are fixed 8.5in print pages (always 'overflow' a phone viewport); they are gated by
       # kintsugi + 2-page + location checks instead.
       # Every page this PR adds or changes must pass the full page gate, render checks
       # included (overflow at 375/790/1280, lede spans the heading's lane). Legacy pages
@@ -245,7 +245,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           git fetch --no-tags --depth=1 origin ${{ github.event.pull_request.base.sha }}
-          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }} HEAD -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html')
+          files=$(git diff --name-only --diff-filter=AM ${{ github.event.pull_request.base.sha }} HEAD -- 'public/*.html' '_PROPOSALS/*.html' '_ARTIFACTS/*.html' ':(exclude)_ARTIFACTS/forge-*/resume-*.html' ':(exclude)_ARTIFACTS/forge-*/cover-*.html' ':(exclude)_ARTIFACTS/resume-*/*.html')
           if [ -z "$files" ]; then echo "no pages changed"; exit 0; fi
           python3 scripts/page_gate.py $files
 
