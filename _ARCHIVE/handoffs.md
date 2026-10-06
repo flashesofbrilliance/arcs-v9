@@ -1,30 +1,26 @@
-# Handoff — v3.94.0 (2026-10-05)
+# Handoff — v3.95.0 (2026-10-05)
 
-> **Compass IDOR series closed: parent, prep and session ids scoped to the caller; anonymous claim route retired.**
-> Oracle handoff=46. Receipts `2026-10-05--compass-parent-owner-scope-pr813--ZH`, `...-compass-prep-owner-scope-pr830--ZH`,
-> `...-compass-session-owner-scope-pr836--ZH`, `...-retire-receipts-claim-pr847--ZH`, `...-smoke-claim-retired-pr853--ZH`.
+> **Share cards stop pointing at a client host; icon sweep clean.** PR #848 (`996b0418`) merged on Zach's
+> "merge without CI" (Actions billing block). Receipt `2026-10-05--og-metadata-base-pr848--ZH`.
 
-## Shipped + live (verified on `arcs-v9-r6l4w9055`)
-- **#813** (`52ece6a2`): compass parent lookup is `findFirst({id, userId})`, signed-in only; foreign/missing drops parent inputs and `parentId`.
-- **#830** (`d9f8af71`): `PrepSession.userId` (nullable + index, migration `20261005010000_prep_session_owner`), set by `/api/prep`,
-  compass prep lookup scoped to owner, account delete removes owned preps. Migration was applied by hand (Supabase SQL +
-  `_prisma_migrations` row, file sha256) because Vercel skipped `buildCommand`; #840/#857 (other session) now run
-  `migrate deploy` on prod and fixed P3019 (`migration_lock.toml` said sqlite).
-- **#836** (`843f5bee`, taken over from chip session): `src/lib/session-owner.ts` reuses a client sessionId only if no
-  receipt in the thread is foreign or unowned; wired in compass, receipts/save, tribune seed.
-- **#847** (`50ae66cb`): `PATCH /api/receipts/claim` retired (sessionId was never proof of possession; 48 legacy unowned rows,
-  none since 2026-07-13). Callers removed; `/trust` copy + `_CANON/trust-contract.md` v1.6. Live: route 404s.
-- **#853** (`a2aeedd8`): smoke.sh A5 now requires the claim route to 404/405. #849 (chip duplicate) closed.
+## Shipped + on main
+- **#848:** root `src/app/layout.tsx` had no `metadataBase`, so `og:image`/`twitter:image` on every page
+  resolved to `prl.arcs.care` (Vercel production-domain fallback). Now `https://app.arcs.care`; live on
+  app, www, `/compass`, `/brief/*`. `opengraph-image.png` side panels pure black (seam gone); `crop.py` updated.
+  No `og:url` in the root layout on purpose (it would canonicalize every page to `/`).
+- **Icon sweep (no change needed):** 85 of 92 configured hosts serve icon.svg/apple-icon/manifest correctly;
+  4 retired Fanatics hosts 308 as designed.
 
 ## Open (next session)
-1. 48 legacy anonymous receipt owners were not told claiming moved to the inquiry link (low).
-2. sessionId check-then-write race on a known id (very low, receipted only).
-3. GitHub Actions: none of these merges had a completed CI run (billing block, then queued). Check the first green main run after `a2aeedd8`.
+1. chase-intro, cj-brief, growth-intel.arcs.care still serve old Fanatics/Growth pages on every path
+   despite the `next.config.ts` retired-host redirect. Background task task_b1e9b3f7 is tracing which
+   Vercel project holds them; domain changes need Zach's yes.
+2. Real LinkedIn/Slack/X unfurl not checked; platforms may cache the old prl.arcs.care image URL.
+3. Per-brief generated OG image was removed by `e5267871` (owner-only briefs); briefs share the root card.
 
-## Lessons
-- A chip you spawn can be started while you do the same work: check `git branch -r` / open PRs before writing, and message the session to stand down.
-- A user-facing promise (`/trust`, trust contract) can depend on a route; privacy-review catches it, ciso-review does not.
-- Deleting a route needs a grep of `scripts/` too: smoke.sh A5 asserted the claim route existed.
+## Lessons (in the record)
+- Root metadata without `metadataBase` on a many-alias Vercel project leaks whichever domain Vercel picks
+  as production into every share card. Grep live `og:image` hosts, not just the tags' presence.
 
 # Handoff — v3.93.0 (2026-10-05)
 
@@ -5758,3 +5754,31 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
   found the redundant pins.
 - Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.
+
+# Handoff — v3.94.0 (2026-10-05)
+
+> **Compass IDOR series closed: parent, prep and session ids scoped to the caller; anonymous claim route retired.**
+> Oracle handoff=46. Receipts `2026-10-05--compass-parent-owner-scope-pr813--ZH`, `...-compass-prep-owner-scope-pr830--ZH`,
+> `...-compass-session-owner-scope-pr836--ZH`, `...-retire-receipts-claim-pr847--ZH`, `...-smoke-claim-retired-pr853--ZH`.
+
+## Shipped + live (verified on `arcs-v9-r6l4w9055`)
+- **#813** (`52ece6a2`): compass parent lookup is `findFirst({id, userId})`, signed-in only; foreign/missing drops parent inputs and `parentId`.
+- **#830** (`d9f8af71`): `PrepSession.userId` (nullable + index, migration `20261005010000_prep_session_owner`), set by `/api/prep`,
+  compass prep lookup scoped to owner, account delete removes owned preps. Migration was applied by hand (Supabase SQL +
+  `_prisma_migrations` row, file sha256) because Vercel skipped `buildCommand`; #840/#857 (other session) now run
+  `migrate deploy` on prod and fixed P3019 (`migration_lock.toml` said sqlite).
+- **#836** (`843f5bee`, taken over from chip session): `src/lib/session-owner.ts` reuses a client sessionId only if no
+  receipt in the thread is foreign or unowned; wired in compass, receipts/save, tribune seed.
+- **#847** (`50ae66cb`): `PATCH /api/receipts/claim` retired (sessionId was never proof of possession; 48 legacy unowned rows,
+  none since 2026-07-13). Callers removed; `/trust` copy + `_CANON/trust-contract.md` v1.6. Live: route 404s.
+- **#853** (`a2aeedd8`): smoke.sh A5 now requires the claim route to 404/405. #849 (chip duplicate) closed.
+
+## Open (next session)
+1. 48 legacy anonymous receipt owners were not told claiming moved to the inquiry link (low).
+2. sessionId check-then-write race on a known id (very low, receipted only).
+3. GitHub Actions: none of these merges had a completed CI run (billing block, then queued). Check the first green main run after `a2aeedd8`.
+
+## Lessons
+- A chip you spawn can be started while you do the same work: check `git branch -r` / open PRs before writing, and message the session to stand down.
+- A user-facing promise (`/trust`, trust contract) can depend on a route; privacy-review catches it, ciso-review does not.
+- Deleting a route needs a grep of `scripts/` too: smoke.sh A5 asserted the claim route existed.

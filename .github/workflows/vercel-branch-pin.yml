@@ -1,0 +1,26 @@
+name: vercel-branch-pin
+# Daily: fail if any Vercel project domain is pinned to a git branch (it then serves
+# that preview, not production). Gate: scripts/vercel_branch_pin_gate.py.
+# Needs repo secret VERCEL_TOKEN (read access to team arcs-care); skips with a warning until set.
+on:
+  schedule:
+    - cron: "23 12 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Self-test
+        run: python3 scripts/vercel_branch_pin_gate.py --self-test
+      - name: Check live domains
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::warning::VERCEL_TOKEN secret not set; live branch-pin check skipped"
+            exit 0
+          fi
+          python3 scripts/vercel_branch_pin_gate.py

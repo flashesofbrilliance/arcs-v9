@@ -5,7 +5,7 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
-## [v3.96.0] 2026-10-05 — cruft_sweep bundle path proven live (576B probe bundle); manifest names only real refs (#861, no CI)
+## [v3.97.0] 2026-10-05 — cruft_sweep bundle path proven live (576B probe bundle); manifest names only real refs (#861, no CI)
 
 - Probe worktree pruned to a 576-byte incremental bundle that verifies and restores. Landed detached rows read `(detached)`.
 - GitHub Actions still blocked by billing.

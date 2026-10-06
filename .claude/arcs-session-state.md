@@ -1,4 +1,4 @@
-# ARCS session state — v3.96.0 (2026-10-05)
+# ARCS session state — v3.97.0 (2026-10-05)
 
 - HEAD at handoff cut: 63c6068e (origin/main)
 - Done: cruft_sweep #861 (manifest names only real refs); bundle path probed live. Receipt filed.
