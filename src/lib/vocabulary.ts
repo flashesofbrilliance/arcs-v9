@@ -71,3 +71,19 @@ export const AHMED_SLOTS: readonly AhmedSlot[] = (Object.keys(AHMED_ORDER) as Ah
   .sort((a, b) => AHMED_ORDER[a].order - AHMED_ORDER[b].order)
 
 export const slotLabel = (slot: AhmedSlot): string => AHMED_ORDER[slot].label
+
+// Horizon in plain English. Accepts every spelling in circulation: receipt
+// `horizon` (TODAY|WEEK|QUARTER|YEAR|YEARS), legacy `window` (THIS_WEEK|...),
+// and ledger `horizon` (today|this-week|this-quarter|1-3y). Display only.
+const HORIZON_LABELS: Record<string, string> = {
+  TODAY: "Today",
+  WEEK: "This Week", THIS_WEEK: "This Week", "THIS-WEEK": "This Week",
+  QUARTER: "This Quarter", THIS_QUARTER: "This Quarter", "THIS-QUARTER": "This Quarter",
+  YEAR: "This Year",
+  YEARS: "1 to 3 Years", ONE_TO_THREE_YEARS: "1 to 3 Years", "1-3Y": "1 to 3 Years",
+}
+
+export function horizonLabel(h: string | null | undefined): string | null {
+  if (!h) return null
+  return HORIZON_LABELS[h.trim().toUpperCase()] ?? null
+}
