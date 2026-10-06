@@ -1,12 +1,12 @@
 {
-  "captured_at": "2026-10-05T21:17:41-04:00",
+  "captured_at": "2026-10-05T21:27:02-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "01fb29d2",
-    "head_message": "Merge pull request #859 from flashesofbrilliance/claude/cmp020-zod-bodies",
+    "head_sha": "feb4f300",
+    "head_message": "Merge pull request #832 from flashesofbrilliance/claude/security-review-scope",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#848 996b0418 merged without CI (billing block)"
+    "note": "v3.96.0: #863 branch-pin gate merged 7f637e75"
   },
   "vercel": {
     "project": "arcs-v9",
@@ -35,13 +35,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt this session: 2026-10-05--og-metadata-base-pr848--ZH"
+    "note": "decision_receipt rows this session: 2026-10-05--vercel-branch-pin-gate-pr863--ZH"
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Pinned OG/Twitter image URLs to app.arcs.care (were prl.arcs.care) and swept icon serving across 92 hosts.",
-  "next_action": "Resolve the 3 retired Fanatics hosts still serving old pages (task_b1e9b3f7) once Zach approves a domain change.",
-  "blocking": "GitHub Actions billing block (jobs not started)",
+  "session_summary": "Shipped a daily gate that fails on Vercel domains pinned to a git branch (#863).",
+  "next_action": "Zach adds VERCEL_TOKEN repo secret; then confirm the first scheduled vercel-branch-pin run.",
+  "blocking": "VERCEL_TOKEN repo secret (human-only)",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
