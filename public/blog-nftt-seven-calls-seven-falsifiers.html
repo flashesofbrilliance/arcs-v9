@@ -157,7 +157,7 @@
   <header class="hero">
     <p class="eyebrow">Notes from the Trenches // Closing the loop</p>
     <h1>Seven Calls, <em>Seven Falsifiers</em></h1>
-    <p class="standfirst">I wrote down what would prove me wrong, then went back when the answer could no longer be avoided. Some calls held. Some missed. Two of my own readings of a primary source were wrong, and one question about January still has no owner.</p>
+    <p class="standfirst">Seven calls resolved against falsifiers I wrote in advance. The two worst misses share one root: an explanation I published before I had tested it. The January stablecoin drop is where I ran the test properly, and it is still only partly explained.</p>
     <p class="byline">Draft, Oct 6, 2026 &middot; Calls dated at publication &middot; Secondary-source figures are labeled as secondary &middot; Not investment advice</p>
   </header>
 
@@ -184,37 +184,76 @@
   </section>
 
   <section>
-    <span class="num">III · Correction one: the statement that did not say it</span>
-    <p>Two pieces said the SEC staff statement of January 28 classified tokenized Treasury bills and DeFi wrappers such as wrapped staked ether (wstETH) as non-compliant. I went back and read it twice. It restates that securities law applies on-chain and sorts tokenization into three kinds: issuer-sponsored, third-party custodial and third-party synthetic. It does not name Treasury bills. It does not name wstETH. It does not name wrappers.</p>
+    <span class="num">III · The seam</span>
+    <p>Read the scorecard again and the two worst misses are not independent. The custody cascade failed because I built it on a reading of a regulator's statement. The USDC "recovery" falsifier fired because I set the baseline from memory. Both were explanations written before the test, in the voice of a finding. That is the pattern, and the rest of this piece is that pattern put under a microscope on the one question where I have enough public data to do it.</p>
+    <blockquote>The explanation I published started with the highest credence on my list and ended with the lowest.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">IV · Correction one: the statement that did not say it</span>
+    <p>On February 1 and 2, two pieces said the SEC staff statement of January 28 classified tokenized Treasury bills and DeFi wrappers such as wrapped staked ether (wstETH) as non-compliant, and that institutions were dumping stablecoins in response. I gave that story a credence of 0.55 when I started testing it, the highest of any explanation I held.</p>
+    <p>The first test took an afternoon. I read the statement twice, with a word search. It restates that securities law applies on-chain and sorts tokenization into three kinds: issuer-sponsored, third-party custodial and third-party synthetic. It does not name Treasury bills. It does not name wstETH. It does not name wrappers. The credence fell to 0.15 on that read alone.</p>
     <blockquote>The tripwire hit on the date and missed on the content. A cascade built on a document that does not say it has no trigger.</blockquote>
   </section>
 
   <section>
-    <span class="num">IV · Correction two: the baseline I set too high</span>
-    <p>I defined USDC "recovery" as a return to about $80B. The December level was $75B to $77B: $75.3B on December 31, $75.2B by February 28, with a $79.6B peak on March 17 (DefiLlama). Against the real baseline my own falsifier had fired, and my first draft of this very post read a September snapshot and missed it. The error is a small one in size and a large one in kind, which is why I am keeping it on the page.</p>
+    <span class="num">V · Correction two: the baseline I set too high</span>
+    <p>I defined USDC "recovery" as a return to about $80B. The December level was $75B to $77B: $75.3B on December 31, $75.2B by February 28, with a $79.6B peak on March 17 (DefiLlama). Against the real baseline my own falsifier had fired, and my first draft of this post read a September snapshot and missed it. Once I measured the baseline and the recovery, the regulation story fell to 0.05.</p>
+    <p>The size of the January move is also a range for a dull reason: the two data sources disagree by about $1B on some days, and one of them stamps its daily points at 00:00 UTC, a day off from events. Part of the move may be measurement.</p>
   </section>
 
   <section>
-    <span class="num">V · The January drop, partly attributed</span>
-    <p>USDC supply fell about $5.7B to $6.6B between January 15 and January 31, depending on the source: DefiLlama shows $76.7B to $70.1B, CoinGecko $75.7B to $70.0B. Two of my pieces called it forced institutional liquidation after that SEC statement. The statement names nothing that would force a sale, and the drop began before it. So I tested everything I could with public data, and I will tell you where it stands, not what it proves.</p>
+    <span class="num">VI · The January drop, in two legs</span>
+    <p>USDC supply fell about $5.7B to $6.6B between January 15 and January 31, depending on the source: DefiLlama shows $76.7B to $70.1B, CoinGecko $75.7B to $70.0B. USDC, bitcoin and Solana all peaked on January 15 and 16, so supply turned with the crypto cycle at its high, not with a headline. The statement that I blamed came twelve days after the turn.</p>
     <div class="panel">
       <h4>Two legs, two partial explanations</h4>
       <div class="step">
-        <span class="k">Jan 16 to 22</span><b>About $3.1B out. This leg fits a policy and macro sequence: tariff threats over Greenland, a fight over yield rules in the crypto market-structure bill, and the Treasury Secretary attributing the selloff to a six-standard-deviation move in Japan's ten-year bond (as relayed by a news-flow account on X). It also fits traders who had borrowed to bet on rising prices being forced out: about $1.09B liquidated on January 20 (secondary reporting). Inference, not proof.</b>
-        <span class="k">Jan 22 to 31</span><b>USDC fell $3.55B (DefiLlama) or $4.39B (CoinGecko). Over the same days USD1 gained $1.89B, after Binance launched a holding-rewards campaign for it on January 23 ($40M of tokens to USD1 holders on Binance, secondary reporting). That is about 43% to 53% of the leg. The leg also overlaps the Fed-chair nomination of Kevin Warsh on January 30 and about $1.71B of liquidations that day (secondary reporting).</b>
+        <span class="k">Jan 15 to 22</span><b>About $3.1B out. This leg fits a policy and macro sequence: tariff threats over Greenland, a fight over yield rules in the crypto market-structure bill, and the Treasury Secretary attributing the selloff to a six-standard-deviation move in Japan's ten-year bond (as relayed by a news-flow account on X). The sharpest day was January 20: about $1.09B liquidated (secondary reporting) and USDC down $1.9B. Bitcoin funding on one large exchange flipped from about +11% to -8% annualized that day, the signature of crowded longs unwinding. It fits traders who had borrowed to bet on rising prices being forced out. Inference, not proof.</b>
+        <span class="k">Jan 22 to 31</span><b>USDC fell $3.55B (DefiLlama) or $4.39B (CoinGecko). Over the same days USD1 gained $1.89B, after Binance launched a holding-rewards campaign for it on January 23 ($40M of tokens to USD1 holders on Binance, secondary reporting). USD1 went from $3.17B to $4.93B in three days. That is about 43% to 53% of the leg. The leg also overlaps the Fed-chair nomination of Kevin Warsh on January 30 and about $1.71B of liquidations that day (secondary reporting). The nomination moved risk assets more than the stablecoin float: USDC changed by only $0.24B on January 30, and the biggest drop came the day before the announcement.</b>
         <span class="k">Not shown</span><b>That the USD1 mints were funded by USDC redemptions. Overlap in time is not a flow. Circle does not publish who redeems, and a coin in a cold wallet or a frozen vault stays in circulation.</b>
       </div>
-      <p>I would put it as a leading suspect with its own caveat, not as a finding.</p>
+      <p>The campaign is a leading suspect with its own caveat, not a finding.</p>
     </div>
-    <p>I checked and could not support a long list of other causes: regulation-forced selling, the Iran war (it began February 28), sanctions, credit stress, foreign selling of Treasuries, a flight to Solana, hacks, and a delayed October cascade. Weekly correlations with bitcoin, bill yields, spreads and the dollar never cleared a multiple-comparison bar after more than a dozen tests, so a couple of borderline hits is what chance would give.</p>
-    <p>I also left some stories out of the causal account on purpose. Stories about pardons, officials' business ties and an executive's dispute with World Liberty are alleged and unproven in what I could source, and I found no flow link between them and USDC supply. They carry no weight here.</p>
   </section>
 
   <section>
-    <span class="num">VI · What I would trust, and what I would not</span>
-    <p>Figures from the Treasury, the SEC and company filings are primary. Several others came through secondary reporting, and I have said so where they appear, including the Tether reserve figures, the January liquidation totals and the Binance campaign details. I have not checked them against a second source. The decisive test is also still undone: it needs an entity-level list of USDC redemptions from a paid data vendor or Binance's own conversion data.</p>
+    <span class="num">VII · Shape as evidence, and the tests that came back empty</span>
+    <p>Peak to trough, January was -9.2% over 14 days, and USDC regained 95% of its prior peak 12 days after the low. The Silicon Valley Bank episode in March 2023 was -26.9% over 39 days with no recovery in the window. The Stream collapse in November 2025 was -2.9%. A fast V is how a demand-for-liquidity episode looks, and a trust shock does not rebound that way. The shape argues against forced institutional selling and leans toward the deleveraging and macro readings.</p>
+    <div class="panel">
+      <h4>Priors, written first, then moved by tests <span class="sev">credence, not measurement</span></h4>
+      <div class="step">
+        <span class="k">Regulation-forced</span><b>0.55 to 0.05. Falsifier: the statement names the assets. It did not. PREMISE FAILED.</b>
+        <span class="k">Deleveraging</span><b>0.20 to 0.50. Falsifier: drops with no liquidation event. BEST FIT, INFERENCE.</b>
+        <span class="k">Binance USD1</span><b>0.05 to 0.40. Falsifier: USD1 flat on January 23 to 25. It was not. STRONG TIMING, MECHANISM UNSHOWN.</b>
+        <span class="k">Macro risk-off</span><b>0.15 to 0.35. Falsifier: the drop precedes the shocks. PLAUSIBLE, OVERLAPS DELEVERAGING.</b>
+      </div>
+      <p>A credence is my subjective probability that a factor contributed more than about 10% of the move. They overlap and do not sum to one.</p>
+    </div>
+    <p>The explanation I had barely considered, the exchange campaign, moved the most. Empty results count too. Each of these had a falsifier written in advance and none found its effect: the October 10 cascade (it hit a different stablecoin, and USDC rose afterward), a rotation into Solana (it lost USDC too), the Iran war (it began February 28, six weeks after the largest drops), sanctions (the designation targeted a different coin, a day later), foreign selling of Treasuries (foreigners were net buyers), credit stress (spreads near year lows), hacks (about $370M in January, mostly not USDC), and a backtest of a synthetic-dollar depeg against USDC supply. Weekly correlations with bitcoin, bill yields, spreads and the dollar never cleared a multiple-comparison bar after more than a dozen tests, so a couple of borderline hits is what chance would give.</p>
+    <p>I also left some stories out of the causal account on purpose. Stories about pardons, officials' business ties, an adviser's holdings and an executive's dispute with World Liberty are alleged or disputed in what I could source, and for each I found no flow link to USDC supply. They carry no weight here. Silence counts as evidence in this method only for required, routine disclosures.</p>
+  </section>
+
+  <section>
+    <span class="num">VIII · Pre-mortem: the convex skeptic</span>
+    <div class="panel">
+      <h4>The skeptic against the record</h4>
+      <div class="step">
+        <span class="k">Skeptic</span><b>You are fitting a story to a V-shape.</b>
+        <span class="k">Record</span><b>Two legs fit the timing, and neither is stated as cause. The data that would decide it is not public.</b>
+        <span class="k">Skeptic</span><b>A rewards campaign is not a redemption.</b>
+        <span class="k">Record</span><b>Correct, and it is the one thing I could not show. The 43% to 53% is an overlap in size, not a funding trace.</b>
+        <span class="k">Skeptic</span><b>Your credences are made up.</b>
+        <span class="k">Record</span><b>They are subjective, and the log says so. What can be checked is the order of the tests and the falsifiers written first.</b>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">IX · What would settle it, and the test I owe myself</span>
+    <p>The deciding question is whether the USD1 mints were funded by USDC redemptions. Two things could answer it: a list of USDC burns by entity from a paid on-chain analytics vendor, and Binance conversion data for the campaign window. Until then the account stays at two legs and one open thread, which is where the record puts it.</p>
+    <p>The same rule applies to me. I have registered, before computing anything, a scoring test of whether my early explanations run overconfident: a Brier score, the average squared gap between a stated probability and what happened, on the calls that stated a probability and on the priors above. The registration is not blind, since I have read both ledgers, and no score exists yet. If the test says my early explanations run hot, that goes in the next post.</p>
     <blockquote>The unproven part stays marked unproven. That is the whole discipline.</blockquote>
-    <p>The rule I am keeping for the next calls: name the falsifier first, read the primary text twice, and correct in public when a number is wrong.</p>
+    <p>The rule for the next calls: name the falsifier first, read the primary text twice, and correct in public when a number is wrong.</p>
   </section>
 
   <div class="more">
