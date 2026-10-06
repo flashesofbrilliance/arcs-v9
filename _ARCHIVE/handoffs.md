@@ -1,3 +1,31 @@
+# Handoff — v3.86.0 (2026-10-05)
+
+> **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**
+> Both merged on Zach's go with `fe-smoke` still pending (python-only). Receipts
+> `2026-10-05--cruft-prune-head-safety-pr807--ZH`, `2026-10-05--cruft-incremental-bundles-pr809--ZH`.
+
+## Shipped + on main
+- **#807 (`15a5761c`):** detached worktrees returned the literal `HEAD` from `--abbrev-ref`, and
+  `bundle create <f> HEAD` in the main repo bundled the MAIN checkout (`44ed0c88` x5). `.git`-less worktrees
+  fell through to the enclosing checkout. `resolve_worktree()` now requires a `.git` file, toplevel == dir,
+  GIT_DIR under `<common>/worktrees/`, and a `git worktree list` entry; bundled tip must equal HEAD; any
+  refusal exits 2; inherited `GIT_DIR`/`GIT_WORK_TREE` scrubbed. Rule 9.
+- **#809 (`f69ffb66`, asked for by the orchestration session):** bundles are `<ref> ^origin/<base>`; a tip
+  already on upstream gets only a MANIFEST.tsv row (`on-origin/<base>`); detached heads pinned permanently as
+  `refs/cruft-archive/<name>-<sha8>`. Rule 10.
+- `--self-test` (13 checks: branch / detached / no-.git / landed worktrees over 2MB base history, <256KB
+  bundle ceiling) fails on both prior versions; wired into pre-commit when the script is staged.
+
+## Open (next session)
+1. No real `prune` has run on the fixed code; first live run: `--dry-run` first, check MANIFEST.tsv rows.
+2. `survey` still drops detached worktrees from its table (`worktrees()` only appends on a `branch` line) (low).
+3. `fe-smoke` was pending at both merges; confirm it went green on main.
+
+## Lessons (in the record)
+- `git -C <dir>` inside the main checkout silently resolves to the main repo when `<dir>` is no longer a
+  worktree: prove the GIT_DIR, never trust the path.
+- A self-test with a tiny base repo cannot see a size bug: give the fixture real (incompressible) history.
+
 # Handoff — v3.85.0 (2026-10-05)
 
 > **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts

@@ -114,6 +114,32 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.88.0 (2026-10-05)
+
+> **Möbius icon set replaces the "A" glyph on every host.** PR #814 (`d2a38a54`) and #824 (`c18ea2ef`)
+> merged on Zach's go, all checks green. Receipts `2026-10-05--mobius-icon-set-pr814--ZH`,
+> `2026-10-05--icon-rewrite-backstop-pr824--ZH`.
+
+## Shipped + on main
+- **#814:** `src/app/icon.svg` + `favicon.ico` (16/32/48) = simplified single-stroke cyan Möbius on `#020408`
+  (picked from a comparison sheet: cyan over light, crossing tightened). `apple-icon.png` 180,
+  `public/icon-192.png` + `public/icon-512.png`, `src/app/opengraph-image.png` 1200x630 from the wireframe source
+  (`_ASSETS/brand/arcs-mobius-source.png`; regenerate with `_ASSETS/brand/crop.py`). New `src/app/manifest.ts`.
+  `src/proxy.ts` `SHARED_ICON_PATH` passthrough in the multi-path, recruithaus and SUBDOMAIN_MAP blocks.
+- **#824:** `next.config.ts` `withSharedIcons()` prepends the icon/manifest/OG paths to every
+  `/:path((?!...).*)` host catch-all in `beforeFiles`. Live: good, wing, yuri, recruithaus, app all serve
+  image/svg+xml, image/png, application/manifest+json.
+
+## Open (next session)
+1. Only 5 of ~95 hosts checked live; non-`/:path((?!` wildcard shapes (e.g. omakase `/:path((?!omakase)`
+   is covered, but any `/:path*` style host rule is not) may still swallow icons.
+2. Social-card unfurl of the root `opengraph-image.png` (now applies to every app route without its own) unchecked.
+3. `manifest.webmanifest` 500s in local `next dev` on all hosts (`next/font/google` import-map error); prod is fine.
+
+## Lessons (in the record)
+- A proxy passthrough is not enough on this repo: `next.config.ts` host catch-alls re-match afterwards.
+  Verify icon/asset routes live with `curl -w '%{content_type}'` per host, not just `npm run build`.
+
 # Handoff — v3.87.0 (2026-10-05)
 
 > **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
@@ -138,31 +164,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ## Lessons
 - A path-borne secret leaks to pathname analytics; put share tokens in the fragment and POST them.
-
-# Handoff — v3.86.0 (2026-10-05)
-
-> **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**
-> Both merged on Zach's go with `fe-smoke` still pending (python-only). Receipts
-> `2026-10-05--cruft-prune-head-safety-pr807--ZH`, `2026-10-05--cruft-incremental-bundles-pr809--ZH`.
-
-## Shipped + on main
-- **#807 (`15a5761c`):** detached worktrees returned the literal `HEAD` from `--abbrev-ref`, and
-  `bundle create <f> HEAD` in the main repo bundled the MAIN checkout (`44ed0c88` x5). `.git`-less worktrees
-  fell through to the enclosing checkout. `resolve_worktree()` now requires a `.git` file, toplevel == dir,
-  GIT_DIR under `<common>/worktrees/`, and a `git worktree list` entry; bundled tip must equal HEAD; any
-  refusal exits 2; inherited `GIT_DIR`/`GIT_WORK_TREE` scrubbed. Rule 9.
-- **#809 (`f69ffb66`, asked for by the orchestration session):** bundles are `<ref> ^origin/<base>`; a tip
-  already on upstream gets only a MANIFEST.tsv row (`on-origin/<base>`); detached heads pinned permanently as
-  `refs/cruft-archive/<name>-<sha8>`. Rule 10.
-- `--self-test` (13 checks: branch / detached / no-.git / landed worktrees over 2MB base history, <256KB
-  bundle ceiling) fails on both prior versions; wired into pre-commit when the script is staged.
-
-## Open (next session)
-1. No real `prune` has run on the fixed code; first live run: `--dry-run` first, check MANIFEST.tsv rows.
-2. `survey` still drops detached worktrees from its table (`worktrees()` only appends on a `branch` line) (low).
-3. `fe-smoke` was pending at both merges; confirm it went green on main.
-
-## Lessons (in the record)
-- `git -C <dir>` inside the main checkout silently resolves to the main repo when `<dir>` is no longer a
-  worktree: prove the GIT_DIR, never trust the path.
-- A self-test with a tiny base repo cannot see a size bug: give the fixture real (incompressible) history.

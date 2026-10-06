@@ -5,6 +5,10 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.88.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
+
+- Cyan single-stroke Möbius favicon; wireframe raster for apple/PWA/OG; manifest.ts added. Subdomains needed both a proxy.ts passthrough and next.config.ts catch-all exclusions.
+
 ## [v3.87.0] 2026-10-05 — owner-only briefs + revocable share tokens (#808)
 
 - `/brief/[id]` owner-only (404); share via `/shared/brief#<token>`, SHA-256 stored, revocable; raw-id links dead.

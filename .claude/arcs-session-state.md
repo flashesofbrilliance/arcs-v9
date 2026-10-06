@@ -1,5 +1,5 @@
-# ARCS session state — v3.87.0 (2026-10-05)
+# ARCS session state — v3.88.0 (2026-10-05)
 
-- HEAD at handoff cut: 36d42cf0 (origin/main)
-- Done: owner-only briefs + share tokens (#808), BriefShare migration in prod, deploy READY.
-- Next: signed-in share-flow check on prod; migration_lock.toml provider fix; outcome/compass chips are running.
+- HEAD at handoff cut: 340f9498 (origin/main)
+- Done: #814 Möbius icon set + manifest + OG; #824 next.config.ts catch-all icon exclusions. Live on good/wing/yuri/recruithaus/app.
+- Next: sweep remaining host rewrites for wildcard shapes that still swallow icon paths; check OG unfurl.

@@ -1,17 +1,17 @@
 {
-  "captured_at": "2026-10-05T20:56:38-04:00",
+  "captured_at": "2026-10-05T20:54:24-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "36d42cf0",
-    "head_message": "Merge pull request #782 from flashesofbrilliance/claude/lane-full-width",
+    "head_sha": "340f9498",
+    "head_message": "Merge pull request #827 from flashesofbrilliance/claude/handoff-v3.84",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#808 8ccd7b49 merged; live deploy dpl_5PQR9SFKfLo6wwmh6zfWsZaBXZpr READY at c18ea2ef"
+    "note": "#814 d2a38a54 + #824 c18ea2ef merged"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-90i9f7tm4-arcs-care.vercel.app",
-    "latest_deploy_status": "Ready",
+    "latest_deploy_url": "https://arcs-v9-ajzuz8nos-arcs-care.vercel.app",
+    "latest_deploy_status": "Building",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
@@ -19,7 +19,7 @@
       "DATABASE_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "vercel ls 2026-10-05 20:53 (latest Ready is a preview); env names not re-listed"
+    "note": "vercel ls 2026-10-05; env names not re-listed this session"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -33,16 +33,15 @@
       "Brief",
       "Account",
       "Session",
-      "VerificationToken",
-      "BriefShare"
+      "VerificationToken"
     ],
-    "note": "decision_receipt rows this session: 2026-10-05--cruft-prune-head-safety-pr807--ZH, 2026-10-05--cruft-incremental-bundles-pr809--ZH. Prisma schema not re-checked."
+    "note": "decision_receipt rows this session: 2026-10-05--mobius-icon-set-pr814--ZH, 2026-10-05--icon-rewrite-backstop-pr824--ZH"
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Briefs made owner-only with revocable SHA-256-hashed share tokens (#808); BriefShare migration applied to prod.",
-  "next_action": "Exercise the signed-in share flow on prod (mint, open in private window, revoke) and fix migration_lock.toml provider.",
+  "session_summary": "Replaced the app icon set with the Möbius mark and made every subdomain serve it (#814, #824).",
+  "next_action": "Sweep the remaining host rewrites for non-(?! wildcard shapes that still swallow icon paths.",
   "blocking": "NONE",
-  "git_refreshed_at": "2026-10-05T20:56:38-04:00"
+  "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
