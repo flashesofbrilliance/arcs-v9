@@ -116,31 +116,37 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.103.0 (2026-10-06)
+# Handoff — v3.105.0 (2026-10-06)
 
-> **Job Factory, fourth part: Missed-pile Undo + newest-listed sort live, and the intake caught up after 25 days.**
-> Merged on Zach's asks with receipts: #892 (`bcee855e`, Upside previews, `2026-10-06--upside-previews-pr892--ZH`) and #895
-> (`df3d79b9`, `2026-10-06--jobs-date-sort-undo-clear-pr895--ZH`). Oracle handoff=48.
+> **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
+> SSOT for open debt is now the artifact **Docs Reconciliation** (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm),
+> `debt` collection (19 rows seeded 2026-10-06; add/close rows with ArtifactData, no page edit needed).
 
-## Shipped + on main
-- **#895:** Zach cleared the Missed pile by accident. The clear only writes `missed_cleared_at` (one clear ever,
-  2026-10-06T01:12Z); `PATCH /api/jobs/settings {undoClearMissed:true}` deletes it, and the banner shows an **Undo clear**
-  button. New **Sort: Newest listed** (firstSeen desc). claude-security-review could not run (API cap); local ciso-review
-  PASS posted on the PR. Live at df3d79b9 (verified via get_deployment + API, not the signed-in page).
-- **Intake (production data, no PR):** request `cmuvmiqhi...` consumed: 95 alert emails 09-11 -> 10-05, 422 unique,
-  46 dupes, **376 new rows UNSCORED**; watermark now 2026-10-05T23:30:12Z. Board 1,205 rows.
+## Shipped (overnight, across sessions)
+#884 write-lock + leases (ADR-085 PROPOSED, opt-in) · #882 claude-models.ts single registry (#715 closed) ·
+#880/#885/#890 Ahmed-order vocabulary + receipt + brief · #877 calm model errors + outage alert · #874 merge_train.sh ·
+#888 receipt views no longer generate briefs · #831 fe-smoke page gate · #881 security-review fails on API error ·
+#895 Missed pile sort/undo · #898 handoff fragments (this file) · #887 compass Y gate/mobile.
 
-## Open (next session)
-1. **Zach:** sign in and click **Undo clear** (677 scored rows still hidden; my direct DB delete was declined).
-2. **Score the 376 new rows** with `node scripts/jobs_score_sweep.mjs` once the API cap lifts (or 2026-11-01).
-3. Morning task still fails preflight on the API cap; intake (Gmail + consume) needs no model, so it could be split out
-   of the preflight gate.
-4. Chip filed: constant-time compare for the pipeline token in `src/lib/jobs.ts` (task_301be2ed).
-5. Carried: Upside send (confirm 2 new titles), Tenex send.
+## Fixed this session
+- Anthropic outage: the key lives in 3 homes (.env.local, Vercel arcs-v9, GH Actions secret). All held the capped
+  account's key. New key from Zach's Individual Org now in all three (GH secret updated 2026-10-06T13:35:54Z via stdin,
+  never printed). Proof: fresh security scan on #906 passed (scan ran, 0 findings).
+- merge_train.sh validated: self-test 15/15 + a mutant fails; real dry runs (conflict path on #811/#854, clean path on #864, 31s with build).
+- Memory: corrected anthropic-api-budget memory (prod WAS capped), added anthropic-key-three-homes-verify-without-exposing,
+  migrated a stranded worktree-local memory. Index 1-1 OK.
 
-## Lessons (in the record)
-- A "stale queue" can be a dead intake: the freshest unswiped row was 12 days old because no mail had been read since 09-11.
-- A background agent can stop on "waiting on batches" without writing its output; check the file before trusting the notice.
+## Open (all tracked as rows in the artifact's `debt` collection)
+P1 decision: top up credits / auto-reload. Decisions: ADR-085 acceptance after migration step 2.
+In progress (own sessions): alert-email proof, security-review skip-guard. Unassigned: npm test script, ESLint on
+legacy public/*.jsx, main checkout parked on another branch, vercel experimentalServices, allowScripts.
+
+## Lessons
+- "Usage limit" can come from any of 3 key homes; check which org each key belongs to before raising limits.
+- `vercel env ls` shows created age, not edit time; GitHub secret `updated_at` is reliable.
+- A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
+
+> Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
 
 # Handoff — v3.104.0 (2026-10-06)
 
@@ -162,3 +168,5 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
   `arcs-care/arcs-care` and fails with "Branch not found".
 - `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
+
+---

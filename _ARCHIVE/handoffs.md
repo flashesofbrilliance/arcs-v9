@@ -1,3 +1,29 @@
+# Handoff — v3.103.0 (2026-10-06)
+
+> **Job Factory, fourth part: Missed-pile Undo + newest-listed sort live, and the intake caught up after 25 days.**
+> Merged on Zach's asks with receipts: #892 (`bcee855e`, Upside previews, `2026-10-06--upside-previews-pr892--ZH`) and #895
+> (`df3d79b9`, `2026-10-06--jobs-date-sort-undo-clear-pr895--ZH`). Oracle handoff=48.
+
+## Shipped + on main
+- **#895:** Zach cleared the Missed pile by accident. The clear only writes `missed_cleared_at` (one clear ever,
+  2026-10-06T01:12Z); `PATCH /api/jobs/settings {undoClearMissed:true}` deletes it, and the banner shows an **Undo clear**
+  button. New **Sort: Newest listed** (firstSeen desc). claude-security-review could not run (API cap); local ciso-review
+  PASS posted on the PR. Live at df3d79b9 (verified via get_deployment + API, not the signed-in page).
+- **Intake (production data, no PR):** request `cmuvmiqhi...` consumed: 95 alert emails 09-11 -> 10-05, 422 unique,
+  46 dupes, **376 new rows UNSCORED**; watermark now 2026-10-05T23:30:12Z. Board 1,205 rows.
+
+## Open (next session)
+1. **Zach:** sign in and click **Undo clear** (677 scored rows still hidden; my direct DB delete was declined).
+2. **Score the 376 new rows** with `node scripts/jobs_score_sweep.mjs` once the API cap lifts (or 2026-11-01).
+3. Morning task still fails preflight on the API cap; intake (Gmail + consume) needs no model, so it could be split out
+   of the preflight gate.
+4. Chip filed: constant-time compare for the pipeline token in `src/lib/jobs.ts` (task_301be2ed).
+5. Carried: Upside send (confirm 2 new titles), Tenex send.
+
+## Lessons (in the record)
+- A "stale queue" can be a dead intake: the freshest unswiped row was 12 days old because no mail had been read since 09-11.
+- A background agent can stop on "waiting on batches" without writing its output; check the file before trusting the notice.
+
 # Handoff — v3.102.0 (2026-10-06)
 
 > **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
