@@ -114,6 +114,29 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.85.0 (2026-10-05)
+
+> **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts
+> `2026-10-05--playwright-ignore-unit-pr806--ZH`, `2026-10-05--playwright-ignore-unit-pr806-main-green--ZH`,
+> `2026-10-05--handoff-v3.83-pr797--ZH`.
+
+## Shipped + on main
+- **`playwright.config.ts` `testIgnore: "unit/**"` (#806):** Playwright's default testMatch picked up
+  `tests/unit/*.test.ts` (node:test files that need the `@/` loader in `tests/unit/register.mjs`), so fe-smoke
+  failed on `@/lib/db` / `@/lib/reminderLink` (main run 37378905407 at `db788359`). #800 had fixed the
+  culture-cues half. Reproduced and verified on Node 22.23 (CI's version, `brew install node@22`, keg-only).
+- **Main CI run 37384172495 on `974f6adb`: all six jobs green**, the first full pass covering #762, #780, #766,
+  #797, #806 (all merged on Zach's go with CI queued during the Actions backlog).
+
+## Open (next session)
+1. intent workflow on `974f6adb` not checked (low).
+2. `probe_court`: `requireAdmin(` matches carry no carve-out parsing (low, carried from v3.83.0).
+
+## Lessons (in the record)
+- A "unit test" failure inside the Playwright step means Playwright loaded the unit files: check testMatch
+  before chasing the test. Plain `npm run test:unit` passed on the same commit.
+- Rapid merges on main cancel each prior CI run; watch for the first non-cancelled run containing your SHA.
+
 # Handoff — v3.84.0 (2026-10-05)
 
 > **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
@@ -151,30 +174,3 @@ All inside the consolidated bundle.
   (pruned `cool-bell` under a live session, restored it from its branch).
 - The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
 - One red check on every PR is a red main, not N bugs: fix main first, then rerun.
-
-# Handoff — v3.83.0 (2026-10-05)
-
-> **COURT probe surfaces admin-guard carve-outs; #762, #780, #766 merged on Zach's go without full CI.**
-> Receipts `2026-10-05--verb-eval-lens-gates-pr762--ZH`, `2026-10-05--court-carveouts-pr780--ZH`,
-> `2026-10-05--swipe-admin-only-pr766--ZH`.
-
-## Shipped + on main
-- **`tools/arcs-verb-eval/arcs_verb_eval_lenses.py` (#780, `51d97a1c`):** `probe_court` extracts the full
-  `if (...)` around each `caller.kind !== "admin"` match and splits it on top-level `&&`; every extra term is
-  a carve-out. The dev-outside-production term (`src/lib/admin.ts`) is sanctioned; any other must be listed in
-  `probes.COURT.allowed_carveouts` `{route, term, why}` or the probe fails naming route + term. Declared ones
-  print in the evidence. It checks declaration only, never acceptability. `--self-test` 28/28, `make test` OK
-  incl. JS parity. `sample/high-stakes/gauntlet.json` declares swipe `evalRow` (Zach kept it 2026-10-05).
-- **#762** (`7fed78ef`, lens gates) and **#766** (`eec73f51`, swipe admin-only) merged. On main after #766,
-  `probe_court` on the sample gauntlet PASSES with the declared carve-out.
-
-## Open (next session)
-1. **CI on main never ran for these merges.** Zach asked to skip queued checks (Actions backlog, 58 queued).
-   #762/#780: 5-7 checks never ran. #766: security-review "fail" was a cancelled attempt 1; attempt 2,
-   fe-smoke, generated-views unfinished. Check the first non-cancelled CI run on a main commit containing
-   `eec73f51` (main was `fbc3cece` / #795 at handoff); if red, fix forward.
-2. `requireAdmin(` matches carry no carve-out parsing; only the `caller.kind` form is split (low).
-
-## Lessons (in the record)
-- A red check can be a cancelled run, not a finding: read the attempt's conclusion before calling it red.
-- CI cancel-in-progress on main means rapid merges leave only the newest commit's run as the verdict.

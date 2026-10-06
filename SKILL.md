@@ -192,6 +192,7 @@ Full implementation spec: see Skill Domain #6 above and `arcs-field-os/specs/ori
 
 ## Changelog
 
+- **v3.85.0** (2026-10-05): `playwright.config.ts` ignores `tests/unit/**` (unit tests run only via `npm run test:unit`).
 - **v3.83.0** (2026-10-05): `tools/arcs-verb-eval` COURT probe reads admin-guard carve-outs; `probes.COURT.allowed_carveouts` declares them.
 - **v3.78.0** (2026-10-04): `scripts/shavasana_handoff.py` exhale scoped by session branch (author OR committer identity fallback on main); `scripts/blog_render.py` `<main>` measure `680px`.
 - **v3.76.0** (2026-10-04): `scripts/nftt_published.py` stamps "From the <platform> original(s), <dates>" from `runtime/specs/nftt-originals.json` (+ `--check` for missing/orphan segments); `scripts/connector_render.py` `EXTERNAL_PAGES` entries may name their distribution row (`"repo"`).

@@ -1,12 +1,12 @@
 {
-  "captured_at": "2026-10-05T18:17:12-04:00",
+  "captured_at": "2026-10-05T20:53:11-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "fbc3cece",
-    "head_message": "Merge pull request #795 from flashesofbrilliance/claude/session-token-leak",
+    "head_sha": "c18ea2ef",
+    "head_message": "Merge pull request #824 from flashesofbrilliance/claude/icon-rewrite-backstop",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#762 7fed78ef, #780 51d97a1c, #766 eec73f51 merged 2026-10-05 without full CI"
+    "note": "#806 1fbc6f80 merged; main CI green at 974f6adb (run 37384172495)"
   },
   "vercel": {
     "project": "arcs-v9",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Orchestration session: pruned 33 worktrees, archived 50+ sessions, closed 21 PRs, merge train landed 16 PRs, consolidated 11 GB of backups to 45 MB; free disk 11 GB -> 23 GB.",
-  "next_action": "Check #771 conflict session, cruft_sweep incremental-bundle PR, and favicon comparison; decide #796, #715, dependabot majors.",
+  "session_summary": "Fixed red main CI (Playwright loaded node:test unit files, #806); main green covering #762 #780 #766 #797 #806.",
+  "next_action": "Nothing blocking; optional: check intent on 974f6adb, extend probe_court carve-out parsing to requireAdmin(.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
