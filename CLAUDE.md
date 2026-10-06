@@ -85,6 +85,12 @@ rewrite). The full interactive Next.js page IS committed on main at `src/app/obs
 Confirm the `/observatory` route vs the static-demo rewrite before relying on either.
 
 # Token-saving rules
+- **Invoke the `token-savings-bank` skill** (user-level, `~/.claude/skills/token-savings-bank`) before any
+  fan-out (subagents, chips, parallel sessions), bulk edit, or long resumable task, and whenever you notice
+  waste (top-tier model on mechanical work, a subagent for a one-grep question, re-deriving state). It governs
+  Claude Code session tokens, which count against the subscription limit (the weekly cap stalled the morning
+  jobs task 2026-09-30/10-01). API spend is separate: prompt caching, Batch API, and Haiku roles in
+  `src/lib/claude-models.ts`.
 - Do NOT read files you already know from this map.
 - Do NOT explore node_modules unless looking up a specific API.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
