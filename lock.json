@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1791304456.043596,
-  "acquired_at_iso": "2026-10-06T16:34:16Z",
-  "expires_at": 1791306256.043596,
-  "holder": "merge-train@zh-m1-2020:62900:/Users/zharris/arcs-v9/.claude/worktrees/orchestration-repo-cleanup-6f304f",
+  "acquired_at": 1791308246.497569,
+  "acquired_at_iso": "2026-10-06T17:37:26Z",
+  "expires_at": 1791310046.497569,
+  "holder": "merge-train@zh-m1-2020:70841:/Users/zharris/arcs-v9/.claude/worktrees/orchestration-repo-cleanup-6f304f",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 63424,
-  "reason": "merge train: 1030 976 959 964 676",
-  "released_at_iso": "2026-10-06T16:34:29Z",
-  "seq": 38,
-  "state": "free",
+  "pid": 70881,
+  "reason": "merge train: 934",
+  "seq": 39,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
