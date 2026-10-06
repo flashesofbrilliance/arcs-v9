@@ -5,6 +5,10 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.101.0] 2026-10-06 - Receipt views no longer generate briefs (#888)
+
+- `GET /api/brief/[id]?generate=0` is a read-only path; receipt + reflect pages use it; "Generate brief →" makes spend explicit.
+
 ## [v3.100.0] 2026-10-05 - Debrief reminders disclosed: /privacy v1.5, trust contract 1.8
 
 - Closes the last nit from the showcase privacy review (verdict SAFE on claude/showcase-mirror @ 47b86cd1).
