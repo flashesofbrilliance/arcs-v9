@@ -22,6 +22,9 @@ export const MODELS = {
                                // Same 5.5 rules as writer: send no temperature, set depth with output_config.effort.
   guide: "claude-opus-4-5",    // guide route (kept as found)
   max: "claude-opus-4-7",      // scripts/network_scan
+  security: "claude-opus-4-8", // .github/workflows/security.yml (read via scripts/arcs_models.py). Unset, the
+                               // action defaults to claude-opus-4-1 at $15/$75 per MTok; 4.8 is $5/$25 and stronger.
+                               // Not a 5.x model: their cyber refusal classifier would fire on vuln review.
 } as const
 
 export type ModelRole = keyof typeof MODELS
