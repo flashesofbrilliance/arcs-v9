@@ -4,8 +4,30 @@
 # are cleared. Receipt files the drift checks write under _INBOX/ stay in the runner.
 name: Advisory gates
 
+# Cost gate (2026-10-06): on PRs this runs only when a gated record or a gate script changes.
+# The daily schedule below still sweeps everything, and skips nothing. Draft PRs skip the job;
+# ready_for_review re-triggers it.
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "_DECISIONS/**"
+      - "_MEMORY/**"
+      - "_SPECS/**"
+      - "_CANON/**"
+      - "_STATE/**"
+      - "_SEEDS/**"
+      - "_PATTERNS/**"
+      - "CLAUDE.md"
+      - "AGENTS.md"
+      - "WORLD.md"
+      - "MEMORY.md"
+      - "SKILL.md"
+      - "scripts/integrity_gate.py"
+      - "scripts/canon_propagation_check.py"
+      - "scripts/lattice_drift_check.py"
+      - "scripts/seedbank_drift_check.py"
+      - ".github/workflows/advisory-gates.yml"
   schedule:
     - cron: "0 12 * * *" # daily, 12:00 UTC
   workflow_dispatch:
@@ -15,6 +37,7 @@ permissions:
 
 jobs:
   advisory:
+    if: github.event.pull_request.draft != true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
