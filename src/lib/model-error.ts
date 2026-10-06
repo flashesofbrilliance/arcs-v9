@@ -80,10 +80,13 @@ function alertAdmins(route: string, info: ModelErrorInfo, upstream: string, rid:
   if (!ALERT_CODES.has(info.code)) return
   const now = Date.now()
   if (now - (lastAlert.get(info.code) ?? 0) < ALERT_WINDOW_MS) return
-  lastAlert.set(info.code, now)
+  // Env checks come before the throttle is armed: a misconfigured deploy must not burn
+  // the 6h window silently, and every skip is logged so a missing alert is visible.
   const to = (process.env.ADMIN_EMAILS ?? "").split(",").map((s) => s.trim()).filter(Boolean)
   const key = process.env.AUTH_RESEND_KEY
-  if (!to.length || !key || process.env.NODE_ENV !== "production") return
+  const skip = !to.length ? "no ADMIN_EMAILS" : !key ? "no AUTH_RESEND_KEY" : process.env.NODE_ENV !== "production" ? "not production" : null
+  if (skip) { console.error(`[MODEL_OUTAGE] alert skipped: ${skip}`); return }
+  lastAlert.set(info.code, now)
   new Resend(key).emails.send({
     from: "ARCS <noreply@arcs.care>",
     to,
