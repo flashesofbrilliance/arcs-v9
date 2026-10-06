@@ -77,7 +77,7 @@
       "filed": "2026-07-16",
       "severity": "low",
       "summary": "Trust contract §2 'aggregate anonymized only' modeling claim has no code boundary enforcing it (purpose limitation is prose-only).",
-      "exit": { "type": "open" }
+      "exit": {"type": "ci", "ref": "scripts/purpose_guard.py (ci.yml smoke: Purpose-limitation guard). Binds the live claims (trust \u00a72 'input never trains a model', privacy 'no decision text' in analytics): no non-Anthropic model SDK or third-party analytics under src/, track() payload keys allowlisted. The 'aggregate anonymized only' wording no longer appears on any public page.", "date": "2026-10-06"}
     },
     {
       "id": "ORPH-012",

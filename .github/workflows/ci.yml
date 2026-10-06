@@ -160,6 +160,11 @@ jobs:
       - name: className / Tailwind guard
         run: python3 scripts/classname_guard.py
 
+      # Hard gate: trust contract section 2 + privacy analytics claim (closes ledger PL-011).
+      # Only Anthropic may see input; track() payloads carry allowlisted ids/enums, never text.
+      - name: Purpose-limitation guard
+        run: python3 scripts/purpose_guard.py
+
       # Hard gate — enforcement-parity ledger (ADR-034): audit findings must
       # exit via a mechanism or dated waiver within their severity SLA.
       - name: Ledger delinquency check
