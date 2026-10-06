@@ -180,6 +180,12 @@ else:
         print(f'night-moves: {days} days since last digest ({last}) — run /night-moves?')
 " 2>/dev/null || true
 
+# Tool install-state: ONE line (wired / available-not-installed / unused / duplicates / broken)
+# from the cached audit. No scan and no network here (~0.1s); a cache older than 24h kicks a
+# detached background refresh (the gh public-repo list is itself cached daily). Exists because
+# flashesofbrilliance/token-savings-bank sat published-but-uninstalled for 7 weeks unnoticed.
+python3 "$CLAUDE_PROJECT_DIR/scripts/tool_orphan_audit.py" --line 2>/dev/null || true
+
 # (7) Timecapsule — per-session build-log commit of the memory dir (no-op if unchanged; absent-safe on other machines).
 if bash /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory-snapshots/git_autocommit.sh 2>/dev/null; then
   _tc=$(git -C /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory rev-parse --short HEAD 2>/dev/null || true)

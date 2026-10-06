@@ -10,6 +10,18 @@ description: Recommend the one right existing tool for a stated job from the too
 > decision fatigue ARCS kills (ADR-070 induction surface). NOTOMATION: recommend and
 > scaffold, never replace the choice; the human fires the tool (or says "run it").
 
+## `/catalog --orphans` (install state, 2026-10-06)
+
+If the argument is `--orphans`, skip the job match: run `python3 scripts/tool_orphan_audit.py`
+(read-only; public-repo list from a daily gh cache) and show its report grouped by class:
+AVAILABLE-NOT-INSTALLED (each with its one-line install command), INSTALLED-UNUSED, DUPLICATE,
+BROKEN. Never install, uninstall, or retire anything from here; Zach decides. The same state is
+in the catalog (`tools[].state`, `install_audit.gaps`), and session start prints the one-line
+summary.
+
+When matching a job (below), a tool whose `state` is AVAILABLE-NOT-INSTALLED still counts:
+recommend it with its install command instead of inventing a replacement.
+
 ## Steps
 
 1. **Load the catalog.** Read `runtime/specs/tool-catalog.json`. If it is missing or

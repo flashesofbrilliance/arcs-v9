@@ -16,6 +16,11 @@ harvested (never inferred) from each tool's own declaration:
     reuse; that file never landed in this repo, so operators are harvested directly
     with the same docstring rule as scripts/.)
 
+Install state (2026-10-06): each tool also carries `state` (WIRED / INSTALLED-UNUSED / BROKEN /
+...) and the catalog carries an `install_audit` block (available-not-installed published skills,
+duplicates, broken refs), both read from scripts/tool_orphan_audit.py's result. The audit is run
+fresh here (~1s, public-repo list from its daily cache), so /catalog knows install state.
+
 Emits runtime/specs/tool-catalog.json + runtime/specs/tool-catalog.md.
 Deterministic (no wall-clock in output — run twice, diff clean). Read-only over the
 repo except its two output files. Stdlib only. Exit 0 always (receipts, not failures).
@@ -191,8 +196,27 @@ def collect():
     return tools
 
 
+def install_audit():
+    """Run the orphan audit (read-only; public list from its daily gh cache). None if unavailable."""
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import tool_orphan_audit as toa
+        return toa.run(ROOT, toa.HOME)
+    except Exception as e:  # never block the catalog on the audit
+        print(f"tool-catalog: install audit skipped ({type(e).__name__}: {e})", file=sys.stderr)
+        return None
+
+
 def main():
     tools = collect()
+    audit = install_audit()
+    gaps = []
+    if audit:
+        by_path = {os.path.relpath(i["path"], ROOT): i["state"] for i in audit["items"] if i.get("path")}
+        for t in tools:
+            t["state"] = by_path.get(t["path"], "WIRED" if t["kind"] in ("skill", "command", "hook", "workflow") else "UNAUDITED")
+        gaps = [{k: i.get(k, "") for k in ("state", "surface", "kind", "name", "why", "fix")}
+                for i in audit["items"] if i["state"] != "WIRED"]
     counts = {}
     for t in tools:
         counts[t["kind"]] = counts.get(t["kind"], 0) + 1
@@ -204,6 +228,11 @@ def main():
         "counts": dict(sorted(counts.items())),
         "total": len(tools),
         "missing_jtbd": missing,
+        "install_audit": None if not audit else {
+            "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
+            "counts": audit["counts"],
+            "gaps": gaps,
+        },
         "tools": tools,
     }
     os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
@@ -216,6 +245,15 @@ def main():
              "One line per tool, JTBD harvested from the tool's own declaration.", "",
              "Counts: " + " · ".join(f"{k} {v}" for k, v in sorted(counts.items()))
              + f" · total {len(tools)} · missing JTBD {missing}", ""]
+    if audit:
+        lines.append("Install state: " + " · ".join(f"{k} {v}" for k, v in audit["counts"].items()))
+        lines.append("")
+        lines.append(f"## install-state gaps ({len(gaps)})")
+        lines.append("")
+        for g in gaps:
+            lines.append(f"- **{g['state']}** [{g['surface']}:{g['kind']}] {g['name']} — {g['why']}"
+                         + (f"  \n  fix: `{g['fix']}`" if g["fix"] else ""))
+        lines.append("")
     for kind in ["skill", "command", "workflow", "hook", "script", "package", "operator"]:
         grp = [t for t in tools if t["kind"] == kind]
         if not grp:
