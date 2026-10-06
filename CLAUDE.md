@@ -114,6 +114,24 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.93.0 (2026-10-05)
+
+> **Three retired hosts un-pinned from a dead preview branch; the redirect now fires.** No code change.
+> Receipt `2026-10-05--retired-hosts-unpin-branch--ZH`.
+
+## Done (live Vercel config, on Zach's go)
+- chase-intro, cj-brief, growth-intel.arcs.care were attached to arcs-v9 with `gitBranch=claude/brave-chebyshev-cd6452`
+  (branch gone from origin), so they served that branch's last preview build, never production, and the
+  `retiredFanaticsHosts` 308 in `next.config.ts` could not fire. PATCH `gitBranch: null` on each; live curl of
+  `/` and `/icon.svg` now 308 -> https://arcs.care/ on all three.
+- Sweep: 0 branch pins across all 8 projects owning arcs.care domains (111 domains).
+
+## Open (next session)
+1. Chip task_e4237d76 (not built yet): a daily Vercel branch-pin gate script (fail on any unlisted `gitBranch` pin).
+
+## Lessons
+- `get_deployment(<host>)` does not reveal a branch-pinned domain; `list_project_domains` -> `gitBranch` does.
+
 # Handoff — v3.92.0 (2026-10-05)
 
 > **Field landing hardened and the showcase-review privacy bugs closed.** Since v3.79.1: PR #753 merged
@@ -141,27 +159,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
    publish `arcs-field-os` without Zach's go; never make arcs-v9 public.
 3. **PR #727** (repo-public claim + promise ledger) still conflicting; its session ended.
 4. Prod `ADMIN_EMAIL` unset (`ADMIN_EMAILS` set); waitlist alerts use the code fallback.
-
-# Handoff — v3.91.0 (2026-10-05)
-
-> **cruft_sweep survey compares against origin/<base> (#837, merged without CI on Zach's go); first live prune
-> on the fixed code.** Receipt `2026-10-05--cruft-survey-origin-base-pr837--ZH`.
-
-## Shipped + on main
-- **#837 (`9bef38d7`):** `resolve_base()` turns a bare `--base` into `origin/<base>` for every subcommand (a stale
-  local main made ~46 files read "unique" in every fresh worktree); `worktrees()` keeps detached entries; detached
-  heads already on upstream are no longer pinned. Rule 11. `--self-test` 16/16; the #809 version fails 3. Live
-  survey: SAFE 7 -> 19, `li-main` and `m715` listed.
-- **Live prune (Zach's go):** `cool-bell-742f40` (5edc25fe) and `unruffled-pike-3b578c` (21cc370c). Sessions were
-  already archived (archive left the worktrees detached but intact). Both tips on origin/main: no bundle, MANIFEST
-  rows `on-origin/main`, worktrees removed, exit 0. Two redundant `refs/cruft-archive` pins deleted by hand.
-
-## Open (next session)
-1. **GitHub Actions blocked by billing** ("recent account payments have failed or your spending limit needs to be
-   increased"): no check runs on any PR until Zach fixes Settings -> Billing & plans. #837 merged with none.
-2. The incremental-bundle path (a SAFE worktree with its own commits) has still only run in the self-test.
-
-## Lessons (in the record)
-- A dry run proves resolution, not the write path: only a real prune exercised the manifest and pin logic, and it
-  found the redundant pins.
-- Six checks failing at once in seconds is infrastructure, not code: read the annotation before calling it red.
