@@ -114,6 +114,34 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.99.0 (2026-10-06)
+
+> **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
+> every tailored resume.** Merged on Zach's asks with receipts: #870 (`1fa411ff`, `2026-10-05--upside-cover-gauntlet-pr870--ZH`)
+> and #886 (`d5652d48`, `2026-10-06--ats-companions-all-pr886--ZH`). Oracle handoff=47.
+
+## Shipped + on main
+- **#870 Upside Staff FDE bundle:** cover letter READY on `jobs_prose_gate.py` (slop-eval unchecked: API cap), gauntlet.json,
+  evidence.jsonl, ex-ante. 6-facet gauntlet fixes: "evaluations designed from the start" was false against git (the eval
+  harness `scripts/brief_eval.mts` landed 2026-09-30), now names the real checks; stack row added; Squat "tech lead /
+  rebuilt end to end" from the vetted master; Grayscale handoff cut; CTF 20% outcome added.
+- **#886 ATS companions:** `scripts/resume_ats_render.py` read only the card layout and silently dropped Experience,
+  Education, pillars and OSS on every forge print-base resume. Now reads both layouts (resume-general content unchanged).
+  87 new `-ats.html/.pdf`, 86 at 2 pages (vico master 3). Pre-commit kintsugi design gate skips pages carrying the
+  renderer's generated ATS header (Zach's call). "leverage" cut from Beacon, Sequence Holdings, Venn.
+- iCloud: `ARCS/resumes/ATS/` holds 96 ATS PDFs; per-role folders carry `-ATS.pdf` too.
+
+## Open (next session)
+1. **Zach to send:** Upside (confirm the new titles "Forward-deployed engineer and AI builder" / "Founder and engineer"
+   first) and Tenex Senior FDE (fill the founder's first name in the note).
+2. Upside page-1/page-2 PNG previews are stale (pre-gauntlet); the PDFs are current.
+3. API workspace cap still blocks every model route (slop-eval, the 11 shortlist resume cuts) until raised or 2026-11-01.
+4. No ATS PDF has been run through a real portal parser; Blacksmith and Vico ATS omit the design-only strengths panel.
+
+## Lessons (in the record)
+- A generator's coverage warning is the gate: 50% of words missing meant whole sections were gone, not noise.
+- A fix the gauntlet "verified" can still carry a timing claim; check claims about "since when" against git log.
+
 # Handoff — v3.98.0 (2026-10-05)
 
 > **Prod deploys now run `prisma migrate deploy` (production only).** #840 (`942b0f46`) + hotfix #857
@@ -139,26 +167,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - A wired-but-never-run step hides every latent bug behind it: the first real run surfaced a months-stale lock file.
   Watch the FIRST prod log after enabling any deploy-time step.
 - `vercel env ls` names its project in the header line: read it before trusting "it's set".
-
-# Handoff — v3.97.0 (2026-10-05)
-
-> **cruft_sweep bundle path proven live; manifest rows name only refs that exist (#861, merged without CI on
-> Zach's go).** Receipt `2026-10-05--cruft-manifest-detached-row-pr861--ZH`.
-
-## Shipped + on main
-- **#861 (`e8b9bd17`):** #837 stopped pinning detached heads already on upstream but the MANIFEST.tsv row still
-  named the unpinned `refs/cruft-archive/...` ref. Landed detached rows now read `(detached)`. `--self-test` 18/18
-  (every manifest `refs/...` must exist); the #837 version fails 2.
-- **Bundle path probed on the real repo:** throwaway `cruft-bundle-probe` worktree off origin/main, 1 commit, pruned:
-  576-byte bundle (vs ~150MB full-history), `bundle verify` okay, commit restored from it. Probe branch, bundle and
-  manifest row deleted afterwards. The cool-bell / unruffled-pike manifest rows were hand-fixed to `(detached)`.
-
-## Open (next session)
-1. **GitHub Actions blocked by billing** (failed payment or spending limit): no CI on any PR until Zach fixes it.
-   #837, #843, #861 merged with none.
-2. `cool-poitras-4f96e7` is SAFE with its tip on main: prune when convenient (manifest row only, no bundle).
-
-## Lessons (in the record)
-- To test a write path without risking live work, build a throwaway target of the exact shape and run the real tool
-  on it: every SAFE candidate with off-main commits was mid-session.
-- A fix that stops creating a thing must also stop recording it: grep every place the old name is written.
