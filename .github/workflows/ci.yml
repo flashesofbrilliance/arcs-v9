@@ -24,6 +24,7 @@ on:
       - "_INBOX/**"
       - ".claude/**"
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -36,8 +37,9 @@ jobs:
   # the doc globs changed. Plain git, no action deps. leak-check, belief-log and
   # generated-views are cheap hard gates and stay unconditional. No required status checks
   # exist (branch protection is unavailable on the free private plan), so a skipped job
-  # cannot block merge; if protection is ever enabled, require leak-check, not smoke.
+  # cannot block merge; if protection is ever enabled, require gates, not smoke.
   changes:
+    if: github.event.pull_request.draft != true
     runs-on: ubuntu-latest
     outputs:
       code_changed: ${{ steps.diff.outputs.code_changed }}
@@ -54,67 +56,71 @@ jobs:
           code=$(echo "$files" | grep -vE '\.md$|^(_DECISIONS|_STATE|_ARCHIVE|_PATTERNS|_INBOX|\.claude)/' | grep -v '^$' || true)
           if [ -n "$code" ]; then echo "code_changed=true"; else echo "code_changed=false"; fi | tee -a "$GITHUB_OUTPUT"
 
-  # Hard gate — external-surface leak check (J24). Fast, bash-only, no deps, so
-  # it runs standalone in parallel with the build. Blocks merge if any
-  # prospect-facing public/*.html carries internal text (provenance, model IDs,
-  # secrets, local paths, patent strategy). Policy + check, not a per-page fix.
-  leak-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: External-surface leak check
-        run: bash scripts/leak_check.sh
-
-  # Hard gate — belief-log freshness. The falsification ledger is the SSOT;
-  # _STATE/belief-log.md is a lawful transform of it (scripts/belief_log_emit.py).
-  # A stale view is the exact open-loop-decay the ledger itself catalogues (F27),
-  # so the check that closes that loop is a gate, not a comment. Python-only, no
-  # deps, seconds to run — also validates the ledger schema / dates / dup ids.
-  belief-log:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: Belief-log is current with the ledger
-        run: python3 scripts/belief_log_emit.py --check
-      - name: status.arcs.care static floor is stamped and fresh
-        run: python3 scripts/status_floor_emit.py --check
-
-  # Hard gate — generated views are current with their sources. Pre-commit catches a stale
-  # generated file at COMMIT time; a merge can stale it afterwards (two branches appending to
-  # the same ledger tail did exactly that twice on 2026-09-27) and nothing turned red. This job
-  # makes merge ORDER irrelevant for freshness: whichever lands second must regenerate. Each
-  # check is stdlib python, seconds to run. Dependency order (HOLDING rows) is a different
-  # question and lives in the air-traffic board, not here.
-  generated-views:
+  # Cost gate (2026-10-06): the three cheap hard gates below used to be three jobs, each billed
+  # a whole minute (per-job rounding) plus its own checkout. They are one job now; every step
+  # runs even when an earlier one fails (if: always()), so a red step never hides another one.
+  # Draft PRs skip it; ready_for_review re-triggers the workflow.
+  #   leak-check: external-surface leak check (J24). Blocks merge if any prospect-facing
+  #     public/*.html carries internal text (provenance, model IDs, secrets, local paths,
+  #     patent strategy). Policy + check, not a per-page fix.
+  #   belief-log: freshness. The falsification ledger is the SSOT; _STATE/belief-log.md is a
+  #     lawful transform of it (scripts/belief_log_emit.py). A stale view is the open-loop
+  #     decay the ledger itself catalogues (F27), so the check that closes that loop is a gate.
+  #   generated-views: views are current with their sources. Pre-commit catches a stale
+  #     generated file at COMMIT time; a merge can stale it afterwards (two branches appending
+  #     to the same ledger tail did exactly that twice on 2026-09-27), so this makes merge
+  #     ORDER irrelevant for freshness. Generated public pages: a hand edit to the output
+  #     instead of the generator fails here. Dependency order (HOLDING rows) lives in the
+  #     air-traffic board, not here.
+  gates:
+    if: github.event.pull_request.draft != true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with: { fetch-depth: 0 }
+      - name: External-surface leak check
+        run: bash scripts/leak_check.sh
+      - name: Belief-log is current with the ledger
+        if: always()
+        run: python3 scripts/belief_log_emit.py --check
+      - name: status.arcs.care static floor is stamped and fresh
+        if: always()
+        run: python3 scripts/status_floor_emit.py --check
       - name: Operator registry matches the periodic table + bindings
+        if: always()
         run: python3 scripts/operator_registry_emit.py --check
       - name: Operator unit tests (stdlib unittest)
+        if: always()
         run: python3 -m unittest discover -s operators/tests
       - name: LEGEND render current
+        if: always()
         run: python3 scripts/legend.py check
       - name: LORE render current
+        if: always()
         run: python3 scripts/lore.py check
       - name: Fate registry has no hard misses
+        if: always()
         run: python3 scripts/fates.py check
       - name: Assumptions ledger valid + render current
+        if: always()
         run: python3 scripts/assumptions.py check
       - name: Source-trust table current
+        if: always()
         run: python3 scripts/source_trust_emit.py --check
       - name: Every gh_sync backlog row has an issue
+        if: always()
         run: python3 scripts/backlog_issue_sync.py --check
-      # Generated public pages: a hand edit to the output instead of the generator fails here
-      # (both had drifted far enough that a rebuild would have reverted live work).
       - name: good.arcs.care gallery + connector pages match their renderer
+        if: always()
         run: python3 scripts/connector_render.py --check
       - name: NFTT index matches its builder
+        if: always()
         run: node scripts/nftt_index_build.mjs --check
       - name: Every routed NFTT post carries its publish timestamp
+        if: always()
         run: python3 scripts/nftt_published.py --check
       - name: Every serialized NFTT part carries its series line + panel
+        if: always()
         run: python3 scripts/nftt_series.py --check
 
   smoke:
