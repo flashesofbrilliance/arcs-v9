@@ -1,3 +1,7 @@
+---
+description: Structured root-cause analysis for one specific error worth the full treatment
+---
+
 # /rca
 
 > On-demand root-cause analysis for a specific error. Invoke this ONLY when an error is worth the

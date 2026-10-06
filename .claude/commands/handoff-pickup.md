@@ -1,3 +1,7 @@
+---
+description: Orient at the start of a session from the latest handoff and state snapshot
+---
+
 # /handoff-pickup
 
 > Runs at the START of a new session to orient quickly without re-reading everything.

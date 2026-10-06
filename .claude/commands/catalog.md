@@ -1,3 +1,7 @@
+---
+description: Recommend the one right existing tool for a stated job from the tool catalog, and run it with consent
+---
+
 # /catalog — the induction surface for the toolset itself
 
 > Given a stated job, recommend THE one right existing tool and (with consent) run it.

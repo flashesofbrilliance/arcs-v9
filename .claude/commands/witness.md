@@ -1,3 +1,7 @@
+---
+description: Attest a flash of insight right now as a verbatim, timestamped stub
+---
+
 # /witness — attest a flash of brilliance, right now
 
 > "Can I get a witness?" — a one-shot, in-the-moment capture. The opposite of `/dewy-stub`:
