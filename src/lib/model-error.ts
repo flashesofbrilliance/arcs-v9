@@ -95,7 +95,11 @@ function alertAdmins(route: string, info: ModelErrorInfo, upstream: string, rid:
 // Log the full upstream error server-side, alert if warranted, return the safe info.
 export function reportModelError(route: string, e: unknown): ModelErrorInfo {
   const info = classifyModelError(e)
-  const upstream = upstreamText(e)
+  // Provider text only for SDK API errors; any other throw logs its name, so a future
+  // exception carrying decision content cannot reach the logs (/trust:67).
+  const err = (e ?? {}) as Shape
+  const isApi = typeof err?.status === "number" || /^API/.test(err?.name ?? "")
+  const upstream = isApi ? upstreamText(e) : `non-API ${err?.name ?? typeof e}`
   const rid = requestId(e)
   console.error(`[MODEL_OUTAGE] route=${route} code=${info.code} status=${info.upstreamStatus ?? "none"} request_id=${rid ?? "none"} upstream=${JSON.stringify(upstream.slice(0, 1000))}`)
   alertAdmins(route, info, upstream, rid)
