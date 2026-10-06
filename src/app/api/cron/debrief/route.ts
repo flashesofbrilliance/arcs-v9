@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
       token: receipt.id,
       isFirstDebrief,
       optInUrl: isFirstDebrief ? reminderUrl(receipt.user!.id, "opt-in") : undefined,
-      optOutUrl: !isFirstDebrief ? reminderUrl(receipt.user!.id, "opt-out") : undefined,
+      optOutUrl: reminderUrl(receipt.user!.id, "opt-out"),
     })
 
     try {

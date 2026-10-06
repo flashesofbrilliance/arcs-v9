@@ -601,7 +601,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           token: receipt.id,
           isFirstDebrief,
           optInUrl: isFirstDebrief && userId ? reminderUrl(userId, "opt-in") : undefined,
-          optOutUrl: !isFirstDebrief && userId ? reminderUrl(userId, "opt-out") : undefined,
+          optOutUrl: userId ? reminderUrl(userId, "opt-out") : undefined,
         })
         resend.emails.send({
           from: "ARCS <noreply@arcs.care>",

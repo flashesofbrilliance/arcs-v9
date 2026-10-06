@@ -261,7 +261,14 @@ export default function ReceiptPage() {
                   track("receipt_save_clicked", { receiptId })
                   const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
                   if (raw) {
-                    try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), ephId: receiptId, bearing: JSON.parse(raw) })) } catch {}
+                    // Strip the free-text "strongest argument against" before it
+                    // touches localStorage: /api/receipts/save never reads it, and
+                    // the stash outlives the tab until sign-in or the 7-day TTL.
+                    try {
+                      const bearing = JSON.parse(raw)
+                      if (bearing?.prep && typeof bearing.prep === "object") bearing.prep = { ...bearing.prep, adversarialInput: null }
+                      localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), ephId: receiptId, bearing }))
+                    } catch {}
                   }
                   router.push("/compass")
                 }}>{saveNudgeV11 ? "Keep this bearing" : "Sign in & save"}</Button>
