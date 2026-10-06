@@ -318,7 +318,9 @@ def cmd_prune(a):
                             capture_output=True, env=GIT_ENV)
         if rm.returncode == 0:
             with open(manifest, "a") as fh:
-                fh.write(f"{name}\t{br or ref}\t{head[:8]}\t{bfile}\n")
+                # Only name a ref that exists: a landed detached head is never pinned.
+                rcol = br or (ref if not landed else "(detached)")
+                fh.write(f"{name}\t{rcol}\t{head[:8]}\t{bfile}\n")
             print(f"PRUNED       {name} [{label} @ {head[:8]}] -> {bfile} ({ref})")
         else:
             print(f"SKIP-REMFAIL {name} (bundle kept, worktree intact)")
@@ -413,6 +415,12 @@ def self_test(script):
         check("refs/cruft-archive/landed-detached-" not in pins, "landed-detached: no redundant pin for a commit on base")
         man = open(os.path.join(bundles, "MANIFEST.tsv")).read() if os.path.exists(os.path.join(bundles, "MANIFEST.tsv")) else ""
         check(f"landed\tbr-landed\t{landed_head[:8]}\ton-" in man, "landed: sha recorded in MANIFEST.tsv")
+        rows_man = [l.split("\t") for l in man.splitlines() if l.count("\t") == 3]
+        dangling = [r[1] for r in rows_man if r[1].startswith("refs/")
+                    and not sh(repo, "for-each-ref", r[1])]
+        check(not dangling, f"manifest names only refs that exist (dangling: {dangling})")
+        check(any(r[0] == "landed-detached" and r[1] == "(detached)" for r in rows_man),
+              "landed-detached: manifest ref column is (detached)")
         check(not os.path.exists(os.path.join(bundles, "nogit.bundle")), "nogit: no bundle written")
         check(os.path.isdir(os.path.join(wts, "nogit")), "nogit: directory left in place")
         check(r.returncode != 0, f"exit nonzero when a worktree is refused (got {r.returncode})")
