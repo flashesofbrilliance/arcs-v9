@@ -1,3 +1,21 @@
+# Handoff — v3.96.0 (2026-10-05)
+
+> **Daily gate for Vercel domains pinned to a git branch (#863, `7f637e75`).** Follows v3.93.0 (three retired
+> hosts were frozen on a deleted preview branch). Receipt `2026-10-05--vercel-branch-pin-gate-pr863--ZH`.
+
+## Shipped + on main
+- `scripts/vercel_branch_pin_gate.py`: lists every project in team arcs-care, fails on any domain with `gitBranch`
+  set unless listed in `scripts/vercel_branch_pin_allowlist.txt` (empty). Auth: `VERCEL_TOKEN`, else the logged-in
+  `vercel` CLI. `--self-test` proves clean-pass / planted-fail / allowlist-pass; a detector mutation exits 1.
+  Live: 0 pinned of 130 domains across 23 projects.
+- `.github/workflows/vercel-branch-pin.yml`: daily 12:23 UTC; self-test, then the live check.
+- Duplicate chip session (task_e4237d76) stopped before pushing and archived.
+
+## Open (next session)
+1. **Add repo secret `VERCEL_TOKEN`** (read on team arcs-care, Zach only): until then CI skips the live check with
+   a warning.
+2. First scheduled run not yet observed.
+
 # Handoff — v3.95.0 (2026-10-05)
 
 > **Share cards stop pointing at a client host; icon sweep clean.** PR #848 (`996b0418`) merged on Zach's

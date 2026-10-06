@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.98.0] 2026-10-05 — prod migrate deploy wired per-service (#840) + lock-file hotfix (#857)
+
+- Top-level buildCommand is ignored under experimentalServices; moved to web.buildCommand. DIRECT_URL set (session pooler).
+- First run hit P3019 (sqlite migration_lock); #857 fixed. Prod migrations = repo, 22/22.
+
 ## [v3.97.0] 2026-10-05 — cruft_sweep bundle path proven live (576B probe bundle); manifest names only real refs (#861, no CI)
 
 - Probe worktree pruned to a 576-byte incremental bundle that verifies and restores. Landed detached rows read `(detached)`.
