@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk"
+import { modelErrorResponse } from "@/lib/model-error"
 
 // One place for the model IDs the job routes call (migrated 2026-10-05 from
 // claude-sonnet-4-6 and the dated claude-haiku-4-5-20251001). Change a model here,
@@ -51,21 +52,9 @@ export async function writerCall(anthropic: Anthropic, p: WriterParams): Promise
   return { ok: true, text, usage: { input: msg.usage.input_tokens, output: msg.usage.output_tokens, cache_read: msg.usage.cache_read_input_tokens ?? 0 } }
 }
 
-// Model-call failures, surfaced (2026-10-05). The routes used to let the SDK error
-// escape, so callers saw a bare 500 with an empty body; the real cause ("You have
-// reached your specified API usage limits ... regain access on 2026-11-01") was only
-// in Vercel's logs. Now the caller gets 503 with the API's own message and a code it
-// can act on. Never a retry loop here: a usage limit is a spending decision.
-export function modelError(e: unknown): Response {
-  const err = e as { status?: number; message?: string; error?: { error?: { type?: string; message?: string } } }
-  const message = err?.error?.error?.message ?? err?.message ?? String(e)
-  const status = err?.status ?? 0
-  const code =
-    /usage limit/i.test(message) ? "usage_limit"
-    : status === 429 ? "rate_limited"
-    : status === 529 || /overloaded/i.test(message) ? "overloaded"
-    : status === 401 || status === 403 ? "auth"
-    : status >= 500 ? "upstream_error"
-    : "model_error"
-  return Response.json({ error: `model unavailable: ${message}`, code, upstream_status: status || null, retryable: code === "rate_limited" || code === "overloaded" || code === "upstream_error" }, { status: 503 })
+// Model-call failures: one shared mapper (src/lib/model-error.ts). The caller gets a
+// stable code + calm copy; the provider's own message and request_id stay in the logs
+// under [MODEL_OUTAGE]. Kept as a named export so the job routes need no change.
+export function modelError(e: unknown, route = "jobs"): Response {
+  return modelErrorResponse(route, e)
 }

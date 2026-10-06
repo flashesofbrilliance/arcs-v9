@@ -5,7 +5,14 @@ export const CANNED = {
   tributaries: [{ type: "meta", text: "a" }, { type: "challenge", text: "b" }, { type: "adjacent", text: "c" }],
   reasoning: { court: [], paths: [], fated: {} },
 }
-const create = async () => ({
+// One-shot failure injection: the next create() throws this instead of answering.
+let pending: unknown = null
+export function failNext(e: unknown) { pending = e }
+const create = async () => {
+  if (pending) { const e = pending; pending = null; throw e }
+  return ok()
+}
+const ok = () => ({
   content: [{ type: "text", text: JSON.stringify(CANNED) }],
   usage: { input_tokens: 1, output_tokens: 1 },
   stop_reason: "end_turn",

@@ -11,6 +11,7 @@ import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 import { auth } from "@/lib/auth"
+import { reportModelError, modelErrorBody } from "@/lib/model-error"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
@@ -398,9 +399,11 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     if (err instanceof SyntaxError) {
-      return NextResponse.json({ error: "Model returned non-JSON response", raw }, { status: 502 })
+      console.error(`[MODEL_OUTAGE] route=compass code=non_json upstream=${JSON.stringify(msg)}`)
+      return NextResponse.json({ error: "The bearing came back garbled. Re-run the compass. Your fork is held. Nothing was lost.", code: "model_error", retryable: true }, { status: 502 })
     }
-    return NextResponse.json({ error: msg }, { status: 500 })
+    const info = reportModelError("compass", err)
+    return NextResponse.json(modelErrorBody(info), { status: info.code === "rate_limited" ? 429 : 503 })
   }
 
   // Compute Y gate

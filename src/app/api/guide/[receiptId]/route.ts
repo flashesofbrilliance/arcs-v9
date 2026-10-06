@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { modelErrorResponse } from "@/lib/model-error"
 import { z } from "zod"
 import { clampText } from "@/lib/sanitize"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
@@ -231,12 +232,17 @@ export async function POST(
   const context = buildContext(receiptWithEntity)
   const userMsg = `Generate a ${mode} field guide for this decision context:\n\n${context}`
 
-  const response = await anthropic.messages.create({
-    model: "claude-opus-4-5",
-    max_tokens: 3000,
-    system: GUIDE_SYSTEM,
-    messages: [{ role: "user", content: userMsg }],
-  })
+  let response: Anthropic.Message
+  try {
+    response = await anthropic.messages.create({
+      model: "claude-opus-4-5",
+      max_tokens: 3000,
+      system: GUIDE_SYSTEM,
+      messages: [{ role: "user", content: userMsg }],
+    })
+  } catch (e) {
+    return modelErrorResponse("guide", e)
+  }
 
   const raw = response.content[0].type === "text" ? response.content[0].text : ""
   const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim()

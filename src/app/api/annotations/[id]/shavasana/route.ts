@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { modelErrorResponse } from "@/lib/model-error"
 
 export const dynamic = "force-dynamic"
 
@@ -23,7 +24,9 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "ANTHROPIC_API_KEY not configured" }, { status: 503 })
   }
 
-  const message = await anthropic.messages.create({
+  let message: Anthropic.Message
+  try {
+  message = await anthropic.messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 256,
     system: "Extract the invariant kernel - the smallest truth that survives compression. One sentence. No hedges. Wuwei register: simple, direct, final.",
@@ -32,6 +35,9 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
       content: `TYPE: ${annotation.type}\nANCHOR: "${annotation.anchorText}"\nNOTE: "${annotation.body}"`,
     }],
   })
+  } catch (e) {
+    return modelErrorResponse("annotations/shavasana", e)
+  }
 
 
 

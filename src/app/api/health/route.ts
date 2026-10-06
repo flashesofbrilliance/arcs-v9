@@ -3,6 +3,8 @@ import { Prisma } from "@prisma/client"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { isAdmin } from "@/lib/admin"
+import Anthropic from "@anthropic-ai/sdk"
+import { reportModelError, type ModelErrorCode } from "@/lib/model-error"
 
 // Admin health / diagnostics endpoint (ADR-006 direction; built 2026-09-24 after
 // a ~6-week silent persistence outage - prod was missing Receipt.batonId because
@@ -173,16 +175,29 @@ export async function GET(req: NextRequest) {
     outcomeCapture = { ok: false, error: err instanceof Error ? err.message.slice(0, 300) : String(err) }
   }
 
+  // 4b. Model reachability (2026-10-05). A 1-token Haiku call: the usage-limit outage
+  //     surfaced from a visitor's dead page, not from here. Code only, never provider text.
+  let model: { ok: boolean; code?: ModelErrorCode; ms?: number } = { ok: false }
+  if (process.env.ANTHROPIC_API_KEY) {
+    const t0 = Date.now()
+    try {
+      await new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }).messages.create({ model: "claude-haiku-4-5", max_tokens: 1, messages: [{ role: "user", content: "ok" }] })
+      model = { ok: true, ms: Date.now() - t0 }
+    } catch (err) {
+      model = { ok: false, code: reportModelError("health", err).code }
+    }
+  }
+
   // 5. Required env presence - names only, never values.
   const env: Record<string, boolean> = {}
   for (const k of REQUIRED_ENV) env[k] = !!process.env[k]
 
   const modelsOk = Object.values(models).every((m) => m.ok)
   const envOk = Object.values(env).every(Boolean)
-  const status = !dbOk || !modelsOk ? "down" : (lastReceipt.stale || sage.reachable === false || !envOk) ? "degraded" : "ok"
+  const status = !dbOk || !modelsOk ? "down" : (lastReceipt.stale || sage.reachable === false || !envOk || !model.ok) ? "degraded" : "ok"
 
   return NextResponse.json(
-    { status, ts: new Date().toISOString(), db: dbOk, models, lastReceipt, sage, outcomeCapture, env },
+    { status, ts: new Date().toISOString(), db: dbOk, models, model, lastReceipt, sage, outcomeCapture, env },
     { status: status === "down" ? 503 : 200 },
   )
 }
