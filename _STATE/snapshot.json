@@ -1,25 +1,26 @@
 {
-  "captured_at": "2026-10-05T21:17:41-04:00",
+  "captured_at": "2026-10-05T21:31:02-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "01fb29d2",
-    "head_message": "Merge pull request #859 from flashesofbrilliance/claude/cmp020-zod-bodies",
+    "head_sha": "6f21057d",
+    "head_message": "Merge pull request #865 from flashesofbrilliance/claude/warroom-kairos-legend",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#848 996b0418 merged without CI (billing block)"
+    "note": "#840 942b0f46 + #857 f5fab907 merged without CI (Actions billing block)"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-pb18iiy3t-arcs-care.vercel.app",
-    "latest_deploy_status": "Building",
+    "latest_deploy_url": "https://arcs-v9-9gjzmupa3-arcs-care.vercel.app",
+    "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
       "AUTH_RESEND_KEY",
       "DATABASE_URL",
+      "DIRECT_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "env names not re-listed this session"
+    "note": "serving arcs.care; build log shows migrate deploy: No pending migrations"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -35,13 +36,13 @@
       "Session",
       "VerificationToken"
     ],
-    "note": "decision_receipt this session: 2026-10-05--og-metadata-base-pr848--ZH"
+    "note": "decision_receipt row this session: 2026-10-05--cruft-manifest-detached-row-pr861--ZH. Prisma schema not re-checked."
   },
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Pinned OG/Twitter image URLs to app.arcs.care (were prl.arcs.care) and swept icon serving across 92 hosts.",
-  "next_action": "Resolve the 3 retired Fanatics hosts still serving old pages (task_b1e9b3f7) once Zach approves a domain change.",
-  "blocking": "GitHub Actions billing block (jobs not started)",
+  "session_summary": "Wired prisma migrate deploy into prod builds via experimentalServices.web.buildCommand, fixed P3019 lock file, added DIRECT_URL.",
+  "next_action": "Unblock GitHub Actions billing; then consider experimentalServices -> services migration.",
+  "blocking": "GitHub Actions billing block (human)",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
