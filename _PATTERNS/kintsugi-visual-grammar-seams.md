@@ -574,3 +574,6 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   folder exists. Left alone on purpose: 3 true ATS renders (aircall, morgan-stanley, norm-ai: Arial,
   black on white) and 3 custom resumes (people-in-ai, radar, recruithaus: extra classes the canonical
   sheet does not style).
+- **Follow-up 2:** the 3 custom resumes now carry the canonical sheet plus an in-file variant block
+  (flat pillars, `.adv`/`.oss` grids at 12px, forced `.pb` print break; skill and section labels in
+  sentence case because theirs run 32 to 36 chars). Still 3 pages by design, 0 findings.
