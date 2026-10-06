@@ -1,6 +1,6 @@
 # ARCS Trust Contract
 
-> **Version:** 1.7
+> **Version:** 1.8
 > **Date:** 2026-10-05
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
@@ -44,6 +44,9 @@ If you are signed in, your decision receipt is stored in your account and access
 
 **Your debrief:**
 If you log an outcome (how the decision went), that is stored in your account linked to the receipt. This data is used to improve ARCS's ability to read terrain accurately over time — specifically, to validate whether the system's confidence grades correspond to real outcomes. It is never shared or sold.
+
+**Debrief reminders:**
+Signed in, the first time a receipt of yours reaches its horizon you get one check-in email asking how the decision landed; it is the only email ARCS sends without asking. Later reminders come only if you turn them on, and every reminder carries a signed one-click link to turn them off.
 
 **System logs:**
 Standard infrastructure logs (request metadata, error traces) are retained for debugging. They do not contain your decision content.
@@ -172,6 +175,7 @@ This is a real limitation, not a hidden one. Two things are true at once:
 
 | Version | Date | Change |
 |---|---|---|
+| 1.8 | 2026-10-05 | §1: "Debrief reminders" added (one unasked check-in on the first receipt, later ones opt-in, signed one-click opt-out in each). Mirrors /privacy v1.5. |
 | 1.7 | 2026-10-05 | §1: anonymous save stash disclosed (browser local storage, prep notes stripped, 7-day expiry); "Shared links" corrected to owner-minted, hash-stored, revocable share tokens; added "Links that leave ARCS" (calendar, X), "LinkedIn uploads" (private Vercel Blob, deleted with the account) and "Demand probes" (no IP or user agent, deleted after the ADR-076 decision). §3: self-serve deletion endpoint. Mirrors /privacy v1.4. |
 | 1.6 | 2026-10-05 | §1 repair seam: the browser claim path for pre-2026-07-13 anonymous receipts was retired (a session id never proved possession); claim or delete now goes through the inquiry link. (Row added retroactively with 1.7; the 1.6 bump landed without one.) |
 | 1.5 | 2026-10-05 | §1: "Who else touches your question" (SAGE scoring service, cookieless analytics, no server cache of anonymous questions) and "Shared links" (link holders read the decision; never the account id or prep notes). §3 practice: account deletion now removes uploaded files from storage. |
