@@ -104,4 +104,5 @@ jobs:
         if: always()
         env:
           SCAN_RESULTS_OUTPUT: ${{ steps.review.outputs.results-file }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: ./scripts/security_review_gate.sh

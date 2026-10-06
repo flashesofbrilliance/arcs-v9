@@ -28,9 +28,19 @@ marker="${MARKER_FILE:-$ws/.claudecode-marker/marker.json}"
 
 if [ "${SCAN_RESULTS_OUTPUT+set}" = set ] && [ -z "$SCAN_RESULTS_OUTPUT" ]; then
   [ -f "$marker" ] || fail "scan step was skipped but no run-history marker exists; cannot tell why."
-  prev_sha="$(jq -r '.sha // "unknown"' "$marker" 2>/dev/null || echo unknown)"
-  prev_run="$(jq -r '.run_id // "unknown"' "$marker" 2>/dev/null || echo unknown)"
-  echo "::notice title=Security review skipped (already scanned)::this PR was already scanned at ${prev_sha} (run ${prev_run}); the action's run-history dedupe skipped it."
+  # A PR can commit its own .claudecode-marker/marker.json to make the action skip; only a
+  # marker restored from the cache (untracked) for THIS PR counts as a real prior scan.
+  if git -C "$ws" ls-files --error-unmatch "$marker" >/dev/null 2>&1; then
+    fail "marker.json is committed in the PR, not restored from the run-history cache."
+  fi
+  pr="${PR_NUMBER:-}"
+  if [ -n "$pr" ] && [ "$(jq -r '.pr_number // empty' "$marker" 2>/dev/null)" != "$pr" ]; then
+    fail "run-history marker is not for PR #$pr."
+  fi
+  # Marker fields are echoed into a workflow command: allow only hex / digits.
+  prev_sha="$(jq -r '.sha // ""' "$marker" 2>/dev/null | tr -cd '0-9a-f' | head -c 40)"
+  prev_run="$(jq -r '.run_id // ""' "$marker" 2>/dev/null | tr -cd '0-9' | head -c 20)"
+  echo "::notice title=Security review skipped (already scanned)::this PR was already scanned at ${prev_sha:-unknown} (run ${prev_run:-unknown}); the action's run-history dedupe skipped it."
   exit 0
 fi
 
