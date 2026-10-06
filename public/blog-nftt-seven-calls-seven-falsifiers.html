@@ -1,0 +1,232 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Seven Calls, Seven Falsifiers · NFTT</title>
+<meta name="description" content="Seven public crypto calls with stated falsifiers: what held, what missed, two corrections owned in public, and a January stablecoin drop that is only partly explained.">
+<meta name="robots" content="index">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Notes from the Trenches</span>
+    <span>Corrections owned</span>
+    <span class="sp"><b>One thread left open</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // Closing the loop</p>
+    <h1>Seven Calls, <em>Seven Falsifiers</em></h1>
+    <p class="standfirst">I wrote down what would prove me wrong, then went back when the answer could no longer be avoided. Some calls held. Some missed. Two of my own readings of a primary source were wrong, and one question about January still has no owner.</p>
+    <p class="byline">Draft, Oct 6, 2026 &middot; Calls dated at publication &middot; Secondary-source figures are labeled as secondary &middot; Not investment advice</p>
+  </header>
+
+  <section>
+    <span class="num">I · The only honest kind of prediction</span>
+    <p class="lead">Between January 24 and February 25, 2026, I published seven pieces on tokenized assets, stablecoins, custody and market structure. Each carried a falsifier, a sentence written in advance that says what would prove the call wrong. A forecast without one is a mood. This is the accounting, and I did not rewrite the falsifiers after the fact.</p>
+    <p>A word on terms, since I will use them. A stablecoin is a token pegged to a currency, here the dollar. USDC (USD Coin) is one, issued by Circle. USD1 is another, issued by World Liberty Financial. RWA (real-world asset) tokenization means putting claims on things like Treasury bills onto a blockchain. The SEC (Securities and Exchange Commission) is the United States securities regulator.</p>
+  </section>
+
+  <section>
+    <span class="num">II · What held, and what missed</span>
+    <p>The first piece forecast that about 62% of a roughly $35B tokenized real-world-asset market would become structurally vulnerable in the first quarter and migrate to compliant rails. Distributed RWA value on the tracker rwa.xyz read $38.8B on October 5. There was no collapse, and I record that call as missed on its headline.</p>
+    <div class="panel">
+      <h4>The scorecard <span class="sev">as resolved</span></h4>
+      <div class="step">
+        <span class="k">Missed</span><b>The RWA filtering event, and the custody cascade I built on it. No custodian freeze wave, no margin wave, no collateralized-loan-obligation downgrades found.</b>
+        <span class="k">Fired</span><b>Three of my own falsifiers. The market-structure bill's Section 404 yield text was softened in a May 1 compromise, and a Senate cloture vote on the bill failed 49 to 50 on September 15. USDC returned to its December level. And gold fell more than 20% from its peak: about $5,586 intraday on January 29 (futures), then about 27% lower by March 23 and about 29% lower by June 30.</b>
+        <span class="k">Partial</span><b>Deposit tokens: JPM Coin is live on Base, and a bank group plans a tokenized-deposit network for the first half of 2027. Base announced on February 18 that it is leaving the OP Stack, and I leave that one open.</b>
+        <span class="k">Held</span><b>The direction on bank-led settlement and on stablecoin rules. The timing and size of the cascades did not hold.</b>
+      </div>
+      <p>The falsifiers resolved cleanly. The confidence I attached to the calls did not deserve to travel with them.</p>
+    </div>
+    <p>One more thing on the ledger: two of the pieces carried an in-house "S-TIER" grade, and their central premise failed on a read of the primary text. I no longer cite those grades. A score you assign yourself measures your own patience.</p>
+  </section>
+
+  <section>
+    <span class="num">III · Correction one: the statement that did not say it</span>
+    <p>Two pieces said the SEC staff statement of January 28 classified tokenized Treasury bills and DeFi wrappers such as wrapped staked ether (wstETH) as non-compliant. I went back and read it twice. It restates that securities law applies on-chain and sorts tokenization into three kinds: issuer-sponsored, third-party custodial and third-party synthetic. It does not name Treasury bills. It does not name wstETH. It does not name wrappers.</p>
+    <blockquote>The tripwire hit on the date and missed on the content. A cascade built on a document that does not say it has no trigger.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">IV · Correction two: the baseline I set too high</span>
+    <p>I defined USDC "recovery" as a return to about $80B. The December level was $75B to $77B: $75.3B on December 31, $75.2B by February 28, with a $79.6B peak on March 17 (DefiLlama). Against the real baseline my own falsifier had fired, and my first draft of this very post read a September snapshot and missed it. The error is a small one in size and a large one in kind, which is why I am keeping it on the page.</p>
+  </section>
+
+  <section>
+    <span class="num">V · The January drop, partly attributed</span>
+    <p>USDC supply fell about $5.7B to $6.6B between January 15 and January 31, depending on the source: DefiLlama shows $76.7B to $70.1B, CoinGecko $75.7B to $70.0B. Two of my pieces called it forced institutional liquidation after that SEC statement. The statement names nothing that would force a sale, and the drop began before it. So I tested everything I could with public data, and I will tell you where it stands, not what it proves.</p>
+    <div class="panel">
+      <h4>Two legs, two partial explanations</h4>
+      <div class="step">
+        <span class="k">Jan 16 to 22</span><b>About $3.1B out. This leg fits a policy and macro sequence: tariff threats over Greenland, a fight over yield rules in the crypto market-structure bill, and the Treasury Secretary attributing the selloff to a six-standard-deviation move in Japan's ten-year bond (as relayed by a news-flow account on X). It also fits traders who had borrowed to bet on rising prices being forced out: about $1.09B liquidated on January 20 (secondary reporting). Inference, not proof.</b>
+        <span class="k">Jan 22 to 31</span><b>USDC fell $3.55B (DefiLlama) or $4.39B (CoinGecko). Over the same days USD1 gained $1.89B, after Binance launched a holding-rewards campaign for it on January 23 ($40M of tokens to USD1 holders on Binance, secondary reporting). That is about 43% to 53% of the leg. The leg also overlaps the Fed-chair nomination of Kevin Warsh on January 30 and about $1.71B of liquidations that day (secondary reporting).</b>
+        <span class="k">Not shown</span><b>That the USD1 mints were funded by USDC redemptions. Overlap in time is not a flow. Circle does not publish who redeems, and a coin in a cold wallet or a frozen vault stays in circulation.</b>
+      </div>
+      <p>I would put it as a leading suspect with its own caveat, not as a finding.</p>
+    </div>
+    <p>I checked and could not support a long list of other causes: regulation-forced selling, the Iran war (it began February 28), sanctions, credit stress, foreign selling of Treasuries, a flight to Solana, hacks, and a delayed October cascade. Weekly correlations with bitcoin, bill yields, spreads and the dollar never cleared a multiple-comparison bar after more than a dozen tests, so a couple of borderline hits is what chance would give.</p>
+    <p>I also left some stories out of the causal account on purpose. Stories about pardons, officials' business ties and an executive's dispute with World Liberty are alleged and unproven in what I could source, and I found no flow link between them and USDC supply. They carry no weight here.</p>
+  </section>
+
+  <section>
+    <span class="num">VI · What I would trust, and what I would not</span>
+    <p>Figures from the Treasury, the SEC and company filings are primary. Several others came through secondary reporting, and I have said so where they appear, including the Tether reserve figures, the January liquidation totals and the Binance campaign details. I have not checked them against a second source. The decisive test is also still undone: it needs an entity-level list of USDC redemptions from a paid data vendor or Binance's own conversion data.</p>
+    <blockquote>The unproven part stays marked unproven. That is the whole discipline.</blockquote>
+    <p>The rule I am keeping for the next calls: name the falsifier first, read the primary text twice, and correct in public when a number is wrong.</p>
+  </section>
+
+  <div class="more">
+    <a href="https://good.arcs.care/blog/nftt">
+      <span class="lbl">The series</span>
+      Read more Notes from the Trenches &#8594;
+    </a>
+  </div>
+
+  <footer>
+    <b>Field account, 2026.</b> Seven calls, seven falsifiers, two corrections, one open thread.<br>
+    This is analysis, not investment advice. Nothing here was checked by the author alone.
+  </footer>
+</div>
+<script defer src="/_vercel/insights/script.js"></script>

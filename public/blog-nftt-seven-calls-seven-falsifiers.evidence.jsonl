@@ -1,0 +1,20 @@
+{"pattern": "\\$35B|62%|85%|75%", "source": "own-article:real-world-asset-filtering-tsunami (LinkedIn export 09-11-2026, published 2026-01-24)", "note": "forecast figures quoted from the author's own published text; not independently verifiable"}
+{"pattern": "\\$38\\.8B", "source": "primary:app.rwa.xyz read 2026-10-06 (distributed asset value $38.78B)", "note": ""}
+{"pattern": "\\$5,586\\s?", "source": "data:Yahoo Finance GC=F daily high 2026-01-29 (5,586.2)", "note": "futures intraday; spot records near $5,595 per press"}
+{"pattern": "27%|29%", "source": "data:Yahoo Finance GC=F intraday lows: 4,100 on 2026-03-23 (-26.6%), 3,955 on 2026-06-30 (-29.2%) vs 5,586 peak", "note": ""}
+{"pattern": "53%", "source": "data:CoinGecko bitcoin daily: 124.7K (2025-10-06) to 58.6K (2026-07-01)", "note": "-53.0% close to close"}
+{"pattern": "\\$4\\.1B", "source": "secondary:Forklog on Tether Q2 2026 BDO attestation (excess reserves $8.23B to $4.11B), two fetches agree", "note": "primary attestation not read"}
+{"pattern": "250%", "source": "primary:Basel Committee crypto standard Group 2 risk weight 1,250%; BIS press release 2026-02-25 announced a review, no change", "note": ""}
+{"pattern": "\\$1\\.09B|\\$1\\.71B", "source": "secondary:search results on Jan 20 and Jan 30 2026 liquidation totals", "note": "not checked against Coinglass"}
+{"pattern": "\\$370M", "source": "secondary:CertiK January 2026 report via Cointelegraph ($370.3M), fetch confirmed", "note": ""}
+{"pattern": "\\$0\\.8B", "source": "data:DefiLlama supply Jan 15 to Jan 31 2026: USDY +0.65B, USYC +0.12B, BUIDL 0.00B", "note": ""}
+{"pattern": "\\$5\\.7B|\\$6\\.6B|\\$70\\.0B|\\$70\\.1B|\\$75\\.7B|\\$76\\.7B|\\$75\\.2B|\\$75\\.3B|\\$79\\.6B", "source": "data:DefiLlama and CoinGecko USDC supply series pulled 2026-10-06; Circle Q4 2025 release confirms $75.3B at year end", "note": "two sources differ by about $1B on some days; the draft says so"}
+{"pattern": "\\$75B|\\$77B", "source": "data:DefiLlama USDC Dec 1 2025 $77.0B, Dec 31 $75.3B; Circle Q4 call year-end $75.3B", "note": ""}
+{"pattern": "\\$80B", "source": "own-article:flippening-gonna-happen Falsifier 3 (about $80B+ December level)", "note": "stated baseline; shown too high"}
+{"pattern": "\\$10B", "source": "own-article:custody-collateral-anatomy-20b-systemic-blind-spot title ('$10B Systemic Blind Spot')", "note": ""}
+{"pattern": "\\$1B", "source": "data:DefiLlama vs CoinGecko USDC series differ by about $1B on some days", "note": ""}
+{"pattern": "3%", "source": "data:FRED DEXJPUS USD/JPY 157.89 (2026-01-20) to 152.88 (2026-01-29), -3.2%", "note": ""}
+{"pattern": "99\\.8%", "source": "own-article:hedgefundization piece in-house gauntlet grade (self-reported; cited in the draft as a failed grade)", "note": ""}
+{"pattern": "more\\s+than\\s+20", "source": "own-article:collateral-wars-why-digital-gold-failed Falsifier 2 (gold falls more than 20%)", "note": ""}
+{"pattern": "\\$3\\.17B|\\$4\\.93B|\\$1\\.12B|\\$1\\.89B|\\$3\\.55B|\\$4\\.39B|\\$40M|\\$3\\.1B", "source": "data:DefiLlama USD1 and USDC series and CoinGecko USDC series pulled 2026-10-06 (USD1 3.17B Jan 22, 4.29B Jan 23, 4.93B Jan 25; USDC Jan 22 to 31 -3.55B DefiLlama, -4.39B CoinGecko); secondary:Binance campaign reports ($40M WLFI airdrop, Jan 23 to Feb 20)", "note": "campaign details secondary; cause of USDC redemption not shown"}
+{"pattern": "43%|53%", "source": "computed:USD1 +1.89B divided by USDC -4.39B (CoinGecko) and -3.55B (DefiLlama)", "note": ""}
