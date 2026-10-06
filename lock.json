@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1791295673.578995,
-  "acquired_at_iso": "2026-10-06T14:07:53Z",
-  "expires_at": 1791297473.578995,
-  "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/affectionate-curie-27603c",
+  "acquired_at": 1791296153.248829,
+  "acquired_at_iso": "2026-10-06T14:15:53Z",
+  "expires_at": 1791297953.248829,
+  "holder": "merge-train@zh-m1-2020:86442:/Users/zharris/arcs-v9/.claude/worktrees/affectionate-curie-27603c",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 78795,
-  "reason": "",
-  "released_at_iso": "2026-10-06T14:09:04Z",
-  "seq": 30,
-  "state": "free",
+  "pid": 86573,
+  "reason": "merge train: 929 928 918 908 677",
+  "seq": 31,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
