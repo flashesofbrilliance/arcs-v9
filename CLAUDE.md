@@ -116,6 +116,23 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.106.0 (2026-10-06)
+
+> **Job Factory: the morning intake no longer dies on the API cap.** No repo code changed; the change is the scheduled-task
+> prompt outside the repo. Follows v3.103.0 (archived), whose open item 3 this closes.
+
+## Shipped (outside the repo)
+- `~/.claude/scheduled-tasks/arcs-job-search-loop-retargeted-alerts/SKILL.md`: preflight (d) model-health now gates ONLY
+  Steps 4-5 (score, forge). On a model 503, Steps 1-3, 6, 7 (Gmail intake, consume, prune, drift) still run and the report
+  opens `STATUS: PARTIAL model gate <code>`; checks (a)-(c) still FAIL the whole run. Verified by re-reading the stored
+  file; not yet exercised by a scheduled run. Backup of the prior prompt in that session's scratchpad.
+
+## Open (next session)
+1. Read the next morning report: first line should be `STATUS: PARTIAL model gate usage_limit` with intake counts.
+2. **Zach:** click **Undo clear** on jobs.arcs.care (677 scored rows hidden).
+3. Score the 376 unscored rows when the API cap lifts (`node scripts/jobs_score_sweep.mjs`).
+4. Carried: Upside send (confirm 2 new titles), Tenex send.
+
 # Handoff — v3.105.0 (2026-10-06)
 
 > **Orchestration session, day 2: open threads closed out, three API-key homes fixed, and a live tech-debt tracker.**
@@ -147,26 +164,3 @@ legacy public/*.jsx, main checkout parked on another branch, vercel experimental
 - A rerun is not a test when the action dedupes already-scanned commits: trigger a fresh scan.
 
 > Folded from `_HANDOFFS/fragments/20261006T135457Z--claude-orchestration-repo-cleanup-6f304f.md` (branch `claude/orchestration-repo-cleanup-6f304f`, head `68024c46`).
-
-# Handoff — v3.104.0 (2026-10-06)
-
-> **The [MODEL_OUTAGE] admin alert is proven end to end; throttle bug fixed (#902, `92373396`, merged green).**
-> Receipts `2026-10-06--model-outage-alert-e2e-pr902--ZH`, `--model-outage-throttle-merge-pr902--ZH`.
-
-## Done
-- Bug: `alertAdmins` armed the 6h throttle BEFORE the env checks and returned silently, so a deploy missing
-  `ADMIN_EMAILS`/`AUTH_RESEND_KEY` burned the window with no trace. Now armed only after the checks; skips log
-  `[MODEL_OUTAGE] alert skipped: <reason>`. Unit test fails on old code, passes on new.
-- E2E on a Preview with branch-scoped `ANTHROPIC_API_KEY=sk-ant-invalid-alert-test` + `ADMIN_EMAILS` (both removed
-  after): calm 503 `code=auth`, log line present, exactly one email for two triggers. Zero model spend.
-
-## Open (next session)
-1. `usage_limit` path is unit-test only. 2. `ADMIN_EMAILS` is Production-only: previews never alert (now logged).
-3. Throttle is per instance; a second instance can send a second email.
-
-## Lessons
-- Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
-  `arcs-care/arcs-care` and fails with "Branch not found".
-- `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
-
----
