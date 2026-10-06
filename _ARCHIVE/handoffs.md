@@ -5952,3 +5952,27 @@ _This block asserts nothing new. Counts, paths, and questions only._
 
 ## Open (next session)
 1. GitHub Actions billing block persists (no CI).
+
+
+# Handoff — v3.104.0 (2026-10-06)
+
+> **The [MODEL_OUTAGE] admin alert is proven end to end; throttle bug fixed (#902, `92373396`, merged green).**
+> Receipts `2026-10-06--model-outage-alert-e2e-pr902--ZH`, `--model-outage-throttle-merge-pr902--ZH`.
+
+## Done
+- Bug: `alertAdmins` armed the 6h throttle BEFORE the env checks and returned silently, so a deploy missing
+  `ADMIN_EMAILS`/`AUTH_RESEND_KEY` burned the window with no trace. Now armed only after the checks; skips log
+  `[MODEL_OUTAGE] alert skipped: <reason>`. Unit test fails on old code, passes on new.
+- E2E on a Preview with branch-scoped `ANTHROPIC_API_KEY=sk-ant-invalid-alert-test` + `ADMIN_EMAILS` (both removed
+  after): calm 503 `code=auth`, log line present, exactly one email for two triggers. Zero model spend.
+
+## Open (next session)
+1. `usage_limit` path is unit-test only. 2. `ADMIN_EMAILS` is Production-only: previews never alert (now logged).
+3. Throttle is per instance; a second instance can send a second email.
+
+## Lessons
+- Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
+  `arcs-care/arcs-care` and fails with "Branch not found".
+- `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.
+
+---
