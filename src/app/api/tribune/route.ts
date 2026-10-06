@@ -23,15 +23,16 @@ import {
   type TribuneContent,
   type TribunePhase,
 } from "@/lib/tribune"
+import { MODELS } from "@/lib/claude-models"
 
 export const dynamic = "force-dynamic"
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 // Anterior/Proactive are short reads → Haiku; Posterior weighs an outcome record → Sonnet.
 const MODEL: Record<TribunePhase, { model: string; max_tokens: number; temperature: number }> = {
-  anterior: { model: "claude-haiku-4-5-20251001", max_tokens: 1800, temperature: 0.2 },
-  proactive: { model: "claude-haiku-4-5-20251001", max_tokens: 1800, temperature: 0.2 },
-  posterior: { model: "claude-sonnet-4-6", max_tokens: 2200, temperature: 0.3 },
+  anterior: { model: MODELS.fast, max_tokens: 1800, temperature: 0.2 },
+  proactive: { model: MODELS.fast, max_tokens: 1800, temperature: 0.2 },
+  posterior: { model: MODELS.deep, max_tokens: 2200, temperature: 0.3 },
 }
 
 const CLARITY = new Set<ClarityMode>(["SIMPLE", "RICH", "DEEP"])

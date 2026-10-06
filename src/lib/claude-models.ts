@@ -1,9 +1,11 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { modelErrorResponse } from "@/lib/model-error"
 
-// One place for the model IDs the job routes call (migrated 2026-10-05 from
-// claude-sonnet-4-6 and the dated claude-haiku-4-5-20251001). Change a model here,
-// not in a route.
+// THE one place a Claude model id lives (app routes, scripts/, operators/). Callers name
+// a role; scripts/model_id_gate.py (pre-commit) blocks an id anywhere else, and Python
+// reads this same block via scripts/arcs_models.py. Changing a role's model changes
+// product output: do it on Zach's go, after an eval (scripts/model_drift_check.py flags
+// a newer model per role). Job routes migrated 2026-10-05 off Sonnet 4.6 / dated Haiku.
 //
 // Sonnet 5.5 differences that matter to these routes:
 //  - sampling params: a non-default temperature is a 400, so writer calls send none;
@@ -15,7 +17,13 @@ import { modelErrorResponse } from "@/lib/model-error"
 export const MODELS = {
   writer: "claude-sonnet-5-5", // cover letters, application answers, resume edits
   scorer: "claude-haiku-4-5",  // JD scoring + dim rescoring (temperature 0 is still allowed on Haiku)
+  fast: "claude-haiku-4-5",    // compass QUICKMOVE/PLAN, tribune anterior/proactive, annotations, health probe, operators/arcs_lte
+  deep: "claude-sonnet-4-6",   // compass COURT, tribune posterior, brief, scripts/slop_eval (kept as found; not yet evaluated on 5.5)
+  guide: "claude-opus-4-5",    // guide route (kept as found)
+  max: "claude-opus-4-7",      // scripts/network_scan
 } as const
+
+export type ModelRole = keyof typeof MODELS
 
 type WriterParams = {
   max_tokens: number

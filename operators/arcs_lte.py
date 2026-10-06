@@ -17,6 +17,9 @@ Design invariants:
 from __future__ import annotations
 
 import re
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "scripts"))
+from arcs_models import model as _model
 import json
 import uuid
 import math
@@ -311,7 +314,7 @@ List ONLY load-bearing claims. Maximum 7. Each: one declarative sentence, stripp
 Do NOT include: tone, examples, analogies, emotional framing, meta-commentary.
 Return ONLY a JSON array of strings. No explanation."""
             response = llm_client.messages.create(
-                model="claude-haiku-4-5-20251001",
+                model=_model("fast"),
                 max_tokens=512,
                 messages=[{"role": "user", "content": prompt}],
             )
@@ -562,7 +565,7 @@ Original:
 
 Rewrite ONLY. No preamble, no explanation."""
             response = llm_client.messages.create(
-                model="claude-haiku-4-5-20251001",
+                model=_model("fast"),
                 max_tokens=800,
                 messages=[{"role": "user", "content": prompt}],
             )
@@ -615,7 +618,7 @@ Claim: {text}
 
 Metaphor only. No explanation."""
             response = llm_client.messages.create(
-                model="claude-haiku-4-5-20251001",
+                model=_model("fast"),
                 max_tokens=200,
                 messages=[{"role": "user", "content": prompt}],
             )

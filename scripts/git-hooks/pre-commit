@@ -779,4 +779,11 @@ if [ -f scripts/null_userid_gate.py ] && command -v python3 >/dev/null 2>&1; the
     fi
   fi
 fi
+# ---------------------------------------------------------------------------
+# model-id guard (2026-10-05): Claude model ids live only in src/lib/claude-models.ts; callers
+# name a role (MODELS.<role>; Python via scripts/arcs_models.py). ~20 hardcoded ids meant no
+# upgrade was ever noticed. Fires on staged src/ scripts/ operators/ code. See scripts/model_id_gate.py.
+if command -v python3 >/dev/null 2>&1 && [ -f scripts/model_id_gate.py ]; then
+  python3 scripts/model_id_gate.py --staged >/dev/null 2>&1 || { python3 scripts/model_id_gate.py --staged || true; exit 1; }
+fi
 exit 0
