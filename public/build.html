@@ -284,10 +284,10 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
       <a class="full" href="https://status.arcs.care/" target="_blank" rel="noopener">full board &#8599;</a>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-val accent" id="bd-ship">&#8230;</div><div class="stat-label">Shipped &#183; issues closed done</div></div>
-      <div class="stat"><div class="stat-val" id="bd-prog">&#8230;</div><div class="stat-label">In progress &#183; open, active</div></div>
-      <div class="stat"><div class="stat-val" id="bd-next">&#8230;</div><div class="stat-label">Next &#183; queued</div></div>
-      <div class="stat"><div class="stat-val" id="bd-block">&#8230;</div><div class="stat-label">Blocked &#183; waiting on input</div></div>
+      <div class="stat"><div class="stat-val accent" id="bd-ship">18</div><div class="stat-label">Shipped &#183; issues closed done</div></div>
+      <div class="stat"><div class="stat-val" id="bd-prog">9</div><div class="stat-label">In progress &#183; open, active</div></div>
+      <div class="stat"><div class="stat-val" id="bd-next">5</div><div class="stat-label">Next &#183; queued</div></div>
+      <div class="stat"><div class="stat-val" id="bd-block">26</div><div class="stat-label">Blocked &#183; waiting on input</div></div>
     </div>
     <div class="pstrip" style="grid-template-columns:1fr">
       <div class="pcell">
@@ -413,24 +413,17 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
   set("sv-days",String(Math.floor((Date.now()-new Date("2026-04-09T11:39:09-04:00"))/86400000)));
   fetch("https://app.arcs.care/api/pulse",{cache:"no-store"}).then(function(r){return r.json();}).then(function(p){
     if(!p||p.ok===false)return;
-    if(p.commit){set("pl-commit",p.commit.sha.slice(0,7)+" "+String(p.commit.message).split("\n")[0].slice(0,42));
+    if(p.commit){set("pl-commit",String(p.commit.sha).slice(0,7));
       set("pl-commit-when",rel(p.commit.date));}
     if(typeof p.commitsTotal==="number"){var n=p.commitsTotal.toLocaleString();set("pl-count",n);set("sv-commits",n);}
     if(typeof p.prsOpen==="number")set("pl-prs",String(p.prsOpen));
     if(p.deploy){var st=String(p.deploy.state),cls=st==="success"?"ok":(/fail|error/.test(st)?"err":"pend");
       set("pl-deploy",'<span class="'+cls+'">'+(st==="success"?"live":st)+'</span>');set("pl-deploy-when",rel(p.deploy.date));}
-    // The board — same issues payload as status.arcs.care. Live buckets are
-    // label-dependent and unreliable while the repo is private: if shipped is 0
-    // alongside 100+ issues, the categorization is degraded, so fall back to the
-    // curated floor (identical to status.arcs.care) rather than render false zeros.
-    if(p.issues){var iss=p.issues,
-      degraded=(!iss.shipped)&&(iss.truncated||(!iss.inProgress&&!iss.blocked&&(iss.next||0)<=1)),
-      b=degraded?{shipped:25,inProgress:6,blocked:8,next:11,truncated:true}:iss,
-      fl=b.truncated?"+":"";
-      set("bd-ship",(b.shipped!=null?b.shipped+fl:"…"));
-      set("bd-prog",(b.inProgress!=null?String(b.inProgress):"…"));
-      set("bd-next",(b.next!=null?String(b.next):"…"));
-      set("bd-block",(b.blocked!=null?String(b.blocked):"…"));}
+    // The board: same debt counts as status.arcs.care (issue status labels). If the
+    // server could not read them, p.debt is null and the static floor stays: no false zeros.
+    if(p.debt&&p.debt.total>0&&p.debt.byStatus){var b=p.debt.byStatus;
+      set("bd-ship",String(b.done));set("bd-prog",String(b["in-progress"]));
+      set("bd-next",String(b.open));set("bd-block",String(b.decision));}
   }).catch(function(){});
 })();
 </script>

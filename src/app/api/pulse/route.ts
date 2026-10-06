@@ -1,31 +1,45 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/db";
+import {
+  assertPublicSafe,
+  riskStates,
+  shapeGates,
+  shapeTempo,
+  summarizeDebt,
+  weekStarts,
+  type CohortCounts,
+  type DebtIssue,
+} from "@/lib/pulse";
 
 /**
- * GET /api/pulse — cached, CORS-open live build telemetry for the public status
- * surfaces (status.arcs.care, chan.arcs.care, /state-of-union.html).
+ * GET /api/pulse — cached, CORS-open live telemetry for the public status surfaces
+ * (status.arcs.care and friends).
  *
- * Why this exists: those pages used to hit api.github.com directly from every
- * visitor's browser, which burns GitHub's unauthenticated 60 req/hr-per-IP
- * budget. This route fetches once server-side, is cached at the Vercel CDN via
- * `s-maxage`, and is served to every visitor from cache — so GitHub is hit at
- * most ~once/minute regardless of traffic. Set GITHUB_TOKEN in the Vercel env
- * to lift the origin's own limit to 5000 req/hr (any token can read a public
- * repo); it works without one, just closer to the free ceiling under load.
+ * The repo is PRIVATE, so every GitHub read happens here, server-side, with
+ * GITHUB_TOKEN (never sent to the browser). The page no longer calls api.github.com.
+ * Shaping and the public-safety check live in src/lib/pulse.ts: counts, trends and
+ * curated slugs only, never an issue title or body. A section whose read failed is
+ * `null` (never 0) and named in `degraded`, so the page keeps its static floor.
  */
 
-// ISR: the route response is cached and regenerated at most once per window.
-// 600s keeps GitHub calls (~5 per regeneration: commits, pulls, deployments,
-// deploy-status, issues) at ~30 req/hr — comfortably under the unauthenticated
-// 60 req/hr ceiling even with constant traffic. Set GITHUB_TOKEN to lift the
-// origin to 5000/hr, after which this can safely drop back to 60–300.
+// ISR: regenerated at most once per window. One regeneration = ~4 REST + 3 GraphQL
+// calls + 2 small DB counts.
 export const revalidate = 600;
 
-const REPO = "flashesofbrilliance/arcs-v9";
+const OWNER = "flashesofbrilliance";
+const NAME = "arcs-v9";
+const REPO = `${OWNER}/${NAME}`;
 const GH = `https://api.github.com/repos/${REPO}`;
+const TEMPO_WEEKS = 12;
+// Mirrors operators/prod_receipt_to_accountant.py FOUNDER_EMAILS: the founder QA account is
+// its own cohort and never counts toward the external calibration gate. Server-side only.
+const FOUNDER_EMAILS = new Set(["zach.harris@gmail.com"]);
 
-const CORS: Record<string, string> = {
-  "Access-Control-Allow-Origin": "*",
-};
+const CORS: Record<string, string> = { "Access-Control-Allow-Origin": "*" };
+
+function token(): string | undefined {
+  return process.env.GITHUB_TOKEN || process.env.GH_TOKEN || undefined;
+}
 
 function ghHeaders(): Record<string, string> {
   const h: Record<string, string> = {
@@ -33,134 +47,149 @@ function ghHeaders(): Record<string, string> {
     "User-Agent": "arcs-live-pulse",
     "X-GitHub-Api-Version": "2022-11-28",
   };
-  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
-  if (token) h.Authorization = `Bearer ${token}`;
+  const t = token();
+  if (t) h.Authorization = `Bearer ${t}`;
   return h;
 }
 
-function gh(path: string): Promise<Response> {
-  // Align the data-cache window with the route's ISR window (600s) so the whole
-  // response regenerates as one unit — otherwise the shorter fetch-cache wins and
-  // GitHub gets hit twice as often as the route's rate-limit budget assumes.
+function rest(path: string): Promise<Response> {
   return fetch(`${GH}${path}`, { headers: ghHeaders(), next: { revalidate: 600 } });
 }
 
-interface CommitApi {
-  sha: string;
-  commit: { message: string; author: { date: string } };
-}
-interface PrApi {
-  number: number;
-  title: string;
-}
-interface DeploymentApi {
-  id: number;
-  created_at: string;
-}
-interface DeploymentStatusApi {
-  state: string;
-}
-interface IssueApi {
-  // The REST /issues endpoint returns PRs too; a PR carries this key, a plain
-  // issue does not. We filter PRs out so the status counts are issues only.
-  pull_request?: unknown;
-  state: string; // "open" | "closed"
-  state_reason?: string | null; // "completed" | "not_planned" | "reopened" | null
-  labels: Array<{ name: string } | string>;
+async function graphql<T>(query: string, variables: Record<string, unknown> = {}): Promise<T | null> {
+  if (!token()) return null; // GraphQL has no anonymous access
+  const r = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: { ...ghHeaders(), "Content-Type": "application/json" },
+    body: JSON.stringify({ query, variables }),
+    next: { revalidate: 600 },
+  });
+  if (!r.ok) return null;
+  const j = (await r.json()) as { data?: T; errors?: unknown };
+  return j.errors || !j.data ? null : j.data;
 }
 
-// The status-board buckets ARE these GitHub Issue labels — one per issue.
-// Keep this list in sync with the labels used when triaging work.
-const STATUS_LABELS = ["in-progress", "blocked", "next"] as const;
+async function safe<T>(p: Promise<T>): Promise<T | null> {
+  try {
+    return await p;
+  } catch {
+    return null;
+  }
+}
 
-function labelNames(issue: IssueApi): string[] {
-  return issue.labels.map((l) => (typeof l === "string" ? l : l.name));
+async function readCommit() {
+  const r = await rest("/commits?sha=main&per_page=1");
+  if (!r.ok) return null;
+  const c = ((await r.json()) as Array<{ sha: string; commit: { author: { date: string } } }>)[0];
+  const m = (r.headers.get("link") || "").match(/[?&]page=(\d+)>;\s*rel="last"/);
+  return {
+    // The commit MESSAGE stays server-side: messages can name files and people.
+    commit: c ? { sha: c.sha.slice(0, 7), date: c.commit.author.date } : null,
+    commitsTotal: m ? Number(m[1]) : null,
+  };
+}
+
+async function readDeploy() {
+  // Vercel posts a GitHub deployment per deploy; the newest one is the last Vercel deploy.
+  const r = await rest("/deployments?per_page=1");
+  if (!r.ok) return null;
+  const dep = ((await r.json()) as Array<{ id: number; created_at: string }>)[0];
+  if (!dep) return null;
+  const s = await rest(`/deployments/${dep.id}/statuses?per_page=1`);
+  const st = s.ok ? ((await s.json()) as Array<{ state: string }>)[0]?.state : undefined;
+  return { state: st ?? "pending", date: dep.created_at };
+}
+
+async function readOpenPrs(): Promise<number | null> {
+  const d = await graphql<{ repository: { pullRequests: { totalCount: number } } }>(
+    `query{repository(owner:"${OWNER}",name:"${NAME}"){pullRequests(states:OPEN){totalCount}}}`,
+  );
+  return d ? d.repository.pullRequests.totalCount : null;
+}
+
+async function readDebt(): Promise<DebtIssue[] | null> {
+  // GraphQL, not REST: both REST issue lists lag fresh issues by minutes (measured 2026-10-06).
+  type Page = { repository: { issues: { nodes: Array<{ number: number; state: "OPEN" | "CLOSED"; labels: { nodes: { name: string }[] } }>; pageInfo: { hasNextPage: boolean; endCursor: string | null } } } };
+  const out: DebtIssue[] = [];
+  let after: string | null = null;
+  for (let page = 0; page < 5; page++) {
+    const d: Page | null = await graphql<Page>(
+      `query($after:String){repository(owner:"${OWNER}",name:"${NAME}"){issues(first:100,after:$after,labels:["debt"]){nodes{number state labels(first:10){nodes{name}}}pageInfo{hasNextPage endCursor}}}}`,
+      { after },
+    );
+    if (!d) return null;
+    for (const n of d.repository.issues.nodes) out.push({ number: n.number, state: n.state, labels: n.labels.nodes.map((l) => l.name) });
+    if (!d.repository.issues.pageInfo.hasNextPage) break;
+    after = d.repository.issues.pageInfo.endCursor;
+  }
+  return out;
+}
+
+async function readTempo(now: Date) {
+  const weeks = weekStarts(now, TEMPO_WEEKS);
+  const fields = weeks.map((w, k) => {
+    const end = new Date(`${w}T00:00:00Z`);
+    end.setUTCDate(end.getUTCDate() + 6);
+    const q = `repo:${REPO} is:pr is:merged base:main merged:${w}..${end.toISOString().slice(0, 10)}`;
+    return `w${k}:search(query:${JSON.stringify(q)},type:ISSUE,first:0){issueCount}`;
+  });
+  const d = await graphql<Record<string, { issueCount: number }>>(`query{${fields.join(" ")}}`);
+  if (!d) return null;
+  return shapeTempo(weeks, weeks.map((_, k) => d[`w${k}`]?.issueCount ?? null));
+}
+
+async function readCohorts(): Promise<CohortCounts | null> {
+  if (!process.env.DATABASE_URL) return null;
+  const [receipts, external, outcomes] = await Promise.all([
+    prisma.receipt.count(),
+    prisma.receipt.count({ where: { userId: { not: null }, NOT: { user: { email: { in: [...FOUNDER_EMAILS] } } } } }),
+    prisma.outcome.findMany({ select: { receipt: { select: { userId: true, user: { select: { email: true } } } } } }),
+  ]);
+  const closed = { founder: 0, external: 0, anonymous: 0 };
+  for (const o of outcomes) {
+    const email = o.receipt.user?.email?.toLowerCase();
+    if (!o.receipt.userId) closed.anonymous += 1;
+    else if (email && FOUNDER_EMAILS.has(email)) closed.founder += 1;
+    else closed.external += 1;
+  }
+  return { receipts, externalReceipts: external, closed };
 }
 
 export async function GET() {
-  const payload: Record<string, unknown> = {
+  const now = new Date();
+  const [commit, deploy, prsOpen, debtIssues, tempo, cohorts] = await Promise.all([
+    safe(readCommit()),
+    safe(readDeploy()),
+    safe(readOpenPrs()),
+    safe(readDebt()),
+    safe(readTempo(now)),
+    safe(readCohorts()),
+  ]);
+
+  const debt = summarizeDebt(debtIssues);
+  const gates = shapeGates(cohorts);
+  const payload = {
     ok: true,
-    repo: REPO,
-    updated: new Date().toISOString(),
+    updated: now.toISOString(),
+    commit: commit?.commit ?? null,
+    commitsTotal: commit?.commitsTotal ?? null,
+    prsOpen,
+    deploy,
+    debt,
+    risks: riskStates(debtIssues),
+    tempo,
+    gates,
+    // No efficacy-loop results exist yet; every claim in section 09 reads "not run".
+    evals: null,
+    degraded: [] as string[],
   };
-
-  try {
-    const [commitsRes, prsRes, depRes, issuesRes] = await Promise.all([
-      gh("/commits?sha=main&per_page=1"),
-      gh("/pulls?state=open&per_page=100&sort=updated&direction=desc"),
-      gh("/deployments?per_page=1"),
-      // All issues (open + closed) drive the live status board in ONE call:
-      // open-by-label → the three backlog buckets; closed-completed → shipped.
-      // per_page=100 covers the whole set today; if it ever exceeds 100 this
-      // undercounts — the truncated flag says so rather than lying.
-      gh("/issues?state=all&per_page=100"),
-    ]);
-
-    if (commitsRes.ok) {
-      const commits = (await commitsRes.json()) as CommitApi[];
-      const c = commits[0];
-      if (c) {
-        payload.commit = {
-          sha: c.sha.slice(0, 7),
-          message: c.commit.message.split("\n")[0],
-          date: c.commit.author.date,
-        };
-      }
-      // Total commit count via the pagination Link header's rel="last" page.
-      const link = commitsRes.headers.get("link");
-      const m = link ? link.match(/[?&]page=(\d+)>;\s*rel="last"/) : null;
-      if (m) payload.commitsTotal = Number(m[1]);
-    }
-
-    if (prsRes.ok) {
-      const prs = (await prsRes.json()) as PrApi[];
-      payload.prsOpen = prs.length;
-      payload.prTop = prs[0] ? { number: prs[0].number, title: prs[0].title } : null;
-    }
-
-    if (depRes.ok) {
-      const deps = (await depRes.json()) as DeploymentApi[];
-      const dep = deps[0];
-      if (dep) {
-        const stRes = await gh(`/deployments/${dep.id}/statuses?per_page=1`);
-        const statuses = stRes.ok ? ((await stRes.json()) as DeploymentStatusApi[]) : [];
-        payload.deploy = {
-          state: statuses[0]?.state ?? "pending",
-          date: dep.created_at,
-        };
-      }
-    }
-
-    if (issuesRes.ok) {
-      const raw = (await issuesRes.json()) as IssueApi[];
-      const issues = raw.filter((i) => !i.pull_request); // drop PRs
-      const open = issues.filter((i) => i.state === "open");
-      const counts: Record<string, number> = {};
-      for (const label of STATUS_LABELS) {
-        counts[label] = open.filter((i) => labelNames(i).includes(label)).length;
-      }
-      // Shipped = closed issues that were actually completed (exclude the ones
-      // closed as not-planned/duplicate — those aren't shipped, they're dropped).
-      const shipped = issues.filter(
-        (i) => i.state === "closed" && i.state_reason !== "not_planned",
-      ).length;
-      const link = issuesRes.headers.get("link");
-      payload.issues = {
-        // Every bucket now live from GitHub Issues — the whole board is real.
-        shipped,
-        inProgress: counts["in-progress"],
-        blocked: counts["blocked"],
-        next: counts["next"],
-        openTotal: open.length,
-        // Honesty flag: if there's a next page the set exceeds 100 and these are
-        // a floor, not exact. The client labels it "floor" rather than lying.
-        truncated: !!(link && /rel="next"/.test(link)),
-      };
-    }
-
-    return NextResponse.json(payload, { headers: CORS });
-  } catch {
-    // Never hard-fail the widget: return ok:false so the client falls back.
-    return NextResponse.json({ ok: false, repo: REPO }, { headers: CORS });
+  for (const k of ["commit", "deploy", "prsOpen", "debt", "risks", "tempo", "gates"] as const) {
+    if (payload[k] == null) payload.degraded.push(k);
   }
+
+  if (assertPublicSafe(payload).length) {
+    // Fail closed: a payload that could leak is never served. The page keeps its floor.
+    return NextResponse.json({ ok: false }, { headers: CORS });
+  }
+  return NextResponse.json(payload, { headers: CORS });
 }

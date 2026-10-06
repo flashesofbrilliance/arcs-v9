@@ -7,7 +7,9 @@ crawlers, answer engines and no-JS readers get the static HTML. That floor sat a
 A number a script can compute is stamped by the script and guarded by its own --check.
 
 Stamps (by element id): hero-day, era-day, stat-days (days since T0 = 2026-04-09, as of the
-stamp date), sv-commits (git rev-list --count HEAD), et-now (the as-of date).
+stamp date), sv-commits (git rev-list --count HEAD), et-now (the as-of date), and the
+tempo-live data-floor (merges to main per week, last 12 Monday-start weeks, from git; the
+same metric /api/pulse reads live, 2026-10-06).
 
   python3 scripts/status_floor_emit.py            # restamp as of today (ET date from the system clock)
   python3 scripts/status_floor_emit.py --check    # exit 1 if the floor is inconsistent or older than MAX_AGE_DAYS
@@ -16,7 +18,7 @@ stamp date), sv-commits (git rev-list --count HEAD), et-now (the as-of date).
 --check never recounts commits (CI checkouts are shallow). It checks that the three day fields
 agree with the stamped as-of date, and that the as-of date is recent. Stdlib only.
 """
-import argparse, datetime as dt, hashlib, os, re, subprocess, sys, tempfile
+import argparse, datetime as dt, hashlib, json, os, re, subprocess, sys, tempfile
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PAGE = os.path.join(ROOT, "public", "status.html")
@@ -48,6 +50,32 @@ def stamp(s, today, commits):
     return s
 
 
+TEMPO_RE = re.compile(r"(id=\"tempo-live\" data-floor=')([^']*)(')")
+TEMPO_WEEKS = 12
+
+
+def tempo_floor(today):
+    """[[monday_iso, merges], ...] for the last TEMPO_WEEKS weeks, first-parent merges on HEAD."""
+    monday = today - dt.timedelta(days=today.weekday())
+    weeks = [monday - dt.timedelta(weeks=k) for k in range(TEMPO_WEEKS - 1, -1, -1)]
+    out = subprocess.check_output(["git", "log", "--first-parent", "--merges", "--format=%cs",
+                                   f"--since={weeks[0].isoformat()}", "HEAD"], cwd=ROOT, text=True)
+    counts = {w: 0 for w in weeks}
+    for line in out.split():
+        d = dt.date.fromisoformat(line)
+        w = d - dt.timedelta(days=d.weekday())
+        if w in counts:
+            counts[w] += 1
+    return [[w.isoformat(), counts[w]] for w in weeks]
+
+
+def stamp_tempo(s, rows):
+    s, n = TEMPO_RE.subn(lambda m: m.group(1) + json.dumps(rows, separators=(",", ":")) + m.group(3), s, count=1)
+    if n != 1:
+        raise SystemExit("status_floor_emit: tempo-live data-floor not found exactly once")
+    return s
+
+
 def check(s, today):
     f, errs = read_fields(s), []
     try:
@@ -58,6 +86,17 @@ def check(s, today):
     errs += [f"{i}={f[i]!r} but as-of {asof} means day {want}" for i in DAY_IDS if f[i] != want]
     if not re.fullmatch(r"\d{1,3}(,\d{3})*", f["sv-commits"] or ""):
         errs.append(f"sv-commits is not a stamped count: {f['sv-commits']!r}")
+    m = TEMPO_RE.search(s)
+    try:
+        rows = json.loads(m.group(2)) if m else None
+        okrows = isinstance(rows, list) and len(rows) == TEMPO_WEEKS and all(
+            isinstance(r, list) and len(r) == 2 and isinstance(r[1], int) for r in rows)
+    except ValueError:
+        okrows = False
+    if not okrows:
+        errs.append("tempo-live data-floor is missing or not 12 [week, merges] rows (run scripts/status_floor_emit.py)")
+    elif all(r[1] == 0 for r in rows):
+        errs.append("tempo-live floor is all zeros: a false-zero floor (run scripts/status_floor_emit.py)")
     age = (today - asof).days
     if age > MAX_AGE_DAYS:
         errs.append(f"static floor is {age} days old (max {MAX_AGE_DAYS}); run scripts/status_floor_emit.py")
@@ -72,6 +111,8 @@ def self_test():
     assert check(good, today + dt.timedelta(days=MAX_AGE_DAYS + 1)), "stale floor must fail"
     assert check(span("hero-day").sub(r"\g<1>129\3", good, count=1), today), "day mismatch must fail"
     assert check(span("et-now").sub(r"\g<1>…\3", good, count=1), today), "unstamped as-of must fail"
+    zero = stamp_tempo(good, [["2026-01-05", 0]] * TEMPO_WEEKS)
+    assert check(zero, today), "all-zero tempo floor must fail"
     print("status_floor_emit self-test: PASS (stale, day-mismatch, unstamped all fail; fresh passes)")
     return 0
 
@@ -135,8 +176,10 @@ def main(a):
         if not errs: print("✓ status floor current")
         return 1 if errs else 0
     commits = int(subprocess.check_output(["git", "rev-list", "--count", "HEAD"], cwd=ROOT, text=True).strip())
-    open(PAGE, "w", encoding="utf-8").write(stamp(s, today, commits))
-    print(f"status_floor_emit: stamped day {(today - T0).days}, {commits:,} commits, as of {today}")
+    rows = tempo_floor(today)
+    open(PAGE, "w", encoding="utf-8").write(stamp_tempo(stamp(s, today, commits), rows))
+    print(f"status_floor_emit: stamped day {(today - T0).days}, {commits:,} commits, "
+          f"{sum(r[1] for r in rows)} merges over {TEMPO_WEEKS} weeks, as of {today}")
     return 0
 
 
