@@ -1,5 +1,5 @@
-# ARCS session state — v3.86.0 (2026-10-05)
+# ARCS session state — v3.87.0 (2026-10-05)
 
-- HEAD at handoff cut: c18ea2ef (origin/main)
-- Done: cruft_sweep prune safety (#807) and incremental bundles (#809). Receipts filed for both.
-- Next: first live `cruft_sweep.py prune <wt> --dry-run` on the fixed code; confirm fe-smoke green on main.
+- HEAD at handoff cut: 36d42cf0 (origin/main)
+- Done: owner-only briefs + share tokens (#808), BriefShare migration in prod, deploy READY.
+- Next: signed-in share-flow check on prod; migration_lock.toml provider fix; outcome/compass chips are running.

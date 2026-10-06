@@ -114,6 +114,31 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.87.0 (2026-10-05)
+
+> **Briefs are owner-only; sharing goes through revocable hashed tokens (#808, `8ccd7b49`).**
+> Migration applied to prod on Zach's go. Receipt `2026-10-05--brief-share-tokens-pr808--ZH`.
+
+## Shipped + on main
+- `/api/brief/[id]` + `/brief/[id]` 404 for anyone but the owner (anonymous userId-null rows included);
+  children scoped to owner; gen rate limit kept. **Existing raw-id brief links stopped working.**
+- `BriefShare` (32-byte token, SHA-256 stored, `revokedAt`, RLS deny-all). `POST/DELETE /api/brief/[id]/share`
+  (owner, stored brief only, 10 active max, per-user limit). `/shared/brief#<token>` POSTs the fragment
+  token to `/api/shared/brief` (select allowlist; never userId/sessionId/prep/rawResponse/children/protecting).
+- Vercel Analytics + SpeedInsights strip `#...` (`src/components/VercelTelemetry.tsx`). `/brief/[id]` OG image removed.
+- Anonymous decision: no sessionId cookie; anonymous runs are not persisted, they share via ADR-037 fragment links.
+- Prod migration: SQL run via Supabase `execute_sql` in one transaction + `_prisma_migrations` rows with file
+  SHA-256 checksums for `20260928000000_tribune_rls` and `20261005000000_brief_share` (prod `DATABASE_URL` is
+  a sensitive Vercel env, so the prisma CLI cannot reach it). Prod probe: token-shaped lookup 404s, not 500.
+
+## Open (next session)
+1. Signed-in flow never exercised: open an owned brief, copy link, open in private window, revoke.
+2. `migration_lock.toml` says `sqlite` vs postgresql datasource: a real `prisma migrate deploy` may refuse.
+3. Chips running in other sessions: outcome API owner gate (task_13f704a2), compass parent scoping (task_0d7c27ea).
+
+## Lessons
+- A path-borne secret leaks to pathname analytics; put share tokens in the fragment and POST them.
+
 # Handoff — v3.86.0 (2026-10-05)
 
 > **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**
@@ -141,26 +166,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - `git -C <dir>` inside the main checkout silently resolves to the main repo when `<dir>` is no longer a
   worktree: prove the GIT_DIR, never trust the path.
 - A self-test with a tiny base repo cannot see a size bug: give the fixture real (incompressible) history.
-
-# Handoff — v3.85.0 (2026-10-05)
-
-> **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts
-> `2026-10-05--playwright-ignore-unit-pr806--ZH`, `2026-10-05--playwright-ignore-unit-pr806-main-green--ZH`,
-> `2026-10-05--handoff-v3.83-pr797--ZH`.
-
-## Shipped + on main
-- **`playwright.config.ts` `testIgnore: "unit/**"` (#806):** Playwright's default testMatch picked up
-  `tests/unit/*.test.ts` (node:test files that need the `@/` loader in `tests/unit/register.mjs`), so fe-smoke
-  failed on `@/lib/db` / `@/lib/reminderLink` (main run 37378905407 at `db788359`). #800 had fixed the
-  culture-cues half. Reproduced and verified on Node 22.23 (CI's version, `brew install node@22`, keg-only).
-- **Main CI run 37384172495 on `974f6adb`: all six jobs green**, the first full pass covering #762, #780, #766,
-  #797, #806 (all merged on Zach's go with CI queued during the Actions backlog).
-
-## Open (next session)
-1. intent workflow on `974f6adb` not checked (low).
-2. `probe_court`: `requireAdmin(` matches carry no carve-out parsing (low, carried from v3.83.0).
-
-## Lessons (in the record)
-- A "unit test" failure inside the Playwright step means Playwright loaded the unit files: check testMatch
-  before chasing the test. Plain `npm run test:unit` passed on the same commit.
-- Rapid merges on main cancel each prior CI run; watch for the first non-cancelled run containing your SHA.

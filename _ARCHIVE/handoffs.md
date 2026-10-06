@@ -1,3 +1,26 @@
+# Handoff — v3.85.0 (2026-10-05)
+
+> **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts
+> `2026-10-05--playwright-ignore-unit-pr806--ZH`, `2026-10-05--playwright-ignore-unit-pr806-main-green--ZH`,
+> `2026-10-05--handoff-v3.83-pr797--ZH`.
+
+## Shipped + on main
+- **`playwright.config.ts` `testIgnore: "unit/**"` (#806):** Playwright's default testMatch picked up
+  `tests/unit/*.test.ts` (node:test files that need the `@/` loader in `tests/unit/register.mjs`), so fe-smoke
+  failed on `@/lib/db` / `@/lib/reminderLink` (main run 37378905407 at `db788359`). #800 had fixed the
+  culture-cues half. Reproduced and verified on Node 22.23 (CI's version, `brew install node@22`, keg-only).
+- **Main CI run 37384172495 on `974f6adb`: all six jobs green**, the first full pass covering #762, #780, #766,
+  #797, #806 (all merged on Zach's go with CI queued during the Actions backlog).
+
+## Open (next session)
+1. intent workflow on `974f6adb` not checked (low).
+2. `probe_court`: `requireAdmin(` matches carry no carve-out parsing (low, carried from v3.83.0).
+
+## Lessons (in the record)
+- A "unit test" failure inside the Playwright step means Playwright loaded the unit files: check testMatch
+  before chasing the test. Plain `npm run test:unit` passed on the same commit.
+- Rapid merges on main cancel each prior CI run; watch for the first non-cancelled run containing your SHA.
+
 # Handoff — v3.84.0 (2026-10-05)
 
 > **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
