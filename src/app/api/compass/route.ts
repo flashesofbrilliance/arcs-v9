@@ -6,6 +6,7 @@ import { Resend } from "resend"
 import { NextRequest, NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/db"
+import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 import { auth } from "@/lib/auth"
@@ -187,8 +188,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "ANTHROPIC_API_KEY not configured" }, { status: 503 })
   }
 
-  // Resolve session ID (passed from client or new)
-  const resolvedSessionId = sessionId ?? crypto.randomUUID()
+  // Resolve session ID: reuse the client's only if the thread is the caller's.
+  const resolvedSessionId = await resolveOwnedSessionId(sessionId, userId)
 
   // Fetch prep session if provided (signed-in flow persists prep rows)
   const prepRow = prepId
