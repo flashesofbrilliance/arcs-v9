@@ -21,17 +21,27 @@ jobs:
         id: detect
         run: |
           # Find ADR files added or modified in this push
-          NEW_ADRS=$(git diff --name-only HEAD~1 HEAD -- '_DECISIONS/ADR-*.md' | grep -v '_TEMPLATE')
-          echo "new_adrs=$NEW_ADRS" >> $GITHUB_OUTPUT
+          # grep -v exits 1 when nothing is left (only a template changed); that is not a failure.
+          NEW_ADRS=$(git diff --name-only HEAD~1 HEAD -- '_DECISIONS/ADR-*.md' | grep -v '_TEMPLATE' || true)
+          # Multi-line output needs the heredoc form; "new_adrs=a\nb" is an invalid output line and
+          # failed this job whenever a push touched two or more ADR files (runs 37472043262,
+          # 37481234702, 37499499209).
+          {
+            echo "new_adrs<<ADR_LIST_EOF"
+            echo "$NEW_ADRS"
+            echo "ADR_LIST_EOF"
+          } >> "$GITHUB_OUTPUT"
           echo "Found: $NEW_ADRS"
 
       - name: Generate pickup notes + update PENDING.md
         if: steps.detect.outputs.new_adrs != ''
+        env:
+          NEW_ADRS: ${{ steps.detect.outputs.new_adrs }}
         run: |
           set -e
           DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
 
-          for ADR_FILE in ${{ steps.detect.outputs.new_adrs }}; do
+          for ADR_FILE in $NEW_ADRS; do
             echo "Processing $ADR_FILE"
 
             # Extract fields from ADR
@@ -105,6 +115,8 @@ jobs:
 
       - name: Commit queue updates
         if: steps.detect.outputs.new_adrs != ''
+        env:
+          NEW_ADRS: ${{ steps.detect.outputs.new_adrs }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -112,6 +124,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No queue changes to commit"
           else
-            git commit -m "chore(queue): auto-process $(echo '${{ steps.detect.outputs.new_adrs }}' | wc -w | tr -d ' ') new ADR(s) → _QUEUE/ [NCI:SKIP]"
+            git commit -m "chore(queue): auto-process $(echo "$NEW_ADRS" | wc -w | tr -d ' ') new ADR(s) → _QUEUE/ [NCI:SKIP]"
             git push
           fi
