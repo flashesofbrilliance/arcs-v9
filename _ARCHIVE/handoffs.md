@@ -166,6 +166,7 @@ _This block asserts nothing new. Counts, paths, and questions only._
 ## Open (next session)
 1. ~~Share tokens for briefs~~ shipped by a parallel session as #808.
 2. Previews share the prod `DATABASE_URL`; a separate preview DB is the real fix.
+   - **Correction (2026-10-06):** tried and dropped. A free Supabase project `arcs-v9-preview` was built (schema matched prod's 358 Prisma columns), then deleted on Zach's call: hand-applied migrations, idle pausing and a second DB to keep in sync outweighed the gain. Previews stay on the prod DB; the guard is an empty Preview `ADMIN_EMAILS` (admin pages refuse every viewer), re-added only for a short QA session.
 3. Sessions issued before #795 stay valid to expiry; clearing `Session` signs everyone out (Zach's call).
 4. Unknown whether Preview and Production `AUTH_SECRET` differ (both Sensitive).
 5. `/api/account/reminders?uid=` flips opt-in without auth (MEDIUM, ciso-review): signed token. Check
