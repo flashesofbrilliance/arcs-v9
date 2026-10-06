@@ -39,14 +39,14 @@ export default function TrustPage() {
 
         {/* Lede */}
         <p style={{ fontFamily: mono, fontSize: '0.8125rem', color: text.muted, lineHeight: 1.6, margin: '0 0 1.75rem', letterSpacing: '0.01em' }}>
-          Before you run the compass: what you're agreeing to, what we store, and what we won't do. Plain language. No buried terms.
+          Before you run the compass: what you&apos;re agreeing to, what we store, and what we won&apos;t do. Plain language. No buried terms.
         </p>
 
         <h1 style={{ fontFamily: sans, fontSize: '1.6rem', fontWeight: 600, color: text.primary, margin: '0 0 0.5rem', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
-          What you're entering into
+          What you&apos;re entering into
         </h1>
         <p style={{ fontFamily: sans, fontSize: '0.9375rem', color: text.secondary, margin: '0 0 2.25rem', lineHeight: 1.5 }}>
-          Eight commitments. Read them once. They don't change without notice.
+          Eight commitments. Read them once. They don&apos;t change without notice.
         </p>
 
         {/* Chips */}
@@ -64,25 +64,25 @@ export default function TrustPage() {
           {
             n: '§ 01', title: 'What we store and what we don\'t',
             body: <>
-              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it, unless you choose to keep one. Want to keep one? Sign in and save it: we hold the bearing in your browser's local storage (not on our servers, and without your private prep notes) until you finish signing in, then clear it; unclaimed, it expires after 7 days. The write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content, only request metadata (timestamps, response codes).
+              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it, unless you choose to keep one. Want to keep one? Sign in and save it: we hold the bearing in your browser&apos;s local storage (not on our servers, and without your private prep notes) until you finish signing in, then clear it; unclaimed, it expires after 7 days. The write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don&apos;t contain your decision content, only request metadata (timestamps, response codes).
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
-                <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server). Still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
+                <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server). Still nothing on ours. The link opens once on the recipient&apos;s device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
               </span>
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
-                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section: 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Automatic claiming on sign-in was retired on 2026-10-05, because a browser's session id alone did not prove who made a receipt. To claim or delete one of yours, use the inquiry link below.
+                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section: 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Automatic claiming on sign-in was retired on 2026-10-05, because a browser&apos;s session id alone did not prove who made a receipt. To claim or delete one of yours, use the inquiry link below.
               </span>
             </>,
           },
           {
             n: '§ 02', title: 'We don\'t train on your input',
             body: <>
-              ARCS runs through the Anthropic API. Per Anthropic's API terms, inputs are not used to train models. Your questions are not data collection. They're compass queries.
+              ARCS runs through the Anthropic API. Per Anthropic&apos;s API terms, inputs are not used to train models. Your questions are not data collection. They&apos;re compass queries.
             </>,
           },
           {
             n: '§ 03', title: 'Export and delete',
             body: <>
-              <strong style={{ color: text.primary }}>Delete:</strong> signed in, delete your account yourself, immediately (POST /api/account/delete), or request it and we do it within 30 days. One-way: receipts and uploaded files are gone, history can't be restored.{' '}
+              <strong style={{ color: text.primary }}>Delete:</strong> signed in, delete your account yourself, immediately (POST /api/account/delete), or request it and we do it within 30 days. One-way: receipts and uploaded files are gone, history can&apos;t be restored.{' '}
               <strong style={{ color: text.primary }}>Export:</strong> on the roadmap, not yet live. If you need your data before export is built, reach out directly.
             </>,
           },
@@ -111,7 +111,7 @@ export default function TrustPage() {
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.75rem' }} />
         <div style={{ marginBottom: '1.75rem' }}>
           <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 05</div>
-          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.75rem' }}>What ARCS is and isn't for</div>
+          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.75rem' }}>What ARCS is and isn&apos;t for</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {[
               { head: 'Designed for', items: ['Decisions with real consequences', 'Forks you haven\'t mapped yet', 'High-pressure, time-sensitive calls', 'Multi-party decisions'] },
@@ -135,7 +135,7 @@ export default function TrustPage() {
           <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 06</div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>How much weight to put on the output</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginBottom: '0.75rem' }}>
-            NCI (Navigational Conviction Index) is a proxy, not ground truth. It reflects pattern coherence, not outcome probability. Here's how to read the grades:
+            NCI (Navigational Conviction Index) is a proxy, not ground truth. It reflects pattern coherence, not outcome probability. Here&apos;s how to read the grades:
           </div>
           <div style={{ border: `0.5px solid ${border.subtle}`, borderRadius: 8, overflow: 'hidden' }}>
             {GRADES.map((g, i) => (
@@ -167,14 +167,14 @@ export default function TrustPage() {
           <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 08</div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>How ARCS catches you at the fork</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginBottom: '0.75rem' }}>
-            You might expect the system to detect when you're about to override a clear signal. Here's what's honest:
+            You might expect the system to detect when you&apos;re about to override a clear signal. Here&apos;s what&apos;s honest:
           </div>
           <div style={{ background: surface.panel, border: `0.5px solid ${border.subtle}`, borderRadius: 8, padding: '0.9rem 1.1rem' }}>
             <div style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.4rem' }}>Current state</div>
             <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.secondary, lineHeight: 1.65 }}>
               Kairos detection, the system that flags momentum building toward a decision point, is on the roadmap, not live yet.{' '}
               <strong style={{ color: text.primary }}>Right now, ARCS surfaces the terrain. You bring the awareness of where you are in the decision arc.</strong>{' '}
-              The compass can't yet tell you "you're about to override a YELLOW with no new data." That's a gap we're naming, not hiding.
+              The compass can&apos;t yet tell you &quot;you&apos;re about to override a YELLOW with no new data.&quot; That&apos;s a gap we&apos;re naming, not hiding.
             </div>
           </div>
         </div>

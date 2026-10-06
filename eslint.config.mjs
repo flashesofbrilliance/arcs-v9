@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Static prototypes served as files (compass-kit, observatory demo): their
+    // components are script-tag globals and carry no build, so React lint rules
+    // misreport them. Not part of the Next.js app.
+    "public/**",
   ]),
 ]);
 

@@ -96,7 +96,7 @@ export default function PrivacyPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
             <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What</div>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Why it's locked</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Why it&apos;s locked</div>
           </div>
           {ALWAYS.map((row, i) => (
             <div key={row.what} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < ALWAYS.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
@@ -130,11 +130,11 @@ export default function PrivacyPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.7rem 1rem', background: surface.panel, borderBottom: `0.5px solid ${border.subtle}` }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: signal.red, flexShrink: 0 }} />
             <span style={{ fontFamily: mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: signal.red }}>Never</span>
-            <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Scout's honor. Enforced by architecture and covenant, not just policy.</span>
+            <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Scout&apos;s honor. Enforced by architecture and covenant, not just policy.</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What we won't do</div>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>How we're proving it</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What we won&apos;t do</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>How we&apos;re proving it</div>
           </div>
           {NEVER.map((row, i) => (
             <div key={row.what} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < NEVER.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
@@ -168,11 +168,11 @@ export default function PrivacyPage() {
             <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>§ 02</div>
             <span style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.08em', color: signal.gold, border: `0.5px solid ${signal.gold}40`, borderRadius: 4, padding: '1px 6px' }}>⚠ NOT BUILT YET</span>
           </div>
-          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>What we don't have yet but should</div>
+          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>What we don&apos;t have yet but should</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75 }}>
-            <strong style={{ color: text.primary }}>Export</strong>: not yet built. You can delete, but you can't yet download your receipt history in a portable format. This is on the roadmap. Until it ships, contact us directly if you need your data.<br /><br />
-            <strong style={{ color: text.primary }}>Audit log</strong>: you can't yet see a log of every time your data was accessed. We log it internally; the user-facing view isn't built. On the roadmap.<br /><br />
-            <strong style={{ color: text.primary }}>Consent revocation per-receipt</strong>: if a receipt was used in the journalism pipeline and you later want it removed, the workflow for that isn't formalized yet. Contact us directly.
+            <strong style={{ color: text.primary }}>Export</strong>: not yet built. You can delete, but you can&apos;t yet download your receipt history in a portable format. This is on the roadmap. Until it ships, contact us directly if you need your data.<br /><br />
+            <strong style={{ color: text.primary }}>Audit log</strong>: you can&apos;t yet see a log of every time your data was accessed. We log it internally; the user-facing view isn&apos;t built. On the roadmap.<br /><br />
+            <strong style={{ color: text.primary }}>Consent revocation per-receipt</strong>: if a receipt was used in the journalism pipeline and you later want it removed, the workflow for that isn&apos;t formalized yet. Contact us directly.
           </div>
         </div>
 
@@ -182,7 +182,7 @@ export default function PrivacyPage() {
         <div style={{ marginBottom: '1.75rem' }}>
           <SectionHeader n="§ 03 · Journalism pipeline" title="When ARCS produces content from sessions" />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginTop: '0.5rem' }}>
-            ARCS operates <strong style={{ color: text.primary }}>@TILbyARCS</strong> as a journalism engine. Content is produced from ARCS's own analysis, not from your sessions. Your compass queries are never published without an explicit, session-specific opt-in, not buried in account settings, not assumed from prior consent. If we ever build a feature where you can voluntarily contribute an anonymized receipt to the journalism corpus, that will be a separate, prominent, reversible consent step.
+            ARCS operates <strong style={{ color: text.primary }}>@TILbyARCS</strong> as a journalism engine. Content is produced from ARCS&apos;s own analysis, not from your sessions. Your compass queries are never published without an explicit, session-specific opt-in, not buried in account settings, not assumed from prior consent. If we ever build a feature where you can voluntarily contribute an anonymized receipt to the journalism corpus, that will be a separate, prominent, reversible consent step.
           </div>
         </div>
 
