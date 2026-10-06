@@ -52,6 +52,9 @@ PATH_RE = re.compile(r"(?<![\w/.-])((?:%s)/[\w./\[\]@+-]+)" % "|".join(re.escape
 # bare script names: foo_bar.py / foo.sh / foo.ts — only when not already part of a path
 BARE_RE = re.compile(r"(?<![\w/.-])([A-Za-z][\w-]*\.(?:py|sh|ts|tsx|mjs))(?![\w/-])")
 TRAIL = ".,;:)]}'\"`>"
+# Dated point-in-time records. Their cites were gated while the text was live (CLAUDE.md); once a
+# block moves to the archive, rewriting a cite falsifies history, so the gate does not scan these.
+EXEMPT_DIRS = ("_ARCHIVE/",)
 ROOT_FILES = {"CLAUDE.md", "AGENTS.md", "WORLD.md", "MEMORY.md", "SKILL.md"}
 
 
@@ -227,6 +230,9 @@ def main(argv: list[str] | None = None) -> int:
             print(f"integrity_gate: skip {f} (no such file)", file=sys.stderr)
             continue
         rel = os.path.relpath(p, REPO)
+        if rel.startswith(EXEMPT_DIRS):
+            print(f"integrity_gate: skip {rel} (archived point-in-time record)", file=sys.stderr)
+            continue
         reports.append(gate(str(p), state, self_path=rel))
 
     worst = "OK"
