@@ -113,6 +113,10 @@ _ARTIFACTS/linkedin/
 _STATE/risk-register.jsonl
 _STATE/risk-sweep-cursor
 
+# handoff excavation raw index: regenerate with scripts/handoff_excavate.py + handoff_cluster.py
+_STATE/handoff-excavation/*.jsonl
+!_STATE/handoff-excavation/salvage-ledger.jsonl
+
 # bank-event propagation: local append-only state (spec: runtime/specs/bank-event-propagation-v0.md)
 _STATE/bank-events.jsonl
 _STATE/bank-dependents.jsonl
