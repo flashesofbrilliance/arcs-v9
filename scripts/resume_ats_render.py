@@ -90,10 +90,13 @@ def parse(src: str) -> dict:
 
     doc["pillars"] = [norm(strip_tags(p)) for p in
                       grab_all(r'<span class="pt">(.*?)</span>', src)]
+    if not doc["pillars"]:   # forge layout: <div class="pillar"><b>Head.</b> text</div>, no .pt span
+        doc["pillars"] = [norm(strip_tags(p)) for p in
+                          grab_all(r'<div class="pillar"[^>]*>(.*?)</div>', src)]
 
     # jobs, in document order, tagged with the section they sit in
     jobs = []
-    for sec in grab_all(r'<section class="card".*?>(.*?)</section>', src):
+    for sec in grab_all(r'<section\b[^>]*>(.*?)</section>', src):
         # the lv span nests <span class="n">NN</span>; drop it so the lazy match sees the real label
         sec_lbl = re.sub(r'<span class="n">.*?</span>', "", sec, flags=re.S)
         label = norm(strip_tags(grab(r'<span class="lv">(.*?)</span>', sec_lbl) or ""))
@@ -128,8 +131,8 @@ def parse(src: str) -> dict:
     ]
 
     extras = []
-    for sec in grab_all(r'<section class="card".*?>(.*?)</section>', src):
-        if re.search(r'class="(?:job|skill-k|pillar|edu-line|cc-h)', sec):
+    for sec in grab_all(r'<section\b[^>]*>(.*?)</section>', src):
+        if re.search(r'class="(?:job|skill-k|pillar|edu-line|edu|cc-h)"', sec):
             continue
         if 'class="telem"' in sec:      # emitted compactly as Selected Results instead
             continue
@@ -137,7 +140,10 @@ def parse(src: str) -> dict:
         head = norm(strip_tags(grab(r'<span class="lv">(.*?)</span>', sec_lbl) or ""))
         head = re.sub(r"^\d+\s*", "", head)
         items = []
-        for blk in grab_all(r'<div class="(?:dp-h|h|dp-li|ip|dp-adv|dp-tension|dp-role|rt|rl|rd|t|s|m|d|k)"[^>]*>(.*?)</div>', sec):
+        # forge layout open-source list: <div class="oss"><div><div class="k">name</div><div class="v">what</div>
+        for k, v in re.findall(r'<div class="k"[^>]*>(.*?)</div>\s*<div class="v"[^>]*>(.*?)</div>', sec, flags=re.S):
+            items.append(norm(strip_tags(k)) + ": " + norm(strip_tags(v)))
+        for blk in ([] if items else grab_all(r'<div class="(?:dp-h|h|dp-li|ip|dp-adv|dp-tension|dp-role|rt|rl|rd|t|s|m|d|k)"[^>]*>(.*?)</div>', sec)):
             v = norm(strip_tags(blk))
             if v and v not in items:
                 items.append(v)
@@ -160,6 +166,9 @@ def parse(src: str) -> dict:
     edu_block = grab(r'<div class="edu-line"[^>]*>(.*?)</div>\s*</section>', src) or ""
     doc["education"] = [norm(strip_tags(x)) for x in
                         grab_all(r"<span>(.*?)</span>", edu_block)] if edu_block else []
+    if not doc["education"]:   # forge print-base layout: one <div class="edu"> per line
+        doc["education"] = [norm(strip_tags(x)) for x in
+                            grab_all(r'<div class="edu"[^>]*>(.*?)</div>', src)]
     return doc
 
 
@@ -200,7 +209,7 @@ def esc(s: str) -> str:
 def emit(doc: dict) -> str:
     o: list[str] = []
     a = o.append
-    a("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">")
+    a("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">")
     title = f"{doc['name']} - Resume"
     if doc["target"]:
         title += " - " + re.sub(r"^Target,?\s*", "", doc["target"], flags=re.I)
