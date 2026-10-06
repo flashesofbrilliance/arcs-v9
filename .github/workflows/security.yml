@@ -26,6 +26,10 @@
 #      dependencies, workflows). A PR touching none of these never runs it.
 #   2. Once per PR: on opened / reopened / ready_for_review, NOT on every push.
 #      To review again after new commits, add the label `security-review`.
+#      That label run passes run-every-commit=true: the action restores its
+#      .claudecode-marker by prefix `claudecode-<repo>-pr-<N>-`, so without it every
+#      PR scanned once was skipped forever and the label re-run never rescanned.
+#      Only the explicit label opts back into spend; opened/reopened stay once-per-PR.
 name: security-review
 
 on:
@@ -79,6 +83,8 @@ jobs:
         with:
           claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           comment-pr: true
+          # 'true' only on the explicit `security-review` label (job `if:` filters other labels).
+          run-every-commit: ${{ github.event.action == 'labeled' }}
 
       # FALSE-PASS GATE (2026-10-05): the action above concludes `success` with
       # findings_count=0 even when Claude Code never reviewed anything. Since ~22:10 UTC
