@@ -7,8 +7,9 @@
   "name": "main",
   "pid": 34355,
   "reason": "merge train: 882",
-  "seq": 7,
-  "state": "held",
+  "released_at_iso": "2026-10-06T11:30:31Z",
+  "seq": 8,
+  "state": "free",
   "took_over_from": null,
   "ttl": 1800
 }
