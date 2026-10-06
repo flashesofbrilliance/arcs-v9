@@ -1,13 +1,13 @@
 {
-  "acquired_at": 1791308246.497569,
-  "acquired_at_iso": "2026-10-06T17:37:26Z",
-  "expires_at": 1791310046.497569,
+  "acquired_at": 1791308288.5999238,
+  "acquired_at_iso": "2026-10-06T17:38:08Z",
+  "expires_at": 1791310088.5999238,
   "holder": "merge-train@zh-m1-2020:70841:/Users/zharris/arcs-v9/.claude/worktrees/orchestration-repo-cleanup-6f304f",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 70881,
+  "pid": 71309,
   "reason": "merge train: 934",
-  "seq": 39,
+  "seq": 40,
   "state": "held",
   "took_over_from": null,
   "ttl": 1800
