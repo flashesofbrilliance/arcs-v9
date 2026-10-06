@@ -142,26 +142,23 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - A "stale queue" can be a dead intake: the freshest unswiped row was 12 days old because no mail had been read since 09-11.
 - A background agent can stop on "waiting on batches" without writing its output; check the file before trusting the notice.
 
-# Handoff — v3.102.0 (2026-10-06)
+# Handoff — v3.104.0 (2026-10-06)
 
-> **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
-> #890 (`a8fd8358`), all merged with CI green (Actions is running again). Receipts
-> `2026-10-06--ahmed-order-vocabulary-pr880--ZH`, `--ahmed-order-receipt-pr885--ZH`, `--ahmed-order-brief-pr890--ZH`.
+> **The [MODEL_OUTAGE] admin alert is proven end to end; throttle bug fixed (#902, `92373396`, merged green).**
+> Receipts `2026-10-06--model-outage-alert-e2e-pr902--ZH`, `--model-outage-throttle-merge-pr902--ZH`.
 
 ## Done
-- `src/lib/vocabulary.ts` + `runtime/specs/ahmed-order-vocabulary.md`: Decision, True North, Reasons, Open questions,
-  Next moves, (brief: Situation), Evidence folded. Rulings: label is True North; DEWY keeps all three meanings; a Decision
-  is a call, bet or choice; `horizonLabel()` gives plain English ("This Week"). Minted **tao-285** (oracle) as the
-  open-question empty state: no model-written answers.
-- `src/organisms/AhmedOrder.tsx` renders both pages. Fixed: True North hardcoded SHARP on /receipt; brief never showed
-  Reasons; `briefView` defaulted missing values to GREEN/SHARP/TWO_WAY; DebriefCard called NCI "Conviction";
-  375px overflow on long path tags; stakes never rendered.
+- Bug: `alertAdmins` armed the 6h throttle BEFORE the env checks and returned silently, so a deploy missing
+  `ADMIN_EMAILS`/`AUTH_RESEND_KEY` burned the window with no trace. Now armed only after the checks; skips log
+  `[MODEL_OUTAGE] alert skipped: <reason>`. Unit test fails on old code, passes on new.
+- E2E on a Preview with branch-scoped `ANTHROPIC_API_KEY=sk-ant-invalid-alert-test` + `ADMIN_EMAILS` (both removed
+  after): calm 503 `code=auth`, log line present, exactly one email for two triggers. Zero model spend.
 
 ## Open (next session)
-1. No GREEN/RED/LOCKED receipt exists in prod: SHARP render untested on real data.
-2. Live /brief/[id] against the real API not exercised (verified via Playwright-mocked `/api/brief` with real rows).
-3. Chip running: compass answers for open questions (task_160443dd). The receipt-view spend chip landed as #888.
+1. `usage_limit` path is unit-test only. 2. `ADMIN_EMAILS` is Production-only: previews never alert (now logged).
+3. Throttle is per instance; a second instance can send a second email.
 
-## Lessons (in the record)
-- A worktree with symlinked `node_modules` breaks Turbopack dev (`next/font` resolve). Use `next dev --webpack`.
-- Real data, zero spend: render ephemeral receipts from sessionStorage, and briefs by mocking `/api/brief` with a read-only row copy.
+## Lessons
+- Branch-scoped env: `vercel env add NAME preview <branch>` must run inside the repo; from `~` the CLI is linked to
+  `arcs-care/arcs-care` and fails with "Branch not found".
+- `vercel curl <path> --deployment <url>` reaches protected previews without a bypass token.

@@ -1,3 +1,29 @@
+# Handoff — v3.102.0 (2026-10-06)
+
+> **Receipt, brief and ledger share one vocabulary in the Ahmed order.** #880 (`28225089`), #885 (`2f3cb294`),
+> #890 (`a8fd8358`), all merged with CI green (Actions is running again). Receipts
+> `2026-10-06--ahmed-order-vocabulary-pr880--ZH`, `--ahmed-order-receipt-pr885--ZH`, `--ahmed-order-brief-pr890--ZH`.
+
+## Done
+- `src/lib/vocabulary.ts` + `runtime/specs/ahmed-order-vocabulary.md`: Decision, True North, Reasons, Open questions,
+  Next moves, (brief: Situation), Evidence folded. Rulings: label is True North; DEWY keeps all three meanings; a Decision
+  is a call, bet or choice; `horizonLabel()` gives plain English ("This Week"). Minted **tao-285** (oracle) as the
+  open-question empty state: no model-written answers.
+- `src/organisms/AhmedOrder.tsx` renders both pages. Fixed: True North hardcoded SHARP on /receipt; brief never showed
+  Reasons; `briefView` defaulted missing values to GREEN/SHARP/TWO_WAY; DebriefCard called NCI "Conviction";
+  375px overflow on long path tags; stakes never rendered.
+
+## Open (next session)
+1. No GREEN/RED/LOCKED receipt exists in prod: SHARP render untested on real data.
+2. Live /brief/[id] against the real API not exercised (verified via Playwright-mocked `/api/brief` with real rows).
+3. Chip running: compass answers for open questions (task_160443dd). The receipt-view spend chip landed as #888.
+
+## Lessons (in the record)
+- A worktree with symlinked `node_modules` breaks Turbopack dev (`next/font` resolve). Use `next dev --webpack`.
+- Real data, zero spend: render ephemeral receipts from sessionStorage, and briefs by mocking `/api/brief` with a read-only row copy.
+
+---
+
 # Handoff — v3.99.0 (2026-10-06)
 
 > **Job Factory session, third part: the Upside application gauntleted and on main, and ATS-safe companions for
