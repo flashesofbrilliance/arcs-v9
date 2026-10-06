@@ -1,3 +1,54 @@
+# Handoff — v3.86.0 (2026-10-05)
+
+> **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**
+> Both merged on Zach's go with `fe-smoke` still pending (python-only). Receipts
+> `2026-10-05--cruft-prune-head-safety-pr807--ZH`, `2026-10-05--cruft-incremental-bundles-pr809--ZH`.
+
+## Shipped + on main
+- **#807 (`15a5761c`):** detached worktrees returned the literal `HEAD` from `--abbrev-ref`, and
+  `bundle create <f> HEAD` in the main repo bundled the MAIN checkout (`44ed0c88` x5). `.git`-less worktrees
+  fell through to the enclosing checkout. `resolve_worktree()` now requires a `.git` file, toplevel == dir,
+  GIT_DIR under `<common>/worktrees/`, and a `git worktree list` entry; bundled tip must equal HEAD; any
+  refusal exits 2; inherited `GIT_DIR`/`GIT_WORK_TREE` scrubbed. Rule 9.
+- **#809 (`f69ffb66`, asked for by the orchestration session):** bundles are `<ref> ^origin/<base>`; a tip
+  already on upstream gets only a MANIFEST.tsv row (`on-origin/<base>`); detached heads pinned permanently as
+  `refs/cruft-archive/<name>-<sha8>`. Rule 10.
+- `--self-test` (13 checks: branch / detached / no-.git / landed worktrees over 2MB base history, <256KB
+  bundle ceiling) fails on both prior versions; wired into pre-commit when the script is staged.
+
+## Open (next session)
+1. No real `prune` has run on the fixed code; first live run: `--dry-run` first, check MANIFEST.tsv rows.
+2. `survey` still drops detached worktrees from its table (`worktrees()` only appends on a `branch` line) (low).
+3. `fe-smoke` was pending at both merges; confirm it went green on main.
+
+## Lessons (in the record)
+- `git -C <dir>` inside the main checkout silently resolves to the main repo when `<dir>` is no longer a
+  worktree: prove the GIT_DIR, never trust the path.
+- A self-test with a tiny base repo cannot see a size bug: give the fixture real (incompressible) history.
+
+# Handoff — v3.85.0 (2026-10-05)
+
+> **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts
+> `2026-10-05--playwright-ignore-unit-pr806--ZH`, `2026-10-05--playwright-ignore-unit-pr806-main-green--ZH`,
+> `2026-10-05--handoff-v3.83-pr797--ZH`.
+
+## Shipped + on main
+- **`playwright.config.ts` `testIgnore: "unit/**"` (#806):** Playwright's default testMatch picked up
+  `tests/unit/*.test.ts` (node:test files that need the `@/` loader in `tests/unit/register.mjs`), so fe-smoke
+  failed on `@/lib/db` / `@/lib/reminderLink` (main run 37378905407 at `db788359`). #800 had fixed the
+  culture-cues half. Reproduced and verified on Node 22.23 (CI's version, `brew install node@22`, keg-only).
+- **Main CI run 37384172495 on `974f6adb`: all six jobs green**, the first full pass covering #762, #780, #766,
+  #797, #806 (all merged on Zach's go with CI queued during the Actions backlog).
+
+## Open (next session)
+1. intent workflow on `974f6adb` not checked (low).
+2. `probe_court`: `requireAdmin(` matches carry no carve-out parsing (low, carried from v3.83.0).
+
+## Lessons (in the record)
+- A "unit test" failure inside the Playwright step means Playwright loaded the unit files: check testMatch
+  before chasing the test. Plain `npm run test:unit` passed on the same commit.
+- Rapid merges on main cancel each prior CI run; watch for the first non-cancelled run containing your SHA.
+
 # Handoff — v3.84.0 (2026-10-05)
 
 > **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.

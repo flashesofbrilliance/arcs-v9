@@ -5,9 +5,19 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
-## [v3.86.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
+## [v3.88.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
 
 - Cyan single-stroke Möbius favicon; wireframe raster for apple/PWA/OG; manifest.ts added. Subdomains needed both a proxy.ts passthrough and next.config.ts catch-all exclusions.
+
+## [v3.87.0] 2026-10-05 — owner-only briefs + revocable share tokens (#808)
+
+- `/brief/[id]` owner-only (404); share via `/shared/brief#<token>`, SHA-256 stored, revocable; raw-id links dead.
+- Prod migration via Supabase SQL + hand-written `_prisma_migrations` rows (sensitive DATABASE_URL blocks the CLI).
+
+## [v3.86.0] 2026-10-05 — cruft_sweep prune: own-HEAD bundles (#807) + incremental bundles (#809)
+
+- Prune refuses non-worktrees and tip != HEAD (exit 2); detached heads pinned `refs/cruft-archive/<name>-<sha8>`; bundles `^origin/<base>`.
+- `--self-test` 13 checks, fails on both prior versions; pre-commit runs it when staged. No live prune on the new code yet.
 
 ## [v3.85.0] 2026-10-05 — Main CI green: Playwright ignores tests/unit (#806)
 
