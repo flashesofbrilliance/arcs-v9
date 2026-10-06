@@ -4,23 +4,19 @@
 
 Counts: command 14 · hook 2 · operator 48 · package 3 · script 166 · skill 21 · workflow 2 · total 256 · missing JTBD 1
 
-Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · DUPLICATE 1 · BROKEN 1
+Install state: WIRED 289 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 16 · DUPLICATE 1 · BROKEN 0
 
-## install-state gaps (21)
+## install-state gaps (18)
 
 - **INSTALLED-UNUSED** [repo:script] claim_check.py — no hook/command/task/CI/doc references it  
-  fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
-- **INSTALLED-UNUSED** [repo:script] corpus_adapter_jeben.py — no hook/command/task/CI/doc references it  
-  fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
-- **INSTALLED-UNUSED** [repo:script] deep_model_eval.mjs — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [repo:script] forge_finalize.sh — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [repo:script] gauntlet_log_emit.py — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
-- **INSTALLED-UNUSED** [repo:script] gen_tailor_icons.py — no hook/command/task/CI/doc references it  
+- **INSTALLED-UNUSED** [repo:script] handoff_cluster.py — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
-- **INSTALLED-UNUSED** [repo:script] idea_montecarlo.py — no hook/command/task/CI/doc references it  
+- **INSTALLED-UNUSED** [repo:script] handoff_excavate.py — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [repo:script] jobs_rescore_split.mjs — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
@@ -29,6 +25,8 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
 - **INSTALLED-UNUSED** [repo:script] nftt_claim_batch.py — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [repo:script] nftt_dropcap_lint.py — no hook/command/task/CI/doc references it  
+  fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
+- **INSTALLED-UNUSED** [repo:script] receipt_efficacy_probe.py — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [repo:script] receipt_outcome_resolver.py — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
@@ -40,11 +38,8 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [repo:script] trust_name_leak.py — no hook/command/task/CI/doc references it  
   fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
-- **INSTALLED-UNUSED** [repo:script] vercel-debug.sh — no hook/command/task/CI/doc references it  
-  fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [user:plugin] frontend-design@claude-plugins-official — project-scoped to /Users/zharris/arcs only  
   fix: `claude plugin uninstall frontend-design@claude-plugins-official`
-- **BROKEN** [user:task] arcs-field-os-weekly — references missing repo path(s): scripts/backlog_ripeness.py
 - **AVAILABLE-NOT-INSTALLED** [pub:marketplace] arcs — marketplace 'arcs' (5 plugins) not added  
   fix: `claude plugin marketplace add flashesofbrilliance/arcs-skills`
 - **DUPLICATE** [multi:duplicate] nci-scoring — same name: repo:skill:nci-scoring | synced:skill:nci-scoring  
@@ -164,6 +159,8 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   `python3 scripts/backlog_freshness.py`
 - **backlog_issue_sync.py** — backlog_issue_sync.py — mirror induced-backlog rows to GitHub issues (create-only, idempotent).  
   `python3 scripts/backlog_issue_sync.py`
+- **backlog_ripeness.py** — backlog_ripeness.py: which induced-backlog rows have RIPENED (their spark plug fired).  
+  `python3 scripts/backlog_ripeness.py`
 - **bank_event.py** — bank_event.py - back- and forward-propagation when a lesson is banked.  
   `python3 scripts/bank_event.py`
 - **baseline-prod-migrations.sh** — Baseline the PRODUCTION database into Prisma migrate history (one-time).  
@@ -210,8 +207,6 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   `python3 scripts/concordance_render.py`
 - **connector_render.py** — connector_render — render the ADR-056 <tool>.arcs.care connector fleet from SSOT.  
   `python3 scripts/connector_render.py`
-- **corpus_adapter_jeben.py** — corpus_adapter_jeben.py — adapter #2: Jeben engagement corpus → catalog.  
-  `python3 scripts/corpus_adapter_jeben.py`
 - **corpus_adapter_louisville.py** — corpus_adapter_louisville.py — pilot adapter: Louisville engagement corpus → catalog.  
   `python3 scripts/corpus_adapter_louisville.py`
 - **corrections_link.py** — corrections_link.py — git-ground the believability ledger's "unlinked corrections".  
@@ -258,8 +253,6 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   `python3 scripts/gen_receipt_close.py`
 - **gen_recoil_artifact.py** — Render an ARCS-canon Recoil Report HTML artifact from a generated report JSON.  
   `python3 scripts/gen_recoil_artifact.py`
-- **gen_tailor_icons.py** — Generate resume-tailor PWA icons — diamond glyph with 'RT' mark, distinct from personal-resume icons.  
-  `python3 scripts/gen_tailor_icons.py`
 - **gen_tao_alchemist.py** — Generate the Alchemist reaction chamber from the Tao SSOT.  
   `python3 scripts/gen_tao_alchemist.py`
 - **gen_tao_corpus.py** — Generate the browsable Tao corpus artifact from the SSOT.  
@@ -272,6 +265,10 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   `python3 scripts/gravity_well_fork_scan.py`
 - **gutter_consistency_lint.py** — gutter_consistency_lint.py - Frustration Gate for the "stale gutter" mis-indent bug class.  
   `python3 scripts/gutter_consistency_lint.py`
+- **handoff_cluster.py** — handoff_cluster — deterministic domain clustering of excavated handoff units (no LLM).  
+  `python3 scripts/handoff_cluster.py`
+- **handoff_excavate.py** — handoff_excavate — mechanical index of every handoff block ever committed (no LLM).  
+  `python3 scripts/handoff_excavate.py`
 - **handoff_fold.py** — handoff_fold — fragments are raw material; molt turns them into ONE cold-moltable arc. ADR-085 (d).  
   `python3 scripts/handoff_fold.py`
 - **hookspath_arm.sh** — hookspath_arm.sh — make a checkout run ITS OWN scripts/git-hooks, never another checkout's.  
@@ -280,8 +277,6 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   `python3 scripts/html_div_balance_lint.py`
 - **hypercube_sampler.py** — hypercube_sampler.py — the cost-governed hypercube gauntlet sampling engine (v1)  
   `python3 scripts/hypercube_sampler.py`
-- **idea_montecarlo.py** — I.D.E.A. Monte Carlo — Instantiate · Disrupt · Evaluate · Anneal  
-  `python3 scripts/idea_montecarlo.py`
 - **integrity_gate.py** — integrity_gate.py — the Metabolic Router's GATE organ (ADR-075, Reading Room Phase 0).  
   `python3 scripts/integrity_gate.py`
 - **jobs_prose_gate.py** — jobs_prose_gate: Job Factory slice 7. The NFTT prose factory's gate chain, run on  
@@ -364,6 +359,8 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   `python3 scripts/purpose_guard.py`
 - **reader_scan.py** — reader_scan.py — ARCS Reader Gauntlet  
   `python3 scripts/reader_scan.py`
+- **receipt_efficacy_probe.py** — receipt_efficacy_probe: plumbing proof for predictions -> closes -> Accountant scoring.  
+  `python3 scripts/receipt_efficacy_probe.py`
 - **receipt_lookup.py** — receipt_lookup.py — the Detective query over the internal recoil ledger.  
   `python3 scripts/receipt_lookup.py`
 - **receipt_outcome_resolver.py** — receipt_outcome_resolver.py — the receipt-side resolver for the believability ledger.  
@@ -456,8 +453,6 @@ Install state: WIRED 286 · AVAILABLE-NOT-INSTALLED 1 · INSTALLED-UNUSED 18 · 
   `python3 scripts/trust_name_leak.py`
 - **unfold.py** — unfold.py — the pickup-side atomizer. The fold sweeps residue OUT at close; the unfold sweeps  
   `python3 scripts/unfold.py`
-- **vercel-debug.sh** — scripts/vercel-debug.sh — Vercel CLI debugging wrapper  
-  `scripts/vercel-debug.sh`
 - **vercel-ignore-build.sh** — ADR-039 deploy cost guardrail, versioned (was an un-versioned dashboard field that  
   `scripts/vercel-ignore-build.sh`
 - **vercel-migrate-deploy.sh** — Production-only migration apply, for the Vercel build pipeline.  

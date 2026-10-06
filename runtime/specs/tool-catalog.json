@@ -15,11 +15,11 @@
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 286,
+   "WIRED": 289,
    "AVAILABLE-NOT-INSTALLED": 1,
-   "INSTALLED-UNUSED": 18,
+   "INSTALLED-UNUSED": 16,
    "DUPLICATE": 1,
-   "BROKEN": 1
+   "BROKEN": 0
   },
   "gaps": [
    {
@@ -27,22 +27,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "claim_check.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "corpus_adapter_jeben.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "deep_model_eval.mjs",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -66,7 +50,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "gen_tailor_icons.py",
+    "name": "handoff_cluster.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -74,7 +58,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "idea_montecarlo.py",
+    "name": "handoff_excavate.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -107,6 +91,14 @@
     "surface": "repo",
     "kind": "script",
     "name": "nftt_dropcap_lint.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "receipt_efficacy_probe.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -152,27 +144,11 @@
    },
    {
     "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "vercel-debug.sh",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
     "surface": "user",
     "kind": "plugin",
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
-   },
-   {
-    "state": "BROKEN",
-    "surface": "user",
-    "kind": "task",
-    "name": "arcs-field-os-weekly",
-    "why": "references missing repo path(s): scripts/backlog_ripeness.py",
-    "fix": ""
    },
    {
     "state": "AVAILABLE-NOT-INSTALLED",
@@ -595,6 +571,14 @@
   },
   {
    "kind": "script",
+   "name": "backlog_ripeness.py",
+   "path": "scripts/backlog_ripeness.py",
+   "jtbd": "backlog_ripeness.py: which induced-backlog rows have RIPENED (their spark plug fired).",
+   "invoke": "python3 scripts/backlog_ripeness.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "bank_event.py",
    "path": "scripts/bank_event.py",
    "jtbd": "bank_event.py - back- and forward-propagation when a lesson is banked.",
@@ -776,14 +760,6 @@
    "jtbd": "connector_render — render the ADR-056 <tool>.arcs.care connector fleet from SSOT.",
    "invoke": "python3 scripts/connector_render.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "corpus_adapter_jeben.py",
-   "path": "scripts/corpus_adapter_jeben.py",
-   "jtbd": "corpus_adapter_jeben.py — adapter #2: Jeben engagement corpus → catalog.",
-   "invoke": "python3 scripts/corpus_adapter_jeben.py",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -971,14 +947,6 @@
   },
   {
    "kind": "script",
-   "name": "gen_tailor_icons.py",
-   "path": "scripts/gen_tailor_icons.py",
-   "jtbd": "Generate resume-tailor PWA icons — diamond glyph with 'RT' mark, distinct from personal-resume icons.",
-   "invoke": "python3 scripts/gen_tailor_icons.py",
-   "state": "INSTALLED-UNUSED"
-  },
-  {
-   "kind": "script",
    "name": "gen_tao_alchemist.py",
    "path": "scripts/gen_tao_alchemist.py",
    "jtbd": "Generate the Alchemist reaction chamber from the Tao SSOT.",
@@ -1027,6 +995,22 @@
   },
   {
    "kind": "script",
+   "name": "handoff_cluster.py",
+   "path": "scripts/handoff_cluster.py",
+   "jtbd": "handoff_cluster — deterministic domain clustering of excavated handoff units (no LLM).",
+   "invoke": "python3 scripts/handoff_cluster.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
+   "name": "handoff_excavate.py",
+   "path": "scripts/handoff_excavate.py",
+   "jtbd": "handoff_excavate — mechanical index of every handoff block ever committed (no LLM).",
+   "invoke": "python3 scripts/handoff_excavate.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
    "name": "handoff_fold.py",
    "path": "scripts/handoff_fold.py",
    "jtbd": "handoff_fold — fragments are raw material; molt turns them into ONE cold-moltable arc. ADR-085 (d).",
@@ -1056,14 +1040,6 @@
    "jtbd": "hypercube_sampler.py — the cost-governed hypercube gauntlet sampling engine (v1)",
    "invoke": "python3 scripts/hypercube_sampler.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "idea_montecarlo.py",
-   "path": "scripts/idea_montecarlo.py",
-   "jtbd": "I.D.E.A. Monte Carlo — Instantiate · Disrupt · Evaluate · Anneal",
-   "invoke": "python3 scripts/idea_montecarlo.py",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1392,6 +1368,14 @@
    "jtbd": "reader_scan.py — ARCS Reader Gauntlet",
    "invoke": "python3 scripts/reader_scan.py",
    "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "receipt_efficacy_probe.py",
+   "path": "scripts/receipt_efficacy_probe.py",
+   "jtbd": "receipt_efficacy_probe: plumbing proof for predictions -> closes -> Accountant scoring.",
+   "invoke": "python3 scripts/receipt_efficacy_probe.py",
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1760,14 +1744,6 @@
    "jtbd": "unfold.py — the pickup-side atomizer. The fold sweeps residue OUT at close; the unfold sweeps",
    "invoke": "python3 scripts/unfold.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "vercel-debug.sh",
-   "path": "scripts/vercel-debug.sh",
-   "jtbd": "scripts/vercel-debug.sh — Vercel CLI debugging wrapper",
-   "invoke": "scripts/vercel-debug.sh",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
