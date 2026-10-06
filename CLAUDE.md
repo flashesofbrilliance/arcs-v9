@@ -114,6 +114,34 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.86.0 (2026-10-05)
+
+> **cruft_sweep prune: wrong-HEAD bundles fixed (#807), then full-history bundles made incremental (#809).**
+> Both merged on Zach's go with `fe-smoke` still pending (python-only). Receipts
+> `2026-10-05--cruft-prune-head-safety-pr807--ZH`, `2026-10-05--cruft-incremental-bundles-pr809--ZH`.
+
+## Shipped + on main
+- **#807 (`15a5761c`):** detached worktrees returned the literal `HEAD` from `--abbrev-ref`, and
+  `bundle create <f> HEAD` in the main repo bundled the MAIN checkout (`44ed0c88` x5). `.git`-less worktrees
+  fell through to the enclosing checkout. `resolve_worktree()` now requires a `.git` file, toplevel == dir,
+  GIT_DIR under `<common>/worktrees/`, and a `git worktree list` entry; bundled tip must equal HEAD; any
+  refusal exits 2; inherited `GIT_DIR`/`GIT_WORK_TREE` scrubbed. Rule 9.
+- **#809 (`f69ffb66`, asked for by the orchestration session):** bundles are `<ref> ^origin/<base>`; a tip
+  already on upstream gets only a MANIFEST.tsv row (`on-origin/<base>`); detached heads pinned permanently as
+  `refs/cruft-archive/<name>-<sha8>`. Rule 10.
+- `--self-test` (13 checks: branch / detached / no-.git / landed worktrees over 2MB base history, <256KB
+  bundle ceiling) fails on both prior versions; wired into pre-commit when the script is staged.
+
+## Open (next session)
+1. No real `prune` has run on the fixed code; first live run: `--dry-run` first, check MANIFEST.tsv rows.
+2. `survey` still drops detached worktrees from its table (`worktrees()` only appends on a `branch` line) (low).
+3. `fe-smoke` was pending at both merges; confirm it went green on main.
+
+## Lessons (in the record)
+- `git -C <dir>` inside the main checkout silently resolves to the main repo when `<dir>` is no longer a
+  worktree: prove the GIT_DIR, never trust the path.
+- A self-test with a tiny base repo cannot see a size bug: give the fixture real (incompressible) history.
+
 # Handoff — v3.85.0 (2026-10-05)
 
 > **Main CI green again: fe-smoke fixed (#806, `1fbc6f80`); v3.83.0's open item 1 closed.** Receipts
@@ -136,41 +164,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - A "unit test" failure inside the Playwright step means Playwright loaded the unit files: check testMatch
   before chasing the test. Plain `npm run test:unit` passed on the same commit.
 - Rapid merges on main cancel each prior CI run; watch for the first non-cancelled run containing your SHA.
-
-# Handoff — v3.84.0 (2026-10-05)
-
-> **Orchestration session: one control tower, many sessions pruned, CI unblocked.** Free disk 11 GB -> 23 GB.
-> No commits on this session's own branch; all work was coordination (archives, prunes, PR closes, merge train).
-> 16 merge-train receipts `2026-10-05--pr<N>-merge-train--ZH` written by the train subagent.
-
-## Done
-- **Disk:** `.next` caches (2.4 GB), 33 worktrees bundled+pruned (~2.6 GB), backup bloat (11.3 GB):
-  `/Users/zharris/arcs-worktree-bundles` had 183 full-history bundles (~150 MB each). Replaced by ONE
-  incremental `consolidated-2026-10-05.bundle` (45 MB, 274 heads, `--branches ^origin/main`); all 182 old
-  heads verified covered first; 1 branchless head pinned as `refs/cruft-archive/practical-rhodes-0c7038-29047b6d`.
-- **Sessions:** 66 open -> ~7 live. 50+ archived (19 scheduled-task runs, merged-PR sessions).
-- **PRs:** 74 open -> ~25. 21 closed with comments (5 superseded handoff docs, 16 stale Jul to mid-Sep; branches kept).
-- **CI:** main was red for every PR (`fe-smoke`: #757's culture-cues test used `import.meta` under Playwright CJS).
-  #800 fixed it (merged by its own session, `e9691c35`). 7 red PRs updated with main.
-- **Merge train (subagent, `--merge`, green only):** 774 776 779 781 783 785 787 788 790 793 794 798 761 773 769 775.
-
-## WIP preserved (local branches, not pushed)
-`preserve/prl-chatbot-forge-wip` 0b6e3781 (345 forge files) · `claude/forge-tenex-senior` 3ac90a5c ·
-`claude/model-registry-drift-gate` 71169923 (**#715's branch: decide before merging #715**) ·
-`claude/open-loops-quick-wins-6e9066` e3bee242 · `claude/recursing-brattain-190758` f6f9de5a ·
-`claude/success-academy-ai-pm-5bf0d9` 4f5daa3c · `claude/slop-gate-consolidate-dist-a34d1c` ccf7f80b.
-All inside the consolidated bundle.
-
-## Open (next session)
-1. **#771** conflicts with #775 in `JobsBoard.tsx`; session "Resolve #771 conflict with #775 and merge" running.
-2. **cruft_sweep:** #807 merged (wrong-HEAD bundles). Follow-up sent to that session: incremental bundles + size assertion.
-3. Favicon from the Möbius wireframe image: session "Make the Möbius favicon set for arcs.care" running (shows a size comparison first).
-4. Human calls: #796 (280 files, resume location) · #715 (local WIP above) · dependabot majors #556 #557 #676 #677 #720 ·
-   job-tracker session has "Keep computer awake" on (blocks archive) · `quizzical-mendel`/`exciting-lehmann` worktrees still live.
-5. Main checkout still parked on `claude/falsifiable-position-criteria-inltlk`, 13 dirty, 36 behind its remote (carried).
-
-## Lessons (in the record)
-- An idle session is not a removable one: archive the session FIRST, prune only if the archive succeeds
-  (pruned `cool-bell` under a live session, restored it from its branch).
-- The safety net was the leak: full-history bundles per prune cost more disk than the prunes freed.
-- One red check on every PR is a red main, not N bugs: fix main first, then rerun.
