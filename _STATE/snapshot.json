@@ -2,10 +2,19 @@
   "captured_at": "2026-10-05T21:06:15-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "942b0f46",
-    "head_message": "Merge pull request #840 from flashesofbrilliance/claude/vercel-migrate-per-service",
-    "in_sync_with_origin": true,
-    "dirty_files": [],
+    "head_sha": "16056d91",
+    "head_message": "Merge pull request #852 from flashesofbrilliance/claude/cmp019-claim-route",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      ".claude/hooks/session-start.sh",
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json",
+      "_STATE/snapshot.json",
+      "runtime/specs/vercel-branch-pin-allowlist.txt",
+      "scripts/vercel_branch_pin_gate.py"
+    ],
     "note": "#837 9bef38d7 merged 2026-10-05 without CI (Actions blocked by billing)"
   },
   "vercel": {
@@ -43,5 +52,5 @@
   "session_summary": "cruft_sweep survey now compares against origin/<base> and lists detached worktrees (#837); first live prune on the fixed code.",
   "next_action": "Fix GitHub billing so Actions runs, then exercise a real incremental bundle on a SAFE worktree with its own commits.",
   "blocking": "GitHub Actions billing (human)",
-  "git_refreshed_at": "2026-10-05T17:21:49-04:00"
+  "git_refreshed_at": "2026-10-06T01:19:12Z"
 }

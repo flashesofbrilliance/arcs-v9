@@ -74,6 +74,19 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 # emit a receipt; curation stays human-owned. Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
 
+# Vercel branch-pin gate (2026-10-05): a domain pinned to a git branch serves that branch's
+# last preview forever. ~12s of API calls, so it runs at most once a day in the background
+# (no VERCEL_TOKEN in Actions) and each session prints the last verdict. State lives outside
+# the repo so it never dirties a worktree. Guarded to never fail the hook.
+_VPIN="$HOME/.cache/arcs/vercel-branch-pin"
+mkdir -p "$_VPIN" 2>/dev/null
+[ -s "$_VPIN/last.log" ] && grep -E '^(PINNED|vercel-branch-pin)' "$_VPIN/last.log" | sed 's/^/vercel-pin(last run): /'
+if command -v vercel >/dev/null 2>&1 && [ -z "$(find "$_VPIN/stamp" -mtime -1 2>/dev/null)" ]; then
+  touch "$_VPIN/stamp"
+  (python3 "$CLAUDE_PROJECT_DIR/scripts/vercel_branch_pin_gate.py" > "$_VPIN/last.log.tmp" 2>&1; \
+   mv "$_VPIN/last.log.tmp" "$_VPIN/last.log") >/dev/null 2>&1 &
+fi
+
 # Memory-index inchworm — self-cataloging: orphan files auto-append into an
 # "Uncurated (auto)" band rendered from their own frontmatter description (the
 # SSOT for an index line). Detection + append are mechanical; curation (grouping,

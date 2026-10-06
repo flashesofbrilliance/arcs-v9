@@ -1,0 +1,4 @@
+# Intentional Vercel domain -> git branch pins. One per line: <domain> <branch>
+# Read by scripts/vercel_branch_pin_gate.py. Empty by default: a pinned domain serves that
+# branch's last preview build forever and bypasses production redirects (2026-10-05 incident,
+# receipt 2026-10-05--retired-hosts-unpin-branch--ZH). Add a line only with a reason comment.
