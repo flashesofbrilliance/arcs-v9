@@ -1,25 +1,26 @@
 {
-  "captured_at": "2026-10-05T21:25:58-04:00",
+  "captured_at": "2026-10-05T21:31:02-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "63c6068e",
-    "head_message": "Merge pull request #856 from flashesofbrilliance/claude/warroom-worked-example",
+    "head_sha": "6f21057d",
+    "head_message": "Merge pull request #865 from flashesofbrilliance/claude/warroom-kairos-legend",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "#861 e8b9bd17 merged 2026-10-05 without CI (Actions blocked by billing)"
+    "note": "#840 942b0f46 + #857 f5fab907 merged without CI (Actions billing block)"
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-oy5wvq8aq-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-9gjzmupa3-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
       "AUTH_SECRET",
       "AUTH_RESEND_KEY",
       "DATABASE_URL",
+      "DIRECT_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "vercel ls 2026-10-05 21:25 (latest Ready is a preview)"
+    "note": "serving arcs.care; build log shows migrate deploy: No pending migrations"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -40,8 +41,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "cruft_sweep bundle path proven live with a probe worktree; manifest rows name only refs that exist (#861).",
-  "next_action": "Fix GitHub billing so Actions runs; optionally prune cool-poitras-4f96e7.",
-  "blocking": "GitHub Actions billing (human)",
+  "session_summary": "Wired prisma migrate deploy into prod builds via experimentalServices.web.buildCommand, fixed P3019 lock file, added DIRECT_URL.",
+  "next_action": "Unblock GitHub Actions billing; then consider experimentalServices -> services migration.",
+  "blocking": "GitHub Actions billing block (human)",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
