@@ -1,0 +1,15 @@
+# Evidence ledger, Nous Hermes PM resume. vetted-master = _ARTIFACTS/resume-vico/resume-vico-product-engineer.html; self-reported = Zach confirmed.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:142"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165"}
+{"pattern": "\\$2M", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25"}
+{"pattern": "\\$4,500\\s?", "source": "vetted-master:resume-vico-product-engineer.html:180"}
+{"pattern": "\\$1M", "source": "vetted-master:resume-vico-product-engineer.html:180"}
+{"pattern": "25\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:180 + self-reported:Zach:2026-09-28"}
+{"pattern": "\\$350M", "source": "self-reported:ZH-Resume-Scale-CoS.md (Squat client)"}
+{"pattern": "more than 800", "source": "documented:gh pr list --state merged = 822 (2026-10-06)"}
+{"pattern": "zero SEC or FINRA violations", "source": "self-reported:ZH-Resume-Scale-CoS.md + Zach confirmed 2026-09-28"}
+{"pattern": "ten SEC and FINRA", "source": "vetted-master:resume-vico-product-engineer.html (Grayscale 10 products)"}
+{"pattern": "four time zones", "source": "vetted-master:resume-vico-product-engineer.html (Grayscale)"}
