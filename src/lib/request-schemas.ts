@@ -21,6 +21,9 @@ export const CompassBody = z.object({
   // (409 session_reassigned), never fail the whole parse with a 400.
   sessionId: z.string().nullish(),
   clarityMode: z.string().max(32).nullish().transform((v) => v ?? undefined),
+  // Owner-declared provenance + resolve-by date (YYYY-MM-DD). Both optional; see Receipt.provenance.
+  provenance: z.enum(["real", "test"]).nullish(),
+  resolveBy: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullish(),
 })
 
 // POST /api/prep. Hand parsing let a non-string entity 500 on .trim().

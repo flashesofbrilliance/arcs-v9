@@ -95,7 +95,7 @@ export async function POST(
 
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
-    select: { id: true, userId: true },
+    select: { id: true, userId: true, provenance: true },
   })
   // Ownership gate (ADR-001, app layer): only the signed-in owner may close it.
   if (!receipt || !isOwner(receipt.userId, userId)) return notFound()
@@ -112,13 +112,19 @@ export async function POST(
   if (regretScore == null) return NextResponse.json({ error: "regretScore is required" }, { status: 400 })
   if (learning && learning.length > 2000) return NextResponse.json({ error: "learning is too long" }, { status: 400 })
 
+  // Synthetic outcomes (plumbing probe) are only legal on receipts the owner tagged "test".
+  const synthetic = body.synthetic === true
+  if (synthetic && receipt.provenance !== "test") {
+    return NextResponse.json({ error: "synthetic outcomes are only allowed on test receipts" }, { status: 400 })
+  }
+
   // Drift read: did reality land where the compass pointed?
   const driftState = matched ? "LANDED" : "DRIFTING"
 
   const outcome = await prisma.outcome.upsert({
     where: { receiptId },
-    create: { receiptId, what, matched, regretScore, learning },
-    update: { what, matched, regretScore, learning, loggedAt: new Date() },
+    create: { receiptId, what, matched, regretScore, learning, synthetic },
+    update: { what, matched, regretScore, learning, synthetic, loggedAt: new Date() },
   })
   await prisma.receipt.update({
     where: { id: receiptId },

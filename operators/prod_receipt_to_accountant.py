@@ -12,7 +12,8 @@ sha256 so the cohort split is reproducible without shipping addresses.
 Faithful mappings:
   receipt.receipt_id     <- id (the Prisma cuid; Outcome.receiptId joins on it)
   receipt.dewy_receipt_id<- receiptId (ARCS-ORIENT-... formatted id, may be null)
-  receipt.cohort         <- founder  if user_email_sha256 == sha256(FOUNDER_EMAIL)
+  receipt.cohort         <- test | real when Receipt.provenance is set (wins), else:
+                            founder  if user_email_sha256 == sha256(FOUNDER_EMAIL)
                             external if userId present and not founder
                             anonymous if userId is null (cannot be attributed)
   receipt.nci_score      <- nciScore
@@ -49,6 +50,7 @@ select r.id, r."receiptId", r."userId",
        r."driftState", r."yState", r."yConviction", r."yPolarity", r.surface,
        r."validationState", r."yOverride", r."macroTags", r."clarityMode",
        r."renderResolution", r."promotedTo",
+       r.provenance, o.synthetic as outcome_synthetic,
        o.id as outcome_id, o.matched as outcome_matched, o."regretScore" as outcome_regret_score,
        o."loggedAt" as outcome_logged_at, length(o.what) as outcome_what_len,
        length(o.learning) as outcome_learning_len
@@ -60,6 +62,10 @@ order by r."createdAt"
 
 
 def cohort_of(row: dict) -> str:
+    # Owner-declared provenance wins: "test" and "real" are their own cohorts, so test receipts
+    # never dilute the real calibration set. Null provenance falls through to the legacy split.
+    if row.get("provenance") in ("test", "real"):
+        return row["provenance"]
     if not row.get("userId"):
         return "anonymous"
     sha = row.get("user_email_sha256")
@@ -92,6 +98,8 @@ def adapt_receipt(row: dict) -> dict:
 def adapt_outcome(row: dict) -> dict | None:
     if row.get("outcome_id") is None:
         return None
+    if row.get("outcome_synthetic"):
+        return None  # plumbing-probe outcome: counted by adapt() as excluded, never scored
     return {
         "receipt_id": row.get("id"),
         "outcome_id": row.get("outcome_id"),
@@ -104,13 +112,15 @@ def adapt_outcome(row: dict) -> dict | None:
 
 
 def adapt(rows: list) -> dict:
-    receipts, outcomes = [], []
+    receipts, outcomes, synthetic = [], [], 0
     for row in rows:
         receipts.append(adapt_receipt(row))
         o = adapt_outcome(row)
         if o:
             outcomes.append(o)
-    return {"receipts": receipts, "outcomes": outcomes}
+        elif row.get("outcome_id") is not None and row.get("outcome_synthetic"):
+            synthetic += 1
+    return {"receipts": receipts, "outcomes": outcomes, "synthetic_excluded": synthetic}
 
 
 def load_rows(path: str) -> list:
