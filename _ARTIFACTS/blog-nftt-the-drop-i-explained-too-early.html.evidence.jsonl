@@ -19,3 +19,4 @@
 {"pattern": "\\$0\\.8B", "source": "data:DefiLlama supply Jan 15 to Jan 31 2026: USDY +0.65B, USYC +0.12B, BUIDL 0.00B (belief log H4)", "note": ""}
 {"pattern": "\\$10B", "source": "own-article:custody-collateral-anatomy-20b-systemic-blind-spot, title as published ('$10B Systemic Blind Spot')", "note": "title quoted as published"}
 {"pattern": "over\\s+39", "source": "data:DefiLlama USDC March 2023 episode, 39 days down (belief log section D)", "note": ""}
+{"pattern": "\\$0\\.24B|\\$0\\.07B", "source": "belief log H34 (origin/main): USDC -$0.24B Jan 30, +$0.07B Jan 31 (DefiLlama daily)", "note": ""}
