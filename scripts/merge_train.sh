@@ -10,11 +10,15 @@
 # Push hang-kill + retry matches scripts/ship_docs.sh. It never force-pushes: if main moved
 # since the fetch, the push is rejected non-fast-forward and the script tells you to re-run.
 #
-# Usage: scripts/merge_train.sh [--dry-run] [--yes] [--skip-build] PR [PR...]
+# Usage: scripts/merge_train.sh [--dry-run] [--yes] [--skip-build] [--lock] PR [PR...]
 #        scripts/merge_train.sh --self-test     (offline: local bare repo + stubbed gh)
 #   --dry-run     merge + build in a scratch worktree, print the plan, push nothing
 #   --yes         skip the "Push N merges to main? [y/N]" prompt
 #   --skip-build  skip npm ci / npm run build / npm test (pre-push hooks then still run)
+#   --lock        hold the ADR-085 main write-lock (scripts/write_lock.py, refs/locks/main on
+#                 origin) from before the fetch until exit; refuse if another session holds it.
+#                 Renewed after the build and after the prompt; skipped with --dry-run.
+#                 Default OFF: without it this script behaves exactly as before.
 # Env: MERGE_TRAIN_GH=<cmd>  replaces `gh` (self-test stub)
 # Order matters: PRs merge in the order given. Any refusal, conflict, or build failure exits 1
 # with nothing pushed. The scratch worktree is always removed (trap EXIT).
@@ -23,12 +27,17 @@
 set -u
 
 GH="${MERGE_TRAIN_GH:-gh}"
-DRY=0; YES=0; SKIP_BUILD=0; PRS=""
+DRY=0; YES=0; SKIP_BUILD=0; LOCK=0; LOCKED=0; PRS=""
+WRITE_LOCK="$(cd "$(dirname "$0")" && pwd)/write_lock.py"
 WT=""; REPO_ROOT=""
 
 die() { echo "merge_train: $*" >&2; exit 1; }
 
 cleanup() {
+  if [ $LOCKED -eq 1 ]; then
+    python3 "$WRITE_LOCK" --repo "$REPO_ROOT" --session "$LOCK_ID" lock release >/dev/null \
+      || echo "merge_train: main write-lock not released (not ours, or remote unreachable); it expires on its TTL" >&2
+  fi
   if [ -n "$WT" ] && [ -d "$WT" ]; then
     git -C "$REPO_ROOT" worktree remove --force "$WT" >/dev/null 2>&1 || rm -rf "$WT"
     git -C "$REPO_ROOT" worktree prune >/dev/null 2>&1 || true
@@ -121,6 +130,23 @@ EOF
   ( cd "$T/work" && sh "$SELF" --dry-run --skip-build 11 ) > "$T/e.log" 2>&1; rc=$?
   [ $rc -eq 0 ] && [ "$(tip)" = "$before" ] && grep -q "DRY RUN" "$T/e.log" && ok "dry run clean" || bad "rc=$rc"
 
+  echo "(f) --lock while another session holds the main write-lock -> refused, nothing pushed"
+  git -C "$T/origin.git" update-ref refs/heads/main "$(git -C "$T/origin.git" rev-list --max-parents=0 main)"
+  printf '51 feat/two 0\n' >> "$T/prs.tsv"
+  fresh; before=$(tip)
+  WRITE_LOCK_SESSION=other python3 "$WRITE_LOCK" --repo "$T/work" lock acquire --ttl 600 >/dev/null 2>&1
+  ( cd "$T/work" && WRITE_LOCK_SESSION=train sh "$SELF" --lock --yes --skip-build 51 ) > "$T/f.log" 2>&1; rc=$?
+  [ $rc -eq 1 ] && [ "$(tip)" = "$before" ] && grep -q "held by other" "$T/f.log" \
+    && ok "refused while held, main unchanged" || { bad "rc=$rc"; sed 's/^/    /' "$T/f.log"; }
+  WRITE_LOCK_SESSION=other python3 "$WRITE_LOCK" --repo "$T/work" lock release >/dev/null 2>&1
+
+  echo "(g) --lock when free -> merges, pushes, and releases the lock on exit"
+  fresh; before=$(tip)
+  ( cd "$T/work" && WRITE_LOCK_SESSION=train sh "$SELF" --lock --yes --skip-build 51 ) > "$T/g.log" 2>&1; rc=$?
+  [ $rc -eq 0 ] && [ "$(tip)" != "$before" ] && ok "pushed under the lock" || { bad "rc=$rc"; sed 's/^/    /' "$T/g.log"; }
+  python3 "$WRITE_LOCK" --repo "$T/work" lock status > "$T/g2.log" 2>&1
+  grep -q "free (last holder train)" "$T/g2.log" && ok "lock released on exit" || bad "lock not released: $(cat "$T/g2.log")"
+
   [ $FAILS -eq 0 ] && { echo "self-test: ALL PASS"; exit 0; } || { echo "self-test: $FAILS FAIL"; exit 1; }
 }
 
@@ -131,7 +157,8 @@ for a in "$@"; do
     --dry-run) DRY=1 ;;
     --yes) YES=1 ;;
     --skip-build) SKIP_BUILD=1 ;;
-    -h|--help) sed -n '2,24p' "$0"; exit 0 ;;
+    --lock) LOCK=1 ;;
+    -h|--help) sed -n '2,27p' "$0"; exit 0 ;;
     *[!0-9]*|"") die "bad argument: $a (PR numbers only)" ;;
     *) PRS="$PRS $a" ;;
   esac
@@ -148,6 +175,20 @@ DIRTY=$(git status --porcelain --untracked-files=no | grep -vE '_INBOX/|_STATE/s
 $GH auth status >/dev/null 2>&1 || die "gh not authenticated (gh auth login)"
 OWNER_REPO=$($GH repo view --json nameWithOwner -q .nameWithOwner) || die "gh repo view failed"
 OWNER=${OWNER_REPO%%/*}
+# One identity per train run (pid), so two trains from the same checkout never share a lock.
+LOCK_ID="${WRITE_LOCK_SESSION:-merge-train@$(hostname -s 2>/dev/null || hostname):$$:$REPO_ROOT}"
+lock_renew() {   # re-entrant acquire = extend; fails if someone took it over (ADR-085)
+  [ $LOCKED -eq 1 ] || return 0
+  python3 "$WRITE_LOCK" --repo "$REPO_ROOT" --session "$LOCK_ID" lock acquire --ttl 1800 --reason "merge train:$PRS" \
+    || die "main write-lock lost before $1; nothing pushed"
+}
+if [ $LOCK -eq 1 ] && [ $DRY -eq 1 ]; then
+  echo "merge_train: --dry-run pushes nothing, so --lock is skipped"
+elif [ $LOCK -eq 1 ]; then
+  LOCKED=1   # set BEFORE acquire: an interrupt mid-acquire still releases (release of a free lock is a no-op)
+  python3 "$WRITE_LOCK" --repo "$REPO_ROOT" --session "$LOCK_ID" lock acquire --ttl 1800 --reason "merge train:$PRS" \
+    || { LOCKED=0; die "main write-lock not acquired (see above); nothing merged"; }
+fi
 GIT_TERMINAL_PROMPT=0 git fetch -q origin main || die "fetch origin main failed"
 BASE=$(git rev-parse origin/main)
 
@@ -218,6 +259,8 @@ if [ $SKIP_BUILD -eq 0 ]; then
   rm -f "$WT/node_modules" 2>/dev/null || true
 fi
 
+lock_renew "the plan/prompt"
+
 # ---------------------------------------------------------------- 4. plan
 echo
 echo "== merge train: $NPR PR(s) onto origin/main $BASE"
@@ -230,6 +273,8 @@ if [ $YES -eq 0 ]; then
   read -r ans </dev/tty || ans=""
   case "$ans" in y|Y|yes) ;; *) echo "merge_train: not pushed"; exit 1 ;; esac
 fi
+
+lock_renew "the push"
 
 # ---------------------------------------------------------------- 5. push (fast-forward only, never force)
 [ -n "${MERGE_TRAIN_TEST_BEFORE_PUSH:-}" ] && sh -c "$MERGE_TRAIN_TEST_BEFORE_PUSH" >/dev/null 2>&1
