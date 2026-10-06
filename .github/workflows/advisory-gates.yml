@@ -1,0 +1,76 @@
+# Advisory drift gates (approved by Zach 2026-10-06). ADVISORY ONLY: every gate step
+# is continue-on-error and the job always passes; findings land in the job summary.
+# Promoting any of these to blocking is a later decision for Zach, once false positives
+# are cleared. Receipt files the drift checks write under _INBOX/ stay in the runner.
+name: Advisory gates
+
+on:
+  pull_request:
+  schedule:
+    - cron: "0 12 * * *" # daily, 12:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  advisory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Pick integrity_gate inputs
+        id: files
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          globs="_DECISIONS _MEMORY _SPECS _CANON _STATE _SEEDS _PATTERNS CLAUDE.md AGENTS.md WORLD.md MEMORY.md SKILL.md"
+          if [ -n "$BASE" ]; then
+            git diff --name-only --diff-filter=AM "$BASE"...HEAD -- $globs > gate-files.txt
+            echo "scope=changed records in this PR" >> "$GITHUB_OUTPUT"
+          else
+            git ls-files $globs > gate-files.txt
+            echo "scope=all tracked records" >> "$GITHUB_OUTPUT"
+          fi
+          grep -E '\.(md|json|jsonl)$' gate-files.txt > gate-files.filtered || true
+          mv gate-files.filtered gate-files.txt
+
+      - name: integrity_gate
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          if [ -s gate-files.txt ]; then
+            xargs python3 scripts/integrity_gate.py --ref origin/main -q < gate-files.txt 2>&1 | tee integrity.txt
+          else
+            echo "integrity_gate: nothing to gate" | tee integrity.txt
+          fi
+
+      - name: canon_propagation_check
+        continue-on-error: true
+        run: python3 scripts/canon_propagation_check.py --dry-run 2>&1 | tee canon.txt
+
+      - name: lattice_drift_check
+        continue-on-error: true
+        run: python3 scripts/lattice_drift_check.py 2>&1 | tee lattice.txt
+
+      - name: seedbank_drift_check
+        continue-on-error: true
+        run: python3 scripts/seedbank_drift_check.py 2>&1 | tee seedbank.txt
+
+      - name: Job summary
+        if: always()
+        env:
+          SCOPE: ${{ steps.files.outputs.scope }}
+        run: |
+          {
+            echo "## Advisory gates (non-blocking)"
+            echo "Findings here never fail the build. integrity_gate scope: ${SCOPE}."
+            for g in integrity canon lattice seedbank; do
+              echo "### ${g}"
+              echo '```'
+              if [ -f "${g}.txt" ]; then tail -n 60 "${g}.txt"; else echo "(step did not run)"; fi
+              echo '```'
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
