@@ -55,15 +55,16 @@ Of the dated, falsifiable claims, the direction held on bank-led settlement and 
 
 ---
 
-### V · The one thread I left open: what moved USDC in January?
+### V · The January thread: partly attributed
 
 USDC supply fell about $5.7B to $6.6B between Jan 15 and Jan 31, depending on the source (DefiLlama $76.7B to $70.1B; CoinGecko $75.7B to $70.0B), with its two largest daily drops in DefiLlama's series on Jan 20 and Jan 29. The two sources differ by about $1B on some days, so part of the size of the move may be measurement. Two of my pieces treated the outflow as forced institutional liquidation. I could not confirm that. I tested everything I could with public data:
 
 - **Same-day deleveraging.** About $1.09B was liquidated on Jan 20 and $1.71B on Jan 30 (secondary reporting). Best fit so far, and still an inference.
 - **Macro.** Greenland tariff threats and record Japanese bond yields on Jan 20. The yen strengthened about 3% between Jan 20 and 29.
 - **Not supported.** Regulation (agency posture was loosening), OFAC (one Iran-linked action, on USDT, one day later), a flight to Solana (Solana lost USDC too), credit stress (spreads were at their lows), a delayed October cascade (that hit USDe, not USDC), the Iran war (it began Feb 28), foreign selling of Treasuries (foreigners were net buyers), hacks ($370M in January), EU reporting rules, and the Q4 DeFi lending collapses.
+- **An exchange incentive, the best new clue.** On Jan 23 Binance launched a holding-rewards campaign for World Liberty's USD1 ($40M of WLFI tokens to USD1 holders on Binance, Jan 23 to Feb 20; secondary reporting). USD1 supply jumped from $3.17B to $4.93B in three days (+$1.12B on Jan 23 alone), and from Jan 22 to Jan 31 it gained $1.89B while USDC fell $3.55B (DefiLlama) or $4.39B (CoinGecko), about 43% to 53% of that leg. The first leg, Jan 15 to Jan 22 (about -$3.1B), fits the Jan 20 macro and deleveraging pulse. What I cannot show is that the USD1 mints were funded by USDC redemptions; a Binance or entity-level view would confirm it.
 - **Small pieces.** Rotation into tokenized Treasuries (about $0.8B in the second half of January, mostly Ondo's USDY) and a BNY tokenized-deposit service that launched Jan 9 for six clients (size not disclosed).
-- **Mechanics.** A coin sitting in a cold wallet, a frozen vault or a hacked address is still in circulation. Supply falls only when someone redeems with the issuer. Circle does not publish who redeemed. That is why the question stays open.
+- **Mechanics.** A coin sitting in a cold wallet, a frozen vault or a hacked address is still in circulation. Supply falls only when someone redeems with the issuer. Circle does not publish who redeemed. That is why part of the question stays open.
 
 Weekly correlations of USDC supply with bitcoin, bill yields, spreads, the dollar, yen and curve slope never cleared a multiple-comparison bar. I ran more than a dozen tests, so a couple of borderline hits are what chance would give.
 

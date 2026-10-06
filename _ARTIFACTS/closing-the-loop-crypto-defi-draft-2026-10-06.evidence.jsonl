@@ -16,3 +16,5 @@
 {"pattern": "3%", "source": "data:FRED DEXJPUS USD/JPY 157.89 (2026-01-20) to 152.88 (2026-01-29), -3.2%", "note": ""}
 {"pattern": "99\\.8%", "source": "own-article:hedgefundization piece in-house gauntlet grade (self-reported; cited in the draft as a failed grade)", "note": ""}
 {"pattern": "more\\s+than\\s+20", "source": "own-article:collateral-wars-why-digital-gold-failed Falsifier 2 (gold falls more than 20%)", "note": ""}
+{"pattern": "\\$3\\.17B|\\$4\\.93B|\\$1\\.12B|\\$1\\.89B|\\$3\\.55B|\\$4\\.39B|\\$40M|\\$3\\.1B", "source": "data:DefiLlama USD1 and USDC series and CoinGecko USDC series pulled 2026-10-06 (USD1 3.17B Jan 22, 4.29B Jan 23, 4.93B Jan 25; USDC Jan 22 to 31 -3.55B DefiLlama, -4.39B CoinGecko); secondary:Binance campaign reports ($40M WLFI airdrop, Jan 23 to Feb 20)", "note": "campaign details secondary; cause of USDC redemption not shown"}
+{"pattern": "43%|53%", "source": "computed:USD1 +1.89B divided by USDC -4.39B (CoinGecko) and -3.55B (DefiLlama)", "note": ""}
