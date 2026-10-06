@@ -50,26 +50,6 @@
             }
           ],
           "destination": "/julia-runtime.html"
-        },
-        {
-          "source": "/runtime",
-          "has": [
-            {
-              "type": "host",
-              "value": "arcs-v9-git-claude-vercel-ga-services-arcs-care.vercel.app"
-            }
-          ],
-          "destination": "/julia-runtime.html"
-        },
-        {
-          "source": "/",
-          "has": [
-            {
-              "type": "host",
-              "value": "arcs-v9-git-claude-vercel-ga-services-arcs-care.vercel.app"
-            }
-          ],
-          "destination": "/julia-runtime.html"
         }
       ],
       "headers": [
