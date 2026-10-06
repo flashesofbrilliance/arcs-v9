@@ -43,6 +43,10 @@
     "registered_at": "2026-09-29",
     "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
     "close_after_days": 7
+   },
+   "ab": {
+    "id": "ab-2026-10-exec-card",
+    "arm": "control"
    }
   },
   {
@@ -59,7 +63,7 @@
      "I wait a week"
     ]
    },
-   "caption": "Asking because the filing and the coverage of it told two different stories in Apple v. OpenAI's io. Results feed Wednesday's carousel.",
+   "caption": "Asking because the filing and the coverage of it told two different stories in Apple v. OpenAI's io. Results feed Wednesday's carousel.\n\nWhy I'm asking: if most people read the coverage first, Wednesday's carousel shows exactly what the coverage missed. I'll post the split.",
    "expected": {
     "impressions_low": 1000,
     "impressions_high": 4000,
@@ -104,6 +108,12 @@
     "registered_at": "2026-09-29",
     "basis": "prior only: no per-format history in the export; one outlier post reached 270K",
     "close_after_days": 7
+   },
+   "first_comment": "Run your own call through the compass (free, nothing saved unless you sign in): https://app.arcs.care/dashboard?q=I%27m+confident+about+a+call+at+work.+What+would+prove+me+wrong%2C+and+what+number+would+I+put+on+it+today%3F&horizon=THIS_QUARTER&utm_source=linkedin&utm_medium=social&utm_campaign=2026-10-05-ledger",
+   "campaign": {
+    "utm_campaign": "2026-10-05-ledger",
+    "countable_today": "pageviews with this utm_campaign in Vercel Web Analytics (landing only, not runs)",
+    "countable_after": "seed: post-to-compass funnel (compass_run event carrying campaign)"
    }
   },
   {
@@ -121,5 +131,19 @@
     "close_after_days": 7
    }
   }
- ]
+ ],
+ "ab_test": {
+  "id": "ab-2026-10-exec-card",
+  "registered_at": "2026-10-04",
+  "judge": "a later session, not the one that wrote this rule",
+  "control": "2026-10-05-apple-openai-ledger exec/image (scorecard line)",
+  "treatment": "2026-10-12-four-dates-receipts exec/image (Falsifier Ledger framework card)",
+  "held_equal": "same weekday, same 9:00 AM ET slot, same hashtag count, link in first comment for both",
+  "metric": "(saves + comments + sends) per 1,000 impressions, read at 72 hours after posting",
+  "win_rule": "treatment wins only if its rate >= 1.5x control AND treatment has >= 5 such events; anything else is no decision (not a loss, not a win)",
+  "not_the_judge": "impressions (reported only)",
+  "confound": "different topics (Apple ledger vs prediction habit); a win earns a second pair, not a rule",
+  "source": "_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md",
+  "result": null
+ }
 }

@@ -1,7 +1,7 @@
 # ARCS Trust Contract
 
-> **Version:** 1.3
-> **Date:** 2026-07-19
+> **Version:** 1.6
+> **Date:** 2026-10-05
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
 
@@ -38,14 +38,24 @@ If you are signed in, your decision receipt is stored in your account and access
 > The pre-fix receipts were deliberately retained rather than deleted: receipt links are
 > made to be shared, and some are referenced in the wild — deleting them would break
 > those references. They carry no account identity. If you ran an anonymous session
-> before 2026-07-13: signing in from the same browser claims your receipts automatically,
-> and a deletion request (via the inquiry link on arcs.care) will be honored.
+> before 2026-07-13: a claim or deletion request (via the inquiry link on arcs.care) will
+> be honored. Automatic claiming on sign-in was retired on 2026-10-05 (v1.6), because a
+> browser's session id alone did not prove who made a receipt.
 
 **Your debrief:**
 If you log an outcome (how the decision went), that is stored in your account linked to the receipt. This data is used to improve ARCS's ability to read terrain accurately over time — specifically, to validate whether the system's confidence grades correspond to real outcomes. It is never shared or sold.
 
 **System logs:**
 Standard infrastructure logs (request metadata, error traces) are retained for debugging. They do not contain your decision content.
+
+**Who else touches your question:**
+Each compass run sends your question, horizon and stakes to SAGE, ARCS's own scoring pipeline, which returns an advisory signal; it never decides. Page analytics (Vercel, cookieless) count page views and a few actions, such as sharing a brief or saving a receipt, with the receipt id and never your decision text. Anonymous questions are not cached on the server.
+
+**Shared links:**
+Anyone holding a brief or receipt link can read that decision and its reading. A link never exposes your account id or your private prep notes (the strongest argument against your instinct).
+
+**Waitlist and advisory requests:**
+If you join the waitlist or ask for an advisory consult, the email you give is stored, with the time and, if a brief sent you there, which one. An advisory request also stores the name and message you write. Each new request is emailed to the ARCS team so a person reads it, and your confirmation is delivered through Resend, our email provider. A waitlist address gets one confirmation, then nothing until access opens. These rows are not tied to an account.
 
 ---
 
@@ -63,7 +73,7 @@ ARCS's own modeling work (operator scoring, NCI calibration) uses aggregate, ano
 
 **Export:** Receipts and briefs are viewable and shareable via direct link. Full data export (all receipts, outcomes, and session history in structured format) is on the near-term roadmap and not yet shipped.
 
-**Delete:** You can request deletion of your account and all associated data by emailing [contact]. Account deletion removes all receipts, outcomes, and personal data from the production database within 30 days. This is a one-way gate — deleted data cannot be recovered.
+**Delete:** You can request deletion of your account and all associated data by emailing [contact]. Account deletion removes all receipts, outcomes, and personal data from the production database within 30 days. This is a one-way gate — deleted data cannot be recovered. Waitlist and advisory rows are removed the same way, on request, whether or not you have an account; deleting an account also removes any waitlist or advisory row with the same email, regardless of capitalisation.
 
 *These are commitments, not aspirations. When export ships, this document will be updated with the exact path.*
 
@@ -153,6 +163,8 @@ This is a real limitation, not a hidden one. Two things are true at once:
 
 | Version | Date | Change |
 |---|---|---|
+| 1.5 | 2026-10-05 | §1: "Who else touches your question" (SAGE scoring service, cookieless analytics, no server cache of anonymous questions) and "Shared links" (link holders read the decision; never the account id or prep notes). §3 practice: account deletion now removes uploaded files from storage. |
+| 1.4 | 2026-10-03 | §1 amended: "Waitlist and advisory requests" added (what is stored, the internal email alert, Resend as delivery provider, one confirmation per address). §3: waitlist and advisory rows deletable on request, and removed with an account case-insensitively. Accompanies the survey landing on `/`. |
 | 1.3 | 2026-07-19 | §1 amended: "Sharing an anonymous bearing" added — one-time share links encode the bearing in the URL fragment (never sent server-side), render once per recipient device, and are readable by anyone holding the link. No server write; ADR-049's no-anonymous-storage invariant is preserved, not reversed. See ADR-037. |
 | 1.2 | 2026-07-13 | §1 amended: (a) anonymous receipts clarified — browser-only, nothing written server-side, opt-in save happens strictly post-auth; (b) dated repair-seam disclosure added — pre-fix defect stored 48 anonymous receipts, fixed in `8b486e8`, rows retained (operator decision: shared links reference them), deletion honored on request. See ADR-049. |
 | 1.1 | 2026-06-23 | Added §8 — answers Zak's "how will you catch people at the fork" question (previously unaddressed; verified against the full June 16–22 feedback checklist, all six original items were already covered §1–§6) |

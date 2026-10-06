@@ -8,8 +8,8 @@ colors:
   border-subtle: "#1e293b"
   text-primary: "#e2e8f0"
   text-secondary: "#94a3b8"
-  text-muted: "#475569"
-  text-dimmed: "#64748b"
+  text-muted: "#7a8699"
+  text-dimmed: "#8391a7"
   true-north-cyan: "#00F0FF"
   coherent-green: "#00FF9D"
   locked-gold: "#FFD700"
@@ -19,7 +19,7 @@ colors:
   paradox-magenta: "#E879F9"
 typography:
   display:
-    fontFamily: "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif"
+    fontFamily: "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif"
     fontSize: "clamp(1.5rem, 4vw, 2.4rem)"
     fontWeight: 500
     lineHeight: 1.2
@@ -123,7 +123,7 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 - **Border Subtle** (#1e293b): dividers, card strokes.
 - **Text Primary** (#e2e8f0): primary reading.
 - **Text Secondary** (#94a3b8): supporting copy.
-- **Text Dimmed** (#64748b) / **Text Muted** (#475569): metadata and mono labels.
+- **Text Dimmed** (#8391a7) / **Text Muted** (#7a8699): metadata and mono labels. Both clear WCAG AA 4.5:1 on Obsidian, Panel and Elevated (raised 2026-10-04 from #64748b / #475569, which measured 4.31:1 and 2.71:1).
 
 **The Semantic Color Rule.** Color is state, never decoration. Cyan is bearing, green is coherence, gold is locked, red is ruin, violet is conviction-shift, magenta is paradox. If a color would not survive being read as its state, it does not belong on the screen.
 
@@ -131,7 +131,7 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 
 ## Typography
 
-**Display Font:** Iowan Old Style / Palatino (serif) — the canon and oral-history register (proverbs, the Tao, load-bearing quotes).
+**Display Font:** Iowan Old Style / Palatino (serif) — the canon and oral-history register (proverbs, the Tao, load-bearing quotes). Self-hosted fallback: Newsreader (`public/fonts/`), the canon serif of the literary page family (NFTT, Lore) and of rendered video, where the system serifs are absent.
 **Body Font:** Inter (with system-ui fallback) — all prose and reading.
 **Label/Mono Font:** JetBrains Mono (with IBM Plex Mono) — instrument labels, section indices, gauges, metadata.
 

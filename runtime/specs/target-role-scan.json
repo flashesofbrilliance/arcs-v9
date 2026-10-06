@@ -229,6 +229,76 @@
    "consider": 0.5
   },
   "board_cutoff": 0.52,
+  "culture_cues": {
+   "doc": "Job Factory slice 1 (2026-10-05). Zero-token regex pass over the JD before the model; each hit is stored as its sentence in jdHits.culture_pos / culture_neg and shown to the model. cap_neg or more negative hits cap the culture dim at cap_value and fire the gate. Patterns are wrapped in word boundaries by src/lib/culture-cues.ts. 'fast-paced' is deliberately NOT a negative: it appears in most startup JDs and would gate too broadly at cap_neg 2.",
+   "cap_neg": 2,
+   "cap_value": 1,
+   "gate": "grind-culture red flags in reviews",
+   "positive": [
+    {
+     "id": "boundaries",
+     "label": "Boundaries",
+     "pattern": "healthy boundaries|respect(?:s|ing)? (?:your )?boundaries|boundaries (?:between|around) work|work[- ]life balance|sustainable pace|no crunch"
+    },
+    {
+     "id": "family",
+     "label": "Family support",
+     "pattern": "parental leave|paid family leave|caregiv\\w*|family[- ]friendly"
+    },
+    {
+     "id": "async",
+     "label": "Flexible / async",
+     "pattern": "async[- ]first|asynchronous(?:ly)? (?:work|communication|collaboration|culture)|async (?:work|communication|collaboration|culture|team)|flexible (?:hours|schedule|working|workplace)|4[- ]day (?:work)?week"
+    },
+    {
+     "id": "candor",
+     "label": "Transparency",
+     "pattern": "transparent culture|culture of transparency|radical candor|candor|pay transparency|salary bands? (?:are )?(?:public|published)"
+    },
+    {
+     "id": "safety",
+     "label": "Psychological safety",
+     "pattern": "psychological(?:ly)? safe(?:ty)?|blameless|feedback culture"
+    },
+    {
+     "id": "impact",
+     "label": "Impact over output",
+     "pattern": "impact over (?:output|hours)|outcomes? over (?:output|hours)"
+    }
+   ],
+   "negative": [
+    {
+     "id": "hustle",
+     "label": "Hustle / grind",
+     "pattern": "hustle|grind(?:set)?|996"
+    },
+    {
+     "id": "rockstar",
+     "label": "Rockstar language",
+     "pattern": "rock ?stars?|ninjas?|superstars?|10x (?:engineer|developer)s?"
+    },
+    {
+     "id": "always_on",
+     "label": "Always on",
+     "pattern": "always[- ]on|24/7 availability|nights and weekends|whatever it takes"
+    },
+    {
+     "id": "hats",
+     "label": "Unbounded scope",
+     "pattern": "wear (?:many|multiple|lots of) hats"
+    },
+    {
+     "id": "play_hard",
+     "label": "Work hard, play hard",
+     "pattern": "work hard,? play hard"
+    },
+    {
+     "id": "elite",
+     "label": "Elite-only framing",
+     "pattern": "top 1%|only the best|a-players?"
+    }
+   ]
+  },
   "tiers": {
    "t1": 0.8,
    "t2": 0.7,

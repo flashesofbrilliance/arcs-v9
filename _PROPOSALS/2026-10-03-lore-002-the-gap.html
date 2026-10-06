@@ -1,0 +1,218 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>The Gap · Lore</title>
+<meta name="description" content="What people say, what they do, and the two opposite rules ARCS keeps about the distance between them.">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+</style>
+
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Lore</span>
+    <span>Draft</span>
+    <span class="sp"><b>No. 2 · verdict undecided</b></span>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Lore // Entry two</p>
+    <h1>The <em>Gap</em></h1>
+    <p class="standfirst">Everyone tells you what they want. Fewer show you. The distance between the two is the most honest signal in any room, and ARCS is built around it twice: once as a way to read other people, and once as a promise never to read you too hard.</p>
+    <p class="byline">Receipts included · No counterpart named; recoil files are cited by count only</p>
+  </header>
+
+  <section>
+    <span class="num">I · The clock</span>
+    <p class="lead">Two recruiters called an hour apart on the same Wednesday. I left the first call ten minutes early, because some part of me could not get out of the room fast enough. I stayed on the second ten minutes late, because I did not want to go.</p>
+    <p>I had not decided anything when I left early or stayed late. My body had. The clock knew before I did which call had someone home.</p>
+    <div class="panel">
+      <h4>For Zach · optional second scene</h4>
+      <p>A time the words and the clock disagreed and the clock was right. Or wrong; that would be better.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">II · The economist's version</span>
+    <p>The idea has an older name. In 1938 the economist Paul Samuelson proposed that you stop asking people what they prefer and watch what they choose: preference, revealed by behavior. Everyone else calls it <em>watch what they do, not what they say.</em></p>
+  </section>
+
+  <section>
+    <span class="num">III · Two rules that look like one</span>
+    <p>ARCS keeps two rules about the gap, and on the surface they point in opposite directions.</p>
+    <div class="panel">
+      <h4>The two rules</h4>
+      <div class="step">
+        <span class="k">For others</span><b>Weight the revealed. Every recoil war room carries a pair of fields, <em>Stated, watch</em> and <em>Revealed, weight</em>, and the canvas stamps every card: <code>Revealed preference &gt; stated preference</code>.</b>
+        <span class="k">For you</span><b>Never overrule the revealed. NOTOMATION, primitive one: the tools may scaffold and sequence your thinking, never compress, replace, or overrule revealed preference.</b>
+      </div>
+      <p>Sources: <code>runtime/recoil/arcs_recoil_canvas.py</code> (18 recoil files carry the lens) · <code>_CANON/book-ii/part-ii-rom-axioms.md</code></p>
+    </div>
+    <p>A counterpart who says <em>I need to loop in the team</em> is stated. One who stays past the half hour and asks follow-up questions is revealed. And when the compass reads GREEN on a job offer and you say it feels wrong, the system records the gate as undefined, not GREEN. Your lived experience outranks the inference.</p>
+    <p>With others, ARCS reads the gap and acts on it. With you, ARCS is forbidden to act on it. The reconciliation is in who holds the pen. Reading a counterpart's behavior informs <em>your</em> decision; you are still the one deciding. Reading <em>your</em> behavior and then deciding for you would make the machine the author of your preference, which is exactly the replacement the exoskeleton was built not to be.</p>
+    <blockquote>Behavior outranks words, and only the person whose behavior it is gets to say what it means.</blockquote>
+  </section>
+
+  <section>
+    <span class="num">IV · The open question, answered on the page</span>
+    <p>The NOTOMATION spec leaves one question open, in writing: when the operator's stated preference contradicts their revealed behavior over time, should ARCS surface it, or stay silent until asked?</p>
+    <p>The first entry in this series already answered it, without meaning to. I state that ARCS should close loops. My revealed behavior, counted on 3 October 2026, is 261 receipts filed and one real outcome closed. ARCS surfaced the gap. It did not decide what the gap means.</p>
+    <p>That is the proposed answer: <em>surface the gap as an observation, never as a verdict.</em> Show the two numbers side by side. Let the person whose numbers they are write the caption.</p>
+    <div class="panel">
+      <h4>For Zach · decision</h4>
+      <p>Accept this as the answer to the spec's open question, or overrule it. If accepted, it becomes a candidate amendment to the NOTOMATION spec.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">V · The crack, and the falsifier</span>
+    <p>The honest weakness: a revealed read is not an observation. It is an interpretation of one. <em>Stayed past thirty minutes</em> is a fact; <em>therefore interested</em> is a guess, and guesses carry the reader's hopes. A rule that says trust the revealed can quietly become trust my reading of you, which is just a stated preference wearing a lab coat.</p>
+    <div class="panel">
+      <h4>The falsifier <span class="sev">not yet run</span></h4>
+      <div class="step">
+        <span class="k">Claim</span><b>In the recoil record, the revealed read predicts what actually happened better than the stated read did.</b>
+        <span class="k">Test</span><b>For every recoil file with both reads and a post-call close, mark which read the outcome matched. Tally.</b>
+        <span class="k">Kill</span><b>If the stated read matches as often or more, the lesson drops from law to rule of thumb, and the stamp comes off the canvas.</b>
+        <span class="k">Status</span><b>18 files carry the lens. Usable closes not yet counted. Told, not cited.</b>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="num">VI · Coda</span>
+    <div class="panel">
+      <h4>For Zach · closing image</h4>
+      <p>Suggestion: the clock again. You do not need to ask anyone what they want. Watch when they stand up to leave. Then ask anyway, because they are the only one allowed to say what it meant.</p>
+    </div>
+  </section>
+
+  <footer>
+    <b>Lore, entry two. Draft, 2026.</b> Verdict: undecided. This story may be told, not cited, until the falsifier runs.<br>
+    Counts from the production database and the repository, as of 3 October 2026. No counterpart is identifiable from this document.
+  </footer>
+</div>
+</body>
+</html>

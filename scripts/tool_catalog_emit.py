@@ -8,6 +8,9 @@ harvested (never inferred) from each tool's own declaration:
   - .claude/workflows/*.{js,mjs}   <- meta description literal, else first comment line
   - .claude/hooks/*.sh             <- first `# ` comment after the shebang
   - scripts/*.{py,sh}              <- py: module docstring first line; sh: first comment
+  - tools/*/README.md              <- first prose line (packaged tool-forge microservices;
+                                      added 2026-09-29 so tools/arcs-verb-eval and siblings are
+                                      discoverable, not only those with a slash-command wrapper)
   - operators/*.py                 <- module docstring first line
     (backlog listed generate_arcs_operator_data.py as the operator-table emitter to
     reuse; that file never landed in this repo, so operators are harvested directly
@@ -160,6 +163,23 @@ def collect():
             elif f.endswith(".sh"):
                 add("script", f, p, sh_jtbd(p), f"scripts/{f}")
 
+    # packaged tools (tool-forge shape): tools/<name>/ with a README and a runner
+    tl = os.path.join(ROOT, "tools")
+    if os.path.isdir(tl):
+        for d in sorted(os.listdir(tl)):
+            readme = os.path.join(tl, d, "README.md")
+            if not os.path.isfile(readme):
+                continue
+            prose = ""
+            for ln in read(readme).splitlines():
+                ln = ln.strip()
+                if ln and not ln.startswith(("#", "[!", "![", "<", "|", "```", ">")):
+                    prose = ln
+                    break
+            runner = os.path.join(tl, d, d)
+            invoke = f"tools/{d}/{d}" if os.path.isfile(runner) else f"see tools/{d}/README.md"
+            add("package", d, readme, prose, invoke)
+
     # operators
     op = os.path.join(ROOT, "operators")
     if os.path.isdir(op):
@@ -196,7 +216,7 @@ def main():
              "One line per tool, JTBD harvested from the tool's own declaration.", "",
              "Counts: " + " · ".join(f"{k} {v}" for k, v in sorted(counts.items()))
              + f" · total {len(tools)} · missing JTBD {missing}", ""]
-    for kind in ["skill", "command", "workflow", "hook", "script", "operator"]:
+    for kind in ["skill", "command", "workflow", "hook", "script", "package", "operator"]:
         grp = [t for t in tools if t["kind"] == kind]
         if not grp:
             continue

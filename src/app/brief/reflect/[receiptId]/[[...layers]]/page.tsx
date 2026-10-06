@@ -7,6 +7,8 @@
 // and shareable. Base brief (/brief/[id]) has a ◎ Reflect → pill that pushes here.
 "use client"
 
+import { DeadEnd } from "@/molecules/DeadEnd"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { track } from "@vercel/analytics"
@@ -66,7 +68,6 @@ export default function BriefReflectPage() {
   const layerUrlBase = `/brief/reflect/${receiptId}`
 
   const [result, setResult] = useState<CompassResult | null>(null)
-  const [sessionId, setSessionId] = useState<string | null>(null)
   const [depth, setDepth] = useState<number>(0)
   const [parentId, setParentId] = useState<string | null>(null)
   const [framing, setFraming] = useState<string>("")
@@ -83,7 +84,6 @@ export default function BriefReflectPage() {
         if (cancelled) return
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
-        setSessionId((data.receipt?.sessionId as string) ?? null)
         setDepth(Number(data.receipt?.version ?? 0))
         setParentId((data.receipt?.parentId as string) ?? null)
         setFraming(data.brief?.situationFraming ?? "")
@@ -97,21 +97,10 @@ export default function BriefReflectPage() {
     let cancelled = false
     fetch("/api/auth/session")
       .then((r) => r.json())
-      .then(async (s) => {
+      .then((s) => {
         if (cancelled) return
         const isAuthed = !!s?.user?.id
         setAuthed(isAuthed)
-        if (isAuthed && typeof window !== "undefined") {
-          const stored = localStorage.getItem("arcs_session_id")
-          if (stored) {
-            const r = await fetch("/api/receipts/claim", {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ sessionId: stored }),
-            })
-            if (r.ok) localStorage.removeItem("arcs_session_id")
-          }
-        }
       })
       .catch(() => { if (!cancelled) setAuthed(false) })
     return () => { cancelled = true }
@@ -120,7 +109,6 @@ export default function BriefReflectPage() {
   function followTributary(prompt: string) {
     track("brief_tributary_followed", { receiptId })
     const p = new URLSearchParams({ q: prompt, parent: receiptId })
-    if (sessionId) p.set("sid", sessionId)
     router.push(`/dashboard?${p.toString()}`)
   }
 
@@ -139,10 +127,16 @@ export default function BriefReflectPage() {
   }
 
   if (error) {
+    // Missing or unreadable record: branded dead end with a way back, not a lone red line.
+    const missing = /not found/i.test(error)
     return (
-      <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.9rem" }}>{error}</div>
-      </main>
+      <DeadEnd
+        section="Reflect"
+        title={missing ? "We can't find that brief." : "This brief didn't load."}
+        body={missing
+          ? "The link may be mistyped, or the receipt was deleted. Saved receipts live in your ledger."
+          : "Something went wrong on our side. Try again in a minute, or start from the compass."}
+      />
     )
   }
   if (!result) {
@@ -169,7 +163,7 @@ export default function BriefReflectPage() {
         {/* Reflect surface breadcrumb */}
         <div style={{ borderBottom: `0.5px solid rgba(0,240,255,0.12)`, background: "rgba(0,240,255,0.03)" }}>
           <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <button onClick={() => router.push("/history")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Ledger</button>
+            <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
             <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
             <button onClick={() => router.push(`/brief/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Brief</button>
             <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>

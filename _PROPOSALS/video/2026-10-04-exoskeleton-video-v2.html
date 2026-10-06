@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Exoskeleton · video v2 source</title>
+<!--
+  Lore No. 1, video v2: one continuous world, 9:16, silent, captions-first.
+  The 261 receipts are a phyllotaxis spiral; the 1 closed outcome is the gold seed at its center.
+  The spiral spins up into the engine, a brake bites, five struts draw the exoskeleton and calm it,
+  a 30-slot gauge shows 1 of 30, and the camera dives into the gold seed: the spark gap.
+  Rendered by scripts/html_video_render.mjs: window.DURATION + window.seek(t), every frame a pure
+  function of t. DESIGN.md voices: sans = statements, mono = instruments, serif = canon only.
+-->
+<style>
+  @font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;src:url('../../public/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2')}
+  @font-face{font-family:'Inter';font-weight:100 900;src:url('../../public/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2')}
+  @font-face{font-family:'JetBrains Mono';font-weight:100 800;src:url('../../public/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2')}
+  :root{--obsidian:#020408;--text:#e2e8f0;--secondary:#94a3b8;--cyan:#00F0FF;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Newsreader',serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;background:var(--obsidian);overflow:hidden}
+  #stage{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0;overflow:hidden;background:var(--obsidian)}
+  canvas{position:absolute;inset:0}
+  .cap{position:absolute;left:84px;right:84px;opacity:0;will-change:transform,opacity}
+  .st{font-family:var(--sans);font-weight:800;font-size:112px;line-height:1.0;letter-spacing:-.035em;color:var(--text)}
+  .st .w{display:inline-block;will-change:transform,opacity}
+  .lab{font-family:var(--mono);font-weight:700;font-size:30px;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary)}
+  .src{font-family:var(--mono);font-weight:400;font-size:26px;letter-spacing:.02em;color:var(--secondary)}
+  .canon{font-family:var(--serif);font-style:italic;font-weight:500;font-size:128px;line-height:1.02;letter-spacing:-.02em;color:var(--cyan)}
+  .gold{color:var(--gold)} .red{color:var(--red)} .cyan{color:var(--cyan)}
+  #flash{position:absolute;inset:0;pointer-events:none;opacity:0}
+  #vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 55%,transparent 45%,rgba(0,0,0,.55) 100%)}
+  #grain{position:absolute;inset:-64px;pointer-events:none;opacity:.07;mix-blend-mode:screen}
+  .end{position:absolute;left:0;right:0;text-align:center;opacity:0}
+  .wordmark{font-family:var(--mono);font-weight:800;font-size:150px;letter-spacing:.3em;margin-left:.3em;color:var(--text)}
+  .wordmark b{color:var(--cyan);font-weight:800}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="c" width="1080" height="1920"></canvas>
+  <div id="flash"></div>
+
+  <!-- captions: statements (sans), instruments (mono), canon (serif) -->
+  <div class="cap" id="c1" style="top:250px"><div class="st"><span class="w">261</span> <span class="w">started.</span></div>
+    <div class="st gold" style="margin-top:14px"><span class="w">1</span> <span class="w">finished.</span></div>
+    <div class="src" style="margin-top:34px">Decision receipts in the ARCS record, 3 Oct 2026</div></div>
+  <div class="cap" id="c2" style="top:290px"><div class="st"><span class="w">Lambo</span> <span class="w">engine.</span></div></div>
+  <div class="cap" id="c3" style="top:290px"><div class="st red"><span class="w">Bike</span> <span class="w">brakes.</span></div></div>
+  <div class="cap" id="c4" style="top:260px"><div class="lab cyan">The exoskeleton</div>
+    <div class="st" style="margin-top:22px;font-size:96px" id="strutName"></div>
+    <div class="lab" style="margin-top:18px" id="strutJob"></div></div>
+  <div class="cap" id="c5" style="top:250px"><div class="st" style="font-size:100px"><span class="w">Starter</span> <span class="w">motor,</span></div>
+    <div class="st gold" style="font-size:100px;margin-top:10px"><span class="w">or</span> <span class="w">exoskeleton?</span></div></div>
+  <div class="cap" id="c6" style="top:1580px"><div class="lab" id="gaugeLab">0 / 30 closed outcomes</div>
+    <div class="lab gold" style="margin-top:14px">Verdict due 1 Jan 2027</div></div>
+  <div class="cap" id="c7" style="top:300px"><div class="st"><span class="w">Build</span> <span class="w">the</span> <span class="w">charge.</span></div>
+    <div class="st" style="margin-top:12px"><span class="w">Hold</span> <span class="w">the</span> <span class="w">gap.</span></div></div>
+  <div class="cap" id="c8" style="top:1340px;text-align:center;left:40px;right:40px"><div class="canon">The spark is mine.</div></div>
+
+  <div class="end" id="e1" style="top:760px"><div class="wordmark"><b>A</b>RCS</div></div>
+  <div class="end" id="e2" style="top:980px"><div class="lab" style="color:var(--text)">Lore · No. 1 · The Exoskeleton</div></div>
+  <div class="end" id="e3" style="top:1060px"><div class="src" style="color:var(--cyan);font-size:30px">good.arcs.care/series/lore</div></div>
+
+  <div id="vignette"></div>
+  <canvas id="grain" width="256" height="256"></canvas>
+</div>
+<script>
+// ---------- deterministic helpers ----------
+// layout follows the frame: 9:16 stacks captions over the machine; 16:9 puts captions in a left column
+const WIDE = innerWidth > innerHeight;
+const W = WIDE ? 1920 : 1080, H = WIDE ? 1080 : 1920, CX = WIDE ? 1390 : 540, CY = WIDE ? 560 : 1050;
+(function () {
+  const st = document.getElementById('stage'), c = document.getElementById('c');
+  st.style.width = W + 'px'; st.style.height = H + 'px'; c.width = W; c.height = H;
+  if (!WIDE) return;
+  const at = { c1: 300, c2: 380, c3: 380, c4: 330, c5: 300, c6: 830, c7: 150, c8: 720 };
+  for (const [id, top] of Object.entries(at)) { const el = document.getElementById(id);
+    el.style.top = top + 'px'; el.style.left = '110px'; el.style.right = (id === 'c7' || id === 'c8') ? '110px' : '1000px'; el.style.textAlign = 'left'; }
+  const end = { e1: 300, e2: 520, e3: 600 };
+  for (const [id, top] of Object.entries(end)) document.getElementById(id).style.top = top + 'px';
+})();
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lin = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = (x) => 1 - Math.pow(1 - clamp(x), 3);
+const easeInOut = (x) => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+// damped spring 0 -> 1 with overshoot, d = seconds since start
+const spring = (d, k = 9, w = 13) => d <= 0 ? 0 : 1 - Math.exp(-k * d) * Math.cos(w * d);
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+// ---------- the 261 receipts as a phyllotaxis spiral ----------
+const N = 261, GA = Math.PI * (3 - Math.sqrt(5)), C = 24;
+const dots = Array.from({ length: N }, (_, i) => ({ r: i === 0 ? 0 : C * Math.sqrt(i + 0.6), a: i * GA, born: 0.15 + 1.25 * Math.sqrt(i / N) }));
+
+// ---------- rotor speed (rad/s) and its integral, sampled once ----------
+function omega(t) {
+  const spin = easeInOut(lin(t, 3.1, 5.0)) * 30;           // the engine revs
+  const brakeJolt = t > 5.7 && t < 6.1 ? -9 * Math.sin((t - 5.7) / .4 * Math.PI) : 0;
+  const calm = easeInOut(lin(t, 7.4, 11.6));                // struts take the load
+  return 0.25 + spin * (1 - calm) + 1.6 * calm + brakeJolt;
+}
+const DT = 1 / 600, TH = [0];
+for (let i = 1; i <= 24 * 600; i++) TH.push(TH[i - 1] + omega(i * DT) * DT);
+const theta = (t) => TH[Math.min(TH.length - 1, Math.round(t / DT))];
+
+// ---------- the pentagon frame (exoskeleton) ----------
+const R5 = 430, PENT = Array.from({ length: 5 }, (_, k) => { const a = -Math.PI / 2 + k * 2 * Math.PI / 5; return [CX + R5 * Math.cos(a), CY + R5 * Math.sin(a)]; });
+const STRUTS = [["Receipts", "working memory"], ["The Y gate", "inhibition"], ["PrepSession", "planning"], ["Drift Sentinel", "self-monitoring"], ["Handoffs", "shifting"]];
+const STRUT_T0 = 7.5, STRUT_DT = 0.85;
+
+// ---------- grain texture (seeded) ----------
+(function () { const g = document.getElementById('grain').getContext('2d'), img = g.createImageData(256, 256), r = rng(7);
+  for (let i = 0; i < img.data.length; i += 4) { const v = r() * 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
+  g.putImageData(img, 0, 0); const el = document.getElementById('grain'); el.style.width = (W + 128) + 'px'; el.style.height = (H + 128) + 'px'; el.style.imageRendering = 'pixelated'; })();
+
+const ctx = document.getElementById('c').getContext('2d');
+window.DURATION = 20.0;
+
+function show(id, t, a, b, fadeIn = .25, fadeOut = .25) {
+  const el = document.getElementById(id), o = Math.min(lin(t, a, a + fadeIn), 1 - lin(t, b - fadeOut, b));
+  el.style.opacity = String(clamp(o)); return el;
+}
+function words(el, t, t0, gap = .12) {   // kinetic type: each word springs up in turn
+  el.querySelectorAll('.w').forEach((w, i) => { const s = spring(t - t0 - i * gap, 10, 14);
+    w.style.opacity = String(clamp(s * 1.6)); w.style.transform = `translateY(${(1 - s) * 60}px) scale(${.85 + .15 * s})`; });
+}
+
+window.seek = function (t) {
+  // stage fit (renders at W x H; scale only if the viewport differs)
+  const sc = Math.min(innerWidth / W, innerHeight / H), st = document.getElementById('stage');
+  st.style.transform = `translate(${(innerWidth - W * sc) / 2}px,${(innerHeight - H * sc) / 2}px) scale(${sc})`;
+
+  // ----- camera: breathe in, shake on the brake, dive into the gold seed -----
+  const dive = easeInOut(lin(t, 14.4, 15.4));
+  let zoom = 1 + 0.05 * easeOut(lin(t, 0, 3)) + dive * 7, sx = 0, sy = 0;
+  if (t > 5.7 && t < 6.3) { const k = (1 - lin(t, 5.7, 6.3)) * 16; sx = Math.sin(t * 91) * k; sy = Math.cos(t * 77) * k; }
+  const worldFade = 1 - lin(t, 14.9, 15.4);
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1;
+  ctx.fillStyle = '#020408'; ctx.fillRect(0, 0, W, H);
+  const bg = ctx.createRadialGradient(CX, CY, 40, CX, CY, 900);
+  bg.addColorStop(0, 'rgba(0,240,255,0.07)'); bg.addColorStop(1, 'rgba(0,240,255,0)');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+  ctx.save();
+  ctx.translate(CX + sx, CY + sy); ctx.scale(zoom, zoom); ctx.translate(-CX, -CY);
+  ctx.globalAlpha = worldFade;
+
+  // ----- the receipts: cascade in, spin up, blur with speed -----
+  const th = theta(t), w = omega(t), blur = clamp(w * (1 / 30) * 0.9, 0, 1.1);
+  for (let i = 0; i < N; i++) {
+    const d = dots[i], s = spring(t - d.born, 11, 16);
+    if (s <= 0) continue;
+    const a = d.a + th, gold = i === 0;
+    const dim = 1 - 0.65 * lin(t, 1.45, 1.75) * (1 - lin(t, 2.7, 3.2));
+    const alpha = gold ? 1 : (0.35 + 0.35 * (1 - d.r / 400)) * dim;
+    if (!gold && blur > 0.05) {
+      ctx.strokeStyle = `rgba(0,240,255,${(alpha * 0.9).toFixed(3)})`; ctx.lineWidth = 9 * clamp(s); ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.arc(CX, CY, d.r, a - blur * (0.25 + d.r / 900), a); ctx.stroke();
+    } else {
+      const rr = (gold ? 14 : 6.5) * s;
+      if (gold) { ctx.shadowColor = '#FFD700'; ctx.shadowBlur = 30 + 10 * Math.sin(t * 6); }
+      ctx.fillStyle = gold ? '#FFD700' : `rgba(0,240,255,${alpha.toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(CX + d.r * Math.cos(a), CY + d.r * Math.sin(a), rr, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+  // gold seed halo once it is named (1 finished)
+  if (t > 1.5) { const p = spring(t - 1.5, 6, 9); ctx.strokeStyle = `rgba(255,215,0,${(0.6 * clamp(p)).toFixed(3)})`; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(CX, CY, 30 + 8 * Math.sin(t * 4), 0, Math.PI * 2); ctx.stroke(); }
+
+  // ----- the brake: a red pad bites the rim -----
+  const pad = easeOut(lin(t, 5.45, 5.75)) * (1 - easeOut(lin(t, 7.2, 7.8)));
+  if (pad > 0) { ctx.fillStyle = '#FF4D6D'; ctx.shadowColor = '#FF4D6D'; ctx.shadowBlur = 40 * pad;
+    const px = CX + 330 + (1 - pad) * 320;
+    ctx.beginPath(); ctx.roundRect(px, CY - 150, 150, 300, 28); ctx.fill(); ctx.shadowBlur = 0;
+    ctx.fillStyle = '#020408'; ctx.beginPath(); ctx.roundRect(px + 22, CY - 112, 40, 224, 12); ctx.fill(); }
+
+  // ----- the exoskeleton: five struts draw and snap -----
+  for (let k = 0; k < 5; k++) {
+    const t0 = STRUT_T0 + k * STRUT_DT, p = easeOut(lin(t, t0, t0 + .45));
+    if (p <= 0) continue;
+    const [x1, y1] = PENT[k], [x2, y2] = PENT[(k + 1) % 5], ex = x1 + (x2 - x1) * p, ey = y1 + (y2 - y1) * p;
+    const lit = 1 - lin(t, t0 + .45, t0 + 1.2);
+    ctx.strokeStyle = '#00F0FF'; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.shadowColor = '#00F0FF'; ctx.shadowBlur = 18 + 30 * lit;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(ex, ey); ctx.stroke();
+    // spoke from the joint to the hub: the strut carries the load
+    const sp = easeOut(lin(t, t0 + .25, t0 + .7));
+    ctx.lineWidth = 2; ctx.globalAlpha = worldFade * 0.45;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 + (CX - x1) * sp * .86, y1 + (CY - y1) * sp * .86); ctx.stroke();
+    ctx.globalAlpha = worldFade; ctx.shadowBlur = 0;
+    const j = spring(t - t0, 12, 18); ctx.fillStyle = '#e2e8f0';
+    ctx.beginPath(); ctx.arc(x1, y1, 11 * clamp(j, 0, 1.3), 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+
+  // ----- the gauge: 30 slots, 1 filled -----
+  const gIn = lin(t, 11.9, 12.3) * (1 - lin(t, 14.3, 14.7));
+  if (gIn > 0) {
+    ctx.globalAlpha = gIn; const gx = WIDE ? 110 : 84, gy = WIDE ? 760 : 1500, sw = WIDE ? 20 : 26, gap = 4.8;
+    for (let k = 0; k < 30; k++) {
+      const on = k === 0 && t > 12.6, x = gx + k * (sw + gap);
+      ctx.strokeStyle = 'rgba(148,163,184,.55)'; ctx.lineWidth = 2; ctx.strokeRect(x, gy, sw, 44);
+      if (on) { ctx.fillStyle = '#FFD700'; ctx.shadowColor = '#FFD700'; ctx.shadowBlur = 20; ctx.fillRect(x + 3, gy + 3, sw - 6, 38); ctx.shadowBlur = 0; }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // ----- the spark gap: what the camera finds inside the gold seed -----
+  const gapIn = lin(t, 15.0, 15.4) * (1 - lin(t, 17.9, 18.3));
+  if (gapIn > 0) {
+    ctx.globalAlpha = gapIn; const gy = CY, gw = 200, eh = 70;
+    ctx.fillStyle = '#334155'; ctx.fillRect(-10, gy - eh, CX - gw / 2 + 10 - 40, eh * 2); ctx.fillRect(CX + gw / 2 + 40, gy - eh, W, eh * 2);
+    ctx.fillStyle = '#94a3b8';
+    ctx.beginPath(); ctx.moveTo(CX - gw / 2 - 40, gy - eh); ctx.lineTo(CX - gw / 2, gy); ctx.lineTo(CX - gw / 2 - 40, gy + eh); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(CX + gw / 2 + 40, gy - eh); ctx.lineTo(CX + gw / 2, gy); ctx.lineTo(CX + gw / 2 + 40, gy + eh); ctx.fill();
+    const charge = lin(t, 15.2, 16.4), fire = t > 16.5;
+    const on = fire || (charge > .3 && Math.sin(t * 53) > 0.55 - charge);
+    if (on) {
+      const amp = fire ? 56 : 28, n = 11, pts = [];
+      for (let i = 0; i <= n; i++) pts.push([CX - gw / 2 + i * gw / n, gy + (i === 0 || i === n ? 0 : Math.sin(t * 41 + i * 2.1) * amp * (0.5 + 0.5 * Math.sin(i * 1.3 + t * 9)))]);
+      const halo = ctx.createRadialGradient(CX, gy, 4, CX, gy, fire ? 260 : 120);
+      halo.addColorStop(0, `rgba(0,240,255,${fire ? .55 : .3})`); halo.addColorStop(1, 'rgba(0,240,255,0)');
+      ctx.fillStyle = halo; ctx.fillRect(0, gy - 300, W, 600);
+      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = fire ? 10 : 5; ctx.shadowColor = '#00F0FF'; ctx.shadowBlur = fire ? 50 : 24; ctx.lineJoin = 'round';
+      ctx.beginPath(); pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); ctx.shadowBlur = 0;
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // ----- flash frames: the brake (red) and the spark (white) -----
+  const fl = document.getElementById('flash');
+  const fRed = t > 5.7 ? Math.exp(-(t - 5.7) * 7) * .35 : 0, fWhite = t > 16.5 ? Math.exp(-(t - 16.5) * 5) * .8 : 0;
+  fl.style.background = fWhite > fRed ? '#ffffff' : '#FF4D6D'; fl.style.opacity = String(Math.max(fRed, fWhite));
+
+  // ----- captions -----
+  words(show('c1', t, .3, 3.0), t, .3, .16);
+  document.querySelectorAll('#c1 .st.gold .w').forEach((w, i) => { const s = spring(t - 1.5 - i * .14, 10, 14);
+    w.style.opacity = String(clamp(s * 1.6)); w.style.transform = `translateY(${(1 - s) * 60}px) scale(${.85 + .15 * s})`; });
+  words(show('c2', t, 3.3, 5.6, .15, .15), t, 3.3, .2);
+  const c3 = show('c3', t, 5.65, 7.3, .05, .3); words(c3, t, 5.65, .12);
+  c3.style.transform = `translate(${sx * 1.4}px,${sy * 1.4}px)`;
+  show('c4', t, 7.4, 11.85, .2, .3);
+  const k = clamp(Math.floor((t - STRUT_T0) / STRUT_DT), 0, 4), kd = t - STRUT_T0 - k * STRUT_DT, ks = spring(kd, 10, 14);
+  const nm = document.getElementById('strutName'), jb = document.getElementById('strutJob');
+  nm.textContent = STRUTS[k][0]; jb.textContent = '→ ' + STRUTS[k][1];
+  nm.style.opacity = String(clamp(ks * 1.5)); nm.style.transform = `translateY(${(1 - ks) * 40}px)`;
+  jb.style.opacity = String(clamp((kd - .12) * 5));
+  words(show('c5', t, 11.9, 14.4, .15, .3), t, 11.9, .14);
+  show('c6', t, 12.2, 14.5, .2, .3);
+  document.getElementById('gaugeLab').textContent = (t > 12.6 ? 1 : 0) + ' / 30 closed outcomes';
+  words(show('c7', t, 15.1, 16.45, .15, .1), t, 15.1, .13);
+  const c8 = show('c8', t, 16.8, 18.4, .15, .35), s8 = spring(t - 16.8, 8, 11);
+  c8.style.transform = `scale(${.9 + .1 * s8})`;
+
+  // ----- end card -----
+  const e = (id, a) => { const el = show(id, t, a, 99, .35, .1), s = spring(t - a, 9, 12); el.style.transform = `translateY(${(1 - s) * 40}px)`; };
+  e('e1', 18.35); e('e2', 18.6); e('e3', 18.8);
+
+  // ----- film grain: a different offset each frame, seeded by frame number -----
+  const f = Math.round(t * 30), r = rng(f + 11)();
+  document.getElementById('grain').style.transform = `translate(${-Math.floor(r * 64)}px,${-Math.floor((r * 977) % 64)}px)`;
+};
+window.seek(0);
+</script>
+</body>
+</html>

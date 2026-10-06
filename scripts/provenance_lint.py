@@ -25,7 +25,7 @@ Usage:
   python3 scripts/provenance_lint.py --ledger <path> <file> [...]  # explicit ledger
   python3 scripts/provenance_lint.py --self-test
 """
-import re, sys, os, json
+import argparse, re, sys, os, json, subprocess
 
 # risky metric tokens (fabrication hides in numbers). Years/date-ranges excluded separately.
 METRIC = re.compile(r"""
@@ -92,8 +92,8 @@ def report(path, text, ledger_path):
     return ok, {"file": path, "ok": ok, "enrolled": True, "ledger": ledger_path,
                 "metrics_found": len(cands), "unverified": unverified}
 
-# ---- self-test: fails-on-bad (uncovered number) + passes-on-good (covered) -----------------
-def self_test():
+def unit_test():
+    """Original in-process cases: fails-on-bad (uncovered number) + passes-on-good (covered)."""
     import tempfile
     d = tempfile.mkdtemp()
     led = os.path.join(d, "evidence.jsonl")
@@ -102,22 +102,67 @@ def self_test():
     bad = "Led a $7B launch and delivered 40+ demos at 75% conversion."  # 40+ / 75% uncovered
     ok_g, rg = report(os.path.join(d, "g.txt"), good, led)
     ok_b, rb = report(os.path.join(d, "b.txt"), bad, led)
-    passed = ok_g and (not ok_b) and set(rb["unverified"]) >= {"40+", "75%"}
-    print("SELF-TEST (fail-on-bad + pass-on-good)")
-    print(f"  good (only covered $7B) -> {'PASS (correct)' if ok_g else 'FAIL (WRONG)'}  unver={rg.get('unverified')}")
-    print(f"  bad  (40+/75% uncovered) -> {'FAIL (correct)' if not ok_b else 'PASS (WRONG)'}  unver={rb.get('unverified')}")
-    print("  RESULT:", "OK" if passed else "BROKEN")
-    return 0 if passed else 1
+    return ok_g, (not ok_b) and set(rb["unverified"]) >= {"40+", "75%"}
+
+def self_test():
+    """Unit cases + CLI cases (the script run as a subprocess in a temp dir; lint is read-only)."""
+    import hashlib, tempfile
+    me = os.path.abspath(__file__)
+    fails = total = 0
+    def check(name, ok):
+        nonlocal fails, total
+        total += 1
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
+    def snap(root):
+        out = {}
+        for dp, _, fs in os.walk(root):
+            for fn in fs:
+                fp = os.path.join(dp, fn); st = os.stat(fp)
+                with open(fp, "rb") as fh:
+                    out[fp] = (hashlib.sha256(fh.read()).hexdigest(), st.st_mtime_ns)
+        return out
+    ok_g, ok_b = unit_test()
+    check("good (only covered $7B) passes", ok_g)
+    check("bad (40+/75% uncovered) fails", ok_b)
+    with tempfile.TemporaryDirectory() as tmp:
+        open(os.path.join(tmp, "evidence.jsonl"), "w").write(json.dumps({"pattern": r"\$7B", "source": "x"}) + "\n")
+        open(os.path.join(tmp, "good.html"), "w").write("<p>Led a $7B launch in 2024.</p>")
+        open(os.path.join(tmp, "bad.html"), "w").write("<p>40+ demos at 75% conversion.</p>")
+        os.mkdir(os.path.join(tmp, "solo"))
+        open(os.path.join(tmp, "solo", "page.html"), "w").write("<p>40+ demos.</p>")
+        def cli(*a):
+            return subprocess.run([sys.executable, me, *a], cwd=tmp, capture_output=True, text=True)
+        before = snap(tmp)
+        check("unknown flag exits 2", cli("--check", "good.html").returncode == 2)
+        check("typo flag exits 2", cli("--leger", "evidence.jsonl", "good.html").returncode == 2)
+        check("--ledger with no value exits 2", cli("good.html", "--ledger").returncode == 2)
+        check("good file exits 0", cli("good.html").returncode == 0)
+        check("bad file exits 1", cli("bad.html").returncode == 1)
+        check("mixed list exits 1", cli("good.html", "bad.html").returncode == 1)
+        check("unenrolled file skips, exits 0", cli("solo/page.html").returncode == 0)
+        check("--ledger enrolls an outside file, exits 1", cli("--ledger", "evidence.jsonl", "solo/page.html").returncode == 1)
+        check("--ledger after files still applies", cli("solo/page.html", "--ledger", "evidence.jsonl").returncode == 1)
+        check("no files exits 0", cli().returncode == 0)
+        check("lint writes nothing", snap(tmp) == before)
+    print(f"provenance_lint self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+def build_parser():
+    ap = argparse.ArgumentParser(prog="provenance_lint.py",
+                                 description="Every quantified claim on an enrolled surface must cite evidence. Read-only.")
+    ap.add_argument("files", nargs="*", help="files to lint (.html/.txt); none -> exit 0")
+    ap.add_argument("--ledger", metavar="PATH", help="explicit evidence ledger (overrides sibling lookup)")
+    ap.add_argument("--self-test", action="store_true", help="run the self-test and exit")
+    return ap
 
 def main(argv):
-    if "--self-test" in argv:
+    args = build_parser().parse_args(argv)  # unknown flags exit 2
+    if args.self_test:
         return self_test()
-    explicit = None
-    if "--ledger" in argv:
-        i = argv.index("--ledger"); explicit = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
-    files = [a for a in argv if not a.startswith("--")]
+    explicit = args.ledger
     bad = False
-    for path in files:
+    for path in args.files:
         text = strip_to_text(open(path, encoding="utf-8", errors="replace").read())
         ledger = find_ledger(path, explicit)
         ok, r = report(path, text, ledger)

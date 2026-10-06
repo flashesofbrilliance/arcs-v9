@@ -1,5 +1,5 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import Link from "next/link"
 import { surface, text, signal, font, border } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Rule } from '@/ui/Rule'
@@ -26,7 +26,6 @@ const GRADES = [
 ]
 
 export default function TrustPage() {
-  const router = useRouter()
 
   return (
     <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
@@ -34,9 +33,7 @@ export default function TrustPage() {
 
         {/* Nav */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
-          <button onClick={() => router.push('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-            <Wordmark section="Trust Contract" />
-          </button>
+          <Wordmark section="Trust Contract" />
         </div>
         <Rule style={{ marginBottom: '2rem' }} />
 
@@ -72,7 +69,7 @@ export default function TrustPage() {
                 <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server). Still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
               </span>
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
-                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section: 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
+                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section: 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Automatic claiming on sign-in was retired on 2026-10-05, because a browser's session id alone did not prove who made a receipt. To claim or delete one of yours, use the inquiry link below.
               </span>
             </>,
           },
@@ -187,9 +184,9 @@ export default function TrustPage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
           <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.3 · last updated 2026-07-19</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <button onClick={() => router.push('/privacy')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Privacy policy</button>
-            <button onClick={() => router.push('/terms')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Terms of service</button>
-            <button onClick={() => router.push('/dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, padding: 0 }}>Open the compass →</button>
+            <Link href='/privacy' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Privacy policy</Link>
+            <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms of service</Link>
+            <Link href='/dashboard' style={{ fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, textDecoration: 'none' }}>Open the compass →</Link>
           </div>
         </div>
       </div>

@@ -4,8 +4,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>When Command+Z Isn't an Option &middot; Today I Learned</title>
 <meta name="description" content="An AI agent took an irreversible action a human could not undo, and the lesson about where autonomy is allowed to reach.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ARCS Recoil Report - Design Tokens */
   :root{
@@ -15,8 +13,8 @@
     --gold:#9a7218; --goldbg:#fbf3df;
     --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;
     --cyan:#00F0FF; --red:#c0334d;
-    --sans:'Inter',system-ui,-apple-system,sans-serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono','JetBrains Mono Fallback',ui-monospace,monospace;
     --measure:680px;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -73,6 +71,17 @@
   .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
   .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;max-width:var(--measure);}
+</style>
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>

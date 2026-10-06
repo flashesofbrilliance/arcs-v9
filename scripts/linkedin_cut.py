@@ -21,7 +21,10 @@ Gates per cut (any miss exits 1):
 Usage:
   python3 scripts/linkedin_cut.py check [_QUEUE/linkedin/*.json]   # gate (default: whole queue)
   python3 scripts/linkedin_cut.py today [--date YYYY-MM-DD]          # print the cut due today
-  python3 scripts/linkedin_cut.py --self-test                        # proves fail-on-bad
+  python3 scripts/linkedin_cut.py --self-test                        # proves fail-on-bad + argv contract
+`check` and `today` are read-only (check lints copies in a temp dir); unknown flags exit 2.
+Video: the `video` cut type lives in scripts/video_cut.py (shot spec in _QUEUE/video/ -> HTML scene
+for html_video_render.mjs + a per-beat prompt pack); it reuses these gates rather than forking them.
 Stdlib only.
 """
 import glob, json, os, re, subprocess, sys, tempfile, datetime
@@ -157,14 +160,16 @@ def cmd_today(date):
     return 0
 
 
-def self_test():
+def legacy_fail_on_bad():
+    """The original fail-on-bad cases against the real queue (in-process, read-only)."""
     good = sorted(glob.glob(os.path.join(QUEUE, "*.json")))
     assert good, "no queue files to test against"
     q = json.load(open(good[0]))
     assert not check_file(good[0]), f"good fixture should pass: {check_file(good[0])}"
+    names = []
     with tempfile.TemporaryDirectory() as d:
         mutations = {
-            "em-dash": lambda q: q["cuts"][3].__setitem__("text", q["cuts"][3]["text"] + " — end"),
+            "em-dash": lambda q: q["cuts"][3].__setitem__("text", q["cuts"][3]["text"] + " \u2014 end"),
             "uncited metric": lambda q: q["cuts"][3].__setitem__("text", q["cuts"][3]["text"] + " It grew 87%."),
             "no footer": lambda q: q["cuts"][3].__setitem__("text", q["cuts"][3]["text"].replace(f"Part of {q['show']}", "")),
             "no prior": lambda q: q["cuts"][2].pop("expected"),
@@ -174,15 +179,106 @@ def self_test():
             m = json.loads(json.dumps(q)); mut(m)
             fp = os.path.join(d, "t.json"); json.dump(m, open(fp, "w"))
             assert check_file(fp), f"mutation '{name}' should fail"
-            print(f"  fail-on-bad ok: {name}")
-    print("linkedin_cut self-test: PASS"); return 0
+            names.append(name)
+    return names
+
+
+def _snapshot(root):
+    import hashlib
+    out = {}
+    for dp, _, fs in os.walk(root):
+        for f in fs:
+            p = os.path.join(dp, f)
+            out[p] = (hashlib.sha256(open(p, "rb").read()).hexdigest(), os.stat(p).st_mtime_ns)
+    return out
+
+
+def self_test():
+    import shutil
+    fails = total = 0
+
+    def ok(name, cond):
+        nonlocal fails, total
+        total += 1; fails += 0 if cond else 1
+        print(("  PASS  " if cond else "  FAIL  ") + name)
+
+    try:
+        for n in legacy_fail_on_bad():
+            ok(f"fail-on-bad: {n}", True)
+    except AssertionError as e:
+        ok(f"fail-on-bad suite: {e}", False)
+
+    tmp = os.path.realpath(tempfile.mkdtemp(prefix="linkedin-cut-selftest-"))
+    try:
+        os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "_QUEUE", "linkedin"))
+        me = os.path.join(tmp, "scripts", "linkedin_cut.py")
+        shutil.copy2(os.path.abspath(__file__), me)
+        for dep in ("slop_lint.py", "provenance_lint.py", "altitude_canary.py"):
+            if os.path.exists(os.path.join(SCRIPTS, dep)):
+                shutil.copy2(os.path.join(SCRIPTS, dep), os.path.join(tmp, "scripts", dep))
+        fx = {"id": "synthetic", "show": "Synthetic Show", "thesis": "t", "index_url": "https://example.test/x",
+              "cuts": [{"altitude": "exec", "format": "image", "caption": "A short synthetic caption.",
+                        "card_line": "Synthetic line", "date": "2030-01-02", "status": "draft"}]}
+        json.dump(fx, open(os.path.join(tmp, "_QUEUE", "linkedin", "synthetic.json"), "w"))
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=tmp)
+
+        before = _snapshot(tmp)
+        ok("no command exits 2", run().returncode == 2)
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("unknown subcommand exits 2", run("chek").returncode == 2)
+        ok("check unknown flag exits 2", run("check", "--bogus").returncode == 2)
+        ok("today unknown flag exits 2", run("today", "--bogus").returncode == 2)
+        ok("today extra positional exits 2", run("today", "extra").returncode == 2)
+        ok("today --date without value exits 2", run("today", "--date").returncode == 2)
+        ok("today bad date exits 2", run("today", "--date", "2030-13-40").returncode == 2)
+        ok("--self-test with a subcommand exits 2", run("--self-test", "check").returncode == 2)
+        r = run("today", "--date", "2030-01-02")
+        ok("today prints the due cut", r.returncode == 0 and "Synthetic line" in r.stdout)
+        r = run("today", "--date", "2030-01-03")
+        ok("today empty day exits 0", r.returncode == 0 and "nothing scheduled" in r.stdout)
+        r = run("check")
+        ok("check flags a malformed queue (exit 1)", r.returncode == 1 and "[FAIL]" in r.stdout)
+        r = run("check", os.path.join("_QUEUE", "linkedin", "synthetic.json"))
+        ok("check with explicit path runs", r.returncode == 1 and "synthetic.json" in r.stdout)
+        ok("check, today and bad argv write nothing", _snapshot(tmp) == before)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"linkedin_cut self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def _iso_date(s):
+    import argparse
+    try:
+        return datetime.date.fromisoformat(s).isoformat()
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"not a YYYY-MM-DD date: {s!r}")
+
+
+def build_parser():
+    import argparse
+    ap = argparse.ArgumentParser(prog="linkedin_cut.py", description="Gate the LinkedIn draft queue.")
+    ap.add_argument("--self-test", action="store_true", help="fail-on-bad cases + argv contract")
+    sub = ap.add_subparsers(dest="cmd")
+    c = sub.add_parser("check", help="gate queue files (default: whole queue); read-only")
+    c.add_argument("paths", nargs="*")
+    t = sub.add_parser("today", help="print the cut due on a date; read-only")
+    t.add_argument("--date", type=_iso_date, default=None, help="YYYY-MM-DD (default: today)")
+    return ap
+
+
+def main(argv):
+    ap = build_parser()
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if a.cmd: ap.error("--self-test takes no subcommand")
+        return self_test()
+    if a.cmd == "check": return cmd_check(a.paths)
+    if a.cmd == "today": return cmd_today(a.date or datetime.date.today().isoformat())
+    print(__doc__); return 2
 
 
 if __name__ == "__main__":
-    a = sys.argv[1:]
-    if a[:1] == ["--self-test"]: sys.exit(self_test())
-    if a[:1] == ["today"]:
-        d = a[a.index("--date") + 1] if "--date" in a else datetime.date.today().isoformat()
-        sys.exit(cmd_today(d))
-    if a[:1] == ["check"]: sys.exit(cmd_check(a[1:]))
-    print(__doc__); sys.exit(2)
+    sys.exit(main(sys.argv[1:]))

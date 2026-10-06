@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { clampText, clampTextArray } from "@/lib/sanitize"
-import { scrubProse } from "@/lib/prose"
+import { scrubProse, scrubDeep, scrubReceiptProse } from "@/lib/prose"
 import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
+import { rateLimit, clientIp } from "@/lib/ratelimit"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -42,8 +43,22 @@ function parseEntityAnalysis(raw: string): Record<string, string> | null {
   }
 }
 
+// Anyone holding a brief link can read this response, so it carries only what
+// the brief and receipt pages render: no owner id, no raw model output beyond
+// the reasoning, and never the prep's "strongest argument against" notes.
+// sessionId (the thread id) is returned only to the signed-in owner.
+function publicReceipt(r: object | null | undefined, viewerId: string | null) {
+  if (!r) return r
+  const { userId: owner, sessionId, rawResponse, prep, ...rest } = r as Record<string, unknown>
+  const isOwner = viewerId !== null && owner === viewerId
+  let reasoning: unknown = undefined
+  try { reasoning = typeof rawResponse === "string" ? (JSON.parse(rawResponse) as { reasoning?: unknown }).reasoning : undefined } catch { /* malformed: omit */ }
+  const safePrep = prep && typeof prep === "object" ? (({ adversarialInput: _a, userId: _pu, ...p }) => p)(prep as Record<string, unknown>) : prep
+  return { ...rest, ...(isOwner ? { sessionId } : {}), rawResponse: JSON.stringify(reasoning === undefined ? {} : { reasoning }), ...(prep !== undefined ? { prep: safePrep } : {}) }
+}
+
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ receiptId: string }> }
 ) {
   const session = await auth()
@@ -51,11 +66,23 @@ export async function GET(
 
   const { receiptId } = await params
 
+  // Owner-only (Zach, 2026-10-05). The receipt id is no longer a capability:
+  // anyone else reaches a brief only through an owner-minted share token
+  // (/api/shared/brief/[token]). Anonymous receipts (userId null) have no owner
+  // to match and are not served here; see src/lib/briefShare.ts. 404, never 403,
+  // so an id never confirms it exists.
+  const notFound = () => NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+  if (!userId) return notFound()
+  const owned = await prisma.receipt.findUnique({ where: { id: receiptId }, select: { userId: true } })
+  if (!owned || owned.userId !== userId) return notFound()
+
   // Serve from store if already generated
   // children = the tributary rounds spawned from this receipt (down-chain nav).
-  // Bounded (≤3 tributaries per node); userId-scoping seam noted for post-RBAC.
+  // Scoped to the owner: compass takes parentReceiptId from the client, so another
+  // account could parent its own receipt here and would otherwise surface in this list.
   const childrenInclude = {
     children: {
+      where: { userId },
       select: { id: true, decision: true, trueNorth: true, yState: true, nciScore: true, version: true, createdAt: true },
       orderBy: { createdAt: "asc" as const },
     },
@@ -78,7 +105,7 @@ export async function GET(
     const entityClean = entityAnalysis
       ? Object.fromEntries(Object.entries(entityAnalysis as Record<string, unknown>).map(([k, v]) => [k, typeof v === "string" ? scrubProse(v) : v]))
       : null
-    return NextResponse.json({ ok: true, brief, receipt: existing.receipt, tributaries, entityAnalysis: entityClean })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(existing.receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
   }
 
   const receipt = await prisma.receipt.findUnique({
@@ -88,6 +115,12 @@ export async function GET(
   if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({ error: "ANTHROPIC_API_KEY not configured" }, { status: 503 })
+  }
+  // A cache miss spends model tokens and needs no session, so cap generations
+  // per client. Stored briefs (above) are never limited.
+  const rl = rateLimit(`brief-gen:${clientIp(req)}`, { limit: 20, windowMs: 10 * 60_000 })
+  if (!rl.ok) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } })
   }
 
   const why = JSON.parse(receipt.whyBullets) as string[]
@@ -155,7 +188,7 @@ export async function GET(
       },
     })
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief, receipt, tributaries, entityAnalysis, children })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis, children: scrubDeep(children) })
   } catch {
     const stored = await prisma.brief.findUnique({ where: { receiptId } })
     const storedEntity = (() => {
@@ -163,6 +196,6 @@ export async function GET(
       catch { return null }
     })()
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief: stored, receipt, tributaries, entityAnalysis: storedEntity, children })
+    return NextResponse.json({ ok: true, brief: stored ? { ...stored, situationFraming: scrubProse(stored.situationFraming) } : stored, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: storedEntity ? scrubDeep(storedEntity) : storedEntity, children: scrubDeep(children) })
   }
 }

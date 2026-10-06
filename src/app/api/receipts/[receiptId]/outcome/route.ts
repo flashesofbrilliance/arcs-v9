@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
+import { scrubProse } from "@/lib/prose"
 
 export const dynamic = "force-dynamic"
 
@@ -11,8 +12,17 @@ export const dynamic = "force-dynamic"
 // A receipt cannot be closed by the session that created it (§5.1). External
 // signal has to arrive after T₀. In practice the debrief email fires N days
 // later, so v1 does not hard-enforce a session check; ownership is the gate.
+//
+// Owner-only on both verbs (2026-10-05, same rule PR #808 applies to briefs): the
+// receipt id is not a capability. No session, an ownerless receipt, or another
+// account all get the same 404, never 403, so an id never confirms it exists.
+// Ownerless receipts (anonymous runs) become readable and closable once claimed.
 
-const isProd = process.env.NODE_ENV === "production"
+const notFound = () => NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+
+function isOwner(ownerId: string | null, userId: string | null): boolean {
+  return !!userId && ownerId === userId
+}
 
 function clampRegret(v: unknown): number | null {
   const n = typeof v === "number" ? v : Number(v)
@@ -25,10 +35,14 @@ export async function GET(
   { params }: { params: Promise<{ receiptId: string }> }
 ) {
   const { receiptId } = await params
+  const session = await auth()
+  const userId = session?.user?.id ?? null
+  if (!userId) return notFound()
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
     select: {
       id: true,
+      userId: true,
       decision: true,
       trueNorth: true,
       nciScore: true,
@@ -44,7 +58,7 @@ export async function GET(
       },
     },
   })
-  if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
+  if (!receipt || !isOwner(receipt.userId, userId)) return notFound()
 
   let protecting: string[] = []
   try { protecting = JSON.parse(receipt.protecting) as string[] } catch { protecting = [] }
@@ -54,7 +68,7 @@ export async function GET(
     receipt: {
       id: receipt.id,
       question: receipt.decision,
-      trueNorth: receipt.trueNorth,
+      trueNorth: scrubProse(receipt.trueNorth),
       nci: receipt.nciScore,
       mode: receipt.mode,
       door: receipt.doorClass,
@@ -64,6 +78,9 @@ export async function GET(
       driftState: receipt.driftState,
     },
     outcome: receipt.outcome,
+    closed: !!receipt.outcome,
+    canClose: true,
+    signedIn: true,
   })
 }
 
@@ -74,18 +91,14 @@ export async function POST(
   const session = await auth()
   const userId = session?.user?.id ?? null
   const { receiptId } = await params
+  if (!userId) return notFound()
 
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
     select: { id: true, userId: true },
   })
-  if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
-
-  // Ownership gate (ADR-001, app layer). Owned receipts may only be debriefed
-  // by their owner in prod. Anonymous receipts stay open to the link holder.
-  if (isProd && receipt.userId && receipt.userId !== userId) {
-    return NextResponse.json({ error: "Not your receipt to close" }, { status: 403 })
-  }
+  // Ownership gate (ADR-001, app layer): only the signed-in owner may close it.
+  if (!receipt || !isOwner(receipt.userId, userId)) return notFound()
 
   const body = await req.json().catch(() => ({}))
   const what = typeof body.what === "string" ? body.what.trim() : ""

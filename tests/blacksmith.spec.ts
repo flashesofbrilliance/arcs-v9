@@ -14,8 +14,8 @@ import { test, expect } from "@playwright/test"
 const BASE = process.env.BLACKSMITH_BASE_URL ?? "https://blacksmith.arcs.care"
 
 const PAGES = [
-  { path: "/", title: /Zach Harris/, must: ["Staff Product Engineer", "a developer I already am", "The seam I sit on", "The kitchen"] },
-  { path: "/observatory", title: /Director's Cut/, must: ["Director's Cut", "honest, agentic pipeline", "Replay the build", "what is not on this page"] },
+  { path: "/", title: /Zach Harris/, must: ["Staff Product Engineer", "the developer your new products are for", "The seam I sit on", "The kitchen"] },
+  { path: "/observatory", title: /The Forge/, must: ["The Forge", "honest, agentic pipeline", "Replay the build", "what is not on this page"] },
 ]
 
 // The résumé is delivered as a downloadable PDF, not a responsive HTML page.
@@ -54,7 +54,8 @@ for (const p of PAGES) {
 
     const body = await page.locator("body").innerText()
     expect(body.trim().length, `${p.path} rendered an empty body`).toBeGreaterThan(0)
-    for (const s of p.must) expect(body, `${p.path} missing expected copy: "${s}"`).toContain(s)
+    // innerText applies CSS text-transform, so match copy case-insensitively.
+    for (const s of p.must) expect(body.toLowerCase(), `${p.path} missing expected copy: "${s}"`).toContain(s.toLowerCase())
 
     // Constitutional air-gap: no recruiter / founder / persuasion-layer leaks.
     const html = await page.content()

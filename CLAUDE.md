@@ -53,7 +53,7 @@ All JSON arrays stored as TEXT (SQLite). Enums as plain strings.
 ## Design tokens (inline style objects, no CSS framework)
 ```
 bg: #020408 | surface: #0d1117 | border: #1e293b
-text: #e2e8f0 | muted: #475569 | dimmed: #64748b
+text: #e2e8f0 | muted: #7a8699 | dimmed: #8391a7  (AA on bg; raised 2026-10-04)
 cyan: #00F0FF | green: #00FF9D | gold: #FFD700 | red: #FF4D6D
 ```
 
@@ -114,112 +114,43 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.71.0 (2026-09-28)
+# Handoff — v3.97.0 (2026-10-05)
 
-> **Chip rank 7 closed: Operator 21 (Librarian) retrieves by expected value under a context budget
-> instead of recency.** PR #613 merged to main at `150beb19` on Zach's explicit go; one
-> `decision_receipt` row (`2026-09-28--librarian-recommend-op21-merge--ZH`). Draft-first; both red
-> CI jobs (`leak-check`, `smoke`) verified inherited from main run 36373013499 and untouched by the diff.
-
-### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 31 commits, 12 merges to main, receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 16 / dissent 2 (ratio 5.33) → THIN: high agreement, little dissent.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, a PR number, or a receipt id. Nothing downgraded, nothing dropped.
-- **Somatic read**: asked in this handoff (certainty now vs at start; sends today?). `somatic: pending Zach's answer`.
-- **Disposition**: RELEASED on Zach's 'run the handoff'. Sycophancy check read THIN (16:2), not RETURN; the dissent on record is the two red CI jobs traced to main, the integrity-gate FAIL on the `_STATE` run file, and the four `what_unconfirmed` rows in the receipt.
-
-_This block asserts nothing new. Counts, paths, and questions only._
+> **cruft_sweep bundle path proven live; manifest rows name only refs that exist (#861, merged without CI on
+> Zach's go).** Receipt `2026-10-05--cruft-manifest-detached-row-pr861--ZH`.
 
 ## Shipped + on main
-- **`operators/arcs_librarian.py`** (`aaf81d33`): stdlib-only `Librarian.recommend(q, budget, stakes)` over
-  ADRs, seeds + seed ledger, tao, LEGEND, LORE, registry rows, lattice nodes, falsification / assumption /
-  backlog / witness / operator ledgers, memory bodies, store receipts, and its own prior picks (1087
-  candidates on the first run). Formula per `seed-service-librarian-retrieval-policy`: value =
-  p_load_bearing x cost_if_absent(stakes); cost = read_friction (tier steps + tokens/8000 + stale surcharge)
-  + bytes/remaining_budget; take iff value - cost >= 0. Source-trust tier is read before backing; unbacked
-  items only ever land in `what_unconfirmed`; a ZERO-WEIGHT source contributes no backing even with a
-  resolvable sha. `reserve_ratio` + `curation_debt` in every result. Ouroboros: a prior pick falsified by an
-  F-row demotes its class. `--self-test` 13/13.
-- **`runtime/specs/read-friction-tiers.json`**: the seed's tier prose made data (closes the ledger gap).
-- **Registry row 21** rebound `latest` -> `recommend` in `scripts/operator_registry_emit.py`; regenerated with
-  `--probe` (READY, probe ok); `--check` green. `ARCSStore.recommend` delegates and adds store receipts.
-  Bridge self-test 15/15 including `run_operator(21, payload={q, budget, stakes})`.
-- **First real run** committed: `_STATE/librarian/2026-09-28-librarian-first-run-op21-policy.json`
-  (6 taken, reserve 0:6). `op:21` ranked first because its registry note, written in the same PR, carries
-  the query terms: the ouroboros clause visible on day one.
-- Seed ledger: `germinated` row for `seed-service-librarian-retrieval-policy` citing PR #613 (`a7b912e2`).
+- **#861 (`e8b9bd17`):** #837 stopped pinning detached heads already on upstream but the MANIFEST.tsv row still
+  named the unpinned `refs/cruft-archive/...` ref. Landed detached rows now read `(detached)`. `--self-test` 18/18
+  (every manifest `refs/...` must exist); the #837 version fails 2.
+- **Bundle path probed on the real repo:** throwaway `cruft-bundle-probe` worktree off origin/main, 1 commit, pruned:
+  576-byte bundle (vs ~150MB full-history), `bundle verify` okay, commit restored from it. Probe branch, bundle and
+  manifest row deleted afterwards. The cool-bell / unruffled-pike manifest rows were hand-fixed to `(detached)`.
 
 ## Open (next session)
-1. **Backlog row `librarian-recommend-needle` status append still owed**: the row lives on
-   `origin/claude/fanout-ranks-2-7` and is not on main (grep count 0 at `7e812c6c`). Append PR #613,
-   `150beb19`, and the receipt id when that branch lands; then close issue #584.
-2. Calibration of the pre-score (tier steps, `tokens_per_step`=8000, stakes multipliers) has no human
-   adjudication behind it yet. Reserve ratio 0:6 on the first run: no top item carries a resolvable sha.
-3. `reserve_ratio` + `curation_debt` still need a consumer (Op 28 Auditor). Fold ridgeline shift rows are
-   named as a defeater but no ridgeline file exists on main to read.
-4. `unfold-uses-librarian` (unblocked by this chip; no issue yet).
+1. **GitHub Actions blocked by billing** (failed payment or spending limit): no CI on any PR until Zach fixes it.
+   #837, #843, #861 merged with none.
+2. `cool-poitras-4f96e7` is SAFE with its tip on main: prune when convenient (manifest row only, no bundle).
 
 ## Lessons (in the record)
-- The first thing a value-ranked librarian retrieves about itself is its own description. Rank the
-  registry note as a candidate, not as ground.
-- An integrity gate that fails a `_STATE` record for citing a file on the same unmerged branch is doing
-  its job: the record is drifted-at-birth until the merge lands.
+- To test a write path without risking live work, build a throwaway target of the exact shape and run the real tool
+  on it: every SAFE candidate with off-main commits was mid-session.
+- A fix that stops creating a thing must also stop recording it: grep every place the old name is written.
 
+# Handoff — v3.96.0 (2026-10-05)
 
-# Handoff — v3.70.0 (2026-09-28)
+> **Daily gate for Vercel domains pinned to a git branch (#863, `7f637e75`).** Follows v3.93.0 (three retired
+> hosts were frozen on a deleted preview branch). Receipt `2026-10-05--vercel-branch-pin-gate-pr863--ZH`.
 
-> **Chip rank 2 closed: the falsification count is on the public surface, stamped from the ledger.**
-> One PR (#591), one merge (`740aa55f`), one receipt, live-verified on good.arcs.care. Draft-first;
-> merged on Zach's explicit go; the two red CI jobs on the PR (`smoke` ledger delinquency, `leak-check`)
-> were the same two red on main's own run and untouched by the diff.
-
-
-### Shavasana — handoff pause, 2026-09-28 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 19 commits, 7 merges to main, receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 12 / dissent 3 (ratio 3.0) → OK: dissent present.
-- **Cold re-read (canary on the draft draft-handoff.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (Claude, cold re-read): every claim carries a sha, a path, or a receipt id. Nothing downgraded, nothing dropped.
-- **Somatic read**: asked in the handoff message (certainty now vs at start; sends today?). `somatic: higher than at start; no sends today` (Zach, 2026-09-28).
-- **Disposition**: RELEASED on Zach's 'run the full handoff with the operator 25 pass'. Sycophancy check read OK, so no RETURN.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-## Shipped + LIVE (verified with `get_deployment` + curl, not from the diff)
-- **good.arcs.care/audit** carries a card, "We keep our own ledger": the count of falsified beliefs (40 at
-  merge), the date of the latest (2026-09-27), and a link to the belief log at status.arcs.care/beliefs
-  (HTTP 200 before linking; no proxy change needed). Branch commit `06ca7c8e`, merge `740aa55f`.
-- **The count is never typed by hand.** `scripts/belief_log_emit.py` gained two outputs: it re-stamps only the
-  block between `<!--ledger-stamp:start-->` and `<!--ledger-stamp:end-->` on the audit page (count of
-  `verdict=FALSIFIED` rows + max `ts`; a future HELD row cannot inflate it), and rewrites the one generated row
-  of `public/good-agent-receipts-audit.evidence.jsonl` so `case_evidence_lint` traces the stamped digits to
-  the belief log's summary line. `--check` (the existing hard CI `belief-log` job) fails when either lags the
-  ledger. Fail-on-bad proved: count edited to 41 -> exit 1; evidence row edited to 39 -> exit 1.
-- Gates from this worktree, all green for the page: `artifact_wrap_lint`, `token_source_gate` (tokens inlined
-  verbatim), `altitude_canary` GROUNDED, `case_evidence_lint`, `provenance_lint`; `leak_check` 0 hits on the
-  file. Sweep 360 / 790 / 1280: the 790 pass caught the date breaking at its hyphen; fixed with
-  `white-space:nowrap` on the stamped date.
-- Receipt `2026-09-28--audit-page-falsification-count--ZH` in `decision_receipt`. Waypoints commented on
-  PR #591 and issue #579.
+## Shipped + on main
+- `scripts/vercel_branch_pin_gate.py`: lists every project in team arcs-care, fails on any domain with `gitBranch`
+  set unless listed in `scripts/vercel_branch_pin_allowlist.txt` (empty). Auth: `VERCEL_TOKEN`, else the logged-in
+  `vercel` CLI. `--self-test` proves clean-pass / planted-fail / allowlist-pass; a detector mutation exits 1.
+  Live: 0 pinned of 130 domains across 23 projects.
+- `.github/workflows/vercel-branch-pin.yml`: daily 12:23 UTC; self-test, then the live check.
+- Duplicate chip session (task_e4237d76) stopped before pushing and archived.
 
 ## Open (next session)
-1. **Backlog row `kintsugi-public-falsification-count`** (issue #579) is on PR #585's branch
-   (`claude/fanout-ranks-2-7`), not main. After #585 lands: append `live · 740aa55f · receipt id` to its
-   `status`, then close #579. Not added to main here because it would conflict with #585 line-for-line.
-2. Inherited red on main, untouched: `smoke` ledger delinquency (`scripts/ledger_check.py`) and six
-   `leak_check` hits (two NFTT posts, three war rooms, observatory index).
-3. The pre-commit `case-evidence` gate was the round-2 surprise: it covers every digit on any page with a
-   sibling `.evidence.jsonl`, so a generated number needs a generated evidence row. Pattern now lives in the
-   emitter; reuse it before hand-stating any number on a gated page.
-
-## Lessons (in the record)
-- A number on a public page that a script can compute must be stamped by that script and covered by the
-  script's own `--check`. Hand-stating it would have passed every gate and drifted on the next ledger append.
-- The gate that blocked the commit was not one of the four the chip listed. Run the pre-commit hook path,
-  not only the named gates, before calling a page clean.
+1. **Add repo secret `VERCEL_TOKEN`** (read on team arcs-care, Zach only): until then CI skips the live check with
+   a warning.
+2. First scheduled run not yet observed.

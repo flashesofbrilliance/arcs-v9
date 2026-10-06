@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ARCS — Belief-Change Log</title>
 <meta name="description" content="A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
   /* Mirrors the status.arcs.care design system (canonical ARCS tokens + fonts).
      GENERATED — do not hand-edit. Source: scripts/belief_log_public_template.html
@@ -20,8 +17,8 @@
     --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
     --violet: #a78bfa; --magenta: #FF6EC7; --blue: #5B8DEF;
     --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
-    --mono: 'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
-    --sans: 'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono: 'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
+    --sans: 'Inter','Inter Fallback',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
     --track-wide: 0.04em; --track-wider: 0.08em; --track-widest: 0.14em;
     --glow-gold: 0 0 8px rgba(255,215,0,.5);
     color-scheme: dark;
@@ -62,32 +59,45 @@
   .ribbon-shell { border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface);
     padding: 22px 20px 14px; margin-bottom: 16px; overflow-x: auto; }
   .ribbon { position: relative; min-width: 640px; }
-  .grid-overlay { position: absolute; left: 92px; right: 8px; top: 0; bottom: 0; pointer-events: none; }
+  .grid-overlay { position: absolute; left: 122px; right: 8px; top: 0; bottom: 0; pointer-events: none; }
   .grid-line { position: absolute; top: 0; bottom: 0; width: 1px; background: #0f1720; }
   .lane { position: relative; height: 31px; border-top: 1px dashed #0e1622; }
   .lane:first-child { border-top: none; }
   .lane-name { position: absolute; left: 0; top: 50%; transform: translateY(-50%);
     font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
-    text-transform: uppercase; width: 82px; }
-  .lane-track { position: absolute; left: 92px; right: 8px; top: 0; bottom: 0; }
+    text-transform: uppercase; width: 112px; }
+  .lane-track { position: absolute; left: 122px; right: 8px; top: 0; bottom: 0; }
   .node { position: absolute; top: 50%; width: 11px; height: 11px; border-radius: 50%;
     transform: translate(-50%,-50%); cursor: default; transition: transform .12s ease;
     box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 9px currentColor; }
   .node::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid transparent; }
   .node.canon::after { border-color: var(--gold); box-shadow: var(--glow-gold); }
   .node.recent { animation: pulse 2.4s ease-in-out infinite; }
-  .node:hover, .node:focus { transform: translate(-50%,-50%) scale(1.55); outline: none; z-index: 5; }
+  .node:focus { transform: translate(-50%,-50%) scale(1.55); outline: none; z-index: 5; }
+  /* Hover-grow only where hover is real: on touch screens :hover sticks to the last-tapped dot. */
+  @media (hover: hover) { .node:hover { transform: translate(-50%,-50%) scale(1.55); z-index: 5; } }
   @keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 6px currentColor; }
     50% { box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 16px currentColor, 0 0 26px currentColor; } }
-  .axis { position: relative; height: 20px; margin: 8px 8px 0 92px; }
+  .axis { position: relative; height: 20px; margin: 8px 8px 0 122px; min-width: 510px; }
   .tick { position: absolute; top: 0; font-family: var(--mono); font-size: 10px; color: var(--faint); transform: translateX(-50%); }
   .tick::before { content: ""; position: absolute; top: -8px; left: 50%; width: 1px; height: 6px; background: var(--border); }
 
   .tip { position: fixed; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .1s ease;
-    background: #060b13; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 8px 11px;
-    font-family: var(--mono); box-shadow: 0 12px 30px rgba(0,0,0,.6); }
-  .tip .tid { font-size: 12px; font-weight: 700; }
-  .tip .tmeta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    width: 300px; max-width: calc(100vw - 20px); background: #060b13; border: 1px solid var(--border);
+    border-top: 2px solid var(--tc, var(--border)); border-radius: var(--r-md); padding: 12px 14px 13px;
+    font-family: var(--sans); box-shadow: 0 12px 30px rgba(0,0,0,.6), 0 0 18px -6px var(--tc, transparent); }
+  .tip .thead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+    font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide); text-transform: uppercase; }
+  .tip .tnum { color: var(--dimmed); font-weight: 500; letter-spacing: 0; text-transform: none; }
+  .tip .tdef { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 5px; }
+  .tip .twhat { font-size: 13px; color: var(--text); line-height: 1.45; margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--border); }
+  .tip .tgold { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--gold); margin-top: 7px; }
+  .tip .tgold .ring { flex: none; margin-top: 4px; width: 11px; height: 11px; border-radius: 50%; border: 1px solid var(--gold); box-shadow: var(--glow-gold); }
+  .tip .tplain { font-size: 13px; line-height: 1.45; color: var(--dimmed); margin-top: 7px; }
+  .tip .twhen { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 10px;
+    font-family: var(--mono); font-size: 11px; color: var(--dimmed); font-variant-numeric: tabular-nums; }
+  .tip .tnew { font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide); text-transform: uppercase;
+    color: var(--bg); background: var(--tc); border-radius: var(--r-pill); padding: 1px 7px; }
 
   .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 44px; }
   .legend .li { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
@@ -112,6 +122,17 @@
   footer .links { display: flex; gap: 18px; margin-left: auto; }
 
   @media (prefers-reduced-motion: reduce) { .node.recent { animation: none; } *{ transition: none !important; } }
+</style>
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
 </style>
 </head>
 <body>
@@ -149,7 +170,27 @@
 <script id="data" type="application/json">[{"id":"F14","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F15","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F16","scope":"infra","ts":"2026-06-03","canon":false},{"id":"F13","scope":"infra","ts":"2026-06-19","canon":false},{"id":"F11","scope":"canon","ts":"2026-06-20","canon":true},{"id":"F23","scope":"deploy","ts":"2026-06-22","canon":true},{"id":"F10","scope":"canon","ts":"2026-06-23","canon":true},{"id":"F28","scope":"process","ts":"2026-06-24","canon":false},{"id":"F31","scope":"recoil","ts":"2026-07-13","canon":false},{"id":"F22","scope":"deploy","ts":"2026-07-17","canon":false},{"id":"F17","scope":"infra","ts":"2026-07-19","canon":false},{"id":"F27","scope":"process","ts":"2026-07-19","canon":false},{"id":"F29","scope":"security","ts":"2026-07-19","canon":false},{"id":"F30","scope":"security","ts":"2026-07-19","canon":false},{"id":"F24","scope":"process","ts":"2026-07-22","canon":false},{"id":"F19","scope":"infra","ts":"2026-07-24","canon":false},{"id":"F26","scope":"process","ts":"2026-07-24","canon":false},{"id":"F20","scope":"deploy","ts":"2026-07-25","canon":true},{"id":"F18","scope":"infra","ts":"2026-08-01","canon":false},{"id":"F21","scope":"deploy","ts":"2026-08-01","canon":true},{"id":"F25","scope":"process","ts":"2026-08-01","canon":false},{"id":"F1","scope":"gauntlet","ts":"2026-08-13","canon":false},{"id":"F12","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F2","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F3","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F5","scope":"gauntlet","ts":"2026-08-13","canon":true},{"id":"F6","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F7","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F8","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F9","scope":"canon","ts":"2026-08-13","canon":true},{"id":"F32","scope":"process","ts":"2026-08-14","canon":true},{"id":"F4","scope":"gauntlet","ts":"2026-08-15","canon":true},{"id":"F33","scope":"process","ts":"2026-08-16","canon":false},{"id":"F35","scope":"canon","ts":"2026-08-27","canon":true},{"id":"F36","scope":"infra","ts":"2026-08-28","canon":false},{"id":"F37","scope":"process","ts":"2026-08-28","canon":true},{"id":"F34","scope":"canon","ts":"2026-08-29","canon":true},{"id":"F41","scope":"canon","ts":"2026-09-26","canon":true},{"id":"F38","scope":"process","ts":"2026-09-27","canon":false},{"id":"F39","scope":"infra","ts":"2026-09-27","canon":false},{"id":"F40","scope":"canon","ts":"2026-09-27","canon":true},{"id":"F42","scope":"surface","ts":"2026-09-29","canon":false}]</script>
 <script>
   const DATA = JSON.parse(document.getElementById("data").textContent);
-  const SCOPE = { canon:"#00F0FF", gauntlet:"#FFC24B", infra:"#5B8DEF", process:"#00FF9D", deploy:"#FF6EC7", security:"#FF4D6D", recoil:"#A78BFA" };
+  const SCOPE = { canon:"#00F0FF", gauntlet:"#FFC24B", infra:"#5B8DEF", process:"#00FF9D", deploy:"#FF6EC7", security:"#FF4D6D", recoil:"#A78BFA", surface:"#94A3B8" };
+  // Plain-English meaning of each domain. The public page never carries the belief itself
+  // (see PUBLIC_EMBED_KEYS in belief_log_emit.py); this is what a stranger needs to read a dot.
+  const PLAIN = {
+    canon:    ["Rulebook", "Our written principles: the ideas we build by and decide with."],
+    infra:    ["Infrastructure", "The machinery underneath: servers, databases, and builds."],
+    process:  ["How we work", "Our habits: reviews, checks, and when something counts as done."],
+    gauntlet: ["Stress tests", "The review panels we put work through, and what they cost to run."],
+    deploy:   ["Shipping", "How a change gets from our desk to the live site."],
+    security: ["Security", "Keeping private things private, and automated access in check."],
+    recoil:   ["Client reads", "Our judgment calls about real outside engagements."],
+    surface:  ["Public pages", "The pages anyone can see, including this one."],
+  };
+  const WHEN_FMT = { year:"numeric", month:"short", day:"numeric", timeZone:"UTC" };
+  function ago(ts){
+    const days = Math.floor((Date.now() - asDate(ts)) / 864e5);
+    if (days < 1) return "today"; if (days < 2) return "yesterday";
+    if (days < 14) return days + " days ago";
+    if (days < 70) return Math.round(days/7) + " weeks ago";
+    return Math.round(days/30.4) + " months ago";
+  }
   const asDate = s => new Date(s + "T00:00:00Z");
   const min = asDate(DATA[0].ts), max = asDate(DATA[DATA.length-1].ts);
   const span = (max - min) || 1;
@@ -165,7 +206,7 @@
   const fmt = d => `${MON[d.getUTCMonth()]} ${d.getUTCDate()}`;
   document.getElementById("stats").innerHTML = [
     [`<span class="accent">${DATA.length}</span>`, "Beliefs overturned · on the record"],
-    [`${canonN}<small> / ${DATA.length}</small>`, "Hardened into doctrine"],
+    [`${canonN}<small> / ${DATA.length}</small>`, "Changed the rulebook"],
     [`${topScopes.length}`, "Domains touched"],
     [`${fmt(min)}<small> → ${fmt(max)}</small>`, `Span · ~${(DATA.length/monthsSpan).toFixed(1)}/mo`],
   ].map(([v,l]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join("");
@@ -175,13 +216,13 @@
   topScopes.forEach(([scope]) => {
     const c = SCOPE[scope] || "#94a3b8";
     const lane = document.createElement("div"); lane.className = "lane";
-    lane.innerHTML = `<span class="lane-name" style="color:${c}">${scope}</span><div class="lane-track"></div>`;
+    lane.innerHTML = `<span class="lane-name" style="color:${c}">${(PLAIN[scope]||[scope])[0]}</span><div class="lane-track"></div>`;
     const track = lane.querySelector(".lane-track");
     DATA.filter(d=>d.scope===scope).forEach(d => {
       const n = document.createElement("div");
       n.className = "node" + (d.canon?" canon":"") + (isRecent(d.ts)?" recent":"");
       n.style.left = (((asDate(d.ts)-min)/span)*100) + "%"; n.style.color = c; n.style.background = c;
-      n.tabIndex = 0; n.dataset.id = d.id; n.dataset.scope = scope; n.dataset.ts = d.ts;
+      n.tabIndex = 0; n.setAttribute("aria-label", `${(PLAIN[scope]||[scope])[0]}, belief ${d.id}, ${d.ts}${d.canon ? ", changed the rulebook" : ""}`); n.dataset.id = d.id; n.dataset.scope = scope; n.dataset.ts = d.ts;
       track.appendChild(n);
     });
     ribbon.appendChild(lane);
@@ -199,11 +240,20 @@
 
   const tip = document.getElementById("tip");
   function showTip(e){
-    const el = e.currentTarget;
-    tip.innerHTML = `<div class="tid" style="color:${el.style.color}">${el.dataset.id}</div><div class="tmeta">${el.dataset.scope} · ${el.dataset.ts}</div>`;
+    const el = e.currentTarget, sc = el.dataset.scope, [name, def] = PLAIN[sc] || [sc, ""];
+    const canon = el.classList.contains("canon"), recent = el.classList.contains("recent");
+    tip.style.setProperty("--tc", el.style.color);
+    tip.innerHTML =
+      `<div class="thead"><span style="color:${el.style.color}">${name}</span><span class="tnum">belief ${el.dataset.id.replace(/^F/, "#")}</span></div>` +
+      (def ? `<div class="tdef">${def}</div>` : "") +
+      `<div class="twhat">We believed something here, ran a test, and the test proved us wrong. The correction is logged.</div>` +
+      (canon ? `<div class="tgold"><span class="ring"></span><span>It changed the rulebook: the fix is now a standing rule, not a one-off patch.</span></div>`
+             : `<div class="tplain">Fixed where it happened. No standing rule changed.</div>`) +
+      `<div class="twhen"><span>${asDate(el.dataset.ts).toLocaleDateString("en-US", WHEN_FMT)} · ${ago(el.dataset.ts)}</span>` +
+      (recent ? `<span class="tnew">New this week</span>` : "") + `</div>`;
     tip.style.opacity = "1";
-    const r = el.getBoundingClientRect();
-    let x = Math.max(10, Math.min(window.innerWidth - 160, r.left + r.width/2 - 70));
+    const r = el.getBoundingClientRect(), w = tip.offsetWidth;
+    let x = Math.max(10, Math.min(window.innerWidth - w - 10, r.left + r.width/2 - w/2));
     let y = r.top - 12 - tip.offsetHeight; if (y < 8) y = r.bottom + 12;
     tip.style.left = x + "px"; tip.style.top = y + "px";
   }
@@ -212,11 +262,20 @@
     n.addEventListener("mouseenter", showTip); n.addEventListener("mouseleave", hideTip);
     n.addEventListener("focus", showTip); n.addEventListener("blur", hideTip);
   });
+  // Touch screens: iOS keeps hover and focus on the last-tapped dot, so neither mouseleave nor
+  // blur fires when you tap elsewhere. Close on any tap outside a dot, and on Escape.
+  function dismissTip(){
+    hideTip();
+    const a = document.activeElement;
+    if (a && a.classList && a.classList.contains("node")) a.blur();
+  }
+  document.addEventListener("pointerdown", e => { if (!(e.target.closest && e.target.closest(".node"))) dismissTip(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") dismissTip(); });
 
   document.getElementById("legend").innerHTML =
-    topScopes.map(([s,n]) => `<span class="li"><span class="d" style="color:${SCOPE[s]};background:${SCOPE[s]}"></span>${s} · ${n}</span>`).join("") +
-    `<span class="li meta"><span class="ring"></span>hardened into doctrine</span>` +
-    `<span class="li meta">◦ pulse = this week</span>`;
+    topScopes.map(([s,n]) => `<span class="li"><span class="d" style="color:${SCOPE[s]};background:${SCOPE[s]}"></span>${(PLAIN[s]||[s])[0]} · ${n}</span>`).join("") +
+    `<span class="li meta"><span class="ring"></span>gold ring = changed the rulebook</span>` +
+    `<span class="li meta">◦ pulsing = new this week</span>`;
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>

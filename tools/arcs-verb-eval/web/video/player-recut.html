@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Check It Before You Say It: recut</title>
+<style>html,body{margin:0;background:#020408;color:#94a3b8;font:16px Inter,system-ui,sans-serif}main{padding:24px;display:grid;gap:18px;justify-items:center}
+.tabs{display:flex;gap:8px}.tabs button{font:600 14px Inter,system-ui,sans-serif;color:#94a3b8;background:transparent;border:1px solid #1e293b;border-radius:999px;padding:6px 14px;cursor:pointer}
+.tabs button[aria-pressed=true]{color:#020408;background:#00F0FF;border-color:#00F0FF}video{max-width:min(100%,1280px);max-height:80vh;border:1px solid #1e293b;border-radius:10px;background:#000}</style></head>
+<body><main><div class="tabs"><button id="bw" aria-pressed="true">Wide 16:9</button><button id="bs" aria-pressed="false">Square 1:1</button></div>
+<video id="v" controls autoplay muted playsinline loop src="honest-recut-wide.webm"></video></main>
+<script>function pick(f){v.src='honest-recut-'+f+'.webm';v.play();bw.setAttribute('aria-pressed',f==='wide');bs.setAttribute('aria-pressed',f==='square')}bw.onclick=()=>pick('wide');bs.onclick=()=>pick('square');</script></body></html>

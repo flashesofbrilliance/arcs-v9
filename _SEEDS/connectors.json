@@ -131,6 +131,7 @@
    "group": "skill"
   },
   "state-sync-skill": {
+   "gallery_line": "A Claude Code skill that commits a snapshot of ground-truth project state, so any session restores it from a cheap file read instead of re-deriving it.",
    "badge_kind": "a Claude Code skill by ARCS",
    "title_g": "Cold starts,",
    "title_rest": "warm.",
@@ -256,6 +257,7 @@
    "group": "skill"
   },
   "arcs-field-scan": {
+   "gallery_soon": {"tag": "prototype", "chan": "prototype", "line": "An in-browser mock of the ARCS scan flow, for trying the experience. It is a UX prototype: it does not parse PDFs or call a model yet."},
    "badge_kind": "an open web app by ARCS",
    "title_g": "A LinkedIn profile,",
    "title_rest": "scanned.",
@@ -296,12 +298,12 @@
   "linkedin-connections-toolkit": {
    "group": "skill",
    "line": "Stdlib Python CLI that parses your LinkedIn Connections export into four honest views of your network.",
-   "chan": "pip"
+   "chan": "pip (pending)"
   },
   "blindsat": {
    "group": "skill",
-   "line": "A small Python library for privacy-preserving set operations (blind intersection) on data you never reveal.",
-   "chan": "pip"
+   "line": "Private SAT pipeline: your logic rules go to an LLM as random tokens, a second call verifies, and only you hold the decode map. The model never sees your variable names.",
+   "chan": "pip (pending)"
   }
  }
 }

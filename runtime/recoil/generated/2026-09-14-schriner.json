@@ -8,20 +8,20 @@
     "5. Pass-through args: --audience internal|external  --format html|md|json  --set meta.key=value",
     "6. Wire the subdomain in next.config.ts + vercel domains add; gate internal with a NON-guessable pw."
   ],
-  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt \u2014 belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic \u2014 measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
   "meta": {
     "report_id": "2026-09-14-schriner",
     "date": "2026-09-14",
     "counterpart": "Joe Schriner",
     "company": "Oxenham Group (client disclosed on the call: Autopilot, NYC copy-trading investing app / RIA). A second live opportunity surfaced mid-call, heard as \"Veeqo\": independently identified 2026-09-14 as Vico (vico.io), an AI forecasting/probability platform, not yet confirmed directly with Joe.",
-    "segments": 8,
+    "segments": 10,
     "gate": {
       "internal": "prh0rbvg4q",
       "external": "joe"
     },
     "provenance": {
       "audience": "internal",
-      "captured": "Capture 1: LinkedIn DM thread 2026-09-14 11:21am-12:10pm ET + JD PDF + Joe LinkedIn profile PDF. Capture 2: live screen call 2026-09-14 1:30pm ET with Joe Schriner, verbatim transcript, plus an independent same-session web-search pass on Autopilot and on the second company name. Capture 3: live screen call 2026-09-17 1:00pm ET, follow-up ('Part 2'), verbatim transcript.",
+      "captured": "Capture 1: LinkedIn DM thread 2026-09-14 11:21am-12:10pm ET + JD PDF + Joe LinkedIn profile PDF. Capture 2: live screen call 2026-09-14 1:30pm ET with Joe Schriner, verbatim transcript, plus an independent same-session web-search pass on Autopilot and on the second company name. Capture 3: live screen call 2026-09-17 1:00pm ET, follow-up ('Part 2'), verbatim transcript. Capture 4: Teams call 2026-09-30 10:30am ET ('VICO - Update', invite created 2026-09-25, moved 2026-09-29), Granola verbatim transcript 824f0855. Capture 5: Teams call 2026-10-02 3:00pm ET ('VICO debrief.', gmail thread 1a0fdb05fd989ec6), Granola verbatim transcript 8a125b5f. Fathom held no recordings for either.",
       "load_bearing_quote": "Company's Autopilot. You heard of Autopilot? ... They have 15 engineers, 4 co-founders that all started out as engineers looking to bring on a CTO."
     }
   },
@@ -29,13 +29,13 @@
     "audience": "internal",
     "engagement_type": "candidacy",
     "req_reality": 2,
-    "req_reality_basis": "Company name landed and independently verifies (Autopilot), and the loop is named (\"First one will be a technical test, and then you'll speak with a guy named Aaron, and then you'll talk to the 3 other co-founders\"), but no decision-owner was actually met on this call, only described by a third-party recruiter who volunteered \"I haven't really done a deep dive on all 4 co-founders\": identity resolved, owner contact did not, so this stays at 2.",
-    "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met \u00b7 1 verbal shape, no JD or budget \u00b7 2 JD posted/cut, budget implied \u00b7 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
-    "y_state": "FORK",
-    "topology": "DIVERGENT",
+    "req_reality_basis": "Company name landed and independently verifies (Autopilot), and the loop is named (\"First one will be a technical test, and then you'll speak with a guy named Aaron, and then you'll talk to the 3 other co-founders\"), but no decision-owner was actually met on this call, only described by a third-party recruiter who volunteered \"I haven't really done a deep dive on all 4 co-founders\": identity resolved, owner contact did not, so this stays at 2. UPDATE 2026-10-04 (calls 09-30 + 10-02): held at 2 for Vico. The owner is now engaged but still not met: Joe, 10-02: \"Had a long conversation with Lyndon this morning. We obviously reviewed your profile and pulled up kind of the pitch deck\", corroborated by Zach's own deck analytics events (an independent substrate). But the seat itself is not architected: \"we don't know where Zach would fit within our organization... should it be a PE role? Should it be the VP of engineering?\" That is the Fanatics/HypeLab shape (bespoke, still being designed), which caps req_reality at 2 until Lyndon is met and names the seat. Autopilot: stalled at 2 (Aaron on paternity leave, \"in review\").",
+    "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
+    "y_state": "YELLOW",
+    "topology": "CONVERGENT",
     "nci_prior": 0,
     "nci_post": 0,
-    "note": "The identity gate closed and the CEO-specifics gate did not. Autopilot is real and externally verifiable, the hiring loop is named, the anti-fit criteria were volunteered unprompted, and the comp was restated downward on the call (Joe: \"these roles are gonna land somewhere around $300,000, $200K at a base level\") against the $275-325K the JD implied. Against that, Joe could not speak to any individual co-founder, substituted an organizational-values answer (mission-driven, two co-founders are Catholic) for the CEO-background question that was pre-committed as the deciding ask, and then introduced a second live opportunity mid-call whose name does not resolve to any public company, which turns a single-track screen into a genuine path-selection moment. That is why this closes FORK and DIVERGENT rather than YELLOW and CONVERGENT: the terrain did not clarify into one line, it split into two, one of which is currently unverifiable. Not a bad call, not a strong one either. It bought a verified company name, a named first interviewer, and a free copy of the bar I will be measured against, and it cost the belief that the recruiter could underwrite anything about the principals. Update, same day: the second opportunity heard as \"Veeqo\" independently identifies as Vico (vico.io), an AI-powered forecasting platform for political/geopolitical/economic risk, government and private clients, matching Joe's \"50% government, 50% private\" description closely. Vico has exactly two co-founders as Joe said: Anthony Vinci (CEO, ex-CTO of the National Geospatial-Intelligence Agency) and Lyndon Oh (CTO, LSE-trained economist), consistent with \"you'll talk with the CTO probably the most.\" Not yet confirmed: Joe's specific claim that the CTO \"started out as a predictive data modeler... went to Meta and then got scooped up by Google\"; public search surfaces the econ/CTO/Vico facts but nothing on a Meta or Google stint. This resolves req_reality's identity question for the SECOND opportunity in the same direction as the first: independently real, principal not yet met, employment-history specifics still Joe's unverified account. Final update, same day: read both actual JD PDFs directly. The Product Engineer, Front-End JD is confirmed as Vico's own posting by its own text (founder backgrounds naming Google, Meta, Bridgewater Associates, Cerberus Capital, US intelligence, matching Vico's real founders point for point). Both opportunities are now fully attributed; the only remaining open question is req_reality's usual one for a cold-inbound candidacy: no principal met yet at either company. Update 2026-09-17 (follow-up call): the fork resolved to BOTH threads pursued, not archived. Vico's founders were independently confirmed live on the call by first name (Anthony, Lyndon) matching the prior identification exactly; org structure clarified (reports directly to Lyndon as CTO, flat org, a VP of Engineering role also open that will sit above this seat once filled). Joe explicitly proposed representing both Autopilot and Vico and Zach agreed. req_reality holds at 2 for both: JD + comp/org-structure known, no principal met by Zach directly yet at either company. Zach demoed real, shipped ARCS artifacts live on screen (the opportunity-scoring algorithm, the resume-tailor pipeline, the Token Savings Bank, the public status/ship-log site) -- this is now GROUNDED proof-of-shipping evidence Joe personally witnessed, not a claim."
+    "note": "The identity gate closed and the CEO-specifics gate did not. Autopilot is real and externally verifiable, the hiring loop is named, the anti-fit criteria were volunteered unprompted, and the comp was restated downward on the call (Joe: \"these roles are gonna land somewhere around $300,000, $200K at a base level\") against the $275-325K the JD implied. Against that, Joe could not speak to any individual co-founder, substituted an organizational-values answer (mission-driven, two co-founders are Catholic) for the CEO-background question that was pre-committed as the deciding ask, and then introduced a second live opportunity mid-call whose name does not resolve to any public company, which turns a single-track screen into a genuine path-selection moment. That is why this closes FORK and DIVERGENT rather than YELLOW and CONVERGENT: the terrain did not clarify into one line, it split into two, one of which is currently unverifiable. Not a bad call, not a strong one either. It bought a verified company name, a named first interviewer, and a free copy of the bar I will be measured against, and it cost the belief that the recruiter could underwrite anything about the principals. Update, same day: the second opportunity heard as \"Veeqo\" independently identifies as Vico (vico.io), an AI-powered forecasting platform for political/geopolitical/economic risk, government and private clients, matching Joe's \"50% government, 50% private\" description closely. Vico has exactly two co-founders as Joe said: Anthony Vinci (CEO, ex-CTO of the National Geospatial-Intelligence Agency) and Lyndon Oh (CTO, LSE-trained economist), consistent with \"you'll talk with the CTO probably the most.\" Not yet confirmed: Joe's specific claim that the CTO \"started out as a predictive data modeler... went to Meta and then got scooped up by Google\"; public search surfaces the econ/CTO/Vico facts but nothing on a Meta or Google stint. This resolves req_reality's identity question for the SECOND opportunity in the same direction as the first: independently real, principal not yet met, employment-history specifics still Joe's unverified account. Final update, same day: read both actual JD PDFs directly. The Product Engineer, Front-End JD is confirmed as Vico's own posting by its own text (founder backgrounds naming Google, Meta, Bridgewater Associates, Cerberus Capital, US intelligence, matching Vico's real founders point for point). Both opportunities are now fully attributed; the only remaining open question is req_reality's usual one for a cold-inbound candidacy: no principal met yet at either company. Update 2026-09-17 (follow-up call): the fork resolved to BOTH threads pursued, not archived. Vico's founders were independently confirmed live on the call by first name (Anthony, Lyndon) matching the prior identification exactly; org structure clarified (reports directly to Lyndon as CTO, flat org, a VP of Engineering role also open that will sit above this seat once filled). Joe explicitly proposed representing both Autopilot and Vico and Zach agreed. req_reality holds at 2 for both: JD + comp/org-structure known, no principal met by Zach directly yet at either company. Zach demoed real, shipped ARCS artifacts live on screen (the opportunity-scoring algorithm, the resume-tailor pipeline, the Token Savings Bank, the public status/ship-log site) -- this is now GROUNDED proof-of-shipping evidence Joe personally witnessed, not a claim. Update 2026-10-04 (calls 3 + 4): the fork converged on Vico. Autopilot went quiet (Aaron had a baby, \"further off\"). Vico's CTO read the deck himself, and via Joe said \"Zach could solve some of our current problems\"; Joe could not say which problems (\"I don't know what the problems are\"). Comp was discussed at req_reality 2, against the gate's own rule: Joe asked whether Zach would take \"somewhere in the mid-$200s\" with equity and Zach answered \"Yeah, or even like less depending on what the cap table looks like\" before adding \"I'm not going to negotiate against myself.\" Lyndon reportedly frames the seat nearer $300K/VP Eng and hesitates over Oxenham's fee; Joe offered to cap the fee. A competing candidate exists (Nick, \"young gun out of DC\"; Joe always submits multiple profiles). Closes YELLOW/CONVERGENT, not GREEN: advocate confirmed, owner engaged, req (the seat) unconfirmed."
   },
   "beliefs": [
     {
@@ -133,14 +133,14 @@
       "id": "P8",
       "audience": "internal",
       "claim": "Joe's channel quality for Vico specifically is meaningfully higher than for Autopilot, because he has a real, warm, direct relationship with the actual decision-maker (Lyndon), not just a client intake.",
-      "evidence": "For Autopilot, Joe conceded \"I haven't really done a deep dive on all 4 co-founders\" -- a cold client relationship. For Vico, Joe has a multi-year LinkedIn relationship with Lyndon predating this recruiting engagement, and Lyndon personally texted him that same morning about a second open req. This is a materially different, warmer channel.",
+      "evidence": "For Autopilot, Joe conceded \"I haven't really done a deep dive on all 4 co-founders\" -- a cold client relationship. For Vico, Joe has a multi-year LinkedIn relationship with Lyndon predating this recruiting engagement, and Lyndon personally texted him that same morning about a second open req. This is a materially different, warmer channel. UPDATE 10-02: Joe met Lyndon repeatedly (Mon/Tue check-in, then \"a long conversation\" Friday), introduced a colleague with DMV government relationships (Caitlin), and surfaced DOD customers. Channel quality to Vico confirmed higher; his insight into the problems Lyndon wants solved is still nil.",
       "inference": "EXP",
       "confidence": [
         0.5,
-        0.8
+        0.9
       ],
       "conviction": "MED",
-      "verdict": "NEW"
+      "verdict": "UPGRADE"
     },
     {
       "id": "P9",
@@ -151,6 +151,58 @@
       "confidence": [
         0.6,
         0.75
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P10",
+      "audience": "internal",
+      "claim": "NEW: Vico's decision-owner (Lyndon) has personally engaged with Zach's material, not just heard Joe's summary.",
+      "evidence": "Joe, 10-02: \"We obviously reviewed your profile and pulled up kind of the pitch deck and went through it... he has spent a decent amount of time in that.\" Zach, same call: \"some of the event tracking behavioral analytics was popping up.\" Two substrates agree (recruiter account + Zach's own analytics).",
+      "inference": "EXP",
+      "confidence": [
+        0.5,
+        0.85
+      ],
+      "conviction": "HIGH",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P11",
+      "audience": "internal",
+      "claim": "NEW: the Vico seat is defined (Product Engineer, Front-End per the JD) and Zach is being evaluated against it.",
+      "evidence": "10-02: \"we don't know where Zach would fit within our organization... should it be a PE role? Should it be the VP of engineering?\" and \"He is currently thinking single-threaded.\" 09-30: a Solution Architect role is also open and Joe thinks Zach \"would be involved with both of these roles.\"",
+      "inference": "EXP",
+      "confidence": [
+        0.6,
+        0.15
+      ],
+      "conviction": "HIGH",
+      "verdict": "FALSIFIED"
+    },
+    {
+      "id": "P12",
+      "audience": "internal",
+      "claim": "NEW: Zach held the req_reality<=2 rule of no comp moves before the owner is met.",
+      "evidence": "09-30, Joe: \"would you take somewhere in the mid-$200s?\" Zach: \"Yeah, or even like less depending on what the cap table looks like.\" He then said \"I'm not going to negotiate against myself and I'm certainly not going to create an artificial floor\" and steered to people/problems. The floor was stated before the disclaimer.",
+      "inference": "EXP",
+      "confidence": [
+        0.8,
+        0.3
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P13",
+      "audience": "internal",
+      "claim": "NEW: Autopilot is still a live parallel thread on a comparable clock to Vico.",
+      "evidence": "09-30, Joe: \"Aaron had a baby... said he would be back live end of this week\"; Zach: \"that sounds like it's further off\"; Joe: \"Yeah, yeah, further off.\" No Autopilot movement on 10-02.",
+      "inference": "EXP",
+      "confidence": [
+        0.6,
+        0.3
       ],
       "conviction": "MED",
       "verdict": "DOWNGRADE"
@@ -170,7 +222,9 @@
           0.9,
           0.95,
           0.8,
-          0.85
+          0.85,
+          0.85,
+          0.9
         ],
         "grounding_quote": "Company's Autopilot. You heard of Autopilot?"
       },
@@ -185,7 +239,9 @@
           0.3,
           0.1,
           0.05,
-          0.05
+          0.05,
+          0.1,
+          0.15
         ],
         "grounding_quote": "I haven't really done a deep dive on all 4 co-founders."
       },
@@ -200,7 +256,9 @@
           0.5,
           0.5,
           0.5,
-          0.85
+          0.85,
+          0.9,
+          0.92
         ],
         "grounding_quote": "this guy is one of the co-founders... Anthony... and then Lyndon is the other co-founder"
       }
@@ -296,6 +354,46 @@
       "audience": "internal",
       "owner": "Zach",
       "text": "OPEN, not yet decided: whether to build a jobs.arcs.care fork mirroring Joe's own described recruiting workflow (LinkedIn/Greenhouse/Lever alert parsing, swipe-scoring, a decision-engine feedback loop) -- raised same session, separate backlog item, not yet scoped."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE 2026-09-30: 'VICO - Update' held (invite moved from the 09-25 slot). Lyndon framing seat nearer $300K/VP Eng; Joe to cap Oxenham's fee; competitor Nick; Solution Architect req also open; Autopilot stalled (Aaron on leave)."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DONE 2026-10-02: 'VICO debrief.' held. Lyndon read the deck, wants the intro call; loop Lyndon then Anthony then leadership."
+    },
+    {
+      "audience": "internal",
+      "owner": "Joe",
+      "text": "OPEN: confirm Lyndon intro time from Zach's calendar link; coach Lyndon toward a multi-hat/co-design conversation; send NYC office address."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "NEXT: /recoil-prep for the Lyndon call. File a real ex-ante this time (calls 3 and 4 had none). Pre-committed move: ask Lyndon which problems he thinks Zach solves and whether the seat is an existing function or still being designed. No comp number."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "NEXT: independent diligence on Lyndon Oh and Anthony Vinci (open since 09-17) before the intro call."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "OPEN: Magic Patterns edit link owed to Joe (needs his personal email); Joe owes his Obsidian tracker spec. Optional; cap the time."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "WATCH: Autopilot. If no word from Aaron by 2026-10-13, ask Joe once; at ~4 weeks of silence resolve the thread to ghosted, not open."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "DRAFT ONLY, never auto-sent: text to Joe. 'Thanks for Friday. Before I meet Lyndon, anything he said about the specific problems he has in mind would help me come in with something useful. And on comp, let's hold any number until he and I have talked about what the seat actually is.'"
     }
   ],
   "redaction_policy": {
@@ -347,7 +445,7 @@
         "tab": "pre",
         "type": "prose",
         "audience": "internal",
-        "_doc": "TRUE NORTH: one sentence \u2014 the disciplined posture for this interaction.",
+        "_doc": "TRUE NORTH: one sentence — the disciplined posture for this interaction.",
         "h2": "True North",
         "p": [
           "Screen for whether this is a real, architected CTO/EM seat or a recruiter's optimistic gloss on a role still finding its shape. Decide on what gets independently verified today (company name, CEO specifics, decision authority), not on pitch language."
@@ -495,7 +593,7 @@
         "tab": "forge",
         "type": "prose",
         "audience": "internal",
-        "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic \u2014 you cannot grade your own output.",
+        "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic — you cannot grade your own output.",
         "h2": "Exhibit 2 &#183; Exogenous Forge",
         "p": [
           "Every load-bearing claim from the call run against external substrates (independent web search on the company and its founders, published fintech coverage including BigGo Finance, InvestmentNews and Forbes, public founder listings) and adjudicated against the verbatim transcript. GROUNDED = source-forced. INFERENCE = my read, not forced. STRUCK = overreach or unverifiable, corrected.",
@@ -596,7 +694,7 @@
         "type": "keyvalue",
         "audience": "internal",
         "_doc": "RECEIPT CLOSED, CALL 2: the 2026-09-17 follow-up ('Part 2'). No formal ex-ante was filed for this call beyond the 2026-09-14 receipt's own next_steps (treat as message-fidelity exercise; decide both-threads-or-drop).",
-        "h2": "Receipt closed \u00b7 follow-up call (2026-09-17)",
+        "h2": "Receipt closed · follow-up call (2026-09-17)",
         "rows": [
           {
             "k": "Predicted",
@@ -613,6 +711,56 @@
           {
             "k": "Load-bearing",
             "v": "Joe: \"I think it makes sense to represent you to both Autopilot and Veeqo if you're comfortable with that.\" Zach: \"Yeah.\" This is the actual decision the whole engagement now runs on."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "_doc": "RECEIPT CLOSED, CALL 3 (2026-09-30, 'VICO - Update'). No formal ex-ante filed; scored against the 09-17 next_steps.",
+        "h2": "Receipt closed · Vico update (2026-09-30)",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "From 09-17 next_steps: Lyndon reviews the Vico bundle and gives feedback; seniority framing gets addressed head-on; comp stays unnegotiated at req_reality 2."
+          },
+          {
+            "k": "Actual",
+            "v": "Mixed. Feedback was pending (\"He said he was going to review last night, so I should hear like his feedback this morning\"). Seniority flipped direction: Lyndon now frames the seat nearer $300K/VP of Engineering and hesitates on Oxenham's fee, which Joe offered to cap. Comp DID get negotiated: Zach accepted \"mid-$200s... or even like less\" before disclaiming negotiation. A competitor surfaced (Nick, DC). A Solution Architect req surfaced; Zach set a travel boundary (not 25 to 50%). Half the call was Zach consulting free on Joe's own recruiting-tracker app."
+          },
+          {
+            "k": "Fork hit",
+            "v": "Neither branch cleanly: thread alive and warming, but a rule the gate exists to enforce was broken by Zach, not by Joe."
+          },
+          {
+            "k": "Load-bearing",
+            "v": "Joe: \"Lyndon is viewing this as a little bit closer to $300,000, $300,000 being that VP of engineering. He's hesitant... because... they have to pay me the fee.\""
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "_doc": "RECEIPT CLOSED, CALL 4 (2026-10-02, 'VICO debrief.'). No formal ex-ante filed.",
+        "h2": "Receipt closed · Vico debrief (2026-10-02)",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "Implicit: Lyndon's feedback lands, a principal call gets scheduled."
+          },
+          {
+            "k": "Actual",
+            "v": "Landed. Lyndon read profile + deck himself (corroborated by Zach's analytics), is \"very interested in talking with you\", and named the axes \"build capability, prototype capability, IQ, leadership\". Loop named: Lyndon, then Anthony, then leadership, \"It will go quick.\" Office: NYC primary, DC secondary, no DC travel required. Open: Lyndon cannot place the seat (PE vs VP Eng) and Joe cannot name the problems Lyndon thinks Zach solves. Call ran ~10 min of substance after ~15 min of rapport (golf, polyvagal theory)."
+          },
+          {
+            "k": "Fork hit",
+            "v": "Upgrade branch on owner engagement; seat definition still open. YELLOW/CONVERGENT."
+          },
+          {
+            "k": "Load-bearing",
+            "v": "Joe relaying Lyndon: \"we truly think that Zach can solve some of the problems right now\" ... \"I don't know what the problems are.\""
           }
         ]
       },
@@ -662,6 +810,26 @@
           {
             "dot": "c",
             "html": "<strong>Risk:</strong> stated anti-fit on my own record. I told him plainly that I have not grown engineering teams from a leadership perspective and that I am trying to stay solo-founder or fully agentic. That is honest and it is also in direct tension with a seat whose whole point is managing fifteen engineers. It will come back at the co-founder stage, and it should be answered deliberately rather than hoped past."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Kairos (10-02):</strong> \"Zach could solve some of our current problems\" with the problems unnamed. The highest-value question for the Lyndon call is now his, not Joe's: which problems, in his words, before any pitch."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> deck analytics fired while Lyndon read it. First owner-side signal not routed through the recruiter."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk (self-inflicted):</strong> comp floor stated at req_reality 2 (\"mid-$200s... or even like less\"). Joe now holds a number below the $300K Lyndon himself floated. Do not restate any number before the seat is named."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> unarchitected seat (PE vs VP Eng vs Solution Architect). Same shape as Fanatics/HypeLab. Ask the first-screen question to Lyndon directly: existing function, or bespoke and still being designed?"
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> Zach's time on Joe's own tooling (09-30) is relationship capital, not candidacy evidence. Cap it."
           }
         ]
       },
@@ -739,10 +907,16 @@
             "Answer the tension head-on rather than hoping past it: name the solo/agentic preference as a deliberate method, show what it produced, and be explicit about what would make a fifteen-engineer player-coach seat the right container for it. If that answer is not honestly available, this is the node where the right outcome is a clean no rather than a won argument."
           ],
           [
-            "5. Vico battle-card + tailored resume + Lyndon intro \u00b7 <strong>NEW BOTTLENECK, in my court</strong>",
+            "5. Vico battle-card + tailored resume + Lyndon intro · <strong>NEW BOTTLENECK, in my court</strong>",
             "\"I want an engineer that is going to use LLMs to build LLMs... build things that do not exist\" (Lyndon, via Joe); initial \"young gun\" framing already softened by Joe to \"as long as they're competent\"",
             "Dies quietly here exactly like the Autopilot node did: Joe asked Zach to send the resume and let him review the battle-card draft before presenting to Lyndon. If the resume reads generic instead of demonstrating live LLM-native shipping (the same demo Zach just gave Joe on screen), or if the seniority framing isn't addressed head-on, it never reaches Lyndon.",
             "Lead with the exact demo just given to Joe: real shipped agentic tooling, the resume-tailor pipeline, the scoring/decision-engine work, framed as direct proof of \"building LLMs with LLMs.\" Address seniority directly and early (Joe already has the opening: \"as long as they're competent\"), and use the fact that Joe himself was visibly impressed live as the credibility bridge to Lyndon."
+          ],
+          [
+            "6. Lyndon intro call · <strong>NEW BOTTLENECK, in my court</strong>",
+            "\"we don't know where Zach would fit within our organization\" (Lyndon, via Joe); \"He is currently thinking single-threaded.\"",
+            "Dies as a mis-scoped single title (front-end PE) priced below the work, or as a VP seat Lyndon cannot justify with Oxenham's fee on top.",
+            "Lead with his problems, not the deck. Propose co-design: a written 30/60/90 against the problems he names, sent after the call. No comp number until he names the seat."
           ]
         ]
       },

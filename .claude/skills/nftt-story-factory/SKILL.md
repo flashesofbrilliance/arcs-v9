@@ -64,9 +64,24 @@ Then, in the new file:
 ```bash
 # 2. route it — add to the 'good' block in src/proxy.ts:
 #    '/blog/nftt/<slug>': '/blog-nftt-<slug>.html', '/blog/nftt/<slug>/full': '/blog-nftt-<slug>.html'
-# 3. index it — add a card to public/blog-nftt-index.html:
-#    new card = "Latest"; demote the previous "Latest" to its number (No. N).
-# 4. run the gates (below), then commit; good.arcs.care deploys from main.
+# 3. index it — the index is GENERATED; never hand-edit public/blog-nftt-index.html:
+#    add the post to POSTS in scripts/nftt_index_build.mjs (href, title, desc),
+#    add {slug, section, view: "compact"} at the top of its section in
+#    scripts/nftt_index_layout.json, then: node scripts/nftt_index_build.mjs
+#    (CI runs `node scripts/nftt_index_build.mjs --check` and fails on a hand edit)
+# 4. timestamp it — once blessed and routed, record the publish time and stamp the post:
+#    python3 scripts/nftt_published.py derive --now <slug>   # frozen row in runtime/specs/nftt-published.json
+#    python3 scripts/nftt_published.py stamp                 # article:published_time + byline <time>
+#    node scripts/nftt_index_build.mjs                       # the index card shows the date too
+#    (CI + pre-commit run `nftt_published.py --check`: a routed post without a stamp fails)
+#    written from older pieces of your own (a LinkedIn article, a post)? add the post to
+#    runtime/specs/nftt-originals.json (platform, ISO dates, evidence quoted from the post) and
+#    re-run stamp: the byline gains "From the LinkedIn original(s), <dates>". Dates the post's
+#    own text does not state stay out.
+#    serialized? if the post joins a series (same method run on a new subject), add it to
+#    the series' parts in runtime/specs/nftt-series.json, then: python3 scripts/nftt_series.py stamp
+#    (writes "Part N of M" + the series panel into EVERY part, so siblings link the new one too)
+# 5. run the gates (below), then commit; good.arcs.care deploys from main.
 ```
 
 ## Body block grammar (the literary devices — all already in the template CSS)

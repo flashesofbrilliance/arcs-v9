@@ -11,6 +11,8 @@ ladder). Contract per the seed:
 
 Usage:  python3 scripts/warroom_board.py            # writes runtime/warroom/gauntlet.html
         python3 scripts/warroom_board.py --out X    # override output path
+        python3 scripts/warroom_board.py --dry-run  # render + report, write nothing
+        python3 scripts/warroom_board.py --self-test
 Served at /warroom/gauntlet (Auth.js + ADMIN_EMAILS, prod fail-closed, noindex).
 """
 import json, re, sys, html, pathlib, datetime
@@ -105,10 +107,28 @@ def render_ledger(rows):
         f'<span class="fcl">{E(r["claim"][:150])}</span></div>' for r in rows[::-1][:8])
     return ticks, legend, latest
 
-def main():
-    out = OUT
-    if "--out" in sys.argv:
-        out = pathlib.Path(sys.argv[sys.argv.index("--out") + 1])
+def _rel(p):
+    """Path relative to ROOT when inside it, else the absolute path (was a ValueError
+    after the HTML was already written, leaving no sidecar)."""
+    p = p.resolve()
+    try:
+        return str(p.relative_to(ROOT))
+    except ValueError:
+        return str(p)
+
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(prog="warroom_board.py",
+                                 description="Render the instrument board + .print.json sidecar.")
+    ap.add_argument("--out", type=pathlib.Path, default=OUT, help="output HTML path")
+    ap.add_argument("--dry-run", action="store_true", help="render and report, write nothing")
+    ap.add_argument("--self-test", action="store_true", help="argv contract in a temp repo")
+    a = ap.parse_args(argv)
+    if a.self_test:
+        if a.dry_run or a.out != OUT:
+            ap.error("--self-test takes no other arguments")
+        return self_test()
+    out = a.out
     data = {s["name"]: s["adapt"](_load(s["path"])) for s in SOURCES}
     runs, ledger = data["gauntlet-runs"], data["falsification-ledger"]
     now = datetime.date.today().isoformat()
@@ -187,12 +207,13 @@ def main():
   <div class="foot">generated {now} &middot; regenerate: python3 scripts/warroom_board.py &middot; runtime/warroom/gauntlet.html &middot; admin-gated &middot; noindex &middot; severity strips parse only structured findings; prose-only runs show text</div>
 </div>
 </body></html>'''
-    out.write_text(page)
+    if not a.dry_run:
+        out.write_text(page)
 
     # The spark plug: typed print sidecar (germination block, seed-bank schema).
     print_json = {
         "print": "instrument-board", "service": "scripts/warroom_board.py", "ts": now,
-        "output": str(out.relative_to(ROOT)), "route": "/warroom/gauntlet",
+        "output": _rel(out), "route": "/warroom/gauntlet",
         "sources": [{"name": s["name"], "path": s["path"], "rows": len(data[s["name"]])} for s in SOURCES],
         "germination": {
             "soil": ["any new adversarial instrument that writes a JSONL ledger"],
@@ -203,8 +224,62 @@ def main():
                       "keep findings machine-parseable: state 'N pathogen, N crack, N nit' and 'N over-flags rejected' in every new run row"],
         },
     }
+    if a.dry_run:
+        print(f"dry-run: would write {_rel(out)} ({len(page.encode())} bytes) + sidecar "
+              f"({len(runs)} runs, {len(ledger)} falsifications); nothing written")
+        return 0
     out.with_suffix(".print.json").write_text(json.dumps(print_json, indent=1))
-    print(f"wrote {out.relative_to(ROOT)} + sidecar ({len(runs)} runs, {len(ledger)} falsifications)")
+    print(f"wrote {_rel(out)} + sidecar ({len(runs)} runs, {len(ledger)} falsifications)")
+    return 0
+
+def self_test():
+    import hashlib, shutil, subprocess, tempfile
+    checks = []
+
+    def ok(name, cond):
+        checks.append(bool(cond))
+        print(f"  {'PASS' if cond else 'FAIL'}  {name}")
+
+    def snap(d):
+        return {str(p.relative_to(d)): (hashlib.sha256(p.read_bytes()).hexdigest(), p.stat().st_mtime_ns)
+                for p in sorted(d.rglob("*")) if p.is_file()}
+
+    with tempfile.TemporaryDirectory() as td:
+        d = pathlib.Path(td)
+        (d / "scripts").mkdir(); (d / "_STATE").mkdir(); (d / "runtime/warroom").mkdir(parents=True)
+        me = d / "scripts/warroom_board.py"
+        shutil.copy2(pathlib.Path(__file__).resolve(), me)
+        (d / "_STATE/gauntlet-runs.jsonl").write_text(json.dumps(
+            {"ts": "2026-01-01", "kind": "synthetic", "subject": "fixture", "agents": 2, "tokens": 1000,
+             "finding": "1 pathogen, 2 cracks, 3 nits; 1 over-flag rejected"}) + "\n")
+        (d / "_STATE/falsification-ledger.jsonl").write_text(json.dumps(
+            {"id": "F1", "ts": "2026-01-01", "scope": "canon", "claim": "synthetic claim"}) + "\n")
+
+        def run(*args):
+            return subprocess.run([sys.executable, str(me), *args], cwd=d, capture_output=True, text=True)
+
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("extra positional exits 2", run("stray").returncode == 2)
+        ok("--out without value exits 2", run("--out").returncode == 2)
+        ok("--self-test with args exits 2", run("--self-test", "--dry-run").returncode == 2)
+        before = snap(d)
+        r = run("--dry-run")
+        ok("--dry-run exits 0", r.returncode == 0 and "1 runs, 1 falsifications" in r.stdout)
+        ok("--dry-run writes nothing", snap(d) == before)
+        r = run("--dry-run", "--out", "elsewhere/x.html")
+        ok("--dry-run --out writes nothing", r.returncode == 0 and snap(d) == before)
+        r = run()
+        ok("default write mode writes html + sidecar", r.returncode == 0
+           and (d / "runtime/warroom/gauntlet.html").exists()
+           and (d / "runtime/warroom/gauntlet.print.json").exists())
+        with tempfile.TemporaryDirectory() as od:
+            o = pathlib.Path(od) / "b.html"
+            r = run("--out", str(o))
+            ok("--out outside ROOT writes html + sidecar", r.returncode == 0 and o.exists()
+               and o.with_suffix(".print.json").exists())
+    n = sum(checks)
+    print(f"warroom_board self-test: {n}/{len(checks)}")
+    return 0 if n == len(checks) else 1
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

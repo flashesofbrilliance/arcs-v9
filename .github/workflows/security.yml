@@ -4,9 +4,10 @@
 # ARCS-aware, manual gate); this is the automated CI-time layer they don't cover.
 #
 # ⚠ SECURITY GATES (do not remove):
-#   1. The action is NOT hardened against prompt injection. This repo is PUBLIC,
-#      so the job below is guarded to run ONLY on same-repo PRs (never on forks),
-#      via the `if:` on the job. Do not loosen that guard.
+#   1. The action is NOT hardened against prompt injection. The job below is
+#      guarded to run ONLY on same-repo PRs (never on forks), via the `if:` on the
+#      job. Do not loosen that guard. (The repo went private 2026-07-24; the guard
+#      stays, it costs nothing.)
 #   2. Requires an `ANTHROPIC_API_KEY` in repo → Settings → Secrets and variables →
 #      Actions. Until that secret exists, the job no-ops on the auth step — safe.
 #   3. Also set repo → Settings → Actions → "Require approval for all outside
@@ -16,11 +17,40 @@
 # (https://github.com/anthropics/claude-code-security-review) — pinned to a tag
 # rather than @main once you've confirmed the version you want.
 
+# COST SCOPE (2026-10-05): this action spends the ANTHROPIC_API_KEY secret, and each
+# run is an agentic review (many model calls). On 10-04/10-05 it ran 197 times, most
+# on docs/_STATE/_ARTIFACTS PRs with nothing to review, alongside the day production
+# hit its API usage cap. Two limits, both cheap to reverse:
+#   1. Paths: only PRs touching code where a vulnerability can live (API routes,
+#      auth/admin/session, the proxy, schema/migrations, env + deploy config,
+#      dependencies, workflows). A PR touching none of these never runs it.
+#   2. Once per PR: on opened / reopened / ready_for_review, NOT on every push.
+#      To review again after new commits, add the label `security-review`.
 name: security-review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, reopened, ready_for_review, labeled]
+    paths:
+      - "src/app/api/**"
+      - "src/proxy.ts"
+      - "src/middleware.ts"
+      - "src/lib/auth*"
+      - "src/lib/admin*"
+      - "src/lib/jobs.ts"
+      - "src/lib/env.ts"
+      - "src/lib/db.ts"
+      - "src/lib/*gate*"
+      - "prisma/**"
+      - "next.config.*"
+      - "vercel.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/**"
+
+concurrency:
+  group: security-review-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -29,7 +59,10 @@ permissions:
 jobs:
   claude-security-review:
     # Same-repo PRs only — never run on forks (prompt-injection surface).
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # A `labeled` event runs only for the `security-review` label (the on-request re-run).
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.action != 'labeled' || github.event.label.name == 'security-review')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

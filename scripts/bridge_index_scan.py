@@ -190,7 +190,8 @@ def probe_one(name: str, explicit: dict | None = None):
     return {"ats": None, "slug": None, "n": 0, "tried": len(tried)}
 
 
-def cmd_probe(path: str, hints_path: str | None = None, retry_misses: bool = False, workers: int = 8):
+def cmd_probe(path: str, hints_path: str | None = None, retry_misses: bool = False, workers: int = 8,
+              dry_run: bool = False):
     """Resolve names -> boards. Cached hits are never re-probed; cached misses are re-probed only
     with --retry-misses (or when a hint exists for them)."""
     names = [l.strip() for l in (sys.stdin if path == "-" else open(path)) if l.strip() and not l.startswith("#")]
@@ -204,6 +205,13 @@ def cmd_probe(path: str, hints_path: str | None = None, retry_misses: bool = Fal
         r["probed_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
         return n, r
 
+    if dry_run:
+        # Preview: report what would be probed, touch no network and no cache file.
+        for n in todo:
+            print(f"would probe {n}", file=sys.stderr)
+        hits = {n: cache[n] for n in names if n in cache and cache[n].get("ats")}
+        print(f"probe dry-run: {len(hits)}/{len(names)} resolved from cache, {len(todo)} would be probed", file=sys.stderr)
+        return hits
     with ThreadPoolExecutor(max_workers=workers) as ex:
         for i, (n, r) in enumerate(ex.map(work, todo), 1):
             cache[n] = r
@@ -372,7 +380,7 @@ def fit_hint(title: str) -> int:
     return min(s, 10)
 
 
-def cmd_pull(index_path: str, out_path: str):
+def cmd_pull(index_path: str, out_path: str, dry_run: bool = False):
     index = json.loads(Path(index_path).read_text())
     rows, stats = [], {"employers": 0, "reqs_total": 0, "kept": 0, "rej": {}}
 
@@ -415,19 +423,29 @@ def cmd_pull(index_path: str, out_path: str):
             continue
         seen.add(r["jobid"])
         uniq.append(r)
+    stats["unique"] = len(uniq)
+    if dry_run:
+        print(f"pull dry-run: would write {len(uniq)} rows to {out_path}", file=sys.stderr)
+        print(json.dumps(stats, indent=1), file=sys.stderr)
+        return
     with open(out_path, "w") as f:
         for r in uniq:
             f.write(json.dumps(r) + "\n")
-    stats["unique"] = len(uniq)
     print(json.dumps(stats, indent=1), file=sys.stderr)
 
 
 # ----------------------------------------------------------------------------- ingest
 
-def cmd_ingest(reqs_path: str, batch: int = 100, force: bool = False):
+def cmd_ingest(reqs_path: str, batch: int = 100, force: bool = False, dry_run: bool = False):
     """POST new rows only. The API upsert overwrites band/composite, so re-sending a row that the
     scorer (Thread 2) already scored would silently reset it to UNSCORED — skip existing jobids
     unless --force."""
+    if dry_run:
+        # Preview: no token, no network. Existing-row skip is not computed (that needs a GET).
+        n = sum(1 for l in open(reqs_path) if l.strip())
+        print(f"ingest dry-run: {n} rows in {reqs_path}, would POST in batches of {batch} "
+              f"({'force' if force else 'skipping jobids already on the board'})", file=sys.stderr)
+        return
     token = os.environ.get("JOBS_PIPELINE_TOKEN")
     if not token:
         sys.exit("JOBS_PIPELINE_TOKEN missing: set -a; . ~/.arcs/jobs-pipeline.env; set +a")
@@ -456,31 +474,13 @@ def cmd_ingest(reqs_path: str, batch: int = 100, force: bool = False):
     print(f"ingest done: {total}/{len(rows)} upserted", file=sys.stderr)
 
 
-if __name__ == "__main__":
-    a = sys.argv[1:]
-    if not a:
-        sys.exit(__doc__)
-    if a[0] == "probe":
-        pos = [x for x in a[1:] if not x.startswith("--")]
-        hits = cmd_probe(pos[0], pos[1] if len(pos) > 1 else None, retry_misses="--retry-misses" in a, workers=4 if "--retry-misses" in a else 8)
-        print(json.dumps(hits, indent=1, sort_keys=True))
-    elif a[0] == "pull":
-        cmd_pull(a[1], a[2])
-    elif a[0] == "ingest":
-        cmd_ingest(a[1], force="--force" in a)
-    elif a[0] == "verify":
-        pass  # dispatched below (defined after main block)
-    else:
-        sys.exit(__doc__)
-
-
 # ----------------------------------------------------------------------------- verify (slug collision guard)
 
 def _norm(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", s.lower())
 
 
-def cmd_verify(index_path: str):
+def cmd_verify(index_path: str, dry_run: bool = False):
     """For each resolved board, check the board actually belongs to the named employer.
     Greenhouse exposes the board name; Ashby/Lever do not, so those are flagged for eyeball
     when the slug came from a short/generic variant. Writes verify field into the index."""
@@ -499,11 +499,137 @@ def cmd_verify(index_path: str):
             slug = _norm(meta["slug"])
             ok = slug == core or slug == n or (len(slug) >= 6 and (slug in core or core in slug))
             meta["verify"] = "ok" if ok else "REVIEW"
-    Path(index_path).write_text(json.dumps(index, indent=1, sort_keys=True))
+    if not dry_run:
+        Path(index_path).write_text(json.dumps(index, indent=1, sort_keys=True))
     bad = {k: v for k, v in index.items() if v["verify"] != "ok"}
     print(json.dumps(bad, indent=1, sort_keys=True))
     print(f"verify: {len(index) - len(bad)} ok, {len(bad)} flagged", file=sys.stderr)
 
 
-if __name__ == "__main__" and sys.argv[1:2] == ["verify"]:
-    cmd_verify(sys.argv[2])
+# ----------------------------------------------------------------------------- cli
+
+def build_parser():
+    import argparse
+    p = argparse.ArgumentParser(prog="bridge_index_scan.py", description=__doc__.split("\n")[0],
+                                formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--self-test", action="store_true", help="run the argv/no-write contract tests and exit")
+    sub = p.add_subparsers(dest="cmd")
+    s = sub.add_parser("probe", help="resolve employer names to ATS boards (writes the probe cache)")
+    s.add_argument("names", help="names file, or - for stdin")
+    s.add_argument("hints", nargs="?", default=None, help="optional hints JSON {name: {ats, slug}}")
+    s.add_argument("--retry-misses", action="store_true", help="re-probe cached misses (4 workers)")
+    s.add_argument("--dry-run", action="store_true", help="report from cache only; no network, no cache write")
+    s = sub.add_parser("pull", help="fetch reqs for every resolved board, filter, write reqs.jsonl")
+    s.add_argument("index")
+    s.add_argument("out")
+    s.add_argument("--dry-run", action="store_true", help="fetch and filter, but do not write out")
+    s = sub.add_parser("ingest", help="POST reqs.jsonl to jobs.arcs.care")
+    s.add_argument("reqs")
+    s.add_argument("--force", action="store_true", help="re-send jobids already on the board")
+    s.add_argument("--dry-run", action="store_true", help="count rows; no token, no network")
+    s = sub.add_parser("verify", help="slug collision guard; writes verify field into the index")
+    s.add_argument("index")
+    s.add_argument("--dry-run", action="store_true", help="print flags, do not rewrite the index")
+    return p
+
+
+def _snapshot(root: Path) -> dict:
+    out = {}
+    for f in sorted(root.rglob("*")):
+        if f.is_file() and "__pycache__" not in f.parts:
+            out[str(f.relative_to(root))] = (hashlib.sha256(f.read_bytes()).hexdigest(), f.stat().st_mtime_ns)
+    return out
+
+
+def self_test() -> int:
+    """Run this script as a subprocess in a repo-shaped temp dir (ROOT resolves from the script
+    path, so the probe cache lands under the temp dir). Only network-free paths are exercised."""
+    import shutil, subprocess, tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="bridge-index-selftest-"))
+    fails = total = 0
+    try:
+        (tmp / "scripts").mkdir()
+        me = tmp / "scripts" / "bridge_index_scan.py"
+        shutil.copy2(Path(__file__).resolve(), me)
+        idx = tmp / "_STATE" / "job-search" / "employer-index"
+        idx.mkdir(parents=True)
+        (idx / "ats-probe-cache.json").write_text(json.dumps({
+            "Acme Labs": {"ats": "ashby", "slug": "acmelabs", "n": 3},
+            "Nowhere Co": {"ats": None, "slug": None, "n": 0}}))
+        names = tmp / "names.txt"
+        names.write_text("Acme Labs\nNowhere Co\nFresh Name\n")
+        index = tmp / "index.json"
+        index.write_text(json.dumps({"Acme Labs": {"ats": "ashby", "slug": "acmelabs"},
+                                     "Zed": {"ats": "lever", "slug": "qq"}}))
+        empty_index = tmp / "empty.json"
+        empty_index.write_text("{}")
+        reqs = tmp / "reqs.jsonl"
+        reqs.write_text('{"jobid": "a"}\n{"jobid": "b"}\n')
+        out = tmp / "out.jsonl"
+
+        def run(*a):
+            env = {k: v for k, v in os.environ.items() if k != "JOBS_PIPELINE_TOKEN"}
+            return subprocess.run([sys.executable, str(me), *a], capture_output=True, text=True,
+                                  cwd=tmp, env=env, timeout=60)
+
+        def ok(name, cond):
+            nonlocal fails, total
+            total += 1
+            print(("  PASS  " if cond else "  FAIL  ") + name)
+            fails += 0 if cond else 1
+
+        for argv in (["--bogus"], ["probe", str(names), "--bogus"], ["pull", str(index), str(out), "--bogus"],
+                     ["ingest", str(reqs), "--bogus"], ["verify", str(index), "--bogus"], ["nosuchverb"]):
+            ok(f"unknown flag/verb exits 2: {' '.join(a for a in argv if a.startswith('-') or a == 'nosuchverb')} "
+               f"({argv[0]})", run(*argv).returncode == 2)
+        for argv in (["probe", str(names), "h.json", "extra"], ["pull", str(index), str(out), "extra"],
+                     ["ingest", str(reqs), "extra"], ["verify", str(index), "extra"]):
+            ok(f"extra positional exits 2 ({argv[0]})", run(*argv).returncode == 2)
+        ok("missing positional exits 2 (pull)", run("pull", str(index)).returncode == 2)
+        ok("no args exits 1 with usage (pre-argparse shape)", run().returncode == 1)
+
+        before = _snapshot(tmp)
+        r = run("probe", str(names), "--dry-run")
+        ok("probe --dry-run exits 0, prints cached hits",
+           r.returncode == 0 and json.loads(r.stdout) == {"Acme Labs": {"ats": "ashby", "slug": "acmelabs", "n": 3}}
+           and "would probe Fresh Name" in r.stderr)
+        ok("probe --dry-run writes nothing", _snapshot(tmp) == before)
+        r = run("pull", str(empty_index), str(out), "--dry-run")
+        ok("pull --dry-run exits 0", r.returncode == 0 and "would write 0 rows" in r.stderr)
+        ok("pull --dry-run writes nothing", _snapshot(tmp) == before and not out.exists())
+        r = run("ingest", str(reqs), "--dry-run")
+        ok("ingest --dry-run exits 0 with no token", r.returncode == 0 and "2 rows" in r.stderr)
+        ok("ingest --dry-run writes nothing", _snapshot(tmp) == before)
+        r = run("verify", str(index), "--dry-run")
+        flagged = json.loads(r.stdout) if r.returncode == 0 else {}
+        ok("verify --dry-run flags the short slug only", r.returncode == 0 and list(flagged) == ["Zed"])
+        ok("verify --dry-run writes nothing", _snapshot(tmp) == before)
+        r = run("pull", str(empty_index), str(out))
+        ok("pull write mode writes out", r.returncode == 0 and out.exists())
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"bridge_index_scan self-test: {total - fails}/{total}")
+    return 1 if fails else 0
+
+
+def main(argv=None) -> int:
+    args = build_parser().parse_args(argv)
+    if args.self_test:
+        return self_test()
+    if args.cmd is None:
+        sys.exit(__doc__)
+    if args.cmd == "probe":
+        hits = cmd_probe(args.names, args.hints, retry_misses=args.retry_misses,
+                         workers=4 if args.retry_misses else 8, dry_run=args.dry_run)
+        print(json.dumps(hits, indent=1, sort_keys=True))
+    elif args.cmd == "pull":
+        cmd_pull(args.index, args.out, dry_run=args.dry_run)
+    elif args.cmd == "ingest":
+        cmd_ingest(args.reqs, force=args.force, dry_run=args.dry_run)
+    elif args.cmd == "verify":
+        cmd_verify(args.index, dry_run=args.dry_run)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

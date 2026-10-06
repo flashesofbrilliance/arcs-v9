@@ -21,10 +21,12 @@ Status vocabulary: LIVE, LIVE-AS-PROSE, DRIFTED, STALE, (anything else) -> UNVER
 
 Usage:  python3 scripts/research_render.py [OUT.html] [DIGEST.json ...]
         (no args -> Atlas digests -> _ARTIFACTS/atlas/atlas-almanac.html)
+        python3 scripts/research_render.py --dry-run [OUT.html] [DIGEST.json ...]   (render, write nothing)
+        python3 scripts/research_render.py --self-test
 
 Stdlib only; data embedded inline (works from file://). Internal research: render LOCAL.
 """
-import json, sys, os, html, glob, datetime
+import argparse, json, sys, os, html, glob, datetime, hashlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -475,8 +477,19 @@ def render(nodes, meta):
             .replace("__META__", json.dumps(meta, ensure_ascii=False)))
 
 
-def main():
-    args = sys.argv[1:]
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="research_render.py", description="Render digest JSON as the Almanac read through the Reader.",
+                                 formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
+    ap.add_argument("paths", nargs="*", metavar="PATH",
+                    help="optional OUT.html (first, must end .html/.htm) then DIGEST.json files")
+    ap.add_argument("--dry-run", action="store_true", help="render in memory and report; write nothing")
+    ap.add_argument("--self-test", action="store_true", help="assert the argv contract on synthetic input")
+    a = ap.parse_args(sys.argv[1:] if argv is None else argv)
+    if a.self_test:
+        if a.paths:
+            ap.error("--self-test takes no paths")
+        return self_test()
+    args = a.paths
     if args and args[0].endswith((".html", ".htm")):
         out_path, digests = args[0], args[1:]
     else:
@@ -486,8 +499,8 @@ def main():
         print("no digests found", file=sys.stderr); sys.exit(1)
     nodes = load_digests(digests)
     meta = {
-        "title": "ARCS Almanac · read through the Reader",
-        "eyebrow": "ARCS · the Almanac",
+        "title": "ARCS Almanac \u00b7 read through the Reader",
+        "eyebrow": "ARCS \u00b7 the Almanac",
         "h1": "The state of what ARCS knows",
         "generated": datetime.date.today().isoformat(),
         "sources": [os.path.basename(d) for d in digests],
@@ -495,9 +508,69 @@ def main():
     }
     if meta["manifest"] is None:
         print("  no cache-manifest.json; freshness unknown", file=sys.stderr)
-    open(out_path, "w", encoding="utf-8").write(render(nodes, meta))
+    page = render(nodes, meta)
+    if a.dry_run:
+        print(f"would render {len(nodes)} nodes -> {out_path} ({len(page.encode('utf-8'))} bytes)")
+        return 0
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(page)
     print(f"rendered {len(nodes)} nodes -> {out_path}")
+    return 0
+
+
+def _snapshot(root):
+    out = {}
+    for d, _, fs in os.walk(root):
+        for n in fs:
+            p = os.path.join(d, n)
+            out[p] = (hashlib.sha256(open(p, "rb").read()).hexdigest(), os.stat(p).st_mtime_ns)
+    return out
+
+
+def self_test():
+    """Copy the script into a repo-shaped temp dir (ROOT resolves from __file__) and subprocess it."""
+    import shutil, subprocess, tempfile
+    tmp = tempfile.mkdtemp(prefix="research-render-selftest-")
+    fails = total = 0
+
+    def ok(name, cond):
+        nonlocal fails, total
+        total += 1
+        print(("  PASS  " if cond else "  FAIL  ") + name)
+        fails += 0 if cond else 1
+
+    try:
+        os.makedirs(os.path.join(tmp, "scripts")); atlas = os.path.join(tmp, "_ARTIFACTS/atlas"); os.makedirs(atlas)
+        me = os.path.join(tmp, "scripts/research_render.py")
+        shutil.copy2(os.path.abspath(__file__), me)
+        dg = os.path.join(atlas, "digest-test.json")
+        with open(dg, "w") as f:
+            json.dump([{"id": "n1", "title": "Node one", "domain": "d", "status": "LIVE", "claim": "c"},
+                       {"id": "n2", "title": "Node two", "domain": "d", "status": "STALE", "links": ["n1"]}], f)
+        out = os.path.join(tmp, "out.html")
+
+        def run(*a):
+            return subprocess.run([sys.executable, me, *a], capture_output=True, text=True, cwd=tmp)
+
+        before = _snapshot(tmp)
+        ok("unknown flag exits 2", run("--bogus").returncode == 2)
+        ok("unknown flag after paths exits 2", run(out, dg, "--nope").returncode == 2)
+        ok("--self-test with paths exits 2", run("--self-test", out).returncode == 2)
+        r = run("--dry-run")
+        ok("--dry-run default target exits 0", r.returncode == 0 and "would render 2 nodes" in r.stdout)
+        r = run("--dry-run", out, dg)
+        ok("--dry-run explicit out exits 0", r.returncode == 0 and "would render 2 nodes" in r.stdout)
+        ok("--dry-run writes nothing", _snapshot(tmp) == before)
+        r = run(out, dg)
+        ok("write mode exits 0 and writes", r.returncode == 0 and os.path.exists(out))
+        ok("output embeds node data", os.path.exists(out) and "Node two" in open(out, encoding="utf-8").read())
+        r = run("--dry-run", out, os.path.join(tmp, "nope.json"))
+        ok("unreadable digest is skipped with a warning", r.returncode == 0 and "skip" in r.stderr and "would render 0 nodes" in r.stdout)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    print(f"research_render self-test: {total - fails}/{total}")
+    return 1 if fails else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

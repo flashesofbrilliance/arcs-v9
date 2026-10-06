@@ -1,0 +1,47 @@
+# .gitleaksignore: triaged full-history findings (gitleaks 8.30.1, 2026-10-04, 4243 commits, 38 hits).
+# Fingerprints only (commit:file:rule:line); no secret values live here. Each class was read
+# with the value masked and judged public-by-design or not-a-secret:
+#   - pk_live publishable-key in Stripe buy buttons (public/todd-call.html, public/prl-chatbot.html,
+#     _ARTIFACTS/prl-roadmap-deck.html): Stripe publishable keys are meant to ship to browsers.
+#   - Tidio public widget key (runtime/recoil/generated/2026-07-30-todd-*.md): the public chat key.
+#   - Greenhouse window.ENV client keys in a scraped job description (jd-full.txt): served to
+#     every visitor of the public job board page; not ours.
+#   - KEY= localStorage key names in lab/conviction-ledger pages; a key fingerprint in ADR-032 prose.
+# A NEW hit is never added here without the same triage. Rotate, do not ignore, a real secret.
+063588a2b1db62044f4aa25dc003bba494942e3c:_ARTIFACTS/lab/briefing-record/index.html:generic-api-key:181
+063588a2b1db62044f4aa25dc003bba494942e3c:_ARTIFACTS/lab/conviction-ledger/index.html:generic-api-key:165
+18acbaaa3b517ba7f8453dd2380991feaef5e5b3:public/todd-call.html:generic-api-key:595
+19b1bfcfd5e8f677961de5811b99a73e4fbc6f6a:runtime/recoil/generated/2026-07-30-todd-tidio-deploy-integration-handoff.md:generic-api-key:17
+1e608106e546fa1f6aeac7de50f6f2828dac481e:_DECISIONS/ADR-032-zero-trust-posture.md:generic-api-key:65
+1f4cc01a6ca26e2dfa4a2a0f4c43e91610ed6856:_ARTIFACTS/forge-monstro-ai-marketing-engineer/jd-full.txt:dropbox-api-token:88
+1f4cc01a6ca26e2dfa4a2a0f4c43e91610ed6856:_ARTIFACTS/forge-monstro-ai-marketing-engineer/jd-full.txt:dropbox-api-token:90
+1f4cc01a6ca26e2dfa4a2a0f4c43e91610ed6856:_ARTIFACTS/forge-monstro-ai-marketing-engineer/jd-full.txt:gcp-api-key:88
+1f4cc01a6ca26e2dfa4a2a0f4c43e91610ed6856:_ARTIFACTS/forge-monstro-ai-marketing-engineer/jd-full.txt:gcp-api-key:90
+1f4cc01a6ca26e2dfa4a2a0f4c43e91610ed6856:_ARTIFACTS/forge-monstro-ai-marketing-engineer/jd-full.txt:generic-api-key:88
+1f4cc01a6ca26e2dfa4a2a0f4c43e91610ed6856:_ARTIFACTS/forge-monstro-ai-marketing-engineer/jd-full.txt:generic-api-key:90
+27aa64030b9802862a382412d27abda3cc3aa013:public/todd-call.html:generic-api-key:619
+3812398d9c1a682841569da1226711e83b916b83:public/prl-chatbot.html:generic-api-key:277
+3812398d9c1a682841569da1226711e83b916b83:public/todd-call.html:generic-api-key:277
+3f1728f279ec928314c052da4510a7983c9d4270:public/todd-call.html:generic-api-key:595
+494c08b389eb5c0c4fc71cef22a9085ddb8ea4ce:public/todd-call.html:generic-api-key:619
+584491daab7d37024a0f6bf2305b5616a868fb31:_ARTIFACTS/prl-roadmap-deck.html:generic-api-key:297
+6404acbbdcdf13f66428af44adb973aaccfbf0b5:public/todd-call.html:generic-api-key:619
+678a6b07b83ce88f5995441e01b2c5e96967ff6b:_ARTIFACTS/prl-roadmap-deck.html:generic-api-key:277
+6be51432b56bd4ebd9141117a56c1dd5c455bac3:public/prl-chatbot.html:generic-api-key:277
+6be51432b56bd4ebd9141117a56c1dd5c455bac3:public/todd-call.html:generic-api-key:277
+73dbd464159c4a0bcb36166570722cdefdf07ed3:_ARTIFACTS/prl-roadmap-deck.html:generic-api-key:277
+74c1dc3317fd04dee5647f75f1a4bc2893dceca9:public/prl-chatbot.html:generic-api-key:297
+74c1dc3317fd04dee5647f75f1a4bc2893dceca9:public/todd-call.html:generic-api-key:297
+7789d9214402b4ac47c6c72399221a788a6b2dd2:public/todd-call.html:generic-api-key:595
+7abac401820360e8da2abdf768980ee1c322bdc5:_DECISIONS/ADR-032-zero-trust-posture.md:generic-api-key:65
+7af19d15b637d2f5b0f8f4acce4492202c7c308b:public/prl-chatbot.html:generic-api-key:277
+7af19d15b637d2f5b0f8f4acce4492202c7c308b:public/todd-call.html:generic-api-key:277
+90d2f2d96672d7de6cec122f23ed0e48f330dae5:runtime/recoil/generated/2026-07-30-todd-MASTER-HANDOFF.md:generic-api-key:77
+96f2456cb61a8f1bf68f85d616d171757fa9ce9b:_ARTIFACTS/prl-roadmap-deck.html:generic-api-key:295
+ddcbbbbebeda3719a261c1cd407feb92999aaa53:_ARTIFACTS/prl-roadmap-deck.html:generic-api-key:277
+df53c86a9418797ec28de68e4d3bae07944cb872:public/prl-chatbot.html:generic-api-key:295
+df53c86a9418797ec28de68e4d3bae07944cb872:public/todd-call.html:generic-api-key:295
+e0a1e018d8ad83914296a3c439345b6c9c317e27:_ARTIFACTS/arcs-conviction-ledger.html:generic-api-key:131
+# 2026-10-05: Upside's public Ashby job page embeds its own Datadog RUM browser IDs (ddRumApplicationId, ddRumClientToken 'pub...'), public-by-design client tokens owned by the employer, scraped into jd-full.txt; not an ARCS secret.
+_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/jd-full.txt:generic-api-key:165
+_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/jd-full.txt:generic-api-key:274

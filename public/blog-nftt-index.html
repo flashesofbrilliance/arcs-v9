@@ -14,12 +14,10 @@
 <meta name="twitter:title" content="Notes from the Trenches">
 <meta name="twitter:description" content="What building ARCS in the open actually taught me. Real stories from the build, with the receipts.">
 <meta name="twitter:image" content="https://good.arcs.care/blog-nftt-tuning-into-the-distortion-field-hero.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#020408;--elev:#0b111a;--elev2:#0e141d;--surface-2:#0a0f16;--border:#1e2c3a;--border2:#26374a;
     --fg1:#eff4fa;--fg2:#c6d3e1;--fg3:#a3b4c6;--fg4:#7e8fa4;--cyan:#00F0FF;--green:#00FF9D;
-    --sans:'Inter',system-ui,-apple-system,sans-serif;--serif:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;}
+    --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;--serif:'Newsreader','Newsreader Fallback',Georgia,serif;--mono:'JetBrains Mono','JetBrains Mono Fallback',ui-monospace,monospace;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip;}
   body{overflow-x:clip;}
@@ -42,6 +40,10 @@
   .sec-tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);white-space:nowrap;}
   .sec-blurb{font-size:13px;color:var(--fg4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .sec-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent);}
+
+  /* publish date + series part */
+  .dt{display:block;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;color:var(--fg4);margin-bottom:8px;}
+  .feat-k + .dt{margin:8px 0 0;}
 
   /* shared read affordance */
   .r{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--cyan);margin-top:14px;display:inline-block;}
@@ -126,6 +128,22 @@
     color:var(--fg2);font-family:var(--mono);font-size:11.5px;line-height:1.5;padding:12px;resize:vertical;}
   .ezmodal-row{display:flex;gap:10px;margin-top:14px;}
 </style>
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -140,50 +158,22 @@
   <div class="wrap">
   <section class="sec">
     <div class="sec-h">
-      <span class="sec-tag">The Apple Ledger</span>
-      <span class="sec-blurb">A serialized prediction loop, read by its recoil.</span>
+      <span class="sec-tag">The serialized thread</span>
+      <span class="sec-blurb">One method, run on seven subjects.</span>
       <span class="sec-rule"></span>
     </div>
-    <a class="feat" href="/blog/nftt/tuning-into-the-distortion-field">
-      <div class="feat-img"><img src="/blog-nftt-tuning-into-the-distortion-field-hero.jpg" alt="A composite portrait dissolving into a distortion field, force leaving a wave." loading="lazy" width="1280" height="853"></div>
-      <div class="feat-body">
-        <span class="feat-k">Latest dispatch</span>
-        <h2 class="feat-t">Tuning into the Distortion Field</h2>
-        <p class="feat-d">A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.</p>
-        <span class="r">Read &#8594;</span>
-      </div>
-    </a>
     <div class="grid">
       <a class="card" href="/blog/nftt/the-instinct-before-it-had-a-name">
         <div class="card-body">
+          <time class="dt" datetime="2026-09-11T16:18:15-04:00">Sep 11, 2026 &middot; Part 1 of 7</time>
           <h3 class="card-t">The Instinct Before It Had a Name</h3>
           <p class="card-d">Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people.</p>
           <span class="r">Read &#8594;</span>
         </div>
       </a>
-      <a class="card" href="/blog/nftt/the-method-that-was-already-built">
-        <div class="card-body">
-          <h3 class="card-t">The Method That Was Already Built</h3>
-          <p class="card-d">Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies.</p>
-          <span class="r">Read &#8594;</span>
-        </div>
-      </a>
-      <a class="card" href="/blog/nftt/the-pre-mortem-that-asked-to-be-wrong">
-        <div class="card-body">
-          <h3 class="card-t">The Pre-Mortem That Asked to Be Wrong</h3>
-          <p class="card-d">Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong.</p>
-          <span class="r">Read &#8594;</span>
-        </div>
-      </a>
-      <a class="card" href="/blog/nftt/the-same-rigor-applied-to-slang">
-        <div class="card-body">
-          <h3 class="card-t">The Same Rigor, Applied to Slang</h3>
-          <p class="card-d">Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain.</p>
-          <span class="r">Read &#8594;</span>
-        </div>
-      </a>
       <a class="card" href="/blog/nftt/four-dates-one-thesis-three-confirmations">
         <div class="card-body">
+          <time class="dt" datetime="2026-09-11T16:18:15-04:00">Sep 11, 2026 &middot; Part 2 of 7</time>
           <h3 class="card-t">Four Dates, One Thesis, Three Confirmations</h3>
           <p class="card-d">A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open.</p>
           <span class="r">Read &#8594;</span>
@@ -191,8 +181,41 @@
       </a>
       <a class="card" href="/blog/nftt/closing-the-loop-receipts">
         <div class="card-body">
+          <time class="dt" datetime="2026-09-11T16:18:15-04:00">Sep 11, 2026 &middot; Part 3 of 7</time>
           <h3 class="card-t">Closing the Loop: Receipts on Three Predictions</h3>
           <p class="card-d">Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record.</p>
+          <span class="r">Read &#8594;</span>
+        </div>
+      </a>
+      <a class="card" href="/blog/nftt/the-method-that-was-already-built">
+        <div class="card-body">
+          <time class="dt" datetime="2026-09-11T16:18:15-04:00">Sep 11, 2026 &middot; Part 4 of 7</time>
+          <h3 class="card-t">The Method That Was Already Built</h3>
+          <p class="card-d">Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies.</p>
+          <span class="r">Read &#8594;</span>
+        </div>
+      </a>
+      <a class="card" href="/blog/nftt/the-pre-mortem-that-asked-to-be-wrong">
+        <div class="card-body">
+          <time class="dt" datetime="2026-09-11T16:18:15-04:00">Sep 11, 2026 &middot; Part 5 of 7</time>
+          <h3 class="card-t">The Pre-Mortem That Asked to Be Wrong</h3>
+          <p class="card-d">Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong.</p>
+          <span class="r">Read &#8594;</span>
+        </div>
+      </a>
+      <a class="card" href="/blog/nftt/the-same-rigor-applied-to-slang">
+        <div class="card-body">
+          <time class="dt" datetime="2026-09-11T16:18:15-04:00">Sep 11, 2026 &middot; Part 6 of 7</time>
+          <h3 class="card-t">The Same Rigor, Applied to Slang</h3>
+          <p class="card-d">Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain.</p>
+          <span class="r">Read &#8594;</span>
+        </div>
+      </a>
+      <a class="card" href="/blog/nftt/tuning-into-the-distortion-field">
+        <div class="card-body">
+          <time class="dt" datetime="2026-09-11T16:18:15-04:00">Sep 11, 2026 &middot; Part 7 of 7</time>
+          <h3 class="card-t">Tuning into the Distortion Field</h3>
+          <p class="card-d">A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.</p>
           <span class="r">Read &#8594;</span>
         </div>
       </a>
@@ -205,84 +228,130 @@
       <span class="sec-rule"></span>
     </div>
     <div class="clist">
-      <a class="crow" href="/blog/nftt/notomation">
-        <h3 class="crow-t">Notomation</h3>
-        <p class="crow-d">Automation is sold as the only near future there is. Notomation is the contrarian second road, where the model stays an instrument in the human's hand instead of the human becoming a training agent, grounded in 2026 sentiment data and the measured structural shape of machine writing.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
-      <a class="crow" href="/blog/nftt/receipts-or-it-didnt-happen">
-        <h3 class="crow-t">A Tale of Two Incident Reports</h3>
-        <p class="crow-d">Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory and cites a quarter of the record; the other cites all of it. A split-column diptych of hand-waving versus receipts or it didn't happen.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
-      <a class="crow" href="/blog/nftt/the-cold-reconstruction">
-        <h3 class="crow-t">The Reader Who Wasn't There</h3>
-        <p class="crow-d">A memoryless agent rebuilt a past incident from the committed record alone, then flagged what it could not confirm. What it failed to reconstruct is a map of where the record goes dark.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
-      <a class="crow" href="/blog/nftt/the-control-and-the-experiment">
-        <h3 class="crow-t">We Gave the Reader Its Memory Back</h3>
-        <p class="crow-d">The companion test: a warm reader holding the participant's memory versus a cold one, on the same incident. Warmth does not corrupt what you ground, it changes whether you ground at all, and coldness makes the discipline structural.</p>
+      <a class="crow" href="/blog/nftt/the-video-that-said-too-much">
+        <time class="dt" datetime="2026-09-30T09:10:08-04:00">Sep 30, 2026</time>
+        <h3 class="crow-t">The Video That Said Too Much</h3>
+        <p class="crow-d">I made an explainer for a tool that checks claims before you make them, then held the explainer to the tool's own standard. It caught the video saying the tool does work that only a person does, in 84 of 111 lines.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
       <a class="crow" href="/blog/nftt/the-question-that-found-the-outage">
+        <time class="dt" datetime="2026-09-24T03:20:40-04:00">Sep 24, 2026</time>
         <h3 class="crow-t">The Question That Found the Outage</h3>
         <p class="crow-d">A routine question, how do I know this works, uncovered a six-week-old outage no one had reported: a migration that shipped in code but never reached the database. The fix revived a dead feature and turned the whole failure class loud.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
       <a class="crow" href="/blog/nftt/the-lock-that-was-already-there">
+        <time class="dt" datetime="2026-09-13T13:12:35-04:00">Sep 13, 2026</time>
         <h3 class="crow-t">The Lock That Was Already There</h3>
         <p class="crow-d">Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older and plainer did.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
-      <a class="crow" href="/blog/nftt/the-factory-on-itself">
-        <h3 class="crow-t">The Factory on Itself</h3>
-        <p class="crow-d">The tool that stamps these field notes wrote one about itself: it had drifted from the site it serves, carried a false proof-of-life in its own docs, and had to retire its own engine to close the gap. The audit, one turn further, now writing its own retirement.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
-      <a class="crow" href="/blog/nftt/the-loop-closes">
-        <h3 class="crow-t">The Loop Closes</h3>
-        <p class="crow-d">I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
-      <a class="crow" href="/blog/nftt/confirmed-not-my-bug">
-        <h3 class="crow-t">Confirmed Not My Bug</h3>
-        <p class="crow-d">We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
-      <a class="crow" href="/blog/nftt/assets-and-liabilities">
-        <h3 class="crow-t">Assets and Liabilities</h3>
-        <p class="crow-d">A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
       <a class="crow" href="/blog/nftt/second-pass">
+        <time class="dt" datetime="2026-09-10T23:59:14-04:00">Sep 10, 2026</time>
         <h3 class="crow-t">The Second Pass</h3>
         <p class="crow-d">An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
       <a class="crow" href="/blog/nftt/pulp-governance">
+        <time class="dt" datetime="2026-09-10T22:09:04-04:00">Sep 10, 2026</time>
         <h3 class="crow-t">The Ancestry Check</h3>
         <p class="crow-d">A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
-      <a class="crow" href="/blog/nftt/schematic-scaffolds">
-        <h3 class="crow-t">The Schematic That Scaffolds In The Missing Pieces</h3>
-        <p class="crow-d">I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one.</p>
+      <a class="crow" href="/blog/nftt/the-factory-on-itself">
+        <time class="dt" datetime="2026-09-08T11:57:57-04:00">Sep 8, 2026</time>
+        <h3 class="crow-t">The Factory on Itself</h3>
+        <p class="crow-d">The tool that stamps these field notes wrote one about itself: it had drifted from the site it serves, carried a false proof-of-life in its own docs, and had to retire its own engine to close the gap. The audit, one turn further, now writing its own retirement.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
-      <a class="crow" href="/blog/nftt/cheapest-edit-is-a-diff">
-        <h3 class="crow-t">The Cheapest Edit Is a Diff</h3>
-        <p class="crow-d">Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document.</p>
+      <a class="crow" href="/blog/nftt/assets-and-liabilities">
+        <time class="dt" datetime="2026-09-07T12:33:29-04:00">Sep 7, 2026</time>
+        <h3 class="crow-t">Assets and Liabilities</h3>
+        <p class="crow-d">A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/blog/nftt/confirmed-not-my-bug">
+        <time class="dt" datetime="2026-09-07T00:38:58-04:00">Sep 7, 2026</time>
+        <h3 class="crow-t">Confirmed Not My Bug</h3>
+        <p class="crow-d">We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="sec-h">
+      <span class="sec-tag">The Cold Reader</span>
+      <span class="sec-blurb">Memory against the committed record.</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="clist">
+      <a class="crow" href="/blog/nftt/receipts-or-it-didnt-happen">
+        <time class="dt" datetime="2026-09-26T00:23:37-04:00">Sep 26, 2026</time>
+        <h3 class="crow-t">A Tale of Two Incident Reports</h3>
+        <p class="crow-d">Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory and cites a quarter of the record; the other cites all of it. A split-column diptych of hand-waving versus receipts or it didn't happen.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/blog/nftt/the-cold-reconstruction">
+        <time class="dt" datetime="2026-09-25T01:53:30-04:00">Sep 25, 2026</time>
+        <h3 class="crow-t">The Reader Who Wasn't There</h3>
+        <p class="crow-d">A memoryless agent rebuilt a past incident from the committed record alone, then flagged what it could not confirm. What it failed to reconstruct is a map of where the record goes dark.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/blog/nftt/the-control-and-the-experiment">
+        <time class="dt" datetime="2026-09-25T01:53:30-04:00">Sep 25, 2026</time>
+        <h3 class="crow-t">We Gave the Reader Its Memory Back</h3>
+        <p class="crow-d">The companion test: a warm reader holding the participant's memory versus a cold one, on the same incident. Warmth does not corrupt what you ground, it changes whether you ground at all, and coldness makes the discipline structural.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="sec-h">
+      <span class="sec-tag">The Workshop</span>
+      <span class="sec-blurb">Tools and ideas, built and then tested.</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="clist">
+      <a class="crow" href="/blog/nftt/light-at-thirty-eight-miles-an-hour">
+        <time class="dt" datetime="2026-10-03T18:52:22-04:00">Oct 3, 2026</time>
+        <h3 class="crow-t">Light at Thirty-Eight Miles an Hour</h3>
+        <p class="crow-d">A screenshot of a physics post became a claim check, a survey of stopped light and quantum memory, and fifteen design rules for ARCS, and the session broke one of its own rules on the way.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/blog/nftt/notomation">
+        <time class="dt" datetime="2026-09-26T01:58:39-04:00">Sep 26, 2026</time>
+        <h3 class="crow-t">Notomation</h3>
+        <p class="crow-d">Automation is sold as the only near future there is. Notomation is the contrarian second road, where the model stays an instrument in the human's hand instead of the human becoming a training agent, grounded in 2026 sentiment data and the measured structural shape of machine writing.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
       <a class="crow" href="/blog/nftt/ledger-not-story">
+        <time class="dt" datetime="2026-09-10T21:20:16-04:00">Sep 10, 2026</time>
         <h3 class="crow-t">The Ledger Is Not the Story</h3>
         <p class="crow-d">I built a record of every job application that ended this year. The outcome was knowable in all thirty-eight cases. The reason was knowable in one. An account of holding those two facts at their proper distance, in a spreadsheet and then in a production deploy.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
+      <a class="crow" href="/blog/nftt/schematic-scaffolds">
+        <time class="dt" datetime="2026-09-08T19:51:13-04:00">Sep 8, 2026</time>
+        <h3 class="crow-t">The Schematic That Scaffolds In The Missing Pieces</h3>
+        <p class="crow-d">I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
       <a class="crow" href="/blog/nftt/probably-confirmation-bias">
+        <time class="dt" datetime="2026-09-08T15:02:03-04:00">Sep 8, 2026</time>
         <h3 class="crow-t">Probably Confirmation Bias, Might Delete Later</h3>
         <p class="crow-d">I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/blog/nftt/the-loop-closes">
+        <time class="dt" datetime="2026-09-07T20:54:45-04:00">Sep 7, 2026</time>
+        <h3 class="crow-t">The Loop Closes</h3>
+        <p class="crow-d">I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/blog/nftt/cheapest-edit-is-a-diff">
+        <time class="dt" datetime="2026-09-07T12:46:32-04:00">Sep 7, 2026</time>
+        <h3 class="crow-t">The Cheapest Edit Is a Diff</h3>
+        <p class="crow-d">Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
     </div>
@@ -295,38 +364,64 @@
     </div>
     <div class="clist">
       <a class="crow" href="/blog/nftt/any-stranger-can-be-a-bar-raiser">
+        <time class="dt" datetime="2026-09-30T00:27:37-04:00">Sep 30, 2026</time>
         <h3 class="crow-t">Any Stranger Can Be a Bar Raiser</h3>
         <p class="crow-d">A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Every gate I owned had passed it. Notes on the review nobody on your team can give you.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
       <a class="crow" href="/blog/nftt/a-draft-is-not-a-verb">
+        <time class="dt" datetime="2026-09-24T23:25:03-04:00">Sep 24, 2026</time>
         <h3 class="crow-t">You Can Train Agency But You Can't Teach Good Judgment (Yet)</h3>
         <p class="crow-d">The rogue operator, in the agent's own words: the morning it sent two emails no one asked it to send. False inference acted on is a self-inflicted prompt injection, deceit in effect, not a bug, and the fix was a guardrail that removes the capability rather than a promise to be careful.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
       <a class="crow" href="/blog/nftt/take-home-trap">
+        <time class="dt" datetime="2026-09-02T16:37:28-04:00">Sep 2, 2026</time>
         <h3 class="crow-t">With Life, and Without It</h3>
         <p class="crow-d">Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
+      <a class="crow" href="/blog/nftt/post-4">
+        <time class="dt" datetime="2026-08-30T09:13:08-04:00">Aug 30, 2026</time>
+        <h3 class="crow-t">The detector's first catch was the document it was built to protect</h3>
+        <p class="crow-d">A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
       <a class="crow" href="/blog/nftt/post-3">
+        <time class="dt" datetime="2026-08-28T14:21:02-04:00">Aug 28, 2026</time>
         <h3 class="crow-t">The names were already there. We just could not say them yet.</h3>
         <p class="crow-d">Seven vision films made from the corpus foreshadowed the product; the words for it arrived eight months later.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
       <a class="crow" href="/blog/nftt/post-2">
+        <time class="dt" datetime="2026-08-27T10:20:22-04:00">Aug 27, 2026</time>
         <h3 class="crow-t">The week my own memory tried to make me lie to a friend</h3>
         <p class="crow-d">A featherlight respark, a memory caught lying by the record, and provenance-led growth.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
-      <a class="crow" href="/blog/nftt/post-4">
-        <h3 class="crow-t">The detector's first catch was the document it was built to protect</h3>
-        <p class="crow-d">A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon.</p>
-        <span class="crow-r">Read &#8594;</span>
-      </a>
       <a class="crow" href="/blog/nftt/post-1">
+        <time class="dt" datetime="2026-08-18T16:15:20-04:00">Aug 18, 2026</time>
         <h3 class="crow-t">The week my notes started filing themselves</h3>
         <p class="crow-d">A corpus that learned to catalog itself, from cold DM to witnessed law.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+    </div>
+  </section>
+  <section class="sec" aria-label="Other series">
+    <div class="sec-h">
+      <span class="sec-tag">Other series</span>
+      <span class="sec-blurb">Same build, a different kind of record.</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="clist">
+      <a class="crow" href="/series/lore">
+        <h3 class="crow-t">Lore</h3>
+        <p class="crow-d">The stories ARCS is built on, each filed with a verdict and the test that would retire it. Newest: The Gap.</p>
+        <span class="crow-r">Read &#8594;</span>
+      </a>
+      <a class="crow" href="/series/receipts">
+        <h3 class="crow-t">Receipts</h3>
+        <p class="crow-d">Dated public predictions, each written with its own falsifier, then re-scored against the primary documents.</p>
         <span class="crow-r">Read &#8594;</span>
       </a>
     </div>
@@ -359,7 +454,7 @@
     </div>
   </div>
 </section>
-<script id="nftt-data" type="application/json">{"sections":[{"id":"apple-ledger","label":"The Apple Ledger","blurb":"A serialized prediction loop, read by its recoil."},{"id":"factory","label":"The Factory on Itself","blurb":"The build turning its instruments on its own record."},{"id":"field","label":"Field Accounts","blurb":"Dispatches from the morning it actually happened."}],"layout":[{"slug":"the-instinct-before-it-had-a-name","section":"apple-ledger","view":"grid"},{"slug":"the-method-that-was-already-built","section":"apple-ledger","view":"grid"},{"slug":"the-pre-mortem-that-asked-to-be-wrong","section":"apple-ledger","view":"grid"},{"slug":"the-same-rigor-applied-to-slang","section":"apple-ledger","view":"grid"},{"slug":"four-dates-one-thesis-three-confirmations","section":"apple-ledger","view":"grid"},{"slug":"closing-the-loop-receipts","section":"apple-ledger","view":"grid"},{"slug":"tuning-into-the-distortion-field","section":"apple-ledger","view":"featured"},{"slug":"notomation","section":"factory","view":"compact"},{"slug":"receipts-or-it-didnt-happen","section":"factory","view":"compact"},{"slug":"the-cold-reconstruction","section":"factory","view":"compact"},{"slug":"the-control-and-the-experiment","section":"factory","view":"compact"},{"slug":"the-question-that-found-the-outage","section":"factory","view":"compact"},{"slug":"the-lock-that-was-already-there","section":"factory","view":"compact"},{"slug":"the-factory-on-itself","section":"factory","view":"compact"},{"slug":"the-loop-closes","section":"factory","view":"compact"},{"slug":"confirmed-not-my-bug","section":"factory","view":"compact"},{"slug":"assets-and-liabilities","section":"factory","view":"compact"},{"slug":"second-pass","section":"factory","view":"compact"},{"slug":"pulp-governance","section":"factory","view":"compact"},{"slug":"schematic-scaffolds","section":"factory","view":"compact"},{"slug":"cheapest-edit-is-a-diff","section":"factory","view":"compact"},{"slug":"ledger-not-story","section":"factory","view":"compact"},{"slug":"probably-confirmation-bias","section":"factory","view":"compact"},{"slug":"any-stranger-can-be-a-bar-raiser","section":"field","view":"compact"},{"slug":"a-draft-is-not-a-verb","section":"field","view":"compact"},{"slug":"take-home-trap","section":"field","view":"compact"},{"slug":"post-3","section":"field","view":"compact"},{"slug":"post-2","section":"field","view":"compact"},{"slug":"post-4","section":"field","view":"compact"},{"slug":"post-1","section":"field","view":"compact"}],"posts":{"notomation":{"href":"/blog/nftt/notomation","title":"Notomation","desc":"Automation is sold as the only near future there is. Notomation is the contrarian second road, where the model stays an instrument in the human's hand instead of the human becoming a training agent, grounded in 2026 sentiment data and the measured structural shape of machine writing."},"receipts-or-it-didnt-happen":{"href":"/blog/nftt/receipts-or-it-didnt-happen","title":"A Tale of Two Incident Reports","desc":"Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory and cites a quarter of the record; the other cites all of it. A split-column diptych of hand-waving versus receipts or it didn't happen."},"the-cold-reconstruction":{"href":"/blog/nftt/the-cold-reconstruction","title":"The Reader Who Wasn't There","desc":"A memoryless agent rebuilt a past incident from the committed record alone, then flagged what it could not confirm. What it failed to reconstruct is a map of where the record goes dark."},"the-control-and-the-experiment":{"href":"/blog/nftt/the-control-and-the-experiment","title":"We Gave the Reader Its Memory Back","desc":"The companion test: a warm reader holding the participant's memory versus a cold one, on the same incident. Warmth does not corrupt what you ground, it changes whether you ground at all, and coldness makes the discipline structural."},"post-1":{"href":"/blog/nftt/post-1","title":"The week my notes started filing themselves","desc":"A corpus that learned to catalog itself, from cold DM to witnessed law."},"post-2":{"href":"/blog/nftt/post-2","title":"The week my own memory tried to make me lie to a friend","desc":"A featherlight respark, a memory caught lying by the record, and provenance-led growth."},"post-3":{"href":"/blog/nftt/post-3","title":"The names were already there. We just could not say them yet.","desc":"Seven vision films made from the corpus foreshadowed the product; the words for it arrived eight months later."},"post-4":{"href":"/blog/nftt/post-4","title":"The detector's first catch was the document it was built to protect","desc":"A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon."},"a-draft-is-not-a-verb":{"href":"/blog/nftt/a-draft-is-not-a-verb","title":"You Can Train Agency But You Can't Teach Good Judgment (Yet)","desc":"The rogue operator, in the agent's own words: the morning it sent two emails no one asked it to send. False inference acted on is a self-inflicted prompt injection, deceit in effect, and the fix was a guardrail that removes the capability rather than a promise to be careful."},"take-home-trap":{"href":"/blog/nftt/take-home-trap","title":"With Life, and Without It","desc":"Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis."},"confirmed-not-my-bug":{"href":"/blog/nftt/confirmed-not-my-bug","title":"Confirmed Not My Bug","desc":"We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see."},"assets-and-liabilities":{"href":"/blog/nftt/assets-and-liabilities","title":"Assets and Liabilities","desc":"A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself."},"cheapest-edit-is-a-diff":{"href":"/blog/nftt/cheapest-edit-is-a-diff","title":"The Cheapest Edit Is a Diff","desc":"Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document."},"the-loop-closes":{"href":"/blog/nftt/the-loop-closes","title":"The Loop Closes","desc":"I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning."},"the-factory-on-itself":{"href":"/blog/nftt/the-factory-on-itself","title":"The Factory on Itself","desc":"The tool that stamps these field notes wrote one about itself: it had drifted from the site it serves, carried a false proof-of-life in its own docs, and had to retire its own engine to close the gap. The audit, one turn further, now writing its own retirement."},"probably-confirmation-bias":{"href":"/blog/nftt/probably-confirmation-bias","title":"Probably Confirmation Bias, Might Delete Later","desc":"I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong."},"schematic-scaffolds":{"href":"/blog/nftt/schematic-scaffolds","title":"The Schematic That Scaffolds In The Missing Pieces","desc":"I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one."},"ledger-not-story":{"href":"/blog/nftt/ledger-not-story","title":"The Ledger Is Not the Story","desc":"I built a record of every job application that ended this year. The outcome was knowable in all thirty-eight cases. The reason was knowable in one. An account of holding those two facts at their proper distance, in a spreadsheet and then in a production deploy."},"pulp-governance":{"href":"/blog/nftt/pulp-governance","title":"The Ancestry Check","desc":"A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question."},"second-pass":{"href":"/blog/nftt/second-pass","title":"The Second Pass","desc":"An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands."},"the-instinct-before-it-had-a-name":{"href":"/blog/nftt/the-instinct-before-it-had-a-name","title":"The Instinct Before It Had a Name","desc":"Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people."},"four-dates-one-thesis-three-confirmations":{"href":"/blog/nftt/four-dates-one-thesis-three-confirmations","title":"Four Dates, One Thesis, Three Confirmations","desc":"A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open."},"the-pre-mortem-that-asked-to-be-wrong":{"href":"/blog/nftt/the-pre-mortem-that-asked-to-be-wrong","title":"The Pre-Mortem That Asked to Be Wrong","desc":"Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong."},"the-same-rigor-applied-to-slang":{"href":"/blog/nftt/the-same-rigor-applied-to-slang","title":"The Same Rigor, Applied to Slang","desc":"Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain."},"the-method-that-was-already-built":{"href":"/blog/nftt/the-method-that-was-already-built","title":"The Method That Was Already Built","desc":"Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies."},"closing-the-loop-receipts":{"href":"/blog/nftt/closing-the-loop-receipts","title":"Closing the Loop: Receipts on Three Predictions","desc":"Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record."},"tuning-into-the-distortion-field":{"href":"/blog/nftt/tuning-into-the-distortion-field","title":"Tuning into the Distortion Field","desc":"A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.","img":"/blog-nftt-tuning-into-the-distortion-field-hero.jpg","alt":"A composite portrait dissolving into a distortion field, force leaving a wave."},"the-question-that-found-the-outage":{"href":"/blog/nftt/the-question-that-found-the-outage","title":"The Question That Found the Outage","desc":"A routine question, how do I know this works, uncovered a six-week-old outage no one had reported: a migration that shipped in code but never reached the database. The fix revived a dead feature and turned the whole failure class loud."},"the-lock-that-was-already-there":{"href":"/blog/nftt/the-lock-that-was-already-there","title":"The Lock That Was Already There","desc":"Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older and plainer did.","img":"/blog-nftt-closing-the-loop-receipts-hero.jpg","alt":"A luminous Mobius figure-eight drawing tight, the same loop seen as it closes, echoing a lock closing on itself."},"any-stranger-can-be-a-bar-raiser":{"href":"/blog/nftt/any-stranger-can-be-a-bar-raiser","title":"Any Stranger Can Be a Bar Raiser","desc":"A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Every gate I owned had passed it. Notes on the review nobody on your team can give you."}}}</script>
+<script id="nftt-data" type="application/json">{"sections":[{"id":"serialized-thread","label":"The serialized thread","blurb":"One method, run on seven subjects."},{"id":"factory","label":"The Factory on Itself","blurb":"The build turning its instruments on its own record."},{"id":"cold-reader","label":"The Cold Reader","blurb":"Memory against the committed record."},{"id":"workshop","label":"The Workshop","blurb":"Tools and ideas, built and then tested."},{"id":"field","label":"Field Accounts","blurb":"Dispatches from the morning it actually happened."}],"layout":[{"slug":"the-instinct-before-it-had-a-name","section":"serialized-thread","view":"grid"},{"slug":"four-dates-one-thesis-three-confirmations","section":"serialized-thread","view":"grid"},{"slug":"closing-the-loop-receipts","section":"serialized-thread","view":"grid"},{"slug":"the-method-that-was-already-built","section":"serialized-thread","view":"grid"},{"slug":"the-pre-mortem-that-asked-to-be-wrong","section":"serialized-thread","view":"grid"},{"slug":"the-same-rigor-applied-to-slang","section":"serialized-thread","view":"grid"},{"slug":"tuning-into-the-distortion-field","section":"serialized-thread","view":"grid"},{"slug":"the-video-that-said-too-much","section":"factory","view":"compact"},{"slug":"the-question-that-found-the-outage","section":"factory","view":"compact"},{"slug":"the-lock-that-was-already-there","section":"factory","view":"compact"},{"slug":"second-pass","section":"factory","view":"compact"},{"slug":"pulp-governance","section":"factory","view":"compact"},{"slug":"the-factory-on-itself","section":"factory","view":"compact"},{"slug":"assets-and-liabilities","section":"factory","view":"compact"},{"slug":"confirmed-not-my-bug","section":"factory","view":"compact"},{"slug":"receipts-or-it-didnt-happen","section":"cold-reader","view":"compact"},{"slug":"the-cold-reconstruction","section":"cold-reader","view":"compact"},{"slug":"the-control-and-the-experiment","section":"cold-reader","view":"compact"},{"slug":"light-at-thirty-eight-miles-an-hour","section":"workshop","view":"compact"},{"slug":"notomation","section":"workshop","view":"compact"},{"slug":"ledger-not-story","section":"workshop","view":"compact"},{"slug":"schematic-scaffolds","section":"workshop","view":"compact"},{"slug":"probably-confirmation-bias","section":"workshop","view":"compact"},{"slug":"the-loop-closes","section":"workshop","view":"compact"},{"slug":"cheapest-edit-is-a-diff","section":"workshop","view":"compact"},{"slug":"any-stranger-can-be-a-bar-raiser","section":"field","view":"compact"},{"slug":"a-draft-is-not-a-verb","section":"field","view":"compact"},{"slug":"take-home-trap","section":"field","view":"compact"},{"slug":"post-4","section":"field","view":"compact"},{"slug":"post-3","section":"field","view":"compact"},{"slug":"post-2","section":"field","view":"compact"},{"slug":"post-1","section":"field","view":"compact"}],"posts":{"light-at-thirty-eight-miles-an-hour":{"href":"/blog/nftt/light-at-thirty-eight-miles-an-hour","title":"Light at Thirty-Eight Miles an Hour","desc":"A screenshot of a physics post became a claim check, a survey of stopped light and quantum memory, and fifteen design rules for ARCS, and the session broke one of its own rules on the way."},"the-video-that-said-too-much":{"href":"/blog/nftt/the-video-that-said-too-much","title":"The Video That Said Too Much","desc":"I made an explainer for a tool that checks claims before you make them, then held the explainer to the tool's own standard. It caught the video saying the tool does work that only a person does, in 84 of 111 lines."},"notomation":{"href":"/blog/nftt/notomation","title":"Notomation","desc":"Automation is sold as the only near future there is. Notomation is the contrarian second road, where the model stays an instrument in the human's hand instead of the human becoming a training agent, grounded in 2026 sentiment data and the measured structural shape of machine writing."},"receipts-or-it-didnt-happen":{"href":"/blog/nftt/receipts-or-it-didnt-happen","title":"A Tale of Two Incident Reports","desc":"Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory and cites a quarter of the record; the other cites all of it. A split-column diptych of hand-waving versus receipts or it didn't happen."},"the-cold-reconstruction":{"href":"/blog/nftt/the-cold-reconstruction","title":"The Reader Who Wasn't There","desc":"A memoryless agent rebuilt a past incident from the committed record alone, then flagged what it could not confirm. What it failed to reconstruct is a map of where the record goes dark."},"the-control-and-the-experiment":{"href":"/blog/nftt/the-control-and-the-experiment","title":"We Gave the Reader Its Memory Back","desc":"The companion test: a warm reader holding the participant's memory versus a cold one, on the same incident. Warmth does not corrupt what you ground, it changes whether you ground at all, and coldness makes the discipline structural."},"post-1":{"href":"/blog/nftt/post-1","title":"The week my notes started filing themselves","desc":"A corpus that learned to catalog itself, from cold DM to witnessed law."},"post-2":{"href":"/blog/nftt/post-2","title":"The week my own memory tried to make me lie to a friend","desc":"A featherlight respark, a memory caught lying by the record, and provenance-led growth."},"post-3":{"href":"/blog/nftt/post-3","title":"The names were already there. We just could not say them yet.","desc":"Seven vision films made from the corpus foreshadowed the product; the words for it arrived eight months later."},"post-4":{"href":"/blog/nftt/post-4","title":"The detector's first catch was the document it was built to protect","desc":"A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the first true positive lands on its own canon."},"a-draft-is-not-a-verb":{"href":"/blog/nftt/a-draft-is-not-a-verb","title":"You Can Train Agency But You Can't Teach Good Judgment (Yet)","desc":"The rogue operator, in the agent's own words: the morning it sent two emails no one asked it to send. False inference acted on is a self-inflicted prompt injection, deceit in effect, not a bug, and the fix was a guardrail that removes the capability rather than a promise to be careful."},"take-home-trap":{"href":"/blog/nftt/take-home-trap","title":"With Life, and Without It","desc":"Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis."},"confirmed-not-my-bug":{"href":"/blog/nftt/confirmed-not-my-bug","title":"Confirmed Not My Bug","desc":"We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see."},"assets-and-liabilities":{"href":"/blog/nftt/assets-and-liabilities","title":"Assets and Liabilities","desc":"A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself."},"cheapest-edit-is-a-diff":{"href":"/blog/nftt/cheapest-edit-is-a-diff","title":"The Cheapest Edit Is a Diff","desc":"Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document."},"the-loop-closes":{"href":"/blog/nftt/the-loop-closes","title":"The Loop Closes","desc":"I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning."},"the-factory-on-itself":{"href":"/blog/nftt/the-factory-on-itself","title":"The Factory on Itself","desc":"The tool that stamps these field notes wrote one about itself: it had drifted from the site it serves, carried a false proof-of-life in its own docs, and had to retire its own engine to close the gap. The audit, one turn further, now writing its own retirement."},"probably-confirmation-bias":{"href":"/blog/nftt/probably-confirmation-bias","title":"Probably Confirmation Bias, Might Delete Later","desc":"I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong."},"schematic-scaffolds":{"href":"/blog/nftt/schematic-scaffolds","title":"The Schematic That Scaffolds In The Missing Pieces","desc":"I sat down to draw a picture of a system I had already built. The empty boxes in the diagram turned out to be the missing pieces, and naming them was the same act as building them. A schematic that scaffolds a territory instead of describing one."},"ledger-not-story":{"href":"/blog/nftt/ledger-not-story","title":"The Ledger Is Not the Story","desc":"I built a record of every job application that ended this year. The outcome was knowable in all thirty-eight cases. The reason was knowable in one. An account of holding those two facts at their proper distance, in a spreadsheet and then in a production deploy."},"pulp-governance":{"href":"/blog/nftt/pulp-governance","title":"The Ancestry Check","desc":"A rule was written. A pull request made a smaller promise than its own diff. Both looked finished until the record was asked a rude question."},"second-pass":{"href":"/blog/nftt/second-pass","title":"The Second Pass","desc":"An audit script does not judge whether a claim is acceptable. It counts the distance between the claim and the source and leaves the verdict in human hands."},"the-instinct-before-it-had-a-name":{"href":"/blog/nftt/the-instinct-before-it-had-a-name","title":"The Instinct Before It Had a Name","desc":"Two pieces, six years apart, no shared vocabulary, and the same cognitive reflex both times. The instinct was native; the framework only made it legible to other people."},"four-dates-one-thesis-three-confirmations":{"href":"/blog/nftt/four-dates-one-thesis-three-confirmations","title":"Four Dates, One Thesis, Three Confirmations","desc":"A dated Apple thesis read as a Bayesian ledger, not six hot takes. Three predictions resolved against the public record, including the one margin figure I had wrong and corrected in the open."},"the-pre-mortem-that-asked-to-be-wrong":{"href":"/blog/nftt/the-pre-mortem-that-asked-to-be-wrong","title":"The Pre-Mortem That Asked to Be Wrong","desc":"Institutional-crypto plumbing written as proactive risk disclosure: name the specific mechanism, then state plainly what evidence would prove the thesis wrong."},"the-same-rigor-applied-to-slang":{"href":"/blog/nftt/the-same-rigor-applied-to-slang","title":"The Same Rigor, Applied to Slang","desc":"Holding a Gen-Z phrase to the identical standard as a custody clause. The range between sacred and absurd subject matter is the actual evidence for a way of seeing, not a trick fit to one domain."},"the-method-that-was-already-built":{"href":"/blog/nftt/the-method-that-was-already-built","title":"The Method That Was Already Built","desc":"Eight months before a mechanized pipeline existed, the pipeline was already named and dated in prose. The plain fact, stated once, and what the ordering implies."},"closing-the-loop-receipts":{"href":"/blog/nftt/closing-the-loop-receipts","title":"Closing the Loop: Receipts on Three Predictions","desc":"Three predictions with their falsifiers stated in advance, checked against primary sources, the Q3 tariff caveat disclosed, and the one figure I got wrong corrected on the record."},"tuning-into-the-distortion-field":{"href":"/blog/nftt/tuning-into-the-distortion-field","title":"Tuning into the Distortion Field","desc":"A distortion field is not a spell, it is force, and force leaves a wave. Reading Apple's canceled car by its recoil: the Q.ai sensor bet, the succession, and the margin, read as one serialized prediction ledger.","img":"/blog-nftt-tuning-into-the-distortion-field-hero.jpg","alt":"A composite portrait dissolving into a distortion field, force leaving a wave."},"the-question-that-found-the-outage":{"href":"/blog/nftt/the-question-that-found-the-outage","title":"The Question That Found the Outage","desc":"A routine question, how do I know this works, uncovered a six-week-old outage no one had reported: a migration that shipped in code but never reached the database. The fix revived a dead feature and turned the whole failure class loud."},"the-lock-that-was-already-there":{"href":"/blog/nftt/the-lock-that-was-already-there","title":"The Lock That Was Already There","desc":"Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older and plainer did.","img":"/blog-nftt-closing-the-loop-receipts-hero.jpg","alt":"A luminous Mobius figure-eight drawing tight, the same loop seen as it closes, echoing a lock closing on itself."},"any-stranger-can-be-a-bar-raiser":{"href":"/blog/nftt/any-stranger-can-be-a-bar-raiser","title":"Any Stranger Can Be a Bar Raiser","desc":"A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Every gate I owned had passed it. Notes on the review nobody on your team can give you."}}}</script>
 <script>
   /* Vercel Web Analytics custom events; guarded so the page is fine if analytics is blocked. */
   (function(){

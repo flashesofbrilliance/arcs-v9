@@ -86,6 +86,53 @@ if [ -f scripts/nftt_meta_gate.py ] && command -v python3 >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# Generated-page drift gate (2026-10-03): good.arcs.care (+ its connector pages) and the NFTT
+# index are RENDERED pages. Both once drifted far enough that a rebuild would have reverted
+# live work (fixed e9085fd7). CI runs both --check steps, but CI can be down (Actions billing,
+# 2026-09-30..10-03) and then nothing stopped a hand edit to the output. Fires only when a
+# rendered page or one of its inputs is staged. Fix: edit the generator/inputs, re-render,
+# re-stage. Never hand-edit the output.
+gen_good=$(git diff --cached --name-only -- public/good.html public/rosetta-shell.html public/germinate.html public/arcs-field-scan.html scripts/connector_render.py _SEEDS/distribution.jsonl _SEEDS/connectors.json 2>/dev/null || true)
+if [ -n "$gen_good" ] && [ -f scripts/connector_render.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/connector_render.py --check >/dev/null 2>&1; then
+    echo "✖ commit blocked: a good.arcs.care page differs from its renderer." >&2
+    echo "  run 'python3 scripts/connector_render.py --check' to see which; edit the renderer or _SEEDS inputs, re-render, re-stage." >&2
+    exit 1
+  fi
+fi
+gen_nftt=$(git diff --cached --name-only -- public/blog-nftt-index.html scripts/nftt_index_build.mjs scripts/nftt_index_layout.json runtime/specs/nftt-published.json 2>/dev/null || true)
+if [ -n "$gen_nftt" ] && [ -f scripts/nftt_index_build.mjs ] && command -v node >/dev/null 2>&1; then
+  if ! node scripts/nftt_index_build.mjs --check >/dev/null 2>&1; then
+    echo "✖ commit blocked: public/blog-nftt-index.html differs from scripts/nftt_index_build.mjs." >&2
+    echo "  add the post to the builder (or its layout json), run 'node scripts/nftt_index_build.mjs', re-stage." >&2
+    exit 1
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# NFTT publish-timestamp gate (2026-10-04): every routed /blog/nftt/<slug> post carries
+# its frozen publish time (article:published_time + a byline <time>) from
+# runtime/specs/nftt-published.json. 32 posts shipped undated before anyone asked.
+# Fires when a post, the proxy routes, or the ledger is staged. Fix: nftt_published.py
+# derive (or derive --now <slug> for a new post), then stamp. See scripts/nftt_published.py.
+if [ -f scripts/nftt_published.py ] && command -v python3 >/dev/null 2>&1; then
+  pub=$(git diff --cached --name-only -- 'public/blog-nftt-*.html' src/proxy.ts runtime/specs/nftt-published.json 2>/dev/null || true)
+  if [ -n "$pub" ] && ! python3 scripts/nftt_published.py --check; then
+    echo "✖ commit blocked: an NFTT post is missing its publish timestamp (see above)." >&2
+    exit 1
+  fi
+fi
+# Same trigger shape for serialized parts (runtime/specs/nftt-series.json): a part whose
+# series line or panel drifted from the SSOT blocks. Fix: python3 scripts/nftt_series.py stamp
+if [ -f scripts/nftt_series.py ] && command -v python3 >/dev/null 2>&1; then
+  ser=$(git diff --cached --name-only -- 'public/blog-nftt-*.html' runtime/specs/nftt-series.json 2>/dev/null || true)
+  if [ -n "$ser" ] && ! python3 scripts/nftt_series.py --check; then
+    echo "✖ commit blocked: a serialized NFTT part is missing or stale (see above)." >&2
+    exit 1
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # analytics-coverage gate (uncovered-new-page class, 2026-09-26): every served
 # public/*.html must carry the Vercel Web Analytics snippet. leak_check.sh asserts
 # this whole-tree, but only MID-CASCADE (after the internal-marker leak gate) with no
@@ -101,6 +148,26 @@ if [ -f scripts/analytics_coverage_gate.py ] && command -v python3 >/dev/null 2>
     if ! echo "$newhtml" | tr '\n' '\0' | xargs -0 python3 scripts/analytics_coverage_gate.py; then
       echo "✖ commit blocked: a NEW public/*.html is missing the Vercel analytics snippet (see above)." >&2
       echo "  add <script defer src=\"/_vercel/insights/script.js\"></script> before </head> (or at EOF), then re-stage." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# page-gate (static): a NEW standalone page must declare <!doctype html>, a utf-8 charset
+# inside the first 1024 bytes, and a viewport, and must carry no baked-in mojibake. Banked
+# 2026-10-03: a _PROPOSALS/ draft cloned from the NFTT master (which has neither doctype nor
+# charset) rendered "No. 2 Â·" on a phone; 30 public pages lack a doctype. ADDED-only, by design
+# (mirrors the wrap-class guard): legacy pages are cleared by the font/charset sweep, not by
+# blocking unrelated edits. Covers _PROPOSALS/ too, which no other HTML guard sees. The wrap
+# lint already runs above for public/ and _ARTIFACTS/, so it is skipped here; run the full gate
+# (render checks included) by hand: python3 scripts/page_gate.py <file>.
+if [ -f scripts/page_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pages=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' '_ARTIFACTS/*.html' '_ARTIFACTS/**/*.html' '_PROPOSALS/*.html' '_PROPOSALS/**/*.html' 2>/dev/null || true)
+  if [ -n "$pages" ]; then
+    if ! echo "$pages" | tr '\n' '\0' | xargs -0 python3 scripts/page_gate.py --static --no-wrap-lint; then
+      echo "✖ commit blocked: a NEW page is missing doctype / charset / viewport or carries mojibake (see above)." >&2
+      echo "  put <!doctype html> and <meta charset=\"utf-8\"> on the first two lines, add the viewport meta, then re-stage." >&2
       exit 1
     fi
   fi
@@ -610,5 +677,106 @@ if [ -n "$am" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/assumption
     exit 1
   fi
 fi
-exit 0
 
+# oracle argument guard — the oracle must reject unknown flags, never ignore them (2026-10-03:
+# `next seed --dry-run` silently allocated and stamped a pulse beat). Runs when oracle.py is staged;
+# the self-test works in a throwaway dir and never touches _SEEDS/_oracle.json.
+if git diff --cached --name-only -- scripts/oracle.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/oracle.py --self-test >/dev/null 2>&1; then
+    python3 scripts/oracle.py --self-test >&2 || true
+    echo "✖ pre-commit(oracle-args): oracle self-test failed. fix the argument guard before committing." >&2
+    exit 1
+  fi
+fi
+# argparse batches 1-5 (2026-10-04): these file-writers moved from hand-parsed argv to argparse
+# so an unknown flag exits 2 instead of falling through to a write (the oracle --dry-run class).
+# Each carries a --self-test that proves it; run it whenever that script is staged.
+for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
+         connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
+         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
+         bridge_index_scan snapshot_prune_ui_artifacts research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
+         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster; do
+  if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+    if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
+      python3 "scripts/$s.py" --self-test >&2 || true
+      echo "✖ pre-commit(args-$s): scripts/$s.py self-test failed. fix the argument guard before committing." >&2
+      exit 1
+    fi
+  fi
+done
+
+# cruft_sweep prune safety (2026-10-05): five prunes bundled the MAIN checkout's HEAD for detached /
+# .git-less worktrees. The self-test reproduces both in a throwaway repo; run it when the script is staged.
+if git diff --cached --name-only -- scripts/cruft_sweep.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/cruft_sweep.py --self-test >/dev/null 2>&1; then
+    python3 scripts/cruft_sweep.py --self-test >&2 || true
+    echo "✖ pre-commit(cruft-sweep): prune would bundle the wrong HEAD. fix before committing." >&2
+    exit 1
+  fi
+fi
+
+# backlog freshness: self-test when the script is staged; a malformed review_by in the backlog blocks.
+if git diff --cached --name-only -- scripts/backlog_freshness.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/backlog_freshness.py --self-test >/dev/null 2>&1; then
+    python3 scripts/backlog_freshness.py --self-test >&2 || true
+    echo "✖ pre-commit(backlog-freshness): self-test failed." >&2
+    exit 1
+  fi
+fi
+if git diff --cached --name-only -- _QUEUE/induced-backlog.jsonl 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if python3 scripts/backlog_freshness.py --json 2>/dev/null | grep -q '"malformed-review_by"'; then
+    echo "✖ pre-commit(backlog-freshness): a row has a review_by that is not an ISO date (YYYY-MM-DD)." >&2
+    exit 1
+  fi
+fi
+
+# secret scan: gitleaks over the STAGED diff only (fast; history was triaged once, see
+# .gitleaksignore). Complements scripts/leak_check.sh, which catches internal markers on public
+# pages that gitleaks has no rule for; keep both. Skips cleanly when the binary is absent.
+# Output is --redact'ed so a caught secret is never echoed back to the terminal or a log.
+if command -v gitleaks >/dev/null 2>&1; then
+  if ! gitleaks git --pre-commit --staged --redact --no-banner --log-level warn . >&2; then
+    echo "✖ pre-commit(gitleaks): a staged change looks like a secret (value redacted above)." >&2
+    echo "  fix: remove it and ROTATE it if it was real. A verified public key (e.g. Stripe pk_) goes in" >&2
+    echo "  .gitleaksignore by fingerprint with a one-line reason, never by disabling this gate." >&2
+    exit 1
+  fi
+fi
+
+# open-loops front door (2026-10-04): the SessionStart summary and /loops both read through
+# scripts/open_loops.py, so a broken ranker would silently mislead every session. Self-test when staged.
+if git diff --cached --name-only -- scripts/open_loops.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/open_loops.py --self-test >/dev/null 2>&1; then
+    python3 scripts/open_loops.py --self-test >&2 || true
+    echo "✖ pre-commit(open-loops): self-test failed." >&2
+    exit 1
+  fi
+fi
+# resume-location guard (2026-10-05): every staged forge resume / ATS file's location line reads
+# exactly "New York Metro" (memory resume-location-new-york-metro-only). Added AND modified files:
+# the class propagates through edit-from-seed, so a touched seed must be clean too.
+if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  rl=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/forge-*/resume-*.html' '_ARTIFACTS/forge-*/resume-*.txt' 2>/dev/null || true)
+  if [ -n "$rl" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/resume_location_gate.py $rl >&2; then
+      echo "✖ pre-commit(resume-location): fix with 'python3 scripts/resume_location_gate.py --fix', then re-render the PDF." >&2
+      exit 1
+    fi
+  fi
+fi
+# ---------------------------------------------------------------------------
+# Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be
+# guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads
+# null as "every anonymous row" and undefined as "no filter". Fires on staged
+# src .ts/.tsx. See scripts/null_userid_gate.py.
+if [ -f scripts/null_userid_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  nu=$(git diff --cached --name-only --diff-filter=AM -- 'src/*.ts' 'src/*.tsx' 2>/dev/null || true)
+  if [ -n "$nu" ]; then
+    if ! echo "$nu" | tr '\n' '\0' | xargs -0 python3 scripts/null_userid_gate.py; then
+      echo "✖ commit blocked: unguarded session userId in a where filter (see above)." >&2
+      exit 1
+    fi
+  fi
+fi
+exit 0
