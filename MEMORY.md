@@ -5,6 +5,10 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.85.0] 2026-10-05 — Main CI green: Playwright ignores tests/unit (#806)
+
+- fe-smoke failed because Playwright loaded node:test files without the `@/` loader; `testIgnore: "unit/**"` fixed it. Main run 37384172495 all green.
+
 ## [v3.83.0] 2026-10-05 — COURT probe declares admin-guard carve-outs (#780); #762 #780 #766 merged without full CI
 
 - `probes.COURT.allowed_carveouts` {route, term, why}: undeclared carve-out fails; dev-outside-prod sanctioned. Swipe `evalRow` declared.
