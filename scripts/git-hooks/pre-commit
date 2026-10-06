@@ -712,6 +712,15 @@ for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao
   fi
 done
 
+# operator unit tests (2026-10-06): run operators/tests when an operator module or its tests are staged.
+if git diff --cached --name-only -- 'operators/*.py' 'operators/tests/*.py' 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
+  if ! python3 -m unittest discover -s operators/tests >/dev/null 2>&1; then
+    python3 -m unittest discover -s operators/tests >&2 || true
+    echo "✖ pre-commit(operator-tests): operators/tests failed. fix before committing." >&2
+    exit 1
+  fi
+fi
+
 # cruft_sweep prune safety (2026-10-05): five prunes bundled the MAIN checkout's HEAD for detached /
 # .git-less worktrees. The self-test reproduces both in a throwaway repo; run it when the script is staged.
 if git diff --cached --name-only -- scripts/cruft_sweep.py 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
