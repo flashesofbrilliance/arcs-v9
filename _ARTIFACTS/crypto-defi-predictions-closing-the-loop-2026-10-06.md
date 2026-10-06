@@ -398,6 +398,14 @@ Rule used: silence counts as evidence only where a disclosure is required, cheap
 - Hedgefundization row: its causal chain (Lutnick, the pardon, the Coinbase pivot) rests on A and B; those remain disputed and unproven, so the row stays PARTIAL.
 - Required disclosures to watch: Cantor and Circle SEC filings (related-party sections), Tether's quarterly attestation, ethics agreements and public financial disclosures, USD1 reserve attestations, the settlement text. Treat missing required disclosures as stronger evidence than silence in response to letters.
 
+## The SPAC and SPV bubble loop: token-treasury vehicles (2026-10-06, search-sourced; reported claims are unproven)
+
+- Structure: World Liberty Financial (WLF) stayed a private LLC. No reverse merger and no go-private transaction was found (a reverse merger is normally a route to going public). The public wrapper was a partner: ALT5 Sigma (Nasdaq-listed), which raised about $1.5B to buy WLFI tokens from WLF; the deal closed in August 2025. Disclosure duties therefore sit with the vehicle (ALT5's SEC filings) and not with the issuer behind the token and USD1, whose own books are not public.
+- ALT5 outcome (reported): filings gave a different date for its CEO's suspension than internal emails showed; its former accountant says he resigned about three months before the date given to regulators; ALT5 denied rumors of an SEC probe; the stock fell more than 90%; it warned of going-concern doubt and has been renamed AI Financial Corp.; CNBC (Jun 9, 2026) reported the venture left investors with steep losses; the Trump family was reportedly entitled to about $500M of the token-sale proceeds.
+- The wider vehicle class: ETH treasury companies bought near the high (BitMine average cost $3,883 against ETH near $2,240 at one point, mNAV about 1; SharpLink cost basis $3,609, mNAV 0.92); Metaplanet fell 27% from its mid-January high while issuing 24.5M shares at 499 yen (about 3.5% dilution, 21B yen) to buy more bitcoin; Bloomberg reported on Jan 31 that Strategy's full bitcoin position turned negative below $76,000; Pantera predicted a "brutal pruning" of treasury firms in 2026. With mNAV under 1 the vehicles cannot issue equity to buy more, which removes a marginal buyer.
+- Where it sits in the January reading: a reflexive amplifier of the leveraged-long unwind (H2), not an independent trigger; no source links their stress to USDC redemptions. The claim that WLF's structure shaped the USD1 and Binance incentives is a motive story and stays out of the attribution (see the conflict-of-interest note).
+- Pre-registered tests: ALT5 and treasury-company SEC filings for the dates of financing and forced sales; share of USD1 supply held by affiliated wallets; any 8-K or going-concern notice dated between Jan 15 and Feb 5.
+
 ## Corrections I would own publicly
 
 - The Jan 28 SEC statement does not classify tokenized T-bills or wstETH. Two pieces say it does.
