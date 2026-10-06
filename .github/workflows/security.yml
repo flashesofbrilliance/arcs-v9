@@ -74,6 +74,7 @@ jobs:
           fetch-depth: 0
 
       - name: Claude Code security review
+        id: review
         uses: anthropics/claude-code-security-review@main
         with:
           claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -95,5 +96,13 @@ jobs:
       # prompt-injection surface); it did not cause the failure. Do not "fix" it by
       # pre-accepting trust in /home/runner/.claude.json.
       - name: Fail if the security review did not actually run
+      #
+      # Re-runs (2026-10-06): the action dedupes by PR via its run-history cache and skips the
+      # scan, leaving no results file; that went red on run 37470888306. The gate now reads the
+      # action's `results-file` output (empty iff its scan step never started) plus the restored
+      # marker, and passes a dedupe skip with a notice. A scan that ran still fails on any error.
         if: always()
+        env:
+          SCAN_RESULTS_OUTPUT: ${{ steps.review.outputs.results-file }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: ./scripts/security_review_gate.sh
