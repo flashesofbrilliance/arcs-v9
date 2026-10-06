@@ -6,6 +6,11 @@
 // styles, solid colors only (no backdrop-filter/blur/background-image), serif +
 // system-font fallbacks. Returns { subject, text, html }.
 
+// No unsubscribe link: this is a one-off transactional receipt for an action
+// the signed-in user just took, and there is no receipt-mail preference to
+// flip. The footer states why it was sent. (A dead /unsubscribe link sat here
+// until 2026-10-05; debrief reminders carry their own signed opt-out.)
+
 import { darkLockHead } from './darkLock'
 
 export interface ReceiptEmailOpts {
@@ -174,7 +179,7 @@ ${darkLockHead(C)}</head>
       </td></tr>
 
       <tr><td style="padding:16px 4px 0 4px;font-family:${C.mono};font-size:10px;letter-spacing:0.6px;color:#334155;">
-        arcs.care · <a href="https://app.arcs.care/unsubscribe" style="color:#334155;text-decoration:underline;">unsubscribe</a>
+        arcs.care · sent once, because you locked this bearing while signed in. Not a mailing list.
       </td></tr>
 
     </table>
