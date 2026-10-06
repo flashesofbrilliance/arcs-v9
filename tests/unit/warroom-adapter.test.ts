@@ -366,6 +366,20 @@ test("preCallIntelIntro: the Intel list intro, only when its list yielded items;
   assert.equal(adapt({ ...base, page: { blocks: [{ tab: "pre", type: "list", ...internal, h2: "Intel", intro: "x", items: [{ html: "y" }] }] } }, { audience: "external" }).preCallIntelIntro, undefined)
 })
 
+test("beliefTrajectory: Recoil-tab worked example intro + close, before the kinematics; other tabs ignored", () => {
+  const base = ssot({ kinematic_series: { dt: 1, series: [{ key: "a", audience: "internal", label: "L", points: [0.5, 0.6] }] } })
+  const withBlocks = (blocks: unknown[]) => adapt({ ...base, page: { ...base.page, blocks } })
+  const o = withBlocks([
+    { tab: "recoil", type: "worked_example", ...internal, h2: "Belief trajectory", intro: "Handoff-survivability climbed.", close: "Net: the mechanics are GREEN." },
+    { tab: "brief", type: "worked_example", ...both, h2: "What moved", intro: "external copy", close: "x" },
+  ])
+  assert.equal(o.beliefTrajectory, "Handoff-survivability climbed.\n\nNet: the mechanics are GREEN.")
+  const keys = Object.keys(o)
+  assert.equal(keys.indexOf("beliefTrajectory") + 1, keys.indexOf("beliefKinematics"), "the read sits right before the numbers")
+  assert.equal(withBlocks([{ tab: "recoil", type: "worked_example", ...internal, intro: "{{what moved}}", close: "{{the honest correction}}" }]).beliefTrajectory, undefined)
+  assert.equal(withBlocks([{ tab: "recoil", type: "worked_example", ...internal, intro: "Pending outreach to Jack.", close: "Pending." }]).beliefTrajectory, "Pending outreach to Jack.", "bare 'Pending.' is absent; a sentence saying pending is kept")
+})
+
 test("belief log: confidence before -> after and conviction ride on the belief thread note", () => {
   const withBelief = (b: Record<string, unknown>) => adapt(ssot({ beliefs: [{ ...internal, id: "P1", verdict: "FALSIFIED", claim: "A claim", evidence: "e", ...b }] })).signalThreads!.find((t) => t.title === "A claim")!
   assert.equal(withBelief({ inference: "EXP", confidence: [0.7, 0.25], conviction: "HIGH" }).note, "Inference: EXP \u00b7 confidence 0.7 \u2192 0.25 \u00b7 conviction HIGH")
