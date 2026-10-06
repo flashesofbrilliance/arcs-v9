@@ -1,0 +1,36 @@
+{
+  "draft": "_ARTIFACTS/forge-nous-hermes-pm/cover-nous-hermes-pm.md",
+  "at": "2026-10-06T15:10:15+00:00",
+  "gates": [
+    {
+      "id": "provenance",
+      "status": "PASS",
+      "detail": "[PASS] _ARTIFACTS/forge-nous-hermes-pm/cover-nous-hermes-pm.md - 3 metric(s), all cite evidence (evidence.jsonl)"
+    },
+    {
+      "id": "slop-lint",
+      "status": "PASS",
+      "detail": "[PASS] _ARTIFACTS/forge-nous-hermes-pm/cover-nous-hermes-pm.md"
+    },
+    {
+      "id": "slop-eval",
+      "status": "SKIPPED",
+      "detail": "judgment tier not run (no ANTHROPIC_API_KEY or --no-judge); not counted as checked"
+    },
+    {
+      "id": "pre-send-gauntlet-waiver",
+      "status": "WAIVED",
+      "detail": "cold application, no counterpart yet; Zach reviews before send"
+    },
+    {
+      "id": "honest",
+      "status": "PASS",
+      "detail": "fate parked; failed: none"
+    }
+  ],
+  "verdict": "READY",
+  "held_by": [],
+  "unchecked": [
+    "slop-eval"
+  ]
+}
