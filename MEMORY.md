@@ -5,6 +5,11 @@
 > "never delete prior versions" without paying the per-read token tax).
 > Format: `## [vX.Y.Z] YYYY-MM-DD — title` then 2-4 bullets.
 
+## [v3.89.0] 2026-10-05 — Preview sign-in fixed (#792), session JSON leak closed (#795), null-userId gate (#801)
+
+- Preview bounce = ADMIN_EMAILS Production-only (link host was already the preview). Preview var since removed.
+- Session callback now returns {expires,user:{id,email}}; `scripts/null_userid_gate.py` on pre-commit.
+
 ## [v3.88.0] 2026-10-05 — Möbius icon set on every host (#814, #824)
 
 - Cyan single-stroke Möbius favicon; wireframe raster for apple/PWA/OG; manifest.ts added. Subdomains needed both a proxy.ts passthrough and next.config.ts catch-all exclusions.

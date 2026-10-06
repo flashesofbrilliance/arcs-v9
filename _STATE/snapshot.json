@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-10-05T20:54:24-04:00",
+  "captured_at": "2026-10-05T21:00:29-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
     "head_sha": "340f9498",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Replaced the app icon set with the Möbius mark and made every subdomain serve it (#814, #824).",
-  "next_action": "Sweep the remaining host rewrites for non-(?! wildcard shapes that still swallow icon paths.",
+  "session_summary": "Replaced the app icon set with the M\u00f6bius mark and made every subdomain serve it (#814, #824). | v3.89.0: preview sign-in fixed (#792), session token leak closed (#795), null-userId gate (#801).",
+  "next_action": "Sweep the remaining host rewrites for non-(?! wildcard shapes that still swallow icon paths. | Separate preview DB; decide on clearing pre-#795 sessions; signed token for /api/account/reminders.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
