@@ -352,6 +352,20 @@ test("preCallQuestionsIntro: the call-plan intro, only when its list yielded ite
   assert.equal(withList("Plan.", [{ dot: "", html: "{{question}}" }]).preCallQuestionsIntro, undefined)
 })
 
+test("preCallIntelIntro: the Intel list intro, only when its list yielded items; ordered after Intel", () => {
+  const base = ssot()
+  const withList = (intro: string, items: unknown[]) => adapt({ ...base, page: { ...base.page, blocks: [
+    { tab: "pre", type: "list", ...internal, h2: "Intel", intro, items },
+  ] } })
+  const o = withList("Who he is.", [{ dot: "", html: "<strong>New dad.</strong> Twins" }])
+  assert.equal(o.preCallIntelIntro, "Who he is.")
+  const keys = Object.keys(o)
+  assert.equal(keys.indexOf("preCallIntelIntro"), keys.indexOf("preCallIntel") + 1)
+  assert.equal(withList("{{who they are}}", [{ dot: "", html: "real read" }]).preCallIntelIntro, undefined)
+  assert.equal(withList("Who he is.", [{ dot: "", html: "{{non-obvious read}}" }]).preCallIntelIntro, undefined)
+  assert.equal(adapt({ ...base, page: { blocks: [{ tab: "pre", type: "list", ...internal, h2: "Intel", intro: "x", items: [{ html: "y" }] }] } }, { audience: "external" }).preCallIntelIntro, undefined)
+})
+
 test("scenarios: pre-mortem fills worst only, bottleneck becomes the note", () => {
   const s = adapt(ssot()).scenarios!
   assert.equal(s.best, undefined)

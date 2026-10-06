@@ -45,7 +45,8 @@
 //   page.blocks[tab=pre, type=keyvalue] rows {k,v}                 → preCallContext {k: v} (not a
 //     RecoilReportData prop: RecoilReportFromData's Deeper Strata renders any extra key, verbatim)
 //   page.blocks[tab=pre, type=list, h2~/intel/] items              → preCallIntel string[] (Deeper
-//     Strata); "Lead-in: body" when the item has a bold lead-in, else the body alone (no invented keys)
+//     Strata); "Lead-in: body" when the item has a bold lead-in, else the body alone (no invented keys);
+//     list `intro` → preCallIntelIntro, only when that list yielded an item
 //   page.blocks[tab=pre, type=list, h2~/question|landmine|moves/]:
 //     items led by "Landmine..."                                   → riskFlags[] (after Kairos; caution,
 //                                                                    warning when "unresolved"; label verbatim)
@@ -87,6 +88,8 @@ export interface WarroomRecoilReport {
   preCallContext?: Record<string, string>
   /** Pre-Call Intel items, rendered by the screen's Deeper Strata section. */
   preCallIntel?: string[]
+  /** Who the counterpart is / where the Intel came from (its list intro), rendered by Deeper Strata. */
+  preCallIntelIntro?: string
   /** Pre-Call questions and scripted moves (landmines go to riskFlags). */
   preCallQuestions?: string[]
   /** The call plan framing the questions (their list intro), rendered by Deeper Strata. */
@@ -305,16 +308,20 @@ function leadIn(label: string | undefined, body: string): string {
   return label ? `${label}${/[.!?]$/.test(label) ? ' ' : ': '}${body}` : body
 }
 
-function preCallIntel(root: Rec, audience: WarroomAudience): string[] | undefined {
+function preCallIntel(root: Rec, audience: WarroomAudience): { items?: string[]; intro?: string } {
   const out: string[] = []
+  const intros: string[] = []
   for (const b of preCallLists(root, audience, /intel/i)) {
+    const before = out.length
     for (const item of parseList(b.items)) {
       if (!isRecord(item)) continue
       const { label, body } = splitLens(item.html)
       if (body) out.push(leadIn(label, body))
     }
+    const intro = text(b.intro)
+    if (intro && out.length > before) intros.push(intro)
   }
-  return out.length ? out : undefined
+  return { ...(out.length ? { items: out } : {}), ...(intros.length ? { intro: intros.join('\n\n') } : {}) }
 }
 
 function preCallQuestions(root: Rec, audience: WarroomAudience): { questions: string[]; landmines: RecoilReportData['riskFlags']; intro?: string } {
@@ -506,7 +513,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
   const callWalk = callWalkFromCloses(root, audience, date)
   const trueNorth = preCallTrueNorth(root, audience)
   const context = preCallContext(root, audience)
-  const intel = preCallIntel(root, audience)
+  const { items: intel, intro: iIntro } = preCallIntel(root, audience)
   const { questions, landmines, intro: qIntro } = preCallQuestions(root, audience)
   const method = forgeMethod(root, audience)
   const kinematics = beliefKinematics(root, audience)
@@ -531,6 +538,7 @@ export function warroomToRecoilReport(ssot: unknown, opts: { audience?: WarroomA
     ...(trueNorth ? { preCallTrueNorth: trueNorth } : {}),
     ...(context ? { preCallContext: context } : {}),
     ...(intel ? { preCallIntel: intel } : {}),
+    ...(iIntro ? { preCallIntelIntro: iIntro } : {}),
     ...(questions.length ? { preCallQuestions: questions } : {}),
     ...(qIntro ? { preCallQuestionsIntro: qIntro } : {}),
     ...(method ? { forgeMethod: method } : {}),
