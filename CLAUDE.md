@@ -116,6 +116,22 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.112.0 (2026-10-06)
+
+> **Job Factory: a one-time check is scheduled for the first morning run under the split model gate.** No repo code
+> changed. Follows v3.106.0 (archived).
+
+## Scheduled (outside the repo)
+- Task `check-morning-jobs-report-2026-10-07` fires 2026-10-07 09:47 ET (read-only): task run outcome, the report's first
+  line verbatim (expected `STATUS: PARTIAL model gate usage_limit: intake ran, scoring and forges skipped`), intake watermark
+  vs 2026-10-05T23:30:12Z. A test run was started 2026-10-06 to pre-approve its tools; it should find no 10-07 report yet.
+
+## Open (next session)
+1. Read the 10-07 check result; if intake did not run, the split in the morning-task prompt failed.
+2. **Zach:** click **Undo clear** on jobs.arcs.care (677 scored rows hidden).
+3. Score the 376 unscored rows when the API cap lifts (`node scripts/jobs_score_sweep.mjs`).
+4. Carried: Upside send (confirm 2 new titles), Tenex send.
+
 # Handoff — v3.111.0 (2026-10-06)
 
 > **Security-review gate stops failing re-runs red; a real API error still fails.** #909 (`6a29d549`), merged with
@@ -139,35 +155,3 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 - Run the security scan on a change to the security gate: it caught the bypass in this one.
 
 > Folded from `_HANDOFFS/fragments/20261006T140855Z--claude-handoff-security-gate.md` (branch `claude/handoff-security-gate`, head `6a29d549`).
-
-# Handoff — v3.110.0 (2026-10-06)
-
-> **CI repair + PR triage session: page gate fixed, billing-blocked runs re-run, two ledger items closed, stale PRs cleared.**
-> Receipts (all `--ZH`): `2026-10-05--page-gate-merge-base-pr831`, `--security-review-scope-pr832`,
-> `--secreview-skip-dependabot-pr868`, `--linkedin-queue-scheduled-pr661`, `2026-10-06--sess-013-close-pr896`,
-> `--pl-011-purpose-guard-pr897`, `--eslint10-hold-tweaks-refs-pr903`, `--nftt-claim-batch-pr912`.
-
-## Shipped (all `--merge`)
-- **#831** fe-smoke page gate diffs `base...head` (merge-base) with fetch-depth 0. Proof: #802's pre-sync head gave 92 pages two-dot, none three-dot; a real page edit still gated.
-- **#832** security review scoped to security paths (another session's PR, merged on Zach's go).
-- **#868** skip claude-security-review when actor is dependabot (no secrets there). `@dependabot rebase` sent to #864 #720 #677 #557.
-- **#661** LinkedIn queue: main merged in, the 2 conflicts kept the PR's scheduled text (Zach's call).
-- **#896** SESS-013 closed: Zach dropped the anon INSERT **and** anon SELECT policies on legacy `public.sessions` in the SQL editor (tool call was declined twice); pg_policies verified only service_role SELECT remains.
-- **#897** PL-011 closed: `scripts/purpose_guard.py` hard gate. No non-Anthropic model SDK or third-party analytics in `src/`; `track()` keys allowlisted. 5 planted violations each fail. The ledger's "aggregate anonymized only" wording was never on a page; the guard binds the live claims. Merged with the security review red from the API usage limit (Zach's go).
-- **#903** tweaks-panel.jsx refs-in-render fixed; dependabot ignores eslint majors (eslint 10 crashes eslint-plugin-react 7.37.5, peer ^9.7).
-- **#912** `scripts/nftt_claim_batch.py`, recovered from preserve commit 71169923 that sat on #715's branch. `build` offline verified; API paths not run.
-- Closed: #799 (archived handoff), #134 and #556 (superseded / blocked upstream). #715 was already closed by Zach as superseded by #882. Local preserve commit 71169923 deleted (branch reset to abb6aedb).
-
-## Open (next session)
-1. **#644** (Jarrod Wolf SSOT) not synced: its branch is checked out in worktree `zen-pasteur-85c635`.
-2. 8 `react-hooks/refs` errors in `src/app` (observatory, JobsBoard, ChampionsBoard): own session running (chip task_7afcd523).
-3. Dependabot PRs #864 #720 #677 #557: confirm the rebases ran and are green; #677 also had stale smoke failures.
-4. Post-merge CI on main for the merges above never observed (in every receipt's unconfirmed list).
-
-## Lessons
-- A billing block can hit one job in an otherwise-running workflow: scan per JOB for 0 steps, not per run.
-- `gh run rerun` replays the old workflow file and merge ref; to pick up a workflow fix on a dependabot PR, ask dependabot to rebase.
-- Check a PR is still open and not rebuilt elsewhere before acting on it (#715 was closed and rebuilt as #882 hours earlier).
-- A lint "fix" request can rest on a misread log: #556's real blocker was a plugin crash, not the refs error (that came from #557's log).
-
-> Folded from `_HANDOFFS/fragments/20261006T140722Z--claude-handoff-v3-85.md` (branch `claude/handoff-v3.85`, head `9bf8ca27`).
