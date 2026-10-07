@@ -530,6 +530,14 @@ class Librarian:
         for s in scored:
             s.pop("_rf", None)
 
+        # Confidence bands (2026-10-06): the pre-score is reliable when high and close to a coin flip
+        # when low, so the low ones are labelled, not hidden. Surfaced only; selection and ranking are unchanged.
+        maybe_below = float(self.tiers.get("maybe_below_p", 0.6))
+        for s in taken:
+            s["band"] = "likely" if s["p_load_bearing"] >= maybe_below else "maybe"
+        likely = [s["id"] for s in taken if s["band"] == "likely"]
+        maybe = [s["id"] for s in taken if s["band"] == "maybe"]
+
         backed = [s["id"] for s in taken if s["confirmed"]]
         unbacked = [s["id"] for s in taken if not s["confirmed"]]
         sinks: Dict[str, Dict[str, Any]] = {}
@@ -557,6 +565,9 @@ class Librarian:
                        f"+ {DISPLACEMENT_WEIGHT} * bytes/remaining_budget; take iff value - cost >= 0, ranked by value - cost",
             "notomation": "p_load_bearing is a mechanical pre-score (idf-weighted query overlap, amplified by lineage in-degree, ouroboros-demoted). The rank is surfaced for a human to adjudicate; nothing here is acted on.",
             "items": taken,
+            "likely": likely,
+            "maybe": maybe,
+            "bands": {"maybe_below_p": maybe_below, "likely": len(likely), "maybe": len(maybe)},
             "what_confirmed": backed,
             "what_unconfirmed": unbacked,
             "reserve_ratio": {"backed": len(backed), "unbacked": len(unbacked), "ratio": f"{len(backed)}:{len(unbacked)}",
@@ -632,6 +643,11 @@ def self_test() -> int:
     check("E (irrelevant) not retrieved: marginal value - cost < 0 stops the take", "E-irrelevant" not in ids, res["stopped_because"])
     check("p_load_bearing surfaced on every item; no action field anywhere", all("p_load_bearing" in s and "action" not in s for s in res["items"]))
     check("formula + notomation clause present", "formula" in res and "surfaced" in res["notomation"])
+    check("bands: every item is likely or maybe, the two lists partition items, and the cut is p >= maybe_below_p",
+          all(s["band"] == ("likely" if s["p_load_bearing"] >= res["bands"]["maybe_below_p"] else "maybe") for s in res["items"])
+          and sorted(res["likely"] + res["maybe"]) == sorted(ids))
+    check("bands never change what is taken: same ids with the cut at 0.0 and at 1.0",
+          {x["id"] for x in res["items"]} == {x["id"] for x in (setattr(lib, "tiers", {**lib.tiers, "maybe_below_p": 1.0}) or lib.recommend(q, budget=20000, stakes="high", n_max=10))["items"]})
     tiny = lib.recommend(q, budget=40, stakes="high")
     check("budget respected: nothing over 40 bytes is taken; skips recorded", tiny["budget"]["used_bytes"] <= 40 and (tiny["skipped_for_displacement"] or not tiny["items"]), (tiny["budget"], len(tiny["skipped_for_displacement"])))
     print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")

@@ -3,6 +3,8 @@
   "source": "_SEEDS/index.jsonl#seed-service-librarian-retrieval-policy (definitions from the 2026-09-27 friction stack), made data by operators/arcs_librarian.py",
   "unit": "verification steps before the item can be acted on; tokens are added as tokens / tokens_per_step; cost_if_absent is in the same step units (a medium-stakes miss costs about 3 verification steps to recover from)",
   "tokens_per_step": 8000,
+  "maybe_below_p": 0.6,
+  "maybe_below_p_provenance": "2026-10-06: 11 picks labelled by Zach across 3 queries; picks at p >= 0.6 were 5 of 5 useful, below 0.6 about 3 of 6. Tentative, re-check with more labels.",
   "stale_surcharge_steps": 1.0,
   "tiers": {
     "T0-auto-loaded": {
