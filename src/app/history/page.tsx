@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { surface, text, signal, font, getWeather, nciColor, normalizeDoorClass, doorMeta, contentContainer, srOnly } from "@/ui/tokens"
+import { surface, text, signal, font, getWeather, nciColor, normalizeDoorClass, doorMeta, contentContainer, srOnly, tribColor } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
@@ -13,8 +13,18 @@ import { Badge } from "@/ui/Badge"
 import { Button, ButtonLink } from "@/ui/Button"
 import { AuthControl } from "@/molecules/AuthControl"
 
+// Which of the parent's three tributaries a follow-up came from
+// (Receipt.parentTributaryIndex: 0 meta, 1 challenge, 2 adjacent).
+const TRIBUTARY_BY_INDEX = [
+  { type: "meta", label: "Meta-question" },
+  { type: "challenge", label: "Need to hear" },
+  { type: "adjacent", label: "Adjacent lens" },
+] as const
+
 interface ChildRow {
   id: string
+  // null on rounds recorded before the compass wrote the index (pre 2026-10-07).
+  parentTributaryIndex?: number | null
   decision: string
   trueNorth: string
   nciScore: number
@@ -186,6 +196,13 @@ export default function HistoryPage() {
                           </div>
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem", flexWrap: "wrap" }}>
                             <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                              {child.parentTributaryIndex != null && TRIBUTARY_BY_INDEX[child.parentTributaryIndex] && (
+                                <Badge
+                                  label={`via ${TRIBUTARY_BY_INDEX[child.parentTributaryIndex].label}`}
+                                  color={tribColor(TRIBUTARY_BY_INDEX[child.parentTributaryIndex].type)}
+                                  register="light"
+                                />
+                              )}
                               <Badge label={cdoor.label} color={cdoor.color} register="light" />
                               {child.mode && <Badge label={child.mode} color={signal.gold} register="light" />}
                             </div>

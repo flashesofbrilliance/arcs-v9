@@ -69,6 +69,13 @@ function DashboardInner() {
   // thread continues from this browser's own stored id, never from the URL: a
   // ?sid= link could plant someone else's thread id.
   const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
+  // ?tributary=0|1|2 names which of the parent's prompts was followed. Parsed
+  // here so the API receives a number or nothing; any other value is dropped
+  // (the follow-up still runs, it just records no tributary).
+  const [inboundTributary] = useState<number | null>(() => {
+    const t = searchParams.get("tributary")
+    return t === "0" || t === "1" || t === "2" ? Number(t) : null
+  })
   // Outbound posts tag their compass link with ?utm_campaign= so runs from a
   // post are countable. Allowlisted slug only: it rides an analytics event,
   // never the receipt, and anonymous runs still persist nothing.
@@ -188,6 +195,7 @@ function DashboardInner() {
           prepId: inboundPrepId,
           prep: inlinePrep ?? undefined,
           parentReceiptId: followUp ? parentReceiptId : null,
+          tributaryIndex: followUp ? inboundTributary : null,
         }),
       })
       clearTimeout(timeout)

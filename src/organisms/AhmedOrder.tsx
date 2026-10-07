@@ -64,7 +64,9 @@ const titleCase = (s: string) => s.charAt(0) + s.slice(1).toLowerCase()
 export function AhmedOrder({ data, onQuestion, after }: {
   data: AhmedOrderData
   /** Follow an open question into a new compass run. */
-  onQuestion?: (prompt: string) => void
+  // index = position in data.questions (0 meta, 1 challenge, 2 adjacent); the
+  // follow-up records it as Receipt.parentTributaryIndex.
+  onQuestion?: (prompt: string, index: number) => void
   /** Slot for surface-specific content between Next moves and Evidence. */
   after?: React.ReactNode
 }) {
@@ -132,7 +134,7 @@ export function AhmedOrder({ data, onQuestion, after }: {
                   <div style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: tribColor(q.type), marginBottom: '0.35rem' }}>{q.label}</div>
                   <p style={{ fontFamily: font.sans, fontSize: '0.925rem', color: text.secondary, lineHeight: 1.6, margin: 0, textWrap: 'pretty' }}>{q.prompt}</p>
                   {onQuestion && (
-                    <button type="button" onClick={() => onQuestion(q.prompt)} style={{ marginTop: '0.55rem', background: 'none', border: 'none', padding: '0.25rem 0', cursor: 'pointer', fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: signal.cyan, textUnderlineOffset: 3 }}>
+                    <button type="button" onClick={() => onQuestion(q.prompt, i)} style={{ marginTop: '0.55rem', background: 'none', border: 'none', padding: '0.25rem 0', cursor: 'pointer', fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: signal.cyan, textUnderlineOffset: 3 }}>
                       Run this question →
                     </button>
                   )}
