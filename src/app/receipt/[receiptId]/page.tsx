@@ -8,6 +8,7 @@ import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import { Button, ButtonLink } from "@/ui/Button"
 import { TribunePanel } from "@/molecules/TribunePanel"
+import { ProvenanceTag } from "@/molecules/ProvenanceTag"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult, FatedDecomposition, TerrainPath } from "@/lib/mockCompass"
@@ -333,10 +334,16 @@ export default function ReceiptPage() {
               router.push(`/dashboard?${params.toString()}`)
             }}
             after={!isEphemeral ? (
-              // Tribune: ADR-020 three-phase annotation, owner-only, persisted receipts only
-              <div style={{ marginTop: "2.75rem" }}>
-                <TribunePanel receiptId={receipt.id} />
-              </div>
+              <>
+                {/* Provenance: owner-set real | test tag, persisted receipts only; renders nothing for non-owners */}
+                <div style={{ marginTop: "2.75rem" }}>
+                  <ProvenanceTag receiptId={receipt.id} />
+                </div>
+                {/* Tribune: ADR-020 three-phase annotation, owner-only, persisted receipts only */}
+                <div style={{ marginTop: "1rem" }}>
+                  <TribunePanel receiptId={receipt.id} />
+                </div>
+              </>
             ) : null}
           />
         </div>

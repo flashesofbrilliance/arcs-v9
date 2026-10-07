@@ -8,6 +8,14 @@ export const isThreadId = (v: unknown): v is string => typeof v === "string" && 
 // Request-body schemas for the decision routes (ledger CMP-020). Kept out of
 // the route files so tests can import them without Next/Prisma.
 
+// Receipt.provenance: "real" | "test". Set by the owner only, never guessed
+// (prisma/schema.prisma); the Accountant splits cohorts on it. Null is not a
+// value a caller can send: an owner corrects a tag by re-tagging.
+export const ProvenanceValue = z.enum(["real", "test"])
+
+// POST /api/receipts/[receiptId]/provenance body.
+export const ProvenanceBody = z.object({ provenance: ProvenanceValue })
+
 // POST /api/compass envelope. Unknown keys are stripped; the route still
 // narrows nested prep fields by hand and clamps long text.
 export const CompassBody = z.object({
@@ -22,7 +30,7 @@ export const CompassBody = z.object({
   sessionId: z.string().nullish(),
   clarityMode: z.string().max(32).nullish().transform((v) => v ?? undefined),
   // Owner-declared provenance + resolve-by date (YYYY-MM-DD). Both optional; see Receipt.provenance.
-  provenance: z.enum(["real", "test"]).nullish(),
+  provenance: ProvenanceValue.nullish(),
   resolveBy: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullish(),
 })
 
