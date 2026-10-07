@@ -268,6 +268,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // Breadcrumbs: one static pin per dive, in the shared space, with the camera you left from.
     trail: [] as { u: number; v: number; node: string | null; nest: number; kind: "dive" | "hop" | "bank"; leave: Cam & { depth: number } }[],
     leaving: null as (Cam & { depth: number }) | null,
+    lookAt: null as string | null, // the lattice node nearest the centre of the view
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -314,7 +315,21 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
   const hudRead = useCallback((): HudRead => {
     const c = control.current
-    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => `${t.kind} · ${t.node ? UBY[t.node]?.label ?? t.node : "terrain"}`), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [], bankUp: c.universe ? bankTarget(c.originNode ?? universe.null_origin, 1, c.fog, -(c.cam?.yaw ?? 0)) : null, bankDown: c.universe ? bankTarget(c.originNode ?? universe.null_origin, -1, c.fog, -(c.cam?.yaw ?? 0)) : null }
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => `${t.kind} · ${t.node ? UBY[t.node]?.label ?? t.node : "terrain"}`),
+      // GPS: plain words for where you are, what you face, and the last leg from -> to.
+      gps: (() => {
+        const here = c.originNode ?? universe.null_origin
+        const name = (id: string | null) => (id ? UBY[id]?.label ?? id : "open terrain")
+        const last = c.trail[c.trail.length - 1]
+        const prev = c.trail.length > 1 ? c.trail[c.trail.length - 2].node : universe.null_origin
+        const verb = !last ? null : last.kind === "dive" ? "dove into" : last.kind === "hop" ? "hopped along an edge to"
+          : (UPOS[last.node ?? ""]?.k ?? 0) > (UPOS[prev ?? ""]?.k ?? 0) ? "banked up to" : "banked down to"
+        return {
+          here: name(here), at: UBY[here] ? `${universe.federation.strata[UBY[here].stratum as keyof typeof universe.federation.strata]} · ${universe.federation.domains[UBY[here].domain as keyof typeof universe.federation.domains]}` : "",
+          look: c.lookAt && c.lookAt !== here ? name(c.lookAt) : null,
+          leg: last ? { from: name(prev), verb: verb!, to: name(last.node) } : null,
+        }
+      })(), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [], bankUp: c.universe ? bankTarget(c.originNode ?? universe.null_origin, 1, c.fog, -(c.cam?.yaw ?? 0)) : null, bankDown: c.universe ? bankTarget(c.originNode ?? universe.null_origin, -1, c.fog, -(c.cam?.yaw ?? 0)) : null }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -799,6 +814,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         ctx.setLineDash([])
         const un = universe.nodes.map((n) => { const q = UPOS[n.id]; return { n, s: proj(q.u, height(q.u, q.v) + 0.06, q.v) } })
           .filter((o) => o.s).sort((a, b) => b.s!.d - a.s!.d)
+        {
+          let la: string | null = null, ld = Infinity
+          for (const o of un) { const dd = (o.s!.x - CX) ** 2 + (o.s!.y - CY) ** 2; if (dd < ld) { ld = dd; la = o.n.id } }
+          ctl.lookAt = la
+        }
         for (const { n, s: sp } of un) {
           const p2 = sp!, col = DOMAIN_COLOR[n.domain] ?? "#94a3b8"
           const open = n.status !== "ok", here = ctl.originNode === n.id

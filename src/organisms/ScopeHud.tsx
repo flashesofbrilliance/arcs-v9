@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { text, signal, font } from "@/ui/tokens"
 import universe from "@/data/universe-field.json"
 
@@ -16,7 +16,8 @@ import universe from "@/data/universe-field.json"
 // under 30° is stable, 30 to 45° is the slab band, over 45° is a wall.
 
 type UNode = (typeof universe.nodes)[number]
-export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: Hold[]; bankUp: Hold | null; bankDown: Hold | null }
+export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: Hold[]; bankUp: Hold | null; bankDown: Hold | null
+  gps: { here: string; at: string; look: string | null; leg: { from: string; verb: string; to: string } | null } | null }
 type Hold = { id: string; label: string; state: "open" | "blocked" | "obscured" }
 type Fathom = { n: number; name: string; altitude: string; resolution: string }
 
@@ -78,16 +79,18 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
 }
 
 export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
-  const [r, setR] = useState<HudRead>(read)
+  // Defaults keep the HUD whole if a reader omits a field (a hot reload can pair a new HUD with an old reader).
+  const safeRead = useCallback((): HudRead => ({ yaw: 0, depth: 4, fog: 1, clear: false, nest: 0, origin: null, universe: false, node: null, trail: [], holds: [], bankUp: null, bankDown: null, gps: null, ...(read() as Partial<HudRead>) }), [read])
+  const [r, setR] = useState<HudRead>(safeRead)
   const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
   useEffect(() => { const on = () => setVw(window.innerWidth); window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
   const narrow = vw < 760
   useEffect(() => {
     let raf = 0, last = 0
-    const tick = (now: number) => { if (now - last > 66) { last = now; setR(read()) } raf = requestAnimationFrame(tick) }
+    const tick = (now: number) => { if (now - last > 66) { last = now; setR(safeRead()) } raf = requestAnimationFrame(tick) }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [read])
+  }, [safeRead])
 
   const hdg = norm(r.yaw * DEG)
   const grade = gradeAt(hdg, stepH, stepW)
@@ -209,10 +212,21 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
         )
       })()}
 
-      {/* Breadcrumbs: every vantage you dove from; click one to back-track there. */}
-      {r.trail.length > 0 && (
-        <nav aria-label="Vantage trail" style={{ position: "absolute", left: narrow ? 16 : "50%", right: narrow ? 16 : undefined, top: narrow ? 72 : 64, transform: narrow ? undefined : "translateX(-50%)", display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", justifyContent: "center", maxWidth: narrow ? undefined : Math.max(280, vw - 560), pointerEvents: "auto" }}>
-          {["origin · Zero-point", ...r.trail].map((name, i) => {
+      {/* GPS: where you are, what you face, the last leg, and the breadcrumbs to back-track. */}
+      {r.universe && r.gps && (
+        <div style={{ ...panel, left: narrow ? 16 : "50%", right: narrow ? 16 : undefined, top: narrow ? 64 : 16, transform: narrow ? undefined : "translateX(-50%)", width: narrow ? undefined : Math.max(300, Math.min(560, vw - 560)), pointerEvents: "auto" }}>
+          <Screws />
+          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 10, rowGap: 3, alignItems: "baseline" }}>
+            <span style={label}>You are at</span>
+            <span style={{ ...value, whiteSpace: "normal", color: signal.gold }}>{r.gps.here}{r.gps.at && <span style={{ ...label, marginLeft: 8 }}>{r.gps.at}</span>}</span>
+            <span style={label}>Looking at</span>
+            <span style={{ ...value, whiteSpace: "normal" }}>{r.gps.look ?? "your own vantage"}</span>
+            <span style={label}>Last leg</span>
+            <span style={{ ...value, whiteSpace: "normal", fontWeight: 500 }}>{r.gps.leg ? <>{r.gps.leg.from} <span style={{ color: text.dimmed }}>{r.gps.leg.verb}</span> {r.gps.leg.to}</> : <span style={{ color: text.dimmed }}>none yet: hop, bank or double-click to dive</span>}</span>
+          </div>
+          {r.trail.length > 0 && (
+            <nav aria-label="Vantage trail" style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginTop: 8, paddingTop: 8, borderTop: `1px solid ${faint}` }}>
+              {["origin · Zero-point", ...r.trail].map((name, i) => {
             const here = i === r.trail.length
             return (
               <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
@@ -229,7 +243,9 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
               </span>
             )
           })}
-        </nav>
+            </nav>
+          )}
+        </div>
       )}
 
       {/* Holds: every node one edge away, and whether you can hop to it. */}
