@@ -1,0 +1,422 @@
+{
+ "unclustered": {
+  "n": 56,
+  "kinds": {
+   "command": 3,
+   "hook": 1,
+   "script": 33,
+   "operator": 19
+  },
+  "states": {
+   "WIRED": 41,
+   "INSTALLED-UNUSED": 1,
+   "UNAUDITED": 14
+  },
+  "members": [
+   "arcs-brand-manager",
+   "precall-brief",
+   "rca",
+   "pre-compact",
+   "altitude_canary.py",
+   "arcs_cli.py",
+   "arcs_core.py",
+   "backlog_freshness.py",
+   "backlog_ripeness.py",
+   "bank_event.py",
+   "build_observatory.py",
+   "cache_manifest.py",
+   "corpus_adapter_louisville.py",
+   "echo_detector_dogfood.py",
+   "echo_ridgeline_feed.py",
+   "event_rules.py",
+   "gauntlet_log_emit.py",
+   "github_ingest.py",
+   "hypercube_sampler.py",
+   "legend.py",
+   "lore.py",
+   "merge_train.sh",
+   "night_moves_gather.sh",
+   "open_loops.py",
+   "oracle.py",
+   "probe_tally.py",
+   "projection_factory.py",
+   "risk_sweep.py",
+   "risk_sweep_cron.sh",
+   "ship_docs.sh",
+   "slop_eval.py",
+   "squash_merge_detector.py",
+   "static-serve.py",
+   "sugar_bulk.py",
+   "token_kaizen.py",
+   "tripwire.sh",
+   "watchdog.sh",
+   "arcs_api.py",
+   "arcs_battery.py",
+   "arcs_cis.py",
+   "arcs_diagnostic.py",
+   "arcs_echo_embedding.py",
+   "arcs_inchworm_echo.py",
+   "arcs_init_bundles.py",
+   "arcs_kinematics.py",
+   "arcs_lte.py",
+   "arcs_no_go_inventory.py",
+   "arcs_pipeline_v1.py",
+   "arcs_rom.py",
+   "arcs_runtime_service.py",
+   "arcs_store.py",
+   "arcs_substrate.py",
+   "arcs_trace.py",
+   "arcs_trace_loki.py",
+   "arcs_yoav_store.py",
+   "pipeline_runner.py"
+  ]
+ },
+ "publish / pages / artifacts": {
+  "n": 36,
+  "kinds": {
+   "skill": 4,
+   "command": 1,
+   "script": 30,
+   "package": 1
+  },
+  "states": {
+   "WIRED": 33,
+   "INSTALLED-UNUSED": 2,
+   "UNAUDITED": 1
+  },
+  "members": [
+   "nftt-story-factory",
+   "page-gate",
+   "prl-page-factory",
+   "teardown-page-factory",
+   "faq-eval",
+   "belief_log_emit.py",
+   "blog_provenance.py",
+   "blog_render.py",
+   "case_world_sync.py",
+   "chronicle_render.py",
+   "component_source_gate.py",
+   "concordance_render.py",
+   "connector_render.py",
+   "deploy-prod.sh",
+   "fates.py",
+   "fonts_selfhost.py",
+   "gauntlet_report.py",
+   "gen_recoil_artifact.py",
+   "milestone_render.py",
+   "nftt-gates.sh",
+   "nftt_claim_batch.py",
+   "nftt_contrast_ratchet.py",
+   "nftt_dropcap_lint.py",
+   "nftt_meta_gate.py",
+   "nftt_published.py",
+   "nftt_series.py",
+   "page_gate.py",
+   "press_run.py",
+   "research_render.py",
+   "status_floor_emit.py",
+   "token_source_gate.py",
+   "tool_catalog_emit.py",
+   "vercel-ignore-build.sh",
+   "vercel-migrate-deploy.sh",
+   "video_cut.py",
+   "cold-recon"
+  ]
+ },
+ "gates & lints (frustration gates)": {
+  "n": 31,
+  "kinds": {
+   "script": 29,
+   "package": 1,
+   "operator": 1
+  },
+  "states": {
+   "WIRED": 29,
+   "UNAUDITED": 2
+  },
+  "members": [
+   "analytics_coverage_gate.py",
+   "arcs_models.py",
+   "artifact_wrap_lint.py",
+   "branch_hygiene_check.py",
+   "case_evidence_lint.py",
+   "classname_guard.py",
+   "cold_molt_lint.py",
+   "fork_lineage_check.sh",
+   "gutter_consistency_lint.py",
+   "hookspath_arm.sh",
+   "html_div_balance_lint.py",
+   "integrity_gate.py",
+   "jobs_prose_gate.py",
+   "leak_check.sh",
+   "ledger_check.py",
+   "migration_rls_lint.py",
+   "model_drift_check.py",
+   "model_id_gate.py",
+   "null_userid_gate.py",
+   "provenance_lint.py",
+   "purpose_guard.py",
+   "req_reality_gate.py",
+   "security_review_gate.sh",
+   "slop_lint.py",
+   "smoke.sh",
+   "state_sync_check.py",
+   "teardown_eval.py",
+   "tooltip_link_lint.py",
+   "vercel_branch_pin_gate.py",
+   "arcs-verb-eval",
+   "arcs_hc.py"
+  ]
+ },
+ "operators (L0-L5 engine)": {
+  "n": 26,
+  "kinds": {
+   "skill": 1,
+   "script": 7,
+   "operator": 18
+  },
+  "states": {
+   "WIRED": 13,
+   "UNAUDITED": 13
+  },
+  "members": [
+   "meta-audit",
+   "accountant_weekly.py",
+   "essay_atlas.py",
+   "operator_registry_emit.py",
+   "sage_distillation_data.py",
+   "source_trust_emit.py",
+   "tf_sage_distillation.py",
+   "torch_sage_distillation.py",
+   "arcs_accountant.py",
+   "arcs_constitutional_court.py",
+   "arcs_kintsugi.py",
+   "arcs_librarian.py",
+   "arcs_mcp_bridge.py",
+   "arcs_operator20.py",
+   "arcs_operator21.py",
+   "arcs_operator_contract.py",
+   "arcs_operator_kairos.py",
+   "arcs_operators_bar.py",
+   "arcs_operators_curator.py",
+   "arcs_operators_lab.py",
+   "arcs_operators_sage.py",
+   "arcs_primitives.py",
+   "arcs_primitives_bridge.py",
+   "kryptonite_scorer.py",
+   "operator_client.py",
+   "waveform_optimizer.py"
+  ]
+ },
+ "canon / memory / lattice": {
+  "n": 22,
+  "kinds": {
+   "skill": 2,
+   "command": 2,
+   "script": 15,
+   "operator": 3
+  },
+  "states": {
+   "WIRED": 19,
+   "UNAUDITED": 3
+  },
+  "members": [
+   "omakase-pipeline",
+   "tao-mint",
+   "canon-review",
+   "loops",
+   "cache_backprop.py",
+   "canon_propagation_check.py",
+   "canon_propagation_nightly.sh",
+   "doll_export.py",
+   "doll_sprout.py",
+   "gen_tao_alchemist.py",
+   "gen_tao_corpus.py",
+   "gen_tao_views.py",
+   "lattice_drift_check.py",
+   "lattice_sim.py",
+   "memory_catalog_emit.py",
+   "memory_index_sync.py",
+   "sync_family_roster.py",
+   "tao_coverage_check.py",
+   "tao_project.py",
+   "adr_audit.py",
+   "arcs_seed_bar.py",
+   "seed_test_receipts.py"
+  ]
+ },
+ "receipts & decision ledger": {
+  "n": 21,
+  "kinds": {
+   "skill": 2,
+   "command": 2,
+   "script": 11,
+   "operator": 6
+  },
+  "states": {
+   "WIRED": 13,
+   "INSTALLED-UNUSED": 3,
+   "UNAUDITED": 5
+  },
+  "members": [
+   "nci-scoring",
+   "night-moves",
+   "nci-commit",
+   "witness",
+   "assumptions.py",
+   "corrections_link.py",
+   "gen_receipt_close.py",
+   "outcome_funnel.py",
+   "receipt_efficacy_probe.py",
+   "receipt_lookup.py",
+   "receipt_outcome_resolver.py",
+   "receipt_timing_gate.py",
+   "score_me.py",
+   "second_pass_ledger.py",
+   "serialize_grade.py",
+   "arcs_dewy_log.py",
+   "arcs_receipt_core.py",
+   "cli_arcs_run.py",
+   "prod_receipt_to_accountant.py",
+   "prod_receipt_to_op20_seed.py",
+   "receipt_evaluator.py"
+  ]
+ },
+ "scan / profile / jobs": {
+  "n": 19,
+  "kinds": {
+   "skill": 1,
+   "command": 2,
+   "script": 16
+  },
+  "states": {
+   "WIRED": 16,
+   "INSTALLED-UNUSED": 3
+  },
+  "members": [
+   "sbom-payload-scan",
+   "catalog",
+   "teardown",
+   "archetype_scan.py",
+   "bridge_index_scan.py",
+   "calendar_scan.py",
+   "forensic_scan.py",
+   "gravity_well_fork_scan.py",
+   "linkedin_cut.py",
+   "linkedin_render.py",
+   "listening_scan.py",
+   "network_scan.py",
+   "network_scan_full.py",
+   "reader_scan.py",
+   "reel_in_scan.py",
+   "resume_ats_render.py",
+   "resume_location_gate.py",
+   "scout_dossier_ingest.py",
+   "trust_name_leak.py"
+  ]
+ },
+ "recoil / counterpart / forge": {
+  "n": 18,
+  "kinds": {
+   "skill": 8,
+   "command": 1,
+   "workflow": 2,
+   "script": 6,
+   "package": 1
+  },
+  "states": {
+   "WIRED": 16,
+   "INSTALLED-UNUSED": 1,
+   "UNAUDITED": 1
+  },
+  "members": [
+   "forge",
+   "forge-kit",
+   "recoil-close",
+   "recoil-new",
+   "recoil-prep",
+   "recoil-ship",
+   "thread-recoil",
+   "tool-forge",
+   "recoil-report",
+   "counterpart-gauntlet",
+   "recoil-report",
+   "forge_counterpart.py",
+   "forge_finalize.sh",
+   "forge_finalize_one.sh",
+   "forge_mirror_icloud.sh",
+   "recoil_brief.py",
+   "warroom_board.py",
+   "recoil-report"
+  ]
+ },
+ "handoff / session state": {
+  "n": 15,
+  "kinds": {
+   "skill": 2,
+   "command": 2,
+   "hook": 1,
+   "script": 9,
+   "operator": 1
+  },
+  "states": {
+   "WIRED": 12,
+   "INSTALLED-UNUSED": 2,
+   "UNAUDITED": 1
+  },
+  "members": [
+   "echo-scan",
+   "fold",
+   "handoff-pickup",
+   "handoff",
+   "session-start",
+   "handoff_cluster.py",
+   "handoff_excavate.py",
+   "handoff_fold.py",
+   "shavasana_handoff.py",
+   "snapshot_prune_ui_artifacts.py",
+   "sync_worktree.sh",
+   "unfold.py",
+   "witness_backfill_scout.py",
+   "write_lock.py",
+   "arcs_backup.py"
+  ]
+ },
+ "audit / drift / integrity": {
+  "n": 8,
+  "kinds": {
+   "skill": 1,
+   "command": 1,
+   "script": 6
+  },
+  "states": {
+   "WIRED": 7,
+   "INSTALLED-UNUSED": 1
+  },
+  "members": [
+   "cruft-sweep",
+   "drift-check",
+   "believability_ledger.py",
+   "claim_check.py",
+   "cruft_sweep.py",
+   "pulse.py",
+   "seedbank_drift_check.py",
+   "tool_orphan_audit.py"
+  ]
+ },
+ "data / export / db": {
+  "n": 4,
+  "kinds": {
+   "script": 4
+  },
+  "states": {
+   "WIRED": 4
+  },
+  "members": [
+   "backlog_issue_sync.py",
+   "baseline-prod-migrations.sh",
+   "export_apollo.py",
+   "sync_family_tokens.py"
+  ]
+ }
+}
