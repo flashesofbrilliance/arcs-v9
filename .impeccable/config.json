@@ -621,6 +621,78 @@
     ],
     "createdAt": "2026-10-05T21:40:00.000Z",
     "reason": "Forge resume bundles and their cover letters (_PATTERNS/cover-print-base.css) are letter-size paper sheets in the Blacksmith print family (_PATTERNS/resume-print-base.css), a separate visual world from the app's dark DESIGN.md. Only DESIGN.md-scope rules are waived; contrast, text-size floors and all-caps stay live (seam 2026-10-05)."
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/lewoof-playbook.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.539Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/lewoof-playbook.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.557Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/lewoof-playbook.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.576Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/lewoof-playbook.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.594Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
+   },
+   {
+    "rule": "design-system-color",
+    "value": "*",
+    "files": [
+     "public/lewoof-gate.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.613Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
+   },
+   {
+    "rule": "design-system-radius",
+    "value": "*",
+    "files": [
+     "public/lewoof-gate.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.633Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "public/lewoof-gate.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.652Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
+   },
+   {
+    "rule": "design-system-font-size",
+    "value": "*",
+    "files": [
+     "public/lewoof-gate.html"
+    ],
+    "createdAt": "2026-10-07T01:43:21.671Z",
+    "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
    }
   ]
  }

@@ -4,7 +4,6 @@ import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
-  'lewoof':       '/lewoof-intake.html',
   'schriner-ext': '/schriner-ext.html',
   // honest.arcs.care: "Check it before you say it", the in-browser front door to
   // arcs-verb-eval (tools/arcs-verb-eval). Static; every check runs client-side.
@@ -68,6 +67,10 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
+  // lewoof.arcs.care (2026-10-07): root = the Le Woof playbook, /invoicing = the deal-intake
+  // and invoice builder that used to be the whole host. The host is gated, see the
+  // lewoof block in proxy() below.
+  'lewoof':    { '/invoicing': '/lewoof-intake.html', default: '/lewoof-playbook.html' },
   // prl.arcs.care/status/<seg> status-page family (2026-08-17).
   'prl':       { '/status/catchup': '/prl-status-catchup.html', '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', '/status/receipt': '/prl-status-receipt.html', '/status/runbook': '/prl-status-runbook.html', default: '/todd-call.html' }, // root = overview (masked); status pages ride under /status/<seg>
   // good.arcs.care/blog/nftt/<slug> — Notes from the Trenches long-form posts (2026-08-18).
@@ -116,6 +119,35 @@ export default async function proxy(request: NextRequest) {
 
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
+
+  // --- lewoof.arcs.care: whole host behind the shared passcode ----------------
+  // The playbook holds partner deal terms and the intake page holds a
+  // counterparty's contact details, so (1) every Le Woof file (/lewoof-*,
+  // /lewoof.html) is locked on EVERY host, because public/ files are directly
+  // fetchable at app.arcs.care/<file>, and (2) the lewoof host itself is locked
+  // end to end, not just a sub-path. Same passcode, same cookie and same
+  // fail-closed helper as the ammo tiers (an unset RECRUITHAUS_AMMO_PASSWORD
+  // keeps the host locked). The gate page (/lewoof-gate*) and /api (the unlock
+  // route) stay open.
+  if (pathname.startsWith('/lewoof-gate')) return NextResponse.next()
+  const lewoofFile = pathname === '/lewoof.html' || pathname.startsWith('/lewoof-')
+  const lewoofHostOpen =
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/api') ||
+    pathname === '/robots.txt' ||
+    SHARED_ICON_PATH.test(pathname)
+  if (lewoofFile || (sub === 'lewoof' && !lewoofHostOpen)) {
+    const ok = await ammoUnlocked(
+      request.cookies.get(AMMO_COOKIE)?.value,
+      process.env.RECRUITHAUS_AMMO_PASSWORD,
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/lewoof-gate.html'
+      return NextResponse.rewrite(url)
+    }
+  }
 
   // /ammo on any AMMO_HOSTS subdomain — the gated companion to that host's open
   // pitch. Reuses the recruithaus ammo-gate infra (same shared passcode, same

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Woof, locked</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root { --bg: #fbf7f2; --card: #ffffff; --ink: #221f1a; --muted: #5e574c; --line: #ded5c8; --accent: #25604f; --accent-ink: #ffffff; --err: #a3262f; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #14110e; --card: #1c1813; --ink: #f3ede3; --muted: #bdb2a0; --line: #3a3328; --accent: #86cdb6; --accent-ink: #10201a; --err: #ff8a93; } }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: var(--bg); color: var(--ink); font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif; font-size: 17px; line-height: 1.6; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .card { width: 100%; max-width: 420px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 30px 28px; }
+  h1 { font-size: 26px; line-height: 1.2; margin-bottom: 8px; }
+  p.sub { color: var(--muted); font-size: 16px; margin-bottom: 20px; }
+  label { display: block; font-family: system-ui, sans-serif; font-size: 15px; color: var(--muted); margin-bottom: 6px; }
+  input { width: 100%; min-height: 44px; font: inherit; font-size: 17px; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 4px; padding: 8px 12px; }
+  input:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  button { width: 100%; min-height: 44px; margin-top: 14px; font-family: system-ui, sans-serif; font-size: 16px; font-weight: 600; color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 4px; cursor: pointer; }
+  #msg { min-height: 24px; margin-top: 12px; font-family: system-ui, sans-serif; font-size: 15px; }
+  #msg.err { color: var(--err); }
+  #msg.ok { color: var(--accent); }
+</style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<main class="card">
+  <h1>Le Woof</h1>
+  <p class="sub">This page is private. Enter the passcode to continue.</p>
+  <form id="f" autocomplete="off">
+    <label for="code">Passcode</label>
+    <input id="code" name="code" type="password" required autofocus>
+    <button type="submit">Open</button>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </form>
+</main>
+<script>
+(function () {
+  function track(n) { try { window.va('event', { name: n }); } catch (e) {} }
+  track('lewoof_gate_view');
+  var f = document.getElementById('f'), m = document.getElementById('msg');
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var code = document.getElementById('code').value.trim();
+    if (!code) return;
+    track('lewoof_gate_attempt');
+    m.className = ''; m.textContent = 'Checking...';
+    fetch('/api/recruithaus/unlock', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ passcode: code }) })
+      .then(function (r) {
+        if (r.ok) { track('lewoof_gate_unlock_ok'); m.className = 'ok'; m.textContent = 'Unlocked. Opening...'; window.location.href = '/'; return; }
+        track('lewoof_gate_unlock_fail');
+        m.className = 'err';
+        m.textContent = r.status === 503 ? 'The gate is not configured yet. Please tell Zach.' : 'That passcode did not match. Try again.';
+      })
+      .catch(function () { m.className = 'err'; m.textContent = 'Could not reach the server. Try again.'; });
+  });
+})();
+</script>
+</body>
+</html>
