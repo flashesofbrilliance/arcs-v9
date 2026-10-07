@@ -60,6 +60,7 @@ const POSTS = {
   "a-draft-is-not-a-verb": { href: "/blog/nftt/a-draft-is-not-a-verb", title: "You Can Train Agency But You Can't Teach Good Judgment (Yet)", desc: "The rogue operator, in the agent's own words: the morning it sent two emails no one asked it to send. False inference acted on is a self-inflicted prompt injection, deceit in effect, not a bug, and the fix was a guardrail that removes the capability rather than a promise to be careful." },
   "take-home-trap": { href: "/blog/nftt/take-home-trap", title: "With Life, and Without It", desc: "Two recruiters called an hour apart. One of them had no one home. A field account of the morning a DPRK threat vector called, and the tell that came before any analysis." },
   "confirmed-not-my-bug": { href: "/blog/nftt/confirmed-not-my-bug", title: "Confirmed Not My Bug", desc: "We pointed an audit harness at real decisions and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see." },
+  "seven-calls-seven-falsifiers": { href: "/blog/nftt/seven-calls-seven-falsifiers", title: "Seven Calls, Seven Falsifiers", desc: "Seven public crypto calls with stated falsifiers: what held, what missed, two corrections owned in public, and a January stablecoin drop that is only partly explained." },
   "assets-and-liabilities": { href: "/blog/nftt/assets-and-liabilities", title: "Assets and Liabilities", desc: "A system that only counts what it built is keeping half a book. The week the liability side opened, and the fourteen false receipts it booked against itself." },
   "cheapest-edit-is-a-diff": { href: "/blog/nftt/cheapest-edit-is-a-diff", title: "The Cheapest Edit Is a Diff", desc: "Chasing token efficiency, I built a worker to edit a resume instead of forging each one fresh. It timed out, and the timeout taught the real lesson: pay for the delta, not the document." },
   "the-loop-closes": { href: "/blog/nftt/the-loop-closes", title: "The Loop Closes", desc: "I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself for cents a morning." },
@@ -166,6 +167,9 @@ function compactRow(p) {
 }
 
 function renderReader(sections, layout, posts) {
+  // A layout slug with no POSTS entry used to vanish silently (Seven Calls, 2026-10-06): fail loud.
+  const missing = layout.filter((i) => !posts[i.slug]).map((i) => i.slug);
+  if (missing.length) throw new Error(`[nftt-index] layout slug(s) with no POSTS entry: ${missing.join(', ')}`);
   return sections.map((sec) => {
     const list = layout.filter((i) => i.section === sec.id && posts[i.slug]);
     if (!list.length) return '';
