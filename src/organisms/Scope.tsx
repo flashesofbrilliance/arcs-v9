@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { text, signal, font, border } from "@/ui/tokens"
 import { ScopeHud, type HudRead } from "./ScopeHud"
+import universe from "@/data/universe-field.json"
 
 // The field. A sketch of ARCS as terrain: a lidar point cloud of the atlas
 // ziggurat (runtime/warroom/terrain-atlas.html, form only), with the product
@@ -100,6 +101,29 @@ function terracePoint(k: number, a: number) {
   const c = Math.cos(a), s = Math.sin(a), m = Math.max(Math.abs(c), Math.abs(s))
   return { u: SUMMIT.u + (d * c) / m, v: SUMMIT.v + (d * s) / m }
 }
+
+// The universe: the knowledge lattice (runtime/specs/knowledge-lattice-v1.json via
+// scripts/universe_snapshot_emit.py) laid on the terraces. Stratum is altitude (QUANTUM at the
+// apex, META on the plain), domain is bearing, the null origin zp sits on top.
+export type UNode = (typeof universe.nodes)[number]
+const STRATUM_K: Record<string, number> = { q: 5, a: 4, m: 3, o: 2, l: 1, g: 0 }
+const DOMAIN_DEG: Record<string, number> = { ont: -90, epi: -18, met: 54, ety: 126, lib: 198 }
+const DOMAIN_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
+const UPOS: Record<string, { u: number; v: number; k: number }> = (() => {
+  const groups: Record<string, UNode[]> = {}
+  universe.nodes.forEach((n) => { (groups[n.stratum + n.domain] ||= []).push(n) })
+  const out: Record<string, { u: number; v: number; k: number }> = {}
+  Object.values(groups).forEach((g) => g.forEach((n, i) => {
+    const k = STRATUM_K[n.stratum] ?? 0
+    if (n.id === universe.null_origin) { out[n.id] = { u: SUMMIT.u, v: SUMMIT.v, k: 5 }; return }
+    const spread = g.length > 1 ? (i / (g.length - 1) - 0.5) * 50 : 0
+    const a = ((DOMAIN_DEG[n.domain] ?? 0) + spread) * Math.PI / 180
+    if (k >= 1) { const p = terracePoint(k, a); out[n.id] = { ...p, k } }
+    else { const c = Math.cos(a), sn = Math.sin(a), m = Math.max(Math.abs(c), Math.abs(sn)), d = HALF + 0.1; out[n.id] = { u: SUMMIT.u + (d * c) / m, v: SUMMIT.v + (d * sn) / m, k: 0 } }
+  }))
+  return out
+})()
+const UBY = Object.fromEntries(universe.nodes.map((n) => [n.id, n])) as Record<string, UNode>
 
 function mulberry32(a: number) {
   return () => {
@@ -199,9 +223,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // new null origin (Ø) and the ladder starts again from its vantage. Infinite.
     nest: 0,
     origin: null as { u: number; v: number } | null,
-    dive: null as { t0: number; u: number; v: number } | null,
+    dive: null as { t0: number; u: number; v: number; node: string | null } | null,
     entered: 0,
-    pick: (() => null) as (x: number, y: number) => { u: number; v: number } | null,
+    pick: (() => null) as (x: number, y: number) => { u: number; v: number; node?: string } | null,
+    universe: true,
+    originNode: null as string | null,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -248,7 +274,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
   const hudRead = useCallback((): HudRead => {
     const c = control.current
-    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin }
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -415,7 +441,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       const hit = ctl.pick(p.x, p.y)
       if (!hit || ctl.dive) return
       touch()
-      ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v }
+      ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v, node: hit.node ?? null }
       tgt.current = { ...tgt.current, pu: hit.u, pv: hit.v }
       ctl.pausedUntil = performance.now() + 60000
       setDepth(NF)
@@ -437,9 +463,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "]": setDepth(Math.floor(ctl.depth) + 1); break
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
         case "f": case "F": setFull((f) => !f); break
+        case "u": case "U": ctl.universe = !ctl.universe; break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
-        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
-        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -489,6 +516,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         return { x: CX + (F * x1) / d, y: CY - (F * yc) / d, d }
       }
       ctl.pick = (x, y) => {
+        if (ctl.universe) {
+          let bn: string | null = null, bnd = 22 * 22
+          for (const n of universe.nodes) { const q = UPOS[n.id], s2 = proj(q.u, height(q.u, q.v) + 0.06, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bnd) { bnd = dd; bn = n.id } }
+          if (bn) return { ...UPOS[bn], node: bn }
+        }
         let best: Pt | null = null, bd = 28 * 28
         for (const q of cloud) { const s2 = proj(q.u, q.h, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bd) { bd = dd; best = q } }
         return best ? { u: best.u, v: best.v } : null
@@ -497,7 +529,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       // and the camera re-enters at F1 of the next nest, inheriting that vantage.
       if (ctl.dive && now - ctl.dive.t0 > 1400) {
         const d = ctl.dive
-        ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.entered = now
+        ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.originNode = d.node; ctl.entered = now
         ctl.depth = 1; st.depth = 1
         const k = { pitch: atDepth(1, "pitch"), dist: atDepth(1, "dist"), zoom: atDepth(1, "zoom"), pu: d.u, pv: d.v }
         Object.assign(cam, k); Object.assign(tgt.current, k)
@@ -629,7 +661,46 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       markers.length = 0
       ctx.font = `600 9px ${font.mono}`
       const placed: { x: number; y: number; w: number; h: number }[] = []
-      const order = WAYPOINTS.filter((w) => ctl.overlays.has(w.id)).map((w) => {
+      if (ctl.universe) {
+        // Edges first, faint; then nodes. Glyph: diamond = >=4 domains confirm it; solid = proven
+        // (status ok); hollow ring = still open (true / shore / gate). Size grows with mapped files.
+        ctx.lineWidth = 0.6
+        for (const [a, b] of universe.edges) {
+          const pa = UPOS[a], pb = UPOS[b]; if (!pa || !pb) continue
+          const sa = proj(pa.u, height(pa.u, pa.v) + 0.06, pa.v), sb = proj(pb.u, height(pb.u, pb.v) + 0.06, pb.v)
+          if (!sa || !sb) continue
+          ctx.strokeStyle = rgba(DOMAIN_COLOR[UBY[a]?.domain] ?? "#94a3b8", 0.08 + clarity * 0.1)
+          ctx.beginPath(); ctx.moveTo(sa.x, sa.y); ctx.lineTo(sb.x, sb.y); ctx.stroke()
+        }
+        const un = universe.nodes.map((n) => { const q = UPOS[n.id]; return { n, s: proj(q.u, height(q.u, q.v) + 0.06, q.v) } })
+          .filter((o) => o.s).sort((a, b) => b.s!.d - a.s!.d)
+        for (const { n, s: sp } of un) {
+          const p2 = sp!, col = DOMAIN_COLOR[n.domain] ?? "#94a3b8"
+          const open = n.status !== "ok", here = ctl.originNode === n.id
+          const r = Math.min(9, 2.4 + Math.sqrt(n.files) * 0.7) * (here ? 1.4 : 1)
+          const al = (open ? 0.55 : 0.85) * (0.6 + clarity * 0.4)
+          if (n.diamond) {
+            ctx.fillStyle = rgba(signal.gold, 0.95)
+            ctx.beginPath(); ctx.moveTo(p2.x, p2.y - r - 2); ctx.lineTo(p2.x + r + 2, p2.y); ctx.lineTo(p2.x, p2.y + r + 2); ctx.lineTo(p2.x - r - 2, p2.y); ctx.closePath(); ctx.fill()
+          } else if (open) {
+            ctx.strokeStyle = rgba(col, al); ctx.lineWidth = 1
+            ctx.beginPath(); ctx.arc(p2.x, p2.y, r, 0, TAU); ctx.stroke()
+          } else {
+            ctx.fillStyle = rgba(col, al)
+            ctx.beginPath(); ctx.arc(p2.x, p2.y, r, 0, TAU); ctx.fill()
+          }
+          const labelA = here ? 1 : clamp(dep - 2.3, 0, 1) * (n.diamond || n.id === universe.null_origin ? 1 : clamp(dep - 3, 0, 1))
+          if (labelA < 0.05) continue
+          const t = n.label.toUpperCase(), tw = ctx.measureText(t).width + 4
+          const box = { x: p2.x + r + 3, y: p2.y - 6, w: tw, h: 12 }
+          if (placed.some((b) => box.x < b.x + b.w && b.x < box.x + box.w && box.y < b.y + b.h && b.y < box.y + box.h)) continue
+          placed.push(box)
+          ctx.textAlign = "left"; ctx.textBaseline = "middle"
+          ctx.fillStyle = rgba(here ? "#e2e8f0" : col, 0.9 * labelA)
+          ctx.fillText(t, p2.x + r + 4, p2.y)
+        }
+      }
+      const order = (ctl.universe ? [] : WAYPOINTS).filter((w) => ctl.overlays.has(w.id)).map((w) => {
         const p = terracePoint(w.k, w.a)
         return { w, base: proj(p.u, height(p.u, p.v), p.v), top: proj(p.u, height(p.u, p.v) + 0.16, p.v) }
       }).sort((a, b) => (ctl.focused === a.w.id ? -1 : ctl.focused === b.w.id ? 1 : (a.top?.d ?? 99) - (b.top?.d ?? 99)))
@@ -918,7 +989,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · Double click a point to dive seven fathoms into it · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>

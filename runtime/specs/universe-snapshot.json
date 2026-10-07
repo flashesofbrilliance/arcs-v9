@@ -33,7 +33,7 @@
    "tao_proverbs": 285,
    "adrs": 80
   },
-  "codebase": 579,
+  "codebase": 581,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -43,7 +43,7 @@
    "nodes": 81,
    "shore_open": 37,
    "files_mapped": 242,
-   "files_fog": 2648
+   "files_fog": 2650
   },
   "coherence": {
    "diamonds": 3,

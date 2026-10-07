@@ -48,6 +48,9 @@ LATTICE = ROOT / "runtime" / "specs" / "knowledge-lattice-v1.json"
 NODEMAP = ROOT / "runtime" / "specs" / "universe-node-map-v0.json"
 SHELF = ROOT / "runtime" / "specs" / "reading-room-manifest.json"
 OUT = ROOT / "runtime" / "specs" / "universe-snapshot.json"
+# The public projection the home field reads: lattice nodes, edges and counts only. No source
+# paths, no private rows (counterpart catalog names live in the full snapshot, never here).
+FIELD = ROOT / "src" / "data" / "universe-field.json"
 
 CORPUS = ("_ARTIFACTS/", "_PATTERNS/", "_STATE/", "_SEEDS/")
 CANON = ("_CANON/", "_DECISIONS/")
@@ -169,6 +172,19 @@ def build(files: list[str]) -> dict:
     }
 
 
+def project(snap: dict) -> dict:
+    keep = ("id", "label", "stratum", "domain", "status", "shore_open", "hardness", "diamond", "invariant")
+    return {
+        "version": snap["version"], "lattice_reviewed": snap["lattice_reviewed"], "null_origin": snap["null_origin"],
+        "federation": snap["federation"],
+        "dimensions": {k: v for k, v in snap["dimensions"].items()},
+        "sources": {"count": len(snap["sources"]), "private": sum(s["private"] for s in snap["sources"])},
+        "rooms": [r["tenant"] for r in snap["reading_room"]],
+        "nodes": [dict({k: n[k] for k in keep}, files=n["population"]["files"]) for n in snap["nodes"]],
+        "edges": snap["edges"],
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="ARCS universe snapshot: emit or check")
     ap.add_argument("--check", action="store_true", help="exit 1 if the committed snapshot is stale")
@@ -176,14 +192,18 @@ def main() -> int:
     files = [f for f in git("ls-files").splitlines() if f]
     snap = build(files)
     body = json.dumps(snap, indent=1, ensure_ascii=False) + "\n"
+    field = json.dumps(project(snap), separators=(",", ":"), ensure_ascii=False) + "\n"
     if a.check:
         cur = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
-        if cur != body:
+        fcur = FIELD.read_text(encoding="utf-8") if FIELD.exists() else ""
+        if cur != body or fcur != field:
             print("✖ universe-snapshot --check: stale; run python3 scripts/universe_snapshot_emit.py")
             return 1
         print("✓ universe-snapshot current")
         return 0
     OUT.write_text(body, encoding="utf-8")
+    FIELD.parent.mkdir(parents=True, exist_ok=True)
+    FIELD.write_text(field, encoding="utf-8")
     d = snap["dimensions"]
     print(f"universe: {len(snap['nodes'])} nodes · {len(snap['edges'])} edges · {len(snap['sources'])} sources · "
           f"{len(snap['reading_room'])} rooms · mapped {d['clarity']['files_mapped']} / fog {d['clarity']['files_fog']}")

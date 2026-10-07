@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { text, signal, font } from "@/ui/tokens"
+import universe from "@/data/universe-field.json"
 
 // The survey HUD: instruments laid over the field in full HUD mode.
 // Brief: charting instrumentation for uncharted terrain. Map the topography,
@@ -14,7 +15,8 @@ import { text, signal, font } from "@/ui/tokens"
 // ridgelines are the gentlest line. Slope bands follow avalanche practice:
 // under 30° holds, 30 to 45° is the slab band, over 45° is a wall.
 
-export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null }
+type UNode = (typeof universe.nodes)[number]
+export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null }
 type Fathom = { n: number; name: string; altitude: string; resolution: string }
 
 const DEG = 180 / Math.PI
@@ -173,6 +175,37 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
         </svg>
         <div style={{ ...value, textAlign: "center", marginTop: 4 }}>HDG {deg3(hdg)}°</div>
       </div>
+
+      {/* The universe: eight dimensions from the snapshot, and the node you dove into. */}
+      {r.universe && (() => {
+        const d = universe.dimensions
+        const row = (k: string, v: string, c: string = text.primary) => (
+          <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0", borderTop: `1px solid ${faint}` }}><span style={label}>{k}</span><span style={{ ...label, color: c }}>{v}</span></div>)
+        return (
+          <div style={{ ...panel, right: 16, top: 400, width: 228 }}>
+            <Screws />
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Universe</span><span style={label}>lattice {universe.lattice_reviewed}</span></div>
+            {row("Corpus", `${d.corpus} files`)}
+            {row("Canon", `${d.canon.files} · ${d.canon.tao_proverbs} tao · ${d.canon.adrs} ADR`)}
+            {row("Codebase", `${d.codebase} files`)}
+            {row("Conviction", "No signal", text.dimmed)}
+            {row("Clarity", `${d.clarity.nodes_clear}/${d.clarity.nodes} clear · ${d.clarity.files_fog} fog`, signal.cyan)}
+            {row("Coherence", `${d.coherence.diamonds} diamonds · h ${d.coherence.mean_hardness}`, signal.gold)}
+            {row("Cohesion", `${Math.round(d.cohesion.ratio * 100)}% cross-domain`)}
+            {row("Consonance", `${d.consonance.tautology}T ${d.consonance.constitutional}C ${d.consonance.empirical}E`)}
+            {r.node && (
+              <div style={{ marginTop: 8, paddingTop: 6, borderTop: `1px solid ${signal.gold}66` }}>
+                <div style={{ ...label, color: signal.gold, whiteSpace: "normal" }}>Ø{r.nest} · {r.node.label}</div>
+                {row("Stratum · domain", `${universe.federation.strata[r.node.stratum as keyof typeof universe.federation.strata]} · ${universe.federation.domains[r.node.domain as keyof typeof universe.federation.domains]}`)}
+                {row("Status", r.node.status + (r.node.invariant ? ` · ${r.node.invariant}` : ""), r.node.status === "ok" ? signal.green : signal.gold)}
+                {row("Hardness", `${r.node.hardness}${r.node.diamond ? " · diamond" : ""}`)}
+                {row("Open shore", String(r.node.shore_open))}
+                {row("Mapped files", String(r.node.files))}
+              </div>
+            )}
+          </div>
+        )
+      })()}
 
       {/* Status strip. */}
       <div style={{ position: "absolute", left: 16, right: 16, top: 16, display: "flex", justifyContent: "flex-end", gap: 16, pointerEvents: "none" }}>
