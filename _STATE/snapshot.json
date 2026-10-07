@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Compass records which tributary spawned a follow-up (parentTributaryIndex end to end, history badge, read-only backfill probe: 95/107 inferable); #1067 merged, deploy READY, backfill declined by Zach.",
-  "next_action": "Run one signed-in tributary follow-up on app.arcs.care and confirm the new receipt has parentTributaryIndex set; then the 5 decision rows from the evening round.",
+  "session_summary": "Satoshi inflation audited (34/267, all in PLAN/MEDIUM/TWO_WAY on the fast model) and gated server-side with a prompt base-rate anchor and 9 unit tests; #1066 merged with --merge, two receipts logged.",
+  "next_action": "After 50 post-merge receipts, re-run the satoshi audit aggregates and score the EX-ANTE (rate under 1 in 50); Zach owns the Anthropic credit top-up and the ROM-vs-compass satoshi definition.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
