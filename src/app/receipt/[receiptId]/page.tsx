@@ -325,11 +325,16 @@ export default function ReceiptPage() {
               version: receipt.version,
               createdAt: receipt.createdAt,
             }}
-            onQuestion={(prompt) => {
+            onQuestion={(prompt, index) => {
               // Ephemeral bearings have no persisted row: omit `parent` so
               // the follow-up doesn't reference a nonexistent receipt id.
+              // `tributary` rides with `parent`: which of this receipt's three
+              // prompts was followed (persisted as parentTributaryIndex).
               const params = new URLSearchParams({ q: prompt })
-              if (!isEphemeral) params.set("parent", receipt.id)
+              if (!isEphemeral) {
+                params.set("parent", receipt.id)
+                params.set("tributary", String(index))
+              }
               router.push(`/dashboard?${params.toString()}`)
             }}
             after={!isEphemeral ? (

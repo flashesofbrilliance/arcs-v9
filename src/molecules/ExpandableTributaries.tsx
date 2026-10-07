@@ -5,7 +5,7 @@ import type { Tributary } from '@/lib/mockCompass'
 
 export interface ExpandableTributariesProps {
   tributaries: Tributary[]
-  onTributary?: (prompt: string) => void
+  onTributary?: (prompt: string, index: number) => void
 }
 
 export function ExpandableTributaries({ tributaries, onTributary }: ExpandableTributariesProps) {
@@ -66,7 +66,7 @@ export function ExpandableTributaries({ tributaries, onTributary }: ExpandableTr
               >
                 <button
                   onClick={() => {
-                    onTributary?.(t.prompt)
+                    onTributary?.(t.prompt, i)
                     setOpen(false)
                   }}
                   style={{

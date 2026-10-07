@@ -1,15 +1,15 @@
 {
-  "captured_at": "2026-10-06T22:50:07-04:00",
+  "captured_at": "2026-10-07T13:38:38-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "acd41a12",
-    "head_message": "Merge pull request #1062 from flashesofbrilliance/claude/lattice-epoch-2026-10-06",
+    "head_sha": "c5327f9a",
+    "head_message": "Merge pull request #1067 from flashesofbrilliance/claude/elated-swanson-7c7b8e",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-cpt4u5r5l-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-iff7bau39-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Evening round: defaults approved, Librarian bands + name bonus + loop fix, claim unit v1 proposed, lattice e10 re-author, ADR -> Queue fixed; 5 decision rows left.",
-  "next_action": "Confirm CI and deploy green on main, then clear the 5 decision rows (claim unit, lattice calls, og:image hosts, old keys, ADR-085 on 10-13).",
+  "session_summary": "Satoshi inflation audited (34/267, all in PLAN/MEDIUM/TWO_WAY on the fast model) and gated server-side with a prompt base-rate anchor and 9 unit tests; #1066 merged with --merge, two receipts logged.",
+  "next_action": "After 50 post-merge receipts, re-run the satoshi audit aggregates and score the EX-ANTE (rate under 1 in 50); Zach owns the Anthropic credit top-up and the ROM-vs-compass satoshi definition.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }

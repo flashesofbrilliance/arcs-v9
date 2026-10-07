@@ -4,6 +4,7 @@ import { SaveBody } from "@/lib/request-schemas"
 import { prisma } from "@/lib/db"
 import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
+import { satoshiGate } from "@/lib/satoshi"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 
 export const dynamic = "force-dynamic"
@@ -84,7 +85,14 @@ export async function POST(req: NextRequest) {
       whyBullets: JSON.stringify(Array.isArray(b.why) ? b.why : []),
       nciScore: nci,
       coherencePct: typeof b.coherence_pct === "number" ? b.coherence_pct : null,
-      isSatoshi: Boolean(b.is_satoshi),
+      // Same satoshi bar as the compass route (src/lib/satoshi.ts); the client's
+      // claim is never trusted on its own. Stakes resolve as the compass did:
+      // prep stakes first, then the request's.
+      isSatoshi: satoshiGate({
+        claimed: b.is_satoshi,
+        nciScore: nci,
+        stakes: prepCtx?.stakes ?? (typeof b.stakes === "string" ? b.stakes : null),
+      }),
       clarityMode: typeof b.clarity_mode === "string" ? b.clarity_mode : "SIMPLE",
       fated: reasoning?.fated ? JSON.stringify(reasoning.fated) : null,
       paths: reasoning?.paths ? JSON.stringify(reasoning.paths) : null,

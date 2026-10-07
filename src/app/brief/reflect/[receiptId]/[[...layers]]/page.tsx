@@ -106,9 +106,11 @@ export default function BriefReflectPage() {
     return () => { cancelled = true }
   }, [])
 
-  function followTributary(prompt: string) {
+  function followTributary(prompt: string, index: number) {
     track("brief_tributary_followed", { receiptId })
-    const p = new URLSearchParams({ q: prompt, parent: receiptId })
+    // ?tributary= names which of the three prompts was followed; the compass
+    // persists it as parentTributaryIndex on the child receipt.
+    const p = new URLSearchParams({ q: prompt, parent: receiptId, tributary: String(index) })
     router.push(`/dashboard?${p.toString()}`)
   }
 
