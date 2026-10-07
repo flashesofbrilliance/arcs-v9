@@ -12,8 +12,8 @@ receipt, lattice node, prior Librarian pick) and a query q:
 
     value(c, q) = p_load_bearing(c, q) * cost_if_absent(q)
     cost(c)     = read_friction(c) + displacement(c)
-    retrieve c iff value > cost; rank by value - cost; stop when the marginal
-    item's value - cost < 0 OR the budget is spent.
+    retrieve c iff value > cost; rank by value - cost; skip an item whose value - cost < 0 at the
+    remaining budget and keep scanning (a smaller item can still pay); stop at n_max or when the budget is spent.
 
 Honesty rules (mechanical, tested by --self-test):
   * backing(c) = M0 refs (git shas that resolve in this repo, witness/transcript
@@ -524,8 +524,10 @@ class Librarian:
             cost = s["_rf"] + DISPLACEMENT_WEIGHT * disp
             net = s["value"] - cost
             if net < 0:
-                stopped = "marginal item value - cost < 0"
-                break
+                # Skip, do not stop (2026-10-06): the pool is ranked before displacement is priced, so an
+                # expensive item that does not pay its way must not end the take while smaller items below it would.
+                skipped_displacement.append(s["id"])
+                continue
             s["displacement"] = round(disp, 4)
             s["cost"] = round(cost, 4)
             s["net"] = round(net, 4)
@@ -665,6 +667,14 @@ def self_test() -> int:
     check("name match: with the bonus, the candidate whose NAME carries the query words outscores an identical body with an unrelated name",
           on.get("zebra-quartz-metronome-notes", 0) > on.get("unrelated-title", 1), (on, off))
     check("name match: bonus 0 disables it (same body, same p)", off.get("zebra-quartz-metronome-notes") == off.get("unrelated-title"), off)
+    lq = "zorbl quintz"
+    big = Candidate(id="big-tao-item", cls="tao", text="zorbl quintz " + ("filler " * 420), source="claude-fable")
+    small = Candidate(id="small-adr-item", cls="adr", text="zorbl quintz short note", source="claude-fable")
+    lib3 = Librarian(root=tmp, git_root=DEFAULT_ROOT, memory_dir=None, extra_candidates=[big, small], load_corpus=False, trust_path=tmp / TRUST_REL)
+    r3 = lib3.recommend(lq, budget=3000, stakes="low", n_max=5)
+    got3 = [x["id"] for x in r3["items"]]
+    check("loop: an expensive item that does not pay is SKIPPED, and a smaller item below it is still taken",
+          "big-tao-item" not in got3 and "small-adr-item" in got3 and "big-tao-item" in r3["skipped_for_displacement"], (got3, r3["skipped_for_displacement"]))
     tiny = lib.recommend(q, budget=40, stakes="high")
     check("budget respected: nothing over 40 bytes is taken; skips recorded", tiny["budget"]["used_bytes"] <= 40 and (tiny["skipped_for_displacement"] or not tiny["items"]), (tiny["budget"], len(tiny["skipped_for_displacement"])))
     print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
