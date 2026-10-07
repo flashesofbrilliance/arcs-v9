@@ -1,0 +1,914 @@
+{
+ "clusters": [
+  {
+   "name": "Run the decision lenses",
+   "jtbd_family": "Take a sharpened question plus prep context and run it through adversarial, risk, bayesian, immune and synthesis lenses to produce a graded position with a Y state.",
+   "members": [
+    "arcs_operators_lab.py",
+    "arcs_operators_bar.py",
+    "arcs_operators_sage.py",
+    "arcs_operators_curator.py",
+    "arcs_operator_kairos.py",
+    "arcs_operator_contract.py",
+    "arcs_constitutional_court.py",
+    "arcs_kintsugi.py",
+    "arcs_operator20.py",
+    "arcs_operator21.py",
+    "arcs_primitives.py",
+    "arcs_primitives_bridge.py",
+    "arcs_kinematics.py",
+    "arcs_rom.py",
+    "arcs_no_go_inventory.py",
+    "kryptonite_scorer.py",
+    "waveform_optimizer.py",
+    "receipt_evaluator.py",
+    "sage_distillation_data.py",
+    "tf_sage_distillation.py",
+    "torch_sage_distillation.py",
+    "arcs_seed_bar.py"
+   ],
+   "serves_aspects": [
+    "D",
+    "R",
+    "C"
+   ],
+   "serves_geometry": "Every receipt. Measured corpus is PLAN 161 and COURT 96, FORK 137 and PARADOX 116 (253 of 267), TWO_WAY 171 and ONE_WAY 96, stakes MEDIUM 156 and HIGH 74. GREEN 0, LOCKED 0, SHARP 0: the lenses have never produced a sharp verdict in prod. The Python suite is not wired to the compass route (AGENTS.md integration status); the TS L0 to L5 prompt in src/app/api/compass/route.ts is what runs.",
+   "magnetic_rule": "Snap here when a question exists and no verdict exists yet, or when a verdict exists and someone wants a second named lens on the same D (BAR for ruin, LAB for adversarial, Court for a one-way door). Lowest energy because every other cluster consumes a receipt; this one is the only one that makes a verdict.",
+   "state_mix": "WIRED 9, UNAUDITED 13"
+  },
+  {
+   "name": "Invoke, persist and trace an engine run",
+   "jtbd_family": "Make an engine run callable, persisted and traceable: an HTTP or MCP entry point, an append-only store, a trace span, and serializable parallel futures.",
+   "members": [
+    "arcs_api.py",
+    "arcs_runtime_service.py",
+    "arcs_pipeline_v1.py",
+    "pipeline_runner.py",
+    "operator_client.py",
+    "arcs_mcp_bridge.py",
+    "arcs_store.py",
+    "arcs_yoav_store.py",
+    "arcs_trace.py",
+    "arcs_trace_loki.py",
+    "arcs_substrate.py",
+    "arcs_init_bundles.py",
+    "cli_arcs_run.py",
+    "seed_test_receipts.py"
+   ],
+   "serves_aspects": [
+    "C",
+    "H"
+   ],
+   "serves_geometry": "Session depth 2 and up (26 sessions at depth 2 to 3, 15 at depth 4 plus, max 13): persistence, replay and future serialization only matter once a session holds more than one receipt. Prod persistence is Prisma in the compass route, not this cluster.",
+   "magnetic_rule": "Snap here when the job is call the engine from somewhere else or keep what the engine said, not decide. Yoav serialization when two branches could commit the same future.",
+   "state_mix": "UNAUDITED 10, WIRED 4"
+  },
+  {
+   "name": "Find the cross-domain echo",
+   "jtbd_family": "Surface a kinematic isomorphism from another domain that reframes the stuck question, then falsify it before trusting it (tributary [2] adjacent; ROM primitive 5).",
+   "members": [
+    "echo-scan",
+    "arcs_inchworm_echo.py",
+    "arcs_echo_embedding.py",
+    "echo_detector_dogfood.py",
+    "echo_ridgeline_feed.py"
+   ],
+   "serves_aspects": [
+    "D",
+    "C"
+   ],
+   "serves_geometry": "PARADOX 116 and flowTopology DIVERGENT 154: a reframe is the move when the Y state is entangled or the paths diverge. Pulls on depth 2 plus sessions where the same D keeps returning.",
+   "magnetic_rule": "Snap when the question has been run and the answer is both or neither, and the user needs a different frame rather than more evidence. The dogfood and ridgeline dither harnesses stay in the cluster so an echo is tested, not decreed.",
+   "state_mix": "WIRED 3, UNAUDITED 2"
+  },
+  {
+   "name": "Encode a signal for the recipient's altitude and cognitive state",
+   "jtbd_family": "Translate a decision or signal to the altitude and register a specific recipient can receive without loss, gated by whether that recipient is cognitively safe to receive it right now.",
+   "members": [
+    "arcs_cis.py",
+    "arcs_lte.py",
+    "arcs_hc.py"
+   ],
+   "serves_aspects": [
+    "C",
+    "H"
+   ],
+   "serves_geometry": "The handoff of a verdict to a counterpart. Altitude free text in the corpus spans L0 to L4. Pulls on COURT and ONE_WAY sends where a mis-pitched message is itself irreversible.",
+   "magnetic_rule": "Snap when the decision is made and the remaining risk is in the transmission, not the content. All three are UNAUDITED and not wired to a route; today the register tuning actually happens in forge and counterpart-gauntlet.",
+   "state_mix": "UNAUDITED 3"
+  },
+  {
+   "name": "Attest and record a decision as it happens",
+   "jtbd_family": "Freeze the position at the moment it is taken: the DEWY stub, the witness stub, the assumptions ledger, the receipt contract and its timing fields.",
+   "members": [
+    "witness",
+    "witness_backfill_scout.py",
+    "arcs_dewy_log.py",
+    "arcs_receipt_core.py",
+    "receipt_timing_gate.py",
+    "receipt_lookup.py",
+    "assumptions.py",
+    "prod_receipt_to_op20_seed.py"
+   ],
+   "serves_aspects": [
+    "D",
+    "W"
+   ],
+   "serves_geometry": "Every receipt at write time. Horizon WEEK 175 dominates, so the reviewDate written here is mostly ~1 week out. Status OPEN 264 of 267: almost every attestation is still waiting for a close.",
+   "magnetic_rule": "Snap when something just happened (a decision, a flash, a premise accepted) and it must be stamped before it is reconstructed. Lowest energy because attesting later costs a false timestamp (WORLD.md Witness).",
+   "state_mix": "WIRED 5, UNAUDITED 3"
+  },
+  {
+   "name": "Close the loop: outcomes, calibration, belief change",
+   "jtbd_family": "Compare what was predicted with what happened, move the belief that was wrong, score calibration per cohort, and propagate the lesson to everything built on the old belief.",
+   "members": [
+    "outcome_funnel.py",
+    "receipt_efficacy_probe.py",
+    "receipt_outcome_resolver.py",
+    "arcs_accountant.py",
+    "accountant_weekly.py",
+    "prod_receipt_to_accountant.py",
+    "believability_ledger.py",
+    "corrections_link.py",
+    "claim_check.py",
+    "bank_event.py",
+    "thread-recoil",
+    "second_pass_ledger.py",
+    "serialize_grade.py",
+    "source_trust_emit.py"
+   ],
+   "serves_aspects": [
+    "C",
+    "H"
+   ],
+   "serves_geometry": "Outcomes 3 of 267, matched 2, avg regretScore 2.33, status LOGGED 3, driftState LANDED 2. Pulls on receipts whose horizon has passed; with WEEK 175 that is most of the corpus. The Accountant refuses to calibrate below n=30 per cohort, so this is 14 tools serving a geometry with n=3.",
+   "magnetic_rule": "Snap when a reviewDate has passed or a counterpart has responded. The energy well is real but almost nothing rolls into it: the capture rate, not the tooling, is the gap.",
+   "state_mix": "WIRED 9, INSTALLED-UNUSED 4, UNAUDITED 1"
+  },
+  {
+   "name": "Prepare for, run and close a counterpart encounter",
+   "jtbd_family": "Before a call, assemble the context and the ex-ante receipt; after it, pull the transcript, score the receipt against reality, and render the war room.",
+   "members": [
+    "recoil-new",
+    "recoil-prep",
+    "recoil-close",
+    "recoil-ship",
+    "precall-brief",
+    "teardown",
+    "recoil_brief.py",
+    "recoil-report (command)",
+    "recoil-report (workflow)",
+    "recoil-report (package)",
+    "gen_receipt_close.py",
+    "warroom_board.py",
+    "gen_recoil_artifact.py"
+   ],
+   "serves_aspects": [
+    "D",
+    "R",
+    "W"
+   ],
+   "serves_geometry": "Mode COURT, door ONE_WAY, stakes HIGH when a human counterpart is on the other side (ONE_WAY 96; COURT is also 96, likely the same rows, not confirmed). Horizon TODAY 22 and WEEK 175: a meeting is on the calendar. Kairos URGENT or CLOSING.",
+   "magnetic_rule": "Snap when a named person and a timestamp exist. T-minus, T-zero, T-plus is the lowest-energy ordering because the transcript is the only outcome signal the corpus reliably captures while prod outcomes stay at 3.",
+   "state_mix": "WIRED 12, UNAUDITED 1"
+  },
+  {
+   "name": "Forge and harden a counterpart-facing artifact family",
+   "jtbd_family": "Build the clean surface family a counterpart will read, then run it through the pre-send gauntlet under a cost budget until it is send-worthy.",
+   "members": [
+    "forge",
+    "forge-kit",
+    "forge_counterpart.py",
+    "forge_finalize.sh",
+    "forge_finalize_one.sh",
+    "counterpart-gauntlet",
+    "hypercube_sampler.py",
+    "gauntlet_report.py",
+    "teardown-page-factory",
+    "prl-page-factory",
+    "omakase-pipeline",
+    "arcs-verb-eval",
+    "sugar_bulk.py",
+    "teardown_eval.py"
+   ],
+   "serves_aspects": [
+    "R",
+    "C",
+    "H"
+   ],
+   "serves_geometry": "ONE_WAY door (a sent artifact cannot be unsent), stakes HIGH, mode COURT, kairos CLOSING (a send date). Depth 4 plus: forge runs are the multi-day sessions (12 measured).",
+   "magnetic_rule": "Snap when an artifact exists that someone outside the air-gap will see and a send date exists. Falls to the public-surface gate cluster when there is no named counterpart.",
+   "state_mix": "WIRED 12, INSTALLED-UNUSED 1, UNAUDITED 1"
+  },
+  {
+   "name": "Scan personal data for observed motion",
+   "jtbd_family": "Extract revealed preference from calendar, listening, reading, network and forensic data so prep is grounded in what the person actually did, not what they say.",
+   "members": [
+    "arcs_core.py",
+    "arcs_cli.py",
+    "calendar_scan.py",
+    "listening_scan.py",
+    "reader_scan.py",
+    "network_scan.py",
+    "network_scan_full.py",
+    "forensic_scan.py",
+    "archetype_scan.py",
+    "arcs_diagnostic.py",
+    "score_me.py",
+    "export_apollo.py"
+   ],
+   "serves_aspects": [
+    "D",
+    "C"
+   ],
+   "serves_geometry": "Upstream of a receipt; serves the PrepSession, not the Y state. Pulls on horizon QUARTER 51 and YEARS 19 (pattern over time) more than TODAY 22. The 118 depth-1 sessions with no prep are where this would matter and where it is not used.",
+   "magnetic_rule": "Snap when the question is vague and the person's own data is at hand; a scanner envelope is the cheapest D sharpener (stdlib only, no LLM).",
+   "state_mix": "WIRED 11, UNAUDITED 1"
+  },
+  {
+   "name": "Run the job-search pipeline",
+   "jtbd_family": "Source winnable reqs, verify they are real, screen the counterparty for malice, cut and gate the resume and public posts.",
+   "members": [
+    "bridge_index_scan.py",
+    "scout_dossier_ingest.py",
+    "resume_ats_render.py",
+    "resume_location_gate.py",
+    "trust_name_leak.py",
+    "req_reality_gate.py",
+    "linkedin_cut.py",
+    "linkedin_render.py",
+    "sbom-payload-scan",
+    "jobs_prose_gate.py"
+   ],
+   "serves_aspects": [
+    "R",
+    "W",
+    "H"
+   ],
+   "serves_geometry": "TWO_WAY door (an application is reversible) at MEDIUM stakes, horizon WEEK, mode PLAN. The one domain with a real outcome ledger (second_pass_ledger rejections), so calibration can be tested here first.",
+   "magnetic_rule": "Snap when the counterpart is an employer or recruiter. Three-gate smoke test before the call, never after.",
+   "state_mix": "WIRED 8, INSTALLED-UNUSED 2"
+  },
+  {
+   "name": "Author and render a public page or post",
+   "jtbd_family": "Turn a markdown source or data JSON into a styled page in the arcs.care family with frozen publish timestamps, series denotation, brand tokens and a local preview.",
+   "members": [
+    "nftt-story-factory",
+    "blog_render.py",
+    "blog_provenance.py",
+    "nftt_published.py",
+    "nftt_series.py",
+    "press_run.py",
+    "video_cut.py",
+    "milestone_render.py",
+    "connector_render.py",
+    "case_world_sync.py",
+    "sync_family_tokens.py",
+    "sync_family_roster.py",
+    "arcs-brand-manager",
+    "static-serve.py",
+    "fates.py"
+   ],
+   "serves_aspects": [
+    "H",
+    "C"
+   ],
+   "serves_geometry": "TWO_WAY (a page can be unpublished) at LOW to MEDIUM stakes, PLAN mode, horizon WEEK. Not a receipt geometry; the pull is the press schedule and the fate registry (ADR-068 print schedule).",
+   "magnetic_rule": "Snap when a source exists and the destination is a public URL with no named reader. The gate cluster runs before this one ships.",
+   "state_mix": "WIRED 15"
+  },
+  {
+   "name": "Gate a public surface before anyone sees it",
+   "jtbd_family": "Mechanically fail a page that would wrap wrong, leak an internal fact, cite nothing, read as slop or re-author tokens, before a human looks at it.",
+   "members": [
+    "page-gate",
+    "page_gate.py",
+    "artifact_wrap_lint.py",
+    "gutter_consistency_lint.py",
+    "html_div_balance_lint.py",
+    "tooltip_link_lint.py",
+    "token_source_gate.py",
+    "component_source_gate.py",
+    "analytics_coverage_gate.py",
+    "fonts_selfhost.py",
+    "slop_lint.py",
+    "slop_eval.py",
+    "provenance_lint.py",
+    "case_evidence_lint.py",
+    "altitude_canary.py",
+    "tripwire.sh",
+    "nftt-gates.sh",
+    "nftt_contrast_ratchet.py",
+    "nftt_dropcap_lint.py",
+    "nftt_meta_gate.py",
+    "faq-eval",
+    "leak_check.sh",
+    "integrity_gate.py"
+   ],
+   "serves_aspects": [
+    "R",
+    "C"
+   ],
+   "serves_geometry": "ONE_WAY in practice (a leaked internal fact is irreversible once crawled) even when the page is TWO_WAY; stakes rise to HIGH on prospect-facing pages. Frustration-gate pattern: fail the class, not the instance.",
+   "magnetic_rule": "Snap whenever a file under public/ or an artifact directory changes. Lowest energy because the gate is cheaper than the eyeball and the eyeball misses the narrow-lede class.",
+   "state_mix": "WIRED 22, INSTALLED-UNUSED 1"
+  },
+  {
+   "name": "Project a safe public mirror of an internal ledger",
+   "jtbd_family": "Change basis from an internal append-only ledger to a public file that carries only whitelisted keys, so the shape crosses the air-gap and the names do not.",
+   "members": [
+    "projection_factory.py",
+    "belief_log_emit.py",
+    "gauntlet_log_emit.py",
+    "status_floor_emit.py"
+   ],
+   "serves_aspects": [
+    "R",
+    "C"
+   ],
+   "serves_geometry": "ONE_WAY (what is served is crawled), stakes HIGH, mode COURT. Serves the believability and gauntlet ledgers and the status floor.",
+   "magnetic_rule": "Snap when an internal instrument should be visible to prospects. The four-thing contract (source, whitelist, template, check) beats a hand-written page because --check makes drift mechanical.",
+   "state_mix": "WIRED 3, INSTALLED-UNUSED 1"
+  },
+  {
+   "name": "Replay the trajectory (observatory data path)",
+   "jtbd_family": "Build the Observatory payload (events, risks, layers) from a repo's commit and release history under an editable rule set, redacting open risks.",
+   "members": [
+    "build_observatory.py",
+    "github_ingest.py",
+    "event_rules.py"
+   ],
+   "serves_aspects": [
+    "W",
+    "C"
+   ],
+   "serves_geometry": "Session depth 2 plus (41 of 159 sessions) is the geometry WORLD.md promises the Observatory serves. Measured: all three tools ingest git and GitHub, not Receipt rows, so they replay the build, not the decisions.",
+   "magnetic_rule": "Snap when the question is how did we get here over a repo. Does not snap for a receipt session today.",
+   "state_mix": "WIRED 3"
+  },
+  {
+   "name": "Digest a corpus into a graded reading room",
+   "jtbd_family": "Grade, cache and render a corpus (essays, engagement artifacts, concepts) as an almanac, chronicle and concordance, re-grading only slices whose sources changed.",
+   "members": [
+    "research_render.py",
+    "chronicle_render.py",
+    "concordance_render.py",
+    "cache_manifest.py",
+    "cache_backprop.py",
+    "essay_atlas.py",
+    "corpus_adapter_louisville.py"
+   ],
+   "serves_aspects": [
+    "C",
+    "H"
+   ],
+   "serves_geometry": "Horizon QUARTER and YEARS (a corpus accrues), depth 4 plus sessions, PLAN mode. Cost-governed by the cache manifest.",
+   "magnetic_rule": "Snap when the same corpus is read more than once; the manifest makes the second read nearly free.",
+   "state_mix": "WIRED 7"
+  },
+  {
+   "name": "Bank vocabulary, lore, proverbs and canon; propagate changes",
+   "jtbd_family": "Keep the four books (dictionary, encyclopedia, thesaurus, proverbs) and the seed bank consistent, mint proverbs from decisions, and propagate a change in a first-order source to everything downstream.",
+   "members": [
+    "tao-mint",
+    "canon-review",
+    "gen_tao_alchemist.py",
+    "gen_tao_corpus.py",
+    "gen_tao_views.py",
+    "tao_coverage_check.py",
+    "tao_project.py",
+    "legend.py",
+    "lore.py",
+    "canon_propagation_check.py",
+    "canon_propagation_nightly.sh",
+    "adr_audit.py",
+    "doll_export.py",
+    "doll_sprout.py",
+    "lattice_sim.py",
+    "lattice_drift_check.py",
+    "seedbank_drift_check.py",
+    "reel_in_scan.py",
+    "gravity_well_fork_scan.py",
+    "memory_index_sync.py",
+    "memory_catalog_emit.py"
+   ],
+   "serves_aspects": [
+    "C",
+    "D"
+   ],
+   "serves_geometry": "Not per-receipt; pulls on horizon YEARS and on every ADR or ROM candidate landing. Kairos OPEN (canon never closes).",
+   "magnetic_rule": "Snap when a word, a story or a law changed and other files cite it. The nightly sentinel makes the propagation check the lowest-energy default.",
+   "state_mix": "WIRED 19, UNAUDITED 1, INSTALLED-UNUSED 1"
+  },
+  {
+   "name": "Route a job to the one right tool; inventory the toolset",
+   "jtbd_family": "Given a stated job, name the one existing tool (ADR-070 induction surface), keep the catalog and operator registry generated from source, and forge a new tool only when none fits.",
+   "members": [
+    "catalog",
+    "tool_catalog_emit.py",
+    "tool_orphan_audit.py",
+    "operator_registry_emit.py",
+    "tool-forge",
+    "arcs_librarian.py"
+   ],
+   "serves_aspects": [
+    "H",
+    "C"
+   ],
+   "serves_geometry": "Every session start; the 256-tool catalog is the input to this very map. QUICKMOVE in spirit (10 measured): the route should be one call.",
+   "magnetic_rule": "Snap before any new script is written (memory jtbd-reuse-existing-tool-before-inventing).",
+   "state_mix": "WIRED 5, UNAUDITED 1"
+  },
+  {
+   "name": "Hand off and pick up a session losslessly",
+   "jtbd_family": "Fold a dense session's residue into cold-moltable chips and one arc block at close; unfold and orient at open without re-reading everything.",
+   "members": [
+    "handoff",
+    "handoff-pickup",
+    "fold",
+    "unfold.py",
+    "session-start",
+    "pre-compact",
+    "handoff_cluster.py",
+    "handoff_excavate.py",
+    "handoff_fold.py",
+    "shavasana_handoff.py",
+    "snapshot_prune_ui_artifacts.py",
+    "cold_molt_lint.py",
+    "night-moves",
+    "night_moves_gather.sh"
+   ],
+   "serves_aspects": [
+    "C",
+    "H"
+   ],
+   "serves_geometry": "Session depth 2 plus and the 12 multi-day sessions; median span 56 minutes at depth 2 plus. Kairos CLOSING (context about to compact).",
+   "magnetic_rule": "Snap at compaction or session end; the hook fires it. Lowest energy because the alternative, re-deriving next session, cost ~40k tokens per session before 2026-07-19.",
+   "state_mix": "WIRED 12, INSTALLED-UNUSED 2"
+  },
+  {
+   "name": "Keep the open-loop backlog honest",
+   "jtbd_family": "One read over every open-loop store: waiting on a yes, closable in 15 minutes, rotting, ripe, captured today; let demand signals move priority.",
+   "members": [
+    "loops",
+    "open_loops.py",
+    "backlog_freshness.py",
+    "backlog_ripeness.py",
+    "backlog_issue_sync.py",
+    "probe_tally.py"
+   ],
+   "serves_aspects": [
+    "W",
+    "H"
+   ],
+   "serves_geometry": "Status OPEN 264 of 267 receipts plus the induced backlog: the corpus is almost entirely open loops. This cluster detects kairos transitions (OPEN to CLOSING) for backlog rows, not for receipts.",
+   "magnetic_rule": "Snap at the start of the day or when choosing what to do next. Read-only, no new store.",
+   "state_mix": "WIRED 6"
+  },
+  {
+   "name": "Serialize parallel sessions and worktrees",
+   "jtbd_family": "Give concurrent sessions one sequence authority (numbers, time), one write lock on hot files, and safe worktree sync and reclamation so parallel work does not collide.",
+   "members": [
+    "oracle.py",
+    "pulse.py",
+    "write_lock.py",
+    "sync_worktree.sh",
+    "hookspath_arm.sh",
+    "branch_hygiene_check.py",
+    "cruft-sweep",
+    "cruft_sweep.py",
+    "fork_lineage_check.sh"
+   ],
+   "serves_aspects": [
+    "R",
+    "C"
+   ],
+   "serves_geometry": "Not per-receipt; pulls whenever more than one session is live (cap 4 per memory). ONE_WAY: a doubled ADR number or a clobbered file is a one-way door.",
+   "magnetic_rule": "Snap before minting any number or writing a shared anchor. Git's non-fast-forward rejection is the atomic gate; everything here rides it.",
+   "state_mix": "WIRED 9"
+  },
+  {
+   "name": "Ship code to main under the repo contract",
+   "jtbd_family": "Score the diff, enforce the constitutional code rules (inline styles, model registry, RLS, null userId, purpose), merge with a merge commit, detect squashes.",
+   "members": [
+    "nci-scoring",
+    "nci-commit",
+    "ship_docs.sh",
+    "merge_train.sh",
+    "squash_merge_detector.py",
+    "classname_guard.py",
+    "migration_rls_lint.py",
+    "model_id_gate.py",
+    "model_drift_check.py",
+    "arcs_models.py",
+    "null_userid_gate.py",
+    "purpose_guard.py",
+    "security_review_gate.sh",
+    "ledger_check.py"
+   ],
+   "serves_aspects": [
+    "R",
+    "C",
+    "H"
+   ],
+   "serves_geometry": "TWO_WAY door with a cheap revert, MEDIUM stakes, PLAN mode; NCI thresholds >=50 and >=45. merge_train exists because CI runs are the cost driver.",
+   "magnetic_rule": "Snap on every commit via pre-commit; lowest energy because session-start arms the hooks.",
+   "state_mix": "WIRED 14"
+  },
+  {
+   "name": "Deploy and verify production",
+   "jtbd_family": "Apply prod migrations, deploy through the guardrail wrapper, refuse branch-pinned domains, run the acceptance smoke.",
+   "members": [
+    "deploy-prod.sh",
+    "vercel-ignore-build.sh",
+    "vercel-migrate-deploy.sh",
+    "baseline-prod-migrations.sh",
+    "smoke.sh",
+    "vercel_branch_pin_gate.py"
+   ],
+   "serves_aspects": [
+    "R",
+    "W"
+   ],
+   "serves_geometry": "ONE_WAY door (a migration), stakes HIGH, mode COURT, kairos URGENT when prod is broken.",
+   "magnetic_rule": "Snap when the change touches schema or the serving project. Never bare vercel --prod.",
+   "state_mix": "WIRED 6"
+  },
+  {
+   "name": "Audit the system for drift between claim and state",
+   "jtbd_family": "Compare what docs, handoffs and backlog claim against live git, deploy and DB state; root-cause one error when it is worth it; reconstruct a post-mortem cold.",
+   "members": [
+    "meta-audit",
+    "drift-check",
+    "state_sync_check.py",
+    "risk_sweep.py",
+    "risk_sweep_cron.sh",
+    "cold-recon",
+    "rca"
+   ],
+   "serves_aspects": [
+    "C",
+    "R"
+   ],
+   "serves_geometry": "driftState ON_TRACK 261 and DRIFTING 4 is the receipt-side signal; this cluster works the repo side. Scheduled (04:00 UTC sentinel, nightly risk sweep) plus on demand.",
+   "magnetic_rule": "Snap when something feels off or a handoff lands. Read-only.",
+   "state_mix": "WIRED 6, UNAUDITED 1"
+  },
+  {
+   "name": "Govern cost and blast radius",
+   "jtbd_family": "Measure the per-turn token floor, bound every long-running task with a timeout, route by battery, batch API calls.",
+   "members": [
+    "token_kaizen.py",
+    "watchdog.sh",
+    "arcs_battery.py",
+    "nftt_claim_batch.py"
+   ],
+   "serves_aspects": [
+    "H"
+   ],
+   "serves_geometry": "Orthogonal to receipts; pulls on every fan-out and every long job.",
+   "magnetic_rule": "Snap before any fan-out or long task (token-savings-bank rule). watchdog is the default stop rule, not an afterthought.",
+   "state_mix": "WIRED 2, UNAUDITED 1, INSTALLED-UNUSED 1"
+  },
+  {
+   "name": "Preserve work off-machine",
+   "jtbd_family": "Encrypted snapshot to iCloud and a mirror of built bundles.",
+   "members": [
+    "arcs_backup.py",
+    "forge_mirror_icloud.sh"
+   ],
+   "serves_aspects": [
+    "R"
+   ],
+   "serves_geometry": "Not a decision geometry; a durability job.",
+   "magnetic_rule": "Snap on a schedule, not on a decision.",
+   "state_mix": "UNAUDITED 1, WIRED 1"
+  }
+ ],
+ "residue_assigned": [
+  {
+   "name": "arcs-brand-manager",
+   "cluster": "Author and render a public page or post",
+   "why": "Styling reference (tokens, voice) applied while rendering any ARCS-branded artifact."
+  },
+  {
+   "name": "precall-brief",
+   "cluster": "Prepare for, run and close a counterpart encounter",
+   "why": "Finds the meeting on the calendar and hands a briefed context into /teardown: the T-minus phase."
+  },
+  {
+   "name": "rca",
+   "cluster": "Audit the system for drift between claim and state",
+   "why": "Root-cause one error worth the structured treatment; same claim-vs-state job as cold-recon."
+  },
+  {
+   "name": "pre-compact",
+   "cluster": "Hand off and pick up a session losslessly",
+   "why": "Snapshots session state before compaction so the next turn does not re-derive it."
+  },
+  {
+   "name": "altitude_canary.py",
+   "cluster": "Gate a public surface before anyone sees it",
+   "why": "Per-section confidence markers vs ground returns on prose; composes integrity_gate's cite classes."
+  },
+  {
+   "name": "arcs_cli.py",
+   "cluster": "Scan personal data for observed motion",
+   "why": "5-verb pipeline over any scanner's JSON envelope."
+  },
+  {
+   "name": "arcs_core.py",
+   "cluster": "Scan personal data for observed motion",
+   "why": "Shared gauntlet kernel (Double Helix, Triune Logic) every domain scanner injects into."
+  },
+  {
+   "name": "backlog_freshness.py",
+   "cluster": "Keep the open-loop backlog honest",
+   "why": "Lists induced-backlog rows past review_by."
+  },
+  {
+   "name": "backlog_ripeness.py",
+   "cluster": "Keep the open-loop backlog honest",
+   "why": "Which backlog rows ripened because their trigger fired."
+  },
+  {
+   "name": "bank_event.py",
+   "cluster": "Close the loop: outcomes, calibration, belief change",
+   "why": "Records anterior to posterior belief change and scans dependents built on the old belief."
+  },
+  {
+   "name": "build_observatory.py",
+   "cluster": "Replay the trajectory (observatory data path)",
+   "why": "Emits the Observatory payload from git log, ADRs and file metrics."
+  },
+  {
+   "name": "cache_manifest.py",
+   "cluster": "Digest a corpus into a graded reading room",
+   "why": "Index of graded (domain, epoch) slices and whether each is fresh or dirty."
+  },
+  {
+   "name": "corpus_adapter_louisville.py",
+   "cluster": "Digest a corpus into a graded reading room",
+   "why": "Per-client shim feeding the corpus-generic atlas engines."
+  },
+  {
+   "name": "echo_detector_dogfood.py",
+   "cluster": "Find the cross-domain echo",
+   "why": "Labeled precision/recall benchmark for the echo detector's graduation gate."
+  },
+  {
+   "name": "echo_ridgeline_feed.py",
+   "cluster": "Find the cross-domain echo",
+   "why": "Dither test: an echo that survives perturbation is a candidate, one that vanishes was aliasing."
+  },
+  {
+   "name": "event_rules.py",
+   "cluster": "Replay the trajectory (observatory data path)",
+   "why": "User-editable rule engine that classifies signals into Observatory event and risk objects."
+  },
+  {
+   "name": "gauntlet_log_emit.py",
+   "cluster": "Project a safe public mirror of an internal ledger",
+   "why": "Second projection through projection_factory: gauntlet ledger to status.arcs.care/gauntlets."
+  },
+  {
+   "name": "github_ingest.py",
+   "cluster": "Replay the trajectory (observatory data path)",
+   "why": "Same Observatory payload schema from any GitHub repo, live or offline."
+  },
+  {
+   "name": "hypercube_sampler.py",
+   "cluster": "Forge and harden a counterpart-facing artifact family",
+   "why": "Cost-governed sampling engine for the gauntlet (ADR-060 two-gate architecture)."
+  },
+  {
+   "name": "legend.py",
+   "cluster": "Bank vocabulary, lore, proverbs and canon; propagate changes",
+   "why": "The dictionary: banked, gated terms in runtime/specs/legend.jsonl."
+  },
+  {
+   "name": "lore.py",
+   "cluster": "Bank vocabulary, lore, proverbs and canon; propagate changes",
+   "why": "The book of stories with verdicts, LEGEND's uncle."
+  },
+  {
+   "name": "merge_train.sh",
+   "cluster": "Ship code to main under the repo contract",
+   "why": "Stacks green PRs as merge commits and builds the tip once; one CI run instead of N."
+  },
+  {
+   "name": "night_moves_gather.sh",
+   "cluster": "Hand off and pick up a session losslessly",
+   "why": "Deterministic raw material for the end-of-day digest."
+  },
+  {
+   "name": "open_loops.py",
+   "cluster": "Keep the open-loop backlog honest",
+   "why": "The one front door over every open-loop store; backs /loops."
+  },
+  {
+   "name": "oracle.py",
+   "cluster": "Serialize parallel sessions and worktrees",
+   "why": "Sequence and time authority; git non-fast-forward rejection is the lock."
+  },
+  {
+   "name": "probe_tally.py",
+   "cluster": "Keep the open-loop backlog honest",
+   "why": "Reads demand-probe counts and moves the matching backlog row's priority by band."
+  },
+  {
+   "name": "projection_factory.py",
+   "cluster": "Project a safe public mirror of an internal ledger",
+   "why": "The reusable four-thing projection contract (source, whitelist, template, check)."
+  },
+  {
+   "name": "risk_sweep.py",
+   "cluster": "Audit the system for drift between claim and state",
+   "why": "Mechanical breaking or non-idempotent change sweep over main into an append-only register."
+  },
+  {
+   "name": "risk_sweep_cron.sh",
+   "cluster": "Audit the system for drift between claim and state",
+   "why": "Zero-token nightly entry for risk_sweep."
+  },
+  {
+   "name": "ship_docs.sh",
+   "cluster": "Ship code to main under the repo contract",
+   "why": "Push, PR, merge for docs-only work with an enforced gate."
+  },
+  {
+   "name": "slop_eval.py",
+   "cluster": "Gate a public surface before anyone sees it",
+   "why": "Judgment tier of the slop-free system; advisory companion to slop_lint."
+  },
+  {
+   "name": "squash_merge_detector.py",
+   "cluster": "Ship code to main under the repo contract",
+   "why": "Flags PRs that landed without a merge commit (gotcha 17 backstop)."
+  },
+  {
+   "name": "static-serve.py",
+   "cluster": "Author and render a public page or post",
+   "why": "No declared JTBD; the code serves /Users/zharris/arcs-v9/public on 127.0.0.1:3100 with clean URLs. Local preview for rendered pages. Hardcodes the main-checkout path (gotcha 14 class)."
+  },
+  {
+   "name": "sugar_bulk.py",
+   "cluster": "Forge and harden a counterpart-facing artifact family",
+   "why": "Builds Sugar bulk payloads for the PRL client engagement; sandbox-only by default. Engagement delivery tooling, one counterpart."
+  },
+  {
+   "name": "token_kaizen.py",
+   "cluster": "Govern cost and blast radius",
+   "why": "Measures the fixed per-turn token floor and ranks candidate cuts; never applies one."
+  },
+  {
+   "name": "tripwire.sh",
+   "cluster": "Gate a public surface before anyone sees it",
+   "why": "Grep-only prospect-safety check that an internal fact did not leak onto a public page."
+  },
+  {
+   "name": "watchdog.sh",
+   "cluster": "Govern cost and blast radius",
+   "why": "Default stop rule: any long-running command gets a terminating timeout (ADR-032)."
+  },
+  {
+   "name": "arcs_api.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "FastAPI entry point exposing the runtime service over HTTP (POST /api/run)."
+  },
+  {
+   "name": "arcs_battery.py",
+   "cluster": "Govern cost and blast radius",
+   "why": "Routes GIGI query depth by battery mode; receipts always write."
+  },
+  {
+   "name": "arcs_cis.py",
+   "cluster": "Encode a signal for the recipient's altitude and cognitive state",
+   "why": "Cognitive Interface System: HC fires before LTE intake, CSS modulates every stage."
+  },
+  {
+   "name": "arcs_diagnostic.py",
+   "cluster": "Scan personal data for observed motion",
+   "why": "Interactive archetype quiz; nearest job is archetype_scan. Also listed as an orphan."
+  },
+  {
+   "name": "arcs_echo_embedding.py",
+   "cluster": "Find the cross-domain echo",
+   "why": "Embedding-backed signature and orthogonality functions injected into the detector."
+  },
+  {
+   "name": "arcs_inchworm_echo.py",
+   "cluster": "Find the cross-domain echo",
+   "why": "The Orthogonal Echo Detector itself (RC-OPS-001, experimentation, not ROM)."
+  },
+  {
+   "name": "arcs_init_bundles.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Bootstraps GIGI bundle schemas for the substrate client. Also listed as an orphan."
+  },
+  {
+   "name": "arcs_kinematics.py",
+   "cluster": "Run the decision lenses",
+   "why": "The 12D kinematic manifold (two-zone stack) behind the Y gate."
+  },
+  {
+   "name": "arcs_lte.py",
+   "cluster": "Encode a signal for the recipient's altitude and cognitive state",
+   "why": "7-stage lossless translation to the right altitude with a visible seam."
+  },
+  {
+   "name": "arcs_no_go_inventory.py",
+   "cluster": "Run the decision lenses",
+   "why": "Kintsugi ROM artifact: append-only failure-class log keyed to receipt_id."
+  },
+  {
+   "name": "arcs_pipeline_v1.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Sequences SAGE, LAB, BAR, CURATOR into a PipelineReceipt; blocks on RUIN."
+  },
+  {
+   "name": "arcs_rom.py",
+   "cluster": "Run the decision lenses",
+   "why": "Write-locked constants the lenses read: axioms, NCI formula, phase gate thresholds."
+  },
+  {
+   "name": "arcs_runtime_service.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Ballet-style conductor: trace spans, Court pre-commit, Kintsugi post-pipeline, YoavStore commit."
+  },
+  {
+   "name": "arcs_store.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Append-only receipt store with query API and op20 seed prep."
+  },
+  {
+   "name": "arcs_substrate.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Thin REST wrapper around GIGI at localhost:3142. Also listed as an orphan."
+  },
+  {
+   "name": "arcs_trace.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Trace atoms, spans, sessions; JSONL-first persistence."
+  },
+  {
+   "name": "arcs_trace_loki.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Trace-level Loki perturbations and BarRaiser over the span corpus."
+  },
+  {
+   "name": "arcs_yoav_store.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Ordered commit log with conflict detection over parallel futures."
+  },
+  {
+   "name": "pipeline_runner.py",
+   "cluster": "Invoke, persist and trace an engine run",
+   "why": "Flat-input wrapper over arcs_pipeline_v1 returning a receipt-shaped envelope."
+  }
+ ],
+ "orphans": [
+  "static-serve.py: no declared JTBD, hardcodes /Users/zharris/arcs-v9/public (main-checkout absolute path), serves no aspect; candidate molt into a documented preview script or deletion",
+  "arcs_diagnostic.py: interactive archetype quiz CLI; no receipt field consumes an archetype",
+  "arcs_init_bundles.py and arcs_substrate.py: GIGI substrate at localhost:3142; the compass seam is still TBD P3 (AGENTS.md); nothing in the prod path reads or writes it",
+  "arcs_battery.py: pmset-based routing with no caller in the prod path; no decision geometry",
+  "export_apollo.py: Apollo.io enrichment export; a sales export with no receipt geometry",
+  "seed_test_receipts.py: posts to /question-compass (COMPASS_ENDPOINT in the file); the Project Map's route is /api/compass; a fixture generator for a route not in the map",
+  "claim_check.py: INSTALLED-UNUSED governance scaffold; believability_ledger.py already does the job",
+  "sage_distillation_data.py, tf_sage_distillation.py, torch_sage_distillation.py: three tools distilling a classifier on a shared synthetic dataset; nothing in the receipt path consumes the distilled model",
+  "video_cut.py: shot spec to HTML scene plus prompt pack; marketing output that moves no aspect",
+  "kryptonite_scorer.py and waveform_optimizer.py: UNAUDITED operators with bare-name JTBDs, outside the periodic-table bindings (gotcha 16 records kryptonite_scorer being mis-bound as Accountant by an external audit); no receipt field consumes their output",
+  "handoff_cluster.py and handoff_excavate.py: INSTALLED-UNUSED; handoff_fold.py molt supersedes them (ADR-085 part d)"
+ ],
+ "collisions": [
+  "recoil-report (command) vs recoil-report (workflow) vs recoil-report (package): three catalog entries claim generate a recoil report; one job, three front doors",
+  "forge_finalize.sh (INSTALLED-UNUSED) vs forge_finalize_one.sh: both close a forge run; the lean per-bundle one is the live one",
+  "network_scan.py vs network_scan_full.py: same scan, portable edition",
+  "build_observatory.py vs github_ingest.py: identical output schema by their own docstrings; local git engine vs GitHub API engine",
+  "tf_sage_distillation.py vs torch_sage_distillation.py: same distillation, two frameworks",
+  "claim_check.py vs believability_ledger.py: scaffold vs the working instrument for the same claim-check job",
+  "handoff_cluster.py and handoff_excavate.py vs handoff_fold.py: superseded by the molt",
+  "nci-scoring (skill) vs nci-commit (command): both score the staged diff; nci-commit also commits",
+  "drift-check (command) vs meta-audit (skill): both audit drift; on-demand sentinel run vs full epoch",
+  "memory_catalog_emit.py vs memory_index_sync.py: both maintain memory index edges (declared-edges backfill vs self-cataloging sync)",
+  "catalog (command) vs arcs_librarian.py (Operator 21 recommend(q, budget)): both answer what should I use for this",
+  "Wrapper pairs that the catalog counts twice for one job: cruft-sweep vs cruft_sweep.py, page-gate vs page_gate.py, loops vs open_loops.py, handoff vs handoff_fold.py"
+ ],
+ "job_clusters_without_a_tool": [
+  "Outcome capture at horizon expiry: reviewDate is written (receipt_timing_gate.py) and counted (outcome_funnel.py) but nothing fires when it passes to ask did it land; outcomes 3 of 267, status LOGGED 3; the Receipt save prompt is still P1 in the AGENTS.md backlog",
+  "Receipt lineage writer: children 107 but parentTributaryIndex_set 0, batonId_set 0, mergedFrom_nonempty 0, forkPath_set 0; grep finds no script or operator writing parentTributaryIndex or forkPath; ATG follow-through cannot be measured without it",
+  "Geometry enum normalizer on the receipt write path: kairos, altitude and reversibility are free text; stakes carries 2 lowercase variants and 1 null; no gate or migration normalizes them, so every aggregation parses prose",
+  "Provenance classification at write time: provenance real 0, test 189, null 78; no tool marks a receipt real, and the Accountant's cohort split depends on it",
+  "Receipt-session replay: 41 sessions at depth 2 plus (max 13) while the three Observatory tools ingest git and GitHub, not Receipt rows; the conviction-trajectory replay WORLD.md promises has no tool",
+  "Kairos state detection: kairos is free text with OPEN dominating; arcs_operator_kairos.py exists but is not wired to the compass route and CLAUDE.md lists Kairos detection as not built; nothing moves a receipt from OPEN to CLOSING as time passes",
+  "nciByLens backfill: present on 27 of 267; no script computes the five-lens score for the 240 receipts written before it existed (operators reference nciByLens only as adapters)",
+  "PARADOX dissolve pass: 116 receipts rendered MOIRE; PARADOX appears in scripts only in legend.py and brief_eval.mts; no lens names the both-and move and the echo cluster is not invoked by Y state",
+  "QUICKMOVE path: 10 receipts; every cluster assumes PLAN or COURT depth; rare, listed as a gap not a priority"
+ ],
+ "_meta": {
+  "version": "0.1.0-draft",
+  "authored": "2026-10-07",
+  "status": "DRAFT, assignments not yet spot-checked against the tools' own docstrings; the verify stage is re-running",
+  "source": "compass-dopeness-audit workflow wf_29a8c87f-7f8, clusters:author over runtime/specs/tool-catalog.json + _STATE/2026-10-06-tool-clusters-mechanical.json"
+ }
+}

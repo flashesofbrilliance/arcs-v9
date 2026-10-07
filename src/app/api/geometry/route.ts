@@ -96,7 +96,8 @@ export async function GET(req: NextRequest) {
       yPolarity: true, yConviction: true, yStability: true, yState: true, yConditions: true,
       gradientMagnitude: true, flowTopology: true, manifoldCurvature: true, renderResolution: true,
       loki: true, bar: true, court: true, courtVerdict: true, nciSelfGrade: true, atgTributaries: true,
-      rawResponse: true, reminderDate: true,
+      rawResponse: true, reminderDate: true, fated: true, yConvictionPrev: true, yDeltaTrigger: true, reviewDate: true, nciGrade: true,
+      forkPath: true, mergedFrom: true, batonId: true, yOverride: true, dewyVector: true,
       brief: { select: { id: true } },
       outcome: { select: { matched: true, regretScore: true, loggedAt: true, synthetic: true } },
       prep: { select: { stakes: true, horizon: true, confidence: true, adversarialInput: true } },
@@ -145,6 +146,11 @@ export async function GET(req: NextRequest) {
     const alt = parseAltitude(geo.altitude)
     const rev = parseReversibility(geo.reversibility)
     const paths = Array.isArray(reasoning.paths) ? (reasoning.paths as Array<{ status?: string }>) : []
+    const fated = (reasoning.fated as Record<string, unknown> | undefined) ?? parseJson<Record<string, unknown>>(r.fated) ?? {}
+    const fatedN = ["facts", "assumptions", "tradeoffs", "emotions", "direction"].filter((k) => typeof fated[k] === "string" && (fated[k] as string).trim()).length
+    const breakdown = (reasoning.nci_breakdown as Record<string, unknown> | undefined) ?? {}
+    const dragsN = Array.isArray(breakdown.drags) ? (breakdown.drags as unknown[]).length : 0
+    const anchorsN = Array.isArray(breakdown.anchors) ? (breakdown.anchors as unknown[]).length : 0
 
     const base = {
       i,
@@ -180,6 +186,12 @@ export async function GET(req: NextRequest) {
       tribN: trib ? trib.length : 0,
       pathsN: paths.length,
       pathsBlocked: paths.filter((p) => String(p?.status ?? "") === "blocked").length,
+      pathsSel: paths.filter((p) => String(p?.status ?? "") === "selected").length,
+      fatedN, dragsN, anchorsN,
+      courtN: courtArr.length,
+      yPrev: r.yConvictionPrev, yTrig: !!r.yDeltaTrigger, rev: !!r.reviewDate, grade: !!r.nciGrade,
+      fork: !!r.forkPath, merged: r.mergedFrom !== "[]", baton: !!r.batonId, yov: r.yOverride,
+      dewy: !!r.dewyVector, sq: !!r.sharpQuestion, advN: [advisors.loki_challenge, advisors.loki_counter, advisors.consensus].filter((x) => typeof x === "string" && (x as string).trim()).length,
       self: selfGrade ? { f: !!selfGrade.factual, s: !!selfGrade.sources, h: !!selfGrade.honesty, a: !!selfGrade.action } : null,
       brief: !!r.brief,
       out: r.outcome ? { m: r.outcome.matched, r: r.outcome.regretScore, at: r.outcome.loggedAt.toISOString().slice(0, 10), syn: r.outcome.synthetic } : null,
