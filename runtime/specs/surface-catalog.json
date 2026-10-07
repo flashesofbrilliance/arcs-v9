@@ -6,11 +6,11 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 286,
+  "rows": 287,
   "hosts": 88,
   "by_kind": {
-   "explorer": 13,
-   "status": 11,
+   "explorer": 15,
+   "status": 10,
    "ledger": 3,
    "product page": 218,
    "gated": 41
@@ -18,7 +18,7 @@
   "next_config_hosts": 79,
   "proxy_hosts": 24,
   "app_routes": 45,
-  "missing_purpose": 4,
+  "missing_purpose": 3,
   "unlisted": 116
  },
  "retired_hosts": [
@@ -36,23 +36,11 @@
   "sentilink.arcs.care",
   "wing.arcs.care"
  ],
- "broken_destinations": [
-  "public/prl-status-wp.html"
- ],
+ "broken_destinations": [],
  "unrouted_public_html": [
   "public/blacksmith-cover.html",
   "public/blacksmith-resume.html",
-  "public/blog-nftt-post-1-brief.html",
-  "public/blog-nftt-post-1-exec.html",
-  "public/jack-rain-resume.html",
-  "public/lewoof.html",
-  "public/prl-chatbot.html",
-  "public/state-of-union.html",
-  "public/vico-gate.html",
-  "public/vishal-kapadia-awe-forensic.html",
-  "public/vishal-kapadia-forensic-report.html",
-  "public/yuri-ext.html",
-  "public/yuri-sample.html"
+  "public/jack-rain-resume.html"
  ],
  "rows": [
   {
@@ -4171,7 +4159,7 @@
    "host": "playground.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!fonts/|.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire).*)",
+   "source": "/:path((?!fonts/|api|_next|_vercel|.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire|.*decision-geometry).*)",
    "destination": "/playground.html",
    "pattern": false,
    "file": "public/playground.html",
@@ -4192,7 +4180,7 @@
    "host": "playground.arcs.care",
    "path": "/12d-orbital",
    "catch_all": false,
-   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)",
+   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire|decision-geometry)",
    "destination": "/pf-12d-orbital.html",
    "pattern": false,
    "file": "public/pf-12d-orbital.html",
@@ -4213,7 +4201,7 @@
    "host": "playground.arcs.care",
    "path": "/alexandria",
    "catch_all": false,
-   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)",
+   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire|decision-geometry)",
    "destination": "/pf-alexandria.html",
    "pattern": false,
    "file": "public/pf-alexandria.html",
@@ -4232,9 +4220,30 @@
   },
   {
    "host": "playground.arcs.care",
+   "path": "/decision-geometry",
+   "catch_all": false,
+   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire|decision-geometry)",
+   "destination": "/pf-decision-geometry.html",
+   "pattern": false,
+   "file": "public/pf-decision-geometry.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": "ARCS Decision Geometry",
+   "description": "Real compass receipts rendered as decision geometry: five aspects, five levels, gravity wells, the dopeness ladder and the tool that snaps to each job.",
+   "index": null,
+   "unlisted": false,
+   "purpose": "Real compass receipts rendered as decision geometry: five aspects, five levels, gravity wells, the dopeness ladder and the tool that snaps to each job.",
+   "kind": "explorer",
+   "last_commit": null
+  },
+  {
+   "host": "playground.arcs.care",
    "path": "/knowledge-lattice",
    "catch_all": false,
-   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)",
+   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire|decision-geometry)",
    "destination": "/pf-knowledge-lattice.html",
    "pattern": false,
    "file": "public/pf-knowledge-lattice.html",
@@ -4255,7 +4264,7 @@
    "host": "playground.arcs.care",
    "path": "/moire",
    "catch_all": false,
-   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)",
+   "source": "/:seg(12d-orbital|knowledge-lattice|alexandria|moire|decision-geometry)",
    "destination": "/pf-moire.html",
    "pattern": false,
    "file": "public/pf-moire.html",
@@ -4298,7 +4307,7 @@
    "host": "prl.arcs.care",
    "path": "/status/atlas",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-atlas.html",
    "pattern": false,
    "file": "public/prl-status-atlas.html",
@@ -4320,7 +4329,7 @@
    "host": "prl.arcs.care",
    "path": "/status/build",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-build.html",
    "pattern": false,
    "file": "public/prl-status-build.html",
@@ -4342,7 +4351,7 @@
    "host": "prl.arcs.care",
    "path": "/status/catchup",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-catchup.html",
    "pattern": false,
    "file": "public/prl-status-catchup.html",
@@ -4364,7 +4373,7 @@
    "host": "prl.arcs.care",
    "path": "/status/crm",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-crm.html",
    "pattern": false,
    "file": "public/prl-status-crm.html",
@@ -4386,7 +4395,7 @@
    "host": "prl.arcs.care",
    "path": "/status/progress",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-progress.html",
    "pattern": false,
    "file": "public/prl-status-progress.html",
@@ -4408,7 +4417,7 @@
    "host": "prl.arcs.care",
    "path": "/status/receipt",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-receipt.html",
    "pattern": false,
    "file": "public/prl-status-receipt.html",
@@ -4430,12 +4439,14 @@
    "host": "prl.arcs.care",
    "path": "/status/runbook",
    "catch_all": false,
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-runbook.html",
    "pattern": false,
    "file": "public/prl-status-runbook.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
+    "next.config.ts",
     "src/proxy.ts"
    ],
    "title": "Runbook & Go-Live Steps",
@@ -4450,7 +4461,7 @@
    "host": "prl.arcs.care",
    "path": "/status/tidio",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-tidio.html",
    "pattern": false,
    "file": "public/prl-status-tidio.html",
@@ -4472,7 +4483,7 @@
    "host": "prl.arcs.care",
    "path": "/status/troubleshooting",
    "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
+   "source": "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)",
    "destination": "/prl-status-troubleshooting.html",
    "pattern": false,
    "file": "public/prl-status-troubleshooting.html",
@@ -4489,28 +4500,6 @@
    "purpose": "Web Form Delivery CWO",
    "kind": "status",
    "last_commit": "2026-08-27"
-  },
-  {
-   "host": "prl.arcs.care",
-   "path": "/status/wp",
-   "catch_all": false,
-   "source": "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)",
-   "destination": "/prl-status-wp.html",
-   "pattern": false,
-   "file": "public/prl-status-wp.html",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "file_missing": true,
-   "title": null,
-   "description": null,
-   "index": null,
-   "unlisted": false,
-   "purpose": null,
-   "kind": "status",
-   "last_commit": null
   },
   {
    "host": "rain.arcs.care",
@@ -5393,7 +5382,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": null
+   "last_commit": "2026-10-07"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -5852,6 +5841,26 @@
    "purpose": "ARCS Compass — UI Kit",
    "kind": "product page",
    "last_commit": "2026-07-24"
+  },
+  {
+   "host": "*",
+   "path": "/decision-geometry",
+   "catch_all": false,
+   "destination": "/pf-decision-geometry.html",
+   "pattern": false,
+   "file": "public/pf-decision-geometry.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": "ARCS Decision Geometry",
+   "description": "Real compass receipts rendered as decision geometry: five aspects, five levels, gravity wells, the dopeness ladder and the tool that snaps to each job.",
+   "index": null,
+   "unlisted": false,
+   "purpose": "Real compass receipts rendered as decision geometry: five aspects, five levels, gravity wells, the dopeness ladder and the tool that snaps to each job.",
+   "kind": "explorer",
+   "last_commit": null
   },
   {
    "host": "*",

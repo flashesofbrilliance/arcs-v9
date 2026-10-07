@@ -1,0 +1,637 @@
+{
+ "aspects": [
+  {
+   "key": "D",
+   "label": "Decision (the sharp DEWY-D question and its bearing)",
+   "source_of_truth": "Receipt D-block columns written by src/app/api/compass/route.ts lines 439 to 476 (decision, trueNorth, whyBullets, mode, doorClass, atgTributaries, rawResponse) plus lineage columns (sessionId, parentId, version). Columns sharpQuestion, dewyVector, receiptId, sessionTs are declared in prisma/schema.prisma but never written by the route (0 of 267 by code path, custody: grep of route.ts).",
+   "cells": [
+    {
+     "id": "D1",
+     "label": "Question (sharp DEWY-D)",
+     "fields": [
+      "Receipt.decision",
+      "Receipt.sharpQuestion",
+      "Receipt.dewyVector",
+      "Receipt.coherencePct",
+      "rawResponse.nci_by_lens.clarity",
+      "Brief.situationFraming",
+      "Outcome.what"
+     ],
+     "level_rule": {
+      "L0": "Receipt.decision empty (cannot occur: column is required and the route clamps the user question into it)",
+      "L1": "Receipt.decision present but only the raw user text (no coherencePct, no clarity lens): the sharpening is inferred",
+      "L2": "Receipt.decision present and Receipt.coherencePct non-null (the model stated how well-formed the question is)",
+      "L3": "Receipt.sharpQuestion or Receipt.dewyVector.D non-null (the question decomposed into the schema-canonical atomic form)",
+      "L4": "Brief.situationFraming exists for this receiptId and restates the same decision (second model call, brief route, semi-independent of the compass call)",
+      "L5": "Outcome.what exists for this receiptId and names the same decision"
+     },
+     "tilde_when": "L3 is tilde on every receipt today: sharpQuestion and dewyVector are never written by the compass route. L4 tilde when no Brief row.",
+     "coverage_now": "L2: 267 (decision required; coherencePct presence not measured this session, ~267 since the contract requires it). L3: 0 by code path. L4: 176 briefs. L5: 3 outcomes."
+    },
+    {
+     "id": "D2",
+     "label": "Bearing (true_north plus why)",
+     "fields": [
+      "Receipt.trueNorth",
+      "Receipt.whyBullets",
+      "Receipt.nciSelfGrade",
+      "rawResponse.reasoning.paths[].status",
+      "Outcome.matched"
+     ],
+     "level_rule": {
+      "L0": "trueNorth empty (cannot occur: required column)",
+      "L1": "trueNorth present, whyBullets parses to an empty array",
+      "L2": "trueNorth present and whyBullets has at least one bullet",
+      "L3": "whyBullets has 2 or more bullets AND nciSelfGrade.action is true (the bearing decomposed into reasons and self-graded as one concrete step)",
+      "L4": "rawResponse.reasoning.paths contains a path with status 'selected' whose tag is 'True North' and whose title agrees with trueNorth (the paths block is a separate section of the same response: weakly independent, say so when scoring)",
+      "L5": "Outcome.matched is true for this receiptId"
+     },
+     "tilde_when": "nciSelfGrade null (pre-self-grade receipts) caps the cell at L2. No Outcome row caps at L4.",
+     "coverage_now": "L2: ~267 (contract requires 1 to 3 why bullets; array length not measured). L3: not measured (nciSelfGrade presence unknown). L4: not measured. L5: 2 (outcomes_matched)."
+    },
+    {
+     "id": "D3",
+     "label": "Tributaries (ATG: meta, challenge, adjacent)",
+     "fields": [
+      "Receipt.atgTributaries",
+      "Receipt.parentTributaryIndex",
+      "Receipt.children (relation lineage)",
+      "Receipt.parentId"
+     ],
+     "level_rule": {
+      "L0": "atgTributaries null",
+      "L1": "atgTributaries parses but has fewer than 3 entries or entries lack a type",
+      "L2": "atgTributaries has exactly 3 entries with prompts",
+      "L3": "the 3 entries carry the typed triple meta / challenge / adjacent with non-empty prompts",
+      "L4": "a child Receipt exists whose parentId is this receipt AND whose parentTributaryIndex is 0, 1 or 2 (the follow-up actually taken confirms the tributary)",
+      "L5": "not applicable: no Outcome field bears on which tributary was taken; stays L4 max"
+     },
+     "tilde_when": "L4 is tilde on every receipt today: parentTributaryIndex_set is 0 although 107 children exist (the child path never writes the index).",
+     "coverage_now": "L2 to L3: ~267 (contract requires exactly 3 typed tributaries; not measured). L4: 0 (parentTributaryIndex_set 0). L5: 0 by definition."
+    },
+    {
+     "id": "D4",
+     "label": "Mode and door (QUICKMOVE / PLAN / COURT, ONE_WAY / TWO_WAY)",
+     "fields": [
+      "Receipt.mode",
+      "Receipt.doorClass",
+      "rawResponse.decision_mode",
+      "rawResponse.door_class",
+      "rawResponse.reasoning.geometry.mode_trigger",
+      "Receipt.stakes",
+      "Receipt.horizon"
+     ],
+     "level_rule": {
+      "L0": "mode empty (cannot occur: required)",
+      "L1": "mode present but doorClass null",
+      "L2": "mode and doorClass both present (both are derived by rule in route.ts selectMode and doorClass from horizon plus stakes)",
+      "L3": "rawResponse.reasoning.geometry.mode_trigger non-empty (the trigger named, e.g. 'HIGH stakes + ONE_WAY door')",
+      "L4": "rawResponse.decision_mode equals Receipt.mode AND rawResponse.door_class equals Receipt.doorClass (the model's own read agrees with the rule-derived stored value: genuinely independent sources)",
+      "L5": "Outcome row exists and regretScore <= 2 on a ONE_WAY receipt, or any Outcome on TWO_WAY (the door held)"
+     },
+     "tilde_when": "geometry missing (1 of 267) caps at L2. Disagreement at L4 is not tilde: it is a scored mismatch and should be surfaced (the Y-gate dim 12 reads the model's decision_mode, not the stored mode).",
+     "coverage_now": "L2: 267 (TWO_WAY 171 + ONE_WAY 96). L3: ~266 (geometry present on 266; mode_trigger presence not measured). L4: not measured. L5: 3."
+    },
+    {
+     "id": "D5",
+     "label": "Lineage (seed, child, fork, baton)",
+     "fields": [
+      "Receipt.sessionId",
+      "Receipt.parentId",
+      "Receipt.version",
+      "Receipt.forkPath",
+      "Receipt.mergedFrom",
+      "Receipt.batonId",
+      "Receipt.promotedTo",
+      "Outcome.receiptId"
+     ],
+     "level_rule": {
+      "L0": "sessionId empty (cannot occur)",
+      "L1": "seed receipt: parentId null, version 0 (the thread is inferred to start here)",
+      "L2": "child receipt: parentId non-null and version >= 1 (the thread position is stated)",
+      "L3": "forkPath non-null or parentTributaryIndex non-null (which branch was taken is decomposed)",
+      "L4": "batonId non-null or mergedFrom non-empty (a second receipt independently points back at this one)",
+      "L5": "Outcome row exists on this receipt or on its batonId successor"
+     },
+     "tilde_when": "L3 and L4 are tilde on every receipt today: forkPath_set 0, mergedFrom_nonempty 0, batonId_set 0 (the route hardcodes forkPath null and mergedFrom '[]').",
+     "coverage_now": "L1: 160 seeds. L2: 107 children. L3: 0. L4: 0. L5: 3 (2 LANDED by driftState)."
+    }
+   ]
+  },
+  {
+   "key": "R",
+   "label": "Risk / Ruin (gauntlet family: BAR, LAB, COURT, KKL, Funhouse)",
+   "source_of_truth": "Receipt.court, courtVerdict, stakes, protecting, doorClass, fated (columns) plus rawResponse.reasoning.advisors, rawResponse.reasoning.geometry.reversibility, rawResponse.reasoning.nci_breakdown (JSON only). Receipt.loki and Receipt.bar are declared in the schema and never written (0 of 267 by code path). Y-gate dims 2 (court) and 9 (ruin language in fated) in src/lib/ygate.ts are the code's own ruin detectors.",
+   "cells": [
+    {
+     "id": "R1",
+     "label": "Stakes (what is on the table)",
+     "fields": [
+      "Receipt.stakes",
+      "PrepSession.stakes",
+      "Receipt.protecting",
+      "PrepSession.protecting",
+      "Outcome.regretScore"
+     ],
+     "level_rule": {
+      "L0": "Receipt.stakes null",
+      "L1": "Receipt.stakes present but came from the request body with no PrepSession (route: activeStakes = prep?.stakes ?? stakes); includes the 2 lowercase variants, which must be upper-cased at read time",
+      "L2": "Receipt.stakes present and normalized to LOW / MEDIUM / HIGH (schema also allows EXISTENTIAL; 0 observed)",
+      "L3": "Receipt.protecting parses to a non-empty array (the stake decomposed into what is being protected: cash, time, reputation)",
+      "L4": "a PrepSession row is linked (Receipt.prepId) and PrepSession.stakes equals Receipt.stakes (user-calibrated value agrees with the stored value)",
+      "L5": "Outcome.regretScore exists for this receipt (the stake was settled)"
+     },
+     "tilde_when": "stakes null (1 receipt). L3 tilde when protecting is '[]'. L4 tilde when prepId null.",
+     "coverage_now": "L1 or L2: 266 (MEDIUM 156 + HIGH 74 + LOW 34 + 2 lowercase; 1 null). L3: not measured. L4: not measured (count of receipts with prepId non-null was not queried). L5: 3."
+    },
+    {
+     "id": "R2",
+     "label": "Court (COURT gauntlet: checks and verdicts)",
+     "fields": [
+      "Receipt.court",
+      "Receipt.courtVerdict",
+      "rawResponse.reasoning.court[].verdict",
+      "Receipt.yConditions (dim 2)",
+      "Brief.entityAnalysis.risk_surface",
+      "Tribune (relation tribunes)",
+      "Outcome.learning"
+     ],
+     "level_rule": {
+      "L0": "Receipt.court null or empty array",
+      "L1": "courtVerdict present but court array empty (a ruling with no named checks)",
+      "L2": "court array has at least 1 check with a verdict in PASS / TENSION / BLOCK",
+      "L3": "court has 2 or more checks with verdicts AND courtVerdict is non-empty (the ruling decomposed into named checks)",
+      "L4": "Brief.entityAnalysis.risk_surface or a Tribune row for this receipt names the same blocking or tension condition (brief route and Tribune are separate writes)",
+      "L5": "Outcome.learning exists and the court's BLOCK or TENSION check is referenced"
+     },
+     "tilde_when": "court null: the contract asks for 2 to 4 checks, but the column is null when reasoning.court is absent. L4 tilde when no Brief with entity or no Tribune row (12 Tribune rows exist in total).",
+     "coverage_now": "L2: at least 106 (flowTopology CLIFF requires hasRed AND court non-empty; custody-derived lower bound). Exact count not measured. L4: at most 176 briefs, and only those with Receipt.entity set; Tribune 12. L5: 3."
+    },
+    {
+     "id": "R3",
+     "label": "Threat vectors (LAB: Loki objection, counter, Bayesian risk)",
+     "fields": [
+      "rawResponse.reasoning.advisors.loki_challenge",
+      "rawResponse.reasoning.advisors.loki_counter",
+      "rawResponse.reasoning.advisors.consensus",
+      "rawResponse.reasoning.advisors.bayesian_risk_pct",
+      "Receipt.loki",
+      "PrepSession.adversarialInput",
+      "Outcome.matched"
+     ],
+     "level_rule": {
+      "L0": "rawResponse.reasoning.advisors absent",
+      "L1": "only consensus or bayesian_risk_pct present (risk inferred, no named objection)",
+      "L2": "loki_challenge non-empty (the strongest objection stated)",
+      "L3": "loki_challenge AND loki_counter AND bayesian_risk_pct all present (objection, rebuttal, and a number)",
+      "L4": "PrepSession.adversarialInput is non-empty and overlaps loki_challenge (the user's own strongest case against their instinct agrees with the model's)",
+      "L5": "Outcome.matched is false and Outcome.learning names the Loki objection (the threat landed), or matched true with learning stating the objection did not materialize"
+     },
+     "tilde_when": "Receipt.loki is never written (0 by code path): read only from rawResponse. L4 tilde when no prep or adversarialInput null.",
+     "coverage_now": "L2 to L3: ~266 (advisors block is part of the contract; presence not measured separately from geometry's 266). L4: not measured. L5: 3."
+    },
+    {
+     "id": "R4",
+     "label": "Ruin and reversibility (BAR)",
+     "fields": [
+      "rawResponse.reasoning.geometry.reversibility",
+      "Receipt.doorClass",
+      "Receipt.bar",
+      "Receipt.fated (tradeoffs, direction, emotions)",
+      "Receipt.yConditions (dim 9 RED)",
+      "Receipt.yState (DELTA)",
+      "Receipt.flowTopology (CLIFF)",
+      "Outcome.regretScore"
+     ],
+     "level_rule": {
+      "L0": "geometry.reversibility absent AND doorClass null",
+      "L1": "doorClass only (reversibility inferred from the horizon plus stakes rule)",
+      "L2": "geometry.reversibility parses to a leading float in [0.05, 1.0] (parse: regex ^\\s*(\\d+(?:\\.\\d+)?) on the string; the label after the first dash is kept as text)",
+      "L3": "Receipt.fated.tradeoffs or fated.direction names the ruin case, or Receipt.bar JSON {ruin_risk, asymmetry, reversibility} is present (bar: 0 by code path today)",
+      "L4": "doorClass agrees with the parsed float: ONE_WAY when float >= 0.5, TWO_WAY when float < 0.5 (~ threshold assessed from the single contract sample '0.7 - High (one-way)'; the rule-derived doorClass and the model's float are independent). Also counts: yConditions contains dim 9 RED and doorClass is ONE_WAY",
+      "L5": "Outcome.regretScore exists; regretScore >= 4 on a ONE_WAY receipt is a confirmed ruin-edge event"
+     },
+     "tilde_when": "geometry missing (1). Receipt.bar always tilde today. The float's direction (higher = harder to reverse) is assessed from one sample string, so an L4 agreement is itself tilde-labelled until a code constant or 20 sampled strings confirm it.",
+     "coverage_now": "L1: 267 (doorClass on all). L2: ~266. L3: not measured (fated prose; bar column 0). L4: not measured. L5: 3. Ruin signal observed: CLIFF 106, DELTA 2 (yState DELTA is reached only via hasRed when no FORK or PARADOX also fired)."
+    },
+    {
+     "id": "R5",
+     "label": "Failure modes and de-risks (KKL / Funhouse: drags, blocked paths)",
+     "fields": [
+      "rawResponse.reasoning.nci_breakdown.drags[]",
+      "rawResponse.reasoning.paths[] where status = 'blocked'",
+      "Receipt.fated (assumptions)",
+      "Receipt.macroTags",
+      "Brief.entityAnalysis.signal_to_watch",
+      "Tribune",
+      "Outcome.learning"
+     ],
+     "level_rule": {
+      "L0": "nci_breakdown absent and no blocked path",
+      "L1": "macroTags includes KKL or BAR with no drag listed (the failure class is inferred from the tag only)",
+      "L2": "nci_breakdown.drags has at least 1 entry with label and delta",
+      "L3": "drags carry pct AND at least one path has status 'blocked' with detail (failure modes decomposed into weighted drags and a closed path)",
+      "L4": "Brief.entityAnalysis.signal_to_watch or a Tribune row names the same drag",
+      "L5": "Outcome.learning exists and names a drag"
+     },
+     "tilde_when": "Funhouse has no field anywhere in the schema or contract; this cell reads KKL and drags only. L4 tilde without a brief with entity or a Tribune row.",
+     "coverage_now": "L2 to L3: ~266 (contract requires drags; not measured). L4: at most 176 briefs / 12 Tribune rows. L5: 3."
+    }
+   ]
+  },
+  {
+   "key": "W",
+   "label": "Window (heading, bearing, bounded entry window, safe-vs-dangerous conditions)",
+   "source_of_truth": "Receipt W-block (window, horizon, reviewDate, reminderDate, horizonLocked, driftState) and Y-block (yState, yConditions, yGateScore, yConvictionPrev, yDeltaTrigger) written from src/lib/ygate.ts computeYGate; paths from Receipt.paths; kairos only in rawResponse.reasoning.geometry.kairos.",
+   "cells": [
+    {
+     "id": "W1",
+     "label": "Horizon (bounded window)",
+     "fields": [
+      "Receipt.horizon",
+      "Receipt.window",
+      "PrepSession.horizon",
+      "Receipt.reviewDate",
+      "Receipt.reminderDate",
+      "Receipt.horizonLocked",
+      "Outcome.loggedAt"
+     ],
+     "level_rule": {
+      "L0": "horizon null and window empty (cannot occur: window required)",
+      "L1": "horizon came from the request body with no PrepSession (route: activeHorizon = prep?.horizon ?? horizon); the window is the user's quick pick, not calibrated",
+      "L2": "Receipt.horizon normalized to TODAY / WEEK / QUARTER / YEARS via src/lib/horizon.ts normalizeHorizon",
+      "L3": "reviewDate and reminderDate both set (the window decomposed into a check date and a resolve-by date; the route writes both on every receipt)",
+      "L4": "PrepSession.horizon equals Receipt.window (user-calibrated window agrees), or horizonLocked is true",
+      "L5": "Outcome.loggedAt falls on or before reviewDate (the window held)"
+     },
+     "tilde_when": "L4 tilde when prepId null. YEAR enum value exists in the schema comment but 0 observed (YEARS 19).",
+     "coverage_now": "L2: 267 (WEEK 175 + QUARTER 51 + TODAY 22 + YEARS 19). L3: 267 by code path (both dates written unconditionally; not re-queried). L4: not measured. L5: 3."
+    },
+    {
+     "id": "W2",
+     "label": "Kairos (is the window open)",
+     "fields": [
+      "rawResponse.reasoning.geometry.kairos",
+      "rawResponse.nci_by_lens.cadence",
+      "Receipt.horizon",
+      "Receipt.reminderDate",
+      "Outcome.loggedAt"
+     ],
+     "level_rule": {
+      "L0": "geometry.kairos absent or first token is N/A",
+      "L1": "kairos present but the first token is not in the known set (free text; the state is inferred from the clause)",
+      "L2": "first token parses to one of OPEN, CLOSED, CLOSING, CONDITIONAL, URGENT, ACUTE, LATENT, FORCED, DEFERRED, CRITICAL, UNCERTAIN (parse: upper-case the string, take the leading run of letters and slashes before the first space or dash, strip punctuation)",
+      "L3": "L2 plus a trailing clause after the dash (e.g. 'act this week') AND Receipt.nciByLens.cadence non-null (timing decomposed into state, instruction, and a lens score)",
+      "L4": "token agrees with Receipt.horizon: URGENT / ACUTE / CRITICAL / FORCED with TODAY or WEEK; OPEN / CONDITIONAL / CLOSING with WEEK or QUARTER; LATENT / DEFERRED with QUARTER or YEARS (~ band mapping assessed, not in code)",
+      "L5": "Outcome.loggedAt exists and the outcome landed inside the reminderDate window"
+     },
+     "tilde_when": "N/A token, geometry missing (1), or token outside the set. L3 capped by nciByLens (27 of 267).",
+     "coverage_now": "L2: ~266 (OPEN dominates per the free-text survey; per-token counts not measured). L3: at most 27. L4: not measured. L5: 3."
+    },
+    {
+     "id": "W3",
+     "label": "Entry conditions (Y gate: safe vs dangerous to proceed)",
+     "fields": [
+      "Receipt.yState",
+      "Receipt.yPolarity",
+      "Receipt.yConviction",
+      "Receipt.yStability",
+      "Receipt.yConditions",
+      "Receipt.yGateScore",
+      "Receipt.renderResolution",
+      "Receipt.fidelityHeader",
+      "PrepSession.confidence",
+      "Receipt.yOverride",
+      "Outcome.matched"
+     ],
+     "level_rule": {
+      "L0": "yState empty (cannot occur: default SCRATCH)",
+      "L1": "yState present with yConditions '[]' (the state fell out of the nci thresholds alone: GREEN or YELLOW by nci band)",
+      "L2": "yConditions has at least 1 {dim, label, severity} entry (a named condition fired)",
+      "L3": "yGateScore JSON carries polarity, conviction, stability, render_resolution and visual_treatment, and yConditions has 2 or more entries",
+      "L4": "PrepSession.confidence agrees with yConviction (1 or 2 with LOW, 3 with MEDIUM, 4 or 5 with HIGH; user-supplied, independent of the gate), or yOverride is true with yOverrideNote (the human read the gate and ruled)",
+      "L5": "Outcome.matched exists; matched true on a GREEN or FORK receipt, or matched false on a RED-condition receipt, confirms the gate"
+     },
+     "tilde_when": "yOverride is 0 on every receipt. L4 tilde when no prep. Note GREEN 0 and SHARP 0 across the corpus: the contract's 2 to 3 paths with 2 or more viable almost always fires FORK or PARADOX, so the safe state is unreachable today.",
+     "coverage_now": "L2: at least 253 (FORK 137 + PARADOX 116 arise only from a fired condition; custody-derived lower bound; the 7 SCRATCH, 5 YELLOW, 2 DELTA may be L1 or L2). L3: ~253. L4: not measured. L5: 3."
+    },
+    {
+     "id": "W4",
+     "label": "Heading choice (paths and the fork)",
+     "fields": [
+      "Receipt.paths",
+      "rawResponse.reasoning.paths[].status",
+      "Receipt.forkPath",
+      "Receipt.flowTopology",
+      "Receipt.children",
+      "Outcome.what"
+     ],
+     "level_rule": {
+      "L0": "paths null",
+      "L1": "paths has 1 entry (no fork; the heading is inferred to be the only line)",
+      "L2": "paths has 2 or more entries with id and title",
+      "L3": "every path carries a status in selected / blocked / viable and a detail (the fork decomposed into open and closed lines)",
+      "L4": "forkPath is set on this receipt, or a child receipt's decision text names one of this receipt's path titles (the skintrack actually taken agrees with a listed path)",
+      "L5": "Outcome.what names a listed path"
+     },
+     "tilde_when": "forkPath_set is 0 on every receipt (the route hardcodes forkPath null); L4 reachable only through the child-decision match, which is not computed anywhere today.",
+     "coverage_now": "L2 to L3: at least 253 (FORK and PARADOX need 2 or more viable paths). L4: 0 by forkPath; child-match not computed. L5: 3."
+    },
+    {
+     "id": "W5",
+     "label": "Drift and trajectory (orientation over the session)",
+     "fields": [
+      "Receipt.driftState",
+      "Receipt.status",
+      "Receipt.version",
+      "Receipt.yConvictionPrev",
+      "Receipt.yDeltaTrigger",
+      "Receipt.gradientMagnitude",
+      "Receipt.manifoldCurvature",
+      "Outcome.receiptId"
+     ],
+     "level_rule": {
+      "L0": "driftState null",
+      "L1": "driftState ON_TRACK on a seed (version 0): the default, nothing observed yet",
+      "L2": "version >= 1 (a trajectory exists: at least two points in the session)",
+      "L3": "yConvictionPrev and yDeltaTrigger set (the conviction move between parent and child is named)",
+      "L4": "driftState DRIFTING with version >= 5 (ygate rule) AND the session's receipt count from the DB agrees (sessionVersion is counted from stored rows, a separate read from the parent row), or driftState LANDED with status LOGGED",
+      "L5": "Outcome row exists and driftState is LANDED (the outcome handler flips LANDED or DRIFTING from Outcome.matched)"
+     },
+     "tilde_when": "seed with no children stays at L1. yConvictionPrev only exists when a parent had an nciScore in a different band.",
+     "coverage_now": "L1: 261 ON_TRACK (most are seeds). L2: 107 children. L3: not measured (at most 107). L4: 4 DRIFTING + 2 LANDED. L5: 2 LANDED (3 outcomes, 3 LOGGED)."
+    }
+   ]
+  },
+  {
+   "key": "C",
+   "label": "Clarity cluster (code wins: clarity, conviction, coherence, consequence, cadence)",
+   "source_of_truth": "Receipt.nciByLens JSON (route clamps each of the five keys to 0 to 20; present on 27 of 267), Receipt.nciScore (0 to 100, all 267), Receipt.coherencePct, Receipt.nciGrade, Receipt.yConviction, rawResponse.reasoning.nci_breakdown, PrepSession.confidence. ADR-041's Confidence survives as PrepSession.confidence (a cross-confirm source), ADR-041's Cohesion has no field.",
+   "cells": [
+    {
+     "id": "C1",
+     "label": "Clarity (is the question well-formed and atomic)",
+     "fields": [
+      "Receipt.nciByLens.clarity",
+      "Receipt.nciScore",
+      "Receipt.coherencePct",
+      "Receipt.nciGrade",
+      "rawResponse.reasoning.nci_breakdown",
+      "Outcome.matched"
+     ],
+     "level_rule": {
+      "L0": "nciScore absent (cannot occur: required)",
+      "L1": "nciScore only: clarity inferred from the composite (240 receipts)",
+      "L2": "nciByLens.clarity non-null (0 to 20)",
+      "L3": "L2 plus nciGrade names the weak lens AND nci_breakdown.drags / anchors present (the score decomposed into named pulls)",
+      "L4": "coherencePct agrees with the lens: |clarity * 5 - coherencePct| <= 15 (~ tolerance assessed; coherencePct is a separate field in the same response, weakly independent)",
+      "L5": "Outcome.matched exists on this receipt"
+     },
+     "tilde_when": "nciByLens null (240 of 267) caps at L1.",
+     "coverage_now": "L1: 267. L2: 27. L3: at most 27. L4: not measured. L5: 3."
+    },
+    {
+     "id": "C2",
+     "label": "Conviction (how strong and directional the signal is)",
+     "fields": [
+      "Receipt.nciByLens.conviction",
+      "Receipt.yConviction",
+      "Receipt.yGateScore.conviction",
+      "Receipt.yConvictionPrev",
+      "PrepSession.confidence",
+      "Receipt.nciScore",
+      "Outcome.matched"
+     ],
+     "level_rule": {
+      "L0": "yConviction absent (cannot occur: default LOW)",
+      "L1": "yConviction only (ygate derives it from nci bands and fired conditions: inferred)",
+      "L2": "nciByLens.conviction non-null",
+      "L3": "L2 plus yConvictionPrev set (conviction decomposed into current and prior)",
+      "L4": "PrepSession.confidence agrees with yConviction (1 or 2 LOW, 3 MEDIUM, 4 or 5 HIGH); user-supplied, independent of the model",
+      "L5": "Outcome.matched is true (conviction confirmed by the world)"
+     },
+     "tilde_when": "nciByLens null caps at L1; no prep row makes L4 tilde.",
+     "coverage_now": "L1: 267. L2: 27. L3: not measured. L4: not measured. L5: 2 matched."
+    },
+    {
+     "id": "C3",
+     "label": "Coherence (do the stated reasons cohere)",
+     "fields": [
+      "Receipt.nciByLens.coherence",
+      "Receipt.coherencePct",
+      "Receipt.nciScore",
+      "Receipt.whyBullets",
+      "rawResponse.reasoning.nci_breakdown.anchors",
+      "Outcome.matched"
+     ],
+     "level_rule": {
+      "L0": "nciScore absent (cannot occur)",
+      "L1": "nciScore only (composite, avg 57.5, p10 38, p90 78)",
+      "L2": "nciByLens.coherence non-null",
+      "L3": "L2 plus nci_breakdown.anchors present with pct (coherence decomposed into named anchors)",
+      "L4": "coherencePct agrees with the lens (|coherence * 5 - coherencePct| <= 15, ~ tolerance assessed)",
+      "L5": "Outcome.matched exists"
+     },
+     "tilde_when": "nciByLens null caps at L1.",
+     "coverage_now": "L1: 267. L2: 27. L3: at most 27. L4: not measured. L5: 3."
+    },
+    {
+     "id": "C4",
+     "label": "Consequence (are downstream effects understood)",
+     "fields": [
+      "Receipt.nciByLens.consequence",
+      "Receipt.fated (facts, assumptions, tradeoffs, emotions, direction)",
+      "Receipt.court",
+      "Receipt.doorClass",
+      "Brief.entityAnalysis.risk_surface",
+      "Outcome.regretScore"
+     ],
+     "level_rule": {
+      "L0": "fated null and nciByLens null",
+      "L1": "fated.tradeoffs non-empty (consequence inferred from prose)",
+      "L2": "nciByLens.consequence non-null",
+      "L3": "all five fated fields non-empty (facts, assumptions, tradeoffs, emotions, direction)",
+      "L4": "Brief.entityAnalysis.risk_surface names the same downstream effect (brief route, separate call)",
+      "L5": "Outcome.regretScore exists (the consequence was felt and scored)"
+     },
+     "tilde_when": "nciByLens null caps at L1 unless fated is full, which still reads as inferred because the score is missing. L4 tilde without a brief with entity.",
+     "coverage_now": "L1: ~266 (fated written when reasoning.fated present; not measured). L2: 27. L3: not measured. L4: at most 176. L5: 3."
+    },
+    {
+     "id": "C5",
+     "label": "Cadence (is the timing right)",
+     "fields": [
+      "Receipt.nciByLens.cadence",
+      "rawResponse.reasoning.geometry.kairos",
+      "Receipt.horizon",
+      "Receipt.reminderDate",
+      "Receipt.reviewDate",
+      "Outcome.loggedAt"
+     ],
+     "level_rule": {
+      "L0": "kairos absent and nciByLens null",
+      "L1": "kairos first token parses (timing inferred from the geometry string)",
+      "L2": "nciByLens.cadence non-null",
+      "L3": "L2 plus kairos token plus reminderDate (timing decomposed into state, lens, and date)",
+      "L4": "kairos token agrees with Receipt.horizon per the W2 band mapping",
+      "L5": "Outcome.loggedAt within the reviewDate window"
+     },
+     "tilde_when": "nciByLens null caps at L1.",
+     "coverage_now": "L1: ~266. L2: 27. L3: at most 27. L4: not measured. L5: 3."
+    }
+   ]
+  },
+  {
+   "key": "H",
+   "label": "Horizon as altitude ladder (Executive, Strategic, Operational, Tactical, Surgical; 2026-06-23 bar, matching the lattice zoom levels EXEC to SURGICAL)",
+   "source_of_truth": "rawResponse.reasoning.geometry.altitude, free text like 'L2-L3 (Strategic-Operational)', ranges L0 to L4 (266 of 267 have geometry). Parse: regex L(\\d)(?:\\s*(?:-|to)\\s*L?(\\d))? gives lo and hi (hi defaults to lo), clamp 0 to 4; parenthetical \\(([^)]+)\\) split on '-' or '/' gives named rungs. Rung map (~ assessed from the two contract sample strings 'L1-L2 (Operational)' and 'L2-L3 (Strategic-Operational)'; no code constant maps L-numbers to rungs): L4 Executive, L3 Strategic, L2 Operational, L1 Tactical, L0 Surgical. GALACTIC and QUANTUM zoom levels sit outside the 0 to 4 range and are never emitted. ADR-041's economics (time, capital, opportunity cost, leverage, reward) become the L3 sub-fields per rung.",
+   "cells": [
+    {
+     "id": "H1",
+     "label": "Executive rung (L4)",
+     "fields": [
+      "rawResponse.reasoning.geometry.altitude",
+      "Receipt.stakes",
+      "Receipt.doorClass",
+      "Receipt.mode",
+      "Receipt.horizon",
+      "Outcome.regretScore"
+     ],
+     "level_rule": {
+      "L0": "altitude range does not reach L4 and nothing implies it",
+      "L1": "range does not cover L4 but stakes HIGH AND doorClass ONE_WAY AND horizon YEARS (the economics imply executive altitude; ~ band assessed)",
+      "L2": "parsed altitude range covers L4",
+      "L3": "L2 plus the parenthetical names Executive AND the capital sub-field is present (stakes HIGH or protecting non-empty)",
+      "L4": "L2 plus mode is COURT and horizon is QUARTER or YEARS (the rule-derived mode and the user-picked horizon agree with the model's altitude)",
+      "L5": "Outcome.regretScore exists on this receipt"
+     },
+     "tilde_when": "geometry missing (1), range below L4 with no implying band. Structurally tilde on most receipts: a receipt occupies 1 or 2 rungs.",
+     "coverage_now": "L2: not measured (range distribution not queried; ~266 parseable). L1: not measured. L4: at most 96 (COURT). L5: 3."
+    },
+    {
+     "id": "H2",
+     "label": "Strategic rung (L3)",
+     "fields": [
+      "rawResponse.reasoning.geometry.altitude",
+      "Receipt.horizon",
+      "Receipt.mode",
+      "Receipt.window",
+      "Outcome.loggedAt"
+     ],
+     "level_rule": {
+      "L0": "range does not reach L3 and nothing implies it",
+      "L1": "range does not cover L3 but horizon is QUARTER or YEARS (time sub-field implies it)",
+      "L2": "parsed range covers L3",
+      "L3": "L2 plus the parenthetical names Strategic AND horizon is QUARTER or YEARS (time sub-field present and consistent)",
+      "L4": "L2 plus mode is COURT or PLAN with horizon QUARTER or YEARS (rule-derived mode and user horizon agree)",
+      "L5": "Outcome.loggedAt exists on this receipt"
+     },
+     "tilde_when": "geometry missing, range outside L3 with horizon TODAY or WEEK.",
+     "coverage_now": "L2: not measured (~ a majority, since the contract samples center on L1 to L3). L1: at most 70 (QUARTER 51 + YEARS 19). L5: 3."
+    },
+    {
+     "id": "H3",
+     "label": "Operational rung (L2)",
+     "fields": [
+      "rawResponse.reasoning.geometry.altitude",
+      "Receipt.paths",
+      "Receipt.fated (tradeoffs)",
+      "Receipt.horizon",
+      "Receipt.mode",
+      "Outcome.what"
+     ],
+     "level_rule": {
+      "L0": "range does not reach L2 and nothing implies it",
+      "L1": "range does not cover L2 but horizon is WEEK or QUARTER with mode PLAN (implied)",
+      "L2": "parsed range covers L2",
+      "L3": "L2 plus the parenthetical names Operational AND the opportunity-cost sub-field is present (a blocked path in paths or fated.tradeoffs non-empty)",
+      "L4": "L2 plus mode PLAN and horizon WEEK or QUARTER (rule-derived mode and user horizon agree)",
+      "L5": "Outcome.what exists on this receipt"
+     },
+     "tilde_when": "geometry missing, range outside L2 with no implying band.",
+     "coverage_now": "L2: not measured (~ the modal rung given the samples). L1: at most 161 (PLAN). L5: 3."
+    },
+    {
+     "id": "H4",
+     "label": "Tactical rung (L1)",
+     "fields": [
+      "rawResponse.reasoning.geometry.altitude",
+      "Brief.entityAnalysis.leverage_yours",
+      "Brief.entityAnalysis.leverage_theirs",
+      "Receipt.horizon",
+      "Receipt.mode",
+      "Outcome.what"
+     ],
+     "level_rule": {
+      "L0": "range does not reach L1 and nothing implies it",
+      "L1": "range does not cover L1 but horizon is TODAY or WEEK (implied)",
+      "L2": "parsed range covers L1",
+      "L3": "L2 plus the parenthetical names Tactical AND the leverage sub-field is present (Brief.entityAnalysis.leverage_yours or leverage_theirs non-empty)",
+      "L4": "L2 plus mode QUICKMOVE or PLAN with horizon TODAY or WEEK",
+      "L5": "Outcome.what exists on this receipt"
+     },
+     "tilde_when": "geometry missing; L3 tilde without a brief with entity (at most 176 briefs, fewer with entity).",
+     "coverage_now": "L2: not measured. L1: at most 197 (WEEK 175 + TODAY 22). L3: at most 176. L5: 3."
+    },
+    {
+     "id": "H5",
+     "label": "Surgical rung (L0)",
+     "fields": [
+      "rawResponse.reasoning.geometry.altitude",
+      "Receipt.trueNorth",
+      "Receipt.nciSelfGrade.action",
+      "Receipt.horizon",
+      "Receipt.mode",
+      "Outcome.matched"
+     ],
+     "level_rule": {
+      "L0": "range does not reach L0 and nothing implies it",
+      "L1": "range does not cover L0 but mode QUICKMOVE or horizon TODAY (implied single mechanical action)",
+      "L2": "parsed range covers L0",
+      "L3": "L2 plus the parenthetical names Surgical AND the reward sub-field is present (trueNorth is one concrete step with nciSelfGrade.action true)",
+      "L4": "L2 plus mode QUICKMOVE and horizon TODAY (rule and user pick agree with the model's altitude)",
+      "L5": "Outcome.matched exists on this receipt"
+     },
+     "tilde_when": "geometry missing; almost always tilde: QUICKMOVE is 10 of 267 and TODAY is 22.",
+     "coverage_now": "L2: not measured (~ rare). L1: at most 22. L4: at most 10. L5: 3."
+    }
+   ]
+  }
+ ],
+ "drift_notes": [
+  "C aspect naming: ADR-041 says Clarity, Confidence, Coherence, Cohesion, Conviction; shipped nci_by_lens (route.ts contract and the clamp at line 449) says clarity, conviction, coherence, consequence, cadence. Code wins. Confidence survives only as PrepSession.confidence (used here as the L4 cross-confirm for C2); Cohesion has no field anywhere and is unmappable.",
+  "H aspect: ADR-041 defines H as economics (time, capital, opportunity cost, leverage, reward); the 2026-06-23 S-tier plan (_PATTERNS/2026-06-23-s-tier-execution-plan.md) uses 5H as the altitude ladder Executive / Strategic / Operational / Tactical / Surgical, and the task directs the ladder for the cells. Resolution here: cells are the five rungs, the economics become each rung's L3 sub-field. No code constant maps geometry.altitude L-numbers to rungs (grep of src for EXEC / STRATEGIC / SURGICAL constants returned nothing); the L4 Executive down to L0 Surgical map is assessed (~) from the two contract sample strings. The knowledge lattice's GALACTIC and QUANTUM levels are outside the L0 to L4 range the contract emits and are tilde by construction.",
+  "R aspect: the 2026-06-23 bar's 5R (Risk, Resonance, Reflection, Refraction, Refutation) and ADR-041's R (gauntlet family BAR LAB COURT KKL Funhouse) disagree; ADR-041 names the aspect per the task. Refutation maps to R3 (loki_challenge); Resonance, Reflection, Refraction have no field. Funhouse has no field; R5 reads KKL via macroTags and nci_breakdown.drags only.",
+  "W aspect: three readings exist (bar 5W = Who What Where When Why; ADR-041 W = window, heading, entry conditions; code hypersphere manifold = What Who Where-When Why Flow-State). The manifold is a prompt-level concept with no columns beyond Receipt.entity (DEWY E, not one of the five aspects) and whyBullets. W cells follow ADR-041; Who and Where remain unmappable.",
+  "Schema versus route: prisma/schema.prisma declares schema-canonical columns the compass route never writes: sharpQuestion, dewyVector, loki, bar, receiptId, sessionTs; it hardcodes forkPath null and mergedFrom '[]'; batonId and yOverride are 0 across 267; parentTributaryIndex is 0 although 107 children exist. The schema comments say 'prefer this for new writes'; the code writes the legacy columns (decision, window, whyBullets, macroTags). Code wins: every cell above reads the legacy column or rawResponse, and the canonical columns are tilde.",
+  "Mode and door are derived by rule, not by the model: route.ts selectMode and doorClass compute Receipt.mode and Receipt.doorClass from horizon plus stakes (HIGH or QUARTER or YEARS gives COURT and ONE_WAY; TODAY plus LOW gives QUICKMOVE). The model's decision_mode and door_class survive only in rawResponse. AGENTS.md describes the pipeline as model JSON then Y gate then persist, which hides this. Consequence: src/lib/ygate.ts dim 12 reads parsed.decision_mode (the model's), while the stored mode is the rule's; the two can disagree on the same receipt. This is what makes D4's L4 cross-confirmation independent.",
+  "Y-gate dimensionality: AGENTS.md calls it a 12D manifold; src/lib/ygate.ts implements dims 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 (dims 7 and 11 do not exist in code). Ruin is detected two ways only: a court verdict BLOCK (dim 2 RED) and the words ruin / catastrophic / irreversible loss in fated.tradeoffs, direction, emotions (dim 9 RED). The impedance rule in the shape spec uses exactly these two signals plus flowTopology CLIFF, which is derived from them.",
+  "Reachability: GREEN is 0 of 267 and SHARP is 0 of 267. ygate sets GREEN only when no FORK, PARADOX, RED or YELLOW condition fired and nci >= 65; the contract demands 2 to 3 paths with 2 or more viable, which fires FORK (137) or PARADOX (116) on 253 receipts. WORLD.md's clarity ridge and SHARP render tier are unreachable under the shipped contract. W3 and C cells can never reach the top band of their own enums today.",
+  "Enum drift in stored values: Receipt.stakes schema comment allows EXISTENTIAL (0 observed) and the data holds 2 lowercase variants and 1 null (request-body passthrough, no normalization); PrepSession.stakes allows only LOW MEDIUM HIGH. Receipt.horizon schema comment lists YEAR and YEARS; only YEARS (19) is observed. Read-time normalization is specified in R1 and W1.",
+  "Provenance: real 0, test 189, null 78. The Accountant's real cohort is empty, and all 3 Outcome rows (2 matched, avg regretScore 2.33, 0 synthetic) sit on test or untagged receipts. Every L5 cell today is outcome-confirmed on a non-real receipt; label any L5 as such.",
+  "nciByLens landed late: 27 of 267. The C aspect reaches L2 on 27 receipts and stays at L1 (composite nciScore only) on 240, so the C digit of the shape vector is 1 on ~90 percent of the corpus (~ 240 / 267) until a backfill parses rawResponse.nci_by_lens for older rows, if present there (not measured).",
+  "Tribune rows: 12 exist (ADR-020 annotators) with no cell of their own; they serve only as L4 cross-confirm sources in R2 and R5. SageTrace is hidden by design (never included by client routes) and is not read by any cell."
+ ],
+ "shape_vector_spec": "Per receipt, score the 25 cells to a level 0 to 5 using the cell rules above (L0 = tilde). Collapse each aspect to one level in 1 to 5: take the non-tilde cells of the aspect; if the aspect is tilde-heavy (3 or more of its 5 cells at L0) its level is 1 (the floor), regardless of the other cells; otherwise its level is the median of the non-tilde cell levels, and with an even count take the lower middle value (GAAP-conservative, never rounds up). The result is a 5-digit code ordered D R W C H, e.g. 2 2 2 1 1, one point in the 5^5 = 3125-cell space. Caveat for H: the rung cells are structurally sparse (a receipt occupies 1 or 2 rungs, so H is tilde-heavy unless the L1 band inference fills 2 more rungs) and the digit records evidence depth, not position; carry the occupied rung set (e.g. {Operational, Strategic}) as a side label next to the code, not inside it. Expected corpus shape today (~ assessed from the coverage column, not computed): D ~2 (D3 and D5 cap at 2 or lower), R ~2, W ~2 to 3, C 1 on ~240 and 2 on 27, H 1 on most. Parses used by the collapse: kairos first token (upper-case, leading run of letters and slashes before the first space or dash, N/A is tilde, token outside the eleven known values is L1); altitude L-range (regex L(\\d)(?:\\s*(?:-|to)\\s*L?(\\d))?, hi defaults to lo, clamp 0 to 4, rung map L4 Executive to L0 Surgical, parenthetical names split on dash or slash); reversibility leading float (regex ^\\s*(\\d+(?:\\.\\d+)?), expected 0.05 to 1.0, higher = harder to reverse per the single contract sample, so the direction is ~ until sampled). Tool shape: each of the catalogued tools gets the same 5-digit code, authored from its JTBD string as the MINIMUM evidence level per aspect it needs to do its job honestly (a brief renderer needs D>=2 W>=2; the Accountant needs C>=2 and an L5 somewhere; an observatory replay needs D5 lineage >= 2 so W5 >= 2), plus two flags: gauntlet (true for tools in the BAR LAB COURT KKL Funhouse family, i.e. tools whose job is to handle ruin or a court BLOCK) and rungs (the H rung set the tool operates at, matched against the receipt's side label). Energy between receipt shape r and tool shape t: E(r, t) = sum over aspects a of w_a * |r_a - t_a|, a weighted L1 distance; default weights (~ assessed, tunable) w_D 1.0, w_R 1.5, w_W 1.0, w_C 1.0, w_H 0.5. Impedance: if the receipt carries a ruin or court BLOCK cell (any rawResponse.reasoning.court[].verdict == BLOCK, or yConditions contains dim 2 RED or dim 9 RED, or flowTopology == CLIFF) and the tool's gauntlet flag is false, E = infinity (the tool is not allowed to act on a free-solo receipt); gauntlet tools pay the ordinary distance. Rung mismatch adds w_H per rung of separation between the receipt's highest occupied rung and the tool's nearest rung (position penalty, since the H digit alone cannot carry it). A receipt matches a tool when E is finite and minimal over the catalog; ties break toward the tool with the lower sum of minimum levels (the cheaper instrument). Every number produced by this spec on the current corpus is non-GAAP (~) until the per-cell counts marked 'not measured' are run as SQL over the 267 rows.",
+ "unmappable": [
+  "Cohesion (ADR-041 C): no column, no JSON key",
+  "Resonance, Reflection, Refraction (2026-06-23 5R): no field",
+  "Who and Where (2026-06-23 5W, hypersphere manifold): only Receipt.entity (DEWY E) and Brief.entityAnalysis exist, neither is a 5x5 aspect cell",
+  "Flow-State (hypersphere manifold): only the flowTopology enum, which is derived from court and paths, not a stated flow state",
+  "Funhouse gauntlet: no field in schema or contract",
+  "GALACTIC and QUANTUM lattice zoom levels: outside the L0 to L4 range geometry.altitude emits",
+  "Capital and opportunity cost as numbers (ADR-041 H economics): only prose in fated.tradeoffs and the stakes enum; no numeric field",
+  "De-risks as a list: only fated.direction prose",
+  "Receipt.sharpQuestion, dewyVector, loki, bar, receiptId, sessionTs: declared, never written (0 by code path)",
+  "parentTributaryIndex, forkPath, mergedFrom, batonId, yOverride: 0 across 267, so D3 L4, D5 L3 and L4, W4 L4 are unreachable today",
+  "SageTrace: hidden by design, not read by any cell",
+  "Any L5 on a real-provenance receipt: provenance real is 0, so outcome confirmation exists only on test or untagged receipts"
+ ],
+ "_meta": {
+  "version": "0.1.0-draft",
+  "authored": "2026-10-07",
+  "status": "DRAFT, field claims not yet verified against prisma/schema.prisma; the verify stage is re-running",
+  "source": "compass-dopeness-audit workflow wf_29a8c87f-7f8, cells:author",
+  "spec": "runtime/specs/dopeness-eval-v0.md"
+ }
+}

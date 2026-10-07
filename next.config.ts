@@ -89,8 +89,11 @@ const nextConfig: NextConfig = {
         { source: "/observatory", destination: "/growth-ai-observatory.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/resume", destination: "/growth-ai-resume-viewer.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
         { source: "/:path((?!.*observatory|.*resume|.*\\.woff2|.*\\.png|.*\\.pdf|.*\\.ico|.*_vercel).*)", destination: "/growth-ai.html", has: [{ type: "host", value: "growth-ai.arcs.care" }] },
-        { source: "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)", destination: "/pf-:seg.html", has: [{ type: "host", value: "playground.arcs.care" }] },
-        { source: "/:path((?!fonts/|.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire).*)", destination: "/playground.html", has: [{ type: "host", value: "playground.arcs.care" }] },
+        { source: "/:seg(12d-orbital|knowledge-lattice|alexandria|moire|decision-geometry)", destination: "/pf-:seg.html", has: [{ type: "host", value: "playground.arcs.care" }] },
+        // api / _next / _vercel excluded (2026-10-06): the decision-geometry explorer fetches /api/geometry on
+        // this host, and without the exclusion the catch-all served playground.html to the fetch (same
+        // class as the good.arcs.care catch-all bug found 2026-09-13).
+        { source: "/:path((?!fonts/|api|_next|_vercel|.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire|.*decision-geometry).*)", destination: "/playground.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/monolith.html", has: [{ type: "host", value: "monolith.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/forge-pattern.html", has: [{ type: "host", value: "forge.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/forge-cut.html", has: [{ type: "host", value: "forge-cut.arcs.care" }] },
@@ -105,7 +108,7 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/warroom/kelly-interview", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt|catchup)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        { source: "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/labella", has: [{ type: "host", value: "labelle.arcs.care" }] },
@@ -202,6 +205,10 @@ const nextConfig: NextConfig = {
       ]),
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
+        // app.arcs.care/decision-geometry: the same explorer file as playground, but on the app host the
+        // Auth.js session cookie (host-only) reaches /api/geometry, so a signed-in owner sees their own
+        // receipts at full fidelity; on playground the feed is text-free (public fidelity).
+        { source: "/decision-geometry", destination: "/pf-decision-geometry.html" },
         // arcs.care/case-study: neutral (counterpart-agnostic) Ideal Protein case study, forked from conduit-case-study.html 2026-09-28.
         { source: "/case-study", destination: "/case-study.html" },
       ],

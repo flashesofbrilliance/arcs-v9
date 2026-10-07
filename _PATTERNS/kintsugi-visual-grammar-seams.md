@@ -602,3 +602,20 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   (MongoDB). 41 files -> 0 findings.
 - **Guard:** the three DESIGN.md-scope waivers in `.impeccable/config.json` now also cover
   `_ARTIFACTS/forge-*/cover-*.html`; contrast, size floors and all-caps stay live.
+
+### Seam: NFTT index ratchet line reads "3 findings; HEAD had 83" (2026-10-06, PR 1058)
+- **Break:** the pre-commit ratchet printed `public/blog-nftt-index.html carries 3 design finding(s); HEAD
+  already had 83`. Read as "3 new findings" in the PR #1058 receipt, which was wrong: nothing was new and
+  the count was not a drop either.
+- **Cause:** the detector applies the `ignoreValues` waivers in `.impeccable/config.json` by path. They cover
+  `public/blog-nftt-*.html` (undersized-ui-text, wide-tracking, all-caps-body, hero-eyebrow-chip, dark-glow,
+  skipped-heading and others). The real path scores 3 (2 gradient-text, 1 overused-font, none waived). The
+  same HTML under a temp name scores 83 to 107. The "HEAD had 83" figure comes from the hook scanning the
+  HEAD copy under a temp name (`.pc-kintsugi-head.*`), so the two sides of the ratchet are measured under
+  different rules.
+- **Repair:** none to the page. Like-for-like (both sides under a temp name) PR 1058 adds 2
+  undersized-ui-text findings (10.5px date, 10px Read link on the new card, same as the other cards),
+  105 to 107, both waived by design for this family. Receipt corrected.
+- **Guard (open):** the hook should scan the HEAD copy under the real path, or compare counts under one rule
+  set, so the ratchet cannot compare waived against unwaived. Not built; the 3 unwaived gradient-text and
+  overused-font findings predate this change.

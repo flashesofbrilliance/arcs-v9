@@ -1,0 +1,547 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARCS Decision Geometry</title><meta name="description" content="Real compass receipts rendered as decision geometry: five aspects, five levels, gravity wells, the dopeness ladder and the tool that snaps to each job."><script defer src="/_vercel/insights/script.js"></script>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+/* wrap-safety layer: one px measure, never ch caps */
+:root{--measure:640px;--violet:#A78BFA;--mono:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace;--sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif}
+p,li{max-width:var(--measure);text-wrap:pretty} h1,h2,h3{text-wrap:balance} .lbl,.kv{max-width:none;text-wrap:balance}
+html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%;overflow:hidden}
+.lbl{font-family:var(--mono);font-size:.625rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed)}
+.deck .lbl,.deck .lbl.cy,.deck .lbl.gd,.deck .lbl.gr{font-family:var(--sans);font-size:.925rem;font-weight:600;letter-spacing:0;text-transform:none}
+.lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)} .lbl.gr{color:var(--green)} .lbl.rd{color:var(--red)}
+.deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.deck-in{max-width:1400px;margin:0 auto;padding:.5rem 1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.wordmark{font-family:var(--sans);font-size:.925rem;font-weight:600;white-space:nowrap}
+.ctl{display:flex;align-items:center;gap:.45rem} .ctl input[type=range]{width:110px;accent-color:var(--cyan)}
+.ctl kbd{font-family:var(--mono);font-size:.625rem;font-weight:700;letter-spacing:.14em;border:1px solid var(--border);border-radius:3px;padding:0 4px;color:var(--dimmed)}
+.btn{font-family:var(--sans);font-size:.925rem;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:3px;padding:.25rem .6rem;cursor:pointer;min-height:32px}
+.btn:hover{border-color:var(--cyan);color:var(--cyan)} .btn.on{border-color:var(--gold);color:var(--gold)}
+.phase{font-family:var(--sans);font-size:.925rem;font-weight:600;border:1px solid var(--border);border-radius:999px;padding:.22rem .6rem;white-space:nowrap}
+.spacer{flex:1}
+#stage{position:fixed;inset:0;cursor:grab} #stage.drag{cursor:grabbing} canvas{display:block;width:100%;height:100%}
+#lomo{position:fixed;inset:0;pointer-events:none;display:none} #lomo.on{display:block}
+.hud{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(2,4,8,.9);border-top:1px solid var(--border);padding:.45rem 1rem;font-family:var(--sans);font-size:.925rem;color:var(--dimmed);display:flex;flex-direction:column;gap:.2rem}
+.hud .row{display:flex;gap:1.2rem;flex-wrap:wrap} .kv b{color:var(--text)}
+.drawer{position:fixed;top:var(--deck-h,56px);right:0;bottom:0;width:min(420px,100vw);z-index:35;background:rgba(13,17,23,.97);border-left:1px solid var(--border);padding:1rem 1.1rem 5rem;overflow:auto;transform:translateX(100%);transition:transform .25s}
+.drawer.open{transform:none} .drawer h3{font-size:1.15rem;font-weight:600;line-height:1.25;margin:.3rem 0 .5rem} .drawer p{font-size:.925rem;color:var(--dimmed);line-height:1.6;max-width:none}
+.drawer .x{position:absolute;top:.6rem;right:.7rem}
+.chip{display:inline-block;font-family:var(--sans);font-size:.925rem;border:1px solid var(--border);border-radius:999px;padding:.12rem .5rem;margin:.1rem .2rem .1rem 0;color:var(--dimmed)}
+.chip.cy{border-color:var(--cyan);color:var(--cyan)} .chip.gd{border-color:var(--gold);color:var(--gold)} .chip.gr{border-color:var(--green);color:var(--green)} .chip.rd{border-color:var(--red);color:var(--red)}
+.cells{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin:.5rem 0}
+.cell{font-family:var(--mono);font-size:.625rem;font-weight:700;letter-spacing:.14em;text-align:center;border:1px solid var(--border);border-radius:3px;padding:.3rem 0;color:var(--dimmed)}
+.cell.t{border-style:dashed;opacity:.55} .cell.l3{color:var(--text);border-color:var(--muted)} .cell.l4{color:var(--cyan);border-color:var(--cyan)} .cell.l5{color:var(--gold);border-color:var(--gold)}
+.q{font-size:.925rem;color:var(--text);line-height:1.6;margin:.4rem 0;max-width:none}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(2,4,8,.86);display:none;overflow:auto} .modal.open{display:block}
+.modal-in{max-width:880px;margin:5vh auto;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.4rem 1.6rem;position:relative}
+.modal h2{margin:.2rem 0 .4rem;font-size:1.15rem;font-weight:600;line-height:1.25} .modal p{color:var(--dimmed);font-size:.925rem;line-height:1.6;max-width:none}
+.sweep{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-top:1rem} .sweep .col{border:1px solid var(--border);border-radius:6px;padding:.8rem 1rem} .sweep li{font-size:.925rem;color:var(--dimmed);margin:.3rem 0;max-width:none;line-height:1.6}
+.rule-box{margin-top:1rem;border:1px solid rgba(255,215,0,.4);background:var(--gold-bg);border-radius:6px;padding:.8rem 1rem;font-size:.925rem;line-height:1.6}
+table.ladder{border-collapse:collapse;width:100%;font-size:.925rem;margin-top:.6rem} .ladder td,.ladder th{border-top:1px solid var(--border);padding:.35rem .5rem;text-align:left;vertical-align:top} .ladder th{font-family:var(--mono);font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed);font-weight:700}
+.banner{position:fixed;top:var(--deck-h,56px);left:0;right:0;z-index:36;background:var(--surface);border-bottom:1px solid var(--border);padding:.6rem 1rem;font-size:.925rem;color:var(--dimmed);display:none} .banner.on{display:block} .banner b{color:var(--text)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:720px){.deck-in{gap:.5rem}.ctl input[type=range]{width:80px}.hud .row{gap:.6rem}}
+</style></head><body>
+
+<div class="deck"><div class="deck-in">
+  <span class="wordmark"><b>ARCS</b> · DECISION GEOMETRY</span>
+  <div class="ctl"><span class="lbl cy">Fidelity</span><kbd>⌘</kbd><input id="zoom" type="range" min="0" max="100" value="30" aria-label="Fidelity: galactic to quantum"><span class="lbl cy" id="zoom-lbl" style="min-width:86px">OPERATIONAL</span></div>
+  <div class="ctl"><span class="lbl gd">Clarity</span><kbd>⌥</kbd><input id="clar" type="range" min="0" max="100" value="0" style="accent-color:#FFD700" aria-label="Clarity ramp: fog to outcome-confirmed only"><span class="lbl gd" id="clar-lbl" style="min-width:70px">FOG</span></div>
+  <div class="ctl"><span class="lbl">Resolution</span><kbd>⌃</kbd><input id="res" type="range" min="0" max="5" step="1" value="4" style="accent-color:#94a3b8;width:80px" aria-label="Render resolution"><span class="lbl" id="res-lbl" style="min-width:60px">8K</span></div>
+  <div class="ctl"><span class="lbl gr">Time</span><kbd>⇧</kbd><input id="epoch" type="range" min="0" max="1" value="1" style="accent-color:#00FF9D" aria-label="Time scrubber, weeks"><span class="lbl gr" id="ep-lbl" style="min-width:74px"></span><button class="btn" id="play" title="space">▶</button></div>
+  <span class="phase" id="phase">LOADING</span>
+  <span class="spacer"></span>
+  <button class="btn" id="morph" title="M: morph projection">A · polar</button>
+  <button class="btn" id="lomo-btn" title="L: data-bound film layer">lomo</button>
+  <button class="btn" id="proto-btn">720° protocol</button>
+  <button class="btn" id="perform" title="P: sonified replay">🎼</button>
+  <button class="btn" id="dl">↓ .json</button>
+</div></div>
+
+<div class="banner" id="banner"></div>
+<div id="stage"><canvas id="cv"></canvas></div>
+<canvas id="lomo"></canvas>
+
+<div class="hud">
+  <div class="row"><span class="kv" id="stats">loading the feed</span></div>
+  <div class="row">
+    <span class="kv">● fuzzy = L1 evidence · ◉ dot = L2 to L3 · ◆ crystal = L4 cross-confirmed · <b style="color:var(--gold)">◈ diamond = L5 outcome-confirmed</b> · glow = well depth (descendants, brief, outcome)</span>
+  </div>
+  <div class="row">
+    <span class="kv"><b>1</b>..<b>5</b> aspect lens D R W C H · <b>0</b> weakest · <b>G</b> gravity contours · <b>T</b> tool magnets · <b>O</b> outcomes · <b>B</b> briefs · <b>M</b> morph · <b>L</b> lomo · <b>P</b> perform · <b>esc</b> close · drag pan · wheel zoom · ⌘⌥⌃⇧ + wheel = the four axes</span>
+  </div>
+</div>
+
+<div class="drawer" id="drawer"><button class="x btn" id="dx">✕ esc</button><div id="dbody"></div></div>
+
+<div class="modal" id="modal"><div class="modal-in">
+  <button class="x btn" style="position:absolute;top:.8rem;right:.8rem" id="mx">✕ close</button>
+  <span class="lbl gd">Anterior + posterior</span>
+  <h2>The 720° pressure test, pointed at the compass itself</h2>
+  <p>Dope is a non-GAAP word. It earns a GAAP reading only through three consequences that each leave a custody trace in a separate table: sticky (the same person returns on a later day), curiosity-inducing (a follow-up names the tributary it came from), infectious (a second human arrives because of a shared brief). Model self-grades never count. Silence is a finding: a dashed cell is a tilde, not a zero.</p>
+  <div class="sweep">
+    <div class="col"><span class="lbl cy">First 360° · anterior (predict before you count)</span><ul>
+      <li><b>EX-ANTE</b>: name the tier you expect before running the query; the receipt scores the prediction, not the mood.</li>
+      <li><b>Cohort first</b>: exclude the author, exclude provenance test, exclude anonymous rows. What is left is the only set that can be dope.</li>
+      <li><b>One trace, one table</b>: sticky from Receipt dates, curiosity from parentTributaryIndex, infectious from shares. No column serves two traces.</li>
+      <li><b>Pre-register thresholds</b>: 7 days for return, 72 hours after a nudge counts as pushed not pulled, 30 real seeds and 30 outcomes at S.</li>
+      <li><b>BAR</b>: the ruin case is a dope-looking corpus made of one person's probes. Guard it structurally.</li>
+    </ul></div>
+    <div class="col"><span class="lbl gd">Second 360° · posterior (after the rows)</span><ul>
+      <li><b>Receipts</b>: what the tables actually hold, by cohort, with tildes on every inferred number.</li>
+      <li><b>Recoil</b>: did the predicted tier land, or did the corpus stay in fog?</li>
+      <li><b>Orthogonal echo</b>: two traces agreeing on the same receipts without sharing a column is the hardness metric.</li>
+      <li><b>KKL</b>: is the window still open, or is the claim stale (a receipt older than its horizon with no outcome)?</li>
+      <li><b>Fun House</b>: audit the auditor. The founder wrote most of the corpus; enthusiasm is not evidence.</li>
+    </ul></div>
+  </div>
+  <div class="rule-box"><b style="color:var(--gold)">Diamond rule:</b> a receipt is S-tier only when it survives both sweeps and at least two of the three traces fire on it from distinct tables, inside a cohort of real-provenance decisions large enough for the Accountant to calibrate (30 closed). Today that cohort is empty. The ladder below says where the corpus sits meanwhile.</div>
+  <table class="ladder" id="ladder"></table>
+  <p style="font-size:.925rem;margin-top:.8rem">Feed: /api/geometry, at admin, owner or text-free public fidelity, decided server-side.</p>
+</div></div>
+
+<script id="clusters-data" type="application/json">[{"name":"Run the decision lenses","a":["D","R","C"],"g":"Every receipt. Measured corpus is PLAN 161 and COURT 96, FORK 137 and PARADOX 116 (253 of 267), TWO_WAY 171 and ONE_WAY 96, stakes MEDIUM 156 and HIGH 74. GREEN","rule":"Snap here when a question exists and no verdict exists yet, or when a verdict exists and someone wants a second named lens on the same D (BAR for ruin, LAB for ","n":22},{"name":"Invoke, persist and trace an engine run","a":["C","H"],"g":"Session depth 2 and up (26 sessions at depth 2 to 3, 15 at depth 4 plus, max 13): persistence, replay and future serialization only matter once a session holds ","rule":"Snap here when the job is call the engine from somewhere else or keep what the engine said, not decide. Yoav serialization when two branches could commit the sa","n":14},{"name":"Find the cross-domain echo","a":["D","C"],"g":"PARADOX 116 and flowTopology DIVERGENT 154: a reframe is the move when the Y state is entangled or the paths diverge. Pulls on depth 2 plus sessions where the s","rule":"Snap when the question has been run and the answer is both or neither, and the user needs a different frame rather than more evidence. The dogfood and ridgeline","n":5},{"name":"Encode a signal for the recipient's altitude and cognitive state","a":["C","H"],"g":"The handoff of a verdict to a counterpart. Altitude free text in the corpus spans L0 to L4. Pulls on COURT and ONE_WAY sends where a mis-pitched message is itse","rule":"Snap when the decision is made and the remaining risk is in the transmission, not the content. All three are UNAUDITED and not wired to a route; today the regis","n":3},{"name":"Attest and record a decision as it happens","a":["D","W"],"g":"Every receipt at write time. Horizon WEEK 175 dominates, so the reviewDate written here is mostly ~1 week out. Status OPEN 264 of 267: almost every attestation ","rule":"Snap when something just happened (a decision, a flash, a premise accepted) and it must be stamped before it is reconstructed. Lowest energy because attesting l","n":8},{"name":"Close the loop: outcomes, calibration, belief change","a":["C","H"],"g":"Outcomes 3 of 267, matched 2, avg regretScore 2.33, status LOGGED 3, driftState LANDED 2. Pulls on receipts whose horizon has passed; with WEEK 175 that is most","rule":"Snap when a reviewDate has passed or a counterpart has responded. The energy well is real but almost nothing rolls into it: the capture rate, not the tooling, i","n":14},{"name":"Prepare for, run and close a counterpart encounter","a":["D","R","W"],"g":"Mode COURT, door ONE_WAY, stakes HIGH when a human counterpart is on the other side (ONE_WAY 96; COURT is also 96, likely the same rows, not confirmed). Horizon","rule":"Snap when a named person and a timestamp exist. T-minus, T-zero, T-plus is the lowest-energy ordering because the transcript is the only outcome signal the corp","n":13},{"name":"Forge and harden a counterpart-facing artifact family","a":["R","C","H"],"g":"ONE_WAY door (a sent artifact cannot be unsent), stakes HIGH, mode COURT, kairos CLOSING (a send date). Depth 4 plus: forge runs are the multi-day sessions (12 ","rule":"Snap when an artifact exists that someone outside the air-gap will see and a send date exists. Falls to the public-surface gate cluster when there is no named c","n":14},{"name":"Scan personal data for observed motion","a":["D","C"],"g":"Upstream of a receipt; serves the PrepSession, not the Y state. Pulls on horizon QUARTER 51 and YEARS 19 (pattern over time) more than TODAY 22. The 118 depth-1","rule":"Snap when the question is vague and the person's own data is at hand; a scanner envelope is the cheapest D sharpener (stdlib only, no LLM).","n":12},{"name":"Run the job-search pipeline","a":["R","W","H"],"g":"TWO_WAY door (an application is reversible) at MEDIUM stakes, horizon WEEK, mode PLAN. The one domain with a real outcome ledger (second_pass_ledger rejections)","rule":"Snap when the counterpart is an employer or recruiter. Three-gate smoke test before the call, never after.","n":10},{"name":"Author and render a public page or post","a":["H","C"],"g":"TWO_WAY (a page can be unpublished) at LOW to MEDIUM stakes, PLAN mode, horizon WEEK. Not a receipt geometry; the pull is the press schedule and the fate regist","rule":"Snap when a source exists and the destination is a public URL with no named reader. The gate cluster runs before this one ships.","n":15},{"name":"Gate a public surface before anyone sees it","a":["R","C"],"g":"ONE_WAY in practice (a leaked internal fact is irreversible once crawled) even when the page is TWO_WAY; stakes rise to HIGH on prospect-facing pages. Frustrati","rule":"Snap whenever a file under public/ or an artifact directory changes. Lowest energy because the gate is cheaper than the eyeball and the eyeball misses the narro","n":23},{"name":"Project a safe public mirror of an internal ledger","a":["R","C"],"g":"ONE_WAY (what is served is crawled), stakes HIGH, mode COURT. Serves the believability and gauntlet ledgers and the status floor.","rule":"Snap when an internal instrument should be visible to prospects. The four-thing contract (source, whitelist, template, check) beats a hand-written page because ","n":4},{"name":"Replay the trajectory (observatory data path)","a":["W","C"],"g":"Session depth 2 plus (41 of 159 sessions) is the geometry WORLD.md promises the Observatory serves. Measured: all three tools ingest git and GitHub, not Receipt","rule":"Snap when the question is how did we get here over a repo. Does not snap for a receipt session today.","n":3},{"name":"Digest a corpus into a graded reading room","a":["C","H"],"g":"Horizon QUARTER and YEARS (a corpus accrues), depth 4 plus sessions, PLAN mode. Cost-governed by the cache manifest.","rule":"Snap when the same corpus is read more than once; the manifest makes the second read nearly free.","n":7},{"name":"Bank vocabulary, lore, proverbs and canon; propagate changes","a":["C","D"],"g":"Not per-receipt; pulls on horizon YEARS and on every ADR or ROM candidate landing. Kairos OPEN (canon never closes).","rule":"Snap when a word, a story or a law changed and other files cite it. The nightly sentinel makes the propagation check the lowest-energy default.","n":21},{"name":"Route a job to the one right tool; inventory the toolset","a":["H","C"],"g":"Every session start; the 256-tool catalog is the input to this very map. QUICKMOVE in spirit (10 measured): the route should be one call.","rule":"Snap before any new script is written (memory jtbd-reuse-existing-tool-before-inventing).","n":6},{"name":"Hand off and pick up a session losslessly","a":["C","H"],"g":"Session depth 2 plus and the 12 multi-day sessions; median span 56 minutes at depth 2 plus. Kairos CLOSING (context about to compact).","rule":"Snap at compaction or session end; the hook fires it. Lowest energy because the alternative, re-deriving next session, cost ~40k tokens per session before 2026-","n":14},{"name":"Keep the open-loop backlog honest","a":["W","H"],"g":"Status OPEN 264 of 267 receipts plus the induced backlog: the corpus is almost entirely open loops. This cluster detects kairos transitions (OPEN to CLOSING) fo","rule":"Snap at the start of the day or when choosing what to do next. Read-only, no new store.","n":6},{"name":"Serialize parallel sessions and worktrees","a":["R","C"],"g":"Not per-receipt; pulls whenever more than one session is live (cap 4 per memory). ONE_WAY: a doubled ADR number or a clobbered file is a one-way door.","rule":"Snap before minting any number or writing a shared anchor. Git's non-fast-forward rejection is the atomic gate; everything here rides it.","n":9},{"name":"Ship code to main under the repo contract","a":["R","C","H"],"g":"TWO_WAY door with a cheap revert, MEDIUM stakes, PLAN mode; NCI thresholds >=50 and >=45. merge_train exists because CI runs are the cost driver.","rule":"Snap on every commit via pre-commit; lowest energy because session-start arms the hooks.","n":14},{"name":"Deploy and verify production","a":["R","W"],"g":"ONE_WAY door (a migration), stakes HIGH, mode COURT, kairos URGENT when prod is broken.","rule":"Snap when the change touches schema or the serving project. Never bare vercel --prod.","n":6},{"name":"Audit the system for drift between claim and state","a":["C","R"],"g":"driftState ON_TRACK 261 and DRIFTING 4 is the receipt-side signal; this cluster works the repo side. Scheduled (04:00 UTC sentinel, nightly risk sweep) plus on ","rule":"Snap when something feels off or a handoff lands. Read-only.","n":7},{"name":"Govern cost and blast radius","a":["H"],"g":"Orthogonal to receipts; pulls on every fan-out and every long job.","rule":"Snap before any fan-out or long task (token-savings-bank rule). watchdog is the default stop rule, not an afterthought.","n":4},{"name":"Preserve work off-machine","a":["R"],"g":"Not a decision geometry; a durability job.","rule":"Snap on a schedule, not on a decision.","n":2}]</script>
+<script>
+'use strict';
+// JTBD: render the real receipt corpus as decision geometry so the shape of each job, the wells it digs and the tool that snaps to it can be seen, not asserted.
+// TOOL-FIT: the knowledge-lattice canvas engine (polar sectors x strata rings, epoch scrubber, drawer, sonified replay) over a React page, because the lattice already proves this grammar at this size and the atlas explorers are self-contained files by convention.
+// EX-ANTE: predict the engine ports cleanly because the node model is the same shape (one node class, reified edges, hardness by independent confirmation); scored ex-post by whether projection B and C needed engine changes (they did not: only a layout function each).
+const CLUSTERS = JSON.parse(document.getElementById('clusters-data').textContent);
+const ASPECTS = ['D','R','W','C','H'];
+const ANAME = { D:'DECISION', R:'RISK / RUIN', W:'WINDOW', C:'CLARITY', H:'HORIZON (altitude)' };
+const ASUB = { D:'the sharp question and its bearing', R:'the gauntlet: stakes, court, Loki, ruin', W:'horizon, kairos, Y gate, drift', C:'clarity, conviction, coherence, consequence, cadence', H:'executive to surgical rungs' };
+const AANG = { D:-90, R:-18, W:54, C:126, H:198 };
+const ACOL = { D:'#00F0FF', R:'#FF4D6D', W:'#00FF9D', C:'#FFD700', H:'#A78BFA' };
+const EPOCH0 = Date.UTC(2026, 5, 3); // 2026-06-03, first receipt in prod
+const WEEK = 7 * 864e5;
+
+// ── 25-cell scorer (the decision-geometry cell model v0, collapsed to what the feed carries) ──
+// L0 tilde · L1 inferred · L2 stated · L3 decomposed · L4 cross-confirmed · L5 outcome-confirmed
+const KAIROS_KNOWN = new Set(['OPEN','CLOSED','CLOSING','CONDITIONAL','URGENT','ACUTE','LATENT','FORCED','DEFERRED','CRITICAL','UNCERTAIN']);
+const SHORT = new Set(['TODAY','WEEK']), LONG = new Set(['QUARTER','YEARS']);
+function kairosAgrees(st, hor){ if (!st || !hor) return false; if (['URGENT','ACUTE','CRITICAL','FORCED','CLOSING'].includes(st)) return SHORT.has(hor); if (['LATENT','DEFERRED'].includes(st)) return LONG.has(hor); return st === 'OPEN' || st === 'CONDITIONAL'; }
+function outcomeOk(r){ return !!(r.out && !r.out.syn); }
+function lv(r, cond, decomp, cross){ // generic ladder: stated -> decomposed -> cross-confirmed -> outcome
+  if (!cond) return 0;
+  let L = 2; if (decomp) L = 3; if (decomp && cross) L = 4; if (L >= 4 && outcomeOk(r)) L = 5; return L;
+}
+function scoreCells(r){
+  const g = r.geo || {}, k = g.kairos ? g.kairos.st : null, alt = g.alt, rev = g.rev;
+  const c = {};
+  // D
+  c.D1 = r.coh != null ? lv(r, true, !!(r.sq || r.dewy), !!r.brief) : (r.q !== undefined || r.nci != null ? 1 : 0);
+  c.D2 = lv(r, true, r.whyN >= 2 && !!(r.self && r.self.a), r.pathsSel > 0);
+  c.D3 = r.tribN >= 3 ? lv(r, true, true, r.ti != null) : (r.tribN > 0 ? 1 : 0);
+  c.D4 = r.door ? lv(r, true, !!g.trig, true) : (r.mode ? 1 : 0);
+  c.D5 = r.p == null ? 1 : (r.fork || r.ti != null ? 3 : 2); if (r.baton || r.merged) c.D5 = 4; if (c.D5 >= 2 && outcomeOk(r)) c.D5 = 5;
+  // R
+  c.R1 = r.stakes ? lv(r, true, r.prot.length > 0, !!(r.prep && r.prep.stakes && r.prep.stakes.toUpperCase() === r.stakes)) : 0; if (c.R1 === 2 && !r.prep) c.R1 = 1;
+  c.R2 = r.courtN > 0 ? lv(r, true, r.courtN >= 2, false) : 0;
+  c.R3 = r.advN > 0 || r.bayes != null ? lv(r, true, r.advN >= 2 && r.bayes != null, !!(r.prep && r.prep.adv)) : 0; if (c.R3 === 2 && r.advN === 0) c.R3 = 1;
+  c.R4 = rev ? lv(r, true, r.fatedN >= 3 || r.barN > 0, (r.door === 'ONE_WAY') === (rev.v >= 0.5)) : (r.door ? 1 : 0);
+  c.R5 = r.dragsN > 0 ? lv(r, true, r.pathsBlocked > 0, false) : (r.macros.some(m => m === 'KKL' || m === 'BAR') ? 1 : 0);
+  // W
+  c.W1 = r.hor ? lv(r, true, r.rev && r.rem, !!(r.prep && r.prep.hor)) : (r.win ? 1 : 0); if (c.W1 === 2 && !r.prep) c.W1 = 1;
+  c.W2 = k ? (KAIROS_KNOWN.has(k) ? lv(r, true, !!r.rem, kairosAgrees(k, r.hor)) : 1) : 0;
+  c.W3 = r.y && r.y.state ? lv(r, true, r.ycond > 0, !!(r.prep && r.prep.conf != null && ((r.prep.conf <= 2 && r.y.conv === 'LOW') || (r.prep.conf === 3 && r.y.conv === 'MEDIUM') || (r.prep.conf >= 4 && r.y.conv === 'HIGH')))) : 0; if (c.W3 === 2 && r.ycond === 0) c.W3 = 1;
+  c.W4 = r.pathsN > 0 ? (r.pathsN === 1 ? 1 : lv(r, true, true, r.fork || r.k > 0)) : 0;
+  c.W5 = r.drift ? (r.p == null && r.drift === 'ON_TRACK' ? 1 : lv(r, true, !!(r.yPrev || r.yTrig), r.drift === 'DRIFTING' && r.v >= 5)) : 0; if (r.drift === 'LANDED') c.W5 = 5;
+  // C (code wins: five shipped lenses; composite-only is L1)
+  const L = r.lens;
+  c.C1 = L ? lv(r, true, r.grade && r.dragsN + r.anchorsN > 0, r.coh != null && Math.abs(L.cl * 5 - r.coh) <= 15) : (r.nci != null ? 1 : 0);
+  c.C2 = L ? lv(r, true, !!r.yPrev, !!(r.prep && r.prep.conf != null)) : (r.y && r.y.conv ? 1 : 0);
+  c.C3 = L ? lv(r, true, r.anchorsN > 0, r.coh != null && Math.abs(L.co * 5 - r.coh) <= 15) : (r.nci != null ? 1 : 0);
+  c.C4 = L ? lv(r, true, r.fatedN >= 5, false) : (r.fatedN > 0 ? 1 : 0);
+  c.C5 = L ? lv(r, true, !!k && r.rem, kairosAgrees(k, r.hor)) : (k ? 1 : 0);
+  // H: rung occupied by the parsed altitude range (L4 Executive .. L0 Surgical); band inference is L1
+  const lo = alt ? alt.lo : null, hi = alt ? alt.hi : null;
+  const rung = (n, inferred) => { if (alt && lo <= n && n <= hi) return lv(r, true, false, inferred); return inferred ? 1 : 0; };
+  c.H1 = rung(4, r.stakes === 'HIGH' && r.door === 'ONE_WAY' && LONG.has(r.hor));
+  c.H2 = rung(3, LONG.has(r.hor) && r.mode !== 'QUICKMOVE');
+  c.H3 = rung(2, (r.hor === 'WEEK' || r.hor === 'QUARTER') && r.mode === 'PLAN');
+  c.H4 = rung(1, SHORT.has(r.hor));
+  c.H5 = rung(0, r.mode === 'QUICKMOVE' || r.hor === 'TODAY');
+  return c;
+}
+function collapse(cells){ // per aspect: tilde-heavy (3+ at L0) floors at 1, else lower-median of non-tilde
+  const code = {};
+  for (const a of ASPECTS) {
+    const vals = [1,2,3,4,5].map(i => cells[a + i]);
+    const nz = vals.filter(v => v > 0).sort((x, y) => x - y);
+    code[a] = (vals.length - nz.length >= 3) ? 1 : (nz.length ? nz[Math.floor((nz.length - 1) / 2)] : 1);
+  }
+  return code;
+}
+function weakest(code, lens){ if (lens) return lens; let best = 'D'; for (const a of ASPECTS) if (code[a] < code[best]) best = a; return best; }
+function evidence(code){ return Math.max(...ASPECTS.map(a => code[a])); }
+
+// ── tool magnet: lowest-energy cluster for a receipt (weighted L1 distance over aspects served + geometry words) ──
+function snap(r){
+  const w = r.weak, code = r.code;
+  let best = null, bestE = 1e9;
+  for (const cl of CLUSTERS) {
+    let E = cl.a.includes(w) ? 0 : 2;                 // serves the weakest aspect or not
+    E += cl.a.reduce((s, a) => s + (5 - code[a]) * .15, 0) / Math.max(1, cl.a.length); // pulls on the deep aspects
+    const g = cl.g.toUpperCase();
+    if (r.mode && g.includes(r.mode)) E -= .6;
+    if (r.door && g.includes(r.door)) E -= .4;
+    if (r.stakes && g.includes(r.stakes)) E -= .3;
+    if (r.geo.kairos && g.includes(r.geo.kairos.st)) E -= .3;
+    if (g.includes('EVERY RECEIPT')) E += .5;         // a universal tool is never the sharpest snap
+    if (g.includes('NOT PER-RECEIPT') || g.includes('NOT A DECISION GEOMETRY') || g.includes('ORTHOGONAL TO RECEIPTS')) E = 99; // open circuit
+    if (r.court.block > 0 && !/GAUNTLET|COURT|GATE|RUIN/i.test(cl.name + ' ' + cl.g)) E += 3; // ruin cell: impedance for non-gauntlet tools
+    if (E < bestE) { bestE = E; best = cl; }
+  }
+  return { cl: best, E: bestE };
+}
+
+// ── state ──
+let FEED = null, R = [], SESS = {}, USERS = {}, FOUNDER = null, EP_MAX = 1, ep = 1, sel = null;
+let proj = 0, lens = null, layers = { G: true, T: false, O: true, B: true }, lomo = false;
+let cam = { x: 0, y: 0, z: 0.55 };
+const W = 2400;
+const PROJ = ['A · polar', 'B · ziggurat', 'C · hypercube'];
+
+function tier(r){ // per-receipt pull traces (GAAP where the column exists)
+  const t = { sticky: false, curious: r.ti != null, closed: outcomeOk(r), brief: r.brief, recursion: r.d, mass: 1 };
+  const u = r.u != null ? USERS[r.u] : null;
+  if (u && u.days.size >= 2) t.sticky = true;
+  return t;
+}
+function massOf(r){ return 1 + (r.desc || 0) + (r.brief ? 1.5 : 0) + (outcomeOk(r) ? 4 : 0); }
+function hashf(i){ return ((i * 2654435761) % 997) / 997; }
+
+function ingest(feed){
+  FEED = feed; R = feed.receipts;
+  USERS = {}; SESS = {};
+  for (const r of R) {
+    r.tms = Date.parse(r.t.length === 10 ? r.t + 'T12:00:00Z' : r.t);
+    r.week = Math.max(0, Math.floor((r.tms - EPOCH0) / WEEK));
+    if (r.u != null) { (USERS[r.u] = USERS[r.u] || { n: 0, days: new Set(), seeds: 0 }); USERS[r.u].n++; USERS[r.u].days.add(r.t.slice(0, 10)); if (r.p == null) USERS[r.u].seeds++; }
+    (SESS[r.s] = SESS[r.s] || []).push(r);
+  }
+  FOUNDER = Object.entries(USERS).sort((a, b) => b[1].n - a[1].n)[0]; FOUNDER = FOUNDER ? Number(FOUNDER[0]) : null; // ~ the modal user; an assumption, labeled
+  for (const r of R) r.desc = 0;
+  for (const r of R) { let p = r.p; let guard = 0; while (p != null && guard++ < 50) { R[p].desc++; p = R[p].p; } }
+  for (const r of R) { r.cells = scoreCells(r); r.code = collapse(r.cells); r.weak = weakest(r.code, null); r.ev = evidence(r.code); r.traces = tier(r); r.mass = massOf(r); r.snap = snap(r); }
+  EP_MAX = Math.max(1, ...R.map(r => r.week)) + 1; ep = EP_MAX;
+  epEl.max = EP_MAX; epEl.value = EP_MAX;
+  layout(); fitted = false; resize();
+  banner();
+}
+
+// ── layouts: A polar, B ziggurat, C hypercube; each sets r.ax/ay for the target, draw tweens r.x/r.y ──
+function layoutA(r){
+  const a = lens ? lens : r.weak;
+  const level = r.code[a];
+  const base = AANG[a] * Math.PI / 180;
+  const spread = 0.95;
+  const sib = R.filter(x => (lens ? lens : x.weak) === a); const i = sib.indexOf(r);
+  const ang = base + (sib.length <= 1 ? 0 : ((i / (sib.length - 1)) - .5) * spread);
+  const rad = (1.02 - level * 0.17) * W / 2 * (0.9 + hashf(r.i) * .2);
+  return [Math.cos(ang) * rad, Math.sin(ang) * rad];
+}
+function layoutB(r){
+  const t = r.ev; // tier = evidence depth 1..5 (0 unused); apex = outcome-confirmed
+  const plateW = (W * .92) - (t - 1) * (W * .14), y = -(t - 1) * (W * .11) + W * .22;
+  const u = hashf(r.i), v = hashf(r.i + 7);
+  return [(u - .5) * plateW, y + (v - .5) * plateW * .36];
+}
+function layoutC(r){
+  const a = lens ? lens : r.weak, L = r.code[a];
+  const col = L - 1, row = ASPECTS.indexOf(a);
+  const cw = W * .17, x0 = -cw * 2.5, y0 = -cw * 2.5;
+  return [x0 + col * cw + cw * (.15 + hashf(r.i) * .7), y0 + row * cw + cw * (.15 + hashf(r.i + 3) * .7)];
+}
+function layout(){ const f = [layoutA, layoutB, layoutC][proj]; for (const r of R) { const [x, y] = f(r); r.ax = x; r.ay = y; if (r.x === undefined) { r.x = x; r.y = y; } } tween(); }
+let tw = null;
+function tween(){ if (tw) cancelAnimationFrame(tw); const t0 = performance.now(); const sx = R.map(r => r.x), sy = R.map(r => r.y);
+  const step = (t) => { const k = Math.min(1, (t - t0) / 600), e = 1 - Math.pow(1 - k, 3); R.forEach((r, i) => { r.x = sx[i] + (r.ax - sx[i]) * e; r.y = sy[i] + (r.ay - sy[i]) * e; }); draw(); if (k < 1) tw = requestAnimationFrame(step); else tw = null; };
+  tw = requestAnimationFrame(step); }
+
+// ── camera / canvas ──
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d'), stage = document.getElementById('stage');
+const lomoCv = document.getElementById('lomo'), lctx = lomoCv.getContext('2d');
+let fitted = false;
+function fitView(){ if (fitted) return; fitted = true; cam.x = 0; cam.y = 0; cam.z = Math.max(Z_MIN, Math.min(stage.clientWidth, stage.clientHeight) / (W * 1.15)); syncZoom(); }
+const RES_STOPS = [['8-BIT', .055], ['32MB', .14], ['2K', .38], ['4K', .68], ['8K', 1], ['LOSSLESS', 1]];
+let RES = 1, LOSSLESS = false, CLAR = 0;
+function resize(){ document.documentElement.style.setProperty('--deck-h', document.querySelector('.deck').offsetHeight + 'px'); fitView(); cv.width = Math.max(2, stage.clientWidth * devicePixelRatio * RES); cv.height = Math.max(2, stage.clientHeight * devicePixelRatio * RES); lomoCv.width = stage.clientWidth; lomoCv.height = stage.clientHeight; draw(); }
+addEventListener('resize', resize);
+const Z_MIN = .3, Z_MAX = 9;
+const LEVELS = [[.45, 'GALACTIC'], [.7, 'EXEC'], [1.1, 'STRATEGIC'], [1.9, 'OPERATIONAL'], [3.2, 'TACTICAL'], [5.2, 'SURGICAL'], [99, 'QUANTUM']];
+function level(z){ for (const [t, l] of LEVELS) if (z < t) return l; return 'QUANTUM'; }
+function visible(r){ return r.week < ep; }
+function alphaFor(r){ // clarity ramp: fog fades first; at 100 only outcome-confirmed stays lit
+  if (CLAR <= 0) return 1;
+  const need = CLAR / 100 * 5; // level required to stay bright
+  const e = outcomeOk(r) ? 5 : r.ev;
+  return e >= need ? 1 : Math.max(.06, 1 - (need - e) / 2.2);
+}
+function draw(){
+  if (!R.length) return;
+  const w = cv.width, h = cv.height, dpr = devicePixelRatio * RES;
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, w, h);
+  ctx.translate(w / 2, h / 2); ctx.scale(cam.z * dpr, cam.z * dpr); ctx.translate(-cam.x, -cam.y);
+  const z = cam.z;
+  ctx.textAlign = 'center';
+  const vis = R.filter(visible);
+  // scaffold per projection
+  if (proj === 0) {
+    ctx.lineWidth = 1 / z; ctx.strokeStyle = 'rgba(30,41,59,.6)';
+    for (let L = 1; L <= 5; L++) { ctx.beginPath(); ctx.arc(0, 0, (1.02 - L * .17) * W / 2, 0, 7); ctx.stroke(); }
+    for (const a of ASPECTS) { const ang = AANG[a] * Math.PI / 180, rr = W / 2 * .98; ctx.strokeStyle = 'rgba(30,41,59,.9)'; ctx.setLineDash([4 / z, 8 / z]); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(ang) * rr, Math.sin(ang) * rr); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = ACOL[a] + 'dd'; ctx.font = `700 ${22 / Math.max(z, .42)}px ${'ui-monospace,monospace'}`; ctx.fillText(ANAME[a], Math.cos(ang) * rr * 1.06, Math.sin(ang) * rr * 1.06);
+      ctx.fillStyle = 'rgba(131,145,167,.9)'; ctx.font = `400 ${12 / Math.max(z, .42)}px ui-monospace,monospace`; ctx.fillText(ASUB[a], Math.cos(ang) * rr * 1.06, Math.sin(ang) * rr * 1.06 + 22 / Math.max(z, .42)); }
+    ctx.fillStyle = 'rgba(131,145,167,.7)'; ctx.font = `400 ${11 / Math.max(z, .5)}px ui-monospace,monospace`;
+    for (let L = 1; L <= 5; L++) ctx.fillText('L' + L, 0, -(1.02 - L * .17) * W / 2 + 12 / Math.max(z, .5));
+    ctx.fillText('nucleus · outcome-confirmed', 0, 14 / Math.max(z, .5));
+  } else if (proj === 1) {
+    const names = ['T1 · witness (inferred only)', 'T2 · ground (stated)', 'T3 · unit (decomposed)', 'T4 · field (cross-confirmed)', 'apex · invariant (outcome-confirmed)'];
+    for (let t = 1; t <= 5; t++) { const plateW = (W * .92) - (t - 1) * (W * .14), y = -(t - 1) * (W * .11) + W * .22, hh = plateW * .36;
+      ctx.strokeStyle = t === 5 ? 'rgba(255,215,0,.6)' : 'rgba(30,41,59,.95)'; ctx.fillStyle = t === 5 ? 'rgba(255,215,0,.05)' : `rgba(13,17,23,${.35 + t * .08})`; ctx.lineWidth = 1 / z;
+      ctx.beginPath(); ctx.moveTo(0, y - hh / 2); ctx.lineTo(plateW / 2, y); ctx.lineTo(0, y + hh / 2); ctx.lineTo(-plateW / 2, y); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = 'rgba(131,145,167,.9)'; ctx.font = `400 ${13 / Math.max(z, .45)}px ui-monospace,monospace`; ctx.textAlign = 'left'; ctx.fillText(names[t - 1], plateW / 2 + 16 / z, y); ctx.textAlign = 'center'; }
+  } else {
+    const cw = W * .17, x0 = -cw * 2.5, y0 = -cw * 2.5;
+    const counts = {}; for (const r of vis) { const a = lens ? lens : r.weak; const k = a + r.code[a]; counts[k] = (counts[k] || 0) + 1; }
+    ASPECTS.forEach((a, row) => { for (let L = 1; L <= 5; L++) { const n = counts[a + L] || 0; const x = x0 + (L - 1) * cw, y = y0 + row * cw;
+      ctx.fillStyle = n ? `rgba(0,240,255,${Math.min(.45, .04 + n / vis.length * 1.6)})` : 'rgba(13,17,23,.6)'; ctx.fillRect(x, y, cw - 4, cw - 4);
+      ctx.strokeStyle = n ? 'rgba(30,41,59,1)' : 'rgba(131,145,167,.5)'; ctx.setLineDash(n ? [] : [6 / z, 6 / z]); ctx.lineWidth = 1 / z; ctx.strokeRect(x, y, cw - 4, cw - 4); ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(131,145,167,.85)'; ctx.font = `400 ${12 / Math.max(z, .45)}px ui-monospace,monospace`; ctx.textAlign = 'left'; ctx.fillText(n ? String(n) : '~', x + 8 / z, y + 16 / z); ctx.textAlign = 'center'; }
+      ctx.fillStyle = ACOL[a]; ctx.font = `700 ${16 / Math.max(z, .45)}px ui-monospace,monospace`; ctx.textAlign = 'right'; ctx.fillText(ANAME[a], x0 - 14 / z, y0 + row * cw + cw / 2); ctx.textAlign = 'center'; });
+    for (let L = 1; L <= 5; L++) { ctx.fillStyle = 'rgba(131,145,167,.9)'; ctx.font = `400 ${13 / Math.max(z, .45)}px ui-monospace,monospace`; ctx.fillText('L' + L + ['', ' inferred', ' stated', ' decomposed', ' confirmed', ' outcome'][L], x0 + (L - 1) * cw + cw / 2, y0 - 12 / z); }
+  }
+  // gravity contours: banded potential from the masses
+  if (layers.G && proj !== 2) {
+    const g = 36, half = W * .62, cs = half * 2 / g;
+    for (let gy = 0; gy < g; gy++) for (let gx = 0; gx < g; gx++) { const px = -half + gx * cs + cs / 2, py = -half + gy * cs + cs / 2; let p = 0;
+      for (const r of vis) { if (r.mass < 2.5) continue; const dx = r.x - px, dy = r.y - py; p += r.mass / (1 + (dx * dx + dy * dy) / (W * W * .004)); }
+      if (p < .35) continue; const band = Math.min(5, Math.floor(p / .7)); ctx.fillStyle = `rgba(0,240,255,${.025 + band * .022})`; ctx.fillRect(px - cs / 2, py - cs / 2, cs, cs); }
+  }
+  // lineage edges
+  for (const r of vis) { if (r.p == null) continue; const p = R[r.p]; if (!visible(p)) continue;
+    ctx.strokeStyle = r.ti != null ? 'rgba(255,215,0,.5)' : 'rgba(0,240,255,.18)'; ctx.lineWidth = (0.6 + Math.min(4, p.desc) * .3) / z; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(r.x, r.y); ctx.stroke(); }
+  // tool magnets (projection C only: at the densest occupied cell among served aspects; elsewhere as labels by the sector)
+  if (layers.T) {
+    const cw = W * .17, x0 = -cw * 2.5, y0 = -cw * 2.5;
+    const counts = {}; for (const r of vis) for (const a of ASPECTS) { const k = a + r.code[a]; counts[k] = (counts[k] || 0) + 1; }
+    CLUSTERS.forEach((cl, i) => { let best = null, bn = -1; for (const a of cl.a) for (let L = 1; L <= 5; L++) { const n = counts[a + L] || 0; if (n > bn) { bn = n; best = [a, L]; } } if (!best) return;
+      let x, y; if (proj === 2) { x = x0 + (best[1] - 1) * cw + cw * .85; y = y0 + ASPECTS.indexOf(best[0]) * cw + cw * .85 - (i % 4) * 14 / z; }
+      else if (proj === 0) { const ang = AANG[best[0]] * Math.PI / 180 + ((i % 5) - 2) * .09; const rad = (1.02 - best[1] * .17) * W / 2 * 1.04; x = Math.cos(ang) * rad; y = Math.sin(ang) * rad; }
+      else { x = (hashf(i + 11) - .5) * W * .8; y = -(best[1] - 1) * (W * .11) + W * .22 - 30 / z; }
+      ctx.fillStyle = 'rgba(0,255,157,.85)'; ctx.beginPath(); ctx.arc(x, y, 4 / z, 0, 7); ctx.fill();
+      if (LOSSLESS || z > 1.2) { ctx.fillStyle = 'rgba(0,255,157,.85)'; ctx.font = `400 ${10 / Math.min(z, 3)}px ui-monospace,monospace`; ctx.textAlign = 'left'; ctx.fillText(cl.name, x + 7 / z, y + 3 / z); ctx.textAlign = 'center'; } });
+  }
+  // receipts
+  for (const r of vis) {
+    const a = alphaFor(r); ctx.globalAlpha = a;
+    const col = outcomeOk(r) ? '#FFD700' : (r.court.block > 0 ? '#FF4D6D' : ACOL[lens ? lens : r.weak]);
+    const base = 6 + Math.min(14, r.mass * 1.6), e = r.ev;
+    if (layers.G || true) { const gr = base * (1.6 + Math.min(4, r.mass) * .5); const g0 = ctx.createRadialGradient(r.x, r.y, 0, r.x, r.y, gr); g0.addColorStop(0, col + '55'); g0.addColorStop(1, col + '00'); ctx.fillStyle = g0; ctx.beginPath(); ctx.arc(r.x, r.y, gr, 0, 7); ctx.fill(); }
+    if (e <= 1) { const g = ctx.createRadialGradient(r.x, r.y, 0, r.x, r.y, base * 1.6); g.addColorStop(0, col + '88'); g.addColorStop(1, col + '00'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(r.x, r.y, base * 1.6, 0, 7); ctx.fill(); }
+    else if (e <= 3) { ctx.fillStyle = col + (e === 2 ? '99' : 'dd'); ctx.beginPath(); ctx.arc(r.x, r.y, base * .55, 0, 7); ctx.fill(); }
+    else { const dr = base * .8; ctx.beginPath(); ctx.moveTo(r.x, r.y - dr); ctx.lineTo(r.x + dr, r.y); ctx.lineTo(r.x, r.y + dr); ctx.lineTo(r.x - dr, r.y); ctx.closePath(); ctx.fillStyle = e >= 5 ? '#FFD700' : col; ctx.fill(); ctx.strokeStyle = '#020408'; ctx.lineWidth = 1.5 / z; ctx.stroke(); }
+    if (layers.O && outcomeOk(r)) { ctx.strokeStyle = r.out.m ? '#00FF9D' : '#FF4D6D'; ctx.lineWidth = 1.5 / z; ctx.beginPath(); ctx.arc(r.x, r.y, base * 1.1, 0, 7); ctx.stroke(); }
+    if (layers.B && r.brief) { ctx.strokeStyle = 'rgba(226,232,240,.35)'; ctx.lineWidth = 1 / z; ctx.beginPath(); ctx.arc(r.x, r.y, base * .9, 0, 7); ctx.stroke(); }
+    if (sel === r) { ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.5 / z; ctx.beginPath(); ctx.arc(r.x, r.y, base * 1.6, 0, 7); ctx.stroke(); }
+    const minZ = { 1: 3.2, 2: 2.2, 3: 1.4, 4: .9, 5: .5 }[Math.max(1, e)];
+    if (LOSSLESS || z >= minZ || sel === r) { ctx.fillStyle = 'rgba(226,232,240,.9)'; ctx.font = `${e >= 4 ? 700 : 400} ${11 / Math.min(z, 3)}px ui-monospace,monospace`;
+      const label = (r.q ? r.q.slice(0, 48) + (r.q.length > 48 ? '…' : '') : `#${r.i} · ${codeStr(r.code)}`); ctx.fillText(label, r.x, r.y + base * 1.1 + 12 / Math.min(z, 3)); }
+    ctx.globalAlpha = 1;
+  }
+  hud(); drawLomo(vis);
+}
+function codeStr(c){ return ASPECTS.map(a => c[a]).join(''); }
+
+// ── lomo: a film layer whose every parameter is a datum (grain = fog share, vignette = tilde share, leak = kairos OPEN share) ──
+function drawLomo(vis){
+  lomoCv.classList.toggle('on', lomo); if (!lomo) return;
+  const w = lomoCv.width, h = lomoCv.height; lctx.clearRect(0, 0, w, h);
+  const n = Math.max(1, vis.length);
+  const fog = vis.filter(r => r.rr === 'GRAIN' || r.rr === 'MOIRE').length / n;
+  const tilde = vis.reduce((s, r) => s + Object.values(r.cells).filter(v => v === 0).length, 0) / (n * 25);
+  const open = vis.filter(r => r.geo.kairos && r.geo.kairos.st === 'OPEN').length / n;
+  const img = lctx.createImageData(w, h); const d = img.data; const amp = 70 * fog;
+  for (let i = 0; i < d.length; i += 4) { const v = (Math.random() - .5) * amp; d[i] = 255; d[i + 1] = 255; d[i + 2] = 255; d[i + 3] = Math.abs(v); }
+  lctx.putImageData(img, 0, 0);
+  const vg = lctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * .35, w / 2, h / 2, Math.max(w, h) * .75); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, `rgba(0,0,0,${.25 + tilde * .6})`); lctx.fillStyle = vg; lctx.fillRect(0, 0, w, h);
+  const lk = lctx.createRadialGradient(w * .92, h * .1, 0, w * .92, h * .1, Math.max(w, h) * .6); lk.addColorStop(0, `rgba(255,215,0,${.22 * open})`); lk.addColorStop(1, 'rgba(255,215,0,0)'); lctx.fillStyle = lk; lctx.fillRect(0, 0, w, h);
+}
+
+// ── corpus ladder (dopeness eval v0 section 5, computed on the loaded feed; cohort = non-founder, non-test, signed in) ──
+function ladder(){
+  const cohort = R.filter(r => r.u != null && r.u !== FOUNDER && r.prov !== 'test');
+  const cUsers = new Set(cohort.map(r => r.u));
+  const F = R.length > 0 && R.every(r => r.val === 'PASS');
+  const D = cUsers.size >= 1;
+  const C = R.some(r => r.p != null && r.ti != null) && R.some(r => r.prov === 'real');
+  const B = [...cUsers].some(u => USERS[u].days.size >= 2);
+  const curious = cohort.some(r => r.ti != null), closed = cohort.some(outcomeOk), sticky = B;
+  const A = cUsers.size >= 10 && [curious, closed, sticky].filter(Boolean).length >= 2;
+  const S = A && cohort.filter(r => r.p == null && r.prov === 'real').length >= 30 && cohort.filter(outcomeOk).length >= 30 && curious && closed && sticky;
+  const rows = [['F', 'plumbing: receipts exist, rawResponse present, validation PASS', F], ['D', 'touched by a stranger: at least one non-founder, non-test user', D], ['C', 'the instrument is not blind: a tributary-indexed child AND a real-provenance receipt exist', C], ['B', 'sticky: a cohort user returned on a later day', B], ['A', 'convergent: 10 cohort users and two of three traces fire', A], ['S', 'the bar: A plus 30 real seeds, 30 closed outcomes, all three traces', S]];
+  let cur = 'below F'; for (const [t, , ok] of rows) if (ok) cur = t; else break;
+  const tbl = document.getElementById('ladder'); tbl.innerHTML = '<tr><th>tier</th><th>rule (fields: Receipt.userId, provenance, createdAt, parentTributaryIndex, Outcome.synthetic)</th><th>now</th></tr>' + rows.map(([t, rule, ok]) => `<tr><td><b style="color:${ok ? 'var(--green)' : 'var(--dimmed)'}">${t}</b></td><td>${rule}</td><td>${ok ? 'met' : 'not met'}</td></tr>`).join('');
+  return { cur, cohortUsers: cUsers.size, cohortN: cohort.length, traces: { sticky, curious, closed } };
+}
+
+function hud(){
+  const vis = R.filter(visible); if (!vis.length) return;
+  const mean = vis.reduce((s, r) => s + r.ev, 0) / vis.length;
+  const dia = vis.filter(r => outcomeOk(r)).length, cry = vis.filter(r => r.ev >= 4).length;
+  const flowing = vis.some(r => r.week === ep - 1);
+  const phase = mean < 1.5 ? ['GAS', '#7a8699'] : mean < 2.3 ? ['LIQUID', '#A78BFA'] : (dia >= 3 && flowing) ? ['SUPERIONIC', '#00F0FF'] : ['SOLID', '#94a3b8'];
+  const pel = document.getElementById('phase'); pel.textContent = phase[0]; pel.style.color = phase[1]; pel.style.borderColor = phase[1] + '55';
+  const L = ladder();
+  const wk = new Date(EPOCH0 + (ep - 1) * WEEK).toISOString().slice(0, 10);
+  document.getElementById('ep-lbl').textContent = 'wk ' + ep + ' · ' + wk;
+  document.getElementById('stats').innerHTML = `fidelity <b>${FEED.fidelity}</b> · receipts <b>${vis.length}/${R.length}</b> · sessions <b>${FEED.sessions}</b> · users <b>${FEED.users}</b> · mean evidence <b>${mean.toFixed(2)}</b> · crystals <b>${cry}</b> · diamonds <b style="color:#FFD700">${dia}</b> · corpus tier <b style="color:#FFD700">${L.cur}</b> (cohort ${L.cohortUsers} users / ${L.cohortN} receipts; founder = modal user, ~assumed) · projection <b>${PROJ[proj]}</b> · lens <b>${lens || 'weakest'}</b> · level <b>${level(cam.z)}</b>`;
+  document.getElementById('zoom-lbl').textContent = level(cam.z);
+}
+function banner(){
+  const b = document.getElementById('banner'); const f = FEED.fidelity;
+  if (f === 'public') { b.innerHTML = '<b>Public fidelity.</b> Real receipts, text-free: no questions, no ids, day-granular time. Sign in on app.arcs.care/decision-geometry to see your own receipts at full fidelity.'; b.classList.add('on'); }
+  else if (f === 'owner') { b.innerHTML = '<b>Owner fidelity.</b> Your own receipts, with text. The corpus ladder is computed on your rows only.'; b.classList.add('on'); }
+  else b.classList.remove('on');
+}
+
+// ── interaction ──
+let drag = null;
+stage.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, cx: cam.x, cy: cam.y, moved: false }; stage.classList.add('drag'); });
+addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true; cam.x = drag.cx - dx / cam.z; cam.y = drag.cy - dy / cam.z; draw(); });
+addEventListener('pointerup', e => { stage.classList.remove('drag');
+  if (drag && !drag.moved && R.length) { const rect = cv.getBoundingClientRect(); const wx = (e.clientX - rect.left - rect.width / 2) / cam.z + cam.x, wy = (e.clientY - rect.top - rect.height / 2) / cam.z + cam.y;
+    let best = null, bd = 1e9; for (const r of R) { if (!visible(r)) continue; const d = (r.x - wx) ** 2 + (r.y - wy) ** 2; if (d < bd) { bd = d; best = r; } }
+    sel = (bd < (26 / Math.min(cam.z, 2)) ** 2) ? best : null; openDrawer(sel); draw(); }
+  drag = null; });
+stage.addEventListener('wheel', e => { e.preventDefault(); const dir = -Math.sign(e.deltaY);
+  if (e.altKey) { CLAR = Math.max(0, Math.min(100, CLAR + dir * 5)); clarEl.value = CLAR; clarLbl(); draw(); return; }
+  if (e.ctrlKey) { resEl.value = Math.max(0, Math.min(5, +resEl.value + dir)); resEl.dispatchEvent(new Event('input')); return; }
+  if (e.shiftKey) { ep = Math.max(1, Math.min(EP_MAX, ep + dir)); epEl.value = ep; draw(); return; }
+  cam.z = Math.min(Z_MAX, Math.max(Z_MIN, cam.z * Math.exp(-e.deltaY * .0012))); syncZoom(); draw(); }, { passive: false });
+const zoomEl = document.getElementById('zoom'), clarEl = document.getElementById('clar'), resEl = document.getElementById('res'), resLbl = document.getElementById('res-lbl'), epEl = document.getElementById('epoch');
+function syncZoom(){ zoomEl.value = 100 * Math.log(cam.z / Z_MIN) / Math.log(Z_MAX / Z_MIN); }
+zoomEl.addEventListener('input', () => { cam.z = Z_MIN * Math.pow(Z_MAX / Z_MIN, zoomEl.value / 100); draw(); });
+function clarLbl(){ document.getElementById('clar-lbl').textContent = CLAR === 0 ? 'FOG' : CLAR < 40 ? 'CLEARING' : CLAR < 80 ? 'RIDGE' : 'NUCLEUS'; }
+clarEl.addEventListener('input', () => { CLAR = +clarEl.value; clarLbl(); draw(); });
+resEl.addEventListener('input', () => { const [name, f] = RES_STOPS[+resEl.value]; RES = f; LOSSLESS = name === 'LOSSLESS'; resLbl.textContent = name; resize(); });
+epEl.addEventListener('input', () => { ep = +epEl.value; draw(); });
+let playT = null;
+function play(){ if (playT) { clearInterval(playT); playT = null; return; } ep = 1; epEl.value = 1; draw(); playT = setInterval(() => { if (ep >= EP_MAX) { clearInterval(playT); playT = null; return; } ep++; epEl.value = ep; draw(); }, 350); }
+document.getElementById('play').addEventListener('click', play);
+document.getElementById('morph').addEventListener('click', () => { proj = (proj + 1) % 3; document.getElementById('morph').textContent = PROJ[proj]; layout(); });
+document.getElementById('lomo-btn').addEventListener('click', () => { lomo = !lomo; document.getElementById('lomo-btn').classList.toggle('on', lomo); draw(); });
+addEventListener('keydown', e => { if (e.target && /input|textarea/i.test(e.target.tagName)) return; const k = e.key;
+  if (k === 'Escape') { sel = null; drawer.classList.remove('open'); document.getElementById('modal').classList.remove('open'); draw(); return; }
+  if ((e.metaKey || e.altKey || e.ctrlKey) && (k === 'ArrowUp' || k === 'ArrowDown')) { e.preventDefault(); const dir = k === 'ArrowUp' ? 1 : -1;
+    if (e.metaKey) { cam.z = Math.min(Z_MAX, Math.max(Z_MIN, cam.z * (dir > 0 ? 1.25 : .8))); syncZoom(); draw(); }
+    else if (e.altKey) { CLAR = Math.max(0, Math.min(100, CLAR + dir * 10)); clarEl.value = CLAR; clarLbl(); draw(); }
+    else if (e.ctrlKey) { resEl.value = Math.max(0, Math.min(5, +resEl.value + dir)); resEl.dispatchEvent(new Event('input')); }
+    return; }
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (k === ' ') { e.preventDefault(); play(); }
+  else if (k === 'm' || k === 'M') document.getElementById('morph').click();
+  else if (k === 'l' || k === 'L') document.getElementById('lomo-btn').click();
+  else if (k === 'p' || k === 'P') document.getElementById('perform').click();
+  else if (/^[1-5]$/.test(k)) { lens = ASPECTS[+k - 1]; layout(); }
+  else if (k === '0') { lens = null; layout(); }
+  else if (/^[gtob]$/i.test(k)) { layers[k.toUpperCase()] = !layers[k.toUpperCase()]; draw(); }
+  else if (k === 'ArrowLeft') { ep = Math.max(1, ep - 1); epEl.value = ep; draw(); }
+  else if (k === 'ArrowRight') { ep = Math.min(EP_MAX, ep + 1); epEl.value = ep; draw(); } });
+
+// ── drawer ──
+const drawer = document.getElementById('drawer');
+function openDrawer(r){ if (!r) { drawer.classList.remove('open'); return; }
+  const c = r.cells, t = r.traces, s = r.snap, g = r.geo;
+  const cellHtml = ASPECTS.map(a => [1,2,3,4,5].map(i => { const v = c[a + i]; return `<div class="cell ${v === 0 ? 't' : v >= 5 ? 'l5' : v >= 4 ? 'l4' : v >= 3 ? 'l3' : ''}" title="${a}${i}">${a}${i} ${v === 0 ? '~' : 'L' + v}</div>`; }).join('')).join('');
+  const chips = [[r.mode, ''], [r.door, ''], [r.stakes, ''], [r.hor, ''], [r.y.state, r.y.state === 'GREEN' ? 'gr' : r.y.state === 'PARADOX' ? 'rd' : ''], [r.rr, ''], [r.prov ? 'prov ' + r.prov : 'prov ~untagged', r.prov === 'real' ? 'gr' : 'gd']].filter(x => x[0]).map(([t, k]) => `<span class="chip ${k}">${t}</span>`).join('');
+  const traces = [['sticky', t.sticky], ['curious', t.curious], ['closed', t.closed], ['brief', t.brief]].map(([n, ok]) => `<span class="chip ${ok ? 'cy' : ''}">${n} ${ok ? '●' : '○'}</span>`).join('');
+  document.getElementById('dbody').innerHTML = `
+    <span class="lbl" style="color:${ACOL[r.weak]}">weakest: ${r.weak} · ${codeStr(r.code)} · L${r.ev}</span>
+    <h3>${r.q ? r.q : 'receipt #' + r.i + ' (text-free fidelity)'}</h3>
+    ${r.tn ? `<p class="q"><b>True north:</b> ${r.tn}</p>` : ''}
+    <div>${chips}</div>
+    <div class="cells">${cellHtml}</div>
+    <p style="font-size:.925rem">dashed = tilde (the data cannot populate the cell) · L4 needs a second independent field to agree · L5 needs a non-synthetic Outcome row</p>
+    <span class="lbl gd">Pull traces</span><div>${traces}</div>
+    <p>well depth <b>${r.mass.toFixed(1)}</b> (descendants ${r.desc}, depth ${r.d}, session of ${SESS[r.s].length}) · nci <b>${r.nci}</b>${r.lens ? ` · lenses cl ${r.lens.cl} cv ${r.lens.cv} co ${r.lens.co} cq ${r.lens.cq} ca ${r.lens.ca}` : ' · lenses ~ (composite only)'} · court pass ${r.court.pass} tension ${r.court.tension} block ${r.court.block}${r.bayes != null ? ' · bayes risk ' + r.bayes + '%' : ''}</p>
+    <p>kairos <b>${g.kairos ? g.kairos.st : '~'}</b>${g.kairos && g.kairos.txt ? ': ' + g.kairos.txt : ''} · altitude <b>${g.alt ? 'L' + g.alt.lo + (g.alt.hi !== g.alt.lo ? ' to L' + g.alt.hi : '') : '~'}</b> · reversibility <b>${g.rev ? g.rev.v : '~'}</b> · macros ${r.macros.join(' ') || '~'} · ${r.t.slice(0, 10)}${r.out ? ` · outcome ${r.out.m ? 'matched' : 'missed'}, regret ${r.out.r}` : ''}</p>
+    ${r.trib && r.trib.length ? `<span class="lbl cy">Tributaries</span><ul style="font-size:.925rem;color:var(--dimmed);padding-left:1rem">${r.trib.map(x => `<li>${x.type || ''}: ${x.prompt}</li>`).join('')}</ul>` : ''}
+    <span class="lbl gr">Magnetic snap</span>
+    <p><b style="color:var(--green)">${s.cl ? s.cl.name : '~ none'}</b>${s.cl ? ` (${s.cl.n} tools, serves ${s.cl.a.join(' ')}; energy ${s.E.toFixed(2)})<br>${s.cl.rule}` : ''}</p>
+    <p style="font-size:.925rem;color:var(--muted)">720° state: anterior = tier predicted before the count (EX-ANTE marker in the spec) · posterior = ${t.closed ? 'outcome row exists, the loop closed' : 'no outcome row; the loop is open'}${t.curious ? '; a tributary was followed' : '; tributary follow-through unrecorded (column never written in prod)'}.</p>`;
+  drawer.classList.add('open'); }
+document.getElementById('dx').addEventListener('click', () => { sel = null; drawer.classList.remove('open'); draw(); });
+
+// ── protocol modal + export ──
+document.getElementById('proto-btn').addEventListener('click', () => { if (R.length) ladder(); document.getElementById('modal').classList.add('open'); });
+document.getElementById('mx').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
+document.getElementById('dl').addEventListener('click', () => { if (!FEED) return; const out = { v: FEED.v, fidelity: FEED.fidelity, generated: FEED.generated, receipts: R.map(r => ({ i: r.i, t: r.t, code: codeStr(r.code), cells: r.cells, evidence: r.ev, weak: r.weak, mass: r.mass, traces: r.traces, snap: r.snap.cl ? r.snap.cl.name : null })) };
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' })); a.download = 'decision-geometry.json'; a.click(); URL.revokeObjectURL(a.href); });
+
+// ── PERFORM: the corpus plays itself, one pluck per receipt (pitch = weakest aspect), a bass chord per outcome ──
+let PAC = null, perfTimers = [];
+const ANOTE = { D: 73, R: 68, W: 77, C: 80, H: 85 };
+function pPluck(midis, when, g, dur){ midis.forEach(m => { const f = 440 * Math.pow(2, (m - 69) / 12); const o1 = PAC.createOscillator(), o2 = PAC.createOscillator(), env = PAC.createGain(), g2 = PAC.createGain();
+  o1.type = 'sine'; o1.frequency.value = f; o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13; o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(PAC.destination);
+  const peak = .08 * g / Math.sqrt(midis.length); env.gain.setValueAtTime(0, when); env.gain.linearRampToValueAtTime(peak, when + .012); env.gain.exponentialRampToValueAtTime(.0004, when + (dur || 1.2)); o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4); }); }
+document.getElementById('perform').addEventListener('click', () => { if (!R.length) return;
+  if (PAC) { perfTimers.forEach(clearTimeout); perfTimers = []; PAC.close(); PAC = null; return; }
+  PAC = new (window.AudioContext || window.webkitAudioContext)(); let t = PAC.currentTime + .25;
+  for (let w = 1; w <= EP_MAX; w++) { const evs = R.filter(r => r.week === w - 1); const dwell = Math.max(.5, evs.length * .07 + .3); const te = t;
+    perfTimers.push(setTimeout(() => { ep = w; epEl.value = w; draw(); }, (te - PAC.currentTime) * 1000));
+    evs.forEach((r, i) => pPluck([ANOTE[r.weak]], te + i * .07, .5, 1));
+    evs.forEach(r => { if (outcomeOk(r)) pPluck([49, 56, 61], te + dwell * .6, .85, 2.2); });
+    t += dwell; }
+  perfTimers.push(setTimeout(() => { if (PAC) { PAC.close(); PAC = null; } }, (t - PAC.currentTime + 3) * 1000)); });
+
+// ── load ──
+async function load(){
+  try { const res = await fetch('/api/geometry', { credentials: 'same-origin' });
+    if (!res.ok) throw new Error('feed ' + res.status);
+    const feed = await res.json(); if (!feed.receipts || !feed.receipts.length) throw new Error('feed empty');
+    ingest(feed); }
+  catch (err) { const b = document.getElementById('banner'); b.innerHTML = `<b>No feed.</b> ${err.message}. Nothing is rendered because nothing was measured; this explorer never draws a fake corpus. On app.arcs.care sign in first; on playground the public feed may be switched off (GEOMETRY_PUBLIC=false).`; b.classList.add('on'); document.getElementById('phase').textContent = 'NO FEED'; document.getElementById('stats').textContent = 'no feed'; }
+}
+syncZoom(); resize(); load();
+</script>
+</body></html>
