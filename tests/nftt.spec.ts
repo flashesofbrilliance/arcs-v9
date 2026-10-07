@@ -21,7 +21,7 @@ const POSTS = fs.readdirSync(PUB)
   .filter((f) => !ONLY || f === `blog-nftt-${ONLY}.html`)
 const WIDTHS = [375, 790, 1024, 1280]
 // Known debt (pre-existing, not a new regression): a class used with no rule. Remove an entry when fixed.
-const KNOWN_UNSTYLED: Record<string, string[]> = { "blog-nftt-post-1-brief.html": ["arc-ladder"] }
+const KNOWN_UNSTYLED: Record<string, string[]> = {}
 
 function undefinedClasses(html: string): string[] {
   const css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join("\n")
