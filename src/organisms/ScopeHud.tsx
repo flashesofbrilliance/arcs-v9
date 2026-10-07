@@ -127,7 +127,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
         <div style={{ ...value, textAlign: "center" }}>{vis}%</div>
       </div>
 
-      {/* Altimeter: the five fathoms, continuous needle. */}
+      {/* Altimeter: the seven fathoms, continuous needle. */}
       <div style={{ ...panel, left: 16, top: 250, width: 192 }}>
         <Screws />
         <div style={label}>Altimeter</div>

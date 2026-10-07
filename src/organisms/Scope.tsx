@@ -18,9 +18,9 @@ import { ScopeHud, type HudRead } from "./ScopeHud"
 // and where two droplets' rings cross they interfere. That moiré is the only
 // texture. Adding an overlay drops a fresh, stronger droplet.
 //
-// Depth is five fathoms, the same ladder the Chronicle uses
-// (runtime/specs/chronicle-books.json): F1 Executive 30,000 ft 8-bit ... F5
-// Surgical ground truth 8K. One continuous dial sets altitude AND fidelity:
+// Depth is seven fathoms: F1 Exosphere (orbital), then the Chronicle's five
+// (runtime/specs/chronicle-books.json: Executive 30,000 ft 8-bit ... Surgical
+// ground truth 8K) as F2..F6, then F7 Microscopic, the grain below truth. One continuous dial sets altitude AND fidelity:
 // coarse lattice and tier names up high, every return plus notes down low,
 // and at ground truth the live waypoints open the real page. Moving between
 // fathoms tweens the camera and crossfades the resolution.
@@ -62,15 +62,21 @@ export const WAYPOINTS: { id: string; label: string; note: string; tier: Tier; k
 const TIER_COLOR: Record<Tier, string> = { now: signal.green, next: signal.cyan, later: "#94a3b8" }
 const TIER_NAME: Record<Tier, string> = { now: "Now", next: "Next", later: "Later" }
 export const FATHOMS = [
-  { n: 1, name: "Executive", altitude: "30,000 ft", resolution: "8-bit", pitch: 1.42, dist: 5.4, zoom: 0.9, size: 3.4 },
-  { n: 2, name: "Strategic", altitude: "10,000 ft", resolution: "480p", pitch: 1.05, dist: 3.9, zoom: 0.95, size: 2.3 },
-  { n: 3, name: "Operational", altitude: "1,000 ft", resolution: "1080p", pitch: 0.66, dist: 2.7, zoom: 1, size: 1.55 },
-  { n: 4, name: "Tactical", altitude: "100 ft", resolution: "4K", pitch: 0.5, dist: 2.05, zoom: 1.12, size: 1.15 },
-  { n: 5, name: "Surgical", altitude: "ground truth", resolution: "8K", pitch: 0.36, dist: 1.6, zoom: 1.3, size: 0.85 },
+  { n: 1, name: "Exosphere", altitude: "600 km", resolution: "orbital", pitch: 1.5, dist: 6.8, zoom: 0.8, size: 4.2 },
+  { n: 2, name: "Executive", altitude: "30,000 ft", resolution: "8-bit", pitch: 1.42, dist: 5.4, zoom: 0.9, size: 3.4 },
+  { n: 3, name: "Strategic", altitude: "10,000 ft", resolution: "480p", pitch: 1.05, dist: 3.9, zoom: 0.95, size: 2.3 },
+  { n: 4, name: "Operational", altitude: "1,000 ft", resolution: "1080p", pitch: 0.66, dist: 2.7, zoom: 1, size: 1.55 },
+  { n: 5, name: "Tactical", altitude: "100 ft", resolution: "4K", pitch: 0.5, dist: 2.05, zoom: 1.12, size: 1.15 },
+  { n: 6, name: "Surgical", altitude: "ground truth", resolution: "8K", pitch: 0.36, dist: 1.6, zoom: 1.3, size: 0.85 },
+  { n: 7, name: "Microscopic", altitude: "1 mm", resolution: "grain", pitch: 0.26, dist: 1.3, zoom: 1.55, size: 0.6 },
 ] as const
+const NF = FATHOMS.length
+const HOME_DEPTH = 4 // Operational
+// Draw fidelity thresholds are tuned on the Chronicle's five (Executive..Surgical).
+const fid = (d: number) => Math.max(1, Math.min(5, d - 1))
 type FKey = "pitch" | "dist" | "zoom" | "size"
 function atDepth(d: number, key: FKey) {
-  const i = clamp(Math.floor(d) - 1, 0, 3), t = clamp(d - (i + 1), 0, 1)
+  const i = clamp(Math.floor(d) - 1, 0, NF - 2), t = clamp(d - (i + 1), 0, 1)
   return FATHOMS[i][key] * (1 - t) + FATHOMS[i + 1][key] * t
 }
 // Ground truth: the live waypoints open the real page.
@@ -183,16 +189,18 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     drops: new Map<string, { t: number; gone: number }>(),
     redraw: () => {},
     resize: () => {},
-    depth: 3,
+    depth: HOME_DEPTH,
     full: false,
     cam: null as Cam | null,
     fog: 1,
+    // Option-scroll sets visibility by hand; null follows engagement.
+    fogOverride: null as number | null,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
   const [ring, setRing] = useState(false)
   const coarse = useSyncExternalStore(subscribeCoarse, () => window.matchMedia("(pointer: coarse)").matches, () => false)
-  const [depth, setDepthUi] = useState(3)
+  const [depth, setDepthUi] = useState(HOME_DEPTH)
   const [picked, setPicked] = useState<string | null>(null)
   const [drawer, setDrawer] = useState(false)
   const [narrow, setNarrow] = useState(false)
@@ -211,7 +219,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   // One dial: altitude and fidelity together. Integers snap, scroll is continuous.
   const setDepth = useCallback((n: number) => {
     const c = control.current
-    const d = clamp(n, 1, 5)
+    const d = clamp(n, 1, NF)
     c.depth = d
     tgt.current = { ...tgt.current, pitch: atDepth(d, "pitch"), dist: atDepth(d, "dist"), zoom: atDepth(d, "zoom") }
     setDepthUi(Math.round(d))
@@ -223,8 +231,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     c.full = full
     c.resize()
     if (!full) return
-    // Entering the HUD zooms in one fathom (to at least F4); leaving keeps the depth.
-    if (c.depth < 4) setDepth(4)
+    // Entering the HUD zooms in one fathom (to at least F5, Tactical); leaving keeps the depth.
+    if (c.depth < 5) setDepth(5)
     const prev = document.body.style.overflow
     document.body.style.overflow = "hidden"
     canvasRef.current?.focus({ preventScroll: true })
@@ -388,12 +396,14 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     }
     const onLeave = () => { ptr.on = false; if (reduced) draw(performance.now()) }
     const onWheel = (ev: WheelEvent) => {
-      if (ev.altKey) { ev.preventDefault(); touch(); dollyBy(Math.exp(ev.deltaY * 0.0018)) }
+      // Option scroll: visibility. Option+Shift scroll: dolly (macOS moves shift-wheel to deltaX).
+      if (ev.altKey && ev.shiftKey) { ev.preventDefault(); touch(); dollyBy(Math.exp((ev.deltaY || ev.deltaX) * 0.0018)) }
+      else if (ev.altKey) { ev.preventDefault(); touch(); ctl.fogOverride = clamp((ctl.fogOverride ?? st.fog) + ev.deltaY * 0.0025, 0, 1) }
       else if (ev.ctrlKey || ev.metaKey) { ev.preventDefault(); touch(); setDepth(ctl.depth - ev.deltaY * 0.004) }
       else { st.hint = performance.now(); return }
       if (reduced) draw(performance.now())
     }
-    const onDbl = () => { focusOn(null); setDepth(3) }
+    const onDbl = () => { ctl.fogOverride = null; focusOn(null); setDepth(HOME_DEPTH) }
     const onKey = (ev: KeyboardEvent) => {
       // Keys work from anywhere in the figure (the drawer covers the map), never from a text field.
       const tgtEl = ev.target as HTMLElement
@@ -412,8 +422,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
         case "f": case "F": setFull((f) => !f); break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
-        case "Escape": if (ctl.full) { setFull(false); break } focusOn(null); setDepth(3); break
-        case "0": focusOn(null); setDepth(3); break
+        case "Escape": if (ctl.full) { setFull(false); break } focusOn(null); setDepth(HOME_DEPTH); break
+        case "0": ctl.fogOverride = null; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -436,10 +446,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       const tg = target.current
       const isClear = tg.clear
       const ease = (ms: number) => (reduced ? 1 : 1 - Math.exp(-dt / ms))
-      st.fog += (tg.fog - st.fog) * ease(420)
+      st.fog += ((ctl.fogOverride ?? tg.fog) - st.fog) * ease(420)
       st.nav += ((isClear ? 1 : 0) - st.nav) * ease(900)
       st.depth += (ctl.depth - st.depth) * ease(500)
-      const dep = st.depth
+      const dep = fid(st.depth)
       ctl.fog = st.fog
       const fogv = st.fog, clarity = 1 - fogv
       if (!reduced && now > ctl.pausedUntil) tgt.current.yaw += (dt / ORBIT_MS) * TAU
@@ -676,7 +686,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
       // HUD: a frame, a heading, depth and clarity. Nothing that does not orient you.
       {
-        const fi = clamp(Math.round(dep), 1, 5) - 1, F0 = FATHOMS[fi]
+        const fi = clamp(Math.round(st.depth), 1, NF) - 1, F0 = FATHOMS[fi]
         ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"
         ctx.fillStyle = rgba("#94a3b8", 0.9)
         ctx.fillText(`F${F0.n} · ${F0.name.toUpperCase()}`, 20, 26)
@@ -686,13 +696,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         const lx = 18, ly0 = Math.max(64, SH * 0.26), ly1 = SH - BAR_H - 26
         ctx.strokeStyle = rgba("#94a3b8", 0.3); ctx.lineWidth = 1
         ctx.beginPath(); ctx.moveTo(lx, ly0); ctx.lineTo(lx, ly1); ctx.stroke()
-        for (let i = 0; i < 5; i++) {
-          const y = ly0 + (i / 4) * (ly1 - ly0)
+        for (let i = 0; i < NF; i++) {
+          const y = ly0 + (i / (NF - 1)) * (ly1 - ly0)
           ctx.beginPath(); ctx.moveTo(lx - 3, y); ctx.lineTo(lx + 3, y); ctx.stroke()
           ctx.fillStyle = rgba(i === fi ? "#e2e8f0" : "#64748b", i === fi ? 1 : 0.8)
           ctx.fillText(`F${i + 1}`, lx + 7, y + 3)
         }
-        const my = ly0 + ((dep - 1) / 4) * (ly1 - ly0)
+        const my = ly0 + ((st.depth - 1) / (NF - 1)) * (ly1 - ly0)
         ctx.fillStyle = signal.cyan
         ctx.beginPath(); ctx.moveTo(lx - 7, my - 3.5); ctx.lineTo(lx - 2, my); ctx.lineTo(lx - 7, my + 3.5); ctx.closePath(); ctx.fill()
       }
@@ -766,13 +776,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const shown = WAYPOINTS.filter((w) => overlays.includes(w.id))
   const pickedW = picked && overlays.includes(picked) ? WAYPOINTS.find((w) => w.id === picked) : null
   const added = pickedW ?? (lastAdded && overlays.includes(lastAdded) ? WAYPOINTS.find((w) => w.id === lastAdded) : null)
-  const groundHref = depth === 5 && added ? HREF[added.id] : undefined
+  const groundHref = depth >= 6 && added ? HREF[added.id] : undefined
   const note = added
     ? `${added.label}: ${added.note}.`
     : shown.length
       ? `On the field: ${shown.map((w) => w.label).join(", ")}.`
       : "Add overlays to the field."
-  const label = `A sketch of the ARCS field as stepped terrain. Lower terraces hold what exists now, upper terraces what comes next and later. Showing: ${shown.map((w) => w.label).join(", ") || "nothing"}. ${clear ? "Clear; you stand on the apex." : "Under fog; you wait at the edge."} Arrow keys orbit and tilt, brackets change depth across five fathoms, 0 resets.`
+  const label = `A sketch of the ARCS field as stepped terrain. Lower terraces hold what exists now, upper terraces what comes next and later. Showing: ${shown.map((w) => w.label).join(", ") || "nothing"}. ${clear ? "Clear; you stand on the apex." : "Under fog; you wait at the edge."} Arrow keys orbit and tilt, brackets change depth across seven fathoms, 0 resets.`
   const mono: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase", whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }
 
   const drawerId = "field-drawer"
@@ -859,14 +869,14 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll to dolly · Click a waypoint to fly to it · Double click or 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · Double click or 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>
 
       {/* The bar: depth and the drawer toggle, laid over the field's bottom edge. */}
       <figcaption style={{ ...bar, position: "absolute", left: 0, right: 0, bottom: 0, height: BAR_H, display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem", padding: "0 0.6rem 0 0.75rem", borderTop: `1px solid ${border.subtle}` }}>
-        <div role="group" aria-label="Depth, five fathoms" style={{ display: "flex", alignItems: "center", gap: "0.25rem", minWidth: 0 }}>
+        <div role="group" aria-label="Depth, seven fathoms" style={{ display: "flex", alignItems: "center", gap: "0.25rem", minWidth: 0 }}>
           {FATHOMS.map((f) => {
             const on = depth === f.n
             return (
