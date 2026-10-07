@@ -225,12 +225,24 @@ const nextConfig: NextConfig = {
       "growth-intel.arcs.care",
       "token.arcs.care",
     ];
-    return retiredFanaticsHosts.map((value) => ({
-      source: "/:path*",
-      has: [{ type: "host" as const, value }],
-      destination: "https://arcs.care",
-      permanent: true,
-    }));
+    return [
+      ...retiredFanaticsHosts.map((value) => ({
+        source: "/:path*",
+        has: [{ type: "host" as const, value }],
+        destination: "https://arcs.care",
+        permanent: true,
+      })),
+      // surfaces.arcs.care: the admin session cookie is host-only (app.arcs.care), so the
+      // gated /warroom/surfaces route 404s on this host. Redirect to where the session lives;
+      // redirects run before rewrites, so the surfaces.arcs.care rewrite above stays only so
+      // surface_catalog_emit.py keeps the host catalogued as gated.
+      {
+        source: "/:path*",
+        has: [{ type: "host" as const, value: "surfaces.arcs.care" }],
+        destination: "https://app.arcs.care/warroom/surfaces",
+        permanent: false,
+      },
+    ];
   },
 };
 
