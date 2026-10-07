@@ -616,6 +616,9 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Repair:** none to the page. Like-for-like (both sides under a temp name) PR 1058 adds 2
   undersized-ui-text findings (10.5px date, 10px Read link on the new card, same as the other cards),
   105 to 107, both waived by design for this family. Receipt corrected.
-- **Guard (open):** the hook should scan the HEAD copy under the real path, or compare counts under one rule
-  set, so the ratchet cannot compare waived against unwaived. Not built; the 3 unwaived gradient-text and
-  overused-font findings predate this change.
+- **Guard (built 2026-10-07):** `scripts/git-hooks/pre-commit` now scores the HEAD blob under the same rule
+  set as the working file: it mirrors `.impeccable/` and `DESIGN.md` into a temp root and places the blob at
+  the SAME relative path, so path-scoped waivers, DESIGN.md discovery and the extension all match. Proven
+  both ways: `public/blog-nftt-index.html` HEAD now reads 3 (was 83); a staged unwaived gradient-text on
+  `public/blog-nftt-post-1.html` blocks (0 to 2); an unwaived frozen page (`public/prl-status-progress.html`)
+  still reads 28 vs 28, unchanged. Not covered: no automated test, the proof is by hand.

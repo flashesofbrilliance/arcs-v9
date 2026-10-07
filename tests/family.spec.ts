@@ -58,7 +58,7 @@ test("playground launch links route to the performer sub-pages", async ({ page }
   const hrefs = await page.locator("a.launch").evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href")))
   expect(hrefs).toContain("/12d-orbital")
   expect(hrefs).toContain("/decision-geometry")
-  expect(hrefs.length).toBe(5) // meta-audit head dropped for public; decision-geometry added 2026-10-07
+  expect(hrefs.length).toBe(5) // meta-audit head dropped for public; decision-geometry added 2026-10-07 (#1068)
 })
 
 test("monolith — a head mounts and the Moiré filter toggles (the engine runs live)", async ({ page }) => {
