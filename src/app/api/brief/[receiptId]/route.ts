@@ -8,6 +8,7 @@ import { scrubProse, scrubDeep, scrubReceiptProse } from "@/lib/prose"
 import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { MODELS } from "@/lib/claude-models"
+import { tributariesOf } from "@/lib/tributaries"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -92,12 +93,7 @@ export async function GET(
 
   const existing = await prisma.brief.findUnique({ where: { receiptId }, include: { receipt: { include: childrenInclude } } })
   if (existing) {
-    const tributaries = (() => {
-      try {
-        const raw = existing.receipt?.rawResponse ? JSON.parse(existing.receipt.rawResponse) : null
-        return Array.isArray(raw?.tributaries) ? raw.tributaries : []
-      } catch { return [] }
-    })()
+    const tributaries = tributariesOf(existing.receipt)
     const entityAnalysis = (() => {
       try { return existing.entityAnalysis ? JSON.parse(existing.entityAnalysis) : null }
       catch { return null }
@@ -119,12 +115,7 @@ export async function GET(
   // Read-only path (?generate=0): receipt views need the receipt + tributaries, not a
   // brief. Never spend model tokens or create a Brief row the viewer did not ask for.
   if (req.nextUrl.searchParams.get("generate") === "0") {
-    const tributaries = (() => {
-      try {
-        const raw = receipt.rawResponse ? JSON.parse(receipt.rawResponse) : null
-        return Array.isArray(raw?.tributaries) ? raw.tributaries : []
-      } catch { return [] }
-    })()
+    const tributaries = tributariesOf(receipt)
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
     return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children) })
   }
@@ -193,13 +184,8 @@ export async function GET(
     ? parseEntityAnalysis(results[1].content.filter((c) => c.type === "text").map((c) => (c.type === "text" ? c.text : "")).join(""))
     : null
 
-  // Parse tributaries from rawResponse
-  const tributaries = (() => {
-    try {
-      const raw = receipt.rawResponse ? JSON.parse(receipt.rawResponse) : null
-      return Array.isArray(raw?.tributaries) ? raw.tributaries : []
-    } catch { return [] }
-  })()
+  // Tributaries: atgTributaries first, fenced rawResponse fallback (src/lib/tributaries.ts)
+  const tributaries = tributariesOf(receipt)
 
   try {
     const brief = await prisma.brief.create({
