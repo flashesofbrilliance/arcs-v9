@@ -122,6 +122,9 @@ jobs:
       - name: Every serialized NFTT part carries its series line + panel
         if: always()
         run: python3 scripts/nftt_series.py --check
+      - name: Surface catalog covers every next.config.ts host and matches its emitter
+        if: always()
+        run: python3 scripts/surface_catalog_emit.py --check
 
   smoke:
     runs-on: ubuntu-latest

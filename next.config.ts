@@ -66,6 +66,13 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "mercury.arcs.care" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
+      // surfaces.arcs.care lists every host, including the unlisted counterpart pages above:
+      // the catalog itself stays unlisted so it cannot become their index.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "surfaces.arcs.care" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
       // self-hosted fonts are content-stable: cache them hard for instant repeat loads.
       {
         source: "/fonts/:path*",
@@ -196,6 +203,9 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/scott-arcs-demo.html", has: [{ type: "host", value: "scott-arcs-demo.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/wing.html", has: [{ type: "host", value: "wing.arcs.care" }] },
+        // surfaces.arcs.care: the generated catalog of every host above (scripts/surface_catalog_emit.py;
+        // --check fails the build when a host here is missing from runtime/specs/surface-catalog.json).
+        { source: "/:path((?!fonts/).*)", destination: "/surfaces.html", has: [{ type: "host", value: "surfaces.arcs.care" }] },
       ]),
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
