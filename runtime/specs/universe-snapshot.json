@@ -1,0 +1,2116 @@
+{
+ "version": "0.1.0",
+ "backbone": "runtime/specs/knowledge-lattice-v1.json",
+ "lattice_reviewed": "2026-10-06",
+ "lattice_drift_check": "2026-10-06T14:12:06",
+ "null_origin": "zp",
+ "federation": {
+  "domains": {
+   "ont": "ONTOLOGY",
+   "epi": "EPISTEMOLOGY",
+   "met": "METAPHYSICS",
+   "ety": "ETYMOLOGY",
+   "lib": "LIBRARY"
+  },
+  "strata": {
+   "q": "QUANTUM",
+   "a": "ATOMIC",
+   "m": "MOLECULAR",
+   "o": "ORGANISM",
+   "l": "LIBRARY",
+   "g": "META"
+  },
+  "invariant_grades": [
+   "tautology",
+   "constitutional",
+   "empirical"
+  ]
+ },
+ "dimensions": {
+  "corpus": 2194,
+  "canon": {
+   "files": 117,
+   "tao_proverbs": 285,
+   "adrs": 80
+  },
+  "codebase": 579,
+  "conviction": {
+   "signal": null,
+   "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
+  },
+  "clarity": {
+   "nodes_clear": 53,
+   "nodes": 81,
+   "shore_open": 37,
+   "files_mapped": 242,
+   "files_fog": 2648
+  },
+  "coherence": {
+   "diamonds": 3,
+   "mean_hardness": 1.01
+  },
+  "cohesion": {
+   "cross_domain_edges": 92,
+   "edges": 119,
+   "ratio": 0.773
+  },
+  "consonance": {
+   "tautology": 5,
+   "constitutional": 7,
+   "empirical": 4
+  }
+ },
+ "nodes": [
+  {
+   "id": "zp",
+   "label": "Zero-Point Knowledge",
+   "stratum": "q",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 3,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ax1",
+   "label": "Lived experience outranks inference",
+   "stratum": "q",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": "constitutional",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ax2",
+   "label": "Decisions are bets",
+   "stratum": "q",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": "constitutional",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ax3",
+   "label": "No commands, only offers",
+   "stratum": "q",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": "constitutional",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ax4",
+   "label": "Time quality ≈ outcome quality",
+   "stratum": "q",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ax5",
+   "label": "Fidelity is earned",
+   "stratum": "q",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": "constitutional",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "om",
+   "label": "Om / the null reading",
+   "stratum": "q",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "nci",
+   "label": "nci_score",
+   "stratum": "a",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 3
+   }
+  },
+  {
+   "id": "coh",
+   "label": "coherence_pct",
+   "stratum": "a",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ypol",
+   "label": "yPolarity·conviction·stability",
+   "stratum": "a",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "door",
+   "label": "door_class",
+   "stratum": "a",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": "tautology",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "stak",
+   "label": "stakes · horizon",
+   "stratum": "a",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "prior",
+   "label": "priorWork → exclusion criteria",
+   "stratum": "a",
+   "domain": "epi",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "l7c",
+   "label": "L7 constants: decay · contrarian · calcification",
+   "stratum": "a",
+   "domain": "met",
+   "status": "shore",
+   "shore_open": 1,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "cad",
+   "label": "recoil cadence √duration",
+   "stratum": "a",
+   "domain": "epi",
+   "status": "shore",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "law",
+   "label": "ARCS Law C = αA − β(S−S_min)² + γW",
+   "stratum": "a",
+   "domain": "met",
+   "status": "shore",
+   "shore_open": 2,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 2,
+    "files": 2
+   }
+  },
+  {
+   "id": "trib3",
+   "label": "EXACTLY-3 tributaries",
+   "stratum": "a",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": "tautology",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "selfg",
+   "label": "nci_self_grade",
+   "stratum": "a",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": "constitutional",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "rec",
+   "label": "Receipt",
+   "stratum": "m",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 4,
+   "diamond": true,
+   "invariant": "empirical",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 9,
+    "files": 9
+   }
+  },
+  {
+   "id": "tn",
+   "label": "True North",
+   "stratum": "m",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 1,
+    "files": 1
+   }
+  },
+  {
+   "id": "kai",
+   "label": "Kairos",
+   "stratum": "m",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 2,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 1,
+    "canon": 1,
+    "codebase": 2,
+    "files": 4
+   }
+  },
+  {
+   "id": "chr",
+   "label": "Chronos",
+   "stratum": "m",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "sup",
+   "label": "Superionic",
+   "stratum": "m",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 4,
+   "diamond": true,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "fog",
+   "label": "Fog / Terrain",
+   "stratum": "m",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "cmw",
+   "label": "Chi · Ma · Wuwei",
+   "stratum": "m",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "sepoch",
+   "label": "Serializability Epoch",
+   "stratum": "m",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": "tautology",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "man",
+   "label": "Artifact Manifest",
+   "stratum": "m",
+   "domain": "ont",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "alt",
+   "label": "Altitude / Lossless Translation",
+   "stratum": "m",
+   "domain": "epi",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "hyp",
+   "label": "Hyperstition",
+   "stratum": "m",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 2,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 8,
+    "canon": 0,
+    "codebase": 1,
+    "files": 9
+   }
+  },
+  {
+   "id": "zipf",
+   "label": "Folksonomy / Zipf baseline",
+   "stratum": "m",
+   "domain": "epi",
+   "status": "gate",
+   "shore_open": 1,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "orth",
+   "label": "Orthogonal Vector",
+   "stratum": "m",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": "tautology",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "attr",
+   "label": "Local Maximum / Attractor",
+   "stratum": "m",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "drift",
+   "label": "Drift",
+   "stratum": "m",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 13,
+    "canon": 2,
+    "codebase": 5,
+    "files": 25
+   }
+  },
+  {
+   "id": "dewy",
+   "label": "DEWY",
+   "stratum": "o",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": "empirical",
+   "population": {
+    "corpus": 13,
+    "canon": 1,
+    "codebase": 1,
+    "files": 24
+   }
+  },
+  {
+   "id": "ygate",
+   "label": "Y-Gate",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": "empirical",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 1,
+    "files": 1
+   }
+  },
+  {
+   "id": "cocd",
+   "label": "COCD Loop",
+   "stratum": "o",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "hpipe",
+   "label": "Hyperstition Pipeline",
+   "stratum": "o",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "inch",
+   "label": "Golden Inchworm",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": "constitutional",
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 1,
+    "files": 2
+   }
+  },
+  {
+   "id": "echo",
+   "label": "Orthogonal Echo Detector",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "gate",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 3,
+    "files": 3
+   }
+  },
+  {
+   "id": "recoil",
+   "label": "Recoil Protocol",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 27,
+    "canon": 4,
+    "codebase": 39,
+    "files": 236
+   }
+  },
+  {
+   "id": "atg",
+   "label": "ATG",
+   "stratum": "o",
+   "domain": "ont",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 2
+   }
+  },
+  {
+   "id": "gaunt",
+   "label": "Gauntlet — LAB·BAR·COURT·KKL·FunHouse",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 7,
+    "canon": 1,
+    "codebase": 3,
+    "files": 21
+   }
+  },
+  {
+   "id": "lat",
+   "label": "Goal Lattice (ADR-023)",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "gate",
+   "shore_open": 1,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 1,
+    "canon": 1,
+    "codebase": 2,
+    "files": 8
+   }
+  },
+  {
+   "id": "sent",
+   "label": "Drift Sentinel",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "noto",
+   "label": "NOTOMATION",
+   "stratum": "o",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 4,
+   "diamond": true,
+   "invariant": "constitutional",
+   "population": {
+    "corpus": 1,
+    "canon": 0,
+    "codebase": 0,
+    "files": 3
+   }
+  },
+  {
+   "id": "kin",
+   "label": "12D Kinematic Manifold",
+   "stratum": "o",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 2,
+    "canon": 0,
+    "codebase": 2,
+    "files": 4
+   }
+  },
+  {
+   "id": "folk",
+   "label": "Folksonomist",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "gate",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 1,
+    "canon": 0,
+    "codebase": 0,
+    "files": 3
+   }
+  },
+  {
+   "id": "rend",
+   "label": "Render Scale",
+   "stratum": "o",
+   "domain": "met",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 2,
+   "diamond": false,
+   "invariant": "tautology",
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "acc",
+   "label": "Accumulation Protocol",
+   "stratum": "o",
+   "domain": "ont",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "crt2",
+   "label": "Shared Court",
+   "stratum": "o",
+   "domain": "ont",
+   "status": "gate",
+   "shore_open": 0,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 2,
+    "codebase": 1,
+    "files": 4
+   }
+  },
+  {
+   "id": "eng",
+   "label": "Engine Duality — prompt vs operators",
+   "stratum": "o",
+   "domain": "epi",
+   "status": "shore",
+   "shore_open": 2,
+   "hardness": 3,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "vce",
+   "label": "Vector Collision Engine",
+   "stratum": "o",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 1,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 2
+   }
+  },
+  {
+   "id": "world",
+   "label": "WORLD.md",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "b2",
+   "label": "Book II (Parts I–VI)",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "canon",
+   "label": "ARCS-Canon v1.1 + v2.0",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 2,
+    "codebase": 0,
+    "files": 2
+   }
+  },
+  {
+   "id": "codex",
+   "label": "Codex v8.5",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "lite",
+   "label": "Litepaper",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "mani",
+   "label": "Manifesto",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "phen",
+   "label": "Phenomenology",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "yell",
+   "label": "Yellow Paper",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "pct",
+   "label": "Phase-Change Thesis 001",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 1,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "glos",
+   "label": "Glossary",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 2,
+    "codebase": 0,
+    "files": 2
+   }
+  },
+  {
+   "id": "oprd",
+   "label": "orient-prd v0.1 (Kairos Lock)",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "dsch",
+   "label": "dewy-receipt-schema-v1",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 2
+   }
+  },
+  {
+   "id": "trom",
+   "label": "time-quality ROM",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "lrom",
+   "label": "lattice-pressure ROM",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 1
+   }
+  },
+  {
+   "id": "adrs",
+   "label": "80 ADRs",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 80,
+    "codebase": 0,
+    "files": 80
+   }
+  },
+  {
+   "id": "audit",
+   "label": "Meta-Audit v1.1 + Surface Map",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 3,
+    "canon": 0,
+    "codebase": 1,
+    "files": 6
+   }
+  },
+  {
+   "id": "trust",
+   "label": "Trust Contract v1.1",
+   "stratum": "l",
+   "domain": "lib",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": "empirical",
+   "population": {
+    "corpus": 1,
+    "canon": 1,
+    "codebase": 0,
+    "files": 3
+   }
+  },
+  {
+   "id": "ety1",
+   "label": "kairos — καιρός",
+   "stratum": "m",
+   "domain": "ety",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ety2",
+   "label": "hyperstition — CCRU coinage",
+   "stratum": "m",
+   "domain": "ety",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ety3",
+   "label": "superionic — ice XVIII",
+   "stratum": "m",
+   "domain": "ety",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ety4",
+   "label": "無為 · 間 · 氣",
+   "stratum": "m",
+   "domain": "ety",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ety5",
+   "label": "folksonomy — Vander Wal",
+   "stratum": "m",
+   "domain": "ety",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ety6",
+   "label": "NOTOMATION — portmanteau",
+   "stratum": "m",
+   "domain": "ety",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "ety7",
+   "label": "recoil — the shoe drops",
+   "stratum": "m",
+   "domain": "ety",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "meta_ont",
+   "label": "ONTOLOGY — what exists",
+   "stratum": "g",
+   "domain": "ont",
+   "status": "true",
+   "shore_open": 2,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "meta_epi",
+   "label": "EPISTEMOLOGY — how we know",
+   "stratum": "g",
+   "domain": "epi",
+   "status": "ok",
+   "shore_open": 0,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "meta_met",
+   "label": "METAPHYSICS — the physics",
+   "stratum": "g",
+   "domain": "met",
+   "status": "true",
+   "shore_open": 1,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "meta_ety",
+   "label": "ETYMOLOGY — why these names",
+   "stratum": "g",
+   "domain": "ety",
+   "status": "true",
+   "shore_open": 2,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  },
+  {
+   "id": "meta_lib",
+   "label": "LIBRARY — where it is written",
+   "stratum": "g",
+   "domain": "lib",
+   "status": "true",
+   "shore_open": 2,
+   "hardness": 0,
+   "diamond": false,
+   "invariant": null,
+   "population": {
+    "corpus": 0,
+    "canon": 0,
+    "codebase": 0,
+    "files": 0
+   }
+  }
+ ],
+ "edges": [
+  [
+   "world",
+   "rec"
+  ],
+  [
+   "dsch",
+   "rec"
+  ],
+  [
+   "ygate",
+   "rec"
+  ],
+  [
+   "noto",
+   "rec"
+  ],
+  [
+   "audit",
+   "rec"
+  ],
+  [
+   "acc",
+   "rec"
+  ],
+  [
+   "selfg",
+   "rec"
+  ],
+  [
+   "world",
+   "sup"
+  ],
+  [
+   "lite",
+   "sup"
+  ],
+  [
+   "lat",
+   "sup"
+  ],
+  [
+   "ety3",
+   "sup"
+  ],
+  [
+   "pct",
+   "sup"
+  ],
+  [
+   "fog",
+   "sup"
+  ],
+  [
+   "mani",
+   "noto"
+  ],
+  [
+   "ax3",
+   "noto"
+  ],
+  [
+   "gaunt",
+   "noto"
+  ],
+  [
+   "adrs",
+   "noto"
+  ],
+  [
+   "ety6",
+   "noto"
+  ],
+  [
+   "ety1",
+   "kai"
+  ],
+  [
+   "world",
+   "kai"
+  ],
+  [
+   "trom",
+   "kai"
+  ],
+  [
+   "oprd",
+   "kai"
+  ],
+  [
+   "ety2",
+   "hyp"
+  ],
+  [
+   "hpipe",
+   "hyp"
+  ],
+  [
+   "audit",
+   "hyp"
+  ],
+  [
+   "om",
+   "zp"
+  ],
+  [
+   "ax1",
+   "zp"
+  ],
+  [
+   "prior",
+   "zp"
+  ],
+  [
+   "glos",
+   "zp"
+  ],
+  [
+   "audit",
+   "eng"
+  ],
+  [
+   "vce",
+   "eng"
+  ],
+  [
+   "adrs",
+   "lat"
+  ],
+  [
+   "lrom",
+   "lat"
+  ],
+  [
+   "zipf",
+   "lat"
+  ],
+  [
+   "folk",
+   "lat"
+  ],
+  [
+   "pct",
+   "lat"
+  ],
+  [
+   "world",
+   "inch"
+  ],
+  [
+   "sent",
+   "inch"
+  ],
+  [
+   "audit",
+   "inch"
+  ],
+  [
+   "b2",
+   "inch"
+  ],
+  [
+   "oprd",
+   "dewy"
+  ],
+  [
+   "dsch",
+   "dewy"
+  ],
+  [
+   "b2",
+   "dewy"
+  ],
+  [
+   "ygate",
+   "dewy"
+  ],
+  [
+   "ax2",
+   "dewy"
+  ],
+  [
+   "dsch",
+   "ygate"
+  ],
+  [
+   "kin",
+   "ygate"
+  ],
+  [
+   "world",
+   "ygate"
+  ],
+  [
+   "ypol",
+   "ygate"
+  ],
+  [
+   "oprd",
+   "atg"
+  ],
+  [
+   "trib3",
+   "atg"
+  ],
+  [
+   "audit",
+   "atg"
+  ],
+  [
+   "b2",
+   "gaunt"
+  ],
+  [
+   "audit",
+   "gaunt"
+  ],
+  [
+   "recoil",
+   "gaunt"
+  ],
+  [
+   "law",
+   "gaunt"
+  ],
+  [
+   "ety7",
+   "recoil"
+  ],
+  [
+   "cad",
+   "recoil"
+  ],
+  [
+   "audit",
+   "recoil"
+  ],
+  [
+   "world",
+   "rend"
+  ],
+  [
+   "ax5",
+   "rend"
+  ],
+  [
+   "ygate",
+   "rend"
+  ],
+  [
+   "alt",
+   "rend"
+  ],
+  [
+   "b2",
+   "acc"
+  ],
+  [
+   "trom",
+   "acc"
+  ],
+  [
+   "audit",
+   "acc"
+  ],
+  [
+   "b2",
+   "crt2"
+  ],
+  [
+   "trom",
+   "sent"
+  ],
+  [
+   "audit",
+   "sent"
+  ],
+  [
+   "drift",
+   "sent"
+  ],
+  [
+   "ety4",
+   "cmw"
+  ],
+  [
+   "audit",
+   "cmw"
+  ],
+  [
+   "ety5",
+   "zipf"
+  ],
+  [
+   "folk",
+   "zipf"
+  ],
+  [
+   "lat",
+   "attr"
+  ],
+  [
+   "audit",
+   "attr"
+  ],
+  [
+   "zp",
+   "attr"
+  ],
+  [
+   "lat",
+   "orth"
+  ],
+  [
+   "echo",
+   "orth"
+  ],
+  [
+   "gaunt",
+   "orth"
+  ],
+  [
+   "world",
+   "fog"
+  ],
+  [
+   "rend",
+   "fog"
+  ],
+  [
+   "pct",
+   "fog"
+  ],
+  [
+   "oprd",
+   "cocd"
+  ],
+  [
+   "b2",
+   "cocd"
+  ],
+  [
+   "audit",
+   "cocd"
+  ],
+  [
+   "mani",
+   "ax3"
+  ],
+  [
+   "world",
+   "ax4"
+  ],
+  [
+   "trom",
+   "ax4"
+  ],
+  [
+   "kin",
+   "law"
+  ],
+  [
+   "yell",
+   "law"
+  ],
+  [
+   "audit",
+   "man"
+  ],
+  [
+   "adrs",
+   "man"
+  ],
+  [
+   "ax1",
+   "prior"
+  ],
+  [
+   "audit",
+   "prior"
+  ],
+  [
+   "world",
+   "tn"
+  ],
+  [
+   "nci",
+   "tn"
+  ],
+  [
+   "dewy",
+   "tn"
+  ],
+  [
+   "trust",
+   "drift"
+  ],
+  [
+   "audit",
+   "drift"
+  ],
+  [
+   "yell",
+   "vce"
+  ],
+  [
+   "glos",
+   "kai"
+  ],
+  [
+   "glos",
+   "hyp"
+  ],
+  [
+   "ety2",
+   "hpipe"
+  ],
+  [
+   "b2",
+   "hpipe"
+  ],
+  [
+   "noto",
+   "l7c"
+  ],
+  [
+   "lrom",
+   "l7c"
+  ],
+  [
+   "audit",
+   "alt"
+  ],
+  [
+   "world",
+   "alt"
+  ],
+  [
+   "sepoch",
+   "inch"
+  ],
+  [
+   "b2",
+   "sepoch"
+  ],
+  [
+   "nci",
+   "selfg"
+  ],
+  [
+   "trust",
+   "selfg"
+  ],
+  [
+   "echo",
+   "kin"
+  ],
+  [
+   "yell",
+   "kin"
+  ],
+  [
+   "dewy",
+   "stak"
+  ],
+  [
+   "dewy",
+   "door"
+  ],
+  [
+   "dewy",
+   "ypol"
+  ],
+  [
+   "gaunt",
+   "eng"
+  ]
+ ],
+ "sources": [
+  {
+   "path": "_ARTIFACTS/atlas/cache-manifest.json",
+   "kind": "manifest",
+   "rows": 20,
+   "private": false
+  },
+  {
+   "path": "_ARTIFACTS/catalog.json",
+   "kind": "catalog",
+   "rows": 595,
+   "private": false
+  },
+  {
+   "path": "_ARTIFACTS/jeben-catalog.json",
+   "kind": "catalog",
+   "rows": 17,
+   "private": true
+  },
+  {
+   "path": "_ARTIFACTS/louisville-catalog.json",
+   "kind": "catalog",
+   "rows": 65,
+   "private": true
+  },
+  {
+   "path": "_DECISIONS/index.json",
+   "kind": "index",
+   "rows": 73,
+   "private": false
+  },
+  {
+   "path": "_PATTERNS/ledger.json",
+   "kind": "ledger",
+   "rows": 22,
+   "private": false
+  },
+  {
+   "path": "_QUEUE/linkedin/2026-10-05-apple-openai-ledger.json",
+   "kind": "ledger",
+   "rows": 5,
+   "private": true
+  },
+  {
+   "path": "_SEEDS/index.jsonl",
+   "kind": "index",
+   "rows": 70,
+   "private": false
+  },
+  {
+   "path": "_SEEDS/ledger.jsonl",
+   "kind": "ledger",
+   "rows": 90,
+   "private": false
+  },
+  {
+   "path": "_SEEDS/registry-artifacts.jsonl",
+   "kind": "registry",
+   "rows": 30,
+   "private": false
+  },
+  {
+   "path": "_STATE/2026-09-02-believability-ledger.dewy.json",
+   "kind": "ledger",
+   "rows": 4,
+   "private": false
+  },
+  {
+   "path": "_STATE/benchmarks/index.json",
+   "kind": "index",
+   "rows": 1,
+   "private": false
+  },
+  {
+   "path": "_STATE/falsification-ledger.jsonl",
+   "kind": "ledger",
+   "rows": 42,
+   "private": false
+  },
+  {
+   "path": "_STATE/handoff-excavation/salvage-ledger.jsonl",
+   "kind": "ledger",
+   "rows": 107,
+   "private": true
+  },
+  {
+   "path": "_STATE/job-search/employer-index/index.json",
+   "kind": "index",
+   "rows": 133,
+   "private": true
+  },
+  {
+   "path": "_STATE/job-search/forge-cost-ledger.jsonl",
+   "kind": "ledger",
+   "rows": 101,
+   "private": true
+  },
+  {
+   "path": "_STATE/job-search/hypothesis-ledger.jsonl",
+   "kind": "ledger",
+   "rows": 9,
+   "private": true
+  },
+  {
+   "path": "_STATE/token-kaizen/ledger.jsonl",
+   "kind": "ledger",
+   "rows": 2,
+   "private": false
+  },
+  {
+   "path": "operators/OPERATOR-REGISTRY.json",
+   "kind": "registry",
+   "rows": 28,
+   "private": false
+  },
+  {
+   "path": "operators/RC-REGISTRY.json",
+   "kind": "registry",
+   "rows": 1,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/artifact-reuse-catalog.json",
+   "kind": "catalog",
+   "rows": 211,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/fonts-manifest.json",
+   "kind": "manifest",
+   "rows": 2,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/reading-room-manifest.json",
+   "kind": "manifest",
+   "rows": 5,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/surface-catalog.json",
+   "kind": "catalog",
+   "rows": 287,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/tool-catalog.json",
+   "kind": "catalog",
+   "rows": 261,
+   "private": false
+  },
+  {
+   "path": "runtime/warroom/omakase-appendix/canon-manifest.json",
+   "kind": "manifest",
+   "rows": 22,
+   "private": false
+  },
+  {
+   "path": "scripts/nftt_index_layout.json",
+   "kind": "index",
+   "rows": 33,
+   "private": false
+  }
+ ],
+ "reading_room": [
+  {
+   "tenant": "almanac",
+   "question": "what changed since I last looked?",
+   "built": true,
+   "render": "_ARTIFACTS/atlas/atlas-almanac.html"
+  },
+  {
+   "tenant": "concordance",
+   "question": "where does this idea show up?",
+   "built": true,
+   "render": "_ARTIFACTS/atlas/concordance.html"
+  },
+  {
+   "tenant": "chronicle",
+   "question": "how did we get here?",
+   "built": true,
+   "render": "_ARTIFACTS/atlas/chronicle.html"
+  },
+  {
+   "tenant": "babelfish",
+   "question": "what does this word mean here?",
+   "built": false,
+   "render": null
+  },
+  {
+   "tenant": "codex",
+   "question": "what did we rule?",
+   "built": false,
+   "render": null
+  }
+ ]
+}
