@@ -74,7 +74,14 @@ def lint(page):
         ln = ln.strip()
         if not ln or ln.startswith("#"):
             continue
-        e = json.loads(ln)
+        try:
+            e = json.loads(ln)
+        except ValueError as x:
+            errs.append(f"ledger line {n}: invalid JSON ({x})")
+            continue
+        if not isinstance(e, dict) or "page" not in e:
+            errs.append(f'ledger line {n}: missing "page" (case ledgers need page/kind/source/quote)')
+            continue
         want = norm(e["page"])
         hits = [m.start() for m in re.finditer(re.escape(want), text)]
         if not hits:
@@ -102,9 +109,10 @@ def lint(page):
 
 
 def main(argv):
+    # Enroll by the case-world marker only: a sibling .evidence.jsonl alone also belongs to
+    # provenance_lint (pattern/source schema, no "page"), so it must not pull a non-case page in.
     pages = argv or sorted(p for p in glob.glob("public/*.html")
-                           if "case-world:" in open(p, encoding="utf-8").read()
-                           or os.path.exists(ledger_for(p)))
+                           if "case-world:" in open(p, encoding="utf-8").read())
     bad = 0
     for p in pages:
         errs = lint(p)
