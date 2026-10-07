@@ -260,7 +260,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Decision Brief",
-   "last_commit": "2026-10-05"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "app.arcs.care",
@@ -280,7 +280,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Reflect on a brief",
-   "last_commit": "2026-10-05"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "app.arcs.care",
@@ -340,7 +340,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Question Compass",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "app.arcs.care",
@@ -420,7 +420,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Ledger",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "app.arcs.care",
@@ -760,7 +760,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Decision Receipt",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "app.arcs.care",
@@ -5394,7 +5394,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-07"
   },
   {
    "host": "thetrueai.arcs.care",
