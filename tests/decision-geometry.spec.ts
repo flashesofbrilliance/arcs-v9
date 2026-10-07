@@ -12,8 +12,9 @@ import { test, expect } from "@playwright/test"
 
 test("GET /api/geometry answers with a fidelity and a well-formed shape", async ({ request }) => {
   const res = await request.get("/api/geometry")
-  expect([200, 401]).toContain(res.status())
+  expect([200, 401, 503]).toContain(res.status())
   if (res.status() === 401) return // GEOMETRY_PUBLIC=false and no session: the honest refusal
+  if (res.status() === 503) { expect((await res.json()).error).toBe("feed unavailable"); return } // no reachable database (CI): honest, with a code
   const body = await res.json()
   expect(["admin", "owner", "public"]).toContain(body.fidelity)
   expect(Array.isArray(body.receipts)).toBeTruthy()

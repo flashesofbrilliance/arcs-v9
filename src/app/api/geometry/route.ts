@@ -68,23 +68,9 @@ function parseLens(raw: Record<string, unknown> | null, col: string | null): Len
   return { cl: cl!, cv: cv!, co: co!, cq: cq!, ca: ca! }
 }
 
-export async function GET(req: NextRequest) {
-  const session = await auth()
-  const userId = session?.user?.id ?? null
-  const admin = process.env.NODE_ENV !== "production" ? true : isAdmin(session)
-  const publicOn = process.env.GEOMETRY_PUBLIC !== "false"
-
-  let fidelity: Fidelity
-  if (admin) fidelity = "admin"
-  else if (userId) fidelity = "owner"
-  else if (publicOn) fidelity = "public"
-  else return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-
-  // ?scope=own lets an admin look at their own corpus only (the founder's view of the founder).
-  const scopeOwn = req.nextUrl.searchParams.get("scope") === "own" && userId
-
-  const rows = await prisma.receipt.findMany({
-    where: fidelity === "owner" || scopeOwn ? { userId: userId! } : {},
+function queryRows(where: { userId?: string }) {
+  return prisma.receipt.findMany({
+    where,
     orderBy: { createdAt: "asc" },
     select: {
       id: true, userId: true, sessionId: true, parentId: true, parentTributaryIndex: true, version: true,
@@ -103,6 +89,32 @@ export async function GET(req: NextRequest) {
       prep: { select: { stakes: true, horizon: true, confidence: true, adversarialInput: true } },
     },
   })
+}
+
+export async function GET(req: NextRequest) {
+  const session = await auth()
+  const userId = session?.user?.id ?? null
+  const admin = process.env.NODE_ENV !== "production" ? true : isAdmin(session)
+  const publicOn = process.env.GEOMETRY_PUBLIC !== "false"
+
+  let fidelity: Fidelity
+  if (admin) fidelity = "admin"
+  else if (userId) fidelity = "owner"
+  else if (publicOn) fidelity = "public"
+  else return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
+  // ?scope=own lets an admin look at their own corpus only (the founder's view of the founder).
+  const scopeOwn = req.nextUrl.searchParams.get("scope") === "own" && userId
+
+  // A database the route cannot reach (bad credentials, missing migration) is an honest 503 with a
+  // code, never an unhandled 500: the explorer renders the no-feed state from the body.
+  let rows: Awaited<ReturnType<typeof queryRows>>
+  try { rows = await queryRows(fidelity === "owner" || scopeOwn ? { userId: userId! } : {}) }
+  catch (err) {
+    const code = (err as { code?: string })?.code ?? "UNKNOWN"
+    console.error("[geometry] feed unavailable", code)
+    return NextResponse.json({ error: "feed unavailable", code }, { status: 503 })
+  }
 
   // Lineage depth (0 = seed) and per-parent child counts, computed over the fetched set.
   const byId = new Map(rows.map((r) => [r.id, r]))
