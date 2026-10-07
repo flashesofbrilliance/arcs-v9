@@ -424,26 +424,29 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
       [ "${n:-0}" -eq 0 ] && continue
       hn=0
       if git cat-file -e "HEAD:$f" 2>/dev/null; then
-        # Score HEAD's blob at a path INSIDE the repo working tree, a sibling of
-        # $f with the SAME extension, so the detector discovers the repo-root
-        # DESIGN.md exactly as the working-file run does. TWO independent bugs
-        # made HEAD misread, both fixed here:
-        #   1. extension — a bare mktemp (no .html) makes `detect` infer the wrong
-        #      file type and skip most rules (root-caused 2026-09-26, NFTT --dim);
-        #   2. tree location — even a *.html temp OUTSIDE the repo tree (mktemp -d)
-        #      cannot walk up to the repo-root DESIGN.md, so every "outside
-        #      DESIGN.md" check (font-size/color/radius/font) is silently skipped.
-        # Measured on public/prl-status-progress.html (HEAD): mktemp no-ext = 0,
-        # mktemp -d/head.html = 7, in-tree sibling = 28 (== working). Only the
-        # in-tree sibling gives an honest HEAD-vs-working comparison; fixing the
-        # extension alone still HARD-BLOCKS frozen-baseline pages like public/prl-*
-        # (2026-09-17, PR #486 / commit c051d3c7).
-        htmp="$(dirname "$f")/.pc-kintsugi-head.$$.$(basename "$f")"
-        git show "HEAD:$f" > "$htmp" 2>/dev/null || true
-        hout=$("$IMP" detect --json "$htmp" 2>/dev/null || true); rm -f "$htmp"
-        hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
+        # Score HEAD's blob under the SAME rule set as the working file. The detector applies
+        # .impeccable/config.json waivers (ignoreValues / ignoreFiles) by RELATIVE PATH, so a
+        # blob scored under a throwaway sibling name (".pc-kintsugi-head.*") matches none of
+        # them: on public/blog-nftt-index.html that read 83 for HEAD against 3 for the working
+        # file, comparing unwaived to waived (seam 2026-10-06, PR 1058). Fix: mirror the repo
+        # config (.impeccable/ + DESIGN.md) into a temp root and place the blob at the SAME
+        # relative path $f, so waivers, DESIGN.md discovery and the file extension all match.
+        # Measured: HEAD blob via mirror = 3 == the real-path count. (History: 2026-09-26 bare
+        # mktemp without .html inferred the wrong file type; a temp dir outside the tree could
+        # not find DESIGN.md. The mirror carries both.)
+        mroot=$(mktemp -d 2>/dev/null) || mroot=""
+        hn=0
+        if [ -n "$mroot" ]; then
+          mkdir -p "$mroot/$(dirname "$f")"
+          [ -d .impeccable ] && cp -R .impeccable "$mroot/.impeccable"
+          [ -f DESIGN.md ] && cp DESIGN.md "$mroot/DESIGN.md"
+          git show "HEAD:$f" > "$mroot/$f" 2>/dev/null || true
+          hout=$(cd "$mroot" && "$IMP" detect --json "$f" 2>/dev/null || true)
+          rm -rf "$mroot"
+          hn=$(printf '%s' "$hout" | python3 -c 'import sys,json
 try: print(len(json.load(sys.stdin)))
 except Exception: print(0)' 2>/dev/null || echo 0)
+        fi
       fi
       # Count-aware ratchet. Only NET-NEW debt (working > HEAD) blocks; a page
       # that carries a frozen pre-existing baseline (a new file has HEAD=0; the
