@@ -53,7 +53,11 @@ jobs:
           fi
           files=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }})
           echo "$files"
-          code=$(echo "$files" | grep -vE '\.md$|^(_DECISIONS|_STATE|_ARCHIVE|_PATTERNS|_INBOX|\.claude)/' | grep -v '^$' || true)
+          # Allowlist (2026-10-07): only paths the build, lint, unit tests or Playwright smoke can
+          # break. Python-only and workflow-only PRs (scripts/, operators/, runtime/, .github/ other
+          # than this file) used to wait ~8 min on fe-smoke for nothing. The five scripts smoke
+          # itself runs are listed so a change to a guard still runs the guard.
+          code=$(echo "$files" | grep -E '^(src|public|prisma|tests)/|^(package\.json|package-lock\.json|next\.config\.[a-z]+|tsconfig.*\.json|eslint\.config\.mjs|playwright\.config\.[a-z]+|\.github/workflows/ci\.yml)$|^scripts/(classname_guard|purpose_guard|ledger_check|state_sync_check|page_gate)\.py$' || true)
           if [ -n "$code" ]; then echo "code_changed=true"; else echo "code_changed=false"; fi | tee -a "$GITHUB_OUTPUT"
 
   # Cost gate (2026-10-06): the three cheap hard gates below used to be three jobs, each billed
@@ -193,7 +197,10 @@ jobs:
   fe-smoke:
     runs-on: ubuntu-latest
     needs: [changes, smoke]
-    if: needs.changes.outputs.code_changed == 'true'
+    # Cost gate (2026-10-07): the PR already passed fe-smoke before it merged, so the push to
+    # main does not pay for it again (it was the longest job). smoke (lint + unit + build) still
+    # runs on push as the cheap post-merge check.
+    if: needs.changes.outputs.code_changed == 'true' && github.event_name == 'pull_request'
     # Real Postgres, not a placeholder URL: ClaimAnonymousReceipts (root
     # layout) fetches /api/auth/session on every page, which goes through the
     # Prisma adapter to the DB — with an unreachable DATABASE_URL every route
