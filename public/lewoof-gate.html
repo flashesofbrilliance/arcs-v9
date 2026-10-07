@@ -24,6 +24,7 @@
 </style>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>window.__lwSink=function(n,d){try{var s;try{s=sessionStorage.getItem('lw_sid');if(!s){s=Math.random().toString(36).slice(2,10)+Date.now().toString(36);sessionStorage.setItem('lw_sid',s)}}catch(e){s='nostore-'+Math.random().toString(36).slice(2,10)}fetch('https://xbbpiryokswwvcrcutge.supabase.co/rest/v1/rpc/lewoof_log_event',{method:'POST',keepalive:true,headers:{apikey:'sb_publishable_gxbTuRgErsJY-JZpQzPMrQ_ZinQFvi9','Content-Type':'application/json'},body:JSON.stringify({p_sid:s,p_name:n,p_field:d&&d.field?String(d.field).slice(0,80):null,p_meta:d||null})}).catch(function(){})}catch(e){}};</script>
 </head>
 <body>
 <main class="card">
@@ -38,7 +39,7 @@
 </main>
 <script>
 (function () {
-  function track(n) { try { window.va('event', { name: n }); } catch (e) {} }
+  function track(n) { try { window.va('event', { name: n }); } catch (e) {} try { window.__lwSink(n, null); } catch (e) {} }
   track('lewoof_gate_view');
   var f = document.getElementById('f'), m = document.getElementById('msg');
   f.addEventListener('submit', function (e) {
