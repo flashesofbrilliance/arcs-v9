@@ -4,6 +4,8 @@
   "unit": "verification steps before the item can be acted on; tokens are added as tokens / tokens_per_step; cost_if_absent is in the same step units (a medium-stakes miss costs about 3 verification steps to recover from)",
   "tokens_per_step": 8000,
   "maybe_below_p": 0.6,
+  "name_match_bonus": 0.2,
+  "name_match_bonus_provenance": "2026-10-06: the key-rotation query missed memory anthropic-key-three-homes-verify-without-exposing (matched 2 of 4 words, p 0.30, behind a DB ADR at 0.54). A bonus when query words appear in the candidate name lifted it to rank 2 to 3 at 0.15-0.25 without disturbing the other two sampled queries. Tentative; 0 disables.",
   "maybe_below_p_provenance": "2026-10-06: 11 picks labelled by Zach across 3 queries; picks at p >= 0.6 were 5 of 5 useful, below 0.6 about 3 of 6. Tentative, re-check with more labels.",
   "stale_surcharge_steps": 1.0,
   "tiers": {

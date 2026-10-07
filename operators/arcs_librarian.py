@@ -448,6 +448,7 @@ class Librarian:
         cia = float(cia_map.get(stakes, cia_map.get("medium", 2.0)))
         tps = float(self.tiers.get("tokens_per_step", 4000))
         stale_surcharge = float(self.tiers.get("stale_surcharge_steps", 1.0))
+        name_bonus = float(self.tiers.get("name_match_bonus", 0.0))
 
         scored: List[Dict[str, Any]] = []
         for c in cands:
@@ -456,6 +457,11 @@ class Librarian:
             tl = c.text.lower()
             hits = sorted((w for w in qset if w in tl), key=lambda w: -idf[w])
             overlap = sum(idf[w] for w in hits) / idf_total if qset else 0.0
+            # Name match (2026-10-06): a candidate whose NAME carries query words is about the topic even when its
+            # body never repeats the query's exact words (a memory on "where the key lives" for a "key rotation" query).
+            name_hits = len(set(re.findall(r"[a-z]{3,}", c.id.lower())) & qset)
+            if name_hits and qset and name_bonus:
+                overlap = min(1.0, overlap + name_bonus * min(1.0, 2.0 * name_hits / len(qset)))
             if q.strip().lower() in tl or c.id.lower() in q.lower():
                 overlap = min(1.0, overlap + 0.25)
             lineage = min(1.0, math.log1p(indeg[c.id]) / math.log1p(10))
@@ -648,6 +654,17 @@ def self_test() -> int:
           and sorted(res["likely"] + res["maybe"]) == sorted(ids))
     check("bands never change what is taken: same ids with the cut at 0.0 and at 1.0",
           {x["id"] for x in res["items"]} == {x["id"] for x in (setattr(lib, "tiers", {**lib.tiers, "maybe_below_p": 1.0}) or lib.recommend(q, budget=20000, stakes="high", n_max=10))["items"]})
+    nb_q = "zebra quartz metronome"
+    nb_cands = [Candidate(id="zebra-quartz-metronome-notes", cls="adr", text="notes that mention zebra and quartz together", source="claude-fable"),
+                Candidate(id="unrelated-title", cls="adr", text="notes that mention zebra and quartz together", source="claude-fable")]
+    lib2 = Librarian(root=tmp, git_root=DEFAULT_ROOT, memory_dir=None, extra_candidates=nb_cands, load_corpus=False, trust_path=tmp / TRUST_REL)
+    lib2.tiers = {**lib2.tiers, "name_match_bonus": 0.2}
+    on = {x["id"]: x["p_load_bearing"] for x in lib2.recommend(nb_q, budget=20000, stakes="high")["items"]}
+    lib2.tiers = {**lib2.tiers, "name_match_bonus": 0.0}
+    off = {x["id"]: x["p_load_bearing"] for x in lib2.recommend(nb_q, budget=20000, stakes="high")["items"]}
+    check("name match: with the bonus, the candidate whose NAME carries the query words outscores an identical body with an unrelated name",
+          on.get("zebra-quartz-metronome-notes", 0) > on.get("unrelated-title", 1), (on, off))
+    check("name match: bonus 0 disables it (same body, same p)", off.get("zebra-quartz-metronome-notes") == off.get("unrelated-title"), off)
     tiny = lib.recommend(q, budget=40, stakes="high")
     check("budget respected: nothing over 40 bytes is taken; skips recorded", tiny["budget"]["used_bytes"] <= 40 and (tiny["skipped_for_displacement"] or not tiny["items"]), (tiny["budget"], len(tiny["skipped_for_displacement"])))
     print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
