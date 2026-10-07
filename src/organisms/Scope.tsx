@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { text, signal, font, border } from "@/ui/tokens"
+import { ScopeHud, type HudRead } from "./ScopeHud"
 
 // The field. A sketch of ARCS as terrain: a lidar point cloud of the atlas
 // ziggurat (runtime/warroom/terrain-atlas.html, form only), with the product
@@ -184,6 +185,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     resize: () => {},
     depth: 3,
     full: false,
+    cam: null as Cam | null,
+    fog: 1,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -227,6 +230,20 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     canvasRef.current?.focus({ preventScroll: true })
     return () => { document.body.style.overflow = prev }
   }, [full, setDepth])
+
+  const hudRead = useCallback((): HudRead => {
+    const c = control.current
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear }
+  }, [])
+  // Steer: turn the view onto a bearing (degrees) and hold it there.
+  const steer = useCallback((deg: number) => {
+    const c = control.current, t = tgt.current
+    // The canvas reads heading as -yaw.
+    const want = (-deg * Math.PI) / 180
+    t.yaw += ((((want - t.yaw) % TAU) + TAU * 1.5) % TAU) - Math.PI
+    c.pausedUntil = performance.now() + 20000
+    c.redraw()
+  }, [])
 
   const focusOn = useCallback((id: string | null) => {
     const c = control.current
@@ -288,6 +305,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // The first overlays settle in as droplets, a beat apart.
     DEFAULT_ON.forEach((id, i) => ctl.drops.set(id, { t: t0 + 300 + i * 260, gone: 0 }))
     const cam: Cam = { ...tgt.current }
+    ctl.cam = cam
     const st = { sw: 800, sh: 200, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
     const ptr = { x: 0, y: 0, on: false, since: 0, down: false, mode: "orbit" as "orbit" | "pan", lx: 0, ly: 0, moved: 0 }
     const speck = mulberry32(11)
@@ -393,6 +411,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "]": setDepth(Math.floor(ctl.depth) + 1); break
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
         case "f": case "F": setFull((f) => !f); break
+        case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
         case "Escape": if (ctl.full) { setFull(false); break } focusOn(null); setDepth(3); break
         case "0": focusOn(null); setDepth(3); break
         default: hit = false
@@ -421,6 +440,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       st.nav += ((isClear ? 1 : 0) - st.nav) * ease(900)
       st.depth += (ctl.depth - st.depth) * ease(500)
       const dep = st.depth
+      ctl.fog = st.fog
       const fogv = st.fog, clarity = 1 - fogv
       if (!reduced && now > ctl.pausedUntil) tgt.current.yaw += (dt / ORBIT_MS) * TAU
       const ce = ease(260)
@@ -741,7 +761,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       fig?.removeEventListener("keydown", onKey)
       canvas.removeEventListener("contextmenu", noMenu)
     }
-  }, [focusOn, setDepth])
+  }, [focusOn, setDepth, steer])
 
   const shown = WAYPOINTS.filter((w) => overlays.includes(w.id))
   const pickedW = picked && overlays.includes(picked) ? WAYPOINTS.find((w) => w.id === picked) : null
@@ -775,6 +795,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           style={{ display: "block", width: "100%", cursor: "grab", touchAction: full ? "none" : "pan-y", outline: ring ? `1px solid ${signal.cyan}` : "none", outlineOffset: -2 }}
         />
       </div>
+
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} levels={LEVELS} onSteer={steer} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div
