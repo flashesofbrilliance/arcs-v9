@@ -155,7 +155,6 @@ const nextConfig: NextConfig = {
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/:path((?!google).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/lewoof-intake.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/danny", has: [{ type: "host", value: "danny.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/jalaja", has: [{ type: "host", value: "jalaja.arcs.care" }] },

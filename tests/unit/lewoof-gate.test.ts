@@ -72,3 +72,9 @@ test("other hosts keep their routing", async () => {
   assert.equal(rewritten(await proxy(req("fun.arcs.care", "/"))), "/fun.html")
   assert.equal(rewritten(await proxy(req("resume.arcs.care", "/"))), "/resume.html")
 })
+
+test('next.config.ts has no host rewrite for lewoof.arcs.care (it would bypass the proxy gate)', async () => {
+  const { readFileSync } = await import('node:fs')
+  const cfg = readFileSync(new URL('../../next.config.ts', import.meta.url), 'utf8')
+  assert.equal(/lewoof/i.test(cfg), false)
+})
