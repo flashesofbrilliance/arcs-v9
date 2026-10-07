@@ -25,6 +25,8 @@ test("GET /api/geometry answers with a fidelity and a well-formed shape", async 
     if (body.fidelity === "public") {
       // text-free and id-free by contract
       expect(r.q).toBeUndefined(); expect(r.tn).toBeUndefined(); expect(r.ent).toBeUndefined(); expect(r.id).toBeUndefined()
+      expect(r.prot).toEqual([]) // protecting is free text: never in the public shape
+      expect(typeof r.protN).toBe("number")
       expect(typeof r.s).toBe("number")
       expect(r.t).toHaveLength(10)
       if (r.geo.kairos) expect(r.geo.kairos.txt).toBeNull()

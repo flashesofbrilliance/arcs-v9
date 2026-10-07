@@ -178,7 +178,9 @@ export async function GET(req: NextRequest) {
       nci: r.nciScore, lens: parseLens(raw, r.nciByLens), coh: r.coherencePct, sat: r.isSatoshi, cm: r.clarityMode,
       mode: r.mode, door: r.doorClass, macros: parseJson<string[]>(r.macroTags) ?? [],
       stakes: r.stakes ? r.stakes.toUpperCase() : null, hor: r.horizon, win: r.window,
-      prot: parseJson<string[]>(r.protecting) ?? [], lock: r.horizonLocked, drift: r.driftState,
+      // protecting accepts free text (<=200 chars), so it is text: empty at public fidelity
+      protN: (parseJson<string[]>(r.protecting) ?? []).length,
+      prot: text ? (parseJson<string[]>(r.protecting) ?? []) : [], lock: r.horizonLocked, drift: r.driftState,
       y: { pol: r.yPolarity, conv: r.yConviction, stab: r.yStability, state: r.yState },
       ycond: (parseJson<unknown[]>(r.yConditions) ?? []).length,
       grad: r.gradientMagnitude, topo: r.flowTopology, curv: r.manifoldCurvature, rr: r.renderResolution,
