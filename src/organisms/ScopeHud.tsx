@@ -16,7 +16,7 @@ import universe from "@/data/universe-field.json"
 // under 30° holds, 30 to 45° is the slab band, over 45° is a wall.
 
 type UNode = (typeof universe.nodes)[number]
-export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null }
+export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: { id: string; label: string; state: "open" | "blocked" | "obscured" }[] }
 type Fathom = { n: number; name: string; altitude: string; resolution: string }
 
 const DEG = 180 / Math.PI
@@ -76,7 +76,7 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
   )
 }
 
-export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { read: () => HudRead; fathoms: readonly Fathom[]; stepH: number; stepW: number; levels: number; onSteer: (deg: number) => void }) {
+export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack, onHop }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; levels: number; onSteer: (deg: number) => void }) {
   const [r, setR] = useState<HudRead>(read)
   useEffect(() => {
     let raf = 0, last = 0
@@ -206,6 +206,50 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
           </div>
         )
       })()}
+
+      {/* Breadcrumbs: every vantage you dove from; click one to back-track there. */}
+      {r.trail.length > 0 && (
+        <nav aria-label="Vantage trail" style={{ position: "absolute", left: "50%", top: 64, transform: "translateX(-50%)", display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", justifyContent: "center", maxWidth: 560, pointerEvents: "auto" }}>
+          {["Zero-point", ...r.trail].map((name, i) => {
+            const here = i === r.trail.length
+            return (
+              <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                {i > 0 && <span style={{ ...label, color: text.dimmed }}>›</span>}
+                <button
+                  type="button"
+                  disabled={here}
+                  onClick={() => onBack(i)}
+                  title={here ? "You are here" : `Back-track to Ø${i}`}
+                  style={{ ...label, color: here ? signal.gold : text.secondary, background: "rgba(6,9,13,0.82)", border: `1px solid ${here ? signal.gold : "#1e293b"}`, borderRadius: 3, padding: "3px 7px", cursor: here ? "default" : "pointer" }}
+                >
+                  Ø{i} {name}
+                </button>
+              </span>
+            )
+          })}
+        </nav>
+      )}
+
+      {/* Holds: every node one edge away, and whether you can hop to it. */}
+      {r.universe && r.holds.length > 0 && (
+        <div style={{ ...panel, left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)", overflowY: "auto", pointerEvents: "auto" }}>
+          <Screws />
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span><span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span></div>
+          {r.holds.map((h) => (
+            <button
+              key={h.id}
+              type="button"
+              disabled={h.state !== "open"}
+              onClick={() => onHop(h.id)}
+              title={h.state === "open" ? `Hop to ${h.label}` : h.state === "blocked" ? "Blocked: this node is gated" : "Obscured: open questions, visibility under 50%"}
+              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: h.state === "open" ? "pointer" : "default", color: h.state === "open" ? text.primary : text.dimmed }}
+            >
+              <span>{h.label}</span>
+              <span style={{ color: h.state === "open" ? signal.green : h.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{h.state}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Status strip. */}
       <div style={{ position: "absolute", left: 16, right: 16, top: 16, display: "flex", justifyContent: "flex-end", gap: 16, pointerEvents: "none" }}>

@@ -124,6 +124,27 @@ const UPOS: Record<string, { u: number; v: number; k: number }> = (() => {
   return out
 })()
 const UBY = Object.fromEntries(universe.nodes.map((n) => [n.id, n])) as Record<string, UNode>
+const ADJ: Record<string, string[]> = {}
+universe.edges.forEach(([a, b]) => { (ADJ[a] ||= []).push(b); (ADJ[b] ||= []).push(a) })
+// A hold you can hop to from here: joined by a lattice edge. The lattice's own states decide it:
+// status "gate" blocks the hop; open shore questions under heavy fog (visibility < 50%) obscure it.
+export type HoldState = "open" | "blocked" | "obscured"
+// Relative framing: the bounds of a vantage and its holds set the next view, so each hop
+// zooms into a new min/max box around the point you stand on.
+function frame(id: string) {
+  const pts = [id, ...(ADJ[id] ?? [])].map((k) => UPOS[k]).filter(Boolean)
+  const us = pts.map((p) => p.u), vs = pts.map((p) => p.v)
+  const u0 = Math.min(...us), u1 = Math.max(...us), v0 = Math.min(...vs), v1 = Math.max(...vs)
+  const e = Math.max(u1 - u0, v1 - v0)
+  return { pu: (u0 + u1) / 2, pv: (v0 + v1) / 2, dist: clamp(1.35 + e * 2.4, DIST_MIN, DIST_MAX) }
+}
+function holds(from: string, fog: number) {
+  return [...new Set(ADJ[from] ?? [])].map((id) => {
+    const n = UBY[id]
+    const state: HoldState = n.status === "gate" ? "blocked" : n.shore_open > 0 && fog > 0.5 ? "obscured" : "open"
+    return { id, label: n.label, state }
+  })
+}
 
 function mulberry32(a: number) {
   return () => {
@@ -228,6 +249,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     pick: (() => null) as (x: number, y: number) => { u: number; v: number; node?: string } | null,
     universe: true,
     originNode: null as string | null,
+    // Breadcrumbs: one static pin per dive, in the shared space, with the camera you left from.
+    trail: [] as { u: number; v: number; node: string | null; nest: number; kind: "dive" | "hop"; leave: Cam & { depth: number } }[],
+    leaving: null as (Cam & { depth: number }) | null,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -274,7 +298,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
   const hudRead = useCallback((): HudRead => {
     const c = control.current
-    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null }
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => (t.kind === "hop" ? "↷ " : "") + (t.node ? UBY[t.node]?.label ?? t.node : "terrain")), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [] }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -282,6 +306,36 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // The canvas reads heading as -yaw.
     const want = (-deg * Math.PI) / 180
     t.yaw += ((((want - t.yaw) % TAU) + TAU * 1.5) % TAU) - Math.PI
+    c.pausedUntil = performance.now() + 20000
+    c.redraw()
+  }, [])
+
+  // Back-track to breadcrumb i (0 = before the first dive): restore the camera you left from there.
+  const backTo = useCallback((i: number) => {
+    const c = control.current
+    if (i < 0 || i >= c.trail.length) return
+    const leave = c.trail[i].leave
+    c.trail = c.trail.slice(0, i)
+    const last = c.trail[c.trail.length - 1]
+    c.nest = last?.nest ?? 0; c.origin = last ? { u: last.u, v: last.v } : null; c.originNode = last?.node ?? null
+    c.dive = null; c.entered = performance.now()
+    const { depth: d, ...cam } = leave
+    tgt.current = { ...cam }
+    c.depth = d; setDepthUi(Math.round(d))
+    c.pausedUntil = performance.now() + 20000
+    c.redraw()
+  }, [])
+
+  // Hop: a lateral move along one lattice edge to an open hold. Same nest; drops a pin.
+  const hop = useCallback((id: string) => {
+    const c = control.current
+    const from = c.originNode ?? universe.null_origin
+    const h = holds(from, c.fog).find((x) => x.id === id)
+    if (!h || h.state !== "open") return
+    const q = UPOS[id]
+    c.trail.push({ u: q.u, v: q.v, node: id, nest: c.nest, kind: "hop", leave: { ...tgt.current, depth: c.depth } })
+    c.origin = { u: q.u, v: q.v }; c.originNode = id; c.entered = performance.now()
+    tgt.current = { ...tgt.current, ...frame(id) }
     c.pausedUntil = performance.now() + 20000
     c.redraw()
   }, [])
@@ -347,7 +401,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     DEFAULT_ON.forEach((id, i) => ctl.drops.set(id, { t: t0 + 300 + i * 260, gone: 0 }))
     const cam: Cam = { ...tgt.current }
     ctl.cam = cam
-    const st = { sw: 800, sh: 200, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
+    const st = { focus: 0, sw: 800, sh: 200, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
     const ptr = { x: 0, y: 0, on: false, since: 0, down: false, mode: "orbit" as "orbit" | "pan", lx: 0, ly: 0, moved: 0 }
     const speck = mulberry32(11)
     const markers: { id: string; x: number; y: number }[] = []
@@ -419,6 +473,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const onUp = (ev: PointerEvent) => {
       if (ptr.down && ptr.moved <= 3) {
         const p = local(ev)
+        if (ctl.universe) {
+          const hit = ctl.pick(p.x, p.y)
+          if (hit?.node && holds(ctl.originNode ?? universe.null_origin, ctl.fog).some((h) => h.id === hit.node && h.state === "open")) { hop(hit.node); ptr.down = false; return }
+        }
         let best: string | null = null, bd = 16 * 16
         for (const m of markers) { const d = (m.x - p.x) ** 2 + (m.y - p.y) ** 2; if (d < bd) { bd = d; best = m.id } }
         if (best) focusOn(ctl.focused === best ? null : best)
@@ -441,6 +499,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       const hit = ctl.pick(p.x, p.y)
       if (!hit || ctl.dive) return
       touch()
+      ctl.leaving = { ...tgt.current, depth: ctl.depth }
       ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v, node: hit.node ?? null }
       tgt.current = { ...tgt.current, pu: hit.u, pv: hit.v }
       ctl.pausedUntil = performance.now() + 60000
@@ -464,9 +523,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
         case "f": case "F": setFull((f) => !f); break
         case "u": case "U": ctl.universe = !ctl.universe; break
+        case "Backspace": backTo(ctl.trail.length - 1); break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
-        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
-        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; focusOn(null); setDepth(HOME_DEPTH); break
+        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -517,7 +577,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       }
       ctl.pick = (x, y) => {
         if (ctl.universe) {
-          let bn: string | null = null, bnd = 22 * 22
+          let bn: string | null = null, bnd = 36 * 36
           for (const n of universe.nodes) { const q = UPOS[n.id], s2 = proj(q.u, height(q.u, q.v) + 0.06, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bnd) { bnd = dd; bn = n.id } }
           if (bn) return { ...UPOS[bn], node: bn }
         }
@@ -530,11 +590,21 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       if (ctl.dive && now - ctl.dive.t0 > 1400) {
         const d = ctl.dive
         ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.originNode = d.node; ctl.entered = now
+        ctl.trail.push({ u: d.u, v: d.v, node: d.node, nest: ctl.nest, kind: "dive", leave: ctl.leaving ?? { ...tgt.current, depth: HOME_DEPTH } })
         ctl.depth = 1; st.depth = 1
         const k = { pitch: atDepth(1, "pitch"), dist: atDepth(1, "dist"), zoom: atDepth(1, "zoom"), pu: d.u, pv: d.v }
         Object.assign(cam, k); Object.assign(tgt.current, k)
         setDepth(1)
       }
+      // Depth of field: the focal plane racks to the vantage you stand on; the circle of
+      // confusion grows with distance from it, so near and far points soften into bokeh.
+      const dof = ctl.universe && !reduced
+      if (dof) {
+        const vq = ctl.origin ?? UPOS[universe.null_origin]
+        const fp = proj(vq.u, height(vq.u, vq.v), vq.v)
+        if (fp) st.focus = st.focus ? st.focus + (fp.d - st.focus) * ease(700) : fp.d
+      }
+      const coc = (d: number) => (dof && st.focus ? Math.min(1, Math.abs(d - st.focus) * 0.85) : 0)
       const path = (pts: ({ x: number; y: number } | null)[]) => {
         ctx.beginPath()
         let pen = false
@@ -583,7 +653,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         sources.push({ u: p.u, v: p.v, color: TIER_COLOR[w.tier], born: d.t, gone: d.gone })
       }
       const nE = 1 - Math.pow(1 - st.nav, 3)
-      const nu = START.u + (SUMMIT.u - START.u) * nE, nvv = START.v + (SUMMIT.v - START.v) * nE
+      // In the universe the navigator stands on the current vantage (zp at nest 0), not the sign-up path.
+      const vp = ctl.universe ? (ctl.origin ?? UPOS[universe.null_origin]) : null
+      const nu = vp ? vp.u : START.u + (SUMMIT.u - START.u) * nE, nvv = vp ? vp.v : START.v + (SUMMIT.v - START.v) * nE
       sources.push({ u: nu, v: nvv, color: signal.cyan, born: t0, gone: 0 })
       ctx.lineWidth = 0.6
       const travel = reduced ? 0.3 : ((now - t0) / 1000) * RIPPLE_SPEED
@@ -645,7 +717,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         // Up high the survey is quantized: 8-bit blocks snap to a coarse raster.
         const q = dep < 1.6 ? 4 : dep < 2.4 ? 2 : 0
         if (q) { x = Math.round(x / q) * q; y = Math.round(y / q) * q }
-        ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz)
+        const cc = coc(s.d)
+        if (cc > 0.04) { const bz = sz * (1 + cc * 2.4); ctx.globalAlpha = 1 / (1 + cc * 2.6); ctx.fillRect(x - bz / 2, y - bz / 2, bz, bz); ctx.globalAlpha = 1 }
+        else ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz)
       }
       if (fogv > 0.05 && !reduced) {
         const n = Math.min(900, Math.round(260 * fogv * (SW * SH) / 160000))
@@ -672,13 +746,25 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           ctx.strokeStyle = rgba(DOMAIN_COLOR[UBY[a]?.domain] ?? "#94a3b8", 0.08 + clarity * 0.1)
           ctx.beginPath(); ctx.moveTo(sa.x, sa.y); ctx.lineTo(sb.x, sb.y); ctx.stroke()
         }
+        // Holds from the current vantage: green = open hop, red dashed = blocked, grey dashed = obscured.
+        const cur = ctl.originNode ?? universe.null_origin, cq = UPOS[cur]
+        const cs = proj(cq.u, height(cq.u, cq.v) + 0.06, cq.v)
+        if (cs) for (const h of holds(cur, st.fog)) {
+          const q = UPOS[h.id], hs = proj(q.u, height(q.u, q.v) + 0.06, q.v); if (!hs) continue
+          ctx.lineWidth = h.state === "open" ? 1.6 : 1
+          ctx.strokeStyle = h.state === "open" ? rgba(signal.green, 0.8) : h.state === "blocked" ? rgba(signal.red, 0.7) : rgba("#94a3b8", 0.5)
+          ctx.setLineDash(h.state === "open" ? [] : [3, 4])
+          ctx.beginPath(); ctx.moveTo(cs.x, cs.y); ctx.lineTo(hs.x, hs.y); ctx.stroke()
+        }
+        ctx.setLineDash([])
         const un = universe.nodes.map((n) => { const q = UPOS[n.id]; return { n, s: proj(q.u, height(q.u, q.v) + 0.06, q.v) } })
           .filter((o) => o.s).sort((a, b) => b.s!.d - a.s!.d)
         for (const { n, s: sp } of un) {
           const p2 = sp!, col = DOMAIN_COLOR[n.domain] ?? "#94a3b8"
           const open = n.status !== "ok", here = ctl.originNode === n.id
-          const r = Math.min(9, 2.4 + Math.sqrt(n.files) * 0.7) * (here ? 1.4 : 1)
-          const al = (open ? 0.55 : 0.85) * (0.6 + clarity * 0.4)
+          const cc = here ? 0 : coc(p2.d)
+          const r = Math.min(9, 2.4 + Math.sqrt(n.files) * 0.7) * (here ? 1.4 : 1) * (1 + cc * 1.6)
+          const al = (open ? 0.55 : 0.85) * (0.6 + clarity * 0.4) / (1 + cc * 2.2)
           if (n.diamond) {
             ctx.fillStyle = rgba(signal.gold, 0.95)
             ctx.beginPath(); ctx.moveTo(p2.x, p2.y - r - 2); ctx.lineTo(p2.x + r + 2, p2.y); ctx.lineTo(p2.x, p2.y + r + 2); ctx.lineTo(p2.x - r - 2, p2.y); ctx.closePath(); ctx.fill()
@@ -689,7 +775,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
             ctx.fillStyle = rgba(col, al)
             ctx.beginPath(); ctx.arc(p2.x, p2.y, r, 0, TAU); ctx.fill()
           }
-          const labelA = here ? 1 : clamp(dep - 2.3, 0, 1) * (n.diamond || n.id === universe.null_origin ? 1 : clamp(dep - 3, 0, 1))
+          const labelA = (here ? 1 : clamp(dep - 2.3, 0, 1) * (n.diamond || n.id === universe.null_origin ? 1 : clamp(dep - 3, 0, 1))) * (1 - cc)
           if (labelA < 0.05) continue
           const t = n.label.toUpperCase(), tw = ctx.measureText(t).width + 4
           const box = { x: p2.x + r + 3, y: p2.y - 6, w: tw, h: 12 }
@@ -741,6 +827,20 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         }
       }
 
+      // Breadcrumbs: every earlier vantage stays pinned, joined by a dashed path from zp.
+      if (ctl.trail.length > 1) {
+        const z = UPOS[universe.null_origin]
+        const pts = [z, ...ctl.trail.slice(0, -1)].map((t) => proj(t.u, height(t.u, t.v) + 0.06, t.v))
+        pts.push(ctl.origin ? proj(ctl.origin.u, height(ctl.origin.u, ctl.origin.v) + 0.06, ctl.origin.v) : null)
+        ctx.setLineDash([2, 4]); ctx.lineWidth = 1; ctx.strokeStyle = rgba(signal.gold, 0.5); path(pts); ctx.setLineDash([])
+        ctx.font = `600 9px ${font.mono}`; ctx.textAlign = "left"; ctx.textBaseline = "middle"
+        ctl.trail.slice(0, -1).forEach((t, i) => {
+          const b = proj(t.u, height(t.u, t.v) + 0.06, t.v); if (!b) return
+          ctx.fillStyle = rgba(signal.gold, 0.85)
+          ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 3.5, b.y - 9); ctx.arc(b.x, b.y - 11, 3.5, Math.PI * 0.85, Math.PI * 2.15); ctx.closePath(); ctx.fill()
+          ctx.fillText(`Ø${i + 1}`, b.x + 6, b.y - 11)
+        })
+      }
       // The null origin of the current nest: a hollow ring and Ø with its depth.
       if (ctl.origin) {
         const o = ctl.origin, ob = proj(o.u, height(o.u, o.v), o.v)
@@ -891,7 +991,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       fig?.removeEventListener("keydown", onKey)
       canvas.removeEventListener("contextmenu", noMenu)
     }
-  }, [focusOn, setDepth, steer])
+  }, [focusOn, setDepth, steer, backTo, hop])
 
   const shown = WAYPOINTS.filter((w) => overlays.includes(w.id))
   const pickedW = picked && overlays.includes(picked) ? WAYPOINTS.find((w) => w.id === picked) : null
@@ -926,7 +1026,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         />
       </div>
 
-      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} levels={LEVELS} onSteer={steer} />}
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} levels={LEVELS} onSteer={steer} onBack={backTo} onHop={hop} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div
@@ -989,7 +1089,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it, dropping a pin · Click a green hold to hop along an edge · Backspace backs out one pin · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>
