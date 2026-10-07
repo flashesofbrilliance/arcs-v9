@@ -174,6 +174,7 @@ fieldset.vr { border: 0; padding: 0; margin: 10px 0 0; min-width: 0; }
 </style>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>window.__lwSink=function(n,d){try{var s;try{s=sessionStorage.getItem('lw_sid');if(!s){s=Math.random().toString(36).slice(2,10)+Date.now().toString(36);sessionStorage.setItem('lw_sid',s)}}catch(e){s='nostore-'+Math.random().toString(36).slice(2,10)}fetch('https://xbbpiryokswwvcrcutge.supabase.co/rest/v1/rpc/lewoof_log_event',{method:'POST',keepalive:true,headers:{apikey:'sb_publishable_gxbTuRgErsJY-JZpQzPMrQ_ZinQFvi9','Content-Type':'application/json'},body:JSON.stringify({p_sid:s,p_name:n,p_field:d&&d.field?String(d.field).slice(0,80):null,p_meta:d||null})}).catch(function(){})}catch(e){}};</script>
 </head>
 <body>
 <div class="lane">
@@ -185,7 +186,7 @@ fieldset.vr { border: 0; padding: 0; margin: 10px 0 0; min-width: 0; }
     <h2>Start here: Friday, October 9</h2>
     <p>Check in with Vlad and ask for a yes or no on the invoice and agreement. If you have already sent it, a quick check-in is enough. In August he offered <span data-f="upfront" class="f-known" title="Known: every input behind this number is a record or your own data.">$4</span> a bottle up front and <span data-f="persold" class="f-known" title="Known: every input behind this number is a record or your own data.">$10</span> a bottle as they sell, for <span data-f="units" class="f-known" title="Known: every input behind this number is a record or your own data.">240</span> bottles. The invoice carries <span data-f="pilotUp" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$960</span> up front plus about <span data-f="freight" class="f-known" title="Known: every input behind this number is a record or your own data.">$750</span> of freight, <span data-f="invoiceTotal" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$1,710</span> in all, and up to <span data-f="pilotMax" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$2,400</span> more as bottles sell. As far as we can tell nothing is signed yet, so a clear answer moves you forward either way.</p>
   </div>
-  <p class="key">Drafted by Zach with Claude from your emails and public sources. You know this business best, so please correct anything. It contains partner deal terms, so please do not forward it.<br><small><!--BUILT-->Version 5 (dynamic) · facts as of 2026-10-06 · built 2026-10-07 01:48 UTC<!--/BUILT--></small></p>
+  <p class="key">Drafted by Zach with Claude from your emails and public sources. You know this business best, so please correct anything. It contains partner deal terms, so please do not forward it.<br><small><!--BUILT-->Version 5 (dynamic) · facts as of 2026-10-06 · built 2026-10-07 02:02 UTC<!--/BUILT--></small></p>
   <p class="rule"><b>One rule:</b> a <span class="f-known">solid underline</span> marks a number we can confirm from a record. A <span class="f-think">dotted underline</span> marks a belief to check. <a href="#ledger-fold">See which is which.</a></p>
 </header>
 
@@ -637,7 +638,7 @@ fieldset.vr { border: 0; padding: 0; margin: 10px 0 0; min-width: 0; }
     <li><a href="https://ppc.land/scaled-content-abuse/">PPC Land</a>, <a href="https://www.iwdagency.com/blogs/news/ai-search-optimization-for-ecommerce-2026/">IWD Agency</a> and <a href="https://alhena.ai/blog/ai-search-engine-optimization-brand-visibility/">Alhena</a>: AI content and AI search</li>
     <li><a href="https://petsplusmag.com/dtc-brands-going-hybrid-to-grow/amp/">PetsPlus: online brands going hybrid</a></li>
   </ul>
-  <p class="fine">Most market sources are agency or vendor blogs, so figures are directional. Your wholesale price ($22.50), the pilot terms and your $4 cost figure (the number you quoted Vlad; please confirm your real landed cost) come from your own emails. Your $48 list price is from your August 4 email, while the draft term sheet used $45. These are partner deal terms, so please share this page only with people who need it. Packaging and shipping cost, the ad budget and every scoreboard threshold are placeholders I proposed; you set the ones that count. The three futures come from a simple model, not from your sales data, which I have not seen. This page uses Vercel Web Analytics to count visits, which sections you open and which fields you touch. It never records what you type or choose.</p>
+  <p class="fine">Most market sources are agency or vendor blogs, so figures are directional. Your wholesale price ($22.50), the pilot terms and your $4 cost figure (the number you quoted Vlad; please confirm your real landed cost) come from your own emails. Your $48 list price is from your August 4 email, while the draft term sheet used $45. These are partner deal terms, so please share this page only with people who need it. Packaging and shipping cost, the ad budget and every scoreboard threshold are placeholders I proposed; you set the ones that count. The three futures come from a simple model, not from your sales data, which I have not seen. This page counts visits, which sections you open and which fields you touch, in Vercel Web Analytics and in a private log that Zach can read. It never records what you type or choose.</p>
 </div></details>
 </section>
 </main>
@@ -886,7 +887,7 @@ fieldset.vr { border: 0; padding: 0; margin: 10px 0 0; min-width: 0; }
   // Logged: that a section was opened, that a field was touched, that a control was used.
   // Never logged: anything typed, any number entered, any verdict chosen, any note.
   var sent = {}, printing = false;
-  function track(name, data) { try { if (typeof window.va === 'function') window.va('event', data ? { name: name, data: data } : { name: name }); } catch (e) {} }
+  function track(name, data) { try { if (typeof window.va === 'function') window.va('event', data ? { name: name, data: data } : { name: name }); } catch (e) {}  try { if (typeof window.__lwSink === 'function') window.__lwSink(name, data || null); } catch (e) {} }
   function once(key, name, data) { if (printing || sent[key]) return; sent[key] = 1; track(name, data); }
   window.addEventListener('beforeprint', function () { printing = true; });
   window.addEventListener('afterprint', function () { printing = false; });
