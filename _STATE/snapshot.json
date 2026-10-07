@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-10-06T14:32:13-04:00",
+  "captured_at": "2026-10-06T22:50:07-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "df007580",
-    "head_message": "Merge pull request #1027 from flashesofbrilliance/claude/pm-application-materials-1606ca",
+    "head_sha": "acd41a12",
+    "head_message": "Merge pull request #1062 from flashesofbrilliance/claude/lattice-epoch-2026-10-06",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Worked the Docs Reconciliation tracker: 15 PRs landed (cost fix, integrity baseline + block, release notes, Issues SSOT), tracker and issues synced.",
-  "next_action": "Confirm CI and deploy green on main, then fix the ADR -> Queue workflow (fails on pushes touching 2+ ADRs).",
+  "session_summary": "Evening round: defaults approved, Librarian bands + name bonus + loop fix, claim unit v1 proposed, lattice e10 re-author, ADR -> Queue fixed; 5 decision rows left.",
+  "next_action": "Confirm CI and deploy green on main, then clear the 5 decision rows (claim unit, lattice calls, og:image hosts, old keys, ADR-085 on 10-13).",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
