@@ -6,18 +6,18 @@
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 166,
+  "script": 171,
   "skill": 21,
   "workflow": 2
  },
- "total": 256,
+ "total": 261,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 289,
-   "AVAILABLE-NOT-INSTALLED": 1,
-   "INSTALLED-UNUSED": 16,
+   "WIRED": 299,
+   "AVAILABLE-NOT-INSTALLED": 0,
+   "INSTALLED-UNUSED": 15,
    "DUPLICATE": 1,
    "BROKEN": 0
   },
@@ -98,14 +98,6 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "receipt_efficacy_probe.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
     "name": "receipt_outcome_resolver.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
@@ -149,14 +141,6 @@
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
-   },
-   {
-    "state": "AVAILABLE-NOT-INSTALLED",
-    "surface": "pub",
-    "kind": "marketplace",
-    "name": "arcs",
-    "why": "marketplace 'arcs' (5 plugins) not added",
-    "fix": "claude plugin marketplace add flashesofbrilliance/arcs-skills"
    },
    {
     "state": "DUPLICATE",
@@ -491,6 +475,14 @@
   },
   {
    "kind": "script",
+   "name": "adr_cite_lint.py",
+   "path": "scripts/adr_cite_lint.py",
+   "jtbd": "adr_cite_lint: flag bare ADR-0NN citations whose surrounding text shares no vocabulary with that ADR.",
+   "invoke": "python3 scripts/adr_cite_lint.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "altitude_canary.py",
    "path": "scripts/altitude_canary.py",
    "jtbd": "altitude_canary.py — the canary in the coal mine for ALTITUDE SICKNESS in prose.",
@@ -535,6 +527,14 @@
    "path": "scripts/arcs_models.py",
    "jtbd": "Python's read of the ONE model registry: the MODELS block in src/lib/claude-models.ts.",
    "invoke": "python3 scripts/arcs_models.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "artifact_reuse_catalog.py",
+   "path": "scripts/artifact_reuse_catalog.py",
+   "jtbd": "artifact_reuse_catalog: a read-only reuse catalog of _ARTIFACTS/, placed four ways.",
+   "invoke": "python3 scripts/artifact_reuse_catalog.py",
    "state": "WIRED"
   },
   {
@@ -1339,6 +1339,14 @@
   },
   {
    "kind": "script",
+   "name": "provenance_candidates.py",
+   "path": "scripts/provenance_candidates.py",
+   "jtbd": "provenance_candidates.py: the owner's untagged receipts, listed for a one-pass tag. READ-ONLY.",
+   "invoke": "python3 scripts/provenance_candidates.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "provenance_lint.py",
    "path": "scripts/provenance_lint.py",
    "jtbd": "provenance_lint: every quantified claim on an enrolled customer surface must cite evidence.",
@@ -1375,7 +1383,7 @@
    "path": "scripts/receipt_efficacy_probe.py",
    "jtbd": "receipt_efficacy_probe: plumbing proof for predictions -> closes -> Accountant scoring.",
    "invoke": "python3 scripts/receipt_efficacy_probe.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1416,6 +1424,14 @@
    "jtbd": "reel_in_scan.py — the deterministic scout for float→reel-in events across the WHOLE ref graph.",
    "invoke": "python3 scripts/reel_in_scan.py",
    "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
+   "name": "release_notes.py",
+   "path": "scripts/release_notes.py",
+   "jtbd": "release_notes: what actually landed on main, grouped by week and area, from git alone.",
+   "invoke": "python3 scripts/release_notes.py",
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1719,6 +1735,14 @@
    "path": "scripts/torch_sage_distillation.py",
    "jtbd": "scripts/torch_sage_distillation.py — PyTorch distillation of SAGE's kinematic classifier.",
    "invoke": "python3 scripts/torch_sage_distillation.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "tributary_backfill_probe.py",
+   "path": "scripts/tributary_backfill_probe.py",
+   "jtbd": "tributary_backfill_probe.py: can Receipt.parentTributaryIndex be inferred for existing children? READ-ONLY.",
+   "invoke": "python3 scripts/tributary_backfill_probe.py",
    "state": "WIRED"
   },
   {
