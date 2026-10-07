@@ -173,7 +173,7 @@ function scoreCells(r){
   c.D4 = r.door ? lv(r, true, !!g.trig, true) : (r.mode ? 1 : 0);
   c.D5 = r.p == null ? 1 : (r.fork || r.ti != null ? 3 : 2); if (r.baton || r.merged) c.D5 = 4; if (c.D5 >= 2 && outcomeOk(r)) c.D5 = 5;
   // R
-  c.R1 = r.stakes ? lv(r, true, r.prot.length > 0, !!(r.prep && r.prep.stakes && r.prep.stakes.toUpperCase() === r.stakes)) : 0; if (c.R1 === 2 && !r.prep) c.R1 = 1;
+  c.R1 = r.stakes ? lv(r, true, r.protN > 0, !!(r.prep && r.prep.stakes && r.prep.stakes.toUpperCase() === r.stakes)) : 0; if (c.R1 === 2 && !r.prep) c.R1 = 1;
   c.R2 = r.courtN > 0 ? lv(r, true, r.courtN >= 2, false) : 0;
   c.R3 = r.advN > 0 || r.bayes != null ? lv(r, true, r.advN >= 2 && r.bayes != null, !!(r.prep && r.prep.adv)) : 0; if (c.R3 === 2 && r.advN === 0) c.R3 = 1;
   c.R4 = rev ? lv(r, true, r.fatedN >= 3 || r.barN > 0, (r.door === 'ONE_WAY') === (rev.v >= 0.5)) : (r.door ? 1 : 0);
