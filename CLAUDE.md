@@ -123,6 +123,54 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.117.0 (2026-10-07)
+
+## Goal / true north
+Confirm live that a tributary follow-up records Receipt.parentTributaryIndex (#1067), then consolidate memory.
+
+## What changed
+- #1066 merged (`4e4972a7`, `--merge`): server-side satoshi base-rate gate (`src/lib/satoshi.ts`), prompt anchor "fewer than 1 in 50" built from the same constants, same gate on the EPHEMERAL_SAVE path, 9 unit tests incl. the real `/api/compass` handler against the stubs. Receipts `2026-10-06--satoshi-base-rate-gate-pr1066--ZH` (PR open) and `2026-10-07--satoshi-base-rate-gate-merge-pr1066--ZH` (merge).
+- Live check 2026-10-07T17:45Z, signed in on Zach's Chrome: "Need to hear" on receipt `cmuw1clwz000304l4kczcuzr6` -> dashboard `?parent=&tributary=1` -> child `cmuyef7t2000004jm3o58nh26` with `parentTributaryIndex = 1` (SQL), the first row ever with the index. History shows the `via Need to hear` badge on it; the pre-change follow-up shows none.
+- Receipt `2026-10-07--compass-tributary-index-merge-pr1067--ZH` updated: both live items moved to confirmed.
+- Memory: rewrote `vercel-web-analytics-not-enabled-arcs-v9` to the current fact (analytics ON, MCP count read path broken); added `chrome-ref-clicks-dont-fire-react-on-arcs-use-coordinates`. Index 128 lines, under budget; the 2026-09-26 "nothing to dedup" verdict stands.
+
+## Current state
+- No code change this round. Main at the v3.116.0 molt plus this fragment.
+
+## Decisions made
+- Enforce the compass meaning of satoshi (rare, category-defining) in a deterministic server gate rather than a prompt-only rewording; the prompt line is derived from the gate's constants so they cannot drift.
+- Merged on Zach's yes with the security-review check red for a credit error, not a finding.
+- Chip `task_d2d810c5` queued: the newest receipt (`cmuxxvcbj000004i6pdx971mp`) renders "No open questions" because its rawResponse is fenced ```json and `/api/brief/[receiptId]` only parses rawResponse; fix is to read `atgTributaries` first. Not fixed here.
+
+## Open decisions (waiting on Zach)
+1. Zach: Anthropic credit on the org behind the `ANTHROPIC_API_KEY` repo secret; re-run the security review on `4e4972a7`.
+
+## Open (other)
+1. Canon collision, escalated not resolved: `operators/arcs_rom.py` SATOSHI_CRITERIA (nci >= 50, irreversibility <= 0.5, most receipts qualify) vs the compass rare-move meaning now enforced. Zach decides which definition the word keeps.
+2. EX-ANTE to score: after 50 new receipts, re-run the audit aggregates (flagged vs unflagged by stakes, mode, doorClass, nci bucket) and check the rate is under 1 in 50.
+3. fe-smoke on main for `c5327f9a` not watched to a conclusion.
+4. Chip `task_d2d810c5` (fenced rawResponse fallback) unstarted; count affected prod receipts in that PR.
+5. Dependabot: 4 alerts on main (3 high) surfaced on push; not looked at.
+
+## Next action
+Start chip `task_d2d810c5` (read tributaries from `atgTributaries` before fenced `rawResponse`), then clear the 5 decision rows from the evening round (claim unit v1, lattice calls, og:image hosts, old keys, ADR-085 on 10-13).
+
+## Cold-start recipe
+- Gate + rationale: `src/lib/satoshi.ts`; tests: `tests/unit/satoshi.test.ts` (`npm run test:unit`).
+- Audit SQL shape: project-scoped Supabase `execute_sql` (project `xbbpiryokswwvcrcutge`), `select "isSatoshi", count(*), percentile_cont(0.5) within group (order by "nciScore") ... from "Receipt" group by 1`, plus breakdowns by stakes, mode, "doorClass", "yState", provenance; never select question text.
+- Receipts: `2026-10-06--satoshi-base-rate-gate-pr1066--ZH`, `2026-10-07--satoshi-base-rate-gate-merge-pr1066--ZH`.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: Lessons
+- A red `claude-security-review` with "Credit balance is too low" is billing, not a finding; the other CI jobs use a placeholder key and stay green (memory `anthropic-api-budget-shared-cap-ci-drain` updated).
+- Pull aggregates before touching a model flag: the inflation lived entirely in one mode/model/stakes cell, which made a two-condition bar sufficient.
+
+### Notes: Lessons
+- Chrome ref clicks on arcs.care React buttons report success and do nothing; click by coordinate and confirm by URL or SQL.
+
+> Molted from `_HANDOFFS/fragments/20261007T174054Z--claude-mystifying-tesla-6bc6f3.md` (branch `claude/mystifying-tesla-6bc6f3`, head `90fcea9c`); `_HANDOFFS/fragments/20261007T174747Z--claude-elated-swanson-7c7b8e.md` (branch `claude/elated-swanson-7c7b8e`, head `61740851`).
+
 # Handoff — v3.116.0 (2026-10-07)
 
 > # Handoff — carry-over from closed #811 (2026-10-06)
@@ -255,92 +303,3 @@ Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `d
 - The GitHub Actions billing block noted in v3.115.0 was gone by 2026-10-07: full CI ran on #1067.
 
 > Molted from `_HANDOFFS/fragments/20261006T141643Z--claude-handoff-carry-811.md` (branch `claude/handoff-carry-811`, head `7fdfdf3c`); `_HANDOFFS/fragments/20261006T160909Z--claude-handoff-orchestrator-molt.md` (branch `claude/handoff-orchestrator-molt`, head `7073958e`); `_HANDOFFS/fragments/20261006T163645Z--claude-confident-kare-bcdb8c.md` (branch `claude/confident-kare-bcdb8c`, head `dc50746b`); `_HANDOFFS/fragments/20261006T181646Z--claude-defi-crypto-predictions-review.md` (branch `claude/defi-crypto-predictions-review-bad684 (merged and deleted)`, head `81a6d5a4`); `_HANDOFFS/fragments/20261006T183213Z--claude-docs-reconciliation-orchestration.md` (branch `claude/docs-reconciliation-next-06852d (worked from worktree orchestration-repo-cleanup-6f304f)`, head `df007580`); `_HANDOFFS/fragments/20261007T025007Z--claude-docs-reconciliation-evening.md` (branch `claude/docs-reconciliation-next-06852d (worked from worktree orchestration-repo-cleanup-6f304f)`, head `acd41a12`); `_HANDOFFS/fragments/20261007T173838Z--claude-elated-swanson-7c7b8e.md` (branch `claude/elated-swanson-7c7b8e`, head `c5327f9a`).
-
-# Handoff — v3.115.0 (2026-10-06)
-
-> Two sessions. One shipped the Question Compass UX and lint cleanup (#887, #918; ESLint 174 errors to 0, deploys READY) but got no CI verdict because GitHub Actions is billing-blocked. The other audited every caller still holding an old capped-org Anthropic key (read-only, fingerprints and free probes) and handed Zach the move list (#958).
-
-## Goal / true north
-Keep the paid surfaces honest on 2026-10-06: Anthropic spend on the one new key, Question Compass shipped clean with CI verdicts.
-
-## What changed
-- Compared key fingerprints (sha256 prefix, never values) against the new key and sent a 1-token probe (capped org answers "usage limit" for free).
-- On the new key: arcs-v9 `.env.local`, Vercel arcs-v9, GitHub arcs-v9 secret. Morning jobs task goes through the site, so also new.
-- On the old capped org (probed): `arcs-v9/.env` (scripts that load `.env` still spend there), `~/.hermes/.env`, `arcs-care-local/.env.local` + `~/.vercel/.env.preview.local`.
-- Old by date (set May 2026, not probed): Vercel arcs-care, arcs, arcs-decision-receipts; GitHub arcs-care secret.
-- None in scheduled tasks, `~/.arcs/jobs-pipeline.env`, or shell rc; no local n8n.
-- **#887:** receipt Y-gate verdict under True North, headings, AA contrast on the dashboard, 16px inputs (no iOS zoom), a wrapping dashboard heading,
-   server refusals skip the 15s receipt-recovery poll and the error is `role="alert"` under the button. Lint: `public/**` ignored, 64 JSX entities
-   escaped, hook-rule errors fixed in 5 files, `tests/unit` `any` removed, `sage_efficacy` and the PRL parser test moved to `.mjs`.
-   Rebased onto main twice (main kept moving; the pre-commit kintsugi gate blocks a local merge commit that carries main's resume HTML).
-- **#918:** True North statement is the `h1` in `AhmedOrder` (receipt and brief share it).
-- **Deploy:** production deployments of `68024c46` and `8ff408e7` are READY, aliased to `app.arcs.care`.
-
-## Current state
-- Anthropic: new key in arcs-v9 `.env.local`, Vercel arcs-v9, GitHub arcs-v9. Old capped org still in `arcs-v9/.env`, `~/.hermes/.env`, `arcs-care-local/.env.local`, Vercel arcs-care/arcs/arcs-decision-receipts, GitHub arcs-care secret.
-- Compass: `68024c46` and `8ff408e7` READY on app.arcs.care; local Playwright 302 passed; no CI verdict (Actions blocked).
-
-## Decisions made
-- Zach owns all key moves and revocations; tracker row `old-anthropic-account` is status decision, owner Zach.
-- #887 and #918 merged with `--merge` on Zach's yes.
-
-## Open decisions (waiting on Zach)
-1. Zach: move or delete the old-org keys above, then revoke the old keys in the old org console.
-
-## Open (other)
-1. question-compass and the stale `~/arcs` clone hold working keys that are not the new key; org unknown (check in console).
-2. Cloud n8n not checked; `~/.bash_history` holds 2 capped-org keys in plain text (harmless once revoked).
-3. GitHub Actions billing or spending limit is blocking runs again (human). No PR or main commit has a CI verdict until it is fixed.
-4. Receipt row for #918 needs the two corrections above if the table should match (a project-scoped Supabase connector worked for UPDATEs in an earlier session).
-5. Not done from the audit: sub-44px touch targets, sub-12px mono labels, 51 ESLint warnings.
-6. (Fixed 2026-10-06: ADR-026 and ADR-059 now cite `scripts/sage_efficacy.mjs`.)
-
-## Next action
-Zach: unblock GitHub Actions billing, then move or delete the old-org Anthropic keys and revoke them in the old org console.
-
-## Cold-start recipe
-- Tracker: https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm (rows `old-anthropic-account`).
-- Key check without exposure: memory `anthropic-key-three-homes-verify-without-exposing` (sha256 prefix compare; 1-token probe, capped org replies "usage limit").
-- Receipts: `2026-10-06--old-anthropic-key-caller-audit--ZH`, `2026-10-06--compass-ux-lint-cleanup-pr887--ZH`, `2026-10-06--receipt-h1-pr918--ZH`.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-### Notes: lead of 20261006T143343Z--claude-handoff-anthropic-key-audit.md
-> **Old Anthropic org key audit (read-only): 8 places still use the capped account; Zach moves and revokes.** Receipt
-> `2026-10-06--old-anthropic-key-caller-audit--ZH`. Docs Reconciliation row `old-anthropic-account` set to v3, status decision, owner Zach.
-
-### Notes: lead of 20261006T143350Z--claude-handoff-compass-lint.md
-### Shavasana — handoff pause, 2026-10-06 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-compass-lint), receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 1 unconfirmed markers in the day's records.
-- **Breath balance**: mirror (inhale, no exhale).
-- **Sycophancy check**: agreement 5 / dissent 2 (ratio 1.67) → OK: dissent present.
-- **Cold re-read (canary on the draft handoff-draft.md)**: GROUNDED; no ground return: none; thin air: none.
-
-
-- **Attachment release** (judgment): every claim re-read cold. The deploy and local-suite claims are measured (deployment IDs, run counts); the
-  receipt corrections are stated as stale-but-unwritten, not as fixed. Nothing downgraded.
-- **Somatic read**: not asked.
-- **Disposition**: release.
-
-> **Question Compass smoke test and audit shipped: UX fixes plus repo-wide ESLint 174 errors to 0 (#887, `68024c46`), then the receipt h1 (#918, `8ff408e7`).**
-> Both merged with `--merge` on Zach's yes. Receipts `2026-10-06--compass-ux-lint-cleanup-pr887--ZH` and `2026-10-06--receipt-h1-pr918--ZH`.
-
-### Notes: Lessons
-- `arcs-v9/.env` and `.env.local` held different keys: Next reads `.env.local` first, so the site looked fixed while scripts kept the old key.
-- A capped-org probe costs nothing and names the org; a fingerprint match only proves "same as new key".
-
-### Notes: Corrections to the receipts (the Supabase UPDATE was declined, so they live here)
-Receipt `2026-10-06--receipt-h1-pr918--ZH` still lists `fe-smoke` as pending and the deploy as unverified. Both are stale:
-- Deploy of `8ff408e7` is READY (dpl_Gwh3BNDHhRjZcwRcRjYAS9BAtQLw), `app.arcs.care/dashboard` returned 200.
-- `fe-smoke` never produced a CI verdict. The PR run hung 16+ minutes, main's runs on `8ff408e7` were cancelled by `cancel-in-progress`,
-  and later runs refused to start (GitHub Actions payment or spending-limit block).
-- The only evidence is local: the full Playwright suite on a production build of main `48c44214` (includes `8ff408e7`) ran 302 passed, 3 skipped, 0 failed.
-- Not confirmed: the live production receipt page `h1` was not viewed.
-
-### Notes: Lessons
-- A local production server needs `AUTH_TRUST_HOST=true` or `/api/auth/session` returns 500 and the smoke console-error tests fail for a reason that is not the code.
-- `npm run test:smoke` runs all of `tests/`, and one spec rewrites `_ARTIFACTS/atlas/atlas-almanac.html`; restore it before committing.
-
-> Molted from `_HANDOFFS/fragments/20261006T143343Z--claude-handoff-anthropic-key-audit.md` (branch `claude/handoff-anthropic-key-audit`, head `b04f43d5`); `_HANDOFFS/fragments/20261006T143350Z--claude-handoff-compass-lint.md` (branch `claude/handoff-compass-lint`, head `b04f43d5`).
