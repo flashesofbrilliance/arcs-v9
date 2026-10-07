@@ -56,6 +56,39 @@ frequency, a standing wave. It is a reading, not a target: a session can be perf
 still leave the human unconvinced, and that gap is the most useful line on the receipt. The books
 still record which direction each claim arrived by; the om is the felt state, not the bookkeeping.
 
+### Claim unit (v1 CANDIDATE, amends the confidence side only; proposed 2026-10-06)
+
+> **Status:** PROPOSED. A spec-table change, not a silent one: it changes what the confidence
+> number means, so it lands only on Zach's yes. Conviction, om_gap and everything above are unchanged.
+
+| | v0 (as first read, 2026-09-27) | v1 (proposed) |
+|---|---|---|
+| **Unit of a claim** | a markdown **section** (text between headings) | a **bullet or numbered item**, or a **sentence** of prose |
+| **Backed** | the section holds at least one ground return anywhere | the unit holds at least one ground return **itself** (ADR, sha, repo path, script name, URL, receipt id, memory link; the altitude canary's classes) |
+| **Denominator** | non-empty sections | non-empty claim units |
+| **Excluded** | fenced code | fenced code, headings, HTML comment blocks and front-matter (metadata, not claims) |
+| **Failure mode** | one sha makes a whole section "backed", so ten unbacked claims ride on it | none inherited: a claim stands on its own citation |
+
+Why: under v0 a section with one citation makes every sentence in it count as backed, so
+confidence can only be high or low by how the author chose to break up paragraphs. Measured on
+the 2026-10-06 handoff fragment `_HANDOFFS/fragments/20261006T183213Z--claude-docs-reconciliation-orchestration.md`:
+**section unit 8/9 = 0.89; claim unit 14/30 = 0.47.** Same text, so the difference is the
+unit alone. v1 reads closer to the ground; it will usually read lower, and the om gap with it.
+
+Consequences, stated so they are not discovered later:
+- **The series breaks at the change.** Readings before and after cannot be plotted on one line.
+  The zero point (2026-09-27, confidence 0.33 at section level, conviction null) stays recorded as
+  v0. Any new reading carries `claim_unit: section | bullet_or_sentence` so a reader never compares across units.
+- **Style pressure.** Authors may pad bullets with citations to raise the number. The counter is the
+  existing rule that a ground return must resolve (integrity gate), and that the receipt adds no new claim.
+- **Not a verdict.** The number is a reading, never a gate (NOTOMATION). A low v1 confidence on a
+  handoff means "many statements carry no pointer", which is often fine for context lines.
+
+Implementation note (not built here): the confidence function exists only on the closed branch
+`claude/zen-pasteur-85c635` (PR #598, CLOSED and conflicting); `scripts/shavasana_handoff.py` on
+main has no `confidence()`. Adopting v1 means re-landing that function with the unit as a parameter
+(default `bullet_or_sentence`), plus a self-test that the same text scores differently under the two units.
+
 ## Input / output contract (for the eventual `operators/arcs_shavasana.py`)
 
 ```
