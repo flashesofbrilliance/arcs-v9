@@ -298,7 +298,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
   const hudRead = useCallback((): HudRead => {
     const c = control.current
-    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => (t.kind === "hop" ? "↷ " : "") + (t.node ? UBY[t.node]?.label ?? t.node : "terrain")), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [] }
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => `${t.kind} · ${t.node ? UBY[t.node]?.label ?? t.node : "terrain"}`), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [] }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -905,12 +905,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       }
 
       // HUD: a frame, a heading, depth and clarity. Nothing that does not orient you.
-      {
+      // In full HUD the instrument panels carry all three, so the canvas draws only the frame.
+      if (!ctl.full) {
         const fi = clamp(Math.round(st.depth), 1, NF) - 1, F0 = FATHOMS[fi]
         ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"
         ctx.fillStyle = rgba("#94a3b8", 0.9)
         ctx.fillText(`F${F0.n} · ${F0.name.toUpperCase()}`, 20, 26)
-        ctx.fillStyle = rgba("#64748b", 0.9)
+        ctx.fillStyle = rgba(text.dimmed, 0.95)
         ctx.fillText(`${F0.altitude.toUpperCase()} · ${F0.resolution.toUpperCase()}`, 20, 37)
         // Depth gauge on the left, mirroring clarity on the right.
         const lx = 18, ly0 = Math.max(64, SH * 0.26), ly1 = SH - BAR_H - 26
@@ -919,7 +920,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         for (let i = 0; i < NF; i++) {
           const y = ly0 + (i / (NF - 1)) * (ly1 - ly0)
           ctx.beginPath(); ctx.moveTo(lx - 3, y); ctx.lineTo(lx + 3, y); ctx.stroke()
-          ctx.fillStyle = rgba(i === fi ? "#e2e8f0" : "#64748b", i === fi ? 1 : 0.8)
+          ctx.fillStyle = rgba(i === fi ? "#e2e8f0" : text.dimmed, i === fi ? 1 : 0.8)
           ctx.fillText(`F${i + 1}`, lx + 7, y + 3)
         }
         const my = ly0 + ((st.depth - 1) / (NF - 1)) * (ly1 - ly0)
@@ -927,11 +928,12 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         ctx.beginPath(); ctx.moveTo(lx - 7, my - 3.5); ctx.lineTo(lx - 2, my); ctx.lineTo(lx - 7, my + 3.5); ctx.closePath(); ctx.fill()
       }
 
-      const hud = rgba("#94a3b8", 0.85), dim = rgba("#64748b", 0.9)
+      const hud = rgba("#94a3b8", 0.85), dim = rgba(text.dimmed, 0.95)
       ctx.strokeStyle = rgba("#94a3b8", 0.4); ctx.lineWidth = 1
       ;[[10, 10, 1, 1], [SW - 10, 10, -1, 1], [SW - 10, SH - BAR_H - 8, -1, -1], [10, SH - BAR_H - 8, 1, -1]].forEach(([x, y, dx, dy]) => {
         ctx.beginPath(); ctx.moveTo(x, y + dy * 14); ctx.lineTo(x, y); ctx.lineTo(x + dx * 14, y); ctx.stroke()
       })
+      if (!ctl.full) {
       ctx.font = `600 9px ${font.mono}`
       ctx.textBaseline = "alphabetic"
       const hdg = ((-cam.yaw * 180) / Math.PI % 360 + 360) % 360
@@ -961,6 +963,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ctx.textAlign = "center"; ctx.fillStyle = dim; ctx.fillText("CLARITY", 0, 0); ctx.restore()
       ctx.textAlign = "right"; ctx.fillStyle = hud
       ctx.fillText(`${pad(clarity * 100, 2)}%`, SW - 12, gy1 + 13)
+      }
 
       if (now - st.hint < 1400) {
         ctx.textAlign = "center"; ctx.fillStyle = rgba("#e2e8f0", 0.9)
@@ -1026,7 +1029,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         />
       </div>
 
-      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} levels={LEVELS} onSteer={steer} onBack={backTo} onHop={hop} />}
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} onSteer={steer} onBack={backTo} onHop={hop} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div

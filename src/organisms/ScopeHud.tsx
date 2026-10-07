@@ -13,7 +13,7 @@ import universe from "@/data/universe-field.json"
 // terrace along bearing θ is STEP_W / max(|cos θ|, |sin θ|). The grade of an
 // approach is atan(rise / run). Straight up a face is steepest; the diagonal
 // ridgelines are the gentlest line. Slope bands follow avalanche practice:
-// under 30° holds, 30 to 45° is the slab band, over 45° is a wall.
+// under 30° is stable, 30 to 45° is the slab band, over 45° is a wall.
 
 type UNode = (typeof universe.nodes)[number]
 export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: { id: string; label: string; state: "open" | "blocked" | "obscured" }[] }
@@ -33,13 +33,13 @@ function safeBearings(stepH: number, stepW: number) {
   for (let b = 0; b < 360; b++) { const v = gradeAt(b, stepH, stepW); g.push(v); if (v < min) min = v }
   return { min, bearings: g.flatMap((v, b) => (v - min < 1e-6 ? [b] : [])) }
 }
-const band = (g: number) => (g < 30 ? { name: "HOLDS", color: signal.green } : g < 45 ? { name: "SLAB BAND", color: signal.gold } : { name: "WALL", color: signal.red })
+const band = (g: number) => (g < 30 ? { name: "STABLE", color: signal.green } : g < 45 ? { name: "SLAB BAND", color: signal.gold } : { name: "WALL", color: signal.red })
 
 const ink = "#9fb3c8"
 const faint = "rgba(159,179,200,0.28)"
 const panel: React.CSSProperties = {
   position: "absolute", background: "rgba(6,9,13,0.82)", border: "1px solid #1e293b", borderRadius: 4,
-  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45)", padding: "10px 12px 12px", pointerEvents: "none",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)", padding: "10px 12px 12px", pointerEvents: "none",
 }
 const label: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t2, textTransform: "uppercase", color: text.dimmed, whiteSpace: "nowrap" }
 const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, color: text.primary, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }
@@ -76,8 +76,11 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
   )
 }
 
-export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack, onHop }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; levels: number; onSteer: (deg: number) => void }) {
+export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
   const [r, setR] = useState<HudRead>(read)
+  const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
+  useEffect(() => { const on = () => setVw(window.innerWidth); window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
+  const narrow = vw < 760
   useEffect(() => {
     let raf = 0, last = 0
     const tick = (now: number) => { if (now - last > 66) { last = now; setR(read()) } raf = requestAnimationFrame(tick) }
@@ -93,10 +96,12 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
   const nearest = safe.bearings.reduce((a, x) => (Math.abs(delta(x)) < Math.abs(delta(a)) ? x : a), safe.bearings[0])
   const turn = delta(nearest)
   const vis = Math.round((1 - r.fog) * 100)
+  const visState = vis >= 70 ? { name: "Clear", color: signal.green } : vis >= 30 ? { name: "Thinning", color: signal.cyan } : { name: "Fog", color: text.dimmed }
   const deg3 = (x: number) => String(Math.round(norm(x)) % 360).padStart(3, "0")
 
   // Heading tape: ±60° window, tick every 5°, label every 15°, safe bearings marked.
-  const TW = 520, span = 60
+  // The tape takes the lane between the side columns, never more than 520px.
+  const TW = narrow ? vw - 32 : Math.max(280, Math.min(520, vw - 520)), span = 60
   const tx = (d: number) => TW / 2 + (delta(d) / span) * (TW / 2)
   const tape = []
   for (let d = Math.ceil((hdg - span) / 5) * 5; d <= hdg + span; d += 5) {
@@ -105,14 +110,19 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
     if (big) tape.push(<text key={"t" + d} x={x} y={22} fill={text.dimmed} fontSize="9" fontFamily={font.mono} textAnchor="middle">{deg3(d)}</text>)
   }
 
-  // Approach profile along the current bearing, edge to apex: rise vs run.
-  const PW = 196, PH = 64, runPer = stepW / Math.max(Math.abs(Math.cos(hdg / DEG)), Math.abs(Math.sin(hdg / DEG)))
-  const runMax = stepW * Math.SQRT2 * levels, sx = PW / runMax, sy = (PH - 8) / (stepH * levels * 1.2)
-  let prof = `M0 ${PH}`
-  for (let k = 0; k < levels; k++) prof += ` L${(k + 1) * runPer * sx} ${PH - (k + 1) * stepH * sy}`
 
   return (
     <div aria-hidden="true" style={{ position: "absolute", inset: 0, bottom: 38, pointerEvents: "none" }}>
+      {/* Phone: one readout strip carries slope, visibility and depth; the dials need room. */}
+      {narrow && (
+        <div style={{ ...panel, left: 16, right: 16, top: 16, display: "flex", justifyContent: "space-between", gap: 10, padding: "8px 12px" }}>
+          <Screws />
+          <span style={label}>Slope <span style={{ ...value, color: b.color }}>{grade.toFixed(0)}°</span></span>
+          <span style={label}>Vis <span style={{ ...value, color: visState.color }}>{vis}%</span></span>
+          <span style={label}>F{Math.round(r.depth)} <span style={value}>{fathoms[Math.max(0, Math.min(fathoms.length - 1, Math.round(r.depth) - 1))].altitude}</span></span>
+        </div>
+      )}
+      {!narrow && (<>
       {/* Slope: the grade of the line you are facing. */}
       <div style={{ ...panel, left: 16, top: 64 }}>
         <Screws />
@@ -124,7 +134,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
       {/* Visibility: how much of the field returns through the fog. */}
       <div style={{ ...panel, right: 16, top: 64 }}>
         <Screws />
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span style={label}>Visibility</span><span style={{ ...label, color: r.clear ? signal.green : signal.cyan }}>{r.clear ? "Clear" : "Fog"}</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span style={label}>Visibility</span><span style={{ ...label, color: visState.color }}>{visState.name}</span></div>
         <Dial min={0} max={100} v={vis} minor={5} major={25} unit="%" />
         <div style={{ ...value, textAlign: "center" }}>{vis}%</div>
       </div>
@@ -144,21 +154,12 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
         </div>
       </div>
 
-      {/* Approach profile: the climb on this bearing, terrace by terrace. */}
-      <div style={{ ...panel, right: 16, top: 250 }}>
-        <Screws />
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span style={label}>Approach profile</span><span style={label}>{deg3(hdg)}°</span></div>
-        <svg width={PW} height={PH + 4} viewBox={`0 -2 ${PW} ${PH + 4}`} style={{ display: "block", marginTop: 8 }}>
-          {[0.25, 0.5, 0.75].map((y) => <line key={y} x1={0} x2={PW} y1={PH * y} y2={PH * y} stroke={faint} strokeDasharray="2 4" />)}
-          <path d={prof} stroke={b.color} strokeWidth={1.5} fill="none" />
-        </svg>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 6 }}><span style={label}>Run / terrace</span><span style={value}>{(runPer * 1000).toFixed(0)} m</span></div>
-      </div>
+      </>)}
 
       {/* Heading tape with the safest bearings marked, and the steer cue. */}
-      <div style={{ position: "absolute", left: "50%", bottom: 18, transform: "translateX(-50%)", width: TW, pointerEvents: "auto" }}>
+      <div style={{ position: "absolute", left: "50%", bottom: 18, transform: "translateX(-50%)", width: TW + 24, padding: "8px 12px 6px", background: "rgba(6,9,13,0.82)", border: "1px solid #1e293b", borderRadius: 4, pointerEvents: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
-          <span style={label}>Safe approach {safe.bearings.map(deg3).join(" · ")} · {safe.min.toFixed(1)}°</span>
+          <span style={{ ...label, whiteSpace: "normal" }}>{narrow ? "Safe" : "Safe approach"} {safe.bearings.map(deg3).join(" · ")}{narrow ? "" : ` · ${safe.min.toFixed(1)}°`}</span>
           <button
             type="button"
             onClick={() => onSteer(nearest)}
@@ -177,12 +178,12 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
       </div>
 
       {/* The universe: eight dimensions from the snapshot, and the node you dove into. */}
-      {r.universe && (() => {
+      {r.universe && !narrow && (() => {
         const d = universe.dimensions
         const row = (k: string, v: string, c: string = text.primary) => (
           <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0", borderTop: `1px solid ${faint}` }}><span style={label}>{k}</span><span style={{ ...label, color: c }}>{v}</span></div>)
         return (
-          <div style={{ ...panel, right: 16, top: 400, width: 228 }}>
+          <div style={{ ...panel, right: 16, top: 250, width: 248, maxHeight: "calc(100% - 350px)", overflowY: "auto", overflowX: "hidden", pointerEvents: "auto" }}>
             <Screws />
             <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Universe</span><span style={label}>lattice {universe.lattice_reviewed}</span></div>
             {row("Corpus", `${d.corpus} files`)}
@@ -209,8 +210,8 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
 
       {/* Breadcrumbs: every vantage you dove from; click one to back-track there. */}
       {r.trail.length > 0 && (
-        <nav aria-label="Vantage trail" style={{ position: "absolute", left: "50%", top: 64, transform: "translateX(-50%)", display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", justifyContent: "center", maxWidth: 560, pointerEvents: "auto" }}>
-          {["Zero-point", ...r.trail].map((name, i) => {
+        <nav aria-label="Vantage trail" style={{ position: "absolute", left: narrow ? 16 : "50%", right: narrow ? 16 : undefined, top: narrow ? 72 : 64, transform: narrow ? undefined : "translateX(-50%)", display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", justifyContent: "center", maxWidth: narrow ? undefined : Math.max(280, vw - 560), pointerEvents: "auto" }}>
+          {["origin · Zero-point", ...r.trail].map((name, i) => {
             const here = i === r.trail.length
             return (
               <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
@@ -219,10 +220,10 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
                   type="button"
                   disabled={here}
                   onClick={() => onBack(i)}
-                  title={here ? "You are here" : `Back-track to Ø${i}`}
+                  title={here ? "You are here" : `Back-track to step ${i}`}
                   style={{ ...label, color: here ? signal.gold : text.secondary, background: "rgba(6,9,13,0.82)", border: `1px solid ${here ? signal.gold : "#1e293b"}`, borderRadius: 3, padding: "3px 7px", cursor: here ? "default" : "pointer" }}
                 >
-                  Ø{i} {name}
+                  {i} · {name}
                 </button>
               </span>
             )
@@ -232,7 +233,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
 
       {/* Holds: every node one edge away, and whether you can hop to it. */}
       {r.universe && r.holds.length > 0 && (
-        <div style={{ ...panel, left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)", overflowY: "auto", pointerEvents: "auto" }}>
+        <div style={{ ...panel, ...(narrow ? { left: 16, right: 16, bottom: 110, maxHeight: "32%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), overflowY: "auto", pointerEvents: "auto" }}>
           <Screws />
           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span><span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span></div>
           {r.holds.map((h) => (
@@ -254,7 +255,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer, onBack,
       {/* Status strip. */}
       <div style={{ position: "absolute", left: 16, right: 16, top: 16, display: "flex", justifyContent: "flex-end", gap: 16, pointerEvents: "none" }}>
         {r.origin && <span style={{ ...label, color: signal.gold }}>Nest {r.nest} · origin {r.origin.u.toFixed(3)}, {r.origin.v.toFixed(3)}</span>}
-        <span style={label}>Grade bands: &lt;30° holds · 30–45° slab · &gt;45° wall</span>
+        {!narrow && <span style={label}>Grade: under 30° stable · 30 to 45° slab · over 45° wall</span>}
       </div>
     </div>
   )
