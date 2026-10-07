@@ -6,7 +6,7 @@ import { Resend } from "resend"
 import { NextRequest, NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/db"
-import { CompassBody } from "@/lib/request-schemas"
+import { CompassBody, tributaryIndexFor } from "@/lib/request-schemas"
 import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
 import { satoshiGate, SATOSHI_RULE } from "@/lib/satoshi"
@@ -184,6 +184,7 @@ export async function POST(req: NextRequest) {
     prepId,
     prep: inlinePrepBody,
     parentReceiptId,
+    tributaryIndex,
     sessionId,
     clarityMode = "SIMPLE",
     provenance,
@@ -450,6 +451,11 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       userId: userId ?? null,
       prepId: prepRow?.id ?? null,
       parentId: parent?.id ?? null,
+      // Tributary follow-through: which of the parent's three prompts spawned
+      // this receipt (0 meta, 1 challenge, 2 adjacent). Dropped together with
+      // the parent, so an index never lands on a receipt whose lineage edge
+      // was refused above.
+      parentTributaryIndex: tributaryIndexFor(parent !== null, tributaryIndex),
       sessionId: resolvedSessionId,
       version: sessionVersion,
       // D

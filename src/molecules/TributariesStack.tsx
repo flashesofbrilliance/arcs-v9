@@ -9,7 +9,7 @@ import type { Tributary } from '@/lib/mockCompass'
 // Canonical: uses tribColor() from tokens (meta=cyan, challenge=red, adjacent=gold).
 export interface TributariesStackProps {
   tributaries: Tributary[]
-  onTributary?: (prompt: string) => void
+  onTributary?: (prompt: string, index: number) => void
 }
 
 export function TributariesStack({ tributaries, onTributary }: TributariesStackProps) {
@@ -18,7 +18,7 @@ export function TributariesStack({ tributaries, onTributary }: TributariesStackP
       <SectionLabel style={{ marginBottom: '0.6rem' }}>Tributaries · where to navigate next</SectionLabel>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         {tributaries.map((t, i) => (
-          <TributaryTile key={i} label={t.label} color={tribColor(t.type)} glyph={t.type === 'meta' ? '↳' : undefined} onClick={() => onTributary?.(t.prompt)}>{t.prompt}</TributaryTile>
+          <TributaryTile key={i} label={t.label} color={tribColor(t.type)} glyph={t.type === 'meta' ? '↳' : undefined} onClick={() => onTributary?.(t.prompt, i)}>{t.prompt}</TributaryTile>
         ))}
       </div>
     </div>

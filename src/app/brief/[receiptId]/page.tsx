@@ -78,9 +78,11 @@ export default function BriefPage() {
   // Follow a tributary → start a new compass round seeded by this tributary's
   // prompt, parented to this receipt (lineage edge) and kept in the same session
   // thread. The dashboard reads ?parent & ?sid and auto-runs the follow-up.
-  function followTributary(prompt: string) {
+  function followTributary(prompt: string, index: number) {
     track("brief_tributary_followed", { receiptId })
-    const params = new URLSearchParams({ q: prompt, parent: receiptId })
+    // ?tributary= names which of the three prompts was followed; the compass
+    // persists it as parentTributaryIndex on the child receipt.
+    const params = new URLSearchParams({ q: prompt, parent: receiptId, tributary: String(index) })
     router.push(`/dashboard?${params.toString()}`)
   }
 

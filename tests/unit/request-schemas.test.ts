@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { CompassBody, PrepBody, SaveBody, isThreadId } from '../../src/lib/request-schemas.ts'
+import { CompassBody, PrepBody, SaveBody, isThreadId, tributaryIndexFor } from '../../src/lib/request-schemas.ts'
 
 test('thread ids must be UUIDs', () => {
   assert.equal(isThreadId(crypto.randomUUID()), true)
@@ -51,4 +51,34 @@ test("CompassBody accepts owner provenance + resolveBy, rejects junk", async () 
   assert.equal(CompassBody.safeParse({ question: "q", provenance: "real", resolveBy: "2026-12-01" }).success, true)
   assert.equal(CompassBody.safeParse({ question: "q", provenance: "fake" }).success, false)
   assert.equal(CompassBody.safeParse({ question: "q", resolveBy: "next week" }).success, false)
+})
+
+test('compass: tributaryIndex accepts 0..2 and refuses every other shape', () => {
+  for (const i of [0, 1, 2]) {
+    const r = CompassBody.safeParse({ question: 'q', parentReceiptId: 'r0', tributaryIndex: i })
+    assert.ok(r.success, `tributaryIndex=${i}`)
+    assert.equal(r.data.tributaryIndex, i)
+  }
+  for (const bad of [3, -1, 1.5, '1', true, {}, [1]]) {
+    const r = CompassBody.safeParse({ question: 'q', parentReceiptId: 'r0', tributaryIndex: bad })
+    assert.equal(r.success, false, `tributaryIndex=${JSON.stringify(bad)} should be a 400`)
+  }
+})
+
+test('compass: tributaryIndex is optional and never defaults', () => {
+  const a = CompassBody.safeParse({ question: 'q', tributaryIndex: null })
+  assert.ok(a.success)
+  assert.equal(a.data.tributaryIndex, null)
+  const b = CompassBody.safeParse({ question: 'q' })
+  assert.ok(b.success)
+  assert.equal(b.data.tributaryIndex, undefined)
+})
+
+test('lineage: the tributary index lands only when the parent was accepted', () => {
+  assert.equal(tributaryIndexFor(true, 1), 1)
+  assert.equal(tributaryIndexFor(true, 0), 0)
+  assert.equal(tributaryIndexFor(true, null), null)
+  assert.equal(tributaryIndexFor(true, undefined), null)
+  // Parent dropped (missing, foreign, anonymous): the index goes with it.
+  assert.equal(tributaryIndexFor(false, 2), null)
 })

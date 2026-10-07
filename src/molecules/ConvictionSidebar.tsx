@@ -9,7 +9,7 @@ import type { CompassResult } from '@/lib/mockCompass'
 // ConvictionSidebar — Card (NCI readout; NCI is decision coherence, not conviction, per PRODUCT.md) + interactive TributariesStack.
 export interface ConvictionSidebarProps {
   result: CompassResult
-  onTributary?: (prompt: string) => void
+  onTributary?: (prompt: string, index: number) => void
 }
 
 export function ConvictionSidebar({ result, onTributary }: ConvictionSidebarProps) {

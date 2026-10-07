@@ -43,6 +43,9 @@ export async function GET() {
       children: {
         select: {
           id: true,
+          // Which of the parent's three tributaries spawned this round (0 meta,
+          // 1 challenge, 2 adjacent); null on rows written before it was recorded.
+          parentTributaryIndex: true,
           decision: true,
           trueNorth: true,
           nciScore: true,

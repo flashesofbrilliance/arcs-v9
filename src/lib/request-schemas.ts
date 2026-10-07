@@ -17,6 +17,12 @@ export const CompassBody = z.object({
   prepId: z.string().max(64).nullish(),
   prep: z.record(z.string(), z.unknown()).nullish(),
   parentReceiptId: z.string().max(64).nullish(),
+  // Which of the parent's three tributaries the question came from (0 meta,
+  // 1 challenge, 2 adjacent; AGENTS.md "DEWY pipeline"). Persisted as
+  // Receipt.parentTributaryIndex only when the parent itself is accepted (see
+  // tributaryIndexFor). A string "1" is refused: the dashboard parses the
+  // ?tributary= param before sending, so a number is the only honest shape.
+  tributaryIndex: z.number().int().min(0).max(2).nullish(),
   // No length cap: a bad id must reach resolveOwnedSessionId and be re-minted
   // (409 session_reassigned), never fail the whole parse with a 400.
   sessionId: z.string().nullish(),
@@ -25,6 +31,14 @@ export const CompassBody = z.object({
   provenance: z.enum(["real", "test"]).nullish(),
   resolveBy: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullish(),
 })
+
+// Lineage edge for the persisted receipt: the tributary index is meaningful
+// only on a receipt whose parent was accepted (owned by the caller). When the
+// parent is dropped (missing, foreign, or an anonymous run), the index is
+// dropped with it, so a bare index can never point at a parent that was refused.
+export function tributaryIndexFor(parentAccepted: boolean, index: number | null | undefined): number | null {
+  return parentAccepted && typeof index === "number" ? index : null
+}
 
 // POST /api/prep. Hand parsing let a non-string entity 500 on .trim().
 const optText = (max: number) => z.string().trim().max(max).nullish().transform((v) => v || null)

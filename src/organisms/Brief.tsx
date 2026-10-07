@@ -14,7 +14,7 @@ import type { CompassResult } from '@/lib/mockCompass'
 export interface BriefProps {
   result: CompassResult
   onBack?: () => void
-  onTributary?: (prompt: string) => void
+  onTributary?: (prompt: string, index: number) => void
   onNewQuestion?: () => void
   // Brief-writer situation framing (two paragraphs).
   situationFraming?: string

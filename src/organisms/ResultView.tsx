@@ -19,7 +19,7 @@ export interface ResultViewProps {
   result: CompassResult
   onReset?: () => void
   onBrief?: () => void
-  onTributary?: (prompt: string) => void
+  onTributary?: (prompt: string, index: number) => void
   onHistory?: () => void
 }
 
@@ -69,7 +69,7 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
             {result.tributaries.map((t, i) => (
               <button
                 key={i}
-                onClick={() => onTributary?.(t.prompt)}
+                onClick={() => onTributary?.(t.prompt, i)}
                 title={t.prompt}
                 style={{
                   flex: 1,
