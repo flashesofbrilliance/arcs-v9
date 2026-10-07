@@ -22,6 +22,19 @@
   machine that has it.
 
 
+## 2026-10-07 · surfaces.arcs.care (public/surfaces.html, generated): first cut blocked at 23 findings, repaired to 0 + 1 scoped exemption
+
+Found by: the pre-commit kintsugi gate on the page's first commit (a new file blocks on any finding).
+The page is rendered by `scripts/surface_catalog_emit.py`, so every repair lives in the emitter's CSS,
+not in the output.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Tracked-caps eyebrow chip above the h1, a gradient-text span in the h1, a zero-offset green glow on the eyebrow dot and a cyan glow on the input focus | detector (`hero-eyebrow-chip`, gradient text, `dark-glow`) | Eyebrow removed (the h1 carries the brand: "Every arcs.care surface, one map."); gradient replaced with solid cyan on the two words; glows removed, focus is the DESIGN.md 1px cyan outline | detector in pre-commit |
+| 2 | Fonts and sizes off DESIGN.md: the page set `font-family: var(--font-sans)` / `var(--font-mono)` from `_tokens.css` (InstrumentSans, GeistMono, BricolageGrotesque, Work Sans), plus 11 to 26px sizes and 8px radii | detector (`design-system-font`, `-font-size`, `-radius`) | Body Inter, labels and identifiers JetBrains Mono, title in the DESIGN.md serif display stack; sizes on the ramp (display clamp, 1.15rem, 0.925rem, 1.5rem); radii 3px / 6px / pill | detector in pre-commit |
+| 3 | The DESIGN.md label size (0.625rem = 10px) is UNDER the detector's own 11px functional-text floor: setting th / stat labels / badges to the ramp's label size produced 943 `undersized-ui-text` findings, while 11px and 12px are "off the ramp". The two rules cannot both be satisfied by any label size | detector, both rules at once | Labels set to the body size (0.925rem, mono, tracked caps for th and stat labels; badges in plain mono). The kit-wide question (teach the detector to distinguish mono instrument labels, or raise the ramp's label size) is already open in this ledger (2026-09-14 entries) and is not resolved here | ledger only; the contradiction is the guard's own seam |
+| 4 | `Overused font: Inter`, a slop-category warning on the very face DESIGN.md names as the body font | detector (`overused-font`) | Not repaired: Inter is the DESIGN.md body font. Scoped `ignore-value overused-font Inter` for `public/surfaces.html` only in `.impeccable/config.json`, same disposition as the existing two Inter exemptions | config exemption, scoped to this file |
+
 ## 2026-09-26 · Loop-Closing Wager slip + card: Ahmed order applied, 2 real fixes + 1 verified false positive
 
 Found by: applying the Ahmed feedback plan (verdict → 3 reasons → 3 Q&A → tasks → evidence behind

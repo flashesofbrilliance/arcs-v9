@@ -199,6 +199,9 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/scott-arcs-demo.html", has: [{ type: "host", value: "scott-arcs-demo.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/wing.html", has: [{ type: "host", value: "wing.arcs.care" }] },
+        // surfaces.arcs.care: the generated catalog of every host above (scripts/surface_catalog_emit.py;
+        // --check fails the build when a host here is missing from runtime/specs/surface-catalog.json).
+        { source: "/:path((?!fonts/).*)", destination: "/warroom/surfaces", has: [{ type: "host", value: "surfaces.arcs.care" }] },
       ]),
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
