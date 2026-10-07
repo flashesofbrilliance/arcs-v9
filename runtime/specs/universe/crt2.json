@@ -1,0 +1,40 @@
+{
+ "version": "0.1.0",
+ "id": "crt2",
+ "label": "Shared Court",
+ "parent": "universe",
+ "null_origin": "crt2",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.0,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 1.0
+  },
+  "frequency": {
+   "file_commits": 7,
+   "active_days": 3,
+   "last_change": "2026-07-13",
+   "last_28d": 3
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 2,
+  "codebase": 1,
+  "files": 4
+ },
+ "systems": {
+  "_CANON": 2,
+  "operators": 1,
+  "runtime": 1
+ },
+ "files": [
+  "_CANON/book-ii/part-iii-constitutional-court.md",
+  "_CANON/book-ii/part-vi-the-shared-court.md",
+  "operators/arcs_constitutional_court.py",
+  "runtime/recoil/generated/pilot-court-todd-hotes-2026-07-13.json"
+ ]
+}

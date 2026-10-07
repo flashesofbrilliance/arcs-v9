@@ -1,0 +1,36 @@
+{
+ "version": "0.1.0",
+ "id": "vce",
+ "label": "Vector Collision Engine",
+ "parent": "universe",
+ "null_origin": "vce",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.5,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.5
+  },
+  "frequency": {
+   "file_commits": 2,
+   "active_days": 1,
+   "last_change": "2026-06-16",
+   "last_28d": 2
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 0,
+  "files": 2
+ },
+ "systems": {
+  "runtime": 2
+ },
+ "files": [
+  "runtime/specs/ARCS-Vector-Collision-Engine-v1.md",
+  "runtime/specs/ARCS-Vector-Collision-Engine-v2-delta.md"
+ ]
+}

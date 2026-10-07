@@ -1,0 +1,36 @@
+{
+ "version": "0.1.0",
+ "id": "dsch",
+ "label": "dewy-receipt-schema-v1",
+ "parent": "universe",
+ "null_origin": "dsch",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.667,
+   "epi": 0.333,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 3,
+   "active_days": 2,
+   "last_change": "2026-07-19",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 0,
+  "files": 2
+ },
+ "systems": {
+  "runtime": 2
+ },
+ "files": [
+  "runtime/specs/dewy-receipt-schema-v1.json",
+  "runtime/specs/dewy-receipt-schema-v1.md"
+ ]
+}

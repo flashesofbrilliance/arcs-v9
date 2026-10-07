@@ -1,0 +1,35 @@
+{
+ "version": "0.1.0",
+ "id": "world",
+ "label": "WORLD.md",
+ "parent": "universe",
+ "null_origin": "world",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.2,
+   "epi": 0.3,
+   "met": 0.5,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 4,
+   "active_days": 4,
+   "last_change": "2026-09-08",
+   "last_28d": 2
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 1,
+  "codebase": 0,
+  "files": 1
+ },
+ "systems": {
+  "(root)": 1
+ },
+ "files": [
+  "WORLD.md"
+ ]
+}

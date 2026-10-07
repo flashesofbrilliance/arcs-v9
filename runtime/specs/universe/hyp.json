@@ -1,0 +1,44 @@
+{
+ "version": "0.1.0",
+ "id": "hyp",
+ "label": "Hyperstition",
+ "parent": "universe",
+ "null_origin": "hyp",
+ "signature": {
+  "altitude": "m",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.0,
+   "met": 0.25,
+   "ety": 0.25,
+   "lib": 0.5
+  },
+  "frequency": {
+   "file_commits": 9,
+   "active_days": 2,
+   "last_change": "2026-08-28",
+   "last_28d": 8
+  }
+ },
+ "dimensions": {
+  "corpus": 8,
+  "canon": 0,
+  "codebase": 1,
+  "files": 9
+ },
+ "systems": {
+  "_ARTIFACTS": 8,
+  "src": 1
+ },
+ "files": [
+  "_ARTIFACTS/vision-films-hyperstition/hyperstition-atlas.html",
+  "_ARTIFACTS/vision-films-hyperstition/transcripts/01-force-multiplier.txt",
+  "_ARTIFACTS/vision-films-hyperstition/transcripts/02-first-wave.txt",
+  "_ARTIFACTS/vision-films-hyperstition/transcripts/03-for-all-brains.txt",
+  "_ARTIFACTS/vision-films-hyperstition/transcripts/04-bicycle-for-the-mind.txt",
+  "_ARTIFACTS/vision-films-hyperstition/transcripts/05-os-for-clarity.txt",
+  "_ARTIFACTS/vision-films-hyperstition/transcripts/06-phase-locked.txt",
+  "_ARTIFACTS/vision-films-hyperstition/transcripts/07-decision-physics.txt",
+  "src/ui-kit/recoil-report/02-hyperstition-arc.html"
+ ]
+}

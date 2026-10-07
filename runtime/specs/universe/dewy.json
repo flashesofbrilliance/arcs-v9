@@ -1,0 +1,63 @@
+{
+ "version": "0.1.0",
+ "id": "dewy",
+ "label": "DEWY",
+ "parent": "universe",
+ "null_origin": "dewy",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.444,
+   "epi": 0.222,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.333
+  },
+  "frequency": {
+   "file_commits": 44,
+   "active_days": 24,
+   "last_change": "2026-10-04",
+   "last_28d": 8
+  }
+ },
+ "dimensions": {
+  "corpus": 13,
+  "canon": 1,
+  "codebase": 1,
+  "files": 24
+ },
+ "systems": {
+  "_STATE": 13,
+  "runtime": 7,
+  "_DECISIONS": 1,
+  "operators": 1,
+  "prisma": 1,
+  "tests": 1
+ },
+ "files": [
+  "_DECISIONS/ADR-010-arcs-dewy-pkg-rename.md",
+  "_STATE/2026-08-10-session-decisions.dewy.json",
+  "_STATE/2026-08-11-session-decisions.dewy.json",
+  "_STATE/2026-08-13-session-decisions.dewy.json",
+  "_STATE/2026-08-14-session-decisions.dewy.json",
+  "_STATE/2026-08-16-session-decisions.dewy.json",
+  "_STATE/2026-08-17-prl-1-1-session-decisions.dewy.json",
+  "_STATE/2026-08-26-session-decisions.dewy.json",
+  "_STATE/2026-08-28-session-decisions.dewy.json",
+  "_STATE/2026-08-29-session-decisions.dewy.json",
+  "_STATE/2026-09-01-session-decisions.dewy.json",
+  "_STATE/2026-09-02-believability-ledger.dewy.json",
+  "_STATE/2026-09-04-session-decisions.dewy.json",
+  "_STATE/2026-09-08-session-decisions.dewy.json",
+  "operators/arcs_dewy_log.py",
+  "prisma/migrations/20260410143234_dewy_v1/migration.sql",
+  "runtime/flows/question-compass-to-dewy.md",
+  "runtime/memory-export/bootstrap/macros/DEWY.md",
+  "runtime/memory-export/folksonomy/DEWY-index.md",
+  "runtime/memory-export/folksonomy/operator-20-dewy.md",
+  "runtime/recoil/generated/2026-08-01-brand-promise-dewy.json",
+  "runtime/specs/dewy-receipt-schema-v1.json",
+  "runtime/specs/dewy-receipt-schema-v1.md",
+  "tests/unit/dewy-schema.test.ts"
+ ]
+}

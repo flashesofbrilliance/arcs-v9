@@ -1,0 +1,47 @@
+{
+ "version": "0.1.0",
+ "id": "lat",
+ "label": "Goal Lattice (ADR-023)",
+ "parent": "universe",
+ "null_origin": "lat",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.375,
+   "met": 0.25,
+   "ety": 0.0,
+   "lib": 0.375
+  },
+  "frequency": {
+   "file_commits": 49,
+   "active_days": 25,
+   "last_change": "2026-10-06",
+   "last_28d": 14
+  }
+ },
+ "dimensions": {
+  "corpus": 1,
+  "canon": 1,
+  "codebase": 2,
+  "files": 8
+ },
+ "systems": {
+  "runtime": 2,
+  "scripts": 2,
+  "_ARTIFACTS": 1,
+  "_DECISIONS": 1,
+  "_INBOX": 1,
+  "public": 1
+ },
+ "files": [
+  "_ARTIFACTS/arcs-knowledge-lattice.html",
+  "_DECISIONS/ADR-023-observability-goal-lattice.md",
+  "_INBOX/lattice-drift.jsonl",
+  "public/pf-knowledge-lattice.html",
+  "runtime/specs/knowledge-lattice-v1.json",
+  "runtime/specs/lattice-pressure-rom.json",
+  "scripts/lattice_drift_check.py",
+  "scripts/lattice_sim.py"
+ ]
+}

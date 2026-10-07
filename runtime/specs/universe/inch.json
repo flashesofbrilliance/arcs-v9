@@ -1,0 +1,37 @@
+{
+ "version": "0.1.0",
+ "id": "inch",
+ "label": "Golden Inchworm",
+ "parent": "universe",
+ "null_origin": "inch",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.4,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.6
+  },
+  "frequency": {
+   "file_commits": 3,
+   "active_days": 3,
+   "last_change": "2026-09-26",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 1,
+  "codebase": 1,
+  "files": 2
+ },
+ "systems": {
+  "_DECISIONS": 1,
+  "operators": 1
+ },
+ "files": [
+  "_DECISIONS/ADR-052-inchworm-drift-auditor.md",
+  "operators/arcs_inchworm_echo.py"
+ ]
+}

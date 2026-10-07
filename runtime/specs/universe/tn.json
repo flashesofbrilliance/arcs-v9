@@ -1,0 +1,35 @@
+{
+ "version": "0.1.0",
+ "id": "tn",
+ "label": "True North",
+ "parent": "universe",
+ "null_origin": "tn",
+ "signature": {
+  "altitude": "m",
+  "resonance": {
+   "ont": 0.333,
+   "epi": 0.333,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.333
+  },
+  "frequency": {
+   "file_commits": 2,
+   "active_days": 2,
+   "last_change": "2026-07-19",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 1,
+  "files": 1
+ },
+ "systems": {
+  "src": 1
+ },
+ "files": [
+  "src/instrument/TrueNorthPanel.tsx"
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "version": "0.1.0",
+ "id": "canon",
+ "label": "ARCS-Canon v1.1 + v2.0",
+ "parent": "universe",
+ "null_origin": "canon",
+ "signature": {
+  "altitude": "l",
+  "resonance": {},
+  "frequency": {
+   "file_commits": 2,
+   "active_days": 1,
+   "last_change": "2026-06-16",
+   "last_28d": 2
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 2,
+  "codebase": 0,
+  "files": 2
+ },
+ "systems": {
+  "_CANON": 2
+ },
+ "files": [
+  "_CANON/ARCS-Canon-v1-1.md",
+  "_CANON/ARCS-Canon-v2-0-Complete.md"
+ ]
+}

@@ -1,0 +1,35 @@
+{
+ "version": "0.1.0",
+ "id": "pct",
+ "label": "Phase-Change Thesis 001",
+ "parent": "universe",
+ "null_origin": "pct",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.333,
+   "met": 0.667,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 1,
+   "active_days": 1,
+   "last_change": "2026-06-13",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 1,
+  "codebase": 0,
+  "files": 1
+ },
+ "systems": {
+  "_CANON": 1
+ },
+ "files": [
+  "_CANON/ARCS-PHASE-CHANGE-THESIS-001.md"
+ ]
+}
