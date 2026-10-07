@@ -16,7 +16,8 @@ import universe from "@/data/universe-field.json"
 // under 30° is stable, 30 to 45° is the slab band, over 45° is a wall.
 
 type UNode = (typeof universe.nodes)[number]
-export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: { id: string; label: string; state: "open" | "blocked" | "obscured" }[] }
+export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: Hold[]; bankUp: Hold | null; bankDown: Hold | null }
+type Hold = { id: string; label: string; state: "open" | "blocked" | "obscured" }
 type Fathom = { n: number; name: string; altitude: string; resolution: string }
 
 const DEG = 180 / Math.PI
@@ -76,7 +77,7 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
   )
 }
 
-export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
+export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
   const [r, setR] = useState<HudRead>(read)
   const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
   useEffect(() => { const on = () => setVw(window.innerWidth); window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
@@ -232,10 +233,23 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop }
       )}
 
       {/* Holds: every node one edge away, and whether you can hop to it. */}
-      {r.universe && r.holds.length > 0 && (
+      {r.universe && (r.holds.length > 0 || r.bankUp || r.bankDown) && (
         <div style={{ ...panel, ...(narrow ? { left: 16, right: 16, bottom: 110, maxHeight: "32%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), overflowY: "auto", pointerEvents: "auto" }}>
           <Screws />
           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span><span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span></div>
+          {([[1, r.bankUp], [-1, r.bankDown]] as const).map(([dir, b]) => b && (
+            <button
+              key={dir}
+              type="button"
+              disabled={b.state !== "open"}
+              onClick={() => onBank(dir)}
+              title={b.state === "open" ? `Bank ${dir > 0 ? "up" : "down"} one ring to ${b.label} (Shift ${dir > 0 ? "up" : "down"})` : `Bank ${b.state}`}
+              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: b.state === "open" ? "pointer" : "default", color: b.state === "open" ? text.primary : text.dimmed }}
+            >
+              <span><span style={{ color: dir > 0 ? signal.gold : signal.cyan }}>{dir > 0 ? "Bank up" : "Bank down"}</span> · {b.label}</span>
+              <span style={{ color: b.state === "open" ? signal.green : b.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{b.state}</span>
+            </button>
+          ))}
           {r.holds.map((h) => (
             <button
               key={h.id}

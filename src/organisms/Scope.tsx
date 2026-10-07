@@ -129,6 +129,22 @@ universe.edges.forEach(([a, b]) => { (ADJ[a] ||= []).push(b); (ADJ[b] ||= []).pu
 // A hold you can hop to from here: joined by a lattice edge. The lattice's own states decide it:
 // status "gate" blocks the hop; open shore questions under heavy fog (visibility < 50%) obscure it.
 export type HoldState = "open" | "blocked" | "obscured"
+// Banking: climb (+1) or descend (-1) one stratum. The target is the node in the next ring
+// whose bearing from the apex is closest to yours; the same blockers apply as for a hop.
+function bankTarget(from: string, dir: 1 | -1, fog: number, yaw: number) {
+  const f = UPOS[from], k = f.k + dir
+  const bear = from === universe.null_origin ? yaw : Math.atan2(f.v - SUMMIT.v, f.u - SUMMIT.u)
+  let best: string | null = null, bd = Infinity
+  for (const n of universe.nodes) {
+    const q = UPOS[n.id]; if (q.k !== k || n.id === from) continue
+    const a = Math.atan2(q.v - SUMMIT.v, q.u - SUMMIT.u), d = Math.abs(((a - bear + Math.PI * 3) % TAU) - Math.PI)
+    if (d < bd) { bd = d; best = n.id }
+  }
+  if (!best) return null
+  const n = UBY[best]
+  const state: HoldState = n.status === "gate" ? "blocked" : n.shore_open > 0 && fog > 0.5 ? "obscured" : "open"
+  return { id: best, label: n.label, state }
+}
 // Relative framing: the bounds of a vantage and its holds set the next view, so each hop
 // zooms into a new min/max box around the point you stand on.
 function frame(id: string) {
@@ -250,7 +266,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     universe: true,
     originNode: null as string | null,
     // Breadcrumbs: one static pin per dive, in the shared space, with the camera you left from.
-    trail: [] as { u: number; v: number; node: string | null; nest: number; kind: "dive" | "hop"; leave: Cam & { depth: number } }[],
+    trail: [] as { u: number; v: number; node: string | null; nest: number; kind: "dive" | "hop" | "bank"; leave: Cam & { depth: number } }[],
     leaving: null as (Cam & { depth: number }) | null,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
@@ -298,7 +314,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
   const hudRead = useCallback((): HudRead => {
     const c = control.current
-    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => `${t.kind} · ${t.node ? UBY[t.node]?.label ?? t.node : "terrain"}`), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [] }
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => `${t.kind} · ${t.node ? UBY[t.node]?.label ?? t.node : "terrain"}`), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [], bankUp: c.universe ? bankTarget(c.originNode ?? universe.null_origin, 1, c.fog, -(c.cam?.yaw ?? 0)) : null, bankDown: c.universe ? bankTarget(c.originNode ?? universe.null_origin, -1, c.fog, -(c.cam?.yaw ?? 0)) : null }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -327,18 +343,25 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   }, [])
 
   // Hop: a lateral move along one lattice edge to an open hold. Same nest; drops a pin.
-  const hop = useCallback((id: string) => {
+  const go = useCallback((id: string, kind: "hop" | "bank") => {
     const c = control.current
-    const from = c.originNode ?? universe.null_origin
-    const h = holds(from, c.fog).find((x) => x.id === id)
-    if (!h || h.state !== "open") return
     const q = UPOS[id]
-    c.trail.push({ u: q.u, v: q.v, node: id, nest: c.nest, kind: "hop", leave: { ...tgt.current, depth: c.depth } })
+    c.trail.push({ u: q.u, v: q.v, node: id, nest: c.nest, kind, leave: { ...tgt.current, depth: c.depth } })
     c.origin = { u: q.u, v: q.v }; c.originNode = id; c.entered = performance.now()
     tgt.current = { ...tgt.current, ...frame(id) }
     c.pausedUntil = performance.now() + 20000
     c.redraw()
   }, [])
+  const hop = useCallback((id: string) => {
+    const c = control.current
+    const h = holds(c.originNode ?? universe.null_origin, c.fog).find((x) => x.id === id)
+    if (h?.state === "open") go(id, "hop")
+  }, [go])
+  const bank = useCallback((dir: 1 | -1) => {
+    const c = control.current
+    const b = bankTarget(c.originNode ?? universe.null_origin, dir, c.fog, -(c.cam?.yaw ?? 0))
+    if (b?.state === "open") go(b.id, "bank")
+  }, [go])
 
   const focusOn = useCallback((id: string | null) => {
     const c = control.current
@@ -512,6 +535,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       if (ev.metaKey || ev.ctrlKey || ev.altKey) return
       const t = tgt.current
       let hit = true
+      if (ev.shiftKey && ctl.universe && (ev.key === "ArrowUp" || ev.key === "ArrowDown")) {
+        ev.preventDefault(); bank(ev.key === "ArrowUp" ? 1 : -1); return
+      }
       switch (ev.key) {
         case "ArrowLeft": t.yaw += 0.14; break
         case "ArrowRight": t.yaw -= 0.14; break
@@ -757,6 +783,20 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           ctx.beginPath(); ctx.moveTo(cs.x, cs.y); ctx.lineTo(hs.x, hs.y); ctx.stroke()
         }
         ctx.setLineDash([])
+        // Bank previews: a diagonal climbing (or descending) arc to the next ring.
+        if (cs) for (const dir of [1, -1] as const) {
+          const b = bankTarget(cur, dir, st.fog, -cam.yaw); if (!b) continue
+          const q = UPOS[b.id], arc: ({ x: number; y: number } | null)[] = []
+          for (let i = 0; i <= 16; i++) {
+            const tt = i / 16, u = cq.u + (q.u - cq.u) * tt, v = cq.v + (q.v - cq.v) * tt
+            const h = height(cq.u, cq.v) * (1 - tt) + height(q.u, q.v) * tt + 0.06 + Math.sin(tt * Math.PI) * 0.12
+            arc.push(proj(u, h, v))
+          }
+          ctx.lineWidth = 1.2; ctx.setLineDash(b.state === "open" ? [6, 3] : [2, 5])
+          ctx.strokeStyle = b.state === "open" ? rgba(dir > 0 ? signal.gold : signal.cyan, 0.75) : rgba(b.state === "blocked" ? signal.red : "#94a3b8", 0.5)
+          path(arc)
+        }
+        ctx.setLineDash([])
         const un = universe.nodes.map((n) => { const q = UPOS[n.id]; return { n, s: proj(q.u, height(q.u, q.v) + 0.06, q.v) } })
           .filter((o) => o.s).sort((a, b) => b.s!.d - a.s!.d)
         for (const { n, s: sp } of un) {
@@ -994,7 +1034,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       fig?.removeEventListener("keydown", onKey)
       canvas.removeEventListener("contextmenu", noMenu)
     }
-  }, [focusOn, setDepth, steer, backTo, hop])
+  }, [focusOn, setDepth, steer, backTo, hop, bank])
 
   const shown = WAYPOINTS.filter((w) => overlays.includes(w.id))
   const pickedW = picked && overlays.includes(picked) ? WAYPOINTS.find((w) => w.id === picked) : null
@@ -1029,7 +1069,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         />
       </div>
 
-      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} onSteer={steer} onBack={backTo} onHop={hop} />}
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div
@@ -1092,7 +1132,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it, dropping a pin · Click a green hold to hop along an edge · Backspace backs out one pin · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it, dropping a pin · Click a green hold to hop along an edge · Shift up or down banks a ring · Backspace backs out one pin · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>
