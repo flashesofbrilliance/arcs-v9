@@ -1,6 +1,6 @@
 {
 "version": "1.0.0",
-"epoch_source": "meta-audit v1.1.0 timeline (e1=2026-05-20 … e8=2026-07-10 · e9=2026-09-03 spot-check refresh)",
+"epoch_source": "meta-audit v1.1.0 timeline (e1=2026-05-20 … e8=2026-07-10 · e9=2026-09-03 spot-check refresh · e10=2026-10-06 targeted re-author of eng, kai, echo, lat, om)",
 "hardness_rule": "hardness(node) = count of DISTINCT domains among in-edge source nodes; diamond at >=4",
 "domains": {
 "ont": {
@@ -120,7 +120,7 @@
 "status": "true",
 "what": "Strip every layer: one person making better decisions on record. The om the infinite grows from.",
 "shore": [
-"Named in audit Fun House; not yet a canon term"
+"Named in audit Fun House; not yet a canon term · 2026-10-06: operationalized in runtime/specs/operator-25-shavasana-v0.md (CANDIDATE; claim-unit change proposed, #1054)"
 ]
 },
 {
@@ -246,7 +246,7 @@
 "st": "m",
 "dom": "met",
 "status": "true",
-"what": "The opportune moment. Many roads name it — Greek etymology, WORLD.md physics, Time ROM — but no code measures it. Named ≠ measured.",
+"what": "The opportune moment. Many roads name it — Greek etymology, WORLD.md physics, Time ROM — but no detection runs in the product. Named ≠ measured: operators/arcs_operator_kairos.py and ADR-081 (kairos detector) exist (2026-10-06).",
 "shore": [
 "No detection engine (disclosed as Roadmap in-product)",
 "v0 = breadcrumbs on receipts (audit move #05), not an engine"
@@ -412,10 +412,10 @@
 "label": "Orthogonal Echo Detector",
 "st": "o",
 "dom": "epi",
-"status": "true",
+"status": "gate",
 "what": "Surface cross-domain kinematic isomorphisms.",
 "shore": [
-"RC-OPS-001 gated behind an Observatory period — not ROM"
+"RC-OPS-001 gated behind an Observatory period — not ROM · 2026-10-06: embedding-backed signature built (#612), graduation criteria audited (#592), ruling pending; 0 real echoes under the shared-template control"
 ]
 },
 {
@@ -453,7 +453,7 @@
 "status": "gate",
 "what": "Observability as a superionic goal lattice over receipts — the physics this page visualizes.",
 "shore": [
-"Implementation gated at 100 receipts; goal_edges overlay schema is a future ADR"
+"Implementation gated at 100 receipts; goal_edges overlay schema is a future ADR · 2026-10-06: about 267 receipts (10 external), so the 100 gate is met on total count but not external count; Zach to decide which counts"
 ]
 },
 {
@@ -524,9 +524,9 @@
 "st": "o",
 "dom": "epi",
 "status": "shore",
-"what": "Two implementations of one physics; only the prompt ships. /svc/sage mounted, zero callers.",
+"what": "Two implementations of one physics; the prompt ships. As of 2026-10-06 compass calls /api/sage-score as an advisory pre-screen (fired on 65 of 91 receipts since 2026-06-21), but the signal is derived from stakes and horizon, not the question text, and operators do not drive the Y-gate.",
 "shore": [
-"No eval harness — audit move #04 is the gate",
+"Eval harness exists (scripts/sage_efficacy.mjs) but is gated at 20 outcomes per cohort; external closes are 0, so there is no efficacy result yet",
 "Wiring before benchmark is forbidden by this map"
 ]
 },
@@ -1432,6 +1432,6 @@
 },
 "last_drift_check": "2026-10-06T14:12:06",
 "_note": "Countables auto-refreshed by lattice_drift_check; node statuses/edges/prose remain human-authored (NOTOMATION). Re-author the judgment layer manually.",
-"last_reviewed": "2026-09-03",
+"last_reviewed": "2026-10-06",
 "_review_note": "e9 (2026-09-03) is a TARGETED spot-check, not a full meta-audit: countables (69 ADRs) auto-refreshed and verified; representative node statuses confirmed vs repo (trib3 impl, echo detector script, gated Observatory/Kairos still gated, serializability epoch). A full 81-node status re-derivation still requires a /meta-audit epoch."
 }
