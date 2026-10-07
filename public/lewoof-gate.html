@@ -22,6 +22,7 @@
   #msg.err { color: var(--err); }
   #msg.ok { color: var(--accent); }
 </style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -37,15 +38,19 @@
 </main>
 <script>
 (function () {
+  function track(n) { try { window.va('event', { name: n }); } catch (e) {} }
+  track('lewoof_gate_view');
   var f = document.getElementById('f'), m = document.getElementById('msg');
   f.addEventListener('submit', function (e) {
     e.preventDefault();
     var code = document.getElementById('code').value.trim();
     if (!code) return;
+    track('lewoof_gate_attempt');
     m.className = ''; m.textContent = 'Checking...';
     fetch('/api/recruithaus/unlock', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ passcode: code }) })
       .then(function (r) {
-        if (r.ok) { m.className = 'ok'; m.textContent = 'Unlocked. Opening...'; window.location.href = '/'; return; }
+        if (r.ok) { track('lewoof_gate_unlock_ok'); m.className = 'ok'; m.textContent = 'Unlocked. Opening...'; window.location.href = '/'; return; }
+        track('lewoof_gate_unlock_fail');
         m.className = 'err';
         m.textContent = r.status === 503 ? 'The gate is not configured yet. Please tell Zach.' : 'That passcode did not match. Try again.';
       })
