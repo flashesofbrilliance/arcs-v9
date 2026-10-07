@@ -9,6 +9,7 @@ import { prisma } from "@/lib/db"
 import { CompassBody } from "@/lib/request-schemas"
 import { resolveOwnedSessionId } from "@/lib/session-owner"
 import { computeYGate } from "@/lib/ygate"
+import { satoshiGate, SATOSHI_RULE } from "@/lib/satoshi"
 import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/lib/horizon"
 import { auth } from "@/lib/auth"
 import { reportModelError, modelErrorBody } from "@/lib/model-error"
@@ -76,7 +77,7 @@ RULES:
 - nci_by_lens: decompose nci_score into 5 lenses, each 0–20 - clarity (is the question well-formed/atomic?), conviction (how strong/directional is the signal?), coherence (do the stated reasons cohere?), consequence (are downstream effects understood?), cadence (is the timing right - not too early/late?). They should track nci_score (their sum ≈ nci_score) and expose WHICH lens is weakest. Do not force an exact arithmetic sum at the cost of an honest per-lens read.
 - nci_grade: one short human-readable grade naming the weak lens, e.g. "B+ - Conviction is the weak lens."
 - coherence_pct: how well-formed and answerable the question is.
-- is_satoshi: true only for rare, category-defining moves.
+- ${SATOSHI_RULE}
 - macro_tags: 1–3 from: BAR, KKL, LAB, FATED, KAIROS, CHRONOS, ONE_WAY, TWO_WAY, NOTOMATION.
 - reasoning.court: 2–4 checks. verdict field: "PASS" | "TENSION" | "BLOCK".
 - reasoning.nci_breakdown: drags sum to ~(100-nci_score), anchors sum to ~nci_score. pct = fraction of 100.
@@ -413,6 +414,16 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     }
     const info = reportModelError("compass", err)
     return NextResponse.json(modelErrorBody(info), { status: info.code === "rate_limited" ? 429 : 503 })
+  }
+
+  // Satoshi base-rate guard (src/lib/satoshi.ts): the flag survives only at HIGH
+  // stakes with nci_score >= 70. Gated here, before the Y gate, the receipt row and
+  // the response, so the client, a share link and a later EPHEMERAL_SAVE all carry
+  // the same value. The log line carries no decision text.
+  const satoshiClaimed = parsed.is_satoshi === true
+  parsed.is_satoshi = satoshiGate({ claimed: parsed.is_satoshi, nciScore: parsed.nci_score, stakes: activeStakes })
+  if (satoshiClaimed && !parsed.is_satoshi) {
+    console.log(`[SATOSHI] cleared: mode=${mode} stakes=${activeStakes} nci=${typeof parsed.nci_score === "number" ? parsed.nci_score : "n/a"}`)
   }
 
   // Compute Y gate
