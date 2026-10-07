@@ -19,7 +19,7 @@ SOURCES (parsed, never hand-listed):
   the destination  <title>, <meta name="description">, <meta name="robots">, first <h1> as the
                    title fallback; git for the file's last commit date
 
-EMITS  runtime/specs/surface-catalog.json (one row per host+path) and public/surfaces.html, a
+EMITS  runtime/specs/surface-catalog.json (one row per host+path) and runtime/warroom/surfaces.html, a
        self-contained page rendered from that JSON (inline _tokens.css verbatim, sentinel kept).
        Deterministic: no wall clock in the output; run twice, diff clean.
 
@@ -33,7 +33,7 @@ CHECK  python3 scripts/surface_catalog_emit.py --check   exits 1 when
            list, or header-only list),
        (b) the committed catalog differs from a fresh harvest on any field except last_commit
            (dates move with every page edit; they are refreshed by a full emit, not gated), or
-       (c) public/surfaces.html is not the render of the committed JSON.
+       (c) runtime/warroom/surfaces.html is not the render of the committed JSON.
        CI checkouts can be shallow, so --check never calls git.
 
   python3 scripts/surface_catalog_emit.py              # emit JSON + HTML
@@ -57,7 +57,7 @@ PROXY = os.path.join(ROOT, "src", "proxy.ts")
 APP_DIR = os.path.join(ROOT, "src", "app")
 TOKENS = os.path.join(ROOT, "src", "ui-kit", "recoil-report", "_tokens.css")
 OUT_JSON = os.path.join(ROOT, "runtime", "specs", "surface-catalog.json")
-OUT_HTML = os.path.join(ROOT, "public", "surfaces.html")
+OUT_HTML = os.path.join(ROOT, "runtime", "warroom", "surfaces.html")
 CATALOG_HOST = "surfaces.arcs.care"
 APP_HOST = "app.arcs.care"
 DOMAIN = ".arcs.care"
@@ -885,7 +885,7 @@ def main():
             print("✖ surface-catalog --check: %d problem(s)" % len(problems))
             for p in problems:
                 print("    " + p)
-            print("  fix: python3 scripts/surface_catalog_emit.py  (then stage runtime/specs/surface-catalog.json + public/surfaces.html)")
+            print("  fix: python3 scripts/surface_catalog_emit.py  (then stage runtime/specs/surface-catalog.json + runtime/warroom/surfaces.html)")
             return 1
         print("✓ surface-catalog: every next.config.ts host is catalogued; JSON and page are current")
         return 0

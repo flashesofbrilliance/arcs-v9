@@ -12,8 +12,8 @@
    "explorer": 13,
    "status": 11,
    "ledger": 3,
-   "product page": 219,
-   "gated": 40
+   "product page": 218,
+   "gated": 41
   },
   "next_config_hosts": 79,
   "proxy_hosts": 24,
@@ -34,7 +34,6 @@
   "mercury.arcs.care",
   "scott-cut.arcs.care",
   "sentilink.arcs.care",
-  "surfaces.arcs.care",
   "wing.arcs.care"
  ],
  "broken_destinations": [
@@ -5380,10 +5379,10 @@
    "path": "/",
    "catch_all": true,
    "source": "/:path((?!fonts/).*)",
-   "destination": "/surfaces.html",
+   "destination": "/warroom/surfaces",
    "pattern": false,
-   "file": "public/surfaces.html",
-   "gate": null,
+   "file": "runtime/warroom/surfaces.html",
+   "gate": "admin session",
    "gate_file": null,
    "declared_in": [
     "next.config.ts"
@@ -5393,8 +5392,8 @@
    "index": "noindex, nofollow",
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
-   "kind": "product page",
-   "last_commit": "2026-10-07"
+   "kind": "gated",
+   "last_commit": null
   },
   {
    "host": "thetrueai.arcs.care",
