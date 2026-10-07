@@ -1,0 +1,145 @@
+{
+ "version": "0.1.0",
+ "note": "Lattice node id -> path patterns (fnmatch, case-insensitive) for scripts/universe_snapshot_emit.py. Explicit rules only: a file no rule claims is fog, never guessed onto a node. Grow this map by hand; each rule should name files that ARE the node, not files that mention it.",
+ "rules": {
+  "world": [
+   "WORLD.md"
+  ],
+  "canon": [
+   "_CANON/ARCS-Canon-*"
+  ],
+  "lite": [
+   "_CANON/ARCS-Litepaper*"
+  ],
+  "mani": [
+   "_CANON/ARCS-Manifesto*"
+  ],
+  "phen": [
+   "_CANON/ARCS-Phenomenology*"
+  ],
+  "yell": [
+   "_CANON/ARCS-YellowPaper*"
+  ],
+  "pct": [
+   "_CANON/ARCS-PHASE-CHANGE*"
+  ],
+  "adrs": [
+   "_DECISIONS/ADR-*"
+  ],
+  "glos": [
+   "*glossary*"
+  ],
+  "dsch": [
+   "*dewy-receipt-schema*"
+  ],
+  "lrom": [
+   "runtime/specs/lattice-pressure-rom*"
+  ],
+  "trom": [
+   "*time-quality*rom*"
+  ],
+  "oprd": [
+   "*orient-prd*"
+  ],
+  "trust": [
+   "*trust-contract*"
+  ],
+  "audit": [
+   "*meta-audit*",
+   "runtime/specs/surface-catalog*",
+   "scripts/surface_catalog_emit.py"
+  ],
+  "codex": [
+   "*codex-v8*",
+   "*codex_v8*",
+   "*codex v8*"
+  ],
+  "ygate": [
+   "src/lib/ygate*"
+  ],
+  "rec": [
+   "src/app/api/receipts/*",
+   "src/app/receipt/*"
+  ],
+  "dewy": [
+   "*dewy*"
+  ],
+  "recoil": [
+   "*recoil*"
+  ],
+  "echo": [
+   "*orthogonal*echo*",
+   "operators/arcs_echo*",
+   "scripts/echo_*"
+  ],
+  "kai": [
+   "*kairos*"
+  ],
+  "folk": [
+   "*folksonom*"
+  ],
+  "zipf": [
+   "*zipf*"
+  ],
+  "inch": [
+   "*inchworm*"
+  ],
+  "noto": [
+   "*notomation*"
+  ],
+  "gaunt": [
+   "*gauntlet*"
+  ],
+  "sent": [
+   "*drift*sentinel*",
+   "*drift_sentinel*"
+  ],
+  "drift": [
+   "*drift*"
+  ],
+  "atg": [
+   "*/atg*",
+   "*_atg*",
+   "*-atg*"
+  ],
+  "lat": [
+   "*lattice*"
+  ],
+  "hyp": [
+   "*hyperstition*"
+  ],
+  "sup": [
+   "*superionic*"
+  ],
+  "rend": [
+   "*render*scale*"
+  ],
+  "nci": [
+   "*nci_*",
+   "*nci-*",
+   "*/nci.*",
+   "*nci_score*"
+  ],
+  "tn": [
+   "*true*north*"
+  ],
+  "law": [
+   "operators/arcs_primitives*"
+  ],
+  "crt2": [
+   "*court*"
+  ],
+  "vce": [
+   "*vector*collision*"
+  ],
+  "kin": [
+   "*kinematic*"
+  ],
+  "zp": [
+   "*zero*point*"
+  ],
+  "om": [
+   "*null*origin*"
+  ]
+ }
+}
