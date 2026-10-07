@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-10-07T13:38:38-04:00",
+  "captured_at": "2026-10-07T13:47:47-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
     "head_sha": "c5327f9a",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Satoshi inflation audited (34/267, all in PLAN/MEDIUM/TWO_WAY on the fast model) and gated server-side with a prompt base-rate anchor and 9 unit tests; #1066 merged with --merge, two receipts logged.",
-  "next_action": "After 50 post-merge receipts, re-run the satoshi audit aggregates and score the EX-ANTE (rate under 1 in 50); Zach owns the Anthropic credit top-up and the ROM-vs-compass satoshi definition.",
+  "session_summary": "Tributary follow-through confirmed live (child cmuyef7t2000004jm3o58nh26 has parentTributaryIndex=1, badge renders); receipt updated; memory consolidated; fenced-rawResponse read bug chipped (task_d2d810c5).",
+  "next_action": "Start chip task_d2d810c5 (atgTributaries-first read path), then the 5 evening-round decision rows.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
