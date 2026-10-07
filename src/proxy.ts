@@ -21,7 +21,7 @@ const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
   'autopilot': { ammoFile: '/autopilot-ammo.html', gateFile: '/autopilot-gate.html' },
   // vico intentionally un-gated (2026-09-23): its /ammo "deeper case" is now
   // open, routed by the ungated MULTI_PATH_MAP['vico'] entry below. vico-gate.html
-  // is left in public/ but is no longer referenced by any route.
+  // was deleted from public/ on 2026-10-07 (unrouted public-file audit).
 }
 
 // Hosts with more than one static destination (a reserved sub-path plus a
