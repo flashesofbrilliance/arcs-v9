@@ -225,6 +225,8 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 /* CADENCE CHART */
 .dg { display: none; font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; color: var(--gold); border: 1px solid rgba(255,215,0,0.35); border-radius: 3px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; text-transform: uppercase; }
 .dg.on { display: inline-block; }
+/* State-of-union badge sits on its own line above the stamp, whose -8px top margin tucks it under the legend; inline it overlapped the stamp text. */
+#dg-su.on { display: block; width: fit-content; margin: 8px 0 12px; }
 .gate-n { display: block; margin-top: 6px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
 .gate-n b { color: var(--text); font-weight: 600; }
 .cadence { display: flex; align-items: flex-end; gap: 4px; height: 88px; margin-top: 14px; padding: 0 2px; }
