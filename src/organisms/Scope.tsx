@@ -195,6 +195,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     fog: 1,
     // Option-scroll sets visibility by hand; null follows engagement.
     fogOverride: null as number | null,
+    // Macro zoom: double-click dives seven fathoms into a point, which becomes a
+    // new null origin (Ø) and the ladder starts again from its vantage. Infinite.
+    nest: 0,
+    origin: null as { u: number; v: number } | null,
+    dive: null as { t0: number; u: number; v: number } | null,
+    entered: 0,
+    pick: (() => null) as (x: number, y: number) => { u: number; v: number } | null,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -241,7 +248,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
   const hudRead = useCallback((): HudRead => {
     const c = control.current
-    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear }
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -403,7 +410,16 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       else { st.hint = performance.now(); return }
       if (reduced) draw(performance.now())
     }
-    const onDbl = () => { ctl.fogOverride = null; focusOn(null); setDepth(HOME_DEPTH) }
+    const onDbl = (ev: MouseEvent) => {
+      const p = local(ev)
+      const hit = ctl.pick(p.x, p.y)
+      if (!hit || ctl.dive) return
+      touch()
+      ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v }
+      tgt.current = { ...tgt.current, pu: hit.u, pv: hit.v }
+      ctl.pausedUntil = performance.now() + 60000
+      setDepth(NF)
+    }
     const onKey = (ev: KeyboardEvent) => {
       // Keys work from anywhere in the figure (the drawer covers the map), never from a text field.
       const tgtEl = ev.target as HTMLElement
@@ -422,8 +438,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
         case "f": case "F": setFull((f) => !f); break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
-        case "Escape": if (ctl.full) { setFull(false); break } focusOn(null); setDepth(HOME_DEPTH); break
-        case "0": ctl.fogOverride = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -471,6 +487,21 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         const d = D + zc
         if (d < 0.25) return null
         return { x: CX + (F * x1) / d, y: CY - (F * yc) / d, d }
+      }
+      ctl.pick = (x, y) => {
+        let best: Pt | null = null, bd = 28 * 28
+        for (const q of cloud) { const s2 = proj(q.u, q.h, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bd) { bd = dd; best = q } }
+        return best ? { u: best.u, v: best.v } : null
+      }
+      // Re-entry: the dive has reached the grain, so the point becomes the new origin
+      // and the camera re-enters at F1 of the next nest, inheriting that vantage.
+      if (ctl.dive && now - ctl.dive.t0 > 1400) {
+        const d = ctl.dive
+        ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.entered = now
+        ctl.depth = 1; st.depth = 1
+        const k = { pitch: atDepth(1, "pitch"), dist: atDepth(1, "dist"), zoom: atDepth(1, "zoom"), pu: d.u, pv: d.v }
+        Object.assign(cam, k); Object.assign(tgt.current, k)
+        setDepth(1)
       }
       const path = (pts: ({ x: number; y: number } | null)[]) => {
         ctx.beginPath()
@@ -637,6 +668,24 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           ctx.fillText(w.note, tx, top.y + 10)
           ctx.font = `600 9px ${font.mono}`
         }
+      }
+
+      // The null origin of the current nest: a hollow ring and Ø with its depth.
+      if (ctl.origin) {
+        const o = ctl.origin, ob = proj(o.u, height(o.u, o.v), o.v)
+        if (ob) {
+          const age = (now - ctl.entered) / 1000
+          ctx.strokeStyle = rgba(signal.gold, 0.9); ctx.lineWidth = 1.2
+          ctx.beginPath(); ctx.arc(ob.x, ob.y, 7, 0, TAU); ctx.stroke()
+          ctx.beginPath(); ctx.moveTo(ob.x - 5, ob.y + 5); ctx.lineTo(ob.x + 5, ob.y - 5); ctx.stroke()
+          if (age < 1.6) { ctx.strokeStyle = rgba(signal.gold, 0.6 * (1 - age / 1.6)); ctx.beginPath(); ctx.arc(ob.x, ob.y, 7 + age * 140, 0, TAU); ctx.stroke() }
+          ctx.font = `600 9px ${font.mono}`; ctx.textAlign = "left"; ctx.fillStyle = rgba(signal.gold, 0.95)
+          ctx.fillText(`Ø${ctl.nest} · NULL ORIGIN`, ob.x + 11, ob.y + 3)
+        }
+      }
+      // Re-entry flash: the grain opens into a new field.
+      if (ctl.entered && now - ctl.entered < 500) {
+        ctx.fillStyle = rgba("#e2e8f0", 0.22 * (1 - (now - ctl.entered) / 500)); ctx.fillRect(0, 0, SW, SH)
       }
 
       // You: the navigator. Climbs the terraces to the apex once the row exists.
@@ -869,7 +918,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · Double click or 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · Double click a point to dive seven fathoms into it · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>

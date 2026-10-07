@@ -14,7 +14,7 @@ import { text, signal, font } from "@/ui/tokens"
 // ridgelines are the gentlest line. Slope bands follow avalanche practice:
 // under 30° holds, 30 to 45° is the slab band, over 45° is a wall.
 
-export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean }
+export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null }
 type Fathom = { n: number; name: string; altitude: string; resolution: string }
 
 const DEG = 180 / Math.PI
@@ -130,7 +130,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
       {/* Altimeter: the seven fathoms, continuous needle. */}
       <div style={{ ...panel, left: 16, top: 250, width: 192 }}>
         <Screws />
-        <div style={label}>Altimeter</div>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}><span style={label}>Altimeter</span><span style={{ ...label, color: r.nest ? signal.gold : text.dimmed }}>Ø{r.nest}{r.nest ? ` · ×1e-${9 * r.nest}` : ""}</span></div>
         <div style={{ position: "relative", marginTop: 8 }}>
           {fathoms.map((x) => (
             <div key={x.n} style={{ display: "flex", justifyContent: "space-between", gap: 8, padding: "3px 0 3px 14px", borderTop: `1px solid ${faint}` }}>
@@ -176,6 +176,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
 
       {/* Status strip. */}
       <div style={{ position: "absolute", left: 16, right: 16, top: 16, display: "flex", justifyContent: "flex-end", gap: 16, pointerEvents: "none" }}>
+        {r.origin && <span style={{ ...label, color: signal.gold }}>Nest {r.nest} · origin {r.origin.u.toFixed(3)}, {r.origin.v.toFixed(3)}</span>}
         <span style={label}>Grade bands: &lt;30° holds · 30–45° slab · &gt;45° wall</span>
       </div>
     </div>
