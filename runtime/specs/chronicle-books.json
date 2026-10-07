@@ -6,41 +6,53 @@
   "day_zero": "471d5739",
   "notes": [
     "Source of truth for the Chronicle (Reading Room tenant #3). Rendered by scripts/chronicle_render.py into _ARTIFACTS/atlas/chronicle.html.",
-    "Prose is authored here. Every count (fathom 4) and the mechanical half of each Shavasana are COMPUTED from git and the falsification ledger at render time, never typed.",
+    "Prose is authored here. Every count (fathom 5, Tactical), all of fathom 1 (Exosphere) and fathom 7 (Microscopic) and the mechanical half of each Shavasana are COMPUTED from git and the falsification ledger at render time, never typed.",
     "Epigraph text is read from _CANON/tao-proverbs.jsonl by id (canon per _DECISIONS/CANON-COLLISION-tao-two-books.md, Option A); this file stores only the id.",
     "Ranges: a book holds the commits in (open, close]; Genesis also holds the root commit. Boundaries approved by Zach 2026-09-29 (original ranges, Day 0 = 471d5739). Leviticus/Numbers and Numbers/Deuteronomy are calendar cuts pinned to the first first-parent commit on the date, not event cuts.",
-    "Fathoms are a descent in resolution (Zach 2026-09-29): 30,000 ft at 8-bit down to ground truth at 8K. Render treatment follows the WORLD.md render scale, grain at altitude, sharp at the ground."
+    "Fathoms are a descent in resolution (Zach 2026-09-29): 30,000 ft at 8-bit down to ground truth at 8K. Render treatment follows the WORLD.md render scale, grain at altitude, sharp at the ground. Extended to seven fathoms (Zach 2026-10-07): 1 Exosphere (600 km, orbital, the book as one computed point) above Executive, and 7 Microscopic (1 mm, grain, every commit hash in the range, by day) below Surgical. Both new fathoms are computed only; no prose is authored for them."
   ],
   "fathoms": [
     {
       "n": 1,
+      "name": "Exosphere",
+      "altitude": "600 km",
+      "resolution": "orbital"
+    },
+    {
+      "n": 2,
       "name": "Executive",
       "altitude": "30,000 ft",
       "resolution": "8-bit"
     },
     {
-      "n": 2,
+      "n": 3,
       "name": "Strategic",
       "altitude": "10,000 ft",
       "resolution": "480p"
     },
     {
-      "n": 3,
+      "n": 4,
       "name": "Operational",
       "altitude": "1,000 ft",
       "resolution": "1080p"
     },
     {
-      "n": 4,
+      "n": 5,
       "name": "Tactical",
       "altitude": "100 ft",
       "resolution": "4K"
     },
     {
-      "n": 5,
+      "n": 6,
       "name": "Surgical",
       "altitude": "ground truth",
       "resolution": "8K"
+    },
+    {
+      "n": 7,
+      "name": "Microscopic",
+      "altitude": "1 mm",
+      "resolution": "grain"
     }
   ],
   "unreached": [

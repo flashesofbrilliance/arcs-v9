@@ -3,12 +3,13 @@
 chronicle_render.py — render the Chronicle (Reading Room tenant #3, "Drishti") from
 runtime/specs/chronicle-books.json into the self-contained _ARTIFACTS/atlas/chronicle.html.
 
-Five books (the time axis) x five fathoms (the depth axis, _SPECS/profile-scan-spec-v1.md "Five
-Fathoms"), each book closed by a Shavasana (Operator 25, runtime/specs/operator-25-shavasana-v0.md).
+Five books (the time axis) x seven fathoms (the depth axis: the five of _SPECS/profile-scan-spec-v1.md
+"Five Fathoms" as 2-6, bracketed by 1 Exosphere and 7 Microscopic since 2026-10-07), each book closed by a Shavasana (Operator 25, runtime/specs/operator-25-shavasana-v0.md).
 
 What is authored vs computed (the rule this script enforces on itself):
-  authored  (the JSON): prose at fathoms 1-3, the surgical claim list, the Shavasana written half.
-  computed  (git + ledger, at render time): every fathom-4 count and the Shavasana mechanical half.
+  authored  (the JSON): prose at fathoms 2-4, the surgical claim list (6), the Shavasana written half.
+  computed  (git + ledger, at render time): fathom 1 (the book as one line), every fathom-5 count,
+            fathom 7 (every commit hash in the range, by day), and the Shavasana mechanical half.
   canon     (_CANON/tao-proverbs.jsonl): epigraph TEXT, looked up by id; the JSON stores the id only.
 
 Hard failures (exit 1): a boundary sha that does not resolve or is not an ancestor of the next
@@ -95,7 +96,7 @@ def tactical(open_: str, close: str, root: bool, d0: str, d1: str, shav) -> dict
         balance = "mirror (inhale, no exhale)"
     else:
         balance = "breathing (both directions)"
-    return {"commits": len(rows), "merges": merges, "adrs_added": adrs, "falsified": frows,
+    return {"rows": rows, "commits": len(rows), "merges": merges, "adrs_added": adrs, "falsified": frows,
             "dissent": dissent, "agree": agree, "ratio": ratio, "verdict": verdict, "balance": balance}
 
 
@@ -170,6 +171,16 @@ def render_book(b: dict, fathoms: list) -> str:
     head = (f'<header class="bh"><div class="eyebrow">Book {["I","II","III","IV","V"][b["n"]-1]} · {E(b["chakra"])} ({E(b["chakra_gloss"])})</div>'
             f'<h2>{E(b["name"])}</h2><div class="theme">{E(b["theme"])}</div>'
             f'<div class="span"><code>{b["open_sha"]}</code> {b["open_date"]} to <code>{b["close_sha"]}</code> {b["close_date"]} · cut: {E(b["cut"])}</div></header>')
+    f0 = (f'<p class="orbit">{E(b["name"])} · {b["open_date"]} to {b["close_date"]} · {t["commits"]} commits · '
+          f'{t["merges"]} merges · {t["adrs_added"]} ADRs · {t["falsified"]} falsified</p>')
+    days: dict[str, list[str]] = {}
+    for row in t["rows"]:
+        h, d, _ = row.split("\t", 2)
+        days.setdefault(d, []).append(h)
+    # Hashes only: the grain is the commit itself, and verbatim subjects would carry
+    # unauthored text (em-dashes, buzzwords) past the page gates.
+    grain = "".join(f'<li><span class="d">{d}</span> {" ".join(hs)}</li>' for d, hs in days.items())
+    f7 = (f'<ol class="grain">{grain}</ol><p class="src">Every commit hash in the range by day, newest first, from <code>git log</code> at render.</p>')
     if written:
         f1 = f'<p class="exec">{E(b["executive"])}</p>'
         st = b["strategic"]
@@ -204,8 +215,9 @@ def render_book(b: dict, fathoms: list) -> str:
             f'<li><b>Disposition</b> {E(sh.get("disposition", "pending"))}</li>'
             '</ul><p class="src">This block asserts nothing new. The first four lines are computed; the last three are the written half.</p></section>')
     layers = "".join(f'<section class="f" data-depth="{n}"><div class="flab">{alt[n]} · {res[n]} · {name}</div>{body}</section>'
-                     for n, name, body in [(1, "Executive", f1), (2, "Strategic", ep + f2), (3, "Operational", f3),
-                                           (4, "Tactical", f4), (5, "Surgical", f5)] if body)
+                     for n, name, body in [(1, "Exosphere", f0), (2, "Executive", f1), (3, "Strategic", ep + f2),
+                                           (4, "Operational", f3), (5, "Tactical", f4), (6, "Surgical", f5),
+                                           (7, "Microscopic", f7)] if body)
     return f'<article class="book" id="{b["id"]}" data-status="{E(b.get("status", ""))}">{head}{layers}{shav}</article>'
 
 
@@ -227,9 +239,12 @@ code{font-family:var(--mono);font-size:.925rem;color:var(--gold);white-space:now
 .fbar button{flex:1 1 0;min-width:118px;text-align:left;white-space:normal}
 .fbar button b{display:block;font-weight:700}
 .fbar button small{display:block;font-size:.925rem}
-body[data-fathom="1"] .f{font-family:var(--mono);letter-spacing:.04em;font-weight:400}
-body[data-fathom="2"] .f{letter-spacing:.02em}
-body[data-fathom="5"] .f{letter-spacing:-.01em}
+body[data-fathom="1"] .f,body[data-fathom="2"] .f{font-family:var(--mono);letter-spacing:.04em;font-weight:400}
+body[data-fathom="3"] .f{letter-spacing:.02em}
+body[data-fathom="6"] .f,body[data-fathom="7"] .f{letter-spacing:-.01em}
+.grain{list-style:none;padding:0;margin:0;font-family:var(--mono);font-size:.925rem}
+.grain li{padding:6px 0 8px;border-bottom:1px solid var(--border);max-width:none;overflow-wrap:anywhere}
+.grain .d{color:var(--text-2)}
 .tl{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 8px}
 .tl a{flex:1 1 130px;text-decoration:none;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px}
 .tl small{display:block;color:var(--text-2);font-size:.925rem;white-space:nowrap}
@@ -259,7 +274,7 @@ body[data-fathom="5"] .f{letter-spacing:-.01em}
 .shav p.src{max-width:none}
 .unreached{margin-top:48px;border-top:1px dashed var(--border);padding-top:20px;color:var(--text-2)}
 .unreached p{max-width:none}
-body[data-fathom="1"] .f:not([data-depth="1"]),body[data-fathom="2"] .f:not([data-depth="2"]),body[data-fathom="3"] .f:not([data-depth="3"]),body[data-fathom="4"] .f:not([data-depth="4"]),body[data-fathom="5"] .f:not([data-depth="5"]){display:none}
+body[data-fathom="1"] .f:not([data-depth="1"]),body[data-fathom="2"] .f:not([data-depth="2"]),body[data-fathom="3"] .f:not([data-depth="3"]),body[data-fathom="4"] .f:not([data-depth="4"]),body[data-fathom="5"] .f:not([data-depth="5"]),body[data-fathom="6"] .f:not([data-depth="6"]),body[data-fathom="7"] .f:not([data-depth="7"]){display:none}
 .turn{display:grid;gap:8px;margin:0}
 .turn div{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px}
 .turn dt{font-family:var(--mono);font-size:.925rem;color:var(--text-2)}
@@ -270,9 +285,9 @@ body[data-fathom="1"] .f:not([data-depth="1"]),body[data-fathom="2"] .f:not([dat
 JS = """
 (function(){var b=document.body,btns=document.querySelectorAll('[data-fathom-btn]');
 function set(n){b.setAttribute('data-fathom',n);btns.forEach(function(x){x.setAttribute('aria-pressed',String(x.getAttribute('data-fathom-btn')===String(n)))});
-try{localStorage.setItem('chronicle-fathom',n)}catch(e){}}
+try{localStorage.setItem('chronicle-fathom7',n)}catch(e){}}
 btns.forEach(function(x){x.addEventListener('click',function(){set(x.getAttribute('data-fathom-btn'))})});
-var s=null;try{s=localStorage.getItem('chronicle-fathom')}catch(e){}set(s||'3');})();
+var s=null;try{s=localStorage.getItem('chronicle-fathom7')}catch(e){}set(s||'4');})();
 """
 
 
@@ -292,10 +307,10 @@ def render(model: dict) -> str:
 :root{{--measure:640px}}
 {CSS}
 </style></head>
-<body data-fathom="3"><div class="wrap">
+<body data-fathom="4"><div class="wrap">
 <div class="eyebrow">Reading Room · Chronicle · how did we get here?</div>
 <h1>{E(model["title"])}: {E(model["subtitle"])}</h1>
-<p class="lede">Five books from Day 0 to now. Start at 30,000 feet, where each book is a single coarse line, and descend to the ground, where every claim sits beside the commit that proves it. Each book closes with a Shavasana, a pause that adds no claim.</p>
+<p class="lede">Five books from Day 0 to now. Start in orbit, where each book is a single computed point, and descend past the ground, where every claim sits beside the commit that proves it, to the grain: every commit itself. Each book closes with a Shavasana, a pause that adds no claim.</p>
 <div class="byline">rendered from <code>runtime/specs/chronicle-books.json</code> at main <code>{model["head"]}</code> · counts computed from git · proverbs from <code>_CANON/tao-proverbs.jsonl</code></div>
 <nav class="fbar" aria-label="Descend">{fbar}</nav>
 <nav class="tl" aria-label="Books">{tl}</nav>
@@ -319,7 +334,8 @@ def self_test() -> int:
     check("genesis epigraph resolves from canon", bool(model["books"][0]["epigraph_text"]))
     check("no em-dash in visible render", EM not in out.split("</style>", 1)[1])
     check("token sentinel inlined", "/* ARCS Recoil Report" in out)
-    check("five fathom buttons", out.count("data-fathom-btn=") == 5)
+    check("seven fathom buttons", out.count("data-fathom-btn=") == 7)
+    check("microscopic lists every commit", out.count('<ol class="grain">') == 5)
     bad = json.loads(json.dumps(src)); bad["books"][0]["executive"] += " " + EM
     try:
         build(bad); check("em-dash in source fails", False)
