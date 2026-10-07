@@ -15,6 +15,8 @@
 #   --dry-run     merge + build in a scratch worktree, print the plan, push nothing
 #   --yes         skip the "Push N merges to main? [y/N]" prompt
 #   --skip-build  skip npm ci / npm run build / npm test (pre-push hooks then still run)
+#   --skip-smoke  skip the Playwright smoke run (scripts/merge_train_smoke.sh: Docker postgres + the
+#                 same suite fe-smoke ran). Default ON when app code changed; fails closed if Docker is down
 #   --lock        hold the ADR-085 main write-lock (scripts/write_lock.py, refs/locks/main on
 #                 origin) from before the fetch until exit; refuse if another session holds it.
 #                 Renewed after the build and after the prompt; skipped with --dry-run.
@@ -27,7 +29,7 @@
 set -u
 
 GH="${MERGE_TRAIN_GH:-gh}"
-DRY=0; YES=0; SKIP_BUILD=0; LOCK=0; LOCKED=0; PRS=""
+DRY=0; YES=0; SKIP_BUILD=0; SKIP_SMOKE=0; LOCK=0; LOCKED=0; PRS=""
 WRITE_LOCK="$(cd "$(dirname "$0")" && pwd)/write_lock.py"
 WT=""; REPO_ROOT=""
 
@@ -157,13 +159,14 @@ for a in "$@"; do
     --dry-run) DRY=1 ;;
     --yes) YES=1 ;;
     --skip-build) SKIP_BUILD=1 ;;
+    --skip-smoke) SKIP_SMOKE=1 ;;
     --lock) LOCK=1 ;;
     -h|--help) sed -n '2,27p' "$0"; exit 0 ;;
     *[!0-9]*|"") die "bad argument: $a (PR numbers only)" ;;
     *) PRS="$PRS $a" ;;
   esac
 done
-[ -z "$PRS" ] && { echo "usage: merge_train.sh [--dry-run] [--yes] [--skip-build] PR [PR...]" >&2; exit 2; }
+[ -z "$PRS" ] && { echo "usage: merge_train.sh [--dry-run] [--yes] [--skip-build] [--skip-smoke] PR [PR...]" >&2; exit 2; }
 NPR=$(echo $PRS | wc -w | tr -d ' ')
 
 # ---------------------------------------------------------------- 1. preflight
@@ -255,6 +258,11 @@ if [ $SKIP_BUILD -eq 0 ]; then
     ( cd "$WT" && npm test ) || die "npm test failed; nothing pushed"
   else
     echo "merge_train: no test script in package.json, skipping npm test"
+  fi
+  if [ $SKIP_SMOKE -eq 0 ]; then
+    sh "$(dirname "$0")/merge_train_smoke.sh" "$WT" "$BASE" || die "smoke failed (or Docker is down; --skip-smoke overrides); nothing pushed"
+  else
+    echo "merge_train: --skip-smoke, Playwright smoke not run"
   fi
   rm -f "$WT/node_modules" 2>/dev/null || true
 fi
