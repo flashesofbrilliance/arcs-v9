@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Woof Launch Playbook</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
+<style>
+:root {
+  --bg: #fbf7f2; --surface: #ffffff; --wash: #f4ede3; --rule: #ded5c8;
+  --text: #221f1a; --muted: #5e574c; --accent: #25604f; --accent-ink: #ffffff;
+  --accent-wash: #e6f0eb; --ochre: #7c5a14; --ochre-wash: #f7edd4;
+  --measure: 680px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14110e; --surface: #1c1813; --wash: #241f18; --rule: #3a3328;
+    --text: #f3ede3; --muted: #bdb2a0; --accent: #86cdb6; --accent-ink: #10201a;
+    --accent-wash: #1b2a24; --ochre: #e2b95f; --ochre-wash: #2a2314;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14110e; --surface: #1c1813; --wash: #241f18; --rule: #3a3328;
+  --text: #f3ede3; --muted: #bdb2a0; --accent: #86cdb6; --accent-ink: #10201a;
+  --accent-wash: #1b2a24; --ochre: #e2b95f; --ochre-wash: #2a2314;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 16px; accent-color: var(--accent); }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif; font-size: 18px; line-height: 1.6; overflow-wrap: break-word; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+.ui, nav a, th, label, button, .when, .grade { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+.lane { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 16px 96px; }
+h1, h2, h3 { font-weight: 700; line-height: 1.3; margin: 0; text-wrap: balance; }
+h1 { font-size: 52px; letter-spacing: -0.015em; }
+h2 { font-size: 34px; letter-spacing: -0.01em; }
+h3 { font-size: 21px; }
+p { margin: 0 0 14px; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+abbr.ph { text-decoration: underline dotted var(--ochre); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: help; }
+strong, b { font-weight: 700; }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+
+.mast { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 20px 0 14px; border-bottom: 1px solid var(--rule); }
+.mast span { font-family: system-ui, sans-serif; font-variant-caps: all-small-caps; letter-spacing: 0; font-size: 15px; color: var(--muted); }
+.mast span:first-child { color: var(--text); font-weight: 600; }
+header h1 { margin-top: 44px; }
+.lede { color: var(--muted); font-size: 21px; line-height: 1.5; margin: 18px 0 0; max-width: none; }
+.key { font-family: system-ui, sans-serif; font-size: 14px; color: var(--muted); margin-top: 14px; }
+
+.turndown { margin: 36px 0 0; padding: 30px 24px 26px; text-align: center; background: var(--surface); border: 1px solid var(--accent); outline: 1px solid var(--accent); outline-offset: -9px; border-radius: 2px; }
+.turndown h2 { font-size: 31px; }
+.turndown p { margin: 12px auto 0; }
+
+section { margin-top: 48px; }
+section > h2 + p { margin-top: 14px; }
+.top h2 { font-size: clamp(22px, 4vw, 27px); margin-bottom: 12px; }
+.top section { margin-top: 44px; }
+.top ol.plain { padding-left: 24px; }
+.top ol.plain li { margin-bottom: 14px; }
+.moves { list-style: none; margin: 0; padding: 0; }
+.moves li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-top: 1px solid var(--rule); }
+.moves li:last-child { border-bottom: 1px solid var(--rule); }
+@media (max-width: 480px) { .moves li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.fold { margin-top: 52px; padding: 16px 18px; background: var(--wash); border: 1px solid var(--rule); border-radius: 4px; }
+.fold p { margin: 0; }
+details { border-top: 1px solid var(--rule); }
+details:last-of-type { border-bottom: 1px solid var(--rule); }
+summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) 20px; gap: 12px; align-items: center; min-height: 64px; padding: 14px 0; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: ""; width: 9px; height: 9px; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(45deg); justify-self: center; margin-top: -4px; transition: transform .2s cubic-bezier(.16,1,.3,1); }
+details[open] > summary::after { transform: rotate(-135deg); margin-top: 4px; }
+summary .st { display: block; font-size: 21px; font-weight: 700; line-height: 1.3; }
+summary .sd { display: block; font-size: 16px; color: var(--muted); margin-top: 2px; }
+details > .inner { padding: 4px 0 40px; }
+details > .inner h2 { display: none; }
+details > .inner > .sub { margin-top: 0; }
+.sub { color: var(--muted); font-size: 20px; margin: 10px 0 0; max-width: none; }
+ul.plain, ol.plain { margin: 8px 0 16px; padding-left: 22px; }
+ul.plain li, ol.plain li { margin-bottom: 8px; padding-left: 4px; }
+
+.shelf { margin: 28px 0; padding: 22px 22px 8px; background: var(--ochre-wash); border: 1px solid var(--ochre); border-radius: 2px; }
+.shelf h3 { font-size: 28px; margin-bottom: 12px; }
+
+.hunch { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.hunch:first-of-type { border-top: 0; padding-top: 0; margin-top: 28px; }
+.hunch h3 { margin-bottom: 10px; }
+dl { margin: 0; }
+dt { font-family: system-ui, sans-serif; font-variant-caps: all-small-caps; letter-spacing: 0; font-size: 15px; font-weight: 600; color: var(--accent); margin-top: 14px; }
+dd { margin: 4px 0 0; }
+.grade { display: inline-block; font-size: 13px; font-weight: 600; color: var(--ochre); border: 1px solid var(--ochre); border-radius: 999px; padding: 1px 10px; margin-right: 6px; white-space: nowrap; }
+
+.tablewrap { margin-top: 18px; }
+table { width: 100%; border-collapse: collapse; font-family: system-ui, sans-serif; font-size: 16px; font-variant-numeric: tabular-nums lining-nums; overflow-wrap: normal; word-break: normal; }
+th, td { text-align: left; vertical-align: top; padding: 11px 12px 11px 0; border-top: 1px solid var(--rule); overflow-wrap: normal; }
+th { font-variant-caps: all-small-caps; letter-spacing: 0; font-size: 14px; font-weight: 600; color: var(--muted); border-top: 0; border-bottom: 1px solid var(--text); }
+td.by { white-space: nowrap; color: var(--muted); }
+td.rowhead { font-weight: 600; }
+.futures td:not(.rowhead) { white-space: nowrap; }
+@media (max-width: 600px) {
+  .score thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .score tr, .score td { display: block; }
+  .score tr { padding: 14px 0; border-top: 1px solid var(--rule); }
+  .score td { border: 0; padding: 2px 0; }
+  .score td[data-label]::before { content: attr(data-label) "  "; font-variant-caps: all-small-caps; letter-spacing: 0; font-size: 14px; font-weight: 600; color: var(--muted); }
+  .score td.goal { font-weight: 700; font-size: 17px; padding-bottom: 4px; }
+  .futures { table-layout: fixed; }
+  .futures th, .futures td { padding-right: 6px; font-size: 14px; }
+  .futures td:not(.rowhead) { white-space: normal; overflow-wrap: anywhere; }
+  .futures th:first-child, .futures td.rowhead { width: 34%; }
+}
+
+.plan { list-style: none; margin: 18px 0 0; padding: 0; }
+.plan li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-top: 1px solid var(--rule); }
+.when { font-size: 15px; font-weight: 700; color: var(--accent); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.plan b { font-weight: 700; }
+@media (max-width: 480px) { .plan li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+
+.say { margin: 14px 0 0; padding: 16px 18px; background: var(--wash); border: 1px solid var(--rule); border-radius: 4px; font-size: 17px; }
+.say b { display: block; font-family: system-ui, sans-serif; font-size: 15px; margin-bottom: 6px; color: var(--accent); }
+pre { white-space: pre-wrap; overflow-wrap: break-word; background: var(--wash); border: 1px solid var(--rule); border-radius: 4px; padding: 14px 16px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14.5px; line-height: 1.55; margin: 8px 0 8px; }
+button { min-height: 44px; padding: 0 18px; font-size: 15px; font-weight: 600; color: var(--accent-ink); background: var(--accent); border: 0; border-radius: 4px; cursor: pointer; }
+button:hover { filter: brightness(1.08); }
+.copied { font-family: system-ui, sans-serif; font-size: 14px; color: var(--muted); margin-left: 10px; }
+.fillrow { margin-top: 16px; }
+.fillrow label { display: block; font-family: system-ui, sans-serif; font-size: 15px; color: var(--muted); }
+.fillrow input { width: 100%; min-height: 44px; font: inherit; font-size: 17px; color: var(--text); background: transparent; border: 0; border-bottom: 1px solid var(--text); border-radius: 0; padding: 6px 0; }
+footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--rule); font-size: 16px; }
+footer li { margin-bottom: 6px; }
+.fine { font-size: 15px; color: var(--muted); }
+@media (max-width: 600px) { h1 { font-size: 36px; } h2 { font-size: 27px; } .turndown h2 { font-size: 25px; } .shelf h3 { font-size: 22px; } }
+@media (max-width: 480px) { body { font-size: 17px; } .lede { font-size: 19px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print {
+  nav, button, .copied { display: none; }
+  :root, :root[data-theme="dark"] { --bg: #ffffff; --surface: #ffffff; --wash: #f4ede3; --rule: #ded5c8; --text: #221f1a; --muted: #5e574c; --accent: #25604f; --accent-ink: #ffffff; --ochre: #7c5a14; --ochre-wash: #f7edd4; }
+  body { font-size: 11.5pt; }
+  section { break-inside: auto; }
+  details > summary::after { display: none; }
+  .hunch, .plan li, tr { break-inside: avoid; }
+}
+.f-known { text-decoration: underline solid var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.f-think { text-decoration: underline dotted var(--ochre); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: help; }
+.premise { margin: 28px 0 0; padding: 16px 18px; background: var(--wash); border: 1px solid var(--rule); border-radius: 4px; font-size: 16px; }
+.premise p { margin: 0 0 8px; } .premise p:last-child { margin-bottom: 0; }
+.meter { font-family: system-ui, sans-serif; font-size: 15px; }
+.meter .bar { display: block; height: 8px; margin: 8px 0; background: var(--rule); border-radius: 4px; overflow: hidden; }
+.meter .bar i { display: block; height: 100%; background: var(--accent); }
+.lg { list-style: none; padding: 16px 0; border-top: 1px solid var(--rule); }
+.lg-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.lg-top b { font-size: 18px; }
+.lg p { margin: 6px 0 0; font-size: 16px; }
+.lg-how { color: var(--text); } .lg-how .w { font-family: system-ui, sans-serif; font-size: 14px; color: var(--muted); white-space: nowrap; }
+.pill { font-family: system-ui, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0; padding: 2px 10px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+.pill.k { color: var(--accent); border-color: var(--accent); } .pill.t { color: var(--ochre); border-color: var(--ochre); }
+.lg-ctl { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; margin-top: 10px; font-family: system-ui, sans-serif; font-size: 15px; }
+.lg-ctl input[type=number] { width: 120px; min-height: 44px; font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 6px 10px; }
+.lg-ctl input[type=checkbox] { width: 22px; height: 22px; margin-right: 8px; vertical-align: middle; }
+.lg-ctl label { display: inline-flex; align-items: center; min-height: 44px; }
+.row-btns { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 18px; }
+button.alt { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.tc { list-style: none; padding: 16px 0; border-top: 1px solid var(--rule); }
+.tc p { margin: 6px 0 0; font-size: 16px; }
+.note { display: block; margin-top: 10px; font-family: system-ui, sans-serif; font-size: 15px; color: var(--muted); }
+.note input { display: block; width: 100%; min-height: 44px; font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 6px 10px; margin-top: 4px; }
+.lg-ctl input[type=radio] { width: 20px; height: 20px; margin-right: 8px; vertical-align: middle; }
+.warm { background: var(--wash); }
+.rule { font-size: 16px; margin: 14px 0 0; }
+fieldset.vr { border: 0; padding: 0; margin: 10px 0 0; min-width: 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.lg-ctl input[type=checkbox], .lg-ctl input[type=radio] { width: 24px; height: 24px; }
+</style>
+</head>
+<body>
+<div class="lane">
+<header>
+  <div class="mast"><span>Le Woof</span><span>October 2026</span></div>
+  <h1>Your next seven weeks: from first partner to first reorders.</h1>
+  <p class="lede">That is the goal for the next seven weeks. You know your buyers better than anyone, so treat everything here as a draft you can change.</p>
+  <div class="turndown">
+    <h2>Start here: Friday, October 9</h2>
+    <p>Check in with Vlad and ask for a yes or no on the invoice and agreement. If you have already sent it, a quick check-in is enough. In August he offered <span data-f="upfront" class="f-known" title="Known: every input behind this number is a record or your own data.">$4</span> a bottle up front and <span data-f="persold" class="f-known" title="Known: every input behind this number is a record or your own data.">$10</span> a bottle as they sell, for <span data-f="units" class="f-known" title="Known: every input behind this number is a record or your own data.">240</span> bottles. The invoice carries <span data-f="pilotUp" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$960</span> up front plus about <span data-f="freight" class="f-known" title="Known: every input behind this number is a record or your own data.">$750</span> of freight, <span data-f="invoiceTotal" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$1,710</span> in all, and up to <span data-f="pilotMax" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$2,400</span> more as bottles sell. As far as we can tell nothing is signed yet, so a clear answer moves you forward either way.</p>
+  </div>
+  <p class="key">Drafted by Zach with Claude from your emails and public sources. You know this business best, so please correct anything. It contains partner deal terms, so please do not forward it.<br><small><!--BUILT-->Version 5 (dynamic) · facts as of 2026-10-06 · built 2026-10-07 01:43 UTC<!--/BUILT--></small></p>
+  <p class="rule"><b>One rule:</b> a <span class="f-known">solid underline</span> marks a number we can confirm from a record. A <span class="f-think">dotted underline</span> marks a belief to check. <a href="#ledger-fold">See which is which.</a></p>
+</header>
+
+<main class="top">
+<section>
+  <h2>Three reasons</h2>
+  <ol class="plain">
+    <li><b>Your sales record is real,</b> and this stage rewards it: three Salesperson of the Year awards. Your world of hospitality, travel and dogs as guests is the pitch.</li>
+    <li><b>Ads are close, but not yet.</b> Winning one online customer costs about <span data-f="cacMedian" class="f-think" title="To check. It depends on: cost to win a customer online. See the first fold to find out.">$68</span> on average, and at your <span data-f="price" class="f-think" title="To check. It depends on: your 16oz list price. See the first fold to find out.">$48</span> list price a first order earns about <span data-f="firstOrder" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">$43</span> after product and shipping. Ads only pay back if customers come back, so wait for your first reorders.</li>
+    <li><b>Hotels, groomers and boutiques buy again and in bulk,</b> so one yes can equal several shop orders. Vlad's pilot, for example, is worth up to about <span data-f="pilotBoutiques" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> boutique first orders. This one is my best guess, and the plan tests it.</li>
+  </ol>
+  <p class="fine">Dotted numbers are things we think. Enter your real ones in the first fold below.</p>
+</section>
+
+<section>
+  <h2>Three questions only you can answer</h2>
+  <div class="fillrow"><label for="q1">What would make it easiest for Vlad to say yes this week?</label><input id="q1" type="text" autocomplete="off"></div>
+  <div class="fillrow"><label for="q2">Who are 10 hotel, boutique or groomer contacts who would take your call this week?</label><input id="q2" type="text" autocomplete="off"></div>
+  <div class="fillrow"><label for="q3">What would make you say "this is working"?</label><input id="q3" type="text" autocomplete="off"></div>
+</section>
+
+<section>
+  <h2>Next moves</h2>
+  <ol class="moves">
+    <li><span class="when">Fri Oct 9</span><span>Check in with Vlad and ask for a yes or no on the invoice and agreement.</span></li>
+    <li><span class="when">Sat Oct 10</span><span>Confirm your Faire listing (the wholesale marketplace shops order from), then send your own Faire link to 10 independent shops.</span></li>
+    <li><span class="when">Tue Oct 13</span><span>Pull six numbers from Shopify, Amazon and Faire, so every dotted figure here becomes your real one.</span></li>
+    <li><span class="when">Tue Nov 3</span><span>Check in together: 3 first orders or 2 paid pilots from about 50 contacts, or an adjusted plan.</span></li>
+  </ol>
+</section>
+
+<div class="fold"><p>That is the whole plan. If you want the reasoning, the numbers, and the scripts, they are folded below. Open only what helps.</p></div>
+
+<section style="margin-top:28px">
+<details id="ledger-fold"><summary><span><span class="st">What you know, and what you think</span><span class="sd">Every claim, labeled, with the cheapest way to find out.</span></span></summary><div class="inner">
+  <h2>Know, think, find out</h2>
+  <p class="sub">The rule behind this whole page.</p>
+  <p class="meter" id="meter"><!--METER-->Of <b>33</b> things this plan rests on, <b>8</b> are records we can open. The other 25 are beliefs we can check, starting with the cheapest.<!--/METER--></p>
+  <p><b>Why it matters.</b> Plans fail when a belief is treated as a fact. This list shows which is which, so you spend your effort where you are guessing, starting with the cheapest checks.</p>
+  <p><b>How to use it.</b> Beliefs come first. When you enter your real numbers, the page recomputes. Start at the top. Do the check. Then type your real number and tick <i>From my records</i>. Every number in this page that depends on it recomputes, and goes from dotted to solid once everything behind it is known. Your entries are saved in this browser only, and a private window or cleared browser loses them, so copy them before you close. Press <i>Copy my numbers</i> to copy them, then paste them to Zach if you want him to update the shared file.</p>
+  <ol class="ledger" id="ledger-list" style="padding:0;margin:18px 0 0"><!--LEDGER--><li class="lg" data-lg="cost"><div class="lg-top"><b>Your cost per bottle to make</b><span class="pill t">TO CHECK</span></div><p>A working figure from your own notes. We do not know your real landed cost.</p><p class="lg-how"><b>How to find out:</b> Check your supplier invoice or landed-cost sheet. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="cost" value="4"></label><label><input type="checkbox" data-chk="cost"> From my records</label></div></li><li class="lg" data-lg="packaging"><div class="lg-top"><b>Packaging per bottle</b><span class="pill t">TO CHECK</span></div><p>An assumption of about $1.76 a bottle for box, label and filler.</p><p class="lg-how"><b>How to find out:</b> Add up box, label and filler costs from your last order. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="packaging" value="1.76"></label><label><input type="checkbox" data-chk="packaging"> From my records</label></div></li><li class="lg" data-lg="ship"><div class="lg-top"><b>Shipping cost per online order</b><span class="pill t">TO CHECK</span></div><p>An assumption, net of anything customers pay.</p><p class="lg-how"><b>How to find out:</b> Average your last 20 Shopify shipping labels, less what customers paid. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="ship" value="6"></label><label><input type="checkbox" data-chk="ship"> From my records</label></div></li><li class="lg" data-lg="cacMedian"><div class="lg-top"><b>Cost to win a customer online</b><span class="pill t">TO CHECK</span></div><p>Industry benchmark for other brands (about $68 to $84), not your own ads.</p><p class="lg-how"><b>How to find out:</b> A capped $500 ad test after your first reorders. <span class="w">by Jan 15 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="cacMedian" value="68"></label><label><input type="checkbox" data-chk="cacMedian"> From my records</label></div></li><li class="lg" data-lg="repeat"><div class="lg-top"><b>Reorders per customer in the first year</b><span class="pill t">TO CHECK</span></div><p>An assumption.</p><p class="lg-how"><b>How to find out:</b> Shopify: repeat buyers over 90 days, once you have 20 or more customers. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="repeat" value="0.5"></label><label><input type="checkbox" data-chk="repeat"> From my records</label></div></li><li class="lg" data-lg="hit"><div class="lg-top"><b>Share of contacts who place a first order</b><span class="pill t">TO CHECK</span></div><p>An assumption (3 of 40).</p><p class="lg-how"><b>How to find out:</b> Log contacts and orders from week one and read the rate after 20 contacts. <span class="w">by Nov 3 · You</span></p><div class="lg-ctl"><label>Your number (%) <input type="number" step="any" data-id="hit" data-pct="1" value="7.5"></label><label><input type="checkbox" data-chk="hit"> From my records</label></div></li><li class="lg" data-lg="feeDirect"><div class="lg-top"><b>Faire commission on retailers you bring (your own link)</b><span class="pill t">TO CHECK</span></div><p>Reported by seller guides as 0%, plus a payment fee.</p><p class="lg-how"><b>How to find out:</b> Read the fee page in your Faire account. <span class="w">by Oct 10 · You</span></p><div class="lg-ctl"><label>Your number (%) <input type="number" step="any" data-id="feeDirect" data-pct="1" value="0"></label><label><input type="checkbox" data-chk="feeDirect"> From my records</label></div></li><li class="lg" data-lg="inventory"><div class="lg-top"><b>Bottles of 16oz on hand or on order</b><span class="pill t">TO CHECK</span></div><p>An assumption from the July call (about 500 per product).</p><p class="lg-how"><b>How to find out:</b> Count what is on the shelf and what is on order. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="inventory" value="500"></label><label><input type="checkbox" data-chk="inventory"> From my records</label></div></li><li class="lg" data-lg="c_signed"><div class="lg-top"><b>Nothing is signed, and the invoice has not been paid</b><span class="pill t">TO CHECK</span></div><p>Zach's note, and no confirmation in the email threads after Sep 5. We have not seen Vlad's side.</p><p class="lg-how"><b>How to find out:</b> Ask Vlad for a yes or no. Check whether he received the invoice. <span class="w">by Oct 9 · You</span></p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_signed"> From my records</label></div></li><li class="lg" data-lg="c_faire"><div class="lg-top"><b>Your Faire listing is live with no orders yet</b><span class="pill t">TO CHECK</span></div><p>Zach's note; no email we read says a listing is live.</p><p class="lg-how"><b>How to find out:</b> Open Faire and look at Orders and profile views. <span class="w">by Oct 10 · You</span></p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_faire"> From my records</label></div></li><li class="lg" data-lg="c_channels"><div class="lg-top"><b>Your Amazon (4 oz) listing and Shopify site are live, with small volume</b><span class="pill t">TO CHECK</span></div><p>Your emails mention an Amazon listing and your site; volumes are unseen.</p><p class="lg-how"><b>How to find out:</b> Pull 90 days of orders, visits, reviews and rating from each. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_channels"> From my records</label></div></li><li class="lg" data-lg="c_bath"><div class="lg-top"><b>Hotels give dogs bath products at all</b><span class="pill t">TO CHECK</span></div><p>No data. A dog bath uses very little product.</p><p class="lg-how"><b>How to find out:</b> Five hotel calls with the hotel script. <span class="w">by Oct 31 · You</span></p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_bath"> From my records</label></div></li><li class="lg" data-lg="upo"><div class="lg-top"><b>Bottles per online order</b><span class="pill t">TO CHECK</span></div><p>An assumption.</p><p class="lg-how"><b>How to find out:</b> Shopify: units sold divided by orders over 90 days. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="upo" value="1.2"></label><label><input type="checkbox" data-chk="upo"> From my records</label></div></li><li class="lg" data-lg="cps"><div class="lg-top"><b>Contacts you make per week</b><span class="pill t">TO CHECK</span></div><p>The plan's pace: five a day. Not yet your record.</p><p class="lg-how"><b>How to find out:</b> Log every contact in the retailer or hotel list. <span class="w">by Nov 10 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="cps" value="25"></label><label><input type="checkbox" data-chk="cps"> From my records</label></div></li><li class="lg" data-lg="upr"><div class="lg-top"><b>Bottles in a boutique's first order</b><span class="pill t">TO CHECK</span></div><p>An assumption (one case).</p><p class="lg-how"><b>How to find out:</b> Ask your first 5 shops what they would order. <span class="w">by Nov 3 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="upr" value="12"></label><label><input type="checkbox" data-chk="upr"> From my records</label></div></li><li class="lg" data-lg="feeM"><div class="lg-top"><b>Faire fee on a new retailer's first order (marketplace)</b><span class="pill t">TO CHECK</span></div><p>Reported by seller guides: up to 25%.</p><p class="lg-how"><b>How to find out:</b> Read the fee page in your Faire account. <span class="w">by Oct 10 · You</span></p><div class="lg-ctl"><label>Your number (%) <input type="number" step="any" data-id="feeM" data-pct="1" value="25"></label><label><input type="checkbox" data-chk="feeM"> From my records</label></div></li><li class="lg" data-lg="c_distrib"><div class="lg-top"><b>Independent shops buy directly from brands, with no distributor</b><span class="pill t">TO CHECK</span></div><p>Your point, and typical for small independents. Not checked shop by shop.</p><p class="lg-how"><b>How to find out:</b> Add a yes or no for each shop on the Retailer list tab. <span class="w">by Oct 20 · You</span></p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_distrib"> From my records</label></div></li><li class="lg" data-lg="c_cost_per_wash"><div class="lg-top"><b>Groomers and hotel buyers decide on cost per wash</b><span class="pill t">TO CHECK</span></div><p>A guess. No data on how groomers choose.</p><p class="lg-how"><b>How to find out:</b> Ten listening calls. <span class="w">by Oct 31 · You</span></p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_cost_per_wash"> From my records</label></div></li><li class="lg" data-lg="c_quick"><div class="lg-top"><b>Quick, plain notes get about as many replies as polished ones</b><span class="pill t">TO CHECK</span></div><p>A guess. Cold outreach rewards volume and relevance, and we have no data on your own notes.</p><p class="lg-how"><b>How to find out:</b> Send 10 quick notes and 10 polished ones and compare replies and orders. <span class="w">by Nov 3 · You</span></p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_quick"> From my records</label></div></li><li class="lg" data-lg="price"><div class="lg-top"><b>Your 16oz list price</b><span class="pill t">TO CHECK</span></div><p>You wrote "SKU MSRP is $48" on Aug 4 and asked whether raising to $48 made sense. The draft term sheet used $45.</p><p class="lg-how"><b>How to find out:</b> Open your Shopify product page and confirm the price customers pay. <span class="w">by Oct 13 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="price" value="48"></label><label><input type="checkbox" data-chk="price"> From my records</label></div></li><li class="lg" data-lg="proc"><div class="lg-top"><b>Payment processing fee</b><span class="pill t">TO CHECK</span></div><p>Reported range 1.9% to 3.5%.</p><p class="lg-how"><b>How to find out:</b> Read the fee page in your Faire account. <span class="w">by Oct 10 · You</span></p><div class="lg-ctl"><label>Your number (%) <input type="number" step="any" data-id="proc" data-pct="1" value="3"></label><label><input type="checkbox" data-chk="proc"> From my records</label></div></li><li class="lg" data-lg="ordersYr"><div class="lg-top"><b>Orders per online customer per year</b><span class="pill t">TO CHECK</span></div><p>An assumption.</p><p class="lg-how"><b>How to find out:</b> Shopify: orders per customer over 12 months. <span class="w">by Jan 15 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="ordersYr" value="1.5"></label><label><input type="checkbox" data-chk="ordersYr"> From my records</label></div></li><li class="lg" data-lg="adBudget"><div class="lg-top"><b>Monthly ad budget used in the model</b><span class="pill t">TO CHECK</span></div><p>A placeholder for the model, not a plan to spend.</p><p class="lg-how"><b>How to find out:</b> Decide what you could afford to test. <span class="w">by Jan 15 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="adBudget" value="1500"></label><label><input type="checkbox" data-chk="adBudget"> From my records</label></div></li><li class="lg" data-lg="feeRe"><div class="lg-top"><b>Faire commission on a retailer's reorders (marketplace)</b><span class="pill t">TO CHECK</span></div><p>Reported by seller guides: 15%.</p><p class="lg-how"><b>How to find out:</b> Read the fee page in your Faire account. <span class="w">by Oct 10 · You</span></p><div class="lg-ctl"><label>Your number (%) <input type="number" step="any" data-id="feeRe" data-pct="1" value="15"></label><label><input type="checkbox" data-chk="feeRe"> From my records</label></div></li><li class="lg" data-lg="c_pet"><div class="lg-top"><b>US pet spending was about $158 billion in 2025</b><span class="pill t">TO CHECK</span></div><p>Published by APPA; we have not opened the report ourselves.</p><p class="lg-how"><b>How to find out:</b> Already a record.</p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_pet"> From my records</label></div></li><li class="lg" data-lg="wholesale"><div class="lg-top"><b>Your 16oz wholesale price</b><span class="pill k">KNOWN</span></div><p>You wrote "$22.5 for 16oz" on Jul 30.</p><p class="lg-how"><b>How to find out:</b> Confirm it matches your Faire wholesale price. <span class="w">by Oct 10 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="wholesale" value="22.5"></label><label><input type="checkbox" data-chk="wholesale" checked=""> From my records</label></div></li><li class="lg" data-lg="units"><div class="lg-top"><b>Pilot size (bottles)</b><span class="pill k">KNOWN</span></div><p>Vlad's Aug 10 email: "10 cases (240 units)".</p><p class="lg-how"><b>How to find out:</b> Confirm in the signed agreement. <span class="w">by Oct 16 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="units" value="240"></label><label><input type="checkbox" data-chk="units" checked=""> From my records</label></div></li><li class="lg" data-lg="upfront"><div class="lg-top"><b>Pilot price paid up front, per bottle</b><span class="pill k">KNOWN</span></div><p>Vlad's Aug 10 email: "$4 per unit up front"; your Aug 21 email drafts the invoice at that price.</p><p class="lg-how"><b>How to find out:</b> Confirm in the signed agreement. <span class="w">by Oct 16 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="upfront" value="4"></label><label><input type="checkbox" data-chk="upfront" checked=""> From my records</label></div></li><li class="lg" data-lg="persold"><div class="lg-top"><b>Pilot price paid per bottle sold</b><span class="pill k">KNOWN</span></div><p>Vlad's Aug 10 email: "$10 per unit sold", paid monthly.</p><p class="lg-how"><b>How to find out:</b> Confirm in the signed agreement. <span class="w">by Oct 16 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="persold" value="10"></label><label><input type="checkbox" data-chk="persold" checked=""> From my records</label></div></li><li class="lg" data-lg="freight"><div class="lg-top"><b>Freight on the pilot invoice</b><span class="pill k">KNOWN</span></div><p>Your Sep 3 email: "estimate the shipping at $750 on invoice, not separate."</p><p class="lg-how"><b>How to find out:</b> Confirm the freight quote from the carrier. <span class="w">by Oct 16 · You</span></p><div class="lg-ctl"><label>Your number <input type="number" step="any" data-id="freight" value="750"></label><label><input type="checkbox" data-chk="freight" checked=""> From my records</label></div></li><li class="lg" data-lg="c_offer"><div class="lg-top"><b>Vlad offered $4 up front plus $10 per bottle sold for 240 bottles</b><span class="pill k">KNOWN</span></div><p>Vlad's Aug 10 email.</p><p class="lg-how"><b>How to find out:</b> Already a record.</p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_offer" checked=""> From my records</label></div></li><li class="lg" data-lg="c_invoice"><div class="lg-top"><b>An invoice was prepared for that deal</b><span class="pill k">KNOWN</span></div><p>Your Aug 21 request and the invoice drafted on Aug 30 (not sent as of Sep 2).</p><p class="lg-how"><b>How to find out:</b> Already a record.</p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_invoice" checked=""> From my records</label></div></li><li class="lg" data-lg="c_sales"><div class="lg-top"><b>Your sales record: Salesperson of the Year 2012 to 2014</b><span class="pill k">KNOWN</span></div><p>Your public profile.</p><p class="lg-how"><b>How to find out:</b> Already a record.</p><div class="lg-ctl"><label><input type="checkbox" data-chk="c_sales" checked=""> From my records</label></div></li><!--/LEDGER--></ol>
+  <div class="row-btns"><button type="button" id="copyNums">Copy my numbers</button><button type="button" class="alt" id="resetNums">Reset to the starting numbers</button><span class="copied" id="numsNote" role="status"></span></div>
+</div></details>
+<details><summary><span><span class="st">Strengths and market</span><span class="sd">Your strengths, the market, and the one number to keep in view.</span></span></summary><div class="inner">
+  <h2>Analyze</h2>
+  <p class="key" style="margin-top:0">Solid underline: we know it. Dotted underline: we think it. Open the first fold to see how to find out.</p>
+  <h3 style="margin-top:28px">What you bring</h3>
+  <ul class="plain">
+    <li><b>A proven seller.</b> Salesperson of the Year at Newrow in 2012, 2013 and 2014, and seven years leading business development there.</li>
+    <li><b>Launch-day instincts.</b> You helped premiere HPShowandTech on walmart.com, a live shoppable series of 60+ episodes with a Shorty Awards nomination.</li>
+    <li><b>Hospitality experience.</b> Your client work includes Hilton and Soho House. Whether those contacts would take your call is worth finding out.</li>
+    <li><b>A product with a point of view.</b> Certified organic and made in America. Your profile says Prime shipping and national boutique retailers are already in place.</li>
+    <li><b>The plumbing mostly exists.</b> By your emails and Zach's note: an Amazon listing (the 4 oz), your own website and a Faire listing. Please correct anything I have wrong. They need buyers now, not setup.</li>
+  </ul>
+
+  <div class="shelf">
+    <h3>Vlad's pilot is worth up to about <span data-f="pilotBoutiques" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> boutique first orders.</h3>
+    <p>In August Vlad offered <span data-f="units" class="f-known" title="Known: every input behind this number is a record or your own data.">240</span> bottles at <span data-f="pilotPer" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$14</span> each: <span data-f="upfront" class="f-known" title="Known: every input behind this number is a record or your own data.">$4</span> up front and <span data-f="persold" class="f-known" title="Known: every input behind this number is a record or your own data.">$10</span> as they sell. That is <span data-f="pilotUp" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$960</span> up front and up to <span data-f="pilotMax" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$2,400</span> more if every bottle sells, plus about <span data-f="freight" class="f-known" title="Known: every input behind this number is a record or your own data.">$750</span> of freight on the same invoice. A boutique's first order of <span data-f="upr" class="f-think" title="To check. It depends on: bottles in a boutique's first order. See the first fold to find out.">12</span> bottles at your <span data-f="wholesale" class="f-known" title="Known: every input behind this number is a record or your own data.">$22.50</span> wholesale price is <span data-f="boutiqueOrder" class="f-think" title="To check. It depends on: bottles in a boutique's first order. See the first fold to find out.">$270</span>. So the pilot is worth about <span data-f="pilotBoutiques" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> boutiques if it sells through, and about <span data-f="pilotThird" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">6.5</span> if a third of the bottles sell.</p>
+    <p>Your numbers leave room: a bottle costs about <span data-f="unitCost" class="f-think" title="To check. It depends on: your cost per bottle to make, packaging per bottle. See the first fold to find out.">$5.76</span> all in if our packaging guess is close, and lists at <span data-f="price" class="f-think" title="To check. It depends on: your 16oz list price. See the first fold to find out.">$48</span> ($45 on the draft term sheet). What is missing is orders, not margin.</p>
+  </div>
+  <h3 style="margin-top:28px">Who to start with</h3>
+  <p>Independent shops, groomers, spas and boutique hotels that buy directly from brands. Chains and stores served by distributors want volume, steady supply and many products, which a one-bottle brand cannot yet offer. Independents can say yes on one conversation and a small first order.</p>
+
+  <h3 style="margin-top:36px">The market</h3>
+  <p class="sub">What the evidence says, with how far to trust it.</p>
+  <h3 style="margin-top:24px">The category</h3>
+  <p>US pet spending reached about $158 billion in 2025, up 3.7%, and is projected near $165 billion in 2026 (<a href="https://americanpetproducts.org/news/u.s.-pet-industry-reaches-158-billion-in-2025-poised-for-continued-growth-in-2026">APPA</a>). Care and services held up better than toys and accessories (<a href="https://www.morganstanley.com/insights/articles/pet-industry-growth-outlook-2026">Morgan Stanley</a>). Natural and organic pet shampoo is estimated at roughly $327 million in North America, growing about 6.5% a year (<a href="https://www.gminsights.com/industry-analysis/north-america-pet-shampoo-market/amp">GM Insights</a>, a market-research estimate, so directional).</p>
+  <p>The cautions are real too. Reports say 22% of owners spent less on pets in 2025, and cheaper and private-label options are gaining. Paying to win customers online costs more every year, which is why many online-first pet brands are adding wholesale (<a href="https://petsplusmag.com/dtc-brands-going-hybrid-to-grow/amp/">PetsPlus</a>).</p>
+  <h3 style="margin-top:24px">Where the sales are</h3>
+  <ul class="plain">
+    <li><b>Independent shops and groomers.</b> They buy in small amounts, directly, and can decide in one conversation. Distributor-served chains want volume and many products. Faire gives retailers free returns on a first order, which is why unfamiliar brands get tried (reported).</li>
+    <li><b>Hotels and spas.</b> Reports say between 51% and 75% of US hotels allow pets, depending on the source, and pet-friendly travel is growing. How much bath product they actually use is unknown, and it is the first thing the hotel calls will tell you (guess).</li>
+    <li><b>Online.</b> A first order from a new customer costs about <span data-f="cacMedian" class="f-think" title="To check. It depends on: cost to win a customer online. See the first fold to find out.">$68</span> to win and earns about <span data-f="firstOrder" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">$43</span>, so online pays back through reorders (estimate).</li>
+  </ul>
+  <h3 style="margin-top:24px">What is changing</h3>
+  <ul class="plain">
+    <li><b>Content and AI search.</b> Google says it does not ban AI-written pages, but it penalizes mass-produced pages that add little (<a href="https://ppc.land/scaled-content-abuse/">PPC Land</a>). AI assistants tend to name brands that have reviews, press and retailer mentions (<a href="https://www.iwdagency.com/blogs/news/ai-search-optimization-for-ecommerce-2026/">IWD Agency</a>). Agency sources, so directional.</li>
+    <li><b>Price sensitivity.</b> About 22% of owners spent less on pets in 2025, and cheaper options are gaining. A $48 bottle needs a visible reason: a better result, or a lower cost per wash for a groomer (reported).</li>
+  </ul>
+  <h3 style="margin-top:24px">Where you fit</h3>
+  <p>Premium, certified organic, made in America, and built for hospitality is a clear position. Whether groomers and shops see $48 as premium or just expensive is the open question, and your first ten conversations answer it (guess).</p>
+</div></details>
+
+<details><summary><span><span class="st">What we will test</span><span class="sd">Eight best guesses, and the cheapest way to check each one.</span></span></summary><div class="inner">
+  <h2>Assess</h2>
+  <p class="sub">Eight best guesses, and the cheapest way to check each one.</p>
+  <p>These are my best guesses, not facts. For each one: <b>why I think so</b>, <b>what would change my mind</b>, and <b>the cheapest way to find out</b>. Evidence is labeled: <i>reported</i> means a published source, <i>estimate</i> means my arithmetic from assumed numbers, <i>guess</i> means reasoning without data. Wherever your own numbers disagree with me, your numbers win.</p>
+
+  <article class="hunch">
+    <h3>1. Bring your own buyers to Faire.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>Zach tells me your Faire listing is live with no orders yet (please confirm). If so, that is normal: a listing alone does not bring buyers, so bring your own. Faire charges up to <span data-f="feeM" class="f-think" title="To check. It depends on: faire fee on a new retailer's first order (marketplace). See the first fold to find out.">25%</span> on a new retailer's first order from its own marketplace, but seller guides report <span data-f="feeDirect" class="f-think" title="To check. It depends on: faire commission on retailers you bring (your own link). See the first fold to find out.">0%</span> commission on retailers you bring through your own Faire Direct link, plus a small payment fee. On a <span data-f="upr" class="f-think" title="To check. It depends on: bottles in a boutique's first order. See the first fold to find out.">12</span>-bottle first order at <span data-f="wholesale" class="f-known" title="Known: every input behind this number is a record or your own data.">$22.50</span> wholesale and a cost of <span data-f="unitCost" class="f-think" title="To check. It depends on: your cost per bottle to make, packaging per bottle. See the first fold to find out.">$5.76</span> per bottle, that is about <span data-f="faireMarket" class="f-think" title="To check. It depends on: bottles in a boutique's first order, faire fee on a new retailer's first order (marketplace), your cost per bottle to make, packaging per bottle. See the first fold to find out.">$133</span> profit through the marketplace and about <span data-f="faireDirect" class="f-think" title="To check. It depends on: bottles in a boutique's first order, faire commission on retailers you bring (your own link), payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">$193</span> through your own link. <span class="grade">reported</span> <span class="grade">estimate</span></dd>
+      <dt>What would change my mind</dt>
+      <dd>The fee page in your own Faire account shows different terms for retailers you bring.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>Read the fee page in your account and send your link to 10 contacts by October 10. Ten minutes plus ten messages.</dd>
+    </dl>
+  </article>
+
+  <article class="hunch">
+    <h3>2. Start with the people who buy by the case.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>A groomer or hotel buys again and again, and one account equals several boutique orders: Vlad's pilot is worth about <span data-f="pilotBoutiques" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span>. Owners who pay for grooming also tend not to choose the shampoo, so the groomer is the real customer, and groomers compare cost per wash before brand story. <span class="grade">guess</span> I found no data on how groomers choose, and the pet-hospitality growth claims come from vendor blogs.</dd>
+      <dt>What would change my mind</dt>
+      <dd>In ten short interviews, most groomers and hotel buyers say they would not change what they use, or would change only for a lower price.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>Ten ten-minute conversations before any sample ships. The script is in the toolbox.</dd>
+    </dl>
+  </article>
+
+  <article class="hunch">
+    <h3>3. Ads can wait until reorders show up.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>Reports put the typical cost to win a customer (CAC) at $68 to $84 in 2026, with Meta prospecting around $68 (<a href="https://ringly.io/blog/ecommerce-customer-acquisition-cost-statistics-2026">Ringly</a>, <a href="https://foundrycro.com/blog/dtc-pet-marketing-benchmarks-2026/">Foundry CRO</a>). At your <span data-f="price" class="f-think" title="To check. It depends on: your 16oz list price. See the first fold to find out.">$48</span> list price, an order earns about <span data-f="firstOrder" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">$43</span> after packaging and shipping. With <span data-f="repeat" class="f-think" title="To check. It depends on: reorders per customer in the first year. See the first fold to find out.">0.5</span> reorders per customer in the first year, that supports about <span data-f="breakeven" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">$64</span> to win a customer, against a median of <span data-f="cacMedian" class="f-think" title="To check. It depends on: cost to win a customer online. See the first fold to find out.">$68</span>. So ads would <span data-f="adsVerdict" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">roughly break even</span>. <span class="grade">reported</span> <span class="grade">estimate</span></dd>
+      <dt>What would change my mind</dt>
+      <dd>A capped $500 test wins customers for under about <span data-f="testTarget" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">$48</span>, which leaves room for profit.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>$500 over two weeks to one audience, tracked to actual orders.</dd>
+    </dl>
+  </article>
+
+  <article class="hunch">
+    <h3>4. Premium can hold, if it shows up as a visible result or a lower cost per wash.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>Care spending kept growing while accessories softened, but 22% of owners cut back and private label is rising. A bottle that costs more has to save a groomer time or show on the coat. <span class="grade">reported</span></dd>
+      <dt>What would change my mind</dt>
+      <dd>Most first orders close at full list price through December.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>Quote list price every time and log each discount you are asked for.</dd>
+    </dl>
+  </article>
+
+  <article class="hunch">
+    <h3>5. Outreach volume is the constraint, so hit rate and order size matter most.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>If <span data-f="hit" class="f-think" title="To check. It depends on: share of contacts who place a first order. See the first fold to find out.">7.5%</span> of contacts order (an assumed rate: please replace it with your own after 20 contacts), landing <span data-f="targetOrders" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> boutique first orders, the size of Vlad's pilot, takes about <span data-f="contactsTarget" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">160</span> contacts. At <span data-f="cps" class="f-think" title="To check. It depends on: contacts you make per week. See the first fold to find out.">25</span> a week that is <span data-f="weeksTarget" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order, contacts you make per week. See the first fold to find out.">6</span> weeks. <span class="grade">estimate</span> So the plan has to lean on bigger accounts, a better hit rate, or both.</dd>
+      <dt>What would change my mind</dt>
+      <dd>Your hit rate comes in well above <span data-f="hit" class="f-think" title="To check. It depends on: share of contacts who place a first order. See the first fold to find out.">7.5%</span>, or a few accounts place larger orders.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>One sheet from week one: contacts, replies, orders, units.</dd>
+    </dl>
+  </article>
+
+  <article class="hunch">
+    <h3>6. Real proof will do more than more content.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>Google says it does not ban AI-written pages. It penalizes mass-produced pages that add little, and agency write-ups report traffic losses of 50% to 80% after the March 2026 update for sites that published thousands of unedited pages (<a href="https://ppc.land/scaled-content-abuse/">PPC Land</a>). Only about 7% of ChatGPT citations overlap Google's top ten, and brands tend to get named where they have reviews, Reddit threads and video (<a href="https://www.iwdagency.com/blogs/news/ai-search-optimization-for-ecommerce-2026/">IWD Agency</a>). AI drafts are welcome. The lift comes from one real fact, photo or customer quote on every page, and from retailers and hotels mentioning you. <span class="grade">reported</span> Agency sources, so directional.</dd>
+      <dt>What would change my mind</dt>
+      <dd>Pages built with AI help and one real fact each bring measurable orders or inquiries within 60 days.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>Publish five such pages, tag the traffic, and compare.</dd>
+    </dl>
+  </article>
+
+  <article class="hunch">
+    <h3>7. The brand world is your pitch, and it works best once a few buyers have proven it.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>Your world of hospitality, travel and dogs as guests is what can make a boutique or hotel say yes, so keep it in every pitch. The open question is order, not whether it matters. Wild One was started by a brand creative, a production lead and a supply-chain strategist (<a href="https://www.femalestartupclub.com/blogs/podcasts/minali-chatani-veronica-becchetri-wild-one">Female Startup Club</a>). BarkBox reportedly grew from 1,000 subscribers in year one to 100,000 in year three around one offer and one number (<a href="https://recurly.com/blog/how-a-great-dane-gets-credit-for-the-creation-of-a-100-million-subscription-box-business/">Recurly</a>). The winners I found shared a hero product and a channel they could count. <span class="grade">reported</span> <span class="grade">guess</span> I only found winners, so treat this as a pattern to test, not a rule.</dd>
+      <dt>What would change my mind</dt>
+      <dd>Buyers say the brand world is why they ordered. Then lead with it everywhere.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>Ask every first-time buyer why they said yes and keep their exact words.</dd>
+    </dl>
+  </article>
+
+  <article class="hunch">
+    <h3>8. Quick, plain notes are enough. Pace matters more than polish.</h3>
+    <dl>
+      <dt>Why I think so</dt>
+      <dd>At an assumed <span data-f="hit" class="f-think" title="To check. It depends on: share of contacts who place a first order. See the first fold to find out.">7.5%</span> hit rate, <span data-f="contactsTarget" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">160</span> contacts land <span data-f="targetOrders" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> first orders. At <span data-f="cps" class="f-think" title="To check. It depends on: contacts you make per week. See the first fold to find out.">25</span> messages a week that is about <span data-f="weeksTarget" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order, contacts you make per week. See the first fold to find out.">6</span> weeks, and at 10 a week it is about <span data-f="weeksAt10" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">16</span>. A plain note to a stranger carries little risk. <span class="grade">guess</span> I have no data on how your own notes perform.</dd>
+      <dt>What would change my mind</dt>
+      <dd>Polished notes win by a wide margin over quick ones, across 20 sends.</dd>
+      <dt>Cheapest way to find out</dt>
+      <dd>Send 10 quick notes and 10 polished ones. Compare replies and first orders.</dd>
+    </dl>
+  </article>
+</div></details>
+<details><summary><span><span class="st">Pro forma: what a bottle earns, and how long it takes</span><span class="sd">Unit economics by channel, and time to value in three futures.</span></span></summary><div class="inner">
+  <h2>Pro forma</h2>
+  <p class="sub">Your real prices, my placeholders for everything else. Dotted numbers are things we think.</p>
+  <h3 style="margin-top:24px">What a 16oz bottle earns, by channel</h3>
+  <div class="tablewrap"><table class="score">
+    <thead><tr><th scope="col">Channel</th><th scope="col">You receive</th><th scope="col">You keep</th><th scope="col">Note</th></tr></thead>
+    <tbody>
+<tr><td class="goal" data-label="">Your website</td><td data-label="You receive"><span data-f="price" class="f-think" title="To check. It depends on: your 16oz list price. See the first fold to find out.">$48</span></td><td data-label="You keep"><span data-f="dtcPerBottle" class="f-think" title="To check. It depends on: your 16oz list price, payment processing fee, your cost per bottle to make, packaging per bottle, and more. See the first fold to find out.">$35.80</span></td><td data-label="Note">Before ads. After a typical online customer cost, a first order comes to <span data-f="dtcFirstAds" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">-$25</span>.</td></tr>
+<tr><td class="goal" data-label="">Faire marketplace, first order</td><td data-label="You receive"><span data-f="rcvFaire1" class="f-think" title="To check. It depends on: faire fee on a new retailer's first order (marketplace). See the first fold to find out.">$16.88</span></td><td data-label="You keep"><span data-f="pfFaire1" class="f-think" title="To check. It depends on: faire fee on a new retailer's first order (marketplace), your cost per bottle to make, packaging per bottle. See the first fold to find out.">$11.12</span></td><td data-label="Note">Faire keeps <span data-f="feeM" class="f-think" title="To check. It depends on: faire fee on a new retailer's first order (marketplace). See the first fold to find out.">25%</span> of a new shop's first order.</td></tr>
+<tr><td class="goal" data-label="">Faire marketplace, reorder</td><td data-label="You receive"><span data-f="rcvFaireRe" class="f-think" title="To check. It depends on: faire commission on a retailer's reorders (marketplace). See the first fold to find out.">$19.13</span></td><td data-label="You keep"><span data-f="pfFaireRe" class="f-think" title="To check. It depends on: faire commission on a retailer's reorders (marketplace), your cost per bottle to make, packaging per bottle. See the first fold to find out.">$13.37</span></td><td data-label="Note">Reorders carry a lower commission (<span data-f="feeRe" class="f-think" title="To check. It depends on: faire commission on a retailer's reorders (marketplace). See the first fold to find out.">15%</span>).</td></tr>
+<tr><td class="goal" data-label="">Faire, your own link</td><td data-label="You receive"><span data-f="rcvFaireDirect" class="f-think" title="To check. It depends on: faire commission on retailers you bring (your own link), payment processing fee. See the first fold to find out.">$21.82</span></td><td data-label="You keep"><span data-f="pfFaireDirect" class="f-think" title="To check. It depends on: faire commission on retailers you bring (your own link), payment processing fee, your cost per bottle to make, packaging per bottle. See the first fold to find out.">$16.06</span></td><td data-label="Note"><span data-f="feeDirect" class="f-think" title="To check. It depends on: faire commission on retailers you bring (your own link). See the first fold to find out.">0%</span> commission plus about <span data-f="proc" class="f-think" title="To check. It depends on: payment processing fee. See the first fold to find out.">3%</span> for payment processing, if the seller guides are right.</td></tr>
+<tr><td class="goal" data-label="">Better &amp; Better pilot</td><td data-label="You receive"><span data-f="pilotPer" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid. See the first fold to find out.">$14</span></td><td data-label="You keep"><span data-f="pfPilot" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, your cost per bottle to make, packaging per bottle. See the first fold to find out.">$8.24</span></td><td data-label="Note">$4 up front and $10 as bottles sell. Freight is billed separately.</td></tr>
+<tr><td class="goal" data-label="">Direct to a groomer, spa or hotel</td><td data-label="You receive"><span data-f="rcvDirect" class="f-known" title="Known: every input behind this number is a record or your own data.">$22.50</span></td><td data-label="You keep"><span data-f="pfDirect" class="f-think" title="To check. It depends on: your cost per bottle to make, packaging per bottle. See the first fold to find out.">$16.74</span></td><td data-label="Note">No platform fee. Shipping is not included.</td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin-top:14px">How to read it: the website keeps the most per bottle before ads, but ads take most of it back on a first order. Wholesale and direct keep less per bottle with no ad cost, and they arrive in cases. "You keep" subtracts about <span data-f="unitCost" class="f-think" title="To check. It depends on: your cost per bottle to make, packaging per bottle. See the first fold to find out.">$5.76</span> a bottle to make and pack.</p>
+  <h3 style="margin-top:28px">Three futures, and time to value</h3>
+  <p>These are not predictions. They show how long <span data-f="inventory" class="f-think" title="To check. It depends on: bottles of 16oz on hand or on order. See the first fold to find out.">500</span> bottles take to turn into cash, and what each customer is worth. They assume <span data-f="adBudget" class="f-think" title="To check. It depends on: monthly ad budget used in the model. See the first fold to find out.">$1,500</span> a month in ads, which you would only spend after your first reorders.</p>
+  <div class="tablewrap"><table class="futures">
+    <thead><tr><th scope="col">Lever or result</th><th scope="col">Best</th><th scope="col">Base</th><th scope="col">Slow</th></tr></thead>
+    <tbody>
+<tr><td class="rowhead">Cost to win a customer</td><td><span data-f="sBestCac" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">$35</span></td><td><span data-f="sBaseCac" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">$68</span></td><td><span data-f="sSlowCac" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">$90</span></td></tr>
+<tr><td class="rowhead">Reorders per customer</td><td><span data-f="sBestRep" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">1.0</span></td><td><span data-f="sBaseRep" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">0.5</span></td><td><span data-f="sSlowRep" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">0.2</span></td></tr>
+<tr><td class="rowhead">Faire first orders a month</td><td><span data-f="sFaBest" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">12</span></td><td><span data-f="sFaBase" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">3</span></td><td><span data-f="sFaSlow" class="f-think" title="To check. It depends on: a model assumption. See the first fold to find out.">0</span></td></tr>
+<tr><td class="rowhead">New online customers a month</td><td><span data-f="cuBest" class="f-think" title="To check. It depends on: monthly ad budget used in the model. See the first fold to find out.">43</span></td><td><span data-f="cuBase" class="f-think" title="To check. It depends on: monthly ad budget used in the model. See the first fold to find out.">22</span></td><td><span data-f="cuSlow" class="f-think" title="To check. It depends on: monthly ad budget used in the model. See the first fold to find out.">17</span></td></tr>
+<tr><td class="rowhead">Bottles sold a month</td><td><span data-f="btBest" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order. See the first fold to find out.">195</span></td><td><span data-f="btBase" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order. See the first fold to find out.">62</span></td><td><span data-f="btSlow" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order. See the first fold to find out.">20</span></td></tr>
+<tr><td class="rowhead">Months to clear the inventory</td><td><span data-f="moBest" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order, bottles of 16oz on hand or on order. See the first fold to find out.">2.6</span></td><td><span data-f="moBase" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order, bottles of 16oz on hand or on order. See the first fold to find out.">8.0</span></td><td><span data-f="moSlow" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order, bottles of 16oz on hand or on order. See the first fold to find out.">25.0</span></td></tr>
+<tr><td class="rowhead">12-month profit per online customer</td><td>about <span data-f="fBest" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">+$51</span></td><td>about <span data-f="fBase" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">-$4</span></td><td>about <span data-f="fSlow" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">-$38</span></td></tr>
+<tr><td class="rowhead">90-day cash if ads ran from day one (capped at your bottles)</td><td>about <span data-f="n90Best" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order, bottles of 16oz on hand or on order, and more. See the first fold to find out.">+$4,968</span></td><td>about <span data-f="n90Base" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order, bottles of 16oz on hand or on order, and more. See the first fold to find out.">-$457</span></td><td>about <span data-f="n90Slow" class="f-think" title="To check. It depends on: monthly ad budget used in the model, bottles per online order, bottles in a boutique's first order, bottles of 16oz on hand or on order, and more. See the first fold to find out.">-$2,352</span></td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin-top:16px">Two levers do most of the work: what each customer costs to win, and how many customers reorder. At the median cost, the base case <span data-f="baseVerdict" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">only breaks even</span>, which is why reorders matter more than ad spend, and why the next section spends your time on buyers. The November 3 checkpoint is where the three futures start to separate.</p>
+</div></details>
+<details><summary><span><span class="st">What is working, what to watch, and three voices</span><span class="sd">Blue and red lenses, then a believer, a skeptic and an inverter.</span></span></summary><div class="inner">
+  <h2>Two lenses</h2>
+  <p class="sub">The blue lens says why this can work. The red lens says what to watch, and what to do about it. Then three voices argue it out.</p>
+  <h3 style="margin-top:24px">Blue lens: why this can work</h3>
+  <ul class="plain">
+    <li><b>Your sales record is real.</b> Three Salesperson of the Year awards, a Fastly partnerships role, and Walmart and Comcast live-streaming work. Wholesale and hospitality draw on exactly that skill.</li>
+    <li><b>You already have a partner in conversation.</b> Vlad's pilot is worth up to about <span data-f="pilotBoutiques" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> boutique first orders if it sells through.</li>
+    <li><b>The downside is small.</b> A bottle costs about <span data-f="unitCost" class="f-think" title="To check. It depends on: your cost per bottle to make, packaging per bottle. See the first fold to find out.">$5.76</span> all in, so the whole <span data-f="inventory" class="f-think" title="To check. It depends on: bottles of 16oz on hand or on order. See the first fold to find out.">500</span>-bottle inventory cost about <span data-f="costInv" class="f-think" title="To check. It depends on: your cost per bottle to make, packaging per bottle, bottles of 16oz on hand or on order. See the first fold to find out.">$2,880</span> to make. This is a learning bet, not a ruin bet.</li>
+    <li><b>The margin leaves room.</b> A $48 list price against a bottle cost near <span data-f="unitCost" class="f-think" title="To check. It depends on: your cost per bottle to make, packaging per bottle. See the first fold to find out.">$5.76</span> means wholesale and direct can absorb fees, shipping and a few mistakes.</li>
+    <li><b>Your story is distinctive.</b> Hospitality, travel and dogs as guests, with certified-organic, made in America. It is the kind of story an independent shop or boutique hotel can retell.</li>
+    <li><b>Retailers can try you at low risk.</b> Faire's free returns on a first order make a small first purchase an easy yes (reported).</li>
+  </ul>
+  <h3 style="margin-top:28px">Red lens: what to watch, and what to do</h3>
+  <ul class="plain">
+    <li><b>Watch:</b> buyers decide on result and price before story. <b>Do:</b> open every pitch with one proof point, then bring in the world.</li>
+    <li><b>Watch:</b> online ads would <span data-f="adsVerdict" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">roughly break even</span>, not grow. <b>Do:</b> keep ads small until your first reorders show up.</li>
+    <li><b>Watch:</b> the Vlad agreement is still open. <b>Do:</b> check in this week and ask for a yes or no, and build two more paths (independent shops and groomers) so one answer does not decide everything.</li>
+    <li><b>Watch:</b> AI-written pages can read like everyone else's and search engines discount thin ones. <b>Do:</b> put one real fact, photo or customer quote on every page, and get shops and hotels to mention you.</li>
+    <li><b>Watch:</b> a flattering profile cannot tell you what buyers will do. <b>Do:</b> log weekly numbers and run the listening calls. They are the feedback a profile cannot give.</li>
+    <li><b>Watch:</b> at an assumed <span data-f="hit" class="f-think" title="To check. It depends on: share of contacts who place a first order. See the first fold to find out.">7.5%</span> hit rate, <span data-f="targetOrders" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> first orders takes about <span data-f="contactsTarget" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">160</span> contacts, so the pace of outreach sets the pace of everything else. <b>Do:</b> use the quick notes in the toolbox and the five-a-day sprint in the pace fold.</li>
+  </ul>
+
+  <h3 style="margin-top:36px">The debate</h3>
+  <p class="sub">Three voices argue about whether you can sell premium dog shampoo while people tighten their spending. Listen to all three, then decide.</p>
+  <h3 style="margin-top:24px">The Believer</h3>
+  <ul class="plain">
+    <li>Pet spending grew about 3.7% in 2025, through inflation and uncertainty (<a href="https://americanpetproducts.org/news/u.s.-pet-industry-reaches-158-billion-in-2025-poised-for-continued-growth-in-2026">APPA</a>).</li>
+    <li>Owners cut accessories before care, and a shampoo is care that people buy again.</li>
+    <li>A narrow premium brand needs thousands of buyers, not millions.</li>
+    <li>Hospitality is a tailwind: pet-friendly travel is growing, and hotels need amenities that say care.</li>
+    <li>Your record is in sales and partnerships, which is the skill this plan needs.</li>
+  </ul>
+  <h3 style="margin-top:24px">The Skeptic</h3>
+  <ul class="plain">
+    <li>A $48 bottle competes with a $9 bottle that works. When people squeeze, "organic, made in America" is a story some stop paying for.</li>
+    <li>The money that holds up best is vet care and professional services. Shampoo is closer to the edge.</li>
+    <li>Online, winning a customer costs about <span data-f="cacMedian" class="f-think" title="To check. It depends on: cost to win a customer online. See the first fold to find out.">$68</span> and a first order earns about <span data-f="firstOrder" class="f-think" title="To check. It depends on: your 16oz list price, bottles per online order, payment processing fee, your cost per bottle to make, and more. See the first fold to find out.">$43</span>, so ads depend on reorders.</li>
+    <li>Early partner agreements often take a few rounds. This is the one to finish.</li>
+  </ul>
+  <h3 style="margin-top:24px">The Inverter</h3>
+  <ul class="plain">
+    <li>For the Believer to be wrong, groomers and hotels would prefer what they use now and would not switch for a story.</li>
+    <li>For the Skeptic to be wrong, buyers would pay more for something they can see: a better coat, or a smoother guest experience.</li>
+    <li>So the question is not whether premium sells. It is whether 10 groomers and 10 hotel buyers take a free sample and reorder. That takes about six weeks and about 40 bottles.</li>
+  </ul>
+  <h3 style="margin-top:24px">If you disagree</h3>
+  <p>If a voice gets something wrong, you probably know something it cannot see. Open the tests fold, choose <i>I would test it differently</i>, and write your version.</p>
+  <h3 style="margin-top:24px">Four buyers who have to say yes</h3>
+  <dl>
+    <dt>A boutique owner on Faire</dt><dd>Says: "Free returns, so I will try 12 bottles. Will it sell through at my prices?" Flips on: a sell-through story from another shop and a display-ready set.</dd>
+    <dt>A hotel amenity buyer</dt><dd>Says: "I need cost per stay, steady supply and no guest complaints." Flips on: a per-room cost, a 30-day pilot, and a reference from one other property.</dd>
+    <dt>A professional groomer</dt><dd>Says: "Does it rinse clean, how many washes per bottle, can I buy in volume?" Flips on: a bulk size and a result they can see on a coat.</dd>
+    <dt>A customer in a squeeze</dt><dd>Says: "Why not the $9 one?" Flips on: a reason that is visible, repeatable and about the dog, not the brand.</dd>
+  </dl>
+  <h3 style="margin-top:24px">A fair ruling</h3>
+  <ul class="plain">
+    <li><b>Reasonable:</b> a modest, profitable wholesale and hospitality book of tens of accounts, sold through relationships you already know how to build.</li>
+    <li><b>Not yet proven:</b> scaling through paid social or AI-written content. At the median cost, the math is tight, and nothing yet shows Le Woof beating that median.</li>
+    <li><b>Conditional on:</b> a proof point before the holiday window closes. One reorder from a real buyer outweighs a stack of flattering paragraphs.</li>
+  </ul>
+</div></details>
+
+<details><summary><span><span class="st">Founders who won</span><span class="sd">Patterns from pet and lifestyle brands that worked.</span></span></summary><div class="inner">
+  <h2>Founders who won</h2>
+  <p class="sub">I only found winners, so treat these as ideas to test, not a recipe.</p>
+  <h3 style="margin-top:24px">The complementary trio</h3>
+  <p>Wild One was started by a brand creative, a production lead and a supply-chain strategist (<a href="https://www.femalestartupclub.com/blogs/podcasts/minali-chatani-veronica-becchetri-wild-one">Female Startup Club</a>). Each covered a different thing that can break. <b>What it suggests:</b> many had someone covering operations. That is worth a thought only if it frees your time to sell.</p>
+  <h3 style="margin-top:24px">The one-number compounder</h3>
+  <p>BarkBox reportedly grew from 1,000 subscribers in year one to 100,000 in year three around one offer (<a href="https://recurly.com/blog/how-a-great-dane-gets-credit-for-the-creation-of-a-100-million-subscription-box-business/">Recurly</a>). <b>What it suggests:</b> one number reported weekly, such as reorders per shop, keeps everyone aligned.</p>
+  <h3 style="margin-top:24px">The wholesale-first builder</h3>
+  <p>Many lifestyle brands built through department stores and licensing before the founder's name became the product. This is general background, not from the sources here (guess). <b>What it suggests:</b> sell to buyers first, and let the world sell the rest.</p>
+  <h3 style="margin-top:24px">What they shared (my reading)</h3>
+  <ul class="plain">
+    <li>One hero product, then the world.</li>
+    <li>A channel they could count.</li>
+    <li>Partners who filled the skill gaps.</li>
+    <li>Founders who did the unglamorous work every day.</li>
+  </ul>
+</div></details>
+<details><summary><span><span class="st">Ideas to check: your verdict on each</span><span class="sd">Each idea has a pass line and a not-hold line. You give the verdict.</span></span></summary><div class="inner">
+  <h2>Ideas to check</h2>
+  <p class="sub">Each idea has a line that would show it held and a line that would show it did not. You decide what happened, and you can write your own version of any test.</p>
+  <p>For each one, choose <i>It held</i>, <i>It did not hold</i> or <i>I would test it differently</i>, and add a note. Your choices are saved in this browser only. <i>Copy my numbers</i> in the first fold copies them so you can send them to Zach, if you want to.</p>
+  <ol class="ledger" id="tests-list" style="padding:0;margin:18px 0 0"><!--TESTS--><li class="tc" data-tc="t1"><div class="lg-top"><b>The partner answers</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Vlad will say yes or no if asked clearly.</p><p><b>It held if:</b> A written yes or no on the invoice and agreement.</p><p><b>In between:</b> A reply that asks for changes: answer it within two days.</p><p><b>It did not hold if:</b> No answer after a clear ask.</p><p class="lg-how"><b>How to find out:</b> Check in with Vlad and ask for a yes or no. <span class="w">by Oct 16</span></p><fieldset class="vr"><legend class="sr">Your verdict on The partner answers</legend><div class="lg-ctl"><label><input type="radio" name="v_t1" value="held" data-v="t1"> It held</label><label><input type="radio" name="v_t1" value="failed" data-v="t1"> It did not hold</label><label><input type="radio" name="v_t1" value="disputed" data-v="t1"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t1" value=""></label></li><li class="tc" data-tc="t2"><div class="lg-top"><b>Buyers try it</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Independent shops will place a first order when they are asked.</p><p><b>It held if:</b> 3 or more first orders from about 50 contacts.</p><p><b>In between:</b> 1 or 2 first orders: run one more cycle.</p><p><b>It did not hold if:</b> No first orders after about 50 contacts.</p><p class="lg-how"><b>How to find out:</b> Log contacts and orders in the retailer list. <span class="w">by Nov 3</span></p><fieldset class="vr"><legend class="sr">Your verdict on Buyers try it</legend><div class="lg-ctl"><label><input type="radio" name="v_t2" value="held" data-v="t2"> It held</label><label><input type="radio" name="v_t2" value="failed" data-v="t2"> It did not hold</label><label><input type="radio" name="v_t2" value="disputed" data-v="t2"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t2" value=""></label></li><li class="tc" data-tc="t3"><div class="lg-top"><b>Buyers reorder</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> First-order shops come back.</p><p><b>It held if:</b> At least 2 of your first 6 shops reorder within 60 days.</p><p><b>In between:</b> 1 reorders: run another cycle.</p><p><b>It did not hold if:</b> None of the first 6 reorder.</p><p class="lg-how"><b>How to find out:</b> Track each shop's second order. <span class="w">by Dec 15</span></p><fieldset class="vr"><legend class="sr">Your verdict on Buyers reorder</legend><div class="lg-ctl"><label><input type="radio" name="v_t3" value="held" data-v="t3"> It held</label><label><input type="radio" name="v_t3" value="failed" data-v="t3"> It did not hold</label><label><input type="radio" name="v_t3" value="disputed" data-v="t3"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t3" value=""></label></li><li class="tc" data-tc="t4"><div class="lg-top"><b>Wholesale pays</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> A first wholesale order earns a worthwhile profit after fees, samples and shipping.</p><p><b>It held if:</b> At least $25 profit per first order, using your real cost per bottle.</p><p><b>In between:</b> $0 to $25: look at shipping and samples.</p><p><b>It did not hold if:</b> Below $0.</p><p class="lg-how"><b>How to find out:</b> Pull your landed cost and read the Faire fee page. <span class="w">by Oct 13</span></p><fieldset class="vr"><legend class="sr">Your verdict on Wholesale pays</legend><div class="lg-ctl"><label><input type="radio" name="v_t4" value="held" data-v="t4"> It held</label><label><input type="radio" name="v_t4" value="failed" data-v="t4"> It did not hold</label><label><input type="radio" name="v_t4" value="disputed" data-v="t4"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t4" value=""></label></li><li class="tc" data-tc="t5"><div class="lg-top"><b>Premium holds</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Shops and groomers will pay your wholesale price.</p><p><b>It held if:</b> 4 or more of your first 6 orders close at your wholesale price.</p><p><b>In between:</b> 3 of 6: watch the next 6.</p><p><b>It did not hold if:</b> 2 or fewer of the first 6 close without a discount.</p><p class="lg-how"><b>How to find out:</b> Quote your price every time and log each discount asked for. <span class="w">by Dec 15</span></p><fieldset class="vr"><legend class="sr">Your verdict on Premium holds</legend><div class="lg-ctl"><label><input type="radio" name="v_t5" value="held" data-v="t5"> It held</label><label><input type="radio" name="v_t5" value="failed" data-v="t5"> It did not hold</label><label><input type="radio" name="v_t5" value="disputed" data-v="t5"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t5" value=""></label></li><li class="tc" data-tc="t6"><div class="lg-top"><b>Hospitality says yes</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Hotels and spas will pay for a pilot.</p><p><b>It held if:</b> 2 of 10 move to a paid pilot.</p><p><b>In between:</b> 1 of 10: run another cycle.</p><p><b>It did not hold if:</b> 0 of 10.</p><p class="lg-how"><b>How to find out:</b> Ten hotel or spa conversations, then samples. <span class="w">by Dec 1</span></p><fieldset class="vr"><legend class="sr">Your verdict on Hospitality says yes</legend><div class="lg-ctl"><label><input type="radio" name="v_t6" value="held" data-v="t6"> It held</label><label><input type="radio" name="v_t6" value="failed" data-v="t6"> It did not hold</label><label><input type="radio" name="v_t6" value="disputed" data-v="t6"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t6" value=""></label></li><li class="tc" data-tc="t7"><div class="lg-top"><b>Ads can pay back</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Online ads can win customers for less than they are worth.</p><p><b>It held if:</b> After your first reorders, a $500 test wins customers under $48 each (set on Oct 6).</p><p><b>In between:</b> $48 to $64: too close to call.</p><p><b>It did not hold if:</b> Above $64. A $500 test buys only about 7 customers, so read it as a rough signal.</p><p class="lg-how"><b>How to find out:</b> A capped $500 test to one audience, tracked to orders. <span class="w">by Jan 15</span></p><fieldset class="vr"><legend class="sr">Your verdict on Ads can pay back</legend><div class="lg-ctl"><label><input type="radio" name="v_t7" value="held" data-v="t7"> It held</label><label><input type="radio" name="v_t7" value="failed" data-v="t7"> It did not hold</label><label><input type="radio" name="v_t7" value="disputed" data-v="t7"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t7" value=""></label></li><li class="tc" data-tc="t8"><div class="lg-top"><b>The pace holds</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Five messages a day is doable and enough.</p><p><b>It held if:</b> 25 logged contacts a week for 4 weeks.</p><p><b>In between:</b> 15 to 24 a week: adjust the plan.</p><p><b>It did not hold if:</b> Under 15 in 2 of the 4 weeks.</p><p class="lg-how"><b>How to find out:</b> Log every message, follow-ups included, and count on Friday. <span class="w">by Nov 17</span></p><fieldset class="vr"><legend class="sr">Your verdict on The pace holds</legend><div class="lg-ctl"><label><input type="radio" name="v_t8" value="held" data-v="t8"> It held</label><label><input type="radio" name="v_t8" value="failed" data-v="t8"> It did not hold</label><label><input type="radio" name="v_t8" value="disputed" data-v="t8"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t8" value=""></label></li><li class="tc" data-tc="t9"><div class="lg-top"><b>Real baseline</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Your real numbers can replace the placeholders.</p><p><b>It held if:</b> Six numbers pulled from Shopify, Amazon and Faire, and entered in the first fold.</p><p><b>In between:</b> Three or four pulled.</p><p><b>It did not hold if:</b> Not pulled by the date.</p><p class="lg-how"><b>How to find out:</b> 90 days of visits, orders, repeat buyers, units, reviews and Faire views. Differences from the placeholders are expected; that is the point. <span class="w">by Oct 13</span></p><fieldset class="vr"><legend class="sr">Your verdict on Real baseline</legend><div class="lg-ctl"><label><input type="radio" name="v_t9" value="held" data-v="t9"> It held</label><label><input type="radio" name="v_t9" value="failed" data-v="t9"> It did not hold</label><label><input type="radio" name="v_t9" value="disputed" data-v="t9"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t9" value=""></label></li><li class="tc" data-tc="t10"><div class="lg-top"><b>Gatekeepers care</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Groomers and hotel buyers switch for a visible reason.</p><p><b>It held if:</b> 3 of 10 name a reason to switch, and 2 accept a sample and agree to a follow-up call.</p><p><b>In between:</b> 1 or 2 name a reason: run another cycle.</p><p><b>It did not hold if:</b> Most say "whatever is cheapest" and none accept.</p><p class="lg-how"><b>How to find out:</b> Ten listening calls. <span class="w">by Oct 31</span></p><fieldset class="vr"><legend class="sr">Your verdict on Gatekeepers care</legend><div class="lg-ctl"><label><input type="radio" name="v_t10" value="held" data-v="t10"> It held</label><label><input type="radio" name="v_t10" value="failed" data-v="t10"> It did not hold</label><label><input type="radio" name="v_t10" value="disputed" data-v="t10"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t10" value=""></label></li><li class="tc" data-tc="t11"><div class="lg-top"><b>Quick notes are enough</b><span class="pill t">NOT TESTED</span></div><p><b>We think:</b> Plain, quick notes get about as many replies as polished ones.</p><p><b>It held if:</b> Replies differ by 2 or fewer out of 10 each.</p><p><b>It did not hold if:</b> Polished notes get 3 or more extra replies out of 10. With samples this small, read it as a rough signal.</p><p class="lg-how"><b>How to find out:</b> 10 quick and 10 polished notes, compared. <span class="w">by Nov 3</span></p><fieldset class="vr"><legend class="sr">Your verdict on Quick notes are enough</legend><div class="lg-ctl"><label><input type="radio" name="v_t11" value="held" data-v="t11"> It held</label><label><input type="radio" name="v_t11" value="failed" data-v="t11"> It did not hold</label><label><input type="radio" name="v_t11" value="disputed" data-v="t11"> I would test it differently</label></div></fieldset><label class="note">Your note, or your own version of the test <input type="text" data-vn="t11" value=""></label></li><!--/TESTS--></ol>
+  <h3 style="margin-top:28px">What winning looks like</h3>
+  <p>By December 15, at least 3 of these 5 means the plan works and it is time to scale it:</p>
+  <ul class="plain">
+    <li>30% of first-order retailers reorder at list price.</li>
+    <li>2 hotels or groomers pay for a pilot, not just a free sample.</li>
+    <li>1 inquiry arrives that you did not start.</li>
+    <li>1 buyer introduces you to another buyer.</li>
+    <li>1 unprompted review, retailer post or press mention.</li>
+  </ul>
+  <p>Fewer than 2 means adjust the plan. In between means one more cycle. Either way, you will know.</p>
+
+</div></details>
+
+<details><summary><span><span class="st">The full seven-week plan</span><span class="sd">Every date, with who does what.</span></span></summary><div class="inner">
+  <h2>Synthesize</h2>
+  <p class="sub">The full seven-week plan. Dates are proposals: move any that do not fit.</p>
+  <ol class="plan">
+    <li><span class="when">Fri Oct 9</span><span><b>Check in with Vlad</b> and ask for a yes or no on the invoice and agreement. <i>You.</i></span></li>
+    <li><span class="when">Sat Oct 10</span><span><b>Faire:</b> confirm your listing, read the fee page (guess 1), and send your own Faire link to 10 independent shops. <i>You.</i> Zach can review the listing with you: photos, products, wholesale price.</span></li>
+    <li><span class="when">Tue Oct 13</span><span><b>Pull six numbers:</b> Shopify visits, orders and repeat buyers over 90 days; Amazon units, reviews and rating over 90 days; Faire profile views and orders. Replace every dotted number in this document. <i>You and Zach.</i></span></li>
+    <li><span class="when">Tue Oct 20</span><span><b>A first list of 60 names:</b> about 20 independent boutiques and pet shops, 20 independent hotels and spas, 20 groomers. Skip anyone who buys only through a distributor. Send each your own Faire link, and keep adding about 25 names a week. <i>You.</i></span></li>
+    <li><span class="when">Oct 20 to Nov 24</span><span><b>Five messages a day (25 a week, follow-ups included),</b> ten listening calls, five to ten samples out. Use the quick notes. <i>You.</i></span></li>
+    <li><span class="when">Tue Nov 3</span><span><b>Checkpoint.</b> 3 first orders or 2 paid pilots from about 50 contacts. If not, adjust the plan and spend 30 days on outreach only. <i>Both.</i></span></li>
+    <li><span class="when">Tue Nov 24</span><span><b>At least 5 first orders or 2 case-size accounts,</b> or an updated plan for the holiday window and spring buying season. <i>Both.</i></span></li>
+    <li><span class="when">Parked</span><span><b>Your open items:</b> the 16oz Amazon listing, the Better &amp; Better pets-tab placement, the Aesop price comparison, and the investor and DTC conversations. They wait for first proof, unless one helps the Vlad pilot. <i>You.</i></span></li>
+  </ol>
+  <h3 style="margin-top:28px">If something goes differently</h3>
+  <ul class="plain">
+    <li><b>No written yes from Vlad by October 16:</b> stop chasing. Treat the pilot as zero and run the plan on independent shops and groomers alone.</li>
+    <li><b>Faire's fee for your own link is above 10%:</b> send direct invoices only, and update the fee in the first fold.</li>
+    <li><b>3 of your first 5 hotel calls say they give no bath products:</b> ask about retail and spa services instead. If those fail too, drop hotels by October 31.</li>
+    <li><b>You send under 15 a week for two weeks running:</b> cut the list to 10 shops and 10 groomers, and call them.</li>
+    <li><b>A reorder arrives:</b> keep about 60 bottles unpromised. If stock is short, tell the shop the date. A kept date beats a refused order.</li>
+  </ul>
+
+  <h3 style="margin-top:36px">Pace: the arithmetic of outreach</h3>
+  <p>Every first order starts with a message. If <span data-f="hit" class="f-think" title="To check. It depends on: share of contacts who place a first order. See the first fold to find out.">7.5%</span> of contacts place a first order (an assumed rate, to be replaced with yours after 20 contacts), landing <span data-f="targetOrders" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> first orders takes about <span data-f="contactsTarget" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">160</span> contacts. How long that takes depends on the pace:</p>
+  <div class="tablewrap"><table class="futures">
+    <thead><tr><th scope="col">Messages a week</th><th scope="col">Weeks to <span data-f="targetOrders" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> first orders</th></tr></thead>
+    <tbody>
+      <tr><td class="rowhead">10</td><td>about <span data-f="weeksAt10" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">16</span> weeks</td></tr>
+      <tr><td class="rowhead">25 (five a day)</td><td>about <span data-f="weeksAt25" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">6</span> weeks</td></tr>
+      <tr><td class="rowhead">50</td><td>about <span data-f="weeksAt50" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order, share of contacts who place a first order. See the first fold to find out.">3</span> weeks</td></tr>
+    </tbody>
+  </table></div>
+  <h3 style="margin-top:24px">What a good-enough message looks like</h3>
+  <ul class="plain">
+    <li><b>Three lines:</b> who you are, what you make, one small ask (two free bottles).</li>
+    <li><b>One line about them,</b> taken from their page or shop.</li>
+    <li><b>One pass is enough.</b> A plain note to a stranger is normal. Silence is common, and it costs nothing.</li>
+  </ul>
+  <h3 style="margin-top:24px">A routine some people find easy</h3>
+  <p>Five messages a day, about 25 minutes at a time that suits you. Copy a quick note from the toolbox, add one line about them, send, and log it. Replies and calls are a separate block.</p>
+  <h3 style="margin-top:24px">A test</h3>
+  <p>The guess is that quick, plain notes get about as many replies as polished ones. Try 10 of each and compare replies and first orders. If polished wins by a lot, spend the extra time. If not, you have your pace.</p>
+</div></details>
+<details><summary><span><span class="st">Five things to keep, and your two lines</span><span class="sd">The short version, and the lines only you can write.</span></span></summary><div class="inner">
+  <h2>Recapitulate</h2>
+  <p class="sub">The short version. The tests that check it are in the "Test it yourself" fold.</p>
+  <ol class="plain" style="margin-top:18px">
+    <li>On Friday, October 9, ask Vlad for a clear yes or no.</li>
+    <li>Sell to people who buy by the case before you spend on ads or new brand work.</li>
+    <li>Bring your own buyers to Faire through your own link.</li>
+    <li>Keep one comparison in view: Vlad's pilot equals about <span data-f="pilotBoutiques" class="f-think" title="To check. It depends on: nothing is signed, and the invoice has not been paid, bottles in a boutique's first order. See the first fold to find out.">12</span> boutique first orders.</li>
+    <li>Every guess above can be checked. If your numbers say I am wrong, change the plan.</li>
+  </ol>
+
+
+
+  <h3 style="margin-top:36px">Two lines only you can write</h3>
+  <div class="fillrow"><label for="n1">The number that would make me say "this is working":</label><input id="n1" type="text" autocomplete="off"></div>
+  <div class="fillrow"><label for="n2">I will rethink my approach if ______ has not happened by ______:</label><input id="n2" type="text" autocomplete="off"></div>
+</div></details>
+
+
+<details><summary><span><span class="st">Tools: messages, scripts, market sizing and prompts</span><span class="sd">Quick notes, a listening script, how to size the markets, and ChatGPT prompts.</span></span></summary><div class="inner">
+  <h2>Toolbox</h2>
+  <p class="sub">Messages in your voice, a listening script, and prompts for ChatGPT.</p>
+
+  <h3 style="margin-top:28px">Your words</h3>
+  <div class="say"><b>Boutique owner</b>Hi [Name], I'm Hila, founder of Le Woof, a certified-organic, made-in-America pet-care line built for hospitality and travel. I love [one specific thing about their shop]. I'd like to send you our three-piece set to try. If you order through my Faire link, your first order comes with free returns.</div>
+  <div class="say"><b>Hotel or spa contact</b>Hi [Name], it has been a while since [shared project or place]. I'm now building Le Woof, a pet-care line for hospitality. I'd value your honest take on two bottles for your pet-friendly guests. No obligation.</div>
+  <div class="say"><b>Groomer</b>Hi [Name], quick question from a fellow dog person: what do you wash coats with, and what would make you switch? I make a certified-organic line and would love your honest feedback on two bottles.</div>
+
+  
+  <h3 style="margin-top:28px">Quick versions (send in two minutes)</h3>
+  <p class="fine">Copy, swap in the name, add one line about them, send. Do not redraft.</p>
+  <div class="say"><b>Shop</b>Hi [Name], I make Le Woof, a certified-organic dog shampoo. [One line about their shop.] Could I send you two bottles to try? No obligation. Hila</div>
+  <div class="say"><b>Groomer</b>Hi [Name], what do you wash coats with? I make a certified-organic dog shampoo and would love your honest take on two bottles. Hila</div>
+  <div class="say"><b>Hotel or spa</b>Hi [Name], I'm building a pet-care line for hospitality. Could I send two bottles for your dog guests and hear what you think? Hila</div>
+  <div class="say"><b>Follow-up after 5 days</b>Hi [Name], floating this back up. Happy to send the two bottles whenever it suits you. Hila</div>
+  <div class="say"><b>After a yes</b>Wonderful, what address should I send them to? They will go out this week. Hila</div>
+
+  <h3 style="margin-top:36px">The listening script: ten groomers and hotel buyers</h3>
+  <p>Ten minutes each. Your goal is to learn what they do today, so ask about the past and save your story for last.</p>
+  <ol class="plain">
+    <li>Walk me through the last time you bought shampoo. What was it, where did you buy it, and what did you pay?</li>
+    <li>How many dogs a week, and about how much product does a groom use?</li>
+    <li>What do you wish your current shampoo did better?</li>
+    <li>When did you last switch products, and what made you switch?</li>
+    <li>Do clients ever ask what you use? Do any ask for natural or organic?</li>
+    <li>Who decides what you buy, and what would you need to see before trying something new: a sample, a price, a bigger size?</li>
+    <li>What cost per groom would be too much for a better product?</li>
+    <li>If I send two bottles for you to use on five dogs, will you tell me honestly how it went in two weeks?</li>
+  </ol>
+  <p><b>Hotel or spa:</b> use the separate hotel call script, or replace questions 1 and 2 with "What do you spend per room on amenities, and who signs off on a change?" and question 7 with "What would make you drop a supplier?"</p>
+  <p class="fine"><b>Scoring:</b> kind words do not count. Commitments count: a sample accepted, a call booked, an intro to another buyer, a paid pilot or a deposit. Write down what they use now, what they pay and what would make them switch.</p>
+
+  <h3 style="margin-top:36px">Rehearse with ChatGPT</h3>
+  <p>ChatGPT is a good rehearsal partner when you give it a role and real numbers. Start a fresh chat for each of these, and keep customer data and private deal terms out of it.</p>
+  <pre id="p1">You are a skeptical buyer at a boutique pet retailer who has seen hundreds of brand pitches. Here is my product, price and wholesale terms: [paste]. Tell me the five reasons you would say no, what proof would change your mind, and what the first order would need to look like for you to try it.</pre>
+  <button type="button" data-copy="p1">Copy prompt</button><span class="copied" role="status"></span>
+  <pre id="p2" style="margin-top:20px">Here are this week's real numbers: buyers contacted [ ], replies [ ], samples sent [ ], first orders [ ], reorders [ ], money spent [ ], money earned [ ]. Last week was: [paste]. Be honest: am I on track, what did I avoid, and which three conversations should I have in the next 7 days?</pre>
+  <button type="button" data-copy="p2">Copy prompt</button><span class="copied" role="status"></span>
+  <pre id="p3" style="margin-top:20px">It is twelve months from now and my business has stalled. Give me the six most likely reasons, ranked, and for each one the cheapest thing I can do this week to prevent it. Be direct.</pre>
+  <button type="button" data-copy="p3">Copy prompt</button><span class="copied" role="status"></span>
+
+  <h3 style="margin-top:36px">Size the market</h3>
+  <p class="sub">A number you counted is worth more than one you found online.</p>
+  <h3 style="margin-top:24px">Hotels: count, then call</h3>
+  <ol class="plain">
+    <li><b>Count 25 hotels this week</b> that welcome dogs and name a dog program. Brand pages are the fastest source. Log them on the hotel list tab of the workbook.</li>
+    <li><b>Make 5 calls</b> with the hotel call script: dog stays a year, what they provide, what they spend per stay, and who decides.</li>
+    <li><b>Read the model.</b> It swaps my placeholder for your measured median, then shows the hotel market size and how many hotels you need for $1M a year.</li>
+  </ol>
+  <p>What to expect: a dog bath uses very little product, so the first thing to learn is whether hotels give guests bath products at all. If most only give treats and beds, the better doors may be in-room retail, spa dog baths or gift shops. Either answer is useful.</p>
+  <h3 style="margin-top:24px">Online: use your own numbers</h3>
+  <p>Roughly 65 to 70 million US households have a dog (APPA, to confirm). To reach $1M a year online at <span data-f="price" class="f-think" title="To check. It depends on: your 16oz list price. See the first fold to find out.">$48</span> and <span data-f="ordersYr" class="f-think" title="To check. It depends on: orders per online customer per year. See the first fold to find out.">1.5</span> orders a year, you need about <span data-f="customers1M" class="f-think" title="To check. It depends on: your 16oz list price, orders per online customer per year. See the first fold to find out.">13,900</span> customers, a small slice of the buyers in the natural segment. The market is not the limit; the cost of reaching buyers is. Your Shopify and Amazon numbers (visits, conversion, reorders) show that cost, so pulling them on October 13 is the proof.</p>
+  <p class="fine">The workbook (hotel list, market model, interview log) and the hotel call script come as separate files with this playbook.</p>
+
+  <h3 style="margin-top:36px">Using your ChatGPT profile alongside your numbers</h3>
+  <p>You said the profile captured how you think about business, and it does capture your drive, your imagination and your relationships. Your record backs the relationship and sales parts: three Salesperson of the Year awards, a Walmart live-commerce launch with a Shorty Awards nomination, and Hilton and Soho House client work. Keep those lines for your pitch.</p>
+  <p>What it cannot see is your orders, buyers and reorders. You can. Put your numbers next to it and see where it holds:</p>
+  <ul class="plain">
+    <li><b>"Fearlessly iterative."</b> Count the versions that reached a buyer. That is where iteration pays.</li>
+    <li><b>Thinking about the product, the hotel partnership, the investor story and the packaging at once.</b> That breadth is energy. The plan asks you to point it at one door for 30 days.</li>
+    <li><b>"Creates the category."</b> A category starts with repeat buyers, and the tests above measure them.</li>
+  </ul>
+  <p>Two ways to use it well: ask it the other half (the buyer and weekly-review prompts below), and compare it with your numbers each week. Where they agree, trust it more.</p>
+</div></details>
+<details><summary><span><span class="st">Sources and limits</span><span class="sd">Where the numbers came from and how far to trust them.</span></span></summary><div class="inner">
+  <h2 style="font-size:24px">Sources and limits</h2>
+  <ul class="plain" style="margin-top:12px">
+    <li><a href="https://americanpetproducts.org/news/u.s.-pet-industry-reaches-158-billion-in-2025-poised-for-continued-growth-in-2026">APPA: US pet industry in 2025</a> and <a href="https://www.morganstanley.com/insights/articles/pet-industry-growth-outlook-2026">Morgan Stanley: pet owners tighten the leash</a></li>
+    <li><a href="https://www.gminsights.com/industry-analysis/north-america-pet-shampoo-market/amp">GM Insights: North America pet shampoo</a></li>
+    <li><a href="https://ringly.io/blog/ecommerce-customer-acquisition-cost-statistics-2026">Ringly</a>, <a href="https://foundrycro.com/blog/dtc-pet-marketing-benchmarks-2026/">Foundry CRO</a> and <a href="https://eightx.co/blog/average-cac-by-channel">EightX</a>: customer acquisition cost benchmarks</li>
+    <li><a href="https://eightx.co/blog/faire-wholesale-take-rate-margin-impact">EightX: Faire take rate</a> and <a href="https://craftybase.com/blog/how-much-does-faire-charge">Craftybase: Faire fees including Faire Direct</a></li>
+    <li><a href="https://ppc.land/scaled-content-abuse/">PPC Land</a>, <a href="https://www.iwdagency.com/blogs/news/ai-search-optimization-for-ecommerce-2026/">IWD Agency</a> and <a href="https://alhena.ai/blog/ai-search-engine-optimization-brand-visibility/">Alhena</a>: AI content and AI search</li>
+    <li><a href="https://petsplusmag.com/dtc-brands-going-hybrid-to-grow/amp/">PetsPlus: online brands going hybrid</a></li>
+  </ul>
+  <p class="fine">Most market sources are agency or vendor blogs, so figures are directional. Your wholesale price ($22.50), the pilot terms and your $4 cost figure (the number you quoted Vlad; please confirm your real landed cost) come from your own emails. Your $48 list price is from your August 4 email, while the draft term sheet used $45. These are partner deal terms, so please share this page only with people who need it. Packaging and shipping cost, the ad budget and every scoreboard threshold are placeholders I proposed; you set the ones that count. The three futures come from a simple model, not from your sales data, which I have not seen.</p>
+</div></details>
+</section>
+</main>
+</div>
+<script id="facts" type="application/json">{"version":1,"as_of":"2026-10-06","premise":"For every claim: what do we KNOW (a record you can open), what do we THINK (a belief or assumption), and how can we find out. A derived number is only known if every input behind it is known.","inputs":[{"id":"price","label":"Your 16oz list price","value":48,"fmt":"usd","status":"think","rank":3,"evidence":"You wrote \"SKU MSRP is $48\" on Aug 4 and asked whether raising to $48 made sense. The draft term sheet used $45.","how":"Open your Shopify product page and confirm the price customers pay.","due":"Oct 13","owner":"You","min":0.01,"max":10000000},{"id":"wholesale","label":"Your 16oz wholesale price","value":22.5,"fmt":"usd2","status":"known","rank":3,"evidence":"You wrote \"$22.5 for 16oz\" on Jul 30.","how":"Confirm it matches your Faire wholesale price.","due":"Oct 10","owner":"You","min":0.01,"max":10000000},{"id":"units","label":"Pilot size (bottles)","value":240,"fmt":"int","status":"known","rank":3,"evidence":"Vlad's Aug 10 email: \"10 cases (240 units)\".","how":"Confirm in the signed agreement.","due":"Oct 16","owner":"You","min":0.01,"max":10000000},{"id":"upfront","label":"Pilot price paid up front, per bottle","value":4,"fmt":"usd","status":"known","rank":3,"evidence":"Vlad's Aug 10 email: \"$4 per unit up front\"; your Aug 21 email drafts the invoice at that price.","how":"Confirm in the signed agreement.","due":"Oct 16","owner":"You","min":0.01,"max":10000000},{"id":"persold","label":"Pilot price paid per bottle sold","value":10,"fmt":"usd","status":"known","rank":3,"evidence":"Vlad's Aug 10 email: \"$10 per unit sold\", paid monthly.","how":"Confirm in the signed agreement.","due":"Oct 16","owner":"You","min":0.01,"max":10000000},{"id":"cost","label":"Your cost per bottle to make","value":4,"fmt":"usd","status":"think","rank":1,"evidence":"A working figure from your own notes. We do not know your real landed cost.","how":"Check your supplier invoice or landed-cost sheet.","due":"Oct 13","owner":"You","min":0,"max":10000000},{"id":"packaging","label":"Packaging per bottle","value":1.76,"fmt":"usd2","status":"think","rank":1,"evidence":"An assumption of about $1.76 a bottle for box, label and filler.","how":"Add up box, label and filler costs from your last order.","due":"Oct 13","owner":"You","min":0,"max":10000000},{"id":"ship","label":"Shipping cost per online order","value":6,"fmt":"usd","status":"think","rank":1,"evidence":"An assumption, net of anything customers pay.","how":"Average your last 20 Shopify shipping labels, less what customers paid.","due":"Oct 13","owner":"You","min":0,"max":10000000},{"id":"upo","label":"Bottles per online order","value":1.2,"fmt":"dec1","status":"think","rank":2,"evidence":"An assumption.","how":"Shopify: units sold divided by orders over 90 days.","due":"Oct 13","owner":"You","min":0.01,"max":10000000},{"id":"cacMedian","label":"Cost to win a customer online","value":68,"fmt":"usd","status":"think","rank":1,"evidence":"Industry benchmark for other brands (about $68 to $84), not your own ads.","how":"A capped $500 ad test after your first reorders.","due":"Jan 15","owner":"You","min":0.01,"max":10000000},{"id":"repeat","label":"Reorders per customer in the first year","value":0.5,"fmt":"dec1","status":"think","rank":1,"evidence":"An assumption.","how":"Shopify: repeat buyers over 90 days, once you have 20 or more customers.","due":"Oct 13","owner":"You","min":0,"max":10000000},{"id":"hit","label":"Share of contacts who place a first order","value":0.075,"fmt":"pct1","status":"think","rank":1,"evidence":"An assumption (3 of 40).","how":"Log contacts and orders from week one and read the rate after 20 contacts.","due":"Nov 3","owner":"You","min":0.001,"max":1},{"id":"cps","label":"Contacts you make per week","value":25,"fmt":"int","status":"think","rank":2,"evidence":"The plan's pace: five a day. Not yet your record.","how":"Log every contact in the retailer or hotel list.","due":"Nov 10","owner":"You","min":0.01,"max":10000000},{"id":"upr","label":"Bottles in a boutique's first order","value":12,"fmt":"int","status":"think","rank":2,"evidence":"An assumption (one case).","how":"Ask your first 5 shops what they would order.","due":"Nov 3","owner":"You","min":0.01,"max":10000000},{"id":"feeM","label":"Faire fee on a new retailer's first order (marketplace)","value":0.25,"fmt":"pct0","status":"think","rank":2,"evidence":"Reported by seller guides: up to 25%.","how":"Read the fee page in your Faire account.","due":"Oct 10","owner":"You","min":0,"max":1},{"id":"feeDirect","label":"Faire commission on retailers you bring (your own link)","value":0,"fmt":"pct0","status":"think","rank":1,"evidence":"Reported by seller guides as 0%, plus a payment fee.","how":"Read the fee page in your Faire account.","due":"Oct 10","owner":"You","min":0,"max":1},{"id":"proc","label":"Payment processing fee","value":0.03,"fmt":"pct0","status":"think","rank":3,"evidence":"Reported range 1.9% to 3.5%.","how":"Read the fee page in your Faire account.","due":"Oct 10","owner":"You","min":0,"max":0.2},{"id":"ordersYr","label":"Orders per online customer per year","value":1.5,"fmt":"dec1","status":"think","rank":3,"evidence":"An assumption.","how":"Shopify: orders per customer over 12 months.","due":"Jan 15","owner":"You","min":0.01,"max":10000000},{"id":"inventory","label":"Bottles of 16oz on hand or on order","value":500,"fmt":"int","status":"think","rank":1,"evidence":"An assumption from the July call (about 500 per product).","how":"Count what is on the shelf and what is on order.","due":"Oct 13","owner":"You","min":0.01,"max":10000000},{"id":"adBudget","label":"Monthly ad budget used in the model","value":1500,"fmt":"usd","status":"think","rank":3,"evidence":"A placeholder for the model, not a plan to spend.","how":"Decide what you could afford to test.","due":"Jan 15","owner":"You","min":0.01,"max":10000000},{"id":"feeRe","label":"Faire commission on a retailer's reorders (marketplace)","value":0.15,"fmt":"pct0","status":"think","rank":3,"evidence":"Reported by seller guides: 15%.","how":"Read the fee page in your Faire account.","due":"Oct 10","owner":"You","min":0,"max":1},{"id":"freight","label":"Freight on the pilot invoice","value":750,"fmt":"usd0","status":"known","rank":3,"evidence":"Your Sep 3 email: \"estimate the shipping at $750 on invoice, not separate.\"","how":"Confirm the freight quote from the carrier.","due":"Oct 16","owner":"You","min":0.01,"max":10000000}],"scenarios":{"best":{"cac":35,"repeat":1,"faire":12},"base":{"cac":68,"repeat":0.5,"faire":3},"slow":{"cac":90,"repeat":0.2,"faire":0}},"claims":[{"id":"c_offer","label":"Vlad offered $4 up front plus $10 per bottle sold for 240 bottles","status":"known","rank":3,"evidence":"Vlad's Aug 10 email.","how":"Already a record.","due":"","owner":""},{"id":"c_invoice","label":"An invoice was prepared for that deal","status":"known","rank":3,"evidence":"Your Aug 21 request and the invoice drafted on Aug 30 (not sent as of Sep 2).","how":"Already a record.","due":"","owner":""},{"id":"c_signed","label":"Nothing is signed, and the invoice has not been paid","status":"think","rank":1,"evidence":"Zach's note, and no confirmation in the email threads after Sep 5. We have not seen Vlad's side.","how":"Ask Vlad for a yes or no. Check whether he received the invoice.","due":"Oct 9","owner":"You"},{"id":"c_faire","label":"Your Faire listing is live with no orders yet","status":"think","rank":1,"evidence":"Zach's note; no email we read says a listing is live.","how":"Open Faire and look at Orders and profile views.","due":"Oct 10","owner":"You"},{"id":"c_channels","label":"Your Amazon (4 oz) listing and Shopify site are live, with small volume","status":"think","rank":1,"evidence":"Your emails mention an Amazon listing and your site; volumes are unseen.","how":"Pull 90 days of orders, visits, reviews and rating from each.","due":"Oct 13","owner":"You"},{"id":"c_distrib","label":"Independent shops buy directly from brands, with no distributor","status":"think","rank":2,"evidence":"Your point, and typical for small independents. Not checked shop by shop.","how":"Add a yes or no for each shop on the Retailer list tab.","due":"Oct 20","owner":"You"},{"id":"c_bath","label":"Hotels give dogs bath products at all","status":"think","rank":1,"evidence":"No data. A dog bath uses very little product.","how":"Five hotel calls with the hotel script.","due":"Oct 31","owner":"You"},{"id":"c_cost_per_wash","label":"Groomers and hotel buyers decide on cost per wash","status":"think","rank":2,"evidence":"A guess. No data on how groomers choose.","how":"Ten listening calls.","due":"Oct 31","owner":"You"},{"id":"c_sales","label":"Your sales record: Salesperson of the Year 2012 to 2014","status":"known","rank":3,"evidence":"Your public profile.","how":"Already a record.","due":"","owner":""},{"id":"c_pet","label":"US pet spending was about $158 billion in 2025","status":"think","rank":3,"evidence":"Published by APPA; we have not opened the report ourselves.","how":"Already a record.","due":"","owner":""},{"id":"c_quick","label":"Quick, plain notes get about as many replies as polished ones","status":"think","rank":2,"evidence":"A guess. Cold outreach rewards volume and relevance, and we have no data on your own notes.","how":"Send 10 quick notes and 10 polished ones and compare replies and orders.","due":"Nov 3","owner":"You"}],"verdicts":{},"tests":[{"id":"t1","name":"The partner answers","assumption":"Vlad will say yes or no if asked clearly.","pass":"A written yes or no on the invoice and agreement.","middle":"A reply that asks for changes: answer it within two days.","fail":"No answer after a clear ask.","how":"Check in with Vlad and ask for a yes or no.","due":"Oct 16"},{"id":"t2","name":"Buyers try it","assumption":"Independent shops will place a first order when they are asked.","pass":"3 or more first orders from about 50 contacts.","middle":"1 or 2 first orders: run one more cycle.","fail":"No first orders after about 50 contacts.","how":"Log contacts and orders in the retailer list.","due":"Nov 3"},{"id":"t3","name":"Buyers reorder","assumption":"First-order shops come back.","pass":"At least 2 of your first 6 shops reorder within 60 days.","middle":"1 reorders: run another cycle.","fail":"None of the first 6 reorder.","how":"Track each shop's second order.","due":"Dec 15"},{"id":"t4","name":"Wholesale pays","assumption":"A first wholesale order earns a worthwhile profit after fees, samples and shipping.","pass":"At least $25 profit per first order, using your real cost per bottle.","middle":"$0 to $25: look at shipping and samples.","fail":"Below $0.","how":"Pull your landed cost and read the Faire fee page.","due":"Oct 13"},{"id":"t5","name":"Premium holds","assumption":"Shops and groomers will pay your wholesale price.","pass":"4 or more of your first 6 orders close at your wholesale price.","middle":"3 of 6: watch the next 6.","fail":"2 or fewer of the first 6 close without a discount.","how":"Quote your price every time and log each discount asked for.","due":"Dec 15"},{"id":"t6","name":"Hospitality says yes","assumption":"Hotels and spas will pay for a pilot.","pass":"2 of 10 move to a paid pilot.","middle":"1 of 10: run another cycle.","fail":"0 of 10.","how":"Ten hotel or spa conversations, then samples.","due":"Dec 1"},{"id":"t7","name":"Ads can pay back","assumption":"Online ads can win customers for less than they are worth.","pass":"After your first reorders, a $500 test wins customers under $48 each (set on Oct 6).","middle":"$48 to $64: too close to call.","fail":"Above $64. A $500 test buys only about 7 customers, so read it as a rough signal.","how":"A capped $500 test to one audience, tracked to orders.","due":"Jan 15"},{"id":"t8","name":"The pace holds","assumption":"Five messages a day is doable and enough.","pass":"25 logged contacts a week for 4 weeks.","middle":"15 to 24 a week: adjust the plan.","fail":"Under 15 in 2 of the 4 weeks.","how":"Log every message, follow-ups included, and count on Friday.","due":"Nov 17"},{"id":"t9","name":"Real baseline","assumption":"Your real numbers can replace the placeholders.","pass":"Six numbers pulled from Shopify, Amazon and Faire, and entered in the first fold.","middle":"Three or four pulled.","fail":"Not pulled by the date.","how":"90 days of visits, orders, repeat buyers, units, reviews and Faire views. Differences from the placeholders are expected; that is the point.","due":"Oct 13"},{"id":"t10","name":"Gatekeepers care","assumption":"Groomers and hotel buyers switch for a visible reason.","pass":"3 of 10 name a reason to switch, and 2 accept a sample and agree to a follow-up call.","middle":"1 or 2 name a reason: run another cycle.","fail":"Most say \"whatever is cheapest\" and none accept.","how":"Ten listening calls.","due":"Oct 31"},{"id":"t11","name":"Quick notes are enough","assumption":"Plain, quick notes get about as many replies as polished ones.","pass":"Replies differ by 2 or fewer out of 10 each.","middle":"","fail":"Polished notes get 3 or more extra replies out of 10. With samples this small, read it as a rough signal.","how":"10 quick and 10 polished notes, compared.","due":"Nov 3"}]}</script>
+<script>
+(function () {
+  var FACTS = JSON.parse(document.getElementById('facts').textContent);
+  var KEY = 'lewoof-playbook-v1';
+  var over = {};
+  function load() { try { over = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { over = {}; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(over)); } catch (e) {} }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  var byId = {};
+  FACTS.inputs.concat(FACTS.claims).forEach(function (f) { byId[f.id] = f; });
+  var S = FACTS.scenarios;
+
+  function cur(id) {
+    var f = byId[id]; if (!f) return { value: undefined, status: 'think' };
+    var o = (typeof window !== 'undefined' && window.__noOverrides) ? {} : (over[id] || {});
+    return { value: o.value !== undefined ? o.value : f.value, status: o.status || f.status };
+  }
+  function v(id) { return cur(id).value; }
+
+  // ---- formats
+  function commas(n) { return Math.round(n).toLocaleString('en-US'); }
+  var fm = {
+    usd: function (x) { return (x < 0 ? '-' : '') + '$' + (Math.abs(x) % 1 === 0 ? commas(Math.abs(x)) : Math.abs(x).toFixed(2)); },
+    usd0: function (x) { return (x < 0 ? '-' : '') + '$' + commas(Math.abs(x)); },
+    usd2: function (x) { return (x < 0 ? '-' : '') + '$' + Math.abs(x).toFixed(2); },
+    sgn: function (x) { var r = Math.round(x); return r === 0 ? '$0' : (r < 0 ? '-' : '+') + '$' + commas(Math.abs(r)); },
+    int: function (x) { return commas(x); },
+    dec1: function (x) { return (Math.round(x * 10) / 10).toFixed(1); },
+    pct0: function (x) { return Math.round(x * 100) + '%'; },
+    pct1: function (x) { return (Math.round(x * 1000) / 10).toString().replace(/\.0$/, '') + '%'; },
+    c100: function (x) { return (Math.round(x / 100) * 100).toLocaleString('en-US'); },
+    word: function (x) { return x; }
+  };
+
+  // ---- derived values: id -> { deps, fn, fmt }
+  var D = {};
+  function def(id, deps, fn, fmt) { D[id] = { deps: deps, fn: fn, fmt: fmt }; }
+  function val(id) { return D[id] ? D[id].fn() : v(id); }
+  function isKnown(id) {
+    if (D[id]) return D[id].deps.every(isKnown);
+    return byId[id] ? cur(id).status === 'known' : false;
+  }
+  function leaves(id, acc) {
+    acc = acc || {};
+    if (D[id]) D[id].deps.forEach(function (d) { leaves(d, acc); });
+    else if (!isKnown(id)) acc[id] = true;
+    return acc;
+  }
+
+  def('unitCost', ['cost', 'packaging'], function () { return v('cost') + v('packaging'); }, 'usd2');
+  def('firstOrder', ['price', 'upo', 'proc', 'unitCost', 'ship'], function () { return v('price') * v('upo') * (1 - v('proc')) - v('upo') * val('unitCost') - v('ship'); }, 'usd0');
+  def('breakeven', ['firstOrder', 'repeat'], function () { return val('firstOrder') * (1 + v('repeat')); }, 'usd0');
+  def('testTarget', ['breakeven'], function () { return Math.round(val('breakeven') * 0.75); }, 'usd0');
+  def('boutiqueOrder', ['upr', 'wholesale'], function () { return v('upr') * v('wholesale'); }, 'usd0');
+  def('faireMarket', ['upr', 'wholesale', 'feeM', 'unitCost'], function () { return v('upr') * (v('wholesale') * (1 - v('feeM')) - val('unitCost')); }, 'usd0');
+  def('faireDirect', ['upr', 'wholesale', 'feeDirect', 'proc', 'unitCost'], function () { return v('upr') * (v('wholesale') * (1 - v('feeDirect') - v('proc')) - val('unitCost')); }, 'usd0');
+  def('pilotPer', ['c_signed', 'upfront', 'persold'], function () { return v('upfront') + v('persold'); }, 'usd');
+  def('pilotUp', ['c_signed', 'units', 'upfront'], function () { return v('units') * v('upfront'); }, 'usd0');
+  def('pilotMax', ['c_signed', 'units', 'persold'], function () { return v('units') * v('persold'); }, 'usd0');
+  def('pilotTotal', ['pilotUp', 'pilotMax'], function () { return val('pilotUp') + val('pilotMax'); }, 'usd0');
+  def('pilotBoutiques', ['pilotTotal', 'boutiqueOrder'], function () { return Math.round(val('pilotTotal') / val('boutiqueOrder')); }, 'int');
+  def('pilotThird', ['c_signed', 'units', 'upfront', 'persold', 'boutiqueOrder'], function () { return (v('units') * v('upfront') + v('units') / 3 * v('persold')) / val('boutiqueOrder'); }, 'dec1');
+  def('halfUnits', ['c_signed', 'units'], function () { return Math.round(v('units') / 2); }, 'int');
+  def('halfUp', ['c_signed', 'units', 'upfront'], function () { return v('units') / 2 * v('upfront'); }, 'usd0');
+  def('targetOrders', ['pilotBoutiques'], function () { return val('pilotBoutiques'); }, 'int');
+  def('contactsTarget', ['targetOrders', 'hit'], function () { return Math.round(val('targetOrders') / v('hit')); }, 'int');
+  def('weeksTarget', ['contactsTarget', 'cps'], function () { return Math.round(val('contactsTarget') / v('cps')); }, 'int');
+  def('customers1M', ['price', 'ordersYr'], function () { return 1000000 / (v('price') * v('ordersYr')); }, 'c100');
+  // scenario inputs are model assumptions, never known
+  [['Best', 'best'], ['Base', 'base'], ['Slow', 'slow']].forEach(function (p) {
+    def('s' + p[0] + 'Cac', ['scenarios'], function () { return S[p[1]].cac; }, 'usd');
+    def('s' + p[0] + 'Rep', ['scenarios'], function () { return S[p[1]].repeat; }, 'dec1');
+    def('f' + p[0], ['firstOrder', 's' + p[0] + 'Cac', 's' + p[0] + 'Rep'], function () { return val('firstOrder') * (1 + S[p[1]].repeat) - S[p[1]].cac; }, 'sgn');
+  });
+
+  // ---- channel unit economics (per 16oz bottle)
+  def('dtcPerBottle', ['price', 'proc', 'unitCost', 'ship', 'upo'], function () { return v('price') * (1 - v('proc')) - val('unitCost') - v('ship') / v('upo'); }, 'usd2');
+  def('dtcFirstAds', ['firstOrder', 'cacMedian'], function () { return val('firstOrder') - v('cacMedian'); }, 'sgn');
+  def('rcvFaire1', ['wholesale', 'feeM'], function () { return v('wholesale') * (1 - v('feeM')); }, 'usd2');
+  def('pfFaire1', ['rcvFaire1', 'unitCost'], function () { return val('rcvFaire1') - val('unitCost'); }, 'usd2');
+  def('rcvFaireRe', ['wholesale', 'feeRe'], function () { return v('wholesale') * (1 - v('feeRe')); }, 'usd2');
+  def('pfFaireRe', ['rcvFaireRe', 'unitCost'], function () { return val('rcvFaireRe') - val('unitCost'); }, 'usd2');
+  def('rcvFaireDirect', ['wholesale', 'feeDirect', 'proc'], function () { return v('wholesale') * (1 - v('feeDirect') - v('proc')); }, 'usd2');
+  def('pfFaireDirect', ['rcvFaireDirect', 'unitCost'], function () { return val('rcvFaireDirect') - val('unitCost'); }, 'usd2');
+  def('pfPilot', ['pilotPer', 'unitCost'], function () { return val('pilotPer') - val('unitCost'); }, 'usd2');
+  def('rcvDirect', ['wholesale'], function () { return v('wholesale'); }, 'usd2');
+  def('pfDirect', ['wholesale', 'unitCost'], function () { return v('wholesale') - val('unitCost'); }, 'usd2');
+  // ---- time to value, per scenario
+  [['Best', 'best'], ['Base', 'base'], ['Slow', 'slow']].forEach(function (p) {
+    var n = p[0], k = p[1];
+    def('sFa' + n, ['scenarios'], function () { return S[k].faire; }, 'int');
+    def('cu' + n, ['adBudget', 's' + n + 'Cac'], function () { return v('adBudget') / S[k].cac; }, 'int');
+    def('bt' + n, ['cu' + n, 'upo', 'upr', 'sFa' + n], function () { return val('cu' + n) * v('upo') + S[k].faire * v('upr'); }, 'int');
+    def('mo' + n, ['bt' + n, 'inventory'], function () { return v('inventory') / val('bt' + n); }, 'dec1');
+    def('n90' + n, ['cu' + n, 'bt' + n, 'inventory', 'firstOrder', 's' + n + 'Cac', 'faireMarket', 'sFa' + n], function () { var cap = Math.min(1, v('inventory') / Math.max(1, 3 * val('bt' + n))); return cap * 3 * (val('cu' + n) * (val('firstOrder') - S[k].cac) + S[k].faire * val('faireMarket')); }, 'sgn');
+  });
+
+  def('invoiceTotal', ['pilotUp', 'freight'], function () { return val('pilotUp') + v('freight'); }, 'usd0');
+  def('costInv', ['unitCost', 'inventory'], function () { return v('inventory') * val('unitCost'); }, 'usd0');
+  def('cost5k', ['unitCost'], function () { return 5000 * val('unitCost'); }, 'usd0');
+  [10, 25, 50].forEach(function (n) { def('weeksAt' + n, ['contactsTarget'], function () { return Math.max(1, Math.round(val('contactsTarget') / n)); }, 'int'); });
+  def('perDay', ['cps'], function () { return Math.round(v('cps') / 5); }, 'int');
+  def('cost5k', ['unitCost'], function () { return 5000 * val('unitCost'); }, 'usd0');
+  [10, 25, 50].forEach(function (n) { def('weeksAt' + n, ['contactsTarget'], function () { return Math.max(1, Math.round(val('contactsTarget') / n)); }, 'int'); });
+  def('perDay', ['cps'], function () { return Math.round(v('cps') / 5); }, 'int');
+  def('adsVerdict', ['breakeven', 'cacMedian'], function () {
+    var r = val('breakeven') / v('cacMedian');
+    return r >= 1.15 ? 'earn a modest profit' : (r >= 0.85 ? 'roughly break even' : 'lose money');
+  }, 'word');
+  def('baseVerdict', ['fBase'], function () {
+    var x = val('fBase');
+    return Math.abs(x) <= 10 ? 'only breaks even' : (x > 0 ? 'earns a profit' : 'loses money');
+  }, 'word');
+
+  function fmtFor(id) { return D[id] ? D[id].fmt : (byId[id] && byId[id].fmt) || 'usd'; }
+  function show(id) { var f = fm[fmtFor(id)] || fm.usd; return f(val(id)); }
+  function whyThink(id) {
+    var ks = Object.keys(leaves(id)).filter(function (k) { return byId[k]; }).map(function (k) { return byId[k].label.toLowerCase(); });
+    var scen = D[id] && D[id].deps.indexOf('scenarios') >= 0 || (leaves(id).scenarios);
+    var parts = ks.slice(0, 4);
+    return 'To check. It depends on: ' + (parts.length ? parts.join(', ') + (ks.length > 4 ? ', and more' : '') : 'a model assumption') + '. See the first fold to find out.';
+  }
+
+  // ---- render: inline numbers
+  function renderSpans() {
+    var nodes = document.querySelectorAll('[data-f]');
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i], id = el.getAttribute('data-f');
+      if (!D[id] && !byId[id]) continue;
+      el.textContent = show(id);
+      var k = isKnown(id);
+      el.className = k ? 'f-known' : 'f-think';
+      el.setAttribute('title', k ? 'Known: every input behind this number is a record or your own data.' : whyThink(id));
+    }
+  }
+
+  // ---- render: ledger
+  function allFacts() { return FACTS.inputs.concat(FACTS.claims); }
+  function ledgerHtml() {
+    var items = allFacts().slice().sort(function (a, b) {
+      var sa = cur(a.id).status === 'known' ? 1 : 0, sb = cur(b.id).status === 'known' ? 1 : 0;
+      if (sa !== sb) return sa - sb;
+      return (a.rank || 9) - (b.rank || 9);
+    });
+    return items.map(function (f) {
+      var c = cur(f.id), isK = c.status === 'known', isIn = FACTS.inputs.indexOf(f) >= 0;
+      var how = f.how ? '<p class="lg-how"><b>How to find out:</b> ' + esc(f.how) + (f.due ? ' <span class="w">by ' + esc(f.due) + (f.owner ? ' · ' + esc(f.owner) : '') + '</span>' : '') + '</p>' : '';
+      var ctl = '<div class="lg-ctl">' +
+        (isIn ? '<label>Your number' + (/^pct/.test(f.fmt) ? ' (%)' : '') + ' <input type="number" step="any" data-id="' + f.id + '"' + (/^pct/.test(f.fmt) ? ' data-pct="1"' : '') + ' value="' + esc(/^pct/.test(f.fmt) ? Math.round(c.value * 10000) / 100 : c.value) + '"></label>' : '') +
+        '<label><input type="checkbox" data-chk="' + f.id + '"' + (isK ? ' checked' : '') + '> From my records</label></div>';
+      return '<li class="lg" data-lg="' + f.id + '"><div class="lg-top"><b>' + esc(f.label) + '</b><span class="pill ' + (isK ? 'k' : 't') + '">' + (isK ? 'KNOWN' : 'TO CHECK') + '</span></div>' +
+        '<p>' + esc(f.evidence) + '</p>' + how + ctl + '</li>';
+    }).join('');
+  }
+  function meterHtml() {
+    var all = allFacts(), n = all.length, k = all.filter(function (f) { return cur(f.id).status === 'known'; }).length;
+    return 'Of <b>' + n + '</b> things this plan rests on, <b>' + k + '</b> are records we can open. The other ' + (n - k) + ' are beliefs we can check, starting with the cheapest.';
+  }
+  function renderMeter() { var m = document.getElementById('meter'); if (!m) return; var a = m.querySelector('a'); m.innerHTML = meterHtml() + ' '; if (a) m.appendChild(a); }
+  function renderLedger() { var el = document.getElementById('ledger-list'); if (el) el.innerHTML = ledgerHtml(); }
+  function refreshPills() {
+    allFacts().forEach(function (f) {
+      var li = document.querySelector('[data-lg="' + f.id + '"]'); if (!li) return;
+      var p = li.querySelector('.pill'), isK = cur(f.id).status === 'known';
+      p.className = 'pill ' + (isK ? 'k' : 't'); p.textContent = isK ? 'KNOWN' : 'TO CHECK';
+    });
+  }
+  function update() { renderSpans(); renderMeter(); refreshPills(); refreshTests(); }
+
+
+  // ---- tests and verdicts
+  var VERD = { held: 'It held', failed: 'It did not hold', disputed: 'I would test it differently' };
+  function vget(id) { var o = window.__noOverrides ? null : over['v_' + id]; return o || (FACTS.verdicts || {})['v_' + id] || {}; }
+  function tokens(s) { return esc(s).replace(/\[\[(\w+)\|([^\]]*)\]\]/g, function (m, k, t) { return '<span data-f="' + k + '">' + t + '</span>'; }); }
+  function testsHtml() {
+    return (FACTS.tests || []).map(function (t) {
+      var o = vget(t.id), vd = o.verdict || '';
+      var radios = ['held', 'failed', 'disputed'].map(function (k) {
+        return '<label><input type="radio" name="v_' + t.id + '" value="' + k + '" data-v="' + t.id + '"' + (vd === k ? ' checked' : '') + '> ' + VERD[k] + '</label>';
+      }).join('');
+      return '<li class="tc" data-tc="' + t.id + '"><div class="lg-top"><b>' + esc(t.name) + '</b><span class="pill ' + (vd === 'held' ? 'k' : 't') + '">' + (vd ? esc(VERD[vd]).toUpperCase() : 'NOT TESTED') + '</span></div>' +
+        '<p><b>We think:</b> ' + tokens(t.assumption) + '</p>' +
+        '<p><b>It held if:</b> ' + tokens(t.pass) + '</p>' +
+        (t.middle ? '<p><b>In between:</b> ' + tokens(t.middle) + '</p>' : '') + '<p><b>It did not hold if:</b> ' + tokens(t.fail) + '</p>' +
+        '<p class="lg-how"><b>How to find out:</b> ' + esc(t.how) + ' <span class="w">by ' + esc(t.due) + '</span></p>' +
+        '<fieldset class="vr"><legend class="sr">Your verdict on ' + esc(t.name) + '</legend><div class="lg-ctl">' + radios + '</div></fieldset>' +
+        '<label class="note">Your note, or your own version of the test <input type="text" data-vn="' + t.id + '" value="' + esc(o.note || '') + '"></label></li>';
+    }).join('');
+  }
+  function renderTests() { var el = document.getElementById('tests-list'); if (el) el.innerHTML = testsHtml(); }
+  function refreshTests() {
+    (FACTS.tests || []).forEach(function (t) {
+      var li = document.querySelector('[data-tc="' + t.id + '"]'); if (!li) return;
+      var vd = vget(t.id).verdict || '', p = li.querySelector('.pill');
+      p.className = 'pill ' + (vd === 'held' ? 'k' : 't'); p.textContent = vd ? VERD[vd].toUpperCase() : 'NOT TESTED';
+    });
+  }
+
+  // ---- events
+  document.addEventListener('change', function (e) {
+    var t = e.target; if (!t || !t.getAttribute) return;
+    var id = t.getAttribute('data-id'), ck = t.getAttribute('data-chk');
+    if (id) {
+      var f0 = byId[id], n = parseFloat(t.value), pc = !!t.getAttribute('data-pct'), note0 = document.getElementById('numsNote');
+      if (pc) n = n / 100;
+      var lo = f0.min !== undefined ? f0.min : 0.01, hi = f0.max !== undefined ? f0.max : 10000000;
+      if (isNaN(n) || n < lo || n > hi) {
+        var back = cur(id).value; t.value = pc ? Math.round(back * 10000) / 100 : back;
+        if (note0) note0.textContent = 'Enter a number between ' + (pc ? lo * 100 : lo) + (pc ? '%' : '') + ' and ' + (pc ? hi * 100 : hi) + (pc ? '%' : '') + '. The old value is back.';
+      } else { over[id] = over[id] || {}; over[id].value = n; if (note0) note0.textContent = ''; save(); update(); }
+    }
+    if (ck) { over[ck] = over[ck] || {}; over[ck].status = t.checked ? 'known' : 'think'; save(); update(); }
+    var tv = t.getAttribute('data-v'), tn = t.getAttribute('data-vn');
+    if (tv) { var k = 'v_' + tv; over[k] = over[k] || {}; over[k].verdict = t.value; save(); update(); }
+    if (tn) { var k2 = 'v_' + tn; over[k2] = over[k2] || {}; over[k2].note = t.value; save(); }
+  });
+  document.addEventListener('click', function (e) {
+    var t = e.target; if (!t || !t.closest) return;
+    var a = t.closest('a[href="#ledger-fold"]');
+    if (a) { var d = document.getElementById('ledger-fold'); if (d) { d.open = true; } }
+    if (t.id === 'copyNums') {
+      var out = { as_of: new Date().toISOString().slice(0, 10), overrides: over };
+      var note = document.getElementById('numsNote');
+      try { navigator.clipboard.writeText(JSON.stringify(out, null, 2)).then(function () { note.textContent = 'Copied. Paste it to Zach.'; }, function () { note.textContent = 'Could not copy. Select and copy manually.'; }); }
+      catch (err) { note.textContent = 'Could not copy. Select and copy manually.'; }
+    }
+    if (t.id === 'resetNums') { over = {}; save(); renderLedger(); renderTests(); update(); var n2 = document.getElementById('numsNote'); if (n2) n2.textContent = 'Reset.'; }
+    var cb = t.closest('button[data-copy]');
+    if (cb) {
+      var txt = document.getElementById(cb.getAttribute('data-copy')).textContent, nt = cb.nextElementSibling;
+      try { navigator.clipboard.writeText(txt).then(function () { nt.textContent = 'Copied.'; }, function () { nt.textContent = 'Select the text and copy it.'; }); }
+      catch (err2) { nt.textContent = 'Select the text and copy it.'; }
+    }
+  });
+  try { window.addEventListener('beforeprint', function () { [].slice.call(document.querySelectorAll('details')).forEach(function (d) { d.open = true; }); }); } catch (e) {}
+
+  // ---- boot
+  load(); renderLedger(); renderTests(); update();
+
+  // hook for the build step: compute with NO local overrides, then report
+  window.__lewoof = {
+    snapshot: function () {
+      window.__noOverrides = true;
+      renderLedger(); renderTests(); update();
+      var spans = [];
+      [].slice.call(document.querySelectorAll('[data-f]')).forEach(function (el) {
+        if (el.closest('#tests-list')) return;
+        spans.push({ key: el.getAttribute('data-f'), text: el.textContent, cls: el.className, title: el.getAttribute('title') || '' });
+      });
+      var out = { spans: spans, ledger: document.getElementById('ledger-list').innerHTML, tests: document.getElementById('tests-list').innerHTML, meter: meterHtml() };
+      window.__noOverrides = false; load(); renderLedger(); renderTests(); update();
+      return out;
+    }
+  };
+})();
+
+</script>
+</body>
+</html>
