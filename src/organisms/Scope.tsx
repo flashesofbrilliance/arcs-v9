@@ -181,7 +181,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // id -> { t: time the droplet landed, gone: time it was removed (rings fade) }
     drops: new Map<string, { t: number; gone: number }>(),
     redraw: () => {},
+    resize: () => {},
     depth: 3,
+    full: false,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -191,6 +193,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const [picked, setPicked] = useState<string | null>(null)
   const [drawer, setDrawer] = useState(false)
   const [narrow, setNarrow] = useState(false)
+  // Full HUD: the field takes the whole viewport, zoomed in at Fathom 4.
+  const [full, setFull] = useState(false)
+  const toggleFull = useCallback(() => setFull((f) => !f), [])
   useEffect(() => {
     const el = wrapRef.current
     if (!el) return
@@ -209,6 +214,19 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     setDepthUi(Math.round(d))
     c.redraw()
   }, [])
+
+  useEffect(() => {
+    const c = control.current
+    c.full = full
+    c.resize()
+    if (!full) return
+    // Entering the HUD zooms in one fathom (to at least F4); leaving keeps the depth.
+    if (c.depth < 4) setDepth(4)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    canvasRef.current?.focus({ preventScroll: true })
+    return () => { document.body.style.overflow = prev }
+  }, [full, setDepth])
 
   const focusOn = useCallback((id: string | null) => {
     const c = control.current
@@ -281,7 +299,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       // A wide band: ~3:1 desktop, ~2.1:1 tablet, 1.3:1 phone. The
       // canvas draws in CSS pixels so HUD text stays legible at any height.
       const aspect = w >= 900 ? 3 : w >= 600 ? 2.1 : 1.3
-      const h = Math.round(w / aspect)
+      const h = ctl.full ? window.innerHeight : Math.round(w / aspect)
       canvas.width = Math.round(w * dpr)
       canvas.height = Math.round(h * dpr)
       canvas.style.height = `${h}px`
@@ -289,8 +307,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       st.sw = w; st.sh = h
     }
     resize()
+    ctl.resize = () => { resize(); draw(performance.now()) }
     const ro = new ResizeObserver(() => { resize(); draw(performance.now()) })
     ro.observe(wrap)
+    const onWin = () => { if (ctl.full) { resize(); draw(performance.now()) } }
+    window.addEventListener("resize", onWin)
     const io = new IntersectionObserver(([e]) => { st.visible = e.isIntersecting })
     io.observe(canvas)
 
@@ -371,7 +392,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "-": case "_": setDepth(ctl.depth - 0.5); break
         case "]": setDepth(Math.floor(ctl.depth) + 1); break
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
-        case "0": case "Escape": focusOn(null); setDepth(3); break
+        case "f": case "F": setFull((f) => !f); break
+        case "Escape": if (ctl.full) { setFull(false); break } focusOn(null); setDepth(3); break
+        case "0": focusOn(null); setDepth(3); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -708,6 +731,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       cancelAnimationFrame(st.raf)
       if (redraw) clearInterval(redraw)
       ro.disconnect(); io.disconnect()
+      window.removeEventListener("resize", onWin)
       canvas.removeEventListener("pointerdown", onDown)
       canvas.removeEventListener("pointermove", onMove)
       canvas.removeEventListener("pointerup", onUp)
@@ -737,7 +761,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const glass: React.CSSProperties = { background: "rgba(2,5,10,0.58)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)" }
 
   return (
-    <figure ref={figRef} style={{ position: "relative", margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
+    <figure ref={figRef} style={full
+      ? { position: "fixed", inset: 0, zIndex: 1000, margin: 0, border: "none", borderRadius: 0, background: "#02050a", overflow: "hidden" }
+      : { position: "relative", margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
       <div ref={wrapRef} style={{ width: "100%", lineHeight: 0 }}>
         <canvas
           ref={canvasRef}
@@ -746,7 +772,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           aria-label={label}
           onFocus={(e) => setRing(e.currentTarget.matches(":focus-visible"))}
           onBlur={() => setRing(false)}
-          style={{ display: "block", width: "100%", cursor: "grab", touchAction: "pan-y", outline: ring ? `1px solid ${signal.cyan}` : "none", outlineOffset: -2 }}
+          style={{ display: "block", width: "100%", cursor: "grab", touchAction: full ? "none" : "pan-y", outline: ring ? `1px solid ${signal.cyan}` : "none", outlineOffset: -2 }}
         />
       </div>
 
@@ -811,7 +837,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll to dolly · Click a waypoint to fly to it · Double click or 0 to reset · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll to dolly · Click a waypoint to fly to it · Double click or 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>
@@ -841,6 +867,20 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           })}
           {!coarse && !narrow && <span style={{ ...mono, color: text.secondary, marginLeft: "0.4rem", overflow: "hidden", textOverflow: "ellipsis" }}>{FATHOMS[depth - 1].name}</span>}
         </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", flexShrink: 0 }}>
+        <button
+          type="button"
+          aria-pressed={full}
+          aria-label={full ? "Exit full HUD" : "Full HUD"}
+          title={full ? "Exit full HUD (Esc)" : "Full HUD (F)"}
+          onClick={toggleFull}
+          style={{ ...mono, display: "inline-flex", alignItems: "center", gap: 8, minHeight: 28, padding: "4px 10px", borderRadius: 3, cursor: "pointer", color: full ? text.primary : text.secondary, background: full ? "rgba(0,240,255,0.12)" : "transparent", border: `1px solid ${full ? "rgba(0,240,255,0.55)" : border.subtle}` }}
+        >
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+            <path d={full ? "M4 1v3H1M6 1v3h3M4 9V6H1M6 9V6h3" : "M1 4V1h3M9 4V1H6M1 6v3h3M9 6v3H6"} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {!narrow && (full ? "Exit HUD" : "Full HUD")}
+        </button>
         <button
           type="button"
           aria-expanded={drawer}
@@ -853,6 +893,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
             <path d="M1.5 6.5L5 3l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
+        </div>
       </figcaption>
     </figure>
   )
