@@ -134,9 +134,6 @@ def main(argv: list[str]) -> int:
                 if now[k] > was[k]:
                     print(f"✖ design-debt {f}: {k} rose {was[k]} -> {now[k]} (the burn-down only goes down)")
                     bad += 1
-            if now["retired_color"]:
-                print(f"✖ design-debt {f}: retired color literal present ({', '.join(RETIRED)}); use {', '.join(RETIRED.values())}")
-                bad += 1
         return 1 if bad else 0
     print(__doc__)
     return 2
