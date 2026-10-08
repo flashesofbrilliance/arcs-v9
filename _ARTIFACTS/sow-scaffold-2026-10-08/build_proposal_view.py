@@ -35,6 +35,7 @@ SPEC = {
     "The short version": (2, "Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a checkpoint at each, and you can stop at any point with everything in hand."),
     "The whole idea, simply": (2, "Build it like a house: look at the ground first, agree the route, pour the floor, then decide how big it gets."),
     "The four stages": (2, "Look and listen. Agree the plan together. Make it solid. Aim higher, then look back."),
+    "What is in scope, and what the audit could change": (2, "I cannot know what stage 1 will show, so here are three general cases, best, base and worst, with the steps in scope for each. They are not predictions, and nothing is priced."),
     "For Kelly": (3, "Your plan and the build side by side, cost per family in three cases, and the lists that make the empathy question testable."),
     "For Chelsea": (3, "You stay the builder. The AI provider choice waits for the facts, and Alice comes after the groundwork."),
     "My view on Alice": (3, "I would hold off connecting Alice until three answers are in. A small trial on made-up data is the cheaper way to learn what she costs."),
@@ -59,6 +60,12 @@ GLOSS_LINKS = [
     (r"cost model", "cost-model"),
     (r"made-up", "synthetic-data"),
     (r"look-back", "looking-back"),
+    (r"roadmap", "roadmap"),
+    (r"checkpoints?", "checkpoint"),
+    (r"imagine it failed", "imagine-it-failed-exercise"),
+    (r"cap on AI spending|spending cap", "usage-cap"),
+    (r"backups?", "backup-and-restore-test"),
+    (r"scope", "scope"),
 ]
 
 
@@ -98,7 +105,9 @@ def stage_rail(h):
             parts = ""
             for name in order:
                 parts += f'<div class="row" data-alt="{alt[name]}"><span class="lbl">{name}</span><p>{c[heads.index(name)]}</p></div>'
-            items.append(f'<li class="stage"><h3>{c[0]}</h3>{parts}</li>')
+            num = re.match(r"\s*(\d)", re.sub("<.*?>", "", c[0]))
+            sid = f' id="stage-{num.group(1)}"' if num else ""
+            items.append(f'<li class="stage"{sid}><h3>{c[0]}</h3>{parts}</li>')
         return '<ol class="rail">' + "".join(items) + "</ol>"
     return re.sub(r"<table>.*?</table>", table, h, flags=re.S)
 
@@ -125,6 +134,36 @@ def tables_focusable(h):
     return re.sub(r"<table>(.*?)</table>", r'<div class="tablewrap" tabindex="0"><table>\1</table></div>', h, flags=re.S)
 
 
+
+def scope_view(h):
+    """The best/base/worst table becomes a case switcher with one anchor per step; without JavaScript all three cases show."""
+    def table(m):
+        t = m.group(0)
+        heads = [re.sub("<.*?>", "", c).strip() for c in cells(t, "th")]
+        if heads != ["Step", "Best case", "Base case", "Worst case"]:
+            return m.group(0)
+        items = []
+        for row in re.findall(r"<tr>\s*(<td.*?)</tr>", t, flags=re.S):
+            c = cells(row, "td")
+            title = re.sub("<.*?>", "", c[0]).strip()
+            num = re.match(r"(\d)\.", title)
+            top = bool(num)
+            target = f"#stage-{num.group(1)}" if num else "#stage-3"
+            cases = "".join(
+                f'<span class="c c-{k}"><b>{lab}:</b> {c[i + 1]}</span>'
+                for i, (k, lab) in enumerate((("best", "Best case"), ("base", "Base case"), ("worst", "Worst case")))
+            )
+            items.append(f'<li class="{"sstep" if top else "ssub"}"><a href="{target}">{title}</a>{cases}</li>')
+        bar = ('<div class="scopebar" role="group" aria-label="Which case to show"><span class="altlabel">If the audit finds the:</span>'
+               '<button type="button" data-case="best" aria-pressed="false">Best case</button>'
+               '<button type="button" data-case="base" aria-pressed="true">Base case</button>'
+               '<button type="button" data-case="worst" aria-pressed="false">Worst case</button></div>')
+        return f'<div class="scope" data-case="base">{bar}<ol class="scopelist">{"".join(items)}</ol></div>'
+    return re.sub(r"<table>.*?</table>", table, h, flags=re.S)
+
+SECTION_TITLES = {}
+
+
 def altitude_wrap(h):
     """Split on <h2>; wrap each section as dek (while collapsed) plus body (when open)."""
     parts = re.split(r"(?=<h2>)", h)
@@ -136,11 +175,13 @@ def altitude_wrap(h):
         alt, dek = SPEC.get(title, (3, None))
         rest = part[m.end():]
         n += 1
+        sid = "s-" + slug(title)
+        SECTION_TITLES[sid] = title
         if dek is None:
-            out.append(f'<div class="sec" data-body-alt="{alt}">{m.group(0)}{rest}</div>')
+            out.append(f'<div class="sec" id="{sid}" data-body-alt="{alt}">{m.group(0)}{rest}</div>')
         else:
             out.append(
-                f'<div class="sec" data-body-alt="{alt}">{m.group(0)}<p class="dek">{dek}</p>'
+                f'<div class="sec" id="{sid}" data-body-alt="{alt}">{m.group(0)}<p class="dek">{dek}</p>'
                 f'<div class="body" id="b{n}">{rest}</div>'
                 f'<button class="more" type="button" aria-controls="b{n}" aria-expanded="false" hidden>Show detail</button></div>'
             )
@@ -151,9 +192,29 @@ def altitude_wrap(h):
     return "".join(out)
 
 
-def linkify(h):
-    """Link the first use of each glossary phrase to its codex entry (text nodes in p, li, td, dd only)."""
+def gloss_data(codex_html):
+    """slug -> (term, plain meaning, picture) read from the rendered codex, so the popups share one source."""
+    data = {}
+    for m in re.finditer(r'<div id="g-([a-z0-9-]+)"><dt>(.*?)</dt><dd>(.*?)</dd></div>', codex_html, flags=re.S):
+        slug_, term, dd = m.groups()
+        mean = re.split(r'\s*<span class="pic">', dd)[0]
+        pic = re.search(r'<span class="pic">Picture: (.*?)</span>', dd, flags=re.S)
+        data[slug_] = (re.sub("<.*?>", "", term).strip(), mean.strip(), pic.group(1).strip() if pic else "")
+    return data
+
+
+def first_sentence(text):
+    plain = re.sub("<.*?>", "", text).strip()
+    m = re.match(r"(.+?[.!?])(\s|$)", plain)
+    return m.group(1) if m else plain
+
+
+def linkify(h, data):
+    """First use of each glossary phrase in each section becomes a term with a definition popup (hover, focus, tap)."""
     done = set()
+    count = [0]
+    uses = {}
+    cur = [None]
     pieces = re.split(r"(<[^>]+>)", h)
     stack = []
     skip = {"h1", "h2", "h3", "h4", "a", "button", "dt", "th", "strong", "code"}
@@ -166,20 +227,39 @@ def linkify(h):
                     if name in stack:
                         while stack and stack.pop() != name:
                             pass
-                elif not piece.endswith("/>") and name not in ("br", "hr", "img", "input"):
-                    stack.append(name)
+                else:
+                    if name == "h2":
+                        done = set()
+                    idm = re.search(r'class="sec" id="(s-[a-z0-9-]+)"', piece)
+                    if idm:
+                        cur[0] = idm.group(1)
+                    if not piece.endswith("/>") and name not in ("br", "hr", "img", "input"):
+                        stack.append(name)
             continue
         if any(s in skip for s in stack):
             continue
         for pat, target in GLOSS_LINKS:
-            if target in done:
+            if target in done or target not in data:
                 continue
             m = re.search(rf"\b({pat})\b", piece)
             if m:
-                piece = piece[:m.start()] + f'<a class="gl" href="#g-{target}">{m.group(1)}</a>' + piece[m.end():]
+                term, mean, pic = data[target]
+                count[0] += 1
+                n = count[0]
+                if cur[0]:
+                    uses.setdefault(target, []).append(cur[0])
+                tip = (
+                    f'<span class="tip" id="tip{n}" role="group" aria-label="Definition: {html.escape(term)}" hidden>'
+                    f'<b>{html.escape(term)}</b> {html.escape(first_sentence(mean))} <a class="tipgo" href="#g-{target}">Learn more</a></span>'
+                )
+                piece = (
+                    piece[:m.start()]
+                    + f'<span class="termwrap"><a class="gl" href="#g-{target}" aria-describedby="tip{n}" aria-expanded="false">{m.group(1)}</a>{tip}</span>'
+                    + piece[m.end():]
+                )
                 done.add(target)
         pieces[i] = piece
-    return "".join(pieces)
+    return "".join(pieces), uses
 
 
 def intake_section():
@@ -194,24 +274,38 @@ def intake_section():
 
 
 plan = md("07-plain-language-bundle.md")
-plan = altitude_wrap(tables_focusable(stage_rail(plan)))
-plan = linkify(plan)
-codex = gloss(shift(md("09-translation-codex.md"), 1))
+plan = altitude_wrap(tables_focusable(scope_view(stage_rail(plan))))
+
+quick = (
+    '<nav class="quicksteps" aria-label="Jump to a step"><span class="altlabel">Jump to a step:</span><ol>'
+    '<li><a href="#stage-1">1 Look and listen</a></li><li><a href="#stage-2">2 Agree the plan</a></li>'
+    '<li><a href="#stage-3">3 Make it solid</a></li><li><a href="#stage-4">4 Aim higher</a></li></ol></nav>'
+)
+_anchor = '<div class="sec" id="s-the-short-version"'
+assert _anchor in plan, "quick steps anchor missing"
+plan = plan.replace(_anchor, quick + _anchor, 1)
+codex_pre = gloss(shift(md("09-translation-codex.md"), 1))
+plan, term_uses = linkify(plan, gloss_data(codex_pre))
+codex = codex_pre
+for slug_, secs_ in term_uses.items():
+    links = ", ".join(f'<a href="#{s}">{html.escape(SECTION_TITLES[s])}</a>' for s in secs_)
+    codex = re.sub(rf'(<div id="g-{slug_}">.*?)(</dd></div>)', lambda m: m.group(1) + f' <span class="uses">Used in this plan: {links}.</span>' + m.group(2), codex, count=1, flags=re.S)
 codex = re.sub(r"<h2>The translation codex</h2>", "", codex, count=1)
 intake = intake_section()
 
-ladder = "".join(
-    f'<li><button type="button" data-level="{n}" aria-label="Level {n}, {name}" aria-pressed="false">'
-    f'<span class="dot" aria-hidden="true"></span><span class="nm"><span class="n">{n}</span><span class="w">. {name}</span></span></button></li>'
+ticks = "".join(f'<span class="tick" style="--f:{(n - 1) / 4}" aria-hidden="true"></span>' for n, *_ in LEVELS)
+names = "".join(
+    f'<button type="button" class="tname" data-level="{n}" tabindex="-1" aria-hidden="true"><span class="n">{n}</span><span class="w">. {name}</span></button>'
     for n, name, _, _ in LEVELS
 )
 descs = {n: {"name": name, "desc": d, "adds": adds} for n, name, d, adds in LEVELS}
 bar_html = (
-    '<div class="alt" role="group" aria-label="Level of detail"><div class="altrow">'
-    '<span class="altlabel">Depth: each step adds to the one before</span>'
-    '<span class="stepbtns"><button type="button" class="step" data-dir="-1">Less detail</button>'
-    '<button type="button" class="step" data-dir="1">More detail</button></span></div>'
-    f'<ol class="ladder">{ladder}</ol><p id="altdesc" class="altdesc" aria-live="polite"></p></div>'
+    '<div class="alt" role="group" aria-label="Level of detail">'
+    '<span class="altlabel" id="altlabel">Depth: slide to show more or less detail</span>'
+    '<div class="slider"><div class="ticks">' + ticks + '</div>'
+    '<input type="range" id="depth" min="1" max="5" step="1" value="' + str(DEFAULT_LEVEL) + '" aria-labelledby="altlabel" aria-describedby="altdesc">'
+    '<div class="tnames">' + names + '</div></div>'
+    '<p id="altdesc" class="altdesc" aria-live="polite"></p></div>'
 )
 plan = plan.replace("<!--BAR-->", bar_html)
 
@@ -260,31 +354,54 @@ h2{font-size:1.15rem;font-weight:600;line-height:1.25;letter-spacing:-0.01em;mar
 h3{font-size:0.925rem;font-weight:700;line-height:1.3;margin:24px 0 8px}
 p,li{max-width:none;text-wrap:pretty}
 a{color:var(--pg-accent);text-underline-offset:3px}
-a.gl{text-decoration-style:dotted}
 code{font-family:var(--font-code);font-size:.9em}
 .sec{margin:0}
 .dek{margin:4px 0 8px}
 .more{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer;margin:4px 0 0}
 .more:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
-.alt{position:sticky;top:0;background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 0;margin:24px 0 8px}
-.altrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 16px}
+.alt{position:sticky;top:0;background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 0 6px;margin:24px 0 8px}
 .altlabel{color:var(--pg-muted)}
-.stepbtns{display:flex;gap:6px}
-.step{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
-.step:hover:not(:disabled){border-color:var(--pg-accent);color:var(--pg-accent)}
-.step:disabled{opacity:.45;cursor:default}
-.ladder{list-style:none;margin:6px 0 4px;padding:0;display:flex}
-.ladder li{flex:1 1 0;min-width:0;position:relative;text-align:center}
-.ladder li::before{content:"";position:absolute;top:7px;left:-50%;width:100%;height:2px;background:var(--pg-edge)}
-.ladder li:first-child::before{display:none}
-.ladder li.on::before{background:var(--pg-accent)}
-.ladder button{font:inherit;color:var(--pg-muted);background:none;border:0;padding:0 2px;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;width:100%;min-height:44px}
-.ladder .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--pg-edge);background:var(--pg-bg)}
-.ladder li.on .dot{background:var(--pg-accent);border-color:var(--pg-accent)}
-.ladder li.on button{color:var(--pg-text)}
-.ladder button[aria-pressed="true"]{color:var(--pg-accent);font-weight:700}
-.ladder button[aria-pressed="true"] .dot{box-shadow:0 0 0 3px var(--pg-accent-bg)}
+.slider{position:relative;margin:4px 0 0;height:76px}
+.slider input[type=range]{position:absolute;left:calc(10% - 12px);width:calc(80% + 24px);top:6px;height:24px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;z-index:1}
+.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:linear-gradient(var(--pg-accent),var(--pg-accent)) 0/var(--fill,50%) 100% no-repeat,var(--pg-edge)}
+.slider input[type=range]::-moz-range-track{height:4px;border-radius:3px;background:var(--pg-edge)}
+.slider input[type=range]::-moz-range-progress{height:4px;border-radius:3px;background:var(--pg-accent)}
+.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-top:-10px;border-radius:50%;background:var(--pg-accent);border:3px solid var(--pg-bg);box-shadow:0 0 0 1px var(--pg-accent)}
+.slider input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--pg-accent);border:3px solid var(--pg-bg);box-shadow:0 0 0 1px var(--pg-accent)}
+.slider input[type=range]:focus-visible{outline:none}
+.slider input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--pg-bg),0 0 0 5px var(--pg-accent)}
+.slider input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--pg-bg),0 0 0 5px var(--pg-accent)}
+.ticks{position:absolute;left:0;right:0;top:12px;height:12px;pointer-events:none}
+.tick{position:absolute;top:0;width:2px;height:12px;margin-left:-1px;background:var(--pg-edge);left:calc(10% + 80% * var(--f))}
+.tnames{position:absolute;left:0;right:0;top:30px;display:flex}
+.tname{flex:1 1 0;min-width:0;min-height:44px;font:inherit;color:var(--pg-muted);background:none;border:0;padding:6px 2px;cursor:pointer;text-align:center}
+.tname:hover{color:var(--pg-accent);text-decoration:underline}
+.tname.on{color:var(--pg-accent);font-weight:700}
 .altdesc{color:var(--pg-dim);margin:2px 0 0}
+.quicksteps{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;margin:20px 0 0}
+.quicksteps ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:0 4px}
+.quicksteps a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;border:1px solid var(--pg-edge);border-radius:6px;margin:4px 0;color:var(--pg-text);text-decoration:none;background:var(--pg-surface)}
+.quicksteps a:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
+.termwrap{position:relative;display:inline}
+a.gl{text-decoration:underline dotted;text-underline-offset:3px;cursor:help}
+.tip{position:absolute;z-index:3;left:0;top:calc(100% + 6px);width:max-content;max-width:min(280px,80vw);background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.14);text-align:left;font-weight:400;font-style:normal;white-space:normal}
+.tip.flip{left:auto;right:0}
+.tip b{display:block;margin:0 0 2px}
+.tip a.tipgo{display:block;margin-top:4px;padding:4px 0;min-height:28px}
+.scope{margin:16px 0}
+.scopebar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 8px}
+.scopebar button{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
+.scopebar button[aria-pressed="true"]{border-color:var(--pg-accent);color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
+.scopelist{list-style:none;margin:0;padding:0}
+.scopelist li{padding:10px 0;border-top:1px solid var(--pg-line)}
+.scopelist li:last-child{border-bottom:1px solid var(--pg-line)}
+.scopelist .sstep a{font-weight:700}
+.scopelist .ssub{padding-left:20px}
+.scopelist a{display:inline-block;margin:0 0 2px}
+.c{display:block;color:var(--pg-dim)}
+.c b{display:none}
+.scope:not(.js) .c b{display:inline;color:var(--pg-muted);font-weight:600}
+.scope.js[data-case="best"] .c-base,.scope.js[data-case="best"] .c-worst,.scope.js[data-case="base"] .c-best,.scope.js[data-case="base"] .c-worst,.scope.js[data-case="worst"] .c-best,.scope.js[data-case="worst"] .c-base{display:none}
 a:focus-visible,button:focus-visible,.tablewrap:focus-visible{outline:2px solid var(--pg-accent);outline-offset:2px}
 .rail{list-style:none;margin:16px 0;padding:0}
 .stage{padding:16px 0;border-top:1px solid var(--pg-line)}
@@ -299,18 +416,20 @@ a:focus-visible,button:focus-visible,.tablewrap:focus-visible{outline:2px solid 
 .gloss dd{margin:0}
 .gloss .pic{display:block;font-style:italic;color:var(--pg-dim)}
 .gloss .why{display:block;color:var(--pg-dim)}
+.gloss .uses{display:block;color:var(--pg-dim);margin-top:4px}
+.flash{background:var(--pg-accent-bg);transition:background .4s}
 .tablewrap{overflow-x:auto;margin:16px 0}
 table{border-collapse:collapse;width:100%}
 th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical-align:top}
 th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
 iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-radius:6px;background:var(--pg-surface)}
-.sec,[id^="g-"]{scroll-margin-top:11rem}
+.sec,[id^="g-"],.stage{scroll-margin-top:9rem}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
-@media (max-width:600px){h1{font-size:1.5rem}.gloss>div{grid-template-columns:1fr}.ladder .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.altlabel{display:none}.sec,[id^="g-"]{scroll-margin-top:9rem}}
+@media (max-width:600px){h1{font-size:1.5rem}.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.slider{height:78px}.sec,[id^="g-"],.stage{scroll-margin-top:8rem}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-@media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,.skip{display:none !important}}
+@media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,.skip,.scopebar,.quicksteps,.tip{display:none !important}}
 """.replace("%LIGHT_IMP%", block(LIGHT, True)).replace("%LIGHT%", block(LIGHT)).replace("%DARK%", block(DARK))
 
 HEAD_JS = """(function(){try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();"""
@@ -321,6 +440,7 @@ JS = """
   var level=__DEFAULT__,over=new Set();
   try{var v=parseInt(localStorage.getItem('myAllyLevel'),10);if(v>=1&&v<=5)level=v;}catch(e){}
   var secs=[].slice.call(document.querySelectorAll('.sec'));
+  var slider=document.getElementById('depth');
   function isOpen(i){var s=secs[i];var need=parseInt(s.getAttribute('data-body-alt'),10);return !s.querySelector('.body')||level>=need||over.has(i);}
   function apply(){
     secs.forEach(function(sec,i){
@@ -336,21 +456,16 @@ JS = """
         el.hidden=!(over.has(i)?true:level>=a);
       });
     });
-    [].forEach.call(document.querySelectorAll('.ladder button'),function(b){
-      var n=parseInt(b.getAttribute('data-level'),10);
-      b.setAttribute('aria-pressed',String(n===level));
-      b.parentNode.className=n<=level?'on':'';
-    });
-    [].forEach.call(document.querySelectorAll('.step'),function(b){
-      var d=parseInt(b.getAttribute('data-dir'),10);
-      b.disabled=(d<0&&level<=1)||(d>0&&level>=5);
-    });
     var cur=DESC[level],nxt=DESC[level+1];
-    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Next step adds '+nxt.adds+'.':' This is the full detail.');
+    slider.value=String(level);
+    slider.style.setProperty('--fill','calc(12px + (100% - 24px) * '+((level-1)/4)+')');
+    slider.setAttribute('aria-valuetext','Level '+level+' of 5, '+cur.name);
+    [].forEach.call(document.querySelectorAll('.tname'),function(b){b.className='tname'+(parseInt(b.getAttribute('data-level'),10)===level?' on':'');});
+    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Moving right adds '+nxt.adds+'.':' This is the full detail.');
   }
   function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('myAllyLevel',String(level));}catch(e){}apply();}
-  [].forEach.call(document.querySelectorAll('.ladder button'),function(b){b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});});
-  [].forEach.call(document.querySelectorAll('.step'),function(b){b.addEventListener('click',function(){setLevel(level+parseInt(b.getAttribute('data-dir'),10));});});
+  slider.addEventListener('input',function(){setLevel(parseInt(slider.value,10));});
+  [].forEach.call(document.querySelectorAll('.tname'),function(b){b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});});
   secs.forEach(function(sec,i){
     var more=sec.querySelector('.more'),body=sec.querySelector('.body');
     if(more)more.addEventListener('click',function(){if(over.has(i))over.delete(i);else over.add(i);apply();});
@@ -360,13 +475,39 @@ JS = """
   function go(id,push){
     var t=document.getElementById(id);if(!t)return false;
     var i=secFor(t);if(i>-1&&!isOpen(i)){over.add(i);apply();}
-    setTimeout(function(){t.scrollIntoView();},0);
+    setTimeout(function(){t.scrollIntoView();t.classList.add('flash');setTimeout(function(){t.classList.remove('flash');},2000);},0);
     if(push&&history.pushState){history.pushState(null,'','#'+id);}
     return true;
   }
+  /* definition popups: hover, keyboard focus and tap */
+  var pinned=null;
+  function tipOf(a){return a.parentNode.querySelector('.tip');}
+  function show(a){var t=tipOf(a);if(!t)return;t.hidden=false;t.classList.remove('flip');var r=t.getBoundingClientRect();if(r.right>window.innerWidth-8)t.classList.add('flip');a.setAttribute('aria-expanded','true');}
+  function hide(a){var t=tipOf(a);if(!t)return;t.hidden=true;a.setAttribute('aria-expanded','false');}
+  function hideAll(){[].forEach.call(document.querySelectorAll('a.gl'),hide);pinned=null;}
+  [].forEach.call(document.querySelectorAll('.termwrap'),function(w){
+    var a=w.querySelector('a.gl');
+    w.addEventListener('mouseenter',function(){show(a);});
+    w.addEventListener('mouseleave',function(){if(pinned!==a)hide(a);});
+    a.addEventListener('focus',function(){show(a);});
+    w.addEventListener('focusout',function(e){if(pinned!==a&&!w.contains(e.relatedTarget))hide(a);});
+    a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(pinned===a){hideAll();}else{hideAll();pinned=a;show(a);}});
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pinned){var a=pinned;hideAll();a.focus();}else if(e.key==='Escape'){hideAll();}});
+  document.addEventListener('click',function(e){if(pinned&&!e.target.closest('.termwrap'))hideAll();});
   document.addEventListener('click',function(e){
-    var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
-    var id=a.getAttribute('href').slice(1);if(go(id,true))e.preventDefault();
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||a.classList.contains('gl'))return;
+    var id=a.getAttribute('href').slice(1);if(go(id,true)){if(a.classList.contains('tipgo'))hideAll();e.preventDefault();}
+  });
+  /* scope cases */
+  [].forEach.call(document.querySelectorAll('.scope'),function(sc){
+    sc.classList.add('js');
+    [].forEach.call(sc.querySelectorAll('.scopebar button'),function(b){
+      b.addEventListener('click',function(){
+        sc.setAttribute('data-case',b.getAttribute('data-case'));
+        [].forEach.call(sc.querySelectorAll('.scopebar button'),function(o){o.setAttribute('aria-pressed',String(o===b));});
+      });
+    });
   });
   var root=document.documentElement,tb=document.getElementById('themebtn');
   function eff(){var t=root.getAttribute('data-theme');if(t)return t;return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}

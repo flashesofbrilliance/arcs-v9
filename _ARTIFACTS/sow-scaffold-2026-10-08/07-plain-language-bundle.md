@@ -33,6 +33,31 @@ Any word that sounds technical is explained in the translation codex at the end 
 
 At the end of every stage I also do a short look-back with you, so the lessons arrive while they are still useful, not only at the end.
 
+## What is in scope, and what the audit could change
+
+I cannot know exactly what stage 1 will show. So here are three general cases, so you can see which steps are in scope in each. They are not predictions, and nothing here is priced.
+
+- **Best case:** the audit finds the basics already in place. Changes are tracked, testing is kept apart from the real thing, and each kind of information already has an agreed home.
+- **Base case:** the audit finds some gaps. For example, changes are not tracked, testing and the real thing are mixed, or I need to make a chart of where each kind of information may live.
+- **Worst case:** the audit finds that a service is not a suitable home for some kind of information. A decision, with costs, comes before anything else is built.
+
+| Step | Best case | Base case | Worst case |
+|---|---|---|---|
+| 1. Look and listen | In scope | In scope | In scope, and likely longer |
+| 2. Agree the plan together | In scope | In scope | In scope. The big decision may include moving part of the app |
+| 3. Make it solid | In scope | In scope | In scope, and larger |
+| Working setup and a cap on AI spending | In scope | In scope | In scope |
+| Change tracking | Already in place, so only a check | In scope | In scope |
+| Separate places for testing and the real thing | Already in place, so only a check | In scope | In scope |
+| Chart of where each kind of information may live | A quick confirmation with your lawyers | In scope, made with your lawyers | In scope, and may show a gap |
+| Backup, activity diary and alarms | A check | In scope before the first outside family | In scope before the first outside family |
+| Evidence trail | Only if someone asks | Only if someone asks | Likely asked for sooner |
+| Moving part of the app to a better home | Not needed | Not needed | A decision comes first, before anything else is built |
+| Connecting Alice | After the groundwork, sooner | After the groundwork | Waits for that decision |
+| 4. Aim higher, then look back | In scope | In scope | In scope, later |
+
+At the end of stage 1 I would tell you which case applies, and what it means for stage 3, before anything is spent on it. The cost cases work the same way: best, likely and worst, with nothing priced yet.
+
 ## For Kelly
 
 - Stage 2 puts your business plan and the build side by side, and checks every claim in one against the other, the way you would reconcile two sets of books.
