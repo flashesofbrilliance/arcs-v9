@@ -24,7 +24,7 @@
 
 ## 2026-10-08 · My Ally LD proposal view (`_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html`, generated): two-agent audit graded it B-, repaired in one batch, light theme added with one scoped exemption
 
-Found by: the impeccable critique run as two isolated agents (A: design and copy review; B: detector plus measurements), then one confirm round of headless-Chrome renders at 500, 790 and 1280 in both themes. The page is rendered by `build_proposal_view.py` from three markdown files, so every repair lives in the generator or the markdown, not in the output.
+Found by: the impeccable critique run as two isolated agents (A: design and copy review; B: detector plus measurements), then one confirm round of headless-Chrome renders at 500, 790 and 1280 in both themes. The page is generated from three markdown files by a small generator kept beside it in that folder, so every repair lives in the generator or the markdown, not in the output.
 
 | # | Break | Found by | Repair | Guard |
 |---|---|---|---|---|
