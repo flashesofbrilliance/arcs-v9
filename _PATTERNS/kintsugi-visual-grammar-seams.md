@@ -22,6 +22,21 @@
   machine that has it.
 
 
+## 2026-10-08 · Instrument Panel card (Claude Design, ARCS OS design system, the instrument card): template code rendered as text; repaired phone first in src/ui-kit/instrument/card.html
+
+Found by: reading the design system in Claude Design for HUD layout ideas. The card printed its SegBar
+and HorizonDist as raw code: `${Array.from({length:20},...).join('')}` and
+`${[['QUICKMOVE','#4ABDB0',14],...].map(...)}`. JavaScript template literals were written into a static
+`.html`, where nothing evaluates them. Every design built from the card inherits the break.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Template literals in static HTML render as visible code (rounds bar, mode distribution) | reading the rendered card | Static markup: 20 `<i>` segments, three width-percent spans; nothing needs a runtime | `scripts/template_leak_lint.py` in `scripts/git-hooks/pre-commit` for added AND modified `.html` (repo baseline 0 leaks, so no ratchet); self-test proves bad caught, script/comment/code/attribute ignored |
+| 2 | Off-palette hex (#4ABDB0, #7AD2FF, #D7A65A) carried mode and state color | reading the source values shown in the leaked code | Mapped to DESIGN.md states: green coherent (QUICKMOVE, NOMINAL), cyan bearing (PLAN), gold locked (COURT), orange caution, red ruin | token_source_gate (palette from `_tokens.css`, inlined verbatim) |
+| 3 | Desktop-only grid; the card had no phone layout | inspection | One column under 640px, two columns above; checked at 375, 768, 1280 with no horizontal scroll | inspection round (wrap-lint covers measure, not layout) |
+| 4 | A linked `../recoil-report/_tokens.css` does not travel: in a standalone render (and in a Claude Design upload) the tokens never load, so bars rendered invisible | the first verification render (white page, empty bars) | `_tokens.css` inlined verbatim with its sentinel line, per the kit rule | token_source_gate accepts the inline form |
+| 5 | The Claude Design source itself is still broken: it could not be edited from here (cross-origin preview; editor marks the file "does not support automatic edits"; project chat at its monthly spend limit) | attempting the repair in place | Repaired copy lives in the repo; carry it back with /design-sync after /design-login, or paste it | ledger only, until the design-system copy is replaced |
+
 ## 2026-10-07 · surfaces.arcs.care (public/surfaces.html, generated): first cut blocked at 23 findings, repaired to 0 + 1 scoped exemption
 
 Found by: the pre-commit kintsugi gate on the page's first commit (a new file blocks on any finding).

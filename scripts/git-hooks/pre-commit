@@ -67,6 +67,23 @@ if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; t
 fi
 
 # ---------------------------------------------------------------------------
+# template-leak gate (2026-10-08): no static HTML may show unevaluated template code
+# (`${...}`, a dangling `).join(`) as visible text. Found in the Claude Design Instrument
+# Panel card, where JS template literals sat in plain HTML and rendered as code. The repo
+# baseline was 0 leaks across every tracked .html, so ADDED and MODIFIED pages both block.
+# Kintsugi seam: _PATTERNS/kintsugi-visual-grammar-seams.md 2026-10-08. Skips without python3.
+if [ -f scripts/template_leak_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  tl=$(git diff --cached --name-only --diff-filter=AM -- '*.html' 2>/dev/null || true)
+  if [ -n "$tl" ]; then
+    if ! echo "$tl" | tr '\n' '\0' | xargs -0 python3 scripts/template_leak_lint.py; then
+      echo "✖ commit blocked: template code would render as visible text (see above)." >&2
+      echo "  render it to static markup, or move it into a <script> that builds the DOM." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# ---------------------------------------------------------------------------
 # card-gutter gate (headless sibling of the wrap lint): a NEW artifact whose text
 # block inside a bordered card is >40px narrower than the card's inner width at
 # 360/790/1280 (the dead right gutter static lint cannot see). Added-only, like the
