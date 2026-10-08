@@ -8,7 +8,7 @@ created_at: 2026-10-08T15:39:50Z
 ## Goal
 Give structure and graded evidence to an itemized SOW for the My Ally LD prospect, ready for Zach to adapt once the NDA, codebase and build spec arrive.
 ## Changed
-- Added `_ARTIFACTS/sow-scaffold-2026-10-08/` (asset map, graded scaffold, 13 draft assumptions asm-015 to asm-027 that validate against `scripts/assumptions.py`, cost-baseline template). PR open, not merged; no merge receipt yet.
+- Added `_ARTIFACTS/sow-scaffold-2026-10-08/` (asset map, graded scaffold, 16 draft assumptions asm-015 to asm-030 (adds charter hypothesis asm-028 and two UNSUPPORTED judgments) that validate against `scripts/assumptions.py`, cost-baseline template). PR open, not merged; no merge receipt yet.
 ## State
 - Nothing received from the prospect (Gmail search 2026-10-08): items depending on the codebase and spec are GRAIN or DEGRADED.
 - Repo has no SOW template, no premortem asset, no redaction test harness (gaps listed in file 01).
@@ -18,7 +18,7 @@ Give structure and graded evidence to an itemized SOW for the My Ally LD prospec
 - Zach's recalled liability figure and any HIPAA/COPPA/BAA applicability claim are excluded; routed to counsel (L.2).
 ## Open
 1. Zach: whose entity pays and on whose paper; which vendors are on a card; is cost visibility an outcome; disclose the recording; NDA status; meaning of "by manana"; may Phase 0 use Question Compass on real material after the NDA.
-2. Zach: yes/no to append asm-015..027 to the live ledger.
+2. Zach: yes/no to append asm-015..030 to the live ledger.
 3. Zach: whether to run `counterpart-gauntlet` on the scaffold (multi-agent cost).
 ## Next action
 When the NDA, codebase and build spec arrive, read them and regrade P0.A1 to P0.A4 and B.3 in 02-sow-scaffold.md.

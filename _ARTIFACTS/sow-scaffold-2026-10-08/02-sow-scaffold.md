@@ -2,6 +2,43 @@
 
 **Handling.** Internal working draft for Zach. Not a proposal, not priced, not for the counterpart. Built from the Oct 8 intro call (a Granola transcript exists; paraphrased here, no verbatim quotes, treat as INTERNAL), the repo, and the external sources cited below. Nothing in this file has been run through Question Compass or any ARCS surface. The NDA, codebase and build spec have **not** arrived (Gmail search for the three names returned nothing on 2026-10-08), so every item that depends on them is graded accordingly. Where law, privacy, IP or contracts are touched the text says counsel should confirm; no legal conclusion is stated.
 
+## 0. Relationship charter (pre-frame)
+
+The charter frames the whole scaffold. It sits **beside** the legal agreement and does not replace it. Anything in it that could read as binding (commitments, exits, handoff duties) is for counsel to confirm before it is shown to anyone. Gate names are **checkpoint**, **graduation** and **soft landing**: framing chosen so a small team reads them as support rather than a trap (see the grades below: that wording preference is our judgment, not a finding). Each phase has exactly three gates, one measurable test each, set in advance and registered before the work starts. One-page template: `05-charter-template.md`.
+
+Per phase the block carries: **Goal** (their words, to be replaced with the founders' own wording at discovery; the lines here are paraphrase); **Deliverables**; **Checkpoint** (a test that says reality mirrors the plan); **Graduation** (what it looks like if it worked and they can run it alone); **Soft landing** (the handoff pack if it did not work, so they lose nothing); **Commitments** (mutual, same kind on each side).
+
+### Phase 0: opening sprint (worked block, EXAMPLE placeholders)
+
+| Part | Draft content |
+|---|---|
+| Goal (paraphrase) | Decide with eyes open how the product gets built and who builds it, without spending ahead of that decision. |
+| Deliverables | Findings memo; dependency map; four ex-ante receipts (one per founder); one workshop decision receipt on the build-versus-hire fork; premortem list; counsel question list (P0.A1 to P0.W1, L.1). |
+| Checkpoint | Test: at shareback, [EXAMPLE: every] node on the dependency map has a named owner and an upstream. Set before the audit starts; if it fails we say so at shareback and re-scope, nobody is blamed. |
+| Graduation | Test: at workshop close each founder restates, [EXAMPLE: in writing, unprompted], the fork decision, its owner, its reversal condition, and the top premortem failure with its leading indicator. If they can, they can run the decision alone. |
+| Soft landing | Test: if we stop after Phase 0, the handoff pack (memo, map, receipts, premortem, counsel list, cost baseline) opens from client-owned storage with no ARCS account (H.2), by [EXAMPLE: date]. They lose nothing. |
+| Commitments, us | Share findings by [EXAMPLE: date]; keep their materials inside the NDA; say early if an estimate moves. |
+| Commitments, them | Provide materials by [EXAMPLE: date]; name one decision owner; say early if plans or funding timing move. |
+
+Same-kind pairs: inputs on dated terms (both); one accountable person (both); early notice of change (both).
+
+### Phases 1 to 3 (structure set, content TBD after the workshop receipt)
+
+Order follows Zach's stated shape (T, his view): Phase 1 = Track B front-loaded build; Phase 2 = Track F fractional; Phase 3 = Track A advisory. Each phase gets the same six-part block, three gates, one measurable test per gate, drafted at the workshop with the founders and filed ex-ante. Candidate tests, all unmeasured and UNVERIFIED as fit: Phase 1 graduation = Chelsea ships a release unaided (B.7); Phase 2 checkpoint = backlog items closed against sprint goals (A.1); Phase 3 graduation = a sprint planned and accepted with no outside help. Soft landing for every phase = the same handoff pack, refreshed.
+
+### Evidence grades for the behavioral claims behind the charter
+
+Relayed from the Docs Reconciliation session's check of 2026-10-08; I did not re-fetch these sources. Claim no more than the grade.
+
+| Claim | Grade | Source (as relayed) | Use in the charter |
+|---|---|---|---|
+| Minimum targets that trigger a change of course, less threatening negative outcomes, and judging the decision process rather than the outcome were among the most effective ways to reduce escalation of commitment | SUPPORTED, lab setting only; not a study of consulting engagements | Simonson and Staw 1992, Journal of Applied Psychology 77(4):419-426, https://www.gwern.net/doc/psychology/cognitive-bias/sunk-cost/1992-simonson.pdf | Checkpoint = minimum target; soft landing = threat reduction; shareback and workshop = process accountability |
+| People demand commitment devices and these can change behavior | SUPPORTED for individuals; transfer to a B2B engagement UNVERIFIED | Bryan, Karlan and Nelson 2010, Annual Review of Economics 2:671-698, https://ideas.repec.org/a/anr/reveco/v2y2010p671-698.html | Why dated, pre-registered gates may help; not shown for a company |
+| Stating the worst case makes a small team feel safer committing | CONTESTED; design hypothesis, NOT an established finding. Loss aversion is overstated in places (Gal and Rucker 2018, https://imo.unisg.ch/wp-content/uploads/2020/12/01_jcpy.1156.pdf) yet holds under specific conditions with moderators (Mrkva, Johnson, Gaechter and Herrmann 2020) | as cited | Do not rely on it; soft landing is framed as support, not as a persuasion lever |
+| Disclosing to someone raises liking, and people disclose more to those they like; so naming our constraints first may invite theirs | PARTLY SUPPORTED; interpersonal, not business; plausible, not shown | Collins and Miller 1994, https://pubmed.ncbi.nlm.nih.gov/7809308/ | We state our constraints first; no claim it works |
+| A four-person team can carry three gates per phase; "kill switch" wording would spook them | UNSUPPORTED, our own judgment | none; stage-gate processes are widely used and Cooper himself calls them time-consuming when heavy (secondary sources only), which supports few, light gates | Cap at three gates per phase, one test each; ask at discovery which wording they prefer |
+| A relationship charter improves partnership outcomes | NO EVIDENCE FOUND | none | Treated as a hypothesis with a pre-registered test: asm-028, registered before counting |
+
 ## How to read the grades
 
 Evidence codes: **T** = call transcript (internal; paraphrased). **R** = repo asset (path). **X** = external source (URL, fetched 2026-10-08). **U** = unconfirmed.
@@ -11,7 +48,7 @@ Fidelity (WORLD.md render scale, never more certainty than the evidence earns):
 - **DEGRADED**: one kind of evidence, or a reasoned inference whose inputs we have not seen.
 - **GRAIN**: Zach's judgment, a pattern from elsewhere, or anything that waits on materials not received. Shown, but not to be relied on.
 
-Owner: Z = Zach, C = Chelsea, Co = founders as a group, L = counsel (founders' side), TBD = unassigned (flagged). Cost driver: **T** time, **V** vendor/subscription, **K** model tokens, **L** legal/counsel, **O** other. Assumption hooks point at `03-assumptions-draft.jsonl` (asm-015 to asm-027, draft numbering).
+Owner: Z = Zach, C = Chelsea, Co = founders as a group, L = counsel (founders' side), TBD = unassigned (flagged). Cost driver: **T** time, **V** vendor/subscription, **K** model tokens, **L** legal/counsel, **O** other. Assumption hooks point at `03-assumptions-draft.jsonl` (asm-015 to asm-030, draft numbering).
 
 ## 1. Shape of the engagement
 
@@ -115,6 +152,7 @@ Every item above carries a cost driver code (T, V, K, L, O). `04-cost-baseline-t
 - **Demoted to GRAIN:** the "vibe coding tutor" cost judgment, B.3 estimate, F.6 standard, L.5, L.6, L.8, L.9, H.3, H.4.
 - **Changed:** "deterministic redaction" became "deterministic pass plus mandatory parent review" after the Loki test (B.4).
 - **Added:** premise correction (Chelsea is the builder, not a developer), Lovable terms issue (L.4).
+- **Added (addendum 2026-10-08, relayed from another session, not typed by the user):** section 0 charter wrapper, evidence grades, `05-charter-template.md`, assumptions asm-028 to asm-030. Gate count capped at three per phase.
 - **Not run:** premortem on this scaffold itself with a second reader; the `counterpart-gauntlet` workflow was not run (multi-agent cost; Zach's call).
 - **Falsifier for the scaffold as a whole:** if the codebase shows the AI layer is further along than the founders described, B.3 and the cost model change first.
 
@@ -127,3 +165,4 @@ Every item above carries a cost driver code (T, V, K, L, O). `04-cost-baseline-t
 5. NDA status: not received as of 2026-10-08; codebase and build spec also not received.
 6. "By manana" in your framing is unclear and is not read as a duration. What did you mean?
 7. May Phase 0 use Question Compass on their real material after the NDA, or do you want a local SSOT only?
+8. Charter: which gate wording do the founders prefer (checkpoint, graduation, soft landing, or other)? Counsel should confirm anything in the charter that could read as binding before it is shown.
