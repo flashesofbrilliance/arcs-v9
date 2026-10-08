@@ -131,6 +131,25 @@ RENDER_JS = r"""
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
+const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml',
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ico': 'image/x-icon', '.txt': 'text/plain' };
+function serve(rootDir) {
+  // Site pages use root-relative URLs (/fonts/...); over file:// those 404 and change the layout. Serve the web root instead.
+  return new Promise(resolve => {
+    const srv = http.createServer((req, res) => {
+      const u = decodeURIComponent((req.url || '/').split('?')[0]);
+      let f = path.join(rootDir, u);
+      if (!f.startsWith(rootDir)) { res.writeHead(403); return res.end(); }
+      if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html');
+      if (!fs.existsSync(f) && fs.existsSync(f + '.html')) f = f + '.html';
+      if (!fs.existsSync(f)) { res.writeHead(404); return res.end('not found'); }
+      res.writeHead(200, { 'content-type': MIME[path.extname(f)] || 'application/octet-stream' });
+      fs.createReadStream(f).pipe(res);
+    });
+    srv.listen(0, '127.0.0.1', () => resolve(srv));
+  });
+}
 
 async function settle(p) {
   // wait until the scroll position stops changing (smooth scroll, script-driven jumps, a busy browser)
@@ -216,9 +235,19 @@ async function small(p) {
   const [files, devices, schemes] = [JSON.parse(process.argv[2]), JSON.parse(process.argv[3]), JSON.parse(process.argv[4])];
   const opts = process.env.PW_EXEC ? { executablePath: process.env.PW_EXEC } : {};
   const b = await chromium.launch(opts);
+  const roots = JSON.parse(process.env.PG_ROOTS || '{}');   // {webRoot: true}
+  const servers = {};
   const out = {};
   for (const f of files) {
     const res = { overflow: {}, lede: null, snap: [], errors: [], small: {}, custom: [], axe: [], axeMissing: false };
+    let url = 'file://' + f;
+    for (const r of Object.keys(roots)) {
+      if (f.startsWith(r + path.sep)) {
+        servers[r] = servers[r] || await serve(r);
+        url = 'http://127.0.0.1:' + servers[r].address().port + '/' + path.relative(r, f).split(path.sep).join('/');
+        break;
+      }
+    }
     const smokeFile = f.replace(/\.html?$/, '.smoke.cjs');
     const smoke = fs.existsSync(smokeFile) ? require(smokeFile) : null;
     for (const d of devices) {
@@ -230,8 +259,23 @@ async function small(p) {
         const p = await ctx.newPage();
         const errs = [];
         p.on('pageerror', e => errs.push('pageerror: ' + String(e.message || e).slice(0, 120)));
-        p.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text().slice(0, 120)); });
-        await p.goto('file://' + f, { waitUntil: 'load' });
+        // Platform paths that only exist on the deployed host are expected to 404 here; any other 4xx/5xx is a real missing asset.
+        const INFRA = /^\/(_vercel\/|api\/|_next\/data\/)|favicon\.ico$/;
+        p.on('response', r => {
+          if (r.status() < 400) return;
+          let u; try { u = new URL(r.url()); } catch (e) { return; }
+          if (u.hostname !== '127.0.0.1' && u.protocol !== 'file:') return;
+          if (INFRA.test(u.pathname)) return;
+          errs.push('asset: ' + r.status() + ' ' + u.pathname.slice(0, 90));
+        });
+        p.on('console', m => {
+          if (m.type() !== 'error') return;
+          const t = m.text();
+          if (/Failed to load resource/.test(t)) return;                 // covered by the response listener above
+          if (/blocked by CORS policy/.test(t) && /https:\/\//.test(t)) return;  // page calls the production API from a local origin
+          errs.push('console: ' + t.slice(0, 120));
+        });
+        await p.goto(url, { waitUntil: 'load' });
         await p.waitForTimeout(150);
         const key = d.name + '/' + scheme;
         res.overflow[key] = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
@@ -269,6 +313,7 @@ async function small(p) {
     }
     out[f] = res;
   }
+  for (const r of Object.keys(servers)) servers[r].close();
   await b.close();
   console.log(JSON.stringify(out));
 })().catch(e => { console.error(String(e)); process.exit(3); });
@@ -314,7 +359,7 @@ def render_checks(files, browser=None, matrix="quick"):
         # copy (after npm ci) has no browser while the global one matches /opt/pw-browsers, so
         # try every install until one launches.
         for np in candidates:
-            env = dict(os.environ, NODE_PATH=np)
+            env = dict(os.environ, NODE_PATH=np, PG_ROOTS=json.dumps({os.path.join(ROOT, "public"): True}))
             exe = os.environ.get("PW_EXEC") or (BROWSERS.get(browser) if browser else None)
             if exe is None and sys.platform == "darwin" and os.path.exists(BROWSERS["chrome"]):
                 exe = BROWSERS["chrome"]  # no bundled browser in a worktree: use the installed Chrome
