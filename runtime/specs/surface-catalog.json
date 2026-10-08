@@ -6,29 +6,39 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 287,
-  "hosts": 88,
+  "rows": 276,
+  "hosts": 78,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
    "product page": 218,
-   "gated": 41
+   "gated": 30
   },
   "next_config_hosts": 79,
   "proxy_hosts": 24,
   "app_routes": 45,
   "missing_purpose": 3,
-  "unlisted": 116
+  "unlisted": 105
  },
  "retired_hosts": [
+  "ahmed.arcs.care",
   "chase-intro.arcs.care",
   "chris-intro.arcs.care",
   "chris.arcs.care",
   "cj-brief.arcs.care",
+  "danny.arcs.care",
   "fanatics.arcs.care",
   "growth-intel.arcs.care",
-  "token.arcs.care"
+  "jalaja.arcs.care",
+  "jeben.arcs.care",
+  "joe-war.arcs.care",
+  "kelly-interview.arcs.care",
+  "labella.arcs.care",
+  "labelle.arcs.care",
+  "peter.arcs.care",
+  "token.arcs.care",
+  "yuri-war.arcs.care"
  ],
  "noindex_header_hosts": [
   "mercury.arcs.care",
@@ -127,27 +137,6 @@
    "purpose": "The Seed, for Polyform",
    "kind": "product page",
    "last_commit": "2026-08-26"
-  },
-  {
-   "host": "ahmed.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/ahmed",
-   "pattern": false,
-   "file": "runtime/warroom/ahmed.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Ahmed Elsamadisi / Polyform AI - ARCS Brief",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Ahmed Elsamadisi / Polyform AI - ARCS Brief",
-   "kind": "gated",
-   "last_commit": "2026-07-24"
   },
   {
    "host": "app.arcs.care",
@@ -1394,27 +1383,6 @@
    "unlisted": true,
    "purpose": "Fractional × ARCS — a teardown and a map",
    "kind": "product page",
-   "last_commit": "2026-07-24"
-  },
-  {
-   "host": "danny.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/danny",
-   "pattern": false,
-   "file": "runtime/warroom/danny.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Danny Quick / Kiko — ARCS Pre-Call Brief",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Danny Quick / Kiko — ARCS Pre-Call Brief",
-   "kind": "gated",
    "last_commit": "2026-07-24"
   },
   {
@@ -3556,68 +3524,6 @@
    "last_commit": "2026-10-04"
   },
   {
-   "host": "jalaja.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/jalaja",
-   "pattern": false,
-   "file": "runtime/warroom/jalaja.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Jalaja Padma / theTrueAI – ARCS Pre-Call Brief",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Jalaja Padma / theTrueAI – ARCS Pre-Call Brief",
-   "kind": "gated",
-   "last_commit": "2026-07-24"
-  },
-  {
-   "host": "jeben.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!.*debrief).*)",
-   "destination": "/warroom/jeben",
-   "pattern": false,
-   "file": "runtime/warroom/jeben.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Louisville Brands × ARCS – The Thread Book",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Louisville Brands × ARCS – The Thread Book",
-   "kind": "gated",
-   "last_commit": "2026-07-31"
-  },
-  {
-   "host": "jeben.arcs.care",
-   "path": "/debrief",
-   "catch_all": false,
-   "destination": "/warroom/jeben-debrief",
-   "pattern": false,
-   "file": "runtime/warroom/jeben-debrief.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Jeben × ARCS – Call Debrief, July 15",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Jeben × ARCS – Call Debrief, July 15",
-   "kind": "gated",
-   "last_commit": "2026-07-31"
-  },
-  {
    "host": "jobs.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -3656,27 +3562,6 @@
    "unlisted": true,
    "purpose": "Recoil Report",
    "kind": "product page",
-   "last_commit": "2026-07-24"
-  },
-  {
-   "host": "joe-war.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/joe-war",
-   "pattern": false,
-   "file": "runtime/warroom/joe-war.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Recoil Report",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Recoil Report",
-   "kind": "gated",
    "last_commit": "2026-07-24"
   },
   {
@@ -3786,27 +3671,6 @@
    "last_commit": "2026-08-14"
   },
   {
-   "host": "kelly-interview.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/kelly-interview",
-   "pattern": false,
-   "file": "runtime/warroom/kelly-interview.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Kelly Mullaney — Juniper Square",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Kelly Mullaney — Juniper Square",
-   "kind": "gated",
-   "last_commit": "2026-07-24"
-  },
-  {
    "host": "kiko.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -3825,48 +3689,6 @@
    "unlisted": true,
    "purpose": "Kiko × ARCS – a teardown and a map",
    "kind": "product page",
-   "last_commit": "2026-07-24"
-  },
-  {
-   "host": "labella.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/labella",
-   "pattern": false,
-   "file": "runtime/warroom/labella.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Steve LaBella / Tallin — ARCS Brief",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Steve LaBella / Tallin — ARCS Brief",
-   "kind": "gated",
-   "last_commit": "2026-07-24"
-  },
-  {
-   "host": "labelle.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/labella",
-   "pattern": false,
-   "file": "runtime/warroom/labella.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Steve LaBella / Tallin — ARCS Brief",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Steve LaBella / Tallin — ARCS Brief",
-   "kind": "gated",
    "last_commit": "2026-07-24"
   },
   {
@@ -4135,27 +3957,6 @@
    "last_commit": "2026-08-01"
   },
   {
-   "host": "peter.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/peter",
-   "pattern": false,
-   "file": "runtime/warroom/peter.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Peter Espersen — ARCS Brief",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Peter Espersen — ARCS Brief",
-   "kind": "gated",
-   "last_commit": "2026-07-24"
-  },
-  {
    "host": "playground.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -4174,7 +3975,7 @@
    "unlisted": false,
    "purpose": "The Clair de Lune Playground",
    "kind": "explorer",
-   "last_commit": "2026-09-08"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "playground.arcs.care",
@@ -4237,7 +4038,7 @@
    "unlisted": false,
    "purpose": "Real compass receipts rendered as decision geometry: five aspects, five levels, gravity wells, the dopeness ladder and the tool that snaps to each job.",
    "kind": "explorer",
-   "last_commit": null
+   "last_commit": "2026-10-07"
   },
   {
    "host": "playground.arcs.care",
@@ -5281,7 +5082,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "status.arcs.care",
@@ -5761,27 +5562,6 @@
    "last_commit": "2026-08-10"
   },
   {
-   "host": "yuri-war.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "source": "/:path((?!fonts/).*)",
-   "destination": "/warroom/yuri-war",
-   "pattern": false,
-   "file": "runtime/warroom/yuri-war.html",
-   "gate": "admin session",
-   "gate_file": null,
-   "declared_in": [
-    "next.config.ts"
-   ],
-   "title": "Recoil Report",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Recoil Report",
-   "kind": "gated",
-   "last_commit": "2026-07-24"
-  },
-  {
    "host": "yuri.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -5860,7 +5640,7 @@
    "unlisted": false,
    "purpose": "Real compass receipts rendered as decision geometry: five aspects, five levels, gravity wells, the dopeness ladder and the tool that snaps to each job.",
    "kind": "explorer",
-   "last_commit": null
+   "last_commit": "2026-10-07"
   },
   {
    "host": "*",

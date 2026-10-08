@@ -105,24 +105,18 @@ const nextConfig: NextConfig = {
         { source: "/omakase/atom", destination: "/omakase/atom.html" },
         { source: "/omakase", destination: "/omakase/index.html" },
         { source: "/:path((?!fonts/).*)", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/kelly-interview", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/status/:seg(crm|tidio|troubleshooting|build|progress|atlas|receipt|catchup|runbook)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/labella", has: [{ type: "host", value: "labelle.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/peter", has: [{ type: "host", value: "peter.arcs.care" }] },
         { source: "/runtime", destination: "/julia-runtime.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         { source: "/", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         { source: "/:path((?!fonts/|.*runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/joe-war", has: [{ type: "host", value: "joe-war.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/lyndon-war", has: [{ type: "host", value: "lyndon-war.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/joe-ext.html", has: [{ type: "host", value: "joe-ext.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/yuri-war", has: [{ type: "host", value: "yuri-war.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
@@ -146,21 +140,16 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!fonts/).*)", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
         { source: "/:path((?!api/).*)", destination: "/yuri-receipt.html", has: [{ type: "host", value: "yuri-receipt.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/brooks", has: [{ type: "host", value: "brooks.arcs.care" }] },
         { source: "/evening", destination: "/ahmed-evening.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/seed", destination: "/ahmed-seed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/report", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/:path((?!.*ahmed).*)", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        { source: "/debrief", destination: "/warroom/jeben-debrief", has: [{ type: "host", value: "jeben.arcs.care" }] },
-        { source: "/:path((?!.*debrief).*)", destination: "/warroom/jeben", has: [{ type: "host", value: "jeben.arcs.care" }] },
         { source: "/:path((?!api/|omakase).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/:path((?!google).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/danny", has: [{ type: "host", value: "danny.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
-        { source: "/:path((?!fonts/).*)", destination: "/warroom/jalaja", has: [{ type: "host", value: "jalaja.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/jack-rain", has: [{ type: "host", value: "jack-rain.arcs.care" }] },
         { source: "/:path((?!jack-rain-resume).*)", destination: "/jack-rain-ext.html", has: [{ type: "host", value: "rain.arcs.care" }] },
         { source: "/proposal", destination: "/thetrueai-proposal.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
@@ -224,13 +213,37 @@ const nextConfig: NextConfig = {
       "cj-brief.arcs.care",
       "growth-intel.arcs.care",
       "token.arcs.care",
+      // Retired 2026-10-07 (host prune draft, group A): admin-gated war rooms that already 404'd for
+      // everyone but Zach. The pages stay at app.arcs.care/warroom/<slug>; only the hosts go.
+      "yuri-war.arcs.care",
+      "peter.arcs.care",
+      "labelle.arcs.care",
+      "labella.arcs.care",
+      "kelly-interview.arcs.care",
+      "joe-war.arcs.care",
+      "jalaja.arcs.care",
+      "danny.arcs.care",
+      "ahmed.arcs.care",
+      "jeben.arcs.care",
     ];
-    return retiredFanaticsHosts.map((value) => ({
-      source: "/:path*",
-      has: [{ type: "host" as const, value }],
-      destination: "https://arcs.care",
-      permanent: true,
-    }));
+    return [
+      ...retiredFanaticsHosts.map((value) => ({
+        source: "/:path*",
+        has: [{ type: "host" as const, value }],
+        destination: "https://arcs.care",
+        permanent: true,
+      })),
+      // surfaces.arcs.care: the admin session cookie is host-only (app.arcs.care), so the
+      // gated /warroom/surfaces route 404s on this host. Redirect to where the session lives;
+      // redirects run before rewrites, so the surfaces.arcs.care rewrite above stays only so
+      // surface_catalog_emit.py keeps the host catalogued as gated.
+      {
+        source: "/:path*",
+        has: [{ type: "host" as const, value: "surfaces.arcs.care" }],
+        destination: "https://app.arcs.care/warroom/surfaces",
+        permanent: false,
+      },
+    ];
   },
 };
 
