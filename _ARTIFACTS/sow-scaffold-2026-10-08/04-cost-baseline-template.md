@@ -14,6 +14,9 @@ Every cell is a placeholder. No price, rate, term or budget has been agreed or s
 | Phase 1 (shareback, roadmap co-design, fork workshop) | T | EXAMPLE | EXAMPLE | EXAMPLE | hours_P1 × rate_zach | Z | TBD |
 | Environment setup (B.1) | T | EXAMPLE | EXAMPLE | EXAMPLE | hours_B1 × rate | Z | TBD |
 | Counsel review (L.1 to L.6, L.9) | L | EXAMPLE | EXAMPLE | EXAMPLE | counsel_hours × counsel_rate | founders | TBD |
+| Source control, environments, CI and secrets tooling (E.1, E.3), if triggered | V, T | EXAMPLE | EXAMPLE | EXAMPLE | tool plans × months + setup hours × rate | Z | TBD |
+| Backup, restore test, audit log, monitoring (E.4), if triggered | V, T | EXAMPLE | EXAMPLE | EXAMPLE | tool plans + setup hours | Z | TBD |
+| Data placement matrix and counsel review (E.2) | T, L | EXAMPLE | EXAMPLE | EXAMPLE | hours + counsel_hours × counsel_rate | Z, founders | TBD |
 | Platform subscriptions (build tool, database, hosting) | V | EXAMPLE | EXAMPLE | EXAMPLE | plan price × months, from vendor pages | C | TBD |
 | Vendor compliance tier, if counsel requires one (L.4) | V | EXAMPLE | EXAMPLE | EXAMPLE | vendor quote; not assumed to exist | C | TBD |
 | **VARIABLE** | | | | | | | |
@@ -25,6 +28,8 @@ Every cell is a placeholder. No price, rate, term or budget has been agreed or s
 | Rework after counsel answers arrive late or differ | T | EXAMPLE | EXAMPLE | EXAMPLE | share of B.3 and B.4 hours redone | Co | TBD |
 | Redaction review burden on parents (B.4) | O | EXAMPLE | EXAMPLE | EXAMPLE | support hours per user cohort | C | TBD |
 | Accessibility remediation (F.6) | T | EXAMPLE | EXAMPLE | EXAMPLE | depends on the standard counsel confirms | Co | TBD |
+| Re-platforming if no suitable place exists for a data class in the current stack (E.6) | T, V, L | EXAMPLE | EXAMPLE | EXAMPLE | migration hours + new plan costs + counsel review | Co | TBD |
+| Evidence trail or security review a partner or funder later requires (E.5) | T, L, O | EXAMPLE | EXAMPLE | EXAMPLE | quotes at the time; not assumed | Co | TBD |
 | Vendor migration if the model vendor must change (switch cost) | T | EXAMPLE | EXAMPLE | EXAMPLE | measured by the B.2 swap test, not guessed | Z | TBD |
 | Founder time (four people, other work) | O | EXAMPLE | EXAMPLE | EXAMPLE | hours per week × weeks; opportunity cost, not cash | Co | TBD |
 | Unowned subscriptions and orphaned accounts (H.3) | V | EXAMPLE | EXAMPLE | EXAMPLE | accounts inventory | C | TBD |

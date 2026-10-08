@@ -29,6 +29,17 @@ A legend for the technical words you will hear. Each one gets a plain meaning, a
 | **Model version, "freezing" it** | Locking Alice to a specific version of the AI so it does not change behaviour under you. | Printing a form and not editing it mid-year. | Keeps results steady and lets you check them. |
 | **Redaction** | Hiding private details before something is used or shared. | A black marker over names. | Automatic hiding misses things, so we pair it with a parent review step. |
 
+## Keeping the build safe
+
+| Word | In plain words | Picture | Why it matters to you |
+|---|---|---|---|
+| **Version control, branch** | A record of every change to the app, with a safe side-copy to try changes before they go live. | Track changes in a document, plus a draft copy. | You can see who changed what and undo a mistake. |
+| **Environment (testing, live)** | Separate copies of the app for practising and for real use. | A rehearsal stage and the real stage. | Practice never touches real families' information. |
+| **Data placement** | Deciding which kind of information may be kept in which service. | Valuables in the safe, receipts in the drawer. | Services differ in what they are cleared to hold; your lawyers decide. |
+| **Evidence trail** | A record showing a safeguard is in place and when it was checked. | Receipts for every safeguard. | Answers "how do you know?" if anyone asks. |
+| **Backup and restore test** | A saved copy, and proof that it can be brought back. | A fire drill, not just a fire exit. | A backup nobody has tested is a hope. |
+| **Re-platforming** | Moving the app or its information to a different service. | Moving shop. | Only if a service turns out not to be the right home. |
+
 ## Who can see what
 
 | Word | In plain words | Picture | Why it matters to you |

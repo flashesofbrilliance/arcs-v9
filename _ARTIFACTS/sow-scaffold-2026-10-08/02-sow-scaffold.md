@@ -49,7 +49,7 @@ Same-kind pairs in both: inputs on dated terms; one accountable person; early no
 
 ### Phases 2 and 3 (structure set, content TBD at the Phase 1 workshop)
 
-Phase 2 is a subsequent sprint that starts only for items whose acceptance criteria and definition of done exist from Phase 1 (asm-043). Each gets the same six-part block, three gates, one measurable test per gate, filed ex-ante. Candidate tests, unmeasured and UNVERIFIED as fit. **Phase 2:** checkpoint = the business plan to roadmap reconciliation (F.5) has no orphan on either side; graduation = Chelsea runs a release, a rollback and a key rotation unaided (B.7); soft landing = runbooks, accounts inventory and decision log in client-owned storage. **Phase 3:** checkpoint = each scenario has a trigger and a pre-agreed response; graduation = the founders run a premortem on the next big decision without us and file it ex-ante; soft landing = the retrospective pack and playbook. Items for Phase 3 are in section 7b.
+Phase 2 opens with the engineering-foundations step (section 5b), sized at the Phase 1 shareback from the audit's triggers. Phase 2 is a subsequent sprint that starts only for items whose acceptance criteria and definition of done exist from Phase 1 (asm-043). Each gets the same six-part block, three gates, one measurable test per gate, filed ex-ante. Candidate tests, unmeasured and UNVERIFIED as fit. **Phase 2:** checkpoint = the business plan to roadmap reconciliation (F.5) has no orphan on either side; graduation = Chelsea runs a release, a rollback and a key rotation unaided (B.7); soft landing = runbooks, accounts inventory and decision log in client-owned storage. **Phase 3:** checkpoint = each scenario has a trigger and a pre-agreed response; graduation = the founders run a premortem on the next big decision without us and file it ex-ante; soft landing = the retrospective pack and playbook. Items for Phase 3 are in section 7b.
 
 ### Evidence grades for the behavioral claims behind the charter
 
@@ -153,6 +153,32 @@ Order matters: in Phase 0 audit and discovery run in parallel (A items need mate
 | B.6 | Audit log and spend caps | Log entries exist for vault reads and model calls; a cap trips in a test | B.2 | Z or hire | T | asm-023 | DEGRADED (T: audit log in the spec; U: not built) | asm-023 says the spec lists intentions, not controls; check before promising. |
 | B.7 | Handover: Chelsea runs a release, a rollback and a key rotation unaided | Dry run with Zach silent; checklist signed | H.1 | C | T | asm-021 | DEGRADED | |
 
+## 5b. Engineering foundations: contingent scope, sized after the audit
+
+Origin: Zach, 2026-10-08. A dev ops and configuration layer sits between "the audit found things" and "build can start safely", and it is easy to underprice. Depending on the audit it may say: use proper version control with branch-based controls; keep one kind of data here and another there because one platform is cleared for one use and another is not; and do all of it above board, closer to a regulated-technology standard than a typical startup. Whether any of this is needed, and how much, is unknown until the audit runs, so it is scoped as **contingent**: not priced now, with triggers that switch it on, sized at the Phase 1 shareback and released only by the fork receipt like any other Phase 2 spend.
+
+**Triggers (from the audit; any one switches the matching item on):**
+
+| Trigger found in the audit | Switches on |
+|---|---|
+| The project has no source control, or one unprotected branch | E.1 |
+| Dev, test and production are not separated, or real documents are used in the build tool | E.3 |
+| A data class (uploaded documents, children's profiles, AI conversations) has no agreed place or agreement in the data-flow map | E.2 |
+| No backup, restore test, audit log or monitoring | E.4 |
+| Counsel, a partner or a funder asks for evidence of controls | E.5 |
+| No compliant place exists for a data class in the current stack | E.6 (re-platform decision) |
+
+| ID | Item | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |
+|---|---|---|---|---|---|---|---|---|
+| E.1 | Source control and change control: repo with protected main, branch per change, review before merge, a record of who changed what; connect the build tool to it if it supports that | A change cannot reach production without a reviewed merge; a revert is rehearsed once | P0.A1 | Z then C | T, V | asm-044 | GRAIN (U: whether the Lovable project already syncs to a repo; to confirm with Chelsea) | Over-engineering for four people; keep to what the first external user needs. |
+| E.2 | Data classification and placement: each data class, where it may live, under which agreement, for how long, visible to which role | A matrix of class by location by agreement by retention by role; no class sits anywhere without a cited agreement or an explicit counsel decision | P0.A4, L.2, L.4 | Z, L | T, L | asm-044, asm-045 | DEGRADED (X: vendors differ on what they allow, see L.4; counsel decides applicability) | Wrong classification is expensive; the matrix is a counsel-reviewed document, not our opinion. |
+| E.3 | Environments and test-data rule: dev, staging, production separated; synthetic data only outside production; secrets kept out of code | A test run in dev cannot read production data; a scan finds no secrets in the repo | E.1 | Z then C | T | asm-044 | GRAIN | |
+| E.4 | Backup, restore, audit log and monitoring | A restore is rehearsed from a backup; the audit log shows a test read; an alert fires on a test fault | B.6 | Z or hire | T, V | asm-023 | GRAIN | Backups of sensitive data are themselves data to place (E.2). |
+| E.5 | Compliance evidence trail: for each control, where its evidence lives (a vendor register, a controls list, screenshots or exports with dates) | A third party can follow one control from claim to evidence | E.2 to E.4 | Z, L | T, L | asm-044 | GRAIN | Scope trap: this can grow into a full compliance programme. Cap it to what counsel or a partner actually asks for; stage it. |
+| E.6 | Re-platform decision, only if E.2 finds no suitable place for a data class in the current stack: options, migration effort, what moves, what stays | A decision receipt with the options, costs and reversal condition; counsel input attached | E.2 | Co, Z, L | T, V, L | asm-045 | GRAIN | The largest unpriced risk; surfaced early on purpose. |
+
+**Proportionality rule (Now, Next, Later).** Now: E.1 and E.3, cheap and protective. Next, before the first external user: E.2, E.4. Later, or when asked: E.5. E.6 only if triggered. "Above board" here means every claim about where data lives is backed by an agreement or a counsel decision, not that a four-person pre-launch company adopts an enterprise programme.
+
 ## 6. Legal, privacy and security table stakes
 
 Counsel should confirm every row. Zach is not giving legal advice; the SOW must say so. Rows are things to schedule, not conclusions.
@@ -241,9 +267,11 @@ Purpose: avoid opportunity-cost ruin and learning on your own dime. A bet is any
 | Counsel answers arrive in time | L.1, L.2; asm-016 | Ask counsel for dates for the blocks-build questions in the first week | Dates committed | No dates: counsel nodes are drawn as an external clock and work behind them is not started | Idle time on whoever waits; spend ahead of an answer is the risk we refuse |
 | Fork-3 is the lowest total cost of ownership | P1.W1; asm-031 | Cost Fork-1, Fork-2 and Fork-3 side by side with the same case definitions | Fork-3 lowest in the base case | Not lowest: recommend the cheaper fork, say so plainly | Credibility on us; wrong pick costs the founders cash and months |
 | A bounded Alice spike on synthetic data teaches more about cost and voice than it costs | B.3, F.8; asm-039 | Run one persona's synthetic session through the model behind the B.2 wrapper inside a timebox | Real token counts per call recorded in the cost model; voice notes captured | Cap hit with no usable numbers: stop, no integration work follows | Time on the builder; risk that a demo is mistaken for a commitment to integrate; no child data used |
+| The current stack can be made adequate without re-platforming | E.2, E.6; asm-045 | Build the data-placement matrix for each data class from the data-flow map and counsel's applicability answer | Every class has an agreed place in the current stack | A class has no place: E.6 re-platform decision before any build, costed | Largest unpriced exposure: migration time and cash, plus a delayed pilot; carried by the founders unless priced early |
 
 **Ruin tests for the whole engagement (checked at each checkpoint):** (a) could any single failed bet end the project, by cash, runway, or a founder walking away? (b) is any bet's cost landing on the client without their prior yes? (c) is the loss we are about to take larger than the lesson it buys? If yes to (a) or (b), or no to (c), stop and re-scope before spending (soft landing).
 10. Phases: accept the three departures from your four-phase sketch (premortem on the fork in Phase 1 plus one in Phase 3; a look-back at every phase close; the AI build placed at the tail of Phase 2 by default)?
 11. Spike: may a time-boxed Alice spike on synthetic data run in Phase 1, to give the cost model real token numbers, while full integration stays gated to Phase 2?
 12. Spec verification: after the NDA, do you want their build spec run through an AI claim-verifier (a vendor hop), or checked by hand only? Either way, ask how it was drafted and challenged, neutrally, at discovery.
 13. RESOLVED naming; open honesty rule: the engagement is delivered by manana and may say "powered by ARCS" only where an ARCS tool actually runs. See "ARCS by phase" in `01-atomic-layer-asset-map.md` for what that can truthfully mean today. Question Compass stays on invented sample decisions until the NDA and Zach's yes.
+14. Foundations: the contingent scope in section 5b is unpriced and unscoped until the audit; do you want it shown to Kelly and Chelsea now as a named possibility with triggers, or only after the shareback?
