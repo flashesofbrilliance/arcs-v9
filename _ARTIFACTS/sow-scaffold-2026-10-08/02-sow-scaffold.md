@@ -211,7 +211,7 @@ Every item above carries a cost driver code (T, V, K, L, O). `04-cost-baseline-t
 3. Is cost visibility an engagement outcome (dashboards, alerts) or only a finding?
 4. Disclose the recording: on the call you said you record only after an NDA and explicit consent, yet a transcript exists. Tell them, and decide whether the transcript is kept, before it feeds anything counterpart-facing.
 5. NDA status: not received as of 2026-10-08; codebase and build spec also not received.
-6. "By manana" in your framing is unclear and is not read as a duration. What did you mean?
+6. RESOLVED 2026-10-08 by Zach: manana is his solo consulting practice; ARCS is the engine he is building to support each stage of the embedded forward-deployed-engineer lifecycle (full SDLC). "By manana" was not a duration.
 7. May the Phase 1 workshop use Question Compass on their real material after the NDA, or do you want a local SSOT only?
 8. Charter: which gate wording do the founders prefer (checkpoint, graduation, soft landing, or other)? Counsel should confirm anything in the charter that could read as binding before it is shown.
 9. Learning loops (section 11): who states the confidence forecasts before each bet, and what is the founders' runway, so the sum of bet caps can be checked against it? (Runway is also a finance intake field.)
@@ -246,4 +246,4 @@ Purpose: avoid opportunity-cost ruin and learning on your own dime. A bet is any
 10. Phases: accept the three departures from your four-phase sketch (premortem on the fork in Phase 1 plus one in Phase 3; a look-back at every phase close; the AI build placed at the tail of Phase 2 by default)?
 11. Spike: may a time-boxed Alice spike on synthetic data run in Phase 1, to give the cost model real token numbers, while full integration stays gated to Phase 2?
 12. Spec verification: after the NDA, do you want their build spec run through an AI claim-verifier (a vendor hop), or checked by hand only? Either way, ask how it was drafted and challenged, neutrally, at discovery.
-13. Naming: is "manana" the working name of the Phase 1 sprint, or a time reference? It is read as neither until you say. The sprint is called ARCS-powered only where Question Compass is actually used; the compass is a Claude L0 to L5 prompt with an advisory pre-screen, not a mechanical operator pipeline, so the sprint must not claim more.
+13. RESOLVED naming; open honesty rule: the engagement is delivered by manana and may say "powered by ARCS" only where an ARCS tool actually runs. See "ARCS by phase" in `01-atomic-layer-asset-map.md` for what that can truthfully mean today. Question Compass stays on invented sample decisions until the NDA and Zach's yes.

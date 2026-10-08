@@ -43,3 +43,17 @@ Scope: reusable assets that can serve the My Ally LD scope of work. Source: the 
 3. No cost-baseline template for a client's build (fixed, variable, hidden; best, base, worst). `04-cost-baseline-template.md` is the first.
 4. No redaction recall test harness. Acceptance for the redaction design (B.4) needs a synthetic-IEP generator; nothing in the repo does this.
 5. `scripts/gauntlet_log_emit.py` is listed INSTALLED-UNUSED in the tool catalog; it is the worked example of the projection factory and may serve as the pattern for an external SOW view.
+
+## ARCS by phase: what "powered by ARCS" can honestly mean today
+
+Zach's framing (2026-10-08): manana is his solo consulting practice; ARCS is the engine he is building to help at each stage of the full SDLC embedded forward-deployed-engineer lifecycle. The claim is his and is ambitious; this table grades it per phase against what exists in the repo, so no counterpart-facing sentence says more than runs. Status words follow `AGENTS.md`.
+
+| Phase | ARCS assets that actually serve it | Status | Honest wording |
+|---|---|---|---|
+| 0 Audit and light discovery | `claims-skeptic` agent, `scripts/provenance_lint.py`, `.claude/skills/sbom-payload-scan/SKILL.md`, `scripts/assumptions.py`, `recoil-new` and `recoil-prep` for the ex-ante receipts | Built (skills and scripts); applied to a client's code and spec for the first time here | "Uses tools we have built for checking claims and keeping a written record of predictions" |
+| 1 Shareback, co-design | `recoil-new` SSOT, ADR-068 print schedule, Question Compass on invented samples, `counterpart-gauntlet` workflow | Built; the compass is a Claude L0 to L5 prompt with an advisory pre-screen, not a mechanical operator pipeline | "Uses our decision tool to record the big decision" and only after the NDA for real material |
+| 2 Hardening and sync | `scripts/token_kaizen.py`, cost-baseline template, `page-gate`, `projection_factory.py` | Partial: nothing here is yet specialised for a client's build; the plan-to-build tether (F.8) and a redaction test harness are gaps | Do not claim ARCS covers build hardening; it supports the planning and the record |
+| 3 Strategy and look-back | `recoil-close` (scores an ex-ante receipt against reality), `thread-recoil`, BAR and LAB operators as method | Built as skills; operators not wired into the compass route | "Uses a repeatable look-back that scores our own predictions" |
+
+Gaps stated plainly: no SOW template, no premortem asset, no scenario-planning asset, no redaction recall harness, and no ARCS tool that writes or reviews the client's application code. Whether ARCS covers "each stage of the full SDLC" is therefore not yet shown; treat it as a roadmap statement, not a capability claim, until the gaps close.
+

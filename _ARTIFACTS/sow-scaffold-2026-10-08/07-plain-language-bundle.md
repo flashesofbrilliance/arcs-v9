@@ -2,7 +2,9 @@
 
 # My Ally LD: a plain-language plan
 
-For Kelly and Chelsea, from Zach
+For Kelly and Chelsea, from Zach at manana
+
+manana is Zach's consulting practice. He has built a set of tools called ARCS to support this kind of work, and this plan says plainly which of them he would use at each stage and which he would not.
 
 ## The short version
 

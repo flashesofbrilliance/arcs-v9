@@ -28,7 +28,7 @@ Companion to `07-plain-language-bundle.md`. Internal only: it names what the cou
 | Claim audit of the spec | Not in the bundle; see exclusions | |
 | Plan-to-build tether | "Nothing in one that the other cannot account for" | |
 | Fidelity grades SHARP, DEGRADED, GRAIN | We know / we think / we are guessing | |
-| Question Compass | Not named in this draft; Zach decides whether and when to name it | |
+| manana, ARCS | manana = Zach's practice; ARCS = "tools he has built to support this work", named only with a statement of which he uses where (see `01`, section "ARCS by phase"). Question Compass is not named in this draft; Zach decides whether and when to name it | |
 
 ## The codex
 
