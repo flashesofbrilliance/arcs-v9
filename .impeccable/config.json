@@ -593,15 +593,6 @@
     "reason": "DESIGN.md mandates Inter as the reading voice for all ARCS product surfaces; not a default-font choice."
    },
    {
-    "rule": "overused-font",
-    "value": "*",
-    "files": [
-     "src/ui-kit/instrument/card.html"
-    ],
-    "createdAt": "2026-10-08T18:30:00.000Z",
-    "reason": "DESIGN.md mandates Inter as the reading voice for all ARCS product surfaces; not a default-font choice."
-   },
-   {
     "rule": "design-system-color",
     "value": "*",
     "files": [
