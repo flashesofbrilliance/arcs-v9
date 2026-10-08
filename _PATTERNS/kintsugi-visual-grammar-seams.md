@@ -622,3 +622,11 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   both ways: `public/blog-nftt-index.html` HEAD now reads 3 (was 83); a staged unwaived gradient-text on
   `public/blog-nftt-post-1.html` blocks (0 to 2); an unwaived frozen page (`public/prl-status-progress.html`)
   still reads 28 vs 28, unchanged. Not covered: no automated test, the proof is by hand.
+
+### Seam: NFTT index gradient-text resolved (2026-10-07)
+- **Break:** `public/blog-nftt-index.html` carried 2 `gradient-text` findings, both from one rule (`h1 .g`, cyan to green
+  `background-clip:text` on the word "Trenches"), left visible by the 2026-09-26 audit as an intentional accent.
+- **Repair:** `h1 .g` is now a solid `color:var(--cyan)` in `scripts/nftt_index_build.mjs`; page regenerated. The index
+  scores 1 finding (`overused-font`, Inter on the summary pages, still an accepted choice). The cyan-to-green blend on
+  the accent word is gone by design.
+- **Guard:** none new; the ratchet already blocks a new unwaived gradient-text on this path.
