@@ -6,7 +6,7 @@ For Kelly and Chelsea, from Zach at manana
 
 manana is my consulting practice. I have built a set of decision tools called ARCS. Where I use one on your work, I will say so and say what it does. Where I do not, I will not claim it.
 
-This page opens at the level most useful to the two of you. The depth control below lets you zoom out to a one-screen summary or in to every detail.
+This page opens at the level most useful to the two of you. The depth control below lets you zoom out to a one-screen summary or in to every detail. Words with a dotted underline and a small arrow open a short definition: hover or tap to read it, click to keep it open, and choose Learn more for the full entry. The Reading options button (top right, and Aa at the bottom right) changes the font, text size, spacing and background to whatever reads best for you.
 
 ## The short version
 

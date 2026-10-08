@@ -9,8 +9,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex">
+<meta name="description" content="A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.">
 <title>My Ally LD plan</title>
-<script>(function(){try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();</script>
 <noscript><style>.alt,.more,.themebtn{display:none}.dek{display:none}</style></noscript>
 <style>/* ARCS Recoil Report — Design Tokens */
 :root {
@@ -67,7 +68,7 @@ body{margin:0;background:var(--pg-bg);color:var(--pg-text);font:0.925rem/1.6 var
 .wrap{max-width:calc(var(--measure) + 2*var(--gut));margin:0 auto;padding:0 var(--gut) 64px}
 nav{border-bottom:1px solid var(--pg-line)}
 nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
-nav a,.themebtn{display:inline-flex;align-items:center;min-height:44px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
+nav a,.themebtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
 nav a:hover,nav a:focus-visible{color:var(--pg-accent);text-decoration:underline}
 .themebtn{margin-left:auto;font:inherit;background:none;border:0;cursor:pointer;padding:0}
 .themebtn:hover{color:var(--pg-accent);text-decoration:underline}
@@ -82,10 +83,10 @@ code{font-family:var(--font-code);font-size:.9em}
 .dek{margin:4px 0 8px}
 .more{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer;margin:4px 0 0}
 .more:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
-.alt{position:sticky;top:0;background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 0 6px;margin:24px 0 8px}
+.alt{position:sticky;top:0;background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 12px 6px;margin:24px 0 8px}
 .altlabel{color:var(--pg-muted)}
 .slider{position:relative;margin:4px 0 0;height:76px}
-.slider input[type=range]{position:absolute;left:calc(10% - 12px);width:calc(80% + 24px);top:6px;height:24px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;z-index:1}
+.slider input[type=range]{position:absolute;left:calc(10% - 12px);width:calc(80% + 24px);top:-4px;height:44px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;z-index:1}
 .slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:linear-gradient(var(--pg-accent),var(--pg-accent)) 0/var(--fill,50%) 100% no-repeat,var(--pg-edge)}
 .slider input[type=range]::-moz-range-track{height:4px;border-radius:3px;background:var(--pg-edge)}
 .slider input[type=range]::-moz-range-progress{height:4px;border-radius:3px;background:var(--pg-accent)}
@@ -106,11 +107,56 @@ code{font-family:var(--font-code);font-size:.9em}
 .quicksteps a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;border:1px solid var(--pg-edge);border-radius:6px;margin:4px 0;color:var(--pg-text);text-decoration:none;background:var(--pg-surface)}
 .quicksteps a:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
 .termwrap{position:relative;display:inline}
-a.gl{text-decoration:underline dotted;text-underline-offset:3px;cursor:help}
-.tip{position:absolute;z-index:3;left:0;top:calc(100% + 6px);width:max-content;max-width:min(280px,80vw);background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.14);text-align:left;font-weight:400;font-style:normal;white-space:normal}
+a.gl{text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer}
+a.gl::after{content:"";display:inline-block;width:5px;height:5px;margin:0 2px 2px 5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);}
+a.gl:hover,a.gl[aria-expanded="true"]{background:var(--pg-accent-bg);text-decoration-style:solid}
+a.gl[aria-expanded="true"]::after{transform:rotate(-135deg);margin-bottom:-1px}
+.tipbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
+.tipclose{display:none;font:inherit;color:var(--pg-text);background:none;border:1px solid var(--pg-edge);border-radius:6px;padding:0 10px;min-height:32px;cursor:pointer}
+.termwrap.pinned .tipclose{display:inline-block}
+.tiphint{display:none;color:var(--pg-muted);margin-top:2px}
+@media (hover:hover) and (pointer:fine){.termwrap:not(.pinned) .tiphint{display:block}}
+.tip{position:absolute;z-index:3;left:0;top:calc(100% + 6px);width:max-content;max-width:min(280px,calc(100vw - 32px));background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.14);text-align:left;font-weight:400;font-style:normal;white-space:normal}
 .tip.flip{left:auto;right:0}
 .tip b{display:block;margin:0 0 2px}
-.tip a.tipgo{display:block;margin-top:4px;padding:4px 0;min-height:28px}
+.tip a.tipgo{display:inline-block;padding:4px 0;min-height:28px;font-weight:600}
+.optbtn{margin-left:auto}
+#themebtn{margin-left:0}
+.readfab{position:fixed;right:16px;bottom:16px;z-index:4;width:48px;height:48px;border-radius:999px;border:1px solid var(--pg-edge);background:var(--pg-surface);color:var(--pg-text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.readfab:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
+.readopts{position:fixed;right:16px;bottom:76px;z-index:4;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 100px);max-height:calc(100dvh - 100px);overflow:auto;background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.ro-title{margin:0 0 4px;font-weight:700}
+.ro-note{margin:0 0 10px;color:var(--pg-dim)}
+.ro-group{margin:0 0 12px}
+.ro-label{display:block;color:var(--pg-muted);margin:0 0 4px}
+.ro-btns{display:flex;flex-wrap:wrap;gap:6px}
+.ro-hint{display:block;color:var(--pg-muted);margin-top:4px}
+.ro-btns button,.ro-actions button{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
+.ro-btns button[aria-pressed="true"]{border-color:var(--pg-accent);color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
+.ro-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+html[data-font="easy"]{--font-body:Verdana,Tahoma,'Trebuchet MS',Arial,sans-serif}
+html[data-font="easy"] h1{font-family:var(--font-body);font-weight:700}
+html[data-font="easy"] *{font-style:normal !important}
+html[data-font="easy"] a.gl{text-decoration:none;background:var(--pg-accent-bg)}
+html[data-font="easy"] a,html[data-font="easy"] .scopelist a{text-decoration:none}
+html[data-size="l"]{font-size:112.5%;--measure:700px}
+html[data-size="xl"]{font-size:125%;--measure:780px}
+html[data-space="roomy"] :is(p,li,dd,dt,td,th,.dek,.lbl,.c,.altdesc,.tip){line-height:1.8;letter-spacing:.04em;word-spacing:.14em}
+html[data-space="roomy"] :is(p,li){margin-bottom:1.1em}
+@media (prefers-color-scheme: light){html[data-tone="warm"]:not([data-theme="dark"]){--pg-bg:#fbf6e9;--pg-surface:#fffdf6;--pg-surface2:#f3ecda}}
+html[data-tone="warm"][data-theme="light"]{--pg-bg:#fbf6e9;--pg-surface:#fffdf6;--pg-surface2:#f3ecda}
+.pagefoot{padding-top:0;padding-bottom:96px;color:var(--pg-dim)}
+[tabindex="-1"]:focus{outline:none}
+@media (prefers-contrast:more){:root{--pg-muted:var(--pg-text);--pg-dim:var(--pg-text);--pg-line:var(--pg-edge)}}
+@media (forced-colors:active){
+  .alt,.tip,.readopts,.readfab,.scopebar button,.step,.more,.quicksteps a{border:1px solid CanvasText}
+  .slider input[type=range]::-webkit-slider-thumb{background:Highlight;border:2px solid CanvasText}
+  .slider input[type=range]::-moz-range-thumb{background:Highlight;border:2px solid CanvasText}
+  .slider input[type=range]::-webkit-slider-runnable-track,.slider input[type=range]::-moz-range-track{background:CanvasText}
+  .tick{background:CanvasText}
+  a.gl{text-decoration:underline}
+  .tname.on,.scopebar button[aria-pressed="true"],.ro-btns button[aria-pressed="true"]{outline:2px solid Highlight}
+}
 .scope{margin:16px 0}
 .scopebar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 8px}
 .scopebar button{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
@@ -140,31 +186,31 @@ a:focus-visible,button:focus-visible,.tablewrap:focus-visible{outline:2px solid 
 .gloss .pic{display:block;font-style:italic;color:var(--pg-dim)}
 .gloss .why{display:block;color:var(--pg-dim)}
 .gloss .uses{display:block;color:var(--pg-dim);margin-top:4px}
-.flash{background:var(--pg-accent-bg);transition:background .4s}
+.flash{background:var(--pg-accent-bg);}
 .tablewrap{overflow-x:auto;margin:16px 0}
 table{border-collapse:collapse;width:100%}
 th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical-align:top}
 th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
 iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-radius:6px;background:var(--pg-surface)}
-.sec,[id^="g-"],.stage{scroll-margin-top:9rem}
+.sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--sticky-h, 12rem) + 16px)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
-@media (max-width:600px){h1{font-size:1.5rem}.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.slider{height:78px}.sec,[id^="g-"],.stage{scroll-margin-top:8rem}}
-@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-@media print{:root,:root[data-theme]{--pg-bg:#f7f8fa !important;--pg-surface:#ffffff !important;--pg-surface2:#eef1f5 !important;--pg-line:#d5dbe3 !important;--pg-edge:#76808d !important;--pg-text:#1c2430 !important;--pg-muted:#566170 !important;--pg-dim:#475262 !important;--pg-accent:#00606b !important;--pg-accent-bg:rgba(0,96,107,0.09) !important;--pg-warn-bg:#fff3c4 !important;--pg-warn-edge:#8a6d00 !important}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,.skip,.scopebar,.quicksteps,.tip{display:none !important}}
+@media (max-width:600px){h1{font-size:1.5rem}.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.slider{height:78px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
+@media print{:root,:root[data-theme]{--pg-bg:#f7f8fa !important;--pg-surface:#ffffff !important;--pg-surface2:#eef1f5 !important;--pg-line:#d5dbe3 !important;--pg-edge:#76808d !important;--pg-text:#1c2430 !important;--pg-muted:#566170 !important;--pg-dim:#475262 !important;--pg-accent:#00606b !important;--pg-accent-bg:rgba(0,96,107,0.09) !important;--pg-warn-bg:#fff3c4 !important;--pg-warn-edge:#8a6d00 !important}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the plan</a>
-<nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a><button type="button" class="themebtn" id="themebtn">Dark mode</button></div></nav>
+<header><nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a><button type="button" class="themebtn optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button><button type="button" class="themebtn" id="themebtn">Dark mode</button></div></nav></header>
 <main class="wrap" id="main">
 <div class="banner" role="note">Draft for Zach to review. Not sent. No prices appear because none are agreed.</div>
 <section id="plan"><h1>My Ally LD: a plain-language plan</h1>
 <p>For Kelly and Chelsea, from Zach at manana</p>
 <p>manana is my consulting practice. I have built a set of decision tools called ARCS. Where I use one on your work, I will say so and say what it does. Where I do not, I will not claim it.</p>
-<p>This page opens at the level most useful to the two of you. The depth control below lets you zoom out to a one-screen summary or in to every detail.</p>
-<nav class="quicksteps" aria-label="Jump to a step"><span class="altlabel">Jump to a step:</span><ol><li><a href="#stage-1">1 Look and listen</a></li><li><a href="#stage-2">2 Agree the plan</a></li><li><a href="#stage-3">3 Make it solid</a></li><li><a href="#stage-4">4 Aim higher</a></li></ol></nav><div class="sec" id="s-the-short-version" data-body-alt="2"><h2>The short version</h2><p class="dek">Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a <span class="termwrap"><a class="gl" href="#g-checkpoint" aria-describedby="tip1" aria-expanded="false">checkpoint</a><span class="tip" id="tip1" role="group" aria-label="Definition: Checkpoint" hidden><b>Checkpoint</b> A test set in advance that says whether reality matches the plan. <a class="tipgo" href="#g-checkpoint">Learn more</a></span></span> at each, and you can stop at any point with everything in hand.</p><div class="body" id="b1">
+<p>This page opens at the level most useful to the two of you. The depth control below lets you zoom out to a one-screen summary or in to every detail. Words with a dotted underline and a small arrow open a short definition: hover or tap to read it, click to keep it open, and choose Learn more for the full entry. The Reading options button (top right, and Aa at the bottom right) changes the font, text size, spacing and background to whatever reads best for you.</p>
+<nav class="quicksteps" aria-label="Jump to a step"><span class="altlabel">Jump to a step:</span><ol><li><a href="#stage-1">1 Look and listen</a></li><li><a href="#stage-2">2 Agree the plan</a></li><li><a href="#stage-3">3 Make it solid</a></li><li><a href="#stage-4">4 Aim higher</a></li></ol></nav><div class="sec" id="s-the-short-version" data-body-alt="2"><h2>The short version</h2><p class="dek">Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a <span class="termwrap"><a class="gl" href="#g-checkpoint" aria-describedby="tip1" aria-expanded="false">checkpoint</a><span class="tip" id="tip1" role="group" aria-label="Definition: Checkpoint" hidden><b>Checkpoint</b> A test set in advance that says whether reality matches the plan.<span class="tipbar"><a class="tipgo" href="#g-checkpoint">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Checkpoint">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> at each, and you can stop at any point with everything in hand.</p><div class="body" id="b1">
 <p>Your product already does what you set out to show: the site works and the scaffolding is in place. What comes next is the part that will matter most to families: Alice, the AI that helps parents find their way. Before more gets built, the most valuable thing I can do is help make sure everyone, including the budget, the lawyers and the build, is describing the same product.</p>
 <p>Having the documents is not the same as everyone understanding them the same way. Think of a budget that Finance reads one way and Marketing reads another. Each document is fine. The surprise comes later. My job is to close that gap early, while it is cheap, so what gets built keeps matching what the plan says it will cost.</p>
 <p>My approach has four stages. Each one ends with a checkpoint set in advance. I aim not to spend ahead of a decision that should come first. And you can stop after any stage and keep everything I have made.</p>
@@ -172,34 +218,34 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 <p>Think of building a house. First I look at the ground and the plans with you. Then we agree the route together. Then the floor gets poured. Only then do you decide how big the house gets. At every step I say out loud what "done" looks like, so nobody is surprised. If you ever want to stop, you leave with your binder.</p>
 <p>Any word that sounds technical is explained in the translation codex at the end of this page.</p>
 </div><button class="more" type="button" aria-controls="b2" aria-expanded="false" hidden>Show detail</button></div><div class="alt" role="group" aria-label="Level of detail"><span class="altlabel" id="altlabel">Depth: slide to show more or less detail</span><div class="slider"><div class="ticks"><span class="tick" style="--f:0.0" aria-hidden="true"></span><span class="tick" style="--f:0.25" aria-hidden="true"></span><span class="tick" style="--f:0.5" aria-hidden="true"></span><span class="tick" style="--f:0.75" aria-hidden="true"></span><span class="tick" style="--f:1.0" aria-hidden="true"></span></div><input type="range" id="depth" min="1" max="5" step="1" value="3" aria-labelledby="altlabel" aria-describedby="altdesc"><div class="tnames"><button type="button" class="tname" data-level="1" tabindex="-1" aria-hidden="true"><span class="n">1</span><span class="w">. Exec</span></button><button type="button" class="tname" data-level="2" tabindex="-1" aria-hidden="true"><span class="n">2</span><span class="w">. Strategic</span></button><button type="button" class="tname" data-level="3" tabindex="-1" aria-hidden="true"><span class="n">3</span><span class="w">. Operational</span></button><button type="button" class="tname" data-level="4" tabindex="-1" aria-hidden="true"><span class="n">4</span><span class="w">. Tactical</span></button><button type="button" class="tname" data-level="5" tabindex="-1" aria-hidden="true"><span class="n">5</span><span class="w">. Surgical</span></button></div></div><p id="altdesc" class="altdesc" aria-live="polite"></p></div><div class="sec" id="s-the-four-stages" data-body-alt="2"><h2>The four stages</h2><p class="dek">Look and listen. Agree the plan together. Make it solid. Aim higher, then look back.</p><div class="body" id="b3">
-<ol class="rail"><li class="stage" id="stage-1"><h3><strong>1. Look and listen</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I read what exists: the app, the build plan, your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip2" aria-expanded="false">cost model</a><span class="tip" id="tip2" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use. <a class="tipgo" href="#g-cost-model">Learn more</a></span></span>, and where children's information travels. I talk with each of you four separately. Before each conversation I write down my own predictions, so I can check them later.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A clear picture of what is built, what is planned and what is only hoped for, with a note on how much I examined. A first list of questions for your lawyers.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>A short test set before I start, for example that every item in the build plan is marked built, partly built or not built.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the picture and the questions.</p></div></li><li class="stage" id="stage-2"><h3><strong>2. Agree the plan together</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I share what I found. Then, together, we build one <span class="termwrap"><a class="gl" href="#g-roadmap" aria-describedby="tip3" aria-expanded="false">roadmap</a><span class="tip" id="tip3" role="group" aria-label="Definition: Roadmap" hidden><b>Roadmap</b> The plan in time order. <a class="tipgo" href="#g-roadmap">Learn more</a></span></span> in time order from your priorities, limits and dates: what has to happen before what, like a campaign calendar. You make the big decision, build alongside a developer or hire one, and we put it on paper after an honest "<span class="termwrap"><a class="gl" href="#g-imagine-it-failed-exercise" aria-describedby="tip4" aria-expanded="false">imagine it failed</a><span class="tip" id="tip4" role="group" aria-label="Definition: &quot;Imagine it failed&quot; exercise" hidden><b>&quot;Imagine it failed&quot; exercise</b> Picture the project a year from now having failed, and write the story. <a class="tipgo" href="#g-imagine-it-failed-exercise">Learn more</a></span></span>" exercise.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>One roadmap. One written record of the big decision: what you chose, why, and what would change your minds. For each item on the roadmap, a written description of what "finished" looks like.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>Each of you can say, in your own words, what was decided, who owns it, and what would reverse it.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the roadmap, the record and the list of questions.</p></div></li><li class="stage" id="stage-3"><h3><strong>3. Make it solid</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I help set up the foundations so you can run the build: a working setup, freedom to switch <span class="termwrap"><a class="gl" href="#g-vendor-provider" aria-describedby="tip5" aria-expanded="false">AI providers</a><span class="tip" id="tip5" role="group" aria-label="Definition: Vendor, provider" hidden><b>Vendor, provider</b> A company whose service you rely on. <a class="tipgo" href="#g-vendor-provider">Learn more</a></span></span> later, control over <span class="termwrap"><a class="gl" href="#g-role-based-access" aria-describedby="tip7" aria-expanded="false">who can see what</a><span class="tip" id="tip7" role="group" aria-label="Definition: Role-based access" hidden><b>Role-based access</b> Different people see different things based on who they are. <a class="tipgo" href="#g-role-based-access">Learn more</a></span></span> (parent, child, practitioner), a safe way to handle private documents, a <span class="termwrap"><a class="gl" href="#g-usage-cap" aria-describedby="tip8" aria-expanded="false">cap on AI spending</a><span class="tip" id="tip8" role="group" aria-label="Definition: Usage cap" hidden><b>Usage cap</b> A ceiling on how much AI use is allowed. <a class="tipgo" href="#g-usage-cap">Learn more</a></span></span>, and routines for releases. Depending on what I find, this may add proper <span class="termwrap"><a class="gl" href="#g-version-control-branch" aria-describedby="tip6" aria-expanded="false">change tracking</a><span class="tip" id="tip6" role="group" aria-label="Definition: Version control, branch" hidden><b>Version control, branch</b> A record of every change to the app, with a safe side-copy to try changes before they go live. <a class="tipgo" href="#g-version-control-branch">Learn more</a></span></span>, separate places for testing and the real thing, and rules for which kind of information may live in which service. Anything that needs your lawyers waits for their answers.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A setup designed so Chelsea can run releases herself. Your business plan and your build, side by side, with nothing in one that the other cannot account for.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>A short list of working checks, for example a spending cap that really stops spending in a test.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the setup, the instructions and the list of accounts and subscriptions.</p></div></li><li class="stage" id="stage-4"><h3><strong>4. Aim higher, then look back</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>With real use behind you, I help you look at strategy and a few possible futures, each with an early warning sign and a plan. I run the "imagine it failed" exercise again on the next big bets. Then we look back: what you set out to do, what was done, and whether the result matched the goal.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A strategy, the scenarios, and an honest scorecard of the whole engagement.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>You can run the next "imagine it failed" exercise on your own.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the scorecard and the playbook.</p></div></li></ol>
-<p>At the end of every stage I also do a short <span class="termwrap"><a class="gl" href="#g-looking-back" aria-describedby="tip9" aria-expanded="false">look-back</a><span class="tip" id="tip9" role="group" aria-label="Definition: Looking back" hidden><b>Looking back</b> Comparing what you and I set out to do with what happened. <a class="tipgo" href="#g-looking-back">Learn more</a></span></span> with you, so the lessons arrive while they are still useful, not only at the end.</p>
-</div><button class="more" type="button" aria-controls="b3" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-what-is-in-scope-and-what-the-audit-could-change" data-body-alt="2"><h2>What is in scope, and what the audit could change</h2><p class="dek">I cannot know what stage 1 will show, so here are three general cases, best, base and worst, with the steps in <span class="termwrap"><a class="gl" href="#g-scope" aria-describedby="tip10" aria-expanded="false">scope</a><span class="tip" id="tip10" role="group" aria-label="Definition: Scope" hidden><b>Scope</b> What is in the work, and what is out. <a class="tipgo" href="#g-scope">Learn more</a></span></span> for each. They are not predictions, and nothing is priced.</p><div class="body" id="b4">
+<ol class="rail"><li class="stage" id="stage-1"><h3><strong>1. Look and listen</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I read what exists: the app, the build plan, your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip2" aria-expanded="false">cost model</a><span class="tip" id="tip2" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use.<span class="tipbar"><a class="tipgo" href="#g-cost-model">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Cost model">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, and where children's information travels. I talk with each of you four separately. Before each conversation I write down my own predictions, so I can check them later.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A clear picture of what is built, what is planned and what is only hoped for, with a note on how much I examined. A first list of questions for your lawyers.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>A short test set before I start, for example that every item in the build plan is marked built, partly built or not built.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the picture and the questions.</p></div></li><li class="stage" id="stage-2"><h3><strong>2. Agree the plan together</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I share what I found. Then, together, we build one <span class="termwrap"><a class="gl" href="#g-roadmap" aria-describedby="tip3" aria-expanded="false">roadmap</a><span class="tip" id="tip3" role="group" aria-label="Definition: Roadmap" hidden><b>Roadmap</b> The plan in time order.<span class="tipbar"><a class="tipgo" href="#g-roadmap">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Roadmap">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> in time order from your priorities, limits and dates: what has to happen before what, like a campaign calendar. You make the big decision, build alongside a developer or hire one, and we put it on paper after an honest "<span class="termwrap"><a class="gl" href="#g-imagine-it-failed-exercise" aria-describedby="tip4" aria-expanded="false">imagine it failed</a><span class="tip" id="tip4" role="group" aria-label="Definition: &quot;Imagine it failed&quot; exercise" hidden><b>&quot;Imagine it failed&quot; exercise</b> Picture the project a year from now having failed, and write the story.<span class="tipbar"><a class="tipgo" href="#g-imagine-it-failed-exercise">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: &quot;Imagine it failed&quot; exercise">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>" exercise.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>One roadmap. One written record of the big decision: what you chose, why, and what would change your minds. For each item on the roadmap, a written description of what "finished" looks like.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>Each of you can say, in your own words, what was decided, who owns it, and what would reverse it.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the roadmap, the record and the list of questions.</p></div></li><li class="stage" id="stage-3"><h3><strong>3. Make it solid</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I help set up the foundations so you can run the build: a working setup, freedom to switch <span class="termwrap"><a class="gl" href="#g-vendor-provider" aria-describedby="tip5" aria-expanded="false">AI providers</a><span class="tip" id="tip5" role="group" aria-label="Definition: Vendor, provider" hidden><b>Vendor, provider</b> A company whose service you rely on.<span class="tipbar"><a class="tipgo" href="#g-vendor-provider">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Vendor, provider">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> later, control over <span class="termwrap"><a class="gl" href="#g-role-based-access" aria-describedby="tip7" aria-expanded="false">who can see what</a><span class="tip" id="tip7" role="group" aria-label="Definition: Role-based access" hidden><b>Role-based access</b> Different people see different things based on who they are.<span class="tipbar"><a class="tipgo" href="#g-role-based-access">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Role-based access">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> (parent, child, practitioner), a safe way to handle private documents, a <span class="termwrap"><a class="gl" href="#g-usage-cap" aria-describedby="tip8" aria-expanded="false">cap on AI spending</a><span class="tip" id="tip8" role="group" aria-label="Definition: Usage cap" hidden><b>Usage cap</b> A ceiling on how much AI use is allowed.<span class="tipbar"><a class="tipgo" href="#g-usage-cap">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Usage cap">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, and routines for releases. Depending on what I find, this may add proper <span class="termwrap"><a class="gl" href="#g-version-control-branch" aria-describedby="tip6" aria-expanded="false">change tracking</a><span class="tip" id="tip6" role="group" aria-label="Definition: Version control, branch" hidden><b>Version control, branch</b> A record of every change to the app, with a safe side-copy to try changes before they go live.<span class="tipbar"><a class="tipgo" href="#g-version-control-branch">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Version control, branch">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, separate places for testing and the real thing, and rules for which kind of information may live in which service. Anything that needs your lawyers waits for their answers.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A setup designed so Chelsea can run releases herself. Your business plan and your build, side by side, with nothing in one that the other cannot account for.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>A short list of working checks, for example a spending cap that really stops spending in a test.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the setup, the instructions and the list of accounts and subscriptions.</p></div></li><li class="stage" id="stage-4"><h3><strong>4. Aim higher, then look back</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>With real use behind you, I help you look at strategy and a few possible futures, each with an early warning sign and a plan. I run the "imagine it failed" exercise again on the next big bets. Then we look back: what you set out to do, what was done, and whether the result matched the goal.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A strategy, the scenarios, and an honest scorecard of the whole engagement.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>You can run the next "imagine it failed" exercise on your own.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the scorecard and the playbook.</p></div></li></ol>
+<p>At the end of every stage I also do a short <span class="termwrap"><a class="gl" href="#g-looking-back" aria-describedby="tip9" aria-expanded="false">look-back</a><span class="tip" id="tip9" role="group" aria-label="Definition: Looking back" hidden><b>Looking back</b> Comparing what you and I set out to do with what happened.<span class="tipbar"><a class="tipgo" href="#g-looking-back">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Looking back">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> with you, so the lessons arrive while they are still useful, not only at the end.</p>
+</div><button class="more" type="button" aria-controls="b3" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-what-is-in-scope-and-what-the-audit-could-change" data-body-alt="2"><h2>What is in scope, and what the audit could change</h2><p class="dek">I cannot know what stage 1 will show, so here are three general cases, best, base and worst, with the steps in <span class="termwrap"><a class="gl" href="#g-scope" aria-describedby="tip10" aria-expanded="false">scope</a><span class="tip" id="tip10" role="group" aria-label="Definition: Scope" hidden><b>Scope</b> What is in the work, and what is out.<span class="tipbar"><a class="tipgo" href="#g-scope">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Scope">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> for each. They are not predictions, and nothing is priced.</p><div class="body" id="b4">
 <p>I cannot know exactly what stage 1 will show. So here are three general cases, so you can see which steps are in scope in each. They are not predictions, and nothing here is priced.</p>
 <ul>
 <li><strong>Best case:</strong> the audit finds the basics already in place. Changes are tracked, testing is kept apart from the real thing, and each kind of information already has an agreed home.</li>
 <li><strong>Base case:</strong> the audit finds some gaps. For example, changes are not tracked, testing and the real thing are mixed, or I need to make a chart of where each kind of information may live.</li>
 <li><strong>Worst case:</strong> the audit finds that a service is not a suitable home for some kind of information. A decision, with costs, comes before anything else is built.</li>
 </ul>
-<div class="tablewrap" tabindex="0"><div class="scope" data-case="base"><div class="scopebar" role="group" aria-label="Which case to show"><span class="altlabel">If the audit finds the:</span><button type="button" data-case="best" aria-pressed="false">Best case</button><button type="button" data-case="base" aria-pressed="true">Base case</button><button type="button" data-case="worst" aria-pressed="false">Worst case</button></div><ol class="scopelist"><li class="sstep"><a href="#stage-1">1. Look and listen</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope, and likely longer</span></li><li class="sstep"><a href="#stage-2">2. Agree the plan together</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope. The big decision may include moving part of the app</span></li><li class="sstep"><a href="#stage-3">3. Make it solid</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope, and larger</span></li><li class="ssub"><a href="#stage-3">Working setup and a cap on AI spending</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope</span></li><li class="ssub"><a href="#stage-3">Change tracking</a><span class="c c-best"><b>Best case:</b> Already in place, so only a check</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope</span></li><li class="ssub"><a href="#stage-3">Separate places for testing and the real thing</a><span class="c c-best"><b>Best case:</b> Already in place, so only a check</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope</span></li><li class="ssub"><a href="#stage-3">Chart of where each kind of information may live</a><span class="c c-best"><b>Best case:</b> A quick confirmation with your lawyers</span><span class="c c-base"><b>Base case:</b> In scope, made with your lawyers</span><span class="c c-worst"><b>Worst case:</b> In scope, and may show a gap</span></li><li class="ssub"><a href="#stage-3">Backup, activity diary and alarms</a><span class="c c-best"><b>Best case:</b> A check</span><span class="c c-base"><b>Base case:</b> In scope before the first outside family</span><span class="c c-worst"><b>Worst case:</b> In scope before the first outside family</span></li><li class="ssub"><a href="#stage-3">Evidence trail</a><span class="c c-best"><b>Best case:</b> Only if someone asks</span><span class="c c-base"><b>Base case:</b> Only if someone asks</span><span class="c c-worst"><b>Worst case:</b> Likely asked for sooner</span></li><li class="ssub"><a href="#stage-3">Moving part of the app to a better home</a><span class="c c-best"><b>Best case:</b> Not needed</span><span class="c c-base"><b>Base case:</b> Not needed</span><span class="c c-worst"><b>Worst case:</b> A decision comes first, before anything else is built</span></li><li class="ssub"><a href="#stage-3">Connecting Alice</a><span class="c c-best"><b>Best case:</b> After the groundwork, sooner</span><span class="c c-base"><b>Base case:</b> After the groundwork</span><span class="c c-worst"><b>Worst case:</b> Waits for that decision</span></li><li class="sstep"><a href="#stage-4">4. Aim higher, then look back</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope, later</span></li></ol></div></div>
+<div class="scope" data-case="base"><div class="scopebar" role="group" aria-label="Which case to show"><span class="altlabel">If the audit finds the:</span><button type="button" data-case="best" aria-pressed="false">Best case</button><button type="button" data-case="base" aria-pressed="true">Base case</button><button type="button" data-case="worst" aria-pressed="false">Worst case</button></div><p class="vh" id="scopelive" aria-live="polite"></p><ol class="scopelist"><li class="sstep"><a href="#stage-1">1. Look and listen</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope, and likely longer</span></li><li class="sstep"><a href="#stage-2">2. Agree the plan together</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope. The big decision may include moving part of the app</span></li><li class="sstep"><a href="#stage-3">3. Make it solid</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope, and larger</span></li><li class="ssub"><a href="#stage-3">Working setup and a cap on AI spending</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope</span></li><li class="ssub"><a href="#stage-3">Change tracking</a><span class="c c-best"><b>Best case:</b> Already in place, so only a check</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope</span></li><li class="ssub"><a href="#stage-3">Separate places for testing and the real thing</a><span class="c c-best"><b>Best case:</b> Already in place, so only a check</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope</span></li><li class="ssub"><a href="#stage-3">Chart of where each kind of information may live</a><span class="c c-best"><b>Best case:</b> A quick confirmation with your lawyers</span><span class="c c-base"><b>Base case:</b> In scope, made with your lawyers</span><span class="c c-worst"><b>Worst case:</b> In scope, and may show a gap</span></li><li class="ssub"><a href="#stage-3">Backup, activity diary and alarms</a><span class="c c-best"><b>Best case:</b> A check</span><span class="c c-base"><b>Base case:</b> In scope before the first outside family</span><span class="c c-worst"><b>Worst case:</b> In scope before the first outside family</span></li><li class="ssub"><a href="#stage-3">Evidence trail</a><span class="c c-best"><b>Best case:</b> Only if someone asks</span><span class="c c-base"><b>Base case:</b> Only if someone asks</span><span class="c c-worst"><b>Worst case:</b> Likely asked for sooner</span></li><li class="ssub"><a href="#stage-3">Moving part of the app to a better home</a><span class="c c-best"><b>Best case:</b> Not needed</span><span class="c c-base"><b>Base case:</b> Not needed</span><span class="c c-worst"><b>Worst case:</b> A decision comes first, before anything else is built</span></li><li class="ssub"><a href="#stage-3">Connecting Alice</a><span class="c c-best"><b>Best case:</b> After the groundwork, sooner</span><span class="c c-base"><b>Base case:</b> After the groundwork</span><span class="c c-worst"><b>Worst case:</b> Waits for that decision</span></li><li class="sstep"><a href="#stage-4">4. Aim higher, then look back</a><span class="c c-best"><b>Best case:</b> In scope</span><span class="c c-base"><b>Base case:</b> In scope</span><span class="c c-worst"><b>Worst case:</b> In scope, later</span></li></ol></div>
 <p>At the end of stage 1 I would tell you which case applies, and what it means for stage 3, before anything is spent on it. The cost cases work the same way: best, likely and worst, with nothing priced yet.</p>
 </div><button class="more" type="button" aria-controls="b4" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-for-kelly" data-body-alt="3"><h2>For Kelly</h2><p class="dek">Your plan and the build side by side, cost per family in three cases, and the lists that make the empathy question testable.</p><div class="body" id="b5">
 <ul>
 <li>Stage 2 puts your business plan and the build side by side, and checks every claim in one against the other, the way you would reconcile two sets of books.</li>
 <li>You get the cost per family in three cases, with sources and dates.</li>
 <li>You help write the "always, sometimes, never" lists that make the empathy question testable.</li>
-<li>At every stage you see a plain <span class="termwrap"><a class="gl" href="#g-checkpoint" aria-describedby="tip11" aria-expanded="false">checkpoint</a><span class="tip" id="tip11" role="group" aria-label="Definition: Checkpoint" hidden><b>Checkpoint</b> A test set in advance that says whether reality matches the plan. <a class="tipgo" href="#g-checkpoint">Learn more</a></span></span>, not a status report.</li>
+<li>At every stage you see a plain <span class="termwrap"><a class="gl" href="#g-checkpoint" aria-describedby="tip11" aria-expanded="false">checkpoint</a><span class="tip" id="tip11" role="group" aria-label="Definition: Checkpoint" hidden><b>Checkpoint</b> A test set in advance that says whether reality matches the plan.<span class="tipbar"><a class="tipgo" href="#g-checkpoint">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Checkpoint">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, not a status report.</li>
 </ul>
-</div><button class="more" type="button" aria-controls="b5" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-for-chelsea" data-body-alt="3"><h2>For Chelsea</h2><p class="dek">You stay the builder. The <span class="termwrap"><a class="gl" href="#g-vendor-provider" aria-describedby="tip12" aria-expanded="false">AI provider</a><span class="tip" id="tip12" role="group" aria-label="Definition: Vendor, provider" hidden><b>Vendor, provider</b> A company whose service you rely on. <a class="tipgo" href="#g-vendor-provider">Learn more</a></span></span> choice waits for the facts, and Alice comes after the groundwork.</p><div class="body" id="b6">
+</div><button class="more" type="button" aria-controls="b5" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-for-chelsea" data-body-alt="3"><h2>For Chelsea</h2><p class="dek">You stay the builder. The <span class="termwrap"><a class="gl" href="#g-vendor-provider" aria-describedby="tip12" aria-expanded="false">AI provider</a><span class="tip" id="tip12" role="group" aria-label="Definition: Vendor, provider" hidden><b>Vendor, provider</b> A company whose service you rely on.<span class="tipbar"><a class="tipgo" href="#g-vendor-provider">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Vendor, provider">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> choice waits for the facts, and Alice comes after the groundwork.</p><div class="body" id="b6">
 <ul>
 <li>You stay the builder. Stage 3 is designed so you can run releases yourself.</li>
 <li>The Anthropic or OpenAI question gets decided with the facts in hand and your lawyers' input. I would keep your options open so a later switch is not a rebuild.</li>
-<li>You asked for hiding private information not to depend on the AI catching everything. I agree. I would pair automatic checks with a review step for the parent, and measure how well it works on <span class="termwrap"><a class="gl" href="#g-synthetic-data" aria-describedby="tip13" aria-expanded="false">made-up</a><span class="tip" id="tip13" role="group" aria-label="Definition: Synthetic data" hidden><b>Synthetic data</b> Made-up information that looks real. <a class="tipgo" href="#g-synthetic-data">Learn more</a></span></span> documents.</li>
+<li>You asked for hiding private information not to depend on the AI catching everything. I agree. I would pair automatic checks with a review step for the parent, and measure how well it works on <span class="termwrap"><a class="gl" href="#g-synthetic-data" aria-describedby="tip13" aria-expanded="false">made-up</a><span class="tip" id="tip13" role="group" aria-label="Definition: Synthetic data" hidden><b>Synthetic data</b> Made-up information that looks real.<span class="tipbar"><a class="tipgo" href="#g-synthetic-data">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Synthetic data">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> documents.</li>
 <li>Alice comes after the groundwork, with the option of the small trial below if you want real numbers sooner.</li>
 </ul>
-</div><button class="more" type="button" aria-controls="b6" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-my-view-on-alice" data-body-alt="3"><h2>My view on Alice</h2><p class="dek">I would hold off connecting Alice until three answers are in. A small trial on <span class="termwrap"><a class="gl" href="#g-synthetic-data" aria-describedby="tip14" aria-expanded="false">made-up</a><span class="tip" id="tip14" role="group" aria-label="Definition: Synthetic data" hidden><b>Synthetic data</b> Made-up information that looks real. <a class="tipgo" href="#g-synthetic-data">Learn more</a></span></span> data is the cheaper way to learn what she costs.</p><div class="body" id="b7">
-<p>I would hold off connecting Alice until three answers are in: which <span class="termwrap"><a class="gl" href="#g-vendor-provider" aria-describedby="tip15" aria-expanded="false">AI provider</a><span class="tip" id="tip15" role="group" aria-label="Definition: Vendor, provider" hidden><b>Vendor, provider</b> A company whose service you rely on. <a class="tipgo" href="#g-vendor-provider">Learn more</a></span></span>, what your lawyers allow, and how private documents are handled. That is a view about sequence, not a doubt about the build. I expect wiring in the AI to be among the most expensive things to redo, so I would rather learn the cheap things first.</p>
-<p>If it would help to show something sooner, there is a cheaper option. A small, time-limited trial, using made-up family information only, would show what a conversation with Alice really costs and how she sounds. It would give your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip16" aria-expanded="false">cost model</a><span class="tip" id="tip16" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use. <a class="tipgo" href="#g-cost-model">Learn more</a></span></span> real numbers without committing you to the full build.</p>
+</div><button class="more" type="button" aria-controls="b6" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-my-view-on-alice" data-body-alt="3"><h2>My view on Alice</h2><p class="dek">I would hold off connecting Alice until three answers are in. A small trial on <span class="termwrap"><a class="gl" href="#g-synthetic-data" aria-describedby="tip14" aria-expanded="false">made-up</a><span class="tip" id="tip14" role="group" aria-label="Definition: Synthetic data" hidden><b>Synthetic data</b> Made-up information that looks real.<span class="tipbar"><a class="tipgo" href="#g-synthetic-data">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Synthetic data">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> data is the cheaper way to learn what she costs.</p><div class="body" id="b7">
+<p>I would hold off connecting Alice until three answers are in: which <span class="termwrap"><a class="gl" href="#g-vendor-provider" aria-describedby="tip15" aria-expanded="false">AI provider</a><span class="tip" id="tip15" role="group" aria-label="Definition: Vendor, provider" hidden><b>Vendor, provider</b> A company whose service you rely on.<span class="tipbar"><a class="tipgo" href="#g-vendor-provider">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Vendor, provider">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, what your lawyers allow, and how private documents are handled. That is a view about sequence, not a doubt about the build. I expect wiring in the AI to be among the most expensive things to redo, so I would rather learn the cheap things first.</p>
+<p>If it would help to show something sooner, there is a cheaper option. A small, time-limited trial, using made-up family information only, would show what a conversation with Alice really costs and how she sounds. It would give your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip16" aria-expanded="false">cost model</a><span class="tip" id="tip16" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use.<span class="tipbar"><a class="tipgo" href="#g-cost-model">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Cost model">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> real numbers without committing you to the full build.</p>
 </div><button class="more" type="button" aria-controls="b7" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-questions-to-settle-with-your-lawyers-first" data-body-alt="4"><h2>Questions to settle with your lawyers first</h2><p class="dek">Turn warm-but-never-health-advice into three written lists with your lawyers, then test Alice against sample questions.</p><div class="body" id="b8">
 <p>Kelly named the hard problem: making Alice warm without ever giving health advice. I would turn that into something testable. With your lawyers, write down three lists:
 - what Alice may always do;
@@ -215,54 +261,54 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 <p>When the work is mine, I write mine down too. It works like a test budget in a marketing plan. You cap the test so one miss never sinks the campaign, and you decide in advance what result tells you to stop.</p>
 </div><button class="more" type="button" aria-controls="b9" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-a-possibility-i-want-to-name-early-setup-that-depends-on-what-i-find" data-body-alt="4"><h2>A possibility I want to name early: setup that depends on what I find</h2><p class="dek">Some set-up can only be scoped after I look. It is priced only if it is needed.</p><div class="body" id="b10">
 <p>Some of the groundwork cannot be scoped until I have looked. I would rather tell you now than surprise you later. Depending on what I find in stage 1, a layer of careful set-up may be needed, and it would be priced only if it is needed. Here is what would switch each part on:</p>
-<div class="tablewrap" tabindex="0"><div class="tablewrap" tabindex="0"><table>
+<div class="tablewrap" tabindex="0" role="region" aria-label="Table: If I find this, I would add this"><table>
 <thead>
 <tr>
-<th>If I find this</th>
-<th>I would add this</th>
+<th scope="col" scope="col">If I find this</th>
+<th scope="col" scope="col">I would add this</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>The app's changes are not tracked, or anyone can change the live version</td>
-<td>Proper <span class="termwrap"><a class="gl" href="#g-version-control-branch" aria-describedby="tip17" aria-expanded="false">change tracking</a><span class="tip" id="tip17" role="group" aria-label="Definition: Version control, branch" hidden><b>Version control, branch</b> A record of every change to the app, with a safe side-copy to try changes before they go live. <a class="tipgo" href="#g-version-control-branch">Learn more</a></span></span>: every change recorded, reviewed before it goes live, and easy to undo</td>
+<td>Proper <span class="termwrap"><a class="gl" href="#g-version-control-branch" aria-describedby="tip17" aria-expanded="false">change tracking</a><span class="tip" id="tip17" role="group" aria-label="Definition: Version control, branch" hidden><b>Version control, branch</b> A record of every change to the app, with a safe side-copy to try changes before they go live.<span class="tipbar"><a class="tipgo" href="#g-version-control-branch">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Version control, branch">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>: every change recorded, reviewed before it goes live, and easy to undo</td>
 </tr>
 <tr>
 <td>Testing and the real thing are mixed, or real documents are used while building</td>
-<td>Separate places for rehearsal and for real use, with <span class="termwrap"><a class="gl" href="#g-synthetic-data" aria-describedby="tip18" aria-expanded="false">made-up</a><span class="tip" id="tip18" role="group" aria-label="Definition: Synthetic data" hidden><b>Synthetic data</b> Made-up information that looks real. <a class="tipgo" href="#g-synthetic-data">Learn more</a></span></span> information only in rehearsal</td>
+<td>Separate places for rehearsal and for real use, with <span class="termwrap"><a class="gl" href="#g-synthetic-data" aria-describedby="tip18" aria-expanded="false">made-up</a><span class="tip" id="tip18" role="group" aria-label="Definition: Synthetic data" hidden><b>Synthetic data</b> Made-up information that looks real.<span class="tipbar"><a class="tipgo" href="#g-synthetic-data">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Synthetic data">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> information only in rehearsal</td>
 </tr>
 <tr>
 <td>Some kind of information has no agreed place to live</td>
 <td>A simple chart of what kind of information may live in which service, for how long, and who can see it, made with your lawyers</td>
 </tr>
 <tr>
-<td>No tested <span class="termwrap"><a class="gl" href="#g-backup-and-restore-test" aria-describedby="tip20" aria-expanded="false">backup</a><span class="tip" id="tip20" role="group" aria-label="Definition: Backup and restore test" hidden><b>Backup and restore test</b> A saved copy, and proof that it can be brought back. <a class="tipgo" href="#g-backup-and-restore-test">Learn more</a></span></span>, no activity diary (<span class="termwrap"><a class="gl" href="#g-audit-log" aria-describedby="tip19" aria-expanded="false">audit log</a><span class="tip" id="tip19" role="group" aria-label="Definition: Audit log" hidden><b>Audit log</b> A diary of who did what and when. <a class="tipgo" href="#g-audit-log">Learn more</a></span></span>) of who did what, or no alarms</td>
+<td>No tested <span class="termwrap"><a class="gl" href="#g-backup-and-restore-test" aria-describedby="tip20" aria-expanded="false">backup</a><span class="tip" id="tip20" role="group" aria-label="Definition: Backup and restore test" hidden><b>Backup and restore test</b> A saved copy, and proof that it can be brought back.<span class="tipbar"><a class="tipgo" href="#g-backup-and-restore-test">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Backup and restore test">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, no activity diary (<span class="termwrap"><a class="gl" href="#g-audit-log" aria-describedby="tip19" aria-expanded="false">audit log</a><span class="tip" id="tip19" role="group" aria-label="Definition: Audit log" hidden><b>Audit log</b> A diary of who did what and when.<span class="tipbar"><a class="tipgo" href="#g-audit-log">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Audit log">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>) of who did what, or no alarms</td>
 <td>A backup that has been practised, an activity diary and alarms</td>
 </tr>
 <tr>
 <td>A lawyer, partner or funder asks me to show the safeguards</td>
-<td>An <span class="termwrap"><a class="gl" href="#g-evidence-trail" aria-describedby="tip21" aria-expanded="false">evidence trail</a><span class="tip" id="tip21" role="group" aria-label="Definition: Evidence trail" hidden><b>Evidence trail</b> A record showing a safeguard is in place and when it was checked. <a class="tipgo" href="#g-evidence-trail">Learn more</a></span></span> showing where the proof of each safeguard lives</td>
+<td>An <span class="termwrap"><a class="gl" href="#g-evidence-trail" aria-describedby="tip21" aria-expanded="false">evidence trail</a><span class="tip" id="tip21" role="group" aria-label="Definition: Evidence trail" hidden><b>Evidence trail</b> A record showing a safeguard is in place and when it was checked.<span class="tipbar"><a class="tipgo" href="#g-evidence-trail">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Evidence trail">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> showing where the proof of each safeguard lives</td>
 </tr>
 <tr>
 <td>A service turns out not to be a suitable home for some kind of information</td>
 <td>A decision, with costs, about moving that part, made before anything else is built</td>
 </tr>
 </tbody>
-</table></div></div>
+</table></div>
 <p>I would do the cheap protective parts first (change tracking, separate rehearsal and real), the rest before the first outside family uses the app, and the evidence trail only when someone asks. The aim is simple: every statement about where your families' information lives is backed by an agreement or a decision by your lawyers. It is not to turn a four-person team into a big compliance department.</p>
 </div><button class="more" type="button" aria-controls="b10" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-the-cost-in-three-buckets" data-body-alt="3"><h2>The cost, in three buckets</h2><p class="dek">Fixed, grows with use, and hidden, each as a best, likely and worst case. Nothing is priced yet.</p><div class="body" id="b11">
-<p>We will fill these in together, using your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip22" aria-expanded="false">cost model</a><span class="tip" id="tip22" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use. <a class="tipgo" href="#g-cost-model">Learn more</a></span></span>, current price pages with their dates, and my rates once they are agreed. Each bucket gets a best case, a likely case and a worst case, with the cases defined before anyone fills in a number.</p>
+<p>We will fill these in together, using your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip22" aria-expanded="false">cost model</a><span class="tip" id="tip22" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use.<span class="tipbar"><a class="tipgo" href="#g-cost-model">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Cost model">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, current price pages with their dates, and my rates once they are agreed. Each bucket gets a best case, a likely case and a worst case, with the cases defined before anyone fills in a number.</p>
 <ol>
 <li><strong>Fixed:</strong> one-time and set-up work, subscriptions, and your lawyers' time.</li>
-<li><strong>Grows with use:</strong> the AI <span class="termwrap"><a class="gl" href="#g-token" aria-describedby="tip23" aria-expanded="false">usage meter</a><span class="tip" id="tip23" role="group" aria-label="Definition: Token" hidden><b>Token</b> A small chunk of text the AI reads or writes. <a class="tipgo" href="#g-token">Learn more</a></span></span> (more families and longer documents mean a bigger bill), search and file handling.</li>
+<li><strong>Grows with use:</strong> the AI <span class="termwrap"><a class="gl" href="#g-token" aria-describedby="tip23" aria-expanded="false">usage meter</a><span class="tip" id="tip23" role="group" aria-label="Definition: Token" hidden><b>Token</b> A small chunk of text the AI reads or writes.<span class="tipbar"><a class="tipgo" href="#g-token">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Token">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> (more families and longer documents mean a bigger bill), search and file handling.</li>
 <li><strong>Hidden:</strong> moving information or parts of the app if a service is not the right home for it; rework when a legal answer arrives late; the time families spend reviewing what is hidden from the AI; switching providers later; and your own four people's time.</li>
 </ol>
-</div><button class="more" type="button" aria-controls="b11" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-what-i-need-from-you-and-what-you-can-expect-from-me" data-body-alt="3"><h2>What I need from you, and what you can expect from me</h2><p class="dek">From you: the <span class="termwrap"><a class="gl" href="#g-nda" aria-describedby="tip24" aria-expanded="false">NDA</a><span class="tip" id="tip24" role="group" aria-label="Definition: NDA" hidden><b>NDA</b> A signed agreement that keeps what you share confidential. <a class="tipgo" href="#g-nda">Learn more</a></span></span>, the code, the plan, your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip25" aria-expanded="false">cost model</a><span class="tip" id="tip25" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use. <a class="tipgo" href="#g-cost-model">Learn more</a></span></span> and a list of services. From me: dated findings and early notice when anything moves.</p><div class="body" id="b12">
-<div class="tablewrap" tabindex="0"><div class="tablewrap" tabindex="0"><table>
+</div><button class="more" type="button" aria-controls="b11" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-what-i-need-from-you-and-what-you-can-expect-from-me" data-body-alt="3"><h2>What I need from you, and what you can expect from me</h2><p class="dek">From you: the <span class="termwrap"><a class="gl" href="#g-nda" aria-describedby="tip24" aria-expanded="false">NDA</a><span class="tip" id="tip24" role="group" aria-label="Definition: NDA" hidden><b>NDA</b> A signed agreement that keeps what you share confidential.<span class="tipbar"><a class="tipgo" href="#g-nda">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: NDA">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, the code, the plan, your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip25" aria-expanded="false">cost model</a><span class="tip" id="tip25" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use.<span class="tipbar"><a class="tipgo" href="#g-cost-model">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Cost model">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span> and a list of services. From me: dated findings and early notice when anything moves.</p><div class="body" id="b12">
+<div class="tablewrap" tabindex="0" role="region" aria-label="Table: From you, From me"><table>
 <thead>
 <tr>
-<th>From you</th>
-<th>From me</th>
+<th scope="col" scope="col">From you</th>
+<th scope="col" scope="col">From me</th>
 </tr>
 </thead>
 <tbody>
@@ -279,12 +325,12 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 <td>A heads-up if my view of the work changes</td>
 </tr>
 </tbody>
-</table></div></div>
+</table></div>
 </div><button class="more" type="button" aria-controls="b12" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-what-i-know-what-i-think-what-i-am-guessing" data-body-alt="3"><h2>What I know, what I think, what I am guessing</h2><p class="dek">I say which points I know, which I think and which I am guessing.</p><div class="body" id="b13">
 <p>Where this page says something I have not checked, I say so. <strong>I know:</strong> you told me, or I checked a source. <strong>I think:</strong> it rests on one source, or on reasoning about things I have not seen yet. <strong>I am guessing:</strong> it waits on material I have not received. Today most of the technical points sit in the last two groups, because I have not seen the code or the build plan. I would rather say that than sound surer than I am.</p>
 </div><button class="more" type="button" aria-controls="b13" aria-expanded="false" hidden>Show detail</button></div><div class="sec" id="s-what-happens-next" data-body-alt="1"><h2>What happens next</h2>
 <ol>
-<li>You send the signed <span class="termwrap"><a class="gl" href="#g-nda" aria-describedby="tip26" aria-expanded="false">NDA</a><span class="tip" id="tip26" role="group" aria-label="Definition: NDA" hidden><b>NDA</b> A signed agreement that keeps what you share confidential. <a class="tipgo" href="#g-nda">Learn more</a></span></span>, then the code, the build plan, your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip27" aria-expanded="false">cost model</a><span class="tip" id="tip27" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use. <a class="tipgo" href="#g-cost-model">Learn more</a></span></span>, the business plan and projections, and a list of the services you pay for.</li>
+<li>You send the signed <span class="termwrap"><a class="gl" href="#g-nda" aria-describedby="tip26" aria-expanded="false">NDA</a><span class="tip" id="tip26" role="group" aria-label="Definition: NDA" hidden><b>NDA</b> A signed agreement that keeps what you share confidential.<span class="tipbar"><a class="tipgo" href="#g-nda">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: NDA">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, then the code, the build plan, your <span class="termwrap"><a class="gl" href="#g-cost-model" aria-describedby="tip27" aria-expanded="false">cost model</a><span class="tip" id="tip27" role="group" aria-label="Definition: Cost model" hidden><b>Cost model</b> Your estimate of what Alice will cost per family, for light, typical and heavy use.<span class="tipbar"><a class="tipgo" href="#g-cost-model">Learn more</a><button type="button" class="tipclose" aria-label="Close definition: Cost model">Close</button></span><span class="tiphint">Click the word to keep this open</span></span></span>, the business plan and projections, and a list of the services you pay for.</li>
 <li>I read, take a short first look to size the work, and tell you how long stage 1 should take before it starts.</li>
 <li>I set up one conversation with each of you four.</li>
 </ol>
@@ -311,12 +357,12 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 <p>Four short sections, one each for the technical, money, day-to-day and business sides. You can answer in any order, skip anything you do not know, and say "not sure" as often as you need. Nothing here is a test. Each answer helps me look at the same picture you do.</p>
 <p><strong>Before you answer.</strong> Please share links, file names and short descriptions only. Do not paste or upload any family's information, any child's information, or any passwords or keys. Anything sensitive travels another way, agreed after the NDA is signed. Intake opens once the NDA is in place.</p>
 <h3>1. The build (for whoever builds)</h3>
-<div class="tablewrap" tabindex="0"><table>
+<div class="tablewrap" tabindex="0" role="region" aria-label="Table: Question, How to answer, Why I ask"><table>
 <thead>
 <tr>
-<th>Question</th>
-<th>How to answer</th>
-<th>Why I ask</th>
+<th scope="col" scope="col">Question</th>
+<th scope="col" scope="col">How to answer</th>
+<th scope="col" scope="col">Why I ask</th>
 </tr>
 </thead>
 <tbody>
@@ -368,12 +414,12 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 </tbody>
 </table></div>
 <h3>2. The money (for whoever keeps the numbers)</h3>
-<div class="tablewrap" tabindex="0"><table>
+<div class="tablewrap" tabindex="0" role="region" aria-label="Table: Question, How to answer, Why I ask"><table>
 <thead>
 <tr>
-<th>Question</th>
-<th>How to answer</th>
-<th>Why I ask</th>
+<th scope="col" scope="col">Question</th>
+<th scope="col" scope="col">How to answer</th>
+<th scope="col" scope="col">Why I ask</th>
 </tr>
 </thead>
 <tbody>
@@ -415,12 +461,12 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 </tbody>
 </table></div>
 <h3>3. Day to day (for whoever runs things)</h3>
-<div class="tablewrap" tabindex="0"><table>
+<div class="tablewrap" tabindex="0" role="region" aria-label="Table: Question, How to answer, Why I ask"><table>
 <thead>
 <tr>
-<th>Question</th>
-<th>How to answer</th>
-<th>Why I ask</th>
+<th scope="col" scope="col">Question</th>
+<th scope="col" scope="col">How to answer</th>
+<th scope="col" scope="col">Why I ask</th>
 </tr>
 </thead>
 <tbody>
@@ -462,12 +508,12 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 </tbody>
 </table></div>
 <h3>4. The business (for whoever holds the vision)</h3>
-<div class="tablewrap" tabindex="0"><table>
+<div class="tablewrap" tabindex="0" role="region" aria-label="Table: Question, How to answer, Why I ask"><table>
 <thead>
 <tr>
-<th>Question</th>
-<th>How to answer</th>
-<th>Why I ask</th>
+<th scope="col" scope="col">Question</th>
+<th scope="col" scope="col">How to answer</th>
+<th scope="col" scope="col">Why I ask</th>
 </tr>
 </thead>
 <tbody>
@@ -509,6 +555,19 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
 </tbody>
 </table></div><p class="note">The intake form opens here once the NDA is signed. Until then this is a preview of the questions, and nothing on this page collects or sends anything.</p></div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
 </main>
+<footer class="wrap pagefoot"><p>Prepared by Zach at manana. This page is a view, not an agreement. Reading options and your depth setting stay on this device.</p></footer>
+
+<button type="button" class="readfab" id="readfab" aria-expanded="false" aria-controls="readopts" aria-label="Reading options"><span aria-hidden="true">Aa</span></button>
+<section id="readopts" class="readopts" role="dialog" aria-modal="false" aria-labelledby="roh" hidden>
+<p id="roh" class="ro-title">Reading options</p>
+<p class="ro-note">Comfort settings: pick whatever reads best for you. They stay on this device and are not sent anywhere.</p>
+<div class="ro-group" role="group" aria-labelledby="ro-f"><span id="ro-f" class="ro-label">Font</span><span class="ro-btns"><button type="button" data-k="font" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="font" data-v="easy" aria-pressed="false">Easy-read</button></span><span class="ro-hint">Easy-read is a plain, wide font with no italics and no underlines.</span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-s"><span id="ro-s" class="ro-label">Text size</span><span class="ro-btns"><button type="button" data-k="size" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="size" data-v="l" aria-pressed="false">Larger</button><button type="button" data-k="size" data-v="xl" aria-pressed="false">Largest</button></span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-p"><span id="ro-p" class="ro-label">Spacing</span><span class="ro-btns"><button type="button" data-k="space" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="space" data-v="roomy" aria-pressed="false">Roomy</button></span><span class="ro-hint">Roomy adds space between letters, words and lines.</span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-t"><span id="ro-t" class="ro-label">Background</span><span class="ro-btns"><button type="button" data-k="tone" data-v="std" aria-pressed="true">Standard</button><button type="button" data-k="tone" data-v="warm" aria-pressed="false">Warm paper</button></span></div>
+<div class="ro-actions"><button type="button" class="ro-reset">Reset</button><button type="button" class="ro-close">Close</button></div>
+</section>
+
 <script>
 (function(){
   var DESC={"1": {"name": "Exec", "desc": "The headline, one line per section, and what happens next.", "adds": "the short version, the picture, and one line per section"}, "2": {"name": "Strategic", "desc": "The stages, what happens in each, and what you get.", "adds": "the four stages with what happens and what you get"}, "3": {"name": "Operational", "desc": "Who does what, how I would work, and what I need from you.", "adds": "who does what, how I would work, and what I need from you"}, "4": {"name": "Tactical", "desc": "Checklists, triggers and the questions I would ask, with why.", "adds": "checklists, triggers and the questions I would ask"}, "5": {"name": "Surgical", "desc": "Every detail, plus the glossary.", "adds": "every remaining detail and the glossary"}};
@@ -536,8 +595,13 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
     slider.style.setProperty('--fill','calc(12px + (100% - 24px) * '+((level-1)/4)+')');
     slider.setAttribute('aria-valuetext','Level '+level+' of 5, '+cur.name);
     [].forEach.call(document.querySelectorAll('.tname'),function(b){b.className='tname'+(parseInt(b.getAttribute('data-level'),10)===level?' on':'');});
+    measure();
     document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Moving right adds '+nxt.adds+'.':' This is the full detail.');
   }
+  var bar=document.querySelector('.alt');
+  function measure(){if(bar)document.documentElement.style.setProperty('--sticky-h',Math.ceil(bar.getBoundingClientRect().height)+'px');}
+  if(window.ResizeObserver&&bar)new ResizeObserver(measure).observe(bar);
+  window.addEventListener('resize',measure);
   function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('myAllyLevel',String(level));}catch(e){}apply();}
   slider.addEventListener('input',function(){setLevel(parseInt(slider.value,10));});
   [].forEach.call(document.querySelectorAll('.tname'),function(b){b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});});
@@ -550,25 +614,36 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
   function go(id,push){
     var t=document.getElementById(id);if(!t)return false;
     var i=secFor(t);if(i>-1&&!isOpen(i)){over.add(i);apply();}
-    setTimeout(function(){t.scrollIntoView();t.classList.add('flash');setTimeout(function(){t.classList.remove('flash');},2000);},0);
+    setTimeout(function(){t.scrollIntoView();if(!t.hasAttribute('tabindex'))t.setAttribute('tabindex','-1');try{t.focus({preventScroll:true});}catch(e){}t.classList.add('flash');setTimeout(function(){t.classList.remove('flash');},2000);},0);
     if(push&&history.pushState){history.pushState(null,'','#'+id);}
     return true;
   }
   /* definition popups: hover, keyboard focus and tap */
-  var pinned=null;
+  var pinned=null,quiet=false;
+  function refocus(a){quiet=true;a.focus();quiet=false;}
   function tipOf(a){return a.parentNode.querySelector('.tip');}
-  function show(a){var t=tipOf(a);if(!t)return;t.hidden=false;t.classList.remove('flip');var r=t.getBoundingClientRect();if(r.right>window.innerWidth-8)t.classList.add('flip');a.setAttribute('aria-expanded','true');}
-  function hide(a){var t=tipOf(a);if(!t)return;t.hidden=true;a.setAttribute('aria-expanded','false');}
+  function place(t,w){
+    t.style.left='0px';t.style.right='auto';
+    var vw=document.documentElement.clientWidth,wr=w.getBoundingClientRect(),tw=t.getBoundingClientRect().width,left=wr.left;
+    if(left+tw>vw-8)left=vw-8-tw;
+    if(left<8)left=8;
+    t.style.left=(left-wr.left)+'px';
+  }
+  function show(a){var t=tipOf(a);if(!t)return;t.hidden=false;place(t,a.parentNode);a.setAttribute('aria-expanded','true');}
+  function hide(a){var t=tipOf(a);if(!t)return;t.hidden=true;a.setAttribute('aria-expanded','false');a.parentNode.classList.remove('pinned');}
   function hideAll(){[].forEach.call(document.querySelectorAll('a.gl'),hide);pinned=null;}
   [].forEach.call(document.querySelectorAll('.termwrap'),function(w){
     var a=w.querySelector('a.gl');
+    a.setAttribute('role','button');
+    a.addEventListener('keydown',function(e){if(e.key===' '){e.preventDefault();a.click();}});
     w.addEventListener('mouseenter',function(){show(a);});
     w.addEventListener('mouseleave',function(){if(pinned!==a)hide(a);});
-    a.addEventListener('focus',function(){show(a);});
+    a.addEventListener('focus',function(){if(!quiet)show(a);});
     w.addEventListener('focusout',function(e){if(pinned!==a&&!w.contains(e.relatedTarget))hide(a);});
-    a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(pinned===a){hideAll();}else{hideAll();pinned=a;show(a);}});
+    a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(pinned===a){hideAll();}else{hideAll();pinned=a;w.classList.add('pinned');show(a);}});
+    var cb=w.querySelector('.tipclose');if(cb)cb.addEventListener('click',function(e){e.stopPropagation();hideAll();refocus(a);});
   });
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pinned){var a=pinned;hideAll();a.focus();}else if(e.key==='Escape'){hideAll();}});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pinned){var a=pinned;hideAll();refocus(a);}else if(e.key==='Escape'){hideAll();}});
   document.addEventListener('click',function(e){if(pinned&&!e.target.closest('.termwrap'))hideAll();});
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||a.classList.contains('gl'))return;
@@ -580,6 +655,7 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
     [].forEach.call(sc.querySelectorAll('.scopebar button'),function(b){
       b.addEventListener('click',function(){
         sc.setAttribute('data-case',b.getAttribute('data-case'));
+        var lv=sc.querySelector('#scopelive');if(lv)lv.textContent='Showing the '+b.textContent.toLowerCase()+'.';
         [].forEach.call(sc.querySelectorAll('.scopebar button'),function(o){o.setAttribute('aria-pressed',String(o===b));});
       });
     });
@@ -588,8 +664,32 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-
   function eff(){var t=root.getAttribute('data-theme');if(t)return t;return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
   function label(){tb.textContent=eff()==='dark'?'Light mode':'Dark mode';}
   tb.addEventListener('click',function(){var n=eff()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('myAllyTheme',n);}catch(e){}label();});
+  /* reading options */
+  var RK='myAllyRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab'),ob=document.getElementById('optbtn');
+  var st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{};}catch(e){st={};}
+  var KEYS={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};
+  var opener=fab;
+  function applyRead(){
+    Object.keys(KEYS).forEach(function(k){var v=st[k];if(v&&v!=='std')root.setAttribute(KEYS[k],v);else root.removeAttribute(KEYS[k]);});
+    [].forEach.call(ro.querySelectorAll('button[data-k]'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-v')===(st[b.getAttribute('data-k')]||'std')));});
+    measure();
+  }
+  function saveRead(){try{localStorage.setItem(RK,JSON.stringify(st));}catch(e){}}
+  function openRead(open,from){
+    ro.hidden=!open;fab.setAttribute('aria-expanded',String(open));ob.setAttribute('aria-expanded',String(open));
+    if(open){opener=from||fab;var f=ro.querySelector('button[aria-pressed="true"]')||ro.querySelector('button');f.focus();}
+    else{opener.focus();}
+  }
+  fab.addEventListener('click',function(){openRead(ro.hidden,fab);});
+  ob.addEventListener('click',function(){openRead(ro.hidden,ob);});
+  ro.querySelector('.ro-close').addEventListener('click',function(){openRead(false);});
+  ro.querySelector('.ro-reset').addEventListener('click',function(){st={};saveRead();applyRead();});
+  [].forEach.call(ro.querySelectorAll('button[data-k]'),function(b){b.addEventListener('click',function(){st[b.getAttribute('data-k')]=b.getAttribute('data-v');saveRead();applyRead();});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ro.hidden)openRead(false);});
+  applyRead();
   label();
   apply();
+  measure();
   if(location.hash.length>1)go(location.hash.slice(1),false);
 })();
 </script>
