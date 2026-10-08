@@ -1,5 +1,8 @@
 {
  "version": "0.1.0",
+ "epoch": null,
+ "as_of_sha": null,
+ "as_of_date": null,
  "id": "recoil",
  "label": "Recoil Protocol",
  "parent": "universe",
@@ -14,20 +17,20 @@
    "lib": 0.25
   },
   "frequency": {
-   "file_commits": 492,
+   "file_commits": 493,
    "active_days": 58,
    "last_change": "2026-10-07",
-   "last_28d": 94
+   "last_28d": 95
   }
  },
  "dimensions": {
   "corpus": 27,
   "canon": 4,
   "codebase": 39,
-  "files": 236
+  "files": 237
  },
  "systems": {
-  "runtime": 149,
+  "runtime": 150,
   "src": 36,
   "_ARTIFACTS": 26,
   ".claude": 10,
@@ -231,6 +234,7 @@
   "runtime/recoil/transcripts/2026-08-21-scott-excerpts.txt",
   "runtime/recoil/transcripts/2026-09-15-brooks.txt",
   "runtime/specs/recoil-modes-v1.md",
+  "runtime/specs/universe/recoil.json",
   "scripts/gen_recoil_artifact.py",
   "scripts/recoil",
   "scripts/recoil_brief.py",

@@ -1,5 +1,8 @@
 {
  "version": "0.1.0",
+ "epoch": null,
+ "as_of_sha": null,
+ "as_of_date": null,
  "id": "nci",
  "label": "nci_score",
  "parent": "universe",
@@ -14,25 +17,27 @@
    "lib": 0.0
   },
   "frequency": {
-   "file_commits": 3,
-   "active_days": 2,
-   "last_change": "2026-10-06",
-   "last_28d": 1
+   "file_commits": 4,
+   "active_days": 3,
+   "last_change": "2026-10-07",
+   "last_28d": 2
   }
  },
  "dimensions": {
   "corpus": 0,
   "canon": 1,
   "codebase": 0,
-  "files": 3
+  "files": 4
  },
  "systems": {
   ".claude": 2,
-  "_DECISIONS": 1
+  "_DECISIONS": 1,
+  "runtime": 1
  },
  "files": [
   ".claude/commands/nci-commit.md",
   ".claude/skills/nci-scoring/SKILL.md",
-  "_DECISIONS/ADR-035-commit-nci-rubric.md"
+  "_DECISIONS/ADR-035-commit-nci-rubric.md",
+  "runtime/specs/universe/nci.json"
  ]
 }
