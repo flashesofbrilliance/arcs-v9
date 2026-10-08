@@ -1,0 +1,2497 @@
+{
+ "version": "0.1.0",
+ "goal": "every served page clean except reasoned exemptions",
+ "totals": {
+  "detector": 6312,
+  "emdash": 774,
+  "wrap": 32,
+  "tokens": 72,
+  "leak": 0,
+  "retired_color": 2,
+  "pages": 179,
+  "pages_clean": 51
+ },
+ "pages": {
+  "public/ahmed-evening.html": {
+   "detector": 24,
+   "rules": {
+    "design-system-font": 1,
+    "kicker-above-heading": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 18,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/ahmed-ext.html": {
+   "detector": 34,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 1,
+    "kicker-above-heading": 1,
+    "tiny-text": 6,
+    "undersized-ui-text": 23,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/ahmed-seed.html": {
+   "detector": 23,
+   "rules": {
+    "design-system-font": 1,
+    "kicker-above-heading": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 17,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/ahmed.html": {
+   "detector": 15,
+   "rules": {
+    "all-caps-body": 2,
+    "design-system-font": 3,
+    "pulsing-dot": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 5,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/arcs-field-scan.html": {
+   "detector": 17,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 1,
+    "overused-font": 1,
+    "undersized-ui-text": 6
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/autopilot-ammo.html": {
+   "detector": 13,
+   "rules": {
+    "all-caps-body": 2,
+    "cramped-padding": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 3,
+    "overused-font": 1,
+    "undersized-ui-text": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/autopilot-resume-viewer.html": {
+   "detector": 1,
+   "rules": {
+    "low-contrast": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/autopilot.html": {
+   "detector": 12,
+   "rules": {
+    "all-caps-body": 1,
+    "cramped-padding": 2,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 3,
+    "overused-font": 1,
+    "undersized-ui-text": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/ayesha-ext.html": {
+   "detector": 26,
+   "rules": {
+    "all-caps-body": 3,
+    "design-system-font": 2,
+    "kicker-above-heading": 4,
+    "side-tab": 5,
+    "tiny-text": 2,
+    "undersized-ui-text": 8,
+    "wide-tracking": 2
+   },
+   "emdash": 9,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/belief-log.html": {
+   "detector": 10,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "overused-font": 1,
+    "side-tab": 3,
+    "skipped-heading": 1
+   },
+   "emdash": 6,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blacksmith-observatory.html": {
+   "detector": 86,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 6,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "side-tab": 7,
+    "tiny-text": 20,
+    "undersized-ui-text": 45
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blacksmith-resume-viewer.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 2,
+    "low-contrast": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blacksmith.html": {
+   "detector": 19,
+   "rules": {
+    "all-caps-body": 2,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 3,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 4
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-a-draft-is-not-a-verb.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-any-stranger-can-be-a-bar-raiser.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-assets-and-liabilities.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-cheapest-edit-is-a-diff.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-closing-the-loop-receipts.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-confirmed-not-my-bug.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-four-dates-one-thesis-three-confirmations.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-index.html": {
+   "detector": 1,
+   "rules": {
+    "overused-font": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-ledger-not-story.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-light-at-thirty-eight-miles-an-hour-research.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-light-at-thirty-eight-miles-an-hour.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-loop-hud.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-notomation.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-post-1.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-post-2.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-post-3.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-post-4.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-probably-confirmation-bias.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-pulp-governance.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-receipts-or-it-didnt-happen.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-recon-report-cold-1.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-recon-report-cold-2.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-recon-report-warm-matched.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-recon-report-warm-relaxed.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-schematic-scaffolds.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-second-pass.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-seven-calls-seven-falsifiers.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-take-home-trap-dossier.html": {
+   "detector": 2,
+   "rules": {
+    "clipped-overflow-container": 1,
+    "pulsing-dot": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-take-home-trap.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-cold-reconstruction.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-control-and-the-experiment.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-factory-on-itself.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-instinct-before-it-had-a-name.html": {
+   "detector": 1,
+   "rules": {
+    "marketing-buzzword": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-lock-that-was-already-there.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-loop-closes.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-method-that-was-already-built.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-pre-mortem-that-asked-to-be-wrong.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-question-that-found-the-outage.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-same-rigor-applied-to-slang.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-the-video-that-said-too-much.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-nftt-tuning-into-the-distortion-field.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-til-a-draft-is-not-a-verb.html": {
+   "detector": 51,
+   "rules": {
+    "all-caps-body": 4,
+    "cramped-padding": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 20,
+    "overused-font": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 19,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-til-apple-openai.html": {
+   "detector": 59,
+   "rules": {
+    "all-caps-body": 2,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 16,
+    "overused-font": 1,
+    "tiny-text": 16,
+    "undersized-ui-text": 19,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-til-closing-the-loop.html": {
+   "detector": 66,
+   "rules": {
+    "all-caps-body": 6,
+    "cramped-padding": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 26,
+    "overused-font": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 26,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-til-index.html": {
+   "detector": 20,
+   "rules": {
+    "all-caps-body": 2,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 4,
+    "overused-font": 1,
+    "undersized-ui-text": 9
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/blog-til-zim.html": {
+   "detector": 23,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 6,
+    "overused-font": 1,
+    "tiny-text": 4,
+    "undersized-ui-text": 6,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/build.html": {
+   "detector": 78,
+   "rules": {
+    "all-caps-body": 3,
+    "dark-glow": 4,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "tiny-text": 5,
+    "undersized-ui-text": 58,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/case-study.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/chan.html": {
+   "detector": 192,
+   "rules": {
+    "all-caps-body": 8,
+    "border-accent-on-rounded": 3,
+    "clipped-overflow-container": 2,
+    "cramped-padding": 1,
+    "dark-glow": 4,
+    "design-system-font": 2,
+    "overused-font": 1,
+    "pulsing-dot": 3,
+    "side-tab": 12,
+    "tiny-text": 11,
+    "undersized-ui-text": 132,
+    "wide-tracking": 13
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/claritai.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/compass-kit/index.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 1,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/conduit-case-study.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/conduit-resume-viewer.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/conduit.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/daniel.html": {
+   "detector": 45,
+   "rules": {
+    "all-caps-body": 3,
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "kicker-above-heading": 6,
+    "marketing-buzzword": 1,
+    "side-tab": 12,
+    "tiny-text": 2,
+    "undersized-ui-text": 16,
+    "wide-tracking": 2
+   },
+   "emdash": 43,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/forge-cut.html": {
+   "detector": 109,
+   "rules": {
+    "all-caps-body": 5,
+    "cramped-padding": 1,
+    "design-system-font": 1,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 19,
+    "tiny-text": 15,
+    "undersized-ui-text": 67
+   },
+   "emdash": 0,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/forge-pattern.html": {
+   "detector": 162,
+   "rules": {
+    "all-caps-body": 11,
+    "cramped-padding": 1,
+    "design-system-font": 1,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 66,
+    "tiny-text": 15,
+    "undersized-ui-text": 65,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 2
+  },
+  "public/fun-resume-viewer.html": {
+   "detector": 1,
+   "rules": {
+    "design-system-font": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/fun.html": {
+   "detector": 15,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 2,
+    "undersized-ui-text": 10,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/gauntlet-log.html": {
+   "detector": 12,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 2,
+    "design-system-font": 5,
+    "side-tab": 3,
+    "skipped-heading": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/germinate.html": {
+   "detector": 21,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 4,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 2,
+    "overused-font": 1,
+    "undersized-ui-text": 8
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-agent-receipts-audit.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-case-reader-who-remembered.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-case-six-week-outage.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-copypasta.html": {
+   "detector": 4,
+   "rules": {
+    "design-system-font": 3,
+    "skipped-heading": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-fears.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-instruments.html": {
+   "detector": 30,
+   "rules": {
+    "all-caps-body": 4,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "overused-font": 1,
+    "tiny-text": 6,
+    "undersized-ui-text": 11
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-series-lore-the-gap.html": {
+   "detector": 19,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 2,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 7,
+    "skipped-heading": 1,
+    "undersized-ui-text": 1,
+    "wide-tracking": 6
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-series-lore.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good-series-receipts.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/good.html": {
+   "detector": 39,
+   "rules": {
+    "all-caps-body": 4,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "overused-font": 1,
+    "tiny-text": 7,
+    "undersized-ui-text": 19
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/growth-ai-observatory.html": {
+   "detector": 84,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 6,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "side-tab": 6,
+    "tiny-text": 20,
+    "undersized-ui-text": 44
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/growth-ai-resume-viewer.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 2,
+    "low-contrast": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/growth-ai.html": {
+   "detector": 20,
+   "rules": {
+    "all-caps-body": 3,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 3,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 4
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/honest.html": {
+   "detector": 2,
+   "rules": {
+    "design-system-font": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/jack-rain-ext.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/joe-ext.html": {
+   "detector": 17,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 1,
+    "kicker-above-heading": 1,
+    "tiny-text": 5,
+    "undersized-ui-text": 7,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/joe.html": {
+   "detector": 47,
+   "rules": {
+    "all-caps-body": 8,
+    "border-accent-on-rounded": 3,
+    "cramped-padding": 2,
+    "dark-glow": 1,
+    "design-system-font": 2,
+    "pulsing-dot": 1,
+    "side-tab": 6,
+    "skipped-heading": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 22
+   },
+   "emdash": 0,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/julia-ext.html": {
+   "detector": 244,
+   "rules": {
+    "all-caps-body": 13,
+    "aphoristic-cadence": 1,
+    "cramped-padding": 4,
+    "dark-glow": 10,
+    "design-system-font": 1,
+    "low-contrast": 107,
+    "tiny-text": 21,
+    "undersized-ui-text": 86,
+    "wide-tracking": 1
+   },
+   "emdash": 102,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/julia-runtime.html": {
+   "detector": 11,
+   "rules": {
+    "low-contrast": 9,
+    "undersized-ui-text": 2
+   },
+   "emdash": 2,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/julia.html": {
+   "detector": 524,
+   "rules": {
+    "all-caps-body": 24,
+    "aphoristic-cadence": 1,
+    "cramped-padding": 9,
+    "dark-glow": 17,
+    "low-contrast": 208,
+    "side-tab": 21,
+    "tiny-text": 10,
+    "undersized-ui-text": 232,
+    "wide-tracking": 2
+   },
+   "emdash": 180,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/kam-codex.html": {
+   "detector": 70,
+   "rules": {
+    "all-caps-body": 2,
+    "design-system-font": 3,
+    "skipped-heading": 1,
+    "tiny-text": 6,
+    "undersized-ui-text": 53,
+    "wide-tracking": 5
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/kiko.html": {
+   "detector": 48,
+   "rules": {
+    "all-caps-body": 5,
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "kicker-above-heading": 6,
+    "side-tab": 10,
+    "tiny-text": 2,
+    "undersized-ui-text": 20,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/lewoof-intake.html": {
+   "detector": 13,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 4,
+    "low-contrast": 2,
+    "tiny-text": 2,
+    "undersized-ui-text": 4
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/lewoof-playbook.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/louisville.html": {
+   "detector": 17,
+   "rules": {
+    "design-system-font": 2,
+    "low-contrast": 4,
+    "tight-leading": 1,
+    "wide-tracking": 10
+   },
+   "emdash": 0,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/mercury-operator.html": {
+   "detector": 19,
+   "rules": {
+    "all-caps-body": 2,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 3,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 4
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/mercury.html": {
+   "detector": 159,
+   "rules": {
+    "all-caps-body": 10,
+    "aphoristic-cadence": 1,
+    "border-accent-on-rounded": 3,
+    "clipped-overflow-container": 2,
+    "dark-glow": 1,
+    "design-system-font": 2,
+    "layout-transition": 11,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "side-tab": 22,
+    "skipped-heading": 2,
+    "tiny-text": 3,
+    "undersized-ui-text": 97,
+    "wide-tracking": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/monolith.html": {
+   "detector": 132,
+   "rules": {
+    "all-caps-body": 11,
+    "clipped-overflow-container": 3,
+    "cramped-padding": 1,
+    "design-system-font": 1,
+    "hero-eyebrow-chip": 1,
+    "tiny-text": 41,
+    "undersized-ui-text": 48,
+    "wide-tracking": 26
+   },
+   "emdash": 16,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/monstro-cover.html": {
+   "detector": 23,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 2,
+    "low-contrast": 1,
+    "overused-font": 1,
+    "tiny-text": 11,
+    "undersized-ui-text": 7
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/monstro-full.html": {
+   "detector": 33,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 19,
+    "overused-font": 1,
+    "undersized-ui-text": 8
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/monstro-resume.html": {
+   "detector": 85,
+   "rules": {
+    "all-caps-body": 4,
+    "design-system-font": 2,
+    "low-contrast": 6,
+    "overused-font": 1,
+    "tiny-text": 37,
+    "undersized-ui-text": 35
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/monstro.html": {
+   "detector": 11,
+   "rules": {
+    "all-caps-body": 2,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 1,
+    "overused-font": 1,
+    "tiny-text": 1,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/omakase/atom.html": {
+   "detector": 119,
+   "rules": {
+    "all-caps-body": 4,
+    "dark-glow": 1,
+    "design-system-font": 2,
+    "flat-type-hierarchy": 1,
+    "hero-eyebrow-chip": 1,
+    "skipped-heading": 3,
+    "tiny-text": 21,
+    "undersized-ui-text": 70,
+    "wide-tracking": 16
+   },
+   "emdash": 0,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/omakase/index.html": {
+   "detector": 118,
+   "rules": {
+    "dark-glow": 1,
+    "design-system-font": 3,
+    "layout-transition": 11,
+    "low-contrast": 3,
+    "tiny-text": 27,
+    "undersized-ui-text": 30,
+    "wide-tracking": 43
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/pf-12d-orbital.html": {
+   "detector": 38,
+   "rules": {
+    "all-caps-body": 2,
+    "clipped-overflow-container": 1,
+    "tiny-text": 12,
+    "undersized-ui-text": 14,
+    "wide-tracking": 9
+   },
+   "emdash": 15,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/pf-alexandria.html": {
+   "detector": 14,
+   "rules": {
+    "tiny-text": 5,
+    "undersized-ui-text": 4,
+    "wide-tracking": 5
+   },
+   "emdash": 3,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/pf-decision-geometry.html": {
+   "detector": 3,
+   "rules": {
+    "all-caps-body": 2,
+    "undersized-ui-text": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/pf-knowledge-lattice.html": {
+   "detector": 26,
+   "rules": {
+    "all-caps-body": 3,
+    "tiny-text": 6,
+    "undersized-ui-text": 11,
+    "wide-tracking": 6
+   },
+   "emdash": 16,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/pf-moire.html": {
+   "detector": 18,
+   "rules": {
+    "tiny-text": 6,
+    "undersized-ui-text": 6,
+    "wide-tracking": 6
+   },
+   "emdash": 3,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/playground.html": {
+   "detector": 79,
+   "rules": {
+    "all-caps-body": 9,
+    "cramped-padding": 2,
+    "dark-glow": 6,
+    "design-system-font": 1,
+    "hero-eyebrow-chip": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "tiny-text": 18,
+    "undersized-ui-text": 40
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-atlas.html": {
+   "detector": 19,
+   "rules": {
+    "cramped-padding": 1,
+    "design-system-font": 3,
+    "low-contrast": 8,
+    "wide-tracking": 7
+   },
+   "emdash": 7,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-build.html": {
+   "detector": 5,
+   "rules": {
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "low-contrast": 2
+   },
+   "emdash": 4,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-catchup.html": {
+   "detector": 35,
+   "rules": {
+    "all-caps-body": 2,
+    "cramped-padding": 4,
+    "design-system-font": 2,
+    "low-contrast": 13,
+    "tiny-text": 1,
+    "undersized-ui-text": 13
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-crm.html": {
+   "detector": 13,
+   "rules": {
+    "cramped-padding": 3,
+    "design-system-font": 2,
+    "low-contrast": 8
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-progress.html": {
+   "detector": 9,
+   "rules": {
+    "all-caps-body": 3,
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "low-contrast": 2,
+    "undersized-ui-text": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-receipt.html": {
+   "detector": 17,
+   "rules": {
+    "all-caps-body": 5,
+    "design-system-font": 2,
+    "low-contrast": 10
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-runbook.html": {
+   "detector": 34,
+   "rules": {
+    "all-caps-body": 3,
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "low-contrast": 23,
+    "side-tab": 5
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-tidio.html": {
+   "detector": 26,
+   "rules": {
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "low-contrast": 20,
+    "undersized-ui-text": 3
+   },
+   "emdash": 17,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/prl-status-troubleshooting.html": {
+   "detector": 12,
+   "rules": {
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "low-contrast": 9
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/rayan.html": {
+   "detector": 14,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 3,
+    "pulsing-dot": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 5,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/recruithaus-ammo.html": {
+   "detector": 19,
+   "rules": {
+    "all-caps-body": 2,
+    "design-system-font": 2,
+    "low-contrast": 10,
+    "overused-font": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/recruithaus.html": {
+   "detector": 23,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 11,
+    "overused-font": 1,
+    "tiny-text": 3,
+    "undersized-ui-text": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/resume-google-gtm.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 2,
+    "marquee": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/resume-tailor.html": {
+   "detector": 26,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 7,
+    "overused-font": 1,
+    "undersized-ui-text": 9
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/resume.html": {
+   "detector": 3,
+   "rules": {
+    "design-system-font": 2,
+    "marquee": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/robin-codex.html": {
+   "detector": 60,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 3,
+    "skipped-heading": 1,
+    "tiny-text": 8,
+    "undersized-ui-text": 41,
+    "wide-tracking": 6
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/robin-profile.html": {
+   "detector": 70,
+   "rules": {
+    "all-caps-body": 2,
+    "border-accent-on-rounded": 9,
+    "design-system-font": 3,
+    "tiny-text": 6,
+    "undersized-ui-text": 47,
+    "wide-tracking": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/robin-receipt.html": {
+   "detector": 98,
+   "rules": {
+    "all-caps-body": 13,
+    "design-system-font": 3,
+    "skipped-heading": 1,
+    "tiny-text": 8,
+    "undersized-ui-text": 66,
+    "wide-tracking": 7
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/robin.html": {
+   "detector": 98,
+   "rules": {
+    "all-caps-body": 1,
+    "border-accent-on-rounded": 7,
+    "design-system-font": 3,
+    "pulsing-dot": 1,
+    "tiny-text": 6,
+    "undersized-ui-text": 67,
+    "wide-tracking": 13
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/rosetta-shell.html": {
+   "detector": 21,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 4,
+    "design-system-font": 2,
+    "gradient-text": 2,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 2,
+    "overused-font": 1,
+    "undersized-ui-text": 8
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/saul-followup.html": {
+   "detector": 15,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 5,
+    "overused-font": 1,
+    "side-tab": 6,
+    "tight-leading": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/saul-resume-viewer.html": {
+   "detector": 5,
+   "rules": {
+    "design-system-font": 3,
+    "low-contrast": 1,
+    "tiny-text": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/saul.html": {
+   "detector": 5,
+   "rules": {
+    "design-system-font": 5
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/schriner-ammo.html": {
+   "detector": 13,
+   "rules": {
+    "all-caps-body": 2,
+    "cramped-padding": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 3,
+    "overused-font": 1,
+    "undersized-ui-text": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/schriner-ext.html": {
+   "detector": 7,
+   "rules": {
+    "design-system-font": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 5
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/schriner-resume-viewer.html": {
+   "detector": 1,
+   "rules": {
+    "low-contrast": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/schriner-vico.html": {
+   "detector": 166,
+   "rules": {
+    "all-caps-body": 5,
+    "cramped-padding": 5,
+    "design-system-font": 2,
+    "low-contrast": 13,
+    "overused-font": 1,
+    "tiny-text": 67,
+    "undersized-ui-text": 73
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/schriner.html": {
+   "detector": 18,
+   "rules": {
+    "all-caps-body": 1,
+    "cramped-padding": 2,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 3,
+    "overused-font": 1,
+    "undersized-ui-text": 7
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-arcs-demo.html": {
+   "detector": 47,
+   "rules": {
+    "all-caps-body": 5,
+    "design-system-font": 2,
+    "flat-type-hierarchy": 1,
+    "side-tab": 8,
+    "tiny-text": 3,
+    "undersized-ui-text": 27,
+    "wide-tracking": 1
+   },
+   "emdash": 4,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-attraction-field.html": {
+   "detector": 36,
+   "rules": {
+    "all-caps-body": 4,
+    "cramped-padding": 2,
+    "design-system-font": 2,
+    "kicker-above-heading": 6,
+    "side-tab": 5,
+    "undersized-ui-text": 16,
+    "wide-tracking": 1
+   },
+   "emdash": 18,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-codex.html": {
+   "detector": 54,
+   "rules": {
+    "all-caps-body": 1,
+    "side-tab": 21,
+    "undersized-ui-text": 32
+   },
+   "emdash": 15,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-cut.html": {
+   "detector": 145,
+   "rules": {
+    "all-caps-body": 8,
+    "aphoristic-cadence": 1,
+    "border-accent-on-rounded": 3,
+    "clipped-overflow-container": 2,
+    "dark-glow": 1,
+    "design-system-font": 2,
+    "layout-transition": 10,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "side-tab": 18,
+    "skipped-heading": 2,
+    "tiny-text": 3,
+    "undersized-ui-text": 92,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-profile.html": {
+   "detector": 12,
+   "rules": {
+    "all-caps-body": 2,
+    "border-accent-on-rounded": 2,
+    "tiny-text": 2,
+    "undersized-ui-text": 6
+   },
+   "emdash": 10,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-receipt.html": {
+   "detector": 8,
+   "rules": {
+    "all-caps-body": 3,
+    "undersized-ui-text": 5
+   },
+   "emdash": 10,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-signal.html": {
+   "detector": 26,
+   "rules": {
+    "all-caps-body": 7,
+    "undersized-ui-text": 19
+   },
+   "emdash": 23,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott-teardown.html": {
+   "detector": 38,
+   "rules": {
+    "all-caps-body": 5,
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "kicker-above-heading": 5,
+    "side-tab": 8,
+    "undersized-ui-text": 16,
+    "wide-tracking": 1
+   },
+   "emdash": 25,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scott.html": {
+   "detector": 20,
+   "rules": {
+    "all-caps-body": 4,
+    "design-system-font": 2,
+    "side-tab": 7,
+    "undersized-ui-text": 7
+   },
+   "emdash": 19,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/scottwitt-cc-teardown.html": {
+   "detector": 39,
+   "rules": {
+    "all-caps-body": 7,
+    "cramped-padding": 2,
+    "design-system-font": 2,
+    "kicker-above-heading": 2,
+    "side-tab": 7,
+    "undersized-ui-text": 18,
+    "wide-tracking": 1
+   },
+   "emdash": 24,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/sentilink-operator.html": {
+   "detector": 23,
+   "rules": {
+    "all-caps-body": 6,
+    "dark-glow": 3,
+    "design-system-font": 2,
+    "gradient-text": 3,
+    "hero-eyebrow-chip": 1,
+    "low-contrast": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "tiny-text": 1,
+    "undersized-ui-text": 4
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/sentilink.html": {
+   "detector": 159,
+   "rules": {
+    "all-caps-body": 11,
+    "border-accent-on-rounded": 3,
+    "clipped-overflow-container": 2,
+    "dark-glow": 1,
+    "design-system-font": 2,
+    "layout-transition": 11,
+    "marketing-buzzword": 1,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "side-tab": 22,
+    "skipped-heading": 2,
+    "tiny-text": 2,
+    "undersized-ui-text": 98,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/squad-battlecard.html": {
+   "detector": 11,
+   "rules": {
+    "all-caps-body": 1,
+    "dark-glow": 6,
+    "design-system-font": 2,
+    "overused-font": 1,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/squad-resume.html": {
+   "detector": 88,
+   "rules": {
+    "all-caps-body": 5,
+    "design-system-font": 2,
+    "overused-font": 1,
+    "tiny-text": 34,
+    "undersized-ui-text": 46
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/squad.html": {
+   "detector": 8,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 2,
+    "undersized-ui-text": 5
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/status.html": {
+   "detector": 370,
+   "rules": {
+    "all-caps-body": 8,
+    "border-accent-on-rounded": 4,
+    "cramped-padding": 2,
+    "dark-glow": 4,
+    "design-system-font": 2,
+    "overused-font": 1,
+    "pulsing-dot": 3,
+    "side-tab": 9,
+    "tiny-text": 52,
+    "undersized-ui-text": 271,
+    "wide-tracking": 14
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/success-academy-resume-viewer.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/success-academy.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/thetrueai-proposal.html": {
+   "detector": 16,
+   "rules": {
+    "all-caps-body": 2,
+    "design-system-font": 2,
+    "side-tab": 2,
+    "skipped-heading": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 4,
+    "wide-tracking": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/thetrueai.html": {
+   "detector": 59,
+   "rules": {
+    "all-caps-body": 5,
+    "cramped-padding": 1,
+    "design-system-font": 2,
+    "kicker-above-heading": 9,
+    "side-tab": 14,
+    "tiny-text": 2,
+    "undersized-ui-text": 24,
+    "wide-tracking": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/todd-call.html": {
+   "detector": 54,
+   "rules": {
+    "all-caps-body": 4,
+    "design-system-font": 3,
+    "kicker-above-heading": 3,
+    "low-contrast": 32,
+    "side-tab": 5,
+    "skipped-heading": 1,
+    "tiny-text": 3,
+    "wide-tracking": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/todd-logictree.html": {
+   "detector": 54,
+   "rules": {
+    "all-caps-body": 3,
+    "cramped-padding": 3,
+    "dark-glow": 2,
+    "tiny-text": 9,
+    "undersized-ui-text": 34,
+    "wide-tracking": 3
+   },
+   "emdash": 0,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/todd-teardown.html": {
+   "detector": 108,
+   "rules": {
+    "all-caps-body": 6,
+    "cramped-padding": 2,
+    "tiny-text": 5,
+    "undersized-ui-text": 95
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/vico-ammo.html": {
+   "detector": 28,
+   "rules": {
+    "all-caps-body": 3,
+    "cramped-padding": 1,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 10,
+    "overused-font": 1,
+    "undersized-ui-text": 9
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/vico-resume.html": {
+   "detector": 168,
+   "rules": {
+    "all-caps-body": 5,
+    "cramped-padding": 5,
+    "design-system-font": 2,
+    "low-contrast": 13,
+    "overused-font": 1,
+    "tiny-text": 69,
+    "undersized-ui-text": 73
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/vico.html": {
+   "detector": 19,
+   "rules": {
+    "cramped-padding": 4,
+    "dark-glow": 2,
+    "design-system-font": 2,
+    "low-contrast": 8,
+    "overused-font": 1,
+    "undersized-ui-text": 2
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/vishal-combined.html": {
+   "detector": 226,
+   "rules": {
+    "all-caps-body": 11,
+    "design-system-font": 1,
+    "kicker-above-heading": 7,
+    "low-contrast": 17,
+    "overused-font": 1,
+    "side-tab": 19,
+    "tiny-text": 2,
+    "undersized-ui-text": 168
+   },
+   "emdash": 201,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/wing.html": {
+   "detector": 174,
+   "rules": {
+    "all-caps-body": 10,
+    "border-accent-on-rounded": 3,
+    "clipped-overflow-container": 2,
+    "dark-glow": 1,
+    "design-system-font": 2,
+    "layout-transition": 11,
+    "overused-font": 1,
+    "pulsing-dot": 1,
+    "side-tab": 30,
+    "skipped-heading": 2,
+    "tiny-text": 2,
+    "undersized-ui-text": 108,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/yuri-codex.html": {
+   "detector": 49,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 3,
+    "skipped-heading": 1,
+    "tiny-text": 6,
+    "undersized-ui-text": 33,
+    "wide-tracking": 5
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/yuri-diamond.html": {
+   "detector": 20,
+   "rules": {
+    "all-caps-body": 4,
+    "design-system-font": 3,
+    "undersized-ui-text": 13
+   },
+   "emdash": 0,
+   "wrap": 1,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/yuri-profile.html": {
+   "detector": 44,
+   "rules": {
+    "all-caps-body": 2,
+    "border-accent-on-rounded": 8,
+    "design-system-font": 3,
+    "tiny-text": 3,
+    "undersized-ui-text": 27,
+    "wide-tracking": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/yuri-receipt.html": {
+   "detector": 85,
+   "rules": {
+    "all-caps-body": 11,
+    "design-system-font": 3,
+    "skipped-heading": 1,
+    "tiny-text": 8,
+    "undersized-ui-text": 56,
+    "wide-tracking": 6
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "public/yuri.html": {
+   "detector": 18,
+   "rules": {
+    "all-caps-body": 1,
+    "design-system-font": 3,
+    "pulsing-dot": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 8,
+    "wide-tracking": 3
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 1,
+   "leak": null,
+   "retired_color": 0
+  },
+  "runtime/warroom/brooks.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "runtime/warroom/jack-rain.html": {
+   "detector": 0,
+   "rules": {},
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "runtime/warroom/lyndon-war.html": {
+   "detector": 48,
+   "rules": {
+    "design-system-font": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 45
+   },
+   "emdash": 1,
+   "wrap": 1,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  },
+  "runtime/warroom/surfaces.html": {
+   "detector": 1,
+   "rules": {
+    "overused-font": 1
+   },
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
+   "leak": null,
+   "retired_color": 0
+  }
+ }
+}

@@ -22,6 +22,20 @@
   machine that has it.
 
 
+## 2026-10-08 · Every page surfaces.arcs.care serves: retired greys swapped, design-debt burn-down baselined
+
+Found by: the first full sweep of the 179 served static pages with the repo's own gates plus the Impeccable
+detector: 7,022 detector findings on 127 pages, 774 visible em-dashes on 26, 32 wrap failures, 72 token-gate
+failures. Half the 1,476 contrast failures were two hex literals DESIGN.md retired on 2026-10-04 (`#64748b`,
+`#475569`, 4.3:1 and 2.7:1 on `#020408`), hardcoded in pages that redeclare the palette instead of inheriting
+tokens. Done goal (Zach): every served page clean except reasoned exemptions.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Retired greys as text color in 58 pages (89 CSS declarations) plus 64 SVG text fills in 12 | sweep + detector contrast breakdown | Swapped to `#8391a7` / `#7a8699` (DESIGN.md text-dimmed / text-muted). Contrast findings 1,476 -> 773; every other rule's count unchanged. Strokes and data attributes left as they were | design-debt ratchet in `scripts/git-hooks/pre-commit`: a staged served page fails on any retired grey, and on any rise in detector, em-dash, wrap, token or leak counts against the committed per-page baseline. Proven failing on a planted regression |
+| 3 | `public/forge-pattern.html` mixes light and dark surfaces: the old greys passed on white (4.8:1) and failed on dark; the new greys do the reverse, so the swap moved it 162 -> 169 findings | per-page before/after detector diff of every swapped page (52 down, 4 same, 1 up) | Swap reverted on that page; it needs separate light-surface and dark-surface greys | residue, in the tracker; the ratchet stops it getting worse |
+| 2 | Debt had no measure, so nothing could show it shrinking | the sweep itself | Per-page baseline committed at `runtime/specs/design-debt-baseline.json`: 6,319 detector, 774 em-dash, 32 wrap, 72 token; 51 of 179 pages fully clean | the same ratchet; burn-down report via the sweep's `--report` |
+
 ## 2026-10-07 · surfaces.arcs.care (public/surfaces.html, generated): first cut blocked at 23 findings, repaired to 0 + 1 scoped exemption
 
 Found by: the pre-commit kintsugi gate on the page's first commit (a new file blocks on any finding).
