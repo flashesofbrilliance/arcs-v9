@@ -72,6 +72,11 @@ def theme_vars(group):
     )
 
 
+# The kit tokens, inlined verbatim (sentinel kept) ahead of the house style so every rendered page
+# inherits one palette instead of re-authoring it (token_source_gate; seam ledger 2026-10-08).
+_TOKENS_PATH = os.path.join(ROOT, "src", "ui-kit", "recoil-report", "_tokens.css")
+# Tolerant read: the argument-guard self-test runs in a scratch dir without the kit (it renders nothing).
+TOKENS_CSS = open(_TOKENS_PATH, encoding="utf-8").read().rstrip() if os.path.exists(_TOKENS_PATH) else ""
 # ---- frozen house style: <style> block from resume-tailor.html, accents lifted to vars ----
 CSS = """  :root{
     /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
@@ -257,6 +262,7 @@ def render(repo, data, row):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+{TOKENS_CSS}
 {CSS}
   :root{{{theme_vars(data.get('group','skill'))}}}
 </style>
@@ -629,6 +635,7 @@ def render_gallery(ssot, blob):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+{TOKENS_CSS}
 {CSS}
 {GAL_CSS}
 </style>

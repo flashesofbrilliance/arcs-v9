@@ -22,6 +22,19 @@
   machine that has it.
 
 
+## 2026-10-08 · Token-gate migration: 66 served pages now inherit `_tokens.css`; 6 remain
+
+Found by: the served-page sweep (72 pages painted ARCS signal colors under their own variable names without
+inheriting the kit tokens, so the palette lived in dozens of places and drifted: the retired greys were the
+visible symptom).
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | 72 pages re-authored the palette | token gate over every served page | `_tokens.css` inlined verbatim (sentinel kept) at the top of each page's first style block; each locally named signal variable rewritten to reference the canonical one (`--accent: var(--cyan)`), same color, one source. Verified: 63 pages pixel-identical at 1280; 3 live pages (build, status, pf-moire) differ from themselves between loads, and their computed color, background, border and font are identical on every element | token gate (pre-commit, new pages) + the design-debt ratchet (served pages may not rise) |
+| 2 | monstro-full and recruithaus define their own `--green` (`#0a8f5e`, a light theme), so `--greenlt: var(--green)` resolved to it and changed color | pixel diff, then a scan for canon names a page redefines | Reverted; residue | the conflict scan, run before any future rewrite |
+| 3 | joe.html changed pixels for a reason not isolated | pixel diff | Reverted; residue | inspection round |
+| 4 | blog-til-a-draft-is-not-a-verb carries the token sentinel with its em-dash swapped for a hyphen, so the gate no longer recognizes it; it is a light-theme page. The sentinel line itself contains an em-dash, which the no-em-dash rule bans: two rules collide | gate output | Not repaired: the sentinel needs an em-dash-free form recognized by the gate (a rule change) | open contradiction, in the tracker |
+
 ## 2026-10-08 · Functional text floor raised to 11px everywhere; DESIGN.md trued up (first formal refresh since 2026-08-01)
 
 Found by: the served-page sweep. About 1,900 of the 6,312 detector findings were 10px text, the DESIGN.md
