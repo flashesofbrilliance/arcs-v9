@@ -1,10 +1,16 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+
+// jsx-a11y recommended (2026-10-08), at WARN while the 27 existing findings burn down; a rule moves to
+// "error" once its count is zero. Ships with eslint-config-next, so no new dependency.
+const a11yWarn = Object.fromEntries(Object.keys(jsxA11y.flatConfigs.recommended.rules).map((r) => [r, "warn"]));
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  { files: ["src/**/*.tsx"], rules: a11yWarn },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

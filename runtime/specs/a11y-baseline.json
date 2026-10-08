@@ -1,0 +1,1164 @@
+{
+ "version": "0.1.0",
+ "tags": [
+  "wcag2a",
+  "wcag2aa",
+  "wcag21a",
+  "wcag21aa",
+  "wcag22aa"
+ ],
+ "totals": {
+  "violations": 145,
+  "nodes": 1060,
+  "clean": 73,
+  "pages": 179
+ },
+ "pages": {
+  "public/ahmed-evening.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/ahmed-ext.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/ahmed-seed.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/ahmed.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/arcs-field-scan.html": {
+   "violations": 2,
+   "nodes": 7,
+   "rules": {
+    "color-contrast": 6,
+    "link-in-text-block": 1
+   }
+  },
+  "public/autopilot-ammo.html": {
+   "violations": 1,
+   "nodes": 4,
+   "rules": {
+    "color-contrast": 4
+   }
+  },
+  "public/autopilot-resume-viewer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/autopilot.html": {
+   "violations": 1,
+   "nodes": 6,
+   "rules": {
+    "color-contrast": 6
+   }
+  },
+  "public/ayesha-ext.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/belief-log.html": {
+   "violations": 1,
+   "nodes": 42,
+   "rules": {
+    "aria-prohibited-attr": 42
+   }
+  },
+  "public/blacksmith-observatory.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blacksmith-resume-viewer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blacksmith.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-a-draft-is-not-a-verb.html": {
+   "violations": 2,
+   "nodes": 7,
+   "rules": {
+    "color-contrast": 6,
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-any-stranger-can-be-a-bar-raiser.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-assets-and-liabilities.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-cheapest-edit-is-a-diff.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-closing-the-loop-receipts.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-confirmed-not-my-bug.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-four-dates-one-thesis-three-confirmations.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-index.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-ledger-not-story.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "color-contrast": 1
+   }
+  },
+  "public/blog-nftt-light-at-thirty-eight-miles-an-hour-research.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-light-at-thirty-eight-miles-an-hour.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-loop-hud.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-notomation.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-post-1.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-post-2.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-post-3.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-post-4.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-probably-confirmation-bias.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-pulp-governance.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "color-contrast": 1
+   }
+  },
+  "public/blog-nftt-receipts-or-it-didnt-happen.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-recon-report-cold-1.html": {
+   "violations": 1,
+   "nodes": 6,
+   "rules": {
+    "aria-prohibited-attr": 6
+   }
+  },
+  "public/blog-nftt-recon-report-cold-2.html": {
+   "violations": 1,
+   "nodes": 4,
+   "rules": {
+    "aria-prohibited-attr": 4
+   }
+  },
+  "public/blog-nftt-recon-report-warm-matched.html": {
+   "violations": 1,
+   "nodes": 6,
+   "rules": {
+    "aria-prohibited-attr": 6
+   }
+  },
+  "public/blog-nftt-recon-report-warm-relaxed.html": {
+   "violations": 1,
+   "nodes": 5,
+   "rules": {
+    "aria-prohibited-attr": 5
+   }
+  },
+  "public/blog-nftt-schematic-scaffolds.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-second-pass.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "color-contrast": 1
+   }
+  },
+  "public/blog-nftt-seven-calls-seven-falsifiers.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-take-home-trap-dossier.html": {
+   "violations": 2,
+   "nodes": 36,
+   "rules": {
+    "color-contrast": 34,
+    "scrollable-region-focusable": 2
+   }
+  },
+  "public/blog-nftt-take-home-trap.html": {
+   "violations": 2,
+   "nodes": 2,
+   "rules": {
+    "aria-prohibited-attr": 1,
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-the-cold-reconstruction.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-the-control-and-the-experiment.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-the-factory-on-itself.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-the-instinct-before-it-had-a-name.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-the-lock-that-was-already-there.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-the-loop-closes.html": {
+   "violations": 2,
+   "nodes": 2,
+   "rules": {
+    "html-has-lang": 1,
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-the-method-that-was-already-built.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-the-pre-mortem-that-asked-to-be-wrong.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-the-question-that-found-the-outage.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/blog-nftt-the-same-rigor-applied-to-slang.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-the-video-that-said-too-much.html": {
+   "violations": 2,
+   "nodes": 2,
+   "rules": {
+    "color-contrast": 1,
+    "html-has-lang": 1
+   }
+  },
+  "public/blog-nftt-tuning-into-the-distortion-field.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-til-a-draft-is-not-a-verb.html": {
+   "violations": 1,
+   "nodes": 20,
+   "rules": {
+    "color-contrast": 20
+   }
+  },
+  "public/blog-til-apple-openai.html": {
+   "violations": 1,
+   "nodes": 30,
+   "rules": {
+    "color-contrast": 30
+   }
+  },
+  "public/blog-til-closing-the-loop.html": {
+   "violations": 1,
+   "nodes": 27,
+   "rules": {
+    "color-contrast": 27
+   }
+  },
+  "public/blog-til-index.html": {
+   "violations": 1,
+   "nodes": 5,
+   "rules": {
+    "color-contrast": 5
+   }
+  },
+  "public/blog-til-zim.html": {
+   "violations": 1,
+   "nodes": 12,
+   "rules": {
+    "color-contrast": 12
+   }
+  },
+  "public/build.html": {
+   "violations": 1,
+   "nodes": 5,
+   "rules": {
+    "link-in-text-block": 5
+   }
+  },
+  "public/case-study.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/chan.html": {
+   "violations": 1,
+   "nodes": 4,
+   "rules": {
+    "color-contrast": 4
+   }
+  },
+  "public/claritai.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/compass-kit/index.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/conduit-case-study.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/conduit-resume-viewer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/conduit.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/daniel.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "meta-viewport": 1
+   }
+  },
+  "public/forge-cut.html": {
+   "violations": 3,
+   "nodes": 10,
+   "rules": {
+    "color-contrast": 8,
+    "document-title": 1,
+    "html-has-lang": 1
+   }
+  },
+  "public/forge-pattern.html": {
+   "violations": 3,
+   "nodes": 26,
+   "rules": {
+    "color-contrast": 24,
+    "document-title": 1,
+    "html-has-lang": 1
+   }
+  },
+  "public/fun-resume-viewer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/fun.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/gauntlet-log.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/germinate.html": {
+   "violations": 2,
+   "nodes": 8,
+   "rules": {
+    "color-contrast": 7,
+    "link-in-text-block": 1
+   }
+  },
+  "public/good-agent-receipts-audit.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/good-case-reader-who-remembered.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "color-contrast": 1
+   }
+  },
+  "public/good-case-six-week-outage.html": {
+   "violations": 1,
+   "nodes": 10,
+   "rules": {
+    "color-contrast": 10
+   }
+  },
+  "public/good-copypasta.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/good-fears.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/good-instruments.html": {
+   "violations": 2,
+   "nodes": 6,
+   "rules": {
+    "color-contrast": 5,
+    "link-in-text-block": 1
+   }
+  },
+  "public/good-series-lore-the-gap.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "html-has-lang": 1
+   }
+  },
+  "public/good-series-lore.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/good-series-receipts.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/good.html": {
+   "violations": 2,
+   "nodes": 9,
+   "rules": {
+    "color-contrast": 7,
+    "link-in-text-block": 2
+   }
+  },
+  "public/growth-ai-observatory.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/growth-ai-resume-viewer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/growth-ai.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/honest.html": {
+   "violations": 1,
+   "nodes": 5,
+   "rules": {
+    "aria-prohibited-attr": 5
+   }
+  },
+  "public/jack-rain-ext.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/joe-ext.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/joe.html": {
+   "violations": 2,
+   "nodes": 2,
+   "rules": {
+    "nested-interactive": 1,
+    "scrollable-region-focusable": 1
+   }
+  },
+  "public/julia-ext.html": {
+   "violations": 2,
+   "nodes": 108,
+   "rules": {
+    "color-contrast": 107,
+    "html-has-lang": 1
+   }
+  },
+  "public/julia-runtime.html": {
+   "violations": 2,
+   "nodes": 10,
+   "rules": {
+    "color-contrast": 9,
+    "meta-viewport": 1
+   }
+  },
+  "public/julia.html": {
+   "violations": 2,
+   "nodes": 16,
+   "rules": {
+    "color-contrast": 15,
+    "html-has-lang": 1
+   }
+  },
+  "public/kam-codex.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/kiko.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "meta-viewport": 1
+   }
+  },
+  "public/lewoof-intake.html": {
+   "violations": 3,
+   "nodes": 37,
+   "rules": {
+    "color-contrast": 20,
+    "html-has-lang": 1,
+    "label": 16
+   }
+  },
+  "public/lewoof-playbook.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/louisville.html": {
+   "violations": 2,
+   "nodes": 5,
+   "rules": {
+    "aria-hidden-focus": 2,
+    "aria-required-children": 3
+   }
+  },
+  "public/mercury-operator.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/mercury.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/monolith.html": {
+   "violations": 3,
+   "nodes": 12,
+   "rules": {
+    "aria-allowed-attr": 3,
+    "aria-required-children": 1,
+    "color-contrast": 8
+   }
+  },
+  "public/monstro-cover.html": {
+   "violations": 1,
+   "nodes": 5,
+   "rules": {
+    "color-contrast": 5
+   }
+  },
+  "public/monstro-full.html": {
+   "violations": 1,
+   "nodes": 23,
+   "rules": {
+    "color-contrast": 23
+   }
+  },
+  "public/monstro-resume.html": {
+   "violations": 1,
+   "nodes": 24,
+   "rules": {
+    "color-contrast": 24
+   }
+  },
+  "public/monstro.html": {
+   "violations": 1,
+   "nodes": 3,
+   "rules": {
+    "color-contrast": 3
+   }
+  },
+  "public/omakase/atom.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/omakase/index.html": {
+   "violations": 1,
+   "nodes": 2,
+   "rules": {
+    "color-contrast": 2
+   }
+  },
+  "public/pf-12d-orbital.html": {
+   "violations": 1,
+   "nodes": 3,
+   "rules": {
+    "select-name": 3
+   }
+  },
+  "public/pf-alexandria.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/pf-decision-geometry.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/pf-knowledge-lattice.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/pf-moire.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/playground.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/prl-status-atlas.html": {
+   "violations": 3,
+   "nodes": 12,
+   "rules": {
+    "color-contrast": 10,
+    "html-has-lang": 1,
+    "link-in-text-block": 1
+   }
+  },
+  "public/prl-status-build.html": {
+   "violations": 3,
+   "nodes": 12,
+   "rules": {
+    "color-contrast": 8,
+    "html-has-lang": 1,
+    "link-in-text-block": 3
+   }
+  },
+  "public/prl-status-catchup.html": {
+   "violations": 2,
+   "nodes": 26,
+   "rules": {
+    "color-contrast": 25,
+    "html-has-lang": 1
+   }
+  },
+  "public/prl-status-crm.html": {
+   "violations": 2,
+   "nodes": 5,
+   "rules": {
+    "color-contrast": 4,
+    "html-has-lang": 1
+   }
+  },
+  "public/prl-status-progress.html": {
+   "violations": 3,
+   "nodes": 18,
+   "rules": {
+    "color-contrast": 11,
+    "html-has-lang": 1,
+    "link-in-text-block": 6
+   }
+  },
+  "public/prl-status-receipt.html": {
+   "violations": 2,
+   "nodes": 15,
+   "rules": {
+    "color-contrast": 14,
+    "html-has-lang": 1
+   }
+  },
+  "public/prl-status-runbook.html": {
+   "violations": 2,
+   "nodes": 16,
+   "rules": {
+    "color-contrast": 15,
+    "html-has-lang": 1
+   }
+  },
+  "public/prl-status-tidio.html": {
+   "violations": 2,
+   "nodes": 15,
+   "rules": {
+    "color-contrast": 14,
+    "html-has-lang": 1
+   }
+  },
+  "public/prl-status-troubleshooting.html": {
+   "violations": 3,
+   "nodes": 10,
+   "rules": {
+    "color-contrast": 8,
+    "html-has-lang": 1,
+    "link-in-text-block": 1
+   }
+  },
+  "public/rayan.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/recruithaus-ammo.html": {
+   "violations": 1,
+   "nodes": 8,
+   "rules": {
+    "color-contrast": 8
+   }
+  },
+  "public/recruithaus.html": {
+   "violations": 1,
+   "nodes": 14,
+   "rules": {
+    "color-contrast": 14
+   }
+  },
+  "public/resume-google-gtm.html": {
+   "violations": 1,
+   "nodes": 38,
+   "rules": {
+    "color-contrast": 38
+   }
+  },
+  "public/resume-tailor.html": {
+   "violations": 2,
+   "nodes": 27,
+   "rules": {
+    "color-contrast": 26,
+    "link-in-text-block": 1
+   }
+  },
+  "public/resume.html": {
+   "violations": 1,
+   "nodes": 38,
+   "rules": {
+    "color-contrast": 38
+   }
+  },
+  "public/robin-codex.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/robin-profile.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/robin-receipt.html": {
+   "violations": 1,
+   "nodes": 2,
+   "rules": {
+    "label": 2
+   }
+  },
+  "public/robin.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/rosetta-shell.html": {
+   "violations": 2,
+   "nodes": 8,
+   "rules": {
+    "color-contrast": 7,
+    "link-in-text-block": 1
+   }
+  },
+  "public/saul-followup.html": {
+   "violations": 1,
+   "nodes": 49,
+   "rules": {
+    "color-contrast": 49
+   }
+  },
+  "public/saul-resume-viewer.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "color-contrast": 1
+   }
+  },
+  "public/saul.html": {
+   "violations": 1,
+   "nodes": 49,
+   "rules": {
+    "color-contrast": 49
+   }
+  },
+  "public/schriner-ammo.html": {
+   "violations": 1,
+   "nodes": 4,
+   "rules": {
+    "color-contrast": 4
+   }
+  },
+  "public/schriner-ext.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/schriner-resume-viewer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/schriner-vico.html": {
+   "violations": 2,
+   "nodes": 5,
+   "rules": {
+    "color-contrast": 3,
+    "target-size": 2
+   }
+  },
+  "public/schriner.html": {
+   "violations": 1,
+   "nodes": 6,
+   "rules": {
+    "color-contrast": 6
+   }
+  },
+  "public/scott-arcs-demo.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/scott-attraction-field.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/scott-codex.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/scott-cut.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/scott-profile.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/scott-receipt.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/scott-signal.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/scott-teardown.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/scott.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/scottwitt-cc-teardown.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/sentilink-operator.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "link-in-text-block": 1
+   }
+  },
+  "public/sentilink.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/squad-battlecard.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/squad-resume.html": {
+   "violations": 1,
+   "nodes": 11,
+   "rules": {
+    "color-contrast": 11
+   }
+  },
+  "public/squad.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/status.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/success-academy-resume-viewer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/success-academy.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/thetrueai-proposal.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "meta-viewport": 1
+   }
+  },
+  "public/thetrueai.html": {
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "meta-viewport": 1
+   }
+  },
+  "public/todd-call.html": {
+   "violations": 1,
+   "nodes": 40,
+   "rules": {
+    "color-contrast": 40
+   }
+  },
+  "public/todd-logictree.html": {
+   "violations": 1,
+   "nodes": 3,
+   "rules": {
+    "color-contrast": 3
+   }
+  },
+  "public/todd-teardown.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/vico-ammo.html": {
+   "violations": 1,
+   "nodes": 14,
+   "rules": {
+    "color-contrast": 14
+   }
+  },
+  "public/vico-resume.html": {
+   "violations": 2,
+   "nodes": 5,
+   "rules": {
+    "color-contrast": 3,
+    "target-size": 2
+   }
+  },
+  "public/vico.html": {
+   "violations": 1,
+   "nodes": 14,
+   "rules": {
+    "color-contrast": 14
+   }
+  },
+  "public/vishal-combined.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/wing.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/yuri-codex.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/yuri-diamond.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/yuri-profile.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/yuri-receipt.html": {
+   "violations": 1,
+   "nodes": 2,
+   "rules": {
+    "label": 2
+   }
+  },
+  "public/yuri.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "runtime/warroom/brooks.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "runtime/warroom/jack-rain.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "runtime/warroom/lyndon-war.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "runtime/warroom/surfaces.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  }
+ }
+}
