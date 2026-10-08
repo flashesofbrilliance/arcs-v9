@@ -81,7 +81,7 @@ TOKENS_CSS = open(_TOKENS_PATH, encoding="utf-8").read().rstrip() if os.path.exi
 CSS = """  :root{
     /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
     --bg:#020408;--surface:#0d1117;--elev:#131a24;--border:#1e293b;--border2:#2b3a4f;
-    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#8391a7;--fg4:#4a5a6d;
+    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#8391a7;--fg4:#7a8699;
     --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--btn2:#00c8dd;
     --glowA:rgba(0,240,255,.11);--glowB:rgba(0,255,157,.075);--kickbrd:rgba(0,240,255,.36);
     --btnglow:rgba(0,240,255,.5);--glowsoft:rgba(0,240,255,.25);--barbg:rgba(0,240,255,.045);

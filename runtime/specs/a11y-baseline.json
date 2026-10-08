@@ -8,8 +8,8 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 145,
-  "nodes": 1058,
+  "violations": 139,
+  "nodes": 963,
   "clean": 73,
   "pages": 179
  },
@@ -35,10 +35,9 @@
    "rules": {}
   },
   "public/arcs-field-scan.html": {
-   "violations": 2,
-   "nodes": 7,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 6,
     "link-in-text-block": 1
    }
   },
@@ -484,10 +483,9 @@
    "rules": {}
   },
   "public/germinate.html": {
-   "violations": 2,
-   "nodes": 8,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 7,
     "link-in-text-block": 1
    }
   },
@@ -521,10 +519,9 @@
    "rules": {}
   },
   "public/good-instruments.html": {
-   "violations": 2,
-   "nodes": 6,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 5,
     "link-in-text-block": 1
    }
   },
@@ -546,10 +543,9 @@
    "rules": {}
   },
   "public/good.html": {
-   "violations": 2,
-   "nodes": 9,
+   "violations": 1,
+   "nodes": 2,
    "rules": {
-    "color-contrast": 7,
     "link-in-text-block": 2
    }
   },
@@ -849,10 +845,9 @@
    }
   },
   "public/resume-tailor.html": {
-   "violations": 2,
-   "nodes": 27,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 26,
     "link-in-text-block": 1
    }
   },
@@ -886,10 +881,9 @@
    "rules": {}
   },
   "public/rosetta-shell.html": {
-   "violations": 2,
-   "nodes": 8,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 7,
     "link-in-text-block": 1
    }
   },
@@ -1064,9 +1058,9 @@
   },
   "public/todd-call.html": {
    "violations": 1,
-   "nodes": 40,
+   "nodes": 3,
    "rules": {
-    "color-contrast": 40
+    "color-contrast": 3
    }
   },
   "public/todd-logictree.html": {

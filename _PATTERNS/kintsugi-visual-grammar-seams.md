@@ -22,6 +22,18 @@
   machine that has it.
 
 
+## 2026-10-08 · Contrast, ranked by axe: dark-surface greys swapped on 7 pages; PRL named a sanctioned world; light pages need a rule
+
+Found by: axe color-contrast over every served page, failing pairs grouped by color. Two classes. A: greys too
+dark on dark surfaces (`#5b6675`, `#4a5a6d`, `#5b6b7d`, about 3:1). B: a light "paper" world (resumes, counterpart
+dossiers, TIL posts) failing on white with `#0089a8`, `#9ab0c8`, `#7a848e`; DESIGN.md does not sanction a light theme.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Class A greys as text on dark surfaces | axe pairs | Swapped to `#7a8699` (5.1 to 5.3:1 on the surfaces in use) on 7 pages; good.arcs.care via `connector_render.py --fg4`. WCAG nodes 1,058 -> 963; detector 4,049 -> 4,005 | both ratchets |
+| 2 | The same swap on the nine `prl-status-*` pages raised detector findings on seven and WCAG link-in-text-block on one (lighter body text sat too close to the link color) | the design and WCAG ratchets, on my own change | Reverted; PRL client pages added to DESIGN.md Sanctioned Visual Worlds | the ratchets caught it before commit |
+| 3 | Class B: light-surface pages fail with their own accent and greys | axe pairs | Not repaired: needs a rule (sanction a light paper world with passing colors, or move the pages dark) | tracker, waiting on Zach |
+
 ## 2026-10-08 · Token-gate migration: 66 served pages now inherit `_tokens.css`; 6 remain
 
 Found by: the served-page sweep (72 pages painted ARCS signal colors under their own variable names without

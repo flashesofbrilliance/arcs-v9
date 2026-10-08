@@ -2,7 +2,7 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 4049,
+  "detector": 4005,
   "emdash": 774,
   "wrap": 32,
   "tokens": 6,
@@ -71,14 +71,13 @@
    "retired_color": 0
   },
   "public/arcs-field-scan.html": {
-   "detector": 11,
+   "detector": 10,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 3,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 1,
     "overused-font": 1
    },
    "emdash": 0,
@@ -859,14 +858,13 @@
    "retired_color": 0
   },
   "public/germinate.html": {
-   "detector": 13,
+   "detector": 11,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 4,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 2,
     "overused-font": 1
    },
    "emdash": 0,
@@ -1641,14 +1639,13 @@
    "retired_color": 0
   },
   "public/resume-tailor.html": {
-   "detector": 17,
+   "detector": 10,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 3,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 7,
     "overused-font": 1
    },
    "emdash": 0,
@@ -1731,14 +1728,13 @@
    "retired_color": 0
   },
   "public/rosetta-shell.html": {
-   "detector": 13,
+   "detector": 11,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 4,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 2,
     "overused-font": 1
    },
    "emdash": 0,
@@ -2164,12 +2160,11 @@
    "retired_color": 0
   },
   "public/todd-call.html": {
-   "detector": 54,
+   "detector": 22,
    "rules": {
     "all-caps-body": 4,
     "design-system-font": 3,
     "kicker-above-heading": 3,
-    "low-contrast": 32,
     "side-tab": 5,
     "skipped-heading": 1,
     "tiny-text": 3,
