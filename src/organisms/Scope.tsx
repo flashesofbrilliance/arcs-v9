@@ -369,6 +369,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     c.pausedUntil = performance.now() + 20000
     c.redraw()
   }, [])
+  // Visibility without Option-scroll: the HUD slider sets it (touch and keyboard paths).
+  const setVis = useCallback((pct: number) => { const c = control.current; c.fogOverride = clamp(1 - pct / 100, 0, 1); c.redraw() }, [])
   const hop = useCallback((id: string) => {
     const c = control.current
     const h = holds(c.originNode ?? universe.null_origin, c.fog).find((x) => x.id === id)
@@ -483,9 +485,17 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     }
     const dollyBy = (f: number) => { tgt.current.dist = clamp(tgt.current.dist * f, DIST_MIN, DIST_MAX) }
 
+    // Touch: two fingers pinch depth; a double tap dives (dblclick is unreliable on touch).
+    const touches = new Map<number, { x: number; y: number }>()
+    let pinch0 = 0, depth0 = 0, lastTap = { t: 0, x: 0, y: 0 }
+    const spread = () => { const [a, b] = [...touches.values()]; return Math.hypot(a.x - b.x, a.y - b.y) }
     const onDown = (ev: PointerEvent) => {
       const p = local(ev)
-      ptr.down = true; ptr.moved = 0
+      if (ev.pointerType === "touch") {
+        touches.set(ev.pointerId, p)
+        if (touches.size === 2) { pinch0 = spread(); depth0 = ctl.depth; ptr.moved = 99 }
+      }
+      ptr.down = true; ptr.moved = touches.size === 2 ? 99 : 0
       ptr.mode = ev.shiftKey || ev.button === 1 || ev.button === 2 ? "pan" : "orbit"
       ptr.lx = p.x; ptr.ly = p.y
       canvas.setPointerCapture(ev.pointerId)
@@ -495,6 +505,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       const p = local(ev)
       if (!ptr.on) ptr.since = performance.now()
       ptr.on = true; ptr.x = p.x; ptr.y = p.y
+      if (touches.has(ev.pointerId)) touches.set(ev.pointerId, p)
+      if (touches.size === 2 && pinch0 > 0) { touch(); setDepth(depth0 + Math.log2(spread() / pinch0) * 1.6); return }
       if (ptr.down) {
         const dx = p.x - ptr.lx, dy = p.y - ptr.ly
         ptr.lx = p.x; ptr.ly = p.y
@@ -511,8 +523,15 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       if (reduced) draw(performance.now())
     }
     const onUp = (ev: PointerEvent) => {
+      touches.delete(ev.pointerId)
+      if (touches.size < 2) pinch0 = 0
       if (ptr.down && ptr.moved <= 3) {
         const p = local(ev)
+        if (ev.pointerType === "touch") {
+          const now = performance.now()
+          if (now - lastTap.t < 320 && Math.hypot(p.x - lastTap.x, p.y - lastTap.y) < 28) { lastTap = { t: 0, x: 0, y: 0 }; diveTo(ctl.pick(p.x, p.y)); ptr.down = false; return }
+          lastTap = { t: now, x: p.x, y: p.y }
+        }
         if (ctl.universe) {
           const hit = ctl.pick(p.x, p.y)
           if (hit?.node && holds(ctl.originNode ?? universe.null_origin, ctl.fog).some((h) => h.id === hit.node && h.state === "open")) { hop(hit.node); ptr.down = false; return }
@@ -534,9 +553,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       else { st.hint = performance.now(); return }
       if (reduced) draw(performance.now())
     }
-    const onDbl = (ev: MouseEvent) => {
-      const p = local(ev)
-      const hit = ctl.pick(p.x, p.y)
+    const diveTo = (hit: { u: number; v: number; node?: string } | null) => {
       if (!hit || ctl.dive || (ctl.universe && !hit.node)) return
       touch()
       ctl.leaving = { ...tgt.current, depth: ctl.depth }
@@ -545,6 +562,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ctl.pausedUntil = performance.now() + 60000
       setDepth(NF)
     }
+    const onDbl = (ev: MouseEvent) => { const p = local(ev); diveTo(ctl.pick(p.x, p.y)) }
     const onKey = (ev: KeyboardEvent) => {
       // Keys work from anywhere in the figure (the drawer covers the map), never from a text field.
       const tgtEl = ev.target as HTMLElement
@@ -566,6 +584,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
         case "f": case "F": setFull((f) => !f); break
         case "u": case "U": ctl.universe = !ctl.universe; break
+        case "Enter": if (ctl.universe && ctl.lookAt && !ctl.galaxy) { const q = UPOS[ctl.lookAt]; diveTo({ u: q.u, v: q.v, node: ctl.lookAt }) } else hit = false; break
         case "Backspace": backTo(ctl.trail.length - 1); break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
         case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
@@ -1110,7 +1129,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         />
       </div>
 
-      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} />}
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} onVis={setVis} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div
@@ -1173,7 +1192,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it, dropping a pin · Click a green hold to hop along an edge · Shift up or down banks a ring · Backspace backs out one pin · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll or the slider for visibility · Enter dives into what you face · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it, dropping a pin · Click a green hold to hop along an edge · Shift up or down banks a ring · Backspace backs out one pin · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>
