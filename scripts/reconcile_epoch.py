@@ -144,7 +144,7 @@ def p_wrap(out, rc, cmd):
         return unparsed("wrap-lint", "design debt", "no 'N wrap-class violation(s)' line", cmd)
     files = len(set(re.findall(r"✗ wrap-lint: (\S+)", out)))
     return finding("wrap-lint", "design debt", "P2", n, f"{n} wrap-class violation(s) across public/*.html" + (f" ({files} file(s))" if files else "") + ".",
-                   "mechanical", "Em-dashes and per-element ch caps: a cheap-model batch can fix them; gate with `artifact_wrap_lint.py` before merging.", out, cmd)
+                   "judgment", "NOT a safe bulk edit: most violations sit in counterpart pages already sent (daniel, julia, vishal, scott-*), where em-dash copy is hand-written and the page is a point-in-time deliverable. Exempt sent pages from the scan, then fix generic surfaces (belief-log, monolith, pf-*, prl-status-*) one page at a time with the 360-1440 sweep.", out, cmd)
 
 
 def p_integrity(out, rc, cmd):
@@ -253,7 +253,7 @@ def self_test():
     c = p_canon("canon-propagation: DRIFT · 1 drifted pair(s) · 0 mechanical / 1 judgment", 0, cmd); assert c["route"] == "judgment"
     r = p_ripeness("backlog ripeness: SECRETLY-DONE 7 · RIPE 3 · BLOCKED 1 · WAITING 24", 0, cmd); assert r["count"] == 8
     assert p_registry("registry OK (28 rows)", 0, cmd) is None and p_registry("mismatch", 1, cmd)["class"] == "architecture debt"
-    w = p_wrap("✗ wrap-lint: public/a.html x\n✗ 639 wrap-class violation(s). Fixes", 1, cmd); assert w["count"] == 639
+    w = p_wrap("✗ wrap-lint: public/a.html x\n✗ 639 wrap-class violation(s). Fixes", 1, cmd); assert w["count"] == 639 and w["route"] == "judgment"      # not a bulk edit: sent counterpart pages
     i = p_integrity("✖ _DECISIONS/ADR-1.md  — FAIL\nintegrity_gate: 5 file(s) against origin/main → FAIL\nintegrity_gate: 648 baselined failure(s) reported as WARN", 1, cmd)
     assert i["severity"] == "P1" and i["count"] == 649
     ok = p_integrity("integrity_gate: 5 file(s) against origin/main → OK", 0, cmd); assert ok is None
