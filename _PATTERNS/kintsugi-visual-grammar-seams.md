@@ -22,6 +22,23 @@
   machine that has it.
 
 
+## 2026-10-08 · My Ally LD proposal view (`_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html`, generated): two-agent audit graded it B-, repaired in one batch, light theme added with one scoped exemption
+
+Found by: the impeccable critique run as two isolated agents (A: design and copy review; B: detector plus measurements), then one confirm round of headless-Chrome renders at 500, 790 and 1280 in both themes. The page is rendered by `build_proposal_view.py` from three markdown files, so every repair lives in the generator or the markdown, not in the output.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | The default depth level collapsed the two named readers' own sections; the Exec level was a wall of prose | Agent A | Default level Operational; one-sentence summaries per section; Exec is the headline, the summaries and a closing "what happens next" | Inspection round |
+| 2 | About 48 same-size cards (stages and glossary) as the page structure | Agent A, craft floor | A numbered stage rail and a definition-list glossary | Inspection round |
+| 3 | Internal leakage in reader copy: a source file name, an unexpanded brand name, a promise the page never kept, a draft banner with no send mode | Agents A and B | Copy rewritten; `SEND` flag; first-person plural audited | Generator build fails on banned visible strings (`.md`, `asm-`, `ADR-`, `P0.`, `GRAIN`, `DEGRADED`, `TBD`, dashes, `$`) |
+| 4 | Targets 36 to 38px high, two stacked sticky bars with mismatched offsets, ladder labels wrapping mid-word on phones | Agent B | 44px minimum, one sticky bar, numbers-only ladder labels under 600px with full names for screen readers | Inspection round (metrics harness: no target under 44px at 375, 790, 1280) |
+| 5 | Control borders at 1.3 to 1.4:1 contrast (ladder dots, connector, buttons) | Agent B | A separate control-edge token at 3.5:1 or better in both themes; hairlines stay low-contrast on purpose | Inspection round (contrast computed per token pair) |
+| 6 | First light background read as cream/beige | detector (`cream-palette`, a counted failure) | Neutral near-white `#f7f8fa` | The detector |
+| 7 | Light-theme colours sit outside DESIGN.md, which is dark-only | detector advisory `design-system-color` (8) | Scoped `design-system-color` exemption for this one file in `.impeccable/config.json`, added by hand: the CLI (`impeccable ignores add-value`) rewrote the whole file (1,421 changed lines: re-indent and unescaped dashes in other entries), so only the one new entry was kept (9 added lines) | The detector, with the exemption scoped to one file; DESIGN.md still has no light palette, an open decision for the kit |
+| 8 | Ladder connector drawn below the dots | My screenshot | Offset aligned to the dot centre | Inspection round |
+
+Open, not repaired: DESIGN.md has no light palette, so any other counterpart page that wants light mode will need its own scoped exemption until Zach decides whether the kit gets one.
+
 ## 2026-10-07 · surfaces.arcs.care (public/surfaces.html, generated): first cut blocked at 23 findings, repaired to 0 + 1 scoped exemption
 
 Found by: the pre-commit kintsugi gate on the page's first commit (a new file blocks on any finding).

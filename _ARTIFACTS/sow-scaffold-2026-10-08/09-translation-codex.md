@@ -11,7 +11,7 @@ A legend for the technical words you will hear. Each one gets a plain meaning, a
 | **Front end** | The part of the app people see and tap. | The shop window and the shop floor. | Yours already works; the open questions are behind the window. |
 | **Back end** | The part people do not see, where information is stored and rules are applied. | The stockroom and the office. | Where private information lives, so it is where most care is needed. |
 | **Database** | An organised place where the app keeps its information. | A very tidy filing cabinet. | Supabase plays this role for you. |
-| **Lovable and Supabase** | Lovable helps build the app's screens from instructions. Supabase stores the app's information and handles who can log in. | A builder who sketches the shop, and the cabinet inside it. | Each is a separate company with its own rules for what you may put in it. |
+| **Lovable and Supabase** | The two services your app is built and stored on. | Your workshop and your storeroom. | Each is a separate company with its own rules for what you may put in it. |
 | **AI model** | The program that reads a question and writes an answer. | A very well-read assistant who has never met your family. | Alice is built on one. Which one is a decision, not a given. |
 | **Prompt** | The written instructions that tell the AI how to behave. | A briefing note. | Alice's voice and her limits live here. |
 | **Vendor, provider** | A company whose service you rely on. | A supplier. | Every supplier brings terms and a bill, and switching one can be easy or painful. |
@@ -22,7 +22,7 @@ A legend for the technical words you will hear. Each one gets a plain meaning, a
 
 | Word | In plain words | Picture | Why it matters to you |
 |---|---|---|---|
-| **Token** | A small chunk of text the AI reads or writes. Usage is billed by the chunk. | A taxi meter that counts words instead of miles. | Longer documents and more conversations mean a bigger bill. |
+| **Token** | A small chunk of text the AI reads or writes. Usage is billed by the chunk. Also called the AI usage meter. | A taxi meter that counts words instead of miles. | Longer documents and more conversations mean a bigger bill. |
 | **Usage cap** | A ceiling on how much AI use is allowed. | A prepaid card with a limit. | Stops a surprise bill. |
 | **Retrieval** | Alice looking things up in the vault before answering. | A librarian fetching the right folder first. | It is why uploaded documents affect cost and privacy. |
 | **Hallucination** | When an AI states something wrong in a confident voice. | A fluent speaker who has not checked the facts. | Why I test Alice and why every document gets fact-checked, mine included. |
@@ -33,7 +33,7 @@ A legend for the technical words you will hear. Each one gets a plain meaning, a
 
 | Word | In plain words | Picture | Why it matters to you |
 |---|---|---|---|
-| **Version control, branch** | A record of every change to the app, with a safe side-copy to try changes before they go live. | Track changes in a document, plus a draft copy. | You can see who changed what and undo a mistake. |
+| **Version control, branch** | A record of every change to the app, with a safe side-copy to try changes before they go live. Also called change tracking. | Track changes in a document, plus a draft copy. | You can see who changed what and undo a mistake. |
 | **Environment (testing, live)** | Separate copies of the app for practising and for real use. | A rehearsal stage and the real stage. | Practice never touches real families' information. |
 | **Data placement** | Deciding which kind of information may be kept in which service. | Valuables in the safe, receipts in the drawer. | Services differ in what they are cleared to hold; your lawyers decide. |
 | **Evidence trail** | A record showing a safeguard is in place and when it was checked. | Receipts for every safeguard. | Answers "how do you know?" if anyone asks. |
@@ -63,7 +63,10 @@ A legend for the technical words you will hear. Each one gets a plain meaning, a
 
 | Word | In plain words | Picture | Why it matters to you |
 |---|---|---|---|
-| **Sprint** | A short push of work with a fixed length. | A sprint in a race, not a marathon. | Each stage ends with something you can check. |
+| **NDA** | A signed agreement that keeps what you share confidential. | A sealed envelope. | Nothing sensitive moves until it is signed. |
+| **Cost model** | Your estimate of what Alice will cost per family, for light, typical and heavy use. | A budget with scenarios. | I will check it against how Alice will really work, not replace it. |
+| **Scope** | What is in the work, and what is out. | The edges of a campaign brief. | Anything outside it is a separate conversation. |
+| **Sprint** | A block of work with a fixed length and something to check at the end. | One episode of a series: a set length, and something delivered. | Each stage ends with something you can check. |
 | **Roadmap** | The plan in time order. | A route on a map with stops. | Stage 2 builds it with you. |
 | **Dependency** | One thing that must finish before another can start. | You cannot frost a cake that is not baked. | A campaign calendar has them too. |
 | **Backlog** | The to-do list, in priority order. | The next items in a shopping basket. | You decide the order. |
@@ -76,9 +79,9 @@ A legend for the technical words you will hear. Each one gets a plain meaning, a
 
 | Word | In plain words | Picture | Why it matters to you |
 |---|---|---|---|
-| **Unit economics** | What each family costs you versus what each brings in. | Cost and revenue of one customer. | Kelly's world: it decides whether growth helps or hurts. |
+| **Unit economics** | What each family costs you versus what each brings in. | The cost and revenue of one customer. | I will use your model's figures, not mine. |
 | **Fixed, grows with use, hidden costs** | Costs that stay the same, costs that rise with families, and costs nobody listed. | Rent, ingredients, and the broken oven. | I list all three. |
-| **Best, likely, worst case** | Three versions of a number, defined before anyone fills it in. | A forecast with a range. | Prevents wishful thinking. |
+| **Best, likely, worst case** | Three versions of a number, with the cases defined before anyone fills it in. | A forecast with a range. | Keeps wishful thinking out of the numbers. |
 
 ## Decisions and honesty
 
@@ -86,7 +89,7 @@ A legend for the technical words you will hear. Each one gets a plain meaning, a
 |---|---|---|---|
 | **Decision record** | One page saying what was decided, why, and what would change your minds. | The minutes of a meeting that people actually reread. | Memory fades; the page does not. |
 | **"Imagine it failed" exercise** | Picture the project a year from now having failed, and write the story. | A reverse planning session. | Surfaces risks while they are cheap to fix. |
-| **Looking back** | Comparing what you and I set out to do with what happened. | A quarterly review. | Turns every stage into a lesson. |
+| **Looking back** | Comparing what you and I set out to do with what happened. Also called a look-back. | A quarterly review. | Turns every stage into a lesson. |
 | **Checkpoint** | A test set in advance that says whether reality matches the plan. | A milestone in a campaign. | Keeps everyone honest without blame. |
 | **Predict first, check later** | Writing down what I expect before work starts. | A forecast filed before the quarter. | Lets me see if my judgement is improving. |
 | **Fact-check** | Verifying each factual claim against the code or a trusted source. | A copy editor with a red pen. | Applies to every document, mine included. |

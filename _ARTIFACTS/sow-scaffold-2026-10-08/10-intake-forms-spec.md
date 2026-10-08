@@ -15,7 +15,7 @@ Four short sections, one each for the technical, money, day-to-day and business 
 | Where is the build plan? Who wrote it, who reviewed it, and when was it last changed? | Link or file name, plus names and a date | So I can read it in context |
 | How do people log in today, and who can see what? | A few sentences | A first look at who can see what |
 | Is there a separate copy of the app for practising, apart from the real one? | Yes, no or not sure | Practice should never touch real use |
-| Have real documents ever been used while testing? | Yes, no or not sure (no details needed) | Tells me how careful to be |
+| Have real documents ever been used while testing? | Yes, no or not sure. No details needed | Tells me how careful to be |
 | Do you know if backups exist? | Yes, no or not sure | A backup nobody has tested is a hope |
 
 ## 2. The money (for whoever keeps the numbers)
@@ -25,10 +25,10 @@ Four short sections, one each for the technical, money, day-to-day and business 
 | Business plan and financial projections | Link or file name, date, who wrote it | The plan and the build should say the same thing |
 | The usage-cost model for light, typical and heavy families | Link or file name, date, and where each assumption came from | I want to check it against how Alice will really work |
 | Funding plan and the timing you expect | Short text | Dates shape the order of the work |
-| How much cash runway do you have? | Your own figure, or "prefer to discuss" | A failed test should never threaten the whole plan |
+| How much cash runway do you have? | Optional. Your own figure, or "prefer to discuss" | A failed test should never threaten the whole plan |
 | Which services do you pay for each month, who pays, and on which card or account? | A list | Hidden recurring costs are common |
 | Which entity pays for this work and who signs? | Short text | So the paperwork matches |
-| Roughly what range feels comfortable for this work? | Optional | Helps me offer options that fit |
+| If you have a range in mind for this work, what is it? | Optional. If not, I will propose options | Helps me offer options that fit |
 
 ## 3. Day to day (for whoever runs things)
 

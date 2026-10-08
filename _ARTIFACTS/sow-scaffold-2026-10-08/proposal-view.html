@@ -1,10 +1,17 @@
 <!doctype html>
+<!-- KINTSUGI SEAMS (booked in _PATTERNS/kintsugi-visual-grammar-seams.md, 2026-10-08)
+ 1. First build was dark-only, card-walled, with two stacked sticky bars and sub-44px targets: repaired to a light-default theme with a dark toggle, a stage rail and glossary list, one sticky bar, 44px targets.
+ 2. Light theme colours sit outside DESIGN.md (dark-only): scoped design-system-color exemption for this file only.
+-->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex">
 <title>My Ally LD plan</title>
+<script>(function(){try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<noscript><style>.alt,.more,.themebtn{display:none}.dek{display:none}</style></noscript>
 <style>/* ARCS Recoil Report — Design Tokens */
 :root {
   /* Surface */
@@ -47,103 +54,134 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
-:root{--measure:760px;--gut:24px;--font-body:system-ui,-apple-system,'Inter',sans-serif;--font-code:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--font-head:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif}
+:root{--measure:620px;--gut:24px;--font-body:system-ui,-apple-system,'Inter',sans-serif;--font-code:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--font-head:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color-scheme:light;--pg-bg:#f7f8fa;--pg-surface:#ffffff;--pg-surface2:#eef1f5;--pg-line:#d5dbe3;--pg-edge:#76808d;--pg-text:#1c2430;--pg-muted:#566170;--pg-dim:#475262;--pg-accent:#00606b;--pg-accent-bg:rgba(0,96,107,0.09);--pg-warn-bg:#fff3c4;--pg-warn-edge:#8a6d00}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--pg-bg:var(--bg);--pg-surface:var(--surface);--pg-surface2:#111827;--pg-line:var(--border);--pg-edge:#5f6f87;--pg-text:var(--text);--pg-muted:var(--muted);--pg-dim:var(--dimmed);--pg-accent:var(--cyan);--pg-accent-bg:var(--cyan-bg);--pg-warn-bg:var(--gold-bg);--pg-warn-edge:var(--gold)}}
+:root[data-theme="dark"]{color-scheme:dark;--pg-bg:var(--bg);--pg-surface:var(--surface);--pg-surface2:#111827;--pg-line:var(--border);--pg-edge:#5f6f87;--pg-text:var(--text);--pg-muted:var(--muted);--pg-dim:var(--dimmed);--pg-accent:var(--cyan);--pg-accent-bg:var(--cyan-bg);--pg-warn-bg:var(--gold-bg);--pg-warn-edge:var(--gold)}
+:root[data-theme="light"]{color-scheme:light;--pg-bg:#f7f8fa;--pg-surface:#ffffff;--pg-surface2:#eef1f5;--pg-line:#d5dbe3;--pg-edge:#76808d;--pg-text:#1c2430;--pg-muted:#566170;--pg-dim:#475262;--pg-accent:#00606b;--pg-accent-bg:rgba(0,96,107,0.09);--pg-warn-bg:#fff3c4;--pg-warn-edge:#8a6d00}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:0.925rem/1.6 var(--font-body)}
+body{margin:0;background:var(--pg-bg);color:var(--pg-text);font:0.925rem/1.6 var(--font-body)}
+::selection{background:var(--pg-accent-bg);color:var(--pg-text)}
+.skip{position:absolute;left:-999px;top:0;background:var(--pg-surface);color:var(--pg-text);padding:12px 16px;border:1px solid var(--pg-edge);border-radius:6px;z-index:5}
+.skip:focus{left:var(--gut);top:8px}
 .wrap{max-width:calc(var(--measure) + 2*var(--gut));margin:0 auto;padding:0 var(--gut) 64px}
-nav{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--border);z-index:2}
-nav .wrap{display:flex;gap:20px;padding-top:12px;padding-bottom:12px;overflow-x:auto}
-nav a{color:var(--muted);text-decoration:none;white-space:nowrap;padding:6px 0}
-nav a:hover,nav a:focus{color:var(--cyan)}
-.banner{background:var(--gold-bg);border:1px solid var(--gold);border-radius:6px;padding:12px 16px;margin:24px 0;color:var(--text)}
-h1{font-family:var(--font-head);font-size:2.4rem;font-weight:500;line-height:1.2;letter-spacing:-0.02em;margin:32px 0 8px}
-h2{font-size:1.15rem;font-weight:600;line-height:1.25;letter-spacing:-0.01em;margin:48px 0 12px;color:var(--cyan)}
-h3{font-size:1.15rem;font-weight:600;line-height:1.25;margin:28px 0 8px}
-h4{font-size:0.925rem;font-weight:600;margin:0 0 8px}
-p,li{max-width:none}
-a{color:var(--cyan)}
-code{font-family:var(--font-code);font-size:.9em;color:var(--text-secondary,#94a3b8)}
-.cards{display:grid;gap:12px;margin:16px 0}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 16px}
-.card h3,.card h4{margin:0 0 8px;font-size:0.925rem;font-weight:600;color:var(--green)}
-.card dl{margin:0;display:grid;gap:8px}
-.card dt{font-size:0.925rem;color:var(--muted)}
-.card dd{margin:0}
+nav{border-bottom:1px solid var(--pg-line)}
+nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
+nav a,.themebtn{display:inline-flex;align-items:center;min-height:44px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
+nav a:hover,nav a:focus-visible{color:var(--pg-accent);text-decoration:underline}
+.themebtn{margin-left:auto;font:inherit;background:none;border:0;cursor:pointer;padding:0}
+.themebtn:hover{color:var(--pg-accent);text-decoration:underline}
+.banner{background:var(--pg-surface2);border:1px solid var(--pg-line);border-radius:6px;padding:10px 14px;margin:20px 0 0;color:var(--pg-dim)}
+h1{font-family:var(--font-head);font-size:2.4rem;font-weight:500;line-height:1.2;letter-spacing:-0.02em;margin:32px 0 8px;text-wrap:balance}
+h2{font-size:1.15rem;font-weight:600;line-height:1.25;letter-spacing:-0.01em;margin:48px 0 12px;color:var(--pg-accent);text-wrap:balance}
+h3{font-size:0.925rem;font-weight:700;line-height:1.3;margin:24px 0 8px}
+p,li{max-width:none;text-wrap:pretty}
+a{color:var(--pg-accent);text-underline-offset:3px}
+a.gl{text-decoration-style:dotted}
+code{font-family:var(--font-code);font-size:.9em}
+.sec{margin:0}
+.dek{margin:4px 0 8px}
+.more{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer;margin:4px 0 0}
+.more:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
+.alt{position:sticky;top:0;background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 0;margin:24px 0 8px}
+.altrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 16px}
+.altlabel{color:var(--pg-muted)}
+.stepbtns{display:flex;gap:6px}
+.step{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
+.step:hover:not(:disabled){border-color:var(--pg-accent);color:var(--pg-accent)}
+.step:disabled{opacity:.45;cursor:default}
+.ladder{list-style:none;margin:6px 0 4px;padding:0;display:flex}
+.ladder li{flex:1 1 0;min-width:0;position:relative;text-align:center}
+.ladder li::before{content:"";position:absolute;top:7px;left:-50%;width:100%;height:2px;background:var(--pg-edge)}
+.ladder li:first-child::before{display:none}
+.ladder li.on::before{background:var(--pg-accent)}
+.ladder button{font:inherit;color:var(--pg-muted);background:none;border:0;padding:0 2px;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;width:100%;min-height:44px}
+.ladder .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--pg-edge);background:var(--pg-bg)}
+.ladder li.on .dot{background:var(--pg-accent);border-color:var(--pg-accent)}
+.ladder li.on button{color:var(--pg-text)}
+.ladder button[aria-pressed="true"]{color:var(--pg-accent);font-weight:700}
+.ladder button[aria-pressed="true"] .dot{box-shadow:0 0 0 3px var(--pg-accent-bg)}
+.altdesc{color:var(--pg-dim);margin:2px 0 0}
+a:focus-visible,button:focus-visible,.tablewrap:focus-visible{outline:2px solid var(--pg-accent);outline-offset:2px}
+.rail{list-style:none;margin:16px 0;padding:0}
+.stage{padding:16px 0;border-top:1px solid var(--pg-line)}
+.stage:last-child{border-bottom:1px solid var(--pg-line)}
+.stage h3{margin:0 0 8px;font-size:1.15rem;font-weight:600;color:var(--pg-text)}
+.row{margin:0 0 10px}
+.row p{margin:0}
+.lbl{display:block;color:var(--pg-muted);margin:0 0 2px}
+.gloss{margin:8px 0 24px}
+.gloss>div{display:grid;grid-template-columns:11rem 1fr;gap:4px 16px;padding:10px 0;border-top:1px solid var(--pg-line)}
+.gloss dt{font-weight:600}
+.gloss dd{margin:0}
+.gloss .pic{display:block;font-style:italic;color:var(--pg-dim)}
+.gloss .why{display:block;color:var(--pg-dim)}
 .tablewrap{overflow-x:auto;margin:16px 0}
 table{border-collapse:collapse;width:100%}
-th,td{border:1px solid var(--border);padding:10px 12px;text-align:left;vertical-align:top}
-th{background:#111827;color:var(--dimmed);font-weight:600}
-.note{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 16px;color:var(--dimmed)}
-iframe.tally{width:100%;min-height:640px;border:1px solid var(--border);border-radius:6px;background:var(--surface)}
-@media (max-width:600px){h1{font-size:1.5rem}}
-@media (min-width:900px){.cards{grid-template-columns:1fr 1fr}.card:first-child:nth-last-child(odd){grid-column:1/-1}}
-
-[hidden]{display:none !important}
-.alt{position:sticky;top:46px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);z-index:1;padding:10px 0;margin:24px 0 8px}
-.altrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
-.altlabel{color:var(--muted)}
-.stepbtns{display:flex;gap:6px}
-.step,.more{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer}
-.step:disabled{opacity:.4;cursor:default}
-.ladder{list-style:none;margin:10px 0 6px;padding:0;display:flex;gap:0}
-.ladder li{flex:1 1 0;min-width:0;position:relative;text-align:center}
-.ladder li::before{content:"";position:absolute;top:7px;left:-50%;width:100%;height:2px;background:var(--border)}
-.ladder li:first-child::before{display:none}
-.ladder li.on::before{background:var(--cyan)}
-.ladder button{font:inherit;color:var(--muted);background:none;border:0;padding:0 2px;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
-.ladder .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);background:var(--bg)}
-.ladder li.on .dot{background:var(--cyan);border-color:var(--cyan)}
-.ladder li.on button{color:var(--text)}
-.ladder button[aria-pressed="true"]{color:var(--cyan)}
-.ladder button[aria-pressed="true"] .dot{box-shadow:0 0 0 3px var(--cyan-bg)}
-.ladder button:focus-visible,.step:focus-visible,.more:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-.altdesc{color:var(--dimmed);margin:6px 0 0}
-@media (max-width:600px){.ladder .nm{font-size:0.925rem;word-break:break-word}}
-.dek{margin:4px 0 8px;color:var(--text)}
-.more{margin:4px 0 0}
-.sec{margin:0}
-section{scroll-margin-top:110px}
-@media print{[hidden]{display:block !important}.alt,.more{display:none !important}}
+th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
+.note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
+iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-radius:6px;background:var(--pg-surface)}
+.sec,[id^="g-"]{scroll-margin-top:11rem}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[hidden]:not([hidden="until-found"]){display:none !important}
+@media (max-width:600px){h1{font-size:1.5rem}.gloss>div{grid-template-columns:1fr}.ladder .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.altlabel{display:none}.sec,[id^="g-"]{scroll-margin-top:9rem}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media print{:root,:root[data-theme]{--pg-bg:#f7f8fa !important;--pg-surface:#ffffff !important;--pg-surface2:#eef1f5 !important;--pg-line:#d5dbe3 !important;--pg-edge:#76808d !important;--pg-text:#1c2430 !important;--pg-muted:#566170 !important;--pg-dim:#475262 !important;--pg-accent:#00606b !important;--pg-accent-bg:rgba(0,96,107,0.09) !important;--pg-warn-bg:#fff3c4 !important;--pg-warn-edge:#8a6d00 !important}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,.skip{display:none !important}}
 </style>
 </head>
 <body>
-<nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a></div></nav>
-<main class="wrap">
+<a class="skip" href="#main">Skip to the plan</a>
+<nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a><button type="button" class="themebtn" id="themebtn">Dark mode</button></div></nav>
+<main class="wrap" id="main">
 <div class="banner" role="note">Draft for Zach to review. Not sent. No prices appear because none are agreed.</div>
 <section id="plan"><h1>My Ally LD: a plain-language plan</h1>
 <p>For Kelly and Chelsea, from Zach at manana</p>
-<p>manana is my consulting practice. I have built a set of tools called ARCS to support this kind of work, and this plan says plainly which of them I would use at each stage and which I would not.</p>
-<div class="sec" data-body-alt="1"><h2>The short version</h2>
-<p>You have built a product that works on the surface. The part still ahead is the part everyone is watching: Alice, the AI that helps parents find their way. Before more gets built, the most valuable thing I can do is help make sure everyone, including the budget, the lawyers and the build, is describing the same product.</p>
+<p>manana is my consulting practice. I have built a set of decision tools called ARCS. Where I use one on your work, I will say so and say what it does. Where I do not, I will not claim it.</p>
+<p>This page opens at the level most useful to the two of you. The depth control below lets you zoom out to a one-screen summary or in to every detail.</p>
+<div class="sec" data-body-alt="2"><h2>The short version</h2><p class="dek">Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a checkpoint at each, and you can stop at any point with everything in hand.</p><div class="body" id="b1">
+<p>Your product already does what you set out to show: the site works and the scaffolding is in place. What comes next is the part that will matter most to families: Alice, the AI that helps parents find their way. Before more gets built, the most valuable thing I can do is help make sure everyone, including the budget, the lawyers and the build, is describing the same product.</p>
 <p>Having the documents is not the same as everyone understanding them the same way. Think of a budget that Finance reads one way and Marketing reads another. Each document is fine. The surprise comes later. My job is to close that gap early, while it is cheap, so what gets built keeps matching what the plan says it will cost.</p>
-<p>My approach has four stages. Each one ends with a checkpoint you can check for yourselves. Nothing gets spent ahead of a decision that should come first. And you can stop after any stage with a pack of everything I have made, in your hands, so you lose nothing.</p>
-</div><div class="sec" data-body-alt="1"><h2>The whole idea, simply</h2>
-<p>You are building a helpful guide for families, and her name is Alice. Think of building a house for her. First I look at the ground and the plans with you. Then we agree the route together. Then we pour a strong floor. Only then do you decide how big the house gets. At every step I say out loud what "done" looks like, so nobody is surprised. If you ever want to stop, you take your binder and walk away with everything.</p>
-<p>Any word that sounds technical is explained in the translation codex that comes with this note (<code>09-translation-codex.md</code>).</p>
-</div><div class="alt" role="group" aria-label="Level of detail"><div class="altrow"><span class="altlabel">Depth: each step adds to the one before</span><span class="stepbtns"><button type="button" class="step" data-dir="-1">Less detail</button><button type="button" class="step" data-dir="1">More detail</button></span></div><ol class="ladder"><li><button type="button" data-level="1" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">1. Exec</span></button></li><li><button type="button" data-level="2" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">2. Strategic</span></button></li><li><button type="button" data-level="3" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">3. Operational</span></button></li><li><button type="button" data-level="4" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">4. Tactical</span></button></li><li><button type="button" data-level="5" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">5. Surgical</span></button></li></ol><p id="altdesc" class="altdesc" aria-live="polite"></p></div><div class="sec" data-body-alt="2"><h2>The four stages</h2><p class="dek">Four stages: look and listen, agree the plan together, make it solid, then aim higher and look back. Each ends with a checkpoint you can verify, and you can stop after any of them with everything I made.</p><div class="body">
-<div class="cards"><article class="card"><h3><strong>1. Look and listen</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>I read what exists: the app, the build plan, your cost model, and where children's information travels. I talk with each of you four separately. Before each conversation I write down my own predictions, so I can check them later.</dd></div><div data-alt="2"><dt>What you get</dt><dd>A clear picture of what is built, what is planned and what is only hoped for, with a note on how much I examined. A first list of questions for your lawyers.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>A short test set before I start, for example that every item in the build plan is marked built, partly built or not built.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the picture and the questions.</dd></div></dl></article><article class="card"><h3><strong>2. Agree the plan together</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>I share what I found. Then, together, we build one roadmap in time order from your priorities, limits and dates: what has to happen before what, like a campaign calendar. You make the big decision, build alongside a developer or hire one, and we put it on paper after an honest "imagine it failed" exercise.</dd></div><div data-alt="2"><dt>What you get</dt><dd>One roadmap. One written record of the big decision: what you chose, why, and what would change your minds. For each item on the roadmap, a written description of what "finished" looks like.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>Each of you can say, in your own words, what was decided, who owns it, and what would reverse it.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the roadmap, the record and the list of questions.</dd></div></dl></article><article class="card"><h3><strong>3. Make it solid</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>I set up the foundations so the build can run on your side: the working setup, the freedom to switch AI providers later, who can see what (parent, child, practitioner), a safe way to handle private documents, a cap on AI spending, and routines for releases. Depending on what I find, this may include proper change tracking, separate places for testing and the real thing, and deciding which kinds of information are allowed to live in which service. Anything that needs your lawyers waits for their answers first.</dd></div><div data-alt="2"><dt>What you get</dt><dd>A setup Chelsea can run herself. Your business plan and your build, side by side, with nothing in one that the other cannot account for.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>A short list of working checks, for example a spending cap that really stops spending in a test.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the setup, the instructions and the list of accounts and subscriptions.</dd></div></dl></article><article class="card"><h3><strong>4. Aim higher, then look back</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>With real use behind you, I help you look at strategy and a few possible futures, each with an early warning sign and a plan. I run the "imagine it failed" exercise again on the next big bets. Then we look back: what you set out to do, what was done, and whether the result matched the goal.</dd></div><div data-alt="2"><dt>What you get</dt><dd>A strategy, the scenarios, and an honest scorecard of the whole engagement.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>You can run the next "imagine it failed" exercise on your own.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the scorecard and the playbook.</dd></div></dl></article></div>
-<p>At the end of every stage I also do a short look-back with you, so the lessons arrive while they are still useful, not only at the end.</p>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>My view on Alice</h2><p class="dek">I would hold off connecting Alice until the groundwork is done. A small trial on made-up data is the cheaper way to learn what she costs.</p><div class="body">
-<p>I would hold off connecting Alice until the early work is done. Wiring in the AI is the most expensive thing to redo, and several answers it depends on are not settled yet: which AI provider, what your lawyers allow, how private documents are handled, and who sees what.</p>
+<p>My approach has four stages. Each one ends with a checkpoint set in advance. I aim not to spend ahead of a decision that should come first. And you can stop after any stage and keep everything I have made.</p>
+</div><button class="more" type="button" aria-controls="b1" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="2"><h2>The whole idea, simply</h2><p class="dek">Build it like a house: look at the ground first, agree the route, pour the floor, then decide how big it gets.</p><div class="body" id="b2">
+<p>Think of building a house. First I look at the ground and the plans with you. Then we agree the route together. Then the floor gets poured. Only then do you decide how big the house gets. At every step I say out loud what "done" looks like, so nobody is surprised. If you ever want to stop, you leave with your binder.</p>
+<p>Any word that sounds technical is explained in the translation codex at the end of this page.</p>
+</div><button class="more" type="button" aria-controls="b2" aria-expanded="false" hidden>Show detail</button></div><div class="alt" role="group" aria-label="Level of detail"><div class="altrow"><span class="altlabel">Depth: each step adds to the one before</span><span class="stepbtns"><button type="button" class="step" data-dir="-1">Less detail</button><button type="button" class="step" data-dir="1">More detail</button></span></div><ol class="ladder"><li><button type="button" data-level="1" aria-label="Level 1, Exec" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm"><span class="n">1</span><span class="w">. Exec</span></span></button></li><li><button type="button" data-level="2" aria-label="Level 2, Strategic" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm"><span class="n">2</span><span class="w">. Strategic</span></span></button></li><li><button type="button" data-level="3" aria-label="Level 3, Operational" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm"><span class="n">3</span><span class="w">. Operational</span></span></button></li><li><button type="button" data-level="4" aria-label="Level 4, Tactical" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm"><span class="n">4</span><span class="w">. Tactical</span></span></button></li><li><button type="button" data-level="5" aria-label="Level 5, Surgical" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm"><span class="n">5</span><span class="w">. Surgical</span></span></button></li></ol><p id="altdesc" class="altdesc" aria-live="polite"></p></div><div class="sec" data-body-alt="2"><h2>The four stages</h2><p class="dek">Look and listen. Agree the plan together. Make it solid. Aim higher, then look back.</p><div class="body" id="b3">
+<ol class="rail"><li class="stage"><h3><strong>1. Look and listen</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I read what exists: the app, the build plan, your <a class="gl" href="#g-cost-model">cost model</a>, and where children's information travels. I talk with each of you four separately. Before each conversation I write down my own predictions, so I can check them later.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A clear picture of what is built, what is planned and what is only hoped for, with a note on how much I examined. A first list of questions for your lawyers.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>A short test set before I start, for example that every item in the build plan is marked built, partly built or not built.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the picture and the questions.</p></div></li><li class="stage"><h3><strong>2. Agree the plan together</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I share what I found. Then, together, we build one roadmap in time order from your priorities, limits and dates: what has to happen before what, like a campaign calendar. You make the big decision, build alongside a developer or hire one, and we put it on paper after an honest "imagine it failed" exercise.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>One roadmap. One written record of the big decision: what you chose, why, and what would change your minds. For each item on the roadmap, a written description of what "finished" looks like.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>Each of you can say, in your own words, what was decided, who owns it, and what would reverse it.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the roadmap, the record and the list of questions.</p></div></li><li class="stage"><h3><strong>3. Make it solid</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>I help set up the foundations so you can run the build: a working setup, freedom to switch <a class="gl" href="#g-vendor-provider">AI providers</a> later, control over <a class="gl" href="#g-role-based-access">who can see what</a> (parent, child, practitioner), a safe way to handle private documents, a cap on AI spending, and routines for releases. Depending on what I find, this may add proper <a class="gl" href="#g-version-control-branch">change tracking</a>, separate places for testing and the real thing, and rules for which kind of information may live in which service. Anything that needs your lawyers waits for their answers.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A setup designed so Chelsea can run releases herself. Your business plan and your build, side by side, with nothing in one that the other cannot account for.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>A short list of working checks, for example a spending cap that really stops spending in a test.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the setup, the instructions and the list of accounts and subscriptions.</p></div></li><li class="stage"><h3><strong>4. Aim higher, then look back</strong></h3><div class="row" data-alt="2"><span class="lbl">What happens, in plain terms</span><p>With real use behind you, I help you look at strategy and a few possible futures, each with an early warning sign and a plan. I run the "imagine it failed" exercise again on the next big bets. Then we look back: what you set out to do, what was done, and whether the result matched the goal.</p></div><div class="row" data-alt="2"><span class="lbl">What you get</span><p>A strategy, the scenarios, and an honest scorecard of the whole engagement.</p></div><div class="row" data-alt="3"><span class="lbl">How you will know it worked</span><p>You can run the next "imagine it failed" exercise on your own.</p></div><div class="row" data-alt="3"><span class="lbl">If it does not work</span><p>You keep the scorecard and the playbook.</p></div></li></ol>
+<p>At the end of every stage I also do a short <a class="gl" href="#g-looking-back">look-back</a> with you, so the lessons arrive while they are still useful, not only at the end.</p>
+</div><button class="more" type="button" aria-controls="b3" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>For Kelly</h2><p class="dek">Your plan and the build side by side, cost per family in three cases, and the lists that make the empathy question testable.</p><div class="body" id="b4">
+<ul>
+<li>Stage 2 puts your business plan and the build side by side, and checks every claim in one against the other, the way you would reconcile two sets of books.</li>
+<li>You get the cost per family in three cases, with sources and dates.</li>
+<li>You help write the "always, sometimes, never" lists that make the empathy question testable.</li>
+<li>At every stage you see a plain checkpoint, not a status report.</li>
+</ul>
+</div><button class="more" type="button" aria-controls="b4" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>For Chelsea</h2><p class="dek">You stay the builder. The AI provider choice waits for the facts, and Alice comes after the groundwork.</p><div class="body" id="b5">
+<ul>
+<li>You stay the builder. Stage 3 is designed so you can run releases yourself.</li>
+<li>The Anthropic or OpenAI question gets decided with the facts in hand and your lawyers' input. I would keep your options open so a later switch is not a rebuild.</li>
+<li>You asked for hiding private information not to depend on the AI catching everything. I agree. I would pair automatic checks with a review step for the parent, and measure how well it works on <a class="gl" href="#g-synthetic-data">made-up</a> documents.</li>
+<li>Alice comes after the groundwork, with the option of the small trial below if you want real numbers sooner.</li>
+</ul>
+</div><button class="more" type="button" aria-controls="b5" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>My view on Alice</h2><p class="dek">I would hold off connecting Alice until three answers are in. A small trial on made-up data is the cheaper way to learn what she costs.</p><div class="body" id="b6">
+<p>I would hold off connecting Alice until three answers are in: which AI provider, what your lawyers allow, and how private documents are handled. That is a view about sequence, not a doubt about the build. I expect wiring in the AI to be among the most expensive things to redo, so I would rather learn the cheap things first.</p>
 <p>If it would help to show something sooner, there is a cheaper option. A small, time-limited trial, using made-up family information only, would show what a conversation with Alice really costs and how she sounds. It would give your cost model real numbers without committing you to the full build.</p>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="4"><h2>Questions to settle with your lawyers first</h2><p class="dek">Turn warm-but-never-health-advice into three written lists with your lawyers, then test Alice against sample questions.</p><div class="body">
+</div><button class="more" type="button" aria-controls="b6" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="4"><h2>Questions to settle with your lawyers first</h2><p class="dek">Turn warm-but-never-health-advice into three written lists with your lawyers, then test Alice against sample questions.</p><div class="body" id="b7">
 <p>Kelly named the hard problem: making Alice warm without ever giving health advice. I would turn that into something testable. With your lawyers, write down three lists:
 - what Alice may always do;
 - what she may do only with a check;
 - what she must never do.</p>
 <p>Then I would test her against a fixed set of sample questions, and we agree in advance what a pass looks like. I am not a lawyer and none of this is legal advice. Your counsel should confirm anything about privacy law, children's information, vendor agreements or contracts. I can help organise their questions so the ones that block building come first.</p>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="4"><h2>How I would approach "will this work?"</h2><p class="dek">Before important work, the owner writes down confidence, a cap on time and money, what worked and failed look like, and what a miss would cost.</p><div class="body">
+</div><button class="more" type="button" aria-controls="b7" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="4"><h2>How I would approach "will this work?"</h2><p class="dek">Before important work, the owner writes down confidence, a cap on time and money, what worked and failed look like, and what a miss would cost.</p><div class="body" id="b8">
 <p>Before any important piece of work, the person who owns it writes down:
 1. how confident they are that it can be done in the time and budget;
 2. a cap on time and money, so a miss never hurts the whole plan;
 3. what "it worked" looks like, and what "it did not" looks like;
 4. what a miss would cost in time, pace, focus, money and morale, and who would carry it.</p>
 <p>When the work is mine, I write mine down too. It works like a test budget in a marketing plan. You cap the test so one miss never sinks the campaign, and you decide in advance what result tells you to stop.</p>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="4"><h2>A possibility I want to name early: setup that depends on what I find</h2><p class="dek">Some set-up can only be scoped after I look. It is priced only if the audit shows it is needed.</p><div class="body">
-<p>Some of the groundwork cannot be scoped until I have looked. I would rather tell you now than surprise you later. Depending on the audit, a layer of careful set-up may be needed, and it would be priced only if the audit shows it is needed. Here is what would switch each part on:</p>
-<div class="tablewrap"><table>
+</div><button class="more" type="button" aria-controls="b8" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="4"><h2>A possibility I want to name early: setup that depends on what I find</h2><p class="dek">Some set-up can only be scoped after I look. It is priced only if it is needed.</p><div class="body" id="b9">
+<p>Some of the groundwork cannot be scoped until I have looked. I would rather tell you now than surprise you later. Depending on what I find in stage 1, a layer of careful set-up may be needed, and it would be priced only if it is needed. Here is what would switch each part on:</p>
+<div class="tablewrap" tabindex="0"><div class="tablewrap" tabindex="0"><table>
 <thead>
 <tr>
 <th>If I find this</th>
@@ -164,29 +202,29 @@ section{scroll-margin-top:110px}
 <td>A simple chart of what kind of information may live in which service, for how long, and who can see it, made with your lawyers</td>
 </tr>
 <tr>
-<td>No tested backup, no diary of who did what, or no alarms</td>
+<td>No tested backup, no activity diary (<a class="gl" href="#g-audit-log">audit log</a>) of who did what, or no alarms</td>
 <td>A backup that has been practised, an activity diary and alarms</td>
 </tr>
 <tr>
 <td>A lawyer, partner or funder asks me to show the safeguards</td>
-<td>A record showing where the proof of each safeguard lives</td>
+<td>An <a class="gl" href="#g-evidence-trail">evidence trail</a> showing where the proof of each safeguard lives</td>
 </tr>
 <tr>
 <td>A service turns out not to be a suitable home for some kind of information</td>
 <td>A decision, with costs, about moving that part, made before anything else is built</td>
 </tr>
 </tbody>
-</table></div>
-<p>I would do the cheap protective parts first (change tracking, separate rehearsal and real), the rest before the first outside family uses the app, and the evidence record only when someone asks. The aim is simple: every statement about where your families' information lives is backed by an agreement or a decision by your lawyers. It is not to turn a four-person team into a big compliance department.</p>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>The cost, in three buckets</h2><p class="dek">Fixed, grows with use, and hidden, each as a best, likely and worst case. Nothing is priced yet.</p><div class="body">
-<p>We will fill these in together, using your usage model, current price pages with their dates, and my rates once they are agreed. Each bucket gets a best case, a likely case and a worst case, with the cases defined before anyone fills in a number.</p>
+</table></div></div>
+<p>I would do the cheap protective parts first (change tracking, separate rehearsal and real), the rest before the first outside family uses the app, and the evidence trail only when someone asks. The aim is simple: every statement about where your families' information lives is backed by an agreement or a decision by your lawyers. It is not to turn a four-person team into a big compliance department.</p>
+</div><button class="more" type="button" aria-controls="b9" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>The cost, in three buckets</h2><p class="dek">Fixed, grows with use, and hidden, each as a best, likely and worst case. Nothing is priced yet.</p><div class="body" id="b10">
+<p>We will fill these in together, using your cost model, current price pages with their dates, and my rates once they are agreed. Each bucket gets a best case, a likely case and a worst case, with the cases defined before anyone fills in a number.</p>
 <ol>
 <li><strong>Fixed:</strong> one-time and set-up work, subscriptions, and your lawyers' time.</li>
-<li><strong>Grows with use:</strong> the AI usage meter (more families and longer documents mean a bigger bill), search and file handling.</li>
-<li><strong>Hidden:</strong> the cost of moving information or parts of the app if a service turns out not to be the right home for some kind of information; rework when a legal answer arrives late, the time families spend reviewing what gets hidden from the AI, switching providers later, and your own four people's time.</li>
+<li><strong>Grows with use:</strong> the AI <a class="gl" href="#g-token">usage meter</a> (more families and longer documents mean a bigger bill), search and file handling.</li>
+<li><strong>Hidden:</strong> moving information or parts of the app if a service is not the right home for it; rework when a legal answer arrives late; the time families spend reviewing what is hidden from the AI; switching providers later; and your own four people's time.</li>
 </ol>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>What I need from you, and what you can expect from me</h2><p class="dek">From you: the NDA, the code, the plan, your cost model and a list of services. From me: dated findings and early notice when anything moves.</p><div class="body">
-<div class="tablewrap"><table>
+</div><button class="more" type="button" aria-controls="b10" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>What I need from you, and what you can expect from me</h2><p class="dek">From you: the <a class="gl" href="#g-nda">NDA</a>, the code, the plan, your cost model and a list of services. From me: dated findings and early notice when anything moves.</p><div class="body" id="b11">
+<div class="tablewrap" tabindex="0"><div class="tablewrap" tabindex="0"><table>
 <thead>
 <tr>
 <th>From you</th>
@@ -207,152 +245,251 @@ section{scroll-margin-top:110px}
 <td>A heads-up if my view of the work changes</td>
 </tr>
 </tbody>
-</table></div>
-<p>This note sits beside your legal agreement and does not replace it. Your counsel should confirm anything in it that could read as a commitment.</p>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>For Kelly</h2><p class="dek">Your plan and the build side by side, cost per family in three cases, and the lists that make the empathy question testable.</p><div class="body">
-<ul>
-<li>Stage 2 puts your business plan and the build side by side, and checks every claim in one against the other, the way you would reconcile two sets of books.</li>
-<li>You get the cost per family in three cases, with sources and dates.</li>
-<li>You help write the "always, sometimes, never" lists that make the empathy question testable.</li>
-<li>At every stage you see a plain checkpoint, not a status report.</li>
-</ul>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>For Chelsea</h2><p class="dek">You stay the builder. The AI provider choice waits for the facts, and Alice comes after the groundwork.</p><div class="body">
-<ul>
-<li>You stay the builder. Stage 3 sets things up so you can run releases yourself.</li>
-<li>The Anthropic or OpenAI question gets decided with the facts in hand and your lawyers' input, and the setup keeps your options open so a later switch is not a rebuild.</li>
-<li>Hiding private information from the AI should not rely on the AI to catch everything. I would pair automatic checks with a review step for the parent, and measure how well it works on made-up documents.</li>
-<li>Alice comes after the groundwork, with the option of the small trial above if you want real numbers sooner.</li>
-</ul>
-</div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>What I know, what I think, what I am guessing</h2><p class="dek">Every item is tagged so you can tell what is known from what is a guess.</p><div class="body">
-<p>Every item in the full plan is tagged so you can tell. <strong>I know:</strong> you told me, or I checked a source. <strong>I think:</strong> one source, or reasoning from things I have not seen yet. <strong>I am guessing:</strong> it waits on materials I have not received. Today most of the technical items sit in the last two groups, because I have not seen the code or the build plan. I would rather say that than sound surer than I am.</p></div><button class="more" type="button" hidden>Show detail</button></div></section>
-<section id="codex"><div class="sec" data-body-alt="5"><h2>Translation codex</h2><p class="dek">A legend for every technical word, each with a plain meaning, a picture and why it matters to you.</p><div class="body"><h2>The translation codex</h2>
+</table></div></div>
+</div><button class="more" type="button" aria-controls="b11" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>What I know, what I think, what I am guessing</h2><p class="dek">I say which points I know, which I think and which I am guessing.</p><div class="body" id="b12">
+<p>Where this page says something I have not checked, I say so. <strong>I know:</strong> you told me, or I checked a source. <strong>I think:</strong> it rests on one source, or on reasoning about things I have not seen yet. <strong>I am guessing:</strong> it waits on material I have not received. Today most of the technical points sit in the last two groups, because I have not seen the code or the build plan. I would rather say that than sound surer than I am.</p>
+</div><button class="more" type="button" aria-controls="b12" aria-expanded="false" hidden>Show detail</button></div><div class="sec" data-body-alt="1"><h2>What happens next</h2>
+<ol>
+<li>You send the signed NDA, then the code, the build plan, your cost model, the business plan and projections, and a list of the services you pay for.</li>
+<li>I read, take a short first look to size the work, and tell you how long stage 1 should take before it starts.</li>
+<li>I set up one conversation with each of you four.</li>
+</ol>
+<p>This page is my view, not an agreement. Nothing here is legal advice, and your counsel should confirm anything in it that could read as a commitment.</p></div></section>
+<section id="codex"><div class="sec" data-body-alt="5"><h2>Translation codex</h2><p class="dek">A legend for the technical words, each with a plain meaning, a picture and why it matters to you.</p><div class="body" id="bcodex">
 <p>A legend for the technical words you will hear. Each one gets a plain meaning, a picture to hold, and why it matters to you. If a word is missing, ask, and I will add it.</p>
 <h3>The building blocks</h3>
-<div class="cards"><article class="card"><h4><strong>Front end</strong></h4><dl><div><dt>In plain words</dt><dd>The part of the app people see and tap.</dd></div><div><dt>Picture</dt><dd>The shop window and the shop floor.</dd></div><div><dt>Why it matters to you</dt><dd>Yours already works; the open questions are behind the window.</dd></div></dl></article><article class="card"><h4><strong>Back end</strong></h4><dl><div><dt>In plain words</dt><dd>The part people do not see, where information is stored and rules are applied.</dd></div><div><dt>Picture</dt><dd>The stockroom and the office.</dd></div><div><dt>Why it matters to you</dt><dd>Where private information lives, so it is where most care is needed.</dd></div></dl></article><article class="card"><h4><strong>Database</strong></h4><dl><div><dt>In plain words</dt><dd>An organised place where the app keeps its information.</dd></div><div><dt>Picture</dt><dd>A very tidy filing cabinet.</dd></div><div><dt>Why it matters to you</dt><dd>Supabase plays this role for you.</dd></div></dl></article><article class="card"><h4><strong>Lovable and Supabase</strong></h4><dl><div><dt>In plain words</dt><dd>Lovable helps build the app's screens from instructions. Supabase stores the app's information and handles who can log in.</dd></div><div><dt>Picture</dt><dd>A builder who sketches the shop, and the cabinet inside it.</dd></div><div><dt>Why it matters to you</dt><dd>Each is a separate company with its own rules for what you may put in it.</dd></div></dl></article><article class="card"><h4><strong>AI model</strong></h4><dl><div><dt>In plain words</dt><dd>The program that reads a question and writes an answer.</dd></div><div><dt>Picture</dt><dd>A very well-read assistant who has never met your family.</dd></div><div><dt>Why it matters to you</dt><dd>Alice is built on one. Which one is a decision, not a given.</dd></div></dl></article><article class="card"><h4><strong>Prompt</strong></h4><dl><div><dt>In plain words</dt><dd>The written instructions that tell the AI how to behave.</dd></div><div><dt>Picture</dt><dd>A briefing note.</dd></div><div><dt>Why it matters to you</dt><dd>Alice's voice and her limits live here.</dd></div></dl></article><article class="card"><h4><strong>Vendor, provider</strong></h4><dl><div><dt>In plain words</dt><dd>A company whose service you rely on.</dd></div><div><dt>Picture</dt><dd>A supplier.</dd></div><div><dt>Why it matters to you</dt><dd>Every supplier brings terms and a bill, and switching one can be easy or painful.</dd></div></dl></article><article class="card"><h4><strong>API</strong></h4><dl><div><dt>In plain words</dt><dd>A doorway one program uses to ask another for something.</dd></div><div><dt>Picture</dt><dd>A shop's order window.</dd></div><div><dt>Why it matters to you</dt><dd>Alice reaches the AI model through one.</dd></div></dl></article><article class="card"><h4><strong>Lock-in</strong></h4><dl><div><dt>In plain words</dt><dd>When leaving a supplier is costly.</dd></div><div><dt>Picture</dt><dd>A phone contract with a penalty.</dd></div><div><dt>Why it matters to you</dt><dd>I would build so you can switch AI providers without rebuilding.</dd></div></dl></article></div>
+<dl class="gloss"><div id="g-front-end"><dt>Front end</dt><dd>The part of the app people see and tap. <span class="pic">Picture: The shop window and the shop floor.</span> <span class="why">Why it matters: Yours already works; the open questions are behind the window.</span></dd></div><div id="g-back-end"><dt>Back end</dt><dd>The part people do not see, where information is stored and rules are applied. <span class="pic">Picture: The stockroom and the office.</span> <span class="why">Why it matters: Where private information lives, so it is where most care is needed.</span></dd></div><div id="g-database"><dt>Database</dt><dd>An organised place where the app keeps its information. <span class="pic">Picture: A very tidy filing cabinet.</span> <span class="why">Why it matters: Supabase plays this role for you.</span></dd></div><div id="g-lovable-and-supabase"><dt>Lovable and Supabase</dt><dd>The two services your app is built and stored on. <span class="pic">Picture: Your workshop and your storeroom.</span> <span class="why">Why it matters: Each is a separate company with its own rules for what you may put in it.</span></dd></div><div id="g-ai-model"><dt>AI model</dt><dd>The program that reads a question and writes an answer. <span class="pic">Picture: A very well-read assistant who has never met your family.</span> <span class="why">Why it matters: Alice is built on one. Which one is a decision, not a given.</span></dd></div><div id="g-prompt"><dt>Prompt</dt><dd>The written instructions that tell the AI how to behave. <span class="pic">Picture: A briefing note.</span> <span class="why">Why it matters: Alice's voice and her limits live here.</span></dd></div><div id="g-vendor-provider"><dt>Vendor, provider</dt><dd>A company whose service you rely on. <span class="pic">Picture: A supplier.</span> <span class="why">Why it matters: Every supplier brings terms and a bill, and switching one can be easy or painful.</span></dd></div><div id="g-api"><dt>API</dt><dd>A doorway one program uses to ask another for something. <span class="pic">Picture: A shop's order window.</span> <span class="why">Why it matters: Alice reaches the AI model through one.</span></dd></div><div id="g-lock-in"><dt>Lock-in</dt><dd>When leaving a supplier is costly. <span class="pic">Picture: A phone contract with a penalty.</span> <span class="why">Why it matters: I would build so you can switch AI providers without rebuilding.</span></dd></div></dl>
 <h3>How Alice works</h3>
-<div class="cards"><article class="card"><h4><strong>Token</strong></h4><dl><div><dt>In plain words</dt><dd>A small chunk of text the AI reads or writes. Usage is billed by the chunk.</dd></div><div><dt>Picture</dt><dd>A taxi meter that counts words instead of miles.</dd></div><div><dt>Why it matters to you</dt><dd>Longer documents and more conversations mean a bigger bill.</dd></div></dl></article><article class="card"><h4><strong>Usage cap</strong></h4><dl><div><dt>In plain words</dt><dd>A ceiling on how much AI use is allowed.</dd></div><div><dt>Picture</dt><dd>A prepaid card with a limit.</dd></div><div><dt>Why it matters to you</dt><dd>Stops a surprise bill.</dd></div></dl></article><article class="card"><h4><strong>Retrieval</strong></h4><dl><div><dt>In plain words</dt><dd>Alice looking things up in the vault before answering.</dd></div><div><dt>Picture</dt><dd>A librarian fetching the right folder first.</dd></div><div><dt>Why it matters to you</dt><dd>It is why uploaded documents affect cost and privacy.</dd></div></dl></article><article class="card"><h4><strong>Hallucination</strong></h4><dl><div><dt>In plain words</dt><dd>When an AI states something wrong in a confident voice.</dd></div><div><dt>Picture</dt><dd>A fluent speaker who has not checked the facts.</dd></div><div><dt>Why it matters to you</dt><dd>Why I test Alice and why every document gets fact-checked, mine included.</dd></div></dl></article><article class="card"><h4><strong>Model version, "freezing" it</strong></h4><dl><div><dt>In plain words</dt><dd>Locking Alice to a specific version of the AI so it does not change behaviour under you.</dd></div><div><dt>Picture</dt><dd>Printing a form and not editing it mid-year.</dd></div><div><dt>Why it matters to you</dt><dd>Keeps results steady and lets you check them.</dd></div></dl></article><article class="card"><h4><strong>Redaction</strong></h4><dl><div><dt>In plain words</dt><dd>Hiding private details before something is used or shared.</dd></div><div><dt>Picture</dt><dd>A black marker over names.</dd></div><div><dt>Why it matters to you</dt><dd>Automatic hiding misses things, so I would pair it with a parent review step.</dd></div></dl></article></div>
+<dl class="gloss"><div id="g-token"><dt>Token</dt><dd>A small chunk of text the AI reads or writes. Usage is billed by the chunk. Also called the AI usage meter. <span class="pic">Picture: A taxi meter that counts words instead of miles.</span> <span class="why">Why it matters: Longer documents and more conversations mean a bigger bill.</span></dd></div><div id="g-usage-cap"><dt>Usage cap</dt><dd>A ceiling on how much AI use is allowed. <span class="pic">Picture: A prepaid card with a limit.</span> <span class="why">Why it matters: Stops a surprise bill.</span></dd></div><div id="g-retrieval"><dt>Retrieval</dt><dd>Alice looking things up in the vault before answering. <span class="pic">Picture: A librarian fetching the right folder first.</span> <span class="why">Why it matters: It is why uploaded documents affect cost and privacy.</span></dd></div><div id="g-hallucination"><dt>Hallucination</dt><dd>When an AI states something wrong in a confident voice. <span class="pic">Picture: A fluent speaker who has not checked the facts.</span> <span class="why">Why it matters: Why I test Alice and why every document gets fact-checked, mine included.</span></dd></div><div id="g-model-version-freezing-it"><dt>Model version, "freezing" it</dt><dd>Locking Alice to a specific version of the AI so it does not change behaviour under you. <span class="pic">Picture: Printing a form and not editing it mid-year.</span> <span class="why">Why it matters: Keeps results steady and lets you check them.</span></dd></div><div id="g-redaction"><dt>Redaction</dt><dd>Hiding private details before something is used or shared. <span class="pic">Picture: A black marker over names.</span> <span class="why">Why it matters: Automatic hiding misses things, so I would pair it with a parent review step.</span></dd></div></dl>
 <h3>Keeping the build safe</h3>
-<div class="cards"><article class="card"><h4><strong>Version control, branch</strong></h4><dl><div><dt>In plain words</dt><dd>A record of every change to the app, with a safe side-copy to try changes before they go live.</dd></div><div><dt>Picture</dt><dd>Track changes in a document, plus a draft copy.</dd></div><div><dt>Why it matters to you</dt><dd>You can see who changed what and undo a mistake.</dd></div></dl></article><article class="card"><h4><strong>Environment (testing, live)</strong></h4><dl><div><dt>In plain words</dt><dd>Separate copies of the app for practising and for real use.</dd></div><div><dt>Picture</dt><dd>A rehearsal stage and the real stage.</dd></div><div><dt>Why it matters to you</dt><dd>Practice never touches real families' information.</dd></div></dl></article><article class="card"><h4><strong>Data placement</strong></h4><dl><div><dt>In plain words</dt><dd>Deciding which kind of information may be kept in which service.</dd></div><div><dt>Picture</dt><dd>Valuables in the safe, receipts in the drawer.</dd></div><div><dt>Why it matters to you</dt><dd>Services differ in what they are cleared to hold; your lawyers decide.</dd></div></dl></article><article class="card"><h4><strong>Evidence trail</strong></h4><dl><div><dt>In plain words</dt><dd>A record showing a safeguard is in place and when it was checked.</dd></div><div><dt>Picture</dt><dd>Receipts for every safeguard.</dd></div><div><dt>Why it matters to you</dt><dd>Answers "how do you know?" if anyone asks.</dd></div></dl></article><article class="card"><h4><strong>Backup and restore test</strong></h4><dl><div><dt>In plain words</dt><dd>A saved copy, and proof that it can be brought back.</dd></div><div><dt>Picture</dt><dd>A fire drill, not just a fire exit.</dd></div><div><dt>Why it matters to you</dt><dd>A backup nobody has tested is a hope.</dd></div></dl></article><article class="card"><h4><strong>Re-platforming</strong></h4><dl><div><dt>In plain words</dt><dd>Moving the app or its information to a different service.</dd></div><div><dt>Picture</dt><dd>Moving shop.</dd></div><div><dt>Why it matters to you</dt><dd>Only if a service turns out not to be the right home.</dd></div></dl></article></div>
+<dl class="gloss"><div id="g-version-control-branch"><dt>Version control, branch</dt><dd>A record of every change to the app, with a safe side-copy to try changes before they go live. Also called change tracking. <span class="pic">Picture: Track changes in a document, plus a draft copy.</span> <span class="why">Why it matters: You can see who changed what and undo a mistake.</span></dd></div><div id="g-environment-testing-live"><dt>Environment (testing, live)</dt><dd>Separate copies of the app for practising and for real use. <span class="pic">Picture: A rehearsal stage and the real stage.</span> <span class="why">Why it matters: Practice never touches real families' information.</span></dd></div><div id="g-data-placement"><dt>Data placement</dt><dd>Deciding which kind of information may be kept in which service. <span class="pic">Picture: Valuables in the safe, receipts in the drawer.</span> <span class="why">Why it matters: Services differ in what they are cleared to hold; your lawyers decide.</span></dd></div><div id="g-evidence-trail"><dt>Evidence trail</dt><dd>A record showing a safeguard is in place and when it was checked. <span class="pic">Picture: Receipts for every safeguard.</span> <span class="why">Why it matters: Answers "how do you know?" if anyone asks.</span></dd></div><div id="g-backup-and-restore-test"><dt>Backup and restore test</dt><dd>A saved copy, and proof that it can be brought back. <span class="pic">Picture: A fire drill, not just a fire exit.</span> <span class="why">Why it matters: A backup nobody has tested is a hope.</span></dd></div><div id="g-re-platforming"><dt>Re-platforming</dt><dd>Moving the app or its information to a different service. <span class="pic">Picture: Moving shop.</span> <span class="why">Why it matters: Only if a service turns out not to be the right home.</span></dd></div></dl>
 <h3>Who can see what</h3>
-<div class="cards"><article class="card"><h4><strong>Role-based access</strong></h4><dl><div><dt>In plain words</dt><dd>Different people see different things based on who they are.</dd></div><div><dt>Picture</dt><dd>Keys that open only some doors.</dd></div><div><dt>Why it matters to you</dt><dd>Parents, children and practitioners need different views.</dd></div></dl></article><article class="card"><h4><strong>Audit log</strong></h4><dl><div><dt>In plain words</dt><dd>A diary of who did what and when.</dd></div><div><dt>Picture</dt><dd>A visitor book at the door.</dd></div><div><dt>Why it matters to you</dt><dd>Helps with trust, questions and problems.</dd></div></dl></article><article class="card"><h4><strong>Retention</strong></h4><dl><div><dt>In plain words</dt><dd>How long information is kept.</dd></div><div><dt>Picture</dt><dd>How long a shop keeps receipts.</dd></div><div><dt>Why it matters to you</dt><dd>Kept too long can be a risk; ask your lawyers what is right.</dd></div></dl></article><article class="card"><h4><strong>Synthetic data</strong></h4><dl><div><dt>In plain words</dt><dd>Made-up information that looks real.</dd></div><div><dt>Picture</dt><dd>A rehearsal with actors.</dd></div><div><dt>Why it matters to you</dt><dd>I test with this, never with real families.</dd></div></dl></article><article class="card"><h4><strong>Second check at login</strong></h4><dl><div><dt>In plain words</dt><dd>A second proof that it is really you.</dd></div><div><dt>Picture</dt><dd>A code sent to your phone.</dd></div><div><dt>Why it matters to you</dt><dd>A basic protection for every account.</dd></div></dl></article></div>
+<dl class="gloss"><div id="g-role-based-access"><dt>Role-based access</dt><dd>Different people see different things based on who they are. <span class="pic">Picture: Keys that open only some doors.</span> <span class="why">Why it matters: Parents, children and practitioners need different views.</span></dd></div><div id="g-audit-log"><dt>Audit log</dt><dd>A diary of who did what and when. <span class="pic">Picture: A visitor book at the door.</span> <span class="why">Why it matters: Helps with trust, questions and problems.</span></dd></div><div id="g-retention"><dt>Retention</dt><dd>How long information is kept. <span class="pic">Picture: How long a shop keeps receipts.</span> <span class="why">Why it matters: Kept too long can be a risk; ask your lawyers what is right.</span></dd></div><div id="g-synthetic-data"><dt>Synthetic data</dt><dd>Made-up information that looks real. <span class="pic">Picture: A rehearsal with actors.</span> <span class="why">Why it matters: I test with this, never with real families.</span></dd></div><div id="g-second-check-at-login"><dt>Second check at login</dt><dd>A second proof that it is really you. <span class="pic">Picture: A code sent to your phone.</span> <span class="why">Why it matters: A basic protection for every account.</span></dd></div></dl>
 <h3>The legal alphabet (for your lawyers, not for me)</h3>
-<div class="tablewrap"><table>
-<thead>
-<tr>
-<th>Word</th>
-<th>In plain words</th>
-<th>Why it matters to you</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>HIPAA</strong></td>
-<td>United States federal privacy rules for certain health information held by certain organisations.</td>
-<td>Whether it applies to My Ally LD is for your lawyers.</td>
-</tr>
-<tr>
-<td><strong>COPPA</strong></td>
-<td>United States federal rules about collecting information from children online.</td>
-<td>Same: your lawyers decide how it applies.</td>
-</tr>
-<tr>
-<td><strong>BAA</strong></td>
-<td>A contract between an organisation that handles health information and a service company that handles it for them.</td>
-<td>Some AI providers offer one; whether you need one is for your lawyers.</td>
-</tr>
-<tr>
-<td><strong>Accessibility standard</strong></td>
-<td>A published set of rules for making a product usable by people with disabilities.</td>
-<td>You choose which one to follow, with advice.</td>
-</tr>
-</tbody>
-</table></div>
+<dl class="gloss"><div id="g-hipaa"><dt>HIPAA</dt><dd>United States federal privacy rules for certain health information held by certain organisations. <span class="why">Why it matters: Whether it applies to My Ally LD is for your lawyers.</span></dd></div><div id="g-coppa"><dt>COPPA</dt><dd>United States federal rules about collecting information from children online. <span class="why">Why it matters: Same: your lawyers decide how it applies.</span></dd></div><div id="g-baa"><dt>BAA</dt><dd>A contract between an organisation that handles health information and a service company that handles it for them. <span class="why">Why it matters: Some AI providers offer one; whether you need one is for your lawyers.</span></dd></div><div id="g-accessibility-standard"><dt>Accessibility standard</dt><dd>A published set of rules for making a product usable by people with disabilities. <span class="why">Why it matters: You choose which one to follow, with advice.</span></dd></div></dl>
 <h3>Working together</h3>
-<div class="cards"><article class="card"><h4><strong>Sprint</strong></h4><dl><div><dt>In plain words</dt><dd>A short push of work with a fixed length.</dd></div><div><dt>Picture</dt><dd>A sprint in a race, not a marathon.</dd></div><div><dt>Why it matters to you</dt><dd>Each stage ends with something you can check.</dd></div></dl></article><article class="card"><h4><strong>Roadmap</strong></h4><dl><div><dt>In plain words</dt><dd>The plan in time order.</dd></div><div><dt>Picture</dt><dd>A route on a map with stops.</dd></div><div><dt>Why it matters to you</dt><dd>Stage 2 builds it with you.</dd></div></dl></article><article class="card"><h4><strong>Dependency</strong></h4><dl><div><dt>In plain words</dt><dd>One thing that must finish before another can start.</dd></div><div><dt>Picture</dt><dd>You cannot frost a cake that is not baked.</dd></div><div><dt>Why it matters to you</dt><dd>A campaign calendar has them too.</dd></div></dl></article><article class="card"><h4><strong>Backlog</strong></h4><dl><div><dt>In plain words</dt><dd>The to-do list, in priority order.</dd></div><div><dt>Picture</dt><dd>The next items in a shopping basket.</dd></div><div><dt>Why it matters to you</dt><dd>You decide the order.</dd></div></dl></article><article class="card"><h4><strong>Definition of done</strong></h4><dl><div><dt>In plain words</dt><dd>A written checklist for what "finished" means.</dd></div><div><dt>Picture</dt><dd>The brief a campaign is judged against.</dd></div><div><dt>Why it matters to you</dt><dd>Ends arguments about whether something is finished.</dd></div></dl></article><article class="card"><h4><strong>First release, thin path</strong></h4><dl><div><dt>In plain words</dt><dd>The smallest version that works from start to finish.</dd></div><div><dt>Picture</dt><dd>One complete route before the whole map.</dd></div><div><dt>Why it matters to you</dt><dd>Smaller, safer, earlier.</dd></div></dl></article><article class="card"><h4><strong>Trial run, spike</strong></h4><dl><div><dt>In plain words</dt><dd>A small time-limited experiment.</dd></div><div><dt>Picture</dt><dd>A pilot batch.</dd></div><div><dt>Why it matters to you</dt><dd>Learn the cost before committing.</dd></div></dl></article><article class="card"><h4><strong>Handoff pack</strong></h4><dl><div><dt>In plain words</dt><dd>Everything I made, in your hands.</dd></div><div><dt>Picture</dt><dd>The binder you take if you leave the table.</dd></div><div><dt>Why it matters to you</dt><dd>Means you lose nothing if I stop.</dd></div></dl></article></div>
+<dl class="gloss"><div id="g-nda"><dt>NDA</dt><dd>A signed agreement that keeps what you share confidential. <span class="pic">Picture: A sealed envelope.</span> <span class="why">Why it matters: Nothing sensitive moves until it is signed.</span></dd></div><div id="g-cost-model"><dt>Cost model</dt><dd>Your estimate of what Alice will cost per family, for light, typical and heavy use. <span class="pic">Picture: A budget with scenarios.</span> <span class="why">Why it matters: I will check it against how Alice will really work, not replace it.</span></dd></div><div id="g-scope"><dt>Scope</dt><dd>What is in the work, and what is out. <span class="pic">Picture: The edges of a campaign brief.</span> <span class="why">Why it matters: Anything outside it is a separate conversation.</span></dd></div><div id="g-sprint"><dt>Sprint</dt><dd>A block of work with a fixed length and something to check at the end. <span class="pic">Picture: One episode of a series: a set length, and something delivered.</span> <span class="why">Why it matters: Each stage ends with something you can check.</span></dd></div><div id="g-roadmap"><dt>Roadmap</dt><dd>The plan in time order. <span class="pic">Picture: A route on a map with stops.</span> <span class="why">Why it matters: Stage 2 builds it with you.</span></dd></div><div id="g-dependency"><dt>Dependency</dt><dd>One thing that must finish before another can start. <span class="pic">Picture: You cannot frost a cake that is not baked.</span> <span class="why">Why it matters: A campaign calendar has them too.</span></dd></div><div id="g-backlog"><dt>Backlog</dt><dd>The to-do list, in priority order. <span class="pic">Picture: The next items in a shopping basket.</span> <span class="why">Why it matters: You decide the order.</span></dd></div><div id="g-definition-of-done"><dt>Definition of done</dt><dd>A written checklist for what "finished" means. <span class="pic">Picture: The brief a campaign is judged against.</span> <span class="why">Why it matters: Ends arguments about whether something is finished.</span></dd></div><div id="g-first-release-thin-path"><dt>First release, thin path</dt><dd>The smallest version that works from start to finish. <span class="pic">Picture: One complete route before the whole map.</span> <span class="why">Why it matters: Smaller, safer, earlier.</span></dd></div><div id="g-trial-run-spike"><dt>Trial run, spike</dt><dd>A small time-limited experiment. <span class="pic">Picture: A pilot batch.</span> <span class="why">Why it matters: Learn the cost before committing.</span></dd></div><div id="g-handoff-pack"><dt>Handoff pack</dt><dd>Everything I made, in your hands. <span class="pic">Picture: The binder you take if you leave the table.</span> <span class="why">Why it matters: Means you lose nothing if I stop.</span></dd></div></dl>
 <h3>Money</h3>
-<div class="cards"><article class="card"><h4><strong>Unit economics</strong></h4><dl><div><dt>In plain words</dt><dd>What each family costs you versus what each brings in.</dd></div><div><dt>Picture</dt><dd>Cost and revenue of one customer.</dd></div><div><dt>Why it matters to you</dt><dd>Kelly's world: it decides whether growth helps or hurts.</dd></div></dl></article><article class="card"><h4><strong>Fixed, grows with use, hidden costs</strong></h4><dl><div><dt>In plain words</dt><dd>Costs that stay the same, costs that rise with families, and costs nobody listed.</dd></div><div><dt>Picture</dt><dd>Rent, ingredients, and the broken oven.</dd></div><div><dt>Why it matters to you</dt><dd>I list all three.</dd></div></dl></article><article class="card"><h4><strong>Best, likely, worst case</strong></h4><dl><div><dt>In plain words</dt><dd>Three versions of a number, defined before anyone fills it in.</dd></div><div><dt>Picture</dt><dd>A forecast with a range.</dd></div><div><dt>Why it matters to you</dt><dd>Prevents wishful thinking.</dd></div></dl></article></div>
+<dl class="gloss"><div id="g-unit-economics"><dt>Unit economics</dt><dd>What each family costs you versus what each brings in. <span class="pic">Picture: The cost and revenue of one customer.</span> <span class="why">Why it matters: I will use your model's figures, not mine.</span></dd></div><div id="g-fixed-grows-with-use-hidden-costs"><dt>Fixed, grows with use, hidden costs</dt><dd>Costs that stay the same, costs that rise with families, and costs nobody listed. <span class="pic">Picture: Rent, ingredients, and the broken oven.</span> <span class="why">Why it matters: I list all three.</span></dd></div><div id="g-best-likely-worst-case"><dt>Best, likely, worst case</dt><dd>Three versions of a number, with the cases defined before anyone fills it in. <span class="pic">Picture: A forecast with a range.</span> <span class="why">Why it matters: Keeps wishful thinking out of the numbers.</span></dd></div></dl>
 <h3>Decisions and honesty</h3>
-<div class="cards"><article class="card"><h4><strong>Decision record</strong></h4><dl><div><dt>In plain words</dt><dd>One page saying what was decided, why, and what would change your minds.</dd></div><div><dt>Picture</dt><dd>The minutes of a meeting that people actually reread.</dd></div><div><dt>Why it matters to you</dt><dd>Memory fades; the page does not.</dd></div></dl></article><article class="card"><h4><strong>"Imagine it failed" exercise</strong></h4><dl><div><dt>In plain words</dt><dd>Picture the project a year from now having failed, and write the story.</dd></div><div><dt>Picture</dt><dd>A reverse planning session.</dd></div><div><dt>Why it matters to you</dt><dd>Surfaces risks while they are cheap to fix.</dd></div></dl></article><article class="card"><h4><strong>Looking back</strong></h4><dl><div><dt>In plain words</dt><dd>Comparing what you and I set out to do with what happened.</dd></div><div><dt>Picture</dt><dd>A quarterly review.</dd></div><div><dt>Why it matters to you</dt><dd>Turns every stage into a lesson.</dd></div></dl></article><article class="card"><h4><strong>Checkpoint</strong></h4><dl><div><dt>In plain words</dt><dd>A test set in advance that says whether reality matches the plan.</dd></div><div><dt>Picture</dt><dd>A milestone in a campaign.</dd></div><div><dt>Why it matters to you</dt><dd>Keeps everyone honest without blame.</dd></div></dl></article><article class="card"><h4><strong>Predict first, check later</strong></h4><dl><div><dt>In plain words</dt><dd>Writing down what I expect before work starts.</dd></div><div><dt>Picture</dt><dd>A forecast filed before the quarter.</dd></div><div><dt>Why it matters to you</dt><dd>Lets me see if my judgement is improving.</dd></div></dl></article><article class="card"><h4><strong>Fact-check</strong></h4><dl><div><dt>In plain words</dt><dd>Verifying each factual claim against the code or a trusted source.</dd></div><div><dt>Picture</dt><dd>A copy editor with a red pen.</dd></div><div><dt>Why it matters to you</dt><dd>Applies to every document, mine included.</dd></div></dl></article><article class="card"><h4><strong>Shared documents versus shared understanding</strong></h4><dl><div><dt>In plain words</dt><dd>Having the same papers does not mean having the same picture.</dd></div><div><dt>Picture</dt><dd>Two teams reading one budget two ways.</dd></div><div><dt>Why it matters to you</dt><dd>The reason this engagement exists.</dd></div></dl></article></div></div><button class="more" type="button" hidden>Show detail</button></div></section>
-<section id="intake"><div class="sec" data-body-alt="4"><h2>Intake</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body">
+<dl class="gloss"><div id="g-decision-record"><dt>Decision record</dt><dd>One page saying what was decided, why, and what would change your minds. <span class="pic">Picture: The minutes of a meeting that people actually reread.</span> <span class="why">Why it matters: Memory fades; the page does not.</span></dd></div><div id="g-imagine-it-failed-exercise"><dt>"Imagine it failed" exercise</dt><dd>Picture the project a year from now having failed, and write the story. <span class="pic">Picture: A reverse planning session.</span> <span class="why">Why it matters: Surfaces risks while they are cheap to fix.</span></dd></div><div id="g-looking-back"><dt>Looking back</dt><dd>Comparing what you and I set out to do with what happened. Also called a look-back. <span class="pic">Picture: A quarterly review.</span> <span class="why">Why it matters: Turns every stage into a lesson.</span></dd></div><div id="g-checkpoint"><dt>Checkpoint</dt><dd>A test set in advance that says whether reality matches the plan. <span class="pic">Picture: A milestone in a campaign.</span> <span class="why">Why it matters: Keeps everyone honest without blame.</span></dd></div><div id="g-predict-first-check-later"><dt>Predict first, check later</dt><dd>Writing down what I expect before work starts. <span class="pic">Picture: A forecast filed before the quarter.</span> <span class="why">Why it matters: Lets me see if my judgement is improving.</span></dd></div><div id="g-fact-check"><dt>Fact-check</dt><dd>Verifying each factual claim against the code or a trusted source. <span class="pic">Picture: A copy editor with a red pen.</span> <span class="why">Why it matters: Applies to every document, mine included.</span></dd></div><div id="g-shared-documents-versus-shared-understanding"><dt>Shared documents versus shared understanding</dt><dd>Having the same papers does not mean having the same picture. <span class="pic">Picture: Two teams reading one budget two ways.</span> <span class="why">Why it matters: The reason this engagement exists.</span></dd></div></dl></div><button class="more" type="button" aria-controls="bcodex" aria-expanded="false" hidden>Show detail</button></div></section>
+<section id="intake"><div class="sec" data-body-alt="4"><h2>Intake</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body" id="bintake">
 <p>Four short sections, one each for the technical, money, day-to-day and business sides. You can answer in any order, skip anything you do not know, and say "not sure" as often as you need. Nothing here is a test. Each answer helps me look at the same picture you do.</p>
 <p><strong>Before you answer.</strong> Please share links, file names and short descriptions only. Do not paste or upload any family's information, any child's information, or any passwords or keys. Anything sensitive travels another way, agreed after the NDA is signed. Intake opens once the NDA is in place.</p>
 <h3>1. The build (for whoever builds)</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap" tabindex="0"><table>
 <thead>
-<tr><th>Question</th><th>How to answer</th><th data-alt="5">Why I ask</th></tr>
+<tr>
+<th>Question</th>
+<th>How to answer</th>
+<th>Why I ask</th>
+</tr>
 </thead>
 <tbody>
-<tr><td>Where does the app live today?</td><td>Link to the project in your build tool</td><td data-alt="5">So I look at the real thing</td></tr>
-<tr><td>Is the code saved in a code repository? Which one?</td><td>Yes, no or not sure, plus the name</td><td data-alt="5">Tells me how changes are tracked</td></tr>
-<tr><td>Which services does the app use (build tool, database, AI provider, search, email, analytics)?</td><td>A list, with the plan name if you know it</td><td data-alt="5">I map where information travels</td></tr>
-<tr><td>Which AI provider or providers have you tried or considered? Is any agreement already signed?</td><td>Short text</td><td data-alt="5">The provider choice is a decision to make with the facts</td></tr>
-<tr><td>Where is the build plan? Who wrote it, who reviewed it, and when was it last changed?</td><td>Link or file name, plus names and a date</td><td data-alt="5">So I can read it in context</td></tr>
-<tr><td>How do people log in today, and who can see what?</td><td>A few sentences</td><td data-alt="5">A first look at who can see what</td></tr>
-<tr><td>Is there a separate copy of the app for practising, apart from the real one?</td><td>Yes, no or not sure</td><td data-alt="5">Practice should never touch real use</td></tr>
-<tr><td>Have real documents ever been used while testing?</td><td>Yes, no or not sure (no details needed)</td><td data-alt="5">Tells me how careful to be</td></tr>
-<tr><td>Do you know if backups exist?</td><td>Yes, no or not sure</td><td data-alt="5">A backup nobody has tested is a hope</td></tr>
+<tr>
+<td>Where does the app live today?</td>
+<td>Link to the project in your build tool</td>
+<td>So I look at the real thing</td>
+</tr>
+<tr>
+<td>Is the code saved in a code repository? Which one?</td>
+<td>Yes, no or not sure, plus the name</td>
+<td>Tells me how changes are tracked</td>
+</tr>
+<tr>
+<td>Which services does the app use (build tool, database, AI provider, search, email, analytics)?</td>
+<td>A list, with the plan name if you know it</td>
+<td>I map where information travels</td>
+</tr>
+<tr>
+<td>Which AI provider or providers have you tried or considered? Is any agreement already signed?</td>
+<td>Short text</td>
+<td>The provider choice is a decision to make with the facts</td>
+</tr>
+<tr>
+<td>Where is the build plan? Who wrote it, who reviewed it, and when was it last changed?</td>
+<td>Link or file name, plus names and a date</td>
+<td>So I can read it in context</td>
+</tr>
+<tr>
+<td>How do people log in today, and who can see what?</td>
+<td>A few sentences</td>
+<td>A first look at who can see what</td>
+</tr>
+<tr>
+<td>Is there a separate copy of the app for practising, apart from the real one?</td>
+<td>Yes, no or not sure</td>
+<td>Practice should never touch real use</td>
+</tr>
+<tr>
+<td>Have real documents ever been used while testing?</td>
+<td>Yes, no or not sure. No details needed</td>
+<td>Tells me how careful to be</td>
+</tr>
+<tr>
+<td>Do you know if backups exist?</td>
+<td>Yes, no or not sure</td>
+<td>A backup nobody has tested is a hope</td>
+</tr>
 </tbody>
 </table></div>
 <h3>2. The money (for whoever keeps the numbers)</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap" tabindex="0"><table>
 <thead>
-<tr><th>Question</th><th>How to answer</th><th data-alt="5">Why I ask</th></tr>
+<tr>
+<th>Question</th>
+<th>How to answer</th>
+<th>Why I ask</th>
+</tr>
 </thead>
 <tbody>
-<tr><td>Business plan and financial projections</td><td>Link or file name, date, who wrote it</td><td data-alt="5">The plan and the build should say the same thing</td></tr>
-<tr><td>The usage-cost model for light, typical and heavy families</td><td>Link or file name, date, and where each assumption came from</td><td data-alt="5">I want to check it against how Alice will really work</td></tr>
-<tr><td>Funding plan and the timing you expect</td><td>Short text</td><td data-alt="5">Dates shape the order of the work</td></tr>
-<tr><td>How much cash runway do you have?</td><td>Your own figure, or "prefer to discuss"</td><td data-alt="5">A failed test should never threaten the whole plan</td></tr>
-<tr><td>Which services do you pay for each month, who pays, and on which card or account?</td><td>A list</td><td data-alt="5">Hidden recurring costs are common</td></tr>
-<tr><td>Which entity pays for this work and who signs?</td><td>Short text</td><td data-alt="5">So the paperwork matches</td></tr>
-<tr><td>Roughly what range feels comfortable for this work?</td><td>Optional</td><td data-alt="5">Helps me offer options that fit</td></tr>
+<tr>
+<td>Business plan and financial projections</td>
+<td>Link or file name, date, who wrote it</td>
+<td>The plan and the build should say the same thing</td>
+</tr>
+<tr>
+<td>The usage-cost model for light, typical and heavy families</td>
+<td>Link or file name, date, and where each assumption came from</td>
+<td>I want to check it against how Alice will really work</td>
+</tr>
+<tr>
+<td>Funding plan and the timing you expect</td>
+<td>Short text</td>
+<td>Dates shape the order of the work</td>
+</tr>
+<tr>
+<td>How much cash runway do you have?</td>
+<td>Optional. Your own figure, or "prefer to discuss"</td>
+<td>A failed test should never threaten the whole plan</td>
+</tr>
+<tr>
+<td>Which services do you pay for each month, who pays, and on which card or account?</td>
+<td>A list</td>
+<td>Hidden recurring costs are common</td>
+</tr>
+<tr>
+<td>Which entity pays for this work and who signs?</td>
+<td>Short text</td>
+<td>So the paperwork matches</td>
+</tr>
+<tr>
+<td>If you have a range in mind for this work, what is it?</td>
+<td>Optional. If not, I will propose options</td>
+<td>Helps me offer options that fit</td>
+</tr>
 </tbody>
 </table></div>
 <h3>3. Day to day (for whoever runs things)</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap" tabindex="0"><table>
 <thead>
-<tr><th>Question</th><th>How to answer</th><th data-alt="5">Why I ask</th></tr>
+<tr>
+<th>Question</th>
+<th>How to answer</th>
+<th>Why I ask</th>
+</tr>
 </thead>
 <tbody>
-<tr><td>Who makes the final call on each area (product, money, legal, build)?</td><td>A name per area</td><td data-alt="5">A decision with no owner is not a decision</td></tr>
-<tr><td>How many hours a week can each of you give this?</td><td>A number per person</td><td data-alt="5">The plan has to fit real time</td></tr>
-<tr><td>Who are your lawyers, and where is the list of questions you have asked them?</td><td>Names and a link</td><td data-alt="5">Their answers come first for some things</td></tr>
-<tr><td>Policies you already have (terms, privacy notice, consent wording)</td><td>Links</td><td data-alt="5">I do not rewrite what you have</td></tr>
-<tr><td>Key dates and limits (launch hopes, funding dates, holidays)</td><td>A list</td><td data-alt="5">So the roadmap respects them</td></tr>
-<tr><td>Who would be contacted if something went wrong with families' information?</td><td>A name and a way to reach them</td><td data-alt="5">Better to name them before it matters</td></tr>
-<tr><td>Tools you already use to work together</td><td>A list</td><td data-alt="5">I work where you work</td></tr>
+<tr>
+<td>Who makes the final call on each area (product, money, legal, build)?</td>
+<td>A name per area</td>
+<td>A decision with no owner is not a decision</td>
+</tr>
+<tr>
+<td>How many hours a week can each of you give this?</td>
+<td>A number per person</td>
+<td>The plan has to fit real time</td>
+</tr>
+<tr>
+<td>Who are your lawyers, and where is the list of questions you have asked them?</td>
+<td>Names and a link</td>
+<td>Their answers come first for some things</td>
+</tr>
+<tr>
+<td>Policies you already have (terms, privacy notice, consent wording)</td>
+<td>Links</td>
+<td>I do not rewrite what you have</td>
+</tr>
+<tr>
+<td>Key dates and limits (launch hopes, funding dates, holidays)</td>
+<td>A list</td>
+<td>So the roadmap respects them</td>
+</tr>
+<tr>
+<td>Who would be contacted if something went wrong with families' information?</td>
+<td>A name and a way to reach them</td>
+<td>Better to name them before it matters</td>
+</tr>
+<tr>
+<td>Tools you already use to work together</td>
+<td>A list</td>
+<td>I work where you work</td>
+</tr>
 </tbody>
 </table></div>
 <h3>4. The business (for whoever holds the vision)</h3>
-<div class="tablewrap"><table>
+<div class="tablewrap" tabindex="0"><table>
 <thead>
-<tr><th>Question</th><th>How to answer</th><th data-alt="5">Why I ask</th></tr>
+<tr>
+<th>Question</th>
+<th>How to answer</th>
+<th>Why I ask</th>
+</tr>
 </thead>
 <tbody>
-<tr><td>In two sentences, what is My Ally LD and who is it for first?</td><td>Your own words</td><td data-alt="5">Everyone describing it the same way is the goal</td></tr>
-<tr><td>Rank the five parts (vault, directory of providers, strengths questionnaire, opportunities, checklist and dashboard) by how much they matter to the first families</td><td>A ranked list</td><td data-alt="5">The roadmap follows what matters most</td></tr>
-<tr><td>What must be true by the start of next year?</td><td>Short text</td><td data-alt="5">Sets the checkpoint</td></tr>
-<tr><td>What have early testers told you, even informally?</td><td>Short text</td><td data-alt="5">Real feedback beats guesses</td></tr>
-<tr><td>Partners or grants in play, and what they require</td><td>A list</td><td data-alt="5">Their rules may shape the build</td></tr>
-<tr><td>What would make you stop or change course?</td><td>Short text</td><td data-alt="5">Decided in advance is cheaper</td></tr>
-<tr><td>What have you already decided that you do not want reopened?</td><td>A list</td><td data-alt="5">I respect settled decisions</td></tr>
+<tr>
+<td>In two sentences, what is My Ally LD and who is it for first?</td>
+<td>Your own words</td>
+<td>Everyone describing it the same way is the goal</td>
+</tr>
+<tr>
+<td>Rank the five parts (vault, directory of providers, strengths questionnaire, opportunities, checklist and dashboard) by how much they matter to the first families</td>
+<td>A ranked list</td>
+<td>The roadmap follows what matters most</td>
+</tr>
+<tr>
+<td>What must be true by the start of next year?</td>
+<td>Short text</td>
+<td>Sets the checkpoint</td>
+</tr>
+<tr>
+<td>What have early testers told you, even informally?</td>
+<td>Short text</td>
+<td>Real feedback beats guesses</td>
+</tr>
+<tr>
+<td>Partners or grants in play, and what they require</td>
+<td>A list</td>
+<td>Their rules may shape the build</td>
+</tr>
+<tr>
+<td>What would make you stop or change course?</td>
+<td>Short text</td>
+<td>Decided in advance is cheaper</td>
+</tr>
+<tr>
+<td>What have you already decided that you do not want reopened?</td>
+<td>A list</td>
+<td>I respect settled decisions</td>
+</tr>
 </tbody>
-</table></div><p class="note">The intake form opens here once the NDA is signed. Until then this is a preview of the questions, and nothing on this page collects or sends anything.</p></div><button class="more" type="button" hidden>Show detail</button></div></section>
+</table></div><p class="note">The intake form opens here once the NDA is signed. Until then this is a preview of the questions, and nothing on this page collects or sends anything.</p></div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
 </main>
 <script>
 (function(){
-  var DESC={"1": {"name": "Exec", "desc": "The headline and one line per section.", "adds": "the headline and one line per section"}, "2": {"name": "Strategic", "desc": "The stages and what you get from each.", "adds": "the four stages and what you get from each"}, "3": {"name": "Operational", "desc": "Who does what, how I would work, what I need from you.", "adds": "who does what, how I would work, and what I need from you"}, "4": {"name": "Tactical", "desc": "Checklists, triggers and the questions I would ask.", "adds": "checklists, triggers and the questions I would ask"}, "5": {"name": "Surgical", "desc": "Every detail, plus the glossary.", "adds": "every remaining detail and the glossary"}};
-  var level=2,over=new Set();
-  try{var v=parseInt(localStorage.getItem('altLevel'),10);if(v>=1&&v<=5)level=v;}catch(e){}
+  var DESC={"1": {"name": "Exec", "desc": "The headline, one line per section, and what happens next.", "adds": "the short version, the picture, and one line per section"}, "2": {"name": "Strategic", "desc": "The stages, what happens in each, and what you get.", "adds": "the four stages with what happens and what you get"}, "3": {"name": "Operational", "desc": "Who does what, how I would work, and what I need from you.", "adds": "who does what, how I would work, and what I need from you"}, "4": {"name": "Tactical", "desc": "Checklists, triggers and the questions I would ask, with why.", "adds": "checklists, triggers and the questions I would ask"}, "5": {"name": "Surgical", "desc": "Every detail, plus the glossary.", "adds": "every remaining detail and the glossary"}};
+  var level=3,over=new Set();
+  try{var v=parseInt(localStorage.getItem('myAllyLevel'),10);if(v>=1&&v<=5)level=v;}catch(e){}
   var secs=[].slice.call(document.querySelectorAll('.sec'));
+  function isOpen(i){var s=secs[i];var need=parseInt(s.getAttribute('data-body-alt'),10);return !s.querySelector('.body')||level>=need||over.has(i);}
   function apply(){
     secs.forEach(function(sec,i){
       var need=parseInt(sec.getAttribute('data-body-alt'),10);
       var hasBody=!!sec.querySelector('.body');
-      var open=!hasBody||level>=need||over.has(i);
+      var open=isOpen(i);
       var dek=sec.querySelector('.dek'),body=sec.querySelector('.body'),more=sec.querySelector('.more');
       if(dek)dek.hidden=open&&hasBody;
-      if(body)body.hidden=!open;
+      if(body){if(open)body.removeAttribute('hidden');else body.setAttribute('hidden','until-found');}
       if(more){more.hidden=level>=need;more.textContent=over.has(i)?'Hide detail':'Show detail';more.setAttribute('aria-expanded',over.has(i)?'true':'false');}
       [].forEach.call(sec.querySelectorAll('[data-alt]'),function(el){
         var a=parseInt(el.getAttribute('data-alt'),10);
@@ -371,18 +508,33 @@ section{scroll-margin-top:110px}
     var cur=DESC[level],nxt=DESC[level+1];
     document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Next step adds '+nxt.adds+'.':' This is the full detail.');
   }
-  function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('altLevel',String(level));}catch(e){}apply();}
-  [].forEach.call(document.querySelectorAll('.ladder button'),function(b){
-    b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});
-  });
-  [].forEach.call(document.querySelectorAll('.step'),function(b){
-    b.addEventListener('click',function(){setLevel(level+parseInt(b.getAttribute('data-dir'),10));});
-  });
+  function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('myAllyLevel',String(level));}catch(e){}apply();}
+  [].forEach.call(document.querySelectorAll('.ladder button'),function(b){b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});});
+  [].forEach.call(document.querySelectorAll('.step'),function(b){b.addEventListener('click',function(){setLevel(level+parseInt(b.getAttribute('data-dir'),10));});});
   secs.forEach(function(sec,i){
-    var more=sec.querySelector('.more');
+    var more=sec.querySelector('.more'),body=sec.querySelector('.body');
     if(more)more.addEventListener('click',function(){if(over.has(i))over.delete(i);else over.add(i);apply();});
+    if(body)body.addEventListener('beforematch',function(){over.add(i);apply();});
   });
+  function secFor(t){if(!t)return -1;var s=t.classList&&t.classList.contains('sec')?t:(t.querySelector&&t.querySelector('.sec'))||t.closest('.sec');return secs.indexOf(s);}
+  function go(id,push){
+    var t=document.getElementById(id);if(!t)return false;
+    var i=secFor(t);if(i>-1&&!isOpen(i)){over.add(i);apply();}
+    setTimeout(function(){t.scrollIntoView();},0);
+    if(push&&history.pushState){history.pushState(null,'','#'+id);}
+    return true;
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
+    var id=a.getAttribute('href').slice(1);if(go(id,true))e.preventDefault();
+  });
+  var root=document.documentElement,tb=document.getElementById('themebtn');
+  function eff(){var t=root.getAttribute('data-theme');if(t)return t;return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
+  function label(){tb.textContent=eff()==='dark'?'Light mode':'Dark mode';}
+  tb.addEventListener('click',function(){var n=eff()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('myAllyTheme',n);}catch(e){}label();});
+  label();
   apply();
+  if(location.hash.length>1)go(location.hash.slice(1),false);
 })();
 </script>
 </body>
