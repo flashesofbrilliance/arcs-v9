@@ -227,13 +227,15 @@ def build(files: list[str]) -> dict:
 
 def project(snap: dict, gal: dict) -> dict:
     keep = ("id", "label", "stratum", "domain", "status", "shore_open", "hardness", "diamond", "invariant")
+    # Display copy bans em-dashes; lattice labels use them as separators. Public projection only.
+    tidy = lambda v: v.replace(" \u2014 ", " · ").replace("\u2014", "-") if isinstance(v, str) else v
     return {
         "version": snap["version"], "lattice_reviewed": snap["lattice_reviewed"], "null_origin": snap["null_origin"],
         "federation": snap["federation"],
         "dimensions": {k: v for k, v in snap["dimensions"].items()},
         "sources": {"count": len(snap["sources"]), "private": sum(s["private"] for s in snap["sources"])},
         "rooms": [r["tenant"] for r in snap["reading_room"]],
-        "nodes": [dict({k: n[k] for k in keep}, files=n["population"]["files"], sig=n["signature"],
+        "nodes": [dict({k: tidy(n[k]) for k in keep}, files=n["population"]["files"], sig=n["signature"],
                        systems=gal[n["id"]]["systems"] if n["id"] in gal else None) for n in snap["nodes"]],
         "edges": snap["edges"],
     }

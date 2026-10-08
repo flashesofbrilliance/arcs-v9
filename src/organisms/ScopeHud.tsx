@@ -45,6 +45,9 @@ const panel: React.CSSProperties = {
   boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)", padding: "10px 12px 12px", pointerEvents: "none",
 }
 const label: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t2, textTransform: "uppercase", color: text.dimmed, whiteSpace: "nowrap" }
+// Names keep their own case: lattice labels carry math and Greek that uppercase mangles.
+const name: React.CSSProperties = { textTransform: "none", letterSpacing: "0.02em", fontWeight: 600 }
+const scroll: React.CSSProperties = { overflowY: "auto", scrollbarWidth: "thin", scrollbarColor: "#1e293b transparent" }
 const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, color: text.primary, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }
 
 // A node's signature: altitude (stratum), resonance (domain mix of its lattice neighbours, one
@@ -168,7 +171,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
       {/* Altimeter: the seven fathoms, continuous needle. */}
       <div style={{ ...panel, left: 16, top: 250, width: 192 }}>
         <Screws />
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}><span style={label}>Altimeter</span><span style={{ ...label, color: r.nest ? signal.gold : text.dimmed }}>Ø{r.nest}{r.nest ? ` · ×1e-${9 * r.nest}` : ""}</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}><span style={label}>Altimeter</span><span style={{ ...label, color: r.nest ? signal.gold : text.dimmed }}>Nest {r.nest}</span></div>
         <div style={{ position: "relative", marginTop: 8 }}>
           {fathoms.map((x) => (
             <div key={x.n} style={{ display: "flex", justifyContent: "space-between", gap: 8, padding: "3px 0 3px 14px", borderTop: `1px solid ${faint}` }}>
@@ -209,7 +212,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
         const row = (k: string, v: string, c: string = text.primary) => (
           <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0", borderTop: `1px solid ${faint}` }}><span style={label}>{k}</span><span style={{ ...label, color: c }}>{v}</span></div>)
         return (
-          <div style={{ ...panel, right: 16, top: 250, width: 248, maxHeight: "calc(100% - 350px)", overflowY: "auto", overflowX: "hidden", pointerEvents: "auto" }}>
+          <div style={{ ...panel, right: 16, top: 250, width: 248, maxHeight: "calc(100% - 350px)", ...scroll, overflowX: "hidden", pointerEvents: "auto" }}>
             <Screws />
             <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Universe</span><span style={label}>lattice {universe.lattice_reviewed}</span></div>
             {r.galaxy && (
@@ -225,7 +228,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
             {row("Clarity", `${d.clarity.nodes_clear}/${d.clarity.nodes} clear · ${d.clarity.files_fog} fog`, signal.cyan)}
             {row("Coherence", `${d.coherence.diamonds} diamonds · h ${d.coherence.mean_hardness}`, signal.gold)}
             {row("Cohesion", `${Math.round(d.cohesion.ratio * 100)}% cross-domain`)}
-            {row("Consonance", `${d.consonance.tautology}T ${d.consonance.constitutional}C ${d.consonance.empirical}E`)}
+            {row("Consonance", `${d.consonance.empirical} empirical of ${d.consonance.tautology + d.consonance.constitutional + d.consonance.empirical}`)}
             {r.node && (
               <div style={{ marginTop: 8, paddingTop: 6, borderTop: `1px solid ${signal.gold}66` }}>
                 <div style={{ ...label, color: signal.gold, whiteSpace: "normal" }}>Ø{r.nest} · {r.node.label}</div>
@@ -279,7 +282,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
 
       {/* Holds: every node one edge away, and whether you can hop to it. */}
       {r.universe && (r.holds.length > 0 || r.bankUp || r.bankDown) && (
-        <div style={{ ...panel, ...(narrow ? { left: 16, right: 16, bottom: 110, maxHeight: "32%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), overflowY: "auto", pointerEvents: "auto" }}>
+        <div style={{ ...panel, ...(narrow ? { left: 16, right: 16, bottom: 110, maxHeight: "32%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), ...scroll, pointerEvents: "auto" }}>
           <Screws />
           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span><span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span></div>
           {([[1, r.bankUp], [-1, r.bankDown]] as const).map(([dir, b]) => b && (
@@ -291,11 +294,11 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
               title={b.state === "open" ? `Bank ${dir > 0 ? "up" : "down"} one ring to ${b.label} (Shift ${dir > 0 ? "up" : "down"})` : `Bank ${b.state}`}
               style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: b.state === "open" ? "pointer" : "default", color: b.state === "open" ? text.primary : text.dimmed }}
             >
-              <span><span style={{ color: dir > 0 ? signal.gold : signal.cyan }}>{dir > 0 ? "Bank up" : "Bank down"}</span> · {b.label}</span>
+              <span><span style={{ color: dir > 0 ? signal.gold : signal.cyan }}>{dir > 0 ? "Bank up" : "Bank down"}</span> · <span style={name}>{b.label}</span></span>
               <span style={{ color: b.state === "open" ? signal.green : b.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{b.state}</span>
             </button>
           ))}
-          {r.holds.map((h) => (
+          {r.holds.filter((h) => h.state === "open").map((h) => (
             <button
               key={h.id}
               type="button"
@@ -304,18 +307,23 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
               title={h.state === "open" ? `Hop to ${h.label}` : h.state === "blocked" ? "Blocked: this node is gated" : "Obscured: open questions, visibility under 50%"}
               style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: h.state === "open" ? "pointer" : "default", color: h.state === "open" ? text.primary : text.dimmed }}
             >
-              <span>{h.label}</span>
+              <span style={name}>{h.label}</span>
               <span style={{ color: h.state === "open" ? signal.green : h.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{h.state}</span>
             </button>
           ))}
+          {(() => {
+            const shut = r.holds.filter((h) => h.state !== "open")
+            if (!shut.length) return null
+            const ob = shut.filter((h) => h.state === "obscured").length, bl = shut.length - ob
+            return (
+              <div title={shut.map((h) => `${h.label} (${h.state})`).join("\n")} style={{ ...label, borderTop: `1px solid ${faint}`, padding: "4px 0", whiteSpace: "normal" }}>
+                {[ob && `${ob} obscured by fog`, bl && `${bl} blocked by a gate`].filter(Boolean).join(" · ")}
+              </div>
+            )
+          })()}
         </div>
       )}
 
-      {/* Status strip. */}
-      <div style={{ position: "absolute", left: 16, right: 16, top: 16, display: "flex", justifyContent: "flex-end", gap: 16, pointerEvents: "none" }}>
-        {r.origin && <span style={{ ...label, color: signal.gold }}>Nest {r.nest} · origin {r.origin.u.toFixed(3)}, {r.origin.v.toFixed(3)}</span>}
-        {!narrow && <span style={label}>Grade: under 30° stable · 30 to 45° slab · over 45° wall</span>}
-      </div>
     </div>
   )
 }

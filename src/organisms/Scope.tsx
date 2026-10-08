@@ -537,7 +537,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const onDbl = (ev: MouseEvent) => {
       const p = local(ev)
       const hit = ctl.pick(p.x, p.y)
-      if (!hit || ctl.dive) return
+      if (!hit || ctl.dive || (ctl.universe && !hit.node)) return
       touch()
       ctl.leaving = { ...tgt.current, depth: ctl.depth }
       ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v, node: hit.node ?? null }
