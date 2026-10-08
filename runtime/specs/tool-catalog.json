@@ -6,18 +6,18 @@
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 171,
+  "script": 174,
   "skill": 21,
   "workflow": 2
  },
- "total": 261,
+ "total": 264,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 299,
+   "WIRED": 298,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 15,
+   "INSTALLED-UNUSED": 19,
    "DUPLICATE": 1,
    "BROKEN": 0
   },
@@ -98,6 +98,14 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
+    "name": "receipt_efficacy_probe.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
     "name": "receipt_outcome_resolver.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
@@ -106,7 +114,23 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
+    "name": "reconcile_epoch.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
     "name": "reel_in_scan.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "release_notes.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -123,6 +147,14 @@
     "surface": "repo",
     "kind": "script",
     "name": "second_pass_ledger.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "tributary_backfill_probe.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -1383,7 +1415,7 @@
    "path": "scripts/receipt_efficacy_probe.py",
    "jtbd": "receipt_efficacy_probe: plumbing proof for predictions -> closes -> Accountant scoring.",
    "invoke": "python3 scripts/receipt_efficacy_probe.py",
-   "state": "WIRED"
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1419,6 +1451,14 @@
   },
   {
    "kind": "script",
+   "name": "reconcile_epoch.py",
+   "path": "scripts/reconcile_epoch.py",
+   "jtbd": "reconcile_epoch: run the existing drift, stale and debt detectors once, classify every finding, rank them.",
+   "invoke": "python3 scripts/reconcile_epoch.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
    "name": "reel_in_scan.py",
    "path": "scripts/reel_in_scan.py",
    "jtbd": "reel_in_scan.py — the deterministic scout for float→reel-in events across the WHOLE ref graph.",
@@ -1431,7 +1471,7 @@
    "path": "scripts/release_notes.py",
    "jtbd": "release_notes: what actually landed on main, grouped by week and area, from git alone.",
    "invoke": "python3 scripts/release_notes.py",
-   "state": "WIRED"
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1635,6 +1675,14 @@
   },
   {
    "kind": "script",
+   "name": "surface_catalog_emit.py",
+   "path": "scripts/surface_catalog_emit.py",
+   "jtbd": "surface_catalog_emit.py: one catalog row per arcs.care surface, harvested from the routing sources.",
+   "invoke": "python3 scripts/surface_catalog_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "sync_family_roster.py",
    "path": "scripts/sync_family_roster.py",
    "jtbd": "sync_family_roster.py — one seed bank (_SEEDS), four family surfaces, kept honest.",
@@ -1743,7 +1791,7 @@
    "path": "scripts/tributary_backfill_probe.py",
    "jtbd": "tributary_backfill_probe.py: can Receipt.parentTributaryIndex be inferred for existing children? READ-ONLY.",
    "invoke": "python3 scripts/tributary_backfill_probe.py",
-   "state": "WIRED"
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1767,6 +1815,14 @@
    "path": "scripts/unfold.py",
    "jtbd": "unfold.py — the pickup-side atomizer. The fold sweeps residue OUT at close; the unfold sweeps",
    "invoke": "python3 scripts/unfold.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "universe_snapshot_emit.py",
+   "path": "scripts/universe_snapshot_emit.py",
+   "jtbd": "universe_snapshot_emit.py: one self-contained snapshot of the whole ARCS populi.",
+   "invoke": "python3 scripts/universe_snapshot_emit.py",
    "state": "WIRED"
   },
   {
