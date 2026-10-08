@@ -20,15 +20,15 @@ const fg1 = text.primary, fg2 = text.secondary, fg3 = text.dimmed, fg4 = text.mu
 const PANEL = "linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030), #0d1117"
 const PANEL_SHADOW = "inset 0 1px 0 #ffffff0e, 0 14px 34px -22px #000c"
 
-const eyebrow: React.CSSProperties = { fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase" }
-const src: React.CSSProperties = { fontFamily: mono, fontSize: 9, letterSpacing: ".05em", color: fg4 }
+const eyebrow: React.CSSProperties = { fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase" }
+const src: React.CSSProperties = { fontFamily: mono, fontSize: 11, letterSpacing: ".05em", color: fg4 }
 const panel: React.CSSProperties = { background: PANEL, border: `1px solid ${border.subtle}`, borderRadius: 10, boxShadow: PANEL_SHADOW }
 const secHd = (n: string, t: string, color: string, gloss: string) => (
   <div style={{ display: "flex", alignItems: "baseline", gap: 12, margin: "56px 0 16px" }}>
     <span style={{ fontFamily: mono, fontSize: 11, fontWeight: 700, color: fg4 }}>{n}</span>
     <span style={{ fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color }}>{t}</span>
     <span style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${border.subtle}, transparent)` }} />
-    <span style={{ fontFamily: mono, fontSize: 9.5, letterSpacing: ".08em", color: fg4, textTransform: "uppercase", whiteSpace: "nowrap" }}>{gloss}</span>
+    <span style={{ fontFamily: mono, fontSize: 11, letterSpacing: ".08em", color: fg4, textTransform: "uppercase", whiteSpace: "nowrap" }}>{gloss}</span>
   </div>
 )
 const led = (color: string) => <span style={{ display: "inline-block", width: 7, height: 7, borderRadius: "50%", verticalAlign: 1, marginRight: 6, background: color, boxShadow: `0 0 8px 1px ${color}` }} />
@@ -78,13 +78,13 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 20, flexWrap: "wrap" }}>
             <div>
               <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
-                <span style={{ ...eyebrow, fontSize: 9.5, letterSpacing: ".09em", padding: "4px 10px", borderRadius: 4, background: signal.cyan, color: "#03151a" }}>Role Scan</span>
-                <span style={{ ...eyebrow, fontSize: 9.5, letterSpacing: ".09em", padding: "4px 10px", borderRadius: 4, border: `1px solid #2c3b52`, color: fg2 }}>Internal · profile × target · one posting</span>
+                <span style={{ ...eyebrow, fontSize: 11, letterSpacing: ".09em", padding: "4px 10px", borderRadius: 4, background: signal.cyan, color: "#03151a" }}>Role Scan</span>
+                <span style={{ ...eyebrow, fontSize: 11, letterSpacing: ".09em", padding: "4px 10px", borderRadius: 4, border: `1px solid #2c3b52`, color: fg2 }}>Internal · profile × target · one posting</span>
               </div>
               <h1 style={{ fontSize: "clamp(24px,3.6vw,36px)", fontWeight: 700, letterSpacing: "-.025em", lineHeight: 1.06, margin: 0, textWrap: "balance" }}>{row.title}</h1>
               <div style={{ ...eyebrow, color: signal.cyan, marginTop: 10 }}>{row.company}{row.location ? ` · ${row.location}` : ""}{row.compBand ? ` · ${row.compBand}` : ""}</div>
             </div>
-            <div style={{ fontFamily: mono, fontSize: 10, letterSpacing: ".07em", color: fg3, textAlign: "left", lineHeight: 2.1, whiteSpace: "nowrap" }}>
+            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: ".07em", color: fg3, textAlign: "left", lineHeight: 2.1, whiteSpace: "nowrap" }}>
               {led(bandColor)}BAND · {row.band}{tier ? ` · TIER ${tier}` : ""}<br />
               {led(gates.length ? signal.red : signal.green)}GATES · {gates.length ? `${gates.length} FIRED` : "NONE FIRED"}<br />
               {led(row.swipe ? (row.swipe.direction === "r" ? signal.green : signal.red) : fg4)}SWIPE · {row.swipe ? (row.swipe.direction === "r" ? "RIGHT" : `LEFT${row.swipe.why ? ` · ${row.swipe.why.toUpperCase()}` : ""}`) : "NONE"}<br />
@@ -96,7 +96,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
             {[[scored ? row.composite!.toFixed(3) : "—", "composite · sum ÷ 72"], [scored ? `${total}` : "—", `points of ${MAX}`], [row.atsName ?? "unverified", "applicant tracking"], [row.companyType ?? "—", "company type"], [row.firstSeen.toISOString().slice(0, 10), `first seen · ${row.alertQuery ?? "by hand"}`]].map(([v, k], i) => (
               <div key={k} style={{ padding: "14px 18px", borderLeft: i ? `1px solid ${border.subtle}` : "none", paddingLeft: i ? 18 : 0 }}>
                 <div style={{ fontFamily: mono, fontSize: 22, fontWeight: 700, color: i === 0 ? signal.cyan : fg1, lineHeight: 1, overflowWrap: "anywhere" }}>{v}</div>
-                <div style={{ fontFamily: mono, fontSize: 8.5, fontWeight: 600, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, marginTop: 7, lineHeight: 1.5 }}>{k}</div>
+                <div style={{ fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, marginTop: 7, lineHeight: 1.5 }}>{k}</div>
               </div>))}
           </div>
           <div style={{ ...src, marginTop: 10 }}>SRC · <a href={row.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>the posting</a> · {scoredBy} · resume.arcs.care (record of record){row.scoredAt ? ` · scored ${row.scoredAt.toISOString().slice(0, 10)}` : ""}</div>
@@ -115,7 +115,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
           </div>
           <div style={{ ...panel, padding: "18px 20px 16px", borderColor: "#00F0FF35", boxShadow: "inset 0 1px 0 #ffffff0e, 0 0 26px -14px #00F0FF55, 0 14px 34px -22px #000c" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, paddingBottom: 10, borderBottom: "1px solid #00F0FF2b" }}>{led(signal.cyan)}<span style={{ ...eyebrow, color: signal.cyan }}>CH·B — What the record shows</span></div>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{quads.map((q) => <li key={q.id} style={{ position: "relative", paddingLeft: 16, fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 10, textWrap: "pretty" }}><span style={{ position: "absolute", left: 2, top: 8, width: 5, height: 5, borderRadius: "50%", background: signal.cyan, opacity: .55 }} /><b style={{ color: fg1, fontWeight: 600 }}>{q.id} · {q.label}</b> <span style={{ fontFamily: mono, fontSize: 10, color: scored ? (q.ratio >= .67 ? signal.green : q.ratio >= .34 ? signal.gold : signal.red) : fg4 }}>{scored ? `${q.p}/${q.m}` : "—"}</span><br />{q.proof.claim}</li>)}</ul>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{quads.map((q) => <li key={q.id} style={{ position: "relative", paddingLeft: 16, fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 10, textWrap: "pretty" }}><span style={{ position: "absolute", left: 2, top: 8, width: 5, height: 5, borderRadius: "50%", background: signal.cyan, opacity: .55 }} /><b style={{ color: fg1, fontWeight: 600 }}>{q.id} · {q.label}</b> <span style={{ fontFamily: mono, fontSize: 11, color: scored ? (q.ratio >= .67 ? signal.green : q.ratio >= .34 ? signal.gold : signal.red) : fg4 }}>{scored ? `${q.p}/${q.m}` : "—"}</span><br />{q.proof.claim}</li>)}</ul>
             <span style={{ ...src, display: "block", marginTop: 6 }}>SRC · target-role-scan.json quads · proof points from the profile scan</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
         {secHd("03", "Scoring Ledger", "#7d8fa3", "this posting against the rubric")}
         <div style={{ ...panel, overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-            <thead><tr>{["Dimension", "Weight", "Score", "Points", "0 reads as", "3 reads as"].map((h, i) => <th key={h} style={{ fontFamily: mono, fontSize: 9, fontWeight: 700, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, textAlign: i === 1 || i === 2 || i === 3 ? "center" : "left", padding: "10px 14px", borderBottom: `1px solid #2c3b52` }}>{h}</th>)}</tr></thead>
+            <thead><tr>{["Dimension", "Weight", "Score", "Points", "0 reads as", "3 reads as"].map((h, i) => <th key={h} style={{ fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, textAlign: i === 1 || i === 2 || i === 3 ? "center" : "left", padding: "10px 14px", borderBottom: `1px solid #2c3b52` }}>{h}</th>)}</tr></thead>
             <tbody>{DIMS.map((d) => { const sc = dims[d.key]; return (
               <tr key={d.key}>
                 <td style={{ padding: "9px 14px", borderBottom: `1px solid ${border.subtle}`, color: fg1, fontWeight: 600 }}>{d.label}</td>
@@ -181,7 +181,7 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
         {secHd("05", "Verdict", signal.cyan, "the load-bearing sentence")}
         <div style={{ position: "relative", padding: "26px 30px 22px", border: "1px solid #00F0FF35", borderRadius: 14, background: "linear-gradient(165deg,#00F0FF0e,#00000030 55%), #0d1117", boxShadow: "inset 0 1px 0 #ffffff10, 0 0 44px -18px #00F0FF40" }}>
           <p style={{ fontSize: 16.5, lineHeight: 1.72, color: fg1, fontWeight: 450, textWrap: "pretty", margin: 0 }}>{verdict}</p>
-          <cite style={{ display: "block", marginTop: 14, fontStyle: "normal", fontFamily: mono, fontSize: 9.5, letterSpacing: ".1em", textTransform: "uppercase", color: fg3 }}>ARCS Role Scan · {row.company} · sizing, not conviction · conviction comes after the reads</cite>
+          <cite style={{ display: "block", marginTop: 14, fontStyle: "normal", fontFamily: mono, fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: fg3 }}>ARCS Role Scan · {row.company} · sizing, not conviction · conviction comes after the reads</cite>
         </div>
         <div style={{ marginTop: 24, padding: "16px 20px", border: `1px dashed #2c3b52`, borderRadius: 10, background: "#0d111780" }}>
           <span style={{ ...eyebrow, color: signal.orange, display: "block", marginBottom: 8 }}>Provenance · flags lit, not smoothed</span>

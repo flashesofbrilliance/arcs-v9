@@ -65,8 +65,8 @@ function DocFrame({ dt, children }: { dt: typeof DOC_TYPES[number]; children: Re
         </span>
         <span style={{ fontFamily: docT.mono, fontSize: 12, color: dt.accent, fontWeight: 700 }}>{dt.icon}</span>
         <span style={{ fontFamily: docT.mono, fontSize: 13, fontWeight: 700, color: '#dbe6f1' }}>{dt.label}</span>
-        <span style={{ fontFamily: docT.mono, fontSize: 10.5, color: docT.fg4 }}>patterns.jsx</span>
-        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 10, color: dt.accent, letterSpacing: '.14em' }}>{dt.mono}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: 11, color: docT.fg4 }}>patterns.jsx</span>
+        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 11, color: dt.accent, letterSpacing: '.14em' }}>{dt.mono}</span>
       </div>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '4px 40px 36px' }}>{children}</div>
     </div>
@@ -78,9 +78,9 @@ function DocCard({ idx, p }: { idx: string; p: typeof DOC_PATTERNS[number] }) {
   return (
     <div style={{ borderRadius: 8, border: '1px solid #243042', overflow: 'hidden', background: 'linear-gradient(165deg,#0c131b,#0a0f15)', display: 'flex', flexDirection: 'column', marginBottom: 18 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 16px', borderBottom: `1px solid ${docT.border}`, background: 'linear-gradient(180deg,#0e151e,#0c121a)' }}>
-        <span style={{ fontFamily: docT.mono, fontSize: 9.5, color: docT.fg4, width: 20 }}>{idx}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: 11, color: docT.fg4, width: 20 }}>{idx}</span>
         <span style={{ fontFamily: docT.mono, fontSize: 13, fontWeight: 700, color: '#dbe6f1' }}>{p.name}</span>
-        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 10, color: docT.fg4 }}>patterns.jsx</span>
+        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 11, color: docT.fg4 }}>patterns.jsx</span>
       </div>
       <div style={{ padding: '13px 18px 4px', fontFamily: docT.sans, fontSize: 12.5, lineHeight: 1.55, color: docT.fg3 }}>{p.desc}</div>
       <div style={{ padding: '10px 20px 24px' }}><Demo /></div>

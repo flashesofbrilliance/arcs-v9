@@ -29,11 +29,11 @@ function Gauge({ label, value, sub, sparkPct, color }: {
       backdropFilter: "blur(12px)",
       boxShadow: "inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.35)",
     }}>
-      <div style={{ fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", color: text.muted, marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", color: text.muted, marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span>{label}</span>
       </div>
       <div style={{ fontFamily: font.mono, fontWeight: 800, fontSize: "2.25rem", lineHeight: .9, letterSpacing: "-.01em", color }}>{value}</div>
-      {sub && <div style={{ fontFamily: font.mono, fontSize: "0.65rem", color: text.muted, marginTop: 9, letterSpacing: ".02em" }}>{sub}</div>}
+      {sub && <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted, marginTop: 9, letterSpacing: ".02em" }}>{sub}</div>}
       {sparkPct != null && (
         <div style={{ marginTop: 13, height: 4, borderRadius: 2, background: "#0a1018", overflow: "hidden", boxShadow: "inset 0 1px 2px rgba(0,0,0,.6)" }}>
           <div style={{ display: "block", height: "100%", width: `${Math.min(100, Math.max(0, sparkPct))}%`, borderRadius: 2, background: `linear-gradient(90deg, ${color}66, ${color})` }} />
@@ -65,7 +65,7 @@ function VariantCluster({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
         boxShadow: "inset 0 1px 0 rgba(0,240,255,.18),0 0 28px rgba(0,240,255,.06)",
         marginBottom: 16,
       }}>
-        <div style={{ fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase", color: signal.cyan, marginBottom: 12 }}>True North</div>
+        <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase", color: signal.cyan, marginBottom: 12 }}>True North</div>
         <div style={{ fontFamily: font.sans, fontSize: "clamp(1rem,2vw,1.3rem)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.45, color: text.primary }}>{result.true_north}</div>
       </div>
 
@@ -83,12 +83,12 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
     <div>
       {/* Kicker row */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <span style={{ fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", color: text.muted }}>Decision Receipt</span>
+        <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", color: text.muted }}>Decision Receipt</span>
         <div style={{ flex: 1, height: 1, background: border.subtle }} />
-        <span style={{ fontFamily: font.mono, fontSize: "0.65rem", fontWeight: 800, color: nc }}>{result.nci_score}</span>
-        <span style={{ fontFamily: font.mono, fontSize: "0.55rem", color: text.muted }}>NCI</span>
+        <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 800, color: nc }}>{result.nci_score}</span>
+        <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted }}>NCI</span>
         <div style={{ width: 1, height: 13, background: border.subtle }} />
-        <span style={{ fontFamily: font.mono, fontSize: "0.6rem", color: w.color }}>{w.icon} {w.label}</span>
+        <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: w.color }}>{w.icon} {w.label}</span>
       </div>
 
       {/* Synthesis block — cyan left-rail */}
@@ -97,7 +97,7 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
         background: "linear-gradient(165deg,rgba(0,240,255,.05),rgba(10,18,26,.6))",
         marginBottom: 14,
       }}>
-        <div style={{ fontFamily: font.mono, fontSize: "0.55rem", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan, marginBottom: 10 }}>True North</div>
+        <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan, marginBottom: 10 }}>True North</div>
         <div style={{ fontFamily: font.sans, fontSize: "clamp(1rem,2vw,1.25rem)", fontWeight: 600, lineHeight: 1.5, color: text.primary, marginBottom: result.why?.length ? 16 : 0 }}>
           {result.true_north}
         </div>
@@ -105,7 +105,7 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
         {/* Why queue — compact */}
         {result.why?.slice(0,3).map((w, i) => (
           <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", paddingTop: i === 0 ? 0 : 6, borderTop: i === 0 ? "none" : `1px solid ${HAIR}` }}>
-            <span style={{ fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 800, color: `${signal.cyan}88`, flexShrink: 0, marginTop: 3 }}>{String(i+1).padStart(2,"0")}</span>
+            <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 800, color: `${signal.cyan}88`, flexShrink: 0, marginTop: 3 }}>{String(i+1).padStart(2,"0")}</span>
             <span style={{ fontFamily: font.sans, fontSize: "0.82rem", color: text.secondary, lineHeight: 1.62 }}>{w}</span>
           </div>
         ))}
@@ -113,7 +113,7 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
 
       <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
         {[result.decision_mode, doorLabel(result.door_class)].filter(Boolean).map(t => (
-          <span key={t} style={{ display: "inline-flex", alignItems: "center", height: 23, padding: "0 11px", borderRadius: 4, fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: signal.cyan, background: "rgba(0,240,255,.1)", border: `1px solid rgba(0,240,255,.28)` }}>{t}</span>
+          <span key={t} style={{ display: "inline-flex", alignItems: "center", height: 23, padding: "0 11px", borderRadius: 4, fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: signal.cyan, background: "rgba(0,240,255,.1)", border: `1px solid rgba(0,240,255,.28)` }}>{t}</span>
         ))}
       </div>
 
@@ -148,7 +148,7 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
           {[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean).map((b, i) => (
             <span key={i} style={{
               display: 'inline-flex', alignItems: 'center', height: 22, padding: '0 10px',
-              borderRadius: 4, fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+              borderRadius: 4, fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
               color: i === 0 ? "#020408" : w.color,
               background: i === 0 ? w.color : `${w.color}16`,
               border: i === 0 ? 'none' : `1px solid ${w.color}35`,
@@ -164,7 +164,7 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
           {result.question}
         </p>
         {/* Meta */}
-        <div style={{ fontFamily: font.mono, fontSize: 10, color: text.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>
+        <div style={{ fontFamily: font.mono, fontSize: 11, color: text.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>
           {meta}
         </div>
       </div>

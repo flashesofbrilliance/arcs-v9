@@ -10,7 +10,7 @@ import { useToastDrawer } from './ToastDrawerContext'
 export const FOOTER_H = 60
 
 const legalLinkStyle: React.CSSProperties = {
-  fontFamily: font.mono, fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase',
+  fontFamily: font.mono, fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase',
   color: text.dimmed, textDecoration: 'underline',
 }
 

@@ -79,7 +79,7 @@ function glassBtn(color?: string): React.CSSProperties {
     : { background: "rgba(15,21,32,.5)", borderColor: "rgba(71,85,105,.25)", color: c }
   return {
     fontFamily: font.mono,
-    fontSize: 8,
+    fontSize: 11,
     fontWeight: 700,
     letterSpacing: "0.06em",
     padding: "4px 12px",
@@ -552,10 +552,10 @@ export function ReflectLayer({
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <span style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".12em", color: "rgba(0,240,255,.6)", textTransform: "uppercase" }}>◎ Reflect</span>
-                  <span style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.4)" }}>·</span>
-                  <span style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>{surfaceProp}</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.4)" }}>·</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>{surfaceProp}</span>
                 </div>
-                <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 9, padding: "4px 11px" }}>↓ close</button>
+                <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 11, padding: "4px 11px" }}>↓ close</button>
               </div>
 
               {/* ScenarioStack-style tabs */}
@@ -573,7 +573,7 @@ export function ReflectLayer({
                       style={{
                         flex: 1,
                         fontFamily: font.mono,
-                        fontSize: 9,
+                        fontSize: 11,
                         fontWeight: 700,
                         letterSpacing: ".06em",
                         padding: "7px 4px",
@@ -607,10 +607,10 @@ export function ReflectLayer({
                     onClick={() => setMeditateExpanded((p) => !p)}
                     style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", padding: "5px 0" }}
                   >
-                    <span style={{ fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}bb`, textTransform: "uppercase" }}>
+                    <span style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}bb`, textTransform: "uppercase" }}>
                       📿 Meditate
                     </span>
-                    <span style={{ fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.4)" }}>{meditateExpanded ? "▲" : "▼"}</span>
+                    <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.4)" }}>{meditateExpanded ? "▲" : "▼"}</span>
                   </button>
 
                   {meditateExpanded && meditateLoading && (
@@ -625,7 +625,7 @@ export function ReflectLayer({
                         { label: "Elevated", items: meditateResult.elevated, color: GREEN },
                       ].filter(({ items }) => items.length > 0).map(({ label, items, color }) => (
                         <div key={label}>
-                          <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: `${color}55`, textTransform: "uppercase", marginBottom: 3 }}>{label}</div>
+                          <div style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: `${color}55`, textTransform: "uppercase", marginBottom: 3 }}>{label}</div>
                           {items.map((item, i) => (
                             <div key={i} style={{ borderLeft: `2px solid ${color}44`, paddingLeft: 8, marginBottom: 4 }}>
                               <p style={{ fontFamily: font.sans, fontSize: 13, color: text.secondary, lineHeight: 1.6, margin: 0 }}>{item}</p>
@@ -650,7 +650,7 @@ export function ReflectLayer({
                   <div style={{ marginBottom: 2 }}>
                     {/* Header row */}
                     <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 0" }}>
-                      <span style={{ fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}88`, textTransform: "uppercase", flex: 1 }}>
+                      <span style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}88`, textTransform: "uppercase", flex: 1 }}>
                         ☽ Shavasana · {shavList.length}
                       </span>
                       {/* Filter pills */}
@@ -658,38 +658,38 @@ export function ReflectLayer({
                         <button
                           key={f}
                           onClick={() => { setShavasanaFilter(f); setShavasanaIdx(0) }}
-                          style={{ ...glassBtn(shavasanaFilter === f ? CYAN : undefined), fontSize: 6, padding: "2px 6px", borderRadius: 10 }}
+                          style={{ ...glassBtn(shavasanaFilter === f ? CYAN : undefined), fontSize: 11, padding: "2px 6px", borderRadius: 10 }}
                         >
                           {f === "ALL" ? "All" : TYPE_ICON[f]}
                         </button>
                       ))}
-                      <button onClick={() => setShavasanaExpanded(false)} style={{ ...glassBtn(), fontSize: 7, padding: "2px 6px", marginLeft: 2 }}>✕</button>
+                      <button onClick={() => setShavasanaExpanded(false)} style={{ ...glassBtn(), fontSize: 11, padding: "2px 6px", marginLeft: 2 }}>✕</button>
                     </div>
 
                     {shavList.length === 0 ? (
-                      <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", padding: "10px 0" }}>No annotations in this layer</div>
+                      <div style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.3)", padding: "10px 0" }}>No annotations in this layer</div>
                     ) : cur && (
                       <div>
                         {/* Card */}
                         <div style={{ background: "rgba(8,13,22,.6)", border: `.5px solid ${TYPE_COLOR[cur.type]}18`, borderRadius: 6, padding: "10px 12px", marginBottom: 6 }}>
-                          <div style={{ fontFamily: font.mono, fontSize: 9, color: `${TYPE_COLOR[cur.type]}66`, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 6 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 11, color: `${TYPE_COLOR[cur.type]}66`, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 6 }}>
                             {TYPE_ICON[cur.type]} {cur.type} · {new Date(cur.createdAt).toLocaleDateString()}
                           </div>
-                          <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 7, marginBottom: 8, fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.5)", lineHeight: 1.55 }}>
+                          <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 7, marginBottom: 8, fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.5)", lineHeight: 1.55 }}>
                             &quot;{cur.anchorText}&quot;
                           </div>
                           <div style={{ fontFamily: font.sans, fontSize: 13, color: text.secondary, lineHeight: 1.65, marginBottom: 10 }}>{cur.body}</div>
 
                           {cur.kernel ? (
                             <div style={{ paddingTop: 8, borderTop: `.5px solid rgba(30,41,59,.3)` }}>
-                              <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: cur.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
+                              <div style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: cur.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
                                 {cur.hardened ? "💎 Hardened" : "☽ Kernel"}
                               </div>
                               <div style={{ fontFamily: font.mono, fontSize: 13, color: cur.hardened ? `${CYAN}dd` : `${GREEN}dd`, lineHeight: 1.55 }}>
                                 {cur.kernel.replace(/\*\*|#{1,3} /g, "")}
                               </div>
                               {!cur.hardened && (
-                                <button onClick={() => hardenKernel(cur.id)} style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 9px", marginTop: 6 }}>
+                                <button onClick={() => hardenKernel(cur.id)} style={{ ...glassBtn(CYAN), fontSize: 11, padding: "3px 9px", marginTop: 6 }}>
                                   💎 Harden
                                 </button>
                               )}
@@ -701,7 +701,7 @@ export function ReflectLayer({
                                 const d = await res.json()
                                 if (d.ok) setAnnotations((prev) => prev.map((a) => a.id === cur.id ? { ...a, kernel: d.kernel } : a))
                               }}
-                              style={{ ...glassBtn(GREEN), fontSize: 8, padding: "4px 12px" }}
+                              style={{ ...glassBtn(GREEN), fontSize: 11, padding: "4px 12px" }}
                             >
                               ☽ Distill →
                             </button>
@@ -714,7 +714,7 @@ export function ReflectLayer({
                             <button
                               onClick={() => setShavasanaIdx((i) => Math.max(0, i - 1))}
                               disabled={safeIdx === 0}
-                              style={{ ...glassBtn(), fontSize: 7, padding: "3px 10px", opacity: safeIdx === 0 ? .3 : 1 }}
+                              style={{ ...glassBtn(), fontSize: 11, padding: "3px 10px", opacity: safeIdx === 0 ? .3 : 1 }}
                             >← prev</button>
                             <div style={{ flex: 1, display: "flex", justifyContent: "center", gap: 4 }}>
                               {shavList.map((_, i) => (
@@ -728,7 +728,7 @@ export function ReflectLayer({
                             <button
                               onClick={() => setShavasanaIdx((i) => Math.min(shavList.length - 1, i + 1))}
                               disabled={safeIdx === shavList.length - 1}
-                              style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 10px", opacity: safeIdx === shavList.length - 1 ? .3 : 1 }}
+                              style={{ ...glassBtn(CYAN), fontSize: 11, padding: "3px 10px", opacity: safeIdx === shavList.length - 1 ? .3 : 1 }}
                             >next →</button>
                           </div>
                         )}
@@ -763,17 +763,17 @@ export function ReflectLayer({
                         <div style={{ fontFamily: font.sans, fontSize: 14, fontWeight: 500, color: text.primary, lineHeight: 1.6 }}>
                           {a.body}
                         </div>
-                        <div style={{ fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.45)", lineHeight: 1.45, marginTop: 4 }}>
+                        <div style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.45)", lineHeight: 1.45, marginTop: 4 }}>
                           &quot;{a.anchorText.slice(0, 60)}{a.anchorText.length > 60 ? "…" : ""}&quot; · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
                         {/* Collapsed kernel preview */}
                         {!isOpen && cleanKernel && (
-                          <div style={{ fontFamily: font.mono, fontSize: 10, color: a.hardened ? `${CYAN}77` : `${GREEN}66`, lineHeight: 1.45, marginTop: 5 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}77` : `${GREEN}66`, lineHeight: 1.45, marginTop: 5 }}>
                             {a.hardened ? "💎 " : "☽ "}{cleanKernel.slice(0, 80)}{cleanKernel.length > 80 ? "…" : ""}
                           </div>
                         )}
                       </div>
-                      <span style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", paddingTop: 2, flexShrink: 0 }}>{isOpen ? "▲" : "▼"}</span>
+                      <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.3)", paddingTop: 2, flexShrink: 0 }}>{isOpen ? "▲" : "▼"}</span>
                     </div>
 
                     {/* Accordion body */}
@@ -782,7 +782,7 @@ export function ReflectLayer({
                         {/* Full kernel */}
                         {cleanKernel ? (
                           <div style={{ marginBottom: 8 }}>
-                            <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: a.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 4 }}>
+                            <div style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: a.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 4 }}>
                               {a.hardened ? "💎 Hardened" : "☽ Kernel"}
                             </div>
                             <div style={{ fontFamily: font.mono, fontSize: 13, color: a.hardened ? `${CYAN}cc` : `${GREEN}bb`, lineHeight: 1.6 }}>{cleanKernel}</div>
@@ -791,7 +791,7 @@ export function ReflectLayer({
                           <button
                             onClick={(e) => { e.stopPropagation(); distillKernel(a) }}
                             disabled={isDistilling}
-                            style={{ ...glassBtn(GREEN), fontSize: 7, padding: "4px 10px", marginBottom: 8, opacity: isDistilling ? .5 : 1 }}
+                            style={{ ...glassBtn(GREEN), fontSize: 11, padding: "4px 10px", marginBottom: 8, opacity: isDistilling ? .5 : 1 }}
                           >
                             {isDistilling ? "distilling…" : "☽ Distill kernel"}
                           </button>
@@ -801,7 +801,7 @@ export function ReflectLayer({
                           {cleanKernel && !a.hardened && (
                             <button
                               onClick={(e) => { e.stopPropagation(); hardenKernel(a.id) }}
-                              style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 8px" }}
+                              style={{ ...glassBtn(CYAN), fontSize: 11, padding: "3px 8px" }}
                             >
                               💎 Harden
                             </button>
@@ -809,7 +809,7 @@ export function ReflectLayer({
                           <div style={{ flex: 1 }} />
                           <button
                             onClick={(e) => { e.stopPropagation(); deleteAnnotation(a.id) }}
-                            style={{ ...glassBtn(RED), fontSize: 7, padding: "2px 7px" }}
+                            style={{ ...glassBtn(RED), fontSize: 11, padding: "2px 7px" }}
                           >
                             ✕
                           </button>
@@ -840,7 +840,7 @@ export function ReflectLayer({
                       onClick={() => activateInstrument(t)}
                       style={{
                         flex: 1,
-                        fontFamily: font.mono, fontSize: 10, fontWeight: 700,
+                        fontFamily: font.mono, fontSize: 11, fontWeight: 700,
                         padding: "7px 4px", borderRadius: 4, cursor: "pointer",
                         border: `.5px solid ${active ? `${c}50` : "rgba(30,41,59,.25)"}`,
                         background: active ? `${c}12` : "rgba(10,15,26,.4)",
@@ -855,7 +855,7 @@ export function ReflectLayer({
                 })}
               </div>
               {activeInstrument && (
-                <div style={{ fontFamily: font.mono, fontSize: 9, color: `${TYPE_COLOR[activeInstrument]}66`, textAlign: "center", letterSpacing: ".06em" }}>
+                <div style={{ fontFamily: font.mono, fontSize: 11, color: `${TYPE_COLOR[activeInstrument]}66`, textAlign: "center", letterSpacing: ".06em" }}>
                   {TYPE_ICON[activeInstrument]} Select text to annotate · Esc to cancel
                 </div>
               )}
@@ -866,7 +866,7 @@ export function ReflectLayer({
                 <button
                   onClick={runMeditate}
                   disabled={annotations.length === 0 || meditateLoading}
-                  style={{ ...glassBtn(GREEN), fontSize: 9, padding: "6px 12px", flex: 2, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                  style={{ ...glassBtn(GREEN), fontSize: 11, padding: "6px 12px", flex: 2, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
                 >
                   📿 {meditateLoading ? "Synthesizing…" : "Meditate"}
                 </button>
@@ -874,7 +874,7 @@ export function ReflectLayer({
                   onClick={() => setShavasanaExpanded((p) => !p)}
                   disabled={annotations.length === 0}
                   aria-expanded={shavasanaExpanded}
-                  style={{ ...glassBtn(shavasanaExpanded ? CYAN : undefined), fontSize: 9, padding: "6px 12px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                  style={{ ...glassBtn(shavasanaExpanded ? CYAN : undefined), fontSize: 11, padding: "6px 12px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
                 >
                   ☽ Shavasana <span style={{ opacity: .6 }}>{shavasanaExpanded ? "▴" : "▾"}</span>
                 </button>
@@ -903,19 +903,19 @@ export function ReflectLayer({
           <div style={{ padding: "7px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <button
               onClick={() => reflectUrl ? router.push(reflectUrl) : (setHudOpen(true), setBarVisible(true))}
-              style={{ ...glassBtn(CYAN), fontSize: 8, padding: "4px 13px", gap: 6 }}
+              style={{ ...glassBtn(CYAN), fontSize: 11, padding: "4px 13px", gap: 6 }}
             >
-              <span style={{ fontSize: 10 }}>◎</span>
+              <span style={{ fontSize: 11 }}>◎</span>
               <span>Reflect</span>
-              <span style={{ opacity: .45, marginLeft: 2, fontSize: 8 }}>{reflectUrl ? "→" : "↑"}</span>
+              <span style={{ opacity: .45, marginLeft: 2, fontSize: 11 }}>{reflectUrl ? "→" : "↑"}</span>
             </button>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)", letterSpacing: ".06em" }}>
+              <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.4)", letterSpacing: ".06em" }}>
                 {annotations.length} annotation{annotations.length !== 1 ? "s" : ""}
               </span>
               <button
                 onClick={() => { setBarVisible(false); if (reflectUrl) router.back() }}
-                style={{ background: "none", border: "none", padding: "2px 4px", cursor: "pointer", fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.5)", lineHeight: 1 }}
+                style={{ background: "none", border: "none", padding: "2px 4px", cursor: "pointer", fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.5)", lineHeight: 1 }}
                 title="Dismiss reflect bar"
               >✕</button>
             </div>
@@ -947,7 +947,7 @@ export function ReflectLayer({
           <div style={{
             padding: "7px 12px 6px",
             borderBottom: ".5px solid rgba(30,41,59,.3)",
-            fontFamily: font.mono, fontSize: 8,
+            fontFamily: font.mono, fontSize: 11,
             color: "rgba(71,85,105,.5)", lineHeight: 1.4,
           }}>
             &quot;{selectionPicker.anchorText.slice(0, 48)}{selectionPicker.anchorText.length > 48 ? "…" : ""}&quot;
@@ -982,8 +982,8 @@ export function ReflectLayer({
                 <span style={{ fontSize: 20, lineHeight: 1 }}>{emoji}</span>
                 {/* Row 2 — label + hotkey */}
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-                  <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".05em", color: `${color}bb`, textTransform: "uppercase" }}>{label}</span>
-                  <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)", letterSpacing: ".02em" }}>{key}</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".05em", color: `${color}bb`, textTransform: "uppercase" }}>{label}</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.4)", letterSpacing: ".02em" }}>{key}</span>
                 </div>
               </button>
             ))}
@@ -1012,10 +1012,10 @@ export function ReflectLayer({
           {/* Top hairline glow */}
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: ".5px", background: `linear-gradient(90deg,transparent,${TYPE_COLOR[activeInstrument]}33 40%,${TYPE_COLOR[activeInstrument]}33 60%,transparent)` }} />
 
-          <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: `${TYPE_COLOR[activeInstrument]}cc`, textTransform: "uppercase", marginBottom: 7 }}>
+          <div style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: `${TYPE_COLOR[activeInstrument]}cc`, textTransform: "uppercase", marginBottom: 7 }}>
             {TYPE_ICON[activeInstrument]} {activeInstrument}
           </div>
-          <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(148,163,184,.6)", borderLeft: `.5px solid ${TYPE_COLOR[activeInstrument]}30`, paddingLeft: 8, marginBottom: 10, lineHeight: 1.5 }}>
+          <div style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(148,163,184,.6)", borderLeft: `.5px solid ${TYPE_COLOR[activeInstrument]}30`, paddingLeft: 8, marginBottom: 10, lineHeight: 1.5 }}>
             &quot;{draft.anchorText.slice(0, 70)}{draft.anchorText.length > 70 ? "…" : ""}&quot;
           </div>
 
@@ -1027,7 +1027,7 @@ export function ReflectLayer({
                   key={r}
                   onClick={() => submitAnnotation(r)}
                   style={{
-                    fontFamily: font.mono, fontSize: 9, padding: "5px 8px",
+                    fontFamily: font.mono, fontSize: 11, padding: "5px 8px",
                     border: `.5px solid ${border.subtle}`, borderRadius: 3,
                     background: "transparent", color: text.secondary, cursor: "pointer",
                     textAlign: "center",
@@ -1065,8 +1065,8 @@ export function ReflectLayer({
 
               <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
                 <div style={{ flex: 1 }} />
-                <button onClick={() => { setDraft(null); setDraftBody("") }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 8px" }}>Cancel</button>
-                <button onClick={() => submitAnnotation()} disabled={!draftBody.trim()} style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 10px", opacity: draftBody.trim() ? 1 : .4 }}>Save →</button>
+                <button onClick={() => { setDraft(null); setDraftBody("") }} style={{ ...glassBtn(), fontSize: 11, padding: "3px 8px" }}>Cancel</button>
+                <button onClick={() => submitAnnotation()} disabled={!draftBody.trim()} style={{ ...glassBtn(CYAN), fontSize: 11, padding: "3px 10px", opacity: draftBody.trim() ? 1 : .4 }}>Save →</button>
               </div>
             </>
           )}
@@ -1091,24 +1091,24 @@ export function ReflectLayer({
           }}>
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: ".5px", background: `linear-gradient(90deg,transparent,${TYPE_COLOR[expandedChip.annotation.type]}28 30%,${TYPE_COLOR[expandedChip.annotation.type]}28 70%,transparent)` }} />
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
-              <span style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: `${TYPE_COLOR[expandedChip.annotation.type]}88`, textTransform: "uppercase" }}>
+              <span style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".1em", color: `${TYPE_COLOR[expandedChip.annotation.type]}88`, textTransform: "uppercase" }}>
                 {TYPE_ICON[expandedChip.annotation.type]} {expandedChip.annotation.type}
               </span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>{new Date(expandedChip.annotation.createdAt).toLocaleDateString()}</span>
+              <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.4)" }}>·</span>
+              <span style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.4)" }}>{new Date(expandedChip.annotation.createdAt).toLocaleDateString()}</span>
               {expandedChip.annotation.linkedRef && (() => {
                 let lr: LinkedRef | null = null
                 try { lr = JSON.parse(expandedChip.annotation.linkedRef) } catch { return null }
                 if (!lr) return null
                 return (
                   <div style={{ marginLeft: "auto", background: `${GOLD}0a`, border: `.5px solid ${GOLD}33`, borderRadius: 10, padding: "1px 7px", display: "flex", gap: 4 }}>
-                    <span style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, color: `${GOLD}99` }}>{lr.type.slice(0, 3)}</span>
-                    <span style={{ fontSize: 7, color: `${GOLD}77` }}>{lr.label.slice(0, 24)}</span>
+                    <span style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, color: `${GOLD}99` }}>{lr.type.slice(0, 3)}</span>
+                    <span style={{ fontSize: 11, color: `${GOLD}77` }}>{lr.label.slice(0, 24)}</span>
                   </div>
                 )
               })()}
             </div>
-            <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 9, marginBottom: 10, fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", lineHeight: 1.5 }}>
+            <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 9, marginBottom: 10, fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.5)", lineHeight: 1.5 }}>
               &quot;{expandedChip.annotation.anchorText}&quot;
             </div>
             <div style={{ fontSize: 11, color: text.primary, lineHeight: 1.65, marginBottom: 14 }}>
@@ -1116,7 +1116,7 @@ export function ReflectLayer({
             </div>
             {expandedChip.annotation.kernel && (
               <div style={{ marginBottom: 12, paddingTop: 10, borderTop: `.5px solid rgba(30,41,59,.35)` }}>
-                <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".12em", color: expandedChip.annotation.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 5 }}>
+                <div style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".12em", color: expandedChip.annotation.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 5 }}>
                   {expandedChip.annotation.hardened ? "💎 Hardened" : "☽ Kernel"}
                 </div>
                 <div style={{ fontFamily: font.mono, fontSize: 12, color: expandedChip.annotation.hardened ? `${CYAN}dd` : `${GREEN}dd`, lineHeight: 1.55 }}>{expandedChip.annotation.kernel}</div>
@@ -1127,7 +1127,7 @@ export function ReflectLayer({
                 <button
                   onClick={() => distillKernel(expandedChip.annotation)}
                   disabled={expandedChip.distilling}
-                  style={{ ...glassBtn(GREEN), fontSize: 8, padding: "5px 14px", opacity: expandedChip.distilling ? .6 : 1 }}
+                  style={{ ...glassBtn(GREEN), fontSize: 11, padding: "5px 14px", opacity: expandedChip.distilling ? .6 : 1 }}
                 >
                   {expandedChip.distilling ? "Distilling…" : "☽ Distill"}
                 </button>
@@ -1135,14 +1135,14 @@ export function ReflectLayer({
               {expandedChip.annotation.kernel && !expandedChip.annotation.hardened && (
                 <button
                   onClick={() => hardenKernel(expandedChip.annotation.id)}
-                  style={{ ...glassBtn(CYAN), fontSize: 8, padding: "5px 14px" }}
+                  style={{ ...glassBtn(CYAN), fontSize: 11, padding: "5px 14px" }}
                 >
                   💎 Harden
                 </button>
               )}
               <div style={{ flex: 1 }} />
-              <button onClick={() => deleteAnnotation(expandedChip.annotation.id)} style={{ ...glassBtn(RED), fontSize: 7, padding: "3px 9px" }}>Delete</button>
-              <button onClick={() => setExpandedChip(null)} style={{ ...glassBtn(), fontSize: 7, padding: "3px 9px" }}>Close</button>
+              <button onClick={() => deleteAnnotation(expandedChip.annotation.id)} style={{ ...glassBtn(RED), fontSize: 11, padding: "3px 9px" }}>Delete</button>
+              <button onClick={() => setExpandedChip(null)} style={{ ...glassBtn(), fontSize: 11, padding: "3px 9px" }}>Close</button>
             </div>
           </div>
         </div>

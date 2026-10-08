@@ -86,7 +86,7 @@ function SectionAnchor({ id }: { id: string }) {
 function SectionHead({ label }: { label: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-      <span style={{ fontSize: "0.58rem", letterSpacing: "0.18em", color: t.cyan, textTransform: "uppercase", fontWeight: 700 }}>{label}</span>
+      <span style={{ fontSize: "0.6875rem", letterSpacing: "0.18em", color: t.cyan, textTransform: "uppercase", fontWeight: 700 }}>{label}</span>
       <div style={{ flex: 1, height: 1, background: t.border }} />
     </div>
   )
@@ -95,7 +95,7 @@ function SectionHead({ label }: { label: string }) {
 function Chip({ label, color, solid }: { label: string; color: string; solid?: boolean }) {
   return (
     <span style={{
-      display: "inline-block", fontSize: "0.58rem", letterSpacing: "0.12em",
+      display: "inline-block", fontSize: "0.6875rem", letterSpacing: "0.12em",
       textTransform: "uppercase", fontWeight: 700,
       padding: "0.2rem 0.55rem", borderRadius: 4,
       background: solid ? color : "transparent",
@@ -157,15 +157,15 @@ export default function RecoilPage() {
       {/* ── Top bar ──────────────────────────────────────────────────────────── */}
       <div style={{ borderBottom: `1px solid ${t.border}`, padding: "0 1.5rem", height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
-          <span style={{ fontSize: "0.58rem", letterSpacing: "0.18em", color: t.cyan, textTransform: "uppercase", fontWeight: 700 }}>ARCS FIELD OS</span>
+          <span style={{ fontSize: "0.6875rem", letterSpacing: "0.18em", color: t.cyan, textTransform: "uppercase", fontWeight: 700 }}>ARCS FIELD OS</span>
           <span style={{ width: 1, height: 10, background: t.border }} />
-          <span style={{ fontSize: "0.58rem", letterSpacing: "0.14em", color: t.muted, textTransform: "uppercase" }}>Recoil Report</span>
+          <span style={{ fontSize: "0.6875rem", letterSpacing: "0.14em", color: t.muted, textTransform: "uppercase" }}>Recoil Report</span>
           <span style={{ width: 1, height: 10, background: t.border }} />
           <Chip label="CONVERSATION_DEBRIEF" color={t.gold} />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <span style={{ fontSize: "0.62rem", color: t.dimmed }}>Jun 8, 2026 · 2:30 PM EDT</span>
-          <button onClick={() => router.push("/dashboard")} style={{ background: "transparent", border: `1px solid ${t.border}`, borderRadius: 5, color: t.muted, fontSize: "0.68rem", padding: "0.25rem 0.625rem", cursor: "pointer" }}>
+          <span style={{ fontSize: "0.6875rem", color: t.dimmed }}>Jun 8, 2026 · 2:30 PM EDT</span>
+          <button onClick={() => router.push("/dashboard")} style={{ background: "transparent", border: `1px solid ${t.border}`, borderRadius: 5, color: t.muted, fontSize: "0.6875rem", padding: "0.25rem 0.625rem", cursor: "pointer" }}>
             ← Compass
           </button>
         </div>
@@ -184,8 +184,8 @@ export default function RecoilPage() {
         }}>
           {/* Receipt ID */}
           <div style={{ padding: "0 1rem 1.25rem", borderBottom: `1px solid ${t.border}`, marginBottom: "1.25rem" }}>
-            <div style={{ fontSize: "0.55rem", letterSpacing: "0.1em", color: t.muted, textTransform: "uppercase", marginBottom: "0.35rem" }}>Receipt</div>
-            <div style={{ fontSize: "0.62rem", color: t.dimmed, lineHeight: 1.5, wordBreak: "break-all" }}>
+            <div style={{ fontSize: "0.6875rem", letterSpacing: "0.1em", color: t.muted, textTransform: "uppercase", marginBottom: "0.35rem" }}>Receipt</div>
+            <div style={{ fontSize: "0.6875rem", color: t.dimmed, lineHeight: 1.5, wordBreak: "break-all" }}>
               ARCS-ORIENT<br />2026-06-08<br />figma-r001
             </div>
           </div>
@@ -194,19 +194,19 @@ export default function RecoilPage() {
           <div style={{ padding: "0 1rem 1.25rem", borderBottom: `1px solid ${t.border}`, marginBottom: "1.25rem" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: "0.6rem", color: t.muted }}>Y-Gate</span>
+                <span style={{ fontSize: "0.6875rem", color: t.muted }}>Y-Gate</span>
                 <Chip label="YELLOW" color={t.gold} />
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: "0.6rem", color: t.muted }}>NCI</span>
-                <span style={{ fontSize: "0.68rem", color: t.red }}>72 → 58</span>
+                <span style={{ fontSize: "0.6875rem", color: t.muted }}>NCI</span>
+                <span style={{ fontSize: "0.6875rem", color: t.red }}>72 → 58</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: "0.6rem", color: t.muted }}>Render</span>
-                <span style={{ fontSize: "0.62rem", color: t.gold }}>DEGRADED</span>
+                <span style={{ fontSize: "0.6875rem", color: t.muted }}>Render</span>
+                <span style={{ fontSize: "0.6875rem", color: t.gold }}>DEGRADED</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: "0.6rem", color: t.muted }}>Verdict</span>
+                <span style={{ fontSize: "0.6875rem", color: t.muted }}>Verdict</span>
                 <Chip label="HOLD" color={t.gold} solid />
               </div>
             </div>
@@ -290,7 +290,7 @@ export default function RecoilPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
             {ENTITIES.map((e, i) => (
               <AsideBox key={i} color={i < 4 ? t.cyan : t.gold}>
-                <div style={{ fontSize: "0.55rem", letterSpacing: "0.1em", color: t.muted, textTransform: "uppercase", marginBottom: "0.3rem" }}>{e.role}</div>
+                <div style={{ fontSize: "0.6875rem", letterSpacing: "0.1em", color: t.muted, textTransform: "uppercase", marginBottom: "0.3rem" }}>{e.role}</div>
                 <div style={{ fontSize: "0.78rem", color: t.text, lineHeight: 1.4, ...res }}>{e.name}</div>
               </AsideBox>
             ))}
@@ -306,7 +306,7 @@ export default function RecoilPage() {
               { label: "Hard constraint", detail: "Deloitte + JPMorgan pipelines active now", color: t.muted },
             ].map((w, i) => (
               <AsideBox key={i} color={w.color}>
-                <div style={{ fontSize: "0.58rem", letterSpacing: "0.1em", color: w.color, textTransform: "uppercase", fontWeight: 700, marginBottom: "0.3rem" }}>{w.label}</div>
+                <div style={{ fontSize: "0.6875rem", letterSpacing: "0.1em", color: w.color, textTransform: "uppercase", fontWeight: 700, marginBottom: "0.3rem" }}>{w.label}</div>
                 <div style={{ fontSize: "0.73rem", color: t.text, lineHeight: 1.4, ...res }}>{w.detail}</div>
               </AsideBox>
             ))}
@@ -317,12 +317,12 @@ export default function RecoilPage() {
           <SectionHead label="Y-Gate · Conviction Shift" />
           <div style={{ display: "flex", gap: "1rem", marginBottom: "1.25rem", flexWrap: "wrap" }}>
             <AsideBox color={t.green}>
-              <div style={{ fontSize: "0.58rem", color: t.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>Pre-call</div>
+              <div style={{ fontSize: "0.6875rem", color: t.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>Pre-call</div>
               <div style={{ fontSize: "0.82rem", color: t.green, fontWeight: 600 }}>GREEN / HIGH / STABLE</div>
               <div style={{ fontSize: "0.72rem", color: t.dimmed }}>NCI 72</div>
             </AsideBox>
             <AsideBox color={t.gold}>
-              <div style={{ fontSize: "0.58rem", color: t.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>Post-call</div>
+              <div style={{ fontSize: "0.6875rem", color: t.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>Post-call</div>
               <div style={{ fontSize: "0.82rem", color: t.gold, fontWeight: 600 }}>YELLOW / MEDIUM / WATCH</div>
               <div style={{ fontSize: "0.72rem", color: t.dimmed }}>NCI 58 · Δ −14</div>
             </AsideBox>
@@ -342,7 +342,7 @@ export default function RecoilPage() {
               <thead>
                 <tr style={{ borderBottom: `1px solid ${t.border}` }}>
                   {["Signal", "Expected", "Actual", "Δ"].map((h, i) => (
-                    <th key={i} style={{ padding: "0.5rem 1rem 0.5rem " + (i === 0 ? "0" : "1rem"), textAlign: "left", fontSize: "0.56rem", letterSpacing: "0.14em", color: t.muted, textTransform: "uppercase", fontWeight: 600, whiteSpace: "nowrap" }}>{h}</th>
+                    <th key={i} style={{ padding: "0.5rem 1rem 0.5rem " + (i === 0 ? "0" : "1rem"), textAlign: "left", fontSize: "0.6875rem", letterSpacing: "0.14em", color: t.muted, textTransform: "uppercase", fontWeight: 600, whiteSpace: "nowrap" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -374,7 +374,7 @@ export default function RecoilPage() {
               Do not invest assessment bandwidth until recruiter returns with HM&apos;s position on coding assessment flexibility and whether alternative roles exist outside data science.
             </p>
             <div style={{ borderTop: `1px solid ${t.border}`, paddingTop: "1rem" }}>
-              <div style={{ fontSize: "0.58rem", letterSpacing: "0.12em", color: t.muted, textTransform: "uppercase", marginBottom: "0.625rem" }}>Unlock conditions</div>
+              <div style={{ fontSize: "0.6875rem", letterSpacing: "0.12em", color: t.muted, textTransform: "uppercase", marginBottom: "0.625rem" }}>Unlock conditions</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
                 {["HM's position on coding assessment flexibility (AI tools or structure change)", "Whether alternative roles exist outside data science (strategy/ops, Dylan's team)"].map((c, i) => (
                   <div key={i} style={{ display: "flex", gap: "0.5rem" }}>
@@ -405,12 +405,12 @@ export default function RecoilPage() {
             {NEXT_STEPS.map((step) => (
               <div key={step.n} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                 <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: "50%", border: `1px solid ${step.color}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: "0.68rem", color: step.color, fontWeight: 700 }}>{step.n}</span>
+                  <span style={{ fontSize: "0.6875rem", color: step.color, fontWeight: 700 }}>{step.n}</span>
                 </div>
                 <div style={{ flex: 1, paddingTop: "0.25rem" }}>
                   <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginBottom: "0.3rem" }}>
-                    <span style={{ fontSize: "0.65rem", letterSpacing: "0.1em", color: step.color, fontWeight: 700 }}>{step.label}</span>
-                    <span style={{ fontSize: "0.58rem", color: t.muted }}>rev {step.rev}/10</span>
+                    <span style={{ fontSize: "0.6875rem", letterSpacing: "0.1em", color: step.color, fontWeight: 700 }}>{step.label}</span>
+                    <span style={{ fontSize: "0.6875rem", color: t.muted }}>rev {step.rev}/10</span>
                   </div>
                   <p style={{ fontSize: "0.78rem", color: t.text, lineHeight: 1.5, ...res }}>{step.body}</p>
                 </div>
@@ -455,11 +455,11 @@ export default function RecoilPage() {
               <p style={{ fontSize: "0.7rem", color: t.dimmed }}>1 session · 1 new artifact. No spin cycle.</p>
             </AsideBox>
             <AsideBox color={t.muted}>
-              <div style={{ fontSize: "0.58rem", color: t.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>Open Questions</div>
+              <div style={{ fontSize: "0.6875rem", color: t.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>Open Questions</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
                 {["Will the HM approve AI tools or restructure the assessment?", "Are there open recs outside data science?", "What does Figma's senior IC path look like in Code?"].map((q, i) => (
                   <div key={i} style={{ display: "flex", gap: "0.4rem" }}>
-                    <span style={{ color: t.gold, fontSize: "0.65rem" }}>?</span>
+                    <span style={{ color: t.gold, fontSize: "0.6875rem" }}>?</span>
                     <span style={{ fontSize: "0.7rem", color: t.text, lineHeight: 1.4, ...res }}>{q}</span>
                   </div>
                 ))}
@@ -469,8 +469,8 @@ export default function RecoilPage() {
 
           {/* Footer */}
           <div style={{ borderTop: `1px solid ${t.border}`, paddingTop: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: "0.58rem", color: t.dimmed, letterSpacing: "0.08em" }}>ARCS FIELD OS · ORIENT SURFACE · ARCS-ORIENT-2026-06-08T14:30:00Z-figma-r001</span>
-            <span style={{ fontSize: "0.58rem", color: t.dimmed, letterSpacing: "0.08em" }}>W: ACUTE · Jun 8–16, 2026</span>
+            <span style={{ fontSize: "0.6875rem", color: t.dimmed, letterSpacing: "0.08em" }}>ARCS FIELD OS · ORIENT SURFACE · ARCS-ORIENT-2026-06-08T14:30:00Z-figma-r001</span>
+            <span style={{ fontSize: "0.6875rem", color: t.dimmed, letterSpacing: "0.08em" }}>W: ACUTE · Jun 8–16, 2026</span>
           </div>
 
         </main>

@@ -39,7 +39,7 @@ export function Picker({ label, value, options, onChange, style }: PickerProps) 
           background: 'linear-gradient(180deg, #090d12, #0c1219)',
           boxShadow: 'inset 0 2px 5px rgba(0,0,0,.65), inset 0 -1px 0 rgba(255,255,255,.04)', transition: 'border-color .16s' }}>
         <span>{current.label}</span>
-        <span style={{ color: text.dimmed, fontSize: 10, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>▾</span>
+        <span style={{ color: text.dimmed, fontSize: 11, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>▾</span>
       </button>
       {open && (
         <div style={{ position: 'absolute', left: 14, right: 14, top: 'calc(100% - 4px)', zIndex: 30, padding: 4, borderRadius: 8, overflow: 'hidden',
@@ -53,7 +53,7 @@ export function Picker({ label, value, options, onChange, style }: PickerProps) 
                   color: sel ? '#b9e8f4' : text.primary, background: sel ? 'linear-gradient(180deg, #00F0FF1c, #00F0FF08)' : 'transparent' }}
                 onMouseEnter={e => { if (!sel) e.currentTarget.style.background = 'rgba(255,255,255,.04)' }}
                 onMouseLeave={e => { if (!sel) e.currentTarget.style.background = 'transparent' }}>
-                {o.label}{sel && <span style={{ color: '#00F0FF', fontSize: 10 }}>●</span>}
+                {o.label}{sel && <span style={{ color: '#00F0FF', fontSize: 11 }}>●</span>}
               </button>
             )
           })}

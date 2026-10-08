@@ -13,7 +13,7 @@ export default function ScanPage() {
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 20px' }}>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 20,
-          fontFamily: "'JetBrains Mono','IBM Plex Mono',monospace", fontSize: 10.5,
+          fontFamily: "'JetBrains Mono','IBM Plex Mono',monospace", fontSize: 11,
           letterSpacing: '0.08em', textTransform: 'uppercase', color: '#FFD700',
           border: '1px solid #FFD70035', borderRadius: 6, padding: '5px 10px',
         }}>

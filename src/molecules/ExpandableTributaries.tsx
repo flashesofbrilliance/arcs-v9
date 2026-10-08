@@ -21,7 +21,7 @@ export function ExpandableTributaries({ tributaries, onTributary }: ExpandableTr
           onClick={() => setOpen(true)}
           style={{
             fontFamily: font.mono,
-            fontSize: '0.65rem',
+            fontSize: '0.6875rem',
             fontWeight: 700,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
@@ -83,7 +83,7 @@ export function ExpandableTributaries({ tributaries, onTributary }: ExpandableTr
                   <div
                     style={{
                       fontFamily: font.mono,
-                      fontSize: '0.6rem',
+                      fontSize: '0.6875rem',
                       fontWeight: 700,
                       letterSpacing: '0.1em',
                       textTransform: 'uppercase',
@@ -122,7 +122,7 @@ export function ExpandableTributaries({ tributaries, onTributary }: ExpandableTr
             onClick={() => setOpen(false)}
             style={{
               fontFamily: font.mono,
-              fontSize: '0.6rem',
+              fontSize: '0.6875rem',
               fontWeight: 600,
               letterSpacing: '0.05em',
               textTransform: 'uppercase',

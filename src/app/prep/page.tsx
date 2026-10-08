@@ -107,7 +107,7 @@ function PrepInner() {
           </p>
           {question.trim() && (
             <div style={{ marginTop: "1rem", padding: "0.75rem 0.9rem", border: `1px solid ${border.subtle}`, borderRadius: 8, background: surface.elevated }}>
-              <span style={{ fontFamily: font.mono, fontSize: "0.6rem", color: signal.gold, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>Calibrating</span>
+              <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: signal.gold, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>Calibrating</span>
               <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, margin: "0.4rem 0 0", lineHeight: 1.5 }}>{question}</p>
             </div>
           )}
@@ -132,7 +132,7 @@ function PrepInner() {
 
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <div style={{ flex: 1, height: 1, background: surface.panel }} />
-            <span style={{ fontFamily: font.mono, fontSize: "0.6rem", color: text.muted, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>Optional</span>
+            <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>Optional</span>
             <div style={{ flex: 1, height: 1, background: surface.panel }} />
           </div>
 

@@ -108,7 +108,7 @@ export default async function InternalHub() {
   if (!email) redirect("/compass?callbackUrl=/internal");
   if (!isOwner(email)) return <Denied email={email} />;
 
-  const label: CSSProperties = { fontFamily: C.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: C.faint, display: "block", marginBottom: 3 };
+  const label: CSSProperties = { fontFamily: C.mono, fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.faint, display: "block", marginBottom: 3 };
   const para: CSSProperties = { fontSize: 12.5, color: C.muted, lineHeight: 1.5, margin: "0 0 9px" };
 
   return (
@@ -142,18 +142,18 @@ export default async function InternalHub() {
                 >
                   <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8 }}>
                     <h3 style={{ fontSize: 14.5, color: C.text, margin: 0, fontWeight: 650 }}>{c.name}</h3>
-                    <span style={{ fontFamily: C.mono, fontSize: 10, color: C.faint, marginLeft: "auto", whiteSpace: "nowrap" }}>{c.external ? "github ↗" : c.href}</span>
+                    <span style={{ fontFamily: C.mono, fontSize: 11, color: C.faint, marginLeft: "auto", whiteSpace: "nowrap" }}>{c.external ? "github ↗" : c.href}</span>
                   </div>
                   <p style={para}><b style={label}>What this is</b>{c.what}</p>
                   <p style={{ ...para, margin: 0 }}><b style={label}>How to use it</b>{c.how}</p>
-                  {c.gate && <div style={{ fontFamily: C.mono, fontSize: 9.5, color: C.gold, marginTop: 8, letterSpacing: "0.06em" }}>gate: {c.gate}</div>}
+                  {c.gate && <div style={{ fontFamily: C.mono, fontSize: 11, color: C.gold, marginTop: 8, letterSpacing: "0.06em" }}>gate: {c.gate}</div>}
                 </a>
               ))}
             </div>
           </section>
         ))}
 
-        <div style={{ fontFamily: C.mono, fontSize: 10, color: C.faint, letterSpacing: "0.04em", borderTop: `1px solid ${C.borderSoft}`, paddingTop: 14 }}>
+        <div style={{ fontFamily: C.mono, fontSize: 11, color: C.faint, letterSpacing: "0.04em", borderTop: `1px solid ${C.borderSoft}`, paddingTop: 14 }}>
           Gate: session + owner allowlist (INTERNAL_EMAILS). Cards marked with a gate also require ADMIN_EMAILS on the target. Add a surface by adding one row to CARDS in src/app/internal/page.tsx.
         </div>
       </div>

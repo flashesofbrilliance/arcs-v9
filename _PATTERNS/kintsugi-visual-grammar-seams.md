@@ -22,6 +22,19 @@
   machine that has it.
 
 
+## 2026-10-08 · Functional text floor raised to 11px everywhere; DESIGN.md trued up (first formal refresh since 2026-08-01)
+
+Found by: the served-page sweep. About 1,900 of the 6,312 detector findings were 10px text, the DESIGN.md
+label size itself, which sat under the detector's 11px readability floor (open since the 2026-10-07 seam).
+Zach's call: 11px across the kit, no mono-label exemption.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | DESIGN.md label 0.625rem (10px) under the 11px floor; the two rules could not both pass | sweep + this ledger (2026-10-07 #3) | DESIGN.md label 0.6875rem; Graded-Legend tiers t1 to t4 in `src/ui/tokens.ts` raised to 11 / 11.25 / 11.5 / 11.75px (t5, t6 unchanged); 402 inline app sizes under 11px raised in 63 files (relative units left alone) | detector `undersized-ui-text` / `tiny-text` + the design-debt ratchet |
+| 2 | 948 sub-11px `font-size` declarations on 93 served pages | sweep | Raised to 11px / 0.6875rem; generated good.arcs.care pages via `scripts/connector_render.py`, re-rendered. Sanctioned worlds skipped (NFTT posts, success-academy, omakase) | design-debt ratchet; detector 6,312 -> 4,049 |
+| 3 | Four pages newly scrolled sideways at 375px after the raise (monstro-resume +9px, scott-arcs-demo +7, squad-resume +9, todd-logictree 59 -> 99) | before/after overflow measurement of every touched page at 375 / 790 / 1440 | Raise reverted on those four; residue | residue in the tracker |
+| 4 | DESIGN.md had no formal refresh since 2026-08-01 while rules accumulated in this ledger and the detector config, and it broke its own no-em-dash rule 10 times | reading DESIGN.md against the ledger | Amended: 11px floor, retired greys, no template syntax in static pages, Sanctioned Visual Worlds table, the Inter Rule, Ratchets and the Done Goal; 10 em-dashes removed | the ratchets it now names |
+
 ## 2026-10-08 · Every page surfaces.arcs.care serves: retired greys swapped, design-debt burn-down baselined
 
 Found by: the first full sweep of the 179 served static pages with the repo's own gates plus the Impeccable

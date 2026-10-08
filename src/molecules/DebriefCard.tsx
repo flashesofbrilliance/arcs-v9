@@ -71,7 +71,7 @@ ${typeof window !== "undefined" ? window.location.origin : ""}/debrief/${receipt
               <span style={{ color: text.muted, fontFamily: font.mono, fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>NCI</span>
               <div style={{ fontWeight: 700, color: text.primary, marginTop: "0.2rem" }}>{nciScore}/100</div>
               {nciGrade ? (
-                <div style={{ color: text.muted, fontSize: "0.65rem", marginTop: "0.15rem", maxWidth: 200, lineHeight: 1.3 }}>{nciGrade}</div>
+                <div style={{ color: text.muted, fontSize: "0.6875rem", marginTop: "0.15rem", maxWidth: 200, lineHeight: 1.3 }}>{nciGrade}</div>
               ) : null}
             </div>
             <div>

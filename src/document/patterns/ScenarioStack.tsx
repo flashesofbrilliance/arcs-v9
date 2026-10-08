@@ -32,7 +32,7 @@ export function ScenarioStack({ scenarios }: ScenarioStackProps) {
     <div>
       <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
         {Object.values(SCFG).map(c => (
-          <button key={c.key} onClick={() => setActive(c.key)} style={{ height: 30, padding: '0 14px', borderRadius: 7, cursor: 'pointer', fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+          <button key={c.key} onClick={() => setActive(c.key)} style={{ height: 30, padding: '0 14px', borderRadius: 7, cursor: 'pointer', fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
             background: active === c.key ? DIM(c.color) : 'transparent', color: active === c.key ? c.color : T.fg4, border: `1px solid ${active === c.key ? BDR(c.color) : T.border}`, transition: 'all .14s' }}>
             {c.label}
           </button>

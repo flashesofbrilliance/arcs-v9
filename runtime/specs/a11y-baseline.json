@@ -9,7 +9,7 @@
  ],
  "totals": {
   "violations": 145,
-  "nodes": 1060,
+  "nodes": 1058,
   "clean": 73,
   "pages": 179
  },
@@ -933,10 +933,10 @@
   },
   "public/schriner-vico.html": {
    "violations": 2,
-   "nodes": 5,
+   "nodes": 4,
    "rules": {
     "color-contrast": 3,
-    "target-size": 2
+    "target-size": 1
    }
   },
   "public/schriner.html": {
@@ -1090,10 +1090,10 @@
   },
   "public/vico-resume.html": {
    "violations": 2,
-   "nodes": 5,
+   "nodes": 4,
    "rules": {
     "color-contrast": 3,
-    "target-size": 2
+    "target-size": 1
    }
   },
   "public/vico.html": {
