@@ -56,6 +56,21 @@ Before any important piece of work, the person who owns it writes down:
 
 It works like a test budget in a marketing plan. You cap the test so one miss never sinks the campaign, and you decide in advance what result tells you to stop.
 
+## A possibility we want to name early: setup that depends on what we find
+
+Some of the groundwork cannot be scoped until we have looked. We would rather tell you now than surprise you later. Depending on the audit, a layer of careful set-up may be needed, and it would be priced only if the audit shows it is needed. Here is what would switch each part on:
+
+| If we find this | We would add this |
+|---|---|
+| The app's changes are not tracked, or anyone can change the live version | Proper change tracking: every change recorded, reviewed before it goes live, and easy to undo |
+| Testing and the real thing are mixed, or real documents are used while building | Separate places for rehearsal and for real use, with made-up information only in rehearsal |
+| Some kind of information has no agreed place to live | A simple chart of what kind of information may live in which service, for how long, and who can see it, made with your lawyers |
+| No tested backup, no diary of who did what, or no alarms | A backup that has been practised, an activity diary and alarms |
+| A lawyer, partner or funder asks us to show our safeguards | A record showing where the proof of each safeguard lives |
+| A service turns out not to be a suitable home for some kind of information | A decision, with costs, about moving that part, made before anything else is built |
+
+We would do the cheap protective parts first (change tracking, separate rehearsal and real), the rest before the first outside family uses the app, and the evidence record only when someone asks. The aim is simple: every statement about where your families' information lives is backed by an agreement or a decision by your lawyers. It is not to turn a four-person team into a big compliance department.
+
 ## The cost, in three buckets
 
 We will fill these in together, using your usage model, current price pages with their dates, and our rates once they are agreed. Each bucket gets a best case, a likely case and a worst case, with the cases defined before anyone fills in a number.

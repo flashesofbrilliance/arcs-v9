@@ -34,6 +34,10 @@ Companion to `07-plain-language-bundle.md`. Internal only: it names what the cou
 
 `09-translation-codex.md` is the legend for the technical words, written in plain words with a picture and a reason to care. Legal terms (HIPAA, COPPA, BAA, accessibility standard) are described in one neutral line each and always routed to counsel; no sentence says any of them applies or is required. Round-trip addition: every technical word used in `07` appears in `09`.
 
+## Added by decision (2026-10-08)
+
+Section "A possibility we want to name early" in `07` exposes the contingent foundations scope (`02` section 5b) with its triggers, unpriced, on Zach's decision to name it now. Left out of that section: the E-item IDs, the re-platform framing beyond "a decision, with costs", and any statement of which vendors qualify.
+
 ## What was compressed
 
 - 43 draft assumptions in `03-assumptions-draft.jsonl` collapse into the bundle's four questions, the three cost buckets and the trial option. The assumption ledger itself stays internal.
