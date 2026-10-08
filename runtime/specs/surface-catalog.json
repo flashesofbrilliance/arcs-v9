@@ -6,18 +6,18 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 276,
+  "rows": 277,
   "hosts": 78,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
    "product page": 218,
-   "gated": 30
+   "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 24,
-  "app_routes": 45,
+  "app_routes": 46,
   "missing_purpose": 3,
   "unlisted": 105
  },
@@ -497,6 +497,26 @@
    "unlisted": false,
    "purpose": "jobs.arcs.care/<jobid>/forge — the PRIVATE viewer for a staged forge bundle.",
    "last_commit": "2026-09-07"
+  },
+  {
+   "host": "app.arcs.care",
+   "path": "/jobs/atlas",
+   "catch_all": false,
+   "destination": "/jobs/atlas",
+   "file": "src/app/jobs/atlas/route.ts",
+   "kind": "gated",
+   "title": null,
+   "description": "jobs.arcs.care/atlas: the Atlas Loader HUD. It ships no data: the page takes an",
+   "index": null,
+   "gate": "admin session",
+   "declared_in": [
+    "src/app"
+   ],
+   "pattern": false,
+   "gate_file": null,
+   "unlisted": false,
+   "purpose": "jobs.arcs.care/atlas: the Atlas Loader HUD. It ships no data: the page takes an",
+   "last_commit": null
   },
   {
    "host": "app.arcs.care",
@@ -1550,7 +1570,7 @@
    "unlisted": false,
    "purpose": "Notes from the Trenches: what building ARCS in the open actually taught me. Real stories from the build, with the receipts.",
    "kind": "product page",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "good.arcs.care",

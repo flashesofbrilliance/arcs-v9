@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
     "/jobs": ["./runtime/specs/*.json"],
     "/jobs/scan": ["./_ARTIFACTS/target-role-scan-hud.html", "./runtime/specs/*.json"],
     "/jobs/profile": ["./_ARTIFACTS/profile-scan-hud.html"],
+    "/jobs/atlas": ["./_ARTIFACTS/atlas-loader-hud.html"],
     "/jobs/[jobid]": ["./runtime/specs/*.json"],
     "/jobs/lane": ["./runtime/specs/*.json"],
     "/api/jobs/lane": ["./runtime/specs/*.json"],

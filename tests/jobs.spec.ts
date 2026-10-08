@@ -21,6 +21,13 @@ test.describe("gate holds for anonymous visitors", () => {
     expect(r.headers()["location"]).toContain("/compass")
   })
 
+  test("atlas loader redirects anon to sign-in", async () => {
+    const c = await request.newContext({ baseURL: BASE })
+    const r = await c.get("/jobs/atlas", noFollow)
+    expect([307, 308]).toContain(r.status())
+    expect(r.headers()["location"]).toContain("/compass")
+  })
+
   test("forge bundle page redirects to sign-in", async () => {
     const c = await request.newContext({ baseURL: BASE })
     const r = await c.get(`/jobs/${BUILT}/forge`, noFollow)
