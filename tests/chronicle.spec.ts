@@ -22,7 +22,7 @@ if (fs.existsSync(PINNED)) test.use({ launchOptions: { executablePath: PINNED } 
 const ROOT = path.resolve(__dirname, "..")
 const OUT = path.join(ROOT, "_ARTIFACTS/atlas/chronicle.html")
 const BOOKS = ["genesis", "exodus", "leviticus", "numbers", "deuteronomy"]
-const FATHOMS = [1, 2, 3, 4, 5]
+const FATHOMS = [1, 2, 3, 4, 5, 6, 7]
 const WIDTHS = [
   { name: "mobile", width: 375, height: 812 },
   { name: "narrow", width: 790, height: 900 },
@@ -44,7 +44,7 @@ test.beforeAll(() => {
 
 const fileUrl = () => pathToFileURL(OUT).href
 
-test("chronicle renders five books, five fathoms, a Shavasana per book, per-epoch counts", async ({ page }) => {
+test("chronicle renders five books, seven fathoms, a Shavasana per book, per-epoch counts", async ({ page }) => {
   const errors: string[] = []
   page.on("pageerror", (e) => errors.push(e.message))
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()) })
@@ -52,11 +52,11 @@ test("chronicle renders five books, five fathoms, a Shavasana per book, per-epoc
 
   const ids = await page.locator("article.book").evaluateAll((els) => els.map((e) => e.id))
   expect(ids).toEqual(BOOKS)
-  await expect(page.locator("[data-fathom-btn]")).toHaveCount(5)
+  await expect(page.locator("[data-fathom-btn]")).toHaveCount(7)
   await expect(page.locator("article.book .shav")).toHaveCount(5)
 
   // Per-epoch health: every book shows a numeric commit count, Apr to Sep in order.
-  await page.locator('[data-fathom-btn="4"]').click()
+  await page.locator('[data-fathom-btn="5"]').click() // Tactical: the computed counts
   for (const id of BOOKS) {
     const dd = await page.locator(`#${id} .stats dd`).first().innerText()
     expect(Number(dd), `${id} commit count not numeric`).toBeGreaterThan(0)
