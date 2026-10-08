@@ -103,13 +103,17 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
   )
 }
 
-export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
+export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank, onVis }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; onVis: (pct: number) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
   // Defaults keep the HUD whole if a reader omits a field (a hot reload can pair a new HUD with an old reader).
   const safeRead = useCallback((): HudRead => ({ yaw: 0, depth: 4, fog: 1, clear: false, nest: 0, origin: null, universe: false, node: null, trail: [], holds: [], bankUp: null, bankDown: null, galaxy: null, gps: null, ...(read() as Partial<HudRead>) }), [read])
   const [r, setR] = useState<HudRead>(safeRead)
   const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
-  useEffect(() => { const on = () => setVw(window.innerWidth); window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
-  const narrow = vw < 760
+  const [vh, setVh] = useState(() => (typeof window === "undefined" ? 800 : window.innerHeight))
+  useEffect(() => { const on = () => { setVw(window.innerWidth); setVh(window.innerHeight) }; window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
+  // Compact below 900 wide or 600 tall (phones both ways, tablet portrait); the dials need room.
+  // Landscape compact puts the GPS and the holds side by side instead of stacking them.
+  const narrow = vw < 900 || vh < 600
+  const land = narrow && vw > vh
   useEffect(() => {
     let raf = 0, last = 0
     const tick = (now: number) => { if (now - last > 66) { last = now; setR(safeRead()) } raf = requestAnimationFrame(tick) }
@@ -131,7 +135,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
   // Heading tape: ±60° window, tick every 5°, label every 15°, safe bearings marked.
   // The tape takes the lane between the side columns, never more than 520px.
   // Floored: a hidden or unsized tab reports innerWidth 0, which made a negative SVG width.
-  const TW = Math.max(240, narrow ? vw - 32 : Math.min(520, vw - 520)), span = 60
+  const TW = Math.max(240, narrow ? vw - 56 : Math.min(520, vw - 600)), span = 60
   const tx = (d: number) => TW / 2 + (delta(d) / span) * (TW / 2)
   const tape = []
   for (let d = Math.ceil((hdg - span) / 5) * 5; d <= hdg + span; d += 5) {
@@ -142,13 +146,14 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
 
 
   return (
-    <div aria-hidden="true" style={{ position: "absolute", inset: 0, bottom: 38, pointerEvents: "none" }}>
+    <div role="region" aria-label="Survey instruments" style={{ position: "absolute", inset: 0, bottom: 38, pointerEvents: "none" }}>
       {/* Phone: one readout strip carries slope, visibility and depth; the dials need room. */}
       {narrow && (
         <div style={{ ...panel, left: 16, right: 16, top: 16, display: "flex", justifyContent: "space-between", gap: 10, padding: "8px 12px" }}>
           <Screws />
           <span style={label}>Slope <span style={{ ...value, color: b.color }}>{grade.toFixed(0)}°</span></span>
-          <span style={label}>Vis <span style={{ ...value, color: visState.color }}>{vis}%</span></span>
+          <label style={{ ...label, display: "inline-flex", alignItems: "center", gap: 6, pointerEvents: "auto" }}>Vis <span style={{ ...value, color: visState.color }}>{vis}%</span>
+            <input type="range" min={0} max={100} value={vis} aria-label="Visibility" onChange={(e) => onVis(Number(e.target.value))} style={{ width: 72, height: 24, accentColor: signal.cyan }} /></label>
           <span style={label}>F{Math.round(r.depth)} <span style={value}>{fathoms[Math.max(0, Math.min(fathoms.length - 1, Math.round(r.depth) - 1))].altitude}</span></span>
         </div>
       )}
@@ -167,6 +172,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
         <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span style={label}>Visibility</span><span style={{ ...label, color: visState.color }}>{visState.name}</span></div>
         <Dial min={0} max={100} v={vis} minor={5} major={25} unit="%" />
         <div style={{ ...value, textAlign: "center" }}>{vis}%</div>
+        <input type="range" min={0} max={100} value={vis} aria-label="Visibility" onChange={(e) => onVis(Number(e.target.value))} style={{ width: "100%", height: 24, accentColor: signal.cyan, pointerEvents: "auto", margin: "6px 0 0" }} />
       </div>
 
       {/* Altimeter: the seven fathoms, continuous needle. */}
@@ -194,12 +200,12 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
             type="button"
             onClick={() => onSteer(nearest)}
             title="Steer to the nearest safe bearing (S)"
-            style={{ ...label, color: Math.abs(turn) < 1 ? signal.green : signal.cyan, background: "rgba(6,9,13,0.82)", border: `1px solid ${Math.abs(turn) < 1 ? signal.green : "rgba(0,240,255,0.5)"}`, borderRadius: 3, padding: "4px 8px", cursor: "pointer" }}
+            style={{ ...label, color: Math.abs(turn) < 1 ? signal.green : signal.cyan, background: "rgba(6,9,13,0.82)", border: `1px solid ${Math.abs(turn) < 1 ? signal.green : "rgba(0,240,255,0.5)"}`, borderRadius: 3, padding: "4px 10px", minHeight: 32, cursor: "pointer" }}
           >
             {Math.abs(turn) < 1 ? "On safe line" : `Steer ${turn > 0 ? "right" : "left"} ${Math.abs(Math.round(turn))}° · S`}
           </button>
         </div>
-        <svg width={TW} height={30} viewBox={`0 0 ${TW} 30`} style={{ display: "block", background: "rgba(6,9,13,0.7)", borderTop: `1px solid ${faint}` }}>
+        <svg aria-hidden="true" width={TW} height={30} viewBox={`0 0 ${TW} 30`} style={{ display: "block", background: "rgba(6,9,13,0.7)", borderTop: `1px solid ${faint}` }}>
           {safe.bearings.filter((x) => Math.abs(delta(x)) <= span).map((x) => <rect key={x} x={tx(x) - 4} y={0} width={8} height={30} fill={signal.green} opacity={0.18} />)}
           {tape}
           <path d={`M${TW / 2 - 5} 0 L${TW / 2 + 5} 0 L${TW / 2} 7 Z`} fill={signal.cyan} />
@@ -247,9 +253,9 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
 
       {/* GPS: where you are, what you face, the last leg, and the breadcrumbs to back-track. */}
       {r.universe && r.gps && (
-        <div style={{ ...panel, left: narrow ? 16 : "50%", right: narrow ? 16 : undefined, top: narrow ? 64 : 16, transform: narrow ? undefined : "translateX(-50%)", width: narrow ? undefined : Math.max(300, Math.min(560, vw - 560)), pointerEvents: "auto" }}>
+        <div style={{ ...panel, ...scroll, left: narrow ? 16 : "50%", right: narrow ? (land ? "calc(50% + 8px)" : 16) : undefined, top: narrow ? 64 : 16, transform: narrow ? undefined : "translateX(-50%)", width: narrow ? undefined : Math.max(300, Math.min(560, vw - 600)), maxHeight: land ? vh - 64 - 190 : undefined, pointerEvents: "auto" }}>
           <Screws />
-          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 10, rowGap: 3, alignItems: "baseline" }}>
+          <div aria-live="polite" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 10, rowGap: 3, alignItems: "baseline" }}>
             <span style={label}>You are at</span>
             <span style={{ ...value, whiteSpace: "normal", color: signal.gold }}>{r.gps.here}{r.gps.at && <span style={{ ...label, marginLeft: 8 }}>{r.gps.at}</span>}</span>
             <span style={label}>Looking at</span>
@@ -269,7 +275,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
                   disabled={here}
                   onClick={() => onBack(i)}
                   title={here ? "You are here" : `Back-track to step ${i}`}
-                  style={{ ...label, color: here ? signal.gold : text.secondary, background: "rgba(6,9,13,0.82)", border: `1px solid ${here ? signal.gold : "#1e293b"}`, borderRadius: 3, padding: "3px 7px", cursor: here ? "default" : "pointer" }}
+                  style={{ ...label, color: here ? signal.gold : text.secondary, background: "rgba(6,9,13,0.82)", border: `1px solid ${here ? signal.gold : "#1e293b"}`, borderRadius: 3, padding: "3px 8px", minHeight: 28, cursor: here ? "default" : "pointer" }}
                 >
                   {i} · {name}
                 </button>
@@ -283,7 +289,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
 
       {/* Holds: every node one edge away, and whether you can hop to it. */}
       {r.universe && (r.holds.length > 0 || r.bankUp || r.bankDown) && (
-        <div style={{ ...panel, ...(narrow ? { left: 16, right: 16, bottom: 110, maxHeight: "32%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), ...scroll, pointerEvents: "auto" }}>
+        <div style={{ ...panel, ...(land ? { left: "calc(50% + 8px)", right: 16, top: 64, maxHeight: vh - 64 - 190 } : narrow ? { left: 16, right: 16, bottom: 150, maxHeight: "28%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), ...scroll, pointerEvents: "auto" }}>
           <Screws />
           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span><span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span></div>
           {([[1, r.bankUp], [-1, r.bankDown]] as const).map(([dir, b]) => b && (
@@ -293,7 +299,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
               disabled={b.state !== "open"}
               onClick={() => onBank(dir)}
               title={b.state === "open" ? `Bank ${dir > 0 ? "up" : "down"} one ring to ${b.label} (Shift ${dir > 0 ? "up" : "down"})` : `Bank ${b.state}`}
-              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: b.state === "open" ? "pointer" : "default", color: b.state === "open" ? text.primary : text.dimmed }}
+              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", minHeight: 32, alignItems: "center", cursor: b.state === "open" ? "pointer" : "default", color: b.state === "open" ? text.primary : text.dimmed }}
             >
               <span><span style={{ color: dir > 0 ? signal.gold : signal.cyan }}>{dir > 0 ? "Bank up" : "Bank down"}</span> · <span style={name}>{b.label}</span></span>
               <span style={{ color: b.state === "open" ? signal.green : b.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{b.state}</span>
@@ -306,7 +312,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
               disabled={h.state !== "open"}
               onClick={() => onHop(h.id)}
               title={h.state === "open" ? `Hop to ${h.label}` : h.state === "blocked" ? "Blocked: this node is gated" : "Obscured: open questions, visibility under 50%"}
-              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: h.state === "open" ? "pointer" : "default", color: h.state === "open" ? text.primary : text.dimmed }}
+              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", minHeight: 32, alignItems: "center", cursor: h.state === "open" ? "pointer" : "default", color: h.state === "open" ? text.primary : text.dimmed }}
             >
               <span style={name}>{h.label}</span>
               <span style={{ color: h.state === "open" ? signal.green : h.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{h.state}</span>
