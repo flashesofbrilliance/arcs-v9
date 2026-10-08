@@ -80,14 +80,26 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--border);border-r
 @media (min-width:900px){.cards{grid-template-columns:1fr 1fr}.card:first-child:nth-last-child(odd){grid-column:1/-1}}
 
 [hidden]{display:none !important}
-.alt{position:sticky;top:46px;background:var(--bg);border-bottom:1px solid var(--border);z-index:1}
-.alt .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding-top:10px;padding-bottom:10px}
+.alt{position:sticky;top:46px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);z-index:1;padding:10px 0;margin:24px 0 8px}
+.altrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
 .altlabel{color:var(--muted)}
-.altbtns{display:flex;flex-wrap:wrap;gap:6px}
-.altbtns button,.more{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer}
-.altbtns button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-bg)}
-.altbtns button:focus-visible,.more:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-.altdesc{color:var(--dimmed)}
+.stepbtns{display:flex;gap:6px}
+.step,.more{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer}
+.step:disabled{opacity:.4;cursor:default}
+.ladder{list-style:none;margin:10px 0 6px;padding:0;display:flex;gap:0}
+.ladder li{flex:1 1 0;min-width:0;position:relative;text-align:center}
+.ladder li::before{content:"";position:absolute;top:7px;left:-50%;width:100%;height:2px;background:var(--border)}
+.ladder li:first-child::before{display:none}
+.ladder li.on::before{background:var(--cyan)}
+.ladder button{font:inherit;color:var(--muted);background:none;border:0;padding:0 2px;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.ladder .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);background:var(--bg)}
+.ladder li.on .dot{background:var(--cyan);border-color:var(--cyan)}
+.ladder li.on button{color:var(--text)}
+.ladder button[aria-pressed="true"]{color:var(--cyan)}
+.ladder button[aria-pressed="true"] .dot{box-shadow:0 0 0 3px var(--cyan-bg)}
+.ladder button:focus-visible,.step:focus-visible,.more:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.altdesc{color:var(--dimmed);margin:6px 0 0}
+@media (max-width:600px){.ladder .nm{font-size:0.925rem;word-break:break-word}}
 .dek{margin:4px 0 8px;color:var(--text)}
 .more{margin:4px 0 0}
 .sec{margin:0}
@@ -98,7 +110,6 @@ section{scroll-margin-top:110px}
 </head>
 <body>
 <nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a></div></nav>
-<div class="alt" role="group" aria-label="Level of detail"><div class="wrap"><span class="altlabel">Level of detail</span><span class="altbtns"><button type="button" data-level="1" aria-pressed="false">Exec</button><button type="button" data-level="2" aria-pressed="false">Strategic</button><button type="button" data-level="3" aria-pressed="false">Operational</button><button type="button" data-level="4" aria-pressed="false">Tactical</button><button type="button" data-level="5" aria-pressed="false">Surgical</button></span><span id="altdesc" class="altdesc" aria-live="polite"></span></div></div>
 <main class="wrap">
 <div class="banner" role="note">Draft for Zach to review. Not sent. No prices appear because none are agreed.</div>
 <section id="plan"><h1>My Ally LD: a plain-language plan</h1>
@@ -111,7 +122,7 @@ section{scroll-margin-top:110px}
 </div><div class="sec" data-body-alt="1"><h2>The whole idea, simply</h2>
 <p>You are building a helpful guide for families, and her name is Alice. Think of building a house for her. First I look at the ground and the plans with you. Then we agree the route together. Then we pour a strong floor. Only then do you decide how big the house gets. At every step I say out loud what "done" looks like, so nobody is surprised. If you ever want to stop, you take your binder and walk away with everything.</p>
 <p>Any word that sounds technical is explained in the translation codex that comes with this note (<code>09-translation-codex.md</code>).</p>
-</div><div class="sec" data-body-alt="2"><h2>The four stages</h2><p class="dek">Four stages: look and listen, agree the plan together, make it solid, then aim higher and look back. Each ends with a checkpoint you can verify, and you can stop after any of them with everything I made.</p><div class="body">
+</div><div class="alt" role="group" aria-label="Level of detail"><div class="altrow"><span class="altlabel">Depth: each step adds to the one before</span><span class="stepbtns"><button type="button" class="step" data-dir="-1">Less detail</button><button type="button" class="step" data-dir="1">More detail</button></span></div><ol class="ladder"><li><button type="button" data-level="1" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">1. Exec</span></button></li><li><button type="button" data-level="2" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">2. Strategic</span></button></li><li><button type="button" data-level="3" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">3. Operational</span></button></li><li><button type="button" data-level="4" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">4. Tactical</span></button></li><li><button type="button" data-level="5" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">5. Surgical</span></button></li></ol><p id="altdesc" class="altdesc" aria-live="polite"></p></div><div class="sec" data-body-alt="2"><h2>The four stages</h2><p class="dek">Four stages: look and listen, agree the plan together, make it solid, then aim higher and look back. Each ends with a checkpoint you can verify, and you can stop after any of them with everything I made.</p><div class="body">
 <div class="cards"><article class="card"><h3><strong>1. Look and listen</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>I read what exists: the app, the build plan, your cost model, and where children's information travels. I talk with each of you four separately. Before each conversation I write down my own predictions, so I can check them later.</dd></div><div data-alt="2"><dt>What you get</dt><dd>A clear picture of what is built, what is planned and what is only hoped for, with a note on how much I examined. A first list of questions for your lawyers.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>A short test set before I start, for example that every item in the build plan is marked built, partly built or not built.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the picture and the questions.</dd></div></dl></article><article class="card"><h3><strong>2. Agree the plan together</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>I share what I found. Then, together, we build one roadmap in time order from your priorities, limits and dates: what has to happen before what, like a campaign calendar. You make the big decision, build alongside a developer or hire one, and we put it on paper after an honest "imagine it failed" exercise.</dd></div><div data-alt="2"><dt>What you get</dt><dd>One roadmap. One written record of the big decision: what you chose, why, and what would change your minds. For each item on the roadmap, a written description of what "finished" looks like.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>Each of you can say, in your own words, what was decided, who owns it, and what would reverse it.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the roadmap, the record and the list of questions.</dd></div></dl></article><article class="card"><h3><strong>3. Make it solid</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>I set up the foundations so the build can run on your side: the working setup, the freedom to switch AI providers later, who can see what (parent, child, practitioner), a safe way to handle private documents, a cap on AI spending, and routines for releases. Depending on what I find, this may include proper change tracking, separate places for testing and the real thing, and deciding which kinds of information are allowed to live in which service. Anything that needs your lawyers waits for their answers first.</dd></div><div data-alt="2"><dt>What you get</dt><dd>A setup Chelsea can run herself. Your business plan and your build, side by side, with nothing in one that the other cannot account for.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>A short list of working checks, for example a spending cap that really stops spending in a test.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the setup, the instructions and the list of accounts and subscriptions.</dd></div></dl></article><article class="card"><h3><strong>4. Aim higher, then look back</strong></h3><dl><div data-alt="3"><dt>What happens, in plain terms</dt><dd>With real use behind you, I help you look at strategy and a few possible futures, each with an early warning sign and a plan. I run the "imagine it failed" exercise again on the next big bets. Then we look back: what you set out to do, what was done, and whether the result matched the goal.</dd></div><div data-alt="2"><dt>What you get</dt><dd>A strategy, the scenarios, and an honest scorecard of the whole engagement.</dd></div><div data-alt="3"><dt>How we will know it worked</dt><dd>You can run the next "imagine it failed" exercise on your own.</dd></div><div data-alt="3"><dt>If it does not work</dt><dd>You keep the scorecard and the playbook.</dd></div></dl></article></div>
 <p>At the end of every stage I also do a short look-back with you, so the lessons arrive while they are still useful, not only at the end.</p>
 </div><button class="more" type="button" hidden>Show detail</button></div><div class="sec" data-body-alt="3"><h2>My view on Alice</h2><p class="dek">I would hold off connecting Alice until the groundwork is done. A small trial on made-up data is the cheaper way to learn what she costs.</p><div class="body">
@@ -330,7 +341,7 @@ section{scroll-margin-top:110px}
 </main>
 <script>
 (function(){
-  var DESC={"1": "The headline and one line per section.", "2": "The stages and what you get from each.", "3": "Who does what, how I would work, what I need from you.", "4": "Checklists, triggers and the questions I would ask.", "5": "Every detail, plus the glossary."};
+  var DESC={"1": {"name": "Exec", "desc": "The headline and one line per section.", "adds": "the headline and one line per section"}, "2": {"name": "Strategic", "desc": "The stages and what you get from each.", "adds": "the four stages and what you get from each"}, "3": {"name": "Operational", "desc": "Who does what, how I would work, what I need from you.", "adds": "who does what, how I would work, and what I need from you"}, "4": {"name": "Tactical", "desc": "Checklists, triggers and the questions I would ask.", "adds": "checklists, triggers and the questions I would ask"}, "5": {"name": "Surgical", "desc": "Every detail, plus the glossary.", "adds": "every remaining detail and the glossary"}};
   var level=2,over=new Set();
   try{var v=parseInt(localStorage.getItem('altLevel'),10);if(v>=1&&v<=5)level=v;}catch(e){}
   var secs=[].slice.call(document.querySelectorAll('.sec'));
@@ -348,13 +359,24 @@ section{scroll-margin-top:110px}
         el.hidden=!(over.has(i)?true:level>=a);
       });
     });
-    [].forEach.call(document.querySelectorAll('.altbtns button'),function(b){
-      b.setAttribute('aria-pressed',String(parseInt(b.getAttribute('data-level'),10)===level));
+    [].forEach.call(document.querySelectorAll('.ladder button'),function(b){
+      var n=parseInt(b.getAttribute('data-level'),10);
+      b.setAttribute('aria-pressed',String(n===level));
+      b.parentNode.className=n<=level?'on':'';
     });
-    document.getElementById('altdesc').textContent=DESC[level];
+    [].forEach.call(document.querySelectorAll('.step'),function(b){
+      var d=parseInt(b.getAttribute('data-dir'),10);
+      b.disabled=(d<0&&level<=1)||(d>0&&level>=5);
+    });
+    var cur=DESC[level],nxt=DESC[level+1];
+    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Next step adds '+nxt.adds+'.':' This is the full detail.');
   }
-  [].forEach.call(document.querySelectorAll('.altbtns button'),function(b){
-    b.addEventListener('click',function(){level=parseInt(b.getAttribute('data-level'),10);over.clear();try{localStorage.setItem('altLevel',String(level));}catch(e){}apply();});
+  function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('altLevel',String(level));}catch(e){}apply();}
+  [].forEach.call(document.querySelectorAll('.ladder button'),function(b){
+    b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});
+  });
+  [].forEach.call(document.querySelectorAll('.step'),function(b){
+    b.addEventListener('click',function(){setLevel(level+parseInt(b.getAttribute('data-dir'),10));});
   });
   secs.forEach(function(sec,i){
     var more=sec.querySelector('.more');

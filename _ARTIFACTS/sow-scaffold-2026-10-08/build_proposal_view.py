@@ -26,11 +26,11 @@ ROWALT = {
 }
 
 LEVELS = [
-    (1, "Exec", "The headline and one line per section."),
-    (2, "Strategic", "The stages and what you get from each."),
-    (3, "Operational", "Who does what, how I would work, what I need from you."),
-    (4, "Tactical", "Checklists, triggers and the questions I would ask."),
-    (5, "Surgical", "Every detail, plus the glossary."),
+    (1, "Exec", "The headline and one line per section.", "the headline and one line per section"),
+    (2, "Strategic", "The stages and what you get from each.", "the four stages and what you get from each"),
+    (3, "Operational", "Who does what, how I would work, what I need from you.", "who does what, how I would work, and what I need from you"),
+    (4, "Tactical", "Checklists, triggers and the questions I would ask.", "checklists, triggers and the questions I would ask"),
+    (5, "Surgical", "Every detail, plus the glossary.", "every remaining detail and the glossary"),
 ]
 
 # heading text -> (altitude at which the body opens, one-line summary shown while collapsed)
@@ -60,7 +60,8 @@ def altitude_wrap(h):
         alt, dek = SPEC.get(title, (3, None))
         rest = part[m.end():]
         if dek is None:
-            out.append(f'<div class="sec" data-body-alt="{alt}">{m.group(0)}{rest}</div>')
+            marker = "<!--BAR-->" if title == "The whole idea, simply" else ""
+            out.append(f'<div class="sec" data-body-alt="{alt}">{m.group(0)}{rest}</div>{marker}')
         else:
             out.append(f'<div class="sec" data-body-alt="{alt}">{m.group(0)}<p class="dek">{dek}</p><div class="body">{rest}</div><button class="more" type="button" hidden>Show detail</button></div>')
     return "".join(out)
@@ -155,14 +156,26 @@ iframe.tally{width:100%;min-height:640px;border:1px solid var(--border);border-r
 @media (min-width:900px){.cards{grid-template-columns:1fr 1fr}.card:first-child:nth-last-child(odd){grid-column:1/-1}}
 
 [hidden]{display:none !important}
-.alt{position:sticky;top:46px;background:var(--bg);border-bottom:1px solid var(--border);z-index:1}
-.alt .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding-top:10px;padding-bottom:10px}
+.alt{position:sticky;top:46px;background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);z-index:1;padding:10px 0;margin:24px 0 8px}
+.altrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
 .altlabel{color:var(--muted)}
-.altbtns{display:flex;flex-wrap:wrap;gap:6px}
-.altbtns button,.more{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer}
-.altbtns button[aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-bg)}
-.altbtns button:focus-visible,.more:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-.altdesc{color:var(--dimmed)}
+.stepbtns{display:flex;gap:6px}
+.step,.more{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer}
+.step:disabled{opacity:.4;cursor:default}
+.ladder{list-style:none;margin:10px 0 6px;padding:0;display:flex;gap:0}
+.ladder li{flex:1 1 0;min-width:0;position:relative;text-align:center}
+.ladder li::before{content:"";position:absolute;top:7px;left:-50%;width:100%;height:2px;background:var(--border)}
+.ladder li:first-child::before{display:none}
+.ladder li.on::before{background:var(--cyan)}
+.ladder button{font:inherit;color:var(--muted);background:none;border:0;padding:0 2px;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.ladder .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);background:var(--bg)}
+.ladder li.on .dot{background:var(--cyan);border-color:var(--cyan)}
+.ladder li.on button{color:var(--text)}
+.ladder button[aria-pressed="true"]{color:var(--cyan)}
+.ladder button[aria-pressed="true"] .dot{box-shadow:0 0 0 3px var(--cyan-bg)}
+.ladder button:focus-visible,.step:focus-visible,.more:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.altdesc{color:var(--dimmed);margin:6px 0 0}
+@media (max-width:600px){.ladder .nm{font-size:0.925rem;word-break:break-word}}
 .dek{margin:4px 0 8px;color:var(--text)}
 .more{margin:4px 0 0}
 .sec{margin:0}
@@ -171,8 +184,11 @@ section{scroll-margin-top:110px}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 """
 
-buttons = "".join(f'<button type="button" data-level="{n}" aria-pressed="false">{name}</button>' for n, name, _ in LEVELS)
-descs = {n: d for n, _, d in LEVELS}
+ladder = "".join(
+    f'<li><button type="button" data-level="{n}" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="nm">{n}. {name}</span></button></li>'
+    for n, name, _, _ in LEVELS
+)
+descs = {n: {"name": name, "desc": d, "adds": adds} for n, name, d, adds in LEVELS}
 import json as _json
 js = """
 (function(){
@@ -194,13 +210,24 @@ js = """
         el.hidden=!(over.has(i)?true:level>=a);
       });
     });
-    [].forEach.call(document.querySelectorAll('.altbtns button'),function(b){
-      b.setAttribute('aria-pressed',String(parseInt(b.getAttribute('data-level'),10)===level));
+    [].forEach.call(document.querySelectorAll('.ladder button'),function(b){
+      var n=parseInt(b.getAttribute('data-level'),10);
+      b.setAttribute('aria-pressed',String(n===level));
+      b.parentNode.className=n<=level?'on':'';
     });
-    document.getElementById('altdesc').textContent=DESC[level];
+    [].forEach.call(document.querySelectorAll('.step'),function(b){
+      var d=parseInt(b.getAttribute('data-dir'),10);
+      b.disabled=(d<0&&level<=1)||(d>0&&level>=5);
+    });
+    var cur=DESC[level],nxt=DESC[level+1];
+    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Next step adds '+nxt.adds+'.':' This is the full detail.');
   }
-  [].forEach.call(document.querySelectorAll('.altbtns button'),function(b){
-    b.addEventListener('click',function(){level=parseInt(b.getAttribute('data-level'),10);over.clear();try{localStorage.setItem('altLevel',String(level));}catch(e){}apply();});
+  function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('altLevel',String(level));}catch(e){}apply();}
+  [].forEach.call(document.querySelectorAll('.ladder button'),function(b){
+    b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});
+  });
+  [].forEach.call(document.querySelectorAll('.step'),function(b){
+    b.addEventListener('click',function(){setLevel(level+parseInt(b.getAttribute('data-dir'),10));});
   });
   secs.forEach(function(sec,i){
     var more=sec.querySelector('.more');
@@ -210,7 +237,8 @@ js = """
 })();
 """.replace("__DESC__", _json.dumps(descs))
 
-bar_html = '''<div class="alt" role="group" aria-label="Level of detail"><div class="wrap"><span class="altlabel">Level of detail</span><span class="altbtns">{buttons}</span><span id="altdesc" class="altdesc" aria-live="polite"></span></div></div>'''.replace("{buttons}", buttons)
+bar_html = f'''<div class="alt" role="group" aria-label="Level of detail"><div class="altrow"><span class="altlabel">Depth: each step adds to the one before</span><span class="stepbtns"><button type="button" class="step" data-dir="-1">Less detail</button><button type="button" class="step" data-dir="1">More detail</button></span></div><ol class="ladder">{ladder}</ol><p id="altdesc" class="altdesc" aria-live="polite"></p></div>'''
+plan_with_bar = plan.replace("<!--BAR-->", bar_html)
 page = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -222,10 +250,9 @@ page = f"""<!doctype html>
 </head>
 <body>
 <nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a></div></nav>
-{bar_html}
 <main class="wrap">
 <div class="banner" role="note">Draft for Zach to review. Not sent. No prices appear because none are agreed.</div>
-<section id="plan">{plan}</section>
+<section id="plan">{plan_with_bar}</section>
 <section id="codex"><div class="sec" data-body-alt="5"><h2>Translation codex</h2><p class="dek">A legend for every technical word, each with a plain meaning, a picture and why it matters to you.</p><div class="body">{codex}</div><button class="more" type="button" hidden>Show detail</button></div></section>
 <section id="intake"><div class="sec" data-body-alt="4"><h2>Intake</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body">{intake}</div><button class="more" type="button" hidden>Show detail</button></div></section>
 </main>
