@@ -2,6 +2,10 @@
 
 Companion to `07-plain-language-bundle.md`. Internal only: it names what the counterpart-facing text leaves out. Translation is not fully lossless across audiences, so this file names the loss channels instead of claiming none.
 
+## Voice rule (Zach, 2026-10-08)
+
+Counterpart-facing text is in the first person singular ("I", "my view", "how I would approach"), because manana is a solo practice. "We" appears only where it truly means Zach and the founders together (agreeing the route, building the roadmap, filling in costs). No royal we.
+
 ## Jargon map (scaffold term to what Kelly and Chelsea read)
 
 | Scaffold term | Plain version in the bundle | Why this analogy |
