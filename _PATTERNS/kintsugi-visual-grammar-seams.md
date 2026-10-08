@@ -22,6 +22,15 @@
   machine that has it.
 
 
+## 2026-10-08 · Light paper world sanctioned at AA: 25 light-surface pages pass contrast
+
+Found by: axe color-contrast class B (486 failing nodes on 26 light-surface pages: resumes, dossiers, TIL
+posts), unsanctioned by DESIGN.md. Zach's call: sanction a light paper world, with passing colors.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | 20 text colors under 4.5:1 on paper grounds (top: teal `#0089a8` 176 nodes, `#9ab0c8` 98, `#7a848e` 64) | axe pairs, grouped by color and darkest paper surface | Each color darkened by the smallest step that clears 4.6:1 on the darkest paper surface it sits on (`#0089a8` -> `#00748e`, `#9ab0c8` -> `#616e7d`, `#7a848e` -> `#677078` ...), one mapping everywhere, on 25 pages (omakase skipped). WCAG nodes 963 -> 485; clean pages 73 -> 93; detector 4,005 -> 3,836 | both ratchets, checked per changed page before commit (no rises); DESIGN.md Light Paper row names the 4.6:1 floor |
+
 ## 2026-10-08 · Contrast, ranked by axe: dark-surface greys swapped on 7 pages; PRL named a sanctioned world; light pages need a rule
 
 Found by: axe color-contrast over every served page, failing pairs grouped by color. Two classes. A: greys too

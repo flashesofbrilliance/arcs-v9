@@ -2,7 +2,7 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 4005,
+  "detector": 3836,
   "emdash": 774,
   "wrap": 32,
   "tokens": 6,
@@ -87,13 +87,12 @@
    "retired_color": 0
   },
   "public/autopilot-ammo.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 2,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -114,13 +113,12 @@
    "retired_color": 0
   },
   "public/autopilot.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 1,
     "cramped-padding": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -588,13 +586,13 @@
    "retired_color": 0
   },
   "public/blog-til-a-draft-is-not-a-verb.html": {
-   "detector": 32,
+   "detector": 14,
    "rules": {
     "all-caps-body": 4,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 20,
+    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 1,
     "wide-tracking": 1
@@ -606,12 +604,12 @@
    "retired_color": 0
   },
   "public/blog-til-apple-openai.html": {
-   "detector": 40,
+   "detector": 26,
    "rules": {
     "all-caps-body": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 16,
+    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 16,
     "wide-tracking": 1
@@ -623,13 +621,13 @@
    "retired_color": 0
   },
   "public/blog-til-closing-the-loop.html": {
-   "detector": 40,
+   "detector": 16,
    "rules": {
     "all-caps-body": 6,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 26,
+    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 1,
     "wide-tracking": 1
@@ -641,12 +639,11 @@
    "retired_color": 0
   },
   "public/blog-til-index.html": {
-   "detector": 11,
+   "detector": 7,
    "rules": {
     "all-caps-body": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 4,
     "overused-font": 1
    },
    "emdash": 0,
@@ -656,12 +653,11 @@
    "retired_color": 0
   },
   "public/blog-til-zim.html": {
-   "detector": 17,
+   "detector": 11,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 6,
     "overused-font": 1,
     "tiny-text": 4,
     "wide-tracking": 1
@@ -1181,11 +1177,10 @@
    "retired_color": 0
   },
   "public/lewoof-intake.html": {
-   "detector": 9,
+   "detector": 7,
    "rules": {
     "all-caps-body": 1,
     "design-system-font": 4,
-    "low-contrast": 2,
     "tiny-text": 2
    },
    "emdash": 0,
@@ -1278,11 +1273,10 @@
    "retired_color": 0
   },
   "public/monstro-cover.html": {
-   "detector": 16,
+   "detector": 15,
    "rules": {
     "all-caps-body": 1,
     "design-system-font": 2,
-    "low-contrast": 1,
     "overused-font": 1,
     "tiny-text": 11
    },
@@ -1293,12 +1287,11 @@
    "retired_color": 0
   },
   "public/monstro-full.html": {
-   "detector": 25,
+   "detector": 6,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 19,
     "overused-font": 1
    },
    "emdash": 0,
@@ -1308,11 +1301,10 @@
    "retired_color": 0
   },
   "public/monstro-resume.html": {
-   "detector": 85,
+   "detector": 79,
    "rules": {
     "all-caps-body": 4,
     "design-system-font": 2,
-    "low-contrast": 6,
     "overused-font": 1,
     "tiny-text": 37,
     "undersized-ui-text": 35
@@ -1596,11 +1588,10 @@
    "retired_color": 0
   },
   "public/recruithaus-ammo.html": {
-   "detector": 17,
+   "detector": 7,
    "rules": {
     "all-caps-body": 2,
     "design-system-font": 2,
-    "low-contrast": 10,
     "overused-font": 1,
     "tiny-text": 2
    },
@@ -1611,12 +1602,11 @@
    "retired_color": 0
   },
   "public/recruithaus.html": {
-   "detector": 20,
+   "detector": 9,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 11,
     "overused-font": 1,
     "tiny-text": 3
    },
@@ -1783,13 +1773,12 @@
    "retired_color": 0
   },
   "public/schriner-ammo.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 2,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -1822,12 +1811,11 @@
    "retired_color": 0
   },
   "public/schriner-vico.html": {
-   "detector": 93,
+   "detector": 80,
    "rules": {
     "all-caps-body": 5,
     "cramped-padding": 5,
     "design-system-font": 2,
-    "low-contrast": 13,
     "overused-font": 1,
     "tiny-text": 67
    },
@@ -1838,13 +1826,12 @@
    "retired_color": 0
   },
   "public/schriner.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 1,
     "cramped-padding": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -2206,13 +2193,12 @@
    "retired_color": 0
   },
   "public/vico-ammo.html": {
-   "detector": 19,
+   "detector": 9,
    "rules": {
     "all-caps-body": 3,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 10,
     "overused-font": 1
    },
    "emdash": 0,
@@ -2222,12 +2208,11 @@
    "retired_color": 0
   },
   "public/vico-resume.html": {
-   "detector": 95,
+   "detector": 82,
    "rules": {
     "all-caps-body": 5,
     "cramped-padding": 5,
     "design-system-font": 2,
-    "low-contrast": 13,
     "overused-font": 1,
     "tiny-text": 69
    },
@@ -2238,12 +2223,12 @@
    "retired_color": 0
   },
   "public/vico.html": {
-   "detector": 17,
+   "detector": 11,
    "rules": {
     "cramped-padding": 4,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 8,
+    "low-contrast": 2,
     "overused-font": 1
    },
    "emdash": 0,
