@@ -1,0 +1,35 @@
+{
+ "version": "0.1.0",
+ "id": "oprd",
+ "label": "orient-prd v0.1 (Kairos Lock)",
+ "parent": "universe",
+ "null_origin": "oprd",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.75,
+   "epi": 0.0,
+   "met": 0.25,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 1,
+   "active_days": 1,
+   "last_change": "2026-10-03",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 0,
+  "files": 1
+ },
+ "systems": {
+  "runtime": 1
+ },
+ "files": [
+  "runtime/specs/field-os/specs/orient-prd.md"
+ ]
+}

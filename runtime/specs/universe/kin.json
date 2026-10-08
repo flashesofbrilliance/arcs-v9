@@ -1,0 +1,41 @@
+{
+ "version": "0.1.0",
+ "id": "kin",
+ "label": "12D Kinematic Manifold",
+ "parent": "universe",
+ "null_origin": "kin",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.5,
+   "met": 0.25,
+   "ety": 0.0,
+   "lib": 0.25
+  },
+  "frequency": {
+   "file_commits": 5,
+   "active_days": 4,
+   "last_change": "2026-10-05",
+   "last_28d": 2
+  }
+ },
+ "dimensions": {
+  "corpus": 2,
+  "canon": 0,
+  "codebase": 2,
+  "files": 4
+ },
+ "systems": {
+  "_PATTERNS": 1,
+  "_SEEDS": 1,
+  "operators": 1,
+  "src": 1
+ },
+ "files": [
+  "_PATTERNS/2026-06-24-kinematics-adjudication.md",
+  "_SEEDS/ADR-CANDIDATE-2026-09-17-defeasible-context-codec-and-kinematic-freshness.md",
+  "operators/arcs_kinematics.py",
+  "src/document/kinematics.ts"
+ ]
+}

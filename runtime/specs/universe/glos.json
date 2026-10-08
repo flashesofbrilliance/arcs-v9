@@ -1,0 +1,36 @@
+{
+ "version": "0.1.0",
+ "id": "glos",
+ "label": "Glossary",
+ "parent": "universe",
+ "null_origin": "glos",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.0,
+   "met": 1.0,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 3,
+   "active_days": 3,
+   "last_change": "2026-09-11",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 2,
+  "codebase": 0,
+  "files": 2
+ },
+ "systems": {
+  "_CANON": 2
+ },
+ "files": [
+  "_CANON/ordinals/ARCS-Glossary-v0.1.md",
+  "_CANON/ordinals/CANDIDATE-exogenous-forge-glossary.md"
+ ]
+}

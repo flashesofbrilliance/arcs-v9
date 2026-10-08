@@ -1,0 +1,36 @@
+{
+ "version": "0.1.0",
+ "id": "law",
+ "label": "ARCS Law C = αA − β(S−S_min)² + γW",
+ "parent": "universe",
+ "null_origin": "law",
+ "signature": {
+  "altitude": "a",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.333,
+   "met": 0.333,
+   "ety": 0.0,
+   "lib": 0.333
+  },
+  "frequency": {
+   "file_commits": 3,
+   "active_days": 2,
+   "last_change": "2026-08-28",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 2,
+  "files": 2
+ },
+ "systems": {
+  "operators": 2
+ },
+ "files": [
+  "operators/arcs_primitives.py",
+  "operators/arcs_primitives_bridge.py"
+ ]
+}

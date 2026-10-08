@@ -1,0 +1,38 @@
+{
+ "version": "0.1.0",
+ "id": "nci",
+ "label": "nci_score",
+ "parent": "universe",
+ "null_origin": "nci",
+ "signature": {
+  "altitude": "a",
+  "resonance": {
+   "ont": 0.5,
+   "epi": 0.5,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 3,
+   "active_days": 2,
+   "last_change": "2026-10-06",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 1,
+  "codebase": 0,
+  "files": 3
+ },
+ "systems": {
+  ".claude": 2,
+  "_DECISIONS": 1
+ },
+ "files": [
+  ".claude/commands/nci-commit.md",
+  ".claude/skills/nci-scoring/SKILL.md",
+  "_DECISIONS/ADR-035-commit-nci-rubric.md"
+ ]
+}

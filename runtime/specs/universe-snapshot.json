@@ -33,7 +33,7 @@
    "tao_proverbs": 285,
    "adrs": 80
   },
-  "codebase": 579,
+  "codebase": 582,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -43,7 +43,7 @@
    "nodes": 81,
    "shore_open": 37,
    "files_mapped": 242,
-   "files_fog": 2648
+   "files_fog": 2651
   },
   "coherence": {
    "diamonds": 3,
@@ -71,6 +71,23 @@
    "hardness": 3,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "q",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.2,
+     "met": 0.6,
+     "ety": 0.0,
+     "lib": 0.2
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -88,6 +105,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": "constitutional",
+   "signature": {
+    "altitude": "q",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -105,6 +139,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": "constitutional",
+   "signature": {
+    "altitude": "q",
+    "resonance": {
+     "ont": 1.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -122,6 +173,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": "constitutional",
+   "signature": {
+    "altitude": "q",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -139,6 +207,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "q",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 1.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -156,6 +241,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": "constitutional",
+   "signature": {
+    "altitude": "q",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -173,6 +275,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "q",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -190,11 +309,28 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 0.5,
+     "epi": 0.5,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 4,
+     "active_days": 3,
+     "last_change": "2026-10-07",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/nci.json",
    "population": {
     "corpus": 0,
     "canon": 1,
     "codebase": 0,
-    "files": 3
+    "files": 4
    }
   },
   {
@@ -207,6 +343,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -224,6 +371,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 0.5,
+     "epi": 0.5,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -241,6 +405,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": "tautology",
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 1.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -258,6 +439,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 1.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -275,6 +473,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.667,
+     "ety": 0.0,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -292,6 +507,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -309,6 +541,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 1.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -326,6 +575,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.333,
+     "met": 0.333,
+     "ety": 0.0,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 3,
+     "active_days": 2,
+     "last_change": "2026-08-28",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/law.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -343,6 +609,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": "tautology",
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 1.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -360,6 +643,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": "constitutional",
+   "signature": {
+    "altitude": "a",
+    "resonance": {
+     "ont": 0.333,
+     "epi": 0.333,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -377,6 +677,23 @@
    "hardness": 4,
    "diamond": true,
    "invariant": "empirical",
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.143,
+     "epi": 0.286,
+     "met": 0.143,
+     "ety": 0.0,
+     "lib": 0.429
+    },
+    "frequency": {
+     "file_commits": 46,
+     "active_days": 17,
+     "last_change": "2026-10-07",
+     "last_28d": 26
+    }
+   },
+   "galaxy": "runtime/specs/universe/rec.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -394,6 +711,23 @@
    "hardness": 3,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.333,
+     "epi": 0.333,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 2,
+     "active_days": 2,
+     "last_change": "2026-07-19",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/tn.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -411,6 +745,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.2,
+     "lib": 0.8
+    },
+    "frequency": {
+     "file_commits": 4,
+     "active_days": 4,
+     "last_change": "2026-09-11",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/kai.json",
    "population": {
     "corpus": 1,
     "canon": 1,
@@ -428,6 +779,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -445,6 +807,23 @@
    "hardness": 4,
    "diamond": true,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.167,
+     "met": 0.167,
+     "ety": 0.167,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -462,6 +841,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -479,6 +875,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.5,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -496,6 +909,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": "tautology",
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -513,6 +943,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 1.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -530,6 +977,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.333,
+     "ety": 0.0,
+     "lib": 0.667
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -547,6 +1011,23 @@
    "hardness": 3,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.25,
+     "ety": 0.25,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 9,
+     "active_days": 2,
+     "last_change": "2026-08-28",
+     "last_28d": 8
+    }
+   },
+   "galaxy": "runtime/specs/universe/hyp.json",
    "population": {
     "corpus": 8,
     "canon": 0,
@@ -564,6 +1045,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.667,
+     "met": 0.0,
+     "ety": 0.333,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -581,6 +1079,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": "tautology",
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 1.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -598,6 +1113,23 @@
    "hardness": 3,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.333,
+     "met": 0.333,
+     "ety": 0.0,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -615,11 +1147,28 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.333,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.667
+    },
+    "frequency": {
+     "file_commits": 70,
+     "active_days": 32,
+     "last_change": "2026-10-07",
+     "last_28d": 28
+    }
+   },
+   "galaxy": "runtime/specs/universe/drift.json",
    "population": {
     "corpus": 13,
     "canon": 2,
     "codebase": 5,
-    "files": 25
+    "files": 26
    }
   },
   {
@@ -632,11 +1181,28 @@
    "hardness": 2,
    "diamond": false,
    "invariant": "empirical",
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.444,
+     "epi": 0.222,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 45,
+     "active_days": 25,
+     "last_change": "2026-10-07",
+     "last_28d": 8
+    }
+   },
+   "galaxy": "runtime/specs/universe/dewy.json",
    "population": {
     "corpus": 13,
     "canon": 1,
     "codebase": 1,
-    "files": 24
+    "files": 25
    }
   },
   {
@@ -649,6 +1215,23 @@
    "hardness": 3,
    "diamond": false,
    "invariant": "empirical",
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.429,
+     "epi": 0.0,
+     "met": 0.286,
+     "ety": 0.0,
+     "lib": 0.286
+    },
+    "frequency": {
+     "file_commits": 2,
+     "active_days": 2,
+     "last_change": "2026-05-26",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/ygate.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -666,6 +1249,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 1.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -683,6 +1283,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.333,
+     "ety": 0.333,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -700,6 +1317,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": "constitutional",
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.4,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.6
+    },
+    "frequency": {
+     "file_commits": 3,
+     "active_days": 3,
+     "last_change": "2026-09-26",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/inch.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -717,6 +1351,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 5,
+     "active_days": 3,
+     "last_change": "2026-09-27",
+     "last_28d": 4
+    }
+   },
+   "galaxy": "runtime/specs/universe/echo.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -734,11 +1385,28 @@
    "hardness": 3,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.0,
+     "ety": 0.25,
+     "lib": 0.25
+    },
+    "frequency": {
+     "file_commits": 493,
+     "active_days": 58,
+     "last_change": "2026-10-07",
+     "last_28d": 95
+    }
+   },
+   "galaxy": "runtime/specs/universe/recoil.json",
    "population": {
     "corpus": 27,
     "canon": 4,
     "codebase": 39,
-    "files": 236
+    "files": 237
    }
   },
   {
@@ -751,11 +1419,28 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.333,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.667
+    },
+    "frequency": {
+     "file_commits": 4,
+     "active_days": 3,
+     "last_change": "2026-10-07",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/atg.json",
    "population": {
     "corpus": 0,
     "canon": 0,
     "codebase": 0,
-    "files": 2
+    "files": 3
    }
   },
   {
@@ -768,6 +1453,23 @@
    "hardness": 3,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.429,
+     "met": 0.286,
+     "ety": 0.0,
+     "lib": 0.286
+    },
+    "frequency": {
+     "file_commits": 42,
+     "active_days": 16,
+     "last_change": "2026-10-05",
+     "last_28d": 19
+    }
+   },
+   "galaxy": "runtime/specs/universe/gaunt.json",
    "population": {
     "corpus": 7,
     "canon": 1,
@@ -785,6 +1487,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.375,
+     "met": 0.25,
+     "ety": 0.0,
+     "lib": 0.375
+    },
+    "frequency": {
+     "file_commits": 49,
+     "active_days": 25,
+     "last_change": "2026-10-06",
+     "last_28d": 14
+    }
+   },
+   "galaxy": "runtime/specs/universe/lat.json",
    "population": {
     "corpus": 1,
     "canon": 1,
@@ -802,6 +1521,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -819,6 +1555,23 @@
    "hardness": 4,
    "diamond": true,
    "invariant": "constitutional",
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.286,
+     "epi": 0.143,
+     "met": 0.143,
+     "ety": 0.143,
+     "lib": 0.286
+    },
+    "frequency": {
+     "file_commits": 12,
+     "active_days": 6,
+     "last_change": "2026-10-04",
+     "last_28d": 12
+    }
+   },
+   "galaxy": "runtime/specs/universe/noto.json",
    "population": {
     "corpus": 1,
     "canon": 0,
@@ -836,6 +1589,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.25,
+     "ety": 0.0,
+     "lib": 0.25
+    },
+    "frequency": {
+     "file_commits": 5,
+     "active_days": 4,
+     "last_change": "2026-10-05",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/kin.json",
    "population": {
     "corpus": 2,
     "canon": 0,
@@ -853,6 +1623,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 1.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 3,
+     "active_days": 2,
+     "last_change": "2026-10-03",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/folk.json",
    "population": {
     "corpus": 1,
     "canon": 0,
@@ -870,6 +1657,23 @@
    "hardness": 2,
    "diamond": false,
    "invariant": "tautology",
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.6,
+     "met": 0.2,
+     "ety": 0.0,
+     "lib": 0.2
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -887,6 +1691,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.25,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.75
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -904,6 +1725,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 1.0
+    },
+    "frequency": {
+     "file_commits": 7,
+     "active_days": 3,
+     "last_change": "2026-07-13",
+     "last_28d": 3
+    }
+   },
+   "galaxy": "runtime/specs/universe/crt2.json",
    "population": {
     "corpus": 0,
     "canon": 2,
@@ -921,6 +1759,23 @@
    "hardness": 3,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.333,
+     "met": 0.333,
+     "ety": 0.0,
+     "lib": 0.333
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -938,6 +1793,23 @@
    "hardness": 1,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "o",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.5
+    },
+    "frequency": {
+     "file_commits": 2,
+     "active_days": 1,
+     "last_change": "2026-06-16",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/vce.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -955,6 +1827,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.2,
+     "epi": 0.3,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 4,
+     "active_days": 4,
+     "last_change": "2026-09-08",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/world.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -972,6 +1861,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.5,
+     "epi": 0.375,
+     "met": 0.125,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -989,6 +1895,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 2,
+     "active_days": 1,
+     "last_change": "2026-06-16",
+     "last_28d": 2
+    }
+   },
+   "galaxy": "runtime/specs/universe/canon.json",
    "population": {
     "corpus": 0,
     "canon": 2,
@@ -1006,6 +1923,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-07-08",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/codex.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -1023,6 +1951,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-06-16",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/lite.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -1040,6 +1985,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.5,
+     "epi": 0.0,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-06-16",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/mani.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -1057,6 +2019,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-06-16",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/phen.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -1074,6 +2047,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-06-16",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/yell.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -1091,6 +2081,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.333,
+     "met": 0.667,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-06-13",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/pct.json",
    "population": {
     "corpus": 0,
     "canon": 1,
@@ -1108,6 +2115,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 3,
+     "active_days": 3,
+     "last_change": "2026-09-11",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/glos.json",
    "population": {
     "corpus": 0,
     "canon": 2,
@@ -1125,6 +2149,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.75,
+     "epi": 0.0,
+     "met": 0.25,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-10-03",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/oprd.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1142,6 +2183,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.667,
+     "epi": 0.333,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 3,
+     "active_days": 2,
+     "last_change": "2026-07-19",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/dsch.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1159,6 +2217,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.25,
+     "epi": 0.25,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-05-26",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/trom.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1176,6 +2251,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.5,
+     "met": 0.5,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 1,
+     "active_days": 1,
+     "last_change": "2026-06-05",
+     "last_28d": 1
+    }
+   },
+   "galaxy": "runtime/specs/universe/lrom.json",
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1193,6 +2285,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.333,
+     "epi": 0.333,
+     "met": 0.333,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 124,
+     "active_days": 36,
+     "last_change": "2026-10-06",
+     "last_28d": 14
+    }
+   },
+   "galaxy": "runtime/specs/universe/adrs.json",
    "population": {
     "corpus": 0,
     "canon": 80,
@@ -1210,6 +2319,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.312,
+     "epi": 0.5,
+     "met": 0.188,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 34,
+     "active_days": 13,
+     "last_change": "2026-10-07",
+     "last_28d": 7
+    }
+   },
+   "galaxy": "runtime/specs/universe/audit.json",
    "population": {
     "corpus": 3,
     "canon": 0,
@@ -1227,6 +2353,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": "empirical",
+   "signature": {
+    "altitude": "l",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 1.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 14,
+     "active_days": 9,
+     "last_change": "2026-10-06",
+     "last_28d": 7
+    }
+   },
+   "galaxy": "runtime/specs/universe/trust.json",
    "population": {
     "corpus": 1,
     "canon": 1,
@@ -1244,6 +2387,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1261,6 +2421,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1278,6 +2455,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1295,6 +2489,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1312,6 +2523,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 1.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1329,6 +2557,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 0.0,
+     "met": 1.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1346,6 +2591,23 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "m",
+    "resonance": {
+     "ont": 0.0,
+     "epi": 1.0,
+     "met": 0.0,
+     "ety": 0.0,
+     "lib": 0.0
+    },
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1363,6 +2625,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "g",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1380,6 +2653,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "g",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1397,6 +2681,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "g",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1414,6 +2709,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "g",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,
@@ -1431,6 +2737,17 @@
    "hardness": 0,
    "diamond": false,
    "invariant": null,
+   "signature": {
+    "altitude": "g",
+    "resonance": {},
+    "frequency": {
+     "file_commits": 0,
+     "active_days": 0,
+     "last_change": null,
+     "last_28d": 0
+    }
+   },
+   "galaxy": null,
    "population": {
     "corpus": 0,
     "canon": 0,

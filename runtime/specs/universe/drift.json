@@ -1,0 +1,67 @@
+{
+ "version": "0.1.0",
+ "id": "drift",
+ "label": "Drift",
+ "parent": "universe",
+ "null_origin": "drift",
+ "signature": {
+  "altitude": "m",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.333,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.667
+  },
+  "frequency": {
+   "file_commits": 69,
+   "active_days": 31,
+   "last_change": "2026-10-06",
+   "last_28d": 27
+  }
+ },
+ "dimensions": {
+  "corpus": 13,
+  "canon": 2,
+  "codebase": 5,
+  "files": 25
+ },
+ "systems": {
+  "_PATTERNS": 12,
+  "scripts": 3,
+  "_DECISIONS": 2,
+  "_INBOX": 2,
+  "src": 2,
+  ".claude": 1,
+  "_ARTIFACTS": 1,
+  "runtime": 1,
+  "tests": 1
+ },
+ "files": [
+  ".claude/commands/drift-check.md",
+  "_ARTIFACTS/drift-book.json",
+  "_DECISIONS/ADR-051-drift-receipt-gate.md",
+  "_DECISIONS/ADR-052-inchworm-drift-auditor.md",
+  "_INBOX/lattice-drift.jsonl",
+  "_INBOX/seedbank-drift.jsonl",
+  "_PATTERNS/drift-audits/2026-07-24.md",
+  "_PATTERNS/drift-audits/2026-07-27.md",
+  "_PATTERNS/drift-audits/2026-08-03.md",
+  "_PATTERNS/drift-audits/2026-08-10.md",
+  "_PATTERNS/drift-audits/2026-08-17.md",
+  "_PATTERNS/drift-audits/2026-08-24.md",
+  "_PATTERNS/drift-audits/2026-08-31.md",
+  "_PATTERNS/drift-audits/2026-09-07.md",
+  "_PATTERNS/drift-audits/2026-09-14.md",
+  "_PATTERNS/drift-audits/2026-09-21.md",
+  "_PATTERNS/drift-audits/2026-09-28.md",
+  "_PATTERNS/drift-audits/2026-10-05.md",
+  "runtime/specs/field-os/DRIFT_LOG.md",
+  "scripts/lattice_drift_check.py",
+  "scripts/model_drift_check.py",
+  "scripts/seedbank_drift_check.py",
+  "src/app/api/jobs/drift/route.ts",
+  "src/lib/board-drift.ts",
+  "tests/unit/board-drift.test.ts"
+ ]
+}

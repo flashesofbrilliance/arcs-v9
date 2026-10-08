@@ -1,0 +1,38 @@
+{
+ "version": "0.1.0",
+ "id": "echo",
+ "label": "Orthogonal Echo Detector",
+ "parent": "universe",
+ "null_origin": "echo",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.5,
+   "met": 0.5,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 5,
+   "active_days": 3,
+   "last_change": "2026-09-27",
+   "last_28d": 4
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 3,
+  "files": 3
+ },
+ "systems": {
+  "scripts": 2,
+  "operators": 1
+ },
+ "files": [
+  "operators/arcs_echo_embedding.py",
+  "scripts/echo_detector_dogfood.py",
+  "scripts/echo_ridgeline_feed.py"
+ ]
+}

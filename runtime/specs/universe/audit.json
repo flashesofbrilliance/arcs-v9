@@ -1,0 +1,45 @@
+{
+ "version": "0.1.0",
+ "id": "audit",
+ "label": "Meta-Audit v1.1 + Surface Map",
+ "parent": "universe",
+ "null_origin": "audit",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.312,
+   "epi": 0.5,
+   "met": 0.188,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 34,
+   "active_days": 13,
+   "last_change": "2026-10-07",
+   "last_28d": 7
+  }
+ },
+ "dimensions": {
+  "corpus": 3,
+  "canon": 0,
+  "codebase": 1,
+  "files": 6
+ },
+ "systems": {
+  ".claude": 1,
+  "_ARTIFACTS": 1,
+  "_PATTERNS": 1,
+  "_STATE": 1,
+  "runtime": 1,
+  "scripts": 1
+ },
+ "files": [
+  ".claude/skills/meta-audit/SKILL.md",
+  "_ARTIFACTS/arcs-meta-audit-roadmap.html",
+  "_PATTERNS/2026-08-01-nonlinear-thread-meta-audit.md",
+  "_STATE/meta-audit-roadmap-v1.md",
+  "runtime/specs/surface-catalog.json",
+  "scripts/surface_catalog_emit.py"
+ ]
+}

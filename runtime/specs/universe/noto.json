@@ -1,0 +1,39 @@
+{
+ "version": "0.1.0",
+ "id": "noto",
+ "label": "NOTOMATION",
+ "parent": "universe",
+ "null_origin": "noto",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.286,
+   "epi": 0.143,
+   "met": 0.143,
+   "ety": 0.143,
+   "lib": 0.286
+  },
+  "frequency": {
+   "file_commits": 12,
+   "active_days": 6,
+   "last_change": "2026-10-04",
+   "last_28d": 12
+  }
+ },
+ "dimensions": {
+  "corpus": 1,
+  "canon": 0,
+  "codebase": 0,
+  "files": 3
+ },
+ "systems": {
+  "_ARTIFACTS": 1,
+  "_QUEUE": 1,
+  "public": 1
+ },
+ "files": [
+  "_ARTIFACTS/arcs-e2e-notomation-map-hud.html",
+  "_QUEUE/linkedin/promos/2026-10-01-notomation-promos.json",
+  "public/blog-nftt-notomation.html"
+ ]
+}

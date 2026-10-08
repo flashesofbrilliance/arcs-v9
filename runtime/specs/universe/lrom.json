@@ -1,0 +1,35 @@
+{
+ "version": "0.1.0",
+ "id": "lrom",
+ "label": "lattice-pressure ROM",
+ "parent": "universe",
+ "null_origin": "lrom",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.5,
+   "met": 0.5,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 1,
+   "active_days": 1,
+   "last_change": "2026-06-05",
+   "last_28d": 1
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 0,
+  "files": 1
+ },
+ "systems": {
+  "runtime": 1
+ },
+ "files": [
+  "runtime/specs/lattice-pressure-rom.json"
+ ]
+}

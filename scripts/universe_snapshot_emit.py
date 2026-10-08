@@ -48,6 +48,13 @@ LATTICE = ROOT / "runtime" / "specs" / "knowledge-lattice-v1.json"
 NODEMAP = ROOT / "runtime" / "specs" / "universe-node-map-v0.json"
 SHELF = ROOT / "runtime" / "specs" / "reading-room-manifest.json"
 OUT = ROOT / "runtime" / "specs" / "universe-snapshot.json"
+# The public projection the home field reads: lattice nodes, edges and counts only. No source
+# paths, no private rows (counterpart catalog names live in the full snapshot, never here).
+FIELD = ROOT / "src" / "data" / "universe-field.json"
+# Galaxies: one self-contained bundle per lattice node that has a population. Same idea as the
+# snapshot, one level down: sovereign (valid alone), same schema everywhere, and the parent
+# lists children by id and signature only. Private paths stay here, never in the projection.
+GALAXIES = ROOT / "runtime" / "specs" / "universe"
 
 CORPUS = ("_ARTIFACTS/", "_PATTERNS/", "_STATE/", "_SEEDS/")
 CANON = ("_CANON/", "_DECISIONS/")
@@ -80,6 +87,34 @@ def rows(path: Path) -> int | None:
     return None
 
 
+def history() -> dict[str, list[str]]:
+    """file -> dates of the commits that touched it, newest first (one git pass)."""
+    out: dict[str, list[str]] = {}
+    date = ""
+    for line in git("log", "--name-only", "--format=%x00%ad", "--date=short").splitlines():
+        if line.startswith("\x00"):
+            date = line[1:]
+        elif line:
+            out.setdefault(line, []).append(date)
+    return out
+
+
+def signature(node: dict, fs: list[str], hist: dict[str, list[str]], nbr_domains: list[str], domains: dict) -> dict:
+    """altitude = stratum; resonance = domain mix of lattice neighbours; frequency = commits on its files.
+    Frequency counts back from the node's own last change, never from today, so the bundle is stable."""
+    dates = sorted({d for f in fs for d in hist.get(f, [])}, reverse=True)
+    commits = sum(len(hist.get(f, [])) for f in fs)
+    last = dates[0] if dates else None
+    window = 0
+    if last:
+        from datetime import date as D, timedelta
+        floor = (D.fromisoformat(last) - timedelta(days=28)).isoformat()
+        window = sum(1 for f in fs for d in hist.get(f, []) if d > floor)
+    mix = {k: round(nbr_domains.count(k) / len(nbr_domains), 3) for k in domains} if nbr_domains else {}
+    return {"altitude": node["st"], "resonance": mix,
+            "frequency": {"file_commits": commits, "active_days": len(dates), "last_change": last, "last_28d": window}}
+
+
 def build(files: list[str]) -> dict:
     lat = json.loads(LATTICE.read_text(encoding="utf-8"))
     nodes = lat["nodes"] if isinstance(lat["nodes"], list) else [dict(v, id=k) for k, v in lat["nodes"].items()]
@@ -107,14 +142,34 @@ def build(files: list[str]) -> dict:
                 pop[nid].append(f)
                 claimed.add(f)
 
+    hist = history()
+    nbrs: dict[str, list[str]] = {}
+    for a, b, *_ in edges:
+        nbrs.setdefault(a, []).append(dom[b]); nbrs.setdefault(b, []).append(dom[a])
+    galaxies = {}
     out_nodes = []
     for n in nodes:
         fs = pop[n["id"]]
+        sig = signature(n, fs, hist, nbrs.get(n["id"], []), lat["domains"])
+        if fs:
+            systems: dict[str, int] = {}
+            for f in fs:
+                systems[f.split("/", 1)[0] if "/" in f else "(root)"] = systems.get(f.split("/", 1)[0] if "/" in f else "(root)", 0) + 1
+            galaxies[n["id"]] = {
+                "version": "0.1.0", "id": n["id"], "label": n["label"], "parent": "universe", "null_origin": n["id"],
+                "signature": sig,
+                "dimensions": {"corpus": sum(f.startswith(CORPUS) for f in fs), "canon": sum(f.startswith(CANON) or f == "WORLD.md" for f in fs),
+                               "codebase": sum(f.startswith(CODE) for f in fs), "files": len(fs)},
+                "systems": dict(sorted(systems.items(), key=lambda kv: -kv[1])),
+                "files": sorted(fs),
+            }
         out_nodes.append({
             "id": n["id"], "label": n["label"], "stratum": n["st"], "domain": n["dom"], "status": n["status"],
             "shore_open": len(n.get("shore", [])),
             "hardness": len(into.get(n["id"], ())), "diamond": len(into.get(n["id"], ())) >= 4,
             "invariant": grade.get(n["id"]),
+            "signature": sig,
+            "galaxy": f"runtime/specs/universe/{n['id']}.json" if fs else None,
             "population": {
                 "corpus": sum(f.startswith(CORPUS) for f in fs),
                 "canon": sum(f.startswith(CANON) or f in ("WORLD.md",) for f in fs),
@@ -166,6 +221,23 @@ def build(files: list[str]) -> dict:
         "edges": [[a, b] for a, b, *_ in edges],
         "sources": sources,
         "reading_room": rooms,
+        "_galaxies": galaxies,
+    }
+
+
+def project(snap: dict, gal: dict) -> dict:
+    keep = ("id", "label", "stratum", "domain", "status", "shore_open", "hardness", "diamond", "invariant")
+    # Display copy bans em-dashes; lattice labels use them as separators. Public projection only.
+    tidy = lambda v: v.replace(" \u2014 ", " · ").replace("\u2014", "-") if isinstance(v, str) else v
+    return {
+        "version": snap["version"], "lattice_reviewed": snap["lattice_reviewed"], "null_origin": snap["null_origin"],
+        "federation": snap["federation"],
+        "dimensions": {k: v for k, v in snap["dimensions"].items()},
+        "sources": {"count": len(snap["sources"]), "private": sum(s["private"] for s in snap["sources"])},
+        "rooms": [r["tenant"] for r in snap["reading_room"]],
+        "nodes": [dict({k: tidy(n[k]) for k in keep}, files=n["population"]["files"], sig=n["signature"],
+                       systems=gal[n["id"]]["systems"] if n["id"] in gal else None) for n in snap["nodes"]],
+        "edges": snap["edges"],
     }
 
 
@@ -175,18 +247,32 @@ def main() -> int:
     a = ap.parse_args()
     files = [f for f in git("ls-files").splitlines() if f]
     snap = build(files)
+    gal = snap.pop("_galaxies")
+    gbodies = {GALAXIES / f"{k}.json": json.dumps(v, indent=1, ensure_ascii=False) + "\n" for k, v in gal.items()}
     body = json.dumps(snap, indent=1, ensure_ascii=False) + "\n"
+    field = json.dumps(project(snap, gal), separators=(",", ":"), ensure_ascii=False) + "\n"
     if a.check:
         cur = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
-        if cur != body:
+        fcur = FIELD.read_text(encoding="utf-8") if FIELD.exists() else ""
+        stale_g = [p.name for p, b in gbodies.items() if not p.exists() or p.read_text(encoding="utf-8") != b]
+        extra_g = [p.name for p in GALAXIES.glob("*.json") if p not in gbodies] if GALAXIES.exists() else []
+        if cur != body or fcur != field or stale_g or extra_g:
             print("✖ universe-snapshot --check: stale; run python3 scripts/universe_snapshot_emit.py")
             return 1
         print("✓ universe-snapshot current")
         return 0
     OUT.write_text(body, encoding="utf-8")
+    GALAXIES.mkdir(parents=True, exist_ok=True)
+    for p in GALAXIES.glob("*.json"):
+        if p not in gbodies:
+            p.unlink()
+    for p, b in gbodies.items():
+        p.write_text(b, encoding="utf-8")
+    FIELD.parent.mkdir(parents=True, exist_ok=True)
+    FIELD.write_text(field, encoding="utf-8")
     d = snap["dimensions"]
     print(f"universe: {len(snap['nodes'])} nodes · {len(snap['edges'])} edges · {len(snap['sources'])} sources · "
-          f"{len(snap['reading_room'])} rooms · mapped {d['clarity']['files_mapped']} / fog {d['clarity']['files_fog']}")
+          f"{len(snap['reading_room'])} rooms · {len(gbodies)} galaxies · mapped {d['clarity']['files_mapped']} / fog {d['clarity']['files_fog']}")
     return 0
 
 

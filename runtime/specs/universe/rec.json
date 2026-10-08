@@ -1,0 +1,43 @@
+{
+ "version": "0.1.0",
+ "id": "rec",
+ "label": "Receipt",
+ "parent": "universe",
+ "null_origin": "rec",
+ "signature": {
+  "altitude": "m",
+  "resonance": {
+   "ont": 0.143,
+   "epi": 0.286,
+   "met": 0.143,
+   "ety": 0.0,
+   "lib": 0.429
+  },
+  "frequency": {
+   "file_commits": 46,
+   "active_days": 17,
+   "last_change": "2026-10-07",
+   "last_28d": 26
+  }
+ },
+ "dimensions": {
+  "corpus": 0,
+  "canon": 0,
+  "codebase": 9,
+  "files": 9
+ },
+ "systems": {
+  "src": 9
+ },
+ "files": [
+  "src/app/api/receipts/[receiptId]/outcome/route.ts",
+  "src/app/api/receipts/[receiptId]/provenance/route.ts",
+  "src/app/api/receipts/ripe/route.ts",
+  "src/app/api/receipts/save/route.ts",
+  "src/app/api/receipts/studio/[tenant]/route.ts",
+  "src/app/receipt/[receiptId]/layout.tsx",
+  "src/app/receipt/[receiptId]/page.tsx",
+  "src/app/receipt/reflect/[receiptId]/[[...layers]]/page.tsx",
+  "src/app/receipt/reflect/layout.tsx"
+ ]
+}

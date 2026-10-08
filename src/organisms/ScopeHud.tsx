@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { text, signal, font } from "@/ui/tokens"
+import universe from "@/data/universe-field.json"
 
 // The survey HUD: instruments laid over the field in full HUD mode.
 // Brief: charting instrumentation for uncharted terrain. Map the topography,
@@ -12,9 +13,13 @@ import { text, signal, font } from "@/ui/tokens"
 // terrace along bearing θ is STEP_W / max(|cos θ|, |sin θ|). The grade of an
 // approach is atan(rise / run). Straight up a face is steepest; the diagonal
 // ridgelines are the gentlest line. Slope bands follow avalanche practice:
-// under 30° holds, 30 to 45° is the slab band, over 45° is a wall.
+// under 30° is stable, 30 to 45° is the slab band, over 45° is a wall.
 
-export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null }
+type UNode = (typeof universe.nodes)[number]
+export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: Hold[]; bankUp: Hold | null; bankDown: Hold | null
+  galaxy: UNode | null
+  gps: { here: string; at: string; look: string | null; leg: { from: string; verb: string; to: string } | null } | null }
+type Hold = { id: string; label: string; state: "open" | "blocked" | "obscured" }
 type Fathom = { n: number; name: string; altitude: string; resolution: string }
 
 const DEG = 180 / Math.PI
@@ -31,16 +36,40 @@ function safeBearings(stepH: number, stepW: number) {
   for (let b = 0; b < 360; b++) { const v = gradeAt(b, stepH, stepW); g.push(v); if (v < min) min = v }
   return { min, bearings: g.flatMap((v, b) => (v - min < 1e-6 ? [b] : [])) }
 }
-const band = (g: number) => (g < 30 ? { name: "HOLDS", color: signal.green } : g < 45 ? { name: "SLAB BAND", color: signal.gold } : { name: "WALL", color: signal.red })
+const band = (g: number) => (g < 30 ? { name: "STABLE", color: signal.green } : g < 45 ? { name: "SLAB BAND", color: signal.gold } : { name: "WALL", color: signal.red })
 
 const ink = "#9fb3c8"
 const faint = "rgba(159,179,200,0.28)"
 const panel: React.CSSProperties = {
   position: "absolute", background: "rgba(6,9,13,0.82)", border: "1px solid #1e293b", borderRadius: 4,
-  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px rgba(0,0,0,0.45)", padding: "10px 12px 12px", pointerEvents: "none",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)", padding: "10px 12px 12px", pointerEvents: "none",
 }
 const label: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t2, textTransform: "uppercase", color: text.dimmed, whiteSpace: "nowrap" }
+// Names keep their own case: lattice labels carry math and Greek that uppercase mangles.
+const name: React.CSSProperties = { textTransform: "none", letterSpacing: "0.02em", fontWeight: 600 }
+const scroll: React.CSSProperties = { overflowY: "auto", scrollbarWidth: "thin", scrollbarColor: "#1e293b transparent" }
 const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, color: text.primary, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }
+
+// A node's signature: altitude (stratum), resonance (domain mix of its lattice neighbours, one
+// bar per domain), frequency (commits on its files). No signal when a node has no mapped files.
+const DOM_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
+function Signature({ n }: { n: UNode }) {
+  const f = n.sig.frequency
+  const mix = Object.entries(n.sig.resonance as Record<string, number>)
+  const strata = universe.federation.strata as Record<string, string>
+  const cell = (k: string, v: React.ReactNode) => (
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0", borderTop: `1px solid ${faint}` }}><span style={label}>{k}</span><span style={{ ...label, color: text.primary }}>{v}</span></div>)
+  return (
+    <>
+      {cell("Altitude", strata[n.sig.altitude] ?? n.sig.altitude)}
+      {cell("Resonance", mix.length ? (
+        <span style={{ display: "inline-flex", width: 96, height: 6, background: "#0b1016", borderRadius: 1, overflow: "hidden" }} title={mix.map(([k, v]) => `${k} ${Math.round(v * 100)}%`).join(" · ")}>
+          {mix.map(([k, v]) => <span key={k} style={{ width: `${v * 100}%`, background: DOM_COLOR[k] }} />)}
+        </span>) : "No signal")}
+      {cell("Frequency", f.last_change ? `${f.last_28d} / 28d · ${f.last_change}` : "No signal")}
+    </>
+  )
+}
 
 // Four machined screw heads, one per corner.
 function Screws() {
@@ -74,14 +103,19 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
   )
 }
 
-export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { read: () => HudRead; fathoms: readonly Fathom[]; stepH: number; stepW: number; levels: number; onSteer: (deg: number) => void }) {
-  const [r, setR] = useState<HudRead>(read)
+export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
+  // Defaults keep the HUD whole if a reader omits a field (a hot reload can pair a new HUD with an old reader).
+  const safeRead = useCallback((): HudRead => ({ yaw: 0, depth: 4, fog: 1, clear: false, nest: 0, origin: null, universe: false, node: null, trail: [], holds: [], bankUp: null, bankDown: null, galaxy: null, gps: null, ...(read() as Partial<HudRead>) }), [read])
+  const [r, setR] = useState<HudRead>(safeRead)
+  const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
+  useEffect(() => { const on = () => setVw(window.innerWidth); window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
+  const narrow = vw < 760
   useEffect(() => {
     let raf = 0, last = 0
-    const tick = (now: number) => { if (now - last > 66) { last = now; setR(read()) } raf = requestAnimationFrame(tick) }
+    const tick = (now: number) => { if (now - last > 66) { last = now; setR(safeRead()) } raf = requestAnimationFrame(tick) }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [read])
+  }, [safeRead])
 
   const hdg = norm(r.yaw * DEG)
   const grade = gradeAt(hdg, stepH, stepW)
@@ -91,10 +125,12 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
   const nearest = safe.bearings.reduce((a, x) => (Math.abs(delta(x)) < Math.abs(delta(a)) ? x : a), safe.bearings[0])
   const turn = delta(nearest)
   const vis = Math.round((1 - r.fog) * 100)
+  const visState = vis >= 70 ? { name: "Clear", color: signal.green } : vis >= 30 ? { name: "Thinning", color: signal.cyan } : { name: "Fog", color: text.dimmed }
   const deg3 = (x: number) => String(Math.round(norm(x)) % 360).padStart(3, "0")
 
   // Heading tape: ±60° window, tick every 5°, label every 15°, safe bearings marked.
-  const TW = 520, span = 60
+  // The tape takes the lane between the side columns, never more than 520px.
+  const TW = narrow ? vw - 32 : Math.max(280, Math.min(520, vw - 520)), span = 60
   const tx = (d: number) => TW / 2 + (delta(d) / span) * (TW / 2)
   const tape = []
   for (let d = Math.ceil((hdg - span) / 5) * 5; d <= hdg + span; d += 5) {
@@ -103,14 +139,19 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
     if (big) tape.push(<text key={"t" + d} x={x} y={22} fill={text.dimmed} fontSize="9" fontFamily={font.mono} textAnchor="middle">{deg3(d)}</text>)
   }
 
-  // Approach profile along the current bearing, edge to apex: rise vs run.
-  const PW = 196, PH = 64, runPer = stepW / Math.max(Math.abs(Math.cos(hdg / DEG)), Math.abs(Math.sin(hdg / DEG)))
-  const runMax = stepW * Math.SQRT2 * levels, sx = PW / runMax, sy = (PH - 8) / (stepH * levels * 1.2)
-  let prof = `M0 ${PH}`
-  for (let k = 0; k < levels; k++) prof += ` L${(k + 1) * runPer * sx} ${PH - (k + 1) * stepH * sy}`
 
   return (
     <div aria-hidden="true" style={{ position: "absolute", inset: 0, bottom: 38, pointerEvents: "none" }}>
+      {/* Phone: one readout strip carries slope, visibility and depth; the dials need room. */}
+      {narrow && (
+        <div style={{ ...panel, left: 16, right: 16, top: 16, display: "flex", justifyContent: "space-between", gap: 10, padding: "8px 12px" }}>
+          <Screws />
+          <span style={label}>Slope <span style={{ ...value, color: b.color }}>{grade.toFixed(0)}°</span></span>
+          <span style={label}>Vis <span style={{ ...value, color: visState.color }}>{vis}%</span></span>
+          <span style={label}>F{Math.round(r.depth)} <span style={value}>{fathoms[Math.max(0, Math.min(fathoms.length - 1, Math.round(r.depth) - 1))].altitude}</span></span>
+        </div>
+      )}
+      {!narrow && (<>
       {/* Slope: the grade of the line you are facing. */}
       <div style={{ ...panel, left: 16, top: 64 }}>
         <Screws />
@@ -122,7 +163,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
       {/* Visibility: how much of the field returns through the fog. */}
       <div style={{ ...panel, right: 16, top: 64 }}>
         <Screws />
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span style={label}>Visibility</span><span style={{ ...label, color: r.clear ? signal.green : signal.cyan }}>{r.clear ? "Clear" : "Fog"}</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span style={label}>Visibility</span><span style={{ ...label, color: visState.color }}>{visState.name}</span></div>
         <Dial min={0} max={100} v={vis} minor={5} major={25} unit="%" />
         <div style={{ ...value, textAlign: "center" }}>{vis}%</div>
       </div>
@@ -130,7 +171,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
       {/* Altimeter: the seven fathoms, continuous needle. */}
       <div style={{ ...panel, left: 16, top: 250, width: 192 }}>
         <Screws />
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}><span style={label}>Altimeter</span><span style={{ ...label, color: r.nest ? signal.gold : text.dimmed }}>Ø{r.nest}{r.nest ? ` · ×1e-${9 * r.nest}` : ""}</span></div>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}><span style={label}>Altimeter</span><span style={{ ...label, color: r.nest ? signal.gold : text.dimmed }}>Nest {r.nest}</span></div>
         <div style={{ position: "relative", marginTop: 8 }}>
           {fathoms.map((x) => (
             <div key={x.n} style={{ display: "flex", justifyContent: "space-between", gap: 8, padding: "3px 0 3px 14px", borderTop: `1px solid ${faint}` }}>
@@ -142,21 +183,12 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
         </div>
       </div>
 
-      {/* Approach profile: the climb on this bearing, terrace by terrace. */}
-      <div style={{ ...panel, right: 16, top: 250 }}>
-        <Screws />
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span style={label}>Approach profile</span><span style={label}>{deg3(hdg)}°</span></div>
-        <svg width={PW} height={PH + 4} viewBox={`0 -2 ${PW} ${PH + 4}`} style={{ display: "block", marginTop: 8 }}>
-          {[0.25, 0.5, 0.75].map((y) => <line key={y} x1={0} x2={PW} y1={PH * y} y2={PH * y} stroke={faint} strokeDasharray="2 4" />)}
-          <path d={prof} stroke={b.color} strokeWidth={1.5} fill="none" />
-        </svg>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 6 }}><span style={label}>Run / terrace</span><span style={value}>{(runPer * 1000).toFixed(0)} m</span></div>
-      </div>
+      </>)}
 
       {/* Heading tape with the safest bearings marked, and the steer cue. */}
-      <div style={{ position: "absolute", left: "50%", bottom: 18, transform: "translateX(-50%)", width: TW, pointerEvents: "auto" }}>
+      <div style={{ position: "absolute", left: "50%", bottom: 18, transform: "translateX(-50%)", width: TW + 24, padding: "8px 12px 6px", background: "rgba(6,9,13,0.82)", border: "1px solid #1e293b", borderRadius: 4, pointerEvents: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
-          <span style={label}>Safe approach {safe.bearings.map(deg3).join(" · ")} · {safe.min.toFixed(1)}°</span>
+          <span style={{ ...label, whiteSpace: "normal" }}>{narrow ? "Safe" : "Safe approach"} {safe.bearings.map(deg3).join(" · ")}{narrow ? "" : ` · ${safe.min.toFixed(1)}°`}</span>
           <button
             type="button"
             onClick={() => onSteer(nearest)}
@@ -174,11 +206,124 @@ export function ScopeHud({ read, fathoms, stepH, stepW, levels, onSteer }: { rea
         <div style={{ ...value, textAlign: "center", marginTop: 4 }}>HDG {deg3(hdg)}°</div>
       </div>
 
-      {/* Status strip. */}
-      <div style={{ position: "absolute", left: 16, right: 16, top: 16, display: "flex", justifyContent: "flex-end", gap: 16, pointerEvents: "none" }}>
-        {r.origin && <span style={{ ...label, color: signal.gold }}>Nest {r.nest} · origin {r.origin.u.toFixed(3)}, {r.origin.v.toFixed(3)}</span>}
-        <span style={label}>Grade bands: &lt;30° holds · 30–45° slab · &gt;45° wall</span>
-      </div>
+      {/* The universe: eight dimensions from the snapshot, and the node you dove into. */}
+      {r.universe && !narrow && (() => {
+        const d = universe.dimensions
+        const row = (k: string, v: string, c: string = text.primary) => (
+          <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0", borderTop: `1px solid ${faint}` }}><span style={label}>{k}</span><span style={{ ...label, color: c }}>{v}</span></div>)
+        return (
+          <div style={{ ...panel, right: 16, top: 250, width: 248, maxHeight: "calc(100% - 350px)", ...scroll, overflowX: "hidden", pointerEvents: "auto" }}>
+            <Screws />
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Universe</span><span style={label}>lattice {universe.lattice_reviewed}</span></div>
+            {r.galaxy && (
+              <div style={{ marginBottom: 8, paddingBottom: 6, borderBottom: `1px solid ${signal.gold}66` }}>
+                <div style={{ ...label, color: signal.gold, whiteSpace: "normal", marginBottom: 4 }}>Inside galaxy · {r.galaxy.label}</div>
+                {Object.entries(r.galaxy.systems ?? {}).map(([k, v]) => row(k, `${v} files`))}
+              </div>
+            )}
+            {row("Corpus", `${d.corpus} files`)}
+            {row("Canon", `${d.canon.files} · ${d.canon.tao_proverbs} tao · ${d.canon.adrs} ADR`)}
+            {row("Codebase", `${d.codebase} files`)}
+            {row("Conviction", "No signal", text.dimmed)}
+            {row("Clarity", `${d.clarity.nodes_clear}/${d.clarity.nodes} clear · ${d.clarity.files_fog} fog`, signal.cyan)}
+            {row("Coherence", `${d.coherence.diamonds} diamonds · h ${d.coherence.mean_hardness}`, signal.gold)}
+            {row("Cohesion", `${Math.round(d.cohesion.ratio * 100)}% cross-domain`)}
+            {row("Consonance", `${d.consonance.empirical} empirical of ${d.consonance.tautology + d.consonance.constitutional + d.consonance.empirical}`)}
+            {r.node && (
+              <div style={{ marginTop: 8, paddingTop: 6, borderTop: `1px solid ${signal.gold}66` }}>
+                <div style={{ ...label, color: signal.gold, whiteSpace: "normal" }}>Ø{r.nest} · {r.node.label}</div>
+                {row("Stratum · domain", `${universe.federation.strata[r.node.stratum as keyof typeof universe.federation.strata]} · ${universe.federation.domains[r.node.domain as keyof typeof universe.federation.domains]}`)}
+                {row("Status", r.node.status + (r.node.invariant ? ` · ${r.node.invariant}` : ""), r.node.status === "ok" ? signal.green : signal.gold)}
+                {row("Hardness", `${r.node.hardness}${r.node.diamond ? " · diamond" : ""}`)}
+                {row("Open shore", String(r.node.shore_open))}
+                {row("Mapped files", String(r.node.files))}
+                <Signature n={r.node} />
+              </div>
+            )}
+          </div>
+        )
+      })()}
+
+      {/* GPS: where you are, what you face, the last leg, and the breadcrumbs to back-track. */}
+      {r.universe && r.gps && (
+        <div style={{ ...panel, left: narrow ? 16 : "50%", right: narrow ? 16 : undefined, top: narrow ? 64 : 16, transform: narrow ? undefined : "translateX(-50%)", width: narrow ? undefined : Math.max(300, Math.min(560, vw - 560)), pointerEvents: "auto" }}>
+          <Screws />
+          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 10, rowGap: 3, alignItems: "baseline" }}>
+            <span style={label}>You are at</span>
+            <span style={{ ...value, whiteSpace: "normal", color: signal.gold }}>{r.gps.here}{r.gps.at && <span style={{ ...label, marginLeft: 8 }}>{r.gps.at}</span>}</span>
+            <span style={label}>Looking at</span>
+            <span style={{ ...value, whiteSpace: "normal" }}>{r.gps.look ?? (r.galaxy ? `the systems inside ${r.galaxy.label}` : "your own vantage")}</span>
+            <span style={label}>Last leg</span>
+            <span style={{ ...value, whiteSpace: "normal", fontWeight: 500 }}>{r.gps.leg ? <>{r.gps.leg.from} <span style={{ color: text.dimmed }}>{r.gps.leg.verb}</span> {r.gps.leg.to}</> : <span style={{ color: text.dimmed }}>none yet: hop, bank or double-click to dive</span>}</span>
+          </div>
+          {r.trail.length > 0 && (
+            <nav aria-label="Vantage trail" style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginTop: 8, paddingTop: 8, borderTop: `1px solid ${faint}` }}>
+              {["origin · Zero-point", ...r.trail].map((name, i) => {
+            const here = i === r.trail.length
+            return (
+              <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                {i > 0 && <span style={{ ...label, color: text.dimmed }}>›</span>}
+                <button
+                  type="button"
+                  disabled={here}
+                  onClick={() => onBack(i)}
+                  title={here ? "You are here" : `Back-track to step ${i}`}
+                  style={{ ...label, color: here ? signal.gold : text.secondary, background: "rgba(6,9,13,0.82)", border: `1px solid ${here ? signal.gold : "#1e293b"}`, borderRadius: 3, padding: "3px 7px", cursor: here ? "default" : "pointer" }}
+                >
+                  {i} · {name}
+                </button>
+              </span>
+            )
+          })}
+            </nav>
+          )}
+        </div>
+      )}
+
+      {/* Holds: every node one edge away, and whether you can hop to it. */}
+      {r.universe && (r.holds.length > 0 || r.bankUp || r.bankDown) && (
+        <div style={{ ...panel, ...(narrow ? { left: 16, right: 16, bottom: 110, maxHeight: "32%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), ...scroll, pointerEvents: "auto" }}>
+          <Screws />
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span><span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span></div>
+          {([[1, r.bankUp], [-1, r.bankDown]] as const).map(([dir, b]) => b && (
+            <button
+              key={dir}
+              type="button"
+              disabled={b.state !== "open"}
+              onClick={() => onBank(dir)}
+              title={b.state === "open" ? `Bank ${dir > 0 ? "up" : "down"} one ring to ${b.label} (Shift ${dir > 0 ? "up" : "down"})` : `Bank ${b.state}`}
+              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: b.state === "open" ? "pointer" : "default", color: b.state === "open" ? text.primary : text.dimmed }}
+            >
+              <span><span style={{ color: dir > 0 ? signal.gold : signal.cyan }}>{dir > 0 ? "Bank up" : "Bank down"}</span> · <span style={name}>{b.label}</span></span>
+              <span style={{ color: b.state === "open" ? signal.green : b.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{b.state}</span>
+            </button>
+          ))}
+          {r.holds.filter((h) => h.state === "open").map((h) => (
+            <button
+              key={h.id}
+              type="button"
+              disabled={h.state !== "open"}
+              onClick={() => onHop(h.id)}
+              title={h.state === "open" ? `Hop to ${h.label}` : h.state === "blocked" ? "Blocked: this node is gated" : "Obscured: open questions, visibility under 50%"}
+              style={{ ...label, display: "flex", justifyContent: "space-between", gap: 8, width: "100%", textAlign: "left", whiteSpace: "normal", background: "none", border: "none", borderTop: `1px solid ${faint}`, padding: "4px 0", cursor: h.state === "open" ? "pointer" : "default", color: h.state === "open" ? text.primary : text.dimmed }}
+            >
+              <span style={name}>{h.label}</span>
+              <span style={{ color: h.state === "open" ? signal.green : h.state === "blocked" ? signal.red : text.dimmed, flexShrink: 0 }}>{h.state}</span>
+            </button>
+          ))}
+          {(() => {
+            const shut = r.holds.filter((h) => h.state !== "open")
+            if (!shut.length) return null
+            const ob = shut.filter((h) => h.state === "obscured").length, bl = shut.length - ob
+            return (
+              <div title={shut.map((h) => `${h.label} (${h.state})`).join("\n")} style={{ ...label, borderTop: `1px solid ${faint}`, padding: "4px 0", whiteSpace: "normal" }}>
+                {[ob && `${ob} obscured by fog`, bl && `${bl} blocked by a gate`].filter(Boolean).join(" · ")}
+              </div>
+            )
+          })()}
+        </div>
+      )}
+
     </div>
   )
 }

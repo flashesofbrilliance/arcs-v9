@@ -1,0 +1,64 @@
+{
+ "version": "0.1.0",
+ "id": "gaunt",
+ "label": "Gauntlet — LAB·BAR·COURT·KKL·FunHouse",
+ "parent": "universe",
+ "null_origin": "gaunt",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 0.429,
+   "met": 0.286,
+   "ety": 0.0,
+   "lib": 0.286
+  },
+  "frequency": {
+   "file_commits": 42,
+   "active_days": 16,
+   "last_change": "2026-10-05",
+   "last_28d": 19
+  }
+ },
+ "dimensions": {
+  "corpus": 7,
+  "canon": 1,
+  "codebase": 3,
+  "files": 21
+ },
+ "systems": {
+  "_ARTIFACTS": 6,
+  "runtime": 3,
+  "scripts": 3,
+  "tests": 2,
+  "tools": 2,
+  ".claude": 1,
+  "_DECISIONS": 1,
+  "_SPECS": 1,
+  "_STATE": 1,
+  "public": 1
+ },
+ "files": [
+  ".claude/workflows/counterpart-gauntlet.js",
+  "_ARTIFACTS/blog/nftt-gauntlet-findings.json",
+  "_ARTIFACTS/blog/nftt-gauntlet-runbook.html",
+  "_ARTIFACTS/forge-tenex-senior-forward-deployed-engineer/gauntlet.json",
+  "_ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/gauntlet.json",
+  "_ARTIFACTS/prl-1-2-close-loop/2026-09-17-adversarial-test-gauntlet.md",
+  "_ARTIFACTS/resume-blacksmith/founder-gauntlet.md",
+  "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
+  "_SPECS/hypercube-gauntlet-sampling-engine-v1.md",
+  "_STATE/gauntlet-runs.jsonl",
+  "public/gauntlet-log.html",
+  "runtime/recoil/generated/prl-lyro/tidio-flows/sem-onramp-template/BUILD-AND-GAUNTLET.md",
+  "runtime/warroom/gauntlet.html",
+  "runtime/warroom/gauntlet.print.json",
+  "scripts/gauntlet_log_emit.py",
+  "scripts/gauntlet_log_public_template.html",
+  "scripts/gauntlet_report.py",
+  "tests/fixtures/teardown-eval/sample-fail.gauntlet.md",
+  "tests/fixtures/teardown-eval/sample-pass.gauntlet.md",
+  "tools/arcs-verb-eval/sample/gauntlet.json",
+  "tools/arcs-verb-eval/sample/high-stakes/gauntlet.json"
+ ]
+}

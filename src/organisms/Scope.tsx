@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { text, signal, font, border } from "@/ui/tokens"
 import { ScopeHud, type HudRead } from "./ScopeHud"
+import universe from "@/data/universe-field.json"
 
 // The field. A sketch of ARCS as terrain: a lidar point cloud of the atlas
 // ziggurat (runtime/warroom/terrain-atlas.html, form only), with the product
@@ -99,6 +100,66 @@ function terracePoint(k: number, a: number) {
   const d = HALF - (k - (k === LEVELS ? 0.15 : 0.5)) * STEP_W
   const c = Math.cos(a), s = Math.sin(a), m = Math.max(Math.abs(c), Math.abs(s))
   return { u: SUMMIT.u + (d * c) / m, v: SUMMIT.v + (d * s) / m }
+}
+
+// The universe: the knowledge lattice (runtime/specs/knowledge-lattice-v1.json via
+// scripts/universe_snapshot_emit.py) laid on the terraces. Stratum is altitude (QUANTUM at the
+// apex, META on the plain), domain is bearing, the null origin zp sits on top.
+export type UNode = (typeof universe.nodes)[number]
+const STRATUM_K: Record<string, number> = { q: 5, a: 4, m: 3, o: 2, l: 1, g: 0 }
+const DOMAIN_DEG: Record<string, number> = { ont: -90, epi: -18, met: 54, ety: 126, lib: 198 }
+const DOMAIN_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
+const UPOS: Record<string, { u: number; v: number; k: number }> = (() => {
+  const groups: Record<string, UNode[]> = {}
+  universe.nodes.forEach((n) => { (groups[n.stratum + n.domain] ||= []).push(n) })
+  const out: Record<string, { u: number; v: number; k: number }> = {}
+  Object.values(groups).forEach((g) => g.forEach((n, i) => {
+    const k = STRATUM_K[n.stratum] ?? 0
+    if (n.id === universe.null_origin) { out[n.id] = { u: SUMMIT.u, v: SUMMIT.v, k: 5 }; return }
+    const spread = g.length > 1 ? (i / (g.length - 1) - 0.5) * 50 : 0
+    const a = ((DOMAIN_DEG[n.domain] ?? 0) + spread) * Math.PI / 180
+    if (k >= 1) { const p = terracePoint(k, a); out[n.id] = { ...p, k } }
+    else { const c = Math.cos(a), sn = Math.sin(a), m = Math.max(Math.abs(c), Math.abs(sn)), d = HALF + 0.1; out[n.id] = { u: SUMMIT.u + (d * c) / m, v: SUMMIT.v + (d * sn) / m, k: 0 } }
+  }))
+  return out
+})()
+const UBY = Object.fromEntries(universe.nodes.map((n) => [n.id, n])) as Record<string, UNode>
+const ADJ: Record<string, string[]> = {}
+universe.edges.forEach(([a, b]) => { (ADJ[a] ||= []).push(b); (ADJ[b] ||= []).push(a) })
+// A hold you can hop to from here: joined by a lattice edge. The lattice's own states decide it:
+// status "gate" blocks the hop; open shore questions under heavy fog (visibility < 50%) obscure it.
+export type HoldState = "open" | "blocked" | "obscured"
+// Banking: climb (+1) or descend (-1) one stratum. The target is the node in the next ring
+// whose bearing from the apex is closest to yours; the same blockers apply as for a hop.
+function bankTarget(from: string, dir: 1 | -1, fog: number, yaw: number) {
+  const f = UPOS[from], k = f.k + dir
+  const bear = from === universe.null_origin ? yaw : Math.atan2(f.v - SUMMIT.v, f.u - SUMMIT.u)
+  let best: string | null = null, bd = Infinity
+  for (const n of universe.nodes) {
+    const q = UPOS[n.id]; if (q.k !== k || n.id === from) continue
+    const a = Math.atan2(q.v - SUMMIT.v, q.u - SUMMIT.u), d = Math.abs(((a - bear + Math.PI * 3) % TAU) - Math.PI)
+    if (d < bd) { bd = d; best = n.id }
+  }
+  if (!best) return null
+  const n = UBY[best]
+  const state: HoldState = n.status === "gate" ? "blocked" : n.shore_open > 0 && fog > 0.5 ? "obscured" : "open"
+  return { id: best, label: n.label, state }
+}
+// Relative framing: the bounds of a vantage and its holds set the next view, so each hop
+// zooms into a new min/max box around the point you stand on.
+function frame(id: string) {
+  const pts = [id, ...(ADJ[id] ?? [])].map((k) => UPOS[k]).filter(Boolean)
+  const us = pts.map((p) => p.u), vs = pts.map((p) => p.v)
+  const u0 = Math.min(...us), u1 = Math.max(...us), v0 = Math.min(...vs), v1 = Math.max(...vs)
+  const e = Math.max(u1 - u0, v1 - v0)
+  return { pu: (u0 + u1) / 2, pv: (v0 + v1) / 2, dist: clamp(1.35 + e * 2.4, DIST_MIN, DIST_MAX) }
+}
+function holds(from: string, fog: number) {
+  return [...new Set(ADJ[from] ?? [])].map((id) => {
+    const n = UBY[id]
+    const state: HoldState = n.status === "gate" ? "blocked" : n.shore_open > 0 && fog > 0.5 ? "obscured" : "open"
+    return { id, label: n.label, state }
+  })
 }
 
 function mulberry32(a: number) {
@@ -199,9 +260,16 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // new null origin (Ø) and the ladder starts again from its vantage. Infinite.
     nest: 0,
     origin: null as { u: number; v: number } | null,
-    dive: null as { t0: number; u: number; v: number } | null,
+    dive: null as { t0: number; u: number; v: number; node: string | null } | null,
     entered: 0,
-    pick: (() => null) as (x: number, y: number) => { u: number; v: number } | null,
+    pick: (() => null) as (x: number, y: number) => { u: number; v: number; node?: string } | null,
+    universe: true,
+    originNode: null as string | null,
+    // Breadcrumbs: one static pin per dive, in the shared space, with the camera you left from.
+    trail: [] as { u: number; v: number; node: string | null; nest: number; kind: "dive" | "hop" | "bank"; leave: Cam & { depth: number } }[],
+    leaving: null as (Cam & { depth: number }) | null,
+    lookAt: null as string | null, // the lattice node nearest the centre of the view
+    galaxy: null as string | null, // inside a node's bundle after diving into it
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -248,7 +316,21 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
   const hudRead = useCallback((): HudRead => {
     const c = control.current
-    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin }
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin, universe: c.universe, node: c.originNode ? UBY[c.originNode] ?? null : null, trail: c.trail.map((t) => `${t.kind} · ${t.node ? UBY[t.node]?.label ?? t.node : "terrain"}`),
+      // GPS: plain words for where you are, what you face, and the last leg from -> to.
+      gps: (() => {
+        const here = c.originNode ?? universe.null_origin
+        const name = (id: string | null) => (id ? UBY[id]?.label ?? id : "open terrain")
+        const last = c.trail[c.trail.length - 1]
+        const prev = c.trail.length > 1 ? c.trail[c.trail.length - 2].node : universe.null_origin
+        const verb = !last ? null : last.kind === "dive" ? "dove into" : last.kind === "hop" ? "hopped along an edge to"
+          : (UPOS[last.node ?? ""]?.k ?? 0) > (UPOS[prev ?? ""]?.k ?? 0) ? "banked up to" : "banked down to"
+        return {
+          here: name(here), at: UBY[here] ? `${universe.federation.strata[UBY[here].stratum as keyof typeof universe.federation.strata]} · ${universe.federation.domains[UBY[here].domain as keyof typeof universe.federation.domains]}` : "",
+          look: c.lookAt && c.lookAt !== here ? name(c.lookAt) : null,
+          leg: last ? { from: name(prev), verb: verb!, to: name(last.node) } : null,
+        }
+      })(), holds: c.universe && !c.galaxy ? holds(c.originNode ?? universe.null_origin, c.fog) : [], bankUp: c.universe && !c.galaxy ? bankTarget(c.originNode ?? universe.null_origin, 1, c.fog, -(c.cam?.yaw ?? 0)) : null, bankDown: c.universe && !c.galaxy ? bankTarget(c.originNode ?? universe.null_origin, -1, c.fog, -(c.cam?.yaw ?? 0)) : null, galaxy: c.galaxy ? UBY[c.galaxy] : null }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -259,6 +341,44 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     c.pausedUntil = performance.now() + 20000
     c.redraw()
   }, [])
+
+  // Back-track to breadcrumb i (0 = before the first dive): restore the camera you left from there.
+  const backTo = useCallback((i: number) => {
+    const c = control.current
+    if (i < 0 || i >= c.trail.length) return
+    const leave = c.trail[i].leave
+    c.trail = c.trail.slice(0, i)
+    const last = c.trail[c.trail.length - 1]
+    c.nest = last?.nest ?? 0; c.origin = last ? { u: last.u, v: last.v } : null; c.originNode = last?.node ?? null
+    c.dive = null; c.entered = performance.now()
+    c.galaxy = last?.kind === "dive" && last.node && UBY[last.node]?.systems ? last.node : null
+    const { depth: d, ...cam } = leave
+    tgt.current = { ...cam }
+    c.depth = d; setDepthUi(Math.round(d))
+    c.pausedUntil = performance.now() + 20000
+    c.redraw()
+  }, [])
+
+  // Hop: a lateral move along one lattice edge to an open hold. Same nest; drops a pin.
+  const go = useCallback((id: string, kind: "hop" | "bank") => {
+    const c = control.current
+    const q = UPOS[id]
+    c.trail.push({ u: q.u, v: q.v, node: id, nest: c.nest, kind, leave: { ...tgt.current, depth: c.depth } })
+    c.origin = { u: q.u, v: q.v }; c.originNode = id; c.entered = performance.now()
+    tgt.current = { ...tgt.current, ...frame(id) }
+    c.pausedUntil = performance.now() + 20000
+    c.redraw()
+  }, [])
+  const hop = useCallback((id: string) => {
+    const c = control.current
+    const h = holds(c.originNode ?? universe.null_origin, c.fog).find((x) => x.id === id)
+    if (h?.state === "open" && !c.galaxy) go(id, "hop")
+  }, [go])
+  const bank = useCallback((dir: 1 | -1) => {
+    const c = control.current
+    const b = bankTarget(c.originNode ?? universe.null_origin, dir, c.fog, -(c.cam?.yaw ?? 0))
+    if (b?.state === "open" && !c.galaxy) go(b.id, "bank")
+  }, [go])
 
   const focusOn = useCallback((id: string | null) => {
     const c = control.current
@@ -321,7 +441,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     DEFAULT_ON.forEach((id, i) => ctl.drops.set(id, { t: t0 + 300 + i * 260, gone: 0 }))
     const cam: Cam = { ...tgt.current }
     ctl.cam = cam
-    const st = { sw: 800, sh: 200, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
+    const st = { focus: 0, sw: 800, sh: 200, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
     const ptr = { x: 0, y: 0, on: false, since: 0, down: false, mode: "orbit" as "orbit" | "pan", lx: 0, ly: 0, moved: 0 }
     const speck = mulberry32(11)
     const markers: { id: string; x: number; y: number }[] = []
@@ -393,6 +513,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const onUp = (ev: PointerEvent) => {
       if (ptr.down && ptr.moved <= 3) {
         const p = local(ev)
+        if (ctl.universe) {
+          const hit = ctl.pick(p.x, p.y)
+          if (hit?.node && holds(ctl.originNode ?? universe.null_origin, ctl.fog).some((h) => h.id === hit.node && h.state === "open")) { hop(hit.node); ptr.down = false; return }
+        }
         let best: string | null = null, bd = 16 * 16
         for (const m of markers) { const d = (m.x - p.x) ** 2 + (m.y - p.y) ** 2; if (d < bd) { bd = d; best = m.id } }
         if (best) focusOn(ctl.focused === best ? null : best)
@@ -413,9 +537,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const onDbl = (ev: MouseEvent) => {
       const p = local(ev)
       const hit = ctl.pick(p.x, p.y)
-      if (!hit || ctl.dive) return
+      if (!hit || ctl.dive || (ctl.universe && !hit.node)) return
       touch()
-      ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v }
+      ctl.leaving = { ...tgt.current, depth: ctl.depth }
+      ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v, node: hit.node ?? null }
       tgt.current = { ...tgt.current, pu: hit.u, pv: hit.v }
       ctl.pausedUntil = performance.now() + 60000
       setDepth(NF)
@@ -427,6 +552,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       if (ev.metaKey || ev.ctrlKey || ev.altKey) return
       const t = tgt.current
       let hit = true
+      if (ev.shiftKey && ctl.universe && (ev.key === "ArrowUp" || ev.key === "ArrowDown")) {
+        ev.preventDefault(); bank(ev.key === "ArrowUp" ? 1 : -1); return
+      }
       switch (ev.key) {
         case "ArrowLeft": t.yaw += 0.14; break
         case "ArrowRight": t.yaw -= 0.14; break
@@ -437,9 +565,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "]": setDepth(Math.floor(ctl.depth) + 1); break
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
         case "f": case "F": setFull((f) => !f); break
+        case "u": case "U": ctl.universe = !ctl.universe; break
+        case "Backspace": backTo(ctl.trail.length - 1); break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
-        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
-        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -489,6 +619,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         return { x: CX + (F * x1) / d, y: CY - (F * yc) / d, d }
       }
       ctl.pick = (x, y) => {
+        if (ctl.universe && !ctl.galaxy) {
+          let bn: string | null = null, bnd = 36 * 36
+          for (const n of universe.nodes) { const q = UPOS[n.id], s2 = proj(q.u, height(q.u, q.v) + 0.06, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bnd) { bnd = dd; bn = n.id } }
+          if (bn) return { ...UPOS[bn], node: bn }
+        }
         let best: Pt | null = null, bd = 28 * 28
         for (const q of cloud) { const s2 = proj(q.u, q.h, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bd) { bd = dd; best = q } }
         return best ? { u: best.u, v: best.v } : null
@@ -497,12 +632,23 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       // and the camera re-enters at F1 of the next nest, inheriting that vantage.
       if (ctl.dive && now - ctl.dive.t0 > 1400) {
         const d = ctl.dive
-        ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.entered = now
+        ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.originNode = d.node; ctl.entered = now
+        ctl.trail.push({ u: d.u, v: d.v, node: d.node, nest: ctl.nest, kind: "dive", leave: ctl.leaving ?? { ...tgt.current, depth: HOME_DEPTH } })
+        ctl.galaxy = d.node && UBY[d.node]?.systems ? d.node : null
         ctl.depth = 1; st.depth = 1
         const k = { pitch: atDepth(1, "pitch"), dist: atDepth(1, "dist"), zoom: atDepth(1, "zoom"), pu: d.u, pv: d.v }
         Object.assign(cam, k); Object.assign(tgt.current, k)
         setDepth(1)
       }
+      // Depth of field: the focal plane racks to the vantage you stand on; the circle of
+      // confusion grows with distance from it, so near and far points soften into bokeh.
+      const dof = ctl.universe && !reduced
+      if (dof) {
+        const vq = ctl.origin ?? UPOS[universe.null_origin]
+        const fp = proj(vq.u, height(vq.u, vq.v), vq.v)
+        if (fp) st.focus = st.focus ? st.focus + (fp.d - st.focus) * ease(700) : fp.d
+      }
+      const coc = (d: number) => (dof && st.focus ? Math.min(1, Math.abs(d - st.focus) * 0.85) : 0)
       const path = (pts: ({ x: number; y: number } | null)[]) => {
         ctx.beginPath()
         let pen = false
@@ -551,7 +697,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         sources.push({ u: p.u, v: p.v, color: TIER_COLOR[w.tier], born: d.t, gone: d.gone })
       }
       const nE = 1 - Math.pow(1 - st.nav, 3)
-      const nu = START.u + (SUMMIT.u - START.u) * nE, nvv = START.v + (SUMMIT.v - START.v) * nE
+      // In the universe the navigator stands on the current vantage (zp at nest 0), not the sign-up path.
+      const vp = ctl.universe ? (ctl.origin ?? UPOS[universe.null_origin]) : null
+      const nu = vp ? vp.u : START.u + (SUMMIT.u - START.u) * nE, nvv = vp ? vp.v : START.v + (SUMMIT.v - START.v) * nE
       sources.push({ u: nu, v: nvv, color: signal.cyan, born: t0, gone: 0 })
       ctx.lineWidth = 0.6
       const travel = reduced ? 0.3 : ((now - t0) / 1000) * RIPPLE_SPEED
@@ -613,7 +761,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         // Up high the survey is quantized: 8-bit blocks snap to a coarse raster.
         const q = dep < 1.6 ? 4 : dep < 2.4 ? 2 : 0
         if (q) { x = Math.round(x / q) * q; y = Math.round(y / q) * q }
-        ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz)
+        const cc = coc(s.d)
+        if (cc > 0.04) { const bz = sz * (1 + cc * 2.4); ctx.globalAlpha = 1 / (1 + cc * 2.6); ctx.fillRect(x - bz / 2, y - bz / 2, bz, bz); ctx.globalAlpha = 1 }
+        else ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz)
       }
       if (fogv > 0.05 && !reduced) {
         const n = Math.min(900, Math.round(260 * fogv * (SW * SH) / 160000))
@@ -629,7 +779,95 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       markers.length = 0
       ctx.font = `600 9px ${font.mono}`
       const placed: { x: number; y: number; w: number; h: number }[] = []
-      const order = WAYPOINTS.filter((w) => ctl.overlays.has(w.id)).map((w) => {
+      if (ctl.universe && ctl.galaxy && ctl.origin) {
+        ctl.lookAt = null // inside a galaxy you face its systems, not a lattice node
+        // Inside a galaxy: its systems orbit the null origin, sized by file count (counts only,
+        // from the public projection; the bundle's file paths never reach the page).
+        const g = UBY[ctl.galaxy], sys = Object.entries(g.systems ?? {}) as [string, number][]
+        const o = ctl.origin, oh = height(o.u, o.v) + 0.06, os = proj(o.u, oh, o.v)
+        ctx.font = `600 9px ${font.mono}`; ctx.textAlign = "left"; ctx.textBaseline = "middle"
+        sys.forEach(([name, n], i) => {
+          const a = (i / sys.length) * TAU - Math.PI / 2, rr = 0.16 + 0.1 * (i % 2)
+          const p2 = proj(o.u + Math.cos(a) * rr, oh, o.v + Math.sin(a) * rr); if (!p2 || !os) return
+          ctx.strokeStyle = rgba(DOMAIN_COLOR[g.domain] ?? signal.cyan, 0.25); ctx.lineWidth = 0.8
+          ctx.beginPath(); ctx.moveTo(os.x, os.y); ctx.lineTo(p2.x, p2.y); ctx.stroke()
+          const rad = 2.5 + Math.sqrt(n) * 0.9
+          ctx.fillStyle = rgba(DOMAIN_COLOR[g.domain] ?? signal.cyan, 0.8)
+          ctx.beginPath(); ctx.arc(p2.x, p2.y, rad, 0, TAU); ctx.fill()
+          ctx.fillStyle = rgba("#e2e8f0", 0.9)
+          ctx.fillText(`${name.toUpperCase()} · ${n}`, p2.x + rad + 4, p2.y)
+        })
+      } else if (ctl.universe) {
+        // Edges first, faint; then nodes. Glyph: diamond = >=4 domains confirm it; solid = proven
+        // (status ok); hollow ring = still open (true / shore / gate). Size grows with mapped files.
+        ctx.lineWidth = 0.6
+        for (const [a, b] of universe.edges) {
+          const pa = UPOS[a], pb = UPOS[b]; if (!pa || !pb) continue
+          const sa = proj(pa.u, height(pa.u, pa.v) + 0.06, pa.v), sb = proj(pb.u, height(pb.u, pb.v) + 0.06, pb.v)
+          if (!sa || !sb) continue
+          ctx.strokeStyle = rgba(DOMAIN_COLOR[UBY[a]?.domain] ?? "#94a3b8", 0.08 + clarity * 0.1)
+          ctx.beginPath(); ctx.moveTo(sa.x, sa.y); ctx.lineTo(sb.x, sb.y); ctx.stroke()
+        }
+        // Holds from the current vantage: green = open hop, red dashed = blocked, grey dashed = obscured.
+        const cur = ctl.originNode ?? universe.null_origin, cq = UPOS[cur]
+        const cs = proj(cq.u, height(cq.u, cq.v) + 0.06, cq.v)
+        if (cs) for (const h of holds(cur, st.fog)) {
+          const q = UPOS[h.id], hs = proj(q.u, height(q.u, q.v) + 0.06, q.v); if (!hs) continue
+          ctx.lineWidth = h.state === "open" ? 1.6 : 1
+          ctx.strokeStyle = h.state === "open" ? rgba(signal.green, 0.8) : h.state === "blocked" ? rgba(signal.red, 0.7) : rgba("#94a3b8", 0.5)
+          ctx.setLineDash(h.state === "open" ? [] : [3, 4])
+          ctx.beginPath(); ctx.moveTo(cs.x, cs.y); ctx.lineTo(hs.x, hs.y); ctx.stroke()
+        }
+        ctx.setLineDash([])
+        // Bank previews: a diagonal climbing (or descending) arc to the next ring.
+        if (cs) for (const dir of [1, -1] as const) {
+          const b = bankTarget(cur, dir, st.fog, -cam.yaw); if (!b) continue
+          const q = UPOS[b.id], arc: ({ x: number; y: number } | null)[] = []
+          for (let i = 0; i <= 16; i++) {
+            const tt = i / 16, u = cq.u + (q.u - cq.u) * tt, v = cq.v + (q.v - cq.v) * tt
+            const h = height(cq.u, cq.v) * (1 - tt) + height(q.u, q.v) * tt + 0.06 + Math.sin(tt * Math.PI) * 0.12
+            arc.push(proj(u, h, v))
+          }
+          ctx.lineWidth = 1.2; ctx.setLineDash(b.state === "open" ? [6, 3] : [2, 5])
+          ctx.strokeStyle = b.state === "open" ? rgba(dir > 0 ? signal.gold : signal.cyan, 0.75) : rgba(b.state === "blocked" ? signal.red : "#94a3b8", 0.5)
+          path(arc)
+        }
+        ctx.setLineDash([])
+        const un = universe.nodes.map((n) => { const q = UPOS[n.id]; return { n, s: proj(q.u, height(q.u, q.v) + 0.06, q.v) } })
+          .filter((o) => o.s).sort((a, b) => b.s!.d - a.s!.d)
+        {
+          let la: string | null = null, ld = Infinity
+          for (const o of un) { const dd = (o.s!.x - CX) ** 2 + (o.s!.y - CY) ** 2; if (dd < ld) { ld = dd; la = o.n.id } }
+          ctl.lookAt = la
+        }
+        for (const { n, s: sp } of un) {
+          const p2 = sp!, col = DOMAIN_COLOR[n.domain] ?? "#94a3b8"
+          const open = n.status !== "ok", here = ctl.originNode === n.id
+          const cc = here ? 0 : coc(p2.d)
+          const r = Math.min(9, 2.4 + Math.sqrt(n.files) * 0.7) * (here ? 1.4 : 1) * (1 + cc * 1.6)
+          const al = (open ? 0.55 : 0.85) * (0.6 + clarity * 0.4) / (1 + cc * 2.2)
+          if (n.diamond) {
+            ctx.fillStyle = rgba(signal.gold, 0.95)
+            ctx.beginPath(); ctx.moveTo(p2.x, p2.y - r - 2); ctx.lineTo(p2.x + r + 2, p2.y); ctx.lineTo(p2.x, p2.y + r + 2); ctx.lineTo(p2.x - r - 2, p2.y); ctx.closePath(); ctx.fill()
+          } else if (open) {
+            ctx.strokeStyle = rgba(col, al); ctx.lineWidth = 1
+            ctx.beginPath(); ctx.arc(p2.x, p2.y, r, 0, TAU); ctx.stroke()
+          } else {
+            ctx.fillStyle = rgba(col, al)
+            ctx.beginPath(); ctx.arc(p2.x, p2.y, r, 0, TAU); ctx.fill()
+          }
+          const labelA = (here ? 1 : clamp(dep - 2.3, 0, 1) * (n.diamond || n.id === universe.null_origin ? 1 : clamp(dep - 3, 0, 1))) * (1 - cc)
+          if (labelA < 0.05) continue
+          const t = n.label.toUpperCase(), tw = ctx.measureText(t).width + 4
+          const box = { x: p2.x + r + 3, y: p2.y - 6, w: tw, h: 12 }
+          if (placed.some((b) => box.x < b.x + b.w && b.x < box.x + box.w && box.y < b.y + b.h && b.y < box.y + box.h)) continue
+          placed.push(box)
+          ctx.textAlign = "left"; ctx.textBaseline = "middle"
+          ctx.fillStyle = rgba(here ? "#e2e8f0" : col, 0.9 * labelA)
+          ctx.fillText(t, p2.x + r + 4, p2.y)
+        }
+      }
+      const order = (ctl.universe ? [] : WAYPOINTS).filter((w) => ctl.overlays.has(w.id)).map((w) => {
         const p = terracePoint(w.k, w.a)
         return { w, base: proj(p.u, height(p.u, p.v), p.v), top: proj(p.u, height(p.u, p.v) + 0.16, p.v) }
       }).sort((a, b) => (ctl.focused === a.w.id ? -1 : ctl.focused === b.w.id ? 1 : (a.top?.d ?? 99) - (b.top?.d ?? 99)))
@@ -670,6 +908,20 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         }
       }
 
+      // Breadcrumbs: every earlier vantage stays pinned, joined by a dashed path from zp.
+      if (ctl.trail.length > 1) {
+        const z = UPOS[universe.null_origin]
+        const pts = [z, ...ctl.trail.slice(0, -1)].map((t) => proj(t.u, height(t.u, t.v) + 0.06, t.v))
+        pts.push(ctl.origin ? proj(ctl.origin.u, height(ctl.origin.u, ctl.origin.v) + 0.06, ctl.origin.v) : null)
+        ctx.setLineDash([2, 4]); ctx.lineWidth = 1; ctx.strokeStyle = rgba(signal.gold, 0.5); path(pts); ctx.setLineDash([])
+        ctx.font = `600 9px ${font.mono}`; ctx.textAlign = "left"; ctx.textBaseline = "middle"
+        ctl.trail.slice(0, -1).forEach((t, i) => {
+          const b = proj(t.u, height(t.u, t.v) + 0.06, t.v); if (!b) return
+          ctx.fillStyle = rgba(signal.gold, 0.85)
+          ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - 3.5, b.y - 9); ctx.arc(b.x, b.y - 11, 3.5, Math.PI * 0.85, Math.PI * 2.15); ctx.closePath(); ctx.fill()
+          ctx.fillText(`Ø${i + 1}`, b.x + 6, b.y - 11)
+        })
+      }
       // The null origin of the current nest: a hollow ring and Ø with its depth.
       if (ctl.origin) {
         const o = ctl.origin, ob = proj(o.u, height(o.u, o.v), o.v)
@@ -734,12 +986,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       }
 
       // HUD: a frame, a heading, depth and clarity. Nothing that does not orient you.
-      {
+      // In full HUD the instrument panels carry all three, so the canvas draws only the frame.
+      if (!ctl.full) {
         const fi = clamp(Math.round(st.depth), 1, NF) - 1, F0 = FATHOMS[fi]
         ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"
         ctx.fillStyle = rgba("#94a3b8", 0.9)
         ctx.fillText(`F${F0.n} · ${F0.name.toUpperCase()}`, 20, 26)
-        ctx.fillStyle = rgba("#64748b", 0.9)
+        ctx.fillStyle = rgba(text.dimmed, 0.95)
         ctx.fillText(`${F0.altitude.toUpperCase()} · ${F0.resolution.toUpperCase()}`, 20, 37)
         // Depth gauge on the left, mirroring clarity on the right.
         const lx = 18, ly0 = Math.max(64, SH * 0.26), ly1 = SH - BAR_H - 26
@@ -748,7 +1001,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         for (let i = 0; i < NF; i++) {
           const y = ly0 + (i / (NF - 1)) * (ly1 - ly0)
           ctx.beginPath(); ctx.moveTo(lx - 3, y); ctx.lineTo(lx + 3, y); ctx.stroke()
-          ctx.fillStyle = rgba(i === fi ? "#e2e8f0" : "#64748b", i === fi ? 1 : 0.8)
+          ctx.fillStyle = rgba(i === fi ? "#e2e8f0" : text.dimmed, i === fi ? 1 : 0.8)
           ctx.fillText(`F${i + 1}`, lx + 7, y + 3)
         }
         const my = ly0 + ((st.depth - 1) / (NF - 1)) * (ly1 - ly0)
@@ -756,11 +1009,12 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         ctx.beginPath(); ctx.moveTo(lx - 7, my - 3.5); ctx.lineTo(lx - 2, my); ctx.lineTo(lx - 7, my + 3.5); ctx.closePath(); ctx.fill()
       }
 
-      const hud = rgba("#94a3b8", 0.85), dim = rgba("#64748b", 0.9)
+      const hud = rgba("#94a3b8", 0.85), dim = rgba(text.dimmed, 0.95)
       ctx.strokeStyle = rgba("#94a3b8", 0.4); ctx.lineWidth = 1
       ;[[10, 10, 1, 1], [SW - 10, 10, -1, 1], [SW - 10, SH - BAR_H - 8, -1, -1], [10, SH - BAR_H - 8, 1, -1]].forEach(([x, y, dx, dy]) => {
         ctx.beginPath(); ctx.moveTo(x, y + dy * 14); ctx.lineTo(x, y); ctx.lineTo(x + dx * 14, y); ctx.stroke()
       })
+      if (!ctl.full) {
       ctx.font = `600 9px ${font.mono}`
       ctx.textBaseline = "alphabetic"
       const hdg = ((-cam.yaw * 180) / Math.PI % 360 + 360) % 360
@@ -790,6 +1044,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       ctx.textAlign = "center"; ctx.fillStyle = dim; ctx.fillText("CLARITY", 0, 0); ctx.restore()
       ctx.textAlign = "right"; ctx.fillStyle = hud
       ctx.fillText(`${pad(clarity * 100, 2)}%`, SW - 12, gy1 + 13)
+      }
 
       if (now - st.hint < 1400) {
         ctx.textAlign = "center"; ctx.fillStyle = rgba("#e2e8f0", 0.9)
@@ -820,7 +1075,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       fig?.removeEventListener("keydown", onKey)
       canvas.removeEventListener("contextmenu", noMenu)
     }
-  }, [focusOn, setDepth, steer])
+  }, [focusOn, setDepth, steer, backTo, hop, bank])
 
   const shown = WAYPOINTS.filter((w) => overlays.includes(w.id))
   const pickedW = picked && overlays.includes(picked) ? WAYPOINTS.find((w) => w.id === picked) : null
@@ -855,7 +1110,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         />
       </div>
 
-      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} levels={LEVELS} onSteer={steer} />}
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div
@@ -918,7 +1173,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · Double click a point to dive seven fathoms into it · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · U toggles the universe (the knowledge lattice) · Double click a node to dive seven fathoms into it, dropping a pin · Click a green hold to hop along an edge · Shift up or down banks a ring · Backspace backs out one pin · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>

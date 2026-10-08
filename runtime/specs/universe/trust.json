@@ -1,0 +1,39 @@
+{
+ "version": "0.1.0",
+ "id": "trust",
+ "label": "Trust Contract v1.1",
+ "parent": "universe",
+ "null_origin": "trust",
+ "signature": {
+  "altitude": "l",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 1.0,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 14,
+   "active_days": 9,
+   "last_change": "2026-10-06",
+   "last_28d": 7
+  }
+ },
+ "dimensions": {
+  "corpus": 1,
+  "canon": 1,
+  "codebase": 0,
+  "files": 3
+ },
+ "systems": {
+  "_CANON": 1,
+  "_STATE": 1,
+  "tests": 1
+ },
+ "files": [
+  "_CANON/trust-contract.md",
+  "_STATE/pickup-trust-contract-privacy.md",
+  "tests/unit/trust-contract.test.ts"
+ ]
+}

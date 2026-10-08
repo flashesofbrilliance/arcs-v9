@@ -1,0 +1,38 @@
+{
+ "version": "0.1.0",
+ "id": "folk",
+ "label": "Folksonomist",
+ "parent": "universe",
+ "null_origin": "folk",
+ "signature": {
+  "altitude": "o",
+  "resonance": {
+   "ont": 0.0,
+   "epi": 1.0,
+   "met": 0.0,
+   "ety": 0.0,
+   "lib": 0.0
+  },
+  "frequency": {
+   "file_commits": 3,
+   "active_days": 2,
+   "last_change": "2026-10-03",
+   "last_28d": 2
+  }
+ },
+ "dimensions": {
+  "corpus": 1,
+  "canon": 0,
+  "codebase": 0,
+  "files": 3
+ },
+ "systems": {
+  "runtime": 2,
+  "_ARTIFACTS": 1
+ },
+ "files": [
+  "_ARTIFACTS/forensic-recoil-2026-08-27/folksonomy.json",
+  "runtime/memory-export/folksonomy/DEWY-index.md",
+  "runtime/memory-export/folksonomy/operator-20-dewy.md"
+ ]
+}
