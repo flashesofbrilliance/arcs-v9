@@ -1,5 +1,8 @@
 {
  "version": "0.1.0",
+ "epoch": null,
+ "as_of_sha": null,
+ "as_of_date": null,
  "id": "drift",
  "label": "Drift",
  "parent": "universe",
@@ -14,27 +17,27 @@
    "lib": 0.667
   },
   "frequency": {
-   "file_commits": 69,
-   "active_days": 31,
-   "last_change": "2026-10-06",
-   "last_28d": 27
+   "file_commits": 70,
+   "active_days": 32,
+   "last_change": "2026-10-07",
+   "last_28d": 28
   }
  },
  "dimensions": {
   "corpus": 13,
   "canon": 2,
   "codebase": 5,
-  "files": 25
+  "files": 26
  },
  "systems": {
   "_PATTERNS": 12,
   "scripts": 3,
   "_DECISIONS": 2,
   "_INBOX": 2,
+  "runtime": 2,
   "src": 2,
   ".claude": 1,
   "_ARTIFACTS": 1,
-  "runtime": 1,
   "tests": 1
  },
  "files": [
@@ -57,6 +60,7 @@
   "_PATTERNS/drift-audits/2026-09-28.md",
   "_PATTERNS/drift-audits/2026-10-05.md",
   "runtime/specs/field-os/DRIFT_LOG.md",
+  "runtime/specs/universe/drift.json",
   "scripts/lattice_drift_check.py",
   "scripts/model_drift_check.py",
   "scripts/seedbank_drift_check.py",

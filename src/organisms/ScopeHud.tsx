@@ -51,7 +51,8 @@ const scroll: React.CSSProperties = { overflowY: "auto", scrollbarWidth: "thin",
 const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, color: text.primary, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }
 
 // A node's signature: altitude (stratum), resonance (domain mix of its lattice neighbours, one
-// bar per domain), frequency (commits on its files). No signal when a node has no mapped files.
+// bar per domain), frequency (commits on its files, an as-of reading stamped with the refresh epoch
+// that counted it). No signal when a node has no mapped files or no refresh has counted it yet.
 const DOM_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
 function Signature({ n }: { n: UNode }) {
   const f = n.sig.frequency
@@ -66,7 +67,8 @@ function Signature({ n }: { n: UNode }) {
         <span style={{ display: "inline-flex", width: 96, height: 6, background: "#0b1016", borderRadius: 1, overflow: "hidden" }} title={mix.map(([k, v]) => `${k} ${Math.round(v * 100)}%`).join(" · ")}>
           {mix.map(([k, v]) => <span key={k} style={{ width: `${v * 100}%`, background: DOM_COLOR[k] }} />)}
         </span>) : "No signal")}
-      {cell("Frequency", f.last_change ? `${f.last_28d} / 28d · ${f.last_change}` : "No signal")}
+      {cell("Frequency", f?.last_change ? `${f.last_28d} / 28d · ${f.last_change}` : "No signal")}
+      {f?.last_change && universe.as_of_date ? cell("As of", universe.epoch != null ? `epoch ${universe.epoch}, ${universe.as_of_date}` : universe.as_of_date) : null}
     </>
   )
 }

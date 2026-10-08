@@ -1,5 +1,8 @@
 {
  "version": "0.1.0",
+ "epoch": null,
+ "as_of_sha": null,
+ "as_of_date": null,
  "id": "dewy",
  "label": "DEWY",
  "parent": "universe",
@@ -14,9 +17,9 @@
    "lib": 0.333
   },
   "frequency": {
-   "file_commits": 44,
-   "active_days": 24,
-   "last_change": "2026-10-04",
+   "file_commits": 45,
+   "active_days": 25,
+   "last_change": "2026-10-07",
    "last_28d": 8
   }
  },
@@ -24,11 +27,11 @@
   "corpus": 13,
   "canon": 1,
   "codebase": 1,
-  "files": 24
+  "files": 25
  },
  "systems": {
   "_STATE": 13,
-  "runtime": 7,
+  "runtime": 8,
   "_DECISIONS": 1,
   "operators": 1,
   "prisma": 1,
@@ -58,6 +61,7 @@
   "runtime/recoil/generated/2026-08-01-brand-promise-dewy.json",
   "runtime/specs/dewy-receipt-schema-v1.json",
   "runtime/specs/dewy-receipt-schema-v1.md",
+  "runtime/specs/universe/dewy.json",
   "tests/unit/dewy-schema.test.ts"
  ]
 }
