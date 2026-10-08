@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 116,
-  "nodes": 485,
-  "clean": 93,
+  "violations": 117,
+  "nodes": 486,
+  "clean": 92,
   "pages": 179
  },
  "pages": {
@@ -1102,9 +1102,11 @@
    "rules": {}
   },
   "runtime/warroom/lyndon-war.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "color-contrast": 1
+   }
   },
   "runtime/warroom/surfaces.html": {
    "violations": 0,

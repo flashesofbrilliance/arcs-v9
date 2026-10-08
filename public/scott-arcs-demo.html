@@ -62,6 +62,8 @@
   h3{font-size:15px;margin:0 0 6px;font-weight:600}
   p{margin:0 0 12px}
   .grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:22px;margin-top:18px}
+/* Small screens: the two-up grid stacks (157px columns were too narrow; page gate, 2026-10-08). */
+@media (max-width: 520px){.grid{grid-template-columns:1fr;}}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:12px}
   .stripe{border-left:3px solid var(--muted)}
   .stripe.cyan{border-left-color:var(--cyan)}
@@ -99,7 +101,7 @@
   <header>
     <div class="eyebrow">ARCS × Parlance · Scott Witt Demo · Prototype</div>
     <h1>How ARCS turns a messy "we need a rebrand" brief into narrative infrastructure.</h1>
-    <p class="sub">A front‑end grammar pass only — no backend, no storage. Each panel here is one ARCS component: intake (Intent/Context/Timing), atoms, molecules, stress‑tests, governance, and operating manual. The goal for this session is to show Scott how ARCS actually interacts with Parlance‑style work, not just describe it.</p>
+    <p class="sub">A front‑end grammar pass only, no backend, no storage. Each panel here is one ARCS component: intake (Intent/Context/Timing), atoms, molecules, stress‑tests, governance, and operating manual. The goal for this session is to show Scott how ARCS actually interacts with Parlance‑style work, not just describe it.</p>
     <div class="meta">Based on "ARCS for Parlance" (12/18/2025) · Mapped into ARCS atoms/molecules/organisms grammar · Static HTML prototype for demo only.</div>
   </header>
 
@@ -154,7 +156,7 @@
 
   <section>
     <h2>03 · Molecules & Organisms</h2>
-    <p>Atoms combine into molecules (story arcs) and organisms (full platforms) — the atomic design chain from the PDF.</p>
+    <p>Atoms combine into molecules (story arcs) and organisms (full platforms), the atomic design chain from the PDF.</p>
     <div class="card stripe">
       <div class="cardtop"><h3>Series B Narrative Molecule</h3><span class="tag">Arc composed of 3 atoms</span></div>
       <p class="inline-label">Atoms in this molecule:</p>
@@ -167,7 +169,7 @@
     </div>
     <div class="card stripe">
       <div class="cardtop"><h3>Brand Platform Organism</h3><span class="tag">10–15 atoms</span></div>
-      <p>In a full implementation, 10–15 atoms (positioning, narrative systems, tripwires, review gates) would define the entire "health longevity" platform as an organism. For this demo, we keep it concept‑only — all logic, no backend.</p>
+      <p>In a full implementation, 10–15 atoms (positioning, narrative systems, tripwires, review gates) would define the entire "health longevity" platform as an organism. For this demo, we keep it concept‑only, all logic, no backend.</p>
     </div>
   </section>
 
@@ -229,7 +231,7 @@
         </div>
       </div>
       <p class="inline-label" style="margin-top:10px">Patterns worth repeating</p>
-      <p>"Series B investors care about unit economics before narrative" · "Rebrand usually means 'we don't know our customer'" — explicitly surfaced here as the unfair advantage ARCS gives Parlance.</p>
+      <p>"Series B investors care about unit economics before narrative" · "Rebrand usually means 'we don't know our customer'", explicitly surfaced here as the unfair advantage ARCS gives Parlance.</p>
     </div>
   </section>
 

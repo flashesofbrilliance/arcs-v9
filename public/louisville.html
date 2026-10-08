@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ARCS × Louisville · Home</title>
 <style>
+:root{--measure:940px;}
   :root{
     --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
     --dial:#E8E4DA; --graphite:#7A7A80; --faint:#6E6E75;
@@ -36,7 +37,7 @@
   /* ── GRID VIEW ── */
   .wrap{max-width:940px;margin:0 auto;padding:38px 24px 70px}
   .hero{text-align:center;margin-bottom:28px}
-  .hero .note{font-size:clamp(24px,1.8vw + 15px,33px);font-weight:700;letter-spacing:-.012em;line-height:1.18;max-width:24ch;margin:0 auto;text-wrap:balance}
+  .hero .note{font-size:clamp(24px,1.8vw + 15px,33px);font-weight:700;letter-spacing:-.012em;line-height:1.18;max-width:var(--measure);margin:0 auto;text-wrap:balance}
   .hero .note .g{color:var(--gold)}
   .hero .ask{margin-top:14px;color:var(--graphite);font-size:14.5px;line-height:1.55}
   .hero .ask b{color:var(--dial)}
@@ -65,7 +66,7 @@
   .tile .top{display:flex;align-items:baseline;gap:8px;margin-bottom:9px}
   .tile .no{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--gold)}
   .tile h3{font-size:16.5px;font-weight:700;letter-spacing:.01em}
-  .tile p{font-size:12.5px;color:#a9a7a0;line-height:1.5;max-width:30ch}
+  .tile p{font-size:12.5px;color:#a9a7a0;line-height:1.5;max-width:var(--measure)}
   .tile .foot{position:relative;inset:auto;margin-top:auto;padding:12px 0 0;display:flex;align-items:center;gap:8px;background:none;z-index:auto}
   .tile .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:3px 9px;border-radius:100px;border:1px solid var(--line);color:var(--graphite)}
   .tile .tag.live{border-color:var(--verm);color:var(--verm)}
@@ -105,9 +106,9 @@
   .p-kj{font-size:52px;color:var(--gold);opacity:.2;line-height:1;margin-bottom:10px}
   .p-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--graphite);margin-bottom:12px}
   .p-kicker .n{color:var(--gold)}
-  .p-title{font-size:clamp(26px,2vw + 16px,38px);font-weight:700;letter-spacing:-.014em;line-height:1.14;max-width:20ch;margin:0 auto;text-wrap:balance}
+  .p-title{font-size:clamp(26px,2vw + 16px,38px);font-weight:700;letter-spacing:-.014em;line-height:1.14;max-width:var(--measure);margin:0 auto;text-wrap:balance}
   .p-title .g{color:var(--gold)}
-  .p-lede{color:var(--graphite);font-size:15px;line-height:1.6;margin:14px auto 0;max-width:48ch;text-wrap:pretty}
+  .p-lede{color:var(--graphite);font-size:15px;line-height:1.6;margin:14px auto 0;max-width:var(--measure);text-wrap:pretty}
   .p-open{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:13px 26px;border:1px solid var(--gold);border-radius:100px;
     font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);background:rgba(201,162,39,.05)}
   .p-open:hover{background:var(--gold);color:var(--case)}

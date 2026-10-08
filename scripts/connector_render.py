@@ -133,6 +133,8 @@ CSS = """  :root{
   .oneshot .bar .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
   .oneshot .cp{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--fg3);border:1px solid var(--border2);background:var(--elev);border-radius:7px;padding:5px 11px;cursor:pointer;transition:.15s;}
   .oneshot .cp:hover{color:var(--cyan);border-color:var(--cyan);}
+  .oneshot{min-width:0;max-width:100%;}
+  .chan{min-width:0;}
   .oneshot pre{margin:0;padding:17px 18px;overflow-x:auto;}
   .oneshot code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--fg1);white-space:pre-wrap;}
   .oneshot code .v{color:var(--gold);}

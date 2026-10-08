@@ -22,6 +22,22 @@
   machine that has it.
 
 
+## 2026-10-08 · The 47 touched pages made fully clean so the stack can merge: em-dashes, measure, ledes, overflow, doctype; tripwire allowlist
+
+Found by: CI on PRs 1101 to 1105. The page gate and tripwire check every page a PR touches in full (legacy pages are
+gated when next touched); 47 pages already failed them on main. Reverting them out of the stack was refused by the
+local kintsugi ratchet (it would raise their debt), so the only path satisfying both gates was to clean them.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | 607 em-dashes in rendered copy on 28 pages (also the no-em-dash rule) | wrap lint | Rule-based rewrite of visible text only (scripts, styles, code, comments untouched; template sub-pages included; entities too): headings and short labels take ` · `; a dash before a new clause becomes a full stop and capital; before so/but/and a comma; otherwise a comma. Sampled before keeping. Served-page em-dashes 774 -> 13 | wrap lint + design-debt ratchet |
+| 2 | 27 per-role `ch` caps; then a 680px measure narrower than each container | wrap lint | Caps -> `var(--measure)`; measure set to the page's container width so prose and full-width blocks share one column | wrap lint |
+| 3 | 6 ledes narrower than their heading; 2 were card summaries, not hero ledes | page gate | `max-width:none` on the hero ledes (monolith's rule fixed at its source, not appended into an inlined template); card summaries renamed `mv-lede` | page gate |
+| 4 | Overflow at 375: resume sheets (fixed 8.5in), a no-wrap breadcrumb, unwrapped code, a 157px-column grid, the good.arcs.care clone card | page gate + measured offenders | Screen-only small-viewport rules (print unchanged); renderer card may shrink | page gate |
+| 5 | 6 pages in quirks mode (no leading doctype); standards mode then exposed a skipped heading on prl-status-tidio (h2 -> h4) | page gate, then the design ratchet | Doctype first; h4 -> h3 with h4's size kept | page gate + ratchet |
+| 6 | 13 tripwire real-name hits were each counterpart's own page naming its own people or company; 1 public link to a private claude.ai artifact | tripwire | `scripts/tripwire-allow.tsv`: per-page own names only (another counterpart's name still fails; tested); the private link unlinked, text kept | tripwire |
+| 7 | belief-log.html is generated; edits to its output drifted from its emitter | CI gates job | All changes moved into `scripts/belief_log_public_template.html`; re-emitted | `belief_log_emit.py --check` |
+
 ## 2026-10-08 · Light paper world sanctioned at AA: 25 light-surface pages pass contrast
 
 Found by: axe color-contrast class B (486 failing nodes on 26 light-surface pages: resumes, dossiers, TIL
