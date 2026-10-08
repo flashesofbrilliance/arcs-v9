@@ -4,27 +4,52 @@
 
 ## 0. Relationship charter (pre-frame)
 
+**Overarching premise (Zach, 2026-10-08): shared documentation is not shared understanding.** The goal of the engagement is to narrow that gap, so that how Chelsea builds in Lovable and with Claude stays aligned with the reality of the financial projections and the business plan. Evidence status: the premise is Zach's design hypothesis, GRAIN. In the call, the cost model was built separately by Chelsea and Morgan and the AI layer is unbuilt, so the model and the build can drift (T). Zach also described the general two-silo risk, business plan and tech roadmap co-created apart (T, a general remark, not a finding about them). Three instruments carry the premise through the scaffold: (1) **teach-back**: each founder explains the plan, the unit economics and the state of the build in their own words at discovery and again at Phase 1 graduation; the gap is the count of points where explanations differ from each other or from the documents (asm-037); (2) **plan-to-build tether** (F.8): each financial-projection driver is traced to the code or config that sets it; (3) **double-entry reconciliation** (F.5): every plan claim maps to a roadmap item and the reverse.
+
 The charter frames the whole scaffold. It sits **beside** the legal agreement and does not replace it. Anything in it that could read as binding (commitments, exits, handoff duties) is for counsel to confirm before it is shown to anyone. Gate names are **checkpoint**, **graduation** and **soft landing**: framing chosen so a small team reads them as support rather than a trap (see the grades below: that wording preference is our judgment, not a finding). Each phase has exactly three gates, one measurable test each, set in advance and registered before the work starts. One-page template: `05-charter-template.md`.
 
 Per phase the block carries: **Goal** (their words, to be replaced with the founders' own wording at discovery; the lines here are paraphrase); **Deliverables**; **Checkpoint** (a test that says reality mirrors the plan); **Graduation** (what it looks like if it worked and they can run it alone); **Soft landing** (the handoff pack if it did not work, so they lose nothing); **Commitments** (mutual, same kind on each side).
 
-### Phase 0: opening sprint (worked block, EXAMPLE placeholders)
+### The four phases (re-cut 2026-10-08 on Zach's sketch; tracks A, F, B are now delivery modes, not phases)
+
+| Phase | Name | Core work | Horizon tag | Delivery mode (Zach's progressive shape, T, his view) |
+|---|---|---|---|---|
+| 0 | Audit and light discovery | Code, spec, cost model, data-flow map, journey and role map; one session per founder | Now | Advisory-level, Zach alone |
+| 1 | Shareback, alignment, co-design of the roadmap | Findings and dependency map; roadmap from priorities, constraints and timing; build-versus-hire receipt and premortem on the fork | Now | Fractional product and technical advisory |
+| 2 | Foundational hardening, syncing and alignment of plans | Environment, vendor-agnostic layer, controls, counsel-gated policies, business plan reconciled to the roadmap; the AI build (B.3) when the roadmap places it | Next | Embedded, fixed-term (front-loaded technologist), tapering to fractional |
+| 3 | Product strategy, scenario planning, premortem, post-mortem | Strategy and scenarios on real data; premortem on the next big bets; look-back: what we tried to do, what we did, did the outcome match the goal | Later | Light strategic advisory |
+
+Departures from the sketch, for Zach to accept or reject: (1) the premortem on the build-versus-hire fork runs in Phase 1, before spend, because a premortem is only worth its name ex-ante; Phase 3 runs a second one on the next bets. (2) The look-back is a short scoring at the close of every phase (ex-ante charter receipt against reality, ADR-068 close-loop via `.claude/skills/recoil-close/SKILL.md`), with the full post-mortem in Phase 3; waiting for Phase 3 loses what phases 0 to 2 could teach. (3) The AI build (B.3) has no home in the four-phase sketch; default is the tail of Phase 2, gated by the Phase 1 fork receipt and the Phase 2 graduation, so it can move.
+
+### Phase 0: audit and light discovery (worked block, EXAMPLE placeholders)
 
 | Part | Draft content |
 |---|---|
-| Goal (paraphrase) | Decide with eyes open how the product gets built and who builds it, without spending ahead of that decision. |
-| Deliverables | Findings memo; dependency map; four ex-ante receipts (one per founder); one workshop decision receipt on the build-versus-hire fork; premortem list; counsel question list (P0.A1 to P0.W1, L.1). |
-| Checkpoint | Test: at shareback, [EXAMPLE: every] node on the dependency map has a named owner and an upstream. Set before the audit starts; if it fails we say so at shareback and re-scope, nobody is blamed. |
-| Graduation | Test: at workshop close each founder restates, [EXAMPLE: in writing, unprompted], the fork decision, its owner, its reversal condition, and the top premortem failure with its leading indicator. If they can, they can run the decision alone. |
-| Soft landing | Test: if we stop after Phase 0, the handoff pack (memo, map, receipts, premortem, counsel list, cost baseline) opens from client-owned storage with no ARCS account (H.2), by [EXAMPLE: date]. They lose nothing. |
-| Commitments, us | Share findings by [EXAMPLE: date]; keep their materials inside the NDA; say early if an estimate moves. |
+| Goal (paraphrase) | Find out what is true about the product, the data and the plans today, before anyone decides anything. |
+| Deliverables | Audit findings (code, spec, cost model, data-flow map, journey and role map: P0.A1 to P0.A5); four ex-ante receipts, one per founder (P0.D1 to P0.D4); first counsel question list (L.1). |
+| Checkpoint | Test: by [EXAMPLE: date], every spec requirement is tagged built, partial or absent, and no data-flow hop is left unmarked. Set before the audit starts; a miss is said out loud and re-scoped, nobody is blamed. |
+| Graduation | Test: [EXAMPLE: all four] founders have filed an ex-ante receipt in the fixed form before seeing each other's. |
+| Soft landing | Test: if we stop after Phase 0, the findings pack opens from client-owned storage with no ARCS account (H.2) by [EXAMPLE: date]. They lose nothing. |
+| Commitments, us | Share audit findings by [EXAMPLE: date]; keep materials inside the NDA; say early if an estimate moves. |
 | Commitments, them | Provide materials by [EXAMPLE: date]; name one decision owner; say early if plans or funding timing move. |
 
-Same-kind pairs: inputs on dated terms (both); one accountable person (both); early notice of change (both).
+### Phase 1: shareback, alignment, co-design (worked block, EXAMPLE placeholders)
 
-### Phases 1 to 3 (structure set, content TBD after the workshop receipt)
+| Part | Draft content |
+|---|---|
+| Goal (paraphrase) | Agree one time-sequenced roadmap and one decision on how to build, with priorities, constraints and timing on the table. |
+| Deliverables | Shareback memo; dependency map; now/next/later roadmap (P1.R1, F.1, F.7); one decision receipt on the build-versus-hire fork and the premortem list (P1.W1); cost baseline filled where sourced. |
+| Checkpoint | Test: at shareback, [EXAMPLE: every] node on the dependency map has a named owner and an upstream. |
+| Graduation | Test: at workshop close each founder restates, [EXAMPLE: in writing, unprompted], the fork decision, its owner, its reversal condition, and the top premortem failure with its leading indicator. |
+| Soft landing | Test: if we stop after Phase 1, the pack (memo, map, roadmap, receipts, premortem, counsel list, cost baseline) opens from client-owned storage with no ARCS account by [EXAMPLE: date]. |
+| Commitments, us | Share the shareback memo [EXAMPLE: days] before the session; run the workshop on invented sample decisions until the NDA and Zach's yes allow real material. |
+| Commitments, them | Bring priorities, constraints (hours, budget, funding date) and the decision owner; say early if any of them move. |
 
-Order follows Zach's stated shape (T, his view): Phase 1 = Track B front-loaded build; Phase 2 = Track F fractional; Phase 3 = Track A advisory. Each phase gets the same six-part block, three gates, one measurable test per gate, drafted at the workshop with the founders and filed ex-ante. Candidate tests, all unmeasured and UNVERIFIED as fit: Phase 1 graduation = Chelsea ships a release unaided (B.7); Phase 2 checkpoint = backlog items closed against sprint goals (A.1); Phase 3 graduation = a sprint planned and accepted with no outside help. Soft landing for every phase = the same handoff pack, refreshed.
+Same-kind pairs in both: inputs on dated terms; one accountable person; early notice of change.
+
+### Phases 2 and 3 (structure set, content TBD at the Phase 1 workshop)
+
+Each gets the same six-part block, three gates, one measurable test per gate, filed ex-ante. Candidate tests, unmeasured and UNVERIFIED as fit. **Phase 2:** checkpoint = the business plan to roadmap reconciliation (F.5) has no orphan on either side; graduation = Chelsea runs a release, a rollback and a key rotation unaided (B.7); soft landing = runbooks, accounts inventory and decision log in client-owned storage. **Phase 3:** checkpoint = each scenario has a trigger and a pre-agreed response; graduation = the founders run a premortem on the next big decision without us and file it ex-ante; soft landing = the retrospective pack and playbook. Items for Phase 3 are in section 7b.
 
 ### Evidence grades for the behavioral claims behind the charter
 
@@ -64,9 +89,9 @@ Fork options to put in front of the founders at the workshop (names are working 
 
 **Premise correction to carry into the workshop:** Chelsea described herself as a marketing professional who does most of the building. So "who advises whom" is itself a variable: the SOW should not assume a developer is the senior party (T, DEGRADED).
 
-## 2. Phase 0: the opening sprint (audit, discovery, shareback, decision receipt workshop)
+## 2. Phase 0 (audit and light discovery) and Phase 1 (shareback, alignment, co-design)
 
-Order matters: audit and discovery run in parallel (A items need materials; D items need only the founders), shareback needs both, the workshop needs shareback. Zero spend on tracks A, F, B before the workshop receipt exists: that is the one-way-door discipline (ADR-068 mandatory ex-ante print).
+Order matters: in Phase 0 audit and discovery run in parallel (A items need materials; D items need only the founders); Phase 1 shareback needs both, and the workshop needs shareback. Spend on hardening and build (Phase 2) is released only by the Phase 1 fork receipt: that is the one-way-door discipline (ADR-068 mandatory ex-ante print). Phase 0 spend is the audit and discovery only, with a cap that stays TBD until the cost baseline has inputs.
 
 | ID | Step | Inputs | Output artifact | Acceptance test | Reusable assets | Owner | Cost | Grade (evidence) | Loki attack and disposition |
 |---|---|---|---|---|---|---|---|---|---|
@@ -79,30 +104,39 @@ Order matters: audit and discovery run in parallel (A items need materials; D it
 | P0.D2 | Discovery: Morgan | Founder session | Same | Same | Same | Z | T | DEGRADED | Morgan co-built the cost model (T); role otherwise unknown. Disposition: ask. |
 | P0.D3 | Discovery: Kelly | Founder session | Same | Same | Same | Z | T | DEGRADED | Kelly named empathy-without-health-advice as the hard problem and wrote the business plan (T); her receipt anchors A.3 and F.5. |
 | P0.D4 | Discovery: Chelsea | Founder session | Same | Same | Same | Z | T | DEGRADED | She is both the builder and the party deciding who advises her (see premise correction). |
-| P0.S1 | Shareback: findings and dependency map | A1 to A4, D1 to D4 | Findings memo; dependency map (sequential vs parallel; critical path; counsel-gated nodes) | Every node has an owner and an upstream; the map reconciles to the business plan's dates (the funding plan expects a start of next year, T) | Night-moves digest section 6 (dependency map) as the form; `10-pipeline-stage-tracker.html`; `scripts/reconcile_epoch.py` | Z | T | DEGRADED | Unowned dependency: counsel's answer times are outside anyone's control here. Disposition: map shows counsel nodes as gates with an external clock. asm-016, asm-025 |
-| P0.W1 | Decision receipt workshop and premortem on the build-versus-hire fork | Shareback; four receipts; invented sample decisions for the demo | One decision receipt on the fork; premortem list (failure story, leading indicator, mitigation, owner) | Receipt in the fixed form; each founder contributes a failure story; each failure story has a leading indicator and an owner; the rejected-alternative test of Fork-3 is run | Question Compass (`src/app/dashboard/page.tsx`, `src/app/api/compass/route.ts`) with INVENTED decisions only; LAB/BAR/Loki as method (`operators/`); `counterpart-gauntlet` to pre-test the deck | Z facilitates, Co decide | T | DEGRADED (T: offered on the call; R: compass exists) | Gate: no prospect material in the compass until NDA and Zach's yes (src/app/privacy terms govern stored receipts); fallback is a local SSOT file. asm-027 |
 
-**Phase 0 exit (stop-loss).** Spend beyond Phase 0 is released only by the workshop receipt. If materials have not arrived by the first review date, run D and W only and mark every A output UNVERIFIED. If the founders cannot name a decision owner at D1, the workshop is postponed (a decision with no owner is not a decision).
+**Phase 0 exit (stop-loss).** If materials have not arrived by the first review date, run discovery only and mark every audit output UNVERIFIED. If the founders cannot name a decision owner at D1, Phase 1 is postponed (a decision with no owner is not a decision).
+
+### Phase 1 steps
+
+| ID | Step | Inputs | Output artifact | Acceptance test | Reusable assets | Owner | Cost | Grade (evidence) | Loki attack and disposition |
+|---|---|---|---|---|---|---|---|---|---|
+| P1.S1 | Shareback: findings and dependency map | P0.A1 to P0.A5, P0.D1 to P0.D4 | Findings memo; dependency map (sequential vs parallel; critical path; counsel-gated nodes) | Every node has an owner and an upstream; the map reconciles to the business plan's dates (the funding plan expects a start of next year, T) | Night-moves digest section 6 (dependency map) as the form; `10-pipeline-stage-tracker.html`; `scripts/reconcile_epoch.py` | Z | T | DEGRADED | Unowned dependency: counsel's answer times are outside anyone's control here. Disposition: map shows counsel nodes as gates with an external clock. asm-016, asm-025 |
+| P1.R1 | Roadmap co-design: a now/next/later roadmap built with the founders from their priorities, constraints and timing | Shareback; the founders' stated priorities, hours, budget and funding date; counsel gates from the map | A time-sequenced roadmap across the five spokes (produces the F.1 backlog and the F.7 spoke order); the order criterion in writing | Each item has an owner, an upstream, a counsel gate and a phase; the founders sign off the order criterion; the first release is one thin path | `10-pipeline-stage-tracker.html`, `13-90day-build.html` retitled; `.claude/skills/fold/SKILL.md` for splitting dense work | Z with Co | T | GRAIN (T: Kelly mentioned an informal priority and beta-test idea; the sequence itself is unseen) | Falsifier: a dated, dependency-ordered sequence already exists (asm-034). Unowned input: priorities and constraints must come from the founders, not us. |
+| P1.W1 | Decision receipt workshop and premortem on the build-versus-hire fork | Shareback; four receipts; invented sample decisions for the demo | One decision receipt on the fork; premortem list (failure story, leading indicator, mitigation, owner) | Receipt in the fixed form; each founder contributes a failure story; each failure story has a leading indicator and an owner; the rejected-alternative test of Fork-3 is run | Question Compass (`src/app/dashboard/page.tsx`, `src/app/api/compass/route.ts`) with INVENTED decisions only; LAB/BAR/Loki as method (`operators/`); `counterpart-gauntlet` to pre-test the deck | Z facilitates, Co decide | T | DEGRADED (T: offered on the call; R: compass exists) | Gate: no prospect material in the compass until NDA and Zach's yes (src/app/privacy terms govern stored receipts); fallback is a local SSOT file. asm-027 |
+
+**Phase 1 exit (stop-loss).** Spend on Phase 2 hardening and any build is released only by the fork receipt. If the founders will not decide, stop at the soft landing pack: the pack is the product.
 
 ## 3. Track A: Advisory (light strategic support)
 
 | ID | Item and deliverable | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |
 |---|---|---|---|---|---|---|---|---|
 | A.1 | Sprint planning cadence: backlog groomed, sprint goal set | Each sprint has a written goal, a done-test per item, and a stated capacity | F.1 | Z with C | T | asm-025 | DEGRADED (T) | Vague scope until capacity is known. Capacity of four people with other jobs is U. |
-| A.2 | Sprint review and decision receipts for one-way doors as they arise (vendor, retention period, pricing) | Each one-way-door decision has a receipt before commit (write-lock) | P0.W1 | Z with Co | T | asm-016, asm-017 | SHARP (T: fork named; R: WRITE-LOCK primitive, AGENTS.md receipts) | Risk: receipts logged after the fact lose their value; keep them ex-ante. |
+| A.2 | Sprint review and decision receipts for one-way doors as they arise (vendor, retention period, pricing) | Each one-way-door decision has a receipt before commit (write-lock) | P1.W1 | Z with Co | T | asm-016, asm-017 | SHARP (T: fork named; R: WRITE-LOCK primitive, AGENTS.md receipts) | Risk: receipts logged after the fact lose their value; keep them ex-ante. |
 | A.3 | Acceptance testing: scripted boundary set for "empathetic, no health advice" plus functional checks | A scored set agreed with counsel; pass threshold written before building; reruns on every model change | L.1, B.3 | Z, L, Kelly | T, L | asm-024 | DEGRADED (T: requirement stated by Kelly; U: no spec of the boundary) | Falsifier: if counsel cannot define the boundary precisely, the test is a judgment call; then the deliverable is a counsel-signed rubric, not a pass rate. |
 
 ## 4. Track F: Fractional product and technical advisory and management
 
 | ID | Item and deliverable | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |
 |---|---|---|---|---|---|---|---|---|
-| F.1 | Backlog built from the build spec, sequenced by dependency (what is always, sometimes, never, settled with counsel first) | Every item has an upstream and an owner; counsel-gated items are marked | P0.S1 | Z with C | T | asm-022, asm-023 | DEGRADED (T: Zach's method; U: spec unseen) | Unowned dependency: counsel timing. Shown on the map as an external clock. |
+| F.1 | Backlog built from the build spec, sequenced by dependency (what is always, sometimes, never, settled with counsel first) | Every item has an upstream and an owner; counsel-gated items are marked | P1.S1 | Z with C | T | asm-022, asm-023 | DEGRADED (T: Zach's method; U: spec unseen) | Unowned dependency: counsel timing. Shown on the map as an external clock. |
 | F.2 | Architecture decisions recorded: vendor-agnostic model layer, role-based access for parents, children, practitioners, extensibility | One ADR per decision; each names the one-way doors | P0.A4 | Z | T | asm-017 | DEGRADED (T: Zach's recommendation) | Gold-plating risk for a four-person pre-launch company; cap at what the first cohort needs. |
 | F.3 | Model vendor decision support: criteria, evidence, switch-cost, receipt | A receipt with the data-handling terms attached and counsel's input; swap test passes | L.2, L.4, B.2 | Z, Co | T, L | asm-016, asm-017 | DEGRADED (T: Anthropic vs OpenAI open, BAA a concern; X: Anthropic doc) | The receipt must record that the data-handling terms, not model quality, drive the one-way door. |
 | F.4 | Unit economics and token caps: per-user caps, spend alerts, price-point scenarios (light, typical, heavy; long-term user counts from their model) | Cost per persona with a source and fetch date per price input; cap enforced in code and tested | P0.A3, B.6 | Z with C | T, K | asm-019 | DEGRADED (T: model exists) | Hidden cost: web-search calls and file processing are not tokens; add to the model. |
-| F.5 | Business plan to tech roadmap reconciliation, stated versus revealed, kept like double-entry: every plan claim maps to a roadmap item and the reverse | A reconciliation table with no orphan on either side; reviewed at each shareback | P0.S1 | Z with Kelly | T | asm-025 | DEGRADED (T) | Falsifier: if the plan has no claim a roadmap item could contradict, the plan is too vague to reconcile. |
+| F.5 | Business plan to tech roadmap reconciliation, stated versus revealed, kept like double-entry: every plan claim maps to a roadmap item and the reverse | A reconciliation table with no orphan on either side; reviewed at each shareback | P1.S1 | Z with Kelly | T | asm-025 | DEGRADED (T) | Falsifier: if the plan has no claim a roadmap item could contradict, the plan is too vague to reconcile. |
 | F.6 | Accessibility requirements: which standard and level, who verifies | A named standard and level confirmed with counsel; a check run on each release | L.1 | Z, L | T | none yet | GRAIN (T: Zach raised it; U: which standard applies) | Hidden cost: remediation after build. Disposition: decide the standard before B.5. |
-| F.7 | Spoke sequencing: a time-sequenced roadmap across the five spokes, with a stated order criterion (risk of data handled, value to the first cohort, dependency, legal gate) | Each spoke has a start window, an upstream and a counsel gate; the first release is one thin path, not five | P0.A5, P0.S1 | Z with Co | T | asm-034 | GRAIN (T: five services described by Chelsea; informal priority and beta-test idea mentioned by Kelly; the missing sequence is Zach's reading, not stated by them) | Candidate criterion, untested: lower-data-risk spokes first, vault plus Alice behind the counsel gates. The founders may reasonably want the AI first; the workshop decides, not us. |
+| F.7 | Spoke sequencing: a time-sequenced roadmap across the five spokes, with a stated order criterion (risk of data handled, value to the first cohort, dependency, legal gate) | Each spoke has a start window, an upstream and a counsel gate; the first release is one thin path, not five | P0.A5, P1.S1 | Z with Co | T | asm-034 | GRAIN (T: five services described by Chelsea; informal priority and beta-test idea mentioned by Kelly; the missing sequence is Zach's reading, not stated by them) | Candidate criterion, untested: lower-data-risk spokes first, vault plus Alice behind the counsel gates. The founders may reasonably want the AI first; the workshop decides, not us. |
+| F.8 | Plan-to-build tether: a trace from each financial-projection driver (users per persona, sessions, tokens per call, model choice, vault document size, caps, price points) to the code or config that sets it and to the person who can change it | Every driver has a code location or is marked unset; a driver change made on a test branch is caught by the review checklist and triggers a cost-model update by its owner | P1.S1, P0.A3 | Z with C | T | asm-038 | GRAIN (T: cost model built separately from the build; U: how the code sets those drivers) | Falsifier: if the drivers live in one config file the founders already review, the tether is a checklist line, not a deliverable. Risk: vibe-coded changes (a model swap, more context stuffed in) move the cost silently. |
 
 ## 5. Track B: Hands-on build (front-loaded)
 
@@ -110,7 +144,7 @@ Order matters: audit and discovery run in parallel (A items need materials; D it
 |---|---|---|---|---|---|---|---|---|
 | B.1 | Environment ready for Chelsea to run the build: repo, branches, environments, secrets handling, CI, test data (synthetic only) | Chelsea ships one backlog item end to end with Zach reviewing only; blocking interventions counted | P0.A1 | Z | T | asm-021 | DEGRADED (T: Zach's stated plan; U: current state of their setup) | Falsifier in asm-021. Risk: real children's records in test data; synthetic only, stated in the acceptance test. |
 | B.2 | Model-agnostic wrapper plus model version pin and freeze window (the spec already names a freeze window) | A fixed set of synthetic prompts through two vendors; only wrapper config changes; pin enforced | F.2 | Z or hire | T | asm-017 | DEGRADED (T: Zach's view; T: spec has a freeze window) | Claim "agnostic" is falsifiable by the swap test; until run it is a design intention. |
-| B.3 | AI integration for Alice (not started): retrieval over the vault, voice and boundary layer, provider calls via B.2 | Passes the A.3 set at the agreed threshold; no vault content leaves the allowed path in A4's map | A.3, B.2, B.4 | C with Z | T, K | asm-024 | GRAIN (T: unstarted; U: spec details) | The largest unknown in the engagement; do not estimate until A2 has read the voice spec. |
+| B.3 | AI integration for Alice (not started): retrieval over the vault, voice and boundary layer, provider calls via B.2 | Passes the A.3 set at the agreed threshold; no vault content leaves the allowed path in A4's map | P1.W1, P1.R1, A.3, B.2, B.4, F.8 | C with Z | T, K | asm-024 | GRAIN (T: unstarted; U: spec details) | The largest unknown in the engagement; do not estimate until A2 has read the voice spec. Zach's hunch (asm-039): integration before product planning and discovery prework is premature. Counter-consideration: the funding story may need a visible Alice; a bounded spike on synthetic data (section 11) buys real token numbers for the cost model without committing to integration. |
 | B.4 | Redaction design: deterministic pass for structured identifiers plus a parent-review step; a measured recall figure on a synthetic IEP set | Recall reported by identifier type; the review step is mandatory in the UI; counsel signs off the residual risk | L.3 | Z with C | T | asm-018 | DEGRADED (T: Chelsea's requirement that redaction not depend on the AI; Zach prefers deterministic scripts; R: none) | Loki: deterministic rules miss names and context in prose, so "deterministic" alone cannot meet Chelsea's requirement. Review step added. Needs a synthetic-IEP generator (gap 4 in file 01). |
 | B.5 | Role-based access: parents, children, practitioners | Role matrix reviewed by counsel; tests show each role sees only its data | F.2, L.6 | Z or hire | T | none yet | DEGRADED (T) | Child accounts are a counsel gate (L.6). |
 | B.6 | Audit log and spend caps | Log entries exist for vault reads and model calls; a cap trips in a test | B.2 | Z or hire | T | asm-023 | DEGRADED (T: audit log in the spec; U: not built) | asm-023 says the spec lists intentions, not controls; check before promising. |
@@ -142,6 +176,15 @@ Counsel should confirm every row. Zach is not giving legal advice; the SOW must 
 | H.4 | Enablement sessions, recorded only with consent | Consent logged first | GRAIN (see recording question) |
 | H.5 | Exit criteria per track and stop-loss per phase | Written before the track starts | SHARP (R: `09-stop-loss-footer.html`, ADR-068) |
 
+## 7b. Phase 3 items: product strategy, scenario planning, premortem, post-mortem
+
+| ID | Item | Acceptance test | Evidence and assets | Grade |
+|---|---|---|---|---|
+| P3.1 | Product strategy on real data: what to double down on, drop or rent (build versus rent, owned IP versus platform), using beta results | A written strategy with the rejected options and why; each claim cites beta data or is marked a bet (section 11) | T: Zach raised owned IP and build-versus-rent on the call; no beta data exists yet | GRAIN |
+| P3.2 | Scenario planning: a small set of futures (funding, regulation, vendor change, adoption), each with a trigger and a pre-agreed response | Each scenario has an observable trigger and an owner | R: `operators/arcs_operators_bar.py` (ruin framing) as method; no scenario asset in the repo | GRAIN |
+| P3.3 | Premortem on the next big bets | Filed ex-ante; each failure story has a leading indicator, mitigation and owner | Same method as P1.W1; asm-035 | GRAIN |
+| P3.4 | Post-mortem: for every phase and bet, what we tried to do, what we did, and whether the outcome matched the goal | Every ex-ante charter receipt and bet card is scored aligned, diverged or unresolved, with the reason; confidence vs outcome recorded (asm-032) | R: `.claude/skills/recoil-close/SKILL.md` scoring pattern, ADR-068 close-loop; a short version runs at each phase close (asm-036) | DEGRADED |
+
 ## 8. Cost-baseline hook
 
 Every item above carries a cost driver code (T, V, K, L, O). `04-cost-baseline-template.md` turns the codes into fixed, variable and hidden lines under best, base and worst. No price, rate or term exists yet. The rates Zach floated on the call were a negotiating signal, not a quote, and are deliberately not recorded here.
@@ -166,7 +209,7 @@ Every item above carries a cost driver code (T, V, K, L, O). `04-cost-baseline-t
 4. Disclose the recording: on the call you said you record only after an NDA and explicit consent, yet a transcript exists. Tell them, and decide whether the transcript is kept, before it feeds anything counterpart-facing.
 5. NDA status: not received as of 2026-10-08; codebase and build spec also not received.
 6. "By manana" in your framing is unclear and is not read as a duration. What did you mean?
-7. May Phase 0 use Question Compass on their real material after the NDA, or do you want a local SSOT only?
+7. May the Phase 1 workshop use Question Compass on their real material after the NDA, or do you want a local SSOT only?
 8. Charter: which gate wording do the founders prefer (checkpoint, graduation, soft landing, or other)? Counsel should confirm anything in the charter that could read as binding before it is shown.
 9. Learning loops (section 11): who states the confidence forecasts before each bet, and what is the founders' runway, so the sum of bet caps can be checked against it? (Runway is also a finance intake field.)
 
@@ -193,7 +236,9 @@ Purpose: avoid opportunity-cost ruin and learning on your own dime. A bet is any
 | Empathy without health advice is scorable | A.3; asm-024 | Counsel marks a small boundary set before any build | Counsel can state the boundary precisely | Counsel cannot: deliverable becomes a counsel-signed rubric, not a pass rate | Build rework on the AI layer; focus drain on Kelly and counsel |
 | Pilot by start of next year | asm-025 | Size the backlog in weeks against Chelsea's hours and ours | Critical path fits the window | It does not: cut scope or move the date at the checkpoint, decided ex-ante | Missed funding story, founder morale; our reputation |
 | Counsel answers arrive in time | L.1, L.2; asm-016 | Ask counsel for dates for the blocks-build questions in the first week | Dates committed | No dates: counsel nodes are drawn as an external clock and work behind them is not started | Idle time on whoever waits; spend ahead of an answer is the risk we refuse |
-| Fork-3 is the lowest total cost of ownership | P0.W1; asm-031 | Cost Fork-1, Fork-2 and Fork-3 side by side with the same case definitions | Fork-3 lowest in the base case | Not lowest: recommend the cheaper fork, say so plainly | Credibility on us; wrong pick costs the founders cash and months |
+| Fork-3 is the lowest total cost of ownership | P1.W1; asm-031 | Cost Fork-1, Fork-2 and Fork-3 side by side with the same case definitions | Fork-3 lowest in the base case | Not lowest: recommend the cheaper fork, say so plainly | Credibility on us; wrong pick costs the founders cash and months |
+| A bounded Alice spike on synthetic data teaches more about cost and voice than it costs | B.3, F.8; asm-039 | Run one persona's synthetic session through the model behind the B.2 wrapper inside a timebox | Real token counts per call recorded in the cost model; voice notes captured | Cap hit with no usable numbers: stop, no integration work follows | Time on the builder; risk that a demo is mistaken for a commitment to integrate; no child data used |
 
 **Ruin tests for the whole engagement (checked at each checkpoint):** (a) could any single failed bet end the project, by cash, runway, or a founder walking away? (b) is any bet's cost landing on the client without their prior yes? (c) is the loss we are about to take larger than the lesson it buys? If yes to (a) or (b), or no to (c), stop and re-scope before spending (soft landing).
-
+10. Phases: accept the three departures from your four-phase sketch (premortem on the fork in Phase 1 plus one in Phase 3; a look-back at every phase close; the AI build placed at the tail of Phase 2 by default)?
+11. Spike: may a time-boxed Alice spike on synthetic data run in Phase 1, to give the cost model real token numbers, while full integration stays gated to Phase 2?

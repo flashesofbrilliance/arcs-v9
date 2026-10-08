@@ -16,7 +16,7 @@ Scope: reusable assets that can serve the My Ally LD scope of work. Source: the 
 | Atoms | Gates that police atoms | `scripts/token_source_gate.py`, `scripts/component_source_gate.py` | Block a re-authored palette | Pre-commit only fires on enrolled pages |
 | Molecules | Probability bar, receipt table, signal-delta table | `src/ui-kit/recoil-report/07-probability-bar.html`, `08-receipt-table.html`, `04-signal-delta-table.html` | Best/base/worst cost band; line-item grade table; assumption table | Numbered primitives are `@dsCard` files; reuse by copying the class block |
 | Molecules | Earned-fidelity twin | `src/ui-kit/recoil-report/14-earned-fidelity-twin.html` | Renders the per-item fidelity grade (SHARP / DEGRADED / GRAIN) | Matches WORLD.md render scale |
-| Organisms | Pipeline stage tracker | `src/ui-kit/recoil-report/10-pipeline-stage-tracker.html` | Phase 0 as a four-stage strip: audit, discovery, shareback, workshop | |
+| Organisms | Pipeline stage tracker | `src/ui-kit/recoil-report/10-pipeline-stage-tracker.html` | Phases 0 and 1 as a four-stage strip: audit, discovery, shareback, workshop | |
 | Organisms | Beat stepper, 90-day build | `06-beat-stepper.html`, `13-90day-build.html` | Sprint sequencing for tracks A, F, B | 90-day shape is a job-search artifact; retitle |
 | Organisms | Stop-loss footer | `09-stop-loss-footer.html` | Exit criteria per phase (when to stop spending) | |
 | Organisms | Recoil header, entity card, champion map | `01-recoil-header.html`, `03-entity-card.html`, `11-champion-map.html` | Internal war-room view of the four co-founders and their roles | Internal only; champion map names people, so it stays behind the gate |

@@ -10,7 +10,8 @@ Every cell is a placeholder. No price, rate, term or budget has been agreed or s
 | Line | Code | Best | Base | Worst | Formula or source | Owner | Status |
 |---|---|---|---|---|---|---|---|
 | **FIXED** | | | | | | | |
-| Phase 0 (audit, discovery, shareback, workshop) | T | EXAMPLE | EXAMPLE | EXAMPLE | hours_P0 × rate_zach | Z | TBD |
+| Phase 0 (audit, light discovery) | T | EXAMPLE | EXAMPLE | EXAMPLE | hours_P0 × rate_zach | Z | TBD |
+| Phase 1 (shareback, roadmap co-design, fork workshop) | T | EXAMPLE | EXAMPLE | EXAMPLE | hours_P1 × rate_zach | Z | TBD |
 | Environment setup (B.1) | T | EXAMPLE | EXAMPLE | EXAMPLE | hours_B1 × rate | Z | TBD |
 | Counsel review (L.1 to L.6, L.9) | L | EXAMPLE | EXAMPLE | EXAMPLE | counsel_hours × counsel_rate | founders | TBD |
 | Platform subscriptions (build tool, database, hosting) | V | EXAMPLE | EXAMPLE | EXAMPLE | plan price × months, from vendor pages | C | TBD |
@@ -19,7 +20,7 @@ Every cell is a placeholder. No price, rate, term or budget has been agreed or s
 | Model tokens per persona | K | EXAMPLE | EXAMPLE | EXAMPLE | users × sessions × (input tokens + output tokens) × price_per_token | Z with C | TBD |
 | Vault documents as input tokens | K | EXAMPLE | EXAMPLE | EXAMPLE | docs_per_user × tokens_per_doc × reads per month × price | Z with C | TBD |
 | Open-web search and file processing calls | V | EXAMPLE | EXAMPLE | EXAMPLE | per-call price × calls (not tokens) | C | TBD |
-| Fractional or advisory hours after Phase 0 | T | EXAMPLE | EXAMPLE | EXAMPLE | hours per sprint × sprints × rate | Z | TBD |
+| Fractional or advisory hours after Phase 1 | T | EXAMPLE | EXAMPLE | EXAMPLE | hours per sprint × sprints × rate | Z | TBD |
 | **HIDDEN** | | | | | | | |
 | Rework after counsel answers arrive late or differ | T | EXAMPLE | EXAMPLE | EXAMPLE | share of B.3 and B.4 hours redone | Co | TBD |
 | Redaction review burden on parents (B.4) | O | EXAMPLE | EXAMPLE | EXAMPLE | support hours per user cohort | C | TBD |
