@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { text, signal, font, border } from "@/ui/tokens"
+import { ScopeHud, type HudRead } from "./ScopeHud"
 
 // The field. A sketch of ARCS as terrain: a lidar point cloud of the atlas
 // ziggurat (runtime/warroom/terrain-atlas.html, form only), with the product
@@ -17,9 +18,9 @@ import { text, signal, font, border } from "@/ui/tokens"
 // and where two droplets' rings cross they interfere. That moiré is the only
 // texture. Adding an overlay drops a fresh, stronger droplet.
 //
-// Depth is five fathoms, the same ladder the Chronicle uses
-// (runtime/specs/chronicle-books.json): F1 Executive 30,000 ft 8-bit ... F5
-// Surgical ground truth 8K. One continuous dial sets altitude AND fidelity:
+// Depth is seven fathoms: F1 Exosphere (orbital), then the Chronicle's five
+// (runtime/specs/chronicle-books.json: Executive 30,000 ft 8-bit ... Surgical
+// ground truth 8K) as F2..F6, then F7 Microscopic, the grain below truth. One continuous dial sets altitude AND fidelity:
 // coarse lattice and tier names up high, every return plus notes down low,
 // and at ground truth the live waypoints open the real page. Moving between
 // fathoms tweens the camera and crossfades the resolution.
@@ -61,15 +62,21 @@ export const WAYPOINTS: { id: string; label: string; note: string; tier: Tier; k
 const TIER_COLOR: Record<Tier, string> = { now: signal.green, next: signal.cyan, later: "#94a3b8" }
 const TIER_NAME: Record<Tier, string> = { now: "Now", next: "Next", later: "Later" }
 export const FATHOMS = [
-  { n: 1, name: "Executive", altitude: "30,000 ft", resolution: "8-bit", pitch: 1.42, dist: 5.4, zoom: 0.9, size: 3.4 },
-  { n: 2, name: "Strategic", altitude: "10,000 ft", resolution: "480p", pitch: 1.05, dist: 3.9, zoom: 0.95, size: 2.3 },
-  { n: 3, name: "Operational", altitude: "1,000 ft", resolution: "1080p", pitch: 0.66, dist: 2.7, zoom: 1, size: 1.55 },
-  { n: 4, name: "Tactical", altitude: "100 ft", resolution: "4K", pitch: 0.5, dist: 2.05, zoom: 1.12, size: 1.15 },
-  { n: 5, name: "Surgical", altitude: "ground truth", resolution: "8K", pitch: 0.36, dist: 1.6, zoom: 1.3, size: 0.85 },
+  { n: 1, name: "Exosphere", altitude: "600 km", resolution: "orbital", pitch: 1.5, dist: 6.8, zoom: 0.8, size: 4.2 },
+  { n: 2, name: "Executive", altitude: "30,000 ft", resolution: "8-bit", pitch: 1.42, dist: 5.4, zoom: 0.9, size: 3.4 },
+  { n: 3, name: "Strategic", altitude: "10,000 ft", resolution: "480p", pitch: 1.05, dist: 3.9, zoom: 0.95, size: 2.3 },
+  { n: 4, name: "Operational", altitude: "1,000 ft", resolution: "1080p", pitch: 0.66, dist: 2.7, zoom: 1, size: 1.55 },
+  { n: 5, name: "Tactical", altitude: "100 ft", resolution: "4K", pitch: 0.5, dist: 2.05, zoom: 1.12, size: 1.15 },
+  { n: 6, name: "Surgical", altitude: "ground truth", resolution: "8K", pitch: 0.36, dist: 1.6, zoom: 1.3, size: 0.85 },
+  { n: 7, name: "Microscopic", altitude: "1 mm", resolution: "grain", pitch: 0.26, dist: 1.3, zoom: 1.55, size: 0.6 },
 ] as const
+const NF = FATHOMS.length
+const HOME_DEPTH = 4 // Operational
+// Draw fidelity thresholds are tuned on the Chronicle's five (Executive..Surgical).
+const fid = (d: number) => Math.max(1, Math.min(5, d - 1))
 type FKey = "pitch" | "dist" | "zoom" | "size"
 function atDepth(d: number, key: FKey) {
-  const i = clamp(Math.floor(d) - 1, 0, 3), t = clamp(d - (i + 1), 0, 1)
+  const i = clamp(Math.floor(d) - 1, 0, NF - 2), t = clamp(d - (i + 1), 0, 1)
   return FATHOMS[i][key] * (1 - t) + FATHOMS[i + 1][key] * t
 }
 // Ground truth: the live waypoints open the real page.
@@ -181,16 +188,32 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // id -> { t: time the droplet landed, gone: time it was removed (rings fade) }
     drops: new Map<string, { t: number; gone: number }>(),
     redraw: () => {},
-    depth: 3,
+    resize: () => {},
+    depth: HOME_DEPTH,
+    full: false,
+    cam: null as Cam | null,
+    fog: 1,
+    // Option-scroll sets visibility by hand; null follows engagement.
+    fogOverride: null as number | null,
+    // Macro zoom: double-click dives seven fathoms into a point, which becomes a
+    // new null origin (Ø) and the ladder starts again from its vantage. Infinite.
+    nest: 0,
+    origin: null as { u: number; v: number } | null,
+    dive: null as { t0: number; u: number; v: number } | null,
+    entered: 0,
+    pick: (() => null) as (x: number, y: number) => { u: number; v: number } | null,
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
   const [ring, setRing] = useState(false)
   const coarse = useSyncExternalStore(subscribeCoarse, () => window.matchMedia("(pointer: coarse)").matches, () => false)
-  const [depth, setDepthUi] = useState(3)
+  const [depth, setDepthUi] = useState(HOME_DEPTH)
   const [picked, setPicked] = useState<string | null>(null)
   const [drawer, setDrawer] = useState(false)
   const [narrow, setNarrow] = useState(false)
+  // Full HUD: the field takes the whole viewport, zoomed in at Fathom 4.
+  const [full, setFull] = useState(false)
+  const toggleFull = useCallback(() => setFull((f) => !f), [])
   useEffect(() => {
     const el = wrapRef.current
     if (!el) return
@@ -203,10 +226,37 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   // One dial: altitude and fidelity together. Integers snap, scroll is continuous.
   const setDepth = useCallback((n: number) => {
     const c = control.current
-    const d = clamp(n, 1, 5)
+    const d = clamp(n, 1, NF)
     c.depth = d
     tgt.current = { ...tgt.current, pitch: atDepth(d, "pitch"), dist: atDepth(d, "dist"), zoom: atDepth(d, "zoom") }
     setDepthUi(Math.round(d))
+    c.redraw()
+  }, [])
+
+  useEffect(() => {
+    const c = control.current
+    c.full = full
+    c.resize()
+    if (!full) return
+    // Entering the HUD zooms in one fathom (to at least F5, Tactical); leaving keeps the depth.
+    if (c.depth < 5) setDepth(5)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    canvasRef.current?.focus({ preventScroll: true })
+    return () => { document.body.style.overflow = prev }
+  }, [full, setDepth])
+
+  const hudRead = useCallback((): HudRead => {
+    const c = control.current
+    return { yaw: -(c.cam?.yaw ?? tgt.current.yaw), depth: c.depth, fog: c.fog, clear: target.current.clear, nest: c.nest, origin: c.origin }
+  }, [])
+  // Steer: turn the view onto a bearing (degrees) and hold it there.
+  const steer = useCallback((deg: number) => {
+    const c = control.current, t = tgt.current
+    // The canvas reads heading as -yaw.
+    const want = (-deg * Math.PI) / 180
+    t.yaw += ((((want - t.yaw) % TAU) + TAU * 1.5) % TAU) - Math.PI
+    c.pausedUntil = performance.now() + 20000
     c.redraw()
   }, [])
 
@@ -270,6 +320,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     // The first overlays settle in as droplets, a beat apart.
     DEFAULT_ON.forEach((id, i) => ctl.drops.set(id, { t: t0 + 300 + i * 260, gone: 0 }))
     const cam: Cam = { ...tgt.current }
+    ctl.cam = cam
     const st = { sw: 800, sh: 200, fog: target.current.fog, nav: target.current.clear ? 1 : 0, scale: 1, visible: true, raf: 0, last: 0, hint: 0, depth: ctl.depth }
     const ptr = { x: 0, y: 0, on: false, since: 0, down: false, mode: "orbit" as "orbit" | "pan", lx: 0, ly: 0, moved: 0 }
     const speck = mulberry32(11)
@@ -281,7 +332,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       // A wide band: ~3:1 desktop, ~2.1:1 tablet, 1.3:1 phone. The
       // canvas draws in CSS pixels so HUD text stays legible at any height.
       const aspect = w >= 900 ? 3 : w >= 600 ? 2.1 : 1.3
-      const h = Math.round(w / aspect)
+      const h = ctl.full ? window.innerHeight : Math.round(w / aspect)
       canvas.width = Math.round(w * dpr)
       canvas.height = Math.round(h * dpr)
       canvas.style.height = `${h}px`
@@ -289,8 +340,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       st.sw = w; st.sh = h
     }
     resize()
+    ctl.resize = () => { resize(); draw(performance.now()) }
     const ro = new ResizeObserver(() => { resize(); draw(performance.now()) })
     ro.observe(wrap)
+    const onWin = () => { if (ctl.full) { resize(); draw(performance.now()) } }
+    window.addEventListener("resize", onWin)
     const io = new IntersectionObserver(([e]) => { st.visible = e.isIntersecting })
     io.observe(canvas)
 
@@ -349,12 +403,23 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     }
     const onLeave = () => { ptr.on = false; if (reduced) draw(performance.now()) }
     const onWheel = (ev: WheelEvent) => {
-      if (ev.altKey) { ev.preventDefault(); touch(); dollyBy(Math.exp(ev.deltaY * 0.0018)) }
+      // Option scroll: visibility. Option+Shift scroll: dolly (macOS moves shift-wheel to deltaX).
+      if (ev.altKey && ev.shiftKey) { ev.preventDefault(); touch(); dollyBy(Math.exp((ev.deltaY || ev.deltaX) * 0.0018)) }
+      else if (ev.altKey) { ev.preventDefault(); touch(); ctl.fogOverride = clamp((ctl.fogOverride ?? st.fog) + ev.deltaY * 0.0025, 0, 1) }
       else if (ev.ctrlKey || ev.metaKey) { ev.preventDefault(); touch(); setDepth(ctl.depth - ev.deltaY * 0.004) }
       else { st.hint = performance.now(); return }
       if (reduced) draw(performance.now())
     }
-    const onDbl = () => { focusOn(null); setDepth(3) }
+    const onDbl = (ev: MouseEvent) => {
+      const p = local(ev)
+      const hit = ctl.pick(p.x, p.y)
+      if (!hit || ctl.dive) return
+      touch()
+      ctl.dive = { t0: performance.now(), u: hit.u, v: hit.v }
+      tgt.current = { ...tgt.current, pu: hit.u, pv: hit.v }
+      ctl.pausedUntil = performance.now() + 60000
+      setDepth(NF)
+    }
     const onKey = (ev: KeyboardEvent) => {
       // Keys work from anywhere in the figure (the drawer covers the map), never from a text field.
       const tgtEl = ev.target as HTMLElement
@@ -371,7 +436,10 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "-": case "_": setDepth(ctl.depth - 0.5); break
         case "]": setDepth(Math.floor(ctl.depth) + 1); break
         case "[": setDepth(Math.ceil(ctl.depth) - 1); break
-        case "0": case "Escape": focusOn(null); setDepth(3); break
+        case "f": case "F": setFull((f) => !f); break
+        case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
+        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.dive = null; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -394,10 +462,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       const tg = target.current
       const isClear = tg.clear
       const ease = (ms: number) => (reduced ? 1 : 1 - Math.exp(-dt / ms))
-      st.fog += (tg.fog - st.fog) * ease(420)
+      st.fog += ((ctl.fogOverride ?? tg.fog) - st.fog) * ease(420)
       st.nav += ((isClear ? 1 : 0) - st.nav) * ease(900)
       st.depth += (ctl.depth - st.depth) * ease(500)
-      const dep = st.depth
+      const dep = fid(st.depth)
+      ctl.fog = st.fog
       const fogv = st.fog, clarity = 1 - fogv
       if (!reduced && now > ctl.pausedUntil) tgt.current.yaw += (dt / ORBIT_MS) * TAU
       const ce = ease(260)
@@ -418,6 +487,21 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         const d = D + zc
         if (d < 0.25) return null
         return { x: CX + (F * x1) / d, y: CY - (F * yc) / d, d }
+      }
+      ctl.pick = (x, y) => {
+        let best: Pt | null = null, bd = 28 * 28
+        for (const q of cloud) { const s2 = proj(q.u, q.h, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bd) { bd = dd; best = q } }
+        return best ? { u: best.u, v: best.v } : null
+      }
+      // Re-entry: the dive has reached the grain, so the point becomes the new origin
+      // and the camera re-enters at F1 of the next nest, inheriting that vantage.
+      if (ctl.dive && now - ctl.dive.t0 > 1400) {
+        const d = ctl.dive
+        ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.entered = now
+        ctl.depth = 1; st.depth = 1
+        const k = { pitch: atDepth(1, "pitch"), dist: atDepth(1, "dist"), zoom: atDepth(1, "zoom"), pu: d.u, pv: d.v }
+        Object.assign(cam, k); Object.assign(tgt.current, k)
+        setDepth(1)
       }
       const path = (pts: ({ x: number; y: number } | null)[]) => {
         ctx.beginPath()
@@ -586,6 +670,24 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         }
       }
 
+      // The null origin of the current nest: a hollow ring and Ø with its depth.
+      if (ctl.origin) {
+        const o = ctl.origin, ob = proj(o.u, height(o.u, o.v), o.v)
+        if (ob) {
+          const age = (now - ctl.entered) / 1000
+          ctx.strokeStyle = rgba(signal.gold, 0.9); ctx.lineWidth = 1.2
+          ctx.beginPath(); ctx.arc(ob.x, ob.y, 7, 0, TAU); ctx.stroke()
+          ctx.beginPath(); ctx.moveTo(ob.x - 5, ob.y + 5); ctx.lineTo(ob.x + 5, ob.y - 5); ctx.stroke()
+          if (age < 1.6) { ctx.strokeStyle = rgba(signal.gold, 0.6 * (1 - age / 1.6)); ctx.beginPath(); ctx.arc(ob.x, ob.y, 7 + age * 140, 0, TAU); ctx.stroke() }
+          ctx.font = `600 9px ${font.mono}`; ctx.textAlign = "left"; ctx.fillStyle = rgba(signal.gold, 0.95)
+          ctx.fillText(`Ø${ctl.nest} · NULL ORIGIN`, ob.x + 11, ob.y + 3)
+        }
+      }
+      // Re-entry flash: the grain opens into a new field.
+      if (ctl.entered && now - ctl.entered < 500) {
+        ctx.fillStyle = rgba("#e2e8f0", 0.22 * (1 - (now - ctl.entered) / 500)); ctx.fillRect(0, 0, SW, SH)
+      }
+
       // You: the navigator. Climbs the terraces to the apex once the row exists.
       const nh = height(nu, nvv)
       const nb = proj(nu, nh, nvv), nt = proj(nu, nh + 0.42, nvv)
@@ -633,7 +735,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
 
       // HUD: a frame, a heading, depth and clarity. Nothing that does not orient you.
       {
-        const fi = clamp(Math.round(dep), 1, 5) - 1, F0 = FATHOMS[fi]
+        const fi = clamp(Math.round(st.depth), 1, NF) - 1, F0 = FATHOMS[fi]
         ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"
         ctx.fillStyle = rgba("#94a3b8", 0.9)
         ctx.fillText(`F${F0.n} · ${F0.name.toUpperCase()}`, 20, 26)
@@ -643,13 +745,13 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         const lx = 18, ly0 = Math.max(64, SH * 0.26), ly1 = SH - BAR_H - 26
         ctx.strokeStyle = rgba("#94a3b8", 0.3); ctx.lineWidth = 1
         ctx.beginPath(); ctx.moveTo(lx, ly0); ctx.lineTo(lx, ly1); ctx.stroke()
-        for (let i = 0; i < 5; i++) {
-          const y = ly0 + (i / 4) * (ly1 - ly0)
+        for (let i = 0; i < NF; i++) {
+          const y = ly0 + (i / (NF - 1)) * (ly1 - ly0)
           ctx.beginPath(); ctx.moveTo(lx - 3, y); ctx.lineTo(lx + 3, y); ctx.stroke()
           ctx.fillStyle = rgba(i === fi ? "#e2e8f0" : "#64748b", i === fi ? 1 : 0.8)
           ctx.fillText(`F${i + 1}`, lx + 7, y + 3)
         }
-        const my = ly0 + ((dep - 1) / 4) * (ly1 - ly0)
+        const my = ly0 + ((st.depth - 1) / (NF - 1)) * (ly1 - ly0)
         ctx.fillStyle = signal.cyan
         ctx.beginPath(); ctx.moveTo(lx - 7, my - 3.5); ctx.lineTo(lx - 2, my); ctx.lineTo(lx - 7, my + 3.5); ctx.closePath(); ctx.fill()
       }
@@ -708,6 +810,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       cancelAnimationFrame(st.raf)
       if (redraw) clearInterval(redraw)
       ro.disconnect(); io.disconnect()
+      window.removeEventListener("resize", onWin)
       canvas.removeEventListener("pointerdown", onDown)
       canvas.removeEventListener("pointermove", onMove)
       canvas.removeEventListener("pointerup", onUp)
@@ -717,18 +820,18 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       fig?.removeEventListener("keydown", onKey)
       canvas.removeEventListener("contextmenu", noMenu)
     }
-  }, [focusOn, setDepth])
+  }, [focusOn, setDepth, steer])
 
   const shown = WAYPOINTS.filter((w) => overlays.includes(w.id))
   const pickedW = picked && overlays.includes(picked) ? WAYPOINTS.find((w) => w.id === picked) : null
   const added = pickedW ?? (lastAdded && overlays.includes(lastAdded) ? WAYPOINTS.find((w) => w.id === lastAdded) : null)
-  const groundHref = depth === 5 && added ? HREF[added.id] : undefined
+  const groundHref = depth >= 6 && added ? HREF[added.id] : undefined
   const note = added
     ? `${added.label}: ${added.note}.`
     : shown.length
       ? `On the field: ${shown.map((w) => w.label).join(", ")}.`
       : "Add overlays to the field."
-  const label = `A sketch of the ARCS field as stepped terrain. Lower terraces hold what exists now, upper terraces what comes next and later. Showing: ${shown.map((w) => w.label).join(", ") || "nothing"}. ${clear ? "Clear; you stand on the apex." : "Under fog; you wait at the edge."} Arrow keys orbit and tilt, brackets change depth across five fathoms, 0 resets.`
+  const label = `A sketch of the ARCS field as stepped terrain. Lower terraces hold what exists now, upper terraces what comes next and later. Showing: ${shown.map((w) => w.label).join(", ") || "nothing"}. ${clear ? "Clear; you stand on the apex." : "Under fog; you wait at the edge."} Arrow keys orbit and tilt, brackets change depth across seven fathoms, 0 resets.`
   const mono: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase", whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }
 
   const drawerId = "field-drawer"
@@ -737,7 +840,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const glass: React.CSSProperties = { background: "rgba(2,5,10,0.58)", backdropFilter: "blur(3px)", WebkitBackdropFilter: "blur(3px)" }
 
   return (
-    <figure ref={figRef} style={{ position: "relative", margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
+    <figure ref={figRef} style={full
+      ? { position: "fixed", inset: 0, zIndex: 1000, margin: 0, border: "none", borderRadius: 0, background: "#02050a", overflow: "hidden" }
+      : { position: "relative", margin: 0, border: `1px solid ${border.subtle}`, borderRadius: 10, background: "#02050a", overflow: "hidden" }}>
       <div ref={wrapRef} style={{ width: "100%", lineHeight: 0 }}>
         <canvas
           ref={canvasRef}
@@ -746,9 +851,11 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           aria-label={label}
           onFocus={(e) => setRing(e.currentTarget.matches(":focus-visible"))}
           onBlur={() => setRing(false)}
-          style={{ display: "block", width: "100%", cursor: "grab", touchAction: "pan-y", outline: ring ? `1px solid ${signal.cyan}` : "none", outlineOffset: -2 }}
+          style={{ display: "block", width: "100%", cursor: "grab", touchAction: full ? "none" : "pan-y", outline: ring ? `1px solid ${signal.cyan}` : "none", outlineOffset: -2 }}
         />
       </div>
+
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} levels={LEVELS} onSteer={steer} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div
@@ -811,14 +918,14 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
           <span style={{ ...mono, color: zoneColor }}>Zone · {zone} · Visibility {Math.round((1 - fog) * 100)}%</span>
           <span style={{ ...mono, color: text.dimmed, whiteSpace: "normal" }}>
-            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll to dolly · Click a waypoint to fly to it · Double click or 0 to reset · Clarity rises as you engage and fills when you join"}
+            {coarse ? "Drag to look around · Tap a waypoint to fly to it · Clarity fills when you join" : "Drag or arrows to orbit · Shift drag to pan · ⌘ scroll, [ ] or + − for depth · Option scroll for visibility · Option Shift scroll to dolly · Click a waypoint to fly to it · Double click a point to dive seven fathoms into it · 0 to reset · F for full HUD · Clarity rises as you engage and fills when you join"}
           </span>
         </div>
       </div>
 
       {/* The bar: depth and the drawer toggle, laid over the field's bottom edge. */}
       <figcaption style={{ ...bar, position: "absolute", left: 0, right: 0, bottom: 0, height: BAR_H, display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem", padding: "0 0.6rem 0 0.75rem", borderTop: `1px solid ${border.subtle}` }}>
-        <div role="group" aria-label="Depth, five fathoms" style={{ display: "flex", alignItems: "center", gap: "0.25rem", minWidth: 0 }}>
+        <div role="group" aria-label="Depth, seven fathoms" style={{ display: "flex", alignItems: "center", gap: "0.25rem", minWidth: 0 }}>
           {FATHOMS.map((f) => {
             const on = depth === f.n
             return (
@@ -841,6 +948,20 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           })}
           {!coarse && !narrow && <span style={{ ...mono, color: text.secondary, marginLeft: "0.4rem", overflow: "hidden", textOverflow: "ellipsis" }}>{FATHOMS[depth - 1].name}</span>}
         </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", flexShrink: 0 }}>
+        <button
+          type="button"
+          aria-pressed={full}
+          aria-label={full ? "Exit full HUD" : "Full HUD"}
+          title={full ? "Exit full HUD (Esc)" : "Full HUD (F)"}
+          onClick={toggleFull}
+          style={{ ...mono, display: "inline-flex", alignItems: "center", gap: 8, minHeight: 28, padding: "4px 10px", borderRadius: 3, cursor: "pointer", color: full ? text.primary : text.secondary, background: full ? "rgba(0,240,255,0.12)" : "transparent", border: `1px solid ${full ? "rgba(0,240,255,0.55)" : border.subtle}` }}
+        >
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+            <path d={full ? "M4 1v3H1M6 1v3h3M4 9V6H1M6 9V6h3" : "M1 4V1h3M9 4V1H6M1 6v3h3M9 6v3H6"} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {!narrow && (full ? "Exit HUD" : "Full HUD")}
+        </button>
         <button
           type="button"
           aria-expanded={drawer}
@@ -853,6 +974,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
             <path d="M1.5 6.5L5 3l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
+        </div>
       </figcaption>
     </figure>
   )
