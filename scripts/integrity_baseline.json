@@ -7,6 +7,9 @@
    "path|runtime/specs/tool-catalog",
    "path|src/lib/gigi.ts"
   ],
+  "CLAUDE.md": [
+   "path|scripts/dependency_sweep.py"
+  ],
   "MEMORY.md": [
    "commit|47b86cd1",
    "commit|caafa7eb"
@@ -220,12 +223,14 @@
   "_PATTERNS/drift-audits/2026-08-10.md": [
    "path|docs/state",
    "path|public/kelly-interview.html",
+   "path|public/prl-chatbot.html",
    "path|runtime/recoil/generated/2026-08-05-todd-SESSION-HANDOFF.md"
   ],
   "_PATTERNS/drift-audits/2026-08-17.md": [
    "path|docs/state",
    "path|public/ayesha.html",
-   "path|public/kelly-interview.html"
+   "path|public/kelly-interview.html",
+   "path|public/prl-chatbot.html"
   ],
   "_PATTERNS/drift-audits/2026-08-24.md": [
    "path|prisma/config",
@@ -275,7 +280,8 @@
    "path|public/blog-nftt-",
    "path|public/louisville-brooks-war.html",
    "path|public/prl-",
-   "path|public/prl-status-"
+   "path|public/prl-status-",
+   "path|public/surfaces.html"
   ],
   "_PATTERNS/ledger.json": [
    "path|public/arcs_recoil_canvas.py",
@@ -616,6 +622,7 @@
    "path|public/resume-tailor-manifest.json",
    "path|public/resume-tailor-pwa.html",
    "path|public/resume-tailor-sw.js",
+   "path|scripts/gen_tailor_icons.py",
    "script|esm.sh"
   ],
   "_STATE/cold-start-v3.1.0.md": [
@@ -676,7 +683,8 @@
   "_STATE/handoff-2026-09-10.md": [
    "path|_INBOX/roles/",
    "path|docs/resume-tailor-theming-engine-spec.md",
-   "path|public/static-serve.py"
+   "path|public/static-serve.py",
+   "path|scripts/gen_tailor_icons.py"
   ],
   "_STATE/handoff-2026-09-11-cross-harness-pickup.md": [
    "adr|ADR-021",
@@ -686,12 +694,14 @@
   ],
   "_STATE/handoff-2026-09-11-forge-queue-runbook.md": [
    "path|_ARTIFACTS/forge-",
-   "path|public/static-serve.py"
+   "path|public/static-serve.py",
+   "path|scripts/gen_tailor_icons.py"
   ],
   "_STATE/handoff-excavation/salvage-ledger.jsonl": [
    "commit|abb6aedb",
    "path|_DECISIONS/ADR-009",
    "path|public/blog-nftt-tribes-vibes-lies.html",
+   "path|scripts/idea_montecarlo.py",
    "path|src/app/api/reading-room",
    "script|vercel.ts"
   ],
@@ -775,7 +785,12 @@
    "path|_DECISIONS/CANON-COLLISION-",
    "path|operators/sage",
    "path|public/kelly-interview.html",
-   "path|scripts/cold_reader_gate.py"
+   "path|scripts/cold_reader_gate.py",
+   "path|scripts/idea_montecarlo.py"
+  ],
+  "_STATE/nftt-contrast-baseline.json": [
+   "path|public/blog-nftt-post-1-brief.html",
+   "path|public/blog-nftt-post-1-exec.html"
   ],
   "_STATE/night-moves/2026-08-10.md": [
    "adr|ADR-043",
@@ -842,6 +857,10 @@
   "_STATE/night-moves/2026-10-05.md": [
    "path|scripts/dependency_sweep.py",
    "script|dependency_sweep.py"
+  ],
+  "_STATE/night-moves/2026-10-07.md": [
+   "commit|c6ed0833",
+   "path|scripts/dependency_sweep.py"
   ],
   "_STATE/orchestration-layer-spec.md": [
    "path|operators/concepts"
