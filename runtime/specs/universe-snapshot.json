@@ -319,10 +319,10 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 3,
-     "active_days": 2,
-     "last_change": "2026-10-06",
-     "last_28d": 1
+     "file_commits": 4,
+     "active_days": 3,
+     "last_change": "2026-10-07",
+     "last_28d": 2
     }
    },
    "galaxy": "runtime/specs/universe/nci.json",
@@ -330,7 +330,7 @@
     "corpus": 0,
     "canon": 1,
     "codebase": 0,
-    "files": 3
+    "files": 4
    }
   },
   {
@@ -1157,10 +1157,10 @@
      "lib": 0.667
     },
     "frequency": {
-     "file_commits": 69,
-     "active_days": 31,
-     "last_change": "2026-10-06",
-     "last_28d": 27
+     "file_commits": 70,
+     "active_days": 32,
+     "last_change": "2026-10-07",
+     "last_28d": 28
     }
    },
    "galaxy": "runtime/specs/universe/drift.json",
@@ -1168,7 +1168,7 @@
     "corpus": 13,
     "canon": 2,
     "codebase": 5,
-    "files": 25
+    "files": 26
    }
   },
   {
@@ -1191,9 +1191,9 @@
      "lib": 0.333
     },
     "frequency": {
-     "file_commits": 44,
-     "active_days": 24,
-     "last_change": "2026-10-04",
+     "file_commits": 45,
+     "active_days": 25,
+     "last_change": "2026-10-07",
      "last_28d": 8
     }
    },
@@ -1202,7 +1202,7 @@
     "corpus": 13,
     "canon": 1,
     "codebase": 1,
-    "files": 24
+    "files": 25
    }
   },
   {
@@ -1395,10 +1395,10 @@
      "lib": 0.25
     },
     "frequency": {
-     "file_commits": 492,
+     "file_commits": 493,
      "active_days": 58,
      "last_change": "2026-10-07",
-     "last_28d": 94
+     "last_28d": 95
     }
    },
    "galaxy": "runtime/specs/universe/recoil.json",
@@ -1406,7 +1406,7 @@
     "corpus": 27,
     "canon": 4,
     "codebase": 39,
-    "files": 236
+    "files": 237
    }
   },
   {
@@ -1429,10 +1429,10 @@
      "lib": 0.667
     },
     "frequency": {
-     "file_commits": 3,
-     "active_days": 2,
-     "last_change": "2026-10-03",
-     "last_28d": 1
+     "file_commits": 4,
+     "active_days": 3,
+     "last_change": "2026-10-07",
+     "last_28d": 2
     }
    },
    "galaxy": "runtime/specs/universe/atg.json",
@@ -1440,7 +1440,7 @@
     "corpus": 0,
     "canon": 0,
     "codebase": 0,
-    "files": 2
+    "files": 3
    }
   },
   {

@@ -269,6 +269,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     trail: [] as { u: number; v: number; node: string | null; nest: number; kind: "dive" | "hop" | "bank"; leave: Cam & { depth: number } }[],
     leaving: null as (Cam & { depth: number }) | null,
     lookAt: null as string | null, // the lattice node nearest the centre of the view
+    galaxy: null as string | null, // inside a node's bundle after diving into it
   })
   const [overlays, setOverlays] = useState<string[]>(DEFAULT_ON)
   const [lastAdded, setLastAdded] = useState<string | null>(null)
@@ -329,7 +330,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           look: c.lookAt && c.lookAt !== here ? name(c.lookAt) : null,
           leg: last ? { from: name(prev), verb: verb!, to: name(last.node) } : null,
         }
-      })(), holds: c.universe ? holds(c.originNode ?? universe.null_origin, c.fog) : [], bankUp: c.universe ? bankTarget(c.originNode ?? universe.null_origin, 1, c.fog, -(c.cam?.yaw ?? 0)) : null, bankDown: c.universe ? bankTarget(c.originNode ?? universe.null_origin, -1, c.fog, -(c.cam?.yaw ?? 0)) : null }
+      })(), holds: c.universe && !c.galaxy ? holds(c.originNode ?? universe.null_origin, c.fog) : [], bankUp: c.universe && !c.galaxy ? bankTarget(c.originNode ?? universe.null_origin, 1, c.fog, -(c.cam?.yaw ?? 0)) : null, bankDown: c.universe && !c.galaxy ? bankTarget(c.originNode ?? universe.null_origin, -1, c.fog, -(c.cam?.yaw ?? 0)) : null, galaxy: c.galaxy ? UBY[c.galaxy] : null }
   }, [])
   // Steer: turn the view onto a bearing (degrees) and hold it there.
   const steer = useCallback((deg: number) => {
@@ -350,6 +351,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
     const last = c.trail[c.trail.length - 1]
     c.nest = last?.nest ?? 0; c.origin = last ? { u: last.u, v: last.v } : null; c.originNode = last?.node ?? null
     c.dive = null; c.entered = performance.now()
+    c.galaxy = last?.kind === "dive" && last.node && UBY[last.node]?.systems ? last.node : null
     const { depth: d, ...cam } = leave
     tgt.current = { ...cam }
     c.depth = d; setDepthUi(Math.round(d))
@@ -370,12 +372,12 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const hop = useCallback((id: string) => {
     const c = control.current
     const h = holds(c.originNode ?? universe.null_origin, c.fog).find((x) => x.id === id)
-    if (h?.state === "open") go(id, "hop")
+    if (h?.state === "open" && !c.galaxy) go(id, "hop")
   }, [go])
   const bank = useCallback((dir: 1 | -1) => {
     const c = control.current
     const b = bankTarget(c.originNode ?? universe.null_origin, dir, c.fog, -(c.cam?.yaw ?? 0))
-    if (b?.state === "open") go(b.id, "bank")
+    if (b?.state === "open" && !c.galaxy) go(b.id, "bank")
   }, [go])
 
   const focusOn = useCallback((id: string | null) => {
@@ -566,8 +568,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "u": case "U": ctl.universe = !ctl.universe; break
         case "Backspace": backTo(ctl.trail.length - 1); break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
-        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; focusOn(null); setDepth(HOME_DEPTH); break
-        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; focusOn(null); setDepth(HOME_DEPTH); break
+        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
       if (hit) { ev.preventDefault(); touch(); if (reduced) draw(performance.now()) }
@@ -617,7 +619,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         return { x: CX + (F * x1) / d, y: CY - (F * yc) / d, d }
       }
       ctl.pick = (x, y) => {
-        if (ctl.universe) {
+        if (ctl.universe && !ctl.galaxy) {
           let bn: string | null = null, bnd = 36 * 36
           for (const n of universe.nodes) { const q = UPOS[n.id], s2 = proj(q.u, height(q.u, q.v) + 0.06, q.v); if (!s2) continue; const dd = (s2.x - x) ** 2 + (s2.y - y) ** 2; if (dd < bnd) { bnd = dd; bn = n.id } }
           if (bn) return { ...UPOS[bn], node: bn }
@@ -632,6 +634,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         const d = ctl.dive
         ctl.dive = null; ctl.nest += 1; ctl.origin = { u: d.u, v: d.v }; ctl.originNode = d.node; ctl.entered = now
         ctl.trail.push({ u: d.u, v: d.v, node: d.node, nest: ctl.nest, kind: "dive", leave: ctl.leaving ?? { ...tgt.current, depth: HOME_DEPTH } })
+        ctl.galaxy = d.node && UBY[d.node]?.systems ? d.node : null
         ctl.depth = 1; st.depth = 1
         const k = { pitch: atDepth(1, "pitch"), dist: atDepth(1, "dist"), zoom: atDepth(1, "zoom"), pu: d.u, pv: d.v }
         Object.assign(cam, k); Object.assign(tgt.current, k)
@@ -776,7 +779,25 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
       markers.length = 0
       ctx.font = `600 9px ${font.mono}`
       const placed: { x: number; y: number; w: number; h: number }[] = []
-      if (ctl.universe) {
+      if (ctl.universe && ctl.galaxy && ctl.origin) {
+        ctl.lookAt = null // inside a galaxy you face its systems, not a lattice node
+        // Inside a galaxy: its systems orbit the null origin, sized by file count (counts only,
+        // from the public projection; the bundle's file paths never reach the page).
+        const g = UBY[ctl.galaxy], sys = Object.entries(g.systems ?? {}) as [string, number][]
+        const o = ctl.origin, oh = height(o.u, o.v) + 0.06, os = proj(o.u, oh, o.v)
+        ctx.font = `600 9px ${font.mono}`; ctx.textAlign = "left"; ctx.textBaseline = "middle"
+        sys.forEach(([name, n], i) => {
+          const a = (i / sys.length) * TAU - Math.PI / 2, rr = 0.16 + 0.1 * (i % 2)
+          const p2 = proj(o.u + Math.cos(a) * rr, oh, o.v + Math.sin(a) * rr); if (!p2 || !os) return
+          ctx.strokeStyle = rgba(DOMAIN_COLOR[g.domain] ?? signal.cyan, 0.25); ctx.lineWidth = 0.8
+          ctx.beginPath(); ctx.moveTo(os.x, os.y); ctx.lineTo(p2.x, p2.y); ctx.stroke()
+          const rad = 2.5 + Math.sqrt(n) * 0.9
+          ctx.fillStyle = rgba(DOMAIN_COLOR[g.domain] ?? signal.cyan, 0.8)
+          ctx.beginPath(); ctx.arc(p2.x, p2.y, rad, 0, TAU); ctx.fill()
+          ctx.fillStyle = rgba("#e2e8f0", 0.9)
+          ctx.fillText(`${name.toUpperCase()} · ${n}`, p2.x + rad + 4, p2.y)
+        })
+      } else if (ctl.universe) {
         // Edges first, faint; then nodes. Glyph: diamond = >=4 domains confirm it; solid = proven
         // (status ok); hollow ring = still open (true / shore / gate). Size grows with mapped files.
         ctx.lineWidth = 0.6

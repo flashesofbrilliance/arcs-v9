@@ -17,6 +17,7 @@ import universe from "@/data/universe-field.json"
 
 type UNode = (typeof universe.nodes)[number]
 export type HudRead = { yaw: number; depth: number; fog: number; clear: boolean; nest: number; origin: { u: number; v: number } | null; universe: boolean; node: UNode | null; trail: string[]; holds: Hold[]; bankUp: Hold | null; bankDown: Hold | null
+  galaxy: UNode | null
   gps: { here: string; at: string; look: string | null; leg: { from: string; verb: string; to: string } | null } | null }
 type Hold = { id: string; label: string; state: "open" | "blocked" | "obscured" }
 type Fathom = { n: number; name: string; altitude: string; resolution: string }
@@ -45,6 +46,27 @@ const panel: React.CSSProperties = {
 }
 const label: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t2, textTransform: "uppercase", color: text.dimmed, whiteSpace: "nowrap" }
 const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, color: text.primary, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }
+
+// A node's signature: altitude (stratum), resonance (domain mix of its lattice neighbours, one
+// bar per domain), frequency (commits on its files). No signal when a node has no mapped files.
+const DOM_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
+function Signature({ n }: { n: UNode }) {
+  const f = n.sig.frequency
+  const mix = Object.entries(n.sig.resonance as Record<string, number>)
+  const strata = universe.federation.strata as Record<string, string>
+  const cell = (k: string, v: React.ReactNode) => (
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0", borderTop: `1px solid ${faint}` }}><span style={label}>{k}</span><span style={{ ...label, color: text.primary }}>{v}</span></div>)
+  return (
+    <>
+      {cell("Altitude", strata[n.sig.altitude] ?? n.sig.altitude)}
+      {cell("Resonance", mix.length ? (
+        <span style={{ display: "inline-flex", width: 96, height: 6, background: "#0b1016", borderRadius: 1, overflow: "hidden" }} title={mix.map(([k, v]) => `${k} ${Math.round(v * 100)}%`).join(" · ")}>
+          {mix.map(([k, v]) => <span key={k} style={{ width: `${v * 100}%`, background: DOM_COLOR[k] }} />)}
+        </span>) : "No signal")}
+      {cell("Frequency", f.last_change ? `${f.last_28d} / 28d · ${f.last_change}` : "No signal")}
+    </>
+  )
+}
 
 // Four machined screw heads, one per corner.
 function Screws() {
@@ -80,7 +102,7 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
 
 export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
   // Defaults keep the HUD whole if a reader omits a field (a hot reload can pair a new HUD with an old reader).
-  const safeRead = useCallback((): HudRead => ({ yaw: 0, depth: 4, fog: 1, clear: false, nest: 0, origin: null, universe: false, node: null, trail: [], holds: [], bankUp: null, bankDown: null, gps: null, ...(read() as Partial<HudRead>) }), [read])
+  const safeRead = useCallback((): HudRead => ({ yaw: 0, depth: 4, fog: 1, clear: false, nest: 0, origin: null, universe: false, node: null, trail: [], holds: [], bankUp: null, bankDown: null, galaxy: null, gps: null, ...(read() as Partial<HudRead>) }), [read])
   const [r, setR] = useState<HudRead>(safeRead)
   const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
   useEffect(() => { const on = () => setVw(window.innerWidth); window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
@@ -190,6 +212,12 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
           <div style={{ ...panel, right: 16, top: 250, width: 248, maxHeight: "calc(100% - 350px)", overflowY: "auto", overflowX: "hidden", pointerEvents: "auto" }}>
             <Screws />
             <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Universe</span><span style={label}>lattice {universe.lattice_reviewed}</span></div>
+            {r.galaxy && (
+              <div style={{ marginBottom: 8, paddingBottom: 6, borderBottom: `1px solid ${signal.gold}66` }}>
+                <div style={{ ...label, color: signal.gold, whiteSpace: "normal", marginBottom: 4 }}>Inside galaxy · {r.galaxy.label}</div>
+                {Object.entries(r.galaxy.systems ?? {}).map(([k, v]) => row(k, `${v} files`))}
+              </div>
+            )}
             {row("Corpus", `${d.corpus} files`)}
             {row("Canon", `${d.canon.files} · ${d.canon.tao_proverbs} tao · ${d.canon.adrs} ADR`)}
             {row("Codebase", `${d.codebase} files`)}
@@ -206,6 +234,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
                 {row("Hardness", `${r.node.hardness}${r.node.diamond ? " · diamond" : ""}`)}
                 {row("Open shore", String(r.node.shore_open))}
                 {row("Mapped files", String(r.node.files))}
+                <Signature n={r.node} />
               </div>
             )}
           </div>
@@ -220,7 +249,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
             <span style={label}>You are at</span>
             <span style={{ ...value, whiteSpace: "normal", color: signal.gold }}>{r.gps.here}{r.gps.at && <span style={{ ...label, marginLeft: 8 }}>{r.gps.at}</span>}</span>
             <span style={label}>Looking at</span>
-            <span style={{ ...value, whiteSpace: "normal" }}>{r.gps.look ?? "your own vantage"}</span>
+            <span style={{ ...value, whiteSpace: "normal" }}>{r.gps.look ?? (r.galaxy ? `the systems inside ${r.galaxy.label}` : "your own vantage")}</span>
             <span style={label}>Last leg</span>
             <span style={{ ...value, whiteSpace: "normal", fontWeight: 500 }}>{r.gps.leg ? <>{r.gps.leg.from} <span style={{ color: text.dimmed }}>{r.gps.leg.verb}</span> {r.gps.leg.to}</> : <span style={{ color: text.dimmed }}>none yet: hop, bank or double-click to dive</span>}</span>
           </div>

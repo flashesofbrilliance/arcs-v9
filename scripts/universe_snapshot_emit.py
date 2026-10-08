@@ -225,7 +225,7 @@ def build(files: list[str]) -> dict:
     }
 
 
-def project(snap: dict) -> dict:
+def project(snap: dict, gal: dict) -> dict:
     keep = ("id", "label", "stratum", "domain", "status", "shore_open", "hardness", "diamond", "invariant")
     return {
         "version": snap["version"], "lattice_reviewed": snap["lattice_reviewed"], "null_origin": snap["null_origin"],
@@ -233,7 +233,8 @@ def project(snap: dict) -> dict:
         "dimensions": {k: v for k, v in snap["dimensions"].items()},
         "sources": {"count": len(snap["sources"]), "private": sum(s["private"] for s in snap["sources"])},
         "rooms": [r["tenant"] for r in snap["reading_room"]],
-        "nodes": [dict({k: n[k] for k in keep}, files=n["population"]["files"], sig=n["signature"], galaxy=bool(n["galaxy"])) for n in snap["nodes"]],
+        "nodes": [dict({k: n[k] for k in keep}, files=n["population"]["files"], sig=n["signature"],
+                       systems=gal[n["id"]]["systems"] if n["id"] in gal else None) for n in snap["nodes"]],
         "edges": snap["edges"],
     }
 
@@ -247,7 +248,7 @@ def main() -> int:
     gal = snap.pop("_galaxies")
     gbodies = {GALAXIES / f"{k}.json": json.dumps(v, indent=1, ensure_ascii=False) + "\n" for k, v in gal.items()}
     body = json.dumps(snap, indent=1, ensure_ascii=False) + "\n"
-    field = json.dumps(project(snap), separators=(",", ":"), ensure_ascii=False) + "\n"
+    field = json.dumps(project(snap, gal), separators=(",", ":"), ensure_ascii=False) + "\n"
     if a.check:
         cur = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
         fcur = FIELD.read_text(encoding="utf-8") if FIELD.exists() else ""
