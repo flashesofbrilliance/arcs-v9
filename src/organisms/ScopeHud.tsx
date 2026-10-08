@@ -130,7 +130,8 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
 
   // Heading tape: ±60° window, tick every 5°, label every 15°, safe bearings marked.
   // The tape takes the lane between the side columns, never more than 520px.
-  const TW = narrow ? vw - 32 : Math.max(280, Math.min(520, vw - 520)), span = 60
+  // Floored: a hidden or unsized tab reports innerWidth 0, which made a negative SVG width.
+  const TW = Math.max(240, narrow ? vw - 32 : Math.min(520, vw - 520)), span = 60
   const tx = (d: number) => TW / 2 + (delta(d) / span) * (TW / 2)
   const tape = []
   for (let d = Math.ceil((hdg - span) / 5) * 5; d <= hdg + span; d += 5) {
