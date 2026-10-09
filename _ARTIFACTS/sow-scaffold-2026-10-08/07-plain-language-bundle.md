@@ -120,6 +120,16 @@ We will fill these in together, using your cost model, current price pages with 
 2. **Grows with use:** the AI usage meter (more families and longer documents mean a bigger bill), search and file handling.
 3. **Hidden:** moving information or parts of the app if a service is not the right home for it; rework when a legal answer arrives late; the time families spend reviewing what is hidden from the AI; switching providers later; and your own four people's time.
 
+## Optional: office hours
+
+If it would help, I can also set aside a small block of my time for your team to use as you build: a thinking partner, a fresh approach, or help getting unstuck. It is separate from the audit and entirely your choice.
+
+- **A prepaid block of hours**, for example 5 or 10, used within two or three months. You always know the most it can cost. More time is a new block, never a running tab.
+- **A regular weekly slot** you book against. Send a few lines beforehand: what is stuck, what you have tried, and what "unstuck" would look like. That way the hour goes on the problem, not on catching me up.
+- **Three ways to use it:** work through a blocker together; test a decision before you make it; or learn a way of working so you can do it yourselves next time.
+- **After each session** you get two lines: what moved, and what to try next. Over time those notes become your own manual.
+- **What it is not:** legal advice (that goes to your lawyers), or me working inside your live app unless we agree that separately.
+
 ## What I need from you, and what you can expect from me
 
 | From you | From me |

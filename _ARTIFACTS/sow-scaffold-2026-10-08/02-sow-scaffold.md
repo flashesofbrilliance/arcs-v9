@@ -128,6 +128,18 @@ Order matters: in Phase 0 audit and discovery run in parallel (A items need mate
 | A.2 | Sprint review and decision receipts for one-way doors as they arise (vendor, retention period, pricing) | Each one-way-door decision has a receipt before commit (write-lock) | P1.W1 | Z with Co | T | asm-016, asm-017 | SHARP (T: fork named; R: WRITE-LOCK primitive, AGENTS.md receipts) | Risk: receipts logged after the fact lose their value; keep them ex-ante. |
 | A.3 | Acceptance testing: scripted boundary set for "empathetic, no health advice" plus functional checks | A scored set agreed with counsel; pass threshold written before building; reruns on every model change | L.1, B.3 | Z, L, Kelly | T, L | asm-024 | DEGRADED (T: requirement stated by Kelly; U: no spec of the boundary) | Falsifier: if counsel cannot define the boundary precisely, the test is a judgment call; then the deliverable is a counsel-signed rubric, not a pass rate. |
 
+## 3b. Optional add-on: office hours bucket (Track O, added 2026-10-09)
+
+Separate from the audit floor and never mixed into it. Access to me, not promised outcomes. Unpriced: Zach to choose the rate within his $100 to $350 friends-and-family range (open question: audit rate, or slightly higher for on-demand time).
+
+| ID | Item and deliverable | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |
+|---|---|---|---|---|---|---|---|---|
+| O.1 | Prepaid block of advisory hours (e.g. 5 or 10), used within 60 to 90 days; top-ups are a new block, never a running tab | Block size, window, rate and expiry or one-time rollover written before the first session | Signed NDA; Zach's rate | Z, Kelly | Prepaid | none yet | DEGRADED (T: Zach's ask 2026-10-09; U: team's appetite) | Risk: an open hourly rate drifts into unbilled favors inside a close community; the prepaid cap protects both sides. |
+| O.2 | Weekly office-hours slot (e.g. 60 min) booked against the block; short agenda sent ahead (what is stuck, what was tried, what unstuck looks like) | Each session has an agenda before it starts | O.1 | Team, Z | Draws on O.1 | none yet | DEGRADED (T) | Falsifier: if agendas never arrive, sessions become context-setting; shorten the slot. |
+| O.3 | Three session kinds: unstick (live work on a blocker), thought partner (pressure-test a decision, a mini receipt), enablement (teach the method: cheap scripts over big models, spend caps, session hygiene, specs Claude follows) | Each session note names its kind | O.2 | Z with C, Morgan | Draws on O.1 | none yet | DEGRADED (T: Chelsea and Morgan build in Claude; U: Morgan's background) | Likely heaviest users are Chelsea and Morgan; confirm their hours via intake. |
+| O.4 | Two-line note after every session (what got unstuck, what to try next) plus a running hours log | Notes and balance visible to the team at any time | O.2 | Z | Included | none yet | SHARP (R: the "driver's manual" promised on the call) | The notes become the handover manual; nothing lives only in the call. |
+| O.5 | Guardrails: no legal advice (goes to the counsel list); no hands on production unless agreed as build work; async questions in 15-minute increments or excluded (choose one) | Written in the add-on terms | O.1 | Z | none | none yet | SHARP (R: counsel-decides rule; scope-air-gap) | Big finds in office hours are folded into audit findings at no extra charge (over-deliver channel). |
+
 ## 4. Track F: Fractional product and technical advisory and management
 
 | ID | Item and deliverable | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |

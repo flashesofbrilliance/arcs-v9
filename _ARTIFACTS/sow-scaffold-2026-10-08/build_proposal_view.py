@@ -45,6 +45,7 @@ SPEC = {
     "The cost, in three buckets": (3, "Fixed, grows with use, and hidden, each as a best, likely and worst case. Nothing is priced yet."),
     "What I need from you, and what you can expect from me": (3, "From you: the NDA, the code, the plan, your cost model and a list of services. From me: dated findings and early notice when anything moves."),
     "What I know, what I think, what I am guessing": (3, "I say which points I know, which I think and which I am guessing."),
+    "Optional: office hours": (3, "A small prepaid block of my time for your team: a thinking partner, help getting unstuck, or learning a way of working. Separate from the audit, and your choice."),
     "What happens next": (1, None),
 }
 
@@ -285,7 +286,7 @@ def intake_section():
         f"{form}. About 10 minutes for the first page; the later pages are optional.",
         "Upload the signed NDA and the build spec on the form's first page, right after your name. No family or child information.",
         "Pick a time to talk it through, Leah included if she is up for it. Rather talk than type? Reply to my email and I will fill the form in for you.",
-        "I send a short written proposal with a clear scope and rate.",
+        "I send a short written proposal with a clear scope and rate, plus an optional block of office hours for your team.",
     ]
     embed = ('<h3 id="next-steps">Next steps</h3><ol class="checklist">'
              + "".join(f"<li>{t}</li>" for t in steps) + "</ol>"
