@@ -4,8 +4,51 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="robots" content="noindex, nofollow"/>
-<title>Fractional × ARCS — a teardown and a map</title>
+<title>Fractional × ARCS · a teardown and a map</title>
 <style>
+:root{--measure:860px;}
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
   :root{
     --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b;
     --text:#e2e8f0; --muted:#8b9bb0; --dim:#8391a7;
@@ -18,7 +61,7 @@
   .wrap{max-width:860px;margin:0 auto;padding:48px 22px 90px}
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
   h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:10px 0 8px;font-weight:650;text-wrap:balance}
-  .sub{color:var(--muted);max-width:64ch}
+  .sub{color:var(--muted);max-width:var(--measure)}
   .meta{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
   section{margin-top:56px}
   .sechead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:22px}
@@ -26,7 +69,7 @@
   .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
   h2{font-size:21px;margin:6px 0 0;font-weight:600;text-wrap:balance}
   h3{font-size:15px;margin:0 0 6px;font-weight:600}
-  p{margin:0 0 14px;max-width:70ch}
+  p{margin:0 0 14px;max-width:var(--measure)}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;margin-bottom:14px}
   .stripe{border-left:3px solid var(--steel)}
   .stripe.red{border-left-color:var(--red)}
@@ -52,7 +95,7 @@
   .mono{font-family:var(--mono);font-size:12.5px;color:var(--steel)}
   code{font-family:var(--mono);font-size:12.5px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 6px;color:var(--gold)}
   ul{margin:0 0 14px;padding-left:20px;color:var(--muted)}
-  li{margin-bottom:7px;max-width:66ch}
+  li{margin-bottom:7px;max-width:var(--measure)}
   li strong{color:var(--text)}
   .band{border:1px solid var(--border);border-radius:6px;margin-bottom:16px;overflow:hidden}
   .bandhead{padding:12px 18px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -120,25 +163,25 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 
 <header>
   <div class="eyebrow">ARCS × Fractional · Prepared for Daniel Crabtree · Jul 2026</div>
-  <h1>Daniel — I pulled fractional.city apart the way you pull a market apart. Here's what the evidence says.</h1>
-  <p class="sub">You said on our call that it's "less about whether the website can be better, more about the business idea" — agreed. So this isn't website feedback. It's the move you run for your clients: touch the surface, collect the signal, report what the market actually sees. Three parts: what your site says today, the site the machine you described deserves, and a concrete map of where our two systems interlock. Plus one security item up top that's worth fixing this week regardless of everything else.</p>
+  <h1>Daniel · I pulled fractional.city apart the way you pull a market apart. Here's what the evidence says.</h1>
+  <p class="sub">You said on our call that it's "less about whether the website can be better, more about the business idea", agreed. So this isn't website feedback. It's the move you run for your clients: touch the surface, collect the signal, report what the market actually sees. Three parts: what your site says today, the site the machine you described deserves, and a concrete map of where our two systems interlock. Plus one security item up top that's worth fixing this week regardless of everything else.</p>
   <div class="meta">METHOD: FULL COPY INVENTORY EXTRACTED FROM YOUR PRODUCTION BUNDLE (main.782bf072.js) · JUL 10 2026 · PLUS OUR JUL 9 CONVERSATION</div>
 </header>
 
 <section>
   <div class="sechead"><span class="idx">00</span><div><div class="seclabel">First, the favor</div><h2>One security fix before anything else</h2></div></div>
   <div class="card stripe red"><div class="cardtop"><h3>Your signup flow writes email + password directly to Firestore</h3><span class="tag red">Fix this week</span></div>
-  <p>The login page's signup path stores <code>{email, password, createdAt}</code> as a plain Firestore document instead of going through Firebase Auth's credential handling. If that collection's security rules are permissive — the default failure mode with this pattern — the credentials in it are readable from the client. Ten-minute check, small fix: route signups through Firebase Auth's <code>createUserWithEmailAndPassword</code> and never persist the raw password. Happy to look at it with you if useful. Everything below matters less than this.</p></div>
+  <p>The login page's signup path stores <code>{email, password, createdAt}</code> as a plain Firestore document instead of going through Firebase Auth's credential handling. If that collection's security rules are permissive, the default failure mode with this pattern the credentials in it are readable from the client. Ten-minute check, small fix: route signups through Firebase Auth's <code>createUserWithEmailAndPassword</code> and never persist the raw password. Happy to look at it with you if useful. Everything below matters less than this.</p></div>
 </section>
 
 <section>
-  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What fractional.city says today — the complete inventory</h2></div></div>
-  <p>Your site is a client-side React app, so I extracted every word from the JavaScript bundle directly. This is the whole surface — there's no hidden depth a visitor eventually finds.</p>
+  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What fractional.city says today · the complete inventory</h2></div></div>
+  <p>Your site is a client-side React app, so I extracted every word from the JavaScript bundle directly. This is the whole surface. There's no hidden depth a visitor eventually finds.</p>
   <div class="tablewrap"><table>
     <tr><th>Surface</th><th>Verbatim content</th></tr>
-    <tr><td>Hero</td><td>"FRACTIONAL — Go-to-Market Engine" · "Fractional licenses the systems, playbooks, and signal loops that turn early-stage ideas into structured market feedback"</td></tr>
+    <tr><td>Hero</td><td>"FRACTIONAL, Go-to-Market Engine" · "Fractional licenses the systems, playbooks, and signal loops that turn early-stage ideas into structured market feedback"</td></tr>
     <tr><td>Logos</td><td>Porsche · JB Hunt · Up.Labs · Nobody Studios · Platform Venture Studio (unlinked, no stories)</td></tr>
-    <tr><td>Who's it for</td><td>Venture Studios · Innovation Teams · Founders — three clean cards, right segmentation</td></tr>
+    <tr><td>Who's it for</td><td>Venture Studios · Innovation Teams · Founders, three clean cards, right segmentation</td></tr>
     <tr><td>Differentiator</td><td>"Our proprietary GTM machine moves fast, scales efficiently, and wins early. We find truth in the marketplace faster than anyone else."</td></tr>
     <tr><td>Deliverables</td><td>ICP + positioning tools · Cold outreach playbooks · Airtable + Notion dashboards · Monthly buyer signal reports</td></tr>
     <tr><td>About</td><td>"…go-to-market intelligence engine… Our model is not a services agency, it's infrastructure."</td></tr>
@@ -150,34 +193,34 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 <section>
   <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis</div><h2>Six gaps, ranked by what they cost you</h2></div></div>
 
-  <div class="card stripe red"><div class="cardtop"><h3>1 · The site is invisible to Google and AI search — and you sell demand generation</h3><span class="tag red">Structural</span></div>
-  <p>Because it's 100% client-side-rendered, the HTML a crawler receives says only "You need to enable JavaScript to run this app." The meta description is still the create-react-app default: <code>Web site created using create-react-app</code>. Title tag: just "Fractional." No structured data, no OG tags. Every studio partner or LP who Googles you — or asks ChatGPT or Perplexity "who is Fractional.city" — gets nothing back. For most companies that's a marketing problem; for a GTM engine it reads as a counter-testimonial. It's also the highest-leverage fix on this list and roughly a weekend of work (prerender the public shell, or move it to Next/Astro — the app behind login stays exactly as it is).</p></div>
+  <div class="card stripe red"><div class="cardtop"><h3>1 · The site is invisible to Google and AI search · and you sell demand generation</h3><span class="tag red">Structural</span></div>
+  <p>Because it's 100% client-side-rendered, the HTML a crawler receives says only "You need to enable JavaScript to run this app." The meta description is still the create-react-app default: <code>Web site created using create-react-app</code>. Title tag: just "Fractional." No structured data, no OG tags. Every studio partner or LP who Googles you, or asks ChatGPT or Perplexity "who is Fractional.city" gets nothing back. For most companies that's a marketing problem; for a GTM engine it reads as a counter-testimonial. It's also the highest-leverage fix on this list and roughly a weekend of work (prerender the public shell, or move it to Next/Astro the app behind login stays exactly as it is).</p></div>
 
   <div class="card stripe gold"><div class="cardtop"><h3>2 · No proof, despite having spectacular proof</h3><span class="tag gold">Credibility</span></div>
-  <p>On our call you casually told me a case study most agencies would kill for: you touched 50% of the FreighTech market, discovered buyers recoil from the word "AI," rewrote the messaging without it, and interest flipped. None of that is on the site. Porsche, JB Hunt, and the Walton-family adjacency show up only as naked logos. "We find truth faster than anyone" is asserted, never shown — and your exact buyer (studio partners deploying LP capital) is the most proof-demanding audience there is.</p></div>
+  <p>On our call you casually told me a case study most agencies would kill for: you touched 50% of the FreighTech market, discovered buyers recoil from the word "AI," rewrote the messaging without it, and interest flipped. None of that is on the site. Porsche, JB Hunt, and the Walton-family adjacency show up only as naked logos. "We find truth faster than anyone" is asserted, never shown, and your exact buyer (studio partners deploying LP capital) is the most proof-demanding audience there is.</p></div>
 
   <div class="card stripe gold"><div class="cardtop"><h3>3 · Positioned as a product, rendered as a brochure</h3><span class="tag gold">Coherence</span></div>
-  <p>"Not a services agency — infrastructure." I believe it, because you walked me through the machine. But a first-time visitor sees no screenshot, no dashboard, no sample buyer-signal report, no pricing shape, no onboarding timeline — even though "up and running in 24–48 hours" came out of your mouth unprompted. The site's form contradicts its central claim, and buyers resolve that contradiction against you: it reads as a solo consultant with a landing page, which is exactly what Fractional is not.</p></div>
+  <p>"Not a services agency, infrastructure." I believe it, because you walked me through the machine. But a first-time visitor sees no screenshot, no dashboard, no sample buyer-signal report, no pricing shape, no onboarding timeline even though "up and running in 24–48 hours" came out of your mouth unprompted. The site's form contradicts its central claim, and buyers resolve that contradiction against you: it reads as a solo consultant with a landing page, which is exactly what Fractional is not.</p></div>
 
-  <div class="card stripe cyan"><div class="cardtop"><h3>4 · Your literal product is playbooks — and there's no lead magnet</h3><span class="tag cyan">Conversion</span></div>
+  <div class="card stripe cyan"><div class="cardtop"><h3>4 · Your literal product is playbooks · and there's no lead magnet</h3><span class="tag cyan">Conversion</span></div>
   <p>You license playbooks and signal reports, yet the only conversion path is a cold "book a strategy call." One redacted monthly buyer-signal report or a one-page playbook behind an email gate lets the product sell itself and builds a list. A single-CTA site makes every visitor a binary: book-or-bounce, and most bounce.</p></div>
 
   <div class="card stripe cyan"><div class="cardtop"><h3>5 · The founder is an asset, and he's not on the site</h3><span class="tag cyan">Narrative</span></div>
-  <p>Oregon Trail ancestry. Born in Alaska. A father who built an oil-and-gas supply business in post-USSR Russia. Twenty months moving a family of five through Costa Rica. Escaped a sales career by inventing a repeatable first-customer machine. That's not small talk — "frontier truth-finding" is a brand, and it's precisely the temperament studios want pointed at unproven markets. Your About page is three sentences of category language instead. Six sentences of the real story would outperform them.</p></div>
+  <p>Oregon Trail ancestry. Born in Alaska. A father who built an oil-and-gas supply business in post-USSR Russia. Twenty months moving a family of five through Costa Rica. Escaped a sales career by inventing a repeatable first-customer machine. That's not small talk, "frontier truth-finding" is a brand, and it's precisely the temperament studios want pointed at unproven markets. Your About page is three sentences of category language instead. Six sentences of the real story would outperform them.</p></div>
 
   <div class="card stripe"><div class="cardtop"><h3>6 · Residue and hygiene</h3><span class="tag">Polish</span></div>
-  <p>The favicon is hotlinked from a Squarespace CDN — your old site's ghost, and a dead image the day that account closes. Default theme-color, no sitemap or robots.txt. And the .city TLD: defensible, but right now it's an accident you'd have to explain. Below is how to make it the best part of the brand.</p></div>
+  <p>The favicon is hotlinked from a Squarespace CDN, your old site's ghost, and a dead image the day that account closes. Default theme-color, no sitemap or robots.txt. And the .city TLD: defensible, but right now it's an accident you'd have to explain. Below is how to make it the best part of the brand.</p></div>
 </section>
 
 <section>
-  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">The site you should have</div><h2>Write it as if it already exists — you gave me the design language yourself</h2></div></div>
-  <div class="quote">"When the data is coming in from your thesis it's an addicting experience. It's like watching fantasy football on Sunday… you're just watching your point totals go up."<span class="attr">You, Jul 9 — this sentence is the whole redesign</span></div>
+  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">The site you should have</div><h2>Write it as if it already exists · you gave me the design language yourself</h2></div></div>
+  <div class="quote">"When the data is coming in from your thesis it's an addicting experience. It's like watching fantasy football on Sunday… you're just watching your point totals go up."<span class="attr">You, Jul 9. This sentence is the whole redesign</span></div>
   <ul>
-    <li><strong>The hero is a live scoreboard, not a tagline.</strong> A ticking, lightly anonymized feed of the machine running: "Thesis 14 · FreighTech ops leaders · 212 touches · 41 conversations · verdict: KILL — buyers reject 'AI' framing, retest without it." The site becomes the product demo. And nobody else in your world can show a kill verdict as proudly as a win — that's your actual differentiation. You sell truth, not booked meetings.</li>
-    <li><strong>One full sample buyer-signal report, redacted, gated by email.</strong> The FreighTech story with real numbers. Simultaneously proof, lead magnet, and product spec — three gaps closed with one artifact.</li>
-    <li><strong>"Fractional City" becomes the metaphor instead of the accident.</strong> The pod economy you described — callers, writers, analysts matched by assessment into task pods with an internal economy — is literally a city of fractional workers. Name the districts. It converts your weirdest asset (the TLD) into the memorable brand story, and it quietly pre-sells the workforce platform you eventually want to build.</li>
+    <li><strong>The hero is a live scoreboard, not a tagline.</strong> A ticking, lightly anonymized feed of the machine running: "Thesis 14 · FreighTech ops leaders · 212 touches · 41 conversations · verdict: KILL, buyers reject 'AI' framing, retest without it." The site becomes the product demo. And nobody else in your world can show a kill verdict as proudly as a win that's your actual differentiation. You sell truth, not booked meetings.</li>
+    <li><strong>One full sample buyer-signal report, redacted, gated by email.</strong> The FreighTech story with real numbers. Simultaneously proof, lead magnet, and product spec, three gaps closed with one artifact.</li>
+    <li><strong>"Fractional City" becomes the metaphor instead of the accident.</strong> The pod economy you described, callers, writers, analysts matched by assessment into task pods with an internal economy is literally a city of fractional workers. Name the districts. It converts your weirdest asset (the TLD) into the memorable brand story, and it quietly pre-sells the workforce platform you eventually want to build.</li>
     <li><strong>A founder page that tells the frontier story in six sentences.</strong> Oregon Trail → Alaska → post-USSR Russia → Costa Rica → "I left sales by building the machine that replaced me." Studios buy operators with provenance.</li>
-    <li><strong>Server-rendered and AI-legible.</strong> The invisibility problem inverts into an edge: be the one GTM shop whose methodology pages AI search engines can actually quote. And notice the echo of your own FreighTech finding — the site never needs to say "AI-powered." It shows evidence loops instead.</li>
+    <li><strong>Server-rendered and AI-legible.</strong> The invisibility problem inverts into an edge: be the one GTM shop whose methodology pages AI search engines can actually quote. And notice the echo of your own FreighTech finding, the site never needs to say "AI-powered." It shows evidence loops instead.</li>
     <li><strong>Pricing shape, not pricing secrecy.</strong> "Monthly license · two ICP theses live at any time · first calls within 48 hours." It anchors the infrastructure claim and filters unqualified calls before they ever reach your Acuity page.</li>
   </ul>
   <p class="mono">The delta in one line: today the site says "trust me, there's a machine." The next site lets the visitor watch the machine eat.</p>
@@ -185,27 +228,27 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 
 <section>
   <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Where the machines interlock</div><h2>Fractional finds the truth. ARCS makes sure people act on it.</h2></div></div>
-  <p>The most useful thing you said on our call: your clients get world-class market evidence from you, and then too many of them make bad decisions with it anyway — because it's their product, or they've made promises to investors. That's not a flaw in Fractional; it's the boundary of it. Everything downstream of the evidence is what ARCS was built for: decision receipts, pre-mortems, bias flags, drift detection across stakeholders. Zero overlap in what we each do; one shared seam. Three concrete places to test it:</p>
+  <p>The most useful thing you said on our call: your clients get world-class market evidence from you, and then too many of them make bad decisions with it anyway, because it's their product, or they've made promises to investors. That's not a flaw in Fractional; it's the boundary of it. Everything downstream of the evidence is what ARCS was built for: decision receipts, pre-mortems, bias flags, drift detection across stakeholders. Zero overlap in what we each do; one shared seam. Three concrete places to test it:</p>
 
   <div class="band">
     <div class="bandhead"><h3 style="margin:0">A · A joint Up.Labs-shaped engagement</h3><span class="tag green">You raised it first</span></div>
     <div class="bandbody">
-      <p>You said you could see us working on an Up.Labs project together. Multi-backer studios (a Porsche voice, a family-office voice, a logistics voice) are the canonical case for decision receipts: each stakeholder logs their read — headwinds, risks, acceptance criteria — before the sprint; the receipts get orchestrated into an explicit, shared definition of done; and when the project drifts from the committed vector mid-quarter, everyone sees the waypoint drop and re-commits or corrects <em>proactively</em>, instead of finger-pointing after the fact. Your data stays the input; the receipts make it undeniable. It rides alongside your existing engagement as something you deliver, not a competitor to it.</p>
+      <p>You said you could see us working on an Up.Labs project together. Multi-backer studios (a Porsche voice, a family-office voice, a logistics voice) are the canonical case for decision receipts: each stakeholder logs their read, headwinds, risks, acceptance criteria before the sprint; the receipts get orchestrated into an explicit, shared definition of done; and when the project drifts from the committed vector mid-quarter, everyone sees the waypoint drop and re-commits or corrects <em>proactively</em>, instead of finger-pointing after the fact. Your data stays the input; the receipts make it undeniable. It rides alongside your existing engagement as something you deliver, not a competitor to it.</p>
     </div>
   </div>
 
   <div class="band">
     <div class="bandhead"><h3 style="margin:0">B · Reviving your restructuring track, with a second engine attached</h3><span class="tag gold">Your 2025 play, upgraded</span></div>
     <div class="bandbody">
-      <p>You ran restructuring work in late 2025 — companies needing a new revenue motion before a raise — and said you might go back to that track. My last decade has been the other half of that deal: PE turnarounds, launching $7B of digital assets at Grayscale through regulatory chaos, senior-operator translation between boards and executive teams. The joint offer: Fractional runs in-market validation on the target's revenue thesis (is there real demand, which ICP converts); ARCS runs the decision forensics (why the last CRO actually failed, evidence-backed exclusion criteria for the next one, a receipt-backed recommendation the board can't un-see). One deliverable, two engines — and the venture-contraction / PE-expansion timing we both read the same way.</p>
+      <p>You ran restructuring work in late 2025, companies needing a new revenue motion before a raise and said you might go back to that track. My last decade has been the other half of that deal: PE turnarounds, launching $7B of digital assets at Grayscale through regulatory chaos, senior-operator translation between boards and executive teams. The joint offer: Fractional runs in-market validation on the target's revenue thesis (is there real demand, which ICP converts); ARCS runs the decision forensics (why the last CRO actually failed, evidence-backed exclusion criteria for the next one, a receipt-backed recommendation the board can't un-see). One deliverable, two engines and the venture-contraction / PE-expansion timing we both read the same way.</p>
     </div>
   </div>
 
   <div class="band">
-    <div class="bandhead"><h3 style="margin:0">C · The long bet — your pod economy × my org-design engine</h3><span class="tag cyan">Same machine, two halves</span></div>
+    <div class="bandhead"><h3 style="margin:0">C · The long bet · your pod economy × my org-design engine</h3><span class="tag cyan">Same machine, two halves</span></div>
     <div class="bandbody">
-      <p>Your assessment-matched contractor pods with atomic task data, and the org-design system I haven't launched — zone-of-genius matching, confidence weighting calibrated against decision outcomes — are two independently derived halves of the same machine. Neither of us should build it on spec. The field-of-dreams path you liked on the call: find one paying anchor (a studio staffing pods across portfolio companies), build against their check, productize what converts. If that anchor shows up in either of our networks, we compare notes before either of us scopes it alone.</p>
-      <p style="margin-bottom:0">And immediately, before any of that: referral lanes both ways. You'll meet studios drowning in stakeholder dysfunction — that's mine. I'll meet founders whose real blocker is unvalidated demand — that's yours. The first trade makes the alliance real.</p>
+      <p>Your assessment-matched contractor pods with atomic task data, and the org-design system I haven't launched, zone-of-genius matching, confidence weighting calibrated against decision outcomes are two independently derived halves of the same machine. Neither of us should build it on spec. The field-of-dreams path you liked on the call: find one paying anchor (a studio staffing pods across portfolio companies), build against their check, productize what converts. If that anchor shows up in either of our networks, we compare notes before either of us scopes it alone.</p>
+      <p style="margin-bottom:0">And immediately, before any of that: referral lanes both ways. You'll meet studios drowning in stakeholder dysfunction. That's mine. I'll meet founders whose real blocker is unvalidated demand that's yours. The first trade makes the alliance real.</p>
     </div>
   </div>
 </section>
@@ -213,10 +256,10 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 <section>
   <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Next</div><h2>Straightforward from here</h2></div></div>
   <div class="grid2">
-    <div class="card stripe green"><div class="cardtop"><h3>This week</h3><span class="tag green">On me</span></div><p>I'm sending over samples of the ARCS work separately — pre-call briefs, receipts, a teardown like this one — so you can see the machine running, per your ask.</p></div>
+    <div class="card stripe green"><div class="cardtop"><h3>This week</h3><span class="tag green">On me</span></div><p>I'm sending over samples of the ARCS work separately, pre-call briefs, receipts, a teardown like this one so you can see the machine running, per your ask.</p></div>
     <div class="card stripe red"><div class="cardtop"><h3>This week</h3><span class="tag red">On you</span></div><p>The Firestore fix. Ten minutes to check, worth more than everything else on this page.</p></div>
-    <div class="card stripe gold"><div class="cardtop"><h3>When your next client lands</h3><span class="tag gold">~August</span></div><p>You mentioned expecting to close something new by end of August. When it lands, let's take one real client problem — the hairiest one — and scope the joint version. If it doesn't fit, we'll have found that out cheaply, which is the whole philosophy anyway.</p></div>
-    <div class="card stripe"><div class="cardtop"><h3>Anytime</h3><span class="tag">Standing</span></div><p>If you want a second pair of eyes on the site rebuild or the sample-report lead magnet, say the word — the teardown above is the free half; the fix list is short.</p></div>
+    <div class="card stripe gold"><div class="cardtop"><h3>When your next client lands</h3><span class="tag gold">~August</span></div><p>You mentioned expecting to close something new by end of August. When it lands, let's take one real client problem, the hairiest one and scope the joint version. If it doesn't fit, we'll have found that out cheaply, which is the whole philosophy anyway.</p></div>
+    <div class="card stripe"><div class="cardtop"><h3>Anytime</h3><span class="tag">Standing</span></div><p>If you want a second pair of eyes on the site rebuild or the sample-report lead magnet, say the word, the teardown above is the free half; the fix list is short.</p></div>
   </div>
 </section>
 

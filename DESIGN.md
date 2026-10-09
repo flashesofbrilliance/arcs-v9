@@ -222,7 +222,7 @@ Every surface can render at four earned-fidelity states, mapped from the Y-gate:
 - **Don't** use cast drop-shadows for elevation.
 - **Don't** set the wordmark or a proverb in the wrong voice (no serif wordmark, no mono proverb).
 - **Don't** use em-dashes anywhere (plain-language rule wins even over canon voice; prefer commas, colons, periods, or the interpunct · ).
-- **Don't** introduce a light theme.
+- **Don't** introduce a light theme on product surfaces. Paper documents use the sanctioned Light Paper world, at AA contrast.
 - **Don't** let a per-engagement canon family's locked house grammar (e.g. the Louisville omakase world) leak into product surfaces.
 - **Don't** set functional text under 11px.
 - **Don't** hardcode a retired color. `#64748b` and `#475569` were retired 2026-10-04 (they fail AA on obsidian); inherit the tokens instead of redeclaring the palette.
@@ -237,6 +237,8 @@ A surface may run its own locked visual world instead of this one, but only by b
 | Recoil report kit | `src/ui-kit/recoil-report/` and the pages that inline `_tokens.css` | InstrumentSans, GeistMono, its own label grammar | Counterpart artifacts, locked before this file |
 | Omakase family | `public/omakase/` | case `#0B0B0C`, dial `#E8E4DA`, gold `#C9A227`, vermillion `#E34F1C`; Helvetica, SF Mono | Per-engagement canon (PRODUCT.md) |
 | NFTT literary posts | `public/blog-nftt-*.html` | The "With Life" literary template | Editorial essays, a reading world |
+| PRL client pages | `public/prl-*.html` (prl-page-factory) | Todd's register: pilot checklist, BLUF first, its own greys and panel surfaces | Client-facing status family with its own locked system; a product-world codemod regressed all nine pages on 2026-10-08 |
+| Light paper | Resumes, counterpart dossiers and full records, TIL posts (light-surface pages) | Paper grounds (`#ffffff` to about `#e9eef4`); accent teal `#00748e`; greys no lighter than `#6b757f` on white; every text color at least 4.6:1 on the darkest paper surface it sits on | Read and printed like paper, so a light ground is the honest medium. Sanctioned 2026-10-08 on condition of AA contrast, measured, not assumed |
 | Instrument kit | Claude Design ARCS OS design system, `src/instrument/` | `#07090B` ground, teal `#4ABDB0`, sky `#7AD2FF`, ochre `#D7A65A`; Barlow Condensed, IBM Plex Mono | A tactical-instrument sub-system; repaired in place 2026-10-08 |
 
 **The Inter Rule.** Inter is the body voice by design. The detector's "overused font" warning on Inter is answered once, here, not page by page.

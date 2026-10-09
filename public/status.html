@@ -7,6 +7,48 @@
 <title>ARCS: Day 0 to Today</title>
 <meta name="description" content="ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.">
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
   --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #8391a7; --faint: #7a8699;
@@ -1066,7 +1108,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <div class="section-body">
       <p class="su-lead">The patterns aren't at one depth. This is the core sample: each pattern… patent, roadmap item, or eval… embedded at the L-stratum it operates in, from atomic signal at the surface to the unexcavated meta-governance mantle. Fidelity is earned; L6–L7 not yet excavated.</p>
       <div class="su-core">
-        <div class="su-str" style="--acc:#00F0FF;--fid:1;">
+        <div class="su-str" style="--acc:var(--cyan);--fid:1;">
           <div class="su-sg"><div class="su-sl">L0</div><div class="su-snm">Atomic signal</div><div class="su-sdp">Topsoil</div></div>
           <div class="su-sb"><div class="su-sgloss">Raw derivatives… velocity, acceleration.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-p"></span>Derivative primitives</span>
@@ -1092,7 +1134,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Stripe / COURT gate</span>
           </div></div>
         </div>
-        <div class="su-str" style="--acc:#00FF9D;--fid:.95;">
+        <div class="su-str" style="--acc:var(--green);--fid:.95;">
           <div class="su-sg"><div class="su-sl">L3</div><div class="su-snm">Cascade</div><div class="su-sdp">Bedrock approach</div></div>
           <div class="su-sb"><div class="su-sgloss">How signals propagate, interfere, and cancel across a network.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-n"></span>Phase-cancellation · formalize</span>
@@ -1110,7 +1152,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
             <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Vector Collision</span>
           </div></div>
         </div>
-        <div class="su-str" style="--acc:#FFD700;--fid:.9;">
+        <div class="su-str" style="--acc:var(--gold);--fid:.9;">
           <div class="su-sg"><div class="su-sl">L5</div><div class="su-snm">Global coherence</div><div class="su-sdp">Mantle boundary</div></div>
           <div class="su-sb"><div class="su-sgloss">The receipt layer… decisions locked, reconciled, compounded. The moat lives here.</div><div class="su-chips">
             <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-n"></span>Ex-ante receipt · #2</span>

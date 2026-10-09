@@ -72,11 +72,16 @@ def theme_vars(group):
     )
 
 
+# The kit tokens, inlined verbatim (sentinel kept) ahead of the house style so every rendered page
+# inherits one palette instead of re-authoring it (token_source_gate; seam ledger 2026-10-08).
+_TOKENS_PATH = os.path.join(ROOT, "src", "ui-kit", "recoil-report", "_tokens.css")
+# Tolerant read: the argument-guard self-test runs in a scratch dir without the kit (it renders nothing).
+TOKENS_CSS = open(_TOKENS_PATH, encoding="utf-8").read().rstrip() if os.path.exists(_TOKENS_PATH) else ""
 # ---- frozen house style: <style> block from resume-tailor.html, accents lifted to vars ----
 CSS = """  :root{
     /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
     --bg:#020408;--surface:#0d1117;--elev:#131a24;--border:#1e293b;--border2:#2b3a4f;
-    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#8391a7;--fg4:#4a5a6d;
+    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#8391a7;--fg4:#7a8699;
     --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--btn2:#00c8dd;
     --glowA:rgba(0,240,255,.11);--glowB:rgba(0,255,157,.075);--kickbrd:rgba(0,240,255,.36);
     --btnglow:rgba(0,240,255,.5);--glowsoft:rgba(0,240,255,.25);--barbg:rgba(0,240,255,.045);
@@ -128,6 +133,8 @@ CSS = """  :root{
   .oneshot .bar .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
   .oneshot .cp{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--fg3);border:1px solid var(--border2);background:var(--elev);border-radius:7px;padding:5px 11px;cursor:pointer;transition:.15s;}
   .oneshot .cp:hover{color:var(--cyan);border-color:var(--cyan);}
+  .oneshot{min-width:0;max-width:100%;}
+  .chan{min-width:0;}
   .oneshot pre{margin:0;padding:17px 18px;overflow-x:auto;}
   .oneshot code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--fg1);white-space:pre-wrap;}
   .oneshot code .v{color:var(--gold);}
@@ -257,6 +264,7 @@ def render(repo, data, row):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+{TOKENS_CSS}
 {CSS}
   :root{{{theme_vars(data.get('group','skill'))}}}
 </style>
@@ -629,6 +637,7 @@ def render_gallery(ssot, blob):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+{TOKENS_CSS}
 {CSS}
 {GAL_CSS}
 </style>

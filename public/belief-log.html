@@ -3,9 +3,51 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ARCS — Belief-Change Log</title>
+<title>ARCS · Belief-Change Log</title>
 <meta name="description" content="A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record." />
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
   /* Mirrors the status.arcs.care design system (canonical ARCS tokens + fonts).
      GENERATED — do not hand-edit. Source: scripts/belief_log_public_template.html
      rendered by scripts/belief_log_emit.py --public. This is the PUBLIC projection:
@@ -36,10 +78,10 @@
   h1 { font-size: clamp(28px, 5vw, 46px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em;
     text-wrap: balance; margin-bottom: 20px; }
   h1 .em { color: var(--cyan); }
-  .lede { font-size: clamp(15px, 2vw, 19px); color: var(--muted); max-width: 62ch;
+  .lede { font-size: clamp(15px, 2vw, 19px); color: var(--muted); max-width:var(--measure);
     text-wrap: pretty; overflow-wrap: break-word; margin-bottom: 14px; }
   .lede b { color: var(--text); font-weight: 600; }
-  .honesty { font-size: 14px; color: var(--dimmed); max-width: 62ch; text-wrap: pretty; overflow-wrap: break-word; margin-bottom: 34px; }
+  .honesty { font-size: 14px; color: var(--dimmed); max-width:var(--measure); text-wrap: pretty; overflow-wrap: break-word; margin-bottom: 34px; }
   .honesty b { color: var(--steel); font-weight: 600; }
 
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px;
@@ -139,19 +181,19 @@
 <div class="wrap">
   <div class="eyebrow"><span class="dot"></span>ARCS · BELIEF-CHANGE LOG</div>
   <h1>Every belief we changed our mind about, <span class="em">on the record</span>.</h1>
-  <p class="lede">A falsification ledger. Each entry is a belief we held, the <b>test</b> that overturned it, and what <b>replaced</b> it. The same discipline that grades a decision after the fact, turned on our own reasoning — and the corrections are kept, not quietly edited out.</p>
-  <p class="honesty">What's public here is the <b>shape</b> of the record: how often we've been wrong, the cadence, which domains, and which reversals hardened into doctrine. The internal specifics of each call stay internal — the discipline is the point, not the disclosure.</p>
+  <p class="lede">A falsification ledger. Each entry is a belief we held, the <b>test</b> that overturned it, and what <b>replaced</b> it. The same discipline that grades a decision after the fact, turned on our own reasoning, and the corrections are kept, not quietly edited out.</p>
+  <p class="honesty">What's public here is the <b>shape</b> of the record: how often we've been wrong, the cadence, which domains, and which reversals hardened into doctrine. The internal specifics of each call stay internal, the discipline is the point, not the disclosure.</p>
 
   <div class="stats" id="stats"></div>
 
-  <div class="section-label">The drift — every reversal, plotted in time</div>
+  <div class="section-label">The drift. Every reversal, plotted in time</div>
   <div class="ribbon-shell"><div class="ribbon" id="ribbon"></div><div class="axis" id="axis"></div></div>
   <div class="legend" id="legend"></div>
 
   <div class="section-label">How to read this</div>
   <div class="method">
-    <div class="m-card red"><h3>A belief that lost</h3><p>Every dot is a claim we once held that met a concrete, runnable test — and failed it. No dot is a guess we're still defending.</p></div>
-    <div class="m-card gold"><h3>The gold seam</h3><p>A gold ring marks a reversal that hardened into doctrine — the break repaired in gold, kept visible rather than sanded over. Kintsugi.</p></div>
+    <div class="m-card red"><h3>A belief that lost</h3><p>Every dot is a claim we once held that met a concrete, runnable test, and failed it. No dot is a guess we're still defending.</p></div>
+    <div class="m-card gold"><h3>The gold seam</h3><p>A gold ring marks a reversal that hardened into doctrine, the break repaired in gold, kept visible rather than sanded over. Kintsugi.</p></div>
     <div class="m-card"><h3>The shape gains resolution</h3><p>The record only sharpens: each reversal narrows what we believe, and the ledger is one source of truth, never re-summarized into something softer.</p></div>
   </div>
 

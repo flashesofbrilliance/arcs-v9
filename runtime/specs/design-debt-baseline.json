@@ -2,12 +2,12 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 4049,
-  "emdash": 774,
-  "wrap": 32,
-  "tokens": 72,
+  "detector": 3881,
+  "emdash": 13,
+  "wrap": 4,
+  "tokens": 6,
   "leak": 0,
-  "retired_color": 2,
+  "retired_color": 6,
   "pages": 179,
   "pages_clean": 51
  },
@@ -22,7 +22,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -37,7 +37,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -51,7 +51,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -66,35 +66,33 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/arcs-field-scan.html": {
-   "detector": 11,
+   "detector": 10,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 3,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 1,
     "overused-font": 1
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/autopilot-ammo.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 2,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -115,13 +113,12 @@
    "retired_color": 0
   },
   "public/autopilot.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 1,
     "cramped-padding": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -140,9 +137,9 @@
     "tiny-text": 2,
     "wide-tracking": 2
    },
-   "emdash": 9,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -156,9 +153,9 @@
     "side-tab": 3,
     "skipped-heading": 1
    },
-   "emdash": 6,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -177,7 +174,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -189,7 +186,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -208,7 +205,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -589,13 +586,13 @@
    "retired_color": 0
   },
   "public/blog-til-a-draft-is-not-a-verb.html": {
-   "detector": 32,
+   "detector": 14,
    "rules": {
     "all-caps-body": 4,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 20,
+    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 1,
     "wide-tracking": 1
@@ -607,12 +604,12 @@
    "retired_color": 0
   },
   "public/blog-til-apple-openai.html": {
-   "detector": 40,
+   "detector": 26,
    "rules": {
     "all-caps-body": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 16,
+    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 16,
     "wide-tracking": 1
@@ -624,13 +621,13 @@
    "retired_color": 0
   },
   "public/blog-til-closing-the-loop.html": {
-   "detector": 40,
+   "detector": 16,
    "rules": {
     "all-caps-body": 6,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 26,
+    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 1,
     "wide-tracking": 1
@@ -642,12 +639,11 @@
    "retired_color": 0
   },
   "public/blog-til-index.html": {
-   "detector": 11,
+   "detector": 7,
    "rules": {
     "all-caps-body": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 4,
     "overused-font": 1
    },
    "emdash": 0,
@@ -657,12 +653,11 @@
    "retired_color": 0
   },
   "public/blog-til-zim.html": {
-   "detector": 17,
+   "detector": 11,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 6,
     "overused-font": 1,
     "tiny-text": 4,
     "wide-tracking": 1
@@ -688,7 +683,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -719,7 +714,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -780,9 +775,9 @@
     "tiny-text": 2,
     "wide-tracking": 2
    },
-   "emdash": 43,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -797,8 +792,8 @@
     "tiny-text": 15
    },
    "emdash": 0,
-   "wrap": 1,
-   "tokens": 1,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -815,7 +810,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 2
   },
@@ -826,7 +821,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -859,19 +854,18 @@
    "retired_color": 0
   },
   "public/germinate.html": {
-   "detector": 13,
+   "detector": 11,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 4,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 2,
     "overused-font": 1
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -944,7 +938,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -995,7 +989,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1014,7 +1008,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1026,7 +1020,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1045,7 +1039,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1080,7 +1074,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1098,7 +1092,7 @@
     "tiny-text": 1
    },
    "emdash": 0,
-   "wrap": 1,
+   "wrap": 0,
    "tokens": 1,
    "leak": null,
    "retired_color": 0
@@ -1115,9 +1109,9 @@
     "tiny-text": 21,
     "wide-tracking": 1
    },
-   "emdash": 102,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1126,8 +1120,8 @@
    "rules": {
     "low-contrast": 9
    },
-   "emdash": 2,
-   "wrap": 1,
+   "emdash": 0,
+   "wrap": 0,
    "tokens": 0,
    "leak": null,
    "retired_color": 0
@@ -1144,9 +1138,9 @@
     "tiny-text": 10,
     "wide-tracking": 2
    },
-   "emdash": 180,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1161,7 +1155,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1178,16 +1172,15 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/lewoof-intake.html": {
-   "detector": 9,
+   "detector": 7,
    "rules": {
     "all-caps-body": 1,
     "design-system-font": 4,
-    "low-contrast": 2,
     "tiny-text": 2
    },
    "emdash": 0,
@@ -1214,7 +1207,7 @@
     "wide-tracking": 10
    },
    "emdash": 0,
-   "wrap": 1,
+   "wrap": 0,
    "tokens": 0,
    "leak": null,
    "retired_color": 0
@@ -1234,7 +1227,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1258,7 +1251,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1273,18 +1266,17 @@
     "tiny-text": 41,
     "wide-tracking": 26
    },
-   "emdash": 16,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/monstro-cover.html": {
-   "detector": 16,
+   "detector": 15,
    "rules": {
     "all-caps-body": 1,
     "design-system-font": 2,
-    "low-contrast": 1,
     "overused-font": 1,
     "tiny-text": 11
    },
@@ -1295,12 +1287,11 @@
    "retired_color": 0
   },
   "public/monstro-full.html": {
-   "detector": 25,
+   "detector": 6,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 19,
     "overused-font": 1
    },
    "emdash": 0,
@@ -1310,11 +1301,10 @@
    "retired_color": 0
   },
   "public/monstro-resume.html": {
-   "detector": 85,
+   "detector": 79,
    "rules": {
     "all-caps-body": 4,
     "design-system-font": 2,
-    "low-contrast": 6,
     "overused-font": 1,
     "tiny-text": 37,
     "undersized-ui-text": 35
@@ -1339,7 +1329,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1357,7 +1347,7 @@
     "wide-tracking": 16
    },
    "emdash": 0,
-   "wrap": 1,
+   "wrap": 0,
    "tokens": 1,
    "leak": null,
    "retired_color": 0
@@ -1387,9 +1377,9 @@
     "tiny-text": 12,
     "wide-tracking": 9
    },
-   "emdash": 15,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1399,9 +1389,9 @@
     "tiny-text": 5,
     "wide-tracking": 5
    },
-   "emdash": 3,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1423,9 +1413,9 @@
     "tiny-text": 6,
     "wide-tracking": 6
    },
-   "emdash": 16,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1435,9 +1425,9 @@
     "tiny-text": 6,
     "wide-tracking": 6
    },
-   "emdash": 3,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1455,7 +1445,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1563,8 +1553,8 @@
     "design-system-font": 2,
     "low-contrast": 20
    },
-   "emdash": 17,
-   "wrap": 1,
+   "emdash": 0,
+   "wrap": 0,
    "tokens": 0,
    "leak": null,
    "retired_color": 0
@@ -1593,16 +1583,15 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/recruithaus-ammo.html": {
-   "detector": 17,
+   "detector": 7,
    "rules": {
     "all-caps-body": 2,
     "design-system-font": 2,
-    "low-contrast": 10,
     "overused-font": 1,
     "tiny-text": 2
    },
@@ -1613,12 +1602,11 @@
    "retired_color": 0
   },
   "public/recruithaus.html": {
-   "detector": 20,
+   "detector": 9,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 11,
     "overused-font": 1,
     "tiny-text": 3
    },
@@ -1641,19 +1629,18 @@
    "retired_color": 0
   },
   "public/resume-tailor.html": {
-   "detector": 17,
+   "detector": 10,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 3,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 7,
     "overused-font": 1
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1680,7 +1667,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1695,7 +1682,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1710,7 +1697,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1726,24 +1713,23 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/rosetta-shell.html": {
-   "detector": 13,
+   "detector": 11,
    "rules": {
     "all-caps-body": 1,
     "dark-glow": 4,
     "design-system-font": 2,
     "gradient-text": 2,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 2,
     "overused-font": 1
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1787,13 +1773,12 @@
    "retired_color": 0
   },
   "public/schriner-ammo.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 2,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -1826,12 +1811,11 @@
    "retired_color": 0
   },
   "public/schriner-vico.html": {
-   "detector": 93,
+   "detector": 80,
    "rules": {
     "all-caps-body": 5,
     "cramped-padding": 5,
     "design-system-font": 2,
-    "low-contrast": 13,
     "overused-font": 1,
     "tiny-text": 67
    },
@@ -1842,13 +1826,12 @@
    "retired_color": 0
   },
   "public/schriner.html": {
-   "detector": 11,
+   "detector": 8,
    "rules": {
     "all-caps-body": 1,
     "cramped-padding": 2,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 3,
     "overused-font": 1
    },
    "emdash": 0,
@@ -1868,9 +1851,9 @@
     "undersized-ui-text": 27,
     "wide-tracking": 1
    },
-   "emdash": 4,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1884,9 +1867,9 @@
     "side-tab": 5,
     "wide-tracking": 1
    },
-   "emdash": 18,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1896,9 +1879,9 @@
     "all-caps-body": 1,
     "side-tab": 21
    },
-   "emdash": 15,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1922,7 +1905,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1933,9 +1916,9 @@
     "border-accent-on-rounded": 2,
     "tiny-text": 2
    },
-   "emdash": 10,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1944,9 +1927,9 @@
    "rules": {
     "all-caps-body": 3
    },
-   "emdash": 10,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1955,9 +1938,9 @@
    "rules": {
     "all-caps-body": 7
    },
-   "emdash": 23,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1971,9 +1954,9 @@
     "side-tab": 8,
     "wide-tracking": 1
    },
-   "emdash": 25,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -1984,9 +1967,9 @@
     "design-system-font": 2,
     "side-tab": 7
    },
-   "emdash": 19,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2000,9 +1983,9 @@
     "side-tab": 7,
     "wide-tracking": 1
    },
-   "emdash": 24,
-   "wrap": 1,
-   "tokens": 1,
+   "emdash": 0,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2021,7 +2004,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2045,7 +2028,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2108,7 +2091,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2142,7 +2125,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2159,17 +2142,16 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/todd-call.html": {
-   "detector": 54,
+   "detector": 22,
    "rules": {
     "all-caps-body": 4,
     "design-system-font": 3,
     "kicker-above-heading": 3,
-    "low-contrast": 32,
     "side-tab": 5,
     "skipped-heading": 1,
     "tiny-text": 3,
@@ -2182,18 +2164,18 @@
    "retired_color": 0
   },
   "public/todd-logictree.html": {
-   "detector": 54,
+   "detector": 53,
    "rules": {
     "all-caps-body": 3,
-    "cramped-padding": 3,
+    "cramped-padding": 2,
     "dark-glow": 2,
     "tiny-text": 9,
     "undersized-ui-text": 34,
     "wide-tracking": 3
    },
    "emdash": 0,
-   "wrap": 1,
-   "tokens": 1,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2206,18 +2188,17 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
   "public/vico-ammo.html": {
-   "detector": 19,
+   "detector": 9,
    "rules": {
     "all-caps-body": 3,
     "cramped-padding": 1,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 10,
     "overused-font": 1
    },
    "emdash": 0,
@@ -2227,12 +2208,11 @@
    "retired_color": 0
   },
   "public/vico-resume.html": {
-   "detector": 95,
+   "detector": 82,
    "rules": {
     "all-caps-body": 5,
     "cramped-padding": 5,
     "design-system-font": 2,
-    "low-contrast": 13,
     "overused-font": 1,
     "tiny-text": 69
    },
@@ -2243,12 +2223,12 @@
    "retired_color": 0
   },
   "public/vico.html": {
-   "detector": 17,
+   "detector": 11,
    "rules": {
     "cramped-padding": 4,
     "dark-glow": 2,
     "design-system-font": 2,
-    "low-contrast": 8,
+    "low-contrast": 2,
     "overused-font": 1
    },
    "emdash": 0,
@@ -2268,8 +2248,8 @@
     "side-tab": 19,
     "tiny-text": 2
    },
-   "emdash": 201,
-   "wrap": 1,
+   "emdash": 0,
+   "wrap": 0,
    "tokens": 0,
    "leak": null,
    "retired_color": 0
@@ -2293,7 +2273,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2308,7 +2288,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2319,8 +2299,8 @@
     "design-system-font": 3
    },
    "emdash": 0,
-   "wrap": 1,
-   "tokens": 1,
+   "wrap": 0,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2335,7 +2315,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2350,7 +2330,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2365,7 +2345,7 @@
    },
    "emdash": 0,
    "wrap": 0,
-   "tokens": 1,
+   "tokens": 0,
    "leak": null,
    "retired_color": 0
   },
@@ -2388,16 +2368,18 @@
    "retired_color": 0
   },
   "runtime/warroom/lyndon-war.html": {
-   "detector": 3,
+   "detector": 49,
    "rules": {
     "design-system-font": 1,
-    "tiny-text": 2
+    "low-contrast": 1,
+    "tiny-text": 2,
+    "undersized-ui-text": 45
    },
    "emdash": 1,
    "wrap": 1,
    "tokens": 0,
    "leak": null,
-   "retired_color": 0
+   "retired_color": 4
   },
   "runtime/warroom/surfaces.html": {
    "detector": 1,

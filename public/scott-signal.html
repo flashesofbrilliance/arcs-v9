@@ -1,4 +1,46 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Scott · the signal read</title><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
 :root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#8391a7;--gold:#FFD700;--cyan:#00F0FF;--green:#00FF9D;--red:#FF4D6D;--mono:ui-monospace,monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55}
 .page{max-width:760px;margin:0 auto;padding:64px 24px 96px}
@@ -33,13 +75,13 @@ th{color:var(--text);font-family:var(--mono);font-size:11px;text-transform:upper
 <div class="page">
 <a class="uplink" href="https://scott.arcs.care">↑ the studio</a>
 <div class="eyebrow">Scott · the signal read</div>
-<h1>This is Zach's read of your public record — Apple, Droga5, Parlance, the photography — cross-checked against our two calls.</h1>
-<p class="sub">Different evidence than the profile read next door: that one comes only from what you said to me. This one comes from what you've put in front of the world yourself — your own site, your own LinkedIn, your own bio.</p>
-<div class="ask"><b>It's a read, not a verdict. Tell me what's wrong.</b><br>Every claim below traces to something public and citable. Where I've inferred past that — connected two facts into a pattern — I've said so plainly. Correct anything that's off; that's the point of sending it.</div>
+<h1>This is Zach's read of your public record · Apple, Droga5, Parlance, the photography cross-checked against our two calls.</h1>
+<p class="sub">Different evidence than the profile read next door: that one comes only from what you said to me. This one comes from what you've put in front of the world yourself, your own site, your own LinkedIn, your own bio.</p>
+<div class="ask"><b>It's a read, not a verdict. Tell me what's wrong.</b><br>Every claim below traces to something public and citable. Where I've inferred past that, connected two facts into a pattern I've said so plainly. Correct anything that's off; that's the point of sending it.</div>
 <div class="rule"></div>
 
 <section class="stage">
-<div class="stagek">Stage 1 · Analysis — the atoms</div>
+<div class="stagek">Stage 1 · Analysis · the atoms</div>
 <h2>What's actually verifiable, nothing inferred yet.</h2>
 <table>
 <tr><th>Claim</th><th>Source</th></tr>
@@ -51,51 +93,51 @@ th{color:var(--text);font-family:var(--mono);font-size:11px;text-transform:upper
 <tr><td>Patent: "Sharing a media station"</td><td class="src">LinkedIn export</td></tr>
 <tr><td>Meets one new person daily; 400+ hrs free mentorship given</td><td class="src">LinkedIn export</td></tr>
 <tr><td>Self-describes as "recovering perfectionist"</td><td class="src">parlance.cc/scottwitt</td></tr>
-<tr><td>Photography practice — "Lifestyle Reportage," bearing-witness/street tradition</td><td class="src">scottwitt.photography/about</td></tr>
+<tr><td>Photography practice · "Lifestyle Reportage," bearing-witness/street tradition</td><td class="src">scottwitt.photography/about</td></tr>
 <tr><td>BS Economics / English Comp / Music, Nebraska Wesleyan, 1994–98</td><td class="src">LinkedIn export</td></tr>
 </table>
 </section>
 
-<div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">Before connecting anything — sit with the atoms as they are. No pattern imposed yet. If any single line above is wrong, everything built on it downstream is wrong too.</div></div>
+<div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">Before connecting anything, sit with the atoms as they are. No pattern imposed yet. If any single line above is wrong, everything built on it downstream is wrong too.</div></div>
 
 <section class="stage">
-<div class="stagek">Stage 2 · Assessment — pairing atoms into logic</div>
+<div class="stagek">Stage 2 · Assessment · pairing atoms into logic</div>
 <h2>Two moves that only make sense together.</h2>
 <div class="grid2">
 <div class="card"><div class="cardh">Enterprise + agency = one thesis</div><p>You frame your own career as three vantage points compounding into one method, not three disconnected jobs: agency (idea power), enterprise (scaling clarity globally), founder (doing it standalone). That's a stated throughline, not something I'm imposing.</p></div>
-<div class="card"><div class="cardh">"Creative Capitalist" = economic self-label</div><p>You call creativity "the most underleveraged asset class in company-building." That's a deliberately economic frame, not an artistic one — which may be exactly why the Mar 20 pitch's ROI language landed without resistance.</p></div>
+<div class="card"><div class="cardh">"Creative Capitalist" = economic self-label</div><p>You call creativity "the most underleveraged asset class in company-building." That's a deliberately economic frame, not an artistic one. Which may be exactly why the Mar 20 pitch's ROI language landed without resistance.</p></div>
 </div>
 </section>
 
 <div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">Two atoms paired is already an interpretation. Does the pairing feel like your own logic, or like logic imposed from outside?</div></div>
 
 <section class="stage">
-<div class="stagek">Stage 3 · Evaluation — the coherent persona</div>
+<div class="stagek">Stage 3 · Evaluation · the coherent persona</div>
 <h2>"The guide who un-complicates," tested against real-time behavior.</h2>
-<p class="body">Your own words: <i>"I'm the guide who un-complicates. I specialize in the consequential and the complex."</i> In the Mar 20 call, that's exactly the mode you were in — surgical, low-ego, high-resolution feedback, not vague validation. The self-label and the live behavior match.</p>
-<p class="body">One place they may not fully match: 8 years scaling "creative infrastructure" at Apple shows a high tolerance for structured complexity — but the same call also lost you partway through an unstructured, multi-metaphor monologue. Tolerating complexity and staying engaged through <i>unstructured</i> density may be two different thresholds, not one. Worth you telling me if that's a fair read or not.</p>
+<p class="body">Your own words: <i>"I'm the guide who un-complicates. I specialize in the consequential and the complex."</i> In the Mar 20 call, that's exactly the mode you were in, surgical, low-ego, high-resolution feedback, not vague validation. The self-label and the live behavior match.</p>
+<p class="body">One place they may not fully match: 8 years scaling "creative infrastructure" at Apple shows a high tolerance for structured complexity, but the same call also lost you partway through an unstructured, multi-metaphor monologue. Tolerating complexity and staying engaged through <i>unstructured</i> density may be two different thresholds, not one. Worth you telling me if that's a fair read or not.</p>
 </section>
 
 <div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">An evaluation can feel like a compliment and a critique in the same breath. Let both sit before reacting to either.</div></div>
 
 <section class="stage">
-<div class="stagek">Stage 4 · Synthesis — the reusable pattern</div>
+<div class="stagek">Stage 4 · Synthesis · the reusable pattern</div>
 <h2>You'd already half-built what the Mar 20 deck proposed.</h2>
-<p class="body">Parlance's own site lists a free 45-min "First Session" and a paid $225/30-min "Office Hours" tier. That's structurally the same mechanism the Mar 20 pitch proposed — stop giving away discovery calls, create a paid springboard. If this is accurate, the deck wasn't introducing something new; it was naming and packaging a model you were already moving toward on your own. That changes what kind of pitch it was — less "convince him," more "put a name on what he's already doing."</p>
+<p class="body">Parlance's own site lists a free 45-min "First Session" and a paid $225/30-min "Office Hours" tier. That's structurally the same mechanism the Mar 20 pitch proposed, stop giving away discovery calls, create a paid springboard. If this is accurate, the deck wasn't introducing something new; it was naming and packaging a model you were already moving toward on your own. That changes what kind of pitch it was less "convince him," more "put a name on what he's already doing."</p>
 </section>
 
-<div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">Synthesis is the riskiest stage — it's where separate facts start to feel like a single story. Does this story feel earned, or assembled?</div></div>
+<div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">Synthesis is the riskiest stage. It's where separate facts start to feel like a single story. Does this story feel earned, or assembled?</div></div>
 
 <section class="stage">
-<div class="stagek">Stage 5 · Recapitulation — held against the calls</div>
+<div class="stagek">Stage 5 · Recapitulation · held against the calls</div>
 <h2>Public record and call behavior corroborate, without surprises.</h2>
-<p class="body">The public-record identity and the live-call behavior line up cleanly — which is itself worth naming, since it means this read isn't discovering a hidden Scott, just confirming the visible one under different evidence. The one open thread: the Twill-era "AI displacement" anxiety flagged elsewhere in this corpus sits differently against someone who spent 8 years scaling creative systems at Apple — less "doesn't understand automation," more "has already watched creative headcount get systematized from the inside, and knows exactly what it costs." That's an inference, flagged as one.</p>
+<p class="body">The public-record identity and the live-call behavior line up cleanly. Which is itself worth naming, since it means this read isn't discovering a hidden Scott, just confirming the visible one under different evidence. The one open thread: the Twill-era "AI displacement" anxiety flagged elsewhere in this corpus sits differently against someone who spent 8 years scaling creative systems at Apple less "doesn't understand automation," more "has already watched creative headcount get systematized from the inside, and knows exactly what it costs." That's an inference, flagged as one.</p>
 </section>
 
-<div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">Recapitulation isn't a conclusion — it's a resting point. Nothing here is final until you've said what's wrong.</div></div>
+<div class="shavasana"><div class="shavk">pause · shavasana</div><div class="shavq">Recapitulation isn't a conclusion. It's a resting point. Nothing here is final until you've said what's wrong.</div></div>
 
-<div class="disc">Built entirely from things you've published yourself (LinkedIn export, parlance.cc, scottwitt.photography, a conference bio) plus our two calls for cross-reference — no private data, no third-party sourcing, no assumptions past what's cited. First pass, not a verdict.</div>
-<div class="deepen">This is the overtone — built on public record. The base frequency, tuned only from our two calls, is here: <a href="https://scott-profile.arcs.care">← the profile read</a></div>
+<div class="disc">Built entirely from things you've published yourself (LinkedIn export, parlance.cc, scottwitt.photography, a conference bio) plus our two calls for cross-reference, no private data, no third-party sourcing, no assumptions past what's cited. First pass, not a verdict.</div>
+<div class="deepen">This is the overtone, built on public record. The base frequency, tuned only from our two calls, is here: <a href="https://scott-profile.arcs.care">← the profile read</a></div>
 <div class="foot">ARCS · THE SIGNAL READ · PUBLIC RECORD, CROSS-CHECKED AGAINST TWO CALLS</div>
 </div>
 </body></html>

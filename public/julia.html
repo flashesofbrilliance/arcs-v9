@@ -2,8 +2,50 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Julia / Tribe AI — Full Record</title>
+<title>Julia / Tribe AI · Full Record</title>
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #0b1017;
   --border: #1e293b; --text: #e2e8f0; --muted: #7a8699; --dim: #8391a7; --dimmed: #94a3b8;
@@ -381,8 +423,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
 
   <div class="tn">
     <div class="tn-e">True North</div>
-    <div class="tn-t">You are not a PM who learned AI. You are a systems builder who has been deploying decision infrastructure, live, at the edge — for 18 months, on real stakes. Tribe doesn't need another PM. They need someone who has already been doing what they do. That is you.</div>
-    <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.6;border-top:1px solid var(--border);padding-top:12px;">Live filter: before every sentence — <strong style="color:var(--cyan);">What is the object?</strong> Artifact · metric · tool · observed behavior. No object = cut.</div>
+    <div class="tn-t">You are not a PM who learned AI. You are a systems builder who has been deploying decision infrastructure, live, at the edge, for 18 months, on real stakes. Tribe doesn't need another PM. They need someone who has already been doing what they do. That is you.</div>
+    <div style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--dim);line-height:1.6;border-top:1px solid var(--border);padding-top:12px;">Live filter: before every sentence , <strong style="color:var(--cyan);">What is the object?</strong> Artifact · metric · tool · observed behavior. No object = cut.</div>
   </div>
 
   <div class="card">
@@ -400,7 +442,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
 
       <div><div class="sl">Stakeholder Profile</div>
       <div class="card"><div class="conf-rows">
-        <div class="conf-row"><div class="conf-key">Role</div><div class="conf-val">Forward Deployed PM Lead, Tribe AI — <em>she has lived the exact role she's evaluating you for</em></div></div>
+        <div class="conf-row"><div class="conf-key">Role</div><div class="conf-val">Forward Deployed PM Lead, Tribe AI , <em>she has lived the exact role she's evaluating you for</em></div></div>
         <div class="conf-row"><div class="conf-key">Formation</div><div class="conf-val">Psychology research training → empiricist by default. Builds models before drawing conclusions. Evidence-first.</div></div>
         <div class="conf-row"><div class="conf-key">Evaluating</div><div class="conf-val">Peer practitioner mode, not recruiter mode. She wants to know if you can do the job, not if you can describe it.</div></div>
         <div class="conf-row"><div class="conf-key">Respects</div><div class="conf-val">Specificity over fluency · Pattern recognition over jargon · Calibrated uncertainty · Outcomes, not frameworks</div></div>
@@ -409,58 +451,58 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
 
       <div><div class="sl">Tribe AI</div>
       <div class="card"><div class="intel-rows">
-        <div class="intel-row"><div class="idot" style="background:var(--cyan)"></div><div class="itext"><strong>Not a staffing firm.</strong> Forward-deployed operator model — PM + AI Architect + AI Engineer(s) embedded in client teams. Fixed-fee, land-and-expand. Turn away ~95% of inbound.</div></div>
-        <div class="intel-row"><div class="idot" style="background:var(--green)"></div><div class="itext"><strong>Revenue target already met for 2026</strong> as of late June. Doubling headcount. Talent-hungry — competing timelines compress pipeline.</div></div>
+        <div class="intel-row"><div class="idot" style="background:var(--cyan)"></div><div class="itext"><strong>Not a staffing firm.</strong> Forward-deployed operator model, PM + AI Architect + AI Engineer(s) embedded in client teams. Fixed-fee, land-and-expand. Turn away ~95% of inbound.</div></div>
+        <div class="intel-row"><div class="idot" style="background:var(--green)"></div><div class="itext"><strong>Revenue target already met for 2026</strong> as of late June. Doubling headcount. Talent-hungry, competing timelines compress pipeline.</div></div>
         <div class="intel-row"><div class="idot" style="background:var(--cyan)"></div><div class="itext"><strong>Clients:</strong> Fortune 100 regulated-industry tier. Partners: OpenAI, Anthropic, AWS, Microsoft. ~85 FT, hundreds in Slack.</div></div>
-        <div class="intel-row"><div class="idot" style="background:var(--gold)"></div><div class="itext"><strong>One dedicated client per practitioner.</strong> "Over-deliver shop" — if something meaningful can be done within scope, you're enabled to do it.</div></div>
-        <div class="intel-row"><div class="idot" style="background:var(--gold)"></div><div class="itext"><strong>Fully AI-native.</strong> Unlimited model access, custom internal tools, MCP servers built in-house. Flat org — report to a Field CTO.</div></div>
+        <div class="intel-row"><div class="idot" style="background:var(--gold)"></div><div class="itext"><strong>One dedicated client per practitioner.</strong> "Over-deliver shop", if something meaningful can be done within scope, you're enabled to do it.</div></div>
+        <div class="intel-row"><div class="idot" style="background:var(--gold)"></div><div class="itext"><strong>Fully AI-native.</strong> Unlimited model access, custom internal tools, MCP servers built in-house. Flat org, report to a Field CTO.</div></div>
       </div></div></div>
 
-      <div><div class="sl">Three Stories — Quick Reference</div>
+      <div><div class="sl">Three Stories · Quick Reference</div>
       <div class="card">
         <div class="story">
-          <div class="story-top"><div class="stag stag-a">Story A</div><div class="stitle">Grayscale — Regulated Delivery Under Constraint</div></div>
+          <div class="story-top"><div class="stag stag-a">Story A</div><div class="stitle">Grayscale · Regulated Delivery Under Constraint</div></div>
           <div class="result"><div class="result-e">Lead With This</div><div class="result-t">~$7B in digital assets launched. Zero regulatory notices or violations. Time-to-done compressed via live staging workflows.</div></div>
           <div class="slines">
             <div class="sline"><div class="sk">S</div><div>~11 digital asset products; SEC/FINRA disclosure rules changing under Reg D, Reg S, 33/34/40 Act in real time.</div></div>
             <div class="sline"><div class="sk">T</div><div>4 work streams: design agency, legacy Optimizely CMS, headless CMS rebuild (Sanity + TS), product ops.</div></div>
             <div class="sline"><div class="sk">A</div><div>Legal/compliance as upstream co-design partners. Three deployable site versions (best/base/worst). Vercel toolbar on live staging. Role-based publish controls to executive authority.</div></div>
           </div>
-          <div class="sclose">Guardrails probe → in order: (1) Reg D/S branching — three site versions, (2) staging as single truth source, (3) sprint-end change controls before every prod push. Stop.</div>
+          <div class="sclose">Guardrails probe → in order: (1) Reg D/S branching, three site versions, (2) staging as single truth source, (3) sprint-end change controls before every prod push. Stop.</div>
         </div>
         <div class="story">
-          <div class="story-top"><div class="stag stag-b">Story B</div><div class="stitle">ARCS — AI Product Built From Scratch</div></div>
-          <div class="result"><div class="result-e">Lead With This</div><div class="result-t">Compression of time to done. Every major call prepped with this system advanced to the next stage. This brief is the proof — she's inside it right now.</div></div>
+          <div class="story-top"><div class="stag stag-b">Story B</div><div class="stitle">ARCS, AI Product Built From Scratch</div></div>
+          <div class="result"><div class="result-e">Lead With This</div><div class="result-t">Compression of time to done. Every major call prepped with this system advanced to the next stage. This brief is the proof, she's inside it right now.</div></div>
           <div class="slines">
             <div class="sline"><div class="sk">S</div><div>High-stakes calls were the ones I was least prepared for. No structured way to model the other person's logic.</div></div>
             <div class="sline"><div class="sk">T</div><div>Build a prep framework: systematic preparation, documented reasoning, calibrated confidence.</div></div>
-            <div class="sline"><div class="sk">A</div><div>Built decision prep tool — stakeholder profiling, pre-mortem simulation, confidence self-grading. Stack: Claude Code · Python · FastAPI · Supabase RLS · Vercel.</div></div>
+            <div class="sline"><div class="sk">A</div><div>Built decision prep tool, stakeholder profiling, pre-mortem simulation, confidence self-grading. Stack: Claude Code · Python · FastAPI · Supabase RLS · Vercel.</div></div>
           </div>
           <div class="sclose">Ceiling: "a tool I use every day. I'm the primary user and the primary proof point." Two receipts if she probes: Kinexys moved to next stage · Millionways produced co-authorship conversation. If "product or personal practice?" → "Personal practice. The best test of a decision system is whether you use it when the stakes are real." Stop.</div>
         </div>
         <div class="story">
-          <div class="story-top"><div class="stag stag-c">Story C</div><div class="stitle">Ideal Protein — Discovery Before Solution</div></div>
-          <div class="result"><div class="result-e">Lead With This — In This Order</div><div class="result-t">+40% PQL · +63% Booking Rate · +23 NPS. Say them in that order. Stop. They came from structured measurement design, not a dashboard checked after launch.</div></div>
+          <div class="story-top"><div class="stag stag-c">Story C</div><div class="stitle">Ideal Protein · Discovery Before Solution</div></div>
+          <div class="result"><div class="result-e">Lead With This · In This Order</div><div class="result-t">+40% PQL · +63% Booking Rate · +23 NPS. Say them in that order. Stop. They came from structured measurement design, not a dashboard checked after launch.</div></div>
           <div class="slines">
             <div class="sline"><div class="sk">S</div><div>PE-acquired, new leadership in controlled chaos. No roadmap, no agile process, compliance blindspots, 10-person stakeholder matrix.</div></div>
             <div class="sline"><div class="sk">T</div><div>4-phase program, no shared definition of done. First job: figure out what the actual problem was before anyone would let me solve it.</div></div>
-            <div class="sline"><div class="sk">A</div><div>"I run a disaster check first — what's already broken, what's the correct hypothesis." Competitive intel + brand audit + heuristics audit. BMI calculator (highest-traffic page) → 2-step lead qualification using 30 BMI obesity cutoff as PQL gate. Embedded into client-side PMO.</div></div>
+            <div class="sline"><div class="sk">A</div><div>"I run a disaster check first, what's already broken, what's the correct hypothesis." Competitive intel + brand audit + heuristics audit. BMI calculator (highest-traffic page) → 2-step lead qualification using 30 BMI obesity cutoff as PQL gate. Embedded into client-side PMO.</div></div>
           </div>
-          <div class="sclose">The ambiguity wasn't the problem — it was the diagnostic. My first deliverable was to create the shared definition of success. She will recognize this as a research protocol. Name it that way.</div>
+          <div class="sclose">The ambiguity wasn't the problem. It was the diagnostic. My first deliverable was to create the shared definition of success. She will recognize this as a research protocol. Name it that way.</div>
         </div>
       </div></div>
 
       <div><div class="sl">Risk Map</div>
       <div class="card">
-        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-high">HIGH</div></div><div class="risk-body"><div class="risk-label">R1 — Altitude Mismatch</div><div class="risk-desc">Your intellectual register is calibrated for heady founder conversations. Julia lives in delivery. Johnny warned explicitly.</div><div class="risk-action">Before every sentence: What is the object? Artifact, metric, tool, observed behavior. No object = cut.</div></div></div>
-        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-med">MED</div></div><div class="risk-body"><div class="risk-label">R2 — No Fortune 100 Embedded Proof</div><div class="risk-desc">No traditional Fortune 100 embedded engagement on the CV.</div><div class="risk-action">"No org chart, hostile clock, had to ship anyway — Axon, GoPro. Same constraint structure." Never say consulting.</div></div></div>
-        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-med">MED</div></div><div class="risk-body"><div class="risk-label">R3 — ARCS Reads as Vanity</div><div class="risk-desc">If ARCS inflates into a founding narrative rather than a methodology proof.</div><div class="risk-action">Ceiling: "a tool I use every day." Three receipts max. The brief is already doing the work.</div></div></div>
-        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-low">LOW</div></div><div class="risk-body"><div class="risk-label">R4 — Over-Explanation</div><div class="risk-desc">Pacing ran long with Mariana. 45 minutes is tight.</div><div class="risk-action">60s opening · 90s ARCS · 3 min per story · 30s hot take. Stop when the answer is complete.</div></div></div>
+        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-high">HIGH</div></div><div class="risk-body"><div class="risk-label">R1 · Altitude Mismatch</div><div class="risk-desc">Your intellectual register is calibrated for heady founder conversations. Julia lives in delivery. Johnny warned explicitly.</div><div class="risk-action">Before every sentence: What is the object? Artifact, metric, tool, observed behavior. No object = cut.</div></div></div>
+        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-med">MED</div></div><div class="risk-body"><div class="risk-label">R2, No Fortune 100 Embedded Proof</div><div class="risk-desc">No traditional Fortune 100 embedded engagement on the CV.</div><div class="risk-action">"No org chart, hostile clock, had to ship anyway, Axon, GoPro. Same constraint structure." Never say consulting.</div></div></div>
+        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-med">MED</div></div><div class="risk-body"><div class="risk-label">R3 · ARCS Reads as Vanity</div><div class="risk-desc">If ARCS inflates into a founding narrative rather than a methodology proof.</div><div class="risk-action">Ceiling: "a tool I use every day." Three receipts max. The brief is already doing the work.</div></div></div>
+        <div class="risk-row"><div class="risk-sev"><div class="sev-badge sev-low">LOW</div></div><div class="risk-body"><div class="risk-label">R4 · Over-Explanation</div><div class="risk-desc">Pacing ran long with Mariana. 45 minutes is tight.</div><div class="risk-action">60s opening · 90s ARCS · 3 min per story · 30s hot take. Stop when the answer is complete.</div></div></div>
       </div></div>
 
       <div><div class="sl">Listening Questions</div>
       <div class="card">
-        <div class="q-row"><div class="q-top"><div class="q-n">1</div><div class="q-text">"Walk me through an embedded engagement — what did day one look like before you had any authority?"</div></div><div class="q-look">LISTENING FOR → Is she stress-testing embedded proof, or pattern-matching on delivery muscle?</div></div>
+        <div class="q-row"><div class="q-top"><div class="q-n">1</div><div class="q-text">"Walk me through an embedded engagement. What did day one look like before you had any authority?"</div></div><div class="q-look">LISTENING FOR → Is she stress-testing embedded proof, or pattern-matching on delivery muscle?</div></div>
         <div class="q-row"><div class="q-top"><div class="q-n">2</div><div class="q-text">"What makes you different from the other candidates you've talked to for this role?"</div></div><div class="q-look">LISTENING FOR → What gap is she trying to fill? Answer with a story, not a resume bullet.</div></div>
         <div class="q-row"><div class="q-top"><div class="q-n">3</div><div class="q-text">"Walk me through a moment when the technical reality and the client expectation were completely misaligned."</div></div><div class="q-look">LISTENING FOR → Deployment failure mode fluency. Story C setup.</div></div>
         <div class="q-row"><div class="q-top"><div class="q-n">4</div><div class="q-text">"What's your hot take on where AI deployments fail?"</div></div><div class="q-look">LISTENING FOR → Asked at every stage. The take is locked. Say it. 30 seconds. Hold 5 seconds of silence.</div></div>
@@ -499,26 +541,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
 
       <div class="arc-block">
         <div class="arc-block-title">Arc Narrative</div>
-        <div class="arc-block-body">T0 unlocked the aperture (FDE → FDPM title) and mapped the full loop — but the altitude recoil zone was demonstrated live mid-coaching call. T1 suppressed that zone cleanly and activated the urgency lever, at the cost of one enthusiasm reveal that collapsed the leverage delta. T2 produced the strongest close in the arc — "You nailed it" — with hardening explicitly validated and the ARCS proof-of-build earning a URL request. One active recoil zone remains: discovery answer extraction order took 4 follow-up cuts in T2. The take-home Module 2 is the live test of that fix.</div>
+        <div class="arc-block-body">T0 unlocked the aperture (FDE → FDPM title) and mapped the full loop, but the altitude recoil zone was demonstrated live mid-coaching call. T1 suppressed that zone cleanly and activated the urgency lever, at the cost of one enthusiasm reveal that collapsed the leverage delta. T2 produced the strongest close in the arc "You nailed it" with hardening explicitly validated and the ARCS proof-of-build earning a URL request. One active recoil zone remains: discovery answer extraction order took 4 follow-up cuts in T2. The take-home Module 2 is the live test of that fix.</div>
       </div>
 
       <div class="wedge">
-        <div class="wedge-title">Strategic Wedge — Discovered at T2</div>
-        <div class="wedge-body">Julia disclosed that her first Tribe engagement was handed a pre-baked problem statement — the discovery phase was skipped. The next contract (started days before T2) is actively correcting this. Zach is interviewing at exactly the moment Tribe's PM discovery practice is in flight. The differentiating pitch is not "I know discovery" but "I know what breaks when you skip it, and here's what I built to prevent it."</div>
+        <div class="wedge-title">Strategic Wedge · Discovered at T2</div>
+        <div class="wedge-body">Julia disclosed that her first Tribe engagement was handed a pre-baked problem statement, the discovery phase was skipped. The next contract (started days before T2) is actively correcting this. Zach is interviewing at exactly the moment Tribe's PM discovery practice is in flight. The differentiating pitch is not "I know discovery" but "I know what breaks when you skip it, and here's what I built to prevent it."</div>
       </div>
 
       <div class="arc-block" style="border-color:var(--gold);">
         <div class="arc-block-title" style="color:var(--gold);">One Active Fix Before Take-Home</div>
-        <div class="arc-block-body">Discovery answer extraction order. Lead with the insight and prioritization output — put the process context behind it. The right sequence: <em>"We prioritized X because FullStory showed Y, which predicted Z."</em> Not a chronological walkthrough that arrives at the conclusion on the 4th pass. Take-home Module 2 is a direct test of this.</div>
+        <div class="arc-block-body">Discovery answer extraction order. Lead with the insight and prioritization output, put the process context behind it. The right sequence: <em>"We prioritized X because FullStory showed Y, which predicted Z."</em> Not a chronological walkthrough that arrives at the conclusion on the 4th pass. Take-home Module 2 is a direct test of this.</div>
       </div>
 
       <div class="arc-block" style="border-color:var(--green);background:rgba(0,255,157,.03);">
         <div class="arc-block-title" style="color:var(--green);">Remaining Loop</div>
         <div class="arc-block-body">
           <div class="next-steps">
-            <div class="next-step"><span class="next-num">01</span>Take-home: 3-module Loom — Module 2 is the discovery fix test. Module 3 (triage system) is ARCS as both proof and methodology.</div>
-            <div class="next-step"><span class="next-num">02</span>Culture fit interview — neutral positive register, not enthusiasm superlative.</div>
-            <div class="next-step"><span class="next-num">03</span>Co-founder meeting — personal register, not career. "One word your wife would use to describe you." Have 3 answers ready in that register.</div>
+            <div class="next-step"><span class="next-num">01</span>Take-home: 3-module Loom, Module 2 is the discovery fix test. Module 3 (triage system) is ARCS as both proof and methodology.</div>
+            <div class="next-step"><span class="next-num">02</span>Culture fit interview, neutral positive register, not enthusiasm superlative.</div>
+            <div class="next-step"><span class="next-num">03</span>Co-founder meeting, personal register, not career. "One word your wife would use to describe you." Have 3 answers ready in that register.</div>
             <div class="next-step"><span class="next-num">04</span>Hot take: knowledge economy + sharing economy convergence. One sentence. Commit. Stop.</div>
           </div>
         </div>
@@ -528,26 +570,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
       <div class="arc-divider" id="arc-t0"></div>
       <div class="cover">
         <div class="badges"><span class="badge">Recoil Report · T0</span><span class="badge">TribeAI · Referral Brief</span><span class="badge">Jun 23, 2026</span></div>
-        <h1 class="cover-title">Johnny × Zach Harris — Tribe.ai Referral Brief</h1>
-        <p class="cover-subtitle">Pre-loop intelligence call. Aperture expanded — FDE → FDPM title unlocked. Coaching received and Intel validated. Recoil zone demonstrated live in the same call where it was diagnosed. One pattern to suppress before Friday.</p>
+        <h1 class="cover-title">Johnny × Zach Harris · Tribe.ai Referral Brief</h1>
+        <p class="cover-subtitle">Pre-loop intelligence call. Aperture expanded, FDE → FDPM title unlocked. Coaching received and Intel validated. Recoil zone demonstrated live in the same call where it was diagnosed. One pattern to suppress before Friday.</p>
         <div class="cover-meta">ARCS RECOIL · ~47 min · 7 segments · Reverse Listening + Deep Recall</div>
-        <div class="nci-row"><span class="nci-label">NCI</span><span class="nci-value" style="color:var(--gold);">78</span><div class="nci-bar"><div class="nci-fill" style="width:78%;background:var(--gold);"></div></div><span class="nci-label">Strong referral signal — behavioral flag confirmed once</span></div>
+        <div class="nci-row"><span class="nci-label">NCI</span><span class="nci-value" style="color:var(--gold);">78</span><div class="nci-bar"><div class="nci-fill" style="width:78%;background:var(--gold);"></div></div><span class="nci-label">Strong referral signal · behavioral flag confirmed once</span></div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">01</span><span class="arc-eyebrow">Signal Quote</span><span class="arc-sec-title">The Most Load-Bearing Moment</span></div>
-        <div class="arc-quote"><p class="arc-quote-text">"Read the room carefully. Not everyone you meet is going to be so heady."</p><p class="arc-quote-attr">Johnny · ~75% mark — delivered after Zach demoed Observatory and Recoil Report mid-coaching call, demonstrating the exact behavior being warned about.</p></div>
+        <div class="arc-quote"><p class="arc-quote-text">"Read the room carefully. Not everyone you meet is going to be so heady."</p><p class="arc-quote-attr">Johnny · ~75% mark, delivered after Zach demoed Observatory and Recoil Report mid-coaching call, demonstrating the exact behavior being warned about.</p></div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">02</span><span class="arc-eyebrow">Call Walk</span><span class="arc-sec-title">7 Segments · Reverse Listening + Deep Recall</span></div>
         <div class="arc-timeline">
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 1 · 0–15%</div><div class="tl-title">Rapport Baseline — LA / NYC / Kids</div><div class="tl-body">Extended geography and family rapport (5+ min) before any role content. Signals real relationship depth — this is the referral's actual value. Warm and genuine; friendship call with a business purpose embedded in it.</div></div>
-          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 2 · 15–29%</div><div class="tl-title">APERTURE UNLOCK — FDE → FDPM Title</div><div class="tl-body">Johnny reframes the talent landscape: AI native services as the #1 opportunity; forward deployed PM as a distinct role Zach hadn't been searching for. "I didn't even consider looking for forward deployed PM roles." The most durable information gain of the call.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 3 · 29–43%</div><div class="tl-title">Pod Structure + Client Reality</div><div class="tl-body">Fortune 100 account: 1,600 APIs, 6-month compression of 16-month timeline. Flat org, high agency, one dedicated client per FDE. "We've already met our revenue number for the year." All confirmed later by Mariana and Julia — Johnny's Intel was accurate.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 4 · 43–57%</div><div class="tl-title">Interview Loop Mapped in Full</div><div class="tl-body">3-module Loom take-home: (1) mindset/approach, (2) drop-in scenario + next-2-weeks sprint, (3) build a triage system end-to-end. Co-founder meeting: personal questions, not career. Hot take asked at every stage. Speed compression via competing offers confirmed. <strong style="color:var(--gold);">BEHAVIORAL FLAG:</strong> Zach asks "Are they looking for variance in the hot take?" — meta-gaming the process. Johnny: "I don't think it matters at all."</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 5 · 57–71%</div><div class="tl-title">RECOIL ZONE — Live Demonstration</div><div class="tl-body">Zach shares Observatory link and pitches Recoil Report as a potential internal tool mid-Intel-briefing. The warning in Seg 7 came after Johnny had already watched this happen twice.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 6 · 71–86%</div><div class="tl-title">Strategic Drift — Macro Questions</div><div class="tl-body">Zach pivots toward acquisition play, hedge fund clients, M&A synergies. Johnny deflects each: "They are founder-led, not trying to flip." Pattern: Zach gravitates toward macro/ecosystem framing while Johnny keeps trying to ground the conversation in interview prep.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 1 · 0–15%</div><div class="tl-title">Rapport Baseline, LA / NYC / Kids</div><div class="tl-body">Extended geography and family rapport (5+ min) before any role content. Signals real relationship depth. This is the referral's actual value. Warm and genuine; friendship call with a business purpose embedded in it.</div></div>
+          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 2 · 15–29%</div><div class="tl-title">APERTURE UNLOCK · FDE → FDPM Title</div><div class="tl-body">Johnny reframes the talent landscape: AI native services as the #1 opportunity; forward deployed PM as a distinct role Zach hadn't been searching for. "I didn't even consider looking for forward deployed PM roles." The most durable information gain of the call.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 3 · 29–43%</div><div class="tl-title">Pod Structure + Client Reality</div><div class="tl-body">Fortune 100 account: 1,600 APIs, 6-month compression of 16-month timeline. Flat org, high agency, one dedicated client per FDE. "We've already met our revenue number for the year." All confirmed later by Mariana and Julia, Johnny's Intel was accurate.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 4 · 43–57%</div><div class="tl-title">Interview Loop Mapped in Full</div><div class="tl-body">3-module Loom take-home: (1) mindset/approach, (2) drop-in scenario + next-2-weeks sprint, (3) build a triage system end-to-end. Co-founder meeting: personal questions, not career. Hot take asked at every stage. Speed compression via competing offers confirmed. <strong style="color:var(--gold);">BEHAVIORAL FLAG:</strong> Zach asks "Are they looking for variance in the hot take?", meta-gaming the process. Johnny: "I don't think it matters at all."</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 5 · 57–71%</div><div class="tl-title">RECOIL ZONE · Live Demonstration</div><div class="tl-body">Zach shares Observatory link and pitches Recoil Report as a potential internal tool mid-Intel-briefing. The warning in Seg 7 came after Johnny had already watched this happen twice.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 6 · 71–86%</div><div class="tl-title">Strategic Drift · Macro Questions</div><div class="tl-body">Zach pivots toward acquisition play, hedge fund clients, M&A synergies. Johnny deflects each: "They are founder-led, not trying to flip." Pattern: Zach gravitates toward macro/ecosystem framing while Johnny keeps trying to ground the conversation in interview prep.</div></div>
           <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 7 · 86–100%</div><div class="tl-title">Warning Delivered + Warm Close</div><div class="tl-body">The load-bearing moment. "I wouldn't recommend you if I didn't think you were a great fit." IP assignment note added. The only thing Johnny said that required active behavioral correction rather than additional coaching.</div></div>
         </div>
       </div>
@@ -555,10 +597,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">03</span><span class="arc-eyebrow">Signal Assessment</span><span class="arc-sec-title">Four-Thread Read</span></div>
         <div class="sideline">
-          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Referral Quality</div><div class="sl-title">Genuine enthusiasm — not transactional</div><div class="sl-text">Johnny is recommending across multiple roles. His Intel was accurate across all data points later verified. He stayed for ~47 min of detailed coaching. This is a warm referral in the strong sense.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Referral Quality</div><div class="sl-title">Genuine enthusiasm · not transactional</div><div class="sl-text">Johnny is recommending across multiple roles. His Intel was accurate across all data points later verified. He stayed for ~47 min of detailed coaching. This is a warm referral in the strong sense.</div></div></div>
           <div class="sl-item"><div class="sl-rail" style="background:var(--red);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--red);">Recoil Zone 1</div><div class="sl-title">Altitude mismatch demonstrated live</div><div class="sl-text">Zach demoed Observatory and Recoil Report mid-Intel-briefing while Johnny was trying to map the interview loop. Johnny warned about it precisely because he had just watched it happen.</div><div class="sl-note">Confirmed once. Must not appear in Mariana or Julia calls.</div></div></div>
           <div class="sl-item"><div class="sl-rail" style="background:var(--red);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--red);">Recoil Zone 2</div><div class="sl-title">Meta-gaming the process</div><div class="sl-text">Asking whether "variance in the hot take matters across people" signals optimization of the interview structure rather than authentic preparation. Johnny's answer was definitive: have a take, say it.</div></div></div>
-          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Recovery</div><div class="sl-title">Aperture correction was immediate</div><div class="sl-text">Zach updated his search framing live on the call (FDE → FDPM). Acknowledged the coaching. The corrective instinct is intact — the problem is execution lag between receiving a signal and adjusting.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Recovery</div><div class="sl-title">Aperture correction was immediate</div><div class="sl-text">Zach updated his search framing live on the call (FDE → FDPM). Acknowledged the coaching. The corrective instinct is intact, the problem is execution lag between receiving a signal and adjusting.</div></div></div>
         </div>
       </div>
 
@@ -566,43 +608,43 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
         <div class="arc-sec-header"><span class="arc-idx">04</span><span class="arc-eyebrow">Risk Flags</span><span class="arc-sec-title">What to Watch</span></div>
         <div class="flags">
           <div class="flag warning"><span class="flag-label">Behavioral Pattern</span><span class="flag-body">Demonstrated live during a coaching call with someone who forgives it. Mariana and the co-founder interview will not have that buffer. Fix is mechanical: answer at executive altitude first, offer depth on request.</span></div>
-          <div class="flag caution"><span class="flag-label">Meta-gaming</span><span class="flag-body">Asking "are they looking for variance" is a tell. Tribe explicitly tests for authentic AI takes — the only right answer is a real one.</span></div>
+          <div class="flag caution"><span class="flag-label">Meta-gaming</span><span class="flag-body">Asking "are they looking for variance" is a tell. Tribe explicitly tests for authentic AI takes, the only right answer is a real one.</span></div>
           <div class="flag info"><span class="flag-label">Intel Accuracy</span><span class="flag-body">Johnny's briefing was accurate across every claim later verified. Trust the loop structure he mapped. Don't over-prepare for things he didn't flag.</span></div>
-          <div class="flag success"><span class="flag-label">Referral Signal</span><span class="flag-body">Johnny is vouching hard. The path is clear — the only variable is behavioral execution, not qualification or fit.</span></div>
+          <div class="flag success"><span class="flag-label">Referral Signal</span><span class="flag-body">Johnny is vouching hard. The path is clear, the only variable is behavioral execution, not qualification or fit.</span></div>
         </div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">05</span><span class="arc-eyebrow">Protocol</span><span class="arc-sec-title">Recovery Protocol</span></div>
         <div class="protocol">
-          <div class="proto-step active"><div class="proto-lbl">Fix 01</div><div><div class="proto-title">Urgency lever — activate on first recruiter call</div><div class="proto-body">Mention competing processes. Let Mariana offer to compress. Do not volunteer enthusiasm ranking — it removes leverage before it's been earned.</div></div></div>
+          <div class="proto-step active"><div class="proto-lbl">Fix 01</div><div><div class="proto-title">Urgency lever, activate on first recruiter call</div><div class="proto-body">Mention competing processes. Let Mariana offer to compress. Do not volunteer enthusiasm ranking. It removes leverage before it's been earned.</div></div></div>
           <div class="proto-step"><div class="proto-lbl">Fix 02</div><div><div class="proto-title">Suppress demo instinct during interview stages</div><div class="proto-body">Observatory, Recoil Report, and ARCS architecture are proof-of-build only when asked for. The right ask: "Would you like me to drop a link?" Not a pre-emptive share.</div></div></div>
-          <div class="proto-step"><div class="proto-lbl">Fix 03</div><div><div class="proto-title">Hot take: commit and hold — one sentence</div><div class="proto-body">Knowledge economy + sharing economy convergence. Commit to one, say it cleanly, stop. No exploration mid-answer.</div></div></div>
+          <div class="proto-step"><div class="proto-lbl">Fix 03</div><div><div class="proto-title">Hot take: commit and hold. One sentence</div><div class="proto-body">Knowledge economy + sharing economy convergence. Commit to one, say it cleanly, stop. No exploration mid-answer.</div></div></div>
         </div>
       </div>
 
       <div class="arc-divider" id="arc-t1"></div>
       <div class="cover">
         <div class="badges"><span class="badge">Recoil Report · T1</span><span class="badge">TribeAI · Recruiter Screen</span><span class="badge">Jun 26, 2026</span></div>
-        <h1 class="cover-title">Mariana Mendes × Zach Harris — Forward Deployed PM Lead Screen</h1>
-        <p class="cover-subtitle">Confirmatory lap. Johnny's Intel validated on all counts. Altitude held clean — no bleed. Urgency lever activated. One disclosure error: enthusiasm hierarchy revealed before leverage was confirmed. NCI: 88 — clear to advance.</p>
+        <h1 class="cover-title">Mariana Mendes × Zach Harris · Forward Deployed PM Lead Screen</h1>
+        <p class="cover-subtitle">Confirmatory lap. Johnny's Intel validated on all counts. Altitude held clean, no bleed. Urgency lever activated. One disclosure error: enthusiasm hierarchy revealed before leverage was confirmed. NCI: 88 clear to advance.</p>
         <div class="cover-meta">ARCS RECOIL · ~22 min · 5 segments · Reverse Listening + Deep Recall</div>
         <div class="nci-row"><span class="nci-label">NCI</span><span class="nci-value" style="color:#00E8D8;">88</span><div class="nci-bar"><div class="nci-fill" style="width:88%;background:#00E8D8;"></div></div><span class="nci-label">Clear to advance</span></div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">01</span><span class="arc-eyebrow">Signal Quote</span><span class="arc-sec-title">Constructive Interference Moment</span></div>
-        <div class="arc-quote"><p class="arc-quote-text">"Kind of like the quarterback of like all of those and like interfacing with all the non technical stakeholders and sort of herding cats and tap dancing on quicksand."</p><p class="arc-quote-attr">Zach · ~35% mark — completing Mariana's partial framing of the PM Lead role. She set it up, he landed it. Clearest moment of genuine role resonance in T1.</p></div>
+        <div class="arc-quote"><p class="arc-quote-text">"Kind of like the quarterback of like all of those and like interfacing with all the non technical stakeholders and sort of herding cats and tap dancing on quicksand."</p><p class="arc-quote-attr">Zach · ~35% mark, completing Mariana's partial framing of the PM Lead role. She set it up, he landed it. Clearest moment of genuine role resonance in T1.</p></div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">02</span><span class="arc-eyebrow">Call Walk</span><span class="arc-sec-title">5 Segments · Reverse Listening + Deep Recall</span></div>
         <div class="arc-timeline">
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 1 · 0–20%</div><div class="tl-title">Rapport — Lisbon / Portugal / Kids</div><div class="tl-body">Shorter and tighter than T0's extended cold open. Mariana flags a hard stop early — Zach responds immediately: "No worries." Time calibration set in the first 60 seconds. Improvement vs T0: no runway overrun on rapport.</div></div>
-          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 2 · 20–40%</div><div class="tl-title">CPO-Within-Incubator Framing</div><div class="tl-body">"7 years now" — updates Johnny's implicit 'relatively new' prior. Pod structure confirmed verbatim. PM Lead framing: "CPO within an incubator within a huge enterprise customer." Clearest role articulation in the loop so far.</div></div>
-          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 3 · 40–60%</div><div class="tl-title">CONSTRUCTIVE INTERFERENCE — Pitch Lands Clean</div><div class="tl-body">Johnny's referral named immediately. Homework demonstrated: revenue number already hit, growth curve, Fortune 100 focus. Self-framing as builder at heart → WTA and Grayscale examples → ARCS link dropped. Technical depth without altitude bleed — Mariana doesn't push back on any of it.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 4 · 60–80%</div><div class="tl-title">AI Product Depth + Prototype-to-Production</div><div class="tl-body">Mariana: "AI product built from scratch — what did you use?" ARCS answer: hindsight framing, receipt-based decision accountability. WTA scaling scenario, CDN outage DR, 59-uptime compliance. Cleanest on-target technical segment across all three calls.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 5 · 80–100%</div><div class="tl-title">Comp Anchor + Urgency Lever — One Hit, One Miss</div><div class="tl-body"><strong style="color:var(--green);">HIT:</strong> "Mid 250" — Mariana commits to follow up. Competing processes flagged per Johnny's coaching — she offers to compress. <strong style="color:var(--red);">MISS:</strong> "Sounds like this honestly would be the most fun opportunity of all the ones I'm talking to." Reveals enthusiasm hierarchy before leverage is confirmed, collapsing the delta the urgency lever just created.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 1 · 0–20%</div><div class="tl-title">Rapport, Lisbon / Portugal / Kids</div><div class="tl-body">Shorter and tighter than T0's extended cold open. Mariana flags a hard stop early, Zach responds immediately: "No worries." Time calibration set in the first 60 seconds. Improvement vs T0: no runway overrun on rapport.</div></div>
+          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 2 · 20–40%</div><div class="tl-title">CPO-Within-Incubator Framing</div><div class="tl-body">"7 years now", updates Johnny's implicit 'relatively new' prior. Pod structure confirmed verbatim. PM Lead framing: "CPO within an incubator within a huge enterprise customer." Clearest role articulation in the loop so far.</div></div>
+          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 3 · 40–60%</div><div class="tl-title">CONSTRUCTIVE INTERFERENCE · Pitch Lands Clean</div><div class="tl-body">Johnny's referral named immediately. Homework demonstrated: revenue number already hit, growth curve, Fortune 100 focus. Self-framing as builder at heart → WTA and Grayscale examples → ARCS link dropped. Technical depth without altitude bleed, Mariana doesn't push back on any of it.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 4 · 60–80%</div><div class="tl-title">AI Product Depth + Prototype-to-Production</div><div class="tl-body">Mariana: "AI product built from scratch. What did you use?" ARCS answer: hindsight framing, receipt-based decision accountability. WTA scaling scenario, CDN outage DR, 59-uptime compliance. Cleanest on-target technical segment across all three calls.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 5 · 80–100%</div><div class="tl-title">Comp Anchor + Urgency Lever. One Hit, One Miss</div><div class="tl-body"><strong style="color:var(--green);">HIT:</strong> "Mid 250", Mariana commits to follow up. Competing processes flagged per Johnny's coaching she offers to compress. <strong style="color:var(--red);">MISS:</strong> "Sounds like this honestly would be the most fun opportunity of all the ones I'm talking to." Reveals enthusiasm hierarchy before leverage is confirmed, collapsing the delta the urgency lever just created.</div></div>
         </div>
       </div>
 
@@ -610,18 +652,18 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
         <div class="arc-sec-header"><span class="arc-idx">03</span><span class="arc-eyebrow">Signal Assessment</span><span class="arc-sec-title">Four-Thread Read</span></div>
         <div class="sideline">
           <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Coaching Fidelity</div><div class="sl-title">Johnny's playbook executed cleanly</div><div class="sl-text">Hard stop acknowledged immediately. Homework demonstrated. Competing processes flagged. Comp anchored. Mariana responded on every vector.</div></div></div>
-          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Altitude</div><div class="sl-title">No heady bleed — T0 recoil zone suppressed</div><div class="sl-text">No Observatory demo. No Recoil Report pitch. No epistemology or ontology. Stack named efficiently. The altitude correction from T0 held across the full call.</div></div></div>
-          <div class="sl-item"><div class="sl-rail" style="background:var(--gold);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--gold);">Recoil Zone</div><div class="sl-title">Enthusiasm hierarchy revealed prematurely</div><div class="sl-text">"Most fun opportunity of all the ones I'm talking to" — disclosed immediately after flagging competing processes. This collapses the leverage delta the urgency lever just created.</div><div class="sl-note">Once. Do not repeat in T2 or the co-founder meeting.</div></div></div>
-          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Prior Validation</div><div class="sl-title">Johnny's Intel confirmed on all counts</div><div class="sl-text">Pod structure, CPO-within-incubator framing, company age (7 years), partner confirmation, growth numbers — all accurate. T0 Intel is trustworthy baseline for remaining loop stages.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Altitude</div><div class="sl-title">No heady bleed · T0 recoil zone suppressed</div><div class="sl-text">No Observatory demo. No Recoil Report pitch. No epistemology or ontology. Stack named efficiently. The altitude correction from T0 held across the full call.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--gold);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--gold);">Recoil Zone</div><div class="sl-title">Enthusiasm hierarchy revealed prematurely</div><div class="sl-text">"Most fun opportunity of all the ones I'm talking to", disclosed immediately after flagging competing processes. This collapses the leverage delta the urgency lever just created.</div><div class="sl-note">Once. Do not repeat in T2 or the co-founder meeting.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Prior Validation</div><div class="sl-title">Johnny's Intel confirmed on all counts</div><div class="sl-text">Pod structure, CPO-within-incubator framing, company age (7 years), partner confirmation, growth numbers, all accurate. T0 Intel is trustworthy baseline for remaining loop stages.</div></div></div>
         </div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">04</span><span class="arc-eyebrow">Risk Flags</span><span class="arc-sec-title">What to Watch</span></div>
         <div class="flags">
-          <div class="flag warning"><span class="flag-label">Enthusiasm Disclosure</span><span class="flag-body">Do not rank Tribe again in remaining stages. The point of flagging competing processes is to create uncertainty about your preference — revealing the ranking removes that uncertainty.</span></div>
-          <div class="flag success"><span class="flag-label">Altitude — Clean</span><span class="flag-body">Altitude recoil zone from T0 fully suppressed. The coaching held. Do not recalibrate down further — Julia (T2) calibrated up, not flat.</span></div>
-          <div class="flag info"><span class="flag-label">Technical Bar</span><span class="flag-body">Her questions were culture and background focused — not technical. The technical bar starts at T2. Don't calibrate preparation based on this call's reception.</span></div>
+          <div class="flag warning"><span class="flag-label">Enthusiasm Disclosure</span><span class="flag-body">Do not rank Tribe again in remaining stages. The point of flagging competing processes is to create uncertainty about your preference, revealing the ranking removes that uncertainty.</span></div>
+          <div class="flag success"><span class="flag-label">Altitude · Clean</span><span class="flag-body">Altitude recoil zone from T0 fully suppressed. The coaching held. Do not recalibrate down further, Julia (T2) calibrated up, not flat.</span></div>
+          <div class="flag info"><span class="flag-label">Technical Bar</span><span class="flag-body">Her questions were culture and background focused, not technical. The technical bar starts at T2. Don't calibrate preparation based on this call's reception.</span></div>
         </div>
       </div>
 
@@ -629,44 +671,44 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
         <div class="arc-sec-header"><span class="arc-idx">05</span><span class="arc-eyebrow">Protocol</span><span class="arc-sec-title">Into T2</span></div>
         <div class="protocol">
           <div class="proto-step active"><div class="proto-lbl">Rule 01</div><div><div class="proto-title">Do not rank Tribe in T2 or co-founder meeting</div><div class="proto-body">The enthusiasm reveal happened once. It cannot be walked back. The only correction is not to reinforce it. Neutral positive, not superlative.</div></div></div>
-          <div class="proto-step"><div class="proto-lbl">Prep 02</div><div><div class="proto-title">T2 is the technical bar — prepare for hardening probes</div><div class="proto-body">Not probed in T1. High probability at T2. Grayscale legal / compliance standoff is the right story.</div></div></div>
-          <div class="proto-step"><div class="proto-lbl">Prep 03</div><div><div class="proto-title">Hot take may be asked again — commit to one sentence</div><div class="proto-body">Knowledge economy convergence. One sentence. Stop.</div></div></div>
+          <div class="proto-step"><div class="proto-lbl">Prep 02</div><div><div class="proto-title">T2 is the technical bar, prepare for hardening probes</div><div class="proto-body">Not probed in T1. High probability at T2. Grayscale legal / compliance standoff is the right story.</div></div></div>
+          <div class="proto-step"><div class="proto-lbl">Prep 03</div><div><div class="proto-title">Hot take may be asked again, commit to one sentence</div><div class="proto-body">Knowledge economy convergence. One sentence. Stop.</div></div></div>
         </div>
       </div>
 
       <div class="arc-divider" id="arc-t2"></div>
       <div class="cover">
         <div class="badges"><span class="badge">Recoil Report · T2</span><span class="badge">TribeAI · Technical PM Interview</span><span class="badge">Jul 8, 2026</span></div>
-        <h1 class="cover-title">Julia × Zach Harris — Forward Deployed PM Lead · Technical Interview</h1>
-        <p class="cover-subtitle">Strongest close in the loop. Julia confirmed the land-and-expand model verbatim: "You nailed it." Hardening explicitly validated — she asked for the URL. Discovery methodology took 4 follow-up cuts to land — the one active recoil zone. NCI: 91 — advance to take-home.</p>
+        <h1 class="cover-title">Julia × Zach Harris · Forward Deployed PM Lead · Technical Interview</h1>
+        <p class="cover-subtitle">Strongest close in the loop. Julia confirmed the land-and-expand model verbatim: "You nailed it." Hardening explicitly validated. She asked for the URL. Discovery methodology took 4 follow-up cuts to land the one active recoil zone. NCI: 91 advance to take-home.</p>
         <div class="cover-meta">ARCS RECOIL · ~45 min · 7 segments · Reverse Listening + Deep Recall</div>
         <div class="nci-row"><span class="nci-label">NCI</span><span class="nci-value" style="color:var(--green);">91</span><div class="nci-bar"><div class="nci-fill" style="width:91%;background:var(--green);"></div></div><span class="nci-label">Advance to take-home</span></div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">01</span><span class="arc-eyebrow">Signal Quote</span><span class="arc-sec-title">The Most Load-Bearing Moment</span></div>
-        <div class="arc-quote"><p class="arc-quote-text">"That's exactly the right read. That's exactly how we work. Like generally we'll start with kind of like smaller contracts that wedge that leads into the bigger contracts. Yeah, that's exactly right. You nailed it."</p><p class="arc-quote-attr">Julia · final 60 seconds — responding to Zach's unprompted summary of Tribe's land-and-expand go-to-market. Strongest explicit confirmation signal in the full three-call arc.</p></div>
+        <div class="arc-quote"><p class="arc-quote-text">"That's exactly the right read. That's exactly how we work. Like generally we'll start with kind of like smaller contracts that wedge that leads into the bigger contracts. Yeah, that's exactly right. You nailed it."</p><p class="arc-quote-attr">Julia · final 60 seconds, responding to Zach's unprompted summary of Tribe's land-and-expand go-to-market. Strongest explicit confirmation signal in the full three-call arc.</p></div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">02</span><span class="arc-eyebrow">Call Walk</span><span class="arc-sec-title">7 Segments · Reverse Listening + Deep Recall</span></div>
         <div class="arc-timeline">
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 1 · 0–14%</div><div class="tl-title">Register Calibration — Quadruple Major Acknowledgment</div><div class="tl-body">"You might be the first person with a quadruple major I've talked to all week." Zach signals he read Julia's profile. Altitude correctly calibrated up, not flattened — she is the most intellectually comparable person in the loop.</div></div>
-          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 2 · 14–28%</div><div class="tl-title">Flavor-of-PM Probe — "See the Patterns, Dive In"</div><div class="tl-body">Julia synthesized Zach's answer cleanly: "Someone who can see the patterns and like dive in where you need to." She did the compression work. Julia is the first person in the loop who distilled Zach's positioning better than he stated it.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 3 · 28–43%</div><div class="tl-title">RECOIL ZONE — Discovery Methodology Took 4 Cuts</div><div class="tl-body">Julia asked: "Tell me about product discovery." Zach answered with the CBT behavioral health story. Julia had to re-ask 4 times before the specific prioritization logic surfaced: "How did you decide what to go after?" → "What tools were in your arsenal?" → "Which persona?" → "How did you prioritize?" The right answer — FullStory frustration metrics → PLG gate → freemium — arrived on the 4th pass. Julia was patient. A less generous interviewer stops at cut 2.</div></div>
-          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 4 · 43–57%</div><div class="tl-title">PEAK — Hardening Explicitly Validated</div><div class="tl-body">Julia: "Tell me about an AI product you've shipped — discovery to production." ARCS answer: perplexity labs prototyping first, FastAPI backend before frontend, hallucination self-check, drift sentinel, altitude calibration across executive / ops / ML personas. Julia: "I think that's very thoughtful about how you harden and the kind of things you check for." She asked for the URL. Highest-signal segment in the full three-call arc.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 5 · 57–71%</div><div class="tl-title">Stakeholder Story — Grayscale Legal / Compliance</div><div class="tl-body">Mexican standoff → co-design partners → shared definition of done → staging branches per scenario (best/base/worst) → Vercel toolbar as async review layer. Julia synthesized it cleanly: "Building trust by making sure you're listening and reading back: did I get this right?"</div></div>
-          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 6 · 71–86%</div><div class="tl-title">Julia's Candid Intel — Discovery Gap Disclosed</div><div class="tl-body">Julia volunteered: her first Tribe engagement was "handed a problem statement" — the discovery phase was skipped. Next contract (started days before this call) is doing proper discovery now. Most valuable Intel disclosure in the entire three-call arc. Zach is interviewing at exactly the moment Tribe's PM discovery practice is being corrected.</div></div>
-          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 7 · 86–100%</div><div class="tl-title">VALIDATION CLOSE — "You Nailed It"</div><div class="tl-body">Zach's unprompted summary: existing scopes are locked and loaded, focus on delivery, once trust is earned you expand the relationship, right-size to the right stakeholders. Julia: "That's exactly the right read. That's exactly how we work. You nailed it." The call ended at its highest point.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 1 · 0–14%</div><div class="tl-title">Register Calibration · Quadruple Major Acknowledgment</div><div class="tl-body">"You might be the first person with a quadruple major I've talked to all week." Zach signals he read Julia's profile. Altitude correctly calibrated up, not flattened. She is the most intellectually comparable person in the loop.</div></div>
+          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 2 · 14–28%</div><div class="tl-title">Flavor-of-PM Probe, "See the Patterns, Dive In"</div><div class="tl-body">Julia synthesized Zach's answer cleanly: "Someone who can see the patterns and like dive in where you need to." She did the compression work. Julia is the first person in the loop who distilled Zach's positioning better than he stated it.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 3 · 28–43%</div><div class="tl-title">RECOIL ZONE, Discovery Methodology Took 4 Cuts</div><div class="tl-body">Julia asked: "Tell me about product discovery." Zach answered with the CBT behavioral health story. Julia had to re-ask 4 times before the specific prioritization logic surfaced: "How did you decide what to go after?" → "What tools were in your arsenal?" → "Which persona?" → "How did you prioritize?" The right answer, FullStory frustration metrics → PLG gate → freemium arrived on the 4th pass. Julia was patient. A less generous interviewer stops at cut 2.</div></div>
+          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 4 · 43–57%</div><div class="tl-title">PEAK · Hardening Explicitly Validated</div><div class="tl-body">Julia: "Tell me about an AI product you've shipped, discovery to production." ARCS answer: perplexity labs prototyping first, FastAPI backend before frontend, hallucination self-check, drift sentinel, altitude calibration across executive / ops / ML personas. Julia: "I think that's very thoughtful about how you harden and the kind of things you check for." She asked for the URL. Highest-signal segment in the full three-call arc.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-lbl">Seg 5 · 57–71%</div><div class="tl-title">Stakeholder Story · Grayscale Legal / Compliance</div><div class="tl-body">Mexican standoff → co-design partners → shared definition of done → staging branches per scenario (best/base/worst) → Vercel toolbar as async review layer. Julia synthesized it cleanly: "Building trust by making sure you're listening and reading back: did I get this right?"</div></div>
+          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 6 · 71–86%</div><div class="tl-title">Julia's Candid Intel · Discovery Gap Disclosed</div><div class="tl-body">Julia volunteered: her first Tribe engagement was "handed a problem statement", the discovery phase was skipped. Next contract (started days before this call) is doing proper discovery now. Most valuable Intel disclosure in the entire three-call arc. Zach is interviewing at exactly the moment Tribe's PM discovery practice is being corrected.</div></div>
+          <div class="tl-item peak"><div class="tl-dot"></div><div class="tl-lbl">Seg 7 · 86–100%</div><div class="tl-title">VALIDATION CLOSE · "You Nailed It"</div><div class="tl-body">Zach's unprompted summary: existing scopes are locked and loaded, focus on delivery, once trust is earned you expand the relationship, right-size to the right stakeholders. Julia: "That's exactly the right read. That's exactly how we work. You nailed it." The call ended at its highest point.</div></div>
         </div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">03</span><span class="arc-eyebrow">Signal Assessment</span><span class="arc-sec-title">Four-Thread Read</span></div>
         <div class="sideline">
-          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Validation Close</div><div class="sl-title">"You nailed it" — clearest buy signal in the loop</div><div class="sl-text">Julia confirmed Zach's model of Tribe's go-to-market verbatim and without qualification. The candidate accurately described the company's internal operating model without being coached on it.</div></div></div>
-          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Hardening Bar</div><div class="sl-title">Explicitly validated — Julia asked for the URL</div><div class="sl-text">Julia's explicit "very thoughtful" and the URL request at end are confirmation that ARCS as proof-of-build cleared the PM technical bar at Tribe.</div></div></div>
-          <div class="sl-item"><div class="sl-rail" style="background:var(--red);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--red);">Recoil Zone</div><div class="sl-title">Discovery methodology — 4 follow-up cuts</div><div class="sl-text">The CBT discovery story required 4 re-asks before the specific prioritization logic landed. The story is real and the evidence is strong — the issue is extraction order. Lead with the insight, then give the context.</div><div class="sl-note">This is the one active fix. Take-home Module 2 is the live test.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Validation Close</div><div class="sl-title">"You nailed it", clearest buy signal in the loop</div><div class="sl-text">Julia confirmed Zach's model of Tribe's go-to-market verbatim and without qualification. The candidate accurately described the company's internal operating model without being coached on it.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--green);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--green);">Hardening Bar</div><div class="sl-title">Explicitly validated, Julia asked for the URL</div><div class="sl-text">Julia's explicit "very thoughtful" and the URL request at end are confirmation that ARCS as proof-of-build cleared the PM technical bar at Tribe.</div></div></div>
+          <div class="sl-item"><div class="sl-rail" style="background:var(--red);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--red);">Recoil Zone</div><div class="sl-title">Discovery methodology · 4 follow-up cuts</div><div class="sl-text">The CBT discovery story required 4 re-asks before the specific prioritization logic landed. The story is real and the evidence is strong, the issue is extraction order. Lead with the insight, then give the context.</div><div class="sl-note">This is the one active fix. Take-home Module 2 is the live test.</div></div></div>
           <div class="sl-item"><div class="sl-rail" style="background:var(--cyan);"></div><div class="sl-body"><div class="sl-lbl" style="color:var(--cyan);">Insider Intel</div><div class="sl-title">Julia's discovery gap disclosure is the strategic wedge</div><div class="sl-text">Tribe PMs have experienced the failure mode of skipping discovery. Julia is actively correcting it. Zach's discovery rigor is differentiating, not just table stakes.</div></div></div>
         </div>
       </div>
@@ -674,16 +716,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">04</span><span class="arc-eyebrow">Risk Flags</span><span class="arc-sec-title">What to Watch</span></div>
         <div class="flags">
-          <div class="flag warning"><span class="flag-label">Discovery Extraction</span><span class="flag-body">Lead with the insight and prioritization output. The right sequence: "We prioritized X because FullStory showed Y, which predicted Z" — not a chronological walkthrough that arrives at the insight on the 4th pass.</span></div>
+          <div class="flag warning"><span class="flag-label">Discovery Extraction</span><span class="flag-body">Lead with the insight and prioritization output. The right sequence: "We prioritized X because FullStory showed Y, which predicted Z", not a chronological walkthrough that arrives at the insight on the 4th pass.</span></div>
           <div class="flag info"><span class="flag-label">Take-Home Module 2</span><span class="flag-body">Open with: "My first 3 days are discovery-only. Here's the interview list and what I'm trying to learn from each." Julia's disclosure is the exact backstory. Tribe will score this highly right now.</span></div>
-          <div class="flag success"><span class="flag-label">Hardening — Cleared</span><span class="flag-body">No other fix needed on the ARCS / AI product dimension. Julia validated without qualification. Take-home Module 3 (build a triage system) is ARCS as both proof and methodology simultaneously.</span></div>
+          <div class="flag success"><span class="flag-label">Hardening · Cleared</span><span class="flag-body">No other fix needed on the ARCS / AI product dimension. Julia validated without qualification. Take-home Module 3 (build a triage system) is ARCS as both proof and methodology simultaneously.</span></div>
         </div>
       </div>
 
       <div class="arc-sec">
         <div class="arc-sec-header"><span class="arc-idx">05</span><span class="arc-eyebrow">Protocol</span><span class="arc-sec-title">Recovery Protocol</span></div>
         <div class="protocol">
-          <div class="proto-step active"><div class="proto-lbl">Fix 01</div><div><div class="proto-title">Discovery answer: insight first, context second</div><div class="proto-body">The CBT story's real insight: FullStory frustration metrics revealed drop-off → PLG freemium gate tested → leading indicator (fewer frustration taps) predicted higher LTV. Lead with that sentence. Then the story. Never earn the conclusion — state it, then prove it.</div></div></div>
+          <div class="proto-step active"><div class="proto-lbl">Fix 01</div><div><div class="proto-title">Discovery answer: insight first, context second</div><div class="proto-body">The CBT story's real insight: FullStory frustration metrics revealed drop-off → PLG freemium gate tested → leading indicator (fewer frustration taps) predicted higher LTV. Lead with that sentence. Then the story. Never earn the conclusion, state it, then prove it.</div></div></div>
           <div class="proto-step"><div class="proto-lbl">Prep 02</div><div><div class="proto-title">Take-home Module 2: discovery-first mental model</div><div class="proto-body">Open with "My first 3 days are discovery-only. Here's the interview list and what I'm trying to learn from each." Julia's disclosure about the skipped-discovery engagement is the exact backstory Tribe is aware of.</div></div></div>
           <div class="proto-step"><div class="proto-lbl">Prep 03</div><div><div class="proto-title">Co-founder meeting: personal register, not career</div><div class="proto-body">Johnny: rapid-fire personal questions. "One word your wife would use to describe you." Prepare 3 answers in this register. Do not pivot to product or career unless directly asked.</div></div></div>
         </div>
@@ -694,49 +736,49 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
     <div id="tab-oncall" class="pane" data-label="On-Call">
 
       <div class="script sc-cyan">
-        <div class="sc-e">Opening — 60 Seconds · Lock This · No Notes</div>
-        <div class="sc-t">"I'm a builder and senior embedded operator in high-stakes regulated environments, usually on zero-to-one and go-to-market initiatives. Most recently at Grayscale, I launched about $7 billion in digital assets into private and public capital markets during peak regulatory uncertainty under Reg D and Reg S constraints, with zero notices or violations. What drew me to Tribe specifically is the embedded pod model — one dedicated client, real mandate, outcomes over process — which is exactly the operating structure where I do my best work."</div>
+        <div class="sc-e">Opening, 60 Seconds · Lock This · No Notes</div>
+        <div class="sc-t">"I'm a builder and senior embedded operator in high-stakes regulated environments, usually on zero-to-one and go-to-market initiatives. Most recently at Grayscale, I launched about $7 billion in digital assets into private and public capital markets during peak regulatory uncertainty under Reg D and Reg S constraints, with zero notices or violations. What drew me to Tribe specifically is the embedded pod model. One dedicated client, real mandate, outcomes over process which is exactly the operating structure where I do my best work."</div>
         <div class="sc-c">Energy from word one. No warm-up lap. Stop at 60s.</div>
       </div>
 
       <div class="script sc-cyan">
-        <div class="sc-e">ARCS — If She Asks · 90 Seconds Max</div>
-        <div class="sc-t">"There are four questions I want answered before any high-stakes call or product decision: Am I thinking about the problem in the right way? Am I asking the right questions? Am I pointed in the right direction? And do I have high enough conviction around the first job to actually move forward? I built a framework to answer all four, fast — stakeholder profiling, pre-mortem, confidence self-grading, lineage log. I use it for governance checkpoints before anything goes to exec, for team decisions so everyone's pre-mortem is in the same room before the meeting, and for client discovery — first week embedded, before I have authority, it's how I earn diagnostic credibility fast. Stack: Claude Code, Python, FastAPI, Supabase, Vercel. A tool I use every day."</div>
+        <div class="sc-e">ARCS, If She Asks · 90 Seconds Max</div>
+        <div class="sc-t">"There are four questions I want answered before any high-stakes call or product decision: Am I thinking about the problem in the right way? Am I asking the right questions? Am I pointed in the right direction? And do I have high enough conviction around the first job to actually move forward? I built a framework to answer all four, fast, stakeholder profiling, pre-mortem, confidence self-grading, lineage log. I use it for governance checkpoints before anything goes to exec, for team decisions so everyone's pre-mortem is in the same room before the meeting, and for client discovery first week embedded, before I have authority, it's how I earn diagnostic credibility fast. Stack: Claude Code, Python, FastAPI, Supabase, Vercel. A tool I use every day."</div>
         <div class="sc-c">If "live or just a framework?" → two receipts: Kinexys moved to next stage · Millionways produced a co-authorship conversation. Ceiling: "a tool I use every day."</div>
       </div>
 
       <div class="script sc-gold">
-        <div class="sc-e">Hot Take — Deploy at Natural Pause · 30 Seconds · Silence After</div>
+        <div class="sc-e">Hot Take, Deploy at Natural Pause · 30 Seconds · Silence After</div>
         <div class="sc-t">"In frontier health products, the real challenge is not showing off the technology. It's earning trust fast enough that the technology feels invisible and the outcome feels real."</div>
-        <div class="sc-c">Trigger: after any story lands, after she describes a client challenge, or at min 25 — whichever comes first. Do not force it mid-sentence. Say it. Hold 5 full seconds.</div>
+        <div class="sc-c">Trigger: after any story lands, after she describes a client challenge, or at min 25, whichever comes first. Do not force it mid-sentence. Say it. Hold 5 full seconds.</div>
       </div>
 
       <div class="script sc-green">
-        <div class="sc-e">Close Question — Last 5 Minutes · Non-Negotiable</div>
-        <div class="sc-t">"What does the first 30 days of a successful FDE engagement look like for Tribe — not from a deliverables standpoint, but from a trust-building standpoint? How do your best practitioners earn the right to shape the problem before they start solving it?"</div>
-        <div class="sc-c">Ask it even if she's wrapping up. If it was already answered organically mid-call, pivot to: "You've been at Tribe four months — what's surprised you about the role versus what you expected?" Her answer is intel for every stage that follows.</div>
+        <div class="sc-e">Close Question, Last 5 Minutes · Non-Negotiable</div>
+        <div class="sc-t">"What does the first 30 days of a successful FDE engagement look like for Tribe, not from a deliverables standpoint, but from a trust-building standpoint? How do your best practitioners earn the right to shape the problem before they start solving it?"</div>
+        <div class="sc-c">Ask it even if she's wrapping up. If it was already answered organically mid-call, pivot to: "You've been at Tribe four months, what's surprised you about the role versus what you expected?" Her answer is intel for every stage that follows.</div>
       </div>
 
       <div class="script sc-green">
-        <div class="sc-e">Timeline — If It Comes Up</div>
-        <div class="sc-t">"I have competing timelines I want to be transparent about — if there's strong mutual fit here, I'd love to move as quickly as makes sense for Tribe."</div>
-        <div class="sc-c">Already logged by Mariana — Tribe system knows. Keep it general: no company names, no stage detail. If she asks where → "a couple of roles in fintech and enterprise AI." Don't elaborate.</div>
+        <div class="sc-e">Timeline · If It Comes Up</div>
+        <div class="sc-t">"I have competing timelines I want to be transparent about, if there's strong mutual fit here, I'd love to move as quickly as makes sense for Tribe."</div>
+        <div class="sc-c">Already logged by Mariana, Tribe system knows. Keep it general: no company names, no stage detail. If she asks where → "a couple of roles in fintech and enterprise AI." Don't elaborate.</div>
       </div>
 
       <div><div class="sl">If She Asks About X</div>
       <div class="card">
-        <div class="irow"><div class="itag">Embedded engagement without Fortune 100 org chart</div><div class="itext">"My version of embedded was going into Axon or GoPro with no institutional authority and having to ship anyway on a hostile clock. Different context — identical constraint structure."</div></div>
-        <div class="irow"><div class="itag">Technical depth</div><div class="itext">"I'm not the ML engineer. I'm the person who makes sure the ML engineer is solving the right problem — and that the model ships to a stakeholder who can act on it."</div></div>
-        <div class="irow"><div class="itag">ARCS — live or just a framework?</div><div class="itext">Two receipts: Kinexys moved to next stage · Millionways produced a co-authorship conversation. Ceiling: "a tool I use every day."</div></div>
-        <div class="irow"><div class="itag">ARCS — product or personal practice?</div><div class="itext">"Personal practice — I'm the primary user and the primary proof point. The best test of a decision system is whether you use it when the stakes are real. I have." Do not expand into product vision.</div></div>
-        <div class="irow"><div class="itag">What's in the disaster check?</div><div class="itext">"Three things: competitive intel — who's in the space and what's actually working, brand audit — where trust is already broken or already held, heuristics audit — what the UX is telling you that the roadmap isn't. That's the baseline before I touch the problem statement."</div></div>
-        <div class="irow"><div class="itag">How were the Ideal Protein metrics measured?</div><div class="itext">"PQL and booking rate were tracked through the platform's own CRM pipeline — before/after on a fixed 90-day window. NPS was a direct survey run by the client PMO. I designed the intervention and held the baseline."</div></div>
-        <div class="irow"><div class="itag">Take-home — what does your tooling look like there?</div><div class="itext">"I'd use Claude Code and my prep framework for module one. For module two I'd instrument the sprint scaffold live, not describe it after the fact. Module three is a triage system, which is exactly the domain I've built tooling in." Then stop.</div></div>
+        <div class="irow"><div class="itag">Embedded engagement without Fortune 100 org chart</div><div class="itext">"My version of embedded was going into Axon or GoPro with no institutional authority and having to ship anyway on a hostile clock. Different context, identical constraint structure."</div></div>
+        <div class="irow"><div class="itag">Technical depth</div><div class="itext">"I'm not the ML engineer. I'm the person who makes sure the ML engineer is solving the right problem, and that the model ships to a stakeholder who can act on it."</div></div>
+        <div class="irow"><div class="itag">ARCS, live or just a framework?</div><div class="itext">Two receipts: Kinexys moved to next stage · Millionways produced a co-authorship conversation. Ceiling: "a tool I use every day."</div></div>
+        <div class="irow"><div class="itag">ARCS, product or personal practice?</div><div class="itext">"Personal practice. I'm the primary user and the primary proof point. The best test of a decision system is whether you use it when the stakes are real. I have." Do not expand into product vision.</div></div>
+        <div class="irow"><div class="itag">What's in the disaster check?</div><div class="itext">"Three things: competitive intel, who's in the space and what's actually working, brand audit where trust is already broken or already held, heuristics audit what the UX is telling you that the roadmap isn't. That's the baseline before I touch the problem statement."</div></div>
+        <div class="irow"><div class="itag">How were the Ideal Protein metrics measured?</div><div class="itext">"PQL and booking rate were tracked through the platform's own CRM pipeline, before/after on a fixed 90-day window. NPS was a direct survey run by the client PMO. I designed the intervention and held the baseline."</div></div>
+        <div class="irow"><div class="itag">Take-home. What does your tooling look like there?</div><div class="itext">"I'd use Claude Code and my prep framework for module one. For module two I'd instrument the sprint scaffold live, not describe it after the fact. Module three is a triage system, which is exactly the domain I've built tooling in." Then stop.</div></div>
       </div></div>
 
-      <div><div class="sl">If She Probes Deeper — Kintsugi Answers</div>
+      <div><div class="sl">If She Probes Deeper · Kintsugi Answers</div>
       <div class="card">
-        <div class="fracture-row"><div class="fracture-label">No Traditional Embedded Engagement</div><div class="fracture-text">"My version of embedded has been as a founding operator and practice lead — going into Axon or GoPro with no institutional authority and having to ship in a foreign environment with a hostile clock. The context is different; the constraint structure is identical."</div></div>
+        <div class="fracture-row"><div class="fracture-label">No Traditional Embedded Engagement</div><div class="fracture-text">"My version of embedded has been as a founding operator and practice lead, going into Axon or GoPro with no institutional authority and having to ship in a foreign environment with a hostile clock. The context is different; the constraint structure is identical."</div></div>
         <div class="fracture-row"><div class="fracture-label">AI Portfolio Is Narrow</div><div class="fracture-text">"I haven't built a production ML system. I've built systems on top of ML that make the output useful to real stakeholders. That's actually the skill most commonly missing when AI deployments fail. The model usually works. The decision-to-ship moment usually doesn't."</div></div>
         <div class="fracture-row"><div class="fracture-label">ARCS Seems Self-Referential</div><div class="fracture-text">"I'm the primary user and the primary proof point. The best test of any decision system is whether you'd use it when the stakes are real. Every major call and product decision in the last 18 months. That's the product-market fit signal I trust most."</div></div>
       </div></div>
@@ -744,7 +786,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
       <div><div class="sl">Take-Home Signal</div>
       <div class="card"><div class="conf-rows">
         <div class="conf-row"><div class="conf-key">Format</div><div class="conf-val">Loom video · Full day of work · Three modules</div></div>
-        <div class="conf-row"><div class="conf-key">Module 1</div><div class="conf-val">What matters for this role — mindset, approach, tools. Cultural alignment test.</div></div>
+        <div class="conf-row"><div class="conf-key">Module 1</div><div class="conf-val">What matters for this role, mindset, approach, tools. Cultural alignment test.</div></div>
         <div class="conf-row"><div class="conf-key">Module 2</div><div class="conf-val">Drop into current state, build mental model, produce next 2-week sprint using AI. Core FDE competency test.</div></div>
         <div class="conf-row"><div class="conf-key">Module 3</div><div class="conf-val">Build project triage system end-to-end, show process, deliver artifacts.</div></div>
         <div class="conf-row"><div class="conf-key">Signal move</div><div class="conf-val">Mention you're aware of the format and your stack maps to it. Insider knowledge via Johnny.</div></div>
@@ -767,7 +809,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
       </div>
 
       <div style="background:rgba(0,240,255,.04);border:1px solid rgba(0,240,255,.15);border-radius:8px;padding:14px 18px;margin-bottom:4px;">
-        <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Read the Room — Zoom Signals</div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Read the Room · Zoom Signals</div>
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
             <div style="font-size:12px;font-weight:600;color:var(--text);">Nod acceleration</div>
@@ -775,11 +817,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
           </div>
           <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
             <div style="font-size:12px;font-weight:600;color:var(--text);">Completion attempt</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Mouth opens, closes — she's trying to speak. → Stop mid-sentence. "Go ahead." Don't finish your thought first.</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Mouth opens, closes, she's trying to speak. → Stop mid-sentence. "Go ahead." Don't finish your thought first.</div>
           </div>
           <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
             <div style="font-size:12px;font-weight:600;color:var(--text);">Expression freeze</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Face goes flat/neutral. Not hostile — processing nothing. → "Short version: [one sentence]." No question after.</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Face goes flat/neutral. Not hostile, processing nothing. → "Short version: [one sentence]." No question after.</div>
           </div>
           <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
             <div style="font-size:12px;font-weight:600;color:var(--text);">Eye drift ×2</div>
@@ -791,7 +833,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
           </div>
           <div style="padding:7px 0;">
             <div style="font-size:12px;font-weight:600;color:var(--cyan);margin-bottom:3px;">Override signal</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.5;">"So are you saying..." — not confusion, it's compression. She's editing for you. Say "exactly." Let her version stand. Do not expand.</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">"So are you saying...", not confusion, it's compression. She's editing for you. Say "exactly." Let her version stand. Do not expand.</div>
           </div>
         </div>
       </div>
@@ -801,30 +843,30 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div style="display:flex;gap:10px;align-items:flex-start;"><div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;width:18px;">①</div><div style="font-size:12px;color:var(--text);line-height:1.55;"><strong>And-count:</strong> Three "ands" in one answer = past the stop point. Feel the third one. Cut.</div></div>
           <div style="display:flex;gap:10px;align-items:flex-start;"><div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;width:18px;">②</div><div style="font-size:12px;color:var(--text);line-height:1.55;"><strong>90-second echo:</strong> She hasn't spoken in 90 seconds → you're drifting. The room is waiting, not processing. Land the plane.</div></div>
-          <div style="display:flex;gap:10px;align-items:flex-start;"><div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;width:18px;">③</div><div style="font-size:12px;color:var(--text);line-height:1.55;"><strong>Object check:</strong> If the sentence you're in has no artifact, metric, tool, or observed behavior — stop. Finish on the last concrete thing you said.</div></div>
-          <div style="margin-top:4px;padding:9px 12px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.15);border-radius:6px;font-family:var(--mono);font-size:11px;color:var(--gold);line-height:1.6;">Recovery: <em style="color:var(--text);font-style:italic;">"Actually — short version: [one sentence]. What's your read on that?"</em> Return the ball. She talks. You reset.</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;width:18px;">③</div><div style="font-size:12px;color:var(--text);line-height:1.55;"><strong>Object check:</strong> If the sentence you're in has no artifact, metric, tool, or observed behavior, stop. Finish on the last concrete thing you said.</div></div>
+          <div style="margin-top:4px;padding:9px 12px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.15);border-radius:6px;font-family:var(--mono);font-size:11px;color:var(--gold);line-height:1.6;">Recovery: <em style="color:var(--text);font-style:italic;">"Actually, short version: [one sentence]. What's your read on that?"</em> Return the ball. She talks. You reset.</div>
         </div>
       </div>
 
-      <div><div class="sl">Call Flow — 45 Minutes</div>
+      <div><div class="sl">Call Flow · 45 Minutes</div>
       <div class="card"><div class="flow">
         <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--cyan)">1</div><div class="fsmall">0:00</div><div class="fsmall">60s</div></div><div class="fbody"><div class="ftag" style="color:var(--cyan)">OPENING</div><div class="ftext">Builder + embedded operator + regulated delivery + Grayscale $7B, zero violations + Tribe pod model.</div><div class="fnote">Energy from word one. Stop at 60s.</div></div></div>
-        <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--cyan)">2</div><div class="fsmall">1:00</div><div class="fsmall">~10 min</div></div><div class="fbody"><div class="ftag" style="color:var(--cyan)">HER QUESTIONS — CALIBRATE</div><div class="ftext">Listen for register: delivery vs. strategy. 3 min per answer. AI products → Story B.</div></div></div>
-        <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--cyan)">3</div><div class="fsmall">~10–20</div><div class="fsmall">min</div></div><div class="fbody"><div class="ftag" style="color:var(--cyan)">STORY ZONE</div><div class="ftext" style="display:flex;flex-direction:column;gap:4px;"><span><strong style="color:var(--cyan)">A — Grayscale:</strong> $7B, zero violations. 3 min.</span><span><strong style="color:var(--green)">B — ARCS:</strong> Compression of time to done. "Primary user and primary proof point." 3 min.</span><span><strong style="color:var(--gold)">C — Ideal Protein:</strong> Disaster check first. +40% PQL, +63% booking, +23 NPS. 3 min.</span></div></div></div>
+        <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--cyan)">2</div><div class="fsmall">1:00</div><div class="fsmall">~10 min</div></div><div class="fbody"><div class="ftag" style="color:var(--cyan)">HER QUESTIONS · CALIBRATE</div><div class="ftext">Listen for register: delivery vs. strategy. 3 min per answer. AI products → Story B.</div></div></div>
+        <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--cyan)">3</div><div class="fsmall">~10–20</div><div class="fsmall">min</div></div><div class="fbody"><div class="ftag" style="color:var(--cyan)">STORY ZONE</div><div class="ftext" style="display:flex;flex-direction:column;gap:4px;"><span><strong style="color:var(--cyan)">A · Grayscale:</strong> $7B, zero violations. 3 min.</span><span><strong style="color:var(--green)">B · ARCS:</strong> Compression of time to done. "Primary user and primary proof point." 3 min.</span><span><strong style="color:var(--gold)">C · Ideal Protein:</strong> Disaster check first. +40% PQL, +63% booking, +23 NPS. 3 min.</span></div></div></div>
         <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--gold)">4</div><div class="fsmall">by min</div><div class="fsmall">30</div></div><div class="fbody"><div class="ftag" style="color:var(--gold)">HOT TAKE</div><div class="ftext" style="font-style:italic;">"In frontier health products, the real challenge is not showing off the technology. It's earning trust fast enough that the technology feels invisible and the outcome feels real."</div><div class="fnote">30 seconds. 5 seconds of silence. Move on.</div></div></div>
         <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--cyan)">5</div><div class="fsmall">~30–38</div><div class="fsmall">min</div></div><div class="fbody"><div class="ftag" style="color:var(--cyan)">TAKE-HOME + TIMELINE</div><div class="ftext">Signal take-home awareness. Timeline comes up → speed-run lever.</div></div></div>
-        <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--green)">6</div><div class="fsmall">last 5</div><div class="fsmall">min</div></div><div class="fbody"><div class="ftag" style="color:var(--green)">CLOSE QUESTION</div><div class="ftext" style="font-style:italic;">"What does the first 30 days look like — not from a deliverables standpoint, but from a trust-building standpoint?"</div><div class="fnote">Ask it even if she's wrapping up. If already answered: "What surprised you about the role?"</div></div></div>
-        <div class="frow" style="background:rgba(255,77,109,.03);"><div class="fclock"><div class="fbig" style="color:var(--red);font-size:14px;">⚡</div><div class="fsmall" style="color:var(--red);">BRANCH</div></div><div class="fbody"><div class="ftag" style="color:var(--red);">IF SHE DOMINATES — 8 MIN LEFT</div><div class="ftext">Find a natural breath: "I want to make sure I leave time for a question before we're out." Hot take → close question. Skip unplayed stories. Do not try to fit everything.</div></div></div>
+        <div class="frow"><div class="fclock"><div class="fbig" style="color:var(--green)">6</div><div class="fsmall">last 5</div><div class="fsmall">min</div></div><div class="fbody"><div class="ftag" style="color:var(--green)">CLOSE QUESTION</div><div class="ftext" style="font-style:italic;">"What does the first 30 days look like, not from a deliverables standpoint, but from a trust-building standpoint?"</div><div class="fnote">Ask it even if she's wrapping up. If already answered: "What surprised you about the role?"</div></div></div>
+        <div class="frow" style="background:rgba(255,77,109,.03);"><div class="fclock"><div class="fbig" style="color:var(--red);font-size:14px;">⚡</div><div class="fsmall" style="color:var(--red);">BRANCH</div></div><div class="fbody"><div class="ftag" style="color:var(--red);">IF SHE DOMINATES · 8 MIN LEFT</div><div class="ftext">Find a natural breath: "I want to make sure I leave time for a question before we're out." Hot take → close question. Skip unplayed stories. Do not try to fit everything.</div></div></div>
       </div></div></div>
 
       <div><div class="sl">If She Says → You Say</div>
       <div class="card">
         <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);padding:9px 18px;"><div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dim)">IF SHE ASKS…</div><div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dim)">YOU SAY…</div></div>
-        <div class="ifthen-row"><div class="if-cell">"Walk me through an embedded engagement"</div><div class="then-cell">Story C — Ideal Protein. Disaster check first. Discovery before solution.</div></div>
-        <div class="ifthen-row"><div class="if-cell">"What AI products have you built?"</div><div class="then-cell">Story B — ARCS. "Compression of time to done." Plain problem → real stack → real results. Under 3 min.</div></div>
+        <div class="ifthen-row"><div class="if-cell">"Walk me through an embedded engagement"</div><div class="then-cell">Story C, Ideal Protein. Disaster check first. Discovery before solution.</div></div>
+        <div class="ifthen-row"><div class="if-cell">"What AI products have you built?"</div><div class="then-cell">Story B, ARCS. "Compression of time to done." Plain problem → real stack → real results. Under 3 min.</div></div>
         <div class="ifthen-row"><div class="if-cell">"What makes you different?"</div><div class="then-cell">"I've been running a version of this deployment cycle for 18 months. Here's one example." → most relevant story.</div></div>
-        <div class="ifthen-row"><div class="if-cell">"You don't have Fortune 100 embedded experience"</div><div class="then-cell">"No org chart, hostile clock, had to ship anyway — Axon, GoPro. Same constraint structure."</div></div>
-        <div class="ifthen-row"><div class="if-cell">"How technical are you?"</div><div class="then-cell">"I'm not the ML engineer — I'm the person who makes sure the ML engineer is solving the right problem." Own it.</div></div>
+        <div class="ifthen-row"><div class="if-cell">"You don't have Fortune 100 embedded experience"</div><div class="then-cell">"No org chart, hostile clock, had to ship anyway, Axon, GoPro. Same constraint structure."</div></div>
+        <div class="ifthen-row"><div class="if-cell">"How technical are you?"</div><div class="then-cell">"I'm not the ML engineer. I'm the person who makes sure the ML engineer is solving the right problem." Own it.</div></div>
         <div class="ifthen-row"><div class="if-cell">"What's your hot take on AI?"</div><div class="then-cell">Neurotech version. 30 seconds. 5 seconds silence. Don't double down.</div></div>
       </div></div>
     </div>
@@ -834,55 +876,55 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
 
       <div><div class="sl">Profile True North</div>
       <div class="card" style="border-left:3px solid var(--cyan);">
-        <div style="font-size:13px;color:var(--text);line-height:1.7;">Julia is not a PM who learned neurotech. She is a field neuroscientist who became an empiricist-PM while staying a scientist. She evaluates in peer mode. The fastest rapport is earned evidence, not earned fluency. Her default unasked question is <strong>"how do you know that?"</strong> — answer it before she asks.</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.7;">Julia is not a PM who learned neurotech. She is a field neuroscientist who became an empiricist-PM while staying a scientist. She evaluates in peer mode. The fastest rapport is earned evidence, not earned fluency. Her default unasked question is <strong>"how do you know that?"</strong>answer it before she asks.</div>
       </div></div>
 
       <div><div class="sl">Formation Arc</div>
       <div class="card">
-        <div class="arc-row"><div class="arc-era"><div class="arc-co">WashU</div><div class="arc-yr">2006–10</div></div><div class="arc-body"><div class="arc-row-title">Philosophy · Neuroscience · Psychology · Anthropology</div><div class="arc-signal">Four disciplines at once. <strong>Philosophy is load-bearing</strong> — this is where her epistemological wiring lives. She thinks about what constitutes valid inference and operationalizes it without naming it.</div></div></div>
+        <div class="arc-row"><div class="arc-era"><div class="arc-co">WashU</div><div class="arc-yr">2006–10</div></div><div class="arc-body"><div class="arc-row-title">Philosophy · Neuroscience · Psychology · Anthropology</div><div class="arc-signal">Four disciplines at once. <strong>Philosophy is load-bearing</strong>this is where her epistemological wiring lives. She thinks about what constitutes valid inference and operationalizes it without naming it.</div></div></div>
         <div class="arc-row"><div class="arc-era"><div class="arc-co">Nielsen</div><div class="arc-yr">2011–16</div></div><div class="arc-body"><div class="arc-row-title">Neurophysiologist → 12 Countries</div><div class="arc-signal"><strong>Pop-up EEG labs in 12 countries.</strong> Field empiricist who makes reliable evidence from unreliable conditions. <em>This is her foundational pattern. Everything after is that pattern at higher altitude.</em></div></div></div>
         <div class="arc-row"><div class="arc-era"><div class="arc-co">Meta</div><div class="arc-yr">2017–22</div></div><div class="arc-body"><div class="arc-row-title">Research Scientist → PM, Reality Labs</div><div class="arc-signal">AI-based EMG models for AR/VR before the hype cycle. <strong>She knows the gap between a lab result and a production deployment.</strong> Empty AI vocabulary will register as junior to her.</div></div></div>
         <div class="arc-row"><div class="arc-era"><div class="arc-co">SynapseBio</div><div class="arc-yr">2022–23</div></div><div class="arc-body"><div class="arc-row-title">Co-founder, Head of Product</div><div class="arc-signal">EEG + ML for neuropsychiatric AI biomarkers. She took the founding leap. <strong>Keep ARCS as methodology proof, not founding narrative.</strong> She'll feel the distinction.</div></div></div>
-        <div class="arc-row"><div class="arc-era"><div class="arc-co">Child Mind</div><div class="arc-yr">2023–26</div></div><div class="arc-body"><div class="arc-row-title">Director of Product — Mirror App</div><div class="arc-signal">AR + AI journaling to <strong>100K+ users in 6 months</strong> with California. Institutional constraint + speed + scale + zero public margin for error. <em>Structurally identical to Grayscale. This is your fastest rapport vector.</em></div></div></div>
-        <div class="arc-row"><div class="arc-era"><div class="arc-co">Tribe AI</div><div class="arc-yr">Mar 2026</div></div><div class="arc-body"><div class="arc-row-title">Forward Deployed PM Lead — 4 months in</div><div class="arc-signal">She IS the role she's evaluating you for. She just walked this path. <strong>Ask her what surprised her — she will give you a real answer because the question is honest.</strong></div></div></div>
+        <div class="arc-row"><div class="arc-era"><div class="arc-co">Child Mind</div><div class="arc-yr">2023–26</div></div><div class="arc-body"><div class="arc-row-title">Director of Product · Mirror App</div><div class="arc-signal">AR + AI journaling to <strong>100K+ users in 6 months</strong> with California. Institutional constraint + speed + scale + zero public margin for error. <em>Structurally identical to Grayscale. This is your fastest rapport vector.</em></div></div></div>
+        <div class="arc-row"><div class="arc-era"><div class="arc-co">Tribe AI</div><div class="arc-yr">Mar 2026</div></div><div class="arc-body"><div class="arc-row-title">Forward Deployed PM Lead · 4 months in</div><div class="arc-signal">She IS the role she's evaluating you for. She just walked this path. <strong>Ask her what surprised her. She will give you a real answer because the question is honest.</strong></div></div></div>
       </div></div>
 
       <div><div class="sl">Genome Threads</div>
       <div class="card">
-        <div class="thread-row"><div class="thread-line" style="background:var(--red);width:3px;"></div><div><div class="thread-tag" style="color:var(--red)">Red Thread — Career Coherence</div><div class="thread-label">Chain of custody is clean</div><div class="thread-text">Nielsen field neurophysiologist → Meta AI product → SynapseBio co-founder → Child Mind mission product → Tribe FDE PM. The through-line: <strong>applied empiricist who converts signal to evidence under adverse conditions, at progressively higher altitude.</strong></div></div></div>
-        <div class="thread-row"><div class="thread-line" style="background:var(--gold);width:3px;"></div><div><div class="thread-tag" style="color:var(--gold)">Gold Thread — Provenance</div><div class="thread-label">The 12-country field work is the origin</div><div class="thread-text">Setting up pop-up labs in 12 countries — making reliable evidence from unreliable conditions. Everything after is that same pattern: Meta (AI product quality), SynapseBio (clinical-grade biomarkers), Mirror (behavior change at scale), Tribe (enterprise deployment quality).</div></div></div>
-        <div class="thread-row"><div class="thread-line" style="background:var(--green);width:3px;"></div><div><div class="thread-tag" style="color:var(--green)">Green Thread — Highest-Conviction Bet</div><div class="thread-label">Leaving Meta Reality Labs to co-found SynapseBio</div><div class="thread-text">Walked away from a senior PM seat at Meta to bet on neuropsychiatric EEG biomarkers before clinical AI had traction. <strong>That cost something.</strong> She is not a career optimizer — she is a genuine domain conviction holder.</div></div></div>
-        <div class="thread-row"><div class="thread-line" style="background:var(--muted);width:3px;"></div><div><div class="thread-tag" style="color:var(--muted)">Vermillion Thread — Packaging Gap</div><div class="thread-label">Neurotech depth almost certainly underlevered at Tribe</div><div class="thread-text">Her title is "Forward Deployed PM Lead" but her genome is a field scientist who shipped production neural AI systems before the category existed. <strong>You can speak to the physiological signal layer in ways no other PM candidate can.</strong> If it comes up organically, name it.</div></div></div>
+        <div class="thread-row"><div class="thread-line" style="background:var(--red);width:3px;"></div><div><div class="thread-tag" style="color:var(--red)">Red Thread · Career Coherence</div><div class="thread-label">Chain of custody is clean</div><div class="thread-text">Nielsen field neurophysiologist → Meta AI product → SynapseBio co-founder → Child Mind mission product → Tribe FDE PM. The through-line: <strong>applied empiricist who converts signal to evidence under adverse conditions, at progressively higher altitude.</strong></div></div></div>
+        <div class="thread-row"><div class="thread-line" style="background:var(--gold);width:3px;"></div><div><div class="thread-tag" style="color:var(--gold)">Gold Thread · Provenance</div><div class="thread-label">The 12-country field work is the origin</div><div class="thread-text">Setting up pop-up labs in 12 countries, making reliable evidence from unreliable conditions. Everything after is that same pattern: Meta (AI product quality), SynapseBio (clinical-grade biomarkers), Mirror (behavior change at scale), Tribe (enterprise deployment quality).</div></div></div>
+        <div class="thread-row"><div class="thread-line" style="background:var(--green);width:3px;"></div><div><div class="thread-tag" style="color:var(--green)">Green Thread · Highest-Conviction Bet</div><div class="thread-label">Leaving Meta Reality Labs to co-found SynapseBio</div><div class="thread-text">Walked away from a senior PM seat at Meta to bet on neuropsychiatric EEG biomarkers before clinical AI had traction. <strong>That cost something.</strong> She is not a career optimizer. She is a genuine domain conviction holder.</div></div></div>
+        <div class="thread-row"><div class="thread-line" style="background:var(--muted);width:3px;"></div><div><div class="thread-tag" style="color:var(--muted)">Vermillion Thread · Packaging Gap</div><div class="thread-label">Neurotech depth almost certainly underlevered at Tribe</div><div class="thread-text">Her title is "Forward Deployed PM Lead" but her genome is a field scientist who shipped production neural AI systems before the category existed. <strong>You can speak to the physiological signal layer in ways no other PM candidate can.</strong> If it comes up organically, name it.</div></div></div>
       </div></div>
 
-      <div><div class="sl">What Lands — Resonance</div>
+      <div><div class="sl">What Lands · Resonance</div>
       <div class="card">
         <div class="res-item"><div class="rdot rdot-green"></div><div><div class="rlabel">Hot take is her lived problem</div><div class="rbody">"Earning trust fast enough that the technology feels invisible" is the central design challenge of Mirror, EEG psychiatry biomarkers, and Wispr Flow. She's lived it for 15 years. <strong>Say it clean. Let it land. 5 seconds of silence.</strong></div></div></div>
-        <div class="res-item"><div class="rdot rdot-green"></div><div><div class="rlabel">Grayscale ↔ Mirror — name it once</div><div class="rbody">Same topology: institutional constraint + speed + scale + zero public margin for error. <strong>"You'll recognize this terrain."</strong> Only if she invites it. Say it once. Let her feel the recognition.</div></div></div>
+        <div class="res-item"><div class="rdot rdot-green"></div><div><div class="rlabel">Grayscale ↔ Mirror · name it once</div><div class="rbody">Same topology: institutional constraint + speed + scale + zero public margin for error. <strong>"You'll recognize this terrain."</strong> Only if she invites it. Say it once. Let her feel the recognition.</div></div></div>
         <div class="res-item"><div class="rdot rdot-green"></div><div><div class="rlabel">Disaster check = research protocol</div><div class="rbody">Competitive intel + brand audit + heuristics audit before touching the roadmap. <strong>She designed controlled studies.</strong> Name the instinct: "I run a disaster check first." She will recognize it as her own.</div></div></div>
-        <div class="res-item"><div class="rdot rdot-green"></div><div><div class="rlabel">Builder-to-builder signal</div><div class="rbody">She co-founded SynapseBio and took it to clinical deployment. Don't over-reach the comparison — ARCS is a personal practice tool, not a company. Right frame: <strong>"I am the primary user and the primary proof point."</strong> That's credible. "We're both founders" is not.</div></div></div>
+        <div class="res-item"><div class="rdot rdot-green"></div><div><div class="rlabel">Builder-to-builder signal</div><div class="rbody">She co-founded SynapseBio and took it to clinical deployment. Don't over-reach the comparison, ARCS is a personal practice tool, not a company. Right frame: <strong>"I am the primary user and the primary proof point."</strong> That's credible. "We're both founders" is not.</div></div></div>
       </div></div>
 
-      <div><div class="sl">What Won't Land — Repel Map</div>
+      <div><div class="sl">What Won't Land · Repel Map</div>
       <div class="card">
         <div class="res-item"><div class="rdot rdot-red"></div><div><div class="rlabel">AI vocabulary without specificity</div><div class="rbody">She built AI-based EMG models at Meta Reality Labs before "AI-native" existed. Empty language registers as junior.<div class="repel-chip">Product name → specific decision → observable outcome</div></div></div></div>
-        <div class="res-item"><div class="rdot rdot-red"></div><div><div class="rlabel">ARCS as a founding narrative</div><div class="rbody">She co-founded a real company. She knows the difference. Ceiling: "a tool I use every day."<div class="repel-chip">Three receipts only — not a product pitch</div></div></div></div>
+        <div class="res-item"><div class="rdot rdot-red"></div><div><div class="rlabel">ARCS as a founding narrative</div><div class="rbody">She co-founded a real company. She knows the difference. Ceiling: "a tool I use every day."<div class="repel-chip">Three receipts only · not a product pitch</div></div></div></div>
         <div class="res-item"><div class="rdot rdot-red"></div><div><div class="rlabel">Explaining neuroscience or AI to her</div><div class="rbody">A decade of hands-on EEG work, deployed neuropsychiatric AI into clinical settings, built AR/VR AI models at scale.<div class="repel-chip">Trust her domain knowledge without testing it</div></div></div></div>
-        <div class="res-item"><div class="rdot rdot-red"></div><div><div class="rlabel">Defining the FDE role back to her</div><div class="rbody">She has 4 months of live ground truth. Do not project a definition of FDE PM onto her.<div class="repel-chip">Ask her to describe the texture — she IS the role</div></div></div></div>
+        <div class="res-item"><div class="rdot rdot-red"></div><div><div class="rlabel">Defining the FDE role back to her</div><div class="rbody">She has 4 months of live ground truth. Do not project a definition of FDE PM onto her.<div class="repel-chip">Ask her to describe the texture. She IS the role</div></div></div></div>
       </div></div>
 
-      <div><div class="sl">Close Questions — Full Set</div>
+      <div><div class="sl">Close Questions · Full Set</div>
       <div class="card">
-        <div class="orow"><div class="on">1</div><div><div class="oq">"What does the first 30 days of a successful FDE engagement look like — not from a deliverables standpoint, but from a trust-building standpoint?"</div><div class="owhy">Primary. Ask this no matter what. Signals practitioner thinking.</div></div></div>
+        <div class="orow"><div class="on">1</div><div><div class="oq">"What does the first 30 days of a successful FDE engagement look like, not from a deliverables standpoint, but from a trust-building standpoint?"</div><div class="owhy">Primary. Ask this no matter what. Signals practitioner thinking.</div></div></div>
         <div class="orow"><div class="on">2</div><div><div class="oq">"What does the onboarding diagnostic actually look like in week one, before you have authority over anything?"</div><div class="owhy">Reveals how the role actually operates. Echoes your Ideal Protein disaster-check instinct.</div></div></div>
-        <div class="orow"><div class="on">3</div><div><div class="oq">"You've been at Tribe about four months — what's surprised you about the role versus what you expected?"</div><div class="owhy">Peer question. She's still learning. Will give a real answer because it's honest.</div></div></div>
+        <div class="orow"><div class="on">3</div><div><div class="oq">"You've been at Tribe about four months, what's surprised you about the role versus what you expected?"</div><div class="owhy">Peer question. She's still learning. Will give a real answer because it's honest.</div></div></div>
         <div class="orow"><div class="on">4</div><div><div class="oq">"What's your take on where AI deployments fail that most people aren't naming yet?"</div><div class="owhy">Peer inversion. Plants the peer register for next stage.</div></div></div>
       </div></div>
 
-      <div><div class="sl">Productive Discord — In Reserve</div>
+      <div><div class="sl">Productive Discord · In Reserve</div>
       <div class="card">
-        <div class="discord-item"><div class="discord-tag">Reserve 1 — The Visibility Paradox</div><div class="discord-q">"In your clinical neurotech work — EEG biomarkers for psychiatry — did the mechanism need to be visible to earn trust, or did it need to disappear? Because I find those are actually opposite problems."</div><div class="discord-why">Your hot take says technology should feel invisible. In clinical settings the mechanism has to be legible for clinicians to act on it. <strong>She has thought about this more than almost anyone at Tribe.</strong> Not adversarial — invites her to show the nuance.</div></div>
-        <div class="discord-item"><div class="discord-tag">Reserve 2 — Scale vs. Signal Quality</div><div class="discord-q">"Mirror launched to 100K users in six months — how did you know it was working, not just adopted?"</div><div class="discord-why">Respects her empiricist training. Creates peer dialogue about what counts as proof in behavior change products. <strong>She will have a real answer</strong> — either a measurement design she's proud of, or honest acknowledgment of what they couldn't measure.</div></div>
+        <div class="discord-item"><div class="discord-tag">Reserve 1 · The Visibility Paradox</div><div class="discord-q">"In your clinical neurotech work, EEG biomarkers for psychiatry did the mechanism need to be visible to earn trust, or did it need to disappear? Because I find those are actually opposite problems."</div><div class="discord-why">Your hot take says technology should feel invisible. In clinical settings the mechanism has to be legible for clinicians to act on it. <strong>She has thought about this more than almost anyone at Tribe.</strong> Not adversarial, invites her to show the nuance.</div></div>
+        <div class="discord-item"><div class="discord-tag">Reserve 2 · Scale vs. Signal Quality</div><div class="discord-q">"Mirror launched to 100K users in six months, how did you know it was working, not just adopted?"</div><div class="discord-why">Respects her empiricist training. Creates peer dialogue about what counts as proof in behavior change products. <strong>She will have a real answer</strong>either a measurement design she's proud of, or honest acknowledgment of what they couldn't measure.</div></div>
       </div></div>
     </div>
 
@@ -896,21 +938,21 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
         <div class="rcell"><div class="rk">Window</div><div class="rv">Jul 8 · 3:30 PM EDT</div></div>
         <div class="rcell"><div class="rk">Stakes</div><div class="rv">HIGH</div></div>
         <div class="rcell"><div class="rk">Horizon</div><div class="rv">24 hours</div></div>
-        <div class="rcell full"><div class="rk">Receipt Condition</div><div class="rv">Julia sends follow-up within 24 hours OR states next steps on the call. If neither within 48 hours, follow up once — direct, short, no hedging.</div></div>
+        <div class="rcell full"><div class="rk">Receipt Condition</div><div class="rv">Julia sends follow-up within 24 hours OR states next steps on the call. If neither within 48 hours, follow up once, direct, short, no hedging.</div></div>
       </div></div>
 
       <div><div class="sl">On-Call Checklist</div>
       <div class="card"><div class="cl">
         <div class="clg">
           <div class="clg-l">Before 3:30 PM</div>
-          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Say the opening out loud — 60 seconds, energy from word one</div></div>
-          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Say the hot take out loud — 30 seconds, then 5 seconds of silence</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Say the opening out loud, 60 seconds, energy from word one</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Say the hot take out loud, 30 seconds, then 5 seconds of silence</div></div>
           <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Hard stop on new inputs at 3:15 PM</div></div>
           <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Zoom link, audio, camera, background confirmed</div></div>
         </div>
         <div class="clg">
           <div class="clg-l">On the Call</div>
-          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Open with energy and specificity — word one</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Open with energy and specificity, word one</div></div>
           <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Before every sentence: What is the object?</div></div>
           <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Hot take deployed before minute 30, 5 seconds silence after</div></div>
           <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Take-home awareness signal dropped</div></div>
@@ -920,14 +962,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:28px
 
       <div><div class="sl">Post-Call Close-Out</div>
       <div class="card">
-        <div class="co-row"><div class="co-key">Stage Outcome</div><div class="co-val" style="color:var(--green);font-style:normal;font-weight:600;">Take-home assigned — 3 modules, day-long: build in public · think on feet · present while doing it</div></div>
+        <div class="co-row"><div class="co-key">Stage Outcome</div><div class="co-val" style="color:var(--green);font-style:normal;font-weight:600;">Take-home assigned, 3 modules, day-long: build in public · think on feet · present while doing it</div></div>
         <div class="co-row"><div class="co-key">Y Gate Shift</div><div class="co-val" style="color:var(--green);font-style:normal;font-weight:600;">GREEN/94 → GREEN · "You nailed it" (verbatim, on Tribe model read-back)</div></div>
-        <div class="co-row"><div class="co-key">Hot Take</div><div class="co-val">Scripted form skipped — not needed. Tribe wedge→trust→expand read-back served the same function.</div></div>
-        <div class="co-row"><div class="co-key">Close Q</div><div class="co-val">Q3 deployed organically. Julia disclosed: first engagement she was handed a problem statement, stripped of discovery value. New contract starting now — rebuilding discovery-first.</div></div>
-        <div class="co-row"><div class="co-key">Rapport Vector</div><div class="co-val">Grayscale stakeholder conflict (most differentiated answer) + Tribe model read-back at close. Family reunion / Anna Marie Island — she offered personal detail unprompted.</div></div>
-        <div class="co-row"><div class="co-key">Net-New Intel</div><div class="co-val">Julia's wound = discovery stripped. SynapseBio closure confirmed (she disclosed). Zone-of-genius answer was complete — PM owns discovery/mapping/prioritization/alignment/weekly presentations. ARCS airtime ~13 min — she redirected with "let's talk about hardening."</div></div>
+        <div class="co-row"><div class="co-key">Hot Take</div><div class="co-val">Scripted form skipped, not needed. Tribe wedge→trust→expand read-back served the same function.</div></div>
+        <div class="co-row"><div class="co-key">Close Q</div><div class="co-val">Q3 deployed organically. Julia disclosed: first engagement she was handed a problem statement, stripped of discovery value. New contract starting now, rebuilding discovery-first.</div></div>
+        <div class="co-row"><div class="co-key">Rapport Vector</div><div class="co-val">Grayscale stakeholder conflict (most differentiated answer) + Tribe model read-back at close. Family reunion / Anna Marie Island. She offered personal detail unprompted.</div></div>
+        <div class="co-row"><div class="co-key">Net-New Intel</div><div class="co-val">Julia's wound = discovery stripped. SynapseBio closure confirmed (she disclosed). Zone-of-genius answer was complete, PM owns discovery/mapping/prioritization/alignment/weekly presentations. ARCS airtime ~13 min she redirected with "let's talk about hardening."</div></div>
         <div class="co-row"><div class="co-key">Comp Signal</div><div class="co-val">Not mentioned.</div></div>
-        <div class="co-row"><div class="co-key">Stage 3 Prep Note</div><div class="co-val">Take-home format sourced from Johnny recon + Mariana screen — Julia did not assign or mention it on this call. Do not reference in follow-up (operational security: reveals insider briefing). Module 1 = discovery artifact first. Module 2 = hardening checklist before architecture. Module 3 = weekly-deck-quality narrative. No ARCS labels anywhere.</div></div>
+        <div class="co-row"><div class="co-key">Stage 3 Prep Note</div><div class="co-val">Take-home format sourced from Johnny recon + Mariana screen, Julia did not assign or mention it on this call. Do not reference in follow-up (operational security: reveals insider briefing). Module 1 = discovery artifact first. Module 2 = hardening checklist before architecture. Module 3 = weekly-deck-quality narrative. No ARCS labels anywhere.</div></div>
       </div></div>
     </div>
 
