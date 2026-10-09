@@ -123,7 +123,12 @@ def main(argv: list[str]) -> int:
             print(f"  {k:14} {base['totals'].get(k, 0):6} -> {now[k]:6}")
         return 0
     if mode == "--check":
-        targets = [f for f in argv[2:] if f in base["pages"]]
+        # A page identical to origin/main is not this commit's change (e.g. main's content arriving
+        # through a merge); judging it would block catching up with main. Only judge what differs.
+        def same_as_main(f: str) -> bool:
+            r = subprocess.run(["git", "diff", "--quiet", "origin/main", "--", f], cwd=ROOT)
+            return r.returncode == 0
+        targets = [f for f in argv[2:] if f in base["pages"] and not same_as_main(f)]
         if not targets:
             return 0
         bad = 0
