@@ -689,5 +689,6 @@ if _hits:
 out = HERE / "proposal-view.html"
 out.write_text(page, encoding="utf-8")
 # Hosted copy, served only through the myally passcode gate (src/proxy.ts).
-(ROOT / "public" / "myally.html").write_text(page, encoding="utf-8")
+# HTML comments (internal seam notes) are stripped: page source is visible to the counterpart.
+(ROOT / "public" / "myally.html").write_text(re.sub(r"<!--.*?-->\n?", "", page, flags=re.S).replace("</head>", '<script defer src="/_vercel/insights/script.js"></script>\n</head>', 1), encoding="utf-8")
 print("wrote", out.relative_to(ROOT), len(page), "bytes")
