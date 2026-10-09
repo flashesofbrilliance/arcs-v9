@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-10-09T12:44:40-04:00",
+  "captured_at": "2026-10-09T13:06:21-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "1ea21eeb",
-    "head_message": "Merge pull request #1109 from flashesofbrilliance/claude/prl-go-live",
+    "head_sha": "d43bdea4",
+    "head_message": "Merge pull request #1111 from flashesofbrilliance/claude/prl-go-live-cards",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "PRL 1.2 wrap prep: overview overclaim fixed (PR 1108), go-live checklist folded into runbook at prl.arcs.care/go-live (PR 1109), refresher email drafted; Todd call moved to Mon 2026-10-12 10:00 ET.",
-  "next_action": "Send the Todd refresher draft, then run prl.arcs.care/go-live live with Todd Mon 10:00 ET.",
+  "session_summary": "PRL 1.2 wrap prep: overview fix (1108), go-live checklist at /go-live as tickable cards linked from all summaries (1109, 1111); refresher email sent to Todd.",
+  "next_action": "Mon 2026-10-12 10:00 ET: run prl.arcs.care/go-live live with Todd, then /recoil-close.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
