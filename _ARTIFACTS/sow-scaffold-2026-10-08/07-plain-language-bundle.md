@@ -4,7 +4,7 @@
 
 For Kelly and Chelsea, from Zach at manana
 
-manana is my consulting practice. This page lays out how I would help, in four stages you can stop after.
+This page lays out how I would help, in four stages you can stop after.
 
 <div class="howto" role="note"><p class="howto-t">How to use this page</p><ul><li><strong>Choose how much detail.</strong> Use the Detail level buttons just below. Summary fits on one screen; Everything shows every detail.</li><li><strong>Tap a word with a dotted underline</strong> for a short, plain definition.</li><li><strong>Make it easier to read.</strong> Reading options (or the round Aa button) change the font, text size, spacing and background. Your choices stay on this device.</li><li><strong>Jump around.</strong> The menu at the top goes straight to the plan, the word guide and the next steps.</li></ul></div>
 
