@@ -1,4 +1,5 @@
 <!doctype html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Le Woof Deal Intake</title>
@@ -153,23 +154,23 @@
 <div class="split">
   <form class="intake" id="form" autocomplete="off">
     <div class="grp"><h3>Invoice</h3>
-      <div class="two"><div><label>Invoice no.</label><input data-k="no" value="LW-BB-002"></div>
-        <div><label>Date</label><input data-k="date" value="Sep 4, 2026"></div></div>
-      <label>Due</label><input data-k="due" value="On receipt">
+      <div class="two"><div><label>Invoice no.</label><input aria-label="Invoice no." data-k="no" value="LW-BB-002"></div>
+        <div><label>Date</label><input aria-label="Date" data-k="date" value="Sep 4, 2026"></div></div>
+      <label>Due</label><input aria-label="Due" data-k="due" value="On receipt">
     </div>
     <div class="grp"><h3>Bill to</h3>
-      <label>Company</label><input data-k="bname" value="Better & Better Co.">
-      <label>Attn</label><input data-k="battn" value="Vladimir Vukicevic">
-      <label>Address line 1</label><input data-k="baddr1" value="120 West 45th Street, 21st Floor">
-      <label>Address line 2</label><input data-k="baddr2" value="New York, NY 10036">
-      <div class="two"><div><label>Email</label><input data-k="bemail" value="vlad@betterandbetter.com"></div>
-        <div><label>Phone</label><input data-k="bphone" value="646-450-8793"></div></div>
+      <label>Company</label><input aria-label="Company" data-k="bname" value="Better & Better Co.">
+      <label>Attn</label><input aria-label="Attn" data-k="battn" value="Vladimir Vukicevic">
+      <label>Address line 1</label><input aria-label="Address line 1" data-k="baddr1" value="120 West 45th Street, 21st Floor">
+      <label>Address line 2</label><input aria-label="Address line 2" data-k="baddr2" value="New York, NY 10036">
+      <div class="two"><div><label>Email</label><input aria-label="Email" data-k="bemail" value="vlad@betterandbetter.com"></div>
+        <div><label>Phone</label><input aria-label="Phone" data-k="bphone" value="646-450-8793"></div></div>
     </div>
     <div class="grp"><h3>Ship to (warehouse)</h3>
-      <label>Name</label><input data-k="sname" value="ShipBob, Inc.">
-      <label>Note</label><input data-k="snote" value="(B&B fulfillment)">
-      <label>Address line 1</label><input data-k="saddr1" value="11401 Harmon Road, Site 500">
-      <label>Address line 2</label><input data-k="saddr2" value="Fort Worth, TX 76177">
+      <label>Name</label><input aria-label="Name" data-k="sname" value="ShipBob, Inc.">
+      <label>Note</label><input aria-label="Note" data-k="snote" value="(B&B fulfillment)">
+      <label>Address line 1</label><input aria-label="Address line 1" data-k="saddr1" value="11401 Harmon Road, Site 500">
+      <label>Address line 2</label><input aria-label="Address line 2" data-k="saddr2" value="Fort Worth, TX 76177">
     </div>
     <div class="grp"><h3>Line items <span class="hint">amount auto = qty × unit; edit amount to override</span></h3>
       <div id="items"></div>
@@ -319,3 +320,4 @@ $("#save").addEventListener("click",()=>{
 itemsUI(); render();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+</html>

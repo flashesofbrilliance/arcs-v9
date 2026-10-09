@@ -94,6 +94,9 @@
   .dot.yellow{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.12)}
   .dot.red{border-color:rgba(255,77,109,.6);background:rgba(255,77,109,.12)}
   .footer{margin-top:60px;border-top:1px solid var(--border);padding-top:14px;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+
+  /* Links in running text carry an underline, not color alone (WCAG 1.4.1; axe link-in-text-block, 2026-10-09). */
+  a:not([class]):not(nav a){text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:1px;}
 </style>
 </head>
 <body>

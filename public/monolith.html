@@ -105,7 +105,7 @@
     border:1px solid var(--border);border-radius:9px;padding:9px 13px;background:var(--surface2);color:var(--label);
     display:flex;gap:8px;align-items:center;transition:color .2s,border-color .2s,background .2s}
   .marquee .mq:hover{color:var(--text);border-color:var(--cyan-line)}
-  .marquee .mq[aria-pressed="true"]{color:var(--cyan);border-color:var(--cyan-line);background:var(--elevated)}
+  .marquee .mq[aria-selected="true"],.marquee .mq[aria-pressed="true"]{color:var(--cyan);border-color:var(--cyan-line);background:var(--elevated)}
   .marquee .mq .g{font-size:13px}
   /* the Moiré filter toggle — an optic, not a head */
   .marquee .mq-filter{margin-left:auto;border-style:dashed}
@@ -216,9 +216,9 @@
   <section class="stagewrap reveal" id="stagetop">
     <div class="ey">the stage &middot; mount a performer &middot; nothing links out</div>
     <div class="marquee" role="tablist" aria-label="the three heads + the filter" style="margin-top:14px">
-      <button class="mq" role="tab" data-slug="orbital" aria-pressed="false"><span class="g">&#129778;</span>12D Orbital</button>
-      <button class="mq" role="tab" data-slug="lattice" aria-pressed="false"><span class="g">&#128218;</span>Knowledge Lattice</button>
-      <button class="mq" role="tab" data-slug="alexandria" aria-pressed="false"><span class="g">&#127963;</span>Alexandria</button>
+      <button class="mq" role="tab" data-slug="orbital" aria-selected="false"><span class="g">&#129778;</span>12D Orbital</button>
+      <button class="mq" role="tab" data-slug="lattice" aria-selected="false"><span class="g">&#128218;</span>Knowledge Lattice</button>
+      <button class="mq" role="tab" data-slug="alexandria" aria-selected="false"><span class="g">&#127963;</span>Alexandria</button>
       <button class="mq mq-filter" id="btn-moire" aria-pressed="false" title="lay the Moir&eacute; band-pass filter across the playing head"><span class="g">&#127761;</span>Moir&eacute; filter</button>
     </div>
     <div class="stagemeta">
@@ -2084,7 +2084,7 @@ if (S.drift) loop();
       f.setAttribute('title',PERF[slug].nm+' — standalone performer surface');
       f.srcdoc=docwrap('tpl-'+slug);
       stage.insertBefore(f, stage.querySelector('iframe.filterlay')||null); // filter stays on top
-      tabs.forEach(function(t){t.setAttribute('aria-pressed', String(t.dataset.slug===slug));});
+      tabs.forEach(function(t){t.setAttribute('aria-selected', String(t.dataset.slug===slug));});
       current=slug; stageMeta();
       document.getElementById('stagetop').scrollIntoView({behavior:'smooth',block:'start'});
     }
@@ -2093,7 +2093,7 @@ if (S.drift) loop();
         if(current===t.dataset.slug){ // toggle off = curtain down
           var old=stage.querySelector('iframe:not(.filterlay)'); if(old) old.remove();
           if(!filterOn) empty.style.display='';
-          current=null; t.setAttribute('aria-pressed','false'); stageMeta();
+          current=null; t.setAttribute('aria-selected','false'); stageMeta();
           return;
         }
         mount(t.dataset.slug);

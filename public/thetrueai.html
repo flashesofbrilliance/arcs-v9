@@ -146,7 +146,6 @@ function resetZoom() {
   vp.setAttribute('content', original + ', maximum-scale=1');
   setTimeout(function() { vp.setAttribute('content', original); }, 350);
 }
-resetZoom();
 if (sessionStorage.getItem('thetrueai-auth') === '1') {
   document.getElementById('pw-gate').classList.add('hidden');
 }
