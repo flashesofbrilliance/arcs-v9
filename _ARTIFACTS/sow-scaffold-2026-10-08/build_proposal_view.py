@@ -289,7 +289,7 @@ def intake_section():
         "Pick a time to talk it through, Leah included if she is up for it. Rather talk than type? Reply to my email and I will fill the form in for you.",
         "I send a short written proposal with a clear scope and rate, plus an optional block of office hours for your team.",
     ]
-    embed = ('<h3 id="next-steps">Next steps</h3><ol class="checklist">'
+    embed = ('<h3 id="next-steps">Five steps</h3><ol class="checklist">'
              + "".join(f"<li>{t}</li>" for t in steps) + "</ol>"
              '<p class="note">The questions below are a preview. Nothing on this page collects or sends anything.</p>')
     return embed + body
@@ -365,6 +365,17 @@ body{margin:0;background:var(--pg-bg);color:var(--pg-text);font:0.925rem/1.6 var
 .skip:focus{left:var(--gut);top:8px}
 .wrap{max-width:calc(var(--measure) + 2*var(--gut));margin:0 auto;padding:0 var(--gut) 64px}
 nav{border-bottom:1px solid var(--pg-line)}
+header.top{position:sticky;top:0;z-index:20;background:var(--pg-bg);border-bottom:1px solid var(--pg-line)}
+header.top .wrap{padding-bottom:0}
+.bar{display:flex;align-items:center;gap:12px;min-height:56px}
+.brand{display:inline-flex;align-items:center;gap:10px;min-height:44px;text-decoration:none}
+.mk{flex:none;border-radius:6px}
+.wm{font-family:var(--font-mono);font-size:0.925rem;text-transform:uppercase;display:inline-flex;gap:0.5em;white-space:nowrap}
+.wa{color:var(--pg-text);font-weight:800;letter-spacing:0.2em}.wf{color:var(--pg-dim);letter-spacing:0.14em}
+.tools{margin-left:auto;display:inline-flex;gap:16px}
+header.top nav{border-bottom:0}
+.links{display:flex;gap:0 24px;overflow-x:auto}
+.links a{font-weight:600}
 nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
 nav a,.themebtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
 nav a:hover,nav a:focus-visible{color:var(--pg-accent);text-decoration:underline}
@@ -418,7 +429,7 @@ a.gl[aria-expanded="true"]::after{transform:rotate(-135deg);margin-bottom:-1px}
 .tip.flip{left:auto;right:0}
 .tip b{display:block;margin:0 0 2px}
 .tip a.tipgo{display:inline-block;padding:4px 0;min-height:28px;font-weight:600}
-.optbtn{margin-left:auto}
+.optbtn{margin-left:0}
 #themebtn{margin-left:0}
 .readfab{position:fixed;right:16px;bottom:16px;z-index:4;width:48px;height:48px;border-radius:999px;border:1px solid var(--pg-edge);background:var(--pg-surface);color:var(--pg-text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
 .readfab:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
@@ -494,9 +505,9 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--sticky-h, 12rem) + 16px)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
-@media (max-width:600px){h1{font-size:1.5rem}.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.slider{height:78px}}
+@media (max-width:600px){h1{font-size:1.5rem}.optbtn{display:none}.wa,.wf{letter-spacing:0.1em}.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.slider{height:78px}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
-@media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
+@media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,header.top,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
 """.replace("%LIGHT_IMP%", block(LIGHT, True)).replace("%LIGHT%", block(LIGHT)).replace("%DARK%", block(DARK))
 
 HEAD_JS = """(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();"""
@@ -662,12 +673,12 @@ page = f"""<!doctype html>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the plan</a>
-<header><nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a><button type="button" class="themebtn optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button><button type="button" class="themebtn" id="themebtn">Dark mode</button></div></nav></header>
+<header class="top"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><svg class="mk" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="7" fill="#020408"/><g fill="none" stroke="#00F0FF" stroke-linecap="round"><path d="M16 15.5 C12 9.5 3.5 10 3.5 16.5 C3.5 23 12 22.5 16 15.5" stroke-width="3.2"/><path d="M16 15.5 C20 21.5 28.5 21 28.5 14.5 C28.5 8 20 8.5 16 15.5" stroke-width="2.1" opacity="0.8"/><path d="M14.4 18.3 C15 17.4 15.5 16.4 16 15.5 C16.5 14.6 17 13.7 17.6 12.8" stroke="#020408" stroke-width="4.2" stroke-linecap="butt"/><path d="M14.1 18.7 C15 17.4 15.5 16.4 16 15.5 C16.5 14.6 17 13.7 17.9 12.4" stroke-width="3.2" stroke-linecap="butt"/></g></svg><span class="wm"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></span></a><span class="tools"><button type="button" class="themebtn optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button><button type="button" class="themebtn" id="themebtn">Dark mode</button></span></div><nav aria-label="Sections"><div class="wrap links"><a href="#plan">The plan</a><a href="#codex">Word guide</a><a href="#intake">Next steps</a></div></nav></header>
 <main class="wrap" id="main">
 {banner}
 <section id="plan">{plan}</section>
-<section id="codex"><div class="sec" data-body-alt="5"><h2>Translation codex</h2><p class="dek">A legend for the technical words, each with a plain meaning, a picture and why it matters to you.</p><div class="body" id="bcodex">{codex}</div><button class="more" type="button" aria-controls="bcodex" aria-expanded="false" hidden>Show detail</button></div></section>
-<section id="intake"><div class="sec" data-body-alt="4"><h2>Intake</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body" id="bintake">{intake}</div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
+<section id="codex"><div class="sec" data-body-alt="5"><h2>Word guide</h2><p class="dek">A legend for the technical words, each with a plain meaning, a picture and why it matters to you.</p><div class="body" id="bcodex">{codex}</div><button class="more" type="button" aria-controls="bcodex" aria-expanded="false" hidden>Show detail</button></div></section>
+<section id="intake"><div class="sec" data-body-alt="4"><h2>Next steps</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body" id="bintake">{intake}</div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
 </main>
 <footer class="wrap pagefoot"><p>Prepared by Zach at manana. This page is a view, not an agreement. Reading options and your depth setting stay on this device.</p></footer>
 {PANEL}
