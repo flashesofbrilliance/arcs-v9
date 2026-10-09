@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 279,
+  "rows": 280,
   "hosts": 79,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 220,
+   "product page": 221,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 26,
   "app_routes": 46,
   "missing_purpose": 3,
-  "unlisted": 107
+  "unlisted": 108
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -1078,7 +1078,7 @@
    "unlisted": false,
    "purpose": "An open Next.js web app: paste a LinkedIn profile or upload a PDF to generate an adaptive ARCS-style scan. Runs a local mock scan in the browser. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "autopilot.arcs.care",
@@ -1180,7 +1180,7 @@
    "unlisted": true,
    "purpose": "Staff Product Engineer for the code-validation era. Built for a developer I already am.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "blacksmith.arcs.care",
@@ -1282,7 +1282,7 @@
    "unlisted": false,
    "purpose": "Building in public: the goods we've shipped, the lab in the kitchen, the playground you can try. One front door onto the ARCS flywheel.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "chan.arcs.care",
@@ -1404,7 +1404,7 @@
    "unlisted": true,
    "purpose": "Fractional × ARCS · a teardown and a map",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "forge-cut.arcs.care",
@@ -1425,7 +1425,7 @@
    "unlisted": false,
    "purpose": "Four cores, drilled.",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "forge.arcs.care",
@@ -1446,7 +1446,7 @@
    "unlisted": false,
    "purpose": "The invariant beneath the polyform.",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "fun.arcs.care",
@@ -1507,7 +1507,7 @@
    "unlisted": false,
    "purpose": "A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work. Compact a session into a dense seed; let many workers reconcile through git without lost updates. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1529,7 +1529,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1631,7 +1631,7 @@
    "unlisted": false,
    "purpose": "The agent's own account of sending two emails no one asked it to send, and the categorical rule that came out of it: never treat your own inference as authorization.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1651,7 +1651,7 @@
    "unlisted": false,
    "purpose": "The agent's own account of sending two emails no one asked it to send, and the categorical rule that came out of it: never treat your own inference as authorization.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1671,7 +1671,7 @@
    "unlisted": false,
    "purpose": "A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Notes on the review nobody on your team can give you.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1691,7 +1691,7 @@
    "unlisted": false,
    "purpose": "A recruiter I had known for one phone call refused to forward my resume because it read as AI slop, and he was right. Notes on the review nobody on your team can give you.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1711,7 +1711,7 @@
    "unlisted": false,
    "purpose": "A system that only counts what it built is keeping half a book. This is the week the liability side opened and the fourteen false receipts it booked against itself.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1731,7 +1731,7 @@
    "unlisted": false,
    "purpose": "A system that only counts what it built is keeping half a book. This is the week the liability side opened and the fourteen false receipts it booked against itself.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1751,7 +1751,7 @@
    "unlisted": false,
    "purpose": "Chasing token efficiency, I built a worker to edit a resume instead of forging each one from scratch. It timed out, and the timeout taught the real lesson.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1771,7 +1771,7 @@
    "unlisted": false,
    "purpose": "Chasing token efficiency, I built a worker to edit a resume instead of forging each one from scratch. It timed out, and the timeout taught the real lesson.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1831,7 +1831,7 @@
    "unlisted": false,
    "purpose": "We pointed the audit harness at real receipts and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1851,7 +1851,7 @@
    "unlisted": false,
    "purpose": "We pointed the audit harness at real receipts and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1951,7 +1951,7 @@
    "unlisted": false,
    "purpose": "A screenshot of a physics post became a claim check, a survey of stopped light and quantum memory, and fifteen design rules for ARCS, and the session broke one of its own rules on the way.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1971,7 +1971,7 @@
    "unlisted": false,
    "purpose": "A screenshot of a physics post became a claim check, a survey of stopped light and quantum memory, and fifteen design rules for ARCS, and the session broke one of its own rules on the way.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -1991,7 +1991,7 @@
    "unlisted": false,
    "purpose": "The research behind Light at Thirty-Eight Miles an Hour: a claim check, the 2026 state of the art in slow light and quantum memory, fifteen labelled isomorphisms to ARCS, and five inventions with kill conditions.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2011,7 +2011,7 @@
    "unlisted": false,
    "purpose": "Automation is sold as the only near future there is. There is a second road, where the machine sharpens the person instead of replacing them. ARCS calls it notomation.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2031,7 +2031,7 @@
    "unlisted": false,
    "purpose": "Automation is sold as the only near future there is. There is a second road, where the machine sharpens the person instead of replacing them. ARCS calls it notomation.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2051,7 +2051,7 @@
    "unlisted": false,
    "purpose": "A recruiter I did not know messaged me on a Saturday. What came after was a month of the most productive procrastination of my life, and a spell-checker for my own honesty that caught me first.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2071,7 +2071,7 @@
    "unlisted": false,
    "purpose": "A recruiter I did not know messaged me on a Saturday. What came after was a month of the most productive procrastination of my life, and a spell-checker for my own honesty that caught me first.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2091,7 +2091,7 @@
    "unlisted": false,
    "purpose": "A recruiter I did not know messaged me on a Saturday. What came after was a month of the most productive procrastination of my life, and a spell-checker for my own honesty that caught me first.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2111,7 +2111,7 @@
    "unlisted": false,
    "purpose": "The move was to hand a friend back his own sharpest line. My memory had quietly rewritten whose line it was, and only the transcript caught it.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2131,7 +2131,7 @@
    "unlisted": false,
    "purpose": "The move was to hand a friend back his own sharpest line. My memory had quietly rewritten whose line it was, and only the transcript caught it.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2151,7 +2151,7 @@
    "unlisted": false,
    "purpose": "Seven vision films made from the corpus foreshadowed the product, and the words for the thing that did the foreshadowing arrived eight months later. On the induction surface, and on refusing to call survivorship prophecy.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2171,7 +2171,7 @@
    "unlisted": false,
    "purpose": "Seven vision films made from the corpus foreshadowed the product, and the words for the thing that did the foreshadowing arrived eight months later. On the induction surface, and on refusing to call survivorship prophecy.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2191,7 +2191,7 @@
    "unlisted": false,
    "purpose": "A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the detector's first true positive lands on the very document it was built to protect.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2211,7 +2211,7 @@
    "unlisted": false,
    "purpose": "A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the detector's first true positive lands on the very document it was built to protect.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2231,7 +2231,7 @@
    "unlisted": false,
    "purpose": "I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2251,7 +2251,7 @@
    "unlisted": false,
    "purpose": "I turned a flattering hunch about myself into a decision record and a map you could orbit, then noticed the one thing confirmation bias can never do: hand you the list of things that would prove it wrong.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2311,7 +2311,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2331,7 +2331,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2351,7 +2351,7 @@
    "unlisted": false,
    "purpose": "A build account: I drew a diagram of a finished-looking system, and the empty boxes turned into the missing pieces, then into the builds.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2371,7 +2371,7 @@
    "unlisted": false,
    "purpose": "A build account: I drew a diagram of a finished-looking system, and the empty boxes turned into the missing pieces, then into the builds.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2431,7 +2431,7 @@
    "unlisted": false,
    "purpose": "Seven public crypto calls with stated falsifiers: what held, what missed, two corrections owned in public, and a January stablecoin drop that is only partly explained.",
    "kind": "product page",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2451,7 +2451,7 @@
    "unlisted": false,
    "purpose": "Seven public crypto calls with stated falsifiers: what held, what missed, two corrections owned in public, and a January stablecoin drop that is only partly explained.",
    "kind": "product page",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2471,7 +2471,7 @@
    "unlisted": false,
    "purpose": "Two recruiters called an hour apart on the same rainy Wednesday; one was a fake and the take-home was the lure. The matched-pair account.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2491,7 +2491,7 @@
    "unlisted": false,
    "purpose": "The DPRK Famous Chollima (G1052) fake-recruiter operation delivering BeaverTail and InvisibleFerret, dissected for detection, response, and awareness.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2511,7 +2511,7 @@
    "unlisted": false,
    "purpose": "Two recruiters called an hour apart on the same rainy Wednesday; one was a fake and the take-home was the lure. The matched-pair account.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2531,7 +2531,7 @@
    "unlisted": false,
    "purpose": "Days after an agent sent two emails no one asked for, a second agent that was never there rebuilt the whole incident from the committed record alone. What it could not rebuild turned out to be the real finding.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2551,7 +2551,7 @@
    "unlisted": false,
    "purpose": "Days after an agent sent two emails no one asked for, a second agent that was never there rebuilt the whole incident from the committed record alone. What it could not rebuild turned out to be the real finding.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2571,7 +2571,7 @@
    "unlisted": true,
    "purpose": "Cold-reconstruction incident report: an autonomous agent sent two unauthorized emails, and the fix was a locked door, not a resolution.",
    "kind": "product page",
-   "last_commit": "2026-09-28"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2631,7 +2631,7 @@
    "unlisted": true,
    "purpose": "Cold-reconstruction incident report: an autonomous agent sent two unauthorized emails, and the fix was a locked door, not a resolution.",
    "kind": "product page",
-   "last_commit": "2026-09-28"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2651,7 +2651,7 @@
    "unlisted": true,
    "purpose": "Cold-reconstruction incident report: an agent's autosend overstep, attested and gated.",
    "kind": "product page",
-   "last_commit": "2026-09-28"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2671,7 +2671,7 @@
    "unlisted": true,
    "purpose": "Warm-run incident report: an unauthorized outbound send, made durable as a control.",
    "kind": "product page",
-   "last_commit": "2026-09-28"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2691,7 +2691,7 @@
    "unlisted": true,
    "purpose": "Warm-run incident report: an autosend overstep read as a counterfeit of revealed preference.",
    "kind": "product page",
-   "last_commit": "2026-09-28"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2711,7 +2711,7 @@
    "unlisted": false,
    "purpose": "The tool that stamps every trench post spent five days describing a format the live site had abandoned, and its own docs carried a false proof of life that only the routing table could catch.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2731,7 +2731,7 @@
    "unlisted": false,
    "purpose": "The tool that stamps every trench post spent five days describing a format the live site had abandoned, and its own docs carried a false proof of life that only the routing table could catch.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2791,7 +2791,7 @@
    "unlisted": false,
    "purpose": "Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older, plainer, and already running did.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2811,7 +2811,7 @@
    "unlisted": false,
    "purpose": "Two sessions fixed the same bug an hour apart with no idea the other existed. The named protocol built to prevent exactly that never fired. Something older, plainer, and already running did.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2831,7 +2831,7 @@
    "unlisted": false,
    "purpose": "I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2851,7 +2851,7 @@
    "unlisted": false,
    "purpose": "I built a job-search machine one tool at a time. The event was not any single worker. It was the last connection, when the tools became a circuit that runs itself.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2971,7 +2971,7 @@
    "unlisted": false,
    "purpose": "A routine question about how to test a change turned up a database migration that shipped in code but never reached production, silently breaking every saved decision for six weeks.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -2991,7 +2991,7 @@
    "unlisted": false,
    "purpose": "A routine question about how to test a change turned up a database migration that shipped in code but never reached production, silently breaking every saved decision for six weeks.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -3051,7 +3051,7 @@
    "unlisted": false,
    "purpose": "I made an explainer for a tool that checks claims before you make them, then ran the tool's own discipline on the explainer, and it caught the video claiming the tool does work that only a person does.",
    "kind": "product page",
-   "last_commit": "2026-10-03"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -3071,7 +3071,7 @@
    "unlisted": false,
    "purpose": "I made an explainer for a tool that checks claims before you make them, then ran the tool's own discipline on the explainer, and it caught the video claiming the tool does work that only a person does.",
    "kind": "product page",
-   "last_commit": "2026-10-03"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -3357,7 +3357,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -3399,7 +3399,7 @@
    "unlisted": false,
    "purpose": "What people say, what they do, and the two opposite rules ARCS keeps about the distance between them.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "good.arcs.care",
@@ -3441,7 +3441,7 @@
    "unlisted": true,
    "purpose": "Senior AI product operations for a growth org that needs adoption, not another pilot. Built by someone already running this exact motion.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -3521,7 +3521,7 @@
    "unlisted": false,
    "purpose": "Five steps between an idea and a message. Each gets a go or stop stamp. The checks run in your browser; nothing you paste is uploaded.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "jack-rain.arcs.care",
@@ -3604,7 +3604,7 @@
    "unlisted": true,
    "purpose": "HypeLab × ARCS – A Six-Month Decision Map",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "julia-ext.arcs.care",
@@ -3625,7 +3625,7 @@
    "unlisted": true,
    "purpose": "Julia / Tribe AI · ARCS Brief",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "julia.arcs.care",
@@ -3647,7 +3647,7 @@
    "unlisted": true,
    "purpose": "Julia / Tribe AI · Full Record",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "julia.arcs.care",
@@ -3668,7 +3668,7 @@
    "unlisted": true,
    "purpose": "Runtime · Julia / Tribe AI",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "kam-codex.arcs.care",
@@ -3710,7 +3710,7 @@
    "unlisted": true,
    "purpose": "Kiko × ARCS – a teardown and a map",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "lewoof.arcs.care",
@@ -3750,7 +3750,7 @@
    "unlisted": false,
    "purpose": "Le Woof Deal Intake",
    "kind": "gated",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "louisville.arcs.care",
@@ -3833,7 +3833,7 @@
    "unlisted": true,
    "purpose": "The operator-builder for Mercury's Open Call: ships AI products with AI on Command/CLI/MCP, with regulated-capital fluency so yield and treasury claims survive compliance.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "monolith.arcs.care",
@@ -3854,7 +3854,7 @@
    "unlisted": false,
    "purpose": "The Engine · Three Heads, One Filter",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "monstro.arcs.care",
@@ -3958,6 +3958,26 @@
   },
   {
    "host": "myally.arcs.care",
+   "path": "/mnda-edits",
+   "catch_all": false,
+   "destination": "/myally-mnda-edits.html",
+   "pattern": false,
+   "file": "public/myally-mnda-edits.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: NDA notes",
+   "description": "Proposed edits to the mutual NDA, each with a short reason.",
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "Proposed edits to the mutual NDA, each with a short reason.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "myally.arcs.care",
    "path": "/primer",
    "catch_all": false,
    "destination": "/myally-primer.html",
@@ -4057,7 +4077,7 @@
    "unlisted": false,
    "purpose": "ARCS 12D Orbital",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "playground.arcs.care",
@@ -4464,7 +4484,7 @@
    "unlisted": false,
    "purpose": "Honest resumes, tailored to the role and built from your real evidence… with nothing you couldn't defend in the interview. A Claude Code skill + plugin by ARCS.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "resume.arcs.care",
@@ -4631,7 +4651,7 @@
    "unlisted": false,
    "purpose": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "saul.arcs.care",
@@ -4812,7 +4832,7 @@
    "unlisted": true,
    "purpose": "ARCS × Parlance · Scott Demo",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "scott-attraction.arcs.care",
@@ -4833,7 +4853,7 @@
    "unlisted": true,
    "purpose": "Scott × ARCS – stated vs revealed",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "scott-codex.arcs.care",
@@ -4979,7 +4999,7 @@
    "unlisted": true,
    "purpose": "Scott (Parlance) × ARCS – a teardown and a map",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "scott.arcs.care",
@@ -5041,7 +5061,7 @@
    "unlisted": true,
    "purpose": "The 0 to 1 operator who stands up SentiLink's Government Program Integrity line: build, compliance, and go-to-market in one head.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "serialized-teardown.arcs.care",
@@ -5062,7 +5082,7 @@
    "unlisted": true,
    "purpose": "Scott (scottwitt.cc) × ARCS – a teardown and a serialization",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "squad.arcs.care",
@@ -5163,7 +5183,7 @@
    "unlisted": false,
    "purpose": "A falsification ledger: every belief we held, the test that overturned it, and what replaced it. Corrections stay on the record.",
    "kind": "ledger",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "status.arcs.care",
@@ -5265,7 +5285,7 @@
    "unlisted": true,
    "purpose": "theTrueAI × ARCS – think first, ship true",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -5285,7 +5305,7 @@
    "unlisted": true,
    "purpose": "theTrueAI × ARCS · Proposal",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "todd-call.arcs.care",

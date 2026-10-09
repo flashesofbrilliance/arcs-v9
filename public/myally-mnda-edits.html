@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<meta name="description" content="Proposed edits to the mutual NDA, each with a short reason.">
+<title>My Ally LD: NDA notes</title>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();</script>
+<noscript><style>.alt,.more,.themebtn{display:none}.dek{display:none}</style></noscript>
+<style>/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+:root{--measure:600px;--gut:24px;--font-body:system-ui,-apple-system,'Inter',sans-serif;--font-code:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--font-head:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color-scheme:light;--pg-bg:#f7f8fa;--pg-surface:#ffffff;--pg-surface2:#eef1f5;--pg-line:#d5dbe3;--pg-edge:#76808d;--pg-text:#1c2430;--pg-muted:#566170;--pg-dim:#475262;--pg-accent:#00606b;--pg-accent-bg:rgba(0,96,107,0.09);--pg-warn-bg:#fff3c4;--pg-warn-edge:#8a6d00}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--pg-bg:var(--bg);--pg-surface:var(--surface);--pg-surface2:#111827;--pg-line:var(--border);--pg-edge:#5f6f87;--pg-text:var(--text);--pg-muted:var(--muted);--pg-dim:var(--dimmed);--pg-accent:var(--cyan);--pg-accent-bg:var(--cyan-bg);--pg-warn-bg:var(--gold-bg);--pg-warn-edge:var(--gold)}}
+:root[data-theme="dark"]{color-scheme:dark;--pg-bg:var(--bg);--pg-surface:var(--surface);--pg-surface2:#111827;--pg-line:var(--border);--pg-edge:#5f6f87;--pg-text:var(--text);--pg-muted:var(--muted);--pg-dim:var(--dimmed);--pg-accent:var(--cyan);--pg-accent-bg:var(--cyan-bg);--pg-warn-bg:var(--gold-bg);--pg-warn-edge:var(--gold)}
+:root[data-theme="light"]{color-scheme:light;--pg-bg:#f7f8fa;--pg-surface:#ffffff;--pg-surface2:#eef1f5;--pg-line:#d5dbe3;--pg-edge:#76808d;--pg-text:#1c2430;--pg-muted:#566170;--pg-dim:#475262;--pg-accent:#00606b;--pg-accent-bg:rgba(0,96,107,0.09);--pg-warn-bg:#fff3c4;--pg-warn-edge:#8a6d00}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pg-bg);color:var(--pg-text);font:1rem/1.65 var(--font-body)}
+::selection{background:var(--pg-accent-bg);color:var(--pg-text)}
+.skip{position:absolute;left:-999px;top:0;background:var(--pg-surface);color:var(--pg-text);padding:12px 16px;border:1px solid var(--pg-edge);border-radius:6px;z-index:5}
+.skip:focus{left:var(--gut);top:8px}
+.wrap{max-width:calc(var(--measure) + 2*var(--gut));margin:0 auto;padding:0 var(--gut) 64px}
+nav{border-bottom:1px solid var(--pg-line)}
+header.top{position:sticky;top:0;z-index:20;background:var(--pg-bg);border-bottom:1px solid var(--pg-line)}
+header.top nav{border-bottom:0}
+header.top .wrap{padding-bottom:0;max-width:1200px}
+header.top .bar{display:flex;align-items:center;flex-wrap:nowrap;gap:8px 16px;min-height:56px;padding-top:6px;padding-bottom:6px}
+.brand{flex:none;display:inline-flex;align-items:baseline;gap:0.6em;min-height:44px;align-items:center;text-decoration:none;font-family:var(--font-mono);font-size:0.925rem;text-transform:uppercase;white-space:nowrap}
+.wa{color:var(--pg-accent);font-weight:800;letter-spacing:0.22em}.wf{color:var(--pg-dim);letter-spacing:0.14em}
+.links{margin-left:auto;display:flex;flex-wrap:nowrap;gap:8px}
+.ctl{flex:none;display:flex;gap:8px}
+header.top .pill.menubtn{display:none}
+header.top.collapsed .bar{flex-wrap:wrap}header.top.collapsed .pill.menubtn{display:inline-flex}header.top.collapsed .ctl{margin-left:auto}header.top.collapsed .links{display:none;order:3;width:100%;margin:0;flex-direction:column;gap:6px;padding:4px 0 10px}header.top.collapsed .links.open{display:flex}header.top.collapsed .links .pill{width:100%}
+/* No-JS fallback only: without the fit check, let the buttons wrap. */
+html:not(.js) header.top .bar,html:not(.js) .links{flex-wrap:wrap}
+header.top .pill{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-family:var(--font-mono);font-size:0.925rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--pg-dim);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;text-decoration:none;cursor:pointer;white-space:nowrap}
+header.top .pill:hover,header.top .pill:focus-visible{color:var(--pg-accent);border-color:var(--pg-accent);text-decoration:none}
+@media (max-width:900px){.alt{position:static}}
+.shell{display:block}
+.toc{display:none}
+@media (min-width:1100px){.shell{display:grid;grid-template-columns:15rem minmax(0,calc(var(--measure) + 2*var(--gut)));justify-content:center;column-gap:40px;align-items:start}.shell main.wrap{margin:0;max-width:none}.toc{display:block;position:sticky;top:calc(var(--hdr,57px) + 24px);max-height:calc(100vh - var(--hdr,57px) - 48px);overflow:auto;scrollbar-width:thin;padding:24px 0 24px var(--gut)}header.top .wrap.bar{max-width:calc(15rem + 40px + var(--measure) + 2*var(--gut))}}
+.back{margin:48px 0 0;font-weight:600}
+.toc-h{margin:0 0 8px;font-weight:700;color:var(--pg-text)}
+.toc ol{list-style:none;margin:0;padding:0}.toc ol ol{padding-left:12px;border-left:1px solid var(--pg-line);margin:2px 0 8px 2px}
+.toc a{display:block;white-space:normal;padding:4px 8px;border-radius:6px;color:var(--pg-dim);text-decoration:none;line-height:1.35}
+.toc a:hover,.toc a:focus-visible{color:var(--pg-accent);text-decoration:underline}
+.toc a[aria-current="true"]{color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:600}
+.toc>ol>li>a{font-weight:700;color:var(--pg-text);margin-top:8px}
+.msub{display:none}
+header.top.collapsed .links.open .msub{display:flex;flex-direction:column;gap:6px;padding-left:16px}
+header.top .pill.sub{text-transform:none;letter-spacing:0;font-family:var(--font-body);background:none;border:0;border-radius:0;min-height:40px;padding:0 0 0 12px;border-left:1px solid var(--pg-line);white-space:normal;color:var(--pg-dim)}
+header.top.collapsed .links.open .msub{gap:0;padding-left:8px;margin:2px 0 6px}
+header.top.collapsed .links.open{max-height:calc(100dvh - 88px);overflow:auto}
+header.top.collapsed .links .pill{justify-content:flex-start;text-align:left}
+header.top .pill.icon{width:44px;padding:0;justify-content:center}
+header.top .pill.primary{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg)}
+nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
+nav a,.themebtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
+nav a:hover,nav a:focus-visible{color:var(--pg-accent);text-decoration:underline}
+.themebtn{margin-left:auto;font:inherit;background:none;border:0;cursor:pointer;padding:0}
+.themebtn:hover{color:var(--pg-accent);text-decoration:underline}
+.banner{background:var(--pg-surface2);border:1px solid var(--pg-line);border-radius:6px;padding:10px 14px;margin:20px 0 0;color:var(--pg-dim)}
+h1{font-family:var(--font-head);font-size:clamp(1.5rem,4vw,2.4rem);font-weight:500;line-height:1.15;letter-spacing:-0.02em;margin:32px 0 8px;text-wrap:balance}
+.byline{margin:0 0 20px;color:var(--pg-muted)}
+.lede{font-size:1.15rem;line-height:1.55;color:var(--pg-text);max-width:none;text-wrap:pretty}
+h2{font-size:1.5rem;font-weight:600;line-height:1.2;letter-spacing:-0.01em;margin:56px 0 12px;color:var(--pg-accent);text-wrap:balance}
+h3{font-size:1.15rem;font-weight:600;line-height:1.3;margin:28px 0 8px;text-wrap:balance}
+p,li{max-width:none;text-wrap:pretty}
+a{color:var(--pg-accent);text-underline-offset:3px}
+code{font-family:var(--font-code);font-size:.9em}
+.sec{margin:0}
+.dek{margin:4px 0 8px}
+.more{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer;margin:4px 0 0}
+.more:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
+.alt{position:sticky;top:var(--hdr,57px);background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 12px 6px;margin:24px 0 8px}
+.altlabel{color:var(--pg-muted)}
+.tname{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:6px 12px;font:inherit;line-height:1.25;text-align:center;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;cursor:pointer;white-space:normal}
+.seg.measuring .tname{white-space:nowrap}
+.tname:hover{color:var(--pg-accent);text-decoration:underline}
+.tname.on{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
+.tname .n{font-family:var(--font-mono);color:var(--pg-muted)}.tname.on .n{color:var(--pg-accent)}
+.seg{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:6px;margin:6px 0 0}
+.howto{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:14px 18px;margin:20px 0 0}.howto-t{font-weight:700;margin:0 0 6px}.howto ul{margin:0;padding-left:1.2em}.howto li{margin:0 0 6px}
+.altdesc{color:var(--pg-dim);margin:2px 0 0}
+.quicksteps{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;margin:20px 0 0}
+.quicksteps ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:0 4px}
+.quicksteps a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;border:1px solid var(--pg-edge);border-radius:6px;margin:4px 0;color:var(--pg-text);text-decoration:none;background:var(--pg-surface)}
+.quicksteps a:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
+.termwrap{position:relative;display:inline}
+a.gl{text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer}
+a.gl::after{content:"";display:inline-block;width:5px;height:5px;margin:0 2px 2px 5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);}
+a.gl:hover,a.gl[aria-expanded="true"]{background:var(--pg-accent-bg);text-decoration-style:solid}
+a.gl[aria-expanded="true"]::after{transform:rotate(-135deg);margin-bottom:-1px}
+.tipbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
+.tipclose{display:none;font:inherit;color:var(--pg-text);background:none;border:1px solid var(--pg-edge);border-radius:6px;padding:0 10px;min-height:32px;cursor:pointer}
+.termwrap.pinned .tipclose{display:inline-block}
+.tiphint{display:none;color:var(--pg-muted);margin-top:2px}
+@media (hover:hover) and (pointer:fine){.termwrap:not(.pinned) .tiphint{display:block}}
+.tip{position:absolute;z-index:3;left:0;top:calc(100% + 6px);width:max-content;max-width:min(280px,calc(100vw - 32px));background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.14);text-align:left;font-weight:400;font-style:normal;white-space:normal}
+.tip.flip{left:auto;right:0}
+.tip b{display:block;margin:0 0 2px}
+.tip a.tipgo{display:inline-block;padding:4px 0;min-height:28px;font-weight:600}
+.optbtn{margin-left:0}
+#themebtn{margin-left:0}
+.readfab{position:fixed;right:16px;bottom:16px;z-index:4;width:48px;height:48px;border-radius:999px;border:1px solid var(--pg-edge);background:var(--pg-surface);color:var(--pg-text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.readfab:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
+.readopts{position:fixed;right:16px;bottom:76px;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 92px - var(--hdr,72px));max-height:calc(100dvh - 92px - var(--hdr,72px));overflow:auto;background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.ro-title{margin:0 0 4px;font-weight:700}
+.ro-note{margin:0 0 10px;color:var(--pg-dim)}
+.ro-group{margin:0 0 12px}
+.ro-label{display:block;color:var(--pg-muted);margin:0 0 4px}
+.ro-btns{display:flex;flex-wrap:wrap;gap:6px}
+.ro-hint{display:block;color:var(--pg-muted);margin-top:4px}
+.ro-btns button,.ro-actions button{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
+.ro-btns button[aria-pressed="true"]{border-color:var(--pg-accent);color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
+.ro-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+html[data-font="easy"]{--font-body:Verdana,Tahoma,'Trebuchet MS',Arial,sans-serif}
+html[data-font="easy"] h1{font-family:var(--font-body);font-weight:700}
+html[data-font="easy"] *{font-style:normal !important}
+html[data-font="easy"] a.gl{text-decoration:none;background:var(--pg-accent-bg)}
+html[data-font="easy"] a,html[data-font="easy"] .scopelist a{text-decoration:none}
+html[data-size="l"]{font-size:112.5%;--measure:676px}
+html[data-size="xl"]{font-size:125%;--measure:750px}
+html[data-space="roomy"] :is(p,li,dd,dt,td,th,.dek,.lbl,.c,.altdesc,.tip){line-height:1.8;letter-spacing:.04em;word-spacing:.14em}
+html[data-space="roomy"] :is(p,li){margin-bottom:1.1em}
+@media (prefers-color-scheme: light){html[data-tone="warm"]:not([data-theme="dark"]){--pg-bg:#fbf6e9;--pg-surface:#fffdf6;--pg-surface2:#f3ecda}}
+html[data-tone="warm"][data-theme="light"]{--pg-bg:#fbf6e9;--pg-surface:#fffdf6;--pg-surface2:#f3ecda}
+.pagefoot{padding-top:0;padding-bottom:96px;color:var(--pg-dim)}
+[tabindex="-1"]:focus{outline:none}
+@media (prefers-contrast:more){:root{--pg-muted:var(--pg-text);--pg-dim:var(--pg-text);--pg-line:var(--pg-edge)}}
+@media (forced-colors:active){
+  .alt,.tip,.readopts,.readfab,.scopebar button,.step,.more,.quicksteps a{border:1px solid CanvasText}
+          a.gl{text-decoration:underline}
+  .tname.on,.scopebar button[aria-pressed="true"],.ro-btns button[aria-pressed="true"]{outline:2px solid Highlight}
+}
+.scope{margin:16px 0}
+.scopebar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 8px}
+.scopebar button{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
+.scopebar button[aria-pressed="true"]{border-color:var(--pg-accent);color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
+.scopelist{list-style:none;margin:0;padding:0}
+.scopelist li{padding:10px 0;border-top:1px solid var(--pg-line)}
+.scopelist li:last-child{border-bottom:1px solid var(--pg-line)}
+.scopelist .sstep a{font-weight:700}
+.scopelist .ssub{padding-left:20px}
+.scopelist a{display:inline-block;margin:0 0 2px}
+.c{display:block;color:var(--pg-dim)}
+.c b{display:none}
+.scope:not(.js) .c b{display:inline;color:var(--pg-muted);font-weight:600}
+.scope.js[data-case="best"] .c-base,.scope.js[data-case="best"] .c-worst,.scope.js[data-case="base"] .c-best,.scope.js[data-case="base"] .c-worst,.scope.js[data-case="worst"] .c-best,.scope.js[data-case="worst"] .c-base{display:none}
+a:focus-visible,button:focus-visible,.tablewrap:focus-visible{outline:2px solid var(--pg-accent);outline-offset:2px}
+.rail{list-style:none;margin:16px 0;padding:0}
+.stage{padding:16px 0;border-top:1px solid var(--pg-line)}
+.stage:last-child{border-bottom:1px solid var(--pg-line)}
+.stage h3{margin:0 0 8px;font-size:1.15rem;font-weight:600;color:var(--pg-text)}
+.row{margin:0 0 10px}
+.row p{margin:0}
+.lbl{display:block;color:var(--pg-muted);margin:0 0 2px}
+.gloss{margin:8px 0 24px}
+.gloss>div{display:grid;grid-template-columns:11rem 1fr;gap:4px 16px;padding:10px 0;border-top:1px solid var(--pg-line)}
+.gloss dt{font-weight:600}
+.gloss dd{margin:0}
+.gloss .pic{display:block;font-style:italic;color:var(--pg-dim)}
+.gloss .why{display:block;color:var(--pg-dim)}
+.gloss .uses{display:block;color:var(--pg-dim);margin-top:4px}
+.flash{background:var(--pg-accent-bg);}
+.tablewrap{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
+.checklist{margin:0 0 16px;padding-left:1.4em}.checklist li{margin:0 0 8px}
+.note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
+.sec,section[id],[id^="g-"],[id^="s-"],[id^="n-grp-"],h3[id],.stage{scroll-margin-top:calc(var(--hdr, 100px) + var(--sticky-h, 0px) + 16px)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[hidden]:not([hidden="until-found"]){display:none !important}
+@media (max-width:600px){.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
+@media print{:root,:root[data-theme]{--pg-bg:#f7f8fa !important;--pg-surface:#ffffff !important;--pg-surface2:#eef1f5 !important;--pg-line:#d5dbe3 !important;--pg-edge:#76808d !important;--pg-text:#1c2430 !important;--pg-muted:#566170 !important;--pg-dim:#475262 !important;--pg-accent:#00606b !important;--pg-accent-bg:rgba(0,96,107,0.09) !important;--pg-warn-bg:#fff3c4 !important;--pg-warn-edge:#8a6d00 !important}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,header.top,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+.nda{max-width:calc(var(--measure) + 2*var(--gut));margin:0 auto;padding:24px var(--gut) 64px}
+.nda .lede{font-size:1.15rem;line-height:1.55;margin:0 0 12px}
+.nda .key{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 24px;color:var(--pg-dim)}
+.edits{list-style:none;margin:0;padding:0}
+.edit{border-top:1px solid var(--pg-line);padding:20px 0;scroll-margin-top:140px}
+#clean,#main{scroll-margin-top:140px}
+.ehead{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.ehead h2{flex:1 1 14rem;margin:0;font-size:1.15rem;font-weight:600;color:var(--pg-text)}
+.sec{flex:0 0 100%;color:var(--pg-muted);font-size:0.925rem}
+.why{min-height:44px;padding:0 16px;font:inherit;font-weight:600;color:var(--pg-accent);background:var(--pg-accent-bg);border:1px solid var(--pg-accent);border-radius:999px;cursor:pointer}
+.why[aria-expanded="true"]{color:var(--pg-surface);background:var(--pg-accent)}
+.why:focus-visible{outline:3px solid var(--pg-accent);outline-offset:2px}
+.why-note{position:relative;margin:12px 0 4px;padding:12px 16px;background:var(--pg-surface);border:1px solid var(--pg-accent);border-radius:6px}
+.why-note::before{content:"";position:absolute;top:-7px;right:44px;width:12px;height:12px;background:var(--pg-surface);border-left:1px solid var(--pg-accent);border-top:1px solid var(--pg-accent);transform:rotate(45deg)}
+.why-note p{margin:0}
+.pair p{margin:10px 0 0;padding:10px 12px;border-radius:6px}
+.old{color:var(--pg-dim);background:var(--pg-surface);text-decoration:line-through;text-decoration-thickness:1px}
+.new{color:var(--pg-text);background:var(--pg-accent-bg)}
+.sw{display:inline-block;padding:2px 8px;border-radius:6px}
+.sw.o{background:var(--pg-surface);text-decoration:line-through;border:1px solid var(--pg-line)}
+.sw.n{background:var(--pg-accent-bg)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.clean{margin:48px 0 0;border-top:2px solid var(--pg-line);padding-top:24px}.clean h2{font-size:1.5rem;margin:0 0 8px}.cnote{color:var(--pg-dim);margin:0 0 16px}.ctext p{margin:0 0 10px}mark.chg{background:var(--pg-accent-bg);color:var(--pg-text);padding:0 2px}.chgref{font-size:0.925rem}
+.nda .back{margin:32px 0 0;font-weight:600}
+.nfoot{margin:32px 0 0;color:var(--pg-muted)}
+@media print{.why{display:none}.why-note[hidden]{display:block !important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the notes</a>
+<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="/" aria-label="ARCS Field OS. Back to the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links"><a class="pill primary" href="/">Back to the plan</a></span></div></nav></header>
+<main class="nda" id="main">
+<h1>Mutual NDA: a few small edits</h1>
+<p class="lede">Thank you for sending the NDA, and for making it mutual. It is clear and fair. I would like to suggest six small edits before signing. A clean copy with the edits applied is at the bottom. Each one has a short reason: tap <strong>Why?</strong> to read it.</p>
+<p class="key"><span><span class="sw o">struck text</span> is the current wording</span><span><span class="sw n">shaded text</span> is what I suggest</span></p>
+<ol class="edits"><li class="edit" id="e1"><div class="ehead"><span class="sec">Section 3.2</span><h2>Who each of us may share with</h2><button type="button" class="why" aria-expanded="false" aria-controls="w1">Why?</button></div><div class="why-note" id="w1" role="note" hidden><p>Section 3.1 lets your team share my information with your advisors and counsel. This makes it two-way, so I can ask my own lawyer or accountant a question, and so the ordinary tools I work in (like the intake form you will use) are covered rather than technically off-limits.</p></div><div class="pair"><p class="old"><span class="vh">Original: </span>Advisor will not share Company&#x27;s Confidential Information with any employee, subcontractor or other third party without Company&#x27;s prior written consent.</p><p class="new"><span class="vh">Proposed: </span>Advisor may share Company&#x27;s Confidential Information with its own legal and financial advisors, and with service providers it uses for the Purpose (for example document storage, form and hosting tools), each bound by confidentiality at least as protective as this Agreement and used consistently with Section 4. Any other sharing needs Company&#x27;s prior written consent.</p></div></li><li class="edit" id="e2"><div class="ehead"><span class="sec">Section 8.1(c)</span><h2>When materials are returned or destroyed</h2><button type="button" class="why" aria-expanded="false" aria-controls="w2">Why?</button></div><div class="why-note" id="w2" role="note" hidden><p>Sixty days runs out quickly once you add review time, counsel and holidays. Ninety gives the proposal room without either of us having to remember to extend it. Return or destruction on your request still applies at any time.</p></div><div class="pair"><p class="old"><span class="vh">Original: </span><em>(c) 60 days after the Effective Date, unless the Parties have signed a services agreement or extended this period in writing.</em></p><p class="new"><span class="vh">Proposed: </span>(c) 90 days after the Effective Date, unless the Parties have signed a services agreement or extended this period in writing.</p></div></li><li class="edit" id="e3"><div class="ehead"><span class="sec">Section 8.3</span><h2>Copies that cannot be cleanly erased</h2><button type="button" class="why" aria-expanded="false" aria-controls="w3">Why?</button></div><div class="why-note" id="w3" role="note" hidden><p>I keep working files under version control, where history cannot always be erased line by line. This keeps any such copy fully covered by the agreement, the same way the clause already treats backups.</p></div><div class="pair"><p class="old"><span class="vh">Original: </span>Copies held in automatic backups that cannot reasonably be deleted may be kept until overwritten in the ordinary course, and remain subject to this Agreement.</p><p class="new"><span class="vh">Proposed: </span>Copies held in automatic backups or in version-control history that cannot reasonably be deleted may be kept until overwritten or archived in the ordinary course, and remain subject to this Agreement.</p></div></li><li class="edit" id="e4"><div class="ehead"><span class="sec">Section 6.2</span><h2>Derivative works</h2><button type="button" class="why" aria-expanded="false" aria-controls="w4">Why?</button></div><div class="why-note" id="w4" role="note" hidden><p>Read literally, a proposal or analysis written about your spec is a derivative work, which the agreement exists to let me prepare. This carves out exactly that, and keeps it confidential.</p></div><div class="pair"><p class="old"><span class="vh">Original: </span>The Receiving Party will not reverse engineer, decompile or create derivative works from the Disclosing Party&#x27;s Confidential Information.</p><p class="new"><span class="vh">Proposed: </span>The Receiving Party will not reverse engineer, decompile or create derivative works from the Disclosing Party&#x27;s Confidential Information, except materials prepared for the Purpose, such as proposals, analyses and notes, which remain subject to this Agreement.</p></div></li><li class="edit" id="e5"><div class="ehead"><span class="sec">Section 6.4 (new)</span><h2>My own methods stay usable</h2><button type="button" class="why" aria-expanded="false" aria-controls="w5">Why?</button></div><div class="why-note" id="w5" role="note" hidden><p>Some of my existing work sits near your space (for example strengths-based profiling and decision tools). Section 1.5(d) already allows independent development; this simply says it out loud so neither of us has to argue about it later. It does not loosen anything about your information.</p></div><div class="pair"><p class="old"><span class="vh">Original: </span><em>(no existing text)</em></p><p class="new"><span class="vh">Proposed: </span>Nothing in this Agreement restricts Advisor&#x27;s use of ARCS or of Advisor&#x27;s pre-existing or independently developed systems, methods and concepts, including strengths-based and decision-support methods, provided Advisor does not use Company&#x27;s Confidential Information in doing so.</p></div></li><li class="edit" id="e6"><div class="ehead"><span class="sec">Section Recital B</span><h2>How my services are described</h2><button type="button" class="why" aria-expanded="false" aria-controls="w6">Why?</button></div><div class="why-note" id="w6" role="note" hidden><p>I do not give legal or compliance advice; your counsel does. Dropping the word keeps the description accurate.</p></div><div class="pair"><p class="old"><span class="vh">Original: </span>Advisor provides strategic, technical and compliance advisory services, fractional technology leadership and product development services...</p><p class="new"><span class="vh">Proposed: </span>Advisor provides strategic and technical advisory services, fractional technology leadership and product development services...</p></div></li></ol>
+<p><a href="#clean">Jump to the clean copy</a></p>
+<p class="nfoot">These are requests, not conditions. If your counsel prefers different wording that does the same job, that works for me. Everything else in the agreement I am happy to sign as written. I am not a lawyer, and nothing here is legal advice.</p>
+<section class="clean" id="clean" aria-labelledby="cleanh"><h2 id="cleanh">Clean copy with the edits applied</h2><p class="cnote">The full agreement as it would read with the six edits. Changed passages are shaded; each <em>why</em> link jumps to its reason above.</p><div class="ctext"><p>Mutual Non-Disclosure Agreement This Mutual Non-Disclosure Agreement (&quot;Agreement&quot;) is entered into as of October 9, 2026 (the &quot;Effective Date&quot;) by and between: Access Consulting, LLC, a Connecticut limited liability company with a principal address at 15 Turkey Hill Rd S, Westport, CT 06880 (&quot;Company&quot;); and Zach Harris, an individual with an address at Fairfield, CT (&quot;Advisor&quot;). Company and Advisor are each a &quot;Party&quot; and together the &quot;Parties.&quot; The Party sharing information is the &quot;Disclosing Party&quot; and the Party receiving it is the &quot;Receiving Party.&quot;</p><p>Recitals</p><p>A. Company is developing MyAllyLD, a web-based platform supporting parents and caregivers of children with learning differences, including an AI guide (&quot;Alyce&quot;) built on a third-party large language model (the &quot;Platform&quot;). B. <mark class="chg">Advisor provides strategic and technical advisory services,</mark> <a class="chgref" href="#e6" aria-label="Why this change">why</a> fractional technology leadership and product development services, and has developed proprietary systems and methods, including an operating system known as ARCS.</p><p>C. The Parties wish to share information so that Advisor can prepare, and Company can evaluate, a proposal for Advisor to provide services for the Platform, which may include a discovery session, ongoing advisory services or oversight of a third-party developer (the &quot;Purpose&quot;).</p><p>D. For the Purpose, Company intends to share its integration specification and related written materials. Company does not intend to share source code or provide access to its systems or to any personal data during the evaluation.</p><p>E. The Parties began preliminary discussions on or about October 8, 2026. The Parties intend this Agreement to cover all information shared from that date forward, including before this Agreement was signed.</p><p>1. Confidential Information</p><p>1.1 &quot;Confidential Information&quot; means any non-public information disclosed by or on behalf of a Disclosing Party, or observed by the Receiving Party, in connection with the Purpose, whether oral, written, electronic or visual.</p><p>1.2 Company&#x27;s Confidential Information includes, without limitation:</p><p>(a) Company&#x27;s integration specification, build specifications and related technical documentation (the &quot;Specification&quot;);</p><p>(b) the design, voice, prompts, guardrails, conversation design standards, memory approach, configuration and outputs of Alyce;</p><p>(c) the Platform&#x27;s architecture, data structures, features, user flows and any demonstration of them;</p><p>(d) Company&#x27;s compliance, regulatory and legal analyses and its approach to privacy and data protection; </p><p>(e) business, financial and operational plans, including budgets, cost and token modeling, pricing, licensing strategy and fundraising materials;</p><p>(f) product roadmaps and plans for future platforms or markets, including MyAllyAges+;</p><p>(g) user research, beta tester and prospect lists, provider network information and any user or family data;</p><p>(h) the identities and terms of engagement of Company&#x27;s team members, advisors, contractors, developer candidates and investors; and</p><p>(i) the existence and terms of this Agreement, any request for proposal and the Parties&#x27; discussions.</p><p>1.3 Advisor&#x27;s Confidential Information includes, without limitation, the design, architecture, documentation and workflows of ARCS and any other proprietary systems, tools, templates and methods Advisor shows or describes to Company, and Advisor&#x27;s rates and proposal terms.</p><p>1.4 Recordings, transcripts and notes of meetings between the Parties, including those generated by AI note-taking tools, are Confidential Information of both Parties.</p><p>1.5 Confidential Information does not include information that the Receiving Party can show by written records:</p><p>(a) is or becomes public through no fault of the Receiving Party;</p><p>(b) was rightfully known to it without restriction before disclosure;</p><p>(c) is rightfully received from a third party without a duty of confidentiality; or</p><p>(d) is independently developed without use of or reference to the Disclosing Party&#x27;s Confidential Information.</p><p>2. Obligations</p><p>2.1 The Receiving Party will:</p><p>(a) hold the Disclosing Party&#x27;s Confidential Information in strict confidence;</p><p>(b) use it solely for the Purpose;</p><p>(c) not disclose it to anyone except as permitted in Section 3; and</p><p>(d) protect it with at least the care it uses for its own confidential information, and no less than reasonable care.</p><p>2.2 The Receiving Party will not copy Confidential Information except as reasonably necessary for the Purpose, and every copy will carry the same confidentiality markings as the original.</p><p>3. Permitted Disclosure</p><p>3.1 Company may share Advisor&#x27;s Confidential Information only with its team members, advisors and legal counsel who need it for the Purpose and are bound by confidentiality obligations at least as protective as this Agreement. <mark class="chg">3.2 Advisor may share Company&#x27;s Confidential Information with its own legal and financial advisors, and with service providers it uses for the Purpose (for example document storage, form and hosting tools), each bound by confidentiality at least as protective as this Agreement and used consistently with Section</p><p>4. Any other sharing needs Company&#x27;s prior written consent.</mark> <a class="chgref" href="#e1" aria-label="Why this change">why</a> Any person approved under this Section must be bound in writing by confidentiality obligations at least as protective as this Agreement, and Advisor is responsible for any breach by that person.</p><p>4. Use of AI Tools</p><p>4.1 The Receiving Party will not enter, upload or otherwise provide the Disclosing Party&#x27;s Confidential Information to any artificial intelligence tool or service unless that tool is used under business or enterprise terms that</p><p>(a) prohibit the provider from using inputs or outputs to train its models and</p><p>(b) require the provider to keep inputs confidential. </p><p>4.2 On request, each Party will identify to the other the AI tools it uses with the other Party&#x27;s Confidential Information.</p><p>4.3 Meetings between the Parties will be recorded or transcribed, including by AI note-taking tools, only with the consent of both Parties.</p><p>5. No System Access or Personal Data</p><p>5.1 Company will not provide source code, credentials or access to its systems, or any personal data, under this Agreement. Any such access will be provided only under a separate signed services agreement with its own security, data-protection and intellectual property terms.</p><p>5.2 If Advisor receives any personal information by mistake, including any information about a child, Advisor will notify Company within 72 hours, will not use it, and will delete it on Company&#x27;s instruction.</p><p>6. Non-Use and Non-Competition with the Platform</p><p>6.1 Without limiting Section 2, Advisor will not use Company&#x27;s Confidential Information to build, or help anyone build, any product that competes with or replicates the Platform or Alyce.</p><p>6.2 The Receiving Party will not reverse engineer, decompile or <mark class="chg">create derivative works from the Disclosing Party&#x27;s Confidential Information, except materials prepared for the Purpose, such as proposals, analyses and notes, which remain subject to this Agreement.</mark> <a class="chgref" href="#e4" aria-label="Why this change">why</a></p><p>6.3 Nothing in this Agreement prevents Advisor from providing services to others, <mark class="chg">as long as Advisor does not use or disclose Company&#x27;s Confidential Information in doing so.</p><p>6.4 Nothing in this Agreement restricts Advisor&#x27;s use of ARCS or of Advisor&#x27;s pre-existing or independently developed systems, methods and concepts, including strengths-based and decision-support methods, provided Advisor does not use Company&#x27;s Confidential Information in doing so.</mark> <a class="chgref" href="#e5" aria-label="Why this change">why</a></p><p>7. Compelled Disclosure If the Receiving Party is required by law, regulation or court order to disclose Confidential Information, it will, where legally permitted, give the Disclosing Party prompt written notice so it can seek a protective order, and will disclose only the portion legally required.</p><p>8. Return and Destruction</p><p>8.1 The Receiving Party will return or, at the Disclosing Party&#x27;s election, destroy all Confidential Information, including all copies, on the earliest of:</p><p>(a) the Disclosing Party&#x27;s written request;</p><p>(b) either Party&#x27;s written notice that it will not proceed with an engagement; or <mark class="chg">(c) 90 days after the Effective Date,</mark> <a class="chgref" href="#e2" aria-label="Why this change">why</a> unless the Parties have signed a services agreement or extended this period in writing.</p><p>8.2 Destruction includes deleting Confidential Information from devices, cloud storage, accounts and, where the tool allows, AI tool histories. Within 10 days of a request, the Receiving Party will confirm in writing that it has done so.</p><p>8.3 <mark class="chg">Copies held in automatic backups or in version-control history that cannot reasonably be deleted may be kept until overwritten or archived in the ordinary course,</mark> <a class="chgref" href="#e3" aria-label="Why this change">why</a> and remain subject to this Agreement.</p><p>9. Ownership, Feedback and Proposals</p><p>9.1 Each Party keeps all rights in its own Confidential Information. Nothing in this Agreement grants the Receiving Party any license or ownership interest in the Disclosing Party&#x27;s Confidential Information or intellectual property. </p><p>9.2 Any suggestions, ideas or feedback Advisor gives Company about the Platform (&quot;Feedback&quot;) may be used by Company freely, without obligation or payment to Advisor. Feedback does not include ARCS or Advisor&#x27;s other proprietary systems and tools, which remain Advisor&#x27;s.</p><p>9.3 Advisor keeps ownership of its proposal and of its pre-existing systems, tools, methods and know-how, including ARCS. Company may keep and use Advisor&#x27;s proposal internally to evaluate the engagement.</p><p>9.4 Ownership of any work product created for Company will be governed by a separate services agreement, which Company expects to include work-made-for-hire and assignment of intellectual property to Company.</p><p>10. No Obligation; No Warranty Neither Party is obligated to enter into any further agreement. All Confidential Information is provided &quot;as is,&quot; without any warranty.</p><p>11. Protected Disclosures Nothing in this Agreement limits a Party&#x27;s right to report possible violations of law to a government agency. Under 18 U.S.C. Section 1833(b), an individual will not be held criminally or civilly liable under any federal or state trade secret law for disclosing a trade secret:</p><p>(a) in confidence to a federal, state or local government official, or to an attorney, solely to report or investigate a suspected violation of law; or</p><p>(b) in a complaint or other document filed under seal in a lawsuit or other proceeding.</p><p>12. Term and Survival This Agreement covers Confidential Information shared at any time from the date in Recital</p><p>E. The Receiving Party&#x27;s obligations continue for seven (7) years after the last disclosure of Confidential Information. Obligations concerning trade secrets, including the Specification, prompts, platform architecture and the design of ARCS, continue for as long as the information remains a trade secret under applicable law.</p><p>13. Remedies Unauthorized use or disclosure of Confidential Information may cause irreparable harm for which money damages are inadequate. The Disclosing Party may seek injunctive relief, without posting bond, in addition to any other remedy.</p><p>14. Governing Law and Jurisdiction This Agreement is governed by the laws of the State of Connecticut, without regard to conflict-of-laws principles. Each Party consents to the exclusive jurisdiction of the state and federal courts located in Connecticut for any dispute arising from this Agreement.</p><p>15. Assignment Company may assign this Agreement, without consent, to any affiliate or successor, including any entity formed to own or operate the Platform. Advisor may not assign this Agreement without Company&#x27;s prior written consent. </p><p>16. General</p><p>16.1 Entire Agreement. This Agreement is the entire agreement between the Parties about confidentiality for the Purpose and supersedes prior understandings on that subject. It may be amended only in a writing signed by both Parties.</p><p>16.2 Severability; No Waiver. If any provision is unenforceable, the rest remains in effect. Failure to enforce a provision is not a waiver of it.</p><p>16.3 Independent Parties. Nothing in this Agreement creates an employment, partnership, agency or joint venture relationship.</p><p>16.4 Notices. Notices may be given by email to the addresses in the signature blocks.</p><p>16.5 Counterparts; Electronic Signature. This Agreement may be signed in counterparts and by electronic signature, each of which is an original.</p><p>Signatures IN WITNESS WHEREOF, the Parties have signed this Agreement as of the Effective Date.</p><p>COMPANY: Access Consulting, LLC By: ______________________ Name: Leah Gambal Title: Owner Email: leah@leahgambal.com</p><p>ADVISOR: Zach Harris, individually Signature: ______________________ Email: _________________________ </p></div></section>
+<p class="back"><a href="/">Back to the plan</a></p>
+</main>
+<script>
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.why');if(!b)return;var n=document.getElementById(b.getAttribute('aria-controls'));var open=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',open?'true':'false');if(open)n.removeAttribute('hidden');else n.setAttribute('hidden','');try{window.va('event',{name:'nda_why',data:{edit:b.closest('.edit').id}});}catch(err){}});
+</script>
+</body>
+</html>

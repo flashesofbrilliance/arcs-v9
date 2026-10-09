@@ -285,7 +285,7 @@ def intake_section():
     else:
         form = "The intake form link arrives with my email once the NDA is in place"
     steps = [
-        "Send your NDA. Mutual, please, so it protects both sides.",
+        'Send your NDA. Mutual, please, so it protects both sides. <a href="/mnda-edits">Proposed edits, with reasons</a>.',
         f"{form}. About 10 minutes for the first page; the later pages are optional.",
         "Upload the signed NDA and the build spec on the form's first page, right after your name. No family or child information.",
         "Pick a time to talk it through, Leah included if she is up for it. Rather talk than type? Reply to my email and I will fill the form in for you.",
