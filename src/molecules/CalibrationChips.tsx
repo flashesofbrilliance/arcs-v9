@@ -18,7 +18,7 @@ export function CalibrationChips({ selected, onToggle }: CalibrationChipsProps) 
   return (
     <div>
       <SectionLabel index="02" color={signal.gold} style={{ marginBottom: '0.75rem' }}>Calibrate · optional</SectionLabel>
-      <div style={{ fontFamily: font.mono, fontSize: 10, color: text.muted, letterSpacing: '0.06em', marginBottom: '0.6rem' }}>What can&apos;t you afford to lose? · pick up to 2</div>
+      <div style={{ fontFamily: font.mono, fontSize: 11, color: text.muted, letterSpacing: '0.06em', marginBottom: '0.6rem' }}>What can&apos;t you afford to lose? · pick up to 2</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
         {PROTECTION.map(c => (
           <ChipToggle key={c} label={c} selected={selected.includes(c)} onClick={() => onToggle(c)} style={{ width: '100%', justifyContent: 'center' }} />

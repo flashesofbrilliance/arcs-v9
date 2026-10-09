@@ -64,7 +64,7 @@ export function ProvenanceTag({ receiptId }: { receiptId: string }) {
     <Card padding="compact" style={{ padding: '1rem 1.25rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
         <Label style={{ marginBottom: 0 }}>Provenance</Label>
-        <span style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.08em', color: value ? signal.cyan : signal.gold, textTransform: 'uppercase' }}>
+        <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.08em', color: value ? signal.cyan : signal.gold, textTransform: 'uppercase' }}>
           {value ? value : 'untagged'}
         </span>
       </div>
@@ -91,7 +91,7 @@ export function ProvenanceTag({ receiptId }: { receiptId: string }) {
           ))}
         </div>
       </div>
-      {err && <div role="alert" style={{ fontFamily: font.mono, fontSize: '0.65rem', color: signal.red, marginTop: '0.75rem' }}>{err}</div>}
+      {err && <div role="alert" style={{ fontFamily: font.mono, fontSize: '0.6875rem', color: signal.red, marginTop: '0.75rem' }}>{err}</div>}
     </Card>
   )
 }

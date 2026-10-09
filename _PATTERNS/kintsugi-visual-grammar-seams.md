@@ -59,6 +59,83 @@ and HorizonDist as raw code: `${Array.from({length:20},...).join('')}` and
 | 2 | Fixed `1fr 1fr` grid could not fit a phone | inspection | `repeat(auto-fit, minmax(200px, 1fr))`: one column at 375, two at the card's 480x320 picker size and wider | inspection round |
 | 3 | First repair attempt was a reconstruction from the rendered card (the source was not yet readable) that moved the kit onto DESIGN.md colors and type and misread HorizonDist as one stacked bar. That is a redesign of a separate visual world, not a repair | reading the real source once DesignSync was authorized | Reconstruction deleted; the source was fixed in place instead. The instrument kit keeps its own palette and type (Barlow Condensed, IBM Plex Mono, #07090B ground) | ledger only: repair the source, never a copy of it |
 
+## 2026-10-08 · The 47 touched pages made fully clean so the stack can merge: em-dashes, measure, ledes, overflow, doctype; tripwire allowlist
+
+Found by: CI on PRs 1101 to 1105. The page gate and tripwire check every page a PR touches in full (legacy pages are
+gated when next touched); 47 pages already failed them on main. Reverting them out of the stack was refused by the
+local kintsugi ratchet (it would raise their debt), so the only path satisfying both gates was to clean them.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | 607 em-dashes in rendered copy on 28 pages (also the no-em-dash rule) | wrap lint | Rule-based rewrite of visible text only (scripts, styles, code, comments untouched; template sub-pages included; entities too): headings and short labels take ` · `; a dash before a new clause becomes a full stop and capital; before so/but/and a comma; otherwise a comma. Sampled before keeping. Served-page em-dashes 774 -> 13 | wrap lint + design-debt ratchet |
+| 2 | 27 per-role `ch` caps; then a 680px measure narrower than each container | wrap lint | Caps -> `var(--measure)`; measure set to the page's container width so prose and full-width blocks share one column | wrap lint |
+| 3 | 6 ledes narrower than their heading; 2 were card summaries, not hero ledes | page gate | `max-width:none` on the hero ledes (monolith's rule fixed at its source, not appended into an inlined template); card summaries renamed `mv-lede` | page gate |
+| 4 | Overflow at 375: resume sheets (fixed 8.5in), a no-wrap breadcrumb, unwrapped code, a 157px-column grid, the good.arcs.care clone card | page gate + measured offenders | Screen-only small-viewport rules (print unchanged); renderer card may shrink | page gate |
+| 5 | 6 pages in quirks mode (no leading doctype); standards mode then exposed a skipped heading on prl-status-tidio (h2 -> h4) | page gate, then the design ratchet | Doctype first; h4 -> h3 with h4's size kept | page gate + ratchet |
+| 6 | 13 tripwire real-name hits were each counterpart's own page naming its own people or company; 1 public link to a private claude.ai artifact | tripwire | `scripts/tripwire-allow.tsv`: per-page own names only (another counterpart's name still fails; tested); the private link unlinked, text kept | tripwire |
+| 7 | belief-log.html is generated; edits to its output drifted from its emitter | CI gates job | All changes moved into `scripts/belief_log_public_template.html`; re-emitted | `belief_log_emit.py --check` |
+
+## 2026-10-08 · Light paper world sanctioned at AA: 25 light-surface pages pass contrast
+
+Found by: axe color-contrast class B (486 failing nodes on 26 light-surface pages: resumes, dossiers, TIL
+posts), unsanctioned by DESIGN.md. Zach's call: sanction a light paper world, with passing colors.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | 20 text colors under 4.5:1 on paper grounds (top: teal `#0089a8` 176 nodes, `#9ab0c8` 98, `#7a848e` 64) | axe pairs, grouped by color and darkest paper surface | Each color darkened by the smallest step that clears 4.6:1 on the darkest paper surface it sits on (`#0089a8` -> `#00748e`, `#9ab0c8` -> `#616e7d`, `#7a848e` -> `#677078` ...), one mapping everywhere, on 25 pages (omakase skipped). WCAG nodes 963 -> 485; clean pages 73 -> 93; detector 4,005 -> 3,836 | both ratchets, checked per changed page before commit (no rises); DESIGN.md Light Paper row names the 4.6:1 floor |
+
+## 2026-10-08 · Contrast, ranked by axe: dark-surface greys swapped on 7 pages; PRL named a sanctioned world; light pages need a rule
+
+Found by: axe color-contrast over every served page, failing pairs grouped by color. Two classes. A: greys too
+dark on dark surfaces (`#5b6675`, `#4a5a6d`, `#5b6b7d`, about 3:1). B: a light "paper" world (resumes, counterpart
+dossiers, TIL posts) failing on white with `#0089a8`, `#9ab0c8`, `#7a848e`; DESIGN.md does not sanction a light theme.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Class A greys as text on dark surfaces | axe pairs | Swapped to `#7a8699` (5.1 to 5.3:1 on the surfaces in use) on 7 pages; good.arcs.care via `connector_render.py --fg4`. WCAG nodes 1,058 -> 963; detector 4,049 -> 4,005 | both ratchets |
+| 2 | The same swap on the nine `prl-status-*` pages raised detector findings on seven and WCAG link-in-text-block on one (lighter body text sat too close to the link color) | the design and WCAG ratchets, on my own change | Reverted; PRL client pages added to DESIGN.md Sanctioned Visual Worlds | the ratchets caught it before commit |
+| 3 | Class B: light-surface pages fail with their own accent and greys | axe pairs | Not repaired: needs a rule (sanction a light paper world with passing colors, or move the pages dark) | tracker, waiting on Zach |
+
+## 2026-10-08 · Token-gate migration: 66 served pages now inherit `_tokens.css`; 6 remain
+
+Found by: the served-page sweep (72 pages painted ARCS signal colors under their own variable names without
+inheriting the kit tokens, so the palette lived in dozens of places and drifted: the retired greys were the
+visible symptom).
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | 72 pages re-authored the palette | token gate over every served page | `_tokens.css` inlined verbatim (sentinel kept) at the top of each page's first style block; each locally named signal variable rewritten to reference the canonical one (`--accent: var(--cyan)`), same color, one source. Verified: 63 pages pixel-identical at 1280; 3 live pages (build, status, pf-moire) differ from themselves between loads, and their computed color, background, border and font are identical on every element | token gate (pre-commit, new pages) + the design-debt ratchet (served pages may not rise) |
+| 2 | monstro-full and recruithaus define their own `--green` (`#0a8f5e`, a light theme), so `--greenlt: var(--green)` resolved to it and changed color | pixel diff, then a scan for canon names a page redefines | Reverted; residue | the conflict scan, run before any future rewrite |
+| 3 | joe.html changed pixels for a reason not isolated | pixel diff | Reverted; residue | inspection round |
+| 4 | blog-til-a-draft-is-not-a-verb carries the token sentinel with its em-dash swapped for a hyphen, so the gate no longer recognizes it; it is a light-theme page. The sentinel line itself contains an em-dash, which the no-em-dash rule bans: two rules collide | gate output | Not repaired: the sentinel needs an em-dash-free form recognized by the gate (a rule change) | open contradiction, in the tracker |
+
+## 2026-10-08 · Functional text floor raised to 11px everywhere; DESIGN.md trued up (first formal refresh since 2026-08-01)
+
+Found by: the served-page sweep. About 1,900 of the 6,312 detector findings were 10px text, the DESIGN.md
+label size itself, which sat under the detector's 11px readability floor (open since the 2026-10-07 seam).
+Zach's call: 11px across the kit, no mono-label exemption.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | DESIGN.md label 0.625rem (10px) under the 11px floor; the two rules could not both pass | sweep + this ledger (2026-10-07 #3) | DESIGN.md label 0.6875rem; Graded-Legend tiers t1 to t4 in `src/ui/tokens.ts` raised to 11 / 11.25 / 11.5 / 11.75px (t5, t6 unchanged); 402 inline app sizes under 11px raised in 63 files (relative units left alone) | detector `undersized-ui-text` / `tiny-text` + the design-debt ratchet |
+| 2 | 948 sub-11px `font-size` declarations on 93 served pages | sweep | Raised to 11px / 0.6875rem; generated good.arcs.care pages via `scripts/connector_render.py`, re-rendered. Sanctioned worlds skipped (NFTT posts, success-academy, omakase) | design-debt ratchet; detector 6,312 -> 4,049 |
+| 3 | Four pages newly scrolled sideways at 375px after the raise (monstro-resume +9px, scott-arcs-demo +7, squad-resume +9, todd-logictree 59 -> 99) | before/after overflow measurement of every touched page at 375 / 790 / 1440 | Raise reverted on those four; residue | residue in the tracker |
+| 4 | DESIGN.md had no formal refresh since 2026-08-01 while rules accumulated in this ledger and the detector config, and it broke its own no-em-dash rule 10 times | reading DESIGN.md against the ledger | Amended: 11px floor, retired greys, no template syntax in static pages, Sanctioned Visual Worlds table, the Inter Rule, Ratchets and the Done Goal; 10 em-dashes removed | the ratchets it now names |
+
+## 2026-10-08 · Every page surfaces.arcs.care serves: retired greys swapped, design-debt burn-down baselined
+
+Found by: the first full sweep of the 179 served static pages with the repo's own gates plus the Impeccable
+detector: 7,022 detector findings on 127 pages, 774 visible em-dashes on 26, 32 wrap failures, 72 token-gate
+failures. Half the 1,476 contrast failures were two hex literals DESIGN.md retired on 2026-10-04 (`#64748b`,
+`#475569`, 4.3:1 and 2.7:1 on `#020408`), hardcoded in pages that redeclare the palette instead of inheriting
+tokens. Done goal (Zach): every served page clean except reasoned exemptions.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Retired greys as text color in 58 pages (89 CSS declarations) plus 64 SVG text fills in 12 | sweep + detector contrast breakdown | Swapped to `#8391a7` / `#7a8699` (DESIGN.md text-dimmed / text-muted). Contrast findings 1,476 -> 773; every other rule's count unchanged. Strokes and data attributes left as they were | design-debt ratchet in `scripts/git-hooks/pre-commit`: a staged served page fails on any retired grey, and on any rise in detector, em-dash, wrap, token or leak counts against the committed per-page baseline. Proven failing on a planted regression |
+| 3 | `public/forge-pattern.html` mixes light and dark surfaces: the old greys passed on white (4.8:1) and failed on dark; the new greys do the reverse, so the swap moved it 162 -> 169 findings | per-page before/after detector diff of every swapped page (52 down, 4 same, 1 up) | Swap reverted on that page; it needs separate light-surface and dark-surface greys | residue, in the tracker; the ratchet stops it getting worse |
+| 2 | Debt had no measure, so nothing could show it shrinking | the sweep itself | Per-page baseline committed at `runtime/specs/design-debt-baseline.json`: 6,319 detector, 774 em-dash, 32 wrap, 72 token; 51 of 179 pages fully clean | the same ratchet; burn-down report via the sweep's `--report` |
+
 ## 2026-10-07 · surfaces.arcs.care (public/surfaces.html, generated): first cut blocked at 23 findings, repaired to 0 + 1 scoped exemption
 
 Found by: the pre-commit kintsugi gate on the page's first commit (a new file blocks on any finding).

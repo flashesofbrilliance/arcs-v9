@@ -6,11 +6,12 @@
 <meta name="robots" content="noindex, nofollow">
 <title>HypeLab × ARCS – A Six-Month Decision Map</title>
 <style>
+:root{--measure:820px;}
   /* Canonical ARCS instrument tokens – matches the other *.arcs.care briefs
      (see public/jeben.html, WORLD.md design tokens). Dark-only by design. */
   :root{
     --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b; --border-soft:#16202e;
-    --text:#e2e8f0; --muted:#8b9bb0; --faint:#64748b; --steel:#94a3b8;
+    --text:#e2e8f0; --muted:#8b9bb0; --faint:#8391a7; --steel:#94a3b8;
     --accent:#00F0FF; --accent-dim:rgba(0,240,255,.07);
     --gold:#FFD700; --gold-dim:rgba(255,215,0,.07);
     --green:#00FF9D; --green-dim:rgba(0,255,157,.07);
@@ -78,7 +79,7 @@
   .note.green{border-left-color:var(--green); background:var(--green-dim)}
   .chip{
     font-family:var(--mono);
-    display:inline-block; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    display:inline-block; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
     padding:3px 9px 2px; border:1px solid var(--border); border-radius:3px; color:var(--muted); white-space:nowrap;
   }
   .chip.hot{color:var(--gold); border-color:var(--gold); background:var(--gold-dim)}
@@ -98,7 +99,7 @@
   /* signal waveform */
   .waveform-wrap{margin:4px 0 34px}
   .waveform{width:100%;display:block;overflow:visible}
-  .wf-label{font-family:var(--mono);font-size:7px;letter-spacing:.1em;fill:var(--faint)}
+  .wf-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;fill:var(--faint)}
   .wf-spike:hover .wf-label,.wf-spike:focus .wf-label{fill:var(--text)}
   .wf-halo{transform-box:fill-box;transform-origin:center;animation:wf-halo 2.2s ease-in-out infinite}
   @keyframes wf-halo{0%,100%{opacity:0;transform:scale(.45)}50%{opacity:.4;transform:scale(1.25)}}
@@ -177,10 +178,10 @@
   .scen .card.worst{border-top-color:var(--red)}
   .scen h3{margin-bottom:8px}
   .scen p{font-size:14.5px; color:var(--muted)}
-  .scen .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .scen .tag{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
   .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin:18px 0}
   .stat{background:var(--surface); border-radius:6px; border:1px solid var(--border); padding:14px 16px; box-shadow:var(--shadow)}
-  .stat .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .stat .k{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
   .stat .v{font-family:var(--sans); font-size:24px; font-weight:700; letter-spacing:-.01em; margin-top:4px; font-variant-numeric:tabular-nums}
   .stat .s{font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.45}
   .fine{font-size:13px; color:var(--faint); line-height:1.6}
@@ -194,15 +195,15 @@
   /* PASSWORD GATE – same pattern as the other *.arcs.care private briefs */
   #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:0 24px;text-align:center}
   #pw-gate.hidden{display:none}
-  .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
-  .pw-title{font-family:var(--sans);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em;max-width:26ch;text-wrap:balance}
+  .pw-mark{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+  .pw-title{font-family:var(--sans);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em;max-width:var(--measure);text-wrap:balance}
   .pw-form{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
   .pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:16px;padding:10px 16px;outline:none;width:160px;letter-spacing:.06em;transition:border-color .15s}
   .pw-input:focus{border-color:var(--accent)}
   .pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
   .pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--accent);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer;transition:background .15s}
   .pw-btn:hover{background:rgba(0,240,255,.14)}
-  .pw-hint{font-family:var(--mono);font-size:10px;color:var(--faint)}
+  .pw-hint{font-family:var(--mono);font-size:11px;color:var(--faint)}
   @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
   @media (prefers-reduced-motion: reduce){.pw-input.shake{animation:none}}
 </style>

@@ -54,7 +54,7 @@ const DATA_INVENTORY = [
 function SectionHeader({ n, title }: { n: string; title: string }) {
   return (
     <div style={{ marginBottom: '0.6rem' }}>
-      <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>{n}</div>
+      <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>{n}</div>
       <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary }}>{title}</div>
     </div>
   )
@@ -95,8 +95,8 @@ export default function PrivacyPage() {
             <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Unconditional. No carve-outs. No exceptions for business reasons.</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What</div>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Why it&apos;s locked</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Why it&apos;s locked</div>
           </div>
           {ALWAYS.map((row, i) => (
             <div key={row.what} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < ALWAYS.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
@@ -114,8 +114,8 @@ export default function PrivacyPage() {
             <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Conditional. You control the trigger. We state the condition clearly.</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What</div>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Trigger (you control this)</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>Trigger (you control this)</div>
           </div>
           {SOMETIMES.map((row, i) => (
             <div key={row.what} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < SOMETIMES.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
@@ -133,8 +133,8 @@ export default function PrivacyPage() {
             <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Scout&apos;s honor. Enforced by architecture and covenant, not just policy.</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What we won&apos;t do</div>
-            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>How we&apos;re proving it</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What we won&apos;t do</div>
+            <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted }}>How we&apos;re proving it</div>
           </div>
           {NEVER.map((row, i) => (
             <div key={row.what} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < NEVER.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
@@ -150,7 +150,7 @@ export default function PrivacyPage() {
         <div style={{ marginBottom: '1.75rem' }}>
           <SectionHeader n="§ 01 · What we collect" title="Data types and their paths" />
           <div style={{ border: `0.5px solid ${border.subtle}`, borderRadius: 8, overflow: 'hidden', marginTop: '0.75rem' }}>
-            <div style={{ padding: '0.5rem 1rem', background: surface.panel, borderBottom: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>Data inventory</div>
+            <div style={{ padding: '0.5rem 1rem', background: surface.panel, borderBottom: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>Data inventory</div>
             {DATA_INVENTORY.map((row, i) => (
               <div key={row.key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '0.5rem 1rem', borderBottom: i < DATA_INVENTORY.length - 1 ? `0.5px solid ${border.subtle}` : 'none', flexWrap: 'wrap', gap: '0.5rem' }}>
                 <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.secondary }}>{row.key}</span>
@@ -165,8 +165,8 @@ export default function PrivacyPage() {
         {/* Honest gaps */}
         <div style={{ marginBottom: '1.75rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.6rem' }}>
-            <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>§ 02</div>
-            <span style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.08em', color: signal.gold, border: `0.5px solid ${signal.gold}40`, borderRadius: 4, padding: '1px 6px' }}>⚠ NOT BUILT YET</span>
+            <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>§ 02</div>
+            <span style={{ fontFamily: mono, fontSize: '0.6875rem', letterSpacing: '0.08em', color: signal.gold, border: `0.5px solid ${signal.gold}40`, borderRadius: 4, padding: '1px 6px' }}>⚠ NOT BUILT YET</span>
           </div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>What we don&apos;t have yet but should</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75 }}>

@@ -167,7 +167,7 @@ export default function ReceiptPage() {
         </div>
         <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 7rem" }}>
           <div style={{ width: "100%", maxWidth: 460, background: surface.panel, border: `1px solid ${border.subtle}`, borderRadius: 10, padding: "1.75rem" }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.62rem", letterSpacing: "0.14em", textTransform: "uppercase", color: isEphemeral ? signal.gold : signal.red, marginBottom: "0.55rem" }}>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase", color: isEphemeral ? signal.gold : signal.red, marginBottom: "0.55rem" }}>
               {isEphemeral ? "Nothing was stored, by design" : "Receipt unavailable"}
             </div>
             <h1 style={{ fontFamily: font.sans, fontSize: "1.25rem", fontWeight: 600, color: text.primary, margin: "0 0 0.55rem", lineHeight: 1.3, letterSpacing: "-0.01em" }}>
@@ -262,7 +262,7 @@ export default function ReceiptPage() {
                 Zach blesses the v1.1 wording before the flag is flipped for any
                 real user. OFF = the ADR-049 banner, byte-for-byte. */}
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", border: `0.5px solid ${signal.gold}44`, borderRadius: 6, padding: "0.6rem 1rem", background: `${signal.gold}0d` }}>
-              <span style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.08em", color: text.secondary, minWidth: 0 }}>
+              <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.08em", color: text.secondary, minWidth: 0 }}>
                 {saveNudgeV11
                   ? "NOT STORED. This bearing lives only in this tab and is gone when you close it. Keep it: sign in with a magic link and it lands in your ledger, with a check-in at the horizon you chose."
                   : "NOT STORED. This bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in."}

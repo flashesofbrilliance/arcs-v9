@@ -26,7 +26,7 @@ export function Timeline({ steps, accent = T.cyan }: TimelineProps) {
             {i < steps.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 18, background: `linear-gradient(180deg,${step.peak ? accent + '80' : T.border},${T.border})`, margin: '3px 0' }} />}
           </div>
           <div style={{ flex: 1, paddingBottom: 20 }}>
-            {step.label && <div style={{ fontFamily: T.mono, fontSize: 9, color: step.peak ? accent : T.fg4, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>{step.label}</div>}
+            {step.label && <div style={{ fontFamily: T.mono, fontSize: 11, color: step.peak ? accent : T.fg4, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>{step.label}</div>}
             <div style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 600, color: step.peak ? T.fg1 : T.fg2, marginBottom: 5 }}>{step.title}</div>
             <p style={{ fontFamily: T.sans, fontSize: 13, color: T.fg3, lineHeight: 1.65 }}>{step.body}</p>
           </div>

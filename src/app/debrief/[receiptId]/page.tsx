@@ -104,11 +104,11 @@ export default function DebriefPage() {
       {/* breadcrumb */}
       <div style={{ borderBottom: `0.5px solid rgba(255,215,0,0.12)`, background: "rgba(255,215,0,0.03)" }}>
         <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
-          <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-          <Link href={`/brief/${receiptId}`} style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Brief</Link>
-          <span style={{ color: signal.gold, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-          <span style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: signal.gold, textTransform: "uppercase" }}>◰ Debrief</span>
+          <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
+          <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6875rem" }}>·</span>
+          <Link href={`/brief/${receiptId}`} style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Brief</Link>
+          <span style={{ color: signal.gold, fontFamily: font.mono, fontSize: "0.6875rem" }}>·</span>
+          <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: signal.gold, textTransform: "uppercase" }}>◰ Debrief</span>
         </div>
       </div>
       <div style={{ ...contentContainer(vw), paddingTop: "1.75rem", paddingBottom: "5rem" }}>{children}</div>
@@ -131,27 +131,27 @@ export default function DebriefPage() {
   // ── Bearing recap (always shown) ──────────────────────────────────────────
   const recapCard = (
     <Card accent={signal.gold} style={{ marginBottom: "1.5rem" }}>
-      <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.dimmed, marginBottom: "0.85rem" }}>
+      <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.dimmed, marginBottom: "0.85rem" }}>
         The call you logged · {days} day{days === 1 ? "" : "s"} ago
       </div>
-      <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>The question</div>
+      <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>The question</div>
       <h1 style={{ fontFamily: font.sans, fontSize: "0.95rem", fontWeight: 400, color: text.primary, lineHeight: 1.6, margin: "0 0 1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.question}</h1>
-      <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>True North · the bearing we set</div>
+      <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>True North · the bearing we set</div>
       <div style={{ fontFamily: font.sans, fontSize: "1.05rem", color: signal.cyan, lineHeight: 1.6, marginBottom: "1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.trueNorth}</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1.25rem", paddingTop: "0.75rem", borderTop: `0.5px solid ${signal.cyan}1a` }}>
         <div>
-          <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>NCI</div>
+          <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>NCI</div>
           <div style={{ fontFamily: font.mono, fontSize: "1rem", fontWeight: 700, color: nciColor(recap.nci) }}>{recap.nci}<span style={{ color: text.muted, fontWeight: 400 }}>/100</span></div>
         </div>
         {recap.mode && (
           <div>
-            <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Mode</div>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Mode</div>
             <div style={{ fontFamily: font.mono, fontSize: "0.85rem", fontWeight: 700, color: text.secondary }}>{recap.mode}</div>
           </div>
         )}
         {recap.protecting.length > 0 && (
           <div>
-            <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Protecting</div>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Protecting</div>
             <div style={{ fontFamily: font.mono, fontSize: "0.85rem", fontWeight: 700, color: signal.gold }}>{recap.protecting.join(" · ")}</div>
           </div>
         )}
@@ -168,7 +168,7 @@ export default function DebriefPage() {
       <>
         {recapCard}
         <Card accent={driftColor}>
-          <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.16em", textTransform: "uppercase", color: driftColor, marginBottom: "0.85rem" }}>
+          <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.16em", textTransform: "uppercase", color: driftColor, marginBottom: "0.85rem" }}>
             ◉ Receipt closed · {drift}
           </div>
           {done && !o ? (
@@ -177,21 +177,21 @@ export default function DebriefPage() {
             </div>
           ) : o ? (
             <>
-              <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>What happened</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>What happened</div>
               <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.primary, lineHeight: 1.6, marginBottom: "1rem" }}>{o.what}</div>
               <div style={{ display: "flex", gap: "1.5rem", marginBottom: o.learning ? "1rem" : 0 }}>
                 <div>
-                  <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Landed?</div>
+                  <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Landed?</div>
                   <div style={{ fontFamily: font.mono, fontSize: "0.85rem", fontWeight: 700, color: o.matched ? signal.green : signal.red }}>{o.matched ? "Yes" : "No"}</div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Regret</div>
+                  <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Regret</div>
                   <div style={{ fontFamily: font.mono, fontSize: "0.85rem", fontWeight: 700, color: text.secondary }}>{REGRET.find(r => r.v === o.regretScore)?.label ?? o.regretScore}</div>
                 </div>
               </div>
               {o.learning && (
                 <>
-                  <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>What you learned</div>
+                  <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>What you learned</div>
                   <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6 }}>{o.learning}</div>
                 </>
               )}
@@ -255,7 +255,7 @@ export default function DebriefPage() {
             const on = regret === v
             return (
               <button key={v} onClick={() => setRegret(v)} style={{
-                fontFamily: font.mono, fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.04em",
+                fontFamily: font.mono, fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.04em",
                 padding: "0.7rem 0.25rem", borderRadius: 6, cursor: "pointer", textTransform: "uppercase",
                 border: `0.5px solid ${on ? signal.cyan : "rgba(71,85,105,0.3)"}`,
                 background: on ? `${signal.cyan}14` : "rgba(10,15,26,0.5)", color: on ? signal.cyan : text.dimmed, transition: "all .12s",

@@ -1,8 +1,50 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARCS Alexandria</title><script defer src="/_vercel/insights/script.js"></script>
 </head><body>
 <meta charset="utf-8">
-<title>ARCS Alexandria — The Library That Cannot Burn</title>
+<title>ARCS Alexandria · The Library That Cannot Burn</title>
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
   :root{
     --bg:#020408; --surface:#0d1117; --border:#1e293b; --text:#e2e8f0; --sec:#94a3b8;
     --dim:#9aa7b6; --mut:#8a97a8; --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
@@ -11,12 +53,12 @@
     --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
   }
   html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%;overflow:hidden}
-  .lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
+  .lbl{font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
   .deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
   .deck-in{max-width:1240px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
   .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.16em}
   .wordmark b{color:var(--cyan)}
-  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .65rem;cursor:pointer}
+  .btn{font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .65rem;cursor:pointer}
   .btn:hover{border-color:var(--cyan);color:var(--cyan)}
   .btn.fire{border-color:rgba(255,107,53,.5);color:var(--ember)}
   .btn.fire:hover{border-color:var(--ember)}
@@ -24,7 +66,7 @@
   .spacer{flex:1}
   canvas{position:fixed;inset:0;top:50px;display:block;width:100vw;height:calc(100vh - 50px);cursor:pointer}
   .hud{position:fixed;left:1.1rem;bottom:.9rem;z-index:30;pointer-events:none;max-width:600px;display:flex;flex-direction:column;gap:.32rem}
-  .kv{font-family:var(--mono);font-size:.62rem;color:var(--dim);letter-spacing:.07em;line-height:1.55}
+  .kv{font-family:var(--mono);font-size:0.6875rem;color:var(--dim);letter-spacing:.07em;line-height:1.55}
   .kv b{color:var(--sec)}
   .drawer{position:fixed;top:62px;right:12px;width:min(390px,calc(100vw - 24px));max-height:calc(100vh - 86px);overflow-y:auto;z-index:35;
     background:rgba(13,17,23,.97);border:1px solid var(--border);border-radius:8px;padding:1.05rem 1.2rem;display:none}
@@ -33,7 +75,7 @@
   .drawer p{font-size:.82rem;color:var(--sec);line-height:1.58;margin:.4rem 0}
   .drawer .law{border-left:2px solid var(--gold);padding-left:.7rem;font-size:.8rem;color:var(--text);margin:.6rem 0}
   .x{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:.72rem}
-  .chip{display:inline-block;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.07em;border-radius:3px;padding:2px 7px;margin:.15rem .25rem .15rem 0}
+  .chip{display:inline-block;font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.07em;border-radius:3px;padding:2px 7px;margin:.15rem .25rem .15rem 0}
   .c-ok{color:var(--green);border:1px solid rgba(0,255,157,.4)}
   .c-part{color:var(--gold);border:1px solid rgba(255,215,0,.4)}
   .c-gap{color:var(--red);border:1px solid rgba(255,77,109,.45)}
@@ -44,7 +86,7 @@
 </style>
 
 <div class="deck"><div class="deck-in">
-  <span class="wordmark"><b>ARCS</b> · ALEXANDRIA — the library that cannot burn</span>
+  <span class="wordmark"><b>ARCS</b> · ALEXANDRIA, the library that cannot burn</span>
   <span class="spacer"></span>
   <button class="btn fire" id="fire">🔥 burn the center</button>
   <button class="btn" id="restore" style="display:none">⟲ re-seed from the edges</button>
@@ -54,7 +96,7 @@
 <canvas id="cv"></canvas>
 
 <div class="hud">
-  <span class="kv"><b style="color:var(--gold)">The thesis:</b> Alexandria burned because it was singular. A giga network inverts the library — every navigator carries a pocket Alexandria (local-first vault); the network is the inter-library loan, never the vault itself.</span>
+  <span class="kv"><b style="color:var(--gold)">The thesis:</b> Alexandria burned because it was singular. A giga network inverts the library. Every navigator carries a pocket Alexandria (local-first vault); the network is the inter-library loan, never the vault itself.</span>
   <span class="kv">Click a hall for its principle · click the reading room for the om · <b style="color:var(--green)">green scrolls are sovereign</b> (git-distributed / exportable) · <b style="color:var(--ember)">ember scrolls burn</b> (single-copy today) · <b style="color:var(--steel)">steel = planned rungs</b></span>
   <span class="kv" id="stats"></span>
 </div>

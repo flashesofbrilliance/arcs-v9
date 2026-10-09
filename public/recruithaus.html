@@ -8,9 +8,9 @@
   /* ARCS design system, light-mode deliverable variant (matches blacksmith-cover.html tokens) */
   :root{
     --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
-    --accent:#0089a8; --accent2:#0089a8;               /* ARCS cyan, darkened for light ground */
+    --accent:#00748e; --accent2:#00748e;               /* ARCS cyan, darkened for light ground */
     --green:#0a8f5e;                                    /* ARCS green, darkened for readability */
-    --gold:#9a7218; --goldbg:#fbf3df;                  /* ARCS gold family */
+    --gold:#8d6816; --goldbg:#fbf3df;                  /* ARCS gold family */
     --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;/* ARCS dark for inverted sections */
     --cyanlt:#00F0FF; --greenlt:#00FF9D;               /* bright ARCS accents on dark */
     --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;
@@ -27,7 +27,7 @@
   /* header */
   header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 40px 22px;}
   @media(max-width:600px){header{padding:26px 22px;}}
-  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyanlt);}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyanlt);}
   .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:var(--greenlt);box-shadow:0 0 10px var(--greenlt);}
   h1{font-size:clamp(30px,5.4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:14px;}
   .who{font-size:13px;color:#a9b6c3;margin-top:9px;line-height:1.5;}
@@ -50,10 +50,10 @@
   .roles{display:flex;flex-direction:column;gap:8px;}
   .role{display:flex;flex-direction:column;gap:8px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;background:#fcfbf9;}
   .role .rt{font-weight:700;font-size:14px;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;}
-  .role .rt small{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,137,168,.34);border-radius:999px;padding:3px 9px;margin-top:7px;background:rgba(0,137,168,.06);white-space:nowrap;}
+  .role .rt small{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,137,168,.34);border-radius:999px;padding:3px 9px;margin-top:7px;background:rgba(0,137,168,.06);white-space:nowrap;}
   .role .rd{font-size:13.5px;line-height:1.55;color:var(--ink2);}
   .role .rd em{color:var(--gold);font-style:normal;font-weight:600;}
-  .role .req{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.03em;color:var(--gold);}
+  .role .req{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--gold);}
 
   /* comparison */
   .vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -78,7 +78,7 @@
   @media(max-width:600px){footer{padding:20px 22px 26px;}}
   .proof{display:flex;gap:8px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;}
   .proof a{color:var(--accent2);text-decoration:none;font-weight:600;} .proof a:hover{text-decoration:underline;}
-  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);margin-top:12px;line-height:1.6;}
+  .fine{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--ink3);margin-top:12px;line-height:1.6;}
 
   @media print{
     @page{ size:letter; margin:0.5in; }

@@ -593,6 +593,15 @@
     "reason": "DESIGN.md mandates Inter as the reading voice for all ARCS product surfaces; not a default-font choice."
    },
    {
+    "rule": "repeating-stripes-gradient",
+    "value": "*",
+    "files": [
+     "public/forge-cut.html"
+    ],
+    "createdAt": "2026-10-08T21:30:00.000Z",
+    "reason": "The dashed depth bar is the GRAIN render state (DESIGN.md render scale: earned fidelity on thin evidence), a state signal, not decoration. Surfaced when the page left quirks mode."
+   },
+   {
     "rule": "design-system-color",
     "value": "*",
     "files": [

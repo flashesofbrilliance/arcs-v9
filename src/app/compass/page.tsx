@@ -60,7 +60,7 @@ function CompassInner() {
         <Card style={{ width: "100%", maxWidth: 420 }}>
           {shared && (
             <div style={{ borderLeft: `2px solid ${signal.gold}`, paddingLeft: "0.85rem", marginBottom: "1.25rem" }}>
-              <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: signal.gold, marginBottom: "0.3rem" }}>Shared bearing viewed</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.12em", textTransform: "uppercase", color: signal.gold, marginBottom: "0.3rem" }}>Shared bearing viewed</div>
               <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.secondary, lineHeight: 1.55 }}>
                 That link was one-time. It opened once and isn&rsquo;t stored anywhere. Sign in to keep your own bearings and revisit their briefs.
               </div>
@@ -75,7 +75,7 @@ function CompassInner() {
 
           {sent ? (
             <div style={{ paddingLeft: "1rem", borderLeft: `2px solid ${signal.cyan}`, marginTop: "0.5rem" }}>
-              <div style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: text.muted, marginBottom: "0.35rem" }}>Link sent</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", textTransform: "uppercase", color: text.muted, marginBottom: "0.35rem" }}>Link sent</div>
               <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.primary, lineHeight: 1.5 }}>Check your email. Sent to <span style={{ color: signal.cyan }}>{email}</span></div>
             </div>
           ) : (

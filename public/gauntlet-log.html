@@ -54,7 +54,7 @@
   /* page-local additions the kit does not define (NO signal hex re-declared here) */
   :root {
     --muted-hi: #94a3b8;   /* a lighter secondary text than kit --muted, for the lede/stats */
-    --faint:    #475569;
+    --faint:    #7a8699;
     --steel:    #7dd3fc;
     --violet:   #a78bfa;
     --magenta:  #FF6EC7;
@@ -91,7 +91,7 @@
     font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -0.01em; }
   .stat-val.accent { color: var(--cyan); }
   .stat-val small { font-size: 14px; color: var(--muted-hi); font-weight: 500; }
-  .stat-label { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+  .stat-label { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide);
     text-transform: uppercase; color: var(--dimmed); margin-top: 9px; line-height: 1.4; }
 
   .section-label { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-widest);
@@ -106,7 +106,7 @@
   .lane { position: relative; height: 34px; border-top: 1px dashed #0e1622; }
   .lane:first-child { border-top: none; }
   .lane-name { position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: var(--track-wide);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: var(--track-wide);
     text-transform: uppercase; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lane-track { position: absolute; left: 150px; right: 8px; top: 0; bottom: 0; }
   .node { position: absolute; top: 50%; border-radius: 50%;
@@ -114,7 +114,7 @@
     box-shadow: 0 0 0 1px rgba(2,4,8,.9), 0 0 9px currentColor; }
   .node:hover, .node:focus { transform: translate(-50%,-50%) scale(1.4); outline: none; z-index: 5; }
   .axis { position: relative; height: 20px; margin: 8px 8px 0 150px; }
-  .tick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 10px; color: var(--faint); transform: translateX(-50%); }
+  .tick { position: absolute; top: 0; font-family: var(--font-mono); font-size: 11px; color: var(--faint); transform: translateX(-50%); }
   .tick::before { content: ""; position: absolute; top: -8px; left: 50%; width: 1px; height: 6px; background: var(--border); }
 
   .tip { position: fixed; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .1s ease;

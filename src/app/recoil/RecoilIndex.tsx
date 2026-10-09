@@ -89,7 +89,7 @@ export function RecoilIndex({ reports }: { reports: ReportListItem[] }) {
                     {r.badges.map((b) => (
                       <Badge key={b} label={b} color={text.muted} register="light" />
                     ))}
-                    <span style={{ fontFamily: font.mono, fontSize: "0.62rem", color: text.dimmed, letterSpacing: "0.06em" }}>{r.id}</span>
+                    <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.dimmed, letterSpacing: "0.06em" }}>{r.id}</span>
                   </div>
                   <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); router.push(`/recoil/${r.id}`) }}>Open →</Button>
                 </div>

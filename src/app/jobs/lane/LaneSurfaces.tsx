@@ -64,7 +64,7 @@ function StageControls({ it, onMove }: { it: StageItem; onMove: (jobid: string, 
   const idx = ORDER.indexOf((it.stage ?? "research") as (typeof ORDER)[number])
   const prev = idx > 0 ? ORDER[idx - 1] : null
   const next = idx >= 0 && idx < ORDER.length - 1 ? ORDER[idx + 1] : null
-  const btn: React.CSSProperties = { minHeight: 28, padding: "0 8px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: surface.elevated, color: fg2, cursor: "pointer", fontFamily: mono, fontSize: 10, letterSpacing: ".06em", textTransform: "uppercase" }
+  const btn: React.CSSProperties = { minHeight: 28, padding: "0 8px", border: `1px solid ${border.subtle}`, borderRadius: 4, background: surface.elevated, color: fg2, cursor: "pointer", fontFamily: mono, fontSize: 11, letterSpacing: ".06em", textTransform: "uppercase" }
   const go = (stage: string | null) => onMove(it.jobid, stage)
   return (
     <div style={{ display: "flex", gap: 6, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
@@ -122,7 +122,7 @@ function LaneView({ data }: { data: LaneData }) {
           onDrop={(e) => { e.preventDefault(); setOver(null); const id = e.dataTransfer.getData("text/plain"); if (id) drop(id, s.key) }}
           style={{ ...card, minHeight: 240, display: "flex", flexDirection: "column", outline: hot ? `1px solid ${signal.cyan}88` : "none", boxShadow: hot ? `${BEVEL}, 0 0 16px #00F0FF22` : BEVEL }}>
           <header style={{ padding: "10px 12px", borderBottom: `1px solid ${border.subtle}` }}>
-            <span style={{ fontFamily: mono, fontSize: 10.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan }}>{s.verb}</span>
+            <span style={{ fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan }}>{s.verb}</span>
             <h3 style={{ margin: "2px 0 0", fontSize: 14, fontWeight: 600 }}>{s.label}<span style={{ fontFamily: mono, fontSize: 11, color: fg2, marginLeft: 6 }}>{needle ? `${shown.length}/${items.length}` : items.length}</span></h3>
             <div style={{ fontSize: 12, color: fg2, marginTop: 4 }}>Prints: {s.print}{s.sla ? ` · SLA ${s.sla}` : ""}</div>
           </header>
@@ -137,8 +137,8 @@ function LaneView({ data }: { data: LaneData }) {
                     <span style={{ fontSize: 12, color: fg2 }}>{it.company}</span>
                     <span style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6, alignItems: "center" }}>
                       {it.score && <span style={{ fontFamily: mono, fontSize: 12, color: it.tone ?? signal.green }}>{it.score}</span>}
-                      {it.meta && <span style={{ fontFamily: mono, fontSize: 10.5, color: fg2, letterSpacing: ".04em" }}>{it.meta}</span>}
-                      {(it.manual || moved[it.jobid]) && <span style={{ fontFamily: mono, fontSize: 9, color: signal.cyan, letterSpacing: ".08em", textTransform: "uppercase" }}>moved</span>}
+                      {it.meta && <span style={{ fontFamily: mono, fontSize: 11, color: fg2, letterSpacing: ".04em" }}>{it.meta}</span>}
+                      {(it.manual || moved[it.jobid]) && <span style={{ fontFamily: mono, fontSize: 11, color: signal.cyan, letterSpacing: ".08em", textTransform: "uppercase" }}>moved</span>}
                     </span>
                   </Link>
                   <StageControls it={it} onMove={drop} />
@@ -235,7 +235,7 @@ function Sources({ data }: { data: LaneData }) {
           </div>
         ) : <span style={{ fontSize: 12, color: fg2 }}>Files an ingest request over that window and title. The sweep picks it up and pulls net-new rows (deduped against the board) into Research.</span>}
         <div style={{ marginTop: 6 }}>
-          <span style={{ ...lab, fontSize: 10 }}>Request history</span>
+          <span style={{ ...lab, fontSize: 11 }}>Request history</span>
           <ul style={{ listStyle: "none", margin: "8px 0 0", padding: 0 }}>
             {data.requests.length === 0 ? <li style={{ color: fg2, fontSize: 12 }}>none yet</li> : data.requests.map((r, i) => (
               <li key={i} style={{ display: "flex", gap: 10, padding: "6px 0", borderBottom: `1px dashed ${border.subtle}`, fontSize: 12, fontFamily: mono, color: fg2 }}>
@@ -267,7 +267,7 @@ function Debrief({ data }: { data: LaneData }) {
         {data.outcomes.length === 0
           ? <p style={{ color: fg2, fontSize: 13 }}>No rows have closed. When one does, its actual outcome is scored against the composite the scan filed, and any honesty gap shows here.</p>
           : <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-              <thead><tr>{["Role", "Predicted", "Actual", "Honesty"].map((h) => <th key={h} style={{ textAlign: "left", fontFamily: mono, fontSize: 10.5, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: fg2, padding: "6px 8px", borderBottom: `1px solid ${border.subtle}` }}>{h}</th>)}</tr></thead>
+              <thead><tr>{["Role", "Predicted", "Actual", "Honesty"].map((h) => <th key={h} style={{ textAlign: "left", fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: fg2, padding: "6px 8px", borderBottom: `1px solid ${border.subtle}` }}>{h}</th>)}</tr></thead>
               <tbody>{data.outcomes.map((o) => (
                 <tr key={o.jobid}><td style={{ padding: 8, color: fg1, borderBottom: `1px solid ${border.subtle}` }}>{o.company}</td><td style={{ padding: 8, fontFamily: mono, color: fg2, borderBottom: `1px solid ${border.subtle}` }}>{o.predicted}</td><td style={{ padding: 8, fontFamily: mono, color: fg2, borderBottom: `1px solid ${border.subtle}` }}>{o.actual}</td><td style={{ padding: 8, color: fg2, borderBottom: `1px solid ${border.subtle}` }}>{o.honesty}</td></tr>
               ))}</tbody>
@@ -289,7 +289,7 @@ function Debrief({ data }: { data: LaneData }) {
           ? <p style={{ color: fg2, fontSize: 13 }}>Filed on a reject or pivot: what you learned, the pattern it fits, what you will avoid, and the decision logic. These are what the learning loop reads.</p>
           : data.corrections.map((c, i) => (
             <dl key={i} style={{ margin: 0 }}>
-              {([["today I learned", c.learned], ["recognizes pattern", c.pattern], ["will avoid", c.avoid], ["decision logic", c.logic]] as const).map(([k, v]) => v ? (<div key={k}><dt style={{ fontFamily: mono, fontSize: 10.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan, marginTop: 10 }}>{k}</dt><dd style={{ margin: "2px 0 0", fontSize: 13, color: fg2 }}>{v}</dd></div>) : null)}
+              {([["today I learned", c.learned], ["recognizes pattern", c.pattern], ["will avoid", c.avoid], ["decision logic", c.logic]] as const).map(([k, v]) => v ? (<div key={k}><dt style={{ fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan, marginTop: 10 }}>{k}</dt><dd style={{ margin: "2px 0 0", fontSize: 13, color: fg2 }}>{v}</dd></div>) : null)}
             </dl>
           ))}
       </div>

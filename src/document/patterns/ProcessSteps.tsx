@@ -24,7 +24,7 @@ export function ProcessSteps({ steps, accent = T.cyan }: ProcessStepsProps) {
             {i < steps.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 14, background: `linear-gradient(180deg,${step.active ? accent + '70' : T.border},${T.border})`, margin: '3px 0' }} />}
           </div>
           <div style={{ flex: 1, paddingBottom: 18 }}>
-            {step.label && <div style={{ fontFamily: T.mono, fontSize: 9, color: step.active ? accent : T.fg4, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{step.label}</div>}
+            {step.label && <div style={{ fontFamily: T.mono, fontSize: 11, color: step.active ? accent : T.fg4, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{step.label}</div>}
             <div style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 600, color: step.active ? T.fg1 : T.fg2, marginBottom: 4 }}>{step.title}</div>
             <p style={{ fontFamily: T.sans, fontSize: 13, color: T.fg3, lineHeight: 1.65 }}>{step.body}</p>
           </div>

@@ -21,11 +21,11 @@ export function WeatherBar({ weather, delta, resolution, style }: WeatherBarProp
       <div style={{ position: 'absolute', inset: '0 0 auto 0', height: '48%', background: 'linear-gradient(rgba(255,255,255,.07), rgba(255,255,255,0))', pointerEvents: 'none' }} />
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 10 }}>
         <span style={{ color: c, fontWeight: 700, fontSize: 15, textShadow: `0 0 7px ${c}b3` }}>{weather.icon}</span>
-        <span style={{ fontFamily: font.mono, fontSize: 10, letterSpacing: '0.12em', color: c, textTransform: 'uppercase', fontWeight: 700 }}>{weather.label}</span>
+        <span style={{ fontFamily: font.mono, fontSize: 11, letterSpacing: '0.12em', color: c, textTransform: 'uppercase', fontWeight: 700 }}>{weather.label}</span>
       </div>
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 16, fontFamily: font.mono }}>
         {delta != null && <span style={{ fontSize: 12, fontWeight: 700, color: delta >= 0 ? signal.green : signal.red }}>{delta >= 0 ? '+' : ''}{delta} NCI</span>}
-        <span style={{ fontSize: 10, color: text.dimmed, letterSpacing: '0.08em' }}>{resolution}</span>
+        <span style={{ fontSize: 11, color: text.dimmed, letterSpacing: '0.08em' }}>{resolution}</span>
       </div>
     </div>
   )

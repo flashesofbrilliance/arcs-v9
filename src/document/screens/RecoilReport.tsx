@@ -335,7 +335,7 @@ function StrataValue({ v, depth, amber }: { v: unknown; depth: number; amber: st
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       {Object.entries(v as Record<string, unknown>).map(([k, item]) => (
         <div key={k}>
-          <div style={{ fontFamily: T.mono, fontSize: 9, fontWeight: 700, color: `${amber}CC`, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>
+          <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, color: `${amber}CC`, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>
             {strataLabel(k)}
           </div>
           <div style={{ paddingLeft: depth < 3 ? 10 : 6, borderLeft: `1px solid ${amber}22` }}>
@@ -393,21 +393,21 @@ function DeepStrata({ raw, skip = [], idx = '07' }: { raw: RecoilReportRaw; skip
                 }}
               >
                 <span style={{
-                  fontFamily: T.mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
+                  fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em',
                   color: crystal ? T.cyan : amber, border: `1px solid ${crystal ? 'rgba(0,240,255,0.35)' : `${amber}40`}`,
                   borderRadius: 4, padding: '2px 6px', flexShrink: 0,
                 }}>S{i}</span>
                 <span style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: crystal ? T.fg1 : T.fg2, textTransform: 'uppercase' }}>
                   {strataLabel(s.name)}
                 </span>
-                <span style={{ fontFamily: T.mono, fontSize: 9, color: crystal ? T.cyan : `${amber}AA`, letterSpacing: '0.12em', flexShrink: 0 }}>
+                <span style={{ fontFamily: T.mono, fontSize: 11, color: crystal ? T.cyan : `${amber}AA`, letterSpacing: '0.12em', flexShrink: 0 }}>
                   {s.tag}
                 </span>
                 <span style={{ flex: 1 }} />
-                <span style={{ fontFamily: T.mono, fontSize: 9, color: T.fg4, flexShrink: 0 }}>
+                <span style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, flexShrink: 0 }}>
                   {(bytes / 1024).toFixed(1)} KB
                 </span>
-                <span style={{ fontFamily: T.mono, fontSize: 10, color: T.fg4, flexShrink: 0 }}>{isOpen ? '▾' : '▸'}</span>
+                <span style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, flexShrink: 0 }}>{isOpen ? '▾' : '▸'}</span>
               </button>
               {isOpen && (
                 <div style={{
@@ -469,17 +469,17 @@ function ReceiptLifecycle({ lc }: { lc: Lifecycle }) {
   const open = lc.state === 'OPEN'
   const stateColor = open ? T.cyan : T.green
   const label = (t: string) => (
-    <div style={{ fontFamily: T.mono, fontSize: 9, fontWeight: 700, color: T.fg4, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 4 }}>{t}</div>
+    <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, color: T.fg4, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 4 }}>{t}</div>
   )
   return (
     <Sec id="r-lifecycle" idx="00" label="Receipt Lifecycle" title="Meeting Object — Ex-Ante Open / Ex-Post Close" accent={stateColor}>
       {/* state chip + timestamps */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-        <span style={{ fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: stateColor, border: `1px solid ${stateColor}55`, borderRadius: 4, padding: '3px 8px' }}>
+        <span style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: stateColor, border: `1px solid ${stateColor}55`, borderRadius: 4, padding: '3px 8px' }}>
           RECEIPT · {lc.state}
         </span>
-        {lc.opened && <span style={{ fontFamily: T.mono, fontSize: 10, color: T.fg4 }}>opened {lc.opened}</span>}
-        {lc.closed && <span style={{ fontFamily: T.mono, fontSize: 10, color: T.fg4 }}>closed {lc.closed}</span>}
+        {lc.opened && <span style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4 }}>opened {lc.opened}</span>}
+        {lc.closed && <span style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4 }}>closed {lc.closed}</span>}
       </div>
 
       {/* ex-ante — the frozen bearing */}
@@ -509,7 +509,7 @@ function ReceiptLifecycle({ lc }: { lc: Lifecycle }) {
       <div style={{ border: `1px solid ${T.border}`, borderRadius: 8, overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: T.shell, borderBottom: `1px solid ${T.border}` }}>
           {['Expecting to see', 'Revealed', 'Δ Belief'].map((h) => (
-            <div key={h} style={{ fontFamily: T.mono, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', padding: '8px 12px' }}>{h}</div>
+            <div key={h} style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', padding: '8px 12px' }}>{h}</div>
           ))}
         </div>
         {lc.diff.map((row, i) => (

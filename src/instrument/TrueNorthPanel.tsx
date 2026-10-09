@@ -18,7 +18,7 @@ export function TrueNorthPanel({ heading, children, footnotes, style }: TrueNort
       backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
       boxShadow: 'inset 0 1px 0 rgba(120,245,255,.4), inset 0 -11px 17px -11px rgba(0,240,255,.26), 0 0 10px rgba(0,240,255,.12), 0 5px 16px rgba(0,0,0,.5)', ...style }}>
       <div style={{ position: 'absolute', inset: '0 0 auto 0', height: '42%', background: 'linear-gradient(rgba(255,255,255,.07), rgba(255,255,255,0))', pointerEvents: 'none' }} />
-      <div style={{ position: 'relative', fontFamily: font.mono, fontSize: 10, color: signal.cyan, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, fontWeight: 700, textShadow: `0 0 8px ${signal.cyan}66` }}>{heading}</div>
+      <div style={{ position: 'relative', fontFamily: font.mono, fontSize: 11, color: signal.cyan, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, fontWeight: 700, textShadow: `0 0 8px ${signal.cyan}66` }}>{heading}</div>
       <p style={{ position: 'relative', fontFamily: font.sans, fontSize: '1.0625rem', lineHeight: 1.6, color: '#eafcff', margin: 0, fontWeight: 500 }}>{children}</p>
       {footnotes}
     </div>

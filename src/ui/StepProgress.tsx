@@ -38,7 +38,7 @@ export function StepProgress({ labels = ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'], cu
           )
         })}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: font.mono, fontSize: 8.5, color: text.muted, letterSpacing: '0.06em', marginTop: 7 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: font.mono, fontSize: 11, color: text.muted, letterSpacing: '0.06em', marginTop: 7 }}>
         {labels.map((l, i) => (
           <span key={l} style={{ color: i === current ? signal.cyan : text.muted }}>{l}</span>
         ))}

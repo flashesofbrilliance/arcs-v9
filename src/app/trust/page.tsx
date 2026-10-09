@@ -53,7 +53,7 @@ export default function TrustPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10, marginBottom: '2.5rem' }}>
           {CHIPS.map(c => (
             <div key={c.label} style={{ background: surface.panel, border: `0.5px solid ${border.subtle}`, borderRadius: 8, padding: '0.85rem 1rem' }}>
-              <div style={{ fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.35rem' }}>{c.label}</div>
+              <div style={{ fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.35rem' }}>{c.label}</div>
               <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.primary, fontWeight: 500, lineHeight: 1.3 }}>{c.body}</div>
             </div>
           ))}
@@ -99,7 +99,7 @@ export default function TrustPage() {
         ].map((s, i, arr) => (
           <div key={s.n}>
             <div style={{ marginBottom: '1.75rem' }}>
-              <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>{s.n}</div>
+              <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>{s.n}</div>
               <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>{s.title}</div>
               <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7 }}>{s.body}</div>
             </div>
@@ -110,7 +110,7 @@ export default function TrustPage() {
         {/* Section 5 — for/not for */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.75rem' }} />
         <div style={{ marginBottom: '1.75rem' }}>
-          <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 05</div>
+          <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 05</div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.75rem' }}>What ARCS is and isn&apos;t for</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {[
@@ -118,7 +118,7 @@ export default function TrustPage() {
               { head: 'Not designed for', items: ['Rationalizing a decision already made', 'Professional legal or medical advice', 'Trivial choices with no real stakes', 'A replacement for human judgment'] },
             ].map(col => (
               <div key={col.head} style={{ background: surface.panel, border: `0.5px solid ${border.subtle}`, borderRadius: 8, padding: '0.75rem 0.9rem' }}>
-                <div style={{ fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.5rem' }}>{col.head}</div>
+                <div style={{ fontFamily: mono, fontSize: '0.6875rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.5rem' }}>{col.head}</div>
                 {col.items.map(item => (
                   <div key={item} style={{ fontFamily: sans, fontSize: '0.8rem', color: text.secondary, lineHeight: 1.5, paddingBottom: '0.2rem' }}>
                     <span style={{ color: text.muted }}>· </span>{item}
@@ -132,7 +132,7 @@ export default function TrustPage() {
         {/* Section 6 — Conviction grades */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.75rem' }} />
         <div style={{ marginBottom: '1.75rem' }}>
-          <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 06</div>
+          <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 06</div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>How much weight to put on the output</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginBottom: '0.75rem' }}>
             NCI (Navigational Conviction Index) is a proxy, not ground truth. It reflects pattern coherence, not outcome probability. Here&apos;s how to read the grades:
@@ -150,7 +150,7 @@ export default function TrustPage() {
         {/* Section 7 — Autonomy */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.75rem' }} />
         <div style={{ marginBottom: '1.75rem' }}>
-          <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 07</div>
+          <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 07</div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>Your autonomy is the point</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginBottom: '0.75rem' }}>
             The governing rule of ARCS is called NOTOMATION: scaffold and sequence cognition. Never compress, replace, or overrule it.
@@ -164,13 +164,13 @@ export default function TrustPage() {
         {/* Section 8 — Honest limits */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.75rem' }} />
         <div style={{ marginBottom: '2rem' }}>
-          <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 08</div>
+          <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 08</div>
           <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>How ARCS catches you at the fork</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginBottom: '0.75rem' }}>
             You might expect the system to detect when you&apos;re about to override a clear signal. Here&apos;s what&apos;s honest:
           </div>
           <div style={{ background: surface.panel, border: `0.5px solid ${border.subtle}`, borderRadius: 8, padding: '0.9rem 1.1rem' }}>
-            <div style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.4rem' }}>Current state</div>
+            <div style={{ fontFamily: mono, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.4rem' }}>Current state</div>
             <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.secondary, lineHeight: 1.65 }}>
               Kairos detection, the system that flags momentum building toward a decision point, is on the roadmap, not live yet.{' '}
               <strong style={{ color: text.primary }}>Right now, ARCS surfaces the terrain. You bring the awareness of where you are in the decision arc.</strong>{' '}

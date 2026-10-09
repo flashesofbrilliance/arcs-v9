@@ -46,7 +46,7 @@ export function Gauge({
       background: 'linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01) 38%, rgba(0,0,0,.18)), linear-gradient(165deg, #131b23, #0a1016)',
       ...bezel, ...style }}>
       <div style={{ position: 'absolute', inset: '0 0 auto 0', height: '40%', background: 'linear-gradient(rgba(255,255,255,.06), rgba(255,255,255,0))', pointerEvents: 'none' }} />
-      <div style={{ position: 'relative', fontFamily: font.mono, fontSize: 10, color: accent || text.muted, letterSpacing: '.1em', textTransform: 'uppercase', fontWeight: 700 }}>{label}</div>
+      <div style={{ position: 'relative', fontFamily: font.mono, fontSize: 11, color: accent || text.muted, letterSpacing: '.1em', textTransform: 'uppercase', fontWeight: 700 }}>{label}</div>
       {value !== undefined && value !== null && (
         <div style={{ position: 'relative', marginTop: 4, borderRadius: 8, padding: '4px 2px',
           boxShadow: 'inset 0 2px 5px rgba(0,0,0,.6), inset 0 -1px 0 rgba(255,255,255,.05)' }}>

@@ -43,7 +43,7 @@ export function CoverBlock({ badges = [], title, subtitle, meta, actions = [], a
       )}
       <h1 style={{ fontFamily: T.sans, fontSize: 28, fontWeight: 600, color: fg1, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: 12 }}>{title}</h1>
       {subtitle && <p style={{ fontFamily: T.sans, fontSize: 15, color: fg2, lineHeight: 1.7, marginBottom: 16, maxWidth: 640 }}>{subtitle}</p>}
-      {meta && <div style={{ fontFamily: T.mono, fontSize: 10, color: fg4, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>{meta}</div>}
+      {meta && <div style={{ fontFamily: T.mono, fontSize: 11, color: fg4, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>{meta}</div>}
       {actions.length > 0 && (
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           {actions.map((a, i) => (

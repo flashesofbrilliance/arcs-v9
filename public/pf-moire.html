@@ -1,8 +1,50 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARCS Moiré</title><script defer src="/_vercel/insights/script.js"></script>
 </head><body>
 <meta charset="utf-8">
-<title>ARCS Moiré — Möbius / Horizon Through Fog</title>
+<title>ARCS Moiré · Möbius / Horizon Through Fog</title>
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
   :root{
     --bg:#020408; --surface:#0d1117; --border:#1e293b; --text:#e2e8f0; --sec:#94a3b8;
     --dim:#9aa7b6; --mut:#8a97a8; --cyan:#00F0FF; --gold:#FFD700;
@@ -10,7 +52,7 @@
     --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
   }
   html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%;overflow:hidden}
-  .lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
+  .lbl{font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
   .lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)}
   .deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
   .deck-in{max-width:1180px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
@@ -19,12 +61,12 @@
   .ctl{display:flex;align-items:center;gap:.45rem}
   input[type=range]{accent-color:var(--cyan);width:104px}
   #fog{accent-color:#94a3b8} #delta{accent-color:var(--gold)}
-  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .65rem;cursor:pointer}
+  .btn{font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .65rem;cursor:pointer}
   .btn.on{border-color:var(--cyan);color:var(--cyan);background:rgba(0,240,255,.08)}
   .btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
   canvas{position:fixed;inset:0;display:block;width:100vw;height:100vh}
   .cap{position:fixed;left:1.2rem;bottom:1rem;z-index:30;pointer-events:none;max-width:560px;display:flex;flex-direction:column;gap:.3rem}
-  .cap .kv{font-family:var(--mono);font-size:.62rem;color:var(--dim);letter-spacing:.08em;line-height:1.6}
+  .cap .kv{font-family:var(--mono);font-size:0.6875rem;color:var(--dim);letter-spacing:.08em;line-height:1.6}
   .cap .kv b{color:var(--sec)}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -42,8 +84,8 @@
 </div></div>
 
 <div class="cap">
-  <span class="kv"><b style="color:var(--gold)">MOIRE · the PARADOX render state.</b> A Möbius strip is a one-sided surface — the fork that loops back onto itself. Two strand families, offset by Δ, interfere: the pattern you see belongs to neither.</span>
-  <span class="kv">The gold line is the horizon — <b>True North through the fog field</b>. Lower the fog and it is earned, not granted. <i style="color:var(--mut)">"Render through the fog to earned clarity."</i></span>
+  <span class="kv"><b style="color:var(--gold)">MOIRE · the PARADOX render state.</b> A Möbius strip is a one-sided surface, the fork that loops back onto itself. Two strand families, offset by Δ, interfere: the pattern you see belongs to neither.</span>
+  <span class="kv">The gold line is the horizon , <b>True North through the fog field</b>. Lower the fog and it is earned, not granted. <i style="color:var(--mut)">"Render through the fog to earned clarity."</i></span>
 </div>
 
 <script>

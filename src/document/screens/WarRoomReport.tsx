@@ -57,7 +57,7 @@ const H2: React.CSSProperties = { fontFamily: T.sans, fontSize: 15, fontWeight: 
 const card = (accent?: string): React.CSSProperties => ({
   border: `1px solid ${accent ? `${accent}55` : T.border}`, borderRadius: 8, background: T.surface, padding: '16px 18px',
 })
-const TH: React.CSSProperties = { fontFamily: T.mono, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'bottom' }
+const TH: React.CSSProperties = { fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', textAlign: 'left', padding: '8px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'bottom' }
 const TD: React.CSSProperties = { fontFamily: T.sans, fontSize: 12.5, color: T.fg1, lineHeight: 1.55, padding: '9px 10px', borderBottom: `1px solid ${T.border}`, verticalAlign: 'top' }
 const DOT: Record<string, string> = { g: T.green, c: T.cyan, r: T.red, y: T.gold, o: T.orange }
 
@@ -133,7 +133,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
   const t = s(b.type)
   switch (t) {
     case 'sec_label':
-      return <div style={{ fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: T.fg3, textTransform: 'uppercase' }}><H html={b.text} /></div>
+      return <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', color: T.fg3, textTransform: 'uppercase' }}><H html={b.text} /></div>
     case 'prose':
     case 'pilot':
       return <Card h2={b.h2} accent={t === 'pilot' ? T.green : undefined}>{arr(b.p).map((p, i) => <p key={i} style={P}><H html={p} /></p>)}</Card>
@@ -161,7 +161,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {rows.map(([k, v], i) => (
               <div key={i}>
-                <div style={{ fontFamily: T.mono, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', marginBottom: 3 }}><H html={k} /></div>
+                <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', marginBottom: 3 }}><H html={k} /></div>
                 <H html={v} style={{ ...P, margin: 0, color: T.fg1, display: 'block' }} />
               </div>
             ))}
@@ -212,7 +212,7 @@ function Block({ b, raw }: { b: Raw; raw: Raw }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {arr(raw.insights).filter(isRec).map((it, i) => (
               <div key={i} style={{ borderLeft: `2px solid ${[T.cyan, T.gold, T.green, T.purple][i % 4]}`, paddingLeft: 12 }}>
-                <div style={{ fontFamily: T.mono, fontSize: 9, color: T.fg4, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s(it.plane)}</div>
+                <div style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{s(it.plane)}</div>
                 <div style={{ ...H2, fontSize: 14, margin: '2px 0 4px' }}><H html={it.title} /></div>
                 <H html={it.text} style={{ ...P, margin: 0, display: 'block' }} />
               </div>
@@ -267,7 +267,7 @@ function Cover({ raw }: { raw: Raw }) {
   if (typeof opp.req_reality === 'number') chips.push([`req reality ${opp.req_reality}`, T.steel])
   return (
     <div style={{ border: `1px solid ${T.border}`, borderRadius: 10, background: T.surface, padding: '22px 22px 18px', marginBottom: 8 }}>
-      <div style={{ fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: T.cyan, textTransform: 'uppercase', marginBottom: 8 }}>
+      <div style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', color: T.cyan, textTransform: 'uppercase', marginBottom: 8 }}>
         <H html={hd.eyebrow || 'War Room'} />
       </div>
       <h1 style={{ fontFamily: T.sans, fontSize: 24, fontWeight: 600, color: T.fg1, lineHeight: 1.25, margin: '0 0 6px' }}>
@@ -275,7 +275,7 @@ function Cover({ raw }: { raw: Raw }) {
       </h1>
       {s(hd.sub) && <p style={{ ...P, margin: '0 0 12px' }}><H html={hd.sub} /></p>}
       {chips.length > 0 && <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>{chips.map(([c, a]) => <Pill key={c} accent={a}>{c}</Pill>)}</div>}
-      <div style={{ fontFamily: T.mono, fontSize: 10, color: T.fg4, letterSpacing: '0.06em' }}>
+      <div style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, letterSpacing: '0.06em' }}>
         ARCS WAR ROOM · {s(meta.report_id)} · {s(meta.counterpart)}{typeof meta.segments === 'number' ? ` · ${meta.segments} segments` : ''}
       </div>
     </div>

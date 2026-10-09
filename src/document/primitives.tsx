@@ -9,7 +9,7 @@ export function Pill({ children, accent, solid }: { children: React.ReactNode; a
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', height: 22, padding: '0 10px',
-      borderRadius: 4, fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+      borderRadius: 4, fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
       color: solid ? T.bg : accent,
       background: solid ? accent : DIM(accent),
       border: solid ? 'none' : `1px solid ${BDR(accent)}`,
@@ -23,7 +23,7 @@ export function HR({ accent }: { accent?: string }) {
 
 export function MonoLabel({ children, accent }: { children: React.ReactNode; accent?: string }) {
   return (
-    <span style={{ fontFamily: T.mono, fontSize: 9, fontWeight: 700, color: accent || T.fg4, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+    <span style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, color: accent || T.fg4, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
       {children}
     </span>
   )
@@ -56,8 +56,8 @@ export function CodeBlock({ code }: { code: string }) {
   return (
     <div style={{ background: '#040810', border: `1px solid ${T.border}`, borderRadius: 8, marginTop: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 14px', borderBottom: `1px solid ${T.border}` }}>
-        <span style={{ fontFamily: T.mono, fontSize: 9, color: T.fg4, letterSpacing: '.12em' }}>JSX · ARCS DOCUMENT UIKIT</span>
-        <button onClick={copy} style={{ fontFamily: T.mono, fontSize: 9, color: cp ? T.green : T.fg4, background: 'transparent', border: 'none', cursor: 'pointer' }}>{cp ? 'COPIED ✓' : 'COPY'}</button>
+        <span style={{ fontFamily: T.mono, fontSize: 11, color: T.fg4, letterSpacing: '.12em' }}>JSX · ARCS DOCUMENT UIKIT</span>
+        <button onClick={copy} style={{ fontFamily: T.mono, fontSize: 11, color: cp ? T.green : T.fg4, background: 'transparent', border: 'none', cursor: 'pointer' }}>{cp ? 'COPIED ✓' : 'COPY'}</button>
       </div>
       <pre style={{ fontFamily: T.mono, fontSize: 12, color: '#94a3b8', lineHeight: 1.75, padding: '14px 16px', margin: 0, overflowX: 'auto', whiteSpace: 'pre' }}>{code}</pre>
     </div>

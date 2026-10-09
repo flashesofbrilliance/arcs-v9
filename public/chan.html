@@ -6,9 +6,51 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ARCS: Day 0 to Today</title>
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
-  --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #64748b; --faint: #475569;
+  --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #8391a7; --faint: #7a8699;
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
   /* Radii - canonical scale (ARCS OS colors_and_type.css) */
   --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
@@ -444,10 +486,10 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pulse-refresh:hover { color: var(--cyan); border-color: var(--cyan); }
 .pulse-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
 .pulse-cell { background: var(--surface); padding: 13px 15px; min-width: 0; }
-.pl-k { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); }
+.pl-k { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); }
 .pl-v { font-family: var(--mono); font-size: var(--text-md); font-weight: 700; color: var(--text); margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pl-sub { font-family: var(--mono); font-size: 9.5px; color: var(--faint); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pulse-foot { padding: 8px 16px; font-family: var(--mono); font-size: 9px; color: var(--faint); letter-spacing: 0.04em; border-top: 1px solid var(--border); }
+.pl-sub { font-family: var(--mono); font-size: 11px; color: var(--faint); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pulse-foot { padding: 8px 16px; font-family: var(--mono); font-size: 11px; color: var(--faint); letter-spacing: 0.04em; border-top: 1px solid var(--border); }
 @media (max-width: 640px){ .pulse-grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
@@ -617,7 +659,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <button class="flow-expand" id="flowexpand" type="button">⤢ EXPAND</button>
       <svg class="flow-svg" viewBox="0 0 940 300" role="img" aria-label="ARCS architecture: question to compass pipeline to receipt to outcome to calibration, looping back sharper">
         <defs>
-          <marker id="fa" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#475569"/></marker>
+          <marker id="fa" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#7a8699"/></marker>
           <marker id="fg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#00FF9D"/></marker>
         </defs>
         <!-- forward chain -->
@@ -659,7 +701,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 
     <div id="tab-tempo">
       <div class="cadence" id="cadence"></div>
-      <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GOLD = THE QUIET STRETCH · GREEN = PEAK</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GOLD = THE QUIET STRETCH · GREEN = PEAK</div>
       <div class="unlock-chip" id="chip-design">⊙ APR–MAY: FIVE QUIET WEEKS · WHAT THE SILENCE WAS · TAP</div>
       <div class="unlock-card" id="unlock-design">
         <div class="unlock-title">THE GAP IS NOT A GAP. IT IS THE DESIGN BUILD.</div>

@@ -83,7 +83,7 @@ export function SequenceLoader({ title, stages, footer, stepMs = 800 }: Sequence
               <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', color: lit ? text.secondary : text.muted, minWidth: 0, whiteSpace: 'nowrap' }}>{s.name}</span>
               <FillBar state={state} stepMs={stepMs} />
               {state === 'done' && <span style={{ fontFamily: font.mono, fontSize: '0.7rem', color: signal.green }}>✓</span>}
-              {(state === 'active' || state === 'last') && <span style={{ fontFamily: font.mono, fontSize: '0.625rem', letterSpacing: '0.08em', color: signal.cyan }}>◂ active</span>}
+              {(state === 'active' || state === 'last') && <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.08em', color: signal.cyan }}>◂ active</span>}
             </div>
           )
         })}

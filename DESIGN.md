@@ -1,6 +1,6 @@
 ---
 name: ARCS
-description: Render through the fog to earned clarity — a dark-cockpit decision instrument.
+description: Render through the fog to earned clarity: a dark-cockpit decision instrument.
 colors:
   obsidian-bg: "#020408"
   panel: "#0d1117"
@@ -38,7 +38,7 @@ typography:
     letterSpacing: "0em"
   label:
     fontFamily: "'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace"
-    fontSize: "0.625rem"
+    fontSize: "0.6875rem"
     fontWeight: 700
     lineHeight: 1.4
     letterSpacing: "0.14em"
@@ -131,21 +131,21 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 
 ## Typography
 
-**Display Font:** Iowan Old Style / Palatino (serif) — the canon and oral-history register (proverbs, the Tao, load-bearing quotes). Self-hosted fallback: Newsreader (`public/fonts/`), the canon serif of the literary page family (NFTT, Lore) and of rendered video, where the system serifs are absent.
-**Body Font:** Inter (with system-ui fallback) — all prose and reading.
-**Label/Mono Font:** JetBrains Mono (with IBM Plex Mono) — instrument labels, section indices, gauges, metadata.
+**Display Font:** Iowan Old Style / Palatino (serif): the canon and oral-history register (proverbs, the Tao, load-bearing quotes). Self-hosted fallback: Newsreader (`public/fonts/`), the canon serif of the literary page family (NFTT, Lore) and of rendered video, where the system serifs are absent.
+**Body Font:** Inter (with system-ui fallback): all prose and reading.
+**Label/Mono Font:** JetBrains Mono (with IBM Plex Mono): instrument labels, section indices, gauges, metadata.
 
-**Character:** Three voices, strictly separated by job. Mono is the instrument legend (cold, tracked, uppercase). Sans is the calm reading voice. Serif is reserved for wisdom in transmissible form — the things meant to be carried in the mouth to the next person.
+**Character:** Three voices, strictly separated by job. Mono is the instrument legend (cold, tracked, uppercase). Sans is the calm reading voice. Serif is reserved for wisdom in transmissible form: the things meant to be carried in the mouth to the next person.
 
 ### Hierarchy
 - **Display** (serif, 500, clamp(1.5rem, 4vw, 2.4rem), 1.2): proverbs, canon headers, load-bearing quotes.
 - **Headline** (Inter 600, 1.15rem, 1.25): section titles.
 - **Title** (Inter 600, 0.95rem): card and panel titles.
 - **Body** (Inter 400, 0.925rem, 1.6, max ~70ch): all prose.
-- **Label** (JetBrains Mono 700, 0.625rem, +0.14em, UPPERCASE): instrument labels, section indices, gauge units.
+- **Label** (JetBrains Mono 700, 0.6875rem / 11px, +0.14em, UPPERCASE): instrument labels, section indices, gauge units. 11px is the floor for any functional text (raised 2026-10-08 from 0.625rem, which sat under the design detector's readability floor and could not satisfy both rules).
 
 ### Named Rules
-**The Graded-Legend Rule.** Mono labels use six graded tiers (t1–t6): as a tier rises, size increases and tracking decreases while weight holds, so a section heading never reads like a field label. Color stays caller-controlled because it is semantic.
+**The Graded-Legend Rule.** Mono labels use six graded tiers (t1 to t6): as a tier rises, size increases and tracking decreases while weight holds, so a section heading never reads like a field label. Color stays caller-controlled because it is semantic. The lowest tier is 11px; nothing functional renders smaller.
 
 **The Three-Voice Rule.** Mono = instrument, Sans = reading, Serif = canon. Never cross them: a proverb never renders in mono, a gauge label never in serif.
 
@@ -159,27 +159,27 @@ Depth is **luminance, not cast shadow.** Surfaces are flat panels on the obsidia
 
 ### Shadow Vocabulary
 - **Signal glow** (`box-shadow: 0 0 34px rgba(0,240,255,.07)` and kin): a present-but-restrained bloom under an active bearing or a locked panel. Alphas ~.07–.28, deliberately dialed down from hotter earlier values.
-- **Locked bloom** (`box-shadow: 0 0 54px rgba(0,240,255,.16); border-color: rgba(0,240,255,.6)`): the crystalline "superionic" state — light through fixed form.
+- **Locked bloom** (`box-shadow: 0 0 54px rgba(0,240,255,.16); border-color: rgba(0,240,255,.6)`): the crystalline "superionic" state, light through fixed form.
 
 **The Glow-Not-Shadow Rule.** Depth is made of light, never of cast darkness. A surface at rest is flat. Elevation is a signal-colored glow that appears as a *response to state* (active, locked, focus), not an ambient default. Cast drop-shadows are banned.
 
 ## Shapes
 
-Soft-tech corners: `xs 3px` (chips, ghost buttons), `sm 6px` (cards, inputs, most instruments), `md 10px` (feature panels), `lg 16px` (rare hero containers), `pill 999px` (toggles). Borders are single hairlines (`1px solid #1e293b`); the active/locked states shift the border color to a signal tint rather than thickening it. The recurring silhouette is the **arc** — the compass sweep, the gauge arc, the Möbius strand, the fog gradient band. Straight rules exist only as the horizon line and section dividers (a cyan-to-transparent gradient hairline). The house is made of arcs and one honest horizon.
+Soft-tech corners: `xs 3px` (chips, ghost buttons), `sm 6px` (cards, inputs, most instruments), `md 10px` (feature panels), `lg 16px` (rare hero containers), `pill 999px` (toggles). Borders are single hairlines (`1px solid #1e293b`); the active/locked states shift the border color to a signal tint rather than thickening it. The recurring silhouette is the **arc**: the compass sweep, the gauge arc, the Möbius strand, the fog gradient band. Straight rules exist only as the horizon line and section dividers (a cyan-to-transparent gradient hairline). The house is made of arcs and one honest horizon.
 
 ## Components
 
 ### The Mark (signature)
 - **Form:** a Möbius strip (arrow-less, non-orientable, drawn as interfering strand families) rising from a layered fog field onto a single gold horizon line at ~62% height.
-- **Construction:** the tilde extruded — the `~` swept through the manifold with a half-twist. Two strand families (cyan `rgba(0,240,255,.30)` + gold `rgba(255,215,0,.16)`) offset by a moiré Δ; the interference pattern belongs to neither, which *is* the PARADOX/MOIRE state.
-- **Behavior:** the fog is a variable. Lowering it earns the horizon (the bearing) — clarity is never granted at rest. Drift (slow rotation) is the default idle; reduced-motion holds a still frame.
+- **Construction:** the tilde extruded: the `~` swept through the manifold with a half-twist. Two strand families (cyan `rgba(0,240,255,.30)` + gold `rgba(255,215,0,.16)`) offset by a moiré Δ; the interference pattern belongs to neither, which *is* the PARADOX/MOIRE state.
+- **Behavior:** the fog is a variable. Lowering it earns the horizon (the bearing); clarity is never granted at rest. Drift (slow rotation) is the default idle; reduced-motion holds a still frame.
 - **Wordmark:** `ARCS` in JetBrains Mono 700, +0.16–0.42em tracking, with the `A` or the leading glyph in True North Cyan. Never set the wordmark in serif or sans.
 
 ### Buttons
 - **Shape:** `xs 3px` radius, ghost by default.
 - **Ghost (primary usage):** transparent on obsidian, `1px solid #1e293b`, mono 700 uppercase label in text-secondary. Hover/focus shifts border and text to True North Cyan (`border-color: #00F0FF; color: #00F0FF`).
 - **Active/On:** border + text in the relevant signal color with a faint tinted fill (`background: rgba(0,240,255,.08)`).
-- **Focus:** `outline: 1px solid #00F0FF; outline-offset: -1px` — always visible, never removed.
+- **Focus:** `outline: 1px solid #00F0FF; outline-offset: -1px`, always visible, never removed.
 
 ### Chips
 - **Style:** panel background, hairline border, mono micro-label (t1/t2). Status chips tint border + text to the signal color (`c-ok` green, `c-part` gold, `c-stale` red) with a ~7% tinted fill.
@@ -222,5 +222,31 @@ Every surface can render at four earned-fidelity states, mapped from the Y-gate:
 - **Don't** use cast drop-shadows for elevation.
 - **Don't** set the wordmark or a proverb in the wrong voice (no serif wordmark, no mono proverb).
 - **Don't** use em-dashes anywhere (plain-language rule wins even over canon voice; prefer commas, colons, periods, or the interpunct · ).
-- **Don't** introduce a light theme.
+- **Don't** introduce a light theme on product surfaces. Paper documents use the sanctioned Light Paper world, at AA contrast.
 - **Don't** let a per-engagement canon family's locked house grammar (e.g. the Louisville omakase world) leak into product surfaces.
+- **Don't** set functional text under 11px.
+- **Don't** hardcode a retired color. `#64748b` and `#475569` were retired 2026-10-04 (they fail AA on obsidian); inherit the tokens instead of redeclaring the palette.
+- **Don't** write template syntax (`${...}`) into a static page; it renders as visible code. Expand it to markup, or build the DOM in a script.
+
+## Sanctioned Visual Worlds
+
+A surface may run its own locked visual world instead of this one, but only by being named here, with its reason. Anything not listed is held to this file, and a deviation is drift, not style. The design detector config (`.impeccable/config.json`) scopes its exemptions to these worlds rather than to single pages.
+
+| World | Where | Its own grammar | Why it is separate |
+|---|---|---|---|
+| Recoil report kit | `src/ui-kit/recoil-report/` and the pages that inline `_tokens.css` | InstrumentSans, GeistMono, its own label grammar | Counterpart artifacts, locked before this file |
+| Omakase family | `public/omakase/` | case `#0B0B0C`, dial `#E8E4DA`, gold `#C9A227`, vermillion `#E34F1C`; Helvetica, SF Mono | Per-engagement canon (PRODUCT.md) |
+| NFTT literary posts | `public/blog-nftt-*.html` | The "With Life" literary template | Editorial essays, a reading world |
+| PRL client pages | `public/prl-*.html` (prl-page-factory) | Todd's register: pilot checklist, BLUF first, its own greys and panel surfaces | Client-facing status family with its own locked system; a product-world codemod regressed all nine pages on 2026-10-08 |
+| Light paper | Resumes, counterpart dossiers and full records, TIL posts (light-surface pages) | Paper grounds (`#ffffff` to about `#e9eef4`); accent teal `#00748e`; greys no lighter than `#6b757f` on white; every text color at least 4.6:1 on the darkest paper surface it sits on | Read and printed like paper, so a light ground is the honest medium. Sanctioned 2026-10-08 on condition of AA contrast, measured, not assumed |
+| Instrument kit | Claude Design ARCS OS design system, `src/instrument/` | `#07090B` ground, teal `#4ABDB0`, sky `#7AD2FF`, ochre `#D7A65A`; Barlow Condensed, IBM Plex Mono | A tactical-instrument sub-system; repaired in place 2026-10-08 |
+
+**The Inter Rule.** Inter is the body voice by design. The detector's "overused font" warning on Inter is answered once, here, not page by page.
+
+## Ratchets and the Done Goal
+
+Design debt on served surfaces only goes down. The done goal: every page surfaces.arcs.care serves is clean (0 design-detector findings, 0 visible em-dashes, wrap lint and token gate clean, 0 template leaks, 0 WCAG A/AA violations) except surfaces in a sanctioned world above.
+
+- `scripts/design_debt_sweep.py` holds the per-page design baseline (`runtime/specs/design-debt-baseline.json`); pre-commit blocks any staged served page whose count rises.
+- `tests/a11y-served.spec.ts` runs axe over every served page and holds the WCAG baseline (`runtime/specs/a11y-baseline.json`).
+- Breaks are booked as break, repair, guard in `_PATTERNS/kintsugi-visual-grammar-seams.md`.

@@ -5,6 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PRL Resins · Marketing Teardown · Todd Hotes</title>
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
 :root {
   --bg: #020408;
   --surface: #0d1117;
@@ -13,8 +55,8 @@
   --border-hi: #2d3f55;
   --text: #e2e8f0;
   --sub: #94a3b8;
-  --muted: #475569;
-  --dimmed: #64748b;
+  --muted: #7a8699;
+  --dimmed: #8391a7;
   --green: #00FF9D;
   --cyan: #00F0FF;
   --gold: #FFD700;
@@ -31,7 +73,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 /* ── GATE ── */
 #gate { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; }
 .gate-box { text-align: center; padding: 24px; max-width: 340px; width: 100%; }
-.gate-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--green); margin-bottom: 24px; }
+.gate-mark { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--green); margin-bottom: 24px; }
 .gate-q { font-size: 13px; color: var(--sub); margin-bottom: 16px; }
 #gate input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); color: var(--text); font-family: var(--mono); font-size: 14px; padding: 12px 14px; text-align: center; letter-spacing: .1em; outline: none; }
 #gate input:focus { border-color: var(--green); }
@@ -42,9 +84,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 /* ── HEADER + TABS ── */
 .doc-header { position: sticky; top: 38px; z-index: 100; background: rgba(2,4,8,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 16px; }
 .doc-header-inner { max-width: 940px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; min-height: 48px; gap: 12px; flex-wrap: wrap; }
-.doc-mark { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--green); padding: 8px 0; }
+.doc-mark { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--green); padding: 8px 0; }
 .tabs { display: flex; gap: 0; overflow-x: auto; }
-.nav-link { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 13px; height: 48px; display: inline-flex; align-items: center; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; text-decoration: none; transition: color .15s, border-color .15s; }
+.nav-link { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 13px; height: 48px; display: inline-flex; align-items: center; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; text-decoration: none; transition: color .15s, border-color .15s; }
 .nav-link:hover { color: var(--sub); }
 .nav-link.active { color: var(--green); border-bottom-color: var(--green); }
 /* ── STICKY BREADCRUMB ── */
@@ -58,7 +100,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   max-width: 940px; margin: 0 auto; padding: 0 20px;
   display: flex; align-items: center; gap: 10px;
   height: 38px;
-  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
   letter-spacing: .12em; text-transform: uppercase;
   overflow-x: auto; white-space: nowrap;
 }
@@ -80,23 +122,23 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   padding-top: 40px;
   border-top: 1px solid var(--border);
 }
-.eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .section h2 { font-size: 19px; font-weight: 650; letter-spacing: -.01em; margin-bottom: 4px; }
 .section-sub { font-size: 13px; color: var(--sub); max-width: 640px; }
 
 /* ── COVER ── */
 .cover { padding: 44px 0 8px; }
-.cover-kicker { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
+.cover-kicker { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
 .cover h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; max-width: 720px; }
 .cover-sub { margin-top: 12px; font-size: 14px; color: var(--sub); max-width: 620px; }
 .cover-meta { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
-.cm { font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: .08em; text-transform: uppercase; }
+.cm { font-family: var(--mono); font-size: 11px; color: var(--dimmed); letter-spacing: .08em; text-transform: uppercase; }
 .cm b { color: var(--text); font-weight: 600; }
 
 /* ── SCOREBOARD ── */
 .scoreboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 20px; }
 .score-tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; }
-.score-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.score-label { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .score-val { font-family: var(--mono); font-size: 22px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
 .score-note { font-size: 11px; color: var(--dimmed); margin-top: 2px; }
 .v-red { color: var(--red); } .v-gold { color: var(--gold); } .v-green { color: var(--green); } .v-cyan { color: var(--cyan); }
@@ -104,7 +146,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 /* ── FINDING CARDS ── */
 .finding { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-top: 14px; overflow: hidden; }
 .finding-head { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-.sev { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; padding: 3px 9px; border-radius: 3px; text-transform: uppercase; }
+.sev { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; padding: 3px 9px; border-radius: 3px; text-transform: uppercase; }
 .sev-critical { color: var(--red); background: rgba(255,77,109,.1); border: 1px solid rgba(255,77,109,.35); }
 .sev-major { color: var(--gold); background: rgba(255,215,0,.08); border: 1px solid rgba(255,215,0,.3); }
 .sev-opportunity { color: var(--cyan); background: rgba(0,240,255,.07); border: 1px solid rgba(0,240,255,.3); }
@@ -116,34 +158,34 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .finding-body b { color: var(--text); font-weight: 600; }
 .fix-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
 .fix-cell { background: var(--surface-hi); padding: 10px 18px; }
-.fix-k { font-family: var(--mono); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.fix-k { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .fix-v { font-size: 12.5px; color: var(--text); margin-top: 2px; }
 .fix-v.hl { color: var(--green); font-weight: 600; }
 
 /* ── QUOTE ── */
 .lbq { border: 1px solid rgba(0,255,157,.3); background: linear-gradient(135deg, rgba(0,255,157,.05), rgba(0,240,255,.03)); border-radius: var(--r); padding: 20px 22px; margin-top: 18px; }
 .lbq-text { font-size: 15px; font-weight: 550; line-height: 1.55; color: var(--text); }
-.lbq-attr { font-family: var(--mono); font-size: 10px; color: var(--green); margin-top: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.lbq-attr { font-family: var(--mono); font-size: 11px; color: var(--green); margin-top: 10px; letter-spacing: .1em; text-transform: uppercase; }
 
 /* ── ROADMAP ── */
 .phase { display: grid; grid-template-columns: 60px 1fr; border: 1px solid var(--border); border-radius: var(--r); margin-top: 14px; overflow: hidden; background: var(--surface); }
 .phase-num { display: flex; align-items: flex-start; justify-content: center; padding: 16px 8px; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--cyan); background: var(--surface-hi); border-right: 1px solid var(--border); }
 .phase-body { padding: 14px 18px; }
 .phase-title { font-size: 15px; font-weight: 650; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.phase-status { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
+.phase-status { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
 .ps-now { color: #020408; background: var(--green); }
 .ps-next { color: var(--cyan); border: 1px solid rgba(0,240,255,.4); }
 .ps-later { color: var(--muted); border: 1px solid var(--border-hi); }
 .phase-desc { font-size: 13px; color: var(--sub); margin-top: 6px; }
 .phase-meta { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
-.pm { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.pm { font-family: var(--mono); font-size: 11px; color: var(--dimmed); }
 .pm b { color: var(--text); font-weight: 600; }
 .phase-unlock { margin-top: 10px; padding: 8px 12px; background: rgba(0,240,255,.04); border-left: 2px solid var(--cyan); font-size: 12.5px; color: var(--sub); border-radius: 0 var(--r) var(--r) 0; }
 .phase-unlock b { color: var(--cyan); font-weight: 600; }
 
 /* ── PROTOCOL ── */
 .protocol { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-top: 16px; }
-.proto-head { padding: 11px 18px; background: var(--surface-hi); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.proto-head { padding: 11px 18px; background: var(--surface-hi); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 .proto-head.you { color: var(--cyan); }
 .proto-head.me { color: var(--green); }
 .proto-items { background: var(--surface); }
@@ -158,7 +200,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .arc-arrow { font-family: var(--mono); color: var(--cyan); margin: 8px 0; font-size: 12px; }
 .arc-to { font-size: 14px; color: var(--text); font-weight: 550; }
 
-.footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim, #334155); }
+.footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim, #334155); }
 .footer span b { color: var(--muted); }
 
 @media (max-width: 640px) {
@@ -221,7 +263,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     <h1>You're running marketing for a $100M company with the instruments turned off.</h1>
     <div class="cover-sub">Everything below comes from what you shared across two calls. Nothing invented. <b style="color:var(--text)">The one move that changes the most, fastest, is a chatbot that captures leads and hands them to your sales manager.</b> That's step 1. Everything else here is the roadmap behind it.</div>
     <div class="cover-meta">
-      <div style="margin:20px 0 4px;padding:14px 16px;background:rgba(0,255,157,.05);border:1px solid rgba(0,255,157,.3);border-radius:6px;"><div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">What has moved since this teardown</div><div style="font-size:12.5px;color:var(--sub);line-height:1.7;">The number one finding, the lead-capture gap, is being solved: the chatbot is built and answering on a safe copy of the site, and lead delivery into SugarCRM is being wired now. Reading your live CRM to do that surfaced three more things worth knowing: the site has no search, so nobody can see what visitors actually look for; the product guide is a PDF of images rather than searchable pages; and the pages answer material questions but not the commercial ones (lead time, minimums, how a trial works) that decide a purchase. Those feed the roadmap below.</div></div>
+      <div style="margin:20px 0 4px;padding:14px 16px;background:rgba(0,255,157,.05);border:1px solid rgba(0,255,157,.3);border-radius:6px;"><div style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">What has moved since this teardown</div><div style="font-size:12.5px;color:var(--sub);line-height:1.7;">The number one finding, the lead-capture gap, is being solved: the chatbot is built and answering on a safe copy of the site, and lead delivery into SugarCRM is being wired now. Reading your live CRM to do that surfaced three more things worth knowing: the site has no search, so nobody can see what visitors actually look for; the product guide is a PDF of images rather than searchable pages; and the pages answer material questions but not the commercial ones (lead time, minimums, how a trial works) that decide a purchase. Those feed the roadmap below.</div></div>
       <div class="cm">Prepared for <b>Todd Hotes</b></div>
       <div class="cm">Company <b>PRL Resins · ~$100M rev</b></div>
       <div class="cm">Date <b>Jul 10, 2026</b> · updated <b>Aug 3</b></div>

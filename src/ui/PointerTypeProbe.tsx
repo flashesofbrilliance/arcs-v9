@@ -46,7 +46,7 @@ export function PointerTypeProbe() {
       padding: "7px 10px", letterSpacing: ".04em", pointerEvents: "none",
       boxShadow: `0 0 10px ${color}33`,
     }}>
-      <div style={{ color: "#64748b", fontSize: 9, letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 3 }}>pointer probe</div>
+      <div style={{ color: "#64748b", fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 3 }}>pointer probe</div>
       <div>type: <strong style={{ color }}>{info?.type ?? "—"}</strong></div>
       <div>selection: {info?.len ?? 0} chars</div>
       <div>reflect picker: <strong style={{ color: info?.fires ? "#00FF9D" : "#FF4D6D" }}>{info ? (info.fires ? "✓ fires" : "✕ native") : "—"}</strong></div>

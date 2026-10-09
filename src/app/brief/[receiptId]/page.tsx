@@ -229,7 +229,7 @@ export default function BriefPage() {
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", marginBottom: "0.35rem" }}>
                       <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
                       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                        <span style={{ fontFamily: font.mono, fontSize: "0.65rem", color: text.muted, letterSpacing: "0.08em" }}>L{child.version}</span>
+                        <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted, letterSpacing: "0.08em" }}>L{child.version}</span>
                         <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "0.85rem", color: c }}>{child.nciScore}</span>
                       </div>
                     </div>

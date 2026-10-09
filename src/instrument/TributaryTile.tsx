@@ -22,7 +22,7 @@ export function TributaryTile({ label, glyph, color, children, onClick }: Tribut
       boxShadow: h ? `inset 0 1px 0 rgba(255,255,255,.08), inset 0 -8px 14px -8px ${color}40, 0 0 12px ${color}1e, 0 5px 14px rgba(0,0,0,.42)` : 'inset 0 1px 0 rgba(255,255,255,.05), 0 2px 7px rgba(0,0,0,.35)',
       transform: h ? 'translateY(-1px)' : 'none', transition: 'all .16s',
     }}>
-      <span style={{ fontFamily: font.mono, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, color, display: 'flex', alignItems: 'center', gap: 6 }}>{glyph && <span>{glyph}</span>}{label}</span>
+      <span style={{ fontFamily: font.mono, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, color, display: 'flex', alignItems: 'center', gap: 6 }}>{glyph && <span>{glyph}</span>}{label}</span>
       <span style={{ fontFamily: font.sans, fontSize: 13, color: text.secondary, lineHeight: 1.5 }}>{children}</span>
     </button>
   )

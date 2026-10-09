@@ -29,7 +29,7 @@ export default function ReportActions() {
     border: `1px solid ${t.line}`,
     color: t.muted,
     fontFamily: "ui-monospace, SF Mono, monospace",
-    fontSize: 10,
+    fontSize: 11,
     letterSpacing: "0.12em",
     padding: "7px 13px",
     borderRadius: 100,
