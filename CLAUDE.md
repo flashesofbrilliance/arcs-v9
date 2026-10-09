@@ -132,7 +132,7 @@ Close the 2026-10-09 session cleanly: every My Ally LD surface live and verified
 ## What changed
 - #1123 merged (cab0c99b): `/prior-art <job>` (`scripts/prior_art.py`, `.claude/commands/prior-art.md`) ranks memory, `_PATTERNS/`, ADRs and the tool catalog (idf-weighted keywords, stdlib, read-only) before planning; CLAUDE.md token-saving rules now ask for it. Receipt `2026-10-09--prior-art-preplan-lookup-pr1123--ZH`.
 - #1131 open: npm `overrides` forces `mysql2@3.23.1` (prisma 7.10.0 pins 3.15.3), clearing Dependabot #23 (high) and #26 (medium). Local `prisma validate`, `prisma generate`, `npm run build` pass.
-- Dependabot #22 (deepmerge-ts via @prisma/config) and #32 (braces, dev-only, no patch) dismissed as not_used, with reasons on each alert.
+- Dependabot #22 (deepmerge-ts, pulled in by Prisma's config package) and #32 (braces, dev-only, no patch) dismissed as not_used, with reasons on each alert.
 - MNDA chip merged and verified live on the plan and /primer (PR #1129, `f17db5c9`; receipt `2026-10-09--myally-mnda-chip-merge-pr1129--ZH`).
 - Night-moves 2026-10-09 digest updated with the evening (NDA redlines sent, Vico prep, /prior-art) and landed (PR #1133); integrity verdict OK.
 
