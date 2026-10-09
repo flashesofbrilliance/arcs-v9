@@ -323,7 +323,7 @@ CODEX_GROUPS, INTAKE_GROUPS = [], []
 codex = _ids(codex, "g-grp-", CODEX_GROUPS)
 intake = _ids(intake, "n-grp-", INTAKE_GROUPS)
 INTAKE_GROUPS.insert(0, ("next-steps", "Five steps"))
-STAGES = [("stage-1", "1 Look and listen (audit and discovery)"), ("stage-2", "2 Agree the plan"), ("stage-3", "3 Make it solid"), ("stage-4", "4 Aim higher")]
+STAGES = [("stage-1", "1 Look and listen (audit and discovery)"), ("stage-2", "2 Agree the plan (alignment and refinement)"), ("stage-3", "3 Make it solid (set up to run on your own)"), ("stage-4", "4 Aim higher (strategy and review)")]
 
 def _li(href, text, kids=""):
     return f'<li><a href="#{href}">{html.escape(text)}</a>{kids}</li>'
