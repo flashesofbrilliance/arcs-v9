@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 278,
+  "rows": 279,
   "hosts": 79,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 219,
+   "product page": 220,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 26,
   "app_routes": 46,
   "missing_purpose": 3,
-  "unlisted": 106
+  "unlisted": 107
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -3955,6 +3955,26 @@
    "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/primer",
+   "catch_all": false,
+   "destination": "/myally-primer.html",
+   "pattern": false,
+   "file": "public/myally-primer.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Technical Primer",
+   "description": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "omakase.arcs.care",
