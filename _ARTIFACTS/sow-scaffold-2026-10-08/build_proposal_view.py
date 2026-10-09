@@ -23,20 +23,20 @@ DEFAULT_LEVEL = 3
 tokens = (ROOT / "src/ui-kit/recoil-report/_tokens.css").read_text(encoding="utf-8")
 
 LEVELS = [
-    (1, "Summary", "The headline, one line per section, and what happens next.", "the exec overview, the picture, and one line per section"),
+    (1, "Summary", "The headline, one line per section, and what happens next.", "the exec overview and one line per section"),
     (2, "Overview", "The stages, what happens in each, and what you get.", "the four stages with what happens and what you get"),
     (3, "Working detail", "Who does what, how I would work, and what I need from you.", "who does what, how I would work, and what I need from you"),
-    (4, "Checklists", "Checklists, triggers and the questions I would ask, with why.", "checklists, triggers and the questions I would ask"),
-    (5, "Everything", "Every detail, plus the glossary.", "every remaining detail and the glossary"),
+    (4, "Everything", "Every detail, including the intake questions and the reasons behind them.", "every remaining detail and the intake questions"),
 ]
 
 # heading text -> (level at which the body opens, one-line summary shown while collapsed)
 SPEC = {
     "Exec overview": (2, "Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a checkpoint at each, and you can stop at any point with everything in hand."),
     "The whole idea, simply": (2, "Build it like a house: look at the ground first, agree the route, pour the floor, then decide how big it gets."),
-    "The four stages": (2, "Look and listen. Agree the plan together. Make it solid. Aim higher, then look back."),
+    "The four stages": (2, "Look and listen (audit and discovery). Agree the plan together. Make it solid. Aim higher, then look back."),
     "What is in scope, and what the audit could change": (2, "I cannot know what stage 1 will show, so here are three general cases, best, base and worst, with the steps in scope for each. They are not predictions, and nothing is priced."),
-    "For Kelly": (3, "Your plan and the build side by side, cost per family in three cases, and the lists that make the empathy question testable."),
+    "What this means for each of you": (3, "Kelly: plan and build side by side, cost per family. Chelsea: you stay the builder, and Alice comes after the groundwork."),
+    "_old_kelly": (3, "Your plan and the build side by side, cost per family in three cases, and the lists that make the empathy question testable."),
     "For Chelsea": (3, "You stay the builder. The AI provider choice waits for the facts, and Alice comes after the groundwork."),
     "My view on Alice": (3, "I would hold off connecting Alice until three answers are in. A small trial on made-up data is the cheaper way to learn what she costs."),
     "Questions to settle with your lawyers first": (4, "Turn warm-but-never-health-advice into three written lists with your lawyers, then test Alice against sample questions."),
@@ -262,13 +262,13 @@ def linkify(h, data):
                 tip = (
                     f'<span class="tip" id="tip{n}" role="group" aria-label="Definition: {html.escape(term)}" hidden>'
                     f'<b>{html.escape(term)}</b> {html.escape(first_sentence(mean))}'
-                    f'<span class="tipbar"><a class="tipgo" href="#g-{target}">Learn more</a>'
+                    f'<span class="tipbar"><a class="tipgo" href="/primer#g-{target}">Learn more</a>'
                     f'<button type="button" class="tipclose" aria-label="Close definition: {html.escape(term)}">Close</button></span>'
                     f'<span class="tiphint">Click the word to keep this open</span></span>'
                 )
                 piece = (
                     piece[:m.start()]
-                    + f'<span class="termwrap"><a class="gl" href="#g-{target}" aria-describedby="tip{n}" aria-expanded="false">{m.group(1)}</a>{tip}</span>'
+                    + f'<span class="termwrap"><a class="gl" href="/primer#g-{target}" aria-describedby="tip{n}" aria-expanded="false">{m.group(1)}</a>{tip}</span>'
                     + piece[m.end():]
                 )
                 done.add(target)
@@ -307,10 +307,51 @@ codex_pre = gloss(shift(md("09-translation-codex.md"), 1))
 plan, term_uses = linkify(plan, gloss_data(codex_pre))
 codex = codex_pre
 for slug_, secs_ in term_uses.items():
-    links = ", ".join(f'<a href="#{s}">{html.escape(SECTION_TITLES[s])}</a>' for s in secs_)
+    links = ", ".join(f'<a href="/#{s}">{html.escape(SECTION_TITLES[s])}</a>' for s in secs_)
     codex = re.sub(rf'(<div id="g-{slug_}">.*?)(</dd></div>)', lambda m: m.group(1) + f' <span class="uses">Used in this plan: {links}.</span>' + m.group(2), codex, count=1, flags=re.S)
 codex = re.sub(r"<h2>The translation codex</h2>", "", codex, count=1)
 intake = intake_section()
+
+def _ids(h, prefix, out):
+    def r(m):
+        t = re.sub("<.*?>", "", m.group(1)).replace("&amp;", "&")
+        i = prefix + slug(t)
+        out.append((i, t))
+        return f'<h3 id="{i}">{m.group(1)}</h3>'
+    return re.sub(r"<h3>(.*?)</h3>", r, h, flags=re.S)
+CODEX_GROUPS, INTAKE_GROUPS = [], []
+codex = _ids(codex, "g-grp-", CODEX_GROUPS)
+intake = _ids(intake, "n-grp-", INTAKE_GROUPS)
+INTAKE_GROUPS.insert(0, ("next-steps", "Five steps"))
+STAGES = [("stage-1", "1 Look and listen (audit and discovery)"), ("stage-2", "2 Agree the plan (alignment and refinement)"), ("stage-3", "3 Make it solid (set up to run on your own)"), ("stage-4", "4 Aim higher (strategy and review)")]
+
+def _li(href, text, kids=""):
+    return f'<li><a href="#{href}">{html.escape(text)}</a>{kids}</li>'
+TOC_SHORT = {
+    "What is in scope, and what the audit could change": "What is in scope",
+    "What this means for each of you": "For each of you",
+    "Questions to settle with your lawyers first": "Questions for your lawyers",
+    "The cost, in three buckets": "The cost",
+    "How we will handle feedback": "Handling feedback",
+    "What I need from you, and what you can expect from me": "What we each need",
+}
+_plan_items = []
+for sid, title in SECTION_TITLES.items():
+    if not sid.startswith("s-"):
+        continue
+    kids = ""
+    if title == "The four stages":
+        kids = "<ol>" + "".join(_li(i, t) for i, t in STAGES) + "</ol>"
+    _plan_items.append(_li(sid, TOC_SHORT.get(title, title), kids))
+toc_html = (
+    '<nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ol>'
+    + _li("plan", "The plan", "<ol>" + "".join(_plan_items) + "</ol>")
+    + _li("intake", "Next steps", "<ol>" + "".join(_li(i, re.sub(r" \(.*\)$", "", t)) for i, t in INTAKE_GROUPS) + "</ol>")
+    + '<li><a href="/primer">Technical primer</a></li>'
+    + "</ol></nav>"
+)
+menu_stages = "".join(f'<a class="pill sub" href="#{i}">{html.escape(t)}</a>' for i, t in STAGES)
+menu_codex = "".join(f'<a class="pill sub" href="#{i}">{html.escape(re.sub(r" [(].*[)]$", "", t))}</a>' for i, t in CODEX_GROUPS)
 
 names = "".join(
     f'<button type="button" class="tname" data-level="{n}" aria-pressed="false"><span class="n">{n}</span> {name}</button>'
@@ -347,7 +388,7 @@ def block(d, important=False):
 
 
 css = tokens + """
-:root{--measure:620px;--gut:24px;--font-body:system-ui,-apple-system,'Inter',sans-serif;--font-code:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--font-head:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color-scheme:light;%LIGHT%}
+:root{--measure:600px;--gut:24px;--font-body:system-ui,-apple-system,'Inter',sans-serif;--font-code:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;--font-head:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;color-scheme:light;%LIGHT%}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;%DARK%}}
 :root[data-theme="dark"]{color-scheme:dark;%DARK%}
 :root[data-theme="light"]{color-scheme:light;%LIGHT%}
@@ -373,14 +414,23 @@ header.top.collapsed .bar{flex-wrap:wrap}header.top.collapsed .pill.menubtn{disp
 html:not(.js) header.top .bar,html:not(.js) .links{flex-wrap:wrap}
 header.top .pill{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-family:var(--font-mono);font-size:0.925rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--pg-dim);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;text-decoration:none;cursor:pointer;white-space:nowrap}
 header.top .pill:hover,header.top .pill:focus-visible{color:var(--pg-accent);border-color:var(--pg-accent);text-decoration:none}
-header.top .sub{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px;padding-top:4px;padding-bottom:4px;border-top:1px solid var(--pg-line)}
-header.top .sub a{display:inline-flex;align-items:center;min-height:40px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
-header.top .sub a:hover,header.top .sub a:focus-visible{color:var(--pg-accent);text-decoration:underline}
-.subl{color:var(--pg-muted);font-weight:600}
-.mstages{display:none}
-header.top.collapsed .sub{display:none}
-header.top.collapsed .links.open .mstages{display:flex;flex-direction:column;gap:6px;padding-left:16px}
 @media (max-width:900px){.alt{position:static}}
+.shell{display:block}
+.toc{display:none}
+@media (min-width:1100px){.shell{display:grid;grid-template-columns:15rem minmax(0,calc(var(--measure) + 2*var(--gut)));justify-content:center;column-gap:40px;align-items:start}.shell main.wrap{margin:0;max-width:none}.toc{display:block;position:sticky;top:calc(var(--hdr,57px) + 24px);max-height:calc(100vh - var(--hdr,57px) - 48px);overflow:auto;scrollbar-width:thin;padding:24px 0 24px var(--gut)}header.top .wrap.bar{max-width:calc(15rem + 40px + var(--measure) + 2*var(--gut))}}
+.back{margin:48px 0 0;font-weight:600}
+.toc-h{margin:0 0 8px;font-weight:700;color:var(--pg-text)}
+.toc ol{list-style:none;margin:0;padding:0}.toc ol ol{padding-left:12px;border-left:1px solid var(--pg-line);margin:2px 0 8px 2px}
+.toc a{display:block;white-space:normal;padding:4px 8px;border-radius:6px;color:var(--pg-dim);text-decoration:none;line-height:1.35}
+.toc a:hover,.toc a:focus-visible{color:var(--pg-accent);text-decoration:underline}
+.toc a[aria-current="true"]{color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:600}
+.toc>ol>li>a{font-weight:700;color:var(--pg-text);margin-top:8px}
+.msub{display:none}
+header.top.collapsed .links.open .msub{display:flex;flex-direction:column;gap:6px;padding-left:16px}
+header.top .pill.sub{text-transform:none;letter-spacing:0;font-family:var(--font-body);background:none;border:0;border-radius:0;min-height:40px;padding:0 0 0 12px;border-left:1px solid var(--pg-line);white-space:normal;color:var(--pg-dim)}
+header.top.collapsed .links.open .msub{gap:0;padding-left:8px;margin:2px 0 6px}
+header.top.collapsed .links.open{max-height:calc(100dvh - 88px);overflow:auto}
+header.top.collapsed .links .pill{justify-content:flex-start;text-align:left}
 header.top .pill.icon{width:44px;padding:0;justify-content:center}
 header.top .pill.primary{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg)}
 nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
@@ -403,11 +453,12 @@ code{font-family:var(--font-code);font-size:.9em}
 .more:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
 .alt{position:sticky;top:var(--hdr,57px);background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 12px 6px;margin:24px 0 8px}
 .altlabel{color:var(--pg-muted)}
-.tname{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 12px;font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;cursor:pointer;white-space:nowrap}
+.tname{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:6px 12px;font:inherit;line-height:1.25;text-align:center;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;cursor:pointer;white-space:normal}
+.seg.measuring .tname{white-space:nowrap}
 .tname:hover{color:var(--pg-accent);text-decoration:underline}
 .tname.on{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
 .tname .n{font-family:var(--font-mono);color:var(--pg-muted)}.tname.on .n{color:var(--pg-accent)}
-.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:6px;margin:6px 0 0}
+.seg{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:6px;margin:6px 0 0}
 .howto{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:14px 18px;margin:20px 0 0}.howto-t{font-weight:700;margin:0 0 6px}.howto ul{margin:0;padding-left:1.2em}.howto li{margin:0 0 6px}
 .altdesc{color:var(--pg-dim);margin:2px 0 0}
 .quicksteps{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;margin:20px 0 0}
@@ -447,8 +498,8 @@ html[data-font="easy"] h1{font-family:var(--font-body);font-weight:700}
 html[data-font="easy"] *{font-style:normal !important}
 html[data-font="easy"] a.gl{text-decoration:none;background:var(--pg-accent-bg)}
 html[data-font="easy"] a,html[data-font="easy"] .scopelist a{text-decoration:none}
-html[data-size="l"]{font-size:112.5%;--measure:700px}
-html[data-size="xl"]{font-size:125%;--measure:780px}
+html[data-size="l"]{font-size:112.5%;--measure:676px}
+html[data-size="xl"]{font-size:125%;--measure:750px}
 html[data-space="roomy"] :is(p,li,dd,dt,td,th,.dek,.lbl,.c,.altdesc,.tip){line-height:1.8;letter-spacing:.04em;word-spacing:.14em}
 html[data-space="roomy"] :is(p,li){margin-bottom:1.1em}
 @media (prefers-color-scheme: light){html[data-tone="warm"]:not([data-theme="dark"]){--pg-bg:#fbf6e9;--pg-surface:#fffdf6;--pg-surface2:#f3ecda}}
@@ -497,14 +548,14 @@ th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical
 th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .checklist{margin:0 0 16px;padding-left:1.4em}.checklist li{margin:0 0 8px}
 .note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
-.sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--hdr, 100px) + var(--sticky-h, 0px) + 16px)}
+.sec,section[id],[id^="g-"],[id^="s-"],[id^="n-grp-"],h3[id],.stage{scroll-margin-top:calc(var(--hdr, 100px) + var(--sticky-h, 0px) + 16px)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
 @media (max-width:600px){.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
 @media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,header.top,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
 """.replace("%LIGHT_IMP%", block(LIGHT, True)).replace("%LIGHT%", block(LIGHT)).replace("%DARK%", block(DARK))
 
-HEAD_JS = """(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();"""
+HEAD_JS = """window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();"""
 
 JS = """(function(){try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();"""
 
@@ -512,7 +563,7 @@ JS = """
 (function(){
   var DESC=__DESC__;
   var level=__DEFAULT__,over=new Set();
-  try{var v=parseInt(localStorage.getItem('myAllyLevel'),10);if(v>=1&&v<=5)level=v;}catch(e){}
+  try{var v=parseInt(localStorage.getItem('myAllyLevel'),10);if(v>=1&&v<=4)level=v;}catch(e){}
   var secs=[].slice.call(document.querySelectorAll('.sec'));
   function isOpen(i){var s=secs[i];var need=parseInt(s.getAttribute('data-body-alt'),10);return !s.querySelector('.body')||level>=need||over.has(i);}
   function apply(){
@@ -532,13 +583,13 @@ JS = """
     var cur=DESC[level],nxt=DESC[level+1];
     [].forEach.call(document.querySelectorAll('.tname'),function(b){var on=parseInt(b.getAttribute('data-level'),10)===level;b.className='tname'+(on?' on':'');b.setAttribute('aria-pressed',on?'true':'false');});
     measure();
-    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' The next level adds '+nxt.adds+'.':' This is the full detail.');
+    var ad=document.getElementById('altdesc');if(ad)ad.textContent=cur.desc;
   }
   var bar=document.querySelector('.alt');
   function measure(){if(bar)document.documentElement.style.setProperty('--sticky-h',getComputedStyle(bar).position==='sticky'?Math.ceil(bar.getBoundingClientRect().height)+'px':'0px');}
   if(window.ResizeObserver&&bar)new ResizeObserver(measure).observe(bar);
   window.addEventListener('resize',measure);
-  function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('myAllyLevel',String(level));}catch(e){}apply();}
+  function setLevel(n){level=Math.max(1,Math.min(4,n));over.clear();try{localStorage.setItem('myAllyLevel',String(level));}catch(e){}apply();}
   [].forEach.call(document.querySelectorAll('.tname'),function(b){b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});});
   secs.forEach(function(sec,i){
     var more=sec.querySelector('.more'),body=sec.querySelector('.body');
@@ -596,7 +647,29 @@ JS = """
     });
   });
 
-(function(){var b=document.getElementById('menubtn'),m=document.getElementById('menu');if(!b||!m)return;document.documentElement.classList.add('js');var hd=b.closest('header'),bar=b.closest('.bar');function hdrH(){document.documentElement.style.setProperty('--hdr',Math.ceil(hd.getBoundingClientRect().height)+'px');}function fit(){hdrH();if(m.classList.contains('open'))return;hd.classList.remove('collapsed');if(bar.scrollWidth>bar.clientWidth+1)hd.classList.add('collapsed');hdrH();}fit();window.addEventListener('resize',fit);if(window.ResizeObserver)new ResizeObserver(fit).observe(document.documentElement);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);new MutationObserver(fit).observe(document.documentElement,{attributes:true,attributeFilter:['class','data-theme','data-font','data-size','data-space']});function set(o){m.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Close menu':'Open menu');}b.addEventListener('click',function(){set(!m.classList.contains('open'));});m.addEventListener('click',function(e){if(e.target.closest('a,button'))set(false);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open')){set(false);b.focus();}});})();
+(function(){var seg=document.querySelector('.seg');if(!seg)return;var bs=[].slice.call(seg.children);function fit(){var n=bs.length;seg.classList.add('measuring');var pick=1;for(var c of [n,2]){seg.style.setProperty('--cols',c);if(!bs.some(function(b){return b.scrollWidth>b.clientWidth+1;})){pick=c;break;}}seg.style.setProperty('--cols',pick);seg.classList.remove('measuring');}var raf=0;function later(){if(!raf)raf=requestAnimationFrame(function(){raf=0;fit();});}fit();window.addEventListener('resize',later);if(window.ResizeObserver)new ResizeObserver(later).observe(seg.parentElement);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);new MutationObserver(later).observe(document.documentElement,{attributes:true,attributeFilter:['data-font','data-size','data-space']});new MutationObserver(later).observe(document.head,{childList:true});})();
+
+/* Vercel Web Analytics custom events. Aggregate only: no names, no form content, no personal data. */
+(function(){function t(n,d){try{window.va('event',d?{name:n,data:d}:{name:n});}catch(e){}}
+document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('a,button');if(!el)return;var h=el.getAttribute('href')||'';
+if(el.classList.contains('tname'))t('detail_level',{level:el.getAttribute('data-level')});
+else if(el.classList.contains('tipgo'))t('primer_learn_more',{term:h.split('#')[1]||''});
+else if(h.indexOf('/primer')===0)t('primer_open');
+else if(h.indexOf('tally.so')>-1)t('intake_form_click');
+else if(el.id==='readfab')t('reading_options_open');
+else if(el.getAttribute('data-k'))t('reading_option',{option:el.getAttribute('data-k')+'='+el.getAttribute('data-v')});
+else if(el.id==='menubtn')t('menu_toggle');
+else if(el.id==='themebtn')t('theme_toggle');
+else if(el.classList.contains('gl'))t('term_open',{term:h.split('#')[1]||''});
+else if(el.closest('.toc'))t('contents_click',{target:h});},true);
+var t0=Date.now(),secs={},vis={},seen={};var hs=[].slice.call(document.querySelectorAll('main h2'));
+function nm(h){return(h.textContent||'').trim().slice(0,60);}
+if('IntersectionObserver' in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){var k=nm(e.target);vis[k]=e.isIntersecting;if(e.isIntersecting&&!seen[k]){seen[k]=1;t('section_seen',{section:k});}});},{threshold:0.5});hs.forEach(function(h){io.observe(h);});
+setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1;},1000);}
+addEventListener('pagehide',function(){t('page_dwell',{seconds:Math.round((Date.now()-t0)/1000)});Object.keys(secs).map(function(k){return[k,secs[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,5).forEach(function(p){if(p[1]>=3)t('section_dwell',{section:p[0],seconds:p[1]});});});})();
+
+(function(){var toc=document.querySelector('.toc');if(!toc)return;var links=[].slice.call(toc.querySelectorAll('a[href^="#"]'));var pairs=links.map(function(a){var t=document.getElementById(a.getAttribute('href').slice(1));if(!t)return null;var h=t.matches('section')?t.querySelector('h2'):t;return {a:a,h:h||t};}).filter(Boolean);var tick=false;function upd(){tick=false;var cs=getComputedStyle(document.documentElement);var line=(parseInt(cs.getPropertyValue('--hdr'))||57)+(parseInt(cs.getPropertyValue('--sticky-h'))||0)+48;var cur=null;pairs.forEach(function(p){if(!p.h.getClientRects().length)return;if(p.h.getBoundingClientRect().top<=line)cur=p;});if(!cur&&pairs.length)cur=pairs[0];links.forEach(function(a){a.removeAttribute('aria-current');});if(cur){cur.a.setAttribute('aria-current','true');var r=cur.a.getBoundingClientRect(),tr=toc.getBoundingClientRect();if(r.top<tr.top||r.bottom>tr.bottom)cur.a.scrollIntoView({block:'nearest'});}}window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});window.addEventListener('resize',upd);upd();})();
+(function(){var b=document.getElementById('menubtn'),m=document.getElementById('menu');if(!b||!m)return;document.documentElement.classList.add('js');var hd=b.closest('header'),bar=b.closest('.bar');function hdrH(){if(m.classList.contains('open'))return;document.documentElement.style.setProperty('--hdr',Math.ceil(hd.getBoundingClientRect().height)+'px');}function fit(){hdrH();if(m.classList.contains('open'))return;hd.classList.remove('collapsed');if(innerWidth<1100||bar.scrollWidth>bar.clientWidth+1)hd.classList.add('collapsed');hdrH();}fit();window.addEventListener('resize',fit);if(window.ResizeObserver)new ResizeObserver(fit).observe(document.documentElement);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);new MutationObserver(fit).observe(document.documentElement,{attributes:true,attributeFilter:['class','data-theme','data-font','data-size','data-space']});function set(o){m.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Close menu':'Open menu');}b.addEventListener('click',function(){set(!m.classList.contains('open'));});m.addEventListener('click',function(e){if(e.target.closest('a,button'))set(false);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open')){set(false);b.focus();}});})();
   var root=document.documentElement,tb=document.getElementById('themebtn');
   function eff(){var t=root.getAttribute('data-theme');if(t)return t;return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
   var MOON='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',SUN='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';function label(){var d=eff()==='dark';tb.innerHTML=d?SUN:MOON;tb.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');tb.title=d?'Light mode':'Dark mode';}
@@ -613,12 +686,12 @@ JS = """
   }
   function saveRead(){try{localStorage.setItem(RK,JSON.stringify(st));}catch(e){}}
   function openRead(open,from){
-    ro.hidden=!open;fab.setAttribute('aria-expanded',String(open));ob.setAttribute('aria-expanded',String(open));
+    ro.hidden=!open;fab.setAttribute('aria-expanded',String(open));if(ob)ob.setAttribute('aria-expanded',String(open));
     if(open){opener=from||fab;var f=ro.querySelector('button[aria-pressed="true"]')||ro.querySelector('button');f.focus();}
     else{opener.focus();}
   }
   fab.addEventListener('click',function(){openRead(ro.hidden,fab);});
-  ob.addEventListener('click',function(){openRead(ro.hidden,ob);});
+  if(ob)ob.addEventListener('click',function(){openRead(ro.hidden,ob);});
   ro.querySelector('.ro-close').addEventListener('click',function(){openRead(false);});
   ro.querySelector('.ro-reset').addEventListener('click',function(){st={};saveRead();applyRead();});
   [].forEach.call(ro.querySelectorAll('button[data-k]'),function(b){b.addEventListener('click',function(){st[b.getAttribute('data-k')]=b.getAttribute('data-v');saveRead();applyRead();});});
@@ -664,13 +737,12 @@ page = f"""<!doctype html>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the plan</a>
-<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links" id="menu"><a class="pill" href="#plan">The plan</a><span class="mstages"><a class="pill" href="#stage-1">1 Look and listen</a><a class="pill" href="#stage-2">2 Agree the plan</a><a class="pill" href="#stage-3">3 Make it solid</a><a class="pill" href="#stage-4">4 Aim higher</a></span><a class="pill" href="#codex">Word guide</a><a class="pill primary" href="#intake">Next steps</a><button type="button" class="pill optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button></span><span class="ctl"><button type="button" class="pill icon" id="themebtn" aria-label="Switch to dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="pill icon menubtn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span></div><div class="wrap sub" aria-label="Plan stages"><span class="subl">The plan:</span><a href="#stage-1">1 Look and listen</a><a href="#stage-2">2 Agree the plan</a><a href="#stage-3">3 Make it solid</a><a href="#stage-4">4 Aim higher</a></div></nav></header>
-<main class="wrap" id="main">
+<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links" id="menu"><a class="pill" href="#plan">The plan</a><span class="msub">{menu_stages}</span><a class="pill" href="/primer">Technical primer</a><a class="pill primary" href="#intake">Next steps</a></span><span class="ctl"><button type="button" class="pill icon" id="themebtn" aria-label="Switch to dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="pill icon menubtn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span></div></nav></header>
+<div class="shell">{toc_html}<main class="wrap" id="main">
 {banner}
 <section id="plan">{plan}</section>
-<section id="codex"><div class="sec" data-body-alt="5"><h2>Word guide</h2><p class="dek">A legend for the technical words, each with a plain meaning, a picture and why it matters to you.</p><div class="body" id="bcodex">{codex}</div><button class="more" type="button" aria-controls="bcodex" aria-expanded="false" hidden>Show detail</button></div></section>
 <section id="intake"><div class="sec" data-body-alt="4"><h2>Next steps</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body" id="bintake">{intake}</div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
-</main>
+</main></div>
 <footer class="wrap pagefoot"><p>Prepared by Zach Harris at manana. A proposal, not a contract.</p></footer>
 {PANEL}
 <script>{JS}</script>
@@ -694,3 +766,16 @@ out.write_text(page, encoding="utf-8")
 # HTML comments (internal seam notes) are stripped: page source is visible to the counterpart.
 (ROOT / "public" / "myally.html").write_text(re.sub(r"<!--.*?-->\n?", "", page, flags=re.S).replace("</head>", '<script defer src="/_vercel/insights/script.js"></script>\n</head>', 1), encoding="utf-8")
 print("wrote", out.relative_to(ROOT), len(page), "bytes")
+
+# ---- /primer: the technical primer as its own page (Zach, 2026-10-09)
+_pt = "".join(f'<li><a href="#{i}">{html.escape(re.sub(r" [(].*[)]$", "", t))}</a></li>' for i, t in CODEX_GROUPS)
+primer_toc = '<nav class="toc" aria-label="On this page"><p class="toc-h">Technical primer</p><ol><li><a href="#primer">Overview</a><ol>' + _pt + '</ol></li><li><a href="/">Back to the plan</a></li></ol></nav>'
+primer = page
+primer = re.sub(r"<title>.*?</title>", "<title>My Ally LD: Technical Primer</title>", primer, count=1, flags=re.S)
+primer = re.sub(r'<span class="links" id="menu">.*?</span>(?=<span class="ctl">)', '<span class="links" id="menu"><a class="pill primary" href="/">Back to the plan</a></span>', primer, count=1, flags=re.S)
+primer = re.sub(r'<div class="shell">.*?</main></div>', '<div class="shell">' + primer_toc + '<main class="wrap" id="main"><section id="primer"><h1>Technical primer</h1>' + re.sub(r"^\s*<p>(.*?)</p>", r'<p class="lede">\1</p>', re.sub(r"<h3( id=[^>]*)>(.*?)</h3>", r"<h2\1>\2</h2>", codex, flags=re.S), count=1, flags=re.S) + '<p class="back"><a href="/">Back to the plan</a></p></section></main></div>', primer, count=1, flags=re.S)
+primer = primer.replace('<a class="skip" href="#main">Skip to the plan</a>', '<a class="skip" href="#main">Skip to the primer</a>', 1)
+_missing = [t for t in re.findall(r'href="/primer#(g-[a-z0-9-]+)"', page) if f'id="{t}"' not in primer]
+assert not _missing, f"Learn more targets missing from the primer: {sorted(set(_missing))[:5]}"
+(HERE / "primer-view.html").write_text(primer, encoding="utf-8")
+(ROOT / "public" / "myally-primer.html").write_text(re.sub(r"<!--.*?-->\n?", "", primer, flags=re.S).replace("</head>", '<script defer src="/_vercel/insights/script.js"></script>\n</head>', 1), encoding="utf-8")

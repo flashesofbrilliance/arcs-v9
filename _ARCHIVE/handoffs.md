@@ -1,3 +1,55 @@
+# Handoff — v3.117.1 (2026-10-07)
+
+## Goal / true north
+One generated inventory of every arcs.care surface, gated so a routed host can never again be missing from it.
+
+## What changed
+- #1066 merged (`4e4972a7`, `--merge`): server-side satoshi base-rate gate (`src/lib/satoshi.ts`), prompt anchor "fewer than 1 in 50" built from the same constants, same gate on the EPHEMERAL_SAVE path, 9 unit tests incl. the real `/api/compass` handler against the stubs. Receipts `2026-10-06--satoshi-base-rate-gate-pr1066--ZH` (PR open) and `2026-10-07--satoshi-base-rate-gate-merge-pr1066--ZH` (merge).
+- **#1069** (open, branch `claude/vigorous-tu-599264`, not merged by request): `scripts/surface_catalog_emit.py` (stdlib) parses next.config.ts, src/proxy.ts and the src/app tree; emits `runtime/specs/surface-catalog.json` (286 rows, 88 hosts) and renders `runtime/warroom/surfaces.html`, served admin-gated at surfaces.arcs.care via /warroom/surfaces (domain added via `vercel domains add`, resolving). `--check` fails on a missing next.config host, a stale catalog (dates excluded) or a hand-edited page; wired into pre-commit and the CI gates job. Page is noindex + X-Robots-Tag.
+- Kintsugi: first commit blocked at 23 detector findings; repaired in the emitter to 0 plus one scoped Inter exemption; seam booked in `_PATTERNS/kintsugi-visual-grammar-seams.md` (DESIGN.md label size 10px sits under the detector's 11px floor).
+- AGENTS.md pointer; `_PATTERNS/2026-07-10-atomic-surface-map.md` marked superseded as the inventory.
+- Handoff collision: this session's first molt took v3.116.0 at the same time as another session's; reset, merged main, molted again (the documented recovery).
+
+## Current state
+- PR #1069 open, merged with main, CI pending at handoff. Catalog findings: `prl.arcs.care/status/wp` routes to a missing file; 13 unrouted public pages. Two chips spawned and started by Zach as separate sessions.
+
+## Decisions made
+- Enforce the compass meaning of satoshi (rare, category-defining) in a deterministic server gate rather than a prompt-only rewording; the prompt line is derived from the gate's constants so they cannot drift.
+- Merged on Zach's yes with the security-review check red for a credit error, not a finding.
+- Zach: hold off on passcode-gating surfaces.arcs.care; it stays unlisted-but-readable for now.
+
+## Open decisions (waiting on Zach)
+1. Zach: Anthropic credit on the org behind the `ANTHROPIC_API_KEY` repo secret; re-run the security review on `4e4972a7`.
+2. Zach: merge #1069 with `--merge` after CI, then confirm `curl -sI https://surfaces.arcs.care` returns the page with X-Robots-Tag.
+
+## Open (other)
+1. Canon collision, escalated not resolved: `operators/arcs_rom.py` SATOSHI_CRITERIA (nci >= 50, irreversibility <= 0.5, most receipts qualify) vs the compass rare-move meaning now enforced. Zach decides which definition the word keeps.
+2. EX-ANTE to score: after 50 new receipts, re-run the audit aggregates (flagged vs unflagged by stakes, mode, doorClass, nci bucket) and check the rate is under 1 in 50.
+3. The two chip sessions (prl status mismatch; unrouted public pages audit) land their own PRs.
+4. Kit-wide: resolve the DESIGN.md label-size vs detector-floor contradiction (ledger 2026-10-07 seam 3).
+
+## Next action
+Merge #1069 with --merge once CI is green, then verify surfaces.arcs.care live.
+
+## Cold-start recipe
+- `python3 scripts/surface_catalog_emit.py` (emit) · `--check` (gate) · `--self-test`.
+- Memory `subdomain-html-hosting-workflow` (domain add via CLI; MCP add_project_domain is 403).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: Lessons
+- A red `claude-security-review` with "Credit balance is too low" is billing, not a finding; the other CI jobs use a placeholder key and stay green (memory `anthropic-api-budget-shared-cap-ci-drain` updated).
+- Pull aggregates before touching a model flag: the inflation lived entirely in one mode/model/stakes cell, which made a two-condition bar sufficient.
+
+### Notes: Lessons
+- The Vercel MCP cannot add project domains (403); `vercel domains add <host> arcs-v9 --scope arcs-care` works before the route is even on main.
+- The impeccable detector and DESIGN.md disagree on label size; for a new page use body size for labels.
+- A molt deletes fragments before anything is committed: on an oracle collision the fragment body is gone, so keep the body in the scratchpad until the molt commit lands.
+
+> Molted from `_HANDOFFS/fragments/20261007T174054Z--claude-mystifying-tesla-6bc6f3.md` (branch `claude/mystifying-tesla-6bc6f3`, head `90fcea9c`); `_HANDOFFS/fragments/20261007T174439Z--claude-vigorous-tu-599264.md` (branch `claude/vigorous-tu-599264`, head `1d8bd4dd`).
+
+---
+
 # Handoff — v3.117.0 (2026-10-07)
 
 ## Goal / true north

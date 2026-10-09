@@ -9,8 +9,6 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   // honest.arcs.care: "Check it before you say it", the in-browser front door to
   // arcs-verb-eval (tools/arcs-verb-eval). Static; every check runs client-side.
   'honest':       '/honest.html',
-  // myally.arcs.care: My Ally LD proposal, gated end to end below (own passcode).
-  'myally':       '/myally.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
@@ -40,6 +38,9 @@ const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
 // prefix. This middleware entry is kept as the primary, deterministic
 // mechanism; next.config.ts's fix is the belt-and-suspenders backstop.
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
+  // myally.arcs.care: My Ally LD proposal (root) and its technical primer (/primer). Gated end to end
+  // by the myally passcode block in proxy() before this map is consulted.
+  'myally':    { '/primer': '/myally-primer.html', default: '/myally.html' },
   // saul.arcs.care — interview bundle (2026-09-03): root = prep, /followup = forked battle cards, /resume = viewer.
   // Asset paths are mapped to themselves so the default-page rewrite does not swallow the PDFs/txt.
   'saul':      { '/followup': '/saul-followup.html', '/resume': '/saul-resume-viewer.html', '/saul-resume.pdf': '/saul-resume.pdf', '/saul-cover.pdf': '/saul-cover.pdf', '/saul-resume-ats.txt': '/saul-resume-ats.txt', default: '/saul.html' },

@@ -53,13 +53,20 @@ function combos() {
         if (res.collapsed) {
           document.getElementById("menubtn").click();
           await new Promise((r) => setTimeout(r, 50));
-          const st = [...document.querySelectorAll(".mstages a")];
-          res.menuStages = st.length === 4 && st.every((a) => a.offsetParent !== null);
+          const st = [...document.querySelectorAll("#menu .msub a")];
+          res.menuStages = st.length >= 4 && st.slice(0, 4).every((a) => a.offsetParent !== null);
           document.getElementById("menubtn").click();
         } else {
-          const sub = [...hd.querySelectorAll(".sub a")];
-          res.menuStages = sub.length === 4 && sub.every((a) => a.offsetParent !== null);
+          const st = [...document.querySelectorAll('.toc a[href^="#stage-"]')];
+          res.menuStages = st.length === 4 && st.every((a) => a.offsetParent !== null);
         }
+        // reading measure in ch (width of "0" in the paragraph's own font): body text stays between 45 and 80ch
+        const ps = [...document.querySelectorAll("main .sec .body > p")].filter((p) => p.offsetParent && p.textContent.length > 240).slice(0, 3);
+        res.cpl = ps.map((p) => {
+          const s = document.createElement("span"); s.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap"; s.textContent = "0".repeat(100);
+          p.appendChild(s); const ch = s.getBoundingClientRect().width / 100; s.remove();
+          return Math.round(p.getBoundingClientRect().width / ch);
+        });
         const fab = document.getElementById("readfab"), ro = document.getElementById("readopts");
         fab.click();
         await new Promise((r) => setTimeout(r, 50));
@@ -72,6 +79,7 @@ function combos() {
       if (r.hscroll) bad.push("sideways scroll");
       if (r.barWraps) bad.push("header wraps");
       if (!r.menuStages) bad.push("plan stages missing from nav");
+      if (w >= 768) for (const c of r.cpl) if (c < 45 || c > 80) bad.push("measure " + c + "ch");
       if (r.btnOverflow) bad.push("detail button overflow");
       if (r.btnOverlap) bad.push("detail buttons overlap");
       if (!r.panelClear) bad.push("reading panel under header");

@@ -6,7 +6,7 @@ For Kelly and Chelsea, from Zach at manana
 
 This page lays out how I would help, in four stages you can stop after.
 
-<div class="howto" role="note"><p class="howto-t">How to use this page</p><ul><li><strong>Choose how much detail.</strong> Use the Detail level buttons just below. Summary fits on one screen; Everything shows every detail.</li><li><strong>Tap a word with a dotted underline</strong> for a short, plain definition.</li><li><strong>Make it easier to read.</strong> Reading options (or the round Aa button) change the font, text size, spacing and background. Your choices stay on this device.</li><li><strong>Jump around.</strong> The menu at the top goes straight to the plan, the word guide and the next steps.</li></ul></div>
+<div class="howto" role="note"><p class="howto-t">How to use this page</p><ul><li><strong>Choose how much detail</strong> with the Detail level buttons just below, from a one-screen summary to everything.</li><li><strong>Tap a word with a dotted underline</strong> for a short, plain definition.</li><li><strong>Change the font, text size or spacing</strong> with the round Aa button at the bottom right.</li></ul></div>
 
 ## Exec overview
 
@@ -24,10 +24,10 @@ Until I have seen your code and build plan, the technical points on this page ar
 
 | Stage | What happens, in plain terms | What you get | How you will know it worked | If it does not work |
 |---|---|---|---|---|
-| **1. Look and listen** | I read what exists: the app, the build plan, your cost model, and where children's information travels. I talk with each of you four separately. Before each conversation I write down my own predictions, so I can check them later. | A clear picture of what is built, what is planned and what is only hoped for, with a note on how much I examined. A first list of questions for your lawyers. | A short test set before I start, for example that every item in the build plan is marked built, partly built or not built. | You keep the picture and the questions. |
-| **2. Agree the plan together** | I share what I found. Then, together, we build one roadmap in time order from your priorities, limits and dates: what has to happen before what, like a campaign calendar. You make the big decision, build alongside a developer or hire one, and we put it on paper after an honest "imagine it failed" exercise. Before any big piece of work, its owner writes down a cap on time and money and what "it worked" looks like. | One roadmap. One written record of the big decision: what you chose, why, and what would change your minds. For each item on the roadmap, a written description of what "finished" looks like. | Each of you can say, in your own words, what was decided, who owns it, and what would reverse it. | You keep the roadmap, the record and the list of questions. |
-| **3. Make it solid** | I help set up the foundations so you can run the build: a working setup, freedom to switch AI providers later, control over who can see what (parent, child, practitioner), a safe way to handle private documents, a cap on AI spending, and routines for releases. Depending on what I find, this may add proper change tracking, separate places for testing and the real thing, and rules for which kind of information may live in which service. Anything that needs your lawyers waits for their answers. | A setup designed so Chelsea can run releases herself. Your business plan and your build, side by side, with nothing in one that the other cannot account for. | A short list of working checks, for example a spending cap that really stops spending in a test. | You keep the setup, the instructions and the list of accounts and subscriptions. |
-| **4. Aim higher, then look back** | With real use behind you, I help you look at strategy and a few possible futures, each with an early warning sign and a plan. I run the "imagine it failed" exercise again on the next big bets. Then we look back: what you set out to do, what was done, and whether the result matched the goal. | A strategy, the scenarios, and an honest scorecard of the whole engagement. | You can run the next "imagine it failed" exercise on your own. | You keep the scorecard and the playbook. |
+| **1. Look and listen (audit and discovery)** | I read what exists: the app, the build plan, your cost model, and where children's information travels. I talk with each of you four separately. Before each conversation I write down my own predictions, so I can check them later. | A clear picture of what is built, what is planned and what is only hoped for, with a note on how much I examined. A first list of questions for your lawyers. | A short test set before I start, for example that every item in the build plan is marked built, partly built or not built. | You keep the picture and the questions. |
+| **2. Agree the plan together (alignment and refinement)** | I share what I found. Then, together, we build one roadmap in time order from your priorities, limits and dates: what has to happen before what, like a campaign calendar. You make the big decision, build alongside a developer or hire one, and we put it on paper after an honest "imagine it failed" exercise. Before any big piece of work, its owner writes down a cap on time and money and what "it worked" looks like. | One roadmap. One written record of the big decision: what you chose, why, and what would change your minds. For each item on the roadmap, a written description of what "finished" looks like. | Each of you can say, in your own words, what was decided, who owns it, and what would reverse it. | You keep the roadmap, the record and the list of questions. |
+| **3. Make it solid (set up to run on your own)** | I help set up the foundations so you can run the build: a working setup, freedom to switch AI providers later, control over who can see what (parent, child, practitioner), a safe way to handle private documents, a cap on AI spending, and routines for releases. Depending on what I find, this may add proper change tracking, separate places for testing and the real thing, and rules for which kind of information may live in which service. Anything that needs your lawyers waits for their answers. | A setup designed so Chelsea can run releases herself. Your business plan and your build, side by side, with nothing in one that the other cannot account for. | A short list of working checks, for example a spending cap that really stops spending in a test. | You keep the setup, the instructions and the list of accounts and subscriptions. |
+| **4. Aim higher, then look back (strategy and review)** | With real use behind you, I help you look at strategy and a few possible futures, each with an early warning sign and a plan. I run the "imagine it failed" exercise again on the next big bets. Then we look back: what you set out to do, what was done, and whether the result matched the goal. | A strategy, the scenarios, and an honest scorecard of the whole engagement. | You can run the next "imagine it failed" exercise on your own. | You keep the scorecard and the playbook. |
 
 At the end of every stage I also do a short look-back with you, so the lessons arrive while they are still useful, not only at the end.
 
@@ -41,9 +41,9 @@ I cannot know exactly what stage 1 will show. So here are three general cases, s
 
 | Step | Best case | Base case | Worst case |
 |---|---|---|---|
-| 1. Look and listen | In scope | In scope | In scope, and likely longer |
-| 2. Agree the plan together | In scope | In scope | In scope. The big decision may include moving part of the app |
-| 3. Make it solid | In scope | In scope | In scope, and larger |
+| 1. Look and listen (audit and discovery) | In scope | In scope | In scope, and likely longer |
+| 2. Agree the plan together (alignment and refinement) | In scope | In scope | In scope. The big decision may include moving part of the app |
+| 3. Make it solid (set up to run on your own) | In scope | In scope | In scope, and larger |
 | Working setup and a cap on AI spending | In scope | In scope | In scope |
 | Change tracking | Already in place, so only a check | In scope | In scope |
 | Separate places for testing and the real thing | Already in place, so only a check | In scope | In scope |
@@ -52,20 +52,22 @@ I cannot know exactly what stage 1 will show. So here are three general cases, s
 | Evidence trail | Only if someone asks | Only if someone asks | Likely asked for sooner |
 | Moving part of the app to a better home | Not needed | Not needed | A decision comes first, before anything else is built |
 | Connecting Alice | After the groundwork, sooner | After the groundwork | Waits for that decision |
-| 4. Aim higher, then look back | In scope | In scope | In scope, later |
+| 4. Aim higher, then look back (strategy and review) | In scope | In scope | In scope, later |
 
 At the end of stage 1 I would tell you which case applies, and what it means for stage 3, before anything is spent on it. The cost cases work the same way: best, likely and worst, with nothing priced yet.
 
 I would do the cheap protective parts first (change tracking, separate places for testing and the real thing), the rest before the first outside family uses the app, and the evidence trail only when someone asks. Anything that depends on what I find is priced only if it is needed. The aim is that every statement about where your families' information lives is backed by an agreement or by your lawyers, without turning a four-person team into a compliance department.
 
-## For Kelly
+## What this means for each of you
+
+### Kelly
 
 - Stage 2 puts your business plan and the build side by side, and checks every claim in one against the other, the way you would reconcile two sets of books.
 - You get the cost per family in three cases, with sources and dates.
 - You help write the "always, sometimes, never" lists that make the empathy question testable.
 - At every stage you see a plain checkpoint, not a status report.
 
-## For Chelsea
+### Chelsea
 
 - You stay the builder. Stage 3 is designed so you can run releases yourself.
 - The Anthropic or OpenAI question gets decided with the facts in hand and your lawyers' input. I would keep your options open so a later switch is not a rebuild.
