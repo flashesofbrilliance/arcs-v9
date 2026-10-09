@@ -123,6 +123,82 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.119.0 (2026-10-09)
+
+> > Night-moves scoped to reusable assets, then a hyperstition cut of a draft scope-of-work scaffold for My Ally LD. Draft only; nothing sent, priced or run through Question Compass.
+>
+> > PRL Phase 1.2 wrap prep for Todd: overview overclaim fixed, go-live checklist folded into the runbook, refresher email drafted; the Oct 9 call moved to Mon Oct 12 10:00 ET.
+>
+> > PRL go-live checklist made tickable and linked from every go-live summary; refresher email sent to Todd for Mon Oct 12 10:00 ET.
+
+## Goal / true north
+Turn the 2026-10-08 My Ally LD call (Kelly Jacobson, Chelsea Starks; founder Leah Gambal) into a send-ready, passcode-gated plain-language proposal plus intake, and send the thank-you. Relationship first: neighbors and shared parent groups, friends-and-family pricing.
+
+## What changed
+- Added `_ARTIFACTS/sow-scaffold-2026-10-08/` (asset map, graded scaffold, 31 draft assumptions asm-015 to asm-045 (adds charter hypothesis asm-028 and two UNSUPPORTED judgments) that validate against `scripts/assumptions.py`, cost-baseline template). PR open, not merged; no merge receipt yet.
+- PR 1108 (merged): prl.arcs.care overview + runbook no longer claim leads carry the conversation (they carry "Chatbot Lead"; Task C unbuilt); update dated Oct 9; "nothing risky" replaced by two named checks (blank-email guard live, Zapier plan hold). Also fixed pre-existing page-gate failures: claude.ai artifact link, scrollspy error, runbook missing doctype.
+- PR 1109 (merged): runbook "Go-live, three steps" expanded in place into a per-system checklist (Sugar, Zapier, Tidio, WordPress) plus a live proof chat; prl.arcs.care/go-live 307s to /status/runbook#go-live. A separate checklist page was started and dropped as a duplicate.
+- Receipts logged: 2026-10-09--prl-overview-overclaim-fix-pr1108--ZH, 2026-10-09--prl-runbook-go-live-checklist-pr1109--ZH.
+- PR 1111 (merged): runbook #go-live is now four tickable system cards (Sugar, Zapier, Tidio, WordPress) plus a "Prove it live" card; ticks persist per browser (localStorage). Overview (2 spots) and progress (2 spots) link "Full go-live checklist" to /go-live. Progress page got the missing doctype.
+- Receipt: 2026-10-09--prl-go-live-cards-links-pr1111--ZH.
+- PRs: #1098, #1106, #1107, #1113, #1114 (receipts `2026-10-09--myally-*--ZH`).
+- Recoil report + 6-tab war-room SSOT (internal): `runtime/recoil/generated/2026-10-08-myallyld.json` and `runtime/recoil/generated/2026-10-08-myallyld-jacobson-starks.md` (PR 1106).
+- myally.arcs.care live behind its own passcode (`src/lib/passcode-gate.ts`, `/api/myally/unlock`, proxy block; env `MYALLY_PASSCODE`; separate cookie so it opens no other gated page). Passcode was rotated to the plain phrase Zach chose.
+- Proposal generator `_ARTIFACTS/sow-scaffold-2026-10-08/build_proposal_view.py` (PRs 1098, 1107, 1113, 1114): SEND on; light ARCS FIELD OS wordmark nav; sticky contents rail with scroll highlight (wide) and nested hamburger (<1100px); four detail levels (Summary, Overview, Working detail, Everything) with fit-based columns; How-to box; type roles H1/byline/lede/H2/H3; stages named by purpose (audit and discovery; alignment and refinement; set up to run on your own; strategy and review); feedback stop-loss section; Optional extras (two-week rhythm, office hours); glossary split to `/primer` (Technical primer, back nav; build fails on a missing Learn-more id); Vercel custom events (detail_level, primer, intake click, reading options, section_seen, dwell).
+- Tests: `reading_matrix.smoke.cjs` (48 Reading-options combos x 4 widths = 192, incl. a 45-80ch measure gate, proven to fail on bad); page smoke updated for buttons/rail/primer.
+- SOW `02`: Track O office hours ($150/hr; async 15-min increments; live 30-min minimum then 15; hard timebox; O.6 in-person workshop), 3c sprint cadence + dependency board, 3d feedback stop-loss FB.1-5, L.10 timeboxed counsel mode (team memo, counsel redlines; never "our HIPAA compliant plan").
+- Tally intake form built and published: tally.so/r/xXkrP5 (first page essentials + NDA and spec uploads, later pages optional, Lexend).
+- Thank-you email SENT by Zach (version B: his text + plan link/passcode/how-to); he also texted Kelly.
+
+## Current state
+- Live and verified: myally.arcs.care and /primer (gate holds without the passcode), all CI green on each merge; receipts logged for PRs 1098/1107/1113/1114.
+- Ball is in their court (Zach, 2026-10-09): waiting on their NDA (mutual), intake form and build spec. Reminder set for Wed 2026-10-14.
+
+## Decisions made
+- Redaction item changed from deterministic-only to deterministic plus mandatory parent review (deterministic rules miss names in prose).
+- Zach's recalled liability figure and any HIPAA/COPPA/BAA applicability claim are excluded; routed to counsel (L.2).
+- One home for go-live steps: the existing runbook section, not a new page or artifact.
+- Frame Monday as a go-live working session; no 1.3 pitch until the team has used it.
+- Friends-and-family pricing; office hours priced in SOW only (generator bans prices on the counterpart page).
+- Comments feature tabled (feedback arrives verbally; captured into one email thread).
+- Stage 4 trigger line held: their pace, not ours.
+- Reading column 600px (~70ch) kept; empty desktop margin used by the contents rail.
+
+## Open decisions (waiting on Zach)
+1. Zach: whose entity pays and on whose paper; which vendors are on a card; is cost visibility an outcome; disclose the recording; NDA status; meaning of "by manana"; may Phase 0 use Question Compass on real material after the NDA.
+2. Zach: yes/no to append asm-015..045 to the live ledger.
+3. Zach: whether to run `counterpart-gauntlet` on the scaffold (multi-agent cost).
+4. Zach: review and send the refresher draft.
+5. Zach: delete the redundant artifact.
+6. Zach: delete redundant private artifact https://claude.ai/artifact/UKGKrsT9ygCUBAARVLqpEy (optional).
+
+## Open (other)
+1. Unknown whether the Sep 17 rough edges (lead marked dead, lagged lead, alert email not landing) were fixed; verify before Monday or say so on the call.
+2. Blank-email guard verified only in draft; confirm in the published zap on the call.
+3. Before Monday: unknown whether Sep 17 rough edges (dead status, lagged lead, alert email) were fixed; blank-email guard verified only in draft.
+4. None.
+5. When the NDA and spec arrive: run Phase 0 (audit Vault + Alice data flows first), then the written proposal with the friends-and-family rate.
+6. Ex-ante receipt in the war room (scope boundary, rate floor) was never filled before send; fill it before the proposal goes out.
+7. Watch Vercel Web Analytics Events (section_seen, section_dwell) once they open the page.
+8. Real-phone visual check of the live page not done.
+
+## Next action
+When their NDA lands, sign and start Phase 0 from the intake answers; draft the proposal only after reading the spec.
+
+## Cold-start recipe
+- Rebuild: `python3 _ARTIFACTS/sow-scaffold-2026-10-08/build_proposal_view.py` (writes proposal-view, primer-view, public/myally.html, public/myally-primer.html).
+- Gates: `python3 scripts/page_gate.py --matrix full <each of the 4>` (symlink main checkout node_modules into a temp worktree); `NODE_PATH=<main>/node_modules node _ARTIFACTS/sow-scaffold-2026-10-08/reading_matrix.smoke.cjs public/myally.html`.
+- Live check: POST passcode to `/api/myally/unlock`, then curl `/` and `/primer` with the cookie.
+
+### Notes: Lessons
+- Run the page gate on the draft file that carries the page's own smoke test, not only the hosted copy; CI does.
+- Fixed breakpoints break on user-scalable text; measure fit instead (nav, level buttons).
+- Never update_draft an email Zach may be editing.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261008T153950Z--claude-sad-mirzakhani-efd807.md` (branch `claude/sad-mirzakhani-efd807`, head `5ecd5c61`); `_HANDOFFS/fragments/20261009T164440Z--claude-prl-handoff-memory-check-6c5e92.md` (branch `claude/prl-handoff-oct9`, head `1ea21eeb`); `_HANDOFFS/fragments/20261009T170621Z--claude-prl-handoff-memory-check-6c5e92-b.md` (branch `claude/prl-handoff-oct9-b`, head `d43bdea4`); `_HANDOFFS/fragments/20261009T175444Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `84ddd6cc`).
+
 # Handoff — v3.118.0 (2026-10-07)
 
 ## Goal / true north
@@ -169,53 +245,3 @@ Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `d
 - Claude in Chrome clicks on a canvas can land on neighbouring controls; prove a pick by dispatching the page's own pointer events and reading the drawer state, and record it as a dispatch, not a click.
 
 > Molted from `_HANDOFFS/fragments/20261007T180720Z--claude-keen-hermann-e14d76.md` (branch `claude/keen-hermann-e14d76`, head `cc85c8b4`).
-
-# Handoff — v3.117.1 (2026-10-07)
-
-## Goal / true north
-One generated inventory of every arcs.care surface, gated so a routed host can never again be missing from it.
-
-## What changed
-- #1066 merged (`4e4972a7`, `--merge`): server-side satoshi base-rate gate (`src/lib/satoshi.ts`), prompt anchor "fewer than 1 in 50" built from the same constants, same gate on the EPHEMERAL_SAVE path, 9 unit tests incl. the real `/api/compass` handler against the stubs. Receipts `2026-10-06--satoshi-base-rate-gate-pr1066--ZH` (PR open) and `2026-10-07--satoshi-base-rate-gate-merge-pr1066--ZH` (merge).
-- **#1069** (open, branch `claude/vigorous-tu-599264`, not merged by request): `scripts/surface_catalog_emit.py` (stdlib) parses next.config.ts, src/proxy.ts and the src/app tree; emits `runtime/specs/surface-catalog.json` (286 rows, 88 hosts) and renders `runtime/warroom/surfaces.html`, served admin-gated at surfaces.arcs.care via /warroom/surfaces (domain added via `vercel domains add`, resolving). `--check` fails on a missing next.config host, a stale catalog (dates excluded) or a hand-edited page; wired into pre-commit and the CI gates job. Page is noindex + X-Robots-Tag.
-- Kintsugi: first commit blocked at 23 detector findings; repaired in the emitter to 0 plus one scoped Inter exemption; seam booked in `_PATTERNS/kintsugi-visual-grammar-seams.md` (DESIGN.md label size 10px sits under the detector's 11px floor).
-- AGENTS.md pointer; `_PATTERNS/2026-07-10-atomic-surface-map.md` marked superseded as the inventory.
-- Handoff collision: this session's first molt took v3.116.0 at the same time as another session's; reset, merged main, molted again (the documented recovery).
-
-## Current state
-- PR #1069 open, merged with main, CI pending at handoff. Catalog findings: `prl.arcs.care/status/wp` routes to a missing file; 13 unrouted public pages. Two chips spawned and started by Zach as separate sessions.
-
-## Decisions made
-- Enforce the compass meaning of satoshi (rare, category-defining) in a deterministic server gate rather than a prompt-only rewording; the prompt line is derived from the gate's constants so they cannot drift.
-- Merged on Zach's yes with the security-review check red for a credit error, not a finding.
-- Zach: hold off on passcode-gating surfaces.arcs.care; it stays unlisted-but-readable for now.
-
-## Open decisions (waiting on Zach)
-1. Zach: Anthropic credit on the org behind the `ANTHROPIC_API_KEY` repo secret; re-run the security review on `4e4972a7`.
-2. Zach: merge #1069 with `--merge` after CI, then confirm `curl -sI https://surfaces.arcs.care` returns the page with X-Robots-Tag.
-
-## Open (other)
-1. Canon collision, escalated not resolved: `operators/arcs_rom.py` SATOSHI_CRITERIA (nci >= 50, irreversibility <= 0.5, most receipts qualify) vs the compass rare-move meaning now enforced. Zach decides which definition the word keeps.
-2. EX-ANTE to score: after 50 new receipts, re-run the audit aggregates (flagged vs unflagged by stakes, mode, doorClass, nci bucket) and check the rate is under 1 in 50.
-3. The two chip sessions (prl status mismatch; unrouted public pages audit) land their own PRs.
-4. Kit-wide: resolve the DESIGN.md label-size vs detector-floor contradiction (ledger 2026-10-07 seam 3).
-
-## Next action
-Merge #1069 with --merge once CI is green, then verify surfaces.arcs.care live.
-
-## Cold-start recipe
-- `python3 scripts/surface_catalog_emit.py` (emit) · `--check` (gate) · `--self-test`.
-- Memory `subdomain-html-hosting-workflow` (domain add via CLI; MCP add_project_domain is 403).
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-### Notes: Lessons
-- A red `claude-security-review` with "Credit balance is too low" is billing, not a finding; the other CI jobs use a placeholder key and stay green (memory `anthropic-api-budget-shared-cap-ci-drain` updated).
-- Pull aggregates before touching a model flag: the inflation lived entirely in one mode/model/stakes cell, which made a two-condition bar sufficient.
-
-### Notes: Lessons
-- The Vercel MCP cannot add project domains (403); `vercel domains add <host> arcs-v9 --scope arcs-care` works before the route is even on main.
-- The impeccable detector and DESIGN.md disagree on label size; for a new page use body size for labels.
-- A molt deletes fragments before anything is committed: on an oracle collision the fragment body is gone, so keep the body in the scratchpad until the molt commit lands.
-
-> Molted from `_HANDOFFS/fragments/20261007T174054Z--claude-mystifying-tesla-6bc6f3.md` (branch `claude/mystifying-tesla-6bc6f3`, head `90fcea9c`); `_HANDOFFS/fragments/20261007T174439Z--claude-vigorous-tu-599264.md` (branch `claude/vigorous-tu-599264`, head `1d8bd4dd`).
