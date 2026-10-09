@@ -21,7 +21,6 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
-
 ## 2026-10-08 · My Ally LD proposal view (`_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html`, generated): two-agent audit graded it B-, repaired in one batch, light theme added with one scoped exemption
 
 Found by: the impeccable critique run as two isolated agents (A: design and copy review; B: detector plus measurements), then one confirm round of headless-Chrome renders at 500, 790 and 1280 in both themes. The page is generated from three markdown files by a small generator kept beside it in that folder, so every repair lives in the generator or the markdown, not in the output.
@@ -44,6 +43,21 @@ Found by: the impeccable critique run as two isolated agents (A: design and copy
 | 14 | No reading accommodations: no way to change font, size, spacing or background | Zach, for a reader who benefits from them | General "Reading options" (easy-read font, larger text, roomy spacing, warm background, no italics or underlines in easy-read), saved on the device only; no mention of any person's condition on the page. No special "dyslexia font" bundled: evidence for those is mixed, and spacing and size matter more | Page smoke file (applies every option, checks no overflow, persistence, reset); WCAG 1.4.12 text-spacing override test |
 
 Open, not repaired: DESIGN.md has no light palette, so any other counterpart page that wants light mode will need its own scoped exemption until Zach decides whether the kit gets one.
+
+||||||| 5ecd5c61
+
+## 2026-10-08 · Instrument Panel card (Claude Design, ARCS OS design system, the instrument card): template code rendered as text; repaired in place, faithfully
+
+Found by: reading the design system in Claude Design for HUD layout ideas. The card printed its SegBar
+and HorizonDist as raw code: `${Array.from({length:20},...).join('')}` and
+`${[['QUICKMOVE','#4ABDB0',14],...].map(...)}`. JavaScript template literals were written into a static
+`.html`, where nothing evaluates them. Every design built from the card inherits the break.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | Template literals in static HTML render as visible code (rounds bar, mode distribution) | reading the rendered card | Both blocks expanded to exactly the markup the literals would have produced (20 segments, 14 lit, glow on the 14th; three rows scaled to the largest value). Every other style untouched. Written back to the Claude Design project via DesignSync, one approved path, read back to confirm | The template-leak lint (added in PR 1100) run from `scripts/git-hooks/pre-commit` on added AND modified `.html` (repo baseline 0 leaks, so no ratchet); self-test proves bad caught, script/comment/code/attribute ignored. Covers this repo only; the design system has no pre-commit |
+| 2 | Fixed `1fr 1fr` grid could not fit a phone | inspection | `repeat(auto-fit, minmax(200px, 1fr))`: one column at 375, two at the card's 480x320 picker size and wider | inspection round |
+| 3 | First repair attempt was a reconstruction from the rendered card (the source was not yet readable) that moved the kit onto DESIGN.md colors and type and misread HorizonDist as one stacked bar. That is a redesign of a separate visual world, not a repair | reading the real source once DesignSync was authorized | Reconstruction deleted; the source was fixed in place instead. The instrument kit keeps its own palette and type (Barlow Condensed, IBM Plex Mono, #07090B ground) | ledger only: repair the source, never a copy of it |
 
 ## 2026-10-07 · surfaces.arcs.care (public/surfaces.html, generated): first cut blocked at 23 findings, repaired to 0 + 1 scoped exemption
 
@@ -103,7 +117,6 @@ desktop screenshot is not a design gauntlet. Both defects here needed the page a
 browser, at more than one width, with every `<details>` forced open, and DOM geometry measured, not
 just read from source. Booking this so the next artifact with a chart or a disclosure gets that
 sweep before shipping, not after being asked.
-
 
 ## 2026-09-14 · `public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
 
@@ -568,7 +581,6 @@ shorthand, not `padding-block`, and expect CLI flags in code to read as em-dashe
 `impeccable hooks ignore-value` helper writes `.impeccable/config.json` it re-indents the whole file;
 re-serialize with `indent=1` before committing so the diff is only the new entries.
 ||||||| 68b6b7bd
-
 
 ## Seam 2026-09-30: "ceremony and theater" in the bar-raiser NFTT post
 
