@@ -1,6 +1,6 @@
 > DRAFT FOR ZACH. Not sent. Remove this banner only after the air-gap and pre-send checks in `08-jargon-map-and-loss-log.md` are done and Zach says yes. No prices appear anywhere in this draft because none are agreed.
 
-# My Ally LD: a plain-language plan
+# My Ally LD: Simple Plan
 
 For Kelly and Chelsea, from Zach at manana
 
