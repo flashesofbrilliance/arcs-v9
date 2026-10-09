@@ -23,7 +23,7 @@ DEFAULT_LEVEL = 3
 tokens = (ROOT / "src/ui-kit/recoil-report/_tokens.css").read_text(encoding="utf-8")
 
 LEVELS = [
-    (1, "Exec", "The headline, one line per section, and what happens next.", "the short version, the picture, and one line per section"),
+    (1, "Exec", "The headline, one line per section, and what happens next.", "the exec overview, the picture, and one line per section"),
     (2, "Strategic", "The stages, what happens in each, and what you get.", "the four stages with what happens and what you get"),
     (3, "Operational", "Who does what, how I would work, and what I need from you.", "who does what, how I would work, and what I need from you"),
     (4, "Tactical", "Checklists, triggers and the questions I would ask, with why.", "checklists, triggers and the questions I would ask"),
@@ -32,7 +32,7 @@ LEVELS = [
 
 # heading text -> (level at which the body opens, one-line summary shown while collapsed)
 SPEC = {
-    "The short version": (2, "Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a checkpoint at each, and you can stop at any point with everything in hand."),
+    "Exec overview": (2, "Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a checkpoint at each, and you can stop at any point with everything in hand."),
     "The whole idea, simply": (2, "Build it like a house: look at the ground first, agree the route, pour the floor, then decide how big it gets."),
     "The four stages": (2, "Look and listen. Agree the plan together. Make it solid. Aim higher, then look back."),
     "What is in scope, and what the audit could change": (2, "I cannot know what stage 1 will show, so here are three general cases, best, base and worst, with the steps in scope for each. They are not predictions, and nothing is priced."),
@@ -176,7 +176,8 @@ SECTION_TITLES = {}
 def altitude_wrap(h):
     """Split on <h2>; wrap each section as dek (while collapsed) plus body (when open)."""
     parts = re.split(r"(?=<h2>)", h)
-    out = [parts[0]]
+    # The depth slider sits above every section it controls (Zach, 2026-10-09).
+    out = [parts[0], "<!--BAR-->"]
     n = 0
     for part in parts[1:]:
         m = re.match(r"<h2>(.*?)</h2>", part, flags=re.S)
@@ -196,8 +197,7 @@ def altitude_wrap(h):
             )
         if title == "The four stages":
             pass
-        if title == "The whole idea, simply":
-            out.append("<!--BAR-->")
+
     return "".join(out)
 
 
@@ -303,7 +303,7 @@ quick = (
     '<li><a href="#stage-1">1 Look and listen</a></li><li><a href="#stage-2">2 Agree the plan</a></li>'
     '<li><a href="#stage-3">3 Make it solid</a></li><li><a href="#stage-4">4 Aim higher</a></li></ol></nav>'
 )
-_anchor = '<div class="sec" id="s-the-short-version"'
+_anchor = '<div class="sec" id="s-exec-overview"'
 assert _anchor in plan, "quick steps anchor missing"
 plan = plan.replace(_anchor, quick + _anchor, 1)
 codex_pre = gloss(shift(md("09-translation-codex.md"), 1))

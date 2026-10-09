@@ -8,7 +8,7 @@ manana is my consulting practice. I have built a set of decision tools called AR
 
 This page opens at the level most useful to the two of you. The depth control below lets you zoom out to a one-screen summary or in to every detail. Words with a dotted underline and a small arrow open a short definition: hover or tap to read it, click to keep it open, and choose Learn more for the full entry. The Reading options button (top right, and Aa at the bottom right) changes the font, text size, spacing and background to whatever reads best for you.
 
-## The short version
+## Exec overview
 
 Your product already does what you set out to show: the site works and the scaffolding is in place. What comes next is the part that will matter most to families: Alice, the AI that helps parents find their way. Before more gets built, the most valuable thing I can do is help make sure everyone, including the budget, the lawyers and the build, is describing the same product.
 
