@@ -1,3 +1,52 @@
+# Handoff — v3.118.0 (2026-10-07)
+
+## Goal / true north
+Land the day's open PRs safely and keep the decision-geometry explorer honest (no private text in the public feed), without burning the 5-hour limit on long Fable contexts.
+
+## What changed
+- Merged with --merge and receipts: #1070 (672a797a), #1064 (8ee8ff3b), #1065 (cc85c8b4, owner-set provenance tag; CI security review failed on "Credit balance is too low", local diff review found nothing blocking). #1073 (9 unrouted public pages deleted) was merged by another session; no repo link to them, 8 of 9 return 404 live, lewoof.html is deliberately routed to the gate.
+- #1068 and #1069 merged by their own sessions. #1069's catalog was then served through the admin-gated warroom route (c220eb8b), which answers the counterpart-hostname disclosure question.
+- Local security review of #1068 found the public /api/geometry feed leaked free-text `protecting` (up to 8 x 200 chars) in the shared base object. Fix e6413821 (gate `prot` on text fidelity, add non-text `protN`, client reads `protN`) landed AFTER #1068 merged, so it is on main only once PR 1082 merges.
+- Worktrees: 16 stale ones pruned with bundles (cruft_sweep); live ones, zen-pasteur-85c635 (907 behind, 2 dirty) and pensive-hopper-b6feb8 (1 unmerged commit, 3 salvage claims) kept.
+
+## Current state
+- Specs are DRAFT: `runtime/specs/dopeness-eval-v0.md`, `runtime/specs/decision-geometry-cells-v0.json`, `_STATE/2026-10-07-tool-cluster-jtbd-map.json`. The adversarial verifier workflow (14 agents) recorded corrections that are NOT yet folded into the specs. Every refuted and unverifiable verdict plus the critic's missing, unverified and contradiction lists are committed at `_ARTIFACTS/decision-geometry-verify-2026-10-07/verifier-corrections-w7oi2kc36.md` (the full 357 KB JSON lives only on this Mac at `/private/tmp/claude-501/-Users-zharris-arcs-v9--claude-worktrees-compass-dopeness-audit-963f43/2a998756-827f-4413-8e5c-521f02be10e7/tasks/w7oi2kc36.output`, under `result.cells.verify`, `result.clusters.verify`, `result.critic`). Summary:
+  - Cells: 12 of 46 claims refuted, 3 unverifiable. Key refutations: DELTA has two triggers (parent nci band shift as well as hasRed, `ygate.ts:170-180`); sessionVersion is parent.version + 1, not a count of session rows; driftState DRIFTING is outcome-driven (matched false) not version-driven; PrepSession.stakes/horizon equal Receipt.stakes/window by assignment so they carry no independent evidence; confidence = 1 is a ygate input so independence holds only for 2 to 5; inline prep can leave prepId null on a calibrated receipt; `observatory/page.tsx:30-36` already defines an L1 to L5 altitude rung map (off by one from the model's); the contract altitude sample uses a U+2013 en-dash so the `L(\d)-L(\d)` parse returns lo=hi=1 on the contract's own sample; "5R: no field" is false (ScanSignal.networkResonance exists, still unmappable to a receipt cell); D1 coverage L2 must read ~267 since coherencePct presence was not measured; the "0 of 267 by code path" for six columns rests on a route grep, not SQL.
+  - Clusters: 4 of 16 spot checks refuted: `arcs_no_go_inventory.py` and `arcs_seed_bar.py` are not decision-lens members (post-hoc failure catalog; BAR there means Belief-Action-Rationale templates); `sugar_bulk.py` is a PRL CRM payload builder, not counterpart-facing; `fates.py` is the fate registry, not page authoring. The map also double-books 11 tools as both members and orphans.
+  - Critic: `src/app/api/tribune/route.ts:205` writes batonId (so "no write path" is wrong for that column); `provenance` is client-settable by any signed-in caller; the founder userId is unrecorded so the founder cohort split is assumed; COURT and ONE_WAY are one predicate in `compass/route.ts` (same 96 rows by construction); the shipped `parseKairos` differs from the cell model's parse; ladder tier A's GREEN clause is not SHARP (CONTESTED renders DEGRADED); ladder fields use pseudo-paths not prisma names; the day-counting unit differs between tier D (sessionId) and tier B (userId).
+- Admin fidelity shows no banner by design (only public and owner set one); the fidelity statement lives in the stats line.
+
+## Decisions made
+- Merge handled by the originating session; this session verified only and did not merge.
+- Receipt logged in the fixed form with the JS-dispatched drawer open listed as unconfirmed rather than claimed as a click.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Merge PR 1082 (the prot fix). Until then the leak is live on main.
+2. claude-security-review fails on every PR until the CI Anthropic key's org has credit (human).
+3. GEOMETRY_PUBLIC defaults to on (open to anonymous callers); decide whether to default it off.
+4. scripts/dependency_sweep.py is named in the night-moves skill but is absent on main.
+
+## Next action
+Fold the verifier corrections into `runtime/specs/dopeness-eval-v0.md` and `decision-geometry-cells-v0.json` (start with batonId write path and client-settable provenance), then mark them past DRAFT.
+
+## Cold-start recipe
+- Page: `public/pf-decision-geometry.html`; feed: `src/app/api/geometry/route.ts`; rewrites: `next.config.ts` lines 92 to 96 (playground) and 205 to 208 (app).
+- Gate: `SMOKE_BASE_URL=https://playground.arcs.care npx playwright test tests/decision-geometry.spec.ts --reporter=line`.
+- Feed shape check: `curl -s https://playground.arcs.care/api/geometry | head -c 600` must show no `"q":` and only `"t":"YYYY-MM-DD"`.
+- Receipt: `2026-10-07--decision-geometry-explorer-verify-pr1068--ZH`.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: Lessons
+- Claude in Chrome clicks on a canvas can land on neighbouring controls; prove a pick by dispatching the page's own pointer events and reading the drawer state, and record it as a dispatch, not a click.
+
+> Molted from `_HANDOFFS/fragments/20261007T180720Z--claude-keen-hermann-e14d76.md` (branch `claude/keen-hermann-e14d76`, head `cc85c8b4`).
+
+---
+
 # Handoff — v3.117.1 (2026-10-07)
 
 ## Goal / true north
