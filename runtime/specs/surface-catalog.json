@@ -6,18 +6,18 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 277,
+  "rows": 278,
   "hosts": 79,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
    "product page": 219,
-   "gated": 30
+   "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 26,
-  "app_routes": 45,
+  "app_routes": 46,
   "missing_purpose": 3,
   "unlisted": 106
  },
@@ -498,6 +498,26 @@
    "unlisted": false,
    "purpose": "jobs.arcs.care/<jobid>/forge — the PRIVATE viewer for a staged forge bundle.",
    "last_commit": "2026-09-07"
+  },
+  {
+   "host": "app.arcs.care",
+   "path": "/jobs/atlas",
+   "catch_all": false,
+   "destination": "/jobs/atlas",
+   "file": "src/app/jobs/atlas/route.ts",
+   "kind": "gated",
+   "title": null,
+   "description": "jobs.arcs.care/atlas: the Atlas Loader HUD. It ships no data: the page takes an",
+   "index": null,
+   "gate": "admin session",
+   "declared_in": [
+    "src/app"
+   ],
+   "pattern": false,
+   "gate_file": null,
+   "unlisted": false,
+   "purpose": "jobs.arcs.care/atlas: the Atlas Loader HUD. It ships no data: the page takes an",
+   "last_commit": "2026-10-08"
   },
   {
    "host": "app.arcs.care",
@@ -5204,7 +5224,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-07"
+   "last_commit": "2026-10-08"
   },
   {
    "host": "thetrueai.arcs.care",
