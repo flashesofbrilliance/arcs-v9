@@ -1,0 +1,732 @@
+{
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+  "meta": {
+    "report_id": "2026-10-08-myallyld",
+    "date": "2026-10-08",
+    "counterpart": "Kelly Jacobson & Chelsea Starks (founder Leah Gambal)",
+    "company": "MyAllyLD (stealth)",
+    "segments": 7,
+    "gate": {
+      "internal": "jess referral"
+    },
+    "provenance": {
+      "audience": "internal",
+      "captured": "Google Meet 2026-10-08 9:30 ET, ~45 min, Granola transcript (193 turns, read in full); LinkedIn PDFs x3; leahgambal.com; category web scan",
+      "load_bearing_quote": "Chelsea: \"It sounds like we don't even want to build this and then retrofit the right, like, disclaimers and things like that, like, later.\""
+    }
+  },
+  "opportunity": {
+    "audience": "internal",
+    "engagement_type": "peer",
+    "req_reality": 1,
+    "req_reality_basis": "Verbal ask for advisory/fractional/build pricing; no budget stated; founder Leah not on call; NDA + codebase + spec to follow",
+    "y_state": "YELLOW",
+    "topology": "DIVERGENT",
+    "nci_prior": 0,
+    "nci_post": 55,
+    "note": "Community relationship first (same street + parent groups as closest Fairfield friends). Intent: add value at friends-and-family rate ($100 to $350 range by passion vs headache), not extract. Fit gate passed (Chelsea); Kelly owns budget; Leah final call."
+  },
+  "beliefs": [
+    {
+      "id": "P1",
+      "audience": "internal",
+      "claim": "They need a vendor answer (Anthropic vs OpenAI BAA)",
+      "evidence": "Chelsea: 'every week we're uncovering more blockers... we haven't laid them out'",
+      "inference": "OBS",
+      "confidence": [
+        0.7,
+        0.3
+      ],
+      "conviction": "HIGH",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P2",
+      "audience": "internal",
+      "claim": "HIPAA is their governing regime",
+      "evidence": "Consumer parent app, not a covered entity; likely COPPA/state privacy/FTC instead (to put to counsel)",
+      "inference": "EXP",
+      "confidence": [
+        0.6,
+        0.3
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P3",
+      "audience": "internal",
+      "claim": "Chelsea is the fit gatekeeper",
+      "evidence": "Kelly: 'She was gonna be the one that was gonna gauge... if it's the right fit'",
+      "inference": "OBS",
+      "confidence": [
+        0.5,
+        0.9
+      ],
+      "conviction": "HIGH",
+      "verdict": "UPGRADE"
+    },
+    {
+      "id": "P4",
+      "audience": "internal",
+      "claim": "Kelly wants to move slowly",
+      "evidence": "'Old school... I don't need to rush' vs asked twice about patentability and ownable IP",
+      "inference": "OBS",
+      "confidence": [
+        0.6,
+        0.4
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P5",
+      "audience": "internal",
+      "claim": "Friends-and-family rate is the right posture",
+      "evidence": "Zach intent: value over extraction; range $100 (passion) to $350 (headache). Kelly: 'Don't be afraid to say the number'",
+      "inference": "OBS",
+      "confidence": [
+        0.5,
+        0.8
+      ],
+      "conviction": "HIGH",
+      "verdict": "UPGRADE"
+    },
+    {
+      "id": "P6",
+      "audience": "internal",
+      "claim": "The team is a naive vibe-coding shop",
+      "evidence": "Model freeze windows, switch-cost analysis, audit log, per-tier token model already in spec",
+      "inference": "OBS",
+      "confidence": [
+        0.5,
+        0.2
+      ],
+      "conviction": "MED",
+      "verdict": "FALSIFIED"
+    }
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": [
+      {
+        "key": "fit",
+        "audience": "internal",
+        "label": "Perceived advisor fit (their side)",
+        "color": "#00FF9D",
+        "points": [
+          0.4,
+          0.5,
+          0.6,
+          0.75,
+          0.8,
+          0.8,
+          0.85
+        ],
+        "grounding_quote": "Hey, that was awesome... you know your stuff."
+      },
+      {
+        "key": "plan_conf",
+        "audience": "internal",
+        "label": "Their confidence in current build spec",
+        "color": "#FFD700",
+        "points": [
+          0.75,
+          0.7,
+          0.6,
+          0.45,
+          0.4,
+          0.4,
+          0.4
+        ],
+        "grounding_quote": "the build spec needs to be reevaluated, I think"
+      }
+    ]
+  },
+  "insights": [
+    {
+      "audience": "internal",
+      "plane": "idea",
+      "title": "The ownable lane is the lifelong arc, not the IEP vault",
+      "text": "IEP assistants are crowded (Expert IEP ~$1.7M raised, Empower IEP). Strengths to Opportunities to college/career is thinner and matches Kelly's IP instinct and the neural-net-worth thesis."
+    },
+    {
+      "audience": "internal",
+      "plane": "idea",
+      "title": "Premise check beats vendor check",
+      "text": "The BAA fork may be the wrong first question if HIPAA does not apply. Regime first, then vendor. Not legal advice; route to their counsel."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Leah: genius = children's media + parent trust; drained by text-dense compliance",
+      "text": "Sesame Workshop 8 yrs, Access Dyslexia, Lab School board 10 yrs. Dyslexic: give her one visual decision map, not a memo."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Kelly: genius = brand P&L + consumer research; energized by leading",
+      "text": "PwC, Kellogg, Unilever, Ghirardelli franchise $40M to $170M, BuzzBack. Speak unit economics, double-entry, stop-loss."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Chelsea: genius = calm detailed execution; drained by unmapped blockers",
+      "text": "Marketer acting as lead dev via Lovable + Claude. Realtor at Keller Williams since Jan 2026: limited bandwidth for the build-it-myself path."
+    }
+  ],
+  "next_steps": [
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Draft (do not send) thank-you to Kelly + Chelsea confirming NDA, then codebase + spec, then proposal"
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "File the ex-ante receipt for the proposal (fee number, expected tier, stall risk) before sending anything"
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Correct the $2M personal BAA liability claim in the proposal"
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "On receipt of spec: audit Vault + Alice data flows first"
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Offer a written, fixed-scope friends-and-family engagement (discovery + decision-receipt workshop) at the passion end of $100 to $350; name the rate plainly since Kelly asked for it"
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Write down the headache triggers that move the rate up (scope creep, unpaid ad-hoc asks, missed decisions) so it never has to be renegotiated socially"
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Ask Leah to attend kickoff"
+    }
+  ],
+  "redaction_policy": {
+    "rules": [
+      "Method can cross; subject-about-them cannot.",
+      "Show your own updates, never their intent-scores.",
+      "Architecture crosses; weights/sauce do not."
+    ]
+  },
+  "page": {
+    "layout": "tabs",
+    "header": {
+      "eyebrow": "ARCS &#183; War Room",
+      "title": "MyAllyLD &#183; Kelly Jacobson &amp; Chelsea Starks",
+      "sub": "Stealth AI GPS for parents navigating learning differences. Founder Leah Gambal. Internal only."
+    },
+    "tabs": [
+      {
+        "id": "pre",
+        "label": "Pre-Call"
+      },
+      {
+        "id": "exante",
+        "label": "Ex-Ante"
+      },
+      {
+        "id": "forge",
+        "label": "Forge"
+      },
+      {
+        "id": "recoil",
+        "label": "Recoil"
+      },
+      {
+        "id": "wargame",
+        "label": "War Game"
+      },
+      {
+        "id": "defense",
+        "label": "Defensibility"
+      }
+    ],
+    "blocks": [
+      {
+        "tab": "pre",
+        "type": "prose",
+        "h2": "True North",
+        "p": [
+          "Protect the relationship first: give real value at a friends-and-family rate inside a clear, written scope, so neighbors never have to negotiate with a neighbor."
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "pre",
+        "type": "keyvalue",
+        "h2": "Context",
+        "rows": [
+          {
+            "k": "Date",
+            "v": "2026-10-08, 9:30 ET, Google Meet, ~45 min"
+          },
+          {
+            "k": "Intro",
+            "v": "Jess (Acorn Lane parents thread); Jess/Todd/River family friends"
+          },
+          {
+            "k": "Relationship",
+            "v": "Same street and parent groups as our closest Fairfield friends. Reputation travels through the community"
+          },
+          {
+            "k": "Register",
+            "v": "Warm peer, parent-to-parent, Fairfield County"
+          },
+          {
+            "k": "Their goal",
+            "v": "Get Alice (AI agent) built safely and cheaply; decide build-with-dev vs hire-dev"
+          },
+          {
+            "k": "Y-Gate",
+            "v": "YELLOW (fit high, budget and founder unknown)"
+          },
+          {
+            "k": "Note",
+            "v": "No PrepSession was filed before this call"
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "h2": "Intel",
+        "intro": "4-person team, self + friends-and-family funded, for-profit by choice. Product: Vault, My A-Team, Strengths, Opportunities, Checklist. Lovable + Supabase. 20-30 page Alice build spec.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Leah Gambal</strong> (founder, absent): 3rd-gen dyslexic; Sesame Workshop Regional Director 1999-2007; Access Consulting parent-to-parent since 2017; Neurodiversity Foundation board"
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Kelly Fahey Jacobson</strong>: business plan author; PwC audit, Kellogg MBA, Unilever, Ghirardelli, BuzzBack; boards + substitute teacher"
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Chelsea Starks</strong>: co-founder, de facto lead dev; LiveGirl Marketing/Tech/Partnerships, Korn Ferry, Dooney &amp; Bourke; realtor since Jan 2026"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Morgan</strong>: helps Chelsea with Claude Code; co-built token cost model. Plus an unnamed AI strategy consultant (not a dev)"
+          },
+          {
+            "dot": "",
+            "html": "<strong>Data flags:</strong> transcript swaps ages (Kelly ~55, Chelsea ~34); transcript spells founder \"Gamble\", correct is Gambal"
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "h2": "Questions &amp; landmines (next session)",
+        "intro": "For the paid discovery session.",
+        "items": [
+          {
+            "dot": "",
+            "html": "Which regime has counsel said applies (COPPA, state privacy, FTC, HIPAA)? &#183; look for: a named regime, not \"we need a BAA\""
+          },
+          {
+            "dot": "",
+            "html": "Will children under 13 ever use it directly? &#183; look for: a clear yes/no that decides COPPA"
+          },
+          {
+            "dot": "",
+            "html": "What is the all-in budget through beta? &#183; look for: a number Kelly owns"
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine:</span> long monologues; Chelsea hides questions behind \"mm-hmm\""
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine:</span> unverified legal figures ($2M personal liability)"
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "exante",
+        "type": "receipt",
+        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt (NOT filed pre-call)",
+        "fields": [
+          {
+            "label": "Status",
+            "value": "No ex-ante was filed before the 10-08 call. This receipt is for the NEXT event (the proposal), to be completed before it is sent. Not backfilled."
+          },
+          {
+            "label": "D &#183; Sharpened question",
+            "value": "How do I give high value at a friends-and-family rate without unbounded free work that strains a community relationship?"
+          },
+          {
+            "label": "E &#183; Entity",
+            "value": "Kelly (commercial gate), Chelsea (technical gate), Leah (founder, final call), their counsel"
+          },
+          {
+            "label": "W &#183; Window",
+            "value": "this-quarter; their funding push starts Q1 2027"
+          },
+          {
+            "label": "Hypothesis / expecting to see",
+            "value": "{{fill before send: e.g. they accept a fixed-fee discovery at $X within 2 weeks of the proposal}}"
+          },
+          {
+            "label": "Predicted Y-gate",
+            "value": "{{fill before send}}"
+          },
+          {
+            "label": "Pre-committed move",
+            "value": "{{fill before send: the scope boundary, and which headache triggers move the rate up}}"
+          },
+          {
+            "label": "Belief most likely to update",
+            "value": "P5 (friends-and-family posture holds once scope is written)"
+          },
+          {
+            "label": "Falsifier",
+            "value": "{{fill before send: e.g. they pick a hired dev and no advisor}}"
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "forge",
+        "type": "prose",
+        "h2": "Exhibit 2 &#183; Exogenous Forge",
+        "p": [
+          "Claims run against the transcript, LinkedIn PDFs, leahgambal.com and web sources. Vendor and regime claims rest on secondary sources and still need checking against the vendors' and regulators' own documents. No independent skeptic agent has run yet."
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "forge",
+        "type": "table",
+        "h2": "Claim adjudication",
+        "columns": [
+          "Claim",
+          "Ruling",
+          "Source force"
+        ],
+        "rows": [
+          [
+            "MyAllyLD launches 2026, AI platform for LD families",
+            "GROUNDED",
+            "leahgambal.com + transcript"
+          ],
+          [
+            "Chelsea is the fit gatekeeper",
+            "GROUNDED",
+            "Kelly verbatim after Chelsea left"
+          ],
+          [
+            "Kelly ~55, Chelsea ~34 (transcript swapped)",
+            "GROUNDED",
+            "LinkedIn education dates"
+          ],
+          [
+            "IEP-assistant category is crowded",
+            "INFERENCE",
+            "Expert IEP, Empower IEP, Luca via web; not exhaustive"
+          ],
+          [
+            "HIPAA likely not the main regime",
+            "INFERENCE",
+            "Regulatory reasoning; needs counsel"
+          ],
+          [
+            "Anthropic BAA = Enterprise, 30-day retention, no ZDR",
+            "INFERENCE",
+            "Secondary sources only; verify primary"
+          ],
+          [
+            "BAA signer personally liable for $2M (Zach on call)",
+            "STRUCK",
+            "HIPAA fines hit the entity, with tiered annual caps"
+          ],
+          [
+            "ARCS built with Lovable (Zach on call)",
+            "STRUCK",
+            "ARCS is Next.js + Prisma + Vercel"
+          ]
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "h2": "Receipt closed &#183; ex-ante vs actual",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "None filed (no PrepSession). Not scored."
+          },
+          {
+            "k": "Actual",
+            "v": "Fit confirmed; NDA then codebase + spec then proposal across 3 tiers"
+          },
+          {
+            "k": "Fork hit",
+            "v": "Advisory-first (discovery) over a hands-on build"
+          },
+          {
+            "k": "Load-bearing",
+            "v": "Chelsea: \"we don't even want to build this and then retrofit the right disclaimers... later.\""
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "recoil",
+        "type": "belief_log",
+        "h2": "Belief Log &#183; confidence x conviction",
+        "audience": "internal"
+      },
+      {
+        "tab": "recoil",
+        "type": "worked_example",
+        "h2": "Belief trajectory",
+        "intro": "Fit rose while their confidence in the spec fell. Both are good for an advisory offer.",
+        "close": "Price is not the risk. Unwritten scope is: in a tight community, vague free help is what sours relationships.",
+        "audience": "internal"
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "h2": "Stated vs revealed",
+        "intro": "Gap between what they said and what they showed.",
+        "items": [
+          {
+            "dot": "g",
+            "html": "<strong>Team:</strong> \"not in a rush\" vs a real Q1 funding clock and a beta sequence"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Team:</strong> \"the site works\" vs Alice, the AI core, not started"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Chelsea:</strong> asked for a vendor answer; needs gate sequencing"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Kelly:</strong> \"old school, competition is fine\" vs asked twice about patentable IP"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Leah (by proxy):</strong> strengths mission vs carrying the legal anxiety personally"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Kelly:</strong> asked for the rate and said \"don't be afraid to say the number\". A plain, written friends-and-family rate is a kindness, not a transaction"
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "h2": "Kairos, quiet signals &amp; risks",
+        "intro": "",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>Kairos:</strong> Chelsea reframing her own spec mid-call (~min 33)"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> Kelly asked whether you record calls; she felt she got real value for free"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> Chelsea read your site's 3 tiers before the call"
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> founder absent; legal anxiety plus child data means slow signatures"
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> blurred lines between a neighborly favor and paid work. Any friction travels through the parent groups and lands on mutual friends"
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> Chelsea's bandwidth (second job) versus the build-it-ourselves plan"
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "wargame",
+        "type": "kinematics_table",
+        "h2": "Kinematic manifold &#183; measured (D1-D3)",
+        "audience": "internal"
+      },
+      {
+        "tab": "wargame",
+        "type": "list",
+        "h2": "The gauntlet",
+        "intro": "Adversarial pass on the opportunity, not the people.",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>BAR (ruin):</strong> child data in the Vault read by an LLM with no settled regime. Their ruin edge, and a reputational edge for you if you advise wrong"
+          },
+          {
+            "dot": "g",
+            "html": "<strong>LAB &#183; Loki:</strong> help keeps growing with no scope, resentment builds on both sides, and it reaches mutual friends. Steel-man: they are self-funded, careful and grateful. Mitigation: a written scope and a stated rate"
+          },
+          {
+            "dot": "c",
+            "html": "<strong>COURT:</strong> no legal advice; route regime questions to counsel; NDA before reading code"
+          }
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "wargame",
+        "type": "table",
+        "h2": "ATG pre-mortem &#183; critical path x their objections",
+        "columns": [
+          "Node",
+          "Their objection (verbatim)",
+          "Failure mode",
+          "Handling"
+        ],
+        "rows": [
+          [
+            "1. Thank-you + NDA",
+            "(none yet)",
+            "Your follow-up slips; momentum fades",
+            "Draft today; you send"
+          ],
+          [
+            "2. Spec + code arrive",
+            "\"take as much or as little time as you want\"",
+            "Open-ended free review",
+            "Time-box a read; quote from it"
+          ],
+          [
+            "3. Proposal",
+            "\"what that cost looks like... timing\"",
+            "Scope stays verbal; the favor and the job blur",
+            "Written fixed scope at the friends-and-family rate; headache triggers named"
+          ],
+          [
+            "4. Leah sign-off",
+            "\"Leah has out with counsel\"",
+            "Founder stalls on legal",
+            "Leah attends kickoff; one-page visual map"
+          ],
+          [
+            "5. Build path",
+            "\"build with a developer side by side, or hire a developer\"",
+            "Picks a dev with no plan",
+            "Decision receipt + pre-mortem as the deliverable"
+          ]
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "defense",
+        "type": "rosetta",
+        "h2": "The same model, both directions",
+        "left": "Their world",
+        "right": "This engine",
+        "rows": [
+          [
+            "IEP / evaluation (Leah)",
+            "Receipt: a dated snapshot of the child's state"
+          ],
+          [
+            "Strengths-based reframe (Leah)",
+            "Zones of genius / neural net worth"
+          ],
+          [
+            "Brand P&amp;L, double-entry (Kelly)",
+            "Plan-vs-roadmap reconciliation; drift detection"
+          ],
+          [
+            "Concept test before launch (Kelly, BuzzBack)",
+            "Ex-ante receipt + pre-mortem"
+          ],
+          [
+            "Due diligence before a home purchase (Chelsea)",
+            "Measure five times before the bespoke cut"
+          ]
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "defense",
+        "type": "table",
+        "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+        "columns": [
+          "Verb",
+          "Air-gap",
+          "Water-proof",
+          "Fire-proof",
+          "Bomb-proof"
+        ],
+        "rows": [
+          [
+            "Analyze",
+            "Transcript + 3 profiles + site",
+            "Age/name errors caught",
+            "Category claims marked INFERENCE",
+            "Wrong reads go in the belief log"
+          ],
+          [
+            "Assess",
+            "Stated vs revealed table",
+            "Absent founder flagged",
+            "Two of my own claims struck",
+            "Price anchor marked falsified"
+          ],
+          [
+            "Evaluate",
+            "4 scenarios",
+            "Stall scenario included",
+            "Loki steel-manned",
+            "Pre-mortem drives the offer"
+          ],
+          [
+            "Synthesize",
+            "Discovery-first offer",
+            "Fits a 4-person budget",
+            "Regime check for counsel",
+            "Discovery can reroute the build"
+          ],
+          [
+            "Recapitulate",
+            "This SSOT",
+            "One file per counterpart",
+            "Ex-ante before send",
+            "Close-loop scores the proposal"
+          ]
+        ],
+        "audience": "internal"
+      },
+      {
+        "tab": "defense",
+        "type": "prose",
+        "h2": "Antifragile core &amp; the lossless test",
+        "p": [
+          "Two of my own claims on the call were struck. Logging them here makes the proposal stronger than the call was.",
+          "Lossless test (in Kelly's terms): before you launch, run the concept test and the P&L. A two-week discovery is that concept test for the build, and the receipts are the books that have to balance."
+        ],
+        "audience": "internal"
+      }
+    ]
+  }
+}
