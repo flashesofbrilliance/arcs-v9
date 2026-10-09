@@ -124,6 +124,48 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.122.0 (2026-10-09)
+
+## Goal / true north
+Close the 2026-10-09 session cleanly: every My Ally LD surface live and verified, nothing owed on our side.
+
+## What changed
+- #1123 merged (cab0c99b): `/prior-art <job>` (`scripts/prior_art.py`, `.claude/commands/prior-art.md`) ranks memory, `_PATTERNS/`, ADRs and the tool catalog (idf-weighted keywords, stdlib, read-only) before planning; CLAUDE.md token-saving rules now ask for it. Receipt `2026-10-09--prior-art-preplan-lookup-pr1123--ZH`.
+- #1131 open: npm `overrides` forces `mysql2@3.23.1` (prisma 7.10.0 pins 3.15.3), clearing Dependabot #23 (high) and #26 (medium). Local `prisma validate`, `prisma generate`, `npm run build` pass.
+- Dependabot #22 (deepmerge-ts via @prisma/config) and #32 (braces, dev-only, no patch) dismissed as not_used, with reasons on each alert.
+- MNDA chip merged and verified live on the plan and /primer (PR #1129, `f17db5c9`; receipt `2026-10-09--myally-mnda-chip-merge-pr1129--ZH`).
+- Night-moves 2026-10-09 digest updated with the evening (NDA redlines sent, Vico prep, /prior-art) and landed (PR #1133); integrity verdict OK.
+
+## Current state
+- Nothing open on our side for My Ally LD. Ball in Access Consulting's court: Leah's signature on the revised NDA or counsel's wording, and plan feedback in 1-2 days.
+- Open PRs from other sessions, none failing: #1131 (mysql2 override), #1125 (WCAG mechanical batch), #1099, #1096, #1086, #730, #557.
+
+## Decisions made
+- Borrow the compound-engineering idea (read past lessons before planning), not the plugin.
+- Clear the mysql2 alerts with an override; dismiss deepmerge-ts and braces as unreachable instead of jumping to Prisma 8 RC.
+- None new.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Merge #1131 with `--merge` once `smoke` passes, then log a receipt covering the merge and the #22/#32 dismissals (not yet logged).
+2. Remove the mysql2 override and revisit Dependabot #22 when Prisma 8 ships GA.
+3. `/prior-art` does not index AGENTS.md; keyword matching misses some lessons (e.g. merge rules).
+4. None.
+5. Wed 2026-10-14 1:00 PM ET: Vico intro with Lyndon, then /recoil-close.
+6. Review and merge #1125 and #1131 (not this session's work).
+
+## Next action
+Wait for the signed NDA; on arrival countersign and send the intake form link.
+
+## Cold-start recipe
+- Live check: POST the passcode to `/api/myally/unlock`, curl `/`, `/primer`, `/mnda-edits` with the cookie.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261009T200856Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `1a149911`); `_HANDOFFS/fragments/20261009T202045Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `8f9b7192`).
+
 # Handoff — v3.121.0 (2026-10-09)
 
 ## Goal / true north
@@ -169,49 +211,3 @@ Merge PR #1129 once CI is green, then wait for the signed NDA.
 Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
 
 > Molted from `_HANDOFFS/fragments/20261009T200639Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `31d82681`).
-
-# Handoff — v3.120.0 (2026-10-09)
-
-> > PRL go-live blocker re-confirmed in the sandbox: the Sep 17 "dead" lead was the empty-email guard overwriting Roger Lamarre again. Monday's call now opens with the fix.
-
-## Goal / true north
-Close out 2026-10-09 evening: My Ally LD reply received, Vico intro prepped, day's design work landed, digest corrected.
-
-## What changed
-- PR 1115 (merged): `_ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md` (findings, technical fixes, admin creates by owner, business blockers); backlog item `prl-golive-empty-email-guard` (OPEN).
-- Receipt: 2026-10-09--prl-go-live-blockers-note-pr1115--ZH.
-- My Ally LD: Chelsea replied 2026-10-09 15:06 ET (cc Leah, Kelly, chelsea@myallygps.com), thread `1a121bb189899df1`: plan is "thoughtful and really easy to follow"; she and Leah take a day or two to review and send feedback to shape the proposal; attached "Mutual NDA — Access Consulting & Zach Harris 10.9.26.pdf" (mutual, as asked). Counterparty is Access Consulting (Leah's consultancy), which answers part of the SOW question of whose paper and which entity.
-- PR #1101 merged (`d9c31a7a`): retired greys, design-debt ratchet, plus stacked #1102, #1103, #1105 now on main. Receipt `2026-10-09--design-retired-greys-ratchet-merge-pr1101--ZH`.
-- Night-moves 2026-10-09 digest landed and corrected (PRs #1119, #1120, #1121, #1122); integrity gate verdict OK.
-- Counterpart pulse run: Vico intro call found in inbox ahead of memory; Kam (Aug 17) and Fun.xyz (Sep 24) quiet, left open.
-- Vico/Lyndon pre-call refresh (PR #1124, `710f74b0`): call Wed 2026-10-14 1:00 PM ET on Teams; ex-ante prediction unchanged from 2026-10-03, window and intel refreshed. Zach verified the live war room (app.arcs.care/warroom/lyndon-war, admin sign-in plus the SSOT gate value).
-
-## Current state
-- My Ally LD: NDA in hand, unsigned; feedback from Chelsea and Leah expected in a day or two.
-- Vico: prepped; call Wed 10-14 1pm.
-
-## Decisions made
-- Zach does no weekend work. Guard fix, Roger repair and no-email proof happen ON the Mon call as item 1; prod switch waits until the no-email chat CREATES.
-- Kam and Fun.xyz left open, not marked stalled.
-
-## Open decisions (waiting on Zach)
-None.
-
-## Open (other)
-1. Review and sign the Access Consulting mutual NDA (counsel if unsure; not legal advice here).
-2. After the NDA is signed: intake form and build spec, then Phase 0; written proposal waits for Chelsea and Leah's feedback.
-3. Wed 2026-10-14: 9:30 My Ally check-in reminder (may be moot after their reply); 1:00 Vico intro; run /recoil-close right after.
-4. The war-room page's built-in password gate is client-side only (value readable in page source); the real lock is the admin route.
-
-## Next action
-Review the Access Consulting NDA; when signed, return it and point them to the intake form.
-
-## Cold-start recipe
-- My Ally thread: Gmail `1a121bb189899df1`. Vico SSOT: `runtime/recoil/generated/2026-10-03-oh-vico.json`; render with `./scripts/recoil --data <ssot> --audience internal --format html`.
-
-### Notes: Lessons
-- Check the inbox before writing a handoff that names a counterpart's state; the reply came from Chelsea, not the founder, and carried the NDA.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-> Molted from `_HANDOFFS/fragments/20261009T181804Z--claude-prl-handoff-memory-check-6c5e92-c.md` (branch `claude/prl-handoff-oct9-c`, head `3859829d`); `_HANDOFFS/fragments/20261009T192058Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `710f74b0`).

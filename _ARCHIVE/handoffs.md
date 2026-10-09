@@ -1,3 +1,51 @@
+# Handoff — v3.120.0 (2026-10-09)
+
+> > PRL go-live blocker re-confirmed in the sandbox: the Sep 17 "dead" lead was the empty-email guard overwriting Roger Lamarre again. Monday's call now opens with the fix.
+
+## Goal / true north
+Close out 2026-10-09 evening: My Ally LD reply received, Vico intro prepped, day's design work landed, digest corrected.
+
+## What changed
+- PR 1115 (merged): `_ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md` (findings, technical fixes, admin creates by owner, business blockers); backlog item `prl-golive-empty-email-guard` (OPEN).
+- Receipt: 2026-10-09--prl-go-live-blockers-note-pr1115--ZH.
+- My Ally LD: Chelsea replied 2026-10-09 15:06 ET (cc Leah, Kelly, chelsea@myallygps.com), thread `1a121bb189899df1`: plan is "thoughtful and really easy to follow"; she and Leah take a day or two to review and send feedback to shape the proposal; attached "Mutual NDA — Access Consulting & Zach Harris 10.9.26.pdf" (mutual, as asked). Counterparty is Access Consulting (Leah's consultancy), which answers part of the SOW question of whose paper and which entity.
+- PR #1101 merged (`d9c31a7a`): retired greys, design-debt ratchet, plus stacked #1102, #1103, #1105 now on main. Receipt `2026-10-09--design-retired-greys-ratchet-merge-pr1101--ZH`.
+- Night-moves 2026-10-09 digest landed and corrected (PRs #1119, #1120, #1121, #1122); integrity gate verdict OK.
+- Counterpart pulse run: Vico intro call found in inbox ahead of memory; Kam (Aug 17) and Fun.xyz (Sep 24) quiet, left open.
+- Vico/Lyndon pre-call refresh (PR #1124, `710f74b0`): call Wed 2026-10-14 1:00 PM ET on Teams; ex-ante prediction unchanged from 2026-10-03, window and intel refreshed. Zach verified the live war room (app.arcs.care/warroom/lyndon-war, admin sign-in plus the SSOT gate value).
+
+## Current state
+- My Ally LD: NDA in hand, unsigned; feedback from Chelsea and Leah expected in a day or two.
+- Vico: prepped; call Wed 10-14 1pm.
+
+## Decisions made
+- Zach does no weekend work. Guard fix, Roger repair and no-email proof happen ON the Mon call as item 1; prod switch waits until the no-email chat CREATES.
+- Kam and Fun.xyz left open, not marked stalled.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Review and sign the Access Consulting mutual NDA (counsel if unsure; not legal advice here).
+2. After the NDA is signed: intake form and build spec, then Phase 0; written proposal waits for Chelsea and Leah's feedback.
+3. Wed 2026-10-14: 9:30 My Ally check-in reminder (may be moot after their reply); 1:00 Vico intro; run /recoil-close right after.
+4. The war-room page's built-in password gate is client-side only (value readable in page source); the real lock is the admin route.
+
+## Next action
+Review the Access Consulting NDA; when signed, return it and point them to the intake form.
+
+## Cold-start recipe
+- My Ally thread: Gmail `1a121bb189899df1`. Vico SSOT: `runtime/recoil/generated/2026-10-03-oh-vico.json`; render with `./scripts/recoil --data <ssot> --audience internal --format html`.
+
+### Notes: Lessons
+- Check the inbox before writing a handoff that names a counterpart's state; the reply came from Chelsea, not the founder, and carried the NDA.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261009T181804Z--claude-prl-handoff-memory-check-6c5e92-c.md` (branch `claude/prl-handoff-oct9-c`, head `3859829d`); `_HANDOFFS/fragments/20261009T192058Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `710f74b0`).
+
+---
+
 # Handoff — v3.119.0 (2026-10-09)
 
 > > Night-moves scoped to reusable assets, then a hyperstition cut of a draft scope-of-work scaffold for My Ally LD. Draft only; nothing sent, priced or run through Question Compass.
