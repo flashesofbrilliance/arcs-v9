@@ -130,11 +130,14 @@ We will fill these in together, using your cost model, current price pages with 
 
 If it would help, I can also set aside a small block of my time for your team to use as you build: a thinking partner, a fresh approach, or help getting unstuck. It is separate from the audit and entirely your choice.
 
-- **Billed in 15-minute pieces**, at an hourly rate I will set out in the proposal. Every session has a fixed length agreed when you book it, and it ends on time unless you ask to keep going. A quick question can be fifteen minutes.
+- **Written answers** (an email, a short recorded video, a written opinion) are billed in 15-minute pieces. If one will take more than half an hour, I check with you first.
+- **Live sessions** (a video call or working session) are at least 30 minutes, then 15-minute pieces. Each one has a fixed length agreed when you book it, and it ends on time unless you ask to keep going.
+- The hourly rate is in the proposal.
 - **A prepaid block of hours**, for example 5 or 10, used within two or three months. You always know the most it can cost. More time is a new block, never a running tab.
 - **A regular weekly slot** you book against. Send a few lines beforehand: what is stuck, what you have tried, and what "unstuck" would look like. That way the hour goes on the problem, not on catching me up.
 - **Three ways to use it:** work through a blocker together; test a decision before you make it; or learn a way of working so you can do it yourselves next time.
 - **After each session** you get two lines: what moved, and what to try next. Over time those notes become your own manual.
+- **In person, if useful:** I can also run a full-day, hands-on workshop for the four of you: one big push to build skills together and get aligned, on your own tools and your own work, ending with a written playbook. Only if and when it would help.
 - **What it is not:** legal advice (that goes to your lawyers), or me working inside your live app unless we agree that separately.
 
 ## What I need from you, and what you can expect from me
