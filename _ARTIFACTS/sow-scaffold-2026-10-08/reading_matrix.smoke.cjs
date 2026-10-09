@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- plain Node CommonJS script */
 // Reading-options matrix smoke test for the My Ally LD proposal page.
 // Renders every combination of font x size x spacing x tone x theme at four widths
 // and fails on: page errors, sideways scroll, a header that wraps instead of collapsing,
