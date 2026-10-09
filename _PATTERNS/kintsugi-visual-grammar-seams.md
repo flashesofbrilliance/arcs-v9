@@ -21,6 +21,19 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-10-09 · WCAG mechanical batch: lang, zoom, names, roles, focusable scroll boxes, underlined prose links
+
+Found by: axe over every served page (non-contrast rules), grouped by rule and element.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | 22 pages without `lang` (most had no `<html>` tag at all, including the NFTT master new posts clone) | axe html-has-lang | `<html lang="en">` after the doctype on 17 pages; PRL pages held back (active session, quirks mode) | WCAG ratchet |
+| 2 | Pinch zoom blocked on load on 4 gated pages: a reset-zoom script added `maximum-scale=1` on every load | axe meta-viewport | Load-time call removed; the unlock handler keeps it (its purpose: undo iOS zoom after typing the passcode) | WCAG ratchet |
+| 3 | Focusable labelled divs and meter spans with no role (69): belief-log nodes, confidence bars, pips, a redaction mark | axe aria-prohibited-attr | `role="img"` (tooltip-only nodes, nothing activates); belief-log via its template | WCAG ratchet + `belief_log_emit.py --check` |
+| 4 | Unassociated form labels (lewoof intake) and unnamed selects (pf-12d) | axe label, select-name | Each field named by its visible label text (label in name) | WCAG ratchet |
+| 5 | Monolith tabs used `aria-pressed`; scroll boxes unreachable by keyboard; 2 pages without a title | axe | Tabs use `aria-selected` (the Moire filter, a real toggle, keeps `aria-pressed`); scroll boxes `tabindex=0` + region label; titles from each h1 | WCAG ratchet |
+| 6 | Links distinguished by color alone (48), mostly plain links in spans, divs and footers, not paragraphs | axe link-in-text-block (a `p a` rule missed them) | Unclassed links outside nav underlined; good.arcs.care via its renderer. 48 -> 10 on changed pages; the NFTT index needs it in `nftt_index_build.mjs` | WCAG ratchet |
+
 ## 2026-10-08 · My Ally LD proposal view (`_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html`, generated): two-agent audit graded it B-, repaired in one batch, light theme added with one scoped exemption
 
 Found by: the impeccable critique run as two isolated agents (A: design and copy review; B: detector plus measurements), then one confirm round of headless-Chrome renders at 500, 790 and 1280 in both themes. The page is generated from three markdown files by a small generator kept beside it in that folder, so every repair lives in the generator or the markdown, not in the output.

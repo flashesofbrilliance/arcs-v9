@@ -264,7 +264,7 @@
       const n = document.createElement("div");
       n.className = "node" + (d.canon?" canon":"") + (isRecent(d.ts)?" recent":"");
       n.style.left = (((asDate(d.ts)-min)/span)*100) + "%"; n.style.color = c; n.style.background = c;
-      n.tabIndex = 0; n.setAttribute("aria-label", `${(PLAIN[scope]||[scope])[0]}, belief ${d.id}, ${d.ts}${d.canon ? ", changed the rulebook" : ""}`); n.dataset.id = d.id; n.dataset.scope = scope; n.dataset.ts = d.ts;
+      n.tabIndex = 0; n.setAttribute("role", "img"); n.setAttribute("aria-label", `${(PLAIN[scope]||[scope])[0]}, belief ${d.id}, ${d.ts}${d.canon ? ", changed the rulebook" : ""}`); n.dataset.id = d.id; n.dataset.scope = scope; n.dataset.ts = d.ts;
       track.appendChild(n);
     });
     ribbon.appendChild(lane);

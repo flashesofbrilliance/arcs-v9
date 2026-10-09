@@ -8,10 +8,10 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 117,
-  "nodes": 486,
-  "clean": 92,
-  "pages": 179
+  "violations": 58,
+  "nodes": 347,
+  "clean": 137,
+  "pages": 181
  },
  "pages": {
   "public/ahmed-evening.html": {
@@ -35,11 +35,9 @@
    "rules": {}
   },
   "public/arcs-field-scan.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/autopilot-ammo.html": {
    "violations": 0,
@@ -62,11 +60,9 @@
    "rules": {}
   },
   "public/belief-log.html": {
-   "violations": 1,
-   "nodes": 42,
-   "rules": {
-    "aria-prohibited-attr": 42
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blacksmith-observatory.html": {
    "violations": 0,
@@ -79,40 +75,31 @@
    "rules": {}
   },
   "public/blacksmith.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-a-draft-is-not-a-verb.html": {
-   "violations": 2,
-   "nodes": 7,
+   "violations": 1,
+   "nodes": 6,
    "rules": {
-    "color-contrast": 6,
-    "html-has-lang": 1
+    "color-contrast": 6
    }
   },
   "public/blog-nftt-any-stranger-can-be-a-bar-raiser.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-assets-and-liabilities.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-cheapest-edit-is-a-diff.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-closing-the-loop-receipts.html": {
    "violations": 0,
@@ -120,11 +107,9 @@
    "rules": {}
   },
   "public/blog-nftt-confirmed-not-my-bug.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-four-dates-one-thesis-three-confirmations.html": {
    "violations": 0,
@@ -146,18 +131,14 @@
    }
   },
   "public/blog-nftt-light-at-thirty-eight-miles-an-hour-research.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-light-at-thirty-eight-miles-an-hour.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-loop-hud.html": {
    "violations": 0,
@@ -165,46 +146,34 @@
    "rules": {}
   },
   "public/blog-nftt-notomation.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-post-1.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-post-2.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-post-3.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-post-4.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-probably-confirmation-bias.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-pulp-governance.html": {
    "violations": 1,
@@ -214,46 +183,34 @@
    }
   },
   "public/blog-nftt-receipts-or-it-didnt-happen.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-recon-report-cold-1.html": {
-   "violations": 1,
-   "nodes": 6,
-   "rules": {
-    "aria-prohibited-attr": 6
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-recon-report-cold-2.html": {
-   "violations": 1,
-   "nodes": 4,
-   "rules": {
-    "aria-prohibited-attr": 4
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-recon-report-warm-matched.html": {
-   "violations": 1,
-   "nodes": 6,
-   "rules": {
-    "aria-prohibited-attr": 6
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-recon-report-warm-relaxed.html": {
-   "violations": 1,
-   "nodes": 5,
-   "rules": {
-    "aria-prohibited-attr": 5
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-schematic-scaffolds.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-second-pass.html": {
    "violations": 1,
@@ -263,34 +220,26 @@
    }
   },
   "public/blog-nftt-seven-calls-seven-falsifiers.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-take-home-trap-dossier.html": {
-   "violations": 2,
-   "nodes": 16,
+   "violations": 1,
+   "nodes": 14,
    "rules": {
-    "color-contrast": 14,
-    "scrollable-region-focusable": 2
+    "color-contrast": 14
    }
   },
   "public/blog-nftt-take-home-trap.html": {
-   "violations": 2,
-   "nodes": 2,
-   "rules": {
-    "aria-prohibited-attr": 1,
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-the-cold-reconstruction.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-the-control-and-the-experiment.html": {
    "violations": 0,
@@ -298,11 +247,9 @@
    "rules": {}
   },
   "public/blog-nftt-the-factory-on-itself.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-the-instinct-before-it-had-a-name.html": {
    "violations": 0,
@@ -310,17 +257,14 @@
    "rules": {}
   },
   "public/blog-nftt-the-lock-that-was-already-there.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/blog-nftt-the-loop-closes.html": {
    "violations": 1,
    "nodes": 1,
    "rules": {
-    "link-in-text-block": 1
-   }
-  },
-  "public/blog-nftt-the-loop-closes.html": {
-   "violations": 2,
-   "nodes": 2,
-   "rules": {
-    "html-has-lang": 1,
     "link-in-text-block": 1
    }
   },
@@ -335,11 +279,9 @@
    "rules": {}
   },
   "public/blog-nftt-the-question-that-found-the-outage.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-the-same-rigor-applied-to-slang.html": {
    "violations": 0,
@@ -347,11 +289,10 @@
    "rules": {}
   },
   "public/blog-nftt-the-video-that-said-too-much.html": {
-   "violations": 2,
-   "nodes": 2,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 1,
-    "html-has-lang": 1
+    "color-contrast": 1
    }
   },
   "public/blog-nftt-tuning-into-the-distortion-field.html": {
@@ -429,28 +370,22 @@
    "rules": {}
   },
   "public/daniel.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "meta-viewport": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/forge-cut.html": {
-   "violations": 3,
-   "nodes": 10,
+   "violations": 1,
+   "nodes": 8,
    "rules": {
-    "color-contrast": 8,
-    "document-title": 1,
-    "html-has-lang": 1
+    "color-contrast": 8
    }
   },
   "public/forge-pattern.html": {
-   "violations": 3,
-   "nodes": 26,
+   "violations": 1,
+   "nodes": 24,
    "rules": {
-    "color-contrast": 24,
-    "document-title": 1,
-    "html-has-lang": 1
+    "color-contrast": 24
    }
   },
   "public/fun-resume-viewer.html": {
@@ -469,11 +404,9 @@
    "rules": {}
   },
   "public/germinate.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/good-agent-receipts-audit.html": {
    "violations": 0,
@@ -505,18 +438,14 @@
    "rules": {}
   },
   "public/good-instruments.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/good-series-lore-the-gap.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/good-series-lore.html": {
    "violations": 0,
@@ -529,11 +458,9 @@
    "rules": {}
   },
   "public/good.html": {
-   "violations": 1,
-   "nodes": 2,
-   "rules": {
-    "link-in-text-block": 2
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/growth-ai-observatory.html": {
    "violations": 0,
@@ -546,18 +473,14 @@
    "rules": {}
   },
   "public/growth-ai.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/honest.html": {
-   "violations": 1,
-   "nodes": 5,
-   "rules": {
-    "aria-prohibited-attr": 5
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/jack-rain-ext.html": {
    "violations": 0,
@@ -570,34 +493,29 @@
    "rules": {}
   },
   "public/joe.html": {
-   "violations": 2,
-   "nodes": 2,
-   "rules": {
-    "nested-interactive": 1,
-    "scrollable-region-focusable": 1
-   }
-  },
-  "public/julia-ext.html": {
    "violations": 1,
    "nodes": 1,
    "rules": {
-    "html-has-lang": 1
+    "nested-interactive": 1
    }
   },
+  "public/julia-ext.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
   "public/julia-runtime.html": {
-   "violations": 2,
-   "nodes": 10,
+   "violations": 1,
+   "nodes": 9,
    "rules": {
-    "color-contrast": 9,
-    "meta-viewport": 1
+    "color-contrast": 9
    }
   },
   "public/julia.html": {
-   "violations": 2,
-   "nodes": 16,
+   "violations": 1,
+   "nodes": 15,
    "rules": {
-    "color-contrast": 15,
-    "html-has-lang": 1
+    "color-contrast": 15
    }
   },
   "public/kam-codex.html": {
@@ -606,19 +524,16 @@
    "rules": {}
   },
   "public/kiko.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "meta-viewport": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/lewoof-intake.html": {
-   "violations": 3,
-   "nodes": 18,
+   "violations": 2,
+   "nodes": 4,
    "rules": {
     "color-contrast": 1,
-    "html-has-lang": 1,
-    "label": 16
+    "label": 3
    }
   },
   "public/lewoof-playbook.html": {
@@ -635,11 +550,9 @@
    }
   },
   "public/mercury-operator.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/mercury.html": {
    "violations": 0,
@@ -647,10 +560,9 @@
    "rules": {}
   },
   "public/monolith.html": {
-   "violations": 3,
-   "nodes": 12,
+   "violations": 2,
+   "nodes": 9,
    "rules": {
-    "aria-allowed-attr": 3,
     "aria-required-children": 1,
     "color-contrast": 8
    }
@@ -677,6 +589,16 @@
     "color-contrast": 3
    }
   },
+  "public/myally-primer.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
+  "public/myally.html": {
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
+  },
   "public/omakase/atom.html": {
    "violations": 0,
    "nodes": 0,
@@ -690,11 +612,9 @@
    }
   },
   "public/pf-12d-orbital.html": {
-   "violations": 1,
-   "nodes": 3,
-   "rules": {
-    "select-name": 3
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/pf-alexandria.html": {
    "violations": 0,
@@ -756,12 +676,11 @@
    }
   },
   "public/prl-status-progress.html": {
-   "violations": 3,
+   "violations": 2,
    "nodes": 18,
    "rules": {
     "color-contrast": 11,
-    "html-has-lang": 1,
-    "link-in-text-block": 6
+    "link-in-text-block": 7
    }
   },
   "public/prl-status-receipt.html": {
@@ -773,11 +692,10 @@
    }
   },
   "public/prl-status-runbook.html": {
-   "violations": 2,
-   "nodes": 16,
+   "violations": 1,
+   "nodes": 15,
    "rules": {
-    "color-contrast": 15,
-    "html-has-lang": 1
+    "color-contrast": 15
    }
   },
   "public/prl-status-tidio.html": {
@@ -820,11 +738,9 @@
    }
   },
   "public/resume-tailor.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/resume.html": {
    "violations": 1,
@@ -856,11 +772,9 @@
    "rules": {}
   },
   "public/rosetta-shell.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/saul-followup.html": {
    "violations": 0,
@@ -963,11 +877,9 @@
    }
   },
   "public/sentilink-operator.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/sentilink.html": {
    "violations": 0,
@@ -1005,18 +917,14 @@
    "rules": {}
   },
   "public/thetrueai-proposal.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "meta-viewport": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/thetrueai.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "meta-viewport": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/todd-call.html": {
    "violations": 1,

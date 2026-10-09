@@ -75,6 +75,9 @@
   footer{margin-bottom:44px}
   /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
   .standfirst{max-width:none}
+
+  /* Links in running text carry an underline, not color alone (WCAG 1.4.1; axe link-in-text-block, 2026-10-09). */
+  a:not([class]):not(nav a){text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:1px;}
 </style>
 <link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <style>
