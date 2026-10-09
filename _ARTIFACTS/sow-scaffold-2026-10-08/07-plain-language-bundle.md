@@ -6,7 +6,7 @@ For Kelly and Chelsea, from Zach at manana
 
 This page lays out how I would help, in four stages you can stop after.
 
-<div class="howto" role="note"><p class="howto-t">How to use this page</p><ul><li><strong>Choose how much detail.</strong> Use the Detail level buttons just below. Summary fits on one screen; Everything shows every detail.</li><li><strong>Tap a word with a dotted underline</strong> for a short, plain definition.</li><li><strong>Make it easier to read.</strong> Reading options (or the round Aa button) change the font, text size, spacing and background. Your choices stay on this device.</li><li><strong>Jump around.</strong> The menu at the top goes straight to the plan, the word guide and the next steps.</li></ul></div>
+<div class="howto" role="note"><p class="howto-t">How to use this page</p><ul><li><strong>Choose how much detail</strong> with the Detail level buttons just below, from a one-screen summary to everything.</li><li><strong>Tap a word with a dotted underline</strong> for a short, plain definition.</li><li><strong>Change the font, text size or spacing</strong> with the round Aa button at the bottom right.</li></ul></div>
 
 ## Exec overview
 
@@ -58,14 +58,16 @@ At the end of stage 1 I would tell you which case applies, and what it means for
 
 I would do the cheap protective parts first (change tracking, separate places for testing and the real thing), the rest before the first outside family uses the app, and the evidence trail only when someone asks. Anything that depends on what I find is priced only if it is needed. The aim is that every statement about where your families' information lives is backed by an agreement or by your lawyers, without turning a four-person team into a compliance department.
 
-## For Kelly
+## What this means for each of you
+
+### Kelly
 
 - Stage 2 puts your business plan and the build side by side, and checks every claim in one against the other, the way you would reconcile two sets of books.
 - You get the cost per family in three cases, with sources and dates.
 - You help write the "always, sometimes, never" lists that make the empathy question testable.
 - At every stage you see a plain checkpoint, not a status report.
 
-## For Chelsea
+### Chelsea
 
 - You stay the builder. Stage 3 is designed so you can run releases yourself.
 - The Anthropic or OpenAI question gets decided with the facts in hand and your lawyers' input. I would keep your options open so a later switch is not a rebuild.

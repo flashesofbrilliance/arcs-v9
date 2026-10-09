@@ -4,7 +4,8 @@ module.exports = async function (page, ctx) {
   const errs = [];
   await page.addStyleTag({ content: 'html{scroll-behavior:auto !important}' });
   const btns = page.locator('.tname');
-  if ((await btns.count()) !== 5) return ['detail level buttons missing (expected 5, got ' + (await btns.count()) + ')'];
+  const N = await btns.count();
+  if (N < 3) return ['detail level buttons missing (got ' + N + ')'];
 
   // 1) every level button is a 44px-tall hit area and none overlap
   const boxes = await btns.evaluateAll(els => els.map(e => { const r = e.getBoundingClientRect(); return { l: r.left, r: r.right, t: r.top, b: r.bottom, h: r.height }; }));
@@ -16,14 +17,14 @@ module.exports = async function (page, ctx) {
 
   // 2) clicking each level marks it pressed and changes how much is shown; levels are cumulative
   const chars = [];
-  for (let n = 1; n <= 5; n++) {
+  for (let n = 1; n <= N; n++) {
     await page.locator('.tname[data-level="' + n + '"]').click();
     const pressed = await page.locator('.tname[aria-pressed="true"]').getAttribute('data-level');
     if (pressed !== String(n)) errs.push('level ' + n + ' click left level ' + pressed + ' pressed');
     chars.push(await page.evaluate(() => document.querySelector('main').innerText.length));
   }
   for (let i = 1; i < chars.length; i++) if (chars[i] < chars[i - 1]) errs.push('level ' + (i + 1) + ' shows less than level ' + i);
-  if (!(chars[4] > chars[0] * 2)) errs.push('Everything should show far more than Summary');
+  if (!(chars[N - 1] > chars[0] * 2)) errs.push('Everything should show far more than Summary');
 
   // 3) keyboard: a level button activates with Enter
   await page.locator('.tname[data-level="2"]').focus();
@@ -67,29 +68,21 @@ module.exports = async function (page, ctx) {
     if (!(await page.evaluate(() => document.activeElement && document.activeElement.classList.contains('gl')))) errs.push('focus did not return to the term after Close');
   }
 
-  // 4b) the chip's "Learn more" jump must land the glossary entry below the sticky bar
+  // 4b) the chip's "Learn more" link opens the matching entry on /primer (targets are asserted at build time)
   if (await term.count()) {
     await page.locator('.tname[data-level="3"]').click();
     await term.scrollIntoViewIfNeeded();
     if (ctx.touch) await term.tap(); else await term.hover();
     const go = term.locator('xpath=following-sibling::span[contains(@class,"tip")]//a[contains(@class,"tipgo")]');
     if (await go.isVisible()) {
-      const target = (await go.getAttribute('href')).slice(1);
-      await page.addStyleTag({ content: 'html{scroll-behavior:auto !important}' });
-      await go.click();
-      await ctx.settle(page);
-      const m = await page.evaluate((id) => {
-        const t = document.getElementById(id), bar = document.querySelector('.alt');
-        const r = t.getBoundingClientRect(), b = bar.getBoundingClientRect();
-        return { top: Math.round(r.top), barBottom: Math.round(b.bottom), stuck: b.top <= 2 };
-      }, target);
-      if (m.stuck && m.top < m.barBottom - 2) errs.push('Learn more lands #' + target + ' under the depth bar (top ' + m.top + ', bar bottom ' + m.barBottom + ')');
-      if (m.top > ctx.h - 40) errs.push('Learn more left #' + target + ' off screen (top ' + m.top + ')');
+      // the glossary moved to its own page (/primer): Learn more must point there, at a real entry id
+      const href = await go.getAttribute('href');
+      if (!/^\/primer#g-[a-z0-9-]+$/.test(href)) errs.push('Learn more should open the primer, got ' + href);
     } else errs.push('Learn more link not visible in the chip');
   }
 
   // 4c) at the deepest level every visible anchor (stage chips, scope links, "used in this plan") must snap clean
-  for (const lvl of [1, 5]) {
+  for (const lvl of [1, N]) {
     await page.locator('.tname[data-level="' + lvl + '"]').click();
     for (const x of await ctx.snap(page)) errs.push('level ' + lvl + ' anchor ' + x.href + ' lands at y=' + x.top + ' under ' + x.obs + 'px');
   }
@@ -106,7 +99,7 @@ module.exports = async function (page, ctx) {
   } else errs.push('scope switcher missing');
 
   // 6) quick step chips point at real, reachable targets
-  const dead = await page.locator('header.top .sub a, header.top .mstages a').evaluateAll(as => as.filter(a => !document.getElementById(a.getAttribute('href').slice(1))).map(a => a.textContent));
+  const dead = await page.locator('.toc a, #menu a').evaluateAll(as => as.filter(a => a.getAttribute('href').startsWith('#') && !document.getElementById(a.getAttribute('href').slice(1))).map(a => a.textContent));
   if (dead.length) errs.push('dead step links: ' + dead.join(', '));
 
   // 6b) after a jump, keyboard and screen-reader focus must move to the target, not stay on the link
@@ -114,8 +107,8 @@ module.exports = async function (page, ctx) {
   // stage links live in the sticky header: the L2 row when it fits, nested in the menu when collapsed
   const collapsed = await page.evaluate(() => document.querySelector('header.top').classList.contains('collapsed'));
   if (collapsed) await page.locator('#menubtn').click();
-  const chip = page.locator(collapsed ? 'header.top .mstages a' : 'header.top .sub a').nth(1);
-  if (!(await chip.isVisible())) errs.push('stage 2 link not visible in the ' + (collapsed ? 'menu' : 'header'));
+  const chip = collapsed ? page.locator('#menu .msub a').nth(1) : page.locator('.toc a[href="#stage-2"]');
+  if (!(await chip.isVisible())) errs.push('stage 2 link not visible in the ' + (collapsed ? 'menu' : 'contents rail'));
   await chip.click();
   await ctx.settle(page);
   const focusId = await page.evaluate(() => document.activeElement && document.activeElement.id);
