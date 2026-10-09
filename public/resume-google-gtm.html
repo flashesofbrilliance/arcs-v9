@@ -341,13 +341,13 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient, onConsultingScroll }
               padding:'10px 4px 7px', background:'transparent', border:'none',
               borderBottom: active ? `2px solid ${color}` : '2px solid transparent',
               marginBottom:-1, cursor:'pointer', transition:'all .15s',
-              opacity: active ? 1 : hot ? 0.75 : 0.45 }}>
-            <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
+              opacity: 1 }}>
+            <span style={{ fontFamily:T.mono, fontSize:11, fontWeight:700, letterSpacing:'0.06em',
               color: active ? color : hot ? T.fg1 : T.fg3, transition:'color .15s', whiteSpace:'nowrap' }}>
               {n.label}
             </span>
-            <span style={{ fontFamily:T.mono, fontSize:7.5, color: active ? color : T.fg4,
-              letterSpacing:'0.04em', marginTop:3, opacity: active ? 0.75 : 0.5 }}>
+            <span style={{ fontFamily:T.mono, fontSize:11, color: active ? color : T.fg4,
+              letterSpacing:'0.02em', marginTop:3, whiteSpace:'nowrap' }}>
               {n.years}
             </span>
           </button>
@@ -362,14 +362,14 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient, onConsultingScroll }
           padding:'10px 4px 7px', background:'transparent', border:'none',
           borderBottom:'2px solid transparent',
           marginBottom:-1, cursor:'pointer', transition:'all .15s',
-          opacity: hovered==='consulting' ? 0.75 : 0.45 }}>
-        <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
+          opacity: 1 }}>
+        <span style={{ fontFamily:T.mono, fontSize:11, fontWeight:700, letterSpacing:'0.06em',
           color: hovered==='consulting' ? T.fg1 : T.fg3,
           transition:'color .15s', whiteSpace:'nowrap' }}>
           CONSULTING ↓
         </span>
-        <span style={{ fontFamily:T.mono, fontSize:7.5, color:T.fg4,
-          letterSpacing:'0.04em', marginTop:3, opacity:0.5 }}>
+        <span style={{ fontFamily:T.mono, fontSize:11, color:T.fg4,
+          letterSpacing:'0.02em', marginTop:3, whiteSpace:'nowrap' }}>
           2019–24
         </span>
       </button>
@@ -731,7 +731,7 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
                         fontStyle:'italic', marginBottom:8 }}>"{r.compassPrompt}"</div>
                       <a href={`https://app.arcs.care/dashboard?q=${encodeURIComponent(r.compassPrompt)}`} target="_blank" rel="noopener"
                         style={{ fontFamily:T.mono, fontSize:9, color:r.color, letterSpacing:'0.06em',
-                          textDecoration:'none', opacity:0.7 }}>→ run through compass</a>
+                          textDecoration:'none' }}>→ run through compass</a>
                     </div>
                   )}
                 </div>
@@ -1035,7 +1035,7 @@ function Resume() {
               BUILDING AT THE EDGE
             </div>
             <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 8, letterSpacing:'0.06em', lineHeight:1.7 }}>
-              <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
+              <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>github.com/flashesofbrilliance</a>
             </div>
           </div>
         </div>
