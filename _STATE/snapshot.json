@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-10-07T13:47:47-04:00",
+  "captured_at": "2026-10-09T12:44:40-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "c5327f9a",
-    "head_message": "Merge pull request #1067 from flashesofbrilliance/claude/elated-swanson-7c7b8e",
+    "head_sha": "1ea21eeb",
+    "head_message": "Merge pull request #1109 from flashesofbrilliance/claude/prl-go-live",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -19,7 +19,7 @@
       "DIRECT_URL",
       "ANTHROPIC_API_KEY"
     ],
-    "note": "latest deploy status not re-verified at handoff; d2af7045 was READY earlier"
+    "note": "prl.arcs.care verified live after PR 1109 merge (go-live 307 + runbook #go-live present)"
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Tributary follow-through confirmed live (child cmuyef7t2000004jm3o58nh26 has parentTributaryIndex=1, badge renders); receipt updated; memory consolidated; fenced-rawResponse read bug chipped (task_d2d810c5).",
-  "next_action": "Start chip task_d2d810c5 (atgTributaries-first read path), then the 5 evening-round decision rows.",
+  "session_summary": "PRL 1.2 wrap prep: overview overclaim fixed (PR 1108), go-live checklist folded into runbook at prl.arcs.care/go-live (PR 1109), refresher email drafted; Todd call moved to Mon 2026-10-12 10:00 ET.",
+  "next_action": "Send the Todd refresher draft, then run prl.arcs.care/go-live live with Todd Mon 10:00 ET.",
   "blocking": "NONE",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
