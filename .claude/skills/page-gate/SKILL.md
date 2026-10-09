@@ -15,13 +15,22 @@ nothing checked encoding at all, so on 2026-10-03 a draft cloned from the NFTT m
 ```bash
 python3 scripts/page_gate.py path/to/page.html [more.html ...]      # full: static + render
 python3 scripts/page_gate.py --static public/*.html                  # fast sweep, no browser
+python3 scripts/page_gate.py --matrix full path/to/page.html         # 8 devices x light/dark, strict
+python3 scripts/page_gate.py --matrix full --browser comet page.html # same suite in Comet (or --browser chrome)
 ```
+
+`--matrix quick` (the default, and what CI runs) is the original 375 / 790 / 1280 light sweep; the newer
+checks below show up there as warnings. `--matrix full` runs reflow-320 (WCAG 1.4.10), phone-375, phone-390, android-360, tablet-768,
+band-790, laptop-1024, desktop-1280 and wide-1440, each in light and dark, with touch and device scale where
+they apply, and makes anchor-snap and console errors ERRORs.
 
 Exit codes: `0` pass (warnings allowed) · `1` an error · `2` render checks were requested but
 no browser was found. **Exit 2 is not a pass.** Say "render unverified", never "clean".
 
-Playwright: the script looks in the repo's `node_modules`, then the global npm root. In a cloud
-session the repo's packages are usually not installed; the global copy is enough.
+Playwright: the script looks in the repo's `node_modules`, then the main checkout's `node_modules` (a
+worktree has none of its own), then the global npm root. With no bundled browser it drives the installed
+Chrome on macOS; `--browser comet` drives Comet the same way (headless, a throwaway profile, never your
+signed-in one).
 
 ## What it checks
 
@@ -34,6 +43,11 @@ session the repo's packages are usually not installed; the global copy is enough
 | ERROR | `artifact_wrap_lint.py` | em-dash, `ch` caps, container/measure mismatch |
 | ERROR | overflow at 375 / 790 / 1280 | horizontal scroll on phones and the 700-1000 band |
 | ERROR | lede ends short of the heading's lane at 1280 (> 24px) | the standing full-width-lede preference; invisible to overflow checks and missed by the static lint's 120px threshold on 21 NFTT posts (2026-10-04). A text INDEX page on the 680px measure opts out on the element: `<p class="lede" data-measure="index">` |
+| ERROR (`full`) / warn | anchor-snap: every in-page `#link` must land its target below any sticky or fixed chrome and on screen | the 2026-10-08 bug: jumps landed headings under a sticky bar whose height the CSS guessed; links with `aria-expanded` are popup triggers and are skipped |
+| ERROR (`full`: critical and serious) / warn | WCAG 2.0/2.1/2.2 A and AA plus best-practice scan with open-source axe-core (MPL-2.0, already in `node_modules`) on every device and both colour schemes | contrast, names, roles, landmarks, headings, labels; automated rules cover only part of WCAG, so it never replaces a screen-reader pass |
+| ERROR (`full`) / warn | console errors and page errors on every device | a script that throws on one engine or width |
+| warn | touch targets under 44px on touch devices (controls only, not links inside prose) | thumbs |
+| ERROR | `<page>.smoke.cjs` beside the page: `module.exports = async (page, ctx) => [failure strings]` | page-specific controls (sliders, popups, toggles); runs on every device in the matrix and gets `ctx.snap(page)` to re-run the anchor check after changing state |
 | warn | en-dash in visible text | fine in a range, otherwise reword |
 | warn | Google Fonts dependency | render-blocking chain and a visible font swap; self-host |
 | warn | public page without `/_vercel/insights` | analytics coverage |

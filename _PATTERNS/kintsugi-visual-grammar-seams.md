@@ -21,6 +21,30 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-10-08 · My Ally LD proposal view (`_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html`, generated): two-agent audit graded it B-, repaired in one batch, light theme added with one scoped exemption
+
+Found by: the impeccable critique run as two isolated agents (A: design and copy review; B: detector plus measurements), then one confirm round of headless-Chrome renders at 500, 790 and 1280 in both themes. The page is generated from three markdown files by a small generator kept beside it in that folder, so every repair lives in the generator or the markdown, not in the output.
+
+| # | Break | Found by | Repair | Guard |
+|---|---|---|---|---|
+| 1 | The default depth level collapsed the two named readers' own sections; the Exec level was a wall of prose | Agent A | Default level Operational; one-sentence summaries per section; Exec is the headline, the summaries and a closing "what happens next" | Inspection round |
+| 2 | About 48 same-size cards (stages and glossary) as the page structure | Agent A, craft floor | A numbered stage rail and a definition-list glossary | Inspection round |
+| 3 | Internal leakage in reader copy: a source file name, an unexpanded brand name, a promise the page never kept, a draft banner with no send mode | Agents A and B | Copy rewritten; `SEND` flag; first-person plural audited | Generator build fails on banned visible strings (`.md`, `asm-`, `ADR-`, `P0.`, `GRAIN`, `DEGRADED`, `TBD`, dashes, `$`) |
+| 4 | Targets 36 to 38px high, two stacked sticky bars with mismatched offsets, ladder labels wrapping mid-word on phones | Agent B | 44px minimum, one sticky bar, numbers-only ladder labels under 600px with full names for screen readers | Inspection round (metrics harness: no target under 44px at 375, 790, 1280) |
+| 5 | Control borders at 1.3 to 1.4:1 contrast (ladder dots, connector, buttons) | Agent B | A separate control-edge token at 3.5:1 or better in both themes; hairlines stay low-contrast on purpose | Inspection round (contrast computed per token pair) |
+| 6 | First light background read as cream/beige | detector (`cream-palette`, a counted failure) | Neutral near-white `#f7f8fa` | The detector |
+| 7 | Light-theme colours sit outside DESIGN.md, which is dark-only | detector advisory `design-system-color` (8) | Scoped `design-system-color` exemption for this one file in `.impeccable/config.json`, added by hand: the CLI (`impeccable ignores add-value`) rewrote the whole file (1,421 changed lines: re-indent and unescaped dashes in other entries), so only the one new entry was kept (9 added lines) | The detector, with the exemption scoped to one file; DESIGN.md still has no light palette, an open decision for the kit |
+| 8 | Ladder connector drawn below the dots | My screenshot | Offset aligned to the dot centre | Inspection round |
+| 9 | Anchor jumps (stage chips, glossary "Learn more") landed the heading under the sticky depth bar, because the CSS offset was a guessed constant and the bar grew when its description wrapped | Zach, with a screenshot, after the page shipped | The bar's real height is measured (ResizeObserver) into `--sticky-h`; every anchor target's `scroll-margin-top` uses it | `scripts/page_gate.py` anchor-snap check, in the strict device matrix (8 devices, light and dark), proven to fail on the broken build (phone-375: every jump landed under 218px of chrome) and pass on the fix; the page's own smoke file re-runs it at levels 1 and 5 |
+| 10 | Slider hit area 24px tall; one nav link 41px wide | page gate smoke file and touch-target warning | 44px hit area on the slider, 44px minimum nav links | Page smoke file (fails under 44px) |
+| 11 | "Close" on a definition chip returned focus to the term, and the term's focus handler reopened the chip (Escape did the same) | The page smoke file, on the first run of the new affordance checks (all 8 devices, Chrome and Comet) | Programmatic refocus is quiet: it no longer triggers the open-on-focus handler | Page smoke file ("Close did not close the definition") |
+| 12 | A definition chip near the right edge ran 73px off the left of a 320px screen | The gate's new reflow-320 device (WCAG 1.4.10) via the smoke file | The chip is clamped inside the viewport on both sides and capped at viewport width minus 32px | `page_gate.py` reflow-320 device plus the smoke file's on-screen check |
+| 13 | A first cross-browser run reported Comet failing every anchor jump; a direct probe showed the jumps were fine: the gate waited a fixed 150ms and Comet had not finished scrolling, and labelled "not scrolled yet" as "covered" | Running the same gate in Comet and Chrome | The gate waits for scroll position to settle and reports "off screen" separately; the axe scan waits for load and retries once on a destroyed context | `page_gate.py` (settle helper); the cross-browser run is the guard for engine differences |
+| 14 | No reading accommodations: no way to change font, size, spacing or background | Zach, for a reader who benefits from them | General "Reading options" (easy-read font, larger text, roomy spacing, warm background, no italics or underlines in easy-read), saved on the device only; no mention of any person's condition on the page. No special "dyslexia font" bundled: evidence for those is mixed, and spacing and size matter more | Page smoke file (applies every option, checks no overflow, persistence, reset); WCAG 1.4.12 text-spacing override test |
+
+Open, not repaired: DESIGN.md has no light palette, so any other counterpart page that wants light mode will need its own scoped exemption until Zach decides whether the kit gets one.
+
+||||||| 5ecd5c61
 
 ## 2026-10-08 · Instrument Panel card (Claude Design, ARCS OS design system, the instrument card): template code rendered as text; repaired in place, faithfully
 
@@ -93,7 +117,6 @@ desktop screenshot is not a design gauntlet. Both defects here needed the page a
 browser, at more than one width, with every `<details>` forced open, and DOM geometry measured, not
 just read from source. Booking this so the next artifact with a chart or a disclosure gets that
 sweep before shipping, not after being asked.
-
 
 ## 2026-09-14 · `public/jack-rain-resume.html` (Jack Dillé/Rain tailored resume, Ahmed grammar)
 
@@ -558,7 +581,6 @@ shorthand, not `padding-block`, and expect CLI flags in code to read as em-dashe
 `impeccable hooks ignore-value` helper writes `.impeccable/config.json` it re-indents the whole file;
 re-serialize with `indent=1` before committing so the diff is only the new entries.
 ||||||| 68b6b7bd
-
 
 ## Seam 2026-09-30: "ceremony and theater" in the bar-raiser NFTT post
 
