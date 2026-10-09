@@ -23,11 +23,11 @@ DEFAULT_LEVEL = 3
 tokens = (ROOT / "src/ui-kit/recoil-report/_tokens.css").read_text(encoding="utf-8")
 
 LEVELS = [
-    (1, "Exec", "The headline, one line per section, and what happens next.", "the exec overview, the picture, and one line per section"),
-    (2, "Strategic", "The stages, what happens in each, and what you get.", "the four stages with what happens and what you get"),
-    (3, "Operational", "Who does what, how I would work, and what I need from you.", "who does what, how I would work, and what I need from you"),
-    (4, "Tactical", "Checklists, triggers and the questions I would ask, with why.", "checklists, triggers and the questions I would ask"),
-    (5, "Surgical", "Every detail, plus the glossary.", "every remaining detail and the glossary"),
+    (1, "Summary", "The headline, one line per section, and what happens next.", "the exec overview, the picture, and one line per section"),
+    (2, "Overview", "The stages, what happens in each, and what you get.", "the four stages with what happens and what you get"),
+    (3, "Working detail", "Who does what, how I would work, and what I need from you.", "who does what, how I would work, and what I need from you"),
+    (4, "Checklists", "Checklists, triggers and the questions I would ask, with why.", "checklists, triggers and the questions I would ask"),
+    (5, "Everything", "Every detail, plus the glossary.", "every remaining detail and the glossary"),
 ]
 
 # heading text -> (level at which the body opens, one-line summary shown while collapsed)
@@ -46,7 +46,9 @@ SPEC = {
     "What I need from you, and what you can expect from me": (3, "From you: the NDA, the code, the plan, your cost model and a list of services. From me: dated findings and early notice when anything moves."),
     "What I know, what I think, what I am guessing": (3, "I say which points I know, which I think and which I am guessing."),
     "Two-week rhythm": (3, "A short planning call, three-line check-ins, and a board that shows who is waiting on whom."),
-    "Optional: office hours": (3, "A small prepaid block of my time for your team: a thinking partner, help getting unstuck, or learning a way of working. Separate from the audit, and your choice."),
+    "Optional extras": (3, "A two-week rhythm and a block of office hours, if they help. Neither is needed for the four stages."),
+    "How we will handle feedback": (2, "One thread, one voice, one round per stage, two revisions included, and settled decisions stay settled."),
+    "_unused_office_hours": (3, "A small prepaid block of my time for your team: a thinking partner, help getting unstuck, or learning a way of working. Separate from the audit, and your choice."),
     "What happens next": (1, None),
 }
 
