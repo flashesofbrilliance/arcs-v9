@@ -228,6 +228,7 @@ const nextConfig: NextConfig = {
       "jeben.arcs.care",
     ];
     return [
+      { source: "/go-live", destination: "/status/runbook#go-live", permanent: false, has: [{ type: "host", value: "prl.arcs.care" }] },
       ...retiredFanaticsHosts.map((value) => ({
         source: "/:path*",
         has: [{ type: "host" as const, value }],

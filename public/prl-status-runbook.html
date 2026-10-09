@@ -129,16 +129,14 @@
   enrichment step we have teed up.</div>
 </div></div>
 
-<div class="checklist"><div class="wrap">
-  <div class="label">Go-live, three steps</div>
-  <p class="lede">Everything above has been proven in a sandbox copy of your CRM and site. Going live is
-  three deliberate changes, each one small and reversible.</p>
-  <div class="row"><span class="mark num">A</span><div class="item"><b>Point lead delivery at your live CRM</b><span class="sub">Swap the destination from the sandbox copy to your production system. One setting, one place.</span></div></div>
-  <div class="row"><span class="mark num">B</span><div class="item"><b>Add the &quot;Chatbot&quot; lead source in the live CRM</b><span class="sub">A short, one-time setup step so live leads carry the same clean source tag the sandbox leads do.</span></div></div>
-  <div class="row"><span class="mark num">C</span><div class="item"><b>Install the chat plugin on the live site</b><span class="sub">Add the same widget, using the same credentials already proven in the sandbox, to the production site.</span></div></div>
-  <div class="rule"><b>Before you flip it:</b> prove it once with a single test lead through the live
-  destinations, exactly the way the sandbox has already been proven. Then pick your own window to go
-  live. Nothing here needs to happen on our clock.</div>
+<div class="checklist" id="go-live"><div class="wrap">
+  <div class="label">Go-live checklist</div>
+  <p class="lede">Everything here is proven in a sandbox copy of your CRM and site. Going live is a few admin steps in each of four systems, then one live test chat. Every step is small and reversible.</p>
+  <div class="row"><span class="mark num">1</span><div class="item"><b>SugarCRM (live), your admin login</b><span class="sub">Add &quot;Chatbot&quot; to the Lead Source dropdown (Admin, Dropdown Editor). Create a dedicated user for the automation with a regular password login, not Microsoft sign-in, limited to Leads, on a PRL email. Confirm each rep&#39;s user record has the right email, since the new-lead alert goes to the assigned rep. Quick check that no Sugar workflow changes new leads on save.</span></div></div>
+  <div class="row"><span class="mark num">2</span><div class="item"><b>Zapier, Zach drives</b><span class="sub">Connect the live CRM with the new automation user. Switch lead delivery from the sandbox to the live CRM and publish. Confirm the blank-email safeguard is on, so a chat with no email can never update an existing customer record. Point the new-lead alert at the assigned rep, plus Todd and info@. Turn on automatic replay of held runs.</span></div></div>
+  <div class="row"><span class="mark num">3</span><div class="item"><b>Tidio, Zach drives</b><span class="sub">Confirm the live flow asks for contact details first and starts when a visitor clicks the chat icon, so new and returning visitors both get it. Set alert emails to Todd and info@. PRL IT allows the alert sender through the Barracuda filter.</span></div></div>
+  <div class="row"><span class="mark num">4</span><div class="item"><b>Website (WordPress), your admin login</b><span class="sub">Install the Tidio plugin on prlresins.com, sign in with the same Tidio account, and confirm only one chat widget shows.</span></div></div>
+  <div class="rule"><b>Prove it live, together:</b> one chat from a private browser window. The lead lands in the live CRM with the name split right and the correct state, Lead Source shows Chatbot, it is assigned to the right rep and that rep&#39;s alert email arrives. Chat again with the same email and it updates that lead, no duplicate. Known for now: on the current Zapier plan a lead can be held a while before it lands, the lead does not yet include the chat conversation itself, and leads from states with no assigned rep go to Bill.</div>
 </div></div>
 
 <div class="checklist"><div class="wrap">
