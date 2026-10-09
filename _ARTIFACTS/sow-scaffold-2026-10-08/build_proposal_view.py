@@ -4,7 +4,7 @@
 Run from the repo root:  python3 _ARTIFACTS/sow-scaffold-2026-10-08/build_proposal_view.py
 
 SEND = False keeps the "draft for Zach" strip; set True only when Zach has said yes to sending.
-TALLY_FORM_ID: leave empty until a form exists; the page then shows the questions as a read-only preview.
+TALLY_FORM_URL: the published Tally share link (linked out, never embedded). Empty = the checklist says the link is coming.
 Light theme is the default; the dark theme follows the reader's system setting or the toggle.
 """
 import html
@@ -17,7 +17,7 @@ import markdown
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
 SEND = False
-TALLY_FORM_ID = ""
+TALLY_FORM_URL = ""  # form xXkrP5 is built but unpublished; paste the share link after Publish
 DEFAULT_LEVEL = 3
 
 tokens = (ROOT / "src/ui-kit/recoil-report/_tokens.css").read_text(encoding="utf-8")
@@ -276,11 +276,21 @@ def intake_section():
     body = md("10-intake-forms-spec.md")
     body = re.sub(r"<h1>.*?</h1>", "", body, count=1)
     body = tables_focusable(shift(body, 1))
-    if TALLY_FORM_ID:
-        embed = f'<iframe class="tally" src="https://tally.so/embed/{html.escape(TALLY_FORM_ID)}?hideTitle=1&dynamicHeight=1" title="Intake form" loading="lazy"></iframe>'
+    if TALLY_FORM_URL:
+        form = f'<a href="{html.escape(TALLY_FORM_URL)}" target="_blank" rel="noopener">Open the intake form (opens in a new tab)</a>'
     else:
-        embed = '<p class="note">The intake form opens here once the NDA is signed. Until then this is a preview of the questions, and nothing on this page collects or sends anything.</p>'
-    return body + embed
+        form = "The intake form link arrives with my email once the NDA is in place"
+    steps = [
+        "Send your NDA. Mutual, please, so it protects both sides.",
+        f"{form}. About 10 minutes for the first page; the later pages are optional.",
+        "Upload the signed NDA and the build spec on the form's first page, right after your name. No family or child information.",
+        "Pick a time to talk it through, Leah included if she is up for it. Rather talk than type? Reply to my email and I will fill the form in for you.",
+        "I send a short written proposal with a clear scope and rate.",
+    ]
+    embed = ('<h3 id="next-steps">Next steps</h3><ol class="checklist">'
+             + "".join(f"<li>{t}</li>" for t in steps) + "</ol>"
+             '<p class="note">The questions below are a preview. Nothing on this page collects or sends anything.</p>')
+    return embed + body
 
 
 plan = md("07-plain-language-bundle.md")
@@ -477,8 +487,8 @@ a:focus-visible,button:focus-visible,.tablewrap:focus-visible{outline:2px solid 
 table{border-collapse:collapse;width:100%}
 th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical-align:top}
 th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
+.checklist{margin:0 0 16px;padding-left:1.4em}.checklist li{margin:0 0 8px}
 .note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
-iframe.tally{width:100%;min-height:640px;border:1px solid var(--pg-edge);border-radius:6px;background:var(--pg-surface)}
 .sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--sticky-h, 12rem) + 16px)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
