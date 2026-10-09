@@ -707,7 +707,9 @@
     "rule": "design-system-color",
     "value": "*",
     "files": [
-     "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html"
+     "_ARTIFACTS/sow-scaffold-2026-10-08/proposal-view.html",
+     "public/myally.html",
+     "public/myally-gate.html"
     ],
     "createdAt": "2026-10-08T17:50:50.406Z",
     "reason": "Light theme for non-technical counterparts (Kelly, Chelsea); DESIGN.md is dark-only. Scoped to this one generated page. Seam booked 2026-10-08 in _PATTERNS/kintsugi-visual-grammar-seams.md."

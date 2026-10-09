@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 276,
-  "hosts": 78,
+  "rows": 277,
+  "hosts": 79,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 218,
+   "product page": 219,
    "gated": 30
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 24,
+  "proxy_hosts": 26,
   "app_routes": 45,
   "missing_purpose": 3,
-  "unlisted": 105
+  "unlisted": 106
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -50,7 +50,8 @@
  "unrouted_public_html": [
   "public/blacksmith-cover.html",
   "public/blacksmith-resume.html",
-  "public/jack-rain-resume.html"
+  "public/jack-rain-resume.html",
+  "public/myally-gate.html"
  ],
  "rows": [
   {
@@ -1550,7 +1551,7 @@
    "unlisted": false,
    "purpose": "Notes from the Trenches: what building ARCS in the open actually taught me. Real stories from the build, with the receipts.",
    "kind": "product page",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-07"
   },
   {
    "host": "good.arcs.care",
@@ -3914,6 +3915,26 @@
    "purpose": "Zach Harris · Resume · AI Marketing Engineer",
    "kind": "product page",
    "last_commit": "2026-10-05"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/myally.html",
+   "pattern": false,
+   "file": "public/myally.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD plan",
+   "description": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "omakase.arcs.care",

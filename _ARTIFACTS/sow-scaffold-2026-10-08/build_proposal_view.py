@@ -688,4 +688,6 @@ if _hits:
     raise SystemExit(f"build_proposal_view: banned strings in visible copy: {_hits}")
 out = HERE / "proposal-view.html"
 out.write_text(page, encoding="utf-8")
+# Hosted copy, served only through the myally passcode gate (src/proxy.ts).
+(ROOT / "public" / "myally.html").write_text(page, encoding="utf-8")
 print("wrote", out.relative_to(ROOT), len(page), "bytes")
