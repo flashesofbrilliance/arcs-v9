@@ -8,7 +8,7 @@
   :root{
     --ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--faint:#8a97a4;
     --line:#dde3ea;--line2:#eef2f6;--paper:#fff;
-    --accent:#0089a8;--steel:#5b7183;--metric:#0089a8;
+    --accent:#00748e;--steel:#5b7183;--metric:#00748e;
     --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','JetBrains Mono Fallback',ui-monospace,monospace;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -83,6 +83,9 @@
     .page-frame{display:none;}
     *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
   }
+
+/* On screens narrower than the 8.5in sheet, the sheet goes fluid; print is unchanged (page gate, 2026-10-08). */
+@media screen and (max-width: 860px){.sheet{width:auto;max-width:100%;}.sheet *{flex-wrap:wrap;min-width:0;}.sheet .contact,.sheet .gloss,.sheet .job-role{white-space:normal;}.sheet .dots,.sheet .rule{display:none;}}
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <style>

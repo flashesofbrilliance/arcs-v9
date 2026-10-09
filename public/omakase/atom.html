@@ -6,7 +6,8 @@
 <title>The Seed, Told Whole /// ARCS</title>
 <meta name="description" content="One sealed decision is a seed. The atom, the lossless cut, the crew, the ladder, and the loop, told as one story.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x1FAB4;</text></svg>">
-<style>html{color-scheme:dark;background:#020408}body{margin:0}</style>
+<style>
+:root{--measure:860px;}html{color-scheme:dark;background:#020408}body{margin:0}</style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -53,21 +54,21 @@
 
   .chap{padding:72px 0 20px;scroll-margin-top:64px}
   .knum{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase}
-  .chap h2{font-size:clamp(24px,2.6vw + 12px,36px);line-height:1.12;margin:12px 0 10px;max-width:26ch}
-  .lede{font-size:16px;color:#aeb9c7;max-width:66ch;line-height:1.62}
+  .chap h2{font-size:clamp(24px,2.6vw + 12px,36px);line-height:1.12;margin:12px 0 10px;max-width:var(--measure)}
+  .lede{font-size:16px;color:#aeb9c7;max-width:var(--measure);line-height:1.62}
   .lede b{color:var(--text)}
   .lede + .lede{margin-top:12px}
 
   /* the foreword: handed inside the door, before the story */
   .fw{border:1px dashed rgba(255,215,0,.35);border-radius:14px;padding:20px 22px;margin-bottom:34px;background:linear-gradient(180deg,rgba(255,215,0,.04),transparent 70%);max-width:640px}
   .fw-k{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold);margin-bottom:10px}
-  .fw-p{font-size:15.5px;line-height:1.68;color:#c8d2dc;max-width:60ch}
+  .fw-p{font-size:15.5px;line-height:1.68;color:#c8d2dc;max-width:var(--measure)}
   .fw-s{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--dim);margin-top:12px}
 
   /* hero */
   .top{padding:64px 0 8px}
-  .top h1{font-size:clamp(32px,3.8vw + 14px,50px);line-height:1.05;margin:16px 0 14px;max-width:17ch}
-  .top .sub{font-size:17px;color:var(--muted);max-width:62ch;line-height:1.58}
+  .top h1{font-size:clamp(32px,3.8vw + 14px,50px);line-height:1.05;margin:16px 0 14px;max-width:var(--measure)}
+  .top .sub{font-size:17px;color:var(--muted);max-width:var(--measure);line-height:1.58}
   .top .sub b{color:var(--text)}
   .begin{display:inline-block;margin-top:26px;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:var(--gold);border:1px solid var(--gold);border-radius:3px;padding:13px 26px;text-decoration:none;transition:background .3s,color .3s}
   .begin:hover,.begin:focus-visible{background:var(--gold);color:var(--case)}
@@ -157,7 +158,7 @@
 
   .close{margin-top:56px;border:1px dashed rgba(255,215,0,.45);border-radius:14px;padding:22px 24px;background:linear-gradient(180deg,rgba(255,215,0,.05),transparent 70%)}
   .close .ck{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:10px}
-  .close p{font-size:16.5px;color:var(--text);line-height:1.62;max-width:64ch}
+  .close p{font-size:16.5px;color:var(--text);line-height:1.62;max-width:var(--measure)}
   .close b{color:var(--gold)}
   .cta{display:inline-block;margin-top:18px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.2em;color:var(--verm);border:1px solid var(--verm);border-radius:3px;padding:14px 24px;text-decoration:none;transition:background .3s,color .3s}
   .cta:hover,.cta:focus-visible{background:var(--verm);color:var(--case)}

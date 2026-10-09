@@ -1,0 +1,11 @@
+# Tripwire real-name allowlist (Zach, 2026-10-08). A counterpart's OWN page may carry its OWN people and
+# company names. One line per page glob: <glob><TAB><names, | separated, case-insensitive>. Any name not
+# listed for that page still fails, so another counterpart's name on the page is still caught.
+public/joe.html	joe kim
+public/louisville.html	delaney|louisville
+public/omakase/*.html	delaney|louisville
+public/prl-*.html	hotes
+public/todd-*.html	hotes
+public/rayan*.html	periscope|rayan saleh
+public/robin*.html	daniels|zensai
+public/yuri*.html	kleban
