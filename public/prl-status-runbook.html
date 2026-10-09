@@ -82,6 +82,18 @@
   .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
     border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
   .navbar nav.family{margin-top:0;margin-left:-12px}
+  .gl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px;margin-top:14px}
+  .gl-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;display:grid;gap:10px;align-content:start;min-width:0}
+  .gl-card h4{margin:0;font-size:17px;font-weight:700;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+  .gl-who{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-soft);margin-left:auto}
+  .gl-list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+  .gl-list label{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;cursor:pointer;font-size:16px}
+  .gl-list input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--green)}
+  .gl-list input:checked + span{color:var(--muted);text-decoration:line-through}
+  .gl-list .sub{display:block;color:var(--muted);font-size:14.5px}
+  .gl-list input:checked + span .sub{text-decoration:none}
+  .gl-flag{color:var(--gold-soft);font-size:14.5px;border-top:1px solid var(--border);padding-top:8px}
+  .gl-proof{border-color:var(--green)}
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -131,12 +143,57 @@
 
 <div class="checklist" id="go-live"><div class="wrap">
   <div class="label">Go-live checklist</div>
-  <p class="lede">Everything here is proven in a sandbox copy of your CRM and site. Going live is a few admin steps in each of four systems, then one live test chat. Every step is small and reversible.</p>
-  <div class="row"><span class="mark num">1</span><div class="item"><b>SugarCRM (live), your admin login</b><span class="sub">Add &quot;Chatbot&quot; to the Lead Source dropdown (Admin, Dropdown Editor). Create a dedicated user for the automation with a regular password login, not Microsoft sign-in, limited to Leads, on a PRL email. Confirm each rep&#39;s user record has the right email, since the new-lead alert goes to the assigned rep. Quick check that no Sugar workflow changes new leads on save.</span></div></div>
-  <div class="row"><span class="mark num">2</span><div class="item"><b>Zapier, Zach drives</b><span class="sub">Connect the live CRM with the new automation user. Switch lead delivery from the sandbox to the live CRM and publish. Confirm the blank-email safeguard is on, so a chat with no email can never update an existing customer record. Point the new-lead alert at the assigned rep, plus Todd and info@. Turn on automatic replay of held runs.</span></div></div>
-  <div class="row"><span class="mark num">3</span><div class="item"><b>Tidio, Zach drives</b><span class="sub">Confirm the live flow asks for contact details first and starts when a visitor clicks the chat icon, so new and returning visitors both get it. Set alert emails to Todd and info@. PRL IT allows the alert sender through the Barracuda filter.</span></div></div>
-  <div class="row"><span class="mark num">4</span><div class="item"><b>Website (WordPress), your admin login</b><span class="sub">Install the Tidio plugin on prlresins.com, sign in with the same Tidio account, and confirm only one chat widget shows.</span></div></div>
-  <div class="rule"><b>Prove it live, together:</b> one chat from a private browser window. The lead lands in the live CRM with the name split right and the correct state, Lead Source shows Chatbot, it is assigned to the right rep and that rep&#39;s alert email arrives. Chat again with the same email and it updates that lead, no duplicate. Known for now: on the current Zapier plan a lead can be held a while before it lands, the lead does not yet include the chat conversation itself, and leads from states with no assigned rep go to Bill.</div>
+  <p class="lede">Everything here is proven in a sandbox copy of your CRM and site. Going live is a few admin steps in each of four systems, then one live test chat. Every step is small and reversible. Tick the boxes as we go.</p>
+<div class="gl-grid">
+  <section class="gl-card ">
+    <h4>SugarCRM (live) <span class="gl-who">Todd: admin login</span></h4>
+    <ul class="gl-list">
+      <li><label><input type="checkbox" id="gl-s1"><span>Add <b>Chatbot</b> to the Lead Source dropdown<span class="sub">Admin, Dropdown Editor, lead source list</span></span></label></li>
+      <li><label><input type="checkbox" id="gl-s2"><span>Create a dedicated user for the automation<span class="sub">Regular password login (not Microsoft sign-in), Leads access only, on a PRL email</span></span></label></li>
+      <li><label><input type="checkbox" id="gl-s3"><span>Confirm each rep&#39;s user record has the right email<span class="sub">The new-lead alert goes to the assigned rep&#39;s email in Sugar</span></span></label></li>
+      <li><label><input type="checkbox" id="gl-s4"><span>Quick check: no Sugar workflow changes new leads on save</span></label></li>
+    </ul>
+  </section>
+  <section class="gl-card ">
+    <h4>Zapier <span class="gl-who">Zach drives</span></h4>
+    <ul class="gl-list">
+      <li><label><input type="checkbox" id="gl-z1"><span>Connect the live CRM with the new automation user</span></label></li>
+      <li><label><input type="checkbox" id="gl-z2"><span>Switch lead delivery from the sandbox to the live CRM, then publish</span></label></li>
+      <li><label><input type="checkbox" id="gl-z3"><span>Confirm the blank-email safeguard is on in the published version<span class="sub">A chat with no email can never update an existing customer record</span></span></label></li>
+      <li><label><input type="checkbox" id="gl-z4"><span>Point the new-lead alert at the assigned rep, plus Todd and info@</span></label></li>
+      <li><label><input type="checkbox" id="gl-z5"><span>Turn on automatic replay of held runs</span></label></li>
+    </ul>
+    <div class="gl-flag">On the current Zapier plan, runs can be held before they land. Fine for a trial; a plan upgrade makes delivery immediate.</div>
+  </section>
+  <section class="gl-card ">
+    <h4>Tidio <span class="gl-who">Zach drives</span></h4>
+    <ul class="gl-list">
+      <li><label><input type="checkbox" id="gl-t1"><span>Confirm the live flow asks for contact details first<span class="sub">Starts when a visitor clicks the chat icon, so new and returning visitors both get it</span></span></label></li>
+      <li><label><input type="checkbox" id="gl-t2"><span>Set alert emails to Todd and info@</span></label></li>
+      <li><label><input type="checkbox" id="gl-t3"><span>PRL IT: allow the alert sender through the email filter<span class="sub">Barracuda has never seen this sender and may quarantine it</span></span></label></li>
+    </ul>
+  </section>
+  <section class="gl-card ">
+    <h4>Website (WordPress) <span class="gl-who">Todd: WP admin</span></h4>
+    <ul class="gl-list">
+      <li><label><input type="checkbox" id="gl-w1"><span>Install the Tidio plugin on prlresins.com</span></label></li>
+      <li><label><input type="checkbox" id="gl-w2"><span>Sign in with the same Tidio account</span></label></li>
+      <li><label><input type="checkbox" id="gl-w3"><span>Confirm only one chat widget shows on the live site</span></label></li>
+    </ul>
+  </section>
+</div>
+<div class="gl-grid">
+  <section class="gl-card gl-proof">
+    <h4>Prove it live <span class="gl-who">Together, one private-window chat</span></h4>
+    <ul class="gl-list">
+      <li><label><input type="checkbox" id="gl-p1"><span>Lead lands in the live CRM with the name split right and the correct state</span></label></li>
+      <li><label><input type="checkbox" id="gl-p2"><span>Lead Source shows <b>Chatbot</b></span></label></li>
+      <li><label><input type="checkbox" id="gl-p3"><span>Assigned to the right rep for that state, and the rep&#39;s alert email arrives</span></label></li>
+      <li><label><input type="checkbox" id="gl-p4"><span>Chat again with the same email: it updates that lead, no duplicate</span></label></li>
+    </ul>
+    <div class="gl-flag">Known for now: the lead does not yet include the chat conversation itself, and leads from states with no assigned rep go to Bill.</div>
+  </section>
+</div>
 </div></div>
 
 <div class="checklist"><div class="wrap">
@@ -217,4 +274,10 @@
 </div></div>
 
 <footer><div class="wrap">PRL Resins chatbot program &middot; prl.arcs.care/status/runbook &middot; siblings: <a href="https://prl.arcs.care">/overview</a> &middot; <a href="/status/progress">/progress</a> &middot; <a href="/status/crm">/crm</a> &middot; <a href="/status/troubleshooting">/troubleshooting</a> &middot; <a href="/status/tidio">/tidio</a> &middot; <a href="/status/atlas">/atlas</a> &middot; <a href="/status/build">/build</a> &middot; <a href="/status/receipt">/receipt</a></div></footer>
+<script>
+document.querySelectorAll('.gl-list input[type=checkbox]').forEach(function(b){
+  try{ if(localStorage.getItem('prl-'+b.id)==='1') b.checked=true; }catch(e){}
+  b.addEventListener('change',function(){ try{ localStorage.setItem('prl-'+b.id,b.checked?'1':'0'); }catch(e){} });
+});
+</script>
 </html>
