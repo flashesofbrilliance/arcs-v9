@@ -368,13 +368,15 @@ nav{border-bottom:1px solid var(--pg-line)}
 header.top{position:sticky;top:0;z-index:20;background:var(--pg-bg);border-bottom:1px solid var(--pg-line)}
 header.top nav{border-bottom:0}
 header.top .wrap{padding-bottom:0;max-width:1200px}
-.bar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;min-height:56px;padding-top:6px;padding-bottom:6px}
-.brand{display:inline-flex;align-items:baseline;gap:0.6em;min-height:44px;align-items:center;text-decoration:none;font-family:var(--font-mono);font-size:0.925rem;text-transform:uppercase;white-space:nowrap}
+header.top .bar{display:flex;align-items:center;flex-wrap:nowrap;gap:8px 16px;min-height:56px;padding-top:6px;padding-bottom:6px}
+.brand{flex:none;display:inline-flex;align-items:baseline;gap:0.6em;min-height:44px;align-items:center;text-decoration:none;font-family:var(--font-mono);font-size:0.925rem;text-transform:uppercase;white-space:nowrap}
 .wa{color:var(--pg-accent);font-weight:800;letter-spacing:0.22em}.wf{color:var(--pg-dim);letter-spacing:0.14em}
-.links{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}
-.ctl{display:flex;gap:8px}
+.links{margin-left:auto;display:flex;flex-wrap:nowrap;gap:8px}
+.ctl{flex:none;display:flex;gap:8px}
 header.top .pill.menubtn{display:none}
-@media (max-width:820px){header.top .pill.menubtn{display:inline-flex}.ctl{margin-left:auto}.links{display:none;order:3;width:100%;margin:0;flex-direction:column;gap:6px;padding:4px 0 10px}.links.open{display:flex}header.top .links .pill{width:100%}}
+header.top.collapsed .bar{flex-wrap:wrap}header.top.collapsed .pill.menubtn{display:inline-flex}header.top.collapsed .ctl{margin-left:auto}header.top.collapsed .links{display:none;order:3;width:100%;margin:0;flex-direction:column;gap:6px;padding:4px 0 10px}header.top.collapsed .links.open{display:flex}header.top.collapsed .links .pill{width:100%}
+/* No-JS fallback only: without the fit check, let the buttons wrap. */
+html:not(.js) header.top .bar,html:not(.js) .links{flex-wrap:wrap}
 header.top .pill{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-family:var(--font-mono);font-size:0.925rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--pg-dim);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;text-decoration:none;cursor:pointer;white-space:nowrap}
 header.top .pill:hover,header.top .pill:focus-visible{color:var(--pg-accent);border-color:var(--pg-accent);text-decoration:none}
 header.top .pill.icon{width:44px;padding:0;justify-content:center}
@@ -610,7 +612,7 @@ JS = """
     });
   });
 
-(function(){var b=document.getElementById('menubtn'),m=document.getElementById('menu');if(!b||!m)return;function set(o){m.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Close menu':'Open menu');}b.addEventListener('click',function(){set(!m.classList.contains('open'));});m.addEventListener('click',function(e){if(e.target.closest('a,button'))set(false);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open')){set(false);b.focus();}});})();
+(function(){var b=document.getElementById('menubtn'),m=document.getElementById('menu');if(!b||!m)return;document.documentElement.classList.add('js');var hd=b.closest('header'),bar=b.closest('.bar');function fit(){if(m.classList.contains('open'))return;hd.classList.remove('collapsed');if(bar.scrollWidth>bar.clientWidth+1)hd.classList.add('collapsed');}fit();window.addEventListener('resize',fit);if(window.ResizeObserver)new ResizeObserver(fit).observe(document.documentElement);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);new MutationObserver(fit).observe(document.documentElement,{attributes:true,attributeFilter:['style','class','data-theme','data-font','data-size']});function set(o){m.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Close menu':'Open menu');}b.addEventListener('click',function(){set(!m.classList.contains('open'));});m.addEventListener('click',function(e){if(e.target.closest('a,button'))set(false);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open')){set(false);b.focus();}});})();
   var root=document.documentElement,tb=document.getElementById('themebtn');
   function eff(){var t=root.getAttribute('data-theme');if(t)return t;return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
   var MOON='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',SUN='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';function label(){var d=eff()==='dark';tb.innerHTML=d?SUN:MOON;tb.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');tb.title=d?'Light mode':'Dark mode';}
