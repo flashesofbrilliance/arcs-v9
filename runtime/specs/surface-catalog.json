@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 279,
+  "rows": 280,
   "hosts": 79,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 220,
+   "product page": 221,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 26,
   "app_routes": 46,
   "missing_purpose": 3,
-  "unlisted": 107
+  "unlisted": 108
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -3792,7 +3792,7 @@
    "unlisted": true,
    "purpose": "Recoil Report",
    "kind": "gated",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "mercury.arcs.care",
@@ -3958,6 +3958,26 @@
   },
   {
    "host": "myally.arcs.care",
+   "path": "/mnda-edits",
+   "catch_all": false,
+   "destination": "/myally-mnda-edits.html",
+   "pattern": false,
+   "file": "public/myally-mnda-edits.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: NDA notes",
+   "description": "Proposed edits to the mutual NDA, each with a short reason.",
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "Proposed edits to the mutual NDA, each with a short reason.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "myally.arcs.care",
    "path": "/primer",
    "catch_all": false,
    "destination": "/myally-primer.html",
@@ -3974,7 +3994,7 @@
    "unlisted": true,
    "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-09"
   },
   {
    "host": "omakase.arcs.care",
@@ -4273,7 +4293,7 @@
    "unlisted": false,
    "purpose": "Pilot Progress",
    "kind": "status",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "prl.arcs.care",
