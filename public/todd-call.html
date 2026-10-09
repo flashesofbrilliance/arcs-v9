@@ -522,7 +522,7 @@ remaining Tidio email-config step is with Tidio support, which we are handling. 
   var links=[].slice.call(document.querySelectorAll('nav a'));
   var secs=links.map(function(a){var h=a.getAttribute('href');return h&&h.charAt(0)==='#'?document.querySelector(h):null}).filter(Boolean);
   function onscroll(){
-    var y=window.scrollY+120, cur=secs[0];
+    if(!secs.length) return; var y=window.scrollY+120, cur=secs[0];
     secs.forEach(function(s){ if(s.offsetTop<=y) cur=s; });
     links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href')==='#'+cur.id); });
   }
