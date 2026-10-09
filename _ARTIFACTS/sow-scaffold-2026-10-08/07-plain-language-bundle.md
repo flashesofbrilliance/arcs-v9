@@ -130,7 +130,7 @@ We will fill these in together, using your cost model, current price pages with 
 
 If it would help, I can also set aside a small block of my time for your team to use as you build: a thinking partner, a fresh approach, or help getting unstuck. It is separate from the audit and entirely your choice.
 
-- **$150 an hour, in 15-minute pieces.** Every session has a fixed length agreed when you book it, and it ends on time unless you ask to keep going. A quick question can be fifteen minutes.
+- **Billed in 15-minute pieces**, at an hourly rate I will set out in the proposal. Every session has a fixed length agreed when you book it, and it ends on time unless you ask to keep going. A quick question can be fifteen minutes.
 - **A prepaid block of hours**, for example 5 or 10, used within two or three months. You always know the most it can cost. More time is a new block, never a running tab.
 - **A regular weekly slot** you book against. Send a few lines beforehand: what is stuck, what you have tried, and what "unstuck" would look like. That way the hour goes on the problem, not on catching me up.
 - **Three ways to use it:** work through a blocker together; test a decision before you make it; or learn a way of working so you can do it yourselves next time.
