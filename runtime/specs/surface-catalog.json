@@ -3948,13 +3948,13 @@
    "declared_in": [
     "src/proxy.ts"
    ],
-   "title": "My Ally LD plan",
+   "title": "My Ally LD: Simple Plan",
    "description": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
    "index": "noindex",
    "unlisted": true,
    "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-09"
   },
   {
    "host": "omakase.arcs.care",
@@ -5224,7 +5224,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "thetrueai.arcs.care",

@@ -16,23 +16,23 @@ import markdown
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
-SEND = False
-TALLY_FORM_URL = ""  # form xXkrP5 is built but unpublished; paste the share link after Publish
+SEND = True
+TALLY_FORM_URL = "https://tally.so/r/xXkrP5"
 DEFAULT_LEVEL = 3
 
 tokens = (ROOT / "src/ui-kit/recoil-report/_tokens.css").read_text(encoding="utf-8")
 
 LEVELS = [
-    (1, "Exec", "The headline, one line per section, and what happens next.", "the short version, the picture, and one line per section"),
-    (2, "Strategic", "The stages, what happens in each, and what you get.", "the four stages with what happens and what you get"),
-    (3, "Operational", "Who does what, how I would work, and what I need from you.", "who does what, how I would work, and what I need from you"),
-    (4, "Tactical", "Checklists, triggers and the questions I would ask, with why.", "checklists, triggers and the questions I would ask"),
-    (5, "Surgical", "Every detail, plus the glossary.", "every remaining detail and the glossary"),
+    (1, "Summary", "The headline, one line per section, and what happens next.", "the exec overview, the picture, and one line per section"),
+    (2, "Overview", "The stages, what happens in each, and what you get.", "the four stages with what happens and what you get"),
+    (3, "Working detail", "Who does what, how I would work, and what I need from you.", "who does what, how I would work, and what I need from you"),
+    (4, "Checklists", "Checklists, triggers and the questions I would ask, with why.", "checklists, triggers and the questions I would ask"),
+    (5, "Everything", "Every detail, plus the glossary.", "every remaining detail and the glossary"),
 ]
 
 # heading text -> (level at which the body opens, one-line summary shown while collapsed)
 SPEC = {
-    "The short version": (2, "Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a checkpoint at each, and you can stop at any point with everything in hand."),
+    "Exec overview": (2, "Your product already does what you set out to show. Before more gets built, I would help make sure the plan, the money and the build all describe the same product. Four stages, a checkpoint at each, and you can stop at any point with everything in hand."),
     "The whole idea, simply": (2, "Build it like a house: look at the ground first, agree the route, pour the floor, then decide how big it gets."),
     "The four stages": (2, "Look and listen. Agree the plan together. Make it solid. Aim higher, then look back."),
     "What is in scope, and what the audit could change": (2, "I cannot know what stage 1 will show, so here are three general cases, best, base and worst, with the steps in scope for each. They are not predictions, and nothing is priced."),
@@ -46,7 +46,9 @@ SPEC = {
     "What I need from you, and what you can expect from me": (3, "From you: the NDA, the code, the plan, your cost model and a list of services. From me: dated findings and early notice when anything moves."),
     "What I know, what I think, what I am guessing": (3, "I say which points I know, which I think and which I am guessing."),
     "Two-week rhythm": (3, "A short planning call, three-line check-ins, and a board that shows who is waiting on whom."),
-    "Optional: office hours": (3, "A small prepaid block of my time for your team: a thinking partner, help getting unstuck, or learning a way of working. Separate from the audit, and your choice."),
+    "Optional extras": (3, "A two-week rhythm and a block of office hours, if they help. Neither is needed for the four stages."),
+    "How we will handle feedback": (2, "One thread, one voice, one round per stage, two revisions included, and settled decisions stay settled."),
+    "_unused_office_hours": (3, "A small prepaid block of my time for your team: a thinking partner, help getting unstuck, or learning a way of working. Separate from the audit, and your choice."),
     "What happens next": (1, None),
 }
 
@@ -176,7 +178,8 @@ SECTION_TITLES = {}
 def altitude_wrap(h):
     """Split on <h2>; wrap each section as dek (while collapsed) plus body (when open)."""
     parts = re.split(r"(?=<h2>)", h)
-    out = [parts[0]]
+    # The depth slider sits above every section it controls (Zach, 2026-10-09).
+    out = [parts[0], "<!--BAR-->"]
     n = 0
     for part in parts[1:]:
         m = re.match(r"<h2>(.*?)</h2>", part, flags=re.S)
@@ -196,8 +199,7 @@ def altitude_wrap(h):
             )
         if title == "The four stages":
             pass
-        if title == "The whole idea, simply":
-            out.append("<!--BAR-->")
+
     return "".join(out)
 
 
@@ -289,7 +291,7 @@ def intake_section():
         "Pick a time to talk it through, Leah included if she is up for it. Rather talk than type? Reply to my email and I will fill the form in for you.",
         "I send a short written proposal with a clear scope and rate, plus an optional block of office hours for your team.",
     ]
-    embed = ('<h3 id="next-steps">Next steps</h3><ol class="checklist">'
+    embed = ('<h3 id="next-steps">Five steps</h3><ol class="checklist">'
              + "".join(f"<li>{t}</li>" for t in steps) + "</ol>"
              '<p class="note">The questions below are a preview. Nothing on this page collects or sends anything.</p>')
     return embed + body
@@ -297,15 +299,10 @@ def intake_section():
 
 plan = md("07-plain-language-bundle.md")
 plan = altitude_wrap(tables_focusable(scope_view(stage_rail(plan))))
+# Type roles under the H1: byline (who it is for), then the lede (the opening paragraph).
+plan = re.sub(r"(</h1>\s*)<p>(.*?)</p>(\s*)<p>", r'\1<p class="byline">\2</p>\3<p class="lede">', plan, count=1, flags=re.S)
+assert 'class="lede"' in plan, "lede not tagged"
 
-quick = (
-    '<nav class="quicksteps" aria-label="Jump to a step"><span class="altlabel">Jump to a step:</span><ol>'
-    '<li><a href="#stage-1">1 Look and listen</a></li><li><a href="#stage-2">2 Agree the plan</a></li>'
-    '<li><a href="#stage-3">3 Make it solid</a></li><li><a href="#stage-4">4 Aim higher</a></li></ol></nav>'
-)
-_anchor = '<div class="sec" id="s-the-short-version"'
-assert _anchor in plan, "quick steps anchor missing"
-plan = plan.replace(_anchor, quick + _anchor, 1)
 codex_pre = gloss(shift(md("09-translation-codex.md"), 1))
 plan, term_uses = linkify(plan, gloss_data(codex_pre))
 codex = codex_pre
@@ -315,18 +312,15 @@ for slug_, secs_ in term_uses.items():
 codex = re.sub(r"<h2>The translation codex</h2>", "", codex, count=1)
 intake = intake_section()
 
-ticks = "".join(f'<span class="tick" style="--f:{(n - 1) / 4}" aria-hidden="true"></span>' for n, *_ in LEVELS)
 names = "".join(
-    f'<button type="button" class="tname" data-level="{n}" tabindex="-1" aria-hidden="true"><span class="n">{n}</span><span class="w">. {name}</span></button>'
+    f'<button type="button" class="tname" data-level="{n}" aria-pressed="false"><span class="n">{n}</span> {name}</button>'
     for n, name, _, _ in LEVELS
 )
 descs = {n: {"name": name, "desc": d, "adds": adds} for n, name, d, adds in LEVELS}
 bar_html = (
-    '<div class="alt" role="group" aria-label="Level of detail">'
-    '<span class="altlabel" id="altlabel">Depth: slide to show more or less detail</span>'
-    '<div class="slider"><div class="ticks">' + ticks + '</div>'
-    '<input type="range" id="depth" min="1" max="5" step="1" value="' + str(DEFAULT_LEVEL) + '" aria-labelledby="altlabel" aria-describedby="altdesc">'
-    '<div class="tnames">' + names + '</div></div>'
+    '<div class="alt" role="group" aria-labelledby="altlabel">'
+    '<span class="altlabel" id="altlabel">Detail level</span>'
+    '<div class="seg">' + names + '</div>'
     '<p id="altdesc" class="altdesc" aria-live="polite"></p></div>'
 )
 plan = plan.replace("<!--BAR-->", bar_html)
@@ -359,21 +353,47 @@ css = tokens + """
 :root[data-theme="light"]{color-scheme:light;%LIGHT%}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--pg-bg);color:var(--pg-text);font:0.925rem/1.6 var(--font-body)}
+body{margin:0;background:var(--pg-bg);color:var(--pg-text);font:1rem/1.65 var(--font-body)}
 ::selection{background:var(--pg-accent-bg);color:var(--pg-text)}
 .skip{position:absolute;left:-999px;top:0;background:var(--pg-surface);color:var(--pg-text);padding:12px 16px;border:1px solid var(--pg-edge);border-radius:6px;z-index:5}
 .skip:focus{left:var(--gut);top:8px}
 .wrap{max-width:calc(var(--measure) + 2*var(--gut));margin:0 auto;padding:0 var(--gut) 64px}
 nav{border-bottom:1px solid var(--pg-line)}
+header.top{position:sticky;top:0;z-index:20;background:var(--pg-bg);border-bottom:1px solid var(--pg-line)}
+header.top nav{border-bottom:0}
+header.top .wrap{padding-bottom:0;max-width:1200px}
+header.top .bar{display:flex;align-items:center;flex-wrap:nowrap;gap:8px 16px;min-height:56px;padding-top:6px;padding-bottom:6px}
+.brand{flex:none;display:inline-flex;align-items:baseline;gap:0.6em;min-height:44px;align-items:center;text-decoration:none;font-family:var(--font-mono);font-size:0.925rem;text-transform:uppercase;white-space:nowrap}
+.wa{color:var(--pg-accent);font-weight:800;letter-spacing:0.22em}.wf{color:var(--pg-dim);letter-spacing:0.14em}
+.links{margin-left:auto;display:flex;flex-wrap:nowrap;gap:8px}
+.ctl{flex:none;display:flex;gap:8px}
+header.top .pill.menubtn{display:none}
+header.top.collapsed .bar{flex-wrap:wrap}header.top.collapsed .pill.menubtn{display:inline-flex}header.top.collapsed .ctl{margin-left:auto}header.top.collapsed .links{display:none;order:3;width:100%;margin:0;flex-direction:column;gap:6px;padding:4px 0 10px}header.top.collapsed .links.open{display:flex}header.top.collapsed .links .pill{width:100%}
+/* No-JS fallback only: without the fit check, let the buttons wrap. */
+html:not(.js) header.top .bar,html:not(.js) .links{flex-wrap:wrap}
+header.top .pill{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-family:var(--font-mono);font-size:0.925rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--pg-dim);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;text-decoration:none;cursor:pointer;white-space:nowrap}
+header.top .pill:hover,header.top .pill:focus-visible{color:var(--pg-accent);border-color:var(--pg-accent);text-decoration:none}
+header.top .sub{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px;padding-top:4px;padding-bottom:4px;border-top:1px solid var(--pg-line)}
+header.top .sub a{display:inline-flex;align-items:center;min-height:40px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
+header.top .sub a:hover,header.top .sub a:focus-visible{color:var(--pg-accent);text-decoration:underline}
+.subl{color:var(--pg-muted);font-weight:600}
+.mstages{display:none}
+header.top.collapsed .sub{display:none}
+header.top.collapsed .links.open .mstages{display:flex;flex-direction:column;gap:6px;padding-left:16px}
+@media (max-width:900px){.alt{position:static}}
+header.top .pill.icon{width:44px;padding:0;justify-content:center}
+header.top .pill.primary{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg)}
 nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
 nav a,.themebtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
 nav a:hover,nav a:focus-visible{color:var(--pg-accent);text-decoration:underline}
 .themebtn{margin-left:auto;font:inherit;background:none;border:0;cursor:pointer;padding:0}
 .themebtn:hover{color:var(--pg-accent);text-decoration:underline}
 .banner{background:var(--pg-surface2);border:1px solid var(--pg-line);border-radius:6px;padding:10px 14px;margin:20px 0 0;color:var(--pg-dim)}
-h1{font-family:var(--font-head);font-size:2.4rem;font-weight:500;line-height:1.2;letter-spacing:-0.02em;margin:32px 0 8px;text-wrap:balance}
-h2{font-size:1.15rem;font-weight:600;line-height:1.25;letter-spacing:-0.01em;margin:48px 0 12px;color:var(--pg-accent);text-wrap:balance}
-h3{font-size:0.925rem;font-weight:700;line-height:1.3;margin:24px 0 8px}
+h1{font-family:var(--font-head);font-size:clamp(1.5rem,4vw,2.4rem);font-weight:500;line-height:1.15;letter-spacing:-0.02em;margin:32px 0 8px;text-wrap:balance}
+.byline{margin:0 0 20px;color:var(--pg-muted)}
+.lede{font-size:1.15rem;line-height:1.55;color:var(--pg-text);max-width:none;text-wrap:pretty}
+h2{font-size:1.5rem;font-weight:600;line-height:1.2;letter-spacing:-0.01em;margin:56px 0 12px;color:var(--pg-accent);text-wrap:balance}
+h3{font-size:1.15rem;font-weight:600;line-height:1.3;margin:28px 0 8px;text-wrap:balance}
 p,li{max-width:none;text-wrap:pretty}
 a{color:var(--pg-accent);text-underline-offset:3px}
 code{font-family:var(--font-code);font-size:.9em}
@@ -381,24 +401,14 @@ code{font-family:var(--font-code);font-size:.9em}
 .dek{margin:4px 0 8px}
 .more{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer;margin:4px 0 0}
 .more:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
-.alt{position:sticky;top:0;background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 12px 6px;margin:24px 0 8px}
+.alt{position:sticky;top:var(--hdr,57px);background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 12px 6px;margin:24px 0 8px}
 .altlabel{color:var(--pg-muted)}
-.slider{position:relative;margin:4px 0 0;height:76px}
-.slider input[type=range]{position:absolute;left:calc(10% - 12px);width:calc(80% + 24px);top:-4px;height:44px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;z-index:1}
-.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:linear-gradient(var(--pg-accent),var(--pg-accent)) 0/var(--fill,50%) 100% no-repeat,var(--pg-edge)}
-.slider input[type=range]::-moz-range-track{height:4px;border-radius:3px;background:var(--pg-edge)}
-.slider input[type=range]::-moz-range-progress{height:4px;border-radius:3px;background:var(--pg-accent)}
-.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-top:-10px;border-radius:50%;background:var(--pg-accent);border:3px solid var(--pg-bg);box-shadow:0 0 0 1px var(--pg-accent)}
-.slider input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--pg-accent);border:3px solid var(--pg-bg);box-shadow:0 0 0 1px var(--pg-accent)}
-.slider input[type=range]:focus-visible{outline:none}
-.slider input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--pg-bg),0 0 0 5px var(--pg-accent)}
-.slider input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--pg-bg),0 0 0 5px var(--pg-accent)}
-.ticks{position:absolute;left:0;right:0;top:12px;height:12px;pointer-events:none}
-.tick{position:absolute;top:0;width:2px;height:12px;margin-left:-1px;background:var(--pg-edge);left:calc(10% + 80% * var(--f))}
-.tnames{position:absolute;left:0;right:0;top:30px;display:flex}
-.tname{flex:1 1 0;min-width:0;min-height:44px;font:inherit;color:var(--pg-muted);background:none;border:0;padding:6px 2px;cursor:pointer;text-align:center}
+.tname{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 12px;font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;cursor:pointer;white-space:nowrap}
 .tname:hover{color:var(--pg-accent);text-decoration:underline}
-.tname.on{color:var(--pg-accent);font-weight:700}
+.tname.on{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
+.tname .n{font-family:var(--font-mono);color:var(--pg-muted)}.tname.on .n{color:var(--pg-accent)}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:6px;margin:6px 0 0}
+.howto{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:14px 18px;margin:20px 0 0}.howto-t{font-weight:700;margin:0 0 6px}.howto ul{margin:0;padding-left:1.2em}.howto li{margin:0 0 6px}
 .altdesc{color:var(--pg-dim);margin:2px 0 0}
 .quicksteps{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;margin:20px 0 0}
 .quicksteps ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:0 4px}
@@ -418,11 +428,11 @@ a.gl[aria-expanded="true"]::after{transform:rotate(-135deg);margin-bottom:-1px}
 .tip.flip{left:auto;right:0}
 .tip b{display:block;margin:0 0 2px}
 .tip a.tipgo{display:inline-block;padding:4px 0;min-height:28px;font-weight:600}
-.optbtn{margin-left:auto}
+.optbtn{margin-left:0}
 #themebtn{margin-left:0}
 .readfab{position:fixed;right:16px;bottom:16px;z-index:4;width:48px;height:48px;border-radius:999px;border:1px solid var(--pg-edge);background:var(--pg-surface);color:var(--pg-text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
 .readfab:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
-.readopts{position:fixed;right:16px;bottom:76px;z-index:4;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 100px);max-height:calc(100dvh - 100px);overflow:auto;background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.readopts{position:fixed;right:16px;bottom:76px;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 92px - var(--hdr,72px));max-height:calc(100dvh - 92px - var(--hdr,72px));overflow:auto;background:var(--pg-surface);color:var(--pg-text);border:1px solid var(--pg-edge);border-radius:6px;padding:14px 16px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
 .ro-title{margin:0 0 4px;font-weight:700}
 .ro-note{margin:0 0 10px;color:var(--pg-dim)}
 .ro-group{margin:0 0 12px}
@@ -448,11 +458,7 @@ html[data-tone="warm"][data-theme="light"]{--pg-bg:#fbf6e9;--pg-surface:#fffdf6;
 @media (prefers-contrast:more){:root{--pg-muted:var(--pg-text);--pg-dim:var(--pg-text);--pg-line:var(--pg-edge)}}
 @media (forced-colors:active){
   .alt,.tip,.readopts,.readfab,.scopebar button,.step,.more,.quicksteps a{border:1px solid CanvasText}
-  .slider input[type=range]::-webkit-slider-thumb{background:Highlight;border:2px solid CanvasText}
-  .slider input[type=range]::-moz-range-thumb{background:Highlight;border:2px solid CanvasText}
-  .slider input[type=range]::-webkit-slider-runnable-track,.slider input[type=range]::-moz-range-track{background:CanvasText}
-  .tick{background:CanvasText}
-  a.gl{text-decoration:underline}
+          a.gl{text-decoration:underline}
   .tname.on,.scopebar button[aria-pressed="true"],.ro-btns button[aria-pressed="true"]{outline:2px solid Highlight}
 }
 .scope{margin:16px 0}
@@ -491,12 +497,11 @@ th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical
 th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .checklist{margin:0 0 16px;padding-left:1.4em}.checklist li{margin:0 0 8px}
 .note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
-.sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--sticky-h, 12rem) + 16px)}
+.sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--hdr, 100px) + var(--sticky-h, 0px) + 16px)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
-@media (max-width:600px){h1{font-size:1.5rem}.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.slider{height:78px}}
-@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
-@media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
+@media (max-width:600px){.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
+@media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,header.top,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
 """.replace("%LIGHT_IMP%", block(LIGHT, True)).replace("%LIGHT%", block(LIGHT)).replace("%DARK%", block(DARK))
 
 HEAD_JS = """(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();"""
@@ -509,7 +514,6 @@ JS = """
   var level=__DEFAULT__,over=new Set();
   try{var v=parseInt(localStorage.getItem('myAllyLevel'),10);if(v>=1&&v<=5)level=v;}catch(e){}
   var secs=[].slice.call(document.querySelectorAll('.sec'));
-  var slider=document.getElementById('depth');
   function isOpen(i){var s=secs[i];var need=parseInt(s.getAttribute('data-body-alt'),10);return !s.querySelector('.body')||level>=need||over.has(i);}
   function apply(){
     secs.forEach(function(sec,i){
@@ -526,19 +530,15 @@ JS = """
       });
     });
     var cur=DESC[level],nxt=DESC[level+1];
-    slider.value=String(level);
-    slider.style.setProperty('--fill','calc(12px + (100% - 24px) * '+((level-1)/4)+')');
-    slider.setAttribute('aria-valuetext','Level '+level+' of 5, '+cur.name);
-    [].forEach.call(document.querySelectorAll('.tname'),function(b){b.className='tname'+(parseInt(b.getAttribute('data-level'),10)===level?' on':'');});
+    [].forEach.call(document.querySelectorAll('.tname'),function(b){var on=parseInt(b.getAttribute('data-level'),10)===level;b.className='tname'+(on?' on':'');b.setAttribute('aria-pressed',on?'true':'false');});
     measure();
-    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Moving right adds '+nxt.adds+'.':' This is the full detail.');
+    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' The next level adds '+nxt.adds+'.':' This is the full detail.');
   }
   var bar=document.querySelector('.alt');
-  function measure(){if(bar)document.documentElement.style.setProperty('--sticky-h',Math.ceil(bar.getBoundingClientRect().height)+'px');}
+  function measure(){if(bar)document.documentElement.style.setProperty('--sticky-h',getComputedStyle(bar).position==='sticky'?Math.ceil(bar.getBoundingClientRect().height)+'px':'0px');}
   if(window.ResizeObserver&&bar)new ResizeObserver(measure).observe(bar);
   window.addEventListener('resize',measure);
   function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('myAllyLevel',String(level));}catch(e){}apply();}
-  slider.addEventListener('input',function(){setLevel(parseInt(slider.value,10));});
   [].forEach.call(document.querySelectorAll('.tname'),function(b){b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});});
   secs.forEach(function(sec,i){
     var more=sec.querySelector('.more'),body=sec.querySelector('.body');
@@ -595,9 +595,11 @@ JS = """
       });
     });
   });
+
+(function(){var b=document.getElementById('menubtn'),m=document.getElementById('menu');if(!b||!m)return;document.documentElement.classList.add('js');var hd=b.closest('header'),bar=b.closest('.bar');function hdrH(){document.documentElement.style.setProperty('--hdr',Math.ceil(hd.getBoundingClientRect().height)+'px');}function fit(){hdrH();if(m.classList.contains('open'))return;hd.classList.remove('collapsed');if(bar.scrollWidth>bar.clientWidth+1)hd.classList.add('collapsed');hdrH();}fit();window.addEventListener('resize',fit);if(window.ResizeObserver)new ResizeObserver(fit).observe(document.documentElement);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);new MutationObserver(fit).observe(document.documentElement,{attributes:true,attributeFilter:['class','data-theme','data-font','data-size','data-space']});function set(o){m.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Close menu':'Open menu');}b.addEventListener('click',function(){set(!m.classList.contains('open'));});m.addEventListener('click',function(e){if(e.target.closest('a,button'))set(false);});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open')){set(false);b.focus();}});})();
   var root=document.documentElement,tb=document.getElementById('themebtn');
   function eff(){var t=root.getAttribute('data-theme');if(t)return t;return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}
-  function label(){tb.textContent=eff()==='dark'?'Light mode':'Dark mode';}
+  var MOON='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',SUN='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';function label(){var d=eff()==='dark';tb.innerHTML=d?SUN:MOON;tb.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');tb.title=d?'Light mode':'Dark mode';}
   tb.addEventListener('click',function(){var n=eff()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('myAllyTheme',n);}catch(e){}label();});
   /* reading options */
   var RK='myAllyRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab'),ob=document.getElementById('optbtn');
@@ -655,21 +657,21 @@ page = f"""<!doctype html>
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex">
 <meta name="description" content="A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.">
-<title>My Ally LD plan</title>
+<title>My Ally LD: Simple Plan</title>
 <script>{HEAD_JS}</script>
 <noscript><style>.alt,.more,.themebtn{{display:none}}.dek{{display:none}}</style></noscript>
 <style>{css}</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the plan</a>
-<header><nav aria-label="Sections"><div class="wrap"><a href="#plan">The plan</a><a href="#codex">Translation codex</a><a href="#intake">Intake</a><button type="button" class="themebtn optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button><button type="button" class="themebtn" id="themebtn">Dark mode</button></div></nav></header>
+<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links" id="menu"><a class="pill" href="#plan">The plan</a><span class="mstages"><a class="pill" href="#stage-1">1 Look and listen</a><a class="pill" href="#stage-2">2 Agree the plan</a><a class="pill" href="#stage-3">3 Make it solid</a><a class="pill" href="#stage-4">4 Aim higher</a></span><a class="pill" href="#codex">Word guide</a><a class="pill primary" href="#intake">Next steps</a><button type="button" class="pill optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button></span><span class="ctl"><button type="button" class="pill icon" id="themebtn" aria-label="Switch to dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="pill icon menubtn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span></div><div class="wrap sub" aria-label="Plan stages"><span class="subl">The plan:</span><a href="#stage-1">1 Look and listen</a><a href="#stage-2">2 Agree the plan</a><a href="#stage-3">3 Make it solid</a><a href="#stage-4">4 Aim higher</a></div></nav></header>
 <main class="wrap" id="main">
 {banner}
 <section id="plan">{plan}</section>
-<section id="codex"><div class="sec" data-body-alt="5"><h2>Translation codex</h2><p class="dek">A legend for the technical words, each with a plain meaning, a picture and why it matters to you.</p><div class="body" id="bcodex">{codex}</div><button class="more" type="button" aria-controls="bcodex" aria-expanded="false" hidden>Show detail</button></div></section>
-<section id="intake"><div class="sec" data-body-alt="4"><h2>Intake</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body" id="bintake">{intake}</div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
+<section id="codex"><div class="sec" data-body-alt="5"><h2>Word guide</h2><p class="dek">A legend for the technical words, each with a plain meaning, a picture and why it matters to you.</p><div class="body" id="bcodex">{codex}</div><button class="more" type="button" aria-controls="bcodex" aria-expanded="false" hidden>Show detail</button></div></section>
+<section id="intake"><div class="sec" data-body-alt="4"><h2>Next steps</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body" id="bintake">{intake}</div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
 </main>
-<footer class="wrap pagefoot"><p>Prepared by Zach at manana. This page is a view, not an agreement. Reading options and your depth setting stay on this device.</p></footer>
+<footer class="wrap pagefoot"><p>Prepared by Zach Harris at manana. A proposal, not a contract.</p></footer>
 {PANEL}
 <script>{JS}</script>
 </body>

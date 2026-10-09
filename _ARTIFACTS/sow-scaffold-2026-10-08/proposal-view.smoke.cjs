@@ -2,32 +2,33 @@
 // runs it on every device in the matrix. Return an array of failure strings (empty = pass).
 module.exports = async function (page, ctx) {
   const errs = [];
-  const slider = page.locator('#depth');
-  if (!(await slider.count())) return ['depth slider missing'];
+  await page.addStyleTag({ content: 'html{scroll-behavior:auto !important}' });
+  const btns = page.locator('.tname');
+  if ((await btns.count()) !== 5) return ['detail level buttons missing (expected 5, got ' + (await btns.count()) + ')'];
 
-  // 1) the slider must be a 44px-tall hit area and its ticks must line up with its labels
-  const box = await slider.boundingBox();
-  if (!box || box.height < 43.5) errs.push('slider hit area under 44px tall: ' + (box && Math.round(box.height)));
-  const ticks = await page.locator('.tick').evaluateAll(els => els.map(e => e.getBoundingClientRect().left + e.getBoundingClientRect().width / 2));
-  const names = await page.locator('.tname').evaluateAll(els => els.map(e => e.getBoundingClientRect().left + e.getBoundingClientRect().width / 2));
-  ticks.forEach((t, i) => { if (Math.abs(t - names[i]) > 3) errs.push('tick ' + (i + 1) + ' is ' + Math.round(Math.abs(t - names[i])) + 'px off its label'); });
+  // 1) every level button is a 44px-tall hit area and none overlap
+  const boxes = await btns.evaluateAll(els => els.map(e => { const r = e.getBoundingClientRect(); return { l: r.left, r: r.right, t: r.top, b: r.bottom, h: r.height }; }));
+  boxes.forEach((x, i) => { if (x.h < 43.5) errs.push('level button ' + (i + 1) + ' under 44px tall: ' + Math.round(x.h)); });
+  for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+    const a = boxes[i], q = boxes[j];
+    if (a.l < q.r - 1 && q.l < a.r - 1 && a.t < q.b - 1 && q.t < a.b - 1) errs.push('level buttons ' + (i + 1) + ' and ' + (j + 1) + ' overlap');
+  }
 
-  // 2) clicking each tick label moves the slider and changes how much is shown; levels are cumulative
+  // 2) clicking each level marks it pressed and changes how much is shown; levels are cumulative
   const chars = [];
   for (let n = 1; n <= 5; n++) {
     await page.locator('.tname[data-level="' + n + '"]').click();
-    const v = await slider.inputValue();
-    if (v !== String(n)) errs.push('tick label ' + n + ' set slider to ' + v);
+    const pressed = await page.locator('.tname[aria-pressed="true"]').getAttribute('data-level');
+    if (pressed !== String(n)) errs.push('level ' + n + ' click left level ' + pressed + ' pressed');
     chars.push(await page.evaluate(() => document.querySelector('main').innerText.length));
   }
   for (let i = 1; i < chars.length; i++) if (chars[i] < chars[i - 1]) errs.push('level ' + (i + 1) + ' shows less than level ' + i);
-  if (!(chars[4] > chars[0] * 2)) errs.push('surgical should show far more than exec');
+  if (!(chars[4] > chars[0] * 2)) errs.push('Everything should show far more than Summary');
 
-  // 3) keyboard: arrow keys move the slider
-  await slider.focus();
-  await page.keyboard.press('Home');
-  await page.keyboard.press('ArrowRight');
-  if ((await slider.inputValue()) !== '2') errs.push('ArrowRight did not step the slider');
+  // 3) keyboard: a level button activates with Enter
+  await page.locator('.tname[data-level="2"]').focus();
+  await page.keyboard.press('Enter');
+  if ((await page.locator('.tname[aria-pressed="true"]').getAttribute('data-level')) !== '2') errs.push('Enter did not select level 2');
 
   // 4) definition chips: open, stay on screen, close
   await page.locator('.tname[data-level="3"]').click();
@@ -105,13 +106,16 @@ module.exports = async function (page, ctx) {
   } else errs.push('scope switcher missing');
 
   // 6) quick step chips point at real, reachable targets
-  const dead = await page.locator('.quicksteps a').evaluateAll(as => as.filter(a => !document.getElementById(a.getAttribute('href').slice(1))).map(a => a.textContent));
+  const dead = await page.locator('header.top .sub a, header.top .mstages a').evaluateAll(as => as.filter(a => !document.getElementById(a.getAttribute('href').slice(1))).map(a => a.textContent));
   if (dead.length) errs.push('dead step links: ' + dead.join(', '));
 
   // 6b) after a jump, keyboard and screen-reader focus must move to the target, not stay on the link
   await page.locator('.tname[data-level="2"]').click();
-  const chip = page.locator('.quicksteps a').nth(1);
-  await chip.scrollIntoViewIfNeeded();
+  // stage links live in the sticky header: the L2 row when it fits, nested in the menu when collapsed
+  const collapsed = await page.evaluate(() => document.querySelector('header.top').classList.contains('collapsed'));
+  if (collapsed) await page.locator('#menubtn').click();
+  const chip = page.locator(collapsed ? 'header.top .mstages a' : 'header.top .sub a').nth(1);
+  if (!(await chip.isVisible())) errs.push('stage 2 link not visible in the ' + (collapsed ? 'menu' : 'header'));
   await chip.click();
   await ctx.settle(page);
   const focusId = await page.evaluate(() => document.activeElement && document.activeElement.id);
