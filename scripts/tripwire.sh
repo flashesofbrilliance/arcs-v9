@@ -40,6 +40,23 @@ for f in "${TARGETS[@]}"; do
       done
       hits="$kept"
     fi
+    # Explicit own-counterpart allowlist (scripts/tripwire-allow.tsv): drop only the names listed for this page.
+    if [ "$kind" = "real-name" ] && [ -n "$hits" ] && [ -f scripts/tripwire-allow.tsv ]; then
+      allow=""
+      while IFS=$'\t' read -r glob names; do
+        case "$glob" in ''|'#'*) continue;; esac
+        # shellcheck disable=SC2254
+        case "$f" in $glob) allow="$allow|$names";; esac
+      done < scripts/tripwire-allow.tsv
+      if [ -n "$allow" ]; then
+        kept=""
+        IFS=',' read -ra HARR <<< "${hits%,}"
+        for hh in "${HARR[@]}"; do
+          printf '%s' "$hh" | grep -qiE "^(${allow#|})$" || kept="$kept$hh,"
+        done
+        hits="$kept"
+      fi
+    fi
     if [ -n "$hits" ]; then
       echo "TRIPWIRE FAIL [$kind] $f -> ${hits%,}"
       fail=1

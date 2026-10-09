@@ -84,8 +84,8 @@ function SectionHeader({ n, title, flag }: { n: string; title: string; flag?: st
   return (
     <div style={{ marginBottom: '0.6rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.3rem' }}>
-        <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{n}</div>
-        {flag && <span style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.08em', color: signal.gold, border: `0.5px solid ${signal.gold}40`, borderRadius: 4, padding: '1px 6px' }}>{flag}</span>}
+        <div style={{ fontFamily: mono, fontSize: '0.6875rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{n}</div>
+        {flag && <span style={{ fontFamily: mono, fontSize: '0.6875rem', letterSpacing: '0.08em', color: signal.gold, border: `0.5px solid ${signal.gold}40`, borderRadius: 4, padding: '1px 6px' }}>{flag}</span>}
       </div>
       <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary }}>{title}</div>
     </div>
@@ -126,7 +126,7 @@ export default function TermsPage() {
           {COVENANT.map((group) => (
             <div key={group.group}>
               {/* Group label */}
-              <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted, background: surface.bg, borderBottom: `0.5px solid ${border.subtle}`, borderTop: `0.5px solid ${border.subtle}` }}>
+              <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted, background: surface.bg, borderBottom: `0.5px solid ${border.subtle}`, borderTop: `0.5px solid ${border.subtle}` }}>
                 {group.group}
               </div>
               {group.rows.map((row, i) => (
@@ -172,7 +172,7 @@ export default function TermsPage() {
         <div style={{ marginBottom: '1.75rem' }}>
           <SectionHeader n="§ 03 · Breach and remedy" title="What happens when the covenant breaks" />
           <div style={{ border: `0.5px solid ${border.subtle}`, borderRadius: 8, overflow: 'hidden', marginTop: '0.75rem' }}>
-            <div style={{ padding: '0.5rem 1rem', background: surface.panel, borderBottom: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>Breach table</div>
+            <div style={{ padding: '0.5rem 1rem', background: surface.panel, borderBottom: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>Breach table</div>
             {BREACH.map((row, i) => (
               <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: i < BREACH.length - 1 ? `0.5px solid ${border.subtle}` : 'none' }}>
                 <div style={{ padding: '0.65rem 1rem', fontFamily: sans, fontSize: '0.8125rem', color: text.secondary, lineHeight: 1.5, borderRight: `0.5px solid ${border.subtle}` }}>{row.breach}</div>

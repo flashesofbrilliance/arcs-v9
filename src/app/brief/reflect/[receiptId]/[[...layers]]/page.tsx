@@ -165,11 +165,11 @@ export default function BriefReflectPage() {
         {/* Reflect surface breadcrumb */}
         <div style={{ borderBottom: `0.5px solid rgba(0,240,255,0.12)`, background: "rgba(0,240,255,0.03)" }}>
           <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
-            <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-            <button onClick={() => router.push(`/brief/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Brief</button>
-            <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-            <span style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: signal.cyan, textTransform: "uppercase" }}>◎ Reflect</span>
+            <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
+            <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6875rem" }}>·</span>
+            <button onClick={() => router.push(`/brief/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Brief</button>
+            <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: "0.6875rem" }}>·</span>
+            <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: signal.cyan, textTransform: "uppercase" }}>◎ Reflect</span>
           </div>
         </div>
 
@@ -206,7 +206,7 @@ export default function BriefReflectPage() {
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", marginBottom: "0.35rem" }}>
                         <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                          <span style={{ fontFamily: font.mono, fontSize: "0.65rem", color: text.muted, letterSpacing: "0.08em" }}>L{child.version}</span>
+                          <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted, letterSpacing: "0.08em" }}>L{child.version}</span>
                           <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "0.85rem", color: c }}>{child.nciScore}</span>
                         </div>
                       </div>

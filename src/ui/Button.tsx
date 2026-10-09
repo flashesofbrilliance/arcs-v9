@@ -32,7 +32,7 @@ function buttonStyle(variant: ButtonVariant, size: 'sm' | 'md' | 'lg', disabled:
   const a = BTN_ACCENT[variant] || BTN_ACCENT.primary
   const sz: React.CSSProperties =
     size === 'lg' ? { fontSize: 12, padding: '13px 23px', borderRadius: 6 }
-    : size === 'sm' ? { fontSize: 10, padding: '7px 12px', borderRadius: 4 }
+    : size === 'sm' ? { fontSize: 11, padding: '7px 12px', borderRadius: 4 }
     : { fontSize: 11, padding: '10px 16px', borderRadius: 5 }
   const base = `inset 0 1px 0 rgba(255,255,255,.09), inset 0 -2px 7px rgba(0,0,0,.5), 0 0 14px ${a.bloom}, 0 4px 12px rgba(0,0,0,.4)`
   const hover = `inset 0 1px 0 rgba(255,255,255,.12), inset 0 -2px 7px rgba(0,0,0,.45), 0 0 20px ${a.bloomH}, 0 6px 16px rgba(0,0,0,.5)`

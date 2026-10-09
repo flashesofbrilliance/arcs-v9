@@ -5,6 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PRL Resins · Chatbot Build Spec · Todd Hotes</title>
 <style>
+:root{--measure:900px;}
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
 :root {
   --bg: #020408;
   --surface: #0d1117;
@@ -53,12 +96,12 @@ section { padding: 44px 0 0; }
 .divider { height: 1px; background: linear-gradient(90deg, var(--border) 0%, transparent 70%); margin: 44px 0 0; }
 .section-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .section-title { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -.015em; margin-bottom: 16px; }
-.lede { font-size: 13px; color: var(--sub); line-height: 1.7; max-width: 66ch; margin-bottom: 16px; }
+.lede { font-size: 13px; color: var(--sub); line-height: 1.7; max-width:var(--measure); margin-bottom: 16px; }
 
 .cover { padding: 40px 0 0; }
 .cover-company { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
 .cover-title { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -.02em; line-height: 1.15; }
-.cover-sub { font-size: 13.5px; color: var(--sub); margin-top: 10px; max-width: 68ch; line-height: 1.7; }
+.cover-sub { font-size: 13.5px; color: var(--sub); margin-top: 10px; max-width:var(--measure); line-height: 1.7; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .chip { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--sub); background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 5px 11px; white-space: nowrap; }
 .chip b { color: var(--text); font-weight: 600; }
@@ -133,6 +176,9 @@ footer b { color: var(--muted); }
   .card { padding: 14px 16px; }
   .needed { padding: 16px 18px; }
 }
+
+/* Small screens: the breadcrumb and chips wrap instead of running off the edge (page gate, 2026-10-08). */
+@media (max-width: 600px){.crumb-inner{flex-wrap:wrap;height:auto;row-gap:4px;padding:6px 16px;}.crumb-seg,.chip{white-space:normal;}}
 </style>
 <script defer src="/_vercel/insights/script.js"></script></head>
 <body>

@@ -67,7 +67,7 @@ export default function SharedBriefPage() {
       <div style={{ ...contentContainer(vw), paddingTop: "1.5rem" }}>
         <div style={{ border: `1px solid ${border}`, borderLeft: `2px solid ${signal.gold}`, background: "#0d1117", borderRadius: 6, padding: "0.85rem 1rem", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "0.75rem" }}>
         <div style={{ minWidth: 240, flex: 1 }}>
-          <div style={{ color: signal.gold, fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>One-time shared bearing</div>
+          <div style={{ color: signal.gold, fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>One-time shared bearing</div>
           <div style={{ color: text.secondary, fontSize: "0.8rem", lineHeight: 1.5 }}>
             This link carries the sender&rsquo;s bearing inside the URL itself. Nothing was stored on our servers. It opens <strong style={{ color: text.primary }}>once on this device</strong>, then becomes a sign-in page. Sign in to keep and revisit briefs of your own.
           </div>

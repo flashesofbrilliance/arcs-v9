@@ -22,7 +22,7 @@ export function TerrainPaths({ paths, bare }: TerrainPathsProps) {
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.3rem 0.5rem', marginBottom: '0.2rem' }}>
               <span style={{ fontFamily: font.sans, fontSize: '0.875rem', fontWeight: 600, color: p.status === 'selected' ? text.primary : text.dimmed, textDecoration: p.status === 'blocked' ? 'line-through' : 'none' }}>{p.title}</span>
               <Badge label={p.tag} color={p.status === 'selected' ? signal.cyan : signal.steel} register="light" />
-              {p.status === 'selected' && <span style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.1em', color: signal.cyan }}>SELECTED LINE</span>}
+              {p.status === 'selected' && <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.1em', color: signal.cyan }}>SELECTED LINE</span>}
             </div>
             <div style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed, lineHeight: 1.85 }}>{p.detail}</div>
           </div>

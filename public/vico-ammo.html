@@ -8,9 +8,9 @@
   /* ARCS Recoil Report — Design Tokens */
   :root{
     --ground:#e9eef4; --paper:#eef2f7; --card:#ffffff; --ink:#0f1720; --ink2:#33414f; --ink3:#5b6b7a; --line:#dde3ea;
-    --accent:#0089a8; --accent2:#0089a8;
+    --accent:#00748e; --accent2:#00748e;
     --green:#0a8f5e;
-    --gold:#9a7218; --goldbg:#fbf3df;
+    --gold:#8d6816; --goldbg:#fbf3df;
     --tealbg:#e6f3f6; --dark:#0d1117; --darker:#020408;
     --cyan:#00F0FF;
     --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;
@@ -26,7 +26,7 @@
 
   header{background:linear-gradient(150deg,var(--darker),var(--dark));color:#f4f7fa;padding:26px 40px 22px;}
   @media(max-width:600px){header{padding:26px 22px;}}
-  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);}
   .eyebrow .mk{width:8px;height:8px;border-radius:50%;background:#00FF9D;box-shadow:0 0 10px #00FF9D;}
   .back{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11.5px;font-weight:600;color:#a9b6c3;text-decoration:none;margin-bottom:14px;}
   .back:hover{color:#f4f7fa;}
@@ -58,19 +58,19 @@
 
   footer{padding:22px 40px 30px;border-top:1px solid var(--line);}
   @media(max-width:600px){footer{padding:20px 22px 26px;}}
-  .fine{font-family:var(--mono);font-size:10px;line-height:1.7;color:var(--ink3);}
+  .fine{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--ink3);}
   .fine a{color:var(--accent2);}
 
   /* GLOSSARY TOOLTIPS (plain-meaning on hover / tap) */
   .term{border-bottom:1px dotted var(--accent);cursor:help;}
   #termtip{position:fixed;z-index:95;max-width:min(300px,calc(100vw - 20px));width:max-content;background:var(--card);border:1px solid var(--accent);border-radius:8px;padding:10px 12px;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--ink2);line-height:1.5;text-align:left;opacity:0;pointer-events:none;transition:opacity .14s;box-shadow:0 10px 30px rgba(20,27,36,.22);}
   #termtip.on{opacity:1;}
-  .hint{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-top:14px;}
+  .hint{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-top:14px;}
   .hint b{color:var(--accent);border-bottom:1px dotted var(--accent);font-weight:700;}
   .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
   @media(max-width:600px){.legend-grid{grid-template-columns:1fr;}}
   .li{background:var(--paper,#f4f7fb);border:1px solid var(--line);border-radius:8px;padding:11px 13px;}
-  .li .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+  .li .k{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
   .li .d{font-size:12.5px;color:var(--ink2);line-height:1.5;}
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>

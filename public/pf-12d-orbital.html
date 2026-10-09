@@ -1,8 +1,50 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARCS 12D Orbital</title><script defer src="/_vercel/insights/script.js"></script>
 </head><body>
 <meta charset="utf-8">
-<title>ARCS 12D Orbital — Knowledge Phase Space</title>
+<title>ARCS 12D Orbital · Knowledge Phase Space</title>
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
   :root{
     --bg:#020408; --surface:#0d1117; --border:#1e293b; --text:#e2e8f0; --sec:#94a3b8;
     --dim:#9aa7b6; --mut:#8a97a8; --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
@@ -11,15 +53,15 @@
     --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
   }
   html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%}
-  .lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  .lbl{font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
   .lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)} .lbl.vi{color:var(--violet)}
   .deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
   .deck-in{max-width:1320px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
   .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.16em}
   .wordmark b{color:var(--cyan)}
-  select{background:var(--surface);color:var(--sec);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:.62rem;padding:.35rem .4rem}
+  select{background:var(--surface);color:var(--sec);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:0.6875rem;padding:.35rem .4rem}
   input[type=range]{accent-color:var(--gold);width:110px}
-  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .6rem;cursor:pointer}
+  .btn{font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .6rem;cursor:pointer}
   .btn:hover{border-color:var(--cyan);color:var(--cyan)}
   .btn.on{border-color:var(--cyan);color:var(--cyan);background:rgba(0,240,255,.08)}
   .btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
@@ -27,13 +69,13 @@
   .spacer{flex:1}
   .grp{display:flex;align-items:center;gap:.45rem;padding:.3rem .55rem;border:1px solid rgba(30,41,59,.75);
     border-radius:6px;background:rgba(13,17,23,.55)}
-  .glbl{font-family:var(--mono);font-size:.5rem;font-weight:700;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+  .glbl{font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
   .grp select,.grp .btn{height:26px;box-sizing:border-box}
   .grp input[type=range]{margin:0}
   #stage{position:fixed;inset:0;top:52px}
   canvas{display:block;width:100%;height:100%}
   .hud{position:fixed;left:1rem;bottom:.8rem;z-index:30;pointer-events:none;display:flex;flex-direction:column;gap:.3rem;max-width:min(660px,92vw);background:rgba(2,4,8,.82);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);padding:.5rem .7rem;border:1px solid rgba(30,41,59,.9);border-radius:9px}
-  .kv{font-family:var(--mono);font-size:.6rem;color:var(--dim);letter-spacing:.07em}
+  .kv{font-family:var(--mono);font-size:0.6875rem;color:var(--dim);letter-spacing:.07em}
   .kv b{color:var(--sec)}
   .drawer{position:fixed;top:64px;right:12px;width:min(370px,calc(100vw - 24px));max-height:calc(100vh - 90px);overflow-y:auto;z-index:35;
     background:rgba(13,17,23,.97);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;display:none}
@@ -41,26 +83,26 @@
   .drawer h3{font-size:1rem;margin:.25rem 0 .2rem}
   .drawer p{font-size:.8rem;color:var(--sec);line-height:1.5;margin:.35rem 0}
   .x{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:.72rem}
-  .chip{display:inline-block;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:2px 6px;margin-right:.3rem}
+  .chip{display:inline-block;font-family:var(--mono);font-size:0.6875rem;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:2px 6px;margin-right:.3rem}
   .c-ok{color:var(--green);border:1px solid rgba(0,255,157,.4)} .c-sup{color:var(--violet);border:1px solid rgba(192,132,252,.5)}
   .dimrow{display:grid;grid-template-columns:118px 1fr 44px;gap:.5rem;align-items:center;margin:.22rem 0}
-  .dimrow .n{font-family:var(--mono);font-size:.55rem;color:var(--mut);letter-spacing:.05em}
+  .dimrow .n{font-family:var(--mono);font-size:0.6875rem;color:var(--mut);letter-spacing:.05em}
   .dimrow .bar{height:5px;background:rgba(30,41,59,.8);border-radius:2px;overflow:hidden}
   .dimrow .bar i{display:block;height:100%;background:var(--cyan)}
-  .dimrow .v{font-family:var(--mono);font-size:.58rem;color:var(--sec);text-align:right;font-variant-numeric:tabular-nums}
+  .dimrow .v{font-family:var(--mono);font-size:0.6875rem;color:var(--sec);text-align:right;font-variant-numeric:tabular-nums}
   /* performance program bar — the ballet's legibility scaffolding */
   .perf{position:fixed;bottom:.9rem;left:50%;transform:translateX(-50%);z-index:32;width:min(680px,calc(100vw - 24px));
     background:rgba(13,17,23,.96);border:1px solid var(--border);border-radius:8px;padding:.65rem .95rem;display:none}
   .perf.open{display:block}
   .perf .mv{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--gold)}
   .perf .what{font-size:.78rem;color:var(--sec);margin:.15rem 0 .35rem;line-height:1.45}
-  .perf .proj{font-family:var(--mono);font-size:.64rem;color:var(--cyan);letter-spacing:.05em}
+  .perf .proj{font-family:var(--mono);font-size:0.6875rem;color:var(--cyan);letter-spacing:.05em}
   .perf .proj b{color:var(--text)}
   .segbar{display:flex;height:7px;border-radius:3px;overflow:hidden;margin-top:.45rem;position:relative}
   .segbar i{display:block;height:100%;opacity:.4}
   .segbar i.now{opacity:1}
   .segbar .ph{position:absolute;top:-2px;bottom:-2px;width:2px;background:#e2e8f0}
-  .perf .tm{font-family:var(--mono);font-size:.6rem;color:var(--mut);margin-top:.3rem;display:flex;justify-content:space-between}
+  .perf .tm{font-family:var(--mono);font-size:0.6875rem;color:var(--mut);margin-top:.3rem;display:flex;justify-content:space-between}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -111,8 +153,8 @@
 <div class="hud">
   <span class="kv"><b style="color:var(--violet)">⧉ twin-ghost = superposition</b> (uncollapsed status) · <b style="color:var(--violet)">╌╌ violet dash = entanglement</b> (shared evidentiary roads, Jaccard ≥ 0.4) · ◈ gold = diamond</span>
   <span class="kv">Zone A: D1–D4 kinematics (position · velocity · acceleration · degree) · Zone B: D5–D12 coherence operators</span>
-  <span class="kv" id="inv-legend" style="display:none"><b style="color:#e2e8f0">◌ white dash = TAUTOLOGY</b> (true by construction — zero information about the world) · <b style="color:var(--cyan)">○ cyan = CONSTITUTIONAL</b> (kept true by enforcement) · <b style="color:var(--green)">◌ green dot = EMPIRICAL</b> (never false yet falsifiable — the only grade that is evidence)</span>
-  <span class="kv" style="max-width:640px">Honesty note: this is a computed projection of the lattice onto a 12D state space — an adaptation of the kinematic-manifold convention, not the kinematics spec's manifold . A superposed node collapses only by a formalization measurement — see the the backlog.</span>
+  <span class="kv" id="inv-legend" style="display:none"><b style="color:#e2e8f0">◌ white dash = TAUTOLOGY</b> (true by construction, zero information about the world) · <b style="color:var(--cyan)">○ cyan = CONSTITUTIONAL</b> (kept true by enforcement) · <b style="color:var(--green)">◌ green dot = EMPIRICAL</b> (never false yet falsifiable, the only grade that is evidence)</span>
+  <span class="kv" style="max-width:640px">Honesty note: this is a computed projection of the lattice onto a 12D state space, an adaptation of the kinematic-manifold convention, not the kinematics spec's manifold . A superposed node collapses only by a formalization measurement see the the backlog.</span>
 </div>
 
 <div class="perf" id="perf">
@@ -131,14 +173,14 @@
   <p style="font-family:var(--mono);font-size:.72rem;line-height:2">
     <b>← →</b> step epoch (time) · <b>↑ ↓</b> cycle node selection (structure)<br>
     <b>1–9 0 - =</b> set X axis to D1…D12 · <b>shift + same</b> set Y axis<br>
-    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>X</b> ⏹ kill all audio · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose. Instrumentation: the rack beside 🩰 re-voices the MIDI — 🎻 orchestra splits by register (strings bass · piano mid · harp upper · celesta top); changes apply within one scheduling window (≤8s). The choreography is a projection tour: each segment re-projects the manifold through a new X·Y pair — kinematics → degrees → entropy → collapse×superposition at the climax — and the coda restores your own axes.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded — a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = major pentatonic on a chord root that sways Gymnopédie-style through the evidence-unlocked circle of fifths (maj7 and 9 unlock at later epochs) — Debussy/Satie by construction, no semitone clashes; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change — that is the test.
+    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>X</b> ⏹ kill all audio · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de · CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose. Instrumentation: the rack beside 🩰 re-voices the MIDI, 🎻 orchestra splits by register (strings bass · piano mid · harp upper · celesta top); changes apply within one scheduling window (≤8s). The choreography is a projection tour: each segment re-projects the manifold through a new X·Y pair kinematics → degrees → entropy → collapse×superposition at the climax and the coda restores your own axes.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded, a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = major pentatonic on a chord root that sways Gymnopédie-style through the evidence-unlocked circle of fifths (maj7 and 9 unlock at later epochs) Debussy/Satie by construction, no semitone clashes; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change that is the test.
   </p>
-  <span class="lbl" style="color:var(--gold)">Conductor's score — one mark per dimension</span>
-  <p style="font-family:var(--mono);font-size:.68rem;line-height:1.9" id="conductor-score"></p>
+  <span class="lbl" style="color:var(--gold)">Conductor's score · one mark per dimension</span>
+  <p style="font-family:var(--mono);font-size:0.6875rem;line-height:1.9" id="conductor-score"></p>
   <span class="lbl" style="color:var(--gold)">What the controls mean</span>
   <p style="font-size:.76rem;line-height:1.7">
-    <b>Epochs (e1–e8)</b> — the corpus's eight serializability epochs (2026-05-20 → 07-10). Every edge is stamped with the epoch its evidentiary road appeared; scrubbing replays the web's growth.<br>
-    <b>Metronome</b> — five timekeepings: CHRONOS even ticks · KAIROS dwells on significant epochs · DILATION continuous time (fractional epochs, interpolated) · <b>SUSPENSION holds time still</b> so you can move through structure (axes, nodes) while nothing ages · SUPERPOSITION renders all 8 epochs at once.<br>
+    <b>Epochs (e1–e8)</b>the corpus's eight serializability epochs (2026-05-20 → 07-10). Every edge is stamped with the epoch its evidentiary road appeared; scrubbing replays the web's growth.<br>
+    <b>Metronome</b>five timekeepings: CHRONOS even ticks · KAIROS dwells on significant epochs · DILATION continuous time (fractional epochs, interpolated) · <b>SUSPENSION holds time still</b> so you can move through structure (axes, nodes) while nothing ages · SUPERPOSITION renders all 8 epochs at once.<br>
     <b>Layers</b> (each owns one visual channel): trails = colored history paths · entangle = violet dashes · invariants = ring grammar (dash/solid/dot) · satoshi = gold nested geometry.<br>
     <b>Lens</b> (changes what is emphasized, adds nothing): superposed dims every collapsed node.
   </p>

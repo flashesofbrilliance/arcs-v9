@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 145,
-  "nodes": 1060,
-  "clean": 73,
+  "violations": 117,
+  "nodes": 486,
+  "clean": 92,
   "pages": 179
  },
  "pages": {
@@ -35,19 +35,16 @@
    "rules": {}
   },
   "public/arcs-field-scan.html": {
-   "violations": 2,
-   "nodes": 7,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 6,
     "link-in-text-block": 1
    }
   },
   "public/autopilot-ammo.html": {
-   "violations": 1,
-   "nodes": 4,
-   "rules": {
-    "color-contrast": 4
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/autopilot-resume-viewer.html": {
    "violations": 0,
@@ -55,11 +52,9 @@
    "rules": {}
   },
   "public/autopilot.html": {
-   "violations": 1,
-   "nodes": 6,
-   "rules": {
-    "color-contrast": 6
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/ayesha-ext.html": {
    "violations": 0,
@@ -276,9 +271,9 @@
   },
   "public/blog-nftt-take-home-trap-dossier.html": {
    "violations": 2,
-   "nodes": 36,
+   "nodes": 16,
    "rules": {
-    "color-contrast": 34,
+    "color-contrast": 14,
     "scrollable-region-focusable": 2
    }
   },
@@ -365,39 +360,29 @@
    "rules": {}
   },
   "public/blog-til-a-draft-is-not-a-verb.html": {
-   "violations": 1,
-   "nodes": 20,
-   "rules": {
-    "color-contrast": 20
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-til-apple-openai.html": {
-   "violations": 1,
-   "nodes": 30,
-   "rules": {
-    "color-contrast": 30
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-til-closing-the-loop.html": {
-   "violations": 1,
-   "nodes": 27,
-   "rules": {
-    "color-contrast": 27
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-til-index.html": {
-   "violations": 1,
-   "nodes": 5,
-   "rules": {
-    "color-contrast": 5
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-til-zim.html": {
-   "violations": 1,
-   "nodes": 12,
-   "rules": {
-    "color-contrast": 12
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/build.html": {
    "violations": 1,
@@ -484,10 +469,9 @@
    "rules": {}
   },
   "public/germinate.html": {
-   "violations": 2,
-   "nodes": 8,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 7,
     "link-in-text-block": 1
    }
   },
@@ -521,10 +505,9 @@
    "rules": {}
   },
   "public/good-instruments.html": {
-   "violations": 2,
-   "nodes": 6,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 5,
     "link-in-text-block": 1
    }
   },
@@ -546,10 +529,9 @@
    "rules": {}
   },
   "public/good.html": {
-   "violations": 2,
-   "nodes": 9,
+   "violations": 1,
+   "nodes": 2,
    "rules": {
-    "color-contrast": 7,
     "link-in-text-block": 2
    }
   },
@@ -596,10 +578,9 @@
    }
   },
   "public/julia-ext.html": {
-   "violations": 2,
-   "nodes": 108,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 107,
     "html-has-lang": 1
    }
   },
@@ -633,9 +614,9 @@
   },
   "public/lewoof-intake.html": {
    "violations": 3,
-   "nodes": 37,
+   "nodes": 18,
    "rules": {
-    "color-contrast": 20,
+    "color-contrast": 1,
     "html-has-lang": 1,
     "label": 16
    }
@@ -675,25 +656,19 @@
    }
   },
   "public/monstro-cover.html": {
-   "violations": 1,
-   "nodes": 5,
-   "rules": {
-    "color-contrast": 5
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/monstro-full.html": {
-   "violations": 1,
-   "nodes": 23,
-   "rules": {
-    "color-contrast": 23
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/monstro-resume.html": {
-   "violations": 1,
-   "nodes": 24,
-   "rules": {
-    "color-contrast": 24
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/monstro.html": {
    "violations": 1,
@@ -828,18 +803,14 @@
    "rules": {}
   },
   "public/recruithaus-ammo.html": {
-   "violations": 1,
-   "nodes": 8,
-   "rules": {
-    "color-contrast": 8
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/recruithaus.html": {
-   "violations": 1,
-   "nodes": 14,
-   "rules": {
-    "color-contrast": 14
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/resume-google-gtm.html": {
    "violations": 1,
@@ -849,10 +820,9 @@
    }
   },
   "public/resume-tailor.html": {
-   "violations": 2,
-   "nodes": 27,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 26,
     "link-in-text-block": 1
    }
   },
@@ -886,40 +856,31 @@
    "rules": {}
   },
   "public/rosetta-shell.html": {
-   "violations": 2,
-   "nodes": 8,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 7,
     "link-in-text-block": 1
    }
   },
   "public/saul-followup.html": {
-   "violations": 1,
-   "nodes": 49,
-   "rules": {
-    "color-contrast": 49
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/saul-resume-viewer.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/saul.html": {
-   "violations": 1,
-   "nodes": 49,
-   "rules": {
-    "color-contrast": 49
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/schriner-ammo.html": {
-   "violations": 1,
-   "nodes": 4,
-   "rules": {
-    "color-contrast": 4
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/schriner-ext.html": {
    "violations": 0,
@@ -932,19 +893,16 @@
    "rules": {}
   },
   "public/schriner-vico.html": {
-   "violations": 2,
-   "nodes": 5,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 3,
-    "target-size": 2
+    "target-size": 1
    }
   },
   "public/schriner.html": {
-   "violations": 1,
-   "nodes": 6,
-   "rules": {
-    "color-contrast": 6
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/scott-arcs-demo.html": {
    "violations": 1,
@@ -1022,11 +980,9 @@
    "rules": {}
   },
   "public/squad-resume.html": {
-   "violations": 1,
-   "nodes": 11,
-   "rules": {
-    "color-contrast": 11
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/squad.html": {
    "violations": 0,
@@ -1064,9 +1020,9 @@
   },
   "public/todd-call.html": {
    "violations": 1,
-   "nodes": 40,
+   "nodes": 3,
    "rules": {
-    "color-contrast": 40
+    "color-contrast": 3
    }
   },
   "public/todd-logictree.html": {
@@ -1082,26 +1038,21 @@
    "rules": {}
   },
   "public/vico-ammo.html": {
-   "violations": 1,
-   "nodes": 14,
-   "rules": {
-    "color-contrast": 14
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/vico-resume.html": {
-   "violations": 2,
-   "nodes": 5,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 3,
-    "target-size": 2
+    "target-size": 1
    }
   },
   "public/vico.html": {
-   "violations": 1,
-   "nodes": 14,
-   "rules": {
-    "color-contrast": 14
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/vishal-combined.html": {
    "violations": 0,
@@ -1151,9 +1102,11 @@
    "rules": {}
   },
   "runtime/warroom/lyndon-war.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
+   "violations": 1,
+   "nodes": 1,
+   "rules": {
+    "color-contrast": 1
+   }
   },
   "runtime/warroom/surfaces.html": {
    "violations": 0,

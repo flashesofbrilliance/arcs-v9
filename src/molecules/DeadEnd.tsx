@@ -22,7 +22,7 @@ export function DeadEnd({ section, title, body }: DeadEndProps) {
           <Wordmark section={section} />
         </div>
         <Rule style={{ marginBottom: '2.5rem' }} />
-        <div style={{ fontFamily: font.mono, fontSize: '0.65rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: signal.gold, marginBottom: '0.75rem' }}>
+        <div style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: signal.gold, marginBottom: '0.75rem' }}>
           Terrain unknown
         </div>
         <h1 style={{ fontFamily: font.sans, fontSize: '1.6rem', fontWeight: 600, color: text.primary, margin: '0 0 0.75rem', lineHeight: 1.2, letterSpacing: '-0.01em' }}>

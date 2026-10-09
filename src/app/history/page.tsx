@@ -127,7 +127,7 @@ export default function HistoryPage() {
                     <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
                       <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: text.muted }}>{new Date(r.createdAt).toLocaleDateString()}</span>
                       <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "1rem", color: c }}>{r.nciScore}</span>
-                      <span style={{ fontFamily: font.mono, fontSize: "0.6rem", color: text.muted, letterSpacing: "0.06em" }}>CONVICTION</span>
+                      <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted, letterSpacing: "0.06em" }}>CONVICTION</span>
                     </div>
                   </div>
                   <div style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.primary, lineHeight: 1.4, marginBottom: "0.5rem" }}>{r.decision}</div>
@@ -148,7 +148,7 @@ export default function HistoryPage() {
                             padding: "2px 8px",
                             cursor: "pointer",
                             fontFamily: font.mono,
-                            fontSize: "0.65rem",
+                            fontSize: "0.6875rem",
                             letterSpacing: "0.06em",
                             color: isExpanded ? signal.cyan : signal.steel,
                             transition: "color 0.2s, border-color 0.2s",
@@ -186,7 +186,7 @@ export default function HistoryPage() {
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", marginBottom: "0.4rem" }}>
                             <Badge label={`${cw.icon} ${cw.label}`} color={cw.color} register="light" />
                             <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-                              <span style={{ fontFamily: font.mono, fontSize: "0.65rem", color: text.muted }}>{new Date(child.createdAt).toLocaleDateString()}</span>
+                              <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted }}>{new Date(child.createdAt).toLocaleDateString()}</span>
                               <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "0.875rem", color: cn }}>{child.nciScore}</span>
                             </div>
                           </div>

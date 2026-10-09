@@ -1,6 +1,48 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Clair de Lune Playground</title><script defer src="/_vercel/insights/script.js"></script>
 </head><body>
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
   /* ================================================================
      ARCS · The Clair de Lune Playground
      A hub over the five canon artifacts that PERFORM — set to a real
@@ -30,7 +72,7 @@
   a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
   .lane{max-width:1040px;margin:0 auto;padding:0 24px}
 
-  .ey{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--label)}
+  .ey{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--label)}
   .ey b{color:var(--cyan)}
   h1{font-weight:800;letter-spacing:-.03em;line-height:1.04;font-size:clamp(38px,7vw,72px);text-wrap:balance}
   h2{font-weight:750;letter-spacing:-.02em;line-height:1.14;font-size:clamp(21px,3vw,29px);text-wrap:balance}
@@ -39,7 +81,7 @@
 
   /* hero */
   .hero{padding-block:92px 26px;position:relative}
-  .hero .uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;
+  .hero .uplink{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;
     text-transform:uppercase;color:var(--label);margin-bottom:20px}
   .hero .uplink:hover{color:var(--cyan)}
   .hero h1{margin:14px 0 0}.hero h1 .hl{color:var(--cyan)}
@@ -72,7 +114,7 @@
     62%{transform:translateY(9px) scale(.8)}
     75%{transform:translateY(-14px) scale(1.2)}
   }
-  .barrelab{position:absolute;bottom:6px;left:12px;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;
+  .barrelab{position:absolute;bottom:6px;left:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
     text-transform:uppercase;color:var(--label)}
 
   /* PERFORM grammar legend */
@@ -82,7 +124,7 @@
   @media(min-width:720px){.scalerow{grid-template-columns:repeat(4,1fr)}}
   .fid{border:1px solid var(--border);border-radius:11px;background:var(--surface);padding:14px 15px}
   .fid .ft{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-  .fid .kbd{font-family:var(--mono);font-size:9px;color:var(--label);border:1px solid var(--border);border-radius:4px;padding:1px 5px;margin-left:6px}
+  .fid .kbd{font-family:var(--mono);font-size:11px;color:var(--label);border:1px solid var(--border);border-radius:4px;padding:1px 5px;margin-left:6px}
   .fid.b .ft{color:var(--cyan)}.fid.i .ft{color:var(--gold)}.fid.s .ft{color:var(--green)}.fid.x .ft{color:var(--muted)}
   .fid p{font-size:12px;color:#9aa7b6;margin-top:7px;line-height:1.5}
 
@@ -97,17 +139,17 @@
   .core .exline{display:flex;align-items:center;gap:9px}
   .core .exl{font-family:var(--mono);font-size:14px}
   .core .nm{font-weight:750;font-size:16px;letter-spacing:-.01em}
-  .core .co{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--label);margin-top:4px}
+  .core .co{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--label);margin-top:4px}
   .core .body{padding:14px 16px;flex:1}
   .core .body p{font-size:12.5px;color:#9aa7b6;line-height:1.55}
   .core .modes{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
-  .core .m{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  .core .m{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
     padding:3px 7px;border-radius:5px;border:1px solid var(--border);color:var(--label)}
   .core .m.on{color:var(--cyan);border-color:var(--cyan-line)}
   .core .cfoot{padding:12px 16px 15px;border-top:1px solid var(--border2);display:flex;gap:14px;align-items:center}
   .core .launch{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--cyan)}
   .core .launch:hover{text-decoration:underline}
-  .core .src{font-family:var(--mono);font-size:9.5px;color:var(--label);margin-left:auto}
+  .core .src{font-family:var(--mono);font-size:11px;color:var(--label);margin-left:auto}
   .core.lead{border-color:var(--cyan-line)}
   .core.lead .exl{color:var(--cyan)}
 
@@ -118,10 +160,10 @@
   .lattwrap{overflow-x:auto;margin-top:20px;border:1px solid var(--border);border-radius:12px}
   table{border-collapse:collapse;width:100%;min-width:660px;font-size:13px}
   th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--border2);vertical-align:top}
-  thead th{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--label);background:var(--surface2)}
+  thead th{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--label);background:var(--surface2)}
   tbody td{color:#cdd8e4}
   .dn{font-family:var(--mono);font-weight:700;color:var(--cyan)}
-  .zone{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
+  .zone{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
   td .lab{font-weight:600;color:#e2e8f0}
   .mark{font-family:var(--mono);font-weight:700;color:var(--gold);font-size:13px}
   td .note{display:block;font-size:11px;color:#93a0af;margin-top:3px;line-height:1.45;max-width:none}
@@ -138,10 +180,10 @@
   .prov{margin-top:34px;border-top:1px solid var(--border2);padding-top:20px;display:grid;gap:12px;padding-bottom:8px}
   .provrow{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:baseline}
   @media(max-width:560px){.provrow{grid-template-columns:1fr;gap:3px}}
-  .provrow dt{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .provrow dt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   .provrow dd{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--label)}
   .provrow dd b{color:#9aa7b6}
-  .footline{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);padding:32px 0 46px}
+  .footline{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);padding:32px 0 46px}
 
   .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
   .reveal.seen{opacity:1;transform:none}
@@ -150,7 +192,7 @@
 
 <style>
 .arc-spine{position:sticky;top:0;z-index:9000;display:flex;gap:2px;justify-content:center;flex-wrap:wrap;background:rgba(2,4,8,.9);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid #131b28;padding:7px 10px;font-family:ui-monospace,"SF Mono",Menlo,monospace}
-.arc-spine a{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#8a97a8;text-decoration:none;padding:4px 11px;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
+.arc-spine a{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#8a97a8;text-decoration:none;padding:4px 11px;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
 .arc-spine a:hover{color:#e2e8f0}
 .arc-spine a[aria-current="page"]{color:#00F0FF;background:rgba(0,240,255,.09)}
 @media(prefers-reduced-motion:reduce){.arc-spine a{transition:none}}

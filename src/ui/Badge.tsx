@@ -35,7 +35,7 @@ export function Badge({ label, glyph, color = signal.steel, register = 'state', 
     register === 'governance'
       ? { fontSize: 11, letterSpacing: '0.12em', padding: '4px 11px', borderRadius: 7, background: `${color}1f`, border: `1px solid ${color}55` }
       : register === 'light'
-      ? { fontSize: 10, fontWeight: 500, letterSpacing: '0.06em', padding: '2px 9px', borderRadius: 6, background: 'transparent', border: `1px solid ${color}40`, opacity: 0.92 }
+      ? { fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', padding: '2px 9px', borderRadius: 6, background: 'transparent', border: `1px solid ${color}40`, opacity: 0.92 }
       : /* state (also: cockpit alias) */
         { fontSize: 11, letterSpacing: '0.11em', padding: '6px 12px', borderRadius: 8, background: `linear-gradient(165deg, ${color}2e, ${color}0f)`, border: `1px solid ${color}45`, boxShadow: `inset 0 1px 0 rgba(255,255,255,.05), 0 0 8px ${color}26` }
 

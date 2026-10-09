@@ -143,7 +143,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
                       key={i}
                       onClick={() => { if (typeof window !== 'undefined') window.location.href = `/dashboard?q=${encodeURIComponent(t.prompt)}` }}
                       style={{
-                        fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.06em', fontWeight: 700, textTransform: 'uppercase',
+                        fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.06em', fontWeight: 700, textTransform: 'uppercase',
                         color: c, background: `${c}0d`, border: `1px solid ${c}55`, borderRadius: 4, padding: '3px 7px', cursor: 'pointer',
                         whiteSpace: 'nowrap', flexShrink: 0,
                       }}

@@ -58,7 +58,7 @@ export function SegmentedSlider({ options, value, onChange, style }: SegmentedSl
             minWidth: 0, background: 'transparent', border: 'none',
             padding: '8px 2px', cursor: 'pointer',
             fontFamily: font.mono, fontWeight: 700,
-            fontSize: 10, letterSpacing: '0.03em',
+            fontSize: 11, letterSpacing: '0.03em',
             textAlign: 'center',
             color: i === idx ? a.ink : text.dimmed,
             transition: 'color .16s',

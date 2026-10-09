@@ -31,7 +31,7 @@ export function FatedGrid({ fated }: FatedGridProps) {
           const color = FATED_COLORS[k] ?? text.muted
           return (
             <div key={k} style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: '0.75rem', alignItems: 'baseline' }}>
-              <span style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color, textShadow: `0 0 8px ${color}44` }}>{k}</span>
+              <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color, textShadow: `0 0 8px ${color}44` }}>{k}</span>
               <span style={{ fontFamily: font.sans, fontSize: '0.85rem', color: text.secondary, lineHeight: 1.85 }}>{v}</span>
             </div>
           )

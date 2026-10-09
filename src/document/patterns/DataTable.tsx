@@ -13,7 +13,7 @@ export function DataTable({ columns, rows }: DataTableProps) {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ background: '#070b10' }}>
-            {columns.map((c, i) => <th key={i} style={{ padding: '9px 14px', textAlign: 'left', fontFamily: T.mono, fontSize: 9, fontWeight: 700, color: T.fg4, letterSpacing: '0.1em', textTransform: 'uppercase', borderBottom: `1px solid ${T.border}` }}>{c}</th>)}
+            {columns.map((c, i) => <th key={i} style={{ padding: '9px 14px', textAlign: 'left', fontFamily: T.mono, fontSize: 11, fontWeight: 700, color: T.fg4, letterSpacing: '0.1em', textTransform: 'uppercase', borderBottom: `1px solid ${T.border}` }}>{c}</th>)}
           </tr>
         </thead>
         <tbody>

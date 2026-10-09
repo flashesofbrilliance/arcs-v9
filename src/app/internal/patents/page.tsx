@@ -71,7 +71,7 @@ export default async function InternalPage() {
   if (!email) redirect("/compass?callbackUrl=/internal/patents");
   if (!isOwner(email)) return <Denied email={email} />;
 
-  const th: CSSProperties = { textAlign: "left", fontFamily: C.mono, fontSize: 9.5, letterSpacing: "0.12em", textTransform: "uppercase", color: C.muted, fontWeight: 500, padding: "10px 10px", borderBottom: `1px solid ${C.border}`, background: C.surface };
+  const th: CSSProperties = { textAlign: "left", fontFamily: C.mono, fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.muted, fontWeight: 500, padding: "10px 10px", borderBottom: `1px solid ${C.border}`, background: C.surface };
   const td: CSSProperties = { padding: "9px 10px", borderBottom: `1px solid ${C.borderSoft}`, verticalAlign: "top", fontSize: 12.5, lineHeight: 1.4 };
 
   return (
@@ -93,7 +93,7 @@ export default async function InternalPage() {
 
         {/* Disclosure alarm */}
         <div style={{ border: `1px solid rgba(255,77,109,0.35)`, borderLeft: `3px solid ${C.red}`, borderRadius: 10, background: "rgba(255,77,109,0.05)", padding: "14px 16px", marginBottom: 22 }}>
-          <div style={{ fontFamily: C.mono, fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: C.red }}>⚠ Disclosure status — resolve before filing · US §102 unresolved</div>
+          <div style={{ fontFamily: C.mono, fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: C.red }}>⚠ Disclosure status — resolve before filing · US §102 unresolved</div>
           <h2 style={{ fontSize: 16, color: "#ffd7de", margin: "8px 0 5px", fontWeight: 650 }}>The papers are internal drafts — not published.</h2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.55, margin: 0 }}>
             The Yellow/White papers have not been publicly released — the &ldquo;Public Release / CC BY 4.0&rdquo; header is an
@@ -122,12 +122,12 @@ export default async function InternalPage() {
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, fontWeight: 700, color: verdictColor(row.tier) }}>{row.r}</td>
                   <td style={{ ...td, color: C.text, fontWeight: 600 }}>
                     {row.c}
-                    <span style={{ display: "block", fontFamily: C.mono, fontSize: 10, color: C.faint, fontWeight: 400, marginTop: 2 }}>{row.s}</span>
+                    <span style={{ display: "block", fontFamily: C.mono, fontSize: 11, color: C.faint, fontWeight: 400, marginTop: 2 }}>{row.s}</span>
                   </td>
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, color: C.muted }}>{row.e}</td>
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, color: C.muted }}>{row.n}</td>
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, color: C.muted }}>{row.st}</td>
-                  <td style={{ ...td, fontFamily: C.mono, fontSize: 10.5, color: verdictColor(row.tier) }}>{row.v}</td>
+                  <td style={{ ...td, fontFamily: C.mono, fontSize: 11, color: verdictColor(row.tier) }}>{row.v}</td>
                 </tr>
               ))}
             </tbody>
@@ -138,25 +138,25 @@ export default async function InternalPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 22 }}>
           {TIER1.map((k) => (
             <div key={k.h} style={{ border: `1px solid rgba(0,255,157,0.22)`, borderRadius: 10, background: C.surface2, padding: "13px 14px" }}>
-              <div style={{ fontFamily: C.mono, fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", color: C.green }}>{k.i}</div>
+              <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.green }}>{k.i}</div>
               <h3 style={{ fontSize: 14, color: "#eafff6", margin: "5px 0 8px", fontWeight: 650 }}>{k.h}</h3>
-              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Claim</b>{k.claim}</p>
-              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: 9, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Pressure-test</b>{k.note}</p>
-              <div style={{ fontFamily: C.mono, fontSize: 9, color: C.cyan, marginTop: 6 }}>{k.cpc}</div>
+              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Claim</b>{k.claim}</p>
+              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Pressure-test</b>{k.note}</p>
+              <div style={{ fontFamily: C.mono, fontSize: 11, color: C.cyan, marginTop: 6 }}>{k.cpc}</div>
             </div>
           ))}
         </div>
 
         {/* Do-not-file */}
         <div style={{ border: `1px dashed ${C.faint}`, borderRadius: 10, padding: "13px 16px", marginBottom: 18 }}>
-          <div style={{ fontFamily: C.mono, fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase", color: C.red, marginBottom: 7 }}>Do-not-file — strategy, not inventions (§101-ineligible)</div>
+          <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: C.red, marginBottom: 7 }}>Do-not-file — strategy, not inventions (§101-ineligible)</div>
           <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.5, margin: 0 }}>
             <b style={{ color: C.faint, fontFamily: C.mono }}>YP §5.1–5.5</b> agency tiering · prediction-market preference detection · gamification/passport ·
             performance-guarantee structure · regulatory-partnership strategy. Protect via trade secret, trademark, copyright — not utility patents.
           </p>
         </div>
 
-        <div style={{ fontFamily: C.mono, fontSize: 10, color: C.faint, letterSpacing: "0.04em", borderTop: `1px solid ${C.borderSoft}`, paddingTop: 14 }}>
+        <div style={{ fontFamily: C.mono, fontSize: 11, color: C.faint, letterSpacing: "0.04em", borderTop: `1px solid ${C.borderSoft}`, paddingTop: 14 }}>
           Sources: ADR-048/032 · ARCS Yellow + White papers (internal drafts) · USPTO/CPC + live prior-art · triage for counsel, not legal advice.
         </div>
       </div>

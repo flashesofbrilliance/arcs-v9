@@ -82,7 +82,7 @@ export function TribunePanel({ receiptId }: { receiptId: string }) {
     <Card padding="compact" style={{ padding: '1rem 1.25rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
         <Label style={{ marginBottom: 0 }}>Tribune</Label>
-        <span style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.08em', color: text.dimmed, textTransform: 'uppercase' }}>annotates · never decides</span>
+        <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.08em', color: text.dimmed, textTransform: 'uppercase' }}>annotates · never decides</span>
       </div>
       <div style={{ height: 1, background: border.subtle, margin: '0.75rem 0' }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
@@ -92,7 +92,7 @@ export function TribunePanel({ receiptId }: { receiptId: string }) {
           return (
             <div key={phase}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontFamily: font.mono, fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: row ? signal.cyan : text.muted }}>
+                <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: row ? signal.cyan : text.muted }}>
                   {meta.label}
                   {row?.court_invoked && <span style={{ color: signal.red, marginLeft: 8 }}>COURT</span>}
                 </span>
@@ -111,7 +111,7 @@ export function TribunePanel({ receiptId }: { receiptId: string }) {
           )
         })}
       </div>
-      {err && <div style={{ fontFamily: font.mono, fontSize: '0.65rem', color: signal.red, marginTop: '0.75rem' }}>{err}</div>}
+      {err && <div style={{ fontFamily: font.mono, fontSize: '0.6875rem', color: signal.red, marginTop: '0.75rem' }}>{err}</div>}
     </Card>
   )
 }
@@ -123,14 +123,14 @@ function PhaseBody({ row }: { row: Row }) {
   return (
     <div style={{ marginTop: '0.35rem' }}>
       <div style={{ fontFamily: font.sans, fontSize: '0.88rem', color: text.primary, lineHeight: 1.5 }}>{c.one_line}</div>
-      <div style={{ fontFamily: font.mono, fontSize: '0.62rem', color: text.muted, marginTop: '0.3rem', letterSpacing: '0.06em' }}>
+      <div style={{ fontFamily: font.mono, fontSize: '0.6875rem', color: text.muted, marginTop: '0.3rem', letterSpacing: '0.06em' }}>
         BOARD {readiness}% GREEN{row.risk_tier ? ` · RISK ${row.risk_tier.toUpperCase()}` : ''}{row.nci_delta != null ? ` · NCI Δ ${row.nci_delta > 0 ? '+' : ''}${row.nci_delta}` : ''}{row.drift_state ? ` · DRIFT ${row.drift_state}` : ''}
       </div>
       {c.bullets && c.bullets.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginTop: '0.5rem' }}>
           {c.bullets.map((b, i) => (
             <div key={i} style={{ display: 'flex', gap: '0.6rem', fontFamily: font.sans, fontSize: '0.8rem', color: text.secondary, lineHeight: 1.5 }}>
-              <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: '0.65rem', marginTop: '0.15rem' }}>·</span><span>{b}</span>
+              <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: '0.6875rem', marginTop: '0.15rem' }}>·</span><span>{b}</span>
             </div>
           ))}
         </div>
@@ -138,7 +138,7 @@ function PhaseBody({ row }: { row: Row }) {
       {reds.length > 0 && (
         <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
           {reds.map(([role, v]) => (
-            <div key={role} style={{ fontFamily: font.mono, fontSize: '0.65rem', color: text.secondary }}>
+            <div key={role} style={{ fontFamily: font.mono, fontSize: '0.6875rem', color: text.secondary }}>
               <span style={{ color: signal.red, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{role}</span>{v.objection ? `. ${v.objection}` : ''}
             </div>
           ))}
@@ -148,11 +148,11 @@ function PhaseBody({ row }: { row: Row }) {
         <div style={{ marginTop: '0.6rem', borderLeft: `1px solid ${border.subtle}`, paddingLeft: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
           {(['loki', 'advisors', 'bayesian'] as const).map((k) => c.lab?.[k] ? (
             <div key={k} style={{ fontFamily: font.sans, fontSize: '0.78rem', color: text.secondary, lineHeight: 1.5 }}>
-              <span style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: text.muted, marginRight: 8 }}>{k}</span>{c.lab[k]}
+              <span style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: text.muted, marginRight: 8 }}>{k}</span>{c.lab[k]}
             </div>
           ) : null)}
           {typeof c.lab.posterior_probability === 'number' && (
-            <div style={{ fontFamily: font.mono, fontSize: '0.62rem', color: text.muted }}>P(holds) {Math.round(c.lab.posterior_probability * 100)}%</div>
+            <div style={{ fontFamily: font.mono, fontSize: '0.6875rem', color: text.muted }}>P(holds) {Math.round(c.lab.posterior_probability * 100)}%</div>
           )}
         </div>
       )}

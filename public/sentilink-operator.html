@@ -7,6 +7,48 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="The 0 to 1 operator who stands up SentiLink's Government Program Integrity line: build, compliance, and go-to-market in one head.">
 <style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
   :root{
     --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
     --fg1:#eff4fa;--fg2:#c6d3e1;--fg3:#a3b4c6;--fg4:#7e8fa4;
@@ -33,7 +75,7 @@
   .wm .a{color:var(--cyan);font-weight:800;letter-spacing:.22em;}
   .wm .f{color:var(--fg4);font-weight:400;letter-spacing:.14em;}
   .navlinks{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
-  .navlinks a{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.03em;color:var(--fg3);padding:6px 9px;border-radius:7px;transition:.14s;white-space:nowrap;}
+  .navlinks a{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--fg3);padding:6px 9px;border-radius:7px;transition:.14s;white-space:nowrap;}
   .navlinks a:hover{color:var(--cyan);background:var(--elev);}
   .navlinks a.dc{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);font-weight:700;}
   .navlinks a.dc:hover{color:#001014;transform:translateY(-1px);}
@@ -57,7 +99,7 @@
   header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
     background:radial-gradient(900px 480px at 16% -12%,rgba(0,240,255,.11),transparent 60%),radial-gradient(760px 420px at 94% -6%,rgba(0,255,157,.07),transparent 55%);}
   .hero{padding:70px 22px 58px;}
-  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
   .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
   h1{font-size:clamp(54px,10.5vw,104px);font-weight:800;letter-spacing:-.04em;line-height:.94;margin-top:18px;text-wrap:balance;}
   h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
@@ -80,7 +122,7 @@
   .ticker .pulse{flex:none;width:8px;height:8px;border-radius:50%;background:var(--green);
     box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-out infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,255,157,.55);}70%{box-shadow:0 0 0 8px rgba(0,255,157,0);}100%{box-shadow:0 0 0 0 rgba(0,255,157,0);}}
-  .ticker .tk-lbl{flex:none;font-weight:700;letter-spacing:.16em;font-size:10px;color:var(--green);}
+  .ticker .tk-lbl{flex:none;font-weight:700;letter-spacing:.16em;font-size:11px;color:var(--green);}
   .ticker .tk-val b{color:var(--fg1);font-weight:700;}
   @media(max-width:520px){.ticker{font-size:11.5px;gap:9px;padding:10px 13px;}}
   @media(prefers-reduced-motion:reduce){.ticker .pulse{animation:none;}}
@@ -89,7 +131,7 @@
   .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:22px;}
   .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
   .sec-lbl h2{font-size:23px;font-weight:700;letter-spacing:-.01em;text-wrap:balance;}
-  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
   @media(max-width:560px){.sec-lbl .sub{display:none;}}
 
   .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
@@ -103,7 +145,7 @@
      A clean vertical divider between the columns, row separators, no connector. */
   .dmap{border:1px solid var(--border);border-radius:14px;padding:2px 20px 8px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
   .dmap-head{display:grid;grid-template-columns:1fr 1fr;padding:14px 0 11px;border-bottom:1px solid var(--border);}
-  .dmap-head span{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;}
+  .dmap-head span{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;}
   .dmap-head .dh-l{color:var(--gold);padding-right:26px;} .dmap-head .dh-r{color:var(--green);padding-left:26px;border-left:1px solid var(--border);}
   .drow{display:grid;grid-template-columns:1fr 1fr;align-items:start;padding:16px 0;border-bottom:1px solid var(--border);}
   .drow:last-child{border-bottom:none;}
@@ -138,11 +180,11 @@
   footer{padding:32px 0 50px;}
   .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.03em;}
   .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
-  .prov{max-width:1000px;margin:16px auto 0;padding:14px 22px 0;border-top:1px solid var(--border);font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);}
+  .prov{max-width:1000px;margin:16px auto 0;padding:14px 22px 0;border-top:1px solid var(--border);font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--fg4);}
   .prov a{color:var(--fg3);} .prov a:hover{color:var(--cyan);}
-  .attrib{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);}
+  .attrib{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--fg4);}
   .attrib b{color:var(--fg2);font-weight:600;}
-  .clock{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--fg4);} .clock b{color:var(--green);font-weight:700;}
+  .clock{max-width:1000px;margin:11px auto 0;padding:0 22px;font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--fg4);} .clock b{color:var(--green);font-weight:700;}
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <style>

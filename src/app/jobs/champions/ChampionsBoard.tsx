@@ -41,8 +41,8 @@ const GLASS_BEVEL = "inset 0 1px 0 rgba(255,255,255,.10), inset 0 -2px 8px rgba(
 const SCREEN = "linear-gradient(180deg, #090d12, #0c1219)"
 const SCREEN_INSET = "inset 0 2px 5px rgba(0,0,0,.55), inset 0 -1px 0 rgba(255,255,255,.04)"
 
-const labelStyle: React.CSSProperties = { fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: fg4 }
-const smallLabel: React.CSSProperties = { fontFamily: mono, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: fg4 }
+const labelStyle: React.CSSProperties = { fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: fg4 }
+const smallLabel: React.CSSProperties = { fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: fg4 }
 const ctl: React.CSSProperties = { minHeight: 36, padding: "0 12px", background: SCREEN, border: `1px solid #1c2736`, borderRadius: 5, color: fg1, fontFamily: sans, fontSize: 13, boxShadow: SCREEN_INSET }
 const rowCell: React.CSSProperties = { padding: 12, verticalAlign: "top", fontSize: 13, overflowWrap: "anywhere" }
 
@@ -51,7 +51,7 @@ function tierOf(c: number, spec: Spec): 1 | 2 | 3 | null {
   return c >= t.t1 ? 1 : c >= t.t2 ? 2 : c >= t.t3 ? 3 : null
 }
 function Tag({ children }: { children: React.ReactNode }) {
-  return <span style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.cyan}44`, background: `${signal.cyan}12`, color: signal.cyan, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{children}</span>
+  return <span style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.cyan}44`, background: `${signal.cyan}12`, color: signal.cyan, fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{children}</span>
 }
 
 export function ChampionsBoard() {
@@ -146,7 +146,7 @@ export function ChampionsBoard() {
         <div style={{ fontFamily: mono, fontSize: 12, color: fg2, marginBottom: 8 }}><b style={{ color: fg1 }}>{total}</b> of {effMax} points = <b style={{ color: fg1 }}>{(total / effMax).toFixed(3)}</b> · each dimension 0 to 3, times its weight{weights ? " (Weight Lab active)" : ""}. Warm path leads.</div>
         {DIMS.map((x) => { const sc = r.dims[x.key] ?? 0; const w = effWeight(x.key, x.weight); const max = w * 3; return (
           <div key={x.key} title={`${x.anchor0} → ${x.anchor3}`} style={{ display: "grid", gridTemplateColumns: phone ? "128px 1fr 44px" : "168px 1fr 44px", gap: 8, alignItems: "center", padding: "3px 0" }}>
-            <span style={{ fontSize: 12, color: fg2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{x.label}<small style={{ color: weights && w !== x.weight ? signal.cyan : fg4, fontFamily: mono, fontSize: 10, marginLeft: 4 }}>×{w}</small></span>
+            <span style={{ fontSize: 12, color: fg2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{x.label}<small style={{ color: weights && w !== x.weight ? signal.cyan : fg4, fontFamily: mono, fontSize: 11, marginLeft: 4 }}>×{w}</small></span>
             <span style={{ position: "relative", height: 8, background: SCREEN, borderRadius: 999, overflow: "hidden", boxShadow: "inset 0 2px 4px rgba(0,0,0,.65)" }}>
               <i style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: sc === 0 ? 3 : `${(sc / 3) * 100}%`, background: sc === 0 ? signal.red : `linear-gradient(90deg, #1ec3d4, ${signal.cyan})`, borderRadius: 999, boxShadow: sc === 0 ? undefined : `0 0 8px -1px ${signal.cyan}` }} />
             </span>
@@ -188,7 +188,7 @@ export function ChampionsBoard() {
       <span style={{ color: fg2, fontSize: 12 }}>{r.position}{r.position ? " · " : ""}{r.company}</span>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 4 }}>
         <Tag>{LANE_LABEL[r.lane]}</Tag>
-        {r.tags.map((t) => <span key={t} style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.gold}55`, background: `${signal.gold}14`, color: signal.gold, fontFamily: mono, fontSize: 10, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{t}</span>)}
+        {r.tags.map((t) => <span key={t} style={{ display: "inline-block", padding: "1px 7px", borderRadius: 6, border: `1px solid ${signal.gold}55`, background: `${signal.gold}14`, color: signal.gold, fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase" }}>{t}</span>)}
       </div>
       <button onClick={() => setOpen({ ...open, [r.id]: !open[r.id] })} aria-expanded={!!open[r.id]} style={{ marginTop: 4, background: "none", border: 0, padding: 0, color: signal.cyan, fontSize: 12, cursor: "pointer" }}>{open[r.id] ? "Hide the score" : "Why this score"}</button>
     </>)
@@ -262,7 +262,7 @@ export function ChampionsBoard() {
                   <label key={d.key} title={`${d.anchor0} → ${d.anchor3}`} style={{ display: "grid", gridTemplateColumns: "168px 1fr 30px", gap: 10, alignItems: "center" }}>
                     <span style={{ fontSize: 12, color: fg2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{d.label}</span>
                     <input type="range" min={0} max={8} step={1} value={val} onChange={(e) => set(d.key, Number(e.target.value))} style={{ width: "100%", accentColor: signal.cyan, cursor: "pointer" }} aria-label={`${d.label} weight`} />
-                    <span style={{ fontFamily: mono, fontSize: 12, textAlign: "right", color: chg ? signal.cyan : fg2 }}>{val}<small style={{ color: fg4, display: "block", fontSize: 9 }}>{chg ? `was ${d.weight}` : "spec"}</small></span>
+                    <span style={{ fontFamily: mono, fontSize: 12, textAlign: "right", color: chg ? signal.cyan : fg2 }}>{val}<small style={{ color: fg4, display: "block", fontSize: 11 }}>{chg ? `was ${d.weight}` : "spec"}</small></span>
                   </label>) })}
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
@@ -282,7 +282,7 @@ export function ChampionsBoard() {
               <div key={r.id}>
                 {head && <div style={{ ...labelStyle, padding: "4px 12px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}` }}><b style={{ color: fg1, fontFamily: sans, letterSpacing: 0, textTransform: "none", fontSize: 13, marginRight: 8 }}>{TIER_LABEL[t][0]}</b>{TIER_LABEL[t][1]}</div>}
                 <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 12, rowGap: 8, padding: 12, borderBottom: `1px solid ${border.subtle}`, boxShadow: r.swipe ? `inset 2px 0 0 ${r.swipe.direction === "r" ? signal.green : signal.red}` : undefined, opacity: r.swipe?.direction === "l" ? 0.5 : t === 3 ? 0.85 : 1 }}>
-                  <div style={{ fontFamily: mono, fontWeight: 600, fontSize: 16, color: r.swipe?.direction === "r" ? signal.green : fg1 }}>{r.composite.toFixed(3)}<small style={{ display: "block", fontWeight: 400, fontSize: 10, color: fg3 }}>T{t}</small></div>
+                  <div style={{ fontFamily: mono, fontWeight: 600, fontSize: 16, color: r.swipe?.direction === "r" ? signal.green : fg1 }}>{r.composite.toFixed(3)}<small style={{ display: "block", fontWeight: 400, fontSize: 11, color: fg3 }}>T{t}</small></div>
                   <div>{nameCell(r)}</div>
                   <div style={{ gridColumn: "1 / -1", display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}><a href={r.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>LinkedIn</a></div>
                   <div style={{ gridColumn: "1 / -1" }}>{bundleCell(r)}</div>
@@ -299,7 +299,7 @@ export function ChampionsBoard() {
                   <React.Fragment key={r.id}>
                     {head && <tr><td colSpan={5} style={{ ...labelStyle, padding: "4px 12px", background: surface.elevated, borderBottom: `1px solid ${border.subtle}` }}><b style={{ color: fg1, fontFamily: sans, letterSpacing: 0, textTransform: "none", fontSize: 13, marginRight: 8 }}>{TIER_LABEL[t][0]}</b>{TIER_LABEL[t][1]}</td></tr>}
                     <tr style={{ borderBottom: `1px solid ${border.subtle}`, opacity: left ? 0.5 : t === 3 ? 0.85 : 1 }}>
-                      <td style={{ ...rowCell, fontFamily: mono, fontWeight: 600, fontSize: 14, whiteSpace: "nowrap", color: r.swipe?.direction === "r" ? signal.green : fg1, boxShadow: r.swipe ? `inset 2px 0 0 ${r.swipe.direction === "r" ? signal.green : signal.red}` : undefined }}>{r.composite.toFixed(3)}<small style={{ display: "block", fontWeight: 400, fontSize: 10, color: fg3, letterSpacing: "0.06em" }}>T{t}</small></td>
+                      <td style={{ ...rowCell, fontFamily: mono, fontWeight: 600, fontSize: 14, whiteSpace: "nowrap", color: r.swipe?.direction === "r" ? signal.green : fg1, boxShadow: r.swipe ? `inset 2px 0 0 ${r.swipe.direction === "r" ? signal.green : signal.red}` : undefined }}>{r.composite.toFixed(3)}<small style={{ display: "block", fontWeight: 400, fontSize: 11, color: fg3, letterSpacing: "0.06em" }}>T{t}</small></td>
                       <td style={rowCell}>{nameCell(r)}</td>
                       <td style={rowCell}><a href={r.url} target="_blank" rel="noopener" style={{ color: signal.cyan, display: "block" }}>LinkedIn</a></td>
                       {!tablet && <td style={rowCell}>{bundleCell(r)}</td>}

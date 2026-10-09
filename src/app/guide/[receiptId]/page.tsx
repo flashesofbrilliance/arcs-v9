@@ -94,7 +94,7 @@ function OutcomeTargetCard({
 }) {
   return (
     <div style={{ background: s.surface, border: `1px solid ${s.border}`, borderRadius: 8, padding: "0.625rem 1rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-      <div style={{ fontSize: "0.55rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: s.muted }}>OUTCOME TARGET</div>
+      <div style={{ fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: s.muted }}>OUTCOME TARGET</div>
       <input
         value={outcomeStatement}
         onChange={e => onChangeOutcome(e.target.value)}
@@ -103,7 +103,7 @@ function OutcomeTargetCard({
       />
       <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", background: `${s.cyan}12`, border: `1px solid ${s.cyan}33`, borderRadius: 5, padding: "0.2rem 0.5rem" }}>
-          <span style={{ fontSize: "0.5rem", color: s.cyan, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>Leading</span>
+          <span style={{ fontSize: "0.6875rem", color: s.cyan, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>Leading</span>
           <input
             value={leadingIndicator}
             onChange={e => onChangeLeading(e.target.value)}
@@ -112,7 +112,7 @@ function OutcomeTargetCard({
           />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", background: `${s.green}12`, border: `1px solid ${s.green}33`, borderRadius: 5, padding: "0.2rem 0.5rem" }}>
-          <span style={{ fontSize: "0.5rem", color: s.green, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>KPI</span>
+          <span style={{ fontSize: "0.6875rem", color: s.green, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>KPI</span>
           <input
             value={kpiLabel}
             onChange={e => onChangeKpi(e.target.value)}
@@ -121,7 +121,7 @@ function OutcomeTargetCard({
           />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.375rem", background: `${s.red}12`, border: `1px solid ${s.red}33`, borderRadius: 5, padding: "0.2rem 0.5rem" }}>
-          <span style={{ fontSize: "0.5rem", color: s.red, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>Failure</span>
+          <span style={{ fontSize: "0.6875rem", color: s.red, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>Failure</span>
           <input
             value={failureSignal}
             onChange={e => onChangeFailure(e.target.value)}
@@ -154,7 +154,7 @@ function CollapsibleBand({
         onClick={onToggle}
         style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.625rem 1rem", background: s.surface, border: "none", cursor: "pointer" }}
       >
-        <span style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: accentColor }}>{title}</span>
+        <span style={{ fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: accentColor }}>{title}</span>
         <span style={{ fontSize: "0.75rem", color: s.dimmed }}>{isOpen ? "▲" : "▼"}</span>
       </button>
       {isOpen && <div style={{ padding: "1rem" }}>{children}</div>}
@@ -179,7 +179,7 @@ function ArtifactModal({ artifact, onClose }: { artifact: Artifact; onClose: () 
         onClick={e => e.stopPropagation()}
         style={{ background: s.bg, border: `1px solid ${s.border}`, borderRadius: 12, padding: "1.5rem", maxWidth: 480, width: "100%", boxShadow: "0 20px 60px rgba(0,0,0,0.15)" }}
       >
-        <div style={{ fontSize: "0.6rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>Artifact</div>
+        <div style={{ fontSize: "0.6875rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>Artifact</div>
         <div style={{ fontSize: "1rem", fontWeight: 700, color: s.text, marginBottom: "0.75rem" }}>{artifact.title}</div>
         <div style={{ fontSize: "0.85rem", color: s.muted, lineHeight: 1.6 }}>{artifact.abstract}</div>
         <button
@@ -236,7 +236,7 @@ function PostCallLogModal({
         onClick={e => e.stopPropagation()}
         style={{ background: s.bg, border: `1px solid ${s.border}`, borderRadius: 12, padding: "1.5rem", maxWidth: 440, width: "100%", boxShadow: "0 20px 60px rgba(0,0,0,0.15)" }}
       >
-        <div style={{ fontSize: "0.6rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>{stage.id}</div>
+        <div style={{ fontSize: "0.6875rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>{stage.id}</div>
         <div style={{ fontSize: "0.95rem", fontWeight: 700, color: s.text, marginBottom: "1.25rem" }}>{stage.title}</div>
 
         <div style={{ marginBottom: "1rem" }}>
@@ -252,7 +252,7 @@ function PostCallLogModal({
         </div>
 
         <div style={{ marginBottom: "1.25rem" }}>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, color: s.muted, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.625rem" }}>Time Verdict</div>
+          <div style={{ fontSize: "0.6875rem", fontWeight: 700, color: s.muted, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.625rem" }}>Time Verdict</div>
           <div style={{ display: "flex", gap: "0.5rem" }}>
             {verdicts.map(v => (
               <button
@@ -271,7 +271,7 @@ function PostCallLogModal({
         </div>
 
         <div style={{ marginBottom: "1.5rem" }}>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, color: s.muted, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.625rem" }}>Vibes</div>
+          <div style={{ fontSize: "0.6875rem", fontWeight: 700, color: s.muted, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.625rem" }}>Vibes</div>
           <div style={{ display: "flex", gap: "0.5rem" }}>
             {vibes.map(v => (
               <button
@@ -284,7 +284,7 @@ function PostCallLogModal({
                 }}
               >
                 <span style={{ fontSize: "1.25rem" }}>{v.emoji}</span>
-                <span style={{ fontSize: "0.6rem", color: s.muted }}>{v.label}</span>
+                <span style={{ fontSize: "0.6875rem", color: s.muted }}>{v.label}</span>
               </button>
             ))}
           </div>
@@ -351,7 +351,7 @@ function ExplorerSpine({
                 boxShadow: isActive ? `0 0 0 3px ${s.text}22` : "none",
                 transition: "all 0.15s",
               }} />
-              <span style={{ fontSize: "0.65rem", fontFamily: "monospace", fontWeight: isActive ? 700 : 400, color: isActive ? s.text : s.muted, textAlign: "center" }}>
+              <span style={{ fontSize: "0.6875rem", fontFamily: "monospace", fontWeight: isActive ? 700 : 400, color: isActive ? s.text : s.muted, textAlign: "center" }}>
                 {stage.spineLabel}
               </span>
             </button>
@@ -396,14 +396,14 @@ function ModeSelector({
           </button>
         </div>
         <div style={{ marginBottom: "2rem" }}>
-          <div style={{ fontSize: "0.6rem", color: s.arcs, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.5rem" }}>ARCS FIELD OS</div>
+          <div style={{ fontSize: "0.6875rem", color: s.arcs, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.5rem" }}>ARCS FIELD OS</div>
           <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: s.text, margin: 0 }}>Generate Prep Guide</h1>
           <p style={{ fontSize: "0.875rem", color: s.muted, marginTop: "0.5rem" }}>Select your prep mode to generate a field guide for this interaction.</p>
         </div>
 
         {!hasEntity && (
           <div style={{ marginBottom: "1.25rem" }}>
-            <label style={{ display: "block", fontSize: "0.65rem", color: s.muted, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
+            <label style={{ display: "block", fontSize: "0.6875rem", color: s.muted, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
               Who are you preparing for?
             </label>
             <input
@@ -433,7 +433,7 @@ function ModeSelector({
             >
               <div style={{ fontSize: "1.25rem", fontWeight: 700, color: m.color, marginBottom: "0.25rem" }}>{m.label}</div>
               <div style={{
-                display: "inline-block", fontSize: "0.65rem", fontWeight: 600, padding: "0.15rem 0.5rem",
+                display: "inline-block", fontSize: "0.6875rem", fontWeight: 600, padding: "0.15rem 0.5rem",
                 borderRadius: 4, background: `${m.color}15`, color: m.color, marginBottom: "0.625rem",
               }}>
                 {m.time}
@@ -477,13 +477,13 @@ function DensityToggle({ density, onChange }: { density: Density; onChange: (d: 
               borderColor: active ? d.color : s.border,
               background: active ? `${d.color}15` : "transparent",
               color: active ? d.color : s.muted,
-              fontSize: "0.6rem", fontWeight: active ? 700 : 400,
+              fontSize: "0.6875rem", fontWeight: active ? 700 : 400,
               cursor: "pointer", letterSpacing: "0.04em", transition: "all 0.12s",
               lineHeight: 1.4,
             }}
           >
             {d.label}
-            <span style={{ display: "block", fontSize: "0.5rem", color: active ? d.color : s.dimmed, opacity: 0.8 }}>{d.time}</span>
+            <span style={{ display: "block", fontSize: "0.6875rem", color: active ? d.color : s.dimmed, opacity: 0.8 }}>{d.time}</span>
           </button>
         )
       })}
@@ -518,7 +518,7 @@ function DecideHeader({
         onClick={() => setOpen(o => !o)}
         style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.75rem 1rem", background: s.surface, border: "none", cursor: "pointer" }}
       >
-        <span style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: s.text }}>
+        <span style={{ fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: s.text }}>
           {stage.id} — {stage.title}
         </span>
         <span style={{ fontSize: "0.75rem", color: s.dimmed }}>{open ? "▲" : "▼"}</span>
@@ -528,7 +528,7 @@ function DecideHeader({
         <div style={{ padding: "1rem" }}>
           {/* Always show: question compass */}
           <div style={{ marginBottom: density >= 2 ? "1rem" : 0 }}>
-            <div style={{ fontSize: "0.6rem", color: s.arcs, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
+            <div style={{ fontSize: "0.6875rem", color: s.arcs, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
               ◎ Question Compass
             </div>
             <div style={{ fontSize: "0.95rem", fontWeight: 700, color: s.text, lineHeight: 1.4 }}>{stage.questionCompass}</div>
@@ -542,7 +542,7 @@ function DecideHeader({
                 {/* Operational+: stage JTBD */}
                 {density >= 3 && (
                   <div>
-                    <div style={{ fontSize: "0.6rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
+                    <div style={{ fontSize: "0.6875rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
                       ⊕ Stage JTBD
                     </div>
                     <div style={{ fontSize: "0.82rem", color: s.muted, lineHeight: 1.5 }}>{stage.stageJTBD}</div>
@@ -553,11 +553,11 @@ function DecideHeader({
                   <div style={{ border: `1px solid ${s.border}`, borderRadius: 6, overflow: "hidden" }}>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
                       <div style={{ padding: "0.5rem 0.75rem", borderRight: `1px solid ${s.border}`, borderBottom: `1px solid ${s.border}` }}>
-                        <div style={{ fontSize: "0.6rem", color: s.green, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>Yes →</div>
+                        <div style={{ fontSize: "0.6875rem", color: s.green, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>Yes →</div>
                         <div style={{ fontSize: "0.75rem", color: s.text, lineHeight: 1.4 }}>{stage.writesIntoNextTable.yes}</div>
                       </div>
                       <div style={{ padding: "0.5rem 0.75rem", borderBottom: `1px solid ${s.border}` }}>
-                        <div style={{ fontSize: "0.6rem", color: s.red, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>No →</div>
+                        <div style={{ fontSize: "0.6875rem", color: s.red, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>No →</div>
                         <div style={{ fontSize: "0.75rem", color: s.text, lineHeight: 1.4 }}>{stage.writesIntoNextTable.no}</div>
                       </div>
                     </div>
@@ -579,7 +579,7 @@ function DecideHeader({
               <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
                 {/* Strategic+: testing about them */}
                 <div>
-                  <div style={{ fontSize: "0.6rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
+                  <div style={{ fontSize: "0.6875rem", color: s.muted, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.375rem" }}>
                     ◉ Testing About Them
                   </div>
                   <div style={{ fontSize: "0.82rem", color: s.text, lineHeight: 1.5 }}>{stage.testingAboutThem}</div>
@@ -588,7 +588,7 @@ function DecideHeader({
                 {/* Tactical+: tripwire */}
                 {density >= 4 && (
                   <div style={{ background: `${s.gold}0d`, border: `1px solid ${s.gold}33`, borderRadius: 6, padding: "0.625rem 0.75rem" }}>
-                    <div style={{ fontSize: "0.6rem", color: s.gold, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>⚠ Midcurve Tripwire</div>
+                    <div style={{ fontSize: "0.6875rem", color: s.gold, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>⚠ Midcurve Tripwire</div>
                     <div style={{ fontSize: "0.8rem", color: s.text, lineHeight: 1.5 }}>{stage.midcurveTripwire}</div>
                   </div>
                 )}
@@ -738,7 +738,7 @@ export default function GuidePage() {
   if (generating) {
     return (
       <div style={{ minHeight: "100vh", background: s.bg, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem" }}>
-        <div style={{ fontSize: "0.6rem", color: s.arcs, letterSpacing: "0.15em", textTransform: "uppercase" }}>ARCS FIELD OS</div>
+        <div style={{ fontSize: "0.6875rem", color: s.arcs, letterSpacing: "0.15em", textTransform: "uppercase" }}>ARCS FIELD OS</div>
         <div style={{ fontSize: "1rem", fontWeight: 600, color: s.text }}>Generating your field guide…</div>
         <div style={{ fontSize: "0.8rem", color: s.muted }}>Building staged intelligence for {entity ?? "this interaction"}</div>
       </div>
@@ -752,7 +752,7 @@ export default function GuidePage() {
       {/* Header bar */}
       <div style={{ borderBottom: `1px solid ${s.border}`, padding: "0.625rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", background: s.bg }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.75rem" }}>
-          <span style={{ color: s.arcs, fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase" }}>ARCS FIELD OS</span>
+          <span style={{ color: s.arcs, fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase" }}>ARCS FIELD OS</span>
           <span style={{ color: s.border }}>|</span>
           <span style={{ color: s.muted }}>Field Guide</span>
           <span style={{ color: s.border }}>|</span>
@@ -761,7 +761,7 @@ export default function GuidePage() {
         <div style={{ display: "flex", alignItems: "center", gap: "0.875rem" }}>
           <DensityToggle density={density} onChange={changeDensity} />
           <span style={{
-            fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+            fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
             padding: "0.2rem 0.6rem", borderRadius: 4, background: `${modeColor}15`, color: modeColor, border: `1px solid ${modeColor}44`,
           }}>
             {guide.mode}
@@ -850,7 +850,7 @@ export default function GuidePage() {
               return (
                 <div key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", fontFamily: "monospace" }}>
                   {prefix && (
-                    <span style={{ fontSize: "0.65rem", fontWeight: 700, color: pColor, minWidth: 32, paddingTop: 2 }}>{prefix}</span>
+                    <span style={{ fontSize: "0.6875rem", fontWeight: 700, color: pColor, minWidth: 32, paddingTop: 2 }}>{prefix}</span>
                   )}
                   <span style={{ fontSize: "0.8rem", color: s.text, lineHeight: 1.5 }}>{rest}</span>
                 </div>
@@ -887,7 +887,7 @@ export default function GuidePage() {
 
         {/* Decision context footer */}
         <div style={{ marginTop: "1.5rem", padding: "0.875rem 1rem", background: s.surface, border: `1px solid ${s.border}`, borderRadius: 8 }}>
-          <div style={{ fontSize: "0.6rem", color: s.muted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.375rem" }}>Decision Context</div>
+          <div style={{ fontSize: "0.6875rem", color: s.muted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.375rem" }}>Decision Context</div>
           <div style={{ fontSize: "0.8rem", color: s.text, lineHeight: 1.5 }}>{decision}</div>
         </div>
       </div>

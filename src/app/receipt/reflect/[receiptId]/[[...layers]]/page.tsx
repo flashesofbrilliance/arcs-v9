@@ -30,7 +30,7 @@ interface ReceiptData {
 
 function Pill({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", border: `0.5px solid ${color}44`, borderRadius: 3, overflow: "hidden", fontSize: "0.6rem" }}>
+    <div style={{ display: "flex", alignItems: "center", border: `0.5px solid ${color}44`, borderRadius: 3, overflow: "hidden", fontSize: "0.6875rem" }}>
       <span style={{ background: `${color}18`, padding: "0.2rem 0.4rem", color, fontFamily: "monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
       <span style={{ padding: "0.2rem 0.5rem", color: "rgb(226,232,240)", fontFamily: "monospace", background: "rgba(13,17,23,0.5)" }}>{value}</span>
     </div>
@@ -105,13 +105,13 @@ export default function ReceiptReflectPage() {
         <div style={{ borderBottom: `0.5px solid rgba(0,240,255,0.12)`, background: "rgba(0,240,255,0.03)" }}>
           <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
-              <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-              <button onClick={() => router.push(`/receipt/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Receipt</button>
-              <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
-              <span style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: signal.cyan, textTransform: "uppercase" }}>◎ Reflect</span>
+              <Link href="/history" style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", textDecoration: "none" }}>Ledger</Link>
+              <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6875rem" }}>·</span>
+              <button onClick={() => router.push(`/receipt/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Receipt</button>
+              <span style={{ color: signal.cyan, fontFamily: font.mono, fontSize: "0.6875rem" }}>·</span>
+              <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: signal.cyan, textTransform: "uppercase" }}>◎ Reflect</span>
             </div>
-            <button onClick={() => router.push(`/brief/reflect/${receiptId}`)} style={{ background: `${signal.cyan}11`, border: `0.5px solid ${signal.cyan}44`, borderRadius: 4, padding: "0.3rem 0.7rem", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", color: signal.cyan, textTransform: "uppercase" }}>
+            <button onClick={() => router.push(`/brief/reflect/${receiptId}`)} style={{ background: `${signal.cyan}11`, border: `0.5px solid ${signal.cyan}44`, borderRadius: 4, padding: "0.3rem 0.7rem", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6875rem", color: signal.cyan, textTransform: "uppercase" }}>
               {hasBrief ? "Brief reflect →" : "Generate brief →"}
             </button>
           </div>
@@ -119,26 +119,26 @@ export default function ReceiptReflectPage() {
 
         <div style={{ ...contentContainer(vw), paddingTop: "3rem", paddingBottom: "6rem" }}>
           {/* Status line — fog fidelity */}
-          <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: w.color, textTransform: "uppercase", marginBottom: "1rem" }}>{w.icon} {w.label} · {receipt.yState}</div>
+          <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.12em", color: w.color, textTransform: "uppercase", marginBottom: "1rem" }}>{w.icon} {w.label} · {receipt.yState}</div>
 
           {/* Decision — the question, at the top (mirrors the brief pattern) */}
           <div style={{ marginBottom: "1.75rem", padding: "1.25rem 1.5rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
             <h1 style={{ fontFamily: font.sans, fontSize: "0.9rem", fontWeight: 400, color: text.secondary, lineHeight: 1.85, margin: 0 }}>{receipt.decision}</h1>
           </div>
 
           {/* True North */}
           <div style={{ marginBottom: "1.75rem" }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.14em", color: signal.cyan, textTransform: "uppercase", marginBottom: "0.5rem" }}>True North</div>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.14em", color: signal.cyan, textTransform: "uppercase", marginBottom: "0.5rem" }}>True North</div>
             <div style={{ fontFamily: font.sans, fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)", fontWeight: 600, color: text.primary, lineHeight: 2.0 }}>{receipt.trueNorth}</div>
           </div>
 
           {/* Conviction — full-width strip, right below True North */}
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", padding: "1.25rem 1.5rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${border.subtle}`, borderRadius: 6, marginBottom: "1.75rem", flexWrap: "wrap" }}>
             <div style={{ flexShrink: 0 }}>
-              <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.2rem" }}>Conviction</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.2rem" }}>Conviction</div>
               <div style={{ fontFamily: font.sans, fontSize: "2.25rem", fontWeight: 700, color: nc, lineHeight: 1, textShadow: `0 0 12px ${nc}55` }}>{receipt.nciScore}</div>
-              <div style={{ fontFamily: font.mono, fontSize: "0.55rem", color: text.dimmed, marginTop: "0.2rem", letterSpacing: "0.06em" }}>/ 100</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.dimmed, marginTop: "0.2rem", letterSpacing: "0.06em" }}>/ 100</div>
             </div>
             <div style={{ width: "0.5px", height: 44, background: border.subtle, flexShrink: 0 }} />
             <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
@@ -148,7 +148,7 @@ export default function ReceiptReflectPage() {
                 ["Coherence", receipt.coherencePct != null ? `${receipt.coherencePct}%` : "—"],
               ] as [string, string][]).map(([k, v]) => (
                 <div key={k}>
-                  <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.1em", color: text.muted, textTransform: "uppercase", marginBottom: "0.2rem" }}>{k}</div>
+                  <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.1em", color: text.muted, textTransform: "uppercase", marginBottom: "0.2rem" }}>{k}</div>
                   <div style={{ fontFamily: font.mono, fontSize: "0.75rem", color: text.secondary }}>{v}</div>
                 </div>
               ))}
@@ -157,7 +157,7 @@ export default function ReceiptReflectPage() {
 
           {why.length > 0 && (
             <div style={{ marginBottom: "1.75rem" }}>
-              <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.75rem" }}>Why This</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.75rem" }}>Why This</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 {why.map((bullet, i) => (
                   <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
@@ -186,7 +186,7 @@ export default function ReceiptReflectPage() {
           {/* Court Verdict — standalone card, same atom as Decision */}
           {receipt.courtVerdict && (
             <div style={{ marginBottom: "1.75rem", padding: "1.25rem 1.5rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
-              <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Court Verdict</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6875rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Court Verdict</div>
               <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.85 }}>{receipt.courtVerdict}</div>
             </div>
           )}
