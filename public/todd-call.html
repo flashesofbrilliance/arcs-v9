@@ -134,7 +134,7 @@
 <!-- UPDATE, SEP 17 -->
 <section id="update-sep17" style="padding:26px 0"><div class="wrap">
   <div class="card warm">
-    <span class="phase-tag t-now">Update &middot; September 17</span>
+    <span class="phase-tag t-now">Update &middot; October 9</span>
     <h3 style="margin-top:8px;text-transform:none;font-size:17px;letter-spacing:0;color:var(--text)">Landing it, so you can run it yourself</h3>
     <p class="note">The system is built so your team can run it without us in the loop day to day. You have
     edit access to both Tidio and the Zapier automation, every flow is documented, and none of it depends on
@@ -146,17 +146,19 @@
       <li class="todo">Add the "Chatbot" lead-source value in the live CRM</li>
       <li class="todo">Install the Tidio plugin on the live site and enter the same credentials, it should just work</li>
     </ul>
-    <p class="note">Nothing risky here. All of it is proven in the sandbox first, and you pick the window it
-    goes live in.</p>
+    <p class="note">All of it is proven in the sandbox first, and you pick the window it goes live in. Two checks
+    before the switch: confirm the blank-email safeguard is on in the live automation (so a chat with no email can
+    never overwrite an existing customer record), and know that on the current automation plan leads can be held for
+    a while before they land, so delivery is not instant until that plan is upgraded.</p>
 
-    <p class="note" style="margin-top:12px">Two more things worth knowing: every lead already carries a note with the
-    conversation context, and wiring in the full chat transcript plus a link to the matching product or competitor
-    spec sheet is the next enrichment step we have teed up, so whoever picks it up will see the whole picture. And on routing: today, any lead whose region doesn't match a
+    <p class="note" style="margin-top:12px">Two more things worth knowing: today each lead arrives tagged as a chatbot lead with
+    the visitor's details, but not yet the conversation itself. Wiring in the full chat transcript, plus a link to the
+    matching product or competitor spec sheet, is the next enrichment step, so whoever picks it up will see the whole picture. And on routing: today, any lead whose region doesn't match a
     rule lands in one central inbox, on purpose. The trade-off of leaving it that way is that those unmatched
     leads lose automatic lead-source attribution (knowing which channel a lead came from), so someone has to
     assign them to a rep by hand instead of it happening automatically. The fix, once volume justifies the
     extra setup, is a finer, territory-by-territory rule.</p>
-    <p class="note" style="margin-top:12px"><b>Bottom line:</b> your team can now run this on its own, and the only things left before go-live are three quick, low-risk switches.</p>
+    <p class="note" style="margin-top:12px"><b>Bottom line:</b> your team can run this on its own. Go-live is three small switches plus the two checks above, and the next step is simply to see whether it helps your team before deciding anything further.</p>
   </div>
 </div></section>
 
@@ -181,7 +183,7 @@
     <li class="done">Phone required + "Chatbot" label decided</li>
     <li class="done"><b>Sandbox of SugarCRM landed</b>. A test lead now runs all the way through and lands, tagged Chatbot, routed to your sales manager. Proven end to end in the safe copy.</li>
     <li class="done"><b>Standing hand-off is ON.</b> Fires automatically on every chat now, proven with a real conversation on the staging site (Aug 18), deduplicated, enriched with job title + industry, follow-up reminders on a timer.</li>
-    <li class="todo">Ticket enrichment, teed up: the lead already carries a note with the conversation context; wiring in the full chat transcript plus a link to the matching spec sheet is the next enrichment step.</li>
+    <li class="todo">Ticket enrichment, teed up: leads arrive tagged and routed but without the conversation yet; wiring in the full chat transcript plus a link to the matching spec sheet is the next enrichment step.</li>
     <li class="todo">Point lead delivery from the test setup to your live SugarCRM</li>
     <li class="todo">Add the "Chatbot" lead-source value in the live CRM. Confirmed missing today, so it is a two-minute step at cutover, on the list rather than a surprise.</li>
     <li class="todo">Install the Tidio plugin on the live site with the same credentials</li>
@@ -306,7 +308,7 @@
     <summary style="cursor:pointer;padding:13px 18px;font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700;color:var(--gold-soft);letter-spacing:.02em">+ Appendix &middot; hand-off tasks for your site and IT people (fine print, reference only)</summary>
     <div style="padding:4px 18px 20px">
   <p class="note" style="margin:12px 0 0"><b>Status as of Sept 17:</b> nothing here blocks our work, and nothing has been sent to Jorge or Josh beyond the Barracuda item (resolved). The web-forms fix is now a scoped addendum (see <a href="https://prl.arcs.care/status/troubleshooting">/status/troubleshooting</a>). When it kicks off, the snippet task below goes to whoever holds template access, and we drive it. The chatbot delivery pipe no longer depends on any of this: it is built and verified end to end in the sandbox (see <a href="https://prl.arcs.care/status/tidio">/status/tidio</a>).</p>
-  <p class="note" style="margin-top:10px">So no one is asked to act without the full picture: here is the lead-capture diagnostic runbook. It lays out what we found, what we ruled out and why, and exactly where each person's piece fits into the whole, so the reason behind a task is as clear as the task itself.</p>
+  <p class="note" style="margin-top:10px">So no one is asked to act without the full picture: here is the <a href="/status/runbook" style="color:#00F0FF;font-weight:600">lead-capture diagnostic runbook</a>. It lays out what we found, what we ruled out and why, and exactly where each person's piece fits into the whole, so the reason behind a task is as clear as the task itself.</p>
 
   <div class="card" style="margin-top:14px">
     <span class="phase-tag t-later">Assumptions to confirm</span>
@@ -518,9 +520,9 @@ remaining Tidio email-config step is with Tidio support, which we are handling. 
 <script>
 
   var links=[].slice.call(document.querySelectorAll('nav a'));
-  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+  var secs=links.map(function(a){var h=a.getAttribute('href');return h&&h.charAt(0)==='#'?document.querySelector(h):null}).filter(Boolean);
   function onscroll(){
-    var y=window.scrollY+120, cur=secs[0];
+    if(!secs.length) return; var y=window.scrollY+120, cur=secs[0];
     secs.forEach(function(s){ if(s.offsetTop<=y) cur=s; });
     links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href')==='#'+cur.id); });
   }

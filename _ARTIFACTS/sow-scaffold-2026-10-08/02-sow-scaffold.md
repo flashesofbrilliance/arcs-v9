@@ -162,6 +162,18 @@ Extends A.1. Light ceremonies sized for four people with other jobs; the point i
 | S.1 | Critical path drawn: law that applies, data-flow map, consent and retention, vendor, Alice re-spec, build (non-sensitive first, Vault last) | Every commitment on the board sits on or off the path, explicitly | P0 coverage map, L.10 | Z with team | T | none yet | DEGRADED (T: blockers "uncovered every week", Chelsea, 10-08) | Falsifier: if counsel confirms the regime in week 1, the path collapses and vendor work starts at once. |
 | S.2 | Per-person commitments sized to stated weekly hours | No person over their stated hours; one owner per commitment | Intake hours answer | Team | T | none yet | GRAIN (U: hours not yet known; Chelsea works a second job) | Over-commitment is the likeliest sprint failure for a part-time team. |
 
+## 3d. Feedback stop-loss (added 2026-10-09)
+
+The engagement-killer is death by a thousand pieces of unconsolidated feedback. These rules are agreed up front (shown to the team in "How we will handle feedback") so they are never enforced after the fact.
+
+| ID | Rule | Acceptance test | Owner | Loki |
+|---|---|---|---|---|
+| FB.1 | One thread: all feedback lands in one email thread; Zach writes up verbal notes there after each call | No decision or change request exists only in a call | Z | Verbal notes are the likeliest leak; the write-up is the control. |
+| FB.2 | One voice: the team names one consolidator who merges comments and settles disagreements before sending | Every feedback batch arrives from the consolidator | Team | If no one is named by the end of stage 1, Zach asks once, then treats Leah as default. |
+| FB.3 | One round per stage, within about three working days of the checkpoint; later notes roll to the next stage | Each stage has at most one feedback batch | Team, Z | Falsifier: if a late note reveals a safety or legal issue, it is taken at once; the rule is for preferences, not hazards. |
+| FB.4 | Two revision rounds included per deliverable; more rounds draw on the office-hours block | Revision count logged per deliverable | Z | Gives the cap a price instead of a refusal. |
+| FB.5 | Settled stays settled: reopening a decision needs its owner and a line in the decision record | Every reopened decision has an owner and a reason logged | Team | Pairs with the intake question on decisions not to reopen. |
+
 ## 4. Track F: Fractional product and technical advisory and management
 
 | ID | Item and deliverable | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |
