@@ -1,3 +1,51 @@
+# Handoff — v3.121.0 (2026-10-09)
+
+## Goal / true north
+Get the My Ally LD mutual NDA signed on fair, two-way terms without slowing the relationship; keep the counterpart surfaces honest and tested.
+
+## What changed
+- NDA review of "Mutual NDA — Access Consulting & Zach Harris 10.9.26" (counterparty Access Consulting, LLC, Leah's consultancy). Outliers flagged: AI-tools clause (4), auto-destroy at 60 days (8.1(c)), one-way sharing (3.1 vs 3.2), broad derivative-works ban (6.2); retroactive to Oct 8 (Recital E). Not legal advice.
+- myally.arcs.care/mnda-edits live (PR #1127, `cbe69507`; receipt `2026-10-09--myally-mnda-edits-page-merge-pr1127--ZH`): six proposed edits (Recital B; 3.2; 6.2; new 6.4 ARCS/independent-methods carve-out; 8.1(c) 90 days; 8.3 version history) with toggleable Why notes and a clean copy. Generator `_ARTIFACTS/sow-scaffold-2026-10-08/build_nda_redlines.py` (source text `mnda-original.txt`).
+- Checklist step 1 on the plan links to /mnda-edits (PR #1128, `31d82681`).
+- Clean signable PDF generated to `~/Downloads/Mutual NDA (revised) - Access Consulting & Zach Harris 10.9.26.pdf` (7 pages, edits verified, signature blocks kept together).
+- Zach SENT the reply to Chelsea (cc Kelly, Leah) with the revised PDF and the /mnda-edits link.
+- MNDA chip in the plan and primer header next to the theme toggle: PR #1129 open, CI green except fe-smoke still running; Zach asked to merge when green.
+
+## Current state
+- Waiting on Access Consulting: Leah's signature on the revised NDA or counsel's counter-wording; Chelsea and Leah's plan feedback (1-2 days).
+- Zach decided to keep the Oct 8 Granola transcript and treat it as NDA-covered once signed; recording disclosure not raised pre-signing (his call). Obligations recorded in memory `project_my_ally_ld_sow_scaffold`.
+
+## Decisions made
+- Edits framed as requests, not conditions; counsel's equivalent wording welcome.
+- Redlines hosted on Zach's own passcode-gated domain rather than a third-party artifact, to avoid sharing their NDA terms with another service.
+- Toast rejected in favour of a checklist link plus a header chip.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. None.
+2. Merge PR #1129 when fe-smoke is green; verify the chip live.
+3. On signature: countersign, then point them to the intake form; Phase 0 starts from the spec.
+4. Signature line still reads "Zach Harris, individually"; consider signing through an entity if manana is one.
+5. Wed 2026-10-14: 1:00 PM Vico/Lyndon intro, then /recoil-close.
+
+## Next action
+Merge PR #1129 once CI is green, then wait for the signed NDA.
+
+## Cold-start recipe
+- Rebuild NDA page: `python3 _ARTIFACTS/sow-scaffold-2026-10-08/build_nda_redlines.py` (after build_proposal_view.py).
+- Live check: POST passcode to `/api/myally/unlock`, curl `/mnda-edits` with the cookie.
+
+### Notes: Lessons
+- An NDA that is retroactive pulls existing recordings and AI-processed notes inside it; check your tooling against its AI and destruction clauses before signing, not after.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261009T200639Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `31d82681`).
+
+---
+
 # Handoff — v3.120.0 (2026-10-09)
 
 > > PRL go-live blocker re-confirmed in the sandbox: the Sep 17 "dead" lead was the empty-email guard overwriting Roger Lamarre again. Monday's call now opens with the fix.
