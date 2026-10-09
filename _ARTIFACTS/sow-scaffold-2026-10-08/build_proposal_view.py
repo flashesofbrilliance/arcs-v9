@@ -16,7 +16,7 @@ import markdown
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
-SEND = False
+SEND = True
 TALLY_FORM_URL = "https://tally.so/r/xXkrP5"
 DEFAULT_LEVEL = 3
 
@@ -301,14 +301,6 @@ plan = altitude_wrap(tables_focusable(scope_view(stage_rail(plan))))
 plan = re.sub(r"(</h1>\s*)<p>(.*?)</p>(\s*)<p>", r'\1<p class="byline">\2</p>\3<p class="lede">', plan, count=1, flags=re.S)
 assert 'class="lede"' in plan, "lede not tagged"
 
-quick = (
-    '<nav class="quicksteps" aria-label="Jump to a step"><span class="altlabel">Jump to a step:</span><ol>'
-    '<li><a href="#stage-1">1 Look and listen</a></li><li><a href="#stage-2">2 Agree the plan</a></li>'
-    '<li><a href="#stage-3">3 Make it solid</a></li><li><a href="#stage-4">4 Aim higher</a></li></ol></nav>'
-)
-_anchor = '<div class="sec" id="s-exec-overview"'
-assert _anchor in plan, "quick steps anchor missing"
-plan = plan.replace(_anchor, quick + _anchor, 1)
 codex_pre = gloss(shift(md("09-translation-codex.md"), 1))
 plan, term_uses = linkify(plan, gloss_data(codex_pre))
 codex = codex_pre
@@ -318,18 +310,15 @@ for slug_, secs_ in term_uses.items():
 codex = re.sub(r"<h2>The translation codex</h2>", "", codex, count=1)
 intake = intake_section()
 
-ticks = "".join(f'<span class="tick" style="--f:{(n - 1) / 4}" aria-hidden="true"></span>' for n, *_ in LEVELS)
 names = "".join(
-    f'<button type="button" class="tname" data-level="{n}" tabindex="-1" aria-hidden="true"><span class="n">{n}</span><span class="w">. {name}</span></button>'
+    f'<button type="button" class="tname" data-level="{n}" aria-pressed="false"><span class="n">{n}</span> {name}</button>'
     for n, name, _, _ in LEVELS
 )
 descs = {n: {"name": name, "desc": d, "adds": adds} for n, name, d, adds in LEVELS}
 bar_html = (
-    '<div class="alt" role="group" aria-label="Level of detail">'
-    '<span class="altlabel" id="altlabel">Depth: slide to show more or less detail</span>'
-    '<div class="slider"><div class="ticks">' + ticks + '</div>'
-    '<input type="range" id="depth" min="1" max="5" step="1" value="' + str(DEFAULT_LEVEL) + '" aria-labelledby="altlabel" aria-describedby="altdesc">'
-    '<div class="tnames">' + names + '</div></div>'
+    '<div class="alt" role="group" aria-labelledby="altlabel">'
+    '<span class="altlabel" id="altlabel">Detail level</span>'
+    '<div class="seg">' + names + '</div>'
     '<p id="altdesc" class="altdesc" aria-live="polite"></p></div>'
 )
 plan = plan.replace("<!--BAR-->", bar_html)
@@ -382,6 +371,14 @@ header.top.collapsed .bar{flex-wrap:wrap}header.top.collapsed .pill.menubtn{disp
 html:not(.js) header.top .bar,html:not(.js) .links{flex-wrap:wrap}
 header.top .pill{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-family:var(--font-mono);font-size:0.925rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--pg-dim);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;text-decoration:none;cursor:pointer;white-space:nowrap}
 header.top .pill:hover,header.top .pill:focus-visible{color:var(--pg-accent);border-color:var(--pg-accent);text-decoration:none}
+header.top .sub{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px;padding-top:4px;padding-bottom:4px;border-top:1px solid var(--pg-line)}
+header.top .sub a{display:inline-flex;align-items:center;min-height:40px;color:var(--pg-dim);text-decoration:none;white-space:nowrap}
+header.top .sub a:hover,header.top .sub a:focus-visible{color:var(--pg-accent);text-decoration:underline}
+.subl{color:var(--pg-muted);font-weight:600}
+.mstages{display:none}
+header.top.collapsed .sub{display:none}
+header.top.collapsed .links.open .mstages{display:flex;flex-direction:column;gap:6px;padding-left:16px}
+@media (max-width:900px){.alt{position:static}}
 header.top .pill.icon{width:44px;padding:0;justify-content:center}
 header.top .pill.primary{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg)}
 nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
@@ -402,25 +399,14 @@ code{font-family:var(--font-code);font-size:.9em}
 .dek{margin:4px 0 8px}
 .more{font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-edge);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer;margin:4px 0 0}
 .more:hover{border-color:var(--pg-accent);color:var(--pg-accent)}
-.alt{position:sticky;top:0;background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 12px 6px;margin:24px 0 8px}
+.alt{position:sticky;top:var(--hdr,57px);background:var(--pg-bg);border-top:1px solid var(--pg-line);border-bottom:1px solid var(--pg-line);z-index:2;padding:8px 12px 6px;margin:24px 0 8px}
 .altlabel{color:var(--pg-muted)}
-.slider{position:relative;margin:4px 0 0;height:76px}
-.slider input[type=range]{position:absolute;left:calc(10% - 12px);width:calc(80% + 24px);top:-4px;height:44px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer;z-index:1}
-.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:linear-gradient(var(--pg-accent),var(--pg-accent)) 0/var(--fill,50%) 100% no-repeat,var(--pg-edge)}
-.slider input[type=range]::-moz-range-track{height:4px;border-radius:3px;background:var(--pg-edge)}
-.slider input[type=range]::-moz-range-progress{height:4px;border-radius:3px;background:var(--pg-accent)}
-.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-top:-10px;border-radius:50%;background:var(--pg-accent);border:3px solid var(--pg-bg);box-shadow:0 0 0 1px var(--pg-accent)}
-.slider input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--pg-accent);border:3px solid var(--pg-bg);box-shadow:0 0 0 1px var(--pg-accent)}
-.slider input[type=range]:focus-visible{outline:none}
-.slider input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--pg-bg),0 0 0 5px var(--pg-accent)}
-.slider input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--pg-bg),0 0 0 5px var(--pg-accent)}
-.ticks{position:absolute;left:0;right:0;top:12px;height:12px;pointer-events:none}
-.tick{position:absolute;top:0;width:2px;height:12px;margin-left:-1px;background:var(--pg-edge);left:calc(10% + 80% * var(--f))}
-.tnames{position:absolute;left:0;right:0;top:30px;display:flex}
-.tname{flex:1 1 0;min-width:0;white-space:nowrap;min-height:44px;font:inherit;color:var(--pg-muted);background:none;border:0;padding:6px 2px;cursor:pointer;text-align:center}
+.tname{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 12px;font:inherit;color:var(--pg-text);background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;cursor:pointer;white-space:nowrap}
 .tname:hover{color:var(--pg-accent);text-decoration:underline}
-.tname.on{color:var(--pg-accent);font-weight:700}
-.slider.compact .tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tname.on{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg);font-weight:700}
+.tname .n{font-family:var(--font-mono);color:var(--pg-muted)}.tname.on .n{color:var(--pg-accent)}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:6px;margin:6px 0 0}
+.howto{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:14px 18px;margin:20px 0 0}.howto-t{font-weight:700;margin:0 0 6px}.howto ul{margin:0;padding-left:1.2em}.howto li{margin:0 0 6px}
 .altdesc{color:var(--pg-dim);margin:2px 0 0}
 .quicksteps{display:flex;flex-wrap:wrap;align-items:center;gap:0 14px;margin:20px 0 0}
 .quicksteps ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:0 4px}
@@ -470,11 +456,7 @@ html[data-tone="warm"][data-theme="light"]{--pg-bg:#fbf6e9;--pg-surface:#fffdf6;
 @media (prefers-contrast:more){:root{--pg-muted:var(--pg-text);--pg-dim:var(--pg-text);--pg-line:var(--pg-edge)}}
 @media (forced-colors:active){
   .alt,.tip,.readopts,.readfab,.scopebar button,.step,.more,.quicksteps a{border:1px solid CanvasText}
-  .slider input[type=range]::-webkit-slider-thumb{background:Highlight;border:2px solid CanvasText}
-  .slider input[type=range]::-moz-range-thumb{background:Highlight;border:2px solid CanvasText}
-  .slider input[type=range]::-webkit-slider-runnable-track,.slider input[type=range]::-moz-range-track{background:CanvasText}
-  .tick{background:CanvasText}
-  a.gl{text-decoration:underline}
+          a.gl{text-decoration:underline}
   .tname.on,.scopebar button[aria-pressed="true"],.ro-btns button[aria-pressed="true"]{outline:2px solid Highlight}
 }
 .scope{margin:16px 0}
@@ -513,11 +495,10 @@ th,td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical
 th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .checklist{margin:0 0 16px;padding-left:1.4em}.checklist li{margin:0 0 8px}
 .note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
-.sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--sticky-h, 12rem) + 16px)}
+.sec,section[id],[id^="g-"],[id^="s-"],.stage{scroll-margin-top:calc(var(--hdr, 100px) + var(--sticky-h, 0px) + 16px)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
-@media (max-width:600px){.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.slider{height:78px}}
-@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
+@media (max-width:600px){.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
 @media print{:root,:root[data-theme]{%LIGHT_IMP%}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,header.top,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
 """.replace("%LIGHT_IMP%", block(LIGHT, True)).replace("%LIGHT%", block(LIGHT)).replace("%DARK%", block(DARK))
 
@@ -531,8 +512,6 @@ JS = """
   var level=__DEFAULT__,over=new Set();
   try{var v=parseInt(localStorage.getItem('myAllyLevel'),10);if(v>=1&&v<=5)level=v;}catch(e){}
   var secs=[].slice.call(document.querySelectorAll('.sec'));
-  var slider=document.getElementById('depth');
-  (function(){var sl=slider.closest('.slider');function fitT(){sl.classList.remove('compact');var over=[].some.call(sl.querySelectorAll('.tname'),function(b){return b.scrollWidth>b.clientWidth+1;});if(over)sl.classList.add('compact');}fitT();window.addEventListener('resize',fitT);if(window.ResizeObserver)new ResizeObserver(fitT).observe(sl);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitT);})();
   function isOpen(i){var s=secs[i];var need=parseInt(s.getAttribute('data-body-alt'),10);return !s.querySelector('.body')||level>=need||over.has(i);}
   function apply(){
     secs.forEach(function(sec,i){
@@ -549,19 +528,15 @@ JS = """
       });
     });
     var cur=DESC[level],nxt=DESC[level+1];
-    slider.value=String(level);
-    slider.style.setProperty('--fill','calc(12px + (100% - 24px) * '+((level-1)/4)+')');
-    slider.setAttribute('aria-valuetext','Level '+level+' of 5, '+cur.name);
-    [].forEach.call(document.querySelectorAll('.tname'),function(b){b.className='tname'+(parseInt(b.getAttribute('data-level'),10)===level?' on':'');});
+    [].forEach.call(document.querySelectorAll('.tname'),function(b){var on=parseInt(b.getAttribute('data-level'),10)===level;b.className='tname'+(on?' on':'');b.setAttribute('aria-pressed',on?'true':'false');});
     measure();
-    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' Moving right adds '+nxt.adds+'.':' This is the full detail.');
+    document.getElementById('altdesc').textContent='Level '+level+' of 5, '+cur.name+': '+cur.desc+(nxt?' The next level adds '+nxt.adds+'.':' This is the full detail.');
   }
   var bar=document.querySelector('.alt');
-  function measure(){if(bar)document.documentElement.style.setProperty('--sticky-h',Math.ceil(bar.getBoundingClientRect().height)+'px');}
+  function measure(){if(bar)document.documentElement.style.setProperty('--sticky-h',getComputedStyle(bar).position==='sticky'?Math.ceil(bar.getBoundingClientRect().height)+'px':'0px');}
   if(window.ResizeObserver&&bar)new ResizeObserver(measure).observe(bar);
   window.addEventListener('resize',measure);
   function setLevel(n){level=Math.max(1,Math.min(5,n));over.clear();try{localStorage.setItem('myAllyLevel',String(level));}catch(e){}apply();}
-  slider.addEventListener('input',function(){setLevel(parseInt(slider.value,10));});
   [].forEach.call(document.querySelectorAll('.tname'),function(b){b.addEventListener('click',function(){setLevel(parseInt(b.getAttribute('data-level'),10));});});
   secs.forEach(function(sec,i){
     var more=sec.querySelector('.more'),body=sec.querySelector('.body');
@@ -687,14 +662,14 @@ page = f"""<!doctype html>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the plan</a>
-<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links" id="menu"><a class="pill" href="#plan">The plan</a><a class="pill" href="#codex">Word guide</a><a class="pill primary" href="#intake">Next steps</a><button type="button" class="pill optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button></span><span class="ctl"><button type="button" class="pill icon" id="themebtn" aria-label="Switch to dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="pill icon menubtn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span></div></nav></header>
+<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links" id="menu"><a class="pill" href="#plan">The plan</a><span class="mstages"><a class="pill" href="#stage-1">1 Look and listen</a><a class="pill" href="#stage-2">2 Agree the plan</a><a class="pill" href="#stage-3">3 Make it solid</a><a class="pill" href="#stage-4">4 Aim higher</a></span><a class="pill" href="#codex">Word guide</a><a class="pill primary" href="#intake">Next steps</a><button type="button" class="pill optbtn" id="optbtn" aria-expanded="false" aria-controls="readopts">Reading options</button></span><span class="ctl"><button type="button" class="pill icon" id="themebtn" aria-label="Switch to dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="pill icon menubtn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span></div><div class="wrap sub" aria-label="Plan stages"><span class="subl">The plan:</span><a href="#stage-1">1 Look and listen</a><a href="#stage-2">2 Agree the plan</a><a href="#stage-3">3 Make it solid</a><a href="#stage-4">4 Aim higher</a></div></nav></header>
 <main class="wrap" id="main">
 {banner}
 <section id="plan">{plan}</section>
 <section id="codex"><div class="sec" data-body-alt="5"><h2>Word guide</h2><p class="dek">A legend for the technical words, each with a plain meaning, a picture and why it matters to you.</p><div class="body" id="bcodex">{codex}</div><button class="more" type="button" aria-controls="bcodex" aria-expanded="false" hidden>Show detail</button></div></section>
 <section id="intake"><div class="sec" data-body-alt="4"><h2>Next steps</h2><p class="dek">Four short sets of questions about what I would like to see: links and descriptions only, once the NDA is signed.</p><div class="body" id="bintake">{intake}</div><button class="more" type="button" aria-controls="bintake" aria-expanded="false" hidden>Show detail</button></div></section>
 </main>
-<footer class="wrap pagefoot"><p>Prepared by Zach at manana. This page is a view, not an agreement. Reading options and your depth setting stay on this device.</p></footer>
+<footer class="wrap pagefoot"><p>Prepared by Zach Harris at manana. A proposal, not a contract.</p></footer>
 {PANEL}
 <script>{JS}</script>
 </body>

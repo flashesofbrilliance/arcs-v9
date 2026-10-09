@@ -6,7 +6,7 @@ For Kelly and Chelsea, from Zach at manana
 
 manana is my consulting practice. I have built a set of decision tools called ARCS. Where I use one on your work, I will say so and say what it does. Where I do not, I will not claim it.
 
-This page opens at the level most useful to the two of you. The depth control below lets you zoom out to a one-screen summary or in to every detail. Words with a dotted underline and a small arrow open a short definition: hover or tap to read it, click to keep it open, and choose Learn more for the full entry. The Reading options button (top right, and Aa at the bottom right) changes the font, text size, spacing and background to whatever reads best for you.
+<div class="howto" role="note"><p class="howto-t">How to use this page</p><ul><li><strong>Choose how much detail.</strong> Use the Detail level buttons just below. Exec is a one-screen summary; Surgical shows everything.</li><li><strong>Tap a word with a dotted underline</strong> for a short, plain definition.</li><li><strong>Make it easier to read.</strong> Reading options (or the round Aa button) change the font, text size, spacing and background. Your choices stay on this device.</li><li><strong>Jump around.</strong> The menu at the top goes straight to the plan, the word guide and the next steps.</li></ul></div>
 
 ## Exec overview
 
