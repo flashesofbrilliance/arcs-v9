@@ -17,7 +17,7 @@ import markdown
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
 SEND = False
-TALLY_FORM_URL = ""  # form xXkrP5 is built but unpublished; paste the share link after Publish
+TALLY_FORM_URL = "https://tally.so/r/xXkrP5"
 DEFAULT_LEVEL = 3
 
 tokens = (ROOT / "src/ui-kit/recoil-report/_tokens.css").read_text(encoding="utf-8")
