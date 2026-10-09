@@ -90,6 +90,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
   Claude Code session tokens, which count against the subscription limit (the weekly cap stalled the morning
   jobs task 2026-09-30/10-01). API spend is separate: prompt caching, Batch API, and Haiku roles in
   `src/lib/claude-models.ts`.
+- **Before planning any non-trivial task, run `/prior-art <job>`** (`scripts/prior_art.py`): it ranks memory, `_PATTERNS/`, ADRs and the tool catalog against the job so the plan starts from past lessons. Open only the top hits that apply; open the plan with a "Prior art:" line.
 - Do NOT read files you already know from this map.
 - Do NOT explore node_modules unless looking up a specific API.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.

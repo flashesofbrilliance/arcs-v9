@@ -2,22 +2,22 @@
  "schema": "tool-catalog-v1",
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
-  "command": 14,
+  "command": 15,
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 174,
+  "script": 177,
   "skill": 21,
   "workflow": 2
  },
- "total": 264,
+ "total": 268,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 298,
+   "WIRED": 303,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 19,
+   "INSTALLED-UNUSED": 18,
    "DUPLICATE": 1,
    "BROKEN": 0
   },
@@ -35,14 +35,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "forge_finalize.sh",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "gauntlet_log_emit.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -431,6 +423,14 @@
    "path": ".claude/commands/precall-brief.md",
    "jtbd": "Pre-meeting trigger companion to `/teardown`. Where `/teardown` needs a website URL and a",
    "invoke": "/precall-brief",
+   "state": "WIRED"
+  },
+  {
+   "kind": "command",
+   "name": "prior-art",
+   "path": ".claude/commands/prior-art.md",
+   "jtbd": "The retrieval half of \"capture what you learned.\" Lessons get written to memory,",
+   "invoke": "/prior-art",
    "state": "WIRED"
   },
   {
@@ -827,6 +827,14 @@
   },
   {
    "kind": "script",
+   "name": "design_debt_sweep.py",
+   "path": "scripts/design_debt_sweep.py",
+   "jtbd": "design_debt_sweep.py: the design-debt burn-down for every page surfaces.arcs.care serves.",
+   "invoke": "python3 scripts/design_debt_sweep.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "doll_export.py",
    "path": "scripts/doll_export.py",
    "jtbd": "doll_export.py — cut a russian-doll seed bundle from the corpus (User0 side).",
@@ -951,7 +959,7 @@
    "path": "scripts/gauntlet_log_emit.py",
    "jtbd": "gauntlet_log_emit.py — the worked example of the public-projection factory.",
    "invoke": "python3 scripts/gauntlet_log_emit.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1355,6 +1363,14 @@
   },
   {
    "kind": "script",
+   "name": "prior_art.py",
+   "path": "scripts/prior_art.py",
+   "jtbd": "prior_art.py — pre-plan lookup: what do we already know about this job?",
+   "invoke": "python3 scripts/prior_art.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "probe_tally.py",
    "path": "scripts/probe_tally.py",
    "jtbd": "probe_tally: read the owned demand-probe counts and let the backlog row move with them.",
@@ -1727,6 +1743,14 @@
    "path": "scripts/teardown_eval.py",
    "jtbd": "teardown_eval.py - deterministic gate harness for /teardown and /precall-brief artifacts.",
    "invoke": "python3 scripts/teardown_eval.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "template_leak_lint.py",
+   "path": "scripts/template_leak_lint.py",
+   "jtbd": "template_leak_lint.py: fail any static HTML page whose VISIBLE text carries unevaluated template code.",
+   "invoke": "python3 scripts/template_leak_lint.py",
    "state": "WIRED"
   },
   {
