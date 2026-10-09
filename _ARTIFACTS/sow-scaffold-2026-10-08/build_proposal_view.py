@@ -45,6 +45,7 @@ SPEC = {
     "The cost, in three buckets": (3, "Fixed, grows with use, and hidden, each as a best, likely and worst case. Nothing is priced yet."),
     "What I need from you, and what you can expect from me": (3, "From you: the NDA, the code, the plan, your cost model and a list of services. From me: dated findings and early notice when anything moves."),
     "What I know, what I think, what I am guessing": (3, "I say which points I know, which I think and which I am guessing."),
+    "Two-week rhythm": (3, "A short planning call, three-line check-ins, and a board that shows who is waiting on whom."),
     "Optional: office hours": (3, "A small prepaid block of my time for your team: a thinking partner, help getting unstuck, or learning a way of working. Separate from the audit, and your choice."),
     "What happens next": (1, None),
 }

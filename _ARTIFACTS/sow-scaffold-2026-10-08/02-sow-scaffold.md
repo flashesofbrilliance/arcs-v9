@@ -140,6 +140,27 @@ Separate from the audit floor and never mixed into it. Access to me, not promise
 | O.4 | Two-line note after every session (what got unstuck, what to try next) plus a running hours log | Notes and balance visible to the team at any time | O.2 | Z | Included | none yet | SHARP (R: the "driver's manual" promised on the call) | The notes become the handover manual; nothing lives only in the call. |
 | O.5 | Guardrails: no legal advice (goes to the counsel list); no hands on production unless agreed as build work; async questions in 15-minute increments or excluded (choose one) | Written in the add-on terms | O.1 | Z | none | none yet | SHARP (R: counsel-decides rule; scope-air-gap) | Big finds in office hours are folded into audit findings at no extra charge (over-deliver channel). |
 
+## 3c. Two-week sprint cadence: who commits to what, and what blocks what (added 2026-10-09)
+
+Extends A.1. Light ceremonies sized for four people with other jobs; the point is visible commitments and visible blockers, not process.
+
+| Ceremony | When, how long | Output |
+|---|---|---|
+| Sprint planning | Day 1, 45 min | Each person (Leah, Chelsea, Kelly, Morgan) names 1 to 3 commitments for the two weeks, sized to their real hours (from intake); each commitment tagged blocks / blocked-by |
+| Async check-in | Twice a week, 3 lines in their own channel | Done, next, stuck. "Stuck" items go to office hours (Track O) |
+| Review and decision receipts | Day 10, 30 min | What shipped against commitments; any one-way-door decision gets a receipt before commit (A.2) |
+| Retro | Day 10, 15 min | One thing to keep, one to change |
+
+**Dependency board.** One row per commitment: owner, due day, depends on, blocks. Mark the critical path (S.1 below) and flag any item where one person's late delivery stalls two others. Example lanes, to be confirmed at the first planning:
+- Leah: counsel questions and decisions (blocks vendor choice, consent wording, Vault).
+- Chelsea and Morgan: data-flow map of what the app actually touches; non-sensitive build (Strengths, Opportunities) that can proceed in parallel.
+- Kelly: cost model refresh and business-plan reconciliation against the roadmap (blocks pricing and funding narrative, not the build).
+
+| ID | Item and deliverable | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |
+|---|---|---|---|---|---|---|---|---|
+| S.1 | Critical path drawn: law that applies, data-flow map, consent and retention, vendor, Alice re-spec, build (non-sensitive first, Vault last) | Every commitment on the board sits on or off the path, explicitly | P0 coverage map, L.10 | Z with team | T | none yet | DEGRADED (T: blockers "uncovered every week", Chelsea, 10-08) | Falsifier: if counsel confirms the regime in week 1, the path collapses and vendor work starts at once. |
+| S.2 | Per-person commitments sized to stated weekly hours | No person over their stated hours; one owner per commitment | Intake hours answer | Team | T | none yet | GRAIN (U: hours not yet known; Chelsea works a second job) | Over-commitment is the likeliest sprint failure for a part-time team. |
+
 ## 4. Track F: Fractional product and technical advisory and management
 
 | ID | Item and deliverable | Acceptance test | Depends on | Owner | Cost | Assump | Grade (evidence) | Loki |
@@ -205,6 +226,7 @@ Counsel should confirm every row. Zach is not giving legal advice; the SOW must 
 | L.6 | Parent and child consent flows, terms, privacy policy | Counsel-approved text live before any external user | T: child data acknowledged; U | GRAIN | Today only the four founders use it; the first external user is the trigger. |
 | L.7 | Security basics: MFA, least privilege, secrets, backups, dependency scanning | A checklist run once and on each release | R: `.claude/skills/sbom-payload-scan/SKILL.md`; U for their current state | DEGRADED | Pen test timing TBD, not estimated. |
 | L.8 | Breach and incident response SOP | A tabletop run once; contacts and decision owners named | R: pattern in `.claude/commands/rca.md`; U | GRAIN | |
+| L.10 | Counsel engagement mode, timeboxed (added 2026-10-09). Recommended: the team brings counsel a short working-assumptions memo (data classes, who uses the app and at what age, where each class travels, what Alice may always / sometimes / never do, the regimes the team *assumes* apply) and asks counsel to confirm, redline or object, plus an explicit list of vendor-selection constraints (must have, must not). Alternative: counsel leads from a blank page. | A fixed review window and fee cap agreed with counsel up front; counsel returns redlines and a written constraints list for vendor selection | P0.A4 data-flow map, L.1 | Leah with counsel; Z drafts the questions, not the conclusions | L (capped) | none yet | DEGRADED (T: Chelsea "long list of questions for counsel"; Zach's 10-08 framing: legal as design partner, always/sometimes/never) | Wording: never title it "our HIPAA and COPPA compliant plan"; that asserts a legal conclusion and presumes HIPAA applies (see L.2). Title it "working assumptions for counsel to confirm". Team-drafted plus redline is usually cheaper than counsel drafting, but counsel decides the regime. |
 | L.9 | Our engagement terms: NDA, IP assignment for work product, liability and no-legal-advice language, data handling for their materials | Reviewed by counsel on both sides | T: NDA to be sent by them | GRAIN | Whose paper and which entity pays: open question 1. |
 
 ## 7. SOP and handover

@@ -87,6 +87,12 @@ Kelly named the hard problem: making Alice warm without ever giving health advic
 
 Then I would test her against a fixed set of sample questions, and we agree in advance what a pass looks like. I am not a lawyer and none of this is legal advice. Your counsel should confirm anything about privacy law, children's information, vendor agreements or contracts. I can help organise their questions so the ones that block building come first.
 
+To keep legal time and cost contained, I would suggest a different order from the usual one. Rather than asking your lawyers to start from a blank page, your team brings them a short memo: what information the app holds, who uses it and at what age, where each kind of information goes, what Alice may and may not do, and which rules you *think* apply. Your lawyers then confirm, correct or object, within a time and fee limit agreed up front. Just as useful: ask them for a plain list of what any AI or hosting provider must have, and must not do. That list turns choosing a provider into a quick check rather than an open debate. Your lawyers still decide which rules apply; the memo only gives them something concrete to react to.
+
+## Two-week rhythm
+
+If it helps, I can run a light two-week rhythm with you: a short planning call where each of you names one to three things you will finish, sized to the hours you actually have; three-line check-ins twice a week (done, next, stuck); and a short review at the end. A simple board shows who is waiting on whom, so that, for example, Chelsea and Morgan can keep building the parts that hold no sensitive information while the legal answers come back.
+
 ## How I would approach "will this work?"
 
 Before any important piece of work, the person who owns it writes down:
