@@ -124,34 +124,8 @@ export default async function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
 
-  // --- lewoof.arcs.care: whole host behind the shared passcode ----------------
-  // The playbook holds partner deal terms and the intake page holds a
-  // counterparty's contact details, so (1) every Le Woof file (/lewoof-*,
-  // /lewoof.html) is locked on EVERY host, because public/ files are directly
-  // fetchable at app.arcs.care/<file>, and (2) the lewoof host itself is locked
-  // end to end, not just a sub-path. Same passcode, same cookie and same
-  // fail-closed helper as the ammo tiers (an unset RECRUITHAUS_AMMO_PASSWORD
-  // keeps the host locked). The gate page (/lewoof-gate*) and /api (the unlock
-  // route) stay open.
-  if (pathname.startsWith('/lewoof-gate')) return NextResponse.next()
-  const lewoofFile = pathname === '/lewoof.html' || pathname.startsWith('/lewoof-')
-  const lewoofHostOpen =
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/_vercel') ||
-    pathname.startsWith('/api') ||
-    pathname === '/robots.txt' ||
-    SHARED_ICON_PATH.test(pathname)
-  if (lewoofFile || (sub === 'lewoof' && !lewoofHostOpen)) {
-    const ok = await ammoUnlocked(
-      request.cookies.get(AMMO_COOKIE)?.value,
-      process.env.RECRUITHAUS_AMMO_PASSWORD,
-    )
-    if (!ok) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/lewoof-gate.html'
-      return NextResponse.rewrite(url)
-    }
-  }
+  // lewoof.arcs.care: passcode gate removed 2026-10-09 at Zach's request
+  // (the partner could not get through it). Host and files are public now.
 
   // --- myally.arcs.care: whole host behind its OWN passcode -----------------
   // Proposal for a counterpart team (names, scope, internal context). Same shape
