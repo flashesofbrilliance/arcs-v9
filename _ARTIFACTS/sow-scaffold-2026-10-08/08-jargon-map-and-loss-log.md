@@ -11,7 +11,7 @@ Counterpart-facing text is in the first person singular ("I", "my view", "how I 
 | Scaffold term | Plain version in the bundle | Why this analogy |
 |---|---|---|
 | Premise: shared documentation is not shared understanding | A budget Finance and Marketing read differently | Both live in budgets and briefs |
-| Audit, light discovery (Phase 0) | Look and listen | |
+| Audit, light discovery (Phase 0) | Look and listen (audit and discovery) | Renamed 2026-10-09 at Zach's request so the stage names the audit the scope section refers to |
 | Shareback, co-design, roadmap (Phase 1) | Agree the plan together; a campaign calendar | Dependency map becomes "what has to happen before what" |
 | Foundational hardening, plan sync (Phase 2) | Make it solid; two sets of books that reconcile | Double-entry bookkeeping was Zach's own framing on the call |
 | Strategy, scenarios, premortem, post-mortem (Phase 3) | Aim higher, then look back; "imagine it failed" | |
