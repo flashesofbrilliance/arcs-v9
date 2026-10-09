@@ -111,6 +111,9 @@ jobs:
       - name: Source-trust table current
         if: always()
         run: python3 scripts/source_trust_emit.py --check
+      - name: Every held dependency exception has a lift condition
+        if: always()
+        run: python3 scripts/held_exceptions.py check
       - name: Every gh_sync backlog row has an issue
         if: always()
         run: python3 scripts/backlog_issue_sync.py --check
