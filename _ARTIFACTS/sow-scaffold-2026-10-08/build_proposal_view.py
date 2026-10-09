@@ -431,6 +431,7 @@ header.top .pill.sub{text-transform:none;letter-spacing:0;font-family:var(--font
 header.top.collapsed .links.open .msub{gap:0;padding-left:8px;margin:2px 0 6px}
 header.top.collapsed .links.open{max-height:calc(100dvh - 88px);overflow:auto}
 header.top.collapsed .links .pill{justify-content:flex-start;text-align:left}
+header.top .pill.chip{padding:0 12px}
 header.top .pill.icon{width:44px;padding:0;justify-content:center}
 header.top .pill.primary{color:var(--pg-accent);border-color:var(--pg-accent);background:var(--pg-accent-bg)}
 nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 20px;padding-top:0;padding-bottom:0}
@@ -737,7 +738,7 @@ page = f"""<!doctype html>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the plan</a>
-<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links" id="menu"><a class="pill" href="#plan">The plan</a><span class="msub">{menu_stages}</span><a class="pill" href="/primer">Technical primer</a><a class="pill primary" href="#intake">Next steps</a></span><span class="ctl"><button type="button" class="pill icon" id="themebtn" aria-label="Switch to dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="pill icon menubtn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span></div></nav></header>
+<header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="#plan" aria-label="ARCS Field OS. Go to the top of the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links" id="menu"><a class="pill" href="#plan">The plan</a><span class="msub">{menu_stages}</span><a class="pill" href="/primer">Technical primer</a><a class="pill primary" href="#intake">Next steps</a></span><span class="ctl"><a class="pill chip" href="/mnda-edits" aria-label="Proposed NDA edits">MNDA</a><button type="button" class="pill icon" id="themebtn" aria-label="Switch to dark mode"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button type="button" class="pill icon menubtn" id="menubtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></span></div></nav></header>
 <div class="shell">{toc_html}<main class="wrap" id="main">
 {banner}
 <section id="plan">{plan}</section>
