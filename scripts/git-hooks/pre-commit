@@ -909,4 +909,12 @@ if [ -n "$new_handoff" ] && [ "${ARCS_ALLOW_DIRECT_HANDOFF:-0}" != "1" ]; then
     exit 1
   fi
 fi
+# ---------------------------------------------------------------------------
+# held-exceptions gate (2026-10-09): every npm override in package.json and every ignore in
+# .github/dependabot.yml needs an entry in runtime/specs/held-exceptions.json saying when it can
+# be lifted, and no entry may outlive its hold. Offline. See scripts/held_exceptions.py.
+held=$(git diff --cached --name-only -- package.json .github/dependabot.yml runtime/specs/held-exceptions.json 2>/dev/null || true)
+if [ -n "$held" ] && [ -f scripts/held_exceptions.py ] && command -v python3 >/dev/null 2>&1; then
+  python3 scripts/held_exceptions.py check >/dev/null 2>&1 || { python3 scripts/held_exceptions.py check || true; exit 1; }
+fi
 exit 0
