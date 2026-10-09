@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
+import { MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
@@ -8,6 +9,8 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   // honest.arcs.care: "Check it before you say it", the in-browser front door to
   // arcs-verb-eval (tools/arcs-verb-eval). Static; every check runs client-side.
   'honest':       '/honest.html',
+  // myally.arcs.care: My Ally LD proposal, gated end to end below (own passcode).
+  'myally':       '/myally.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }
@@ -145,6 +148,33 @@ export default async function proxy(request: NextRequest) {
     if (!ok) {
       const url = request.nextUrl.clone()
       url.pathname = '/lewoof-gate.html'
+      return NextResponse.rewrite(url)
+    }
+  }
+
+  // --- myally.arcs.care: whole host behind its OWN passcode -----------------
+  // Proposal for a counterpart team (names, scope, internal context). Same shape
+  // as the lewoof gate, but a separate secret (MYALLY_PASSCODE) and cookie, so
+  // this passcode opens nothing else. /myally.html and /myally-* are locked on
+  // EVERY host (public/ files are fetchable at app.arcs.care/<file>); the gate
+  // page and /api stay open. Unset env var = locked.
+  if (pathname.startsWith('/myally-gate')) return NextResponse.next()
+  const myallyFile = pathname === '/myally.html' || pathname.startsWith('/myally-')
+  const myallyHostOpen =
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/api') ||
+    pathname === '/robots.txt' ||
+    SHARED_ICON_PATH.test(pathname)
+  if (myallyFile || (sub === 'myally' && !myallyHostOpen)) {
+    const ok = await gateUnlocked(
+      MYALLY_GATE.ns,
+      request.cookies.get(MYALLY_GATE.cookie)?.value,
+      process.env[MYALLY_GATE.env],
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/myally-gate.html'
       return NextResponse.rewrite(url)
     }
   }

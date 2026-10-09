@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Atlas Loader</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#020408;color:#e2e8f0;font:16px/1.5 system-ui,sans-serif;padding:24px 16px}
+main{max-width:960px;margin:0 auto}
+h1{font:600 20px/1.3 system-ui,sans-serif;margin:0 0 8px}
+p{margin:0 0 16px;color:#7a8699}
+#drop{border:1px dashed #1e293b;background:#0d1117;padding:24px;text-align:center;color:#8391a7}
+#drop.on{border-color:#00F0FF}
+label{display:inline-block;margin-top:12px;padding:10px 16px;border:1px solid #1e293b;color:#e2e8f0;cursor:pointer}
+input{position:absolute;opacity:0;width:1px;height:1px}
+input:focus-visible+label{outline:2px solid #00F0FF}
+#err{color:#FF4D6D;margin:16px 0 0}
+#out{margin-top:24px}
+svg{width:100%;height:auto;display:block}
+.meta{font:12px/1.5 ui-monospace,monospace;color:#8391a7;margin:12px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Atlas Loader</h1>
+<p>Load an <code>arcs.atlas.v1</code> data object from your own disk. It is read in this tab only: nothing is uploaded, stored, or fetched.</p>
+<div id="drop">Drop atlas-data.json here
+<br><input id="f" type="file" accept="application/json,.json"><label for="f">Choose file</label></div>
+<div id="err" role="alert"></div>
+<div id="out" aria-live="polite"></div>
+</main>
+<script>
+(function(){
+  var GATE={pass:"#00FF9D",warn:"#FFD700",fail:"#FF4D6D"};
+  var YG={GREEN:"#00FF9D",YELLOW:"#FFD700",RED:"#FF4D6D"};
+  var NS="http://www.w3.org/2000/svg";
+  var err=document.getElementById("err"),out=document.getElementById("out"),drop=document.getElementById("drop");
+  function el(n,a,t){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;return e}
+  function str(v,n){return typeof v==="string"?v.slice(0,n):""}
+  function render(d){
+    out.textContent="";
+    var tiers=d.tiers.slice(0,12),W=800,H=60+tiers.length*64;
+    var svg=el("svg",{viewBox:"0 0 "+W+" "+H,role:"img","aria-label":"Atlas ziggurat"});
+    tiers.forEach(function(t,i){
+      var w=W-(i*(W-240)/Math.max(tiers.length-1,1)),y=H-60-(i+1)*64+8;
+      var g=t.gate==="fail"?"fail":t.gate==="warn"?"warn":"pass";
+      svg.appendChild(el("rect",{x:(W-w)/2,y:y,width:w,height:56,fill:"#0d1117",stroke:GATE[g],"stroke-width":2}));
+      var label=str(t.name,24)+"  ·  "+(Array.isArray(t.docs)?t.docs.length:Number(t.docs)||0)+" docs";
+      svg.appendChild(el("text",{x:W/2,y:y+34,"text-anchor":"middle",fill:"#e2e8f0","font-size":16},label));
+    });
+    out.appendChild(svg);
+    var m=document.createElement("div");m.className="meta";
+    m.textContent="schema "+str(d.schema,40)+" · built "+str(d.built,40)+" · gate "+str(d.gate,12);
+    m.style.color=YG[d.gate]||"#8391a7";
+    out.appendChild(m);
+  }
+  function load(file){
+    err.textContent="";out.textContent="";
+    if(!file)return;
+    if(file.size>5e6){err.textContent="File is over 5 MB; not an atlas object.";return}
+    var r=new FileReader();
+    r.onload=function(){
+      var d;
+      try{d=JSON.parse(String(r.result))}catch(e){err.textContent="Not valid JSON.";return}
+      if(!d||(d.schema!=="arcs.atlas.v1"&&d.schema!=="arcs.atlas.v1.public")||!Array.isArray(d.tiers)){
+        err.textContent="Not an arcs.atlas.v1 object.";return}
+      render(d);
+    };
+    r.onerror=function(){err.textContent="Could not read the file."};
+    r.readAsText(file);
+  }
+  document.getElementById("f").addEventListener("change",function(e){load(e.target.files[0])});
+  ["dragenter","dragover"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.className="on"})});
+  ["dragleave","drop"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.className=""})});
+  drop.addEventListener("drop",function(e){load(e.dataTransfer.files[0])});
+})();
+</script>
+</body>
+</html>

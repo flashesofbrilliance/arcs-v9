@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 276,
-  "hosts": 78,
+  "rows": 278,
+  "hosts": 79,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 218,
-   "gated": 30
+   "product page": 219,
+   "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 24,
-  "app_routes": 45,
+  "proxy_hosts": 26,
+  "app_routes": 46,
   "missing_purpose": 3,
-  "unlisted": 105
+  "unlisted": 106
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -50,7 +50,8 @@
  "unrouted_public_html": [
   "public/blacksmith-cover.html",
   "public/blacksmith-resume.html",
-  "public/jack-rain-resume.html"
+  "public/jack-rain-resume.html",
+  "public/myally-gate.html"
  ],
  "rows": [
   {
@@ -497,6 +498,26 @@
    "unlisted": false,
    "purpose": "jobs.arcs.care/<jobid>/forge — the PRIVATE viewer for a staged forge bundle.",
    "last_commit": "2026-09-07"
+  },
+  {
+   "host": "app.arcs.care",
+   "path": "/jobs/atlas",
+   "catch_all": false,
+   "destination": "/jobs/atlas",
+   "file": "src/app/jobs/atlas/route.ts",
+   "kind": "gated",
+   "title": null,
+   "description": "jobs.arcs.care/atlas: the Atlas Loader HUD. It ships no data: the page takes an",
+   "index": null,
+   "gate": "admin session",
+   "declared_in": [
+    "src/app"
+   ],
+   "pattern": false,
+   "gate_file": null,
+   "unlisted": false,
+   "purpose": "jobs.arcs.care/atlas: the Atlas Loader HUD. It ships no data: the page takes an",
+   "last_commit": "2026-10-08"
   },
   {
    "host": "app.arcs.care",
@@ -3916,6 +3937,26 @@
    "last_commit": "2026-10-08"
   },
   {
+   "host": "myally.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/myally.html",
+   "pattern": false,
+   "file": "public/myally.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD plan",
+   "description": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
    "host": "omakase.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -5183,7 +5224,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-07"
+   "last_commit": "2026-10-08"
   },
   {
    "host": "thetrueai.arcs.care",
