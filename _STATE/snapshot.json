@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-10-09T13:06:21-04:00",
+  "captured_at": "2026-10-09T14:18:04-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "d43bdea4",
-    "head_message": "Merge pull request #1111 from flashesofbrilliance/claude/prl-go-live-cards",
+    "head_sha": "3859829d",
+    "head_message": "Merge pull request #1117 from flashesofbrilliance/claude/handoff-myally-1009",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "PRL 1.2 wrap prep: overview fix (1108), go-live checklist at /go-live as tickable cards linked from all summaries (1109, 1111); refresher email sent to Todd.",
-  "next_action": "Mon 2026-10-12 10:00 ET: run prl.arcs.care/go-live live with Todd, then /recoil-close.",
-  "blocking": "NONE",
+  "session_summary": "PRL 1.2 wrap prep; empty-email guard blocker re-confirmed in sandbox (Sep 17 overwrite of Roger Lamarre); blockers note PR 1115; heads-up email drafted.",
+  "next_action": "Mon 2026-10-12: send heads-up draft before 10:00; on call fix empty-email guard first, then run prl.arcs.care/go-live.",
+  "blocking": "Empty-email guard must be fixed and proven before prod cutover",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
