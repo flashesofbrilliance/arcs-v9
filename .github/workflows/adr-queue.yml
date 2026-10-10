@@ -103,7 +103,7 @@ jobs:
             ROW="| ${ADR_NUM} | ${TITLE} | ${POINTER:-see ADR} | ${QUEUE_STATUS} | ${HORIZON:-?} | ${CONVICTION:-?} |"
             if ! grep -q "| ${ADR_NUM} |" "_QUEUE/PENDING.md"; then
               # Insert before the last --- line
-              sed -i "s|^---$|${ROW}\n---|" "_QUEUE/PENDING.md"
+              ROW="$ROW" awk '{l[NR]=$0} /^---$/{last=NR} END{for(i=1;i<=NR;i++){if(i==last)print ENVIRON["ROW"]; print l[i]}}' "_QUEUE/PENDING.md" > "_QUEUE/PENDING.md.tmp" && mv "_QUEUE/PENDING.md.tmp" "_QUEUE/PENDING.md"
               echo "Added row to PENDING.md"
             else
               echo "ADR-${ADR_NUM} already in PENDING.md — skipping"
