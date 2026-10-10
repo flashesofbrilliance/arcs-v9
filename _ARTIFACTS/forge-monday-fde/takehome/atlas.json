@@ -1,0 +1,21 @@
+{
+  "schema": "arcs.atlas.v1",
+  "built": "2026-10-10T15:00-04:00",
+  "gate": "YELLOW",
+  "title": "monday FDE take-home: Maple Creek (RET)",
+  "note": "Tiers run base (index 0) to apex. gate per tier: pass = done and verified; warn = in progress or owed; fail = blocking. Overall YELLOW until two clean rehearsals pass. Private: pre-work tier must never be shipped.",
+  "tiers": [
+    {"name": "Pre-work", "gate": "pass", "docs": ["_ARTIFACTS/forge-monday-fde/jd-full.txt", "_ARTIFACTS/forge-monday-fde/TAILOR-NOTES.md", "_ARTIFACTS/forge-monday-fde/red-team.md", "_ARTIFACTS/forge-monday-fde/hiring-manager.json", "memory:project_monday_fde_strategic_deployments"]},
+    {"name": "Client sources", "gate": "pass", "docs": ["data/rfp_maple_creek.txt", "data/rfp_maple_creek_amendment_1.txt", "data/sample_questions.txt", "docs/briefing-video.md", "CONSTRAINTS.md"]},
+    {"name": "Core pipeline", "gate": "pass", "docs": ["source/rfp/parse.py", "source/rfp/resolve.py", "source/rfp/store.py", "source/rfp/answer.py", "source/rfp/provider.py"]},
+    {"name": "Amendment truth", "gate": "pass", "docs": ["source/rfp/resolve.py", "source/rfp/store.py", "DECISIONS.md#D-K33"]},
+    {"name": "Gates and evals", "gate": "pass", "docs": ["source/eval/golden.json", "source/eval/golden_wave2.json", "source/sim/scenarios.py", "source/tests/test_seams.py", "source/tests/mutate.py", "hooks/pre-commit"]},
+    {"name": "monday landing", "gate": "pass", "docs": ["source/rfp/sink.py", "source/sync_boards.py", "source/live_questions.py", "source/scorecard_sync.py", "docs/monday-platform.md"]},
+    {"name": "Security", "gate": "pass", "docs": ["source/harness/server.py", ".github/workflows/check.yml", "KINTSUGI.md#K36", "KINTSUGI.md#K38"]},
+    {"name": "Provenance", "gate": "pass", "docs": ["evidence/evidence.jsonl", "scripts/provenance_lint.py", "scripts/build.py", "KINTSUGI.md#K35"]},
+    {"name": "Scope decisions", "gate": "pass", "docs": ["DECISIONS.md#D-600", "DECISIONS.md#D-SCOPE", "DECISIONS.md#D-SUBTRACT", "snapshots/bar-raiser-review.md", "snapshots/reflection-brief-reread.md"]},
+    {"name": "Deck and narrative", "gate": "warn", "docs": ["presentation/deck.html", "presentation/RET-RFP-Intelligence.pdf", "README.md", "DEMO.md"]},
+    {"name": "Rehearsal x2", "gate": "warn", "docs": ["DEMO.md", "TROUBLESHOOT.md"]},
+    {"name": "Submit Thu 17:00", "gate": "warn", "docs": ["scripts/package.py", "HANDOFF.md"]}
+  ]
+}
