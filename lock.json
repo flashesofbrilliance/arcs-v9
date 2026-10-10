@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1791667920.513116,
-  "acquired_at_iso": "2026-10-10T21:32:00Z",
-  "expires_at": 1791669720.513116,
-  "holder": "merge-train@zh-m1-2020:84515:/Users/zharris/arcs-v9/.claude/worktrees/mystifying-tesla-6bc6f3",
+  "acquired_at": 1791667935.357507,
+  "acquired_at_iso": "2026-10-10T21:32:15Z",
+  "expires_at": 1791669735.357507,
+  "holder": "merge-train@zh-m1-2020:85716:/Users/zharris/arcs-v9/.claude/worktrees/mystifying-tesla-6bc6f3",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 85594,
+  "pid": 85775,
   "reason": "merge train: 1099 1096 557 1086",
-  "released_at_iso": "2026-10-10T21:32:04Z",
-  "seq": 52,
-  "state": "free",
+  "seq": 53,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
