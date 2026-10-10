@@ -224,6 +224,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 18. **Capture inbox rule (Zach, 2026-10-04).** Any idea that surfaces mid-turn becomes a `spawn_task` chip or a `/witness` stub inside the same turn; nothing lives only in chat. The single read over every open-loop store is `/loops` (`scripts/open_loops.py`, read-only); same-day captures show under "Captured today, not filed", and a weekday 8:00 spoken digest lands as an Apple Note (scheduled task `arcs-open-loops-morning-note`). Memory `fork-mid-turn-prompts-into-sessions`.
 
+19. **Neighbor scan before a merge, broadcast after (Zach, 2026-10-08).** Before changing or merging a file others cite, run `python3 scripts/neighbor_scan.py <path>` (no args: every file changed vs origin/main). It is read-only and lists citers, offspring (same-stem or child files) and other open PRs touching the same file. After the change lands, update each cite, regenerate each child, or post a note to the owning session; name the broadcast list in the receipt. Memory `look-out-before-look-in-scan-concurrent-sessions-first`.
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
