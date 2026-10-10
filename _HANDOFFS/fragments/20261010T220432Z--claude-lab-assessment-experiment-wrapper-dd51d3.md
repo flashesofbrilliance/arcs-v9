@@ -30,3 +30,10 @@ created_at: 2026-10-10T22:04:32Z
 
 ## Next action
 Zach runs the dress rehearsal once the writer lands ONBOARDING.md.
+
+## Addendum (2026-10-10 ~18:30 ET, cold molt)
+- Added `_ARTIFACTS/forge-monday-fde/takehome/rehearse.sh` (one-command rehearsal: preflight, mock e2e; `--live` adds reset/sync/poller/board tabs and `./rfp rehearse --live`). Syntax-checked, not run (running it writes the take-home's logs: Zach runs it).
+- Memory consolidated: index 23.9KB -> ~20.7KB by moving the consolidation history into `memory-consolidation-log`; monday project state refreshed.
+- Night-moves 2026-10-10 written (`_STATE/night-moves/2026-10-10.md`). The skill calls `scripts/dependency_sweep.py`, which is not on origin/main (drift).
+- Light gauntlet approved and relayed; status-page Plan tab + 20/23 progress bar relayed. Kanban artifact retired (it is shared "anyone with link": Zach to check).
+- Drift modes not auto-corrected (for a future harness session): induced-backlog `status` is free text with no enum; "running in another session" rows have no liveness check; skills can cite scripts that don't exist; molt thresholds are memory-only; the pulse reads arcs-v9 only, so the take-home's 127 commits showed as a commits FLATLINE; plan "deferred" items can still get built (Present mode) with no plan-vs-commit check.
