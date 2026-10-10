@@ -25,10 +25,14 @@ const baseline: Record<string, { violations: number; nodes: number; rules: Recor
 const fresh: typeof baseline = {}
 
 test.describe.configure({ mode: "serial" })
+// Measure the settled page, not a frame of its entrance animation: fade-ins sampled mid-flight read as
+// 1.1:1 contrast and made counts swing run to run (2026-10-09, about 120 of 301 contrast nodes).
+test.use({ reducedMotion: "reduce" })
 
 for (const file of pages) {
   test(`a11y ratchet: ${file}`, async ({ page }) => {
     await page.goto(pathToFileURL(path.join(ROOT, file)).href, { waitUntil: "load" })
+    await page.waitForTimeout(1200)
     const r = await new AxeBuilder({ page }).withTags(TAGS).analyze()
     const rules: Record<string, number> = {}
     for (const v of r.violations) rules[v.id] = v.nodes.length
