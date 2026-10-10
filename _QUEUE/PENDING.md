@@ -88,6 +88,7 @@ These don't have a number in the table above because no ADR exists for them — 
 
 ---
 
+| 085 | Serialize the collision points, not the sessions: a main write-lock and hot-file leases on git refs | see ADR | DRAFT | QUARTER | ? |
 ---
 
 ## Worktree hold branches — ADR number collision (2026-08-03)
@@ -108,4 +109,4 @@ are independent of each other — renumber in any order.
 
 **RESOLVED 2026-09-11 (Triune Stream A):** all three renumbered via `scripts/oracle.py` (ADR-078 exogenous-forge · ADR-079 refusal-to-overclaim · ADR-080 instance-to-class · ADR-081 kairos-detector · ADR-041 kept, free on main), each merged with main on a new branch with state files taking main's version. PRs #408 · #409 · #410 · #413 ALL MERGED to main 2026-09-11/12 (5bf0e574, 109d080c, 90acca7c, 904bd607); receipt `2026-09-11--triune-hold-branch-and-bridge-merges--ZH`. Full sweep of all 74 worktrees: `_STATE/worktree-audit-2026-09-11.md`. Original hold worktrees become removable once their PR merges.
 
-*Last updated: 2026-10-06 18:04 UTC (auto-generated)*
+*Last updated: 2026-10-10 22:10 UTC (auto-generated)*
