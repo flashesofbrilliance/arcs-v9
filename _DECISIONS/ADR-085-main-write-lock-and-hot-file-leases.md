@@ -46,6 +46,11 @@ repo already trusts (git refusing a ref update that does not descend from the re
   `lease claim|release|list|check`, `--self-test`. Stdlib Python, git CLI only.
 - `scripts/merge_train.sh` (#874): new `--lock` flag, default OFF. Self-test cases (f) and (g) added;
   (a) to (e) unchanged and still passing.
+  Addendum 2026-10-10 (#1086): after the build, the train also runs `scripts/merge_train_smoke.sh`
+  (Docker postgres + the Playwright suite fe-smoke runs) when app code changed since BASE, so the push to
+  main does not repeat the PR-time CI job. This runs inside the lock window, so a held lock now also covers
+  the smoke run. It fails closed when Docker is down; `--skip-smoke` overrides on purpose. First real train
+  to use it was 2026-10-10; the step has no recorded real-train result yet.
 - `scripts/oracle.py`: not changed. Same mechanism, different namespace: the oracle CASes a counter
   file on a branch, this CASes a JSON file on a lock ref.
 - `operators/arcs_operator_kairos.py`: not changed. Its `TimeMode.WRITE_LOCK` maps to the train
