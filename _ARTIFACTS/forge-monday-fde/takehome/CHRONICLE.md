@@ -105,3 +105,19 @@ This session read-only; the writer shipped. Relays sent ≈ 25; my own turns wer
 - Repo `~/ret-rfp-intelligence`: 92 commits, CI green on the latest, K1-K41 logged, decisions D-600 … D-SUBTRACT.
 - Next: **rehearsal ×2 from a clean database (Zach)**, then the D-SUBTRACT pass, the T+N snapshot, `scripts/package.py`, and the upload by Thu 10-15 17:00 ET.
 - Open for Zach: rehearsal; the recruiter's tier reply; licence (none vs "All rights reserved").
+
+## Amendment 1 (2026-10-10 ~18:00 ET): usage and allocation, from Zach's Claude Code usage panels
+Source: two screenshots Zach shared of the in-app Usage panel (grade B as a readout; which panel belongs to which session is inferred from the shape, not labelled).
+| Measure | Panel A (likely the relay session) | Panel B (likely the writer session) |
+|---|---|---|
+| Session cost (API-equivalent, subscription, not a cash charge) | $93.17 | $91.80 |
+| API time / active time | 2h 1m / 4m 43s | 1h 40m / 59m 50s |
+| Model mix | Opus 99%, Sonnet 1% | Opus 94%, Sonnet 6% |
+| Cache hit | 98% | 99% |
+| Cache read / write | 15.2M / 351.6k | 266.7M / 2M |
+| Output tokens | 10.6k | 23.9k |
+| Other | 27 web searches | +961 lines |
+Account at the time: session limit 33% (resets in 1 h 44 min), weekly all-models 21% (resets Fri 5:00 AM).
+Last-24h attribution (approximate, overlapping): 96% came from subagent-heavy sessions; 95% ran above 150k context; 44% came from sessions active 8+ hours. Top named consumers: general-purpose subagent 6%, /impeccable 3%, Claude Browser 3%, /artifact-design 1%, /dual-bar-raiser 1%.
+Reading: cost is driven by long, high-context, subagent-heavy sessions, not by the pipeline (pipeline API spend is cents per question). The two panels together, about $185, are higher than the deck's $173.29 because both sessions kept running after the deck figure was taken. The deck figure needs an "as of" time.
+Lesson carried forward: molt sessions earlier (context above 150k is 95% of spend), and use subagents only where independence pays (see the gauntlet cost seam in Phase 6).

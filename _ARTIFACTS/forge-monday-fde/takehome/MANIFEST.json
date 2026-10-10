@@ -4,5 +4,12 @@
     "CHRONICLE.md": "1be96c56d2da50e2cbfa046f166920714a88b495f42725abb35c7d7049749181",
     "atlas.json": "20075bb636e696358497e421b384c6a01be02b7ddafb977c37c782eafc7df5b2"
   },
-  "rule": "append-only; amendments as dated blocks; verify with shasum -a 256"
+  "rule": "append-only; amendments as dated blocks; verify with shasum -a 256",
+  "amendments": [
+    {
+      "n": 1,
+      "at": "2026-10-10T18:00-04:00",
+      "CHRONICLE.md": "ae3279f6812732c76870207717beb16bb345fa72a944343eba10c5b126d28f7d"
+    }
+  ]
 }
