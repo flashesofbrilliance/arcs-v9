@@ -213,6 +213,13 @@ time, and the lock still applies.
 | A session bypasses the lock | It pushes main directly | Not prevented (no branch protection). Main is still non-ff safe; the daily squash detector pattern can be extended to flag main pushes without a matching lock commit |
 | Lock ref history grows | One commit per operation | Tiny (one blob each). Prune by pushing a fresh orphan state while holding the lock, if ever needed |
 
+**Ground (added 2026-10-10).** Checked against `scripts/write_lock.py` on main: `MAX_TTL` is 7200s for a lock and
+14400s for a lease (line 40, so the 2h and 4h caps above); `GRACE` defaults to 120s and applies to takeover and to
+the held/expired test (`--grace`, lines 28 and 133); an unreachable remote returns exit 5 and a refused push returns
+exit 6 (lines 335 and 337); `--self-test` printed ALL PASS on 2026-10-10, including the TTL clamp to 4h and the
+offline lease check failing closed with `--block`. Not re-verified here: the CAS retry count and exit code 4 for a
+stale lock.
+
 ---
 
 ## Write-lock declaration (ROM 7)
