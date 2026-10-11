@@ -6,18 +6,18 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 280,
+  "rows": 281,
   "hosts": 79,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 221,
+   "product page": 222,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 26,
-  "app_routes": 46,
+  "app_routes": 47,
   "missing_purpose": 3,
   "unlisted": 108
  },
@@ -398,6 +398,26 @@
    "unlisted": false,
    "purpose": "Ledger",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "app.arcs.care",
+   "path": "/hud",
+   "catch_all": false,
+   "destination": "/hud",
+   "file": "src/app/hud/page.tsx",
+   "kind": "product page",
+   "title": "ARCS · Field HUD",
+   "description": "The ARCS field, full screen: seven fathoms over the knowledge lattice.",
+   "index": null,
+   "gate": null,
+   "declared_in": [
+    "src/app"
+   ],
+   "pattern": false,
+   "gate_file": null,
+   "unlisted": false,
+   "purpose": "The ARCS field, full screen: seven fathoms over the knowledge lattice.",
+   "last_commit": "2026-10-10"
   },
   {
    "host": "app.arcs.care",
@@ -1303,7 +1323,7 @@
    "unlisted": true,
    "purpose": "ARCS: Day 0 to Today",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "claritai.arcs.care",
@@ -3792,7 +3812,7 @@
    "unlisted": true,
    "purpose": "Recoil Report",
    "kind": "gated",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "mercury.arcs.care",
@@ -3874,7 +3894,7 @@
    "unlisted": true,
    "purpose": "Zach Harris · AI Marketing Engineer · Monstro",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "monstro.arcs.care",
@@ -3974,7 +3994,7 @@
    "unlisted": true,
    "purpose": "Proposed edits to the mutual NDA, each with a short reason.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-09"
   },
   {
    "host": "myally.arcs.care",
@@ -4506,7 +4526,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-03"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "resume.arcs.care",
@@ -4526,7 +4546,7 @@
    "unlisted": false,
    "purpose": "Zach Harris · Resume",
    "kind": "product page",
-   "last_commit": "2026-10-03"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "resume.arcs.care",
@@ -4546,7 +4566,7 @@
    "unlisted": false,
    "purpose": "Zach Harris · Resume",
    "kind": "product page",
-   "last_commit": "2026-10-03"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "robin-codex.arcs.care",
@@ -5264,7 +5284,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -5348,7 +5368,7 @@
    "unlisted": false,
    "purpose": "PRL Resins · Chatbot Build Spec · Todd Hotes",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-09"
   },
   {
    "host": "todd-call.arcs.care",

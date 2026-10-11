@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { text, signal, font } from './tokens'
 import { CloseButton } from './CloseButton'
@@ -31,10 +32,13 @@ export function StickyFooter({
 }) {
   const { open } = useToastDrawer()
   const [dismissed, setDismissed] = useState(false)
+  const pathname = usePathname()
 
   // Legal links are visible when the drawer is open OR the CTA has been dismissed
   const showLegal = dismissed || open
 
+  // Full-screen instruments (arcs.care/hud) carry no page chrome.
+  if (pathname === '/hud') return null
   return (
     <div
       style={{

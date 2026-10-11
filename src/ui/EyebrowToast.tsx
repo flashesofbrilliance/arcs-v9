@@ -134,6 +134,9 @@ export function EyebrowToast() {
     router.push(path)
   }
 
+  // Full-screen instruments (arcs.care/hud) carry no page chrome.
+  if (pathname === '/hud') return null
+
   // Render a placeholder spacer always to avoid layout shift; zero-height when dismissed
   return (
     <>

@@ -308,7 +308,10 @@ def parse_app_routes():
             "destination": path, "file": r, "kind": None,
             "title": title, "description": desc,
             "index": "noindex" if noindex else None,
-            "gate": GATE_ADMIN if AUTH_RE.search(text) else None,
+            # A page can read the session for a sub-feature without gating the page
+            # (arcs.care/hud: only the ziggurat loader is admin). It opts out with
+            # the marker `surface-gate: open` in a comment.
+            "gate": GATE_ADMIN if AUTH_RE.search(text) and "surface-gate: open" not in text else None,
             "declared_in": ["src/app"],
         })
     return rows
