@@ -762,3 +762,9 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - repair: tokens raised to #8391a7 / #7a8699, the pair forge-cut uses. axe: 40 -> 0.
 - seam: the static design detector cannot resolve var() backgrounds or text colors, so it judged these labels against #ffffff and black. Raising the greys alone made it report MORE low-contrast (97 -> 104), all false. html and body now carry the literal #020408 / #e2e8f0 the vars resolve to; the detector reads the real page and drops to 42.
 - guard: the WCAG ratchet (rendered) holds forge-pattern at 0 contrast nodes. Lesson: a page whose body background is only a var() is invisible to the detector's contrast rule; give the root a literal.
+
+## 2026-10-11 · kintsugi hook scored a kit page without its sibling stylesheet
+- break: the pre-commit kintsugi ratchet blocked an unchanged-count edit to src/ui-kit/recoil-report/15-case-world.html (5 in place vs 2 at HEAD).
+- found by: the fog-opacity commit; scoring both versions in place gave 5 and 5.
+- repair: the hook's HEAD mirror now extracts HEAD's whole directory of the file (git archive) before writing the blob, so a linked sibling such as _tokens.css resolves at HEAD too.
+- guard: scripts/git-hooks/pre-commit, next to the 2026-10-06 waiver-path fix it extends.
