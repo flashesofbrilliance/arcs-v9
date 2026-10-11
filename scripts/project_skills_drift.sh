@@ -17,12 +17,12 @@ check() {
   common=$(cd "$dir" && cd "$(git rev-parse --git-common-dir 2>/dev/null)" 2>/dev/null && pwd -P) || return 0
   main=$(dirname "$common")
   [ -d "$main/.claude" ] || return 0
-  n=$(git -C "$main" diff --name-only origin/main -- .claude/skills .claude/commands 2>/dev/null; \
-      git -C "$main" ls-files --others --exclude-standard -- .claude/skills .claude/commands 2>/dev/null)
+  n=$(git -C "$main" diff --name-only origin/main -- .claude/skills .claude/commands .claude/agents 2>/dev/null; \
+      git -C "$main" ls-files --others --exclude-standard -- .claude/skills .claude/commands .claude/agents 2>/dev/null)
   n=$(printf '%s\n' "$n" | grep -c . || true)
   [ "$n" -gt 0 ] || return 0
-  echo "skills-drift: WARN $n file(s) under $main/.claude/{skills,commands} differ from origin/main"
-  echo "skills-drift:   sessions load project skills/commands from the MAIN checkout (branch $(git -C "$main" rev-parse --abbrev-ref HEAD 2>/dev/null))."
+  echo "skills-drift: WARN $n file(s) under $main/.claude/{skills,commands,agents} differ from origin/main"
+  echo "skills-drift:   sessions load project skills/commands/agents from the MAIN checkout (branch $(git -C "$main" rev-parse --abbrev-ref HEAD 2>/dev/null))."
   echo "skills-drift:   fix: move the main checkout onto main (preserve dirty work first; never bare stash)."
 }
 
@@ -34,6 +34,8 @@ if [ "${1:-}" = "--self-test" ]; then
   [ -z "$(check "$t/w")" ] || { echo "FAIL: clean flagged"; exit 1; }
   echo b > "$t/m/.claude/skills/x/SKILL.md"
   case "$(check "$t/w")" in *"WARN 1 file"*) ;; *) echo "FAIL: drift missed"; exit 1;; esac
+  git -C "$t/m" checkout -q -- .; mkdir -p "$t/m/.claude/agents"; echo c > "$t/m/.claude/agents/new.md"
+  case "$(check "$t/w")" in *"WARN 1 file"*) ;; *) echo "FAIL: agents drift missed"; exit 1;; esac
   echo "self-test: PASS (clean silent, drift flagged)"; exit 0
 fi
 check "${1:-$PWD}" || true
