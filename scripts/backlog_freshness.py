@@ -51,7 +51,7 @@ def _dates(text):
 
 
 def _status(row):
-    return str(row.get("status") or "OPEN").upper()
+    return str(row.get("status_note") or row.get("status") or row.get("state") or "OPEN").upper()
 
 
 def _priority(row):

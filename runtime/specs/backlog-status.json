@@ -1,0 +1,17 @@
+{
+  "_doc": "Single source of truth for _QUEUE/induced-backlog.jsonl row `state`. Prose history lives in `status_note` (never deleted). Enforced by scripts/backlog_status_check.py (pre-commit + CI).",
+  "version": "1.0.0",
+  "minted": "2026-10-10",
+  "states": {
+    "OPEN":       {"terminal": false, "meaning": "Known work, not yet claimed, not waiting on anything named."},
+    "READY":      {"terminal": false, "meaning": "OPEN and its trigger has fired / deps are clear; executable now."},
+    "HOLDING":    {"terminal": false, "meaning": "Waiting on depends_on rows to clear; do not start on a clock."},
+    "HELD":       {"terminal": false, "meaning": "Paused by Zach; status_note or trigger names the resume trigger."},
+    "RUNNING":    {"terminal": false, "meaning": "Claimed by a session, chip, or PR.", "requires": ["claimed_by", "claimed_at"]},
+    "BLOCKED":    {"terminal": false, "meaning": "Needs a named human or gate (named in status_note)."},
+    "DONE":       {"terminal": true,  "meaning": "Shipped or closed with evidence."},
+    "COMPOSTED":  {"terminal": true,  "meaning": "Cut: deliberately dropped; its learning stays in status_note."},
+    "SUPERSEDED": {"terminal": true,  "meaning": "Replaced by another row or artifact."}
+  },
+  "running_stale_days_default": 3
+}

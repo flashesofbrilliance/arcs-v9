@@ -149,6 +149,16 @@ if [ -n "$gen_good" ] && [ -f scripts/connector_render.py ] && command -v python
     exit 1
   fi
 fi
+# Backlog state enum (2026-10-10): every _QUEUE/induced-backlog.jsonl row carries `state` from
+# runtime/specs/backlog-status.json, prose in `status_note`, and RUNNING rows carry claimed_by + claimed_at.
+gen_bl=$(git diff --cached --name-only -- _QUEUE/induced-backlog.jsonl runtime/specs/backlog-status.json scripts/backlog_status_check.py 2>/dev/null || true)
+if [ -n "$gen_bl" ] && [ -f scripts/backlog_status_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/backlog_status_check.py --check; then
+    echo "✖ commit blocked: induced-backlog row(s) missing a valid state (see FAIL lines above)." >&2
+    echo "  set \`state\` from runtime/specs/backlog-status.json; keep prose in \`status_note\`." >&2
+    exit 1
+  fi
+fi
 # Surface catalog (2026-10-07): runtime/specs/surface-catalog.json + runtime/warroom/surfaces.html are
 # GENERATED from next.config.ts, src/proxy.ts and the src/app route tree. Fires when any of those
 # is staged. Blocks when a host in next.config.ts is missing from the catalog, when the catalog

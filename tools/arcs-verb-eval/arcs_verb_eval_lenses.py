@@ -259,7 +259,7 @@ def deadlines(root: Path, cfg: dict) -> tuple[list[tuple[str, dt.date]], str | N
         return [], f"{bl.name} missing"
     out = []
     for r in ol._jsonl(bl):
-        if "id" not in r or ol.DONE_RE.match(str(r.get("status") or "open")) or ol.HELD_RE.search(str(r.get("status") or "")):
+        if "id" not in r or ol.DONE_RE.match(str(r.get("status_note") or r.get("status") or "open")) or ol.HELD_RE.search(str(r.get("status_note") or r.get("status") or "")):
             continue
         d = ol._date(r.get("review_by"))
         if d:

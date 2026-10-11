@@ -57,7 +57,7 @@ def body(r: dict, by_id: dict[str, dict]) -> str:
              f"**Gates.** " + ("; ".join(r.get("gates", [])) or "none"),
              f"**Trigger.** {r.get('trigger','')}",
              f"**Fates.** " + (", ".join(r.get("fates", [])) or "none"),
-             f"**Status at sync.** {r.get('status','')}"]
+             f"**Status at sync.** {r.get('state', '')} {r.get('status_note', r.get('status', ''))}".strip()]
     if r.get("depends_on"):
         lines.append("**Blocked by.** " + ", ".join(ref(i) for i in r["depends_on"]))
     if r.get("unblocks"):
@@ -74,7 +74,7 @@ def board(all_rows: list[dict]) -> None:
     status no longer starts OPEN (or it has landed on main); nothing here schedules anything."""
     by_id = {r["id"]: r for r in all_rows if r.get("id")}
     def is_open(i: str) -> bool:
-        r = by_id.get(i); st = str(r.get("status", "")).upper() if r else ""
+        r = by_id.get(i); st = str(r.get("status_note") or r.get("status", "")).upper() if r else ""
         # a row is open until its status records a landing (statuses are append-only, so the
         # landing note sits AFTER the original OPEN prefix)
         landed = any(t in st for t in ("LANDED", "MERGED", "DONE", "CLOSED", "SHIPPED", "INSTRUMENTED")) and "IN PROGRESS" not in st

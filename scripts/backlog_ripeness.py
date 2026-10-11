@@ -61,7 +61,7 @@ _gh_cache = {}
 
 
 def _status(row):
-    return str(row.get("status") or "OPEN").strip()
+    return str(row.get("status_note") or row.get("status") or row.get("state") or "OPEN").strip()
 
 
 def _starts(status, prefixes):
@@ -244,7 +244,9 @@ def apply_closes(path, found, today):
         if _starts(old, NEVER_APPLY) or re.search(r"\b(HELD|TABLED)\b", old) or "consent" in gates \
                 or "consent" in old.lower():
             continue
-        r["status"] = f"DONE {today} (ripeness: {targets[rid]}) || prior: {old}"
+        r["state"] = "DONE"
+        r["status_note"] = f"DONE {today} (ripeness: {targets[rid]}) || prior: {old}"
+        r.pop("status", None)
         lines[i] = json.dumps(r, ensure_ascii=False)
         changed.append(rid)
     if changed:
