@@ -42,6 +42,9 @@ ADR_RE = re.compile(r"\bADR-0*(\d{1,3})\b")
 # 7-40 hex chars, not glued to other word chars / a path. Must contain BOTH a digit and a letter:
 # pure digits are numbers, pure a-f letters are words ("defaced", "decade").
 SHA_RE = re.compile(r"(?<![0-9A-Za-z_/.-])([0-9a-f]{7,40})(?![0-9A-Za-z_/-])")
+# Gmail thread/message ids are 16 hex chars too; a cite labelled "gmail" (e.g. "gmail thread 1a12..."
+# or "gmail:1a12...") is not a commit. Stripped before SHA extraction (night-moves Counterpart pulse).
+GMAIL_ID_RE = re.compile(r"\bgmail(?:\s+(?:thread|message|msg))?(?:\s+id)?[\s:`]*[0-9a-f]{16}\b", re.I)
 # Top-level dirs that a cite could legitimately point into. Bare filenames are matched separately.
 PATH_ROOTS = (
     "scripts", "src", "operators", "runtime", "public", "prisma", "tests", "docs", "open-source",
@@ -66,7 +69,7 @@ def sh(*args: str, stdin: str | None = None) -> str:
 # ---------------------------------------------------------------- extraction
 def extract(text: str) -> tuple[set[int], set[str], set[str], set[str]]:
     adrs = {int(n) for n in ADR_RE.findall(text)}
-    shas = {s for s in SHA_RE.findall(text) if re.search(r"\d", s) and re.search(r"[a-f]", s)}
+    shas = {s for s in SHA_RE.findall(GMAIL_ID_RE.sub(" ", text)) if re.search(r"\d", s) and re.search(r"[a-f]", s)}
     paths: set[str] = set()
     for p in PATH_RE.findall(text):
         p = p.rstrip(TRAIL)
