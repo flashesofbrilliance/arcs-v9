@@ -273,7 +273,7 @@ def load_ledgers(root: Path) -> List[Candidate]:
                              source=str(row.get("held_by") or DEFAULT_SOURCE), superseded_by=row.get("supersedes") and None))
     for row in _jsonl(root / "_QUEUE" / "induced-backlog.jsonl"):
         out.append(Candidate(id=f"backlog:{row.get('id')}", cls="backlog",
-                             text=" ".join(str(row.get(k, "")) for k in ("id", "jtbd", "route", "gates", "trigger", "status", "fates")),
+                             text=" ".join(str(row.get(k, "")) for k in ("id", "jtbd", "route", "gates", "trigger", "state", "status_note", "status", "fates")),
                              path="_QUEUE/induced-backlog.jsonl", date=_first_date((row.get("route") or {}).get("verified") if isinstance(row.get("route"), dict) else None)))
     wdir = root / "_STATE" / "witness"
     if wdir.exists():

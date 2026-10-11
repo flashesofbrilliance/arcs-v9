@@ -100,7 +100,7 @@ def backlog_loops(rows: list[dict], today: dt.date) -> tuple[list, list]:
     for r in rows:
         if "id" not in r:
             continue
-        status = str(r.get("status") or "open")
+        status = str(r.get("status_note") or r.get("status") or r.get("state") or "open")
         if DONE_RE.match(status):
             continue
         rid = r["id"]

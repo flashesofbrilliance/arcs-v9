@@ -41,7 +41,7 @@ fires on (spec: `runtime/specs/operator-25-shavasana-v0.md`). Not a timer. The p
    without the session's momentum, downgrade it to `what_unconfirmed` or drop it, and say which.
 4. Somatic read (human, one question, only if Zach is present): certainty now vs at session start;
    any sends today? If not present, write `somatic: not asked`.
-5. Disposition: release the handoff, or return it to `_QUEUE/induced-backlog.jsonl` with the block attached.
+5. Disposition: release the handoff, or return it to `_QUEUE/induced-backlog.jsonl` with the block attached. Rows carry `state` (enum, `runtime/specs/backlog-status.json`) + `status_note` (prose); `python3 scripts/backlog_status_check.py` gates it.
    A block that verdicts RETURN and a handoff that ships anyway must say so in the block.
 
 Self-test of the rule the block enforces on itself: `python3 scripts/shavasana_handoff.py --self-test`

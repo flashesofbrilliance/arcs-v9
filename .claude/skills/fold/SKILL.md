@@ -41,7 +41,9 @@ Each chip prompt (spawn_task; title = imperative verb phrase) must be SELF-CONTA
    CLAUDE.md policy.
 
 ## Step 4 — fold back to the trunk
-After spawning: update `_QUEUE/induced-backlog.jsonl` item statuses/ownership, note the spawned
+After spawning: update `_QUEUE/induced-backlog.jsonl` items (set `state` from
+`runtime/specs/backlog-status.json`, append prose to `status_note`; a claimed row is `RUNNING` with
+`claimed_by` + `claimed_at`), note the spawned
 sessions in the handoff, and keep the trunk clean for cross-domain work. When a composed
 session completes (task notification), fold its receipts back: memory updates, backlog closes,
 drift fixes. The trunk is the integral; composed sessions are the derivatives.

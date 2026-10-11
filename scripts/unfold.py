@@ -103,7 +103,7 @@ def gather() -> list[dict]:
     c: list[dict] = handoff_open()
     # b. backlog OPEN
     for r in _rows(ROOT / "_QUEUE" / "induced-backlog.jsonl"):
-        st = str(r.get("status", "")).upper()
+        st = str(r.get("state") or r.get("status", "")).upper()
         if st.startswith("OPEN"):
             t = str(r.get("jtbd", "")); blob = json.dumps(r)
             c.append({"source": "backlog", "id": r["id"], "text": t, "paths": PATH_RE.findall(blob), "gates": r.get("gates", []), "trigger": str(r.get("trigger", ""))[:160], "heavy": "COURT" in blob or len(t) > 300})
