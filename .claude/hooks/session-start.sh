@@ -32,6 +32,8 @@ export GIT_HTTP_LOW_SPEED_TIME="${GIT_HTTP_LOW_SPEED_TIME:-15}"
 #     both the project dir and the session cwd, since a worktree session's cwd is the worktree.
 for _d in "$CLAUDE_PROJECT_DIR" "$PWD"; do
   [ -x "$_d/scripts/hookspath_arm.sh" ] && "$_d/scripts/hookspath_arm.sh" "$_d" 2>/dev/null || true
+  # (3b) Project skills/commands load from the MAIN checkout; warn when it drifts from origin/main.
+  [ -x "$_d/scripts/project_skills_drift.sh" ] && "$_d/scripts/project_skills_drift.sh" "$_d" 2>/dev/null || true
   [ "$PWD" = "$CLAUDE_PROJECT_DIR" ] && break
 done
 
