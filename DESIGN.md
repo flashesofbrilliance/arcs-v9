@@ -25,19 +25,19 @@ typography:
     lineHeight: 1.2
     letterSpacing: "-0.02em"
   headline:
-    fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
+    fontFamily: "'Inter', 'Inter Fallback', system-ui, -apple-system, sans-serif"
     fontSize: "1.15rem"
     fontWeight: 600
     lineHeight: 1.25
     letterSpacing: "-0.01em"
   body:
-    fontFamily: "'Inter', system-ui, -apple-system, sans-serif"
+    fontFamily: "'Inter', 'Inter Fallback', system-ui, -apple-system, sans-serif"
     fontSize: "0.925rem"
     fontWeight: 400
     lineHeight: 1.6
     letterSpacing: "0em"
   label:
-    fontFamily: "'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace"
+    fontFamily: "'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', 'IBM Plex Mono Fallback', ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace"
     fontSize: "0.6875rem"
     fontWeight: 700
     lineHeight: 1.4
@@ -134,6 +134,7 @@ An obsidian ground carrying a small set of high-chroma signal colors, each of wh
 **Display Font:** Iowan Old Style / Palatino (serif): the canon and oral-history register (proverbs, the Tao, load-bearing quotes). Self-hosted fallback: Newsreader (`public/fonts/`), the canon serif of the literary page family (NFTT, Lore) and of rendered video, where the system serifs are absent.
 **Body Font:** Inter (with system-ui fallback): all prose and reading.
 **Label/Mono Font:** JetBrains Mono (with IBM Plex Mono): instrument labels, section indices, gauges, metadata.
+**Fallback faces (not separate voices):** Inter Fallback, JetBrains Mono Fallback and IBM Plex Mono Fallback are the metric-matched faces next/font generates for the three declared fonts; SF Mono, SFMono-Regular, Menlo and Consolas are the system tail of the mono stack. They render only while or instead of the declared font loading.
 
 **Character:** Three voices, strictly separated by job. Mono is the instrument legend (cold, tracked, uppercase). Sans is the calm reading voice. Serif is reserved for wisdom in transmissible form: the things meant to be carried in the mouth to the next person.
 
