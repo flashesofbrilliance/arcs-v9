@@ -224,11 +224,14 @@
   function setBarH(){ var b=document.querySelector('.bar'); if(b) document.documentElement.style.setProperty('--barh', b.offsetHeight+'px'); var g=document.querySelector('.gnav'); if(g) document.documentElement.style.setProperty('--gnavh', g.offsetHeight+'px'); }
   setBarH(); window.addEventListener('resize', setBarH);
   function markNav(id){ gnav.querySelectorAll('a').forEach(function(a){ a.setAttribute('aria-current', a.getAttribute('href')==='#'+id ? 'true':'false'); }); }
-  gnav.addEventListener('click',function(e){ var a=e.target.closest('a'); if(a) markNav(a.getAttribute('href').slice(1)); });
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting) markNav(en.target.id); }); },{rootMargin:'-35% 0px -55% 0px'});
-    document.querySelectorAll('#grid .tile').forEach(function(t){ io.observe(t); });
-  }
+  // active chip = first card in the lowest row whose top has reached the chip row; a click wins until the next real scroll
+  var gLock=0;
+  function syncNav(){ if(Date.now()<gLock) return; var g=document.querySelector('.gnav'); if(!g) return; var line=g.getBoundingClientRect().bottom+24, best=null, bestTop=-Infinity;
+    document.querySelectorAll('#grid .tile').forEach(function(t){ var top=Math.round(t.getBoundingClientRect().top); if(top<=line && top>bestTop){ bestTop=top; best=t; } });
+    markNav((best||document.querySelector('#grid .tile')).id); }
+  gnav.addEventListener('click',function(e){ var a=e.target.closest('a'); if(!a) return; markNav(a.getAttribute('href').slice(1)); gLock=Date.now()+900; });
+  var gRaf=0; window.addEventListener('scroll',function(){ if(!gRaf) gRaf=requestAnimationFrame(function(){ gRaf=0; syncNav(); }); },{passive:true});
+  syncNav();
 
   // present plates (hero + items)
   var hero='<section class="plate"><div class="inner">'
