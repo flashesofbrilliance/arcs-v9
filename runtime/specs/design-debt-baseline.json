@@ -2,14 +2,14 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 3035,
-  "emdash": 13,
-  "wrap": 4,
+  "detector": 3033,
+  "emdash": 11,
+  "wrap": 2,
   "tokens": 6,
   "leak": 0,
-  "retired_color": 4,
+  "retired_color": 0,
   "pages": 182,
-  "pages_clean": 56
+  "pages_clean": 57
  },
  "pages": {
   "public/ahmed-evening.html": {
@@ -712,8 +712,8 @@
   "public/compass-kit/index.html": {
    "detector": 0,
    "rules": {},
-   "emdash": 1,
-   "wrap": 1,
+   "emdash": 0,
+   "wrap": 0,
    "tokens": 0,
    "leak": 0,
    "retired_color": 0
@@ -2329,17 +2329,16 @@
    "retired_color": 0
   },
   "runtime/warroom/lyndon-war.html": {
-   "detector": 48,
+   "detector": 46,
    "rules": {
-    "low-contrast": 1,
     "tiny-text": 2,
-    "undersized-ui-text": 45
+    "undersized-ui-text": 44
    },
-   "emdash": 1,
-   "wrap": 1,
+   "emdash": 0,
+   "wrap": 0,
    "tokens": 0,
    "leak": 0,
-   "retired_color": 4
+   "retired_color": 0
   },
   "runtime/warroom/surfaces.html": {
    "detector": 1,
