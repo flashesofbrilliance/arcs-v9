@@ -24,7 +24,7 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
   .bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;flex-wrap:nowrap;overflow-x:auto;
-    padding:11px 22px;border-bottom:1px solid var(--line);background:rgba(11,11,12,.82);backdrop-filter:blur(6px)}
+    padding:4px 22px;border-bottom:1px solid var(--line);background:rgba(11,11,12,.82);backdrop-filter:blur(6px)}
   .bar::-webkit-scrollbar{display:none}
   .bar .sig{font-weight:700;letter-spacing:.24em;font-size:12px;white-space:nowrap;flex:0 0 auto}
   .bar .sig em{font-style:normal;color:var(--verm)}
@@ -140,6 +140,8 @@
   .gnav a{display:inline-flex;align-items:center;min-height:44px;color:var(--graphite);font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:6px 12px;border-radius:100px;text-decoration:none;white-space:nowrap}
   .gnav a:hover{color:var(--gold)}
   .gnav a[aria-current=true]{background:rgba(201,162,39,.1);color:var(--gold)}
+  .viewtoggle button,.cardtog .ct-seg{min-height:44px;display:inline-flex;align-items:center}
+  footer a{display:inline-flex;align-items:center;min-height:44px}
   .gnav a:focus-visible,.viewtoggle button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   html{scroll-padding-top:calc(var(--barh,52px) + var(--gnavh,60px) + 8px)}
   html{scroll-behavior:smooth}
@@ -520,6 +522,8 @@
     .ltabs{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:2px;border:1px solid var(--line);border-radius:100px;padding:2px}
     .ltab{background:none;border:0;color:var(--graphite);font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:6px 12px;border-radius:100px;cursor:pointer;white-space:nowrap}
     .ltab[aria-current=true]{background:rgba(201,162,39,.12);color:var(--gold)}
+    .ltab,.vback,.vledger,.lcopy{min-height:45px;display:inline-flex;align-items:center}
+    #egg-envelope,#egg-note{min-width:44px;min-height:44px}
     .ltcount-wrap{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);white-space:nowrap}
     .lsec{font-size:13px;color:#b8b6ae;line-height:1.6;margin-bottom:16px;padding:12px 14px;background:var(--case);border:1px solid var(--line);border-radius:8px}
     .lsec b{color:var(--gold)}
