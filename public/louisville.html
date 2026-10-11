@@ -54,6 +54,9 @@
   .cardtog .ct-seg[aria-current=true]{background:rgba(201,162,39,.12);color:var(--gold)}
   .cardtog .ct-seg:hover{color:var(--gold)}
   .cardtog .flipglyph{font-size:11px;opacity:.8}
+  /* 360px: keep each side label on one line inside its 44px target */
+  .cardtog .ct-seg{white-space:nowrap}
+  @media (max-width:480px){.cardtog{max-width:100%}.cardtog .ct-seg{letter-spacing:.05em;padding:5px 9px;gap:4px}}
   .p-tog{display:inline-flex;gap:2px;border:1px solid var(--line);border-radius:100px;padding:2px;margin-top:20px;background:rgba(11,11,12,.4)}
   .p-tog .pt-seg{background:none;border:0;cursor:pointer;color:var(--graphite);font-family:var(--mono);font-size:11px;letter-spacing:.11em;padding:7px 15px;border-radius:100px;transition:background .2s,color .2s}
   .p-tog .pt-seg[aria-current=true]{background:rgba(201,162,39,.12);color:var(--gold)}
@@ -387,6 +390,8 @@
   .eggrow button:active{transform:translateY(-1px) scale(1.02)}
   @keyframes eggfloat{0%,100%{box-shadow:0 10px 30px -18px #000,0 0 0 0 rgba(201,162,39,0)}50%{box-shadow:0 10px 30px -18px #000,0 0 0 4px rgba(201,162,39,.06)}}
   @media (prefers-reduced-motion:reduce){.eggrow{animation:none}}
+  /* phones: the fixed dock covered card body text on first load; sit it in flow at page end instead */
+  @media (max-width:600px){.eggrow{position:static;width:max-content;margin:20px auto 28px;animation:none}}
 </style>
 <div class="kintcap" aria-hidden="true">金継ぎ · repairs shown in gold · nothing sanded over</div>
 <div class="eggrow" role="group" aria-label="Extras">
