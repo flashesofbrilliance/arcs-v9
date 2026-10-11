@@ -32,7 +32,7 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - Follow-up receipts confirm a prior receipt's open items instead of editing the prior row.
 ## Open
 1. Zach: edit and send the PRL agenda draft before Mon 2026-10-12 10:00 ET.
-2. The one-time "Le Woof: nudge about Hila's page" task is still enabled with a past fire time (Oct-08 09:00) and never ran.
+2. ~~The one-time "Le Woof: nudge about Hila's page" task is still enabled with a past fire time (Oct-08 09:00) and never ran.~~ Resolved 2026-10-10: Zach had the task disabled (not deleted); the Hila check itself never ran.
 ## Next action
 PRL go-live call with Todd, Mon 2026-10-12 10:00 ET.
 ## Cold-start
