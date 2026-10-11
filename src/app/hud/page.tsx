@@ -6,7 +6,8 @@ import { HudClient } from "./HudClient"
 // arcs.care/hud: the field HUD (src/organisms/Scope.tsx) pinned full screen, no page
 // around it. The ziggurat loader is admin only, decided here on the server
 // (fail-closed outside development, matching /recoil and /warroom); a viewer who is not
-// an admin never receives the loader in the payload at all.
+// an admin never receives the loader in the payload at all. The page itself is public
+// (surface-gate: open), so the surface catalog does not list it as admin gated.
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {

@@ -12,8 +12,8 @@
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 221,
-   "gated": 32
+   "product page": 222,
+   "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 26,
@@ -405,11 +405,11 @@
    "catch_all": false,
    "destination": "/hud",
    "file": "src/app/hud/page.tsx",
-   "kind": "gated",
+   "kind": "product page",
    "title": "ARCS · Field HUD",
    "description": "The ARCS field, full screen: seven fathoms over the knowledge lattice.",
    "index": null,
-   "gate": "admin session",
+   "gate": null,
    "declared_in": [
     "src/app"
    ],
@@ -417,7 +417,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "The ARCS field, full screen: seven fathoms over the knowledge lattice.",
-   "last_commit": null
+   "last_commit": "2026-10-10"
   },
   {
    "host": "app.arcs.care",
@@ -5284,7 +5284,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "thetrueai.arcs.care",
