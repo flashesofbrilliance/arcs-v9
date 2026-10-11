@@ -1,0 +1,38 @@
+{
+ "schema": "arcs.atlas.v1.public",
+ "built": "Thu Oct 08 16:26:38",
+ "gate": "YELLOW",
+ "tiers": [
+  {
+   "n": 0,
+   "name": "Witness",
+   "docs": 5,
+   "gate": "pass"
+  },
+  {
+   "n": 1,
+   "name": "Ground",
+   "docs": 4,
+   "gate": "pass"
+  },
+  {
+   "n": 2,
+   "name": "Unit",
+   "docs": 4,
+   "gate": "pass"
+  },
+  {
+   "n": 3,
+   "name": "Field",
+   "docs": 4,
+   "gate": "pass"
+  },
+  {
+   "n": 4,
+   "name": "Decision",
+   "docs": 1,
+   "gate": "pass"
+  }
+ ],
+ "note": "Shape only. No titles, names or content. Do not publish while the engagement is live."
+}

@@ -1,0 +1,23 @@
+# Evidence ledger, monday interview artifacts (2026-10-08). vetted-master = _ARTIFACTS/resume-vico/resume-vico-product-engineer.html; self-reported = Zach confirmed in resume ledger.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:142"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25"}
+{"pattern": "\\$350M", "source": "self-reported:ZH-Resume-Scale-CoS.md (Squat client)"}
+{"pattern": "zero SEC or FINRA violations", "source": "self-reported:ZH-Resume-Scale-CoS.md + Zach confirmed 2026-09-28"}
+{"pattern": "\\$7 billion", "source": "same as $7B"}
+{"pattern": "5\\+", "source": "monday JD requirement text (jd-full.txt: 5+ years TypeScript/Node/React); a posting figure, not a claim about Zach"}
+{"pattern": "\\$180K|\\$210K|\\$220K|\\$230K", "source": "Granola Oct 7 screen notes (83e5eee4): range stated by recruiter; internal only"}
+{"pattern": "250,000\\+|000\\+", "source": "monday.com site and SiliconANGLE 2026-05-06: 250,000+ customers; internal only"}
+{"pattern": "25%|40%|40 percent|40\\+|75%", "source": "internal prep: Deloitte stat via SiliconANGLE; Ideal Protein PQL figure self-reported on call and flagged; 40+/75% are in the do-not-say list"}
+{"pattern": "90 seconds", "source": "speaking time, not a claim"}
+{"pattern": "monday-owned", "source": "self-reported:Zach:2026-10-08 (owned monday.com WorkOS for project management at Squat); non-numeric claim, recorded here for the honest-gate record"}
+{"pattern": "20 seconds|over 90|90 seconds", "source": "speaking-time guidance, not a factual claim"}
+{"pattern": "\\$150M|10\\+|30\\+|85%|90%|95%|40\\+ internal", "source": "Stefan Karadzic LinkedIn About text, pasted by Zach 2026-10-08; his own claims about his career, not claims about Zach"}
+{"pattern": "\\$5M|\\$60M|\\$150M|over 30|up to 500|41 |13 managers|7 of|200 customers|5 days|10\\+ countries|8 years|98 percent|5 million|90%|85%|95%|30\\+|10\\+|40\\+ internal", "source": "Stefan Karadzic LinkedIn About and Experience (pasted by Zach 2026-10-08) and monday.com public pages/press; his and monday figures, not claims about Zach"}
+{"pattern": "30 seconds|45 minutes|10 minutes", "source": "timing guidance, not a factual claim"}
+{"pattern": "20 users|~20|about 20", "source": "self-reported:Zach:2026-10-08 (Squat monday.com tenant, about 20 users, role-based access, client + portco + PE operational excellence team)"}
+{"pattern": "public: arcs\\.care/case-study", "source": "arcs.care/case-study (Ideal Protein case study, Squat New York 2019-2020): 'Qualified leads up 40 percent'"}
+{"pattern": "800\\+|over 180|3,575|180 days", "source": "800+ merged PRs: gh search 822 on 2026-10-06; 3,575 commits and 180 days: status.arcs.care as fetched 2026-10-08 (public page); units differ, PRs versus commits"}
+{"pattern": "60 seconds|30 minutes|May 2026|February 2026|Sept and Oct 2026|about 20 users", "source": "read-time and timing guidance (not claims); monday launch May 2026 per SiliconANGLE; practice and title dates per public profiles and Zach's account"}

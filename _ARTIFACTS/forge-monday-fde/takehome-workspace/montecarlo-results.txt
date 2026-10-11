@@ -1,0 +1,42 @@
+## Anterior (prior), no pre-work
+P(pass all bars) = 0.235 | A fail 0.446 | B fail 0.341 | KILL fail 0.369
+
+## Blue team plan (budget 16 h): mitigations in order of value per hour
+- FM13 silent repair, no kintsugi record: +0.025 for 0.5 h (cumulative 0.255)
+- FM8 IP / confidentiality slip (pathogen): +0.012 for 0.5 h (cumulative 0.268)
+- FM2 engineering demo, not customer outcome: +0.046 for 2.0 h (cumulative 0.313)
+- FM6 one-time-link process failure (hardening): +0.035 for 1.5 h (cumulative 0.349)
+- FM1 wrong question / sprawl: +0.052 for 3.0 h (cumulative 0.401)
+- FM5 unsupported or inconsistent claims (pathogen): +0.031 for 2.0 h (cumulative 0.432)
+- FM10 ambiguity handled silently: +0.017 for 1.0 h (cumulative 0.448)
+- FM7 ARCS wrapper reads off-brief or thirsty: +0.017 for 1.0 h (cumulative 0.465)
+- FM3 cannot defend own work in walkthrough: +0.049 for 4.0 h (cumulative 0.515)
+Spent 15.5 h. P(pass) = 0.518 | A 0.216 | B 0.263 | KILL 0.108
+
+## Posterior readiness curve (plan applied, evidence accumulates)
+- start: 0.518
+- after E1 brief read, rubric reconciled: 0.553
+- after E2 walkthrough rehearsed aloud: 0.588
+- after E3 packaging + environment dry run passed: 0.601
+- after E4 provenance / consistency / slop gates passed: 0.619
+- after E5 independent bar-raiser CONDITIONAL CLEAR: 0.650
+
+## Red team: single-FM stress (x1.8) against the blue plan
+- FM4 monday platform fluency gap: P(pass) -0.055
+- FM1 wrong question / sprawl: P(pass) -0.037
+- FM2 engineering demo, not customer outcome: P(pass) -0.036
+- FM9 overpromised local-model claim: P(pass) -0.033
+- FM3 cannot defend own work in walkthrough: P(pass) -0.030
+Worst pair: FM2 + FM4 -> P(pass) 0.418
+
+## Inverse reasoning: cheapest path to a target P(pass) (mitigations only, then with evidence events)
+- target 0.45: reached at 10.5 h of mitigation (P=0.453) with FMs [1, 2, 5, 6, 7, 8, 13]
+- target 0.55: reached at 21.0 h of mitigation (P=0.576) with FMs [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13]
+- target 0.65: NOT reached by mitigations alone within 24 h (max 0.593); with all evidence events: 0.730
+
+## Pathogen and kill-bar view (KILL fail rate by mitigation)
+No mitigation 0.369 -> plan 0.108 -> plan + all evidence events 0.053
+
+real	0m42.148s
+user	0m40.336s
+sys	0m0.352s

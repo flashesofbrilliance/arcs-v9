@@ -1,0 +1,45 @@
+{
+  "title": "monday.com take-home Atlas",
+  "flags": {
+    "brief_read": false,
+    "link_opened": false,
+    "deadline": "2026-10-15T17:00:00-04:00",
+    "target": "2026-10-14T20:00:00-04:00"
+  },
+  "apex": "Thesis: pending. Set after the brief is read: the one sentence a reader at any altitude can say yes to.",
+  "ledger_file": "evidence-interview.jsonl",
+  "tiers": [
+    {"n": 0, "name": "Witness", "sub": "raw signal and lived record (base, widest)"},
+    {"n": 1, "name": "Ground", "sub": "evidence and third-party footing"},
+    {"n": 2, "name": "Unit", "sub": "the atomic mechanism: who reads it, what breaks it"},
+    {"n": 3, "name": "Field", "sub": "dynamics and pressure: risk, kairos, compounding"},
+    {"n": 4, "name": "Decision", "sub": "the gate and the plan (narrowest)"}
+  ],
+  "docs": [
+    {"id": "log", "path": "TAKEHOME-LOG.md", "title": "Take-home log (append-only)", "tier": 0, "gates": ["slop", "prov"]},
+    {"id": "retro", "path": "RETRO-monday-HM-call-2026-10-08.md", "title": "Retro: hiring-manager call", "tier": 0, "gates": ["slop", "prov"]},
+    {"id": "vibe", "path": "STEFAN-VIBE-READ.md", "title": "Hiring manager: vibe read", "tier": 0, "gates": ["slop", "prov"]},
+    {"id": "callprep", "path": "INTERVIEW-PREP-2026-10-08.md", "title": "Call prep brief", "tier": 0, "gates": ["slop", "prov"]},
+    {"id": "consistency", "path": "STORY-CONSISTENCY-CHECK.md", "title": "Story and outcome consistency", "tier": 0, "gates": ["slop", "prov"]},
+    {"id": "research", "path": "research/monday-oss-forensics-report.md", "title": "Research: monday GitHub, HF, docs", "tier": 1, "gates": []},
+    {"id": "critic", "path": "research/monday-oss-forensics-critic.md", "title": "Research: completeness critic", "tier": 1, "gates": []},
+    {"id": "roster", "path": "research/team-roster-roles.md", "title": "Roster by role (placeholder names)", "tier": 1, "gates": ["slop"]},
+    {"id": "translate", "path": "TRANSLATABILITY-MAP-monday.md", "title": "Translatability map", "tier": 1, "gates": ["slop", "prov"]},
+    {"id": "chorus", "path": "CHORUS-persona-gauntlet.md", "title": "Chorus: altitude ladder and round-robin", "tier": 2, "gates": ["slop", "prov"]},
+    {"id": "method", "path": "ALTITUDE-FRICTION-AUDIT-method.md", "title": "Altitude and friction audit method", "tier": 2, "gates": ["slop", "prov"]},
+    {"id": "rubric", "path": "TAKEHOME-RUBRIC-hardened.md", "title": "Hardened rubric and gates", "tier": 2, "gates": ["slop", "prov"]},
+    {"id": "package", "path": "takehome-workspace/package.sh", "title": "ZIP packaging check (script)", "tier": 2, "gates": []},
+    {"id": "premortem", "path": "PREMORTEM-takehome-blind.md", "title": "Blind pre-mortem (17 failure modes)", "tier": 3, "gates": ["slop", "prov"]},
+    {"id": "kairos", "path": "KAIROS-COMPOUNDING-layer.md", "title": "Kairos and compounding", "tier": 3, "gates": ["slop", "prov"]},
+    {"id": "mcresults", "path": "takehome-workspace/montecarlo-results.txt", "title": "Monte Carlo results", "tier": 3, "gates": []},
+    {"id": "mcscript", "path": "takehome-workspace/montecarlo_premortem.py", "title": "Monte Carlo model (script)", "tier": 3, "gates": []},
+    {"id": "ssot", "path": "PREP-SSOT.md", "title": "SSOT: single source of truth", "tier": 4, "gates": ["slop", "prov"]}
+  ],
+  "board": "PREP-BOARD.html",
+  "artifacts": [
+    {"path": "PREP-BOARD.html", "title": "Prep board"},
+    {"path": "CUE-CARD-monday-2026-10-08.pdf", "title": "Cue card (call stage)"},
+    {"path": "Zach-Harris-monday-onesheet-v3.pdf", "title": "One-sheet v3 (not send-ready)"},
+    {"path": "page-monday-v3.html", "title": "One-sheet v3 (HTML)"}
+  ]
+}

@@ -1,0 +1,312 @@
+{
+ "title": "monday.com take-home Atlas",
+ "tiers": [
+  {
+   "n": 0,
+   "name": "Witness",
+   "sub": "raw signal and lived record (base, widest)"
+  },
+  {
+   "n": 1,
+   "name": "Ground",
+   "sub": "evidence and third-party footing"
+  },
+  {
+   "n": 2,
+   "name": "Unit",
+   "sub": "the atomic mechanism: who reads it, what breaks it"
+  },
+  {
+   "n": 3,
+   "name": "Field",
+   "sub": "dynamics and pressure: risk, kairos, compounding"
+  },
+  {
+   "n": 4,
+   "name": "Decision",
+   "sub": "the gate and the plan (narrowest)"
+  }
+ ],
+ "apex": "Thesis: pending. Set after the brief is read: the one sentence a reader at any altitude can say yes to.",
+ "flags": {
+  "brief_read": false,
+  "link_opened": false,
+  "deadline": "2026-10-15T17:00:00-04:00",
+  "target": "2026-10-14T20:00:00-04:00"
+ },
+ "gate": "YELLOW",
+ "fails": [],
+ "built": "Thu Oct 08 16:26:38",
+ "entries": 3,
+ "mc": {
+  "base": 0.235,
+  "kill0": 0.369,
+  "plan": 0.518,
+  "kill1": 0.108,
+  "evidence": [
+   [
+    "E1 brief read, rubric reconciled",
+    0.553
+   ],
+   [
+    "E2 walkthrough rehearsed aloud",
+    0.588
+   ],
+   [
+    "E3 packaging + environment dry run passed",
+    0.601
+   ],
+   [
+    "E4 provenance / consistency / slop gates passed",
+    0.619
+   ],
+   [
+    "E5 independent bar-raiser CONDITIONAL CLEAR",
+    0.65
+   ]
+  ],
+  "kill2": 0.053
+ },
+ "changed": [
+  "PREP-SSOT.md"
+ ],
+ "schema": "arcs.atlas.v1",
+ "docs": [
+  {
+   "id": "log",
+   "path": "TAKEHOME-LOG.md",
+   "title": "Take-home log (append-only)",
+   "tier": 0,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 0.1,
+   "words": 569,
+   "status": "same"
+  },
+  {
+   "id": "retro",
+   "path": "RETRO-monday-HM-call-2026-10-08.md",
+   "title": "Retro: hiring-manager call",
+   "tier": 0,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 2.5,
+   "words": 1271,
+   "status": "same"
+  },
+  {
+   "id": "vibe",
+   "path": "STEFAN-VIBE-READ.md",
+   "title": "Hiring manager: vibe read",
+   "tier": 0,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 3.6,
+   "words": 876,
+   "status": "same"
+  },
+  {
+   "id": "callprep",
+   "path": "INTERVIEW-PREP-2026-10-08.md",
+   "title": "Call prep brief",
+   "tier": 0,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 4.0,
+   "words": 3030,
+   "status": "same"
+  },
+  {
+   "id": "consistency",
+   "path": "STORY-CONSISTENCY-CHECK.md",
+   "title": "Story and outcome consistency",
+   "tier": 0,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 3.6,
+   "words": 650,
+   "status": "same"
+  },
+  {
+   "id": "research",
+   "path": "research/monday-oss-forensics-report.md",
+   "title": "Research: monday GitHub, HF, docs",
+   "tier": 1,
+   "gate": "src",
+   "gates": {},
+   "age_h": 1.2,
+   "words": 3694,
+   "status": "same"
+  },
+  {
+   "id": "critic",
+   "path": "research/monday-oss-forensics-critic.md",
+   "title": "Research: completeness critic",
+   "tier": 1,
+   "gate": "src",
+   "gates": {},
+   "age_h": 1.2,
+   "words": 1036,
+   "status": "same"
+  },
+  {
+   "id": "roster",
+   "path": "research/team-roster-roles.md",
+   "title": "Roster by role (placeholder names)",
+   "tier": 1,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass"
+   },
+   "age_h": 0.7,
+   "words": 1327,
+   "status": "same"
+  },
+  {
+   "id": "translate",
+   "path": "TRANSLATABILITY-MAP-monday.md",
+   "title": "Translatability map",
+   "tier": 1,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 3.6,
+   "words": 997,
+   "status": "same"
+  },
+  {
+   "id": "chorus",
+   "path": "CHORUS-persona-gauntlet.md",
+   "title": "Chorus: altitude ladder and round-robin",
+   "tier": 2,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 0.6,
+   "words": 2326,
+   "status": "same"
+  },
+  {
+   "id": "method",
+   "path": "ALTITUDE-FRICTION-AUDIT-method.md",
+   "title": "Altitude and friction audit method",
+   "tier": 2,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 0.6,
+   "words": 614,
+   "status": "same"
+  },
+  {
+   "id": "rubric",
+   "path": "TAKEHOME-RUBRIC-hardened.md",
+   "title": "Hardened rubric and gates",
+   "tier": 2,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 1.2,
+   "words": 1253,
+   "status": "same"
+  },
+  {
+   "id": "package",
+   "path": "takehome-workspace/package.sh",
+   "title": "ZIP packaging check (script)",
+   "tier": 2,
+   "gate": "src",
+   "gates": {},
+   "age_h": 1.4,
+   "words": 178,
+   "status": "same"
+  },
+  {
+   "id": "premortem",
+   "path": "PREMORTEM-takehome-blind.md",
+   "title": "Blind pre-mortem (17 failure modes)",
+   "tier": 3,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 1.2,
+   "words": 1348,
+   "status": "same"
+  },
+  {
+   "id": "kairos",
+   "path": "KAIROS-COMPOUNDING-layer.md",
+   "title": "Kairos and compounding",
+   "tier": 3,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 0.6,
+   "words": 924,
+   "status": "same"
+  },
+  {
+   "id": "mcresults",
+   "path": "takehome-workspace/montecarlo-results.txt",
+   "title": "Monte Carlo results",
+   "tier": 3,
+   "gate": "src",
+   "gates": {},
+   "age_h": 1.4,
+   "words": 385,
+   "status": "same"
+  },
+  {
+   "id": "mcscript",
+   "path": "takehome-workspace/montecarlo_premortem.py",
+   "title": "Monte Carlo model (script)",
+   "tier": 3,
+   "gate": "src",
+   "gates": {},
+   "age_h": 1.4,
+   "words": 1150,
+   "status": "same"
+  },
+  {
+   "id": "ssot",
+   "path": "PREP-SSOT.md",
+   "title": "SSOT: single source of truth",
+   "tier": 4,
+   "gate": "pass",
+   "gates": {
+    "slop": "pass",
+    "prov": "pass"
+   },
+   "age_h": 0.0,
+   "words": 1046,
+   "status": "changed"
+  }
+ ]
+}

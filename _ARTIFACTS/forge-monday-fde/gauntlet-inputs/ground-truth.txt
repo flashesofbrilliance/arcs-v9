@@ -1,0 +1,118 @@
+# GROUND TRUTH for the gauntlet. NOTE: Stefan Karadzic has not spoken to Zach yet (call is Oct 8 1:00 PM ET). This file holds what monday.com has said so far: the JD, the recruiter (Sam Turner) call on Oct 7, her emails, and monday's AI interview policy. Stefan's public title: invite says Customer Success Regional Director; a public LinkedIn search result says Director of Strategic FDE. Zach's note: Stefan's LinkedIn 'joining' post mentioned many CS and GTM-engineering-adjacent people (unverified, paraphrased by Zach).
+
+## 1. JOB DESCRIPTION (Strategic Deployments FDE, req 4463694231)
+
+          monday.com is the AI work platform powering the most ambitious teams. 250,000+ customers across departments use us to bring people, workflows, and AI agents together on one flexible platform where AI doesn't just assist, it executes. We move fast, build things that matter, and foster an ownership-driven culture where you're empowered to shape how organizations work and outpace their competition.
+
+As a Forward Deployed Engineer in the customer organization, you are the technical spearhead of monday.com's AI transformation motion for our most strategic customers. You will carry a portfolio of 1 to 2 strategic accounts, embedding deeply with C-level and technical teams to architect, build, and ship AI solutions in production, and you will be accountable for the business outcomes those engagements promised, not just the build.
+
+This is part of a growing motion and you will be joining a team that’s already working on active deployments.
+
+Enterprises don't struggle to access AI capability; they struggle to deploy it. Your job is closing that gap for a small portfolio of monday.com's highest-value customers. You will advise executives on AI-driven operational change, design and ship the systems that make it real, and feed what you learn back into the product with evidence, not anecdotes.
+
+You will work with: monday AI agents, MCP-based integrations into customer systems, vibe apps, and production workflows. You will take these from discovery through architecture, build, rollout, and measurable adoption.
+
+This is an autonomous, high-visibility role that shapes both customer outcomes and the future of forward deployed engineering at monday.com.
+
+Please note this is a hybrid position of 3 days/week in our NYC office.
+
+
+About The Role
+
+
+
+
+Strategic transformation. Embed with C-level stakeholders across your accounts to architect end-to-end AI solutions and scalable workflows that solve complex, mission-critical business pains. You own the narrative from pilot to full production rollout.
+
+Outcome ownership. Your success metric is the business result the engagement committed to: adoption, workflow throughput, measurable ROI. You define the success criteria with the customer up front and you own getting there.
+
+Build and ship. Design sophisticated platform configurations, build monday agents and vibe apps, wire MCP integrations into customer systems, and prototype custom scripts where the platform ends. Your leverage is architecture and judgment; your credibility is that you can build it yourself.
+
+Eval-driven product feedback. Instrument your deployments, run evals against real customer workflows, and translate what you find into PRDs and roadmap input that changes what we build. You are a sensor for the product org, with data behind every claim.
+
+Cross-functional leadership. Partner with Sales and CS as the technical authority on account strategy. Productize what you learn: patterns, agents, and assets from one account become reusable machinery for the whole motion.
+
+
+
+
+What We Promise
+
+
+This role has been built with a direct line into the product roadmap, a mandate to productize rather than repeat, and outcome-based success criteria agreed before the build starts.
+
+
+Requirements
+
+
+
+
+5+ years building applications from scratch using TypeScript/Node.js/React, with full-stack depth
+
+Experience leading hands-on projects end to end in a production environment, preferably client-facing
+
+Background in Solution Architecture or Software Engineering with a strong grasp of AI/LLM systems: agent architectures, MCP or comparable tool-use protocols, evals, and prompt-to-production workflows
+
+Experience navigating C-suite relationships and influencing executive decisions in ambiguous environments
+
+Track record of turning one-off delivery work into reusable assets, product requirements, or repeatable playbooks
+
+Entrepreneurial, fast-moving, and focused on long-term impact over immediate fixes
+
+
+
+
+What 
+
+monday.com
+
+ can offer you:
+
+
+
+
+Join a customer-obsessed team where transparency and ownership are how we actually operate - not just things we put on a wall
+
+Work on a multi-product suite powered by advanced AI, where what you ship reaches hundreds of thousands of customers worldwide
+
+Competitive salary, benefits, bonus potential, and equity eligibility for many roles — we believe people should share in our success
+
+Grow fast through a dedicated L&D team, AI workshops, bootcamps, and internal hackathons - the industry moves quick and so do we
+
+A collaborative, global culture backed by Employee Resource Groups and workplace teams across New York, Tel Aviv, London, Munich, Warsaw, Tokyo, Sydney, and more
+
+
+
+
+Visa sponsorship for this role is currently not available.
+
+
+
+monday.com
+
+ is proud to be an equal-opportunity employer. We hire talented individuals, regardless of gender, race, ethnicity, ancestry, age, disability, sexual orientation, gender identity or expression, military or veteran status, cultural background, religious beliefs, or any other characteristic protected by federal, state, or local laws.
+
+
+
+For New York City-based hires only: Compensation Range: $180,000-$230,000 base salary, subject to standard withholding and applicable taxes. In addition to base salary, the role includes opportunity to receive and/or earn a discretionary bonus and/or equity based on Company’s plans and in accordance with Company’s policies. Compensation finally awarded to the candidate will be commensurate with the candidate’s skills and experience. Compensation ranges for candidates in locations outside of New York City may differ based on the cost of labor and such additional factors for such other locations.
+
+
+Compensation Range: $180K - $230K
+
+
+        
+## 2. SAM TURNER (recruiter) CALL, Oct 7, reconstructed from Granola notes
+- Informal background screen; recruiter said she is not very technical, liked Zach's unique background and range.
+- Opener from Zach ran several minutes and began offering a demo; she redirected to preserve time.
+- Q: why look at other companies, no longer a founder? Zach: missing colleagues, in-person collaboration, whiteboarding, co-creation, varied embedded engagements. Sam: "That makes sense."
+- Q: coding languages? Zach: Python, React Native, React, Node.js, TypeScript, Tailwind, stack-agnostic. Sam reflected that his background was broad.
+- Q: business outcome you owned, how success was defined upfront, how friction handled. Zach: Ideal Protein. Sam probed for the business result; Zach: about 40 percent increase in product-qualified leads. Sam: strongly positive, liked that he looked under the hood.
+- Q: a time you changed an executive decision. Zach: WTA readiness and recovery analysis, hard launch to phased rollout, de-scope, RACI. Sam: positive, liked zooming out and in.
+- Hybrid 3 days NYC office: Zach open. Start: quickly for the right role.
+- Process told: hiring-manager Zoom 30 min (informal, learning about role and background), take-home about one week (pretty detailed), team walkthrough of thought process, leadership call, NYC final with 1-hour behavioral deep dive and peer chat. Target start early to mid November.
+- Comp told: base 180K to 230K, likely 210K to 220K, plus discretionary bonus and RSUs.
+
+## 3. monday.com AI INTERVIEW POLICY (monday.com/lp/our-ai-interview-guide)
+Use AI to improve your work, not replace your thinking. Prep with AI is fine. Not allowed: fabricating experience or skills; submitting work you cannot explain; undisclosed AI tools live; letting AI answer for you. They value how you collaborate, think on your feet, solve problems in real time, your intuition and unique thought process. We hire you for your real journey.
+
+## 4. monday.com context (SiliconANGLE 2026-05-06)
+Relaunched as AI work platform with native agents, one-click connectors to Claude, ChatGPT, Copilot, Gemini, AI Platform Gateway, governance. 250,000+ customers. Enterprise gap: only about 25 percent of enterprises moved 40 percent or more of AI experiments into production.
