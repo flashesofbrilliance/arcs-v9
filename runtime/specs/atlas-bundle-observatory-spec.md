@@ -1,6 +1,6 @@
 ---
 spec: atlas-bundle-observatory
-version: 0.3.1
+version: 0.4
 status: SCOPE CONFIRMED by Zach 2026-10-10; build after 2026-10-15 5 PM ET
 date: 2026-10-10
 build_window: after take-home submission (Thu 2026-10-15 5 PM ET), alongside sprint 2
@@ -87,3 +87,11 @@ Adapter rules (arcs-v9 side only; the bundle is never edited):
    (K35, K37, K40, K42, K44; Zach 2026-10-10). A bundle `severity` value, when present, can add to it but never removes from it.
 2. **Missing detected_at:** place the mistake at repaired_at; draw no arc length (a point, not a path).
 3. **Missing both timestamps:** list in an "unplaced" side band, never positioned on the time axis.
+
+## Amendment v0.4 (2026-10-10): link out to the replay booth
+- The build-replay booth in the take-home repo owns its generator and is the single source for its
+  three flightlog lines (risk falling, defence rising, belief and confidence with Brier). Zach decided
+  link-out, not embed.
+- The observatory adds one local-only link to the booth's generated output, shown only in dev
+  (the same local-only rule as the bundle). No shared code, no import, no fork, no copy of its charts.
+- If the booth output is absent, the link renders disabled with "booth output not generated", never a fallback.
