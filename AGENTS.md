@@ -226,6 +226,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 19. **Neighbor scan before a merge, broadcast after (Zach, 2026-10-08).** Before changing or merging a file others cite, run `python3 scripts/neighbor_scan.py <path>` (no args: every file changed vs origin/main). It is read-only and lists citers, offspring (same-stem or child files) and other open PRs touching the same file. After the change lands, update each cite, regenerate each child, or post a note to the owning session; name the broadcast list in the receipt. Memory `look-out-before-look-in-scan-concurrent-sessions-first`.
 
+20. **Backlog rows carry a `state` enum (2026-10-10).** Every `_QUEUE/induced-backlog.jsonl` row has `state` from `runtime/specs/backlog-status.json` (OPEN READY HOLDING HELD RUNNING BLOCKED DONE COMPOSTED SUPERSEDED) and its prose in `status_note`; never write a `status` key. A claimed row is `RUNNING` with `claimed_by` + `claimed_at`. `scripts/backlog_status_check.py --check` gates it in pre-commit and CI; add `--gh` to flag rows citing a merged or closed PR, and RUNNING claims older than 3 days print as STALE.
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
