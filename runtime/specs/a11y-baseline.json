@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 1,
-  "nodes": 2,
-  "clean": 181,
+  "violations": 0,
+  "nodes": 0,
+  "clean": 182,
   "pages": 182
  },
  "pages": {
@@ -565,11 +565,9 @@
    "rules": {}
   },
   "public/omakase/index.html": {
-   "violations": 1,
-   "nodes": 2,
-   "rules": {
-    "color-contrast": 2
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/pf-12d-orbital.html": {
    "violations": 0,

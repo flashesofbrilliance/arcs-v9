@@ -2,7 +2,7 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 1860,
+  "detector": 1855,
   "emdash": 0,
   "wrap": 0,
   "tokens": 6,
@@ -1254,13 +1254,13 @@
    "retired_color": 0
   },
   "public/omakase/index.html": {
-   "detector": 71,
+   "detector": 66,
    "rules": {
     "dark-glow": 1,
     "design-system-font": 2,
     "layout-transition": 11,
     "tiny-text": 27,
-    "undersized-ui-text": 30
+    "undersized-ui-text": 25
    },
    "emdash": 0,
    "wrap": 0,
