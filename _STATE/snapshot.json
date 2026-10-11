@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-10-09T14:18:04-04:00",
+  "captured_at": "2026-10-10T21:53:05-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "3859829d",
-    "head_message": "Merge pull request #1117 from flashesofbrilliance/claude/handoff-myally-1009",
+    "head_sha": "9d37d2b",
+    "head_message": "Merge pull request #1238 from flashesofbrilliance/claude/handoff-molt-2",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "PRL 1.2 wrap prep; empty-email guard blocker re-confirmed in sandbox (Sep 17 overwrite of Roger Lamarre); blockers note PR 1115; heads-up email drafted.",
-  "next_action": "Mon 2026-10-12: send heads-up draft before 10:00; on call fix empty-email guard first, then run prl.arcs.care/go-live.",
+  "session_summary": "Backlog rows got a state enum + status_note with a pre-commit/CI gate (#1153); three stale rows closed (#1159).",
+  "next_action": "On or after 2026-10-13 run backlog_status_check.py --gh and confirm or close the 3 RUNNING rows.",
   "blocking": "Empty-email guard must be fixed and proven before prod cutover",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
