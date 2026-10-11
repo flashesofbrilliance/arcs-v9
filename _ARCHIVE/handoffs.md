@@ -1,3 +1,47 @@
+# Handoff — v3.123.0 (2026-10-09)
+
+## Goal / true north
+Final wrap for the 2026-10-09 session.
+
+## What changed
+- #1131 merged (7c2f2336): npm `overrides` forces `mysql2@3.23.1`. Receipt `2026-10-09--mysql2-override-dependabot-pr1131--ZH` (also covers dismissing Dependabot #22 and #32).
+- #1134 merged (8f9b7192): `/prior-art` now indexes AGENTS.md (per section and per numbered gotcha, listed first) and warns on stderr for any source it could not search; a copy run elsewhere falls back to the cwd's git checkout. Receipt `2026-10-09--prior-art-rules-repo-warn-pr1134--ZH`.
+- #1132 merged (8ff2d8bf): the earlier fragment for this session. Receipt `2026-10-09--handoff-fragment-prior-art-deps-pr1132--ZH`.
+- Fixed the false path citation in the v3.122.0 handoff: the npm package name for Prisma's config was read by the integrity gate as a repo path; reworded in prose (PR #1139). Gate verdict OK.
+- Reviewed #1125 (WCAG mechanical batch) and #1131 (mysql2 override to 3.23.1): both had already been merged by other sessions (20:31Z `8a06e401` and 20:16Z) with green CI. Review found no blockers; the added maximum-scale text was only the fix log, and #1125 removes a zoom block.
+- Side effect logged: a main-tip push to the already-merged claude/wcag-mechanical branch ref; harmless, PR closed, no content change.
+
+## Current state
+- No open work from this session. My Ally LD: waiting on the signed revised NDA and plan feedback from Access Consulting.
+
+## Decisions made
+- `/prior-art` lists AGENTS.md rules first because they are binding, ahead of memory and patterns.
+- None new.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Remove the mysql2 override and revisit deepmerge-ts (Dependabot #22) when Prisma 8 ships GA.
+2. `/prior-art` is keyword-only; generic words still pull in noise (e.g. "pipeline" matching the job-search memory).
+3. None.
+4. Wed 2026-10-14 1:00 PM ET: Vico intro with Lyndon, then /recoil-close.
+
+## Next action
+Wait for the signed NDA; on arrival countersign and send the intake form link.
+
+## Cold-start recipe
+- /handoff-pickup.
+
+### Notes: Lessons
+- Before reviewing a PR "to merge", re-check its state: two of two had been merged by parallel sessions mid-review.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261009T202102Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `8f9b7192`); `_HANDOFFS/fragments/20261009T203816Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `15f6ec2d`).
+
+---
+
 # Handoff — v3.122.0 (2026-10-09)
 
 ## Goal / true north
