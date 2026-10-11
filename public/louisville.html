@@ -395,6 +395,8 @@
   .eggrow button:active{transform:translateY(-1px) scale(1.02)}
   @keyframes eggfloat{0%,100%{box-shadow:0 10px 30px -18px #000,0 0 0 0 rgba(201,162,39,0)}50%{box-shadow:0 10px 30px -18px #000,0 0 0 4px rgba(201,162,39,.06)}}
   @media (prefers-reduced-motion:reduce){.eggrow{animation:none}}
+  /* GRID: the extras sit inline under the footer so they never cover a card; PRESENT keeps the corner pill */
+  body:not(.present) .eggrow{position:static;width:max-content;margin:18px auto 28px}
   /* phones: the fixed dock covered card body text on first load; sit it in flow at page end instead */
   @media (max-width:600px){.eggrow{position:static;width:max-content;margin:20px auto 28px;animation:none}}
 </style>
