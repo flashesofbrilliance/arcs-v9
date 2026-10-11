@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 46,
-  "nodes": 185,
-  "clean": 149,
+  "violations": 33,
+  "nodes": 161,
+  "clean": 160,
   "pages": 182
  },
  "pages": {
@@ -258,11 +258,9 @@
    "rules": {}
   },
   "public/blog-nftt-the-loop-closes.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-the-method-that-was-already-built.html": {
    "violations": 0,
@@ -322,11 +320,9 @@
    "rules": {}
   },
   "public/build.html": {
-   "violations": 1,
-   "nodes": 5,
-   "rules": {
-    "link-in-text-block": 5
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/case-study.html": {
    "violations": 0,
@@ -517,11 +513,10 @@
    "rules": {}
   },
   "public/lewoof-intake.html": {
-   "violations": 2,
-   "nodes": 4,
+   "violations": 1,
+   "nodes": 1,
    "rules": {
-    "color-contrast": 1,
-    "label": 3
+    "color-contrast": 1
    }
   },
   "public/lewoof-playbook.html": {
@@ -530,12 +525,9 @@
    "rules": {}
   },
   "public/louisville.html": {
-   "violations": 2,
-   "nodes": 5,
-   "rules": {
-    "aria-hidden-focus": 2,
-    "aria-required-children": 3
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/mercury-operator.html": {
    "violations": 0,
@@ -746,11 +738,9 @@
    "rules": {}
   },
   "public/robin-receipt.html": {
-   "violations": 1,
-   "nodes": 2,
-   "rules": {
-    "label": 2
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/robin.html": {
    "violations": 0,
@@ -793,11 +783,9 @@
    "rules": {}
   },
   "public/schriner-vico.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "target-size": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/schriner.html": {
    "violations": 0,
@@ -805,18 +793,14 @@
    "rules": {}
   },
   "public/scott-arcs-demo.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/scott-attraction-field.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/scott-codex.html": {
    "violations": 0,
@@ -844,11 +828,9 @@
    "rules": {}
   },
   "public/scott-teardown.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/scott.html": {
    "violations": 0,
@@ -856,11 +838,9 @@
    "rules": {}
   },
   "public/scottwitt-cc-teardown.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/sentilink-operator.html": {
    "violations": 0,
@@ -933,11 +913,9 @@
    "rules": {}
   },
   "public/vico-resume.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "target-size": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/vico.html": {
    "violations": 0,
@@ -970,11 +948,9 @@
    "rules": {}
   },
   "public/yuri-receipt.html": {
-   "violations": 1,
-   "nodes": 2,
-   "rules": {
-    "label": 2
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/yuri.html": {
    "violations": 0,

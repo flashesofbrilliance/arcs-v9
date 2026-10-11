@@ -140,7 +140,7 @@
 
 <div class="bar">
   <span class="sig">ARCS <em class="thr"><i>/</i><i>/</i><i>/</i></em> FIELD OS</span>
-  <div class="viewtoggle" id="viewtoggle" role="tablist" aria-label="View">
+  <div class="viewtoggle" id="viewtoggle" role="group" aria-label="View">
     <button data-view="grid" aria-current="true">GRID</button>
     <button data-view="present" aria-current="false">PRESENT</button>
   </div>
@@ -186,7 +186,7 @@
   // grid
   document.getElementById('grid').innerHTML = ITEMS.map(function(it){
     var attr = it.book ? 'data-book role="button" tabindex="0"' : 'data-page="'+it.page+'"';
-    var tog = it.flip ? '<div class="cardtog" role="tablist" aria-label="Two sides of this card">'
+    var tog = it.flip ? '<div class="cardtog" role="group" aria-label="Two sides of this card">'
         +'<button class="ct-seg" type="button" data-side-open="'+it.page+'" data-side-title="'+esc(it.t)+'" aria-current="true">'+esc(it.togFront)+'</button>'
         +'<button class="ct-seg" type="button" data-side-open="'+it.flip+'" data-side-title="'+esc(it.flipT)+'" aria-current="false">'+esc(it.togFlip)+' <span class="flipglyph" aria-hidden="true">⟲</span></button>'
       +'</div>' : '';
@@ -364,7 +364,7 @@
   <button id="egg-envelope" type="button" title="Private Stock · under lock &amp; key">🧧</button>
   <button id="egg-note" type="button" title="The Foreword · in place of a thank-you note">🧾</button>
 </div>
-<div class="stockview" id="noteview" aria-hidden="true">
+<div class="stockview" id="noteview" aria-hidden="true" inert>
   <div class="stockcard">
     <div class="stop"><span class="lk">序</span><span>THE FOREWORD · IN PLACE OF A THANK-YOU NOTE</span><span class="x" id="notex" role="button" aria-label="Close">✕</span></div>
     <div class="sbody">
@@ -376,7 +376,7 @@
     <div class="sfoot">WITH GRATITUDE · Z</div>
   </div>
 </div>
-<div class="stockview" id="stockview" aria-hidden="true">
+<div class="stockview" id="stockview" aria-hidden="true" inert>
   <div class="stockcard">
     <div class="stop"><span class="lk">鍵</span><span>PRIVATE STOCK · UNDER LOCK &amp; KEY</span><span class="x" id="stockx" role="button" aria-label="Close">✕</span></div>
     <div class="sbody">
@@ -393,15 +393,15 @@
 (function(){
   var body=document.body, buf="";
   var sv=document.getElementById('stockview');
-  function openStock(){ sv.classList.add('open'); sv.setAttribute('aria-hidden','false'); }
-  function closeStock(){ sv.classList.remove('open'); sv.setAttribute('aria-hidden','true'); }
+  function openStock(){ sv.classList.add('open'); sv.setAttribute('aria-hidden','false');sv.inert=false; }
+  function closeStock(){ sv.classList.remove('open'); sv.setAttribute('aria-hidden','true');sv.inert=true; }
   function toggleKin(){ body.classList.toggle('kintsugi'); }
   // discreet affordances
   function bosu(){ body.classList.add('kintsugi'); var c=document.querySelector('.kintcap'); if(c) c.textContent='小さく賭けろ · bet small, seal it, score it'; }
   var elE=document.getElementById('egg-envelope'); if(elE) elE.addEventListener('click',openStock);
   var nv=document.getElementById('noteview');
-  function openNote(){ nv.classList.add('open'); nv.setAttribute('aria-hidden','false'); }
-  function closeNote(){ nv.classList.remove('open'); nv.setAttribute('aria-hidden','true'); }
+  function openNote(){ nv.classList.add('open'); nv.setAttribute('aria-hidden','false');nv.inert=false; }
+  function closeNote(){ nv.classList.remove('open'); nv.setAttribute('aria-hidden','true');nv.inert=true; }
   var elN=document.getElementById('egg-note'); if(elN) elN.addEventListener('click',openNote);
   var nx=document.getElementById('notex'); if(nx) nx.addEventListener('click',closeNote);
   nv.addEventListener('click',function(e){ if(e.target===nv) closeNote(); });
@@ -422,7 +422,7 @@
 })();
 </script>
 
-  <div class="viewer" id="viewer" aria-hidden="true">
+  <div class="viewer" id="viewer" aria-hidden="true" inert>
     <div class="vbar">
       <button class="vback" id="vback">← THE FOLD</button>
       <span class="vtitle" id="vtitle"></span>
@@ -435,7 +435,7 @@
       <button class="vn next" id="vnnext"><span id="vnnextt"></span>&nbsp;›</button>
     </div>
   </div>
-  <div class="ledger" id="ledger" aria-hidden="true">
+  <div class="ledger" id="ledger" aria-hidden="true" inert>
     <div class="lbar">
       <button class="vback" id="lback">← CLOSE</button>
       <div class="ltabs" role="tablist">
@@ -599,8 +599,8 @@
       for(var i=0;i<els.length;i++){ els[i].setAttribute("aria-current", els[i].getAttribute("data-tab")===activeTab ? "true":"false"); }
       document.getElementById("lcopy").style.display = activeTab==="ledger" ? "" : "none";
     }
-    function openLedger(tab){ activeTab=tab||"ledger"; syncTabs(); renderReceipts(); var l=document.getElementById("ledger"); l.classList.add("open"); l.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden"; }
-    function closeLedger(){ var l=document.getElementById("ledger"); l.classList.remove("open"); l.setAttribute("aria-hidden","true"); if(!document.getElementById("viewer").classList.contains("open")) document.body.style.overflow=""; }
+    function openLedger(tab){ activeTab=tab||"ledger"; syncTabs(); renderReceipts(); var l=document.getElementById("ledger"); l.classList.add("open"); l.setAttribute("aria-hidden","false");l.inert=false; document.body.style.overflow="hidden"; }
+    function closeLedger(){ var l=document.getElementById("ledger"); l.classList.remove("open"); l.setAttribute("aria-hidden","true");l.inert=true; if(!document.getElementById("viewer").classList.contains("open")) document.body.style.overflow=""; }
     function decodeB64(b64){ var bin=atob(b64), u=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new TextDecoder("utf-8").decode(u); }
     var _blobs={};
     function blobURL(f){ if(!_blobs[f]){ try{ _blobs[f]=URL.createObjectURL(new Blob([decodeB64(PAGES[f])],{type:"text/html"})); }catch(e){ _blobs[f]="#"; } } return _blobs[f]; }
@@ -610,14 +610,14 @@
       fr.removeAttribute("src");
       fr.srcdoc = decodeB64(PAGES[f]);
       document.getElementById("vtitle").textContent = TITLES[f] || title || "ARCS";
-      v.classList.add("open"); v.setAttribute("aria-hidden","false");
+      v.classList.add("open"); v.setAttribute("aria-hidden","false");v.inert=false;
       updateNav(f);
       document.body.style.overflow="hidden";
     }
     function closeViewer(){
       _pendingEdge=null;
       var v=document.getElementById("viewer");
-      v.classList.remove("open"); v.setAttribute("aria-hidden","true");
+      v.classList.remove("open"); v.setAttribute("aria-hidden","true");v.inert=true;
       setTimeout(function(){ var fr=document.getElementById("vframe"); fr.removeAttribute("srcdoc"); fr.src="about:blank"; },400);
       document.body.style.overflow="";
     }

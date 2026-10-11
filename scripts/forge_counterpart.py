@@ -170,10 +170,10 @@ def _studio_panel(st):
     )
     return (
         f'<section class="sec"><div class="studio"><h3>{E(title)}</h3><p class="sdesc">{desc}</p>'
-        f'<div class="sfield"><label>The bet (a decision that can be wrong)</label><textarea id="st-bet" placeholder="Lead with one narrow thing in his register, name his own advice back..."></textarea></div>'
-        f'<div class="sfield"><label>The falsifier (what would prove it wrong)</label><textarea id="st-fal" placeholder="If it cannot fail, it is not a receipt."></textarea></div>'
-        f'<div class="sfield"><label>Assumptions (optional)</label><input id="st-ass"></div>'
-        f'<div class="sfield"><label>Score-back date</label><input id="st-sb" type="date"></div>'
+        f'<div class="sfield"><label for="st-bet">The bet (a decision that can be wrong)</label><textarea id="st-bet" placeholder="Lead with one narrow thing in his register, name his own advice back..."></textarea></div>'
+        f'<div class="sfield"><label for="st-fal">The falsifier (what would prove it wrong)</label><textarea id="st-fal" placeholder="If it cannot fail, it is not a receipt."></textarea></div>'
+        f'<div class="sfield"><label for="st-ass">Assumptions (optional)</label><input id="st-ass"></div>'
+        f'<div class="sfield"><label for="st-sb">Score-back date</label><input id="st-sb" type="date"></div>'
         f'<div class="srrow"><button id="st-file" class="sbtn">File the bet</button></div>'
         f'<div id="st-msg" class="smsg"></div><div id="st-list" class="slist"></div></div>'
         f'<script>{js}</script></section>'
