@@ -131,6 +131,14 @@ records Aug-6"), with thread id + date as evidence. Inbound on a CLOSED loop is 
 high-signal line. Never auto-send, never auto-close - receipt lines only; judgment stays human.
 Tuition: 2026-08-26, three stale-loop misreads corrected only by live inbox reads.
 
+**Skip auto-messages when picking the newest message.** Calendar replies (subject starts
+`Accepted:`, `Declined:`, `Tentative:`, `Updated invitation`, or the message is only an
+`invite.ics`), Mixmax/tracker reminders (`notifications@mixmax.com`), and other no-reply senders
+are not counterpart actions. Read the subject (THREAD_VIEW_MINIMAL) before calling drift; if the
+newest message is an auto-message, step back to the newest human one. Write Gmail ids as
+`gmail thread <id>` so `integrity_gate.py` does not read them as commits.
+Tuition: 2026-10-10, Todd's "unread Oct-06 email" was a calendar acceptance (corrected in #1234).
+
 ## Model drift (added 2026-10-04, ported from #715 on 2026-10-06)
 
 Run `python3 scripts/model_drift_check.py` (live with `ANTHROPIC_API_KEY`, else skipped). Any
