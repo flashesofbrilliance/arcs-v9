@@ -42,6 +42,6 @@
   ],
   "session_summary": "Backlog rows got a state enum + status_note with a pre-commit/CI gate (#1153); three stale rows closed (#1159).",
   "next_action": "On or after 2026-10-13 run backlog_status_check.py --gh and confirm or close the 3 RUNNING rows.",
-  "blocking": "Empty-email guard must be fixed and proven before prod cutover",
+  "blocking": "PRL go-live: publish the staged step 8 fix in Zap 376827315 (Lead mapped from step 5 ID, not the static Roger A Lamarre pick), after confirming whether empty update fields skip or clear; then repair Roger and run the repeat-chat proof. Empty-email guard is hardening, not the Sep 17 cause (root cause in _ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md).",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }
