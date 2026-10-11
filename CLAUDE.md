@@ -124,6 +124,59 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.132.0 (2026-10-11)
+
+> ### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-loops-verify-1010), receipts in digest: 1.
+> - **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
+> - **Breath balance**: mirror (inhale, no exhale).
+> - **Sycophancy check**: agreement 29 / dissent 6 (ratio 4.14) → THIN: high agreement, little dissent.
+> - **Cold re-read (canary on the draft frag3.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read**: somatic: not asked.
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> > Pickup plus /loops follow-through: K34 found already closed, the three "waiting on your go" PRs found already merged by their own sessions, and the open items in two of their receipts verified live.
+
+## Goal / true north
+Keep merged work verified live and receipted before the Mon 2026-10-12 PRL go-live call.
+
+## What changed
+- Receipt 2026-10-10--warroom-greys-pr1257-postmerge-verify--ZH: #1257 smoke and fe-smoke passed, main CI run 38104666811 succeeded, production `be3ff8f0` contains merge `bac52ae7`.
+- Receipt 2026-10-10--louisville-touch-targets-pr1251-postmerge-verify--ZH: live louisville.arcs.care screenshotted at 360/790/1280; no horizontal overflow, controls 44px, bars 59px and balanced.
+- #1258 (PRL agenda) was already merged with receipt 2026-10-10--prl-call-agenda-draft-pr1258--ZH; no duplicate logged.
+- Main checkout's gitignored `_STATE/handoff-progress.md`: appended a correction that K34 is closed (KINTSUGI.md K34, DECISIONS.md D-K34; 0 leak matches on main and tags).
+
+## Current state
+- K34 in ~/ret-rfp-intelligence is closed; the take-home session owns that repo and was committing during this check.
+- The Oct-12 PRL agenda is merged as a repo file and still an unsent Gmail draft for Zach.
+- Chip task_d85c9064 (two 360px issues on louisville.arcs.care: wrapped card toggle labels, icon dock over card 2 text) is running in its own session.
+
+## Decisions made
+- Do not touch ~/ret-rfp-intelligence from outside the take-home session.
+- Follow-up receipts confirm a prior receipt's open items instead of editing the prior row.
+
+## Open decisions (waiting on Zach)
+1. Zach: edit and send the PRL agenda draft before Mon 2026-10-12 10:00 ET.
+
+## Open (other)
+1. The one-time "Le Woof: nudge about Hila's page" task is still enabled with a past fire time (Oct-08 09:00) and never ran.
+
+## Next action
+PRL go-live call with Todd, Mon 2026-10-12 10:00 ET.
+
+## Cold-start recipe
+- /handoff-pickup; /loops; receipts above via `decision_receipt` where receipt_id like '2026-10-10--%verify%'.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261011T024859Z--claude-handoff-loops-verify-1010.md` (branch `claude/handoff-loops-verify-1010`, head `c3dcfe03`).
+
 # Handoff — v3.131.0 (2026-10-11)
 
 > Consolidation block: carries forward the open lists of v3.130.0 and v3.129.0 (the latter moves to _ARCHIVE/handoffs.md with this molt) so nothing drops out of the hot path. Only new fact: the v3.129.0 molt landed as #1266.
@@ -186,80 +239,3 @@ Attachment release: kept all claims. Somatic: not asked. Disposition: release.
 > Molted the final 3 fragments into v3.129.0; no other work since the previous fragment.
 
 > Molted from `_HANDOFFS/fragments/20261011T024249Z--claude-handoff-molt6-note.md` (branch `claude/handoff-molt6-note`, head `ab9c6222`).
-
-# Handoff — v3.130.0 (2026-10-11)
-
-> Two legs on 2026-10-10/11: (a) the main-checkout salvage, the epic migration onto GitHub milestones, full issue triage, and the Actions cost cut that scopes the WCAG ratchet per PR; (b) the PRL go-live blocker correction and the take-home status check.
-
-## Goal / true north
-Leave the repo with an epic structure on GitHub (JSONL still the SSOT), Actions spend under control without weakening accessibility, and PRL / take-home state that matches the evidence before Monday.
-
-## What changed
-- #1169 merged (`ebcceb6a`): carried `_QUEUE/epic-migration-plan.md` + the v3.67.0 SKILL.md changelog line from the salvage WIP commit (head of the kept branch claude/falsifiable-position-criteria-inltlk-local-salvage); everything else STALE or STATE. Receipt 2026-10-10--salvage-carry-epic-plan-pr1169--ZH
-- #1227 merged (`d494d6b3`): 10 milestones; 51 OPEN/RUNNING backlog rows mirrored to issues #1175-#1225 via `scripts/backlog_issue_sync.py` (JSONL stays SSOT); 97 issues milestoned. Receipt 2026-10-10--epic-migration-milestones-pr1227--ZH
-- Triage (no PR): closed 7 stale [backlog] mirrors (#580-584, #588, #589), milestoned 22 debt/bug issues, cross-linked 5 debt twins. Receipt 2026-10-10--triage-29-unmilestoned-issues--ZH
-- #1260 merged (`833a2395`): WCAG ratchet scoped to changed pages on PRs, full sweep nightly (`.github/workflows/a11y-nightly.yml`). Receipt 2026-10-11--a11y-ratchet-pr-scope-pr1260--ZH
-- #1046 comments: run rate, per-job minutes, real billing (Oct 1-11: arcs-v9 8,999 min, net $42.18; included minutes gone Oct 5)
-- #1267 open, not merged: Todd's go-live checklist (public/prl-status-runbook.html) adds item gl-z6 "Confirm a returning chat updates the lead it matched, never a fixed record"; `_STATE/snapshot.json` blocking line now names the step 8 static-Lead cause. page_gate 1/1; smoke pending at 02:45Z.
-- No merges this leg; receipts so far: 2026-10-10--handoff-fragment-hud-live-pr1263--ZH.
-
-## Current state
-- PRL root cause (from _ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md): Sep 17 Lamarre update came from step 8's static Lead pick, not an empty email. Fix staged as an unpublished draft of Zap 376827315; published v5 unchanged.
-- Take-home (~/ret-rfp-intelligence, read-only look): CI green on 90d62d5; ONBOARDING.md present; commit 823bba4 records every briefing resource as used, rejected or cited. Two files uncommitted, owned by the take-home session.
-- Status request sent to session "Continue monday take-home from HANDOFF.md" (status: waiting); no reply yet.
-
-## Decisions made
-- Epics: plan defaults 1-4; JSONL stays the SSOT (ADR-065), only OPEN/RUNNING rows synced (Zach).
-- WCAG gate: change when pages are checked, never whether (Zach: accessibility is 2026 design best practice).
-- Zach approved both PRL edits; the client-facing item got a new checkbox id so Todd's saved ticks stay put.
-- Leave the take-home repo to its own session; ask by message only.
-
-## Open decisions (waiting on Zach)
-1. Zach: spending limit on Actions (Settings > Billing > Budgets) is unread.
-2. Zach: drop the gh `user` scope when done (`gh auth refresh -h github.com -r user`); a suspended `gh auth refresh` job may still sit in terminal tab c1.
-3. Zach: clear the take-home session's pending prompt if it does not reply.
-
-## Open (other)
-1. Measure fe-smoke minutes on the first non-shared code PR after #1260; confirm the first nightly a11y run (07:41 UTC) is green; then decide on closing #1046.
-2. Epic plan's 5 decisions are answered; retired-model row old-anthropic-callers-moved is BLOCKED, so it has no issue.
-3. ADR-078 has a file but no `_DECISIONS/index.json` row (integrity gate WARN).
-4. Merge #1267 when CI passes, log its receipt, confirm gl-z6 live on prl.arcs.care/go-live.
-5. Relay the take-home session's reply to Zach.
-
-## Next action
-Merge #1267 once smoke passes and confirm gl-z6 shows on prl.arcs.care/go-live; then check the 07:41 UTC a11y-nightly run and a post-#1260 fe-smoke time and post both on #1046.
-
-## Cold-start recipe
-- PRL: `gh pr checks 1267`; `gh pr merge 1267 --merge`; insert a decision_receipt row; `curl -sL https://prl.arcs.care/go-live | grep -c "never a fixed record"`. Context: _ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md.
-- Actions cost: `gh run list --workflow a11y-nightly.yml -L 3`; `gh issue view 1046 --comments`; billing needs the gh `user` scope: `gh api "users/flashesofbrilliance/settings/billing/usage?year=2026&month=10"`.
-- Epics: `gh api repos/flashesofbrilliance/arcs-v9/milestones`; backlog SSOT `_QUEUE/induced-backlog.jsonl` synced by `scripts/backlog_issue_sync.py`.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-### Notes: lead of 20261011T024037Z--claude-handoff-salvage-epics.md
-> Salvaged the main-checkout WIP, ran the epic migration onto GitHub milestones, triaged every unmilestoned issue, measured Actions spend against real billing, and cut the biggest cost (the WCAG ratchet) by scoping it per PR. Memory index compacted to 17.1KB.
-
-### Notes: lead of 20261011T024242Z--claude-handoff-prl-takehome.md
-> After pickup: corrected the stale PRL go-live blocker (snapshot + Todd's checklist), then asked the take-home session for status. Follows fragment 20261011T022634Z--claude-handoff-hud-live.
-
-### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-prl-takehome), receipts in digest: 1.
-- **Inhale** (what came in): 0 falsification rows today, 5 dissent markers, 2 unconfirmed markers in the day's records.
-- **Breath balance**: mirror (inhale, no exhale).
-- **Sycophancy check**: agreement 27 / dissent 7 (ratio 3.38) → OK: dissent present.
-- **Cold re-read (canary on the draft frag3.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
-- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-Attachment release: every claim kept; #1267 and the take-home reply are stated as pending. Somatic: not asked. Disposition: release.
-
-### Notes: Shavasana
-- Mechanical: canary GROUNDED, no thin air; sycophancy OK (dissent present); exhale reads 0 only because it is scoped to this fresh handoff branch (session merged #1169, #1227, #1260).
-- Attachment release: kept all claims; the #1260 saving is listed as unmeasured (Open 3), not as achieved.
-- Somatic: not asked. Disposition: release.
-
-> Molted from `_HANDOFFS/fragments/20261011T024037Z--claude-handoff-salvage-epics.md` (branch `claude/handoff-salvage-epics`, head `833a2395`); `_HANDOFFS/fragments/20261011T024242Z--claude-handoff-prl-takehome.md` (branch `claude/handoff-prl-takehome`, head `ab9c6222`).
