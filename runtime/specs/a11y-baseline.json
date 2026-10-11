@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 33,
-  "nodes": 161,
-  "clean": 160,
+  "violations": 25,
+  "nodes": 153,
+  "clean": 168,
   "pages": 182
  },
  "pages": {
@@ -115,18 +115,14 @@
    "rules": {}
   },
   "public/blog-nftt-index.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-ledger-not-story.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-light-at-thirty-eight-miles-an-hour-research.html": {
    "violations": 0,
@@ -174,11 +170,9 @@
    "rules": {}
   },
   "public/blog-nftt-pulp-governance.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-receipts-or-it-didnt-happen.html": {
    "violations": 0,
@@ -211,11 +205,9 @@
    "rules": {}
   },
   "public/blog-nftt-second-pass.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-seven-calls-seven-falsifiers.html": {
    "violations": 0,
@@ -283,11 +275,9 @@
    "rules": {}
   },
   "public/blog-nftt-the-video-that-said-too-much.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/blog-nftt-tuning-into-the-distortion-field.html": {
    "violations": 0,
@@ -481,11 +471,9 @@
    "rules": {}
   },
   "public/joe.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "nested-interactive": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/julia-ext.html": {
    "violations": 0,
@@ -513,11 +501,9 @@
    "rules": {}
   },
   "public/lewoof-intake.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/lewoof-playbook.html": {
    "violations": 0,
@@ -540,11 +526,9 @@
    "rules": {}
   },
   "public/monolith.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "aria-required-children": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/monstro-cover.html": {
    "violations": 0,

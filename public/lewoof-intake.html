@@ -280,7 +280,7 @@ function render(){
   if(url && /^https?:\/\//.test(url) && !url.includes("...")){
     try{ new QRCode(box,{text:url,width:220,height:220,colorDark:"#022e25",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.L}); }
     catch(e){ box.textContent="QR"; }
-  } else { box.style.font="8px 'Open Sans'"; box.style.color="#7f8d86"; box.textContent="QR from pay URL"; }
+  } else { box.style.font="11px 'Open Sans'"; box.style.color="#5b6660"; box.textContent="QR from pay URL"; }
 }
 
 document.querySelectorAll("[data-k]").forEach(el=>el.addEventListener("input",render));
