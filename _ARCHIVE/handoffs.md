@@ -1,3 +1,93 @@
+# Handoff — v3.127.0 (2026-10-11)
+
+> 2026-10-10 last: arcs.care/hud became the full-screen field HUD with an admin-only ziggurat load (PR #1174, still open), the atlas observatory waits on the take-home's bundle after submission, and the v3.126.0 molt cleared the integrity gate's false positives without a bypass.
+
+## Goal / true north
+Ship the monday.com take-home by Thu 2026-10-15 17:00 ET; build the replay booth and the atlas admin route only after submission.
+
+## What changed
+- #1240 merged: night-moves 2026-10-10 updated in place (not overwritten): 95 commits, 21:06-21:41 work, dependency sweep at 21:41.
+- #1231 reviewed and merged (b27b6a46): Louisville sticky section nav, all checks green. Receipt `2026-10-10--louisville-sticky-nav-merge-pr1231--ZH`.
+- #1174 reviewed, not merged here: smoke Lint failed at src/organisms/ScopeHud.tsx:115 (setState in an effect). The owning session ("Make arcs.care/hud the full-screen 5D explorer") was already fixing it, so I did not push; it pushed a fix to the #1174 branch and owns the merge, receipt and live check. It will also correct the surface catalog, which marks /hud as admin-gated when only the ziggurat loader is.
+- #1174 open, not merged (branch claude/arcs-hud-fullscreen): new /hud route, Scope `pinned`, `barSlot` and `ziggurat` props, ScopeHud `collapseHolds`, toast and sticky footer hidden on /hud, surface catalog `surface-gate: open` marker.
+- #1246 merged (`10138ba8`); receipt 2026-10-10--night-moves-latenight-pr1246--ZH.
+- #1247 merged (`5f4b41d1`): molt of 4 fragments into handoff v3.126.0; v3.124.0 relocated to _ARCHIVE/handoffs.md. Receipt `2026-10-10--handoff-molt-v3.126.0-pr1247--ZH`.
+- Reworded a v3.125.0 line that named the deleted salvage commits and claimed the bundles were kept; the gate then passed with no bypass.
+
+## Current state
+- CLAUDE.md holds v3.126.0 and v3.125.0; the integrity gate's six false positives no longer fire.
+- #1107 and #1101 confirmed MERGED with gh and dropped from Open.
+
+## Decisions made
+- Reshape by making the terrain shape module-level and rebuilding the point cloud, instead of a separate overlay; the knowledge-lattice nodes keep their u,v and sit on the new heights.
+- Fold the Holds panel on phones only while a ziggurat is loaded (Zach picked this over a top label strip).
+- This session owns the #1174 merge and receipt; the observatory session that offered to merge was told to stand down.
+- The night-moves update was added to the existing digest, not regenerated, to keep other sessions' sections.
+- Fix a stale cite in the block rather than bypass the gate again.
+
+## Open decisions (waiting on Zach)
+1. Zach: take-home dress rehearsal once ONBOARDING.md lands; submit by Thu 2026-10-15 17:00 ET.
+2. Zach: approve the tool prompts in the "Held dependency exceptions watch" run.
+3. Zach: confirm the better-sqlite3 bump (#557) was an approved dependency change.
+
+## Open (other)
+1. Merge #1174 with --merge once fe-smoke is green, log its receipt, then send Zach live arcs.care/hud screenshots at phone and desktop.
+2. On or after 2026-10-13: `python3 scripts/backlog_status_check.py --gh`; confirm or close each RUNNING row it flags.
+3. The Oct-06 Success Academy check-in to Brian is still unconfirmed in Gmail.
+4. After submission: atlas-bundle.v1 export, replay booth kickoff 17:30, then the admin route per runtime/specs/atlas-bundle-observatory-spec.md v0.4.
+5. Vico intro Wed 2026-10-14 13:00 ET.
+
+## Next action
+PRL go-live call with Todd, Mon 2026-10-12 10:00 ET.
+
+## Cold-start recipe
+- /handoff-pickup; the latest CLAUDE.md block is v3.126.0.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261011T020350Z--claude-handoff-hud-1010.md
+> Built arcs.care/hud: the field HUD (Scope) pinned full screen with no page chrome, plus an admin-only ziggurat load that reshapes the field terrain from an arcs.atlas.v1 file. Also landed the 2026-10-10 late-night night-moves update.
+
+### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-hud-1010), receipts in digest: 0.
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 3 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 23 / dissent 6 (ratio 3.29) → OK: dissent present.
+- **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+Attachment release: every claim kept; the two untested items (non-admin in prod, live page) were already in State as not verified. Somatic: not asked. Disposition: release.
+
+### Notes: lead of 20261011T020517Z--claude-handoff-molt3-note.md
+### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-molt3-note), receipts in digest: 0.
+- **Inhale** (what came in): 0 falsification rows today, 3 dissent markers, 2 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 19 / dissent 5 (ratio 3.17) → OK: dissent present.
+- **Cold re-read (canary on the draft f5.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+Attachment release: kept all claims. Somatic: not asked. Disposition: release.
+
+> Molted the late 4 fragments into v3.126.0 with no integrity-gate bypass, after rewording a stale line of my own.
+
+### Notes: Lessons
+- Before pushing to another session's PR branch, check its worktree for uncommitted edits (git worktree list + status); here the owner was mid-fix on the same line.
+
+> Molted from `_HANDOFFS/fragments/20261011T020320Z--claude-atlas-handoff-d.md` (branch `claude/atlas-handoff-d`, head `c3bd0ac7`); `_HANDOFFS/fragments/20261011T020350Z--claude-handoff-hud-1010.md` (branch `claude/handoff-hud-1010`, head `c3bd0ac7`); `_HANDOFFS/fragments/20261011T020517Z--claude-handoff-molt3-note.md` (branch `claude/handoff-molt3-note`, head `5f4b41d1`).
+
+---
+
 # Handoff — v3.126.0 (2026-10-11)
 
 > 2026-10-10 late: the backlog got a machine-checkable `state` enum with a gate, the Counterpart pulse learned to skip auto-messages, the salvage leftovers closed (~/arcs-bundles/ deleted, settle-the-debate.png kept in ~/Downloads/), and a correction confirmed #1107 and #1101 both merged on 2026-10-09, so neither needs a decision.
