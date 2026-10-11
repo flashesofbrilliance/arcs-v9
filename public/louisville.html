@@ -228,7 +228,9 @@
   var gLock=0;
   function syncNav(){ if(Date.now()<gLock) return; var g=document.querySelector('.gnav'); if(!g) return; var line=g.getBoundingClientRect().bottom+24, best=null, bestTop=-Infinity;
     document.querySelectorAll('#grid .tile').forEach(function(t){ var top=Math.round(t.getBoundingClientRect().top); if(top<=line && top>bestTop){ bestTop=top; best=t; } });
-    markNav((best||document.querySelector('#grid .tile')).id); }
+    var tiles=document.querySelectorAll('#grid .tile'), se=document.scrollingElement;
+    if(se.scrollTop>0 && se.scrollTop+innerHeight>=se.scrollHeight-2) best=tiles[tiles.length-1];
+    markNav((best||tiles[0]).id); }
   gnav.addEventListener('click',function(e){ var a=e.target.closest('a'); if(!a) return; markNav(a.getAttribute('href').slice(1)); gLock=Date.now()+900; });
   var gRaf=0; window.addEventListener('scroll',function(){ if(!gRaf) gRaf=requestAnimationFrame(function(){ gRaf=0; syncNav(); }); },{passive:true});
   syncNav();
