@@ -247,7 +247,7 @@ def _chart_svg(series):
     leg = " ".join(f'<span><span class="swatch" style="background:{s["color"]};"></span> "{s["label"]}" &nbsp;{s["points"][0]} &#8594; {s["points"][-1]}</span>' for s in series)
     return (f'<div class="chart-wrap"><svg viewBox="0 0 360 150" width="100%" style="max-width:420px;display:block;margin:6px auto 0;" font-family="ui-monospace,monospace">'
             f'<line x1="40" y1="15" x2="340" y2="15" stroke="#1e293b"/><line x1="40" y1="55" x2="340" y2="55" stroke="#1e293b" stroke-dasharray="2 3"/><line x1="40" y1="95" x2="340" y2="95" stroke="#1e293b"/>'
-            f'<text x="32" y="18" fill="#64748b" font-size="9" text-anchor="end">1.0</text><text x="32" y="58" fill="#64748b" font-size="9" text-anchor="end">0.5</text><text x="32" y="98" fill="#64748b" font-size="9" text-anchor="end">0.0</text>'
+            f'<text x="32" y="18" fill="#8391a7" font-size="9" text-anchor="end">1.0</text><text x="32" y="58" fill="#8391a7" font-size="9" text-anchor="end">0.5</text><text x="32" y="98" fill="#8391a7" font-size="9" text-anchor="end">0.0</text>'
             f'<text x="190" y="128" fill="#94a3b8" font-size="9" text-anchor="middle">call time</text>'
             + "".join(lines) + marker + f'</svg></div><div class="legend">{leg}</div>')
 
@@ -265,7 +265,7 @@ def _ground_quotes(series):
 
 GATE_CSS = ("#pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;"
             "z-index:100;flex-direction:column;gap:16px;}#pw-gate.hidden{display:none;}"
-            ".pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#475569;}"
+            ".pw-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#8391a7;}"
             ".pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:0.1em;}"
             ".pw-input:focus{border-color:#00F0FF;}.pw-input.shake{animation:shake 0.3s ease;border-color:#FF4D6D;}"
             "@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}")
