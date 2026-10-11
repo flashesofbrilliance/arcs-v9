@@ -23,13 +23,22 @@ const pages = [...new Set(rows.map((r) => r.file).filter((f): f is string => !!f
 const baseline: Record<string, { violations: number; nodes: number; rules: Record<string, number> }> =
   fs.existsSync(BASELINE) ? JSON.parse(fs.readFileSync(BASELINE, "utf8")).pages : {}
 const fresh: typeof baseline = {}
+// Why this gate exists: WCAG 2.x A/AA conformance is how every surface accommodates every user (ADA), and
+// accessible-by-default is current design practice, not polish. Scoping below changes WHEN pages are
+// checked, never WHETHER: no page may regress, ever.
+// PR scope (2026-10-11, #1046): the full sweep is ~5 min of every code PR's fe-smoke (41% of Actions spend).
+// CI sets A11Y_PAGES to the served pages the PR changed (whitespace-separated; empty = none) so a PR pays
+// for its own pages. Unset = full sweep: local runs, the nightly .github/workflows/a11y-nightly.yml, and
+// UPDATE mode (a scoped run must never rewrite the baseline with a subset).
+const SCOPE = process.env.A11Y_PAGES
+const scoped = SCOPE === undefined || UPDATE ? pages : pages.filter((p) => SCOPE.split(/\s+/).includes(p))
 
 test.describe.configure({ mode: "serial" })
 // Measure the settled page, not a frame of its entrance animation: fade-ins sampled mid-flight read as
 // 1.1:1 contrast and made counts swing run to run (2026-10-09, about 120 of 301 contrast nodes).
 test.use({ reducedMotion: "reduce" })
 
-for (const file of pages) {
+for (const file of scoped) {
   test(`a11y ratchet: ${file}`, async ({ page }) => {
     await page.goto(pathToFileURL(path.join(ROOT, file)).href, { waitUntil: "load" })
     await page.waitForTimeout(1200)

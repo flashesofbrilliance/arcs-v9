@@ -769,3 +769,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - root cause: the detector does not resolve custom properties for color or background. On any page that themes through var(), its low-contrast verdict is a guess against white or black.
 - repair: `low-contrast` added to .impeccable/config.json ignoreRules; contrast is owned by tests/a11y-served.spec.ts, which renders the page. Design baseline re-emitted (3033 -> 2542, no page rose). DESIGN.md "Ratchets" says so. Rule 2 (literal root colors) stays useful for the detector's other rules but is no longer needed for contrast.
 - guard: the axe ratchet; PRL contrast went 126 nodes -> 0 under it.
+||||||| be3ff8f0
+
+## 2026-10-11 · kintsugi hook scored a kit page without its sibling stylesheet
+- break: the pre-commit kintsugi ratchet blocked an unchanged-count edit to src/ui-kit/recoil-report/15-case-world.html (5 in place vs 2 at HEAD).
+- found by: the fog-opacity commit; scoring both versions in place gave 5 and 5.
+- repair: the hook's HEAD mirror now extracts HEAD's whole directory of the file (git archive) before writing the blob, so a linked sibling such as _tokens.css resolves at HEAD too.
+- guard: scripts/git-hooks/pre-commit, next to the 2026-10-06 waiver-path fix it extends.

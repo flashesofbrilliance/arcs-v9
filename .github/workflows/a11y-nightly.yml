@@ -1,0 +1,30 @@
+name: a11y nightly
+
+# Accessibility is a service-design requirement, not a nice-to-have: WCAG 2.x A/AA conformance is how
+# every page accommodates every user (ADA). This run keeps that guarantee whole.
+# Full WCAG ratchet (tests/a11y-served.spec.ts) over every served page, once a day. PR CI scopes the
+# ratchet to the pages a PR changed (2026-10-11, #1046: the full sweep was ~5 min of every code PR's
+# fe-smoke, 41% of Actions spend); this run catches pages that regressed indirectly. Pages load by
+# file URL, so no server, database or build is needed.
+on:
+  schedule:
+    - cron: "41 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+        env:
+          DATABASE_URL: "postgresql://postgres:ci@localhost:5432/arcs"
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Full a11y ratchet
+        run: npx playwright test tests/a11y-served.spec.ts
