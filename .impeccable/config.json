@@ -1,6 +1,8 @@
 {
  "detector": {
-  "ignoreRules": [],
+  "ignoreRules": [
+   "low-contrast"
+  ],
   "ignoreFiles": [],
   "ignoreValues": [
    {
@@ -725,6 +727,15 @@
     ],
     "createdAt": "2026-10-08T17:50:50.406Z",
     "reason": "Light theme for non-technical counterparts (Kelly, Chelsea); DESIGN.md is dark-only. Scoped to this one generated page. Seam booked 2026-10-08 in _PATTERNS/kintsugi-visual-grammar-seams.md."
+   },
+   {
+    "rule": "em-dash-overuse",
+    "value": "*",
+    "files": [
+     "public/prl-status-atlas.html"
+    ],
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "reason": "The count is the '-->' arrows in the page's Mermaid diagram source, rendered as SVG edges, not prose; the visible copy has 0 em-dashes (wrap lint clean)."
    }
   ]
  }

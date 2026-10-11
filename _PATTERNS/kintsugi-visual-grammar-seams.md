@@ -762,3 +762,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - repair: tokens raised to #8391a7 / #7a8699, the pair forge-cut uses. axe: 40 -> 0.
 - seam: the static design detector cannot resolve var() backgrounds or text colors, so it judged these labels against #ffffff and black. Raising the greys alone made it report MORE low-contrast (97 -> 104), all false. html and body now carry the literal #020408 / #e2e8f0 the vars resolve to; the detector reads the real page and drops to 42.
 - guard: the WCAG ratchet (rendered) holds forge-pattern at 0 contrast nodes. Lesson: a page whose body background is only a var() is invisible to the detector's contrast rule; give the root a literal.
+
+## 2026-10-11 · the static detector cannot judge contrast on token-driven pages
+- break: raising the PRL --dim grey to pass AA made the design ratchet report MORE debt on 7 PRL pages (e.g. progress 7 -> 15), all "text #7a8699 on #ffffff".
+- found by: the PRL a11y pass. Giving html a literal background flipped it: the detector then read every var() text color as #000000 (progress 7 -> 27).
+- root cause: the detector does not resolve custom properties for color or background. On any page that themes through var(), its low-contrast verdict is a guess against white or black.
+- repair: `low-contrast` added to .impeccable/config.json ignoreRules; contrast is owned by tests/a11y-served.spec.ts, which renders the page. Design baseline re-emitted (3033 -> 2542, no page rose). DESIGN.md "Ratchets" says so. Rule 2 (literal root colors) stays useful for the detector's other rules but is no longer needed for contrast.
+- guard: the axe ratchet; PRL contrast went 126 nodes -> 0 under it.
