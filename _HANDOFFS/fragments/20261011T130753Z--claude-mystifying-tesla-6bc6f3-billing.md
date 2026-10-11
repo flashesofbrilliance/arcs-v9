@@ -17,7 +17,7 @@ created_at: 2026-10-11T13:07:53Z
 
 ## Open
 1. Zach: fix the Actions billing or spending limit (GitHub settings, Billing and plans).
-2. After that: re-run CI on #1288 and merge it with --merge on green, then write the receipt. #1251 (Louisville touch targets) will also need its checks re-run.
+2. After that: re-run CI on #1288 and merge it with --merge on green, then write the receipt. (#1251, Louisville touch targets, had already merged by 2026-10-11; any new PR opened while billing is blocked will need its checks re-run.)
 3. Close the five mirrored issues if Zach wants them closed.
 4. Time-boxed backlog rows from the ranking: prl-golive-empty-email-guard (before Mon 2026-10-12 10:00 ET), accountant-weekly-first-unattended (2026-10-12), adr-085-acceptance-redecide (2026-10-13).
 
