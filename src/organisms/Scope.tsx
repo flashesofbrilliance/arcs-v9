@@ -1157,7 +1157,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
         />
       </div>
 
-      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={shape.stepH} stepW={shape.stepW} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} onVis={setVis} />}
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={shape.stepH} stepW={shape.stepW} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} onVis={setVis} collapseHolds={!!ziggurat} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div

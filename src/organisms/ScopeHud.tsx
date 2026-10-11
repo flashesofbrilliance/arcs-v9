@@ -105,10 +105,14 @@ function Dial({ min, max, v, minor, major, bands = [], unit }: { min: number; ma
   )
 }
 
-export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank, onVis }: { read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; onVis: (pct: number) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
+// `collapseHolds`: on phones (portrait) the Holds panel folds to its header, tap to open.
+// Set while a ziggurat is loaded so the terrace labels beneath it stay readable.
+export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, onBank, onVis, collapseHolds = false }: { collapseHolds?: boolean; read: () => HudRead; onBack: (i: number) => void; onHop: (id: string) => void; onBank: (dir: 1 | -1) => void; onVis: (pct: number) => void; fathoms: readonly Fathom[]; stepH: number; stepW: number; onSteer: (deg: number) => void }) {
   // Defaults keep the HUD whole if a reader omits a field (a hot reload can pair a new HUD with an old reader).
   const safeRead = useCallback((): HudRead => ({ yaw: 0, depth: 4, fog: 1, clear: false, nest: 0, origin: null, universe: false, node: null, trail: [], holds: [], bankUp: null, bankDown: null, galaxy: null, gps: null, ...(read() as Partial<HudRead>) }), [read])
   const [r, setR] = useState<HudRead>(safeRead)
+  const [holdsOpen, setHoldsOpen] = useState(false)
+  useEffect(() => { setHoldsOpen(false) }, [collapseHolds])
   const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
   const [vh, setVh] = useState(() => (typeof window === "undefined" ? 800 : window.innerHeight))
   useEffect(() => { const on = () => { setVw(window.innerWidth); setVh(window.innerHeight) }; window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
@@ -116,6 +120,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
   // Landscape compact puts the GPS and the holds side by side instead of stacking them.
   const narrow = vw < 900 || vh < 600
   const land = narrow && vw > vh
+  const foldable = collapseHolds && narrow && !land, folded = foldable && !holdsOpen
   useEffect(() => {
     let raf = 0, last = 0
     const tick = (now: number) => { if (now - last > 66) { last = now; setR(safeRead()) } raf = requestAnimationFrame(tick) }
@@ -293,7 +298,13 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
       {r.universe && (r.holds.length > 0 || r.bankUp || r.bankDown) && (
         <div style={{ ...panel, ...(land ? { left: "calc(50% + 8px)", right: 16, top: 64, maxHeight: vh - 64 - 190 } : narrow ? { left: 16, right: 16, bottom: 150, maxHeight: "28%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), ...scroll, pointerEvents: "auto" }}>
           <Screws />
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span><span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span></div>
+          {(() => {
+            const count = <span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span>
+            return foldable
+              ? <button type="button" aria-expanded={!folded} onClick={() => setHoldsOpen((o) => !o)} style={{ ...label, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, width: "100%", minHeight: 32, padding: 0, marginBottom: folded ? 0 : 6, background: "none", border: "none", cursor: "pointer" }}><span>Holds {folded ? "\u25B8" : "\u25BE"}</span>{count}</button>
+              : <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Holds</span>{count}</div>
+          })()}
+          {!folded && <>
           {([[1, r.bankUp], [-1, r.bankDown]] as const).map(([dir, b]) => b && (
             <button
               key={dir}
@@ -330,6 +341,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
               </div>
             )
           })()}
+          </>}
         </div>
       )}
 
