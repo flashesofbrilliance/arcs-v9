@@ -283,6 +283,16 @@ jobs:
           python3 scripts/page_gate.py $files
 
       - name: FE smoke (Playwright)
-        run: npm run test:smoke
+        # a11y ratchet scope (2026-10-11, #1046): only the served pages this PR changed. Shared CSS or a
+        # change to the ratchet's own inputs runs the full sweep; the nightly a11y-nightly.yml always does.
+        run: |
+          files=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }})
+          if echo "$files" | grep -qE '\.css$|^src/ui-kit/|^tests/a11y-served\.spec\.ts$|^runtime/specs/(a11y-baseline|surface-catalog)\.json$|^package(-lock)?\.json$|^playwright\.config\.'; then
+            echo "a11y ratchet: shared CSS or ratchet inputs changed -> full sweep"
+          else
+            export A11Y_PAGES="$(echo "$files" | grep '\.html$' || true)"
+            echo "a11y ratchet: scoped to $(echo "$A11Y_PAGES" | grep -c . || true) changed page(s)"
+          fi
+          npm run test:smoke
         env:
           SMOKE_BASE_URL: "http://localhost:3000"
