@@ -1,6 +1,6 @@
 ---
 spec: atlas-bundle-observatory
-version: 0.3
+version: 0.3.1
 status: SCOPE CONFIRMED by Zach 2026-10-10; build after 2026-10-15 5 PM ET
 date: 2026-10-10
 build_window: after take-home submission (Thu 2026-10-15 5 PM ET), alongside sprint 2
@@ -84,6 +84,6 @@ canvas/SVG isometric projection like the existing Scope organisms, unless Zach a
 
 Adapter rules (arcs-v9 side only; the bundle is never edited):
 1. **Ruin list is curated, not inferred.** Red ruin paths come from a Zach-maintained list in arcs-v9
-   (seed: K35, K40, K42). A bundle `severity` value, when present, can add to it but never removes from it.
+   (K35, K37, K40, K42, K44; Zach 2026-10-10). A bundle `severity` value, when present, can add to it but never removes from it.
 2. **Missing detected_at:** place the mistake at repaired_at; draw no arc length (a point, not a path).
 3. **Missing both timestamps:** list in an "unplaced" side band, never positioned on the time axis.
