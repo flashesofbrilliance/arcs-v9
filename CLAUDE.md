@@ -124,6 +124,69 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.131.0 (2026-10-11)
+
+> Consolidation block: carries forward the open lists of v3.130.0 and v3.129.0 (the latter moves to _ARCHIVE/handoffs.md with this molt) so nothing drops out of the hot path. Only new fact: the v3.129.0 molt landed as #1266.
+
+## Goal / true north
+Ship the monday.com take-home by Thu 2026-10-15 17:00 ET using every resource the briefing listed, or a recorded reason not to.
+
+## What changed
+- #1266 merged (`b1a06808`): molt of 3 fragments into handoff v3.129.0; integrity gate passed first try. Receipt `2026-10-10--handoff-molt-v3.129.0-pr1266--ZH`.
+
+## Current state
+- CLAUDE.md holds v3.129.0 (current) and v3.128.0.
+- #1174's receipt is logged; that Open item is closed.
+
+## Decisions made
+- None new.
+
+## Open decisions (waiting on Zach)
+1. Zach: spending limit on Actions (Settings > Billing > Budgets); drop the gh `user` scope when done (`gh auth refresh -h github.com -r user`).
+2. Zach: clear the take-home session's pending prompt if it does not reply; that session owes the resource x plan matrix before changing code.
+3. Zach: send Todd's agenda (choose the account) and own the August-test wording if wanted.
+4. Zach: take-home dress rehearsal once ONBOARDING.md lands; submit by Thu 2026-10-15 17:00 ET. Whether the assessment terms allow publishing the NFTT build log.
+5. Zach: approve the tool prompts in the "Held dependency exceptions watch" run; confirm the better-sqlite3 bump (#557).
+
+## Open (other)
+1. #1267 merged; confirm its receipt is logged and gl-z6 shows on prl.arcs.care/go-live.
+2. PRL Zap: test skip-vs-clear on empty fields before publishing; after publishing, repair Roger and run the repeat-chat proof (Mon 2026-10-12 10:00 ET call).
+3. Measure fe-smoke minutes on the first non-shared code PR after #1260; confirm the first nightly a11y run (07:41 UTC) is green; then decide on closing #1046.
+4. Check the arcs.care/hud ziggurat loader live as a signed-in admin.
+5. On or after 2026-10-13: `python3 scripts/backlog_status_check.py --gh`; confirm or close each RUNNING row it flags.
+6. ADR-078 has a file but no `_DECISIONS/index.json` row (integrity gate WARN).
+7. The Oct-06 Success Academy check-in to Brian is still unconfirmed in Gmail.
+8. After submission: atlas-bundle.v1 export, replay booth kickoff 17:30, then the admin route per runtime/specs/atlas-bundle-observatory-spec.md v0.4.
+9. Vico intro Wed 2026-10-14 13:00 ET.
+
+## Next action
+Confirm gl-z6 shows on prl.arcs.care/go-live and #1267's receipt is logged, then the Mon 2026-10-12 10:00 ET call with Todd.
+
+## Cold-start recipe
+- /handoff-pickup; the latest CLAUDE.md block is v3.129.0.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261011T024249Z--claude-handoff-molt6-note.md
+### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-molt6-note), receipts in digest: 1.
+- **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 26 / dissent 6 (ratio 3.71) → OK: dissent present.
+- **Cold re-read (canary on the draft f8.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+Attachment release: kept all claims. Somatic: not asked. Disposition: release.
+
+> Molted the final 3 fragments into v3.129.0; no other work since the previous fragment.
+
+> Molted from `_HANDOFFS/fragments/20261011T024249Z--claude-handoff-molt6-note.md` (branch `claude/handoff-molt6-note`, head `ab9c6222`).
+
 # Handoff — v3.130.0 (2026-10-11)
 
 > Two legs on 2026-10-10/11: (a) the main-checkout salvage, the epic migration onto GitHub milestones, full issue triage, and the Actions cost cut that scopes the WCAG ratchet per PR; (b) the PRL go-live blocker correction and the take-home status check.
@@ -200,103 +263,3 @@ Attachment release: every claim kept; #1267 and the take-home reply are stated a
 - Somatic: not asked. Disposition: release.
 
 > Molted from `_HANDOFFS/fragments/20261011T024037Z--claude-handoff-salvage-epics.md` (branch `claude/handoff-salvage-epics`, head `833a2395`); `_HANDOFFS/fragments/20261011T024242Z--claude-handoff-prl-takehome.md` (branch `claude/handoff-prl-takehome`, head `ab9c6222`).
-
-# Handoff — v3.129.0 (2026-10-11)
-
-> 2026-10-10 final: #1174 is merged with its receipt (`2026-10-10--arcs-hud-fullscreen-ziggurat-pr1174--ZH`) and arcs.care/hud is live; the PRL Lamarre update's real cause was found and an unpublished Zap fix plus Todd's Monday agenda are staged; the NFTT take-home build log is queued behind the Thu submission.
-
-## Goal / true north
-Ship the monday.com take-home by Thu 2026-10-15 17:00 ET using every resource the briefing listed, or a recorded reason not to.
-
-## What changed
-- #1261 merged (`9a8d71ee`): molt of 2 fragments into handoff v3.128.0; integrity gate passed first try. Receipt `2026-10-10--handoff-molt-v3.128.0-pr1261--ZH`.
-- #1174 merged (`12f27a7e`, 2026-10-11T02:10Z); receipt 2026-10-10--arcs-hud-fullscreen-ziggurat-pr1174--ZH.
-- #1249 merged (`5097ded0`); receipt 2026-10-10--handoff-fragment-hud-pr1249--ZH.
-- #1164 merged (`00b896f4`): backlog row nftt-monday-fde-takehome-build-log, gated after Thu 2026-10-15 17:00 ET, publish scope confirmed (company named only as "a work-management platform"). Receipt 2026-10-10--queue-nftt-monday-buildlog-pr1164--ZH
-- #1228 merged (`53ee0296`): row cross-references the private replay booth (cite its figures, never retype). Receipt 2026-10-10--nftt-buildlog-booth-xref-pr1228--ZH
-- #1237 merged (`316d650b`): Lamarre root cause in the go-live checklist. Receipt 2026-10-10--prl-lamarre-root-cause-draft-fix-pr1237--ZH
-- #1253 merged (`1d8f0cf5`): draft status in the checklist. Receipt 2026-10-10--prl-draft-title-industry-pr1253--ZH
-- #1258 merged (`260189bb`): Monday agenda draft file. Receipt 2026-10-10--prl-call-agenda-draft-pr1258--ZH
-- Unsent Gmail draft to todd.hotes@prlresins.com in zach.harris@gmail.com (same text as the agenda file).
-
-## Current state
-- Zap 376827315: published v5 unchanged and on. An unpublished draft has step 8 Lead mapped to `5. ID` (was static "Roger A Lamarre") and Account Description, Notes, Title, Industry emptied. Retest step never run.
-- Sep 17 run 0067cd35: email was todd.hotes@prlresins.com; step 5 found lead db056406; step 8 wrote to Roger (ea77a7d2). Not an empty-email case.
-- This Zap's runs are not held; the only held run is the Covestro Unbounce -> GHL Zap.
-- Replied to the replay-booth session: no shared timeline generator needed.
-
-## Decisions made
-- None new.
-- Draft only, not published: client's live Zap, and the cause differed from what Todd was told; show him first (Zach chose option B).
-- Empty-email guard demoted: it would not have stopped Sep 17; still worth doing later per task8 sheet.
-- Agenda drops the Zapier plan-upgrade ask, since runs are not held.
-
-## Open decisions (waiting on Zach)
-1. Zach: send Todd's agenda (choose the account) and own the August-test wording if wanted.
-2. Zach: take-home dress rehearsal once ONBOARDING.md lands; submit by Thu 2026-10-15 17:00 ET. Whether the assessment terms allow publishing the NFTT build log.
-3. Zach: approve the tool prompts in the "Held dependency exceptions watch" run; confirm the better-sqlite3 bump (#557).
-
-## Open (other)
-1. Take-home session: deliver the resource x plan matrix to Zach before changing code.
-2. PRL Zap, before publishing: test whether the SugarAI update skips or clears empty fields; if it clears, remove the four emptied fields. After publishing: repair Roger, run the repeat-chat proof.
-3. Check the arcs.care/hud ziggurat loader live as a signed-in admin.
-4. On or after 2026-10-13: `python3 scripts/backlog_status_check.py --gh`; confirm or close each RUNNING row it flags.
-5. The Oct-06 Success Academy check-in to Brian is still unconfirmed in Gmail.
-6. After submission: atlas-bundle.v1 export, replay booth kickoff 17:30, then the admin route per runtime/specs/atlas-bundle-observatory-spec.md v0.4.
-7. Vico intro Wed 2026-10-14 13:00 ET.
-
-## Next action
-Mon 2026-10-12 10:00 ET call with Todd: run agenda section 3 (skip-vs-clear test, publish, repair Roger, two proof chats), then log a receipt.
-
-## Cold-start recipe
-- Read `_ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md` (bottom two sections) and `2026-10-12-call-agenda-todd-DRAFT.md`.
-- Zapier editor: https://zapier.com/editor/376827315/draft/376828757/fields (Chrome tab group; sign in if prompted). Never click "Retest step" on step 8.
-- Build log: backlog row nftt-monday-fde-takehome-build-log, not before Thu 10-15 17:00 ET.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection).
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-### Notes: lead of 20261011T022552Z--claude-handoff-molt5-note.md
-### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-molt5-note), receipts in digest: 1.
-- **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
-- **Breath balance**: mirror (inhale, no exhale).
-- **Sycophancy check**: agreement 22 / dissent 6 (ratio 3.14) → OK: dissent present.
-- **Cold re-read (canary on the draft f7.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
-- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-Attachment release: kept all claims. Somatic: not asked. Disposition: release.
-
-> Molted the closing 2 fragments into v3.128.0; no other work since the previous fragment.
-
-### Notes: lead of 20261011T022634Z--claude-handoff-hud-live.md
-> Follow-up to fragment 20261011T020350Z--claude-handoff-hud-1010: #1174 merged and arcs.care/hud is live; that fragment's "open, not merged" lines are superseded.
-
-### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-
-- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-hud-live), receipts in digest: 1.
-- **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 3 unconfirmed markers in the day's records.
-- **Breath balance**: mirror (inhale, no exhale).
-- **Sycophancy check**: agreement 25 / dissent 7 (ratio 3.12) → OK: dissent present.
-- **Cold re-read (canary on the draft frag2.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
-- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-
-Attachment release: every claim kept; untested items stay in State as not checked. Somatic: not asked. Disposition: release.
-
-### Notes: lead of 20261011T022635Z--claude-stoic-nobel-0f6cd4.md
-> Session 2026-10-10 (stoic-nobel): queued the NFTT take-home build log behind the Thu 10-15 submission, then found the real cause of the PRL Lamarre update and staged an unpublished Zap fix plus Todd's Monday agenda.
-
-### Notes: Shavasana
-Canary GROUNDED; dissent present (ratio 4.0). Attachment release: kept all claims; each cites a run id, PR or receipt. Downgraded: Title/Industry clear is visually confirmed, not text-checked after reload (noted in receipt). somatic: not asked. Disposition: release.
-
-> Molted from `_HANDOFFS/fragments/20261011T022552Z--claude-handoff-molt5-note.md` (branch `claude/handoff-molt5-note`, head `023f2752`); `_HANDOFFS/fragments/20261011T022634Z--claude-handoff-hud-live.md` (branch `claude/handoff-hud-live`, head `023f2752`); `_HANDOFFS/fragments/20261011T022635Z--claude-stoic-nobel-0f6cd4.md` (branch `claude/stoic-nobel-0f6cd4`, head `023f2752`).
