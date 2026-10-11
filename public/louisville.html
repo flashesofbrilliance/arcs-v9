@@ -133,6 +133,19 @@
      CSS zoom miscomputes 100dvh and throws off the present vertical centering */
   @media (min-width:1500px){ body:not(.present){zoom:1.25} }
   @media print{body{background-image:none}.tile{break-inside:avoid}#presentview{display:none!important}}
+  /* grid section nav: sticky chips under the bar, magnetic snap where cards stack */
+  .gnav{position:sticky;top:var(--barh,52px);z-index:55;display:flex;justify-content:center;padding:8px 16px;background:rgba(11,11,12,.82);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .gnav .viewtoggle{overflow-x:auto;max-width:100%;scrollbar-width:none}
+  .gnav .viewtoggle::-webkit-scrollbar{display:none}
+  .gnav a{color:var(--graphite);font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:6px 12px;border-radius:100px;text-decoration:none;white-space:nowrap}
+  .gnav a:hover{color:var(--gold)}
+  .gnav a[aria-current=true]{background:rgba(201,162,39,.1);color:var(--gold)}
+  .gnav a:focus-visible,.viewtoggle button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  html{scroll-padding-top:calc(var(--barh,52px) + 56px)}
+  html{scroll-behavior:smooth}
+  @media(max-width:520px){html{scroll-snap-type:y proximity}#grid .tile{scroll-snap-align:start}}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body.present .gnav{display:none}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -149,6 +162,7 @@
 
 <!-- GRID VIEW -->
 <div id="gridview">
+  <nav class="gnav" aria-label="Sections"><div class="viewtoggle" id="gnav"></div></nav>
   <div class="wrap">
     <div class="hero">
       <div class="note">Louisville is great at making things. The open question is <span class="g">which to make next.</span></div>
@@ -190,13 +204,26 @@
         +'<button class="ct-seg" type="button" data-side-open="'+it.page+'" data-side-title="'+esc(it.t)+'" aria-current="true">'+esc(it.togFront)+'</button>'
         +'<button class="ct-seg" type="button" data-side-open="'+it.flip+'" data-side-title="'+esc(it.flipT)+'" aria-current="false">'+esc(it.togFlip)+' <span class="flipglyph" aria-hidden="true">⟲</span></button>'
       +'</div>' : '';
-    return '<div class="tile '+(it.book?'book':'')+(it.flip?' flippable':'')+'" '+attr+'>'
+    return '<div id="card-'+it.no+'" class="tile '+(it.book?'book':'')+(it.flip?' flippable':'')+'" '+attr+'>'
       +tog
       +'<div class="top"><span class="no">'+it.no+'</span><h3>'+esc(it.t)+'</h3></div>'
       +'<p>'+esc(it.d)+'</p>'
       +'<div class="foot"><span class="tag '+it.cls+'">'+it.tag+'</span><span class="open">'+(it.book?'RESERVE →':'OPEN →')+'</span></div>'
       +'<span class="kj" aria-hidden="true">'+it.kj+'</span></div>';
   }).join('');
+
+  // section nav chips (ids come from ITEMS at render time)
+  var GNAV=['ARGUMENT','WHERE TO POINT','LIVE RECEIPT','COST'];
+  var gnav=document.getElementById('gnav');
+  gnav.innerHTML=ITEMS.map(function(it,i){ return '<a href="#card-'+it.no+'" aria-current="'+(i===0?'true':'false')+'">'+it.no+' '+GNAV[i]+'</a>'; }).join('');
+  function setBarH(){ var b=document.querySelector('.bar'); if(b) document.documentElement.style.setProperty('--barh', b.offsetHeight+'px'); }
+  setBarH(); window.addEventListener('resize', setBarH);
+  function markNav(id){ gnav.querySelectorAll('a').forEach(function(a){ a.setAttribute('aria-current', a.getAttribute('href')==='#'+id ? 'true':'false'); }); }
+  gnav.addEventListener('click',function(e){ var a=e.target.closest('a'); if(a) markNav(a.getAttribute('href').slice(1)); });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting) markNav(en.target.id); }); },{rootMargin:'-35% 0px -55% 0px'});
+    document.querySelectorAll('#grid .tile').forEach(function(t){ io.observe(t); });
+  }
 
   // present plates (hero + items)
   var hero='<section class="plate"><div class="inner">'
@@ -213,7 +240,7 @@
       +'<div class="p-kicker"><span class="n">'+it.no+'</span> · '+kick+'</div>'
       +'<h2 class="p-title">'+esc(it.t)+'</h2>'
       +'<p class="p-lede">'+esc(it.d)+'</p>'
-      +(it.flip?'<div class="p-tog" role="tablist" aria-label="Two sides · use up and down">'
+      +(it.flip?'<div class="p-tog" role="group" aria-label="Two sides · use up and down">'
           +'<button class="pt-seg" type="button" data-side-open="'+it.page+'" data-side-title="'+esc(it.t)+'" aria-current="true">'+esc(it.togFront)+'</button>'
           +'<button class="pt-seg" type="button" data-side-open="'+it.flip+'" data-side-title="'+esc(it.flipT)+'" aria-current="false">'+esc(it.togFlip)+'</button>'
         +'</div>':'')
