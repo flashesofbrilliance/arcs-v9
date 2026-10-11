@@ -111,8 +111,10 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
   // Defaults keep the HUD whole if a reader omits a field (a hot reload can pair a new HUD with an old reader).
   const safeRead = useCallback((): HudRead => ({ yaw: 0, depth: 4, fog: 1, clear: false, nest: 0, origin: null, universe: false, node: null, trail: [], holds: [], bankUp: null, bankDown: null, galaxy: null, gps: null, ...(read() as Partial<HudRead>) }), [read])
   const [r, setR] = useState<HudRead>(safeRead)
-  const [holdsOpen, setHoldsOpen] = useState(false)
-  useEffect(() => { setHoldsOpen(false) }, [collapseHolds])
+  // Opened for one collapse cycle only: toggling collapseHolds folds it again, no effect needed.
+  const [openFor, setOpenFor] = useState<boolean | null>(null)
+  const holdsOpen = openFor === collapseHolds
+  const setHoldsOpen = (f: (o: boolean) => boolean) => setOpenFor(f(holdsOpen) ? collapseHolds : null)
   const [vw, setVw] = useState(() => (typeof window === "undefined" ? 1280 : window.innerWidth))
   const [vh, setVh] = useState(() => (typeof window === "undefined" ? 800 : window.innerHeight))
   useEffect(() => { const on = () => { setVw(window.innerWidth); setVh(window.innerHeight) }; window.addEventListener("resize", on); return () => window.removeEventListener("resize", on) }, [])
