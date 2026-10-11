@@ -755,3 +755,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
   scores 1 finding (`overused-font`, Inter on the summary pages, still an accepted choice). The cyan-to-green blend on
   the accent word is gone by design.
 - **Guard:** none new; the ratchet already blocks a new unwaived gradient-text on this path.
+
+## 2026-10-10 · forge-pattern retired greys: detector and render disagree
+- break: forge-pattern.html still declared --muted #64748b and --dimmed #475569 (retired, below AA on its dark panels); axe in a real render found 40 contrast nodes.
+- found by: tests/a11y-served.spec.ts once it measured the settled page (PR 1141).
+- repair: tokens raised to #8391a7 / #7a8699, the pair forge-cut uses. axe: 40 -> 0.
+- seam: the static design detector cannot resolve var() backgrounds or text colors, so it judged these labels against #ffffff and black. Raising the greys alone made it report MORE low-contrast (97 -> 104), all false. html and body now carry the literal #020408 / #e2e8f0 the vars resolve to; the detector reads the real page and drops to 42.
+- guard: the WCAG ratchet (rendered) holds forge-pattern at 0 contrast nodes. Lesson: a page whose body background is only a var() is invisible to the detector's contrast rule; give the root a literal.
