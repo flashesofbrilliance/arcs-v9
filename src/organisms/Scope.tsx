@@ -39,9 +39,23 @@ const START = { u: -0.78, v: 0.7 }
 const ORBIT_MS = 90_000
 const H = 1.0
 const HALF = 0.84
-const LEVELS = 5
-const STEP_W = HALF / LEVELS
-const STEP_H = 0.12
+// The terrain shape. The default is five terraces; a loaded ziggurat (arcs.care/hud,
+// admin) reshapes it to one terrace per atlas tier, base first, gate-coloured walls.
+// Mutable at module level because every geometry helper below reads it; Scope sets it
+// from the `ziggurat` prop and rebuilds the cloud. Total height stays near the default.
+export type ZigTier = { name: string; gate: "pass" | "warn" | "fail"; docs: number }
+const DEFAULT_LEVELS = 5, DEFAULT_STEP_H = 0.12
+export function shapeFor(tiers: ZigTier[] | null | undefined) {
+  const levels = tiers && tiers.length ? Math.min(12, tiers.length) : DEFAULT_LEVELS
+  const stepH = tiers && tiers.length ? Math.min(0.2, (DEFAULT_LEVELS * DEFAULT_STEP_H) / levels) : DEFAULT_STEP_H
+  return { levels, stepW: HALF / levels, stepH, tiers: tiers && tiers.length ? tiers.slice(0, 12) : null }
+}
+let LEVELS = DEFAULT_LEVELS
+let STEP_W = HALF / LEVELS
+let STEP_H = DEFAULT_STEP_H
+let ZIG: ZigTier[] | null = null
+function applyShape(sh: ReturnType<typeof shapeFor>) { LEVELS = sh.levels; STEP_W = sh.stepW; STEP_H = sh.stepH; ZIG = sh.tiers }
+const GATE_COLOR: Record<ZigTier["gate"], string> = { pass: signal.green, warn: signal.gold, fail: signal.red }
 const PITCH_MIN = -1.45, PITCH_MAX = 1.52
 const DIST_MIN = 1.25, DIST_MAX = 7
 const RIPPLE_GAP = 0.05, RIPPLE_REACH = 0.62, RIPPLE_SPEED = 0.045 // world units, per second
@@ -237,9 +251,10 @@ function subscribeCoarse(cb: () => void) {
 }
 
 // `barSlot` takes the control-bar place the Full HUD toggle leaves when pinned.
+// `ziggurat` reshapes the terrain to the loaded atlas tiers (null = the default field).
 // `pinned` (arcs.care/hud): the field opens in full HUD and stays there; Esc, F and the
 // exit button no longer drop it back to the embedded band, because there is no page behind it.
-export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: { fog: number; clear: boolean; zone: string; zoneColor: string; pinned?: boolean; barSlot?: ReactNode }) {
+export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, ziggurat = null }: { fog: number; clear: boolean; zone: string; zoneColor: string; pinned?: boolean; barSlot?: ReactNode; ziggurat?: ZigTier[] | null }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const figRef = useRef<HTMLElement>(null)
@@ -252,6 +267,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
     // id -> { t: time the droplet landed, gone: time it was removed (rings fade) }
     drops: new Map<string, { t: number; gone: number }>(),
     redraw: () => {},
+    rebuild: () => {},
     resize: () => {},
     depth: HOME_DEPTH,
     full: false,
@@ -294,6 +310,8 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
     return () => ro.disconnect()
   }, [])
   useEffect(() => { target.current = { fog, clear } }, [fog, clear])
+  const shape = shapeFor(ziggurat)
+  useEffect(() => { applyShape(shapeFor(ziggurat)); control.current.rebuild() }, [ziggurat])
 
   // One dial: altitude and fidelity together. Integers snap, scroll is continuous.
   const setDepth = useCallback((n: number) => {
@@ -439,7 +457,9 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    const cloud = buildCloud()
+    const ctl0 = control.current
+    let cloud = buildCloud()
+    ctl0.rebuild = () => { cloud = buildCloud(); draw(performance.now()) }
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const t0 = performance.now()
     const ctl = control.current
@@ -748,7 +768,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
       for (let k = 1; k <= LEVELS; k++) {
         const d = HALF - (k - 1) * STEP_W, h = k * STEP_H
         const apexGold = k === LEVELS && st.nav > 0.5
-        ctx.strokeStyle = apexGold ? rgba(signal.gold, 0.85) : rgba(k >= 5 ? "#94a3b8" : k >= 3 ? signal.cyan : signal.green, 0.12 + clarity * 0.25)
+        ctx.strokeStyle = apexGold ? rgba(signal.gold, 0.85) : ZIG ? rgba(GATE_COLOR[ZIG[k - 1].gate], 0.35 + clarity * 0.35) : rgba(k >= 5 ? "#94a3b8" : k >= 3 ? signal.cyan : signal.green, 0.12 + clarity * 0.25)
         ctx.lineWidth = k === LEVELS ? 1 : 0.7
         path([[-d, -d], [d, -d], [d, d], [-d, d], [-d, -d]].map(([a, b]) => proj(SUMMIT.u + a, h, SUMMIT.v + b)))
       }
@@ -779,7 +799,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
           }
         }
         const apex = p.k === LEVELS && st.nav > 0.5
-        ctx.fillStyle = apex ? rgba(signal.gold, a * 0.9) : rgba(p.wall ? mix(ptColor, "#9fb3c8", 0.35) : ptColor, a)
+        ctx.fillStyle = apex ? rgba(signal.gold, a * 0.9) : rgba(p.wall ? mix(ptColor, ZIG && p.k >= 1 ? GATE_COLOR[ZIG[p.k - 1].gate] : "#9fb3c8", ZIG ? 0.6 : 0.35) : ptColor, a)
         const sz = Math.min(5, atDepth(dep, "size") * (1 + clarity * 0.2) * (2.7 / s.d) * Math.sqrt(cam.zoom) * Math.max(0.75, U))
         // Up high the survey is quantized: 8-bit blocks snap to a coarse raster.
         const q = dep < 1.6 ? 4 : dep < 2.4 ? 2 : 0
@@ -986,12 +1006,16 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
         path(bl); ctx.setLineDash([])
       }
 
-      // Up high, only the tiers are legible: three names on the bands.
-      const tierA = clamp((2.3 - dep) / 0.6, 0, 1)
+      // Up high, only the tiers are legible: three names on the bands (or, with a loaded
+      // ziggurat, every atlas tier with its doc count, down to Operational).
+      const tierA = ZIG ? clamp((4.3 - dep) / 0.6, 0, 1) : clamp((2.3 - dep) / 0.6, 0, 1)
       if (tierA > 0.02) {
         ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "middle"; ctx.textAlign = "left"
         let prevY = -Infinity
-        ;([["later", 5], ["next", 4], ["now", 2]] as [Tier, number][]).forEach(([tier, k]) => {
+        const bands: [string, string, number][] = ZIG
+          ? ZIG.map((t, i) => [`${t.name.slice(0, 24)} · ${t.docs}`, GATE_COLOR[t.gate], i + 1] as [string, string, number]).reverse()
+          : ([["later", 5], ["next", 4], ["now", 2]] as [Tier, number][]).map(([t, k]) => [TIER_NAME[t], TIER_COLOR[t], k])
+        bands.forEach(([name, color, k]) => {
           const d = HALF - (k - 1) * STEP_W
           let bp: { x: number; y: number } | null = null
           for (const [a, b] of [[-d, -d], [d, -d], [d, d], [-d, d]]) {
@@ -1001,10 +1025,10 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
           if (!bp) return
           const y = Math.max(bp.y, prevY + 18); prevY = y
           const LX = Math.min(SW - 70, bp.x + 26)
-          ctx.strokeStyle = rgba(TIER_COLOR[tier], 0.45 * tierA); ctx.lineWidth = 0.7
+          ctx.strokeStyle = rgba(color, 0.45 * tierA); ctx.lineWidth = 0.7
           ctx.beginPath(); ctx.moveTo(bp.x + 3, bp.y); ctx.lineTo(LX - 5, y); ctx.stroke()
-          ctx.fillStyle = rgba(TIER_COLOR[tier], tierA)
-          ctx.fillText(TIER_NAME[tier].toUpperCase(), LX, y)
+          ctx.fillStyle = rgba(color, tierA)
+          ctx.fillText(name.toUpperCase(), LX, y)
         })
       }
 
@@ -1133,7 +1157,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: 
         />
       </div>
 
-      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={STEP_H} stepW={STEP_W} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} onVis={setVis} />}
+      {full && <ScopeHud read={hudRead} fathoms={FATHOMS} stepH={shape.stepH} stepW={shape.stepW} onSteer={steer} onBack={backTo} onHop={hop} onBank={bank} onVis={setVis} />}
 
       {/* The sketch: a drawer that slides up over the field, never below it. */}
       <div
