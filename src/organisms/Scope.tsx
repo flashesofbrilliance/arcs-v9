@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
+import { type ReactNode, useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { text, signal, font, border } from "@/ui/tokens"
 import { ScopeHud, type HudRead } from "./ScopeHud"
 import universe from "@/data/universe-field.json"
@@ -236,7 +236,10 @@ function subscribeCoarse(cb: () => void) {
   return () => mq.removeEventListener("change", cb)
 }
 
-export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boolean; zone: string; zoneColor: string }) {
+// `barSlot` takes the control-bar place the Full HUD toggle leaves when pinned.
+// `pinned` (arcs.care/hud): the field opens in full HUD and stays there; Esc, F and the
+// exit button no longer drop it back to the embedded band, because there is no page behind it.
+export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot }: { fog: number; clear: boolean; zone: string; zoneColor: string; pinned?: boolean; barSlot?: ReactNode }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const figRef = useRef<HTMLElement>(null)
@@ -280,8 +283,9 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
   const [drawer, setDrawer] = useState(false)
   const [narrow, setNarrow] = useState(false)
   // Full HUD: the field takes the whole viewport, zoomed in at Fathom 4.
-  const [full, setFull] = useState(false)
-  const toggleFull = useCallback(() => setFull((f) => !f), [])
+  const [full, setFullRaw] = useState(pinned)
+  const setFull = useCallback((v: boolean | ((f: boolean) => boolean)) => { if (!pinned) setFullRaw(v) }, [pinned])
+  const toggleFull = useCallback(() => setFull((f) => !f), [setFull])
   useEffect(() => {
     const el = wrapRef.current
     if (!el) return
@@ -587,7 +591,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
         case "Enter": if (ctl.universe && ctl.lookAt && !ctl.galaxy) { const q = UPOS[ctl.lookAt]; diveTo({ u: q.u, v: q.v, node: ctl.lookAt }) } else hit = false; break
         case "Backspace": backTo(ctl.trail.length - 1); break
         case "s": case "S": if (!ctl.full) { hit = false; break } { const h = (((-(ctl.cam?.yaw ?? 0)) * 180) / Math.PI % 360 + 360) % 360; steer(Math.round((h - 45) / 90) * 90 + 45) } break
-        case "Escape": if (ctl.full) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
+        case "Escape": if (ctl.full && !pinned) { setFull(false); break } ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
         case "0": ctl.fogOverride = null; ctl.nest = 0; ctl.origin = null; ctl.originNode = null; ctl.dive = null; ctl.trail = []; ctl.galaxy = null; focusOn(null); setDepth(HOME_DEPTH); break
         default: hit = false
       }
@@ -1223,7 +1227,8 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
           {!coarse && !narrow && <span style={{ ...mono, color: text.secondary, marginLeft: "0.4rem", overflow: "hidden", textOverflow: "ellipsis" }}>{FATHOMS[depth - 1].name}</span>}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", flexShrink: 0 }}>
-        <button
+        {barSlot}
+        {!pinned && <button
           type="button"
           aria-pressed={full}
           aria-label={full ? "Exit full HUD" : "Full HUD"}
@@ -1235,7 +1240,7 @@ export function Scope({ fog, clear, zone, zoneColor }: { fog: number; clear: boo
             <path d={full ? "M4 1v3H1M6 1v3h3M4 9V6H1M6 9V6h3" : "M1 4V1h3M9 4V1H6M1 6v3h3M9 6v3H6"} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           {!narrow && (full ? "Exit HUD" : "Full HUD")}
-        </button>
+        </button>}
         <button
           type="button"
           aria-expanded={drawer}
