@@ -1,3 +1,85 @@
+# Handoff — v3.128.0 (2026-10-11)
+
+> 2026-10-10 close: arcs.care/hud is live after #1174, the Louisville nav receipt was corrected with a new row, and Zach's request to use every briefing resource went to the take-home session as a resource x plan audit.
+
+## Goal / true north
+Ship the monday.com take-home by Thu 2026-10-15 17:00 ET using every resource the briefing listed, or a recorded reason not to.
+
+## What changed
+- #1255 merged (`8230c5a7`): 2026-10-10 digest update to 22:10 (#1245, #1247 to #1250; open #1251, #1252, #1253), the merge-on-pending lesson, and the 22:10 dependency sweep. Receipt `2026-10-10--night-moves-2210-update-pr1255--ZH`.
+- Correction receipt `2026-10-10--louisville-nav-receipt-correction-pr1231--ZH`: #1231 merged at 01:54Z with fe-smoke still in progress on the merged head; fe-smoke then passed (job 114363497301). Updating the original receipt was declined twice, so a new row records it.
+- #1254 merged (`65122ea6`): molt of 3 fragments into handoff v3.127.0; one line reworded to cite #1174 instead of an unmerged SHA, no gate bypass. Receipt `2026-10-10--handoff-molt-v3.127.0-pr1254--ZH`.
+- #1174 found already merged by its owning session (02:10Z, `12f27a7e`, all checks green); arcs.care/hud returned 404 until the production build finished, then 200. Screenshots at 1440 and 375 sent to Zach.
+- Relayed to session "Continue monday take-home from HANDOFF.md" (delivered): serialize all plans, read the 9 briefing resources, build a resource x plan matrix, show Zach before any code change.
+
+## Current state
+- No decision receipt exists for #1174 yet (queried decision_receipt); left to its owning session to avoid a duplicate.
+- Read-only grep of ~/ret-rfp-intelligence: Academy, the JS SDK @mondaydotcomorg/api, the MCP Setup Guide and LangGraph appear in 0 files; DECISIONS.md D-MCP rejects MCP and the Python SDK but never names the JS SDK.
+
+## Decisions made
+- Record a correction as a new receipt row rather than editing a logged one.
+- Route the briefing audit to the take-home session (it owns the repo and the scope freeze) instead of doing it here.
+
+## Open decisions (waiting on Zach)
+1. Zach: take-home dress rehearsal once ONBOARDING.md lands; submit by Thu 2026-10-15 17:00 ET.
+2. Zach: approve the tool prompts in the "Held dependency exceptions watch" run.
+3. Zach: confirm the better-sqlite3 bump (#557) was an approved dependency change.
+
+## Open (other)
+1. Take-home session: deliver the resource x plan matrix to Zach before changing code.
+2. "Make arcs.care/hud the full-screen 5D explorer" session: log the #1174 merge receipt (none in decision_receipt as of this molt).
+3. On or after 2026-10-13: `python3 scripts/backlog_status_check.py --gh`; confirm or close each RUNNING row it flags.
+4. The Oct-06 Success Academy check-in to Brian is still unconfirmed in Gmail.
+5. After submission: atlas-bundle.v1 export, replay booth kickoff 17:30, then the admin route per runtime/specs/atlas-bundle-observatory-spec.md v0.4.
+6. Vico intro Wed 2026-10-14 13:00 ET.
+
+## Next action
+PRL go-live call with Todd, Mon 2026-10-12 10:00 ET.
+
+## Cold-start recipe
+- /handoff-pickup; open the take-home session for the matrix; `curl -sI https://www.arcs.care/hud` for the live check.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261011T021135Z--claude-arcs-config-harness-integration-b14b89.md
+> Late follow-ups: checked the Louisville nav merge, corrected its receipt with a new row, and added 21:58 to 22:10 to the 2026-10-10 digest.
+
+### Notes: lead of 20261011T021627Z--claude-handoff-hud-relay.md
+### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-hud-relay), receipts in digest: 1.
+- **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 25 / dissent 6 (ratio 3.57) → OK: dissent present.
+- **Cold re-read (canary on the draft f6.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+Attachment release: kept all claims; the grep counts show mentions, not reading. Somatic: not asked. Disposition: release.
+
+> Molted v3.127.0, verified arcs.care/hud live after #1174 and sent Zach the screenshots, and relayed his "use ALL the briefing resources" audit request to the take-home session.
+
+### Notes: Shavasana
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-h-1010), receipts in digest: 1.
+- **Inhale** (what came in): 0 falsification rows today, 6 dissent markers, 2 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 24 / dissent 8 (ratio 2.67) → OK: dissent present.
+- **Cold re-read (canary on the draft frag8.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+- Exhale reads 0 because its scope is this handoff branch; the session merged #1255 and logged two receipts.
+- Attachment release: the Todd calendar-acceptance claim now cites its source and says it was not re-checked here. Somatic: not asked. Disposition: release.
+
+> Molted from `_HANDOFFS/fragments/20261011T021135Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `12f27a7e`); `_HANDOFFS/fragments/20261011T021627Z--claude-handoff-hud-relay.md` (branch `claude/handoff-hud-relay`, head `dfbdf60a`).
+
+---
+
 # Handoff — v3.127.0 (2026-10-11)
 
 > 2026-10-10 last: arcs.care/hud became the full-screen field HUD with an admin-only ziggurat load (PR #1174, still open), the atlas observatory waits on the take-home's bundle after submission, and the v3.126.0 molt cleared the integrity gate's false positives without a bypass.
