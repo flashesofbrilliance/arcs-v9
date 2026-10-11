@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1791685811.943054,
-  "acquired_at_iso": "2026-10-11T02:30:11Z",
-  "expires_at": 1791687611.943054,
-  "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/exciting-bartik-1e9aed",
+  "acquired_at": 1791686630.143636,
+  "acquired_at_iso": "2026-10-11T02:43:50Z",
+  "expires_at": 1791688430.143636,
+  "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/great-snyder-a9933e",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 2805,
+  "pid": 15845,
   "reason": "",
-  "released_at_iso": "2026-10-11T02:41:35Z",
-  "seq": 68,
-  "state": "free",
+  "seq": 69,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
