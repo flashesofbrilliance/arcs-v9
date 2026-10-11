@@ -1024,7 +1024,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
           }
           if (!bp) return
           const y = Math.max(bp.y, prevY + 18); prevY = y
-          const LX = Math.min(SW - 70, bp.x + 26)
+          const LX = Math.min(SW - 14 - ctx.measureText(name.toUpperCase()).width, bp.x + 26)
           ctx.strokeStyle = rgba(color, 0.45 * tierA); ctx.lineWidth = 0.7
           ctx.beginPath(); ctx.moveTo(bp.x + 3, bp.y); ctx.lineTo(LX - 5, y); ctx.stroke()
           ctx.fillStyle = rgba(color, tierA)
