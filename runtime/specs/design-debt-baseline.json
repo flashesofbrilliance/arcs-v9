@@ -2,14 +2,14 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 2987,
-  "emdash": 11,
-  "wrap": 2,
+  "detector": 2496,
+  "emdash": 0,
+  "wrap": 0,
   "tokens": 6,
   "leak": 0,
   "retired_color": 0,
   "pages": 182,
-  "pages_clean": 57
+  "pages_clean": 61
  },
  "pages": {
   "public/ahmed-evening.html": {
@@ -97,10 +97,8 @@
    "retired_color": 0
   },
   "public/autopilot-resume-viewer.html": {
-   "detector": 1,
-   "rules": {
-    "low-contrast": 1
-   },
+   "detector": 0,
+   "rules": {},
    "emdash": 0,
    "wrap": 0,
    "tokens": 0,
@@ -171,10 +169,8 @@
    "retired_color": 0
   },
   "public/blacksmith-resume-viewer.html": {
-   "detector": 1,
-   "rules": {
-    "low-contrast": 1
-   },
+   "detector": 0,
+   "rules": {},
    "emdash": 0,
    "wrap": 0,
    "tokens": 0,
@@ -182,13 +178,12 @@
    "retired_color": 0
   },
   "public/blacksmith.html": {
-   "detector": 13,
+   "detector": 12,
    "rules": {
     "all-caps-body": 2,
     "dark-glow": 3,
     "gradient-text": 3,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 1,
     "overused-font": 1,
     "pulsing-dot": 1,
     "tiny-text": 1
@@ -576,12 +571,11 @@
    "retired_color": 0
   },
   "public/blog-til-a-draft-is-not-a-verb.html": {
-   "detector": 12,
+   "detector": 10,
    "rules": {
     "all-caps-body": 4,
     "cramped-padding": 1,
     "dark-glow": 2,
-    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 1,
     "wide-tracking": 1
@@ -593,11 +587,10 @@
    "retired_color": 0
   },
   "public/blog-til-apple-openai.html": {
-   "detector": 24,
+   "detector": 22,
    "rules": {
     "all-caps-body": 2,
     "dark-glow": 2,
-    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 16,
     "wide-tracking": 1
@@ -609,12 +602,11 @@
    "retired_color": 0
   },
   "public/blog-til-closing-the-loop.html": {
-   "detector": 14,
+   "detector": 12,
    "rules": {
     "all-caps-body": 6,
     "cramped-padding": 1,
     "dark-glow": 2,
-    "low-contrast": 2,
     "overused-font": 1,
     "tiny-text": 1,
     "wide-tracking": 1
@@ -764,12 +756,11 @@
    "retired_color": 0
   },
   "public/forge-cut.html": {
-   "detector": 41,
+   "detector": 22,
    "rules": {
     "all-caps-body": 5,
     "cramped-padding": 1,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 19,
     "tiny-text": 15
    },
    "emdash": 0,
@@ -779,12 +770,11 @@
    "retired_color": 0
   },
   "public/forge-pattern.html": {
-   "detector": 41,
+   "detector": 30,
    "rules": {
     "all-caps-body": 11,
     "cramped-padding": 1,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 11,
     "tiny-text": 15,
     "wide-tracking": 2
    },
@@ -921,12 +911,11 @@
    "retired_color": 0
   },
   "public/good-series-lore-the-gap.html": {
-   "detector": 17,
+   "detector": 10,
    "rules": {
     "all-caps-body": 1,
     "design-system-font": 1,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 7,
     "skipped-heading": 1,
     "wide-tracking": 6
    },
@@ -989,10 +978,8 @@
    "retired_color": 0
   },
   "public/growth-ai-resume-viewer.html": {
-   "detector": 1,
-   "rules": {
-    "low-contrast": 1
-   },
+   "detector": 0,
+   "rules": {},
    "emdash": 0,
    "wrap": 0,
    "tokens": 0,
@@ -1000,13 +987,12 @@
    "retired_color": 0
   },
   "public/growth-ai.html": {
-   "detector": 14,
+   "detector": 13,
    "rules": {
     "all-caps-body": 3,
     "dark-glow": 3,
     "gradient-text": 3,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 1,
     "overused-font": 1,
     "pulsing-dot": 1,
     "tiny-text": 1
@@ -1069,13 +1055,12 @@
    "retired_color": 0
   },
   "public/julia-ext.html": {
-   "detector": 157,
+   "detector": 50,
    "rules": {
     "all-caps-body": 13,
     "aphoristic-cadence": 1,
     "cramped-padding": 4,
     "dark-glow": 10,
-    "low-contrast": 107,
     "tiny-text": 21,
     "wide-tracking": 1
    },
@@ -1095,13 +1080,12 @@
    "retired_color": 0
   },
   "public/julia.html": {
-   "detector": 292,
+   "detector": 84,
    "rules": {
     "all-caps-body": 24,
     "aphoristic-cadence": 1,
     "cramped-padding": 9,
     "dark-glow": 17,
-    "low-contrast": 208,
     "side-tab": 21,
     "tiny-text": 10,
     "wide-tracking": 2
@@ -1167,10 +1151,9 @@
    "retired_color": 0
   },
   "public/louisville.html": {
-   "detector": 16,
+   "detector": 12,
    "rules": {
     "design-system-font": 1,
-    "low-contrast": 4,
     "tight-leading": 1,
     "wide-tracking": 10
    },
@@ -1181,13 +1164,12 @@
    "retired_color": 0
   },
   "public/mercury-operator.html": {
-   "detector": 13,
+   "detector": 12,
    "rules": {
     "all-caps-body": 2,
     "dark-glow": 3,
     "gradient-text": 3,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 1,
     "overused-font": 1,
     "pulsing-dot": 1,
     "tiny-text": 1
@@ -1339,12 +1321,11 @@
    "retired_color": 0
   },
   "public/omakase/index.html": {
-   "detector": 117,
+   "detector": 114,
    "rules": {
     "dark-glow": 1,
     "design-system-font": 2,
     "layout-transition": 11,
-    "low-contrast": 3,
     "tiny-text": 27,
     "undersized-ui-text": 30,
     "wide-tracking": 43
@@ -1435,39 +1416,36 @@
    "retired_color": 0
   },
   "public/prl-status-atlas.html": {
-   "detector": 17,
+   "detector": 9,
    "rules": {
     "cramped-padding": 1,
     "design-system-font": 1,
-    "low-contrast": 8,
     "wide-tracking": 7
    },
-   "emdash": 7,
-   "wrap": 1,
+   "emdash": 0,
+   "wrap": 0,
    "tokens": 0,
    "leak": 0,
    "retired_color": 0
   },
   "public/prl-status-build.html": {
-   "detector": 4,
+   "detector": 2,
    "rules": {
     "cramped-padding": 1,
-    "design-system-font": 1,
-    "low-contrast": 2
+    "design-system-font": 1
    },
-   "emdash": 4,
-   "wrap": 1,
+   "emdash": 0,
+   "wrap": 0,
    "tokens": 0,
    "leak": 0,
    "retired_color": 0
   },
   "public/prl-status-catchup.html": {
-   "detector": 21,
+   "detector": 8,
    "rules": {
     "all-caps-body": 2,
     "cramped-padding": 4,
     "design-system-font": 1,
-    "low-contrast": 13,
     "tiny-text": 1
    },
    "emdash": 0,
@@ -1477,11 +1455,11 @@
    "retired_color": 0
   },
   "public/prl-status-crm.html": {
-   "detector": 12,
+   "detector": 5,
    "rules": {
     "cramped-padding": 3,
     "design-system-font": 1,
-    "low-contrast": 8
+    "skipped-heading": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1490,12 +1468,11 @@
    "retired_color": 0
   },
   "public/prl-status-progress.html": {
-   "detector": 7,
+   "detector": 5,
    "rules": {
     "all-caps-body": 3,
     "cramped-padding": 1,
-    "design-system-font": 1,
-    "low-contrast": 2
+    "design-system-font": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1504,11 +1481,10 @@
    "retired_color": 0
   },
   "public/prl-status-receipt.html": {
-   "detector": 16,
+   "detector": 6,
    "rules": {
     "all-caps-body": 5,
-    "design-system-font": 1,
-    "low-contrast": 10
+    "design-system-font": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1517,12 +1493,11 @@
    "retired_color": 0
   },
   "public/prl-status-runbook.html": {
-   "detector": 39,
+   "detector": 11,
    "rules": {
     "all-caps-body": 4,
     "cramped-padding": 1,
     "design-system-font": 1,
-    "low-contrast": 28,
     "side-tab": 4,
     "skipped-heading": 1
    },
@@ -1533,11 +1508,10 @@
    "retired_color": 0
   },
   "public/prl-status-tidio.html": {
-   "detector": 22,
+   "detector": 2,
    "rules": {
     "cramped-padding": 1,
-    "design-system-font": 1,
-    "low-contrast": 20
+    "design-system-font": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1546,11 +1520,11 @@
    "retired_color": 0
   },
   "public/prl-status-troubleshooting.html": {
-   "detector": 11,
+   "detector": 3,
    "rules": {
     "cramped-padding": 1,
     "design-system-font": 1,
-    "low-contrast": 9
+    "skipped-heading": 1
    },
    "emdash": 0,
    "wrap": 0,
@@ -1729,10 +1703,9 @@
    "retired_color": 0
   },
   "public/saul-resume-viewer.html": {
-   "detector": 4,
+   "detector": 3,
    "rules": {
     "design-system-font": 2,
-    "low-contrast": 1,
     "tiny-text": 1
    },
    "emdash": 0,
@@ -1778,10 +1751,8 @@
    "retired_color": 0
   },
   "public/schriner-resume-viewer.html": {
-   "detector": 1,
-   "rules": {
-    "low-contrast": 1
-   },
+   "detector": 0,
+   "rules": {},
    "emdash": 0,
    "wrap": 0,
    "tokens": 0,
@@ -1964,13 +1935,12 @@
    "retired_color": 0
   },
   "public/sentilink-operator.html": {
-   "detector": 17,
+   "detector": 16,
    "rules": {
     "all-caps-body": 6,
     "dark-glow": 3,
     "gradient-text": 3,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 1,
     "overused-font": 1,
     "pulsing-dot": 1,
     "tiny-text": 1
@@ -2187,11 +2157,10 @@
    "retired_color": 0
   },
   "public/vico.html": {
-   "detector": 9,
+   "detector": 7,
    "rules": {
     "cramped-padding": 4,
     "dark-glow": 2,
-    "low-contrast": 2,
     "overused-font": 1
    },
    "emdash": 0,
@@ -2201,11 +2170,10 @@
    "retired_color": 0
   },
   "public/vishal-combined.html": {
-   "detector": 57,
+   "detector": 40,
    "rules": {
     "all-caps-body": 11,
     "kicker-above-heading": 7,
-    "low-contrast": 17,
     "overused-font": 1,
     "side-tab": 19,
     "tiny-text": 2

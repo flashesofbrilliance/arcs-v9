@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 21,
-  "nodes": 130,
-  "clean": 172,
+  "violations": 1,
+  "nodes": 2,
+  "clean": 181,
   "pages": 182
  },
  "pages": {
@@ -602,78 +602,49 @@
    "rules": {}
   },
   "public/prl-status-atlas.html": {
-   "violations": 3,
-   "nodes": 12,
-   "rules": {
-    "color-contrast": 10,
-    "html-has-lang": 1,
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-build.html": {
-   "violations": 3,
-   "nodes": 12,
-   "rules": {
-    "color-contrast": 8,
-    "html-has-lang": 1,
-    "link-in-text-block": 3
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-catchup.html": {
-   "violations": 2,
-   "nodes": 26,
-   "rules": {
-    "color-contrast": 25,
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-crm.html": {
-   "violations": 2,
-   "nodes": 5,
-   "rules": {
-    "color-contrast": 4,
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-progress.html": {
-   "violations": 2,
-   "nodes": 18,
-   "rules": {
-    "color-contrast": 11,
-    "link-in-text-block": 7
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-receipt.html": {
-   "violations": 2,
-   "nodes": 15,
-   "rules": {
-    "color-contrast": 14,
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-runbook.html": {
-   "violations": 1,
-   "nodes": 15,
-   "rules": {
-    "color-contrast": 15
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-tidio.html": {
-   "violations": 2,
-   "nodes": 15,
-   "rules": {
-    "color-contrast": 14,
-    "html-has-lang": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/prl-status-troubleshooting.html": {
-   "violations": 3,
-   "nodes": 10,
-   "rules": {
-    "color-contrast": 8,
-    "html-has-lang": 1,
-    "link-in-text-block": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/rayan.html": {
    "violations": 0,

@@ -1,10 +1,12 @@
+<!doctype html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Build Runbook & Ownership</title>
 <style>
   :root{
     --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
-    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#7a8699;
     --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --red:#d0546b;
     --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     --r:12px;
@@ -15,6 +17,7 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:var(--gold-soft);text-decoration:none}
+  p a,li a,td a,.sub a,.bluf a,.wrap>a,.placeholder a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
   .wrap{max-width:916px;margin:0 auto;padding:0 22px}
   header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
   .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
@@ -61,7 +64,7 @@
     td{border-bottom:0;padding:6px 14px;white-space:normal}
     td.who{padding-top:10px}
   }
-  /* glassmorphic section panels — replaces hard divider lines */
+  /* glassmorphic section panels: replaces hard divider lines */
   .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
     background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
     border-radius:16px;padding:20px 24px;margin:12px auto}
@@ -94,7 +97,7 @@
 
 <div class="bluf"><div class="wrap">
   <p><strong>What's built, what's next, and whose move it is.</strong> The engineering view of the
-  pilot &mdash; the <a href="/status/progress">progress page</a> says where we are; this page says
+  pilot: the <a href="/status/progress">progress page</a> says where we are; this page says
   who holds each next step.</p>
 </div></div>
 
@@ -102,7 +105,7 @@
   <div class="label">Built &amp; verified</div>
   <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Chat &rarr; CRM pipeline</b><span class="sub">Flow + automation + enrichment + duplicate protection + reminder timers, verified with a real staging conversation Aug 18. Detail on <a href="/status/tidio">/status/tidio</a>.</span></div><span class="stat ok">verified</span></div>
   <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Chatbot trigger fix</b><span class="sub">Chat now starts the guided flow for every visitor, new or returning, on any device.</span></div><span class="stat ok">live</span></div>
-  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Recognition engine</b><span class="sub">895 competitor products, 150 grades, 50 states &mdash; 22,500-case automated test suite, green.</span></div><span class="stat ok">tested</span></div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Recognition engine</b><span class="sub">895 competitor products, 150 grades, 50 states; 22,500-case automated test suite, green.</span></div><span class="stat ok">tested</span></div>
   <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Landing-page template</b><span class="sub">One reusable chatbot-onramp pattern for the five paid-search product pages, ready to stamp when 1.4 kicks off.</span></div><span class="stat ok">templated</span></div>
 </div></div>
 
@@ -110,7 +113,7 @@
   <div class="label">In flight</div>
   <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Edge-case safety fix</b><span class="sub">Submissions missing an email get explicit handling so the duplicate check can never touch the wrong record.</span></div><span class="stat hold">queued</span></div>
   <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Rep notification + stale-lead sweep</b><span class="sub">Point alerts at the right inboxes, verify past the spam filter; hourly sweep catches anything unworked.</span></div><span class="stat hold">next</span></div>
-  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Baseline report</b><span class="sub">Lead volume / close rate / deal size by region and source &mdash; the before-picture the pilot is measured against.</span></div><span class="stat hold">next</span></div>
+  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Baseline report</b><span class="sub">Lead volume / close rate / deal size by region and source: the before-picture the pilot is measured against.</span></div><span class="stat hold">next</span></div>
   <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Sandbox cleanup</b><span class="sub">Remove test records so pilot data starts clean.</span></div><span class="stat hold">short</span></div>
 </div></div>
 
@@ -122,7 +125,7 @@
       <tr><td class="who">Us</td><td>Edge-case fix, notifications, baseline pull, cleanup, landing-page template prep</td><td>Everything above marked "next"</td></tr>
       <tr><td class="who">Todd</td><td>Web-forms addendum go (invoice open), weekly check-in slot, eventual production go</td><td>Parallel forms track &middot; go-live</td></tr>
       <tr><td class="who">Bill</td><td>30-minute territory-routing call</td><td>Routing confidence before go-live &middot; detail on <a href="/status/crm">/status/crm</a></td></tr>
-      <tr><td class="who">Jorge / Josh</td><td>Nothing right now</td><td>Looped in only after Todd's nod on the web-forms approach &mdash; by design, not oversight</td></tr>
+      <tr><td class="who">Jorge / Josh</td><td>Nothing right now</td><td>Looped in only after Todd's nod on the web-forms approach, by design, not oversight</td></tr>
     </tbody>
   </table></div>
 </div></div>

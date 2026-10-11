@@ -1,10 +1,12 @@
+<!doctype html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PRL System Atlas</title>
 <style>
   :root{
     --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
-    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#7a8699;
     --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --red:#d0546b;
     --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   }
@@ -14,6 +16,7 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:var(--gold-soft);text-decoration:none}
+  p a,li a,td a,.sub a,.bluf a,.wrap>a,.placeholder a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
   .wrap{max-width:916px;margin:0 auto;padding:0 22px}
   header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
   .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
@@ -50,7 +53,7 @@
   .rule{margin-top:14px;padding:13px 16px;border-left:3px solid var(--gold);
     background:rgba(201,162,39,.06);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--muted)}
   .rule b{color:var(--text)}
-  /* mermaid contrast overrides — the renderer ignores init themes */
+  /* mermaid contrast overrides: the renderer ignores init themes */
   .mermaid svg .node rect,.mermaid svg .node circle,.mermaid svg .node polygon,
   .mermaid svg .node path{fill:#111925!important;stroke:#C9A227!important;stroke-width:1.2px!important}
   .mermaid svg .node .label,.mermaid svg .nodeLabel,.mermaid svg .label text,
@@ -74,7 +77,7 @@
   nav.family a{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;
     padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
   nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
-  /* glassmorphic section panels — replaces hard divider lines */
+  /* glassmorphic section panels: replaces hard divider lines */
   .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
     background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
     border-radius:16px;padding:20px 24px;margin:12px auto}
@@ -102,7 +105,7 @@ mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{
 
 <header><div class="wrap">
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
-  <h1>System atlas &mdash; how it all connects</h1>
+  <h1>System atlas: how it all connects</h1>
   <div class="meta">Aug 18, 2026 &nbsp;&middot;&nbsp; architecture &middot; journeys &middot; stories &middot; sandbox scope</div>
 </div></header>
 <div class="navbar"><div class="wrap">
@@ -119,7 +122,7 @@ mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{
 </div></div>
 
 <div class="wrap glasswrap">
-<p class="bluf"><strong>One picture of the whole machine.</strong> Every surface, the verified delivery pipeline, and where each promise stands &mdash; the same honest status as the <a href="/status/progress">progress page</a>, drawn as a map.</p>
+<p class="bluf"><strong>One picture of the whole machine.</strong> Every surface, the verified delivery pipeline, and where each promise stands, the same honest status as the <a href="/status/progress">progress page</a>, drawn as a map.</p>
 
 <section>
   <h2>1 · Build architecture</h2>
@@ -150,15 +153,15 @@ flowchart TD
     <span class="pill">CREATE = full field map + audit trail, source=Chatbot</span>
     <span class="pill">dashed = designed / gated / broken-legacy</span>
     <span class="pill">PROD gated: enum + auth + Bill call + Todd's go</span>
-    <span class="pill y">Known edge case: submissions missing an email get extra safety handling &mdash; fix queued</span>
+    <span class="pill y">Known edge case: submissions missing an email get extra safety handling; fix queued</span>
     <span class="pill y">Lyro resumes old conversations instead of flow</span>
     <span class="pill y">legacy Unbounce&rarr;Sugar Zaps: retired by 1.4 template</span>
   </div></div>
 </section>
 
 <section>
-  <h2>2 · Delivery sequence — the verified path</h2>
-  <p class="sub">Proven with a real staging conversation: Lead <span style="font-family:var(--mono)">435cee66&hellip;</span> — name split ✓ &middot; location_c=CT ✓ &middot; audit trail ✓ &middot; lead_source=Chatbot ✓</p>
+  <h2>2 · Delivery sequence: the verified path</h2>
+  <p class="sub">Proven with a real staging conversation: Lead <span style="font-family:var(--mono)">435cee66&hellip;</span>: name split ✓ &middot; location_c=CT ✓ &middot; audit trail ✓ &middot; lead_source=Chatbot ✓</p>
   <div class="card"><pre class="mermaid">
 sequenceDiagram
     participant V as Visitor
@@ -184,7 +187,7 @@ sequenceDiagram
 </section>
 
 <section>
-  <h2>3 · User stories × phase — honest status</h2>
+  <h2>3 · User stories × phase: honest status</h2>
   <p class="sub">Statuses come from the DoD reconciliation ledger, not optimism.</p>
   <div class="tblwrap"><table>
     <thead><tr><th>As a&hellip;</th><th>I want&hellip;</th><th>Phase</th><th>Status</th></tr></thead>
@@ -195,7 +198,7 @@ sequenceDiagram
       <tr><td class="who">Todd</td><td>no duplicate leads on repeat visitors</td><td>1.2</td><td class="st ok">&#10003; built &middot; <span class="open">edge-case fix queued</span></td></tr>
       <tr><td class="who">Todd</td><td>proof of what the chatbot adds (baseline)</td><td>1.2</td><td class="st open">unblocked, not pulled</td></tr>
       <tr><td class="who">Todd</td><td>unassigned leads caught daily</td><td>stopgap</td><td class="st open">SLA Zap in draft</td></tr>
-      <tr><td class="who">Sales mgr</td><td>routing that matches real territories</td><td>&mdash;</td><td class="st gated">gated on Bill call</td></tr>
+      <tr><td class="who">Sales mgr</td><td>routing that matches real territories</td><td>none yet</td><td class="st gated">gated on Bill call</td></tr>
       <tr><td class="who">Prospect</td><td>web forms that actually deliver</td><td>1.2-A</td><td class="st gated">payment-gated, spec'd</td></tr>
       <tr><td class="who">Marketing</td><td>SEM pages with matched chat onramps</td><td>1.4</td><td class="st gated">templated, not built</td></tr>
       <tr><td class="who">Todd</td><td>fewer questions asked of known contacts</td><td>1.3</td><td class="st gated">parked with caveats</td></tr>

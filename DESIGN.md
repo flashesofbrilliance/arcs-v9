@@ -251,6 +251,7 @@ Design debt on served surfaces only goes down. The done goal: every page surface
 - `scripts/design_debt_sweep.py` holds the per-page design baseline (`runtime/specs/design-debt-baseline.json`); pre-commit blocks any staged served page whose count rises.
 - `tests/a11y-served.spec.ts` runs axe over every served page and holds the WCAG baseline (`runtime/specs/a11y-baseline.json`).
 - Breaks are booked as break, repair, guard in `_PATTERNS/kintsugi-visual-grammar-seams.md`.
+- Contrast is measured only by the rendered axe ratchet. The static detector's `low-contrast` rule is off (`.impeccable/config.json` ignoreRules, 2026-10-11): it cannot resolve `var()` colors, so it judged themed text against white or black, both hiding real failures and inventing false ones.
 
 ### Rules learned in the burn-down (2026-10-09 to 10-11)
 
