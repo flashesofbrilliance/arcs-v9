@@ -21,17 +21,17 @@ _This block asserts nothing new. Counts, paths, and questions only._
 ## Changed
 - #1172 merged (`ebb9abdd`): Counterpart pulse section in `_STATE/night-moves/2026-10-10.md`. Receipt 2026-10-10--night-moves-counterpart-pulse-pr1172--ZH.
 - #1226 merged (`c4de7a37`): `scripts/integrity_gate.py` strips hex ids labelled "gmail" before commit-cite extraction; digest went WARN to OK. Receipt 2026-10-10--integrity-gate-skip-gmail-ids-pr1226--ZH.
-- Memory (local, not in git): monday FDE memory records Zach's Oct-10 reply to Samantha Turner; PRL memory records Todd's unread Oct-06 email.
+- Memory (local, not in git): monday FDE memory records Zach's Oct-10 reply to Samantha Turner; PRL memory note corrected: Todd's Oct-06 message was only a calendar acceptance.
 ## State
-- Pulse drift: monday (outbound Oct-10 reply, now in memory) and PRL (Todd's Oct-06 email unread). No drift on My Ally LD, Vico, Success Academy, Yuri, Robert; no mail in 21d for Squad, Kam, Brooks, Alka. No inbound on a CLOSED loop.
+- Pulse drift: monday only (outbound Oct-10 reply, now in memory). PRL was flagged then corrected: the Oct-06 message is only an auto calendar acceptance ("Accepted: Todd x Zach // 1-1", invite.ics, no body); not drift, nothing to read. No drift on My Ally LD, Vico, Success Academy, Yuri, Robert; no mail in 21d for Squad, Kam, Brooks, Alka. No inbound on a CLOSED loop.
 - Future pulses must write Gmail ids as `gmail thread <id>`; unlabelled hex still WARNs by design.
 ## Decisions
 - Gate skips Gmail ids only when labelled, so a real short commit sha is never silently skipped.
 ## Open
-1. Zach: read Todd's Oct-06 email before the Mon 2026-10-12 10:00 ET PRL call.
+1. ~~Zach: read Todd's Oct-06 email~~ Corrected: it is a calendar acceptance, nothing to read.
 2. The Oct-06 Success Academy check-in to Brian was not found in Gmail; the index line claiming it is unconfirmed.
 ## Next action
-Read Todd's unread Oct-06 email before Monday's PRL call.
+PRL go-live call with Todd, Mon 2026-10-12 10:00 ET (checklist sent Oct-09).
 ## Cold-start
 - `_STATE/night-moves/2026-10-10.md` (Counterpart pulse section); `.claude/skills/night-moves/SKILL.md` for the method.
 
