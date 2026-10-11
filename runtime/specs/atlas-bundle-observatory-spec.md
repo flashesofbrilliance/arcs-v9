@@ -1,6 +1,6 @@
 ---
 spec: atlas-bundle-observatory
-version: 0.2
+version: 0.3
 status: SCOPE CONFIRMED by Zach 2026-10-10; build after 2026-10-15 5 PM ET
 date: 2026-10-10
 build_window: after take-home submission (Thu 2026-10-15 5 PM ET), alongside sprint 2
@@ -75,3 +75,15 @@ canvas/SVG isometric projection like the existing Scope organisms, unless Zach a
 3. Data: local-only. The route reads `~/ret-rfp-intelligence/atlas-bundle.json` from disk in dev;
    in prod it renders an explicit "bundle not available" state, never a fallback dataset.
 4. Schema: the take-home session emits `atlas-bundle.v1` exactly as above via `./rfp build`.
+
+## Amendment v0.3 (2026-10-10): source realities from the take-home session
+- `KINTSUGI.md` has no detected_at, repaired_at or severity columns, so under the no-backfill rule those
+  fields are mostly null. repaired_at comes from the commit naming each K-number (~40 of 50).
+- predictions.jsonl outcome 0/1 maps to booleans; 10 of 39 resolved.
+- The take-home's older `dist/atlas-bundle.json` (scripts/catch_net.py) is replaced by v1 at the repo root.
+
+Adapter rules (arcs-v9 side only; the bundle is never edited):
+1. **Ruin list is curated, not inferred.** Red ruin paths come from a Zach-maintained list in arcs-v9
+   (seed: K35, K40, K42). A bundle `severity` value, when present, can add to it but never removes from it.
+2. **Missing detected_at:** place the mistake at repaired_at; draw no arc length (a point, not a path).
+3. **Missing both timestamps:** list in an "unplaced" side band, never positioned on the time axis.
