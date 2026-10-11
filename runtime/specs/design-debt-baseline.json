@@ -2,7 +2,7 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 3033,
+  "detector": 2987,
   "emdash": 11,
   "wrap": 2,
   "tokens": 6,
@@ -2018,12 +2018,11 @@
    "retired_color": 0
   },
   "public/squad-resume.html": {
-   "detector": 86,
+   "detector": 40,
    "rules": {
     "all-caps-body": 5,
     "overused-font": 1,
-    "tiny-text": 34,
-    "undersized-ui-text": 46
+    "tiny-text": 34
    },
    "emdash": 0,
    "wrap": 0,
