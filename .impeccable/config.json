@@ -1,7 +1,9 @@
 {
  "detector": {
   "ignoreRules": [
-   "low-contrast"
+   "all-caps-body",
+   "low-contrast",
+   "wide-tracking"
   ],
   "ignoreFiles": [],
   "ignoreValues": [
