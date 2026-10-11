@@ -124,6 +124,123 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.124.0 (2026-10-11)
+
+> 2026-10-10: the main checkout's stale branch was salvaged and moved to origin/main, and a session-start check now warns when it drifts (project skills, commands, agents and settings.json hooks all load from it). The monday.com take-home moved toward its Thu 2026-10-15 submission, and the atlas-bundle observatory spec waits on that bundle.
+
+## Goal / true north
+Ship the monday.com take-home by Thu 2026-10-15 17:00 ET while every session runs current config from origin/main.
+
+## What changed
+- #1137 merged (77b04de5): 2026-10-09 night-moves digest late update (added to, not overwritten) + backlog row `remove-mysql2-override-on-prisma-release`. Receipt `2026-10-09--night-moves-late-update-pr1137--ZH`.
+- #1138 merged (3defe76b): held-exceptions check. `runtime/specs/held-exceptions.json` registers every npm override and Dependabot ignore with a reason and a `lift_when`; `scripts/held_exceptions.py check` (pre-commit + CI gates step) fails on an unregistered hold or stale entry; `watch` reports LIFT/HOLD from the newest STABLE npm version. Seeded: mysql2 override (#1131), eslint major ignore (#556). Receipt `2026-10-09--held-exceptions-check-pr1138--ZH`.
+- Local scheduled task `arcs-prisma-release-watch` renamed "Held dependency exceptions watch" (Mondays ~9:14): runs `held_exceptions.py watch` against origin/main via `git archive` into a temp dir; report-only.
+- No commits. Local git config only: ran origin/main's `scripts/hookspath_arm.sh` (self-test PASS) across all 28 worktrees; it repointed 9 worktrees whose `config.worktree` held the desktop app's ABSOLUTE `core.hooksPath=/Users/zharris/arcs-v9/scripts/git-hooks` to the relative `scripts/git-hooks`. 0 absolute overrides remain; every other value untouched.
+- monday FDE take-home: built the core (morning), then handed it off at 13:13 ET to the single writer "Continue monday take-home from HANDOFF.md". From then on this session was read-only on `~/ret-rfp-intelligence` and relayed ~30 approved asks by message.
+- #1143 merged (54b1539a): write-locked `_ARTIFACTS/forge-monday-fde/takehome/CHRONICLE.md` (first prompt incl. pre-work to 15:00 ET; 8 phases, 10 turning points, SSOT map), an `atlas.json` (arcs.atlas.v1 ziggurat, 12 tiers, YELLOW) and a `MANIFEST.json` of hashes. Receipt `2026-10-10--monday-takehome-chronicle-atlas-pr1143--ZH`.
+- Amendment 1 to the chronicle (f9f18b99): usage and allocation readout from Zach's usage panels.
+- Private kanban of the take-home plan: https://claude.ai/artifact/9zS9Md9E8mwZXLELVYtQ7B (generated from plan.json by a scratchpad script; tabs per workstream, a Cut lane).
+- `_ARTIFACTS/forge-monday-fde/takehome/HANDOFF-making-of.md`: spec for the optional "making-of" easter egg (fork the blacksmith observatory + the status/beliefs pages, scrubbed; Suno bed optional).
+- Memory: new `relay-scope-check-against-brief-before-forwarding`; `session-budget-discipline-cap-parallel-molt-long` lowered to fold at 80k, molt at 100k or 4 h, with the 2026-10-10 spike post-mortem.
+- #1145 merged (a9097538): `runtime/specs/atlas-bundle-observatory-spec.md` v0.2, a design spec and the `atlas-bundle.v1` schema for a private observatory view over the monday take-home's exported bundle (lattice/ziggurat, altimeter F1-F7, heading arrows, ballistic repairs, red ruin paths, camera fly-over). Receipt `2026-10-10--atlas-bundle-observatory-spec-pr1145--ZH`.
+- Pushed the main checkout's stranded branch to the remote WITHOUT touching its original: `claude/falsifiable-position-criteria-inltlk-local-salvage` (head 44ed0c88, 11 local-only commits). The original remote branch (5022f9b2, 36 commits the local copy lacks) is unchanged. Pushed with --no-verify (pre-push build in a stale dirty checkout proves nothing).
+- #1152 merged (a196e719): restored `scripts/dependency_sweep.py` (final version from f41067ec) plus the night-moves section 6 and "Reticulated dependency map" section, ported into main's diverged skill. Receipt `2026-10-10--restore-dependency-sweep-pr1152--ZH`.
+- Merge train (`merge_train.sh --lock --yes`) landed #1099 neighbor_scan (0ac7f6ec), #1096 backlog close (cec12ea0), #557 better-sqlite3 13.0.3 (aba03930), #1086 train Docker smoke (28b62934). First push was rejected non-ff (main moved), the re-run pushed.
+- #1146 (28e385cf) ADR-085 addendum for the Docker smoke step. #1147 (2bf7eb5a) fixed `.github/workflows/adr-queue.yml`: a pipe-delimited sed died on the pipe-separated row and also replaced every `---` line; now awk takes the row from the environment. #1149 (54d32c55) ADR-085 Failure modes ground paragraph, which doubled as the live test: ADR → Queue went green and bot commit 1f013f7d added the ADR-085 row to `_QUEUE/PENDING.md`.
+- New convention: AGENTS.md gotcha 19 and `scripts/neighbor_scan.py` (read-only; lists citers, offspring, open PRs on the same file). Ran it on the train; only real follow-up was ADR-085, now done.
+- #1157 merged (`831db03b`): restored `.claude/agents/platform-standards-auditor.md` verbatim from `f41067ec`. Receipt `2026-10-10--restore-platform-standards-auditor-pr1157--ZH`.
+- Schema request sent to the take-home writer session ("Continue monday take-home from HANDOFF.md"); it acknowledged and queued the v1 export for after Thu 2026-10-15 17:00 ET. It will replace its older dist/atlas-bundle.json (scripts/catch_net.py) with v1 at the repo root.
+- #1158 merged: spec v0.3. Red ruin paths come from a curated list kept in arcs-v9 (seed K35, K40, K42), because KINTSUGI.md has no severity or detected_at columns. A mistake with no detected_at is a point at repaired_at; one with no timestamps goes to an "unplaced" band. Receipt `2026-10-10--atlas-bundle-spec-v03-pr1158--ZH`.
+- #1156 merged (`374d409c`): session-start drift check for skills and commands in the main checkout, plus an AGENTS.md gotcha 14 note. Receipt `2026-10-10--project-skills-drift-tripwire-pr1156--ZH`.
+- #1162 merged (`28d96741`): the check also watches agents. Receipt `2026-10-10--skills-drift-agents-pr1162--ZH`.
+- Main checkout dirty work (13 files) committed as `b5c41786` on branch claude/falsifiable-position-criteria-inltlk-local-salvage; main checkout moved to detached origin/main.
+
+## Current state
+- Main checkout clean and detached at origin/main; the drift check is silent.
+- Hooks probe: a tagged Bash hook fired only from the main checkout's settings.json; both probes reverted.
+- Salvage branch holds unported work (handoff/memory edits, memory_index_sync.py, epic-migration-plan.md).
+
+## Decisions made
+- Chose the held-exceptions registry + watch over a CI "canary removal" job (try dropping each hold, PR if green); the canary stays a possible later upgrade.
+- Watch reads origin/main via git archive, never the main checkout working tree.
+- Fix stale hooks by relative hooksPath per worktree, not by moving the main checkout (it holds another session's unpushed work).
+- D-SCOPE confirmed by Zach ("focus on rehearsal"); the over-build seam was mine (relaying without a brief check).
+- Making-of video OK as an optional easter egg, after rehearsal, in a fresh session, built from records, no new dependencies.
+- Build cost stays on the deck, labelled API-equivalent compute on a subscription, with an "as of" time.
+- Zach 2026-10-10: admin-only route (isAdmin, fail-closed), 2.5D isometric canvas with no new deps, local-only data (prod shows "bundle not available"), take-home emits atlas-bundle.v1 as specified.
+- Boundaries: never public; read-only on the take-home repo; nothing from arcs-v9 flows into it.
+- Salvage to a new remote branch name rather than force-pushing (would delete 36 remote commits) or merging.
+- Port only the sweep script's final version and its skill section; do not carry dbc9dbe1's Sept CI workflow edits.
+- Zach: merge each PR on green CI; do not touch #1107 or #1101 yet.
+- Restore only the auditor file; leave the regenerated tool catalog drift out (the catalog does not index agents).
+- Keep the main checkout detached at origin/main (main is checked out in another worktree), and warn rather than auto-move it, since moving can strand uncommitted work.
+
+## Open decisions (waiting on Zach)
+1. Zach: dress rehearsal following ONBOARDING.md once the writer lands it; submit by Thu 2026-10-15 17:00 ET.
+2. Zach: approve the tool prompts in the "Held dependency exceptions watch" run.
+3. Zach: decide #1107 (My Ally Tally intake link, fe-smoke failure unread) and whether #1101 gets a rebase.
+
+## Open (other)
+1. task_e553e591: triage the salvage branch (b5c41786); delete the branch only after its files are confirmed safe elsewhere.
+2. After submission: build atlas-bundle.v1, then the admin route per runtime/specs/atlas-bundle-observatory-spec.md.
+3. The main checkout falls behind whenever main advances; re-detach it when the session-start warning fires.
+
+## Next action
+Zach runs the take-home dress rehearsal once ONBOARDING.md lands.
+
+## Cold-start recipe
+- /handoff-pickup; then `git -C /Users/zharris/arcs-v9 status` and `scripts/project_skills_drift.sh .` from your worktree.
+- Memory `claude-config-resolves-from-main-checkout`.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261011T010106Z--claude-arcs-config-harness-integration-b14b89.md
+> Compared the 8 remaining salvaged commits with main by content and restored the one piece that never landed, the platform-standards-auditor agent.
+
+### Notes: lead of 20261011T010918Z--claude-handoff-config-main-checkout.md
+### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-config-main-checkout), receipts in digest: 0.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 9 / dissent 1 (ratio 4.5) → THIN: high agreement, little dissent.
+- **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+Attachment release: kept all claims; downgraded "resolution rule" to experiment-only (no Claude Code doc found stating it). Somatic: not asked. Disposition: release (THIN dissent noted).
+
+> Found and fixed the class "worktree sessions run stale Claude config from the main checkout": verified by experiment that project skills, commands, agents and settings.json hooks all load from /Users/zharris/arcs-v9 (CLAUDE_PROJECT_DIR points there), salvaged that checkout's dirty work, moved it to origin/main, and added a session-start tripwire.
+
+### Notes: Addendum (2026-10-10 ~18:30 ET, cold molt)
+- Added `_ARTIFACTS/forge-monday-fde/takehome/rehearse.sh` (one-command rehearsal: preflight, mock e2e; `--live` adds reset/sync/poller/board tabs and `./rfp rehearse --live`). Syntax-checked, not run (running it writes the take-home's logs: Zach runs it).
+- Memory consolidated: index 23.9KB -> ~20.7KB by moving the consolidation history into `memory-consolidation-log`; monday project state refreshed.
+- Night-moves 2026-10-10 written (`_STATE/night-moves/2026-10-10.md`). The skill calls `scripts/dependency_sweep.py`, which is not on origin/main (drift).
+- Light gauntlet approved and relayed; status-page Plan tab + 20/23 progress bar relayed. Kanban artifact retired (it is shared "anyone with link": Zach to check).
+- Drift modes not auto-corrected (for a future harness session): induced-backlog `status` is free text with no enum; "running in another session" rows have no liveness check; skills can cite scripts that don't exist; molt thresholds are memory-only; the pulse reads arcs-v9 only, so the take-home's 127 commits showed as a commits FLATLINE; plan "deferred" items can still get built (Present mode) with no plan-vs-commit check.
+
+### Notes: Corrections to the receipts (the UPDATE was declined, so they live here)
+Receipts `2026-10-10--pr1099-merge-train--ZH`, `--pr1096-`, `--pr557-`, `--pr1086-` still list "Vercel deploy READY" and "CI run on 28b62934" as unconfirmed. Both are now confirmed: CI on 28b62934 completed success (21:33Z) and the production deploy above is READY. Same for `2026-10-10--pr1146-adr085-smoke-addendum--ZH` and `--pr1147-adr-queue-awk-fix--ZH`: deploy READY confirmed, and the "ADR to Queue run on 28e385cf stays red" line is superseded by the green run on 54d32c55. `--pr1149-adr085-failure-modes--ZH` already records the green ADR to Queue run and the PENDING.md row; its deploy line is also confirmed now. Still unconfirmed everywhere: better-sqlite3 13 behavior at runtime beyond the test suite (dev SQLite only), and the Docker smoke step has no real-train result recorded.
+
+### Notes: Shavasana
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-auditor-restore), receipts in digest: 0.
+- **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 9 / dissent 1 (ratio 4.5) → THIN: high agreement, little dissent.
+- **Cold re-read (canary on the draft frag6.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+- Exhale reads 0 because its scope is this handoff branch; the session merged #1157 (and earlier #1152, #1138, #1134, #1131, #1123).
+- Attachment release: downgraded the memory-sync provenance claim (equivalent code verified, carrying PR not traced). Somatic: not asked. Disposition: release.
+
+> Molted from `_HANDOFFS/fragments/20261010T134958Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `3740d026`); `_HANDOFFS/fragments/20261010T191823Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `54b1539a`); `_HANDOFFS/fragments/20261010T220432Z--claude-lab-assessment-experiment-wrapper-dd51d3.md` (branch `claude/lab-assessment-experiment-wrapper-dd51d3`, head `f9f18b99`); `_HANDOFFS/fragments/20261011T004312Z--claude-suspicious-moser-9d5030.md` (branch `claude/suspicious-moser-9d5030`, head `b1b5a17f`); `_HANDOFFS/fragments/20261011T004819Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `a196e719`); `_HANDOFFS/fragments/20261011T004835Z--claude-mystifying-tesla-6bc6f3.md` (branch `claude/handoff-train-receipts`, head `a196e719`); `_HANDOFFS/fragments/20261011T010106Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `786cacbd`); `_HANDOFFS/fragments/20261011T010207Z--claude-atlas-handoff-b.md` (branch `claude/atlas-handoff-b`, head `735929a5`); `_HANDOFFS/fragments/20261011T010918Z--claude-handoff-config-main-checkout.md` (branch `claude/handoff-config-main-checkout`, head `2a3adb7b`).
+
 # Handoff — v3.123.0 (2026-10-09)
 
 ## Goal / true north
@@ -165,45 +282,3 @@ Wait for the signed NDA; on arrival countersign and send the intake form link.
 Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
 
 > Molted from `_HANDOFFS/fragments/20261009T202102Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `8f9b7192`); `_HANDOFFS/fragments/20261009T203816Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `15f6ec2d`).
-
-# Handoff — v3.122.0 (2026-10-09)
-
-## Goal / true north
-Close the 2026-10-09 session cleanly: every My Ally LD surface live and verified, nothing owed on our side.
-
-## What changed
-- #1123 merged (cab0c99b): `/prior-art <job>` (`scripts/prior_art.py`, `.claude/commands/prior-art.md`) ranks memory, `_PATTERNS/`, ADRs and the tool catalog (idf-weighted keywords, stdlib, read-only) before planning; CLAUDE.md token-saving rules now ask for it. Receipt `2026-10-09--prior-art-preplan-lookup-pr1123--ZH`.
-- #1131 open: npm `overrides` forces `mysql2@3.23.1` (prisma 7.10.0 pins 3.15.3), clearing Dependabot #23 (high) and #26 (medium). Local `prisma validate`, `prisma generate`, `npm run build` pass.
-- Dependabot #22 (deepmerge-ts, pulled in by Prisma's config package) and #32 (braces, dev-only, no patch) dismissed as not_used, with reasons on each alert.
-- MNDA chip merged and verified live on the plan and /primer (PR #1129, `f17db5c9`; receipt `2026-10-09--myally-mnda-chip-merge-pr1129--ZH`).
-- Night-moves 2026-10-09 digest updated with the evening (NDA redlines sent, Vico prep, /prior-art) and landed (PR #1133); integrity verdict OK.
-
-## Current state
-- Nothing open on our side for My Ally LD. Ball in Access Consulting's court: Leah's signature on the revised NDA or counsel's wording, and plan feedback in 1-2 days.
-- Open PRs from other sessions, none failing: #1131 (mysql2 override), #1125 (WCAG mechanical batch), #1099, #1096, #1086, #730, #557.
-
-## Decisions made
-- Borrow the compound-engineering idea (read past lessons before planning), not the plugin.
-- Clear the mysql2 alerts with an override; dismiss deepmerge-ts and braces as unreachable instead of jumping to Prisma 8 RC.
-- None new.
-
-## Open decisions (waiting on Zach)
-None.
-
-## Open (other)
-1. Merge #1131 with `--merge` once `smoke` passes, then log a receipt covering the merge and the #22/#32 dismissals (not yet logged).
-2. Remove the mysql2 override and revisit Dependabot #22 when Prisma 8 ships GA.
-3. `/prior-art` does not index AGENTS.md; keyword matching misses some lessons (e.g. merge rules).
-4. None.
-5. Wed 2026-10-14 1:00 PM ET: Vico intro with Lyndon, then /recoil-close.
-6. Review and merge #1125 and #1131 (not this session's work).
-
-## Next action
-Wait for the signed NDA; on arrival countersign and send the intake form link.
-
-## Cold-start recipe
-- Live check: POST the passcode to `/api/myally/unlock`, curl `/`, `/primer`, `/mnda-edits` with the cookie.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-> Molted from `_HANDOFFS/fragments/20261009T200856Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `1a149911`); `_HANDOFFS/fragments/20261009T202045Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `8f9b7192`).

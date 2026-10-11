@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 34,
-  "nodes": 201,
-  "clean": 159,
+  "violations": 33,
+  "nodes": 161,
+  "clean": 160,
   "pages": 182
  },
  "pages": {
@@ -372,11 +372,9 @@
    }
   },
   "public/forge-pattern.html": {
-   "violations": 1,
-   "nodes": 40,
-   "rules": {
-    "color-contrast": 40
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/fun-resume-viewer.html": {
    "violations": 0,

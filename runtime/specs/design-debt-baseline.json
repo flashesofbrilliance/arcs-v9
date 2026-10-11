@@ -2,12 +2,12 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 3887,
+  "detector": 3832,
   "emdash": 13,
   "wrap": 4,
   "tokens": 6,
   "leak": 0,
-  "retired_color": 6,
+  "retired_color": 4,
   "pages": 181,
   "pages_clean": 53
  },
@@ -798,13 +798,13 @@
    "retired_color": 0
   },
   "public/forge-pattern.html": {
-   "detector": 97,
+   "detector": 42,
    "rules": {
     "all-caps-body": 11,
     "cramped-padding": 1,
     "design-system-font": 1,
     "hero-eyebrow-chip": 1,
-    "low-contrast": 66,
+    "low-contrast": 11,
     "tiny-text": 15,
     "wide-tracking": 2
    },
@@ -812,7 +812,7 @@
    "wrap": 0,
    "tokens": 0,
    "leak": 0,
-   "retired_color": 2
+   "retired_color": 0
   },
   "public/fun-resume-viewer.html": {
    "detector": 1,

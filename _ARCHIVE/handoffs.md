@@ -1,3 +1,47 @@
+# Handoff — v3.122.0 (2026-10-09)
+
+## Goal / true north
+Close the 2026-10-09 session cleanly: every My Ally LD surface live and verified, nothing owed on our side.
+
+## What changed
+- #1123 merged (cab0c99b): `/prior-art <job>` (`scripts/prior_art.py`, `.claude/commands/prior-art.md`) ranks memory, `_PATTERNS/`, ADRs and the tool catalog (idf-weighted keywords, stdlib, read-only) before planning; CLAUDE.md token-saving rules now ask for it. Receipt `2026-10-09--prior-art-preplan-lookup-pr1123--ZH`.
+- #1131 open: npm `overrides` forces `mysql2@3.23.1` (prisma 7.10.0 pins 3.15.3), clearing Dependabot #23 (high) and #26 (medium). Local `prisma validate`, `prisma generate`, `npm run build` pass.
+- Dependabot #22 (deepmerge-ts, pulled in by Prisma's config package) and #32 (braces, dev-only, no patch) dismissed as not_used, with reasons on each alert.
+- MNDA chip merged and verified live on the plan and /primer (PR #1129, `f17db5c9`; receipt `2026-10-09--myally-mnda-chip-merge-pr1129--ZH`).
+- Night-moves 2026-10-09 digest updated with the evening (NDA redlines sent, Vico prep, /prior-art) and landed (PR #1133); integrity verdict OK.
+
+## Current state
+- Nothing open on our side for My Ally LD. Ball in Access Consulting's court: Leah's signature on the revised NDA or counsel's wording, and plan feedback in 1-2 days.
+- Open PRs from other sessions, none failing: #1131 (mysql2 override), #1125 (WCAG mechanical batch), #1099, #1096, #1086, #730, #557.
+
+## Decisions made
+- Borrow the compound-engineering idea (read past lessons before planning), not the plugin.
+- Clear the mysql2 alerts with an override; dismiss deepmerge-ts and braces as unreachable instead of jumping to Prisma 8 RC.
+- None new.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Merge #1131 with `--merge` once `smoke` passes, then log a receipt covering the merge and the #22/#32 dismissals (not yet logged).
+2. Remove the mysql2 override and revisit Dependabot #22 when Prisma 8 ships GA.
+3. `/prior-art` does not index AGENTS.md; keyword matching misses some lessons (e.g. merge rules).
+4. None.
+5. Wed 2026-10-14 1:00 PM ET: Vico intro with Lyndon, then /recoil-close.
+6. Review and merge #1125 and #1131 (not this session's work).
+
+## Next action
+Wait for the signed NDA; on arrival countersign and send the intake form link.
+
+## Cold-start recipe
+- Live check: POST the passcode to `/api/myally/unlock`, curl `/`, `/primer`, `/mnda-edits` with the cookie.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261009T200856Z--claude-arcs-config-harness-integration-b14b89.md` (branch `claude/arcs-config-harness-integration-b14b89`, head `1a149911`); `_HANDOFFS/fragments/20261009T202045Z--claude-fervent-napier-9c6c13.md` (branch `claude/fervent-napier-9c6c13`, head `8f9b7192`).
+
+---
+
 # Handoff — v3.121.0 (2026-10-09)
 
 ## Goal / true north
