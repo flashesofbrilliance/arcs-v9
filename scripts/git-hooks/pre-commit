@@ -509,6 +509,10 @@ except Exception: print("ERR")' 2>/dev/null || echo ERR)
           mkdir -p "$mroot/$(dirname "$f")"
           [ -d .impeccable ] && cp -R .impeccable "$mroot/.impeccable"
           [ -f DESIGN.md ] && cp DESIGN.md "$mroot/DESIGN.md"
+          # Siblings too (seam 2026-10-11): a page that links a sibling stylesheet (the kit's
+          # _tokens.css) scored 2 at HEAD in a bare mirror against 5 in place, so an unchanged
+          # finding count read as net-new debt. Mirror HEAD's directory of $f before the blob.
+          git archive HEAD "$(dirname "$f")" 2>/dev/null | tar -x -C "$mroot" 2>/dev/null || true
           git show "HEAD:$f" > "$mroot/$f" 2>/dev/null || true
           hout=$(cd "$mroot" && "$IMP" detect --json "$f" 2>/dev/null || true)
           rm -rf "$mroot"

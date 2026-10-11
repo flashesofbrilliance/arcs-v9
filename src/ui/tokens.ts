@@ -169,9 +169,9 @@ export const tribColor = (type: string): string =>
 
 export const resStyle: Record<string, React.CSSProperties> = {
   SHARP:    { opacity: 1.0,  fontWeight: 500, letterSpacing: '0' },
-  DEGRADED: { opacity: 0.85, fontWeight: 400, letterSpacing: '0.01em' },
-  GRAIN:    { opacity: 0.70, fontWeight: 300, letterSpacing: '0.02em' },
-  MOIRE:    { opacity: 0.60, fontWeight: 300, letterSpacing: '0.03em' },
+  DEGRADED: { opacity: 1, fontWeight: 400, letterSpacing: '0.01em' },
+  GRAIN:    { opacity: 1, fontWeight: 300, letterSpacing: '0.02em' },
+  MOIRE:    { opacity: 1, fontWeight: 300, letterSpacing: '0.03em' },
 }
 
 // ─── NCI score → signal color ────────────────────────────────────────────────

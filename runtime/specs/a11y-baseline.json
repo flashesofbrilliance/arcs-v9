@@ -8,9 +8,9 @@
   "wcag22aa"
  ],
  "totals": {
-  "violations": 25,
-  "nodes": 153,
-  "clean": 168,
+  "violations": 21,
+  "nodes": 130,
+  "clean": 172,
   "pages": 182
  },
  "pages": {
@@ -355,11 +355,9 @@
    "rules": {}
   },
   "public/forge-cut.html": {
-   "violations": 1,
-   "nodes": 11,
-   "rules": {
-    "color-contrast": 11
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/forge-pattern.html": {
    "violations": 0,
@@ -392,18 +390,14 @@
    "rules": {}
   },
   "public/good-case-reader-who-remembered.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/good-case-six-week-outage.html": {
-   "violations": 1,
-   "nodes": 10,
-   "rules": {
-    "color-contrast": 10
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "public/good-copypasta.html": {
    "violations": 0,
@@ -952,11 +946,9 @@
    "rules": {}
   },
   "runtime/warroom/lyndon-war.html": {
-   "violations": 1,
-   "nodes": 1,
-   "rules": {
-    "color-contrast": 1
-   }
+   "violations": 0,
+   "nodes": 0,
+   "rules": {}
   },
   "runtime/warroom/surfaces.html": {
    "violations": 0,
