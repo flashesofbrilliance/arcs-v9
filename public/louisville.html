@@ -224,11 +224,16 @@
   function setBarH(){ var b=document.querySelector('.bar'); if(b) document.documentElement.style.setProperty('--barh', b.offsetHeight+'px'); var g=document.querySelector('.gnav'); if(g) document.documentElement.style.setProperty('--gnavh', g.offsetHeight+'px'); }
   setBarH(); window.addEventListener('resize', setBarH);
   function markNav(id){ gnav.querySelectorAll('a').forEach(function(a){ a.setAttribute('aria-current', a.getAttribute('href')==='#'+id ? 'true':'false'); }); }
-  gnav.addEventListener('click',function(e){ var a=e.target.closest('a'); if(a) markNav(a.getAttribute('href').slice(1)); });
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting) markNav(en.target.id); }); },{rootMargin:'-35% 0px -55% 0px'});
-    document.querySelectorAll('#grid .tile').forEach(function(t){ io.observe(t); });
-  }
+  // active chip = first card in the lowest row whose top has reached the chip row; a click wins until the next real scroll
+  var gLock=0;
+  function syncNav(){ if(Date.now()<gLock) return; var g=document.querySelector('.gnav'); if(!g) return; var line=g.getBoundingClientRect().bottom+24, best=null, bestTop=-Infinity;
+    document.querySelectorAll('#grid .tile').forEach(function(t){ var top=Math.round(t.getBoundingClientRect().top); if(top<=line && top>bestTop){ bestTop=top; best=t; } });
+    var tiles=document.querySelectorAll('#grid .tile'), se=document.scrollingElement;
+    if(se.scrollTop>0 && se.scrollTop+innerHeight>=se.scrollHeight-2) best=tiles[tiles.length-1];
+    markNav((best||tiles[0]).id); }
+  gnav.addEventListener('click',function(e){ var a=e.target.closest('a'); if(!a) return; markNav(a.getAttribute('href').slice(1)); gLock=Date.now()+900; });
+  var gRaf=0; window.addEventListener('scroll',function(){ if(!gRaf) gRaf=requestAnimationFrame(function(){ gRaf=0; syncNav(); }); },{passive:true});
+  syncNav();
 
   // present plates (hero + items)
   var hero='<section class="plate"><div class="inner">'
@@ -390,6 +395,8 @@
   .eggrow button:active{transform:translateY(-1px) scale(1.02)}
   @keyframes eggfloat{0%,100%{box-shadow:0 10px 30px -18px #000,0 0 0 0 rgba(201,162,39,0)}50%{box-shadow:0 10px 30px -18px #000,0 0 0 4px rgba(201,162,39,.06)}}
   @media (prefers-reduced-motion:reduce){.eggrow{animation:none}}
+  /* GRID: the extras sit inline under the footer so they never cover a card; PRESENT keeps the corner pill */
+  body:not(.present) .eggrow{position:static;width:max-content;margin:18px auto 28px}
   /* phones: the fixed dock covered card body text on first load; sit it in flow at page end instead */
   @media (max-width:600px){.eggrow{position:static;width:max-content;margin:20px auto 28px;animation:none}}
 </style>
