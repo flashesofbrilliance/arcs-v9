@@ -256,7 +256,7 @@ Design debt on served surfaces only goes down. The done goal: every page surface
 
 1. **Measure the settled page.** WCAG checks run with reduced motion and a settle wait. A page sampled mid fade-in reads as 1.1:1 contrast; about 120 of 301 contrast nodes were animation frames, not defects. The a11y spec already does this; any new rendered gate must too.
 2. **Give the root literal colors.** `html` and `body` carry the literal background and text color their tokens resolve to, not only `var()`. The static detector cannot resolve variables, so it judges text against white or black and both over-reports and misses real failures (forge-pattern: 97 findings to 42 once the root was literal).
-3. **Show state with color, not opacity.** Inactive tabs, labels and links dimmed to 45 to 60% opacity fail contrast. Use a token that passes AA in every state. Exception pending: the earned-fidelity fog render (GRAIN 0.70 in WORLD.md) is under review; until decided, it is the one sanctioned opacity dim.
+3. **Show state with color, not opacity.** Inactive tabs, labels and links dimmed to 45 to 60% opacity fail contrast. Use a token that passes AA in every state. This includes the earned-fidelity fog render (Zach, 2026-10-11): fog text stays at full opacity and reads as fog through weight, tracking and grain (WORLD.md render scale).
 4. **Underline links that sit in running text.** Color alone does not mark a link. Every page also declares a footer link rule, so no link falls back to browser-default blue.
 5. **Roles match behavior.**
    - A row of toggle buttons is `role="group"` with `aria-current` or `aria-pressed`, never `role="tablist"`.

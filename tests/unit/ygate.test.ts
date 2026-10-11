@@ -120,13 +120,15 @@ test("session versions: v3 LOOPING/CONTESTED, v5 DRIFTING (dim 8)", () => {
 })
 
 test("yGateScore carries the WORLD.md visual treatment for its resolution", () => {
-  const table: Record<string, number> = { SHARP: 1.0, DEGRADED: 0.85, GRAIN: 0.7, MOIRE: 0.6 }
+  // Fog never dims the words (WORLD.md, 2026-10-11): opacity is 1 at every depth; weight carries the fog.
+  const weight: Record<string, number> = { SHARP: 500, DEGRADED: 400, GRAIN: 300, MOIRE: 300 }
   for (const nci of [20, 50, 55, 80]) {
     const paths = nci === 55 ? [path("a"), path("b")] : []
     const r = computeYGate({ nci_score: nci, reasoning: { paths } }, null, null)
     const s = JSON.parse(r.yGateScore)
     assert.equal(s.render_resolution, r.renderResolution)
-    assert.equal(s.visual_treatment.opacity, table[r.renderResolution])
+    assert.equal(s.visual_treatment.opacity, 1)
+    assert.equal(s.visual_treatment.font_weight, weight[r.renderResolution])
   }
 })
 

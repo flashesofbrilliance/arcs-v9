@@ -300,11 +300,11 @@ const STRATA_SUBSTRATE = 'meta'
 const AMBER = ['#FFD700', '#EAC14A', '#D0A93C', '#B69130', '#9C7A26', '#82651E']
 const STRATA_FIDELITY = [
   { opacity: 1, weight: 500, tracking: '0em' },       // S0 — superionic, current truth
-  { opacity: 0.95, weight: 400, tracking: '0.002em' },
-  { opacity: 0.88, weight: 400, tracking: '0.006em' },
-  { opacity: 0.82, weight: 400, tracking: '0.01em' },
-  { opacity: 0.76, weight: 300, tracking: '0.015em' },
-  { opacity: 0.7, weight: 300, tracking: '0.02em' },  // deepest — grain
+  { opacity: 1, weight: 400, tracking: '0.002em' },
+  { opacity: 1, weight: 400, tracking: '0.006em' },
+  { opacity: 1, weight: 400, tracking: '0.01em' },
+  { opacity: 1, weight: 300, tracking: '0.015em' },
+  { opacity: 1, weight: 300, tracking: '0.02em' },  // deepest — grain
 ]
 
 function strataLabel(k: string): string {

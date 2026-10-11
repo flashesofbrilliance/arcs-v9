@@ -60,9 +60,9 @@ export interface YGateResult {
 // Visual treatment per render resolution (WORLD.md Render Scale)
 const VISUAL_TREATMENT: Record<string, { opacity: number; font_weight: number; tracking: string }> = {
   SHARP:    { opacity: 1.0,  font_weight: 500, tracking: "normal" },
-  DEGRADED: { opacity: 0.85, font_weight: 400, tracking: "+0.01em" },
-  GRAIN:    { opacity: 0.70, font_weight: 300, tracking: "+0.02em" },
-  MOIRE:    { opacity: 0.60, font_weight: 300, tracking: "+0.03em" },
+  DEGRADED: { opacity: 1.0, font_weight: 400, tracking: "+0.01em" },
+  GRAIN:    { opacity: 1.0, font_weight: 300, tracking: "+0.02em" },
+  MOIRE:    { opacity: 1.0, font_weight: 300, tracking: "+0.03em" },
 }
 
 export function computeYGate(
