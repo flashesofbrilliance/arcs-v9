@@ -2,7 +2,7 @@
  "version": "0.1.0",
  "goal": "every served page clean except reasoned exemptions",
  "totals": {
-  "detector": 3832,
+  "detector": 3180,
   "emdash": 13,
   "wrap": 4,
   "tokens": 6,
@@ -697,7 +697,7 @@
    "retired_color": 0
   },
   "public/chan.html": {
-   "detector": 187,
+   "detector": 60,
    "rules": {
     "all-caps-body": 8,
     "border-accent-on-rounded": 3,
@@ -709,7 +709,6 @@
     "pulsing-dot": 3,
     "side-tab": 12,
     "tiny-text": 11,
-    "undersized-ui-text": 127,
     "wide-tracking": 13
    },
    "emdash": 0,
@@ -1232,7 +1231,7 @@
    "retired_color": 0
   },
   "public/mercury.html": {
-   "detector": 159,
+   "detector": 62,
    "rules": {
     "all-caps-body": 10,
     "aphoristic-cadence": 1,
@@ -1246,7 +1245,6 @@
     "side-tab": 22,
     "skipped-heading": 2,
     "tiny-text": 3,
-    "undersized-ui-text": 97,
     "wide-tracking": 3
    },
    "emdash": 0,
@@ -1905,7 +1903,7 @@
    "retired_color": 0
   },
   "public/scott-cut.html": {
-   "detector": 145,
+   "detector": 53,
    "rules": {
     "all-caps-body": 8,
     "aphoristic-cadence": 1,
@@ -1919,7 +1917,6 @@
     "side-tab": 18,
     "skipped-heading": 2,
     "tiny-text": 3,
-    "undersized-ui-text": 92,
     "wide-tracking": 1
    },
    "emdash": 0,
@@ -2028,7 +2025,7 @@
    "retired_color": 0
   },
   "public/sentilink.html": {
-   "detector": 159,
+   "detector": 61,
    "rules": {
     "all-caps-body": 11,
     "border-accent-on-rounded": 3,
@@ -2042,7 +2039,6 @@
     "side-tab": 22,
     "skipped-heading": 2,
     "tiny-text": 2,
-    "undersized-ui-text": 98,
     "wide-tracking": 2
    },
    "emdash": 0,
@@ -2094,7 +2090,7 @@
    "retired_color": 0
   },
   "public/status.html": {
-   "detector": 229,
+   "detector": 99,
    "rules": {
     "all-caps-body": 8,
     "border-accent-on-rounded": 4,
@@ -2105,7 +2101,6 @@
     "pulsing-dot": 3,
     "side-tab": 9,
     "tiny-text": 52,
-    "undersized-ui-text": 130,
     "wide-tracking": 14
    },
    "emdash": 0,
@@ -2274,7 +2269,7 @@
    "retired_color": 0
   },
   "public/wing.html": {
-   "detector": 174,
+   "detector": 66,
    "rules": {
     "all-caps-body": 10,
     "border-accent-on-rounded": 3,
@@ -2287,7 +2282,6 @@
     "side-tab": 30,
     "skipped-heading": 2,
     "tiny-text": 2,
-    "undersized-ui-text": 108,
     "wide-tracking": 1
    },
    "emdash": 0,
