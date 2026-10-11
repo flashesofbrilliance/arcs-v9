@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1791682864.5223958,
-  "acquired_at_iso": "2026-10-11T01:41:04Z",
-  "expires_at": 1791684664.5223958,
+  "acquired_at": 1791684031.638937,
+  "acquired_at_iso": "2026-10-11T02:00:31Z",
+  "expires_at": 1791685831.638937,
   "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/exciting-bartik-1e9aed",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 53246,
+  "pid": 71752,
   "reason": "",
-  "released_at_iso": "2026-10-11T01:51:43Z",
-  "seq": 60,
-  "state": "free",
+  "seq": 61,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
