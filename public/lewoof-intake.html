@@ -177,12 +177,12 @@
       <button type="button" class="addrow" id="additem">+ Add line item</button>
     </div>
     <div class="grp"><h3>Payment</h3>
-      <label>Stripe pay URL <span class="hint">(from make_lewoof_invoice.py)</span></label>
-      <input data-k="payurl" value="https://invoice.stripe.com/i/...">
+      <label for="lw-payurl">Stripe pay URL <span class="hint">(from make_lewoof_invoice.py)</span></label>
+      <input id="lw-payurl" data-k="payurl" value="https://invoice.stripe.com/i/...">
       <div class="hint">The QR is generated from this URL automatically.</div>
     </div>
     <div class="grp"><h3>Terms <span class="hint">one bullet per line</span></h3>
-      <textarea data-k="terms">Sale for resale: no sales tax charged. Please keep a completed resale certificate on file.
+      <textarea data-k="terms" aria-label="Terms, one bullet per line">Sale for resale: no sales tax charged. Please keep a completed resale certificate on file.
 $1,710 due on receipt: $960 placement fee + $750 shipping. Balance of $10.00/unit sold billed monthly on reported sell-through (up to $2,400 across the 240-unit order).
 Shipping to the ShipBob warehouse (Fort Worth, TX) is a $750 estimate included on this invoice; it will be trued up to actual carrier cost.</textarea>
     </div>
@@ -192,7 +192,7 @@ Shipping to the ShipBob warehouse (Fort Worth, TX) is a $750 estimate included o
       <div class="hint">Click "Save record" (top bar) to append this deal as a row in the Le Woof sheet.</div>
     </div>
     <div class="grp"><h3>Issuer (footer)</h3>
-      <input data-k="issuer" value="Le Woof · Hila R. Harris, Founder · Fairfield, CT · hello@lewoofbrand.com · www.lewoofbrand.com">
+      <input data-k="issuer" aria-label="Issuer footer line" value="Le Woof · Hila R. Harris, Founder · Fairfield, CT · hello@lewoofbrand.com · www.lewoofbrand.com">
     </div>
   </form>
 
