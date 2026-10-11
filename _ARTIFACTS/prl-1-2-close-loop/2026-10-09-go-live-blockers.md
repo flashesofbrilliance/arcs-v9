@@ -53,3 +53,14 @@ Fix (needs Zach's yes before publishing; the Zap is live in Todd's account):
 1. Step 8 Lead field -> custom value mapped from step 5 `ID`.
 2. Step 8 Notes / Account Description: drop the missing `1. Description` token; write nothing on update, or append only.
 3. Then repair Roger (blocker 2) and run the proof (blocker 3): one repeat chat with a real email must update the matched lead and leave Roger untouched.
+
+## Draft staged (2026-10-10, NOT published)
+
+An unpublished draft of Zap 376827315 holds the fix. Published v5 is unchanged and still on. In the draft, step 8 "Update Lead Record with ZoomInfo Data":
+- Lead: mapped to `5. ID` (was the static pick "Roger A Lamarre").
+- Account Description, Notes, Title, Industry: emptied (were blank description + "Updated via Chatbot" suffixes and ZoomInfo "Not specified").
+- "Retest step" was NOT run (it would replay the Aug 18 sample against Roger).
+
+Before publishing (Mon call, with Todd):
+1. Confirm whether the SugarAI update action SKIPS or CLEARS fields left empty. If it clears, the four emptied fields would wipe existing values on every update; then remove them instead, or append only.
+2. Publish, repair Roger, run the repeat-chat proof (matched lead updated, Roger untouched).
