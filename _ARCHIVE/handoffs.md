@@ -1,3 +1,68 @@
+# Handoff — v3.131.0 (2026-10-11)
+
+> Consolidation block: carries forward the open lists of v3.130.0 and v3.129.0 (the latter moves to _ARCHIVE/handoffs.md with this molt) so nothing drops out of the hot path. Only new fact: the v3.129.0 molt landed as #1266.
+
+## Goal / true north
+Ship the monday.com take-home by Thu 2026-10-15 17:00 ET using every resource the briefing listed, or a recorded reason not to.
+
+## What changed
+- #1266 merged (`b1a06808`): molt of 3 fragments into handoff v3.129.0; integrity gate passed first try. Receipt `2026-10-10--handoff-molt-v3.129.0-pr1266--ZH`.
+
+## Current state
+- CLAUDE.md holds v3.129.0 (current) and v3.128.0.
+- #1174's receipt is logged; that Open item is closed.
+
+## Decisions made
+- None new.
+
+## Open decisions (waiting on Zach)
+1. Zach: spending limit on Actions (Settings > Billing > Budgets); drop the gh `user` scope when done (`gh auth refresh -h github.com -r user`).
+2. Zach: clear the take-home session's pending prompt if it does not reply; that session owes the resource x plan matrix before changing code.
+3. Zach: send Todd's agenda (choose the account) and own the August-test wording if wanted.
+4. Zach: take-home dress rehearsal once ONBOARDING.md lands; submit by Thu 2026-10-15 17:00 ET. Whether the assessment terms allow publishing the NFTT build log.
+5. Zach: approve the tool prompts in the "Held dependency exceptions watch" run; confirm the better-sqlite3 bump (#557).
+
+## Open (other)
+1. #1267 merged; confirm its receipt is logged and gl-z6 shows on prl.arcs.care/go-live.
+2. PRL Zap: test skip-vs-clear on empty fields before publishing; after publishing, repair Roger and run the repeat-chat proof (Mon 2026-10-12 10:00 ET call).
+3. Measure fe-smoke minutes on the first non-shared code PR after #1260; confirm the first nightly a11y run (07:41 UTC) is green; then decide on closing #1046.
+4. Check the arcs.care/hud ziggurat loader live as a signed-in admin.
+5. On or after 2026-10-13: `python3 scripts/backlog_status_check.py --gh`; confirm or close each RUNNING row it flags.
+6. ADR-078 has a file but no `_DECISIONS/index.json` row (integrity gate WARN).
+7. The Oct-06 Success Academy check-in to Brian is still unconfirmed in Gmail.
+8. After submission: atlas-bundle.v1 export, replay booth kickoff 17:30, then the admin route per runtime/specs/atlas-bundle-observatory-spec.md v0.4.
+9. Vico intro Wed 2026-10-14 13:00 ET.
+
+## Next action
+Confirm gl-z6 shows on prl.arcs.care/go-live and #1267's receipt is logged, then the Mon 2026-10-12 10:00 ET call with Todd.
+
+## Cold-start recipe
+- /handoff-pickup; the latest CLAUDE.md block is v3.129.0.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261011T024249Z--claude-handoff-molt6-note.md
+### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-molt6-note), receipts in digest: 1.
+- **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
+- **Breath balance**: mirror (inhale, no exhale).
+- **Sycophancy check**: agreement 26 / dissent 6 (ratio 3.71) → OK: dissent present.
+- **Cold re-read (canary on the draft f8.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+
+Attachment release: kept all claims. Somatic: not asked. Disposition: release.
+
+> Molted the final 3 fragments into v3.129.0; no other work since the previous fragment.
+
+> Molted from `_HANDOFFS/fragments/20261011T024249Z--claude-handoff-molt6-note.md` (branch `claude/handoff-molt6-note`, head `ab9c6222`).
+
+---
+
 # Handoff — v3.130.0 (2026-10-11)
 
 > Two legs on 2026-10-10/11: (a) the main-checkout salvage, the epic migration onto GitHub milestones, full issue triage, and the Actions cost cut that scopes the WCAG ratchet per PR; (b) the PRL go-live blocker correction and the take-home status check.
