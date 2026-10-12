@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision Geometry Explorer</title>
+<style>
+/*__TOKENS__*/
+:root { --measure: 680px; --lane: 1120px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font: 0.925rem/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: var(--lane); margin: 0 auto; padding: 28px 16px 64px; }
+h1 { font-size: clamp(1.5rem, 4vw, 2.4rem); line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.01em; }
+h2 { font-size: 1.15rem; margin: 36px 0 10px; }
+.lede { max-width: none; color: var(--text); margin: 0 0 20px; }
+p, .note { max-width: var(--measure); }
+.note { color: var(--muted); font-size: 0.925rem; }
+code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+label { font-size: 0.6875rem; color: var(--muted); display: block; margin-bottom: 4px; }
+select { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font: inherit; min-height: 44px; width: 100%; max-width: 520px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+.shape { font-size: clamp(1.5rem, 4vw, 2.4rem); letter-spacing: 0.12em; }
+.grid { display: grid; grid-template-columns: 120px repeat(5, minmax(0, 1fr)); gap: 4px; }
+.grid .hd { font-size: 0.6875rem; color: var(--muted); padding: 6px 4px; overflow-wrap: anywhere; }
+.cell { min-height: 56px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); font: inherit; font-size: 0.6875rem; text-align: left; padding: 6px; cursor: pointer; overflow-wrap: anywhere; }
+.cell b { display: block; font-size: 1.15rem; }
+.cell[aria-pressed="true"] { outline: 2px solid var(--cyan); outline-offset: 1px; }
+.l0 { border-style: dashed; }
+.l1 { border-color: var(--dimmed); }
+.l2 { border-color: var(--cyan); background: var(--cyan-bg); }
+.l3 { border-color: var(--green); background: var(--green-bg); }
+.l4 { border-color: var(--gold); background: var(--gold-bg); }
+.l5 { border-color: var(--green); background: var(--green-bg); box-shadow: inset 0 0 0 2px var(--green); }
+.ev { margin-top: 12px; }
+.ev blockquote { margin: 8px 0 0; padding: 8px 12px; border-left: 3px solid var(--cyan); background: var(--surface-2); }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.tabs button { min-height: 44px; min-width: 44px; padding: 0 14px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 6px; font: inherit; cursor: pointer; }
+.tabs button[aria-pressed="true"] { border-color: var(--cyan); background: var(--cyan-bg); }
+.drill { display: grid; grid-template-columns: 130px 70px minmax(0, 1fr); gap: 6px 10px; align-items: start; }
+.drill > div { overflow-wrap: anywhere; font-size: 0.925rem; padding: 6px 0; border-top: 1px solid var(--border); }
+.space { width: 100%; height: auto; display: block; background: var(--surface); border-radius: 6px; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.6875rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; gap: 6px; align-items: center; }
+.sw { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--border); display: inline-block; }
+ul.canon { padding-left: 18px; max-width: var(--measure); }
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 64px repeat(5, minmax(0, 1fr)); }
+  .cell { font-size: 0.6875rem; padding: 4px; min-height: 48px; }
+  .cell .lbl { display: none; }
+  .drill { grid-template-columns: 96px 48px minmax(0, 1fr); }
+}
+@media (max-width: 380px) { .grid { grid-template-columns: 36px repeat(5, minmax(44px, 1fr)); gap: 3px; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Decision Geometry Explorer</h1>
+<p class="lede">Each decision is scored on 25 cells: five aspects (Decision, Risk, Window, Clarity, Altitude) by five cells, each from L0 (unknown) to L5 (confirmed by an outcome). Every level quotes the text behind it; a cell with no matching text stays L0. The five aspects collapse to a five-digit shape code, one point among 3,125.</p>
+
+<div class="row">
+  <div style="flex:1 1 320px"><label for="pick">Decision</label><select id="pick"></select></div>
+  <div class="card" style="flex:0 1 auto">
+    <div class="note">Shape code D R W C H</div>
+    <div class="shape mono" id="shape"></div>
+    <div class="note" id="shapeMeta"></div>
+  </div>
+</div>
+<p id="dtitle" style="margin-top:12px"></p>
+
+<h2>1. The 5x5 grid</h2>
+<p class="note">Select a cell to see its level, the rule that set it and the quoted evidence.</p>
+<div class="grid" id="grid" role="group" aria-label="25 cell grid"></div>
+<div class="card ev" id="ev" aria-live="polite"></div>
+<div class="legend" id="legend"></div>
+
+<h2>2. Drill an aspect, Executive to Surgical</h2>
+<p class="note">Cells are read coarse to fine: the first cell of an aspect sits at the Executive rung, the fifth at Surgical. The middle column is this decision's own altitude-rung level.</p>
+<div class="tabs" id="tabs" role="group" aria-label="Aspect"></div>
+<div class="drill" id="drill"></div>
+
+<h2>3. Where the shape sits in the 3,125 space</h2>
+<p class="note">Rows are D then R (25 rows), columns are W then C then H (125 columns); each square is one shape code. Every decision in the dataset is marked; the selected one is ringed.</p>
+<svg class="space" id="space" viewBox="0 0 1250 250" role="img" aria-label="3125 cell shape space"></svg>
+<p class="note" id="neighbors"></p>
+
+<h2>How the levels were set</h2>
+<p class="note" id="meta"></p>
+<ul class="canon note" id="rules"></ul>
+</main>
+<script>
+const DATA = __DATA__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LV = ["L0 unknown","L1 inferred","L2 stated","L3 decomposed","L4 cross-confirmed","L5 outcome-confirmed"];
+let cur = 0, cell = "D1", aspect = "D";
+
+DATA.decisions.forEach((d, i) => $("pick").add(new Option(`${d.id}: ${d.title}`, i)));
+$("pick").onchange = e => { cur = +e.target.value; render(); };
+$("legend").innerHTML = LV.map((t, i) => `<span><i class="sw l${i}"></i>${t}</span>`).join("");
+$("tabs").innerHTML = DATA.aspects.map(a => `<button data-a="${a.key}">${a.key}</button>`).join("");
+$("tabs").onclick = e => { const b = e.target.closest("button"); if (b) { aspect = b.dataset.a; render(); } };
+$("meta").textContent = `${DATA._meta.note} Source: ${DATA._meta.source}. Spec: ${DATA._meta.spec} v${DATA._meta.spec_version}.`;
+$("rules").innerHTML = Object.entries(DATA.adaptation).map(([k, v]) =>
+  `<li><b>${k}</b>: ${v.map(r => `L${r.level} when ${esc(r.rule)}`).join("; ")}; otherwise L0.</li>`).join("");
+
+function render() {
+  const d = DATA.decisions[cur];
+  $("shape").textContent = d.shape.split("").join(" ");
+  $("shapeMeta").textContent = `index ${d.index} of 3,125 · rungs {${d.rungs.join(", ") || "none"}}`;
+  $("dtitle").innerHTML = `<b>${esc(d.id)}</b>: ${esc(d.fields.Decision || d.fields.Body || "")}`;
+  let g = `<div class="hd"></div>` + [1,2,3,4,5].map(i => `<div class="hd">cell ${i}</div>`).join("");
+  DATA.aspects.forEach((a, ai) => {
+    g += `<div class="hd"><b>${a.key}</b> <span class="lbl">${esc(a.label.split(" (")[0])}</span> · ${d.shape[ai]}</div>`;
+    a.cells.forEach(c => { const v = d.cells[c.id];
+      g += `<button class="cell l${v.level}" aria-pressed="${c.id === cell}" data-c="${c.id}" aria-label="${c.id} ${esc(c.label)} level ${v.level}"><b>${v.level ? "L" + v.level : "~"}</b><span class="lbl">${esc(c.id + " " + c.label.split(" (")[0])}</span></button>`; });
+  });
+  $("grid").innerHTML = g;
+  const c = DATA.aspects.flatMap(a => a.cells).find(x => x.id === cell), v = d.cells[cell];
+  $("ev").innerHTML = `<b>${c.id} ${esc(c.label)}</b>: ${LV[v.level]}<div class="note">Rule: ${esc(v.rule)}</div>` +
+    (v.evidence ? `<blockquote>${esc(v.evidence)}</blockquote>` : `<div class="note" style="margin-top:8px">No evidence in the record, so this cell stays L0.</div>`) +
+    `<div class="note" style="margin-top:8px">Spec rule (Receipt columns): ${esc(c.spec_rule["L" + Math.max(v.level, 1)] || "")}</div>`;
+  [...$("tabs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.a === aspect));
+  const A = DATA.aspects.find(a => a.key === aspect);
+  $("drill").innerHTML = `<div class="note">Rung</div><div class="note">Rung lvl</div><div class="note">${esc(A.label)}</div>` +
+    A.cells.map((c, i) => { const v = d.cells[c.id], h = d.cells["H" + (i + 1)];
+      return `<div><b>${DATA.rungs[i]}</b></div><div class="mono">${h.level ? "L" + h.level : "~"}</div><div><b>${c.id} ${esc(c.label)}</b>: ${v.level ? "L" + v.level : "~ (L0)"}<br><span class="note">${esc(v.evidence || "no evidence")}</span></div>`; }).join("");
+  drawSpace(d);
+}
+function pos(s) { const n = s.split("").map(x => +x - 1); return { x: n[2] * 25 + n[3] * 5 + n[4], y: n[0] * 5 + n[1] }; }
+function drawSpace(d) {
+  let s = "";
+  for (let r = 0; r < 25; r += 5) s += `<rect x="0" y="${r * 10}" width="1250" height="50" fill="${r % 10 ? "var(--surface)" : "var(--bg)"}"/>`;
+  for (let x = 0; x <= 125; x += 25) s += `<line x1="${x * 10}" y1="0" x2="${x * 10}" y2="250" stroke="var(--border)"/>`;
+  const counts = {};
+  DATA.decisions.forEach(o => counts[o.shape] = (counts[o.shape] || 0) + 1);
+  Object.keys(counts).forEach(k => { const p = pos(k); s += `<rect x="${p.x * 10}" y="${p.y * 10}" width="10" height="10" fill="var(--cyan)"><title>${k}: ${counts[k]} decision(s)</title></rect>`; });
+  const p = pos(d.shape);
+  s += `<circle cx="${p.x * 10 + 5}" cy="${p.y * 10 + 5}" r="16" fill="none" stroke="var(--gold)" stroke-width="4"/>`;
+  $("space").innerHTML = s;
+  const same = DATA.decisions.filter(o => o.shape === d.shape).map(o => o.id);
+  $("neighbors").textContent = `${d.shape} (row D${d.shape[0]} R${d.shape[1]}, column W${d.shape[2]} C${d.shape[3]} H${d.shape[4]}) holds ${same.length} of ${DATA.decisions.length} decisions: ${same.join(", ")}. Distinct shapes in this dataset: ${Object.keys(counts).length}.`;
+}
+$("grid").onclick = e => { const b = e.target.closest(".cell"); if (b) { cell = b.dataset.c; aspect = cell[0]; render(); } };
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,3819 @@
+{
+ "_meta": {
+  "spec": "runtime/specs/decision-geometry-cells-v0.json",
+  "spec_version": "0.1.0-draft",
+  "source": "ret-rfp-intelligence/DECISIONS.md (read-only)",
+  "generator": "scripts/decision_geometry_ret.py",
+  "note": "Text adaptation of the spec's Receipt-column rules; see adaptation. L0 = tilde. No L5 is reachable from DECISIONS.md."
+ },
+ "aspects": [
+  {
+   "key": "D",
+   "label": "Decision (the sharp DEWY-D question and its bearing)",
+   "cells": [
+    {
+     "id": "D1",
+     "label": "Question (sharp DEWY-D)",
+     "spec_rule": {
+      "L0": "Receipt.decision empty (cannot occur: column is required and the route clamps the user question into it)",
+      "L1": "Receipt.decision present but only the raw user text (no coherencePct, no clarity lens): the sharpening is inferred",
+      "L2": "Receipt.decision present and Receipt.coherencePct non-null (the model stated how well-formed the question is)",
+      "L3": "Receipt.sharpQuestion or Receipt.dewyVector.D non-null (the question decomposed into the schema-canonical atomic form)",
+      "L4": "Brief.situationFraming exists for this receiptId and restates the same decision (second model call, brief route, semi-independent of the compass call)",
+      "L5": "Outcome.what exists for this receiptId and names the same decision"
+     }
+    },
+    {
+     "id": "D2",
+     "label": "Bearing (true_north plus why)",
+     "spec_rule": {
+      "L0": "trueNorth empty (cannot occur: required column)",
+      "L1": "trueNorth present, whyBullets parses to an empty array",
+      "L2": "trueNorth present and whyBullets has at least one bullet",
+      "L3": "whyBullets has 2 or more bullets AND nciSelfGrade.action is true (the bearing decomposed into reasons and self-graded as one concrete step)",
+      "L4": "rawResponse.reasoning.paths contains a path with status 'selected' whose tag is 'True North' and whose title agrees with trueNorth (the paths block is a separate section of the same response: weakly independent, say so when scoring)",
+      "L5": "Outcome.matched is true for this receiptId"
+     }
+    },
+    {
+     "id": "D3",
+     "label": "Tributaries (ATG: meta, challenge, adjacent)",
+     "spec_rule": {
+      "L0": "atgTributaries null",
+      "L1": "atgTributaries parses but has fewer than 3 entries or entries lack a type",
+      "L2": "atgTributaries has exactly 3 entries with prompts",
+      "L3": "the 3 entries carry the typed triple meta / challenge / adjacent with non-empty prompts",
+      "L4": "a child Receipt exists whose parentId is this receipt AND whose parentTributaryIndex is 0, 1 or 2 (the follow-up actually taken confirms the tributary)",
+      "L5": "not applicable: no Outcome field bears on which tributary was taken; stays L4 max"
+     }
+    },
+    {
+     "id": "D4",
+     "label": "Mode and door (QUICKMOVE / PLAN / COURT, ONE_WAY / TWO_WAY)",
+     "spec_rule": {
+      "L0": "mode empty (cannot occur: required)",
+      "L1": "mode present but doorClass null",
+      "L2": "mode and doorClass both present (both are derived by rule in route.ts selectMode and doorClass from horizon plus stakes)",
+      "L3": "rawResponse.reasoning.geometry.mode_trigger non-empty (the trigger named, e.g. 'HIGH stakes + ONE_WAY door')",
+      "L4": "rawResponse.decision_mode equals Receipt.mode AND rawResponse.door_class equals Receipt.doorClass (the model's own read agrees with the rule-derived stored value: genuinely independent sources)",
+      "L5": "Outcome row exists and regretScore <= 2 on a ONE_WAY receipt, or any Outcome on TWO_WAY (the door held)"
+     }
+    },
+    {
+     "id": "D5",
+     "label": "Lineage (seed, child, fork, baton)",
+     "spec_rule": {
+      "L0": "sessionId empty (cannot occur)",
+      "L1": "seed receipt: parentId null, version 0 (the thread is inferred to start here)",
+      "L2": "child receipt: parentId non-null and version >= 1 (the thread position is stated)",
+      "L3": "forkPath non-null or parentTributaryIndex non-null (which branch was taken is decomposed)",
+      "L4": "batonId non-null or mergedFrom non-empty (a second receipt independently points back at this one)",
+      "L5": "Outcome row exists on this receipt or on its batonId successor"
+     }
+    }
+   ]
+  },
+  {
+   "key": "R",
+   "label": "Risk / Ruin (gauntlet family: BAR, LAB, COURT, KKL, Funhouse)",
+   "cells": [
+    {
+     "id": "R1",
+     "label": "Stakes (what is on the table)",
+     "spec_rule": {
+      "L0": "Receipt.stakes null",
+      "L1": "Receipt.stakes present but came from the request body with no PrepSession (route: activeStakes = prep?.stakes ?? stakes); includes the 2 lowercase variants, which must be upper-cased at read time",
+      "L2": "Receipt.stakes present and normalized to LOW / MEDIUM / HIGH (schema also allows EXISTENTIAL; 0 observed)",
+      "L3": "Receipt.protecting parses to a non-empty array (the stake decomposed into what is being protected: cash, time, reputation)",
+      "L4": "a PrepSession row is linked (Receipt.prepId) and PrepSession.stakes equals Receipt.stakes (user-calibrated value agrees with the stored value)",
+      "L5": "Outcome.regretScore exists for this receipt (the stake was settled)"
+     }
+    },
+    {
+     "id": "R2",
+     "label": "Court (COURT gauntlet: checks and verdicts)",
+     "spec_rule": {
+      "L0": "Receipt.court null or empty array",
+      "L1": "courtVerdict present but court array empty (a ruling with no named checks)",
+      "L2": "court array has at least 1 check with a verdict in PASS / TENSION / BLOCK",
+      "L3": "court has 2 or more checks with verdicts AND courtVerdict is non-empty (the ruling decomposed into named checks)",
+      "L4": "Brief.entityAnalysis.risk_surface or a Tribune row for this receipt names the same blocking or tension condition (brief route and Tribune are separate writes)",
+      "L5": "Outcome.learning exists and the court's BLOCK or TENSION check is referenced"
+     }
+    },
+    {
+     "id": "R3",
+     "label": "Threat vectors (LAB: Loki objection, counter, Bayesian risk)",
+     "spec_rule": {
+      "L0": "rawResponse.reasoning.advisors absent",
+      "L1": "only consensus or bayesian_risk_pct present (risk inferred, no named objection)",
+      "L2": "loki_challenge non-empty (the strongest objection stated)",
+      "L3": "loki_challenge AND loki_counter AND bayesian_risk_pct all present (objection, rebuttal, and a number)",
+      "L4": "PrepSession.adversarialInput is non-empty and overlaps loki_challenge (the user's own strongest case against their instinct agrees with the model's)",
+      "L5": "Outcome.matched is false and Outcome.learning names the Loki objection (the threat landed), or matched true with learning stating the objection did not materialize"
+     }
+    },
+    {
+     "id": "R4",
+     "label": "Ruin and reversibility (BAR)",
+     "spec_rule": {
+      "L0": "geometry.reversibility absent AND doorClass null",
+      "L1": "doorClass only (reversibility inferred from the horizon plus stakes rule)",
+      "L2": "geometry.reversibility parses to a leading float in [0.05, 1.0] (parse: regex ^\\s*(\\d+(?:\\.\\d+)?) on the string; the label after the first dash is kept as text)",
+      "L3": "Receipt.fated.tradeoffs or fated.direction names the ruin case, or Receipt.bar JSON {ruin_risk, asymmetry, reversibility} is present (bar: 0 by code path today)",
+      "L4": "doorClass agrees with the parsed float: ONE_WAY when float >= 0.5, TWO_WAY when float < 0.5 (~ threshold assessed from the single contract sample '0.7 - High (one-way)'; the rule-derived doorClass and the model's float are independent). Also counts: yConditions contains dim 9 RED and doorClass is ONE_WAY",
+      "L5": "Outcome.regretScore exists; regretScore >= 4 on a ONE_WAY receipt is a confirmed ruin-edge event"
+     }
+    },
+    {
+     "id": "R5",
+     "label": "Failure modes and de-risks (KKL / Funhouse: drags, blocked paths)",
+     "spec_rule": {
+      "L0": "nci_breakdown absent and no blocked path",
+      "L1": "macroTags includes KKL or BAR with no drag listed (the failure class is inferred from the tag only)",
+      "L2": "nci_breakdown.drags has at least 1 entry with label and delta",
+      "L3": "drags carry pct AND at least one path has status 'blocked' with detail (failure modes decomposed into weighted drags and a closed path)",
+      "L4": "Brief.entityAnalysis.signal_to_watch or a Tribune row names the same drag",
+      "L5": "Outcome.learning exists and names a drag"
+     }
+    }
+   ]
+  },
+  {
+   "key": "W",
+   "label": "Window (heading, bearing, bounded entry window, safe-vs-dangerous conditions)",
+   "cells": [
+    {
+     "id": "W1",
+     "label": "Horizon (bounded window)",
+     "spec_rule": {
+      "L0": "horizon null and window empty (cannot occur: window required)",
+      "L1": "horizon came from the request body with no PrepSession (route: activeHorizon = prep?.horizon ?? horizon); the window is the user's quick pick, not calibrated",
+      "L2": "Receipt.horizon normalized to TODAY / WEEK / QUARTER / YEARS via src/lib/horizon.ts normalizeHorizon",
+      "L3": "reviewDate and reminderDate both set (the window decomposed into a check date and a resolve-by date; the route writes both on every receipt)",
+      "L4": "PrepSession.horizon equals Receipt.window (user-calibrated window agrees), or horizonLocked is true",
+      "L5": "Outcome.loggedAt falls on or before reviewDate (the window held)"
+     }
+    },
+    {
+     "id": "W2",
+     "label": "Kairos (is the window open)",
+     "spec_rule": {
+      "L0": "geometry.kairos absent or first token is N/A",
+      "L1": "kairos present but the first token is not in the known set (free text; the state is inferred from the clause)",
+      "L2": "first token parses to one of OPEN, CLOSED, CLOSING, CONDITIONAL, URGENT, ACUTE, LATENT, FORCED, DEFERRED, CRITICAL, UNCERTAIN (parse: upper-case the string, take the leading run of letters and slashes before the first space or dash, strip punctuation)",
+      "L3": "L2 plus a trailing clause after the dash (e.g. 'act this week') AND Receipt.nciByLens.cadence non-null (timing decomposed into state, instruction, and a lens score)",
+      "L4": "token agrees with Receipt.horizon: URGENT / ACUTE / CRITICAL / FORCED with TODAY or WEEK; OPEN / CONDITIONAL / CLOSING with WEEK or QUARTER; LATENT / DEFERRED with QUARTER or YEARS (~ band mapping assessed, not in code)",
+      "L5": "Outcome.loggedAt exists and the outcome landed inside the reminderDate window"
+     }
+    },
+    {
+     "id": "W3",
+     "label": "Entry conditions (Y gate: safe vs dangerous to proceed)",
+     "spec_rule": {
+      "L0": "yState empty (cannot occur: default SCRATCH)",
+      "L1": "yState present with yConditions '[]' (the state fell out of the nci thresholds alone: GREEN or YELLOW by nci band)",
+      "L2": "yConditions has at least 1 {dim, label, severity} entry (a named condition fired)",
+      "L3": "yGateScore JSON carries polarity, conviction, stability, render_resolution and visual_treatment, and yConditions has 2 or more entries",
+      "L4": "PrepSession.confidence agrees with yConviction (1 or 2 with LOW, 3 with MEDIUM, 4 or 5 with HIGH; user-supplied, independent of the gate), or yOverride is true with yOverrideNote (the human read the gate and ruled)",
+      "L5": "Outcome.matched exists; matched true on a GREEN or FORK receipt, or matched false on a RED-condition receipt, confirms the gate"
+     }
+    },
+    {
+     "id": "W4",
+     "label": "Heading choice (paths and the fork)",
+     "spec_rule": {
+      "L0": "paths null",
+      "L1": "paths has 1 entry (no fork; the heading is inferred to be the only line)",
+      "L2": "paths has 2 or more entries with id and title",
+      "L3": "every path carries a status in selected / blocked / viable and a detail (the fork decomposed into open and closed lines)",
+      "L4": "forkPath is set on this receipt, or a child receipt's decision text names one of this receipt's path titles (the skintrack actually taken agrees with a listed path)",
+      "L5": "Outcome.what names a listed path"
+     }
+    },
+    {
+     "id": "W5",
+     "label": "Drift and trajectory (orientation over the session)",
+     "spec_rule": {
+      "L0": "driftState null",
+      "L1": "driftState ON_TRACK on a seed (version 0): the default, nothing observed yet",
+      "L2": "version >= 1 (a trajectory exists: at least two points in the session)",
+      "L3": "yConvictionPrev and yDeltaTrigger set (the conviction move between parent and child is named)",
+      "L4": "driftState DRIFTING with version >= 5 (ygate rule) AND the session's receipt count from the DB agrees (sessionVersion is counted from stored rows, a separate read from the parent row), or driftState LANDED with status LOGGED",
+      "L5": "Outcome row exists and driftState is LANDED (the outcome handler flips LANDED or DRIFTING from Outcome.matched)"
+     }
+    }
+   ]
+  },
+  {
+   "key": "C",
+   "label": "Clarity cluster (code wins: clarity, conviction, coherence, consequence, cadence)",
+   "cells": [
+    {
+     "id": "C1",
+     "label": "Clarity (is the question well-formed and atomic)",
+     "spec_rule": {
+      "L0": "nciScore absent (cannot occur: required)",
+      "L1": "nciScore only: clarity inferred from the composite (240 receipts)",
+      "L2": "nciByLens.clarity non-null (0 to 20)",
+      "L3": "L2 plus nciGrade names the weak lens AND nci_breakdown.drags / anchors present (the score decomposed into named pulls)",
+      "L4": "coherencePct agrees with the lens: |clarity * 5 - coherencePct| <= 15 (~ tolerance assessed; coherencePct is a separate field in the same response, weakly independent)",
+      "L5": "Outcome.matched exists on this receipt"
+     }
+    },
+    {
+     "id": "C2",
+     "label": "Conviction (how strong and directional the signal is)",
+     "spec_rule": {
+      "L0": "yConviction absent (cannot occur: default LOW)",
+      "L1": "yConviction only (ygate derives it from nci bands and fired conditions: inferred)",
+      "L2": "nciByLens.conviction non-null",
+      "L3": "L2 plus yConvictionPrev set (conviction decomposed into current and prior)",
+      "L4": "PrepSession.confidence agrees with yConviction (1 or 2 LOW, 3 MEDIUM, 4 or 5 HIGH); user-supplied, independent of the model",
+      "L5": "Outcome.matched is true (conviction confirmed by the world)"
+     }
+    },
+    {
+     "id": "C3",
+     "label": "Coherence (do the stated reasons cohere)",
+     "spec_rule": {
+      "L0": "nciScore absent (cannot occur)",
+      "L1": "nciScore only (composite, avg 57.5, p10 38, p90 78)",
+      "L2": "nciByLens.coherence non-null",
+      "L3": "L2 plus nci_breakdown.anchors present with pct (coherence decomposed into named anchors)",
+      "L4": "coherencePct agrees with the lens (|coherence * 5 - coherencePct| <= 15, ~ tolerance assessed)",
+      "L5": "Outcome.matched exists"
+     }
+    },
+    {
+     "id": "C4",
+     "label": "Consequence (are downstream effects understood)",
+     "spec_rule": {
+      "L0": "fated null and nciByLens null",
+      "L1": "fated.tradeoffs non-empty (consequence inferred from prose)",
+      "L2": "nciByLens.consequence non-null",
+      "L3": "all five fated fields non-empty (facts, assumptions, tradeoffs, emotions, direction)",
+      "L4": "Brief.entityAnalysis.risk_surface names the same downstream effect (brief route, separate call)",
+      "L5": "Outcome.regretScore exists (the consequence was felt and scored)"
+     }
+    },
+    {
+     "id": "C5",
+     "label": "Cadence (is the timing right)",
+     "spec_rule": {
+      "L0": "kairos absent and nciByLens null",
+      "L1": "kairos first token parses (timing inferred from the geometry string)",
+      "L2": "nciByLens.cadence non-null",
+      "L3": "L2 plus kairos token plus reminderDate (timing decomposed into state, lens, and date)",
+      "L4": "kairos token agrees with Receipt.horizon per the W2 band mapping",
+      "L5": "Outcome.loggedAt within the reviewDate window"
+     }
+    }
+   ]
+  },
+  {
+   "key": "H",
+   "label": "Horizon as altitude ladder (Executive, Strategic, Operational, Tactical, Surgical; 2026-06-23 bar, matching the lattice zoom levels EXEC to SURGICAL)",
+   "cells": [
+    {
+     "id": "H1",
+     "label": "Executive rung (L4)",
+     "spec_rule": {
+      "L0": "altitude range does not reach L4 and nothing implies it",
+      "L1": "range does not cover L4 but stakes HIGH AND doorClass ONE_WAY AND horizon YEARS (the economics imply executive altitude; ~ band assessed)",
+      "L2": "parsed altitude range covers L4",
+      "L3": "L2 plus the parenthetical names Executive AND the capital sub-field is present (stakes HIGH or protecting non-empty)",
+      "L4": "L2 plus mode is COURT and horizon is QUARTER or YEARS (the rule-derived mode and the user-picked horizon agree with the model's altitude)",
+      "L5": "Outcome.regretScore exists on this receipt"
+     }
+    },
+    {
+     "id": "H2",
+     "label": "Strategic rung (L3)",
+     "spec_rule": {
+      "L0": "range does not reach L3 and nothing implies it",
+      "L1": "range does not cover L3 but horizon is QUARTER or YEARS (time sub-field implies it)",
+      "L2": "parsed range covers L3",
+      "L3": "L2 plus the parenthetical names Strategic AND horizon is QUARTER or YEARS (time sub-field present and consistent)",
+      "L4": "L2 plus mode is COURT or PLAN with horizon QUARTER or YEARS (rule-derived mode and user horizon agree)",
+      "L5": "Outcome.loggedAt exists on this receipt"
+     }
+    },
+    {
+     "id": "H3",
+     "label": "Operational rung (L2)",
+     "spec_rule": {
+      "L0": "range does not reach L2 and nothing implies it",
+      "L1": "range does not cover L2 but horizon is WEEK or QUARTER with mode PLAN (implied)",
+      "L2": "parsed range covers L2",
+      "L3": "L2 plus the parenthetical names Operational AND the opportunity-cost sub-field is present (a blocked path in paths or fated.tradeoffs non-empty)",
+      "L4": "L2 plus mode PLAN and horizon WEEK or QUARTER (rule-derived mode and user horizon agree)",
+      "L5": "Outcome.what exists on this receipt"
+     }
+    },
+    {
+     "id": "H4",
+     "label": "Tactical rung (L1)",
+     "spec_rule": {
+      "L0": "range does not reach L1 and nothing implies it",
+      "L1": "range does not cover L1 but horizon is TODAY or WEEK (implied)",
+      "L2": "parsed range covers L1",
+      "L3": "L2 plus the parenthetical names Tactical AND the leverage sub-field is present (Brief.entityAnalysis.leverage_yours or leverage_theirs non-empty)",
+      "L4": "L2 plus mode QUICKMOVE or PLAN with horizon TODAY or WEEK",
+      "L5": "Outcome.what exists on this receipt"
+     }
+    },
+    {
+     "id": "H5",
+     "label": "Surgical rung (L0)",
+     "spec_rule": {
+      "L0": "range does not reach L0 and nothing implies it",
+      "L1": "range does not cover L0 but mode QUICKMOVE or horizon TODAY (implied single mechanical action)",
+      "L2": "parsed range covers L0",
+      "L3": "L2 plus the parenthetical names Surgical AND the reward sub-field is present (trueNorth is one concrete step with nciSelfGrade.action true)",
+      "L4": "L2 plus mode QUICKMOVE and horizon TODAY (rule and user pick agree with the model's altitude)",
+      "L5": "Outcome.matched exists on this receipt"
+     }
+    }
+   ]
+  }
+ ],
+ "rungs": [
+  "Executive",
+  "Strategic",
+  "Operational",
+  "Tactical",
+  "Surgical"
+ ],
+ "adaptation": {
+  "D1": [
+   {
+    "level": 2,
+    "rule": "a **Decision.** paragraph states the choice"
+   },
+   {
+    "level": 1,
+    "rule": "unstructured record: the choice is inferred from the prose"
+   }
+  ],
+  "D2": [
+   {
+    "level": 4,
+    "rule": "Why cites a measured (B) or primary-source (C) grade"
+   },
+   {
+    "level": 3,
+    "rule": "Why carries an A-E source grade"
+   },
+   {
+    "level": 2,
+    "rule": "a **Why.** paragraph gives reasons"
+   },
+   {
+    "level": 1,
+    "rule": "a reason appears in unstructured prose"
+   }
+  ],
+  "D3": [
+   {
+    "level": 2,
+    "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+   },
+   {
+    "level": 1,
+    "rule": "a **Rejected.** paragraph names at least one alternative"
+   }
+  ],
+  "D4": [
+   {
+    "level": 2,
+    "rule": "an approver is named AND a reversibility signal is stated; needs approver too"
+   },
+   {
+    "level": 1,
+    "rule": "an approver is named (Zach)"
+   }
+  ],
+  "D5": [
+   {
+    "level": 2,
+    "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+   }
+  ],
+  "R1": [
+   {
+    "level": 2,
+    "rule": "a quantified stake ($, %, MB, multiple)"
+   },
+   {
+    "level": 1,
+    "rule": "stakes named in words only"
+   }
+  ],
+  "R2": [
+   {
+    "level": 2,
+    "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+   }
+  ],
+  "R3": [
+   {
+    "level": 2,
+    "rule": "Rejected steelmans the alternative before refusing it (the strongest objection stated)"
+   },
+   {
+    "level": 1,
+    "rule": "a risk is named with no stated objection"
+   }
+  ],
+  "R4": [
+   {
+    "level": 2,
+    "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+   },
+   {
+    "level": 1,
+    "rule": "reversibility inferred from the action verb"
+   }
+  ],
+  "R5": [
+   {
+    "level": 3,
+    "rule": "a logged mistake (K) AND the test or case that guards it"
+   },
+   {
+    "level": 2,
+    "rule": "cites a logged mistake (KINTSUGI K id)"
+   }
+  ],
+  "W1": [
+   {
+    "level": 2,
+    "rule": "a dated or deadline-bounded window"
+   }
+  ],
+  "W2": [
+   {
+    "level": 2,
+    "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+   }
+  ],
+  "W3": [
+   {
+    "level": 2,
+    "rule": "the Revisit trigger is an observable entry condition"
+   }
+  ],
+  "W4": [
+   {
+    "level": 2,
+    "rule": "two or more headings: the chosen line plus a rejected one"
+   },
+   {
+    "level": 1,
+    "rule": "one heading only (no rejected line recorded)"
+   }
+  ],
+  "W5": [
+   {
+    "level": 2,
+    "rule": "a change over time is recorded (trajectory)"
+   }
+  ],
+  "C1": [
+   {
+    "level": 1,
+    "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+   }
+  ],
+  "C2": [
+   {
+    "level": 1,
+    "rule": "conviction inferred from an A-E source grade or measurement"
+   }
+  ],
+  "C3": [
+   {
+    "level": 1,
+    "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+   }
+  ],
+  "C4": [
+   {
+    "level": 1,
+    "rule": "consequence inferred from tradeoff prose in Rejected"
+   }
+  ],
+  "C5": [
+   {
+    "level": 1,
+    "rule": "cadence inferred: a revisit timing exists"
+   }
+  ],
+  "H1": [
+   {
+    "level": 1,
+    "rule": "implied Executive: a one-way, cross-engagement consequence"
+   }
+  ],
+  "H2": [
+   {
+    "level": 1,
+    "rule": "implied Strategic: scope, story or panel-grade framing"
+   }
+  ],
+  "H3": [
+   {
+    "level": 1,
+    "rule": "implied Operational: plan, release or gate process"
+   }
+  ],
+  "H4": [
+   {
+    "level": 1,
+    "rule": "implied Tactical: a named tool or format choice"
+   }
+  ],
+  "H5": [
+   {
+    "level": 1,
+    "rule": "implied Surgical: a named file, command or test"
+   }
+  ]
+ },
+ "decisions": [
+  {
+   "id": "D-600",
+   "title": "Large documents (a real RFP runs 400-600 pages)",
+   "fields": {
+    "Decision": "Keep retrieval-then-select: the parser chunks the RFP into clauses; each question sends only the question plus ~8 retrieved clauses to the model. The model's context window is never the constraint.",
+    "Why": "Sam Ito: only what is needed leaves RET's environment. Nina: figures verbatim; checking ~8 clauses is tractable, checking a whole document per answer is not. Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+    "What Changes At 600 Pages, In Order Of Risk": "1. PDF extraction (tables, page breaks; KINTSUGI K1). Production path: Docling (MIT, runs locally). 2. Retrieval recall (vocabulary misses grow with size; K5, K25). Production path: add local embeddings as a second retriever and merge results; keep the glossary. 3. Bulk extraction of key facts from a new RFP: run offline through a batch API at reduced cost.",
+    "Rejected": "Whole-document prompts as the answer path (cost, data leaving the environment, unverifiable volume). A long-context model is kept as an optional offline auditor that asks \"what did retrieval miss?\". Prompt caching: the repeated prefix (instructions) is below the size where it pays.",
+    "Revisit When": "The PJM real-document test runs (HYPOTHESES H3, H4)."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Keep retrieval-then-select: the parser chunks the RFP into clauses; each question sends only the question plus ~8 retrieved clauses to the model.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: The PJM real-document test runs (HYPOTHESES H3, H4).",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Revisit When: The PJM real-document test runs (HYPOTHESES H3, H4).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 2,
+     "evidence": "Why: Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+     "rule": "a quantified stake ($, %, MB, multiple)"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Decision: The model's context window is never the constraint.",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 2,
+     "evidence": "What Changes At 600 Pages, In Order Of Risk: PDF extraction (tables, page breaks; KINTSUGI K1).",
+     "rule": "cites a logged mistake (KINTSUGI K id)"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The PJM real-document test runs (HYPOTHESES H3, H4).",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: The PJM real-document test runs (HYPOTHESES H3, H4).",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Whole-document prompts as the answer path (cost, data leaving the environment, unverifiable volume).",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Keep retrieval-then-select: the parser chunks the RFP into clauses; each question sends only the question plus ~8 retrieved clauses to the model.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: Sam Ito: only what is needed leaves RET's environment.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: Whole-document prompts as the answer path (cost, data leaving the environment, unverifiable volume).",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The PJM real-document test runs (HYPOTHESES H3, H4).",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "What Changes At 600 Pages, In Order Of Risk: PDF extraction (tables, page breaks; KINTSUGI K1).",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "22211",
+   "index": 775,
+   "rungs": [
+    "Tactical"
+   ]
+  },
+  {
+   "id": "D-K33",
+   "title": "A refusal with no clauses gets a code floor, not a looser gate",
+   "fields": {
+    "Decision": "When the model refuses and names no clause, ask once more; if it still names none, cite the retrieved clause that covers the most question words, labelled \"related text, does not answer\".",
+    "Why": "Measured (B): the follow-up call alone passed 3 of 3 manual runs, then failed inside the pre-commit gate, so a second model call is still a coin flip. The code floor is deterministic: seam test `test_K33_bare_refusal_still_shows_related_text` forces the worst case (model refuses bare on both calls) and all six refusal cases pass.",
+    "Rejected": "Gate on 2 of 3 runs, disclosed. It hides the flake instead of removing it, and triples eval spend on every commit. Rejected also: a stronger prompt rule; K27 measured that a prompt change for this case regressed wave 1 from 18/18 to 15/18.",
+    "Revisit When": "The floor cites a wrong clause in any eval or live question (it is labelled, so a person sees it)."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: When the model refuses and names no clause, ask once more; if it still names none, cite the retrieved clause that covers the most question words, labelled \"related text, does not answer\".",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: Measured (B): the follow-up call alone passed 3 of 3 manual runs, then failed inside the pre-commit gate, so a second model call is still a coin flip.",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: The floor cites a wrong clause in any eval or live question (it is labelled, so a person sees it).",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Rejected: Rejected also: a stronger prompt rule; K27 measured that a prompt change for this case regressed wave 1 from 18/18 to 15/18.",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 1,
+     "evidence": "Rejected: It hides the flake instead of removing it, and triples eval spend on every commit.",
+     "rule": "stakes named in words only"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Why: The code floor is deterministic: seam test `test_K33_bare_refusal_still_shows_related_text` forces the worst case (model refuses bare on both calls) and all six refusal cases pass.",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 3,
+     "evidence": "Rejected: Rejected also: a stronger prompt rule; K27 measured that a prompt change for this case regressed wave 1 from 18/18 to 15/18.",
+     "rule": "a logged mistake (K) AND the test or case that guards it"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The floor cites a wrong clause in any eval or live question (it is labelled, so a person sees it).",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: The floor cites a wrong clause in any eval or live question (it is labelled, so a person sees it).",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Gate on 2 of 3 runs, disclosed.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Decision: When the model refuses and names no clause, ask once more; if it still names none, cite the retrieved clause that covers the most question words, labelled \"related text, does not answer\".",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: When the model refuses and names no clause, ask once more; if it still names none, cite the retrieved clause that covers the most question words, labelled \"related text, does not answer\".",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: Measured (B): the follow-up call alone passed 3 of 3 manual runs, then failed inside the pre-commit gate, so a second model call is still a coin flip.",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: Measured (B): the follow-up call alone passed 3 of 3 manual runs, then failed inside the pre-commit gate, so a second model call is still a coin flip.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: It hides the flake instead of removing it, and triples eval spend on every commit.",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The floor cites a wrong clause in any eval or live question (it is labelled, so a person sees it).",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Why: Measured (B): the follow-up call alone passed 3 of 3 manual runs, then failed inside the pre-commit gate, so a second model call is still a coin flip.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Why: The code floor is deterministic: seam test `test_K33_bare_refusal_still_shows_related_text` forces the worst case (model refuses bare on both calls) and all six refusal cases pass.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "22211",
+   "index": 775,
+   "rungs": [
+    "Operational",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-K34",
+   "title": "Rewrite history once more rather than ship without it",
+   "fields": {
+    "Decision": "Scan the shipped history in the package gate, then rewrite it to remove internal and personal references, with a backup bundle, remapped citations and a forced update of the private remote (Zach approved).",
+    "Why": "The commit history is evidence the panel can verify: every hash cited in KINTSUGI, the snapshots and the flight log resolves (184 checked, 0 stale). Shipping without it would turn those citations into claims nobody can check.",
+    "Rejected": "Ship the ZIP without `history.bundle`. Cheaper and no force-push, but it removes the verifiable record that every \"measured\" claim leans on.",
+    "Revisit When": "Never for this repo; for the next one, decide what is internal before the first commit (K29, K34)."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Scan the shipped history in the package gate, then rewrite it to remove internal and personal references, with a backup bundle, remapped citations and a forced update of the private remote (Zach approved).",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 2,
+     "evidence": "Why: The commit history is evidence the panel can verify: every hash cited in KINTSUGI, the snapshots and the flight log resolves (184 checked, 0 stale).",
+     "rule": "a **Why.** paragraph gives reasons"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 2,
+     "evidence": "Decision: Scan the shipped history in the package gate, then rewrite it to remove internal and personal references, with a backup bundle, remapped citations and a forced update of the private remote (Zach approved).",
+     "rule": "an approver is named AND a reversibility signal is stated; needs approver too"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 2,
+     "evidence": "Why: The commit history is evidence the panel can verify: every hash cited in KINTSUGI, the snapshots and the flight log resolves (184 checked, 0 stale).",
+     "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+    },
+    "R3": {
+     "level": 2,
+     "evidence": "Rejected: Cheaper and no force-push, but it removes the verifiable record that every \"measured\" claim leans on.",
+     "rule": "Rejected steelmans the alternative before refusing it (the strongest objection stated)"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Decision: Scan the shipped history in the package gate, then rewrite it to remove internal and personal references, with a backup bundle, remapped citations and a forced update of the private remote (Zach approved).",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 2,
+     "evidence": "Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "cites a logged mistake (KINTSUGI K id)"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CLOSED] Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Ship the ZIP without `history.bundle`.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Scan the shipped history in the package gate, then rewrite it to remove internal and personal references, with a backup bundle, remapped citations and a forced update of the private remote (Zach approved).",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Rejected: Cheaper and no force-push, but it removes the verifiable record that every \"measured\" claim leans on.",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The commit history is evidence the panel can verify: every hash cited in KINTSUGI, the snapshots and the flight log resolves (184 checked, 0 stale).",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: Cheaper and no force-push, but it removes the verifiable record that every \"measured\" claim leans on.",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 1,
+     "evidence": "Revisit When: Never for this repo; for the next one, decide what is internal before the first commit (K29, K34).",
+     "rule": "implied Executive: a one-way, cross-engagement consequence"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Why: The commit history is evidence the panel can verify: every hash cited in KINTSUGI, the snapshots and the flight log resolves (184 checked, 0 stale).",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: Scan the shipped history in the package gate, then rewrite it to remove internal and personal references, with a backup bundle, remapped citations and a forced update of the private remote (Zach approved).",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Rejected: Ship the ZIP without `history.bundle`.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Rejected: Ship the ZIP without `history.bundle`.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "22211",
+   "index": 775,
+   "rungs": [
+    "Executive",
+    "Strategic",
+    "Operational",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-LAYOUT",
+   "title": "One reading column, not five side-by-side lanes",
+   "fields": {
+    "Decision": "Stack every area in one column with a sticky jump bar and filters on top (Zach's choice, 2026-10-10).",
+    "Why": "One order to read, print and present: the same sequence works on screen, as a US Letter PDF and in Present mode. Five independent scroll areas cannot be printed as one document, and below about 1,000 px wide they stack anyway (D: inference, not yet measured on this deck). The filters already on the Evals list make a long single column searchable.",
+    "Rejected": "Five full-height lanes read left to right. Good for comparing areas side by side on a large screen, but it gives each area a scroll position of its own, which makes \"where am I\" harder in a live demo.",
+    "Revisit When": "A rehearsal shows the panel needs two areas side by side (for example a question next to its source text)."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Stack every area in one column with a sticky jump bar and filters on top (Zach's choice, 2026-10-10).",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: Five independent scroll areas cannot be printed as one document, and below about 1,000 px wide they stack anyway (D: inference, not yet measured on this deck).",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: A rehearsal shows the panel needs two areas side by side (for example a question next to its source text).",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 2,
+     "evidence": "Revisit When: A rehearsal shows the panel needs two areas side by side (for example a question next to its source text).",
+     "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+    },
+    "R3": {
+     "level": 2,
+     "evidence": "Rejected: Good for comparing areas side by side on a large screen, but it gives each area a scroll position of its own, which makes \"where am I\" harder in a live demo.",
+     "rule": "Rejected steelmans the alternative before refusing it (the strongest objection stated)"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Decision: Stack every area in one column with a sticky jump bar and filters on top (Zach's choice, 2026-10-10).",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: A rehearsal shows the panel needs two areas side by side (for example a question next to its source text).",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Five full-height lanes read left to right.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Stack every area in one column with a sticky jump bar and filters on top (Zach's choice, 2026-10-10).",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: Five independent scroll areas cannot be printed as one document, and below about 1,000 px wide they stack anyway (D: inference, not yet measured on this deck).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: One order to read, print and present: the same sequence works on screen, as a US Letter PDF and in Present mode.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: Good for comparing areas side by side on a large screen, but it gives each area a scroll position of its own, which makes \"where am I\" harder in a live demo.",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: A rehearsal shows the panel needs two areas side by side (for example a question next to its source text).",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Revisit When: A rehearsal shows the panel needs two areas side by side (for example a question next to its source text).",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Revisit When: A rehearsal shows the panel needs two areas side by side (for example a question next to its source text).",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Why: One order to read, print and present: the same sequence works on screen, as a US Letter PDF and in Present mode.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "21211",
+   "index": 650,
+   "rungs": [
+    "Strategic",
+    "Operational",
+    "Tactical"
+   ]
+  },
+  {
+   "id": "D-DISCLAIM",
+   "title": "One \"Limits and disclaimers\" section, plus tags; no separate legal, regulatory or disclosure columns",
+   "fields": {
+    "Decision": "One section states the limits plainly; legal and compliance items carry a tag and a stakeholder filter (Doug, Nina, Sam Ito, Elena) inside the areas where they already live.",
+    "Why": "The legal content already sits in existing areas: prohibited contact (Q7), exceptions and waivers (W4, W5), confidentiality (W6), never drafting bid language (T4), what data leaves (Sam Ito). The client set these rules (A: brief, discovery). Moving them to new columns would group the same items two ways. Over-building once already cost us (K8).",
+    "Rejected": "Separate Regulatory, Legal and Disclosure columns. Easy to scan by function, but they duplicate items that belong to a job, and nothing in the brief asks for them (to be confirmed in the full brief reread).",
+    "Revisit When": "The brief reread finds a regulatory requirement; it then becomes a tag plus test cases, not a column."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: One section states the limits plainly; legal and compliance items carry a tag and a stakeholder filter (Doug, Nina, Sam Ito, Elena) inside the areas where they already live.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 3,
+     "evidence": "Why: The client set these rules (A: brief, discovery).",
+     "rule": "Why carries an A-E source grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: The brief reread finds a regulatory requirement; it then becomes a tag plus test cases, not a column.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Why: The legal content already sits in existing areas: prohibited contact (Q7), exceptions and waivers (W4, W5), confidentiality (W6), never drafting bid language (T4), what data leaves (Sam Ito).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 1,
+     "evidence": "Why: Over-building once already cost us (K8).",
+     "rule": "stakes named in words only"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 2,
+     "evidence": "Rejected: Easy to scan by function, but they duplicate items that belong to a job, and nothing in the brief asks for them (to be confirmed in the full brief reread).",
+     "rule": "Rejected steelmans the alternative before refusing it (the strongest objection stated)"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Why: The legal content already sits in existing areas: prohibited contact (Q7), exceptions and waivers (W4, W5), confidentiality (W6), never drafting bid language (T4), what data leaves (Sam Ito).",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 2,
+     "evidence": "Why: Over-building once already cost us (K8).",
+     "rule": "cites a logged mistake (KINTSUGI K id)"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The brief reread finds a regulatory requirement; it then becomes a tag plus test cases, not a column.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: The brief reread finds a regulatory requirement; it then becomes a tag plus test cases, not a column.",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Separate Regulatory, Legal and Disclosure columns.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: One section states the limits plainly; legal and compliance items carry a tag and a stakeholder filter (Doug, Nina, Sam Ito, Elena) inside the areas where they already live.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: The client set these rules (A: brief, discovery).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The legal content already sits in existing areas: prohibited contact (Q7), exceptions and waivers (W4, W5), confidentiality (W6), never drafting bid language (T4), what data leaves (Sam Ito).",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: Easy to scan by function, but they duplicate items that belong to a job, and nothing in the brief asks for them (to be confirmed in the full brief reread).",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The brief reread finds a regulatory requirement; it then becomes a tag plus test cases, not a column.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "22211",
+   "index": 775,
+   "rungs": []
+  },
+  {
+   "id": "D-SHOW",
+   "title": "Every calculated figure and every decision shows its work",
+   "fields": {
+    "Decision": "Derived figures come from the server as value, formula and sourced inputs, behind a \"Show your work\" toggle (a footnote in the PDF). Decisions show the chosen option, the alternative and the evidence, as in this file.",
+    "Why": "The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel. The briefing video grades how reasoning is communicated (A).",
+    "Rejected": "A methods appendix at the end. One place to look, but the reader has to leave the number to check it, and an appendix can fall out of step with the figure it explains. Working attached to the figure cannot drift.",
+    "Revisit When": "The toggles clutter the deck in rehearsal; then show working on hover or in the PDF only."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Derived figures come from the server as value, formula and sourced inputs, behind a \"Show your work\" toggle (a footnote in the PDF).",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: The toggles clutter the deck in rehearsal; then show working on hover or in the PDF only.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 2,
+     "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
+     "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+    },
+    "R3": {
+     "level": 2,
+     "evidence": "Rejected: One place to look, but the reader has to leave the number to check it, and an appendix can fall out of step with the figure it explains.",
+     "rule": "Rejected steelmans the alternative before refusing it (the strongest objection stated)"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The toggles clutter the deck in rehearsal; then show working on hover or in the PDF only.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: A methods appendix at the end.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Derived figures come from the server as value, formula and sourced inputs, behind a \"Show your work\" toggle (a footnote in the PDF).",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The toggles clutter the deck in rehearsal; then show working on hover or in the PDF only.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Revisit When: The toggles clutter the deck in rehearsal; then show working on hover or in the PDF only.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: Derived figures come from the server as value, formula and sourced inputs, behind a \"Show your work\" toggle (a footnote in the PDF).",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "22111",
+   "index": 750,
+   "rungs": [
+    "Strategic",
+    "Operational",
+    "Tactical"
+   ]
+  },
+  {
+   "id": "D-EVALMAP",
+   "title": "Case-to-mistake links are declared data; \"informed\" files come from git",
+   "fields": {
+    "Decision": "Each test case declares the logged mistakes it guards (`guards`); the code it touched comes from the gate its latest run reported; the files its repairs changed come from commits that cite the mistake id.",
+    "Why": "Only 1 of 30 cases named a mistake before (W10, K26), so the link could not be derived and had to be written down once, where it can be reviewed. Code paths and changed files are measured, so they cannot drift from the code (B).",
+    "Rejected": "Infer the mistake for each case from text similarity. Cheaper to maintain, but a wrong link would look as authoritative as a right one. Gap disclosed: K2-K7 fixes predate commit-message ids, so Q4, T3 and W9 show \"none recorded\".",
+    "Revisit When": "A new mistake is logged: its repair commit must cite the id, and its test case must list it in `guards`."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Each test case declares the logged mistakes it guards (`guards`); the code it touched comes from the gate its latest run reported; the files its repairs changed come from commits that cite the mistake id.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: Code paths and changed files are measured, so they cannot drift from the code (B).",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: A new mistake is logged: its repair commit must cite the id, and its test case must list it in `guards`.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Why: Only 1 of 30 cases named a mistake before (W10, K26), so the link could not be derived and had to be written down once, where it can be reviewed.",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 2,
+     "evidence": "Rejected: Cheaper to maintain, but a wrong link would look as authoritative as a right one.",
+     "rule": "Rejected steelmans the alternative before refusing it (the strongest objection stated)"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Why: Code paths and changed files are measured, so they cannot drift from the code (B).",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 3,
+     "evidence": "Rejected: Gap disclosed: K2-K7 fixes predate commit-message ids, so Q4, T3 and W9 show \"none recorded\".",
+     "rule": "a logged mistake (K) AND the test or case that guards it"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: A new mistake is logged: its repair commit must cite the id, and its test case must list it in `guards`.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Infer the mistake for each case from text similarity.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Why: Only 1 of 30 cases named a mistake before (W10, K26), so the link could not be derived and had to be written down once, where it can be reviewed.",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Each test case declares the logged mistakes it guards (`guards`); the code it touched comes from the gate its latest run reported; the files its repairs changed come from commits that cite the mistake id.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: Code paths and changed files are measured, so they cannot drift from the code (B).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: Only 1 of 30 cases named a mistake before (W10, K26), so the link could not be derived and had to be written down once, where it can be reviewed.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: A new mistake is logged: its repair commit must cite the id, and its test case must list it in `guards`.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: Each test case declares the logged mistakes it guards (`guards`); the code it touched comes from the gate its latest run reported; the files its repairs changed come from commits that cite the mistake id.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: Each test case declares the logged mistakes it guards (`guards`); the code it touched comes from the gate its latest run reported; the files its repairs changed come from commits that cite the mistake id.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "22211",
+   "index": 775,
+   "rungs": [
+    "Operational",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-DIAGRAM",
+   "title": "Component teardown drawn as generated SVG; Mermaid text only for repo readers",
+   "fields": {
+    "Decision": "The exploded 2.5D teardown (stacked, offset, skewed layer cards; components per layer; click a layer to expand in HTML) is SVG emitted by `./rfp build` from the same records as every other figure. The same SVG goes into the PDF (one full view plus one page per layer). `docs/architecture.mmd` is also emitted as plain text from the same data, for engineers browsing the repo; nothing Mermaid-related runs in the deck or the PDF (Zach approved, 2026-10-10).",
+    "Why": "The runtime stays standard-library only, which is the support and air-gap story Sam Ito's constraints point to (A). An isometric layered view is outside Mermaid's automatic layout, so it would need custom drawing anyway (D: inference). Generating from the records keeps the diagram as current as the numbers (K35).",
+    "Rejected": "Mermaid as a dependency, loaded from a CDN or pre-rendered by a headless browser at build time (size about 2 MB, D: estimate not measured). It adds a dependency and a network or toolchain step, and its auto-layout cannot produce the stacked isometric view.",
+    "Revisit When": "The diagram needs automatic layout of more than about 30 components, or RET's engineers ask for Mermaid sources they can edit."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: The exploded 2.5D teardown (stacked, offset, skewed layer cards; components per layer; click a layer to expand in HTML) is SVG emitted by `./rfp build` from the same records as every other figure.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 3,
+     "evidence": "Why: The runtime stays standard-library only, which is the support and air-gap story Sam Ito's constraints point to (A).",
+     "rule": "Why carries an A-E source grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: The diagram needs automatic layout of more than about 30 components, or RET's engineers ask for Mermaid sources they can edit.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 1,
+     "evidence": "Decision: `docs/architecture.mmd` is also emitted as plain text from the same data, for engineers browsing the repo; nothing Mermaid-related runs in the deck or the PDF (Zach approved, 2026-10-10).",
+     "rule": "an approver is named (Zach)"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Why: Generating from the records keeps the diagram as current as the numbers (K35).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 2,
+     "evidence": "Rejected: Mermaid as a dependency, loaded from a CDN or pre-rendered by a headless browser at build time (size about 2 MB, D: estimate not measured).",
+     "rule": "a quantified stake ($, %, MB, multiple)"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 2,
+     "evidence": "Why: Generating from the records keeps the diagram as current as the numbers (K35).",
+     "rule": "cites a logged mistake (KINTSUGI K id)"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Decision: `docs/architecture.mmd` is also emitted as plain text from the same data, for engineers browsing the repo; nothing Mermaid-related runs in the deck or the PDF (Zach approved, 2026-10-10).",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The diagram needs automatic layout of more than about 30 components, or RET's engineers ask for Mermaid sources they can edit.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: The diagram needs automatic layout of more than about 30 components, or RET's engineers ask for Mermaid sources they can edit.",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Mermaid as a dependency, loaded from a CDN or pre-rendered by a headless browser at build time (size about 2 MB, D: estimate not measured).",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: The exploded 2.5D teardown (stacked, offset, skewed layer cards; components per layer; click a layer to expand in HTML) is SVG emitted by `./rfp build` from the same records as every other figure.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: The runtime stays standard-library only, which is the support and air-gap story Sam Ito's constraints point to (A).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The runtime stays standard-library only, which is the support and air-gap story Sam Ito's constraints point to (A).",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: It adds a dependency and a network or toolchain step, and its auto-layout cannot produce the stacked isometric view.",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The diagram needs automatic layout of more than about 30 components, or RET's engineers ask for Mermaid sources they can edit.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Why: The runtime stays standard-library only, which is the support and air-gap story Sam Ito's constraints point to (A).",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: The exploded 2.5D teardown (stacked, offset, skewed layer cards; components per layer; click a layer to expand in HTML) is SVG emitted by `./rfp build` from the same records as every other figure.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: The exploded 2.5D teardown (stacked, offset, skewed layer cards; components per layer; click a layer to expand in HTML) is SVG emitted by `./rfp build` from the same records as every other figure.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "21211",
+   "index": 650,
+   "rungs": [
+    "Strategic",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-SCOPE",
+   "title": "Hybrid scope after the bar-raiser review (Zach, 2026-10-10)",
+   "fields": {
+    "Decision": "Keep only the extra work that answers the brief's own pains with client data: the Deadlines board and the Amendment Log (Doug's amendment incident; the real deposit-difference deadline), on a minimal trust layer. Cut the other stakeholder dashboards, Playback and the review punchlists; fold the six commercial-terms items into one \"open questions for RET\" line. Rehearsal comes first. Add risk allocation (cost cap §7.4, delay damages §7.5, proposal security §7.2) as labelled key facts, one risk-table row and one test case (W13), without modelling or pricing anything.",
+    "Why": "No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement). Brief p7 rewards \"a modest build that proves you listened\" (A). The reviewer estimated a 55% chance the panel calls the build over-built if that work ships and is shown, 30% if cut (D: logged as BR-P3 for scoring). The kept boards use only grade-A RFP text.",
+    "Rejected": "Cut everything (lowest over-built risk, but drops Doug's top ask, the deadlines, which the RFP itself puts on the bidder, §4.3). Keep everything off-stage (most work; the dashboards would still sit on the critical path to submission).",
+    "Revisit When": "A timed clean-database rehearsal passes twice with time to spare, or RET asks for a dashboard by name."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Keep only the extra work that answers the brief's own pains with client data: the Deadlines board and the Amendment Log (Doug's amendment incident; the real deposit-difference deadline), on a minimal trust layer.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 3,
+     "evidence": "Why: No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement).",
+     "rule": "Why carries an A-E source grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: A timed clean-database rehearsal passes twice with time to spare, or RET asks for a dashboard by name.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Decision: Add risk allocation (cost cap §7.4, delay damages §7.5, proposal security §7.2) as labelled key facts, one risk-table row and one test case (W13), without modelling or pricing anything.",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 2,
+     "evidence": "Why: The reviewer estimated a 55% chance the panel calls the build over-built if that work ships and is shown, 30% if cut (D: logged as BR-P3 for scoring).",
+     "rule": "a quantified stake ($, %, MB, multiple)"
+    },
+    "R2": {
+     "level": 2,
+     "evidence": "Why: No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement).",
+     "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+    },
+    "R3": {
+     "level": 2,
+     "evidence": "Rejected: Cut everything (lowest over-built risk, but drops Doug's top ask, the deadlines, which the RFP itself puts on the bidder, §4.3).",
+     "rule": "Rejected steelmans the alternative before refusing it (the strongest objection stated)"
+    },
+    "R4": {
+     "level": 1,
+     "evidence": "Decision: Cut the other stakeholder dashboards, Playback and the review punchlists; fold the six commercial-terms items into one \"open questions for RET\" line.",
+     "rule": "reversibility inferred from the action verb"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: A timed clean-database rehearsal passes twice with time to spare, or RET asks for a dashboard by name.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: A timed clean-database rehearsal passes twice with time to spare, or RET asks for a dashboard by name.",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Cut everything (lowest over-built risk, but drops Doug's top ask, the deadlines, which the RFP itself puts on the bidder, §4.3).",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Why: No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement).",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Keep only the extra work that answers the brief's own pains with client data: the Deadlines board and the Amendment Log (Doug's amendment incident; the real deposit-difference deadline), on a minimal trust layer.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement).",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: Cut everything (lowest over-built risk, but drops Doug's top ask, the deadlines, which the RFP itself puts on the bidder, §4.3).",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: A timed clean-database rehearsal passes twice with time to spare, or RET asks for a dashboard by name.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Why: The reviewer estimated a 55% chance the panel calls the build over-built if that work ships and is shown, 30% if cut (D: logged as BR-P3 for scoring).",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: Rehearsal comes first.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "22211",
+   "index": 775,
+   "rungs": [
+    "Strategic",
+    "Operational"
+   ]
+  },
+  {
+   "id": "D-BRAND",
+   "title": "The deck uses monday.com's public design-system colours and type, not its logo (Zach, 2026-10-10)",
+   "fields": {
+    "Decision": "Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles. No logo.",
+    "Why": "The candidate presents as monday.com's forward deployed engineer to a monday.com customer, so the deck should look at home next to monday.com's own product (C: primary source opened). Values were read from the source, not recalled.",
+    "Rejected": "The candidate's personal dark palette (reads as a personal brand, prints poorly). monday.com's logo (would make a candidate's deck look like an official monday.com document).",
+    "Revisit When": "monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: The candidate presents as monday.com's forward deployed engineer to a monday.com customer, so the deck should look at home next to monday.com's own product (C: primary source opened).",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: The candidate's personal dark palette (reads as a personal brand, prints poorly). monday.com's logo (would make a candidate's deck look like an official monday.com document).",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: The candidate presents as monday.com's forward deployed engineer to a monday.com customer, so the deck should look at home next to monday.com's own product (C: primary source opened).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The candidate presents as monday.com's forward deployed engineer to a monday.com customer, so the deck should look at home next to monday.com's own product (C: primary source opened).",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Rejected: The candidate's personal dark palette (reads as a personal brand, prints poorly). monday.com's logo (would make a candidate's deck look like an official monday.com document).",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "21211",
+   "index": 650,
+   "rungs": [
+    "Strategic",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-SUBTRACT",
+   "title": "Remove anything whose removal would not lower the panel's grade (Zach, 2026-10-10)",
+   "fields": {
+    "Decision": "Removal only, after rehearsal. Cut from the queue: the exploded 2.5D component teardown and docs/architecture.mmd (a plain pipeline diagram is enough); Present mode and the US Letter PDF conversion (the brief needs a PDF, not a format; the current PDF stays); the remaining CI scanners (semgrep, CodeQL, bandit; nothing further is added). Fold into one \"What's next\" line on the impact slide, with detail in the README: the learning loop, the \"track X, unlocks Y\" ladder, the stakeholder acceptance rubric. Keep in the repo with at most one slide line plus prepared answers: the fault matrix, the war game, the predictions log, trace spans. Internal only, shown if asked: the Evidence tab, Evals filters, deep links, the status page. The story: amendment truth in code; select, do not generate, with the verbatim figure check and refusal; monday-native landing; an A-E source grade beside every figure; the risk table and the capabilities split; one plain mistakes-log example; the rehearsed demo. Pre-registered estimates stay on slides 1-2 as one small line each.",
+    "Why": "The test for every item is whether removing it would lower the panel's grade. Brief p7 rewards a modest build that proves you listened (A); the bar-raiser put over-built perception at 55% if extra work ships and is shown (D, BR-P3).",
+    "Rejected": "Keep building the queued items and hide them behind clicks: still costs the days before Thursday that rehearsal needs, and every extra surface is one more thing to defend line by line (brief p8).",
+    "Revisit When": "Rehearsal passes twice with time to spare, or the panel asks for one of the cut items by name."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Removal only, after rehearsal.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 3,
+     "evidence": "Why: Brief p7 rewards a modest build that proves you listened (A); the bar-raiser put over-built perception at 55% if extra work ships and is shown (D, BR-P3).",
+     "rule": "Why carries an A-E source grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: Rehearsal passes twice with time to spare, or the panel asks for one of the cut items by name.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Why: Brief p7 rewards a modest build that proves you listened (A); the bar-raiser put over-built perception at 55% if extra work ships and is shown (D, BR-P3).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 2,
+     "evidence": "Why: Brief p7 rewards a modest build that proves you listened (A); the bar-raiser put over-built perception at 55% if extra work ships and is shown (D, BR-P3).",
+     "rule": "a quantified stake ($, %, MB, multiple)"
+    },
+    "R2": {
+     "level": 2,
+     "evidence": "Why: The test for every item is whether removing it would lower the panel's grade.",
+     "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+    },
+    "R3": {
+     "level": 1,
+     "evidence": "Decision: The story: amendment truth in code; select, do not generate, with the verbatim figure check and refusal; monday-native landing; an A-E source grade beside every figure; the risk table and the capabilities split; one plain mistakes-log example; the rehearsed demo.",
+     "rule": "a risk is named with no stated objection"
+    },
+    "R4": {
+     "level": 1,
+     "evidence": "Decision: Cut from the queue: the exploded 2.5D component teardown and docs/architecture.mmd (a plain pipeline diagram is enough); Present mode and the US Letter PDF conversion (the brief needs a PDF, not a format; the current PDF stays); the remaining CI scanners (semgrep, CodeQL, bandit; nothing further is added).",
+     "rule": "reversibility inferred from the action verb"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Decision: Removal only, after rehearsal.",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: Rehearsal passes twice with time to spare, or the panel asks for one of the cut items by name.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: Rehearsal passes twice with time to spare, or the panel asks for one of the cut items by name.",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Keep building the queued items and hide them behind clicks: still costs the days before Thursday that rehearsal needs, and every extra surface is one more thing to defend line by line (brief p8).",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Rejected: Keep building the queued items and hide them behind clicks: still costs the days before Thursday that rehearsal needs, and every extra surface is one more thing to defend line by line (brief p8).",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Removal only, after rehearsal.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: Brief p7 rewards a modest build that proves you listened (A); the bar-raiser put over-built perception at 55% if extra work ships and is shown (D, BR-P3).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The test for every item is whether removing it would lower the panel's grade.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: Keep building the queued items and hide them behind clicks: still costs the days before Thursday that rehearsal needs, and every extra surface is one more thing to defend line by line (brief p8).",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: Rehearsal passes twice with time to spare, or the panel asks for one of the cut items by name.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Decision: The story: amendment truth in code; select, do not generate, with the verbatim figure check and refusal; monday-native landing; an A-E source grade beside every figure; the risk table and the capabilities split; one plain mistakes-log example; the rehearsed demo.",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: Removal only, after rehearsal.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: Cut from the queue: the exploded 2.5D component teardown and docs/architecture.mmd (a plain pipeline diagram is enough); Present mode and the US Letter PDF conversion (the brief needs a PDF, not a format; the current PDF stays); the remaining CI scanners (semgrep, CodeQL, bandit; nothing further is added).",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "21211",
+   "index": 650,
+   "rungs": [
+    "Strategic",
+    "Operational",
+    "Tactical"
+   ]
+  },
+  {
+   "id": "D-MCP",
+   "title": "Write to monday.com through the GraphQL API, not the MCP server (reviewed against monday.com's own repos, 2026-10-10)",
+   "fields": {
+    "Decision": "The pipeline writes through the GraphQL API with its own small client. monday.com's official MCP server (github.com/mondaycom/mcp, hosted at mcp.monday.com) is the right surface for the NEXT step: exposing \"ask the RFP\" as a tool that monday.com's agents can call.",
+    "Why": "Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7). The MCP server is built for agents choosing actions; its beta `all_monday_api` tool runs any GraphQL an agent writes (C: repo README, read 2026-10-10), the opposite of a fixed allowlist. The official Python SDK (github.com/mondaycom/monday-api-python-sdk) would add a dependency and drop the per-call cost logging and retry handling we measured.",
+    "Rejected": "MCP for the sync (agent-chosen writes, harder to audit). The Python SDK (a dependency for little gain at this size). monday.com's agent-evaluation engine Sensei (github.com/mondaycom/sensei; Node, AI judge) as our test runner: our tests score citations and figures mechanically; exporting the 31 cases as a Sensei suite is a later step.",
+    "Revisit When": "RET wants staff to query the RFP from inside monday.com's AI (then serve an MCP tool), or the sync grows past a few boards (then the official SDK's types earn their keep)."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: The pipeline writes through the GraphQL API with its own small client. monday.com's official MCP server (github.com/mondaycom/mcp, hosted at mcp.monday.com) is the right surface for the NEXT step: exposing \"ask the RFP\" as a tool that monday.com's agents can call.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: RET wants staff to query the RFP from inside monday.com's AI (then serve an MCP tool), or the sync grows past a few boards (then the official SDK's types earn their keep).",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 1,
+     "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
+     "rule": "stakes named in words only"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Why: The MCP server is built for agents choosing actions; its beta `all_monday_api` tool runs any GraphQL an agent writes (C: repo README, read 2026-10-10), the opposite of a fixed allowlist.",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: RET wants staff to query the RFP from inside monday.com's AI (then serve an MCP tool), or the sync grows past a few boards (then the official SDK's types earn their keep).",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: RET wants staff to query the RFP from inside monday.com's AI (then serve an MCP tool), or the sync grows past a few boards (then the official SDK's types earn their keep).",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: MCP for the sync (agent-chosen writes, harder to audit).",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: The pipeline writes through the GraphQL API with its own small client. monday.com's official MCP server (github.com/mondaycom/mcp, hosted at mcp.monday.com) is the right surface for the NEXT step: exposing \"ask the RFP\" as a tool that monday.com's agents can call.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 1,
+     "evidence": "Rejected: MCP for the sync (agent-chosen writes, harder to audit).",
+     "rule": "consequence inferred from tradeoff prose in Rejected"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: RET wants staff to query the RFP from inside monday.com's AI (then serve an MCP tool), or the sync grows past a few boards (then the official SDK's types earn their keep).",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Decision: The pipeline writes through the GraphQL API with its own small client. monday.com's official MCP server (github.com/mondaycom/mcp, hosted at mcp.monday.com) is the right surface for the NEXT step: exposing \"ask the RFP\" as a tool that monday.com's agents can call.",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: The pipeline writes through the GraphQL API with its own small client. monday.com's official MCP server (github.com/mondaycom/mcp, hosted at mcp.monday.com) is the right surface for the NEXT step: exposing \"ask the RFP\" as a tool that monday.com's agents can call.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "21211",
+   "index": 650,
+   "rungs": [
+    "Strategic",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-FREEZE",
+   "title": "No new tasks until submission (Zach, 2026-10-10)",
+   "fields": {
+    "Decision": "From now until the ZIP is submitted, nothing new enters the plan. The landing list: Zach's rehearsal; the proof-of-one-answer object with `./rfp verify-proof` and the PDF no-JavaScript gate; the finance cost-model CSV; a second blind cold read; the retrospective and T+N snapshot; the gauntlet (needs Zach's go); package and submit. Every other open item moves to \"next sprint\" (with the monday.com app and the managed-agent exploration).",
+    "Why": "Measured on the plan itself: in the last ~60 commits it grew from 18 to 45 tasks while done went from 6 to 15 (B: plan.json history), and more asks lived only in HANDOFF.md. Adding was outpacing landing.",
+    "Rejected": "Fanning out to parallel writing sessions: everything left touches the same files, and two sessions already collided once today; read-only workers run in parallel instead, one session writes.",
+    "Revisit When": "The ZIP is submitted."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: From now until the ZIP is submitted, nothing new enters the plan.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 4,
+     "evidence": "Why: Measured on the plan itself: in the last ~60 commits it grew from 18 to 45 tasks while done went from 6 to 15 (B: plan.json history), and more asks lived only in HANDOFF.md.",
+     "rule": "Why cites a measured (B) or primary-source (C) grade"
+    },
+    "D3": {
+     "level": 2,
+     "evidence": "Revisit When: The ZIP is submitted.",
+     "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 1,
+     "evidence": "Decision: The landing list: Zach's rehearsal; the proof-of-one-answer object with `./rfp verify-proof` and the PDF no-JavaScript gate; the finance cost-model CSV; a second blind cold read; the retrospective and T+N snapshot; the gauntlet (needs Zach's go); package and submit.",
+     "rule": "stakes named in words only"
+    },
+    "R2": {
+     "level": 2,
+     "evidence": "Decision: The landing list: Zach's rehearsal; the proof-of-one-answer object with `./rfp verify-proof` and the PDF no-JavaScript gate; the finance cost-model CSV; a second blind cold read; the retrospective and T+N snapshot; the gauntlet (needs Zach's go); package and submit.",
+     "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The ZIP is submitted.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: Fanning out to parallel writing sessions: everything left touches the same files, and two sessions already collided once today; read-only workers run in parallel instead, one session writes.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Decision: From now until the ZIP is submitted, nothing new enters the plan.",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: From now until the ZIP is submitted, nothing new enters the plan.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Why: Measured on the plan itself: in the last ~60 commits it grew from 18 to 45 tasks while done went from 6 to 15 (B: plan.json history), and more asks lived only in HANDOFF.md.",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: Measured on the plan itself: in the last ~60 commits it grew from 18 to 45 tasks while done went from 6 to 15 (B: plan.json history), and more asks lived only in HANDOFF.md.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The ZIP is submitted.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: From now until the ZIP is submitted, nothing new enters the plan.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: From now until the ZIP is submitted, nothing new enters the plan.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: The landing list: Zach's rehearsal; the proof-of-one-answer object with `./rfp verify-proof` and the PDF no-JavaScript gate; the finance cost-model CSV; a second blind cold read; the retrospective and T+N snapshot; the gauntlet (needs Zach's go); package and submit.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "21211",
+   "index": 650,
+   "rungs": [
+    "Operational",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-REUSE",
+   "title": "Reusable harness, disposable client surface (Zach, 2026-10-10)",
+   "fields": {
+    "Decision": "The build has two layers, kept apart on purpose. The harness is reusable: the flight recorder (one record per step and per commit), the evidence file and its generator, the gates (secrets, leak, provenance, security, staleness, overflow, link check, proof verification), the canaries, the e2e runs against pre-registered expectations, and the mistakes log. The client surface is one-off: the deck's wording, the front page's cards, and RET-specific copy.",
+    "Why": "The harness exists so that any figure or change can be traced to its source and re-run: that is what makes change control and audit cheap, and it carries to the next client unchanged. The surface is written for one audience, kept thin, and generated from the harness's records, so even the disposable layer is reproducible and no hand-typed figure can drift.",
+    "Revisit When": "A second client build starts: whatever had to be rewritten for it was surface; whatever was copied unchanged was harness. Anything that needed edits but should not have is a seam to fix."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: The build has two layers, kept apart on purpose.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 2,
+     "evidence": "Why: The harness exists so that any figure or change can be traced to its source and re-run: that is what makes change control and audit cheap, and it carries to the next client unchanged.",
+     "rule": "a **Why.** paragraph gives reasons"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: A second client build starts: whatever had to be rewritten for it was surface; whatever was copied unchanged was harness.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: The build has two layers, kept apart on purpose.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: The build has two layers, kept apart on purpose.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The harness exists so that any figure or change can be traced to its source and re-run: that is what makes change control and audit cheap, and it carries to the next client unchanged.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: A second client build starts: whatever had to be rewritten for it was surface; whatever was copied unchanged was harness.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 1,
+     "evidence": "Why: The harness exists so that any figure or change can be traced to its source and re-run: that is what makes change control and audit cheap, and it carries to the next client unchanged.",
+     "rule": "implied Executive: a one-way, cross-engagement consequence"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [
+    "Executive"
+   ]
+  },
+  {
+   "id": "D-SETUPRUN",
+   "title": "A run where no model replied is not a model result (2026-10-11)",
+   "fields": {
+    "Decision": "In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\". The run stays in `flightlog/eval_runs.jsonl`.",
+    "Why": "The 2026-10-11 00:49 release-check run had no key in the shell; 14 of 18 questions came back \"AI unavailable\" and the record's worst run became 4/18, which describes the shell, not the model. Every other failure, including ones that make the record look worse, still counts. The rule is mechanical and stated in code, so it cannot be applied selectively.",
+    "Revisit When": "A run mixes setup failures with model failures: it then counts in full."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\".",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 2,
+     "evidence": "Why: The 2026-10-11 00:49 release-check run had no key in the shell; 14 of 18 questions came back \"AI unavailable\" and the record's worst run became 4/18, which describes the shell, not the model.",
+     "rule": "a **Why.** paragraph gives reasons"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Decision: The run stays in `flightlog/eval_runs.jsonl`.",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Why: The 2026-10-11 00:49 release-check run had no key in the shell; 14 of 18 questions came back \"AI unavailable\" and the record's worst run became 4/18, which describes the shell, not the model.",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: A run mixes setup failures with model failures: it then counts in full.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\".",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Decision: In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\".",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\".",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The 2026-10-11 00:49 release-check run had no key in the shell; 14 of 18 questions came back \"AI unavailable\" and the record's worst run became 4/18, which describes the shell, not the model.",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: A run mixes setup failures with model failures: it then counts in full.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\".",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\".",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: In the every-run record on slide 6 (`E-eval-wave*-record`), a Claude run whose every failing case failed before any model replied (the gate reads `provider: ...`, e.g. no API key set) is excluded and counted in the record's working as \"excluded, setup only\".",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "11211",
+   "index": 25,
+   "rungs": [
+    "Operational",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-SDK",
+   "title": "Raw GraphQL, not the JavaScript SDK (2026-10-11)",
+   "fields": {
+    "Decision": "The briefing lists the JavaScript SDK, `@mondaydotcomorg/api` (14.1.0 on npm, built on `graphql-request`, Node 18+). We did not use it: the build is standard-library Python with no npm step, and our own client logs the cost and complexity of every call and applies the retry rules we measured (`source/rfp/monday.py`), which the SDK would hide.",
+    "Revisit When": "The sync grows past a few boards or moves to Node; then a typed SDK earns its place."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: The briefing lists the JavaScript SDK, `@mondaydotcomorg/api` (14.1.0 on npm, built on `graphql-request`, Node 18+).",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 1,
+     "evidence": "Decision: We did not use it: the build is standard-library Python with no npm step, and our own client logs the cost and complexity of every call and applies the retry rules we measured (`source/rfp/monday.py`), which the SDK would hide.",
+     "rule": "stakes named in words only"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The sync grows past a few boards or moves to Node; then a typed SDK earns its place.",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: The sync grows past a few boards or moves to Node; then a typed SDK earns its place.",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: The briefing lists the JavaScript SDK, `@mondaydotcomorg/api` (14.1.0 on npm, built on `graphql-request`, Node 18+).",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: The briefing lists the JavaScript SDK, `@mondaydotcomorg/api` (14.1.0 on npm, built on `graphql-request`, Node 18+).",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Decision: We did not use it: the build is standard-library Python with no npm step, and our own client logs the cost and complexity of every call and applies the retry rules we measured (`source/rfp/monday.py`), which the SDK would hide.",
+     "rule": "conviction inferred from an A-E source grade or measurement"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The sync grows past a few boards or moves to Node; then a typed SDK earns its place.",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: The briefing lists the JavaScript SDK, `@mondaydotcomorg/api` (14.1.0 on npm, built on `graphql-request`, Node 18+).",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: The briefing lists the JavaScript SDK, `@mondaydotcomorg/api` (14.1.0 on npm, built on `graphql-request`, Node 18+).",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "11211",
+   "index": 25,
+   "rungs": [
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-ORCH",
+   "title": "No agent-graph runtime (LangGraph) (2026-10-11)",
+   "fields": {
+    "Decision": "LangGraph (listed in the briefing) was not adopted. The pipeline is a short fixed sequence (retrieve, answer, check every figure and citation, write) and a graph runtime would add a dependency for no new behaviour. Its resume-after-failure and human-review features map to what we already have: idempotent upsert keys (a re-run creates nothing) and the refusal floor plus \"Needs review\" state.",
+    "Revisit When": "The flow gains branches, long waits on people, or several agents; Claude Managed Agents is the planned next step (`sprint2-agents`)."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: LangGraph (listed in the briefing) was not adopted.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 2,
+     "evidence": "[CONDITIONAL] Revisit When: The flow gains branches, long waits on people, or several agents; Claude Managed Agents is the planned next step (`sprint2-agents`).",
+     "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
+    },
+    "W3": {
+     "level": 2,
+     "evidence": "Revisit When: The flow gains branches, long waits on people, or several agents; Claude Managed Agents is the planned next step (`sprint2-agents`).",
+     "rule": "the Revisit trigger is an observable entry condition"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: LangGraph (listed in the briefing) was not adopted.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: LangGraph (listed in the briefing) was not adopted.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 1,
+     "evidence": "Revisit When: The flow gains branches, long waits on people, or several agents; Claude Managed Agents is the planned next step (`sprint2-agents`).",
+     "rule": "cadence inferred: a revisit timing exists"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Revisit When: The flow gains branches, long waits on people, or several agents; Claude Managed Agents is the planned next step (`sprint2-agents`).",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: LangGraph (listed in the briefing) was not adopted.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Revisit When: The flow gains branches, long waits on people, or several agents; Claude Managed Agents is the planned next step (`sprint2-agents`).",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "11211",
+   "index": 25,
+   "rungs": [
+    "Strategic",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-PLAY",
+   "title": "Queries checked in code and logs, not the API Playground (2026-10-11)",
+   "fields": {
+    "Decision": "Every GraphQL call was checked by running it from code with its result and complexity logged (`flightlog/monday_calls.jsonl`), not in the API Playground. The Playground (schema explorer, version switching, query history) is the planned pre-test step for the mini app (`sprint2-app`) and a quick way to answer \"does this still work on the next API version\"."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Every GraphQL call was checked by running it from code with its result and complexity logged (`flightlog/monday_calls.jsonl`), not in the API Playground.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: Every GraphQL call was checked by running it from code with its result and complexity logged (`flightlog/monday_calls.jsonl`), not in the API Playground.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Every GraphQL call was checked by running it from code with its result and complexity logged (`flightlog/monday_calls.jsonl`), not in the API Playground.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: Every GraphQL call was checked by running it from code with its result and complexity logged (`flightlog/monday_calls.jsonl`), not in the API Playground.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: Every GraphQL call was checked by running it from code with its result and complexity logged (`flightlog/monday_calls.jsonl`), not in the API Playground.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-HELP",
+   "title": "What the Academy, Knowledge Base and MCP Setup Guide changed (2026-10-11)",
+   "fields": {
+    "Decision": "All three were read in a browser on 2026-10-11 (an automated fetch had been blocked). The Academy is a training catalogue (lessons, learning paths, certifications) and shaped nothing in the build. The Knowledge Base's board permissions guidance backs the slide 5 wording \"under RET board permissions\". The MCP Setup Guide (\"Get started with monday MCP\", modified 2026-09-22) confirms the D-MCP next step is cheap and safe to offer: monday MCP is preinstalled on every account and plan at no extra cost, each user authorises it with OAuth and it sees only what that user can see, an admin controls it under Admin, Permissions, AI Connectors, standard API limits apply, and monday recommends reviewing AI-suggested changes before applying them. That per-user OAuth model is also the honest answer to the token question: today the sync uses one personal token; MCP (or a service account) is the pilot step."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: All three were read in a browser on 2026-10-11 (an automated fetch had been blocked).",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Decision: The MCP Setup Guide (\"Get started with monday MCP\", modified 2026-09-22) confirms the D-MCP next step is cheap and safe to offer: monday MCP is preinstalled on every account and plan at no extra cost, each user authorises it with OAuth and it sees only what that user can see, an admin controls it under Admin, Permissions, AI Connectors, standard API limits apply, and monday recommends reviewing AI-suggested changes before applying them.",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 1,
+     "evidence": "Decision: The MCP Setup Guide (\"Get started with monday MCP\", modified 2026-09-22) confirms the D-MCP next step is cheap and safe to offer: monday MCP is preinstalled on every account and plan at no extra cost, each user authorises it with OAuth and it sees only what that user can see, an admin controls it under Admin, Permissions, AI Connectors, standard API limits apply, and monday recommends reviewing AI-suggested changes before applying them.",
+     "rule": "stakes named in words only"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Decision: All three were read in a browser on 2026-10-11 (an automated fetch had been blocked).",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: All three were read in a browser on 2026-10-11 (an automated fetch had been blocked).",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Decision: The MCP Setup Guide (\"Get started with monday MCP\", modified 2026-09-22) confirms the D-MCP next step is cheap and safe to offer: monday MCP is preinstalled on every account and plan at no extra cost, each user authorises it with OAuth and it sees only what that user can see, an admin controls it under Admin, Permissions, AI Connectors, standard API limits apply, and monday recommends reviewing AI-suggested changes before applying them.",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: All three were read in a browser on 2026-10-11 (an automated fetch had been blocked).",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Decision: The MCP Setup Guide (\"Get started with monday MCP\", modified 2026-09-22) confirms the D-MCP next step is cheap and safe to offer: monday MCP is preinstalled on every account and plan at no extra cost, each user authorises it with OAuth and it sees only what that user can see, an admin controls it under Admin, Permissions, AI Connectors, standard API limits apply, and monday recommends reviewing AI-suggested changes before applying them.",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: The MCP Setup Guide (\"Get started with monday MCP\", modified 2026-09-22) confirms the D-MCP next step is cheap and safe to offer: monday MCP is preinstalled on every account and plan at no extra cost, each user authorises it with OAuth and it sees only what that user can see, an admin controls it under Admin, Permissions, AI Connectors, standard API limits apply, and monday recommends reviewing AI-suggested changes before applying them.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: The MCP Setup Guide (\"Get started with monday MCP\", modified 2026-09-22) confirms the D-MCP next step is cheap and safe to offer: monday MCP is preinstalled on every account and plan at no extra cost, each user authorises it with OAuth and it sees only what that user can see, an admin controls it under Admin, Permissions, AI Connectors, standard API limits apply, and monday recommends reviewing AI-suggested changes before applying them.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "11211",
+   "index": 25,
+   "rungs": [
+    "Strategic",
+    "Operational",
+    "Tactical"
+   ]
+  },
+  {
+   "id": "D-RC14-GATE",
+   "title": "the local release check is the gate for rc14 (2026-10-11)",
+   "fields": {
+    "Body": "GitHub Actions did not run on dccfc2e, 4354bb9 or a4af909 (runs 38129444604, 38129277066, 38129075636): each job stopped in 2 s with \"recent account payments have failed or your spending limit needs to be increased\", a billing block, not a code failure. Zach chose to gate rc14 on `scripts/release_check.sh` (exit 0) run locally, which runs the same checks. rc13 is left as tagged. The history bundle is now packed with a deeper delta window (lossless, every commit kept) to bring the ZIP back under the 8 MB warning."
+   },
+   "cells": {
+    "D1": {
+     "level": 1,
+     "evidence": "Body: GitHub Actions did not run on dccfc2e, 4354bb9 or a4af909 (runs 38129444604, 38129277066, 38129075636): each job stopped in 2 s with \"recent account payments have failed or your spending limit needs to be increased\", a billing block, not a code failure.",
+     "rule": "unstructured record: the choice is inferred from the prose"
+    },
+    "D2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 2,
+     "evidence": "Body: The history bundle is now packed with a deeper delta window (lossless, every commit kept) to bring the ZIP back under the 8 MB warning.",
+     "rule": "an approver is named AND a reversibility signal is stated; needs approver too"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 2,
+     "evidence": "Body: The history bundle is now packed with a deeper delta window (lossless, every commit kept) to bring the ZIP back under the 8 MB warning.",
+     "rule": "a quantified stake ($, %, MB, multiple)"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Body: The history bundle is now packed with a deeper delta window (lossless, every commit kept) to bring the ZIP back under the 8 MB warning.",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Body: GitHub Actions did not run on dccfc2e, 4354bb9 or a4af909 (runs 38129444604, 38129277066, 38129075636): each job stopped in 2 s with \"recent account payments have failed or your spending limit needs to be increased\", a billing block, not a code failure.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Body: The history bundle is now packed with a deeper delta window (lossless, every commit kept) to bring the ZIP back under the 8 MB warning.",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Body: Zach chose to gate rc14 on `scripts/release_check.sh` (exit 0) run locally, which runs the same checks. rc13 is left as tagged.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Body: The history bundle is now packed with a deeper delta window (lossless, every commit kept) to bring the ZIP back under the 8 MB warning.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Body: Zach chose to gate rc14 on `scripts/release_check.sh` (exit 0) run locally, which runs the same checks. rc13 is left as tagged.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [
+    "Operational",
+    "Tactical",
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-SIZE",
+   "title": "rc14 ships at 8.56 MB (2026-10-11)",
+   "fields": {
+    "Body": "Zach accepted 8.56 MB: over the 8 MB warning, under the 10 MB cap. The full history bundle and the complete AI-call log both stay in, so every cited commit still resolves. The phone present-mode overlay waits until after the dress rehearsal (feature freeze)."
+   },
+   "cells": {
+    "D1": {
+     "level": 1,
+     "evidence": "Body: Zach accepted 8.56 MB: over the 8 MB warning, under the 10 MB cap.",
+     "rule": "unstructured record: the choice is inferred from the prose"
+    },
+    "D2": {
+     "level": 1,
+     "evidence": "Body: The full history bundle and the complete AI-call log both stay in, so every cited commit still resolves.",
+     "rule": "a reason appears in unstructured prose"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 1,
+     "evidence": "Body: Zach accepted 8.56 MB: over the 8 MB warning, under the 10 MB cap.",
+     "rule": "an approver is named (Zach)"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 2,
+     "evidence": "Body: Zach accepted 8.56 MB: over the 8 MB warning, under the 10 MB cap.",
+     "rule": "a quantified stake ($, %, MB, multiple)"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Body: The phone present-mode overlay waits until after the dress rehearsal (feature freeze).",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Body: Zach accepted 8.56 MB: over the 8 MB warning, under the 10 MB cap.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Body: The phone present-mode overlay waits until after the dress rehearsal (feature freeze).",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [
+    "Operational"
+   ]
+  },
+  {
+   "id": "D-CLAIMS",
+   "title": "Every sentence on the slides is checked, not only the figures (Zach, 2026-10-12)",
+   "fields": {
+    "Body": "A claims audit read all 65 claims on the 10 slides against the brief, the logs and the code: 43 held, 16 were reworded, 4 were false as written (what leaves RET, who wrote the test questions, which boards RET already uses). Zach approved the ledger's wording. The figure gates could not catch these, because the errors sat in the words around the figures; `build.py --check` now refuses the false phrasings by name (KINTSUGI K54)."
+   },
+   "cells": {
+    "D1": {
+     "level": 1,
+     "evidence": "Body: A claims audit read all 65 claims on the 10 slides against the brief, the logs and the code: 43 held, 16 were reworded, 4 were false as written (what leaves RET, who wrote the test questions, which boards RET already uses).",
+     "rule": "unstructured record: the choice is inferred from the prose"
+    },
+    "D2": {
+     "level": 1,
+     "evidence": "Body: The figure gates could not catch these, because the errors sat in the words around the figures; `build.py --check` now refuses the false phrasings by name (KINTSUGI K54).",
+     "rule": "a reason appears in unstructured prose"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 1,
+     "evidence": "Body: Zach approved the ledger's wording.",
+     "rule": "an approver is named (Zach)"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Body: The figure gates could not catch these, because the errors sat in the words around the figures; `build.py --check` now refuses the false phrasings by name (KINTSUGI K54).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 2,
+     "evidence": "Body: The figure gates could not catch these, because the errors sat in the words around the figures; `build.py --check` now refuses the false phrasings by name (KINTSUGI K54).",
+     "rule": "cites a logged mistake (KINTSUGI K id)"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Body: A claims audit read all 65 claims on the 10 slides against the brief, the logs and the code: 43 held, 16 were reworded, 4 were false as written (what leaves RET, who wrote the test questions, which boards RET already uses).",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Body: The figure gates could not catch these, because the errors sat in the words around the figures; `build.py --check` now refuses the false phrasings by name (KINTSUGI K54).",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Body: The figure gates could not catch these, because the errors sat in the words around the figures; `build.py --check` now refuses the false phrasings by name (KINTSUGI K54).",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [
+    "Surgical"
+   ]
+  },
+  {
+   "id": "D-UNFREEZE",
+   "title": "Two items enter before the rehearsal (Zach, 2026-10-12)",
+   "fields": {
+    "Body": "D-FREEZE held new work out until submission. Zach judged that premature for two items the panel grades directly: the claims fixes above, and a \"How we decided\" view that shows each key decision's options, choice and evidence. Both land before rehearsal #1. Everything else held stays held until after it."
+   },
+   "cells": {
+    "D1": {
+     "level": 1,
+     "evidence": "Body: D-FREEZE held new work out until submission.",
+     "rule": "unstructured record: the choice is inferred from the prose"
+    },
+    "D2": {
+     "level": 1,
+     "evidence": "Body: Everything else held stays held until after it.",
+     "rule": "a reason appears in unstructured prose"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Body: D-FREEZE held new work out until submission.",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 2,
+     "evidence": "Body: Zach judged that premature for two items the panel grades directly: the claims fixes above, and a \"How we decided\" view that shows each key decision's options, choice and evidence.",
+     "rule": "a named review or court (bar-raiser, reviewer, gauntlet, panel)"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 2,
+     "evidence": "Body: D-FREEZE held new work out until submission.",
+     "rule": "a dated or deadline-bounded window"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Body: D-FREEZE held new work out until submission.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 2,
+     "evidence": "Body: Both land before rehearsal #1.",
+     "rule": "a change over time is recorded (trajectory)"
+    },
+    "C1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 1,
+     "evidence": "Body: Zach judged that premature for two items the panel grades directly: the claims fixes above, and a \"How we decided\" view that shows each key decision's options, choice and evidence.",
+     "rule": "implied Strategic: scope, story or panel-grade framing"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Body: D-FREEZE held new work out until submission.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "11211",
+   "index": 25,
+   "rungs": [
+    "Strategic",
+    "Operational"
+   ]
+  }
+ ]
+}
