@@ -2,9 +2,9 @@
   "captured_at": "2026-10-06T01:15:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "8ef0145",
-    "head_message": "docs(operators): add Composition Boundary placeholder for agentic harness [NCI:40]",
-    "in_sync_with_origin": true,
+    "head_sha": "b429ac5",
+    "head_message": "docs(handoff): v3.22.0 \u2014 operators/harness canon-structure resolved [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": []
   },
   "vercel": {
@@ -179,7 +179,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-10-06T01:15:00Z",
+  "git_refreshed_at": "2026-10-12T15:14:45Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

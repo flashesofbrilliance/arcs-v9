@@ -112,8 +112,8 @@ systems → storage).
 
 **Not owned here:** JIT compile-from-entry-point, decentralized-interoperable
 ID-based refs, polymorphic surface composition, sealed-env/external-dependency
-integration. See `harness/README.md` (TODO: create on first harness commit)
-for those.
+integration. See `harness/README.md` for those (directory created 2026-10-12;
+harness code itself not yet started).
 
 ## Key Relationships
 
