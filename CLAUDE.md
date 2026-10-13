@@ -124,6 +124,65 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.134.0 (2026-10-13)
+
+> 2026-10-12: the take-home design gauntlet and explainer session closed. Every finding was relayed to the take-home session and verified there; rc25 is the submission and the three phone items were skipped by Zach.
+
+## Goal / true north
+Ship the monday.com take-home by Thu 2026-10-15 17:00 ET with every claim traceable to its log.
+
+## What changed
+- #1295 merged (`1a7db6da`): handoff fragment for the design gauntlet and explainer session. Receipt `2026-10-12--handoff-design-gauntlet-pr1295--ZH`.
+
+## Current state
+- Take-home submission is rc25 (ZIP = source/ + presentation/ only); final videos are in ~/ret-rfp-intelligence/dist/videos/ (rendered from rc24), old explainers moved to dist/videos/superseded/.
+- Zach skipped three phone items for submission: present-mode tap targets (3-7 px letters), the landscape-preferred overlay, the phone bottom bar.
+- Watchers and the port-8766 copy server are stopped.
+
+## Decisions made
+- Run every check read-only against a copy of the take-home repo (port 8766) because bench runs append to its flightlog and that session is the single writer.
+- Correct own errors in a new message rather than silently: the "about 3 s" flag was retracted after the e2e log showed a 3.2 s median; the v8 staleness flags were withdrawn once dist held v4.
+
+## Open decisions (waiting on Zach)
+1. Zach: a real-iPhone tap check of the grade tooltips (verified only under Chromium touch emulation).
+
+## Open (other)
+1. After submission: the three skipped phone items, and K-numbers still visible in the Beliefs and Evals tabs.
+
+## Next action
+Zach submits rc25 by Thu 2026-10-15 17:00 ET.
+
+## Cold-start recipe
+- /handoff-pickup; `git -C ~/ret-rfp-intelligence log --oneline -5`; videos listed in ~/ret-rfp-intelligence/dist/videos/MANIFEST.md.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261013T004500Z--claude-design-gauntlet-heuristic-bf77a6.md
+> Design gauntlet and Ahmed-heuristic review of the monday take-home (127.0.0.1:8765, repo ~/ret-rfp-intelligence), read-only, relaying every finding to the take-home session as single writer; plus the explainer video v1 to v7.1, then handed the cards rig to the explainer session.
+
+### Notes: Cold
+- /handoff-pickup; `git -C ~/ret-rfp-intelligence log --oneline -5`; videos in ~/ret-rfp-intelligence/dist/videos/MANIFEST.md.
+
+### Lessons
+- Verify a subagent's NOT FOUND against the repo's evidence index before relaying it (the e2e log held the "3 s" figure).
+- A video that quotes the deck drifts whenever the deck changes; generate its text from the deck's own data ids.
+
+### Notes: Shavasana
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/design-gauntlet-heuristic-bf77a6), receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 3 / dissent 0 (ratio 3.0) → OK: dissent present.
+- **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+- Attachment release: kept all claims; each Changed sha was read in git log on ~/ret-rfp-intelligence this session. Somatic: not asked. Disposition: release.
+
+> Molted from `_HANDOFFS/fragments/20261013T004500Z--claude-design-gauntlet-heuristic-bf77a6.md` (branch `claude/design-gauntlet-heuristic-bf77a6`, head `5f3d0b17`).
+
 # Handoff — v3.133.0 (2026-10-12)
 
 > ### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
@@ -200,77 +259,3 @@ Confirm Zap 376827315 step 8 is published before Todd's test chat; book PRL Part
 Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
 
 > Molted from `_HANDOFFS/fragments/20261011T025700Z--claude-handoff-molt7-note.md` (branch `claude/handoff-molt7-note`, head `72c88b00`); `_HANDOFFS/fragments/20261012T151031Z--claude-plane-landing-prl-resins-dac4ef.md` (branch `claude/plane-landing-prl-resins-dac4ef`, head `e18c60d6`).
-
-# Handoff — v3.132.0 (2026-10-11)
-
-> ### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
->
-> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-loops-verify-1010), receipts in digest: 1.
-> - **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
-> - **Breath balance**: mirror (inhale, no exhale).
-> - **Sycophancy check**: agreement 29 / dissent 6 (ratio 4.14) → THIN: high agreement, little dissent.
-> - **Cold re-read (canary on the draft frag3.md)**: GROUNDED; no ground return: none; thin air: none.
-> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-> - **Somatic read**: somatic: not asked.
-> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
->
-> _This block asserts nothing new. Counts, paths, and questions only._
->
-> > Pickup plus /loops follow-through: K34 found already closed, the three "waiting on your go" PRs found already merged by their own sessions, and the open items in two of their receipts verified live.
->
-> > Closes the loop on fragment 20261011T024242Z--claude-handoff-prl-takehome: #1267 merged and live, and the take-home session's status reply arrived.
->
-> ### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
->
-> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-prl-merged), receipts in digest: 1.
-> - **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
-> - **Breath balance**: mirror (inhale, no exhale).
-> - **Sycophancy check**: agreement 29 / dissent 6 (ratio 4.14) → THIN: high agreement, little dissent.
-> - **Cold re-read (canary on the draft frag4.md)**: GROUNDED; no ground return: none; thin air: none.
-> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
-> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
->
-> _This block asserts nothing new. Counts, paths, and questions only._
->
-> Attachment release: every claim kept; take-home figures are the other session's report, labelled as relayed. Somatic: not asked. Disposition: release.
-
-## Goal / true north
-Keep merged work verified live and receipted before the Mon 2026-10-12 PRL go-live call.
-
-## What changed
-- Receipt 2026-10-10--warroom-greys-pr1257-postmerge-verify--ZH: #1257 smoke and fe-smoke passed, main CI run 38104666811 succeeded, production `be3ff8f0` contains merge `bac52ae7`.
-- Receipt 2026-10-10--louisville-touch-targets-pr1251-postmerge-verify--ZH: live louisville.arcs.care screenshotted at 360/790/1280; no horizontal overflow, controls 44px, bars 59px and balanced.
-- #1258 (PRL agenda) was already merged with receipt 2026-10-10--prl-call-agenda-draft-pr1258--ZH; no duplicate logged.
-- Main checkout's gitignored `_STATE/handoff-progress.md`: appended a correction that K34 is closed (KINTSUGI.md K34, DECISIONS.md D-K34; 0 leak matches on main and tags).
-- #1267 merged (`c3dcfe03`, 2026-10-11T02:48Z); receipt 2026-10-10--prl-golive-step8-check-snapshot-pr1267--ZH. Live: prl.arcs.care/go-live shows "never a fixed record".
-- #1272 merged (`ad0a8b36`); receipt 2026-10-10--handoff-fragment-prl-takehome-pr1272--ZH.
-
-## Current state
-- PRL: Zap 376827315 step 8 fix still an unpublished draft; skip-vs-clear of empty update fields untested; Todd has not seen the new checklist item.
-- Take-home (reply from session "Continue monday take-home from HANDOFF.md", ~02:45Z, relayed to Zach): 21 of 24 in scope done; rc9 current (90d62d5, release_check exit 0, Claude eval 18/18), ZIP 6.00 of 10 MB; ready for rehearsal #1 per ONBOARDING.md (mock e2e and mock ask first, then doctor, sync, poll). Its in-progress logs were committed in b7d6d63 (take-home repo). Light gauntlet: 5 findings, 4 fixed, slide 6 overstatement partly fixed.
-
-## Decisions made
-- Do not touch ~/ret-rfp-intelligence from outside the take-home session.
-- Follow-up receipts confirm a prior receipt's open items instead of editing the prior row.
-- None new.
-
-## Open decisions (waiting on Zach)
-1. Zach: edit and send the PRL agenda draft before Mon 2026-10-12 10:00 ET.
-2. Zach: rehearsal #1, CONSTRAINTS.md E4 to E7, the upload click, and a 17-item judgment list relayed by the "Design gauntlet and heuristic review" session.
-
-## Open (other)
-1. ~~The one-time "Le Woof: nudge about Hila's page" task is still enabled with a past fire time (Oct-08 09:00) and never ran.~~ Resolved 2026-10-10: Zach had the task disabled (not deleted); the Hila check itself never ran.
-2. PRL Mon 2026-10-12 10:00 ET: test skip vs clear, publish the draft, repair Roger, run the repeat-chat proof.
-
-## Next action
-PRL go-live call with Todd, Mon 2026-10-12 10:00 ET.
-
-## Cold-start recipe
-- /handoff-pickup. PRL: _ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md and https://prl.arcs.care/go-live. Take-home: ONBOARDING.md in ~/ret-rfp-intelligence, `./rfp e2e --provider mock --runs 1`.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-> Molted from `_HANDOFFS/fragments/20261011T024859Z--claude-handoff-loops-verify-1010.md` (branch `claude/handoff-loops-verify-1010`, head `c3dcfe03`); `_HANDOFFS/fragments/20261011T025250Z--claude-handoff-prl-merged.md` (branch `claude/handoff-prl-merged`, head `f32fad3b`).
