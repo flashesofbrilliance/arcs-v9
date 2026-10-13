@@ -29,6 +29,7 @@ Submit the take-home Thursday 2026-10-15 morning: one ZIP under 10,000,000 bytes
 PDF, and README.md, that a cold reviewer can run and navigate.
 
 ## Changed
+- #1298 (this fragment's PR); receipt 2026-10-13--ret-takehome-handoff-pr1298--ZH
 - ret-rfp-intelligence main 175afe2 (pushed), release candidate rc35 (tag rc35-2026-10-13, 3.36 MB, release check exit 0,
   live end-to-end run from the ZIP passed). Not an arcs-v9 PR; that repo is the deliverable.
 - Size gate fixed: rc25 to rc33 exceeded 10 MB on the decimal reading (K67); history.bundle replaced by HISTORY.txt (D-HISTORY).
