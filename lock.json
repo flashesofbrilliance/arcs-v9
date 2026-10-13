@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1791853531.8146582,
-  "acquired_at_iso": "2026-10-13T01:05:31Z",
-  "expires_at": 1791855331.8146582,
-  "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/suspicious-moser-9d5030",
+  "acquired_at": 1791915148.314674,
+  "acquired_at_iso": "2026-10-13T18:12:28Z",
+  "expires_at": 1791916948.314674,
+  "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/mystifying-neumann-91d534",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 68877,
+  "pid": 25308,
   "reason": "",
-  "released_at_iso": "2026-10-13T01:06:01Z",
-  "seq": 78,
-  "state": "free",
+  "seq": 79,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
