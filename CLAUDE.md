@@ -124,6 +124,99 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.135.0 (2026-10-13)
+
+> ### Shavasana — handoff pause, 2026-10-13 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-decision-geometry), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 2 dissent markers, 1 unconfirmed markers in the day's records.
+> - **Breath balance**: mirror (inhale, no exhale).
+> - **Sycophancy check**: agreement 3 / dissent 3 (ratio 0.75) → OK: dissent present.
+> - **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> Attachment release: every claim kept; each cites a PR, commit, receipt id or URL. Somatic: not asked. Disposition: release.
+>
+> > Built the 5x5 decision geometry explorer over the RET take-home DECISIONS.md, merged it on local gates during the Actions billing block, logged its receipt, fixed the Supabase CLI, and published a private artifact link.
+>
+> > RET take-home session (2026-10-10 to 2026-10-13): built and hardened Zach's monday.com FDE take-home in the separate
+> > repo ret-rfp-intelligence (rc23 to rc35), rehearsed the panel in four rounds, and handed the navigation redesign to a
+> > fresh session. Work product lives in that repo; this fragment banks the internal notes in _STATE.
+>
+> ### Shavasana — handoff pause, 2026-10-13 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/ret-takehome-handoff), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 1 / dissent 0 (ratio 1.0) → OK: dissent present.
+> - **Cold re-read (canary on the draft fragment.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+> - Attachment release: every claim in Changed and State was re-checked this session against git tags, the release log and the live run; none downgraded.
+> - Somatic: not asked.
+> - Disposition: release.
+
+## Goal / true north
+Submit the take-home Thursday 2026-10-15 morning: one ZIP under 10,000,000 bytes with source/, exactly one presentation
+PDF, and README.md, that a cold reviewer can run and navigate.
+
+## What changed
+- #1294 merged with --merge (`5f3d0b17`): `scripts/decision_geometry_ret.py` (stdlib), `scripts/templates/decision-geometry.template.html`, `_ARTIFACTS/decision-geometry/{ret-decisions.json,decision-geometry.html}`. 23 decisions scored; codes 22211 (6), 21211 (6), 11211 (5), 11111 (5), 22111 (1).
+- Receipt 2026-10-12--decision-geometry-explorer-pr1294--ZH logged; read back via plain Supabase MCP (project URL xbbpiryokswwvcrcutge) and via `supabase db query --linked`.
+- Supabase CLI: 2.101.0 binary had an invalid code signature (exit 137 on every call); clean uninstall plus fresh install gave 2.118.0, codesign passes. Memory `supabase-mcp-wrong-org-use-cli` amended.
+- Private artifact published: https://claude.ai/artifact/QFNkJMHFvG2sVdKrdUQh2R (snapshot of the page; republish after regenerating).
+- #1298 (this fragment's PR); receipt 2026-10-13--ret-takehome-handoff-pr1298--ZH
+- ret-rfp-intelligence main 175afe2 (pushed), release candidate rc35 (tag rc35-2026-10-13, 3.36 MB, release check exit 0,
+   live end-to-end run from the ZIP passed). Not an arcs-v9 PR; that repo is the deliverable.
+- Size gate fixed: rc25 to rc33 exceeded 10 MB on the decimal reading (K67); history.bundle replaced by HISTORY.txt (D-HISTORY).
+- Hardening found in rehearsal: K60 (bench from ZIP), K61 (runaway pollers; one poller per computer), K62 (borderline
+   eval, temperature 0 reverted), K63 to K66 (file viewer, evidence loop, column ids, poller write order), K67 (size).
+- Mistake link table with a build gate (60 of 67 guarded, 7 process lessons); wiki, controls map, FAQ, cases.
+- Internal notes added under _STATE (panel audit, question tree, lightning FAQ, enterprise test plan, design handoff).
+
+## Current state
+- rc35 is the latest verified release; main 175afe2 carries the newer page work (five-card start page, page bar,
+  verdict-first pages, light/dark, deck opens in present mode on laptops).
+- A design-gauntlet session is offered as a task chip; its handoff is the 2026-10-13 RET design-gauntlet handoff note (untracked, in the main checkout state folder).
+- The explainer session is holding the video re-render until the design pass ends.
+
+## Decisions made
+- Zach: merge #1294 on local gates (wrap-lint, token_source_gate, page_gate --matrix full, kintsugi design-debt 0).
+- Zach: publish a private artifact link despite unconfirmed take-home publishing terms.
+- Ship HISTORY.txt instead of the git bundle: the bundle was 8.7 of 10.4 MB; cited hashes stay findable.
+- Submit from the free monday.com plan the brief prescribes; enterprise access is tested in a copy only.
+- Deck first, then How we got here; proof, mistakes and build log become Evidence one level down.
+- Zach's packaging model (presentation/ = deck, source/ = code and documentation, README = front door) goes to the
+   design session, with a show-the-tree-first gate before any file move.
+
+## Open decisions (waiting on Zach)
+1. Zach: the 11 canon choices in the #1294 PR body (text adaptation of level rules, L4 bar, L5 unreachable, A-E grades as C2, H rung keywords, drill pairing, 3125 layout, W2 tokens, unstructured records, page placement, draft spec status).
+2. Zach: Actions spending limit (Settings > Billing).
+3. Zach: create view-only share links for the four RET boards, then wire them in.
+
+## Open (other)
+1. Design gauntlet session: packaging model, one navigation system, link every provenance file, OTel answer.
+2. Explainer videos re-render from the final head; then cut rc36 and run the live test from its ZIP.
+
+## Next action
+Start the "Run the RET design gauntlet" task chip.
+
+## Cold-start recipe
+Read the 2026-10-13 RET design-gauntlet handoff note (untracked, in the main checkout state folder); repo /Users/zharris/ret-rfp-intelligence; `cd source && ./rfp serve`
+then http://127.0.0.1:8765/presentation/index.html; `./rfp status`; releases via `./scripts/release_check.sh` (detached,
+read dist/release_check_exit). Debt tracker: https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm (debt collection).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261013T161607Z--claude-handoff-decision-geometry.md` (branch `claude/handoff-decision-geometry`, head `b1f0080d`); `_HANDOFFS/fragments/20261013T165149Z--claude-ret-takehome-handoff.md` (branch `claude/ret-takehome-handoff`, head `e83abaed`).
+
 # Handoff — v3.134.0 (2026-10-13)
 
 > 2026-10-12: the take-home design gauntlet and explainer session closed. Every finding was relayed to the take-home session and verified there; rc25 is the submission and the three phone items were skipped by Zach.
@@ -182,80 +275,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
 - Attachment release: kept all claims; each Changed sha was read in git log on ~/ret-rfp-intelligence this session. Somatic: not asked. Disposition: release.
 
 > Molted from `_HANDOFFS/fragments/20261013T004500Z--claude-design-gauntlet-heuristic-bf77a6.md` (branch `claude/design-gauntlet-heuristic-bf77a6`, head `5f3d0b17`).
-
-# Handoff — v3.133.0 (2026-10-12)
-
-> ### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
->
-> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-molt7-note), receipts in digest: 1.
-> - **Inhale** (what came in): 0 falsification rows today, 4 dissent markers, 2 unconfirmed markers in the day's records.
-> - **Breath balance**: mirror (inhale, no exhale).
-> - **Sycophancy check**: agreement 27 / dissent 6 (ratio 3.86) → OK: dissent present.
-> - **Cold re-read (canary on the draft f9.md)**: GROUNDED; no ground return: none; thin air: none.
-> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
-> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
->
-> _This block asserts nothing new. Counts, paths, and questions only._
->
-> Attachment release: kept all claims. Somatic: not asked. Disposition: release.
->
-> > Molted the last fragment into v3.131.0, carrying v3.129.0's open list forward so nothing dropped out of CLAUDE.md.
->
-> > ### Shavasana — handoff pause, 2026-10-12 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
-> > 
-> > - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/plane-landing-prl-resins-dac4ef), receipts in digest: no digest file.
-> > - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
-> > - **Breath balance**: breathing (both directions).
-> > - **Sycophancy check**: agreement 1 / dissent 1 (ratio 0.5) → OK: dissent present.
-> > - **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
-> > - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-> > - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
-> > - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
-> > 
-> > _This block asserts nothing new. Counts, paths, and questions only._
->
-> Attachment release: kept all claims; step 8 publish state held as unconfirmed. Somatic: not asked. Disposition: release.
->
-> > PRL Phase 1.2 call with Todd (Mon 2026-10-12 10:00 ET): production prerequisites partly done live, go-live moved to a Part 2 call gated on four pre-call items.
-
-## Goal / true north
-Close PRL go-live via a Part 2 call, and submit the monday.com take-home by Thu 2026-10-15 17:00 ET.
-
-## What changed
-- PRL Phase 1.2 call held Mon 2026-10-12 10:00 ET; go-live moved to a Part 2 call gated on four pre-call items (details in the PRL fragment).
-- Receipt `2026-10-12--prl-sandbox-roger-repair--ZH` logged for the Roger sandbox write; post-write values not re-read.
-- Take-home rubric aligned to the FDE LAB INTRO briefing video: `flight/rubrics.json` gained reasoning_legible and ambiguity_structured, alternatives raised to 3 (take-home repo commit 08ce4a4, reported by that session). ZIP-contents gate already enforced by the take-home packager (E8).
-- Relayed to the take-home session: rehearsal question in DEMO.md, HARDENING.md ("What we tried to break") surfacing snapshots/KINTSUGI/RCA work, then cut and grade rc15. Not yet confirmed done.
-
-## Current state
-- Zap 376827315 draft with the step 8 fix exists; whether it is published is unconfirmed (Comet canvas did not render for Claude in Chrome).
-- The only Zapier Sugar connection ("zapier.chatbot #2") points at prlresinstest.
-- Todd could not open the chatbot mailbox in Outlook, so the chatbot password is not set.
-
-## Decisions made
-- When a molt pushes a block to the archive, carry its open items into the new block.
-- Production Zap is a duplicate of 376827315, not an edit of it.
-- Todd types the chatbot password into Zapier himself; the password is never emailed.
-
-## Open decisions (waiting on Zach)
-1. Zach: confirm step 8 is published (Lead = 5. ID, four fields removed) before Todd's test chat.
-2. Zach: downgrade the chatbot Sugar user from System Admin to a Leads-only role after go-live.
-3. Zach: take-home rehearsal #1, CONSTRAINTS.md E4 to E7, the upload click, and the 17-item judgment list from the "Design gauntlet and heuristic review" session; submit by Thu 2026-10-15 17:00 ET.
-4. Zach (carried from v3.131.0): Actions spending limit, then drop the gh `user` scope; approve the held dependency watch prompts and the better-sqlite3 bump (#557).
-
-## Open (other)
-1. Take-home: confirm HARDENING.md, DEMO.md line, rc15 cut and grade landed.
-2. PRL pre-call items: Todd sets the chatbot password as Sugar admin; Bill sends the Tidio forwarding address; Jorge does the Outlook web check, Barracuda allow-list and quarantine release; Todd runs one test chat. Confirm where the test Tidio widget lives.
-3. After Todd's test chat: verify in sandbox the matched lead changed and Roger date_modified stays 2026-10-12T10:39:39-04:00 (closes the unconfirmed items on receipt 2026-10-12--prl-sandbox-roger-repair--ZH).
-4. Carried from v3.131.0: measure fe-smoke minutes and confirm the nightly a11y run, then decide on #1046; check the arcs.care/hud loader as admin; on or after 2026-10-13 run `python3 scripts/backlog_status_check.py --gh`; ADR-078 lacks a `_DECISIONS/index.json` row; the Oct-06 Success Academy check-in to Brian is unconfirmed; after submission, atlas-bundle.v1 export and the admin route; Vico intro Wed 2026-10-14 13:00 ET.
-
-## Next action
-Confirm Zap 376827315 step 8 is published before Todd's test chat; book PRL Part 2 when the four replies land.
-
-## Cold-start recipe
-- _ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md; https://prl.arcs.care/go-live; Granola meeting ee74074f-4a34-46a8-8862-2201b6e92be1; Gmail thread "Chatbot go-live: 4 things I need before Part 2".
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-> Molted from `_HANDOFFS/fragments/20261011T025700Z--claude-handoff-molt7-note.md` (branch `claude/handoff-molt7-note`, head `72c88b00`); `_HANDOFFS/fragments/20261012T151031Z--claude-plane-landing-prl-resins-dac4ef.md` (branch `claude/plane-landing-prl-resins-dac4ef`, head `e18c60d6`).
