@@ -226,33 +226,39 @@
       "plane": "counterpart",
       "title": "PE M&A diligence is on his radar (Zach's read, INFERENCE)",
       "text": "Three anchors: the first item Lyndon chose from Zach's materials was \"the M&A arbitrage... the likelihood of the close of the deal\" (L99-105); he sold Leviathan Analytics to a PE fund and ran the post-merger integration as CEO of the acquirer (L265); a live deal is a public financial-data company doing \"valuation data modeling\" for asset managers (L301). Likely why the GLP-1 portfolio-exit example drew \"exactly right\" (L441). Not stated by Lyndon. Use it to aim the follow-up: forecasting deal close and portfolio exit risk."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Altitude framing preceded his ICP answer (soft signal)",
+      "text": "Zach's altitude framing (executive to surgical, L193-195) came about 230 lines before Lyndon's ICP answer that buyers moved 'further up the chain' to principals (L427-435). Correlation in sequence, not proof of influence; log as resonance only."
     }
   ],
   "next_steps": [
     {
       "audience": "internal",
       "owner": "Zach",
-      "text": "Debrief Joe first (thesis-led): the GLP-1 portfolio-exit point is what landed; ask what Lyndon took away on hands-on depth and whether a seat exists without a VP title."
-    },
-    {
-      "audience": "internal",
-      "owner": "Zach",
-      "text": "One-pager to Lyndon via Joe, under one page, built on the escape-velocity window: a question about his buyers first (\"do clients ask how long they have, not just how likely?\"), then how the exit-cost curve would be estimated and checked against resolved events (Brier on the window, not just the event). Close with one line offering a separate read on the self-host vs frontier decision. ARCS as method only, never as a product."
-    },
-    {
-      "audience": "internal",
-      "owner": "Zach",
-      "text": "Keep the take-home out of anything written to VICO, including the pace numbers (they belong to a different engagement). Do not offer a Brier score of the ledger."
+      "text": "DONE 2026-10-14 (Zach-stated, not verified from outbox): sent Joe a short note with the one-pager 'The Window, Not Just the Odds' attached, asking whether to pass it to Lyndon or hold until Joe's debrief, and how Lyndon read technical depth and fit."
     },
     {
       "audience": "internal",
       "owner": "Joe",
-      "text": "Report Lyndon's debrief; confirm an Anthony call or NYC meeting; still owes the NYC address."
+      "text": "Debrief with Lyndon; route or hold the one-pager; report his read on hands-on depth and seat; confirm an Anthony call or NYC meeting."
     },
     {
       "audience": "internal",
       "owner": "Zach",
-      "text": "Registered forecast: the one-pager draws a substantive reply within 4 weeks (p=0.5). No reply by 2026-11-11 resolves the thread as ghosted."
+      "text": "On the next Joe call (not in writing): note the call ran as a structured interview with no live problem, framed as a question about Lyndon's style, not a correction."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Score Lyndon's response to the one-pager against the pre-registered table below; keep take-home pace and content out of anything VICO sees."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Registered forecast: substantive reply (direct or via Joe) within 4 weeks, p=0.5. No reply by 2026-11-11 resolves the thread as ghosted (scheduled check: lyndon-vico-ghost-check)."
     }
   ],
   "redaction_policy": {
@@ -502,6 +508,44 @@
             "label": "Falsifier",
             "value": "If Lyndon cannot name one concrete current problem, or treats the call as a screen for the front-end JD with no interest in scope, the 'solve our current problems' relay was recruiter amplification: downgrade to FORK, treat the role as Product Engineer only, and weigh it against the other live threads on that basis."
           }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Exhibit 1b &#183; Pre-registered reads of the one-pager response (filed 2026-10-14, before any reply)",
+        "columns": [
+          "His response",
+          "What it would mean",
+          "Next move"
+        ],
+        "rows": [
+          [
+            "Extends it: adds a client, use case, or how they would model the window",
+            "Thesis landed; he thinks with Zach, not about him. Strongest signal for a co-designed seat",
+            "Propose a scoped working session on the window"
+          ],
+          [
+            "Corrects or pushes back ('we already do this', 'a window cannot be scored that way')",
+            "Productive discord: best information for the thesis, and a read on how he handles disagreement",
+            "Accept the correction on the record; ask what they do instead"
+          ],
+          [
+            "Asks how Zach would build it",
+            "Testing hands-on depth, the open doubt from the call",
+            "Offer the self-host and scoring discussion with a concrete sketch"
+          ],
+          [
+            "Polite acknowledgement, no substance",
+            "Interest without urgency; nice-to-have",
+            "Let Joe carry it; do not chase"
+          ],
+          [
+            "Silence until 2026-11-11",
+            "Ghosted, as registered",
+            "Close the thread"
+          ]
         ]
       },
       {
@@ -901,23 +945,23 @@
         "items": [
           {
             "dot": "c",
-            "html": "<strong>Zach:</strong> Debrief Joe first (thesis-led): the GLP-1 portfolio-exit point is what landed; ask what Lyndon took away on hands-on depth and whether a seat exists without a VP title."
-          },
-          {
-            "dot": "c",
-            "html": "<strong>Zach:</strong> One-pager to Lyndon via Joe, under one page, built on the escape-velocity window: a question about his buyers first (\"do clients ask how long they have, not just how likely?\"), then how the exit-cost curve would be estimated and checked against resolved events (Brier on the window, not just the event). Close with one line offering a separate read on the self-host vs frontier decision. ARCS as method only, never as a product."
-          },
-          {
-            "dot": "c",
-            "html": "<strong>Zach:</strong> Keep the take-home out of anything written to VICO, including the pace numbers (they belong to a different engagement). Do not offer a Brier score of the ledger."
+            "html": "<strong>Zach:</strong> DONE 2026-10-14 (Zach-stated, not verified from outbox): sent Joe a short note with the one-pager 'The Window, Not Just the Odds' attached, asking whether to pass it to Lyndon or hold until Joe's debrief, and how Lyndon read technical depth and fit."
           },
           {
             "dot": "",
-            "html": "<strong>Joe:</strong> Report Lyndon's debrief; confirm an Anthony call or NYC meeting; still owes the NYC address."
+            "html": "<strong>Joe:</strong> Debrief with Lyndon; route or hold the one-pager; report his read on hands-on depth and seat; confirm an Anthony call or NYC meeting."
           },
           {
             "dot": "c",
-            "html": "<strong>Zach:</strong> Registered forecast: the one-pager draws a substantive reply within 4 weeks (p=0.5). No reply by 2026-11-11 resolves the thread as ghosted."
+            "html": "<strong>Zach:</strong> On the next Joe call (not in writing): note the call ran as a structured interview with no live problem, framed as a question about Lyndon's style, not a correction."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Zach:</strong> Score Lyndon's response to the one-pager against the pre-registered table below; keep take-home pace and content out of anything VICO sees."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Zach:</strong> Registered forecast: substantive reply (direct or via Joe) within 4 weeks, p=0.5. No reply by 2026-11-11 resolves the thread as ghosted (scheduled check: lyndon-vico-ghost-check)."
           }
         ]
       },
