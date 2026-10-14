@@ -14,7 +14,7 @@
     "date": "2026-10-03",
     "counterpart": "Lyndon Oh",
     "company": "VICO Technologies (vico.io), co-founder and CTO; first principal call, intro via Joe Schriner (Oxenham Group). Sibling SSOT for the recruiter thread: runtime/recoil/generated/2026-09-14-schriner.json",
-    "segments": 254,
+    "segments": 13,
     "gate": {
       "internal": "zl2l5aee2a"
     },
@@ -93,7 +93,7 @@
       "id": "P5",
       "audience": "internal",
       "claim": "Lyndon's doubt about how hands-on technical Zach is was resolved on the call",
-      "evidence": "Joe 10-14 prep: Lyndon \"not sure how... hands-on technical Zach\" is. Call: Lyndon asked \"To what degree were you involved in actual technical outputs... was there code review?\"; Zach answered roadmap/specs, code review via CI policy",
+      "evidence": "Joe 10-14 prep: Lyndon \"not sure how... hands-on technical Zach\" is. Call: Lyndon asked \"To what degree were you involved in actual technical outputs... was there code review?\"; Zach answered roadmap/specs, code review via CI policy | Beat map: P5 0.5 -> 0.3 over B1-B8; Zach asked whether a higher or lower Brier score is better (L379) and Lyndon corrected the definition (L375).",
       "inference": "IMP",
       "confidence": [
         0.5,
@@ -107,18 +107,92 @@
     "dt": 1.0,
     "series": [
       {
-        "key": "belief_a",
+        "key": "p1",
         "audience": "internal",
-        "label": "P1: Lyndon's interest is real (by call)",
+        "label": "P1 interest is real",
         "color": "#00F0FF",
+        "points": [
+          0.55,
+          0.75,
+          0.75,
+          0.7,
+          0.6,
+          0.65,
+          0.65,
+          0.6,
+          0.6,
+          0.6,
+          0.65,
+          0.65,
+          0.6
+        ],
+        "grounding_quote": "\"I've enjoyed our conversation.\""
+      },
+      {
+        "key": "eng",
+        "audience": "internal",
+        "label": "Lyndon engagement",
+        "color": "#00FF9D",
         "points": [
           0.5,
           0.6,
+          0.6,
+          0.5,
+          0.4,
+          0.35,
+          0.45,
+          0.35,
+          0.55,
           0.7,
+          0.6,
           0.7,
-          0.6
+          0.5
         ],
-        "grounding_quote": "\"I'm gonna debrief with Joe and we'll follow up.\""
+        "grounding_quote": "\"We're all the way up on the side of growth.\""
+      },
+      {
+        "key": "p5",
+        "audience": "internal",
+        "label": "P5 hands-on doubt resolved",
+        "color": "#FF4D6D",
+        "points": [
+          0.5,
+          0.4,
+          0.35,
+          0.35,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.25,
+          0.25,
+          0.3,
+          0.3
+        ],
+        "grounding_quote": "\"was there code review involved?\""
+      },
+      {
+        "key": "zshare",
+        "audience": "internal",
+        "label": "Zach word share (measured)",
+        "color": "#FFD700",
+        "points": [
+          0.65,
+          0.77,
+          0.72,
+          0.93,
+          0.95,
+          0.93,
+          0.95,
+          0.9,
+          0.02,
+          0.4,
+          0.68,
+          0.28,
+          0.48
+        ],
+        "grounding_quote": "mechanical: words per speaker per beat"
       }
     ]
   },
@@ -127,13 +201,25 @@
       "audience": "internal",
       "plane": "counterpart",
       "title": "Relay accuracy splits by type",
-      "text": "Joe's relays of company facts held up first-hand (federal customers, Brier-score focus, early funding). His relays of Lyndon's intent did not: no live problem scenario, no VP seat, a structured interview rather than \"just a conversation\". Weight Joe on facts, discount him on intent."
+      "text": "Across five calls (09-14, 09-17, 09-30, 10-02, 10-14 prep) Joe made 17 testable claims about Lyndon or VICO. Company facts held (federal customers, Brier focus, the deck review). Stage, org and intent broke: Series A \"already raised\", a VP of Engineering above the seat, NYC as main office, a live problem scenario, \"just a conversation\". Weight Joe on facts, discount him on stage, structure and intent."
     },
     {
       "audience": "internal",
       "plane": "idea",
       "title": "Same atom, two directions",
       "text": "Lyndon: \"everything sort of works around the forecast unit itself as the atomic unit of decisions\", causes before, effects after. ARCS: the receipt as the atomic unit, predicted vs actual. The overlap he saw is real; the gap is that he scores with Brier on resolved events and ARCS has n=2 closed."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Where Lyndon opened up",
+      "text": "Zach's read, confirmed by the transcript: Lyndon's warmest unprompted stretch was team culture (L451-463): \"all the way up on the side of growth\", juniors with \"almost complete autonomy\" who \"understand what the boundaries are\", \"you just got to go and get it.\" It echoes Zach's own L255 \"I like to defer my expertise when I don't know.\" Lead with autonomy-within-boundaries in any follow-up."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "PE M&A diligence is on his radar (Zach's read, INFERENCE)",
+      "text": "Three anchors: the first item Lyndon chose from Zach's materials was \"the M&A arbitrage... the likelihood of the close of the deal\" (L99-105); he sold Leviathan Analytics to a PE fund and ran the post-merger integration as CEO of the acquirer (L265); a live deal is a public financial-data company doing \"valuation data modeling\" for asset managers (L301). Likely why the GLP-1 portfolio-exit example drew \"exactly right\" (L441). Not stated by Lyndon. Use it to aim the follow-up: forecasting deal close and portfolio exit risk."
     }
   ],
   "next_steps": [
@@ -522,6 +608,104 @@
         ]
       },
       {
+        "tab": "forge",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Relay ledger &#183; Joe's claims vs Lyndon first-hand",
+        "columns": [
+          "Date",
+          "Claim (Joe)",
+          "Verdict on 10-14"
+        ],
+        "rows": [
+          [
+            "09-14",
+            "50% government, 50% private customers",
+            "HELD in kind (federal + commercial); split untested"
+          ],
+          [
+            "09-14",
+            "Coin flip 0.25, VICO near 0.1 (Brier)",
+            "HELD: \"we calibrate heavily\" on Brier"
+          ],
+          [
+            "09-14",
+            "Founder was a modeler at Meta then Google",
+            "UNTESTED: not raised; profiles list Google and Facebook"
+          ],
+          [
+            "09-14",
+            "Roles land around $300,000",
+            "UNTESTED: comp not discussed"
+          ],
+          [
+            "09-17",
+            "\"they've already raised Series A\"",
+            "BROKE: \"a little bit of money\", Series A 6 to 9 months out"
+          ],
+          [
+            "09-17",
+            "VP of Engineering being hired, would sit above the seat",
+            "BROKE: \"We don't have what is traditional VP of engineering\""
+          ],
+          [
+            "09-17",
+            "About 10 people total",
+            "DRIFTED: tech 9 plus business about 10"
+          ],
+          [
+            "09-17",
+            "Lyndon wants a \"young gun\"",
+            "UNTESTED"
+          ],
+          [
+            "09-30",
+            "Lyndon sees it near $300K, the VP level",
+            "UNTESTED; VP frame contradicted"
+          ],
+          [
+            "09-30",
+            "Solution architect seat also open",
+            "UNTESTED"
+          ],
+          [
+            "10-02",
+            "\"Zach could solve some of our current problems\"; Joe doesn't know which",
+            "HELD as stated: Lyndon named none"
+          ],
+          [
+            "10-02",
+            "\"Should it be a PE role? Should it be the VP of engineering?\"",
+            "DRIFTED: no VP or PM roles in his frame"
+          ],
+          [
+            "10-02",
+            "DOD customers",
+            "HELD: \"contracts now with the federal government\""
+          ],
+          [
+            "10-02",
+            "NYC main office, DC secondary",
+            "BROKE: business mostly DC, tech fully remote"
+          ],
+          [
+            "10-14 prep",
+            "Lyndon will bring a real problem and go layers deep",
+            "BROKE: none brought"
+          ],
+          [
+            "10-14 prep",
+            "Lyndon doubts hands-on depth",
+            "HELD: code-review probe at L201-203"
+          ],
+          [
+            "10-14 prep",
+            "\"just going to be a conversation\"",
+            "BROKE: structured interview on his agenda"
+          ]
+        ]
+      },
+      {
         "tab": "recoil",
         "type": "keyvalue",
         "audience": "internal",
@@ -554,12 +738,146 @@
       },
       {
         "tab": "recoil",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Beat map &#183; the call, segment by segment",
+        "columns": [
+          "Beat",
+          "Lines",
+          "Zach share",
+          "Engagement",
+          "P1",
+          "P5",
+          "Anchor"
+        ],
+        "rows": [
+          [
+            "B1 Rapport",
+            "L43-85",
+            "0.65",
+            "0.5",
+            "0.55",
+            "0.5",
+            "\"I was up in Darien over the weekend\" (L53)"
+          ],
+          [
+            "B2 ARCS origin",
+            "L87-155",
+            "0.77",
+            "0.6",
+            "0.75",
+            "0.4",
+            "\"I've spent some time going through it\" (L87)"
+          ],
+          [
+            "B3 Model and harness",
+            "L157-173",
+            "0.72",
+            "0.6",
+            "0.75",
+            "0.35",
+            "\"I saw this. Yeah, yeah.\" (L167)"
+          ],
+          [
+            "B4 Build in public, raising?",
+            "L175-189",
+            "0.93",
+            "0.5",
+            "0.7",
+            "0.35",
+            "\"So where is the project now? Are you raising money\" (L181)"
+          ],
+          [
+            "B5 Coherence",
+            "L191-199",
+            "0.95",
+            "0.4",
+            "0.6",
+            "0.3",
+            "\"what's your definition of internal coherence for the model?\" (L191)"
+          ],
+          [
+            "B6 Hands-on probe (Grayscale)",
+            "L201-221",
+            "0.93",
+            "0.35",
+            "0.65",
+            "0.3",
+            "\"was there code review involved?\" (L203)"
+          ],
+          [
+            "B7 Favorite project (Filecoin)",
+            "L223-239",
+            "0.95",
+            "0.45",
+            "0.65",
+            "0.3",
+            "\"What did you, uh, Yeah, what did you do on Filecoin?\" (L227)"
+          ],
+          [
+            "B8 Zach's goals",
+            "L241-259",
+            "0.9",
+            "0.35",
+            "0.6",
+            "0.3",
+            "\"even independent of this process\" (L251)"
+          ],
+          [
+            "B9 Company pitch",
+            "L261-329",
+            "0.02",
+            "0.55",
+            "0.6",
+            "0.3",
+            "\"We don't really have any traditional PMs.\" (L315)"
+          ],
+          [
+            "B10 Self-host, Brier, quant fund",
+            "L331-413",
+            "0.4",
+            "0.7",
+            "0.6",
+            "0.25",
+            "\"No, Breyer score is actually just the mean squared error\" (L375)"
+          ],
+          [
+            "B11 ICP failure question",
+            "L415-441",
+            "0.68",
+            "0.6",
+            "0.65",
+            "0.25",
+            "\"That's right. That's exactly right.\" (L441)"
+          ],
+          [
+            "B12 Team culture",
+            "L443-465",
+            "0.28",
+            "0.7",
+            "0.65",
+            "0.3",
+            "\"We're all the way up on the side of growth.\" (L451)"
+          ],
+          [
+            "B13 Federal vs commercial, close",
+            "L467-507",
+            "0.48",
+            "0.5",
+            "0.6",
+            "0.3",
+            "\"I've enjoyed our conversation. I'm gonna debrief with Joe\" (L497)"
+          ]
+        ]
+      },
+      {
+        "tab": "recoil",
         "type": "worked_example",
         "audience": "internal",
         "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.",
         "h2": "Belief trajectory",
-        "intro": "P1 across the thread: 09-17 (Joe first describes Lyndon), 09-30 (comp relay), 10-02 (Lyndon read the deck), 10-14 prep (Joe: \"Zach could actually solve some of our problems\"), 10-14 call (first-hand).",
-        "close": "The correction: interest is real but generic. Second-hand it read as \"he has problems for Zach\"; first-hand it was \"interesting overlap\" with no problem attached."
+        "intro": "13 beats of the 10-14 call (line ranges from the Granola transcript, 254 segments). Zach word share is measured; engagement, P1 and P5 are judgment scores, each tied to a quote and adjusted by an independent skeptic pass (8 adjustments, 2 beat splits).",
+        "close": "The correction: Zach held 77 to 95% of the words for the first eight beats, and P5 fell from 0.5 to 0.3 across them (no tuning yet, no formula on coherence, code review deferred to CI). Lyndon's engagement rose only once he was talking (pitch, self-host, team culture). The peak of mutual engagement came after Zach handed him the floor."
       },
       {
         "tab": "recoil",
@@ -571,7 +889,7 @@
         "items": [
           {
             "dot": "g",
-            "html": "<strong>Kairos:</strong> the principal-governance argument, capped by the GLP-1 example (a PE fund spotting the risk before becoming exit liquidity), drew \"That's right. That's exactly right.\" Two minutes before close; he also said \"exactly right\" on Brier and \"good question\" twice."
+            "html": "<strong>Kairos:</strong> the principal-governance argument, capped by the GLP-1 example (a PE fund spotting the risk before becoming exit liquidity), drew \"That's right. That's exactly right.\" Two minutes before close; he also said \"exactly right\" on Brier and \"good question\" twice. Zach's read: it landed because PE M&A diligence and exit timing are on Lyndon's radar (his own PE exit and PMI at L265; M&A-close was his first question at L99-105)."
           },
           {
             "dot": "g",
