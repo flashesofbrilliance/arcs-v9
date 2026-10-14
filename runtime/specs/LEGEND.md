@@ -6,13 +6,14 @@
 > acronym gets its expansion + operational definition in parentheses on first use, every message
 > (memory `always-expand-acronyms-with-operational-definition`). `python3 scripts/legend.py lookup <term>`.
 
-Rows: 66 (37 acronyms · 29 terms).
+Rows: 67 (38 acronyms · 29 terms).
 
 ## Acronyms
 
 | Acronym | Expansion | Operational definition | Domain | Source |
 |---|---|---|---|---|
 | **ADR** | architecture decision record | a numbered document (oracle-allocated, never guessed) fixing one decision, its context and consequences; lives in _DECISIONS/ | engineering | `_DECISIONS/` |
+| **ARCS** | Abductive Reasoning Coherence Systems | Abduction first (propose the best explanation for a surprise), then the full Peirce loop: deduce what it predicts, induce by scoring the prediction against what happened (the receipt). Coherence is the scored quantity, C = αA - β(S - S_min)² + γW (operators/arcs_primitives.py), and is scored against outcomes, not internal consistency alone: a coherent story can still be wrong. Supersedes the archived Yellow Paper v1.1 expansion 'Adaptive Recursive Coherence System'. | arcs | `session:2026-10-14 (Zach, VICO call L185; confirmed in session)` |
 | **ATG** | adjacent tributary generation | the backlog feature that gives every compass response 2 to 4 tributaries: the meta-question, the need-to-hear branch, the unnamed adjacent primitive | arcs | `CLAUDE.md#atg` |
 | **BAR** | baseline, asymmetry, ruin | the risk-of-ruin assessment: is the floor acceptable, is the bet asymmetric, can a single miss end you; RUIN_RISK escalates to the Constitutional Court | arcs | `operators/arcs_operators_bar.py` |
 | **CI** | continuous integration | the automated check suite that runs on every push (.github/workflows/ci.yml); a red job is a stop, never merge on a red X without verifying its conclusion | engineering | `.github/workflows/ci.yml` |
