@@ -887,6 +887,42 @@
       },
       {
         "tab": "recoil",
+        "type": "insights",
+        "audience": "internal",
+        "h2": "Locked thesis &amp; reads",
+        "intro": "The follow-up thesis first, then what the close taught about Lyndon and about the recruiter relay."
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Next moves",
+        "intro": "Built on the escape-velocity window. Nothing is sent automatically.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Zach:</strong> Debrief Joe first (thesis-led): the GLP-1 portfolio-exit point is what landed; ask what Lyndon took away on hands-on depth and whether a seat exists without a VP title."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Zach:</strong> One-pager to Lyndon via Joe, under one page, built on the escape-velocity window: a question about his buyers first (\"do clients ask how long they have, not just how likely?\"), then how the exit-cost curve would be estimated and checked against resolved events (Brier on the window, not just the event). Close with one line offering a separate read on the self-host vs frontier decision. ARCS as method only, never as a product."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Zach:</strong> State pace as the repo shows it in anything written: 46 release candidates in 5 days (rc1 2026-10-10 to rc46 2026-10-14)."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Joe:</strong> Report Lyndon's debrief; confirm an Anthony call or NYC meeting; still owes the NYC address."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Zach:</strong> Registered forecast: the one-pager draws a substantive reply within 4 weeks (p=0.5). No reply by 2026-11-11 resolves the thread as ghosted."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
         "type": "list",
         "audience": "internal",
         "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.",
