@@ -199,6 +199,12 @@
   "insights": [
     {
       "audience": "internal",
+      "plane": "idea",
+      "title": "Locked thesis: the escape-velocity window",
+      "text": "Follow-up thesis (locked 2026-10-14, witness stub _STATE/witness/2026-10-14.jsonl): the escape-velocity window. For a holder with concentrated exposure, the forecast that matters is not only how likely the shock is but how long until getting out becomes expensive. VICO already supplies the shock probability and the second- and third-order effects (L283-299); the missing input is the exit-cost curve over time, which steepens as the shock gets priced in and holders crowd the exit. Anchors: Lyndon's own PE exit and PMI (L265), his M&A-close question (L99-105), \"exactly right\" on the GLP-1 portfolio-exit example (L441), his dissertation on exogenous shocks."
+    },
+    {
+      "audience": "internal",
       "plane": "counterpart",
       "title": "Relay accuracy splits by type",
       "text": "Across five calls (09-14, 09-17, 09-30, 10-02, 10-14 prep) Joe made 17 testable claims about Lyndon or VICO. Company facts held (federal customers, Brier focus, the deck review). Stage, org and intent broke: Series A \"already raised\", a VP of Engineering above the seat, NYC as main office, a live problem scenario, \"just a conversation\". Weight Joe on facts, discount him on stage, structure and intent."
@@ -226,27 +232,27 @@
     {
       "audience": "internal",
       "owner": "Zach",
-      "text": "Debrief Joe before Lyndon does: ask what Lyndon took away on hands-on depth and whether a seat exists without a VP title."
+      "text": "Debrief Joe first (thesis-led): the GLP-1 portfolio-exit point is what landed; ask what Lyndon took away on hands-on depth and whether a seat exists without a VP title."
     },
     {
       "audience": "internal",
       "owner": "Zach",
-      "text": "Offer (via Joe) a one-page written read on the self-hosted vs frontier model decision: federal model gardens, per-call cost, eval harness, switching cost. Under one page."
+      "text": "One-pager to Lyndon via Joe, under one page, built on the escape-velocity window: a question about his buyers first (\"do clients ask how long they have, not just how likely?\"), then how the exit-cost curve would be estimated and checked against resolved events (Brier on the window, not just the event). Close with one line offering a separate read on the self-host vs frontier decision. ARCS as method only, never as a product."
     },
     {
       "audience": "internal",
       "owner": "Zach",
-      "text": "Correct the pace claim in anything written: 46 release candidates in 5 days (rc1 2026-10-10 to rc46 2026-10-14), not 45 in 4 days last week."
+      "text": "State pace as the repo shows it in anything written: 46 release candidates in 5 days (rc1 2026-10-10 to rc46 2026-10-14)."
     },
     {
       "audience": "internal",
       "owner": "Joe",
-      "text": "Report Lyndon's debrief; confirm whether a next step with Anthony or an NYC meeting is on; still owes the NYC address."
+      "text": "Report Lyndon's debrief; confirm an Anthony call or NYC meeting; still owes the NYC address."
     },
     {
       "audience": "internal",
       "owner": "Zach",
-      "text": "If no follow-up by 2026-11-11 (4 weeks), resolve this thread as ghosted, not open."
+      "text": "Registered forecast: the one-pager draws a substantive reply within 4 weeks (p=0.5). No reply by 2026-11-11 resolves the thread as ghosted."
     }
   ],
   "redaction_policy": {
