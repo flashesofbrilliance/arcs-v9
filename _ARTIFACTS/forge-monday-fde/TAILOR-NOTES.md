@@ -11,7 +11,7 @@ the req title).
 
 | JD hook | What the resume answers with | Where in the cut | Honest? |
 |---|---|---|---|
-| MCP named explicitly (developer tools incl. "the monday.com API, MCP, and apps framework") | ARCS: built and operate a live MCP server + agentic orchestration layer on Claude, in production. This is the scorer's own flagged direct hit. | Pillars (primary), ARCS job | Yes, documented via public GitHub |
+| MCP named explicitly (developer tools incl. "the monday.com API, MCP, and apps framework") | ARCS: built and operate a live MCP server + agentic orchestration layer on Claude, in production. This is the scorer's own flagged direct hit. | Pillars (primary), ARCS job | Yes, documented via live app, repo private |
 | Fluency in Generative and Agentic AI, LLM workflows, agent orchestration, tool use | ARCS: AI-native analysis pipeline on Claude, agentic orchestration layer, in production not experiments. | Summary, ARCS job, skills | Yes |
 | AI-assisted editors (Cursor, Claude Code) in daily use | Not claimed as a named tool. This session and its predecessor are built inside Claude Code, which is circumstantial but not a resume-line claim; left off rather than asserted without a checkable trace. | (not on page) | Gap acknowledged, not invented |
 | Evaluation harnesses, guardrails, human-in-the-loop, tracing, production AI failure modes | Not claimed directly. ARCS's "experimentation and outcome-capture framework" and "in production, not experiments" gesture at operational rigor without asserting eval-harness or guardrail work specifically. | ARCS job (soft) | Yes, no overclaim |

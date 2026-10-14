@@ -1,0 +1,78 @@
+Zach Harris
+Ships 0 to 1, in Days, in Public
+New York Metro
+zach.harris@gmail.com
+linkedin.com/in/zharris
+github.com/flashesofbrilliance
+blacksmith.arcs.care
+Summary
+Builder who ships, then becomes the tool's most demanding user. Two decades taking technical products from zero to one across regulated finance, AI-native infrastructure, sports, and consumer: the same verticals Blacksmith serves. Not a deck-writer: in the code reviews, sprint planning, and incident response. Now building ARCS, an LLM-native decision-intelligence platform on Claude, in the open: a live MCP server, agentic orchestration, a Next.js / TypeScript / Tailwind / Prisma surface, and a live app at app.arcs.care (commit history on request). Power user of coding agents who delegates to Claude at scale and ships product surfaces in days, not months.
+Core Strengths
+- Power user of coding agents: Claude API, MCP server, multi-agent orchestration, human-in-the-loop. Delegate at scale; ship faster because of it.
+- Zero-to-one product engineering: define the problem and the solution, own architecture through launch.
+- Ship velocity, in public: verifiable commit cadence at status.arcs.care; product surfaces in days, not months.
+- Bilingual bridge: translate business and product strategy into technical roadmaps; co-design 0 to 1 with founders and clients.
+- Production ownership: reliability, RBAC, and regulated release gates in high-consequence domains.
+- Framework-agnostic craft: TypeScript, React, Tailwind, Node, Python, SQL, Prisma. Defer to the stack, own the surface.
+Experience
+ARCS, LLM-Native Decision-Intelligence Platform
+Founder & Architect, 2025 to Present
+Architect and build an agentic platform end to end on Claude: MCP server, tool calling, orchestration, and human-in-the-loop control, on a Next.js / TypeScript / Tailwind / Prisma surface.
+- Built a custom MCP server and agentic pipelines (Claude API, tool use, extended thinking) across a full decision lifecycle; delegate heavily to coding agents and ship product surfaces in days.
+- Ship and maintain open-source developer tools ( good.arcs.care): Claude Code plugins, shell tooling, and dev tooling, each with its own conformance suite. Application and orchestration layer of LLMs, not model training.
+- Build in public: a live status log of commits and milestones ( status.arcs.care) is the shipping-velocity telemetry, private repo with public code provenance.
+- Human-in-the-loop by design: the system scaffolds judgment without overruling it, with evidence-gating and structured decision scoring as the quality layer.
+Grayscale Investments, Digital Currency Group
+Product Lead, 2024 to 2025
+Owned the investor-facing platform behind a $7B, 10-product regulated launch; enforced compliance in the product itself under peak regulatory uncertainty.
+- Built RBAC governance and "policy-at-the-glass" publishing gates so no unapproved content could ship: a pre-deployment integrity check for a high-consequence domain.
+- Ran the cross-functional release train across 4 time zones and cut release-cycle time 35% with automated QA and a compliance-in-the-loop cadence.
+Women's Tennis Association
+Head of Product & Strategic Partnerships, 2016 to 2018
+Modernized the tech stack for a global consumer sports platform and shipped the developer plumbing behind it.
+- Modernized the stack and built interactive CI/CD pipelines on VS Code with Microsoft as delivery partner.
+- Led CDP selection and built real-time fan-behavior scoring at <120ms: personalized signal delivered before the live-event window closed.
+- Closed the first commercial data partnerships (Twitter, Facebook): $850K+ in year one.
+Squat New York, Behavioral Health ($350M ARR)
+Head of Product Innovation & Tech Lead, 2019 to 2020
+- Sole product and technology partner on a seven-figure embedded engagement, discovery through handoff: owned roadmap and a full content-architecture / CX overhaul (headless CMS), aligning engineering, design, clinical, and operations to ship on schedule.
+Children's Tumor Foundation
+Sr. Director, Data & Strategy, 2018 to 2019
+- Built the first enterprise data and decision-intelligence layer end to end (CDP, Salesforce modernization, lifecycle segmentation); drove a 20% increase in net-new revenue via data-driven personalization.
+Skills
+Languages & Stack: TypeScript, React, Next.js, Tailwind, Node, Python, SQL, Prisma (RLS), shell, Git / CI/CD
+Coding Agents & LLM Systems: Claude (API, tool use, extended thinking), MCP servers, multi-agent orchestration, context management, human-in-the-loop, agent delegation at scale
+Developer Experience & Delivery: Zero-to-one product engineering, CI/CD pipelines, clean one-move UX over hard systems, rapid prototyping, build-in-public
+Reliability & Governance: RBAC, regulated release gates, pre-deployment integrity checks, structured decision scoring, conformance / regression suites
+Domain & Regulated: Regulated finance (SEC/FINRA), digital health (HIPAA), sports, consumer
+Data & Instrumentation: Experimentation & A/B, attribution & forecasting, CDP (Segment, Salesforce), Snowflake, event taxonomy
+Mañana, Product Partner
+- Embedded product-and-engineering partner for 0 to 1 in regulated and complex markets: regulatory roadblocks turned into product requirements, shipped in half the expected time. Twill Health (HealthTech, HIPAA): strategy and validation for 3 AI-enabled digital-therapeutics lines; drove go-forward on two of three. Axon (GovTech): launch strategy and go-live criteria for a secure first-responder OTT MVP., GoPro: EMEA/APAC growth under GDPR., Verizon Media: assessments across five 5G ventures. Mentoring: Mentor at Cornell Tech and Outlier Ventures (2024); Builder in Residence at A.Team.
+Deep Profile
+- Core Strengths
+- Energy Profile
+- Activates
+- Zero-to-one where no playbook exists: define the problem and the solution
+- Shipping fast: days-not-months, with agents in the loop
+- Co-designing directly with founders and the engineers who will use it
+- Clean surface over hard interior: hiding real engineering behind one move
+- Depletes
+- Work that lives permanently in slides and never ships
+- Bureaucratic consensus without clear decision authority
+- Pure maintenance once something is built and proven
+- Big-company process for its own sake
+Additional Detail
+- Role Fit, Staff Product Engineer
+- A 0 to 1 AI-native developer tooling
+- Set technical direction for products that do not exist in the industry yet, where both the problem and the solution have to be defined on contact.
+- In practice ARCS was built forward-deployed by definition: no customer spec, no inherited infrastructure. Every architectural decision made on contact with the real problem, then shipped.
+- B Power user of coding agents, force multiplier
+- Operate at the frontier of agentic development, raise the standard for how the team uses these tools, and mentor senior engineers while leading through influence as an IC.
+- In practice Delegate to Claude across a live MCP server and agentic pipelines; ship open-source dev tools with public commit provenance that any engineer can read.
+- C Bilingual: strategy to roadmap, founders to engineers
+- Translate business and product strategy into long-term technical roadmaps and explain complex technical concepts to engineers, leadership, and non-technical stakeholders.
+- In practice Grayscale: 10 regulated products from strategy through gated release. WTA: first commercial partnerships plus the CI/CD plumbing to deliver them. Each required holding business and engineering in the same head.
+- The Differentiator
+Education and Credentials
+Oberlin College, BA, Studio Art, design-first foundation applied to developer experience
+MIT, Designing & Building AI Products & Services 2023
