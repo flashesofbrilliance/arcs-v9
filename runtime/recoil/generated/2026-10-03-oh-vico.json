@@ -14,80 +14,93 @@
     "date": "2026-10-03",
     "counterpart": "Lyndon Oh",
     "company": "VICO Technologies (vico.io), co-founder and CTO; first principal call, intro via Joe Schriner (Oxenham Group). Sibling SSOT for the recruiter thread: runtime/recoil/generated/2026-09-14-schriner.json",
-    "segments": 5,
+    "segments": 254,
     "gate": {
       "internal": "zl2l5aee2a"
     },
     "provenance": {
       "audience": "internal",
-      "captured": "Filed 2026-10-03, before the call (date not yet on the calendar). Sources: Granola verbatim transcripts of the Joe x Zach calls on 2026-09-30 (824f0855) and 2026-10-02 'VICO debrief.' (8a125b5f); the Schriner SSOT's 2026-09-17 call record; public/vico.html (the deck Lyndon read); web diligence 2026-10-03 (LinkedIn, PitchBook profile, Feb 2026 launch release, Anthony Vinci interviews). Everything Lyndon 'said' here is Joe's relay, second-hand. Refreshed 2026-10-04 by /recoil-prep: Gmail thread 1a0fdb05fd989ec6 (Joe, 2026-10-04 20:10 ET: \"I'll be in touch with Lyndon early tomorrow morning to set up timing\"); verbatim re-read of the 09-30 comp exchange; web re-check of funding. Refreshed 2026-10-09 by /recoil-prep: call now on the calendar (Wed 2026-10-14 1:00 PM ET, Teams, invite thread 1a12124ef8eba7ad from Joe Schriner to Lyndon and Zach). Inbox and Granola checked for 2026-10-03..10-09: scheduling emails only, no new Vico calls.",
-      "load_bearing_quote": "Joe, relaying Lyndon (2026-10-02): \"it looks like the reason that we're really excited is the fact that it looks like Zach could solve some of our current problems.\" Joe, same call: \"I don't know what the problems are.\""
+      "captured": "Filed 2026-10-03, before the call (date not yet on the calendar). Sources: Granola verbatim transcripts of the Joe x Zach calls on 2026-09-30 (824f0855) and 2026-10-02 'VICO debrief.' (8a125b5f); the Schriner SSOT's 2026-09-17 call record; public/vico.html (the deck Lyndon read); web diligence 2026-10-03 (LinkedIn, PitchBook profile, Feb 2026 launch release, Anthony Vinci interviews). Everything Lyndon 'said' here is Joe's relay, second-hand. Refreshed 2026-10-04 by /recoil-prep: Gmail thread 1a0fdb05fd989ec6 (Joe, 2026-10-04 20:10 ET: \"I'll be in touch with Lyndon early tomorrow morning to set up timing\"); verbatim re-read of the 09-30 comp exchange; web re-check of funding. Refreshed 2026-10-09 by /recoil-prep: call now on the calendar (Wed 2026-10-14 1:00 PM ET, Teams, invite thread 1a12124ef8eba7ad from Joe Schriner to Lyndon and Zach). Inbox and Granola checked for 2026-10-03..10-09: scheduling emails only, no new Vico calls. Closed 2026-10-14 by /recoil-close: Granola verbatim transcript of the call itself ('VICO Technologies & Zach | Introductory Conversation', aee1d80d, 1:00 PM ET, 254 segments, Joe intro then Lyndon and Zach), plus Joe's prep call the same morning (bb71be40, 10:30 AM ET). Relayed claims serialized against Lyndon's own words in the Recoil tab. Forge rulings by an independent skeptic agent reading the full transcript.",
+      "load_bearing_quote": "Lyndon, first-hand (2026-10-14): \"We don't have what is traditional VP of engineering. We don't really have any traditional PMs. It's sort of like everybody is their own VP of engineering.\""
     }
   },
   "opportunity": {
     "audience": "internal",
     "engagement_type": "candidacy",
     "req_reality": 2,
-    "req_reality_basis": "JD posted and verified by its own text (Vico's Product Engineer, Front-End posting); budget implied only through Joe (2026-09-30: Lyndon \"is viewing this as a little bit closer to $300,000, $300,000 being that VP of engineering\"); decision-owner Lyndon not yet met by Zach. And the seat itself is unsettled: Joe (2026-10-02) relays Lyndon asking \"should it be a PE role? Should it be the VP of engineering? Like, where does Zach fit\". Holds at 2 until Lyndon is met; moves to 3 only if he names the seat and the budget himself.",
+    "req_reality_basis": "Held at 2 after meeting the decision-owner. Lyndon was met (2026-10-14) but named neither a seat nor a budget nor a problem for Zach; he described the org as having no VP of Engineering and no PMs (\"everybody is their own VP of engineering\") and closed with \"I'm gonna debrief with Joe and we'll follow up.\" The posted Product Engineer JD keeps it off 1; nothing Lyndon said moves it to 3.",
     "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
     "y_state": "YELLOW",
-    "topology": "CONVERGENT",
+    "topology": "FORK",
     "nci_prior": 0,
     "nci_post": 0,
-    "note": "Pre-call read: the strongest signal in the whole Oxenham engagement so far (a principal read the deck and asked for the call), sitting on two unresolved facts. One, the seat is undefined (Product Engineer vs VP of Engineering vs something co-designed). Two, the comp frame (~$300K, VP level) comes from a 2025-founded company with undisclosed pre-seed funding, relayed by a recruiter whose fee scales with it. Predicted YELLOW: real interest, unresolved shape."
+    "note": "Pre-call read: the strongest signal in the whole Oxenham engagement so far (a principal read the deck and asked for the call), sitting on two unresolved facts. One, the seat is undefined (Product Engineer vs VP of Engineering vs something co-designed). Two, the comp frame (~$300K, VP level) comes from a 2025-founded company with undisclosed pre-seed funding, relayed by a recruiter whose fee scales with it. Predicted YELLOW: real interest, unresolved shape. CLOSED 2026-10-14: predicted YELLOW held, topology moved CONVERGENT -> FORK. Advocate confirmed, owner engaged and warm, seat unconfirmed and the VP-of-Engineering frame contradicted first-hand. The one named open decision is self-hosted vs frontier model within 3 to 6 months."
   },
   "beliefs": [
     {
       "id": "P1",
       "audience": "internal",
       "claim": "Lyndon's interest is real and specific, not recruiter amplification",
-      "evidence": "Joe relay: \"Zach could solve some of our current problems\"; deck time confirmed by Zach's event tracking",
+      "evidence": "Joe relay: \"Zach could solve some of our current problems\"; deck time confirmed by Zach's event tracking | 10-14 first-hand: \"Really interesting overlap in your interests and projects\"; \"I've enjoyed our conversation\"; but no problem named for Zach",
       "inference": "EXP",
       "confidence": [
         0.7,
-        0.7
+        0.6
       ],
       "conviction": "MED",
-      "verdict": "PENDING"
+      "verdict": "HOLDS, WEAKER"
     },
     {
       "id": "P2",
       "audience": "internal",
       "claim": "The seat can be co-designed beyond the Product Engineer JD",
-      "evidence": "Joe: \"He is currently thinking single-threaded\"; Lyndon's own question \"where does Zach fit\"",
+      "evidence": "Joe: \"He is currently thinking single-threaded\"; Lyndon's own question \"where does Zach fit\" | 10-14 first-hand: flat org, \"everybody is their own VP of engineering\"; juniors get \"almost product owner authority\"",
       "inference": "EXP",
       "confidence": [
         0.5,
-        0.5
+        0.35
       ],
       "conviction": "LOW",
-      "verdict": "PENDING"
+      "verdict": "WEAKENED"
     },
     {
       "id": "P3",
       "audience": "internal",
       "claim": "The ~$300K VP-level frame is Lyndon's own and is fundable",
-      "evidence": "Only via Joe (fee-interested); company is 2025 pre-seed per public reporting",
+      "evidence": "Only via Joe (fee-interested); company is 2025 pre-seed per public reporting | 10-14 first-hand: \"We don't have what is traditional VP of engineering\"; funding is \"a little bit of money\", Series A 6 to 9 months out on revenue targets",
       "inference": "EXP",
       "confidence": [
         0.4,
-        0.4
+        0.2
       ],
-      "conviction": "LOW",
-      "verdict": "PENDING"
+      "conviction": "MED",
+      "verdict": "WEAKENED"
     },
     {
       "id": "P4",
       "audience": "internal",
       "claim": "Private-market clients, not government, are the near-term revenue motion",
-      "evidence": "Bloomberg Terminal distribution; Joe: DOD customers exist but pool unclear",
+      "evidence": "Bloomberg Terminal distribution; Joe: DOD customers exist but pool unclear | 10-14 first-hand: federal contracts live; commercial = one law firm, lobbying-data deal near close, public fin-data co in talks",
       "inference": "EXP",
       "confidence": [
         0.6,
-        0.6
+        0.45
       ],
       "conviction": "LOW",
-      "verdict": "PENDING"
+      "verdict": "WEAKENED"
+    },
+    {
+      "id": "P5",
+      "audience": "internal",
+      "claim": "Lyndon's doubt about how hands-on technical Zach is was resolved on the call",
+      "evidence": "Joe 10-14 prep: Lyndon \"not sure how... hands-on technical Zach\" is. Call: Lyndon asked \"To what degree were you involved in actual technical outputs... was there code review?\"; Zach answered roadmap/specs, code review via CI policy",
+      "inference": "IMP",
+      "confidence": [
+        0.5,
+        0.3
+      ],
+      "conviction": "MED",
+      "verdict": "OPEN"
     }
   ],
   "kinematic_series": {
@@ -95,59 +108,59 @@
     "series": [
       {
         "key": "belief_a",
-        "audience": "both",
-        "label": "{{a belief tracked over time}}",
+        "audience": "internal",
+        "label": "P1: Lyndon's interest is real (by call)",
         "color": "#00F0FF",
         "points": [
-          0.6,
-          0.55,
           0.5,
-          0.45,
-          0.2
+          0.6,
+          0.7,
+          0.7,
+          0.6
         ],
-        "grounding_quote": "{{their words}}"
+        "grounding_quote": "\"I'm gonna debrief with Joe and we'll follow up.\""
       }
     ]
   },
   "insights": [
     {
-      "audience": "both",
-      "plane": "idea",
-      "title": "{{cross-plane insight, safe}}",
-      "text": "{{...}}"
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Relay accuracy splits by type",
+      "text": "Joe's relays of company facts held up first-hand (federal customers, Brier-score focus, early funding). His relays of Lyndon's intent did not: no live problem scenario, no VP seat, a structured interview rather than \"just a conversation\". Weight Joe on facts, discount him on intent."
     },
     {
       "audience": "internal",
-      "plane": "counterpart",
-      "title": "{{read about them — INTERNAL ONLY}}",
-      "text": "{{...}}"
+      "plane": "idea",
+      "title": "Same atom, two directions",
+      "text": "Lyndon: \"everything sort of works around the forecast unit itself as the atomic unit of decisions\", causes before, effects after. ARCS: the receipt as the atomic unit, predicted vs actual. The overlap he saw is real; the gap is that he scores with Brier on resolved events and ARCS has n=2 closed."
     }
   ],
   "next_steps": [
     {
       "audience": "internal",
+      "owner": "Zach",
+      "text": "Debrief Joe before Lyndon does: ask what Lyndon took away on hands-on depth and whether a seat exists without a VP title."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Offer (via Joe) a one-page written read on the self-hosted vs frontier model decision: federal model gardens, per-call cost, eval harness, switching cost. Under one page."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Correct the pace claim in anything written: 46 release candidates in 5 days (rc1 2026-10-10 to rc46 2026-10-14), not 45 in 4 days last week."
+    },
+    {
+      "audience": "internal",
       "owner": "Joe",
-      "text": "Confirm the times Zach texted work for Lyndon; send the NYC office address; flag alignment signals before the call (all owed from 2026-10-02)."
+      "text": "Report Lyndon's debrief; confirm whether a next step with Anthony or an NYC meeting is on; still owes the NYC address."
     },
     {
       "audience": "internal",
       "owner": "Zach",
-      "text": "Before the call: re-read public/vico.html (what Lyndon saw) and skim VICO's Feb 2026 launch release and one Anthony Vinci interview."
-    },
-    {
-      "audience": "internal",
-      "owner": "Zach",
-      "text": "After the call: run /recoil-close on this file to score the ex-ante (hypothesis, falsifier, P1 to P4)."
-    },
-    {
-      "audience": "internal",
-      "owner": "Zach",
-      "text": "Tue 2026-10-13: reread the ex-ante and the two questions (which problems; does the seat exist or is it being designed). No comp number."
-    },
-    {
-      "audience": "internal",
-      "owner": "Zach",
-      "text": "Right after the call (Wed 10-14): run /recoil-close on this SSOT to score the ex-ante while the transcript is fresh."
+      "text": "If no follow-up by 2026-11-11 (4 weeks), resolve this thread as ghosted, not open."
     }
   ],
   "redaction_policy": {
@@ -406,7 +419,7 @@
         "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic — you cannot grade your own output.",
         "h2": "Exhibit 2 &#183; Exogenous Forge",
         "p": [
-          "Every load-bearing claim run against external substrates ({{sources}}) and adjudicated by an independent skeptic. GROUNDED = source-forced. INFERENCE = my read, not forced. STRUCK = overreach, corrected."
+          "Every load-bearing claim from the close checked against the verbatim transcript (aee1d80d, 254 segments) by an independent skeptic agent that read the whole file. GROUNDED = the transcript forces it. INFERENCE = a read, not forced. STRUCK = overreach, corrected."
         ]
       },
       {
@@ -422,14 +435,89 @@
         ],
         "rows": [
           [
-            "{{claim}}",
-            "GROUNDED",
-            "{{two-substrate / verbatim}}"
+            "Lyndon named no specific problem for Zach to solve",
+            "INFERENCE",
+            "Absence claim; he never answered \"missing puzzle pieces\" (L257), but voiced the self-host decision (L347) and bespoke-federal strain (L473) as company challenges"
           ],
           [
-            "{{claim}}",
-            "STRUCK",
-            "{{why it was overreach}}"
+            "VICO has no VP of Engineering and no traditional PMs",
+            "GROUNDED",
+            "L315 verbatim"
+          ],
+          [
+            "Lyndon probed how hands-on Zach is (code review)",
+            "GROUNDED",
+            "L201-203 \"was there code review involved?\""
+          ],
+          [
+            "Zach framed Grayscale as roadmap ownership, code review via CI policy",
+            "GROUNDED",
+            "L213 verbatim"
+          ],
+          [
+            "Self-host vs frontier model decision in 3 to 6 months",
+            "GROUNDED",
+            "L341-349"
+          ],
+          [
+            "Series A 6 to 9 months out on revenue targets",
+            "GROUNDED",
+            "L327-329; \"likely\", \"set us up for\""
+          ],
+          [
+            "Tech 9 fully remote; business ~10 mostly DC",
+            "GROUNDED",
+            "L313, L321-323"
+          ],
+          [
+            "Federal contracts, one law firm, lobbying-data deal near close",
+            "GROUNDED",
+            "L299-301"
+          ],
+          [
+            "Superforecaster parity",
+            "GROUNDED (as his claim)",
+            "L385; self-reported, unverified"
+          ],
+          [
+            "GLP-1 example was the peak",
+            "INFERENCE",
+            "L441 \"exactly right\" answers the whole principal-governance argument, not GLP-1 alone; also L381, L395"
+          ],
+          [
+            "Lyndon said he did not understand a question",
+            "GROUNDED",
+            "L419 verbatim"
+          ],
+          [
+            "Zach said 45 RCs in 4 days last week",
+            "GROUNDED",
+            "L255; repo shows 46 in 5 days"
+          ],
+          [
+            "No next step agreed",
+            "STRUCK, restated",
+            "Overstates: L497 \"we'll follow up\". Restated as: no concrete next step agreed"
+          ],
+          [
+            "Comp never discussed",
+            "GROUNDED",
+            "Full read; transcript may start mid-call"
+          ],
+          [
+            "Lyndon redirected Zach to state his goals first",
+            "GROUNDED",
+            "L249-251"
+          ],
+          [
+            "ICP moved from junior analysts to principals",
+            "GROUNDED",
+            "L427-435"
+          ],
+          [
+            "Bloomberg launch in January",
+            "GROUNDED",
+            "L279; conflicts with Feb 3 press release"
           ]
         ]
       },
@@ -442,19 +530,19 @@
         "rows": [
           {
             "k": "Predicted",
-            "v": "{{from Exhibit 1}}"
+            "v": "Lyndon names at least two specific current problems in the first half, at least one outside front-end work, and is open to scoping a role around them. Y: YELLOW."
           },
           {
             "k": "Actual",
-            "v": "{{what happened}}"
+            "v": "He named no problem for Zach to solve (company challenges yes: self-host decision, bespoke federal work). He ran his own agenda (ARCS, Grayscale, goals, then the company). When Zach said \"only you can tell me\" the missing pieces, he turned it back to Zach's goals \"independent of the company\". The only open decision he named: self-hosted vs frontier model, in 3 to 6 months."
           },
           {
             "k": "Fork hit",
-            "v": "{{which branch}}"
+            "v": "Falsifier half-fired: no concrete problem named, but no front-end JD screen either. Downgrade topology to FORK, keep Y at YELLOW. Not GREEN: req_reality stays 2."
           },
           {
             "k": "Load-bearing",
-            "v": "{{their verbatim close}}"
+            "v": "\"We don't have what is traditional VP of engineering. We don't really have any traditional PMs.\" Close: \"I've enjoyed our conversation. I'm gonna debrief with Joe and we'll follow up.\""
           }
         ]
       },
@@ -470,8 +558,8 @@
         "audience": "internal",
         "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.",
         "h2": "Belief trajectory",
-        "intro": "{{what moved}}",
-        "close": "{{the honest correction}}"
+        "intro": "P1 across the thread: 09-17 (Joe first describes Lyndon), 09-30 (comp relay), 10-02 (Lyndon read the deck), 10-14 prep (Joe: \"Zach could actually solve some of our problems\"), 10-14 call (first-hand).",
+        "close": "The correction: interest is real but generic. Second-hand it read as \"he has problems for Zach\"; first-hand it was \"interesting overlap\" with no problem attached."
       },
       {
         "tab": "recoil",
@@ -479,15 +567,31 @@
         "audience": "internal",
         "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.",
         "h2": "Kairos, quiet signals &amp; risks",
-        "intro": "{{...}}",
+        "intro": "Serialized against the prior calls: what Joe relayed vs what Lyndon said himself.",
         "items": [
           {
-            "dot": "",
-            "html": "<strong>Kairos:</strong> {{peak-resonance moment}}"
+            "dot": "g",
+            "html": "<strong>Kairos:</strong> the principal-governance argument, capped by the GLP-1 example (a PE fund spotting the risk before becoming exit liquidity), drew \"That's right. That's exactly right.\" Two minutes before close; he also said \"exactly right\" on Brier and \"good question\" twice."
           },
           {
             "dot": "g",
-            "html": "<strong>Quiet signal:</strong> {{non-obvious read}}"
+            "html": "<strong>Resonance:</strong> \"sell the picks instead of the mining for the gold\" and the Series A sequencing: \"that's where our head is right now.\""
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Relay vs first-hand, HELD:</strong> federal customers (Joe 10-02 \"DOD\"; Lyndon: \"contracts now with the federal government\"); Brier score central (Joe 10-14; Lyndon: \"we calibrate heavily\" on it); hands-on doubt (Joe 10-14; Lyndon asked about code review); early funding (web 10-03; Lyndon: \"raised a little bit of money\")."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Relay vs first-hand, BROKE:</strong> VP of Engineering seat (Joe 09-17 \"also open\", 09-30 ~$300K VP frame; Lyndon: no traditional VP of Engineering); a live problem scenario (Joe 10-14 predicted it; none came); \"just a conversation\" (it was a structured interview); NYC main office (Joe 10-02; business team is mostly DC, tech fully remote)."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Drift:</strong> Series A timing moved from Q1 2027 (Joe 10-14) to \"6 to 9 months from now\" (Lyndon), i.e. Apr to Jul 2027, gated on revenue. Bloomberg launch \"January\" (Lyndon) vs Feb 3 (press release)."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> long answers; Lyndon once said \"I'm not sure I fully understand the question.\" Zach named verbosity himself. Pace stated as 45 RCs \"last week\" in 4 days with \"80 guardrails\"; repo shows 46 in 5 days, guardrail count unverified."
           }
         ]
       },
@@ -506,16 +610,20 @@
         "intro": "Adversarial pass on the opportunity, not the person.",
         "items": [
           {
-            "dot": "",
-            "html": "<strong>BAR (ruin):</strong> {{the exposed edge}}"
+            "dot": "r",
+            "html": "<strong>BAR (ruin):</strong> low. No exclusivity, no comp anchored by Zach. The exposed edge is time: a Series A 6 to 9 months out means any senior budget is contingent; do not let this become a conditional hire."
           },
           {
             "dot": "g",
-            "html": "<strong>LAB &#183; Loki:</strong> {{adversarial read, steel-manned down}}"
+            "html": "<strong>LAB &#183; Loki:</strong> the steel-man against: Lyndon was polite and thorough but is hiring juniors with product-owner autonomy into a flat team; a senior generalist is a nice-to-have, and the debrief with Joe may land on \"no seat\"."
           },
           {
             "dot": "c",
-            "html": "<strong>COURT:</strong> {{constitutional check}}"
+            "html": "<strong>LAB &#183; Bayesian:</strong> posterior on a co-designed senior seat 0.35. The cheapest test: a one-page read on the self-host decision. A reply that engages raises it; silence for 4 weeks resolves the thread as ghosted."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>COURT:</strong> no negotiation moves at req_reality 2 (no comp, no leverage from other processes). Clean on the call."
           }
         ]
       },
@@ -533,10 +641,28 @@
         ],
         "rows": [
           [
-            "1. {{node}}",
-            "{{their words}}",
-            "{{how it dies here}}",
-            "{{your move}}"
+            "1. Lyndon's debrief with Joe",
+            "(implied) \"not sure how hands-on\" (Joe 10-14)",
+            "Debrief lands on PM-not-engineer",
+            "Zach to Joe first: name the hands-on proof (repo, release checks)"
+          ],
+          [
+            "2. A seat exists",
+            "\"We don't have what is traditional VP of engineering\"",
+            "No role to fill; nice-to-have",
+            "BOTTLENECK, in Zach's court: offer the self-host one-pager as a scoped problem, not a title"
+          ],
+          [
+            "3. Anthony call / NYC meeting",
+            "none stated",
+            "Never scheduled",
+            "Ask Joe for it explicitly after the debrief"
+          ],
+          [
+            "4. Budget before Series A",
+            "\"looking to hit some revenue targets\"",
+            "Offer contingent on the round",
+            "Ask runway plainly at step 3; reject a conditional hire"
           ]
         ]
       },
@@ -550,8 +676,20 @@
         "right": "This engine",
         "rows": [
           [
-            "{{their primitive}}",
-            "{{your equivalent}}"
+            "Forecast as the atomic unit of decisions",
+            "Receipt as the atomic unit of decisions"
+          ],
+          [
+            "Brier score on resolved events (forward + backtest)",
+            "Ex-ante vs actual, scored at close (n=2 closed)"
+          ],
+          [
+            "Causes before, effects after the event",
+            "Drivers in Pre-Call, consequences in War Game"
+          ],
+          [
+            "Dynamic Bayesian updating from API feeds",
+            "Belief log, prior to posterior per call"
           ]
         ]
       },
@@ -571,38 +709,38 @@
         "rows": [
           [
             "Analyze",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
+            "Full transcript read (254 segments)",
+            "Garbled names flagged, not guessed (\"Breyer\", fund names)",
+            "Skeptic agent ruled each claim",
+            "Two relayed priors falsified, booked"
           ],
           [
             "Assess",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
+            "Relay vs first-hand split by type",
+            "Absence claims marked INFERENCE",
+            "C13 struck and restated",
+            "Joe weighted on facts, discounted on intent"
           ],
           [
             "Evaluate",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
+            "Ex-ante scored vs actual",
+            "Falsifier half-fired, reported as such",
+            "No GREEN at req_reality 2",
+            "Topology to FORK, not smoothed"
           ],
           [
             "Synthesize",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
+            "One named decision: self-host vs frontier",
+            "One-pager scoped under a page",
+            "No comp or leverage moves",
+            "Cheap test registered"
           ],
           [
             "Recapitulate",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
+            "Next forecast registered: reply within 4 weeks",
+            "Ghosted rule dated 2026-11-11",
+            "Pace claim corrected to repo count",
+            "Thread resolves either way"
           ]
         ]
       },
@@ -613,8 +751,8 @@
         "_doc": "ANTIFRAGILE CORE + LOSSLESS-TRANSLATION TEST. Prove being-wrong is the feature, then restate the whole thing in their vocabulary with zero loss.",
         "h2": "Antifragile core &amp; the lossless test",
         "p": [
-          "{{why a falsified prior is the highest-information event, not a failure}}",
-          "Lossless test: {{restate the method entirely in their register; if it holds with no jargon, it is defensible to them}}"
+          "This close falsified two relayed priors (the VP seat, the live problem scenario). That is the most useful result of the call: it tells Zach to weight the recruiter on facts and not on intent.",
+          "Lossless test, in Lyndon's words: a prediction was registered before the call, the event resolved, the miss is scored, and the next forecast (the one-pager will get a reply within 4 weeks) is registered now."
         ]
       }
     ]
