@@ -59,6 +59,8 @@ cutoff_ratio (99% of AC energy, fraction of Nyquist): native 1.000, planted 2x u
 
 ## Round 2: pre-registered beliefs (written before any round-2 code or run)
 
+Ground: tests live in `scripts/sharpness_cutoff.py` `--self-test` (arcs-v9 PR 1315, branch claude/affectionate-williams-5808c3); this section was committed in the same PR as its code, written first in the working tree and unrun-against until the results below. Round 1 ground: PR 1313 at 97b31f7c.
+
 B3. Test (b) round trip: box-downscaling a faithful 2x upscale returns the source; a 2x "upscale" built from different content does not.
 Prior 0.9. Test: `--self-test` planted faithful vs planted wrong-content. Kill: error ratio under 3x between them.
 
