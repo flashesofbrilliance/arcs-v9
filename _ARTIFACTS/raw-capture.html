@@ -154,7 +154,7 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .b-real { background: var(--green); }
 .b-fake { background: var(--red); }
 .verdict { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px 16px; background: var(--surface); }
-.y { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .12em; text-transform: uppercase; border-radius: var(--ds-r-pill); padding: 4px 12px; border: 1px solid currentColor; }
+.y { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .12em; text-transform: uppercase; border-radius: var(--ds-r-pill); padding: 4px 12px; border: 1px solid var(--border); }
 .y.sharp { color: var(--green); border-color: var(--green); background: var(--green-bg); }
 .y.degraded { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
 .y.grain { color: var(--red); border-color: var(--red); background: var(--red-bg); }
@@ -289,6 +289,17 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-body); background: 
         <input type="range" id="wp" min="0.3" max="1" step="0.005" value="1">
       </div>
       <div>
+        <div class="ctl-label"><label for="cb">Bit depth</label><output id="cbo">8 bit, off</output></div>
+        <input type="range" id="cb" min="1" max="8" step="1" value="8">
+      </div>
+      <div>
+        <div class="ctl-label"><span>Crush method</span></div>
+        <div class="seg" role="radiogroup" aria-label="Crush method">
+          <input type="radio" name="crush" id="cP" value="plain" checked><label for="cP">Plain steps</label>
+          <input type="radio" name="crush" id="cW" value="wood"><label for="cW">Woodblock</label>
+        </div>
+      </div>
+      <div>
         <div class="ctl-label"><span>Edit by</span></div>
         <div class="seg" role="radiogroup" aria-label="Edit method">
           <input type="radio" name="mode" id="mD" value="dev" checked><label for="mD">Develop from raw</label>
@@ -326,6 +337,10 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-body); background: 
   <div class="verdict">
     <span class="y sharp" id="ylab">SHARP</span>
     <p id="vtext">Sharpness here is earned.</p>
+  </div>
+  <div class="verdict" id="crushbox">
+    <span class="y" id="cpill">CRUSH OFF</span>
+    <p id="ctext" style="flex:1 1 320px;min-width:0;margin:0"></p>
   </div>
   <p class="note">The scene is a synthetic terrain with known true detail, so "real" means measured against the scene itself. The Y labels borrow the ARCS render scale as an analogy. This is an illustration of the mechanism, not a measurement of any receipt.</p>
 </section>
@@ -478,7 +493,7 @@ Approval: pending</pre>
   function fbm(x, s) { var a = 0.5, f = 1, t = 0; for (var i = 0; i < 4; i++) { t += a * vn(x * f, 0.5, s + i); a *= 0.5; f *= 2; } return t; }
 
   /* scene: linear light, roughly 0.003 to 4. Sky and sun are bright, ridges dark and textured. */
-  var S = new Float32Array(N), NZ = new Float32Array(N);
+  var S = new Float32Array(N), NZ = new Float32Array(N), LM = new Int8Array(N);
   (function build() {
     var L = [0.34, 0.26, 0.19, 0.12, 0.07], HZ = [0.6, 0.45, 0.3, 0.15, 0.0];
     var tops = [];
@@ -496,7 +511,7 @@ Approval: pending</pre>
           var tex = 1 + 0.6 * (vn(x2 * 0.9, y * 0.9, 40 + k2) - 0.5) + 0.25 * (vn(x2 * 0.25, y * 0.5, 70 + k2) - 0.5);
           v = (base * (1 - HZ[k2]) + 0.9 * HZ[k2]) * tex + 0.25 * glow;
         }
-        S[i] = Math.max(0.003, v);
+        S[i] = Math.max(0.003, v); LM[i] = k2;
         var u1 = Math.max(1e-6, hash(x2, y, 901)), u2 = hash(x2, y, 902);
         NZ[i] = Math.sqrt(-2 * Math.log(u1)) * Math.cos(6.2831853 * u2);
       }
@@ -540,9 +555,27 @@ Approval: pending</pre>
     return { sa: Math.sqrt(va / n), sb: Math.sqrt(vb / n), r: (va > 1e-12 && vb > 1e-12) ? cab / Math.sqrt(va * vb) : 0 };
   }
 
-  var st = { cap: "A", ev: 1, bp: 0, wp: 1, mode: "dev", np: 4 };
+  var st = { cap: "A", ev: 1, bp: 0, wp: 1, mode: "dev", np: 4, bits: 8, crush: "plain" };
   var userHook = function () {}, plugApi = {}, lite = false;
   var img = ctx.createImageData(W, H);
+
+  /* Bitcrush: plain steps vs an ordered (Bayer 8x8) dither. The dither keeps each region's average tone, which is
+     the property tested in _PATTERNS/2026-10-15-bitcrush-woodblock-prereg.md. */
+  var BAYER = (function () {
+    function up(m) { var n = m.length, o = [], x, y; for (y = 0; y < 2 * n; y++) { o[y] = []; for (x = 0; x < 2 * n; x++) o[y][x] = 4 * m[y % n][x % n] + [[0, 2], [3, 1]][Math.floor(y / n)][Math.floor(x / n)]; } return o; }
+    return up(up([[0, 2], [3, 1]]));
+  })();
+  function crush(src, bits, wood) {
+    var L = (1 << bits) - 1, out = new Uint8Array(N), x, y, i = 0, v, q;
+    for (y = 0; y < H; y++) for (x = 0; x < W; x++, i++) {
+      v = src[i] / 255 * L; q = wood ? Math.floor(v + (BAYER[y & 7][x & 7] + 0.5) / 64) : Math.round(v);
+      if (q > L) q = L; out[i] = Math.round(q / L * 255);
+    }
+    return out;
+  }
+  function regionMeans(img) { var s = new Float64Array(6), c = new Float64Array(6), m = [], i; for (i = 0; i < N; i++) { s[LM[i] + 1] += img[i]; c[LM[i] + 1]++; } for (i = 0; i < 6; i++) m[i] = c[i] ? s[i] / c[i] : 0; return m; }
+  function kept(m0, m1) { var tot = 0, k = 0, b; for (b = 0; b < 5; b++) if (Math.abs(m0[b] - m0[b + 1]) >= 10) { tot++; if (Math.abs(m1[b] - m1[b + 1]) >= 10) k++; } return [k, tot]; }
+  function tagText() { var base = st.mode === "dev" ? "Developed from raw" : "Re-cut " + st.np + (st.np === 1 ? " pass" : " passes"); return st.bits < 8 ? base + ", " + st.bits + " bit " + (st.crush === "wood" ? "woodblock" : "plain") : base; }
 
   function render() {
     var raw = RAW[st.cap], idl = IDL[st.cap], out = new Float32Array(N), ideal = new Float32Array(N), disp = new Uint8Array(N), i;
@@ -569,10 +602,11 @@ Approval: pending</pre>
       final8 = cur; shown = new Float32Array(N);
       for (i = 0; i < N; i++) shown[i] = cur[i] / 255;
     }
+    var disp = st.bits < 8 ? crush(final8, st.bits, st.crush === "wood") : final8;
     var d = img.data;
-    for (i = 0; i < N; i++) { var g = final8[i]; d[i * 4] = g; d[i * 4 + 1] = g; d[i * 4 + 2] = g; d[i * 4 + 3] = 255; }
+    for (i = 0; i < N; i++) { var g = disp[i]; d[i * 4] = g; d[i * 4 + 1] = g; d[i * 4 + 2] = g; d[i * 4 + 3] = 255; }
     ctx.putImageData(img, 0, 0);
-    if (lite) { $("tag").textContent = st.mode === "dev" ? "Developed from raw" : "Re-cut " + st.np + (st.np === 1 ? " pass" : " passes"); return; }
+    if (lite) { $("tag").textContent = tagText(); return; }
 
     var hd = hp(shown), hi = hp(ideal), s = stats(hd, hi);
     var seen = s.sa, real = Math.max(0, s.r) * s.sa, fake = Math.max(0, seen - real);
@@ -593,7 +627,13 @@ Approval: pending</pre>
     $("fakepct").textContent = (seen < 0.004 ? "n/a" : fp + "%");
     $("drift").textContent = rms.toFixed(1);
     $("driftsub").textContent = "8-bit levels RMS from the ideal edit. Distinct tones kept: " + distinct + " of " + baseDistinct + " in the raw.";
-    $("tag").textContent = st.mode === "dev" ? "Developed from raw" : "Re-cut " + st.np + (st.np === 1 ? " pass" : " passes");
+    $("tag").textContent = tagText();
+    var cp = $("cpill"), ct = $("ctext");
+    if (st.bits < 8) {
+      var m0 = regionMeans(final8), kp = kept(m0, regionMeans(crush(final8, st.bits, false))), kw = kept(m0, regionMeans(crush(final8, st.bits, true)));
+      cp.textContent = st.bits + " BIT"; cp.className = "y moire";
+      ct.textContent = "At " + st.bits + " bit (" + Math.pow(2, st.bits) + " tones), plain steps keep " + kp[0] + " of " + kp[1] + " depth layers apart. The woodblock mode keeps " + kw[0] + " of " + kw[1] + ". Detail readouts above describe the development before crushing.";
+    } else { cp.textContent = "CRUSH OFF"; cp.className = "y"; ct.textContent = "Set a bit depth below 8 to compare plain steps with the woodblock mode on how many depth layers stay separable."; }
 
     var lab = "sharp", txt;
     var flat = seen < 0.004;
@@ -607,7 +647,7 @@ Approval: pending</pre>
   }
 
   function bind(id, key, fmt) {
-    var el = $(id), out = $(id === "ev" ? "evo" : id === "bp" ? "bpo" : id === "wp" ? "wpo" : "npo");
+    var el = $(id), out = $(id + "o");
     function f() {
       userHook();
       var v = parseFloat(el.value);
@@ -621,6 +661,8 @@ Approval: pending</pre>
   bind("bp", "bp", function (v) { return v.toFixed(2); });
   bind("wp", "wp", function (v) { return v.toFixed(2); });
   bind("np", "np", function (v) { return String(v); });
+  bind("cb", "bits", function (v) { return v === 8 ? "8 bit, off" : v + " bit, " + Math.pow(2, v) + " tones"; });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=crush]"), function (r) { r.addEventListener("change", function () { userHook(); st.crush = r.value; render(); }); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=cap]"), function (r) { r.addEventListener("change", function () { userHook(); st.cap = r.value; render(); }); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=mode]"), function (r) {
     r.addEventListener("change", function () {
