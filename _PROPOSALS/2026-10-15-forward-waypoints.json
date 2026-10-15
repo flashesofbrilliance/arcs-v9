@@ -9,8 +9,8 @@
   "one_line": "The next steps in order, each with what we know about it, why it beats the alternatives, and what would make us drop it.",
   "bottom_line": [
     {
-      "label": "Today outranks everything",
-      "text": "The latest handoff block says the monday.com take-home is due Thursday 2026-10-15 at 17:00 ET, and today is that Thursday. It lives in another session. Nothing here should take attention from it. That block is dated 2026-10-13, so check it is still current."
+      "label": "The deadline is behind us",
+      "text": "Zach said on 2026-10-15 that the monday.com take-home was submitted yesterday, 2026-10-14. That is his statement; this session did not verify which build went in. The latest build on disk is submission-rc46.zip (4.2 MB, built 2026-10-14 12:46, tag rc46-2026-10-14) in ~/ret-rfp-intelligence/dist. The 2026-10-13 handoff block in CLAUDE.md still lists the submission as due, so it is stale. An earlier version of this page ranked the deadline first for that reason; the closing fact had never been written down."
     },
     {
       "label": "Two dated clocks",
@@ -25,7 +25,7 @@
     {
       "id": "D1",
       "question": "Take W1 to W4 as the next sitting, after the take-home is submitted?",
-      "recommended": "Yes. Commit the work to a branch, report the dangling references, save Field view snapshots, plant a known echo. About half a day in total, all read-only except the commit.",
+      "recommended": "Yes. Commit the work to a branch (done), report the dangling references, save Field view snapshots, plant a known echo. About half a day in total, all read-only.",
       "options": [
         "approve",
         "reorder",
@@ -71,10 +71,10 @@
         [
           "W0",
           "RET take-home submission (another session)",
-          "today 17:00 ET",
-          "BLOCKED on that session",
-          "A hard external deadline per the 2026-10-13 handoff. Outranks all of this by the relevancy anchor. Verify the handoff is current.",
-          "Never drop. Check first."
+          "done 2026-10-14",
+          "DONE, per Zach",
+          "Zach said it is submitted. Not verified here, and not checked which build went in. The handoff block that listed it as due is stale.",
+          "Nothing to drop. Update the handoff block."
         ],
         [
           "W1",
@@ -202,10 +202,10 @@
       ],
       "rows": [
         [
-          "2026-10-15",
-          "Take-home due",
-          "2026-10-13 handoff block",
-          "Outside this session. Check the block is current."
+          "2026-10-14",
+          "Take-home submitted",
+          "Zach, in chat 2026-10-15; repo shows rc46 built the same day",
+          "Submitted. The 2026-10-13 handoff block and project memory were stale and are being corrected."
         ],
         [
           "2026-10-28",
@@ -256,7 +256,7 @@
   ],
   "heuristics": {
     "human": [
-      "Do W0 first. Everything else waits for it.",
+      "W0 is done. Pick the next waypoint by cost and dependency.",
       "Prefer the waypoint that makes a number appear. A framework that produces no number stays at the bottom.",
       "A waypoint with a date beats one without. Two are dated: 2026-10-28 and 2027-01-01.",
       "If a waypoint has no 'drop it if', it has no kill condition and should not be on the list."
@@ -264,7 +264,7 @@
     "agent": [
       "Do not commit, change production, write to the backlog or file receipts until the matching decision is approved.",
       "Never tag provenance. Only the owner sets it.",
-      "Re-check the handoff block before relying on W0, since it is dated 2026-10-13.",
+      "W0 is closed on Zach's word. The handoff block in CLAUDE.md is stale and should be updated through /handoff, not edited here.",
       "Keep the order stable between runs. A rank flip needs a recorded cause.",
       "Mint no ADR number until a decision is approved."
     ]
