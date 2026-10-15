@@ -931,4 +931,13 @@ held=$(git diff --cached --name-only -- package.json .github/dependabot.yml runt
 if [ -n "$held" ] && [ -f scripts/held_exceptions.py ] && command -v python3 >/dev/null 2>&1; then
   python3 scripts/held_exceptions.py check >/dev/null 2>&1 || { python3 scripts/held_exceptions.py check || true; exit 1; }
 fi
+# Seed-agent merge rule (2026-10-15): idea-*, chief-* and scenario-* agents enter as [CANDIDATE] and only
+# merge as SURVIVED with >= 3 recorded uses; a tripped kill line must delete the spec. See scripts/agent_seed_gate.py.
+seedag=$(git diff --cached --name-only -- .claude/agents runtime/specs/agent-seed-ledger.jsonl scripts/agent_seed_gate.py 2>/dev/null || true)
+if [ -n "$seedag" ] && [ -f scripts/agent_seed_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/agent_seed_gate.py --check; then
+    echo "✖ commit blocked: seed-agent ledger rule failed (see FAIL lines above)." >&2
+    exit 1
+  fi
+fi
 exit 0
