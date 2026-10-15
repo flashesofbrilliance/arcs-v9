@@ -115,3 +115,23 @@ Checks.
 T6. For the m4a, the parsed comment contains "suno" and the credit line is prefilled "Made with Suno"; for the mp3, the artist tag is read; for a file with no tags the credit line is blank.
 T7. The saved twin contains the visible credit text, a `description` meta tag and a valid JSON-LD `MusicRecording` block with the title and the credit.
 T8. Editing the credit line in the form changes what the twin carries; clearing it leaves no credit text claiming a source.
+
+## Results for Amendments 2 and 3: Save as twin and attribution (2026-10-15)
+
+`PHOSPHOR_FILES=<two of the owner's songs> node scripts/phosphor_twin_check.mjs _ARTIFACTS/phosphor.html` passes all of T1 to T8 on an m4a (2.83 MB) and an mp3 (2.33 MB). Files stayed local and the temp output was deleted.
+
+- T1 same chapters in the twin as in the original page: pass on both. T2 canvas pixels match at five times: pass on both.
+- T3 size: 3.82 MB and 3.16 MB, within 10 percent of 1.34 times the song plus the page; no network requests and no script errors in the twin.
+- T4 a twin saved from a twin is the same size within 1 percent, so the song is not doubled.
+- T5 the demo state has the button disabled; loading a song writes nothing and requests nothing.
+- T6 the m4a's comment tag (made with suno, a creation time and an id) prefills the credit line "Made with Suno"; the mp3's artist and title tags are read and the credit line stays blank because its tags do not say Suno.
+- T7 the twin carries the credit three ways: footer text, a description meta tag and a JSON-LD MusicRecording block.
+- T8 an edited title and a cleared credit are what the next twin carries.
+
+Found while building, and fixed:
+- A literal closing script tag inside the page's own JavaScript would have ended the script early in HTML parsing; a naive "script parses" check missed it because it matched to the last closing tag. Fixed by splitting the string, and the check now stops at the first closing tag.
+- The page serializes its own source, and my pattern for stripping an old twin block matched the pattern's own text inside that source, deleting most of the script from a saved twin. Caught because the first saved twin never finished loading. Fixed by building the patterns from split strings. The twin check opens the saved file from disk and compares pixels, which is what exposed it.
+- The footer still showed the raw tag "made with suno" after the credit was cleared, a visible source claim contrary to T8. The footer now shows the tags only while a credit is kept; the raw tags stay in the file as provenance.
+- Two failures were in the test (it matched a form placeholder), now scoped to the footer.
+
+Limits. Tested on two short songs and headless Chromium only. Nothing here establishes what Suno's terms allow for any public use; the page records attribution and the owner confirms their plan. A twin saved in a viewer that blocks downloads will not save. Phones, Safari and Firefox untested.

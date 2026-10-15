@@ -141,6 +141,10 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .rung canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border: 1px solid var(--border); border-radius: var(--ds-r-xs); background: var(--bg); image-rendering: pixelated; }
 .rung.on canvas { border-color: var(--cyan); }
 .rung figcaption { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .04em; color: var(--text-secondary); margin-top: 4px; overflow-wrap: anywhere; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.txt { width: 100%; font: inherit; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 10px 12px; min-height: 44px; }
+#twinform { display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 12px; background: var(--elevated); margin-top: 10px; }
+#twinform[hidden] { display: none; }
 .note { color: var(--muted); margin: 12px 0 0; }
 .alts { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
 details.alt { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); }
@@ -178,9 +182,16 @@ footer p { margin: 0 0 8px; }
     <div class="panel">
       <div>
         <div class="ctl-label"><span>Source</span></div>
-        <button class="btn" id="pick" type="button">Choose a file</button>
+        <div class="row"><button class="btn" id="pick" type="button">Choose a file</button><button class="btn" id="twinb" type="button" disabled>Save as twin</button></div>
+        <div id="twinform" hidden>
+          <div class="ctl-label"><label for="tt">Title</label></div><input class="txt" id="tt" type="text" autocomplete="off">
+          <div class="ctl-label"><label for="tc">Credit line</label></div><input class="txt" id="tc" type="text" autocomplete="off" placeholder="Made with Suno">
+          <div class="ctl-label"><label for="tl">Link (optional)</label></div><input class="txt" id="tl" type="url" autocomplete="off" placeholder="https://">
+          <p class="hint" id="tprov"></p>
+          <div class="row"><button class="btn" id="tsave" type="button">Save twin</button><button class="btn" id="tcancel" type="button">Cancel</button></div>
+        </div>
         <input type="file" id="file" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden>
-        <p class="hint" style="margin-top:8px">Or drop one on the picture. mp3, m4a, mp4 and wav work.</p>
+        <p class="hint" style="margin-top:8px">Or drop one on the picture. mp3, m4a, mp4 and wav work. A twin is one HTML file with the song and this player inside, saved on your device only.</p>
       </div>
       <div>
         <div class="ctl-label"><span>Mode</span></div>
@@ -246,13 +257,17 @@ footer p { margin: 0 0 8px; }
 </section>
 
 <footer>
-  <p>The default demo signal is generated in this page from sine waves and noise. It is not a recording.</p>
+  <p id="foot1">The default demo signal is generated in this page from sine waves and noise. It is not a recording.</p>
   <p>Not a MilkDrop-style shader engine: these are four drawing modes over the measured spectrum.</p>
 </footer>
 </main>
 <script>
 (function () {
   "use strict";
+  /* A pristine copy of this page's own source, taken before anything runs, so a saved twin is the page as shipped. */
+  /* Patterns are built from split strings so they cannot match their own text inside the serialized source. */
+  var SC = "<scr" + "ipt", EC = "<\\/scr" + "ipt>", RX = function (s) { return new RegExp(s, "g"); };
+  var PRISTINE = "<!doctype html>\n" + document.documentElement.outerHTML.replace(RX(SC + ' id="twin"[^>]*>[\\s\\S]*?' + EC + "\\s*"), "").replace(RX(SC + ' type="application/ld\\+json"[^>]*>[\\s\\S]*?' + EC + "\\s*"), "").replace(RX("<me" + 'ta name="description"[^>]*>\\s*'), "");
   var $ = function (id) { return document.getElementById(id); };
   var FPS = 30, NFFT = 2048, NB = 64, MAXSEC = 900;
   var cv = $("cv"), dctx = cv.getContext("2d");
@@ -528,19 +543,90 @@ footer p { margin: 0 0 8px; }
     Array.prototype.forEach.call($("chap").children, function (b) { b.addEventListener("click", function () { seek(CHAPS[+b.getAttribute("data-k")] / FPS); }); });
   }
   function loadDemo() { var d = makeDemo(), buf = new OfflineAudioContext(1, d.pcm.length, d.sr).createBuffer(1, d.pcm.length, d.sr); buf.copyToChannel(d.pcm, 0); setSource(d.pcm, d.sr, buf, "Demo signal"); }
-  function loadFile(file) {
-    if (!file) return; $("status").textContent = "Decoding";
-    file.arrayBuffer().then(function (ab) { return new OfflineAudioContext(1, 1, 44100).decodeAudioData(ab); }).then(function (buf) {
+  /* Best-effort tag reader: ID3v2 (mp3) title, artist, comment; MP4 atoms (m4a, mp4) name, artist, comment. */
+  function u32(b, o) { return ((b[o] << 24) | (b[o + 1] << 16) | (b[o + 2] << 8) | b[o + 3]) >>> 0; }
+  function dec(b, s, e, enc) { try { return new TextDecoder(enc === 3 || enc === 0x80 ? "utf-8" : enc === 0 ? "latin1" : enc === 2 ? "utf-16be" : "utf-16").decode(b.subarray(s, e)).replace(/\0+$/, ""); } catch (x) { return ""; } }
+  function readTags(ab) {
+    var b = new Uint8Array(ab), out = {}, i;
+    if (b.length > 10 && b[0] === 0x49 && b[1] === 0x44 && b[2] === 0x33) {
+      var ver = b[3], size = ((b[6] & 127) << 21) | ((b[7] & 127) << 14) | ((b[8] & 127) << 7) | (b[9] & 127), p = 10, end = Math.min(b.length, 10 + size);
+      while (p + 10 <= end) {
+        var id = String.fromCharCode(b[p], b[p + 1], b[p + 2], b[p + 3]); if (!/^[A-Z0-9]{4}$/.test(id)) break;
+        var sz = ver === 4 ? ((b[p + 4] & 127) << 21) | ((b[p + 5] & 127) << 14) | ((b[p + 6] & 127) << 7) | (b[p + 7] & 127) : u32(b, p + 4), s = p + 10, e = s + sz;
+        if (sz <= 0 || e > end) break;
+        if (id === "TIT2") out.title = dec(b, s + 1, e, b[s]); else if (id === "TPE1") out.artist = dec(b, s + 1, e, b[s]);
+        else if (id === "COMM") { var z = s + 4; while (z < e && b[z] !== 0) z++; out.comment = dec(b, z + 1, e, b[s]); }
+        p = e;
+      }
+    }
+    var names = { "nam": "title", "ART": "artist", "cmt": "comment", "day": "date" };
+    for (i = 4; i + 24 < b.length; i++) {
+      if (b[i] !== 0xA9) continue;
+      var k = String.fromCharCode(b[i + 1], b[i + 2], b[i + 3]);
+      if (names[k] && b[i + 8] === 0x64 && b[i + 9] === 0x61 && b[i + 10] === 0x74 && b[i + 11] === 0x61) { var ds = u32(b, i + 4), v = dec(b, i + 20, Math.min(b.length, i + 4 + ds), 3); if (v && !out[names[k]]) out[names[k]] = v; }
+    }
+    return out;
+  }
+  var SRCBYTES = null, SRCMIME = "", SRCTAGS = {};
+  function loadBytes(ab, name, mime) {
+    var keep = ab.slice(0), tags = readTags(keep);
+    return new OfflineAudioContext(1, 1, 44100).decodeAudioData(ab).then(function (buf) {
       var n = buf.length, ch = buf.numberOfChannels, mono = new Float32Array(n), c, i;
       for (c = 0; c < ch; c++) { var d = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += d[i] / ch; }
-      setSource(mono, buf.sampleRate, buf, file.name);
-    }).catch(function () { $("status").textContent = "This file could not be decoded. It may have no audio track (some mp4 files are video only), or use a format this browser cannot read."; });
+      SRCBYTES = keep; SRCMIME = mime || ""; SRCTAGS = tags; $("twinb").disabled = false;
+      setSource(mono, buf.sampleRate, buf, name);
+    });
+  }
+  function loadFile(file) {
+    if (!file) return; $("status").textContent = "Decoding";
+    file.arrayBuffer().then(function (ab) { return loadBytes(ab, file.name, file.type); }).catch(function () { $("status").textContent = "This file could not be decoded. It may have no audio track (some mp4 files are video only), or use a format this browser cannot read."; });
+  }
+
+  /* ---------------- twin: one HTML file holding this page and the song ---------------- */
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function escA(s) { return esc(s).replace(/"/g, "&quot;"); }
+  function provenance(tags) {
+    var c = tags.comment || "", cr = (c.match(/created=([^;\s]+)/) || [])[1], id = (c.match(/\bid=([0-9a-f-]{8,})/i) || [])[1];
+    return { created: cr || tags.date || "", id: id || "", raw: Object.keys(tags).map(function (k) { return k + ": " + tags[k]; }).join(" | ") };
+  }
+  function openTwinForm() {
+    if (!SRCBYTES) { $("status").textContent = "Choose a file first. A twin needs a song to hold."; return; }
+    var pv = provenance(SRCTAGS), base = SRCNAME.replace(/\.[^.]+$/, "");
+    $("tt").value = SRCTAGS.title || base; $("tc").value = /suno/i.test(SRCTAGS.comment || "") ? "Made with Suno" : "";
+    $("tprov").textContent = pv.raw ? "Tags found in the file: " + pv.raw : "No tags were found in this file.";
+    $("twinform").hidden = false; $("tt").focus();
+  }
+  function saveTwin() {
+    if (SRCBYTES.byteLength > 40e6) { $("status").textContent = "This file is over 40 MB, which is too large for a single-file twin."; return; }
+    $("status").textContent = "Building the twin";
+    var fr = new FileReader();
+    fr.onload = function () {
+      var b64 = String(fr.result).split(",")[1] || "", title = $("tt").value.trim() || SRCNAME, credit = $("tc").value.trim(), link = $("tl").value.trim(), pv = provenance(SRCTAGS);
+      var ai = /suno/i.test(credit) ? " This music is AI-generated." : "";
+      var desc = title + (credit ? ". " + credit + "." : "") + ai;
+      var ld = { "@context": "https://schema.org", "@type": "MusicRecording", name: title };
+      if (credit) ld.description = credit + "." + ai; if (SRCTAGS.artist) ld.byArtist = { "@type": "MusicGroup", name: SRCTAGS.artist };
+      if (pv.created) ld.dateCreated = pv.created; if (pv.id) ld.identifier = pv.id; if (link) ld.url = link;
+      var foot = '<p id="foot1">Song: <b>' + esc(title) + "</b>." + (credit ? " " + esc(credit) + "." : "") + esc(ai) + (credit && pv.raw ? " Tags in the file: " + esc(pv.raw) + "." : "") + (link ? ' <a href="' + escA(link) + '">' + esc(link) + "</a>." : "") + " This is a self-contained twin: the audio and the analysis code are inside this file, and nothing is fetched. Visualizer: Phosphor (ARCS).</p>";
+      var json = JSON.stringify({ name: SRCNAME, mime: SRCMIME, b64: b64, tags: SRCTAGS, title: title, credit: credit }).replace(/</g, "\\u003c");
+      var out = PRISTINE.replace(/<title>[\s\S]*?<\/title>/, "<title>" + esc(title) + " twin</title>\n<meta name=\"description\" content=\"" + escA(desc) + "\">").replace(/<p id="foot1">[\s\S]*?<\/p>/, foot);
+      var k = out.lastIndexOf("<scr" + "ipt>\n(function");
+      out = out.slice(0, k) + '<scr' + 'ipt type="application/ld+json">' + JSON.stringify(ld).replace(/</g, "\\u003c") + '<\/scr' + 'ipt>\n<scr' + 'ipt id="twin" type="application/json">' + json + "<\/scr" + "ipt>\n" + out.slice(k);
+      var url = URL.createObjectURL(new Blob([out], { type: "text/html" })), a = document.createElement("a");
+      a.href = url; a.download = SRCNAME.replace(/\.[^.]+$/, "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-twin.html"; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      $("twinform").hidden = true; $("status").textContent = "Saved " + a.download + " (" + (out.length / 1e6).toFixed(1) + " MB) to your device. If nothing downloaded, this viewer blocks downloads; use the self-hosted copy.";
+    };
+    fr.readAsDataURL(new Blob([SRCBYTES]));
   }
 
   /* ---------------- wiring ---------------- */
   function sizeCanvas() { var w = Math.min(1920, Math.round(cv.getBoundingClientRect().width * (window.devicePixelRatio || 1))) || 960; cv.width = w; cv.height = Math.round(w * 9 / 16); }
   function resLabel(i) { return RUNGS[i - 1].lab; }
   $("pick").addEventListener("click", function () { $("file").click(); });
+  $("twinb").addEventListener("click", openTwinForm);
+  $("tsave").addEventListener("click", saveTwin);
+  $("tcancel").addEventListener("click", function () { $("twinform").hidden = true; });
   $("file").addEventListener("change", function (e) { loadFile(e.target.files[0]); });
   var fr = $("frame");
   ["dragenter", "dragover"].forEach(function (n) { fr.addEventListener(n, function (e) { e.preventDefault(); fr.classList.add("drag"); }); });
@@ -565,7 +651,13 @@ footer p { margin: 0 0 8px; }
   });
   window.addEventListener("resize", function () { if (!playing) { sizeCanvas(); frame(false); } });
   (function buildRungs() { var h = ""; RUNGS.forEach(function (r, i) { h += '<figure class="rung"><canvas width="128" height="72"></canvas><figcaption>' + r.lab + "</figcaption></figure>"; }); $("rungs").innerHTML = h; })();
-  sizeCanvas(); $("reso").textContent = resLabel(9); loadDemo();
+  sizeCanvas(); $("reso").textContent = resLabel(9);
+  var TW = document.getElementById("twin");
+  if (TW) {
+    var o = JSON.parse(TW.textContent), bin = atob(o.b64), u = new Uint8Array(bin.length), q;
+    for (q = 0; q < bin.length; q++) u[q] = bin.charCodeAt(q);
+    $("status").textContent = "Decoding"; loadBytes(u.buffer, o.name, o.mime).catch(function () { $("status").textContent = "The embedded song could not be decoded in this browser."; });
+  } else loadDemo();
 })();
 </script>
 </body>
