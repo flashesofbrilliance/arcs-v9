@@ -103,7 +103,7 @@ h1 { font-family: var(--ds-font-display); font-weight: 600; font-size: var(--fs-
 h1 em { font-style: normal; color: var(--cyan); }
 .lede { font-size: var(--fs-headline); line-height: 1.5; color: var(--text-secondary); max-width: none; margin: 18px 0 0; text-wrap: pretty; }
 .inst { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 20px; margin-top: 28px; align-items: start; }
-.frame { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 10px; }
+.frame { position: sticky; top: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 10px; }
 .frame canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--ds-r-md); background: var(--bg); }
 .frame.drag { border-color: var(--cyan); background: var(--cyan-bg); }
 .tag { position: absolute; left: 22px; top: 20px; z-index: 1; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .12em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 3px 8px; }
@@ -149,6 +149,13 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .sl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
 .sl .btn[aria-pressed=true] { border-color: var(--gold); background: var(--gold-bg); }
 .mag { color: var(--muted); margin: 8px 0 0; }
+.pads { display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); gap: 6px; align-items: center; }
+.pads .ph { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); text-align: center; }
+.pads .pr { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--muted); }
+.pad { position: relative; font: inherit; color: var(--text-secondary); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.pad:hover { border-color: var(--cyan); }
+.pad[aria-pressed=true] { background: var(--cyan-bg); border-color: var(--cyan); color: var(--text); box-shadow: inset 0 -2px 0 var(--cyan); }
+.pad small { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .04em; }
 .note { color: var(--muted); margin: 12px 0 0; }
 .alts { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
 details.alt { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); }
@@ -163,6 +170,7 @@ details[open] > summary .alt-go { transform: rotate(45deg); }
 .alt-body p { margin: 16px 0 0; }
 footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); }
 footer p { margin: 0 0 8px; }
+
 @media (max-width: 860px) { .inst, .read { grid-template-columns: minmax(0, 1fr); } details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
 @media (prefers-reduced-motion: reduce) { .alt-go { transition: none; } }
 </style>
@@ -171,7 +179,7 @@ footer p { margin: 0 0 8px; }
 <main class="lane">
 <header class="bar">
   <div class="mark"><b>ARCS</b> &nbsp;/&nbsp; Phosphor</div>
-  <div class="stage">Analyzed on your device</div>
+  <div class="row"><button class="btn" id="skinb" type="button" aria-pressed="false">Pocket skin</button><div class="stage">Analyzed on your device</div></div>
 </header>
 
 <section class="hero" aria-labelledby="h1">
@@ -205,6 +213,11 @@ footer p { margin: 0 0 8px; }
           <input type="radio" name="mode" id="m2" value="2"><label for="m2">Radial</label>
           <input type="radio" name="mode" id="m3" value="3"><label for="m3">Spectro</label>
         </div>
+      </div>
+      <div>
+        <div class="ctl-label"><span>Zoom stages</span><output id="zso">Scope 1 of 5</output></div>
+        <div class="pads" id="pads" role="group" aria-label="Zoom stages by mode"></div>
+        <p class="hint" style="margin-top:6px">Keypad columns are Scope, Bars, Radial, Spectro. Swipe down a column to zoom in. Left and right arrows step the palette.</p>
       </div>
       <div>
         <div class="ctl-label"><label for="res">Resolution</label><output id="reso">vector</output></div>
@@ -250,7 +263,12 @@ footer p { margin: 0 0 8px; }
           <input type="radio" name="ss" id="ss2" value="0.25"><label for="ss2">1/4 beat</label>
         </div>
       </div>
-      <p class="hint">Keys: 1 to 4 mode, space play, [ and ] resolution.</p>
+      <details id="kmap"><summary class="hint" style="cursor:pointer">Keyboard map</summary>
+        <p class="hint" id="lastkey" style="margin-top:6px">Press any key to see its code.</p>
+        <div class="row" style="margin-top:6px"><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
+        <p class="hint" id="learnhint" style="margin-top:6px"></p>
+      </details>
+      <p class="hint">Keys: 1 to 4 mode, space play, [ and ] resolution, left and right arrows palette, backtick Perform.</p>
     </div>
   </div>
 
@@ -442,6 +460,7 @@ footer p { margin: 0 0 8px; }
     for (j = fi - 7; j <= fi; j++) { v = BANDS[Math.max(0, j) * NB + b]; if (v > e) e = Math.min(v, e + 0.14); else e = Math.max(v, e - 0.08); }
     return e;
   }
+  var ZS = [1, 1, 1, 1];
   var MODE = 0, RUNG = 8, BITS = 8, WOOD = false, CHSHARP = false, CRT = false;
   function fidx(t) { return Math.max(0, Math.min(NF - 1, Math.floor(t * FPS))); }
   function scene(g, W, H, t) {
@@ -451,18 +470,18 @@ footer p { margin: 0 0 8px; }
     if (MODE === 0) {
       g.strokeStyle = C.border; g.lineWidth = lw; g.beginPath();
       for (i = 1; i < 8; i++) { g.moveTo(W * i / 8, 0); g.lineTo(W * i / 8, H); g.moveTo(0, H * i / 8); g.lineTo(W, H * i / 8); } g.stroke();
-      var trail = rm ? 1 : 6, amp = H * 0.4, pts = Math.min(W, 960), k;
+      var zn = 1024 >> (ZS[0] - 1), trail = rm ? 1 : 6, amp = H * 0.4, pts = Math.min(W, 960), k;
       g.lineJoin = "round"; g.lineCap = "round";
       for (k = trail - 1; k >= 0; k--) {
-        var s0 = Math.floor((t - k * 0.033) * SR) - 512; g.globalAlpha = Math.pow(0.55, k); g.strokeStyle = k ? C.cyan : C.cyan; g.lineWidth = lw * (k ? 1 : 1.6);
+        var s0 = Math.floor((t - k * 0.033) * SR) - (zn >> 1); g.globalAlpha = Math.pow(0.55, k); g.strokeStyle = k ? C.cyan : C.cyan; g.lineWidth = lw * (k ? 1 : 1.6);
         g.beginPath();
-        for (i = 0; i < pts; i++) { var si = s0 + Math.floor(i / (pts - 1) * 1023), v = (si >= 0 && si < PCM.length) ? PCM[si] : 0, px = W * i / (pts - 1), py = H / 2 - v * amp; if (i) g.lineTo(px, py); else g.moveTo(px, py); }
+        for (i = 0; i < pts; i++) { var si = s0 + Math.floor(i / (pts - 1) * (zn - 1)), v = (si >= 0 && si < PCM.length) ? PCM[si] : 0, px = W * i / (pts - 1), py = H / 2 - v * amp; if (i) g.lineTo(px, py); else g.moveTo(px, py); }
         g.stroke();
       }
       g.globalAlpha = 1;
     } else if (MODE === 1) {
-      var bw = W / NB, base = H * 0.86;
-      for (b = 0; b < NB; b++) {
+      var vc = [64, 48, 32, 20, 12][ZS[1] - 1], bw = W / vc, base = H * 0.86;
+      for (b = 0; b < vc; b++) {
         var v2 = bandVal(fi, b), hh = v2 * H * 0.78, pk = 0, j;
         for (j = Math.max(0, fi - 15); j <= fi; j++) pk = Math.max(pk, BANDS[j * NB + b]);
         g.fillStyle = C.cyan; g.fillRect(b * bw + bw * 0.15, base - hh, bw * 0.7, hh);
@@ -470,12 +489,13 @@ footer p { margin: 0 0 8px; }
         g.fillStyle = C.gold; g.fillRect(b * bw + bw * 0.15, base - pk * H * 0.78 - lw * 2, bw * 0.7, lw * 2);
       }
     } else if (MODE === 2) {
-      var cx = W / 2, cy = H / 2, r0 = H * 0.2, rot = rm ? 0 : t * 0.15, lvl = RMS[fi];
+      var zs = [1, 1.4, 2, 3, 4.5][ZS[2] - 1], cx = W / 2, cy = H / 2, r0 = H * 0.2, rot = rm ? 0 : t * 0.15, lvl = RMS[fi];
+      g.save(); g.translate(cx, cy); g.scale(zs, zs); g.translate(-cx, -cy); lw = lw / zs;
       g.strokeStyle = C.cyan; g.lineWidth = lw * 1.4; g.lineCap = "round"; g.beginPath();
       for (b = 0; b < NB; b++) { var a0 = Math.PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - Math.PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + Math.sin(a) * (r0 + ln)); } }
-      g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * Math.PI); g.stroke();
+      g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * Math.PI); g.stroke(); g.restore();
     } else {
-      var cols = 180, img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
+      var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
       var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
       for (x2 = 0; x2 < cols; x2++) {
         var f2 = Math.max(0, fi - (cols - 1 - x2));
@@ -537,7 +557,7 @@ footer p { margin: 0 0 8px; }
     var fi = fidx(t), lv = RMS ? RMS[fi] : 0, best = 0, b;
     for (b = 1; b < NB; b++) if (BANDS[fi * NB + b] > BANDS[fi * NB + best]) best = b;
     var hz = CENTERS[best] || 0;
-    $("now").textContent = Math.round(lv * 100) + "% level";
+    if (SKIN !== "pocket") $("now").textContent = Math.round(lv * 100) + "% level";
     $("nowsub").textContent = "Loudest band near " + (hz >= 1000 ? (hz / 1000).toFixed(1) + " kHz" : Math.round(hz) + " Hz") + ".";
     var k = chapterAt(t); $("chnow").textContent = NUM[k] + (CHAPS.length > 1 ? " of " + NUM[CHAPS.length - 1] : "");
     $("chsub").textContent = (LABELS[k] || "") + ". Drawn at " + RUNGS[rungFor(t)].lab + ".";
@@ -547,6 +567,7 @@ footer p { margin: 0 0 8px; }
     $("tag").textContent = ["Scope", "Bars", "Radial", "Spectrogram"][MODE] + " · " + USED;
     var med = MS.length ? MS.slice().sort(function (a, z) { return a - z; })[MS.length >> 1] : LASTMS;
     drawStrip(t);
+    if (SKIN === "pocket") { levelMeters(lv); $("now").innerHTML = ledTiles(String(Math.round(lv * 100)).padStart(3, "0")) + '<span class="ledunit">%</span>'; $("dtime").textContent = fmt(t); $("dled").className = "led" + (playing ? " on" : ""); $("dplay").setAttribute("aria-pressed", playing ? "true" : "false"); $("dicon").setAttribute("d", playing ? "M6 5h4v14H6zM14 5h4v14h-4z" : "M8 5v14l11-7z"); var dp = $("dpads").children, q; for (q = 0; q < dp.length; q++) dp[q].setAttribute("aria-pressed", q === MODE ? "true" : "false"); }
     $("srcsub").textContent = Math.round(DUR) + " s, " + SR + " Hz. Draw " + med.toFixed(1) + " ms at " + USED + ".";
   }
   var LABELS = [];
@@ -594,7 +615,7 @@ footer p { margin: 0 0 8px; }
       if (gen !== GEN) return;
       NF = R.nf; BANDS = R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
       var rest = 0, best = -1, i; for (i = 0; i < NF; i++) if (RMS[i] > best) { best = RMS[i]; rest = i; } tpaused = Math.min(DUR, rest / FPS);
-      buildChapters(); onSourceReady(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false);
+      buildChapters(); onSourceReady(); pocketText(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false);
     }, function (p) { if (gen === GEN) $("status").textContent = "Analyzing " + Math.round(p * 100) + "%"; }, gen);
   }
   function buildChapters() {
@@ -773,7 +794,7 @@ footer p { margin: 0 0 8px; }
     SLICES.forEach(function (s, k) { var x0 = s.t0 / DUR * W, x1 = s.t1 / DUR * W; g.fillStyle = C.gold; g.globalAlpha = k === SELECTED ? 0.32 : 0.16; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; g.fillStyle = C.gold; g.fillRect(x0, 0, 2, H); g.fillRect(x1 - 2, 0, 2, H); g.fillStyle = C.text || "#e2e8f0"; g.font = "12px monospace"; g.fillText("S" + (k + 1), x0 + 5, 14); });
     if (PENDING !== null) { var xp = PENDING / DUR * W; g.fillStyle = C.gold; g.fillRect(xp, 0, 2, H); g.fillText("start", xp + 5, 28); }
     if (STRIPHL) { var xm = STRIPHL.t / DUR * W; g.strokeStyle = C.cyan; g.lineWidth = 2; g.beginPath(); g.moveTo(xm, 0); g.lineTo(xm, H); g.stroke(); g.fillStyle = C.cyan; g.fillText(STRIPHL.k, xm + 6, H - 6); }
-    var xt = tn / DUR * W; g.fillStyle = "#ffffff"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
+    var xt = tn / DUR * W; g.fillStyle = "#e2e8f0"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
   }
   function renderSlices() {
     var h = "";
@@ -824,7 +845,7 @@ footer p { margin: 0 0 8px; }
   $("clearsl").addEventListener("click", function () { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; renderSlices(); drawStrip(tnow()); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow };
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -904,6 +925,91 @@ footer p { margin: 0 0 8px; }
   var GKEYS = { z: "stutter", x: "freeze", c: "tear", v: "rgb", b: "blocks" };
   function setPerform(on) { PERFORM = on; $("perf").checked = on; gmLabel(); if (!on) ["stutter", "tear", "rgb", "blocks"].forEach(glitchOff); }
 
+
+  /* ---------------- keypad zoom stages, learnable key map, palette arrows ---------------- */
+  var KEYMAP = [["F16", "NumLock", "Numpad7", "Numpad4", "Numpad1"], ["F17", "NumpadEqual", "Numpad8", "Numpad5", "Numpad2"], ["F18", "NumpadDivide", "Numpad9", "Numpad6", "Numpad3"], ["F19", "NumpadMultiply", "NumpadSubtract", "NumpadAdd", "NumpadEnter"]];
+  var DEFKEYS = JSON.parse(JSON.stringify(KEYMAP)), LEARN = null, MODENAMES = ["Scope", "Bars", "Radial", "Spectro"], KMKEY = "phosphor.keys.v1";
+  try { var sv = JSON.parse(localStorage.getItem(KMKEY) || "null"); if (sv && sv.length === 4 && sv.every(function (c) { return c.length === 5; })) KEYMAP = sv; } catch (e) { /* storage blocked */ }
+  function saveKeys() { try { localStorage.setItem(KMKEY, JSON.stringify(KEYMAP)); } catch (e) { /* storage blocked */ } }
+  function keyLabel(code) { var m = { NumLock: "CLR", NumpadEqual: "=", NumpadDivide: "÷", NumpadMultiply: "×", NumpadSubtract: "−", NumpadAdd: "+", NumpadEnter: "↵", NumpadDecimal: "." }; return m[code] || code.replace(/^Numpad/, "").replace(/^Key/, "").replace(/^Digit/, ""); }
+  function buildPads() {
+    var h = '<span></span>', c, r;
+    for (c = 0; c < 4; c++) h += '<span class="ph">' + MODENAMES[c] + "</span>";
+    for (r = 0; r < 5; r++) { h += '<span class="pr">' + (r + 1) + "</span>"; for (c = 0; c < 4; c++) h += '<button class="pad" type="button" data-c="' + c + '" data-r="' + (r + 1) + '" aria-pressed="' + (ZS[c] === r + 1 && MODE === c) + '" aria-label="' + MODENAMES[c] + " zoom stage " + (r + 1) + '"><small>' + keyLabel(KEYMAP[c][r]) + "</small></button>"; }
+    $("pads").innerHTML = h;
+    Array.prototype.forEach.call($("pads").querySelectorAll(".pad"), function (b) { b.addEventListener("click", function () { setStage(+b.getAttribute("data-c"), +b.getAttribute("data-r")); }); });
+  }
+  function setStage(c, r) {
+    MODE = c; ZS[c] = r; $("m" + c).checked = true;
+    Array.prototype.forEach.call($("pads").querySelectorAll(".pad"), function (b) { b.setAttribute("aria-pressed", (+b.getAttribute("data-c") === MODE && +b.getAttribute("data-r") === ZS[MODE]) ? "true" : "false"); });
+    $("zso").textContent = MODENAMES[c] + " " + r + " of 5"; frame(playing);
+  }
+  function cyclePalette(dir) { var sel = $("palsel"), n = sel.options.length, i = (sel.selectedIndex + dir + n) % n; sel.selectedIndex = i; LOOK.pal = sel.value; frame(playing); $("slhint").textContent = "Palette: " + sel.options[i].textContent + "."; }
+  function stepBits(dir) { var v = Math.max(1, Math.min(8, +$("pal").value + dir)); $("pal").value = v; BITS = v; $("palo").textContent = v === 8 ? "8 bit, off" : v + " bit, " + Math.pow(2, v) + " levels"; frame(playing); }
+  function stageKey(e) {
+    if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && e.target.type !== "radio" && e.target.type !== "checkbox") return false;
+    if (e.code) $("lastkey").textContent = "Last key: " + e.code + " (" + e.key + ")";
+    if (LEARN) {
+      e.preventDefault(); if (e.repeat) return true;
+      if (e.key === "Escape") { LEARN = null; $("learnhint").textContent = "Cancelled."; return true; }
+      if (LEARN.got.indexOf(e.code) < 0) LEARN.got.push(e.code);
+      $("learnhint").textContent = "Learning " + MODENAMES[LEARN.col] + ": " + LEARN.got.length + " of 5 (" + LEARN.got.map(keyLabel).join(" ") + ")";
+      if (LEARN.got.length === 5) { KEYMAP[LEARN.col] = LEARN.got.slice(); saveKeys(); LEARN = null; buildPads(); $("learnhint").textContent = "Saved."; }
+      return true;
+    }
+    var c, r;
+    for (c = 0; c < 4; c++) { r = KEYMAP[c].indexOf(e.code); if (r >= 0) { e.preventDefault(); if (!e.repeat) setStage(c, r + 1); return true; } }
+    if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && !(e.target && e.target.tagName === "INPUT") && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (e.shiftKey) stepBits(e.key === "ArrowRight" ? 1 : -1); else cyclePalette(e.key === "ArrowRight" ? 1 : -1); return true; }
+    return false;
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-learn]"), function (b) { b.addEventListener("click", function () { LEARN = { col: +b.getAttribute("data-learn"), got: [] }; $("learnhint").textContent = "Learning " + MODENAMES[LEARN.col] + ": press five keys from the top row down to the bottom, or Escape to cancel."; b.blur(); }); });
+  $("resetkeys").addEventListener("click", function () { KEYMAP = JSON.parse(JSON.stringify(DEFKEYS)); saveKeys(); buildPads(); $("learnhint").textContent = "Keys reset."; });
+  buildPads();
+
+
+  /* ---------------- Pocket skin: strip, dock, LED tiles, a real level meter ---------------- */
+  var SKIN = "arcs", SKKEY = "phosphor.skin.v1", METER = { strip: 0, dock: 0 };
+  /* The skin's CSS is added only when the skin is on. It is a deliberate optional layer outside DESIGN.md (read from goldcoastcustoms.xyz), so it is not part of the default stylesheet. */
+  var POCKET_CSS = "/* Pocket skin: opt-in, read from goldcoastcustoms.xyz (computed styles and screenshots). Off by default. */\nhtml[data-skin=\"pocket\"] { --bg: #020408; --surface: #0d1117; --elevated: #111827; --border: #1e293b; --text: #e2e8f0; --text-secondary: #94a3b8; --muted: #7a8699;\n  --cyan: #ff9d3c; --cyan-bg: rgba(255, 157, 60, 0.14); --gold: #FFD700; --gold-bg: rgba(255, 215, 0, 0.12); --green: #00FF9D; --green-bg: rgba(0, 255, 157, 0.1); --red: #FFD700; --magenta: #E879F9;\n  --ds-font-sans: Inter, system-ui, -apple-system, sans-serif; --ds-font-mono: \"Geist Mono\", \"SF Mono\", ui-monospace, Menlo, monospace; }\nhtml[data-skin=\"pocket\"] body { padding-block: 0 140px; }\nhtml[data-skin=\"pocket\"] h1 { font-family: var(--ds-font-sans); font-weight: 800; letter-spacing: -0.03em; background: radial-gradient(circle at 30% 50%, #e2e8f0 0%, #e2e8f0 20%, #94a3b8 40%, #94a3b8 62%, #e2e8f0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }\nhtml[data-skin=\"pocket\"] h1 em { -webkit-text-fill-color: #ff9d3c; }\nhtml[data-skin=\"pocket\"] .frame, html[data-skin=\"pocket\"] .panel, html[data-skin=\"pocket\"] .cell, html[data-skin=\"pocket\"] .sheet, html[data-skin=\"pocket\"] details.alt, html[data-skin=\"pocket\"] #twinform { background-color: #0d1117; background-image: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\"); border: 1px solid #020408; box-shadow: 0 0 0 3px #0d1117, 0 0 0 4px #1e293b, inset 0 1px 0 rgba(226,232,240,0.06); }\nhtml[data-skin=\"pocket\"] .frame canvas, html[data-skin=\"pocket\"] .strip { box-shadow: inset 0 2px 10px rgba(2,4,8,0.95); border-radius: 10px; }\nhtml[data-skin=\"pocket\"] .btn, html[data-skin=\"pocket\"] .seg label, html[data-skin=\"pocket\"] .pad { background-color: transparent; background-image: linear-gradient(135deg, #1e293b, #111827); color: rgba(226,232,240,0.62); border: 1px solid rgba(226,232,240,0.12); border-radius: 10px; box-shadow: 0 1px 2px rgba(2,4,8,0.3), 0 2px 4px rgba(2,4,8,0.15), inset 0 1px 0 rgba(226,232,240,0.08); }\nhtml[data-skin=\"pocket\"] .seg { border: 0; gap: 6px; overflow: visible; }\nhtml[data-skin=\"pocket\"] .seg label:first-of-type { border-left: 1px solid rgba(226,232,240,0.12); }\nhtml[data-skin=\"pocket\"] .seg input:checked + label, html[data-skin=\"pocket\"] .pad[aria-pressed=true], html[data-skin=\"pocket\"] .btn[aria-current=true], html[data-skin=\"pocket\"] .sl .btn[aria-pressed=true] { background-image: linear-gradient(135deg, #ff9d3c, rgba(255, 157, 60, 0.82)); color: #e2e8f0; border-color: rgba(226,232,240,0.12); box-shadow: 0 2px 4px rgba(255,157,60,0.4), 0 4px 8px rgba(255,157,60,0.2), inset 0 1px 0 rgba(226,232,240,0.2); }\nhtml[data-skin=\"pocket\"] .btn:hover, html[data-skin=\"pocket\"] .pad:hover { border-color: rgba(255,157,60,0.6); }\nhtml[data-skin=\"pocket\"] .cell { background-image: linear-gradient(#020408, #020408); border-color: #1e293b; box-shadow: inset 0 2px 8px rgba(2,4,8,0.95), inset 0 -1px 2px rgba(2,4,8,0.6); }\nhtml[data-skin=\"pocket\"] .cell h2, html[data-skin=\"pocket\"] .tpl, html[data-skin=\"pocket\"] .ctl-label, html[data-skin=\"pocket\"] .mark { font-family: var(--ds-font-sans); letter-spacing: 0.1em; }\nhtml[data-skin=\"pocket\"] .big { font-family: var(--ds-font-mono); color: var(--cyan); }\nhtml[data-skin=\"pocket\"] #chnow { font-family: Georgia, \"Times New Roman\", serif; font-size: var(--fs-display); font-weight: 700; color: #e2e8f0; }\nhtml[data-skin=\"pocket\"] .tp .clock, html[data-skin=\"pocket\"] .ctl-label output { font-family: var(--ds-font-mono); color: #ff9d3c; }\nhtml[data-skin=\"pocket\"] .stage { color: #00FF9D; border-color: rgba(0,255,157,0.5); background: rgba(0,255,157,0.08); }\nhtml[data-skin=\"pocket\"] input[type=range] { accent-color: #ff9d3c; }\nhtml[data-skin=\"pocket\"] .ld { display: inline-flex; width: 30px; height: 40px; align-items: center; justify-content: center; margin-right: 6px; font: 700 22px/1 var(--ds-font-mono); color: #FFD700; text-shadow: 0 0 8px rgba(255,215,0,0.7); background: linear-gradient(#020408, #020408); border: 1px solid #1e293b; border-radius: 3px; box-shadow: inset 0 2px 8px rgba(2,4,8,0.95), inset 0 -1px 2px rgba(2,4,8,0.6); }\nhtml[data-skin=\"pocket\"] .ledunit { font: 600 0.925rem var(--ds-font-mono); color: #7a8699; margin-left: 2px; }\n#ledstrip { display: flex; justify-content: space-between; align-items: center; padding: 8px 4px; }\n#ledstrip i { width: 6px; height: 6px; border-radius: 50%; background: #111827; }\n#ledstrip i.on, .dmeter i.on { background: var(--c); box-shadow: 0 0 6px var(--c); }\n#dock { position: fixed; left: 50%; transform: translateX(-50%); bottom: 12px; z-index: 5; width: min(1120px, calc(100vw - 2 * var(--gutter))); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 12px 16px; border-radius: 16px; background-color: #0d1117; background-image: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\"); border: 1px solid #020408; box-shadow: 0 8px 30px rgba(2,4,8,0.7), 0 0 0 1px #1e293b, inset 0 1px 0 rgba(226,232,240,0.08); }\n.dkplay { width: 56px; height: 56px; border-radius: 16px; border: 1px solid rgba(226,232,240,0.12); color: #e2e8f0; cursor: pointer; background-image: linear-gradient(135deg, #1e293b, #0d1117); box-shadow: 0 2px 4px rgba(2,4,8,0.4), inset 0 1px 0 rgba(226,232,240,0.1); display: grid; place-items: center; }\n.dkplay[aria-pressed=true] { background-image: linear-gradient(135deg, #ff9d3c, rgba(255, 157, 60, 0.82)); box-shadow: 0 2px 4px rgba(255,157,60,0.4), 0 4px 8px rgba(255,157,60,0.2), inset 0 1px 0 rgba(226,232,240,0.2); }\n.lcd { min-width: 0; padding: 10px 14px; border-radius: 10px; background: linear-gradient(#020408, #020408); border: 1px solid #0d1117; box-shadow: inset 0 2px 8px rgba(2,4,8,0.95); }\n.lcdrow { display: flex; align-items: center; gap: 12px; min-width: 0; }\n.lcdrow .led { width: 7px; height: 7px; border-radius: 50%; background: #1e293b; flex: none; }\n.lcdrow .led.on { background: #FFD700; box-shadow: 0 0 6px #FFD700; }\n.lcdtxt { min-width: 0; flex: 1 1 auto; }\n.lcdt { font-weight: 600; color: #e2e8f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n.lcds { font: 400 0.6875rem var(--ds-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: #7a8699; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n.lcdtime { font: 600 1.15rem var(--ds-font-mono); color: #ff9d3c; font-variant-numeric: tabular-nums; }\n.dmeter { display: flex; justify-content: space-between; margin-top: 8px; gap: 2px; }\n.dmeter i { flex: 1 1 0; height: 3px; border-radius: 3px; background: #111827; }\n.dpads { display: flex; gap: 8px; }\n.dpad { width: 44px; height: 44px; border-radius: 10px; font: 600 0.925rem var(--ds-font-sans); color: rgba(226,232,240,0.6); border: 1px solid rgba(226,232,240,0.12); cursor: pointer; background-image: linear-gradient(135deg, #1e293b, #111827); box-shadow: 0 1px 2px rgba(2,4,8,0.3), inset 0 1px 0 rgba(226,232,240,0.08); }\n.dpad[aria-pressed=true] { color: #e2e8f0; background-image: linear-gradient(135deg, #ff9d3c, rgba(255, 157, 60, 0.82)); box-shadow: 0 2px 4px rgba(255,157,60,0.4), 0 4px 8px rgba(255,157,60,0.2), inset 0 1px 0 rgba(226,232,240,0.2); }\n@media (max-width: 860px) { #dock { grid-template-columns: auto minmax(0, 1fr); } .dpads { grid-column: 1 / 3; justify-content: center; } html[data-skin=\"pocket\"] body { padding-block: 0 220px; } }\n";
+  function skinCss(on) { var el = document.getElementById("skincss"); if (on && !el) { el = document.createElement("style"); el.id = "skincss"; el.textContent = POCKET_CSS; document.head.appendChild(el); } else if (!on && el) el.remove(); }
+  function readPalette() {
+    css = getComputedStyle(document.documentElement);
+    C.bg = col("--bg"); C.cyan = col("--cyan"); C.gold = col("--gold"); C.dim = col("--text-secondary"); C.border = col("--border"); C.green = col("--green"); C.magenta = col("--magenta");
+    RGB.bg = hex(C.bg); RGB.cyan = hex(C.cyan); RGB.gold = hex(C.gold);
+  }
+  function ledTiles(s) { var h = "", i; for (i = 0; i < s.length; i++) h += '<b class="ld">' + s.charAt(i) + "</b>"; return h; }
+  function setMeter(el, key, lit) {
+    if (!el) return; var kids = el.children, n = kids.length, i;
+    if (METER[key] === lit) return; METER[key] = lit;
+    for (i = 0; i < n; i++) kids[i].className = i < lit ? "on" : "";
+  }
+  function levelMeters(lv) { var s = $("ledstrip"), d = $("dmeter"); if (s) setMeter(s, "strip", Math.round(lv * s.children.length)); if (d) setMeter(d, "dock", Math.round(lv * d.children.length)); }
+  function buildPocket() {
+    if ($("ledstrip")) return;
+    var strip = document.createElement("div"), i, N = 72; strip.id = "ledstrip"; strip.setAttribute("aria-hidden", "true");
+    for (i = 0; i < N; i++) { var d = document.createElement("i"); d.style.setProperty("--c", "hsl(" + Math.round(i / (N - 1) * 125) + " 92% 56%)"); strip.appendChild(d); }
+    document.querySelector("header.bar").insertAdjacentElement("afterend", strip);
+    var dock = document.createElement("div"); dock.id = "dock"; dock.setAttribute("role", "group"); dock.setAttribute("aria-label", "Player");
+    dock.innerHTML = '<button class="dkplay" id="dplay" type="button" aria-label="Play or pause" aria-pressed="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path id="dicon" d="M8 5v14l11-7z" fill="currentColor"></path></svg></button><div class="lcd"><div class="lcdrow"><i class="led" id="dled"></i><div class="lcdtxt"><div class="lcdt" id="dtitle"></div><div class="lcds" id="dspec"></div></div><div class="lcdtime" id="dtime">0:00</div></div><div class="dmeter" id="dmeter"></div></div><div class="dpads" id="dpads"></div>';
+    document.body.appendChild(dock);
+    var dm = $("dmeter"); for (i = 0; i < 40; i++) { var k = document.createElement("i"); k.style.setProperty("--c", "hsl(" + Math.round(i / 39 * 125) + " 92% 56%)"); dm.appendChild(k); }
+    var h = ""; MODENAMES.forEach(function (n, m) { h += '<button class="dpad" type="button" data-m="' + m + '" aria-label="' + n + '" aria-pressed="' + (m === MODE) + '">' + (m + 1) + "</button>"; }); $("dpads").innerHTML = h;
+    Array.prototype.forEach.call($("dpads").querySelectorAll(".dpad"), function (b) { b.addEventListener("click", function () { var m = +b.getAttribute("data-m"); $("m" + m).checked = true; $("m" + m).dispatchEvent(new Event("change", { bubbles: true })); }); });
+    $("dplay").addEventListener("click", play);
+    METER.strip = METER.dock = -1; pocketText();
+  }
+  function pocketText() { if (!$("dock")) return; $("dtitle").textContent = SRCNAME; $("dspec").textContent = "Mono • " + NB + " bands • " + FPS + " fps • " + (SR / 1000).toFixed(1) + " kHz"; }
+  function teardownPocket() { var s = $("ledstrip"), d = $("dock"); if (s) s.remove(); if (d) d.remove(); }
+  function applySkin(name, save) {
+    SKIN = name === "pocket" ? "pocket" : "arcs";
+    if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
+    $("skinb").setAttribute("aria-pressed", SKIN === "pocket" ? "true" : "false");
+    if (save) { try { localStorage.setItem(SKKEY, SKIN); } catch (e) { /* storage blocked */ } }
+    skinCss(SKIN === "pocket"); readPalette(); if (SKIN === "pocket") buildPocket(); else teardownPocket();
+    if (NF) { buildStripBg(); frame(playing); renderLadder(tnow()); }
+  }
+  $("skinb").addEventListener("click", function () { applySkin(SKIN === "pocket" ? "arcs" : "pocket", true); });
+
   /* ---------------- wiring ---------------- */
   function sizeCanvas() { var w = Math.min(1920, Math.round(cv.getBoundingClientRect().width * (window.devicePixelRatio || 1))) || 960; cv.width = w; cv.height = Math.round(w * 9 / 16); }
   function resLabel(i) { return RUNGS[i - 1].lab; }
@@ -916,7 +1022,7 @@ footer p { margin: 0 0 8px; }
   ["dragenter", "dragover"].forEach(function (n) { fr.addEventListener(n, function (e) { e.preventDefault(); fr.classList.add("drag"); }); });
   ["dragleave", "drop"].forEach(function (n) { fr.addEventListener(n, function (e) { e.preventDefault(); fr.classList.remove("drag"); }); });
   fr.addEventListener("drop", function (e) { loadFile(e.dataTransfer.files[0]); });
-  Array.prototype.forEach.call(document.querySelectorAll("input[name=mode]"), function (r) { r.addEventListener("change", function () { MODE = +r.value; frame(false); }); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=mode]"), function (r) { r.addEventListener("change", function () { MODE = +r.value; $("zso").textContent = MODENAMES[MODE] + " " + ZS[MODE] + " of 5"; buildPads(); frame(false); }); });
   $("res").addEventListener("input", function () { RUNG = +$("res").value - 1; $("reso").textContent = resLabel(+$("res").value); frame(false); });
   $("chsharp").addEventListener("change", function () { CHSHARP = $("chsharp").checked; $("res").disabled = CHSHARP; frame(false); });
   $("pal").addEventListener("input", function () { BITS = +$("pal").value; $("palo").textContent = BITS === 8 ? "8 bit, off" : BITS + " bit, " + Math.pow(2, BITS) + " levels"; frame(false); });
@@ -937,11 +1043,12 @@ footer p { margin: 0 0 8px; }
   $("scrub").addEventListener("input", function () { seek(+$("scrub").value / 1000 * DUR); });
   document.addEventListener("visibilitychange", function () { if (document.hidden && playing) { stopPlay("Paused."); } });
   document.addEventListener("keydown", function (e) {
+    if (stageKey(e)) return;
     if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && e.target.type !== "radio" && e.target.type !== "checkbox") return;
     if (e.key === "`") { e.preventDefault(); setPerform(!PERFORM); return; }
     if ((e.key === "i" || e.key === "I") && !e.repeat && !e.metaKey && !e.ctrlKey) { $("inv").checked = !$("inv").checked; LOOK.invert = $("inv").checked; frame(playing); return; }
     if (PERFORM && GKEYS[e.key.toLowerCase()] && !e.metaKey && !e.ctrlKey) { e.preventDefault(); if (!e.repeat) glitchOn(GKEYS[e.key.toLowerCase()]); return; }
-    if (e.key >= "1" && e.key <= "4") { var r = $("m" + (+e.key - 1)); r.checked = true; MODE = +e.key - 1; frame(false); }
+    if (e.key >= "1" && e.key <= "4" && !e.code.startsWith("Numpad")) { var r = $("m" + (+e.key - 1)); r.checked = true; MODE = +e.key - 1; $("zso").textContent = MODENAMES[MODE] + " " + ZS[MODE] + " of 5"; buildPads(); frame(false); }
     else if (e.key === " " && e.target.tagName !== "BUTTON") { e.preventDefault(); play(); }
     else if (e.key === ",") { e.preventDefault(); jumpMagnet(-1); }
     else if (e.key === ".") { e.preventDefault(); jumpMagnet(1); }
@@ -954,6 +1061,7 @@ footer p { margin: 0 0 8px; }
   window.addEventListener("resize", function () { if (!playing) { sizeCanvas(); frame(false); } });
   (function buildRungs() { var h = ""; RUNGS.forEach(function (r, i) { h += '<figure class="rung"><canvas width="128" height="72"></canvas><figcaption>' + r.lab + "</figcaption></figure>"; }); $("rungs").innerHTML = h; })();
   sizeCanvas(); $("reso").textContent = resLabel(9);
+  (function bootSkin() { var q = (location.search.match(/[?&]skin=(\w+)/) || [])[1], saved = null; try { saved = localStorage.getItem(SKKEY); } catch (e) { /* storage blocked */ } if (q || saved === "pocket") applySkin(q || saved, false); })();
   var TW = document.getElementById("twin");
   if (TW) {
     var o = JSON.parse(TW.textContent), bin = atob(o.b64), u = new Uint8Array(bin.length), q;

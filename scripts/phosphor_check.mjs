@@ -32,7 +32,9 @@ function wav(name, fn, secs = 8, sr = 44100) {
 const b = await pw.chromium.launch()
 const errors = []
 async function open() {
-  const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 } }), pg = await ctx.newPage()
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 } })
+  if (process.env.PHOSPHOR_SKIN) await ctx.addInitScript((v) => { try { localStorage.setItem('phosphor.skin.v1', v) } catch (e) {} }, process.env.PHOSPHOR_SKIN)
+  const pg = await ctx.newPage()
   pg.on('pageerror', (e) => errors.push(String(e))); pg.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
   const reqs = []; pg.on('request', (r) => reqs.push(r.url()))
   await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.querySelectorAll('#chap button').length > 0, null, { timeout: 30000 })
@@ -126,7 +128,7 @@ for (const f of files) {
     const xs = [], ys = []
     for (const fr of fracs) {
       await seek(pg, fr); await pg.waitForTimeout(60)
-      const bars = await pg.evaluate(() => { const c = document.getElementById('cv'), W = c.width, H = c.height, g = c.getContext('2d'), base = Math.floor(H * 0.86), bw = W / 64, out = []; for (let b = 0; b < 64; b++) { const x = Math.floor((b + 0.5) * bw), col = g.getImageData(x, 0, 1, base).data; let n = 0; for (let y = base - 1; y >= 0; y--) { const i = y * 4; if (col[i] < 60 && col[i + 1] > 190 && col[i + 2] > 190) n++; else break } out.push(n / (H * 0.78)) } return out })
+      const bars = await pg.evaluate(() => { const hx = getComputedStyle(document.documentElement).getPropertyValue('--cyan').trim().replace('#', ''), ink = [0, 2, 4].map((k) => parseInt(hx.substr(k, 2), 16)), c = document.getElementById('cv'), W = c.width, H = c.height, g = c.getContext('2d'), base = Math.floor(H * 0.86), bw = W / 64, out = []; for (let b = 0; b < 64; b++) { const x = Math.floor((b + 0.5) * bw), col = g.getImageData(x, 0, 1, base).data; let n = 0; for (let y = base - 1; y >= 0; y--) { const i = y * 4; if (Math.abs(col[i] - ink[0]) < 40 && Math.abs(col[i + 1] - ink[1]) < 40 && Math.abs(col[i + 2] - ink[2]) < 40) n++; else break } out.push(n / (H * 0.78)) } return out })
       const want = py.frames[String(fr)]
       for (let b = 0; b < 64; b++) { xs.push(bars[b]); ys.push(want[b]) }
     }

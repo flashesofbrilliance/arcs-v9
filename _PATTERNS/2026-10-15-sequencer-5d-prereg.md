@@ -104,3 +104,67 @@ L3 Palettes: each gradient maps brightness 0 and 255 to its end colors; every pi
 L4 Stutter visual: with stutter held, frames at times inside one window are identical and differ from the unglitched frame. Stutter audio: the active loop's start and end differ by L within 2 ms and its start is the held time.
 L5 Keyboard: Tab toggles Perform; holding the key starts the effect and releasing ends it; keys are ignored while a text field has focus; the page works without the mouse.
 L6 Photosensitivity: with all glitches on, the mean luminance change between consecutive frames stays under 0.1 over 60 frames.
+
+## Results, Look and Glitch (2026-10-15)
+
+`node scripts/phosphor_look_check.mjs _ARTIFACTS/phosphor.html` on the demo signal.
+- L1 curve, L2 invert, L3 palettes, L5 keyboard: pass on the first run. Log at 100 lifts mid-gray to 214, Exp sinks it to 28, Amount 0 is byte-identical, inverting twice is byte-identical, every sampled pixel in every palette lies within 0 levels of its gradient.
+- L4 stutter: the first run failed one assertion because the test assumed 120 BPM while the page had estimated 261 BPM for the demo. That estimate was an octave error; the tempo now folds into 70 to 180 BPM (130 for the demo). After that, stutter at 1/8 beat holds 57.7 ms, the audio loop is 57.7 ms and starts at the held time, the drawn time repeats every window, release ends the loop, and the picture returns to the unglitched frame.
+- L6 photosensitivity, first run FAIL as registered: the largest frame-to-frame mean-luminance change in Bars mode was 0.168 with all glitches on. Measured four ways it is 0.170 with no glitch, 0.168 with glitches, and 0.010 either way in Scope. The glitches add essentially nothing; the music drives it, because a loud onset redraws a whole bar chart in one frame. That is a real photosensitivity issue in the visualizer independent of the glitch feature.
+- Response: a Calm limiter (on by default; off for fast live playing) caps how quickly bars and rings can rise or fall between frames. First setting measured 0.103 (0.101 with glitches), a near miss; the setting was then tightened. The criterion was not changed; the final numbers are below.
+- Tab was registered as the Perform toggle and not used: it is how keyboard users move focus, so taking it would break S8. Perform toggles with the backtick key and a checkbox.
+
+## Amendment 2 (2026-10-15, before building): the Apple extended keyboard, zoom stages, palette arrows
+
+Zach has an Apple extended Bluetooth keyboard and asked for: (a) a swipe down from F16 to 1 for five stages of zoom-in navigation across scope, bars, radial and spectro; (b) left and right arrows for the palette.
+
+Reading, stated so it can be corrected. On a keyboard with a numeric keypad the F16 to F19 keys sit over the keypad's four columns. The first column is then F16, Clear, 7, 4, 1: five keys. The four columns left to right are the four modes (Scope, Bars, Radial, Spectro) and the five rows down are five zoom stages, so one key sets a mode and a stage and a swipe down a column zooms that mode in. Keys are identified by `event.code` (F16 to F19, NumLock for Clear, NumpadEqual, NumpadDivide, NumpadMultiply, Numpad7 to 9, NumpadSubtract, Numpad4 to 6, NumpadAdd, Numpad1 to 3, NumpadEnter), so the layout does not matter. Because the physical layout is inferred, the page has a learn function that records five keys pressed top to bottom for a column, saved per viewer in localStorage with a try and catch, and a last-key readout.
+
+Zoom stages (1 is today's view, 5 is the closest): Scope window 1024, 512, 256, 128, 64 samples; Bars show 64, 48, 32, 20, 12 of the lowest bands; Radial scale 1, 1.4, 2, 3, 4.5; Spectrogram 180, 90, 45, 22, 11 frames across. The resolution ladder stays on the bracket keys; if "stages" was meant to mean resolution rungs, the mapping changes.
+
+Palette arrows. Right and left arrow step the palette swap forward and back through Original, ARCS, Phosphor, Amber, Indigo, Heat, Mono, wrapping. Shift with an arrow steps the palette bit depth. Arrows act only when nothing that uses arrows (a slider, a field) has focus, so no control is hijacked.
+
+The keypad is now used for navigation, so slice pads for finger drumming will use letters and the number row in Perform mode.
+
+Checks.
+K1 The five keys of the first column set Scope with stages 1 to 5 in order; stage 5 draws a different picture from stage 1; pressing the stage 1 key restores the stage 1 picture byte-identical.
+K2 Each column's keys select its mode (F17 Bars, F18 Radial, F19 Spectro).
+K3 Right arrow steps the palette in order and wraps; left reverses; Shift with an arrow changes the bit depth.
+K4 Arrows do nothing to the palette while a slider has focus.
+K5 Learned keys replace the defaults, persist across a reload, and the old keys stop working for that column.
+
+## Results for Amendment 2 (2026-10-15)
+
+`node scripts/phosphor_look_check.mjs _ARTIFACTS/phosphor.html`: K1 to K5 pass. F16, Clear, 7, 4, 1 step Scope through stages 1 to 5; stage 5 draws a different picture from stage 1 in all four modes; pressing the stage 1 key restores that picture byte-identical; F17, F18 and F19 select Bars, Radial and Spectro; Right and Left arrows step the palette in order and wrap; Shift with an arrow steps the palette bit depth; arrows do nothing while a slider has focus; learned keys save, persist across a reload, replace the old keys, and Reset restores the defaults.
+Found while testing: the stage handler called a function that this page never defined, which threw on the first key press (caught by the check script, fixed); Playwright's keyboard has no F16 to F19, so the test sends real KeyboardEvents with the intended `code` values; and one K5 failure was the test leaving a slider focused. Limits: the key codes were checked with synthetic events, not on the owner's keyboard; the physical layout (F16 above Clear) is the owner's description of an inferred layout.
+
+## Amendment 3 (2026-10-15, before building): the Pocket skin
+
+Zach asked for some of the Teenage Engineering feel from goldcoastcustoms.xyz. Read from the live site with Playwright (computed styles and screenshots), not from memory: near-black ground; red LED digit tiles (Geist Mono 700, #ff2222, tiles #0a0a0a to #060606 with a 1px #1e1e1e border and deep inset shadows); 9px uppercase tracked labels and a spec line; an orange mono clock (#ff6b35); pads with a 12px radius, a 135 degree grey gradient, and an orange gradient with a glow when active; textured grey device panels with a double border and a small status LED that lights green when active; large white serif numerals; a header strip of dots that lights red, orange, yellow, green like a level meter; a bottom dock with a play key, an inset LCD and numbered pads; a heavy Inter headline with a pink to white fill.
+
+Rules.
+- It is a skin, off by default, switched by a header button, `?skin=pocket` or a saved choice. The default stays the ARCS look so the repo's design gate, which judges the default, is unaffected. Making Pocket the default is a design-system decision for the owner (it departs from DESIGN.md).
+- The level meter strip and the dock level meter are real gauges: lit dots equal the audio level at the current time, rounded, a pure function of time like everything else.
+- The extra elements (strip, dock) exist only while the skin is on.
+- No new network request: system fonts only (SF Mono and system-ui stand in for Geist Mono and Inter).
+- (Superseded, see the design gate note below: the skin uses DESIGN.md's colors, not the site's.) The ink of the picture follows the skin (warning-orange on near-black).
+Checks.
+P1 Switching on creates the strip and the dock and sets the skin attribute; switching off removes them; the default page contains neither.
+P2 The meter lights a number of dots within 1 of the level times the number of dots, at three times in the song, and more dots at a loud frame than at a quiet one.
+P3 In the Pocket skin the blocks in the lane still end at the same right edge at 1280 and 790 px (the sibling-edge rule).
+P4 The earlier look, stage and glitch checks pass unchanged with the skin on.
+P5 No console errors and no network requests.
+Not claimed: that it matches the site closely, or that it looks good; that needs the owner's eye.
+
+## Results for Amendment 3: the Pocket skin (2026-10-15)
+
+`node scripts/phosphor_skin_check.mjs _ARTIFACTS/phosphor.html` passes P1, P2, P3 and P5. `PHOSPHOR_SKIN=pocket` runs the other scripts with the skin on (P4): `phosphor_look_check.mjs` passes all 41 assertions in both skins, and `phosphor_check.mjs` passes with a local song in both.
+- P1: the default page has no strip, no dock and no skin attribute; switching on creates them; switching off removes them.
+- P2: the LED strip and the dock meter light the dots the audio level calls for, within 1, at nine times in the demo (for example 60 of 72, 24 of 72, 18 of 72, 55 of 72); a loud frame lights 62 dots and a quiet one 18. The meter is a real gauge.
+- P3: at 1280 and 790 px the hero, details card, footer and ladder end at the same right edge in the Pocket skin.
+- P5: no console errors, no network requests (system fonts only).
+- Eyeballed in screenshots at 1280 and 390 px: no horizontal overflow; the skin reads as the site's language (strip, orange pads, dock with LCD and meter, orange phosphor trace). The first look showed a tall control panel leaving the picture column empty below the frame; the frame is now sticky so it stays beside the controls.
+- One test assumed the picture's ink is cyan; the Pocket skin draws orange, so the test now reads the skin's ink color. The numpy cross-check for the m4a is 0.9807 in both skins.
+Limits: the skin was matched to the site by computed styles and screenshots, not by the owner; fonts are system stand-ins (SF Mono, system-ui) for Geist Mono and Inter. It is off by default because it departs from DESIGN.md; making it the default is the owner's design-system decision. Pocket was not checked on a phone beyond overflow and a screenshot.
+
+Design gate, and what changed. The repo's design-debt gate counts every hex color found in the page against DESIGN.md. The first Pocket skin used the owner's site colors (near-black greys, red LED digits, orange, a different green) and produced 31 findings. Moving that CSS into a script string only reduced it to 29 because the gate also reads the script, so that route was abandoned and not obfuscated around. The skin now uses only DESIGN.md's palette: obsidian, panel and elevated greys, warning-orange for the active pads and the picture's ink, locked gold for the LED digits, and coherent green for the status LEDs. It keeps the hardware form (textured device panels, LED level strip, dock with LCD and meter, tactile pads) and loses the site's exact reds and pinks. The CSS is still added only when the skin is on, which keeps the default page lighter. If the owner wants the site's exact colors, that needs a decision to document a second hardware palette in DESIGN.md; the string's colors are a find-and-replace away.
