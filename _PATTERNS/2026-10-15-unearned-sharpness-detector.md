@@ -155,3 +155,13 @@ Ground: three Apple bundled photos (Flower 1, Flower 3, Mojave Day), each as 512
 - What this changes: on natural photos (a) is content-dependent in both directions. The cutoff alone cannot carry a verdict; it needs a same-content reference (test b) or a calibrated per-source baseline.
 - Limits, stated plainly: three images, one 256 crop each, 16 sampled rows per crop, 'native' is already one JPEG generation, no repeats. The row-to-row noise (Mojave q60 vs q30) is probably within sampling variance of this setup; a repeat across many crops is needed before any rate is quoted.
 - Not run: real-image validation (round 4). Needs Zach's approval per download under the sourcing policy above.
+
+## Round 4: pre-registered beliefs (written before any capture exists; nothing downloaded or captured yet)
+
+Pair: Myst 1993 (pre-rendered, palette under 256 colors per The Register 2013) versus realMyst: Masterpiece Edition (Cyan, released 2014-02-05, real-time 3D rebuild, per the Steam store page). The 2014 build re-renders the scenes; it is not a resample of the 1993 art. Ground for the dates: Wikipedia Myst page and Steam app 244430, both read 2026-10-15 via web search, neither a primary source.
+Access status: Zach owns no copy. The engine route (ScummVM) is open source but needs the original game data files, which are commercial; no free legal data set was found. A period VM needs a licensed OS and ROM image. Both are unconfirmed here and must be checked before any plan relies on them. No unlicensed copy will be used.
+
+B9. 1993 captures score lower cutoff_ratio than 2014 real-time captures of the same scenes. Prior 0.6. Kill: the 2014 captures score lower on the median of five matched scenes.
+B10. Palette dithering in the 1993 images raises tail_ratio above the 2014 value, masking band-limiting. Prior 0.5. Kill: 1993 tail_ratio not above 2014's.
+B11. Capture scale (emulator or window scaling) moves the cutoff by more than the 1993-vs-2014 gap. Prior 0.7. Control: integer scaling or native-resolution capture only; the claim is tested by capturing one scene at 1x and 2x. Kill: scale effect under half the era gap.
+Limits stated now: five scenes, one capture each, 16 sampled rows per crop (round 3 showed that noise is large); a result is a reading of band-limit, never "fake" or "upscaled".
