@@ -103,3 +103,55 @@ rendered text and UI are sharp by construction, the same class as auto-traced ve
 
 Still open: natural photos, real JPEG decode (no stdlib decoder), non-bilinear source kernels, a true splat renderer (test c beyond the toy),
 auto-trace vectors, too-clean inliers.
+
+## Round 3: pre-registered beliefs (written before any round-3 run)
+
+Scope: close B6 with natural content and a real JPEG codec, and fix the sourcing policy for real-image validation. No repo dependency added:
+the codec is macOS `sips` (system tool, encode and decode), the statistic is the existing stdlib `cutoff_ratio`/`tail_ratio`. Natural content for this
+probe is LOCAL ONLY: Apple's bundled photos under `/Library/Desktop Pictures/` (read in place, never copied into the repo, never redistributed;
+license: Apple software license, personal use). They are already JPEG once, so "native" here means "one generation of loss", stated up front.
+No file is downloaded in round 3.
+
+B6b. Re-asking B6 on the right content: re-encoding a natural photo crop (256x256 center crop, luma) through real JPEG at low quality (sips
+quality 10) drops the cutoff ratio at least 0.15 below the same crop at quality 100, and tail_ratio at least halves. Prior 0.65.
+Kill: cutoff at q10 within 0.15 of q100 AND tail ratio above half of q100's. Then (a) and (tail) are robust to JPEG on natural content.
+Corollary (not a separate bet): if B6b holds, the detector cannot tell JPEG loss from upscaling and "band-limited, source unknown" stays the only finding.
+
+B6c. Monotone: ratio is non-increasing as sips quality goes 100, 60, 30, 10 (ties allowed within 0.02). Prior 0.8. Kill: a rise above 0.02 anywhere.
+
+B8. A natural photo at native size scores cutoff above the planted 2x upscale threshold (0.7) at quality 100. Prior 0.5 (photos are 1/f; the 99%-energy
+cutoff may sit low on smooth natural content regardless of loss, which would make (a) weaker on photos than on white noise). Kill: native photo under 0.7.
+
+The detector flags band-limited, not fake. Any number below is a band-limit reading, not a verdict on the image.
+
+## Real-image sourcing policy (for round 4; nothing downloaded under it yet)
+
+Rank by provenance, best first. Record license, date, URL, and a sha256 per image in a manifest (`_STATE/` or the pattern note); an image without a date is excluded, not down-weighted.
+1. Capture from the original software (own screen capture of a running original or an emulator of the original release; license: own capture, but the underlying art stays the rights holder's, so keep it local).
+2. Dated launch-window marketing (press kit, ads, box art with a printed or archived date).
+3. Dated release art from MobyGames or the developer's own site (Cyan), date as listed there.
+4. Later remakes, labelled as later and never mixed into the original cohort.
+5. Undated images: excluded.
+Natural test pair: original Myst (1993, pre-rendered, palette under 256 colors per The Register 2013) versus a later remake. Palette quantization
+and dithering are band-limit-adjacent confounds and must be named in the pre-registration for that round, not discovered after it.
+Gate: Zach approves each download (filename, source URL, size, license) before it happens.
+
+### Round 3 results, 2026-10-15 (probe script kept in the session scratchpad, not committed; stat functions are the merged `cutoff_ratio` and `tail_ratio`)
+
+Ground: three Apple bundled photos (Flower 1, Flower 3, Mojave Day), each as 5120x2880 native and as a `sips` 1280-wide downscale, center 256x256 crop, re-encoded with real JPEG (`sips`) at q 100/60/30/10 and decoded back to PNG. Cells are (cutoff, tail).
+
+| image | q100 | q60 | q30 | q10 |
+|---|---|---|---|---|
+| Flower 1 native | 0.469, 0.070 | 0.461, 0.097 | 0.430, 0.089 | 0.453, 0.091 |
+| Flower 1 down4 | 0.375, 0.112 | 0.414, 0.205 | 0.320, 0.094 | 0.328, 0.075 |
+| Flower 3 native | 0.789, 0.221 | 0.797, 0.244 | 0.680, 0.127 | 0.586, 0.091 |
+| Flower 3 down4 | 0.844, 0.188 | 0.883, 0.260 | 0.820, 0.178 | 0.688, 0.077 |
+| Mojave Day native | 0.828, 0.104 | 0.703, 0.048 | 0.797, 0.087 | 0.828, 0.124 |
+| Mojave Day down4 | 0.430, 0.412 | 0.641, 0.695 | 0.281, 0.251 | 0.281, 0.257 |
+
+- B6b FAIL as a general claim (prior 0.65). The pre-registered effect (cutoff down 0.15 or more AND tail at least halved at q10) appears in 2 of 6 rows (Flower 3 native, 0.789 to 0.586, tail 0.221 to 0.091; Flower 3 down4, 0.844 to 0.688, tail 0.188 to 0.077). Flower 1 (both) and Mojave native show no effect; Mojave down4 drops 0.149, one thousandth short. Kill condition met on 4 of 6. JPEG loss does NOT reliably flag, but it does on some content, so "JPEG is safe" is also unearned.
+- B6c FAIL (prior 0.8). Ratio rises by more than 0.02 with harsher quantization in 5 of 6 rows (for example Mojave down4 0.430 to 0.641 from q100 to q60, tail 0.412 to 0.695). Re-quantizing an already-compressed image can add blocking edges that put energy back in the high band, so quality is not a monotone knob.
+- B8 mixed (prior 0.5). Native q100 cutoff: Flower 1 0.469 (under the 0.7 line, kill met for that image), Flower 3 0.789, Mojave Day 0.828. A smooth, shallow-depth-of-field photograph is band-limited with zero upscaling, so the 99%-energy cutoff reads low on honest optics. This is the round-1 smooth-native false positive reappearing on a real photo.
+- What this changes: on natural photos (a) is content-dependent in both directions. The cutoff alone cannot carry a verdict; it needs a same-content reference (test b) or a calibrated per-source baseline.
+- Limits, stated plainly: three images, one 256 crop each, 16 sampled rows per crop, 'native' is already one JPEG generation, no repeats. The row-to-row noise (Mojave q60 vs q30) is probably within sampling variance of this setup; a repeat across many crops is needed before any rate is quoted.
+- Not run: real-image validation (round 4). Needs Zach's approval per download under the sourcing policy above.
