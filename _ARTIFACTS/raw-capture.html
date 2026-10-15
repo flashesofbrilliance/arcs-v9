@@ -315,6 +315,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-body); background: 
   </div>
 
   <div class="tp" data-track="develop"></div>
+  <div class="tp" data-track="take"></div>
 
   <div class="read" aria-live="polite">
     <div class="cell">
@@ -556,7 +557,7 @@ Approval: pending</pre>
   }
 
   var st = { cap: "A", ev: 1, bp: 0, wp: 1, mode: "dev", np: 4, bits: 8, crush: "plain" };
-  var userHook = function () {}, plugApi = {}, lite = false;
+  var userHook = function () {}, afterEdit = function () {}, plugApi = {}, lite = false;
   var img = ctx.createImageData(W, H);
 
   /* Bitcrush: plain steps vs an ordered (Bayer 8x8) dither. The dither keeps each region's average tone, which is
@@ -653,24 +654,26 @@ Approval: pending</pre>
       var v = parseFloat(el.value);
       if (key === "bp" && v > st.wp - 0.05) { v = st.wp - 0.05; el.value = v; }
       if (key === "wp" && v < st.bp + 0.05) { v = st.bp + 0.05; el.value = v; }
-      st[key] = v; out.textContent = fmt(v); render();
+      st[key] = v; out.textContent = fmt(v); render(); afterEdit();
     }
     el.addEventListener("input", f);
   }
-  bind("ev", "ev", function (v) { return (v >= 0 ? "+" : "") + v.toFixed(1) + " EV"; });
-  bind("bp", "bp", function (v) { return v.toFixed(2); });
-  bind("wp", "wp", function (v) { return v.toFixed(2); });
-  bind("np", "np", function (v) { return String(v); });
-  bind("cb", "bits", function (v) { return v === 8 ? "8 bit, off" : v + " bit, " + Math.pow(2, v) + " tones"; });
-  Array.prototype.forEach.call(document.querySelectorAll("input[name=crush]"), function (r) { r.addEventListener("change", function () { userHook(); st.crush = r.value; render(); }); });
-  Array.prototype.forEach.call(document.querySelectorAll("input[name=cap]"), function (r) { r.addEventListener("change", function () { userHook(); st.cap = r.value; render(); }); });
+  var FMT = {
+    ev: function (v) { return (v >= 0 ? "+" : "") + v.toFixed(1) + " EV"; },
+    bp: function (v) { return v.toFixed(2); },
+    wp: function (v) { return v.toFixed(2); },
+    np: function (v) { return String(v); },
+    cb: function (v) { return v === 8 ? "8 bit, off" : v + " bit, " + Math.pow(2, v) + " tones"; }
+  };
+  bind("ev", "ev", FMT.ev); bind("bp", "bp", FMT.bp); bind("wp", "wp", FMT.wp); bind("np", "np", FMT.np); bind("cb", "bits", FMT.cb);
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=crush]"), function (r) { r.addEventListener("change", function () { userHook(); st.crush = r.value; render(); afterEdit(); }); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=cap]"), function (r) { r.addEventListener("change", function () { userHook(); st.cap = r.value; render(); afterEdit(); }); });
+  function syncMode() {
+    $("passwrap").hidden = st.mode !== "cut";
+    $("hint").textContent = st.mode === "dev" ? "Develop re-runs the edit from the stored capture every time. Nothing is lost between passes." : "Re-cut applies each pass to the last 8-bit output, the way a polished gem loses material at every cut. Raise the passes and lift the exposure to see banding.";
+  }
   Array.prototype.forEach.call(document.querySelectorAll("input[name=mode]"), function (r) {
-    r.addEventListener("change", function () {
-      userHook();
-      st.mode = r.value; $("passwrap").hidden = st.mode !== "cut";
-      $("hint").textContent = st.mode === "dev" ? "Develop re-runs the edit from the stored capture every time. Nothing is lost between passes." : "Re-cut applies each pass to the last 8-bit output, the way a polished gem loses material at every cut. Raise the passes and lift the exposure to see banding.";
-      render();
-    });
+    r.addEventListener("change", function () { userHook(); st.mode = r.value; syncMode(); render(); afterEdit(); });
   });
 
   /* contact sheet of the 271 receipts: 1 = tributaries column filled */
@@ -737,19 +740,69 @@ Approval: pending</pre>
   render();
   /* ADR-087: one timeline, time as a recipe parameter. A track is a pure function of t in [0,1] over the same
      render path as the static page. t = 1 is the resting page. */
-  var DUR = { intro: 1500, develop: 4200, snap: 6000, ignite: 2600 };
-  var LABEL = { develop: "Replay development", snap: "Replay the receipts", ignite: "Preview the strike" };
+  var DUR = { intro: 1500, develop: 4200, snap: 6000, ignite: 2600, take: 6000 };
+  var LABEL = { develop: "Replay development", snap: "Replay the receipts", ignite: "Preview the strike", take: "Replay your take" };
   var rm = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   function ease(x) { x = x < 0 ? 0 : x > 1 ? 1 : x; return x * x * (3 - 2 * x); }
   function lerp(a, b, k) { return a + (b - a) * k; }
   function setEV(v) { st.ev = v; $("ev").value = v; $("evo").textContent = (v >= 0 ? "+" : "") + v.toFixed(1) + " EV"; render(); }
+  /* A take (ADR-087, rule 10) is user data: keyframes, each a snapshot of all eight controls at a time t.
+     While recording, a control edit writes the keyframe at the scrubber position. Replay interpolates numbers
+     and steps the discrete controls. It is kept in memory and, as a per-viewer convenience, in localStorage. */
+  var KEYS = ["cap", "ev", "bp", "wp", "mode", "np", "bits", "crush"], TKEY = "rawcapture.take.v1", MAXKF = 24;
+  var TAKE = { kf: [], rec: false };
+  function snapState() { var o = {}; KEYS.forEach(function (k) { o[k] = st[k]; }); return o; }
+  function applyState(s) {
+    KEYS.forEach(function (k) { st[k] = s[k]; });
+    $("ev").value = st.ev; $("evo").textContent = FMT.ev(st.ev);
+    $("bp").value = st.bp; $("bpo").textContent = FMT.bp(st.bp);
+    $("wp").value = st.wp; $("wpo").textContent = FMT.wp(st.wp);
+    $("np").value = st.np; $("npo").textContent = FMT.np(st.np);
+    $("cb").value = st.bits; $("cbo").textContent = FMT.cb(st.bits);
+    $("cap" + st.cap).checked = true; $(st.mode === "dev" ? "mD" : "mR").checked = true; $(st.crush === "wood" ? "cW" : "cP").checked = true;
+    syncMode(); render();
+  }
+  function takeAt(t) {
+    var kf = TAKE.kf, i, a, b, k, o;
+    if (!kf.length) return null;
+    if (t <= kf[0].t) return kf[0].s;
+    if (t >= kf[kf.length - 1].t) return kf[kf.length - 1].s;
+    for (i = 0; i < kf.length - 1; i++) if (t >= kf[i].t && t <= kf[i + 1].t) {
+      a = kf[i]; b = kf[i + 1]; k = ease((t - a.t) / Math.max(1e-6, b.t - a.t));
+      o = { cap: a.s.cap, mode: a.s.mode, crush: a.s.crush };
+      ["ev", "bp", "wp"].forEach(function (n) { o[n] = lerp(a.s[n], b.s[n], k); });
+      o.np = Math.round(lerp(a.s.np, b.s.np, k)); o.bits = Math.round(lerp(a.s.bits, b.s.bits, k));
+      return o;
+    }
+    return kf[kf.length - 1].s;
+  }
+  function saveTake() { try { localStorage.setItem(TKEY, JSON.stringify(TAKE.kf)); } catch (e) { /* private window or blocked storage */ } }
+  function loadTake() {
+    try {
+      var r = JSON.parse(localStorage.getItem(TKEY) || "[]");
+      if (Array.isArray(r)) TAKE.kf = r.filter(function (x) { return x && typeof x.t === "number" && x.s && KEYS.every(function (k) { return k in x.s; }); }).slice(0, MAXKF).sort(function (a, b) { return a.t - b.t; });
+    } catch (e) { TAKE.kf = []; }
+  }
+  function renderMarks() {
+    var u = ui("take"); if (!u) return;
+    var dl = u.querySelector("datalist"), n = TAKE.kf.length;
+    dl.innerHTML = TAKE.kf.map(function (x) { return '<option value="' + Math.round(x.t * 1000) + '"></option>'; }).join("");
+    u.querySelector("[data-k]").textContent = n ? n + " keyframe" + (n === 1 ? "" : "s") + " at " + TAKE.kf.map(function (x) { return Math.round(x.t * 100) + "%"; }).join(", ") + "." : "No keyframes yet.";
+  }
+  function addKey(t) {
+    var kf = TAKE.kf, i, s = snapState(), tt = Math.round(t * 1000) / 1000;
+    for (i = 0; i < kf.length; i++) if (Math.abs(kf[i].t - tt) < 0.01) { kf[i].s = s; saveTake(); renderMarks(); return true; }
+    if (kf.length >= MAXKF) { say("take", "Keyframe limit reached (" + MAXKF + "). Clear the take to start over."); return false; }
+    kf.push({ t: tt, s: s }); kf.sort(function (a, b) { return a.t - b.t; }); saveTake(); renderMarks(); return true;
+  }
   var TRACKS = {
     intro:   { apply: function (t) { setEV(lerp(-1.5, 1, ease(t))); } },
     develop: { apply: function (t) { var v; if (t < 0.5) v = lerp(-2, 1, ease(t / 0.5)); else if (t < 0.8) v = lerp(1, 4, ease((t - 0.5) / 0.3)); else v = lerp(4, 1, ease((t - 0.8) / 0.2)); setEV(v); } },
     snap:    { apply: function (t) { snapApply(t); } },
+    take:    { apply: function (t) { var s = takeAt(t); if (s) applyState(s); } },
     ignite:  { apply: function (t) { var a = plugApi.met(), met, arc = false; if (t < 0.55) met = lerp(a, 6, ease(t / 0.55)); else if (t < 0.8) { met = 6; arc = true; } else met = lerp(6, a, ease((t - 0.8) / 0.2)); plugApi.draw(met, 6, t >= 1 ? a === 6 : arc); } }
   };
-  var tpos = { intro: 1, develop: 1, snap: 1, ignite: 1 }, cur = null, playing = false, last = 0, raf = 0, interval = 0, costs = [];
+  var tpos = { intro: 1, develop: 1, snap: 1, ignite: 1, take: 0 }, cur = null, playing = false, last = 0, raf = 0, interval = 0, costs = [];
   function ui(id) { return document.querySelector('.tp[data-track="' + id + '"]'); }
   function say(id, m) { var u = ui(id); if (u) u.querySelector("[data-s]").textContent = m; }
   function sync(id) { var u = ui(id); if (!u) return; u.querySelector("input").value = Math.round(tpos[id] * 1000); u.querySelector("[data-a=play]").textContent = (playing && cur === id) ? "Pause" : "Play"; }
@@ -761,7 +814,7 @@ Approval: pending</pre>
     if (cur === "intro") { rest("intro"); return; }
     sync(cur); if (msg !== false) say(cur, msg || "Paused.");
   }
-  function leave(id) { if (cur && cur !== id) { halt(false); if (cur !== "intro") { rest(cur); say(cur, ""); } } cur = id; }
+  function leave(id) { if (cur && cur !== id) { halt(false); if (cur !== "intro" && cur !== "take") { rest(cur); say(cur, ""); } } cur = id; }
   function seek(id, v) { leave(id); tpos[id] = v < 0 ? 0 : v > 1 ? 1 : v; TRACKS[id].apply(tpos[id]); sync(id); }
   function budget(ms) { costs.push(ms); if (costs.length > 5) costs.shift(); if (costs.length === 5) { var s = costs.slice().sort(function (a, b) { return a - b; }); interval = s[2] > 12 ? 33 : 0; lite = interval > 0; } }
   function frame(now) {
@@ -776,22 +829,36 @@ Approval: pending</pre>
     raf = requestAnimationFrame(frame);
   }
   function play(id) {
+    if (id === "take") { if (!TAKE.kf.length) { say("take", "No keyframes yet. Press Record, move the scrubber, and change the controls."); return; } setRec(false); }
     if (playing) halt(false);
     leave(id); if (tpos[id] >= 1) tpos[id] = 0;
     playing = true; last = performance.now(); interval = 0; costs = [];
     if (id !== "intro") say(id, ""); sync(id); raf = requestAnimationFrame(frame);
   }
+  function setRec(on) {
+    TAKE.rec = on; var u = ui("take"); if (!u) return;
+    var b = u.querySelector("[data-a=rec]"); b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "Stop recording" : "Record";
+    if (on) { halt(false); leave("take"); if (!TAKE.kf.length) addKey(tpos.take); say("take", "Recording. Move the scrubber, then change the controls to set a keyframe there."); }
+    else say("take", TAKE.kf.length ? "Recording stopped. Press Play to replay your take." : "");
+  }
   userHook = function () { halt(); };
+  afterEdit = function () { if (TAKE.rec) { if (addKey(tpos.take)) say("take", "Keyframe set at " + Math.round(tpos.take * 100) + "%."); } };
   document.addEventListener("visibilitychange", function () { if (document.hidden) halt(); });
   Array.prototype.forEach.call(document.querySelectorAll(".tp"), function (u) {
     var id = u.getAttribute("data-track");
-    u.innerHTML = '<span class="tpl">' + LABEL[id] + '</span><button class="btn" type="button" data-a="back">Back</button><button class="btn" type="button" data-a="play">Play</button><button class="btn" type="button" data-a="fwd">Forward</button><input type="range" min="0" max="1000" value="1000" aria-label="Scrub: ' + LABEL[id] + '"><span class="hint" role="status" data-s></span>';
+    var extra = id === "take" ? '<button class="btn" type="button" data-a="rec" aria-pressed="false">Record</button><button class="btn" type="button" data-a="clear">Clear</button>' : "";
+    u.innerHTML = '<span class="tpl">' + LABEL[id] + '</span><button class="btn" type="button" data-a="back">Back</button><button class="btn" type="button" data-a="play">Play</button><button class="btn" type="button" data-a="fwd">Forward</button>' + extra + '<input type="range" min="0" max="1000" value="' + (id === "take" ? 0 : 1000) + '" aria-label="Scrub: ' + LABEL[id] + '"' + (id === "take" ? ' list="kfs"' : '') + '>' + (id === "take" ? '<datalist id="kfs"></datalist>' : '') + '<span class="hint" role="status" data-s></span>' + (id === "take" ? '<span class="hint" data-k></span>' : '');
     if (rm) u.querySelector("[data-a=play]").hidden = true;
     u.querySelector("[data-a=play]").addEventListener("click", function () { if (playing && cur === id) halt(); else play(id); });
+    if (id === "take") {
+      u.querySelector("[data-a=rec]").addEventListener("click", function () { setRec(!TAKE.rec); });
+      u.querySelector("[data-a=clear]").addEventListener("click", function () { setRec(false); TAKE.kf = []; saveTake(); tpos.take = 0; sync("take"); renderMarks(); say("take", "Take cleared."); });
+    }
     u.querySelector("[data-a=back]").addEventListener("click", function () { halt(false); seek(id, tpos[id] - 0.1); });
     u.querySelector("[data-a=fwd]").addEventListener("click", function () { halt(false); seek(id, tpos[id] + 0.1); });
     u.querySelector("input").addEventListener("input", function (e) { halt(false); seek(id, parseFloat(e.target.value) / 1000); });
   });
+  loadTake(); renderMarks(); sync("take");
   /* the opening sweep runs on the same engine; skipped for reduced motion */
   if (!rm && window.requestAnimationFrame) play("intro");
 })();
