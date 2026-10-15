@@ -1,0 +1,470 @@
+{
+  "title": "Patent filing workback",
+  "note": "Planning aid, not legal advice. Dates are planning dates until counsel confirms them. Durations are estimates (days) set by the author, not measured.",
+  "ledger": "_STATE/earliest-public-disclosure-ledger-2026-10-15.md",
+  "today_override": null,
+  "buffer_days": 30,
+  "anchors": [
+    {
+      "id": "arcs-care-preview",
+      "date": "2026-05-04",
+      "status": "UNVERIFIED",
+      "what": "Earliest arcs-care Vercel preview deployment (dpl_95eTV9X2JYbqdbkWYWCYqiYNmYmp); reachability unverified"
+    },
+    {
+      "id": "arcs-v9-repo-created",
+      "date": "2026-05-18",
+      "status": "UNVERIFIED",
+      "what": "arcs-v9 GitHub repo created; public from this date only if Q1 shows it"
+    },
+    {
+      "id": "arcs-v9-first-deploy",
+      "date": "2026-06-03",
+      "status": "VERIFIED",
+      "what": "Oldest arcs-v9 Vercel deployment returned by the API (dpl_DCn28csrQmPxWVWd9ud2jmjXRvtN)"
+    }
+  ],
+  "anchor_rule": "Plan against the earliest anchor on file. The anchor moves later only when the ledger proves a later date. Plan date = anchor + 12 months, minus buffer_days. Counsel decides what each anchor means legally.",
+  "nodes": [
+    {
+      "id": "retro-sweep",
+      "title": "Retro sweep: earliest dated trace of each mechanism across every local clone",
+      "needs": [],
+      "owner": "claude",
+      "status": "done",
+      "days": 1,
+      "done_on": "2026-10-15",
+      "evidence": "_STATE/disclosure-retro-sweep-2026-10-15.md",
+      "done_when": "Table of earliest commit per mechanism per clone exists and the sweep self-test passes",
+      "why": "Found history older than the ledger anchors: arcs-decision-receipts first commit 2025-11-14, Kintsugi 2025-12-30, ARCS Law 2026-05-31 (private repo; conception evidence, not disclosure)",
+      "tool": "scripts/disclosure_sweep.py"
+    },
+    {
+      "id": "audit-log",
+      "title": "Pull GitHub audit log: arcs-v9 visibility history (public/private flips)",
+      "needs": [],
+      "owner": "zach",
+      "status": "ready",
+      "days": 1,
+      "done_when": "Flip dates written into ledger section 1 as VERIFIED",
+      "why": "Sets whether the repo anchor is real; moves the whole plan date"
+    },
+    {
+      "id": "domain-history",
+      "title": "Vercel domain-to-project history per surface (arcs-v9 and arcs-care)",
+      "needs": [],
+      "owner": "claude",
+      "status": "ready",
+      "days": 2,
+      "done_when": "Per-subdomain first-resolve date in ledger",
+      "why": "Dates the first public serving of each page"
+    },
+    {
+      "id": "offrepo",
+      "title": "Off-repo channels: LinkedIn, talks, podcasts, emails, take-homes, archives (ledger Q7, Q8)",
+      "needs": [],
+      "owner": "zach",
+      "status": "ready",
+      "days": 3,
+      "done_when": "Each channel listed with date or marked none",
+      "why": "Anything public outside the repo can be earlier than the repo"
+    },
+    {
+      "id": "conception",
+      "title": "Conception evidence: earliest dated notes per mechanism (ledger Q5)",
+      "needs": [
+        "retro-sweep"
+      ],
+      "owner": "zach",
+      "status": "ready",
+      "days": 3,
+      "done_when": "Dated source per mechanism",
+      "why": "Separate from disclosure; counsel asks for it; start from the retro-sweep table"
+    },
+    {
+      "id": "prior-filings",
+      "title": "Confirm whether any application was ever filed (White Paper says Patent-Pending; ledger Q6)",
+      "needs": [],
+      "owner": "zach",
+      "status": "ready",
+      "days": 1,
+      "done_when": "Yes/no with number and date, or 'none'",
+      "why": "A prior filing changes the clock for what it covers"
+    },
+    {
+      "id": "ledger-final",
+      "title": "Ledger v2: every date VERIFIED or explicitly open",
+      "needs": [
+        "audit-log",
+        "domain-history",
+        "offrepo",
+        "prior-filings",
+        "retro-sweep",
+        "sweep-uncloned",
+        "who-saw-it",
+        "anonymize-detail"
+      ],
+      "owner": "claude",
+      "status": "blocked",
+      "days": 2,
+      "done_when": "No UNVERIFIED rows without an owner",
+      "why": "The document counsel actually works from"
+    },
+    {
+      "id": "select-counsel",
+      "title": "Choose and engage a patent attorney (engagement letter signed)",
+      "needs": [],
+      "owner": "zach",
+      "status": "ready",
+      "days": 14,
+      "done_when": "Signed engagement",
+      "why": "Longest lead item with no upstream dependency; start now"
+    },
+    {
+      "id": "counsel-intake",
+      "title": "Hand counsel the ledger, conception evidence and the mechanism list",
+      "needs": [
+        "ledger-final",
+        "conception",
+        "select-counsel"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 1,
+      "done_when": "Counsel confirms receipt",
+      "why": "Outbound send: confirm with Zach before sending"
+    },
+    {
+      "id": "inventory",
+      "title": "Invention disclosure write-up per mechanism (Y-gate, receipt diff, ARCS Law, kintsugi, write-lock, echo, manifold)",
+      "needs": [
+        "ledger-final"
+      ],
+      "owner": "claude",
+      "status": "blocked",
+      "days": 10,
+      "done_when": "One disclosure form per mechanism, cites code paths",
+      "why": "Raw material for the drafts"
+    },
+    {
+      "id": "public-surface-decision",
+      "title": "Decide what to do with pages still serving enabling detail (pf-12d-orbital, pf-knowledge-lattice, monolith); counsel advises",
+      "needs": [
+        "ledger-final"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 2,
+      "done_when": "Decision recorded; no new disclosure meanwhile",
+      "why": "Stops the ledger growing; pulling a page does not erase past serving"
+    },
+    {
+      "id": "prioritize",
+      "title": "Tier the mechanisms with counsel: file now, file later, trade secret",
+      "needs": [
+        "counsel-intake",
+        "inventory"
+      ],
+      "owner": "counsel",
+      "status": "blocked",
+      "days": 5,
+      "done_when": "Tier list signed off",
+      "why": "Scopes the drafting work"
+    },
+    {
+      "id": "foreign-decision",
+      "title": "Foreign filing decision (PCT or direct) per tier",
+      "needs": [
+        "prioritize"
+      ],
+      "owner": "counsel",
+      "status": "blocked",
+      "days": 7,
+      "done_when": "Written recommendation",
+      "why": "Most foreign systems have no grace period; counsel to say what is still open"
+    },
+    {
+      "id": "draft",
+      "title": "Draft provisional(s) for tier 1",
+      "needs": [
+        "prioritize"
+      ],
+      "owner": "counsel",
+      "status": "blocked",
+      "days": 21,
+      "done_when": "Draft in Zach's hands",
+      "why": "Biggest block of elapsed time"
+    },
+    {
+      "id": "review",
+      "title": "Zach review and corrections of drafts",
+      "needs": [
+        "draft"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 5,
+      "done_when": "Signed-off text",
+      "why": "Inventor must check claims against what is actually built"
+    },
+    {
+      "id": "file",
+      "title": "FILE tier-1 provisionals",
+      "needs": [
+        "review"
+      ],
+      "owner": "counsel",
+      "status": "blocked",
+      "days": 1,
+      "done_when": "Filing receipt with date",
+      "why": "The gate: status.arcs.care says patent first, publish second",
+      "milestone": true
+    },
+    {
+      "id": "prereg",
+      "title": "Pre-register the six falsifiable claims (OSF or AsPredicted)",
+      "needs": [
+        "file"
+      ],
+      "owner": "claude",
+      "status": "blocked",
+      "days": 10,
+      "done_when": "Registration IDs",
+      "why": "status.arcs.care section 09; after filing"
+    },
+    {
+      "id": "preprint",
+      "title": "arXiv / SSRN preprint",
+      "needs": [
+        "file",
+        "prereg"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 14,
+      "done_when": "Posted",
+      "why": "A preprint is a public disclosure; only after the filing"
+    },
+    {
+      "id": "outreach",
+      "title": "Institutes and grant programs with dated filing in hand",
+      "needs": [
+        "preprint"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 14,
+      "done_when": "Applications sent",
+      "why": "status.arcs.care roadmap"
+    },
+    {
+      "id": "nonprov",
+      "title": "Non-provisional / PCT due (12 months after the provisional filing date)",
+      "needs": [
+        "file"
+      ],
+      "owner": "counsel",
+      "status": "blocked",
+      "days": 1,
+      "lag_after_file": 365,
+      "done_when": "Filed",
+      "why": "Counsel confirms the exact date from the filing receipt",
+      "milestone": true
+    },
+    {
+      "id": "sweep-uncloned",
+      "title": "Sweep GitHub repos with no local clone for mechanism text and past visibility (gigi, arcs-field-scan, arcs-canon, arcs-field-os, arcs-immune-system)",
+      "needs": [],
+      "owner": "claude",
+      "status": "ready",
+      "days": 2,
+      "done_when": "Each repo: visibility history, earliest mechanism term hit, or 'none'",
+      "why": "gigi and arcs-field-scan are public today and predate arcs-v9; nobody has read them"
+    },
+    {
+      "id": "who-saw-it",
+      "title": "List everyone who was pointed at the repo or its commit links while it was public (builders told, posts, DMs, the status page links)",
+      "needs": [],
+      "owner": "zach",
+      "status": "ready",
+      "days": 1,
+      "done_when": "Each person or channel with the date, or 'none'",
+      "why": "Zach's account: it went public quietly so other builders could look. Who was told, and when, is a dated fact counsel asks for. Verified so far: the repo's one star is the owner's own account (2026-05-26); 0 forks",
+      "evidence_so_far": "gh api stargazers: 1 star, owner account, 2026-05-26"
+    },
+    {
+      "id": "anonymize-detail",
+      "title": "Write down what was pseudonymized, when, and whether history was rewritten for it",
+      "needs": [],
+      "owner": "zach",
+      "status": "ready",
+      "days": 1,
+      "done_when": "What changed (profile, org name, commit authors, files), the dates, and whether any rewrite beyond 2026-06-03 happened",
+      "why": "Zach's account: pseudonymized to avoid crawling. Current history still shows the real name on 5,647 commits and a personal email, so the change is not visible in the commits; it may be in the profile or org name"
+    }
+  ],
+  "est_note": "Every `days` value is an author estimate unless the node sets `measured: true`; the page prints the estimated share.",
+  "beliefs": [
+    {
+      "id": "FB1",
+      "node": "audit-log",
+      "claim": "arcs-v9 repo was public from its creation on 2026-05-18 until the private flip",
+      "p": 0.6,
+      "test": "GitHub org audit log, repo.access events",
+      "verdict": "OPEN",
+      "updates": [
+        {
+          "on": "2026-10-15",
+          "source": "Zach, chat (UNVERIFIED until the audit log)",
+          "note": "Zach says the repo went public quietly and was made private after the status page went up. Prior left unchanged; verdict stays OPEN."
+        }
+      ],
+      "scope": "records",
+      "frame": "fact",
+      "reason_logged_at": "2026-10-15",
+      "path_not_taken": "Treat the repo as private throughout and skip the audit log"
+    },
+    {
+      "id": "FB2",
+      "node": "audit-log",
+      "claim": "The flip to private happened on 2026-07-24",
+      "p": 0.8,
+      "test": "Same audit log",
+      "verdict": "OPEN",
+      "updates": [
+        {
+          "on": "2026-10-15",
+          "source": "Zach, chat",
+          "note": "Consistent with 'after the status page went up' (status.html first added 2026-07-16). Prior left unchanged."
+        }
+      ],
+      "scope": "records",
+      "frame": "fact",
+      "reason_logged_at": "2026-10-15"
+    },
+    {
+      "id": "FB3",
+      "node": "domain-history",
+      "claim": "The 2026-05-28 'first arcs-v9 deploy' in the global CLAUDE.md is an arcs-care conflation, not deleted arcs-v9 deployments",
+      "p": 0.7,
+      "test": "Vercel project deployment history incl. dashboard for deleted deployments",
+      "verdict": "OPEN",
+      "scope": "records",
+      "frame": "fact",
+      "reason_logged_at": "2026-10-15"
+    },
+    {
+      "id": "FB4",
+      "node": "prior-filings",
+      "claim": "No patent application of any kind has been filed",
+      "p": 0.75,
+      "test": "Zach plus USPTO Patent Center search under his name",
+      "verdict": "OPEN",
+      "scope": "legal-status",
+      "frame": "fact",
+      "reason_logged_at": "2026-10-15",
+      "path_not_taken": "Assume a filing exists and skip the USPTO search"
+    },
+    {
+      "id": "FB5",
+      "node": "offrepo",
+      "claim": "At least one mechanism was disclosed off-repo (post, talk, call) before 2026-05-04",
+      "p": 0.35,
+      "test": "Zach's channel inventory, ledger Q7 and Q8",
+      "verdict": "OPEN",
+      "scope": "channels",
+      "frame": "fact",
+      "reason_logged_at": "2026-10-15"
+    },
+    {
+      "id": "FB6",
+      "node": "sweep-uncloned",
+      "claim": "gigi or arcs-field-scan contains text of a candidate mechanism",
+      "p": 0.4,
+      "test": "Clone and run scripts/disclosure_sweep.py on each",
+      "verdict": "OPEN",
+      "scope": "channels",
+      "frame": "fact",
+      "reason_logged_at": "2026-10-15"
+    },
+    {
+      "id": "FB7",
+      "node": "select-counsel",
+      "claim": "Counsel can be engaged within 14 days",
+      "p": 0.6,
+      "test": "Date of signed engagement letter",
+      "verdict": "OPEN",
+      "scope": "schedule",
+      "frame": "estimate",
+      "reason_logged_at": "2026-10-15",
+      "path_not_taken": "Start drafting with no counsel engaged"
+    },
+    {
+      "id": "FB8",
+      "node": "draft",
+      "claim": "One tier-1 provisional drafts in 21 days",
+      "p": 0.5,
+      "test": "Date counsel delivers the draft",
+      "verdict": "OPEN",
+      "scope": "schedule",
+      "frame": "estimate",
+      "reason_logged_at": "2026-10-15"
+    }
+  ],
+  "beliefs_note": "Priors are the author's, written before any check ran, and are Zach's to overwrite. Verdicts follow the RET ledger: CONFIRMED, FALSIFIED, REVISED, OPEN. `scope` and `frame` come from the lists `scopes` and `frames`, fixed before any belief resolves. A resolved belief needs `resolved_on`, and `reason_logged_at` must not be later than it. `pr` (optional) is the probability of REVISED, which turns the score into a three-outcome score.",
+  "lessons": [
+    {
+      "id": "L1",
+      "from": "RET K14, B41 (price typed from memory)",
+      "rule": "A date or figure from memory is not an input. Every anchor carries status and source; the plan date may not rest on an UNVERIFIED anchor without saying so",
+      "gate": "anchor_verified (--strict fails)"
+    },
+    {
+      "id": "L2",
+      "from": "RET K7, K16, K48, B47 (tests that cannot fail; 2,048 vacuous passes)",
+      "rule": "Every gate must be shown to fail on a planted fault before it is trusted",
+      "gate": "--self-test (mutation: slip, cycle, fake done, empty graph)"
+    },
+    {
+      "id": "L3",
+      "from": "RET K12 (log time is not event time)",
+      "rule": "A node is done only with done_on and an evidence path that exists",
+      "gate": "done_evidence"
+    },
+    {
+      "id": "L4",
+      "from": "RET B65 (a printed hit is not a gate)",
+      "rule": "Every check returns an exit code; none rely on a person reading output",
+      "gate": "--check aggregates all gates"
+    },
+    {
+      "id": "L5",
+      "from": "RET K13, B40 (a labelled guess still reads as a finding)",
+      "rule": "Show the share of schedule days that are estimates beside every date",
+      "gate": "estimate_share (printed and on the page)"
+    },
+    {
+      "id": "L6",
+      "from": "RET B47 (too-clean sweep)",
+      "rule": "Comfortable slack everywhere is a warning sign, not a result; check what was left out",
+      "gate": "inlier (--strict fails when min slack is over half the window)"
+    }
+  ],
+  "base_case": {
+    "plan_date": "2027-04-04",
+    "set_by": "Zach, chat 2026-10-15",
+    "rule": "Pinned. It equals the earliest anchor on file (2026-05-04) + 12 months - 30 day buffer. Other anchors are scenarios. If any anchor would put the date earlier than this, the base_case gate fails and the plan must be re-based on purpose."
+  },
+  "scopes": [
+    "records",
+    "channels",
+    "legal-status",
+    "schedule"
+  ],
+  "frames": [
+    "fact",
+    "US",
+    "foreign",
+    "estimate"
+  ]
+}
