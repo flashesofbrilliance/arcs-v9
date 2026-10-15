@@ -76,3 +76,26 @@ Check changes. V7 is replaced: at the vector rung the frame equals the unquantiz
 Found by eye after the checks passed, and fixed: the picture frame stretched taller than its canvas; the spectrogram looked saturated until the dynamic range was capped at 66 dB; the radial mode was lopsided for bass-heavy input until it was mirrored; the 1 x 1 rung drew solid gold because coarse rungs were drawn too thick, fixed by drawing them larger and averaging down; the nine rungs wrapped onto two rows. None of these was caught by a mechanical check.
 
 Limits. Tested on one synthetic demo, generated tones, and three short local files; no 8K display, no phone, no Safari or Firefox. The 8K rung redraws once on pause and falls back if the canvas cannot be made, which was not exercised. Playback uses the browser's audio clock; a real device with a different output latency was not measured.
+
+## Amendment 2 (2026-10-15, before building): Save as twin
+
+Zach: the audio files are songs he wrote, and he expects an HTML digital twin soon. He is using the self-hosted copy, where downloads work.
+
+Definition. A twin is ONE self-contained HTML file: the Phosphor page, the song's original bytes (base64, no re-encoding), and nothing else. Opened, it decodes the embedded song, analyzes it, and shows the same visualizer, ladder, chapters and playback. It makes no network request.
+
+Rules.
+- "Save as twin" is the only way a twin is made and the only egress: it builds the file in the browser and saves it to the viewer's device. Nothing is uploaded, committed or published by the page. Publishing a twin anywhere is a separate decision for its owner.
+- The page keeps a pristine copy of its own source taken before any script runs, so a twin is the page as shipped, not the page with this session's state in it.
+- Saving a twin from a twin replaces the embedded song and never doubles it.
+- A twin states plainly what it is ("a self-contained twin of NAME; the audio and the analysis code are in this file") and carries only the file's name, not a claim of authorship.
+- Size: the file is about 1.34 times the song plus the page; refuse above 40 MB with a message.
+- In a viewer that blocks downloads the button reports that and points to the self-hosted copy.
+
+Checks (pass or fail), run on one of the owner's own songs, kept local, not committed.
+T1. A twin opened from disk shows the same chapters as the original page after loading the same file.
+T2. The canvas pixels at five times match the original page with the same settings.
+T3. The twin makes no network request and its size is within 10 percent of 1.34 times the song plus the page.
+T4. Saving a twin from the twin gives a file the same size as the first twin.
+T5. Nothing is written or sent until Save as twin is clicked; the demo state has the button disabled.
+
+Not claimed: that a twin works in a viewer that blocks downloads or file access; that it plays on every browser; that it is the right format for sharing.
