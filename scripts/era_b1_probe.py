@@ -36,3 +36,20 @@ for name, m in scenes:
     nn = absc(nn4(d64)); gap = (a256 - a64) / 32; dz = abs(dd - cc) / 32; k4 = a256 - nn
     k1 = a64 < a128 < a256 and gap >= .15; k2 = dz < .15; k4ok = k4 >= 4.8
     print(f"{name:9} {a64:3.0f} {a128:4.0f} {a256:4.0f} {gap:5.2f} {dd:5.0f}/{cc:3.0f} {dz:4.2f} {nn:4.0f} {k4:6.1f}  {'P' if k1 else 'F'}  {'P' if k2 else 'F'}  {'P' if k4ok else 'F'}")
+
+# ---- Round 2 (pre-registered in the concept note before this was run) ----
+# B12 three arms on the 64 row: unquantized / 4-bit quantize-only / 4-bit quantize+dither.
+# B13 two real rendered images (central 256 crop): ordering a64<a128<a256 and K4 gap >= 4.8 vs NN4(64).
+def round2():
+    print("\nB12 arms (abs cutoff on the 64 row): unq / q4 / q4+dither ; shifts /32")
+    for name, m in scenes:
+        d64 = down(m, 4); u = absc(d64); q = absc(quant(d64, False)); qd = absc(quant(d64, True))
+        print(f"{name:9} {u:3.0f} {q:3.0f} {qd:3.0f}   q4-vs-unq {abs(q-u)/32:4.2f}  dither-vs-q4 {abs(qd-q)/32:4.2f}")
+    print("\nB13 real images")
+    for path in ("public/good-fears-og.png", "public/honest-og.png"):
+        w, h, pix = sc.read_png(open(path, "rb").read())
+        y0, x0 = (h - 256) // 2, (w - 256) // 2
+        m = [r[x0:x0 + 256] for r in pix[y0:y0 + 256]]
+        a256, a128, a64 = absc(m), absc(down(m, 2)), absc(down(m, 4)); nn = absc(nn4(down(m, 4)))
+        print(f"{path:26} {w}x{h} a64/a128/a256 {a64:.0f}/{a128:.0f}/{a256:.0f}  ordering {'ok' if a64 < a128 < a256 else 'INVERTS'}  K4gap {a256 - nn:.1f}")
+if "--round2" in sys.argv: round2()
