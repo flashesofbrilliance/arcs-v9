@@ -1,0 +1,35 @@
+<!-- @dsCard group="Instrument Lab" name="Contact Sheet" subtitle="One cell per record in time order · filled or empty · ring on the first cell of the run" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* Organism: a contact sheet. One cell per record in time order, filled or empty, with a ring on the first cell of
+   an unbroken run (the T0 snap). Reveals a change of slope that a count hides. Cells are SVG rects. */
+.sheet { background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px; }
+.sheet svg { display: block; width: 100%; height: auto; }
+.sheet .on { fill: var(--cyan); } .sheet .off { fill: var(--border); } .sheet .hid { fill: transparent; stroke: var(--border); stroke-width: 1; }
+.sheet .ring { fill: none; stroke: var(--gold); stroke-width: 2; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: var(--ds-r-xs); margin-right: 6px; vertical-align: -1px; background: var(--border); }
+.legend .l-on::before { background: var(--cyan); } .legend .l-ring::before { background: transparent; border: 2px solid var(--gold); }
+</style>
+</head>
+<body>
+<div class="section-label">Contact sheet</div>
+<div class="sheet"><svg id="s" viewBox="0 0 652 98" role="img" aria-label="Sample contact sheet"></svg>
+<div class="legend"><span>Empty</span><span class="l-on">Filled</span><span class="l-ring">First of the unbroken run</span></div></div>
+<script>
+(function(){var bits="0000000000000000000000000001000000000000000000000000000000000000001111111111111111111111111111111111111111",cols=28,cs=20,gap=3.5,h="";
+for(var i=0;i<bits.length;i++){var c=i%cols,r=Math.floor(i/cols),x=4+c*(cs+gap),y=4+r*(cs+gap);h+='<rect class="'+(bits[i]==="1"?"on":"off")+'" x="'+x+'" y="'+y+'" width="'+cs+'" height="'+cs+'" rx="3"/>';
+if(i===60)h+='<rect class="ring" x="'+(x-2)+'" y="'+(y-2)+'" width="'+(cs+4)+'" height="'+(cs+4)+'" rx="4"/>';}
+document.getElementById("s").innerHTML=h;})();
+</script>
+</body>
+</html>
