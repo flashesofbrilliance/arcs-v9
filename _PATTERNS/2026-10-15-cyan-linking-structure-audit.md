@@ -122,3 +122,11 @@ Net: nothing killed. One finding worth keeping: the brief prose layer is the bak
 ## Correction to the echo tests (2026-10-15, appended, earlier text left as written)
 
 Test 1 above says the `atgTributaries` fallback "is working as designed". That is wrong. The column was introduced and never backfilled, so 197 receipts depend on the raw reply for tributaries. A follow-up chat message also called the 06-12 to 06-29 stretch an inconsistent write window. That was wrong too: I took the earliest filled row as the start, and that row is a one-off. Receipts in creation order: one filled row on 2026-06-12 (index 28), 169 empty rows after it, then an unbroken run of 73 filled rows from the first receipt after 2026-06-29. The boundary is clean, so the zero point (T0) is that run's start. Counts: 197 empty, 74 filled, 271 total. The contact sheet in `_ARTIFACTS/raw-capture.html` shows the same data.
+
+## Dry-run backfill of atgTributaries (2026-10-15, read-only, nothing written)
+
+Kill test 1 for the raw-capture idea: can the empty column be rebuilt from the stored raw reply? The rule is the compass write path (src/app/api/compass/route.ts): first 4 tributaries, each reduced to type, label and prompt, clamped to 40, 80 and 1000 characters. Control characters stripped by my reimplementation, not by the repo's own `clampText`, so a byte-exact match was not guaranteed.
+- Rule check on the 74 filled rows: reproduces the stored column exactly on 73. The one miss is receipt `cmqbd3i3k000104lawptiz7x0`, created 2026-06-12 20:11, the stray first filled row. Its stored labels are the short Meta, Challenge, Adjacent while its raw reply carries longer ones.
+- Dry run on the 197 empty rows: all 197 have a tributaries list in the raw reply, each with exactly 3 entries, none with a blank prompt. 197 of 197 are rebuildable.
+- Result: not killed. The raw is a sufficient source for this column on every row.
+- Caveats: the stray row's mismatch is unexplained. It predates the clean run, so it may be an earlier write format; I did not check the commit history. The rule was reimplemented in Python, not run through the repo's own function. The prod write is not done and is held for an explicit go.
