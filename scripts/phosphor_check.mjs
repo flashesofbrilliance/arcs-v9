@@ -122,7 +122,7 @@ for (const f of files) {
   try {
     const fracs = [0.08, 0.17, 0.25, 0.33, 0.42, 0.5, 0.58, 0.67, 0.75, 0.83, 0.92]
     const py = JSON.parse(execFileSync('python3', [path.join(path.dirname(new URL(import.meta.url).pathname), 'phosphor_crosscheck.py'), f, ...fracs.map(String)], { maxBuffer: 1 << 26 }).toString())
-    await pg.evaluate(() => { const r = document.getElementById('m1'); r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); const s = document.getElementById('res'); s.value = 9; s.dispatchEvent(new Event('input', { bubbles: true })) })
+    await pg.evaluate(() => { const c = document.getElementById('calm'); c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); const r = document.getElementById('m1'); r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); const s = document.getElementById('res'); s.value = 9; s.dispatchEvent(new Event('input', { bubbles: true })) })
     const xs = [], ys = []
     for (const fr of fracs) {
       await seek(pg, fr); await pg.waitForTimeout(60)
