@@ -132,3 +132,26 @@ K2 Each column's keys select its mode (F17 Bars, F18 Radial, F19 Spectro).
 K3 Right arrow steps the palette in order and wraps; left reverses; Shift with an arrow changes the bit depth.
 K4 Arrows do nothing to the palette while a slider has focus.
 K5 Learned keys replace the defaults, persist across a reload, and the old keys stop working for that column.
+
+## Results for Amendment 2 (2026-10-15)
+
+`node scripts/phosphor_look_check.mjs _ARTIFACTS/phosphor.html`: K1 to K5 pass. F16, Clear, 7, 4, 1 step Scope through stages 1 to 5; stage 5 draws a different picture from stage 1 in all four modes; pressing the stage 1 key restores that picture byte-identical; F17, F18 and F19 select Bars, Radial and Spectro; Right and Left arrows step the palette in order and wrap; Shift with an arrow steps the palette bit depth; arrows do nothing while a slider has focus; learned keys save, persist across a reload, replace the old keys, and Reset restores the defaults.
+Found while testing: the stage handler called a function that this page never defined, which threw on the first key press (caught by the check script, fixed); Playwright's keyboard has no F16 to F19, so the test sends real KeyboardEvents with the intended `code` values; and one K5 failure was the test leaving a slider focused. Limits: the key codes were checked with synthetic events, not on the owner's keyboard; the physical layout (F16 above Clear) is the owner's description of an inferred layout.
+
+## Amendment 3 (2026-10-15, before building): the Pocket skin
+
+Zach asked for some of the Teenage Engineering feel from goldcoastcustoms.xyz. Read from the live site with Playwright (computed styles and screenshots), not from memory: near-black ground; red LED digit tiles (Geist Mono 700, #ff2222, tiles #0a0a0a to #060606 with a 1px #1e1e1e border and deep inset shadows); 9px uppercase tracked labels and a spec line; an orange mono clock (#ff6b35); pads with a 12px radius, a 135 degree grey gradient, and an orange gradient with a glow when active; textured grey device panels with a double border and a small status LED that lights green when active; large white serif numerals; a header strip of dots that lights red, orange, yellow, green like a level meter; a bottom dock with a play key, an inset LCD and numbered pads; a heavy Inter headline with a pink to white fill.
+
+Rules.
+- It is a skin, off by default, switched by a header button, `?skin=pocket` or a saved choice. The default stays the ARCS look so the repo's design gate, which judges the default, is unaffected. Making Pocket the default is a design-system decision for the owner (it departs from DESIGN.md).
+- The level meter strip and the dock level meter are real gauges: lit dots equal the audio level at the current time, rounded, a pure function of time like everything else.
+- The extra elements (strip, dock) exist only while the skin is on.
+- No new network request: system fonts only (SF Mono and system-ui stand in for Geist Mono and Inter).
+- Colors for the skin are the site's, not DESIGN.md's; the ink of the picture follows the skin (orange on near-black).
+Checks.
+P1 Switching on creates the strip and the dock and sets the skin attribute; switching off removes them; the default page contains neither.
+P2 The meter lights a number of dots within 1 of the level times the number of dots, at three times in the song, and more dots at a loud frame than at a quiet one.
+P3 In the Pocket skin the blocks in the lane still end at the same right edge at 1280 and 790 px (the sibling-edge rule).
+P4 The earlier look, stage and glitch checks pass unchanged with the skin on.
+P5 No console errors and no network requests.
+Not claimed: that it matches the site closely, or that it looks good; that needs the owner's eye.

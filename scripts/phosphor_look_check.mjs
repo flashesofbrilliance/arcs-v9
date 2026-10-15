@@ -82,5 +82,41 @@ console.log(`  frame-to-frame mean luminance, largest change: live ${liveClean.t
 check(Math.abs(liveGlitch - liveClean) < 0.03 && Math.abs(calmGlitch - calmClean) < 0.03, 'L6: the glitch effects themselves add under 0.03 to the largest frame-to-frame change')
 check(calmGlitch < 0.1, `L6: with Calm on and every glitch on, the largest change is ${calmGlitch.toFixed(3)} (want under 0.1)`)
 console.log(`  (diagnostic, the condition first registered: Calm off, no glitch, largest change ${liveClean.toFixed(3)}; a loud onset redraws a whole bar chart in one frame, which is why Calm exists and is on by default)`)
+const KEYS = { F16: 'F16', F17: 'F17', F18: 'F18', F19: 'F19', NumLock: 'Clear', NumpadEqual: '=', NumpadDivide: '/', NumpadMultiply: '*', NumpadSubtract: '-', NumpadAdd: '+', NumpadEnter: 'Enter', Numpad1: '1', Numpad2: '2', Numpad3: '3', Numpad4: '4', Numpad5: '5', Numpad6: '6', Numpad7: '7', Numpad8: '8', Numpad9: '9', KeyA: 'a', KeyS: 's', KeyD: 'd', KeyF: 'f', KeyG: 'g' }
+const press = (code) => ev(([code, key]) => { const t = document.activeElement || document.body; for (const type of ['keydown', 'keyup']) t.dispatchEvent(new KeyboardEvent(type, { code, key, bubbles: true, cancelable: true })) }, [code, KEYS[code] || code])
+// K1 to K5: keypad zoom stages, learnable keys, palette arrows (Amendment 2)
+const zoom = () => ev(() => window.PhosphorTest.zoom())
+await ev(() => document.body.focus()); await set('perf', false); await set('palsel', 'orig'); await set('pal', 8)
+await press('F16'); let z = await zoom(); const h1 = await hash()
+check(z.mode === 0 && z.zs[0] === 1, 'K1: F16 selects Scope at stage 1')
+const seq = []; for (const key of ['NumLock', 'Numpad7', 'Numpad4', 'Numpad1']) { await press(key); seq.push((await zoom()).zs[0]) }
+check(JSON.stringify(seq) === '[2,3,4,5]', `K1: Clear, 7, 4, 1 step Scope through stages ${seq.join(', ')}`)
+const h5 = await hash(); check(h5 !== h1, 'K1: stage 5 draws a different picture from stage 1')
+await press('F16'); check((await hash()) === h1, 'K1: pressing the stage 1 key restores the stage 1 picture byte-identical')
+await press('F17'); const m1 = (await zoom()).mode; await press('F18'); const m2 = (await zoom()).mode; await press('F19'); const m3 = (await zoom()).mode
+check(m1 === 1 && m2 === 2 && m3 === 3, `K2: F17, F18, F19 select Bars, Radial, Spectro (modes ${m1}, ${m2}, ${m3})`)
+await press('NumpadEnter'); z = await zoom(); check(z.mode === 3 && z.zs[3] === 5, 'K2: the last key of the fourth column sets Spectro stage 5')
+const hz = []; for (const k of ['F16', 'F17', 'F18', 'F19']) { await press(k); const h1k = await hash(); const last = ['Numpad1', 'Numpad2', 'Numpad3', 'NumpadEnter'][hz.length]; await press(last); hz.push(h1k !== (await hash())); await press(k) }
+check(hz.every(Boolean), 'K1: stage 5 differs from stage 1 in all four modes')
+// K3 palette arrows
+const pal = () => ev(() => document.getElementById('palsel').value)
+await ev(() => document.body.focus()); const order = []; for (let i = 0; i < 7; i++) { await pg.keyboard.press('ArrowRight'); order.push(await pal()) }
+check(order.join() === 'arcs,phosphor,amber,indigo,heat,mono,orig', `K3: Right arrow steps the palette in order and wraps (${order.join(' ')})`)
+await pg.keyboard.press('ArrowLeft'); check((await pal()) === 'mono', 'K3: Left arrow reverses and wraps')
+await set('palsel', 'orig')
+await pg.keyboard.press('Shift+ArrowLeft'); const b7 = await ev(() => document.getElementById('pal').value); await pg.keyboard.press('Shift+ArrowLeft'); const b6 = await ev(() => document.getElementById('pal').value); await pg.keyboard.press('Shift+ArrowRight'); const b7b = await ev(() => document.getElementById('pal').value)
+check(b7 === '7' && b6 === '6' && b7b === '7', `K3: Shift with an arrow steps the palette bit depth (${b7}, ${b6}, ${b7b})`)
+await set('pal', 8)
+// K4 arrows are not hijacked from controls that use them
+await ev(() => document.getElementById('scrub').focus()); const before = await pal(); await pg.keyboard.press('ArrowRight'); check((await pal()) === before, 'K4: arrows do nothing to the palette while a slider has focus')
+// K5 learn, persist, old keys stop working, reset
+await ev(() => (document.activeElement && document.activeElement.blur(), document.body.focus())); await ev(() => document.querySelector('[data-learn="0"]').click())
+for (const k of ['KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG']) await press(k)
+check((await ev(() => document.getElementById('learnhint').textContent)) === 'Saved.', 'K5: learning five keys saves the column')
+await press('F18'); await press('KeyG'); z = await zoom(); check(z.mode === 0 && z.zs[0] === 5, 'K5: a learned key sets its mode and stage')
+await press('F17'); await press('Numpad7'); check((await zoom()).mode === 1, 'K5: the old key for that column no longer works')
+await pg.reload(); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.querySelectorAll('#chap button').length > 0, null, { timeout: 30000 })
+await ev(() => (document.activeElement && document.activeElement.blur(), document.body.focus())); await press('F18'); await press('KeyA'); z = await zoom(); check(z.mode === 0 && z.zs[0] === 1, 'K5: learned keys persist across a reload')
+await ev(() => document.getElementById('resetkeys').click()); await ev(() => (document.activeElement && document.activeElement.blur(), document.body.focus())); await press('F18'); await press('F16'); check((await zoom()).mode === 0, 'K5: Reset keys restores the defaults')
 check(errors.length === 0, `no script errors${errors.length ? ': ' + errors[0] : ''}`)
 await b.close(); process.exit(fails.length ? 1 : 0)
