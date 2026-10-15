@@ -43,7 +43,9 @@ the script's docstring; the detector then only supports "band-limited, source un
 
 See the end of this file.
 
-### Run, 2026-10-15 (`python3 scripts/sharpness_cutoff.py --self-test`)
+### Run, 2026-10-15 (`python3 scripts/sharpness_cutoff.py --self-test`, merged in arcs-v9 PR 1313 at 97b31f7c, receipt 2026-10-15--unearned-sharpness-detector-pr1313--ZH)
+
+Ground: output reproduced from `scripts/sharpness_cutoff.py` on the PR 1313 head; Vercel status on 97b31f7c = success; receipt row read back from public.decision_receipt.
 
 cutoff_ratio (99% of AC energy, fraction of Nyquist): native 1.000, planted 2x upscale 0.688, smooth native 0.406.
 
