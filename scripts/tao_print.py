@@ -38,55 +38,56 @@ def rng(pid, seed, *k):
     return random.Random(int.from_bytes(h[:8], "big"))
 
 
-def mold(a, v):
-    """Twisted-ring mold: a lemniscate whose lobe pinch comes from the aspect, stroke count from the verb."""
-    pinch = 0.55 + 0.1 * a
-    strokes = v + 1
-    out = []
-    for s in range(strokes):
-        r = 1.0 - 0.13 * s
-        pts = []
-        for i in range(61):
-            t = 2 * math.pi * i / 60
-            d = 1 + pinch * math.sin(t) ** 2
-            x = 50 + 44 * r * math.cos(t) / d
-            y = 50 + 44 * r * math.sin(t) * math.cos(t) / d * 1.9
-            pts.append(f"{x:.2f},{y:.2f}")
-        out.append("M" + " L".join(pts) + "Z")
-    return out
+STRANDS = 18          # the instrument uses 44; fewer keeps a 15-panel print light
+STEPS = 72
+PHASE = 0.9           # instrument default rotation
+HORIZON = 62          # horizon y in panel units (instrument: 0.62 of height)
+
+
+def project(u, v, ph):
+    """The ARCS Moebius strip, same parametrization as _ARTIFACTS/arcs-moire-mobius.html, in a 100-unit panel."""
+    x = (1 + v * math.cos(u / 2)) * math.cos(u)
+    y = (1 + v * math.cos(u / 2)) * math.sin(u)
+    z = v * math.sin(u / 2)
+    x1 = x * math.cos(ph) + z * math.sin(ph)
+    z1 = -x * math.sin(ph) + z * math.cos(ph)
+    t = -0.52
+    y1 = y * math.cos(t) - z1 * math.sin(t)
+    z2 = y * math.sin(t) + z1 * math.cos(t)
+    sc = 3.4 / (3.4 + z2) * 30
+    return 50 + x1 * sc, 46 + y1 * sc
+
+
+def strand(vf, ph):
+    v = (vf - 0.5) * 0.62
+    pts = [project(2 * math.pi * i / STEPS, v, ph) for i in range(STEPS + 1)]
+    return "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
 
 
 def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
-    """One repeat. k = repeat index (0 = first pull), n = total repeats."""
+    """One repeat of the mold. Fog = (1 - f), the instrument's own fog control; the gap between the two
+    strand families (delta) widens across repeats in proportion to (1 - f), so interference is the misregistration."""
     drift = k / max(1, n - 1)
     loss = 1.0 - f
-    paths = mold(a, v)
-    order = [(a + i) % 4 for i in range(3)]          # three inks per print, rotated by aspect
-    layers = []
-    offs = []
-    for li, ink in enumerate(order):
-        r = rng(pid, seed, "reg", k, li)
-        ox = (r.random() * 2 - 1) * MAX_OFFSET * loss * drift
-        oy = (r.random() * 2 - 1) * MAX_OFFSET * loss * drift
-        offs.append(math.hypot(ox, oy))
-        op = 1.0 - 0.5 * loss * drift
-        col = INKS[SWAP[ink] if swap else ink]
-        d = " ".join(paths[: max(1, min(len(paths), li + 1 + (len(paths) > 2)))])
-        layers.append(
-            f'<path d="{d}" transform="translate({ox:.2f} {oy:.2f})" fill="none" stroke="{col}" '
-            f'stroke-width="{7 - 2 * li}" stroke-linejoin="round" opacity="{op:.3f}"/>'
-        )
+    delta = 0.022 + 0.16 * loss * drift
+    c1, c2 = ("var(--gold)", "var(--cyan)") if swap else ("var(--cyan)", "var(--gold)")
+    fam1 = "".join(f'<path d="{strand(i / (STRANDS - 1), PHASE)}"/>' for i in range(STRANDS))
+    fam2 = "".join(f'<path d="{strand(i / (STRANDS - 1), PHASE + delta)}"/>' for i in range(STRANDS))
+    fog = min(0.95, loss * (0.35 + 0.65 * drift) * 1.1)
     ns = int(round(MAX_SPECKS * loss * (0.25 + 0.75 * drift)))
     r = rng(pid, seed, "grain", k)
     specks = "".join(
-        f'<circle cx="{r.random()*100:.1f}" cy="{r.random()*100:.1f}" r="{0.5+r.random()*1.2:.2f}"/>'
-        for _ in range(ns)
-    )
-    tf = f' transform="translate(100 0) scale(-1 1)"' if mirror else ""
+        f'<circle cx="{r.random()*100:.1f}" cy="{HORIZON-20+r.random()*40:.1f}" r="{0.4+r.random()*0.9:.2f}"/>'
+        for _ in range(ns))
+    tf = ' transform="translate(100 0) scale(-1 1)"' if mirror else ""
     return (
-        f'<g data-k="{k}" data-reg="{sum(offs)/len(offs):.3f}" data-specks="{ns}"{tf}>'
-        + "".join(layers)
-        + f'<g fill="var(--dimmed)">{specks}</g></g>'
+        f'<g data-k="{k}" data-reg="{delta*100:.3f}" data-specks="{ns}"{tf}>'
+        f'<rect width="100" height="100" fill="var(--bg)"/>'
+        f'<rect y="{HORIZON}" width="100" height="1.1" fill="var(--gold)"/>'
+        f'<g fill="none" stroke-width="0.55" style="mix-blend-mode:plus-lighter">'
+        f'<g stroke="{c1}" opacity="{.5*(1-.6*fog):.3f}">{fam1}</g><g stroke="{c2}" opacity="{.32*(1-.6*fog):.3f}">{fam2}</g></g>'
+        f'<rect y="{HORIZON-34}" width="100" height="68" fill="url(#fog)" opacity="{fog:.3f}"/>'
+        f'<g fill="var(--dimmed)" opacity=".7">{specks}</g></g>'
     )
 
 
@@ -98,15 +99,17 @@ def svg(row, f, seed):
     n = cols * cols
     gap = 14
     W = cols * CELL + (cols - 1) * gap
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+136}" role="img" '
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+150}" role="img" '
            f'aria-label="Silkscreen print of the proverb: {row["text"]}" data-id="{pid}" '
            f'data-fidelity="{f}" data-seed="{seed}">',
-           f'<rect width="{W}" height="{W+136}" fill="var(--bg)"/>']
+           f'<defs><linearGradient id="fog" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#020408" stop-opacity="0"/>'
+           f'<stop offset=".5" stop-color="#0d1117" stop-opacity="1"/><stop offset="1" stop-color="#020408" stop-opacity="0"/></linearGradient></defs>',
+           f'<rect width="{W}" height="{W+150}" fill="var(--bg)"/>']
     for k in range(n):
         x = (k % cols) * (CELL + gap)
         y = (k // cols) * (CELL + gap)
-        out.append(f'<g transform="translate({x} {y}) scale({CELL/100})">'
-                   + panel(pid, seed, f, k, n, a, v) + "</g>")
+        out.append(f'<svg x="{x}" y="{y}" width="{CELL}" height="{CELL}" viewBox="0 0 100 100">'
+                   + panel(pid, seed, f, k, n, a, v) + "</svg>")
     # Mobius strip: one row of 6 panels, the closing panel is mirrored with swapped inks
     m = 6
     sy = W + 18
@@ -115,8 +118,8 @@ def svg(row, f, seed):
     for k in range(m):
         x = k * (sw + 6)
         twist = k == m - 1
-        out.append(f'<g transform="translate({x:.1f} {sy}) scale({sw/100:.3f})" data-twist="{int(twist)}">'
-                   + panel(pid, seed, f, k + n, n + m, a, v, swap=twist, mirror=twist) + "</g>")
+        out.append(f'<svg x="{x:.1f}" y="{sy}" width="{sw:.1f}" height="{sw:.1f}" viewBox="0 0 100 100" data-twist="{int(twist)}">'
+                   + panel(pid, seed, f, k + n, n + m, a, v, swap=twist, mirror=twist) + "</svg>")
     out.append("</g>")
     words = row["text"].rstrip(".").split()
     h = (len(words) + 1) // 2

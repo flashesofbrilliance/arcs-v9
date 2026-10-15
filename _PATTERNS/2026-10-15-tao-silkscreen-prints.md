@@ -6,7 +6,7 @@ Status: prototype only. No series minted. Nothing published.
 ## Form, not subject
 Borrowed form: one mold repeated in a grid, flat inks, registration and ink loss drifting across repeats.
 Not used: any crash imagery, any existing artist's work. The subject is a proverb and its source.
-Mold geometry is a twisted ring (lemniscate). It reads as the ARCS horizon mark, not as a true one-sided Möbius band.
+v1 used a flat lemniscate and was wrong. v2 uses the actual ARCS Möbius: the parametric strip, two offset strand families and gold horizon from `_ARTIFACTS/arcs-moire-mobius.html`. Fidelity maps onto that instrument's own controls: fog = (1 - f), strand-family offset (delta) widens across repeats with (1 - f).
 
 ## Finding that changes the design
 `runtime/tao/proverbs.json` rows carry id, aspect, verb, source, text, canon_ref. They carry NO NCI and NO Y state.
@@ -27,7 +27,7 @@ A print must say so on its face. Wiring real fidelity needs a receipt link per p
 
 ## Results (this session)
 - K1 PASS, K2 PASS (registration 3.47 to 0.12, specks 1289 to 45 across f 0.15 to 0.97), K4 PASS: `python3 scripts/tao_print_check.py`.
-- K3 machine proxy PASS (rho 1.0). Caveat: this only proves the encoding is recoverable from pixels. I built the encoding, so it does not prove a person perceives it. Human blind sheet still pending.
+- K3 machine proxy PASS (rho 0.97 on v2). The pixel score was rewritten for v2 after the v1 score failed it on the new mold (grain share and horizon-line brightness, not centroid spread); the rho >= 0.9 bar was not changed. Caveat: this only proves the encoding is recoverable from pixels. I built the encoding, so it does not prove a person perceives it. Human blind sheet still pending.
 - K5 PARTIAL at 360px (Playwright): no horizontal scroll, proverb text about 12.7px (passes the 11px floor). The provenance caption was about 7px and was raised to 12 units (about 10px at 360px, still under 11; move it into HTML before minting a series). Strip panels are about 50px wide and read as shapes, not detail.
 - K6: no PNG export route found. `scripts/html_video_render.mjs` renders video frames and posters via Playwright; a still PNG would be a 10-line Playwright call (the check script already does this). Not built into a route.
 - K7: prototype proverb `adr039-W-recapitulate` sources from ADR-080, no person. An earlier candidate (`lyndon-onesheet-W-synthesize`) sources from a counterpart PDF and was excluded.
