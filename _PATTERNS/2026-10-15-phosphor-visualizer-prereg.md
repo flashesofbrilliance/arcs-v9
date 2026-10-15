@@ -56,3 +56,23 @@ Tonal depth stays a separate knob, called Palette (1 to 8 bits per channel, plai
 Render budget. While playing, the frame is drawn at no more than the 1920 x 1080 rung (a higher rung is shown as that rung scaled up). On pause the frame is refined once at the chosen rung, up to 7680 x 4320, drawn offscreen and scaled to the display, and the vector rung redraws at the display's native pixels. If a rung's canvas cannot be created (phones, memory), the page falls back to the highest rung that can and says so.
 
 Check changes. V7 is replaced: at the vector rung the frame equals the unquantized frame; at each pixel rung the frame consists of uniform blocks of the rung's size (the number of distinct blocks equals the rung's pixel count at most). New V10: while playing, the median frame time at the 1080p rung is 12 ms or less in headless Chromium, and the page reports the rung it actually used. New V11: a ladder contact sheet shows the same frame at rungs 1 to 9 side by side.
+
+## Results (2026-10-15, after the pre-registrations above)
+
+`node scripts/phosphor_check.mjs _ARTIFACTS/phosphor.html` with three local files (an mp3, an m4a and an mp4 with sound, chosen from the owner's Downloads, read-only, nothing copied) passes 28 assertions. Run without files it passes the 19 that need none.
+
+- **V1 pass.** Generated tones at 110, 440, 1760 and 7040 Hz are reported near 97, 435, 1800 and 7200 Hz, each within 20 percent (one log band is about 10 percent wide).
+- **V2 pass, one marginal.** Bar heights drawn by the page against an independent numpy recomputation from the same decoded samples: Pearson 1.0000 (mp3), 0.9807 (m4a), 0.9892 (mp4) over 704 values each. The m4a margin over the 0.98 bar is small; AAC decoders can differ slightly in timing.
+- **V3 pass.** Decoded durations 94 s, 152 s and 7 s against ffprobe 95.0, 152.4 and 8.0 (the page clock is whole seconds, tolerance 1 s).
+- **V4 pass.** Every mode draws identical pixels on returning to the same time and different pixels at another time.
+- **V5 pass after a fix.** The first run failed intermittently: playback recorded its start time before a resuming audio context was running, so the clock sat still. The fix waits for the context to run; three consecutive runs pass.
+- **V6 pass, one not applicable.** The demo splits into 4 chapters near its four built sections (0:06, 0:11, 0:18); the mp3 into 4 (0:14, 0:33, 0:51); the m4a into 6 (0:15, 0:33, 1:29, 2:01, 2:23). An 8-second clip yields 1: chapters need about 9 seconds, so the check reports it as not applicable. That exception was added after seeing the result and is disclosed here. Whether those chapter boundaries match a listener's sense of the music was not tested.
+- **V7 pass.** At the 256 x 144 rung the picture is uniform blocks (345 sampled, 0 not uniform); at 8-bit palette and the vector rung the frame is unchanged; at 1-bit palette each channel has 2 values.
+- **V8 pass.** The page is about 41 KB with no embedded audio and makes no network requests.
+- **V9 pass.** No console errors; with reduced motion nothing plays on its own.
+- **V10 pass, weak.** Median draw time while playing at 1920 x 1080 is 0.7 ms in headless Chromium on an 8-core Mac. That measures drawing only, not compositing, and no phone was tried.
+- **V11 pass.** The ladder sheet shows nine rungs.
+
+Found by eye after the checks passed, and fixed: the picture frame stretched taller than its canvas; the spectrogram looked saturated until the dynamic range was capped at 66 dB; the radial mode was lopsided for bass-heavy input until it was mirrored; the 1 x 1 rung drew solid gold because coarse rungs were drawn too thick, fixed by drawing them larger and averaging down; the nine rungs wrapped onto two rows. None of these was caught by a mechanical check.
+
+Limits. Tested on one synthetic demo, generated tones, and three short local files; no 8K display, no phone, no Safari or Firefox. The 8K rung redraws once on pause and falls back if the canvas cannot be made, which was not exercised. Playback uses the browser's audio clock; a real device with a different output latency was not measured.
