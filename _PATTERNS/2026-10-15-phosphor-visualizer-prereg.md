@@ -30,3 +30,29 @@ Parity with MilkDrop-style feedback shaders. Live microphone input (the viewer b
 ## Handling of the user's files
 
 Used for local tests only. The test reads a handful of files read-only through `ffprobe`, `ffmpeg` and a local browser; nothing is copied into the repo, printed beyond a name and a number, or published.
+
+## Amendment 1 (2026-10-15, before building): the Cut is spatial resolution, not tonal bit depth
+
+Zach's clarification: by "bit depth" he meant resolution, from 8-bit to 8K as the minimum and maximum, so the spectrums in between can be seen; and asked whether 1 to infinity is better.
+
+Decision. The knob is a RESOLUTION LADDER, 16:9, with Zach's bounds as labeled landmarks and two extensions at the ends:
+
+| Rung | Pixels | Note |
+|---|---|---|
+| 1 | 1 x 1 | the mean of the whole frame (extension) |
+| 2 | 16 x 9 | extension |
+| 3 | 64 x 36 | extension |
+| 4 | 256 x 144 | "8-bit" landmark, Zach's minimum (the NES line width) |
+| 5 | 640 x 360 | |
+| 6 | 1920 x 1080 | |
+| 7 | 3840 x 2160 | 4K |
+| 8 | 7680 x 4320 | "8K" landmark, Zach's maximum |
+| 9 | vector | the infinity end: drawn analytically, no pixel grid |
+
+Why not a bare 1 to infinity: infinity cannot be rendered as pixels; the only honest infinite rung is analytic drawing, which is what the vector end is. Why keep 8-bit to 8K visible: it is the range with named meaning.
+
+Tonal depth stays a separate knob, called Palette (1 to 8 bits per channel, plain steps or the woodblock dither). "Cut follows chapters" now raises RESOLUTION chapter by chapter, coarse to fine, which is the progressive image generation.
+
+Render budget. While playing, the frame is drawn at no more than the 1920 x 1080 rung (a higher rung is shown as that rung scaled up). On pause the frame is refined once at the chosen rung, up to 7680 x 4320, drawn offscreen and scaled to the display, and the vector rung redraws at the display's native pixels. If a rung's canvas cannot be created (phones, memory), the page falls back to the highest rung that can and says so.
+
+Check changes. V7 is replaced: at the vector rung the frame equals the unquantized frame; at each pixel rung the frame consists of uniform blocks of the rung's size (the number of distinct blocks equals the rung's pixel count at most). New V10: while playing, the median frame time at the 1080p rung is 12 ms or less in headless Chromium, and the page reports the rung it actually used. New V11: a ladder contact sheet shows the same frame at rungs 1 to 9 side by side.
