@@ -49,3 +49,5 @@ Not found by name: the long "based-on-my-tendency-to-speak" thread (the design s
 3. A reconciliation print `_STATE/<date>-perplexity-port-ledger.json` in the doc-reconciliation format, each row carrying class, evidence line and a recommended fate.
 4. KEEP rows need no work. PORT rows become backlog rows with a trigger and a gate. COMPOST rows are relocated with a supersessor note.
 5. Success measure (pre-registered, for the 10X conversation): share of ROM and design items with a verdict and evidence line, and the count of items found to be PORT that no backlog row names today.
+
+Unconfirmed: every verdict above is a grep signal, not a checked claim. The evidence base is the 2026-10-06 reconciliation (_STATE/2026-10-06-doc-reconciliation.md) and the files named in the tables; step 2 is what confirms them.

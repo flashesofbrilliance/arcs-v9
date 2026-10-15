@@ -75,6 +75,11 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 # (valid JSONL, orphan seeds, broken local paths, staleness, repo-coverage gap) and
 # emit a receipt; curation stays human-owned. Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
+
+# Findings gait — the pace line (ADR-086 part E). Read-only: prints the EXTEND/CONTRACT phase,
+# open findings, displacement and the next aid station from _STATE/findings.jsonl so the
+# detectors above have a place where findings get a fate and a close. Never fails the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/findings_gait.py" status 2>/dev/null | sed 's/^/findings-gait: /' || true
 # model drift: flag a newer Claude model per role in src/lib/claude-models.ts (advisory; free
 # GET /v1/models with ANTHROPIC_API_KEY, else silent skip). Never switches a model.
 python3 "$CLAUDE_PROJECT_DIR/scripts/model_drift_check.py" 2>/dev/null || true
