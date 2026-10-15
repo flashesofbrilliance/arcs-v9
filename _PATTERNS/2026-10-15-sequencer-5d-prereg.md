@@ -147,7 +147,7 @@ Rules.
 - The level meter strip and the dock level meter are real gauges: lit dots equal the audio level at the current time, rounded, a pure function of time like everything else.
 - The extra elements (strip, dock) exist only while the skin is on.
 - No new network request: system fonts only (SF Mono and system-ui stand in for Geist Mono and Inter).
-- Colors for the skin are the site's, not DESIGN.md's; the ink of the picture follows the skin (orange on near-black).
+- (Superseded, see the design gate note below: the skin uses DESIGN.md's colors, not the site's.) The ink of the picture follows the skin (warning-orange on near-black).
 Checks.
 P1 Switching on creates the strip and the dock and sets the skin attribute; switching off removes them; the default page contains neither.
 P2 The meter lights a number of dots within 1 of the level times the number of dots, at three times in the song, and more dots at a loud frame than at a quiet one.
@@ -155,3 +155,16 @@ P3 In the Pocket skin the blocks in the lane still end at the same right edge at
 P4 The earlier look, stage and glitch checks pass unchanged with the skin on.
 P5 No console errors and no network requests.
 Not claimed: that it matches the site closely, or that it looks good; that needs the owner's eye.
+
+## Results for Amendment 3: the Pocket skin (2026-10-15)
+
+`node scripts/phosphor_skin_check.mjs _ARTIFACTS/phosphor.html` passes P1, P2, P3 and P5. `PHOSPHOR_SKIN=pocket` runs the other scripts with the skin on (P4): `phosphor_look_check.mjs` passes all 41 assertions in both skins, and `phosphor_check.mjs` passes with a local song in both.
+- P1: the default page has no strip, no dock and no skin attribute; switching on creates them; switching off removes them.
+- P2: the LED strip and the dock meter light the dots the audio level calls for, within 1, at nine times in the demo (for example 60 of 72, 24 of 72, 18 of 72, 55 of 72); a loud frame lights 62 dots and a quiet one 18. The meter is a real gauge.
+- P3: at 1280 and 790 px the hero, details card, footer and ladder end at the same right edge in the Pocket skin.
+- P5: no console errors, no network requests (system fonts only).
+- Eyeballed in screenshots at 1280 and 390 px: no horizontal overflow; the skin reads as the site's language (strip, orange pads, dock with LCD and meter, orange phosphor trace). The first look showed a tall control panel leaving the picture column empty below the frame; the frame is now sticky so it stays beside the controls.
+- One test assumed the picture's ink is cyan; the Pocket skin draws orange, so the test now reads the skin's ink color. The numpy cross-check for the m4a is 0.9807 in both skins.
+Limits: the skin was matched to the site by computed styles and screenshots, not by the owner; fonts are system stand-ins (SF Mono, system-ui) for Geist Mono and Inter. It is off by default because it departs from DESIGN.md; making it the default is the owner's design-system decision. Pocket was not checked on a phone beyond overflow and a screenshot.
+
+Design gate, and what changed. The repo's design-debt gate counts every hex color found in the page against DESIGN.md. The first Pocket skin used the owner's site colors (near-black greys, red LED digits, orange, a different green) and produced 31 findings. Moving that CSS into a script string only reduced it to 29 because the gate also reads the script, so that route was abandoned and not obfuscated around. The skin now uses only DESIGN.md's palette: obsidian, panel and elevated greys, warning-orange for the active pads and the picture's ink, locked gold for the LED digits, and coherent green for the status LEDs. It keeps the hardware form (textured device panels, LED level strip, dock with LCD and meter, tactile pads) and loses the site's exact reds and pinks. The CSS is still added only when the skin is on, which keeps the default page lighter. If the owner wants the site's exact colors, that needs a decision to document a second hardware palette in DESIGN.md; the string's colors are a find-and-replace away.

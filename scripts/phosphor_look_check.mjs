@@ -14,7 +14,9 @@ for (const r of roots) { try { pw = createRequire(path.join(r, 'x.js'))('playwri
 if (!pw) { console.error('playwright not resolvable'); process.exit(2) }
 const fails = [], check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) fails.push(msg) }
 const b = await pw.chromium.launch(), errors = []
-const pg = await (await b.newContext({ viewport: { width: 1280, height: 1000 } })).newPage()
+const ctx0 = await b.newContext({ viewport: { width: 1280, height: 1000 } })
+if (process.env.PHOSPHOR_SKIN) await ctx0.addInitScript((v) => { try { localStorage.setItem('phosphor.skin.v1', v) } catch (e) {} }, process.env.PHOSPHOR_SKIN)
+const pg = await ctx0.newPage()
 pg.on('pageerror', (e) => errors.push(String(e)))
 await pg.goto(pathToFileURL(path.resolve(page)).href + '?test=1'); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.querySelectorAll('#chap button').length > 0, null, { timeout: 30000 })
 const ev = (fn, arg) => pg.evaluate(fn, arg)
