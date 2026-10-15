@@ -50,3 +50,23 @@ Not tested, said now: real era art, the Myst pair (blocked on licensed data per 
 ## Next action
 
 Zach decides whether to run B1. Until then: no code, no assets, no downloads.
+
+## Kintsugi seam, 2026-10-15 (added after merge; the original B1 above is kept, not rewritten)
+
+B1 as written is mis-specified. Ground: `scripts/sharpness_cutoff.py` `cutoff_ratio` returns `k / half`, so it is normalized to each image's own Nyquist. A rendering at lower resolution can therefore read a HIGHER ratio than the same scene at higher resolution, and "monotone non-decreasing with era resolution" fails for a structural reason, not an empirical one. One read-only run on a single planted scene (one agent, not re-run by me) gave ratios 0.75 / 0.594 / 0.562 at 64 / 128 / 256 px, and absolute cutoff (ratio times width/2) of 24 / 38 / 72, which orders correctly. Treat that as evidence the test needs rewriting, nothing more.
+
+Replacement kill hypotheses (written before any run):
+- K1: absolute-cutoff ordering holds across 64 / 128 / 256 on three scenes; kill on any inversion or an over-sharp-minus-honest gap under 0.15 in absolute terms.
+- K2: dither does not move the reading by 0.15 or more (the single run showed 0.812 to 1.0 on raw ratio); kill otherwise.
+- K3: a smooth analytic scene does not pass an over-sharp frame; kill otherwise.
+- K4: a full-resolution render submitted under the lowest era row is separable from an honest low-era frame without knowing the claimed grid; kill otherwise.
+- K5: some route exists for a frame to reach the gate without passing the era renderer; kill if the list is empty (then the gate only tests the renderer against itself).
+- K6: no "era-true", "authentic" or "proves" in any new surface; kill on any hit.
+- K7: era axis composes with the Y-gate axis (B2); parked until K1 to K4 pass.
+
+Scope corrections to the concept-note round (PR 1322 and the follow-on work):
+- The "chiefs gauntlet" that ranked these paths used CEO, CTO, CISO, CFO, design, COO and Skeptic roles. Those are not the repo's Staff of Chiefs (Loki, Devil's Advocate, Conductor, Bayesian, Meta-Operator; `runtime/specs/effort-policy.json`). The ranking is a reading by non-canonical roles.
+- The three scenario agents said they had not read ADR-058 or WORLD.md in full, so "ran an I.D.E.A. loop" is looser than it sounds.
+- The eight seed agents (PR 1324) are untested: no ledger row has a recorded use. The pre-commit hook was probably armed but was not exercised with a deliberately bad seed.
+- `idea-curator-taxonomist` misdescribed the Curator (keep or cut) and was re-scoped to `idea-curator` in PR 1333. The Curator (`operators/arcs_operators_curator.py`) offers one orthogonal reframe.
+- The Folksonomy "100 receipts" gate in the registry note is not the same constant as `MIN_CORPUS_SIZE = 5` in `operators/arcs_operator20.py`; where the 100 is enforced was not found.
