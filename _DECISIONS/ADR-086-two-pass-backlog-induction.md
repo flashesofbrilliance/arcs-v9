@@ -33,6 +33,8 @@ Runs on the Pass 1 plan, using the existing pipeline (HYPERSTITION PIPELINE, ROM
 
 **Repair rows.** Each crack emits one repair row. A repair row MUST cite the crack as evidence (`evidence: [file/receipt/row id]`, mechanically checked to exist); a crack with no citable evidence is recorded as `unknown` and emits NO row (a hunch is not a crack). Repair rows enter as `state: OPEN`, `origin: hyperstition-pass`, and are never `RUNNING` without a human claim.
 
+Unconfirmed: no hyperstition pass has been run on a real plan yet; the pipeline it reuses is ROM primitive 3 in CLAUDE.md and the stage-print doctrine in ADR-068.
+
 **Cap: one hyperstition pass per checkpoint.** A checkpoint is one of: a plan print, a critical-path node closing, or a calendar week, whichever comes first. A second pass inside the same checkpoint is refused by the script. Rationale: unbounded self-critique is the spin-cycle the Drift Sentinel exists to catch ("entropy masquerading as motion"); the cap is the stop-loss.
 
 ### Where this does NOT apply
