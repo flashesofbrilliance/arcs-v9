@@ -118,3 +118,7 @@ Test 2, surfaces restate the receipt: NOT TESTED beyond a structural check.
 Test 3, fake exits: NO FINDING, weak test. A static scan of src/app found no `href="#"`, empty hrefs, no-op onClick handlers or permanent `disabled` buttons (the one hit is the design-test demo). Only 9 static internal hrefs exist; most navigation is built from template strings or router calls, which this scan cannot see. It rules out the crudest dead controls only. Undeclared one-way doors were not audited.
 
 Net: nothing killed. One finding worth keeping: the brief prose layer is the baked JPEG in this metaphor, and the receipt raw is intact.
+
+## Correction to the echo tests (2026-10-15, appended, earlier text left as written)
+
+Test 1 above says the `atgTributaries` fallback "is working as designed". That is wrong. The column was introduced and never backfilled, so 197 receipts depend on the raw reply for tributaries. A follow-up chat message also called the 06-12 to 06-29 stretch an inconsistent write window. That was wrong too: I took the earliest filled row as the start, and that row is a one-off. Receipts in creation order: one filled row on 2026-06-12 (index 28), 169 empty rows after it, then an unbroken run of 73 filled rows from the first receipt after 2026-06-29. The boundary is clean, so the zero point (T0) is that run's start. Counts: 197 empty, 74 filled, 271 total. The contact sheet in `_ARTIFACTS/raw-capture.html` shows the same data.
