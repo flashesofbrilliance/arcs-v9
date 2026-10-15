@@ -118,6 +118,7 @@ The deciding question is whether time is a parameter or a medium. A, C and D tre
 6. **Frame budget.** Advance by elapsed time, not by frame count, so speed stays right when frames drop. If the median frame cost exceeds 12 ms over 5 frames, cap at 30 fps; render full quality on pause. The re-cut path is the known offender.
 7. **Pause when the tab is hidden.** Resume is manual.
 8. **Accessibility.** Real `<button>` and `<input type="range">` elements with visible focus; live-region announcements only on pause and on end, never per frame; no flashing above three per second.
+10. **A take is user data, not a page track.** A take is an ordered list of keyframes, each a snapshot of all eight controls (capture, exposure, black point, white point, edit method, passes, bit depth, crush method) at a time t. Recording is an explicit toggle: while it is on, a control edit writes or updates the keyframe at the scrubber's position (within 1 percent); with it off, edits write nothing. Replay interpolates exposure and the two points with the same easing, rounds passes and bit depth, and steps the discrete controls at each keyframe; before the first keyframe it holds the first, after the last it holds the last. At most 24 keyframes. It is kept in memory and, as a per-viewer convenience, in `localStorage` under a versioned key, wrapped in try/catch; nothing leaves the viewer's browser. Rule 2 (the rest invariant) applies to the built-in tracks. A take's t = 1 is its last keyframe by definition, so it is checked as "replay ends on the last keyframe". Starting another track does not rest a take, so the viewer's controls do not jump.
 9. **Gates.** The page must still pass `scripts/page_gate.py`, `scripts/artifact_wrap_lint.py`, `scripts/token_source_gate.py` and the design-debt gate; the transport follows `src/ui-kit/recoil-report/20-transport.html`. No library. Easing and durations come from two named constants so they are changeable in one place.
 
 **Rationale:** it is the only option that keeps the page's own principle (a render is a development, not a baked output) while giving scrub, pause and a testable resting state at no dependency cost.
@@ -147,13 +148,17 @@ The deciding question is whether time is a parameter or a medium. A, C and D tre
 5. [ ] Ask whether DESIGN.md should gain a motion section (durations, easing, reduced-motion rule).
 6. [ ] Republish the artifact once the PR merges.
 
+## Verification of rule 10 (2026-10-15)
+
+Twelve assertions in `scripts/raw_capture_anim_check.mjs`: a take starts empty; editing with recording off writes no keyframe; Record sets `aria-pressed` and captures a keyframe; three keyframes after edits at 0, 50 and 100 percent; scrubbing to the start restores the first keyframe; scrubbing between keyframes interpolates (+2.0 EV at 25 percent between +1.0 and +3.0); replay ends on the last keyframe; Play stops recording; keyframes persist across a reload and replay; Clear removes them. Not verified: storage in the published artifact viewer (it may be blocked, in which case the take lasts for the page's life), and sharing a take between viewers, which this design does not do.
+
 ## Not decided here
 
 How animation applies to the five-axis decision geometry, and any claim about what the Snap track proves. It shows a slope change in one column, once.
 
 ## Verification (2026-10-15, after implementation)
 
-The checks below are repeatable: `node scripts/raw_capture_anim_check.mjs _ARTIFACTS/raw-capture.html --budget` exits 0 on all 16 assertions (rest invariant, transport, reduced motion, frame budget, no console errors).
+The checks below are repeatable: `node scripts/raw_capture_anim_check.mjs _ARTIFACTS/raw-capture.html --budget` exits 0 on all 28 assertions (rest invariant, transport, reduced motion, takes, frame budget, no console errors).
 
 Implemented in `_ARTIFACTS/raw-capture.html` with three tracks (Develop, Snap, Ignite), the intro sweep moved onto the engine, and the transport molecule from `src/ui-kit/recoil-report/20-transport.html`. Headless Chromium via Playwright:
 
