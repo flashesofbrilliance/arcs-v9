@@ -1,0 +1,385 @@
+{
+  "id": "prop-2026-10-15-blameless-copilot",
+  "title": "Blameless copilot",
+  "date": "2026-10-15",
+  "status": "APEX CANDIDATE, ethereal stage, not promoted",
+  "tone": "gold",
+  "worktree": "relaxed-merkle-130db6",
+  "base": "main@fb89a755",
+  "one_line": "An agentic helper in a chat window. You drop in one nested object, it gets up to speed from local recall, and it gives an opinion graded to the evidence it has. The blameless failure entry is its first job.",
+  "bottom_line": [
+    {
+      "label": "The idea",
+      "text": "When something fails, write the entry in three parts before forming an opinion of yourself: what happened, what conditions allowed it, what changes next. The person is not in any of the three. The copilot automates the first two parts from evidence and leaves the third, and the felt read, to you."
+    },
+    {
+      "label": "The shape you described",
+      "text": "A chat interface. You drop in a single nested object (the Russian doll). The copilot gets up to speed by local recall over it, forms an opinion at earned fidelity, and keeps warm, pre-computed answers to the likeliest pre-mortem questions, simulations and lens passes, all run mechanically before any model is asked."
+    },
+    {
+      "label": "Why it fits ARCS",
+      "text": "It reuses parts that already exist: witness stubs for capture in the moment, the Kintsugi own-error log, the Shavasana pause and attachment release, pre-registered kill conditions, and the rule that the system surfaces an observation, never a verdict."
+    },
+    {
+      "label": "What it must not do",
+      "text": "It must not overrule you (NOTOMATION), diagnose, coach through a crisis, or write anything about you to a place anyone else can read. Entries about shame are the most sensitive data in the system, so the log stays local and nothing is published."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "question": "Start as a private test on you alone, with no product exposure?",
+      "recommended": "Yes. One person, local files only, four weeks, a baseline first. Anything wider waits for D2.",
+      "options": [
+        "private test first",
+        "build for others now"
+      ],
+      "why": "It is also the user-0 problem: one person's benefit is one vantage. The test is a first measurement, not proof."
+    },
+    {
+      "id": "D2",
+      "question": "Require a clinical-safety review before anyone else uses it?",
+      "recommended": "Yes. Use the clinical-reviewer and safety-judge lenses, plus a person qualified in the area, before any exposure. A tool about self-blame must route crisis language to human help, not to coaching.",
+      "options": [
+        "require review",
+        "skip"
+      ],
+      "why": "A wellness-adjacent product needs a human on the loop and sourced claims. I am not a clinician and this page makes no health claim."
+    },
+    {
+      "id": "D3",
+      "question": "Name the stages of the I.D.E.A. loop for this test",
+      "recommended": "Give me the four stage names. I could not find the expansion in the repo, only ADR-058's idea-construction use of the word, so the loop below uses neutral stage names until you do.",
+      "options": [
+        "supply the stages",
+        "use the neutral names"
+      ],
+      "why": "Guessing the acronym would be inventing canon."
+    },
+    {
+      "id": "D4",
+      "question": "Approve a gitignore line for the private log?",
+      "recommended": "Yes: ignore _STATE/failure-entries.jsonl. It is a repo configuration change, so it needs your approval.",
+      "options": [
+        "approve",
+        "keep log outside the repo"
+      ],
+      "why": "Without it a personal log could be committed by accident."
+    },
+    {
+      "id": "D5",
+      "question": "Build it as a server that plugs into any chat client, over the operator bridge that already exists, instead of a new chat screen?",
+      "recommended": "Yes. The operator MCP bridge (operators/arcs_mcp_bridge.py, 17.7 KB, listed in AGENTS.md) already exposes the operators to Claude Code. A chat client you already use becomes the interface, with no new UI to build or secure. I have not run its self-test here.",
+      "options": [
+        "plug into existing chat clients",
+        "new chat screen"
+      ],
+      "why": "Cheapest path to the chat interface, and the data stays local."
+    }
+  ],
+  "tables": [
+    {
+      "id": "architecture",
+      "title": "The copilot's parts, and what exists",
+      "intro": "Status: EXISTS means a file is present and described in AGENTS.md or seen on disk; I did not run it here. MISSING means nothing found. The zero-point finding in the last row matters for recall.",
+      "columns": [
+        "Part",
+        "What you asked for",
+        "What exists",
+        "What is missing",
+        "Evidence class"
+      ],
+      "rows": [
+        [
+          "Chat interface",
+          "Talk to it in a chat window",
+          "The operator MCP bridge (operators/arcs_mcp_bridge.py) exposes list_operators, describe_operator, run_operator, run_cis, run_inchworm and ledger_tail to a chat client",
+          "A copilot tool set on top of it; no product chat screen",
+          "EXISTS, not run here"
+        ],
+        [
+          "The Russian doll",
+          "Drop in one nested object",
+          "The arcs.atlas.v1 loader contract: the viewer picks a file, it is read in the tab only and never uploaded, 5 MB cap (HUD ZigguratLoader). universe-field.json is 31.6 KB with 81 nodes and 119 edges",
+          "A single bundle that nests atlas tiers, proposals, backlog rows, the rubric and the FAQ cache, with a schema",
+          "EXISTS for atlas only"
+        ],
+        [
+          "Local recall",
+          "Get up to speed by local RAG on the zero-point space",
+          "A local embedding module (operators/arcs_echo_embedding.py); it needs the declared embeddings extra",
+          "An index over the bundle, and the recall step",
+          "EXISTS, not run here"
+        ],
+        [
+          "Earned fidelity on an opinion",
+          "State a view graded to its evidence",
+          "Render resolutions SHARP, DEGRADED, GRAIN, MOIRE per receipt (ygate.ts); the WORLD.md earned-fidelity rule",
+          "A cap that ties an opinion's fidelity to the evidence classes it cites (MODELED, JUDGMENT, ASSUMED) and to n",
+          "MISSING"
+        ],
+        [
+          "Warm FAQ buffer",
+          "Pre-computed coherent answers for pre-mortems, simulations and lens passes",
+          "A cache design with a hash key and freshness horizon (_ARTIFACTS/atlas/cache-manifest.spec.md, still a sketch); the faq-eval check; operators LAB and BAR listed READY; a stdlib simulation that ran 10,000 runs in 0.84 s",
+          "The buffer itself, wiring, and a refresh rule when a source changes",
+          "SKETCH"
+        ],
+        [
+          "Zero-point space",
+          "The base layer the recall rests on",
+          "universe-field.json names its null origin 'zp'",
+          "The zp node maps 0 files (status true, 3 open questions). So recall on the zero point has no mapped corpus yet.",
+          "GAP, measured"
+        ]
+      ]
+    },
+    {
+      "id": "quality",
+      "title": "What 'sound, with mass, gravity and import' means as a check",
+      "intro": "These three words are the bar for every opinion the copilot gives. Each gets a measurable stand-in. Whether the advice is actually sound is unproven until the tests run; this table says what would show it.",
+      "columns": [
+        "Word",
+        "Stand-in we can measure",
+        "How the copilot shows it",
+        "Fails when"
+      ],
+      "rows": [
+        [
+          "Sound reasoning",
+          "Each claim is classed MODELED, JUDGMENT or ASSUMED, with a falsifier",
+          "Every opinion lists its claims by class and states what would change its mind",
+          "An opinion rests on ASSUMED claims only, or a claim has no falsifier"
+        ],
+        [
+          "Mass",
+          "Independent evidence behind it: n, provenance, and distinct vantages that do not share a source",
+          "Shows the count, and marks one-source support as a cold weld",
+          "Support comes from one source, or n is below the floor"
+        ],
+        [
+          "Gravity",
+          "The corpus pulls a drifting answer back by its own gates (ADR-071's falsifier). A restoring force, not a flourish",
+          "Cites the gate that fired when an answer strayed from canon",
+          "Drift is only ever caught by you, so the gravity is a metaphor"
+        ],
+        [
+          "Import",
+          "Ripple: how many other decisions and surfaces depend on it, and whether it is hard to reverse",
+          "Shows what it would unblock and whether the door is one-way",
+          "Stakes are asserted with no dependency to point to"
+        ],
+        [
+          "Advice, wisdom, judgment",
+          "Three different outputs: a next action, a generalization with validity bounds, and a call under uncertainty",
+          "Labels which one it is giving and its scale of validity",
+          "A judgment call is presented as a general rule"
+        ]
+      ]
+    },
+    {
+      "id": "loop",
+      "title": "The loop as a graph",
+      "intro": "Each row is a node. Neutral stage names stand in for the I.D.E.A. stages until you name them. 'Autonomy' says what the copilot may do without asking: 0 observe only, 1 draft, 2 suggest, 3 act on low-risk steps. It never reaches a level that overrules you.",
+      "columns": [
+        "Node",
+        "Trigger",
+        "Who acts",
+        "Autonomy",
+        "Evidence it uses",
+        "Output",
+        "Next node"
+      ],
+      "rows": [
+        [
+          "1. Notice",
+          "A mechanical failure event: a red gate, a failed test, a missed pre-registered prediction",
+          "copilot",
+          "0",
+          "Git, CI and gate results, receipts",
+          "A flagged event with its evidence",
+          "2"
+        ],
+        [
+          "2. Draft the facts",
+          "A flagged event",
+          "copilot",
+          "1",
+          "The same evidence; no inference about you",
+          "Parts one and two of the entry: what happened, what conditions allowed it",
+          "3"
+        ],
+        [
+          "3. Name the change",
+          "A draft",
+          "you",
+          "n/a",
+          "Your own judgment",
+          "Part three: what changes next, and your own read of how it felt",
+          "4"
+        ],
+        [
+          "4. Check the form",
+          "A completed entry",
+          "copilot",
+          "2",
+          "A form check: all three parts, no sentence judging a person",
+          "Pass, or a suggestion to rewrite the flagged sentence",
+          "5"
+        ],
+        [
+          "5. Score",
+          "Each week",
+          "copilot, you",
+          "1",
+          "Capture rate, time to entry, your 0 to 5 verdict-feel rating",
+          "A graph on the Field view, local only",
+          "6"
+        ],
+        [
+          "6. Decide",
+          "Pre-registered date",
+          "you",
+          "n/a",
+          "The kill condition below",
+          "Keep, change or drop",
+          "1"
+        ]
+      ]
+    },
+    {
+      "id": "metrics",
+      "title": "What gets measured, and how far to trust it",
+      "intro": "Four numbers. Only the first two are counted by a script. The last two are your own ratings, so they carry the user-0 bias this page warns about.",
+      "columns": [
+        "Measure",
+        "Basis",
+        "Baseline",
+        "Kill condition (fixed before counting)"
+      ],
+      "rows": [
+        [
+          "Capture rate: failures recorded as entries, out of failures detected mechanically",
+          "MEASURED",
+          "Count for two weeks before the copilot drafts anything",
+          "No rise after four weeks"
+        ],
+        [
+          "Time from failure to entry",
+          "MEASURED",
+          "Same two-week baseline",
+          "No fall after four weeks"
+        ],
+        [
+          "Verdict-feel: how much the entry reads as a verdict on you, 0 to 5",
+          "JUDGMENT (yours)",
+          "Rate the baseline entries",
+          "No fall of at least one point on average after 20 entries"
+        ],
+        [
+          "Blame sentences per entry, from a word-list check",
+          "PROXY: a word list misses tone and flags innocent sentences",
+          "Run on baseline entries",
+          "Only a supporting signal; never decides alone"
+        ]
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "K1",
+      "name": "Blame check on drafts",
+      "plain": "A check that every draft entry has the three parts and no sentence judging a person.",
+      "stage": "proposed",
+      "bad": "A draft containing 'you were careless' must be flagged and rejected.",
+      "good": "A facts-only draft ('the gate failed because the fixture was missing') passes.",
+      "assay_ready": "fixtures to be written first",
+      "threshold": "known-bad flagged, known-good passes"
+    },
+    {
+      "id": "K2",
+      "name": "Only real failures create entries",
+      "plain": "Entries are drafted from mechanical events, not from guesses about how you feel.",
+      "stage": "proposed",
+      "bad": "A passing run must not create an entry.",
+      "good": "A red gate creates exactly one draft.",
+      "assay_ready": "specified",
+      "threshold": "0 entries from passing runs"
+    },
+    {
+      "id": "K3",
+      "name": "Privacy: local only",
+      "plain": "The log lives in one local file, ignored by git, and no page about it is published.",
+      "stage": "proposed",
+      "bad": "Any code path that writes the log to a shared or public place must fail the check.",
+      "good": "The log file is ignored by git and appears in no rendered page.",
+      "assay_ready": "needs D4",
+      "threshold": "0 write paths outside the local file"
+    },
+    {
+      "id": "K4",
+      "name": "Crisis routing",
+      "plain": "Language that suggests self-harm or crisis is never answered with coaching. It points to human help.",
+      "stage": "proposed",
+      "bad": "A crisis-language message answered with a coaching reply must fail.",
+      "good": "The same message routes to a human-help message.",
+      "assay_ready": "needs clinical review (D2) before any build",
+      "threshold": "100% routing on the reviewed set"
+    },
+    {
+      "id": "K5",
+      "name": "Opinion fidelity cap",
+      "plain": "An opinion cannot be rendered sharper than the weakest class of evidence it cites.",
+      "stage": "proposed",
+      "bad": "An opinion citing only ASSUMED claims rendered SHARP must fail.",
+      "good": "The same opinion rendered at GRAIN, with its n and falsifier shown, passes.",
+      "assay_ready": "needs the evidence classes from the empiricism ledger",
+      "threshold": "0 sharp opinions on ASSUMED-only support"
+    }
+  ],
+  "heuristics": {
+    "human": [
+      "The copilot drafts facts. You write meaning. If a draft ever tells you what a failure says about you, reject it.",
+      "A number that falls because you stopped looking is not a result. Keep the baseline weeks.",
+      "One person's improvement is one vantage. Treat the first four weeks as a first measurement, not proof.",
+      "You can stop at any time and nothing is lost, since the log is a local file."
+    ],
+    "agent": [
+      "Never draft or store anything that evaluates the person. Facts and conditions only.",
+      "Never publish, sync or share the log or any page built from its entries. The proposal page contains no entries.",
+      "Never respond to crisis language with coaching. Route to human help and stop.",
+      "No new dependencies. No anonymous write path. No change to the gitignore without approval (D4).",
+      "A tool touching shame needs the clinical-safety review (D2) before anyone but its owner uses it."
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Apex candidate",
+      "plain": "An idea at the earliest stage of the route to canon. It becomes canon only after it passes its tests and a second, independent vantage corroborates it."
+    },
+    {
+      "term": "Ethereal stage",
+      "plain": "The first stage of the hyperstition pipeline: ethereal, then the Loki challenge, then receipt evaluation, then read-only memory."
+    },
+    {
+      "term": "Blameless entry",
+      "plain": "A failure record in three parts (what happened, what conditions allowed it, what changes next) with no part about the person."
+    },
+    {
+      "term": "NOTOMATION",
+      "plain": "The ARCS rule that tools scaffold and sequence your thinking and never overrule your revealed preference."
+    }
+  ],
+  "sources": [
+    "WORLD.md (Witness, Drift Sentinel)",
+    "AGENTS.md (receipts, gotchas)",
+    "_PROPOSALS/2026-10-03-lore-002-the-gap.md",
+    "_DECISIONS/ADR-058-CALIBRATE-IDEA-Construction.md",
+    "_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md",
+    "operators/arcs_mcp_bridge.py",
+    "operators/arcs_echo_embedding.py",
+    "_ARTIFACTS/atlas/cache-manifest.spec.md",
+    "src/data/universe-field.json",
+    "src/app/hud/ZigguratLoader.tsx"
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "_doc": "One rubric for proposals, in the same shape as the jobs Weight Lab rubric (dims with key, label, weight, anchors at both ends). Read by scripts/proposal_rank.py and the proposal wiki dial. Anchors approved by Zach 2026-10-15. A measured axis is computed from the files and never hand-scored; a judgment axis is scored by a human in _PROPOSALS/edges.json and stays unscored until then. Difference from the jobs lab: scale_max is 5 here (the decision-geometry axes are five levels) where the lab uses 3, so a reader maps anchor_max to the lab's anchor3 only when scale_max is 3.",
+  "version": 1,
+  "anchors_status": "APPROVED by Zach 2026-10-15 (chat). Scale 0 to 5 approved the same day. Fibonacci is the zoom step function, not the weight dial.",
+  "scale_min": 0,
+  "dial": {
+    "weight_min": 0,
+    "weight_max": 3,
+    "default_weight": 1,
+    "note": "Dial weights stay 0 to 3. The seven Fibonacci steps are for zoom (see the zoom block), not for weights."
+  },
+  "dims": [
+    {
+      "key": "recency",
+      "label": "Recency",
+      "basis": "MEASURED",
+      "weight": 1,
+      "scale_max": 5,
+      "anchor0": "Older than 30 days.",
+      "anchor_max": "Dated within the last day.",
+      "how": "Days since the proposal date: up to 1 day is 5, 3 is 4, 7 is 3, 14 is 2, 30 is 1, older is 0."
+    },
+    {
+      "key": "ripple",
+      "label": "Ripple",
+      "basis": "MEASURED (curated edges)",
+      "weight": 1,
+      "scale_max": 5,
+      "anchor0": "No other decision is recorded as waiting on any of its decisions.",
+      "anchor_max": "Eight or more other decisions wait on it, directly or through a chain.",
+      "how": "Count of downstream decisions across _PROPOSALS/edges.json: 0 is 0, 1 is 1, 2 is 2, 3 to 4 is 3, 5 to 7 is 4, 8 or more is 5. Undercounts, because only written-down edges count."
+    },
+    {
+      "key": "coherence",
+      "label": "Coherence",
+      "basis": "PROXY: test-readiness",
+      "weight": 1,
+      "scale_max": 5,
+      "anchor0": "No control names both a case that must fail and a case that must pass.",
+      "anchor_max": "Every control names both.",
+      "how": "Share of controls with both a known-bad and a known-good case, times 5, rounded. It measures readiness to be tested, not whether the proposal is right."
+    },
+    {
+      "key": "potency",
+      "label": "Potency",
+      "basis": "JUDGMENT (human)",
+      "weight": 1,
+      "scale_max": 5,
+      "anchor0": "Approving it changes nothing else.",
+      "anchor_max": "Approving it unblocks or retires eight or more other pieces of work, or removes a hard-to-reverse risk to the product.",
+      "how": "Scored by a human in _PROPOSALS/edges.json judgments. Unscored until then."
+    },
+    {
+      "key": "relevancy",
+      "label": "Relevancy",
+      "basis": "JUDGMENT (human)",
+      "weight": 1,
+      "scale_max": 5,
+      "anchor0": "Not connected to the goal or next action in the latest handoff.",
+      "anchor_max": "It is the latest handoff's next action, or a direct blocker of it.",
+      "how": "Scored by a human in _PROPOSALS/edges.json judgments against the latest handoff block in CLAUDE.md. Unscored until then."
+    }
+  ],
+  "decided": [
+    {
+      "what": "Shared scale for proposal axes is 0 to 5, matching the decision-geometry axes",
+      "by": "Zach",
+      "on": "2026-10-15",
+      "source": "chat, this session"
+    },
+    {
+      "what": "The five axis anchors in this file",
+      "by": "Zach",
+      "on": "2026-10-15",
+      "source": "chat, this session"
+    },
+    {
+      "what": "Fibonacci steps (1, 2, 3, 5, 8, 13, 21) are the step function for zoom",
+      "by": "Zach",
+      "on": "2026-10-15",
+      "source": "chat, this session"
+    }
+  ],
+  "zoom": {
+    "steps": [
+      1,
+      2,
+      3,
+      5,
+      8,
+      13,
+      21
+    ],
+    "meaning": "Fibonacci step function for zoom: level k shows at most steps[k-1] items per view, never more items than have evidence behind them. Seven levels, matching the HUD fathoms F1 to F7.",
+    "rules": [
+      "Each deeper level must add at least one new item that has provenance, or it is not a zoom, it is scroll.",
+      "Where evidence is thin the view shows fewer items and says so (grain), never invented detail.",
+      "A level that would need more than 21 items is split into child views."
+    ],
+    "status": "APPROVED by Zach 2026-10-15 (chat) as the role of Fibonacci; the effect on comprehension is untested."
+  }
+}
