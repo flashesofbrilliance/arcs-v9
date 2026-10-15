@@ -78,3 +78,8 @@ Two more pre-registered beliefs, fixed before the checker was run:
 {"id": "TF-B4", "scope": "method", "ts": "2026-10-15", "claim": "The interlock invariant is mechanically checkable over a routed-task log by a stdlib script.", "prior": 0.85, "test": "Run the checker's --self-test: clean logs must pass, a planted skip must fail, a planted irreversible downgrade must fail.", "kill": "Any of the three self-test cases gives the wrong verdict.", "verdict": null}
 {"id": "TF-B5", "scope": "reality", "ts": "2026-10-15", "claim": "Real routed-task logs exist in the repo in a form that fits the checker's schema without invention.", "prior": 0.20, "test": "Search _STATE and operators/ledger for per-task tier, pass/fail and irreversibility fields.", "kill": "No log carries all three fields; then the checker is verified on synthetic cases only and the note says so.", "verdict": null}
 ```
+
+### Results
+
+- **TF-B4 CONFIRMED.** `scripts/tier_ladder_check.py --self-test` returned PASS: 3 clean tasks gave 0 violations, the planted skip gave 1, the planted irreversible downgrade gave 1. Synthetic cases only.
+- **TF-B5 KILLED (prior 0.20 held).** The only per-call log found, `operators/ledger/operator-receipts.jsonl`, records operator calls with no tier, pass/fail-per-tier or irreversibility fields. No routed-task log exists, so the invariant has been verified on synthetic cases and has never been run over real routing. Capturing such a log is the next step before this is more than a checker.
