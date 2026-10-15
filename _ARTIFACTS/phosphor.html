@@ -128,6 +128,18 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; cursor: pointer; }
 .check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--cyan); }
 .hint { color: var(--muted); margin: 0; }
+.kid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.bb { font: inherit; font-family: var(--ds-font-display); font-size: var(--fs-headline); font-weight: 600; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 72px; padding: 8px; cursor: pointer; touch-action: manipulation; }
+.bb:hover { border-color: var(--cyan); }
+.bb[aria-pressed=true], .bb:active { background: var(--cyan-bg); border-color: var(--cyan); box-shadow: inset 0 -3px 0 var(--cyan); }
+.bb.pri { grid-column: 1 / -1; background: var(--cyan-bg); border-color: var(--cyan); }
+.deck .tp #play { min-height: 64px; padding-inline: 32px; font-size: var(--fs-headline); }
+details.grown { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 8px 18px 18px; }
+details.grown > summary { cursor: pointer; list-style: none; min-height: 48px; display: flex; align-items: center; justify-content: space-between; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .12em; text-transform: uppercase; color: var(--text-secondary); }
+details.grown > summary::-webkit-details-marker { display: none; }
+details.grown > summary::after { content: "+"; font-size: var(--fs-headline); }
+details.grown[open] > summary::after { content: "\2212"; }
+details.grown > * + * { margin-top: 14px; }
 .src { margin-top: 14px; }
 .tp { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 12px; }
 .tpl { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); }
@@ -205,6 +217,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .frame.fs.idle { cursor: none; }
 .frame.fs .tag { left: 16px; top: 16px; }
 @supports (interpolate-size: allow-keywords) { details.grp { interpolate-size: allow-keywords; } details.grp::details-content { block-size: 0; overflow: clip; transition: block-size var(--dur-base) var(--ease-out), content-visibility var(--dur-base) allow-discrete; } details.grp[open]::details-content { block-size: auto; } }
+@media (max-width: 520px) { .kid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 860px) { .frame canvas { max-height: 34vh; } .deck { width: min(100%, calc(34vh * 1.7778 + 22px)); } details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
 @media (prefers-reduced-motion: reduce) { .alt-go, details.grp > summary::after, .hud { transition: none; } }
 </style>
@@ -218,7 +231,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 
 <section class="hero" aria-labelledby="h1">
   <h1 id="h1">Music, drawn as <em>light</em>.</h1>
-  <p class="lede">Choose a song or video from your computer. It is analyzed here and never uploaded. Scrub it, jump between its chapters, and watch it sharpen from one pixel to vector.</p>
+  <p class="lede">Pick a song. Press play. Watch it turn into light. Your song stays on your computer.</p>
 
   <div class="inst" role="group" aria-label="Visualizer">
   <div class="deck" id="deck">
@@ -243,6 +256,13 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   </div>
   <div class="prog" id="prog" hidden><i></i></div>
   </div>
+  <div class="kid" id="kid">
+    <button class="bb pri" type="button" id="kpick">Pick a song</button>
+    <button class="bb" type="button" data-km="0">Wiggle</button><button class="bb" type="button" data-km="1">Bars</button><button class="bb" type="button" data-km="2">Ring</button><button class="bb" type="button" data-km="3">Rainbow</button>
+    <button class="bb" type="button" id="kcol">Colors</button><button class="bb" type="button" id="kzoom">Zoom</button><button class="bb" type="button" id="kwob">Wobble</button><button class="bb" type="button" id="kfs">Big screen</button>
+  </div>
+  <details class="grown" id="grown">
+    <summary>Grown-up controls</summary>
   <div class="chap" id="chap" aria-label="Chapters"></div>
   <div class="src">
     <div>
@@ -360,6 +380,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         </div>
       </details>
     </div>
+  </details>
   </div>
 
   <div class="sheet">
@@ -1124,6 +1145,16 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     $("fsb").setAttribute("aria-pressed", on ? "true" : "false"); wakeHud(); frame(playing);
   }
   function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
+  function kidSync() { Array.prototype.forEach.call(document.querySelectorAll("[data-km]"), function (b) { b.setAttribute("aria-pressed", +b.getAttribute("data-km") === MODE ? "true" : "false"); }); }
+  document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);
+  $("kpick").addEventListener("click", function () { $("file").click(); });
+  $("kcol").addEventListener("click", function () { cyclePalette(1); });
+  $("kzoom").addEventListener("click", function () { setStage(MODE, ZS[MODE] % 5 + 1); });
+  $("kwob").addEventListener("pointerdown", function (e) { e.preventDefault(); glitchOn("rgb"); glitchOn("blocks"); });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { $("kwob").addEventListener(n, function () { glitchOff("rgb"); glitchOff("blocks"); }); });
+  $("kfs").addEventListener("click", function () { setFS(true); });
+  kidSync();
   $("fsb").addEventListener("click", function () { setFS(true); });
   $("hexit").addEventListener("click", function () { setFS(false); });
   $("hplay").addEventListener("click", play);

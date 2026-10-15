@@ -143,3 +143,11 @@ Limits. Tested on two short songs and headless Chromium only. Nothing here estab
 - Resolution auto-loop on the detected beat grid: 1, 2, 4 or 8 bars, forward, backward, or forward and back, rung steps on the beat. Needs the whole-file analysis already done at load; falls back to 120 BPM with no tempo.
 - Known limit: the grid origin is one analysis frame (33 ms) early (0.267 s against a true 0.300 s on a synthetic 120 BPM track). Tempo is one folded histogram, so a song with tempo changes will drift.
 - `scripts/phosphor_stage_check.mjs` (L1 to L5, F1 to F4) passes with the four older suites, wrap-lint, card-gutter, token and component gates, page_gate and the Impeccable detector (0 findings).
+
+## Amendment 3 (2026-10-15, before building): kid mode
+
+Zach: "simplify the interface so a five year old can use it." Prediction, written before the build: a child needs five things and nothing else: pick a song, a very large Play, four pictures to choose from, a Colors button, and a hold-to-wobble button. Rule: every one of these is one press, every label is a word of one or two syllables, every target is at least 64 px tall, and no setting is shown that the child did not ask for. Everything else (chapters, resolution, look, glitch, keys, twin, readout) moves under one closed "Grown-up controls" fold. Checks: K1 the five things exist and are at least 64 px tall, K2 each does its job (mode, palette, zoom, wobble), K3 the grown-up fold is closed on load, K4 the old suites still pass. Kill: if any older suite needs its selector changed in more than the open-the-fold step, the fold is hiding too much and the plan is wrong.
+
+## Results, amendment 3 (kid mode)
+
+K1 to K3 pass: pick, Play, four mode buttons, Colors, Zoom, Wobble and Big screen are all 64 px or taller, each does its one job, and Grown-up controls start closed. The four older suites pass; the only test change was opening the fold on load in phosphor_check, phosphor_twin_check and phosphor_stage_check (the kill rule allowed this). Untested: a real five-year-old, and touch on a real phone. Both are unconfirmed.
