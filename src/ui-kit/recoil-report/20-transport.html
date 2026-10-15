@@ -1,0 +1,32 @@
+<!-- @dsCard group="Instrument Lab" name="Transport" subtitle="Play · back · forward · scrubber · time as a recipe parameter (ADR-087)" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* Molecule: animation transport. Play and Pause, step back and forward, and a labeled scrubber. Time is a recipe
+   parameter (ADR-087): the scrubber sets t, and t = 1 is the resting page. With reduced motion, Play is hidden
+   and stepping stays. */
+.tp { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.tpl { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 8px 12px; cursor: pointer; min-height: 44px; }
+.btn:hover { border-color: var(--cyan); }
+.btn:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.tp input[type=range] { flex: 1 1 200px; min-width: 0; height: 44px; accent-color: var(--cyan); margin: 0; }
+.tp .hint { flex: 1 1 100%; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="section-label">Transport</div>
+<div class="tp"><span class="tpl">Replay development</span>
+<button class="btn" type="button">Back</button><button class="btn" type="button">Play</button><button class="btn" type="button">Forward</button>
+<input type="range" min="0" max="1000" value="1000" aria-label="Scrub: Replay development">
+<span class="hint" role="status">Finished. The page is back at rest.</span></div>
+</body>
+</html>

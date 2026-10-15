@@ -22,7 +22,9 @@ organisms  → recoil-report/NN-*.html (the 14 numbered @dsCard primitives):
              01 header · 02 hyperstition-arc · 03 entity-card · 04 signal-delta-table ·
              05 kairos-node · 06 beat-stepper · 07 probability-bar · 08 receipt-table ·
              09 stop-loss-footer · 10 pipeline-tracker · 11 champion-map · 12 role-thesis ·
-             13 90day-build · 14 earned-fidelity-twin
+             13 90day-build · 14 earned-fidelity-twin · 15 case-world
+             16 instrument-panel · 17 altitude-ladder · 18 contact-sheet · 19 gate-ladder · 20 transport
+             (16 to 20 are the Instrument Lab group, added 2026-10-15; they use the DESIGN.md conformance tokens)
 templates  → a composition of organisms a page declares once and snaps into (see templates.json)
 ```
 
@@ -43,6 +45,7 @@ drives composition).
 | `candidate-brief` | `persuade` | persuasion surface | `public/success-academy.html`, `public/squad.html` |
 | `nftt-essay` | `essay` | editorial longform | `public/blog-nftt-the-loop-closes.html` |
 | `resume-print` | `resume` | print / paper | `public/vico-resume.html` |
+| `instrument-lab` | `operate` | instrument explainer | `_ARTIFACTS/raw-capture.html` |
 
 Modes are defined in `scripts/slop_lint.py` `MODE_SPEC` (specificity floors; burstiness is
 mode-independent). `essay`/`reflective`/`longform` carry the low 0.10 floor for evidence-dense prose;
