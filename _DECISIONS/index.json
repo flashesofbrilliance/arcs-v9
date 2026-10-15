@@ -664,5 +664,14 @@
     "stability": "PROVISIONAL",
     "gate": "see content",
     "file": "ADR-086-two-pass-backlog-induction.md"
+  },
+  {
+    "id": "ADR-087",
+    "title": "ADR-087 — Animation in single-file instruments: one timeline, time as a recipe parameter, the resting state is the truth",
+    "status": "DRAFT",
+    "y_state": "YELLOW",
+    "stability": "PROVISIONAL",
+    "gate": "see content",
+    "file": "ADR-087-animation-as-a-timeline-over-a-recipe.md"
   }
 ]
