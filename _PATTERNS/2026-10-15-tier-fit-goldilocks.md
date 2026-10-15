@@ -57,3 +57,24 @@ Format follows `_STATE/falsification-ledger.jsonl`. Verdicts are empty on purpos
 ```
 
 Not claimed: that these priors are calibrated, that two or three task classes generalize, or that cost per question is the right axis for work where latency or reviewability binds.
+
+## Lock addendum (Zach via the filing session, 2026-10-15): the interlock
+
+"Goldilocks" is also a double entendre: a nautical lock raises and lowers heavy things safely. Its defining property is the **interlock**: only one gate open at a time, the vessel moves one chamber at a time while levels equalize. Each part is labelled MECHANISM or METAPHOR (echo-scan convention).
+
+| Part | Label | Status |
+|---|---|---|
+| Pre-commit gates (integrity gate, design-debt gate) behave as a flight of locks: each shut until the one before it passes | MECHANISM | already running |
+| Tier ladder: a task enters at the cheapest tier, the verdict check is the sluice, a failed check raises it exactly one tier (never skipping), irreversible work may only exit through the top gate (ROM primitive 7, WRITE-LOCK) | MECHANISM | proposed; invariant is testable (below) |
+| "Water level = difficulty" | METAPHOR | no measurement behind it; do not build on it |
+
+**Invariant (testable):** over a log of routed tasks, no task skips a tier and no irreversible task exits below the top gate. the tier-ladder checker script (added in the following commit) asserts it, and its `--self-test` plants a skip and a downgrade and requires both to fail.
+
+**Lock versus Golden Inchworm:** the Inchworm is three non-blocking passes (Red Thread, Golden Thread, Needle), exploratory, and may be abandoned. A lock is sequential, blocking and commit-shaped: nothing moves until the gate ahead passes. Inchworm decides what is worth attempting; the lock governs how far up the ladder an attempt may go before it can commit.
+
+Two more pre-registered beliefs, fixed before the checker was run:
+
+```json
+{"id": "TF-B4", "scope": "method", "ts": "2026-10-15", "claim": "The interlock invariant is mechanically checkable over a routed-task log by a stdlib script.", "prior": 0.85, "test": "Run the checker's --self-test: clean logs must pass, a planted skip must fail, a planted irreversible downgrade must fail.", "kill": "Any of the three self-test cases gives the wrong verdict.", "verdict": null}
+{"id": "TF-B5", "scope": "reality", "ts": "2026-10-15", "claim": "Real routed-task logs exist in the repo in a form that fits the checker's schema without invention.", "prior": 0.20, "test": "Search _STATE and operators/ledger for per-task tier, pass/fail and irreversibility fields.", "kill": "No log carries all three fields; then the checker is verified on synthetic cases only and the note says so.", "verdict": null}
+```
