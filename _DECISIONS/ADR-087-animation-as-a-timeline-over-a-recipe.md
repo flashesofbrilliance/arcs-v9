@@ -34,13 +34,13 @@
 
 The page already has two motions: a 1.5-second exposure sweep on load, written as ad hoc `requestAnimationFrame` code, and a rotate transition on the section toggle. The request is an animation feature built from the instrument. Constraints, each with where it comes from:
 
-- **Repo rule:** no new dependencies without asking (AGENTS.md).
+- **Repo rule:** no new dependencies without asking (`AGENTS.md`, Gotcha 1).
 - **Page contract:** libraries only from a short CDN allowlist; a page must be complete at rest, so the first still frame carries everything meant to be read.
 - **Accessibility:** `prefers-reduced-motion` must be honored; no flashing above three per second.
-- **Tone:** WORLD.md asks for calm and precise. Motion is not celebration.
+- **Tone:** `WORLD.md` (THE TONAL REGISTER) asks for calm and precise. Motion is not celebration.
 - **The page's own thesis:** a render is a development of a stored capture. An animation that bakes frames would contradict it.
-- **Measured, 2026-10-15, headless run on an 8-core Mac:** one instrument frame costs a median 2.9 ms when developing from raw, and 18.1 ms (p90 19.8) in re-cut mode at 8 passes. The 60 fps budget is 16.7 ms, so the re-cut path misses it on this machine and will miss it by more on a phone.
-- **Real data to animate:** 271 receipts in creation order, with one slope change at receipt 198 (the `atgTributaries` boundary).
+- **Measured, 2026-10-15, headless run on an 8-core Mac, `_ARTIFACTS/raw-capture.html` (PR 1323):** one instrument frame costs a median 2.9 ms when developing from raw, and 18.1 ms (p90 19.8) in re-cut mode at 8 passes. The 60 fps budget is 16.7 ms, so the re-cut path misses it on this machine and will miss it by more on a phone.
+- **Real data to animate:** 271 receipts in creation order, with one slope change at receipt 199 (the `atgTributaries` boundary, `_PATTERNS/2026-10-15-cyan-linking-structure-audit.md`).
 
 Not verified: performance on a real phone or a throttled CPU. That is an action item before this ADR is DECIDED.
 
@@ -118,7 +118,7 @@ The deciding question is whether time is a parameter or a medium. A, C and D tre
 6. **Frame budget.** Advance by elapsed time, not by frame count, so speed stays right when frames drop. If the median frame cost exceeds 12 ms over 5 frames, cap at 30 fps; render full quality on pause. The re-cut path is the known offender.
 7. **Pause when the tab is hidden.** Resume is manual.
 8. **Accessibility.** Real `<button>` and `<input type="range">` elements with visible focus; live-region announcements only on pause and on end, never per frame; no flashing above three per second.
-9. **Gates.** The page must still pass `page_gate`, wrap-lint, token-source and the design-debt gate. No library. Easing and durations come from two named constants so they are changeable in one place.
+9. **Gates.** The page must still pass `scripts/page_gate.py`, `scripts/artifact_wrap_lint.py`, `scripts/token_source_gate.py` and the design-debt gate; the transport follows `src/ui-kit/recoil-report/20-transport.html`. No library. Easing and durations come from two named constants so they are changeable in one place.
 
 **Rationale:** it is the only option that keeps the page's own principle (a render is a development, not a baked output) while giving scrub, pause and a testable resting state at no dependency cost.
 
@@ -140,13 +140,29 @@ The deciding question is whether time is a parameter or a medium. A, C and D tre
 
 ## Action Items
 
-1. [ ] Implement the engine and the three v1 tracks in `_ARTIFACTS/raw-capture.html` (separate PR).
-2. [ ] Add the rest-invariant check and run it in a headless pass.
-3. [ ] Measure on a throttled CPU (4x slowdown) and on a phone before moving to DECIDED.
-4. [ ] Move the opening sweep onto the engine.
+1. [x] Implement the engine and the three v1 tracks in `_ARTIFACTS/raw-capture.html`.
+2. [x] Add the rest-invariant check and run it in a headless pass (`scripts/raw_capture_anim_check.mjs`).
+3. [~] Measured on a throttled CPU (4x and 6x). Still to do: a real phone, before DECIDED.
+4. [x] Move the opening sweep onto the engine.
 5. [ ] Ask whether DESIGN.md should gain a motion section (durations, easing, reduced-motion rule).
 6. [ ] Republish the artifact once the PR merges.
 
 ## Not decided here
 
 How animation applies to the five-axis decision geometry, and any claim about what the Snap track proves. It shows a slope change in one column, once.
+
+## Verification (2026-10-15, after implementation)
+
+The checks below are repeatable: `node scripts/raw_capture_anim_check.mjs _ARTIFACTS/raw-capture.html --budget` exits 0 on all 16 assertions (rest invariant, transport, reduced motion, frame budget, no console errors).
+
+Implemented in `_ARTIFACTS/raw-capture.html` with three tracks (Develop, Snap, Ignite), the intro sweep moved onto the engine, and the transport molecule from `src/ui-kit/recoil-report/20-transport.html`. Headless Chromium via Playwright:
+
+- **Rest invariant:** at t = 1 the full readout state (exposure, clipped share, detail, drift, verdict, tag, snap caption, armed label, spark-gap markup, and every contact-sheet cell) equals the static page for all three tracks. Playing a track to its end also lands on the baseline.
+- **Transport:** Play and Pause work; scrubbing and stepping work; any real control input halts playback; starting a second track restores the first to rest; no console errors.
+- **Reduced motion:** with `prefers-reduced-motion: reduce` the page loads at rest, Play is hidden, and stepping still works.
+- **Frame budget, wall time stays on spec:** the replay takes 4.3 to 4.5 s against a 4.2 s design on a CPU slowed 4x and 6x, because advance is by elapsed time.
+- **Frame budget, smoothness, found and fixed:** the first build fell to 22.5 fps at 4x and 14.2 fps at 6x slowdown in the re-cut path (about 900,000 `Math.pow` calls per frame at 8 passes). Replacing them with lookup tables and caching the as-shot image gave 106 fps at 4x and 97 fps at 6x. A frame-cost rule that caps at 30 fps and skips the readout statistics (lite mode) is in place, but the lookup tables did the work; the cap did not trigger in the final run. Readouts after the change: re-cut with 8 passes keeps 47 of 206 tones (46 before), verdict DEGRADED; developing from raw keeps 206 of 206.
+
+Corrections: an earlier draft of this ADR and of the page said the slope change is at receipt 198. Index 198 is the 199th receipt, so receipt 199 is right.
+
+Not verified: a real phone, Safari and Firefox, and a screen reader pass. Status stays DRAFT until a real device is measured. A turning point in Develop (t = 0.5, exactly +1.0 EV) and a start state in Ignite (t = 0, the actual gate count) equal the resting state by construction, so a rest comparison at those points shows no difference and is not a defect.
