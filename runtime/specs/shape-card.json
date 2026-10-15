@@ -1,0 +1,23 @@
+{
+  "version": "0.1-PROPOSAL",
+  "status": "PROPOSAL (ADR-086 part D). Not wired. Log target: _STATE/shape-cards.jsonl (append-only).",
+  "fields": {
+    "job_id": "JobOpportunity id or backlog row id",
+    "logged_at": "ISO timestamp from `date`, never recalled",
+    "verb": ["analyze", "assess", "evaluate", "synthesize", "recapitulate"],
+    "altitude": ["exec", "operational", "surgical"],
+    "inputs": "list of paths or row ids",
+    "output": "artifact printed",
+    "gates": "list of named blocking gates",
+    "counterpart": ["none", "recruiter", "hiring-manager", "peer", "unknown"],
+    "tool_chosen": "id from runtime/specs/tool-catalog.json, or 'one-off'",
+    "tool_best": "id /catalog recommended at ingest, or null",
+    "reused": "boolean",
+    "effort_level": ["L0", "L1", "L2", "L3"]
+  },
+  "derived": {
+    "miss": "tool_best is not null AND tool_best != tool_chosen",
+    "one_off_twice": "same (verb, altitude, normalized output) with tool_chosen == 'one-off', count >= 2"
+  },
+  "night_moves_section": "magnetization misses: list misses and one_off_twice groups for the day; read-only; each line ends with 'promote or retire?'"
+}

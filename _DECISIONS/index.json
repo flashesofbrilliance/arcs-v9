@@ -655,5 +655,14 @@
     "stability": "STABLE",
     "gate": "see content",
     "file": "ADR-085-main-write-lock-and-hot-file-leases.md"
+  },
+  {
+    "id": "ADR-086",
+    "title": "ADR-086 — Two-pass backlog induction: a first-order plan graph, then a hyperstition pass that repairs its cracks",
+    "status": "DRAFT",
+    "y_state": "YELLOW",
+    "stability": "PROVISIONAL",
+    "gate": "see content",
+    "file": "ADR-086-two-pass-backlog-induction.md"
   }
 ]
