@@ -128,7 +128,7 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .note { font-size: 0.925rem; color: var(--muted); margin: 12px 0 0; }
 
 /* altitudes */
-.alts { margin-top: 56px; max-width: calc(var(--measure) + 42px); display: flex; flex-direction: column; gap: 12px; }
+.alts { margin-top: 56px; display: flex; flex-direction: column; gap: 12px; }
 details.alt { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); }
 details.alt > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: auto 1fr auto; gap: 6px 16px; align-items: baseline; padding: 18px 20px; }
 details.alt > summary::-webkit-details-marker { display: none; }
@@ -194,7 +194,7 @@ pre.decl { margin: 0; white-space: pre-wrap; word-break: break-word; font-family
 .btn { font: inherit; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: 3px; padding: 8px 12px; cursor: pointer; min-height: 44px; }
 .btn:hover { border-color: var(--cyan); }
 
-footer { max-width: calc(var(--measure) + 42px); margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.925rem; color: var(--muted); }
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.925rem; color: var(--muted); }
 footer > p { margin: 0 0 8px; }
 code { font-family: var(--font-mono); font-size: 0.925rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; }
 
@@ -397,7 +397,7 @@ Approval: pending</pre>
       <div><button class="btn" id="copy" type="button">Copy declaration</button> <span class="hint" id="copied"></span></div>
     </div>
     <h3>Capture the snap</h3>
-    <p>The sharpest event in this data is not a level, it is a change of slope. Count the filled column cumulatively across the 271 receipts. Flat at one for 169 receipts, then the slope jumps to one per receipt from receipt 198 on. Nobody recorded that moment. It was found afterward. The same shape marks every conversion: a gate flips, a state changes, a rate changes. Each one deserves a capture at the instant it happens: the before state, the after state, and what caused it. A mechanical detector can flag it, because it only needs the first difference of a series that was flat and is not.</p>
+    <p>The sharpest event in this data is not a level, it is a change of slope. Count the filled column cumulatively across the 271 receipts. Flat at one for 169 receipts, then the slope jumps to one per receipt from receipt 199 on. Nobody recorded that moment. It was found afterward. The same shape marks every conversion: a gate flips, a state changes, a rate changes. Each one deserves a capture at the instant it happens: the before state, the after state, and what caused it. A mechanical detector can flag it, because it only needs the first difference of a series that was flat and is not.</p>
     <p>Ticking the boxes above only changes this page. Nothing fires from here. The write runs from a terminal session, after the gates are met, on the owner's go.</p>
   </div>
 </details>
