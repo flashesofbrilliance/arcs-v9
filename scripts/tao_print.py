@@ -38,55 +38,86 @@ def rng(pid, seed, *k):
     return random.Random(int.from_bytes(h[:8], "big"))
 
 
-def mold(a, v):
-    """Twisted-ring mold: a lemniscate whose lobe pinch comes from the aspect, stroke count from the verb."""
-    pinch = 0.55 + 0.1 * a
-    strokes = v + 1
+NU = 56               # facets around the strip
+NV = 4                # bands across the strip (four inks)
+PHASE = 0.9           # instrument default rotation
+HORIZON = 64          # horizon y in panel units
+MAX_PLATE = 7.0       # plate misregistration in panel units at f=0 on the last repeat
+
+
+def project(u, v, ph):
+    """Same parametrization as _ARTIFACTS/arcs-moire-mobius.html, in a 100-unit panel. Returns x, y, depth."""
+    x = (1 + v * math.cos(u / 2)) * math.cos(u)
+    y = (1 + v * math.cos(u / 2)) * math.sin(u)
+    z = v * math.sin(u / 2)
+    x1 = x * math.cos(ph) + z * math.sin(ph)
+    z1 = -x * math.sin(ph) + z * math.cos(ph)
+    t = -0.52
+    y1 = y * math.cos(t) - z1 * math.sin(t)
+    z2 = y * math.sin(t) + z1 * math.cos(t)
+    sc = 3.4 / (3.4 + z2) * 34
+    return 50 + x1 * sc, 46 + y1 * sc, z2
+
+
+def facets():
+    """Depth-sorted flat facets of the strip. Each carries its face (the sign of its screen area flips as the
+    strip twists, so the two faces of the Moebius print in different inks) and its band."""
     out = []
-    for s in range(strokes):
-        r = 1.0 - 0.13 * s
-        pts = []
-        for i in range(61):
-            t = 2 * math.pi * i / 60
-            d = 1 + pinch * math.sin(t) ** 2
-            x = 50 + 44 * r * math.cos(t) / d
-            y = 50 + 44 * r * math.sin(t) * math.cos(t) / d * 1.9
-            pts.append(f"{x:.2f},{y:.2f}")
-        out.append("M" + " L".join(pts) + "Z")
+    vs = [(-0.5 + j / NV) * 0.8 for j in range(NV + 1)]
+    for i in range(NU):
+        u0, u1 = 2 * math.pi * i / NU, 2 * math.pi * (i + 1) / NU
+        for j in range(NV):
+            q = [project(u0, vs[j], PHASE), project(u1, vs[j], PHASE),
+                 project(u1, vs[j + 1], PHASE), project(u0, vs[j + 1], PHASE)]
+            area = sum(q[k][0] * q[(k + 1) % 4][1] - q[(k + 1) % 4][0] * q[k][1] for k in range(4))
+            out.append((sum(p[2] for p in q) / 4, area > 0, j, " ".join(f"{p[0]:.1f},{p[1]:.1f}" for p in q), i))
+    out.sort(key=lambda t: -t[0])
     return out
 
 
+FACETS = facets()
+PLATES = ["var(--cyan)", "var(--green)", "var(--gold)", "var(--red)"]   # ink = face * 2 + band parity
+
+
 def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
-    """One repeat. k = repeat index (0 = first pull), n = total repeats."""
+    """One pull of the mold. Four plates (inks), each printed flat and offset from the others by an amount that
+    grows with (1 - f) and the repeat index (misregistration); ink drops out in patches with the same law
+    (the instrument's fog); grain specks sit on the horizon band."""
     drift = k / max(1, n - 1)
     loss = 1.0 - f
-    paths = mold(a, v)
-    order = [(a + i) % 4 for i in range(3)]          # three inks per print, rotated by aspect
-    layers = []
-    offs = []
-    for li, ink in enumerate(order):
-        r = rng(pid, seed, "reg", k, li)
-        ox = (r.random() * 2 - 1) * MAX_OFFSET * loss * drift
-        oy = (r.random() * 2 - 1) * MAX_OFFSET * loss * drift
+    drop = 0.7 * loss * (0.2 + 0.8 * drift)
+    plates = [[], [], [], []]
+    dropped = 0
+    r = rng(pid, seed, "ink", k)
+    for _, face, band, pts, i in FACETS:
+        ink = (2 if face else 0) + (band % 2)
+        if swap:
+            ink = (ink + 2) % 4
+        if r.random() < drop:
+            dropped += 1
+            continue
+        plates[ink].append(f'<polygon points="{pts}"/>')
+    offs, layers = [], []
+    for pi, polys in enumerate(plates):
+        rr = rng(pid, seed, "plate", k, pi)
+        ox = (rr.random() * 2 - 1) * MAX_PLATE * loss * drift
+        oy = (rr.random() * 2 - 1) * MAX_PLATE * loss * drift
         offs.append(math.hypot(ox, oy))
-        op = 1.0 - 0.5 * loss * drift
-        col = INKS[SWAP[ink] if swap else ink]
-        d = " ".join(paths[: max(1, min(len(paths), li + 1 + (len(paths) > 2)))])
-        layers.append(
-            f'<path d="{d}" transform="translate({ox:.2f} {oy:.2f})" fill="none" stroke="{col}" '
-            f'stroke-width="{7 - 2 * li}" stroke-linejoin="round" opacity="{op:.3f}"/>'
-        )
+        layers.append(f'<g fill="{PLATES[pi]}" stroke="{PLATES[pi]}" stroke-width=".35" stroke-linejoin="round" transform="translate({ox:.2f} {oy:.2f})">{"".join(polys)}</g>')
     ns = int(round(MAX_SPECKS * loss * (0.25 + 0.75 * drift)))
-    r = rng(pid, seed, "grain", k)
+    rs = rng(pid, seed, "grain", k)
     specks = "".join(
-        f'<circle cx="{r.random()*100:.1f}" cy="{r.random()*100:.1f}" r="{0.5+r.random()*1.2:.2f}"/>'
-        for _ in range(ns)
-    )
-    tf = f' transform="translate(100 0) scale(-1 1)"' if mirror else ""
+        f'<circle cx="{rs.random()*100:.1f}" cy="{HORIZON-24+rs.random()*48:.1f}" r="{0.5+rs.random()*1.1:.2f}"/>'
+        for _ in range(ns))
+    gaps = "".join(f'<rect x="{rs.random()*90:.1f}" y="{HORIZON-1}" width="{3+rs.random()*8:.1f}" height="4" fill="var(--bg)"/>'
+                   for _ in range(int(round(10 * loss * drift))))
+    tf = ' transform="translate(100 0) scale(-1 1)"' if mirror else ""
     return (
-        f'<g data-k="{k}" data-reg="{sum(offs)/len(offs):.3f}" data-specks="{ns}"{tf}>'
-        + "".join(layers)
-        + f'<g fill="var(--dimmed)">{specks}</g></g>'
+        f'<g data-k="{k}" data-reg="{sum(offs)/len(offs):.3f}" data-specks="{ns + dropped}"{tf}>'
+        f'<rect width="100" height="100" fill="var(--bg)"/>'
+        f'<rect y="{HORIZON}" width="100" height="2.4" fill="var(--gold)"/>{gaps}'
+        f'<g style="mix-blend-mode:screen">{"".join(layers)}</g>'
+        f'<g fill="var(--dimmed)">{specks}</g></g>'
     )
 
 
@@ -98,15 +129,15 @@ def svg(row, f, seed):
     n = cols * cols
     gap = 14
     W = cols * CELL + (cols - 1) * gap
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+136}" role="img" '
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+150}" role="img" '
            f'aria-label="Silkscreen print of the proverb: {row["text"]}" data-id="{pid}" '
            f'data-fidelity="{f}" data-seed="{seed}">',
-           f'<rect width="{W}" height="{W+136}" fill="var(--bg)"/>']
+           f'<rect width="{W}" height="{W+150}" fill="var(--bg)"/>']
     for k in range(n):
         x = (k % cols) * (CELL + gap)
         y = (k // cols) * (CELL + gap)
-        out.append(f'<g transform="translate({x} {y}) scale({CELL/100})">'
-                   + panel(pid, seed, f, k, n, a, v) + "</g>")
+        out.append(f'<svg x="{x}" y="{y}" width="{CELL}" height="{CELL}" viewBox="0 0 100 100">'
+                   + panel(pid, seed, f, k, n, a, v) + "</svg>")
     # Mobius strip: one row of 6 panels, the closing panel is mirrored with swapped inks
     m = 6
     sy = W + 18
@@ -115,8 +146,8 @@ def svg(row, f, seed):
     for k in range(m):
         x = k * (sw + 6)
         twist = k == m - 1
-        out.append(f'<g transform="translate({x:.1f} {sy}) scale({sw/100:.3f})" data-twist="{int(twist)}">'
-                   + panel(pid, seed, f, k + n, n + m, a, v, swap=twist, mirror=twist) + "</g>")
+        out.append(f'<svg x="{x:.1f}" y="{sy}" width="{sw:.1f}" height="{sw:.1f}" viewBox="0 0 100 100" data-twist="{int(twist)}">'
+                   + panel(pid, seed, f, k + n, n + m, a, v, swap=twist, mirror=twist) + "</svg>")
     out.append("</g>")
     words = row["text"].rstrip(".").split()
     h = (len(words) + 1) // 2
@@ -157,7 +188,7 @@ svg {{ display: block; width: 100%; height: auto; }}
 <main class="lane">
 <p class="eyebrow">Tao print prototype</p>
 <h1>One mold, repeated until the ink gives out</h1>
-<p class="lede">Nine pulls of one mold, then a six-panel strip whose last panel turns over with its inks swapped. Misregistration and grain scale with (1 minus fidelity). Fidelity is declared in the recipe, not measured.</p>
+<p class="lede">The ARCS Möbius, pulled nine times in four flat inks. The two faces of the strip print in different inks, so you can see it has one surface. Plates slip, ink drops out and the horizon breaks up in proportion to (1 minus fidelity). Fidelity is declared in the recipe, not measured. The last panel of the strip turns over with its inks swapped.</p>
 {svg(row, f, seed)}
 <p class="note">Reproducible from proverb id, recipe and seed. Not an edition: no scarcity, no registry.</p>
 </main>

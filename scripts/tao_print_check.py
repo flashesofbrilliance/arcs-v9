@@ -35,7 +35,7 @@ def shot(svg_text, out):
     src.write_text(page(svg_text))
     js = ("const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();"
           "const p=await b.newPage({viewport:{width:640,height:900}});"
-          f"await p.goto('file://{src}');await p.locator('svg').screenshot({{path:'{out}'}});await b.close()}})()")
+          f"await p.goto('file://{src}');await p.locator('svg[data-id]').screenshot({{path:'{out}'}});await b.close()}})()")
     subprocess.run(["node", "-e", js], cwd=ROOT, check=True)
     src.unlink()
 
@@ -46,16 +46,13 @@ def score(png):
     im = np.asarray(Image.open(png).convert("RGB")).astype(int)
     r, g, b = im[..., 0], im[..., 1], im[..., 2]
     grey = (abs(r - 0x83) < 14) & (abs(g - 0x91) < 14) & (abs(b - 0xa7) < 14)       # --dimmed grain
-    cyan = (r < 90) & (g > 150) & (b > 150) & ~grey
-    gold = (r > 180) & (g > 150) & (b < 120)
-    red = (r > 180) & (g < 140) & (b > 60) & (b < 170)
-
-    def cen(m):
-        ys, xs = np.nonzero(m)
-        return (xs.mean(), ys.mean()) if len(xs) else (0, 0)
-    spread = np.mean([np.hypot(a[0] - c[0], a[1] - c[1]) for a, c in
-                      [(cen(cyan), cen(gold)), (cen(gold), cen(red)), (cen(cyan), cen(red))]])
-    return -(grey.mean() * 1000 + spread * 0.1)          # higher = clearer
+    pure = [(0, 240, 255), (0, 255, 157), (255, 215, 0), (255, 77, 109)]
+    ink = (r + g + b) > 150
+    is_pure = np.zeros(r.shape, bool)
+    for pr, pg, pb in pure:
+        is_pure |= (abs(r - pr) < 16) & (abs(g - pg) < 16) & (abs(b - pb) < 16)
+    purity = is_pure.sum() / max(1, (ink & ~grey).sum())      # share of inked pixels that are a pure plate ink
+    return purity * 100 - grey.mean() * 1000                    # overlap blends and grain lower it
 
 
 def spearman(a, b):
