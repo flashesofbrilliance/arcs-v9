@@ -70,3 +70,25 @@ Scope corrections to the concept-note round (PR 1322 and the follow-on work):
 - The eight seed agents (PR 1324) are untested: no ledger row has a recorded use. The pre-commit hook was probably armed but was not exercised with a deliberately bad seed.
 - `idea-curator-taxonomist` misdescribed the Curator (keep or cut) and was re-scoped to `idea-curator` in PR 1333. The Curator (`operators/arcs_operators_curator.py`) offers one orthogonal reframe.
 - The Folksonomy "100 receipts" gate in the registry note is not the same constant as `MIN_CORPUS_SIZE = 5` in `operators/arcs_operator20.py`; where the 100 is enforced was not found.
+
+## B1 result, 2026-10-15 (`python3 scripts/era_b1_probe.py`; kill lines K1 to K4 were fixed in the script header before the run)
+
+Ground: absolute cutoff = `cutoff_ratio` x width/2, three seeds each of an edge scene and a noisy-smooth scene, one analytic smooth scene, box downsample from a 256 master, 4x4 Bayer dither at 16 levels, nearest-neighbour 4x upscale of the 64 row. Results are from the committed probe; limits: one dither kernel, my own scenes, 16 sampled rows.
+
+| Scene | abs cutoff 64 / 128 / 256 | K1 | K2 (dither shift / 32) | K4 gap (cycles) |
+|---|---|---|---|---|
+| edge, 3 seeds | about 24 / 41 / 75 to 83 | pass | fail (0.22 to 0.25) | pass (14 to 22) |
+| noisy, 3 seeds | 7 / 43 to 48 / 117 | pass | 2 pass, 1 fail | pass (about 109) |
+| smooth analytic | 3 / 3 / 3 | fail | fail (0.38) | fail (0.0) |
+
+Verdict: B1 as pre-registered is killed (any single failure kills it). Attack by `chief-loki` (numpy re-implementation matched the stdlib cutoff) changed how to read it:
+- K1 and K4 hold on textured scenes and are robust: the K4 foil (nearest-neighbour) is the hardest of the upscalers, gaps are 3 to 20 times the bar. The smooth-scene failure is real and not a window or sampling artifact (3/3/3 under Hann, detrend and all 256 rows); the script's own docstring lists it as a known false positive.
+- K2 failed as pre-registered, but the reading "dither defeats the sharpness check" is wrong. The control arm was already 4-bit quantized, so the test measured quantization against quantization plus dither. Random dither fails too, and at 8-bit K2 passes 7 of 7. At a 99.9% cutoff it also passes 7 of 7. The finding is: the 99% cutoff cannot see through 4-bit quantization noise, because a Nyquist tone carries over 1% of the energy.
+- Not a rescue: moving the cutoff to 99.9% is a post-hoc change and does not loosen K2. It needs the round-2 test below.
+
+Surviving narrower claim (not yet earned): on textured scenes the absolute-cutoff statistic orders era resolution and separates a true high-resolution frame from a nearest-neighbour upscale. A smooth scene cannot discriminate era with this statistic.
+
+### Round 2: pre-registered beliefs (written before any round-2 run)
+B12. With an unquantized control, 4-bit quantize-only and quantize-plus-dither shift the 64-row reading by under 0.15 of 32 relative to each other. Prior 0.5. Kill: 0.15 or more on 2 or more of the 7 scenes.
+B13. The three-row ordering and K4 gap hold on at least 2 real rendered images (screenshots, not photographs) at the same scale. Prior 0.4. Kill: ordering inverts on either.
+Not tested: real era art, photographs, other kernels.
