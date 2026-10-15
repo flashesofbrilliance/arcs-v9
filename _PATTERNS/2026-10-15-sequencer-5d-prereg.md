@@ -104,3 +104,31 @@ L3 Palettes: each gradient maps brightness 0 and 255 to its end colors; every pi
 L4 Stutter visual: with stutter held, frames at times inside one window are identical and differ from the unglitched frame. Stutter audio: the active loop's start and end differ by L within 2 ms and its start is the held time.
 L5 Keyboard: Tab toggles Perform; holding the key starts the effect and releasing ends it; keys are ignored while a text field has focus; the page works without the mouse.
 L6 Photosensitivity: with all glitches on, the mean luminance change between consecutive frames stays under 0.1 over 60 frames.
+
+## Results, Look and Glitch (2026-10-15)
+
+`node scripts/phosphor_look_check.mjs _ARTIFACTS/phosphor.html` on the demo signal.
+- L1 curve, L2 invert, L3 palettes, L5 keyboard: pass on the first run. Log at 100 lifts mid-gray to 214, Exp sinks it to 28, Amount 0 is byte-identical, inverting twice is byte-identical, every sampled pixel in every palette lies within 0 levels of its gradient.
+- L4 stutter: the first run failed one assertion because the test assumed 120 BPM while the page had estimated 261 BPM for the demo. That estimate was an octave error; the tempo now folds into 70 to 180 BPM (130 for the demo). After that, stutter at 1/8 beat holds 57.7 ms, the audio loop is 57.7 ms and starts at the held time, the drawn time repeats every window, release ends the loop, and the picture returns to the unglitched frame.
+- L6 photosensitivity, first run FAIL as registered: the largest frame-to-frame mean-luminance change in Bars mode was 0.168 with all glitches on. Measured four ways it is 0.170 with no glitch, 0.168 with glitches, and 0.010 either way in Scope. The glitches add essentially nothing; the music drives it, because a loud onset redraws a whole bar chart in one frame. That is a real photosensitivity issue in the visualizer independent of the glitch feature.
+- Response: a Calm limiter (on by default; off for fast live playing) caps how quickly bars and rings can rise or fall between frames. First setting measured 0.103 (0.101 with glitches), a near miss; the setting was then tightened. The criterion was not changed; the final numbers are below.
+- Tab was registered as the Perform toggle and not used: it is how keyboard users move focus, so taking it would break S8. Perform toggles with the backtick key and a checkbox.
+
+## Amendment 2 (2026-10-15, before building): the Apple extended keyboard, zoom stages, palette arrows
+
+Zach has an Apple extended Bluetooth keyboard and asked for: (a) a swipe down from F16 to 1 for five stages of zoom-in navigation across scope, bars, radial and spectro; (b) left and right arrows for the palette.
+
+Reading, stated so it can be corrected. On a keyboard with a numeric keypad the F16 to F19 keys sit over the keypad's four columns. The first column is then F16, Clear, 7, 4, 1: five keys. The four columns left to right are the four modes (Scope, Bars, Radial, Spectro) and the five rows down are five zoom stages, so one key sets a mode and a stage and a swipe down a column zooms that mode in. Keys are identified by `event.code` (F16 to F19, NumLock for Clear, NumpadEqual, NumpadDivide, NumpadMultiply, Numpad7 to 9, NumpadSubtract, Numpad4 to 6, NumpadAdd, Numpad1 to 3, NumpadEnter), so the layout does not matter. Because the physical layout is inferred, the page has a learn function that records five keys pressed top to bottom for a column, saved per viewer in localStorage with a try and catch, and a last-key readout.
+
+Zoom stages (1 is today's view, 5 is the closest): Scope window 1024, 512, 256, 128, 64 samples; Bars show 64, 48, 32, 20, 12 of the lowest bands; Radial scale 1, 1.4, 2, 3, 4.5; Spectrogram 180, 90, 45, 22, 11 frames across. The resolution ladder stays on the bracket keys; if "stages" was meant to mean resolution rungs, the mapping changes.
+
+Palette arrows. Right and left arrow step the palette swap forward and back through Original, ARCS, Phosphor, Amber, Indigo, Heat, Mono, wrapping. Shift with an arrow steps the palette bit depth. Arrows act only when nothing that uses arrows (a slider, a field) has focus, so no control is hijacked.
+
+The keypad is now used for navigation, so slice pads for finger drumming will use letters and the number row in Perform mode.
+
+Checks.
+K1 The five keys of the first column set Scope with stages 1 to 5 in order; stage 5 draws a different picture from stage 1; pressing the stage 1 key restores the stage 1 picture byte-identical.
+K2 Each column's keys select its mode (F17 Bars, F18 Radial, F19 Spectro).
+K3 Right arrow steps the palette in order and wraps; left reverses; Shift with an arrow changes the bit depth.
+K4 Arrows do nothing to the palette while a slider has focus.
+K5 Learned keys replace the defaults, persist across a reload, and the old keys stop working for that column.
