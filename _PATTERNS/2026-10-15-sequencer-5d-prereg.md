@@ -67,3 +67,40 @@ A take (the recorded key events) can be rendered offline into a video: frames fr
 ## Not claimed
 
 That the arrangement "sounds good", that coherence matches a listener's sense of flow, that the pad latency in a real browser with real hardware is within 20 ms (it is measured headless), or that any of this is the right feel for finger-drumming; that needs the owner's hands. Publishing remains separate from building. Suno's terms for any public use of the songs are the owner's to confirm.
+
+## Results, phase 1: slices, magnets, coherence, arrangement (2026-10-15)
+
+`PHOSPHOR_FILES=<two songs> node scripts/phosphor_slice_check.mjs _ARTIFACTS/phosphor.html`, thresholds as pre-registered above.
+
+| Check | Song A (m4a) | Song B (mp3) |
+|---|---|---|
+| S1 snap matches an independent reference | pass, 0 of 417 mismatches; outside the radius 33 of 33 stay put; bypass 450 of 450 | pass, 0 of 392; 58 of 58; 450 of 450 |
+| S2 click-free, first version (nearest zero crossing) | FAIL, 368 of 417 (88 percent) | FAIL, 248 of 392 (63 percent) |
+| S2 click-free, after refinement (quietest crossing within 5 ms) | pass, 405 of 417 (97 percent) | pass, 392 of 392 (100 percent) |
+| S3 true neighbors beat the median non-neighbor | pass, 9 of 9; mean 0.847 vs 0.657 | pass, 8 of 9 (0.89); mean 0.861 vs 0.770 |
+| S4 greedy arrangement recovers true adjacent pairs | pass, 7 of 9 (0.78); random about 0.11 | FAIL the 0.40 target at 3 of 9 (0.33), above the 0.25 kill |
+
+The S2 criterion was not changed. The first version failed it, the snap was refined after seeing why (the nearest sign change can still sit on a large sample for bright, loud material), and both rounds are reported. S4 on song B is a miss against the target and not a kill; the arrangement rule was not tuned afterward. Coherence therefore carries real information on these two songs (S3 passes on both). Limits: two songs, 10 slices each, cut at onsets; no listening test.
+
+## Amendment 1 (2026-10-15, before building): Look and Glitch controls
+
+Zach: log curve controls, color inversion and palette swap, and glitch controls like stutter.
+
+Look chain, applied to the picture after the scene is drawn, as one lookup-table pass so it stays cheap:
+- Curve (Linear, Log, Exp, S) with an Amount from 0 to 100. Log lifts shadows like a camera log profile: y = log(1 + k x) / log(1 + k) with k = 1 + 63 x amount. Exp is the inverse family and sinks shadows. S blends toward a smoothstep. Amount 0 is the identity.
+- Invert, a plain toggle.
+- Palette: Original, or a gradient map of brightness onto ARCS (obsidian, cyan, gold), Phosphor (black to green), Amber (black to amber), Indigo and paper, Heat (black, red, yellow, white), Mono. Invert runs on brightness before the gradient, or as the RGB complement for Original.
+
+Glitch, as momentary effects held on keys in Perform mode (Tab toggles it):
+- Stutter: while held, the last L of the song loops. Visual: the time used to draw is looped inside the window. Audio: the playing source is replaced by a sample-accurate loop of that window; the song position keeps advancing underneath and the main source rejoins at the true position on release. L is 1/16, 1/8 or 1/4 of a beat (the estimated beat, or 120 BPM if none was found).
+- Freeze: stutter with a 60 ms window.
+- Tear, RGB split and Block shuffle: pixel effects seeded by the frame number so a frame is repeatable.
+- No effect flashes. Invert is a toggle, not a momentary flash.
+
+Checks.
+L1 Curve: Log lifts mid-gray (LUT[128] above 128), Exp sinks it, both keep 0 and 255; Amount 0 leaves the picture byte-identical; the log LUT is monotone.
+L2 Invert twice returns the picture byte-identical; Original with Invert is the RGB complement.
+L3 Palettes: each gradient maps brightness 0 and 255 to its end colors; every pixel's color lies within 4 levels of the gradient.
+L4 Stutter visual: with stutter held, frames at times inside one window are identical and differ from the unglitched frame. Stutter audio: the active loop's start and end differ by L within 2 ms and its start is the held time.
+L5 Keyboard: Tab toggles Perform; holding the key starts the effect and releasing ends it; keys are ignored while a text field has focus; the page works without the mouse.
+L6 Photosensitivity: with all glitches on, the mean luminance change between consecutive frames stays under 0.1 over 60 frames.

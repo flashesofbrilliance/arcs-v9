@@ -145,6 +145,10 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .txt { width: 100%; font: inherit; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 10px 12px; min-height: 44px; }
 #twinform { display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 12px; background: var(--elevated); margin-top: 10px; }
 #twinform[hidden] { display: none; }
+.strip { display: block; width: 100%; height: 88px; margin-top: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); cursor: crosshair; touch-action: none; }
+.sl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.sl .btn[aria-pressed=true] { border-color: var(--gold); background: var(--gold-bg); }
+.mag { color: var(--muted); margin: 8px 0 0; }
 .note { color: var(--muted); margin: 12px 0 0; }
 .alts { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
 details.alt { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); }
@@ -230,6 +234,22 @@ footer p { margin: 0 0 8px; }
     <span class="hint" role="status" id="status"></span>
   </div>
   <div class="chap" id="chap" aria-label="Chapters"></div>
+
+  <canvas id="strip" class="strip" width="1200" height="88" tabindex="0" aria-label="Slice strip. Drag to cut a slice, comma and period jump between snap points, Enter marks a slice start then end."></canvas>
+  <div class="sl" id="sl">
+    <span class="tpl">Snap</span>
+    <div class="seg" role="radiogroup" aria-label="Snap strength" style="min-width:300px;flex:0 1 360px">
+      <input type="radio" name="snap" id="s0" value="0"><label for="s0">Off</label>
+      <input type="radio" name="snap" id="s1" value="0.06"><label for="s1">Soft</label>
+      <input type="radio" name="snap" id="s2" value="0.12" checked><label for="s2">Medium</label>
+      <input type="radio" name="snap" id="s3" value="0.2"><label for="s3">Strong</label>
+    </div>
+    <button class="btn" type="button" id="solve">Solve order</button>
+    <button class="btn" type="button" id="clearsl">Clear slices</button>
+    <span class="hint" id="slhint">Drag on the strip to cut a slice. Hold Alt to bypass the magnets.</span>
+  </div>
+  <div class="sl" id="slist" aria-label="Slices"></div>
+  <p class="mag" id="magro"></p>
 
   <div class="read">
     <div class="cell"><h2>Now</h2><div class="big" id="now">0 dB</div><p class="sub" id="nowsub"></p></div>
@@ -487,6 +507,7 @@ footer p { margin: 0 0 8px; }
     var btns = $("chap").children; for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-current", i === k ? "true" : "false");
     $("tag").textContent = ["Scope", "Bars", "Radial", "Spectrogram"][MODE] + " · " + USED;
     var med = MS.length ? MS.slice().sort(function (a, z) { return a - z; })[MS.length >> 1] : LASTMS;
+    drawStrip(t);
     $("srcsub").textContent = Math.round(DUR) + " s, " + SR + " Hz. Draw " + med.toFixed(1) + " ms at " + USED + ".";
   }
   var LABELS = [];
@@ -534,7 +555,7 @@ footer p { margin: 0 0 8px; }
       if (gen !== GEN) return;
       NF = R.nf; BANDS = R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
       var rest = 0, best = -1, i; for (i = 0; i < NF; i++) if (RMS[i] > best) { best = RMS[i]; rest = i; } tpaused = Math.min(DUR, rest / FPS);
-      buildChapters(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false);
+      buildChapters(); onSourceReady(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false);
     }, function (p) { if (gen === GEN) $("status").textContent = "Analyzing " + Math.round(p * 100) + "%"; }, gen);
   }
   function buildChapters() {
@@ -620,6 +641,152 @@ footer p { margin: 0 0 8px; }
     fr.readAsDataURL(new Blob([SRCBYTES]));
   }
 
+
+  /* ---------------- slices, magnets, coherence (pure functions of the analysis) ---------------- */
+  var MAGNETS = [], SLICES = [], SNAPR = 0.12, PENDING = null, BPM = 0, SELECTED = -1, ARR = null;
+  var KIND_W = { chapter: 1.0, onset: 0.8, valley: 0.6, grid: 0.5, edge: 0.5 };
+  function computeMagnets() {
+    var M = [], i, k, W = Math.round(0.5 * FPS), lastOn = -999, onsets = [];
+    CHAPS.forEach(function (f) { M.push({ t: f / FPS, w: KIND_W.chapter, k: "chapter" }); });
+    for (i = 1; i < NF - 1; i++) {
+      var s = 0, n = 0; for (k = Math.max(0, i - W); k <= Math.min(NF - 1, i + W); k++) { s += FLUX[k]; n++; }
+      if (FLUX[i] > 1.5 * (s / n) + 0.05 && FLUX[i] >= FLUX[i - 1] && FLUX[i] > FLUX[i + 1] && i - lastOn >= 3) { M.push({ t: i / FPS, w: KIND_W.onset, k: "onset", s: FLUX[i] }); onsets.push(i); lastOn = i; }
+    }
+    var sm = new Float32Array(NF), r = 7, lastV = -999;
+    for (i = 0; i < NF; i++) { var a = 0, c = 0; for (k = Math.max(0, i - r); k <= Math.min(NF - 1, i + r); k++) { a += RMS[k]; c++; } sm[i] = a / c; }
+    for (i = 15; i < NF - 15; i++) {
+      var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = Math.min(lo, sm[k]); hi = Math.max(hi, sm[k]); }
+      if (sm[i] <= lo && hi - sm[i] >= 0.1 && i - lastV >= 9) { M.push({ t: i / FPS, w: KIND_W.valley, k: "valley" }); lastV = i; }
+    }
+    BPM = 0;
+    if (onsets.length > 12) {
+      var hist = new Float32Array(121), j;
+      for (i = 1; i < onsets.length; i++) { var d = (onsets[i] - onsets[i - 1]) / FPS; if (d >= 0.2 && d <= 1.2) hist[Math.round(d * 100)]++; }
+      var best = 0; for (j = 20; j <= 120; j++) { var v = hist[j] + 0.5 * (hist[j - 1] || 0) + 0.5 * (hist[j + 1] || 0); if (v > (hist[best] || 0) + 0.5 * ((hist[best - 1] || 0) + (hist[best + 1] || 0))) best = j; }
+      if (best) { var P = best / 100; BPM = Math.round(60 / P); var t0 = onsets[0] / FPS; for (var g = t0 % P; g < DUR && M.length < 6000; g += P) M.push({ t: g, w: KIND_W.grid, k: "grid" }); }
+    }
+    M.sort(function (x, y) { return x.t - y.t; });
+    MAGNETS = M;
+  }
+  function nearestZero(tt) {
+    /* The quietest sample next to a sign change within 5 ms (nearest on ties); if none crosses, the quietest sample. */
+    var i0 = Math.round(tt * SR), rad = Math.round(0.005 * SR), best = -1, bv = 9, bd = 1e9, fb = -1, fv = 9, i, v, d;
+    for (i = Math.max(1, i0 - rad); i < Math.min(PCM.length - 1, i0 + rad); i++) {
+      d = Math.abs(i - i0);
+      if (PCM[i] * PCM[i + 1] <= 0) { v = Math.min(Math.abs(PCM[i]), Math.abs(PCM[i + 1])); var k = Math.abs(PCM[i]) <= Math.abs(PCM[i + 1]) ? i : i + 1; if (v < bv - 1e-9 || (Math.abs(v - bv) <= 1e-9 && d < bd)) { bv = v; bd = d; best = k; } }
+      if (Math.abs(PCM[i]) < fv) { fv = Math.abs(PCM[i]); fb = i; }
+    }
+    if (best < 0) best = fb;
+    return best < 0 ? tt : best / SR;
+  }
+  function snapTime(x, radius, bypass, skipEdge) {
+    if (bypass || !radius) return { t: Math.max(0, Math.min(DUR, x)), magnet: null };
+    var best = null, bs = 0, i, cands = MAGNETS.slice(0);
+    SLICES.forEach(function (s, k) { if (k !== skipEdge) { cands.push({ t: s.t0, w: KIND_W.edge, k: "edge" }); cands.push({ t: s.t1, w: KIND_W.edge, k: "edge" }); } });
+    for (i = 0; i < cands.length; i++) { var d = Math.abs(cands[i].t - x); if (d > radius) continue; var sc = cands[i].w * (1 - d / radius); if (sc > bs) { bs = sc; best = cands[i]; } }
+    if (!best) return { t: Math.max(0, Math.min(DUR, x)), magnet: null };
+    return { t: Math.max(0, Math.min(DUR, nearestZero(best.t))), magnet: best };
+  }
+  function meanBands(f0, f1, out) { var b, f, n = Math.max(1, f1 - f0 + 1); for (b = 0; b < NB; b++) { var s = 0; for (f = f0; f <= f1; f++) s += BANDS[Math.min(NF - 1, Math.max(0, f)) * NB + b]; out[b] = s / n; } }
+  function makeSlice(t0, t1) {
+    if (t1 < t0) { var q = t0; t0 = t1; t1 = q; }
+    var f0 = fidx(t0), f1 = fidx(t1), h = new Float32Array(NB), tl = new Float32Array(NB), i, ms = 0;
+    meanBands(f0, Math.min(NF - 1, f0 + 3), h); meanBands(Math.max(0, f1 - 3), f1, tl);
+    for (i = f0; i <= f1; i++) ms += RMS[i];
+    var maxF = 1e-6; for (i = 0; i < NF; i++) if (FLUX[i] > maxF) maxF = FLUX[i];
+    var i0 = Math.round(t0 * SR), i1 = Math.round(t1 * SR) - 1;
+    return { t0: t0, t1: t1, head: h, tail: tl, hRms: (RMS[f0] + RMS[Math.min(NF - 1, f0 + 3)]) / 2, tRms: (RMS[f1] + RMS[Math.max(0, f1 - 3)]) / 2,
+      mass: (t1 - t0) * (ms / (f1 - f0 + 1)) * (1 + Math.min(1, FLUX[f0] / maxF)), x0: PCM[i0] || 0, x1: PCM[Math.max(0, i1)] || 0, s0: (PCM[i0 + 1] || 0) - (PCM[i0] || 0), s1: (PCM[Math.max(0, i1)] || 0) - (PCM[Math.max(0, i1 - 1)] || 0) };
+  }
+  function cosine(a, b) { var d = 0, na = 0, nb = 0, k; for (k = 0; k < NB; k++) { d += a[k] * b[k]; na += a[k] * a[k]; nb += b[k] * b[k]; } return d / Math.sqrt(na * nb + 1e-9); }
+  function coherence(a, b) {
+    var cs = cosine(a.tail, b.head), lv = 1 - Math.min(1, Math.abs(a.tRms - b.hRms)), bm = Math.max(0, 1 - Math.abs(a.x1 - b.x0) / 0.1) * (a.s1 * b.s0 >= 0 ? 1 : 0.5);
+    return 0.5 * cs + 0.3 * lv + 0.2 * bm;
+  }
+  function arrange(list) {
+    var left = list.map(function (s, i) { return i; }), start = 0, i;
+    for (i = 1; i < list.length; i++) if (list[i].mass > list[start].mass) start = i;
+    var chain = [start], used = {}; used[start] = 1, tot = 0, n = 0;
+    var tot = 0, n = 0;
+    while (chain.length < list.length) {
+      var cur = chain[chain.length - 1], bj = -1, bc = -1;
+      for (i = 0; i < list.length; i++) { if (used[i]) continue; var c = coherence(list[cur], list[i]); if (c > bc || (c === bc && bj >= 0 && list[i].mass > list[bj].mass)) { bc = c; bj = i; } }
+      chain.push(bj); used[bj] = 1; tot += bc; n++;
+    }
+    return { order: chain, score: n ? tot / n : 0 };
+  }
+  function addSlice(t0, t1) { if (Math.abs(t1 - t0) < 0.05 || SLICES.length >= 16) return -1; SLICES.push(makeSlice(t0, t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; SELECTED = SLICES.length - 1; renderSlices(); return SLICES.length - 1; }
+
+  /* ---------------- the strip: waveform, magnets, slices ---------------- */
+  var STRIPBG = null, DRAG = null, STRIPHL = null;
+  function buildStripBg() {
+    var W = 1200, H = 88, c = document.createElement("canvas"); c.width = W; c.height = H; var g = c.getContext("2d"), x;
+    g.fillStyle = css.getPropertyValue("--surface").trim(); g.fillRect(0, 0, W, H);
+    g.fillStyle = C.border; for (x = 0; x < W; x++) { var f = Math.min(NF - 1, Math.floor(x / W * NF)), h = Math.max(1, RMS[f] * (H * 0.62)); g.fillRect(x, H / 2 - h / 2, 1, h); }
+    var col = { chapter: C.cyan, onset: C.gold, valley: C.green, grid: C.dim };
+    MAGNETS.forEach(function (m) { var xx = Math.round(m.t / DUR * W); g.fillStyle = col[m.k]; g.globalAlpha = m.k === "grid" ? 0.35 : 0.9; var hh = m.k === "chapter" ? H : m.k === "onset" ? 14 : m.k === "valley" ? 8 : 4; g.fillRect(xx, m.k === "valley" ? H - hh : 0, m.k === "chapter" ? 2 : 1, hh); });
+    g.globalAlpha = 1; STRIPBG = c;
+  }
+  function drawStrip(tn) {
+    var cvs = $("strip"), g = cvs.getContext("2d"), W = cvs.width, H = cvs.height;
+    if (!STRIPBG) { g.fillStyle = C.bg; g.fillRect(0, 0, W, H); return; }
+    g.drawImage(STRIPBG, 0, 0);
+    SLICES.forEach(function (s, k) { var x0 = s.t0 / DUR * W, x1 = s.t1 / DUR * W; g.fillStyle = C.gold; g.globalAlpha = k === SELECTED ? 0.32 : 0.16; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; g.fillStyle = C.gold; g.fillRect(x0, 0, 2, H); g.fillRect(x1 - 2, 0, 2, H); g.fillStyle = C.text || "#e2e8f0"; g.font = "12px monospace"; g.fillText("S" + (k + 1), x0 + 5, 14); });
+    if (PENDING !== null) { var xp = PENDING / DUR * W; g.fillStyle = C.gold; g.fillRect(xp, 0, 2, H); g.fillText("start", xp + 5, 28); }
+    if (STRIPHL) { var xm = STRIPHL.t / DUR * W; g.strokeStyle = C.cyan; g.lineWidth = 2; g.beginPath(); g.moveTo(xm, 0); g.lineTo(xm, H); g.stroke(); g.fillStyle = C.cyan; g.fillText(STRIPHL.k, xm + 6, H - 6); }
+    var xt = tn / DUR * W; g.fillStyle = "#ffffff"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
+  }
+  function renderSlices() {
+    var h = "";
+    SLICES.forEach(function (s, k) { h += '<button class="btn" type="button" data-k="' + k + '" aria-pressed="' + (k === SELECTED) + '">S' + (k + 1) + " " + fmt(s.t0) + "–" + fmt(s.t1) + " m" + s.mass.toFixed(2) + "</button>"; });
+    if (ARR) h += '<span class="hint">Order: ' + ARR.order.map(function (i) { return "S" + (i + 1); }).join(" → ") + " (flow " + ARR.score.toFixed(2) + ")</span>";
+    $("slist").innerHTML = h;
+    Array.prototype.forEach.call($("slist").querySelectorAll("button"), function (b) { b.addEventListener("click", function () { SELECTED = +b.getAttribute("data-k"); seek(SLICES[SELECTED].t0); renderSlices(); }); });
+  }
+  function magnetSummary() { var c = { chapter: 0, onset: 0, valley: 0, grid: 0 }; MAGNETS.forEach(function (m) { c[m.k]++; }); $("magro").textContent = "Snap points: " + c.chapter + " chapter, " + c.onset + " onset, " + c.valley + " valley" + (BPM ? ", " + c.grid + " grid lines at about " + BPM + " BPM" : "") + "."; }
+  function stripT(e) { var r = $("strip").getBoundingClientRect(); return Math.max(0, Math.min(DUR, (e.clientX - r.left) / r.width * DUR)); }
+  function stripEdgeAt(e) { var r = $("strip").getBoundingClientRect(), px = 8 / r.width * DUR, x = stripT(e), k, best = null; SLICES.forEach(function (s, i) { if (Math.abs(s.t0 - x) <= px) best = { i: i, edge: "t0" }; else if (Math.abs(s.t1 - x) <= px) best = { i: i, edge: "t1" }; }); return best; }
+  (function wireStrip() {
+    var el = $("strip");
+    el.addEventListener("pointerdown", function (e) {
+      if (!NF) return; el.setPointerCapture(e.pointerId); var x = stripT(e), edge = stripEdgeAt(e), sn = snapTime(x, SNAPR, e.altKey);
+      DRAG = edge ? { mode: "edge", i: edge.i, edge: edge.edge, moved: false, x0: e.clientX } : { mode: "new", a: sn.t, b: sn.t, moved: false, x0: e.clientX };
+    });
+    el.addEventListener("pointermove", function (e) {
+      if (!NF) return; var x = stripT(e);
+      if (!DRAG) { var h = snapTime(x, SNAPR, e.altKey); STRIPHL = h.magnet ? { t: h.t, k: h.magnet.k } : null; drawStrip(tnow()); return; }
+      if (Math.abs(e.clientX - DRAG.x0) > 3) DRAG.moved = true;
+      var sn = snapTime(x, SNAPR, e.altKey, DRAG.mode === "edge" ? DRAG.i : -1); STRIPHL = sn.magnet ? { t: sn.t, k: sn.magnet.k } : null;
+      if (DRAG.mode === "edge") { SLICES[DRAG.i][DRAG.edge] = sn.t; } else DRAG.b = sn.t;
+      drawStrip(tnow());
+      if (DRAG.mode === "new" && DRAG.moved) { var g = el.getContext("2d"), W = el.width, H = el.height, x0 = Math.min(DRAG.a, DRAG.b) / DUR * W, x1 = Math.max(DRAG.a, DRAG.b) / DUR * W; g.fillStyle = C.gold; g.globalAlpha = 0.28; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; }
+    });
+    el.addEventListener("pointerup", function (e) {
+      if (!DRAG) return; var d = DRAG; DRAG = null; STRIPHL = null;
+      if (d.mode === "edge") { var s = SLICES[d.i]; SLICES[d.i] = makeSlice(Math.min(s.t0, s.t1), Math.max(s.t0, s.t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; renderSlices(); }
+      else if (d.moved) addSlice(d.a, d.b); else seek(stripT(e));
+      drawStrip(tnow());
+    });
+    el.addEventListener("pointerleave", function () { if (!DRAG) { STRIPHL = null; drawStrip(tnow()); } });
+  })();
+  function jumpMagnet(dir) {
+    var tn = tnow(), i, best = null;
+    if (dir > 0) { for (i = 0; i < MAGNETS.length; i++) if (MAGNETS[i].t > tn + 0.02 && MAGNETS[i].k !== "grid") { best = MAGNETS[i]; break; } }
+    else { for (i = MAGNETS.length - 1; i >= 0; i--) if (MAGNETS[i].t < tn - 0.02 && MAGNETS[i].k !== "grid") { best = MAGNETS[i]; break; } }
+    if (best) { seek(best.t); STRIPHL = { t: best.t, k: best.k }; drawStrip(best.t); $("slhint").textContent = "Snap point: " + best.k + " at " + best.t.toFixed(2) + " s."; }
+  }
+  function markSlice() {
+    var sn = snapTime(tnow(), SNAPR, false);
+    if (PENDING === null) { PENDING = sn.t; $("slhint").textContent = "Slice start set at " + sn.t.toFixed(2) + " s. Move, then press Enter for the end."; }
+    else { var a = PENDING; PENDING = null; if (addSlice(a, sn.t) < 0) $("slhint").textContent = "A slice needs at least 50 ms, and there is room for 16."; else $("slhint").textContent = "Slice added."; }
+    drawStrip(tnow());
+  }
+  $("solve").addEventListener("click", function () { if (SLICES.length < 2) { $("slhint").textContent = "Cut at least two slices first."; return; } ARR = arrange(SLICES); renderSlices(); });
+  $("clearsl").addEventListener("click", function () { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; renderSlices(); drawStrip(tnow()); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
+  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; } };
+
   /* ---------------- wiring ---------------- */
   function sizeCanvas() { var w = Math.min(1920, Math.round(cv.getBoundingClientRect().width * (window.devicePixelRatio || 1))) || 960; cv.width = w; cv.height = Math.round(w * 9 / 16); }
   function resLabel(i) { return RUNGS[i - 1].lab; }
@@ -647,6 +814,10 @@ footer p { margin: 0 0 8px; }
     if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && e.target.type !== "radio" && e.target.type !== "checkbox") return;
     if (e.key >= "1" && e.key <= "4") { var r = $("m" + (+e.key - 1)); r.checked = true; MODE = +e.key - 1; frame(false); }
     else if (e.key === " " && e.target.tagName !== "BUTTON") { e.preventDefault(); play(); }
+    else if (e.key === ",") { e.preventDefault(); jumpMagnet(-1); }
+    else if (e.key === ".") { e.preventDefault(); jumpMagnet(1); }
+    else if (e.key === "Enter" && !/BUTTON/.test(e.target.tagName)) { e.preventDefault(); markSlice(); }
+    else if (e.key === "Escape") { PENDING = null; drawStrip(tnow()); }
     else if (e.key === "[" || e.key === "]") { var v = Math.max(1, Math.min(9, +$("res").value + (e.key === "]" ? 1 : -1))); $("res").value = v; $("res").dispatchEvent(new Event("input")); }
   });
   window.addEventListener("resize", function () { if (!playing) { sizeCanvas(); frame(false); } });
