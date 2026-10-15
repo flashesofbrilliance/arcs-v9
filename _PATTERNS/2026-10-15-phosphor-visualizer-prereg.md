@@ -151,3 +151,11 @@ Zach: "simplify the interface so a five year old can use it." Prediction, writte
 ## Results, amendment 3 (kid mode)
 
 K1 to K3 pass: pick, Play, four mode buttons, Colors, Zoom, Wobble and Big screen are all 64 px or taller, each does its one job, and Grown-up controls start closed. The four older suites pass; the only test change was opening the fold on load in phosphor_check, phosphor_twin_check and phosphor_stage_check (the kill rule allowed this). Untested: a real five-year-old, and touch on a real phone. Both are unconfirmed.
+
+## Amendment 4 (2026-10-15, before building): full screen HUD
+
+Zach asked for interactive buttons in full screen, plus a tilde and space bar with interactive features and HUD controls. Reading: the tilde is the `~` (backtick) key that already toggles Perform keys, and the space bar is play and pause. Prediction: in full screen the HUD shows a second row of the kid buttons (Wiggle, Bars, Ring, Rainbow, Colors, Zoom, Wobble), a wide Space bar button (play and pause) and a `~` button that shows and flips Perform keys. Every HUD button is at least 44 px tall, does the same job as its windowed twin, and any key press or pointer move wakes the HUD. Checks H1 buttons exist and are tall enough in full screen, H2 Rainbow sets the spectrogram, Zoom steps, Space plays and pauses, `~` flips Perform keys, H3 a key press wakes a faded HUD. Kill: if the HUD covers more than a quarter of the picture at 1280 x 720, it is too heavy.
+
+## Results, amendment 4 (full screen HUD)
+
+H1 to H3 pass: five HUD buttons plus four mode buttons are 52 px tall, the HUD takes 133 of 900 px, Rainbow, Zoom, the Space bar and the `~` button all work in full screen, and a key press wakes a faded HUD. Older suites and gates pass. Untested on a real phone.

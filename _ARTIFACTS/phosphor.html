@@ -206,6 +206,10 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .fsb { position: absolute; right: 22px; top: 20px; z-index: 2; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); cursor: pointer; }
 .fsb:hover { border-color: var(--cyan); }
 .hud { display: none; position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; gap: 12px; align-items: center; padding: 12px 16px; background: var(--surface); border-top: 1px solid var(--border); transition: opacity var(--dur-base) var(--ease-out); }
+.hud { flex-wrap: wrap; }
+.hudk { flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 8px; }
+.bb.sm { min-height: 52px; font-size: var(--fs-body); padding: 6px 14px; flex: 1 1 auto; }
+.bb.sp { flex: 4 1 220px; }
 .hud input[type=range] { flex: 1 1 auto; min-width: 0; width: auto; }
 .hud .clock { font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; color: var(--text-secondary); }
 .frame.fs { position: fixed; max-height: none; inset: 0; z-index: 50; padding: 0; border: 0; border-radius: 0; background: var(--bg); }
@@ -244,6 +248,12 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <input type="range" id="hscrub" min="0" max="1000" value="0" aria-label="Scrub playback">
         <span class="clock" id="hclock">0:00</span>
         <button class="btn" type="button" id="hexit">Exit</button>
+        <div class="hudk">
+          <button class="bb sm" type="button" data-km="0">Wiggle</button><button class="bb sm" type="button" data-km="1">Bars</button><button class="bb sm" type="button" data-km="2">Ring</button><button class="bb sm" type="button" data-km="3">Rainbow</button>
+          <button class="bb sm" type="button" id="hcol">Colors</button><button class="bb sm" type="button" id="hzoom">Zoom</button><button class="bb sm" type="button" id="hwob">Wobble</button>
+          <button class="bb sm" type="button" id="hperf" aria-pressed="false">~ Keys</button>
+          <button class="bb sm sp" type="button" id="hspace">Space</button>
+        </div>
       </div>
     </div>
   <div class="tp" id="tp">
@@ -668,7 +678,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     $("clock").textContent = fmt(t) + " / " + fmt(DUR);
     $("scrub").value = DUR ? Math.round(t / DUR * 1000) : 0;
     var btns = $("chap").children; for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-current", i === k ? "true" : "false");
-    $("hclock").textContent = fmt(t) + " / " + fmt(DUR); $("hscrub").value = DUR ? Math.round(t / DUR * 1000) : 0; $("hplay").textContent = playing ? "Pause" : "Play";
+    $("hclock").textContent = fmt(t) + " / " + fmt(DUR); $("hscrub").value = DUR ? Math.round(t / DUR * 1000) : 0; $("hplay").textContent = playing ? "Pause" : "Play"; $("hspace").textContent = "Space: " + (playing ? "pause" : "play");
     $("tag").textContent = ["Scope", "Bars", "Radial", "Spectrogram"][MODE] + " · " + USED;
     var med = MS.length ? MS.slice().sort(function (a, z) { return a - z; })[MS.length >> 1] : LASTMS;
     drawStrip(t);
@@ -1028,7 +1038,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   function gmLabel() { var on = []; if (GLITCH.stut) on.push(GLITCH.stut.kind); ["tear", "rgb", "blocks"].forEach(function (k) { if (GLITCH[k]) on.push(k); }); $("gmo").textContent = on.length ? on.join(" + ") : (PERFORM ? "perform: on" : "off"); }
   var GKEYS = { z: "stutter", x: "freeze", c: "tear", v: "rgb", b: "blocks" };
-  function setPerform(on) { PERFORM = on; $("perf").checked = on; gmLabel(); if (!on) ["stutter", "tear", "rgb", "blocks"].forEach(glitchOff); }
+  function setPerform(on) { PERFORM = on; $("perf").checked = on; $("hperf").setAttribute("aria-pressed", on ? "true" : "false"); gmLabel(); if (!on) ["stutter", "tear", "rgb", "blocks"].forEach(glitchOff); }
 
 
   /* ---------------- keypad zoom stages, learnable key map, palette arrows ---------------- */
@@ -1154,6 +1164,13 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   $("kwob").addEventListener("pointerdown", function (e) { e.preventDefault(); glitchOn("rgb"); glitchOn("blocks"); });
   ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { $("kwob").addEventListener(n, function () { glitchOff("rgb"); glitchOff("blocks"); }); });
   $("kfs").addEventListener("click", function () { setFS(true); });
+  $("hcol").addEventListener("click", function () { cyclePalette(1); });
+  $("hzoom").addEventListener("click", function () { setStage(MODE, ZS[MODE] % 5 + 1); });
+  $("hwob").addEventListener("pointerdown", function (e) { e.preventDefault(); glitchOn("rgb"); glitchOn("blocks"); });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { $("hwob").addEventListener(n, function () { glitchOff("rgb"); glitchOff("blocks"); }); });
+  $("hperf").addEventListener("click", function () { setPerform(!PERFORM); });
+  $("hspace").addEventListener("click", play);
+  document.addEventListener("keydown", function () { if (FS) wakeHud(); }, true);
   kidSync();
   $("fsb").addEventListener("click", function () { setFS(true); });
   $("hexit").addEventListener("click", function () { setFS(false); });
