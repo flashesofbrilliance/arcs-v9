@@ -1,0 +1,973 @@
+{
+  "version": "0.1-PROPOSAL",
+  "status": "PROPOSAL for Zach review. Not wired to any route, scorer or watcher. Nothing here changes forge-triggers.json v1.1.",
+  "updated": "2026-10-15",
+  "doc": "How much effort a job gets. One level per job, chosen from five signals, each level with caps, pre-registered kill criteria and an adversary check. Correctness gates are hard constraints: a gate listed under a level never gets traded for time or tokens; caps only decide how many jobs reach a level, never whether a gate runs on a job that did.",
+  "prior_art": [
+    "runtime/specs/forge-triggers.json v1.1 (right swipe queues a forge; tiers 1,2 auto, 3 confirm; light tier = blueprint stages 1,5,7,8,9)",
+    "ADR-068 (every stage prints an artifact, through a gate, to a fate)",
+    "ADR-060 (hypercube gauntlet)",
+    "_STATE/job-search/role-lenses-2026-10-14.md (warm_path is the universal bottleneck; fit is already high)",
+    "_STATE/job-search/champion-fit-heuristic.md",
+    "_STATE/job-search/magnetization-spec.md (fit is not leverage; the Moat tag)"
+  ],
+  "hard_constraints": {
+    "doc": "Apply at every level that produces the artifact. Never weighed against time, tokens or dollars.",
+    "gates": [
+      "provenance_lint + slop_lint on every resume or note before it leaves the machine",
+      "no new claim without an evidence.jsonl row; no scores, dimensions or grades in any external file",
+      "ex-ante receipt filed before ANY counterpart send (ADR-068 recapitulate leg)",
+      "draft-first: Zach sends, never the pipeline (confirm-before-outbound)",
+      "never infer a warm path from a JD",
+      "em-dashes 0; arcs-v9 is private, never called public"
+    ]
+  },
+  "levels": {
+    "L0": {
+      "name": "pass",
+      "does": "Nothing built. Row stays on the board with a why tag if swiped left.",
+      "caps": {
+        "minutes_human": 0,
+        "compute_usd": 0
+      },
+      "kill": "n/a",
+      "gates_run": []
+    },
+    "L1": {
+      "name": "baseline",
+      "does": [
+        "ATS resume rendered from the seed (no new prose)",
+        "3-line note (draft)",
+        "ex-ante receipt"
+      ],
+      "caps": {
+        "minutes_human": 10,
+        "compute_usd": 0.5,
+        "wall_clock_hours": 24
+      },
+      "maps_to": "forge-triggers light tier, auto tiers 1-2",
+      "kill": [
+        {
+          "id": "k1-stale",
+          "when": "posting closed, filled or older than 21 days at ingest",
+          "then": "L0, say so on the row"
+        },
+        {
+          "id": "k1-no-reply-14d",
+          "when": "14 days after send with no reply",
+          "then": "close the receipt as no-signal; do not escalate this row to L2 on silence alone"
+        }
+      ],
+      "gates_run": [
+        "provenance_lint",
+        "slop_lint",
+        "ex-ante receipt"
+      ]
+    },
+    "L2": {
+      "name": "standard",
+      "does": [
+        "everything in L1",
+        "designed resume",
+        "positioning brief",
+        "claims ledger",
+        "counterpart-gauntlet (lens mode)",
+        "ONE warm-path attempt (a named human, found, not inferred)"
+      ],
+      "caps": {
+        "minutes_human": 45,
+        "compute_usd": 3.0,
+        "wall_clock_hours": 72,
+        "concurrent_open": 5
+      },
+      "kill": [
+        {
+          "id": "k2-gauntlet-fail",
+          "when": "gauntlet verdict is fail on a load-bearing claim and the fix needs a claim the evidence ledger cannot back",
+          "then": "drop to L1, never invent the claim"
+        },
+        {
+          "id": "k2-no-path-and-low-edge",
+          "when": "warm-path attempt finds no named human within 20 minutes AND Moat tag is absent",
+          "then": "stay at L1 (stop-loss: the extra build has no path to a reader)"
+        },
+        {
+          "id": "k2-sunk",
+          "when": "human minutes spent exceed the cap before the gauntlet runs",
+          "then": "stop, file a receipt with what_unconfirmed, return to queue"
+        },
+        {
+          "id": "k2-stampede",
+          "when": "bridge competition_density below 0.7 and no warm path",
+          "then": "L1 only"
+        }
+      ],
+      "gates_run": [
+        "all L1",
+        "counterpart-gauntlet",
+        "claims ledger reconciled to evidence.jsonl"
+      ]
+    },
+    "L3": {
+      "name": "stretch",
+      "does": [
+        "everything in L2",
+        "counterpart page (recoil/codex family)",
+        "rehearsal",
+        "red-team ledger"
+      ],
+      "requires": "Zach's explicit go, recorded in chat, per job. Never auto, never carried over from another job.",
+      "caps": {
+        "minutes_human": 240,
+        "compute_usd": 15.0,
+        "wall_clock_hours": 168,
+        "concurrent_open": 2
+      },
+      "kill": [
+        {
+          "id": "k3-checkpoint-48h",
+          "when": "48 hours in and the counterpart has not replied to the L2 send",
+          "then": "freeze at L2 artifacts, do not build the page; reopen only on a reply"
+        },
+        {
+          "id": "k3-red-team-crack",
+          "when": "red-team ledger finds a crack in the positioning that the evidence cannot repair",
+          "then": "stop, kintsugi seam shown, drop to L2 and say why"
+        },
+        {
+          "id": "k3-cap",
+          "when": "either cap reached",
+          "then": "ship what has passed its gates, mark the rest unbuilt; no extension without a new go"
+        },
+        {
+          "id": "k3-opportunity-cost",
+          "when": "two or more L2 candidates with a verified warm path are waiting while this job has none",
+          "then": "stop and reassign the hours"
+        }
+      ],
+      "gates_run": [
+        "all L2",
+        "red-team ledger",
+        "pre-send gauntlet at persona mode",
+        "disclosure ladder rung checked"
+      ]
+    }
+  },
+  "selection": {
+    "doc": "Pick the highest level whose requirements are ALL met; any single missing requirement caps the level. Signals are read from fields that already exist (band/composite from target-role-scan, bridge-scan dims, contactType, a recorded Moat tag, swipe, entry path). No signal is guessed.",
+    "signals": {
+      "fit_tier": "target-role-scan tier 1,2,3 or band PURSUE/CONSIDER/PASS (forge-triggers tiers)",
+      "winnability": "bridge-scan composite and competition_density; UNSCORED counts as unknown, which caps at L1",
+      "aspiration": "Zach's own flag on the row. Aspiration NEVER raises a level by itself (decided 2026-10-15). It triggers the cohort_check below; the check's result, not the wish, moves the level.",
+      "edge": "Moat tag from magnetization-spec (only-tool-for-one-role). Present or absent.",
+      "entry_path": [
+        "board_swipe",
+        "recruiter_inbound",
+        "referral",
+        "deadline"
+      ]
+    },
+    "matrix": [
+      {
+        "id": "s0",
+        "when": "band PASS, or swiped left",
+        "level": "L0"
+      },
+      {
+        "id": "s1",
+        "when": "board_swipe, tier 1-2, no other signal",
+        "level": "L1"
+      },
+      {
+        "id": "s2",
+        "when": "board_swipe, tier 1-2, winnability known and composite >= 0.70",
+        "level": "L2"
+      },
+      {
+        "id": "s3",
+        "when": "board_swipe, tier 3 (confirm tier)",
+        "level": "L1",
+        "note": "stays flagged to confirm before spending a cut, as today"
+      },
+      {
+        "id": "s4",
+        "when": "referral (named human already exists)",
+        "level": "L2",
+        "may_propose": "L3 if Moat tag present"
+      },
+      {
+        "id": "s5",
+        "when": "recruiter_inbound",
+        "level": "L1 until identity is verified (inbound three-gate test), then L2 on the same rules as s2",
+        "adversary": "see adversary.inbound"
+      },
+      {
+        "id": "s6",
+        "when": "deadline inside 72 hours",
+        "level": "no raise: a deadline shrinks the window, it does not raise the level; run the highest level whose wall_clock cap fits"
+      },
+      {
+        "id": "s7",
+        "when": "Moat tag present AND warm path named AND Zach says go",
+        "level": "L3"
+      },
+      {
+        "id": "s8",
+        "when": "aspiration flag set",
+        "level": "run cohort_check first; hard_gate_fail -> L0/L1 by the gate's own verdict; otherwise level per s1-s7 plus any ladder found (board.ladders)"
+      }
+    ],
+    "never_raised_by": [
+      "company prestige alone",
+      "salary alone",
+      "a high rubric score with warm_path 0 (warm_path 0 is the norm, 2026-10-14: cap L2 until a path exists)"
+    ]
+  },
+  "adversary": {
+    "doc": "Every send is also a disclosure. The counterpart may be a good actor, or an information-gatherer (competitor scouting, a fake role, a contagious-interview payload, a take-home used as free work). Classify before you give, and give in steps.",
+    "classify": {
+      "good_actor_signals": [
+        "identity verifiable from an independent source (not the message itself)",
+        "role exists on the company's own careers page",
+        "named human found by us, not supplied by them"
+      ],
+      "gatherer_signals": [
+        "asks for specifics before any reciprocal specifics",
+        "unverifiable sender or role",
+        "request for unpaid work product, code to run, or a repo to open (run sbom-payload-scan first)",
+        "pressure on timing with no named human"
+      ],
+      "unknown": "treated as gatherer until verified; unknown is never rounded up to good"
+    },
+    "give_before_get_ladder": [
+      {
+        "rung": 0,
+        "gives": "public artifacts only (resume.arcs.care public layer)",
+        "requires": "nothing"
+      },
+      {
+        "rung": 1,
+        "gives": "ATS resume + 3-line note",
+        "requires": "role verified on the company's own site"
+      },
+      {
+        "rung": 2,
+        "gives": "positioning brief and claims that cite public proof",
+        "requires": "a reply from a named human, identity independently checked"
+      },
+      {
+        "rung": 3,
+        "gives": "counterpart page, process detail, build history beyond status.arcs.care",
+        "requires": "a live two-way exchange (they gave specifics on the role, not just asked for ours)"
+      },
+      {
+        "rung": 4,
+        "gives": "anything that would let a competitor replicate method (operators, ledgers, internal specs)",
+        "requires": "signed commitment (offer, NDA or paid engagement). Never before."
+      }
+    ],
+    "rule": "Disclosure scales with VERIFIED commitment, not with enthusiasm. Advancing a rung needs a recorded reason; a level raise does not advance a rung.",
+    "inbound": "recruiter_inbound starts at rung 0 and L1 whatever its fit score; inbound-opportunity-three-gate-smoke-test runs before rung 1.",
+    "check_prints": "At each send the ex-ante receipt records: classification (good/gatherer/unknown), rung, what is being given, what is asked back. close-loop scores whether the classification held."
+  },
+  "calibration": {
+    "owner": "Operator 19 Accountant (see ADR-086 part C)",
+    "doc": "Each level's kill criteria and caps are pre-registered here; they change only by a new version of this file, never mid-run. Per-level reply rate, hours spent and kills fired are joined to outcomes. Claim a level 'earns its cost' only at n >= 30 closed per level (the Accountant's own floor); below that, report n and say insufficient.",
+    "review": "after the first 5 L2 sends, and weekly via role-lens-kaizen-loop"
+  },
+  "open_questions_for_zach": [
+    "Are the minute and dollar caps in the right range? They are placeholders chosen to be tight, not measured.",
+    "L3 go: per job in chat (as written), or a standing list?",
+    "Coin budget of 10 per day and the coin unit: right scale?",
+    "Is Blind-style first-hand accounting acceptable as grade C evidence, given it is anonymous and unverifiable?",
+    "Canon collisions c1-c3 (FATED, KKL, two L-stacks): which definition governs? This policy picks none."
+  ],
+  "cohort_check": {
+    "doc": "Reverse lookup: before spending on an aspirational row, ask who actually gets hired and what the stated requirements really gate. Aggregate and PII-preserving: company-level and cohort-level signals only, never a profile of a named individual (feedback_job_search_positive_screen). Output is a printed artifact with a gate and a fate (ADR-068).",
+    "questions": [
+      "Hard gates: are the page's requirements auto-disqualifying (degree, years, clearance, location, visa, named prior employers)? Quote the line; do not paraphrase.",
+      "Pipeline skew: does the hired cohort cluster in one feeder (e.g. MBB, one lab, one alma mater)? Source as an aggregate statement, not a list of people.",
+      "Exception rate: any evidence of hires outside the feeder, and by what route (referral, founder, contract-to-hire)?"
+    ],
+    "sources_allowed": [
+      "company's own careers and requirement text",
+      "first-hand aggregate accounts (Blind-style threads) read as claims, not facts",
+      "public hiring announcements counted by category, no names stored"
+    ],
+    "evidence_grade": "first-hand anonymous accounts are grade C (unverified): they can raise a question or lower a level, they cannot alone justify an L3. Hard-gate text quoted from the company's own page is grade A.",
+    "pii_rules": [
+      "store counts and categories, never names, handles or profile URLs",
+      "no scraping of individuals; no compiling a person's history across sources",
+      "if a source needs a person's identity to be useful, stop and ask"
+    ],
+    "fates": {
+      "hard_gate_fail": "L0 (or L1 if the gate is soft and a referral exists); record the quoted line",
+      "feeder_skew_no_route": "cap L1, look for a ladder",
+      "feeder_skew_with_route": "proceed at the level the route supports",
+      "open_door": "no cap from this check"
+    },
+    "cost_cap": {
+      "minutes_human": 15,
+      "compute_usd": 0.5,
+      "note": "counted inside the level's own cap; skipped only for L1 baseline rows with no aspiration flag"
+    }
+  },
+  "board": {
+    "doc": "Chutes and ladders. Map the process as a board, give each day a budget of coins, spend them where a ladder is, and read chutes before stepping. A chute is a path that looks like progress and sends you back (or burns coins); a ladder is a verified shortcut.",
+    "coin_budget": {
+      "per_day": 10,
+      "unit": "1 coin = about 10 human minutes or 1 USD compute, whichever is hit first",
+      "spend": {
+        "L1": 1,
+        "L2": 4,
+        "L3": 10,
+        "cohort_check": 1,
+        "warm_path_attempt": 1
+      },
+      "rule": "The budget is the opportunity-cost stop-loss. Unspent coins do not roll over past one day. Spending beyond the budget needs a stated reason in the receipt."
+    },
+    "chutes": {
+      "examples": [
+        "unpaid take-home or work-product ask before any two-way exchange",
+        "stage that re-tests what a prior stage passed",
+        "portal-only apply with no human, for a feeder-skewed company",
+        "long loop with no named decision-maker",
+        "ask for repo access or code to run (sbom-payload-scan first)"
+      ],
+      "rule": "Each chute found is written on the board with the evidence line and the coin cost of stepping on it. Stepping on a chute needs a recorded reason."
+    },
+    "ladders": {
+      "examples": [
+        "referral from a named human the cohort check says the company trusts",
+        "a niche-shape role where the Moat tag removes the feeder requirement",
+        "a founder or hiring-manager channel that skips the portal",
+        "contract-to-hire or project entry that converts",
+        "a public artifact that answers the stated hard gate with proof"
+      ],
+      "rule": "A ladder must be verified (a real person or a documented route), never inferred from a JD. A ladder may raise the level by one, capped at L2 unless Zach gives the L3 go."
+    },
+    "print": "one board per aspirational job: _STATE/job-search/boards/<job_id>.md, chutes, ladders, coins spent, level chosen and why",
+    "calibration": "close-loop records whether each ladder actually shortened the path and whether each chute fired; Accountant joins that to outcome (n floor 30, otherwise insufficient)"
+  },
+  "cascade": {
+    "doc": "Reason from first principles down the stack and follow a decision's effects out to order 7, with state carried in the existing serialized ledgers. PROPOSAL. Order n means an effect that needs n causal links from the act. Orders map to the L-stack, not to time derivatives.",
+    "orders": {
+      "1": {
+        "l": "L0",
+        "asks": "what the act directly changes (the artifact, the send, the coin spent)"
+      },
+      "2": {
+        "l": "L1",
+        "asks": "what the counterpart can now do or know (reply, forward, scout)"
+      },
+      "3": {
+        "l": "L2",
+        "asks": "which paths stay open or close (reversibility; one-way doors need a write-lock declaration)"
+      },
+      "4": {
+        "l": "L3",
+        "asks": "cascade through the pipeline: other jobs, cohort, reputation with this feeder"
+      },
+      "5": {
+        "l": "L4",
+        "asks": "cross-domain echo: same shape elsewhere (brand surfaces, ARCS public claims)"
+      },
+      "6": {
+        "l": "L5 (built)",
+        "asks": "global coherence: does the whole portfolio still say one true thing"
+      },
+      "7": {
+        "l": "L6-L7 (NOT BUILT)",
+        "asks": "ecosystem and meta-governance; answered by hand with the label HAND-REASONED, never by an engine claim"
+      }
+    },
+    "rules": [
+      "Every link in a chain cites its mechanism (a receipt, a row, a quoted line) or is marked CONJECTURE. A chain is only as strong as its weakest link, so order n confidence is the product of the link confidences, shown as a number, not prose.",
+      "Stop rule: stop descending when the product of link confidences falls below 0.2 or the next link has no nameable mechanism. 7 is a ceiling, not a target. Most decisions should end at 3 to 5, and ending early is a finding, not a failure.",
+      "Orders 5 to 7 may add a CHUTE or a LADDER to the board, or a gate; they may not lower a hard-constraint gate or raise a level on their own.",
+      "Coherence is not correctness (memory coherence-is-not-correctness-suspect-the-tidy-reversal): a neat 7-order story is a confirmation signal, not evidence. Each chain ends with the cheapest test that could falsify its weakest link.",
+      "Repo precedent (kinematic-manifold-two-zone-code-wins): repeated finite differences are noise past about D4-D5. Do not read order 7 as a 7th derivative of any series. It is a causal chain with decaying confidence."
+    ],
+    "state": {
+      "doc": "State survives across sessions only through serialized, append-only artifacts, never through chat memory.",
+      "carriers": [
+        "ex-ante and close receipts (decision_receipt)",
+        "_STATE/shape-cards.jsonl",
+        "_STATE/job-search/boards/<job_id>.md",
+        "backlog plan prints (ADR-086)",
+        "cascade chains stored beside the board, one file per job"
+      ],
+      "invariant": "Each print names its predecessor by id, so replay from the first print reproduces the same level choice. 'Globally serialized' here means one ordered ledger per carrier with oracle-allocated ids; it is a claim about ordering and replay, not a claim that the manifold is solved."
+    },
+    "applies_to": "L2 and L3 only, plus any row with the aspiration flag. L1 rows run orders 1 to 3.",
+    "cost_cap": {
+      "L1": "orders 1-3, 5 minutes",
+      "L2": "orders 1-5, 20 minutes, inside the level cap",
+      "L3": "orders 1-7, 45 minutes, inside the level cap"
+    }
+  },
+  "echo_up": {
+    "doc": "After the cascade descends to its stopping order, the result echoes back up from micro (order 1, L0) to macro (order 7, L7). One self-similar template runs at every level, so the pattern is fractal: the same five-step cell at each scale, the output of one scale the input of the next. PROPOSAL; reuses ROM primitive 5 (Orthogonal Echo Detector) and the Golden Inchworm (3 passes, non-blocking).",
+    "cell": {
+      "doc": "The same five steps at every level n, mapped to the five verbs (ADR-068).",
+      "steps": [
+        "analyze: what does level n see (its own facts only)",
+        "assess: does it agree with the level below's finding (claim-vs-record)",
+        "evaluate: does it survive the level above's constraint (the descent result for n+1)",
+        "synthesize: one sentence this level will stand behind, with its confidence",
+        "recapitulate: print it, with the predecessor id, for the next level up"
+      ]
+    },
+    "ascent": {
+      "direction": "order 1 -> stop order",
+      "rule": "Each level re-reads the decision under the constraint found at the level ABOVE it during descent. Where a macro finding contradicts a micro choice, the seam is printed (Kintsugi), not smoothed.",
+      "may": [
+        "tighten: add a gate, a chute, a hold, or lower the level by one",
+        "annotate a prior level's finding as contradicted, with the evidence line"
+      ],
+      "may_not": [
+        "loosen a hard-constraint gate",
+        "raise the effort level",
+        "edit a lower level's print (append a correction row instead)"
+      ]
+    },
+    "fractal_check": "The cell is the same at every scale, so one gate can check all of them: each level's print has the five fields, a confidence, a predecessor id, and a cited mechanism or CONJECTURE.",
+    "termination": [
+      "fixed point: one full ascent changes no level's sentence",
+      "cap: ONE descent and ONE ascent per checkpoint, same cap as the ADR-086 hyperstition pass (a second round in the same checkpoint is refused)",
+      "budget: the coin cost of the cascade, whichever hits first"
+    ],
+    "echo_honesty": {
+      "rule": "A cross-scale echo counts only if two levels share a mechanism or a verified fact, not merely a template or a word. Label each MECHANISM or METAPHOR (echo-scan convention). Metaphor echoes may be recorded, never used to change a level or a gate.",
+      "known_trap": "shared boilerplate fakes cross-domain echoes (memory template-aliasing-shared-boilerplate-fakes-cross-domain-echo). Strip shared template lines before comparing levels; a scrambled-control comparison must show a lower echo rate than the real one before an echo is believed (as in the 2026-09-27 embedding run)."
+    },
+    "kill": "If after 5 L2/L3 jobs the ascent has tightened nothing and printed no seam, it is ceremony: drop echo_up to L3 only. If a metaphor-labelled echo ever drove a decision, the section is violated: revert and file a seam."
+  },
+  "lenses": {
+    "doc": "A meta layer sits ABOVE the acts (orders 1-7 and the ascent). It does not act on the job; it supplies lenses through which each of the five verbs is run. Four families, each already named in the repo. PROPOSAL: this section selects and orders lenses; it does not build or rebind any operator. Numbers follow operators/docs/PERIODIC-TABLE.md only (gotcha #16).",
+    "families": {
+      "chorus_operators": {
+        "source": "PERIODIC-TABLE 'Meta Operators (The Chorus)'",
+        "members": {
+          "22": "Conductor (meta-review, final quality)",
+          "23": "Loki (playful contrarian)",
+          "24": "DevilsAdvocate (steel-man opposition)",
+          "25": "ShavasanaSpace (contemplative pause)"
+        },
+        "note": "Registry status per operators/OPERATOR-REGISTRY.json governs what is callable: op22 ran in the 2026-10-15 self-test; Shavasana returned blocked via MCP. A lens whose operator is blocked is applied BY HAND and labelled HAND-LENS."
+      },
+      "primitives": {
+        "source": "ROM primitives in CLAUDE.md",
+        "members": [
+          "NOTOMATION",
+          "HYPERSPHERE CONTEXT MANIFOLD",
+          "HYPERSTITION PIPELINE",
+          "GOLDEN INCHWORM",
+          "ORTHOGONAL ECHO DETECTOR",
+          "KINTSUGI IMMUNE SYSTEM",
+          "WRITE-LOCK"
+        ],
+        "note": "Primitives are constraints as well as lenses: NOTOMATION, KINTSUGI and WRITE-LOCK bind every run and are never optional."
+      },
+      "fates": {
+        "source": "ADR-068 fate column",
+        "members": [
+          "sourced/unsourced",
+          "verified/gap/unresolved",
+          "pass/conditional/fail",
+          "ship/hold",
+          "sent/parked"
+        ],
+        "role": "What a lens may decide about an artifact. A lens that cannot assign a fate gates nothing (ADR-068)."
+      },
+      "forces": {
+        "source": "PERIODIC-TABLE Level 0 quarks",
+        "members": {
+          "Coh": "alignment",
+          "Ent": "disorder to overcome",
+          "Neg": "anti-entropy",
+          "Res": "resonance",
+          "Kai": "timing"
+        },
+        "role": "The reading a lens takes: raising coherence or entropy, resonant or off-key, in time or out of it. Descriptive axes, not scores; no numeric weighting of a force against a gate."
+      }
+    },
+    "verbs": [
+      "analyze",
+      "assess",
+      "evaluate",
+      "synthesize",
+      "recapitulate"
+    ],
+    "affinity_default": {
+      "doc": "Starting prior only, from what each member already is. The magnetic selection below overrides it per job.",
+      "analyze": [
+        "HYPERSPHERE CONTEXT MANIFOLD",
+        "Ent",
+        "23 Loki"
+      ],
+      "assess": [
+        "ORTHOGONAL ECHO DETECTOR",
+        "Coh",
+        "Res",
+        "20 Folksonomy"
+      ],
+      "evaluate": [
+        "24 DevilsAdvocate",
+        "17 Detective",
+        "KINTSUGI IMMUNE SYSTEM",
+        "Kai"
+      ],
+      "synthesize": [
+        "22 Conductor",
+        "HYPERSTITION PIPELINE",
+        "Neg"
+      ],
+      "recapitulate": [
+        "25 ShavasanaSpace",
+        "GOLDEN INCHWORM",
+        "19 Accountant"
+      ]
+    },
+    "ordering": {
+      "modes": [
+        "sequential (analyze to recapitulate, the ADR-068 default)",
+        "decoupled (any verb alone, e.g. only evaluate on an inbound)",
+        "interoperable (a lens output feeds any other verb, joined by predecessor id)"
+      ],
+      "rule": "Any mode is allowed. Not allowed: skipping the ADR-068 mandatory-blocking prints (ex-ante receipt before a send, pre-send gauntlet, close-loop on reply). Decoupling changes order, never the gates.",
+      "default_by_level": {
+        "L1": "decoupled: evaluate + recapitulate only",
+        "L2": "sequential, lenses per magnetic pull",
+        "L3": "sequential with a full chorus pass, then the echo_up ascent"
+      }
+    },
+    "magnetic_selection": {
+      "doc": "Lens choice is pulled by the job and the tools on hand, not assigned from a table. Inputs: the shape-card and /catalog. Reuse before invention.",
+      "procedure": [
+        "1. Read the job's shape-card; name the job to be done in one line.",
+        "2. For each verb on the plan, call /catalog <shape> and read what the tool inventory offers (operators, scripts, skills).",
+        "3. Pull = overlap between the job's shape and a lens's declared function (PERIODIC-TABLE function text, registry binding, ADR text). Choose the 1 to 2 strongest pulls per verb; more than 2 per verb needs a stated reason.",
+        "4. Prefer a lens callable now over a blocked one; a blocked lens runs as HAND-LENS and is logged as a tool gap.",
+        "5. Print the choice on the shape-card: lens ids per verb, pull reason, tool_chosen, tool_best."
+      ],
+      "attraction_is_not_authority": "A strong pull selects which lens speaks first. It never overrides a gate, a fate or a NOTOMATION constraint, and no lens speaks for the counterpart's revealed preference.",
+      "counter_bias": "Loki or DevilsAdvocate is REQUIRED at evaluate on every L2+ job even when no pull selects them, so selection cannot gather only agreeable lenses."
+    },
+    "calibration": "Each lens use is logged on the shape-card. close-loop asks per lens: did it change a decision, and was the change right? Accountant joins that to outcomes; below n=30 closed per lens, report n and call it insufficient. A lens that changed no decision across 10 uses is a promote-or-retire candidate.",
+    "kill": "If lens selection costs more minutes than running every lens would have (measured on 5 L2 jobs), use the fixed affinity_default for L1/L2 and keep magnetic selection for L3 only.",
+    "roster_sweep": {
+      "doc": "Mechanical grep sweep of _CANON, runtime/specs and operators/docs on 2026-10-15 for advisor, alchemist, conductor, chorus, meta-operator and neighbours. The chorus_operators family above (22-25) is only the PERIODIC-TABLE slice. Everything below is real in the canon but is NOT a numbered operator; it keeps its name and source and takes no operator number (gotcha #16: never hand-write an operator-to-number map). Limits of the sweep: keyword grep over those three trees only; it did not read the full Book of ARCS, both papers or the corpus end to end, and it does not see anything that exists only in memory or working recall. Treat the list as a floor.",
+      "additional_lenses": [
+        {
+          "name": "Board of Advisors",
+          "kind": "role (plural counsel)",
+          "where": "_CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md:142,233; field-os/origins/arcs-thread-master-report.md:199",
+          "note": "the 'A' in LAB; DEEP mode only, on explicit request or high stakes"
+        },
+        {
+          "name": "Bayesian",
+          "kind": "macro member (probabilistic scoring)",
+          "where": "ARCS-v9-ROM.md:65 (LAB)"
+        },
+        {
+          "name": "Curator (CUR)",
+          "kind": "optional macro, orthogonal reframe",
+          "where": "ARCS-v9-ROM.md:67; Chapter-Book-Canon:236; operators/arcs_operators_curator.py (AGENTS.md: multi-perspective synthesis)",
+          "note": "off by default; offered after True North, never before"
+        },
+        {
+          "name": "Alchemist (ALC)",
+          "kind": "optional macro, convergent sharpening, one ultra-specific move",
+          "where": "ARCS-v9-ROM.md:68; Chapter-Book-Canon:237; thread-master-report:201,247",
+          "note": "off by default; no file in operators/ implements it (grep, 2026-10-15), so it is applied BY HAND (HAND-LENS)"
+        },
+        {
+          "name": "Staff of Chiefs",
+          "kind": "adversarial check set (Loki, Devil's Advocate, Conductor, Bayesian, Meta-Operator round-robin)",
+          "where": "_CANON/arcs-v9-additional/ARCS-DNA-Omakase-Deck.md:440,455",
+          "note": "purpose: prevent unjustified coherence; this is the pattern the counter_bias rule above already approximates"
+        },
+        {
+          "name": "Meta-Operators DECOMP / CODEX / SYNTH",
+          "kind": "layer L6 of the thread-master-report stack",
+          "where": "field-os/origins/arcs-thread-master-report.md:91,292",
+          "note": "a different L-stack from the L0-L7 in CLAUDE.md; see collisions"
+        },
+        {
+          "name": "God Mode (conductor/orchestrator)",
+          "kind": "layer L7 of the same stack",
+          "where": "thread-master-report:92,199"
+        },
+        {
+          "name": "Constitutional Court / Immune Veto",
+          "kind": "governance operator",
+          "where": "Chapter-Book-Canon BOOK IV 4.1; operators/arcs_constitutional_court.py",
+          "note": "fires only when stakes high AND irreversibility >= 0.7 AND an identity/relationship constraint is implicated"
+        },
+        {
+          "name": "Drift Sentinel",
+          "kind": "circulatory-layer watcher",
+          "where": "WORLD.md; thread-master-report L4; DNA layer table",
+          "note": "after 5 turns without a new artifact, asks land or explore"
+        },
+        {
+          "name": "FATED / HCI_PCI / TAD",
+          "kind": "decision-geometry macros",
+          "where": "ARCS-v9-ROM.md:62-66",
+          "note": "see collisions: FATED is expanded two different ways"
+        },
+        {
+          "name": "Beyond the periodic table, built in operators/",
+          "kind": "named operators in AGENTS.md",
+          "where": "AGENTS.md operators table",
+          "members": [
+            "LAB",
+            "BAR",
+            "SAGE",
+            "CURATOR",
+            "KAIROS",
+            "CONTRACT",
+            "KINTSUGI"
+          ],
+          "note": "AGENTS.md lists these by name; only the OPERATOR-REGISTRY.json bindings say which are callable"
+        }
+      ],
+      "canon_collisions_found": [
+        {
+          "id": "c1",
+          "what": "FATED expansion",
+          "a": "ARCS-v9-ROM.md:62: Facts, Assumptions, Tradeoffs, Emotions, Direction",
+          "b": "Chapter-Book-Canon:234: Facts, Assumptions, Tensions, Edges, Decisions",
+          "c": "thread-master-report: a 5D 'FATED hypercube' of Fidelity x Altitude x Time x Energy x Decision (3,125 states)"
+        },
+        {
+          "id": "c2",
+          "what": "KKL expansion",
+          "a": "ROM:64: Kairos / Kairos Lock / Chronos",
+          "b": "Chapter-Book-Canon:232: Kairos / Kill / Live"
+        },
+        {
+          "id": "c3",
+          "what": "two different 5^5 / L0-L7 stacks",
+          "a": "ADR-060 penteract: Lens x Resolution x Operator x Verb x L-stack",
+          "b": "thread-master-report: FATED hypercube (axes above) and an L0-L7 stack where L5 = hypercube, L6 = meta-operators, L7 = God Mode",
+          "c": "CLAUDE.md L0-L7 (atomic signal ... meta-governance)"
+        }
+      ],
+      "collision_rule": "Per memory canon-collision-escalate-never-resolve-under-write-lock: this file does NOT pick a winner. It uses the ADR-060 axes and the CLAUDE.md L-stack as written elsewhere in this policy, flags c1-c3 for Zach, and any cell that depends on a contested definition carries CONJECTURE until ruled.",
+      "use": "A roster member enters magnetic_selection like any other lens: by overlap between the job's shape and its declared function. Unnumbered members are cited by name plus source line. A member with no implementing file is HAND-LENS and logs a tool gap."
+    }
+  },
+  "hypercube": {
+    "doc": "Correction to cascade and echo_up. I had them climb one ladder (order 1 to 7, micro to macro). Per ADR-060 the space is a penteract, and Resolution (exec, strategic, operational, tactical, surgical) is a SEPARATE axis from the L-stack: Resolution is the size of the move, L-stack is how far coherence must hold (cell Surgical x L5 = a one-line change that breaks a global invariant). So the unit is a CELL at a coordinate, not a rung. Cells are visited in any order the job pulls; nothing here is procedural.",
+    "space": {
+      "axes": [
+        "lens: D R W C H",
+        "resolution: exec strategic operational tactical surgical",
+        "operator: LAB KKL BAR COURT FUNHOUSE",
+        "verb: analyze assess evaluate synthesize recapitulate",
+        "L-stack: L1..L5 (L6-L7 hand-reasoned)"
+      ],
+      "size": "5^5 = 3125 addressable cells; a job visits a handful, not a sweep",
+      "explorer": "_ARTIFACTS/decision-geometry/ (the existing 5x5 explorer); the full penteract is ADR-060 section 1"
+    },
+    "cell_is_organism": {
+      "doc": "Each cell is a small organism built from the layers below it: atoms (primitives) and molecules (composed operators) from operators/docs/PERIODIC-TABLE.md. A cell declares which atoms and molecules it composes; the same atom may sit in many cells.",
+      "fields": [
+        "coordinate (5 values)",
+        "composes: atom and molecule ids from the periodic table",
+        "print: the five-field print already specified under echo_up.cell",
+        "confidence and cited mechanism or CONJECTURE",
+        "links: entanglement edges (below)"
+      ]
+    },
+    "traversal": {
+      "order": "unconstrained: sequential, skipping, parallel, or revisiting. The route is chosen by magnetic pull (see lenses.magnetic_selection), not by a fixed ladder.",
+      "adjacency": "two cells are neighbours if they differ on exactly one axis. A job's route is a connected walk over neighbours, or a declared jump with a reason.",
+      "not_procedural": "There is no required start cell and no required end cell. Required: every visited cell has a print, and the ADR-068 blocking prints exist before a send.",
+      "fidelity_floor": "Resolution tells how much detail to spend, never whether a gate runs. A surgical cell still runs the hard-constraint gates."
+    },
+    "entanglement": {
+      "doc": "Non-binary interoperability: cells can be linked so that settling one constrains others. Repo precedent: D11 ENTANGLEMENT in conductor-notation-v1 (canon: partners yield into each other). Implemented here as a checkable edge, not as physics.",
+      "edge": {
+        "fields": [
+          "a: cell",
+          "b: cell",
+          "shared_invariant: the named fact, claim or gate both depend on",
+          "kind: co-vary | exclude | imply",
+          "mechanism: cited, or CONJECTURE"
+        ],
+        "example": "Surgical x L5: the one-line edit to a resume claim (a) is entangled with the portfolio-wide statement on resume.arcs.care and status.arcs.care (b); shared_invariant = 'arcs-v9 is private'."
+      },
+      "update_rule": "When a cell's print changes, every entangled cell is marked STALE and must be re-run or explicitly re-affirmed before the next send. A mismatch between entangled cells is printed as a seam (Kintsugi), not averaged.",
+      "non_binary": "A cell's state is not pass/fail. It carries the ADR-068 fate (verified/gap/unresolved, pass/conditional/fail), a confidence, and its set of live entanglement edges. Two cells can be 'conditional on each other' and that is recorded as such.",
+      "honesty": "'Quantum entanglement' is the NAME of the design intent (state is not local to a cell), not a claim of quantum mechanics. Test of the claim: an entanglement edge is real only if editing the shared_invariant in a test copy changes the print of both cells. Edges that fail that test are downgraded to METAPHOR and may not mark anything STALE.",
+      "cap": "At most 3 live edges per cell, so the web stays auditable; more needs a stated reason. Uncapped edges recreate the spin cycle."
+    },
+    "relation_to_other_sections": {
+      "cascade": "orders 1-7 are now read as a walk through L-stack and resolution cells, not a ladder; the confidence-product and stop rule stay as written",
+      "echo_up": "ascent becomes: re-run each visited cell against its entangled neighbours, any order, same caps and the same may/may_not list",
+      "lenses": "a chorus operator, primitive, fate or force is chosen per CELL, which is what magnetic_selection already does per verb",
+      "state": "cell prints plus entanglement edges are serialized in the same append-only carriers; replay rebuilds the walk and the STALE marks"
+    },
+    "kill": "If after 5 L2/L3 jobs no entanglement edge ever marked a cell STALE that was later found wrong, edges are ceremony: remove them and keep cells. If any edge was believed without passing the test-copy check, section violated: revert and file a seam."
+  },
+  "tenancy": {
+    "doc": "The hypercube must compose against the Atlas / Ziggurat dataset and against many owners: an individual, a team, a company. PROPOSAL. Verified state first: (1) the per-tenant Ziggurat atlas is ADR-077 plus _SPECS/self-serve-atlas-scan-v1.md, both DRAFT / reasoned, not built; (2) runtime/specs/atlas-bundle-observatory-spec.md (v0.4, build after 2026-10-15 5 PM ET) already defines a one-way adapter pattern for the take-home's atlas-bundle.v1; (3) prisma JobOpportunity has NO owner column (primary key jobid, no userId in the model as read 2026-10-15), so the job pipeline is single-tenant today. There is no shared schema between a hypercube cell and an atlas node yet, so the answer to 'interoperable or middleware?' is: middleware adapter, one per source, because the sources differ in air-gap status and ownership.",
+    "scopes": {
+      "individual": {
+        "owner": "one person (User0 today)",
+        "atlas": "personal ziggurat",
+        "budget_unit": "coins as defined in board.coin_budget"
+      },
+      "team": {
+        "owner": "a named group with a shared budget and shared hard gates",
+        "atlas": "team ziggurat = union of members' consented nodes",
+        "budget_unit": "team coins, set by whoever funds the team"
+      },
+      "company": {
+        "owner": "an organisation",
+        "atlas": "company ziggurat = team ziggurats plus org-level invariants",
+        "budget_unit": "currency or headcount-hours, converted to coins by a stated rate"
+      }
+    },
+    "null_points": {
+      "doc": "Cost-benefit needs a zero. Per the field-geometry canon (WORLD.md, Tao section V) no origin is canonical: each scope declares its own sovereign zero and it is FIXED before any cell is scored.",
+      "definition": "The null point is the do-nothing baseline of that scope: what the owner's position, cost and outcome are if no cell is run. Benefit = outcome minus null outcome. Cost = coins or currency actually spent. Both are measured from the same null.",
+      "fixed_rule": "Declared once per owner per decision window, written to a receipt BEFORE the first cell runs, and never re-based afterwards. Re-basing requires a new window and a new receipt. A null moved after the result is a seam, not an update.",
+      "fields": [
+        "scope",
+        "owner_id",
+        "window",
+        "null_outcome (plain statement, measurable)",
+        "null_cost (usually 0)",
+        "unit",
+        "declared_at (from `date`)",
+        "declared_by"
+      ],
+      "isolation": "Costs and benefits of different scopes are NEVER summed across a null. An individual's win and a company's win are different quantities with different zeros; an aggregate is shown beside them, not added to them."
+    },
+    "adapter": {
+      "name": "hypercube_atlas_adapter (proposed; not built)",
+      "shape": "cell <-> atlas node, lossless in the direction atlas -> cell for the fields that exist, explicit gaps otherwise",
+      "mapping": {
+        "cell.coordinate.L-stack": "atlas altimeter / ziggurat level",
+        "cell.coordinate.resolution": "atlas lattice position (exec at the top, surgical at the base) : mapping is CONJECTURE until the Ziggurat axes are read against ADR-060",
+        "cell.print": "atlas node evidence",
+        "cell.entanglement_edges": "atlas links (only edges that passed the test-copy check)",
+        "cell.fate": "atlas hold / status"
+      },
+      "unmapped": "Any atlas field with no cell counterpart is carried verbatim under `extra` and never interpreted. Any cell field with no atlas counterpart is kept in the cell store only.",
+      "per_source": [
+        "ziggurat (ADR-077; DRAFT)",
+        "atlas-bundle.v1 from the take-home (private, one-way, read-only)",
+        "self-serve atlas scan (DRAFT)"
+      ],
+      "contract": "stdlib only, no new deps; round-trip test: cell -> atlas -> cell reproduces the print and edges for the mapped fields, else the adapter does not ship (frustration-gate: fails on bad, passes on good)."
+    },
+    "multi_tenant_rules": [
+      "Every print, edge, board and cascade file carries owner_id and scope. No cell is stored without them.",
+      "No cross-tenant read. A team or company view is built from members' consented prints only, never by reading an individual's store.",
+      "Anything that leaves an owner (aggregate, benchmark) is count-and-category only and suppressed under a small-n floor (propose n >= 5 distinct owners) so no individual is re-identifiable.",
+      "The one-way air gap in atlas-bundle-observatory-spec.md stands: nothing from arcs-v9 flows into the take-home repo; the adapter lives on the arcs-v9 side with arcs vocabulary.",
+      "JobOpportunity needs an owner column before any second tenant uses the board (migration via migrate deploy, not db push; owner null on legacy rows means User0, written explicitly, never matched by `?? null`).",
+      "Hard-constraint gates are per-scope additive: a team or company may add gates for its members; no scope may remove an individual's gate.",
+      "Effort levels, caps and kill criteria are inherited by default and may be tightened, not loosened, by a team or company."
+    ],
+    "calibration": "Accountant cohorts already split founder / external / anonymous. Add scope as a cohort key. Calibration claims need n >= 30 closed per scope and per level; with one real tenant today, every team or company claim is 'insufficient' and must say so.",
+    "kill": "If no second tenant exists 90 days after this is accepted, freeze the adapter at spec and keep null_points (they cost nothing and apply to User0 alone).",
+    "open_questions_for_zach": [
+      "Is the adapter written first for the Ziggurat dataset or for atlas-bundle.v1? (Recommendation: the Ziggurat, since the observatory spec already has its own adapter.)",
+      "Who declares the null point for a team or a company: the funder, or the member whose time it is?",
+      "Small-n floor of 5 owners: right number?"
+    ]
+  },
+  "macro_gating": {
+    "doc": "Answer to 'should Curator and Alchemist be off by default, or decided at run time by the operators?'. PROPOSAL. Verdict: a fixed off-switch is the wrong FINAL policy and a fine PRIOR. Nothing has measured whether either macro helps (no per-macro outcome data exists; Accountant n is 0 on this loop), so 'off' is an untested assumption that is also unretrievable on your side because the definitions sit in canon files, not in a store you can query. Replace the static toggle with a short runtime convening whose default, when evidence is thin, is the old default.",
+    "what_canon_says": {
+      "CUR": "ARCS-v9-ROM.md:67 optional orthogonal reframe; Chapter-Book-Canon:236 'one obtuse angle. Off by default.'",
+      "ALC": "ARCS-v9-ROM.md:68 optional convergent sharpening; Chapter-Book-Canon:237 'one ultra-specific move. Off by default.'",
+      "ordering_note": "thread-master-report:201 says both are offered AFTER True North, never before. I did not find a written reason for off-by-default or for the after-True-North order in the files swept (2026-10-15); the likely reason (a reframe or a sharp move before the fog is read can lock in the wrong frame) is my inference and is marked CONJECTURE.",
+      "definition_cards": "Operational definitions to store in the Librarian so they are retrievable on demand: CUR = produce exactly one reframe from an orthogonal angle and say what it would change; ALC = produce exactly one specific convergent move (named actor, artifact, deadline) that collapses the options. Each card cites the line above."
+    },
+    "council": {
+      "question": "For this job, at this checkpoint: should CUR and/or ALC be ON?",
+      "members": {
+        "21 Librarian": {
+          "status": "callable",
+          "job": "retrieve the definition card and prior decisions on similar shapes; report whether a stored case shows the macro changed a decision"
+        },
+        "20 Folksonomy": {
+          "status": "callable, but gated at 100 receipts; under-corpus returns a report, not an error",
+          "job": "does this shape sit in a cluster where divergence or convergence emerged as the need; when under the floor it abstains"
+        },
+        "19 Accountant": {
+          "status": "callable",
+          "job": "per-macro calibration; with n below 30 closed it returns insufficient and abstains (it must not invent a lean)"
+        },
+        "28 Auditor": {
+          "status": "UNBUILT",
+          "job": "check the convening was logged, no gate was touched, dissent recorded",
+          "fallback": "HAND-LENS: the Conductor's receipt step does this until 28 exists"
+        },
+        "22 Conductor": {
+          "status": "callable (receipt_evaluator.py)",
+          "job": "synthesize the votes into one decision and one reason, final quality pass"
+        }
+      },
+      "not_voting": "Curator and Alchemist do not vote on their own activation (they are the subject, and an Alchemist that argues for itself is a conflict of interest). Alchemist has no implementing file in operators/, so it is a HAND-LENS regardless of the vote.",
+      "vote_values": [
+        "ON",
+        "OFF",
+        "ABSTAIN (with the reason: no data, under floor, unbuilt)"
+      ]
+    },
+    "decision_rule": {
+      "default_prior": "OFF (the canon default). It is the prior, not a rule.",
+      "turn_on_when": "at least one member returns evidence (a stored case with a logged benefit, or a cluster signal at or above its floor) AND no member returns an evidenced OFF; the shape-card names a pull toward the macro's function",
+      "abstain_handling": "abstentions never count as ON or OFF. All-abstain means the prior stands. This is expected for now.",
+      "tie": "prior stands",
+      "order_constraint": "still after True North (canon); this decides WHETHER, the ordering decides WHEN",
+      "output": "one line on the shape-card: macro, vote table, decision, reason, whether the prior was overridden"
+    },
+    "limits": [
+      "The council can switch CUR and ALC only. It cannot change a gate, a level, a fate, or a NOTOMATION constraint.",
+      "Hard-constraint gates are never an input to the vote.",
+      "Cost cap: 1 coin per convening, only at L2 or higher; the decision is cached per (shape key, level) and reconvened when a trigger fires (new True North, a failed gauntlet, a seam). It is not re-run per message.",
+      "Dissent is logged, not buried. An override of the prior with fewer than two evidenced votes is flagged for review."
+    ],
+    "calibration": "Each convening is a prediction: 'ON will change a decision' or 'OFF loses nothing'. close-loop scores it. Until n >= 30 closed per macro the Accountant reports insufficient, so for now the council mostly records and the prior governs. That is intended: the first job of the convening is to start producing the data that does not exist.",
+    "why_not_just_turn_both_on": "Each macro costs attention and can add a premature or wrong move; with no measurement there is no case for either direction. The convening is the cheap way to find out.",
+    "kill": "If after 10 convenings every vote is all-abstain, the council is ceremony: keep the definition cards and the logging, drop the voting, and revisit when the Accountant clears n=30. If the Alchemist is ever run by hand and not labelled HAND-LENS, the section is violated."
+  },
+  "anticipation": {
+    "doc": "Lean into machine pattern detection proactively: suggest the next step as ghost text, the way a search box or tab-complete does, and let the human accept, edit or reject. PROPOSAL. Prior art: ATG (anticipatory tributary generator, runtime/specs/field-os/specs/atg-anticipatory-tributary-generator.md, listed as not built in CLAUDE.md), the handoff Next-action line, /loops, backlog_ripeness.py (which rows have ripened). This section is the job-loop instance of ATG, not a new system.",
+    "why_this_is_the_missing_data": "Every accept, edit and reject is a labelled outcome of a prediction. The Accountant has n=0 closed job outcomes and Op 20 is gated at 100 receipts, so slow real-world outcomes cannot calibrate anything for months. Suggestion events arrive in seconds and are labelled by the owner at the moment of use. Leaning in is therefore also the fastest way to build the evidence base the other sections wait on.",
+    "claim_discipline": "'ARCS is good at pattern detection' is a hypothesis here, not a premise. Evidence to date: the 2026-09-27 echo run found 0 real echoes once shared boilerplate was controlled; the lens clustering is first-match regex; no outcomes are joined. What is proven is that the machine can scan the whole board cheaply. Whether its patterns predict anything is what the suggestion log measures.",
+    "surfaces": [
+      {
+        "at": "ingest",
+        "ghost": "likely effort level, the closest prior cases the Librarian retrieves, and the cohort_check result if aspiration is flagged"
+      },
+      {
+        "at": "after grade",
+        "ghost": "next step ranked: e.g. 'find one named human (warm path)', 'run the cohort check', 'stop here, L1'"
+      },
+      {
+        "at": "before send",
+        "ghost": "missing prints (ex-ante receipt, gauntlet), the disclosure rung, stale entangled cells"
+      },
+      {
+        "at": "on outcome",
+        "ghost": "which lens/macro/ladder to credit or retire, and the next row to pull forward"
+      },
+      {
+        "at": "idle / session start",
+        "ghost": "top 3 ripe rows from the backlog graph and the one blocked on a human decision"
+      }
+    ],
+    "suggestion_record": {
+      "fields": [
+        "id",
+        "owner_id",
+        "scope",
+        "surface",
+        "suggestion",
+        "evidence (cited rows or CONJECTURE)",
+        "confidence (0-1, product of link confidences)",
+        "alternatives_shown",
+        "made_at",
+        "response (accepted | edited | rejected | ignored)",
+        "responded_at",
+        "edit_diff (if edited)"
+      ],
+      "store": "_STATE/suggestions.jsonl, append-only, oracle-allocated ids",
+      "rule": "No suggestion without a cited evidence line or an explicit CONJECTURE label."
+    },
+    "hard_rules": [
+      "Ghost text only. A suggestion never executes. NOTOMATION: scaffold and sequence cognition, never overrule revealed preference.",
+      "Never suggest a send as the action. It may suggest drafting one; the human sends (confirm-before-outbound).",
+      "A suggestion cannot lower a gate, raise a level, or skip a blocking print.",
+      "Rate limit: at most 3 ghosts per surface, 1 primary. A flood trains the user to ignore all of it (alert fatigue is the failure mode).",
+      "Suppress for 14 days any suggestion the owner rejected twice with the same evidence.",
+      "Scope-aware: suggestions use only the owner's own store and consented team prints (tenancy.multi_tenant_rules)."
+    ],
+    "measure": {
+      "primary": "acceptance rate by surface and by confidence band; edit distance on edited ones",
+      "baseline_required": "every ghost is compared to a dumb baseline: 'repeat the last action' and 'oldest ripe row'. A suggester that does not beat the dumb baseline on acceptance at the same volume is autocomplete theater.",
+      "claim_floor": "report lift only at n >= 30 responses per surface; below that print n and call it insufficient (same rule as the Accountant)",
+      "secondary": "minutes saved is NOT claimed from acceptance alone; it needs the owner's own before/after estimate"
+    },
+    "kill": "If after 100 ghosts the acceptance rate does not beat the dumb baseline, or if ignore-rate exceeds 60 percent on any surface, shrink that surface to idle/session-start only. If a ghost is ever executed without a human action, the section is violated: revert and file a seam."
+  },
+  "upgrade_candidates": {
+    "doc": "Found by reading the 2026-10-06 doc reconciliation (_STATE/2026-10-06-doc-reconciliation.md, 722 files) and the surface catalog (runtime/specs/surface-catalog.json, created 2026-10-07; I am ASSUMING that is the 'Product Surface audit artifact', unconfirmed). PROPOSAL only: no ADR promoted, no global config edited.",
+    "evidence_from_the_audits": {
+      "recon": "drift 83 files (11.5%), debt 24, stale 14 (1.9%), current 601 (83.2%). Ops 19/20/21 were NOT run on the docs because their input contracts take receipts, not documents (recon says 'blocked: input contract mismatch'). Same root as the job-row adapter gap found today.",
+      "surfaces": "281 rows, 79 hosts, 108 unlisted, 3 missing purpose, 17 retired hosts, 0 broken destinations."
+    },
+    "council_delegates_to_invite": [
+      {
+        "who": "Defeasibility / freshness (new; from ADR-CANDIDATE-2026-09-17)",
+        "asks": "is this evidence still inside its freshness horizon, and what defeater would retract it",
+        "why": "drift is the real backlog in the recon (11.5% of files cite paths that no longer exist); an Accountant or Librarian answer built on drifted evidence is confidently stale",
+        "status": "candidate, unbuilt"
+      },
+      {
+        "who": "Kairos detector (ADR-081, RC PROPOSED) + existing operators/arcs_operator_kairos.py",
+        "asks": "is now the window; has the signal condensed into a basin",
+        "why": "timing is the one force in the council with no seat",
+        "status": "operator file exists; detector is a blueprint"
+      },
+      {
+        "who": "27 Taxonomist (UNBUILT)",
+        "asks": "does this belong in an existing class",
+        "why": "folksonomy discovers, taxonomy fixes; the recon's 9 near-duplicate clusters needed it and fell back to shingle Jaccard",
+        "status": "UNBUILT, would be HAND-LENS"
+      },
+      {
+        "who": "28 Auditor (UNBUILT)",
+        "asks": "was the convening logged, gates untouched",
+        "why": "already named in macro_gating",
+        "status": "UNBUILT"
+      },
+      {
+        "who": "17 Detective",
+        "asks": "adversarial challenge",
+        "why": "already callable via LAB; seat it by name instead of through the Loki alias",
+        "status": "check registry before seating"
+      }
+    ],
+    "do_not_invite": [
+      {
+        "who": "26 SuperAdmin (override any atom)",
+        "why": "an override power inside a deliberating council defeats the point of the council and the hard gates"
+      }
+    ],
+    "adr_release_candidates": {
+      "doc": "Status as read from each file's header 2026-10-15. Promotion means a human decision plus a receipt; none is done here.",
+      "rc_or_proposed": [
+        "ADR-080 instance-to-class self-promotion build loop (RC): would generalise the doc/job/receipt adapters into one class",
+        "ADR-081 Kairos detector / attractor-basin condenser (RC)",
+        "ADR-083 ui-kit atomic SSOT + component-source gate (PROPOSED)",
+        "ADR-084 reliance not trust (PROPOSED)",
+        "ADR-085 main write-lock and hot-file leases (PROPOSED): the concurrency fix behind many multi-session collisions",
+        "ADR-060 hypercube gauntlet (PROVISIONAL, downgraded to YELLOW by its own audit)",
+        "ADR-086 two-pass backlog induction (this session, DRAFT)"
+      ],
+      "needs_attention": [
+        "ADR-067 is PROPOSED with a number allocated by inference, not the oracle: re-check for a collision (gotcha #12)",
+        "ADR-074, ADR-076 are DRAFT and gated on a demand signal"
+      ]
+    },
+    "seed_candidates": [
+      "ADR-CANDIDATE-2026-09-17 defeasible context codec + kinematic freshness: promote only when we commit to build (its own header says so); strongest fit to the recon's drift finding",
+      "_SEEDS/index.jsonl has 20 'candidate' and 9 'planted' rows: run the seedbank-drift check, which flags 47 findings and an orphan seed, before promoting any"
+    ],
+    "adapter_class": "One adapter class, three instances: receipt -> op seed (built), job row -> op seed (missing), document -> op seed (missing). Build as the class under ADR-080, not three scripts.",
+    "field_os_version": "runtime/specs/field-os/ holds the v8.5 master spec; I did not find a v9 Field OS spec in that tree. 'Feels outdated' is plausible and unverified: a diff of v8.5 against the current CLAUDE.md, WORLD.md and ADR set is the cheap first step.",
+    "global_config_changes_to_consider": "Proposals only, to be made by Zach in ~/.claude and the repo CLAUDE.md after approval: add effort-policy.json and shape-card.json to the project map; add the seat/definition cards for CUR and ALC; add the suggestion log as an on-demand file. Nothing in ~/.claude is edited by this session.",
+    "ten_x_claim": "Not accepted as a goal until it has a baseline. Pre-register 3 measures before any change: minutes from ingest to a gated draft, rework rate after the gauntlet, tokens per shipped artifact (token-savings-bank exists). Report the ratio only with n and the same job mix. Without a baseline '10X' cannot be falsified."
+  }
+}
