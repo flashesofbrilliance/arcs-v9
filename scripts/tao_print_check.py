@@ -46,8 +46,13 @@ def score(png):
     im = np.asarray(Image.open(png).convert("RGB")).astype(int)
     r, g, b = im[..., 0], im[..., 1], im[..., 2]
     grey = (abs(r - 0x83) < 14) & (abs(g - 0x91) < 14) & (abs(b - 0xa7) < 14)       # --dimmed grain
-    gold = (r > 200) & (g > 170) & (b < 90)                                          # horizon line, dimmed by fog
-    return -(grey.mean() * 1000) + gold.mean() * 1000      # grain share down, horizon crispness up
+    pure = [(0, 240, 255), (0, 255, 157), (255, 215, 0), (255, 77, 109)]
+    ink = (r + g + b) > 150
+    is_pure = np.zeros(r.shape, bool)
+    for pr, pg, pb in pure:
+        is_pure |= (abs(r - pr) < 16) & (abs(g - pg) < 16) & (abs(b - pb) < 16)
+    purity = is_pure.sum() / max(1, (ink & ~grey).sum())      # share of inked pixels that are a pure plate ink
+    return purity * 100 - grey.mean() * 1000                    # overlap blends and grain lower it
 
 
 def spearman(a, b):
