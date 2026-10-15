@@ -99,3 +99,32 @@ Not tested: real era art, photographs, other kernels.
 - B13 SPLIT (prior 0.4). Ordering a64 < a128 < a256 held on both real images (good-fears-og 31/50/73; honest-og 32/52/89, central 256 crops of 1200x627 and 1200x630 rendered OG images, not photographs). The K4 gap FAILED on both: true 256 reads LOWER than the nearest-neighbour upscale of its 64 row (gap -28.0 and -11.0 cycles; the bar was +4.8). The kill line as I wrote it ("ordering inverts") was not tripped, but the claim also named the K4 gap, so the claim as stated is false. I am reporting it as a split, not taking the loophole. Cause not tested; a guess is that crisp one-pixel text and UI edges survive nearest-neighbour replication as broadband content, unverified.
 - What this does to the surviving claim: ordering across eras holds on textured synthetic scenes and on two real rendered images. The upscale separation (K4) holds on synthetic textured scenes and fails on real rendered UI. A gate built on this statistic cannot yet refuse an upscaled frame of real UI-like content. Status: the gate stays INTENDED, not BOUND.
 - Still not tested: photographs, real era art, other upscale kernels, any scene beyond 7 synthetic and 2 rendered images, a 99.9% cutoff under a pre-registered test.
+
+### Round 3: pre-registered beliefs (written before any download or run)
+
+Sourcing: three Library of Congress service JPEGs, approved by Zach in chat before download, kept in the session scratchpad only (not in the repo). Rights text is LoC's own ("No known restrictions"), not a formal public-domain declaration. Manifest (url, bytes, sha256, rights text) is recorded below with the results. Confounds named now: each file is a 1024-px JPEG derivative of a larger scan, so (1) the original era's resolution is not preserved, (2) it is one JPEG generation, (3) the measurement can say nothing about era-of-capture.
+Files: 4a27449v.jpg (Jacksonville street car, c.1890, Detroit Publishing Co), 8a16694v.jpg (Street musicians, Maynardville TN, 1935, FSA), 4a05168v.jpg (Havana Street, c.1900, Detroit Publishing Co). Decode: macOS `sips` to PNG, central 256 crop of luma, same probe as rounds 1 and 2.
+B14. Ordering a64 < a128 < a256 holds on all three photographs. Prior 0.7. Kill: ordering inverts on any one.
+B15. The K4 gap (true 256 minus nearest-neighbour 4x upscale of its 64 row) is at least 4.8 cycles on at least 2 of 3. Prior 0.3 (it failed on both rendered images in round 2). Kill: under 4.8 on 2 or more of 3.
+Limits stated now: three images, one crop each, 16 sampled rows; a result is a band-limit reading and says nothing about fidelity to an era.
+
+### Round 3 results, 2026-10-15 (`python3 -I scripts/era_b1_probe.py --real <png> ...`; images decoded from the JPEGs with macOS `sips`, kept in the session scratchpad, not in the repo)
+
+Manifest (url prefix https://tile.loc.gov/storage-services/service/pnp/, size matched the item JSON from loc.gov before download, rights text is LoC's "No known restrictions on publication"):
+
+| file | what | bytes | sha256 |
+|---|---|---|---|
+| det/4a20000/4a27000/4a27400/4a27449v.jpg | Jacksonville street car, c.1890, Detroit Publishing Co, 1024x743 | 373728 | 26304854c56e1dedecdc9d0a2daed91bd78fa260f1f9aef1a7dfef4dad09d702 |
+| fsa/8a16000/8a16600/8a16694v.jpg | Street musicians, Maynardville TN, 1935, FSA, 1024x733 | 322119 | e996473ba36dac125789e20d5a1fa3195945d74abc61312a15f10ae0232101b5 |
+| det/4a00000/4a05000/4a05100/4a05168v.jpg | Havana Street, c.1900, Detroit Publishing Co, 805x1024 | 161609 | 378c7357c8f325ae030b1d3e36afd060d90dd87ed276c8502c2c8ee461d0bf44 |
+
+| image | a64 / a128 / a256 | ordering | K4 gap (cycles; bar 4.8) |
+|---|---|---|---|
+| 1890 street car | 29 / 58 / 118 | ok | 63.0 |
+| 1935 street musicians | 26 / 44 / 69 | ok | 8.0 |
+| c.1900 Havana street | 25 / 55 / 107 | ok | 41.0 |
+
+- B14 survived: ordering held on all three (prior 0.7; one crop each, so weak).
+- B15 survived, against its prior (0.3): the K4 gap cleared 4.8 on 3 of 3, not merely 2. Photographs separate a true 256 frame from a nearest-neighbour upscale where the two rendered UI images (round 2) did not. The 1935 image clears the bar by only 3.2 cycles, so treat it as marginal.
+- Reading: the statistic discriminates on natural photographic texture and fails on crisp rendered UI. That is a statement about content class, not about era. Confounds stand: each file is a 1024-px JPEG derivative of a larger scan, so the capture-era resolution is gone and one JPEG generation is baked in; the three images differ in subject and tone as well as in date, so nothing here can be attributed to the year.
+- Not tested: the TIFF masters (13 to 26 MB each, not approved), era-of-capture effects, other crops, other upscale kernels, 99.9% cutoff, real era game art. Round 4 candidates: several crops per image for a variance estimate; the 1935 master.

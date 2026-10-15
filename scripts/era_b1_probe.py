@@ -53,3 +53,13 @@ def round2():
         a256, a128, a64 = absc(m), absc(down(m, 2)), absc(down(m, 4)); nn = absc(nn4(down(m, 4)))
         print(f"{path:26} {w}x{h} a64/a128/a256 {a64:.0f}/{a128:.0f}/{a256:.0f}  ordering {'ok' if a64 < a128 < a256 else 'INVERTS'}  K4gap {a256 - nn:.1f}")
 if "--round2" in sys.argv: round2()
+
+# ---- Round 3: pass PNG paths after --real (central 256 luma crop; same statistic as rounds 1 and 2) ----
+if "--real" in sys.argv:
+    print("\nreal PNGs")
+    for path in sys.argv[sys.argv.index("--real") + 1:]:
+        w, h, pix = sc.read_png(open(path, "rb").read())
+        y0, x0 = (h - 256) // 2, (w - 256) // 2
+        m = [r[x0:x0 + 256] for r in pix[y0:y0 + 256]]
+        a256, a128, a64 = absc(m), absc(down(m, 2)), absc(down(m, 4)); nn = absc(nn4(down(m, 4)))
+        print(f"{path.rsplit('/', 1)[-1]:16} {w}x{h} a64/a128/a256 {a64:.0f}/{a128:.0f}/{a256:.0f}  ordering {'ok' if a64 < a128 < a256 else 'INVERTS'}  K4gap {a256 - nn:.1f}")
