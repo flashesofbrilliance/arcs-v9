@@ -170,6 +170,30 @@ ul.chk li.no::before { border-color: var(--red); }
 ul.chk li.part::before { border-color: var(--gold); background: var(--gold-bg); }
 ul.chk li.ok::before { border-color: var(--green); background: var(--green); }
 
+
+/* altitude 5: the sparkplug */
+.spark { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 16px; }
+.plug { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px; }
+.plug svg { display: block; width: 100%; height: auto; }
+.plug .el { fill: var(--muted); } .plug .arc { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.plug .gapline { stroke: var(--border); stroke-width: 1; stroke-dasharray: 4 4; }
+.gates { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.gates li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; }
+.gates li.tier { display: block; font-size: 0.925rem; font-weight: 600; color: var(--text); padding-top: 6px; }
+.gates li.tier + li.pass, .gates li.tier + li { margin-top: 0; }
+.gates input:disabled + span { color: var(--muted); opacity: .75; }
+.gates input:disabled { cursor: not-allowed; }
+.gates li > i { width: 14px; height: 14px; margin-top: 5px; border-radius: 3px; border: 2px solid var(--muted); }
+.gates li.pass > i { background: var(--green); border-color: var(--green); }
+.gates li.open > i { border-color: var(--red); }
+.gates label { cursor: pointer; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; grid-column: 1 / 3; }
+.gates input[type=checkbox] { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--cyan); }
+.arm { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; background: var(--surface); }
+.arm .y { white-space: nowrap; }
+pre.decl { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--font-mono); font-size: 0.6875rem; line-height: 1.6; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; color: var(--dimmed); }
+.btn { font: inherit; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: 3px; padding: 8px 12px; cursor: pointer; min-height: 44px; }
+.btn:hover { border-color: var(--cyan); }
+
 footer { max-width: calc(var(--measure) + 42px); margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.925rem; color: var(--muted); }
 footer > p { margin: 0 0 8px; }
 code { font-family: var(--font-mono); font-size: 0.925rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; }
@@ -336,6 +360,45 @@ code { font-family: var(--font-mono); font-size: 0.925rem; background: var(--sur
         <tr><td>Phase change</td><td>Threshold, latent cost, hysteresis</td><td>Step change, bimodal data</td><td>The tributaries boundary; HOLDING rows</td></tr>
       </tbody>
     </table></div>
+  </div>
+</details>
+
+
+<details class="alt">
+  <summary><span class="alt-n">Altitude 5</span><span class="alt-t">The sparkplug: potential to kinetic</span><span class="alt-go" aria-hidden="true">+</span><span class="alt-s">The one action the stored evidence is waiting on, and the gates that keep it from firing early.</span></summary>
+  <div class="alt-body">
+    <p>Potential energy here is 197 receipts with an empty column and a proven way to fill it. Nothing changes until one write runs. A spark plug does not make the energy. It sets the gap and the moment. Close the gap too early and it misfires, and leave it open and the engine idles.</p>
+    <div class="spark">
+      <div class="plug">
+        <svg id="plug" viewBox="0 0 400 110" role="img" aria-label="Spark gap that narrows as gates are satisfied"></svg>
+      </div>
+      <ul class="gates" id="gates">
+        <li class="tier"><span>Tier 1: mechanical. Hard gates. Any failure stops here and nobody is asked anything.</span></li>
+        <li class="pass"><i></i><span>Rebuildable: 197 of 197 empty rows, from the stored raw reply (dry run, read-only).</span></li>
+        <li class="pass"><i></i><span>Rule reproduces the stored column on 73 of 74 filled rows.</span></li>
+        <li class="pass"><i></i><span>Scope is exact: only rows where the column is empty, ids saved first.</span></li>
+        <li class="tier"><span id="t2note">Tier 2: judgment. A person fills it in; nothing here is scored by the machine. It opens only when tier 1 is green, and then asks for craft and aesthetic input, not facts.</span></li>
+        <li><label><input type="checkbox" id="g1"><span>Loki challenge run on the brief-prose layer.</span></label></li>
+        <li><label><input type="checkbox" id="g2"><span>Write-lock declared, with the undo recorded.</span></label></li>
+        <li><label><input type="checkbox" id="g3"><span>Explicit go from the owner of the data.</span></label></li>
+      </ul>
+      <div class="arm" aria-live="polite">
+        <span class="y grain" id="armlab">NOT ARMED</span>
+        <p id="armtxt" style="margin:0;flex:1 1 280px;min-width:0">3 of 6 gates met. The three open gates need a person.</p>
+      </div>
+      <pre class="decl" id="decl">WRITE-LOCK DECLARATION (draft, not yet in force)
+Action: set Receipt.atgTributaries from Receipt.rawResponse
+Scope: rows where atgTributaries is empty (197 at 2026-10-15)
+Rule: first 4 tributaries; keep type, label, prompt; clamp 40, 80, 1000
+Before: save the 197 row ids to a file in the repo
+Undo: set atgTributaries back to empty for exactly those ids
+Door: two-way, because the raw reply is untouched
+Approval: pending</pre>
+      <div><button class="btn" id="copy" type="button">Copy declaration</button> <span class="hint" id="copied"></span></div>
+    </div>
+    <h3>Capture the snap</h3>
+    <p>The sharpest event in this data is not a level, it is a change of slope. Count the filled column cumulatively across the 271 receipts. Flat at one for 169 receipts, then the slope jumps to one per receipt from receipt 198 on. Nobody recorded that moment. It was found afterward. The same shape marks every conversion: a gate flips, a state changes, a rate changes. Each one deserves a capture at the instant it happens: the before state, the after state, and what caused it. A mechanical detector can flag it, because it only needs the first difference of a series that was flat and is not.</p>
+    <p>Ticking the boxes above only changes this page. Nothing fires from here. The write runs from a terminal session, after the gates are met, on the owner's go.</p>
   </div>
 </details>
 
@@ -525,6 +588,37 @@ code { font-family: var(--font-mono); font-size: 0.925rem; background: var(--sur
       if (i === ring) html += '<rect class="ring" x="' + (x - 2) + '" y="' + (y - 2) + '" width="' + (cs + 4) + '" height="' + (cs + 4) + '" rx="4"/>';
     }
     svg.innerHTML = html;
+  })();
+
+  /* altitude 5: gates and the spark gap */
+  (function () {
+    var svg = $("plug"), ids = ["g1", "g2", "g3"], tier1 = [true, true, true], base = tier1.filter(Boolean).length, open1 = base === tier1.length;
+    ids.forEach(function (i) { $(i).disabled = !open1; });
+    if (!open1) $("t2note").textContent = "Tier 2: judgment. Locked until tier 1 is green.";
+    function draw(met, total) {
+      var gap = Math.round(150 * (total - met) / total), x1 = 200 - gap / 2, x2 = 200 + gap / 2;
+      var h = '<rect class="el" x="40" y="48" width="' + (x1 - 40 - 6) + '" height="14" rx="3"/><rect class="el" x="' + (x2 + 6) + '" y="48" width="' + (354 - x2) + '" height="14" rx="3"/>';
+      h += '<rect class="el" x="' + (x1 - 10) + '" y="38" width="10" height="34" rx="3"/><rect class="el" x="' + x2 + '" y="38" width="10" height="34" rx="3"/>';
+      if (met === total) { h += '<polyline class="arc" points="' + (x1) + ',55 ' + (x1 + 6) + ',40 ' + (x1 + 12) + ',70 ' + (x1 + 18) + ',40 ' + (x1 + 24) + ',70 ' + (x2) + ',55"/>'; }
+      else { h += '<line class="gapline" x1="' + x1 + '" y1="55" x2="' + x2 + '" y2="55"/>'; }
+      svg.innerHTML = h;
+    }
+    function upd() {
+      var n = base; ids.forEach(function (i) { if ($(i).checked) n++; });
+      draw(n, 6);
+      var lab = $("armlab"), txt = $("armtxt");
+      if (n === 6) { lab.textContent = "ARMED"; lab.className = "y sharp"; txt.textContent = "All six gates are met. Nothing fires from this page; the write runs from a terminal session on the owner's go."; }
+      else { lab.textContent = "NOT ARMED"; lab.className = "y grain"; txt.textContent = n + " of 6 gates met. " + (6 - n) + " open, and each needs a person."; }
+      var d = $("decl").textContent.replace(/Approval: .*/, "Approval: " + ($("g3").checked ? "given" : "pending")).replace(/\(draft, not yet in force\)|\(in force\)/, ($("g2").checked ? "(in force)" : "(draft, not yet in force)"));
+      $("decl").textContent = d;
+    }
+    ids.forEach(function (i) { $(i).addEventListener("change", upd); });
+    $("copy").addEventListener("click", function () {
+      var txt = $("decl").textContent, out = $("copied");
+      function fallback() { var r = document.createRange(); r.selectNodeContents($("decl")); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); out.textContent = "Selected. Press copy."; }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txt).then(function () { out.textContent = "Copied."; }, fallback); } else fallback();
+    });
+    upd();
   })();
 
   render();
