@@ -76,3 +76,62 @@ Check changes. V7 is replaced: at the vector rung the frame equals the unquantiz
 Found by eye after the checks passed, and fixed: the picture frame stretched taller than its canvas; the spectrogram looked saturated until the dynamic range was capped at 66 dB; the radial mode was lopsided for bass-heavy input until it was mirrored; the 1 x 1 rung drew solid gold because coarse rungs were drawn too thick, fixed by drawing them larger and averaging down; the nine rungs wrapped onto two rows. None of these was caught by a mechanical check.
 
 Limits. Tested on one synthetic demo, generated tones, and three short local files; no 8K display, no phone, no Safari or Firefox. The 8K rung redraws once on pause and falls back if the canvas cannot be made, which was not exercised. Playback uses the browser's audio clock; a real device with a different output latency was not measured.
+
+## Amendment 2 (2026-10-15, before building): Save as twin
+
+Zach: the audio files are songs he wrote, and he expects an HTML digital twin soon. He is using the self-hosted copy, where downloads work.
+
+Definition. A twin is ONE self-contained HTML file: the Phosphor page, the song's original bytes (base64, no re-encoding), and nothing else. Opened, it decodes the embedded song, analyzes it, and shows the same visualizer, ladder, chapters and playback. It makes no network request.
+
+Rules.
+- "Save as twin" is the only way a twin is made and the only egress: it builds the file in the browser and saves it to the viewer's device. Nothing is uploaded, committed or published by the page. Publishing a twin anywhere is a separate decision for its owner.
+- The page keeps a pristine copy of its own source taken before any script runs, so a twin is the page as shipped, not the page with this session's state in it.
+- Saving a twin from a twin replaces the embedded song and never doubles it.
+- A twin states plainly what it is ("a self-contained twin of NAME; the audio and the analysis code are in this file") and carries only the file's name, not a claim of authorship.
+- Size: the file is about 1.34 times the song plus the page; refuse above 40 MB with a message.
+- In a viewer that blocks downloads the button reports that and points to the self-hosted copy.
+
+Checks (pass or fail), run on one of the owner's own songs, kept local, not committed.
+T1. A twin opened from disk shows the same chapters as the original page after loading the same file.
+T2. The canvas pixels at five times match the original page with the same settings.
+T3. The twin makes no network request and its size is within 10 percent of 1.34 times the song plus the page.
+T4. Saving a twin from the twin gives a file the same size as the first twin.
+T5. Nothing is written or sent until Save as twin is clicked; the demo state has the button disabled.
+
+Not claimed: that a twin works in a viewer that blocks downloads or file access; that it plays on every browser; that it is the right format for sharing.
+
+## Amendment 3 (2026-10-15, before building): attribution metadata, Suno
+
+Zach: the songs were made with Suno, and the twin should carry attribution metadata to Suno.
+
+Rules.
+- Provenance is read, not invented. The page reads the file's own tags (best effort: ID3v2 title, artist and comment for mp3; the MP4 `nam`, `ART` and `cmt` atoms for m4a and mp4). On the two songs inspected, one carries `comment: made with suno; created=2026-10-14T03:12:41Z; id=<uuid>` and the other carries title and artist tags. Tags are shown as found.
+- The credit line is prefilled "Made with Suno" only when a tag says so; otherwise it is blank. The owner can edit the title, the credit line and an optional link before saving. Nothing about who wrote or owns the song is asserted by the page beyond what the tags and the owner's own fields say.
+- The saved twin carries the attribution three ways: visible text in the page footer, standard `meta` tags (description) and a schema.org `MusicRecording` block in JSON-LD, plus the raw tags kept as provenance.
+- The page states that the music is AI-generated when the credit line says it was made with Suno. The twin never presents itself as a human recording.
+- Rights are not decided by this page. What Suno's terms allow depends on the plan the owner used; the page records attribution and nothing more. The owner confirms their plan covers any public use before publishing a twin.
+
+Checks.
+T6. For the m4a, the parsed comment contains "suno" and the credit line is prefilled "Made with Suno"; for the mp3, the artist tag is read; for a file with no tags the credit line is blank.
+T7. The saved twin contains the visible credit text, a `description` meta tag and a valid JSON-LD `MusicRecording` block with the title and the credit.
+T8. Editing the credit line in the form changes what the twin carries; clearing it leaves no credit text claiming a source.
+
+## Results for Amendments 2 and 3: Save as twin and attribution (2026-10-15)
+
+`PHOSPHOR_FILES=<two of the owner's songs> node scripts/phosphor_twin_check.mjs _ARTIFACTS/phosphor.html` passes all of T1 to T8 on an m4a (2.83 MB) and an mp3 (2.33 MB). Files stayed local and the temp output was deleted.
+
+- T1 same chapters in the twin as in the original page: pass on both. T2 canvas pixels match at five times: pass on both.
+- T3 size: 3.82 MB and 3.16 MB, within 10 percent of 1.34 times the song plus the page; no network requests and no script errors in the twin.
+- T4 a twin saved from a twin is the same size within 1 percent, so the song is not doubled.
+- T5 the demo state has the button disabled; loading a song writes nothing and requests nothing.
+- T6 the m4a's comment tag (made with suno, a creation time and an id) prefills the credit line "Made with Suno"; the mp3's artist and title tags are read and the credit line stays blank because its tags do not say Suno.
+- T7 the twin carries the credit three ways: footer text, a description meta tag and a JSON-LD MusicRecording block.
+- T8 an edited title and a cleared credit are what the next twin carries.
+
+Found while building, and fixed:
+- A literal closing script tag inside the page's own JavaScript would have ended the script early in HTML parsing; a naive "script parses" check missed it because it matched to the last closing tag. Fixed by splitting the string, and the check now stops at the first closing tag.
+- The page serializes its own source, and my pattern for stripping an old twin block matched the pattern's own text inside that source, deleting most of the script from a saved twin. Caught because the first saved twin never finished loading. Fixed by building the patterns from split strings. The twin check opens the saved file from disk and compares pixels, which is what exposed it.
+- The footer still showed the raw tag "made with suno" after the credit was cleared, a visible source claim contrary to T8. The footer now shows the tags only while a credit is kept; the raw tags stay in the file as provenance.
+- Two failures were in the test (it matched a form placeholder), now scoped to the footer.
+
+Limits. Tested on two short songs and headless Chromium only. Nothing here establishes what Suno's terms allow for any public use; the page records attribution and the owner confirms their plan. A twin saved in a viewer that blocks downloads will not save. Phones, Safari and Firefox untested.
