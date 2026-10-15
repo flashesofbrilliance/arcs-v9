@@ -73,7 +73,7 @@ Scope corrections to the concept-note round (PR 1322 and the follow-on work):
 
 ## B1 result, 2026-10-15 (`python3 scripts/era_b1_probe.py`; kill lines K1 to K4 were fixed in the script header before the run)
 
-Ground: absolute cutoff = `cutoff_ratio` x width/2, three seeds each of an edge scene and a noisy-smooth scene, one analytic smooth scene, box downsample from a 256 master, 4x4 Bayer dither at 16 levels, nearest-neighbour 4x upscale of the 64 row. Results are from the committed probe; limits: one dither kernel, my own scenes, 16 sampled rows.
+Ground: merged in arcs-v9 PR 1336 at cdd7a274 (probe `scripts/era_b1_probe.py`, receipt 2026-10-15--b1-result-first-seed-uses-pr1336--ZH; the table below is the probe's stdout on that commit). Method: absolute cutoff = `cutoff_ratio` x width/2, three seeds each of an edge scene and a noisy-smooth scene, one analytic smooth scene, box downsample from a 256 master, 4x4 Bayer dither at 16 levels, nearest-neighbour 4x upscale of the 64 row. Results are from the committed probe; limits: one dither kernel, my own scenes, 16 sampled rows.
 
 | Scene | abs cutoff 64 / 128 / 256 | K1 | K2 (dither shift / 32) | K4 gap (cycles) |
 |---|---|---|---|---|
