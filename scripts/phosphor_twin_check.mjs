@@ -32,7 +32,7 @@ for (const f of files) {
   const reqs = [], downloads = []
   const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 }, acceptDownloads: true }), pg = await ctx.newPage()
   pg.on('request', (r) => reqs.push(r.url())); pg.on('download', (d) => downloads.push(d))
-  await pg.goto(url); await ready(pg)
+  await pg.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await pg.goto(url); await ready(pg)
   check(await pg.evaluate(() => document.getElementById('twinb').disabled), 'T5: with the demo signal Save as twin is disabled')
   await pg.setInputFiles('#file', f); await pg.waitForFunction(() => document.getElementById('src').textContent !== 'Demo signal' && document.getElementById('status').textContent === '', null, { timeout: 90000 })
   const origChap = await chapters(pg), origHash = await hashes(pg)
@@ -60,7 +60,7 @@ for (const f of files) {
   const ctx2 = await b.newContext({ viewport: { width: 1280, height: 1000 }, acceptDownloads: true }), tp = await ctx2.newPage()
   const reqs2 = []; tp.on('request', (r) => reqs2.push(r.url()))
   const errs = []; tp.on('pageerror', (e) => errs.push(String(e)))
-  await tp.goto(pathToFileURL(twinPath).href); await ready(tp)
+  await tp.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await tp.goto(pathToFileURL(twinPath).href); await ready(tp)
   check((await chapters(tp)) === origChap, `T1 ${label}: the twin shows the same chapters (${origChap})`)
   const twHash = await hashes(tp)
   check(JSON.stringify(twHash) === JSON.stringify(origHash), `T2 ${label}: canvas pixels match the original page at five times`)

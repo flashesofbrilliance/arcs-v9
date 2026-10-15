@@ -30,7 +30,7 @@ const wav = path.join(os.tmpdir(), 'phosphor-click-120.wav'); fs.writeFileSync(w
 const b = await pw.chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), url = pathToFileURL(path.resolve(page)).href + '?test=1', errors = []
 const pg = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage()
 pg.on('pageerror', (e) => errors.push(String(e))); pg.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
-await pg.goto(url)
+await pg.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await pg.goto(url)
 await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.querySelectorAll('#chap button').length > 0)
 await pg.setInputFiles('#file', wav)
 await pg.waitForFunction(() => document.getElementById('src').textContent !== 'Demo signal' && document.getElementById('status').textContent === '', null, { timeout: 60000 })
@@ -87,6 +87,30 @@ check(await pg.evaluate(() => window.PhosphorTest.fs()), 'F4: the F key toggles 
 await pg.keyboard.press('f')
 check(await pg.evaluate(() => !window.PhosphorTest.fs()), 'F4: and off again')
 
+// kid mode (fresh page: the grown-up fold must start closed)
+{
+  const kp = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage()
+  await kp.goto(url); await kp.waitForFunction(() => document.getElementById('status').textContent === '')
+  const k = await kp.evaluate(() => {
+    const ids = ['kpick', 'kcol', 'kzoom', 'kwob', 'kfs', 'play'], out = { closed: !document.getElementById('grown').open, h: {} }
+    for (const i of ids) out.h[i] = Math.round(document.getElementById(i).getBoundingClientRect().height)
+    out.modes = [...document.querySelectorAll('[data-km]')].map((e) => Math.round(e.getBoundingClientRect().height))
+    return out
+  })
+  check(k.closed, 'K3: Grown-up controls start closed')
+  check(Object.values(k.h).every((h) => h >= 64) && k.modes.length === 4 && k.modes.every((h) => h >= 64), `K1: the play, pick, mode, colors, zoom, wobble and big screen buttons are all 64 px tall or more (${JSON.stringify(k.h)})`)
+  await kp.click('[data-km="3"]')
+  check(await kp.evaluate(() => window.PhosphorTest.zoom().mode === 3), 'K2: Rainbow picks the spectrogram')
+  const p0 = await kp.evaluate(() => document.getElementById('palsel').value); await kp.click('#kcol')
+  check(await kp.evaluate((p) => document.getElementById('palsel').value !== p, p0), 'K2: Colors changes the colors')
+  await kp.click('#kzoom'); check(await kp.evaluate(() => window.PhosphorTest.zoom().zs[3] === 2), 'K2: Zoom steps in one stage')
+  await kp.dispatchEvent('#kwob', 'pointerdown'); const g1 = await kp.evaluate(() => window.PhosphorTest.glitch().stut !== undefined); await kp.dispatchEvent('#kwob', 'pointerup')
+  check(g1, 'K2: Wobble answers a press')
+  const [fc] = await Promise.all([kp.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), kp.click('#kpick')])
+  check(!!fc, 'K2: Pick a song opens the file chooser')
+  await kp.click('#kfs'); check(await kp.evaluate(() => window.PhosphorTest.fs()), 'K2: Big screen goes full screen')
+  await kp.context().close()
+}
 check(errors.length === 0, `no console or script errors${errors.length ? ': ' + errors[0] : ''}`)
 await b.close()
 if (fails.length) { console.log(`\n${fails.length} failed`); process.exit(1) }

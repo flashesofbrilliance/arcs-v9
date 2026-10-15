@@ -37,7 +37,7 @@ async function open() {
   const pg = await ctx.newPage()
   pg.on('pageerror', (e) => errors.push(String(e))); pg.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
   const reqs = []; pg.on('request', (r) => reqs.push(r.url()))
-  await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.querySelectorAll('#chap button').length > 0, null, { timeout: 30000 })
+  await pg.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.querySelectorAll('#chap button').length > 0, null, { timeout: 30000 })
   return { ctx, pg, reqs }
 }
 const load = async (pg, p) => { await pg.setInputFiles('#file', p); await pg.waitForFunction((n) => document.getElementById('src').textContent !== 'Demo signal' && document.getElementById('status').textContent === '', null, { timeout: 90000 }); }
@@ -103,7 +103,7 @@ const setRes = (pg, v) => pg.evaluate((v) => { const r = document.getElementById
 // ---- reduced motion
 {
   const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' }), pg = await ctx.newPage()
-  await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '', null, { timeout: 30000 })
+  await pg.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '', null, { timeout: 30000 })
   const st = await pg.evaluate(() => document.getElementById('play').textContent)
   check(st === 'Play', 'V9: with reduced motion nothing plays on its own')
   await ctx.close()
