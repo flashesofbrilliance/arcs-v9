@@ -66,3 +66,37 @@ Repeated, not recursive. Across the sources read, Cyan reuses one idea, a device
 Post-hoc hypothesis (B11, NOT a result, registered now, untested): the defensible self-similarity is a graph of nodes at two scales, navigation nodes inside an Age (Myst V page) and Ages as nodes joined by linking books (Myst page). Test on fresh evidence: count title by title whether both scales exist. Kill: fewer than 3 of 5. It was formed after seeing the data, so it carries no weight until tested on pages not yet read.
 
 Not done: reading the unread Myst text, primary Cyan sources, any title outside the five, and no check of non-Wikipedia accounts. Echo to ARCS (a position as a node in a graph at several scales) stays METAPHOR.
+
+---
+
+## Round 2 pre-registration (written 2026-10-15 BEFORE any round-2 page was fetched)
+
+Open items from round 1: (1) Firmament coding, (2) unread Myst text, (3) B11 test, (4) Obduction real-time status.
+
+R1. Firmament: Cyan's own pages or developer statements say Conveyance Pods join separate worlds. Prior 0.5. Decision rule: "worlds" if a Cyan or developer source calls Realms worlds/planets/places apart from the ship; "compartments" if it calls them parts of the ship. If no such source is found, the coding stays UNRESOLVED and B8 stays NOT CONFIRMED (no source, no flip).
+R2. Remaining Myst page text (chars 100000 to 152715) contains no statement of nested same-structure linking. Prior 0.8. Kill: any such statement. Every Myst "not stated" is re-checked against it.
+R3. Obduction is real-time 3D (Unreal Engine 4). Prior 0.95. Kill: a fetched source says otherwise.
+B11 test (title by title, pages not yet read in round 1: use only passages not already quoted above; where a page was read, new sections or a different page such as the Cyan wiki or developer statements). Two-scale graph exists if the source describes (a) nodes of movement inside a world AND (b) worlds as nodes joined by a linking device. Kill stays: fewer than 3 of 5 (Myst, Riven, Uru, Obduction, Firmament). Prior 0.4. Note: a title whose worlds are only compartments of one ship counts as (b) failing.
+Em-dashes 0. Caveat unchanged: sources are secondary unless marked Cyan or developer.
+
+## Round 2 results (2026-10-15)
+
+R1 Firmament coding: UNRESOLVED, leaning "compartments". Cyan's own Kickstarter pitch (kickstarter.com/projects/1252280491/firmament) says "this world" (singular) and "locations", and calls the game "an entirely new property". Cyan's FAQ pages (cyan.com/docs/what-is-firmament, cyan.com/docs/firmament-is-being-made-by-cyan-is-it-a-myst-game) say nothing on structure beyond "created in the spirit of Myst". No Cyan or developer source calls the Realms separate worlds or planets, and none describes the Pods; the Pod and Swan facts still come from secondary reviews (Wikipedia, PC Gamer, Adventure Game Hotspot via search summaries, not read in full). Under the round-2 decision rule, no source means no flip. B8 stays NOT CONFIRMED (4 of 5 documented, Firmament as compartments of one world). B10's kill stays met only through Firmament and stays confounded by IP. Limits: cyan.com and Kickstarter blocked the fetch tool (403) and were read in the in-app browser; the Kickstarter update posts (#28, #35) rendered no body text, so developer interviews were not read.
+
+R2 Myst remainder: CONFIRMED, trivially. Characters 100000 to 152715 are references, external links, navigation templates and category tags; they hold no design prose. So the round 1 "weaker not stated" caveat is retired: every Myst "not stated" now rests on the whole prose of the page. (That is a fact about this one page. It does not make Wikipedia complete.)
+
+R3 Obduction real-time: CONFIRMED. The Wikipedia infobox names Unreal Engine 4; the GDC 2016 session "Building Obduction: Cyan's Custom UE4 Art Tools" and Road to VR describe real-time rendered environments. The round 1 line "from my memory" is now sourced. Cyan's own Firmament pitch also says "Unreal 4" for Firmament and says Obduction was built PC first, then VR.
+
+B11 (two-scale graph, kill if fewer than 3 of 5): INCONCLUSIVE, and not cleanly testable this round. Rule broken on purpose and disclosed: the fresh-pages-only rule could not be met for three titles, because the free sources that describe both scales are the Wikipedia pages already read. Count with that contamination marked:
+- Myst: scale 2 (Ages joined by books) documented in round 1; scale 1 (nodes inside an Age) not fetched this round. UNTESTED.
+- Riven: both documented on the REREAD page (stills with click movement; five islands of one Age, Ages joined by books). Holds, contaminated.
+- Uru: scale 2 holds; scale 1 FAILS on a strict reading: search summaries of Wikipedia and reviewers describe third-person 3D movement inside Ages, not fixed nodes. Fails.
+- Obduction: REREAD page says "node-based point and click" movement alongside free movement, and Seeds swapping areas between worlds. The page does not frame the worlds as nodes. Weak, contaminated.
+- Firmament: compartments of one world under the lean from R1; scale 2 fails. Fails.
+Best case 3 of 5 (Myst assumed), strict case 2. Both the threshold and the evidence are on the edge, and the hypothesis was formed post hoc. B11 carries no weight: it is neither confirmed nor killed. A fair test needs a source that states, per title, how movement inside a world works, not a page already read. Also note the two "scales" use different mechanisms (click nodes versus a linking panel), so even a pass shows a shared graph shape, not one repeated rule.
+
+Flags (round 2):
+LOAD-BEARING: the Firmament coding still decides B8; Cyan's own words lean compartments but do not settle it. B11 fails to resolve on the evidence available.
+COUNTERINTUITIVE: nothing moved a prior by more than 0.3. R2 (0.8) and R3 (0.95) held.
+
+Open after round 2: Pod mechanics from a Cyan source, developer interviews (Kickstarter updates #28 and #35 need the logged-in page), Myst scale-1 sentence, and a per-title movement source for B11.
