@@ -128,3 +128,33 @@ Manifest (url prefix https://tile.loc.gov/storage-services/service/pnp/, size ma
 - B15 survived, against its prior (0.3): the K4 gap cleared 4.8 on 3 of 3, not merely 2. Photographs separate a true 256 frame from a nearest-neighbour upscale where the two rendered UI images (round 2) did not. The 1935 image clears the bar by only 3.2 cycles, so treat it as marginal.
 - Reading: the statistic discriminates on natural photographic texture and fails on crisp rendered UI. That is a statement about content class, not about era. Confounds stand: each file is a 1024-px JPEG derivative of a larger scan, so the capture-era resolution is gone and one JPEG generation is baked in; the three images differ in subject and tone as well as in date, so nothing here can be attributed to the year.
 - Not tested: the TIFF masters (13 to 26 MB each, not approved), era-of-capture effects, other crops, other upscale kernels, 99.9% cutoff, real era game art. Round 4 candidates: several crops per image for a variance estimate; the 1935 master.
+
+### Round 4: pre-registered beliefs (written before the master was downloaded or run)
+
+Sourcing: one file, `fsa/8a16000/8a16600/8a16694u.tif` under https://tile.loc.gov/storage-services/master/pnp/, the master scan of the 1935 FSA photograph used in round 3 (item size from the loc.gov item JSON: 12,964,154 bytes). Approved by Zach in chat ("lets approve the master") after the filename, source and size were stated in the round 3 findings. Kept in the session scratchpad, not in the repo. Rights text: LoC "No known restrictions" (FSA/OWI), not a formal public-domain declaration. Decode with macOS `sips` to PNG; 8-bit luma only (a 16-bit decode is out of scope and will be reported, not worked around).
+Why: round 3's 1935 image cleared the K4 bar by only 3.2 cycles on a 1024-px derivative with one crop. The master carries the scan's native detail, and a grid of crops gives a variance estimate.
+B16. Ordering a64 < a128 < a256 holds on at least 8 of 9 native-resolution 256 crops (3x3 grid across the image). Prior 0.7. Kill: ordering inverts on 2 or more crops.
+B17. The K4 gap (true 256 minus nearest-neighbour 4x upscale of its 64 row) is at least 4.8 cycles on at least 6 of 9 crops. Prior 0.5. Kill: fewer than 6 of 9.
+Limits stated now: one photograph, one scan, 9 crops that share a scene and tone; flat sky or blank-wall crops may read as the smooth-scene failure (3/3/3), and if so that is a pre-registered known outcome, not a surprise; the result says nothing about era.
+
+### Round 4 results, 2026-10-15 (`python3 -I scripts/era_b1_probe.py --real <png> ...`; nine 256x256 crops cut from the master with macOS `sips -c`, kept in the session scratchpad, not in the repo)
+
+Manifest: `fsa/8a16000/8a16600/8a16694u.tif`, 12,964,138 bytes received (the loc.gov item JSON listed 12,964,154; the 16-byte difference is unexplained and I did not chase it), sha256 628f3141619211e79d5dc742e966365a697dec2cb59c002e5475baa1cade86d2, 4252x3043, 8-bit gray, uncompressed, Leaf Aptus-II 12 per the TIFF header. Crop grid: centres at 20, 50, 80 percent of height and width.
+
+| crop (row%, col%) | a64 / a128 / a256 | ordering | K4 gap (bar 4.8) |
+|---|---|---|---|
+| 20, 20 | 23 / 46 / 81 | ok | 6.0 |
+| 20, 50 | 24 / 38 / 53 | ok | 4.0 |
+| 20, 80 | 21 / 28 / 35 | ok | -5.0 |
+| 50, 20 | 25 / 40 / 55 | ok | -6.0 |
+| 50, 50 | 21 / 32 / 42 | ok | 4.0 |
+| 50, 80 | 25 / 38 / 61 | ok | 6.0 |
+| 80, 20 | 23 / 28 / 38 | ok | -35.0 |
+| 80, 50 | 22 / 28 / 36 | ok | -30.0 |
+| 80, 80 | 31 / 61 / 116 | ok | 11.0 |
+
+- B16 survived (prior 0.7): ordering held on 9 of 9 crops.
+- B17 FAILED (prior 0.5): the K4 gap cleared 4.8 on 3 of 9 crops (kill line: fewer than 6). Four crops read the true frame as sharper than the nearest-neighbour upscale by less than the bar or not at all, and two read it far below (-35.0, -30.0).
+- What this changes: round 3's K4 pass on three 1024-px derivatives does not carry to the native scan. A hypothesis, untested: a 256 crop of a 1024-px derivative spans about four times more of the scene than a native crop and the derivative's downsample concentrates detail, so native crops of a heavily oversampled scan are smoother and the upscale test loses its margin. Another untested candidate: the lower crops are flat ground or wall (the smooth-scene failure again). I did not look at the crops.
+- Surviving claim, narrowed again: ordering across the three resolutions holds on every real image tested (3 derivative photographs, 2 rendered images, 9 native crops). The upscale separation (K4) holds on synthetic textured scenes and three derivative photographs and fails on rendered UI and on most native-scan crops. A refusal gate built on this statistic is not supported. Status unchanged: INTENDED, not BOUND.
+- Not tested: why K4 flips by scale, the sips crop offset semantics beyond matching output dimensions, a second master, a 99.9% cutoff, real era game art.
