@@ -99,3 +99,19 @@ T4. Saving a twin from the twin gives a file the same size as the first twin.
 T5. Nothing is written or sent until Save as twin is clicked; the demo state has the button disabled.
 
 Not claimed: that a twin works in a viewer that blocks downloads or file access; that it plays on every browser; that it is the right format for sharing.
+
+## Amendment 3 (2026-10-15, before building): attribution metadata, Suno
+
+Zach: the songs were made with Suno, and the twin should carry attribution metadata to Suno.
+
+Rules.
+- Provenance is read, not invented. The page reads the file's own tags (best effort: ID3v2 title, artist and comment for mp3; the MP4 `nam`, `ART` and `cmt` atoms for m4a and mp4). On the two songs inspected, one carries `comment: made with suno; created=2026-10-14T03:12:41Z; id=<uuid>` and the other carries title and artist tags. Tags are shown as found.
+- The credit line is prefilled "Made with Suno" only when a tag says so; otherwise it is blank. The owner can edit the title, the credit line and an optional link before saving. Nothing about who wrote or owns the song is asserted by the page beyond what the tags and the owner's own fields say.
+- The saved twin carries the attribution three ways: visible text in the page footer, standard `meta` tags (description) and a schema.org `MusicRecording` block in JSON-LD, plus the raw tags kept as provenance.
+- The page states that the music is AI-generated when the credit line says it was made with Suno. The twin never presents itself as a human recording.
+- Rights are not decided by this page. What Suno's terms allow depends on the plan the owner used; the page records attribution and nothing more. The owner confirms their plan covers any public use before publishing a twin.
+
+Checks.
+T6. For the m4a, the parsed comment contains "suno" and the credit line is prefilled "Made with Suno"; for the mp3, the artist tag is read; for a file with no tags the credit line is blank.
+T7. The saved twin contains the visible credit text, a `description` meta tag and a valid JSON-LD `MusicRecording` block with the title and the credit.
+T8. Editing the credit line in the form changes what the twin carries; clearing it leaves no credit text claiming a source.
