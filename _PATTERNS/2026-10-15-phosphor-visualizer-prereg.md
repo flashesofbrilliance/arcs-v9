@@ -135,3 +135,11 @@ Found while building, and fixed:
 - Two failures were in the test (it matched a form placeholder), now scoped to the footer.
 
 Limits. Tested on two short songs and headless Chromium only. Nothing here establishes what Suno's terms allow for any public use; the page records attribution and the owner confirms their plan. A twin saved in a viewer that blocks downloads will not save. Phones, Safari and Firefox untested.
+
+## Results: distill, full screen, resolution loop (2026-10-15)
+
+- Layout is one column. A sticky deck (picture plus transport) stays at the top while a folding stack of controls scrolls beneath it: Zoom, Resolution, Look, Glitch, Keys, one open at a time. The Zoom matrix headers double as the mode selector.
+- Full screen (button, F key, double click; Escape leaves): the canvas redraws at 1600 x 900, the bar fades after 2.6 s idle.
+- Resolution auto-loop on the detected beat grid: 1, 2, 4 or 8 bars, forward, backward, or forward and back, rung steps on the beat. Needs the whole-file analysis already done at load; falls back to 120 BPM with no tempo.
+- Known limit: the grid origin is one analysis frame (33 ms) early (0.267 s against a true 0.300 s on a synthetic 120 BPM track). Tempo is one folded histogram, so a song with tempo changes will drift.
+- `scripts/phosphor_stage_check.mjs` (L1 to L5, F1 to F4) passes with the four older suites, wrap-lint, card-gutter, token and component gates, page_gate and the Impeccable detector (0 findings).

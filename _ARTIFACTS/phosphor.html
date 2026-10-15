@@ -102,8 +102,13 @@ a { color: var(--cyan); }
 h1 { font-family: var(--ds-font-display); font-weight: 600; font-size: var(--fs-display); line-height: 1.05; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
 h1 em { font-style: normal; color: var(--cyan); }
 .lede { font-size: var(--fs-headline); line-height: 1.5; color: var(--text-secondary); max-width: none; margin: 18px 0 0; text-wrap: pretty; }
-.inst { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 20px; margin-top: 28px; align-items: start; }
-.frame { position: sticky; top: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 10px; }
+.inst { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+.deck { position: sticky; top: 0; z-index: 10; background: var(--bg); padding-block: 8px 4px; display: flex; flex-direction: column; gap: 8px; }
+.deck .tp, .deck .prog { margin-top: 0; }
+.frame canvas { max-height: 42vh; object-fit: contain; }
+.deck { width: min(100%, calc(42vh * 1.7778 + 22px)); margin-inline: auto; }
+.inst > .chap, .inst > .src, .inst > .readout { margin-top: 0; }
+.frame { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 10px; }
 .frame canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--ds-r-md); background: var(--bg); }
 .frame.drag { border-color: var(--cyan); background: var(--cyan-bg); }
 .tag { position: absolute; left: 22px; top: 20px; z-index: 1; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .12em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 3px 8px; }
@@ -123,6 +128,7 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; cursor: pointer; }
 .check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--cyan); }
 .hint { color: var(--muted); margin: 0; }
+.src { margin-top: 14px; }
 .tp { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 12px; }
 .tpl { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); }
 .tp input[type=range] { flex: 1 1 200px; min-width: 0; width: auto; }
@@ -171,8 +177,36 @@ details[open] > summary .alt-go { transform: rotate(45deg); }
 footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); }
 footer p { margin: 0 0 8px; }
 
-@media (max-width: 860px) { .inst, .read { grid-template-columns: minmax(0, 1fr); } details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
-@media (prefers-reduced-motion: reduce) { .alt-go { transition: none; } }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.panel { gap: 0; padding: 6px 18px; }
+details.grp { box-shadow: 0 -1px 0 var(--border); padding-block: 8px; }
+details.grp:first-child { box-shadow: none; }
+details.grp > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; min-height: 48px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .12em; text-transform: uppercase; color: var(--text-secondary); }
+details.grp > summary::-webkit-details-marker { display: none; }
+details.grp > summary::after { content: "+"; font-size: var(--fs-headline); transition: transform var(--dur-base) var(--ease-out); }
+details.grp[open] > summary { color: var(--text); }
+details.grp[open] > summary::after { transform: rotate(45deg); }
+.gb { display: flex; flex-direction: column; gap: 14px; padding: 2px 0 18px; }
+.pads .ph { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); background: none; border: 0; border-bottom: 2px solid transparent; min-height: 44px; cursor: pointer; }
+.pads .ph[aria-pressed=true] { color: var(--text); border-bottom-color: var(--cyan); }
+.readout { display: flex; flex-wrap: wrap; gap: 4px 28px; margin: 14px 0 0; color: var(--muted); }
+.ro b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+.fsb { position: absolute; right: 22px; top: 20px; z-index: 2; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); cursor: pointer; }
+.fsb:hover { border-color: var(--cyan); }
+.hud { display: none; position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; gap: 12px; align-items: center; padding: 12px 16px; background: var(--surface); border-top: 1px solid var(--border); transition: opacity var(--dur-base) var(--ease-out); }
+.hud input[type=range] { flex: 1 1 auto; min-width: 0; width: auto; }
+.hud .clock { font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+.frame.fs { position: fixed; max-height: none; inset: 0; z-index: 50; padding: 0; border: 0; border-radius: 0; background: var(--bg); }
+.frame:fullscreen { padding: 0; border: 0; border-radius: 0; background: var(--bg); }
+.frame.fs canvas, .frame:fullscreen canvas { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; object-fit: contain; border-radius: 0; }
+.frame.fs .hud { display: flex; }
+.frame.fs .fsb { display: none; }
+.frame.fs.idle .hud { opacity: 0; pointer-events: none; }
+.frame.fs.idle { cursor: none; }
+.frame.fs .tag { left: 16px; top: 16px; }
+@supports (interpolate-size: allow-keywords) { details.grp { interpolate-size: allow-keywords; } details.grp::details-content { block-size: 0; overflow: clip; transition: block-size var(--dur-base) var(--ease-out), content-visibility var(--dur-base) allow-discrete; } details.grp[open]::details-content { block-size: auto; } }
+@media (max-width: 860px) { .frame canvas { max-height: 34vh; } .deck { width: min(100%, calc(34vh * 1.7778 + 22px)); } details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
+@media (prefers-reduced-motion: reduce) { .alt-go, details.grp > summary::after, .hud { transition: none; } }
 </style>
 </head>
 <body>
@@ -184,96 +218,22 @@ footer p { margin: 0 0 8px; }
 
 <section class="hero" aria-labelledby="h1">
   <h1 id="h1">Music, drawn as <em>light</em>.</h1>
-  <p class="lede">Choose a song or a video from your own computer. It is analyzed in this page and never uploaded. Every frame is a function of the time you are on, so you can scrub it, jump between its chapters, and watch the picture sharpen from one pixel to vector.</p>
+  <p class="lede">Choose a song or video from your computer. It is analyzed here and never uploaded. Scrub it, jump between its chapters, and watch it sharpen from one pixel to vector.</p>
 
   <div class="inst" role="group" aria-label="Visualizer">
+  <div class="deck" id="deck">
     <div class="frame" id="frame">
       <span class="tag" id="tag">Scope</span>
+      <button class="fsb" id="fsb" type="button" aria-label="Full screen" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
       <canvas id="cv" width="960" height="540" aria-label="Audio visualization"></canvas>
+      <div class="hud" id="hud">
+        <button class="btn" type="button" id="hplay">Play</button>
+        <input type="range" id="hscrub" min="0" max="1000" value="0" aria-label="Scrub playback">
+        <span class="clock" id="hclock">0:00</span>
+        <button class="btn" type="button" id="hexit">Exit</button>
+      </div>
     </div>
-    <div class="panel">
-      <div>
-        <div class="ctl-label"><span>Source</span></div>
-        <div class="row"><button class="btn" id="pick" type="button">Choose a file</button><button class="btn" id="twinb" type="button" disabled>Save as twin</button></div>
-        <div id="twinform" hidden>
-          <div class="ctl-label"><label for="tt">Title</label></div><input class="txt" id="tt" type="text" autocomplete="off">
-          <div class="ctl-label"><label for="tc">Credit line</label></div><input class="txt" id="tc" type="text" autocomplete="off" placeholder="Made with Suno">
-          <div class="ctl-label"><label for="tl">Link (optional)</label></div><input class="txt" id="tl" type="url" autocomplete="off" placeholder="https://">
-          <p class="hint" id="tprov"></p>
-          <div class="row"><button class="btn" id="tsave" type="button">Save twin</button><button class="btn" id="tcancel" type="button">Cancel</button></div>
-        </div>
-        <input type="file" id="file" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden>
-        <p class="hint" style="margin-top:8px">Or drop one on the picture. mp3, m4a, mp4 and wav work. A twin is one HTML file with the song and this player inside, saved on your device only.</p>
-      </div>
-      <div>
-        <div class="ctl-label"><span>Mode</span></div>
-        <div class="seg" role="radiogroup" aria-label="Mode">
-          <input type="radio" name="mode" id="m0" value="0" checked><label for="m0">Scope</label>
-          <input type="radio" name="mode" id="m1" value="1"><label for="m1">Bars</label>
-          <input type="radio" name="mode" id="m2" value="2"><label for="m2">Radial</label>
-          <input type="radio" name="mode" id="m3" value="3"><label for="m3">Spectro</label>
-        </div>
-      </div>
-      <div>
-        <div class="ctl-label"><span>Zoom stages</span><output id="zso">Scope 1 of 5</output></div>
-        <div class="pads" id="pads" role="group" aria-label="Zoom stages by mode"></div>
-        <p class="hint" style="margin-top:6px">Keypad columns are Scope, Bars, Radial, Spectro. Swipe down a column to zoom in. Left and right arrows step the palette.</p>
-      </div>
-      <div>
-        <div class="ctl-label"><label for="res">Resolution</label><output id="reso">vector</output></div>
-        <input type="range" id="res" min="1" max="9" step="1" value="9">
-      </div>
-      <label class="check"><input type="checkbox" id="chsharp"><span>Chapters sharpen the picture, from coarse to fine.</span></label>
-      <div>
-        <div class="ctl-label"><label for="pal">Palette</label><output id="palo">8 bit, off</output></div>
-        <input type="range" id="pal" min="1" max="8" step="1" value="8">
-        <div class="seg" role="radiogroup" aria-label="Palette method" style="margin-top:8px">
-          <input type="radio" name="pm" id="pP" value="plain" checked><label for="pP">Plain steps</label>
-          <input type="radio" name="pm" id="pW" value="wood"><label for="pW">Woodblock</label>
-        </div>
-      </div>
-      <label class="check"><input type="checkbox" id="crt"><span>CRT lines: a scanline overlay for the retro look.</span></label>
-      <div>
-        <div class="ctl-label"><span>Curve</span><output id="cuo">linear</output></div>
-        <div class="seg" role="radiogroup" aria-label="Curve">
-          <input type="radio" name="cu" id="cu0" value="lin" checked><label for="cu0">Linear</label>
-          <input type="radio" name="cu" id="cu1" value="log"><label for="cu1">Log</label>
-          <input type="radio" name="cu" id="cu2" value="exp"><label for="cu2">Exp</label>
-          <input type="radio" name="cu" id="cu3" value="s"><label for="cu3">S</label>
-        </div>
-        <input type="range" id="cua" min="0" max="100" step="1" value="0" aria-label="Curve amount">
-      </div>
-      <div>
-        <div class="ctl-label"><label for="palsel">Palette swap</label></div>
-        <select class="txt" id="palsel"><option value="orig">Original</option><option value="arcs">ARCS</option><option value="phosphor">Phosphor green</option><option value="amber">Amber CRT</option><option value="indigo">Indigo and paper</option><option value="heat">Heat</option><option value="mono">Mono</option></select>
-      </div>
-      <label class="check"><input type="checkbox" id="calm" checked><span>Calm: limit how fast bars and rings can jump (photosensitivity). Turn off for fast, live playing.</span></label>
-      <label class="check"><input type="checkbox" id="inv"><span>Invert (key I).</span></label>
-      <div>
-        <div class="ctl-label"><span>Glitch</span><output id="gmo">off</output></div>
-        <label class="check"><input type="checkbox" id="perf"><span>Perform keys (backtick toggles). Hold to apply: Z stutter, X freeze, C tear, V RGB split, B blocks.</span></label>
-        <div class="row" style="margin-top:8px" id="gpads">
-          <button class="btn" type="button" data-g="stutter">Stutter</button><button class="btn" type="button" data-g="freeze">Freeze</button><button class="btn" type="button" data-g="tear">Tear</button><button class="btn" type="button" data-g="rgb">RGB</button><button class="btn" type="button" data-g="blocks">Blocks</button>
-        </div>
-        <div class="ctl-label" style="margin-top:8px"><label for="gamt">Glitch amount</label><output id="gamo">60%</output></div>
-        <input type="range" id="gamt" min="5" max="100" step="1" value="60">
-        <div class="seg" role="radiogroup" aria-label="Stutter size" style="margin-top:8px">
-          <input type="radio" name="ss" id="ss0" value="0.0625"><label for="ss0">1/16 beat</label>
-          <input type="radio" name="ss" id="ss1" value="0.125" checked><label for="ss1">1/8 beat</label>
-          <input type="radio" name="ss" id="ss2" value="0.25"><label for="ss2">1/4 beat</label>
-        </div>
-      </div>
-      <details id="kmap"><summary class="hint" style="cursor:pointer">Keyboard map</summary>
-        <p class="hint" id="lastkey" style="margin-top:6px">Press any key to see its code.</p>
-        <div class="row" style="margin-top:6px"><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
-        <p class="hint" id="learnhint" style="margin-top:6px"></p>
-      </details>
-      <p class="hint">Keys: 1 to 4 mode, space play, [ and ] resolution, left and right arrows palette, backtick Perform.</p>
-    </div>
-  </div>
-
   <div class="tp" id="tp">
-    <span class="tpl">Playback</span>
     <button class="btn" type="button" id="back">Back</button>
     <button class="btn" type="button" id="play">Play</button>
     <button class="btn" type="button" id="fwd">Forward</button>
@@ -281,38 +241,154 @@ footer p { margin: 0 0 8px; }
     <span class="clock" id="clock">0:00 / 0:00</span>
     <span class="hint" role="status" id="status"></span>
   </div>
-  <div class="chap" id="chap" aria-label="Chapters"></div>
-
-  <canvas id="strip" class="strip" width="1200" height="88" tabindex="0" aria-label="Slice strip. Drag to cut a slice, comma and period jump between snap points, Enter marks a slice start then end."></canvas>
-  <div class="sl" id="sl">
-    <span class="tpl">Snap</span>
-    <div class="seg" role="radiogroup" aria-label="Snap strength" style="min-width:300px;flex:0 1 360px">
-      <input type="radio" name="snap" id="s0" value="0"><label for="s0">Off</label>
-      <input type="radio" name="snap" id="s1" value="0.06"><label for="s1">Soft</label>
-      <input type="radio" name="snap" id="s2" value="0.12" checked><label for="s2">Medium</label>
-      <input type="radio" name="snap" id="s3" value="0.2"><label for="s3">Strong</label>
-    </div>
-    <button class="btn" type="button" id="solve">Solve order</button>
-    <button class="btn" type="button" id="clearsl">Clear slices</button>
-    <span class="hint" id="slhint">Drag on the strip to cut a slice. Hold Alt to bypass the magnets.</span>
+  <div class="prog" id="prog" hidden><i></i></div>
   </div>
-  <div class="sl" id="slist" aria-label="Slices"></div>
-  <p class="mag" id="magro"></p>
+  <div class="chap" id="chap" aria-label="Chapters"></div>
+  <div class="src">
+    <div>
+            <div class="row"><button class="btn" id="pick" type="button">Choose a file</button><button class="btn" id="twinb" type="button" disabled>Save as twin</button></div>
+            <div id="twinform" hidden>
+              <div class="ctl-label"><label for="tt">Title</label></div><input class="txt" id="tt" type="text" autocomplete="off">
+              <div class="ctl-label"><label for="tc">Credit line</label></div><input class="txt" id="tc" type="text" autocomplete="off" placeholder="Made with Suno">
+              <div class="ctl-label"><label for="tl">Link (optional)</label></div><input class="txt" id="tl" type="url" autocomplete="off" placeholder="https://">
+              <p class="hint" id="tprov"></p>
+              <div class="row"><button class="btn" id="tsave" type="button">Save twin</button><button class="btn" id="tcancel" type="button">Cancel</button></div>
+            </div>
+            <input type="file" id="file" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden>
+            <p class="hint" style="margin-top:8px">Drop a file on the picture, or choose one. A twin saves the song and this player as one HTML file on your device.</p>
+          </div>
+  </div>
 
-  <div class="read">
-    <div class="cell"><h2>Now</h2><div class="big" id="now">0 dB</div><p class="sub" id="nowsub"></p></div>
-    <div class="cell"><h2>Chapter</h2><div class="big" id="chnow">I</div><p class="sub" id="chsub"></p></div>
-    <div class="cell"><h2>Source</h2><div class="big" id="src">Demo signal</div><p class="sub" id="srcsub"></p></div>
+  <p class="readout" id="readout"><span class="ro"><b id="now">0% level</b> <span id="nowsub"></span></span><span class="ro">Chapter <b id="chnow">I</b> <span id="chsub"></span></span><span class="ro"><b id="src">Demo signal</b> <span id="srcsub"></span></span></p>
+    <div class="panel" id="ctl">
+      <details class="grp" name="grp" open>
+        <summary>Zoom</summary>
+        <div class="gb">
+          <div class="vh" aria-hidden="true">
+            <input type="radio" name="mode" id="m0" value="0" checked tabindex="-1"><input type="radio" name="mode" id="m1" value="1" tabindex="-1"><input type="radio" name="mode" id="m2" value="2" tabindex="-1"><input type="radio" name="mode" id="m3" value="3" tabindex="-1">
+          </div>
+          <div>
+            <div class="ctl-label"><span>Mode and zoom</span><output id="zso">Scope 1 of 5</output></div>
+            <div class="pads" id="pads" role="group" aria-label="Mode and zoom stage"></div>
+            <p class="hint" style="margin-top:6px">Pick a mode by its name. Keypad columns match: swipe down one to zoom in.</p>
+          </div>
+        </div>
+      </details>
+      <details class="grp" name="grp">
+        <summary>Resolution</summary>
+        <div class="gb">
+          <div>
+            <div class="ctl-label"><label for="res">Resolution</label><output id="reso">vector</output></div>
+            <input type="range" id="res" min="1" max="9" step="1" value="9">
+          </div>
+          <label class="check"><input type="checkbox" id="chsharp"><span>Chapters sharpen the picture, coarse to fine.</span></label>
+          <div>
+            <label class="check"><input type="checkbox" id="rloop"><span>Auto-loop resolution on the beat. Needs a tempo, falls back to 120 BPM.</span></label>
+            <div class="ctl-label" style="margin-top:10px"><span>Loop length</span><output id="rlo">2 bars, up</output></div>
+            <div class="seg" role="radiogroup" aria-label="Loop length">
+              <input type="radio" name="rb" id="rb0" value="1"><label for="rb0">1 bar</label>
+              <input type="radio" name="rb" id="rb1" value="2" checked><label for="rb1">2 bars</label>
+              <input type="radio" name="rb" id="rb2" value="4"><label for="rb2">4 bars</label>
+              <input type="radio" name="rb" id="rb3" value="8"><label for="rb3">8 bars</label>
+            </div>
+            <div class="seg" role="radiogroup" aria-label="Loop direction" style="margin-top:8px">
+              <input type="radio" name="rd" id="rd0" value="up" checked><label for="rd0">Forward</label>
+              <input type="radio" name="rd" id="rd1" value="down"><label for="rd1">Backward</label>
+              <input type="radio" name="rd" id="rd2" value="pp"><label for="rd2">Forward and back</label>
+            </div>
+          </div>
+        </div>
+      </details>
+      <details class="grp" name="grp">
+        <summary>Look</summary>
+        <div class="gb">
+          <label class="check"><input type="checkbox" id="calm" checked><span>Calm: limits how fast bars and rings can jump. Turn off for fast, live playing.</span></label>
+          <div>
+            <div class="ctl-label"><span>Curve</span><output id="cuo">linear</output></div>
+            <div class="seg" role="radiogroup" aria-label="Curve">
+              <input type="radio" name="cu" id="cu0" value="lin" checked><label for="cu0">Linear</label>
+              <input type="radio" name="cu" id="cu1" value="log"><label for="cu1">Log</label>
+              <input type="radio" name="cu" id="cu2" value="exp"><label for="cu2">Exp</label>
+              <input type="radio" name="cu" id="cu3" value="s"><label for="cu3">S</label>
+            </div>
+            <input type="range" id="cua" min="0" max="100" step="1" value="0" aria-label="Curve amount">
+          </div>
+          <div>
+            <div class="ctl-label"><label for="palsel">Palette swap</label></div>
+            <select class="txt" id="palsel"><option value="orig">Original</option><option value="arcs">ARCS</option><option value="phosphor">Phosphor green</option><option value="amber">Amber CRT</option><option value="indigo">Indigo and paper</option><option value="heat">Heat</option><option value="mono">Mono</option></select>
+          </div>
+          <label class="check"><input type="checkbox" id="inv"><span>Invert (key I)</span></label>
+          <div>
+            <div class="ctl-label"><label for="pal">Tones</label><output id="palo">8 bit, off</output></div>
+            <input type="range" id="pal" min="1" max="8" step="1" value="8">
+            <div class="seg" role="radiogroup" aria-label="Tone method" style="margin-top:8px">
+              <input type="radio" name="pm" id="pP" value="plain" checked><label for="pP">Plain steps</label>
+              <input type="radio" name="pm" id="pW" value="wood"><label for="pW">Woodblock</label>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="crt"><span>CRT lines</span></label>
+        </div>
+      </details>
+      <details class="grp" name="grp">
+        <summary>Glitch</summary>
+        <div class="gb">
+          <label class="check"><input type="checkbox" id="perf"><span>Perform keys (backtick). Hold: Z stutter, X freeze, C tear, V RGB split, B blocks.</span></label>
+          <div class="row" id="gpads">
+            <button class="btn" type="button" data-g="stutter">Stutter</button><button class="btn" type="button" data-g="freeze">Freeze</button><button class="btn" type="button" data-g="tear">Tear</button><button class="btn" type="button" data-g="rgb">RGB</button><button class="btn" type="button" data-g="blocks">Blocks</button>
+          </div>
+          <div>
+            <div class="ctl-label"><label for="gamt">Amount</label><output id="gamo">60%</output></div>
+            <input type="range" id="gamt" min="5" max="100" step="1" value="60">
+          </div>
+          <div>
+            <div class="ctl-label"><span>Stutter size</span><output id="gmo">off</output></div>
+            <div class="seg" role="radiogroup" aria-label="Stutter size">
+              <input type="radio" name="ss" id="ss0" value="0.0625"><label for="ss0">1/16 beat</label>
+              <input type="radio" name="ss" id="ss1" value="0.125" checked><label for="ss1">1/8 beat</label>
+              <input type="radio" name="ss" id="ss2" value="0.25"><label for="ss2">1/4 beat</label>
+            </div>
+          </div>
+        </div>
+      </details>
+      <details class="grp" name="grp" id="kmap">
+        <summary>Keys</summary>
+        <div class="gb">
+          <p class="hint">Space play. F full screen. 1 to 4 mode. Brackets resolution. Left and right arrows palette. Comma and period jump to snap points.</p>
+          <p class="hint" id="lastkey">Press any key to see its code.</p>
+          <div class="row"><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
+          <p class="hint" id="learnhint"></p>
+        </div>
+      </details>
+    </div>
   </div>
 
   <div class="sheet">
     <h2>The resolution ladder, same frame</h2>
     <div class="rungs" id="rungs"></div>
-    <p class="note" id="rungnote">Each picture is the current frame drawn at that rung. Above 480p the small pictures look alike.</p>
+    <p class="note" id="rungnote">Each picture is the current frame at that rung. Above 480p the small pictures look alike.</p>
   </div>
 </section>
 
 <section class="alts" aria-label="Details">
+  <details class="alt" id="slices">
+    <summary><span class="alt-n">Sampler</span><span class="alt-t">Slices and snap points</span><span class="alt-go" aria-hidden="true">+</span><span class="alt-s">Cut the song where a cut sounds clean, then see which slices flow into each other.</span></summary>
+    <div class="alt-body">
+      <canvas id="strip" class="strip" width="1200" height="88" tabindex="0" aria-label="Slice strip. Drag to cut a slice. Comma and period jump between snap points. Enter marks a slice start, then end."></canvas>
+      <div class="sl" id="sl">
+        <div class="seg" role="radiogroup" aria-label="Snap strength" style="min-width:300px;flex:0 1 360px">
+          <input type="radio" name="snap" id="s0" value="0"><label for="s0">Off</label>
+          <input type="radio" name="snap" id="s1" value="0.06"><label for="s1">Soft</label>
+          <input type="radio" name="snap" id="s2" value="0.12" checked><label for="s2">Medium</label>
+          <input type="radio" name="snap" id="s3" value="0.2"><label for="s3">Strong</label>
+        </div>
+        <button class="btn" type="button" id="solve">Solve order</button>
+        <button class="btn" type="button" id="clearsl">Clear</button>
+        <span class="hint" id="slhint">Drag on the strip to cut a slice. Hold Alt to skip the magnets.</span>
+      </div>
+      <div class="sl" id="slist" aria-label="Slices"></div>
+      <p class="mag" id="magro"></p>
+    </div>
+  </details>
   <details class="alt">
     <summary><span class="alt-n">Depth</span><span class="alt-t">How it works</span><span class="alt-go" aria-hidden="true">+</span><span class="alt-s">Analysis, determinism, the ladder, and what stays on your device.</span></summary>
     <div class="alt-body">
@@ -461,6 +537,7 @@ footer p { margin: 0 0 8px; }
     return e;
   }
   var ZS = [1, 1, 1, 1];
+  var RL = { on: false, bars: 2, dir: "up" }, GRID0 = 0, FS = false, NATIVE = false, idleT = 0;
   var MODE = 0, RUNG = 8, BITS = 8, WOOD = false, CHSHARP = false, CRT = false;
   function fidx(t) { return Math.max(0, Math.min(NF - 1, Math.floor(t * FPS))); }
   function scene(g, W, H, t) {
@@ -551,7 +628,13 @@ footer p { margin: 0 0 8px; }
   var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
   function tnow() { return playing ? Math.min(DUR, off0 + (AC.currentTime - t0ctx)) : tpaused; }
   function chapterAt(t) { var f = t * FPS, k = 0, i; for (i = 0; i < CHAPS.length; i++) if (CHAPS[i] <= f) k = i; return k; }
-  function rungFor(t) { if (!CHSHARP) return RUNG; var K = CHAPS.length, k = chapterAt(t); return K <= 1 ? 8 : Math.round(1 + 7 * k / (K - 1)); }
+  function loopRung(t) {
+    var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = (t - (BPM ? GRID0 : 0)) / (P * nb); ph -= Math.floor(ph);
+    var b = Math.min(nb - 1, Math.floor(ph * nb)), u;
+    if (RL.dir === "pp") u = 1 - Math.abs(2 * (b + 0.5) / nb - 1); else { u = nb > 1 ? b / (nb - 1) : 1; if (RL.dir === "down") u = 1 - u; }
+    return Math.max(0, Math.min(8, Math.round(u * 8)));
+  }
+  function rungFor(t) { if (RL.on) return loopRung(t); if (!CHSHARP) return RUNG; var K = CHAPS.length, k = chapterAt(t); return K <= 1 ? 8 : Math.round(1 + 7 * k / (K - 1)); }
   function fmt(s) { s = Math.max(0, s); return (s / 60 | 0) + ":" + ("0" + (s % 60 | 0)).slice(-2); }
   function updateUI(t) {
     var fi = fidx(t), lv = RMS ? RMS[fi] : 0, best = 0, b;
@@ -564,6 +647,7 @@ footer p { margin: 0 0 8px; }
     $("clock").textContent = fmt(t) + " / " + fmt(DUR);
     $("scrub").value = DUR ? Math.round(t / DUR * 1000) : 0;
     var btns = $("chap").children; for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-current", i === k ? "true" : "false");
+    $("hclock").textContent = fmt(t) + " / " + fmt(DUR); $("hscrub").value = DUR ? Math.round(t / DUR * 1000) : 0; $("hplay").textContent = playing ? "Pause" : "Play";
     $("tag").textContent = ["Scope", "Bars", "Radial", "Spectrogram"][MODE] + " · " + USED;
     var med = MS.length ? MS.slice().sort(function (a, z) { return a - z; })[MS.length >> 1] : LASTMS;
     drawStrip(t);
@@ -718,12 +802,12 @@ footer p { margin: 0 0 8px; }
       var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = Math.min(lo, sm[k]); hi = Math.max(hi, sm[k]); }
       if (sm[i] <= lo && hi - sm[i] >= 0.1 && i - lastV >= 9) { M.push({ t: i / FPS, w: KIND_W.valley, k: "valley" }); lastV = i; }
     }
-    BPM = 0;
+    BPM = 0; GRID0 = 0;
     if (onsets.length > 12) {
       var hist = new Float32Array(121), j;
       for (i = 1; i < onsets.length; i++) { var d = (onsets[i] - onsets[i - 1]) / FPS; if (d >= 0.2 && d <= 1.2) hist[Math.round(d * 100)]++; }
       var best = 0; for (j = 20; j <= 120; j++) { var v = hist[j] + 0.5 * (hist[j - 1] || 0) + 0.5 * (hist[j + 1] || 0); if (v > (hist[best] || 0) + 0.5 * ((hist[best - 1] || 0) + (hist[best + 1] || 0))) best = j; }
-      if (best) { var P = best / 100; while (60 / P > 180) P *= 2; while (60 / P < 70) P /= 2; BPM = Math.round(60 / P); var t0 = onsets[0] / FPS; for (var g = t0 % P; g < DUR && M.length < 6000; g += P) M.push({ t: g, w: KIND_W.grid, k: "grid" }); }
+      if (best) { var P = best / 100; while (60 / P > 180) P *= 2; while (60 / P < 70) P /= 2; BPM = Math.round(60 / P); var t0 = onsets[0] / FPS; GRID0 = t0 % P; for (var g = t0 % P; g < DUR && M.length < 6000; g += P) M.push({ t: g, w: KIND_W.grid, k: "grid" }); }
     }
     M.sort(function (x, y) { return x.t - y.t; });
     MAGNETS = M;
@@ -845,7 +929,7 @@ footer p { margin: 0 0 8px; }
   $("clearsl").addEventListener("click", function () { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; renderSlices(); drawStrip(tnow()); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -934,14 +1018,16 @@ footer p { margin: 0 0 8px; }
   function keyLabel(code) { var m = { NumLock: "CLR", NumpadEqual: "=", NumpadDivide: "÷", NumpadMultiply: "×", NumpadSubtract: "−", NumpadAdd: "+", NumpadEnter: "↵", NumpadDecimal: "." }; return m[code] || code.replace(/^Numpad/, "").replace(/^Key/, "").replace(/^Digit/, ""); }
   function buildPads() {
     var h = '<span></span>', c, r;
-    for (c = 0; c < 4; c++) h += '<span class="ph">' + MODENAMES[c] + "</span>";
+    for (c = 0; c < 4; c++) h += '<button class="ph" type="button" data-c="' + c + '" aria-pressed="' + (MODE === c) + '">' + MODENAMES[c] + "</button>";
     for (r = 0; r < 5; r++) { h += '<span class="pr">' + (r + 1) + "</span>"; for (c = 0; c < 4; c++) h += '<button class="pad" type="button" data-c="' + c + '" data-r="' + (r + 1) + '" aria-pressed="' + (ZS[c] === r + 1 && MODE === c) + '" aria-label="' + MODENAMES[c] + " zoom stage " + (r + 1) + '"><small>' + keyLabel(KEYMAP[c][r]) + "</small></button>"; }
     $("pads").innerHTML = h;
     Array.prototype.forEach.call($("pads").querySelectorAll(".pad"), function (b) { b.addEventListener("click", function () { setStage(+b.getAttribute("data-c"), +b.getAttribute("data-r")); }); });
+    Array.prototype.forEach.call($("pads").querySelectorAll(".ph"), function (b) { b.addEventListener("click", function () { setStage(+b.getAttribute("data-c"), ZS[+b.getAttribute("data-c")]); }); });
   }
   function setStage(c, r) {
     MODE = c; ZS[c] = r; $("m" + c).checked = true;
     Array.prototype.forEach.call($("pads").querySelectorAll(".pad"), function (b) { b.setAttribute("aria-pressed", (+b.getAttribute("data-c") === MODE && +b.getAttribute("data-r") === ZS[MODE]) ? "true" : "false"); });
+    Array.prototype.forEach.call($("pads").querySelectorAll(".ph"), function (b) { b.setAttribute("aria-pressed", +b.getAttribute("data-c") === MODE ? "true" : "false"); });
     $("zso").textContent = MODENAMES[c] + " " + r + " of 5"; frame(playing);
   }
   function cyclePalette(dir) { var sel = $("palsel"), n = sel.options.length, i = (sel.selectedIndex + dir + n) % n; sel.selectedIndex = i; LOOK.pal = sel.value; frame(playing); $("slhint").textContent = "Palette: " + sel.options[i].textContent + "."; }
@@ -1024,7 +1110,28 @@ footer p { margin: 0 0 8px; }
   fr.addEventListener("drop", function (e) { loadFile(e.dataTransfer.files[0]); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=mode]"), function (r) { r.addEventListener("change", function () { MODE = +r.value; $("zso").textContent = MODENAMES[MODE] + " " + ZS[MODE] + " of 5"; buildPads(); frame(false); }); });
   $("res").addEventListener("input", function () { RUNG = +$("res").value - 1; $("reso").textContent = resLabel(+$("res").value); frame(false); });
-  $("chsharp").addEventListener("change", function () { CHSHARP = $("chsharp").checked; $("res").disabled = CHSHARP; frame(false); });
+  function resLock() { $("res").disabled = CHSHARP || RL.on; }
+  function rlLabel() { $("rlo").textContent = RL.bars + (RL.bars > 1 ? " bars, " : " bar, ") + ({ up: "forward", down: "backward", pp: "forward and back" })[RL.dir] + (RL.on ? (BPM ? ", " + BPM + " BPM" : ", 120 BPM assumed") : ""); }
+  $("chsharp").addEventListener("change", function () { CHSHARP = $("chsharp").checked; resLock(); frame(false); });
+  $("rloop").addEventListener("change", function () { RL.on = $("rloop").checked; resLock(); rlLabel(); frame(playing); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=rb]"), function (r) { r.addEventListener("change", function () { RL.bars = +r.value; rlLabel(); frame(playing); }); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=rd]"), function (r) { r.addEventListener("change", function () { RL.dir = r.value; rlLabel(); frame(playing); }); });
+  function setFS(on) {
+    var f = $("frame");
+    if (on) { FS = true; f.classList.add("fs"); if (f.requestFullscreen) { try { f.requestFullscreen().then(function () { NATIVE = true; }, function () {}); } catch (e) { /* theater only */ } } }
+    else { FS = false; NATIVE = false; f.classList.remove("fs", "idle"); if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) { /* ignore */ } } }
+    cv.width = on ? 1600 : 960; cv.height = on ? 900 : 540;
+    $("fsb").setAttribute("aria-pressed", on ? "true" : "false"); wakeHud(); frame(playing);
+  }
+  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+  $("fsb").addEventListener("click", function () { setFS(true); });
+  $("hexit").addEventListener("click", function () { setFS(false); });
+  $("hplay").addEventListener("click", play);
+  $("hscrub").addEventListener("input", function () { seek(+$("hscrub").value / 1000 * DUR); });
+  $("frame").addEventListener("pointermove", wakeHud);
+  $("frame").addEventListener("pointerdown", wakeHud);
+  document.addEventListener("fullscreenchange", function () { if (FS && NATIVE && !document.fullscreenElement) setFS(false); });
+  $("cv").addEventListener("dblclick", function () { setFS(!FS); });
   $("pal").addEventListener("input", function () { BITS = +$("pal").value; $("palo").textContent = BITS === 8 ? "8 bit, off" : BITS + " bit, " + Math.pow(2, BITS) + " levels"; frame(false); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=pm]"), function (r) { r.addEventListener("change", function () { WOOD = r.value === "wood"; frame(false); }); });
   $("crt").addEventListener("change", function () { CRT = $("crt").checked; frame(false); });
@@ -1046,6 +1153,7 @@ footer p { margin: 0 0 8px; }
     if (stageKey(e)) return;
     if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && e.target.type !== "radio" && e.target.type !== "checkbox") return;
     if (e.key === "`") { e.preventDefault(); setPerform(!PERFORM); return; }
+    if ((e.key === "f" || e.key === "F") && !e.repeat && !e.metaKey && !e.ctrlKey) { e.preventDefault(); setFS(!FS); return; }
     if ((e.key === "i" || e.key === "I") && !e.repeat && !e.metaKey && !e.ctrlKey) { $("inv").checked = !$("inv").checked; LOOK.invert = $("inv").checked; frame(playing); return; }
     if (PERFORM && GKEYS[e.key.toLowerCase()] && !e.metaKey && !e.ctrlKey) { e.preventDefault(); if (!e.repeat) glitchOn(GKEYS[e.key.toLowerCase()]); return; }
     if (e.key >= "1" && e.key <= "4" && !e.code.startsWith("Numpad")) { var r = $("m" + (+e.key - 1)); r.checked = true; MODE = +e.key - 1; $("zso").textContent = MODENAMES[MODE] + " " + ZS[MODE] + " of 5"; buildPads(); frame(false); }
@@ -1053,6 +1161,7 @@ footer p { margin: 0 0 8px; }
     else if (e.key === ",") { e.preventDefault(); jumpMagnet(-1); }
     else if (e.key === ".") { e.preventDefault(); jumpMagnet(1); }
     else if (e.key === "Enter" && !/BUTTON/.test(e.target.tagName)) { e.preventDefault(); markSlice(); }
+    else if (e.key === "Escape" && FS) { setFS(false); }
     else if (e.key === "Escape") { PENDING = null; drawStrip(tnow()); }
     else if (e.key === "[" || e.key === "]") { var v = Math.max(1, Math.min(9, +$("res").value + (e.key === "]" ? 1 : -1))); $("res").value = v; $("res").dispatchEvent(new Event("input")); }
   });
