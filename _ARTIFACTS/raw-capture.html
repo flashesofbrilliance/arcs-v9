@@ -229,6 +229,12 @@ pre.decl { margin: 0; white-space: pre-wrap; word-break: break-word; font-family
 .btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 8px 12px; cursor: pointer; min-height: 44px; }
 .btn:hover { border-color: var(--cyan); }
 
+.tp { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 12px; }
+.tpl { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.tp .btn:focus-visible, .tp input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.tp input[type=range] { flex: 1 1 200px; min-width: 0; width: auto; }
+.tp .hint { flex: 1 1 100%; }
+.sheet .hid { fill: transparent; stroke: var(--border); stroke-width: 1; }
 footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: var(--fs-body); color: var(--muted); }
 footer > p { margin: 0 0 8px; }
 code { font-family: var(--ds-font-mono); font-size: var(--fs-body); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 1px 5px; }
@@ -297,6 +303,8 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-body); background: 
     </div>
   </div>
 
+  <div class="tp" data-track="develop"></div>
+
   <div class="read" aria-live="polite">
     <div class="cell">
       <h2>Gone at capture</h2>
@@ -350,7 +358,9 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-body); background: 
     <div class="sheet wide" id="sheetwrap">
       <svg id="sheet" viewBox="0 0 652 238" role="img" aria-label="Contact sheet of 271 receipts showing when the tributaries column became filled"></svg>
       <div class="legend"><span>Column empty</span><span class="l-on">Column filled</span><span class="l-ring">First of the unbroken run, after 2026-06-29</span></div>
+      <p class="hint" id="snapro" style="margin-top:10px"></p>
     </div>
+    <div class="tp" data-track="snap"></div>
     <p>The boundary is clean. One receipt on 2026-06-12 has the column. After it come 169 empty rows, then 73 filled in an unbroken run. The column was introduced and never backfilled, so 197 receipts depend on the raw fallback. That fallback is a patch over a missing backfill, not a design.</p>
     <div class="tbl wide"><table>
       <thead><tr><th>Check</th><th>Result</th><th>Not tested</th></tr></thead>
@@ -407,6 +417,7 @@ code { font-family: var(--ds-font-mono); font-size: var(--fs-body); background: 
       <div class="plug">
         <svg id="plug" viewBox="0 0 400 110" role="img" aria-label="Spark gap that narrows as gates are satisfied"></svg>
       </div>
+      <div class="tp" data-track="ignite"></div>
       <ul class="gates" id="gates">
         <li class="tier"><span>Tier 1: mechanical. Hard gates. Any failure stops here and nobody is asked anything.</span></li>
         <li class="pass"><i></i><span>Rebuildable: 197 of 197 empty rows, from the stored raw reply (dry run, read-only).</span></li>
@@ -509,6 +520,8 @@ Approval: pending</pre>
   });
 
   var G = 1 / 2.2;
+  var DEC = new Float32Array(256), ENC = new Uint8Array(4096), SHOT = {};
+  (function () { var i; for (i = 0; i < 256; i++) DEC[i] = Math.pow(i / 255, 2.2); for (i = 0; i < 4096; i++) ENC[i] = Math.round(255 * Math.pow(i / 4095, G)); })();
   function dev(x, ev, b, w) { var y = (x * Math.pow(2, ev) - b) / (w - b); if (y < 0) y = 0; else if (y > 1) y = 1; return Math.pow(y, G); }
   function hp(g) {
     var o = new Float32Array(N);
@@ -528,6 +541,7 @@ Approval: pending</pre>
   }
 
   var st = { cap: "A", ev: 1, bp: 0, wp: 1, mode: "dev", np: 4 };
+  var userHook = function () {}, plugApi = {}, lite = false;
   var img = ctx.createImageData(W, H);
 
   function render() {
@@ -539,16 +553,17 @@ Approval: pending</pre>
     var idealFloat = new Float32Array(N);
     for (i = 0; i < N; i++) idealFloat[i] = dev(raw[i], st.ev, st.bp, st.wp) * 255;
     if (st.mode === "cut") {
-      var cur = new Uint8Array(N), shotEV = -3;
-      for (i = 0; i < N; i++) cur[i] = Math.round(dev(raw[i], shotEV, 0, 1) * 255);
+      var shotEV = -3;
+      if (!SHOT[st.cap]) { var s8 = new Uint8Array(N); for (i = 0; i < N; i++) s8[i] = Math.round(dev(raw[i], shotEV, 0, 1) * 255); SHOT[st.cap] = s8; }
+      var cur = SHOT[st.cap].slice();
       var step = (st.ev - shotEV) / st.np;
       for (var p = 0; p < st.np; p++) {
-        var last = p === st.np - 1, m = Math.pow(2, step);
+        var last = p === st.np - 1, m = Math.pow(2, step), span = st.wp - st.bp;
         for (i = 0; i < N; i++) {
-          var lin = Math.pow(cur[i] / 255, 2.2) * m;
-          if (last) { lin = (lin - st.bp) / (st.wp - st.bp); }
+          var lin = DEC[cur[i]] * m;
+          if (last) { lin = (lin - st.bp) / span; }
           if (lin < 0) lin = 0; else if (lin > 1) lin = 1;
-          cur[i] = Math.round(Math.pow(lin, G) * 255);
+          cur[i] = ENC[(lin * 4095 + 0.5) | 0];
         }
       }
       final8 = cur; shown = new Float32Array(N);
@@ -557,6 +572,7 @@ Approval: pending</pre>
     var d = img.data;
     for (i = 0; i < N; i++) { var g = final8[i]; d[i * 4] = g; d[i * 4 + 1] = g; d[i * 4 + 2] = g; d[i * 4 + 3] = 255; }
     ctx.putImageData(img, 0, 0);
+    if (lite) { $("tag").textContent = st.mode === "dev" ? "Developed from raw" : "Re-cut " + st.np + (st.np === 1 ? " pass" : " passes"); return; }
 
     var hd = hp(shown), hi = hp(ideal), s = stats(hd, hi);
     var seen = s.sa, real = Math.max(0, s.r) * s.sa, fake = Math.max(0, seen - real);
@@ -593,6 +609,7 @@ Approval: pending</pre>
   function bind(id, key, fmt) {
     var el = $(id), out = $(id === "ev" ? "evo" : id === "bp" ? "bpo" : id === "wp" ? "wpo" : "npo");
     function f() {
+      userHook();
       var v = parseFloat(el.value);
       if (key === "bp" && v > st.wp - 0.05) { v = st.wp - 0.05; el.value = v; }
       if (key === "wp" && v < st.bp + 0.05) { v = st.bp + 0.05; el.value = v; }
@@ -604,9 +621,10 @@ Approval: pending</pre>
   bind("bp", "bp", function (v) { return v.toFixed(2); });
   bind("wp", "wp", function (v) { return v.toFixed(2); });
   bind("np", "np", function (v) { return String(v); });
-  Array.prototype.forEach.call(document.querySelectorAll("input[name=cap]"), function (r) { r.addEventListener("change", function () { st.cap = r.value; render(); }); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=cap]"), function (r) { r.addEventListener("change", function () { userHook(); st.cap = r.value; render(); }); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=mode]"), function (r) {
     r.addEventListener("change", function () {
+      userHook();
       st.mode = r.value; $("passwrap").hidden = st.mode !== "cut";
       $("hint").textContent = st.mode === "dev" ? "Develop re-runs the edit from the stored capture every time. Nothing is lost between passes." : "Re-cut applies each pass to the last 8-bit output, the way a polished gem loses material at every cut. Raise the passes and lift the exposure to see banding.";
       render();
@@ -615,38 +633,56 @@ Approval: pending</pre>
 
   /* contact sheet of the 271 receipts: 1 = tributaries column filled */
   var BITS = "0000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111111111111111111111111111111111111111111111111111111111111111111111";
+  var SN = { cells: [], ring: null };
   (function sheet() {
-    var svg = $("sheet"), cols = 28, cs = 20, gap = 3.5, NS = "http://www.w3.org/2000/svg", html = "", ring = 198;
+    var svg = $("sheet"), cols = 28, cs = 20, gap = 3.5, NS = "http://www.w3.org/2000/svg", ring = 198;
     for (var i = 0; i < BITS.length; i++) {
       var c = i % cols, r = Math.floor(i / cols), x = 4 + c * (cs + gap), y = 4 + r * (cs + gap);
-      html += '<rect class="' + (BITS.charAt(i) === "1" ? "on" : "off") + '" x="' + x + '" y="' + y + '" width="' + cs + '" height="' + cs + '" rx="3"/>';
-      if (i === ring) html += '<rect class="ring" x="' + (x - 2) + '" y="' + (y - 2) + '" width="' + (cs + 4) + '" height="' + (cs + 4) + '" rx="4"/>';
+      var rc = document.createElementNS(NS, "rect");
+      rc.setAttribute("class", BITS.charAt(i) === "1" ? "on" : "off"); rc.setAttribute("x", x); rc.setAttribute("y", y); rc.setAttribute("width", cs); rc.setAttribute("height", cs); rc.setAttribute("rx", 3);
+      svg.appendChild(rc); SN.cells.push(rc);
+      if (i === ring) {
+        var rg = document.createElementNS(NS, "rect");
+        rg.setAttribute("class", "ring"); rg.setAttribute("x", x - 2); rg.setAttribute("y", y - 2); rg.setAttribute("width", cs + 4); rg.setAttribute("height", cs + 4); rg.setAttribute("rx", 4);
+        svg.appendChild(rg); SN.ring = rg;
+      }
     }
-    svg.innerHTML = html;
   })();
+  /* Snap track: receipts appear in creation order, with a dwell around the slope change at index 198 (receipt 199). */
+  function snapN(t) { if (t >= 1) return BITS.length; if (t < 0.55) return Math.floor(196 * t / 0.55); if (t < 0.75) return Math.floor(196 + 6 * (t - 0.55) / 0.2); return Math.min(BITS.length, Math.floor(202 + 69 * (t - 0.75) / 0.25)); }
+  function snapApply(t) {
+    var n = snapN(t), i, lo = Math.max(0, n - 20), filled = 0;
+    for (i = 0; i < SN.cells.length; i++) SN.cells[i].setAttribute("class", i >= n ? "hid" : (BITS.charAt(i) === "1" ? "on" : "off"));
+    SN.ring.setAttribute("class", n > 198 ? "ring" : "hid");
+    for (i = lo; i < n; i++) if (BITS.charAt(i) === "1") filled++;
+    $("snapro").textContent = "Receipts shown: " + n + " of " + BITS.length + ". Filled in the last " + (n - lo) + ": " + (n - lo ? Math.round(100 * filled / (n - lo)) : 0) + "%." + (n > 198 ? " The slope changes at receipt 199." : "");
+  }
+  snapApply(1);
 
   /* altitude 5: gates and the spark gap */
   (function () {
+    var actual = 0;
     var svg = $("plug"), ids = ["g1", "g2", "g3"], tier1 = [true, true, true], base = tier1.filter(Boolean).length, open1 = base === tier1.length;
     ids.forEach(function (i) { $(i).disabled = !open1; });
     if (!open1) $("t2note").textContent = "Tier 2: judgment. Locked until tier 1 is green.";
-    function draw(met, total) {
+    function draw(met, total, arc) {
       var gap = Math.round(150 * (total - met) / total), x1 = 200 - gap / 2, x2 = 200 + gap / 2;
       var h = '<rect class="el" x="40" y="48" width="' + (x1 - 40 - 6) + '" height="14" rx="3"/><rect class="el" x="' + (x2 + 6) + '" y="48" width="' + (354 - x2) + '" height="14" rx="3"/>';
       h += '<rect class="el" x="' + (x1 - 10) + '" y="38" width="10" height="34" rx="3"/><rect class="el" x="' + x2 + '" y="38" width="10" height="34" rx="3"/>';
-      if (met === total) { h += '<polyline class="arc" points="' + (x1) + ',55 ' + (x1 + 6) + ',40 ' + (x1 + 12) + ',70 ' + (x1 + 18) + ',40 ' + (x1 + 24) + ',70 ' + (x2) + ',55"/>'; }
+      if (arc === undefined ? met === total : arc) { h += '<polyline class="arc" points="' + (x1) + ',55 ' + (x1 + 6) + ',40 ' + (x1 + 12) + ',70 ' + (x1 + 18) + ',40 ' + (x1 + 24) + ',70 ' + (x2) + ',55"/>'; }
       else { h += '<line class="gapline" x1="' + x1 + '" y1="55" x2="' + x2 + '" y2="55"/>'; }
       svg.innerHTML = h;
     }
     function upd() {
       var n = base; ids.forEach(function (i) { if ($(i).checked) n++; });
-      draw(n, 6);
+      actual = n; draw(n, 6);
       var lab = $("armlab"), txt = $("armtxt");
       if (n === 6) { lab.textContent = "ARMED"; lab.className = "y sharp"; txt.textContent = "All six gates are met. Nothing fires from this page; the write runs from a terminal session on the owner's go."; }
       else { lab.textContent = "NOT ARMED"; lab.className = "y grain"; txt.textContent = n + " of 6 gates met. " + (6 - n) + " open, and each needs a person."; }
       var d = $("decl").textContent.replace(/Approval: .*/, "Approval: " + ($("g3").checked ? "given" : "pending")).replace(/\(draft, not yet in force\)|\(in force\)/, ($("g2").checked ? "(in force)" : "(draft, not yet in force)"));
       $("decl").textContent = d;
     }
+    plugApi.draw = draw; plugApi.met = function () { return actual; };
     ids.forEach(function (i) { $(i).addEventListener("change", upd); });
     $("copy").addEventListener("click", function () {
       var txt = $("decl").textContent, out = $("copied");
@@ -657,18 +693,65 @@ Approval: pending</pre>
   })();
 
   render();
-  /* one short opening sweep that ends at the resting state; skipped for reduced motion */
-  var rm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!rm && window.requestAnimationFrame) {
-    var t0 = null, from = -1.5, to = 1, evEl = $("ev"), evo = $("evo");
-    (function tick(t) {
-      if (t0 === null) t0 = t;
-      var k = Math.min(1, (t - t0) / 1500), e = 1 - Math.pow(1 - k, 3);
-      st.ev = from + (to - from) * e; evEl.value = st.ev; evo.textContent = (st.ev >= 0 ? "+" : "") + st.ev.toFixed(1) + " EV"; render();
-      if (k < 1) requestAnimationFrame(tick);
-      else { st.ev = to; evEl.value = to; evo.textContent = "+1.0 EV"; render(); }
-    })(performance.now());
+  /* ADR-087: one timeline, time as a recipe parameter. A track is a pure function of t in [0,1] over the same
+     render path as the static page. t = 1 is the resting page. */
+  var DUR = { intro: 1500, develop: 4200, snap: 6000, ignite: 2600 };
+  var LABEL = { develop: "Replay development", snap: "Replay the receipts", ignite: "Preview the strike" };
+  var rm = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function ease(x) { x = x < 0 ? 0 : x > 1 ? 1 : x; return x * x * (3 - 2 * x); }
+  function lerp(a, b, k) { return a + (b - a) * k; }
+  function setEV(v) { st.ev = v; $("ev").value = v; $("evo").textContent = (v >= 0 ? "+" : "") + v.toFixed(1) + " EV"; render(); }
+  var TRACKS = {
+    intro:   { apply: function (t) { setEV(lerp(-1.5, 1, ease(t))); } },
+    develop: { apply: function (t) { var v; if (t < 0.5) v = lerp(-2, 1, ease(t / 0.5)); else if (t < 0.8) v = lerp(1, 4, ease((t - 0.5) / 0.3)); else v = lerp(4, 1, ease((t - 0.8) / 0.2)); setEV(v); } },
+    snap:    { apply: function (t) { snapApply(t); } },
+    ignite:  { apply: function (t) { var a = plugApi.met(), met, arc = false; if (t < 0.55) met = lerp(a, 6, ease(t / 0.55)); else if (t < 0.8) { met = 6; arc = true; } else met = lerp(6, a, ease((t - 0.8) / 0.2)); plugApi.draw(met, 6, t >= 1 ? a === 6 : arc); } }
+  };
+  var tpos = { intro: 1, develop: 1, snap: 1, ignite: 1 }, cur = null, playing = false, last = 0, raf = 0, interval = 0, costs = [];
+  function ui(id) { return document.querySelector('.tp[data-track="' + id + '"]'); }
+  function say(id, m) { var u = ui(id); if (u) u.querySelector("[data-s]").textContent = m; }
+  function sync(id) { var u = ui(id); if (!u) return; u.querySelector("input").value = Math.round(tpos[id] * 1000); u.querySelector("[data-a=play]").textContent = (playing && cur === id) ? "Pause" : "Play"; }
+  function rest(id) { lite = false; tpos[id] = 1; TRACKS[id].apply(1); sync(id); }
+  function halt(msg) {
+    if (!playing) return;
+    playing = false; cancelAnimationFrame(raf);
+    if (lite) { lite = false; render(); }
+    if (cur === "intro") { rest("intro"); return; }
+    sync(cur); if (msg !== false) say(cur, msg || "Paused.");
   }
+  function leave(id) { if (cur && cur !== id) { halt(false); if (cur !== "intro") { rest(cur); say(cur, ""); } } cur = id; }
+  function seek(id, v) { leave(id); tpos[id] = v < 0 ? 0 : v > 1 ? 1 : v; TRACKS[id].apply(tpos[id]); sync(id); }
+  function budget(ms) { costs.push(ms); if (costs.length > 5) costs.shift(); if (costs.length === 5) { var s = costs.slice().sort(function (a, b) { return a - b; }); interval = s[2] > 12 ? 33 : 0; lite = interval > 0; } }
+  function frame(now) {
+    if (!playing) return;
+    var dt = Math.max(0, now - last);
+    if (dt < interval) { raf = requestAnimationFrame(frame); return; }
+    last = now; tpos[cur] = Math.min(1, tpos[cur] + dt / DUR[cur]);
+    if (tpos[cur] >= 1) lite = false;
+    var c0 = performance.now(); TRACKS[cur].apply(tpos[cur]); budget(performance.now() - c0);
+    if (cur !== "intro") sync(cur);
+    if (tpos[cur] >= 1) { playing = false; if (cur !== "intro") { say(cur, "Finished. The page is back at rest."); sync(cur); } return; }
+    raf = requestAnimationFrame(frame);
+  }
+  function play(id) {
+    if (playing) halt(false);
+    leave(id); if (tpos[id] >= 1) tpos[id] = 0;
+    playing = true; last = performance.now(); interval = 0; costs = [];
+    if (id !== "intro") say(id, ""); sync(id); raf = requestAnimationFrame(frame);
+  }
+  userHook = function () { halt(); };
+  document.addEventListener("visibilitychange", function () { if (document.hidden) halt(); });
+  Array.prototype.forEach.call(document.querySelectorAll(".tp"), function (u) {
+    var id = u.getAttribute("data-track");
+    u.innerHTML = '<span class="tpl">' + LABEL[id] + '</span><button class="btn" type="button" data-a="back">Back</button><button class="btn" type="button" data-a="play">Play</button><button class="btn" type="button" data-a="fwd">Forward</button><input type="range" min="0" max="1000" value="1000" aria-label="Scrub: ' + LABEL[id] + '"><span class="hint" role="status" data-s></span>';
+    if (rm) u.querySelector("[data-a=play]").hidden = true;
+    u.querySelector("[data-a=play]").addEventListener("click", function () { if (playing && cur === id) halt(); else play(id); });
+    u.querySelector("[data-a=back]").addEventListener("click", function () { halt(false); seek(id, tpos[id] - 0.1); });
+    u.querySelector("[data-a=fwd]").addEventListener("click", function () { halt(false); seek(id, tpos[id] + 0.1); });
+    u.querySelector("input").addEventListener("input", function (e) { halt(false); seek(id, parseFloat(e.target.value) / 1000); });
+  });
+  /* the opening sweep runs on the same engine; skipped for reduced motion */
+  if (!rm && window.requestAnimationFrame) play("intro");
 })();
 </script>
 </body>
