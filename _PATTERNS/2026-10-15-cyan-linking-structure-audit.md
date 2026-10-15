@@ -100,3 +100,21 @@ LOAD-BEARING: the Firmament coding still decides B8; Cyan's own words lean compa
 COUNTERINTUITIVE: nothing moved a prior by more than 0.3. R2 (0.8) and R3 (0.95) held.
 
 Open after round 2: Pod mechanics from a Cyan source, developer interviews (Kickstarter updates #28 and #35 need the logged-in page), Myst scale-1 sentence, and a per-title movement source for B11.
+
+## Echo tests run (2026-10-15, after round 2)
+
+Run on prod via `supabase db query --linked` (read-only select) and a grep of this worktree. Kills were fixed in backlog rows echo-raw-capture-regenerate-briefs, echo-surface-restates-receipt-audit and echo-fake-exit-audit before running.
+
+Test 1, raw capture (receipt is the raw, surfaces are developments): PARTLY SUPPORTED, with one design finding.
+- `rawResponse` is filled on 271 of 271 receipts and parses as JSON on all 271 after fence stripping. The raw is really kept.
+- Parsed columns match the raw: `trueNorth` 0 mismatches of 271, `nciScore` 0 of 271.
+- Tributaries: the persisted `atgTributaries` column is null on 197 of 271; those surfaces fall back to `rawResponse` (src/lib/tributaries.ts). So for 73 percent of receipts the raw is the only source, and the fallback is working as designed. Of the 74 with both, 1 differs: the column holds short labels (Meta, Challenge, Adjacent) where the raw has longer ones. That is a write-time relabel, a lawful transform, not a loss, but I compared labels only, not prompt text, for the other 73.
+- NOT run: regenerating three briefs and diffing. The brief prose (`situationFraming`) comes from a model call (`/api/brief/[receiptId]`), is generated once and stored, so a regenerate is not deterministic and would spend the shared API budget. By design that layer is a baked output, not a re-developable one. The "regenerate and diff" kill therefore cannot be applied to it. The prior survives for the deterministic layer (publicReceipt, scrubbing, tributaries) and is untested for the prose layer. Note also that the brief call reads parsed columns plus prep, not `rawResponse`, so "develop from the raw" is not what the brief does.
+
+Test 2, surfaces restate the receipt: NOT TESTED beyond a structural check.
+- All four receipt and brief pages (brief, brief reflect, receipt, receipt reflect) read through the one endpoint `/api/brief/[receiptId]`, which supports "one description, many entry points" for that family.
+- Eleven other client pages also fetch receipt-family APIs, and 19 files read Receipt or Brief rows directly. I did not audit whether any of them carry claims not traceable to a receipt field. Kill not applied.
+
+Test 3, fake exits: NO FINDING, weak test. A static scan of src/app found no `href="#"`, empty hrefs, no-op onClick handlers or permanent `disabled` buttons (the one hit is the design-test demo). Only 9 static internal hrefs exist; most navigation is built from template strings or router calls, which this scan cannot see. It rules out the crudest dead controls only. Undeclared one-way doors were not audited.
+
+Net: nothing killed. One finding worth keeping: the brief prose layer is the baked JPEG in this metaphor, and the receipt raw is intact.
