@@ -159,3 +159,7 @@ Zach asked for interactive buttons in full screen, plus a tilde and space bar wi
 ## Results, amendment 4 (full screen HUD)
 
 H1 to H3 pass: five HUD buttons plus four mode buttons are 52 px tall, the HUD takes 133 of 900 px, Rainbow, Zoom, the Space bar and the `~` button all work in full screen, and a key press wakes a faded HUD. Older suites and gates pass. Untested on a real phone.
+
+## Results: Impeccable gauntlet (2026-10-15)
+
+Found by screenshots at desktop, phone, phone landscape and the Pocket skin: (1) the sticky deck let the kid buttons show beside it, fixed with a full-width deck background; (2) the landscape phone HUD took 193 of 390 px, now 113 after compact buttons and no Space bar button on short screens; (3) Play was not the obvious first action, now the accent button with a one-line first-run hint that hides after the first play; (4) Back and Forward hidden from the kid deck; (5) checkbox rows were 24 px tall, now 44; (6) the badge reads "Stays on your computer". One regression caught and fixed: the deck width cap also shrank the full screen picture (F2). Not confirmed: use by a real child on a real iPad.
