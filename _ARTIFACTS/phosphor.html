@@ -106,7 +106,13 @@ h1 em { font-style: normal; color: var(--cyan); }
 .deck { position: sticky; top: 0; z-index: 10; background: var(--bg); padding-block: 8px 4px; display: flex; flex-direction: column; gap: 8px; }
 .deck .tp, .deck .prog { margin-top: 0; }
 .frame canvas { max-height: 42vh; object-fit: contain; }
-.deck { width: min(100%, calc(42vh * 1.7778 + 22px)); margin-inline: auto; }
+.deck > * { width: min(100%, calc(42vh * 1.7778 + 22px)); margin-inline: auto; }
+.deck { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+.deck #back, .deck #fwd { display: none; }
+.deck #play { background: var(--cyan-bg); border-color: var(--cyan); }
+.check { min-height: 44px; align-items: center; }
+.first { color: var(--text-secondary); text-align: center; margin: 0; }
+.first[hidden] { display: none; }
 .inst > .chap, .inst > .src, .inst > .readout { margin-top: 0; }
 .frame { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 10px; }
 .frame canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: var(--ds-r-md); background: var(--bg); }
@@ -212,7 +218,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .bb.sp { flex: 4 1 220px; }
 .hud input[type=range] { flex: 1 1 auto; min-width: 0; width: auto; }
 .hud .clock { font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; color: var(--text-secondary); }
-.frame.fs { position: fixed; max-height: none; inset: 0; z-index: 50; padding: 0; border: 0; border-radius: 0; background: var(--bg); }
+.frame.fs { position: fixed; width: 100%; margin: 0; max-height: none; inset: 0; z-index: 50; padding: 0; border: 0; border-radius: 0; background: var(--bg); }
 .frame:fullscreen { padding: 0; border: 0; border-radius: 0; background: var(--bg); }
 .frame.fs canvas, .frame:fullscreen canvas { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; object-fit: contain; border-radius: 0; }
 .frame.fs .hud { display: flex; }
@@ -221,8 +227,9 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .frame.fs.idle { cursor: none; }
 .frame.fs .tag { left: 16px; top: 16px; }
 @supports (interpolate-size: allow-keywords) { details.grp { interpolate-size: allow-keywords; } details.grp::details-content { block-size: 0; overflow: clip; transition: block-size var(--dur-base) var(--ease-out), content-visibility var(--dur-base) allow-discrete; } details.grp[open]::details-content { block-size: auto; } }
+@media (max-height: 520px) { .hudk .bb.sm { min-height: 44px; padding: 4px 8px; } .hudk .sp { display: none; } .hud { padding: 8px 12px; gap: 8px; } }
 @media (max-width: 520px) { .kid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 860px) { .frame canvas { max-height: 34vh; } .deck { width: min(100%, calc(34vh * 1.7778 + 22px)); } details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
+@media (max-width: 860px) { .frame canvas { max-height: 34vh; } .deck > * { width: min(100%, calc(34vh * 1.7778 + 22px)); } details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
 @media (prefers-reduced-motion: reduce) { .alt-go, details.grp > summary::after, .hud { transition: none; } }
 </style>
 </head>
@@ -230,7 +237,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 <main class="lane">
 <header class="bar">
   <div class="mark"><b>ARCS</b> &nbsp;/&nbsp; Phosphor</div>
-  <div class="row"><button class="btn" id="skinb" type="button" aria-pressed="false">Pocket skin</button><div class="stage">Analyzed on your device</div></div>
+  <div class="row"><button class="btn" id="skinb" type="button" aria-pressed="false">Pocket skin</button><div class="stage">Stays on your computer</div></div>
 </header>
 
 <section class="hero" aria-labelledby="h1">
@@ -264,6 +271,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     <span class="clock" id="clock">0:00 / 0:00</span>
     <span class="hint" role="status" id="status"></span>
   </div>
+  <p class="first" id="first">Press Play to hear the demo, or pick your own song below.</p>
   <div class="prog" id="prog" hidden><i></i></div>
   </div>
   <div class="kid" id="kid">
@@ -712,7 +720,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       if (mine !== startSeq) return;
       stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.connect(AC.destination);
       off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
-      $("play").textContent = "Pause"; $("status").textContent = ""; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
+      $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
     }
     if (AC.state === "running") begin();
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
