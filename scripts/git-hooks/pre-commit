@@ -447,7 +447,7 @@ fi
 # marked @prim blocks) must stay identical to the page. See scripts/kit_primitive_sync.py.
 if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
   if git diff --cached --name-only | grep -qE '^(_ARTIFACTS/phosphor\.html|src/ui-kit/recoil-report/2[1-6]-)'; then
-    if ! python3 scripts/kit_primitive_sync.py --check; then
+    if ! python3 scripts/kit_primitive_sync.py --check || ! python3 scripts/inline_token_sync.py --check _ARTIFACTS/phosphor.html; then
       echo "✖ commit blocked: a kit primitive and _ARTIFACTS/phosphor.html disagree. The kit is the source: copy the kit @prim block into the page." >&2
       exit 1
     fi
