@@ -74,6 +74,26 @@ check(await T(() => document.getElementById('twinb').disabled), 'S6: Save as twi
 const log = await T(() => window.PhosphorTest.sing.plog())
 check(log.some((x) => x.e === 'tap:rec') && log.some((x) => x.e === 'rec') && log.every((x) => typeof x.t === 'number' && typeof x.e === 'string'), `S7: the play log holds names and times only (${log.length} events)`)
 
+// O sing over a song: the 22.05 kHz click track is the backing while the audio context runs at its own rate
+await pg.click('label[for="srcA"]'); await pg.waitForTimeout(300)
+await pg.setInputFiles('#file', wav); await pg.waitForFunction(() => document.getElementById('src').textContent !== 'My loop' && document.getElementById('status').textContent === '', null, { timeout: 60000 })
+const songDur = await pg.evaluate(() => window.PhosphorTest.dur())
+await pg.click('label[for="srcB"]'); await pg.waitForFunction(() => window.PhosphorTest.sing.state() === 'armed', null, { timeout: 15000 })
+check(await pg.evaluate(() => window.PhosphorTest.sing.ovr()), 'O1: Sing over this song is offered when a song is loaded')
+await pg.click('#ovr'); await pg.waitForFunction(() => window.PhosphorTest.sing.state() === 'loop' && document.getElementById('status').textContent === '' && document.getElementById('src').textContent === 'Song and voice', null, { timeout: 60000 })
+const o1 = await pg.evaluate(() => ({ d: window.PhosphorTest.sing.dur(), sr: window.PhosphorTest.sing.srate(), ac: new AudioContext().sampleRate }))
+check(Math.abs(o1.d - songDur) < 0.01 && o1.sr === 44100, `O1: the song becomes the loop base at the page's decode rate and keeps its length (${o1.d.toFixed(3)} s against ${songDur.toFixed(3)} s, ${o1.sr} Hz, microphone context ${o1.ac} Hz${o1.ac === o1.sr ? ', same rate: the resample path is not exercised here' : ', different rate: resample path exercised'})`)
+const base = await pg.evaluate(() => window.PhosphorTest.sing.sum())
+await pg.waitForFunction(() => document.getElementById('play').textContent === 'Pause', null, { timeout: 8000 }).catch(() => {})
+await pg.click('#rec'); await pg.waitForTimeout(3500); await pg.click('#rec')
+await pg.waitForFunction(() => window.PhosphorTest.sing.state() === 'loop' && window.PhosphorTest.sing.hist() === 1 && document.getElementById('status').textContent === '', null, { timeout: 90000 })
+const o2 = await pg.evaluate(() => ({ d: window.PhosphorTest.sing.dur(), s: window.PhosphorTest.sing.sum() }))
+check(Math.abs(o2.s - base) > 1e-3, `O2: the voice layer changes the mix (${base.toFixed(2)} then ${o2.s.toFixed(2)})`)
+check(Math.abs(o2.d - songDur) < 0.01, `O3: the length is unchanged after the layer (${o2.d.toFixed(3)} s)`)
+await pg.click('#undo'); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && window.PhosphorTest.sing.hist() === 0, null, { timeout: 90000 })
+check(Math.abs((await pg.evaluate(() => window.PhosphorTest.sing.sum())) - base) < 1e-6, 'O4: Undo restores the song exactly')
+check(await pg.evaluate(() => document.getElementById('twinb').disabled), 'O5: Save as twin stays off for a performance (the song alone cannot stand in for it)')
+
 // S8 leaving Sing stops the microphone
 await pg.click('label[for="srcA"]'); await pg.waitForTimeout(300)
 check((await T(() => window.PhosphorTest.sing.live())) === 0 && (await T(() => window.PhosphorTest.sing.state())) === 'off', 'S8: going back to Song closes the microphone')
