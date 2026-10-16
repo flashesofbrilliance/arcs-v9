@@ -39,6 +39,7 @@ await set('cu0', true)
 // L2 invert
 await set('inv', true); const invPx = await px(); const comp = basePx.every((p, i) => p.every((v, k) => Math.abs(v - (255 - invPx[i][k])) <= 1 || Math.abs((255 - v) - invPx[i][k]) <= 1))
 check(comp, 'L2: Original with Invert is the RGB complement at six sample points')
+await pg.waitForTimeout(400) // invert is rate limited to protect against fast flashing (guard check G1)
 await set('inv', false); check((await hash()) === base, 'L2: inverting twice returns the picture byte-identical')
 // L3 palettes
 for (const name of ['arcs', 'phosphor', 'amber', 'indigo', 'heat', 'mono']) {

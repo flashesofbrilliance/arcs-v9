@@ -460,6 +460,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <summary>Keys</summary>
         <div class="gb">
           <p class="hint">Space play. F full screen. 1 to 4 mode. Brackets resolution. Left and right arrows palette. Comma and period jump to snap points.</p>
+          <label class="check"><input type="checkbox" id="fullvol"><span>Full volume for grown-ups. Turns off the kids' volume limit.</span></label>
           <p class="hint" id="lastkey">Press any key to see its code.</p>
           <div class="row"><button class="btn" type="button" id="plogb">Copy play log</button><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
           <p class="hint" id="learnhint"></p>
@@ -760,6 +761,19 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   /* ---------------- playback: follows the audio clock ---------------- */
   var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
   var SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
+  /* Output bus: everything the page plays goes through a limiter and a kid volume ceiling (about minus 6 dB), so no effect or layer can be painfully loud. A grown-up can turn it off. */
+  var BUSFULL = false;
+  function outBus() {
+    if (!AC._bus) {
+      var c = AC.createDynamicsCompressor(), g = AC.createGain(), a = AC.createAnalyser();
+      c.threshold.value = -6; c.knee.value = 0; c.ratio.value = 20; c.attack.value = 0.003; c.release.value = 0.1; g.gain.value = 0.7; a.fftSize = 2048;
+      var sh = AC.createWaveShaper(), cv = new Float32Array(2049), k; for (k = 0; k < 2049; k++) { var x = (k - 1024) / 1024 * 2; cv[k] = 0.5 * Math.tanh(x / 0.5); } sh.curve = cv; sh.oversample = "2x";
+      c.connect(g); g.connect(sh); sh.connect(AC.destination); sh.connect(a); AC._bus = c; AC._gain = g; AC._ana = a; AC._cmp = c; AC._sh = sh; AC._cv = cv;
+    }
+    return AC._bus;
+  }
+  function busFull(on) { BUSFULL = on; if (AC && AC._bus) { AC._cmp.ratio.value = on ? 1 : 20; AC._cmp.threshold.value = on ? 0 : -6; AC._gain.gain.value = on ? 1 : 0.7; AC._sh.curve = on ? null : AC._cv; } }
+  function outPeak() { if (!AC || !AC._ana) return -1; var d = new Float32Array(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) if (Math.abs(d[i]) > m) m = Math.abs(d[i]); return m; }
   var LOOPPLAY = false, FORCEBPM = 0, PLOG = [], SING = { state: "off", mirror: false, lvl: 0, wave: new Float32Array(1024), chunks: [], hist: [], pcm: null, click: false, bpm: 100, lastClick: -9, raf: 0 };
   function tnow() { if (SP.on) return spNow(); if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : Math.min(DUR, x); }
   function chapterAt(t) { var f = t * FPS, k = 0, i; for (i = 0; i < CHAPS.length; i++) if (CHAPS[i] <= f) k = i; return k; }
@@ -814,7 +828,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     var mine = ++startSeq;
     function begin() {
       if (mine !== startSeq) return;
-      stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(AC.destination);
+      stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(outBus());
       off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
       $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
     }
@@ -1102,7 +1116,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     var now = performance.now(); if (now - lastGrain < 45 || !BUF) return; lastGrain = now;
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
     var s = AC.createBufferSource(), g = AC.createGain(), c = AC.currentTime; s.buffer = BUF; g.gain.setValueAtTime(0.0001, c); g.gain.linearRampToValueAtTime(0.8, c + 0.01); g.gain.linearRampToValueAtTime(0.0001, c + 0.09);
-    s.connect(g); g.connect(AC.destination); s.start(0, Math.max(0, Math.min(DUR - 0.11, tt)), 0.1);
+    s.connect(g); g.connect(outBus()); s.start(0, Math.max(0, Math.min(DUR - 0.11, tt)), 0.1);
   }
   function scrubTo(e) { var tt = stripT(e); tpaused = tt; frame(false); grain(tt); }
   $("strip").addEventListener("pointerdown", function (e) {
@@ -1151,7 +1165,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     SP.plan.ev.forEach(function (e) {
       var when = base + e.st, s = AC.createBufferSource(), g = AC.createGain();
       s.buffer = BUF; SP.rates.push(s.playbackRate.value); g.gain.setValueAtTime(0.0001, when); g.gain.linearRampToValueAtTime(1, when + 0.003); g.gain.setValueAtTime(1, Math.max(when + 0.003, when + e.dur - 0.006)); g.gain.linearRampToValueAtTime(0.0001, when + e.dur);
-      s.connect(g); g.connect(AC.destination); s.start(when, e.t0, e.dur + 0.01); SP.srcs.push(s);
+      s.connect(g); g.connect(outBus()); s.start(when, e.t0, e.dur + 0.01); SP.srcs.push(s);
     });
     if (SP.srcs.length > 400) SP.srcs.splice(0, SP.srcs.length - 400);
   }
@@ -1170,7 +1184,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, outPeak: outPeak, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1224,7 +1238,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       g.putImageData(id, 0, 0);
     }
   }
-  function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(AC.destination); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
+  function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(outBus()); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
   function glitchOn(kind) {
     if (kind === "tear" || kind === "rgb" || kind === "blocks") { if (!GLITCH[kind]) { GLITCH[kind] = true; gmLabel(); frame(playing); } return; }
     if (!BUF || GLITCH.stut || SP.on) return;
@@ -1233,7 +1247,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     var go = function () {
       if (!GLITCH.stut) return;
       if (playing) stopSource(); else { stopSource(); }
-      GSRC = AC.createBufferSource(); GSRC.buffer = BUF; GSRC.loop = true; GSRC.loopStart = t0; GSRC.loopEnd = t0 + L; GSRC.connect(AC.destination); GSRC.start(0, t0);
+      GSRC = AC.createBufferSource(); GSRC.buffer = BUF; GSRC.loop = true; GSRC.loopStart = t0; GSRC.loopEnd = t0 + L; GSRC.connect(outBus()); GSRC.start(0, t0);
     };
     GLITCH.stut = { L: L, t0: t0, kind: kind }; gmLabel();
     if (AC.state === "running") go(); else AC.resume().then(go);
@@ -1402,7 +1416,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       SING.stream = s; if (AC.state !== "running") AC.resume();
       SING.src = AC.createMediaStreamSource(s); SING.ana = AC.createAnalyser(); SING.ana.fftSize = 1024;
       SING.proc = AC.createScriptProcessor(2048, 1, 1); SING.mute = AC.createGain(); SING.mute.gain.value = 0;
-      SING.src.connect(SING.ana); SING.src.connect(SING.proc); SING.proc.connect(SING.mute); SING.mute.connect(AC.destination);
+      SING.src.connect(SING.ana); SING.src.connect(SING.proc); SING.proc.connect(SING.mute); SING.mute.connect(outBus());
       SING.proc.onaudioprocess = function (e) {
         var d = e.inputBuffer.getChannelData(0), s0 = 0, i; for (i = 0; i < d.length; i++) s0 += d[i] * d[i]; SING.lvl = Math.sqrt(s0 / d.length);
         if (SING.state === "rec" || SING.state === "layer") { SING.chunks.push(new Float32Array(d)); SING.got = (SING.got || 0) + d.length; if (SING.state === "layer" && SING.pcm && SING.got >= SING.pcm.length) { SING.got = -1e12; setTimeout(singFinishLayer, 0); } }
@@ -1438,7 +1452,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   function singClick(t, accent) {
     var o = AC.createOscillator(), g = AC.createGain(); o.frequency.value = accent ? 1500 : 1000; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.25, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
-    o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + 0.06);
+    o.connect(g); g.connect(outBus()); o.start(t); o.stop(t + 0.06);
   }
   function singPump() {
     if (!AC || !SING.click) return; var P = 60 / SING.bpm, now = AC.currentTime, ref, k, t;
@@ -1601,6 +1615,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { $("hwob").addEventListener(n, function () { glitchOff("rgb"); glitchOff("blocks"); }); });
   $("hperf").addEventListener("click", function () { setPerform(!PERFORM); });
   $("hspace").addEventListener("click", play);
+  $("fullvol").addEventListener("change", function () { busFull($("fullvol").checked); });
   function seqOn(on) { SEQ.on = on; $("sqon").checked = on; $("hrun").setAttribute("aria-pressed", on ? "true" : "false"); if (!on) seqRelease(); }
   $("sqon").addEventListener("change", function () { seqOn($("sqon").checked); });
   $("hrun").addEventListener("click", function () { seqOn(!SEQ.on); });
@@ -1629,7 +1644,9 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   $("cua").addEventListener("input", function () { LOOK.amt = +$("cua").value / 100; frame(playing); });
   $("palsel").addEventListener("change", function () { LOOK.pal = $("palsel").value; frame(playing); });
   $("calm").addEventListener("change", function () { CALM = $("calm").checked; frame(playing); });
-  $("inv").addEventListener("change", function () { LOOK.invert = $("inv").checked; frame(playing); });
+  var lastInv = -1e9;
+  function setInvert(v) { var now = performance.now(); if (now - lastInv < 340) { $("inv").checked = LOOK.invert; return; } lastInv = now; LOOK.invert = v; $("inv").checked = v; frame(playing); }
+  $("inv").addEventListener("change", function () { setInvert($("inv").checked); });
   $("perf").addEventListener("change", function () { setPerform($("perf").checked); });
   $("gamt").addEventListener("input", function () { GAMT = +$("gamt").value / 100; $("gamo").textContent = $("gamt").value + "%"; frame(playing); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=ss]"), function (r) { r.addEventListener("change", function () { STSIZE = parseFloat(r.value); }); });
@@ -1644,7 +1661,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && e.target.type !== "radio" && e.target.type !== "checkbox") return;
     if (e.key === "`") { e.preventDefault(); setPerform(!PERFORM); return; }
     if ((e.key === "f" || e.key === "F") && !e.repeat && !e.metaKey && !e.ctrlKey) { e.preventDefault(); setFS(!FS); return; }
-    if ((e.key === "i" || e.key === "I") && !e.repeat && !e.metaKey && !e.ctrlKey) { $("inv").checked = !$("inv").checked; LOOK.invert = $("inv").checked; frame(playing); return; }
+    if ((e.key === "i" || e.key === "I") && !e.repeat && !e.metaKey && !e.ctrlKey) { setInvert(!LOOK.invert); return; }
     if (PERFORM && GKEYS[e.key.toLowerCase()] && !e.metaKey && !e.ctrlKey) { e.preventDefault(); if (!e.repeat) glitchOn(GKEYS[e.key.toLowerCase()]); return; }
     if (e.key >= "1" && e.key <= "4" && !e.code.startsWith("Numpad")) { var r = $("m" + (+e.key - 1)); r.checked = true; MODE = +e.key - 1; $("zso").textContent = MODENAMES[MODE] + " " + ZS[MODE] + " of 5"; buildPads(); frame(false); }
     else if (e.key === " " && e.target.tagName !== "BUTTON") { e.preventDefault(); play(); }
