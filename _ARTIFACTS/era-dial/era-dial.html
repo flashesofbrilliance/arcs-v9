@@ -111,6 +111,7 @@ h1, .era, dd, dt, .ticks, .eyebrow, .lbl, canvas, output, input, li, a { line-he
 .btns button:focus-visible, #scene:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .hint { color: var(--dimmed); }
 #scene { touch-action: none; cursor: default; }
+a { color: var(--cyan); }
 @media (max-width: 480px) { body { padding: 20px var(--gutter) 48px; } }
 </style>
 </head>
@@ -141,9 +142,11 @@ h1, .era, dd, dt, .ticks, .eyebrow, .lbl, canvas, output, input, li, a { line-he
     <dl class="grid">
       <div><dt>Grid</dt><dd id="r-grid"></dd></div>
       <div><dt>Palette</dt><dd id="r-pal"></dd></div>
+      <div><dt>Pixels per frame</dt><dd id="r-px"></dd></div>
       <div><dt>Band limit</dt><dd id="r-cut"></dd></div>
       <div><dt>Ceiling for this grid</dt><dd id="r-ceil"></dd></div>
     </dl>
+    <p class="note"><a id="to-chart" href="bits-per-frame.html#dial=0">See where this mode sits on the pixel chart</a>, next to the first consumer product at each pixel count.</p>
     <p class="note">The band limit is where 99% of horizontal spectral energy ends, in cycles per frame width, over 16 sampled rows (the statistic in scripts/sharpness_cutoff.py). It is a reading, not a verdict. Rendered interface graphics with crisp edges are the case where this statistic is weakest (rounds 2 and 4 of the pattern note), and a later year can read lower than an earlier one. That inversion is the finding, not a bug.</p>
   </section>
 
@@ -294,6 +297,8 @@ h1, .era, dd, dt, .ticks, .eyebrow, .lbl, canvas, output, input, li, a { line-he
   function reading(luma, e) {
     var cut = cutoff(luma, e.w, e.h);
     document.getElementById("r-grid").textContent = e.w + " x " + e.h + " px";
+    document.getElementById("r-px").textContent = (e.w * e.h).toLocaleString("en-US");
+    document.getElementById("to-chart").href = "bits-per-frame.html#dial=" + slider.value;
     document.getElementById("r-pal").textContent = e.mode === "mono" ? "1-bit, ordered dither" : e.mode === "vga16" ? "16 fixed colours, no dither" : "unquantized (depth not sourced)";
     document.getElementById("r-cut").textContent = cut + " cycles per frame width";
     document.getElementById("r-ceil").textContent = (e.w >> 1) + " cycles per frame width";
