@@ -75,4 +75,13 @@
   /* Motion. PROPOSED: DESIGN.md has no motion section yet (ADR-087 action item). Calm and precise. */
   --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
 }
