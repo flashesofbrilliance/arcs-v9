@@ -151,7 +151,9 @@ h1 em { font-style: normal; color: var(--cyan); }
 .molt[hidden] { display: none; }
 .molt .hint { flex: 1 1 280px; min-width: 0; color: var(--text); }
 html[data-lvl="1"] [data-min="2"], html[data-lvl="1"] [data-min="3"], html[data-lvl="1"] [data-min="4"], html[data-lvl="2"] [data-min="3"], html[data-lvl="2"] [data-min="4"], html[data-lvl="3"] [data-min="4"] { display: none !important; }
-.genome { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.genome, .molt { width: min(100%, calc(42vh * 1.7778 + 22px)); margin-inline: auto; }
+@media (max-height: 860px) { .deck > *, .genome, .molt { width: min(100%, calc(32vh * 1.7778 + 22px)); } .deck #first { display: none; } }
+.genome { margin-top: 0; display: flex; flex-direction: column; gap: 8px; }
 #gcv { display: block; width: 100%; height: auto; aspect-ratio: 760 / 100; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
 .gtxt { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
 .gtxt .hint { flex: 1 1 260px; min-width: 0; }
@@ -320,10 +322,6 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         </div>
       </div>
     </div>
-  <div class="genome" id="genome" data-min="2">
-    <canvas id="gcv" width="760" height="100" role="img" aria-label="Genome ribbon: the song's DNA above the look's RNA, one codon per beat"></canvas>
-    <div class="gtxt"><p class="hint" id="gline" aria-live="off">Play a song to read its genome.</p><button class="btn" type="button" id="grecipe">Copy recipe</button></div>
-  </div>
   <div class="tp" id="tp">
     <button class="btn" type="button" id="back">Back</button>
     <button class="btn" type="button" id="play">Play</button>
@@ -332,13 +330,17 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     <span class="clock" id="clock">0:00 / 0:00</span>
     <span class="hint" role="status" id="status"></span>
   </div>
-  <div class="molt" id="molt" role="status" aria-live="polite" hidden>
-    <p class="hint" id="moltt"></p>
-    <div class="row"><button class="btn" type="button" id="moltyes">Show more</button><button class="btn" type="button" id="moltno">Not now</button></div>
-  </div>
   <p class="first" id="first">Press Play to hear the demo, or pick your own song below.</p>
   <div class="prog" id="prog" hidden><i></i></div>
   <div class="nkeys" id="nkeys" role="group" aria-label="Notes, keys 1 to equals" hidden></div>
+  </div>
+  <div class="genome" id="genome" data-min="2">
+    <canvas id="gcv" width="760" height="100" role="img" aria-label="Genome ribbon: the song's DNA above the look's RNA, one codon per beat"></canvas>
+    <div class="gtxt"><p class="hint" id="gline" aria-live="off">Play a song to read its genome.</p><button class="btn" type="button" id="grecipe">Copy recipe</button></div>
+  </div>
+  <div class="molt" id="molt" role="status" aria-live="polite" hidden>
+    <p class="hint" id="moltt"></p>
+    <div class="row"><button class="btn" type="button" id="moltyes">Show more</button><button class="btn" type="button" id="moltno">Not now</button></div>
   </div>
   <div class="seg" id="srcseg" role="radiogroup" aria-label="Song or Sing">
     <input type="radio" name="src" id="srcA" value="song" checked><label for="srcA">Song</label>
