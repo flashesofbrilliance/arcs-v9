@@ -53,3 +53,17 @@ Predictions written before the first run: G1 would fail on at least one effect; 
 
 Wabi-sabi, structured order and quantized improvisation are one axis, and the rate of chaotic decay along it is a design parameter that is up to us. In ARCS terms (WORLD.md phase states) gas and liquid are the loose end, solid is locked order, and superionic is structure and flow fused, which is quantized improvisation. With ARCS we can make pockets of order: places that hold their order while their surroundings decay.
 Design (not built): an order level from 0 to 1 per pattern; a decay rate (how long order takes to dissolve once untended); pockets (bars or steps held at order 1); one-tap Tidy to restore order; the picture's fidelity follows order through the existing resolution rungs (earned fidelity). Decay is deterministic: timing jitter and dropout are seeded from the step and cycle, so the same pattern at the same time plays the same way. Checks to pre-register: order 1 equals the grid exactly; disorder rises monotonically with untended time at the chosen rate; a pocket stays exact while its neighbors drift; Tidy returns to the grid; the result is identical on replay. What would disprove it: a child reads decay as breakage and is frustrated rather than curious; nobody notices it; pockets make the pattern too hard to follow. Safeguards: a slow default rate and a one-tap Tidy that is always visible.
+
+## Life, and the ARCS primitives as the play grammar (Zach, 2026-10-15)
+
+Order, decay, repair and renewal are one loop, which is also the ARCS idiom order (germinate, seed, sprout, pollinate) with its ripeness words (composted, molted): **seed** (a captured moment, seed extraction) to **sprout** (the pattern grows one note at a time, the Glass Grow idea) to **bloom** (full order, a pocket of order) to **drift** (wabi-sabi decay at a chosen rate) to **repair** (Tidy, drawn with a gold seam) to **compost** (what falls away feeds a new seed, reseed remix) and back to seed.
+
+The seven ROM primitives, as kid-facing rules:
+- **Notomation:** presets, suggested drums and quantizing are offers; nothing silently corrects a child's choice (scaffold, never overrule revealed preference). Check to pre-register: no suggestion applies itself.
+- **Hypersphere context manifold:** the local play log becomes five coordinates (what he made, alone or with a grown-up, tempo and phase, what drives him, flow) and feeds the altitude dial and speeding up and slowing down. Kept on the device.
+- **Hyperstition pipeline:** imagine (pick Dino) to test (try to break it with glitch) to receipt (keep a moment) to ROM (favorites graduate to "my loops").
+- **Golden inchworm:** rough sketch (red), refine (golden), pick the one hit that matters (needle); also the shape of Copy me.
+- **Orthogonal echo detector:** the same pattern shown across sound, picture and counting ("this is like that").
+- **Kintsugi:** restoring order shows as a visible gold seam; the break and the repair both stay visible.
+- **Write-lock:** Lock this bar makes a pocket of order; saving a file or Forget needs a grown-up's explicit yes. Irreversibility is declared.
+Lowest-effort first: gold seams on Tidy, Lock a bar, a local "my loops" shelf with a parent delete, and the Notomation invariant as a check. A Life lane (a cellular automaton growing the pattern) is a later experiment. Nothing here is built; it is a design bet, with no learning claim.
