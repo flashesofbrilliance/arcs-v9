@@ -19,7 +19,7 @@ for (const r of roots) { try { pw = createRequire(path.join(r, 'x.js'))('playwri
 if (!pw) { console.error('playwright not resolvable (set PLAYWRIGHT_ROOT)'); process.exit(2) }
 const fails = []
 const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) fails.push(msg) }
-const url = pathToFileURL(path.resolve(file)).href + '?shutter=off'   // the pinhole shutter (on for real users) makes frames depend on the last frame; the pixel checks need pure frames
+const url = pathToFileURL(path.resolve(file)).href + '?shutter=off&level=4'   // the pinhole shutter (on for real users) makes frames depend on the last frame; the pixel checks need pure frames
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'phosphor-'))
 
 function wav(name, fn, secs = 8, sr = 44100) {
