@@ -277,6 +277,13 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .fsb:hover { border-color: var(--cyan); }
 .hud { display: none; position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; gap: 12px; align-items: center; padding: 12px 16px; background: var(--surface); border-top: 1px solid var(--border); transition: opacity var(--dur-base) var(--ease-out); }
 .sqwrap { overflow-x: auto; }
+.sqtabs { display: none; }
+.sqwrap.lane { overflow-x: visible; }
+.sqwrap.lane .sqtabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.sqwrap.lane .sqhead, .sqwrap.lane .sqrow:not(.sqsel) { display: none; }
+.sqwrap.lane .sqrow.sqsel { grid-template-columns: repeat(4, minmax(0, 1fr)); min-width: 0; gap: 8px; }
+.sqwrap.lane .sqlab { grid-column: 1 / -1; text-align: left; }
+.sqwrap.lane .sq { min-height: 64px; font-size: var(--fs-body); }
 .sqrow { display: grid; grid-template-columns: 64px repeat(16, minmax(0, 1fr)); gap: 4px; align-items: center; min-width: 760px; margin-bottom: 4px; }
 .sqlab, .sqn { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary); text-align: center; }
 .sqn.b { color: var(--text); }
@@ -308,6 +315,14 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 @media (max-width: 520px) { .kid, .kid.presets { grid-template-columns: repeat(2, minmax(0, 1fr)); } #kid > .bb:last-child, .kid.presets > .bb:last-child { grid-column: 1 / -1; } }
 @media (max-width: 860px) { .frame canvas { max-height: 34vh; } .deck > * { width: min(100%, calc(34vh * 1.7778 + 22px)); } details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
 @media (prefers-reduced-motion: reduce) { .alt-go, details.grp > summary::after, .hud { transition: none; } }
+@media (pointer: coarse) {
+  .pad, .pads .ph { min-height: 56px; }
+  .pads { gap: 8px; }
+  .seg label { min-height: 48px; min-width: 44px; display: flex; align-items: center; justify-content: center; }
+  .bb.sm { min-height: 56px; }
+  .btn { min-height: 48px; }
+  .stk > * { min-height: 56px; }
+}
 </style>
 </head>
 <body>
@@ -2138,11 +2153,14 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     if (a.jog && SEQ.lastJog !== a.jogKey) { SEQ.lastJog = a.jogKey; setStage(MODE, a.jog); }
   }
   function seqBuild(el) {
-    var h = '<div class="sqrow"><span></span>', i;
+    var h = '<div class="sqrow sqhead"><span></span>', i;
     for (i = 0; i < 16; i++) h += '<span class="sqn' + (i % 4 === 0 ? " b" : "") + '" data-i="' + i + '">' + (i + 1) + "</span>";
     h += "</div>";
-    LANES.forEach(function (l) { h += '<div class="sqrow"><span class="sqlab">' + l[1] + "</span>"; for (i = 0; i < 16; i++) h += '<button class="sq' + (i % 4 === 0 ? " b" : "") + '" type="button" data-l="' + l[0] + '" data-i="' + i + '" aria-pressed="false" aria-label="' + l[1] + " step " + (i + 1) + '"></button>'; h += "</div>"; });
-    el.innerHTML = h;
+    LANES.forEach(function (l) { h += '<div class="sqrow" data-row="' + l[0] + '"><span class="sqlab">' + l[1] + "</span>"; for (i = 0; i < 16; i++) h += '<button class="sq' + (i % 4 === 0 ? " b" : "") + '" type="button" data-l="' + l[0] + '" data-i="' + i + '" aria-pressed="false" aria-label="' + l[1] + " step " + (i + 1) + '"></button>'; h += "</div>"; });
+    el.innerHTML = '<div class="sqtabs" role="group" aria-label="Pattern lane">' + LANES.map(function (l) { return '<button class="btn" type="button" data-lane="' + l[0] + '" aria-pressed="false">' + l[1] + "</button>"; }).join("") + "</div>" + h;
+    function pick(lane) { Array.prototype.forEach.call(el.querySelectorAll("[data-row]"), function (r) { r.classList.toggle("sqsel", r.getAttribute("data-row") === lane); }); Array.prototype.forEach.call(el.querySelectorAll("[data-lane]"), function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-lane") === lane ? "true" : "false"); }); }
+    Array.prototype.forEach.call(el.querySelectorAll("[data-lane]"), function (b) { b.addEventListener("click", function () { pick(b.getAttribute("data-lane")); }); }); pick(LANES[0][0]);
+    var mq = window.matchMedia("(max-width: 700px), (pointer: coarse) and (max-width: 1000px)"); function lane() { el.classList.toggle("lane", mq.matches); } lane(); if (mq.addEventListener) mq.addEventListener("change", lane);
     Array.prototype.forEach.call(el.querySelectorAll(".sq"), function (b) { b.addEventListener("click", function () { var l = b.getAttribute("data-l"), i = +b.getAttribute("data-i"), v = SEQ.cells[l][i]; SEQ.cells[l][i] = l === "detail" ? (v + 1) % 10 : l === "jog" ? (v + 1) % 6 : (v ? 0 : 1); seqPaint(); }); });
   }
   seqBuild($("seqg")); seqBuild($("seqf")); seqPaint();
