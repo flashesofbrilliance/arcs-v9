@@ -76,3 +76,28 @@ if "--std" in sys.argv:
     for path in sys.argv[sys.argv.index("--std") + 1:]:
         w, h, pix = sc.read_png(open(path, "rb").read()); v = [x for r in pix for x in r]; mu = sum(v) / len(v)
         print(f"{path.rsplit('/', 1)[-1]:12} std {(sum((x - mu) ** 2 for x in v) / len(v)) ** 0.5:.2f}")
+
+# ---- Round 6: --r5 <256 png> ... prints std, K4 gap with nearest-neighbour and bilinear foils, and Spearman of std vs each gap ----
+def _rank(v):
+    s = sorted(range(len(v)), key=lambda i: v[i]); r = [0.0] * len(v); i = 0
+    while i < len(s):
+        j = i
+        while j + 1 < len(s) and v[s[j + 1]] == v[s[i]]: j += 1
+        for k in range(i, j + 1): r[s[k]] = (i + j) / 2 + 1
+        i = j + 1
+    return r
+def spearman(a, b):
+    ra, rb = _rank(a), _rank(b); n = len(a); ma, mb = sum(ra) / n, sum(rb) / n
+    den = (sum((x - ma) ** 2 for x in ra) * sum((y - mb) ** 2 for y in rb)) ** .5
+    return sum((x - ma) * (y - mb) for x, y in zip(ra, rb)) / den if den else float("nan")
+if "--r5" in sys.argv:
+    print("\nr5 (std, K4 gap nearest, K4 gap bilinear)")
+    sd, gn, gb = [], [], []
+    for path in sys.argv[sys.argv.index("--r5") + 1:]:
+        w, h, pix = sc.read_png(open(path, "rb").read()); v = [x for r in pix for x in r]; mu = sum(v) / len(v)
+        s = (sum((x - mu) ** 2 for x in v) / len(v)) ** 0.5; d64 = down(pix, 4); a256 = absc(pix)
+        n_, b_ = a256 - absc(nn4(d64)), a256 - absc(sc._bilinear2x(sc._bilinear2x(d64)))
+        sd.append(s); gn.append(n_); gb.append(b_)
+        print(f"{path.rsplit('/', 1)[-1]:12} std {s:5.2f}  nearest {n_:6.1f}  bilinear {b_:6.1f}")
+    print(f"clear 4.8: nearest {sum(g >= 4.8 for g in gn)}/{len(gn)}  bilinear {sum(g >= 4.8 for g in gb)}/{len(gb)}")
+    print(f"spearman std vs nearest gap {spearman(sd, gn):.3f}   std vs bilinear gap {spearman(sd, gb):.3f}")

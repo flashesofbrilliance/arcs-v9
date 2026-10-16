@@ -166,9 +166,33 @@ B18 (footprint). A 256 crop of a 1024-px derivative spans about 4x more scene th
 B19 (smoothness). Per-crop luma standard deviation (a statistic independent of the detector) predicts the K4 gap across the 9 native crops: Spearman rank correlation of std versus gap at least 0.7. Prior 0.5. Kill: under 0.7 (then flat content does not explain which crops fail).
 Limits stated now: nine crops from one scan; if both are killed the flip stays unexplained, and that is a result.
 
-### Round 5 results, 2026-10-15 (`python3 -I scripts/era_b1_probe.py --down4 <1024 png> ...` and `--std <256 png> ...`; crops and 1024 regions cut from the same master with `sips`, scratchpad only; Spearman computed in a one-off inline script, not committed)
+### Round 5 results, 2026-10-15 (ground: merged in arcs-v9 PR 1352 at 77605497, receipt 2026-10-15--b1-round5-gap-flip-pr1352--ZH; `python3 -I scripts/era_b1_probe.py --down4 <1024 png> ...` and `--std <256 png> ...`; crops and 1024 regions cut from the same master with `sips`, scratchpad only; Spearman computed in a one-off inline script, not committed)
 
 - B18 FAILED (prior 0.6). On 1024-px native regions box-downsampled 4x to 256, the K4 gap cleared 4.8 on 0 of 9 (gaps -6.0, -6.0, -8.0, 1.0, -10.0, -18.0, -12.0, 4.0, 4.0; ordering ok on 9 of 9). Matching the derivative's scene footprint did not recover round 3's pass; it made it worse. The footprint and oversampling explanation is dead. What round 3's derivative did differently (LoC's own downsample, JPEG generation, tone processing) is unknown and untested here.
 - B19 FAILED, in the opposite direction (prior 0.5). Spearman of luma std vs K4 gap across the 9 native crops is -0.82, not at least +0.7. Higher-contrast crops have a WORSE gap: the crop std 3.08 (flat, noise-dominated, a256 116) gave +11.0, while std 36 to 40 crops gave -30.0, -5.0 and -6.0. The flat-content explanation is dead; the data suggest the reverse. With nine crops of one scene a strong rank correlation is suggestive, not established, and I give no significance figure.
 - Untested hypothesis (from the round-1 attack by `chief-loki`, an agent report I did not re-run): the nearest-neighbour foil replicates edges and leaves spectral images, and the 99% cutoff counts them, so on edge-heavy, high-contrast crops the foil reads as sharp as or sharper than the true frame. That fits a negative correlation with contrast. Candidate B20, written now and not run: replacing the foil with a bilinear 4x upscale restores a gap of at least 4.8 on at least 6 of 9 native crops (prior 0.6; kill: fewer than 6). Chief-loki reported bilinear reading far lower than nearest-neighbour on its test images.
 - The flip between round 3 and round 4 remains unexplained. Both candidate causes were killed. K4 as defined (nearest-neighbour foil, 99% cutoff) is not a robust test, and its result depends on the foil and on content contrast, not on the frame's true resolution alone.
+
+### Round 6: pre-registered belief (written before the run; B20 as stated in round 5, with the committed script now covering the Spearman figure too)
+
+B20. Replacing the nearest-neighbour foil with a 4x bilinear upscale (the repo's `_bilinear2x` applied twice to the 64 row) restores a K4 gap of at least 4.8 cycles on at least 6 of the 9 native crops. Prior 0.6. Kill: fewer than 6 of 9.
+Honest scope: this tests the FOIL, not the gate. Passing would mean the nearest-neighbour test was the weak part; it would not mean a gate refusing real upscales exists, because a bilinear upscale is only one of the upscalers a real pipeline would use.
+
+### Round 6 results, 2026-10-16 (`python3 -I scripts/era_b1_probe.py --r5 <nine 256 crops>`; same master crops as round 4, scratchpad only)
+
+| crop | luma std | K4 gap, nearest-neighbour foil | K4 gap, bilinear foil |
+|---|---|---|---|
+| 20,20 | 8.17 | 6.0 | 57.0 |
+| 20,50 | 25.77 | 4.0 | 17.0 |
+| 20,80 | 39.73 | -5.0 | 8.0 |
+| 50,20 | 39.23 | -6.0 | 4.0 |
+| 50,50 | 25.91 | 4.0 | 17.0 |
+| 50,80 | 19.15 | 6.0 | 26.0 |
+| 80,20 | 29.57 | -35.0 | 15.0 |
+| 80,50 | 36.00 | -30.0 | 16.0 |
+| 80,80 | 3.08 | 11.0 | 5.0 |
+
+- B20 survived (prior 0.6): the bilinear foil cleared 4.8 on 8 of 9 crops (nearest-neighbour: 3 of 9). The one miss is 50,20 at 4.0, 0.8 under the bar.
+- The committed script now reproduces round 5's correlation: Spearman of std vs nearest-neighbour gap -0.824; against the bilinear gap it is -0.477 (n=9, one scene, no significance claimed). The nearest-neighbour foil's dependence on contrast is much weaker with the bilinear foil, which fits the edge-replication hypothesis but does not prove it.
+- Reading: the K4 flip was mostly the nearest-neighbour foil, which is the hardest foil and reads as sharp because replicated edges leave spectral images that the 99% cutoff counts. Against a bilinear upscale the statistic separates true from upscaled on 8 of 9 native crops. This is a statement about two upscalers, not about every upscaler.
+- Still not supported: a refusal gate. K4 passes against bilinear and fails against nearest-neighbour, so a gate would need a stated list of upscalers it covers, and an attacker or a pipeline can choose the one that passes. Not tested: bicubic, Lanczos, learned upscalers, other scans, era game art, 99.9% cutoff. Status unchanged: INTENDED.
