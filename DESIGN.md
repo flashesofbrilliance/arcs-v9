@@ -206,6 +206,21 @@ Every surface can render at four earned-fidelity states, mapped from the Y-gate:
 - **GRAIN** (SCRATCH/DELTA/DRIFT/RED): `opacity 0.70, weight 300, tracking +0.02em` + sparse speckle.
 - **MOIRE** (PARADOX): `opacity 0.60, weight 300, tracking +0.03em` + interference overlay.
 
+## Motion and safety
+
+Calm and precise. Motion is a still frame in motion, never a flash. The numbers live in `src/ui-kit/recoil-report/_tokens.css` as `--mo-*` tokens, pages read them, and `scripts/motion_policy_gate.py` (pre-commit) fails a page that drifts from them.
+
+| Token | Value | Meaning |
+|---|---|---|
+| `--mo-pose-rate` | 8 | Glitch poses per second (zoetrope). Never faster. |
+| `--mo-flash-max` | 3 | General flashes per second, whole frame or any 1/16 region (WCAG 2.3.1 general flash). |
+| `--mo-lum-swing` | 0.10 | Relative-luminance swing that counts as a flash. |
+| `--mo-hold-min` | 180ms | An effect stays on screen at least this long after release. |
+| `--mo-loop-min` | 170ms | Shortest repeating picture loop (stutter). |
+| `--mo-shutter-ms` | 650ms | Pinhole shutter: time to fully admit a new picture after a hard change. |
+
+Rules: no repeating animation above `--mo-flash-max` unless it only moves position or scale; a strobe-like look is made from shutter angle and pose rate (aliasing), never from raw flashing; reduced motion holds a still frame; kids' mode keeps the loudness ceiling and these limits always on. Measured, not asserted: `phosphor_guard_check.mjs` reads these tokens from the page and fails on a violation under violent random tweaking.
+
 ## Do's and Don'ts
 
 ### Do:

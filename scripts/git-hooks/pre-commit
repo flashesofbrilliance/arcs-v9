@@ -429,6 +429,20 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
   fi
 fi
 
+# Motion policy gate (2026-10-16): pages that move read the --mo-* motion and safety tokens from
+# src/ui-kit/recoil-report/_tokens.css (flash cap, pose rate, holds) and obey them. Stdlib-only.
+# See scripts/motion_policy_gate.py and DESIGN.md "Motion and safety".
+if [ -f scripts/motion_policy_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  mpages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' 'public/*.html')
+  if [ -n "$mpages" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/motion_policy_gate.py $mpages; then
+      echo "✖ commit blocked: motion policy gate (see above). Edit the --mo-* tokens in src/ui-kit/recoil-report/_tokens.css and re-inline; do not hand-edit a page's copy." >&2
+      exit 1
+    fi
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file
 # page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered
