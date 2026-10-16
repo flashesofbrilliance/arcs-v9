@@ -13,7 +13,6 @@ const SIZES = [[1270, 990], [1024, 768], [390, 844]], full = process.env.REACH_F
 for (const [w, h] of SIZES) for (const skin of ['', 'pocket']) for (const lvl of (full ? [1, 2, 3, 4] : [1, 4])) {
   const ctx = await b.newContext({ viewport: { width: w, height: h } }), pg = await ctx.newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(String(e)))
   await pg.goto(`${base}?test=1&shutter=off&level=${lvl}${skin ? '&skin=pocket' : ''}`); await pg.waitForTimeout(1200)
-  await pg.evaluate(() => { const m = document.getElementById('molt'); document.getElementById('moltt').textContent = 'You are shaping the picture. Intermediate adds Glitch effects with Latch and Perform keys, and the Steps sequencer with Feel and Tighten. Nothing changes unless you say so.'; m.hidden = false })
   await pg.click('#play'); await pg.waitForTimeout(600)
   await pg.evaluate(() => document.querySelectorAll('details').forEach((d) => { if (d.id === 'grown') d.open = true }))
   const deckH = await pg.evaluate(() => document.getElementById('deck').getBoundingClientRect().height)

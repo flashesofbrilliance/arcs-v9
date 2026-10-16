@@ -12,8 +12,8 @@ const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-requ
 const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
 const M = (fn, ...a) => pg.evaluate(([fn, a]) => window.PhosphorTest.mix[fn](...a), [fn, a])
 // X1 defaults and level gating
-const p1 = await b.newContext({ viewport: { width: 1270, height: 990 } }).then((c) => c.newPage()); await p1.goto(base + '?shutter=off&level=3'); await p1.waitForTimeout(800)
-check(await p1.evaluate(() => getComputedStyle(document.getElementById('mixer')).display === 'none'), 'X1: the mixer is hidden below level 4'); await p1.context().close()
+const p1 = await b.newContext({ viewport: { width: 1270, height: 990 } }).then((c) => c.newPage()); await p1.goto(base + '?shutter=off&level=1'); await p1.waitForTimeout(800)
+check(await p1.evaluate(() => getComputedStyle(document.getElementById('mixer')).display === 'none'), 'X1: the mixer is hidden in Kid mode'); await p1.context().close()
 await pg.goto(base + '?test=1&shutter=off&level=4'); await pg.waitForTimeout(1200)
 await pg.setInputFiles('#file', files[0]); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.getElementById('src').textContent !== 'Demo signal', null, { timeout: 60000 })
 const g0 = await M('gains'); check(g0.a === 1 && g0.b === 0, 'X1: the defaults are crossfader on A, A gain 1, B gain 0')
