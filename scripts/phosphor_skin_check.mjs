@@ -32,9 +32,9 @@ const open = async (q, w = 1280) => { const ctx = await b.newContext({ viewport:
   const samples = []
   await pg.locator('#play').click(); await pg.waitForTimeout(150)
   for (const f of [0.02, 0.1, 0.2, 0.3, 0.45, 0.55, 0.65, 0.8, 0.95]) { await seek(f); await pg.waitForTimeout(160); { const ls = []; for (let k = 0; k < 8; k++) { ls.push((await pg.evaluate(() => window.PhosphorTest.meter())).level); await pg.waitForTimeout(16) } const a = await pg.evaluate(() => window.PhosphorTest.meter()); ls.push(a.level); a.lo = Math.min(...ls); a.hi = Math.max(...ls); samples.push(a) } }
-  check(samples.every((m) => m.strip >= Math.round(m.lo * m.stripN) - 1 && m.strip <= Math.round(m.hi * m.stripN) + 1 && m.dock >= Math.round(m.lo * m.dockN) - 1 && m.dock <= Math.round(m.hi * m.dockN) + 1), `P2: the strip and the dock meter light the dots the level calls for, within 1 of the level range, while playing (${samples.map((m) => m.strip + '/' + m.stripN).join(' ')})`)
+  check(samples.every((m) => m.strip >= Math.round(m.lo * m.stripN) - 1 && m.strip <= Math.round(m.hi * m.stripN) + 1), `P2: the top strip lights the dots the level calls for, within 1 of the level range, while playing (${samples.map((m) => m.strip + '/' + m.stripN).join(' ')})`)
   const hi = samples.reduce((a, m) => (m.level > a.level ? m : a)), lo = samples.reduce((a, m) => (m.level < a.level ? m : a))
-  check(Math.max(...samples.map((m) => m.strip)) > Math.min(...samples.map((m) => m.strip)) && Math.max(...samples.map((m) => m.dock)) > Math.min(...samples.map((m) => m.dock)), `P2: a loud frame lights more dots than a quiet one (${Math.max(...samples.map((m) => m.strip))} against ${Math.min(...samples.map((m) => m.strip))} on the strip)`)
+  check(Math.max(...samples.map((m) => m.strip)) > Math.min(...samples.map((m) => m.strip)) , `P2: a loud frame lights more dots than a quiet one (${Math.max(...samples.map((m) => m.strip))} against ${Math.min(...samples.map((m) => m.strip))} on the strip)`)
   for (const w of [1280, 790]) {
     await pg.setViewportSize({ width: w, height: 1000 }); await pg.waitForTimeout(250)
     const e = await pg.evaluate(() => { const r = (s) => { const el = document.querySelector(s); return el ? Math.round(el.getBoundingClientRect().right) : null }; return { hero: r('.hero'), alts: r('.alts'), foot: r('footer'), read: r('.read'), sheet: r('.sheet') } })

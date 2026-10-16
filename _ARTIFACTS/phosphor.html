@@ -116,6 +116,7 @@ h1 em { font-style: normal; color: var(--cyan); }
 .deck .tp, .deck .prog { margin-top: 0; }
 .frame canvas { max-height: 42vh; object-fit: contain; }
 .deck > * { width: min(100%, calc(42vh * 1.7778 + 22px)); margin-inline: auto; }
+.tag { display: none; }
 .deck { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
 .deck #back, .deck #fwd { display: none; }
 .deck #play { background: var(--cyan-bg); border-color: var(--cyan); }
@@ -187,6 +188,16 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .seg label:first-of-type { border-left: 0; }
 .seg input:checked + label { background: var(--cyan-bg); color: var(--text); box-shadow: inset 0 -2px 0 var(--cyan); }
 .seg input:focus-visible + label { outline: 2px solid var(--cyan); outline-offset: -2px; }
+/* Song/Sing is one switch, not two buttons: a track with a knob between the two words. */
+#srcseg { display: grid; grid-template-columns: auto 72px auto; align-items: center; column-gap: 12px; justify-content: start; border: 0; border-radius: 0; overflow: visible; width: fit-content; min-height: 48px; cursor: pointer; }
+#srcseg::before { content: ""; grid-column: 2; grid-row: 1; height: 32px; border-radius: var(--ds-r-pill); background: var(--elevated); border: 1px solid var(--border); }
+#srcseg::after { content: ""; grid-column: 2; grid-row: 1; justify-self: start; margin-left: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--cyan); transition: transform var(--mo-fast, .15s) ease; }
+#srcseg:has(#srcB:checked)::after { transform: translateX(40px); }
+#srcseg label, #srcseg label:first-of-type { grid-row: 1; background: transparent; border: 0; box-shadow: none; padding: 10px 2px; font-size: var(--fs-body); color: var(--text-secondary); }
+#srcseg label[for=srcA] { grid-column: 1; } #srcseg label[for=srcB] { grid-column: 3; }
+#srcseg input:checked + label { background: transparent; box-shadow: none; color: var(--text); }
+#srcseg:has(input:focus-visible)::before { outline: 2px solid var(--cyan); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { #srcseg::after { transition: none; } }
 .btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 8px 12px; cursor: pointer; min-height: 44px; }
 .btn:hover { border-color: var(--cyan); }
 .btn[aria-current=true] { border-color: var(--cyan); background: var(--cyan-bg); }
@@ -332,7 +343,8 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
 .lcdtxt { min-width: 0; flex: 1 1 auto; } .lcdt { font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lcds { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lcdtime { font-family: var(--ds-font-mono); font-size: var(--fs-body); font-variant-numeric: tabular-nums; color: var(--orange); white-space: nowrap; }
-.dmeter { display: flex; gap: 2px; margin-top: 6px; } .dmeter i { flex: 1 1 0; height: 4px; border-radius: var(--ds-r-xs); background: var(--border); } .dmeter i.on { background: var(--c); }
+#dock .dkej { min-height: 44px; } #dock .dkej[data-hold], #hej[data-hold] { border-color: var(--gold); color: var(--gold); }
+html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-lock] #kfs { display: none; }
 #dock .dkscrub { position: relative; } #dock .dkscrub input[type=range] { width: 100%; min-height: 44px; margin: 0; accent-color: var(--orange); }
 #dock .pinbar { position: absolute; left: 0; right: 0; top: 0; height: 14px; margin: 0; pointer-events: none; } #dock .pinmark { pointer-events: auto; }
 #dock .dkrow { display: flex; gap: 8px; align-items: center; min-height: 0; } #dock .dkrow .hint:empty { display: none; }
@@ -374,7 +386,7 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
         <button class="btn" type="button" id="hplay">Play</button>
         <input type="range" id="hscrub" min="0" max="1000" value="0" aria-label="Scrub playback">
         <span class="clock" id="hclock">0:00</span>
-        <button class="btn" type="button" id="hexit">Exit</button>
+        <button class="btn" type="button" id="hexit">Exit</button><button class="btn" type="button" id="hej" hidden>Eject: hold 3 s</button>
         <div class="hudk">
           <button class="bb sm" type="button" data-km="0">Wiggle</button><button class="bb sm" type="button" data-km="1">Bars</button><button class="bb sm" type="button" data-km="2">Ring</button><button class="bb sm" type="button" data-km="3">Rainbow</button><button class="bb sm" type="button" data-km="4">Sun</button>
           <button class="bb sm" type="button" id="hcol">Colors</button><button class="bb sm" type="button" id="hzoom">Zoom</button><button class="bb sm" type="button" id="hwob">Wobble</button>
@@ -716,11 +728,11 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
 <div id="dock" role="region" aria-label="Player">
   <div class="dkmain">
     <button class="dkplay" type="button" id="play">Play</button>
-    <div class="lcd"><div class="lcdrow"><i class="led" id="dled"></i><div class="lcdtxt"><div class="lcdt" id="dtitle"></div><div class="lcds" id="dspec"></div></div><span class="lcdtime clock" id="clock">0:00 / 0:00</span></div><div class="dmeter" id="dmeter" aria-hidden="true"></div></div>
+    <div class="lcd"><div class="lcdrow"><i class="led" id="dled"></i><div class="lcdtxt"><div class="lcdt" id="dtitle"></div><div class="lcds" id="dspec"></div></div><span class="lcdtime clock" id="clock">0:00 / 0:00</span></div></div>
     <button class="btn dkup" type="button" id="kpick">Add song</button>
   </div>
   <div class="dkscrub"><input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub playback"><div class="pinbar" id="pinbar" aria-hidden="true"></div></div>
-  <div class="dkrow"><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
+  <div class="dkrow"><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
 </div>
 <script>
 (function () {
@@ -2337,6 +2349,7 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
     } else { singMirrorOn(false); singClose(); SING.state = "off"; LOOPPLAY = false; if (playing) stopPlay(""); }
   }
   Array.prototype.forEach.call(document.querySelectorAll("input[name=src]"), function (r) { r.addEventListener("change", function () { singMode(r.value === "sing"); }); });
+  $("srcseg").addEventListener("click", function (e) { if (e.target.tagName === "LABEL" || e.target.tagName === "INPUT") return; var t = $(document.querySelector("input[name=src]:checked").value === "sing" ? "srcA" : "srcB"); t.checked = true; t.dispatchEvent(new Event("change", { bubbles: true })); });
   $("rec").addEventListener("click", singRecord);
   $("undo").addEventListener("click", function () { if (SING.hist.length) singLoad(SING.hist.pop(), SING.name || "My loop"); });
   $("ovr").addEventListener("click", function () {
@@ -2456,7 +2469,7 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
     if (METER[key] === lit) return; METER[key] = lit;
     for (i = 0; i < n; i++) kids[i].className = i < lit ? "on" : "";
   }
-  function levelMeters(lv) { var s = $("ledstrip"), d = $("dmeter"); if (s) setMeter(s, "strip", Math.round(lv * s.children.length)); if (d) setMeter(d, "dock", Math.round(lv * d.children.length)); }
+  function levelMeters(lv) { var s = $("ledstrip"); if (s) setMeter(s, "strip", Math.round(lv * s.children.length)); }
   function buildPocket() {
     if ($("ledstrip")) return;
     var strip = document.createElement("div"), i, N = 72; strip.id = "ledstrip"; strip.setAttribute("aria-hidden", "true");
@@ -2466,7 +2479,7 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
   }
   function pocketText() { if (!$("dock")) return; $("dtitle").textContent = SRCNAME; $("dspec").textContent = "Mono • " + NB + " bands • " + FPS + " fps • " + (SR / 1000).toFixed(1) + " kHz"; }
   function teardownPocket() { var s = $("ledstrip"); if (s) s.remove(); }
-  (function () { var dm = $("dmeter"), k, i; for (i = 0; i < 40; i++) { k = document.createElement("i"); k.style.setProperty("--c", "hsl(" + Math.round(i / 39 * 125) + " 92% 56%)"); dm.appendChild(k); } METER.dock = -1; pocketText(); if (window.ResizeObserver) new ResizeObserver(function () { document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px"); }).observe($("dock")); })();
+  (function () { pocketText(); if (window.ResizeObserver) new ResizeObserver(function () { document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px"); }).observe($("dock")); })();
   function applySkin(name, save) {
     SKIN = name === "pocket" ? "pocket" : "arcs";
     if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
@@ -2539,13 +2552,30 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
   document.addEventListener("keydown", function () { if (FS) wakeHud(); }, true);
   kidSync();
   $("fsb").addEventListener("click", function () { setFS(true); });
+  window.__ejectLock = function () { return LOCK; };
   $("hexit").addEventListener("click", function () { setFS(false); });
+  var LOCK = false, EJT = 0, EJMS = 3000;
+  function setLock(on) {
+    LOCK = on; var h = document.documentElement; if (on) h.setAttribute("data-lock", "1"); else h.removeAttribute("data-lock");
+    $("hej").hidden = !on; $("eject").setAttribute("aria-pressed", on ? "true" : "false"); $("eject").textContent = on ? "Eject: hold 3 s to unlock" : "Eject: hold 3 s";
+    if (on) { setLevel(1); setFS(true); } else { setFS(false); }
+  }
+  function ejStart(b) { if (EJT) return; b.setAttribute("data-hold", "1"); EJT = setTimeout(function () { EJT = 0; b.removeAttribute("data-hold"); setLock(!LOCK); saveSettings(); }, EJMS); }
+  function ejEnd(b) { clearTimeout(EJT); EJT = 0; b.removeAttribute("data-hold"); }
+  ["eject", "hej"].forEach(function (id) {
+    var b = $(id);
+    b.addEventListener("pointerdown", function (e) { e.preventDefault(); ejStart(b); });
+    ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { b.addEventListener(n, function () { ejEnd(b); }); });
+    b.addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && !e.repeat) { e.preventDefault(); e.stopPropagation(); ejStart(b); } });
+    b.addEventListener("keyup", function (e) { if (e.key === "Enter" || e.key === " ") ejEnd(b); });
+    b.addEventListener("click", function (e) { e.preventDefault(); });
+  });
   $("hplay").addEventListener("click", play);
   $("hscrub").addEventListener("input", function () { seek(+$("hscrub").value / 1000 * DUR); });
   $("frame").addEventListener("pointermove", wakeHud);
   $("frame").addEventListener("pointerdown", wakeHud);
-  document.addEventListener("fullscreenchange", function () { if (FS && NATIVE && !document.fullscreenElement) setFS(false); });
-  $("cv").addEventListener("dblclick", function () { setFS(!FS); });
+  document.addEventListener("fullscreenchange", function () { if (FS && NATIVE && !document.fullscreenElement) { if (LOCK) { NATIVE = false; } else setFS(false); } });
+  $("cv").addEventListener("dblclick", function () { if (!LOCK) setFS(!FS); });
   $("pal").addEventListener("input", function () { BITS = +$("pal").value; $("palo").textContent = BITS === 8 ? "8 bit, off" : BITS + " bit, " + Math.pow(2, BITS) + " levels"; frame(false); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=pm]"), function (r) { r.addEventListener("change", function () { WOOD = r.value === "wood"; frame(false); }); });
   $("crt").addEventListener("change", function () { CRT = $("crt").checked; frame(false); });
@@ -2586,7 +2616,7 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
     else if (e.key === ",") { e.preventDefault(); jumpMagnet(-1); }
     else if (e.key === ".") { e.preventDefault(); jumpMagnet(1); }
     else if (e.key === "Enter" && !/BUTTON/.test(e.target.tagName)) { e.preventDefault(); markSlice(); }
-    else if (e.key === "Escape" && FS) { setFS(false); }
+    else if (e.key === "Escape" && FS && !LOCK) { setFS(false); }
     else if (e.key === "Escape") { PENDING = null; drawStrip(tnow()); }
     else if (e.key === "[" || e.key === "]") { var v = Math.max(1, Math.min(9, +$("res").value + (e.key === "]" ? 1 : -1))); $("res").value = v; $("res").dispatchEvent(new Event("input")); }
   });
