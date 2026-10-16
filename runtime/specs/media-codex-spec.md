@@ -61,3 +61,29 @@ Seeds are independent files so a program can carry only the ones it needs (a mix
 ## First build (proposal)
 
 Emit `media-atlas.v1` from the page for the loaded song (tiers 0 to 3 and 5 already exist in memory), read one back, and check the reconstitution rules 1 and 4 with a new `phosphor_atlas_check.mjs`. The mixer's two decks would then exchange Atlases instead of sharing page globals.
+
+## Boot manifest: one Atlas that starts the surfaces (added 2026-10-16, Zach)
+
+Zach: a stateful config holding every runtime dependency, so that if the mp3 is a resource in a local bundle, a root strap (bootstrap) can start from one Atlas as a drop-in document and bring up several interoperable mini-app surfaces. This adds a `boot` block to `media-atlas.v1`. It reuses existing standards instead of inventing new ones.
+
+```
+media-atlas.v1
+  tiers        (as above)
+  boot
+    resources  [ { id, role, mediatype, bytes, integrity: "sha256-<base64>", where: "embedded" | "bundle:<path>" | "blob:<url>" | "ask", rights } ]
+    deps       [ { name, version, license, integrity, how: "inline" | "importmap:<url>" } ]
+    surfaces   { phosphor: { entry, version, integrity, reads: [resource ids], state: <settings and pins> }, hud: { ... }, reading-room: { ... } }
+    capabilities { offline: true, network: false, storage: false }
+    lock       sha256 over the canonical form of everything above
+```
+
+Reused, not invented: the Frictionless Data Package descriptor shape (a resources array with path, media type, hash and schema), Subresource Integrity strings for every hash, native import maps to resolve dependencies in the browser, and Web App Manifest style metadata for surfaces. Content-addressed archives and OCI images are deferred.
+
+Rules:
+1. **The root strap is small and dumb:** read the Atlas, check every integrity string, resolve every resource by its `where`, refuse to start a surface if any check fails (show the break, never patch it), then hand each surface only the resources it declares in `reads`.
+2. **State is plain data:** a surface's `state` (settings, level, waypoints and pins) is JSON that any program can read; the Atlas is therefore both the config and the save file.
+3. **A resource is a reference unless it says embedded:** the default is a hash plus a name, and the person drops the file beside the Atlas. Embedding the audio is a deliberate act and carries a `rights` claim, because a shared bundle cannot be recalled (ripple ledger row `sample-song-preload`).
+4. **Same Atlas, same boot:** two surfaces that boot from the same Atlas must show the same song identity and state. The existing "twin" (one HTML file holding the page and the song) is the embedded special case.
+5. **Unknown surfaces and fields are ignored, not errors,** so a surface can be added without breaking the others.
+
+First slice (proposal): "Save Atlas" and "Open Atlas" in Phosphor for one resource (the song, by hash), one surface (Phosphor) and its state; a check that boot from a saved Atlas restores the song identity, look, level and pins, and that a changed byte in the song or the state is refused.
