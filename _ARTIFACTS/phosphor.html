@@ -212,6 +212,18 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .fsb { position: absolute; right: 22px; top: 20px; z-index: 2; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); cursor: pointer; }
 .fsb:hover { border-color: var(--cyan); }
 .hud { display: none; position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; gap: 12px; align-items: center; padding: 12px 16px; background: var(--surface); border-top: 1px solid var(--border); transition: opacity var(--dur-base) var(--ease-out); }
+.sqwrap { overflow-x: auto; }
+.sqrow { display: grid; grid-template-columns: 64px repeat(16, minmax(0, 1fr)); gap: 4px; align-items: center; min-width: 760px; margin-bottom: 4px; }
+.sqlab, .sqn { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary); text-align: center; }
+.sqn.b { color: var(--text); }
+.sqn.now { color: var(--gold); }
+.sq { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); min-height: 44px; cursor: pointer; padding: 0; touch-action: manipulation; }
+.sq.b { border-color: var(--text-secondary); }
+.sq[aria-pressed=true] { background: var(--cyan-bg); border-color: var(--cyan); color: var(--cyan); }
+.sq.now { border-color: var(--gold); }
+.seqo { display: none; position: absolute; left: 0; right: 0; z-index: 2; background: var(--surface); border-top: 1px solid var(--border); padding: 10px 16px; }
+.seqo .row { align-items: center; margin-bottom: 8px; }
+.frame.fs.steps .seqo { display: block; }
 .hud { flex-wrap: wrap; }
 .hudk { flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 8px; }
 .bb.sm { min-height: 52px; font-size: var(--fs-body); padding: 6px 14px; flex: 1 1 auto; }
@@ -250,6 +262,10 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       <span class="tag" id="tag">Scope</span>
       <button class="fsb" id="fsb" type="button" aria-label="Full screen" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
       <canvas id="cv" width="960" height="540" aria-label="Audio visualization"></canvas>
+      <div class="seqo" id="seqo">
+        <div class="row"><button class="btn" type="button" id="hrun" aria-pressed="false">Run steps</button><button class="btn" type="button" id="hclr">Clear</button><label class="tpl" for="hsnap">Snap to</label><select class="txt" id="hsnap" style="width:auto"><option value="beat">Beat</option><option value="onset">Hits</option><option value="valley">Quiet spots</option><option value="edge">Slice edges</option></select></div>
+        <div class="sqwrap" id="seqf"></div>
+      </div>
       <div class="hud" id="hud">
         <button class="btn" type="button" id="hplay">Play</button>
         <input type="range" id="hscrub" min="0" max="1000" value="0" aria-label="Scrub playback">
@@ -258,7 +274,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <div class="hudk">
           <button class="bb sm" type="button" data-km="0">Wiggle</button><button class="bb sm" type="button" data-km="1">Bars</button><button class="bb sm" type="button" data-km="2">Ring</button><button class="bb sm" type="button" data-km="3">Rainbow</button>
           <button class="bb sm" type="button" id="hcol">Colors</button><button class="bb sm" type="button" id="hzoom">Zoom</button><button class="bb sm" type="button" id="hwob">Wobble</button>
-          <button class="bb sm" type="button" id="hperf" aria-pressed="false">~ Keys</button>
+          <button class="bb sm" type="button" id="hsteps" aria-pressed="false">Steps</button><button class="bb sm" type="button" id="hperf" aria-pressed="false">~ Keys</button>
           <button class="bb sm sp" type="button" id="hspace">Space</button>
         </div>
       </div>
@@ -386,6 +402,37 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
               <input type="radio" name="ss" id="ss2" value="0.25"><label for="ss2">1/4 beat</label>
             </div>
           </div>
+        </div>
+      </details>
+      <details class="grp" name="grp">
+        <summary>Steps</summary>
+        <div class="gb">
+          <label class="check"><input type="checkbox" id="sqon"><span>Run the steps while the song plays.</span></label>
+          <div class="sqwrap" id="seqg"></div>
+          <div>
+            <div class="ctl-label"><span>Snap to</span><output id="sqo">beat</output></div>
+            <div class="seg" role="radiogroup" aria-label="Snap to">
+              <input type="radio" name="sqq" id="sq0" value="beat" checked><label for="sq0">Beat</label>
+              <input type="radio" name="sqq" id="sq1" value="onset"><label for="sq1">Hits</label>
+              <input type="radio" name="sqq" id="sq2" value="valley"><label for="sq2">Quiet</label>
+              <input type="radio" name="sqq" id="sq3" value="edge"><label for="sq3">Slice edges</label>
+            </div>
+          </div>
+          <div>
+            <div class="ctl-label"><span>Stays on</span></div>
+            <div class="seg" role="radiogroup" aria-label="Stays on">
+              <input type="radio" name="sqg" id="sg0" value="0.25"><label for="sg0">Short</label>
+              <input type="radio" name="sqg" id="sg1" value="0.5" checked><label for="sg1">Half</label>
+              <input type="radio" name="sqg" id="sg2" value="1"><label for="sg2">Full</label>
+            </div>
+            <div class="seg" role="radiogroup" aria-label="Loop length" style="margin-top:8px">
+              <input type="radio" name="sqb" id="sb0" value="1" checked><label for="sb0">1 bar</label>
+              <input type="radio" name="sqb" id="sb1" value="2"><label for="sb1">2 bars</label>
+              <input type="radio" name="sqb" id="sb2" value="4"><label for="sb2">4 bars</label>
+            </div>
+          </div>
+          <div class="row"><button class="btn" type="button" id="sqclr">Clear steps</button></div>
+          <p class="hint">Tap a square to add an effect on that step. The Zoom row counts up through the zoom stages. Snap to decides where the step really lands: on the beat, on a hit in the song, in a quiet spot, or on the edge of a slice you cut.</p>
         </div>
       </details>
       <details class="grp" name="grp" id="kmap">
@@ -709,7 +756,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     var t = tnow(), rg = rungFor(t); present(t, rg, forPlay); updateUI(t);
     var now = performance.now(); if (!forPlay || now - lastLadder > 500) { renderLadder(t); lastLadder = now; }
   }
-  function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); raf = requestAnimationFrame(loop); }
+  function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); seqTick(); raf = requestAnimationFrame(loop); }
   function stopSource() { if (SRC) { try { SRC.onended = null; SRC.stop(); } catch (e) {} SRC = null; } }
   var startSeq = 0;
   function startPlay(at) {
@@ -725,7 +772,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     if (AC.state === "running") begin();
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
   }
-  function stopPlay(msg) { startSeq++; if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
+  function stopPlay(msg) { startSeq++; setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
   function seek(t) { t = Math.max(0, Math.min(DUR, t)); if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
@@ -968,7 +1015,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   $("clearsl").addEventListener("click", function () { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; renderSlices(); drawStrip(tnow()); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1046,6 +1093,63 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   function gmLabel() { var on = []; if (GLITCH.stut) on.push(GLITCH.stut.kind); ["tear", "rgb", "blocks"].forEach(function (k) { if (GLITCH[k]) on.push(k); }); $("gmo").textContent = on.length ? on.join(" + ") : (PERFORM ? "perform: on" : "off"); }
   var GKEYS = { z: "stutter", x: "freeze", c: "tear", v: "rgb", b: "blocks" };
+  /* ---------------- step sequencer: the effects as a pattern, snapped to the waveform ---------------- */
+  var LANES = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["jog", "Zoom"]];
+  var SEQ = { on: false, bars: 1, quant: "beat", gate: 0.5, cells: {}, held: {}, lastJog: -1, col: -1 };
+  LANES.forEach(function (l) { SEQ.cells[l[0]] = []; for (var i = 0; i < 16; i++) SEQ.cells[l[0]].push(0); });
+  function seqStep() { return 60 / (BPM || 120) * 4 * SEQ.bars / 16; }
+  function seqBase() { return BPM ? GRID0 : 0; }
+  function seqSnap(t, tol) {
+    var q = SEQ.quant, best = null, bd = tol + 1e-9, i, d;
+    if (q === "beat") return t;
+    if (q === "edge") { for (i = 0; i < SLICES.length; i++) [SLICES[i].t0, SLICES[i].t1].forEach(function (e) { d = Math.abs(e - t); if (d < bd) { bd = d; best = e; } }); }
+    else for (i = 0; i < MAGNETS.length; i++) { if (MAGNETS[i].k !== q) continue; d = Math.abs(MAGNETS[i].t - t); if (d < bd) { bd = d; best = MAGNETS[i].t; } }
+    return best === null ? t : best;
+  }
+  function seqFire(j) { var st = seqStep(); return seqSnap(seqBase() + j * st, st * 0.5); }
+  function seqActive(t) {
+    var st = seqStep(), j0 = Math.floor((t - seqBase()) / st), out = {}, j, c, f, li, k, v;
+    for (j = j0 - 1; j <= j0 + 1; j++) {
+      if (j < 0) continue; c = ((j % 16) + 16) % 16; f = seqFire(j);
+      for (li = 0; li < LANES.length; li++) {
+        k = LANES[li][0]; v = SEQ.cells[k][c]; if (!v) continue;
+        if (k === "jog") { if (t >= f && t < f + st * 0.5) { out.jog = v; out.jogKey = j; } }
+        else if (t >= f && t < f + SEQ.gate * st) out[k] = true;
+      }
+    }
+    return out;
+  }
+  function seqPaint() {
+    Array.prototype.forEach.call(document.querySelectorAll(".sq"), function (b) { var v = SEQ.cells[b.getAttribute("data-l")][+b.getAttribute("data-i")]; b.setAttribute("aria-pressed", v ? "true" : "false"); b.textContent = b.getAttribute("data-l") === "jog" && v ? String(v) : ""; });
+  }
+  function seqHead(t) {
+    var c = ((Math.floor((t - seqBase()) / seqStep()) % 16) + 16) % 16; if (c === SEQ.col) return; SEQ.col = c;
+    Array.prototype.forEach.call(document.querySelectorAll(".sq,.sqn"), function (b) { b.classList.toggle("now", +b.getAttribute("data-i") === c); });
+  }
+  function seqRelease() { ["stutter", "freeze", "tear", "rgb", "blocks"].forEach(function (k) { if (SEQ.held[k]) { SEQ.held[k] = false; glitchOff(k); } }); }
+  function seqTick() {
+    if (!playing) return;
+    var t = tnow(); seqHead(t);
+    if (!SEQ.on) return;
+    var a = seqActive(t);
+    ["stutter", "freeze"].forEach(function (k) {
+      if (a[k] && !SEQ.held[k] && !GLITCH.stut) { glitchOn(k); SEQ.held[k] = !!GLITCH.stut && GLITCH.stut.kind === k; }
+      else if (!a[k] && SEQ.held[k]) { SEQ.held[k] = false; glitchOff(k); }
+    });
+    ["tear", "rgb", "blocks"].forEach(function (k) {
+      if (a[k] && !SEQ.held[k]) { SEQ.held[k] = true; glitchOn(k); } else if (!a[k] && SEQ.held[k]) { SEQ.held[k] = false; glitchOff(k); }
+    });
+    if (a.jog && SEQ.lastJog !== a.jogKey) { SEQ.lastJog = a.jogKey; setStage(MODE, a.jog); }
+  }
+  function seqBuild(el) {
+    var h = '<div class="sqrow"><span></span>', i;
+    for (i = 0; i < 16; i++) h += '<span class="sqn' + (i % 4 === 0 ? " b" : "") + '" data-i="' + i + '">' + (i + 1) + "</span>";
+    h += "</div>";
+    LANES.forEach(function (l) { h += '<div class="sqrow"><span class="sqlab">' + l[1] + "</span>"; for (i = 0; i < 16; i++) h += '<button class="sq' + (i % 4 === 0 ? " b" : "") + '" type="button" data-l="' + l[0] + '" data-i="' + i + '" aria-pressed="false" aria-label="' + l[1] + " step " + (i + 1) + '"></button>'; h += "</div>"; });
+    el.innerHTML = h;
+    Array.prototype.forEach.call(el.querySelectorAll(".sq"), function (b) { b.addEventListener("click", function () { var l = b.getAttribute("data-l"), i = +b.getAttribute("data-i"), v = SEQ.cells[l][i]; SEQ.cells[l][i] = l === "jog" ? (v + 1) % 6 : (v ? 0 : 1); seqPaint(); }); });
+  }
+  seqBuild($("seqg")); seqBuild($("seqf")); seqPaint();
   function setPerform(on) { PERFORM = on; $("perf").checked = on; $("hperf").setAttribute("aria-pressed", on ? "true" : "false"); gmLabel(); if (!on) ["stutter", "tear", "rgb", "blocks"].forEach(glitchOff); }
 
 
@@ -1158,7 +1262,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function setFS(on) {
     var f = $("frame");
     if (on) { FS = true; f.classList.add("fs"); if (f.requestFullscreen) { try { f.requestFullscreen().then(function () { NATIVE = true; }, function () {}); } catch (e) { /* theater only */ } } }
-    else { FS = false; NATIVE = false; f.classList.remove("fs", "idle"); if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) { /* ignore */ } } }
+    else { FS = false; NATIVE = false; f.classList.remove("fs", "idle", "steps"); if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) { /* ignore */ } } }
     cv.width = on ? 1600 : 960; cv.height = on ? 900 : 540;
     $("fsb").setAttribute("aria-pressed", on ? "true" : "false"); wakeHud(); frame(playing);
   }
@@ -1178,6 +1282,17 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { $("hwob").addEventListener(n, function () { glitchOff("rgb"); glitchOff("blocks"); }); });
   $("hperf").addEventListener("click", function () { setPerform(!PERFORM); });
   $("hspace").addEventListener("click", play);
+  function seqOn(on) { SEQ.on = on; $("sqon").checked = on; $("hrun").setAttribute("aria-pressed", on ? "true" : "false"); if (!on) seqRelease(); }
+  $("sqon").addEventListener("change", function () { seqOn($("sqon").checked); });
+  $("hrun").addEventListener("click", function () { seqOn(!SEQ.on); });
+  function seqQuant(q) { SEQ.quant = q; $("hsnap").value = q; $("sqo").textContent = ({ beat: "beat", onset: "hits", valley: "quiet spots", edge: "slice edges" })[q]; Array.prototype.forEach.call(document.querySelectorAll("input[name=sqq]"), function (r) { r.checked = r.value === q; }); }
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=sqq]"), function (r) { r.addEventListener("change", function () { seqQuant(r.value); }); });
+  $("hsnap").addEventListener("change", function () { seqQuant($("hsnap").value); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=sqg]"), function (r) { r.addEventListener("change", function () { SEQ.gate = parseFloat(r.value); }); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=sqb]"), function (r) { r.addEventListener("change", function () { SEQ.bars = +r.value; }); });
+  function seqClear() { LANES.forEach(function (l) { for (var i = 0; i < 16; i++) SEQ.cells[l[0]][i] = 0; }); seqPaint(); }
+  $("sqclr").addEventListener("click", seqClear); $("hclr").addEventListener("click", seqClear);
+  $("hsteps").addEventListener("click", function () { var f = $("frame"), on = !f.classList.contains("steps"); f.classList.toggle("steps", on); $("hsteps").setAttribute("aria-pressed", on ? "true" : "false"); $("seqo").style.bottom = $("hud").offsetHeight + "px"; });
   document.addEventListener("keydown", function () { if (FS) wakeHud(); }, true);
   kidSync();
   $("fsb").addEventListener("click", function () { setFS(true); });
