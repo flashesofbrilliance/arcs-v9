@@ -21,7 +21,7 @@ const E = (f, ...a) => pg.evaluate(f, ...a)
 const peak = async (n = 14) => { let m = 0; for (let i = 0; i < n; i++) { m = Math.max(m, await E(() => window.PhosphorTest.outPeak())); await pg.waitForTimeout(40) } return m }
 
 // N5 off means unchanged
-await pg.keyboard.press('3'); check((await E(() => window.PhosphorTest.zoom().mode)) === 2, 'N5: with Notes off the number key 3 still picks a mode')
+await pg.keyboard.press('2'); check((await E(() => window.PhosphorTest.zoom().mode)) === 1, 'N5: with Notes off the number key 2 still picks a mode (Bars; the default is now the Ring)')
 // N1 toggle
 check(await E(() => document.getElementById('nkeys').hidden), 'N1: the twelve keys are hidden until Notes is on')
 await pg.click('#notesb')

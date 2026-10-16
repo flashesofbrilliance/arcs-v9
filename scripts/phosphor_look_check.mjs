@@ -24,6 +24,7 @@ const set = (id, v) => ev(([id, v]) => { const e = document.getElementById(id); 
 const seek = (f) => set('scrub', Math.round(f * 1000))
 const hash = () => ev(() => { const c = document.getElementById('cv'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let h = 2166136261; for (let i = 0; i < d.length; i++) h = Math.imul(h ^ d[i], 16777619) >>> 0; return h })
 const px = () => ev(() => { const c = document.getElementById('cv'), g = c.getContext('2d'), out = []; for (const [fx, fy] of [[0.1, 0.5], [0.3, 0.4], [0.5, 0.5], [0.7, 0.6], [0.9, 0.5], [0.5, 0.85]]) out.push([...g.getImageData(Math.floor(c.width * fx), Math.floor(c.height * fy), 1, 1).data].slice(0, 3)); return out })
+await set('palsel', 'orig')   // the default look is now amber; these checks are about the original palette
 await set('m1', true); await seek(0.5)            // Bars mode, a mid-song frame
 const base = await hash(), basePx = await px()
 // L1 curve
