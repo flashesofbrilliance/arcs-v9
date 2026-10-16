@@ -95,6 +95,14 @@ await lp.evaluate(() => { window.PhosphorTest.fx.on('dist', false); window.Phosp
 await lp.evaluate(() => { const c = document.getElementById('fullvol'); c.checked = true; c.dispatchEvent(new Event('change')) }); await lp.waitForTimeout(300)
 let peakFull = -1; for (let i = 0; i < 20; i++) { peakFull = Math.max(peakFull, await lp.evaluate(() => window.PhosphorTest.outPeak())); await lp.waitForTimeout(40) }
 check(peakFull > peak + 0.2, `G2: the Grown-up checkbox turns the limit off (peak ${peak.toFixed(3)} then ${peakFull.toFixed(3)})`)
+// G2 on real music with effects (found 2026-10-15: dense music and effects overshot the ceiling with 2x oversampling in the soft clip; tones and squares did not show it)
+if ((process.env.PHOSPHOR_FILES || '').split(',').filter(Boolean)[0]) {
+  const mp = await open(process.env.PHOSPHOR_FILES.split(',')[0])
+  await mp.evaluate(() => { document.getElementById('play').click() }); await mp.waitForTimeout(800)
+  await mp.evaluate(() => { ['crush', 'dist', 'echo', 'room', 'shim'].forEach((k) => window.PhosphorTest.on(k)) })
+  let pm = 0; for (let i = 0; i < 120; i++) { pm = Math.max(pm, await mp.evaluate(() => window.PhosphorTest.outPeak())); await mp.waitForTimeout(50) }
+  check(pm <= 0.5, `G2: a real song with Crush, Distort, Echo, Room and Shimmer on peaks at ${pm.toFixed(3)} (ceiling 0.5)`)
+}
 // G3 ---------------------------------------------------------------
 const src = fs.readFileSync(page, 'utf8')
 const bad = ['Notification.', 'serviceWorker', 'PushManager', 'leaderboard', 'streak', 'countdown', 'XMLHttpRequest', 'fetch('].filter((w) => src.includes(w))
