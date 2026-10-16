@@ -165,3 +165,11 @@ B9. 1993 captures score lower cutoff_ratio than 2014 real-time captures of the s
 B10. Palette dithering in the 1993 images raises tail_ratio above the 2014 value, masking band-limiting. Prior 0.5. Kill: 1993 tail_ratio not above 2014's.
 B11. Capture scale (emulator or window scaling) moves the cutoff by more than the 1993-vs-2014 gap. Prior 0.7. Control: integer scaling or native-resolution capture only; the claim is tested by capturing one scene at 1x and 2x. Kill: scale effect under half the era gap.
 Limits stated now: five scenes, one capture each, 16 sampled rows per crop (round 3 showed that noise is large); a result is a reading of band-limit, never "fake" or "upscaled".
+
+## Round 5: pre-registered beliefs (written before ScummVM or any game file was fetched or run)
+
+Approval: Zach said "yes" in chat on 2026-10-16 to (1) ScummVM from scummvm.org, (2) `FOTAQ_Floppy.zip`, 6.8 MiB, from https://downloads.scummvm.org/frs/extras/Flight of the Amazon Queen/ (Flight of the Amazon Queen, freeware floppy build; the page lists it as freeware, licence text not on the page, Debian's copyright file describes the sibling Lure data as BSD-like and a ScummVM developer said the same for this title, neither read in full). Manifest (URL, bytes, sha256, licence text found) is recorded with the results. Captures stay in the session scratchpad, not in git.
+Scope: this tests the capture method, the integer-scale control and the palette confound on real 1990s 256-colour art. It is NOT a Myst result and says nothing about era.
+B21. A 2x integer-scaled capture of the same scene moves the absolute cutoff (ratio x width/2) by more than the spread between two different scenes at 1x. Prior 0.5. Kill: scale effect under the between-scene spread on 4 or more of 5 scenes (then B11's worry is not supported for this setup).
+B22. The bilinear-foil K4 gap (true frame minus bilinear 4x upscale of its 64 row, bar 4.8 cycles) clears the bar on at least 4 of 5 scenes. Prior 0.4 (round 2 of the arcade note found rendered UI-like art is where the statistic fails). Kill: fewer than 4 of 5.
+Limits stated now: five scenes of one game, one capture each, 16 sampled rows; the game was painted and dithered for 256 colours, so palette and dither confound the reading (detector note B10) and the result is a band-limit reading, never "fake" or "authentic".
