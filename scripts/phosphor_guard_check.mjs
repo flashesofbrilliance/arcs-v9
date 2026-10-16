@@ -26,24 +26,29 @@ async function open(file) {
   pg.on('pageerror', (e) => errors.push(String(e))); pg.on('request', (r) => { if (!/^(file|blob|data):/.test(r.url())) reqs.push(r.url()) })
   await pg.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true }))
   await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.querySelectorAll('#chap button').length > 0)
+  if (process.env.SHUTTER !== 'off') await pg.evaluate(() => window.PhosphorTest.shutter && window.PhosphorTest.shutter(true))
   await pg.setInputFiles('#file', file); await pg.waitForFunction(() => document.getElementById('src').textContent !== 'Demo signal' && document.getElementById('status').textContent === '', null, { timeout: 60000 })
   return pg
 }
 // G1 ---------------------------------------------------------------
 const pg = await open(click)
-const sampler = `(ms) => new Promise((res) => { const cv = document.getElementById('cv'), s = document.createElement('canvas'); s.width = 32; s.height = 18; const g = s.getContext('2d', { willReadFrequently: true }), out = [], t0 = performance.now();
+const sampler = `(ms) => new Promise((res) => { const cv = document.getElementById('cv'), s = document.createElement('canvas'); s.width = 32; s.height = 16; const g = s.getContext('2d', { willReadFrequently: true }), out = [], t0 = performance.now(); const fc = document.createElement('canvas'); fc.width = 96; fc.height = 54; const fg = fc.getContext('2d', { willReadFrequently: true }); let prevF = null; window.__jit = [];
   const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4) };
-  (function tick() { const now = performance.now(); g.drawImage(cv, 0, 0, 32, 18); const d = g.getImageData(0, 0, 32, 18).data; let sum = 0; for (let i = 0; i < d.length; i += 4) sum += 0.2126 * lin(d[i]) + 0.7152 * lin(d[i + 1]) + 0.0722 * lin(d[i + 2]); out.push([now - t0, sum / (d.length / 4)]); if (now - t0 < ms) requestAnimationFrame(tick); else res(out) })() })`
-function flashes(series) {
-  // turning points where brightness swings at least 0.1 (relative luminance); a flash is a pair of opposing swings; report the most pairs in any one second
+  (function tick() { const now = performance.now(); g.drawImage(cv, 0, 0, 32, 16); const d = g.getImageData(0, 0, 32, 16).data; let sum = 0; const reg = new Array(16).fill(0); for (let y = 0; y < 16; y++) for (let x = 0; x < 32; x++) { const i = (y * 32 + x) * 4, L = 0.2126 * lin(d[i]) + 0.7152 * lin(d[i + 1]) + 0.0722 * lin(d[i + 2]); sum += L; reg[(y >> 2) * 4 + (x >> 3)] += L / 32 } fg.drawImage(cv, 0, 0, 96, 54); const fd = fg.getImageData(0, 0, 96, 54).data, cur = new Float32Array(96 * 54); for (let i = 0; i < cur.length; i++) cur[i] = (0.2126 * fd[i * 4] + 0.7152 * fd[i * 4 + 1] + 0.0722 * fd[i * 4 + 2]) / 255; if (prevF) { let dsum = 0; for (let i = 0; i < cur.length; i++) dsum += Math.abs(cur[i] - prevF[i]); window.__jit.push(dsum / cur.length) } prevF = cur; out.push([now - t0, sum / 512, reg]); if (now - t0 < ms) requestAnimationFrame(tick); else res(out) })() })`
+function flashesOf(series) {
   const pts = []; let dir = 0, ext = series[0][1], extT = series[0][0]
   for (const [t, v] of series.slice(1)) {
     if (dir === 0) { if (Math.abs(v - ext) >= 0.1) { dir = v > ext ? 1 : -1; pts.push(t); ext = v; extT = t } }
     else if (dir === 1) { if (v > ext) { ext = v; extT = t } else if (ext - v >= 0.1) { pts.push(extT); dir = -1; ext = v; extT = t } }
     else { if (v < ext) { ext = v; extT = t } else if (v - ext >= 0.1) { pts.push(extT); dir = 1; ext = v; extT = t } }
   }
-  let worst = 0; for (let i = 0; i < pts.length; i++) { const w = pts.filter((p) => p >= pts[i] && p < pts[i] + 1000).length; worst = Math.max(worst, Math.floor(w / 2)) }
-  const vs = series.map((x) => x[1]); return { worst, changes: pts.length, lo: Math.min(...vs), hi: Math.max(...vs), n: series.length }
+  let w = 0; for (let i = 0; i < pts.length; i++) w = Math.max(w, Math.floor(pts.filter((p) => p >= pts[i] && p < pts[i] + 1000).length / 2)); return { worst: w, changes: pts.length }
+}
+function flashes(series) {
+  // the whole frame, and each of 16 regions: a region that flashes counts, because local flicker is what a small high-contrast area does
+  const whole = flashesOf(series.map((s) => [s[0], s[1]])); let regWorst = 0, regChanges = 0, regAt = -1
+  for (let r = 0; r < 16; r++) { const f = flashesOf(series.map((s) => [s[0], s[2][r]])); if (f.worst > regWorst) { regWorst = f.worst; regAt = r } regChanges += f.changes }
+  const vs = series.map((x) => x[1]); return { worst: Math.max(whole.worst, regWorst), whole: whole.worst, region: regWorst, regionAt: regAt, changes: whole.changes + regChanges, lo: Math.min(...vs), hi: Math.max(...vs), n: series.length }
 }
 await pg.click('#play'); await pg.waitForTimeout(400)
 const scen = {
@@ -64,6 +69,37 @@ for (const [name, setup] of Object.entries(scen)) {
 await pg.evaluate(() => { window.PhosphorTest.seq.on(false); window.PhosphorTest.seq.clear(); ['rgb', 'blocks', 'tear', 'stutter'].forEach((k) => window.PhosphorTest.off(k)) })
 await pg.evaluate(() => { const p = document.getElementById('pal'); p.value = 1; p.dispatchEvent(new Event('input')) })
 results['1-bit tones'] = flashes(await pg.evaluate(`(${sampler})(3000)`))
+async function carrier(pg) {
+  const ensure = async () => { await pg.evaluate(() => { const p = document.getElementById('play'); if (p.textContent === 'Play') p.click() }); await pg.waitForTimeout(150) }
+  // carrier scenarios (Zach, 2026-10-16): bright views with every effect, and violent random tweaking of the controls. Run on a REAL song that keeps playing (an earlier version ran on a click track that had already ended, so every picture was frozen and the effects looked safe).
+  const setView = async (m) => { await pg.evaluate((m) => document.querySelector(`#kid [data-km="${m}"]`).click(), m) }
+  await pg.evaluate(() => { window.PhosphorTest.seq.on(false); window.PhosphorTest.seq.clear(); ['rgb', 'blocks', 'tear', 'stutter', 'crush', 'dist'].forEach((k) => window.PhosphorTest.off(k)) })
+  for (const [view, vname, pal] of [[4, 'Sun', 'orig'], [3, 'Rainbow in heat', 'heat'], [3, 'Rainbow in mono', 'mono']]) {
+    await setView(view); await pg.evaluate((p) => { const s = document.getElementById('palsel'); s.value = p; s.dispatchEvent(new Event('change', { bubbles: true })) }, pal); await pg.waitForTimeout(500)
+    { await ensure(); const sv = await pg.evaluate(`(${sampler})(1800)`); const fl = flashes(sv); fl.jit = await pg.evaluate(() => window.__jit.reduce((a, b) => a + b, 0) / Math.max(1, window.__jit.length)); results[`${vname} with no effect (jitter baseline)`] = fl }
+    for (const fx of ['tear', 'blocks', 'rgb', 'stutter']) { await pg.evaluate((k) => window.PhosphorTest.on(k), fx); await pg.waitForTimeout(250); { await ensure(); const sv = await pg.evaluate(`(${sampler})(2200)`); const fl = flashes(sv); fl.jit = await pg.evaluate(() => window.__jit.reduce((a, b) => a + b, 0) / Math.max(1, window.__jit.length)); results[`${vname} with ${fx}`] = fl; } await pg.evaluate((k) => window.PhosphorTest.off(k), fx) }
+    await pg.evaluate(() => { const g = document.getElementById('gamt'); g.value = 100; g.dispatchEvent(new Event('input', { bubbles: true })); ['tear', 'blocks', 'rgb'].forEach((k) => window.PhosphorTest.on(k)) }); await pg.waitForTimeout(250)
+    { await ensure(); const sv = await pg.evaluate(`(${sampler})(2200)`); const fl = flashes(sv); fl.jit = await pg.evaluate(() => window.__jit.reduce((a, b) => a + b, 0) / Math.max(1, window.__jit.length)); results[`${vname} with Tear, Blocks and Split at full Amount`] = fl }
+    await pg.evaluate(() => { ['tear', 'blocks', 'rgb'].forEach((k) => window.PhosphorTest.off(k)); const g = document.getElementById('gamt'); g.value = 60; g.dispatchEvent(new Event('input', { bubbles: true })) })
+  }
+  { // violent random tweaking: a seeded stream of 15 control changes a second for three seconds, on a bright picture
+    let seed = 20261016; const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296
+    await setView(4); await pg.evaluate(() => { const s = document.getElementById('palsel'); s.value = 'orig'; s.dispatchEvent(new Event('change', { bubbles: true })) })
+    const tweak = (async () => { for (let i = 0; i < 45; i++) { const r = Math.floor(rnd() * 6)
+      await pg.evaluate(([r, x]) => { const E = (id, v, ev) => { const e = document.getElementById(id); e.value = v; e.dispatchEvent(new Event(ev || 'input', { bubbles: true })) }
+        if (r === 0) document.querySelector(`#kid [data-km="${Math.floor(x * 5)}"]`).click()
+        else if (r === 1) { const s = document.getElementById('palsel'); s.selectedIndex = Math.floor(x * s.options.length); s.dispatchEvent(new Event('change', { bubbles: true })) }
+        else if (r === 2) E('res', 1 + Math.floor(x * 9))
+        else if (r === 3) { const c = document.getElementById('inv'); c.checked = !c.checked; c.dispatchEvent(new Event('change', { bubbles: true })) }
+        else if (r === 4) { const k = ['tear', 'blocks', 'rgb', 'crush', 'dist', 'stutter'][Math.floor(x * 6)]; window.PhosphorTest.on(k); setTimeout(() => window.PhosphorTest.off(k), 80) }
+        else document.getElementById('kzoom').click() }, [r, rnd()]); await pg.waitForTimeout(60) } })()
+    await ensure(); const vs = await pg.evaluate(`(${sampler})(3200)`); await tweak; results['Violent random tweaking (15 changes a second)'] = flashes(vs)
+    await pg.evaluate(() => { const c = document.getElementById('inv'); if (c.checked) c.click() })
+  }
+
+}
+const realSong = (process.env.PHOSPHOR_FILES || '').split(',').filter(Boolean)[0]
+if (realSong) { const cp = await open(realSong); await cp.evaluate(() => { const s = document.getElementById('scrub'); s.value = 300; s.dispatchEvent(new Event('input')) }); await cp.click('#play'); await cp.waitForTimeout(600); await carrier(cp) }
 // positive controls: these flip the whole picture, so a working detector must see them
 await pg.click('body', { position: { x: 5, y: 5 } })
 const invMash = (async () => { for (let i = 0; i < 28; i++) { await pg.keyboard.press('i'); await pg.waitForTimeout(70) } })()
@@ -81,7 +117,7 @@ await pg.click('body', { position: { x: 5, y: 5 } })
 const noteMash = (async () => { const ks = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=']; for (let i = 0; i < 44; i++) { await pg.keyboard.down(ks[i % 12]); await pg.waitForTimeout(35); await pg.keyboard.up(ks[i % 12]); await pg.waitForTimeout(35) } })()
 const nseries = await pg.evaluate(`(${sampler})(3200)`); await noteMash; results['Mashing the Notes strip (1 to =)'] = flashes(nseries)
 await pg.evaluate(() => { document.getElementById('notesb').click() })
-for (const [name, r] of Object.entries(results)) check(r.worst <= 3, `G1: ${name}: at most ${r.worst} flashes in any second (limit 3; ${r.changes} large luminance changes; luminance ${r.lo.toFixed(2)} to ${r.hi.toFixed(2)} over ${r.n} frames)`)
+for (const [name, r] of Object.entries(results)) check(r.worst <= 3, `G1: ${name}: at most ${r.worst} flashes in any second (limit 3; jitter ${r.jit === undefined ? '' : r.jit.toFixed(4)}; whole frame ${r.whole}, worst of 16 regions ${r.region}${r.regionAt >= 0 ? ' (region ' + r.regionAt + ')' : ''}; luminance ${r.lo.toFixed(2)} to ${r.hi.toFixed(2)} over ${r.n} frames)`)
 
 // G2 ---------------------------------------------------------------
 const lp = await open(loud)

@@ -536,6 +536,10 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <label class="tpl" for="tbpm">Play at BPM</label><input class="txt" id="tbpm" type="number" min="40" max="240" step="1" style="width:92px">
         <button class="btn" type="button" id="spl">Play slices at that tempo</button>
       </div>
+      <div class="sl" id="bcrow">
+        <button class="btn" type="button" id="bcb" aria-pressed="false">Hear the beat</button><button class="btn" type="button" id="bchalf">Half</button><button class="btn" type="button" id="bcdbl">Double</button><button class="btn" type="button" id="bcearly">Earlier</button><button class="btn" type="button" id="bclate">Later</button>
+        <span class="hint" id="bcinfo"></span>
+      </div>
       <p class="hint" id="sphint">Auto slice and tempo play work on the part of the song you can see. Tempo play keeps the pitch and moves the slices, like ReCycle.</p>
       <div class="sl" id="sl">
         <div class="seg" role="radiogroup" aria-label="Snap strength" style="min-width:300px;flex:0 1 360px">
@@ -696,7 +700,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function bandVal(fi, b) {
     if (!CALM) return BANDS[fi * NB + b];
     var e = BANDS[Math.max(0, fi - 8) * NB + b], j, v;
-    for (j = fi - 7; j <= fi; j++) { v = BANDS[Math.max(0, j) * NB + b]; if (v > e) e = Math.min(v, e + 0.14); else e = Math.max(v, e - 0.08); }
+    for (j = fi - 7; j <= fi; j++) { v = BANDS[Math.max(0, j) * NB + b]; if (v > e) e = Math.min(v, e + 0.07); else e = Math.max(v, e - 0.045); }
     return e;
   }
   var ZS = [1, 1, 1, 1, 1];
@@ -804,6 +808,23 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     }
     g.putImageData(id, 0, 0);
   }
+  /* Pinhole shutter. When one frame differs sharply from the last (a mode switch, a palette swap, a violent tweak), the picture is blended with the previous frame and
+     sharpens back over about 450 ms, so the carrier cannot be interrupted by a flash. Off by default in test mode so pixel checks stay exact; the guard turns it on. */
+  var SHUT = { on: !/[?&](test=1|shutter=off)/.test(location.search), acc: null, trig: -1e9, prev: null };
+  function shutterApply(g, W, H) {
+    if (!SHUT.on) return; var now = performance.now(), i, mx = 0;
+    if (!SHUT.acc || SHUT.acc.width !== W || SHUT.acc.height !== H) {
+      SHUT.acc = document.createElement("canvas"); SHUT.acc.width = W; SHUT.acc.height = H; SHUT.accg = SHUT.acc.getContext("2d"); SHUT.accg.drawImage(g.canvas, 0, 0);
+      SHUT.nw = document.createElement("canvas"); SHUT.nw.width = W; SHUT.nw.height = H; SHUT.nwg = SHUT.nw.getContext("2d"); SHUT.sm = document.createElement("canvas"); SHUT.sm.width = 16; SHUT.sm.height = 8; SHUT.smg = SHUT.sm.getContext("2d", { willReadFrequently: true }); SHUT.prev = null;
+    }
+    SHUT.smg.drawImage(g.canvas, 0, 0, 16, 8); var d = SHUT.smg.getImageData(0, 0, 16, 8).data, cur = new Float32Array(128);
+    for (i = 0; i < 128; i++) cur[i] = (0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]) / 255;
+    if (SHUT.prev) for (i = 0; i < 128; i++) { var df = Math.abs(cur[i] - SHUT.prev[i]); if (df > mx) mx = df; }
+    SHUT.prev = cur; if (mx > 0.06) SHUT.trig = now;
+    var a = Math.min(1, 0.09 + 0.91 * (now - SHUT.trig) / 650);
+    if (a >= 0.999) { SHUT.accg.drawImage(g.canvas, 0, 0); return; }
+    SHUT.nwg.drawImage(g.canvas, 0, 0); g.globalAlpha = 1; g.drawImage(SHUT.acc, 0, 0); g.globalAlpha = a; g.drawImage(SHUT.nw, 0, 0); g.globalAlpha = 1; SHUT.accg.drawImage(g.canvas, 0, 0);
+  }
   function present(t, rung, forPlay) {
     var t0 = performance.now(), r = RUNGS[Math.min(rung, forPlay ? 5 : 8)], DW = cv.width, DH = cv.height, tr = t; t = glitchTime(t);
     if (r.vector) { scene(dctx, DW, DH, t); USED = r.lab; }
@@ -816,9 +837,10 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       dctx.imageSmoothingEnabled = w > DW; dctx.drawImage(OC, 0, 0, DW, DH);
     }
     applyLook(dctx, DW, DH);
-    glitchPixels(dctx, DW, DH, Math.floor(tr * FPS));
+    glitchPixels(dctx, DW, DH, Math.floor(tr * FPS), tr);
     if (BITS < 8) crushImage(dctx, DW, DH, BITS, WOOD);
     if (CRT) { var step = Math.max(3, Math.round(DH / 180)); dctx.fillStyle = C.bg; dctx.globalAlpha = 0.3; for (var yy = step - 1; yy < DH; yy += step) dctx.fillRect(0, yy, DW, Math.max(1, step / 3 | 0)); dctx.globalAlpha = 1; }
+    shutterApply(dctx, DW, DH);
     LASTMS = performance.now() - t0; if (forPlay) { MS.push(LASTMS); if (MS.length > 30) MS.shift(); }
   }
 
@@ -1065,6 +1087,54 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   /* ---------------- slices, magnets, coherence (pure functions of the analysis) ---------------- */
   var MAGNETS = [], SLICES = [], SNAPR = 0.12, PENDING = null, BPM = 0, SELECTED = -1, ARR = null;
   var KIND_W = { chapter: 1.0, onset: 0.8, valley: 0.6, grid: 0.5, edge: 0.5 };
+  /* Tempo and beat grid. Hit times refined to sub-frame, corrected for the analysis window, then the tempo from the autocorrelation of the weighted hit train (1 ms resolution),
+     refined with a weighted least squares fit of period and phase on the hits that land near the grid; the downbeat is the beat position whose hits carry the most low-band energy. */
+  var BPMINFO = null;
+  function detectTempo(on) {
+    var n = on.length, i, j, k; if (n < 12 || !DUR) return null;
+    var avg = 0; for (i = 0; i < NF; i++) avg += FLUX[i]; avg = avg / NF + 1e-9;
+    var tOff = 0.5 * NFFT / SR + 0.5 / FPS, T = [], Wt = [], LO = [];
+    for (i = 0; i < n; i++) {
+      var f = on[i], a = f > 0 ? FLUX[f - 1] : 0, b = FLUX[f], c = f + 1 < NF ? FLUX[f + 1] : 0, den = a - 2 * b + c, dl = den < -1e-9 ? 0.5 * (a - c) / den : 0; dl = Math.max(-0.5, Math.min(0.5, dl));
+      T.push((f + dl) / FPS + tOff); Wt.push(Math.min(3, b / avg));
+      var lo = 0; for (k = 0; k < 10; k++) lo += Math.max(0, BANDS[f * NB + k] - (f > 0 ? BANDS[(f - 1) * NB + k] : 0)); LO.push(lo);
+    }
+    // phase weights: where there is a clear kick (low-band energy), the beat is the kick; otherwise every hit counts
+    var loSum = 0, loMax = 0; for (i = 0; i < n; i++) { loSum += LO[i]; if (LO[i] > loMax) loMax = LO[i]; }
+    var KW = []; for (i = 0; i < n; i++) KW.push(loMax > 0 && loSum / n > 0.15 * loMax ? Wt[i] * (0.05 + LO[i] / loMax) : Wt[i]);
+    var N = 1, sg = 12, ker = []; while (N < 2 * Math.ceil(DUR * 1000) + 8) N <<= 1;
+    for (k = -3 * sg; k <= 3 * sg; k++) ker.push(Math.exp(-(k * k) / (2 * sg * sg)));
+    function trainAC(wts) {
+      var re = new Float64Array(N), im = new Float64Array(N), a2, b2;
+      for (a2 = 0; a2 < n; a2++) { var ms = Math.round(T[a2] * 1000); for (b2 = -3 * sg; b2 <= 3 * sg; b2++) { var q = ms + b2; if (q >= 0 && q < N / 2) re[q] += wts[a2] * ker[b2 + 3 * sg]; } }
+      fft(re, im); for (a2 = 0; a2 < N; a2++) { re[a2] = re[a2] * re[a2] + im[a2] * im[a2]; im[a2] = 0; } fft(re, im); return re;
+    }
+    var ACf = trainAC(Wt), ACk = trainAC(KW), AC = ACf, maxLag = Math.min(N / 2 - 1, 4400), z1 = ACf[0] + 1e-9, z2 = ACk[0] + 1e-9;
+    // the evidence for a beat period P: the periodicity of all hits plus that of the kick-weighted hits, at the beat, two beats and four beats,
+    // weighted by a gentle prior around 120 BPM (a wide log-Gaussian, so it settles octaves without bending 3:2 ratios)
+    var S0 = new Float64Array(1101), sum = 0, cnt = 0, best = 334, P;
+    for (P = 334; P <= 857; P++) {
+      var f1 = ACf[P] + 0.5 * (2 * P <= maxLag ? ACf[2 * P] : 0), f2 = ACk[P] + 0.5 * (2 * P <= maxLag ? ACk[2 * P] : 0), pr = Math.exp(-0.5 * Math.pow(Math.log2((60000 / P) / 120) / 0.9, 2));
+      S0[P] = (f1 / z1 + f2 / z2) * pr; sum += S0[P]; cnt++; if (S0[P] > S0[best]) best = P;
+    }
+    // refine the period on the autocorrelation peak itself (not the prior-weighted score), within 3 percent
+    var lo2 = Math.max(2, Math.round(best * 0.97)), hi2 = Math.min(maxLag - 2, Math.round(best * 1.03)), pk = best; for (var q3 = lo2; q3 <= hi2; q3++) if (AC[q3] > AC[pk]) pk = q3;
+    var a1 = AC[pk - 1], b1 = AC[pk], c1 = AC[pk + 1], dd = a1 - 2 * b1 + c1, ofs = dd < 0 ? 0.5 * (a1 - c1) / dd : 0, Pm = (pk + Math.max(-1, Math.min(1, ofs))) / 1000;
+    // refine period and phase on the hits near the grid
+    var phi = 0, it;
+    for (it = 0; it < 4; it++) {
+      var sx = 0, sy = 0; for (i = 0; i < n; i++) { var th = 2 * Math.PI * ((T[i] % Pm) / Pm), wk = KW[i]; sx += wk * Math.cos(th); sy += wk * Math.sin(th); }
+      phi = Math.atan2(sy, sx) * Pm / (2 * Math.PI); if (phi < 0) phi += Pm;
+      var sw = 0, sk = 0, st = 0, skk = 0, skt = 0, m = 0;
+      for (i = 0; i < n; i++) { var kk = Math.round((T[i] - phi) / Pm), d2 = T[i] - (phi + kk * Pm); if (Math.abs(d2) < Pm * 0.12) { var w = KW[i]; sw += w; sk += w * kk; st += w * T[i]; skk += w * kk * kk; skt += w * kk * T[i]; m++; } }
+      var den2 = sw * skk - sk * sk; if (m >= 8 && Math.abs(den2) > 1e-9) { var slope = (sw * skt - sk * st) / den2; if (Math.abs(slope - Pm) < Pm * 0.03) { Pm = slope; var ic = (st - slope * sk) / sw; phi = ((ic % Pm) + Pm) % Pm; } }
+    }
+    // downbeat: the beat position within four whose hits carry the most low-band energy
+    var sc = [0, 0, 0, 0]; for (i = 0; i < n; i++) { var kb = Math.round((T[i] - phi) / Pm); if (Math.abs(T[i] - (phi + kb * Pm)) < Pm * 0.15) sc[((kb % 4) + 4) % 4] += LO[i]; }
+    var db = 0; for (j = 1; j < 4; j++) if (sc[j] > sc[db]) db = j;
+    var grid0 = (phi + db * Pm) % (4 * Pm), conf = S0[best] / (sum / cnt + 1e-9), bpmF = 60 / Pm;
+    return { bpm: bpmF, grid0: grid0, conf: conf, alt: [bpmF * 2, bpmF / 2], downbeat: db, beats: n, lowByBeat: sc };
+  }
   function computeMagnets() {
     var M = [], i, k, W = Math.round(0.5 * FPS), lastOn = -999, onsets = [];
     CHAPS.forEach(function (f) { M.push({ t: f / FPS, w: KIND_W.chapter, k: "chapter" }); });
@@ -1078,13 +1148,9 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = Math.min(lo, sm[k]); hi = Math.max(hi, sm[k]); }
       if (sm[i] <= lo && hi - sm[i] >= 0.1 && i - lastV >= 9) { M.push({ t: i / FPS, w: KIND_W.valley, k: "valley" }); lastV = i; }
     }
-    BPM = 0; GRID0 = 0;
-    if (onsets.length > 12) {
-      var hist = new Float32Array(121), j;
-      for (i = 1; i < onsets.length; i++) { var d = (onsets[i] - onsets[i - 1]) / FPS; if (d >= 0.2 && d <= 1.2) hist[Math.round(d * 100)]++; }
-      var best = 0; for (j = 20; j <= 120; j++) { var v = hist[j] + 0.5 * (hist[j - 1] || 0) + 0.5 * (hist[j + 1] || 0); if (v > (hist[best] || 0) + 0.5 * ((hist[best - 1] || 0) + (hist[best + 1] || 0))) best = j; }
-      if (best) { var P = best / 100; while (60 / P > 180) P *= 2; while (60 / P < 70) P /= 2; BPM = Math.round(60 / P); var t0 = onsets[0] / FPS; GRID0 = t0 % P; for (var g = t0 % P; g < DUR && M.length < 6000; g += P) M.push({ t: g, w: KIND_W.grid, k: "grid" }); }
-    }
+    BPM = 0; GRID0 = 0; BPMINFO = null;
+    var tp = detectTempo(onsets);
+    if (tp) { BPM = +tp.bpm.toFixed(2); GRID0 = tp.grid0; BPMINFO = tp; var P0 = 60 / BPM; for (var g = GRID0 % P0; g < DUR && M.length < 6000; g += P0) M.push({ t: g, w: KIND_W.grid, k: "grid" }); }
     M.sort(function (x, y) { return x.t - y.t; });
     MAGNETS = M;
   }
@@ -1310,7 +1376,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   /* ---------------- tempo tools: tap tempo, downbeat ---------------- */
   var TAPS = [];
   function setTempo(bpm, origin) {
-    bpm = Math.max(40, Math.min(240, Math.round(bpm))); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
+    bpm = Math.max(40, Math.min(240, Math.round(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
     MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; });
     for (g = GRID0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" });
     MAGNETS.sort(function (x, y) { return x.t - y.t; });
@@ -1333,6 +1399,19 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     setTempo(BPM || 120, best === null ? tn : best); $("sphint").textContent = "Downbeat set at " + (best === null ? tn : best).toFixed(2) + " s.";
   }
   Array.prototype.forEach.call(document.querySelectorAll(".dbb"), function (b) { b.addEventListener("click", downbeatHere); });
+  /* Beat check: hear the grid over the song and correct it by ear. */
+  var BC = { on: false, timer: 0, last: -9, times: [] };
+  function bcInfo() { var i = BPMINFO; $("bcinfo").textContent = BPM ? BPM.toFixed(1) + " BPM" + (i ? ", confidence " + i.conf.toFixed(1) + ", could also be " + i.alt.map(function (v) { return v.toFixed(0); }).join(" or ") : "") : "No tempo found. Tap one."; }
+  function bcPump() {
+    if (!BC.on || !AC || !playing || SP.on) return; var P = 60 / (BPM || 120), now = AC.currentTime, ref = t0ctx - off0 + (BPM ? GRID0 : 0), k, tt;
+    for (k = Math.max(0, Math.ceil((now - ref) / P)); ref + k * P < now + 0.12; k++) { tt = ref + k * P; if (tt <= BC.last + P * 0.5) continue; singClick(tt, k % 4 === 0); BC.last = tt; BC.times.push(+(GRID0 + k * P).toFixed(4)); if (BC.times.length > 64) BC.shift ? BC.times.shift() : 0; }
+  }
+  function bcOn(on) { BC.on = on; $("bcb").setAttribute("aria-pressed", on ? "true" : "false"); clearInterval(BC.timer); BC.last = -9; if (on) { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); BC.timer = setInterval(bcPump, 25); } bcInfo(); }
+  $("bcb").addEventListener("click", function () { bcOn(!BC.on); });
+  $("bchalf").addEventListener("click", function () { if (BPM) { setTempo(BPM / 2, GRID0); bcInfo(); } });
+  $("bcdbl").addEventListener("click", function () { if (BPM) { setTempo(BPM * 2, GRID0); bcInfo(); } });
+  $("bcearly").addEventListener("click", function () { if (BPM) { setTempo(BPM, GRID0 - 0.01); bcInfo(); } });
+  $("bclate").addEventListener("click", function () { if (BPM) { setTempo(BPM, GRID0 + 0.01); bcInfo(); } });
   $("dbtrim").addEventListener("click", function () {
     if (!SING.pcm || SING.state !== "loop") { singMsg("Record a loop first."); return; }
     if (SING.click) { singMsg("With the click on, the loop already starts on the click's first beat."); return; }
@@ -1426,7 +1505,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "phosphor.stickers.v1", "phosphor.keys.v1", "phosphor.skin.v1"].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } }); clearTimeout(saveT); $("learnhint").textContent = "Everything saved on this device was removed. This page keeps its current settings until you reload."; });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
-  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
+  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
   if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
@@ -1439,7 +1518,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         return new Promise(function (res) { R.mr.onstop = function () { var fr = new FileReader(); fr.onload = function () { res(String(fr.result).split(",")[1]); }; fr.readAsDataURL(new Blob(R.chunks, { type: "video/webm" })); try { AC._sh.disconnect(R.dst); } catch (e) { /* gone */ } }; R.mr.stop(); });
       }
     };
-  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1479,19 +1558,35 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   /* ---------------- glitch: stutter and freeze (time and audio), tear, RGB split, blocks (pixels) ---------------- */
   var GLITCH = { stut: null, tear: false, rgb: false, blocks: false, crush: false, dist: false, echo: false, room: false, shim: false, sweep: false }, GAMT = 0.6, STSIZE = 0.125, PERFORM = false, GSRC = null, GTMP = null;
   function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-  function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var d = t - s.t0; return s.t0 + (((d % s.L) + s.L) % s.L); }
+  function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var L = Math.max(s.L, 0.17), d = t - s.t0; return s.t0 + (((d % L) + L) % L); }
   function glitchActive() { return !!(GLITCH.stut || GLITCH.tear || GLITCH.rgb || GLITCH.blocks); }
-  function glitchPixels(g, W, H, fn) {
-    var A = GAMT, r, y, x, h, dx;
-    if (!(GLITCH.tear || GLITCH.rgb || GLITCH.blocks)) return;
-    GTMP = GTMP || document.createElement("canvas"); GTMP.width = W; GTMP.height = H; var tg = GTMP.getContext("2d"); tg.drawImage(g.canvas, 0, 0);
-    if (GLITCH.tear) { r = rng(fn * 7 + 1); y = 0; while (y < H) { h = 4 + Math.floor(r() * H * 0.07); if (r() < 0.5 * A) { dx = Math.floor((r() - 0.5) * W * 0.14 * A); g.drawImage(GTMP, 0, y, W, h, dx, y, W, h); } y += h; } }
-    if (GLITCH.blocks) { r = rng(fn * 13 + 5); var bs = Math.max(16, Math.round(H / 12)), nb = Math.round(6 + 20 * A), k; for (k = 0; k < nb; k++) { var sx = Math.floor(r() * (W - bs)), sy = Math.floor(r() * (H - bs)), ex = Math.floor(r() * (W - bs)), ey = Math.floor(r() * (H - bs)); g.drawImage(GTMP, sx, sy, bs, bs, ex, ey, bs, bs); } }
-    if (GLITCH.rgb) {
-      var id = g.getImageData(0, 0, W, H), d = id.data, off = Math.max(1, Math.round(W * 0.014 * A)), row = new Uint8ClampedArray(W * 4), i;
+  /* Glitch as a stop-motion zoetrope (Zach, 2026-10-16). Poses advance on a constant-speed drive (8 a second, 12 to a turn), never random per frame:
+     Tear is a travelling wave of small row offsets, Blocks is a thin strip of four-colour genetic-code cells stepping along it, Split is a small steady chroma offset,
+     and a pinhole vignette narrows the view. Every displacement is small and bounded, so nothing can strobe. */
+  var GLAST = {}, CODONS = null;
+  function gvis(k) { var now = performance.now(); if (GLITCH[k]) GLAST[k] = now; return GLITCH[k] || now - (GLAST[k] || -1e9) < 180; }
+  function glitchPixels(g, W, H, fn, tsec) {
+    var A = GAMT, tear = gvis("tear"), rgb = gvis("rgb"), blocks = gvis("blocks"), y, x;
+    if (!(tear || rgb || blocks)) return;
+    var pose = Math.floor((tsec || 0) * 8), ph = 2 * Math.PI * (pose % 12) / 12;
+    if (tear) {
+      GTMP = GTMP || document.createElement("canvas"); GTMP.width = W; GTMP.height = H; var tg = GTMP.getContext("2d"); tg.drawImage(g.canvas, 0, 0);
+      var hb = Math.max(4, Math.round(H / 90)), amp = 0.02 * W * A;
+      for (y = 0; y < H; y += hb) { var dx = Math.round(Math.sin(2 * Math.PI * (y / (H * 0.33)) + ph) * amp); if (dx) g.drawImage(GTMP, 0, y, W, hb, dx, y, W, hb); }
+    }
+    if (rgb) {
+      var id = g.getImageData(0, 0, W, H), d = id.data, off = Math.max(1, Math.round(W * 0.004 * (0.4 + A))), row = new Uint8ClampedArray(W * 4), i;
       for (y = 0; y < H; y++) { var b0 = y * W * 4; row.set(d.subarray(b0, b0 + W * 4)); for (x = 0; x < W; x++) { i = b0 + x * 4; d[i] = row[Math.min(W - 1, x + off) * 4]; d[i + 2] = row[Math.max(0, x - off) * 4 + 2]; } }
       g.putImageData(id, 0, 0);
     }
+    if (blocks) {
+      CODONS = CODONS || [C.cyan, C.gold, C.green, C.magenta];
+      var ch = Math.round(H * 0.09), cw = ch, cy = Math.round(H * 0.5 - ch / 2), step = Math.floor((tsec || 0) * 8), n = Math.ceil(W / cw) + 2, k, c0;
+      g.globalAlpha = 0.1 + 0.2 * A;
+      for (k = 0; k < n; k++) { c0 = (k + Math.floor(step / 3)) | 0; var hv = (Math.imul(c0, 2654435761) >>> 0) % 4; g.fillStyle = CODONS[hv]; g.fillRect(k * cw - ((step % 3) * cw / 3), cy, cw - 2, ch); }
+      g.globalAlpha = 1;
+    }
+    var rg = g.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.85); rg.addColorStop(0, "transparent"); rg.addColorStop(1, C.bg); g.globalAlpha = 0.25 + 0.4 * A; g.fillStyle = rg; g.fillRect(0, 0, W, H); g.globalAlpha = 1;
   }
   function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(outBus()); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
   /* Gold chime: the golden repair as a strange consonance. Stacked fifths on the song's own strongest note, with a slightly detuned copy that beats. */
@@ -1676,7 +1771,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
   function singUI() { $("ovr").hidden = SING.state !== "armed"; $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }
   function singMirror(g, W, H) {
-    var w = SING.wave, n = w.length, i, lw = Math.max(1, H / 360), lv = Math.min(1, SING.lvl * 6), x, y;
+    var w = SING.wave, n = w.length, i, lw = Math.max(1, H / 360), x, y; SING.lvS = (SING.lvS || 0) + (Math.min(1, SING.lvl * 6) - (SING.lvS || 0)) * 0.12; var lv = SING.lvS;
     g.strokeStyle = C.border; g.lineWidth = lw; g.beginPath();
     for (i = 1; i < 8; i++) { g.moveTo(W * i / 8, 0); g.lineTo(W * i / 8, H); g.moveTo(0, H * i / 8); g.lineTo(W, H * i / 8); } g.stroke();
     g.strokeStyle = C.cyan; g.lineWidth = lw * 1.6; g.lineJoin = "round"; g.beginPath();
