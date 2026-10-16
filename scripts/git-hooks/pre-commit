@@ -965,4 +965,11 @@ if [ -n "$seedag" ] && [ -f scripts/agent_seed_gate.py ] && command -v python3 >
     exit 1
   fi
 fi
+# Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
+# See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
+if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then
+  rl=$(git diff --cached --name-only)
+  [ -n "$rl" ] && python3 scripts/ripple_ledger.py --touch $rl || true
+fi
+
 exit 0
