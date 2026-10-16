@@ -19,5 +19,12 @@ await hold('#hej', 1000); check(await pg.evaluate(() => window.__ejectLock()), '
 await hold('#hej', 3300)
 const off = await pg.evaluate(() => ({ lock: window.__ejectLock(), fs: document.getElementById('frame').classList.contains('fs') }))
 check(!off.lock && !off.fs, 'E7: holding 3 seconds again unlocks and leaves full screen')
+// E9 holding Escape for 3 seconds enters the lock; a short Escape does not
+await pg.keyboard.down('Escape'); await pg.waitForTimeout(1000); await pg.keyboard.up('Escape')
+check(!(await pg.evaluate(() => window.__ejectLock())), 'E9: a 1 second Escape does not lock')
+await pg.keyboard.down('Escape'); await pg.waitForTimeout(3300); await pg.keyboard.up('Escape')
+check(await pg.evaluate(() => window.__ejectLock() && document.getElementById('frame').classList.contains('fs')), 'E9: holding Escape for 3 seconds enters the locked full screen')
+await hold('#hej', 3300)
+check(!(await pg.evaluate(() => window.__ejectLock())), 'E9: and Eject held for 3 seconds leaves it')
 check(errs.length === 0, 'E8: no page errors ' + errs.join('|'))
 await b.close(); process.exit(bad ? 1 : 0)

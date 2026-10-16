@@ -77,6 +77,16 @@ The mechanism a neighboring product could not truthfully copy: ARCS **scaffolds 
 4. `text-wrap: balance` on headings, `text-wrap: pretty` on reading text, `white-space: nowrap` on chips/counts/values that must never break mid-token; mono stat values step down a size on phones rather than wrapping.
 5. **Ported CSS re-audits against these rules at port time**: the deck recurrence happened because chan-era CSS predating rule 1 was imported wholesale.
 
+## Phosphor (surface record, added 2026-10-16)
+
+Phosphor (`_ARTIFACTS/phosphor.html`) is a single-file audio visualizer and instrument that turns a song into light, built as the first ARCS surface worth public review. Facts confirmed by Zach in session:
+
+- **Users:** parents and young children making music together; a Kid mode for small hands and a Parent mode for the full controls. The family goals are co-creating a song, craft or ritual, and a play that builds patience and anticipation.
+- **Positioning:** everything runs in the browser. A song, the sound analysis and any Sing recording stay on the computer, and the page's own check fails if it makes a network request. Do not claim that this has never been done elsewhere.
+- **Constraints:** one self-contained HTML file under 280 KB; inline ARCS tokens; no new dependencies without asking; touch first (large pads, drag and drop); kids' hearing ceiling in the output chain; no song bundled.
+- **Open decisions (not yet built):** parent passkey and per-child codes with time limits; a wide 32:9 borderless screen; the player's hide and mini-widget states; kid pads in the bottom player; genre kits.
+- **Evidence on hand:** 32 check scripts under `scripts/phosphor_*_check.mjs` run one at a time; known failing: sing S2 and slice S4.
+
 ## Accessibility & Inclusion
 
 Plain-language requirement (above) is partly an accessibility commitment: surfaces must be legible to non-technical, tech-weary readers without insider vocabulary.
