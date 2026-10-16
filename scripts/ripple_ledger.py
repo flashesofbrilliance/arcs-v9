@@ -3,7 +3,8 @@
 
 File: _QUEUE/ripple-ledger.jsonl, one JSON object per line:
   id, decision, door ("one-way" | "two-way"), reach (how many things sit downstream), time_cost_h, ruin ("low"|"medium"|"high"|"critical"),
-  paths (globs this decision touches), derisk (the test or gate that must pass first), derisk_state ("OPEN"|"PASSED"|"NA"), owner, noted (date)
+  paths (globs this decision touches), derisk (the test or gate that must pass first), derisk_state ("OPEN"|"PASSED"|"NA"), owner, noted (date),
+  chamber (where it is staged so it cannot flood anything), canary (the one small thing sent through first), rollback (the way back)
 
 Rule (WORLD.md, ROM primitive 7 WRITE-LOCK): a one-way door whose ruin is high or critical does not START until derisk_state is PASSED.
 
@@ -16,7 +17,8 @@ import fnmatch, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FILE = os.path.join(ROOT, "_QUEUE/ripple-ledger.jsonl")
 RUIN = ["low", "medium", "high", "critical"]
-REQ = ["id", "decision", "door", "reach", "time_cost_h", "ruin", "paths", "derisk", "derisk_state", "owner", "noted"]
+REQ = ["id", "decision", "door", "reach", "time_cost_h", "ruin", "paths", "derisk", "derisk_state", "owner", "noted", "chamber", "canary", "rollback"]
+LOCK = ["chamber", "canary", "rollback"]  # the canal lock: a contained chamber, one canary through it, and a way back
 
 def rows():
     out = []
@@ -32,6 +34,9 @@ def problems(r):
     if r.get("derisk_state") not in ("OPEN", "PASSED", "NA"): p.append("derisk_state must be OPEN, PASSED or NA")
     if not isinstance(r.get("paths"), list): p.append("paths must be a list")
     if r.get("door") == "one-way" and r.get("derisk_state") == "NA": p.append("a one-way door cannot be NA: say what de-risks it")
+    if r.get("door") == "one-way" and r.get("derisk_state") == "PASSED":
+        for k in LOCK:
+            if str(r.get(k, "")).strip().lower() in ("", "n/a", "na", "none"): p.append(f"PASSED needs the lock: {k} is empty (a one-way door is opened only through a chamber, a canary and a rollback)")
     return p
 
 def blocked(r):
