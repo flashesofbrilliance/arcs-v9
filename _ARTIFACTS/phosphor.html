@@ -117,6 +117,8 @@ h1 em { font-style: normal; color: var(--cyan); }
 .rec[data-s=rec] { border-color: var(--red); background: var(--surface); }
 .rec[data-s=layer] { border-color: var(--gold); }
 .kid[data-src=sing] #kpick { display: none; }
+.presets { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+@media (max-width: 520px) { .presets { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .stk { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .sk { min-height: 44px; display: inline-flex; align-items: center; padding: 0 14px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-pill); }
 .sk.got { color: var(--text); border-color: var(--cyan); background: var(--cyan-bg); }
@@ -305,13 +307,16 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   </div>
   <div class="singbox" id="singbox" hidden>
     <button class="rec" id="rec" type="button" data-s="off"><span class="recdot" id="recdot"></span><span id="reclbl">Sing</span></button>
-    <div class="row"><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="clr" type="button">Start over</button><button class="btn" id="clk" type="button" aria-pressed="false">Click</button><select class="txt" id="bpm" style="width:auto" aria-label="Click speed"><option value="80">80</option><option value="100" selected>100</option><option value="120">120</option></select></div>
+    <div class="row"><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="clr" type="button">Start over</button><button class="btn" id="dbtrim" type="button">Start on the downbeat</button><button class="btn" id="clk" type="button" aria-pressed="false">Click</button><select class="txt" id="bpm" style="width:auto" aria-label="Click speed"><option value="80">80</option><option value="100" selected>100</option><option value="120">120</option></select></div>
     <p class="first" id="recmsg">Headphones work best, so the loop does not hear itself.</p>
   </div>
   <div class="kid" id="kid" data-src="song">
     <button class="bb pri" type="button" id="kpick">Pick a song</button>
     <button class="bb" type="button" data-km="0">Wiggle</button><button class="bb" type="button" data-km="1">Bars</button><button class="bb" type="button" data-km="2">Ring</button><button class="bb" type="button" data-km="3">Rainbow</button>
     <button class="bb" type="button" id="kcol">Colors</button><button class="bb" type="button" id="kzoom">Zoom</button><button class="bb" type="button" id="kwob">Wobble</button><button class="bb" type="button" id="kfs">Big screen</button>
+  </div>
+  <div class="kid presets" id="presets" role="group" aria-label="Say a word">
+    <button class="bb sm" type="button" data-pre="rain">Rain</button><button class="bb sm" type="button" data-pre="robot">Robot</button><button class="bb sm" type="button" data-pre="party">Party</button><button class="bb sm" type="button" data-pre="sleepy">Sleepy</button><button class="bb sm" type="button" data-pre="dino">Dino</button><button class="bb sm" type="button" data-pre="plain">Plain</button>
   </div>
   <div class="stk" id="stk" role="list" aria-label="Stickers"></div>
   <p class="first" id="pkmode" hidden></p>
@@ -452,7 +457,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
               <input type="radio" name="sqb" id="sb2" value="4"><label for="sb2">4 bars</label>
             </div>
           </div>
-          <div class="row"><button class="btn" type="button" id="sqclr">Clear steps</button></div>
+          <div class="row"><button class="btn" type="button" id="sqclr">Clear steps</button><button class="btn tapb" type="button">Tap tempo</button><button class="btn dbb" type="button">Downbeat here</button></div>
           <p class="hint">Tap a square to add an effect on that step. The Zoom row counts up through the zoom stages. Snap to decides where the step really lands: on the beat, on a hit in the song, in a quiet spot, or on the edge of a slice you cut.</p>
         </div>
       </details>
@@ -460,6 +465,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <summary>Keys</summary>
         <div class="gb">
           <p class="hint">Space play. F full screen. 1 to 4 mode. Brackets resolution. Left and right arrows palette. Comma and period jump to snap points.</p>
+          <div class="row"><button class="btn" type="button" id="forget">Forget everything saved here</button></div>
           <label class="check"><input type="checkbox" id="fullvol"><span>Full volume for grown-ups. Turns off the kids' volume limit.</span></label>
           <p class="hint" id="lastkey">Press any key to see its code.</p>
           <div class="row"><button class="btn" type="button" id="plogb">Copy play log</button><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
@@ -502,6 +508,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <button class="btn" type="button" id="asb">Slice on the beat</button>
       </div>
       <div class="sl" id="tmrow">
+        <button class="btn tapb" type="button">Tap tempo</button><button class="btn dbb" type="button">Downbeat here</button>
         <label class="tpl" for="sbpm">Song BPM</label><input class="txt" id="sbpm" type="number" min="40" max="240" step="1" style="width:92px">
         <label class="tpl" for="tbpm">Play at BPM</label><input class="txt" id="tbpm" type="number" min="40" max="240" step="1" style="width:92px">
         <button class="btn" type="button" id="spl">Play slices at that tempo</button>
@@ -760,7 +767,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 
   /* ---------------- playback: follows the audio clock ---------------- */
   var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
-  var SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
+  var RESTORED = false, SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
   /* Output bus: everything the page plays goes through a limiter and a kid volume ceiling (about minus 6 dB), so no effect or layer can be painfully loud. A grown-up can turn it off. */
   var BUSFULL = false;
   function outBus() {
@@ -783,7 +790,12 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     if (RL.dir === "pp") u = 1 - Math.abs(2 * (b + 0.5) / nb - 1); else { u = nb > 1 ? b / (nb - 1) : 1; if (RL.dir === "down") u = 1 - u; }
     return Math.max(0, Math.min(8, Math.round(u * 8)));
   }
-  function rungFor(t) { if (RL.on) return loopRung(t); if (!CHSHARP) return RUNG; var K = CHAPS.length, k = chapterAt(t); return K <= 1 ? 8 : Math.round(1 + 7 * k / (K - 1)); }
+  function seqDetailAt(t) {
+    var st = seqStep(), j0 = Math.floor((t - seqBase()) / st), j, v, c;
+    for (j = j0; j > j0 - 17; j--) { if (j < 0) break; c = ((j % 16) + 16) % 16; v = SEQ.cells.detail[c]; if (v && t >= seqFire(j)) return v - 1; }
+    return -1;
+  }
+  function rungFor(t) { if (SEQ && SEQ.on) { var dr = seqDetailAt(t); if (dr >= 0) return dr; } if (RL.on) return loopRung(t); if (!CHSHARP) return RUNG; var K = CHAPS.length, k = chapterAt(t); return K <= 1 ? 8 : Math.round(1 + 7 * k / (K - 1)); }
   function fmt(s) { s = Math.max(0, s); return (s / 60 | 0) + ":" + ("0" + (s % 60 | 0)).slice(-2); }
   function updateUI(t) {
     var fi = fidx(t), lv = RMS ? RMS[fi] : 0, best = 0, b;
@@ -1180,11 +1192,88 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   function spStop() { clearInterval(SP.timer); SP.srcs.forEach(function (s) { try { s.stop(); } catch (e) { /* ended */ } }); SP.srcs = []; SP.on = false; $("spl").textContent = "Play slices at that tempo"; }
   $("spl").addEventListener("click", function () { if (SP.on) stopPlay(""); else spStart(); });
+  /* ---------------- tempo tools: tap tempo, downbeat ---------------- */
+  var TAPS = [];
+  function setTempo(bpm, origin) {
+    bpm = Math.max(40, Math.min(240, Math.round(bpm))); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
+    MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; });
+    for (g = GRID0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" });
+    MAGNETS.sort(function (x, y) { return x.t - y.t; });
+    $("sbpm").value = bpm; if (!SP.touched) $("tbpm").value = bpm;
+    if (NF) { buildStripBg(); magnetSummary(); drawStrip(tnow()); }
+    Array.prototype.forEach.call(document.querySelectorAll(".tapb"), function (b) { b.textContent = "Tap tempo " + bpm; });
+  }
+  function tapAt(ms, songT) {
+    if (TAPS.length && ms - TAPS[TAPS.length - 1].ms > 2000) TAPS = [];
+    TAPS.push({ ms: ms, t: songT }); if (TAPS.length > 8) TAPS.shift();
+    if (TAPS.length < 2) return 0;
+    var iv = [], i; for (i = 1; i < TAPS.length; i++) iv.push(TAPS[i].ms - TAPS[i - 1].ms); iv.sort(function (a, b) { return a - b; });
+    var med = iv.length % 2 ? iv[(iv.length - 1) / 2] : (iv[iv.length / 2 - 1] + iv[iv.length / 2]) / 2;
+    setTempo(60000 / med, TAPS[TAPS.length - 1].t); return BPM;
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".tapb"), function (b) { b.addEventListener("click", function () { tapAt(performance.now(), tnow()); }); });
+  function downbeatHere() {
+    var tn = tnow(), best = null, bd = 0.2, i; if (!NF) return;
+    for (i = 0; i < MAGNETS.length; i++) if (MAGNETS[i].k === "onset" && Math.abs(MAGNETS[i].t - tn) < bd) { bd = Math.abs(MAGNETS[i].t - tn); best = MAGNETS[i].t; }
+    setTempo(BPM || 120, best === null ? tn : best); $("sphint").textContent = "Downbeat set at " + (best === null ? tn : best).toFixed(2) + " s.";
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".dbb"), function (b) { b.addEventListener("click", downbeatHere); });
+  $("dbtrim").addEventListener("click", function () {
+    if (!SING.pcm || SING.state !== "loop") { singMsg("Record a loop first."); return; }
+    if (SING.click) { singMsg("With the click on, the loop already starts on the click's first beat."); return; }
+    var sr = AC.sampleRate, cut = Math.round(GRID0 * sr), pcm = SING.pcm.subarray(Math.min(cut, SING.pcm.length - 1));
+    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = Math.max(1, Math.round(pcm.length / bar)), n = Math.round(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, Math.min(n, pcm.length))); pcm = o; }
+    SING.hist.push(SING.pcm); if (SING.hist.length > 8) SING.hist.shift(); singLoad(new Float32Array(pcm), "My loop"); singMsg("The loop now starts on the downbeat.");
+  });
   $("tbpm").addEventListener("input", function () { SP.touched = true; });
+  /* ---------------- presets (say a word) and settings autosave. Settings only: no audio, no voice, never invert, never the Run switch. ---------------- */
+  var PRE = {
+    rain: { mode: 1, pal: "indigo", bits: 8, res: 9, rl: { on: true, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: { tear: [0, 5, 10], jog: { 0: 1, 8: 2 } } },
+    robot: { mode: 0, pal: "phosphor", bits: 4, res: 9, rl: { on: false, bars: 2, dir: "up" }, q: "onset", gate: 0.25, bars: 1, cells: { blocks: [0, 4, 8, 12], stutter: [6, 14] } },
+    party: { mode: 2, pal: "heat", bits: 8, res: 9, rl: { on: true, bars: 1, dir: "pp" }, q: "beat", gate: 0.5, bars: 1, cells: { rgb: [0, 2, 4, 6, 8, 10, 12, 14], jog: { 0: 1, 4: 2, 8: 3, 12: 2 } } },
+    sleepy: { mode: 0, pal: "amber", bits: 8, res: 6, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} },
+    dino: { mode: 3, pal: "mono", bits: 3, res: 9, rl: { on: true, bars: 4, dir: "down" }, q: "valley", gate: 1, bars: 2, cells: { stutter: [0, 8], blocks: [4, 12], detail: { 0: 2, 4: 5, 8: 9, 12: 5 } } },
+    plain: { mode: 0, pal: "orig", bits: 8, res: 9, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} }
+  };
+  function setCtl(id, v, ev) { var e = $(id); if (!e) return; if (e.type === "checkbox") e.checked = !!v; else e.value = v; e.dispatchEvent(new Event(ev || (e.tagName === "SELECT" ? "change" : "input"), { bubbles: true })); }
+  function setRadio(name, v) { Array.prototype.forEach.call(document.querySelectorAll("input[name=" + name + "]"), function (r) { if (parseFloat(r.value) === parseFloat(v) || r.value === String(v)) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } }); }
+  function applyPreset(name) {
+    var P = PRE[name]; if (!P) return;
+    setStage(P.mode, ZS[P.mode]); setCtl("palsel", P.pal); pkBits(P.bits); setCtl("res", P.res);
+    setCtl("rloop", P.rl.on, "change"); setRadio("rb", P.rl.bars); setRadio("rd", P.rl.dir);
+    seqClear(); var has = false;
+    Object.keys(P.cells).forEach(function (l) { var c = P.cells[l]; has = true; if (Array.isArray(c)) c.forEach(function (i) { SEQ.cells[l][i] = 1; }); else Object.keys(c).forEach(function (i) { SEQ.cells[l][+i] = c[i]; }); });
+    seqPaint(); seqQuant(P.q); setRadio("sqg", P.gate); setRadio("sqb", P.bars); seqOn(has);
+    frame(playing);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-pre]"), function (b) { b.addEventListener("click", function () { applyPreset(b.getAttribute("data-pre")); }); });
+  var SAVEKEY = "phosphor.settings.v1", saveT = 0;
+  function snapshot() {
+    return { mode: MODE, zs: ZS.slice(), pal: $("palsel").value, curve: LOOK.curve, amt: LOOK.amt, bits: BITS, wood: WOOD, crt: CRT, calm: CALM, res: +$("res").value, chs: CHSHARP,
+      rl: { on: RL.on, bars: RL.bars, dir: RL.dir }, seq: { quant: SEQ.quant, gate: SEQ.gate, bars: SEQ.bars, cells: SEQ.cells }, click: SING.click, bpm: SING.bpm };
+  }
+  function saveSettings() { try { localStorage.setItem(SAVEKEY, JSON.stringify(snapshot())); } catch (e) { /* storage blocked */ } }
+  function restoreSaved() {
+    var s = null; try { s = JSON.parse(localStorage.getItem(SAVEKEY) || "null"); } catch (e) { s = null; } if (!s) return;
+    try {
+      if (s.zs && s.zs.length === 4) s.zs.forEach(function (z, c) { ZS[c] = Math.max(1, Math.min(5, z | 0)); });
+      if (s.mode >= 0 && s.mode < 4) setStage(s.mode, ZS[s.mode]);
+      if (s.pal && $("palsel").querySelector('option[value="' + s.pal + '"]')) setCtl("palsel", s.pal);
+      if (s.curve) { setRadio("cu", s.curve); setCtl("cua", Math.round((s.amt || 0) * 100)); }
+      if (s.bits >= 1 && s.bits <= 8) pkBits(s.bits);
+      setRadio("pm", s.wood ? "wood" : "plain"); setCtl("crt", !!s.crt, "change"); setCtl("calm", s.calm !== false, "change"); setCtl("chsharp", !!s.chs, "change");
+      if (s.res >= 1 && s.res <= 9) setCtl("res", s.res);
+      if (s.rl) { setCtl("rloop", !!s.rl.on, "change"); setRadio("rb", s.rl.bars); setRadio("rd", s.rl.dir); }
+      if (s.seq) { ["beat", "onset", "valley", "edge"].indexOf(s.seq.quant) >= 0 && seqQuant(s.seq.quant); setRadio("sqg", s.seq.gate); setRadio("sqb", s.seq.bars); LANES.forEach(function (l) { var c = s.seq.cells && s.seq.cells[l[0]]; if (Array.isArray(c) && c.length === 16) for (var i = 0; i < 16; i++) SEQ.cells[l[0]][i] = Math.max(0, Math.min(l[0] === "detail" ? 9 : l[0] === "jog" ? 5 : 1, c[i] | 0)); }); seqPaint(); }
+      if (s.click) { SING.click = true; $("clk").setAttribute("aria-pressed", "true"); } if (s.bpm === 80 || s.bpm === 100 || s.bpm === 120) { SING.bpm = s.bpm; $("bpm").value = s.bpm; }
+    } catch (e) { console.warn("phosphor: a saved setting was ignored", e && e.message); }
+  }
+  ["change", "input"].forEach(function (n) { document.addEventListener(n, function () { clearTimeout(saveT); saveT = setTimeout(saveSettings, 400); }, true); });
+  $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "phosphor.stickers.v1", "phosphor.keys.v1", "phosphor.skin.v1"].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } }); clearTimeout(saveT); $("learnhint").textContent = "Everything saved on this device was removed. This page keeps its current settings until you reload."; });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
-  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, outPeak: outPeak, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (!RESTORED) { RESTORED = true; restoreSaved(); } }
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, outPeak: outPeak, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1263,7 +1352,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function gmLabel() { var on = []; if (GLITCH.stut) on.push(GLITCH.stut.kind); ["tear", "rgb", "blocks"].forEach(function (k) { if (GLITCH[k]) on.push(k); }); $("gmo").textContent = on.length ? on.join(" + ") : (PERFORM ? "perform: on" : "off"); }
   var GKEYS = { z: "stutter", x: "freeze", c: "tear", v: "rgb", b: "blocks" };
   /* ---------------- step sequencer: the effects as a pattern, snapped to the waveform ---------------- */
-  var LANES = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["jog", "Zoom"]];
+  var LANES = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["jog", "Zoom"], ["detail", "Detail"]];
   var SEQ = { on: false, bars: 1, quant: "beat", gate: 0.5, cells: {}, held: {}, lastJog: -1, col: -1 };
   function makeCells() { var c = {}; LANES.forEach(function (l) { c[l[0]] = []; for (var i = 0; i < 16; i++) c[l[0]].push(0); }); return c; }
   SEQ.cells = makeCells(); SEQ.banks = [SEQ.cells];
@@ -1283,6 +1372,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       if (j < 0) continue; c = ((j % 16) + 16) % 16; f = seqFire(j);
       for (li = 0; li < LANES.length; li++) {
         k = LANES[li][0]; v = SEQ.cells[k][c]; if (!v) continue;
+        if (k === "detail") continue;
         if (k === "jog") { if (t >= f && t < f + st * 0.5) { out.jog = v; out.jogKey = j; } }
         else if (t >= f && t < f + SEQ.gate * st) out[k] = true;
       }
@@ -1290,7 +1380,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     return out;
   }
   function seqPaint() {
-    Array.prototype.forEach.call(document.querySelectorAll(".sq"), function (b) { var v = SEQ.cells[b.getAttribute("data-l")][+b.getAttribute("data-i")]; b.setAttribute("aria-pressed", v ? "true" : "false"); b.textContent = b.getAttribute("data-l") === "jog" && v ? String(v) : ""; });
+    Array.prototype.forEach.call(document.querySelectorAll(".sq"), function (b) { var v = SEQ.cells[b.getAttribute("data-l")][+b.getAttribute("data-i")]; b.setAttribute("aria-pressed", v ? "true" : "false"); b.textContent = (b.getAttribute("data-l") === "jog" || b.getAttribute("data-l") === "detail") && v ? String(v) : ""; });
   }
   function seqHead(t) {
     var c = ((Math.floor((t - seqBase()) / seqStep()) % 16) + 16) % 16; if (c === SEQ.col) return; SEQ.col = c;
@@ -1317,7 +1407,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     h += "</div>";
     LANES.forEach(function (l) { h += '<div class="sqrow"><span class="sqlab">' + l[1] + "</span>"; for (i = 0; i < 16; i++) h += '<button class="sq' + (i % 4 === 0 ? " b" : "") + '" type="button" data-l="' + l[0] + '" data-i="' + i + '" aria-pressed="false" aria-label="' + l[1] + " step " + (i + 1) + '"></button>'; h += "</div>"; });
     el.innerHTML = h;
-    Array.prototype.forEach.call(el.querySelectorAll(".sq"), function (b) { b.addEventListener("click", function () { var l = b.getAttribute("data-l"), i = +b.getAttribute("data-i"), v = SEQ.cells[l][i]; SEQ.cells[l][i] = l === "jog" ? (v + 1) % 6 : (v ? 0 : 1); seqPaint(); }); });
+    Array.prototype.forEach.call(el.querySelectorAll(".sq"), function (b) { b.addEventListener("click", function () { var l = b.getAttribute("data-l"), i = +b.getAttribute("data-i"), v = SEQ.cells[l][i]; SEQ.cells[l][i] = l === "detail" ? (v + 1) % 10 : l === "jog" ? (v + 1) % 6 : (v ? 0 : 1); seqPaint(); }); });
   }
   seqBuild($("seqg")); seqBuild($("seqf")); seqPaint();
   /* ---------------- play keys: strips, chords, hold or latch, stickers ---------------- */

@@ -77,7 +77,7 @@ await pg.evaluate(() => { window.PhosphorTest.seq.on(false); window.PhosphorTest
 // U1 grid
 await pg.click('details.grp:has(#seqg) > summary')
 const u1 = await pg.evaluate(() => ({ lanes: new Set([...document.querySelectorAll('#seqg .sq')].map((e) => e.dataset.l)).size, cells: document.querySelectorAll('#seqg .sq').length }))
-check(u1.lanes === 6 && u1.cells === 96, `U1: the grid has 6 lanes of 16 cells (${u1.lanes}, ${u1.cells})`)
+check(u1.lanes === 7 && u1.cells === 112, `U1: the grid has 7 lanes of 16 cells (${u1.lanes}, ${u1.cells})`)
 await pg.click('#seqg .sq[data-l="rgb"][data-i="2"]'); check(await pg.evaluate(() => document.querySelector('#seqg .sq[data-l="rgb"][data-i="2"]').getAttribute('aria-pressed') === 'true'), 'U1: a cell turns on when tapped')
 for (let i = 0; i < 5; i++) await pg.click('#seqg .sq[data-l="jog"][data-i="0"]')
 check(await pg.evaluate(() => document.querySelector('#seqg .sq[data-l="jog"][data-i="0"]').textContent === '5'), 'U1: a Zoom cell counts up to stage 5')
