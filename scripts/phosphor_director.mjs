@@ -60,7 +60,7 @@ if (cmd === 'pick') {
 const out = a3, idx = +a4, SECS = +(a5 || 75)
 const picks = JSON.parse(fs.readFileSync(path.join(out, 'picks.json'), 'utf8')), song = picks[idx]
 if (!song) { console.error('no such pick'); process.exit(2) }
-const bpm0 = song.bpm || 0, style = !bpm0 || bpm0 < 92 ? 'moon' : bpm0 < 118 ? 'mid' : bpm0 <= 140 ? 'club' : 'fast'
+const bpm0 = song.bpm || 0, style = process.env.STYLE || (!bpm0 || bpm0 < 92 ? 'moon' : bpm0 < 118 ? 'mid' : bpm0 <= 140 ? 'club' : 'fast')
 const beat = 60 / (bpm0 || 90), bar = 4 * beat
 const used = new Set()
 const b = await pw.chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }); const { pg, errors, reqs } = await openPage(b)
@@ -97,7 +97,17 @@ await E(() => { document.getElementById('fsb').click() }); await sleep(400)   //
 const sc = []
 const at = (t, label, fn) => sc.push([t, label, fn])
 const develop = (t0, from, step) => { for (let r = from, t = t0; r <= 9; r++, t += step) at(t, 'res ' + r, () => A.res(r)) }
-if (style === 'moon') {
+if (style === 'sparse') {
+  // post-minimal for fast songs: a thin line, long gaps, one effect at a time, a single precise drop, decay at the end
+  at(0, 'plain, phosphor green, coarse', async () => { await A.preset('plain'); await A.pal('phosphor'); await A.mode(0); await A.res(2) }); develop(2, 3, 5)
+  at(14, 'one echo on one beat', async () => { await A.fx('echo', true); await sleep(beat * 1000); await A.fx('echo', false) })
+  at(26, 'ring, indigo', async () => { await A.mode(2); await A.pal('indigo') })
+  at(32, 'one sparse lane', async () => { await A.tempo(bpm0 || 120, 0); await A.seqClear(); await A.seq('stutter', [12]); await A.snap('onset', 0.25); await A.seqOn(true) })
+  at(44, 'lane off, room', async () => { await A.seqOn(false); await A.fx('room', true) }); at(50, 'room off', () => A.fx('room', false))
+  at(54, 'sweep closes slowly', () => A.fx('sweep', true))
+  at(61, process.env.GOLD ? 'the drop: sweep cut, the gold chime' : 'the drop: sweep cut, one distort hit', async () => { await A.fx('sweep', false); if (process.env.GOLD) { used.add('gold chime'); await E(() => window.PhosphorTest.fx.gold.play()) } else { await A.fx('dist', true); await sleep(beat * 1000); await A.fx('dist', false) } })
+  at(65, 'resolution loop, one bar', () => A.loop(true, 1, 'down')); at(70, 'loop off, decay', async () => { await A.loop(false, 1, 'up'); await A.res(5) }); at(73, 'decay', () => A.res(3))
+} else if (style === 'moon') {
   at(0, 'sleepy preset, amber', async () => { await A.preset('sleepy'); await A.pal('amber'); await A.res(3) }); develop(3, 4, 4)
   at(8, 'room', () => A.fx('room', true)); at(15, 'room off', () => A.fx('room', false))
   at(20, 'notes on', () => A.notesOn(true)); at(21, 'motif', async () => { await note('1', 0.9); await sleep(500); await note('3', 0.9); await sleep(500); await note('5', 1.6) }); at(27, 'notes off', () => A.notesOn(false))
@@ -160,7 +170,7 @@ while ((await songT()) - base < SECS) await sleep(50)
 await E(() => document.getElementById('play').click()); await sleep(300)
 const b64 = await E(() => window.PhosphorTest.rec.stop()), lum = await E(() => window.__lum), pk = await E(() => window.__pk)
 const slug = song.name.replace(/\.[^.]+$/, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()
-const base2 = path.join(out, `demo-${idx + 1}-${slug}`); fs.writeFileSync(base2 + '.webm', Buffer.from(b64, 'base64'))
+const base2 = path.join(out, `demo-${idx + 1}-${slug}${process.env.SUFFIX || ''}`); fs.writeFileSync(base2 + '.webm', Buffer.from(b64, 'base64'))
 let mp4 = false; try { execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', base2 + '.webm', '-vf', 'scale=1280:-2', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-preset', 'fast', '-crf', '27', '-c:a', 'aac', '-b:a', '128k', base2 + '.mp4']); mp4 = true } catch (e) { console.log('ffmpeg failed', String(e).slice(0, 120)) }
 // flashes: pairs of 10 percent swings in any second
 function flashes(series) { const pts = []; let dir = 0, ext = series[0][1], extT = series[0][0]; for (const [t, v] of series.slice(1)) { if (dir === 0) { if (Math.abs(v - ext) >= 0.1) { dir = v > ext ? 1 : -1; pts.push(t); ext = v; extT = t } } else if (dir === 1) { if (v > ext) { ext = v; extT = t } else if (ext - v >= 0.1) { pts.push(extT); dir = -1; ext = v; extT = t } } else { if (v < ext) { ext = v; extT = t } else if (v - ext >= 0.1) { pts.push(extT); dir = 1; ext = v; extT = t } } } let w = 0; for (let i = 0; i < pts.length; i++) w = Math.max(w, Math.floor(pts.filter((p) => p >= pts[i] && p < pts[i] + 1000).length / 2)); return w }
