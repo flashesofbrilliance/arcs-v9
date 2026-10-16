@@ -115,6 +115,12 @@ svg { width: 100%; height: auto; display: block; }
 .lab { fill: var(--text); font-family: var(--ds-font-mono); font-size: var(--fs-label); }
 .fit { fill: none; stroke: var(--gold); stroke-width: 2; }
 .pt { fill: var(--cyan); }
+.ring { fill: none; stroke: var(--green); stroke-width: 2; }
+.ring-on { stroke-width: 4; }
+.legend { color: var(--dimmed); }
+.key { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: middle; margin: 0 4px 0 12px; }
+.key-pt { background: var(--cyan); margin-left: 0; }
+.key-ring { border: 2px solid var(--green); }
 .frame { fill: var(--cyan-bg); stroke: var(--cyan); stroke-width: 1; }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 16px; display: grid; gap: 14px; }
 .panel .grid { stroke: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
@@ -127,6 +133,7 @@ table { border-collapse: collapse; width: 100%; min-width: 760px; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
 td { color: var(--text-secondary); font-size: var(--fs-body); line-height: 1.5; }
 h1, dd, dt, .eyebrow, .lbl, li, a, button, th { line-height: 1.5; }
+a { color: var(--cyan); }
 @media (max-width: 480px) { body { padding: 20px var(--gutter) 48px; } }
 </style>
 </head>
@@ -143,6 +150,8 @@ h1, dd, dt, .eyebrow, .lbl, li, a, button, th { line-height: 1.5; }
       <button type="button" id="b-log" aria-pressed="true">Log</button>
     </div>
   </section>
+
+  <p class="legend"><span class="key key-pt" aria-hidden="true"></span> first consumer product at each pixel count (the six points the fit uses) <span class="key key-ring" aria-hidden="true"></span> documented minimum modes from the <a href="era-dial.html">era dial</a>, drawn for comparison and left out of the fit</p>
 
   <section class="stage" aria-label="Pixels per frame by year">
     <svg id="chart" viewBox="0 0 820 380" role="img" aria-label="Pixels per frame by year for six consumer displays from 1984 to 2018, with a fitted curve. Full values are in the table below the chart."></svg>
@@ -165,6 +174,7 @@ h1, dd, dt, .eyebrow, .lbl, li, a, button, th { line-height: 1.5; }
 
   <section class="panel" aria-label="Rows and sources">
     <h2 class="lbl">Rows, bit depth, launch price and sources</h2>
+    <p class="note">Rings on the chart (not in the table): the era dial's documented minimum modes, 512 x 342 (1984), 640 x 480 (1992 and 1995) and 800 x 600 (2001). The 1992 and 1995 rings share one point on the vertical axis because the two minimums are the same mode. They sit below the first-product points by design: a minimum is not a frontier.</p>
     <div class="tablewrap"><table id="rows"><thead><tr><th scope="col">Year</th><th scope="col">Product</th><th scope="col">Mode</th><th scope="col">Pixels</th><th scope="col">Bits per pixel</th><th scope="col">Launch price (reported)</th><th scope="col">Sources</th></tr></thead><tbody></tbody></table></div>
   </section>
 
@@ -191,6 +201,12 @@ h1, dd, dt, .eyebrow, .lbl, li, a, button, th { line-height: 1.5; }
       src: [["What Hi-Fi", "https://www.whathifi.com/news/sharp-to-release-worlds-first-8k-tv-in-2018"], ["Gearbrain", "https://www.gearbrain.com/samsung-8k-tv-price-2609954801.html"]] }
   ];
   ROWS.forEach(function (r) { r.px = r.w * r.h; });
+  var DIAL = [
+    { y: 1984, w: 512, h: 342, short: "dial 1984" }, { y: 1992, w: 640, h: 480, short: "dial 1992" },
+    { y: 1995, w: 640, h: 480, short: "dial 1995" }, { y: 2001, w: 800, h: 600, short: "dial 2001" }
+  ];
+  DIAL.forEach(function (r) { r.px = r.w * r.h; });
+  function getActive() { var hit = /dial=([0-3])/.exec(location.hash); return hit ? +hit[1] : -1; }
   var NS = "http://www.w3.org/2000/svg", chart = document.getElementById("chart"), scale = document.getElementById("scale");
   var logMode = true;
   function el(tag, attrs, text, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (text) e.textContent = text; (parent || chart).appendChild(e); return e; }
@@ -223,6 +239,11 @@ h1, dd, dt, .eyebrow, .lbl, li, a, button, th { line-height: 1.5; }
       var o = off[r.short] || [10, -10, "start"];
       el("text", { x: X(r.y) + o[0], y: Y(r.px) + o[1], "text-anchor": o[2], class: "lab" }, r.short);
     });
+    var active = getActive();
+    DIAL.forEach(function (r, i) {
+      el("circle", { cx: X(r.y), cy: Y(r.px), r: i === active ? 9 : 7, class: "ring" + (i === active ? " ring-on" : "") });
+      if (i === active) el("text", { x: X(r.y) + 14, y: Y(r.px) + 4, class: "lab" }, r.short + ": " + r.px.toLocaleString("en-US") + " px");
+    });
     el("text", { x: 14, y: 175, transform: "rotate(-90 14 175)", "text-anchor": "middle", class: "tick" }, "pixels per frame" + (logMode ? " (log)" : " (linear)"));
     document.getElementById("b-lin").setAttribute("aria-pressed", String(!logMode)); document.getElementById("b-log").setAttribute("aria-pressed", String(logMode));
   }
@@ -248,6 +269,7 @@ h1, dd, dt, .eyebrow, .lbl, li, a, button, th { line-height: 1.5; }
   });
   document.getElementById("b-lin").addEventListener("click", function () { logMode = false; draw(); });
   document.getElementById("b-log").addEventListener("click", function () { logMode = true; draw(); });
+  window.addEventListener("hashchange", draw);
   draw(); drawScale();
 })();
 </script>
