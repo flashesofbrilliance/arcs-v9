@@ -1,0 +1,32 @@
+<!-- @dsCard group="Instrument Lab" name="Step Sequencer" subtitle="Sixteen steps · beat accents · now marker · pressed cells" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 44px; padding: 8px 14px; cursor: pointer; }
+.hint { color: var(--muted); }
+.btn:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+/* @prim:begin 23-step-sequencer */
+.sqwrap { overflow-x: auto; }
+.sqrow { display: grid; grid-template-columns: 64px repeat(16, minmax(0, 1fr)); gap: 4px; align-items: center; min-width: 760px; margin-bottom: 4px; }
+.sqlab, .sqn { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary); text-align: center; }
+.sqn.b { color: var(--text); }
+.sqn.now { color: var(--gold); }
+.sq { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); min-height: 44px; cursor: pointer; padding: 0; touch-action: manipulation; }
+.sq.b { border-color: var(--text-secondary); }
+.sq[aria-pressed=true] { background: var(--cyan-bg); border-color: var(--cyan); color: var(--cyan); }
+.sq.now { border-color: var(--gold); }
+/* @prim:end 23-step-sequencer */
+</style>
+</head>
+<body>
+<div class="section-label">Step sequencer</div>
+<div class="sqwrap"><div class="sqrow"><span class="sqlab">Kick</span><button class="sq b" type="button" aria-pressed="true">1</button><button class="sq" type="button">2</button><button class="sq" type="button">3</button><button class="sq" type="button">4</button><button class="sq b" type="button">5</button><button class="sq" type="button">6</button><button class="sq" type="button" aria-pressed="true">7</button><button class="sq" type="button">8</button><button class="sq b" type="button" aria-pressed="true">9</button><button class="sq" type="button">10</button><button class="sq" type="button">11</button><button class="sq" type="button">12</button><button class="sq b" type="button" aria-pressed="true">13</button><button class="sq" type="button">14</button><button class="sq" type="button">15</button><button class="sq" type="button">16</button></div></div>
+</body>
+</html>

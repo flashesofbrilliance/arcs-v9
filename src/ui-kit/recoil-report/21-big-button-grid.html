@@ -1,0 +1,31 @@
+<!-- @dsCard group="Instrument Lab" name="Big Button Grid" subtitle="Large touch buttons that fill their rows · pressed state · priority row" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 44px; padding: 8px 14px; cursor: pointer; }
+.hint { color: var(--muted); }
+.btn:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+/* @prim:begin 21-big-button-grid */
+.kid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.bb { font: inherit; font-family: var(--ds-font-display); font-size: var(--fs-headline); font-weight: 600; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 72px; padding: 8px; cursor: pointer; touch-action: manipulation; }
+.bb:hover { border-color: var(--cyan); }
+.kid.presets { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.kid.presets > .bb:last-child { grid-column: span 2; }
+.bb.pri { grid-column: 1 / -1; background: var(--cyan-bg); border-color: var(--cyan); }
+.bb.sm { min-height: 52px; font-size: var(--fs-body); padding: 6px 14px; flex: 1 1 auto; }
+.bb.sp { flex: 4 1 220px; }
+/* @prim:end 21-big-button-grid */
+</style>
+</head>
+<body>
+<div class="section-label">Big button grid</div>
+<div class="kid"><button class="bb pri" type="button">Pick a song</button><button class="bb" type="button" aria-pressed="true">Wiggle</button><button class="bb" type="button">Bars</button><button class="bb" type="button">Ring</button><button class="bb" type="button">Rainbow</button><button class="bb" type="button">Sun</button></div>
+</body>
+</html>

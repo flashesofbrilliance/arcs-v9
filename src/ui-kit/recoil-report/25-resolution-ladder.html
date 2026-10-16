@@ -1,0 +1,28 @@
+<!-- @dsCard group="Instrument Lab" name="Resolution Ladder" subtitle="The same frame at every rung · current rung outlined · captions break at the dot" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 44px; padding: 8px 14px; cursor: pointer; }
+.hint { color: var(--muted); }
+.btn:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+/* @prim:begin 25-resolution-ladder */
+.rungs { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 10px; }
+.rung { margin: 0; min-width: 0; }
+.rung canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border: 1px solid var(--border); border-radius: var(--ds-r-xs); background: var(--bg); image-rendering: pixelated; }
+.rung.on canvas { border-color: var(--cyan); }
+.rung figcaption { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .04em; color: var(--text-secondary); margin-top: 4px; overflow-wrap: anywhere; text-wrap: balance; font-variant-numeric: tabular-nums; }
+/* @prim:end 25-resolution-ladder */
+</style>
+</head>
+<body>
+<div class="section-label">Resolution ladder</div>
+<div class="rungs"><figure class="rung"><canvas width="128" height="72"></canvas><figcaption>64 × 36</figcaption></figure><figure class="rung on"><canvas width="128" height="72"></canvas><figcaption>640 × 360</figcaption></figure><figure class="rung"><canvas width="128" height="72"></canvas><figcaption>1920 × 1080</figcaption></figure></div>
+</body>
+</html>

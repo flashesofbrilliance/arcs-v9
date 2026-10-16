@@ -1,0 +1,25 @@
+<!-- @dsCard group="Instrument Lab" name="Beat Check" subtitle="Hear the beat · half · double · earlier · later · tempo readout" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 44px; padding: 8px 14px; cursor: pointer; }
+.hint { color: var(--muted); }
+.btn:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+/* @prim:begin 26-beat-check */
+.sl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.sl .btn[aria-pressed=true] { border-color: var(--gold); background: var(--gold-bg); }
+/* @prim:end 26-beat-check */
+</style>
+</head>
+<body>
+<div class="section-label">Beat check</div>
+<div class="sl"><button class="btn" type="button" aria-pressed="true">Hear the beat</button><button class="btn" type="button">Half</button><button class="btn" type="button">Double</button><button class="btn" type="button">Earlier</button><button class="btn" type="button">Later</button><span class="hint">99.1 BPM, confidence 3.0, could also be 198 or 50</span></div>
+</body>
+</html>
