@@ -1,0 +1,165 @@
+{
+ "generated": "2026-10-16",
+ "git": {
+  "2025-10": null,
+  "2025-11": null,
+  "2025-12": null,
+  "2026-01": null,
+  "2026-02": null,
+  "2026-03": null,
+  "2026-04": {
+   "commits": 1,
+   "added": 581,
+   "deleted": 0,
+   "layers": 0
+  },
+  "2026-05": {
+   "commits": 86,
+   "added": 20963,
+   "deleted": 1000,
+   "layers": 1
+  },
+  "2026-06": {
+   "commits": 370,
+   "added": 81233,
+   "deleted": 9063,
+   "layers": 2
+  },
+  "2026-07": {
+   "commits": 674,
+   "added": 69665,
+   "deleted": 14597,
+   "layers": 7
+  },
+  "2026-08": {
+   "commits": 500,
+   "added": 93156,
+   "deleted": 14854,
+   "layers": 9
+  },
+  "2026-09": {
+   "commits": 754,
+   "added": 145610,
+   "deleted": 10909,
+   "layers": 30
+  },
+  "2026-10": {
+   "commits": 846,
+   "added": 149367,
+   "deleted": 30037,
+   "layers": 53
+  }
+ },
+ "sources": {
+  "git": "origin/main non-merge commits; lines exclude lockfiles, snapshots, generated, state, jsonl",
+  "layers": "gate, check, lint, detector, audit scripts, tests, workflows and hooks, counted in the month each file first appears",
+  "other_repos": "commit counts in older ARCS repos (arcs_cfa, the Wayfinder forks, arcs-decision-receipts, ARCS-Iron-Chef-Challenge, ARCS-Marketing-Landing-Page, Decision-Card-Worksheet) via the gh CLI, by author date",
+  "downloads": "non-personal files in ~/Downloads by birth or modified month; file dates are not creation dates"
+ },
+ "other_repos": {
+  "2025-10": {},
+  "2025-11": {
+   "arcs_cfa": 12,
+   "Wayfinder-concept-visuals---Fork": 12,
+   "Wayfinder---FE-Prototype-v0---Fork": 2,
+   "arcs-decision-receipts": 1
+  },
+  "2025-12": {
+   "arcs-decision-receipts": 4
+  },
+  "2026-01": {
+   "ARCS-Iron-Chef-Challenge": 1
+  },
+  "2026-02": {},
+  "2026-03": {
+   "arcs-decision-receipts": 11,
+   "ARCS-Marketing-Landing-Page": 4
+  },
+  "2026-04": {
+   "arcs-decision-receipts": 1,
+   "Decision-Card-Worksheet": 4
+  },
+  "2026-05": {
+   "arcs-decision-receipts": 82
+  },
+  "2026-06": {
+   "arcs_cfa": 1,
+   "arcs-decision-receipts": 41
+  },
+  "2026-07": {
+   "arcs-decision-receipts": 15
+  },
+  "2026-08": {},
+  "2026-09": {},
+  "2026-10": {
+   "arcs-decision-receipts": 3
+  }
+ },
+ "downloads": {
+  "2025-10": {
+   "videos": 3,
+   "mp3": 25,
+   "docs": 30
+  },
+  "2025-11": {
+   "videos": 25,
+   "mp3": 5,
+   "docs": 56
+  },
+  "2025-12": {
+   "videos": 9,
+   "mp3": 17,
+   "docs": 29
+  },
+  "2026-01": {
+   "videos": 28,
+   "mp3": 14,
+   "docs": 56
+  },
+  "2026-02": {
+   "videos": 19,
+   "mp3": 3,
+   "docs": 64
+  },
+  "2026-03": {
+   "videos": 5,
+   "mp3": 1,
+   "docs": 41
+  },
+  "2026-04": {
+   "videos": 8,
+   "mp3": 1,
+   "docs": 84
+  },
+  "2026-05": {
+   "videos": 2,
+   "mp3": 10,
+   "docs": 48
+  },
+  "2026-06": {
+   "videos": 1,
+   "mp3": 0,
+   "docs": 26
+  },
+  "2026-07": {
+   "videos": 0,
+   "mp3": 0,
+   "docs": 14
+  },
+  "2026-08": {
+   "videos": 0,
+   "mp3": 97,
+   "docs": 4
+  },
+  "2026-09": {
+   "videos": 0,
+   "mp3": 0,
+   "docs": 14
+  },
+  "2026-10": {
+   "videos": 5,
+   "mp3": 4,
+   "docs": 2
+  }
+ }
+}
