@@ -168,6 +168,8 @@ Limits stated now: nine crops from one scan; if both are killed the flip stays u
 
 ### Round 5 results, 2026-10-15 (ground: merged in arcs-v9 PR 1352 at 77605497, receipt 2026-10-15--b1-round5-gap-flip-pr1352--ZH; `python3 -I scripts/era_b1_probe.py --down4 <1024 png> ...` and `--std <256 png> ...`; crops and 1024 regions cut from the same master with `sips`, scratchpad only; Spearman computed in a one-off inline script, not committed)
 
+Ground: merged in arcs-v9 PR 1352 at 77605497; receipt 2026-10-15--b1-round5-gap-flip-pr1352--ZH; probe `scripts/era_b1_probe.py`.
+
 - B18 FAILED (prior 0.6). On 1024-px native regions box-downsampled 4x to 256, the K4 gap cleared 4.8 on 0 of 9 (gaps -6.0, -6.0, -8.0, 1.0, -10.0, -18.0, -12.0, 4.0, 4.0; ordering ok on 9 of 9). Matching the derivative's scene footprint did not recover round 3's pass; it made it worse. The footprint and oversampling explanation is dead. What round 3's derivative did differently (LoC's own downsample, JPEG generation, tone processing) is unknown and untested here.
 - B19 FAILED, in the opposite direction (prior 0.5). Spearman of luma std vs K4 gap across the 9 native crops is -0.82, not at least +0.7. Higher-contrast crops have a WORSE gap: the crop std 3.08 (flat, noise-dominated, a256 116) gave +11.0, while std 36 to 40 crops gave -30.0, -5.0 and -6.0. The flat-content explanation is dead; the data suggest the reverse. With nine crops of one scene a strong rank correlation is suggestive, not established, and I give no significance figure.
 - Untested hypothesis (from the round-1 attack by `chief-loki`, an agent report I did not re-run): the nearest-neighbour foil replicates edges and leaves spectral images, and the 99% cutoff counts them, so on edge-heavy, high-contrast crops the foil reads as sharp as or sharper than the true frame. That fits a negative correlation with contrast. Candidate B20, written now and not run: replacing the foil with a bilinear 4x upscale restores a gap of at least 4.8 on at least 6 of 9 native crops (prior 0.6; kill: fewer than 6). Chief-loki reported bilinear reading far lower than nearest-neighbour on its test images.
@@ -179,6 +181,8 @@ B20. Replacing the nearest-neighbour foil with a 4x bilinear upscale (the repo's
 Honest scope: this tests the FOIL, not the gate. Passing would mean the nearest-neighbour test was the weak part; it would not mean a gate refusing real upscales exists, because a bilinear upscale is only one of the upscalers a real pipeline would use.
 
 ### Round 6 results, 2026-10-16 (`python3 -I scripts/era_b1_probe.py --r5 <nine 256 crops>`; same master crops as round 4, scratchpad only)
+
+Ground: merged in arcs-v9 PR 1386 at b2d6417b; receipt 2026-10-16--b1-round6-bilinear-foil-pr1386--ZH; probe `scripts/era_b1_probe.py --r5`.
 
 | crop | luma std | K4 gap, nearest-neighbour foil | K4 gap, bilinear foil |
 |---|---|---|---|
@@ -198,6 +202,8 @@ Honest scope: this tests the FOIL, not the gate. Passing would mean the nearest-
 - Still not supported: a refusal gate. K4 passes against bilinear and fails against nearest-neighbour, so a gate would need a stated list of upscalers it covers, and an attacker or a pipeline can choose the one that passes. Not tested: bicubic, Lanczos, learned upscalers, other scans, era game art, 99.9% cutoff. Status unchanged: INTENDED.
 
 ### Round 7 (B21, the vision-judge round): pre-registered before any trial image exists or any judge is run
+
+Ground: pre-registration merged in arcs-v9 PR 1401 at 52fbf7cd; receipt 2026-10-16--b21-vision-judge-pr1401--ZH; trials by `scripts/era_b21.py`.
 
 Question (Zach, 2026-10-16: "why cant we prompt this with a model we trust?"): can a vision model tell a genuine 256-pixel frame from an upscaled one better than the cutoff statistic, on the same frames?
 Design, fixed now:
@@ -225,3 +231,20 @@ Ground: trials built and scored by `scripts/era_b21.py` (seed 21; the key was ne
 - Reading: the vision judge and the statistic fail in different places. The judge sees blocky nearest-neighbour pixels the statistic misreads; the statistic keeps its edge on the subtle foil. This is a post-hoc observation on 36 trials, not a result about either instrument in general.
 - B24, written now and not run: a two-tier rule (use the judge's answer, and fall back to the statistic when the judge's confidence is 1 or 2) scores at least 35 of 36 on a fresh set of at least 36 trials from frames not used here. Prior 0.5; kill: 34 or fewer. This rule was found after seeing these results, so on these 36 trials it can only be checked, not claimed.
 - Caveats: one judge model family on one pass; 9 of 12 sources share one scene; the judge may be detecting a crude artifact (nearest-neighbour blocks), which is not the same as judging fidelity; the judges could read other files on disk despite instructions and I cannot rule out that they looked; the statistic's "correct" is a threshold I chose (4.8), not a property of the frame. Not tested: a stronger upscaler (bicubic, Lanczos, learned), era game art, any claim about year. A refusal gate remains unsupported; a judge tier is now a candidate for the second tier, status INTENDED.
+
+### Round 8 (the bits-per-frame view): pre-registered before the page or any fit was computed
+
+Request (Zach, 2026-10-16): show 1-bit to 8K as compounding, not linear, and show where cost rises or falls.
+Series definition, fixed now: the first consumer product shipping each pixel count, any form factor, per press and archival reports found by web search on 2026-10-16 (not verified as the global first; sources disagree on who was first at 4K and the 1080p and 8K "firsts" are the makers' own claims). Axis: pixels per frame, because bit depth is sourced only for the first two rows. Rows: 1984 first Macintosh 512x342 (1 bit); 1987 VGA in IBM PS/2 640x480 (4 bits); 2005 Samsung HLR5688W 1920x1080; 2012 15-inch MacBook Pro with Retina display 2880x1800; 2012 84-inch 4K TVs from LG and Sony 3840x2160; 2018 Sharp LC-70X500 8K 7680x4320.
+B22. On these six points, a straight-line fit of ln(pixels) against year has an R-squared at least 0.05 higher than a straight-line fit of pixels against year. Prior 0.8. Kill: the gap is under 0.05, in which case the exponential framing is dropped.
+B23 (cost lane): price per unit of display falls across the sourced rows. Prior: not stated, because it cannot be run. Prices were found for four rows only (1984 whole computer, 2012 laptop, 2012 84-inch TVs, 2018 8K TV), across three kinds of product, so there is no consistent basis. Decision made now, before building: the page shows launch prices as annotations on those rows, labelled non-comparable, with no per-bit curve and no claim about cost falling.
+Limits stated now: six milestone points chosen as "firsts" are a frontier staircase, so any exponential fit describes the frontier, not typical use; the rough arithmetic for B22 was in my head when I wrote it, so this is a weak pre-registration; a result says nothing about "compounding innovation", which stays a METAPHOR unless sourced.
+
+### Round 8 results, 2026-10-16 (B22 and B23)
+
+Ground: page `_ARTIFACTS/era-dial/bits-per-frame.html` computes both fits in the browser from the six sourced rows (the same arithmetic reproduced in a one-off script before the page was written, not committed); pre-registration above was written to this file before either computation ran; receipt follows the merge.
+
+- B22 survived (prior 0.8): R-squared 0.47 for a straight-line fit of pixels against year and 0.96 for a straight-line fit of ln(pixels), a gap of 0.49 against the 0.05 bar. The log fit implies a doubling time of 5.0 years. My earlier mental estimate was about 4.5; the fit says 5.0.
+- B23 was not run, as pre-registered: prices were found for four rows only across three kinds of product, so the page lists them as notes and draws no cost curve. Nothing here shows that cost falls. One price (the 84-inch 4K sets at about $20,000 to $25,000) is reported but not pinned to one page, and the Retina laptop price is from one report that also listed a cheaper model; both are flagged on the page.
+- What the page shows: the linear and log views of the same six points, labels that move between views so they do not collide, frames drawn to scale by area (the 1984 frame is under 1 percent of the 8K frame by area), and a sources table. The linear view makes the case for the log axis visually; the fit statistics make it numerically.
+- Limits unchanged from the pre-registration: a frontier staircase of six hand-picked milestones, firsts that are makers' claims or disputed, bit depth sourced for two rows, no evidence on acceleration or on "compounding innovation". Unconfirmed: dates are from press and archival pages found by web search, not primary documents.
