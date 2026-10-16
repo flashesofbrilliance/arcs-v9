@@ -96,8 +96,8 @@ const setRes = (pg, v) => pg.evaluate((v) => { const r = document.getElementById
   const ck = await pg.evaluate(() => ({ t: document.getElementById('clock').textContent.split(' ')[0], cur: document.querySelector('#chap button[aria-current=true]').textContent }))
   check(ck.cur.startsWith('III'), `V6: clicking a chapter bookmark seeks there (${ck.cur}, clock ${ck.t})`)
   const size = fs.statSync(file).size
-  // Budget raised from 150000 to 200000 on 2026-10-15 and from 200000 to 230000, then 230000 to 240000 on 2026-10-16 (decisions, not drift; the cap catches embedded audio, which V8 also asserts separately): the page grew by design (kid mode, sequencer, play keys, Sing, sampler, effects rack, Sun view, tempo detector, pinhole shutter).
-  check(size < 240000, `V8: the page file is ${size} bytes (no embedded audio, under 240000)`)
+  // Budget raised from 150000 to 200000 on 2026-10-15 and from 200000 to 230000, then 230000 to 240000 and 240000 to 260000 (the two-deck mixer) on 2026-10-16 (decisions, not drift; the cap catches embedded audio, which V8 also asserts separately): the page grew by design (kid mode, sequencer, play keys, Sing, sampler, effects rack, Sun view, tempo detector, pinhole shutter).
+  check(size < 260000, `V8: the page file is ${size} bytes (no embedded audio, under 260000)`)
   check(reqs.every((u) => u.startsWith('file:') || u.startsWith('data:') || u.startsWith('blob:')), 'V8: the page made no network requests')
   await ctx.close()
 }
