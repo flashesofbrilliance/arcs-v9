@@ -96,7 +96,8 @@ const setRes = (pg, v) => pg.evaluate((v) => { const r = document.getElementById
   const ck = await pg.evaluate(() => ({ t: document.getElementById('clock').textContent.split(' ')[0], cur: document.querySelector('#chap button[aria-current=true]').textContent }))
   check(ck.cur.startsWith('III'), `V6: clicking a chapter bookmark seeks there (${ck.cur}, clock ${ck.t})`)
   const size = fs.statSync(file).size
-  check(size < 150000, `V8: the page file is ${size} bytes (no embedded audio, under 150000)`)
+  // Budget raised from 150000 to 200000 on 2026-10-15 (decision, not drift): the page grew by design through kid mode, the sequencer, play keys, Sing and the sampler.
+  check(size < 200000, `V8: the page file is ${size} bytes (no embedded audio, under 200000)`)
   check(reqs.every((u) => u.startsWith('file:') || u.startsWith('data:') || u.startsWith('blob:')), 'V8: the page made no network requests')
   await ctx.close()
 }

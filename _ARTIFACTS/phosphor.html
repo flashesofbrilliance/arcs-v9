@@ -481,6 +481,31 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     <summary><span class="alt-n">Sampler</span><span class="alt-t">Slices and snap points</span><span class="alt-go" aria-hidden="true">+</span><span class="alt-s">Cut the song where a cut sounds clean, then see which slices flow into each other.</span></summary>
     <div class="alt-body">
       <canvas id="strip" class="strip" width="1200" height="88" tabindex="0" aria-label="Slice strip. Drag to cut a slice. Comma and period jump between snap points. Enter marks a slice start, then end."></canvas>
+      <div class="sl" id="zoomrow">
+        <button class="btn" type="button" id="zout">Zoom out</button><button class="btn" type="button" id="zin">Zoom in</button><button class="btn" type="button" id="zfit">Whole song</button>
+        <input type="range" id="zpan" min="0" max="1000" step="1" value="0" aria-label="Move the view" style="flex:1 1 160px;width:auto">
+        <span class="hint" id="zlab"></span>
+      </div>
+      <div class="sl" id="autorow">
+        <div class="seg" role="radiogroup" aria-label="How many slices" style="min-width:240px;flex:0 1 280px">
+          <input type="radio" name="ahn" id="ah0" value="8"><label for="ah0">Few</label>
+          <input type="radio" name="ahn" id="ah1" value="16" checked><label for="ah1">Some</label>
+          <input type="radio" name="ahn" id="ah2" value="32"><label for="ah2">Many</label>
+        </div>
+        <button class="btn" type="button" id="ash">Slice at hits</button>
+        <div class="seg" role="radiogroup" aria-label="Note length" style="min-width:240px;flex:0 1 280px">
+          <input type="radio" name="abd" id="ab0" value="1"><label for="ab0">1/4</label>
+          <input type="radio" name="abd" id="ab1" value="2" checked><label for="ab1">1/8</label>
+          <input type="radio" name="abd" id="ab2" value="4"><label for="ab2">1/16</label>
+        </div>
+        <button class="btn" type="button" id="asb">Slice on the beat</button>
+      </div>
+      <div class="sl" id="tmrow">
+        <label class="tpl" for="sbpm">Song BPM</label><input class="txt" id="sbpm" type="number" min="40" max="240" step="1" style="width:92px">
+        <label class="tpl" for="tbpm">Play at BPM</label><input class="txt" id="tbpm" type="number" min="40" max="240" step="1" style="width:92px">
+        <button class="btn" type="button" id="spl">Play slices at that tempo</button>
+      </div>
+      <p class="hint" id="sphint">Auto slice and tempo play work on the part of the song you can see. Tempo play keeps the pitch and moves the slices, like ReCycle.</p>
       <div class="sl" id="sl">
         <div class="seg" role="radiogroup" aria-label="Snap strength" style="min-width:300px;flex:0 1 360px">
           <input type="radio" name="snap" id="s0" value="0"><label for="s0">Off</label>
@@ -734,8 +759,9 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 
   /* ---------------- playback: follows the audio clock ---------------- */
   var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
+  var SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
   var LOOPPLAY = false, FORCEBPM = 0, PLOG = [], SING = { state: "off", mirror: false, lvl: 0, wave: new Float32Array(1024), chunks: [], hist: [], pcm: null, click: false, bpm: 100, lastClick: -9, raf: 0 };
-  function tnow() { if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : Math.min(DUR, x); }
+  function tnow() { if (SP.on) return spNow(); if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : Math.min(DUR, x); }
   function chapterAt(t) { var f = t * FPS, k = 0, i; for (i = 0; i < CHAPS.length; i++) if (CHAPS[i] <= f) k = i; return k; }
   function loopRung(t) {
     var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = (t - (BPM ? GRID0 : 0)) / (P * nb); ph -= Math.floor(ph);
@@ -783,7 +809,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function stopSource() { if (SRC) { try { SRC.onended = null; SRC.stop(); } catch (e) {} SRC = null; } }
   var startSeq = 0;
   function startPlay(at) {
-    if (!BUF) return;
+    if (!BUF) return; spStop();
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
     var mine = ++startSeq;
     function begin() {
@@ -795,7 +821,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     if (AC.state === "running") begin();
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
   }
-  function stopPlay(msg) { startSeq++; setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
+  function stopPlay(msg) { startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
   function seek(t) { t = Math.max(0, Math.min(DUR, t)); if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
@@ -968,26 +994,40 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     }
     return { order: chain, score: n ? tot / n : 0 };
   }
-  function addSlice(t0, t1) { if (Math.abs(t1 - t0) < 0.05 || SLICES.length >= 16) return -1; SLICES.push(makeSlice(t0, t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; SELECTED = SLICES.length - 1; renderSlices(); return SLICES.length - 1; }
+  function addSlice(t0, t1) { if (Math.abs(t1 - t0) < 0.05 || SLICES.length >= 64) return -1; SLICES.push(makeSlice(t0, t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; SELECTED = SLICES.length - 1; renderSlices(); return SLICES.length - 1; }
 
   /* ---------------- the strip: waveform, magnets, slices ---------------- */
   var STRIPBG = null, DRAG = null, STRIPHL = null;
+  function tx(tt, W) { return (tt - VIEW.a) / ((VIEW.b || DUR) - VIEW.a) * W; }
   function buildStripBg() {
-    var W = 1200, H = 88, c = document.createElement("canvas"); c.width = W; c.height = H; var g = c.getContext("2d"), x;
+    var W = 1200, H = 88, c = document.createElement("canvas"); c.width = W; c.height = H; var g = c.getContext("2d"), x, s;
+    var a = VIEW.a, b = VIEW.b || DUR, span = b - a, sa = Math.floor(a * SR), sb = Math.min(PCM.length, Math.ceil(b * SR)), per = Math.max(1, (sb - sa) / W), stride = Math.max(1, Math.floor(per / 12));
     g.fillStyle = css.getPropertyValue("--surface").trim(); g.fillRect(0, 0, W, H);
-    g.fillStyle = C.border; for (x = 0; x < W; x++) { var f = Math.min(NF - 1, Math.floor(x / W * NF)), h = Math.max(1, RMS[f] * (H * 0.62)); g.fillRect(x, H / 2 - h / 2, 1, h); }
+    g.fillStyle = css.getPropertyValue("--elevated").trim(); g.fillRect(0, 0, W, 22);
+    g.fillStyle = C.dim; g.globalAlpha = 0.6;
+    for (x = 0; x < W; x++) {
+      var s0 = sa + Math.floor(x * per), s1 = Math.min(sb, sa + Math.floor((x + 1) * per)), mn = 1, mx = -1, v;
+      for (s = s0; s < s1; s += stride) { v = PCM[s]; if (v < mn) mn = v; if (v > mx) mx = v; }
+      if (mn > mx) { mn = mx = 0; }
+      var y0 = 22 + (H - 22) / 2 - mx * (H - 22) * 0.45, y1 = 22 + (H - 22) / 2 - mn * (H - 22) * 0.45; g.fillRect(x, y0, 1, Math.max(1, y1 - y0));
+    }
+    g.globalAlpha = 1;
+    var steps = [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 30, 60, 120], st = steps[steps.length - 1], k;
+    for (k = 0; k < steps.length; k++) if (steps[k] / span * W >= 70) { st = steps[k]; break; }
+    g.fillStyle = C.text2 || C.dim; g.font = "11px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle";
+    for (var tt = Math.ceil(a / st) * st; tt < b; tt += st) { var xx = Math.round((tt - a) / span * W); g.fillRect(xx, 14, 1, 8); g.fillText(st < 1 ? tt.toFixed(2) : fmt(tt), xx + 4, 9); }
     var col = { chapter: C.cyan, onset: C.gold, valley: C.green, grid: C.dim };
-    MAGNETS.forEach(function (m) { var xx = Math.round(m.t / DUR * W); g.fillStyle = col[m.k]; g.globalAlpha = m.k === "grid" ? 0.35 : 0.9; var hh = m.k === "chapter" ? H : m.k === "onset" ? 14 : m.k === "valley" ? 8 : 4; g.fillRect(xx, m.k === "valley" ? H - hh : 0, m.k === "chapter" ? 2 : 1, hh); });
+    MAGNETS.forEach(function (m) { if (m.t < a || m.t > b) return; var xm = Math.round((m.t - a) / span * W); g.fillStyle = col[m.k]; g.globalAlpha = m.k === "grid" ? 0.35 : 0.9; var hh = m.k === "chapter" ? H - 22 : m.k === "onset" ? 14 : m.k === "valley" ? 8 : 4; g.fillRect(xm, m.k === "valley" ? H - hh : 22, m.k === "chapter" ? 2 : 1, hh); });
     g.globalAlpha = 1; STRIPBG = c;
   }
   function drawStrip(tn) {
     var cvs = $("strip"), g = cvs.getContext("2d"), W = cvs.width, H = cvs.height;
     if (!STRIPBG) { g.fillStyle = C.bg; g.fillRect(0, 0, W, H); return; }
     g.drawImage(STRIPBG, 0, 0);
-    SLICES.forEach(function (s, k) { var x0 = s.t0 / DUR * W, x1 = s.t1 / DUR * W; g.fillStyle = C.gold; g.globalAlpha = k === SELECTED ? 0.32 : 0.16; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; g.fillStyle = C.gold; g.fillRect(x0, 0, 2, H); g.fillRect(x1 - 2, 0, 2, H); g.fillStyle = C.text || "#e2e8f0"; g.font = "12px monospace"; g.fillText("S" + (k + 1), x0 + 5, 14); });
-    if (PENDING !== null) { var xp = PENDING / DUR * W; g.fillStyle = C.gold; g.fillRect(xp, 0, 2, H); g.fillText("start", xp + 5, 28); }
-    if (STRIPHL) { var xm = STRIPHL.t / DUR * W; g.strokeStyle = C.cyan; g.lineWidth = 2; g.beginPath(); g.moveTo(xm, 0); g.lineTo(xm, H); g.stroke(); g.fillStyle = C.cyan; g.fillText(STRIPHL.k, xm + 6, H - 6); }
-    var xt = tn / DUR * W; g.fillStyle = "#e2e8f0"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
+    SLICES.forEach(function (s, k) { var x0 = tx(s.t0, W), x1 = tx(s.t1, W); g.fillStyle = C.gold; g.globalAlpha = k === SELECTED ? 0.32 : 0.16; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; g.fillStyle = C.gold; g.fillRect(x0, 0, 2, H); g.fillRect(x1 - 2, 0, 2, H); g.fillStyle = C.text || "#e2e8f0"; g.font = "12px monospace"; g.fillText("S" + (k + 1), x0 + 5, 14); });
+    if (PENDING !== null) { var xp = tx(PENDING, W); g.fillStyle = C.gold; g.fillRect(xp, 0, 2, H); g.fillText("start", xp + 5, 28); }
+    if (STRIPHL) { var xm = tx(STRIPHL.t, W); g.strokeStyle = C.cyan; g.lineWidth = 2; g.beginPath(); g.moveTo(xm, 0); g.lineTo(xm, H); g.stroke(); g.fillStyle = C.cyan; g.fillText(STRIPHL.k, xm + 6, H - 6); }
+    var xt = tx(tn, W); g.fillStyle = "#e2e8f0"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
   }
   function renderSlices() {
     var h = "";
@@ -997,8 +1037,8 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     Array.prototype.forEach.call($("slist").querySelectorAll("button"), function (b) { b.addEventListener("click", function () { SELECTED = +b.getAttribute("data-k"); seek(SLICES[SELECTED].t0); renderSlices(); }); });
   }
   function magnetSummary() { var c = { chapter: 0, onset: 0, valley: 0, grid: 0 }; MAGNETS.forEach(function (m) { c[m.k]++; }); $("magro").textContent = "Snap points: " + c.chapter + " chapter, " + c.onset + " onset, " + c.valley + " valley" + (BPM ? ", " + c.grid + " grid lines at about " + BPM + " BPM" : "") + "."; }
-  function stripT(e) { var r = $("strip").getBoundingClientRect(); return Math.max(0, Math.min(DUR, (e.clientX - r.left) / r.width * DUR)); }
-  function stripEdgeAt(e) { var r = $("strip").getBoundingClientRect(), px = 8 / r.width * DUR, x = stripT(e), k, best = null; SLICES.forEach(function (s, i) { if (Math.abs(s.t0 - x) <= px) best = { i: i, edge: "t0" }; else if (Math.abs(s.t1 - x) <= px) best = { i: i, edge: "t1" }; }); return best; }
+  function stripT(e) { var r = $("strip").getBoundingClientRect(), sp = (VIEW.b || DUR) - VIEW.a; return Math.max(0, Math.min(DUR, VIEW.a + (e.clientX - r.left) / r.width * sp)); }
+  function stripEdgeAt(e) { var r = $("strip").getBoundingClientRect(), px = 8 / r.width * ((VIEW.b || DUR) - VIEW.a), x = stripT(e), k, best = null; SLICES.forEach(function (s, i) { if (Math.abs(s.t0 - x) <= px) best = { i: i, edge: "t0" }; else if (Math.abs(s.t1 - x) <= px) best = { i: i, edge: "t1" }; }); return best; }
   (function wireStrip() {
     var el = $("strip");
     el.addEventListener("pointerdown", function (e) {
@@ -1012,7 +1052,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       var sn = snapTime(x, SNAPR, e.altKey, DRAG.mode === "edge" ? DRAG.i : -1); STRIPHL = sn.magnet ? { t: sn.t, k: sn.magnet.k } : null;
       if (DRAG.mode === "edge") { SLICES[DRAG.i][DRAG.edge] = sn.t; } else DRAG.b = sn.t;
       drawStrip(tnow());
-      if (DRAG.mode === "new" && DRAG.moved) { var g = el.getContext("2d"), W = el.width, H = el.height, x0 = Math.min(DRAG.a, DRAG.b) / DUR * W, x1 = Math.max(DRAG.a, DRAG.b) / DUR * W; g.fillStyle = C.gold; g.globalAlpha = 0.28; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; }
+      if (DRAG.mode === "new" && DRAG.moved) { var g = el.getContext("2d"), W = el.width, H = el.height, x0 = tx(Math.min(DRAG.a, DRAG.b), W), x1 = tx(Math.max(DRAG.a, DRAG.b), W); g.fillStyle = C.gold; g.globalAlpha = 0.28; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; }
     });
     el.addEventListener("pointerup", function (e) {
       if (!DRAG) return; var d = DRAG; DRAG = null; STRIPHL = null;
@@ -1031,15 +1071,106 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function markSlice() {
     var sn = snapTime(tnow(), SNAPR, false);
     if (PENDING === null) { PENDING = sn.t; $("slhint").textContent = "Slice start set at " + sn.t.toFixed(2) + " s. Move, then press Enter for the end."; }
-    else { var a = PENDING; PENDING = null; if (addSlice(a, sn.t) < 0) $("slhint").textContent = "A slice needs at least 50 ms, and there is room for 16."; else $("slhint").textContent = "Slice added."; }
+    else { var a = PENDING; PENDING = null; if (addSlice(a, sn.t) < 0) $("slhint").textContent = "A slice needs at least 50 ms, and there is room for 64."; else $("slhint").textContent = "Slice added."; }
     drawStrip(tnow());
   }
   $("solve").addEventListener("click", function () { if (SLICES.length < 2) { $("slhint").textContent = "Cut at least two slices first."; return; } ARR = arrange(SLICES); renderSlices(); });
   $("clearsl").addEventListener("click", function () { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; renderSlices(); drawStrip(tnow()); });
+  /* ---------------- sampler: zoom, scrub, auto slice, tempo match (ReCycle style) ---------------- */
+  function samplerUI() {
+    var sp = (VIEW.b || DUR) - VIEW.a, ok = DUR > 0;
+    $("zlab").textContent = ok ? fmt(VIEW.a) + " to " + fmt(VIEW.b || DUR) + " (" + sp.toFixed(1) + " s)" : "";
+    $("zpan").disabled = !ok || sp >= DUR - 1e-6; $("zpan").value = DUR - sp > 1e-6 ? Math.round(VIEW.a / (DUR - sp) * 1000) : 0;
+    $("sbpm").value = BPM || ""; if (!$("tbpm").value || !SP.touched) $("tbpm").value = BPM || 120;
+  }
+  function viewSet(a, b) {
+    var span = Math.max(0.2, Math.min(DUR, b - a)); a = Math.max(0, Math.min(DUR - span, a)); VIEW.a = a; VIEW.b = a + span;
+    buildStripBg(); samplerUI(); drawStrip(tnow());
+  }
+  function viewZoom(f, cx) { var span = VIEW.b - VIEW.a, ns = Math.max(0.2, Math.min(DUR, span * f)), frac = (cx - VIEW.a) / span; viewSet(cx - frac * ns, cx - frac * ns + ns); }
+  $("zin").addEventListener("click", function () { viewZoom(0.5, (VIEW.a + VIEW.b) / 2); });
+  $("zout").addEventListener("click", function () { viewZoom(2, (VIEW.a + VIEW.b) / 2); });
+  $("zfit").addEventListener("click", function () { viewSet(0, DUR); });
+  $("zpan").addEventListener("input", function () { var sp = VIEW.b - VIEW.a; viewSet((+$("zpan").value / 1000) * (DUR - sp), (+$("zpan").value / 1000) * (DUR - sp) + sp); });
+  $("strip").addEventListener("wheel", function (e) {
+    if (!NF) return; e.preventDefault(); var sp = VIEW.b - VIEW.a;
+    if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) { var d = (e.deltaX || e.deltaY) / 600 * sp; viewSet(VIEW.a + d, VIEW.b + d); }
+    else viewZoom(e.deltaY < 0 ? 0.8 : 1.25, stripT(e));
+  }, { passive: false });
+  var SCRUB = null, lastGrain = 0;
+  function grain(tt) {
+    var now = performance.now(); if (now - lastGrain < 45 || !BUF) return; lastGrain = now;
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
+    var s = AC.createBufferSource(), g = AC.createGain(), c = AC.currentTime; s.buffer = BUF; g.gain.setValueAtTime(0.0001, c); g.gain.linearRampToValueAtTime(0.8, c + 0.01); g.gain.linearRampToValueAtTime(0.0001, c + 0.09);
+    s.connect(g); g.connect(AC.destination); s.start(0, Math.max(0, Math.min(DUR - 0.11, tt)), 0.1);
+  }
+  function scrubTo(e) { var tt = stripT(e); tpaused = tt; frame(false); grain(tt); }
+  $("strip").addEventListener("pointerdown", function (e) {
+    if (!NF) return; var r = this.getBoundingClientRect(), cy = (e.clientY - r.top) / r.height * this.height;
+    if (cy >= 22) return; e.stopImmediatePropagation(); this.setPointerCapture(e.pointerId);
+    SCRUB = { was: playing }; if (playing) stopPlay(""); scrubTo(e);
+  }, true);
+  $("strip").addEventListener("pointermove", function (e) { if (SCRUB) { e.stopImmediatePropagation(); scrubTo(e); } }, true);
+  $("strip").addEventListener("pointerup", function (e) { if (!SCRUB) return; e.stopImmediatePropagation(); var w = SCRUB.was; SCRUB = null; if (w) startPlay(tpaused); }, true);
+  function sliceFrom(pts, endT) {
+    var out = [], i; pts = pts.slice(0, 64);
+    for (i = 0; i < pts.length; i++) { var t0 = pts[i], t1 = i + 1 < pts.length ? pts[i + 1] : endT; if (t1 - t0 >= 0.05) out.push(makeSlice(t0, t1)); }
+    SLICES = out; PENDING = null; SELECTED = -1; ARR = null; renderSlices(); drawStrip(tnow()); return out.length;
+  }
+  function autoHits(n) {
+    var a = VIEW.a, b = VIEW.b, on = MAGNETS.filter(function (m) { return m.k === "onset" && m.t >= a && m.t < b; });
+    if (!on.length) { $("sphint").textContent = "No hits found in this view. Zoom out or pick a different part."; return 0; }
+    on.sort(function (x, y) { return y.s - x.s; });
+    var gap = (b - a) / (3 * n), keep = []; on.forEach(function (m) { if (keep.length < n && keep.every(function (k) { return Math.abs(k.t - m.t) >= gap; })) keep.push(m); }); on = keep; on.sort(function (x, y) { return x.t - y.t; });
+    var pts = [], last = -9; on.forEach(function (m) { var z = nearestZero(m.t); if (z - last >= 0.05) { pts.push(z); last = z; } });
+    var c = sliceFrom(pts, b); $("sphint").textContent = c + " slices cut at the strongest hits in view."; return c;
+  }
+  function autoBeats(div) {
+    if (!BPM) { $("sphint").textContent = "No tempo was found in this song. Type a Song BPM first."; return 0; }
+    var step = 60 / BPM / div, a = VIEW.a, b = VIEW.b, pts = [], k = Math.ceil((a - GRID0) / step - 1e-9), tt;
+    for (; (tt = GRID0 + k * step) < b - 0.05; k++) { if (tt >= a - 1e-9) pts.push(nearestZero(tt)); }
+    var many = pts.length > 64, c = sliceFrom(pts, Math.min(b, (pts.length ? pts[Math.min(pts.length, 64) - 1] : 0) + step)); $("sphint").textContent = c + " slices on the beat." + (many ? " Zoom in for the rest; 64 is the most." : ""); return c;
+  }
+  $("ash").addEventListener("click", function () { autoHits(+document.querySelector("input[name=ahn]:checked").value); });
+  $("asb").addEventListener("click", function () { autoBeats(+document.querySelector("input[name=abd]:checked").value); });
+  function spNow() {
+    var P = SP.plan, L = P.loopLen, ph = ((AC.currentTime - SP.t0ctx) % L + L) % L, k = 0, i, e;
+    if (AC.currentTime < SP.t0ctx) return P.ev[0].t0;
+    for (i = 0; i < P.ev.length; i++) if (P.ev[i].st <= ph) k = i;
+    e = P.ev[k]; return Math.min(DUR, e.t0 + Math.min(ph - e.st, e.len));
+  }
+  function spPlan(src, tgt) {
+    var list = SLICES.slice().sort(function (x, y) { return x.t0 - y.t0; }); if (!list.length) return null;
+    var Ps = 60 / src, Pt = 60 / tgt, b0 = (list[0].t0 - GRID0) / Ps, ev = [], i, endBeat = (list[list.length - 1].t1 - GRID0) / Ps;
+    for (i = 0; i < list.length; i++) ev.push({ st: ((list[i].t0 - GRID0) / Ps - b0) * Pt, t0: list[i].t0, len: list[i].t1 - list[i].t0 });
+    var L = Math.max((endBeat - b0) * Pt, ev[ev.length - 1].st + 0.05);
+    for (i = 0; i < ev.length; i++) { var nx = i + 1 < ev.length ? ev[i + 1].st : L; ev[i].dur = Math.min(ev[i].len, Math.max(0.02, nx - ev[i].st)); }
+    return { ev: ev, loopLen: L };
+  }
+  function spSchedule(base) {
+    SP.plan.ev.forEach(function (e) {
+      var when = base + e.st, s = AC.createBufferSource(), g = AC.createGain();
+      s.buffer = BUF; SP.rates.push(s.playbackRate.value); g.gain.setValueAtTime(0.0001, when); g.gain.linearRampToValueAtTime(1, when + 0.003); g.gain.setValueAtTime(1, Math.max(when + 0.003, when + e.dur - 0.006)); g.gain.linearRampToValueAtTime(0.0001, when + e.dur);
+      s.connect(g); g.connect(AC.destination); s.start(when, e.t0, e.dur + 0.01); SP.srcs.push(s);
+    });
+    if (SP.srcs.length > 400) SP.srcs.splice(0, SP.srcs.length - 400);
+  }
+  function spPump() { while (SP.on && SP.t0ctx + SP.iter * SP.plan.loopLen - AC.currentTime < 0.3) { spSchedule(SP.t0ctx + SP.iter * SP.plan.loopLen); SP.iter++; } }
+  function spStart() {
+    if (!BUF || !SLICES.length) { $("sphint").textContent = "Cut some slices first (Slice at hits, Slice on the beat, or drag on the strip)."; return; }
+    var src = +$("sbpm").value, tgt = +$("tbpm").value; if (!(src >= 40 && tgt >= 40)) { $("sphint").textContent = "Type a Song BPM and a Play at BPM between 40 and 240."; return; }
+    if (playing) stopPlay("");
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    var go = function () { SP.plan = spPlan(src, tgt); SP.rates = []; SP.srcs = []; SP.iter = 0; SP.t0ctx = AC.currentTime + 0.05; SP.on = true; playing = true; $("play").textContent = "Pause"; $("spl").textContent = "Stop slices"; spPump(); SP.timer = setInterval(spPump, 25); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
+    if (AC.state === "running") go(); else AC.resume().then(go);
+  }
+  function spStop() { clearInterval(SP.timer); SP.srcs.forEach(function (s) { try { s.stop(); } catch (e) { /* ended */ } }); SP.srcs = []; SP.on = false; $("spl").textContent = "Play slices at that tempo"; }
+  $("spl").addEventListener("click", function () { if (SP.on) stopPlay(""); else spStart(); });
+  $("tbpm").addEventListener("input", function () { SP.touched = true; });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
-  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1096,7 +1227,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(AC.destination); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
   function glitchOn(kind) {
     if (kind === "tear" || kind === "rgb" || kind === "blocks") { if (!GLITCH[kind]) { GLITCH[kind] = true; gmLabel(); frame(playing); } return; }
-    if (!BUF || GLITCH.stut) return;
+    if (!BUF || GLITCH.stut || SP.on) return;
     var beat = 60 / (BPM || 120), L = kind === "freeze" ? 0.06 : beat * STSIZE, t0 = Math.max(0, Math.min(DUR - L - 0.001, tnow()));
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
     var go = function () {
