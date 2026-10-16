@@ -152,7 +152,7 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; cursor: pointer; }
 .check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--cyan); }
 .hint { color: var(--muted); margin: 0; }
-.kid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.kid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
 .bb { font: inherit; font-family: var(--ds-font-display); font-size: var(--fs-headline); font-weight: 600; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 72px; padding: 8px; cursor: pointer; touch-action: manipulation; }
 .bb:hover { border-color: var(--cyan); }
 .bb[aria-pressed=true], .bb:active { background: var(--cyan-bg); border-color: var(--cyan); box-shadow: inset 0 -3px 0 var(--cyan); }
@@ -290,7 +290,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <span class="clock" id="hclock">0:00</span>
         <button class="btn" type="button" id="hexit">Exit</button>
         <div class="hudk">
-          <button class="bb sm" type="button" data-km="0">Wiggle</button><button class="bb sm" type="button" data-km="1">Bars</button><button class="bb sm" type="button" data-km="2">Ring</button><button class="bb sm" type="button" data-km="3">Rainbow</button>
+          <button class="bb sm" type="button" data-km="0">Wiggle</button><button class="bb sm" type="button" data-km="1">Bars</button><button class="bb sm" type="button" data-km="2">Ring</button><button class="bb sm" type="button" data-km="3">Rainbow</button><button class="bb sm" type="button" data-km="4">Sun</button>
           <button class="bb sm" type="button" id="hcol">Colors</button><button class="bb sm" type="button" id="hzoom">Zoom</button><button class="bb sm" type="button" id="hwob">Wobble</button>
           <button class="bb sm" type="button" id="hsteps" aria-pressed="false">Steps</button><button class="bb sm" type="button" id="hperf" aria-pressed="false">~ Keys</button>
           <button class="bb sm sp" type="button" id="hspace">Space</button>
@@ -320,7 +320,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   </div>
   <div class="kid" id="kid" data-src="song">
     <button class="bb pri" type="button" id="kpick">Pick a song</button>
-    <button class="bb" type="button" data-km="0">Wiggle</button><button class="bb" type="button" data-km="1">Bars</button><button class="bb" type="button" data-km="2">Ring</button><button class="bb" type="button" data-km="3">Rainbow</button>
+    <button class="bb" type="button" data-km="0">Wiggle</button><button class="bb" type="button" data-km="1">Bars</button><button class="bb" type="button" data-km="2">Ring</button><button class="bb" type="button" data-km="3">Rainbow</button><button class="bb" type="button" data-km="4">Sun</button>
     <button class="bb" type="button" id="kcol">Colors</button><button class="bb" type="button" id="kzoom">Zoom</button><button class="bb" type="button" id="kwob">Wobble</button><button class="bb" type="button" id="kfs">Big screen</button>
   </div>
   <div class="kid presets" id="presets" role="group" aria-label="Say a word">
@@ -353,7 +353,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <summary>Zoom</summary>
         <div class="gb">
           <div class="vh" aria-hidden="true">
-            <input type="radio" name="mode" id="m0" value="0" checked tabindex="-1"><input type="radio" name="mode" id="m1" value="1" tabindex="-1"><input type="radio" name="mode" id="m2" value="2" tabindex="-1"><input type="radio" name="mode" id="m3" value="3" tabindex="-1">
+            <input type="radio" name="mode" id="m0" value="0" checked tabindex="-1"><input type="radio" name="mode" id="m1" value="1" tabindex="-1"><input type="radio" name="mode" id="m2" value="2" tabindex="-1"><input type="radio" name="mode" id="m3" value="3" tabindex="-1"><input type="radio" name="mode" id="m4" value="4" tabindex="-1">
           </div>
           <div>
             <div class="ctl-label"><span>Mode and zoom</span><output id="zso">Scope 1 of 5</output></div>
@@ -699,13 +699,47 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     for (j = fi - 7; j <= fi; j++) { v = BANDS[Math.max(0, j) * NB + b]; if (v > e) e = Math.min(v, e + 0.14); else e = Math.max(v, e - 0.08); }
     return e;
   }
-  var ZS = [1, 1, 1, 1];
+  var ZS = [1, 1, 1, 1, 1];
   var RL = { on: false, bars: 2, dir: "up" }, GRID0 = 0, FS = false, NATIVE = false, idleT = 0;
   var MODE = 0, RUNG = 8, BITS = 8, WOOD = false, CHSHARP = false, CRT = false;
   function fidx(t) { return Math.max(0, Math.min(NF - 1, Math.floor(t * FPS))); }
+  /* Sun: ported from the Raw Capture artifact (seeded sky, a sun and five textured ridges), driven by the music. */
+  var SUN = null;
+  function sunHash(ix, iy, s) { var n = (Math.imul(ix, 374761393) + Math.imul(iy, 668265263) + Math.imul(s, 982451653)) | 0; n = Math.imul(n ^ (n >>> 13), 1274126177); n ^= n >>> 16; return (n >>> 0) / 4294967296; }
+  function sunVn(x, y, s) { var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), a = sunHash(xi, yi, s), b = sunHash(xi + 1, yi, s), c = sunHash(xi, yi + 1, s), d = sunHash(xi + 1, yi + 1, s); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }
+  function sunFbm(x, s) { var a = 0.5, f = 1, tt = 0, i; for (i = 0; i < 4; i++) { tt += a * sunVn(x * f, 0.5, s + i); a *= 0.5; f *= 2; } return tt; }
+  function sunBuild() {
+    var W = 320, H = 180, N = W * H, k, x, y, i;
+    var S = { W: W, H: H, N: N, tops: [], tex: [], L: [0.34, 0.26, 0.19, 0.12, 0.07], HZ: [0.6, 0.45, 0.3, 0.15, 0.0], off: new Float32Array(5), gam: new Uint8Array(1025), sc: document.createElement("canvas") };
+    for (k = 0; k < 5; k++) { S.tops[k] = new Float32Array(W); for (x = 0; x < W; x++) S.tops[k][x] = H * (0.36 + 0.115 * k) - 46 * sunFbm(x / 70 + k * 3.1, 11 * k + 5) * (0.55 + 0.16 * k); S.tex[k] = new Float32Array(N); for (y = 0; y < H; y++) for (x = 0; x < W; x++) S.tex[k][y * W + x] = 1 + 0.6 * (sunVn(x * 0.9, y * 0.9, 40 + k) - 0.5) + 0.25 * (sunVn(x * 0.25, y * 0.5, 70 + k) - 0.5); }
+    for (i = 0; i <= 1024; i++) S.gam[i] = Math.round(255 * Math.pow(i / 1024, 1 / 2.2));
+    S.sc.width = W; S.sc.height = H; S.img = S.sc.getContext("2d").createImageData(W, H); return S;
+  }
+  function sunScene(g, Wd, Hd, t, fi) {
+    if (!SUN) SUN = sunBuild(); var S = SUN, W = S.W, H = S.H, d = S.img.data, k, x, y, b, i, j;
+    var E = 0.4, on = 0, lay = [0.3, 0.3, 0.3, 0.3, 0.3];
+    if (NF && !rm) {
+      E = 0; for (j = Math.max(0, fi - 29); j <= fi; j++) E += RMS[j]; E /= (fi - Math.max(0, fi - 29) + 1);
+      var mf = 1e-6; if (SUN.nf !== NF) { for (j = 0; j < NF; j++) if (FLUX[j] > mf) mf = FLUX[j]; SUN.nf = NF; SUN.mf = mf; } on = Math.min(1, FLUX[fi] / SUN.mf);
+      for (k = 0; k < 5; k++) { var s0 = 0; for (b = 0; b < 12; b++) s0 += bandVal(fi, (4 - k) * 12 + b + (k === 0 ? 4 : 0)); lay[k] = s0 / 12; }
+    }
+    for (k = 0; k < 5; k++) S.off[k] = -(H * 0.05) * lay[k] * (0.6 + 0.2 * k);
+    var sx = W * (0.68 + (rm ? 0 : 0.03 * Math.sin(t * 0.05))), sy = H * (0.36 - 0.14 * E), sig = 15 * (1 + 0.6 * E + 0.5 * on), amp = 3.3 * (0.6 + 0.8 * E) * (1 + 0.35 * on), ev = 0.5 + 1.2 * E, mul = 0.25 * Math.pow(2, ev), cut = sig * 4;
+    for (y = 0; y < H; y++) {
+      for (x = 0; x < W; x++) {
+        i = y * W + x; var dx = x - sx, dy = y - sy, gl = (dx > cut || dx < -cut || dy > cut || dy < -cut) ? 0 : Math.exp(-(dx * dx + dy * dy) / (2 * sig * sig)), k2 = -1, v;
+        for (var q = 4; q >= 0; q--) { if (y >= S.tops[q][x] + S.off[q]) { k2 = q; break; } }
+        if (k2 < 0) v = 0.75 + 0.425 * (1 - y / (H * 0.5)) + amp * gl;
+        else { var dd = y - (S.tops[k2][x] + S.off[k2]), base = S.L[k2] * (1 - 0.25 * Math.min(1, dd / 60)); v = (base * (1 - S.HZ[k2]) + 0.9 * S.HZ[k2]) * S.tex[k2][i] + 0.25 * gl; }
+        v = v * mul; if (v > 1) v = 1; else if (v < 0.003) v = 0.003; var c = S.gam[(v * 1024) | 0], o = i * 4; d[o] = d[o + 1] = d[o + 2] = c; d[o + 3] = 255;
+      }
+    }
+    S.sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(S.sc, 0, 0, Wd, Hd);
+  }
   function scene(g, W, H, t) {
     var fi = fidx(t), i, b, lw = Math.max(1, H / 360);
     g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
+    if (MODE === 4) { sunScene(g, W, H, t, fi); return; }
     if (SING.mirror) { singMirror(g, W, H); return; }
     if (!NF) return;
     if (MODE === 0) {
@@ -890,7 +924,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     $("scrub").value = DUR ? Math.round(t / DUR * 1000) : 0;
     var btns = $("chap").children; for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-current", i === k ? "true" : "false");
     $("hclock").textContent = fmt(t) + " / " + fmt(DUR); $("hscrub").value = DUR ? Math.round(t / DUR * 1000) : 0; $("hplay").textContent = playing ? "Pause" : "Play"; $("hspace").textContent = "Space: " + (playing ? "pause" : "play");
-    $("tag").textContent = ["Scope", "Bars", "Radial", "Spectrogram"][MODE] + " · " + USED;
+    $("tag").textContent = ["Scope", "Bars", "Radial", "Spectrogram", "Sun"][MODE] + " · " + USED;
     var med = MS.length ? MS.slice().sort(function (a, z) { return a - z; })[MS.length >> 1] : LASTMS;
     drawStrip(t);
     if (SKIN === "pocket") { levelMeters(lv); $("now").innerHTML = ledTiles(String(Math.round(lv * 100)).padStart(3, "0")) + '<span class="ledunit">%</span>'; $("dtime").textContent = fmt(t); $("dled").className = "led" + (playing ? " on" : ""); $("dplay").setAttribute("aria-pressed", playing ? "true" : "false"); $("dicon").setAttribute("d", playing ? "M6 5h4v14H6zM14 5h4v14h-4z" : "M8 5v14l11-7z"); var dp = $("dpads").children, q; for (q = 0; q < dp.length; q++) dp[q].setAttribute("aria-pressed", q === MODE ? "true" : "false"); }
@@ -1314,7 +1348,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     party: { mode: 2, pal: "heat", bits: 8, res: 9, rl: { on: true, bars: 1, dir: "pp" }, q: "beat", gate: 0.5, bars: 1, cells: { rgb: [0, 2, 4, 6, 8, 10, 12, 14], jog: { 0: 1, 4: 2, 8: 3, 12: 2 } } },
     sleepy: { mode: 0, pal: "amber", bits: 8, res: 6, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} },
     dino: { mode: 3, pal: "mono", bits: 3, res: 9, rl: { on: true, bars: 4, dir: "down" }, q: "valley", gate: 1, bars: 2, cells: { stutter: [0, 8], blocks: [4, 12], detail: { 0: 2, 4: 5, 8: 9, 12: 5 } } },
-    plain: { mode: 2, pal: "amber", bits: 8, res: 9, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} }
+    plain: { mode: 4, pal: "orig", bits: 8, res: 9, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} }
   };
   function setCtl(id, v, ev) { var e = $(id); if (!e) return; if (e.type === "checkbox") e.checked = !!v; else e.value = v; e.dispatchEvent(new Event(ev || (e.tagName === "SELECT" ? "change" : "input"), { bubbles: true })); }
   function setRadio(name, v) { Array.prototype.forEach.call(document.querySelectorAll("input[name=" + name + "]"), function (r) { if (parseFloat(r.value) === parseFloat(v) || r.value === String(v)) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } }); }
@@ -1337,8 +1371,8 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function restoreSaved() {
     var s = null; try { s = JSON.parse(localStorage.getItem(SAVEKEY) || "null"); } catch (e) { s = null; } if (!s) return false;
     try {
-      if (s.zs && s.zs.length === 4) s.zs.forEach(function (z, c) { ZS[c] = Math.max(1, Math.min(5, z | 0)); });
-      if (s.mode >= 0 && s.mode < 4) setStage(s.mode, ZS[s.mode]);
+      if (s.zs && s.zs.length >= 4 && s.zs.length <= 5) s.zs.forEach(function (z, c) { ZS[c] = Math.max(1, Math.min(5, z | 0)); });
+      if (s.mode >= 0 && s.mode < 5) setStage(s.mode, ZS[s.mode]);
       if (s.pal && $("palsel").querySelector('option[value="' + s.pal + '"]')) setCtl("palsel", s.pal);
       if (s.curve) { setRadio("cu", s.curve); setCtl("cua", Math.round((s.amt || 0) * 100)); }
       if (s.bits >= 1 && s.bits <= 8) pkBits(s.bits);
@@ -1352,7 +1386,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   /* default look: the sparse Ring in amber, rising coarse to sharp on the first Play. Only when nothing is saved. */
   var SUNRISE = { pending: false, timers: [] };
-  function applyDefaultLook() { setStage(2, ZS[2]); setCtl("palsel", "amber"); SUNRISE.pending = true; }
+  function applyDefaultLook() { setStage(4, ZS[4]); setCtl("palsel", "orig"); SUNRISE.pending = true; }
   function sunriseStart() {
     if (!SUNRISE.pending) return; SUNRISE.pending = false; var r;
     SUNRISE.ramp = true; $("res").value = 3; $("res").dispatchEvent(new Event("input", { bubbles: true })); SUNRISE.ramp = false;
@@ -1405,7 +1439,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         return new Promise(function (res) { R.mr.onstop = function () { var fr = new FileReader(); fr.onload = function () { res(String(fr.result).split(",")[1]); }; fr.readAsDataURL(new Blob(R.chunks, { type: "video/webm" })); try { AC._sh.disconnect(R.dst); } catch (e) { /* gone */ } }; R.mr.stop(); });
       }
     };
-  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, outPeak: outPeak, fx: { gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1775,7 +1809,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 
   /* ---------------- keypad zoom stages, learnable key map, palette arrows ---------------- */
   var KEYMAP = [["F16", "NumLock", "Numpad7", "Numpad4", "Numpad1"], ["F17", "NumpadEqual", "Numpad8", "Numpad5", "Numpad2"], ["F18", "NumpadDivide", "Numpad9", "Numpad6", "Numpad3"], ["F19", "NumpadMultiply", "NumpadSubtract", "NumpadAdd", "NumpadEnter"]];
-  var DEFKEYS = JSON.parse(JSON.stringify(KEYMAP)), LEARN = null, MODENAMES = ["Scope", "Bars", "Radial", "Spectro"], KMKEY = "phosphor.keys.v1";
+  var DEFKEYS = JSON.parse(JSON.stringify(KEYMAP)), LEARN = null, MODENAMES = ["Scope", "Bars", "Radial", "Spectro", "Sun"], KMKEY = "phosphor.keys.v1";
   try { var sv = JSON.parse(localStorage.getItem(KMKEY) || "null"); if (sv && sv.length === 4 && sv.every(function (c) { return c.length === 5; })) KEYMAP = sv; } catch (e) { /* storage blocked */ }
   function saveKeys() { try { localStorage.setItem(KMKEY, JSON.stringify(KEYMAP)); } catch (e) { /* storage blocked */ } }
   function keyLabel(code) { var m = { NumLock: "CLR", NumpadEqual: "=", NumpadDivide: "÷", NumpadMultiply: "×", NumpadSubtract: "−", NumpadAdd: "+", NumpadEnter: "↵", NumpadDecimal: "." }; return m[code] || code.replace(/^Numpad/, "").replace(/^Key/, "").replace(/^Digit/, ""); }

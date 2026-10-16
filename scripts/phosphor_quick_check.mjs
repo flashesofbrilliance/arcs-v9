@@ -81,7 +81,7 @@ check(saved && saved.length < 3000 && !/pcm|audio|blob|data:/i.test(saved) && ke
 await pg.evaluate(() => { document.querySelector('details.grp:has(#forget) > summary').click() }); await pg.click('#forget')
 check((await E(() => window.PhosphorTest.saved())) === null, 'A4: Forget everything saved here removes it')
 await pg.reload(); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
-const clean = await E(() => window.PhosphorTest.sig()); check(clean.pal === 'amber' && clean.mode === 2 && clean.cells === 0, 'A4: after Forget the page opens on its defaults (the Ring in amber)')
+const clean = await E(() => window.PhosphorTest.sig()); check(clean.pal === 'orig' && clean.mode === 4 && clean.cells === 0, 'A4: after Forget the page opens on its defaults (the Sun, original palette)')
 
 // D2 Sing downbeat trim
 const sp = await open(false)

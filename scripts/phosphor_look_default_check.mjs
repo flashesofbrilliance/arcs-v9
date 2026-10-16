@@ -26,7 +26,7 @@ async function fresh() {
 let { pg, ctx } = await fresh()
 await pg.evaluate(() => localStorage.clear()); await pg.reload(); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
 let sig = await pg.evaluate(() => window.PhosphorTest.sig())
-check(sig.mode === 2 && sig.pal === 'amber', `D1: a fresh page opens on the Ring in amber (mode ${sig.mode}, ${sig.pal})`)
+check(sig.mode === 4 && sig.pal === 'orig', `D1: a fresh page opens on the Sun in the original palette (mode ${sig.mode}, ${sig.pal})`)
 // D2 ramp then cancel
 await pg.click('#play'); await pg.waitForTimeout(300)
 const r0 = await pg.evaluate(() => +document.getElementById('res').value); await pg.waitForTimeout(3000); const r1 = await pg.evaluate(() => +document.getElementById('res').value)
@@ -41,7 +41,7 @@ await pg.evaluate(() => localStorage.setItem('phosphor.settings.v1', JSON.string
 await pg.reload(); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
 sig = await pg.evaluate(() => window.PhosphorTest.sig()); check(sig.mode === 0 && sig.pal === 'orig', `D3: saved settings beat the default (mode ${sig.mode}, ${sig.pal})`)
 // D4 plain
-await pg.evaluate(() => window.PhosphorTest.preset('plain')); sig = await pg.evaluate(() => window.PhosphorTest.sig()); check(sig.mode === 2 && sig.pal === 'amber' && sig.cells === 0, `D4: Plain restores the new default (mode ${sig.mode}, ${sig.pal}, ${sig.cells} steps)`)
+await pg.evaluate(() => window.PhosphorTest.preset('plain')); sig = await pg.evaluate(() => window.PhosphorTest.sig()); check(sig.mode === 4 && sig.pal === 'orig' && sig.cells === 0, `D4: Plain restores the new default (mode ${sig.mode}, ${sig.pal}, ${sig.cells} steps)`)
 await ctx.close()
 // R recorder
 ;({ pg, ctx } = await fresh())
