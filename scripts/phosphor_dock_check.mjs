@@ -12,15 +12,15 @@ const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-requ
 const open = async (q, extra = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 900 }, ...extra }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + q); await pg.waitForTimeout(1000); return pg }
 let pg = await open('?test=1&shutter=off&level=4')
 // D1
-const d1 = await pg.evaluate(() => { const d = document.getElementById('dock'), r = d && d.getBoundingClientRect(), cs = d && getComputedStyle(d); const has = (id) => !!d && d.contains(document.getElementById(id)); return { n: document.querySelectorAll('#dock').length, fixed: cs && cs.position === 'fixed', bottom: r && Math.round(innerHeight - r.bottom), ids: ['play', 'dtitle', 'clock', 'dmeter', 'scrub', 'kpick'].every(has), tp: !!document.getElementById('tp'), bigPlay: !!document.querySelector('.deck #play') } })
-check(d1.n === 1 && d1.fixed && d1.bottom <= 20 && d1.ids && !d1.tp && !d1.bigPlay, `D1: one fixed dock at the bottom (${d1.bottom} px up) holding Play, title, time, level meter, scrubber and Add song; the old transport row is gone`)
+const d1 = await pg.evaluate(() => { const d = document.getElementById('dock'), r = d && d.getBoundingClientRect(), cs = d && getComputedStyle(d); const has = (id) => !!d && d.contains(document.getElementById(id)); return { n: document.querySelectorAll('#dock').length, fixed: cs && cs.position === 'fixed', bottom: r && Math.round(innerHeight - r.bottom), ids: ['play', 'dtitle', 'clock', 'scrub', 'kpick'].every(has), tp: !!document.getElementById('tp'), bigPlay: !!document.querySelector('.deck #play') } })
+check(d1.n === 1 && d1.fixed && d1.bottom <= 20 && d1.ids && !d1.tp && !d1.bigPlay, `D1: one fixed dock at the bottom (${d1.bottom} px up) holding Play, title, time, scrubber and Add song; the old transport row is gone`)
 // D2 add song opens a picker and loads
 const [fc] = await Promise.all([pg.waitForEvent('filechooser', { timeout: 5000 }).catch(() => null), pg.click('#kpick')]); check(!!fc, 'D2: Add song opens a file picker')
 if (fc) await fc.setFiles(file); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.getElementById('src').textContent !== 'Demo signal', null, { timeout: 60000 }); await pg.waitForTimeout(400)
 const t2 = await pg.evaluate(() => [document.getElementById('dtitle').textContent, document.getElementById('clock').textContent]); check(/break-100/.test(t2[0]) && /\/ 0:24/.test(t2[1]), `D2: loading updated the title (${t2[0]}) and the time (${t2[1]})`)
-// D3 meter lights while playing and drops when stopped
-await pg.click('#play'); await pg.waitForTimeout(1200); const lit = await pg.evaluate(() => document.querySelectorAll('#dmeter i.on').length); await pg.click('#play'); await pg.waitForTimeout(1500); const dark = await pg.evaluate(() => document.querySelectorAll('#dmeter i.on').length)
-check(lit >= 3 && dark <= 2, `D3: the level meter lit ${lit} of 40 segments while playing and ${dark} after pausing`)
+// D3 the level meter lives at the top (Pocket strip), not in the player
+await pg.click('#play'); await pg.waitForTimeout(600); const hasM = await pg.evaluate(() => !!document.getElementById('dmeter')); await pg.click('#play')
+check(!hasM, 'D3: the player carries no level meter of its own')
 // D4 scrubber follows and seeks
 await pg.evaluate(() => window.PhosphorTest.seek(2)); await pg.click('#play'); await pg.waitForTimeout(500); const s0 = +(await pg.inputValue('#scrub')); await pg.waitForTimeout(1500); const s1 = +(await pg.inputValue('#scrub')); await pg.click('#play')
 check(s1 > s0 + 30, `D4: the scrubber moved with playback (${s0} to ${s1} of 1000)`)
