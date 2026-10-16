@@ -120,3 +120,8 @@ _STATE/handoff-excavation/*.jsonl
 # bank-event propagation: local append-only state (spec: runtime/specs/bank-event-propagation-v0.md)
 _STATE/bank-events.jsonl
 _STATE/bank-dependents.jsonl
+
+# Impeccable engine binaries (machine-local, about 18 MB each; reinstall with npx impeccable install)
+.claude/skills/impeccable/scripts/bin/
+.github/skills/impeccable/scripts/bin/
+.impeccable/config.local.json
