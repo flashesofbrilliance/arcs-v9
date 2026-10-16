@@ -195,3 +195,25 @@ Deviations from the pre-registration, stated before the numbers. (1) Native fram
 - B22: cleared on 5 of 5 frames (prior 0.4), but the claim was "4 of 5 scenes" and only 2 distinct scenes exist, so it is not earned. The gap of 55 to 59 is more than 15 times the scaled bar, so the margin is not marginal. Plausible reasons it passed where rendered UI failed in the arcade note's round 2 (untested): painted, dithered, high-contrast sprite art with soft gradients rather than one-pixel text; and the foil is bilinear, the weaker upscaler (arcade note round 6).
 - What the data cannot say: anything about era, anything about palette or dither (B10 untouched; palette not extracted), anything about other upscalers, or whether the result survives scenes beyond a room and a credits roll.
 - Method note for round 6: the cutoff is a function of crop content, so five distinct scenes need the game played past the intro (walking to different rooms), which needs real input, not a timed capture.
+
+### Round 5 results, 2026-10-16 (ScummVM 2026.4.0 running Flight of the Amazon Queen floppy build; capture key Alt+S with the window frontmost, per the ScummVM keyboard-shortcuts docs; analysis script in the session scratchpad, not committed; images scratchpad only)
+
+Manifest. ScummVM: `scummvm-2026.4.0-macosx.dmg` from https://downloads.scummvm.org/frs/scummvm/2026.4.0/, 169,280,944 bytes, sha256 5614527fa57ffce14773c69923b96eeb7b1b135bcd96bfe74640ca341cad4598 (matches the download page). Licence: the dmg ships GPL, LGPL, BSD, MIT and other licence files; not read in full. Game: `FOTAQ_Floppy.zip` from https://downloads.scummvm.org/frs/extras/Flight%20of%20the%20Amazon%20Queen/, 7,109,570 bytes, sha256 2e59de85f708cdb32bf85c85b394ac091c05f7647e856b71f5b3ae73fde761e0; `queen.1` md5 979a33954634fae674b59711ef423f40 per ScummVM's log. Licence: the zip's `readme.txt` permits free distribution on any medium with the readme and notices intact, and permits modification (headline terms read, not every clause).
+
+Capture facts. A background keystroke did not save a screenshot; the same key worked once the window was frontmost under display-scope control. ScummVM's screenshot is the window output, not the game surface: 1280x1017 PNG, the game drawn 4x nearest-neighbour inside black bars (rows 108 to 908). Taking every 4th pixel recovers the 320x200 native frame exactly: 199 of 199 block-consistency checks passed on all six files. So the 1x versus 2x comparison pre-registered in B21 was NOT run; the scale confound was removed instead, by recovering the native frame losslessly. That is a design change made after seeing the output.
+
+Deviations from the pre-registration, stated before the numbers. (1) Native frames are 320x200, so the 256-px crop could not be used; I used a 192x192 center crop with rows 192 / 96 / 48 and scaled the K4 bar by 192/256 to 3.6 cycles. (2) Six frames, not five scenes: frame 00000 was taken before the rule was fixed; 00001 to 00005 were taken on a fixed 10-second schedule. All six sit in two scenes (the credits scroll and the opening room, with different poses and captions), so the distinct-scene count is 2, not 5.
+
+| frame | abs cutoff 48 / 96 / 192 | ordering | K4 gap vs bilinear (bar 3.6) |
+|---|---|---|---|
+| 00000 (credits, pre-rule) | 23 / 48 / 92 | ok | 55 |
+| 00001 | 23 / 47 / 84 | ok | 58 |
+| 00002 | 22 / 41 / 82 | ok | 56 |
+| 00003 | 22 / 45 / 84 | ok | 57 |
+| 00004 | 22 / 43 / 86 | ok | 59 |
+| 00005 | 23 / 43 / 84 | ok | 57 |
+
+- B21: NOT TESTED as written (see above).
+- B22: cleared on 5 of 5 frames (prior 0.4), but the claim was "4 of 5 scenes" and only 2 distinct scenes exist, so it is not earned. The gap of 55 to 59 is more than 15 times the scaled bar, so the margin is not marginal. Plausible reasons it passed where rendered UI failed in the arcade note's round 2 (untested): painted, dithered, high-contrast sprite art with soft gradients rather than one-pixel text; and the foil is bilinear, the weaker upscaler (arcade note round 6).
+- What the data cannot say: anything about era, anything about palette or dither (B10 untouched; palette not extracted), anything about other upscalers, or whether the result survives scenes beyond a room and a credits roll.
+- Round 6 need: five distinct scenes means playing past the intro to different rooms, which needs real input, not a timed capture.
