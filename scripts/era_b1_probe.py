@@ -63,3 +63,16 @@ if "--real" in sys.argv:
         m = [r[x0:x0 + 256] for r in pix[y0:y0 + 256]]
         a256, a128, a64 = absc(m), absc(down(m, 2)), absc(down(m, 4)); nn = absc(nn4(down(m, 4)))
         print(f"{path.rsplit('/', 1)[-1]:16} {w}x{h} a64/a128/a256 {a64:.0f}/{a128:.0f}/{a256:.0f}  ordering {'ok' if a64 < a128 < a256 else 'INVERTS'}  K4gap {a256 - nn:.1f}")
+
+# ---- Round 5: B18 footprint (pass 1024 PNGs after --down4) and B19 smoothness (pass 256 PNGs after --std) ----
+if "--down4" in sys.argv:
+    print("\ndown4 (1024 native region, box-downsampled 4x to 256)")
+    for path in sys.argv[sys.argv.index("--down4") + 1:]:
+        w, h, pix = sc.read_png(open(path, "rb").read())
+        m = down(pix, 4); a256, a128, a64 = absc(m), absc(down(m, 2)), absc(down(m, 4)); nn = absc(nn4(down(m, 4)))
+        print(f"{path.rsplit('/', 1)[-1]:12} a64/a128/a256 {a64:.0f}/{a128:.0f}/{a256:.0f}  ordering {'ok' if a64 < a128 < a256 else 'INVERTS'}  K4gap {a256 - nn:.1f}")
+if "--std" in sys.argv:
+    print("\nstd of luma per 256 crop")
+    for path in sys.argv[sys.argv.index("--std") + 1:]:
+        w, h, pix = sc.read_png(open(path, "rb").read()); v = [x for r in pix for x in r]; mu = sum(v) / len(v)
+        print(f"{path.rsplit('/', 1)[-1]:12} std {(sum((x - mu) ** 2 for x in v) / len(v)) ** 0.5:.2f}")
