@@ -47,7 +47,7 @@ check(v6 === 4 && (await E(() => window.PhosphorTest.notes.voices())) === 0, `N4
 await pg.keyboard.down('-'); await pg.keyboard.down('='); const v2 = await E(() => window.PhosphorTest.notes.voices()); await pg.keyboard.up('-'); await pg.keyboard.up('=')
 check(v2 === 2, `N2: the minus and equals keys are the last two notes (${v2} voices)`)
 // N6 pointer
-await E(() => { const r = document.querySelector('#nkeys .nk').getBoundingClientRect(); window.scrollTo(0, r.top + window.scrollY - 700) }); await pg.waitForTimeout(250)
+await E(() => { const i = document.querySelector('.inst').getBoundingClientRect(); window.scrollTo(0, i.bottom + window.scrollY - innerHeight + 4) }); await pg.waitForTimeout(250)
 const box = await pg.locator('#nkeys .nk').nth(7).boundingBox()
 await pg.mouse.move(box.x + box.width / 2, box.y + box.height / 2); await pg.mouse.down(); await pg.waitForTimeout(150)
 const hit = await E(() => { const r = document.querySelectorAll('#nkeys .nk')[7].getBoundingClientRect(), el = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return el && !!el.closest('#nkeys') })
