@@ -154,8 +154,16 @@ html[data-lvl="1"] [data-min="2"], html[data-lvl="1"] [data-min="3"], html[data-
 .wp { display: flex; flex-direction: column; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 12px 14px; }
 .wp[hidden], .svchip[hidden] { display: none; }
 .wp textarea { font-family: var(--ds-font-mono); font-size: var(--fs-label); resize: vertical; }
-.genome, .molt, .wp { width: min(100%, calc(42vh * 1.7778 + 22px)); margin-inline: auto; }
-@media (max-height: 860px) { .deck > *, .genome, .molt, .wp { width: min(100%, calc(32vh * 1.7778 + 22px)); } .deck #first { display: none; } }
+.mixer { display: flex; flex-direction: column; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 12px 14px; }
+.mxh { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; justify-content: space-between; }
+.mxf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 16px; }
+.mxs { display: flex; flex-wrap: wrap; gap: 10px 24px; }
+.mxf input[type=range], .mixer .seg { width: 100%; } .mxs > div { flex: 1 1 200px; min-width: 0; }
+.mxf input[type=range] { min-height: 44px; accent-color: var(--cyan); margin: 0; }
+#mxcv { display: block; width: 100%; height: auto; aspect-ratio: 760 / 84; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+@media (max-width: 520px) { .mxf { grid-template-columns: minmax(0, 1fr); } }
+.genome, .molt, .wp, .mixer { width: min(100%, calc(42vh * 1.7778 + 22px)); margin-inline: auto; }
+@media (max-height: 860px) { .deck > *, .genome, .molt, .wp, .mixer { width: min(100%, calc(32vh * 1.7778 + 22px)); } .deck #first { display: none; } }
 .genome { margin-top: 0; display: flex; flex-direction: column; gap: 8px; }
 #gcv { display: block; width: 100%; height: auto; aspect-ratio: 760 / 100; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
 .gtxt { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
@@ -350,6 +358,22 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     <textarea class="txt" id="wpbox" rows="4" spellcheck="false" aria-label="Waypoint text" placeholder="Paste a waypoint here"></textarea>
     <div class="row"><button class="btn" type="button" id="wpcopy">Copy waypoint</button><button class="btn" type="button" id="wpapply">Apply</button><button class="btn" type="button" id="wpclose">Close</button></div>
     <p class="hint" id="wpmsg" role="status"></p>
+  </div>
+  <div class="mixer" id="mixer" data-min="4">
+    <div class="mxh"><span class="tpl">Mixer</span><span class="hint" id="mxa">Deck A is the song above.</span></div>
+    <div class="row"><span class="tpl">Deck B</span><button class="btn" type="button" id="dbpick">Choose a file</button><input type="file" id="dbfile" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden><span class="hint" id="dbinfo">Load a second song to mix.</span></div>
+    <div class="sl"><button class="btn" type="button" id="dbplay">Play B</button><button class="btn" type="button" id="dbcue">Cue</button><button class="btn" type="button" id="dbsync">Sync</button><button class="btn" type="button" id="dbhalf">Half</button><button class="btn" type="button" id="dbdbl">Double</button><button class="btn" type="button" id="dbalign">Align</button><button class="btn" type="button" id="dbback">Back 10 ms</button><button class="btn" type="button" id="dbfwd">Forward 10 ms</button></div>
+    <div class="mxf">
+      <div><div class="ctl-label"><span>Deck A level</span><output id="mxlao">100</output></div><input type="range" id="mxla" min="0" max="100" step="1" value="100" aria-label="Deck A level"></div>
+      <div><div class="ctl-label"><span>Crossfader</span><output id="mxxo">A</output></div><input type="range" id="mxx" min="-100" max="100" step="1" value="-100" aria-label="Crossfader, A on the left and B on the right"></div>
+      <div><div class="ctl-label"><span>Deck B level</span><output id="mxlbo">100</output></div><input type="range" id="mxlb" min="0" max="100" step="1" value="100" aria-label="Deck B level"></div>
+    </div>
+    <div class="mxs">
+      <div><div class="ctl-label"><span>Curve</span></div><div class="seg" role="radiogroup" aria-label="Crossfader curve"><input type="radio" name="mxc" id="mxc0" value="smooth" checked><label for="mxc0">Smooth</label><input type="radio" name="mxc" id="mxc1" value="sharp"><label for="mxc1">Sharp</label></div></div>
+      <div><div class="ctl-label"><span>Picture follows</span></div><div class="seg" role="radiogroup" aria-label="Picture follows"><input type="radio" name="mxp" id="mxp0" value="A" checked><label for="mxp0">A</label><input type="radio" name="mxp" id="mxp1" value="mix"><label for="mxp1">Mix</label><input type="radio" name="mxp" id="mxp2" value="B"><label for="mxp2">B</label></div></div>
+    </div>
+    <canvas id="mxcv" width="760" height="84" role="img" aria-label="Both decks' DNA strands at their current beats, A above and B below"></canvas>
+    <p class="hint" id="mxmsg" role="status">Sync changes B's pitch a little, because it plays faster or slower. There is no time-stretch and no key lock yet.</p>
   </div>
   <div class="seg" id="srcseg" role="radiogroup" aria-label="Song or Sing">
     <input type="radio" name="src" id="srcA" value="song" checked><label for="srcA">Song</label>
@@ -1056,23 +1080,132 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   document.addEventListener("click", function (e) { var b = e.target.closest && e.target.closest("[data-km],[data-pre],#kcol,#kzoom,#kwob"); if (b) { MOLT.looks[b.id || b.getAttribute("data-km") || b.getAttribute("data-pre")] = 1; moltCheck(); } if (e.target.closest && e.target.closest(".sq")) { MOLT.sq++; moltCheck(); } }, true);
   document.addEventListener("input", function (e) { if (e.target.closest && e.target.closest("#grown")) { MOLT.ctl++; moltCheck(); } }, true);
   document.addEventListener("change", function (e) { if (e.target.closest && e.target.closest("#grown")) { MOLT.ctl++; moltCheck(); } }, true);
+  /* ---------------- two-deck mixer: Deck A is the player, Deck B is loaded here ----------------
+     Both decks go through their own gain into the same output chain. The picture follows A, B, or the louder one by
+     swapping the analysis arrays for one draw. Sync is varispeed (pitch moves with tempo); there is no time-stretch. */
+  var MIX = { xf: -1, curve: "smooth", lvA: 1, lvB: 1, follow: "A", gA: 1, gB: 0 };
+  var DB = { buf: null, pcm: null, sr: 44100, dur: 0, nf: 0, bands: null, rms: null, flux: null, cent: null, centers: null, bpm: 0, grid0: 0, dna: null, P: 0.5, base: 0, n: 0, name: "", src: null, playing: false, off: 0, t0: 0, rate: 1, mult: 1, pausedAt: 0, lastDraw: 0, seq: 0 };
+  function mixGains() {
+    var x = (MIX.xf + 1) / 2, a, b;
+    if (MIX.curve === "sharp") { a = Math.min(1, 2 * (1 - x)); b = Math.min(1, 2 * x); } else { a = Math.cos(x * Math.PI / 2); b = Math.sin(x * Math.PI / 2); }
+    return { a: a * MIX.lvA, b: b * MIX.lvB };
+  }
+  function applyMix() {
+    var g = mixGains(); MIX.gA = g.a; MIX.gB = g.b;
+    if (AC && AC._mixA) AC._mixA.gain.setTargetAtTime(g.a, AC.currentTime, 0.01); if (AC && AC._mixB) AC._mixB.gain.setTargetAtTime(g.b, AC.currentTime, 0.01);
+    $("mxlao").textContent = Math.round(MIX.lvA * 100); $("mxlbo").textContent = Math.round(MIX.lvB * 100);
+    $("mxxo").textContent = MIX.xf <= -0.98 ? "A" : MIX.xf >= 0.98 ? "B" : Math.round((1 - MIX.xf) / 2 * 100) + " A, " + Math.round((1 + MIX.xf) / 2 * 100) + " B";
+  }
+  function deckIn(which) {
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    var bus = outBus(), k = which === "A" ? "_mixA" : "_mixB";
+    if (!AC[k]) { var g = AC.createGain(), m = mixGains(); g.gain.value = which === "A" ? m.a : m.b; g.connect(bus); AC[k] = g; }
+    return AC[k];
+  }
+  function deckSwap(D) {
+    var s = { NF: NF, BANDS: BANDS, RMS: RMS, FLUX: FLUX, CENT: CENT, CENTERS: CENTERS, PCM: PCM, SR: SR, DUR: DUR };
+    NF = D.nf; BANDS = D.bands; RMS = D.rms; FLUX = D.flux; CENT = D.cent; CENTERS = D.centers; PCM = D.pcm; SR = D.sr; DUR = D.dur; if (SUN) SUN.nf = -1; return s;
+  }
+  function deckRestore(s) { NF = s.NF; BANDS = s.BANDS; RMS = s.RMS; FLUX = s.FLUX; CENT = s.CENT; CENTERS = s.CENTERS; PCM = s.PCM; SR = s.SR; DUR = s.DUR; if (SUN) SUN.nf = -1; }
+  function mixFollowB() { return MIX.follow === "B" ? DB.nf > 0 : MIX.follow === "mix" ? DB.nf > 0 && DB.playing && MIX.gB > MIX.gA : false; }
+  function dbPos() { return DB.playing && AC ? Math.min(DB.dur, DB.off + (AC.currentTime - DB.t0) * DB.rate) : DB.pausedAt; }
+  function dbPe() { return DB.bpm ? 60 / DB.bpm / DB.mult : 0.5; }
+  function mxMsg(s) { $("mxmsg").textContent = s; }
+  function dbInfo() { $("dbinfo").textContent = DB.nf ? DB.name + ", " + (DB.bpm ? DB.bpm.toFixed(1) + " BPM" : "no tempo") + (DB.rate !== 1 ? ", playing at " + (DB.rate * 100).toFixed(1) + " percent" : "") : "Load a second song to mix."; $("mxa").textContent = "Deck A: " + SRCNAME + (BPM ? ", " + BPM.toFixed(1) + " BPM" : ""); }
+  function dbStop() { if (DB.src) { var pos = dbPos(); try { DB.src.onended = null; DB.src.stop(); } catch (e) {} DB.src = null; DB.pausedAt = pos; } DB.playing = false; $("dbplay").textContent = "Play B"; }
+  function dbStart(at) {
+    if (!DB.buf) return; if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); var mine = ++DB.seq;
+    function begin() {
+      if (mine !== DB.seq) return; if (DB.src) { try { DB.src.onended = null; DB.src.stop(); } catch (e) {} }
+      var s = AC.createBufferSource(); s.buffer = DB.buf; s.playbackRate.value = DB.rate; s.connect(deckIn("B")); s.onended = function () { if (DB.src === s) { DB.playing = false; DB.pausedAt = DB.dur; DB.src = null; $("dbplay").textContent = "Play B"; } };
+      s.start(0, Math.max(0, Math.min(DB.dur - 0.01, at))); DB.src = s; DB.off = at; DB.t0 = AC.currentTime; DB.playing = true; $("dbplay").textContent = "Pause B"; if (!playing) requestAnimationFrame(dbLoop);
+    }
+    if (AC.state === "running") begin(); else AC.resume().then(begin);
+  }
+  function dbLoop() { if (!DB.playing || playing) return; frame(true); requestAnimationFrame(dbLoop); }
+  function dbSetRate(r) { var was = DB.playing, pos = dbPos(); DB.rate = r; if (was && DB.src) { DB.off = pos; DB.t0 = AC.currentTime; DB.src.playbackRate.setValueAtTime(r, AC.currentTime); } }
+  function dbSync(forceMult) {
+    if (!DB.bpm || !BPM) { mxMsg("Both decks need a tempo first. Tap one or use Beat check."); return null; }
+    var best = null; [1, 2, 0.5].forEach(function (m) { var r = BPM / (DB.bpm * m); if (forceMult ? m === forceMult : (!best || Math.abs(Math.log(r)) < Math.abs(Math.log(best.r)))) best = { r: r, m: m }; });
+    DB.mult = best.m; dbSetRate(best.r); dbInfo();
+    var off = Math.abs(best.r - 1) * 100; mxMsg(off > 20 ? "B would have to change by " + off.toFixed(0) + " percent, which is a lot. Try Half or Double, or pick closer songs." : "B plays at " + (best.r * 100).toFixed(1) + " percent so its beat matches A. Its pitch moves by about " + off.toFixed(1) + " percent.");
+    return best;
+  }
+  function dbAlign() {
+    if (!DB.bpm || !BPM) { mxMsg("Both decks need a tempo first."); return false; }
+    var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, Pe = dbPe(), k = Math.round((dbPos() - DB.grid0) / Pe - fa), at = Math.max(0, Math.min(DB.dur - 0.05, DB.grid0 + (k + fa) * Pe));
+    if (DB.playing) dbStart(at); else DB.pausedAt = at; mxMsg("B is moved so its beat lands on A's beat."); return true;
+  }
+  function dbPhaseMs() { if (!DB.bpm || !BPM) return null; var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, fb = (((dbPos() - DB.grid0) / dbPe()) % 1 + 1) % 1, d = Math.abs(fa - fb); d = Math.min(d, 1 - d); return d * PA * 1000; }
+  function dbNudge(ms) { var pos = Math.max(0, Math.min(DB.dur, dbPos() + ms / 1000)); if (DB.playing) dbStart(pos); else DB.pausedAt = pos; }
+  function dbLoadBytes(ab, name) {
+    mxMsg("Reading " + name); var gen = GEN;
+    return new OfflineAudioContext(1, 1, 44100).decodeAudioData(ab).then(function (buf) {
+      var n = buf.length, ch = buf.numberOfChannels, mono = new Float32Array(n), c, i; for (c = 0; c < ch; c++) { var d = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += d[i] / ch; }
+      if (mono.length > MAXSEC * buf.sampleRate) mono = mono.subarray(0, MAXSEC * buf.sampleRate);
+      analyze(mono, buf.sampleRate, function (R) {
+        dbStop(); DB.buf = buf; DB.pcm = mono; DB.sr = buf.sampleRate; DB.dur = mono.length / buf.sampleRate; DB.nf = R.nf; DB.bands = R.bands; DB.rms = R.rms; DB.flux = R.flux; DB.cent = R.cent; DB.centers = R.centers; DB.name = name; DB.pausedAt = 0; DB.rate = 1; DB.mult = 1;
+        var sv = deckSwap(DB), on = [], i2, k, W = Math.round(0.5 * FPS), last = -999, tp = null;
+        try { for (i2 = 1; i2 < NF - 1; i2++) { var s = 0, nn = 0; for (k = Math.max(0, i2 - W); k <= Math.min(NF - 1, i2 + W); k++) { s += FLUX[k]; nn++; } if (FLUX[i2] > 1.5 * (s / nn) + 0.05 && FLUX[i2] >= FLUX[i2 - 1] && FLUX[i2] > FLUX[i2 + 1] && i2 - last >= 3) { on.push(i2); last = i2; } } tp = detectTempo(on); } finally { deckRestore(sv); }
+        DB.bpm = tp ? +tp.bpm.toFixed(2) : 0; DB.grid0 = tp ? tp.grid0 : 0;
+        var r = dnaCompute({ bpm: DB.bpm, grid0: DB.grid0, dur: DB.dur, nf: DB.nf, bands: DB.bands, cent: DB.cent, on: on.map(function (f) { return f / FPS; }) }); DB.dna = r.dna; DB.P = r.P; DB.base = r.base; DB.n = r.n;
+        dbInfo(); mxMsg(DB.bpm ? "Deck B is ready. Use Sync, then Align, then move the crossfader." : "Deck B is ready but no tempo was found. Tap or pick another."); mixDraw();
+      }, function () {}, gen);
+    }).catch(function () { mxMsg("That file could not be decoded."); });
+  }
+  function mixDraw() {
+    var cv = $("mxcv"); if (!cv) return; var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 52, half = Math.floor(W / cw / 2), row, j, x, q, cod, set = GLET.dna, i, fr, dn, P, base, pos;
+    g.clearRect(0, 0, W, H); g.font = "600 14px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle"; g.textAlign = "center";
+    for (row = 0; row < 2; row++) {
+      if (row === 0) { dn = GNM.dna; P = GNM.P; base = GNM.base; pos = tnow(); } else { dn = DB.dna; P = DB.P / (DB.rate || 1) * (DB.mult || 1) * 0 + dbPe(); base = DB.grid0 % dbPe(); pos = dbPos(); }
+      if (!dn) { g.fillStyle = C.dim; g.fillText(row ? "Deck B: no song" : "Deck A: no song", W / 2, row * 40 + 22); continue; }
+      var Pp = row === 0 ? GNM.P : dbPe(); i = Math.floor((pos - base) / Pp); fr = (pos - base) / Pp - i;
+      for (j = i - half; j <= i + half + 1; j++) {
+        x = W / 2 + (j - i - fr) * cw - cw / 2; cod = j >= 0 && j < (row ? DB.n : GNM.n) ? (row === 0 ? dn[j] : dn[Math.floor((base + j * Pp - DB.base) / DB.P)]) : null; g.globalAlpha = j === i ? 1 : 0.8;
+        g.fillStyle = C.border; g.fillRect(x + 1, row * 40 + 2, cw - 3, 34);
+        if (cod) { for (q = 0; q < 3; q++) { g.fillStyle = C[GCOL[cod[q]]]; g.fillRect(x + 1 + q * ((cw - 3) / 3), row * 40 + 30, (cw - 3) / 3, 6); g.fillText(set.charAt(cod[q]), x + 1 + q * ((cw - 3) / 3) + (cw - 3) / 6, row * 40 + 15); } }
+      }
+    }
+    g.globalAlpha = 1; g.strokeStyle = C.gold; g.lineWidth = 2; g.beginPath(); g.moveTo(W / 2, 0); g.lineTo(W / 2, H); g.stroke();
+  }
+  $("dbpick").addEventListener("click", function () { $("dbfile").click(); });
+  $("dbfile").addEventListener("change", function () { var f = $("dbfile").files[0]; if (f) f.arrayBuffer().then(function (ab) { dbLoadBytes(ab, f.name); }); });
+  $("dbplay").addEventListener("click", function () { if (!DB.buf) { mxMsg("Choose a file for Deck B first."); return; } if (DB.playing) dbStop(); else dbStart(DB.pausedAt >= DB.dur - 0.05 ? 0 : DB.pausedAt); });
+  $("dbcue").addEventListener("click", function () { var was = DB.playing; dbStop(); DB.pausedAt = Math.max(0, DB.grid0 % dbPe()); if (was) dbStart(DB.pausedAt); });
+  $("dbsync").addEventListener("click", function () { dbSync(); });
+  $("dbhalf").addEventListener("click", function () { dbSync(Math.max(0.5, DB.mult / 2)); });
+  $("dbdbl").addEventListener("click", function () { dbSync(Math.min(2, DB.mult * 2)); });
+  $("dbalign").addEventListener("click", dbAlign);
+  $("dbback").addEventListener("click", function () { dbNudge(-10); });
+  $("dbfwd").addEventListener("click", function () { dbNudge(10); });
+  $("mxla").addEventListener("input", function () { MIX.lvA = +$("mxla").value / 100; applyMix(); });
+  $("mxlb").addEventListener("input", function () { MIX.lvB = +$("mxlb").value / 100; applyMix(); });
+  $("mxx").addEventListener("input", function () { MIX.xf = +$("mxx").value / 100; applyMix(); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=mxc]"), function (r) { r.addEventListener("change", function () { MIX.curve = r.value; applyMix(); }); });
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=mxp]"), function (r) { r.addEventListener("change", function () { MIX.follow = r.value; frame(playing); }); });
+  applyMix();
   /* ---------------- genome ribbon: the song's DNA over the look's RNA, one codon per beat ---------------- */
   var GNM = { dna: null, rna: [], P: 0.5, base: 0, n: 0, key: "", ctx: null, lastI: -9, lastDraw: 0, ms: [] };
   var GLET = { dna: "ACGT", rna: "ACGU" }, GCOL = ["cyan", "gold", "green", "magenta"];
   var GSW = { low: ["light", "warm", "heavy", "massive"], bri: ["dark", "soft", "bright", "glassy"], den: ["sparse", "steady", "busy", "frantic"] };
   var GLW = { fid: ["fog", "grain", "sharp", "crystal"], dep: ["stark", "poster", "rich", "full"], dis: ["calm", "rippling", "glitchy", "stormy"] };
   function gQuart(vals) { var s = vals.slice().sort(function (a, z) { return a - z; }), n = s.length, q1 = s[Math.floor(n * 0.25)], q2 = s[Math.floor(n * 0.5)], q3 = s[Math.floor(n * 0.75)]; return vals.map(function (v) { return v > q3 ? 3 : v > q2 ? 2 : v > q1 ? 1 : 0; }); }
-  function genomeBuild() {
-    if (!NF || !BANDS) { GNM.dna = null; return; }
-    var P = BPM ? 60 / BPM : 0.5, base = BPM ? GRID0 % P : 0, n = Math.max(1, Math.ceil((DUR - base) / P)), low = [], bri = [], den = [], i, f, f0, f1, s, c, m, k;
+  function dnaCompute(o) {
+    var P = o.bpm ? 60 / o.bpm : 0.5, base = o.bpm ? o.grid0 % P : 0, n = Math.max(1, Math.ceil((o.dur - base) / P)), low = [], bri = [], den = [], i, f, f0, f1, s, c, m, k;
     for (i = 0; i < n; i++) {
-      f0 = Math.max(0, Math.floor((base + i * P) * FPS)); f1 = Math.min(NF, Math.max(f0 + 1, Math.floor((base + (i + 1) * P) * FPS))); s = 0; c = 0;
-      for (f = f0; f < f1 && f < NF; f++) { for (k = 0; k < 10; k++) s += BANDS[f * NB + k]; c += CENT ? CENT[f] : 0; }
+      f0 = Math.max(0, Math.floor((base + i * P) * FPS)); f1 = Math.min(o.nf, Math.max(f0 + 1, Math.floor((base + (i + 1) * P) * FPS))); s = 0; c = 0;
+      for (f = f0; f < f1 && f < o.nf; f++) { for (k = 0; k < 10; k++) s += o.bands[f * NB + k]; c += o.cent ? o.cent[f] : 0; }
       low.push(s / Math.max(1, f1 - f0)); bri.push(c / Math.max(1, f1 - f0)); den.push(0);
     }
-    for (m = 0; m < MAGNETS.length; m++) if (MAGNETS[m].k === "onset") { i = Math.floor((MAGNETS[m].t - base) / P); if (i >= 0 && i < n) den[i]++; }
+    for (m = 0; m < o.on.length; m++) { i = Math.floor((o.on[m] - base) / P); if (i >= 0 && i < n) den[i]++; }
     var a = gQuart(low), b = gQuart(bri), d = gQuart(den);
-    GNM.dna = a.map(function (x, j) { return [x, b[j], d[j]]; }); GNM.P = P; GNM.base = base; GNM.n = n; GNM.rna = []; GNM.key = SRCNAME + "|" + n; GNM.lastI = -9;
+    return { dna: a.map(function (x, j) { return [x, b[j], d[j]]; }), P: P, base: base, n: n };
+  }
+  function genomeBuild() {
+    if (!NF || !BANDS) { GNM.dna = null; return; }
+    var on = [], m; for (m = 0; m < MAGNETS.length; m++) if (MAGNETS[m].k === "onset") on.push(MAGNETS[m].t);
+    var r = dnaCompute({ bpm: BPM, grid0: GRID0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on });
+    GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9;
   }
   function genomeLook() {
     var nfx = 0; ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep"].forEach(function (k) { if (GLITCH[k]) nfx++; }); if (GLITCH.stut) nfx++;
@@ -1139,7 +1272,8 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   $("wpcopy").addEventListener("click", function () { var s = wpText(); $("wpbox").value = s; function done(ok) { wpMsg(ok ? "Copied. Paste it back into this box any time." : "Copy was blocked here, so the text is in the box: select it and copy it yourself."); } try { navigator.clipboard.writeText(s).then(function () { done(true); }, function () { done(false); }); } catch (e) { done(false); } });
   $("grecipe").addEventListener("click", function () { var s = genomeRecipe(), b = $("grecipe"); function done(ok) { b.textContent = ok ? "Copied" : "Copy failed"; setTimeout(function () { b.textContent = "Copy recipe"; }, 1600); } try { navigator.clipboard.writeText(s).then(function () { done(true); }, function () { done(false); }); } catch (e) { done(false); } });
   function frame(forPlay) {
-    var t = tnow(), rg = rungFor(t); present(t, rg, forPlay); updateUI(t);
+    var t = tnow(), rg = rungFor(t); if (mixFollowB()) { var sv = deckSwap(DB); try { present(dbPos(), rg, forPlay); } finally { deckRestore(sv); } } else present(t, rg, forPlay); updateUI(t);
+    if (DB.nf && (!forPlay || performance.now() - DB.lastDraw > 33)) { DB.lastDraw = performance.now(); mixDraw(); }
     var now = performance.now(); if (!forPlay || now - lastLadder > 500) { renderLadder(t); lastLadder = now; }
     if (!forPlay || now - GNM.lastDraw > 33) { GNM.lastDraw = now; genomeDraw(t); }
   }
@@ -1152,7 +1286,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     var mine = ++startSeq;
     function begin() {
       if (mine !== startSeq) return;
-      stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(outBus());
+      stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(deckIn("A"));
       off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
       $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; if (typeof sunriseStart === "function") sunriseStart(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
     }
@@ -1704,7 +1838,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         return new Promise(function (res) { R.mr.onstop = function () { var fr = new FileReader(); fr.onload = function () { res(String(fr.result).split(",")[1]); }; fr.readAsDataURL(new Blob(R.chunks, { type: "video/webm" })); try { AC._sh.disconnect(R.dst); } catch (e) { /* gone */ } }; R.mr.stop(); });
       }
     };
-  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; }, state: function () { return JSON.parse(JSON.stringify(MOLT)); }, addSec: function (n) { MOLT.sec += n; moltCheck(); }, check: moltCheck }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, mix: { gains: function () { return { a: MIX.gA, b: MIX.gB, nodeA: AC && AC._mixA ? AC._mixA.gain.value : null, nodeB: AC && AC._mixB ? AC._mixB.gain.value : null }; }, set: function (xf, la, lb, curve) { if (xf !== undefined) { MIX.xf = xf; $("mxx").value = Math.round(xf * 100); } if (la !== undefined) { MIX.lvA = la; $("mxla").value = Math.round(la * 100); } if (lb !== undefined) { MIX.lvB = lb; $("mxlb").value = Math.round(lb * 100); } if (curve) MIX.curve = curve; applyMix(); }, math: function (xf, curve, la, lb) { var s = { xf: MIX.xf, curve: MIX.curve, lvA: MIX.lvA, lvB: MIX.lvB }; MIX.xf = xf; MIX.curve = curve; MIX.lvA = la === undefined ? 1 : la; MIX.lvB = lb === undefined ? 1 : lb; var g = mixGains(); MIX.xf = s.xf; MIX.curve = s.curve; MIX.lvA = s.lvA; MIX.lvB = s.lvB; return g; }, b: function () { return { bpm: DB.bpm, grid0: DB.grid0, rate: DB.rate, mult: DB.mult, pos: dbPos(), playing: DB.playing, dur: DB.dur, n: DB.n, nf: DB.nf, name: DB.name, dna: DB.dna ? DB.dna.length : 0 }; }, play: function (at) { dbStart(at || 0); }, stop: dbStop, sync: dbSync, align: dbAlign, nudge: dbNudge, phase: dbPhaseMs, follow: function (v) { MIX.follow = v; frame(playing); }, ceiling: function () { return outPeak(); } }, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; }, state: function () { return JSON.parse(JSON.stringify(MOLT)); }, addSec: function (n) { MOLT.sec += n; moltCheck(); }, check: moltCheck }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1774,7 +1908,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     }
     var rg = g.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.85); rg.addColorStop(0, "transparent"); rg.addColorStop(1, C.bg); g.globalAlpha = 0.25 + 0.4 * A; g.fillStyle = rg; g.fillRect(0, 0, W, H); g.globalAlpha = 1;
   }
-  function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(outBus()); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
+  function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(deckIn("A")); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
   /* Gold chime: the golden repair as a strange consonance. Stacked fifths on the song's own strongest note, with a slightly detuned copy that beats. */
   var GOLD = { root: 0, rootFor: null, voices: 0 };
   function goldRoot() {
