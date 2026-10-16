@@ -487,7 +487,8 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <summary>Keys</summary>
         <div class="gb">
           <p class="hint">Space play. F full screen. 1 to 4 mode. Brackets resolution. Left and right arrows palette. Comma and period jump to snap points.</p>
-          <div class="row"><button class="btn" type="button" id="forget">Forget everything saved here</button></div>
+          <div class="row"><button class="btn" type="button" id="sessrec" aria-pressed="false">Record my session</button><button class="btn" type="button" id="forget">Forget everything saved here</button></div>
+          <p class="hint" id="sesshint">Saves a video with sound and a list of what you touched to your Downloads. Nothing is uploaded.</p>
           <label class="check"><input type="checkbox" id="fullvol"><span>Full volume for grown-ups. Turns off the kids' volume limit.</span></label>
           <p class="hint" id="lastkey">Press any key to see its code.</p>
           <div class="row"><button class="btn" type="button" id="plogb">Copy play log</button><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
@@ -922,7 +923,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       if (mine !== startSeq) return;
       stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(outBus());
       off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
-      $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
+      $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; if (typeof sunriseStart === "function") sunriseStart(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
     }
     if (AC.state === "running") begin();
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
@@ -1313,7 +1314,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     party: { mode: 2, pal: "heat", bits: 8, res: 9, rl: { on: true, bars: 1, dir: "pp" }, q: "beat", gate: 0.5, bars: 1, cells: { rgb: [0, 2, 4, 6, 8, 10, 12, 14], jog: { 0: 1, 4: 2, 8: 3, 12: 2 } } },
     sleepy: { mode: 0, pal: "amber", bits: 8, res: 6, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} },
     dino: { mode: 3, pal: "mono", bits: 3, res: 9, rl: { on: true, bars: 4, dir: "down" }, q: "valley", gate: 1, bars: 2, cells: { stutter: [0, 8], blocks: [4, 12], detail: { 0: 2, 4: 5, 8: 9, 12: 5 } } },
-    plain: { mode: 0, pal: "orig", bits: 8, res: 9, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} }
+    plain: { mode: 2, pal: "amber", bits: 8, res: 9, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} }
   };
   function setCtl(id, v, ev) { var e = $(id); if (!e) return; if (e.type === "checkbox") e.checked = !!v; else e.value = v; e.dispatchEvent(new Event(ev || (e.tagName === "SELECT" ? "change" : "input"), { bubbles: true })); }
   function setRadio(name, v) { Array.prototype.forEach.call(document.querySelectorAll("input[name=" + name + "]"), function (r) { if (parseFloat(r.value) === parseFloat(v) || r.value === String(v)) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } }); }
@@ -1334,7 +1335,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   function saveSettings() { try { localStorage.setItem(SAVEKEY, JSON.stringify(snapshot())); } catch (e) { /* storage blocked */ } }
   function restoreSaved() {
-    var s = null; try { s = JSON.parse(localStorage.getItem(SAVEKEY) || "null"); } catch (e) { s = null; } if (!s) return;
+    var s = null; try { s = JSON.parse(localStorage.getItem(SAVEKEY) || "null"); } catch (e) { s = null; } if (!s) return false;
     try {
       if (s.zs && s.zs.length === 4) s.zs.forEach(function (z, c) { ZS[c] = Math.max(1, Math.min(5, z | 0)); });
       if (s.mode >= 0 && s.mode < 4) setStage(s.mode, ZS[s.mode]);
@@ -1347,12 +1348,51 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       if (s.seq) { ["beat", "onset", "valley", "edge"].indexOf(s.seq.quant) >= 0 && seqQuant(s.seq.quant); setRadio("sqg", s.seq.gate); setRadio("sqb", s.seq.bars); LANES.forEach(function (l) { var c = s.seq.cells && s.seq.cells[l[0]]; if (Array.isArray(c) && c.length === 16) for (var i = 0; i < 16; i++) SEQ.cells[l[0]][i] = Math.max(0, Math.min(l[0] === "detail" ? 9 : l[0] === "jog" ? 5 : 1, c[i] | 0)); }); seqPaint(); }
       if (s.click) { SING.click = true; $("clk").setAttribute("aria-pressed", "true"); } if (s.bpm === 80 || s.bpm === 100 || s.bpm === 120) { SING.bpm = s.bpm; $("bpm").value = s.bpm; }
     } catch (e) { console.warn("phosphor: a saved setting was ignored", e && e.message); }
+    return true;
   }
-  ["change", "input"].forEach(function (n) { document.addEventListener(n, function () { clearTimeout(saveT); saveT = setTimeout(saveSettings, 400); }, true); });
+  /* default look: the sparse Ring in amber, rising coarse to sharp on the first Play. Only when nothing is saved. */
+  var SUNRISE = { pending: false, timers: [] };
+  function applyDefaultLook() { setStage(2, ZS[2]); setCtl("palsel", "amber"); SUNRISE.pending = true; }
+  function sunriseStart() {
+    if (!SUNRISE.pending) return; SUNRISE.pending = false; var r;
+    SUNRISE.ramp = true; $("res").value = 3; $("res").dispatchEvent(new Event("input", { bubbles: true })); SUNRISE.ramp = false;
+    for (r = 4; r <= 9; r++) (function (v) { SUNRISE.timers.push(setTimeout(function () { SUNRISE.ramp = true; $("res").value = v; $("res").dispatchEvent(new Event("input", { bubbles: true })); SUNRISE.ramp = false; }, (v - 3) * 1200)); })(r);
+  }
+  function sunriseCancel() { SUNRISE.timers.forEach(clearTimeout); SUNRISE.timers = []; SUNRISE.pending = false; }
+  $("res").addEventListener("pointerdown", sunriseCancel); $("res").addEventListener("keydown", sunriseCancel);
+  ["change", "input"].forEach(function (n) { document.addEventListener(n, function () { if (SUNRISE.ramp) return; clearTimeout(saveT); saveT = setTimeout(saveSettings, 400); }, true); });
+  /* ---------------- session recorder: the picture and sound, plus every control touched with its value. Local files only. ---------------- */
+  var SESS = { on: false, log: [], mr: null, chunks: [], dst: null, t0: 0, timer: 0 };
+  function sessEvent(k, id, v) { if (!SESS.on) return; SESS.log.push({ t: +((performance.now() - SESS.t0) / 1000).toFixed(3), song: playing || SP.on ? +tnow().toFixed(3) : null, k: k, id: id, v: v === undefined ? null : v }); }
+  ["input", "change"].forEach(function (n) { document.addEventListener(n, function (e) { var el = e.target; if (!SESS.on || !el || !el.id && el.name === undefined) return; var v = el.type === "checkbox" ? el.checked : el.type === "radio" ? (el.checked ? el.value : undefined) : el.value; if (v !== undefined && el.type !== "file" && el.type !== "text" && el.type !== "url") sessEvent(SUNRISE.ramp ? "auto" : "set", el.id || el.name, v); }, true); });
+  document.addEventListener("keydown", function (e) { if (SESS.on && !e.repeat && !pkTyping(e)) sessEvent("key", e.code); }, true);
+  document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (SESS.on && b) sessEvent("tap", b.id || b.getAttribute("data-km") || b.getAttribute("data-g") || b.getAttribute("data-pre") || b.textContent.trim().slice(0, 14)); }, true);
+  function sessSave(name, blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000); }
+  function sessStart() {
+    if (SESS.on) return; if (typeof MediaRecorder === "undefined" || !$("cv").captureStream) { $("sesshint").textContent = "This browser cannot record the page."; return; }
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume(); outBus();
+    var vs = $("cv").captureStream(30), dst = AC.createMediaStreamDestination(); AC._sh.connect(dst); SESS.dst = dst; SESS.chunks = []; SESS.log = [];
+    var mt = MediaRecorder.isTypeSupported("video/webm;codecs=vp9,opus") ? "video/webm;codecs=vp9,opus" : "video/webm";
+    SESS.mr = new MediaRecorder(new MediaStream([vs.getVideoTracks()[0], dst.stream.getAudioTracks()[0]]), { mimeType: mt, videoBitsPerSecond: 4000000 });
+    SESS.mr.ondataavailable = function (e) { if (e.data.size) SESS.chunks.push(e.data); }; SESS.mr.start(1000);
+    SESS.t0 = performance.now(); SESS.on = true; SESS.start = snapshot(); $("sessrec").setAttribute("aria-pressed", "true");
+    SESS.timer = setInterval(function () { var s = Math.round((performance.now() - SESS.t0) / 1000); $("sessrec").textContent = "Stop recording " + Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }, 500); $("sessrec").textContent = "Stop recording 0:00";
+  }
+  function sessStop() {
+    if (!SESS.on) return; clearInterval(SESS.timer); var stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19), log = SESS.log, startState = SESS.start, secs = (performance.now() - SESS.t0) / 1000;
+    SESS.mr.onstop = function () {
+      try { AC._sh.disconnect(SESS.dst); } catch (e) { /* gone */ }
+      sessSave("phosphor-session-" + stamp + ".webm", new Blob(SESS.chunks, { type: "video/webm" }));
+      sessSave("phosphor-session-" + stamp + ".json", new Blob([JSON.stringify({ made: stamp, seconds: +secs.toFixed(1), song: SRCNAME, bpm: BPM || null, startSettings: startState, events: log }, null, 1)], { type: "application/json" }));
+      $("sesshint").textContent = "Saved phosphor-session-" + stamp + " (video and list) to your Downloads. " + log.length + " things touched, nothing uploaded.";
+    };
+    SESS.on = false; SESS.mr.stop(); $("sessrec").setAttribute("aria-pressed", "false"); $("sessrec").textContent = "Record my session";
+  }
+  $("sessrec").addEventListener("click", function () { if (SESS.on) sessStop(); else sessStart(); });
   $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "phosphor.stickers.v1", "phosphor.keys.v1", "phosphor.skin.v1"].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } }); clearTimeout(saveT); $("learnhint").textContent = "Everything saved on this device was removed. This page keeps its current settings until you reload."; });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
-  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (!RESTORED) { RESTORED = true; restoreSaved(); } }
+  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
   if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
