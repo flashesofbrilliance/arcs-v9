@@ -127,6 +127,16 @@ check(await pg.evaluate(() => !window.PhosphorTest.fs()), 'F4: and off again')
   await kp.click('#kfs'); check(await kp.evaluate(() => window.PhosphorTest.fs()), 'K2: Big screen goes full screen')
   await kp.context().close()
 }
+// F5 fast toggling must not leave the browser and the page disagreeing (found 2026-10-15: a quick double press could leave native full screen on with the page thinking it had left)
+{
+  const fp = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage()
+  await fp.goto(url); await fp.waitForFunction(() => document.getElementById('status').textContent === '')
+  for (let k = 0; k < 6; k++) { await fp.keyboard.press('f'); await fp.keyboard.press('f'); await fp.waitForTimeout(40) }
+  await fp.keyboard.press('f'); await fp.keyboard.press('f'); await fp.waitForTimeout(900)
+  const agree = await fp.evaluate(() => ({ page: window.PhosphorTest.fs(), native: !!document.fullscreenElement }))
+  check(agree.page === agree.native, `F5: after rapid F presses the page and the browser agree (page ${agree.page}, browser ${agree.native})`)
+  await fp.context().close()
+}
 check(errors.length === 0, `no console or script errors${errors.length ? ': ' + errors[0] : ''}`)
 await b.close()
 if (fails.length) { console.log(`\n${fails.length} failed`); process.exit(1) }
