@@ -88,6 +88,10 @@ const lp = await open(loud)
 await lp.evaluate(() => { document.getElementById('play').click() }); await lp.waitForTimeout(900)
 let peak = -1; for (let i = 0; i < 20; i++) { peak = Math.max(peak, await lp.evaluate(() => window.PhosphorTest.outPeak())); await lp.waitForTimeout(40) }
 check(peak >= 0 && peak <= 0.5, `G2: a full-scale signal leaves the speakers no louder than 0.5 of full scale in kid mode (peak ${peak < 0 ? 'not measurable: no output bus' : peak.toFixed(3)})`)
+await lp.evaluate(() => { window.PhosphorTest.fx.on('dist', true); window.PhosphorTest.fx.on('crush', true) }); await lp.waitForTimeout(300)
+let peakFx = -1; for (let i = 0; i < 20; i++) { peakFx = Math.max(peakFx, await lp.evaluate(() => window.PhosphorTest.outPeak())); await lp.waitForTimeout(40) }
+check(peakFx >= 0 && peakFx <= 0.5, `G2: with Distort and Crush on, a full-scale signal still leaves no louder than 0.5 (peak ${peakFx.toFixed(3)})`)
+await lp.evaluate(() => { window.PhosphorTest.fx.on('dist', false); window.PhosphorTest.fx.on('crush', false) }); await lp.waitForTimeout(300)
 await lp.evaluate(() => { const c = document.getElementById('fullvol'); c.checked = true; c.dispatchEvent(new Event('change')) }); await lp.waitForTimeout(300)
 let peakFull = -1; for (let i = 0; i < 20; i++) { peakFull = Math.max(peakFull, await lp.evaluate(() => window.PhosphorTest.outPeak())); await lp.waitForTimeout(40) }
 check(peakFull > peak + 0.2, `G2: the Grown-up checkbox turns the limit off (peak ${peak.toFixed(3)} then ${peakFull.toFixed(3)})`)
