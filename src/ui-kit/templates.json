@@ -46,7 +46,7 @@
       "kind": "instrument-explainer",
       "description": "One live instrument under a thesis, with deeper altitudes behind closed doors: instrument panel (16), altitude ladder (17), contact sheet (18), gate ladder (19), transport (20). Uses the DESIGN.md conformance tokens in _tokens.css (ds-r, fs, elevated, magenta) so no per-page override layer is needed.",
       "canonical_examples": ["_ARTIFACTS/raw-capture.html", "src/ui-kit/recoil-report/16-instrument-panel.html"],
-      "signature_selectors": [".inst", ".alt-body", ".gates", ".plug", ".sheet", ".tp"],
+      "signature_selectors": [".inst", ".alt-body", ".gates", ".plug", ".sheet", ".tp", ".kid", ".bb", ".pads", ".sqrow", ".seg", ".rungs"],
       "min_signatures": 3
     }
   }

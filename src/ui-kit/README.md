@@ -24,7 +24,9 @@ organisms  → recoil-report/NN-*.html (the 14 numbered @dsCard primitives):
              09 stop-loss-footer · 10 pipeline-tracker · 11 champion-map · 12 role-thesis ·
              13 90day-build · 14 earned-fidelity-twin · 15 case-world
              16 instrument-panel · 17 altitude-ladder · 18 contact-sheet · 19 gate-ladder · 20 transport
-             (16 to 20 are the Instrument Lab group, added 2026-10-15; they use the DESIGN.md conformance tokens)
+                          21 big-button-grid · 22 pad-grid · 23 step-sequencer · 24 segmented-control · 25 resolution-ladder · 26 beat-check
+             (16 to 20 are the Instrument Lab group, added 2026-10-15; 21 to 26 were promoted from _ARTIFACTS/phosphor.html on 2026-10-16.
+              They use the DESIGN.md conformance tokens, and scripts/kit_primitive_sync.py --check keeps each @prim block identical to the page.)
 templates  → a composition of organisms a page declares once and snaps into (see templates.json)
 ```
 
