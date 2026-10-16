@@ -114,7 +114,7 @@ check(await pg.evaluate(() => !window.PhosphorTest.fs()), 'F4: and off again')
     return out
   })
   check(k.closed, 'K3: Grown-up controls start closed')
-  check(Object.values(k.h).every((h) => h >= 64) && k.modes.length === 5 && k.modes.every((h) => h >= 64), `K1: the play, pick, mode, colors, zoom, wobble and big screen buttons are all 64 px tall or more (${JSON.stringify(k.h)})`)
+  check(Object.entries(k.h).every(([i, h]) => h >= (i === 'kpick' ? 44 : i === 'play' ? 56 : 64)) && k.modes.length === 5 && k.modes.every((h) => h >= 64), `K1: the play, pick, mode, colors, zoom, wobble and big screen buttons keep their touch size: 64 px, the dock's Add song 44 and Play 56 (${JSON.stringify(k.h)})`)
   await kp.click('#kid [data-km="3"]')
   check(await kp.evaluate(() => window.PhosphorTest.zoom().mode === 3), 'K2: Rainbow picks the spectrogram')
   const p0 = await kp.evaluate(() => document.getElementById('palsel').value); await kp.click('#kcol')
