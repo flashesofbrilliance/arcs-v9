@@ -78,8 +78,11 @@ def foreign_lookup(sha: str, text: str) -> tuple[str, str] | None:
             root = Path(os.path.expanduser(path))
             if not (root / ".git").exists():
                 return name, "NOT_CLONED"
+            # Inside a git hook, GIT_DIR / GIT_INDEX_FILE point at THIS repo and override -C;
+            # drop them or the lookup silently reads arcs-v9 and reports every foreign sha absent.
+            env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
             rc = subprocess.run(["git", "-C", str(root), "cat-file", "-e", f"{sha}^{{commit}}"],
-                                capture_output=True).returncode
+                                capture_output=True, env=env).returncode
             return name, "FOUND" if rc == 0 else "ABSENT"
     return None
 ROOT_FILES = {"CLAUDE.md", "AGENTS.md", "WORLD.md", "MEMORY.md", "SKILL.md"}
