@@ -111,6 +111,12 @@ h1 em { font-style: normal; color: var(--cyan); }
 .deck #back, .deck #fwd { display: none; }
 .deck #play { background: var(--cyan-bg); border-color: var(--cyan); }
 .check { min-height: 44px; align-items: center; }
+.singbox { display: flex; flex-direction: column; gap: 10px; }
+.rec { font: inherit; font-family: var(--ds-font-display); font-size: var(--fs-headline); font-weight: 600; color: var(--text); min-height: 96px; display: flex; align-items: center; justify-content: center; gap: 16px; background: var(--cyan-bg); border: 1px solid var(--cyan); border-radius: var(--ds-r-lg); cursor: pointer; touch-action: manipulation; }
+.recdot { width: 28px; height: 28px; border-radius: var(--ds-r-pill); background: var(--red); transition: transform 80ms; }
+.rec[data-s=rec] { border-color: var(--red); background: var(--surface); }
+.rec[data-s=layer] { border-color: var(--gold); }
+.kid[data-src=sing] #kpick { display: none; }
 .stk { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .sk { min-height: 44px; display: inline-flex; align-items: center; padding: 0 14px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-pill); }
 .sk.got { color: var(--text); border-color: var(--cyan); background: var(--cyan-bg); }
@@ -293,7 +299,16 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   <p class="first" id="first">Press Play to hear the demo, or pick your own song below.</p>
   <div class="prog" id="prog" hidden><i></i></div>
   </div>
-  <div class="kid" id="kid">
+  <div class="seg" id="srcseg" role="radiogroup" aria-label="Song or Sing">
+    <input type="radio" name="src" id="srcA" value="song" checked><label for="srcA">Song</label>
+    <input type="radio" name="src" id="srcB" value="sing"><label for="srcB">Sing</label>
+  </div>
+  <div class="singbox" id="singbox" hidden>
+    <button class="rec" id="rec" type="button" data-s="off"><span class="recdot" id="recdot"></span><span id="reclbl">Sing</span></button>
+    <div class="row"><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="clr" type="button">Start over</button><button class="btn" id="clk" type="button" aria-pressed="false">Click</button><select class="txt" id="bpm" style="width:auto" aria-label="Click speed"><option value="80">80</option><option value="100" selected>100</option><option value="120">120</option></select></div>
+    <p class="first" id="recmsg">Headphones work best, so the loop does not hear itself.</p>
+  </div>
+  <div class="kid" id="kid" data-src="song">
     <button class="bb pri" type="button" id="kpick">Pick a song</button>
     <button class="bb" type="button" data-km="0">Wiggle</button><button class="bb" type="button" data-km="1">Bars</button><button class="bb" type="button" data-km="2">Ring</button><button class="bb" type="button" data-km="3">Rainbow</button>
     <button class="bb" type="button" id="kcol">Colors</button><button class="bb" type="button" id="kzoom">Zoom</button><button class="bb" type="button" id="kwob">Wobble</button><button class="bb" type="button" id="kfs">Big screen</button>
@@ -446,7 +461,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
         <div class="gb">
           <p class="hint">Space play. F full screen. 1 to 4 mode. Brackets resolution. Left and right arrows palette. Comma and period jump to snap points.</p>
           <p class="hint" id="lastkey">Press any key to see its code.</p>
-          <div class="row"><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
+          <div class="row"><button class="btn" type="button" id="plogb">Copy play log</button><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
           <p class="hint" id="learnhint"></p>
         </div>
       </details>
@@ -635,6 +650,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function scene(g, W, H, t) {
     var fi = fidx(t), i, b, lw = Math.max(1, H / 360);
     g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
+    if (SING.mirror) { singMirror(g, W, H); return; }
     if (!NF) return;
     if (MODE === 0) {
       g.strokeStyle = C.border; g.lineWidth = lw; g.beginPath();
@@ -718,7 +734,8 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 
   /* ---------------- playback: follows the audio clock ---------------- */
   var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
-  function tnow() { return playing ? Math.min(DUR, off0 + (AC.currentTime - t0ctx)) : tpaused; }
+  var LOOPPLAY = false, FORCEBPM = 0, PLOG = [], SING = { state: "off", mirror: false, lvl: 0, wave: new Float32Array(1024), chunks: [], hist: [], pcm: null, click: false, bpm: 100, lastClick: -9, raf: 0 };
+  function tnow() { if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : Math.min(DUR, x); }
   function chapterAt(t) { var f = t * FPS, k = 0, i; for (i = 0; i < CHAPS.length; i++) if (CHAPS[i] <= f) k = i; return k; }
   function loopRung(t) {
     var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = (t - (BPM ? GRID0 : 0)) / (P * nb); ph -= Math.floor(ph);
@@ -771,7 +788,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     var mine = ++startSeq;
     function begin() {
       if (mine !== startSeq) return;
-      stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.connect(AC.destination);
+      stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(AC.destination);
       off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
       $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
     }
@@ -783,7 +800,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
   /* ---------------- loading ---------------- */
-  function setSource(pcm, sr, buf, name) {
+  function setSource(pcm, sr, buf, name, after) {
     GEN++; var gen = GEN; stopPlay(""); ANALYZING = true; BUF = buf; SRCNAME = name; $("status").textContent = "Analyzing 0%";
     var cap = Math.min(pcm.length, MAXSEC * sr); if (cap < pcm.length) pcm = pcm.subarray(0, cap);
     PCM = pcm; SR = sr; DUR = pcm.length / sr;
@@ -791,7 +808,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       if (gen !== GEN) return;
       NF = R.nf; BANDS = R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
       var rest = 0, best = -1, i; for (i = 0; i < NF; i++) if (RMS[i] > best) { best = RMS[i]; rest = i; } tpaused = Math.min(DUR, rest / FPS);
-      buildChapters(); onSourceReady(); pocketText(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false);
+      buildChapters(); onSourceReady(); pocketText(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false); if (after) after();
     }, function (p) { if (gen === GEN) $("status").textContent = "Analyzing " + Math.round(p * 100) + "%"; }, gen);
   }
   function buildChapters() {
@@ -1020,8 +1037,9 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   $("solve").addEventListener("click", function () { if (SLICES.length < 2) { $("slhint").textContent = "Cut at least two slices first."; return; } ARR = arrange(SLICES); renderSlices(); });
   $("clearsl").addEventListener("click", function () { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; renderSlices(); drawStrip(tnow()); });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
-  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
+  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); }
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1075,7 +1093,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
       g.putImageData(id, 0, 0);
     }
   }
-  function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.connect(AC.destination); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
+  function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(AC.destination); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
   function glitchOn(kind) {
     if (kind === "tear" || kind === "rgb" || kind === "blocks") { if (!GLITCH[kind]) { GLITCH[kind] = true; gmLabel(); frame(playing); } return; }
     if (!BUF || GLITCH.stut) return;
@@ -1228,6 +1246,97 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
     PK.down[e.code] = true; pkDown(e.code);
   }, true);
   document.addEventListener("keyup", function (e) { if (!PK.down[e.code]) return; delete PK.down[e.code]; pkUp(e.code); }, true);
+  /* ---------------- sing: a loop pedal. Local only: nothing is sent, and nothing is kept unless a grown-up saves it. ---------------- */
+  function plog(e) { PLOG.push({ t: Math.round(performance.now()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
+  document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
+  document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
+  function singMsg(s) { $("recmsg").textContent = s; }
+  var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
+  function singUI() { $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }
+  function singMirror(g, W, H) {
+    var w = SING.wave, n = w.length, i, lw = Math.max(1, H / 360), lv = Math.min(1, SING.lvl * 6), x, y;
+    g.strokeStyle = C.border; g.lineWidth = lw; g.beginPath();
+    for (i = 1; i < 8; i++) { g.moveTo(W * i / 8, 0); g.lineTo(W * i / 8, H); g.moveTo(0, H * i / 8); g.lineTo(W, H * i / 8); } g.stroke();
+    g.strokeStyle = C.cyan; g.lineWidth = lw * 1.6; g.lineJoin = "round"; g.beginPath();
+    for (i = 0; i < n; i++) { x = W * i / (n - 1); y = H / 2 - w[i] * H * 0.8; if (i) g.lineTo(x, y); else g.moveTo(x, y); } g.stroke();
+    g.globalAlpha = 0.35 + 0.65 * lv; g.fillStyle = C.cyan; g.beginPath(); g.arc(W / 2, H / 2, H * (0.04 + 0.2 * lv), 0, 6.2832); g.fill(); g.globalAlpha = 1;
+  }
+  function singMirrorLoop() { if (!SING.mirror) return; if (SING.ana) SING.ana.getFloatTimeDomainData(SING.wave); frame(true); SING.raf = requestAnimationFrame(singMirrorLoop); }
+  function singMirrorOn(on) { SING.mirror = on; cancelAnimationFrame(SING.raf); if (on) SING.raf = requestAnimationFrame(singMirrorLoop); else frame(false); }
+  function singOpen() {
+    if (SING.stream) return Promise.resolve();
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { singMsg("This browser cannot use the microphone on this page. Open the page from your computer."); return Promise.reject(new Error("no mic")); }
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    return navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: false, autoGainControl: false } }).then(function (s) {
+      SING.stream = s; if (AC.state !== "running") AC.resume();
+      SING.src = AC.createMediaStreamSource(s); SING.ana = AC.createAnalyser(); SING.ana.fftSize = 1024;
+      SING.proc = AC.createScriptProcessor(2048, 1, 1); SING.mute = AC.createGain(); SING.mute.gain.value = 0;
+      SING.src.connect(SING.ana); SING.src.connect(SING.proc); SING.proc.connect(SING.mute); SING.mute.connect(AC.destination);
+      SING.proc.onaudioprocess = function (e) {
+        var d = e.inputBuffer.getChannelData(0), s0 = 0, i; for (i = 0; i < d.length; i++) s0 += d[i] * d[i]; SING.lvl = Math.sqrt(s0 / d.length);
+        if (SING.state === "rec" || SING.state === "layer") { SING.chunks.push(new Float32Array(d)); SING.got = (SING.got || 0) + d.length; if (SING.state === "layer" && SING.pcm && SING.got >= SING.pcm.length) { SING.got = -1e12; setTimeout(singFinishLayer, 0); } }
+      };
+      SING.dotT = setInterval(function () { if (!rm) $("recdot").style.transform = "scale(" + (1 + Math.min(1, SING.lvl * 5) * 0.5) + ")"; }, 60);
+    }, function (err) { singMsg("The microphone is blocked. Allow it in the browser, then choose Sing again."); throw err; });
+  }
+  function singClose() {
+    if (SING.stream) { SING.stream.getTracks().forEach(function (tr) { tr.stop(); }); }
+    try { SING.proc.disconnect(); SING.src.disconnect(); SING.mute.disconnect(); } catch (e) { /* already gone */ }
+    clearInterval(SING.dotT); clearInterval(SING.ci); SING.stream = null; SING.ana = null; SING.lvl = 0;
+  }
+  function singTake() { var n = 0, o = 0, out; SING.chunks.forEach(function (c) { n += c.length; }); out = new Float32Array(n); SING.chunks.forEach(function (c) { out.set(c, o); o += c.length; }); SING.chunks = []; SING.got = 0; return out; }
+  function singLat() { return (AC.baseLatency || 0) + (AC.outputLatency || 0) + 0.02; }
+  function singLoad(pcm, name) {
+    var sr = AC.sampleRate, buf = AC.createBuffer(1, pcm.length, sr); buf.copyToChannel(pcm, 0);
+    SING.pcm = pcm; LOOPPLAY = true; FORCEBPM = SING.click ? SING.bpm : 0; SING.state = "loop"; singMirrorOn(false); singUI();
+    setSource(pcm, sr, buf, name, function () { startPlay(0); singMsg("Tap Add a layer to sing over it."); });
+  }
+  function singFinishFirst() {
+    var sr = AC.sampleRate, pcm = singTake(), lat = Math.round(singLat() * sr);
+    pcm = pcm.subarray(Math.min(lat, Math.max(0, pcm.length - 1)));
+    if (pcm.length < sr * 0.5) { singMsg("That was very short. Try again."); SING.state = "armed"; singUI(); return; }
+    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = Math.max(1, Math.round(pcm.length / bar)), n = Math.round(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, Math.min(n, pcm.length))); pcm = o; }
+    SING.hist = []; singLoad(new Float32Array(pcm), "My loop");
+  }
+  function singFinishLayer() {
+    if (SING.state !== "layer") return;
+    var take = singTake(), sr = AC.sampleRate, N = SING.pcm.length, lat = Math.round(singLat() * sr), p0 = Math.round(SING.phase0 * sr), out = new Float32Array(SING.pcm), i, idx, v;
+    SING.hist.push(SING.pcm); if (SING.hist.length > 8) SING.hist.shift();
+    for (i = 0; i < Math.min(take.length, N); i++) { idx = (p0 + i - lat) % N; if (idx < 0) idx += N; v = out[idx] + take[i]; out[idx] = v > 1 ? 1 : v < -1 ? -1 : v; }
+    singLoad(out, "My loop");
+  }
+  function singClick(t, accent) {
+    var o = AC.createOscillator(), g = AC.createGain(); o.frequency.value = accent ? 1500 : 1000; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.25, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + 0.06);
+  }
+  function singPump() {
+    if (!AC || !SING.click) return; var P = 60 / SING.bpm, now = AC.currentTime, ref, k, t;
+    if (SING.state === "rec") ref = SING.t0; else if (playing && LOOPPLAY) ref = t0ctx - off0; else return;
+    for (k = Math.max(0, Math.ceil((now - ref) / P)); ref + k * P < now + 0.12; k++) { t = ref + k * P; if (t <= SING.lastClick + P * 0.5) continue; singClick(t, k % 4 === 0); SING.lastClick = t; }
+  }
+  function singRecord() {
+    singOpen().then(function () {
+      if (SING.state === "armed") { SING.chunks = []; SING.got = 0; SING.t0 = AC.currentTime; SING.state = "rec"; plog("rec"); singMsg("Singing. Tap Stop when you are done."); singUI(); }
+      else if (SING.state === "rec") singFinishFirst();
+      else if (SING.state === "loop") { SING.chunks = []; SING.got = 0; SING.phase0 = tnow(); SING.state = "layer"; plog("layer"); singMsg("Layering for one turn of the loop."); singUI(); }
+      else if (SING.state === "layer") singFinishLayer();
+    }, function () { /* message already shown */ });
+  }
+  function singMode(on) {
+    $("kid").setAttribute("data-src", on ? "sing" : "song"); $("singbox").hidden = !on; if (on) $("first").hidden = true;
+    if (on) {
+      if (playing) stopPlay(""); SING.state = "off"; singUI();
+      singOpen().then(function () { SING.state = SING.pcm && LOOPPLAY ? "loop" : "armed"; singUI(); if (SING.state === "armed") { singMsg("Sing or clap and watch the picture move. Tap Record when you are ready."); singMirrorOn(true); } clearInterval(SING.ci); SING.ci = setInterval(singPump, 25); }, function () { SING.state = "off"; singUI(); });
+    } else { singMirrorOn(false); singClose(); SING.state = "off"; LOOPPLAY = false; if (playing) stopPlay(""); }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("input[name=src]"), function (r) { r.addEventListener("change", function () { singMode(r.value === "sing"); }); });
+  $("rec").addEventListener("click", singRecord);
+  $("undo").addEventListener("click", function () { if (SING.hist.length) singLoad(SING.hist.pop(), "My loop"); });
+  $("clr").addEventListener("click", function () { if (playing) stopPlay(""); LOOPPLAY = false; SING.pcm = null; SING.hist = []; SING.chunks = []; SING.got = 0; SING.state = "armed"; loadDemo(); singUI(); singMirrorOn(true); singMsg("Fresh start. Tap Record."); });
+  $("clk").addEventListener("click", function () { SING.click = !SING.click; $("clk").setAttribute("aria-pressed", SING.click ? "true" : "false"); });
+  $("bpm").addEventListener("change", function () { SING.bpm = +$("bpm").value; });
+  $("plogb").addEventListener("click", function () { var s = JSON.stringify(PLOG); try { navigator.clipboard.writeText(s).then(function () { $("learnhint").textContent = "Play log copied (" + PLOG.length + " events, times and names only)."; }, function () { $("learnhint").textContent = "Could not copy. Nothing was sent anywhere."; }); } catch (e) { $("learnhint").textContent = "Could not copy. Nothing was sent anywhere."; } });
+  singUI();
   window.addEventListener("blur", function () { Object.keys(PK.down).forEach(function (cd) { delete PK.down[cd]; pkUp(cd); }); });
   function setPerform(on) { PERFORM = on; $("perf").checked = on; if (typeof pkLabel === "function") pkLabel(); $("hperf").setAttribute("aria-pressed", on ? "true" : "false"); gmLabel(); if (!on) ["stutter", "tear", "rgb", "blocks"].forEach(glitchOff); }
 
