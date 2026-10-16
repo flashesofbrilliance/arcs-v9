@@ -47,7 +47,7 @@ function flashes(series) {
 }
 await pg.click('#play'); await pg.waitForTimeout(400)
 const scen = {
-  'Scope': async () => {}, 'Bars': async () => { await pg.click('#kid [data-km="1"]') }, 'Rainbow': async () => { await pg.click('#kid [data-km="3"]') },
+  'Scope': async () => {}, 'Bars': async () => { await pg.click('#kid [data-km="1"]') }, 'Rainbow': async () => { await pg.click('#kid [data-km="3"]') }, 'Sun': async () => { await pg.click('#kid [data-km="4"]') },
   'Blocks': async () => { await pg.click('#kid [data-km="0"]'); await pg.evaluate(() => window.PhosphorTest.on('blocks')) },
   'Split': async () => { await pg.evaluate(() => { window.PhosphorTest.off('blocks'); window.PhosphorTest.on('rgb') }) },
   'Tear': async () => { await pg.evaluate(() => { window.PhosphorTest.off('rgb'); window.PhosphorTest.on('tear') }) },
