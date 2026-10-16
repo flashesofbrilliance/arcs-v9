@@ -15,7 +15,9 @@ Three cite classes, each a pure mechanical check (zero judgment, per _SPECS/meta
   ADR-0NN        -> a matching _DECISIONS/ADR-NNN-*.md exists on <ref>      (missing = FAIL)
                     and a row with that id exists in _DECISIONS/index.json  (missing = WARN, index drift)
   commit SHA     -> `git merge-base --is-ancestor <sha> <ref>`              (exists but unmerged = FAIL,
-                    object unknown to this clone = WARN, likely foreign or a hex-looking word)
+                    object unknown to this clone = WARN, likely foreign or a hex-looking word;
+                    when the cite's line names a repo in FOREIGN_REPOS, the sha is looked up there:
+                    found = OK "foreign", repo not cloned here or sha absent there = WARN)
   repo path      -> path present in `git ls-tree -r <ref>`                  (absent = FAIL "vapor",
                     gitignored = WARN, since it can never be on main by design)
 
@@ -58,6 +60,28 @@ TRAIL = ".,;:)]}'\"`>"
 # Dated point-in-time records. Their cites were gated while the text was live (CLAUDE.md); once a
 # block moves to the archive, rewriting a cite falsifies history, so the gate does not scan these.
 EXEMPT_DIRS = ("_ARCHIVE/",)
+# Sibling repos whose commits records cite by name ("ret-rfp-intelligence main 175afe2"). A sha unknown
+# to this clone is checked in the named repo when that name appears on the same line. Extend with
+# INTEGRITY_FOREIGN_REPOS="name=path,name2=path2".
+FOREIGN_REPOS = {"ret-rfp-intelligence": "~/ret-rfp-intelligence"}
+FOREIGN_REPOS.update(dict(kv.split("=", 1) for kv in os.environ.get("INTEGRITY_FOREIGN_REPOS", "").split(",") if "=" in kv))
+
+
+def foreign_lookup(sha: str, text: str) -> tuple[str, str] | None:
+    """(repo name, verdict) for a sha whose line names a FOREIGN_REPOS repo, else None."""
+    for line in text.splitlines():
+        if sha not in line:
+            continue
+        for name, path in FOREIGN_REPOS.items():
+            if name not in line:
+                continue
+            root = Path(os.path.expanduser(path))
+            if not (root / ".git").exists():
+                return name, "NOT_CLONED"
+            rc = subprocess.run(["git", "-C", str(root), "cat-file", "-e", f"{sha}^{{commit}}"],
+                                capture_output=True).returncode
+            return name, "FOUND" if rc == 0 else "ABSENT"
+    return None
 ROOT_FILES = {"CLAUDE.md", "AGENTS.md", "WORLD.md", "MEMORY.md", "SKILL.md"}
 
 
@@ -167,7 +191,15 @@ def gate(path: str, state: RefState, self_path: str | None = None) -> dict:
         elif v == "UNMERGED":
             add("commit", s, "FAIL", f"exists locally but is NOT an ancestor of {state.ref} (unmerged)")
         else:
-            add("commit", s, "WARN", "no such object in this clone (foreign sha, or a hex-looking word)")
+            hit = foreign_lookup(s, text)
+            if hit and hit[1] == "FOUND":
+                add("commit", s, "OK", f"foreign: commit in {hit[0]}")
+            elif hit and hit[1] == "NOT_CLONED":
+                add("commit", s, "WARN", f"foreign: {hit[0]} is not cloned here, cannot verify")
+            elif hit:
+                add("commit", s, "WARN", f"foreign: not found in {hit[0]} (typo, or not pushed/fetched there)")
+            else:
+                add("commit", s, "WARN", "no such object in this clone (foreign sha, or a hex-looking word)")
 
     ignored = state.check_ignored(paths)
     for p in sorted(paths):
