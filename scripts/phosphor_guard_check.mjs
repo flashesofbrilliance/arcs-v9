@@ -75,6 +75,12 @@ const pseries = await pg.evaluate(`(${sampler})(2200)`); await palMash; results[
 await pg.keyboard.press('Backquote')
 const mash = (async () => { const keys = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '1', '5', '0', 'a', 's']; for (let i = 0; i < 40; i++) { await pg.keyboard.press(keys[i % keys.length]); await pg.waitForTimeout(70) } })()
 const mseries = await pg.evaluate(`(${sampler})(3200)`); await mash; results['Mashed keys'] = flashes(mseries)
+// N8: mashing the Notes strip (twelve keys) at about 14 per second, with the picture mirroring the sound
+await pg.keyboard.press('Backquote'); await pg.evaluate(() => { document.getElementById('notesb').click() })
+await pg.click('body', { position: { x: 5, y: 5 } })
+const noteMash = (async () => { const ks = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=']; for (let i = 0; i < 44; i++) { await pg.keyboard.down(ks[i % 12]); await pg.waitForTimeout(35); await pg.keyboard.up(ks[i % 12]); await pg.waitForTimeout(35) } })()
+const nseries = await pg.evaluate(`(${sampler})(3200)`); await noteMash; results['Mashing the Notes strip (1 to =)'] = flashes(nseries)
+await pg.evaluate(() => { document.getElementById('notesb').click() })
 for (const [name, r] of Object.entries(results)) check(r.worst <= 3, `G1: ${name}: at most ${r.worst} flashes in any second (limit 3; ${r.changes} large luminance changes; luminance ${r.lo.toFixed(2)} to ${r.hi.toFixed(2)} over ${r.n} frames)`)
 
 // G2 ---------------------------------------------------------------
