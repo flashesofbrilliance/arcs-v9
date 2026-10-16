@@ -196,3 +196,32 @@ Honest scope: this tests the FOIL, not the gate. Passing would mean the nearest-
 - The committed script now reproduces round 5's correlation: Spearman of std vs nearest-neighbour gap -0.824; against the bilinear gap it is -0.477 (n=9, one scene, no significance claimed). The nearest-neighbour foil's dependence on contrast is much weaker with the bilinear foil, which fits the edge-replication hypothesis but does not prove it.
 - Reading: the K4 flip was mostly the nearest-neighbour foil, which is the hardest foil and reads as sharp because replicated edges leave spectral images that the 99% cutoff counts. Against a bilinear upscale the statistic separates true from upscaled on 8 of 9 native crops. This is a statement about two upscalers, not about every upscaler.
 - Still not supported: a refusal gate. K4 passes against bilinear and fails against nearest-neighbour, so a gate would need a stated list of upscalers it covers, and an attacker or a pipeline can choose the one that passes. Not tested: bicubic, Lanczos, learned upscalers, other scans, era game art, 99.9% cutoff. Status unchanged: INTENDED.
+
+### Round 7 (B21, the vision-judge round): pre-registered before any trial image exists or any judge is run
+
+Question (Zach, 2026-10-16: "why cant we prompt this with a model we trust?"): can a vision model tell a genuine 256-pixel frame from an upscaled one better than the cutoff statistic, on the same frames?
+Design, fixed now:
+- Sources, 12 frames at 256x256: the 9 native crops from the 1935 FSA master (round 4; one scene, so not independent) and the central 256 crops of the 3 LoC derivatives (round 3). All kept in the session scratchpad.
+- Foils, 3 per source: (a) nearest-neighbour 4x of the 64 row, (b) bilinear 4x of the 64 row (the repo's `_bilinear2x` twice), (c) bilinear 2x of the 128 row (the subtle foil). 36 trials.
+- Each trial shows two 256x256 grayscale images, labelled A and B, one genuine and one upscaled; order set by a fixed seed (21) and not written to disk until judging is complete. The judge must say which one is the upscaled one. Judges are `opus` subagents, a different model from the orchestrator (sonnet); they may use only the Read tool on the images.
+- The statistic's outcome on the same trial: it is "correct" when the genuine frame's absolute cutoff exceeds the foil's by at least 4.8 cycles (the K4 criterion).
+B21. The vision judge picks the upscaled frame in at least 33 of 36 trials (90 percent) and at least 10 of the 12 subtle-foil trials. Prior 0.5.
+Kill: judge accuracy overall lower than the statistic's on the same 36 trials, or fewer than 9 of 12 on the subtle foil, or fewer than 27 of 36 overall.
+Limits stated now: one judge model, one pass, no repeats; judges could read other files on disk despite instructions (the answer key does not exist on disk during judging); 9 of 12 sources share one scene; a judge that spots blocky nearest-neighbour pixels is detecting a crude artifact, which is why the subtle foil is its own bar; a result says nothing about era.
+
+### Round 7 results, 2026-10-16 (B21)
+
+Ground: trials built and scored by `scripts/era_b21.py` (seed 21; the key was never written to disk during judging; the three judge outputs were transcribed by hand into an answers file and scored by the committed script); builds on rounds 1 to 6, last merged at b2d6417b (PR 1386). Judges: three `opus` subagents, 12 trials each, Read tool only, one pass.
+
+| foil | judge correct | cutoff statistic correct (gap of at least 4.8) |
+|---|---|---|
+| nearest-neighbour 4x of the 64 row | 12 / 12 | 6 / 12 |
+| bilinear 4x of the 64 row | 12 / 12 | 11 / 12 |
+| bilinear 2x of the 128 row (subtle) | 10 / 12 | 11 / 12 |
+| overall | 34 / 36 | 28 / 36 |
+
+- B21 survived (prior 0.5): 34 of 36 overall (bar 33), 10 of 12 on the subtle foil (bar 10), and above the statistic's 28 of 36. None of the three kill conditions tripped. The margins are thin: 34 against 33 and 10 against 10.
+- Where each fails: both wrong on 0 trials; the judge was right and the statistic wrong on 8 (all nearest-neighbour); the statistic was right and the judge wrong on 2. Both judge misses were bilinear-2x trials on near-identical frames and both carried confidence 1 ("near-identical"). Confidence 4 or 5 was correct 18 of 18; confidence 3 or lower was correct 16 of 18. No position bias (picked A 17 of 36).
+- Reading: the vision judge and the statistic fail in different places. The judge sees blocky nearest-neighbour pixels the statistic misreads; the statistic keeps its edge on the subtle foil. This is a post-hoc observation on 36 trials, not a result about either instrument in general.
+- B24, written now and not run: a two-tier rule (use the judge's answer, and fall back to the statistic when the judge's confidence is 1 or 2) scores at least 35 of 36 on a fresh set of at least 36 trials from frames not used here. Prior 0.5; kill: 34 or fewer. This rule was found after seeing these results, so on these 36 trials it can only be checked, not claimed.
+- Caveats: one judge model family on one pass; 9 of 12 sources share one scene; the judge may be detecting a crude artifact (nearest-neighbour blocks), which is not the same as judging fidelity; the judges could read other files on disk despite instructions and I cannot rule out that they looked; the statistic's "correct" is a threshold I chose (4.8), not a property of the frame. Not tested: a stronger upscaler (bicubic, Lanczos, learned), era game art, any claim about year. A refusal gate remains unsupported; a judge tier is now a candidate for the second tier, status INTENDED.
