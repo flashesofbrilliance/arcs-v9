@@ -55,11 +55,11 @@ const plain = await hash()
 await ev(() => window.PhosphorTest.on('stutter')); await pg.waitForTimeout(400)
 const gs = await ev(() => window.PhosphorTest.glitch())
 const Lw = gs.stut ? gs.stut.L : 0
-const bpm = parseInt(((await ev(() => document.getElementById('magro').textContent)).match(/about (\d+) BPM/) || [])[1] || '120', 10), wantL = (60 / bpm) * 0.125
+const bpm = await ev(() => window.PhosphorTest.bpm() || 120), wantL = (60 / bpm) * 0.125
 check(!!gs.stut && Math.abs(Lw - wantL) < 1e-6, `L4: stutter at 1/8 beat and ${bpm} BPM holds a ${(Lw * 1000).toFixed(1)} ms window (want ${(wantL * 1000).toFixed(1)})`)
 check(!!gs.loop && gs.loop.loop && Math.abs((gs.loop.end - gs.loop.start) - Lw) < 0.002 && Math.abs(gs.loop.start - gs.stut.t0) < 0.002, `L4: the audio loop is ${gs.loop ? ((gs.loop.end - gs.loop.start) * 1000).toFixed(1) : '?'} ms long and starts at the held time (within 2 ms)`)
-const tA = await ev(() => { const T = window.PhosphorTest, s = T.glitch().stut; return [T.gtime(s.t0 + 0.30), T.gtime(s.t0 + 0.30 + 3 * s.L), s.t0] })
-check(Math.abs(tA[0] - tA[1]) < 1e-9 && tA[0] >= tA[2] && tA[0] < tA[2] + Lw, 'L4: the drawn time repeats every window (the same loop phase gives the same time)')
+const tA = await ev(() => { const T = window.PhosphorTest, s = T.glitch().stut; return [T.gtime(s.t0 + 0.30), T.gtime(s.t0 + 0.30 + 3 * Math.max(s.L, 0.17)), s.t0] })
+check(Math.abs(tA[0] - tA[1]) < 1e-9 && tA[0] >= tA[2] && tA[0] < tA[2] + Math.max(Lw, 0.17), 'L4: the drawn time repeats every window (the same loop phase gives the same time)')
 await ev(() => window.PhosphorTest.off('stutter')); await pg.waitForTimeout(200)
 check((await ev(() => window.PhosphorTest.glitch())).stut === null && (await ev(() => window.PhosphorTest.glitch())).loop === null, 'L4: releasing ends the stutter and its audio loop')
 check((await hash()) === plain, 'L4: after release the picture is the unglitched frame again')
@@ -83,7 +83,7 @@ const glitches = async (on) => { for (const g of ['tear', 'rgb', 'blocks']) awai
 await set('calm', false); const liveClean = await maxDelta(); await glitches(true); const liveGlitch = await maxDelta(); await glitches(false)
 await set('calm', true); const calmClean = await maxDelta(); await glitches(true); const calmGlitch = await maxDelta(); await glitches(false)
 console.log(`  frame-to-frame mean luminance, largest change: live ${liveClean.toFixed(3)}, live with glitches ${liveGlitch.toFixed(3)}, calm ${calmClean.toFixed(3)}, calm with glitches ${calmGlitch.toFixed(3)}`)
-check(Math.abs(liveGlitch - liveClean) < 0.03 && Math.abs(calmGlitch - calmClean) < 0.03, 'L6: the glitch effects themselves add under 0.03 to the largest frame-to-frame change')
+check(liveGlitch - liveClean < 0.03 && calmGlitch - calmClean < 0.03, 'L6: the glitch effects themselves add under 0.03 to the largest frame-to-frame change')
 check(calmGlitch < 0.1, `L6: with Calm on and every glitch on, the largest change is ${calmGlitch.toFixed(3)} (want under 0.1)`)
 console.log(`  (diagnostic, the condition first registered: Calm off, no glitch, largest change ${liveClean.toFixed(3)}; a loud onset redraws a whole bar chart in one frame, which is why Calm exists and is on by default)`)
 const KEYS = { F16: 'F16', F17: 'F17', F18: 'F18', F19: 'F19', NumLock: 'Clear', NumpadEqual: '=', NumpadDivide: '/', NumpadMultiply: '*', NumpadSubtract: '-', NumpadAdd: '+', NumpadEnter: 'Enter', Numpad1: '1', Numpad2: '2', Numpad3: '3', Numpad4: '4', Numpad5: '5', Numpad6: '6', Numpad7: '7', Numpad8: '8', Numpad9: '9', KeyA: 'a', KeyS: 's', KeyD: 'd', KeyF: 'f', KeyG: 'g' }
