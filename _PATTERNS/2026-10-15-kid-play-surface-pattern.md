@@ -17,7 +17,8 @@ An instrument, not a lesson: physical quantities as controls, immediate response
 7. **Down-res removes choices, never truth.** The kid surface can make what the grown-up surface can make, with fewer dials; the seam (Grown-up controls) stays visible.
 8. **Local first.** Processing stays on the device; nothing is sent; nothing is kept unless a grown-up saves it. The page makes no network request and says so plainly. This is a design fact to verify, not a legal claim.
 9. **Parent as co-player.** Any summary for a parent is created on the device, plain language, and about what he explored, not about surveillance.
-10. **Guardrails are features:** photosensitivity (no more than three flashes in any second), loudness (a ceiling for kids), and plain-language microphone handling.
+10. **Sparse by default, density earned.** Glitch is post-minimal and lo-fi: silence and empty space are material, one effect at a time, rare hits on accents, slow decay, a thin line on a dark ground. More events, layers and effects are unlocked by mastery, not shown by default. Less is more is also the safer setting for flashing and loudness. (Zach, 2026-10-15.)
+11. **Guardrails are features:** photosensitivity (no more than three flashes in any second), loudness (a ceiling for kids), and plain-language microphone handling.
 
 ## Pull versus push, as tests
 
