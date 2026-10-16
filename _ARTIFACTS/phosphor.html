@@ -1400,6 +1400,9 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   Array.prototype.forEach.call(document.querySelectorAll(".dbb"), function (b) { b.addEventListener("click", downbeatHere); });
   /* Beat check: hear the grid over the song and correct it by ear. */
+  function bcKey() { return "phosphor.beat." + SRCNAME + "." + Math.round(DUR * 10); }
+  function bcSave() { try { localStorage.setItem(bcKey(), JSON.stringify({ b: BPM, g: GRID0 })); } catch (e) {} }
+  function bcLoad() { try { var s = JSON.parse(localStorage.getItem(bcKey()) || "null"); if (s && s.b > 0) setTempo(s.b, s.g); } catch (e) {} }
   var BC = { on: false, timer: 0, last: -9, times: [] };
   function bcInfo() { var i = BPMINFO; $("bcinfo").textContent = BPM ? BPM.toFixed(1) + " BPM" + (i ? ", confidence " + i.conf.toFixed(1) + ", could also be " + i.alt.map(function (v) { return v.toFixed(0); }).join(" or ") : "") : "No tempo found. Tap one."; }
   function bcPump() {
@@ -1408,10 +1411,10 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   }
   function bcOn(on) { BC.on = on; $("bcb").setAttribute("aria-pressed", on ? "true" : "false"); clearInterval(BC.timer); BC.last = -9; if (on) { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); BC.timer = setInterval(bcPump, 25); } bcInfo(); }
   $("bcb").addEventListener("click", function () { bcOn(!BC.on); });
-  $("bchalf").addEventListener("click", function () { if (BPM) { setTempo(BPM / 2, GRID0); bcInfo(); } });
-  $("bcdbl").addEventListener("click", function () { if (BPM) { setTempo(BPM * 2, GRID0); bcInfo(); } });
-  $("bcearly").addEventListener("click", function () { if (BPM) { setTempo(BPM, GRID0 - 0.01); bcInfo(); } });
-  $("bclate").addEventListener("click", function () { if (BPM) { setTempo(BPM, GRID0 + 0.01); bcInfo(); } });
+  $("bchalf").addEventListener("click", function () { if (BPM) { setTempo(BPM / 2, GRID0); bcSave(); bcInfo(); } });
+  $("bcdbl").addEventListener("click", function () { if (BPM) { setTempo(BPM * 2, GRID0); bcSave(); bcInfo(); } });
+  $("bcearly").addEventListener("click", function () { if (BPM) { setTempo(BPM, GRID0 - 0.01); bcSave(); bcInfo(); } });
+  $("bclate").addEventListener("click", function () { if (BPM) { setTempo(BPM, GRID0 + 0.01); bcSave(); bcInfo(); } });
   $("dbtrim").addEventListener("click", function () {
     if (!SING.pcm || SING.state !== "loop") { singMsg("Record a loop first."); return; }
     if (SING.click) { singMsg("With the click on, the loop already starts on the click's first beat."); return; }
@@ -1505,7 +1508,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
   $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "phosphor.stickers.v1", "phosphor.keys.v1", "phosphor.skin.v1"].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } }); clearTimeout(saveT); $("learnhint").textContent = "Everything saved on this device was removed. This page keeps its current settings until you reload."; });
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
-  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
+  function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
   if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
