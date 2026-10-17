@@ -1,0 +1,321 @@
+<!-- @arcs-template: recoil-report -->
+<!-- @arcs-mode: operate -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design System Backlog</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion. PROPOSED: DESIGN.md has no motion section yet (ADR-087 action item). Calm and precise. */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+</style>
+<style>
+:root { --measure: 720px; --lane: 1120px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px 16px 64px; }
+.lane { max-width: var(--lane); margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+h1 { font-family: var(--ds-font-display); font-weight: 500; font-size: var(--fs-display); letter-spacing: -0.02em; line-height: 1.2; }
+h2 { font-family: var(--ds-font-sans); font-size: var(--fs-headline); font-weight: 600; letter-spacing: -0.01em; }
+.eyebrow { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; }
+.lede { max-width: none; color: var(--text-secondary); margin-top: 10px; }
+.body { max-width: none; color: var(--text-secondary); }
+.mono { font-family: var(--ds-font-mono); }
+a { color: var(--cyan); }
+:focus-visible { outline: 1px solid var(--cyan); outline-offset: 2px; }
+
+/* section-label: kit molecule, DESIGN.md form (the 11-file majority) */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+
+/* gauges: DESIGN.md Gauges / Instruments */
+.gauges { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.gauge { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 12px 16px; }
+.gauge-unit { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.gauge-val { font-family: var(--ds-font-mono); font-size: var(--fs-headline); font-weight: 700; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.gauge-note { font-size: var(--fs-body); color: var(--dimmed); margin-top: 4px; }
+.v-gold { color: var(--gold); } .v-green { color: var(--green); } .v-cyan { color: var(--cyan); }
+
+/* matrix */
+.scroll { padding: 6px; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); }
+table.matrix { border-collapse: collapse; width: 100%; min-width: 760px; }
+.matrix th { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); font-weight: 700; }
+.matrix td { padding: 10px 14px; border-bottom: 1px solid rgba(30,41,59,0.6); vertical-align: top; font-size: var(--fs-body); }
+.matrix tr:last-child td { border-bottom: none; }
+.matrix td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+.yes { color: var(--green); font-family: var(--ds-font-mono); font-size: var(--fs-body); }
+.no { color: var(--red); font-family: var(--ds-font-mono); font-size: var(--fs-body); }
+.part { color: var(--gold); font-family: var(--ds-font-mono); font-size: var(--fs-body); }
+
+/* entity-card: kit organism 03, copied verbatim then widened for the lane */
+.entity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.entity-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; display: flex; position: relative; min-height: 80px; }
+.entity-card .strip { width: 4px; flex-shrink: 0; }
+.entity-card .body { padding: 12px 16px; flex: 1; display: flex; flex-direction: column; gap: 3px; max-width: none; color: inherit; }
+.entity-name { font-family: var(--font-sans); font-size: var(--fs-body); font-weight: 600; color: var(--text); line-height: 1.2; padding-right: 84px; overflow-wrap: anywhere; }
+.entity-role { font-family: var(--font-sans); font-size: var(--fs-body); color: var(--text-secondary); }
+.entity-note { font-family: var(--font-mono); font-size: var(--fs-body); color: var(--dimmed); margin-top: 4px; overflow-wrap: anywhere; }
+.entity-badge { position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; padding: 3px 8px; border-radius: var(--r-sm); border: 1px solid; }
+.cyan .strip { background: var(--cyan); } .cyan .entity-badge { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.green .strip { background: var(--green); } .green .entity-badge { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.gold .strip { background: var(--gold); } .gold .entity-badge { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.muted-state .strip { background: var(--muted); } .muted-state .entity-badge { color: var(--muted); border-color: var(--muted); background: rgba(71,85,105,0.1); }
+.wave { grid-column: 1 / -1; }
+
+/* export */
+pre.out { background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 14px 16px; overflow-x: auto; font-family: var(--ds-font-mono); font-size: var(--fs-body); line-height: 1.5; color: var(--text); white-space: pre; }
+.btn-ghost { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: none; border: 1px solid var(--border); border-radius: var(--ds-r-xs); color: var(--text-secondary); padding: 8px 12px; cursor: pointer; transition: border-color var(--dur-base), color var(--dur-base); }
+.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.status { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--green); }
+ul.src { list-style: none; display: grid; gap: 4px; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); }
+ul.src li { overflow-wrap: anywhere; }
+@media (max-width: 760px) { .entity-grid { grid-template-columns: 1fr; } body { padding: 20px 16px 48px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main class="lane">
+
+<header>
+  <div class="eyebrow">ARCS DS backlog · 2026-10-17</div>
+  <h1>Where the design system is thin, and the order that closes it</h1>
+  <p class="lede">Read against its own DESIGN.md, the kit has 26 finished organisms and no molecule tier. This page measures that gap, turns each gap into a backlog row with an Impeccable route and a kill line, and exports the rows in the repo's induced-backlog shape. Nothing here is written to the queue until someone chooses to copy it.</p>
+</header>
+
+<section aria-labelledby="g-h">
+  <div class="section-label" id="g-h">Measured in the kit</div>
+  <div class="gauges">
+    <div class="gauge"><div class="gauge-unit">Organisms</div><div class="gauge-val v-green">26</div><div class="gauge-note">numbered @dsCard files in src/ui-kit/recoil-report</div></div>
+    <div class="gauge"><div class="gauge-unit">Molecule files</div><div class="gauge-val v-gold">0</div><div class="gauge-note">the README names 7 molecules; none exists as a file</div></div>
+    <div class="gauge"><div class="gauge-unit">.section-label copies</div><div class="gauge-val v-gold">21 / 26</div><div class="gauge-note">defined separately inside the organism files</div></div>
+    <div class="gauge"><div class="gauge-unit">Distinct rule bodies</div><div class="gauge-val v-gold">5</div><div class="gauge-note">11 files on the DESIGN.md form, 10 on older forms</div></div>
+  </div>
+  <p class="body" style="margin-top:12px">Method: a regex over each numbered file's style block, counting rule bodies for <span class="mono">.section-label</span> (and <span class="mono">.btn</span>: 7 files, 2 bodies). Counts are measured, not estimated, so they carry no tilde. Re-run the script in the appendix to refresh them.</p>
+</section>
+
+<section aria-labelledby="m-h">
+  <div class="section-label" id="m-h">Coverage matrix</div>
+  <div class="scroll" role="region" aria-label="Coverage matrix" tabindex="0">
+    <table class="matrix">
+      <thead><tr><th>Element</th><th>DESIGN.md</th><th>design.json renders it</th><th>Kit state</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>Ghost button</td><td class="yes">specified</td><td class="yes">yes</td><td>.btn in 7 files, 2 bodies</td><td class="part">extract</td></tr>
+        <tr><td>Status chip</td><td class="yes">specified</td><td class="yes">yes</td><td>named per primitive (.entity-badge in 03, .thresh-chip in 08)</td><td class="part">unify</td></tr>
+        <tr><td>Panel / card</td><td class="yes">specified</td><td class="yes">yes</td><td>shapes vary per primitive; not counted</td><td class="part">audit</td></tr>
+        <tr><td>Input / field</td><td class="yes">specified</td><td class="no">no</td><td>none of the 26 is an input</td><td class="no">build</td></tr>
+        <tr><td>Section label</td><td class="no">type role only</td><td class="no">no</td><td>21 copies, 5 bodies</td><td class="part">extract</td></tr>
+        <tr><td>Render-scale</td><td class="yes">specified, "defining behavior"</td><td class="no">no</td><td>14 earned-fidelity twin, 25 resolution ladder</td><td class="part">document</td></tr>
+        <tr><td>The Mark</td><td class="yes">specified</td><td class="yes">yes</td><td>not in the numbered set</td><td class="part">check</td></tr>
+        <tr><td>Receipt chip (new)</td><td class="no">proposed</td><td class="no">no</td><td>demanded by the Farcaster client plan</td><td class="no">build</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section aria-labelledby="b-h">
+  <div class="section-label" id="b-h">Backlog by wave</div>
+  <div class="entity-grid" id="cards"></div>
+  <p class="body" style="margin-top:12px">Waves are computed from each row's <span class="mono">needs</span>: a row sits one wave after the latest row it waits on. Costs are author estimates and carry a tilde.</p>
+</section>
+
+<section aria-labelledby="x-h">
+  <div class="section-label" id="x-h">Export rows</div>
+  <div class="toolbar">
+    <button class="btn-ghost" id="copy" type="button">Copy rows</button>
+    <span class="status" id="st" role="status" aria-live="polite"></span>
+  </div>
+  <pre class="out" id="jsonl" tabindex="0" aria-label="JSONL rows"></pre>
+  <p class="body" style="margin-top:12px">Shape follows runtime/specs/backlog-status.json. Check with <span class="mono">python3 scripts/backlog_status_check.py --file &lt;path&gt;</span> before appending to _QUEUE/induced-backlog.jsonl.</p>
+</section>
+
+<section aria-labelledby="s-h">
+  <div class="section-label" id="s-h">Sources</div>
+  <ul class="src">
+    <li>DESIGN.md (front matter and Components section)</li>
+    <li>.impeccable/design.json (5 rendered components: Mark, Ghost Button, Panel, Instrument Gauge, Status Chip)</li>
+    <li>src/ui-kit/README.md and src/ui-kit/recoil-report/*.html (26 numbered files)</li>
+    <li>scripts/kit_primitive_sync.py --check, component_source_gate.py, token_source_gate.py, design_debt_sweep.py</li>
+    <li>_QUEUE/induced-backlog.jsonl: tokens-css-vs-ds-font-stack-drift, ui-kit-promote-molecules, ui-kit-reconcile-legacy-tokens already exist</li>
+  </ul>
+  <div class="section-label" style="margin-top:20px">Not decided here</div>
+  <p class="body">Font stacks: _tokens.css names Geist, Instrument and Bricolage while DESIGN.md permits Inter and JetBrains Mono. The README records that as an open cross-session decision, tracked as tokens-css-vs-ds-font-stack-drift. Every row below works under either answer.</p>
+</section>
+
+</main>
+<script>
+(function () {
+  var ROWS = [
+    { id: "ds-molecule-section-label", state: "READY", needs: [], ruin: "low", reach: 4, cost: "~2 h",
+      jtbd: "Extract ONE canonical section-label molecule. 21 of 26 kit primitives define .section-label with 5 rule bodies: 11 on the DESIGN.md form, 10 on older forms.",
+      route: "impeccable extract", gates: "kit_primitive_sync --check, token_source_gate",
+      kill: "If more than 2 primitives change visibly in a 360 to 1440 sweep, keep the older form as a named variant." },
+    { id: "ds-molecule-button", state: "READY", needs: [], ruin: "low", reach: 3, cost: "~2 h",
+      jtbd: "Extract one ghost-button molecule from DESIGN.md Buttons. .btn exists in 7 primitives with 2 rule bodies; focus ring must stay visible.",
+      route: "impeccable extract", gates: "kit_primitive_sync --check, impeccable detect",
+      kill: "If the 2 bodies differ in behavior, not just spacing, split into two named buttons instead of merging." },
+    { id: "ds-molecule-status-chip", state: "READY", needs: [], ruin: "low", reach: 4, cost: "~3 h",
+      jtbd: "Unify the status chip. design.json and DESIGN.md define one; the kit spells it .entity-badge in 03 and .thresh-chip in 08, and the README's census found 5 chip class names across pages.",
+      route: "impeccable extract", gates: "component_source_gate, kit_primitive_sync --check",
+      kill: "If a primitive needs a shape the chip cannot express, add a variant, not a fork." },
+    { id: "ds-primitive-input", state: "READY", needs: [], ruin: "medium", reach: 4, cost: "~4 h",
+      jtbd: "Build the input / field primitive. DESIGN.md specifies it (elevated fill, 6px radius, cyan focus); design.json does not render it and none of the 26 organisms is an input.",
+      route: "impeccable shape, then extract", gates: "page_gate, artifact_wrap_lint, impeccable detect",
+      kill: "If focus state fails the AA contrast floor on the elevated fill, adjust the fill before shipping." },
+    { id: "ds-molecule-receipt-chip", state: "HOLDING", needs: ["ds-molecule-status-chip"], ruin: "medium", reach: 3, cost: "~3 h",
+      jtbd: "Add the receipt chip: a status-chip variant with three states (resolved, unresolved, not checkable here) whose text says what was checked, never 'true'. Demanded by the Farcaster client plan.",
+      route: "impeccable shape", gates: "component_source_gate, case_evidence_lint idea for wording",
+      kill: "If users read 'resolved' as 'true' in a 5-person read-aloud, rewrite the label before any build." },
+    { id: "ds-organism-gated-composer", state: "HOLDING", needs: ["ds-primitive-input", "ds-molecule-button", "ds-molecule-receipt-chip"], ruin: "medium", reach: 3, cost: "~6 h",
+      jtbd: "Compose the gated composer organism: input, inline unmet-claim marks, receipt chips, and a Sign button that stays disabled with the reason in words.",
+      route: "impeccable shape, then critique", gates: "page_gate, card_gutter_check, wrap lint",
+      kill: "If a stranger cannot say why Sign is disabled within 10 seconds, the gate is not legible; redo the copy." },
+    { id: "ds-sidecar-refresh", state: "HOLDING", needs: ["ds-molecule-section-label", "ds-molecule-button", "ds-molecule-status-chip", "ds-primitive-input"], ruin: "low", reach: 4, cost: "~2 h",
+      jtbd: "Regenerate DESIGN.md components and the .impeccable/design.json sidecar from the shipped primitives so design.json renders more than its current 5 components.",
+      route: "impeccable document (impeccable-documenter agent)", gates: "impeccable doctor, design_debt_sweep --check",
+      kill: "If the regenerated sidecar drops a component that exists today, stop and diff before saving." },
+    { id: "ds-finish-review", state: "HOLDING", needs: ["ds-sidecar-refresh", "ds-organism-gated-composer"], ruin: "low", reach: 4, cost: "~2 h",
+      jtbd: "Finish review of every new primitive against its direction: one batched pass, one fix batch, one confirm round, then stop.",
+      route: "impeccable critique, audit, polish (impeccable-finish-reviewer agent)", gates: "page_gate --matrix, design_debt_sweep --check",
+      kill: "If the first batched pass finds more than 10 material defects, the build was not ready; return to the owning row." }
+  ];
+
+  var level = {};
+  function lv(r) {
+    if (level[r.id] != null) return level[r.id];
+    var m = 0;
+    r.needs.forEach(function (n) {
+      var d = ROWS.filter(function (x) { return x.id === n; })[0];
+      if (d) m = Math.max(m, lv(d));
+    });
+    return (level[r.id] = m + 1);
+  }
+  ROWS.forEach(lv);
+  ROWS.sort(function (a, b) { return level[a.id] - level[b.id]; });
+
+  var CLS = { READY: "green", HOLDING: "gold", HELD: "muted-state", OPEN: "cyan" };
+  var grid = document.getElementById("cards");
+  var last = 0;
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  ROWS.forEach(function (r) {
+    if (level[r.id] !== last) {
+      last = level[r.id];
+      grid.appendChild(el("div", "section-label wave", "Wave " + last));
+    }
+    var c = el("div", "entity-card " + (CLS[r.state] || "cyan"));
+    c.appendChild(el("div", "strip"));
+    var b = el("div", "body");
+    b.appendChild(el("div", "entity-name", r.id));
+    b.appendChild(el("div", "entity-role", r.jtbd));
+    b.appendChild(el("div", "entity-note", "Route: " + r.route + " · Gates: " + r.gates));
+    b.appendChild(el("div", "entity-note", "Kill line: " + r.kill));
+    if (r.needs.length) b.appendChild(el("div", "entity-note", "Needs: " + r.needs.join(", ")));
+    c.appendChild(b);
+    c.appendChild(el("div", "entity-badge", r.state));
+    grid.appendChild(c);
+  });
+
+  var text = ROWS.map(function (r) {
+    return JSON.stringify({
+      id: r.id, jtbd: r.jtbd, state: r.state, outlet: "shared",
+      status_note: "Route: " + r.route + ". Gates: " + r.gates + ". Kill line: " + r.kill,
+      needs: r.needs, ruin: r.ruin, reach: r.reach, cost_prior: "author estimate: " + r.cost.replace("~", "")
+    });
+  }).join("\n");
+  document.getElementById("jsonl").textContent = text;
+
+  var st = document.getElementById("st");
+  document.getElementById("copy").addEventListener("click", function () {
+    function done(ok) { st.textContent = ok ? "Copied " + ROWS.length + " rows" : "Copy blocked: select the text and copy by hand"; }
+    try {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } catch (e) { done(false); }
+  });
+})();
+</script>
+</body>
+</html>
