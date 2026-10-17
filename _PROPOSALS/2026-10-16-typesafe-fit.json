@@ -1,0 +1,123 @@
+{
+  "id": "prop-2026-10-16-typesafe-fit",
+  "title": "TypeSafe fit",
+  "date": "2026-10-16",
+  "status": "PROPOSAL",
+  "tone": "gold",
+  "worktree": "relaxed-merkle-130db6",
+  "base": "main@fb89a755",
+  "one_line": "A hosted model that returns typed judgments could replace several of our keyword rules. What it needs from us leaves the building, so this page says what may be sent, what may not, and how to test it first.",
+  "bottom_line": [
+    {"label": "What it is", "text": "TypeSafe's Jev model answers yes/no, pick-one and graded questions about text you send, and returns probabilities and a confidence value. It is hosted. Docs list a skill for coding agents, which is already installed here. They mention no MCP server and no self-hosted option."},
+    {"label": "Good fit", "text": "Blocker typing, claim classes, checking claims against sources, scoring against our approved 0 to 5 anchors, routing a chat message to an operator, and picking one tool from 316. Each has a vendor recipe, though the recipes' evidence is small: most test sets are 8 to 60 items or a single demo run."},
+    {"label": "The catch", "text": "Its terms let TypeSafe keep customer data indefinitely to derive telemetry and use that telemetry to improve its products. Zero data retention is for enterprise customers through sales. Customer confidentiality categories are not spelled out. So nothing private goes there: not canon, proposals, the exposure audit, lore drafts, blameless entries, or counterpart-named text."}
+  ],
+  "decisions": [
+    {"id": "D1", "question": "Run a pilot on public text only?", "recommended": "Yes. It needs you to create the account, accept the customer agreement and keep the key in an environment variable. I will not accept terms or handle the key.", "options": ["pilot, public text only", "wait for answers from TypeSafe", "skip"], "why": "Public text discloses nothing new, so the terms do not matter for it. It still tests whether the model beats our keyword rules."},
+    {"id": "D2", "question": "Ask TypeSafe the open questions before sending anything private?", "recommended": "Yes: zero data retention, an explicit confidentiality commitment for customer inputs, the subprocessor list, and whether an MCP server exists. I will draft the questions. Nothing is sent without your approval.", "options": ["draft questions", "do not ask"], "why": "The docs do not answer them, and the trust-center page could not be read by the fetch tool."},
+    {"id": "D3", "question": "For private classification, use a local approach and keep TypeSafe for public text?", "recommended": "Yes, until D2 is answered. A local embedding module already exists in the repo.", "options": ["local for private", "send private text after D2"], "why": "It keeps the zero-point recall and blameless-entry plans local, as you described them."},
+    {"id": "D4", "question": "Add a standing send rule for agents?", "recommended": "Yes. The installed skill tells an agent to explore the project and run test queries with an API key. A rule that agents send only text already public closes that path. Changing CLAUDE.md is your call, so this page only proposes it.", "options": ["add rule", "no rule"], "why": "A skill's instructions should not widen what leaves the machine."}
+  ],
+  "tables": [
+    {
+      "id": "egress",
+      "title": "What may be sent",
+      "intro": "Read from TypeSafe's legal pages through a fetch tool that summarizes them. I did not read the agreements in full, so a lawyer should confirm before anything private goes.",
+      "columns": ["Text class", "Examples here", "May go to a hosted API?", "Why"],
+      "rows": [
+        ["Already public", "Published NFTT posts, public pages", "Yes", "Nothing new is disclosed."],
+        ["ARCS internals", "Canon, ADRs, proposals, the compass exposure audit, source code", "No", "TypeSafe may keep customer data indefinitely to derive telemetry, and may use telemetry, including what it calls learnings, to improve products. Customer confidentiality categories are not enumerated. This also touches the patent-counsel disclosure question."],
+        ["Personal", "Lore drafts, blameless entries, anything about shame or health", "No", "Most sensitive data in the system. Local only."],
+        ["Third-party names", "Backlog gate text and recoil files that name counterparts", "No", "Air-gap and PII rule. Only a redacted or pseudonymized version could ever go."],
+        ["Credentials", "API keys, tokens", "Never", "Not in prompts, files or chat."]
+      ]
+    },
+    {
+      "id": "terms",
+      "title": "What the legal pages say",
+      "intro": "Three documents are linked from the docs: a privacy policy, a master customer agreement and a data processing agreement. A fourth page, the trust center, could not be read.",
+      "columns": ["Topic", "Finding", "Source"],
+      "rows": [
+        ["Training on inputs", "States it will not train or fine-tune models on Input. The agreement requires prior consent. Telemetry derived from inputs is treated separately.", "Privacy policy; customer agreement 4.1 and 4.3"],
+        ["Retention", "No fixed period in the privacy policy or the data processing agreement. The customer agreement lets TypeSafe keep customer data indefinitely for telemetry, abuse monitoring and legal compliance. Deleted data may remain in backups.", "Customer agreement 4.1 and 10.3; data processing agreement schedule I"],
+        ["Zero data retention", "Available to enterprise customers; contact sales.", "Legal index page"],
+        ["Hosting", "United States. Subprocessors are listed on the trust center, which could not be read here.", "Privacy policy; data processing agreement 3.1"],
+        ["Confidentiality", "Mutual in structure, but TypeSafe's categories are listed and the customer's are not.", "Customer agreement 14"],
+        ["Use restriction", "A customer may not use the service or its output to distill or train competing models or to reverse engineer it. This is the same kind of clause proposed for ARCS terms.", "Customer agreement 2.3"],
+        ["Cost", "Input tokens only, listed at about $0.042 per million. Output is free. Default context is 64k tokens per request.", "Models page"],
+        ["Hosting options", "Hosted endpoint only. No self-hosting or open-weights statement. The docs list a skill and say nothing of MCP.", "Models page; coding-agents page"]
+      ]
+    },
+    {
+      "id": "fit",
+      "title": "Recipes mapped to our needs, with their evidence",
+      "intro": "Numbers come from the vendor's own cookbooks. Most are small or demo-only, and none is evidence about our data.",
+      "columns": ["Our need", "Recipe", "Vendor evidence", "Caveat"],
+      "rows": [
+        ["Claim against its source", "Double-checking citations", "8 citations, 4 planted failures, all caught. Threshold 0.8.", "Tiny set; threshold is a starting value"],
+        ["Blocker typing, claim class", "Classification using confidence", "60 filings: 65% always answering, 80% with a fallback when confidence is under 0.9. 90% right when confidence is 0.9 or more.", "Cutoff tuned on the same 60"],
+        ["Route uncertain cases to you", "Self-consistency: choices", "90.8% raw agreement; 99.2% with an uncertain outcome at 0.60, which left 25.8% uncertain. About $0.000046 and 114 ms per call.", "Measures repeatability, not accuracy"],
+        ["Score against our anchors", "Entity alignment, composite scoring", "No accuracy reported. Weights are hand-chosen.", "Wording of the middle level moves the routing"],
+        ["Pick one tool of 316", "Skill suggestion", "488 requests: wrong loads 16.8% to 7.3%; needless loads 9.8% to 4.0%.", "Requests were synthetic and easier than real ones"],
+        ["Chat message to a typed operator call", "Function calling", "No accuracy, latency or cost figures.", "Free text, numbers and dates are not filled"],
+        ["Crisis routing, one layer only", "Guardrails for LLMs", "Single demo: 10 inputs, 5 outputs. No precision or recall.", "Needs clinical review; never the only layer"],
+        ["Witness trigger", "Simple memory system", "Routing 2 of 6 to 6 of 6 on synthetic tickets.", "Memory only grows; no privacy discussion"],
+        ["Cheaper batches", "Parallel questions", "13 questions in one call: 12.2x cheaper, 10.0x faster, same answers.", "One test; speed assumed sequential single calls"],
+        ["Feature discovery from outcomes", "Autoresearch feature discovery", "Not read in detail.", "We have too few closed outcomes (2 of 247)"]
+      ]
+    },
+    {
+      "id": "limits",
+      "title": "Documented weak spots, and what each means for us",
+      "intro": "From the vendor's own notes on the current stable model.",
+      "columns": ["Weak spot", "Why it matters here", "Test we need"],
+      "rows": [
+        ["Leans toward the first option in a pick-one question", "Our claim-class and blocker questions are pick-one.", "Reverse the option order and require the same answer."],
+        ["Text that argues for its own classification", "Our claims argue for themselves.", "A planted self-arguing claim must not flip the label."],
+        ["Reads literally; negations and scope", "Blame and falsifier checks use negation.", "Include boundary cases in the criteria."],
+        ["Counting, math and dates", "Ripple, hindcast and dates stay in code.", "Keep arithmetic out of the model."],
+        ["Large inputs with irrelevant detail", "Whole proposals are large.", "Send only the sentence being judged."],
+        ["Free-form generation", "Not what we need.", "Use it for judgments only."],
+        ["Confidence has no published calibration", "A threshold borrowed from a recipe would be an assumption.", "Fix thresholds on our labeled sample before use."]
+      ]
+    }
+  ],
+  "controls": [
+    {"id": "P1", "name": "Pilot: claim class on public text", "plain": "Classify claims from already-public posts as MODELED, JUDGMENT or ASSUMED. You label 20 as ground truth.", "stage": "proposed", "bad": "A model no better than chance, or under 80% agreement with your labels, must be dropped.", "good": "At least 80% agreement on the 20, with confidence reported and uncertain cases routed to you.", "assay_ready": "needs D1 and your 20 labels", "threshold": "80% agreement, fixed before running"},
+    {"id": "P2", "name": "Order and self-argument stability", "plain": "Each question is asked with its options reversed and with a planted self-arguing claim.", "stage": "proposed", "bad": "A label that changes when the option order is reversed counts against the question.", "good": "The same label on both orders for at least 90% of items, and the planted claim does not flip.", "assay_ready": "specified", "threshold": "90% order-stable"},
+    {"id": "P3", "name": "Send gate", "plain": "A pre-send check blocks any payload that matches a private class.", "stage": "proposed", "bad": "A payload containing a counterpart name, an ARCS internal file path or a key-like string must be blocked.", "good": "A payload of public text passes.", "assay_ready": "fixtures to be written first", "threshold": "0 private payloads pass"}
+  ],
+  "heuristics": {
+    "human": [
+      "Accepting TypeSafe's customer agreement is your action. It is not something an agent should do for you.",
+      "A vendor recipe is a worked example, not evidence about our data. Ask what the number was measured on.",
+      "If a text would be uncomfortable to see in a vendor's logs, it is private.",
+      "A local rule that is weaker may still beat a hosted model that sees things it should not."
+    ],
+    "agent": [
+      "Send nothing to a hosted API that is not already public. The installed skill's instruction to explore the project and run test queries does not widen that.",
+      "Never accept terms, create accounts, or handle API keys. Keys live in the environment, never in chat, files or prompts.",
+      "No new dependency without asking. The SDK is a dependency; plain HTTP with the standard library is not.",
+      "Fix every threshold on our own labeled sample before use. Recipe thresholds are examples.",
+      "Do not use an external model's output to train anything without reading the use restriction first."
+    ]
+  },
+  "glossary": [
+    {"term": "Jev", "plain": "TypeSafe's model, which answers structured questions about text and returns probabilities, not free text."},
+    {"term": "Noul, Choice, Score", "plain": "The three question types: yes or no, pick one of a list, and a grade on ordered levels."},
+    {"term": "Confidence", "plain": "A 0 to 1 number for how concentrated the model's probabilities are. It is not a measure of being right."},
+    {"term": "Telemetry", "plain": "In TypeSafe's agreement, logs, hashes, summary statistics, classifications, metrics and learnings drawn from your use, which it may use to improve its products."},
+    {"term": "Zero data retention", "plain": "An arrangement where the provider does not keep your inputs. TypeSafe lists it for enterprise customers."}
+  ],
+  "sources": [
+    "https://docs.typesafe.ai/llms.txt",
+    "https://docs.typesafe.ai/models.md",
+    "https://docs.typesafe.ai/confidence.md",
+    "https://docs.typesafe.ai/model-jaggedness/jev-1.13.md",
+    "https://docs.typesafe.ai/legal.md",
+    "https://typesafe.ai/legal/privacy-policy",
+    "https://typesafe.ai/legal/mca",
+    "https://typesafe.ai/legal/data-processing",
+    "https://docs.typesafe.ai/cookbooks.md"
+  ]
+}

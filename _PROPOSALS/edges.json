@@ -42,6 +42,18 @@
       "to": "prop-2026-10-15-blameless-copilot#D1",
       "kind": "depends_on",
       "why": "The private log needs its gitignore line before the test starts."
+    },
+    {
+      "from": "prop-2026-10-16-typesafe-fit#D3",
+      "to": "prop-2026-10-16-typesafe-fit#D2",
+      "kind": "depends_on",
+      "why": "Whether private text can ever go depends on TypeSafe's answers to the open questions."
+    },
+    {
+      "from": "prop-2026-10-15-blameless-copilot#D1",
+      "to": "prop-2026-10-16-typesafe-fit#D3",
+      "kind": "depends_on",
+      "why": "The blameless log stays local, which D3 here confirms."
     }
   ],
   "judgments": {}
