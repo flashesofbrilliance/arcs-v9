@@ -1,0 +1,19 @@
+{
+  "_doc": "fc-derisk-gate-falsifier-set. Committed BEFORE any resolver code (check #1). 10 claims, 5 true / 5 false, each with a receipt reference that resolves. Cases 1-7 author-written (Claude); cases 8-10 are placeholders for a human or chief-loki to add (check #2, pending). A gate that passes all false-with-receipt cases (F2,F3,F4,F5) is theatre: v1 then drops the word 'verified'.",
+  "version": "0.1.0",
+  "expected": "gate returns VERIFIED only when the receipt resolves AND its content supports THIS claim AND is fresh AND is not authored by the claim's own cast",
+  "cases": [
+    {"id":"T1","claim":"Node sync finished in under 6h on m5.xlarge","receipt":"run-log:node-sync-2026-10-xx","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
+    {"id":"T2","claim":"A gasless KEY_ADD merged on mainnet","receipt":"submitMessage response + hub lookup of the signer","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
+    {"id":"T3","claim":"Quickstart is three commands","receipt":"README quickstart block, commit sha","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
+    {"id":"T4","claim":"Client follows a user and the link merges","receipt":"LinkAdd hash on node events","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
+    {"id":"T5","claim":"Voucher completed the tutorial cold","receipt":"voucher's public cast quoting the repo URL","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
+    {"id":"F1","claim":"Node costs $100/month","receipt":"link that 404s","receipt_resolves":false,"supports_claim":false,"fresh":false,"self_cite":false,"truth":false,"note":"control: unresolved receipt, easy catch"},
+    {"id":"F2","claim":"Reactions merge on mainnet","receipt":"real receipt for a CAST merge","receipt_resolves":true,"supports_claim":false,"fresh":true,"self_cite":false,"truth":false,"note":"receipt-for-the-wrong-claim"},
+    {"id":"F3","claim":"Sync takes 2 hours","receipt":"real sync log from 2026-07 on an older node version","receipt_resolves":true,"supports_claim":true,"fresh":false,"self_cite":false,"truth":false,"note":"stale receipt"},
+    {"id":"F4","claim":"Tutorial verified by an independent human","receipt":"the author's own cast saying so","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":true,"truth":false,"note":"self-citing cast"},
+    {"id":"F5","claim":"Read nodes relay writes to validators","receipt":"docs page that says nodes MAY relay, no merge evidence","receipt_resolves":true,"supports_claim":false,"fresh":true,"self_cite":false,"truth":false,"note":"receipt resolves but only states intent, not outcome"}
+  ],
+  "human_cases_pending": ["add >=3 hard cases not authored by Claude (human or chief-loki); replace or extend F-series"],
+  "pass_rule": "gate must flag F2,F3,F4,F5 (false-with-receipt). F1 is a control. Fails-on-bad proof = run a stub gate that only checks receipt_resolves and show it wrongly passes F2-F5."
+}
