@@ -11,4 +11,8 @@ F5   stub=VERIFIED     expected=NOT_VERIFIED WRONG
 L8   stub=VERIFIED     expected=VERIFIED     ok
 L9   stub=VERIFIED     expected=NOT_VERIFIED WRONG
 L10  stub=VERIFIED     expected=NOT_VERIFIED WRONG
-stub wrong on 6/13
+R1   stub=VERIFIED     expected=VERIFIED     ok
+R2   stub=VERIFIED     expected=NOT_VERIFIED WRONG
+R3   stub=VERIFIED     expected=VERIFIED     ok
+R4   stub=VERIFIED     expected=NOT_VERIFIED WRONG
+stub wrong on 8/17
