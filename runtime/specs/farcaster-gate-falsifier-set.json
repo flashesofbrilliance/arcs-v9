@@ -1,19 +1,253 @@
 {
-  "_doc": "fc-derisk-gate-falsifier-set. Committed BEFORE any resolver code (check #1). 10 claims, 5 true / 5 false, each with a receipt reference that resolves. Cases 1-7 author-written (Claude); cases 8-10 are placeholders for a human or chief-loki to add (check #2, pending). A gate that passes all false-with-receipt cases (F2,F3,F4,F5) is theatre: v1 then drops the word 'verified'.",
-  "version": "0.1.0",
-  "expected": "gate returns VERIFIED only when the receipt resolves AND its content supports THIS claim AND is fresh AND is not authored by the claim's own cast",
-  "cases": [
-    {"id":"T1","claim":"Node sync finished in under 6h on m5.xlarge","receipt":"run-log:node-sync-2026-10-xx","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
-    {"id":"T2","claim":"A gasless KEY_ADD merged on mainnet","receipt":"submitMessage response + hub lookup of the signer","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
-    {"id":"T3","claim":"Quickstart is three commands","receipt":"README quickstart block, commit sha","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
-    {"id":"T4","claim":"Client follows a user and the link merges","receipt":"LinkAdd hash on node events","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
-    {"id":"T5","claim":"Voucher completed the tutorial cold","receipt":"voucher's public cast quoting the repo URL","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":false,"truth":true},
-    {"id":"F1","claim":"Node costs $100/month","receipt":"link that 404s","receipt_resolves":false,"supports_claim":false,"fresh":false,"self_cite":false,"truth":false,"note":"control: unresolved receipt, easy catch"},
-    {"id":"F2","claim":"Reactions merge on mainnet","receipt":"real receipt for a CAST merge","receipt_resolves":true,"supports_claim":false,"fresh":true,"self_cite":false,"truth":false,"note":"receipt-for-the-wrong-claim"},
-    {"id":"F3","claim":"Sync takes 2 hours","receipt":"real sync log from 2026-07 on an older node version","receipt_resolves":true,"supports_claim":true,"fresh":false,"self_cite":false,"truth":false,"note":"stale receipt"},
-    {"id":"F4","claim":"Tutorial verified by an independent human","receipt":"the author's own cast saying so","receipt_resolves":true,"supports_claim":true,"fresh":true,"self_cite":true,"truth":false,"note":"self-citing cast"},
-    {"id":"F5","claim":"Read nodes relay writes to validators","receipt":"docs page that says nodes MAY relay, no merge evidence","receipt_resolves":true,"supports_claim":false,"fresh":true,"self_cite":false,"truth":false,"note":"receipt resolves but only states intent, not outcome"}
-  ],
-  "human_cases_pending": ["add >=3 hard cases not authored by Claude (human or chief-loki); replace or extend F-series"],
-  "pass_rule": "gate must flag F2,F3,F4,F5 (false-with-receipt). F1 is a control. Fails-on-bad proof = run a stub gate that only checks receipt_resolves and show it wrongly passes F2-F5."
+ "_doc": "fc-derisk-gate-falsifier-set v0.2. Committed before any resolver code. Each case has `input` (the ONLY thing a gate may read: raw claim, receipt excerpt, dates, authors, resolves) and `answer_key` (hidden from the gate): claim_true = is the claim actually true; evidence_supports = does this receipt establish it; expected_verdict follows evidence_supports AND freshness/independence, not claim_true. v0.1 hard-coded supports_claim/fresh, which made the gate's job circular; removed. Cases authored_by 'claude' are not independent; check #2 (human-added) stays open.",
+ "version": "0.2.1",
+ "cases": [
+  {
+   "id": "T1",
+   "authored_by": "claude",
+   "input": {
+    "claim": "Node sync finished in under 6 hours on an m5.xlarge",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-21",
+    "receipt_excerpt": "run log: snapchain sync started 09:02 UTC, caught up to head 13:41 UTC, host m5.xlarge, 2 TB gp3",
+    "receipt_date": "2026-10-21",
+    "receipt_author": "@tutorialauthor (own run log, signed)",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "expected_verdict": "VERIFIED",
+    "note": "own log is fine when it is a primary record, not a claim about itself"
+   }
+  },
+  {
+   "id": "T2",
+   "authored_by": "claude",
+   "input": {
+    "claim": "A gasless KEY_ADD merged on mainnet",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-21",
+    "receipt_excerpt": "submitMessage returned message hash 0xabc..., type KEY_ADD, later fetched from node events with signer matching the app key",
+    "receipt_date": "2026-10-21",
+    "receipt_author": "hub response",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "expected_verdict": "VERIFIED",
+    "note": "outcome evidence"
+   }
+  },
+  {
+   "id": "T3",
+   "authored_by": "claude",
+   "input": {
+    "claim": "The quickstart is three commands",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-22",
+    "receipt_excerpt": "README at commit 1f3e9a0 lists: 1 provision, 2 snapchain-bootstrap, 3 run client",
+    "receipt_date": "2026-10-22",
+    "receipt_author": "github.com repo commit",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "expected_verdict": "VERIFIED",
+    "note": ""
+   }
+  },
+  {
+   "id": "T4",
+   "authored_by": "claude",
+   "input": {
+    "claim": "The client can follow a user and the link merges",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-22",
+    "receipt_excerpt": "node event stream shows LINK_ADD type=follow from fid 123 to fid 456, merged",
+    "receipt_date": "2026-10-22",
+    "receipt_author": "hub events",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "expected_verdict": "VERIFIED",
+    "note": ""
+   }
+  },
+  {
+   "id": "T5",
+   "authored_by": "claude",
+   "input": {
+    "claim": "A second human completed the tutorial cold",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-23",
+    "receipt_excerpt": "Reply cast by @voucher: I ran the quickstart start to finish on a fresh VM and it works: github.com/x/y",
+    "receipt_date": "2026-10-23",
+    "receipt_author": "@voucher",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "expected_verdict": "VERIFIED",
+    "note": "independent author, public, quotes repo"
+   }
+  },
+  {
+   "id": "F1",
+   "authored_by": "claude",
+   "input": {
+    "claim": "The node costs $100 per month",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-20",
+    "receipt_excerpt": "(link returns 404)",
+    "receipt_date": "2026-10-20",
+    "receipt_author": "unknown",
+    "receipt_resolves": false
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "control: unresolved"
+   }
+  },
+  {
+   "id": "F2",
+   "authored_by": "claude",
+   "input": {
+    "claim": "Reactions merge on mainnet",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-22",
+    "receipt_excerpt": "node events show CAST_ADD merged for fid 123 hash 0xdef...",
+    "receipt_date": "2026-10-22",
+    "receipt_author": "hub events",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "real receipt, wrong claim (cast vs reaction)"
+   }
+  },
+  {
+   "id": "F3",
+   "authored_by": "claude",
+   "input": {
+    "claim": "Sync takes 2 hours",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-21",
+    "receipt_excerpt": "sync completed in 2h10m on node v0.9, 3 shards less data than today",
+    "receipt_date": "2026-07-14",
+    "receipt_author": "@olduser",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "stale: 3 months old, older node version; claim is about current network"
+   }
+  },
+  {
+   "id": "F4",
+   "authored_by": "claude",
+   "input": {
+    "claim": "The tutorial was verified by an independent human",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-23",
+    "receipt_excerpt": "@tutorialauthor: verified by an independent human, works great",
+    "receipt_date": "2026-10-23",
+    "receipt_author": "@tutorialauthor",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "self-citing cast; receipt author equals claim author and asserts rather than records"
+   }
+  },
+  {
+   "id": "F5",
+   "authored_by": "claude",
+   "input": {
+    "claim": "Read nodes relay writes to validators",
+    "claim_author": "@tutorialauthor",
+    "claim_date": "2026-10-20",
+    "receipt_excerpt": "Read nodes may relay submitted messages to validator nodes.",
+    "receipt_date": "2026-10-01",
+    "receipt_author": "docs.snapchain",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": false,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "claim IS true per node-types docs and poster thread, but this receipt states permission ('may'), not outcome. Gate verdict is about the evidence, not the claim"
+   }
+  },
+  {
+   "id": "L8",
+   "authored_by": "agent: general-purpose subagent following .claude/agents/chief-loki.md persona (chief-loki type not registered in this session)",
+   "input": {
+    "claim": "A fresh Snapchain read node bootstrapped from the latest snapshot reaches chain head in under 5 hours on a 4-vCPU box.",
+    "claim_author": "@dwr-ops",
+    "claim_date": "2026-10-14",
+    "receipt_excerpt": "Reran the bootstrap on a c6i.xlarge today. Pulled the newest snapshot, and the node was caught up and serving hub-style reads after 3h52m. Disk was the bottleneck, not CPU.",
+    "receipt_date": "2026-10-13",
+    "receipt_author": "@nodewright",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "expected_verdict": "VERIFIED",
+    "note": "TRUE claim, weak-looking evidence: little keyword overlap; needs c6i.xlarge=4 vCPU and 3h52m<5h. Over-strict gate wrongly rejects."
+   }
+  },
+  {
+   "id": "L9",
+   "authored_by": "agent: general-purpose subagent following .claude/agents/chief-loki.md persona (chief-loki type not registered in this session)",
+   "input": {
+    "claim": "Gasless KEY_ADD signers are live on Farcaster mainnet, so any app can add a signer for a user today without the user paying gas.",
+    "claim_author": "@signerfan",
+    "claim_date": "2026-10-12",
+    "receipt_excerpt": "Merged: gasless KEY_ADD via app-signed SignerRequest, so a user no longer pays on-chain gas to add a signer. The path is enabled on devnet and testnet; mainnet activation is scheduled with the next protocol version and has no height yet.",
+    "receipt_date": "2026-10-09",
+    "receipt_author": "@snapchain-core",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "FALSE claim, strong-looking evidence: independent, fresh, keyword-rich; but network scope (devnet/testnet vs mainnet) contradicts the claim. NOTE: conflicts with the brief's 'engine V16 gasless KEY_ADD' ground truth and T2; the probe decides, this case is a scope-qualifier test."
+   }
+  },
+  {
+   "id": "L10",
+   "authored_by": "agent: general-purpose subagent following .claude/agents/chief-loki.md persona (chief-loki type not registered in this session)",
+   "input": {
+    "claim": "212 distinct people have completed the Snapchain read-node tutorial, as shown by completion vouches.",
+    "claim_author": "@tutorial-tally",
+    "claim_date": "2026-10-15",
+    "receipt_excerpt": "Vouch tally for the read-node tutorial thread: 212 vouch casts reading 'completed, node synced' have been posted, 87 unique fids. Vouches are self-reported and the thread does not check that the poster's node reached head.",
+    "receipt_date": "2026-10-15",
+    "receipt_author": "@tutorial-tally-bot",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "Unit-of-count (212 casts vs 87 fids) and weak attestation; soft self-citation via same project."
+   }
+  }
+ ]
 }
