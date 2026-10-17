@@ -7,7 +7,10 @@ export function classifyEvents(obs) {
   let dup = false, empty = false;
   for (const [s, sh] of Object.entries(shards)) {
     const ids = (sh.pages ?? []).flat();
-    if (!ids.length || (sh.pages ?? []).some((p) => p.length === 0)) empty = true;
+    const pg = sh.pages ?? [];
+    // an empty page AFTER data is the node being at head (fine); empty with no data, or empty BEFORE data, is inconclusive
+    const firstData = pg.findIndex((p) => p.length > 0);
+    if (!ids.length || pg.slice(0, Math.max(firstData, 0)).some((p) => p.length === 0) || pg.slice(firstData).some((p, i, a) => p.length === 0 && a.slice(i + 1).some((q) => q.length > 0))) empty = true;
     for (let i = 1; i < ids.length; i++) if (ids[i] > ids[i - 1] + 1) reasons.push(`shard ${s}: cursor gap ${ids[i - 1]} -> ${ids[i]}`);
     if (new Set(ids).size !== ids.length) { dup = true; reasons.push(`shard ${s}: duplicate event id`); }
   }

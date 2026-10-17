@@ -12,7 +12,7 @@ for k in line1_G2_withholds_all_positives_and_0_true_wrong line2_G0_misses_ge3_o
 # line 4 (hold-out)
 python3 runtime/specs/farcaster-gate/eval_holdout.py; line "line4 hold-out G2 >= 3 of 4 (else set overfit)" $?
 # line 5 probes self-test
-_PROPOSALS/farcaster/probes/selftest.sh >/dev/null; line "line5 probe fixtures classified 10/10" $?
+_PROPOSALS/farcaster/probes/selftest.sh >/dev/null; line "line5 probe fixtures classified (all fixtures)" $?
 # line 6 canary
 _PROPOSALS/farcaster/probes/canary.sh; line "line6 canary 0 occurrences" $?
 # line 7 quickstart

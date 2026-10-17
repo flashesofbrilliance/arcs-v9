@@ -12,3 +12,9 @@ Cannot prove: that the message was relayed to validators and merged network-wide
 Guard (`guard.mjs`): refuses a seed phrase, anything not 0x+64 hex, a missing exact acknowledgement string, a missing FID, or a FID on `FC_DENY_FIDS`. It cannot know a wallet's balance without a network call, so "under about $15" rests on the acknowledgement, not on a check.
 
 Install (not done): `npm i @farcaster/core@0.20.0 @farcaster/hub-nodejs@0.17.0 viem @noble/curves`.
+
+## Known assumptions (reviewer finding 9; not yet checked against a real node)
+- Gap detection assumes event IDs are contiguous per shard (+1 steps). Snapchain IDs may be block-based and non-contiguous; if the first live run shows regular larger steps, change the rule to "monotonic and no repeats" before trusting a `killed`.
+- An empty page after data means the node is at head and is accepted; an empty page before or between data, or no data at all, is `fallback` (inconclusive).
+- The restart-from-cursor check uses an in-process cursor (max id + 1), so it can only detect server-side overlap, not a cursor file corrupted between runs.
+- The offline self-test shows the classifier is consistent with these rules, not correct against real Snapchain output.
