@@ -95,7 +95,7 @@ Assumed answers, flagged for Zach: audience = developers and curious Farcaster u
 | ship | `scripts/merge_train.sh`, `/nci-commit`, Decision Receipt row via Supabase `execute_sql` | script/cmd | receipt per merge/publish (AGENTS.md) |
 | memory | `/witness`, `/handoff` | cmd | attest insights live; fold the arc at the end |
 
-## Draft backlog rows (NOT written to `_QUEUE/induced-backlog.jsonl`; shape per `runtime/specs/backlog-status.json`)
+## SUPERSEDED: first draft backlog rows (replaced by the 33 `fc-*` rows now in `_QUEUE/induced-backlog.jsonl`; see the Taxonomy section at the end)
 
 ```jsonl
 {"id":"fc-voucher-find","jtbd":"Recruit one human to cold-run the quickstart and vouch publicly on Farcaster.","state":"READY","outlet":"shared","status_note":"Long pole. Draft outreach for Zach to send; never send for him.","needs":[],"ruin":"high","reach":5,"cost_prior":"author estimate: 1 h/day async"}
@@ -150,3 +150,23 @@ fc-core (Node, no UI)   -- emits typed events: merged, pending, failed, mention,
 - Hooks: a hook is a script that receives the event as JSON on stdin and may veto (pre-sign) or react (post-merge). The receipts gate is simply the default pre-sign hook, so users can read, replace or add to it.
 - Design system: the local UI inherits the kit tokens and primitives (the `ds-*` rows become the FE layer's backlog, after the CLI works). Not on the bounty critical path.
 - Open check: confirm the events endpoint on a live node returns MERGE_MESSAGE for casts and links before depending on it for mentions.
+
+## Taxonomy, invariants and pre-mortem (2026-10-17)
+
+Two orthogonal five-step ladders, both already ARCS vocabulary:
+- **Altitude (why, top down):** executive, strategic, operational, tactical, surgical (the altitude ladder, memory `altitude-ladder-friction-audit-method`). Every row has `altitude` and a `serves` parent exactly one or more altitudes up (checked). Goals cascade down; state rolls up (a container row's `depends_on` is its children).
+- **Form (what, bottom up):** atom, molecule, organism, template, page (atomic design, `src/ui-kit/README.md`). Every row has a `form`. Molecules and organisms that stand alone carry a `package` and a `contract` (in/out) so each can run as a self-sovereign module and be recombined: `fc-core`, `fc-signer`, `fc-gate`, `fc-cli`, later `fc-ui`. For the 7-day bounty these ship as one workspace; the contracts keep them separable.
+- Rows by altitude x form: executive 1 page; strategic 3 templates; operational 6 templates; tactical 5 molecules, 3 organisms, 3 pages; surgical 12 atoms. Empty cells are information: no cheap atoms sit under the tactical molecules yet, and nothing at the template level below operational.
+- **Invariants** (the layer that never changes while everything else moves): I1 test-only, I2 private-stays-private, I3 honest wording, I4 human gates outward, I5 stop-loss, I6 deadline, I7 fail-closed. Declared at the executive row, inherited by all descendants, and the generator fails if any invariant has no enforcing non-container row (current enforcers: 6, 3, 9, 6, 4, 2, 5 rows).
+- **Meso layer** = the six operational bundles (node, signing, client, gate, proof, surface). They are the units to sequence, bundle, nest and re-cluster when the problem changes shape.
+- Each row also carries `checks` (the fifth step, surgical atoms inside a row, with ids like `fc-node-spike#2`), `failure_modes` (mode, trigger, mitigation, fallback), typed `blockers`, and `derisks` pointers. Counts: 33 rows, 69 failure modes, 8 typed blockers, 10 derisking rows, longest chain 13 rows deep.
+
+### North star: earned opinion score (hypothesis, unmeasured)
+For a source on a topic: claims that held / claims resolved, where each claim is resolved by an external check, claims are chosen by a rule fixed before sampling, and the result is shown as k of n with an interval; "insufficient" below n=30 (borrowed from the Accountant operator, not validated). It generalises `scripts/believability_ledger.py` (stated confidence vs externally resolved outcome). v1 scores only our own tutorial and gate claims (`fc-eos-own-claims`). Grading other people (`fc-eos-source-grader`) is HELD: it is a public statement about named people, so it needs counts and sources shown, a right of reply, a sampling rule fixed first, and Zach's go.
+
+### Pre-mortem (it is 2026-10-25 and we failed; three causes, each with a falsifier)
+1. **The gate was theatre.** Falsifier: the 10-claim set (5 false with a resolving receipt) is passed by the gate. Row: `fc-derisk-gate-falsifier-set`, written before gate code. Response: downgrade the badge to "receipt exists".
+2. **No qualifying voucher.** Falsifier: no named yes by D3 or no node started by D5. Rows: `fc-voucher-find` (three candidates), `fc-derisk-stranger-sim`. Response: public call for a volunteer; submit nothing without the endorsement.
+3. **The write path never worked on mainnet.** Falsifier: no merged cast by end of day 2. Row: `fc-derisk-write-path-probe`. Response: onchain-signer fallback, then a stop-loss review that cuts scope.
+- Also watched: cost overrun (`fc-derisk-budget-guard`), a leak into the public repo (`fc-derisk-publish-hygiene`), a missed deadline (`fc-derisk-deadline-pin`).
+- Post-mortem, imagined: we shipped on D7, a stranger followed the tutorial, the node needed nine hours to sync, they gave up before posting, and the vouch never came. Root cause: the tutorial did not set the sync-time expectation and the voucher started too late. Fix already in the rows: expected-time text, a progress check, voucher start by D5.
