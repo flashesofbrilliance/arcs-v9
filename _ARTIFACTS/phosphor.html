@@ -344,6 +344,8 @@ html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-l
 #dock .pinbar { position: absolute; left: 0; right: 0; top: 0; height: 14px; margin: 0; pointer-events: none; } #dock .pinmark { pointer-events: auto; }
 #dock { transition: transform .2s ease, visibility 0s; }
 html[data-dock="hidden"] #dock { transform: translate(-50%, calc(100% + 40px)); visibility: hidden; transition: transform .2s ease, visibility 0s .2s; }
+#dkbump[data-tuck] { min-width: 24px; min-height: 64px; padding: 0; font-size: 0; }
+#dkbump[data-tuck=t], #dkbump[data-tuck=b] { min-width: 64px; min-height: 24px; }
 #dkbump { position: fixed; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; min-width: 120px; min-height: 48px; display: none; align-items: center; justify-content: center; touch-action: none; }
 html[data-dock="hidden"] #dkbump { display: flex; }
 @media (prefers-reduced-motion: reduce) { #dock, html[data-dock="hidden"] #dock { transition: none; } }
@@ -750,7 +752,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 <script>
 (function () {
   "use strict";
-  var MX = Math.max, MN = Math.min, RD = Math.round, FL = Math.floor;
+  var MX = Math.max, MN = Math.min, RD = Math.round, FL = Math.floor, AB = Math.abs, PW = Math.pow, SIN = Math.sin, PI = Math.PI;
+  function NOW() { return performance.now(); }
+  function F32(a) { return new Float32Array(a); }
   function QA(q) { return document.querySelectorAll(q); }
   function EA(l, f) { Array.prototype.forEach.call(l, f); }
   function AP(el, on) { el.setAttribute("aria-pressed", on ? "true" : "false"); }
@@ -777,11 +781,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   var NUM = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
   /* ---------------- analysis ---------------- */
-  var SR = 44100, PCM = new Float32Array(0), DUR = 0, NF = 0, BANDS = null, RMS = null, FLUX = null, CENT = null, CENTERS = [], BUF = null, CHAPS = [], SRCNAME = "Demo signal", ANALYZING = false, GEN = 0;
+  var SR = 44100, PCM = F32(0), DUR = 0, NF = 0, BANDS = null, RMS = null, FLUX = null, CENT = null, CENTERS = [], BUF = null, CHAPS = [], SRCNAME = "Demo signal", ANALYZING = false, GEN = 0;
   function makeFFT(n) {
     var bits = RD(Math.log(n) / Math.LN2), rev = new Uint32Array(n), cs = new Float64Array(n / 2), sn = new Float64Array(n / 2), i;
     for (i = 0; i < n; i++) rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bits - 1));
-    for (i = 0; i < n / 2; i++) { cs[i] = Math.cos(2 * Math.PI * i / n); sn[i] = -Math.sin(2 * Math.PI * i / n); }
+    for (i = 0; i < n / 2; i++) { cs[i] = Math.cos(2 * PI * i / n); sn[i] = -SIN(2 * PI * i / n); }
     return function (re, im) {
       var i, j, k, size, half, step, a, b, tr, ti, t;
       for (i = 0; i < n; i++) { j = rev[i]; if (j > i) { t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; } }
@@ -791,15 +795,15 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     };
   }
   var fft = makeFFT(NFFT), hann = new Float64Array(NFFT);
-  for (var hi = 0; hi < NFFT; hi++) hann[hi] = 0.5 - 0.5 * Math.cos(2 * Math.PI * hi / (NFFT - 1));
+  for (var hi = 0; hi < NFFT; hi++) hann[hi] = 0.5 - 0.5 * Math.cos(2 * PI * hi / (NFFT - 1));
   function pct(arr, p) { var s = arr.slice().sort(function (a, b) { return a - b; }); return s[MN(s.length - 1, FL(p * (s.length - 1)))]; }
 
   function analyze(pcm, sr, done, progress, gen) {
-    var hop = RD(sr / FPS), nf = MX(1, FL((pcm.length - NFFT) / hop) + 1), bands = new Float32Array(nf * NB), rms = new Float32Array(nf);
+    var hop = RD(sr / FPS), nf = MX(1, FL((pcm.length - NFFT) / hop) + 1), bands = F32(nf * NB), rms = F32(nf);
     var binHz = sr / NFFT, fmin = 40, fmax = MN(16000, sr * 0.45), edges = [], lo = [], hiB = [], cent = [], i, b;
-    for (i = 0; i <= NB; i++) edges.push(fmin * Math.pow(fmax / fmin, i / NB));
+    for (i = 0; i <= NB; i++) edges.push(fmin * PW(fmax / fmin, i / NB));
     for (b = 0; b < NB; b++) { var c = Math.sqrt(edges[b] * edges[b + 1]); cent.push(c); var l = Math.ceil(edges[b] / binHz), h = FL(edges[b + 1] / binHz); if (h < l) { l = h = RD(c / binHz); } lo.push(MX(1, l)); hiB.push(MX(1, h)); }
-    var re = new Float64Array(NFFT), im = new Float64Array(NFFT), raw = new Float32Array(nf * NB), f = 0;
+    var re = new Float64Array(NFFT), im = new Float64Array(NFFT), raw = F32(nf * NB), f = 0;
     function step() {
       if (gen !== GEN) return;
       var end = MN(nf, f + 300);
@@ -817,9 +821,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var dhi = pct(sample, 0.995), dlo = MX(pct(sample, 0.05), dhi - 66), span = MX(1, dhi - dlo);
       for (i = 0; i < raw.length; i++) bands[i] = MN(1, MX(0, (raw[i] - dlo) / span));
       var rdb = []; for (i = 0; i < nf; i++) rdb.push(20 * Math.log10(rms[i] + 1e-6));
-      var rlo = pct(rdb, 0.05), rhi = pct(rdb, 0.995), rspan = MX(1, rhi - rlo), lev = new Float32Array(nf);
+      var rlo = pct(rdb, 0.05), rhi = pct(rdb, 0.995), rspan = MX(1, rhi - rlo), lev = F32(nf);
       for (i = 0; i < nf; i++) lev[i] = MN(1, MX(0, (rdb[i] - rlo) / rspan));
-      var flux = new Float32Array(nf), centr = new Float32Array(nf);
+      var flux = F32(nf), centr = F32(nf);
       for (i = 0; i < nf; i++) { var fl = 0, cw = 0, cs2 = 0; for (b = 0; b < NB; b++) { var v = bands[i * NB + b]; if (i) fl += MX(0, v - bands[(i - 1) * NB + b]); cw += v * b; cs2 += v; } flux[i] = fl; centr[i] = cs2 > 1e-6 ? cw / cs2 : 0; }
       done({ nf: nf, bands: bands, rms: lev, flux: flux, cent: centr, centers: cent, dB: [dlo, dhi] });
     }
@@ -831,13 +835,13 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (nf < 3 * W) return out;
     var P = new Float64Array((nf + 1) * NB);
     for (i = 0; i < nf; i++) for (b = 0; b < NB; b++) P[(i + 1) * NB + b] = P[i * NB + b] + bands[i * NB + b];
-    var nov = new Float32Array(nf);
+    var nov = F32(nf);
     for (i = W; i < nf - W; i++) {
       var d = 0, na = 0, nb2 = 0;
       for (b = 0; b < NB; b++) { var A = (P[i * NB + b] - P[(i - W) * NB + b]) / W, B = (P[(i + W) * NB + b] - P[i * NB + b]) / W; d += A * B; na += A * A; nb2 += B * B; }
       nov[i] = 1 - d / Math.sqrt(na * nb2 + 1e-9);
     }
-    var sm = new Float32Array(nf), r = 15;
+    var sm = F32(nf), r = 15;
     for (i = W; i < nf - W; i++) { var s = 0, n = 0; for (var j = MX(W, i - r); j <= MN(nf - W - 1, i + r); j++) { s += nov[j]; n++; } sm[i] = s / n; }
     var cands = [], mx = 0;
     for (i = W + 1; i < nf - W - 1; i++) if (sm[i] > sm[i - 1] && sm[i] >= sm[i + 1]) { cands.push([sm[i], i]); if (sm[i] > mx) mx = sm[i]; }
@@ -847,7 +851,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var fr = cands[i][1];
       if (cands[i][0] < 0.35 * mx) break;
       if (fr < W || fr > nf - W) continue;
-      if (pick.some(function (p) { return Math.abs(p - fr) < sep; })) continue;
+      if (pick.some(function (p) { return AB(p - fr) < sep; })) continue;
       pick.push(fr);
     }
     pick.sort(function (a, z) { return a - z; });
@@ -862,14 +866,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 
   /* ---------------- demo signal (generated, not a recording) ---------------- */
   function makeDemo() {
-    var sr = 44100, secs = 24, n = sr * secs, x = new Float32Array(n), i, t, seed = 7;
+    var sr = 44100, secs = 24, n = sr * secs, x = F32(n), i, t, seed = 7;
     function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296 - 0.5; }
     for (i = 0; i < n; i++) {
       t = i / sr; var v = 0, sec = t / 6 | 0, lt = t - sec * 6;
-      if (sec === 0) { var bn = (lt * 0.5) | 0, f0 = [110, 98, 123.5][bn % 3], env = Math.exp(-((lt * 0.5) % 1) * 2.2); v = 0.5 * Math.sin(2 * Math.PI * f0 * t) * env + 0.12 * Math.sin(2 * Math.PI * f0 * 2 * t) * env; }
-      else if (sec === 1) { var ar = [220, 277.2, 329.6, 440, 554.4, 659.3, 880, 659.3], nt = (lt * 8) | 0, ph = (lt * 8) % 1; v = 0.34 * Math.sin(2 * Math.PI * ar[nt % 8] * t) * Math.exp(-ph * 4) + 0.08 * Math.sin(2 * Math.PI * ar[nt % 8] * 2 * t) * Math.exp(-ph * 6); }
-      else if (sec === 2) { var kp = (lt * 2) % 1, kf = 50 + 70 * Math.exp(-kp * 14); v = 0.55 * Math.sin(2 * Math.PI * kf * kp) * Math.exp(-kp * 5) + ((((lt * 4) % 1) < 0.08) ? rnd() * 0.5 : 0) + 0.1 * Math.sin(2 * Math.PI * 330 * t) + 0.08 * Math.sin(2 * Math.PI * 415 * t); }
-      else { var tr = 0.7 + 0.3 * Math.sin(2 * Math.PI * 3 * t), fade = lt > 4.5 ? 1 - (lt - 4.5) / 1.5 : 1; v = (0.22 * Math.sin(2 * Math.PI * 196 * t) + 0.18 * Math.sin(2 * Math.PI * 247 * t) + 0.16 * Math.sin(2 * Math.PI * 392 * t) + 0.1 * Math.sin(2 * Math.PI * 587 * t)) * tr * fade; }
+      if (sec === 0) { var bn = (lt * 0.5) | 0, f0 = [110, 98, 123.5][bn % 3], env = Math.exp(-((lt * 0.5) % 1) * 2.2); v = 0.5 * SIN(2 * PI * f0 * t) * env + 0.12 * SIN(2 * PI * f0 * 2 * t) * env; }
+      else if (sec === 1) { var ar = [220, 277.2, 329.6, 440, 554.4, 659.3, 880, 659.3], nt = (lt * 8) | 0, ph = (lt * 8) % 1; v = 0.34 * SIN(2 * PI * ar[nt % 8] * t) * Math.exp(-ph * 4) + 0.08 * SIN(2 * PI * ar[nt % 8] * 2 * t) * Math.exp(-ph * 6); }
+      else if (sec === 2) { var kp = (lt * 2) % 1, kf = 50 + 70 * Math.exp(-kp * 14); v = 0.55 * SIN(2 * PI * kf * kp) * Math.exp(-kp * 5) + ((((lt * 4) % 1) < 0.08) ? rnd() * 0.5 : 0) + 0.1 * SIN(2 * PI * 330 * t) + 0.08 * SIN(2 * PI * 415 * t); }
+      else { var tr = 0.7 + 0.3 * SIN(2 * PI * 3 * t), fade = lt > 4.5 ? 1 - (lt - 4.5) / 1.5 : 1; v = (0.22 * SIN(2 * PI * 196 * t) + 0.18 * SIN(2 * PI * 247 * t) + 0.16 * SIN(2 * PI * 392 * t) + 0.1 * SIN(2 * PI * 587 * t)) * tr * fade; }
       x[i] = MX(-0.95, MN(0.95, v));
     }
     return { pcm: x, sr: sr };
@@ -894,9 +898,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function sunFbm(x, s) { var a = 0.5, f = 1, tt = 0, i; for (i = 0; i < 4; i++) { tt += a * sunVn(x * f, 0.5, s + i); a *= 0.5; f *= 2; } return tt; }
   function sunBuild() {
     var W = 320, H = 180, N = W * H, k, x, y, i;
-    var S = { W: W, H: H, N: N, tops: [], tex: [], L: [0.34, 0.26, 0.19, 0.12, 0.07], HZ: [0.6, 0.45, 0.3, 0.15, 0.0], off: new Float32Array(5), gam: new Uint8Array(1025), sc: document.createElement("canvas") };
-    for (k = 0; k < 5; k++) { S.tops[k] = new Float32Array(W); for (x = 0; x < W; x++) S.tops[k][x] = H * (0.36 + 0.115 * k) - 46 * sunFbm(x / 70 + k * 3.1, 11 * k + 5) * (0.55 + 0.16 * k); S.tex[k] = new Float32Array(N); for (y = 0; y < H; y++) for (x = 0; x < W; x++) S.tex[k][y * W + x] = 1 + 0.6 * (sunVn(x * 0.9, y * 0.9, 40 + k) - 0.5) + 0.25 * (sunVn(x * 0.25, y * 0.5, 70 + k) - 0.5); }
-    for (i = 0; i <= 1024; i++) S.gam[i] = RD(255 * Math.pow(i / 1024, 1 / 2.2));
+    var S = { W: W, H: H, N: N, tops: [], tex: [], L: [0.34, 0.26, 0.19, 0.12, 0.07], HZ: [0.6, 0.45, 0.3, 0.15, 0.0], off: F32(5), gam: new Uint8Array(1025), sc: document.createElement("canvas") };
+    for (k = 0; k < 5; k++) { S.tops[k] = F32(W); for (x = 0; x < W; x++) S.tops[k][x] = H * (0.36 + 0.115 * k) - 46 * sunFbm(x / 70 + k * 3.1, 11 * k + 5) * (0.55 + 0.16 * k); S.tex[k] = F32(N); for (y = 0; y < H; y++) for (x = 0; x < W; x++) S.tex[k][y * W + x] = 1 + 0.6 * (sunVn(x * 0.9, y * 0.9, 40 + k) - 0.5) + 0.25 * (sunVn(x * 0.25, y * 0.5, 70 + k) - 0.5); }
+    for (i = 0; i <= 1024; i++) S.gam[i] = RD(255 * PW(i / 1024, 1 / 2.2));
     S.sc.width = W; S.sc.height = H; S.img = S.sc.getContext("2d").createImageData(W, H); return S;
   }
   function sunScene(g, Wd, Hd, t, fi) {
@@ -908,7 +912,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       for (k = 0; k < 5; k++) { var s0 = 0; for (b = 0; b < 12; b++) s0 += bandVal(fi, (4 - k) * 12 + b + (k === 0 ? 4 : 0)); lay[k] = s0 / 12; }
     }
     for (k = 0; k < 5; k++) S.off[k] = -(H * 0.05) * lay[k] * (0.6 + 0.2 * k);
-    var sx = W * (0.68 + (rm ? 0 : 0.03 * Math.sin(t * 0.05))), sy = H * (0.36 - 0.14 * E), sig = 15 * (1 + 0.6 * E + 0.5 * on), amp = 3.3 * (0.6 + 0.8 * E) * (1 + 0.35 * on), ev = 0.5 + 1.2 * E, mul = 0.25 * Math.pow(2, ev), cut = sig * 4;
+    var sx = W * (0.68 + (rm ? 0 : 0.03 * SIN(t * 0.05))), sy = H * (0.36 - 0.14 * E), sig = 15 * (1 + 0.6 * E + 0.5 * on), amp = 3.3 * (0.6 + 0.8 * E) * (1 + 0.35 * on), ev = 0.5 + 1.2 * E, mul = 0.25 * PW(2, ev), cut = sig * 4;
     for (y = 0; y < H; y++) {
       for (x = 0; x < W; x++) {
         i = y * W + x; var dx = x - sx, dy = y - sy, gl = (dx > cut || dx < -cut || dy > cut || dy < -cut) ? 0 : Math.exp(-(dx * dx + dy * dy) / (2 * sig * sig)), k2 = -1, v;
@@ -932,7 +936,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var zn = 1024 >> (ZS[0] - 1), trail = rm ? 1 : 6, amp = H * 0.4, pts = MN(W, 960), k;
       g.lineJoin = "round"; g.lineCap = "round";
       for (k = trail - 1; k >= 0; k--) {
-        var s0 = FL((t - k * 0.033) * SR) - (zn >> 1); g.globalAlpha = Math.pow(0.55, k); g.strokeStyle = k ? C.cyan : C.cyan; g.lineWidth = lw * (k ? 1 : 1.6);
+        var s0 = FL((t - k * 0.033) * SR) - (zn >> 1); g.globalAlpha = PW(0.55, k); g.strokeStyle = k ? C.cyan : C.cyan; g.lineWidth = lw * (k ? 1 : 1.6);
         g.beginPath();
         for (i = 0; i < pts; i++) { var si = s0 + FL(i / (pts - 1) * (zn - 1)), v = (si >= 0 && si < PCM.length) ? PCM[si] : 0, px = W * i / (pts - 1), py = H / 2 - v * amp; if (i) g.lineTo(px, py); else g.moveTo(px, py); }
         g.stroke();
@@ -951,8 +955,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var zs = [1, 1.4, 2, 3, 4.5][ZS[2] - 1], cx = W / 2, cy = H / 2, r0 = H * 0.2, rot = rm ? 0 : t * 0.15, lvl = RMS[fi];
       g.save(); g.translate(cx, cy); g.scale(zs, zs); g.translate(-cx, -cy); lw = lw / zs;
       g.strokeStyle = C.cyan; g.lineWidth = lw * 1.4; g.lineCap = "round"; g.beginPath();
-      for (b = 0; b < NB; b++) { var a0 = Math.PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - Math.PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + Math.sin(a) * (r0 + ln)); } }
-      g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * Math.PI); g.stroke(); g.restore();
+      for (b = 0; b < NB; b++) { var a0 = PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + SIN(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + SIN(a) * (r0 + ln)); } }
+      g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * PI); g.stroke(); g.restore();
     } else {
       var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
       var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
@@ -990,21 +994,21 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   /* Pinhole shutter: a sharp frame change blends with the previous frame and sharpens back over about 450 ms. Off in test mode; the guard turns it on. */
   var SHUT = { on: !/[?&](test=1|shutter=off)/.test(location.search), acc: null, trig: -1e9, prev: null };
   function shutterApply(g, W, H) {
-    if (!SHUT.on) return; var now = performance.now(), i, mx = 0;
+    if (!SHUT.on) return; var now = NOW(), i, mx = 0;
     if (!SHUT.acc || SHUT.acc.width !== W || SHUT.acc.height !== H) {
       SHUT.acc = document.createElement("canvas"); SHUT.acc.width = W; SHUT.acc.height = H; SHUT.accg = SHUT.acc.getContext("2d"); SHUT.accg.drawImage(g.canvas, 0, 0);
       SHUT.nw = document.createElement("canvas"); SHUT.nw.width = W; SHUT.nw.height = H; SHUT.nwg = SHUT.nw.getContext("2d"); SHUT.sm = document.createElement("canvas"); SHUT.sm.width = 16; SHUT.sm.height = 8; SHUT.smg = SHUT.sm.getContext("2d", { willReadFrequently: true }); SHUT.prev = null;
     }
-    SHUT.smg.drawImage(g.canvas, 0, 0, 16, 8); var d = SHUT.smg.getImageData(0, 0, 16, 8).data, cur = new Float32Array(128);
+    SHUT.smg.drawImage(g.canvas, 0, 0, 16, 8); var d = SHUT.smg.getImageData(0, 0, 16, 8).data, cur = F32(128);
     for (i = 0; i < 128; i++) cur[i] = (0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]) / 255;
-    if (SHUT.prev) for (i = 0; i < 128; i++) { var df = Math.abs(cur[i] - SHUT.prev[i]); if (df > mx) mx = df; }
+    if (SHUT.prev) for (i = 0; i < 128; i++) { var df = AB(cur[i] - SHUT.prev[i]); if (df > mx) mx = df; }
     SHUT.prev = cur; if (mx > 0.06) SHUT.trig = now;
     var a = MN(1, 0.09 + 0.91 * (now - SHUT.trig) / MO.shutter);
     if (a >= 0.999) { SHUT.accg.drawImage(g.canvas, 0, 0); return; }
     SHUT.nwg.drawImage(g.canvas, 0, 0); g.globalAlpha = 1; g.drawImage(SHUT.acc, 0, 0); g.globalAlpha = a; g.drawImage(SHUT.nw, 0, 0); g.globalAlpha = 1; SHUT.accg.drawImage(g.canvas, 0, 0);
   }
   function present(t, rung, forPlay) {
-    var t0 = performance.now(), r = RUNGS[MN(rung, forPlay ? 5 : 8)], DW = cv.width, DH = cv.height, tr = t; t = glitchTime(t);
+    var t0 = NOW(), r = RUNGS[MN(rung, forPlay ? 5 : 8)], DW = cv.width, DH = cv.height, tr = t; t = glitchTime(t);
     if (r.vector) { scene(dctx, DW, DH, t); USED = r.lab; }
     else {
       var g, w = r.w, h = r.h, kk = MX(1, (DW / DH) / (16 / 9));
@@ -1020,7 +1024,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (BITS < 8) crushImage(dctx, DW, DH, BITS, WOOD);
     if (CRT) { var step = MX(3, RD(DH / 180)); dctx.fillStyle = C.bg; dctx.globalAlpha = 0.3; for (var yy = step - 1; yy < DH; yy += step) dctx.fillRect(0, yy, DW, MX(1, step / 3 | 0)); dctx.globalAlpha = 1; }
     shutterApply(dctx, DW, DH);
-    LASTMS = performance.now() - t0; if (forPlay) { MS.push(LASTMS); if (MS.length > 30) MS.shift(); }
+    LASTMS = NOW() - t0; if (forPlay) { MS.push(LASTMS); if (MS.length > 30) MS.shift(); }
   }
 
   /* ---------------- playback: follows the audio clock ---------------- */
@@ -1032,7 +1036,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (!AC._bus) {
       var c = AC.createDynamicsCompressor(), g = AC.createGain(), a = AC.createAnalyser();
       c.threshold.value = -6; c.knee.value = 0; c.ratio.value = 20; c.attack.value = 0.003; c.release.value = 0.1; g.gain.value = 0.42; a.fftSize = 2048;
-      var sh = AC.createWaveShaper(), cv = new Float32Array(2049), k; for (k = 0; k < 2049; k++) { var x = (k - 1024) / 1024 * 2; cv[k] = 0.5 * Math.tanh(x / 0.5); } sh.curve = cv; sh.oversample = "none";
+      var sh = AC.createWaveShaper(), cv = F32(2049), k; for (k = 0; k < 2049; k++) { var x = (k - 1024) / 1024 * 2; cv[k] = 0.5 * Math.tanh(x / 0.5); } sh.curve = cv; sh.oversample = "none";
       c.connect(g); g.connect(sh); sh.connect(AC.destination); sh.connect(a); AC._gain = g; AC._ana = a; AC._cmp = c; AC._sh = sh; AC._cv = cv;
       fxBuild(c);
     }
@@ -1045,10 +1049,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var inn = AC.createGain(), out = AC.createGain(), dry = AC.createGain(), wet = AC.createGain();
     inn.connect(dry); dry.connect(out); inn.connect(fxIn); fxOut.connect(wet); wet.connect(out); wet.gain.value = 0; return { in: inn, out: out, dry: dry, wet: wet };
   }
-  function quantCurve(bits) { var L = Math.pow(2, bits), step = 2 / (L - 1), cv = new Float32Array(4097), k; for (k = 0; k < 4097; k++) { var x = (k - 2048) / 2048; cv[k] = MX(-1, MN(1, RD((x + 1) / step) * step - 1)); } return cv; }
+  function quantCurve(bits) { var L = PW(2, bits), step = 2 / (L - 1), cv = F32(4097), k; for (k = 0; k < 4097; k++) { var x = (k - 2048) / 2048; cv[k] = MX(-1, MN(1, RD((x + 1) / step) * step - 1)); } return cv; }
   function fxBuild(comp) {
     var inG = AC.createGain(), aIn = AC.createAnalyser(); aIn.fftSize = 512; inG.connect(aIn);
-    var pre = AC.createGain(), clip = AC.createWaveShaper(), post = AC.createGain(); clip.curve = new Float32Array([-1, 1]); post.gain.value = 0.35; pre.connect(clip); clip.connect(post);
+    var pre = AC.createGain(), clip = AC.createWaveShaper(), post = AC.createGain(); clip.curve = F32([-1, 1]); post.gain.value = 0.35; pre.connect(clip); clip.connect(post);
     var dist = fxStage(pre, post);
     var q = AC.createWaveShaper(); q.curve = quantCurve(8); var hold = AC.createScriptProcessor(256, 1, 1), n = 1, ctr = 0, held = 0; q.connect(hold);
     hold.onaudioprocess = function (e) { var a = e.inputBuffer.getChannelData(0), o = e.outputBuffer.getChannelData(0), i; for (i = 0; i < a.length; i++) { if (ctr % n === 0) held = a[i]; ctr++; o[i] = held; } };
@@ -1060,7 +1064,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var eS = AC.createGain(), eD = AC.createDelay(2), eF = AC.createGain(), eL = AC.createBiquadFilter(); eS.gain.value = 0; eD.delayTime.value = 0.375; eF.gain.value = 0.5; eL.type = "lowpass"; eL.frequency.value = 3500;
     crush.out.connect(eS); eS.connect(eD); eD.connect(eL); eL.connect(eF); eF.connect(eD); eL.connect(mix);
     var rS = AC.createGain(), conv = AC.createConvolver(), rW = AC.createGain(), seed = 20261015, nn = RD(AC.sampleRate * 1.8), ib = AC.createBuffer(1, nn, AC.sampleRate), id = ib.getChannelData(0), q2;
-    for (q2 = 0; q2 < nn; q2++) { seed = (seed * 1664525 + 1013904223) >>> 0; id[q2] = ((seed / 4294967296) * 2 - 1) * Math.pow(1 - q2 / nn, 3) * 0.5; }
+    for (q2 = 0; q2 < nn; q2++) { seed = (seed * 1664525 + 1013904223) >>> 0; id[q2] = ((seed / 4294967296) * 2 - 1) * PW(1 - q2 / nn, 3) * 0.5; }
     conv.buffer = ib; rS.gain.value = 0; rW.gain.value = 0.8; crush.out.connect(rS); rS.connect(conv); conv.connect(rW); rW.connect(mix);
     var sS = AC.createGain(), d1 = AC.createDelay(0.05), d2 = AC.createDelay(0.05), l1 = AC.createOscillator(), l2 = AC.createOscillator(), g1 = AC.createGain(), g2 = AC.createGain();
     sS.gain.value = 0; d1.delayTime.value = 0.018; d2.delayTime.value = 0.026; l1.frequency.value = 0.7; l2.frequency.value = 1.1; g1.gain.value = 0.006; g2.gain.value = 0.008;
@@ -1093,7 +1097,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (!AC || !AC._fx) return; var now = AC.currentTime, eff = fxEff();
     if (eff === "off") { ['crush', 'dist'].forEach(function (k2) { if (FX[k2].on) fxWet(k2, 1, 0.003); }); return; }
     if (eff === "level") {
-      var d = new Float32Array(256), i, s = 0; AC._anaIn.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) s += d[i] * d[i]; var db = 20 * Math.log10(Math.sqrt(s / d.length) + 1e-9);
+      var d = F32(256), i, s = 0; AC._anaIn.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) s += d[i] * d[i]; var db = 20 * Math.log10(Math.sqrt(s / d.length) + 1e-9);
       if (db > FXG.thr) FXG.open = true; else if (db < FXG.thr - 3) FXG.open = false;
       ['crush', 'dist'].forEach(function (k2) { if (FX[k2].on) fxWet(k2, FXG.open ? 1 : 0, FXG.open ? 0.003 : 0.05); });
       return;
@@ -1115,14 +1119,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     });
   }
   function busFull(on) { BUSFULL = on; if (AC && AC._bus) { AC._cmp.ratio.value = on ? 1 : 20; AC._cmp.threshold.value = on ? 0 : -6; AC._gain.gain.value = on ? 1 : 0.42; AC._sh.curve = on ? null : AC._cv; } }
-  function outPeak() { if (!AC || !AC._ana) return -1; var d = new Float32Array(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) if (Math.abs(d[i]) > m) m = Math.abs(d[i]); return m; }
-  var LOOPPLAY = false, FORCEBPM = 0, PLOG = [], SING = { state: "off", mirror: false, lvl: 0, wave: new Float32Array(1024), chunks: [], hist: [], pcm: null, click: false, bpm: 100, lastClick: -9, raf: 0 };
+  function outPeak() { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) if (AB(d[i]) > m) m = AB(d[i]); return m; }
+  var LOOPPLAY = false, FORCEBPM = 0, PLOG = [], SING = { state: "off", mirror: false, lvl: 0, wave: F32(1024), chunks: [], hist: [], pcm: null, click: false, bpm: 100, lastClick: -9, raf: 0 };
   function tnow() { if (SP.on) return spNow(); if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : MN(DUR, x); }
   function chapterAt(t) { var f = t * FPS, k = 0, i; for (i = 0; i < CHAPS.length; i++) if (CHAPS[i] <= f) k = i; return k; }
   function loopRung(t) {
     var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = (t - (BPM ? GRID0 : 0)) / (P * nb); ph -= FL(ph);
     var b = MN(nb - 1, FL(ph * nb)), u;
-    if (RL.dir === "pp") u = 1 - Math.abs(2 * (b + 0.5) / nb - 1); else { u = nb > 1 ? b / (nb - 1) : 1; if (RL.dir === "down") u = 1 - u; }
+    if (RL.dir === "pp") u = 1 - AB(2 * (b + 0.5) / nb - 1); else { u = nb > 1 ? b / (nb - 1) : 1; if (RL.dir === "down") u = 1 - u; }
     return MX(0, MN(8, RD(u * 8)));
   }
   function seqDetailAt(t) {
@@ -1192,7 +1196,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   var DB = { buf: null, pcm: null, sr: 44100, dur: 0, nf: 0, bands: null, rms: null, flux: null, cent: null, centers: null, bpm: 0, grid0: 0, dna: null, P: 0.5, base: 0, n: 0, name: "", src: null, playing: false, off: 0, t0: 0, rate: 1, mult: 1, pausedAt: 0, lastDraw: 0, seq: 0 };
   function mixGains() {
     var x = (MIX.xf + 1) / 2, a, b;
-    if (MIX.curve === "sharp") { a = MN(1, 2 * (1 - x)); b = MN(1, 2 * x); } else { a = Math.cos(x * Math.PI / 2); b = Math.sin(x * Math.PI / 2); }
+    if (MIX.curve === "sharp") { a = MN(1, 2 * (1 - x)); b = MN(1, 2 * x); } else { a = Math.cos(x * PI / 2); b = SIN(x * PI / 2); }
     return { a: a * MIX.lvA, b: b * MIX.lvB };
   }
   function applyMix() {
@@ -1231,9 +1235,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function dbSetRate(r) { var was = DB.playing, pos = dbPos(); DB.rate = r; if (was && DB.src) { DB.off = pos; DB.t0 = AC.currentTime; DB.src.playbackRate.setValueAtTime(r, AC.currentTime); } }
   function dbSync(forceMult) {
     if (!DB.bpm || !BPM) { mxMsg("Both decks need a tempo first. Tap one or use Beat check."); return null; }
-    var best = null; [1, 2, 0.5].forEach(function (m) { var r = BPM / (DB.bpm * m); if (forceMult ? m === forceMult : (!best || Math.abs(Math.log(r)) < Math.abs(Math.log(best.r)))) best = { r: r, m: m }; });
+    var best = null; [1, 2, 0.5].forEach(function (m) { var r = BPM / (DB.bpm * m); if (forceMult ? m === forceMult : (!best || AB(Math.log(r)) < AB(Math.log(best.r)))) best = { r: r, m: m }; });
     DB.mult = best.m; dbSetRate(best.r); dbInfo();
-    var off = Math.abs(best.r - 1) * 100; mxMsg(off > 20 ? "B would have to change by " + off.toFixed(0) + " percent, which is a lot. Try Half or Double, or pick closer songs." : "B plays at " + (best.r * 100).toFixed(1) + " percent so its beat matches A. Its pitch moves by about " + off.toFixed(1) + " percent.");
+    var off = AB(best.r - 1) * 100; mxMsg(off > 20 ? "B would have to change by " + off.toFixed(0) + " percent, which is a lot. Try Half or Double, or pick closer songs." : "B plays at " + (best.r * 100).toFixed(1) + " percent so its beat matches A. Its pitch moves by about " + off.toFixed(1) + " percent.");
     return best;
   }
   function dbAlign() {
@@ -1241,12 +1245,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, Pe = dbPe(), k = RD((dbPos() - DB.grid0) / Pe - fa), at = MX(0, MN(DB.dur - 0.05, DB.grid0 + (k + fa) * Pe));
     if (DB.playing) dbStart(at); else DB.pausedAt = at; mxMsg("B is moved so its beat lands on A's beat."); return true;
   }
-  function dbPhaseMs() { if (!DB.bpm || !BPM) return null; var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, fb = (((dbPos() - DB.grid0) / dbPe()) % 1 + 1) % 1, d = Math.abs(fa - fb); d = MN(d, 1 - d); return d * PA * 1000; }
+  function dbPhaseMs() { if (!DB.bpm || !BPM) return null; var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, fb = (((dbPos() - DB.grid0) / dbPe()) % 1 + 1) % 1, d = AB(fa - fb); d = MN(d, 1 - d); return d * PA * 1000; }
   function dbNudge(ms) { var pos = MX(0, MN(DB.dur, dbPos() + ms / 1000)); if (DB.playing) dbStart(pos); else DB.pausedAt = pos; }
   function dbLoadBytes(ab, name) {
     mxMsg("Reading " + name); var gen = GEN;
     return new OfflineAudioContext(1, 1, 44100).decodeAudioData(ab).then(function (buf) {
-      var n = buf.length, ch = buf.numberOfChannels, mono = new Float32Array(n), c, i; for (c = 0; c < ch; c++) { var d = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += d[i] / ch; }
+      var n = buf.length, ch = buf.numberOfChannels, mono = F32(n), c, i; for (c = 0; c < ch; c++) { var d = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += d[i] / ch; }
       if (mono.length > MAXSEC * buf.sampleRate) mono = mono.subarray(0, MAXSEC * buf.sampleRate);
       analyze(mono, buf.sampleRate, function (R) {
         dbStop(); DB.buf = buf; DB.pcm = mono; DB.sr = buf.sampleRate; DB.dur = mono.length / buf.sampleRate; DB.nf = R.nf; DB.bands = R.bands; DB.rms = R.rms; DB.flux = R.flux; DB.cent = R.cent; DB.centers = R.centers; DB.name = name; DB.pausedAt = 0; DB.rate = 1; DB.mult = 1;
@@ -1326,7 +1330,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function genomeNow(t) { var i = genomeIdx(t); return { i: i, dna: GNM.dna ? GNM.dna[i] : null, rna: GNM.rna[i] || null }; }
   function genomeTranscribe(t) { if (GNM.dna) GNM.rna[genomeIdx(t)] = genomeLook(); }
   function genomeDraw(t) {
-    var cv = $("gcv"), t0 = performance.now(); if (!cv) return;
+    var cv = $("gcv"), t0 = NOW(); if (!cv) return;
     if (!GNM.dna) { cv.getContext("2d").clearRect(0, 0, cv.width, cv.height); return; }
     var i = genomeIdx(t); GNM.rna[i] = genomeLook();
     var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 64, half = FL(W / cw / 2), j, x, row, cod, s, set, y, q, fr = (t - GNM.base) / GNM.P - FL((t - GNM.base) / GNM.P);
@@ -1345,7 +1349,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     g.globalAlpha = 1; g.fillStyle = C.dim; g.font = "600 12px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textAlign = "left"; g.fillText("DNA song", 6, 92); g.textAlign = "right"; g.fillText("RNA look", W - 6, 92);
     g.strokeStyle = C.gold; g.lineWidth = 2; g.beginPath(); g.moveTo(W / 2, 2); g.lineTo(W / 2, 82); g.stroke();
     if (i !== GNM.lastI) { GNM.lastI = i; var w = genomeWords(GNM.dna[i], GNM.rna[i]); $("gline").textContent = "Sound: " + w.sound + ". Look: " + w.look + ". Each letter is a quartile, so a recipe and not a measurement."; }
-    GNM.ms.push(performance.now() - t0); if (GNM.ms.length > 40) GNM.ms.shift();
+    GNM.ms.push(NOW() - t0); if (GNM.ms.length > 40) GNM.ms.shift();
   }
   function genomeRecipe() {
     var t = tnow(), i = genomeIdx(t), a = [], b = [], j; if (!GNM.dna) return "No song read yet.";
@@ -1441,8 +1445,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function frame(forPlay) {
     var t = tnow(), rg = rungFor(t); if (mixFollowB()) { var sv = deckSwap(DB); try { present(dbPos(), rg, forPlay); } finally { deckRestore(sv); } } else present(t, rg, forPlay); updateUI(t);
     cuesTick(t, forPlay);
-    if (DB.nf && VIS.mixer && (!forPlay || performance.now() - DB.lastDraw > 33)) { DB.lastDraw = performance.now(); mixDraw(); }
-    var now = performance.now(); if (!forPlay || now - lastLadder > 500) { if (VIS.rungs && lessonOpen()) renderLadder(t); renderBars(t); lastLadder = now; }
+    if (DB.nf && VIS.mixer && (!forPlay || NOW() - DB.lastDraw > 33)) { DB.lastDraw = NOW(); mixDraw(); }
+    var now = NOW(); if (!forPlay || now - lastLadder > 500) { if (VIS.rungs && lessonOpen()) renderLadder(t); renderBars(t); lastLadder = now; }
     if (!forPlay || now - GNM.lastDraw > 33) { GNM.lastDraw = now; if (VIS.genome) genomeDraw(t); else genomeTranscribe(t); }
   }
   function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); seqTick(); raf = requestAnimationFrame(loop); }
@@ -1511,7 +1515,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function loadBytes(ab, name, mime) {
     var keep = ab.slice(0), tags = readTags(keep);
     return new OfflineAudioContext(1, 1, 44100).decodeAudioData(ab).then(function (buf) {
-      var n = buf.length, ch = buf.numberOfChannels, mono = new Float32Array(n), c, i;
+      var n = buf.length, ch = buf.numberOfChannels, mono = F32(n), c, i;
       for (c = 0; c < ch; c++) { var d = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += d[i] / ch; }
       SRCBYTES = keep; SRCMIME = mime || ""; SRCTAGS = tags; $("twinb").disabled = false;
       setSource(mono, buf.sampleRate, buf, name);
@@ -1590,7 +1594,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     // weighted by a gentle prior around 120 BPM (a wide log-Gaussian, so it settles octaves without bending 3:2 ratios)
     var S0 = new Float64Array(1101), sum = 0, cnt = 0, best = 334, P;
     for (P = 334; P <= 857; P++) {
-      var f1 = ACf[P] + 0.5 * (2 * P <= maxLag ? ACf[2 * P] : 0), f2 = ACk[P] + 0.5 * (2 * P <= maxLag ? ACk[2 * P] : 0), pr = Math.exp(-0.5 * Math.pow(Math.log2((60000 / P) / 120) / 0.9, 2));
+      var f1 = ACf[P] + 0.5 * (2 * P <= maxLag ? ACf[2 * P] : 0), f2 = ACk[P] + 0.5 * (2 * P <= maxLag ? ACk[2 * P] : 0), pr = Math.exp(-0.5 * PW(Math.log2((60000 / P) / 120) / 0.9, 2));
       S0[P] = (f1 / z1 + f2 / z2) * pr; sum += S0[P]; cnt++; if (S0[P] > S0[best]) best = P;
     }
     // refine the period on the autocorrelation peak itself (not the prior-weighted score), within 3 percent
@@ -1599,14 +1603,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     // refine period and phase on the hits near the grid
     var phi = 0, it;
     for (it = 0; it < 4; it++) {
-      var sx = 0, sy = 0; for (i = 0; i < n; i++) { var th = 2 * Math.PI * ((T[i] % Pm) / Pm), wk = KW[i]; sx += wk * Math.cos(th); sy += wk * Math.sin(th); }
-      phi = Math.atan2(sy, sx) * Pm / (2 * Math.PI); if (phi < 0) phi += Pm;
+      var sx = 0, sy = 0; for (i = 0; i < n; i++) { var th = 2 * PI * ((T[i] % Pm) / Pm), wk = KW[i]; sx += wk * Math.cos(th); sy += wk * SIN(th); }
+      phi = Math.atan2(sy, sx) * Pm / (2 * PI); if (phi < 0) phi += Pm;
       var sw = 0, sk = 0, st = 0, skk = 0, skt = 0, m = 0;
-      for (i = 0; i < n; i++) { var kk = RD((T[i] - phi) / Pm), d2 = T[i] - (phi + kk * Pm); if (Math.abs(d2) < Pm * 0.12) { var w = KW[i]; sw += w; sk += w * kk; st += w * T[i]; skk += w * kk * kk; skt += w * kk * T[i]; m++; } }
-      var den2 = sw * skk - sk * sk; if (m >= 8 && Math.abs(den2) > 1e-9) { var slope = (sw * skt - sk * st) / den2; if (Math.abs(slope - Pm) < Pm * 0.03) { Pm = slope; var ic = (st - slope * sk) / sw; phi = ((ic % Pm) + Pm) % Pm; } }
+      for (i = 0; i < n; i++) { var kk = RD((T[i] - phi) / Pm), d2 = T[i] - (phi + kk * Pm); if (AB(d2) < Pm * 0.12) { var w = KW[i]; sw += w; sk += w * kk; st += w * T[i]; skk += w * kk * kk; skt += w * kk * T[i]; m++; } }
+      var den2 = sw * skk - sk * sk; if (m >= 8 && AB(den2) > 1e-9) { var slope = (sw * skt - sk * st) / den2; if (AB(slope - Pm) < Pm * 0.03) { Pm = slope; var ic = (st - slope * sk) / sw; phi = ((ic % Pm) + Pm) % Pm; } }
     }
     // downbeat: the beat position within four whose hits carry the most low-band energy
-    var sc = [0, 0, 0, 0]; for (i = 0; i < n; i++) { var kb = RD((T[i] - phi) / Pm); if (Math.abs(T[i] - (phi + kb * Pm)) < Pm * 0.15) sc[((kb % 4) + 4) % 4] += LO[i]; }
+    var sc = [0, 0, 0, 0]; for (i = 0; i < n; i++) { var kb = RD((T[i] - phi) / Pm); if (AB(T[i] - (phi + kb * Pm)) < Pm * 0.15) sc[((kb % 4) + 4) % 4] += LO[i]; }
     var db = 0; for (j = 1; j < 4; j++) if (sc[j] > sc[db]) db = j;
     var grid0 = (phi + db * Pm) % (4 * Pm), conf = S0[best] / (sum / cnt + 1e-9), bpmF = 60 / Pm;
     return { bpm: bpmF, grid0: grid0, conf: conf, alt: [bpmF * 2, bpmF / 2], downbeat: db, beats: n, lowByBeat: sc };
@@ -1618,7 +1622,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var s = 0, n = 0; for (k = MX(0, i - W); k <= MN(NF - 1, i + W); k++) { s += FLUX[k]; n++; }
       if (FLUX[i] > 1.5 * (s / n) + 0.05 && FLUX[i] >= FLUX[i - 1] && FLUX[i] > FLUX[i + 1] && i - lastOn >= 3) { M.push({ t: i / FPS, w: KIND_W.onset, k: "onset", s: FLUX[i] }); onsets.push(i); lastOn = i; }
     }
-    var sm = new Float32Array(NF), r = 7, lastV = -999;
+    var sm = F32(NF), r = 7, lastV = -999;
     for (i = 0; i < NF; i++) { var a = 0, c = 0; for (k = MX(0, i - r); k <= MN(NF - 1, i + r); k++) { a += RMS[k]; c++; } sm[i] = a / c; }
     for (i = 15; i < NF - 15; i++) {
       var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = MN(lo, sm[k]); hi = MX(hi, sm[k]); }
@@ -1634,9 +1638,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     /* The quietest sample next to a sign change within 5 ms (nearest on ties); if none crosses, the quietest sample. */
     var i0 = RD(tt * SR), rad = RD(0.005 * SR), best = -1, bv = 9, bd = 1e9, fb = -1, fv = 9, i, v, d;
     for (i = MX(1, i0 - rad); i < MN(PCM.length - 1, i0 + rad); i++) {
-      d = Math.abs(i - i0);
-      if (PCM[i] * PCM[i + 1] <= 0) { v = MN(Math.abs(PCM[i]), Math.abs(PCM[i + 1])); var k = Math.abs(PCM[i]) <= Math.abs(PCM[i + 1]) ? i : i + 1; if (v < bv - 1e-9 || (Math.abs(v - bv) <= 1e-9 && d < bd)) { bv = v; bd = d; best = k; } }
-      if (Math.abs(PCM[i]) < fv) { fv = Math.abs(PCM[i]); fb = i; }
+      d = AB(i - i0);
+      if (PCM[i] * PCM[i + 1] <= 0) { v = MN(AB(PCM[i]), AB(PCM[i + 1])); var k = AB(PCM[i]) <= AB(PCM[i + 1]) ? i : i + 1; if (v < bv - 1e-9 || (AB(v - bv) <= 1e-9 && d < bd)) { bv = v; bd = d; best = k; } }
+      if (AB(PCM[i]) < fv) { fv = AB(PCM[i]); fb = i; }
     }
     if (best < 0) best = fb;
     return best < 0 ? tt : best / SR;
@@ -1645,14 +1649,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (bypass || !radius) return { t: MX(0, MN(DUR, x)), magnet: null };
     var best = null, bs = 0, i, cands = MAGNETS.slice(0);
     SLICES.forEach(function (s, k) { if (k !== skipEdge) { cands.push({ t: s.t0, w: KIND_W.edge, k: "edge" }); cands.push({ t: s.t1, w: KIND_W.edge, k: "edge" }); } });
-    for (i = 0; i < cands.length; i++) { var d = Math.abs(cands[i].t - x); if (d > radius) continue; var sc = cands[i].w * (1 - d / radius); if (sc > bs) { bs = sc; best = cands[i]; } }
+    for (i = 0; i < cands.length; i++) { var d = AB(cands[i].t - x); if (d > radius) continue; var sc = cands[i].w * (1 - d / radius); if (sc > bs) { bs = sc; best = cands[i]; } }
     if (!best) return { t: MX(0, MN(DUR, x)), magnet: null };
     return { t: MX(0, MN(DUR, nearestZero(best.t))), magnet: best };
   }
   function meanBands(f0, f1, out) { var b, f, n = MX(1, f1 - f0 + 1); for (b = 0; b < NB; b++) { var s = 0; for (f = f0; f <= f1; f++) s += BANDS[MN(NF - 1, MX(0, f)) * NB + b]; out[b] = s / n; } }
   function makeSlice(t0, t1) {
     if (t1 < t0) { var q = t0; t0 = t1; t1 = q; }
-    var f0 = fidx(t0), f1 = fidx(t1), h = new Float32Array(NB), tl = new Float32Array(NB), i, ms = 0;
+    var f0 = fidx(t0), f1 = fidx(t1), h = F32(NB), tl = F32(NB), i, ms = 0;
     meanBands(f0, MN(NF - 1, f0 + 3), h); meanBands(MX(0, f1 - 3), f1, tl);
     for (i = f0; i <= f1; i++) ms += RMS[i];
     var maxF = 1e-6; for (i = 0; i < NF; i++) if (FLUX[i] > maxF) maxF = FLUX[i];
@@ -1662,7 +1666,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function cosine(a, b) { var d = 0, na = 0, nb = 0, k; for (k = 0; k < NB; k++) { d += a[k] * b[k]; na += a[k] * a[k]; nb += b[k] * b[k]; } return d / Math.sqrt(na * nb + 1e-9); }
   function coherence(a, b) {
-    var cs = cosine(a.tail, b.head), lv = 1 - MN(1, Math.abs(a.tRms - b.hRms)), bm = MX(0, 1 - Math.abs(a.x1 - b.x0) / 0.1) * (a.s1 * b.s0 >= 0 ? 1 : 0.5);
+    var cs = cosine(a.tail, b.head), lv = 1 - MN(1, AB(a.tRms - b.hRms)), bm = MX(0, 1 - AB(a.x1 - b.x0) / 0.1) * (a.s1 * b.s0 >= 0 ? 1 : 0.5);
     return 0.5 * cs + 0.3 * lv + 0.2 * bm;
   }
   function arrange(list) {
@@ -1677,7 +1681,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     }
     return { order: chain, score: n ? tot / n : 0 };
   }
-  function addSlice(t0, t1) { if (Math.abs(t1 - t0) < 0.05 || SLICES.length >= 64) return -1; SLICES.push(makeSlice(t0, t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; SELECTED = SLICES.length - 1; renderSlices(); return SLICES.length - 1; }
+  function addSlice(t0, t1) { if (AB(t1 - t0) < 0.05 || SLICES.length >= 64) return -1; SLICES.push(makeSlice(t0, t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; SELECTED = SLICES.length - 1; renderSlices(); return SLICES.length - 1; }
 
   /* ---------------- the strip: waveform, magnets, slices ---------------- */
   var STRIPBG = null, DRAG = null, STRIPHL = null;
@@ -1721,7 +1725,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function magnetSummary() { var c = { chapter: 0, onset: 0, valley: 0, grid: 0 }; MAGNETS.forEach(function (m) { c[m.k]++; }); $("magro").textContent = "Snap points: " + c.chapter + " chapter, " + c.onset + " onset, " + c.valley + " valley" + (BPM ? ", " + c.grid + " grid lines at about " + BPM + " BPM" : "") + "."; }
   function stripT(e) { var r = $("strip").getBoundingClientRect(), sp = (VIEW.b || DUR) - VIEW.a; return MX(0, MN(DUR, VIEW.a + (e.clientX - r.left) / r.width * sp)); }
-  function stripEdgeAt(e) { var r = $("strip").getBoundingClientRect(), px = 8 / r.width * ((VIEW.b || DUR) - VIEW.a), x = stripT(e), k, best = null; SLICES.forEach(function (s, i) { if (Math.abs(s.t0 - x) <= px) best = { i: i, edge: "t0" }; else if (Math.abs(s.t1 - x) <= px) best = { i: i, edge: "t1" }; }); return best; }
+  function stripEdgeAt(e) { var r = $("strip").getBoundingClientRect(), px = 8 / r.width * ((VIEW.b || DUR) - VIEW.a), x = stripT(e), k, best = null; SLICES.forEach(function (s, i) { if (AB(s.t0 - x) <= px) best = { i: i, edge: "t0" }; else if (AB(s.t1 - x) <= px) best = { i: i, edge: "t1" }; }); return best; }
   (function wireStrip() {
     var el = $("strip");
     el.addEventListener("pointerdown", function (e) {
@@ -1731,7 +1735,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     el.addEventListener("pointermove", function (e) {
       if (!NF) return; var x = stripT(e);
       if (!DRAG) { var h = snapTime(x, SNAPR, e.altKey); STRIPHL = h.magnet ? { t: h.t, k: h.magnet.k } : null; drawStrip(tnow()); return; }
-      if (Math.abs(e.clientX - DRAG.x0) > 3) DRAG.moved = true;
+      if (AB(e.clientX - DRAG.x0) > 3) DRAG.moved = true;
       var sn = snapTime(x, SNAPR, e.altKey, DRAG.mode === "edge" ? DRAG.i : -1); STRIPHL = sn.magnet ? { t: sn.t, k: sn.magnet.k } : null;
       if (DRAG.mode === "edge") { SLICES[DRAG.i][DRAG.edge] = sn.t; } else DRAG.b = sn.t;
       drawStrip(tnow());
@@ -1777,12 +1781,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("zpan").addEventListener("input", function () { var sp = VIEW.b - VIEW.a; viewSet((+$("zpan").value / 1000) * (DUR - sp), (+$("zpan").value / 1000) * (DUR - sp) + sp); });
   $("strip").addEventListener("wheel", function (e) {
     if (!NF) return; e.preventDefault(); var sp = VIEW.b - VIEW.a;
-    if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) { var d = (e.deltaX || e.deltaY) / 600 * sp; viewSet(VIEW.a + d, VIEW.b + d); }
+    if (e.shiftKey || AB(e.deltaX) > AB(e.deltaY)) { var d = (e.deltaX || e.deltaY) / 600 * sp; viewSet(VIEW.a + d, VIEW.b + d); }
     else viewZoom(e.deltaY < 0 ? 0.8 : 1.25, stripT(e));
   }, { passive: false });
   var SCRUB = null, lastGrain = 0;
   function grain(tt) {
-    var now = performance.now(); if (now - lastGrain < 45 || !BUF) return; lastGrain = now;
+    var now = NOW(); if (now - lastGrain < 45 || !BUF) return; lastGrain = now;
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
     var s = AC.createBufferSource(), g = AC.createGain(), c = AC.currentTime; s.buffer = BUF; g.gain.setValueAtTime(0.0001, c); g.gain.linearRampToValueAtTime(0.8, c + 0.01); g.gain.linearRampToValueAtTime(0.0001, c + 0.09);
     s.connect(g); g.connect(outBus()); s.start(0, MX(0, MN(DUR - 0.11, tt)), 0.1);
@@ -1804,7 +1808,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var a = VIEW.a, b = VIEW.b, on = MAGNETS.filter(function (m) { return m.k === "onset" && m.t >= a && m.t < b; });
     if (!on.length) { $("sphint").textContent = "No hits found in this view. Zoom out or pick a different part."; return 0; }
     on.sort(function (x, y) { return y.s - x.s; });
-    var gap = (b - a) / (3 * n), keep = []; on.forEach(function (m) { if (keep.length < n && keep.every(function (k) { return Math.abs(k.t - m.t) >= gap; })) keep.push(m); }); on = keep; on.sort(function (x, y) { return x.t - y.t; });
+    var gap = (b - a) / (3 * n), keep = []; on.forEach(function (m) { if (keep.length < n && keep.every(function (k) { return AB(k.t - m.t) >= gap; })) keep.push(m); }); on = keep; on.sort(function (x, y) { return x.t - y.t; });
     var pts = [], last = -9; on.forEach(function (m) { var z = nearestZero(m.t); if (z - last >= 0.05) { pts.push(z); last = z; } });
     var c = sliceFrom(pts, b); $("sphint").textContent = c + " slices cut at the strongest hits in view."; return c;
   }
@@ -1869,10 +1873,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var med = iv.length % 2 ? iv[(iv.length - 1) / 2] : (iv[iv.length / 2 - 1] + iv[iv.length / 2]) / 2;
     setTempo(60000 / med, TAPS[TAPS.length - 1].t); return BPM;
   }
-  EA(QA(".tapb"), function (b) { b.addEventListener("click", function () { tapAt(performance.now(), tnow()); }); });
+  EA(QA(".tapb"), function (b) { b.addEventListener("click", function () { tapAt(NOW(), tnow()); }); });
   function downbeatHere() {
     var tn = tnow(), best = null, bd = 0.2, i; if (!NF) return;
-    for (i = 0; i < MAGNETS.length; i++) if (MAGNETS[i].k === "onset" && Math.abs(MAGNETS[i].t - tn) < bd) { bd = Math.abs(MAGNETS[i].t - tn); best = MAGNETS[i].t; }
+    for (i = 0; i < MAGNETS.length; i++) if (MAGNETS[i].k === "onset" && AB(MAGNETS[i].t - tn) < bd) { bd = AB(MAGNETS[i].t - tn); best = MAGNETS[i].t; }
     setTempo(BPM || 120, best === null ? tn : best); $("sphint").textContent = "Downbeat set at " + (best === null ? tn : best).toFixed(2) + " s.";
   }
   EA(QA(".dbb"), function (b) { b.addEventListener("click", downbeatHere); });
@@ -1896,8 +1900,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (!SING.pcm || SING.state !== "loop") { singMsg("Record a loop first."); return; }
     if (SING.click) { singMsg("With the click on, the loop already starts on the click's first beat."); return; }
     var sr = AC.sampleRate, cut = RD(GRID0 * sr), pcm = SING.pcm.subarray(MN(cut, SING.pcm.length - 1));
-    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = MX(1, RD(pcm.length / bar)), n = RD(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, MN(n, pcm.length))); pcm = o; }
-    SING.hist.push(SING.pcm); if (SING.hist.length > 8) SING.hist.shift(); singLoad(new Float32Array(pcm), "My loop"); singMsg("The loop now starts on the downbeat.");
+    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = MX(1, RD(pcm.length / bar)), n = RD(bars * bar), o = F32(n); o.set(pcm.subarray(0, MN(n, pcm.length))); pcm = o; }
+    SING.hist.push(SING.pcm); if (SING.hist.length > 8) SING.hist.shift(); singLoad(F32(pcm), "My loop"); singMsg("The loop now starts on the downbeat.");
   });
   $("tbpm").addEventListener("input", function () { SP.touched = true; });
   /* ---------------- presets (say a word) and settings autosave. Settings only: no audio, no voice, never invert, never the Run switch. ---------------- */
@@ -1966,7 +1970,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   ["change", "input"].forEach(function (n) { document.addEventListener(n, function () { if (SUNRISE.ramp) return; clearTimeout(saveT); saveT = setTimeout(saveSettings, 400); }, true); });
   /* ---------------- session recorder: the picture and sound, plus every control touched with its value. Local files only. ---------------- */
   var SESS = { on: false, log: [], mr: null, chunks: [], dst: null, t0: 0, timer: 0 };
-  function sessEvent(k, id, v) { if (!SESS.on) return; SESS.log.push({ t: +((performance.now() - SESS.t0) / 1000).toFixed(3), song: playing || SP.on ? +tnow().toFixed(3) : null, k: k, id: id, v: v === undefined ? null : v }); }
+  function sessEvent(k, id, v) { if (!SESS.on) return; SESS.log.push({ t: +((NOW() - SESS.t0) / 1000).toFixed(3), song: playing || SP.on ? +tnow().toFixed(3) : null, k: k, id: id, v: v === undefined ? null : v }); }
   ["input", "change"].forEach(function (n) { document.addEventListener(n, function (e) { var el = e.target; if (!SESS.on || !el || !el.id && el.name === undefined) return; var v = el.type === "checkbox" ? el.checked : el.type === "radio" ? (el.checked ? el.value : undefined) : el.value; if (v !== undefined && el.type !== "file" && el.type !== "text" && el.type !== "url") sessEvent(SUNRISE.ramp ? "auto" : "set", el.id || el.name, v); }, true); });
   document.addEventListener("keydown", function (e) { if (SESS.on && !e.repeat && !pkTyping(e)) sessEvent("key", e.code); }, true);
   document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (SESS.on && b) sessEvent("tap", b.id || b.getAttribute("data-km") || b.getAttribute("data-g") || b.getAttribute("data-pre") || b.textContent.trim().slice(0, 14)); }, true);
@@ -1978,11 +1982,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var mt = MediaRecorder.isTypeSupported("video/webm;codecs=vp9,opus") ? "video/webm;codecs=vp9,opus" : "video/webm";
     SESS.mr = new MediaRecorder(new MediaStream([vs.getVideoTracks()[0], dst.stream.getAudioTracks()[0]]), { mimeType: mt, videoBitsPerSecond: 4000000 });
     SESS.mr.ondataavailable = function (e) { if (e.data.size) SESS.chunks.push(e.data); }; SESS.mr.start(1000);
-    SESS.t0 = performance.now(); SESS.on = true; SESS.start = snapshot(); $("sessrec").setAttribute("aria-pressed", "true");
-    SESS.timer = setInterval(function () { var s = RD((performance.now() - SESS.t0) / 1000); $("sessrec").textContent = "Stop recording " + FL(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }, 500); $("sessrec").textContent = "Stop recording 0:00";
+    SESS.t0 = NOW(); SESS.on = true; SESS.start = snapshot(); $("sessrec").setAttribute("aria-pressed", "true");
+    SESS.timer = setInterval(function () { var s = RD((NOW() - SESS.t0) / 1000); $("sessrec").textContent = "Stop recording " + FL(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }, 500); $("sessrec").textContent = "Stop recording 0:00";
   }
   function sessStop() {
-    if (!SESS.on) return; clearInterval(SESS.timer); var stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19), log = SESS.log, startState = SESS.start, secs = (performance.now() - SESS.t0) / 1000;
+    if (!SESS.on) return; clearInterval(SESS.timer); var stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19), log = SESS.log, startState = SESS.start, secs = (NOW() - SESS.t0) / 1000;
     SESS.mr.onstop = function () {
       try { AC._sh.disconnect(SESS.dst); } catch (e) { /* gone */ }
       sessSave("phosphor-session-" + stamp + ".webm", new Blob(SESS.chunks, { type: "video/webm" }));
@@ -2008,7 +2012,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
         return new Promise(function (res) { R.mr.onstop = function () { var fr = new FileReader(); fr.onload = function () { res(String(fr.result).split(",")[1]); }; fr.readAsDataURL(new Blob(R.chunks, { type: "video/webm" })); try { AC._sh.disconnect(R.dst); } catch (e) { /* gone */ } }; R.mr.stop(); });
       }
     };
-  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, gsw: { set: setGlitch, off: function () { return GLITCHOFF; } }, bars: { times: function () { return BARS.times.slice(); }, render: function (f) { renderBars(tnow(), f); }, show: showBar, play: barsPlay, index: function () { return BARS.i; }, playing: function () { return BARS.play; } }, pins: { add: pinAdd, list: function () { return pinsHere().map(function (p) { return JSON.parse(JSON.stringify(p)); }); }, arm: function (i, v) { pinsHere()[i].armed = v; }, cues: function (v) { CUES.on = v; $("cuesOn").checked = v; }, fired: function () { return CUES.fired.slice(); }, resetFired: function () { CUES.fired = []; }, export: pinsExport, import: pinsImport, tamper: function (i, note) { var p = pinsHere()[i]; p.note = note; return pinVerify(p); }, verify: function (i) { return pinVerify(pinsHere()[i]); }, use: pinsUse, clear: function () { PINS = {}; pinsRender(); } }, mix: { gains: function () { return { a: MIX.gA, b: MIX.gB, nodeA: AC && AC._mixA ? AC._mixA.gain.value : null, nodeB: AC && AC._mixB ? AC._mixB.gain.value : null }; }, set: function (xf, la, lb, curve) { if (xf !== undefined) { MIX.xf = xf; $("mxx").value = RD(xf * 100); } if (la !== undefined) { MIX.lvA = la; $("mxla").value = RD(la * 100); } if (lb !== undefined) { MIX.lvB = lb; $("mxlb").value = RD(lb * 100); } if (curve) MIX.curve = curve; applyMix(); }, math: function (xf, curve, la, lb) { var s = { xf: MIX.xf, curve: MIX.curve, lvA: MIX.lvA, lvB: MIX.lvB }; MIX.xf = xf; MIX.curve = curve; MIX.lvA = la === undefined ? 1 : la; MIX.lvB = lb === undefined ? 1 : lb; var g = mixGains(); MIX.xf = s.xf; MIX.curve = s.curve; MIX.lvA = s.lvA; MIX.lvB = s.lvB; return g; }, b: function () { return { bpm: DB.bpm, grid0: DB.grid0, rate: DB.rate, mult: DB.mult, pos: dbPos(), playing: DB.playing, dur: DB.dur, n: DB.n, nf: DB.nf, name: DB.name, dna: DB.dna ? DB.dna.length : 0 }; }, play: function (at) { dbStart(at || 0); }, stop: dbStop, sync: dbSync, align: dbAlign, nudge: dbNudge, phase: dbPhaseMs, follow: function (v) { MIX.follow = v; frame(playing); }, ceiling: function () { return outPeak(); } }, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; } }, mode: { level: function () { return LVL; }, set: setLevel }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { clock: function () { return AC ? { now: AC.currentTime, ref: (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), P: 60 / (BPM || 120) / FXG.div } : null; }, wet: function (k) { return AC && AC._fx ? { wet: AC._fx[k].wet.gain.value, dry: AC._fx[k].dry.gain.value } : null; }, seed: gateSeed, depth: function (d) { FXG.depth = d; }, lag: function (l) { FXG.lag = l; }, gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, gsw: { set: setGlitch, off: function () { return GLITCHOFF; } }, bars: { times: function () { return BARS.times.slice(); }, render: function (f) { renderBars(tnow(), f); }, show: showBar, play: barsPlay, index: function () { return BARS.i; }, playing: function () { return BARS.play; } }, pins: { add: pinAdd, list: function () { return pinsHere().map(function (p) { return JSON.parse(JSON.stringify(p)); }); }, arm: function (i, v) { pinsHere()[i].armed = v; }, cues: function (v) { CUES.on = v; $("cuesOn").checked = v; }, fired: function () { return CUES.fired.slice(); }, resetFired: function () { CUES.fired = []; }, export: pinsExport, import: pinsImport, tamper: function (i, note) { var p = pinsHere()[i]; p.note = note; return pinVerify(p); }, verify: function (i) { return pinVerify(pinsHere()[i]); }, use: pinsUse, clear: function () { PINS = {}; pinsRender(); } }, mix: { gains: function () { return { a: MIX.gA, b: MIX.gB, nodeA: AC && AC._mixA ? AC._mixA.gain.value : null, nodeB: AC && AC._mixB ? AC._mixB.gain.value : null }; }, set: function (xf, la, lb, curve) { if (xf !== undefined) { MIX.xf = xf; $("mxx").value = RD(xf * 100); } if (la !== undefined) { MIX.lvA = la; $("mxla").value = RD(la * 100); } if (lb !== undefined) { MIX.lvB = lb; $("mxlb").value = RD(lb * 100); } if (curve) MIX.curve = curve; applyMix(); }, math: function (xf, curve, la, lb) { var s = { xf: MIX.xf, curve: MIX.curve, lvA: MIX.lvA, lvB: MIX.lvB }; MIX.xf = xf; MIX.curve = curve; MIX.lvA = la === undefined ? 1 : la; MIX.lvB = lb === undefined ? 1 : lb; var g = mixGains(); MIX.xf = s.xf; MIX.curve = s.curve; MIX.lvA = s.lvA; MIX.lvB = s.lvB; return g; }, b: function () { return { bpm: DB.bpm, grid0: DB.grid0, rate: DB.rate, mult: DB.mult, pos: dbPos(), playing: DB.playing, dur: DB.dur, n: DB.n, nf: DB.nf, name: DB.name, dna: DB.dna ? DB.dna.length : 0 }; }, play: function (at) { dbStart(at || 0); }, stop: dbStop, sync: dbSync, align: dbAlign, nudge: dbNudge, phase: dbPhaseMs, follow: function (v) { MIX.follow = v; frame(playing); }, ceiling: function () { return outPeak(); } }, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; } }, mode: { level: function () { return LVL; }, set: setLevel }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { clock: function () { return AC ? { now: AC.currentTime, ref: (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), P: 60 / (BPM || 120) / FXG.div } : null; }, wet: function (k) { return AC && AC._fx ? { wet: AC._fx[k].wet.gain.value, dry: AC._fx[k].dry.gain.value } : null; }, seed: gateSeed, depth: function (d) { FXG.depth = d; }, lag: function (l) { FXG.lag = l; }, gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = F32(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = F32(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = F32(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += AB(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -2054,27 +2058,27 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   var GLAST = {}, CODONS = null, GSTR = 1, GLIM = { L: -1, dir: 0, ev: [], until: 0 }, GLC = null;
   function glum(cv) {
     GLC = GLC || document.createElement("canvas"); GLC.width = 16; GLC.height = 9; var x = GLC.getContext("2d", { willReadFrequently: true }), d, s = 0, i; x.drawImage(cv, 0, 0, 16, 9); d = x.getImageData(0, 0, 16, 9).data;
-    for (i = 0; i < d.length; i += 4) s += 0.2126 * Math.pow(d[i] / 255, 2.2) + 0.7152 * Math.pow(d[i + 1] / 255, 2.2) + 0.0722 * Math.pow(d[i + 2] / 255, 2.2);
+    for (i = 0; i < d.length; i += 4) s += 0.2126 * PW(d[i] / 255, 2.2) + 0.7152 * PW(d[i + 1] / 255, 2.2) + 0.0722 * PW(d[i + 2] / 255, 2.2);
     return s / 144;
   }
   /* Flash limit: opposing swings of 10 percent or more of full brightness (darker side under 0.8) are counted over one second; four or more (two flashes) hold strength at Soft for three seconds. */
   function glim(L, now) {
     var d = GLIM.L < 0 ? 0 : L - GLIM.L, e = GLIM.ev, dir = d > 0 ? 1 : -1; GLIM.L = L;
-    if (Math.abs(d) >= 0.1 && MN(L, L - d) < 0.8 && dir !== GLIM.dir) { e.push(now); GLIM.dir = dir; }
+    if (AB(d) >= 0.1 && MN(L, L - d) < 0.8 && dir !== GLIM.dir) { e.push(now); GLIM.dir = dir; }
     while (e.length && now - e[0] > 1000) e.shift();
     if (e.length >= 4) GLIM.until = now + 3000;
     return now < GLIM.until;
   }
-  function gsLabel() { $("gsto").textContent = document.querySelector("input[name=gst]:checked").nextElementSibling.textContent + (performance.now() < GLIM.until ? " (flash limit on)" : ""); }
-  function gvis(k) { var now = performance.now(); if (GLITCH[k]) GLAST[k] = now; return GLITCH[k] || now - (GLAST[k] || -1e9) < MO.hold; }
+  function gsLabel() { $("gsto").textContent = document.querySelector("input[name=gst]:checked").nextElementSibling.textContent + (NOW() < GLIM.until ? " (flash limit on)" : ""); }
+  function gvis(k) { var now = NOW(); if (GLITCH[k]) GLAST[k] = now; return GLITCH[k] || now - (GLAST[k] || -1e9) < MO.hold; }
   function glitchPixels(g, W, H, fn, tsec) {
-    var A = GAMT, tear = gvis("tear"), rgb = gvis("rgb"), blocks = gvis("blocks"), y, x, lk = performance.now() < GLIM.until, S = lk ? 1 : GSTR;
+    var A = GAMT, tear = gvis("tear"), rgb = gvis("rgb"), blocks = gvis("blocks"), y, x, lk = NOW() < GLIM.until, S = lk ? 1 : GSTR;
     if (!(tear || rgb || blocks)) return;
-    var pose = FL((tsec || 0) * MO.pose), ph = 2 * Math.PI * (pose % 12) / 12;
+    var pose = FL((tsec || 0) * MO.pose), ph = 2 * PI * (pose % 12) / 12;
     if (tear) {
       GTMP = GTMP || document.createElement("canvas"); GTMP.width = W; GTMP.height = H; var tg = GTMP.getContext("2d"); tg.drawImage(g.canvas, 0, 0);
       var hb = MX(4, RD(H / 90)), amp = 0.02 * W * A * S;
-      for (y = 0; y < H; y += hb) { var dx = RD(Math.sin(2 * Math.PI * (y / (H * 0.33)) + ph) * amp); if (dx) g.drawImage(GTMP, 0, y, W, hb, dx, y, W, hb); }
+      for (y = 0; y < H; y += hb) { var dx = RD(SIN(2 * PI * (y / (H * 0.33)) + ph) * amp); if (dx) g.drawImage(GTMP, 0, y, W, hb, dx, y, W, hb); }
     }
     if (rgb) {
       var id = g.getImageData(0, 0, W, H), d = id.data, off = MX(1, RD(W * 0.004 * (0.4 + A) * S)), row = new Uint8ClampedArray(W * 4), i;
@@ -2089,7 +2093,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       g.globalAlpha = 1;
     }
     var rg = g.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.85); rg.addColorStop(0, "transparent"); rg.addColorStop(1, C.bg); g.globalAlpha = 0.25 + 0.4 * A; g.fillStyle = rg; g.fillRect(0, 0, W, H); g.globalAlpha = 1;
-    if (glim(glum(g.canvas), performance.now()) !== lk) gsLabel();
+    if (glim(glum(g.canvas), NOW()) !== lk) gsLabel();
   }
   function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(deckIn("A")); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
   /* Gold chime: the golden repair as a strange consonance. Stacked fifths on the song's own strongest note, with a slightly detuned copy that beats. */
@@ -2098,7 +2102,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (GOLD.rootFor === NF && GOLD.root) return GOLD.root;
     var best = -1, bv = -1, b, f, s;
     if (BANDS && NF) for (b = 0; b < NB; b++) { if (CENTERS[b] < 130 || CENTERS[b] > 520) continue; s = 0; for (f = 0; f < NF; f += 3) s += BANDS[f * NB + b]; if (s > bv) { bv = s; best = b; } }
-    var hz = best >= 0 ? CENTERS[best] : 220; GOLD.root = 440 * Math.pow(2, RD(12 * Math.log2(hz / 440)) / 12); while (GOLD.root < 200) GOLD.root *= 2; GOLD.rootFor = NF; return GOLD.root;
+    var hz = best >= 0 ? CENTERS[best] : 220; GOLD.root = 440 * PW(2, RD(12 * Math.log2(hz / 440)) / 12); while (GOLD.root < 200) GOLD.root *= 2; GOLD.rootFor = NF; return GOLD.root;
   }
   function goldChime() {
     if (GOLD.voices >= 4) return; if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
@@ -2181,8 +2185,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function seqSnap(t, tol) {
     var q = SEQ.quant, best = null, bd = tol + 1e-9, i, d;
     if (q === "beat") return t;
-    if (q === "edge") { for (i = 0; i < SLICES.length; i++) [SLICES[i].t0, SLICES[i].t1].forEach(function (e) { d = Math.abs(e - t); if (d < bd) { bd = d; best = e; } }); }
-    else for (i = 0; i < MAGNETS.length; i++) { if (MAGNETS[i].k !== q) continue; d = Math.abs(MAGNETS[i].t - t); if (d < bd) { bd = d; best = MAGNETS[i].t; } }
+    if (q === "edge") { for (i = 0; i < SLICES.length; i++) [SLICES[i].t0, SLICES[i].t1].forEach(function (e) { d = AB(e - t); if (d < bd) { bd = d; best = e; } }); }
+    else for (i = 0; i < MAGNETS.length; i++) { if (MAGNETS[i].k !== q) continue; d = AB(MAGNETS[i].t - t); if (d < bd) { bd = d; best = MAGNETS[i].t; } }
     return best === null ? t : best;
   }
   function seqFire(j) { var st = seqStep(); return seqSnap(seqBase() + j * st + swingOff(j), st * 0.5); }
@@ -2320,7 +2324,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     }, function () { h.textContent = "MIDI was blocked."; });
   });
   /* ---------------- sing: a loop pedal. Local only: nothing is sent, and nothing is kept unless a grown-up saves it. ---------------- */
-  function plog(e) { PLOG.push({ t: RD(performance.now()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
+  function plog(e) { PLOG.push({ t: RD(NOW()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
   document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
   document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
   function singMsg(s) { $("recmsg").textContent = s; }
@@ -2347,7 +2351,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       SING.src.connect(SING.ana); SING.src.connect(SING.proc); SING.proc.connect(SING.mute); SING.mute.connect(outBus());
       SING.proc.onaudioprocess = function (e) {
         var d = e.inputBuffer.getChannelData(0), s0 = 0, i; for (i = 0; i < d.length; i++) s0 += d[i] * d[i]; SING.lvl = Math.sqrt(s0 / d.length);
-        if (SING.state === "rec" || SING.state === "layer") { SING.chunks.push(new Float32Array(d)); SING.got = (SING.got || 0) + d.length; if (SING.state === "layer" && SING.pcm && SING.got / AC.sampleRate >= SING.pcm.length / (SING.sr || AC.sampleRate)) { SING.got = -1e12; setTimeout(singFinishLayer, 0); } }
+        if (SING.state === "rec" || SING.state === "layer") { SING.chunks.push(F32(d)); SING.got = (SING.got || 0) + d.length; if (SING.state === "layer" && SING.pcm && SING.got / AC.sampleRate >= SING.pcm.length / (SING.sr || AC.sampleRate)) { SING.got = -1e12; setTimeout(singFinishLayer, 0); } }
       };
       SING.dotT = setInterval(function () { if (!rm) $("recdot").style.transform = "scale(" + (1 + MN(1, SING.lvl * 5) * 0.5) + ")"; }, 60);
     }, function (err) { singMsg("The microphone is blocked. Allow it in the browser, then choose Sing again."); throw err; });
@@ -2357,8 +2361,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     try { SING.proc.disconnect(); SING.src.disconnect(); SING.mute.disconnect(); } catch (e) { /* already gone */ }
     clearInterval(SING.dotT); clearInterval(SING.ci); SING.stream = null; SING.ana = null; SING.lvl = 0;
   }
-  function singTake() { var n = 0, o = 0, out; SING.chunks.forEach(function (c) { n += c.length; }); out = new Float32Array(n); SING.chunks.forEach(function (c) { out.set(c, o); o += c.length; }); SING.chunks = []; SING.got = 0; return out; }
-  function resample(x, from, to) { if (from === to) return x; var n = MX(1, RD(x.length * to / from)), o = new Float32Array(n), i, f, k; for (i = 0; i < n; i++) { f = i * from / to; k = FL(f); o[i] = k + 1 < x.length ? x[k] + (x[k + 1] - x[k]) * (f - k) : x[MN(k, x.length - 1)]; } return o; }
+  function singTake() { var n = 0, o = 0, out; SING.chunks.forEach(function (c) { n += c.length; }); out = F32(n); SING.chunks.forEach(function (c) { out.set(c, o); o += c.length; }); SING.chunks = []; SING.got = 0; return out; }
+  function resample(x, from, to) { if (from === to) return x; var n = MX(1, RD(x.length * to / from)), o = F32(n), i, f, k; for (i = 0; i < n; i++) { f = i * from / to; k = FL(f); o[i] = k + 1 < x.length ? x[k] + (x[k + 1] - x[k]) * (f - k) : x[MN(k, x.length - 1)]; } return o; }
   function singLat() { return (AC.baseLatency || 0) + (AC.outputLatency || 0) + 0.02; }
   function singLoad(pcm, name) {
     var sr = SING.sr || AC.sampleRate, buf = AC.createBuffer(1, pcm.length, sr); buf.copyToChannel(pcm, 0);
@@ -2369,12 +2373,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var sr = AC.sampleRate, pcm = singTake(), lat = RD(singLat() * sr);
     pcm = pcm.subarray(MN(lat, MX(0, pcm.length - 1)));
     if (pcm.length < sr * 0.5) { singMsg("That was very short. Try again."); SING.state = "armed"; singUI(); return; }
-    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = MX(1, RD(pcm.length / bar)), n = RD(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, MN(n, pcm.length))); pcm = o; }
-    SING.hist = []; SING.sr = AC.sampleRate; SING.name = "My loop"; singLoad(new Float32Array(pcm), "My loop");
+    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = MX(1, RD(pcm.length / bar)), n = RD(bars * bar), o = F32(n); o.set(pcm.subarray(0, MN(n, pcm.length))); pcm = o; }
+    SING.hist = []; SING.sr = AC.sampleRate; SING.name = "My loop"; singLoad(F32(pcm), "My loop");
   }
   function singFinishLayer() {
     if (SING.state !== "layer") return;
-    var rate = SING.sr || AC.sampleRate, take = singTake(), N = SING.pcm.length, lat = RD(singLat() * rate), p0 = RD(SING.phase0 * rate), out = new Float32Array(SING.pcm), i, idx, v;
+    var rate = SING.sr || AC.sampleRate, take = singTake(), N = SING.pcm.length, lat = RD(singLat() * rate), p0 = RD(SING.phase0 * rate), out = F32(SING.pcm), i, idx, v;
     if (AC.sampleRate !== rate) take = resample(take, AC.sampleRate, rate);
     SING.hist.push(SING.pcm); if (SING.hist.length > (N > rate * 60 ? 2 : 8)) SING.hist.shift();
     for (i = 0; i < MN(take.length, N); i++) { idx = (p0 + i - lat) % N; if (idx < 0) idx += N; v = out[idx] + take[i]; out[idx] = v > 1 ? 1 : v < -1 ? -1 : v; }
@@ -2410,7 +2414,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("undo").addEventListener("click", function () { if (SING.hist.length) singLoad(SING.hist.pop(), SING.name || "My loop"); });
   $("ovr").addEventListener("click", function () {
     if (SING.state !== "armed" || !PCM.length) return;
-    SING.hist = []; SING.sr = SR; SING.name = "Song and voice"; plog("sing-over-song"); singLoad(new Float32Array(PCM), "Song and voice"); singMsg("The song loops. Put headphones on, tap Add a layer, then sing. Undo takes the last layer back.");
+    SING.hist = []; SING.sr = SR; SING.name = "Song and voice"; plog("sing-over-song"); singLoad(F32(PCM), "Song and voice"); singMsg("The song loops. Put headphones on, tap Add a layer, then sing. Undo takes the last layer back.");
   });
   $("clr").addEventListener("click", function () { if (playing) stopPlay(""); LOOPPLAY = false; SING.pcm = null; SING.sr = 0; SING.name = null; SING.hist = []; SING.chunks = []; SING.got = 0; SING.state = "armed"; loadDemo(); singUI(); singMirrorOn(true); singMsg("Fresh start. Tap Record."); });
   $("clk").addEventListener("click", function () { SING.click = !SING.click; AP($("clk"), SING.click); });
@@ -2418,7 +2422,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("plogb").addEventListener("click", function () { var s = JSON.stringify(PLOG); try { navigator.clipboard.writeText(s).then(function () { $("learnhint").textContent = "Play log copied (" + PLOG.length + " events, times and names only)."; }, function () { $("learnhint").textContent = "Could not copy. Nothing was sent anywhere."; }); } catch (e) { $("learnhint").textContent = "Could not copy. Nothing was sent anywhere."; } });
   /* ---------------- notes: the number row 1 to = as a pentatonic strip (C D E G A, twice, then C D), at most four voices ---------------- */
   var NDEG = [0, 2, 4, 7, 9], NNAME = ["C", "D", "E", "G", "A"], NLAB = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="];
-  function noteFreq(i) { return 261.6256 * Math.pow(2, (FL(i / 5) * 12 + NDEG[i % 5]) / 12); }
+  function noteFreq(i) { return 261.6256 * PW(2, (FL(i / 5) * 12 + NDEG[i % 5]) / 12); }
   function noteName(i) { return NNAME[i % 5] + (4 + FL(i / 5)); }
   (function buildNotes() {
     var h = "", i; for (i = 0; i < 12; i++) h += '<button class="nk d' + (i % 5) + '" type="button" data-i="' + i + '" aria-pressed="false" aria-label="Note ' + noteName(i) + ', key ' + NLAB[i] + '"><b>' + noteName(i) + "</b><span>" + NLAB[i] + "</span></button>";
@@ -2485,7 +2489,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function stepRes(d) { var v = MX(1, MN(9, +$("res").value + d)); $("res").value = v; $("res").dispatchEvent(new Event("input", { bubbles: true })); }
   function zoomStage(d) { var r = MX(1, MN(5, ZS[MODE] + d)); if (r !== ZS[MODE]) setStage(MODE, r); }
   function cyclePalette(dir) { var sel = $("palsel"), n = sel.options.length, i = (sel.selectedIndex + dir + n) % n; sel.selectedIndex = i; LOOK.pal = sel.value; frame(playing); $("slhint").textContent = "Palette: " + sel.options[i].textContent + "."; }
-  function stepBits(dir) { var v = MX(1, MN(8, +$("pal").value + dir)); $("pal").value = v; BITS = v; $("palo").textContent = v === 8 ? "8 bit, off" : v + " bit, " + Math.pow(2, v) + " levels"; frame(playing); }
+  function stepBits(dir) { var v = MX(1, MN(8, +$("pal").value + dir)); $("pal").value = v; BITS = v; $("palo").textContent = v === 8 ? "8 bit, off" : v + " bit, " + PW(2, v) + " levels"; frame(playing); }
   function stageKey(e) {
     if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && e.target.type !== "radio" && e.target.type !== "checkbox") return false;
     if (e.code) $("lastkey").textContent = "Last key: " + e.code + " (" + e.key + ")";
@@ -2622,8 +2626,29 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     r.style.setProperty("--dock-h", DOCKHID ? "48px" : $("dock").offsetHeight + "px");
   }
   $("dkhide").addEventListener("click", function () { setDock(true); saveSettings(); });
-  $("dkbump").addEventListener("click", function () { setDock(false); saveSettings(); });
-  (function () { var y0 = null; function dn(e) { if (e.target.closest("button, input, select, a, summary")) return; y0 = e.clientY; } function up(e) { if (y0 !== null && e.clientY - y0 > 56) { setDock(true); saveSettings(); } y0 = null; } $("dock").addEventListener("pointerdown", dn); $("dock").addEventListener("pointerup", up); var b0 = null; $("dkbump").addEventListener("pointerdown", function (e) { b0 = e.clientY; try { e.target.setPointerCapture(e.pointerId); } catch (x) { /* no capture */ } }); $("dkbump").addEventListener("pointerup", function (e) { if (b0 !== null && b0 - e.clientY > 40) { setDock(false); saveSettings(); } b0 = null; }); })();
+  (function () {
+    var bp = $("dkbump"), KEY = "phosphor.bump.v1", pos = null, d = null, sup = false;
+    try { pos = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { /* storage blocked */ }
+    function place() {
+      if (!pos) return; var t = pos.t;
+      bp.style.left = (t === "l" ? 0 : t === "r" ? 100 : pos.x * 100) + "%"; bp.style.top = (t === "t" ? 0 : t === "b" ? 100 : pos.y * 100) + "%"; bp.style.bottom = "auto";
+      bp.style.transform = "translate(" + (t === "r" ? -100 : t === "l" ? 0 : -50) + "%, " + (t === "b" ? -100 : t === "t" ? 0 : -50) + "%)";
+      if (t) bp.setAttribute("data-tuck", t); else bp.removeAttribute("data-tuck");
+    }
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(pos)); } catch (e) { /* storage blocked */ } }
+    place();
+    bp.addEventListener("pointerdown", function (e) { d = { x: e.clientX, y: e.clientY, mv: false }; try { bp.setPointerCapture(e.pointerId); } catch (x) { /* no capture */ } });
+    bp.addEventListener("pointermove", function (e) {
+      if (!d || (!d.mv && Math.hypot(e.clientX - d.x, e.clientY - d.y) < 8)) return; d.mv = true;
+      pos = { x: MN(0.95, MX(0.05, e.clientX / innerWidth)), y: MN(0.95, MX(0.05, e.clientY / innerHeight)), t: "" }; place();
+    });
+    bp.addEventListener("pointerup", function () {
+      if (d && d.mv) { sup = true; setTimeout(function () { sup = false; }, 0); pos.t = pos.x < 0.07 ? "l" : pos.x > 0.93 ? "r" : pos.y < 0.07 ? "t" : pos.y > 0.93 ? "b" : ""; place(); save(); }
+      d = null;
+    });
+    bp.addEventListener("click", function () { if (sup) return; if (pos && pos.t) { pos.t = ""; place(); save(); } else { setDock(false); saveSettings(); } });
+  })();
+  (function () { var y0 = null; function dn(e) { if (e.target.closest("button, input, select, a, summary")) return; y0 = e.clientY; } function up(e) { if (y0 !== null && e.clientY - y0 > 56) { setDock(true); saveSettings(); } y0 = null; } $("dock").addEventListener("pointerdown", dn); $("dock").addEventListener("pointerup", up); })();
   var ESCT = 0;
   function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
   document.addEventListener("keyup", function (e) { if (e.key === "Escape") { clearTimeout(ESCT); ESCT = 0; } });
@@ -2643,7 +2668,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("frame").addEventListener("pointerdown", wakeHud);
   document.addEventListener("fullscreenchange", function () { if (FS && NATIVE && !document.fullscreenElement) { if (LOCK) { NATIVE = false; } else setFS(false); } });
   $("cv").addEventListener("dblclick", function () { if (!LOCK) setFS(!FS); });
-  $("pal").addEventListener("input", function () { BITS = +$("pal").value; $("palo").textContent = BITS === 8 ? "8 bit, off" : BITS + " bit, " + Math.pow(2, BITS) + " levels"; frame(false); });
+  $("pal").addEventListener("input", function () { BITS = +$("pal").value; $("palo").textContent = BITS === 8 ? "8 bit, off" : BITS + " bit, " + PW(2, BITS) + " levels"; frame(false); });
   EA(QA("input[name=pm]"), function (r) { r.addEventListener("change", function () { WOOD = r.value === "wood"; frame(false); }); });
   $("crt").addEventListener("change", function () { CRT = $("crt").checked; frame(false); });
   EA(QA("input[name=cu]"), function (r) { r.addEventListener("change", function () { LOOK.curve = r.value; $("cuo").textContent = r.value === "lin" ? "linear" : r.value; frame(playing); }); });
@@ -2651,7 +2676,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("palsel").addEventListener("change", function () { LOOK.pal = $("palsel").value; frame(playing); });
   $("calm").addEventListener("change", function () { CALM = $("calm").checked; frame(playing); });
   var lastInv = -1e9;
-  function setInvert(v) { var now = performance.now(); if (now - lastInv < 340) { $("inv").checked = LOOK.invert; return; } lastInv = now; LOOK.invert = v; $("inv").checked = v; frame(playing); }
+  function setInvert(v) { var now = NOW(); if (now - lastInv < 340) { $("inv").checked = LOOK.invert; return; } lastInv = now; LOOK.invert = v; $("inv").checked = v; frame(playing); }
   $("inv").addEventListener("change", function () { setInvert($("inv").checked); });
   $("perf").addEventListener("change", function () { setPerform($("perf").checked); });
   EA(QA("input[name=gst]"), function (r) { r.addEventListener("change", function () { GSTR = +r.value; gsLabel(); frame(playing); }); });
