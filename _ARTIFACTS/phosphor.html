@@ -114,7 +114,6 @@ h1 em { font-style: normal; color: var(--cyan); }
 .inst { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
 .deck { position: sticky; top: 0; z-index: 10; background: var(--bg); padding-block: 8px 4px; display: flex; flex-direction: column; gap: 8px; }
 .deck .tp, .deck .prog { margin-top: 0; }
-/* The screen is a borderless 32:9 strip the full width of the controls. */
 .frame canvas { object-fit: contain; }
 .deck > * { width: min(100%, 1120px); margin-inline: auto; }
 .tag { display: none; }
@@ -348,6 +347,11 @@ body { padding-bottom: calc(var(--dock-h, 150px) + 24px); }
 html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-lock] #kfs { display: none; }
 #dock .dkscrub { position: relative; } #dock .dkscrub input[type=range] { width: 100%; min-height: 44px; margin: 0; accent-color: var(--orange); }
 #dock .pinbar { position: absolute; left: 0; right: 0; top: 0; height: 14px; margin: 0; pointer-events: none; } #dock .pinmark { pointer-events: auto; }
+#dock { transition: transform .2s ease, visibility 0s; }
+html[data-dock="hidden"] #dock { transform: translate(-50%, calc(100% + 40px)); visibility: hidden; transition: transform .2s ease, visibility 0s .2s; }
+#dkbump { position: fixed; left: 50%; bottom: max(10px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20; min-width: 120px; min-height: 48px; display: none; align-items: center; justify-content: center; touch-action: none; }
+html[data-dock="hidden"] #dkbump { display: flex; }
+@media (prefers-reduced-motion: reduce) { #dock, html[data-dock="hidden"] #dock { transition: none; } }
 #dock .dkrow { display: flex; gap: 8px; align-items: center; min-height: 0; } #dock .dkrow .hint:empty { display: none; }
 @media (max-width: 560px) { #dock .dkmain { grid-template-columns: auto minmax(0, 1fr); } #dock .dkup { grid-column: 1 / -1; } .lcdtime { font-size: var(--fs-label); } }
 @media (pointer: coarse) {
@@ -733,8 +737,9 @@ html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-l
     <button class="btn dkup" type="button" id="kpick">Add song</button>
   </div>
   <div class="dkscrub"><input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub playback"><div class="pinbar" id="pinbar" aria-hidden="true"></div></div>
-  <div class="dkrow"><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
+  <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" aria-label="Hide the player">Hide</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
 </div>
+<button class="btn" type="button" id="dkbump" aria-label="Show the player">Player</button>
 <script>
 (function () {
   "use strict";
@@ -994,7 +999,7 @@ html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-l
     if (r.vector) { scene(dctx, DW, DH, t); USED = r.lab; }
     else {
       var g, w = r.w, h = r.h, kk = Math.max(1, (DW / DH) / (16 / 9));
-      if (w >= 8 && w <= 1920 && kk > 1) w = Math.round(w * kk); /* wide screen: keep the pixels square by adding columns */
+      if (w >= 8 && w <= 1920 && kk > 1) w = Math.round(w * kk);
       OC = OC || document.createElement("canvas");
       try { OC.width = w; OC.height = h; g = OC.getContext("2d"); } catch (e) { g = null; }
       if (!g) { w = 1920; h = 1080; OC.width = w; OC.height = h; g = OC.getContext("2d"); USED = "1920 × 1080 (this device could not make " + r.lab + ")"; } else USED = r.lab;
@@ -1910,10 +1915,11 @@ html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-l
     frame(playing);
   }
   Array.prototype.forEach.call(document.querySelectorAll("[data-pre]"), function (b) { b.addEventListener("click", function () { applyPreset(b.getAttribute("data-pre")); }); });
+  var DOCKHID = false;
   var SAVEKEY = "phosphor.settings.v1", saveT = 0;
   function snapshot() {
     return { mode: MODE, zs: ZS.slice(), pal: $("palsel").value, curve: LOOK.curve, amt: LOOK.amt, bits: BITS, wood: WOOD, crt: CRT, calm: CALM, res: +$("res").value, chs: CHSHARP,
-      rl: { on: RL.on, bars: RL.bars, dir: RL.dir }, seq: { quant: SEQ.quant, gate: SEQ.gate, bars: SEQ.bars, cells: SEQ.cells }, click: SING.click, bpm: SING.bpm, lvl: LVL, go: GLITCHOFF ? 1 : 0, swing: Math.round(SWING * 100), tz: Math.round(QZ * 100) };
+      rl: { on: RL.on, bars: RL.bars, dir: RL.dir }, seq: { quant: SEQ.quant, gate: SEQ.gate, bars: SEQ.bars, cells: SEQ.cells }, click: SING.click, bpm: SING.bpm, lvl: LVL, go: GLITCHOFF ? 1 : 0, dk: DOCKHID ? 1 : 0, swing: Math.round(SWING * 100), tz: Math.round(QZ * 100) };
   }
   function saveSettings() { try { localStorage.setItem(SAVEKEY, JSON.stringify(snapshot())); } catch (e) { STORE.ok = false; storeChip(); } }
   function storeProbe() { try { var k = "phosphor.probe"; localStorage.setItem(k, "1"); STORE.ok = localStorage.getItem(k) === "1"; localStorage.removeItem(k); } catch (e) { STORE.ok = false; } storeChip(); }
@@ -1935,6 +1941,7 @@ html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-l
       if (s.seq) { ["beat", "onset", "valley", "edge"].indexOf(s.seq.quant) >= 0 && seqQuant(s.seq.quant); setRadio("sqg", s.seq.gate); setRadio("sqb", s.seq.bars); LANES.forEach(function (l) { var c = s.seq.cells && s.seq.cells[l[0]]; if (Array.isArray(c) && c.length === 16) for (var i = 0; i < 16; i++) SEQ.cells[l[0]][i] = Math.max(0, Math.min(l[0] === "detail" ? 9 : l[0] === "jog" ? 5 : 1, c[i] | 0)); }); seqPaint(); }
       if (s.lvl >= 1 && s.lvl <= 4 && (user || !/[?&](level=|test=1)/.test(location.search))) setLevel(s.lvl);
       if (s.go === 1 || s.go === 0) setGlitch(s.go !== 1);
+      if ((s.dk === 1 || s.dk === 0) && typeof setDock === "function") setDock(s.dk === 1);
       if (s.swing >= 50 && s.swing <= 75) setSwing(s.swing); if (s.tz >= 0 && s.tz <= 100) setTighten(s.tz);
       if (s.click) { SING.click = true; $("clk").setAttribute("aria-pressed", "true"); } if (s.bpm === 80 || s.bpm === 100 || s.bpm === 120) { SING.bpm = s.bpm; $("bpm").value = s.bpm; }
     } catch (e) { console.warn("phosphor: a saved setting was ignored", e && e.message); }
@@ -2481,7 +2488,7 @@ html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-l
   }
   function pocketText() { if (!$("dock")) return; $("dtitle").textContent = SRCNAME; $("dspec").textContent = "Mono • " + NB + " bands • " + FPS + " fps • " + (SR / 1000).toFixed(1) + " kHz"; }
   function teardownPocket() { var s = $("ledstrip"); if (s) s.remove(); }
-  (function () { pocketText(); if (window.ResizeObserver) new ResizeObserver(function () { document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px"); }).observe($("dock")); })();
+  (function () { pocketText(); if (window.ResizeObserver) new ResizeObserver(function () { if (document.documentElement.getAttribute("data-dock") !== "hidden") document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px"); }).observe($("dock")); })();
   function applySkin(name, save) {
     SKIN = name === "pocket" ? "pocket" : "arcs";
     if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
@@ -2562,7 +2569,14 @@ html[data-lock] #fsb, html[data-lock] #hexit, html[data-lock] .mdsw, html[data-l
     $("hej").hidden = !on; $("eject").setAttribute("aria-pressed", on ? "true" : "false"); $("eject").textContent = on ? "Eject: hold 3 s to unlock" : "Eject: hold 3 s";
     if (on) { setLevel(1); setFS(true); } else { setFS(false); }
   }
-  /* Holding Escape for 3 seconds enters the locked Kid full screen; Eject (held 3 seconds) leaves it. */
+  function setDock(h) {
+    DOCKHID = !!h; var r = document.documentElement; if (DOCKHID) r.setAttribute("data-dock", "hidden"); else r.removeAttribute("data-dock");
+    $("dock").inert = DOCKHID; $("dkhide").setAttribute("aria-expanded", DOCKHID ? "false" : "true");
+    r.style.setProperty("--dock-h", DOCKHID ? "48px" : $("dock").offsetHeight + "px");
+  }
+  $("dkhide").addEventListener("click", function () { setDock(true); saveSettings(); });
+  $("dkbump").addEventListener("click", function () { setDock(false); saveSettings(); });
+  (function () { var y0 = null; function dn(e) { if (e.target.closest("button, input, select, a, summary")) return; y0 = e.clientY; } function up(e) { if (y0 !== null && e.clientY - y0 > 56) { setDock(true); saveSettings(); } y0 = null; } $("dock").addEventListener("pointerdown", dn); $("dock").addEventListener("pointerup", up); var b0 = null; $("dkbump").addEventListener("pointerdown", function (e) { b0 = e.clientY; try { e.target.setPointerCapture(e.pointerId); } catch (x) { /* no capture */ } }); $("dkbump").addEventListener("pointerup", function (e) { if (b0 !== null && b0 - e.clientY > 40) { setDock(false); saveSettings(); } b0 = null; }); })();
   var ESCT = 0;
   function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
   document.addEventListener("keyup", function (e) { if (e.key === "Escape") { clearTimeout(ESCT); ESCT = 0; } });
