@@ -1,0 +1,7 @@
+{
+ "keyadd": {
+  "status": 400,
+  "error": "invalid nonce"
+ },
+ "expected_verdict": "fallback"
+}

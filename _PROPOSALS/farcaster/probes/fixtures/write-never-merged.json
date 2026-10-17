@@ -1,0 +1,11 @@
+{
+ "keyadd": {
+  "status": 200
+ },
+ "cast": {
+  "status": 200
+ },
+ "readback": false,
+ "merge_event": false,
+ "expected_verdict": "killed"
+}

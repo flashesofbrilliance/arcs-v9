@@ -1,6 +1,6 @@
 {
  "_doc": "fc-derisk-gate-falsifier-set v0.2. Committed before any resolver code. Each case has `input` (the ONLY thing a gate may read: raw claim, receipt excerpt, dates, authors, resolves) and `answer_key` (hidden from the gate): claim_true = is the claim actually true; evidence_supports = does this receipt establish it; expected_verdict follows evidence_supports AND freshness/independence, not claim_true. v0.1 hard-coded supports_claim/fresh, which made the gate's job circular; removed. Cases authored_by 'claude' are not independent; check #2 (human-added) stays open.",
- "version": "0.2.1",
+ "version": "0.3.0",
  "cases": [
   {
    "id": "T1",
@@ -248,6 +248,99 @@
     "expected_verdict": "NOT_VERIFIED",
     "note": "Unit-of-count (212 casts vs 87 fids) and weak attestation; soft self-citation via same project."
    }
+  },
+  {
+   "id": "R1",
+   "authored_by": "claude (from primary docs)",
+   "source_url": "https://github.com/farcasterxyz/snapchain/blob/main/site/docs/pages/node-types.mdx",
+   "doc_last_changed": "2026-10-09 (cd3805a15e)",
+   "retrieval_date": "2026-10-17",
+   "input": {
+    "claim": "Read nodes accept submitted messages and relay them to validators.",
+    "claim_author": "@poster",
+    "claim_date": "2026-10-17",
+    "receipt_excerpt": "A read node has no mempool of its own. It checks that the message is valid and not already merged, gossips it on the mempool topic, and keeps nothing. The message reaches a block only once a validator picks it up from gossip.",
+    "receipt_date": "2026-10-09",
+    "receipt_author": "farcasterxyz/snapchain docs",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "fresh": true,
+    "expected_verdict": "VERIFIED",
+    "note": "from poster clarification 1; primary doc supports accept+relay"
+   }
+  },
+  {
+   "id": "R2",
+   "authored_by": "claude (from primary docs)",
+   "source_url": "https://github.com/farcasterxyz/snapchain/blob/main/site/docs/pages/node-types.mdx",
+   "doc_last_changed": "2026-10-09 (cd3805a15e)",
+   "retrieval_date": "2026-10-17",
+   "input": {
+    "claim": "A message submitted to a read node is merged into a block as soon as the node accepts it.",
+    "claim_author": "@poster",
+    "claim_date": "2026-10-17",
+    "receipt_excerpt": "In both cases a successful response means the message passed validation and was accepted for relay, not that it is in a block. Watch for the MERGE_MESSAGE event.",
+    "receipt_date": "2026-10-09",
+    "receipt_author": "farcasterxyz/snapchain docs",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "fresh": true,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "same doc, opposite conclusion: accepted-for-relay is not merged"
+   }
+  },
+  {
+   "id": "R3",
+   "authored_by": "claude (from primary docs)",
+   "source_url": "https://github.com/farcasterxyz/snapchain/blob/main/site/docs/pages/guides/writing-messages.mdx",
+   "doc_last_changed": "2026-07-30 (fa4ce09cd3)",
+   "retrieval_date": "2026-10-17",
+   "input": {
+    "claim": "App keys can be added gasless, with no transaction and no gas.",
+    "claim_author": "@poster",
+    "claim_date": "2026-10-17",
+    "receipt_excerpt": "Snapchain also accepts gasless signers: the key is registered by submitting a KEY_ADD message to a node, authorized by an EIP-712 signature from the FID's custody address. There is no transaction and no gas.",
+    "receipt_date": "2026-07-30",
+    "receipt_author": "farcasterxyz/snapchain docs",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": true,
+    "evidence_supports": true,
+    "fresh": true,
+    "expected_verdict": "VERIFIED",
+    "note": "from poster clarification 2; doc is 79 days old but unchanged on main, labelled fresh by primary source; a 30-day freshness heuristic will wrongly withhold it"
+   }
+  },
+  {
+   "id": "R4",
+   "authored_by": "claude (from primary docs)",
+   "source_url": "https://github.com/farcasterxyz/snapchain/pull/1025",
+   "doc_last_changed": "PR #1025 state open at retrieval",
+   "retrieval_date": "2026-10-17",
+   "input": {
+    "claim": "Gasless KEY_ADD is covered by tests and shipped.",
+    "claim_author": "@poster",
+    "claim_date": "2026-10-17",
+    "receipt_excerpt": "test(gasless-key): cover the per-FID key cap (NEYN-10579)",
+    "receipt_date": "2026-07-30",
+    "receipt_author": "farcasterxyz/snapchain docs",
+    "receipt_resolves": true
+   },
+   "answer_key": {
+    "claim_true": false,
+    "evidence_supports": false,
+    "fresh": true,
+    "expected_verdict": "NOT_VERIFIED",
+    "note": "the cited PR is an open test PR about a key cap; it does not establish shipped status. claim_true labelled False only for 'shipped via this PR'; unlabelled: whether gasless is live on mainnet (docs say accepted, no activation statement read)"
+   }
   }
- ]
+ ],
+ "_unlabelled": "The poster's original thread text could not be fetched (farcaster.xyz returns a shell page), so R1-R4 use the cited primary docs as receipts and paraphrase the clarifications; claim wording is mine. R4 mainnet-live status and the specific Snapchain PR the poster cited were not identified."
 }

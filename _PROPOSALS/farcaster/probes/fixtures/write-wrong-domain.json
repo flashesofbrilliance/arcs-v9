@@ -1,0 +1,7 @@
+{
+ "keyadd": {
+  "status": 400,
+  "error": "EIP-712 domain mismatch"
+ },
+ "expected_verdict": "fallback"
+}

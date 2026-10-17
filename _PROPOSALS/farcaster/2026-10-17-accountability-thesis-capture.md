@@ -19,3 +19,6 @@ Verbatim ask: on-chain "known bs score" per person or agent as radical personal 
 - On-ramp domains map to per-domain scores (point 3).
 
 ## Not in the bounty entry. Candidate held rows: fc-thesis-note, fc-kairos-witness-onramps.
+
+## Mid-turn direction (Zach, 2026-10-17): tutorial microsite style
+"think vintage terminal game website style" - BBS / vintage terminal-game look for the quickstart microsite (fits CLI-first, SSH, WORLD.md Myst register). Not built; a small "microsite shell" child could be cold-molted after the probes pass. Tokens/components must come from the repo kit per AGENTS.md gotcha 13.
