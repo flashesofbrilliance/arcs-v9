@@ -21,4 +21,4 @@ Written 2026-10-17. Nothing below may be changed after gate code exists except b
 7. quickstart: no FC_BUDGET_ALERT_ID -> create refuses; with it -> prints plan; teardown --verify --dry-run prints the tag filter.
 If the set cannot separate G0 from G1 it is too easy: add cases through the hold-out process only, never by tuning to pass. Failures of a pass line are reported as failures, not repaired in place.
 ## Hold-out hash
-HOLDOUT_SHA256: PENDING
+HOLDOUT_SHA256: 6de0b429dda15d3d6a759ad7c7617b9e27a3e3e7a60385f8fb045658656b9232  (file: runtime/specs/farcaster-gate/sealed/holdout.json, agent-authored, unopened by the author as of this commit; committed before gates.py exists)
