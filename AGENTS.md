@@ -228,6 +228,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 20. **Backlog rows carry a `state` enum (2026-10-10).** Every `_QUEUE/induced-backlog.jsonl` row has `state` from `runtime/specs/backlog-status.json` (OPEN READY HOLDING HELD RUNNING BLOCKED DONE COMPOSTED SUPERSEDED) and its prose in `status_note`; never write a `status` key. A claimed row is `RUNNING` with `claimed_by` + `claimed_at`. `scripts/backlog_status_check.py --check` gates it in pre-commit and CI; add `--gh` to flag rows citing a merged or closed PR, and RUNNING claims older than 3 days print as STALE.
 
+21. **Phosphor is built from sources (2026-10-17).** Edit `_ARTIFACTS/phosphor-src/` (`page.tpl`, `style.css`, `app.js`), then run `python3 scripts/phosphor_build.py` to write `_ARTIFACTS/phosphor.html`; never hand-edit the built file (pre-commit runs `--check` and blocks a mismatch). The build only strips indentation from the script, so the kit tokens in the stylesheet stay verbatim: never trim anything inside the token sentinel block. Page cap 280,000 bytes applies to the built file.
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
