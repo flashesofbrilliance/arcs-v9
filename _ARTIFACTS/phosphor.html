@@ -32,8 +32,7 @@
   --gold-bg:   rgba(255, 215,   0, 0.07);
   --red-bg:    rgba(255,  77, 109, 0.07);
 
-  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
-     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  /* Glow dialed down 2026-07-19 (blur 8px, alpha 0.22): the old bloom read too hot. */
   --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
   --green-glow: 0 0 5px rgba(0,255,157,0.22);
   --red-glow:   0 0 5px rgba(255,77,109,0.22);
@@ -49,11 +48,7 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
-/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
-   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
-   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
-   New surfaces use these names so they pass without a per-page override layer. See
-   _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md for the drift table and the decision this defers. */
+/* DESIGN.md conformance layer (2026-10-15), additive: new surfaces use these names; legacy tokens above are untouched. Drift table: _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md. */
 :root {
   /* Colors DESIGN.md defines that the legacy tokens lack */
   --elevated:       #111827;
@@ -464,7 +459,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   <div class="chap" id="chap" aria-label="Chapters"></div>
   <div class="src">
     <div>
-            <div class="row"><button class="btn" id="pick" type="button">Choose a file</button><button class="btn" id="twinb" type="button" disabled>Save as twin</button></div>
+            <div class="row"><button class="btn" id="pick" type="button">Choose a file</button><button class="btn" id="twinb" type="button" disabled>Save as twin</button><button class="btn" id="midib" type="button" aria-pressed="false">MIDI</button></div>
+            <p class="hint" id="midih" hidden></p>
             <div id="twinform" hidden>
               <div class="ctl-label"><label for="tt">Title</label></div><input class="txt" id="tt" type="text" autocomplete="off">
               <div class="ctl-label"><label for="tc">Credit line</label></div><input class="txt" id="tc" type="text" autocomplete="off" placeholder="Made with Suno">
@@ -958,8 +954,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     }
   }
   var SPEC = null, OC = null, SS = null;
-  /* Rungs below 144 rows are drawn at four times the size and averaged down, so a coarse rung is the true
-     low-resolution picture (the 1 x 1 rung is the mean of the frame), not a line drawn too thick. */
+  /* Rungs below 144 rows are drawn 4x and averaged down, so a coarse rung is the true low-resolution picture. */
   function drawRung(target, w, h, t) {
     if (h >= 144) { scene(target, w, h, t); return; }
     var sw = Math.max(64, w * 4), sh = Math.max(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
@@ -977,8 +972,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     }
     g.putImageData(id, 0, 0);
   }
-  /* Pinhole shutter. When one frame differs sharply from the last (a mode switch, a palette swap, a violent tweak), the picture is blended with the previous frame and
-     sharpens back over about 450 ms, so the carrier cannot be interrupted by a flash. Off by default in test mode so pixel checks stay exact; the guard turns it on. */
+  /* Pinhole shutter: a sharp frame change blends with the previous frame and sharpens back over about 450 ms. Off in test mode; the guard turns it on. */
   var SHUT = { on: !/[?&](test=1|shutter=off)/.test(location.search), acc: null, trig: -1e9, prev: null };
   function shutterApply(g, W, H) {
     if (!SHUT.on) return; var now = performance.now(), i, mx = 0;
@@ -1178,9 +1172,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (!on) { fxReleaseAll(); GKILL.forEach(function (k) { if (k === "stutter" || k === "freeze") { if (GLITCH.stut && GLITCH.stut.kind === k) glitchOff(k); } else if (GLITCH[k]) glitchOff(k); }); }
   }
   $("glitchsw").addEventListener("click", function () { setGlitch(GLITCHOFF); saveSettings(); });
-  /* ---------------- two-deck mixer: Deck A is the player, Deck B is loaded here ----------------
-     Both decks go through their own gain into the same output chain. The picture follows A, B, or the louder one by
-     swapping the analysis arrays for one draw. Sync is varispeed (pitch moves with tempo); there is no time-stretch. */
+  /* ---------------- two-deck mixer: Deck A is the player, Deck B is loaded here. Sync is varispeed, no time-stretch. ---------------- */
   var MIX = { xf: -1, curve: "smooth", lvA: 1, lvB: 1, follow: "A", gA: 1, gB: 0 };
   var DB = { buf: null, pcm: null, sr: 44100, dur: 0, nf: 0, bands: null, rms: null, flux: null, cent: null, centers: null, bpm: 0, grid0: 0, dna: null, P: 0.5, base: 0, n: 0, name: "", src: null, playing: false, off: 0, t0: 0, rate: 1, mult: 1, pausedAt: 0, lastDraw: 0, seq: 0 };
   function mixGains() {
@@ -1557,8 +1549,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   /* ---------------- slices, magnets, coherence (pure functions of the analysis) ---------------- */
   var MAGNETS = [], SLICES = [], SNAPR = 0.12, PENDING = null, BPM = 0, SELECTED = -1, ARR = null;
   var KIND_W = { chapter: 1.0, onset: 0.8, valley: 0.6, grid: 0.5, edge: 0.5 };
-  /* Tempo and beat grid. Hit times refined to sub-frame, corrected for the analysis window, then the tempo from the autocorrelation of the weighted hit train (1 ms resolution),
-     refined with a weighted least squares fit of period and phase on the hits that land near the grid; the downbeat is the beat position whose hits carry the most low-band energy. */
+  /* Tempo and beat grid: sub-frame hits, autocorrelation, weighted least squares on period and phase; the downbeat carries the most low-band energy. */
   var BPMINFO = null;
   function detectTempo(on) {
     var n = on.length, i, j, k; if (n < 12 || !DUR) return null;
@@ -1990,7 +1981,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   Array.prototype.forEach.call(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -2044,9 +2035,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var L = Math.max(s.L, MO.loop), d = t - s.t0; return s.t0 + (((d % L) + L) % L); }
   function glitchActive() { return !!(GLITCH.stut || GLITCH.tear || GLITCH.rgb || GLITCH.blocks); }
-  /* Glitch as a stop-motion zoetrope (Zach, 2026-10-16). Poses advance on a constant-speed drive (8 a second, 12 to a turn), never random per frame:
-     Tear is a travelling wave of small row offsets, Blocks is a thin strip of four-colour genetic-code cells stepping along it, Split is a small steady chroma offset,
-     and a pinhole vignette narrows the view. Every displacement is small and bounded, so nothing can strobe. */
+  /* Glitch as a stop-motion zoetrope (Zach, 2026-10-16): constant-speed poses (8 a second), never random per frame. Every displacement is small and bounded, so nothing can strobe. */
   var GLAST = {}, CODONS = null;
   function gvis(k) { var now = performance.now(); if (GLITCH[k]) GLAST[k] = now; return GLITCH[k] || now - (GLAST[k] || -1e9) < MO.hold; }
   function glitchPixels(g, W, H, fn, tsec) {
@@ -2117,9 +2106,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     gmLabel(); frame(playing);
   }
   function gmLabel() { Array.prototype.forEach.call(document.querySelectorAll("#gpads [data-g]"), function (b) { var k = b.getAttribute("data-g"); if (k !== "gold") b.setAttribute("aria-pressed", (STKINDS.indexOf(k) >= 0 ? (GLITCH.stut && GLITCH.stut.kind === k) : GLITCH[k]) ? "true" : "false"); }); var on = []; if (GLITCH.stut) on.push(GLITCH.stut.kind); ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep", "gate"].forEach(function (k) { if (GLITCH[k]) on.push(k); }); $("gmo").textContent = on.length ? on.join(" + ") : (PERFORM ? "perform: on" : "off"); }
-  /* Holders: every effect is on while ANY source holds it (a pad, a key, a latch, the sequencer, wobble), so
-     toggles stack like a polysynth: latch Echo, hold Sweep on top, let go of Sweep, Echo keeps going.
-     Stutter and Freeze share one loop, so the newest of them wins and the older one returns when it ends. */
+  /* Holders: an effect is on while ANY source holds it, so toggles stack. Stutter and Freeze share one loop; the newest wins. */
   var HOLD = {}, HSEQ = 0, STKINDS = ["stutter", "freeze"], HKINDS = ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep", "gate"];
   function fxWant(kind) { var h = HOLD[kind]; return !!h && Object.keys(h).length > 0; }
   function fxReconcile(kind) {
@@ -2272,6 +2259,26 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     PK.down[e.code] = true; pkDown(e.code);
   }, true);
   document.addEventListener("keyup", function (e) { if (!PK.down[e.code]) return; delete PK.down[e.code]; pkUp(e.code); }, true);
+  /* MIDI in (opt-in): notes press keys; touch a slider, then turn a knob to link. */
+  var MIDI = { map: {}, last: "" }, MIDIKEY = "phosphor.midi.v1";
+  try { MIDI.map = JSON.parse(localStorage.getItem(MIDIKEY) || "{}") || {}; } catch (e) { /* storage blocked */ }
+  function midiIn(st, d1, d2) {
+    var c = st & 240, el, id, ks = NOTES.on ? NOTEKEYS : ROW1.concat(ROW2, ROW3);
+    if (c === 144 || c === 128) document.dispatchEvent(new KeyboardEvent(c === 144 && d2 > 0 ? "keydown" : "keyup", { code: ks[d1 % ks.length], bubbles: true }));
+    else if (c === 176) {
+      if (MIDI.last) { MIDI.map[d1] = MIDI.last; MIDI.last = ""; try { localStorage.setItem(MIDIKEY, JSON.stringify(MIDI.map)); } catch (e) { /* storage blocked */ } }
+      id = MIDI.map[d1]; el = id && $(id); if (!el) return;
+      el.value = +el.min + d2 / 127 * (el.max - el.min); el.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+  document.addEventListener("pointerdown", function (e) { if (e.target && e.target.type === "range" && e.target.id) MIDI.last = e.target.id; }, true);
+  $("midib").addEventListener("click", function () {
+    var h = $("midih"); h.hidden = false; if (!navigator.requestMIDIAccess) { h.textContent = "MIDI needs Chrome or Edge."; return; }
+    navigator.requestMIDIAccess().then(function (a) {
+      function hook() { a.inputs.forEach(function (p) { p.onmidimessage = function (m) { midiIn(m.data[0], m.data[1], m.data[2]); }; }); h.textContent = a.inputs.size + " MIDI input(s). Touch a slider, then turn a knob to link them."; }
+      a.onstatechange = hook; hook(); $("midib").setAttribute("aria-pressed", "true");
+    }, function () { h.textContent = "MIDI was blocked."; });
+  });
   /* ---------------- sing: a loop pedal. Local only: nothing is sent, and nothing is kept unless a grown-up saves it. ---------------- */
   function plog(e) { PLOG.push({ t: Math.round(performance.now()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
   document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
