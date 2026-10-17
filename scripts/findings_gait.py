@@ -10,7 +10,8 @@ Events (one JSON line each, never edited): open | fate | close.
 State is folded from events. Stdlib only. Reuses scripts/pulse.py for the beat.
 
   findings_gait.py open --source S --text T       record a finding
-  findings_gait.py ingest FILE.jsonl              open findings from the LAST row of a drift receipt (idempotent)
+  findings_gait.py ingest --source lattice|seedbank|pulse [FILE]   open findings from the LAST row of that detector's receipt (idempotent; schema runtime/specs/finding-row.json)
+  findings_gait.py check                          validate the finding-row spec and every adapter
   findings_gait.py fate ID --owner O --due BEAT   or  --compost SUPERSESSOR
   findings_gait.py close ID --note N
   findings_gait.py plan --days N                  set the race: clear the open findings by beat (now+N); marks 25/50/75/100% aid stations
@@ -119,7 +120,72 @@ def cmd_open(source, text):
     return i
 
 
-def cmd_ingest(path):
+SPEC = os.path.join(ROOT, "runtime", "specs", "finding-row.json")
+INBOX = {"lattice": "lattice-drift", "seedbank": "seedbank-drift", "pulse": "pulse"}
+
+
+def _row(source, claim, detail, severity, beat):
+    text = f"[{claim}] {detail}"
+    return {"source": source, "claim": claim, "detail": detail, "severity": severity,
+            "observed_beat": beat, "fingerprint": _fp(source, text)}
+
+
+def _drift_rows(source, last, beat):
+    return [_row(source, f.get("claim", "?"), f.get("detail") or f"lattice {f.get('lattice')} vs repo {f.get('repo')}", "warn", beat)
+            for f in last.get("findings", []) if f.get("drift", True)]
+
+
+def _pulse_rows(source, last, beat):
+    beat = last.get("global_beat", beat)
+    out = []
+    for kind, sev in (("flatlines", "alarm"), ("stale", "warn")):
+        for x in last.get(kind, []):
+            out.append(_row(source, kind.rstrip("s") if kind == "flatlines" else kind,
+                            f"{x.get('subsystem')} {x.get('beats_since')}/{x.get('max_beats')} beats", sev, beat))
+    return out
+
+
+ADAPTERS = {"lattice": _drift_rows, "seedbank": _drift_rows, "pulse": _pulse_rows}
+
+
+def validate_row(r, spec=None):
+    """Return a list of problems with a finding row (empty when it conforms)."""
+    spec = spec or json.load(open(SPEC))
+    bad = [f"missing {k}" for k in spec["required"] if k not in r]
+    for k, d in spec["fields"].items():
+        if k in r:
+            if d["type"] == "integer" and not isinstance(r[k], int):
+                bad.append(f"{k} not integer")
+            if d["type"] == "string" and not isinstance(r[k], str):
+                bad.append(f"{k} not string")
+            if "enum" in d and r[k] not in d["enum"]:
+                bad.append(f"{k} not in enum")
+    return bad
+
+
+def cmd_check():
+    spec = json.load(open(SPEC))
+    ok = set(spec["required"]) == set(spec["fields"]) and spec["fields"]["severity"]["enum"] == ["info", "warn", "alarm"]
+    for src, fn in ADAPTERS.items():
+        for r in fn(src, _SAMPLES[src], 0):
+            ok = ok and not validate_row(r, spec)
+    print("finding-row check:", "OK" if ok else "FAILED")
+    return 0 if ok else 1
+
+
+_SAMPLES = {
+    "lattice": {"findings": [{"claim": "ADR count", "lattice": 78, "repo": 80, "drift": True}, {"claim": "x", "drift": False}]},
+    "seedbank": {"findings": [{"claim": "orphan-seed", "drift": True, "detail": "s has no ledger receipt"}]},
+    "pulse": {"global_beat": 5, "flatlines": [{"subsystem": "commits", "beats_since": 6, "max_beats": 1}],
+              "stale": [{"subsystem": "x", "beats_since": 1, "max_beats": 1}]},
+}
+
+
+def cmd_ingest(path=None, source=None):
+    source = source or "seedbank"  # legacy: bare FILE meant a seedbank-shaped receipt
+    if source not in ADAPTERS:
+        sys.exit(f"unknown source {source}; use one of {sorted(ADAPTERS)}")
+    path = path or os.path.join(ROOT, "_INBOX", INBOX[source] + ".jsonl")
     last = None
     for line in open(path):
         if line.strip():
@@ -127,14 +193,18 @@ def cmd_ingest(path):
     if not last:
         print("no rows")
         return 0
+    spec = json.load(open(SPEC))
     n = 0
-    src = last.get("check", os.path.basename(path))
-    for f in last.get("findings", []):
-        if f.get("drift", True):
-            before = len(fold())
-            cmd_open(src, f"[{f.get('claim','?')}] {f.get('detail','')}")
-            n += len(fold()) - before
-    print(f"ingested {n} new from {src} row dated {last.get('ts','?')}")
+    for r in ADAPTERS[source](source, last, _beat()):
+        bad = validate_row(r, spec)
+        if bad:
+            sys.exit(f"adapter produced a bad row: {bad}")
+        if r["fingerprint"] in fold():
+            continue
+        _append({"type": "open", "id": r["fingerprint"], "source": source, "text": f"[{r['claim']}] {r['detail']}",
+                 "severity": r["severity"], "beat": r["observed_beat"], "ts": _now()})
+        n += 1
+    print(f"ingested {n} new from {source} row dated {last.get('ts','?')}")
     return n
 
 
@@ -223,6 +293,14 @@ def self_test():
     rp = os.path.join(d, "r.jsonl")
     open(rp, "w").write(json.dumps({"check": "x", "ts": "t", "findings": [{"claim": "c", "drift": True, "detail": "d1"}, {"claim": "c", "drift": False, "detail": "skip"}]}) + "\n")
     check("ingest takes drift rows only", cmd_ingest(rp) == 1 and cmd_ingest(rp) == 0)
+    for src, want in (("lattice", 1), ("seedbank", 1), ("pulse", 2)):
+        fp = os.path.join(d, src + ".jsonl")
+        open(fp, "w").write(json.dumps(_SAMPLES[src]) + "\n")
+        check(f"adapter {src} ingests {want} and is idempotent", cmd_ingest(fp, src) == want and cmd_ingest(fp, src) == 0)
+    rows = [r for src in ADAPTERS for r in ADAPTERS[src](src, _SAMPLES[src], 0)]
+    check("every adapter row conforms to finding-row.json", not any(validate_row(r) for r in rows))
+    check("validator rejects a bad row", bool(validate_row({"source": "x", "severity": "loud"})))
+    check("spec check passes", cmd_check() == 0)
     cmd_plan(14)
     pc = status()["pace"]
     check("plan sets pace and next aid station", pc is not None and pc["next_station"]["pct"] == 25 and pc["wall_risk"] is False)
@@ -242,7 +320,8 @@ def main():
     ap.add_argument("--self-test", action="store_true")
     sub = ap.add_subparsers(dest="cmd")
     o = sub.add_parser("open"); o.add_argument("--source", required=True); o.add_argument("--text", required=True)
-    g = sub.add_parser("ingest"); g.add_argument("file")
+    g = sub.add_parser("ingest"); g.add_argument("file", nargs="?"); g.add_argument("--source")
+    sub.add_parser("check")
     f = sub.add_parser("fate"); f.add_argument("id"); f.add_argument("--owner"); f.add_argument("--due"); f.add_argument("--compost")
     c = sub.add_parser("close"); c.add_argument("id"); c.add_argument("--note", default="")
     pl = sub.add_parser("plan"); pl.add_argument("--days", required=True)
@@ -251,7 +330,8 @@ def main():
     if a.self_test:
         sys.exit(self_test())
     if a.cmd == "open": cmd_open(a.source, a.text)
-    elif a.cmd == "ingest": cmd_ingest(a.file)
+    elif a.cmd == "ingest": cmd_ingest(a.file, a.source)
+    elif a.cmd == "check": sys.exit(cmd_check())
     elif a.cmd == "fate": cmd_fate(a.id, a.owner, a.due, a.compost)
     elif a.cmd == "plan": cmd_plan(a.days)
     elif a.cmd == "close": cmd_close(a.id, a.note)
