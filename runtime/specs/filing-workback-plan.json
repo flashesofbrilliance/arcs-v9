@@ -54,10 +54,12 @@
       "title": "Vercel domain-to-project history per surface (arcs-v9 and arcs-care)",
       "needs": [],
       "owner": "claude",
-      "status": "ready",
+      "status": "done",
       "days": 2,
       "done_when": "Per-subdomain first-resolve date in ledger",
-      "why": "Dates the first public serving of each page"
+      "why": "Dates the first public serving of each page",
+      "done_on": "2026-10-17",
+      "evidence": "_STATE/domain-history-2026-10-17.md"
     },
     {
       "id": "offrepo",
@@ -276,10 +278,12 @@
       "title": "Sweep GitHub repos with no local clone for mechanism text and past visibility (gigi, arcs-field-scan, arcs-canon, arcs-field-os, arcs-immune-system)",
       "needs": [],
       "owner": "claude",
-      "status": "ready",
+      "status": "done",
       "days": 2,
       "done_when": "Each repo: visibility history, earliest mechanism term hit, or 'none'",
-      "why": "gigi and arcs-field-scan are public today and predate arcs-v9; nobody has read them"
+      "why": "gigi and arcs-field-scan are public today and predate arcs-v9; nobody has read them",
+      "done_on": "2026-10-17",
+      "evidence": "_STATE/disclosure-retro-sweep-uncloned-2026-10-17.md"
     },
     {
       "id": "who-saw-it",
@@ -348,10 +352,18 @@
       "claim": "The 2026-05-28 'first arcs-v9 deploy' in the global CLAUDE.md is an arcs-care conflation, not deleted arcs-v9 deployments",
       "p": 0.7,
       "test": "Vercel project deployment history incl. dashboard for deleted deployments",
-      "verdict": "OPEN",
+      "verdict": "CONFIRMED",
       "scope": "records",
       "frame": "fact",
-      "reason_logged_at": "2026-10-15"
+      "reason_logged_at": "2026-10-15",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "Vercel project and domain dates",
+          "note": "arcs-v9 project created 2026-06-02T21:07Z, so no arcs-v9 deployment can predate it; delete-and-recreate not excluded"
+        }
+      ]
     },
     {
       "id": "FB4",
@@ -363,7 +375,14 @@
       "scope": "legal-status",
       "frame": "fact",
       "reason_logged_at": "2026-10-15",
-      "path_not_taken": "Assume a filing exists and skip the USPTO search"
+      "path_not_taken": "Assume a filing exists and skip the USPTO search",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "history of the public gigi repo",
+          "note": "Text there says GIGI's filing covers the geometric database engine; a filing of some kind may exist. Prior left unchanged; verdict stays OPEN"
+        }
+      ]
     },
     {
       "id": "FB5",
@@ -382,10 +401,18 @@
       "claim": "gigi or arcs-field-scan contains text of a candidate mechanism",
       "p": 0.4,
       "test": "Clone and run scripts/disclosure_sweep.py on each",
-      "verdict": "OPEN",
+      "verdict": "CONFIRMED",
       "scope": "channels",
       "frame": "fact",
-      "reason_logged_at": "2026-10-15"
+      "reason_logged_at": "2026-10-15",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "full clones, hits read by hand",
+          "note": "arcs-field-scan (public) renders Golden Inchworm and Kintsugi at concept/interface level; gigi hits were false positives"
+        }
+      ]
     },
     {
       "id": "FB7",

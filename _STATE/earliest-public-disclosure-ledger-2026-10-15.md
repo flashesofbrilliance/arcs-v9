@@ -130,3 +130,18 @@ A machine-wide search (every git repo under the home directory, `/private/tmp` a
 | The redacted mirror was never pushed to a public repo | Consistent with the memory note, the private status of its named target `arcs-field-os`, and the full-hash search finding no public copy. Not proven for the 2026-10-04 to 2026-10-06 window: needs the GitHub audit log for `arcs-field-os` (question for Zach) |
 | The mirror preserves real commit numbers | Not what the retired design says (single commit, history withheld). Zach recalls real commit numbers with stubs; the two differ. Question for Zach |
 | `~/Downloads/arcs-v9.tar.gz` | A 37 KB archive dated 2026-04-15 of canon markdown (86 files, no git history). Not a mirror. A dated file for the conception-evidence question |
+
+## 9. Updates from 2026-10-17 (domain history and the five unread repos)
+
+Full notes: the domain-history file and the uncloned-repos sweep file, both dated 2026-10-17 in the state folder.
+
+| Point | Finding | Status |
+|---|---|---|
+| Earliest possible arcs-v9 deployment | The arcs-v9 Vercel project was created 2026-06-02T21:07Z; app.arcs.care was attached 2026-06-03T16:17Z; apex and www on 2026-06-13T16:53Z. A 2026-05-28 deployment cannot belong to arcs-v9 unless the project was deleted and recreated. FB3 CONFIRMED on that basis | VERIFIED dates; recreation not excluded |
+| The older arcs-care project | Created 2026-05-04T17:25Z; today has no custom domain, only its vercel.app name. Which custom names it served in May 2026 is UNVERIFIED | Question for Zach / DNS history |
+| A public repo already carries a candidate mechanism at concept level | arcs-field-scan (public today; first commit 2026-05-04; last push 2026-10-03; 0 stars, 0 forks) renders Golden Inchworm with its three stages and a Kintsugi section in its report interface. Names and stage labels only, no mechanism code. FB6 CONFIRMED. Public history before today is UNVERIFIED | VERIFIED content; visibility history UNVERIFIED |
+| gigi (public, created 2026-05-14) | No ARCS formula, Y-gate, echo or hypersphere text; the term hits were other meanings. Its history does contain patent-strategy text about a different invention ("GIGI's filing", an ICARUS patent claim) | VERIFIED. FB4 (no application ever filed) is now doubtful; question for Zach |
+| Earlier conception traces in private repos | arcs-field-os: Kintsugi and write-lock by 2026-04-24, echo and hypersphere terms by 2026-05-11. arcs-canon: terms by 2026-05-02. Not read in detail | VERIFIED dates; private today, so conception evidence unless they were public |
+| Sweep tool caveat | Term hits include false positives; four of six gigi hits were. Logged as kintsugi KF11 | VERIFIED |
+
+New question for Zach: what was filed for GIGI or ICARUS, when, and does any of it overlap the ARCS mechanisms?
