@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Farcaster read-node quickstart, commands 0 (provision) and 1 (snapchain-bootstrap). FAIL-CLOSED.
+# Note: the budget gate only checks that FC_BUDGET_ALERT_ID is non-empty; it does not verify the alert exists (reviewer finding 13).
 # Usage: quickstart.sh --dry-run | --create | teardown [--verify] [--dry-run]
 #   --create refuses unless FC_BUDGET_ALERT_ID is set (the id of a real billing alert); it prints the plan, then refuses while the bootstrap pin is a placeholder.
 #   Every resource is tagged fc-bounty=2026-10; teardown is a tag query, not a remembered id.
@@ -8,7 +9,7 @@ set -euo pipefail
 REGION="${AWS_REGION:-us-east-1}"
 ITYPE="m5.xlarge"; DISK_GB=2200; NAME="fc-readnode"; TAG_KEY="fc-bounty"; TAG_VAL="2026-10"
 BOOTSTRAP_REPO="https://github.com/farcasterxyz/snapchain"
-BOOTSTRAP_COMMIT="PIN_ME_TO_A_VERIFIED_COMMIT_SHA"
+BOOTSTRAP_COMMIT="fc87f2686472598143062a00e1c2b2633b2d87ab"   # snapchain main == tag v0.14.3, 2026-10-15 (read 2026-10-17 via GitHub API)
 tags() { printf 'ResourceType=%s,Tags=[{Key=%s,Value=%s},{Key=Name,Value=%s}]' "$1" "$TAG_KEY" "$TAG_VAL" "$NAME"; }
 
 estimate() {
@@ -25,7 +26,7 @@ plan() {
   echo "# --- command 0: provision (all tagged $TAG_KEY=$TAG_VAL) ---"
   echo "PLAN: aws ec2 run-instances --region $REGION --instance-type $ITYPE --image-id \$AMI_ID --key-name \$KEY_NAME --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=$DISK_GB,VolumeType=gp3,DeleteOnTermination=true}' --tag-specifications '$(tags instance)' '$(tags volume)'"
   echo "# --- command 1: snapchain-bootstrap (on the instance) ---"
-  echo "PLAN: ssh ubuntu@\$HOST 'git clone $BOOTSTRAP_REPO snapchain && cd snapchain && git checkout $BOOTSTRAP_COMMIT && ./bootstrap.sh'   # bootstrap script name UNVERIFIED"
+  echo "PLAN: ssh ubuntu@\$HOST 'curl -sSL https://raw.githubusercontent.com/farcasterxyz/snapchain/$BOOTSTRAP_COMMIT/scripts/snapchain-bootstrap.sh -o b.sh && less b.sh && bash b.sh'   # official script, pinned to a commit; READ it before running (it installs Docker and starts a node)"
   echo "# --- paired teardown (tag query) ---"
   echo "PLAN: IDS=\$($(tagq)) && aws ec2 terminate-instances --region $REGION --instance-ids \$IDS"
 }
@@ -36,8 +37,7 @@ case "$cmd" in
   --create)
     if [ -z "${FC_BUDGET_ALERT_ID:-}" ]; then echo "REFUSING: FC_BUDGET_ALERT_ID not set. Create a billing alert first and export its id." >&2; exit 3; fi
     plan
-    if [ "$BOOTSTRAP_COMMIT" = "PIN_ME_TO_A_VERIFIED_COMMIT_SHA" ]; then echo "REFUSING TO EXECUTE: bootstrap commit is still a placeholder (plan shown above)" >&2; exit 2; fi
-    echo "plan accepted (budget alert $FC_BUDGET_ALERT_ID); execution intentionally not automated in this draft" ;;
+    echo "plan accepted (budget alert $FC_BUDGET_ALERT_ID is only checked as non-empty); execution intentionally not automated in this draft: run the PLAN lines by hand after review" >&2; exit 4 ;;
   teardown)
     verify=0; dry=0
     for a in "$@"; do case "$a" in --verify) verify=1;; --dry-run) dry=1;; esac; done
@@ -47,6 +47,7 @@ case "$cmd" in
       echo "EXPECTED after teardown: both queries print nothing (empty)"
     elif [ "$verify" = 1 ]; then eval "$(tagq)"; eval "$(volq)"
     elif [ "$dry" = 1 ]; then echo "DRY-RUN: IDS=\$($(tagq)) && aws ec2 terminate-instances --region $REGION --instance-ids \$IDS"
-    else IDS=$(eval "$(tagq)"); [ -n "$IDS" ] && aws ec2 terminate-instances --region "$REGION" --instance-ids $IDS; fi ;;
+    else [ "${FC_CONFIRM_TEARDOWN:-}" = "yes" ] || { echo "REFUSING: set FC_CONFIRM_TEARDOWN=yes to terminate tagged instances" >&2; exit 5; }
+      IDS=$(eval "$(tagq)"); [ -n "$IDS" ] && aws ec2 terminate-instances --region "$REGION" --instance-ids $IDS; fi ;;
   *) echo "usage: $0 --dry-run | --create | teardown [--verify] [--dry-run]" >&2; exit 64 ;;
 esac

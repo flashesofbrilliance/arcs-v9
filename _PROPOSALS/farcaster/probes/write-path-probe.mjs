@@ -36,13 +36,15 @@ const hashHex = "0x" + Buffer.from(cast.hash).toString("hex");
 const lastCast = await submit(cast); console.log("CAST status:", lastCast.status, hashHex);
 
 // 3. read it back, and watch events for the merge
-let found = false;
+let found = false, mergeSeen = false;
 for (let i = 0; i < 12 && !found; i++) {
   await new Promise((r) => setTimeout(r, 5000));
   const g = await fetch(`${nodeUrl}/v1/castById?fid=${fid}&hash=${hashHex}`);
-  const ev = await fetch(`${nodeUrl}/v1/events?shard_index=0&from_event_id=0&pageSize=1`);
-  found = g.ok; console.log(`poll ${i}: castById=${g.status} events=${ev.status}`);
+  const ev = await fetch(`${nodeUrl}/v1/events?shard_index=1&from_event_id=0&pageSize=100`);
+  const evText = ev.ok ? await ev.text() : "";
+  mergeSeen = mergeSeen || evText.toLowerCase().includes(hashHex.slice(2).toLowerCase()) || evText.includes(Buffer.from(cast.hash).toString("base64"));
+  found = g.ok; console.log(`poll ${i}: castById=${g.status} events=${ev.status} mergeSeen=${mergeSeen}`);
 }
-const v = classifyWrite({ keyadd: lastKeyAdd, cast: lastCast, readback: found, merge_event: found });
+const v = classifyWrite({ keyadd: lastKeyAdd, cast: lastCast, readback: found, merge_event: mergeSeen });
 console.log(JSON.stringify(v));
 process.exit(EXIT[v.verdict]);

@@ -22,3 +22,8 @@ Written 2026-10-17. Nothing below may be changed after gate code exists except b
 If the set cannot separate G0 from G1 it is too easy: add cases through the hold-out process only, never by tuning to pass. Failures of a pass line are reported as failures, not repaired in place.
 ## Hold-out hash
 HOLDOUT_SHA256: 6de0b429dda15d3d6a759ad7c7617b9e27a3e3e7a60385f8fb045658656b9232  (file: runtime/specs/farcaster-gate/sealed/holdout.json, agent-authored, unopened by the author as of this commit; committed before gates.py exists)
+
+## AMENDMENT 2026-10-17 (after gate code; recorded, not retroactive)
+1. Line 1 FAILED and stays recorded as failed (dev set: G2 misses F5, L9, L10, R2; wrongly withholds T1, T2, T3, T5, R1, R3). Finding: deterministic resolve/overlap/freshness/self-citation gates cannot judge scope or outcome. Consequence adopted by Zach ("good with your approach"): v1 gate wording is "checks resolution, freshness and authorship"; the word "verified" is not used for scope-level claims. No gate or case was tuned to pass.
+2. Line 4 was implemented as "G2 verdict correct on >= 3 of 4 hold-out cases" because the hold-out has 3 positives and 1 true case, so positive-recall >= 3 of 4 was unsatisfiable by construction. Result under this reading: 4/4. The hold-out file remains tracked plaintext, so "sealed" means hash-committed only, not unread-by-anyone.
+3. Reviewer fixes applied after the claims-skeptic pass (findings 7, 8, 13, 14 and the R4/_doc metadata in 4, 10): canary positive control + exit checks + mktemp; write probe now looks for the cast hash in /v1/events before setting merge_event; bare teardown requires FC_CONFIRM_TEARDOWN=yes; FC_DENY_FIDS trimmed; bootstrap pinned to snapchain fc87f268 (== v0.14.3).

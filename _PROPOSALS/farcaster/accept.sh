@@ -18,7 +18,7 @@ _PROPOSALS/farcaster/probes/canary.sh; line "line6 canary 0 occurrences" $?
 # line 7 quickstart
 q=_PROPOSALS/farcaster/quickstart.sh
 env -u FC_BUDGET_ALERT_ID $q --create >/dev/null 2>&1; [ $? -ne 0 ]; line "line7a no budget id -> refuses" $?
-FC_BUDGET_ALERT_ID=x $q --create 2>/dev/null | grep -q "PLAN:"; line "line7b budget id -> prints plan" $?
+FC_BUDGET_ALERT_ID=x $q --create 2>/dev/null | grep -q "PLAN:"; line "line7b budget id -> prints plan (then exits 4, nothing created)" $?
 $q teardown --verify --dry-run | grep -q "FILTER: tag:fc-bounty=2026-10"; line "line7c teardown verify prints tag filter" $?
 echo "shellcheck: $(command -v shellcheck >/dev/null && shellcheck $q && echo ran-clean || echo not installed)"
 [ $fail = 0 ] && echo "ACCEPT: ALL PASS" || echo "ACCEPT: FAILURES (reported, not repaired in place)"; exit $fail

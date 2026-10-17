@@ -1,5 +1,5 @@
 {
- "_doc": "fc-derisk-gate-falsifier-set v0.2. Committed before any resolver code. Each case has `input` (the ONLY thing a gate may read: raw claim, receipt excerpt, dates, authors, resolves) and `answer_key` (hidden from the gate): claim_true = is the claim actually true; evidence_supports = does this receipt establish it; expected_verdict follows evidence_supports AND freshness/independence, not claim_true. v0.1 hard-coded supports_claim/fresh, which made the gate's job circular; removed. Cases authored_by 'claude' are not independent; check #2 (human-added) stays open.",
+ "_doc": "fc-derisk-gate-falsifier-set v0.3. Cases T/F/L were committed before any resolver code; R1-R4 were added in the same commit as gates.py (4f31eb8d), so they are not blind (reviewer finding 4). Each case has `input` (the ONLY thing a gate may read: raw claim, receipt excerpt, dates, authors, resolves) and `answer_key` (hidden from the gate): claim_true = is the claim actually true; evidence_supports = does this receipt establish it; expected_verdict follows evidence_supports AND freshness/independence, not claim_true. v0.1 hard-coded supports_claim/fresh, which made the gate's job circular; removed. Cases authored_by 'claude' are not independent; check #2 (human-added) stays open.",
  "version": "0.3.0",
  "cases": [
   {
@@ -329,8 +329,8 @@
     "claim_author": "@poster",
     "claim_date": "2026-10-17",
     "receipt_excerpt": "test(gasless-key): cover the per-FID key cap (NEYN-10579)",
-    "receipt_date": "2026-07-30",
-    "receipt_author": "farcasterxyz/snapchain docs",
+    "receipt_date": "2026-07-28",
+    "receipt_author": "farcasterxyz/snapchain PR #1025 (open)",
     "receipt_resolves": true
    },
    "answer_key": {
@@ -338,7 +338,7 @@
     "evidence_supports": false,
     "fresh": true,
     "expected_verdict": "NOT_VERIFIED",
-    "note": "the cited PR is an open test PR about a key cap; it does not establish shipped status. claim_true labelled False only for 'shipped via this PR'; unlabelled: whether gasless is live on mainnet (docs say accepted, no activation statement read)"
+    "note": "the cited PR is an open test PR about a key cap; it does not establish shipped status. claim_true labelled False only for 'shipped via this PR'; unlabelled: whether gasless is live on mainnet (docs say accepted, no activation statement read) | receipt_date set to PR open window start, previously copied from R3 (finding 10)"
    }
   }
  ],
