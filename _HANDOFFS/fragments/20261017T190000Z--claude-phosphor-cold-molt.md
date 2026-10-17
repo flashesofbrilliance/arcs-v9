@@ -28,6 +28,8 @@ Wide frame, hide bump, Eject lock, Song/Sing switch, dock, Impeccable install (p
 - Ship: `scripts/ship_docs.sh "<title>" "<body>"` (clean tracked tree; move untracked `_STATE/witness/2026-10-15.jsonl` aside), merges with `--merge`. Republish the artifact with `Artifact publish url=https://claude.ai/code/artifact/5a1e7b86-43c1-4d04-95c8-ae79282b7869 file_path=<phosphor.html>`.
 - Comment threads awaiting Zach: 2786a303 (parent-kid-access), 8688ee2f (key bindings).
 
+- Design vibe (Zach, 2026-10-17): cypherpunk plus vintage electronic. Wants many controller types; backlog row `phosphor-controller-zoo` (one control model, many skins).
+
 ## Next action
 Pick one lane per session: (A) design-system true-up with Impeccable (`/impeccable document` then `extract`), or (B) build decoupling, or (C) tempo map. Recommend A and B in separate sessions; C keeps the byte cap in view, so do B first if C is wanted.
 
