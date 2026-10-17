@@ -579,6 +579,15 @@ html[data-dock="hidden"] #dkbump { display: flex; }
             <input type="range" id="gamt" min="5" max="100" step="1" value="60">
           </div>
           <div>
+            <div class="ctl-label"><span>Picture strength</span><output id="gsto">Soft</output></div>
+            <div class="seg" role="radiogroup" aria-label="Picture strength">
+              <input type="radio" name="gst" id="gs0" value="1" checked><label for="gs0">Soft</label>
+              <input type="radio" name="gst" id="gs1" value="2"><label for="gs1">Medium</label>
+              <input type="radio" name="gst" id="gs2" value="3.5"><label for="gs2">Strong</label>
+            </div>
+            <p class="hint">A flash limit is always on: no more than two flashes a second, and it steps back to Soft if the picture starts to flash.</p>
+          </div>
+          <div>
             <div class="ctl-label"><span>Stutter size</span><output id="gmo">off</output></div>
             <div class="seg" role="radiogroup" aria-label="Stutter size">
               <input type="radio" name="ss" id="ss0" value="0.0625"><label for="ss0">1/16 beat</label>
@@ -741,6 +750,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 <script>
 (function () {
   "use strict";
+  var MX = Math.max, MN = Math.min, RD = Math.round, FL = Math.floor;
+  function QA(q) { return document.querySelectorAll(q); }
   function EA(l, f) { Array.prototype.forEach.call(l, f); }
   function AP(el, on) { el.setAttribute("aria-pressed", on ? "true" : "false"); }
   /* A pristine copy of this page's own source, taken before anything runs, so a saved twin is the page as shipped. */
@@ -768,7 +779,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   /* ---------------- analysis ---------------- */
   var SR = 44100, PCM = new Float32Array(0), DUR = 0, NF = 0, BANDS = null, RMS = null, FLUX = null, CENT = null, CENTERS = [], BUF = null, CHAPS = [], SRCNAME = "Demo signal", ANALYZING = false, GEN = 0;
   function makeFFT(n) {
-    var bits = Math.round(Math.log(n) / Math.LN2), rev = new Uint32Array(n), cs = new Float64Array(n / 2), sn = new Float64Array(n / 2), i;
+    var bits = RD(Math.log(n) / Math.LN2), rev = new Uint32Array(n), cs = new Float64Array(n / 2), sn = new Float64Array(n / 2), i;
     for (i = 0; i < n; i++) rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bits - 1));
     for (i = 0; i < n / 2; i++) { cs[i] = Math.cos(2 * Math.PI * i / n); sn[i] = -Math.sin(2 * Math.PI * i / n); }
     return function (re, im) {
@@ -781,17 +792,17 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   var fft = makeFFT(NFFT), hann = new Float64Array(NFFT);
   for (var hi = 0; hi < NFFT; hi++) hann[hi] = 0.5 - 0.5 * Math.cos(2 * Math.PI * hi / (NFFT - 1));
-  function pct(arr, p) { var s = arr.slice().sort(function (a, b) { return a - b; }); return s[Math.min(s.length - 1, Math.floor(p * (s.length - 1)))]; }
+  function pct(arr, p) { var s = arr.slice().sort(function (a, b) { return a - b; }); return s[MN(s.length - 1, FL(p * (s.length - 1)))]; }
 
   function analyze(pcm, sr, done, progress, gen) {
-    var hop = Math.round(sr / FPS), nf = Math.max(1, Math.floor((pcm.length - NFFT) / hop) + 1), bands = new Float32Array(nf * NB), rms = new Float32Array(nf);
-    var binHz = sr / NFFT, fmin = 40, fmax = Math.min(16000, sr * 0.45), edges = [], lo = [], hiB = [], cent = [], i, b;
+    var hop = RD(sr / FPS), nf = MX(1, FL((pcm.length - NFFT) / hop) + 1), bands = new Float32Array(nf * NB), rms = new Float32Array(nf);
+    var binHz = sr / NFFT, fmin = 40, fmax = MN(16000, sr * 0.45), edges = [], lo = [], hiB = [], cent = [], i, b;
     for (i = 0; i <= NB; i++) edges.push(fmin * Math.pow(fmax / fmin, i / NB));
-    for (b = 0; b < NB; b++) { var c = Math.sqrt(edges[b] * edges[b + 1]); cent.push(c); var l = Math.ceil(edges[b] / binHz), h = Math.floor(edges[b + 1] / binHz); if (h < l) { l = h = Math.round(c / binHz); } lo.push(Math.max(1, l)); hiB.push(Math.max(1, h)); }
+    for (b = 0; b < NB; b++) { var c = Math.sqrt(edges[b] * edges[b + 1]); cent.push(c); var l = Math.ceil(edges[b] / binHz), h = FL(edges[b + 1] / binHz); if (h < l) { l = h = RD(c / binHz); } lo.push(MX(1, l)); hiB.push(MX(1, h)); }
     var re = new Float64Array(NFFT), im = new Float64Array(NFFT), raw = new Float32Array(nf * NB), f = 0;
     function step() {
       if (gen !== GEN) return;
-      var end = Math.min(nf, f + 300);
+      var end = MN(nf, f + 300);
       for (; f < end; f++) {
         var s0 = f * hop, e2 = 0, k;
         for (k = 0; k < NFFT; k++) { var x = pcm[s0 + k] || 0; re[k] = x * hann[k]; im[k] = 0; }
@@ -803,20 +814,20 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       progress(f / nf);
       if (f < nf) { setTimeout(step, 0); return; }
       var sample = []; for (i = 0; i < raw.length; i += 7) sample.push(raw[i]);
-      var dhi = pct(sample, 0.995), dlo = Math.max(pct(sample, 0.05), dhi - 66), span = Math.max(1, dhi - dlo);
-      for (i = 0; i < raw.length; i++) bands[i] = Math.min(1, Math.max(0, (raw[i] - dlo) / span));
+      var dhi = pct(sample, 0.995), dlo = MX(pct(sample, 0.05), dhi - 66), span = MX(1, dhi - dlo);
+      for (i = 0; i < raw.length; i++) bands[i] = MN(1, MX(0, (raw[i] - dlo) / span));
       var rdb = []; for (i = 0; i < nf; i++) rdb.push(20 * Math.log10(rms[i] + 1e-6));
-      var rlo = pct(rdb, 0.05), rhi = pct(rdb, 0.995), rspan = Math.max(1, rhi - rlo), lev = new Float32Array(nf);
-      for (i = 0; i < nf; i++) lev[i] = Math.min(1, Math.max(0, (rdb[i] - rlo) / rspan));
+      var rlo = pct(rdb, 0.05), rhi = pct(rdb, 0.995), rspan = MX(1, rhi - rlo), lev = new Float32Array(nf);
+      for (i = 0; i < nf; i++) lev[i] = MN(1, MX(0, (rdb[i] - rlo) / rspan));
       var flux = new Float32Array(nf), centr = new Float32Array(nf);
-      for (i = 0; i < nf; i++) { var fl = 0, cw = 0, cs2 = 0; for (b = 0; b < NB; b++) { var v = bands[i * NB + b]; if (i) fl += Math.max(0, v - bands[(i - 1) * NB + b]); cw += v * b; cs2 += v; } flux[i] = fl; centr[i] = cs2 > 1e-6 ? cw / cs2 : 0; }
+      for (i = 0; i < nf; i++) { var fl = 0, cw = 0, cs2 = 0; for (b = 0; b < NB; b++) { var v = bands[i * NB + b]; if (i) fl += MX(0, v - bands[(i - 1) * NB + b]); cw += v * b; cs2 += v; } flux[i] = fl; centr[i] = cs2 > 1e-6 ? cw / cs2 : 0; }
       done({ nf: nf, bands: bands, rms: lev, flux: flux, cent: centr, centers: cent, dB: [dlo, dhi] });
     }
     step();
   }
 
   function chapterize(nf, bands, lev, centr) {
-    var W = Math.round(Math.min(8, Math.max(3, DUR / 6)) * FPS), i, b, out = [0];
+    var W = RD(MN(8, MX(3, DUR / 6)) * FPS), i, b, out = [0];
     if (nf < 3 * W) return out;
     var P = new Float64Array((nf + 1) * NB);
     for (i = 0; i < nf; i++) for (b = 0; b < NB; b++) P[(i + 1) * NB + b] = P[i * NB + b] + bands[i * NB + b];
@@ -827,11 +838,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       nov[i] = 1 - d / Math.sqrt(na * nb2 + 1e-9);
     }
     var sm = new Float32Array(nf), r = 15;
-    for (i = W; i < nf - W; i++) { var s = 0, n = 0; for (var j = Math.max(W, i - r); j <= Math.min(nf - W - 1, i + r); j++) { s += nov[j]; n++; } sm[i] = s / n; }
+    for (i = W; i < nf - W; i++) { var s = 0, n = 0; for (var j = MX(W, i - r); j <= MN(nf - W - 1, i + r); j++) { s += nov[j]; n++; } sm[i] = s / n; }
     var cands = [], mx = 0;
     for (i = W + 1; i < nf - W - 1; i++) if (sm[i] > sm[i - 1] && sm[i] >= sm[i + 1]) { cands.push([sm[i], i]); if (sm[i] > mx) mx = sm[i]; }
     cands.sort(function (a, z) { return z[0] - a[0]; });
-    var sep = Math.round(Math.max(5, Math.min(15, DUR / 6)) * FPS), pick = [];
+    var sep = RD(MX(5, MN(15, DUR / 6)) * FPS), pick = [];
     for (i = 0; i < cands.length && pick.length < 7; i++) {
       var fr = cands[i][1];
       if (cands[i][0] < 0.35 * mx) break;
@@ -843,8 +854,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     return out.concat(pick);
   }
   function chapterLabels(chaps, nf, lev, centr) {
-    var stats = chaps.map(function (s, k) { var e = k + 1 < chaps.length ? chaps[k + 1] : nf, m = 0, c = 0, n = Math.max(1, e - s); for (var i = s; i < e; i++) { m += lev[i]; c += centr[i]; } return { loud: m / n, bright: c / n }; });
-    function tier(vals, v) { var s = vals.slice().sort(function (a, b) { return a - b; }); var lo = s[Math.floor((s.length - 1) / 3)], hi = s[Math.ceil(2 * (s.length - 1) / 3)]; return v <= lo ? 0 : v >= hi ? 2 : 1; }
+    var stats = chaps.map(function (s, k) { var e = k + 1 < chaps.length ? chaps[k + 1] : nf, m = 0, c = 0, n = MX(1, e - s); for (var i = s; i < e; i++) { m += lev[i]; c += centr[i]; } return { loud: m / n, bright: c / n }; });
+    function tier(vals, v) { var s = vals.slice().sort(function (a, b) { return a - b; }); var lo = s[FL((s.length - 1) / 3)], hi = s[Math.ceil(2 * (s.length - 1) / 3)]; return v <= lo ? 0 : v >= hi ? 2 : 1; }
     var L = stats.map(function (x) { return x.loud; }), B = stats.map(function (x) { return x.bright; });
     return stats.map(function (x) { var a = ["quiet", "mid-level", "loud"][tier(L, x.loud)], d = ["dark", "balanced", "bright"][tier(B, x.bright)]; return a + ", " + d; });
   }
@@ -859,7 +870,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       else if (sec === 1) { var ar = [220, 277.2, 329.6, 440, 554.4, 659.3, 880, 659.3], nt = (lt * 8) | 0, ph = (lt * 8) % 1; v = 0.34 * Math.sin(2 * Math.PI * ar[nt % 8] * t) * Math.exp(-ph * 4) + 0.08 * Math.sin(2 * Math.PI * ar[nt % 8] * 2 * t) * Math.exp(-ph * 6); }
       else if (sec === 2) { var kp = (lt * 2) % 1, kf = 50 + 70 * Math.exp(-kp * 14); v = 0.55 * Math.sin(2 * Math.PI * kf * kp) * Math.exp(-kp * 5) + ((((lt * 4) % 1) < 0.08) ? rnd() * 0.5 : 0) + 0.1 * Math.sin(2 * Math.PI * 330 * t) + 0.08 * Math.sin(2 * Math.PI * 415 * t); }
       else { var tr = 0.7 + 0.3 * Math.sin(2 * Math.PI * 3 * t), fade = lt > 4.5 ? 1 - (lt - 4.5) / 1.5 : 1; v = (0.22 * Math.sin(2 * Math.PI * 196 * t) + 0.18 * Math.sin(2 * Math.PI * 247 * t) + 0.16 * Math.sin(2 * Math.PI * 392 * t) + 0.1 * Math.sin(2 * Math.PI * 587 * t)) * tr * fade; }
-      x[i] = Math.max(-0.95, Math.min(0.95, v));
+      x[i] = MX(-0.95, MN(0.95, v));
     }
     return { pcm: x, sr: sr };
   }
@@ -868,32 +879,32 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   var CALM = true;
   function bandVal(fi, b) {
     if (!CALM) return BANDS[fi * NB + b];
-    var e = BANDS[Math.max(0, fi - 8) * NB + b], j, v;
-    for (j = fi - 7; j <= fi; j++) { v = BANDS[Math.max(0, j) * NB + b]; if (v > e) e = Math.min(v, e + 0.07); else e = Math.max(v, e - 0.045); }
+    var e = BANDS[MX(0, fi - 8) * NB + b], j, v;
+    for (j = fi - 7; j <= fi; j++) { v = BANDS[MX(0, j) * NB + b]; if (v > e) e = MN(v, e + 0.07); else e = MX(v, e - 0.045); }
     return e;
   }
   var ZS = [1, 1, 1, 1, 1];
   var RL = { on: false, bars: 2, dir: "up" }, GRID0 = 0, FS = false, NATIVE = false, idleT = 0;
   var MODE = 0, RUNG = 8, BITS = 8, WOOD = false, CHSHARP = false, CRT = false;
-  function fidx(t) { return Math.max(0, Math.min(NF - 1, Math.floor(t * FPS))); }
+  function fidx(t) { return MX(0, MN(NF - 1, FL(t * FPS))); }
   /* Sun: ported from the Raw Capture artifact (seeded sky, a sun and five textured ridges), driven by the music. */
   var SUN = null;
   function sunHash(ix, iy, s) { var n = (Math.imul(ix, 374761393) + Math.imul(iy, 668265263) + Math.imul(s, 982451653)) | 0; n = Math.imul(n ^ (n >>> 13), 1274126177); n ^= n >>> 16; return (n >>> 0) / 4294967296; }
-  function sunVn(x, y, s) { var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), a = sunHash(xi, yi, s), b = sunHash(xi + 1, yi, s), c = sunHash(xi, yi + 1, s), d = sunHash(xi + 1, yi + 1, s); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }
+  function sunVn(x, y, s) { var xi = FL(x), yi = FL(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), a = sunHash(xi, yi, s), b = sunHash(xi + 1, yi, s), c = sunHash(xi, yi + 1, s), d = sunHash(xi + 1, yi + 1, s); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; }
   function sunFbm(x, s) { var a = 0.5, f = 1, tt = 0, i; for (i = 0; i < 4; i++) { tt += a * sunVn(x * f, 0.5, s + i); a *= 0.5; f *= 2; } return tt; }
   function sunBuild() {
     var W = 320, H = 180, N = W * H, k, x, y, i;
     var S = { W: W, H: H, N: N, tops: [], tex: [], L: [0.34, 0.26, 0.19, 0.12, 0.07], HZ: [0.6, 0.45, 0.3, 0.15, 0.0], off: new Float32Array(5), gam: new Uint8Array(1025), sc: document.createElement("canvas") };
     for (k = 0; k < 5; k++) { S.tops[k] = new Float32Array(W); for (x = 0; x < W; x++) S.tops[k][x] = H * (0.36 + 0.115 * k) - 46 * sunFbm(x / 70 + k * 3.1, 11 * k + 5) * (0.55 + 0.16 * k); S.tex[k] = new Float32Array(N); for (y = 0; y < H; y++) for (x = 0; x < W; x++) S.tex[k][y * W + x] = 1 + 0.6 * (sunVn(x * 0.9, y * 0.9, 40 + k) - 0.5) + 0.25 * (sunVn(x * 0.25, y * 0.5, 70 + k) - 0.5); }
-    for (i = 0; i <= 1024; i++) S.gam[i] = Math.round(255 * Math.pow(i / 1024, 1 / 2.2));
+    for (i = 0; i <= 1024; i++) S.gam[i] = RD(255 * Math.pow(i / 1024, 1 / 2.2));
     S.sc.width = W; S.sc.height = H; S.img = S.sc.getContext("2d").createImageData(W, H); return S;
   }
   function sunScene(g, Wd, Hd, t, fi) {
     if (!SUN) SUN = sunBuild(); var S = SUN, W = S.W, H = S.H, d = S.img.data, k, x, y, b, i, j;
     var E = 0.4, on = 0, lay = [0.3, 0.3, 0.3, 0.3, 0.3];
     if (NF && !rm) {
-      E = 0; for (j = Math.max(0, fi - 29); j <= fi; j++) E += RMS[j]; E /= (fi - Math.max(0, fi - 29) + 1);
-      var mf = 1e-6; if (SUN.nf !== NF) { for (j = 0; j < NF; j++) if (FLUX[j] > mf) mf = FLUX[j]; SUN.nf = NF; SUN.mf = mf; } on = Math.min(1, FLUX[fi] / SUN.mf);
+      E = 0; for (j = MX(0, fi - 29); j <= fi; j++) E += RMS[j]; E /= (fi - MX(0, fi - 29) + 1);
+      var mf = 1e-6; if (SUN.nf !== NF) { for (j = 0; j < NF; j++) if (FLUX[j] > mf) mf = FLUX[j]; SUN.nf = NF; SUN.mf = mf; } on = MN(1, FLUX[fi] / SUN.mf);
       for (k = 0; k < 5; k++) { var s0 = 0; for (b = 0; b < 12; b++) s0 += bandVal(fi, (4 - k) * 12 + b + (k === 0 ? 4 : 0)); lay[k] = s0 / 12; }
     }
     for (k = 0; k < 5; k++) S.off[k] = -(H * 0.05) * lay[k] * (0.6 + 0.2 * k);
@@ -903,14 +914,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
         i = y * W + x; var dx = x - sx, dy = y - sy, gl = (dx > cut || dx < -cut || dy > cut || dy < -cut) ? 0 : Math.exp(-(dx * dx + dy * dy) / (2 * sig * sig)), k2 = -1, v;
         for (var q = 4; q >= 0; q--) { if (y >= S.tops[q][x] + S.off[q]) { k2 = q; break; } }
         if (k2 < 0) v = 0.75 + 0.425 * (1 - y / (H * 0.5)) + amp * gl;
-        else { var dd = y - (S.tops[k2][x] + S.off[k2]), base = S.L[k2] * (1 - 0.25 * Math.min(1, dd / 60)); v = (base * (1 - S.HZ[k2]) + 0.9 * S.HZ[k2]) * S.tex[k2][i] + 0.25 * gl; }
+        else { var dd = y - (S.tops[k2][x] + S.off[k2]), base = S.L[k2] * (1 - 0.25 * MN(1, dd / 60)); v = (base * (1 - S.HZ[k2]) + 0.9 * S.HZ[k2]) * S.tex[k2][i] + 0.25 * gl; }
         v = v * mul; if (v > 1) v = 1; else if (v < 0.003) v = 0.003; var c = S.gam[(v * 1024) | 0], o = i * 4; d[o] = d[o + 1] = d[o + 2] = c; d[o + 3] = 255;
       }
     }
     S.sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(S.sc, 0, 0, Wd, Hd);
   }
   function scene(g, W, H, t) {
-    var fi = fidx(t), i, b, lw = Math.max(1, H / 360);
+    var fi = fidx(t), i, b, lw = MX(1, H / 360);
     g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
     if (MODE === 4) { sunScene(g, W, H, t, fi); return; }
     if (SING.mirror) { singMirror(g, W, H); return; }
@@ -918,12 +929,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (MODE === 0) {
       g.strokeStyle = C.border; g.lineWidth = lw; g.beginPath();
       for (i = 1; i < 8; i++) { g.moveTo(W * i / 8, 0); g.lineTo(W * i / 8, H); g.moveTo(0, H * i / 8); g.lineTo(W, H * i / 8); } g.stroke();
-      var zn = 1024 >> (ZS[0] - 1), trail = rm ? 1 : 6, amp = H * 0.4, pts = Math.min(W, 960), k;
+      var zn = 1024 >> (ZS[0] - 1), trail = rm ? 1 : 6, amp = H * 0.4, pts = MN(W, 960), k;
       g.lineJoin = "round"; g.lineCap = "round";
       for (k = trail - 1; k >= 0; k--) {
-        var s0 = Math.floor((t - k * 0.033) * SR) - (zn >> 1); g.globalAlpha = Math.pow(0.55, k); g.strokeStyle = k ? C.cyan : C.cyan; g.lineWidth = lw * (k ? 1 : 1.6);
+        var s0 = FL((t - k * 0.033) * SR) - (zn >> 1); g.globalAlpha = Math.pow(0.55, k); g.strokeStyle = k ? C.cyan : C.cyan; g.lineWidth = lw * (k ? 1 : 1.6);
         g.beginPath();
-        for (i = 0; i < pts; i++) { var si = s0 + Math.floor(i / (pts - 1) * (zn - 1)), v = (si >= 0 && si < PCM.length) ? PCM[si] : 0, px = W * i / (pts - 1), py = H / 2 - v * amp; if (i) g.lineTo(px, py); else g.moveTo(px, py); }
+        for (i = 0; i < pts; i++) { var si = s0 + FL(i / (pts - 1) * (zn - 1)), v = (si >= 0 && si < PCM.length) ? PCM[si] : 0, px = W * i / (pts - 1), py = H / 2 - v * amp; if (i) g.lineTo(px, py); else g.moveTo(px, py); }
         g.stroke();
       }
       g.globalAlpha = 1;
@@ -931,7 +942,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var vc = [64, 48, 32, 20, 12][ZS[1] - 1], bw = W / vc, base = H * 0.86;
       for (b = 0; b < vc; b++) {
         var v2 = bandVal(fi, b), hh = v2 * H * 0.78, pk = 0, j;
-        for (j = Math.max(0, fi - 15); j <= fi; j++) pk = Math.max(pk, BANDS[j * NB + b]);
+        for (j = MX(0, fi - 15); j <= fi; j++) pk = MX(pk, BANDS[j * NB + b]);
         g.fillStyle = C.cyan; g.fillRect(b * bw + bw * 0.15, base - hh, bw * 0.7, hh);
         g.globalAlpha = 0.22; g.fillRect(b * bw + bw * 0.15, base, bw * 0.7, hh * 0.35); g.globalAlpha = 1;
         g.fillStyle = C.gold; g.fillRect(b * bw + bw * 0.15, base - pk * H * 0.78 - lw * 2, bw * 0.7, lw * 2);
@@ -946,7 +957,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
       var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
       for (x2 = 0; x2 < cols; x2++) {
-        var f2 = Math.max(0, fi - (cols - 1 - x2));
+        var f2 = MX(0, fi - (cols - 1 - x2));
         for (y2 = 0; y2 < NB; y2++) {
           var v3 = BANDS[f2 * NB + (NB - 1 - y2)], o = (y2 * cols + x2) * 4, c1, c2, m;
           if (v3 < 0.5) { c1 = RGB.bg; c2 = RGB.cyan; m = v3 * 2; } else { c1 = RGB.cyan; c2 = RGB.gold; m = (v3 - 0.5) * 2; }
@@ -961,18 +972,18 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   /* Rungs below 144 rows are drawn 4x and averaged down, so a coarse rung is the true low-resolution picture. */
   function drawRung(target, w, h, t) {
     if (h >= 144) { scene(target, w, h, t); return; }
-    var sw = Math.max(64, w * 4), sh = Math.max(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
+    var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
     scene(SS.getContext("2d"), sw, sh, t);
     target.imageSmoothingEnabled = true; target.imageSmoothingQuality = "high"; target.drawImage(SS, 0, 0, w, h);
   }
 
   /* ---------------- presenting at a rung ---------------- */
   var USED = RUNGS[8].lab, LASTMS = 0, MS = [];
-  var BAYER = (function () { function up(m) { var n = m.length, o = [], x, y; for (y = 0; y < 2 * n; y++) { o[y] = []; for (x = 0; x < 2 * n; x++) o[y][x] = 4 * m[y % n][x % n] + [[0, 2], [3, 1]][Math.floor(y / n)][Math.floor(x / n)]; } return o; } return up(up([[0, 2], [3, 1]])); })();
+  var BAYER = (function () { function up(m) { var n = m.length, o = [], x, y; for (y = 0; y < 2 * n; y++) { o[y] = []; for (x = 0; x < 2 * n; x++) o[y][x] = 4 * m[y % n][x % n] + [[0, 2], [3, 1]][FL(y / n)][FL(x / n)]; } return o; } return up(up([[0, 2], [3, 1]])); })();
   function crushImage(g, W, H, bits, wood) {
     var id = g.getImageData(0, 0, W, H), d = id.data, L = (1 << bits) - 1, x, y, c, i = 0, v, q;
     for (y = 0; y < H; y++) for (x = 0; x < W; x++, i += 4) for (c = 0; c < 3; c++) {
-      v = d[i + c] / 255 * L; q = wood ? Math.floor(v + (BAYER[y & 7][x & 7] + 0.5) / 64) : Math.round(v); if (q > L) q = L; d[i + c] = Math.round(q / L * 255);
+      v = d[i + c] / 255 * L; q = wood ? FL(v + (BAYER[y & 7][x & 7] + 0.5) / 64) : RD(v); if (q > L) q = L; d[i + c] = RD(q / L * 255);
     }
     g.putImageData(id, 0, 0);
   }
@@ -988,16 +999,16 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     for (i = 0; i < 128; i++) cur[i] = (0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]) / 255;
     if (SHUT.prev) for (i = 0; i < 128; i++) { var df = Math.abs(cur[i] - SHUT.prev[i]); if (df > mx) mx = df; }
     SHUT.prev = cur; if (mx > 0.06) SHUT.trig = now;
-    var a = Math.min(1, 0.09 + 0.91 * (now - SHUT.trig) / MO.shutter);
+    var a = MN(1, 0.09 + 0.91 * (now - SHUT.trig) / MO.shutter);
     if (a >= 0.999) { SHUT.accg.drawImage(g.canvas, 0, 0); return; }
     SHUT.nwg.drawImage(g.canvas, 0, 0); g.globalAlpha = 1; g.drawImage(SHUT.acc, 0, 0); g.globalAlpha = a; g.drawImage(SHUT.nw, 0, 0); g.globalAlpha = 1; SHUT.accg.drawImage(g.canvas, 0, 0);
   }
   function present(t, rung, forPlay) {
-    var t0 = performance.now(), r = RUNGS[Math.min(rung, forPlay ? 5 : 8)], DW = cv.width, DH = cv.height, tr = t; t = glitchTime(t);
+    var t0 = performance.now(), r = RUNGS[MN(rung, forPlay ? 5 : 8)], DW = cv.width, DH = cv.height, tr = t; t = glitchTime(t);
     if (r.vector) { scene(dctx, DW, DH, t); USED = r.lab; }
     else {
-      var g, w = r.w, h = r.h, kk = Math.max(1, (DW / DH) / (16 / 9));
-      if (w >= 8 && w <= 1920 && kk > 1) w = Math.round(w * kk);
+      var g, w = r.w, h = r.h, kk = MX(1, (DW / DH) / (16 / 9));
+      if (w >= 8 && w <= 1920 && kk > 1) w = RD(w * kk);
       OC = OC || document.createElement("canvas");
       try { OC.width = w; OC.height = h; g = OC.getContext("2d"); } catch (e) { g = null; }
       if (!g) { w = 1920; h = 1080; OC.width = w; OC.height = h; g = OC.getContext("2d"); USED = "1920 × 1080 (this device could not make " + r.lab + ")"; } else USED = r.lab;
@@ -1005,9 +1016,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       dctx.imageSmoothingEnabled = w > DW; dctx.drawImage(OC, 0, 0, DW, DH);
     }
     applyLook(dctx, DW, DH);
-    glitchPixels(dctx, DW, DH, Math.floor(tr * FPS), tr);
+    glitchPixels(dctx, DW, DH, FL(tr * FPS), tr);
     if (BITS < 8) crushImage(dctx, DW, DH, BITS, WOOD);
-    if (CRT) { var step = Math.max(3, Math.round(DH / 180)); dctx.fillStyle = C.bg; dctx.globalAlpha = 0.3; for (var yy = step - 1; yy < DH; yy += step) dctx.fillRect(0, yy, DW, Math.max(1, step / 3 | 0)); dctx.globalAlpha = 1; }
+    if (CRT) { var step = MX(3, RD(DH / 180)); dctx.fillStyle = C.bg; dctx.globalAlpha = 0.3; for (var yy = step - 1; yy < DH; yy += step) dctx.fillRect(0, yy, DW, MX(1, step / 3 | 0)); dctx.globalAlpha = 1; }
     shutterApply(dctx, DW, DH);
     LASTMS = performance.now() - t0; if (forPlay) { MS.push(LASTMS); if (MS.length > 30) MS.shift(); }
   }
@@ -1034,7 +1045,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var inn = AC.createGain(), out = AC.createGain(), dry = AC.createGain(), wet = AC.createGain();
     inn.connect(dry); dry.connect(out); inn.connect(fxIn); fxOut.connect(wet); wet.connect(out); wet.gain.value = 0; return { in: inn, out: out, dry: dry, wet: wet };
   }
-  function quantCurve(bits) { var L = Math.pow(2, bits), step = 2 / (L - 1), cv = new Float32Array(4097), k; for (k = 0; k < 4097; k++) { var x = (k - 2048) / 2048; cv[k] = Math.max(-1, Math.min(1, Math.round((x + 1) / step) * step - 1)); } return cv; }
+  function quantCurve(bits) { var L = Math.pow(2, bits), step = 2 / (L - 1), cv = new Float32Array(4097), k; for (k = 0; k < 4097; k++) { var x = (k - 2048) / 2048; cv[k] = MX(-1, MN(1, RD((x + 1) / step) * step - 1)); } return cv; }
   function fxBuild(comp) {
     var inG = AC.createGain(), aIn = AC.createAnalyser(); aIn.fftSize = 512; inG.connect(aIn);
     var pre = AC.createGain(), clip = AC.createWaveShaper(), post = AC.createGain(); clip.curve = new Float32Array([-1, 1]); post.gain.value = 0.35; pre.connect(clip); clip.connect(post);
@@ -1048,7 +1059,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var mix = AC.createGain(); crush.out.connect(mix);
     var eS = AC.createGain(), eD = AC.createDelay(2), eF = AC.createGain(), eL = AC.createBiquadFilter(); eS.gain.value = 0; eD.delayTime.value = 0.375; eF.gain.value = 0.5; eL.type = "lowpass"; eL.frequency.value = 3500;
     crush.out.connect(eS); eS.connect(eD); eD.connect(eL); eL.connect(eF); eF.connect(eD); eL.connect(mix);
-    var rS = AC.createGain(), conv = AC.createConvolver(), rW = AC.createGain(), seed = 20261015, nn = Math.round(AC.sampleRate * 1.8), ib = AC.createBuffer(1, nn, AC.sampleRate), id = ib.getChannelData(0), q2;
+    var rS = AC.createGain(), conv = AC.createConvolver(), rW = AC.createGain(), seed = 20261015, nn = RD(AC.sampleRate * 1.8), ib = AC.createBuffer(1, nn, AC.sampleRate), id = ib.getChannelData(0), q2;
     for (q2 = 0; q2 < nn; q2++) { seed = (seed * 1664525 + 1013904223) >>> 0; id[q2] = ((seed / 4294967296) * 2 - 1) * Math.pow(1 - q2 / nn, 3) * 0.5; }
     conv.buffer = ib; rS.gain.value = 0; rW.gain.value = 0.8; crush.out.connect(rS); rS.connect(conv); conv.connect(rW); rW.connect(mix);
     var sS = AC.createGain(), d1 = AC.createDelay(0.05), d2 = AC.createDelay(0.05), l1 = AC.createOscillator(), l2 = AC.createOscillator(), g1 = AC.createGain(), g2 = AC.createGain();
@@ -1056,15 +1067,15 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     l1.connect(g1); g1.connect(d1.delayTime); l2.connect(g2); g2.connect(d2.delayTime); l1.start(); l2.start(); crush.out.connect(sS); sS.connect(d1); sS.connect(d2); d1.connect(mix); d2.connect(mix);
     mix.connect(comp);
     inG.connect(sweepF); sweepF.connect(dist.in);
-    AC._bus = inG; AC._anaIn = aIn; AC._fx = { dist: dist, crush: crush, pre: pre, q: q, sweep: sweepF, sends: { echo: eS, room: rS, shim: sS }, echoDelay: eD, setHold: function (v) { n = Math.max(1, v | 0); } }; AC._bits = 8;
+    AC._bus = inG; AC._anaIn = aIn; AC._fx = { dist: dist, crush: crush, pre: pre, q: q, sweep: sweepF, sends: { echo: eS, room: rS, shim: sS }, echoDelay: eD, setHold: function (v) { n = MX(1, v | 0); } }; AC._bits = 8;
   }
-  function fxParams() { if (!AC || !AC._fx) return; var a = GAMT, bits = Math.max(2, Math.round(8 - a * 6)); AC._fx.pre.gain.value = 1 + a * 14; AC._fx.setHold(1 + Math.round(a * 7)); if (bits !== AC._bits) { AC._bits = bits; AC._fx.q.curve = quantCurve(bits); } }
+  function fxParams() { if (!AC || !AC._fx) return; var a = GAMT, bits = MX(2, RD(8 - a * 6)); AC._fx.pre.gain.value = 1 + a * 14; AC._fx.setHold(1 + RD(a * 7)); if (bits !== AC._bits) { AC._bits = bits; AC._fx.q.curve = quantCurve(bits); } }
   function fxWet(kind, v, tc) { var s = AC._fx[kind], t0 = AC.currentTime; s.wet.gain.setTargetAtTime(v, t0, tc || 0.004); s.dry.gain.setTargetAtTime(1 - v, t0, tc || 0.004); }
   function fxTrigger(kind, on) {
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); FX[kind].on = on; fxParams();
     var tt = AC.currentTime;
-    if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(Math.min(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] : 0, tt, on ? 0.01 : 0.03); return; }
-    if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(Math.max(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 250 : 20000, tt + (on ? 1.2 : 0.35)); return; }
+    if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] : 0, tt, on ? 0.01 : 0.03); return; }
+    if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 250 : 20000, tt + (on ? 1.2 : 0.35)); return; }
     if (!on) fxWet(kind, 0, 0.006); else if (FXG.mode === "off") fxWet(kind, 1, 0.003);
     clearInterval(FXG.timer); if (FX.crush.on || FX.dist.on) FXG.timer = setInterval(fxPump, 25);
   }
@@ -1074,7 +1085,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     M = M || MAGNETS; bpm = bpm === undefined ? BPM : bpm; g0 = g0 === undefined ? GRID0 : g0;
     var h = [], i, m, mx = 0, P = bpm ? 60 / bpm : 0; for (i = 0; i < 16; i++) h.push(0);
     if (!P) { h[0] = 1; return h.map(function (v) { return v > 0; }); }
-    for (m = 0; m < M.length; m++) if (M[m].k === "onset") { var pos = (((M[m].t - g0) / P) % 4 + 4) % 4, st = Math.round(pos * 4) % 16; h[st] += M[m].s || 1; }
+    for (m = 0; m < M.length; m++) if (M[m].k === "onset") { var pos = (((M[m].t - g0) / P) % 4 + 4) % 4, st = RD(pos * 4) % 16; h[st] += M[m].s || 1; }
     for (i = 0; i < 16; i++) if (h[i] > mx) mx = h[i]; if (!mx) { h[0] = 1; mx = 1; }
     return h.map(function (v) { return v >= 0.6 * mx; });
   }
@@ -1089,63 +1100,63 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     }
     var P = 60 / (BPM || 120) / FXG.div, ref = (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), bar = 4 * FXG.div, dep = FXG.depth, lag = FXG.lag * P, sw = (SWING - 0.5) * 2 * P, seed = eff === "seed" ? gateSeed() : null;
     function tj(j) { return ref + j * P + lag + ((((j % 2) + 2) % 2) === 1 ? sw : 0); }
-    function base(j) { var jj = (((j % bar) + bar) % bar); if (eff === "bar") return jj === 0 ? 1 : 0; if (eff === "seed") return seed[Math.floor(jj / bar * 16)] ? 1 : 0; return (((j % 2) + 2) % 2 === 0 ? 1 : 0); }
+    function base(j) { var jj = (((j % bar) + bar) % bar); if (eff === "bar") return jj === 0 ? 1 : 0; if (eff === "seed") return seed[FL(jj / bar * 16)] ? 1 : 0; return (((j % 2) + 2) % 2 === 0 ? 1 : 0); }
     function map(v) { return 1 - dep * (1 - v); }
     ['crush', 'dist'].forEach(function (k2) {
-      if (!FX[k2].on) return; var s = AC._fx[k2], j0 = Math.floor((now - lag - ref) / P), j;
+      if (!FX[k2].on) return; var s = AC._fx[k2], j0 = FL((now - lag - ref) / P), j;
       while (tj(j0 + 1) <= now) j0++; while (tj(j0) > now) j0--;
       s.wet.gain.cancelScheduledValues(now); s.dry.gain.cancelScheduledValues(now);
       if (eff === "tri") {
         var f = (now - tj(j0)) / (tj(j0 + 1) - tj(j0)), v0 = map(base(j0) + (base(j0 + 1) - base(j0)) * f); s.wet.gain.setValueAtTime(v0, now); s.dry.gain.setValueAtTime(1 - v0, now);
-        for (j = j0 + 1; tj(j) < now + 0.14 + P; j++) { var tt2 = Math.max(now, tj(j)), v2 = map(base(j)); s.wet.gain.linearRampToValueAtTime(v2, tt2); s.dry.gain.linearRampToValueAtTime(1 - v2, tt2); }
+        for (j = j0 + 1; tj(j) < now + 0.14 + P; j++) { var tt2 = MX(now, tj(j)), v2 = map(base(j)); s.wet.gain.linearRampToValueAtTime(v2, tt2); s.dry.gain.linearRampToValueAtTime(1 - v2, tt2); }
         return;
       }
-      for (j = j0; tj(j) < now + 0.14; j++) { var tt = Math.max(now, tj(j)), v = map(base(j)); s.wet.gain.setTargetAtTime(v, tt, 0.003); s.dry.gain.setTargetAtTime(1 - v, tt, 0.003); }
+      for (j = j0; tj(j) < now + 0.14; j++) { var tt = MX(now, tj(j)), v = map(base(j)); s.wet.gain.setTargetAtTime(v, tt, 0.003); s.dry.gain.setTargetAtTime(1 - v, tt, 0.003); }
     });
   }
   function busFull(on) { BUSFULL = on; if (AC && AC._bus) { AC._cmp.ratio.value = on ? 1 : 20; AC._cmp.threshold.value = on ? 0 : -6; AC._gain.gain.value = on ? 1 : 0.42; AC._sh.curve = on ? null : AC._cv; } }
   function outPeak() { if (!AC || !AC._ana) return -1; var d = new Float32Array(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) if (Math.abs(d[i]) > m) m = Math.abs(d[i]); return m; }
   var LOOPPLAY = false, FORCEBPM = 0, PLOG = [], SING = { state: "off", mirror: false, lvl: 0, wave: new Float32Array(1024), chunks: [], hist: [], pcm: null, click: false, bpm: 100, lastClick: -9, raf: 0 };
-  function tnow() { if (SP.on) return spNow(); if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : Math.min(DUR, x); }
+  function tnow() { if (SP.on) return spNow(); if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : MN(DUR, x); }
   function chapterAt(t) { var f = t * FPS, k = 0, i; for (i = 0; i < CHAPS.length; i++) if (CHAPS[i] <= f) k = i; return k; }
   function loopRung(t) {
-    var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = (t - (BPM ? GRID0 : 0)) / (P * nb); ph -= Math.floor(ph);
-    var b = Math.min(nb - 1, Math.floor(ph * nb)), u;
+    var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = (t - (BPM ? GRID0 : 0)) / (P * nb); ph -= FL(ph);
+    var b = MN(nb - 1, FL(ph * nb)), u;
     if (RL.dir === "pp") u = 1 - Math.abs(2 * (b + 0.5) / nb - 1); else { u = nb > 1 ? b / (nb - 1) : 1; if (RL.dir === "down") u = 1 - u; }
-    return Math.max(0, Math.min(8, Math.round(u * 8)));
+    return MX(0, MN(8, RD(u * 8)));
   }
   function seqDetailAt(t) {
-    var st = seqStep(), j0 = Math.floor((t - seqBase()) / st), j, v, c;
+    var st = seqStep(), j0 = FL((t - seqBase()) / st), j, v, c;
     for (j = j0; j > j0 - 17; j--) { if (j < 0) break; c = ((j % 16) + 16) % 16; v = SEQ.cells.detail[c]; if (v && t >= seqFire(j)) return v - 1; }
     return -1;
   }
-  function rungFor(t) { if (SEQ && SEQ.on) { var dr = seqDetailAt(t); if (dr >= 0) return dr; } if (RL.on) return loopRung(t); if (!CHSHARP) return RUNG; var K = CHAPS.length, k = chapterAt(t); return K <= 1 ? 8 : Math.round(1 + 7 * k / (K - 1)); }
-  function fmt(s) { s = Math.max(0, s); return (s / 60 | 0) + ":" + ("0" + (s % 60 | 0)).slice(-2); }
+  function rungFor(t) { if (SEQ && SEQ.on) { var dr = seqDetailAt(t); if (dr >= 0) return dr; } if (RL.on) return loopRung(t); if (!CHSHARP) return RUNG; var K = CHAPS.length, k = chapterAt(t); return K <= 1 ? 8 : RD(1 + 7 * k / (K - 1)); }
+  function fmt(s) { s = MX(0, s); return (s / 60 | 0) + ":" + ("0" + (s % 60 | 0)).slice(-2); }
   function updateUI(t) {
     var fi = fidx(t), lv = RMS ? RMS[fi] : 0, best = 0, b;
     for (b = 1; b < NB; b++) if (BANDS[fi * NB + b] > BANDS[fi * NB + best]) best = b;
     var hz = CENTERS[best] || 0;
-    if (SKIN !== "pocket") $("now").textContent = Math.round(lv * 100) + "% level";
-    $("nowsub").textContent = "Loudest band near " + (hz >= 1000 ? (hz / 1000).toFixed(1) + " kHz" : Math.round(hz) + " Hz") + ".";
+    if (SKIN !== "pocket") $("now").textContent = RD(lv * 100) + "% level";
+    $("nowsub").textContent = "Loudest band near " + (hz >= 1000 ? (hz / 1000).toFixed(1) + " kHz" : RD(hz) + " Hz") + ".";
     var k = chapterAt(t); $("chnow").textContent = NUM[k] + (CHAPS.length > 1 ? " of " + NUM[CHAPS.length - 1] : "");
     $("chsub").textContent = (LABELS[k] || "") + ". Drawn at " + RUNGS[rungFor(t)].lab + ".";
     $("clock").textContent = fmt(t) + " / " + fmt(DUR);
-    $("scrub").value = DUR ? Math.round(t / DUR * 1000) : 0;
+    $("scrub").value = DUR ? RD(t / DUR * 1000) : 0;
     var btns = $("chap").children; for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-current", i === k ? "true" : "false");
-    $("hclock").textContent = fmt(t) + " / " + fmt(DUR); $("hscrub").value = DUR ? Math.round(t / DUR * 1000) : 0; $("hplay").textContent = playing ? "Pause" : "Play"; $("hspace").textContent = "Space: " + (playing ? "pause" : "play");
+    $("hclock").textContent = fmt(t) + " / " + fmt(DUR); $("hscrub").value = DUR ? RD(t / DUR * 1000) : 0; $("hplay").textContent = playing ? "Pause" : "Play"; $("hspace").textContent = "Space: " + (playing ? "pause" : "play");
     $("tag").textContent = ["Scope", "Bars", "Radial", "Spectrogram", "Sun"][MODE] + " · " + USED;
     var med = MS.length ? MS.slice().sort(function (a, z) { return a - z; })[MS.length >> 1] : LASTMS;
     drawStrip(t);
     levelMeters(playing || SING.mirror ? lv : 0); $("dled").className = "led" + (playing ? " on" : "");
-    if (SKIN === "pocket") { $("now").innerHTML = ledTiles(String(Math.round(lv * 100)).padStart(3, "0")) + '<span class="ledunit">%</span>'; }
-    $("srcsub").textContent = Math.round(DUR) + " s, " + SR + " Hz. Draw " + med.toFixed(1) + " ms at " + USED + ".";
+    if (SKIN === "pocket") { $("now").innerHTML = ledTiles(String(RD(lv * 100)).padStart(3, "0")) + '<span class="ledunit">%</span>'; }
+    $("srcsub").textContent = RD(DUR) + " s, " + SR + " Hz. Draw " + med.toFixed(1) + " ms at " + USED + ".";
   }
   var LABELS = [];
   function renderLadder(t) {
     var cells = $("rungs").children, i, cnv, g, r, w, h, keep = RUNG;
     for (i = 0; i < RUNGS.length; i++) {
       cnv = cells[i].querySelector("canvas"); g = cnv.getContext("2d"); r = RUNGS[i];
-      w = r.vector ? 128 : Math.min(r.w, 480); h = r.vector ? 72 : Math.min(r.h, 270);
+      w = r.vector ? 128 : MN(r.w, 480); h = r.vector ? 72 : MN(r.h, 270);
       var tmp = document.createElement("canvas"); tmp.width = w; tmp.height = h; drawRung(tmp.getContext("2d"), w, h, t);
       g.imageSmoothingEnabled = false; g.clearRect(0, 0, cnv.width, cnv.height); g.drawImage(tmp, 0, 0, cnv.width, cnv.height);
       cells[i].className = "rung" + (i === rungFor(t) ? " on" : "");
@@ -1156,7 +1167,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
      Every element carries data-min; CSS hides what is above the level. Parent opens only after a deliberate 1.5 second hold. */
   var LVL = 1, HOLDMS = 1500, HOLDT = 0;
   function setLevel(n) {
-    n = (Math.round(n) || 1) <= 1 ? 1 : 4; LVL = n; document.documentElement.setAttribute("data-lvl", String(n));
+    n = (RD(n) || 1) <= 1 ? 1 : 4; LVL = n; document.documentElement.setAttribute("data-lvl", String(n));
     AP($("mdKid"), n === 1); AP($("mdParent"), n === 4);
     var a = document.activeElement; if (a && a !== document.body && a.offsetParent === null) $("mdKid").focus();
   }
@@ -1181,14 +1192,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   var DB = { buf: null, pcm: null, sr: 44100, dur: 0, nf: 0, bands: null, rms: null, flux: null, cent: null, centers: null, bpm: 0, grid0: 0, dna: null, P: 0.5, base: 0, n: 0, name: "", src: null, playing: false, off: 0, t0: 0, rate: 1, mult: 1, pausedAt: 0, lastDraw: 0, seq: 0 };
   function mixGains() {
     var x = (MIX.xf + 1) / 2, a, b;
-    if (MIX.curve === "sharp") { a = Math.min(1, 2 * (1 - x)); b = Math.min(1, 2 * x); } else { a = Math.cos(x * Math.PI / 2); b = Math.sin(x * Math.PI / 2); }
+    if (MIX.curve === "sharp") { a = MN(1, 2 * (1 - x)); b = MN(1, 2 * x); } else { a = Math.cos(x * Math.PI / 2); b = Math.sin(x * Math.PI / 2); }
     return { a: a * MIX.lvA, b: b * MIX.lvB };
   }
   function applyMix() {
     var g = mixGains(); MIX.gA = g.a; MIX.gB = g.b;
     if (AC && AC._mixA) AC._mixA.gain.setTargetAtTime(g.a, AC.currentTime, 0.01); if (AC && AC._mixB) AC._mixB.gain.setTargetAtTime(g.b, AC.currentTime, 0.01);
-    $("mxlao").textContent = Math.round(MIX.lvA * 100); $("mxlbo").textContent = Math.round(MIX.lvB * 100);
-    $("mxxo").textContent = MIX.xf <= -0.98 ? "A" : MIX.xf >= 0.98 ? "B" : Math.round((1 - MIX.xf) / 2 * 100) + " A, " + Math.round((1 + MIX.xf) / 2 * 100) + " B";
+    $("mxlao").textContent = RD(MIX.lvA * 100); $("mxlbo").textContent = RD(MIX.lvB * 100);
+    $("mxxo").textContent = MIX.xf <= -0.98 ? "A" : MIX.xf >= 0.98 ? "B" : RD((1 - MIX.xf) / 2 * 100) + " A, " + RD((1 + MIX.xf) / 2 * 100) + " B";
   }
   function deckIn(which) {
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
@@ -1202,7 +1213,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function deckRestore(s) { NF = s.NF; BANDS = s.BANDS; RMS = s.RMS; FLUX = s.FLUX; CENT = s.CENT; CENTERS = s.CENTERS; PCM = s.PCM; SR = s.SR; DUR = s.DUR; if (SUN) SUN.nf = -1; }
   function mixFollowB() { return MIX.follow === "B" ? DB.nf > 0 : MIX.follow === "mix" ? DB.nf > 0 && DB.playing && MIX.gB > MIX.gA : false; }
-  function dbPos() { return DB.playing && AC ? Math.min(DB.dur, DB.off + (AC.currentTime - DB.t0) * DB.rate) : DB.pausedAt; }
+  function dbPos() { return DB.playing && AC ? MN(DB.dur, DB.off + (AC.currentTime - DB.t0) * DB.rate) : DB.pausedAt; }
   function dbPe() { return DB.bpm ? 60 / DB.bpm / DB.mult : 0.5; }
   function mxMsg(s) { $("mxmsg").textContent = s; }
   function dbInfo() { $("dbinfo").textContent = DB.nf ? DB.name + ", " + (DB.bpm ? DB.bpm.toFixed(1) + " BPM" : "no tempo") + (DB.rate !== 1 ? ", playing at " + (DB.rate * 100).toFixed(1) + " percent" : "") : "Load a second song to mix."; $("mxa").textContent = "Deck A: " + SRCNAME + (BPM ? ", " + BPM.toFixed(1) + " BPM" : ""); }
@@ -1212,7 +1223,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     function begin() {
       if (mine !== DB.seq) return; if (DB.src) { try { DB.src.onended = null; DB.src.stop(); } catch (e) {} }
       var s = AC.createBufferSource(); s.buffer = DB.buf; s.playbackRate.value = DB.rate; s.connect(deckIn("B")); s.onended = function () { if (DB.src === s) { DB.playing = false; DB.pausedAt = DB.dur; DB.src = null; $("dbplay").textContent = "Play B"; } };
-      s.start(0, Math.max(0, Math.min(DB.dur - 0.01, at))); DB.src = s; DB.off = at; DB.t0 = AC.currentTime; DB.playing = true; $("dbplay").textContent = "Pause B"; if (!playing) requestAnimationFrame(dbLoop);
+      s.start(0, MX(0, MN(DB.dur - 0.01, at))); DB.src = s; DB.off = at; DB.t0 = AC.currentTime; DB.playing = true; $("dbplay").textContent = "Pause B"; if (!playing) requestAnimationFrame(dbLoop);
     }
     if (AC.state === "running") begin(); else AC.resume().then(begin);
   }
@@ -1227,11 +1238,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function dbAlign() {
     if (!DB.bpm || !BPM) { mxMsg("Both decks need a tempo first."); return false; }
-    var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, Pe = dbPe(), k = Math.round((dbPos() - DB.grid0) / Pe - fa), at = Math.max(0, Math.min(DB.dur - 0.05, DB.grid0 + (k + fa) * Pe));
+    var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, Pe = dbPe(), k = RD((dbPos() - DB.grid0) / Pe - fa), at = MX(0, MN(DB.dur - 0.05, DB.grid0 + (k + fa) * Pe));
     if (DB.playing) dbStart(at); else DB.pausedAt = at; mxMsg("B is moved so its beat lands on A's beat."); return true;
   }
-  function dbPhaseMs() { if (!DB.bpm || !BPM) return null; var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, fb = (((dbPos() - DB.grid0) / dbPe()) % 1 + 1) % 1, d = Math.abs(fa - fb); d = Math.min(d, 1 - d); return d * PA * 1000; }
-  function dbNudge(ms) { var pos = Math.max(0, Math.min(DB.dur, dbPos() + ms / 1000)); if (DB.playing) dbStart(pos); else DB.pausedAt = pos; }
+  function dbPhaseMs() { if (!DB.bpm || !BPM) return null; var PA = 60 / BPM, fa = (((tnow() - GRID0) / PA) % 1 + 1) % 1, fb = (((dbPos() - DB.grid0) / dbPe()) % 1 + 1) % 1, d = Math.abs(fa - fb); d = MN(d, 1 - d); return d * PA * 1000; }
+  function dbNudge(ms) { var pos = MX(0, MN(DB.dur, dbPos() + ms / 1000)); if (DB.playing) dbStart(pos); else DB.pausedAt = pos; }
   function dbLoadBytes(ab, name) {
     mxMsg("Reading " + name); var gen = GEN;
     return new OfflineAudioContext(1, 1, 44100).decodeAudioData(ab).then(function (buf) {
@@ -1239,8 +1250,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       if (mono.length > MAXSEC * buf.sampleRate) mono = mono.subarray(0, MAXSEC * buf.sampleRate);
       analyze(mono, buf.sampleRate, function (R) {
         dbStop(); DB.buf = buf; DB.pcm = mono; DB.sr = buf.sampleRate; DB.dur = mono.length / buf.sampleRate; DB.nf = R.nf; DB.bands = R.bands; DB.rms = R.rms; DB.flux = R.flux; DB.cent = R.cent; DB.centers = R.centers; DB.name = name; DB.pausedAt = 0; DB.rate = 1; DB.mult = 1;
-        var sv = deckSwap(DB), on = [], i2, k, W = Math.round(0.5 * FPS), last = -999, tp = null;
-        try { for (i2 = 1; i2 < NF - 1; i2++) { var s = 0, nn = 0; for (k = Math.max(0, i2 - W); k <= Math.min(NF - 1, i2 + W); k++) { s += FLUX[k]; nn++; } if (FLUX[i2] > 1.5 * (s / nn) + 0.05 && FLUX[i2] >= FLUX[i2 - 1] && FLUX[i2] > FLUX[i2 + 1] && i2 - last >= 3) { on.push(i2); last = i2; } } tp = detectTempo(on); } finally { deckRestore(sv); }
+        var sv = deckSwap(DB), on = [], i2, k, W = RD(0.5 * FPS), last = -999, tp = null;
+        try { for (i2 = 1; i2 < NF - 1; i2++) { var s = 0, nn = 0; for (k = MX(0, i2 - W); k <= MN(NF - 1, i2 + W); k++) { s += FLUX[k]; nn++; } if (FLUX[i2] > 1.5 * (s / nn) + 0.05 && FLUX[i2] >= FLUX[i2 - 1] && FLUX[i2] > FLUX[i2 + 1] && i2 - last >= 3) { on.push(i2); last = i2; } } tp = detectTempo(on); } finally { deckRestore(sv); }
         DB.bpm = tp ? +tp.bpm.toFixed(2) : 0; DB.grid0 = tp ? tp.grid0 : 0;
         var r = dnaCompute({ bpm: DB.bpm, grid0: DB.grid0, dur: DB.dur, nf: DB.nf, bands: DB.bands, cent: DB.cent, on: on.map(function (f) { return f / FPS; }) }); DB.dna = r.dna; DB.P = r.P; DB.base = r.base; DB.n = r.n;
         dbInfo(); mxMsg(DB.bpm ? "Deck B is ready. Use Sync, then Align, then move the crossfader." : "Deck B is ready but no tempo was found. Tap or pick another."); mixDraw();
@@ -1248,14 +1259,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     }).catch(function () { mxMsg("That file could not be decoded."); });
   }
   function mixDraw() {
-    var cv = $("mxcv"); if (!cv) return; var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 52, half = Math.floor(W / cw / 2), row, j, x, q, cod, set = GLET.dna, i, fr, dn, P, base, pos;
+    var cv = $("mxcv"); if (!cv) return; var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 52, half = FL(W / cw / 2), row, j, x, q, cod, set = GLET.dna, i, fr, dn, P, base, pos;
     g.clearRect(0, 0, W, H); g.font = "600 14px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle"; g.textAlign = "center";
     for (row = 0; row < 2; row++) {
       if (row === 0) { dn = GNM.dna; P = GNM.P; base = GNM.base; pos = tnow(); } else { dn = DB.dna; P = DB.P / (DB.rate || 1) * (DB.mult || 1) * 0 + dbPe(); base = DB.grid0 % dbPe(); pos = dbPos(); }
       if (!dn) { g.fillStyle = C.dim; g.fillText(row ? "Deck B: no song" : "Deck A: no song", W / 2, row * 40 + 22); continue; }
-      var Pp = row === 0 ? GNM.P : dbPe(); i = Math.floor((pos - base) / Pp); fr = (pos - base) / Pp - i;
+      var Pp = row === 0 ? GNM.P : dbPe(); i = FL((pos - base) / Pp); fr = (pos - base) / Pp - i;
       for (j = i - half; j <= i + half + 1; j++) {
-        x = W / 2 + (j - i - fr) * cw - cw / 2; cod = j >= 0 && j < (row ? DB.n : GNM.n) ? (row === 0 ? dn[j] : dn[Math.floor((base + j * Pp - DB.base) / DB.P)]) : null; g.globalAlpha = j === i ? 1 : 0.8;
+        x = W / 2 + (j - i - fr) * cw - cw / 2; cod = j >= 0 && j < (row ? DB.n : GNM.n) ? (row === 0 ? dn[j] : dn[FL((base + j * Pp - DB.base) / DB.P)]) : null; g.globalAlpha = j === i ? 1 : 0.8;
         g.fillStyle = C.border; g.fillRect(x + 1, row * 40 + 2, cw - 3, 34);
         if (cod) { for (q = 0; q < 3; q++) { g.fillStyle = C[GCOL[cod[q]]]; g.fillRect(x + 1 + q * ((cw - 3) / 3), row * 40 + 30, (cw - 3) / 3, 6); g.fillText(set.charAt(cod[q]), x + 1 + q * ((cw - 3) / 3) + (cw - 3) / 6, row * 40 + 15); } }
       }
@@ -1265,33 +1276,33 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("dbpick").addEventListener("click", function () { $("dbfile").click(); });
   $("dbfile").addEventListener("change", function () { var f = $("dbfile").files[0]; if (f) f.arrayBuffer().then(function (ab) { dbLoadBytes(ab, f.name); }); });
   $("dbplay").addEventListener("click", function () { if (!DB.buf) { mxMsg("Choose a file for Deck B first."); return; } if (DB.playing) dbStop(); else dbStart(DB.pausedAt >= DB.dur - 0.05 ? 0 : DB.pausedAt); });
-  $("dbcue").addEventListener("click", function () { var was = DB.playing; dbStop(); DB.pausedAt = Math.max(0, DB.grid0 % dbPe()); if (was) dbStart(DB.pausedAt); });
+  $("dbcue").addEventListener("click", function () { var was = DB.playing; dbStop(); DB.pausedAt = MX(0, DB.grid0 % dbPe()); if (was) dbStart(DB.pausedAt); });
   $("dbsync").addEventListener("click", function () { dbSync(); });
-  $("dbhalf").addEventListener("click", function () { dbSync(Math.max(0.5, DB.mult / 2)); });
-  $("dbdbl").addEventListener("click", function () { dbSync(Math.min(2, DB.mult * 2)); });
+  $("dbhalf").addEventListener("click", function () { dbSync(MX(0.5, DB.mult / 2)); });
+  $("dbdbl").addEventListener("click", function () { dbSync(MN(2, DB.mult * 2)); });
   $("dbalign").addEventListener("click", dbAlign);
   $("dbback").addEventListener("click", function () { dbNudge(-10); });
   $("dbfwd").addEventListener("click", function () { dbNudge(10); });
   $("mxla").addEventListener("input", function () { MIX.lvA = +$("mxla").value / 100; applyMix(); });
   $("mxlb").addEventListener("input", function () { MIX.lvB = +$("mxlb").value / 100; applyMix(); });
   $("mxx").addEventListener("input", function () { MIX.xf = +$("mxx").value / 100; applyMix(); });
-  EA(document.querySelectorAll("input[name=mxc]"), function (r) { r.addEventListener("change", function () { MIX.curve = r.value; applyMix(); }); });
-  EA(document.querySelectorAll("input[name=mxp]"), function (r) { r.addEventListener("change", function () { MIX.follow = r.value; frame(playing); }); });
+  EA(QA("input[name=mxc]"), function (r) { r.addEventListener("change", function () { MIX.curve = r.value; applyMix(); }); });
+  EA(QA("input[name=mxp]"), function (r) { r.addEventListener("change", function () { MIX.follow = r.value; frame(playing); }); });
   applyMix();
   /* ---------------- genome ribbon: the song's DNA over the look's RNA, one codon per beat ---------------- */
   var GNM = { dna: null, rna: [], P: 0.5, base: 0, n: 0, key: "", ctx: null, lastI: -9, lastDraw: 0, ms: [] };
   var GLET = { dna: "ACGT", rna: "ACGU" }, GCOL = ["cyan", "gold", "green", "magenta"];
   var GSW = { low: ["light", "warm", "heavy", "massive"], bri: ["dark", "soft", "bright", "glassy"], den: ["sparse", "steady", "busy", "frantic"] };
   var GLW = { fid: ["fog", "grain", "sharp", "crystal"], dep: ["stark", "poster", "rich", "full"], dis: ["calm", "rippling", "glitchy", "stormy"] };
-  function gQuart(vals) { var s = vals.slice().sort(function (a, z) { return a - z; }), n = s.length, q1 = s[Math.floor(n * 0.25)], q2 = s[Math.floor(n * 0.5)], q3 = s[Math.floor(n * 0.75)]; return vals.map(function (v) { return v > q3 ? 3 : v > q2 ? 2 : v > q1 ? 1 : 0; }); }
+  function gQuart(vals) { var s = vals.slice().sort(function (a, z) { return a - z; }), n = s.length, q1 = s[FL(n * 0.25)], q2 = s[FL(n * 0.5)], q3 = s[FL(n * 0.75)]; return vals.map(function (v) { return v > q3 ? 3 : v > q2 ? 2 : v > q1 ? 1 : 0; }); }
   function dnaCompute(o) {
-    var P = o.bpm ? 60 / o.bpm : 0.5, base = o.bpm ? o.grid0 % P : 0, n = Math.max(1, Math.ceil((o.dur - base) / P)), low = [], bri = [], den = [], i, f, f0, f1, s, c, m, k;
+    var P = o.bpm ? 60 / o.bpm : 0.5, base = o.bpm ? o.grid0 % P : 0, n = MX(1, Math.ceil((o.dur - base) / P)), low = [], bri = [], den = [], i, f, f0, f1, s, c, m, k;
     for (i = 0; i < n; i++) {
-      f0 = Math.max(0, Math.floor((base + i * P) * FPS)); f1 = Math.min(o.nf, Math.max(f0 + 1, Math.floor((base + (i + 1) * P) * FPS))); s = 0; c = 0;
+      f0 = MX(0, FL((base + i * P) * FPS)); f1 = MN(o.nf, MX(f0 + 1, FL((base + (i + 1) * P) * FPS))); s = 0; c = 0;
       for (f = f0; f < f1 && f < o.nf; f++) { for (k = 0; k < 10; k++) s += o.bands[f * NB + k]; c += o.cent ? o.cent[f] : 0; }
-      low.push(s / Math.max(1, f1 - f0)); bri.push(c / Math.max(1, f1 - f0)); den.push(0);
+      low.push(s / MX(1, f1 - f0)); bri.push(c / MX(1, f1 - f0)); den.push(0);
     }
-    for (m = 0; m < o.on.length; m++) { i = Math.floor((o.on[m] - base) / P); if (i >= 0 && i < n) den[i]++; }
+    for (m = 0; m < o.on.length; m++) { i = FL((o.on[m] - base) / P); if (i >= 0 && i < n) den[i]++; }
     var a = gQuart(low), b = gQuart(bri), d = gQuart(den);
     return { dna: a.map(function (x, j) { return [x, b[j], d[j]]; }), P: P, base: base, n: n };
   }
@@ -1300,25 +1311,25 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var on = [], m; for (m = 0; m < MAGNETS.length; m++) if (MAGNETS[m].k === "onset") on.push(MAGNETS[m].t);
     var r = dnaCompute({ bpm: BPM, grid0: GRID0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on });
     /* The song fingerprint must not move when a person corrects the tempo, so it comes from a fixed half-second grid, not the beat grid. */
-    var fpd = dnaCompute({ bpm: 0, grid0: 0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on }).dna, fs = fpd.map(function (c) { return c.join(""); }).join("") + "|" + Math.round(DUR), fh = 2166136261, fi; for (fi = 0; fi < fs.length; fi++) { fh ^= fs.charCodeAt(fi); fh = Math.imul(fh, 16777619) >>> 0; } GNM.fp = fh.toString(16).padStart(8, "0");
+    var fpd = dnaCompute({ bpm: 0, grid0: 0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on }).dna, fs = fpd.map(function (c) { return c.join(""); }).join("") + "|" + RD(DUR), fh = 2166136261, fi; for (fi = 0; fi < fs.length; fi++) { fh ^= fs.charCodeAt(fi); fh = Math.imul(fh, 16777619) >>> 0; } GNM.fp = fh.toString(16).padStart(8, "0");
     GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9;
   }
   function genomeLook() {
     var nfx = 0; ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep"].forEach(function (k) { if (GLITCH[k]) nfx++; }); if (GLITCH.stut) nfx++;
-    return [Math.min(3, Math.floor(RUNG / 9 * 4)), BITS <= 2 ? 0 : BITS <= 4 ? 1 : BITS <= 6 ? 2 : 3, Math.min(3, nfx)];
+    return [MN(3, FL(RUNG / 9 * 4)), BITS <= 2 ? 0 : BITS <= 4 ? 1 : BITS <= 6 ? 2 : 3, MN(3, nfx)];
   }
   function genomeWords(dna, rna) {
     return { sound: dna ? GSW.low[dna[0]] + ", " + GSW.bri[dna[1]] + ", " + GSW.den[dna[2]] : "", look: rna ? GLW.fid[rna[0]] + ", " + GLW.dep[rna[1]] + ", " + GLW.dis[rna[2]] : "" };
   }
   function genomeStr(c, set) { return c ? set.charAt(c[0]) + set.charAt(c[1]) + set.charAt(c[2]) : "---"; }
-  function genomeIdx(t) { return Math.max(0, Math.min(GNM.n - 1, Math.floor((t - GNM.base) / GNM.P))); }
+  function genomeIdx(t) { return MX(0, MN(GNM.n - 1, FL((t - GNM.base) / GNM.P))); }
   function genomeNow(t) { var i = genomeIdx(t); return { i: i, dna: GNM.dna ? GNM.dna[i] : null, rna: GNM.rna[i] || null }; }
   function genomeTranscribe(t) { if (GNM.dna) GNM.rna[genomeIdx(t)] = genomeLook(); }
   function genomeDraw(t) {
     var cv = $("gcv"), t0 = performance.now(); if (!cv) return;
     if (!GNM.dna) { cv.getContext("2d").clearRect(0, 0, cv.width, cv.height); return; }
     var i = genomeIdx(t); GNM.rna[i] = genomeLook();
-    var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 64, half = Math.floor(W / cw / 2), j, x, row, cod, s, set, y, q, fr = (t - GNM.base) / GNM.P - Math.floor((t - GNM.base) / GNM.P);
+    var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 64, half = FL(W / cw / 2), j, x, row, cod, s, set, y, q, fr = (t - GNM.base) / GNM.P - FL((t - GNM.base) / GNM.P);
     g.clearRect(0, 0, W, H); g.font = "600 16px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle"; g.textAlign = "center";
     for (row = 0; row < 2; row++) {
       y = row ? 46 : 6; /* rows 34 high */
@@ -1338,10 +1349,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function genomeRecipe() {
     var t = tnow(), i = genomeIdx(t), a = [], b = [], j; if (!GNM.dna) return "No song read yet.";
-    for (j = Math.max(0, i - 3); j <= Math.min(GNM.n - 1, i + 4); j++) { a.push(genomeStr(GNM.dna[j], GLET.dna)); b.push(genomeStr(GNM.rna[j], GLET.rna)); }
+    for (j = MX(0, i - 3); j <= MN(GNM.n - 1, i + 4); j++) { a.push(genomeStr(GNM.dna[j], GLET.dna)); b.push(genomeStr(GNM.rna[j], GLET.rna)); }
     var w = genomeWords(GNM.dna[i], GNM.rna[i] || genomeLook()), on = []; ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep"].forEach(function (k) { if (GLITCH[k]) on.push(k); }); if (GLITCH.stut) on.push(GLITCH.stut.kind);
-    return ["Phosphor recipe", "song: " + SRCNAME + ", " + (BPM ? BPM.toFixed(1) + " BPM" : "no tempo") + ", feel " + Math.round(SWING * 100) + " percent",
-      "DNA (song, beats " + Math.max(0, i - 3) + " to " + Math.min(GNM.n - 1, i + 4) + "): " + a.join(" "), "RNA (look, same beats): " + b.join(" "),
+    return ["Phosphor recipe", "song: " + SRCNAME + ", " + (BPM ? BPM.toFixed(1) + " BPM" : "no tempo") + ", feel " + RD(SWING * 100) + " percent",
+      "DNA (song, beats " + MX(0, i - 3) + " to " + MN(GNM.n - 1, i + 4) + "): " + a.join(" "), "RNA (look, same beats): " + b.join(" "),
       "this beat sounds " + w.sound + " and looks " + w.look, "look: " + MODENAMES[MODE] + ", palette " + $("palsel").value + ", resolution rung " + (RUNG + 1) + " of 9, " + BITS + " bit, effects " + (on.length ? on.join(" + ") : "none"),
       "settings: " + JSON.stringify(snapshot())].join("\n");
   }
@@ -1358,7 +1369,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (!s || typeof s !== "object") { wpMsg("That waypoint has no readable settings. Nothing changed."); return false; }
     applySnapshot(s, true); saveSettings();
     var msg = "Waypoint applied: the look, level and steps are back.";
-    if (fp && at >= 0 && GNM.dna) { if (fp === wpFp()) { seek(Math.min(at, DUR)); msg += " Moved to " + Math.floor(at / 60) + ":" + ("0" + Math.floor(at % 60)).slice(-2) + "."; } else msg += " This is a different song, so your place was not restored."; }
+    if (fp && at >= 0 && GNM.dna) { if (fp === wpFp()) { seek(MN(at, DUR)); msg += " Moved to " + FL(at / 60) + ":" + ("0" + FL(at % 60)).slice(-2) + "."; } else msg += " This is a different song, so your place was not restored."; }
     wpMsg(msg); return true;
   }
   function wpShow(on) { $("wp").hidden = !on; if (on) { $("wpbox").focus(); } }
@@ -1378,14 +1389,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function pinMsg(s) { $("pinmsg").textContent = s; }
   function pinAdd(note, kind, anchor) {
     if (!GNM.dna) { pinMsg("Load a song first."); return Promise.resolve(null); }
-    var tt = tnow(), P = BPM ? 60 / BPM : 0, at = (P && !anchor) ? Math.max(0, Math.min(DUR, GRID0 + Math.round((tt - GRID0) / P) * P)) : tt, i = genomeIdx(at), a = [], b = [], j;
-    for (j = Math.max(0, i - 1); j <= Math.min(GNM.n - 1, i + 2); j++) { a.push(genomeStr(GNM.dna[j], GLET.dna)); b.push(genomeStr(GNM.rna[j] || (j === i ? genomeLook() : null), GLET.rna)); }
+    var tt = tnow(), P = BPM ? 60 / BPM : 0, at = (P && !anchor) ? MX(0, MN(DUR, GRID0 + RD((tt - GRID0) / P) * P)) : tt, i = genomeIdx(at), a = [], b = [], j;
+    for (j = MX(0, i - 1); j <= MN(GNM.n - 1, i + 2); j++) { a.push(genomeStr(GNM.dna[j], GLET.dna)); b.push(genomeStr(GNM.rna[j] || (j === i ? genomeLook() : null), GLET.rna)); }
     var pin = { v: 1, at: +at.toFixed(3), pinned_at: new Date().toISOString(), note: String(note || "").slice(0, 140), kind: kind === "cue" ? "cue" : "note", anchor: !!anchor, armed: false, fp: wpFp(), dna: a, rna: b, settings: snapshot() };
     return pinHash(pinCanon(pin)).then(function (h) { pin.sha = h; pin.id = h.slice(-8); pin.ok = true; var L = pinsHere(); if (!L.some(function (x) { return x.sha === h; })) { L.push(pin); L.sort(function (x, y) { return x.at - y.at; }); pinsSave(); } pinsRender(); return pin; });
   }
   function pinVerify(p) { return pinHash(pinCanon(p)).then(function (h) { p.ok = h === p.sha; return p.ok; }); }
   function pinGo(p) { seek(p.at); CUES.last = p.at; pinCaption((p.note || "Pin") + " (" + p.id + ")"); }
-  function mmss(x) { return Math.floor(x / 60) + ":" + ("0" + Math.floor(x % 60)).slice(-2); }
+  function mmss(x) { return FL(x / 60) + ":" + ("0" + FL(x % 60)).slice(-2); }
   function pinsRender() {
     var L = pinsHere(), ul = $("pinlist"), bar = $("pinbar"), h = "", m = "";
     L.forEach(function (p, i) {
@@ -1410,7 +1421,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var A = pinsHere().filter(function (p) { return p.anchor; }).sort(function (x, y) { return x.at - y.at; });
     if (!A.length || !BPM) { pinMsg("Mark at least one pin as a beat anchor first."); return null; }
     var P = 60 / BPM, bpm = BPM;
-    if (A.length >= 2) { var span = A[A.length - 1].at - A[0].at, given = parseInt($("pinbeats").value, 10), n = given > 0 ? given : Math.max(1, Math.round(span / P)); bpm = 60 * n / span; }
+    if (A.length >= 2) { var span = A[A.length - 1].at - A[0].at, given = parseInt($("pinbeats").value, 10), n = given > 0 ? given : MX(1, RD(span / P)); bpm = 60 * n / span; }
     setTempo(bpm, A[0].at); pinMsg("The beat grid is set from " + A.length + " anchor" + (A.length > 1 ? "s" : "") + ": " + BPM.toFixed(2) + " BPM."); return { bpm: BPM, grid0: GRID0 };
   }
   $("pinuse").addEventListener("click", pinsUse);
@@ -1451,20 +1462,20 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
   }
   function stopPlay(msg) { startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
-  function seek(t) { t = Math.max(0, Math.min(DUR, t)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
+  function seek(t) { t = MX(0, MN(DUR, t)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
   /* ---------------- loading ---------------- */
   function setSource(pcm, sr, buf, name, after) {
     GEN++; var gen = GEN; stopPlay(""); ANALYZING = true; BUF = buf; SRCNAME = name; $("status").textContent = "Analyzing 0%";
-    var cap = Math.min(pcm.length, MAXSEC * sr); if (cap < pcm.length) pcm = pcm.subarray(0, cap);
+    var cap = MN(pcm.length, MAXSEC * sr); if (cap < pcm.length) pcm = pcm.subarray(0, cap);
     PCM = pcm; SR = sr; DUR = pcm.length / sr;
     analyze(pcm, sr, function (R) {
       if (gen !== GEN) return;
       NF = R.nf; BANDS = R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
-      var rest = 0, best = -1, i; for (i = 0; i < NF; i++) if (RMS[i] > best) { best = RMS[i]; rest = i; } tpaused = Math.min(DUR, rest / FPS);
+      var rest = 0, best = -1, i; for (i = 0; i < NF; i++) if (RMS[i] > best) { best = RMS[i]; rest = i; } tpaused = MN(DUR, rest / FPS);
       buildChapters(); onSourceReady(); pocketText(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false); if (after) after();
-    }, function (p) { if (gen === GEN) $("status").textContent = "Analyzing " + Math.round(p * 100) + "%"; }, gen);
+    }, function (p) { if (gen === GEN) $("status").textContent = "Analyzing " + RD(p * 100) + "%"; }, gen);
   }
   function buildChapters() {
     var h = ""; CHAPS.forEach(function (f, k) { h += '<button class="btn" type="button" data-k="' + k + '" aria-current="false">' + NUM[k] + " " + fmt(f / FPS) + "</button>"; });
@@ -1478,7 +1489,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function readTags(ab) {
     var b = new Uint8Array(ab), out = {}, i;
     if (b.length > 10 && b[0] === 0x49 && b[1] === 0x44 && b[2] === 0x33) {
-      var ver = b[3], size = ((b[6] & 127) << 21) | ((b[7] & 127) << 14) | ((b[8] & 127) << 7) | (b[9] & 127), p = 10, end = Math.min(b.length, 10 + size);
+      var ver = b[3], size = ((b[6] & 127) << 21) | ((b[7] & 127) << 14) | ((b[8] & 127) << 7) | (b[9] & 127), p = 10, end = MN(b.length, 10 + size);
       while (p + 10 <= end) {
         var id = String.fromCharCode(b[p], b[p + 1], b[p + 2], b[p + 3]); if (!/^[A-Z0-9]{4}$/.test(id)) break;
         var sz = ver === 4 ? ((b[p + 4] & 127) << 21) | ((b[p + 5] & 127) << 14) | ((b[p + 6] & 127) << 7) | (b[p + 7] & 127) : u32(b, p + 4), s = p + 10, e = s + sz;
@@ -1492,7 +1503,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     for (i = 4; i + 24 < b.length; i++) {
       if (b[i] !== 0xA9) continue;
       var k = String.fromCharCode(b[i + 1], b[i + 2], b[i + 3]);
-      if (names[k] && b[i + 8] === 0x64 && b[i + 9] === 0x61 && b[i + 10] === 0x74 && b[i + 11] === 0x61) { var ds = u32(b, i + 4), v = dec(b, i + 20, Math.min(b.length, i + 4 + ds), 3); if (v && !out[names[k]]) out[names[k]] = v; }
+      if (names[k] && b[i + 8] === 0x64 && b[i + 9] === 0x61 && b[i + 10] === 0x74 && b[i + 11] === 0x61) { var ds = u32(b, i + 4), v = dec(b, i + 20, MN(b.length, i + 4 + ds), 3); if (v && !out[names[k]]) out[names[k]] = v; }
     }
     return out;
   }
@@ -1560,9 +1571,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var avg = 0; for (i = 0; i < NF; i++) avg += FLUX[i]; avg = avg / NF + 1e-9;
     var tOff = 0.5 * NFFT / SR + 0.5 / FPS, T = [], Wt = [], LO = [];
     for (i = 0; i < n; i++) {
-      var f = on[i], a = f > 0 ? FLUX[f - 1] : 0, b = FLUX[f], c = f + 1 < NF ? FLUX[f + 1] : 0, den = a - 2 * b + c, dl = den < -1e-9 ? 0.5 * (a - c) / den : 0; dl = Math.max(-0.5, Math.min(0.5, dl));
-      T.push((f + dl) / FPS + tOff); Wt.push(Math.min(3, b / avg));
-      var lo = 0; for (k = 0; k < 10; k++) lo += Math.max(0, BANDS[f * NB + k] - (f > 0 ? BANDS[(f - 1) * NB + k] : 0)); LO.push(lo);
+      var f = on[i], a = f > 0 ? FLUX[f - 1] : 0, b = FLUX[f], c = f + 1 < NF ? FLUX[f + 1] : 0, den = a - 2 * b + c, dl = den < -1e-9 ? 0.5 * (a - c) / den : 0; dl = MX(-0.5, MN(0.5, dl));
+      T.push((f + dl) / FPS + tOff); Wt.push(MN(3, b / avg));
+      var lo = 0; for (k = 0; k < 10; k++) lo += MX(0, BANDS[f * NB + k] - (f > 0 ? BANDS[(f - 1) * NB + k] : 0)); LO.push(lo);
     }
     // phase weights: where there is a clear kick (low-band energy), the beat is the kick; otherwise every hit counts
     var loSum = 0, loMax = 0; for (i = 0; i < n; i++) { loSum += LO[i]; if (LO[i] > loMax) loMax = LO[i]; }
@@ -1571,10 +1582,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     for (k = -3 * sg; k <= 3 * sg; k++) ker.push(Math.exp(-(k * k) / (2 * sg * sg)));
     function trainAC(wts) {
       var re = new Float64Array(N), im = new Float64Array(N), a2, b2;
-      for (a2 = 0; a2 < n; a2++) { var ms = Math.round(T[a2] * 1000); for (b2 = -3 * sg; b2 <= 3 * sg; b2++) { var q = ms + b2; if (q >= 0 && q < N / 2) re[q] += wts[a2] * ker[b2 + 3 * sg]; } }
+      for (a2 = 0; a2 < n; a2++) { var ms = RD(T[a2] * 1000); for (b2 = -3 * sg; b2 <= 3 * sg; b2++) { var q = ms + b2; if (q >= 0 && q < N / 2) re[q] += wts[a2] * ker[b2 + 3 * sg]; } }
       fft(re, im); for (a2 = 0; a2 < N; a2++) { re[a2] = re[a2] * re[a2] + im[a2] * im[a2]; im[a2] = 0; } fft(re, im); return re;
     }
-    var ACf = trainAC(Wt), ACk = trainAC(KW), AC = ACf, maxLag = Math.min(N / 2 - 1, 4400), z1 = ACf[0] + 1e-9, z2 = ACk[0] + 1e-9;
+    var ACf = trainAC(Wt), ACk = trainAC(KW), AC = ACf, maxLag = MN(N / 2 - 1, 4400), z1 = ACf[0] + 1e-9, z2 = ACk[0] + 1e-9;
     // the evidence for a beat period P: the periodicity of all hits plus that of the kick-weighted hits, at the beat, two beats and four beats,
     // weighted by a gentle prior around 120 BPM (a wide log-Gaussian, so it settles octaves without bending 3:2 ratios)
     var S0 = new Float64Array(1101), sum = 0, cnt = 0, best = 334, P;
@@ -1583,34 +1594,34 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       S0[P] = (f1 / z1 + f2 / z2) * pr; sum += S0[P]; cnt++; if (S0[P] > S0[best]) best = P;
     }
     // refine the period on the autocorrelation peak itself (not the prior-weighted score), within 3 percent
-    var lo2 = Math.max(2, Math.round(best * 0.97)), hi2 = Math.min(maxLag - 2, Math.round(best * 1.03)), pk = best; for (var q3 = lo2; q3 <= hi2; q3++) if (AC[q3] > AC[pk]) pk = q3;
-    var a1 = AC[pk - 1], b1 = AC[pk], c1 = AC[pk + 1], dd = a1 - 2 * b1 + c1, ofs = dd < 0 ? 0.5 * (a1 - c1) / dd : 0, Pm = (pk + Math.max(-1, Math.min(1, ofs))) / 1000;
+    var lo2 = MX(2, RD(best * 0.97)), hi2 = MN(maxLag - 2, RD(best * 1.03)), pk = best; for (var q3 = lo2; q3 <= hi2; q3++) if (AC[q3] > AC[pk]) pk = q3;
+    var a1 = AC[pk - 1], b1 = AC[pk], c1 = AC[pk + 1], dd = a1 - 2 * b1 + c1, ofs = dd < 0 ? 0.5 * (a1 - c1) / dd : 0, Pm = (pk + MX(-1, MN(1, ofs))) / 1000;
     // refine period and phase on the hits near the grid
     var phi = 0, it;
     for (it = 0; it < 4; it++) {
       var sx = 0, sy = 0; for (i = 0; i < n; i++) { var th = 2 * Math.PI * ((T[i] % Pm) / Pm), wk = KW[i]; sx += wk * Math.cos(th); sy += wk * Math.sin(th); }
       phi = Math.atan2(sy, sx) * Pm / (2 * Math.PI); if (phi < 0) phi += Pm;
       var sw = 0, sk = 0, st = 0, skk = 0, skt = 0, m = 0;
-      for (i = 0; i < n; i++) { var kk = Math.round((T[i] - phi) / Pm), d2 = T[i] - (phi + kk * Pm); if (Math.abs(d2) < Pm * 0.12) { var w = KW[i]; sw += w; sk += w * kk; st += w * T[i]; skk += w * kk * kk; skt += w * kk * T[i]; m++; } }
+      for (i = 0; i < n; i++) { var kk = RD((T[i] - phi) / Pm), d2 = T[i] - (phi + kk * Pm); if (Math.abs(d2) < Pm * 0.12) { var w = KW[i]; sw += w; sk += w * kk; st += w * T[i]; skk += w * kk * kk; skt += w * kk * T[i]; m++; } }
       var den2 = sw * skk - sk * sk; if (m >= 8 && Math.abs(den2) > 1e-9) { var slope = (sw * skt - sk * st) / den2; if (Math.abs(slope - Pm) < Pm * 0.03) { Pm = slope; var ic = (st - slope * sk) / sw; phi = ((ic % Pm) + Pm) % Pm; } }
     }
     // downbeat: the beat position within four whose hits carry the most low-band energy
-    var sc = [0, 0, 0, 0]; for (i = 0; i < n; i++) { var kb = Math.round((T[i] - phi) / Pm); if (Math.abs(T[i] - (phi + kb * Pm)) < Pm * 0.15) sc[((kb % 4) + 4) % 4] += LO[i]; }
+    var sc = [0, 0, 0, 0]; for (i = 0; i < n; i++) { var kb = RD((T[i] - phi) / Pm); if (Math.abs(T[i] - (phi + kb * Pm)) < Pm * 0.15) sc[((kb % 4) + 4) % 4] += LO[i]; }
     var db = 0; for (j = 1; j < 4; j++) if (sc[j] > sc[db]) db = j;
     var grid0 = (phi + db * Pm) % (4 * Pm), conf = S0[best] / (sum / cnt + 1e-9), bpmF = 60 / Pm;
     return { bpm: bpmF, grid0: grid0, conf: conf, alt: [bpmF * 2, bpmF / 2], downbeat: db, beats: n, lowByBeat: sc };
   }
   function computeMagnets() {
-    var M = [], i, k, W = Math.round(0.5 * FPS), lastOn = -999, onsets = [];
+    var M = [], i, k, W = RD(0.5 * FPS), lastOn = -999, onsets = [];
     CHAPS.forEach(function (f) { M.push({ t: f / FPS, w: KIND_W.chapter, k: "chapter" }); });
     for (i = 1; i < NF - 1; i++) {
-      var s = 0, n = 0; for (k = Math.max(0, i - W); k <= Math.min(NF - 1, i + W); k++) { s += FLUX[k]; n++; }
+      var s = 0, n = 0; for (k = MX(0, i - W); k <= MN(NF - 1, i + W); k++) { s += FLUX[k]; n++; }
       if (FLUX[i] > 1.5 * (s / n) + 0.05 && FLUX[i] >= FLUX[i - 1] && FLUX[i] > FLUX[i + 1] && i - lastOn >= 3) { M.push({ t: i / FPS, w: KIND_W.onset, k: "onset", s: FLUX[i] }); onsets.push(i); lastOn = i; }
     }
     var sm = new Float32Array(NF), r = 7, lastV = -999;
-    for (i = 0; i < NF; i++) { var a = 0, c = 0; for (k = Math.max(0, i - r); k <= Math.min(NF - 1, i + r); k++) { a += RMS[k]; c++; } sm[i] = a / c; }
+    for (i = 0; i < NF; i++) { var a = 0, c = 0; for (k = MX(0, i - r); k <= MN(NF - 1, i + r); k++) { a += RMS[k]; c++; } sm[i] = a / c; }
     for (i = 15; i < NF - 15; i++) {
-      var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = Math.min(lo, sm[k]); hi = Math.max(hi, sm[k]); }
+      var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = MN(lo, sm[k]); hi = MX(hi, sm[k]); }
       if (sm[i] <= lo && hi - sm[i] >= 0.1 && i - lastV >= 9) { M.push({ t: i / FPS, w: KIND_W.valley, k: "valley" }); lastV = i; }
     }
     BPM = 0; GRID0 = 0; BPMINFO = null;
@@ -1621,37 +1632,37 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function nearestZero(tt) {
     /* The quietest sample next to a sign change within 5 ms (nearest on ties); if none crosses, the quietest sample. */
-    var i0 = Math.round(tt * SR), rad = Math.round(0.005 * SR), best = -1, bv = 9, bd = 1e9, fb = -1, fv = 9, i, v, d;
-    for (i = Math.max(1, i0 - rad); i < Math.min(PCM.length - 1, i0 + rad); i++) {
+    var i0 = RD(tt * SR), rad = RD(0.005 * SR), best = -1, bv = 9, bd = 1e9, fb = -1, fv = 9, i, v, d;
+    for (i = MX(1, i0 - rad); i < MN(PCM.length - 1, i0 + rad); i++) {
       d = Math.abs(i - i0);
-      if (PCM[i] * PCM[i + 1] <= 0) { v = Math.min(Math.abs(PCM[i]), Math.abs(PCM[i + 1])); var k = Math.abs(PCM[i]) <= Math.abs(PCM[i + 1]) ? i : i + 1; if (v < bv - 1e-9 || (Math.abs(v - bv) <= 1e-9 && d < bd)) { bv = v; bd = d; best = k; } }
+      if (PCM[i] * PCM[i + 1] <= 0) { v = MN(Math.abs(PCM[i]), Math.abs(PCM[i + 1])); var k = Math.abs(PCM[i]) <= Math.abs(PCM[i + 1]) ? i : i + 1; if (v < bv - 1e-9 || (Math.abs(v - bv) <= 1e-9 && d < bd)) { bv = v; bd = d; best = k; } }
       if (Math.abs(PCM[i]) < fv) { fv = Math.abs(PCM[i]); fb = i; }
     }
     if (best < 0) best = fb;
     return best < 0 ? tt : best / SR;
   }
   function snapTime(x, radius, bypass, skipEdge) {
-    if (bypass || !radius) return { t: Math.max(0, Math.min(DUR, x)), magnet: null };
+    if (bypass || !radius) return { t: MX(0, MN(DUR, x)), magnet: null };
     var best = null, bs = 0, i, cands = MAGNETS.slice(0);
     SLICES.forEach(function (s, k) { if (k !== skipEdge) { cands.push({ t: s.t0, w: KIND_W.edge, k: "edge" }); cands.push({ t: s.t1, w: KIND_W.edge, k: "edge" }); } });
     for (i = 0; i < cands.length; i++) { var d = Math.abs(cands[i].t - x); if (d > radius) continue; var sc = cands[i].w * (1 - d / radius); if (sc > bs) { bs = sc; best = cands[i]; } }
-    if (!best) return { t: Math.max(0, Math.min(DUR, x)), magnet: null };
-    return { t: Math.max(0, Math.min(DUR, nearestZero(best.t))), magnet: best };
+    if (!best) return { t: MX(0, MN(DUR, x)), magnet: null };
+    return { t: MX(0, MN(DUR, nearestZero(best.t))), magnet: best };
   }
-  function meanBands(f0, f1, out) { var b, f, n = Math.max(1, f1 - f0 + 1); for (b = 0; b < NB; b++) { var s = 0; for (f = f0; f <= f1; f++) s += BANDS[Math.min(NF - 1, Math.max(0, f)) * NB + b]; out[b] = s / n; } }
+  function meanBands(f0, f1, out) { var b, f, n = MX(1, f1 - f0 + 1); for (b = 0; b < NB; b++) { var s = 0; for (f = f0; f <= f1; f++) s += BANDS[MN(NF - 1, MX(0, f)) * NB + b]; out[b] = s / n; } }
   function makeSlice(t0, t1) {
     if (t1 < t0) { var q = t0; t0 = t1; t1 = q; }
     var f0 = fidx(t0), f1 = fidx(t1), h = new Float32Array(NB), tl = new Float32Array(NB), i, ms = 0;
-    meanBands(f0, Math.min(NF - 1, f0 + 3), h); meanBands(Math.max(0, f1 - 3), f1, tl);
+    meanBands(f0, MN(NF - 1, f0 + 3), h); meanBands(MX(0, f1 - 3), f1, tl);
     for (i = f0; i <= f1; i++) ms += RMS[i];
     var maxF = 1e-6; for (i = 0; i < NF; i++) if (FLUX[i] > maxF) maxF = FLUX[i];
-    var i0 = Math.round(t0 * SR), i1 = Math.round(t1 * SR) - 1;
-    return { t0: t0, t1: t1, head: h, tail: tl, hRms: (RMS[f0] + RMS[Math.min(NF - 1, f0 + 3)]) / 2, tRms: (RMS[f1] + RMS[Math.max(0, f1 - 3)]) / 2,
-      mass: (t1 - t0) * (ms / (f1 - f0 + 1)) * (1 + Math.min(1, FLUX[f0] / maxF)), x0: PCM[i0] || 0, x1: PCM[Math.max(0, i1)] || 0, s0: (PCM[i0 + 1] || 0) - (PCM[i0] || 0), s1: (PCM[Math.max(0, i1)] || 0) - (PCM[Math.max(0, i1 - 1)] || 0) };
+    var i0 = RD(t0 * SR), i1 = RD(t1 * SR) - 1;
+    return { t0: t0, t1: t1, head: h, tail: tl, hRms: (RMS[f0] + RMS[MN(NF - 1, f0 + 3)]) / 2, tRms: (RMS[f1] + RMS[MX(0, f1 - 3)]) / 2,
+      mass: (t1 - t0) * (ms / (f1 - f0 + 1)) * (1 + MN(1, FLUX[f0] / maxF)), x0: PCM[i0] || 0, x1: PCM[MX(0, i1)] || 0, s0: (PCM[i0 + 1] || 0) - (PCM[i0] || 0), s1: (PCM[MX(0, i1)] || 0) - (PCM[MX(0, i1 - 1)] || 0) };
   }
   function cosine(a, b) { var d = 0, na = 0, nb = 0, k; for (k = 0; k < NB; k++) { d += a[k] * b[k]; na += a[k] * a[k]; nb += b[k] * b[k]; } return d / Math.sqrt(na * nb + 1e-9); }
   function coherence(a, b) {
-    var cs = cosine(a.tail, b.head), lv = 1 - Math.min(1, Math.abs(a.tRms - b.hRms)), bm = Math.max(0, 1 - Math.abs(a.x1 - b.x0) / 0.1) * (a.s1 * b.s0 >= 0 ? 1 : 0.5);
+    var cs = cosine(a.tail, b.head), lv = 1 - MN(1, Math.abs(a.tRms - b.hRms)), bm = MX(0, 1 - Math.abs(a.x1 - b.x0) / 0.1) * (a.s1 * b.s0 >= 0 ? 1 : 0.5);
     return 0.5 * cs + 0.3 * lv + 0.2 * bm;
   }
   function arrange(list) {
@@ -1673,23 +1684,23 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function tx(tt, W) { return (tt - VIEW.a) / ((VIEW.b || DUR) - VIEW.a) * W; }
   function buildStripBg() {
     var W = 1200, H = 88, c = document.createElement("canvas"); c.width = W; c.height = H; var g = c.getContext("2d"), x, s;
-    var a = VIEW.a, b = VIEW.b || DUR, span = b - a, sa = Math.floor(a * SR), sb = Math.min(PCM.length, Math.ceil(b * SR)), per = Math.max(1, (sb - sa) / W), stride = Math.max(1, Math.floor(per / 12));
+    var a = VIEW.a, b = VIEW.b || DUR, span = b - a, sa = FL(a * SR), sb = MN(PCM.length, Math.ceil(b * SR)), per = MX(1, (sb - sa) / W), stride = MX(1, FL(per / 12));
     g.fillStyle = css.getPropertyValue("--surface").trim(); g.fillRect(0, 0, W, H);
     g.fillStyle = css.getPropertyValue("--elevated").trim(); g.fillRect(0, 0, W, 22);
     g.fillStyle = C.dim; g.globalAlpha = 0.6;
     for (x = 0; x < W; x++) {
-      var s0 = sa + Math.floor(x * per), s1 = Math.min(sb, sa + Math.floor((x + 1) * per)), mn = 1, mx = -1, v;
+      var s0 = sa + FL(x * per), s1 = MN(sb, sa + FL((x + 1) * per)), mn = 1, mx = -1, v;
       for (s = s0; s < s1; s += stride) { v = PCM[s]; if (v < mn) mn = v; if (v > mx) mx = v; }
       if (mn > mx) { mn = mx = 0; }
-      var y0 = 22 + (H - 22) / 2 - mx * (H - 22) * 0.45, y1 = 22 + (H - 22) / 2 - mn * (H - 22) * 0.45; g.fillRect(x, y0, 1, Math.max(1, y1 - y0));
+      var y0 = 22 + (H - 22) / 2 - mx * (H - 22) * 0.45, y1 = 22 + (H - 22) / 2 - mn * (H - 22) * 0.45; g.fillRect(x, y0, 1, MX(1, y1 - y0));
     }
     g.globalAlpha = 1;
     var steps = [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 30, 60, 120], st = steps[steps.length - 1], k;
     for (k = 0; k < steps.length; k++) if (steps[k] / span * W >= 70) { st = steps[k]; break; }
     g.fillStyle = C.text2 || C.dim; g.font = "11px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle";
-    for (var tt = Math.ceil(a / st) * st; tt < b; tt += st) { var xx = Math.round((tt - a) / span * W); g.fillRect(xx, 14, 1, 8); g.fillText(st < 1 ? tt.toFixed(2) : fmt(tt), xx + 4, 9); }
+    for (var tt = Math.ceil(a / st) * st; tt < b; tt += st) { var xx = RD((tt - a) / span * W); g.fillRect(xx, 14, 1, 8); g.fillText(st < 1 ? tt.toFixed(2) : fmt(tt), xx + 4, 9); }
     var col = { chapter: C.cyan, onset: C.gold, valley: C.green, grid: C.dim };
-    MAGNETS.forEach(function (m) { if (m.t < a || m.t > b) return; var xm = Math.round((m.t - a) / span * W); g.fillStyle = col[m.k]; g.globalAlpha = m.k === "grid" ? 0.35 : 0.9; var hh = m.k === "chapter" ? H - 22 : m.k === "onset" ? 14 : m.k === "valley" ? 8 : 4; g.fillRect(xm, m.k === "valley" ? H - hh : 22, m.k === "chapter" ? 2 : 1, hh); });
+    MAGNETS.forEach(function (m) { if (m.t < a || m.t > b) return; var xm = RD((m.t - a) / span * W); g.fillStyle = col[m.k]; g.globalAlpha = m.k === "grid" ? 0.35 : 0.9; var hh = m.k === "chapter" ? H - 22 : m.k === "onset" ? 14 : m.k === "valley" ? 8 : 4; g.fillRect(xm, m.k === "valley" ? H - hh : 22, m.k === "chapter" ? 2 : 1, hh); });
     g.globalAlpha = 1; STRIPBG = c;
   }
   function drawStrip(tn) {
@@ -1709,7 +1720,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     EA($("slist").querySelectorAll("button"), function (b) { b.addEventListener("click", function () { SELECTED = +b.getAttribute("data-k"); seek(SLICES[SELECTED].t0); renderSlices(); }); });
   }
   function magnetSummary() { var c = { chapter: 0, onset: 0, valley: 0, grid: 0 }; MAGNETS.forEach(function (m) { c[m.k]++; }); $("magro").textContent = "Snap points: " + c.chapter + " chapter, " + c.onset + " onset, " + c.valley + " valley" + (BPM ? ", " + c.grid + " grid lines at about " + BPM + " BPM" : "") + "."; }
-  function stripT(e) { var r = $("strip").getBoundingClientRect(), sp = (VIEW.b || DUR) - VIEW.a; return Math.max(0, Math.min(DUR, VIEW.a + (e.clientX - r.left) / r.width * sp)); }
+  function stripT(e) { var r = $("strip").getBoundingClientRect(), sp = (VIEW.b || DUR) - VIEW.a; return MX(0, MN(DUR, VIEW.a + (e.clientX - r.left) / r.width * sp)); }
   function stripEdgeAt(e) { var r = $("strip").getBoundingClientRect(), px = 8 / r.width * ((VIEW.b || DUR) - VIEW.a), x = stripT(e), k, best = null; SLICES.forEach(function (s, i) { if (Math.abs(s.t0 - x) <= px) best = { i: i, edge: "t0" }; else if (Math.abs(s.t1 - x) <= px) best = { i: i, edge: "t1" }; }); return best; }
   (function wireStrip() {
     var el = $("strip");
@@ -1724,11 +1735,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       var sn = snapTime(x, SNAPR, e.altKey, DRAG.mode === "edge" ? DRAG.i : -1); STRIPHL = sn.magnet ? { t: sn.t, k: sn.magnet.k } : null;
       if (DRAG.mode === "edge") { SLICES[DRAG.i][DRAG.edge] = sn.t; } else DRAG.b = sn.t;
       drawStrip(tnow());
-      if (DRAG.mode === "new" && DRAG.moved) { var g = el.getContext("2d"), W = el.width, H = el.height, x0 = tx(Math.min(DRAG.a, DRAG.b), W), x1 = tx(Math.max(DRAG.a, DRAG.b), W); g.fillStyle = C.gold; g.globalAlpha = 0.28; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; }
+      if (DRAG.mode === "new" && DRAG.moved) { var g = el.getContext("2d"), W = el.width, H = el.height, x0 = tx(MN(DRAG.a, DRAG.b), W), x1 = tx(MX(DRAG.a, DRAG.b), W); g.fillStyle = C.gold; g.globalAlpha = 0.28; g.fillRect(x0, 0, x1 - x0, H); g.globalAlpha = 1; }
     });
     el.addEventListener("pointerup", function (e) {
       if (!DRAG) return; var d = DRAG; DRAG = null; STRIPHL = null;
-      if (d.mode === "edge") { var s = SLICES[d.i]; SLICES[d.i] = makeSlice(Math.min(s.t0, s.t1), Math.max(s.t0, s.t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; renderSlices(); }
+      if (d.mode === "edge") { var s = SLICES[d.i]; SLICES[d.i] = makeSlice(MN(s.t0, s.t1), MX(s.t0, s.t1)); SLICES.sort(function (a, b) { return a.t0 - b.t0; }); ARR = null; renderSlices(); }
       else if (d.moved) addSlice(d.a, d.b); else seek(stripT(e));
       drawStrip(tnow());
     });
@@ -1752,14 +1763,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function samplerUI() {
     var sp = (VIEW.b || DUR) - VIEW.a, ok = DUR > 0;
     $("zlab").textContent = ok ? fmt(VIEW.a) + " to " + fmt(VIEW.b || DUR) + " (" + sp.toFixed(1) + " s)" : "";
-    $("zpan").disabled = !ok || sp >= DUR - 1e-6; $("zpan").value = DUR - sp > 1e-6 ? Math.round(VIEW.a / (DUR - sp) * 1000) : 0;
+    $("zpan").disabled = !ok || sp >= DUR - 1e-6; $("zpan").value = DUR - sp > 1e-6 ? RD(VIEW.a / (DUR - sp) * 1000) : 0;
     $("sbpm").value = BPM || ""; if (!$("tbpm").value || !SP.touched) $("tbpm").value = BPM || 120;
   }
   function viewSet(a, b) {
-    var span = Math.max(0.2, Math.min(DUR, b - a)); a = Math.max(0, Math.min(DUR - span, a)); VIEW.a = a; VIEW.b = a + span;
+    var span = MX(0.2, MN(DUR, b - a)); a = MX(0, MN(DUR - span, a)); VIEW.a = a; VIEW.b = a + span;
     buildStripBg(); samplerUI(); drawStrip(tnow());
   }
-  function viewZoom(f, cx) { var span = VIEW.b - VIEW.a, ns = Math.max(0.2, Math.min(DUR, span * f)), frac = (cx - VIEW.a) / span; viewSet(cx - frac * ns, cx - frac * ns + ns); }
+  function viewZoom(f, cx) { var span = VIEW.b - VIEW.a, ns = MX(0.2, MN(DUR, span * f)), frac = (cx - VIEW.a) / span; viewSet(cx - frac * ns, cx - frac * ns + ns); }
   $("zin").addEventListener("click", function () { viewZoom(0.5, (VIEW.a + VIEW.b) / 2); });
   $("zout").addEventListener("click", function () { viewZoom(2, (VIEW.a + VIEW.b) / 2); });
   $("zfit").addEventListener("click", function () { viewSet(0, DUR); });
@@ -1774,7 +1785,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var now = performance.now(); if (now - lastGrain < 45 || !BUF) return; lastGrain = now;
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
     var s = AC.createBufferSource(), g = AC.createGain(), c = AC.currentTime; s.buffer = BUF; g.gain.setValueAtTime(0.0001, c); g.gain.linearRampToValueAtTime(0.8, c + 0.01); g.gain.linearRampToValueAtTime(0.0001, c + 0.09);
-    s.connect(g); g.connect(outBus()); s.start(0, Math.max(0, Math.min(DUR - 0.11, tt)), 0.1);
+    s.connect(g); g.connect(outBus()); s.start(0, MX(0, MN(DUR - 0.11, tt)), 0.1);
   }
   function scrubTo(e) { var tt = stripT(e); tpaused = tt; frame(false); grain(tt); }
   $("strip").addEventListener("pointerdown", function (e) {
@@ -1801,7 +1812,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (!BPM) { $("sphint").textContent = "No tempo was found in this song. Type a Song BPM first."; return 0; }
     var step = 60 / BPM / div, a = VIEW.a, b = VIEW.b, pts = [], k = Math.ceil((a - GRID0) / step - 1e-9), tt;
     for (; (tt = GRID0 + k * step) < b - 0.05; k++) { if (tt >= a - 1e-9) pts.push(nearestZero(tt)); }
-    var many = pts.length > 64, c = sliceFrom(pts, Math.min(b, (pts.length ? pts[Math.min(pts.length, 64) - 1] : 0) + step)); $("sphint").textContent = c + " slices on the beat." + (many ? " Zoom in for the rest; 64 is the most." : ""); return c;
+    var many = pts.length > 64, c = sliceFrom(pts, MN(b, (pts.length ? pts[MN(pts.length, 64) - 1] : 0) + step)); $("sphint").textContent = c + " slices on the beat." + (many ? " Zoom in for the rest; 64 is the most." : ""); return c;
   }
   $("ash").addEventListener("click", function () { autoHits(+document.querySelector("input[name=ahn]:checked").value); });
   $("asb").addEventListener("click", function () { autoBeats(+document.querySelector("input[name=abd]:checked").value); });
@@ -1809,20 +1820,20 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var P = SP.plan, L = P.loopLen, ph = ((AC.currentTime - SP.t0ctx) % L + L) % L, k = 0, i, e;
     if (AC.currentTime < SP.t0ctx) return P.ev[0].t0;
     for (i = 0; i < P.ev.length; i++) if (P.ev[i].st <= ph) k = i;
-    e = P.ev[k]; return Math.min(DUR, e.t0 + Math.min(ph - e.st, e.len));
+    e = P.ev[k]; return MN(DUR, e.t0 + MN(ph - e.st, e.len));
   }
   function spPlan(src, tgt) {
     var list = SLICES.slice().sort(function (x, y) { return x.t0 - y.t0; }); if (!list.length) return null;
     var Ps = 60 / src, Pt = 60 / tgt, b0 = (list[0].t0 - GRID0) / Ps, ev = [], i, endBeat = (list[list.length - 1].t1 - GRID0) / Ps;
     for (i = 0; i < list.length; i++) ev.push({ st: ((list[i].t0 - GRID0) / Ps - b0) * Pt, t0: list[i].t0, len: list[i].t1 - list[i].t0 });
-    var L = Math.max((endBeat - b0) * Pt, ev[ev.length - 1].st + 0.05);
-    for (i = 0; i < ev.length; i++) { var nx = i + 1 < ev.length ? ev[i + 1].st : L; ev[i].dur = Math.min(ev[i].len, Math.max(0.02, nx - ev[i].st)); }
+    var L = MX((endBeat - b0) * Pt, ev[ev.length - 1].st + 0.05);
+    for (i = 0; i < ev.length; i++) { var nx = i + 1 < ev.length ? ev[i + 1].st : L; ev[i].dur = MN(ev[i].len, MX(0.02, nx - ev[i].st)); }
     return { ev: ev, loopLen: L };
   }
   function spSchedule(base) {
     SP.plan.ev.forEach(function (e) {
       var when = base + e.st, s = AC.createBufferSource(), g = AC.createGain();
-      s.buffer = BUF; SP.rates.push(s.playbackRate.value); g.gain.setValueAtTime(0.0001, when); g.gain.linearRampToValueAtTime(1, when + 0.003); g.gain.setValueAtTime(1, Math.max(when + 0.003, when + e.dur - 0.006)); g.gain.linearRampToValueAtTime(0.0001, when + e.dur);
+      s.buffer = BUF; SP.rates.push(s.playbackRate.value); g.gain.setValueAtTime(0.0001, when); g.gain.linearRampToValueAtTime(1, when + 0.003); g.gain.setValueAtTime(1, MX(when + 0.003, when + e.dur - 0.006)); g.gain.linearRampToValueAtTime(0.0001, when + e.dur);
       s.connect(g); g.connect(outBus()); s.start(when, e.t0, e.dur + 0.01); SP.srcs.push(s);
     });
     if (SP.srcs.length > 400) SP.srcs.splice(0, SP.srcs.length - 400);
@@ -1841,13 +1852,13 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   /* ---------------- tempo tools: tap tempo, downbeat ---------------- */
   var TAPS = [];
   function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function";
-    bpm = Math.max(40, Math.min(240, Math.round(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
+    bpm = MX(40, MN(240, RD(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
     MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; });
     for (g = GRID0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" });
     MAGNETS.sort(function (x, y) { return x.t - y.t; });
     $("sbpm").value = bpm; if (!SP.touched) $("tbpm").value = bpm;
     if (NF) { buildStripBg(); magnetSummary(); drawStrip(tnow()); }
-    EA(document.querySelectorAll(".tapb"), function (b) { b.textContent = "Tap tempo " + bpm; });
+    EA(QA(".tapb"), function (b) { b.textContent = "Tap tempo " + bpm; });
     if (gb && NF) genomeBuild();
   }
   function tapAt(ms, songT) {
@@ -1858,22 +1869,22 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var med = iv.length % 2 ? iv[(iv.length - 1) / 2] : (iv[iv.length / 2 - 1] + iv[iv.length / 2]) / 2;
     setTempo(60000 / med, TAPS[TAPS.length - 1].t); return BPM;
   }
-  EA(document.querySelectorAll(".tapb"), function (b) { b.addEventListener("click", function () { tapAt(performance.now(), tnow()); }); });
+  EA(QA(".tapb"), function (b) { b.addEventListener("click", function () { tapAt(performance.now(), tnow()); }); });
   function downbeatHere() {
     var tn = tnow(), best = null, bd = 0.2, i; if (!NF) return;
     for (i = 0; i < MAGNETS.length; i++) if (MAGNETS[i].k === "onset" && Math.abs(MAGNETS[i].t - tn) < bd) { bd = Math.abs(MAGNETS[i].t - tn); best = MAGNETS[i].t; }
     setTempo(BPM || 120, best === null ? tn : best); $("sphint").textContent = "Downbeat set at " + (best === null ? tn : best).toFixed(2) + " s.";
   }
-  EA(document.querySelectorAll(".dbb"), function (b) { b.addEventListener("click", downbeatHere); });
+  EA(QA(".dbb"), function (b) { b.addEventListener("click", downbeatHere); });
   /* Beat check: hear the grid over the song and correct it by ear. */
-  function bcKey() { return "phosphor.beat." + SRCNAME + "." + Math.round(DUR * 10); }
+  function bcKey() { return "phosphor.beat." + SRCNAME + "." + RD(DUR * 10); }
   function bcSave() { try { localStorage.setItem(bcKey(), JSON.stringify({ b: BPM, g: GRID0 })); } catch (e) {} }
   function bcLoad() { try { var s = JSON.parse(localStorage.getItem(bcKey()) || "null"); if (s && s.b > 0) setTempo(s.b, s.g); } catch (e) {} }
   var BC = { on: false, timer: 0, last: -9, times: [] };
   function bcInfo() { var i = BPMINFO; $("bcinfo").textContent = BPM ? BPM.toFixed(1) + " BPM" + (i ? ", confidence " + i.conf.toFixed(1) + ", could also be " + i.alt.map(function (v) { return v.toFixed(0); }).join(" or ") : "") : "No tempo found. Tap one."; }
   function bcPump() {
     if (!BC.on || !AC || !playing || SP.on) return; var P = 60 / (BPM || 120), now = AC.currentTime, ref = t0ctx - off0 + (BPM ? GRID0 : 0), k, tt;
-    for (k = Math.max(0, Math.ceil((now - ref) / P)); ref + k * P < now + 0.12; k++) { tt = ref + k * P; if (tt <= BC.last + P * 0.5) continue; singClick(tt, k % 4 === 0); BC.last = tt; BC.times.push(+(GRID0 + k * P).toFixed(4)); if (BC.times.length > 64) BC.shift ? BC.times.shift() : 0; }
+    for (k = MX(0, Math.ceil((now - ref) / P)); ref + k * P < now + 0.12; k++) { tt = ref + k * P; if (tt <= BC.last + P * 0.5) continue; singClick(tt, k % 4 === 0); BC.last = tt; BC.times.push(+(GRID0 + k * P).toFixed(4)); if (BC.times.length > 64) BC.shift ? BC.times.shift() : 0; }
   }
   function bcOn(on) { BC.on = on; AP($("bcb"), on); clearInterval(BC.timer); BC.last = -9; if (on) { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); BC.timer = setInterval(bcPump, 25); } bcInfo(); }
   $("bcb").addEventListener("click", function () { bcOn(!BC.on); });
@@ -1884,8 +1895,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("dbtrim").addEventListener("click", function () {
     if (!SING.pcm || SING.state !== "loop") { singMsg("Record a loop first."); return; }
     if (SING.click) { singMsg("With the click on, the loop already starts on the click's first beat."); return; }
-    var sr = AC.sampleRate, cut = Math.round(GRID0 * sr), pcm = SING.pcm.subarray(Math.min(cut, SING.pcm.length - 1));
-    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = Math.max(1, Math.round(pcm.length / bar)), n = Math.round(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, Math.min(n, pcm.length))); pcm = o; }
+    var sr = AC.sampleRate, cut = RD(GRID0 * sr), pcm = SING.pcm.subarray(MN(cut, SING.pcm.length - 1));
+    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = MX(1, RD(pcm.length / bar)), n = RD(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, MN(n, pcm.length))); pcm = o; }
     SING.hist.push(SING.pcm); if (SING.hist.length > 8) SING.hist.shift(); singLoad(new Float32Array(pcm), "My loop"); singMsg("The loop now starts on the downbeat.");
   });
   $("tbpm").addEventListener("input", function () { SP.touched = true; });
@@ -1899,7 +1910,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     plain: { mode: 4, pal: "orig", bits: 8, res: 9, rl: { on: false, bars: 2, dir: "up" }, q: "beat", gate: 0.5, bars: 1, cells: {} }
   };
   function setCtl(id, v, ev) { var e = $(id); if (!e) return; if (e.type === "checkbox") e.checked = !!v; else e.value = v; e.dispatchEvent(new Event(ev || (e.tagName === "SELECT" ? "change" : "input"), { bubbles: true })); }
-  function setRadio(name, v) { EA(document.querySelectorAll("input[name=" + name + "]"), function (r) { if (parseFloat(r.value) === parseFloat(v) || r.value === String(v)) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } }); }
+  function setRadio(name, v) { EA(QA("input[name=" + name + "]"), function (r) { if (parseFloat(r.value) === parseFloat(v) || r.value === String(v)) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); } }); }
   function applyPreset(name) {
     var P = PRE[name]; if (!P) return;
     setStage(P.mode, ZS[P.mode]); setCtl("palsel", P.pal); pkBits(P.bits); setCtl("res", P.res);
@@ -1909,12 +1920,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     seqPaint(); seqQuant(P.q); setRadio("sqg", P.gate); setRadio("sqb", P.bars); seqOn(has);
     frame(playing);
   }
-  EA(document.querySelectorAll("[data-pre]"), function (b) { b.addEventListener("click", function () { applyPreset(b.getAttribute("data-pre")); }); });
+  EA(QA("[data-pre]"), function (b) { b.addEventListener("click", function () { applyPreset(b.getAttribute("data-pre")); }); });
   var DOCKHID = false;
   var SAVEKEY = "phosphor.settings.v1", saveT = 0;
   function snapshot() {
     return { mode: MODE, zs: ZS.slice(), pal: $("palsel").value, curve: LOOK.curve, amt: LOOK.amt, bits: BITS, wood: WOOD, crt: CRT, calm: CALM, res: +$("res").value, chs: CHSHARP,
-      rl: { on: RL.on, bars: RL.bars, dir: RL.dir }, seq: { quant: SEQ.quant, gate: SEQ.gate, bars: SEQ.bars, cells: SEQ.cells }, click: SING.click, bpm: SING.bpm, lvl: LVL, go: GLITCHOFF ? 1 : 0, dk: DOCKHID ? 1 : 0, swing: Math.round(SWING * 100), tz: Math.round(QZ * 100) };
+      rl: { on: RL.on, bars: RL.bars, dir: RL.dir }, seq: { quant: SEQ.quant, gate: SEQ.gate, bars: SEQ.bars, cells: SEQ.cells }, click: SING.click, bpm: SING.bpm, lvl: LVL, go: GLITCHOFF ? 1 : 0, dk: DOCKHID ? 1 : 0, swing: RD(SWING * 100), tz: RD(QZ * 100) };
   }
   function saveSettings() { try { localStorage.setItem(SAVEKEY, JSON.stringify(snapshot())); } catch (e) { STORE.ok = false; storeChip(); } }
   function storeProbe() { try { var k = "phosphor.probe"; localStorage.setItem(k, "1"); STORE.ok = localStorage.getItem(k) === "1"; localStorage.removeItem(k); } catch (e) { STORE.ok = false; } storeChip(); }
@@ -1925,15 +1936,15 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function applySnapshot(s, user) {
     try {
-      if (s.zs && s.zs.length >= 4 && s.zs.length <= 5) s.zs.forEach(function (z, c) { ZS[c] = Math.max(1, Math.min(5, z | 0)); });
+      if (s.zs && s.zs.length >= 4 && s.zs.length <= 5) s.zs.forEach(function (z, c) { ZS[c] = MX(1, MN(5, z | 0)); });
       if (s.mode >= 0 && s.mode < 5) setStage(s.mode, ZS[s.mode]);
       if (s.pal && $("palsel").querySelector('option[value="' + s.pal + '"]')) setCtl("palsel", s.pal);
-      if (s.curve) { setRadio("cu", s.curve); setCtl("cua", Math.round((s.amt || 0) * 100)); }
+      if (s.curve) { setRadio("cu", s.curve); setCtl("cua", RD((s.amt || 0) * 100)); }
       if (s.bits >= 1 && s.bits <= 8) pkBits(s.bits);
       setRadio("pm", s.wood ? "wood" : "plain"); setCtl("crt", !!s.crt, "change"); setCtl("calm", s.calm !== false, "change"); setCtl("chsharp", !!s.chs, "change");
       if (s.res >= 1 && s.res <= 9) setCtl("res", s.res);
       if (s.rl) { setCtl("rloop", !!s.rl.on, "change"); setRadio("rb", s.rl.bars); setRadio("rd", s.rl.dir); }
-      if (s.seq) { ["beat", "onset", "valley", "edge"].indexOf(s.seq.quant) >= 0 && seqQuant(s.seq.quant); setRadio("sqg", s.seq.gate); setRadio("sqb", s.seq.bars); LANES.forEach(function (l) { var c = s.seq.cells && s.seq.cells[l[0]]; if (Array.isArray(c) && c.length === 16) for (var i = 0; i < 16; i++) SEQ.cells[l[0]][i] = Math.max(0, Math.min(l[0] === "detail" ? 9 : l[0] === "jog" ? 5 : 1, c[i] | 0)); }); seqPaint(); }
+      if (s.seq) { ["beat", "onset", "valley", "edge"].indexOf(s.seq.quant) >= 0 && seqQuant(s.seq.quant); setRadio("sqg", s.seq.gate); setRadio("sqb", s.seq.bars); LANES.forEach(function (l) { var c = s.seq.cells && s.seq.cells[l[0]]; if (Array.isArray(c) && c.length === 16) for (var i = 0; i < 16; i++) SEQ.cells[l[0]][i] = MX(0, MN(l[0] === "detail" ? 9 : l[0] === "jog" ? 5 : 1, c[i] | 0)); }); seqPaint(); }
       if (s.lvl >= 1 && s.lvl <= 4 && (user || !/[?&](level=|test=1)/.test(location.search))) setLevel(s.lvl);
       if (s.go === 1 || s.go === 0) setGlitch(s.go !== 1);
       if ((s.dk === 1 || s.dk === 0) && typeof setDock === "function") setDock(s.dk === 1);
@@ -1968,7 +1979,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     SESS.mr = new MediaRecorder(new MediaStream([vs.getVideoTracks()[0], dst.stream.getAudioTracks()[0]]), { mimeType: mt, videoBitsPerSecond: 4000000 });
     SESS.mr.ondataavailable = function (e) { if (e.data.size) SESS.chunks.push(e.data); }; SESS.mr.start(1000);
     SESS.t0 = performance.now(); SESS.on = true; SESS.start = snapshot(); $("sessrec").setAttribute("aria-pressed", "true");
-    SESS.timer = setInterval(function () { var s = Math.round((performance.now() - SESS.t0) / 1000); $("sessrec").textContent = "Stop recording " + Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }, 500); $("sessrec").textContent = "Stop recording 0:00";
+    SESS.timer = setInterval(function () { var s = RD((performance.now() - SESS.t0) / 1000); $("sessrec").textContent = "Stop recording " + FL(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }, 500); $("sessrec").textContent = "Stop recording 0:00";
   }
   function sessStop() {
     if (!SESS.on) return; clearInterval(SESS.timer); var stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19), log = SESS.log, startState = SESS.start, secs = (performance.now() - SESS.t0) / 1000;
@@ -1982,10 +1993,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   $("sessrec").addEventListener("click", function () { if (SESS.on) sessStop(); else sessStart(); });
   $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "phosphor.stickers.v1", "phosphor.keys.v1", "phosphor.skin.v1"].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* blocked */ } }); clearTimeout(saveT); $("learnhint").textContent = "Everything saved on this device was removed. This page keeps its current settings until you reload."; });
-  EA(document.querySelectorAll("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
+  EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1997,7 +2008,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
         return new Promise(function (res) { R.mr.onstop = function () { var fr = new FileReader(); fr.onload = function () { res(String(fr.result).split(",")[1]); }; fr.readAsDataURL(new Blob(R.chunks, { type: "video/webm" })); try { AC._sh.disconnect(R.dst); } catch (e) { /* gone */ } }; R.mr.stop(); });
       }
     };
-  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, gsw: { set: setGlitch, off: function () { return GLITCHOFF; } }, bars: { times: function () { return BARS.times.slice(); }, render: function (f) { renderBars(tnow(), f); }, show: showBar, play: barsPlay, index: function () { return BARS.i; }, playing: function () { return BARS.play; } }, pins: { add: pinAdd, list: function () { return pinsHere().map(function (p) { return JSON.parse(JSON.stringify(p)); }); }, arm: function (i, v) { pinsHere()[i].armed = v; }, cues: function (v) { CUES.on = v; $("cuesOn").checked = v; }, fired: function () { return CUES.fired.slice(); }, resetFired: function () { CUES.fired = []; }, export: pinsExport, import: pinsImport, tamper: function (i, note) { var p = pinsHere()[i]; p.note = note; return pinVerify(p); }, verify: function (i) { return pinVerify(pinsHere()[i]); }, use: pinsUse, clear: function () { PINS = {}; pinsRender(); } }, mix: { gains: function () { return { a: MIX.gA, b: MIX.gB, nodeA: AC && AC._mixA ? AC._mixA.gain.value : null, nodeB: AC && AC._mixB ? AC._mixB.gain.value : null }; }, set: function (xf, la, lb, curve) { if (xf !== undefined) { MIX.xf = xf; $("mxx").value = Math.round(xf * 100); } if (la !== undefined) { MIX.lvA = la; $("mxla").value = Math.round(la * 100); } if (lb !== undefined) { MIX.lvB = lb; $("mxlb").value = Math.round(lb * 100); } if (curve) MIX.curve = curve; applyMix(); }, math: function (xf, curve, la, lb) { var s = { xf: MIX.xf, curve: MIX.curve, lvA: MIX.lvA, lvB: MIX.lvB }; MIX.xf = xf; MIX.curve = curve; MIX.lvA = la === undefined ? 1 : la; MIX.lvB = lb === undefined ? 1 : lb; var g = mixGains(); MIX.xf = s.xf; MIX.curve = s.curve; MIX.lvA = s.lvA; MIX.lvB = s.lvB; return g; }, b: function () { return { bpm: DB.bpm, grid0: DB.grid0, rate: DB.rate, mult: DB.mult, pos: dbPos(), playing: DB.playing, dur: DB.dur, n: DB.n, nf: DB.nf, name: DB.name, dna: DB.dna ? DB.dna.length : 0 }; }, play: function (at) { dbStart(at || 0); }, stop: dbStop, sync: dbSync, align: dbAlign, nudge: dbNudge, phase: dbPhaseMs, follow: function (v) { MIX.follow = v; frame(playing); }, ceiling: function () { return outPeak(); } }, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; } }, mode: { level: function () { return LVL; }, set: setLevel }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { clock: function () { return AC ? { now: AC.currentTime, ref: (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), P: 60 / (BPM || 120) / FXG.div } : null; }, wet: function (k) { return AC && AC._fx ? { wet: AC._fx[k].wet.gain.value, dry: AC._fx[k].dry.gain.value } : null; }, seed: gateSeed, depth: function (d) { FXG.depth = d; }, lag: function (l) { FXG.lag = l; }, gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, gsw: { set: setGlitch, off: function () { return GLITCHOFF; } }, bars: { times: function () { return BARS.times.slice(); }, render: function (f) { renderBars(tnow(), f); }, show: showBar, play: barsPlay, index: function () { return BARS.i; }, playing: function () { return BARS.play; } }, pins: { add: pinAdd, list: function () { return pinsHere().map(function (p) { return JSON.parse(JSON.stringify(p)); }); }, arm: function (i, v) { pinsHere()[i].armed = v; }, cues: function (v) { CUES.on = v; $("cuesOn").checked = v; }, fired: function () { return CUES.fired.slice(); }, resetFired: function () { CUES.fired = []; }, export: pinsExport, import: pinsImport, tamper: function (i, note) { var p = pinsHere()[i]; p.note = note; return pinVerify(p); }, verify: function (i) { return pinVerify(pinsHere()[i]); }, use: pinsUse, clear: function () { PINS = {}; pinsRender(); } }, mix: { gains: function () { return { a: MIX.gA, b: MIX.gB, nodeA: AC && AC._mixA ? AC._mixA.gain.value : null, nodeB: AC && AC._mixB ? AC._mixB.gain.value : null }; }, set: function (xf, la, lb, curve) { if (xf !== undefined) { MIX.xf = xf; $("mxx").value = RD(xf * 100); } if (la !== undefined) { MIX.lvA = la; $("mxla").value = RD(la * 100); } if (lb !== undefined) { MIX.lvB = lb; $("mxlb").value = RD(lb * 100); } if (curve) MIX.curve = curve; applyMix(); }, math: function (xf, curve, la, lb) { var s = { xf: MIX.xf, curve: MIX.curve, lvA: MIX.lvA, lvB: MIX.lvB }; MIX.xf = xf; MIX.curve = curve; MIX.lvA = la === undefined ? 1 : la; MIX.lvB = lb === undefined ? 1 : lb; var g = mixGains(); MIX.xf = s.xf; MIX.curve = s.curve; MIX.lvA = s.lvA; MIX.lvB = s.lvB; return g; }, b: function () { return { bpm: DB.bpm, grid0: DB.grid0, rate: DB.rate, mult: DB.mult, pos: dbPos(), playing: DB.playing, dur: DB.dur, n: DB.n, nf: DB.nf, name: DB.name, dna: DB.dna ? DB.dna.length : 0 }; }, play: function (at) { dbStart(at || 0); }, stop: dbStop, sync: dbSync, align: dbAlign, nudge: dbNudge, phase: dbPhaseMs, follow: function (v) { MIX.follow = v; frame(playing); }, ceiling: function () { return outPeak(); } }, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; } }, mode: { level: function () { return LVL; }, set: setLevel }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { clock: function () { return AC ? { now: AC.currentTime, ref: (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), P: 60 / (BPM || 120) / FXG.div } : null; }, wet: function (k) { return AC && AC._fx ? { wet: AC._fx[k].wet.gain.value, dry: AC._fx[k].dry.gain.value } : null; }, seed: gateSeed, depth: function (d) { FXG.depth = d; }, lag: function (l) { FXG.lag = l; }, gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = new Float32Array(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = new Float32Array(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = new Float32Array(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += Math.abs(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -2011,7 +2022,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var s = x * x * (3 - 2 * x); return x + (s - x) * a;
   }
   function gradient(stops, y) {
-    for (var i = 0; i < stops.length - 1; i++) if (y <= stops[i + 1][0] || i === stops.length - 2) { var a = stops[i], b = stops[i + 1], m = Math.max(0, Math.min(1, (y - a[0]) / (b[0] - a[0]))); return [a[1][0] + (b[1][0] - a[1][0]) * m, a[1][1] + (b[1][1] - a[1][1]) * m, a[1][2] + (b[1][2] - a[1][2]) * m]; }
+    for (var i = 0; i < stops.length - 1; i++) if (y <= stops[i + 1][0] || i === stops.length - 2) { var a = stops[i], b = stops[i + 1], m = MX(0, MN(1, (y - a[0]) / (b[0] - a[0]))); return [a[1][0] + (b[1][0] - a[1][0]) * m, a[1][1] + (b[1][1] - a[1][1]) * m, a[1][2] + (b[1][2] - a[1][2]) * m]; }
     return stops[stops.length - 1][1];
   }
   function lookIdentity() { return (LOOK.curve === "lin" || LOOK.amt <= 0) && !LOOK.invert && LOOK.pal === "orig"; }
@@ -2020,7 +2031,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     var r = new Uint8Array(256), g = new Uint8Array(256), b = new Uint8Array(256), i;
     for (i = 0; i < 256; i++) {
       var y = curveVal(i / 255, LOOK.curve, LOOK.amt); if (LOOK.invert) y = 1 - y;
-      if (LOOK.pal === "orig") { r[i] = g[i] = b[i] = Math.round(y * 255); } else { var c = gradient(PALS[LOOK.pal], y); r[i] = Math.round(c[0]); g[i] = Math.round(c[1]); b[i] = Math.round(c[2]); }
+      if (LOOK.pal === "orig") { r[i] = g[i] = b[i] = RD(y * 255); } else { var c = gradient(PALS[LOOK.pal], y); r[i] = RD(c[0]); g[i] = RD(c[1]); b[i] = RD(c[2]); }
     }
     LUTKEY = key; LUT = { r: r, g: g, b: b }; return LUT;
   }
@@ -2037,33 +2048,48 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   /* ---------------- glitch: stutter and freeze (time and audio), tear, RGB split, blocks (pixels) ---------------- */
   var GLITCHOFF = false, GKILL = ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "gate"], GLITCH = { stut: null, gate: false, tear: false, rgb: false, blocks: false, crush: false, dist: false, echo: false, room: false, shim: false, sweep: false }, GAMT = 0.6, STSIZE = 0.125, PERFORM = false, GSRC = null, GTMP = null;
   function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-  function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var L = Math.max(s.L, MO.loop), d = t - s.t0; return s.t0 + (((d % L) + L) % L); }
+  function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var L = MX(s.L, MO.loop), d = t - s.t0; return s.t0 + (((d % L) + L) % L); }
   function glitchActive() { return !!(GLITCH.stut || GLITCH.tear || GLITCH.rgb || GLITCH.blocks); }
   /* Glitch as a stop-motion zoetrope (Zach, 2026-10-16): constant-speed poses (8 a second), never random per frame. Every displacement is small and bounded, so nothing can strobe. */
-  var GLAST = {}, CODONS = null;
+  var GLAST = {}, CODONS = null, GSTR = 1, GLIM = { L: -1, dir: 0, ev: [], until: 0 }, GLC = null;
+  function glum(cv) {
+    GLC = GLC || document.createElement("canvas"); GLC.width = 16; GLC.height = 9; var x = GLC.getContext("2d", { willReadFrequently: true }), d, s = 0, i; x.drawImage(cv, 0, 0, 16, 9); d = x.getImageData(0, 0, 16, 9).data;
+    for (i = 0; i < d.length; i += 4) s += 0.2126 * Math.pow(d[i] / 255, 2.2) + 0.7152 * Math.pow(d[i + 1] / 255, 2.2) + 0.0722 * Math.pow(d[i + 2] / 255, 2.2);
+    return s / 144;
+  }
+  /* Flash limit: opposing swings of 10 percent or more of full brightness (darker side under 0.8) are counted over one second; four or more (two flashes) hold strength at Soft for three seconds. */
+  function glim(L, now) {
+    var d = GLIM.L < 0 ? 0 : L - GLIM.L, e = GLIM.ev, dir = d > 0 ? 1 : -1; GLIM.L = L;
+    if (Math.abs(d) >= 0.1 && MN(L, L - d) < 0.8 && dir !== GLIM.dir) { e.push(now); GLIM.dir = dir; }
+    while (e.length && now - e[0] > 1000) e.shift();
+    if (e.length >= 4) GLIM.until = now + 3000;
+    return now < GLIM.until;
+  }
+  function gsLabel() { $("gsto").textContent = document.querySelector("input[name=gst]:checked").nextElementSibling.textContent + (performance.now() < GLIM.until ? " (flash limit on)" : ""); }
   function gvis(k) { var now = performance.now(); if (GLITCH[k]) GLAST[k] = now; return GLITCH[k] || now - (GLAST[k] || -1e9) < MO.hold; }
   function glitchPixels(g, W, H, fn, tsec) {
-    var A = GAMT, tear = gvis("tear"), rgb = gvis("rgb"), blocks = gvis("blocks"), y, x;
+    var A = GAMT, tear = gvis("tear"), rgb = gvis("rgb"), blocks = gvis("blocks"), y, x, lk = performance.now() < GLIM.until, S = lk ? 1 : GSTR;
     if (!(tear || rgb || blocks)) return;
-    var pose = Math.floor((tsec || 0) * MO.pose), ph = 2 * Math.PI * (pose % 12) / 12;
+    var pose = FL((tsec || 0) * MO.pose), ph = 2 * Math.PI * (pose % 12) / 12;
     if (tear) {
       GTMP = GTMP || document.createElement("canvas"); GTMP.width = W; GTMP.height = H; var tg = GTMP.getContext("2d"); tg.drawImage(g.canvas, 0, 0);
-      var hb = Math.max(4, Math.round(H / 90)), amp = 0.02 * W * A;
-      for (y = 0; y < H; y += hb) { var dx = Math.round(Math.sin(2 * Math.PI * (y / (H * 0.33)) + ph) * amp); if (dx) g.drawImage(GTMP, 0, y, W, hb, dx, y, W, hb); }
+      var hb = MX(4, RD(H / 90)), amp = 0.02 * W * A * S;
+      for (y = 0; y < H; y += hb) { var dx = RD(Math.sin(2 * Math.PI * (y / (H * 0.33)) + ph) * amp); if (dx) g.drawImage(GTMP, 0, y, W, hb, dx, y, W, hb); }
     }
     if (rgb) {
-      var id = g.getImageData(0, 0, W, H), d = id.data, off = Math.max(1, Math.round(W * 0.004 * (0.4 + A))), row = new Uint8ClampedArray(W * 4), i;
-      for (y = 0; y < H; y++) { var b0 = y * W * 4; row.set(d.subarray(b0, b0 + W * 4)); for (x = 0; x < W; x++) { i = b0 + x * 4; d[i] = row[Math.min(W - 1, x + off) * 4]; d[i + 2] = row[Math.max(0, x - off) * 4 + 2]; } }
+      var id = g.getImageData(0, 0, W, H), d = id.data, off = MX(1, RD(W * 0.004 * (0.4 + A) * S)), row = new Uint8ClampedArray(W * 4), i;
+      for (y = 0; y < H; y++) { var b0 = y * W * 4; row.set(d.subarray(b0, b0 + W * 4)); for (x = 0; x < W; x++) { i = b0 + x * 4; d[i] = row[MN(W - 1, x + off) * 4]; d[i + 2] = row[MX(0, x - off) * 4 + 2]; } }
       g.putImageData(id, 0, 0);
     }
     if (blocks) {
       CODONS = CODONS || [C.cyan, C.gold, C.green, C.magenta];
-      var ch = Math.round(H * 0.09), cw = ch, cy = Math.round(H * 0.5 - ch / 2), step = Math.floor((tsec || 0) * MO.pose), n = Math.ceil(W / cw) + 2, k, c0;
-      g.globalAlpha = 0.1 + 0.2 * A;
-      for (k = 0; k < n; k++) { c0 = (k + Math.floor(step / 3)) | 0; var hv = (Math.imul(c0, 2654435761) >>> 0) % 4; g.fillStyle = CODONS[hv]; g.fillRect(k * cw - ((step % 3) * cw / 3), cy, cw - 2, ch); }
+      var ch = RD(H * 0.09), cw = ch, cy = RD(H * 0.5 - ch / 2), step = FL((tsec || 0) * MO.pose), n = Math.ceil(W / cw) + 2, k, c0;
+      g.globalAlpha = MN(0.5, (0.1 + 0.2 * A) * S);
+      for (k = 0; k < n; k++) { c0 = (k + FL(step / 3)) | 0; var hv = (Math.imul(c0, 2654435761) >>> 0) % 4; g.fillStyle = CODONS[hv]; g.fillRect(k * cw - ((step % 3) * cw / 3), cy, cw - 2, ch); }
       g.globalAlpha = 1;
     }
     var rg = g.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.85); rg.addColorStop(0, "transparent"); rg.addColorStop(1, C.bg); g.globalAlpha = 0.25 + 0.4 * A; g.fillStyle = rg; g.fillRect(0, 0, W, H); g.globalAlpha = 1;
+    if (glim(glum(g.canvas), performance.now()) !== lk) gsLabel();
   }
   function restartMain(at) { stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(deckIn("A")); off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); }
   /* Gold chime: the golden repair as a strange consonance. Stacked fifths on the song's own strongest note, with a slightly detuned copy that beats. */
@@ -2072,7 +2098,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (GOLD.rootFor === NF && GOLD.root) return GOLD.root;
     var best = -1, bv = -1, b, f, s;
     if (BANDS && NF) for (b = 0; b < NB; b++) { if (CENTERS[b] < 130 || CENTERS[b] > 520) continue; s = 0; for (f = 0; f < NF; f += 3) s += BANDS[f * NB + b]; if (s > bv) { bv = s; best = b; } }
-    var hz = best >= 0 ? CENTERS[best] : 220; GOLD.root = 440 * Math.pow(2, Math.round(12 * Math.log2(hz / 440)) / 12); while (GOLD.root < 200) GOLD.root *= 2; GOLD.rootFor = NF; return GOLD.root;
+    var hz = best >= 0 ? CENTERS[best] : 220; GOLD.root = 440 * Math.pow(2, RD(12 * Math.log2(hz / 440)) / 12); while (GOLD.root < 200) GOLD.root *= 2; GOLD.rootFor = NF; return GOLD.root;
   }
   function goldChime() {
     if (GOLD.voices >= 4) return; if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
@@ -2088,7 +2114,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (FXKINDS.indexOf(kind) >= 0) { if (!GLITCH[kind]) { GLITCH[kind] = true; fxTrigger(kind, true); gmLabel(); } return; }
     if (kind === "tear" || kind === "rgb" || kind === "blocks") { if (!GLITCH[kind]) { GLITCH[kind] = true; gmLabel(); frame(playing); } return; }
     if (!BUF || GLITCH.stut || SP.on) return;
-    var beat = 60 / (BPM || 120), L = kind === "freeze" ? 0.06 : beat * STSIZE, t0 = Math.max(0, Math.min(DUR - L - 0.001, tnow()));
+    var beat = 60 / (BPM || 120), L = kind === "freeze" ? 0.06 : beat * STSIZE, t0 = MX(0, MN(DUR - L - 0.001, tnow()));
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
     var go = function () {
       if (!GLITCH.stut) return;
@@ -2109,7 +2135,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (playing && AC) restartMain(tnow());
     gmLabel(); frame(playing);
   }
-  function gmLabel() { EA(document.querySelectorAll("#gpads [data-g]"), function (b) { var k = b.getAttribute("data-g"); if (k !== "gold") AP(b, (STKINDS.indexOf(k) >= 0 ? (GLITCH.stut && GLITCH.stut.kind === k) : GLITCH[k])); }); var on = []; if (GLITCH.stut) on.push(GLITCH.stut.kind); ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep", "gate"].forEach(function (k) { if (GLITCH[k]) on.push(k); }); $("gmo").textContent = on.length ? on.join(" + ") : (PERFORM ? "perform: on" : "off"); }
+  function gmLabel() { EA(QA("#gpads [data-g]"), function (b) { var k = b.getAttribute("data-g"); if (k !== "gold") AP(b, (STKINDS.indexOf(k) >= 0 ? (GLITCH.stut && GLITCH.stut.kind === k) : GLITCH[k])); }); var on = []; if (GLITCH.stut) on.push(GLITCH.stut.kind); ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep", "gate"].forEach(function (k) { if (GLITCH[k]) on.push(k); }); $("gmo").textContent = on.length ? on.join(" + ") : (PERFORM ? "perform: on" : "off"); }
   /* Holders: an effect is on while ANY source holds it, so toggles stack. Stutter and Freeze share one loop; the newest wins. */
   var HOLD = {}, HSEQ = 0, STKINDS = ["stutter", "freeze"], HKINDS = ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep", "gate"];
   function fxWant(kind) { var h = HOLD[kind]; return !!h && Object.keys(h).length > 0; }
@@ -2134,11 +2160,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("glatch").addEventListener("click", function () { PK.latch = !PK.latch; pkLabel(); });
   var GPRE = { water: ["room", "sweep"], robot: ["crush", "shim"], tv: ["tear", "rgb", "crush"], space: ["echo", "shim", "room"], heavy: ["dist", "blocks"], clean: [] }, GPCUR = "";
   var GPSAY = { water: "Muffled and swimmy: room and a filter sweep.", robot: "Buzzy and bright: crushed bits with a shimmer.", tv: "Torn picture and crunchy sound.", space: "Big and floating: echo, shimmer and room.", heavy: "Loud and gritty: distortion and blocks.", clean: "All effects off." };
-  EA(document.querySelectorAll("[data-gp]"), function (b) {
+  EA(QA("[data-gp]"), function (b) {
     b.addEventListener("click", function () {
       var k = b.getAttribute("data-gp"), again = GPCUR === k || k === "clean";
       HKINDS.forEach(function (x) { fxHold(x, "preset", false); }); GPCUR = again ? "" : k; if (!again) GPRE[k].forEach(function (x) { fxHold(x, "preset", true); });
-      EA(document.querySelectorAll("[data-gp]"), function (o) { AP(o, o.getAttribute("data-gp") === GPCUR); });
+      EA(QA("[data-gp]"), function (o) { AP(o, o.getAttribute("data-gp") === GPCUR); });
       $("gphint").textContent = GLITCHOFF && GPRE[k].some(function (x) { return ["echo", "room", "shim", "sweep"].indexOf(x) < 0; }) ? "Glitch is off, so only the sound effects play. Turn it on at the top." : GPSAY[k];
     });
   });
@@ -2161,7 +2187,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function seqFire(j) { var st = seqStep(); return seqSnap(seqBase() + j * st + swingOff(j), st * 0.5); }
   function seqActive(t) {
-    var st = seqStep(), j0 = Math.floor((t - seqBase()) / st), out = {}, j, c, f, li, k, v;
+    var st = seqStep(), j0 = FL((t - seqBase()) / st), out = {}, j, c, f, li, k, v;
     for (j = j0 - 1; j <= j0 + 1; j++) {
       if (j < 0) continue; c = ((j % 16) + 16) % 16; f = seqFire(j);
       for (li = 0; li < LANES.length; li++) {
@@ -2174,11 +2200,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     return out;
   }
   function seqPaint() {
-    EA(document.querySelectorAll(".sq"), function (b) { var v = SEQ.cells[b.getAttribute("data-l")][+b.getAttribute("data-i")]; AP(b, v); b.textContent = (b.getAttribute("data-l") === "jog" || b.getAttribute("data-l") === "detail") && v ? String(v) : ""; });
+    EA(QA(".sq"), function (b) { var v = SEQ.cells[b.getAttribute("data-l")][+b.getAttribute("data-i")]; AP(b, v); b.textContent = (b.getAttribute("data-l") === "jog" || b.getAttribute("data-l") === "detail") && v ? String(v) : ""; });
   }
   function seqHead(t) {
-    var st = seqStep(), j = Math.floor((t - seqBase()) / st); if (j % 2 !== 0 && t < seqBase() + j * st + swingOff(j)) j--; var c = ((j % 16) + 16) % 16; if (c === SEQ.col) return; SEQ.col = c;
-    EA(document.querySelectorAll(".sq,.sqn"), function (b) { b.classList.toggle("now", +b.getAttribute("data-i") === c); });
+    var st = seqStep(), j = FL((t - seqBase()) / st); if (j % 2 !== 0 && t < seqBase() + j * st + swingOff(j)) j--; var c = ((j % 16) + 16) % 16; if (c === SEQ.col) return; SEQ.col = c;
+    EA(QA(".sq,.sqn"), function (b) { b.classList.toggle("now", +b.getAttribute("data-i") === c); });
   }
   function seqRelease() { ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "echo", "sweep"].forEach(function (k) { if (SEQ.held[k]) { SEQ.held[k] = false; fxHold(k, "seq", false); } }); }
   function seqTick() {
@@ -2229,7 +2255,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function pkFx(k, on) { fxHold(k, "pk:" + k, on); }
   function pkBank(i) { while (SEQ.banks.length <= i) SEQ.banks.push(makeCells()); PK.bank = i; SEQ.cells = SEQ.banks[i]; seqPaint(); }
   function pkBits(n) { $("pal").value = n; $("pal").dispatchEvent(new Event("input")); }
-  function pocketHit(t) { var P = 60 / (BPM || 120) / 2, d = (((t - seqBase()) % P) + P) % P; return Math.min(d, P - d) < 0.045; }
+  function pocketHit(t) { var P = 60 / (BPM || 120) / 2, d = (((t - seqBase()) % P) + P) % P; return MN(d, P - d) < 0.045; }
   function pocketFeed(t) { if (pocketHit(t)) { PK.pocket++; if (PK.pocket >= 8) unlock("pocket"); } else PK.pocket = 0; }
   function sweepScan(now, row, idx) {
     PK.seq = PK.seq.filter(function (s) { return s.row === row && now - s.t < 5000; }); PK.seq.push({ row: row, i: idx, t: now });
@@ -2239,7 +2265,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function pkDown(code) {
     var i, c;
-    if ((i = ROW1.indexOf(code)) >= 0) { if (!PK.rungs.length && PK.saved === null) PK.saved = RUNG; PK.rungs.push(i); pkRung(Math.round(i * 8 / 9)); sweepScan(Date.now(), 1, i); }
+    if ((i = ROW1.indexOf(code)) >= 0) { if (!PK.rungs.length && PK.saved === null) PK.saved = RUNG; PK.rungs.push(i); pkRung(RD(i * 8 / 9)); sweepScan(Date.now(), 1, i); }
     else if ((i = ROW2.indexOf(code)) >= 0) {
       if (i < 5) { var k = EFX[i]; if (PK.latch) fxToggle(k, "latch"); else pkFx(k, true); }
       else if (i < 9) { c = i - 5; if (PK.savedMode === null) PK.savedMode = MODE; PK.views.push(c); setStage(c, ZS[c]); }
@@ -2255,7 +2281,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function pkUp(code) {
     var i, c;
-    if ((i = ROW1.indexOf(code)) >= 0) { PK.rungs = PK.rungs.filter(function (x) { return x !== i; }); if (PK.rungs.length) pkRung(Math.round(PK.rungs[PK.rungs.length - 1] * 8 / 9)); else { if (!PK.latch && PK.saved !== null) pkRung(PK.saved); PK.saved = null; } }
+    if ((i = ROW1.indexOf(code)) >= 0) { PK.rungs = PK.rungs.filter(function (x) { return x !== i; }); if (PK.rungs.length) pkRung(RD(PK.rungs[PK.rungs.length - 1] * 8 / 9)); else { if (!PK.latch && PK.saved !== null) pkRung(PK.saved); PK.saved = null; } }
     else if ((i = ROW2.indexOf(code)) >= 0) {
       if (i < 5) pkFx(EFX[i], false);
       else if (i < 9) { c = i - 5; PK.views = PK.views.filter(function (x) { return x !== c; }); if (PK.views.length) setStage(PK.views[PK.views.length - 1], ZS[PK.views[PK.views.length - 1]]); else { if (!PK.latch && PK.savedMode !== null) setStage(PK.savedMode, ZS[PK.savedMode]); PK.savedMode = null; } }
@@ -2294,14 +2320,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     }, function () { h.textContent = "MIDI was blocked."; });
   });
   /* ---------------- sing: a loop pedal. Local only: nothing is sent, and nothing is kept unless a grown-up saves it. ---------------- */
-  function plog(e) { PLOG.push({ t: Math.round(performance.now()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
+  function plog(e) { PLOG.push({ t: RD(performance.now()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
   document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
   document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
   function singMsg(s) { $("recmsg").textContent = s; }
   var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
   function singUI() { $("ovr").hidden = SING.state !== "armed"; $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }
   function singMirror(g, W, H) {
-    var w = SING.wave, n = w.length, i, lw = Math.max(1, H / 360), x, y; SING.lvS = (SING.lvS || 0) + (Math.min(1, SING.lvl * 6) - (SING.lvS || 0)) * 0.12; var lv = SING.lvS;
+    var w = SING.wave, n = w.length, i, lw = MX(1, H / 360), x, y; SING.lvS = (SING.lvS || 0) + (MN(1, SING.lvl * 6) - (SING.lvS || 0)) * 0.12; var lv = SING.lvS;
     g.strokeStyle = C.border; g.lineWidth = lw; g.beginPath();
     for (i = 1; i < 8; i++) { g.moveTo(W * i / 8, 0); g.lineTo(W * i / 8, H); g.moveTo(0, H * i / 8); g.lineTo(W, H * i / 8); } g.stroke();
     g.strokeStyle = C.cyan; g.lineWidth = lw * 1.6; g.lineJoin = "round"; g.beginPath();
@@ -2323,7 +2349,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
         var d = e.inputBuffer.getChannelData(0), s0 = 0, i; for (i = 0; i < d.length; i++) s0 += d[i] * d[i]; SING.lvl = Math.sqrt(s0 / d.length);
         if (SING.state === "rec" || SING.state === "layer") { SING.chunks.push(new Float32Array(d)); SING.got = (SING.got || 0) + d.length; if (SING.state === "layer" && SING.pcm && SING.got / AC.sampleRate >= SING.pcm.length / (SING.sr || AC.sampleRate)) { SING.got = -1e12; setTimeout(singFinishLayer, 0); } }
       };
-      SING.dotT = setInterval(function () { if (!rm) $("recdot").style.transform = "scale(" + (1 + Math.min(1, SING.lvl * 5) * 0.5) + ")"; }, 60);
+      SING.dotT = setInterval(function () { if (!rm) $("recdot").style.transform = "scale(" + (1 + MN(1, SING.lvl * 5) * 0.5) + ")"; }, 60);
     }, function (err) { singMsg("The microphone is blocked. Allow it in the browser, then choose Sing again."); throw err; });
   }
   function singClose() {
@@ -2332,7 +2358,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     clearInterval(SING.dotT); clearInterval(SING.ci); SING.stream = null; SING.ana = null; SING.lvl = 0;
   }
   function singTake() { var n = 0, o = 0, out; SING.chunks.forEach(function (c) { n += c.length; }); out = new Float32Array(n); SING.chunks.forEach(function (c) { out.set(c, o); o += c.length; }); SING.chunks = []; SING.got = 0; return out; }
-  function resample(x, from, to) { if (from === to) return x; var n = Math.max(1, Math.round(x.length * to / from)), o = new Float32Array(n), i, f, k; for (i = 0; i < n; i++) { f = i * from / to; k = Math.floor(f); o[i] = k + 1 < x.length ? x[k] + (x[k + 1] - x[k]) * (f - k) : x[Math.min(k, x.length - 1)]; } return o; }
+  function resample(x, from, to) { if (from === to) return x; var n = MX(1, RD(x.length * to / from)), o = new Float32Array(n), i, f, k; for (i = 0; i < n; i++) { f = i * from / to; k = FL(f); o[i] = k + 1 < x.length ? x[k] + (x[k + 1] - x[k]) * (f - k) : x[MN(k, x.length - 1)]; } return o; }
   function singLat() { return (AC.baseLatency || 0) + (AC.outputLatency || 0) + 0.02; }
   function singLoad(pcm, name) {
     var sr = SING.sr || AC.sampleRate, buf = AC.createBuffer(1, pcm.length, sr); buf.copyToChannel(pcm, 0);
@@ -2340,18 +2366,18 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     setSource(pcm, sr, buf, name, function () { startPlay(0); singMsg("Tap Add a layer to sing over it."); });
   }
   function singFinishFirst() {
-    var sr = AC.sampleRate, pcm = singTake(), lat = Math.round(singLat() * sr);
-    pcm = pcm.subarray(Math.min(lat, Math.max(0, pcm.length - 1)));
+    var sr = AC.sampleRate, pcm = singTake(), lat = RD(singLat() * sr);
+    pcm = pcm.subarray(MN(lat, MX(0, pcm.length - 1)));
     if (pcm.length < sr * 0.5) { singMsg("That was very short. Try again."); SING.state = "armed"; singUI(); return; }
-    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = Math.max(1, Math.round(pcm.length / bar)), n = Math.round(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, Math.min(n, pcm.length))); pcm = o; }
+    if (SING.click) { var bar = 60 / SING.bpm * 4 * sr, bars = MX(1, RD(pcm.length / bar)), n = RD(bars * bar), o = new Float32Array(n); o.set(pcm.subarray(0, MN(n, pcm.length))); pcm = o; }
     SING.hist = []; SING.sr = AC.sampleRate; SING.name = "My loop"; singLoad(new Float32Array(pcm), "My loop");
   }
   function singFinishLayer() {
     if (SING.state !== "layer") return;
-    var rate = SING.sr || AC.sampleRate, take = singTake(), N = SING.pcm.length, lat = Math.round(singLat() * rate), p0 = Math.round(SING.phase0 * rate), out = new Float32Array(SING.pcm), i, idx, v;
+    var rate = SING.sr || AC.sampleRate, take = singTake(), N = SING.pcm.length, lat = RD(singLat() * rate), p0 = RD(SING.phase0 * rate), out = new Float32Array(SING.pcm), i, idx, v;
     if (AC.sampleRate !== rate) take = resample(take, AC.sampleRate, rate);
     SING.hist.push(SING.pcm); if (SING.hist.length > (N > rate * 60 ? 2 : 8)) SING.hist.shift();
-    for (i = 0; i < Math.min(take.length, N); i++) { idx = (p0 + i - lat) % N; if (idx < 0) idx += N; v = out[idx] + take[i]; out[idx] = v > 1 ? 1 : v < -1 ? -1 : v; }
+    for (i = 0; i < MN(take.length, N); i++) { idx = (p0 + i - lat) % N; if (idx < 0) idx += N; v = out[idx] + take[i]; out[idx] = v > 1 ? 1 : v < -1 ? -1 : v; }
     singLoad(out, SING.name || "My loop");
   }
   function singClick(t, accent) {
@@ -2361,7 +2387,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function singPump() {
     if (!AC || !SING.click) return; var P = 60 / SING.bpm, now = AC.currentTime, ref, k, t;
     if (SING.state === "rec") ref = SING.t0; else if (playing && LOOPPLAY) ref = t0ctx - off0; else return;
-    for (k = Math.max(0, Math.ceil((now - ref) / P)); ref + k * P < now + 0.12; k++) { t = ref + k * P; if (t <= SING.lastClick + P * 0.5) continue; singClick(t, k % 4 === 0); SING.lastClick = t; }
+    for (k = MX(0, Math.ceil((now - ref) / P)); ref + k * P < now + 0.12; k++) { t = ref + k * P; if (t <= SING.lastClick + P * 0.5) continue; singClick(t, k % 4 === 0); SING.lastClick = t; }
   }
   function singRecord() {
     singOpen().then(function () {
@@ -2378,7 +2404,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       singOpen().then(function () { SING.state = SING.pcm && LOOPPLAY ? "loop" : "armed"; singUI(); if (SING.state === "armed") { singMsg("Sing or clap and watch the picture move. Tap Record when you are ready."); singMirrorOn(true); } clearInterval(SING.ci); SING.ci = setInterval(singPump, 25); }, function () { SING.state = "off"; singUI(); });
     } else { singMirrorOn(false); singClose(); SING.state = "off"; LOOPPLAY = false; if (playing) stopPlay(""); }
   }
-  EA(document.querySelectorAll("input[name=src]"), function (r) { r.addEventListener("change", function () { singMode(r.value === "sing"); }); });
+  EA(QA("input[name=src]"), function (r) { r.addEventListener("change", function () { singMode(r.value === "sing"); }); });
   $("srcseg").addEventListener("click", function (e) { if (e.target.tagName === "LABEL" || e.target.tagName === "INPUT") return; var t = $(document.querySelector("input[name=src]:checked").value === "sing" ? "srcA" : "srcB"); t.checked = true; t.dispatchEvent(new Event("change", { bubbles: true })); });
   $("rec").addEventListener("click", singRecord);
   $("undo").addEventListener("click", function () { if (SING.hist.length) singLoad(SING.hist.pop(), SING.name || "My loop"); });
@@ -2392,8 +2418,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("plogb").addEventListener("click", function () { var s = JSON.stringify(PLOG); try { navigator.clipboard.writeText(s).then(function () { $("learnhint").textContent = "Play log copied (" + PLOG.length + " events, times and names only)."; }, function () { $("learnhint").textContent = "Could not copy. Nothing was sent anywhere."; }); } catch (e) { $("learnhint").textContent = "Could not copy. Nothing was sent anywhere."; } });
   /* ---------------- notes: the number row 1 to = as a pentatonic strip (C D E G A, twice, then C D), at most four voices ---------------- */
   var NDEG = [0, 2, 4, 7, 9], NNAME = ["C", "D", "E", "G", "A"], NLAB = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="];
-  function noteFreq(i) { return 261.6256 * Math.pow(2, (Math.floor(i / 5) * 12 + NDEG[i % 5]) / 12); }
-  function noteName(i) { return NNAME[i % 5] + (4 + Math.floor(i / 5)); }
+  function noteFreq(i) { return 261.6256 * Math.pow(2, (FL(i / 5) * 12 + NDEG[i % 5]) / 12); }
+  function noteName(i) { return NNAME[i % 5] + (4 + FL(i / 5)); }
   (function buildNotes() {
     var h = "", i; for (i = 0; i < 12; i++) h += '<button class="nk d' + (i % 5) + '" type="button" data-i="' + i + '" aria-pressed="false" aria-label="Note ' + noteName(i) + ', key ' + NLAB[i] + '"><b>' + noteName(i) + "</b><span>" + NLAB[i] + "</span></button>";
     $("nkeys").innerHTML = h;
@@ -2404,7 +2430,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     });
   })();
   /* Tighten: a real-time quantizer can only wait, so a press is delayed toward the next swung step by QZ of the wait. */
-  function qzWait(tnowS) { if (!QZ || !playing && !BPM) return 0; var st = seqStep(), base = seqBase(), j = Math.floor((tnowS - base) / st) - 1, w = 1e9, k, f; for (k = j; k <= j + 3; k++) { f = base + k * st + swingOff(k); if (f >= tnowS - 1e-6 && f - tnowS < w) w = f - tnowS; } return w > st * 2 ? 0 : w * QZ; }
+  function qzWait(tnowS) { if (!QZ || !playing && !BPM) return 0; var st = seqStep(), base = seqBase(), j = FL((tnowS - base) / st) - 1, w = 1e9, k, f; for (k = j; k <= j + 3; k++) { f = base + k * st + swingOff(k); if (f >= tnowS - 1e-6 && f - tnowS < w) w = f - tnowS; } return w > st * 2 ? 0 : w * QZ; }
   function noteStartQ(i) { var w = qzWait(playing ? tnow() : (AC ? AC.currentTime : 0) - 0); if (w > 0.004) { NOTES.pend = NOTES.pend || {}; NOTES.pend[i] = setTimeout(function () { delete NOTES.pend[i]; if (!NOTES.stopEarly || !NOTES.stopEarly[i]) noteStart(i); else delete NOTES.stopEarly[i]; }, w * 1000); } else noteStart(i); }
   function noteMark(i, on) { var b = $("nkeys").querySelector('[data-i="' + i + '"]'); if (b) AP(b, on); }
   function noteStart(i) {
@@ -2417,7 +2443,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   }
   function noteStop(i) {
     var v = NOTES.voices[i]; if (!v) return; delete NOTES.voices[i]; noteMark(i, false);
-    var tt = AC.currentTime; v.g.gain.cancelScheduledValues(tt); v.g.gain.setValueAtTime(Math.max(0.0001, v.g.gain.value), tt); v.g.gain.linearRampToValueAtTime(0.0001, tt + 0.25); v.o.stop(tt + 0.3);
+    var tt = AC.currentTime; v.g.gain.cancelScheduledValues(tt); v.g.gain.setValueAtTime(MX(0.0001, v.g.gain.value), tt); v.g.gain.linearRampToValueAtTime(0.0001, tt + 0.25); v.o.stop(tt + 0.3);
     if (!Object.keys(NOTES.voices).length) { clearTimeout(NOTES.idleT); NOTES.idleT = setTimeout(function () { if (NOTES.mir && !Object.keys(NOTES.voices).length) { NOTES.mir = false; singMirrorOn(false); if (!SING.stream) SING.ana = null; } }, 2500); }
   }
   function notesOn(on) {
@@ -2456,10 +2482,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     EA($("pads").querySelectorAll(".ph"), function (b) { AP(b, +b.getAttribute("data-c") === MODE); });
     $("zso").textContent = MODENAMES[c] + " " + r + " of 5"; frame(playing);
   }
-  function stepRes(d) { var v = Math.max(1, Math.min(9, +$("res").value + d)); $("res").value = v; $("res").dispatchEvent(new Event("input", { bubbles: true })); }
-  function zoomStage(d) { var r = Math.max(1, Math.min(5, ZS[MODE] + d)); if (r !== ZS[MODE]) setStage(MODE, r); }
+  function stepRes(d) { var v = MX(1, MN(9, +$("res").value + d)); $("res").value = v; $("res").dispatchEvent(new Event("input", { bubbles: true })); }
+  function zoomStage(d) { var r = MX(1, MN(5, ZS[MODE] + d)); if (r !== ZS[MODE]) setStage(MODE, r); }
   function cyclePalette(dir) { var sel = $("palsel"), n = sel.options.length, i = (sel.selectedIndex + dir + n) % n; sel.selectedIndex = i; LOOK.pal = sel.value; frame(playing); $("slhint").textContent = "Palette: " + sel.options[i].textContent + "."; }
-  function stepBits(dir) { var v = Math.max(1, Math.min(8, +$("pal").value + dir)); $("pal").value = v; BITS = v; $("palo").textContent = v === 8 ? "8 bit, off" : v + " bit, " + Math.pow(2, v) + " levels"; frame(playing); }
+  function stepBits(dir) { var v = MX(1, MN(8, +$("pal").value + dir)); $("pal").value = v; BITS = v; $("palo").textContent = v === 8 ? "8 bit, off" : v + " bit, " + Math.pow(2, v) + " levels"; frame(playing); }
   function stageKey(e) {
     if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && e.target.type !== "radio" && e.target.type !== "checkbox") return false;
     if (e.code) $("lastkey").textContent = "Last key: " + e.code + " (" + e.key + ")";
@@ -2478,7 +2504,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if ((e.key === "+" || e.key === "=" || e.key === "-" || e.key === "_") && !e.metaKey && !e.ctrlKey && !e.altKey && !(e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName))) { e.preventDefault(); if (!e.repeat) zoomStage(e.key === "+" || e.key === "=" ? 1 : -1); return true; }
     return false;
   }
-  EA(document.querySelectorAll("[data-learn]"), function (b) { b.addEventListener("click", function () { LEARN = { col: +b.getAttribute("data-learn"), got: [] }; $("learnhint").textContent = "Learning " + MODENAMES[LEARN.col] + ": press five keys from the top row down to the bottom, or Escape to cancel."; b.blur(); }); });
+  EA(QA("[data-learn]"), function (b) { b.addEventListener("click", function () { LEARN = { col: +b.getAttribute("data-learn"), got: [] }; $("learnhint").textContent = "Learning " + MODENAMES[LEARN.col] + ": press five keys from the top row down to the bottom, or Escape to cancel."; b.blur(); }); });
   $("resetkeys").addEventListener("click", function () { KEYMAP = JSON.parse(JSON.stringify(DEFKEYS)); saveKeys(); buildPads(); $("learnhint").textContent = "Keys reset."; });
   buildPads();
 
@@ -2499,11 +2525,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     if (METER[key] === lit) return; METER[key] = lit;
     for (i = 0; i < n; i++) kids[i].className = i < lit ? "on" : "";
   }
-  function levelMeters(lv) { var s = $("ledstrip"); if (s) setMeter(s, "strip", Math.round(lv * s.children.length)); }
+  function levelMeters(lv) { var s = $("ledstrip"); if (s) setMeter(s, "strip", RD(lv * s.children.length)); }
   function buildPocket() {
     if ($("ledstrip")) return;
     var strip = document.createElement("div"), i, N = 72; strip.id = "ledstrip"; strip.setAttribute("aria-hidden", "true");
-    for (i = 0; i < N; i++) { var d = document.createElement("i"); d.style.setProperty("--c", "hsl(" + Math.round(i / (N - 1) * 125) + " 92% 56%)"); strip.appendChild(d); }
+    for (i = 0; i < N; i++) { var d = document.createElement("i"); d.style.setProperty("--c", "hsl(" + RD(i / (N - 1) * 125) + " 92% 56%)"); strip.appendChild(d); }
     document.querySelector("header.bar").insertAdjacentElement("afterend", strip);
     METER.strip = -1; pocketText();
   }
@@ -2521,7 +2547,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   $("skinb").addEventListener("click", function () { applySkin(SKIN === "pocket" ? "arcs" : "pocket", true); });
 
   /* ---------------- wiring ---------------- */
-  function sizeCanvas() { var w = Math.min(1920, Math.round(cv.getBoundingClientRect().width * (window.devicePixelRatio || 1))) || 1280; cv.width = w; cv.height = Math.round(w * 9 / 32); }
+  function sizeCanvas() { var w = MN(1920, RD(cv.getBoundingClientRect().width * (window.devicePixelRatio || 1))) || 1280; cv.width = w; cv.height = RD(w * 9 / 32); }
   function resLabel(i) { return RUNGS[i - 1].lab; }
   $("pick").addEventListener("click", function () { $("file").click(); });
   $("twinb").addEventListener("click", openTwinForm);
@@ -2532,14 +2558,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   ["dragenter", "dragover"].forEach(function (n) { fr.addEventListener(n, function (e) { e.preventDefault(); fr.classList.add("drag"); }); });
   ["dragleave", "drop"].forEach(function (n) { fr.addEventListener(n, function (e) { e.preventDefault(); fr.classList.remove("drag"); }); });
   fr.addEventListener("drop", function (e) { loadFile(e.dataTransfer.files[0]); });
-  EA(document.querySelectorAll("input[name=mode]"), function (r) { r.addEventListener("change", function () { MODE = +r.value; $("zso").textContent = MODENAMES[MODE] + " " + ZS[MODE] + " of 5"; buildPads(); frame(false); }); });
+  EA(QA("input[name=mode]"), function (r) { r.addEventListener("change", function () { MODE = +r.value; $("zso").textContent = MODENAMES[MODE] + " " + ZS[MODE] + " of 5"; buildPads(); frame(false); }); });
   $("res").addEventListener("input", function () { RUNG = +$("res").value - 1; $("reso").textContent = resLabel(+$("res").value); frame(false); });
   function resLock() { $("res").disabled = CHSHARP || RL.on; }
   function rlLabel() { $("rlo").textContent = RL.bars + (RL.bars > 1 ? " bars, " : " bar, ") + ({ up: "forward", down: "backward", pp: "forward and back" })[RL.dir] + (RL.on ? (BPM ? ", " + BPM + " BPM" : ", 120 BPM assumed") : ""); }
   $("chsharp").addEventListener("change", function () { CHSHARP = $("chsharp").checked; resLock(); frame(false); });
   $("rloop").addEventListener("change", function () { RL.on = $("rloop").checked; resLock(); rlLabel(); frame(playing); });
-  EA(document.querySelectorAll("input[name=rb]"), function (r) { r.addEventListener("change", function () { RL.bars = +r.value; rlLabel(); frame(playing); }); });
-  EA(document.querySelectorAll("input[name=rd]"), function (r) { r.addEventListener("change", function () { RL.dir = r.value; rlLabel(); frame(playing); }); });
+  EA(QA("input[name=rb]"), function (r) { r.addEventListener("change", function () { RL.bars = +r.value; rlLabel(); frame(playing); }); });
+  EA(QA("input[name=rd]"), function (r) { r.addEventListener("change", function () { RL.dir = r.value; rlLabel(); frame(playing); }); });
   function setFS(on) {
     var f = $("frame");
     if (on) { FS = true; f.classList.add("fs"); if (f.requestFullscreen) { try { f.requestFullscreen().then(function () { NATIVE = true; if (!FS && document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) { /* ignore */ } } }, function () {}); } catch (e) { /* theater only */ } } }
@@ -2548,8 +2574,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     AP($("fsb"), on); wakeHud(); frame(playing);
   }
   function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
-  EA(document.querySelectorAll("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
-  function kidSync() { EA(document.querySelectorAll("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
+  EA(QA("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
+  function kidSync() { EA(QA("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
   document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);
   $("kpick").addEventListener("click", function () { $("file").click(); });
   $("kcol").addEventListener("click", function () { cyclePalette(1); });
@@ -2567,14 +2593,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function seqOn(on) { SEQ.on = on; $("sqon").checked = on; AP($("hrun"), on); if (!on) seqRelease(); }
   $("sqon").addEventListener("change", function () { seqOn($("sqon").checked); });
   $("hrun").addEventListener("click", function () { seqOn(!SEQ.on); });
-  function seqQuant(q) { SEQ.quant = q; $("hsnap").value = q; $("sqo").textContent = ({ beat: "beat", onset: "hits", valley: "quiet spots", edge: "slice edges" })[q]; EA(document.querySelectorAll("input[name=sqq]"), function (r) { r.checked = r.value === q; }); }
-  EA(document.querySelectorAll("input[name=sqq]"), function (r) { r.addEventListener("change", function () { seqQuant(r.value); }); });
+  function seqQuant(q) { SEQ.quant = q; $("hsnap").value = q; $("sqo").textContent = ({ beat: "beat", onset: "hits", valley: "quiet spots", edge: "slice edges" })[q]; EA(QA("input[name=sqq]"), function (r) { r.checked = r.value === q; }); }
+  EA(QA("input[name=sqq]"), function (r) { r.addEventListener("change", function () { seqQuant(r.value); }); });
   $("hsnap").addEventListener("change", function () { seqQuant($("hsnap").value); });
-  EA(document.querySelectorAll("input[name=sqg]"), function (r) { r.addEventListener("change", function () { SEQ.gate = parseFloat(r.value); }); });
-  EA(document.querySelectorAll("input[name=sqb]"), function (r) { r.addEventListener("change", function () { SEQ.bars = +r.value; }); });
-  function setSwing(p) { if (p === 67) p = 200 / 3; SWING = Math.max(0.5, Math.min(0.75, p / 100)); $("swo").textContent = SWING < 0.505 ? "straight" : Math.round(SWING * 100) + " percent"; EA(document.querySelectorAll("input[name=sw]"), function (r) { r.checked = +r.value === Math.round(SWING * 100); }); }
-  EA(document.querySelectorAll("input[name=sw]"), function (r) { r.addEventListener("change", function () { setSwing(+r.value); }); });
-  function setTighten(v) { QZ = Math.max(0, Math.min(1, v / 100)); $("tz").value = Math.round(QZ * 100); $("tzo").textContent = QZ ? Math.round(QZ * 100) + " percent" : "as played"; }
+  EA(QA("input[name=sqg]"), function (r) { r.addEventListener("change", function () { SEQ.gate = parseFloat(r.value); }); });
+  EA(QA("input[name=sqb]"), function (r) { r.addEventListener("change", function () { SEQ.bars = +r.value; }); });
+  function setSwing(p) { if (p === 67) p = 200 / 3; SWING = MX(0.5, MN(0.75, p / 100)); $("swo").textContent = SWING < 0.505 ? "straight" : RD(SWING * 100) + " percent"; EA(QA("input[name=sw]"), function (r) { r.checked = +r.value === RD(SWING * 100); }); }
+  EA(QA("input[name=sw]"), function (r) { r.addEventListener("change", function () { setSwing(+r.value); }); });
+  function setTighten(v) { QZ = MX(0, MN(1, v / 100)); $("tz").value = RD(QZ * 100); $("tzo").textContent = QZ ? RD(QZ * 100) + " percent" : "as played"; }
   $("tz").addEventListener("input", function () { setTighten(+$("tz").value); });
   function seqClear() { LANES.forEach(function (l) { for (var i = 0; i < 16; i++) SEQ.cells[l[0]][i] = 0; }); seqPaint(); }
   $("sqclr").addEventListener("click", seqClear); $("hclr").addEventListener("click", seqClear);
@@ -2618,9 +2644,9 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   document.addEventListener("fullscreenchange", function () { if (FS && NATIVE && !document.fullscreenElement) { if (LOCK) { NATIVE = false; } else setFS(false); } });
   $("cv").addEventListener("dblclick", function () { if (!LOCK) setFS(!FS); });
   $("pal").addEventListener("input", function () { BITS = +$("pal").value; $("palo").textContent = BITS === 8 ? "8 bit, off" : BITS + " bit, " + Math.pow(2, BITS) + " levels"; frame(false); });
-  EA(document.querySelectorAll("input[name=pm]"), function (r) { r.addEventListener("change", function () { WOOD = r.value === "wood"; frame(false); }); });
+  EA(QA("input[name=pm]"), function (r) { r.addEventListener("change", function () { WOOD = r.value === "wood"; frame(false); }); });
   $("crt").addEventListener("change", function () { CRT = $("crt").checked; frame(false); });
-  EA(document.querySelectorAll("input[name=cu]"), function (r) { r.addEventListener("change", function () { LOOK.curve = r.value; $("cuo").textContent = r.value === "lin" ? "linear" : r.value; frame(playing); }); });
+  EA(QA("input[name=cu]"), function (r) { r.addEventListener("change", function () { LOOK.curve = r.value; $("cuo").textContent = r.value === "lin" ? "linear" : r.value; frame(playing); }); });
   $("cua").addEventListener("input", function () { LOOK.amt = +$("cua").value / 100; frame(playing); });
   $("palsel").addEventListener("change", function () { LOOK.pal = $("palsel").value; frame(playing); });
   $("calm").addEventListener("change", function () { CALM = $("calm").checked; frame(playing); });
@@ -2628,17 +2654,18 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function setInvert(v) { var now = performance.now(); if (now - lastInv < 340) { $("inv").checked = LOOK.invert; return; } lastInv = now; LOOK.invert = v; $("inv").checked = v; frame(playing); }
   $("inv").addEventListener("change", function () { setInvert($("inv").checked); });
   $("perf").addEventListener("change", function () { setPerform($("perf").checked); });
+  EA(QA("input[name=gst]"), function (r) { r.addEventListener("change", function () { GSTR = +r.value; gsLabel(); frame(playing); }); });
   $("gamt").addEventListener("input", function () { GAMT = +$("gamt").value / 100; $("gamo").textContent = $("gamt").value + "%"; frame(playing); });
   function fxGateLabel() { $("fxgo").textContent = FXG.mode === "off" ? "off, always on" : FXG.mode === "level" ? "loud hits above " + FXG.thr + " dB" : ({ beat: "square", tri: "triangle", bar: "downbeat chop", seed: "song rhythm" })[FXG.mode] + " at 1/" + (FXG.div * 4); }
   $("zin").addEventListener("click", function () { zoomStage(1); });
   $("zout").addEventListener("click", function () { zoomStage(-1); });
   $("fxdep").addEventListener("input", function () { FXG.depth = +$("fxdep").value / 100; $("fxdepo").textContent = $("fxdep").value + "%"; });
   $("fxlag").addEventListener("input", function () { FXG.lag = +$("fxlag").value / 100; $("fxlago").textContent = FXG.lag ? $("fxlag").value + "% of a step behind" : "on the beat"; });
-  EA(document.querySelectorAll("input[name=fxg]"), function (r) { r.addEventListener("change", function () { FXG.mode = r.value; FXG.open = true; fxGateLabel(); fxParams(); }); });
-  EA(document.querySelectorAll("input[name=fxd]"), function (r) { r.addEventListener("change", function () { FXG.div = +r.value; fxGateLabel(); }); });
+  EA(QA("input[name=fxg]"), function (r) { r.addEventListener("change", function () { FXG.mode = r.value; FXG.open = true; fxGateLabel(); fxParams(); }); });
+  EA(QA("input[name=fxd]"), function (r) { r.addEventListener("change", function () { FXG.div = +r.value; fxGateLabel(); }); });
   $("fxthr").addEventListener("input", function () { FXG.thr = +$("fxthr").value; fxGateLabel(); });
   $("gamt").addEventListener("input", fxParams);
-  EA(document.querySelectorAll("input[name=ss]"), function (r) { r.addEventListener("change", function () { STSIZE = parseFloat(r.value); }); });
+  EA(QA("input[name=ss]"), function (r) { r.addEventListener("change", function () { STSIZE = parseFloat(r.value); }); });
   EA($("gpads").querySelectorAll("button"), function (b) { var k = b.getAttribute("data-g"); b.addEventListener("pointerdown", function (e) { e.preventDefault(); if (PK.latch) fxToggle(k, "latch"); else fxHold(k, "ptr:" + k, true); }); ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { b.addEventListener(n, function () { fxHold(k, "ptr:" + k, false); }); }); });
   $("play").addEventListener("click", play);
   $("back").addEventListener("click", function () { seek(tnow() - 5); });
@@ -2659,7 +2686,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     else if (e.key === "Enter" && !/BUTTON/.test(e.target.tagName)) { e.preventDefault(); markSlice(); }
     else if (e.key === "Escape" && FS && !LOCK) { setFS(false); }
     else if (e.key === "Escape") { PENDING = null; drawStrip(tnow()); if (!LOCK && !e.repeat) escStart(); }
-    else if (e.key === "[" || e.key === "]") { var v = Math.max(1, Math.min(9, +$("res").value + (e.key === "]" ? 1 : -1))); $("res").value = v; $("res").dispatchEvent(new Event("input")); }
+    else if (e.key === "[" || e.key === "]") { var v = MX(1, MN(9, +$("res").value + (e.key === "]" ? 1 : -1))); $("res").value = v; $("res").dispatchEvent(new Event("input")); }
   });
   document.addEventListener("keyup", function (e) { if (PERFORM && GKEYS[e.key.toLowerCase()]) { var uk = GKEYS[e.key.toLowerCase()]; fxHold(uk, "key:" + uk, false); } });
   window.addEventListener("blur", function () { fxReleaseMomentary(); });
@@ -2671,11 +2698,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   function lessonOpen() { var d = document.querySelector("details.lesson"); return !!(d && d.open); }
   var BARS = { n: 8, times: [], i: 0, play: false, timer: 0, lastDraw: 0, reduce: window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches };
   (function () { var h = "", i; for (i = 0; i < 8; i++) h += '<figure class="bar" data-b="' + i + '" tabindex="0" role="button" aria-label="Jump to bar ' + (i + 1) + ' of the next eight"><canvas width="128" height="72"></canvas><figcaption></figcaption></figure>'; $("bars").innerHTML = h; })();
-  function barTimes(t) { var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = Math.floor((t - base) / bl) + 1, out = [], i; for (i = 0; i < 8; i++) out.push(base + (b0 + i) * bl); return out; }
+  function barTimes(t) { var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = FL((t - base) / bl) + 1, out = [], i; for (i = 0; i < 8; i++) out.push(base + (b0 + i) * bl); return out; }
   var BARSEEN = true; if (window.IntersectionObserver) new IntersectionObserver(function (es) { BARSEEN = es[0].isIntersecting; }).observe($("bars"));
   function renderBars(t, force) {
     if (!BUF || !$("bars").offsetParent || (!BARSEEN && !force)) return;
-    var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = Math.floor((t - base) / bl) + 1, tiles = $("bars").children, i, pins = pinsHere();
+    var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = FL((t - base) / bl) + 1, tiles = $("bars").children, i, pins = pinsHere();
     var sig = [MODE, $("palsel").value, BITS, RUNG, LOOK.curve, LOOK.amt, CRT, CHSHARP, BPM, GRID0, NF, SRCNAME].join("|"), d = b0 - BARS.b0, from = 0;
     BARS.times = barTimes(t);
     if (force || sig !== BARS.sig || BARS.b0 === undefined || d < 0 || d >= 8) { from = 0; }
