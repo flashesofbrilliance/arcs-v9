@@ -273,3 +273,20 @@ Ground: pre-registration above (this branch, written before any fresh frame was 
 - Against round 7 (judge 34 of 36, statistic 28 of 36 on different frames): both instruments scored higher here. The earlier set included nine native-scan crops from one master, a harder case; this set is twelve 1024-px derivatives, which is the easier regime where round 3 also passed. A better score on an easier set is not a better instrument.
 - What B24 licenses: a judge tier with a statistic fallback is a reasonable design on photographic derivatives. What it does not license: a refusal gate, any claim on native-resolution scans or rendered interface graphics (excluded by Zach's choice and weak for the statistic in rounds 2 and 4), or any claim about era.
 - Limits: one judge model family, one pass, no repeats; all 12 sources are one collection and one decade; the confidence threshold was fixed after B21 and was not retuned; four downloaded files did not match the item data they were quoted from. Two process notes: a git merge left `_SEEDS/_oracle.json` and `_STATE/pulse.json` unresolved in this worktree before I switched branches (backed up to the scratchpad and restored, not my changes); the scratchpad did not survive the session resume, so the round 3, 4 and 7 inputs and the B21 answers file are gone and reproducing those rounds needs re-downloads.
+
+## Scope decision, 2026-10-17
+
+Ground: written at Zach's request ("write the scope decision into the note", 2026-10-17); the evidence is the rounds merged in arcs-v9 PR 1386 at b2d6417b, PR 1401 at 52fbf7cd, PR 1466 at f7a01807, with the pages in PR 1402 at 0c3e4519 and PR 1405 at 81ec98df. The recommendations are Claude's; Zach's instruction was to record them, not to rule on each line, so each reopen trigger below is a proposal he can change.
+
+Supported by the evidence so far:
+- The band-limit reading orders with resolution on textured synthetic scenes, three LoC derivative photographs, nine native-scan crops and two rendered interface images (rounds 1 to 4). It is built as a reading panel in `_ARTIFACTS/era-dial/era-dial.html`, which never refuses a frame.
+- Separating a true frame from an upscale: the cutoff statistic does it against a bilinear foil (8 of 9 native crops) and not against nearest-neighbour on rendered UI or most native crops. A vision judge scored 34 of 36 (round 7) and 36 of 36 (round 9) on photograph derivatives. The two-tier rule scored 36 of 36 but did not beat the judge alone.
+- The dial, the pixel chart and the link between them exist as artifacts; the chart's exponential-fit claim passed its pre-registered test (R-squared 0.96 against 0.47) on six hand-picked milestone points.
+
+Parked, with the condition that reopens each:
+- A gate that refuses frames. Not built and not supported. Reopen if a judge tier holds at 90 percent or better on a collection other than FSA/OWI and on native-resolution scans, with a judge model family other than the one used here, and the gate states which upscalers it covers.
+- A cost curve. Prices were found for four rows across three kinds of product. Reopen if a source tracks one product type's price over time.
+- Any claim about era, authenticity or "compounding innovation". Never supported by these measurements; the dial's frames are our drawings.
+
+Status labels: reading panel BOUND; judge tier INTENDED; refusal gate PARKED; cost lane PARKED.
+Still open outside this note: the seed ledger has three recorded uses (idea-alchemist, idea-detective, chief-loki, one each) and no agent has the three the gate requires for SURVIVED; honest-notes rows for earlier merges were closed in PR 1334 and the receipts since are logged.
