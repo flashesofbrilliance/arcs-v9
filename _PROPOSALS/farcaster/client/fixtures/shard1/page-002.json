@@ -1,0 +1,32 @@
+{
+ "events": [
+  {
+   "type": "HUB_EVENT_TYPE_BLOCK_CONFIRMED",
+   "id": 5000,
+   "blockConfirmedBody": {
+    "blockNumber": 1,
+    "shardIndex": 1,
+    "totalEvents": 1
+   },
+   "shardIndex": 1
+  },
+  {
+   "type": "HUB_EVENT_TYPE_MERGE_MESSAGE",
+   "id": 5001,
+   "mergeMessageBody": {
+    "message": {
+     "data": {
+      "type": "MESSAGE_TYPE_CAST_ADD",
+      "fid": 333,
+      "timestamp": 20,
+      "network": "FARCASTER_NETWORK_MAINNET",
+      "castAddBody": {
+       "text": "third cast after a block jump"
+      }
+     }
+    }
+   },
+   "shardIndex": 1
+  }
+ ]
+}

@@ -10,9 +10,15 @@ got=$(shasum -a 256 runtime/specs/farcaster-gate/sealed/holdout.json | cut -d' '
 out=$(python3 runtime/specs/farcaster-gate/eval_dev.py); echo "$out" | tail -5
 for k in line1_G2_withholds_all_positives_and_0_true_wrong line2_G0_misses_ge3_of_F2_F5 line3_recall_G0\<G1\<=G2; do echo "$out" | grep -q "\"$k\": true"; line "dev $k" $?; done
 # line 4 (hold-out)
-python3 runtime/specs/farcaster-gate/eval_holdout.py; line "line4 (POST HOC READING, not the pre-registered line, which is unsatisfiable) hold-out 1 G2 correct >= 3 of 4" $?
+python3 runtime/specs/farcaster-gate/eval_holdout.py; echo "INFO  line4 pre-registered line is UNSATISFIABLE (amendment 2); post hoc reading above is NOT counted as a pass"
+# hold-out 2 hash + info line (not a pre-registered pass line)
+w2=$(grep -o 'HOLDOUT2_SHA256: [0-9a-f]\{64\}' _PROPOSALS/farcaster/preregistration.md | cut -d' ' -f2); g2=$(shasum -a 256 runtime/specs/farcaster-gate/sealed/holdout2.json | cut -d' ' -f1)
+[ "$w2" = "$g2" ]; line "holdout 2 hash matches preregistration" $?
+python3 runtime/specs/farcaster-gate/eval_holdout2.py | grep -E '"(G0|G1|G2)"|correct' | tr -d '\n'; echo "  (INFO, separately labelled)"
 # line 5 probes self-test
 _PROPOSALS/farcaster/probes/selftest.sh >/dev/null; line "line5 probe fixtures classified (all fixtures)" $?
+# client scaffolding tests (offline)
+_PROPOSALS/farcaster/client/test.sh >/dev/null; line "client scaffold tests (poller, feed, hook, I8 argv)" $?
 # line 6 canary
 _PROPOSALS/farcaster/probes/canary.sh; line "line6 canary 0 occurrences" $?
 # line 7 quickstart

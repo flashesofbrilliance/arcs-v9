@@ -11,10 +11,13 @@ export function classifyEvents(obs) {
     // an empty page AFTER data is the node being at head (fine); empty with no data, or empty BEFORE data, is inconclusive
     const firstData = pg.findIndex((p) => p.length > 0);
     if (!ids.length || pg.slice(0, Math.max(firstData, 0)).some((p) => p.length === 0) || pg.slice(firstData).some((p, i, a) => p.length === 0 && a.slice(i + 1).some((q) => q.length > 0))) empty = true;
-    for (let i = 1; i < ids.length; i++) if (ids[i] > ids[i - 1] + 1) reasons.push(`shard ${s}: cursor gap ${ids[i - 1]} -> ${ids[i]}`);
+    // IDs are block-based and NOT contiguous across blocks (Snapchain events API doc), so a +1 rule is wrong.
+    // Completeness is checked with BLOCK_CONFIRMED.totalEvents when the probe supplies it; order must be strictly increasing.
+    for (let i = 1; i < ids.length; i++) if (ids[i] < ids[i - 1]) reasons.push(`shard ${s}: cursor gap/order break ${ids[i - 1]} -> ${ids[i]}`);
+    for (const b of sh.blocks ?? []) if (b.seen !== b.total) reasons.push(`shard ${s}: cursor gap: block reported ${b.total} events, saw ${b.seen}`);
     if (new Set(ids).size !== ids.length) { dup = true; reasons.push(`shard ${s}: duplicate event id`); }
   }
-  if (reasons.some((r) => r.includes("gap"))) return { verdict: "killed", reasons };
+  if (reasons.some((r) => r.includes("gap") || r.includes("order break"))) return { verdict: "killed", reasons };
   if (dup) return { verdict: "fallback", reasons: [...reasons, "dedupe by id downstream"] };
   if (empty) return { verdict: "fallback", reasons: ["empty page: inconclusive, retry or longer sample"] };
   return { verdict: "proven", reasons: ["no gaps, no duplicates, all shards present"] };

@@ -14,7 +14,8 @@ Guard (`guard.mjs`): refuses a seed phrase, anything not 0x+64 hex, a missing ex
 Install (not done): `npm i @farcaster/core@0.20.0 @farcaster/hub-nodejs@0.17.0 viem @noble/curves`.
 
 ## Known assumptions (reviewer finding 9; not yet checked against a real node)
-- Gap detection assumes event IDs are contiguous per shard (+1 steps). Snapchain IDs may be block-based and non-contiguous; if the first live run shows regular larger steps, change the rule to "monotonic and no repeats" before trusting a `killed`.
+- Event IDs are block-based and not contiguous across blocks (example IDs in the Snapchain events API doc: 151622205440, then 151622205441 within one block). So gap detection no longer uses +1 steps: order must be strictly increasing, and completeness is checked against BLOCK_CONFIRMED.totalEvents when supplied. Wiring `blocks` from live pages is still TODO in events-probe.mjs. Source: snapchain site/docs/pages/reference/httpapi/events.md @ fc87f268 (read 2026-10-17).
+- Hubs prune events older than 3 days (same page), so a cursor older than that cannot be replayed.
 - An empty page after data means the node is at head and is accepted; an empty page before or between data, or no data at all, is `fallback` (inconclusive).
 - The restart-from-cursor check uses an in-process cursor (max id + 1), so it can only detect server-side overlap, not a cursor file corrupted between runs.
 - The offline self-test shows the classifier is consistent with these rules, not correct against real Snapchain output.

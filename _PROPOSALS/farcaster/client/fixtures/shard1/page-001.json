@@ -1,0 +1,51 @@
+{
+ "_note": "INVENTED text; event shape copied from the Snapchain events API doc (assumption: castAddBody.text), not from a real node",
+ "events": [
+  {
+   "type": "HUB_EVENT_TYPE_BLOCK_CONFIRMED",
+   "id": 1000,
+   "blockConfirmedBody": {
+    "blockNumber": 1,
+    "shardIndex": 1,
+    "totalEvents": 2
+   },
+   "shardIndex": 1
+  },
+  {
+   "type": "HUB_EVENT_TYPE_MERGE_MESSAGE",
+   "id": 1001,
+   "mergeMessageBody": {
+    "message": {
+     "data": {
+      "type": "MESSAGE_TYPE_CAST_ADD",
+      "fid": 111,
+      "timestamp": 10,
+      "network": "FARCASTER_NETWORK_MAINNET",
+      "castAddBody": {
+       "text": "hello from fixture"
+      }
+     }
+    }
+   },
+   "shardIndex": 1
+  },
+  {
+   "type": "HUB_EVENT_TYPE_MERGE_MESSAGE",
+   "id": 1002,
+   "mergeMessageBody": {
+    "message": {
+     "data": {
+      "type": "MESSAGE_TYPE_CAST_ADD",
+      "fid": 222,
+      "timestamp": 11,
+      "network": "FARCASTER_NETWORK_MAINNET",
+      "castAddBody": {
+       "text": "second cast"
+      }
+     }
+    }
+   },
+   "shardIndex": 1
+  }
+ ]
+}
