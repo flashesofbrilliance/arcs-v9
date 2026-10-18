@@ -9,6 +9,10 @@
   "one_line": "Anyone can copy how the Question Compass behaves by asking it questions. This page says what leaks, what to change, and how we will know each change works.",
   "bottom_line": [
     {
+      "label": "Firewall read, 2026-10-17",
+      "text": "The project's firewall had no custom rules. Only the platform's automatic attack mitigation was active. A log-only rule (10 requests per minute per IP on POST /api/compass) was published on 2026-10-18 at 00:34:58Z. It blocks nothing. A one-time check of what it logged is scheduled for 2026-10-18 at 7 PM. Receipt 2026-10-17--compass-ratelimit-log-publish--ZH."
+    },
+    {
       "label": "Over-sharing",
       "text": "Every answer returns the model's whole output. The screen uses about a third of it. The rest is step-by-step reasoning that a copier would love to have as free training labels."
     },
@@ -46,13 +50,13 @@
     {
       "id": "D3",
       "question": "Set the volume limits.",
-      "recommended": "Start at 10 per minute and 60 per day per visitor address, enforced by Vercel's firewall. Pull ticket GW-002 (gateway limits and spend caps) forward from its 28 October waiver.",
+      "recommended": "The firewall was read on 2026-10-17: no custom rules existed. A log-only rule (10 per minute per IP) is now live. Watch a day of logs, then promote it to the default 429 action. A daily cap cannot be a Vercel rule, because Hobby and Pro windows top out at 10 minutes, so a daily cap needs an app-level counter and a line in /privacy first. Still decide whether to pull ticket GW-002 (gateway limits and spend caps) forward from its 28 October waiver, which is 11 days out.",
       "options": [
         "accept numbers",
         "change numbers",
         "keep waiver"
       ],
-      "why": "Today's limit lives in one server's memory, so a spread-out copier is not slowed."
+      "why": "Today's limit lives in one server's memory, so a spread-out copier is not slowed. The platform rule counts per region, so it is a soft cap, not a global one."
     },
     {
       "id": "D4",
@@ -208,8 +212,8 @@
     {
       "id": "C4",
       "name": "Limits that hold across servers",
-      "plain": "Vercel firewall rule on the question call, plus a per-account daily cap and a daily spend breaker.",
-      "stage": "proposed",
+      "plain": "A Vercel firewall rule on the question call, plus a per-account daily cap and a daily spend breaker. Status: the firewall rule is published in log-only mode; blocking, the daily cap and the spend breaker are not done.",
+      "stage": "partly done: log-only rule live, nothing blocks yet",
       "bad": "11 requests in 60 seconds spread over 3 servers: today's limiter allows all 11",
       "good": "5 requests in 60 seconds from one visitor all pass",
       "assay_ready": "known-bad already reproduces the gap"
@@ -299,6 +303,55 @@
     {
       "term": "Known-bad and known-good",
       "plain": "A test pair. The bad case must fail the check and the good case must pass, or the check proves nothing."
+    }
+  ],
+  "tables": [
+    {
+      "id": "firewall",
+      "title": "What the firewall looked like on 2026-10-17",
+      "intro": "Read with the Vercel command line, read-only. The Vercel documentation is the source for the limits.",
+      "columns": [
+        "Item",
+        "Finding"
+      ],
+      "rows": [
+        [
+          "Custom rules before",
+          "None. Status read 'Not configured'; no draft changes pending."
+        ],
+        [
+          "Platform protection",
+          "Automatic attack mitigation active (the only rule, sys_dos_mitigation). Attack mode off, bot protection off, AI bots allowed, OWASP ruleset off, 0 bypass IPs."
+        ],
+        [
+          "Traffic, 25 hours to 2026-10-18 01:00 UTC",
+          "3.5k allowed (peak 2.1k in the first hour, cause not traced), 315 denied by the platform rule, 19 challenged, 0 attacks mitigated. Not broken out by route."
+        ],
+        [
+          "Rule now live",
+          "'Compass rate limit (log)': POST /api/compass, 10 per 60 seconds per IP, fixed window, action log (blocks nothing). Published 2026-10-18T00:34:58Z."
+        ],
+        [
+          "Window limits",
+          "Hobby and Pro: 10 seconds to 10 minutes. Only Enterprise reaches 1 hour. So no hourly or daily Vercel rule on these plans. The team's plan was not confirmed."
+        ],
+        [
+          "Rule count",
+          "Hobby: 1 rate-limit rule per project. Pro: 40."
+        ],
+        [
+          "Counting",
+          "Per region, so traffic spread across regions can exceed the limit."
+        ],
+        [
+          "Challenge on a script call",
+          "Not documented. A challenge is built for a browser that can solve it, and the default 429 body is not our JSON message, so the page may show its generic error. Not tested."
+        ],
+        [
+          "Previews",
+          "Docs describe publishing as applying to the production deployment; no preview-only condition found. Not tested."
+        ]
+      ]
     }
   ]
 }

@@ -14,7 +14,7 @@
     },
     {
       "label": "Two dated clocks",
-      "text": "Ticket GW-002 (request limits and spend caps) is waived until 2026-10-28, 13 days out. The Lore falsifier says that by 2027-01-01, 78 days out, some cohort must reach 30 closed outcomes. The system has 1 real closure in 261 receipts as of 2026-10-03. At that rate the deadline will most likely be missed unless outcome capture changes."
+      "text": "Ticket GW-002 (request limits and spend caps) is waived until 2026-10-28, 11 days out as of 2026-10-17. The firewall was read that day, it had no custom rules, and a log-only rule is now live. The Lore falsifier says that by 2027-01-01, 78 days out, some cohort must reach 30 closed outcomes. The system has 1 real closure in 261 receipts as of 2026-10-03. At that rate the deadline will most likely be missed unless outcome capture changes."
     },
     {
       "label": "What 'proven' means here",
@@ -46,7 +46,7 @@
     {
       "id": "D3",
       "question": "Pull GW-002 forward from its 2026-10-28 waiver?",
-      "recommended": "Yes, and read the current Vercel firewall settings first. That read is the first step and has not been done.",
+      "recommended": "Yes, and keep the log-only rule running a day first. The firewall was read on 2026-10-17 and a log-only rule was published the same day. Next is the blocking step, then a spend cap, before 2026-10-28.",
       "options": [
         "pull forward",
         "keep waiver"
@@ -118,11 +118,11 @@
         ],
         [
           "W6",
-          "Read the Vercel firewall settings, then add the rate-limit rule",
-          "before 2026-10-28",
-          "DERISKED",
-          "Known-bad reproduces the gap. The waiver has a date. The rule is platform level, with no app write and no privacy change. Needs approval for the change itself.",
-          "The firewall already enforces a durable limit."
+          "Read the firewall, publish a log-only rate limit, then promote it to a blocking action",
+          "read and log-only rule done 2026-10-17; promote before 2026-10-28",
+          "DONE in part",
+          "The firewall had no custom rules. A log-only rule (10 per minute per IP on the compass route) is live and blocks nothing. A check of its logs is scheduled for 2026-10-18 at 7 PM. Blocking waits on that, and on a test of how the page handles a 429. Hobby and Pro cannot do an hourly or daily cap.",
+          "The log shows no request over 10 per minute for a week, which would make the limit moot."
         ],
         [
           "W7",
@@ -211,7 +211,7 @@
           "2026-10-28",
           "GW-002 waiver ends",
           "night-moves 2026-09-29: waived to that date",
-          "13 days. If the firewall read is skipped, the ticket returns to the smoke job red."
+          "11 days as of 2026-10-17. The firewall was read and a log-only rule is live. The ticket still needs the blocking step and a spend cap."
         ],
         [
           "2027-01-01",
@@ -246,8 +246,8 @@
     {
       "id": "W6c",
       "name": "Durable limit",
-      "plain": "The limit holds across servers.",
-      "stage": "proposed",
+      "plain": "The limit holds across servers. A log-only platform rule is live; the blocking version is not.",
+      "stage": "partly done: log-only rule live, nothing blocks yet",
       "bad": "11 requests in 60 seconds over 3 limiter instances: today's limiter allows all 11.",
       "good": "The firewall denies the 11th.",
       "assay_ready": "known-bad already reproduces",
