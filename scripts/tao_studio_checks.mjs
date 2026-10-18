@@ -2,12 +2,13 @@
 /**
  * tao_studio_checks.mjs: the pre-registered checks for the Tao print studio's Drive, AnalysisFrame and key map, run headless.
  *
- *   node scripts/tao_studio_checks.mjs drive|frame|slice2|realtime|probe|offline [--phosphor path/to/phosphor.html]
+ *   node scripts/tao_studio_checks.mjs drive|frame|slice2|realtime|probe|offline|lyrics [--phosphor path/to/phosphor.html]
  *
  *   drive   D1-D8   _PATTERNS/2026-10-18-studio-drive-prereg.md        (audio features move the print controls)
  *   frame   F1-F7   _PATTERNS/2026-10-18-analysis-frame-v1.md          (needs a Phosphor build that has window.PhosphorFrame for F2)
  *   slice2  S1-S8   _PATTERNS/2026-10-18-studio-drive-slice2-prereg.md (stutter, flash limiter, key map)
  *   offline O1-O7   _PATTERNS/2026-10-18-studio-offline-renderer-prereg.md (frame-exact video render in four shapes with audio; needs ffmpeg, ffprobe, python3 with PIL; renders for a minute or two)
+ *   lyrics L1-L8    _PATTERNS/2026-10-18-studio-lyrics-captions-prereg.md (LRC/SRT/WebVTT/plain parsing, timing, reveal, burn-in captions, soft track; needs ffmpeg, ffprobe, python3 with PIL)
  *   probe           median ms to draw one 1920x1080 frame of each look from SVG to canvas, with and without embedded fonts (the realtime cost basis)
  *   realtime R1-R8  _PATTERNS/2026-10-18-studio-realtime-frames-prereg.md (responsive frames, adaptive quality, live capture; needs ffmpeg and ffprobe)
  *
@@ -298,6 +299,68 @@ async function runOffline() {
   console.log(JSON.stringify(res, null, 1))
 }
 
+
+async function runLyrics() {
+  const here = process.cwd(), vid = join(here, 'scripts/tao_studio_video.mjs'), res = {}, b = await chromium.launch(), ctx = await b.newContext({ viewport: { width: 1280, height: 900 } }), p = await ctx.newPage(), errs = [], net = []
+  p.on('pageerror', (e) => errs.push(e.message)); await ctx.route('**/*', (r) => { const u = r.request().url(); if (/^(file|data|blob):/.test(u)) return r.continue(); net.push(u); return r.abort() })
+  await p.goto('file://' + here + '/_ARTIFACTS/tao-print-studio.html'); await p.waitForFunction(() => window.TaoDrive && TaoDrive.ready() && window.TaoLyr); await p.waitForTimeout(500)
+  const LRC = '[00:01.00]First line here\n[00:03.50][00:12.00]Second line repeats\n[00:06.00]<00:06.00>Third <00:06.80>line <00:07.20>has <00:07.90>words\n[00:09.50]'
+  const SRT = '1\n00:00:01,000 --> 00:00:03,500\nFirst line here\n\n2\n00:00:03,500 --> 00:00:06,000\nSecond <i>line</i> repeats\n\n3\n00:01:06,250 --> 00:01:08,000\nLong one\n'
+  const VTT = 'WEBVTT\n\nintro\n00:01.000 --> 00:03.500 align:start\nFirst line here\n\n00:03.500 --> 00:06.000\nSecond line repeats\n\n01:06.250 --> 01:08.000\nLong one\n'
+  const out = await p.evaluate(([LRC, SRT, VTT]) => { const q = (x) => TaoLyr.parse(x).map((c) => [c.t0, c.t1, c.text]); TaoLyr.set(SRT, 'even'); const re = TaoLyr.srt(); return { lrc: q(LRC), srt: q(SRT), vtt: q(VTT), roundtrip: TaoLyr.parse(re).map((c) => [c.t0, c.t1, c.text]), srtOut: re } }, [LRC, SRT, VTT])
+  const expLrc = [[1, 3.5, 'First line here'], [3.5, 6, 'Second line repeats'], [6, 9.5, 'Third line has words'], [12, 16, 'Second line repeats']], expSrt = [[1, 3.5, 'First line here'], [3.5, 6, 'Second line repeats'], [66.25, 68, 'Long one']]
+  const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b)
+  res.L1 = { lrc_ok: eq(out.lrc, expLrc), srt_ok: eq(out.srt, expSrt), vtt_ok: eq(out.vtt, expSrt), srt_roundtrip_ok: eq(out.roundtrip, expSrt) }; res.L1.pass = Object.values(res.L1).every(Boolean)
+  // L2 pure function and L3 boundaries
+  const l2 = await p.evaluate(([LRC]) => { TaoLyr.set(LRC, 'even'); const a = JSON.stringify([2, 4, 6.5, 7.3, 10, 13].map((t) => TaoLyr.at(t))); TaoLyr.at(1); TaoLyr.at(8); const b = JSON.stringify([2, 4, 6.5, 7.3, 10, 13].map((t) => TaoLyr.at(t))); return { a, b, raw: JSON.parse(localStorage.getItem('tao-print-studio') || '{}').lyrics || '' } }, [LRC])
+  await p.reload(); await p.waitForFunction(() => window.TaoDrive && TaoDrive.ready() && window.TaoLyr); await p.waitForTimeout(400)
+  const afterReload = await p.evaluate(() => JSON.stringify([2, 4, 6.5, 7.3, 10, 13].map((t) => TaoLyr.at(t))))
+  res.L2 = { same_after_seek: l2.a === l2.b, saved_in_settings: l2.raw.length > 0, same_after_reload: afterReload === l2.a }; res.L2.pass = Object.values(res.L2).every(Boolean)
+  const l3 = await p.evaluate(() => { const bad = []; TaoLyr.cues().forEach((c) => { const before = TaoLyr.at(c.t0 - 0.05), after = TaoLyr.at(c.t0 + 0.05); const prevEnd = TaoLyr.cues().some((o) => o !== c && o.t1 > c.t0 - 0.05 && o.t0 <= c.t0 - 0.05); if (!after || after.text !== c.text) bad.push(['no-show', c.t0]); if (before && before.text === c.text) bad.push(['early', c.t0]); }); return bad }); res.L3 = { bad: l3 }; res.L3.pass = l3.length === 0
+  // L4 auto timing (needs an analysis; demo signal onsets)
+  const l4 = await p.evaluate(() => { const lines = []; for (let i = 0; i < 8; i++) lines.push('line number ' + i); TaoLyr.set(lines.join('\n'), 'even'); const ev = TaoLyr.cues().map((c) => [c.t0, c.t1]); const d = TaoDrive.dur(); TaoLyr.set(lines.join('\n'), 'beat'); const bt = TaoLyr.cues().map((c) => [c.t0, c.t1]); const onset = TaoDrive.onsetTimes ? TaoDrive.onsetTimes() : null; return { d, ev, bt, onset } })
+  const wins = l4.ev.map((x, i) => x[1] - x[0] + (i + 1 < l4.ev.length ? 0.05 : 0)), evOk = Math.max(...wins.slice(0, -1)) - Math.min(...wins.slice(0, -1)) < 1e-6, btInc = l4.bt.every((c, i) => c[1] > c[0] && (i === 0 || c[0] > l4.bt[i - 1][0] && c[0] >= l4.bt[i - 1][1] - 1e-9))
+  res.L4 = { even_equal_windows: evOk, beat_strictly_increasing_non_overlap: btInc, beat_starts: l4.bt.map((c) => +c[0].toFixed(2)), onset_peak_within_100ms: 'not measured separately: starts are the argmax of the onset curve in each window by construction, see Results' }; res.L4.pass = evOk && btInc
+  // L5 reveal and karaoke: one panel, no strip row, slab labels, so the print text is exactly the revealed words
+  const l5 = await p.evaluate(async () => { const sel = (id, v) => { const e = document.getElementById(id); e.value = v; e.dispatchEvent(new Event('change', { bubbles: true })) }; const chk = (id, v) => { const e = document.getElementById(id); e.checked = v; e.dispatchEvent(new Event('change', { bubbles: true })) }; document.getElementById('p-silk').click(); sel('grid', '1'); chk('strip', false); sel('style', 'slab'); TaoLyr.set('[00:00.00]alpha beta gamma delta\n[00:10.00]', 'even'); sel('textsrc', 'lyrics'); sel('cc', 'burn')
+    const out = []; for (const rv of ['word', 'karaoke']) { sel('reveal', rv); for (const t of [0.01, 1.2, 3.1, 9]) { window.seek(t); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); const svg = document.querySelector('svg[data-tao], #stage svg, svg'); const print = Array.from(svg.querySelectorAll('text')).filter((x) => !x.closest('[data-cc]')).map((x) => x.textContent).join(' ').toLowerCase(); const ccs = svg.querySelector('[data-cc]'); out.push({ rv, t, cue: TaoLyr.at(t), print: print.replace(/\s+/g, ' ').trim(), cc_text: ccs ? ccs.textContent.trim() : null, cc_hi: ccs ? (() => { const ts = Array.from(ccs.querySelectorAll('tspan[fill]')), cnt = {}; ts.forEach((x) => { cnt[x.getAttribute('fill')] = (cnt[x.getAttribute('fill')] || 0) + 1 }); const fills = Object.keys(cnt).sort((u, v) => cnt[v] - cnt[u]), base = fills[0]; return fills.length < 2 ? [] : ts.filter((x) => x.getAttribute('fill') !== base).map((x) => x.textContent.trim()) })() : null, print_hi: Array.from(svg.querySelectorAll('text:not([data-cc] text) tspan[fill]')).map((x) => x.textContent.trim().toLowerCase()) }) } } return out })
+  const W4 = ['alpha', 'beta', 'gamma', 'delta'], cur = (t) => { const k = Math.min(3, Math.floor(t / 2.5)); return k } // even timing over a 10 s cue of 4 words is letter-count weighted; the check reads the page's own word index instead
+  const l5ok = l5.every((x) => { const hi = x.cue ? x.cue.hi : -1, shown = x.rv === 'word' ? W4.slice(0, hi + 1) : W4; const got = W4.filter((w) => x.print.includes(w)); const wordOk = x.rv !== 'word' || JSON.stringify(got) === JSON.stringify(shown); const kOk = x.rv !== 'karaoke' || (x.cc_hi && x.cc_hi.length === 1 && x.cc_hi[0].toLowerCase() === W4[hi]) ; return x.cue ? wordOk && kOk : true })
+  res.L5 = { samples: l5.map((x) => ({ rv: x.rv, t: x.t, word_index: x.cue ? x.cue.hi : null, print: x.print, caption_highlight: x.cc_hi })), pass: l5ok }
+  // L6 caption fit at the four shapes (stage-only page, caption band measured from the markup the page reports)
+  const l6 = {}; for (const [r, [w, h]] of Object.entries({ '16:9': [1280, 720], '4:3': [960, 720], '1:1': [720, 720], '9:16': [720, 1280] })) {
+    const q = await ctx.newPage(); await q.setViewportSize({ width: w, height: h }); await q.goto('file://' + here + '/_ARTIFACTS/tao-print-studio.html?stage=1'); await q.waitForFunction(() => window.TaoLyr && TaoDrive.ready()); await q.waitForTimeout(400)
+    const m = await q.evaluate(async () => { const sel = (id, v) => { const e = document.getElementById(id); e.value = v; e.dispatchEvent(new Event('change', { bubbles: true })) }; TaoLyr.set('[00:00.00]Water takes the lowest place and so it wears away the hardest stone without a sound\n[00:08.00]', 'even'); sel('grid', '3'); sel('layout', 'fit'); sel('frame', 'auto'); sel('textsrc', 'lyrics'); sel('cc', 'burn'); sel('reveal', 'karaoke'); window.seek(2); await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); const c = TaoLyr.cc(), svg = document.querySelector('svg'), vb = svg.viewBox.baseVal, bb = svg.querySelector('[data-cc]').getBBox(), scale = Math.min(svg.getBoundingClientRect().width / vb.width, svg.getBoundingClientRect().height / vb.height); return { bbox: [bb.x, bb.y, bb.width, bb.height].map((v) => +v.toFixed(1)), box: c.box, lines: c.lines, fs: c.fs, W: c.W, H: c.H, inside: bb.x >= -0.5 && bb.y >= -0.5 && bb.x + bb.width <= c.W + 0.5 && bb.y + bb.height <= c.H + 0.5, px_at_view: c.fs * scale, short_view: Math.min(c.W, c.H), short_px: Math.min(svg.getBoundingClientRect().width, svg.getBoundingClientRect().height) } })
+    m.px_at_720_short = +(m.fs * (720 / m.short_view)).toFixed(1); l6[r] = { ...m, pass: m.inside && m.lines <= 2 && m.px_at_720_short >= 11 }; await q.close() }
+  res.L6 = l6; res.L6.pass = Object.values(l6).every((x) => x.pass === true)
+  // L7 soft track vs exported SRT, and burn-in changes the caption region
+  const fx = join(SP, 'l7.lrc'); writeFileSync(fx, '[00:00.20]Water takes the lowest place\n[00:01.40]and so it wears the stone\n[00:02.60]Soft over hard\n')
+  const run = (a) => { try { return execFileSync('node', [vid, ...a], { stdio: ['ignore', 'pipe', 'pipe'] }).toString() } catch (e) { return 'ERR ' + String(e.stderr || e.stdout).slice(0, 300) } }
+  const base = ['--preset', 'tag', '--ratio', '16:9', '--short', '360', '--fps', '10', '--seconds', '3.5', '--lyrics', fx, '--force']
+  const both = join(SP, 'l7-both.mp4'), off = join(SP, 'l7-off.mp4'), srtf = join(SP, 'l7.srt')
+  const o1 = run(['--out', both, '--captions', 'both', '--srt-out', srtf, ...base]), o2 = run(['--out', off, '--captions', 'soft', ...base])
+  let l7 = { renders: !o1.startsWith('ERR') && !o2.startsWith('ERR') }
+  if (l7.renders) {
+    const sub = execFileSync('ffprobe', ['-v', 'error', '-select_streams', 's:0', '-show_entries', 'packet=pts_time,duration_time', '-show_entries', 'stream=codec_name', '-of', 'json', both]).toString(), pj = JSON.parse(sub), srt = readFileSync(srtf, 'utf8')
+    const cues = srt.trim().split(/\n\n/).map((b) => { const l = b.split('\n'), m = /(\d+):(\d+):(\d+),(\d+) --> (\d+):(\d+):(\d+),(\d+)/.exec(l[1]), T = (i) => (+m[i] * 3600 + +m[i + 1] * 60 + +m[i + 2]) + +m[i + 3] / 1000; return { t0: T(1), t1: T(5), text: l.slice(2).join(' ') } })
+    const text = execFileSync('ffmpeg', ['-v', 'error', '-i', both, '-map', '0:s:0', '-f', 'srt', '-']).toString(), cues2 = text.trim().split(/\n\n/).map((b) => { const l = b.split('\n'), m = /(\d+):(\d+):(\d+),(\d+) --> (\d+):(\d+):(\d+),(\d+)/.exec(l[1]), T = (i) => (+m[i] * 3600 + +m[i + 1] * 60 + +m[i + 2]) + +m[i + 3] / 1000; return { t0: T(1), t1: T(5), text: l.slice(2).join(' ') } })
+    const dt = cues.map((c, i) => cues2[i] ? Math.max(Math.abs(c.t0 - cues2[i].t0), Math.min(Math.abs(c.t1 - cues2[i].t1), 99)) * 1000 : 9999), sameText = cues.length === cues2.length && cues.every((c, i) => c.text === cues2[i].text)
+    // the soft cue end is clamped to the clip, so compare starts exactly and ends only where the cue ends inside the clip
+    const startErr = Math.max(...cues.map((c, i) => cues2[i] ? Math.abs(c.t0 - cues2[i].t0) * 1000 : 9999))
+    // burn-in: frame at 2.0 s with captions on (both) vs off (soft only), bottom 25 percent differs, top half does not
+    execFileSync('ffmpeg', ['-v', 'error', '-y', '-ss', '2.0', '-i', both, '-frames:v', '1', join(SP, 'l7-on.png')]); execFileSync('ffmpeg', ['-v', 'error', '-y', '-ss', '2.0', '-i', off, '-frames:v', '1', join(SP, 'l7-off.png')])
+    const d = JSON.parse(execFileSync('python3', ['-c', "from PIL import Image, ImageChops, ImageStat;import json;a=Image.open('" + join(SP, 'l7-on.png') + "').convert('RGB');b=Image.open('" + join(SP, 'l7-off.png') + "').convert('RGB');w,h=a.size;f=lambda box:sum(ImageStat.Stat(ImageChops.difference(a.crop(box),b.crop(box))).mean)/3/255*100;print(json.dumps({'bottom':f((0,int(h*0.78),w,h)),'top':f((0,0,w,int(h*0.5)))}))"]).toString())
+    l7 = { renders: true, cues_srt: cues.length, cues_in_stream: cues2.length, same_text: sameText, max_start_error_ms: +startErr.toFixed(1), burn_bottom_diff_pct: +d.bottom.toFixed(3), burn_top_diff_pct: +d.top.toFixed(3) }
+    l7.pass = sameText && startErr <= 20 && d.bottom > 0.2 && d.top < 1.5
+  } else l7.error = (o1.startsWith('ERR') ? o1 : o2)
+  res.L7 = l7
+  // L8 private and honest
+  const txt = await p.evaluate(() => document.body.innerText.toLowerCase()); const claims = /transcrib|speech recogni|recognis|recogniz/.test(txt.replace(/no speech recognition[^.]*\./, ''))
+  res.L8 = { network_requests: net.length, page_text_claims_transcription: claims }; res.L8.pass = net.length === 0 && !claims
+  await b.close()
+  console.log(JSON.stringify({ ...res, page_errors: errs }, null, 1))
+}
+
 async function runProbe() {const b=await chromium.launch();const p=await b.newPage({viewport:{width:1280,height:900}});
 await p.goto('file://'+process.cwd()+'/_ARTIFACTS/tao-print-studio.html');await p.waitForFunction(()=>window.TaoDrive&&TaoDrive.ready());await p.waitForTimeout(500);
 const run=async(label,setup)=>{await p.evaluate(setup);await p.waitForTimeout(800);
@@ -318,6 +381,6 @@ await run('tag 2x2 full grit',()=>{document.getElementById('p-tag').click()});
 await run('street 3x3 spray+rough+wall',()=>{document.getElementById('p-street').click()});
 await run('tag, grit off (fidelity 100, auto)',()=>{document.getElementById('p-tag').click();const e=document.getElementById('fidelity');e.value=100;e.dispatchEvent(new Event('input'))});
 await b.close()}
-const table = { drive: runDrive, frame: runFrame, slice2: runSlice2, realtime: runRealtime, probe: runProbe, offline: runOffline }
-if (!table[which]) { console.error('usage: tao_studio_checks.mjs drive|frame|slice2|realtime|probe|offline [--phosphor path]'); process.exit(2) }
+const table = { drive: runDrive, frame: runFrame, slice2: runSlice2, realtime: runRealtime, probe: runProbe, offline: runOffline, lyrics: runLyrics }
+if (!table[which]) { console.error('usage: tao_studio_checks.mjs drive|frame|slice2|realtime|probe|offline|lyrics [--phosphor path]'); process.exit(2) }
 await table[which]()

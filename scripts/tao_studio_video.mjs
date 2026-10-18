@@ -4,6 +4,7 @@
  *
  *   node scripts/tao_studio_video.mjs --out out.mp4 [--preset tag|street|fancy|brain|invader|silk] [--recipe <file or inline json>]
  *        [--audio song.mp3] [--ratio 16:9|4:3|1:1|9:16] [--short 720|1080] [--fps 30] [--seconds N] [--start S]
+ *        [--lyrics file] [--lyric-timing even|beat|tap] [--captions burn|soft|both|off] [--srt-out file] [--reveal line|word|karaoke] [--text lyrics|proverb]
  *        [--drive tagmap|sweep|off|recipe] [--square] [--lossless] [--keep-frames DIR] [--force]
  *
  * How: opens _ARTIFACTS/tao-print-studio.html in stage-only mode (`?stage=1`, the viewport is the video size), loads the recipe and the audio, then for frame i sets the
@@ -30,6 +31,9 @@ const RATIOS = { '16:9': 16 / 9, '4:3': 4 / 3, '1:1': 1, '9:16': 9 / 16 }
 const ratio = opt('ratio', '16:9'); if (!RATIOS[ratio]) { console.error('--ratio must be one of ' + Object.keys(RATIOS).join(', ')); process.exit(2) }
 const short = +opt('short', 720), fps = +opt('fps', 30), start = +opt('start', 0), a = RATIOS[ratio]
 const W = a >= 1 ? Math.round(short * a / 2) * 2 : short, H = a >= 1 ? short : Math.round(short / a / 2) * 2
+const lyricsFile = opt('lyrics', null), lyricTiming = opt('lyric-timing', 'even'), captions = opt('captions', lyricsFile ? 'burn' : 'off'), reveal = opt('reveal', 'line'), textSrc = opt('text', lyricsFile ? 'lyrics' : 'proverb'), srtOut = opt('srt-out', null)
+if (lyricsFile && !existsSync(resolve(lyricsFile))) { console.error('lyrics file not found: ' + lyricsFile); process.exit(2) }
+if (!['burn', 'soft', 'both', 'off'].includes(captions)) { console.error('--captions must be burn, soft, both or off'); process.exit(2) }
 const preset = opt('preset', null), audio = opt('audio', null), driveMode = opt('drive', opt('recipe') ? 'recipe' : 'tagmap'), keep = opt('keep-frames', null)
 const here = dirname(fileURLToPath(import.meta.url)), studio = pathToFileURL(resolve(here, '..', '_ARTIFACTS', 'tao-print-studio.html')).href + '?stage=1'
 if (audio && !existsSync(resolve(audio))) { console.error('audio file not found: ' + audio); process.exit(2) }
@@ -58,6 +62,13 @@ try {
   if (driveMode === 'tagmap') await page.evaluate(() => document.getElementById('drive-tagmap').click())
   else if (driveMode === 'sweep') await page.evaluate(() => document.getElementById('drive-sweep').click())
   else if (driveMode === 'off') await page.evaluate(() => { const e = document.getElementById('drive-on'); e.checked = false; e.dispatchEvent(new Event('change', { bubbles: true })) })
+  let srtText = ''
+  if (lyricsFile) {
+    await page.evaluate(([raw, mode]) => TaoLyr.set(raw, mode), [readFileSync(resolve(lyricsFile), 'utf8'), lyricTiming])
+    await sel('textsrc', textSrc); await sel('reveal', reveal); await sel('cc', captions === 'burn' || captions === 'both' ? 'burn' : 'off')
+    srtText = await page.evaluate(() => TaoLyr.srt())
+    if (srtOut) writeFileSync(resolve(srtOut), srtText)
+  }
   await page.evaluate(() => TaoRT.forceFull()); await page.waitForTimeout(300)
   const dur = await page.evaluate(() => TaoDrive.dur()), seconds = Math.min(+opt('seconds', dur - start), 900), frames = Math.max(1, Math.round(seconds * fps))
   if (start + seconds > dur + 1e-6 && !flag('loop')) { /* allow wrap: the studio clip loops */ }
@@ -79,9 +90,10 @@ try {
   }
   ff.stdin.end(); await done
   const tm = Date.now()
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', vOut, '-ss', String(start), '-t', String(seconds), '-i', audioPath, '-map', '0:v:0', '-map', '1:a:0', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', '-shortest', OUT])
+  const soft = (captions === 'soft' || captions === 'both') && srtText.trim(), srtPath = join(tmp, 'captions.srt'); if (soft) writeFileSync(srtPath, srtText)
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', vOut, '-ss', String(start), '-t', String(seconds), '-i', audioPath, ...(soft ? ['-ss', String(start), '-i', srtPath] : []), '-map', '0:v:0', '-map', '1:a:0', ...(soft ? ['-map', '2:s:0', '-c:s', 'mov_text', '-metadata:s:s:0', 'language=eng'] : []), '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', ...(soft ? [] : ['-shortest']), OUT])
   const size = statSync(OUT).size
-  console.log(JSON.stringify({ out: OUT, ratio, size: W + 'x' + H, fps, frames, seconds: +seconds.toFixed(3), encoder: codec, audio: audio ? resolve(audio) : 'demo signal', drive: driveMode, preset: preset || null, bytes: size, seconds_per_frame: +(((tm - tf) / 1000) / frames).toFixed(3), render_seconds: +((Date.now() - t0) / 1000).toFixed(1), network_blocked: blocked.length, page_errors: errs }))
+  console.log(JSON.stringify({ out: OUT, ratio, size: W + 'x' + H, fps, frames, seconds: +seconds.toFixed(3), encoder: codec, audio: audio ? resolve(audio) : 'demo signal', drive: driveMode, preset: preset || null, lyrics: lyricsFile ? { cues: srtText ? srtText.split('\n\n').filter(Boolean).length : 0, timing: lyricTiming, captions, reveal, text: textSrc } : null, bytes: size, seconds_per_frame: +(((tm - tf) / 1000) / frames).toFixed(3), render_seconds: +((Date.now() - t0) / 1000).toFixed(1), network_blocked: blocked.length, page_errors: errs }))
 } finally {
   if (browser) await browser.close()
   rmSync(tmp, { recursive: true, force: true })

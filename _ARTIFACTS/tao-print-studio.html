@@ -159,6 +159,7 @@ legend { padding: 0 6px; font-family: var(--ds-font-mono); font-size: var(--fs-b
 .row.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 label, .lab { font-size: var(--fs-body); color: var(--dimmed); display: flex; justify-content: space-between; gap: 8px; }
 .lab output { color: var(--text); font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; }
+textarea { width: 100%; min-height: 120px; padding: 8px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); font-family: var(--ds-font-mono); font-size: var(--fs-body); resize: vertical; }
 select, input[type=number], input[type=text] { width: 100%; min-height: 44px; padding: 8px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
 input:disabled, select:disabled { opacity: .45; cursor: not-allowed; }
 input[type=range] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
@@ -227,6 +228,26 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
       <label class="check" for="rt-stop"><input id="rt-stop" type="checkbox" checked> Stop recording at the end of the clip</label>
       <div class="btns"><button type="button" id="rec-btn" class="primary">Record</button></div>
       <p class="note tight">Draft drops the rough, spray and wall filters so the picture can move live; Full and the paused frame keep them. A recording is a live capture at the frame rate the screen can reach.</p>
+    </fieldset>
+
+    <fieldset><legend>Lyrics and captions</legend>
+      <div class="row"><label for="lyr-text">Lyrics (paste LRC, SRT, WebVTT or plain lines)</label><textarea id="lyr-text" rows="6" spellcheck="false" placeholder="[00:12.40] First line&#10;[00:16.10] Second line"></textarea></div>
+      <div class="btns"><button type="button" id="lyr-load">Load file</button><input type="file" id="lyr-file" accept=".lrc,.srt,.vtt,.txt,text/plain" hidden><button type="button" id="lyr-tap">Tap next line</button><button type="button" id="lyr-clear">Clear</button></div>
+      <div class="row two">
+        <div class="row"><label for="lyr-mode">Timing for plain lines</label><select id="lyr-mode"><option value="even">Even across the clip</option><option value="beat">On the beat</option><option value="tap">Tap (press T as each line starts)</option></select></div>
+        <div class="row"><label for="textsrc">Text on the print</label><select id="textsrc"><option value="proverb">Proverb</option><option value="lyrics">Lyrics</option></select></div>
+      </div>
+      <div class="row two">
+        <div class="row"><label for="reveal">Reveal</label><select id="reveal"><option value="line">Whole line</option><option value="word">Word by word</option><option value="karaoke">Karaoke highlight</option></select></div>
+        <div class="row"><label for="cc">Captions</label><select id="cc"><option value="off">Off</option><option value="burn">Burn-in band</option></select></div>
+      </div>
+      <div class="row two">
+        <div class="row"><label for="ccpos">Caption position</label><select id="ccpos"><option value="bottom">Bottom</option><option value="middle">Middle</option><option value="top">Top</option></select></div>
+        <div class="row"><label for="ccsize"><span>Caption size</span><output id="ccsize-o"></output></label><input id="ccsize" type="range" min="60" max="160" step="5"></div>
+      </div>
+      <div class="btns"><button type="button" id="lyr-srt">Copy SRT</button><button type="button" id="lyr-vtt">Copy WebVTT</button></div>
+      <p class="meters" id="lyr-info"></p>
+      <p class="note tight">No speech recognition: timing comes from the file, from your taps, or from the beat. Lyrics stay in this page. Use words you have the right to show.</p>
     </fieldset>
 
     <fieldset><legend>Print</legend>
@@ -400,7 +421,8 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
     rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50,
     fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50,
-    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false, travel: 0, drive: '', frame: 'auto', layout: 'square'
+    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false, travel: 0, drive: '', frame: 'auto', layout: 'square',
+    textsrc: 'proverb', reveal: 'line', cc: 'off', ccpos: 'bottom', ccsize: 100, lyrics: ''
   };
   var cfg = {};
   Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; });
@@ -452,6 +474,14 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     if (n <= w.length) out[n - 1] += '.';
     return out;
   }
+  var HI = { local: -1 };
+  function runsIdx(text, n, dot) {
+    var w = text.replace(/\.$/, '').split(/\s+/).filter(Boolean), out = [], i; if (!w.length) { for (i = 0; i < n; i++) out.push({ s: '', from: 0, count: 0 }); return out; }
+    if (n <= w.length) { for (i = 0; i < n; i++) { var a = Math.round(i * w.length / n), b = Math.round((i + 1) * w.length / n); out.push({ s: w.slice(a, b).join(' '), from: a, count: b - a }); } if (dot) out[n - 1].s += '.'; }
+    else { for (i = 0; i < n; i++) out.push({ s: w[i % w.length], from: i % w.length, count: 1 }); }
+    return out;
+  }
+  function lineSvg(l, ws, accent) { if (HI.local < 0) return esc(l); var w = l.split(' '), o = ''; w.forEach(function (x, j) { var seg = esc(x) + (j < w.length - 1 ? ' ' : ''); o += (ws + j === HI.local) ? '<tspan fill="' + accent + '">' + seg + '</tspan>' : seg; }); return o; }
   function label(P, k, loss, drift, gnd, paper, text, st, ph) {
     if (!cfg.label || !text) return '';
     if (cfg.style === 'strip') return stripText(P, k, loss, text, ph);
@@ -475,6 +505,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var hgt = cfg.height, top = cfg.pos === 'top' ? (cfg.style === 'band' ? 0 : 3) : cfg.pos === 'middle' ? (100 - hgt) / 2 : 100 - hgt - (cfg.style === 'band' ? 0 : 3);
     var lh = cfg.leading / 100, total = (lines.length - 1) * size * lh;
     var cy = top + hgt / 2;
+    var wstart = [], wacc = 0; lines.forEach(function (l) { wstart.push(wacc); wacc += l.split(' ').length; }); var accent = dark ? P.horizon : P.inks[3];
     var body = lines.map(function (l, i) {
       var y = cy - total / 2 + i * size * lh + size * 0.34;
       var common = ' x="50" y="' + f1(y) + '" text-anchor="middle" font-family="' + F.stack.replace(/"/g, "'") + '" font-weight="' + wt + '" font-size="' + size.toFixed(2) + '" letter-spacing="' + (cfg.track / 100 * size).toFixed(2) + '"';
@@ -483,11 +514,11 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
         var yy = f1(y), sw = (size * 0.3).toFixed(2), off = (size * 0.09).toFixed(2);
         return '<text' + common + ' transform="translate(' + off + ' ' + off + ')" fill="' + P.key + '" stroke="' + P.key + '" stroke-width="' + sw + '" stroke-linejoin="round">' + esc(l) + '</text>'
           + '<text' + common + ' fill="' + P.key + '" stroke="' + P.key + '" stroke-width="' + sw + '" stroke-linejoin="round">' + esc(l) + '</text>'
-          + '<text' + common + ' fill="' + tcol + '">' + esc(l) + '</text>';
+          + '<text' + common + ' fill="' + tcol + '">' + lineSvg(l, wstart[i], accent) + '</text>';
       }
-      if (cfg.style === 'spray') return '<text' + common + ' fill="' + contrast + '">' + esc(l) + '</text>';
-      if (cfg.style === 'knock') return '<text' + common + ' fill="' + P.light + '" stroke="' + P.key + '" stroke-width="' + (size * 0.22).toFixed(2) + '" stroke-linejoin="round" paint-order="stroke">' + esc(l) + '</text>';
-      return '<text' + common + ' fill="' + ink + '">' + esc(l) + '</text>';
+      if (cfg.style === 'spray') return '<text' + common + ' fill="' + contrast + '">' + lineSvg(l, wstart[i], accent) + '</text>';
+      if (cfg.style === 'knock') return '<text' + common + ' fill="' + P.light + '" stroke="' + P.key + '" stroke-width="' + (size * 0.22).toFixed(2) + '" stroke-linejoin="round" paint-order="stroke">' + lineSvg(l, wstart[i], accent) + '</text>';
+      return '<text' + common + ' fill="' + ink + '">' + lineSvg(l, wstart[i], accent) + '</text>';
     }).join('');
     var box = '';
     if (cfg.style === 'slab') box = '<rect x="3" y="' + f1(top) + '" width="94" height="' + hgt + '" fill="' + slab + '"/>';
@@ -559,7 +590,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   function stripText(P, k, loss, text, ph) {
     var t = casing(text).replace(/\s+/g, ' ').trim(); if (!t) return '';
     var cv = curve(ph), F = FONTS[cfg.pixel > 0 ? 'sans' : cfg.font], wt = cfg.pixel > 0 ? 900 : cfg.weight, chars = t.split(''), n = chars.length;
-    var size = Math.max(4, Math.min(9.5 * cfg.size / 100, cv.total * 0.92 / (n * 0.78 + 0.6))), adv = size * 0.78;
+    var size = Math.max(4, Math.min(9.5 * cfg.size / 100, cv.total * 0.92 / (n * 0.78 + 0.6))), adv = size * 0.78, wordOf = [], wi = 0; chars.forEach(function (ch) { if (ch === ' ') { wi++; wordOf.push(-1); } else wordOf.push(wi); });
     // advance each glyph by its own perspective-scaled width so near letters do not collide; centre the run on the top of the ring
     function layout(s0) { var pos = [], s = s0; for (var q = 0; q < n; q++) { pos.push(s); s += adv * (3.4 / (3.4 + onCurve(cv, s).z)) / 0.97 * (chars[q] === ' ' ? 0.7 : 1); } return { pos: pos, end: s }; }
     var L = layout(cv.top - adv * (n - 1) / 2); L = layout(cv.top - (L.end - L.pos[0]) / 2 + cfg.travel / 100 * cv.total);
@@ -571,7 +602,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       var skip = r() < loss * 0.22 * cfg.dropout / 100, j1 = r(), j2 = r();
       if (skip) return;
       var bk = p.face !== startFace, gs = size * (3.4 / (3.4 + p.z)) / 0.97, jit = loss * cfg.slip / 100;
-      var dy = (j1 - 0.5) * gs * 0.45 * jit, rot = (j2 - 0.5) * 24 * jit, fill = bk ? P.inks[2] : P.light;
+      var dy = (j1 - 0.5) * gs * 0.45 * jit, rot = (j2 - 0.5) * 24 * jit, fill = HI.local >= 0 && wordOf[i] === HI.local ? P.horizon : (bk ? P.inks[2] : P.light);
       out += '<g transform="translate(' + f1(p.x) + ' ' + f1(p.y + dy) + ') rotate(' + (p.ang * 180 / Math.PI + rot).toFixed(1) + ')' + (bk ? ' scale(-1 1)' : '') + '" opacity="' + (p.z < 0.25 ? 1 : 0.8) + '" data-g="1" data-back="' + (bk ? 1 : 0) + '">'
         + '<text x="0" y="' + (gs * 0.35).toFixed(2) + '" text-anchor="middle" font-family="' + F.stack.replace(/"/g, "'") + '" font-weight="' + wt + '" font-size="' + gs.toFixed(2) + '" fill="' + fill + '" stroke="' + P.key + '" stroke-width="' + (gs * 0.2).toFixed(2) + '" stroke-linejoin="round" paint-order="stroke">' + esc(c) + '</text></g>';
       glyphs++; if (bk) back++;
@@ -581,6 +612,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
 
   /* ---- one pull of the mold ---- */
   function panel(P, f, k, n, o) {
+    HI.local = o.hiLocal !== undefined ? o.hiLocal : -1;
     var drift = k / Math.max(1, n - 1), loss = 1 - f;
     var ph = PHASE + (VIEWS[k % 9] - PHASE) * cfg.views / 100;
     var gnd = (cfg.grounds ? GROUNDS[k % 9] : null);
@@ -692,14 +724,17 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   function build00() {
     var P = PAL[cfg.palette], f = cfg.fidelity / 100, cols = LAYOUT ? LAYOUT.cols : +cfg.grid, rows = LAYOUT ? LAYOUT.rows : cols, n = cols * rows, CELL = 120, gap = LAYOUT && LAYOUT.gapx !== undefined ? LAYOUT.gapx : 14, gapY = LAYOUT && LAYOUT.gapy !== undefined ? LAYOUT.gapy : gap;
     var W = cols * CELL + (cols - 1) * gap, GH = rows * CELL + (rows - 1) * gapY, row = PROVERBS.filter(function (p) { return p.id === cfg.proverb; })[0] || PROVERBS[0];
-    var R = runs(row.text, n), stats = { reg: 0, drop: 0, specks: 0, n: 0 };
+    var lt = (cfg.textsrc === 'lyrics' && LYR.cues.length) ? lyricNow() : null, useLyr = cfg.textsrc === 'lyrics' && LYR.cues.length > 0;
+    var hiG = lt && cfg.reveal !== 'line' ? lt.hi : -1, shown = useLyr ? (lt ? (cfg.reveal === 'word' ? lt.words.slice(0, Math.max(0, lt.hi + 1)).map(function (x) { return x.w; }).join(' ') : lt.text) : '') : row.text;
+    var RI = runsIdx(shown, n, !useLyr), R = RI.map(function (x) { return x.s; }), stats = { reg: 0, drop: 0, specks: 0, n: 0 };
     var m = cols === 1 ? 0 : (cfg.strip ? Math.min(6, cols * 2) : 0), sw = m ? (W - (m - 1) * 6) / m : 0, H = GH + (m ? 18 + sw : 0);
     var defs = defsMarkup(), panels = [];
     var out = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + f1(H) + '" width="' + W + '" height="' + f1(H) + '" role="img" aria-label="Silkscreen print of the proverb: ' + esc(row.text) + '">',
       defs, '<rect width="' + W + '" height="' + f1(H) + '" fill="' + P.key + '"/>'];
     for (var k = 0; k < n; k++) {
       var x = (k % cols) * (CELL + gap), y = Math.floor(k / cols) * (CELL + gapY);
-      var pm = panel(P, f, k, n, { text: R[k], stats: stats });
+      var hl = hiG >= 0 && RI[k].count && hiG >= RI[k].from && hiG < RI[k].from + RI[k].count ? hiG - RI[k].from : -1;
+      var pm = panel(P, f, k, n, { text: R[k], stats: stats, hiLocal: hl });
       panels.push({ label: 'Panel ' + (k + 1) + ': ' + R[k], file: 'panel-' + String(k + 1).padStart(2, '0'), x: x, y: y, size: CELL, markup: pm });
       out.push('<svg x="' + x + '" y="' + y + '" width="' + CELL + '" height="' + CELL + '" viewBox="0 0 100 100">' + pm + '</svg>');
     }
@@ -709,6 +744,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       panels.push({ label: 'Strip ' + (s + 1) + (twist ? ' (twist)' : ''), file: 'strip-' + String(s + 1).padStart(2, '0'), x: sx, y: GH + 18, size: sw, markup: sm });
       out.push('<svg x="' + f1(sx) + '" y="' + (GH + 18) + '" width="' + f1(sw) + '" height="' + f1(sw) + '" viewBox="0 0 100 100" data-twist="' + (twist ? 1 : 0) + '">' + sm + '</svg>');
     }
+    if (cfg.cc === 'burn') { var cc = lt ? ccMarkup(P, W, H, lt) : ''; if (cc) out.push(cc); } else LYR.cc = null;
     out.push('</svg>');
     return { svg: out.join('\n'), stats: stats, row: row, W: W, H: H, defs: defs, panels: panels, P: P };
   }
@@ -782,6 +818,74 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     };
     img.onerror = function () { URL.revokeObjectURL(url); PXP--; };
     img.src = url;
+  }
+  /* ---- lyrics: parse (LRC, SRT, WebVTT, plain), timing for plain lines, the current line and word at time t, burn-in captions, SRT and WebVTT out ---- */
+  var LYR = { raw: '', mode: 'even', taps: [], cues: [], cc: null, err: '' };
+  function lyrT(str) { var m = /^(?:(\d+):)?(\d+):(\d+(?:[.,:]\d+)?)$/.exec(String(str).trim()); if (!m) return NaN; return (m[1] ? +m[1] * 3600 : 0) + (+m[2]) * 60 + parseFloat(m[3].replace(/[,:]/, '.')); }
+  function lyrWords(text, t0, t1, tagged) {
+    var ws = text.split(/\s+/).filter(Boolean), tot = 0, i, acc = 0, out = []; if (!ws.length) return [];
+    if (tagged && tagged.length) return tagged.map(function (x, j) { return { w: x.w, t0: x.t0, t1: j + 1 < tagged.length ? tagged[j + 1].t0 : t1 }; });
+    ws.forEach(function (w) { tot += w.length + 1; }); var span = Math.max(0.05, t1 - t0 - 0.05);
+    ws.forEach(function (w) { var a = t0 + span * acc / tot; acc += w.length + 1; out.push({ w: w, t0: a, t1: t0 + span * acc / tot }); }); return out;
+  }
+  function lyrParse(raw, mode, taps) {
+    var cues = [], txt = String(raw || '').replace(/\r/g, ''), dur = DR.dur || 0, lines, i;
+    if (!txt.trim()) return cues;
+    if (/-->/.test(txt)) {
+      txt.split(/\n\s*\n/).forEach(function (blk) {
+        var ls = blk.split('\n').map(function (x) { return x.trim(); }).filter(Boolean), k = -1; for (i = 0; i < ls.length; i++) if (/-->/.test(ls[i])) { k = i; break; } if (k < 0) return;
+        var m = ls[k].split(/\s*-->\s*/), t0 = lyrT(m[0]), t1 = lyrT((m[1] || '').split(/\s+/)[0]); if (!isFinite(t0) || !isFinite(t1)) return;
+        var text = ls.slice(k + 1).join(' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); if (text) cues.push({ t0: t0, t1: t1, text: text });
+      });
+    } else if (/^\s*\[\d+:\d+(?:[.:]\d+)?\]/m.test(txt)) {
+      var ev = [];
+      txt.split('\n').forEach(function (ln) {
+        var stamps = [], rest = ln, m; while ((m = /^\s*\[(\d+):(\d+(?:[.:]\d+)?)\]/.exec(rest))) { stamps.push((+m[1]) * 60 + parseFloat(m[2].replace(':', '.'))); rest = rest.slice(m[0].length); }
+        if (!stamps.length) return; var tagged = [], tm, re = /<(\d+):(\d+(?:[.:]\d+)?)>\s*([^<]*)/g, tx = rest;
+        if (/<\d+:\d+/.test(rest)) { var pre = rest.split('<')[0].trim(); if (pre) tagged.push({ w: pre, t0: stamps[0] }); while ((tm = re.exec(rest))) { var wd = tm[3].trim().split(/\s+/).filter(Boolean), tt = (+tm[1]) * 60 + parseFloat(tm[2].replace(':', '.')); wd.forEach(function (w2, j) { tagged.push({ w: w2, t0: tt + j * 0.0001 }); }); } tx = tagged.map(function (x) { return x.w; }).join(' '); }
+        stamps.forEach(function (st) { ev.push({ t0: st, text: tx.trim(), tagged: tagged.length ? tagged : null }); });
+      });
+      ev.sort(function (a, b) { return a.t0 - b.t0; });
+      ev.forEach(function (e, j) { if (!e.text) return; var nx = ev[j + 1]; cues.push({ t0: e.t0, t1: nx ? nx.t0 : e.t0 + 4, text: e.text, tagged: e.tagged }); });
+    } else {
+      lines = txt.split('\n').map(function (x) { return x.trim(); }).filter(function (x) { return x && !/^\[[^\]]*\]$/.test(x) && x.charAt(0) !== '#'; }); var N = lines.length; if (!N) return cues;
+      var d = dur || 30, lo = Math.min(0.4, d * 0.05), win = (d - 2 * lo) / N, starts = [];
+      if (mode === 'tap') { (taps || []).slice(0, N).forEach(function (t) { starts.push(t); }); }
+      else if (mode === 'beat' && DR.src && DR.src.onset) {
+        var prev = -1; for (i = 0; i < N; i++) { var a = Math.floor((lo + i * win) * DRFPS), b = Math.max(a + 1, Math.floor((lo + i * win + win * 0.5) * DRFPS)), best = a, bv = -1, f2; for (f2 = a; f2 <= b && f2 < DR.nf; f2++) if (DR.src.onset[f2] > bv + 1e-6) { bv = DR.src.onset[f2]; best = f2; } var t = best / DRFPS; if (t <= prev + 0.3) t = prev + 0.3; starts.push(t); prev = t; }
+      } else { for (i = 0; i < N; i++) starts.push(lo + i * win); }
+      starts.forEach(function (t0, j) { var t1 = j + 1 < starts.length ? starts[j + 1] - 0.05 : (mode === 'tap' ? t0 + 3 : Math.min(d - 0.1, t0 + win)); cues.push({ t0: t0, t1: Math.max(t0 + 0.1, t1), text: lines[j] }); });
+    }
+    cues.sort(function (a, b) { return a.t0 - b.t0; });
+    cues.forEach(function (c) { c.words = lyrWords(c.text, c.t0, c.t1, c.tagged); delete c.tagged; });
+    return cues;
+  }
+  function lyrReparse() { try { LYR.cues = lyrParse(LYR.raw, LYR.mode, LYR.taps); LYR.err = ''; } catch (e) { LYR.cues = []; LYR.err = 'The lyrics could not be read.'; } lyrInfo(); }
+  function lyricNow() {
+    var t = driveTime(), c = LYR.cues, lo = 0, hi = c.length - 1, k = -1; while (lo <= hi) { var mid = (lo + hi) >> 1; if (c[mid].t0 <= t) { k = mid; lo = mid + 1; } else hi = mid - 1; }
+    if (k < 0 || t >= c[k].t1) return null; var cue = c[k], j = -1, q; for (q = 0; q < cue.words.length; q++) if (cue.words[q].t0 <= t) j = q;
+    return { text: cue.text, words: cue.words, hi: Math.max(0, j), cue: k };
+  }
+  function fmtT(t, comma) { var ms = Math.round(t * 1000), h = Math.floor(ms / 3600000), m = Math.floor(ms / 60000) % 60, s2 = Math.floor(ms / 1000) % 60, r = ms % 1000, p = function (n, w) { return ('00' + n).slice(-w); }; return p(h, 2) + ':' + p(m, 2) + ':' + p(s2, 2) + (comma ? ',' : '.') + p(r, 3); }
+  function lyrSrt() { return LYR.cues.map(function (c, i) { return (i + 1) + '\n' + fmtT(c.t0, true) + ' --> ' + fmtT(c.t1, true) + '\n' + c.text + '\n'; }).join('\n'); }
+  function lyrVtt() { return 'WEBVTT\n\n' + LYR.cues.map(function (c) { return fmtT(c.t0, false) + ' --> ' + fmtT(c.t1, false) + '\n' + c.text + '\n'; }).join('\n'); }
+  function lyrInfo() { var el = $('lyr-info'); if (!el) return; el.textContent = LYR.err || (LYR.cues.length ? LYR.cues.length + ' lines, ' + mmss(LYR.cues[0].t0) + ' to ' + mmss(LYR.cues[LYR.cues.length - 1].t1) + (/-->/.test(LYR.raw) ? ', timed by the file (SRT or WebVTT)' : /^\s*\[\d+:\d+/m.test(LYR.raw) ? ', timed by the file (LRC)' : ', timing: ' + ({ even: 'even across the clip', beat: 'on the beat', tap: 'your taps' })[LYR.mode]) : 'No lyrics yet.'); }
+  function writeLyr() { cfg.lyrics = LYR.raw ? JSON.stringify({ raw: LYR.raw.slice(0, 60000), mode: LYR.mode, taps: LYR.taps }) : ''; }
+  function readLyr() { var o = {}; try { o = JSON.parse(cfg.lyrics || '{}') || {}; } catch (e) { o = {}; } LYR.raw = typeof o.raw === 'string' ? o.raw : ''; LYR.mode = ['even', 'beat', 'tap'].indexOf(o.mode) >= 0 ? o.mode : 'even'; LYR.taps = Array.isArray(o.taps) ? o.taps.filter(isFinite).slice(0, 2000) : []; if ($('lyr-text')) { $('lyr-text').value = LYR.raw; $('lyr-mode').value = LYR.mode; } lyrReparse(); }
+  function lyrTap() { if (!DR.playing || LYR.mode !== 'tap') { say('Set the timing to Tap and press Play first.'); return; } LYR.taps.push(Math.round(driveTime() * 100) / 100); writeLyr(); lyrReparse(); schedule(); }
+  function ccMarkup(P, W, H, lt) {
+    var F = FONTS.sans, words = lt.words, fsBase = Math.min(W, H) * 0.055 * cfg.ccsize / 100, maxW = W * 0.9, sc, lines, fs;
+    function wrap(f2) { var out = [], cur = [], curW = 0, i, w; mctx.font = '700 100px ' + F.stack; for (i = 0; i < words.length; i++) { w = mctx.measureText(words[i].w + ' ').width / 100 * f2; if (cur.length && curW + w > maxW) { out.push(cur); cur = []; curW = 0; } cur.push(i); curW += w; } if (cur.length) out.push(cur); return out; }
+    for (sc = 1; sc >= 0.55; sc -= 0.05) { fs = fsBase * sc; lines = wrap(fs); if (lines.length <= 2) break; }
+    mctx.font = '700 100px ' + F.stack; var lw = lines.map(function (ix) { return ix.reduce(function (a, i) { return a + mctx.measureText(words[i].w + ' ').width / 100 * fs; }, 0); }), bw = Math.min(W, Math.max.apply(null, lw) + fs * 1.2), bh = lines.length * fs * 1.25 + fs * 0.7, margin = fs * 0.8;
+    var by = cfg.ccpos === 'top' ? margin : cfg.ccpos === 'middle' ? (H - bh) / 2 : H - bh - margin, bx = (W - bw) / 2;
+    var o = '<g data-cc="1"><rect x="' + f1(bx) + '" y="' + f1(by) + '" width="' + f1(bw) + '" height="' + f1(bh) + '" rx="' + (fs * 0.3).toFixed(1) + '" fill="' + P.key + '" opacity=".82"/>';
+    lines.forEach(function (ix, li) {
+      var y = by + fs * 0.35 + (li + 1) * fs * 1.25 - fs * 0.25, spans = ix.map(function (i, j) { var hi = cfg.reveal !== 'line' && i === lt.hi; return '<tspan fill="' + (hi ? P.horizon : P.light) + '">' + esc(words[i].w) + (j < ix.length - 1 ? ' ' : '') + '</tspan>'; }).join('');
+      o += '<text x="' + f1(W / 2) + '" y="' + f1(y) + '" text-anchor="middle" font-family="' + F.stack.replace(/"/g, "'") + '" font-weight="700" font-size="' + fs.toFixed(2) + '">' + spans + '</text>';
+    });
+    LYR.cc = { lines: lines.length, fs: fs, W: W, H: H, box: { x: bx, y: by, w: bw, h: bh } };
+    return o + '</g>';
   }
   /* ---- PNG: the SVG is drawn to a canvas with the fonts embedded in the file, so type and filters match the screen ---- */
   function toCanvas(svgText, w, h) {
@@ -1000,7 +1104,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var gen = ++DR.gen; DR.ready = false; DR.name = name; DR.sr = sr; DR.dur = pcm.length / sr; DR.meta = name === 'Demo signal' ? { bpm: 120, grid0: 0, chapters: [], chapterLabels: [], dna: null, dnaP: 0, dnaBase: 0, src: 'studio' } : { bpm: null, grid0: null, chapters: [], chapterLabels: [], dna: null, dnaP: 0, dnaBase: 0, src: 'studio' };
     try { if (DR.ac) { DR.buf = DR.ac.createBuffer(1, pcm.length, sr); DR.buf.copyToChannel(pcm, 0); } else DR.buf = null; } catch (e) { DR.buf = null; }
     DR.pcm = pcm; DR.tpaused = 0; drivePause();
-    dAnalyze(pcm, sr, function (F) { if (gen !== DR.gen) return; DR.F = F; DR.nf = F.nf; dSources(); DR.ready = true; window.DURATION = DR.dur; $('drive-pos').max = DR.dur.toFixed(2); $('drive-name').textContent = name; driveUiTime(); schedule(); if (cb) cb(); }, gen);
+    dAnalyze(pcm, sr, function (F) { if (gen !== DR.gen) return; DR.F = F; DR.nf = F.nf; dSources(); DR.ready = true; window.DURATION = DR.dur; $('drive-pos').max = DR.dur.toFixed(2); $('drive-name').textContent = name; lyrReparse(); driveUiTime(); schedule(); if (cb) cb(); }, gen);
   }
   /* AnalysisFrame v1 (_PATTERNS/2026-10-18-analysis-frame-v1.md): the same object Phosphor's window.PhosphorFrame() returns */
   function b64(u) { var s = '', i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s); }
@@ -1018,7 +1122,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   }
   function driveLoadFrame(o, cb) {
     var r = frameIn(o); ++DR.gen; drivePause(); DR.F = r.F; DR.nf = r.F.nf; DR.meta = r.meta; DR.dur = r.dur; DR.sr = r.sr; DR.name = r.name; DR.pcm = null; DR.buf = null; DR.tpaused = 0; dSources(); DR.ready = true;
-    window.DURATION = DR.dur; $('drive-pos').max = DR.dur.toFixed(2); $('drive-name').textContent = DR.name + ' (analysis only)'; driveUiTime(); schedule(); if (cb) cb();
+    window.DURATION = DR.dur; $('drive-pos').max = DR.dur.toFixed(2); $('drive-name').textContent = DR.name + ' (analysis only)'; lyrReparse(); driveUiTime(); schedule(); if (cb) cb();
   }
   function mmss(s) { s = Math.max(0, s); return Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2); }
   function driveUiTime() { var t = driveTime(); $('drive-pos').value = t; $('drive-time').textContent = mmss(t) + ' / ' + mmss(DR.dur); if (DR.ready) { var fi = driveFi(t), S = DR.src; $('drive-meters').innerHTML = 'Low <b>' + S.low[fi].toFixed(2) + '</b> &middot; Mid <b>' + S.mid[fi].toFixed(2) + '</b> &middot; High <b>' + S.high[fi].toFixed(2) + '</b> &middot; Loud <b>' + S.loud[fi].toFixed(2) + '</b> &middot; Onset <b>' + S.onset[fi].toFixed(2) + '</b> &middot; Stutter <b>' + srcVal('stutter', t, fi) + '</b>'; } }
@@ -1084,12 +1188,20 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   }
   function keyDownUp(e, on) {
     var tg = e.target, tag = tg && tg.tagName; if (tag === 'SELECT' || tag === 'TEXTAREA' || (tag === 'INPUT' && tg.type !== 'range' && tg.type !== 'checkbox')) return;
-    if (e.ctrlKey || e.metaKey || e.altKey) return; var i = '123456'.indexOf(e.key); if (i < 0 || e.repeat) return; keyEvent(i, on);
+    if (e.ctrlKey || e.metaKey || e.altKey) return; if ((e.key === 't' || e.key === 'T') && on && !e.repeat) { lyrTap(); return; } var i = '123456'.indexOf(e.key); if (i < 0 || e.repeat) return; keyEvent(i, on);
   }
   function driveInit() {
     document.addEventListener('keydown', function (e) { keyDownUp(e, true); }); document.addEventListener('keyup', function (e) { keyDownUp(e, false); });
     $('drive-stdepth').addEventListener('input', function () { DR.stutter.depth = +this.value; $('drive-stdepth-o').textContent = this.value + '%'; writeDrive(); schedule(); });
     $('drive-strate').addEventListener('change', function () { DR.stutter.rate = +this.value; writeDrive(); schedule(); });
+    $('lyr-text').addEventListener('input', function () { LYR.raw = this.value; writeLyr(); lyrReparse(); schedule(); });
+    $('lyr-mode').addEventListener('change', function () { LYR.mode = this.value; if (LYR.mode !== 'tap') LYR.taps = []; writeLyr(); lyrReparse(); schedule(); });
+    $('lyr-load').addEventListener('click', function () { $('lyr-file').click(); });
+    $('lyr-file').addEventListener('change', function () { var f = this.files && this.files[0]; if (!f) return; f.text().then(function (t) { LYR.raw = t; $('lyr-text').value = t; LYR.taps = []; writeLyr(); lyrReparse(); schedule(); say('Loaded ' + f.name + '.'); }); });
+    $('lyr-tap').addEventListener('click', lyrTap);
+    $('lyr-clear').addEventListener('click', function () { LYR.raw = ''; LYR.taps = []; $('lyr-text').value = ''; writeLyr(); lyrReparse(); schedule(); });
+    $('lyr-srt').addEventListener('click', function () { if (!LYR.cues.length) { say('No lyrics yet.'); return; } copy(lyrSrt(), 'SRT copied.'); });
+    $('lyr-vtt').addEventListener('click', function () { if (!LYR.cues.length) { say('No lyrics yet.'); return; } copy(lyrVtt(), 'WebVTT copied.'); });
     $('rt-quality').addEventListener('change', function () { RT.q = this.value; RT.tier = 3; RT.slow = 0; schedule(); });
     $('rt-size').addEventListener('change', function () { RT.outShort = +this.value; });
     $('rt-stop').addEventListener('change', function () { RT.stopEnd = this.checked; });
@@ -1179,7 +1291,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var a = document.createElement('a'); a.href = url; a.download = 'tao-print.' + ((REC.mime || '').indexOf('mp4') >= 0 ? 'mp4' : 'webm'); a.textContent = 'Save video'; a.className = 'note tight';
     host.appendChild(v); host.appendChild(cap); host.appendChild(a);
   }
-  window.TaoRT = { idle: function () { return PXP === 0; }, forceFull: function () { RT.q = 'full'; RT.tier = 3; }, tier: function () { return draftNow() ? 2 : 3; }, rawTier: function () { return RT.tier; }, fps: function () { return RT.fps; }, layout: function () { return LAYOUT; }, stage: function () { return stageSize(); }, fill: function () { var sg = stageSize(); return last ? Math.min(last.W / last.H / sg.a, sg.a / (last.W / last.H)) : 0; }, size: function () { return last ? { W: last.W, H: last.H } : null; }, recStart: recStart, recStop: recStop, recInfo: function () { return REC.info; }, recBlob: function () { return REC.blob; }, setQuality: function (q) { RT.q = q; }, markup: function () { return last ? last.svg : ''; } };
+  window.TaoLyr = { parse: function (raw, mode, taps) { return lyrParse(raw, mode || 'even', taps || []); }, cues: function () { return LYR.cues; }, set: function (raw, mode) { LYR.raw = raw; LYR.mode = mode || 'even'; LYR.taps = []; writeLyr(); lyrReparse(); $('lyr-text').value = raw; $('lyr-mode').value = LYR.mode; schedule(); }, at: function (t) { var was = DR.tpaused, p = DR.playing; DR.playing = false; DR.tpaused = t; var o = lyricNow(); DR.tpaused = was; DR.playing = p; return o ? { text: o.text, hi: o.hi, cue: o.cue } : null; }, srt: lyrSrt, vtt: lyrVtt, cc: function () { return LYR.cc; }, tap: lyrTap }; window.TaoRT = { idle: function () { return PXP === 0; }, forceFull: function () { RT.q = 'full'; RT.tier = 3; }, tier: function () { return draftNow() ? 2 : 3; }, rawTier: function () { return RT.tier; }, fps: function () { return RT.fps; }, layout: function () { return LAYOUT; }, stage: function () { return stageSize(); }, fill: function () { var sg = stageSize(); return last ? Math.min(last.W / last.H / sg.a, sg.a / (last.W / last.H)) : 0; }, size: function () { return last ? { W: last.W, H: last.H } : null; }, recStart: recStart, recStop: recStop, recInfo: function () { return REC.info; }, recBlob: function () { return REC.blob; }, setQuality: function (q) { RT.q = q; }, markup: function () { return last ? last.svg : ''; } };
   function schedule() { cancelAnimationFrame(timer); timer = requestAnimationFrame(render); }
   function fillWeights() {
     var F = FONTS[cfg.font], sel = $('weight'); sel.innerHTML = '';
@@ -1187,7 +1299,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     F.weights.forEach(function (w) { var o = document.createElement('option'); o.value = w; o.textContent = w === 400 ? 'Regular' : w === 700 ? 'Bold' : w === 900 ? 'Black' : w; sel.appendChild(o); });
     sel.value = cfg.weight;
   }
-  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; }, fill: function (v) { return v + '%'; }, splat: function (v) { return v + '%'; }, halftone: function (v) { return v + '%'; }, pixel: function (v) { return v > 0 ? v + ' cells' : 'Off'; }, grout: function (v) { return v + '%'; }, spatter: function (v) { return v + '%'; }, sprayhard: function (v) { return v < 34 ? 'Soft ' + v + '%' : v > 66 ? 'Hard ' + v + '%' : 'Medium ' + v + '%'; }, travel: function (v) { return v + '%'; }, horizon: function (v) { return v ? v + '%' : 'Off'; }, spraydens: function (v) { return v + '%'; } };
+  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; }, fill: function (v) { return v + '%'; }, splat: function (v) { return v + '%'; }, halftone: function (v) { return v + '%'; }, pixel: function (v) { return v > 0 ? v + ' cells' : 'Off'; }, grout: function (v) { return v + '%'; }, spatter: function (v) { return v + '%'; }, sprayhard: function (v) { return v < 34 ? 'Soft ' + v + '%' : v > 66 ? 'Hard ' + v + '%' : 'Medium ' + v + '%'; }, ccsize: function (v) { return v + '%'; }, travel: function (v) { return v + '%'; }, horizon: function (v) { return v ? v + '%' : 'Off'; }, spraydens: function (v) { return v + '%'; } };
   function lockGrit() { ['rough', 'spray', 'sprayhard', 'spraydens', 'drips', 'spatter', 'edge', 'edgeamt', 'wall'].forEach(function (id) { var el = $(id); if (el) el.disabled = !!cfg.auto; }); }
   function sync() {
     Object.keys(DEFAULTS).forEach(function (k) {
@@ -1195,7 +1307,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       if (el.type === 'checkbox') el.checked = !!cfg[k]; else el.value = cfg[k];
       if (OUT[k]) $(k + '-o').textContent = OUT[k](cfg[k]);
     });
-    lockGrit(); if (typeof readDrive === 'function' && $('drive-rows')) readDrive();
+    lockGrit(); if (typeof readDrive === 'function' && $('drive-rows')) readDrive(); if ($('lyr-text')) readLyr();
   }
   function init() {
     var ps = $('proverb'); PROVERBS.forEach(function (p) { var o = document.createElement('option'); o.value = p.id; o.textContent = p.text.length > 58 ? p.text.slice(0, 56) + '...' : p.text; ps.appendChild(o); });

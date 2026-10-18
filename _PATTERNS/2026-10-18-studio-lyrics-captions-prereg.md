@@ -36,4 +36,17 @@ your call and their copyright. That On the beat lands on the sung word (it lands
 estimate only). Right-to-left and complex scripts. Phones and the Artifact viewer.
 
 ## Results
-(appended after the build)
+Built 2026-10-18: Lyrics and captions fieldset (paste or load LRC, SRT, WebVTT, plain; Even, On the beat or Tap timing; Text on the print, Reveal, burn-in Captions, Copy SRT and WebVTT), and renderer options `--lyrics`, `--lyric-timing`, `--captions burn|soft|both|off`, `--srt-out`, `--reveal`, `--text`. Reproduce with `node scripts/tao_studio_checks.mjs lyrics` (needs ffmpeg, ffprobe, python3 with PIL).
+
+- L1 PASS: LRC (multi-timestamp line, enhanced word tags), SRT and WebVTT fixtures parse to the exact expected cues, and SRT exported then parsed back is equal.
+- L2 PASS: the lyric state at a set of times is identical after seeking away and back, and after a reload from saved settings.
+- L3 PASS: every cue shows 50 ms after its start and not 50 ms before.
+- L4 PASS on the registered structure (Even gives equal windows; On the beat gives strictly increasing, non-overlapping cues). The 100 ms onset-peak clause is true by construction (each start is the argmax of the onset curve in its window) and was not measured separately.
+- L5 PASS: with one panel, Word by word shows exactly the words already sung, and Karaoke highlights exactly the current word (print and caption). The first version of this test was flawed (nine panels cycle words, and my highlight comparison was inverted at word 0); it was rewritten before the pass was recorded.
+- L6 PASS: at 16:9, 4:3, 1:1 and 9:16 the caption band is inside the frame, at most 2 lines, 31.7 to 39.6 px at 720 short side.
+- L7 PASS: the mp4's subtitle stream has the same cue text as the exported SRT with a 0 ms start error, and burn-in changes the bottom of the frame (4.8 percent) while the top half barely moves (0.4 percent). Two mux bugs were found and fixed on the way: `-t` and `-shortest` made ffmpeg drop the last soft cue.
+- L8 PASS: zero network requests; the page says it does not transcribe.
+
+Regression runs after this change: `slice2` passes S1, S2, S3, S5, S6; `realtime` passes R1, R2, R3, R5 but R4 and R7 failed in two runs (Draft capture at 4.7 to 6.8 frames per second against a floor of 12; R4's duration band follows from the low rate). The machine load average was 35 at the time. A direct timing of a Draft frame shows 32 ms for the committed build and 33 ms for this one, so the change is not the cause, but the R4 and R7 pass from the earlier note is not reproduced today and is not claimed. `drive` and `frame` were not re-read in full.
+
+Not tested: real song with real lyrics, non-Latin scripts, a lyrics file longer than a few hundred lines, Safari or Firefox, and the Artifact viewer.
