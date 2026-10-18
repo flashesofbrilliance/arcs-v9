@@ -1,17 +1,4 @@
 {
-  "leases": {
-    "CLAUDE.md": {
-      "claimed_at_iso": "2026-10-18T02:49:57Z",
-      "expires_at": 1792295397.070487,
-      "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/ws1-lazy-loading",
-      "reason": "WS1 slice 2: archive CLAUDE.md overflow"
-    },
-    "_ARCHIVE/handoffs.md": {
-      "claimed_at_iso": "2026-10-18T02:49:57Z",
-      "expires_at": 1792295397.070487,
-      "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/ws1-lazy-loading",
-      "reason": "WS1 slice 2: archive CLAUDE.md overflow"
-    }
-  },
-  "seq": 1
+  "leases": {},
+  "seq": 2
 }
