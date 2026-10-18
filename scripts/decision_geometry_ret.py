@@ -62,8 +62,7 @@ ALL = ["Decision", "Why", "Rejected", "Revisit When", "Body", "What Changes At 6
 ADAPTATION = {
     "D1": [(2, ["Decision"], r".", "a **Decision.** paragraph states the choice"),
            (1, ["Body"], r".", "unstructured record: the choice is inferred from the prose")],
-    "D2": [(4, ["Why"], r"\((B|C)\b|[Mm]easured", "Why cites a measured (B) or primary-source (C) grade"),
-           (3, ["Why"], r"\([A-E](:|\))|\b[A-E]: ", "Why carries an A-E source grade"),
+    "D2": [(3, ["Why"], r"\([A-E](:|\)|,)|\b[A-E]: |[Mm]easured", "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"),
            (2, ["Why"], r".", "a **Why.** paragraph gives reasons"),
            (1, ["Body"], r"\b(because|so|keeps|stays)\b", "a reason appears in unstructured prose")],
     "D3": [(2, ["Revisit When"], r".", "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"),
@@ -87,7 +86,8 @@ ADAPTATION = {
            (1, ["Decision", "Body"], r".", "one heading only (no rejected line recorded)")],
     "W5": [(2, ALL, r"grew from|went from|once more|regressed|now |became|had become|before\b", "a change over time is recorded (trajectory)")],
     "C1": [(1, ["Decision"], r".", "clarity inferred: a Decision paragraph exists (no clarity score in the source)")],
-    "C2": [(1, ALL, r"\([A-E](:|\)|,)|\b[A-E]: |measured", "conviction inferred from an A-E source grade or measurement")],
+    "C2": [(2, ALL, r"\([A-E](:|\)|,)|\b[A-E]: ", "conviction stated: the record grades its own claim A to E"),
+           (1, ALL, r"[Mm]easured", "conviction inferred from a measurement with no grade")],
     "C3": [(1, ["Why"], r".", "coherence inferred: a Why paragraph exists (no coherence score)")],
     "C4": [(1, ["Rejected"], r"\b(cost|adds?|drops?|removes?|hides?|harder|duplicate)\b", "consequence inferred from tradeoff prose in Rejected")],
     "C5": [(1, ["Revisit When"], r".", "cadence inferred: a revisit timing exists")],
@@ -136,11 +136,12 @@ def build(src):
         index = sum((v - 1) * 5 ** (4 - i) for i, v in enumerate(digits))
         occupied = [rungs[i] for i in range(5) if cells[f"H{i+1}"]["level"] > 0]
         decisions.append({"id": d["id"], "title": d["title"], "fields": d["fields"], "cells": cells,
-                          "shape": "".join(map(str, digits)), "index": index, "rungs": occupied})
+                          "shape": "".join(map(str, digits)), "index": index, "rungs": occupied,
+                          "unstructured": "Decision" not in d["fields"]})
     return {"_meta": {"spec": str(SPEC.relative_to(ROOT)), "spec_version": spec["_meta"]["version"],
                       "source": "ret-rfp-intelligence/DECISIONS.md (read-only)",
                       "generator": "scripts/decision_geometry_ret.py",
-                      "note": "Text adaptation of the spec's Receipt-column rules; see adaptation. L0 = tilde. No L5 is reachable from DECISIONS.md."},
+                      "scoring": "text-scored", "note": "Text-scored: a text adaptation of the spec's Receipt-column rules; see adaptation. L0 = tilde. No L5 is reachable from DECISIONS.md."},
             "aspects": aspects, "rungs": rungs,
             "adaptation": {k: [{"level": l, "rule": r} for l, _, _, r in v] for k, v in ADAPTATION.items()},
             "decisions": decisions}
