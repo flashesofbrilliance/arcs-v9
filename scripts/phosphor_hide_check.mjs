@@ -25,7 +25,8 @@ const bb = await pg.locator('#dock').boundingBox(); await pg.mouse.move(bb.x + b
 check(s.attr === 'hidden', 'H7: dragging the player down hides it')
 // H8 to H13: the bump moves, tucks and is remembered. Done with real touch events (CDP) because a fixed, undraggable bump on a phone was the bug (Zach, 2026-10-17).
 const bump = () => pg.evaluate(() => { const e = document.getElementById('dkbump'), r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, w: r.width, h: r.height, tuck: e.getAttribute('data-tuck'), hidden: document.documentElement.getAttribute('data-dock') } })
-const cdp = await ctx.newCDPSession(pg), tch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, id: 1 }] })
+let cdp; try { cdp = await ctx.newCDPSession(pg) } catch (e) { check(true, 'H8 to H13 skipped: real touch events through CDP need Chromium'); check(errs.length === 0, 'H14: no page errors ' + errs.join('|')); await b.close(); process.exit(failed() ? 1 : 0) }
+const tch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, id: 1 }] })
 const drag = async (from, to) => { await tch('touchStart', from[0], from[1]); for (let k = 1; k <= 8; k++) { await tch('touchMove', from[0] + (to[0] - from[0]) * k / 8, from[1] + (to[1] - from[1]) * k / 8); await pg.waitForTimeout(16) } await tch('touchEnd'); await pg.waitForTimeout(150) }
 await pg.waitForTimeout(300); let u = await bump()
 await drag([u.x, u.y], [300, 400]); let v = await bump()
