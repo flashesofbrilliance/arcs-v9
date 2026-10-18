@@ -87,6 +87,27 @@ def _gh_public_count():
         return None
 
 
+_PATH_EXT = (".py", ".json", ".jsonl", ".md", ".html", ".sh", ".mjs", ".ts", ".tsx", ".csv", ".yml", ".yaml", ".txt")
+_DOMAIN = r"^[\w-]+\.(xyz|com|care|org|io|dev|net|app)(/|$)"
+
+
+def local_paths(local):
+    """Repo paths named in a seed's `local` field. The field often carries prose after the path
+    (`runtime/specs/x.json (the analog); canon unbuilt`), so existence is checked per path token,
+    never on the whole string. Prose, URLs, slash-commands and domains are not paths."""
+    import re
+    text = re.sub(r"\([^)]*\)", " ", local or "")
+    out = []
+    for part in re.split(r"[;+\u00b7]", text):
+        for tok in part.split():
+            tok = tok.rstrip(",.")
+            if not tok or tok.startswith(("/", "http", "~")) or re.match(_DOMAIN, tok):
+                continue
+            if "/" in tok or tok.lower().endswith(_PATH_EXT):
+                out.append(tok)
+    return out
+
+
 def check():
     idx, idx_bad = _load_jsonl(INDEX)
     led, led_bad = _load_jsonl(LEDGER)
@@ -103,8 +124,9 @@ def check():
         if alias and alias not in seeds_in_ledger and row.get("id", "").replace("seed-", "").replace("repo-", "") not in seeds_in_ledger:
             findings.append({"claim": "orphan-seed", "drift": True, "detail": f"{rid} has no ledger receipt"})
         local = row.get("local")
-        if local and not os.path.exists(local):
-            findings.append({"claim": "broken-local-path", "drift": True, "detail": f"{rid}: {local}"})
+        missing = [q for q in local_paths(local) if not os.path.exists(q)]
+        if missing:
+            findings.append({"claim": "broken-local-path", "drift": True, "detail": f"{rid}: {', '.join(missing)}"})
 
     newest = _newest_ledger_date(led)
     stale_days = (datetime.date.today() - newest).days if newest else None
@@ -173,6 +195,14 @@ def self_test():
         rows = [json.loads(l) for l in open(rec)] if os.path.exists(rec) else []
         check("receipts appended, regenerated flag stamped",
               len(rows) == 2 and [x["regenerated"] for x in rows] == [False, True])
+    total += 4
+    ok1 = local_paths("runtime/specs/tool-catalog.json (the tool-analog: /catalog); canon analog unbuilt") == ["runtime/specs/tool-catalog.json"]
+    ok2 = local_paths("_ARTIFACTS/a.md (x) \u00b7 _ARTIFACTS/b/ + public/c.html (y)") == ["_ARTIFACTS/a.md", "_ARTIFACTS/b/", "public/c.html"]
+    ok3 = local_paths("mirrored public at zachharris.xyz/scan (own static repo)") == []
+    ok4 = local_paths(".claude/skills/x/ (y)") == [".claude/skills/x/"] and local_paths(None) == [] and local_paths("AGENTS.md (table) + src/x.ts") == ["AGENTS.md", "src/x.ts"]
+    for name, ok in (("annotated path yields only the path", ok1), ("separators split paths", ok2), ("domain and prose are not paths", ok3), ("bare filename and None", ok4)):
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
     print(f"seedbank_drift_check self-test: {total - fails}/{total}")
     sys.exit(1 if fails else 0)
 
