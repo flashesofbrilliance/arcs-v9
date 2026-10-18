@@ -46,6 +46,52 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion. PROPOSED: DESIGN.md has no motion section yet (ADR-087 action item). Calm and precise. */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
 
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 15px; line-height: 1.6; margin: 0; padding-inline: 16px; padding-block: 28px; }
@@ -92,6 +138,14 @@ td.mono { font-family: var(--font-mono); font-size: 12px; }
 .two ul { margin: 8px 0 0; padding-left: 18px; }
 .two li { margin-bottom: 8px; }
 blockquote { margin: 0; padding: 12px 16px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); font-size: 14px; }
+a { color: var(--cyan); }
+.prose h2 { font-size: 1.25rem; margin: 28px 0 8px; } .prose h3 { font-size: 1.05rem; margin: 22px 0 6px; } .prose h4 { font-size: .95rem; margin: 18px 0 6px; }
+.prose ul, .prose ol { padding-left: 22px; margin: 0 0 12px; } .prose li { margin-bottom: 4px; }
+.prose blockquote { margin: 12px 0; padding: 10px 14px; border-left: 3px solid var(--cyan); background: var(--surface-2); border-radius: var(--r-sm); }
+.prose blockquote p { margin: 0; }
+.prose pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; overflow-x: auto; font-size: 12px; line-height: 1.45; }
+.prose pre code { color: var(--text); white-space: pre; } .prose hr { border: 0; border-top: 1px solid var(--border); margin: 24px 0; } .prose del { color: var(--dimmed); }
+.fm { width: auto; } .fm td:first-child { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
 code { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); overflow-wrap: anywhere; }
 .toc { display: flex; flex-wrap: wrap; gap: 6px 16px; position: sticky; top: 0; background: var(--bg); padding-block: 8px; z-index: 1; border-bottom: 1px solid var(--border); }
 .toc .section-label { margin: 0; align-self: center; }
@@ -198,8 +252,8 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 <div class="ctl"><h2 class="h3"><span class="did">C5</span>Canvas label floor <span class="pill gold">proposed</span></h2><p>Grep fails the build if any canvas font in Scope.tsx is smaller than 11px.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>The five sub-11px sites fail today (lines 763, 823, 831, 947, 950).</div><div class="good"><b class="muted">Must pass</b><br>11px or larger passes.</div></div><p class="muted" style="margin-top:8px">Test status: specified; fails today · line: minimum 11px</p></div>
 </section>
 <section class="panel" id="glossary"><div class="section-label">§ Glossary</div><dl><dt>Moire</dt><dd>The pattern that appears where two regular patterns overlap at slightly different spacing. It belongs to neither layer alone.</dd><dt>Orthogonal echo</dt><dd>The same shape of behaviour showing up in two unrelated domains, found by comparing structure, not shared words.</dd><dt>Template control</dt><dd>A check that drops lines repeated word for word in two or more domains, so boilerplate cannot pass as a real echo. On 2026-09-27 both detectors found 0 real echoes after it.</dd><dt>Fathom</dt><dd>One of seven depth steps in the HUD, from orbit (F1) down to grain (F7).</dd><dt>Earned fidelity</dt><dd>Showing detail only as sharp as the evidence deserves.</dd><dt>Y-gate</dt><dd>The step that grades how sure an answer is from the answer itself.</dd><dt>MOIRE render state</dt><dd>The Y-gate&#x27;s rendering for the PARADOX state: reduced weight and an interference overlay.</dd></dl></section>
-<section class="panel" id="files"><div class="section-label">§ Every file this rests on</div><ul><li><code>src/app/hud/page.tsx</code></li><li><code>src/app/hud/HudClient.tsx</code></li><li><code>src/organisms/Scope.tsx</code></li><li><code>src/organisms/ScopeHud.tsx</code></li><li><code>src/data/universe-field.json</code></li><li><code>src/lib/ygate.ts</code></li><li><code>src/app/api/compass/route.ts</code></li><li><code>operators/arcs_inchworm_echo.py</code></li><li><code>operators/arcs_echo_embedding.py</code></li><li><code>scripts/echo_ridgeline_feed.py</code></li><li><code>_STATE/2026-09-27-echo-signature-before-after.json</code></li><li><code>runtime/specs/surface-catalog.json</code></li><li><code>WORLD.md</code></li><li><code>DESIGN.md</code></li><li><code>AGENTS.md</code></li><li><code>_PROPOSALS/prop-2026-10-15-hud-moire-audit.json</code> (source of this page)</li></ul></section>
-<footer>Source: _PROPOSALS/prop-2026-10-15-hud-moire-audit.json · sources: src/app/hud/page.tsx, src/app/hud/HudClient.tsx, src/organisms/Scope.tsx, src/organisms/ScopeHud.tsx, src/data/universe-field.json, src/lib/ygate.ts, src/app/api/compass/route.ts, operators/arcs_inchworm_echo.py, operators/arcs_echo_embedding.py, scripts/echo_ridgeline_feed.py, _STATE/2026-09-27-echo-signature-before-after.json, runtime/specs/surface-catalog.json, WORLD.md, DESIGN.md, AGENTS.md · the machine layer is the JSON block in this page (id arcs-proposal)</footer>
+<section class="panel" id="files"><div class="section-label">§ Every file this rests on</div><ul><li><code>src/app/hud/page.tsx</code></li><li><code>src/app/hud/HudClient.tsx</code></li><li><code>src/organisms/Scope.tsx</code></li><li><code>src/organisms/ScopeHud.tsx</code></li><li><code>src/data/universe-field.json</code></li><li><code>src/lib/ygate.ts</code></li><li><code>src/app/api/compass/route.ts</code></li><li><code>operators/arcs_inchworm_echo.py</code></li><li><code>operators/arcs_echo_embedding.py</code></li><li><code>scripts/echo_ridgeline_feed.py</code></li><li><code>_STATE/2026-09-27-echo-signature-before-after.json</code></li><li><code>runtime/specs/surface-catalog.json</code></li><li><code>WORLD.md</code></li><li><code>DESIGN.md</code></li><li><code>AGENTS.md</code></li><li><code>_PROPOSALS/2026-10-15-hud-moire-audit.json</code> (source of this page)</li></ul></section>
+<footer>Source: _PROPOSALS/2026-10-15-hud-moire-audit.json · sources: src/app/hud/page.tsx, src/app/hud/HudClient.tsx, src/organisms/Scope.tsx, src/organisms/ScopeHud.tsx, src/data/universe-field.json, src/lib/ygate.ts, src/app/api/compass/route.ts, operators/arcs_inchworm_echo.py, operators/arcs_echo_embedding.py, scripts/echo_ridgeline_feed.py, _STATE/2026-09-27-echo-signature-before-after.json, runtime/specs/surface-catalog.json, WORLD.md, DESIGN.md, AGENTS.md · the machine layer is the JSON block in this page (id arcs-proposal)</footer>
 </main>
 <script type="application/json" id="arcs-proposal">
 {
@@ -732,6 +786,7 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
   "Whether Receipt parent chains are populated enough to plot Y-state changes.",
   "Prod receipt counts are quoted from AGENTS.md (2026-10-06), not re-queried.",
   "Whether DESIGN.md or the kit sets the 11px canvas floor; it is the proposal's own floor."
- ]
+ ],
+ "_stem": "2026-10-15-hud-moire-audit"
 }
 </script></body></html>
