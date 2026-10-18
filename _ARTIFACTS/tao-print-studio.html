@@ -209,6 +209,10 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
 
     <fieldset><legend>Street grit</legend>
       <div class="btns"><button type="button" id="p-silk">Silkscreen</button><button type="button" id="p-street" class="primary">Street</button></div>
+      <div class="row two">
+        <div class="row"><label for="edge">Edge</label><select id="edge"><option value="clean">Clean</option><option value="drip">Drip</option><option value="fuzz">Fuzz</option><option value="grime">Grime</option><option value="cut">Cut</option></select></div>
+        <div class="row"><label for="edgeamt"><span>Edge amount</span><output id="edgeamt-o"></output></label><input id="edgeamt" type="range" min="0" max="100" step="5"></div>
+      </div>
       <div class="row"><label for="rough"><span>Rough edges</span><output id="rough-o"></output></label><input id="rough" type="range" min="0" max="100" step="5"></div>
       <div class="row"><label for="spray"><span>Spray overspray</span><output id="spray-o"></output></label><input id="spray" type="range" min="0" max="100" step="5"></div>
       <div class="row"><label for="drips"><span>Drips</span><output id="drips-o"></output></label><input id="drips" type="range" min="0" max="100" step="5"></div>
@@ -262,7 +266,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     palette: 'signal', ground: 'paper', slip: 100, dropout: 100, grain: 100,
     views: 100, inkrot: true, grounds: true,
     label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
-    rough: 0, spray: 0, drips: 0, wall: 0, outline: 0
+    rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50
   };
   var cfg = {};
   Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; });
@@ -347,7 +351,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var dr = dripsMarkup(r, 6, 94, top + hgt, cfg.style === 'knock' ? P.light : slab, drift);
     if (cfg.style === 'spray') { var ty = top + hgt / 2 + total / 2 + size * 0.5; dr = dripsMarkup(r, 10, 90, ty, contrast, drift); }
     for (var q = 0; q < nf; q++) fl += '<rect x="' + f1(r() * 92) + '" y="' + f1(top + r() * (hgt - 3)) + '" width="' + f1(2 + r() * 6) + '" height="' + f1(1.5 + r() * 4) + '"/>';
-    return '<g transform="translate(' + ox.toFixed(2) + ' ' + oy.toFixed(2) + ')">' + grit(box + body + '<g fill="' + slab + '">' + fl + '</g>' + dr) + '</g>';
+    return '<g transform="translate(' + ox.toFixed(2) + ' ' + oy.toFixed(2) + ')">' + grit(box + body + '<g fill="' + slab + '">' + fl + '</g>' + dr, true) + '</g>';
   }
 
   /* ---- street grit: filters, drips ---- */
@@ -358,12 +362,20 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       + '<filter id="spray" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceGraphic" stdDeviation="' + sd + '" result="b"/><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="1" seed="' + (sed + 3) + '" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 5.1" result="dots"/><feComposite in="b" in2="dots" operator="in" result="halo"/><feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
       + '<filter id="wallK" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="' + (sed + 7) + '"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 1.45"/></filter>'
       + '<filter id="wallL" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="' + (sed + 7) + '"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -2.4 1.45"/></filter>'
+      + '<filter id="fuzz" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="' + (sed + 11) + '" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="' + (cfg.edgeamt * 0.05).toFixed(2) + '" xChannelSelector="R" yChannelSelector="B" result="d"/><feGaussianBlur in="d" stdDeviation="' + (0.1 + cfg.edgeamt * 0.0032).toFixed(2) + '"/></filter>'
+      + '<filter id="grime" x="-15%" y="-15%" width="130%" height="130%"><feMorphology in="SourceAlpha" operator="dilate" radius="' + (0.4 + cfg.edgeamt * 0.02).toFixed(2) + '" result="dil"/><feComposite in="dil" in2="SourceAlpha" operator="out" result="ring"/><feTurbulence type="fractalNoise" baseFrequency="0.35" numOctaves="3" seed="' + (sed + 13) + '" result="m"/><feColorMatrix in="m" type="matrix" values="0 0 0 0 0.09  0 0 0 0 0.07  0 0 0 0 0.05  0 0 0 -4 3.2" result="crust"/><feComposite in="crust" in2="ring" operator="in" result="gr"/><feMerge><feMergeNode in="gr"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+      + '<filter id="cut" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="' + (sed + 17) + '" result="c"/><feDisplacementMap in="SourceGraphic" in2="c" scale="' + (cfg.edgeamt * 0.09).toFixed(2) + '" xChannelSelector="R" yChannelSelector="G" result="e"/><feComponentTransfer in="e"><feFuncA type="discrete" tableValues="0 0 1 1"/></feComponentTransfer></filter>'
       + '</defs>';
   }
-  function grit(markup) {
+  function grit(markup, noEdge) {
+    if (!noEdge && cfg.edgeamt > 0 && (cfg.edge === 'fuzz' || cfg.edge === 'grime' || cfg.edge === 'cut')) markup = '<g filter="url(#' + cfg.edge + ')">' + markup + '</g>';
     if (cfg.spray > 0) markup = '<g filter="url(#spray)">' + markup + '</g>';
     if (cfg.rough > 0) markup = '<g filter="url(#rough)">' + markup + '</g>';
     return markup;
+  }
+  function edgeDrip(x, y, color, r) {
+    var amt = cfg.edgeamt / 100, w = 0.9 + r() * 1.3, len = 5 + r() * 26 * amt + r() * 5;
+    return '<g fill="' + color + '"><rect x="' + f1(x) + '" y="' + f1(y - 1) + '" width="' + w.toFixed(2) + '" height="' + f1(len + 1) + '" rx="' + (w / 2).toFixed(2) + '"/><circle cx="' + f1(x + w / 2) + '" cy="' + f1(y + len) + '" r="' + (w * 1.0).toFixed(2) + '"/></g>';
   }
   function dripsMarkup(r, x0, x1, y, color, drift) {
     var n = Math.round(cfg.drips / 100 * 8 * (0.5 + 0.5 * drift)), o = '';
@@ -381,11 +393,15 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var gnd = (cfg.grounds ? GROUNDS[k % 9] : null);
     var paper = cfg.ground === 'paper';
     var drop = Math.min(0.95, 0.7 * loss * (0.2 + 0.8 * drift) * cfg.dropout / 100);
-    var plates = [[], [], [], []], dropped = 0, r = rng('ink', cfg.proverb, cfg.seed, k);
+    var plates = [[], [], [], []], dropped = 0, r = rng('ink', cfg.proverb, cfg.seed, k), re = rng('edge', cfg.proverb, cfg.seed, k), edrips = '';
     facets(ph).forEach(function (F) {
       var ink = ((F.face ? 2 : 0) + (F.band % 2) + (cfg.inkrot ? k : 0)) % 4;
       if (o.swap) ink = (ink + 2) % 4;
       if (ink === gnd) ink = (ink + 1) % 4;
+      if (cfg.edge === 'drip' && cfg.edgeamt > 0 && (F.band === 0 || F.band === NV - 1)) {
+        var ep = F.band === 0 ? F.q[0] : F.q[3];
+        if (ep[1] > 46 && ep[1] < 88 && re() < cfg.edgeamt / 100 * 0.14) edrips += edgeDrip(ep[0], ep[1], P.inks[ink], re);
+      }
       if (r() < drop) { dropped++; return; }
       plates[ink].push('<polygon points="' + pts(F.q) + '"/>');
     });
@@ -417,7 +433,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     o.stats.reg += offs / 4; o.stats.drop += dropped; o.stats.specks += ns; o.stats.n++;
     return '<g' + tf + '><rect width="100" height="100" fill="' + (gnd !== null ? P.inks[gnd] : (paper ? P.light : P.key)) + '"/>'
       + '<rect y="' + HORIZON + '" width="100" height="2.4" fill="' + horizonFill + '"/>' + gaps
-      + '<g style="mix-blend-mode:' + blend + '">' + grit(layers) + '</g>' + key + dripsMarkup(rs, 4, 96, HORIZON + 2, horizonFill, drift)
+      + '<g style="mix-blend-mode:' + blend + '">' + grit(layers + edrips) + '</g>' + key + dripsMarkup(rs, 4, 96, HORIZON + 2, horizonFill, drift)
       + label(P, k, loss, drift, gnd, paper, o.text, cfg.style)
       + '<g fill="' + ((gnd !== null || paper) ? P.key : css('--dimmed')) + '">' + specks + '</g>'
       + (cfg.wall > 0 ? '<rect width="100" height="100" filter="url(#' + (dark2 ? 'wallL' : 'wallK') + ')" opacity="' + (cfg.wall / 100 * (dark2 ? 0.35 : 0.6)).toFixed(2) + '"/>' : '') + '</g>';
@@ -460,7 +476,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     F.weights.forEach(function (w) { var o = document.createElement('option'); o.value = w; o.textContent = w === 400 ? 'Regular' : w === 700 ? 'Bold' : w === 900 ? 'Black' : w; sel.appendChild(o); });
     sel.value = cfg.weight;
   }
-  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; } };
+  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; } };
   function sync() {
     Object.keys(DEFAULTS).forEach(function (k) {
       var el = $(k); if (!el) return;
@@ -488,7 +504,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     $('reset').addEventListener('click', function () { Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; }); fillWeights(); sync(); loadFace(); schedule(); say('Reset to the default recipe.'); });
     var PRESETS = {
       silk: DEFAULTS,
-      street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70 }
+      street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70, edge: 'drip', edgeamt: 55 }
     };
     function preset(name) { var P = PRESETS[name]; Object.keys(P).forEach(function (k) { cfg[k] = P[k]; }); fillWeights(); sync(); loadFace(); schedule(); say(name === 'street' ? 'Street preset on.' : 'Silkscreen preset on.'); }
     $('p-silk').addEventListener('click', function () { preset('silk'); });
