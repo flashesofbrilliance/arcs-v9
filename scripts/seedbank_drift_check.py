@@ -100,8 +100,8 @@ def local_paths(local):
     out = []
     for part in re.split(r"[;+\u00b7]", text):
         for tok in part.split():
-            tok = tok.rstrip(",.")
-            if not tok or tok.startswith(("/", "http", "~")) or re.match(_DOMAIN, tok):
+            tok = re.sub(r":\d+(-\d+)?$", "", tok.rstrip(",."))
+            if any(c in tok for c in "<>*") or not tok or tok.startswith(("/", "http", "~")) or re.match(_DOMAIN, tok):
                 continue
             if "/" in tok or tok.lower().endswith(_PATH_EXT):
                 out.append(tok)
@@ -124,7 +124,9 @@ def check():
         if alias and alias not in seeds_in_ledger and row.get("id", "").replace("seed-", "").replace("repo-", "") not in seeds_in_ledger:
             findings.append({"claim": "orphan-seed", "drift": True, "detail": f"{rid} has no ledger receipt"})
         local = row.get("local")
-        missing = [q for q in local_paths(local) if not os.path.exists(q)]
+        # a row whose `repo` is another repo keeps its `local` paths relative to THAT repo
+        external = bool(row.get("repo")) and "arcs-v9" not in row.get("repo", "")
+        missing = [] if external else [q for q in local_paths(local) if not os.path.exists(q)]
         if missing:
             findings.append({"claim": "broken-local-path", "drift": True, "detail": f"{rid}: {', '.join(missing)}"})
 
@@ -195,6 +197,11 @@ def self_test():
         rows = [json.loads(l) for l in open(rec)] if os.path.exists(rec) else []
         check("receipts appended, regenerated flag stamped",
               len(rows) == 2 and [x["regenerated"] for x in rows] == [False, True])
+    total += 2
+    for name, ok in (("line ranges are stripped from a path", local_paths("scripts/x.js:239-260 (origin)") == ["scripts/x.js"]),
+                     ("placeholders are not paths", local_paths("_QUEUE/linkedin/<id>.json + scripts/y.py") == ["scripts/y.py"])):
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
     total += 4
     ok1 = local_paths("runtime/specs/tool-catalog.json (the tool-analog: /catalog); canon analog unbuilt") == ["runtime/specs/tool-catalog.json"]
     ok2 = local_paths("_ARTIFACTS/a.md (x) \u00b7 _ARTIFACTS/b/ + public/c.html (y)") == ["_ARTIFACTS/a.md", "_ARTIFACTS/b/", "public/c.html"]
