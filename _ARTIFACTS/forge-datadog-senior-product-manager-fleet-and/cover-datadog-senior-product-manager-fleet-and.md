@@ -19,7 +19,7 @@ Second, the cross-team alignment piece is real work. I have driven roadmap align
 
 Datadog's moat in observability is the unified surface: one place, full stack, no context switching. Fleet is the extension of that promise to the software layer itself. I would want to own that.
 
-The bundle at the link below has the live commit trail and the director's cut of how ARCS was built. Happy to go deep on any of it.
+The bundle at the link below has the live app and the director's cut of how ARCS was built. Happy to go deep on any of it.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance

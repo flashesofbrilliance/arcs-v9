@@ -17,7 +17,7 @@ The governance and failure-mode problem is the one I find most interesting and t
 
 On me: two decades across tech, data, and commercial operations. I hold my own in technical conversations on LLM architectures, tool-calling design, and API surface tradeoffs, and I prototype with AI tools before committing engineering time. I have shipped regulated products under SEC/FINRA and HIPAA, which describes a meaningful slice of the engineering organizations Datadog serves.
 
-The bundle at the link has the live commit trail and the proof behind the claims. Happy to go deep on any of it.
+The bundle at the link has the live app and the proof behind the claims. Happy to go deep on any of it.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance
