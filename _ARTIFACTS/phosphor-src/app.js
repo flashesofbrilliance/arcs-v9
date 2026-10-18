@@ -724,7 +724,7 @@
   function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); seqTick(); raf = requestAnimationFrame(loop); }
   function stopSource() { if (SRC) { try { SRC.onended = null; SRC.stop(); } catch (e) {} SRC = null; } }
   var startSeq = 0;
-  function startPlay(at) {
+  function startPlay(at) { if (typeof elog === "function") elog("play");
     if (!BUF) return; spStop();
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
     var mine = ++startSeq;
@@ -737,7 +737,7 @@
     if (AC.state === "running") begin();
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
   }
-  function stopPlay(msg) { startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
+  function stopPlay(msg) { if (typeof elog === "function") elog("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
   function seek(t) { t = MX(0, MN(DUR, t)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
@@ -1285,7 +1285,7 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1440,7 +1440,7 @@
   }
   function fxHold(kind, src, on) {
     if (kind === "gold") { if (on) glitchOn(kind); return; }
-    var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind);
+    var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src);
   }
   function fxToggle(kind, src) { fxHold(kind, src, !(HOLD[kind] && HOLD[kind][src])); }
   function fxReleaseMomentary() { HKINDS.forEach(function (k) { var h = HOLD[k]; if (h) { Object.keys(h).forEach(function (s) { if (s !== "latch") delete h[s]; }); fxReconcile(k); } }); }
@@ -1612,6 +1612,44 @@
   function plog(e) { PLOG.push({ t: RD(NOW()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
   document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
   document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
+  /* Play log (opt in, this device only): which controls, which values, when. Never song or file names, notes or audio. */
+  var ELOG = { on: false, ev: [], ls: {}, key: "phosphor.playlog.v1", dirty: false };
+  try { var els = JSON.parse(localStorage.getItem(ELOG.key) || "null"); if (els && els.ev) { ELOG.ev = els.ev; ELOG.on = !!els.on; } } catch (e) { /* storage blocked */ }
+  function elog(k, id, v) {
+    if (!ELOG.on) return; var now = Date.now(), L;
+    L = k === "set" && ELOG.ls[id];
+    if (L && now - L[0] < 600 && ELOG.ev.indexOf(L) >= 0) { L[0] = now; L[4] = v; }
+    else { L = [now, playing ? +tnow().toFixed(1) : null, k, id, v === undefined ? null : v]; ELOG.ev.push(L); if (k === "set") ELOG.ls[id] = L; if (ELOG.ev.length > 3000) ELOG.ev.splice(0, ELOG.ev.length - 3000); }
+    ELOG.dirty = true;
+  }
+  function elSave() { if (!ELOG.dirty && !ELOG.flag) return; ELOG.dirty = ELOG.flag = false; try { localStorage.setItem(ELOG.key, JSON.stringify({ on: ELOG.on, ev: ELOG.ev })); } catch (e) { /* storage blocked */ } }
+  function elSummary() {
+    var ses = [], cur = null, ids = {}, pre = 0, man = 0, tt = [];
+    ELOG.ev.forEach(function (e) {
+      if (e[2] === "start" || !cur || e[0] - cur.last > 1800000) { cur = { t0: e[0], last: e[0], n: 0, ttfs: null, errs: 0, lastId: "" }; ses.push(cur); }
+      cur.last = e[0]; cur.n++;
+      if (cur.ttfs === null && (e[2] === "play" || e[2] === "key")) { cur.ttfs = e[0] - cur.t0; tt.push(cur.ttfs); }
+      if (e[2] === "err") cur.errs++;
+      if (e[2] === "tap" || e[2] === "set" || e[2] === "pick" || e[2] === "fx" || e[2] === "preset") { ids[e[3]] = (ids[e[3]] || 0) + 1; cur.lastId = e[3]; if (e[2] === "preset" || /^(gp|pre)=/.test(e[3])) pre++; else if (e[2] === "set") man++; }
+    });
+    tt.sort(function (a, b) { return a - b; });
+    return { sessions: ses.length, events: ELOG.ev.length, medianFirstSoundSec: tt.length ? +(tt[FL(tt.length / 2)] / 1000).toFixed(1) : null, presetTaps: pre, sliderMoves: man, top: Object.keys(ids).sort(function (a, b) { return ids[b] - ids[a]; }).slice(0, 5).map(function (k) { return k + " x" + ids[k]; }), errors: ses.reduce(function (n, x) { return n + x.errs; }, 0), stoppedAt: ses.map(function (x) { return x.lastId || "-"; }).slice(-5) };
+  }
+  function elLabel(t) { if (t.id) return t.id; var a = t.attributes, i; for (i = 0; i < a.length; i++) if (/^data-/.test(a[i].name)) return a[i].name.slice(5) + "=" + a[i].value; return t.tagName.toLowerCase(); }
+  function elShow() {
+    var sm = elSummary(), on = ELOG.on; AP($("elb"), on); $("elb").textContent = on ? "Play log: on" : "Play log: off";
+    $("elsum").textContent = on || sm.events ? sm.sessions + " session(s), " + sm.events + " events. First sound after " + (sm.medianFirstSoundSec === null ? "no data" : sm.medianFirstSoundSec + " s") + ". Presets " + sm.presetTaps + ", slider moves " + sm.sliderMoves + ". Most used: " + (sm.top.join(", ") || "none") + ". Errors: " + sm.errors + "." : "Off. When on, this device keeps which controls were used and when, never song names or sound.";
+  }
+  document.addEventListener("pointerdown", function (e) { var t = e.target.closest && e.target.closest("button,label,summary"); if (t) elog("tap", elLabel(t.tagName === "LABEL" && t.control ? t.control : t)); }, true);
+  document.addEventListener("input", function (e) { var t = e.target; if (t && t.type === "range") elog("set", elLabel(t), +t.value); }, true);
+  document.addEventListener("change", function (e) { var t = e.target; if (t && (t.type === "radio" || t.type === "checkbox")) elog("pick", elLabel(t), t.type === "checkbox" ? (t.checked ? 1 : 0) : t.value); }, true);
+  document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) elog("key", e.code); }, true);
+  window.addEventListener("error", function (e) { elog("err", String(e.message || "").slice(0, 60)); });
+  window.addEventListener("pagehide", elSave); document.addEventListener("visibilitychange", elSave); setInterval(elSave, 5000);
+  $("elb").addEventListener("click", function () { ELOG.on = !ELOG.on; ELOG.flag = true; if (ELOG.on) elog("start"); elSave(); elShow(); });
+  $("elclr").addEventListener("click", function () { ELOG.ev = []; ELOG.flag = true; elSave(); elShow(); });
+  $("elcopy").addEventListener("click", function () { var t = JSON.stringify({ v: 1, summary: elSummary(), events: ELOG.ev }); try { navigator.clipboard.writeText(t).then(function () { $("elsum").textContent = "Play log copied (" + ELOG.ev.length + " events)."; }, function () { $("elsum").textContent = "Copy was blocked here."; }); } catch (e) { $("elsum").textContent = "Copy was blocked here."; } });
+  if (ELOG.on) elog("start"); elShow();
   function singMsg(s) { $("recmsg").textContent = s; }
   var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
   function singUI() { $("ovr").hidden = SING.state !== "armed"; $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }

@@ -671,6 +671,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
           <p class="hint" id="lastkey">Press any key to see its code.</p>
           <div class="row"><button class="btn" type="button" id="plogb">Copy play log</button><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
           <p class="hint" id="learnhint"></p>
+          <div class="row"><button class="btn" type="button" id="elb" aria-pressed="false">Play log: off</button><button class="btn" type="button" id="elcopy">Copy log</button><button class="btn" type="button" id="elclr">Clear log</button></div>
+          <p class="hint" id="elsum"></p>
         </div>
       </details>
     </div>
@@ -1053,7 +1055,7 @@ return AC._bus;
 var FXKINDS = ["crush", "dist", "echo", "room", "shim", "sweep"];
 var FXLK = [["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], FXL = {}, FXLKEY = "phosphor.mix.v1";
 FXLK.forEach(function (k) { FXL[k[0]] = { v: 1, lo: 0, hi: 1 }; });
-try { var mxs = JSON.parse(localStorage.getItem(FXLKEY) || "{}"); FXLK.forEach(function (k) { var m = mxs[k[0]]; if (m && m.hi >= m.lo) FXL[k[0]] = { v: MN(m.hi, MX(m.lo, +m.v || 0)), lo: +m.lo, hi: +m.hi }; }); } catch (e) { /* storage blocked */ }
+try { var mxs = JSON.parse(localStorage.getItem(FXLKEY) || "{}"); FXLK.forEach(function (k) { var m = mxs[k[0]]; if (m && m.hi >= m.lo) FXL[k[0]] = { v: MN(m.hi, MX(m.lo, +m.v || 0)), lo: +m.lo, hi: +m.hi }; }); } catch (e) {}
 function fxE(k) { var m = FXL[k]; return m ? MN(m.hi, MX(m.lo, m.v)) : 1; }
 function fxApply(k) {
 if (!AC || !AC._fx || !FX[k] || !FX[k].on) return; var e = fxE(k), t = AC.currentTime;
@@ -1474,7 +1476,7 @@ if (!forPlay || now - GNM.lastDraw > 33) { GNM.lastDraw = now; if (VIS.genome) g
 function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); seqTick(); raf = requestAnimationFrame(loop); }
 function stopSource() { if (SRC) { try { SRC.onended = null; SRC.stop(); } catch (e) {} SRC = null; } }
 var startSeq = 0;
-function startPlay(at) {
+function startPlay(at) { if (typeof elog === "function") elog("play");
 if (!BUF) return; spStop();
 if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
 var mine = ++startSeq;
@@ -1487,7 +1489,7 @@ $("play").textContent = "Pause"; $("first").hidden = true; $("status").textConte
 if (AC.state === "running") begin();
 else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
 }
-function stopPlay(msg) { startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
+function stopPlay(msg) { if (typeof elog === "function") elog("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
 function seek(t) { t = MX(0, MN(DUR, t)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
 function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 function setSource(pcm, sr, buf, name, after) {
@@ -2010,7 +2012,7 @@ $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "ph
 EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
 function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
 function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
 var R = null;
 return {
 start: function () {
@@ -2156,7 +2158,7 @@ var w = fxWant(kind); if (w && !GLITCH[kind]) glitchOn(kind); else if (!w && GLI
 }
 function fxHold(kind, src, on) {
 if (kind === "gold") { if (on) glitchOn(kind); return; }
-var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind);
+var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src);
 }
 function fxToggle(kind, src) { fxHold(kind, src, !(HOLD[kind] && HOLD[kind][src])); }
 function fxReleaseMomentary() { HKINDS.forEach(function (k) { var h = HOLD[k]; if (h) { Object.keys(h).forEach(function (s) { if (s !== "latch") delete h[s]; }); fxReconcile(k); } }); }
@@ -2243,13 +2245,13 @@ var STK = [["chord", "Triple", "Hold three keys at once.", "neon", "Neon"], ["sw
 PALS.neon = [[0, [2, 4, 8]], [0.5, [255, 0, 200]], [1, [0, 255, 255]]]; PALS.sunset = [[0, [10, 0, 30]], [0.5, [255, 60, 100]], [1, [255, 220, 120]]];
 PALS.ice = [[0, [0, 8, 20]], [0.5, [80, 180, 255]], [1, [240, 255, 255]]]; PALS.gold = [[0, [10, 6, 0]], [0.6, [255, 200, 0]], [1, [255, 255, 200]]];
 var GOT = [], STKSAVE = "phosphor.stickers.v1";
-try { var gs = JSON.parse(localStorage.getItem(STKSAVE) || "[]"); if (Array.isArray(gs)) GOT = gs.filter(function (x) { return STK.some(function (s) { return s[0] === x; }); }); } catch (e) { /* storage blocked */ }
+try { var gs = JSON.parse(localStorage.getItem(STKSAVE) || "[]"); if (Array.isArray(gs)) GOT = gs.filter(function (x) { return STK.some(function (s) { return s[0] === x; }); }); } catch (e) {}
 function stkPaint() { $("stk").innerHTML = STK.map(function (s) { var g = GOT.indexOf(s[0]) >= 0; return '<span class="sk' + (g ? " got" : "") + '" role="listitem" title="' + s[2] + '">' + (g ? s[1] : "? ? ?") + "</span>"; }).join(""); }
 function stkPal(s) { var sel = $("palsel"); if (!sel.querySelector('option[value="' + s[3] + '"]')) { var o = document.createElement("option"); o.value = s[3]; o.textContent = s[4]; sel.appendChild(o); } }
 var toastT = 0;
 function unlock(id) {
 if (GOT.indexOf(id) >= 0) return; var s = STK.filter(function (x) { return x[0] === id; })[0]; if (!s) return;
-GOT.push(id); try { localStorage.setItem(STKSAVE, JSON.stringify(GOT)); } catch (e) { /* storage blocked */ }
+GOT.push(id); try { localStorage.setItem(STKSAVE, JSON.stringify(GOT)); } catch (e) {}
 stkPal(s); stkPaint(); var el = $("toast"); el.textContent = "New sticker: " + s[1] + "! " + s[4] + " colors unlocked."; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(function () { el.hidden = true; }, 4000);
 }
 STK.forEach(function (s) { if (GOT.indexOf(s[0]) >= 0) stkPal(s); }); stkPaint();
@@ -2303,12 +2305,12 @@ PK.down[e.code] = true; pkDown(e.code);
 }, true);
 document.addEventListener("keyup", function (e) { if (!PK.down[e.code]) return; delete PK.down[e.code]; pkUp(e.code); }, true);
 var MIDI = { map: {}, last: "" }, MIDIKEY = "phosphor.midi.v1";
-try { MIDI.map = JSON.parse(localStorage.getItem(MIDIKEY) || "{}") || {}; } catch (e) { /* storage blocked */ }
+try { MIDI.map = JSON.parse(localStorage.getItem(MIDIKEY) || "{}") || {}; } catch (e) {}
 function midiIn(st, d1, d2) {
 var c = st & 240, el, id, ks = NOTES.on ? NOTEKEYS : ROW1.concat(ROW2, ROW3);
 if (c === 144 || c === 128) document.dispatchEvent(new KeyboardEvent(c === 144 && d2 > 0 ? "keydown" : "keyup", { code: ks[d1 % ks.length], bubbles: true }));
 else if (c === 176) {
-if (MIDI.last) { MIDI.map[d1] = MIDI.last; MIDI.last = ""; try { localStorage.setItem(MIDIKEY, JSON.stringify(MIDI.map)); } catch (e) { /* storage blocked */ } }
+if (MIDI.last) { MIDI.map[d1] = MIDI.last; MIDI.last = ""; try { localStorage.setItem(MIDIKEY, JSON.stringify(MIDI.map)); } catch (e) {} }
 id = MIDI.map[d1]; el = id && $(id); if (!el) return;
 el.value = +el.min + d2 / 127 * (el.max - el.min); el.dispatchEvent(new Event("input", { bubbles: true }));
 }
@@ -2324,6 +2326,43 @@ a.onstatechange = hook; hook(); $("midib").setAttribute("aria-pressed", "true");
 function plog(e) { PLOG.push({ t: RD(NOW()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
 document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
 document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
+var ELOG = { on: false, ev: [], ls: {}, key: "phosphor.playlog.v1", dirty: false };
+try { var els = JSON.parse(localStorage.getItem(ELOG.key) || "null"); if (els && els.ev) { ELOG.ev = els.ev; ELOG.on = !!els.on; } } catch (e) {}
+function elog(k, id, v) {
+if (!ELOG.on) return; var now = Date.now(), L;
+L = k === "set" && ELOG.ls[id];
+if (L && now - L[0] < 600 && ELOG.ev.indexOf(L) >= 0) { L[0] = now; L[4] = v; }
+else { L = [now, playing ? +tnow().toFixed(1) : null, k, id, v === undefined ? null : v]; ELOG.ev.push(L); if (k === "set") ELOG.ls[id] = L; if (ELOG.ev.length > 3000) ELOG.ev.splice(0, ELOG.ev.length - 3000); }
+ELOG.dirty = true;
+}
+function elSave() { if (!ELOG.dirty && !ELOG.flag) return; ELOG.dirty = ELOG.flag = false; try { localStorage.setItem(ELOG.key, JSON.stringify({ on: ELOG.on, ev: ELOG.ev })); } catch (e) {} }
+function elSummary() {
+var ses = [], cur = null, ids = {}, pre = 0, man = 0, tt = [];
+ELOG.ev.forEach(function (e) {
+if (e[2] === "start" || !cur || e[0] - cur.last > 1800000) { cur = { t0: e[0], last: e[0], n: 0, ttfs: null, errs: 0, lastId: "" }; ses.push(cur); }
+cur.last = e[0]; cur.n++;
+if (cur.ttfs === null && (e[2] === "play" || e[2] === "key")) { cur.ttfs = e[0] - cur.t0; tt.push(cur.ttfs); }
+if (e[2] === "err") cur.errs++;
+if (e[2] === "tap" || e[2] === "set" || e[2] === "pick" || e[2] === "fx" || e[2] === "preset") { ids[e[3]] = (ids[e[3]] || 0) + 1; cur.lastId = e[3]; if (e[2] === "preset" || /^(gp|pre)=/.test(e[3])) pre++; else if (e[2] === "set") man++; }
+});
+tt.sort(function (a, b) { return a - b; });
+return { sessions: ses.length, events: ELOG.ev.length, medianFirstSoundSec: tt.length ? +(tt[FL(tt.length / 2)] / 1000).toFixed(1) : null, presetTaps: pre, sliderMoves: man, top: Object.keys(ids).sort(function (a, b) { return ids[b] - ids[a]; }).slice(0, 5).map(function (k) { return k + " x" + ids[k]; }), errors: ses.reduce(function (n, x) { return n + x.errs; }, 0), stoppedAt: ses.map(function (x) { return x.lastId || "-"; }).slice(-5) };
+}
+function elLabel(t) { if (t.id) return t.id; var a = t.attributes, i; for (i = 0; i < a.length; i++) if (/^data-/.test(a[i].name)) return a[i].name.slice(5) + "=" + a[i].value; return t.tagName.toLowerCase(); }
+function elShow() {
+var sm = elSummary(), on = ELOG.on; AP($("elb"), on); $("elb").textContent = on ? "Play log: on" : "Play log: off";
+$("elsum").textContent = on || sm.events ? sm.sessions + " session(s), " + sm.events + " events. First sound after " + (sm.medianFirstSoundSec === null ? "no data" : sm.medianFirstSoundSec + " s") + ". Presets " + sm.presetTaps + ", slider moves " + sm.sliderMoves + ". Most used: " + (sm.top.join(", ") || "none") + ". Errors: " + sm.errors + "." : "Off. When on, this device keeps which controls were used and when, never song names or sound.";
+}
+document.addEventListener("pointerdown", function (e) { var t = e.target.closest && e.target.closest("button,label,summary"); if (t) elog("tap", elLabel(t.tagName === "LABEL" && t.control ? t.control : t)); }, true);
+document.addEventListener("input", function (e) { var t = e.target; if (t && t.type === "range") elog("set", elLabel(t), +t.value); }, true);
+document.addEventListener("change", function (e) { var t = e.target; if (t && (t.type === "radio" || t.type === "checkbox")) elog("pick", elLabel(t), t.type === "checkbox" ? (t.checked ? 1 : 0) : t.value); }, true);
+document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) elog("key", e.code); }, true);
+window.addEventListener("error", function (e) { elog("err", String(e.message || "").slice(0, 60)); });
+window.addEventListener("pagehide", elSave); document.addEventListener("visibilitychange", elSave); setInterval(elSave, 5000);
+$("elb").addEventListener("click", function () { ELOG.on = !ELOG.on; ELOG.flag = true; if (ELOG.on) elog("start"); elSave(); elShow(); });
+$("elclr").addEventListener("click", function () { ELOG.ev = []; ELOG.flag = true; elSave(); elShow(); });
+$("elcopy").addEventListener("click", function () { var t = JSON.stringify({ v: 1, summary: elSummary(), events: ELOG.ev }); try { navigator.clipboard.writeText(t).then(function () { $("elsum").textContent = "Play log copied (" + ELOG.ev.length + " events)."; }, function () { $("elsum").textContent = "Copy was blocked here."; }); } catch (e) { $("elsum").textContent = "Copy was blocked here."; } });
+if (ELOG.on) elog("start"); elShow();
 function singMsg(s) { $("recmsg").textContent = s; }
 var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
 function singUI() { $("ovr").hidden = SING.state !== "armed"; $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }
@@ -2461,8 +2500,8 @@ window.addEventListener("blur", function () { Object.keys(PK.down).forEach(funct
 function setPerform(on) { PERFORM = on; $("perf").checked = on; if (typeof pkLabel === "function") pkLabel(); AP($("hperf"), on); gmLabel(); if (!on) fxReleaseAll(); }
 var KEYMAP = [["F16", "NumLock", "Numpad7", "Numpad4", "Numpad1"], ["F17", "NumpadEqual", "Numpad8", "Numpad5", "Numpad2"], ["F18", "NumpadDivide", "Numpad9", "Numpad6", "Numpad3"], ["F19", "NumpadMultiply", "NumpadSubtract", "NumpadAdd", "NumpadEnter"]];
 var DEFKEYS = JSON.parse(JSON.stringify(KEYMAP)), LEARN = null, MODENAMES = ["Scope", "Bars", "Radial", "Spectro", "Sun"], KMKEY = "phosphor.keys.v1";
-try { var sv = JSON.parse(localStorage.getItem(KMKEY) || "null"); if (sv && sv.length === 4 && sv.every(function (c) { return c.length === 5; })) KEYMAP = sv; } catch (e) { /* storage blocked */ }
-function saveKeys() { try { localStorage.setItem(KMKEY, JSON.stringify(KEYMAP)); } catch (e) { /* storage blocked */ } }
+try { var sv = JSON.parse(localStorage.getItem(KMKEY) || "null"); if (sv && sv.length === 4 && sv.every(function (c) { return c.length === 5; })) KEYMAP = sv; } catch (e) {}
+function saveKeys() { try { localStorage.setItem(KMKEY, JSON.stringify(KEYMAP)); } catch (e) {} }
 function keyLabel(code) { var m = { NumLock: "CLR", NumpadEqual: "=", NumpadDivide: "÷", NumpadMultiply: "×", NumpadSubtract: "−", NumpadAdd: "+", NumpadEnter: "↵", NumpadDecimal: "." }; return m[code] || code.replace(/^Numpad/, "").replace(/^Key/, "").replace(/^Digit/, ""); }
 function buildPads() {
 var h = '<span></span>', c, r;
@@ -2532,7 +2571,7 @@ function applySkin(name, save) {
 SKIN = name === "pocket" ? "pocket" : "arcs";
 if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
 AP($("skinb"), SKIN === "pocket");
-if (save) { try { localStorage.setItem(SKKEY, SKIN); } catch (e) { /* storage blocked */ } }
+if (save) { try { localStorage.setItem(SKKEY, SKIN); } catch (e) {} }
 skinCss(SKIN === "pocket"); readPalette(); if (SKIN === "pocket") buildPocket(); else teardownPocket();
 if (NF) { buildStripBg(); frame(playing); renderLadder(tnow()); }
 }
@@ -2614,16 +2653,16 @@ r.style.setProperty("--dock-h", DOCKHID ? "48px" : $("dock").offsetHeight + "px"
 $("dkhide").addEventListener("click", function () { setDock(true); saveSettings(); });
 (function () {
 var bp = $("dkbump"), KEY = "phosphor.bump.v1", pos = null, d = null, sup = false;
-try { pos = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { /* storage blocked */ }
+try { pos = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) {}
 function place() {
 if (!pos) return; var t = pos.t;
 bp.style.left = (t === "l" ? 0 : t === "r" ? 100 : pos.x * 100) + "%"; bp.style.top = (t === "t" ? 0 : t === "b" ? 100 : pos.y * 100) + "%"; bp.style.bottom = "auto";
 bp.style.transform = "translate(" + (t === "r" ? -100 : t === "l" ? 0 : -50) + "%, " + (t === "b" ? -100 : t === "t" ? 0 : -50) + "%)";
 if (t) bp.setAttribute("data-tuck", t); else bp.removeAttribute("data-tuck");
 }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(pos)); } catch (e) { /* storage blocked */ } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(pos)); } catch (e) {} }
 place();
-bp.addEventListener("pointerdown", function (e) { d = { x: e.clientX, y: e.clientY, mv: false }; try { bp.setPointerCapture(e.pointerId); } catch (x) { /* no capture */ } });
+bp.addEventListener("pointerdown", function (e) { d = { x: e.clientX, y: e.clientY, mv: false }; try { bp.setPointerCapture(e.pointerId); } catch (x) {} });
 bp.addEventListener("pointermove", function (e) {
 if (!d || (!d.mv && Math.hypot(e.clientX - d.x, e.clientY - d.y) < 8)) return; d.mv = true;
 pos = { x: MN(0.95, MX(0.05, e.clientX / innerWidth)), y: MN(0.95, MX(0.05, e.clientY / innerHeight)), t: "" }; place();
@@ -2637,7 +2676,7 @@ bp.addEventListener("click", function () { if (sup) return; if (pos && pos.t) { 
 (function () { var y0 = null; function dn(e) { if (e.target.closest("button, input, select, a, summary")) return; y0 = e.clientY; } function up(e) { if (y0 !== null && e.clientY - y0 > 56) { setDock(true); saveSettings(); } y0 = null; } $("dock").addEventListener("pointerdown", dn); $("dock").addEventListener("pointerup", up); })();
 (function () {
 var tr = $("fxtray"), h = "";
-function save() { try { localStorage.setItem(FXLKEY, JSON.stringify(FXL)); } catch (e) { /* storage blocked */ } }
+function save() { try { localStorage.setItem(FXLKEY, JSON.stringify(FXL)); } catch (e) {} }
 FXLK.forEach(function (k) {
 h += '<div class="fxr" data-k="' + k[0] + '"><label for="mv_' + k[0] + '">' + k[1] + '</label><input type="range" id="mv_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' level"><span class="fxl"><label for="ml_' + k[0] + '">min</label><input type="range" id="ml_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' lowest level"><label for="mh_' + k[0] + '">max</label><input type="range" id="mh_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' highest level"></span></div>';
 });
@@ -2658,11 +2697,11 @@ $("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden =
 })();
 (function () {
 var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
-try { ok = localStorage.getItem(KEY) === "1"; } catch (e) { /* storage blocked: ask every time */ }
+try { ok = localStorage.getItem(KEY) === "1"; } catch (e) {}
 if (ok || /[?&]test=1/.test(location.search)) return;
 function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
 cs.hidden = false; lock(true); $("csgo").focus();
-$("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) { /* storage blocked */ } cs.hidden = true; lock(false); });
+$("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) {} cs.hidden = true; lock(false); });
 })();
 var ESCT = 0;
 function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
@@ -2765,7 +2804,7 @@ $("bars").addEventListener("keydown", function (e) { if (e.key === "Enter" || e.
 $("bars").addEventListener("click", function (e) { var f = e.target.closest("[data-b]"); if (f) { var i = +f.getAttribute("data-b"); showBar(i); if (BARS.times[i] < DUR) seek(BARS.times[i]); } });
 (function buildRungs() { var h = ""; RUNGS.forEach(function (r, i) { h += '<figure class="rung"><canvas width="128" height="72"></canvas><figcaption>' + r.lab.replace(" · ", "<br>") + "</figcaption></figure>"; }); $("rungs").innerHTML = h; })();
 sizeCanvas(); $("reso").textContent = resLabel(9);
-(function bootSkin() { var q = (location.search.match(/[?&]skin=(\w+)/) || [])[1], saved = null; try { saved = localStorage.getItem(SKKEY); } catch (e) { /* storage blocked */ } if (q || saved === "pocket") applySkin(q || saved, false); })();
+(function bootSkin() { var q = (location.search.match(/[?&]skin=(\w+)/) || [])[1], saved = null; try { saved = localStorage.getItem(SKKEY); } catch (e) {} if (q || saved === "pocket") applySkin(q || saved, false); })();
 var TW = document.getElementById("twin");
 if (TW) {
 var o = JSON.parse(TW.textContent), bin = atob(o.b64), u = new Uint8Array(bin.length), q;
