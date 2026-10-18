@@ -20,7 +20,7 @@ Invariants checked (all stdlib, no network):
   3. Broken local paths — a seed whose `local` is set but does not exist on disk.
   4. Staleness — newest ledger event older than STALE_DAYS.
   (Optional, best-effort, guarded: if `gh` is on PATH, compare catalogued repo count
-   to the account's public non-fork repo count — a coverage gap signal.)
+   to the account's public non-fork repos BY NAME, both directions — a coverage gap signal.)
 
 Stdlib only. Exit 0 always (hook-safe; a drift is a receipt, not a failure).
 """
@@ -72,19 +72,38 @@ def _newest_ledger_date(led):
     return max(dates) if dates else None
 
 
-def _gh_public_count():
+PROFILE_REPO = "flashesofbrilliance"  # the GitHub profile README repo: no code, never a seed
+
+
+def _gh_public_names():
+    """Names of the account's public, non-fork repos, or None when gh is unavailable."""
     if not shutil.which("gh"):
         return None
     try:
         out = subprocess.run(
             ["gh", "repo", "list", "flashesofbrilliance", "--limit", "100",
-             "--json", "isFork,visibility"],
+             "--json", "name,isFork,visibility"],
             capture_output=True, text=True, timeout=15,
         )
         data = json.loads(out.stdout or "[]")
-        return sum(1 for r in data if r.get("visibility") == "PUBLIC" and not r.get("isFork"))
+        return {r["name"] for r in data if r.get("visibility") == "PUBLIC" and not r.get("isFork")}
     except Exception:
         return None
+
+
+def _repo_name(url):
+    return (url or "").rstrip("/").split("/")[-1].split(" ")[0] if url else ""
+
+
+def coverage_diff(gh_names, idx, dist_rows):
+    """(public but not catalogued, catalogued repo seeds that are not public). A repo counts as catalogued
+    when a repo-type seed names it OR _SEEDS/distribution.jsonl records it as the distribution of another
+    seed (a service seed can ship as its own repo). The profile README repo is never expected."""
+    cat = {_repo_name(r.get("repo")) for r in idx if r.get("seed_type") == "repo"}
+    dist = {_repo_name(d.get("repo") or d.get("url")) for d in dist_rows}
+    missing = sorted(n for n in gh_names if n != PROFILE_REPO and n not in cat and n not in dist)
+    stale = sorted(n for n in cat if n and n not in gh_names)
+    return missing, stale
 
 
 _PATH_EXT = (".py", ".json", ".jsonl", ".md", ".html", ".sh", ".mjs", ".ts", ".tsx", ".csv", ".yml", ".yaml", ".txt")
@@ -137,12 +156,13 @@ def check():
         findings.append({"claim": "staleness", "drift": True,
                          "detail": f"newest ledger event {stale_days}d old (> {STALE_DAYS})"})
 
-    gh_count = _gh_public_count()
-    if gh_count is not None:
-        repo_seeds = sum(1 for r in idx if r.get("seed_type") == "repo")
-        if gh_count > repo_seeds:
-            findings.append({"claim": "coverage-gap", "drift": True,
-                             "detail": f"account has {gh_count} public repos; {repo_seeds} catalogued"})
+    gh_names = _gh_public_names()
+    if gh_names is not None:
+        missing, stale = coverage_diff(gh_names, idx, _load_jsonl(os.path.join(ROOT, "_SEEDS", "distribution.jsonl"))[0])
+        for n in missing:
+            findings.append({"claim": "coverage-gap", "drift": True, "detail": f"public repo not catalogued: {n}"})
+        for n in stale:
+            findings.append({"claim": "coverage-stale", "drift": True, "detail": f"catalogued repo seed is not public: {n}"})
 
     return idx, led, findings, stale_days
 
@@ -198,6 +218,33 @@ def self_test():
         rows = [json.loads(l) for l in open(rec)] if os.path.exists(rec) else []
         check("receipts appended, regenerated flag stamped",
               len(rows) == 2 and [x["regenerated"] for x in rows] == [False, True])
+    total += 2
+    m, st = coverage_diff({"a", "b", "c", "flashesofbrilliance"}, [{"seed_type": "repo", "repo": "github.com/x/a"}, {"seed_type": "repo", "repo": "github.com/x/gone"}], [{"repo": "b"}])
+    ok6 = m == ["c"] and st == ["gone"]
+    ok7 = coverage_diff({"a"}, [{"seed_type": "repo", "repo": "github.com/x/a"}], []) == ([], [])
+    for name, ok in (("coverage diff: missing, stale, distribution counts, profile repo ignored", ok6), ("coverage diff: a clean catalogue reports nothing", ok7)):
+        print(("PASS " if ok else "FAIL ") + name)
+        fails += 0 if ok else 1
+    total += 1
+    with tempfile.TemporaryDirectory() as t3:
+        # live path with a fake `gh` on PATH: public repos a, b, ghost; seeds catalogue a and gone
+        fakebin = os.path.join(t3, "bin")
+        os.makedirs(fakebin)
+        gh = os.path.join(fakebin, "gh")
+        open(gh, "w").write("#!/bin/sh\necho '[{\"name\":\"a\",\"isFork\":false,\"visibility\":\"PUBLIC\"},{\"name\":\"ghost\",\"isFork\":false,\"visibility\":\"PUBLIC\"},{\"name\":\"flashesofbrilliance\",\"isFork\":false,\"visibility\":\"PUBLIC\"}]'\n")
+        os.chmod(gh, 0o755)
+        os.makedirs(os.path.join(t3, "_SEEDS"))
+        open(os.path.join(t3, "_SEEDS", "index.jsonl"), "w").write(
+            json.dumps({"id": "seed-repo-a", "alias": "a", "seed_type": "repo", "repo": "github.com/flashesofbrilliance/a"}) + "\n" +
+            json.dumps({"id": "seed-repo-gone", "alias": "gone", "seed_type": "repo", "repo": "github.com/flashesofbrilliance/gone"}) + "\n")
+        open(os.path.join(t3, "_SEEDS", "ledger.jsonl"), "w").write(
+            json.dumps({"seed": "a", "seed_id": "seed-repo-a", "event": "cataloged", "ts": "2999-01-01"}) + "\n" +
+            json.dumps({"seed": "gone", "seed_id": "seed-repo-gone", "event": "cataloged", "ts": "2999-01-01"}) + "\n")
+        r3 = subprocess.run([sys.executable, me], cwd=t3, env=dict(os.environ, CLAUDE_PROJECT_DIR=t3, PATH=fakebin), capture_output=True, text=True)
+        ok8 = r3.returncode == 0 and "Traceback" not in r3.stderr and "public repo not catalogued: ghost" in r3.stdout \
+            and "catalogued repo seed is not public: gone" in r3.stdout and "flashesofbrilliance" not in r3.stdout.replace("seedbank-drift", "")
+        print(("PASS " if ok8 else "FAIL ") + "live path with a fake gh: names the missing and the stale repo, ignores the profile repo, no crash")
+        fails += 0 if ok8 else 1
     total += 1
     with tempfile.TemporaryDirectory() as t2:
         os.makedirs(os.path.join(t2, "_SEEDS"))
