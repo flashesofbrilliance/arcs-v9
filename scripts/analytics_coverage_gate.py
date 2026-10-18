@@ -34,7 +34,8 @@ Exit 0 = all checked files carry the snippet; 1 = at least one is missing it.
 import os, re, sys, glob
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EXEMPT = set()  # e.g. {"public/some-redirect-stub.html"} — none today (mirror leak_check policy)
+# public/dj.html (dj.arcs.care, Phosphor): a kid-facing instrument. Zach, 2026-10-17: no analytics, so the page can say nothing about play leaves the device. Mirrored in leak_check.sh.
+EXEMPT = {"public/dj.html"}
 SNIPPET_RE = re.compile(r"_vercel/insights|va\.vercel-scripts|@vercel/analytics")
 SUGGESTED = '<script defer src="/_vercel/insights/script.js"></script>'
 

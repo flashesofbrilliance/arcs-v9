@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
 <!-- @arcs-template: instrument-lab -->
 <!-- @arcs-mode: operate -->
 <title>Phosphor</title>
@@ -85,7 +86,7 @@
     <textarea class="txt" id="pinbox" rows="3" spellcheck="false" aria-label="Pins text" placeholder="Paste pins here"></textarea>
     <p class="hint" id="pinmsg" role="status"></p>
   </div>
-  <div class="seg" id="srcseg" role="radiogroup" aria-label="Song or Sing">
+  <div class="seg" id="srcseg" data-lane="narrow" role="radiogroup" aria-label="Song or Sing">
     <input type="radio" name="src" id="srcA" value="song" checked><label for="srcA">Song</label>
     <input type="radio" name="src" id="srcB" value="sing"><label for="srcB">Sing</label>
   </div>

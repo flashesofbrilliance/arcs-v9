@@ -121,7 +121,7 @@ echo "  ✔ clean — no internal markers on any external surface."
 # Analytics-coverage gate (added 2026-07-24): every external surface must carry
 # the Vercel Web Analytics snippet, so counterpart page-opens are always visible
 # in the dashboard. Templates dir excluded from serving but held to the same bar.
-MISSING="$(grep -R -L -E '_vercel/insights|va\.vercel-scripts|@vercel/analytics' public --include='*.html' || true)"
+MISSING="$(grep -R -L -E '_vercel/insights|va\.vercel-scripts|@vercel/analytics' public --include='*.html' --exclude=dj.html || true)"
 if [ -n "$MISSING" ]; then
   MISS_COUNT="$(echo "$MISSING" | grep -c . || true)"
   echo ""

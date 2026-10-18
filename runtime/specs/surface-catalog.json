@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 281,
-  "hosts": 79,
+  "rows": 282,
+  "hosts": 80,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 222,
+   "product page": 223,
    "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 26,
+  "proxy_hosts": 27,
   "app_routes": 47,
   "missing_purpose": 3,
-  "unlisted": 108
+  "unlisted": 109
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -1427,6 +1427,26 @@
    "last_commit": "2026-10-09"
   },
   {
+   "host": "dj.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/dj.html",
+   "pattern": false,
+   "file": "public/dj.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Phosphor",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "Phosphor",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
    "host": "forge-cut.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -1445,7 +1465,7 @@
    "unlisted": false,
    "purpose": "Four cores, drilled.",
    "kind": "explorer",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "forge.arcs.care",
@@ -3272,7 +3292,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "good.arcs.care",
@@ -3293,7 +3313,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real warm-versus-cold reconstruction experiment. Commit your predictions before the evidence, take each chair, and watch the world sharpen only as your receipt earns it.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "good.arcs.care",
@@ -3314,7 +3334,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "good.arcs.care",
@@ -3812,7 +3832,7 @@
    "unlisted": true,
    "purpose": "Recoil Report",
    "kind": "gated",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-14"
   },
   {
    "host": "mercury.arcs.care",
@@ -4225,7 +4245,7 @@
    "unlisted": false,
    "purpose": "PRL System Atlas",
    "kind": "status",
-   "last_commit": "2026-08-27"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4247,7 +4267,7 @@
    "unlisted": false,
    "purpose": "Build Runbook & Ownership",
    "kind": "status",
-   "last_commit": "2026-08-27"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4269,7 +4289,7 @@
    "unlisted": false,
    "purpose": "PRL: Where we are (catch-up)",
    "kind": "status",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4291,7 +4311,7 @@
    "unlisted": false,
    "purpose": "CRM Delivery Status",
    "kind": "status",
-   "last_commit": "2026-09-01"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4313,7 +4333,7 @@
    "unlisted": false,
    "purpose": "Pilot Progress",
    "kind": "status",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4335,7 +4355,7 @@
    "unlisted": false,
    "purpose": "PRL · Phase 1.2 Receipt",
    "kind": "status",
-   "last_commit": "2026-10-03"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4357,7 +4377,7 @@
    "unlisted": false,
    "purpose": "Runbook & Go-Live Steps",
    "kind": "status",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4379,7 +4399,7 @@
    "unlisted": false,
    "purpose": "Tidio → Sugar Delivery Status",
    "kind": "status",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "prl.arcs.care",
@@ -4401,7 +4421,7 @@
    "unlisted": false,
    "purpose": "Web Form Delivery CWO",
    "kind": "status",
-   "last_commit": "2026-08-27"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "rain.arcs.care",
@@ -5162,7 +5182,7 @@
    "unlisted": true,
    "purpose": "Zach Harris · Résumé · Product Engineer",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "status.arcs.care",
@@ -5721,7 +5741,7 @@
    "unlisted": false,
    "purpose": "ARCS Compass · UI Kit",
    "kind": "product page",
-   "last_commit": "2026-07-24"
+   "last_commit": "2026-10-10"
   },
   {
    "host": "*",
