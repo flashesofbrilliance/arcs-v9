@@ -243,7 +243,7 @@ def cmd_fate(i, owner=None, due=None, compost=None):
     print(f"fated {i}")
 
 
-HOWS = ("fixed-at-source", "false-positive", "paper", "compost", "unspecified")
+HOWS = ("fixed-at-source", "false-positive", "verified", "paper", "compost", "unspecified")
 
 
 def cmd_tag(i, how):
