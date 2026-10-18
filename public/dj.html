@@ -384,6 +384,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 #padtray .btn { min-height: 56px; touch-action: manipulation; } #padtray .pbk .btn { min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
 #padtray .pbk .btn small { font-size: 0.6875rem; color: var(--muted); } #padtray .pbk .btn[aria-disabled="true"] { opacity: 1; color: var(--dimmed); border-style: dashed; }
 #padtray .pbk .btn.hit { border-color: var(--cyan); color: var(--cyan); background: var(--surface); }
+/* The hidden attribute always wins over a display rule (the pad picker and the Sing box both leaked through one). */
+[hidden] { display: none !important; }
 </style>
 </head>
 <body>

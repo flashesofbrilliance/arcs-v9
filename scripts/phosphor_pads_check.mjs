@@ -64,6 +64,8 @@ const kidEdit = await pg.evaluate(() => getComputedStyle(document.getElementById
 await pg.evaluate(() => document.getElementById('mdParent').dispatchEvent(new PointerEvent('pointerdown'))); await pg.waitForTimeout(1700)
 const parEdit = await pg.evaluate(() => getComputedStyle(document.getElementById('padedit')).display)
 check(kidEdit === 'none' && parEdit !== 'none', `P10: Edit pads is hidden in Kid mode (${kidEdit}) and there in Parent mode (${parEdit})`)
+const pickShown = await pg.evaluate(() => { const r = document.getElementById('padpick').getBoundingClientRect(); return getComputedStyle(document.getElementById('padpick')).display !== 'none' || r.height > 0 })
+check(!pickShown, `P10b: the chip picker is not visible until Edit pads is on (a CSS display rule once overrode the hidden attribute and showed it to everyone)`)
 const n10 = (await log(pg)).length
 await pg.evaluate(() => document.getElementById('padedit').click()); await down('[data-pk="2"]'); await pg.waitForTimeout(100)
 const pickVis = await pg.evaluate(() => !document.getElementById('padpick').hidden)
