@@ -12,6 +12,8 @@ Atoms (universe `zach-receipts`, tier `personal`, ALWAYS audience internal):
   <rid>        entity receipt      type claim       the question, with mode/stakes/horizon as tags
   <rid>#cN     entity confirmed    type claim       one what_confirmed line (grade B: asserted by the operator, backed by refs)
   <rid>#uN     entity unconfirmed  type hypothesis  one what_unconfirmed line
+  <rid>#oN     entity outcome      type claim       Zach's recorded verdict on open line N (scripts/receipt_outcome_queue.py;
+                                                    tagged self-graded or external-graded; the Librarian loader ignores these for now)
 Bridges: an atom that names a registered counterpart universe gets `bridges: [universe]` (declared, never inferred from
 anything but a name match). The sweep treats a declared bridge as an edge, not a leak; a bridged atom can never be projected public.
 Edges (zach-receipts.edges.jsonl): receipt -> PR, commit, file, ADR, other receipt, taken only from the receipt's own refs.
@@ -51,7 +53,7 @@ def classify_ref(ref, ids):
     return "other", ref
 
 
-def build(rows, reg, person=PERSON):
+def build(rows, reg, person=PERSON, outcomes=None):
     others = {u: d.get("names", []) for u, d in reg["universes"].items() if u != person and d.get("tier") == "counterpart"}
     extra = reg.get("canon_denied_names_extra", [])
     ids = {r["receipt_id"] for r in rows}
@@ -74,6 +76,20 @@ def build(rows, reg, person=PERSON):
             atom(f"#c{i}", "confirmed", "claim", t, "B")
         for i, t in enumerate(r["what_unconfirmed"] or []):
             atom(f"#u{i}", "unconfirmed", "hypothesis", t, "hypothesis")
+        for (orid, oline), o in sorted((outcomes or {}).items()):
+            if orid != rid:
+                continue
+            note = f" Note: {o['note']}" if o.get("note") else ""
+            a = {"id": f"{person}/{rid}#o{oline}", "entity": "outcome", "type": "claim", "grade": "B", "audience": "internal",
+                 "claim": f"Outcome of open line {oline}: {o['verdict']} ({o['by']}-graded). Open line was: {o['open_line']}.{note}",
+                 "source": f"receipt-outcomes:{rid}#{oline}", "verified_at": str(o["ts"])[:10], "ttl_days": 3650,
+                 "tags": ["outcome", o["verdict"], f"{o['by']}-graded", str(o["ts"])[:7]]}
+            if o.get("evidence"):
+                a["evidence"] = o["evidence"]
+            br = sorted(u for u, ns in others.items() if ua.find_names(a["claim"], ns))
+            if br:
+                a["bridges"] = br; stats["bridged_atoms"] += 1
+            atoms.append(a); stats["outcome_atoms"] += 1
         for ref in r["refs"] or []:
             kind, node = classify_ref(ref, ids)
             edges.append({"from": rid, "to": node, "kind": kind}); stats[f"edge_{kind}"] += 1
@@ -100,11 +116,13 @@ def main():
         sys.exit("no export: run with --export first (needs the supabase CLI linked to ARCS_v9).")
     rows = json.load(open(src))
     reg = ua.load_registry(root)
-    atoms, edges, stats = build(rows, reg)
+    import receipt_outcome_queue as roq
+    atoms, edges, stats = build(rows, reg, outcomes=roq.load_ledger())
     w = lambda name, rs: open(os.path.join(root, name), "w", encoding="utf-8").write("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in rs))
     w(f"{PERSON}.claims.jsonl", atoms); w(f"{PERSON}.edges.jsonl", edges)
     print(f"{PERSON}: {stats['receipts']} receipts -> {stats['atoms']} atoms, {stats['edges']} edges "
           f"(pr {stats['edge_pr']}, commit {stats['edge_commit']}, file {stats['edge_file']}, adr {stats['edge_adr']}, receipt {stats['edge_receipt']}, other {stats['edge_other']})")
+    print(f"  outcome atoms: {stats['outcome_atoms']}")
     print(f"  declared bridges to counterpart universes: {stats['bridged_atoms']} atoms · naming an unregistered counterpart: {stats['mentions_unregistered_counterpart']}")
     print(f"  most cited: {stats['most_cited']}")
     open(os.path.join(REPO, "_INBOX", "universe-drift.jsonl"), "a", encoding="utf-8").write(json.dumps(
@@ -130,6 +148,13 @@ def self_test():
     ok.append(("refs classified into pr, commit, adr, file, receipt, other", sorted(e["kind"] for e in edges) == sorted(["pr", "commit", "adr", "file", "other", "receipt"])))
     ok.append(("every atom is internal", all(a["audience"] == "internal" for a in atoms)))
     ok.append(("receipt-to-receipt edge targets the real receipt id", {"from": "2026-10-02--second--ZH", "to": "2026-10-01--first--ZH", "kind": "receipt"} in edges))
+    oc = {("2026-10-01--first--ZH", 1): {"receipt_id": "2026-10-01--first--ZH", "line": 1, "verdict": "held", "by": "self", "ts": "2026-10-18T10:00:00",
+                                         "open_line": "tone not tested", "note": "worked"}}
+    oa, _, ost = build(rows, reg, outcomes=oc)
+    out_atoms = [a for a in oa if a["entity"] == "outcome"]
+    ok.append(("a recorded verdict becomes an internal outcome atom tagged with who graded it",
+               len(out_atoms) == 1 and out_atoms[0]["audience"] == "internal" and "self-graded" in out_atoms[0]["tags"] and out_atoms[0]["id"].endswith("#o1")))
+    ok.append(("an outcome atom's source is the ledger row, not the receipt (so the Librarian loader skips it)", out_atoms[0]["source"].startswith("receipt-outcomes:")))
     tmp = tempfile.mkdtemp()
     try:
         json.dump({"universes": {PERSON: {"tier": "personal", "entities": ["receipt", "confirmed", "unconfirmed"], "names": [], "anti_aliases": []}}}, open(os.path.join(tmp, "_registry.json"), "w"))
