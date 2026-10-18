@@ -194,9 +194,11 @@ def report(rows, today, bad_lines=0):
 
 
 def dedupe(rows):
-    """Drop a row whose `decided_ref` is another row's id: that outcome is scored on the row it points to."""
+    """Drop a row whose `decided_ref` is another row's id (scored there) and any row another row `supersedes` (replaced, e.g. a contaminated forecast)."""
     ids = {r.get("id") for r in rows}
-    keep = [r for r in rows if r.get("decided_ref") not in ids or r.get("decided_ref") == r.get("id")]
+    sup = {r.get("supersedes") for r in rows if r.get("supersedes")}
+    keep = [r for r in rows if r.get("id") not in sup
+            and (r.get("decided_ref") not in ids or r.get("decided_ref") == r.get("id"))]
     return keep, len(rows) - len(keep)
 
 
@@ -292,6 +294,8 @@ def self_test():
     check("open is unresolved", [x["id"] for x in un2], ["n"])
     kept, closed = dedupe([{"id": "F1", "verdict": "FALSIFIED"}, {"id": "asm-1", "decided_ref": "F1"}, {"id": "asm-2", "decided_ref": "receipt-x"}])
     check("dedupe drops closed assumption", ([r["id"] for r in kept], closed), (["F1", "asm-2"], 1))
+    kept2, n2 = dedupe([{"id": "asm-1", "probability": 0.6}, {"id": "asm-2", "supersedes": "asm-1", "probability": 0.7}])
+    check("dedupe drops superseded row", ([r["id"] for r in kept2], n2), (["asm-2"], 1))
     for f in fails:
         print("FAIL", f)
     print("self-test:", "FAIL" if fails else "OK")
