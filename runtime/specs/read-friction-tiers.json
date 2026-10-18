@@ -128,6 +128,11 @@
       "tier": "T2-open-one-file",
       "quadrant": "ROM",
       "horizon_days": 365
+    },
+    "personal-receipt": {
+      "tier": "T3-scan-and-reconcile",
+      "quadrant": "PATHOLOGY",
+      "horizon_days": 90
     }
   },
   "cost_if_absent_by_stakes": {

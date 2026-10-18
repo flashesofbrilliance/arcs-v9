@@ -47,7 +47,10 @@ def score(png):
     r, g, b = im[..., 0], im[..., 1], im[..., 2]
     grey = (abs(r - 0x83) < 14) & (abs(g - 0x91) < 14) & (abs(b - 0xa7) < 14)       # --dimmed grain
     pure = [(0, 240, 255), (0, 255, 157), (255, 215, 0), (255, 77, 109)]
-    ink = (r + g + b) > 150
+    if T.PAPER:                                                  # multiply on paper: ink x paper / 255
+        pure = [(pr * 0xe2 // 255, pg * 0xe8 // 255, pb * 0xf0 // 255) for pr, pg, pb in pure]
+    paper = (abs(r - 0xe2) < 10) & (abs(g - 0xe8) < 10) & (abs(b - 0xf0) < 10)           # --text paper ground
+    ink = ((r + g + b) > 150) & ~paper
     is_pure = np.zeros(r.shape, bool)
     for pr, pg, pb in pure:
         is_pure |= (abs(r - pr) < 16) & (abs(g - pg) < 16) & (abs(b - pb) < 16)
@@ -66,7 +69,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--blind-sheet")
     ap.add_argument("--skip-pixels", action="store_true")
+    ap.add_argument("--paper", action="store_true", help="check the paper-ground recipe")
     ns = ap.parse_args()
+    T.PAPER = ns.paper
     row = T.load(PID)
     res = {}
 

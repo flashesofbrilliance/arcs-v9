@@ -326,7 +326,7 @@
       "symbol": "Libr",
       "name": "Librarian",
       "role": "CTO",
-      "function": "Store and retrieve decisions",
+      "function": "Store decisions; recommend what to retrieve by expected value under a context budget",
       "level": "boardroom",
       "binding": {
         "module": "arcs_store.py",

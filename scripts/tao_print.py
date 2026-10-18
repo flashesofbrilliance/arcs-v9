@@ -76,6 +76,7 @@ def facets(ph=PHASE):
 
 
 _FC = {}
+PAPER = False         # recipe option: print on a light paper ground, inks multiply, a dark key plate holds the line
 
 
 def facets_at(ph):
@@ -85,7 +86,7 @@ def facets_at(ph):
 
 
 # Permutation table: each repeat is a lawful variant of the same mold (ADR-071: one surface, many views).
-VIEWS = [0.9, 0.1, 1.15, -0.6, 2.2, 0.5, -0.9, 2.6, 0.0]       # strip rotation per repeat
+VIEWS = [0.9, 0.1, -0.8, -0.5, 2.2, 0.6, -2.4, 2.6, 2.9]   # every view keeps width/height >= 0.7 (none edge-on)       # strip rotation per repeat
 GROUNDS = [None, 2, None, 3, 0, None, 1, None, 2]            # flat ink ground per repeat (index into PLATES)
 PLATES = ["var(--cyan)", "var(--green)", "var(--gold)", "var(--red)"]   # ink = face * 2 + band parity
 
@@ -126,17 +127,29 @@ def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
         for _ in range(ns))
     gaps = "".join(f'<rect x="{rs.random()*90:.1f}" y="{HORIZON-1}" width="{3+rs.random()*8:.1f}" height="4" fill="var(--bg)"/>'
                    for _ in range(int(round(10 * loss * drift))))
+    key = ""
+    if PAPER:
+        rk = rng(pid, seed, "key", k)
+        kp = ""
+        for _, face, band, pts, i in facets_at(ph):
+            if rk.random() < drop * 0.6 or band not in (0, NV - 1):
+                continue
+            q = pts.split()
+            a, b = (q[0], q[1]) if band == 0 else (q[3], q[2])     # only the strip's two long edges: the key line
+            kp += f'<path d="M{a} L{b}"/>'
+        key = f'<g fill="none" stroke="var(--bg)" stroke-width=".6" stroke-linecap="round">{kp}</g>'
     tf = ' transform="translate(100 0) scale(-1 1)"' if mirror else ""
     return (
         f'<g data-k="{k}" data-reg="{sum(offs)/len(offs):.3f}" data-specks="{ns + dropped}"{tf}>'
-        f'<rect width="100" height="100" fill="{PLATES[gnd] if gnd is not None else "var(--bg)"}"/>'
-        f'<rect y="{HORIZON}" width="100" height="2.4" fill="{"var(--bg)" if gnd is not None else "var(--gold)"}"/>{gaps.replace("var(--bg)", PLATES[gnd]) if gnd is not None else gaps}'
-        f'<g style="mix-blend-mode:{"normal" if gnd is not None else "screen"}">{"".join(layers)}</g>'
-        f'<g fill="{"var(--bg)" if gnd is not None else "var(--dimmed)"}">{specks}</g></g>'
+        f'<rect width="100" height="100" fill="{PLATES[gnd] if gnd is not None else ("var(--text)" if PAPER else "var(--bg)")}"/>'
+        f'<rect y="{HORIZON}" width="100" height="2.4" fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--gold)"}"/>{gaps.replace("var(--bg)", PLATES[gnd]) if gnd is not None else (gaps.replace("var(--bg)", "var(--text)") if PAPER else gaps)}'
+        f'<g style="mix-blend-mode:{"normal" if gnd is not None else ("multiply" if PAPER else "screen")}">{"".join(layers)}</g>'
+        f'{key}'
+        f'<g fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--dimmed)"}">{specks}</g></g>'
     )
 
 
-def svg(row, f, seed):
+def svg(row, f, seed, caption=True):
     pid = row["id"]
     a = ASPECTS.index(row["aspect"])
     v = VERBS.index(row["verb"])
@@ -144,10 +157,10 @@ def svg(row, f, seed):
     n = cols * cols
     gap = 14
     W = cols * CELL + (cols - 1) * gap
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+150}" role="img" '
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+(150 if caption else 142)}" role="img" '
            f'aria-label="Silkscreen print of the proverb: {row["text"]}" data-id="{pid}" '
            f'data-fidelity="{f}" data-seed="{seed}">',
-           f'<rect width="{W}" height="{W+150}" fill="var(--bg)"/>']
+           f'<rect width="{W}" height="{W+(150 if caption else 142)}" fill="var(--bg)"/>']
     for k in range(n):
         x = (k % cols) * (CELL + gap)
         y = (k // cols) * (CELL + gap)
@@ -170,10 +183,11 @@ def svg(row, f, seed):
                f'{" ".join(words[:h])}</text>')
     out.append(f'<text x="{W}" y="{W+sw+78:.0f}" text-anchor="end" fill="var(--text)" '
                f'font-family="var(--ds-font-display)" font-size="15">{" ".join(words[h:])}.</text>')
-    out.append(f'<text x="0" y="{W+sw+106:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
-               f'{pid}  {row["aspect"]}.{row["verb"].upper()}</text>')
-    out.append(f'<text x="0" y="{W+sw+126:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
-               f'f={f}  seed={seed}  {row["canon_ref"].split("#")[-1]}</text>')
+    if caption:
+        out.append(f'<text x="0" y="{W+sw+106:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
+                   f'{pid}  {row["aspect"]}.{row["verb"].upper()}</text>')
+        out.append(f'<text x="0" y="{W+sw+126:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
+                   f'f={f}  seed={seed}  {row["canon_ref"].split("#")[-1]}</text>')
     out.append("</svg>")
     return "\n".join(out)
 
@@ -196,6 +210,7 @@ body {{ margin: 0; background: var(--bg); color: var(--text); font-family: var(-
 h1 {{ font-family: var(--ds-font-display); font-weight: 600; font-size: var(--fs-display); line-height: 1.05; margin: 0 0 16px; text-wrap: balance; }}
 .lede {{ color: var(--dimmed); max-width: none; margin: 0 0 24px; }}
 svg {{ display: block; width: 100%; height: auto; }}
+.prov {{ font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); margin: 12px 0 0; overflow-wrap: anywhere; }}
 .note {{ color: var(--dimmed); font-size: var(--fs-body); font-family: var(--ds-font-mono); margin: 20px 0 0; }}
 </style>
 </head>
@@ -204,7 +219,8 @@ svg {{ display: block; width: 100%; height: auto; }}
 <p class="eyebrow">Tao print prototype</p>
 <h1>One mold, repeated until the ink gives out</h1>
 <p class="lede">The ARCS Möbius, pulled nine times in four flat inks. The two faces of the strip print in different inks, so you can see it has one surface. Plates slip, ink drops out and the horizon breaks up in proportion to (1 minus fidelity). Fidelity is declared in the recipe, not measured. The last panel of the strip turns over with its inks swapped.</p>
-{svg(row, f, seed)}
+{svg(row, f, seed, caption=False)}
+<p class="prov">{row["id"]}  {row["aspect"]}.{row["verb"].upper()}  f={f}  seed={seed}  {row["canon_ref"].split("#")[-1]}</p>
 <p class="note">Reproducible from proverb id, recipe and seed. Not an edition: no scarcity, no registry.</p>
 </main>
 </body>
@@ -219,6 +235,8 @@ if __name__ == "__main__":
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--out")
     ap.add_argument("--html", action="store_true")
+    ap.add_argument("--ground", choices=["dark", "paper"], default="dark")
     ns = ap.parse_args()
+    PAPER = ns.ground == "paper"
     s = (html if ns.html else svg)(load(ns.id), ns.fidelity, ns.seed)
     Path(ns.out).write_text(s) if ns.out else print(s)
