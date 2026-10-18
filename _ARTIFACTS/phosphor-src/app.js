@@ -523,7 +523,7 @@
   }
   function mixDraw() {
     var cv = $("mxcv"); if (!cv) return; var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 52, half = FL(W / cw / 2), row, j, x, q, cod, set = GLET.dna, i, fr, dn, P, base, pos;
-    g.clearRect(0, 0, W, H); g.font = "600 14px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle"; g.textAlign = "center";
+    g.clearRect(0, 0, W, H); g.font = "600 14px " + css.getPropertyValue("--ds-font-mono").trim(); g.textBaseline = "middle"; g.textAlign = "center";
     for (row = 0; row < 2; row++) {
       if (row === 0) { dn = GNM.dna; P = GNM.P; base = GNM.base; pos = tnow(); } else { dn = DB.dna; P = DB.P / (DB.rate || 1) * (DB.mult || 1) * 0 + dbPe(); base = DB.grid0 % dbPe(); pos = dbPos(); }
       if (!dn) { g.fillStyle = C.dim; g.fillText(row ? "Deck B: no song" : "Deck A: no song", W / 2, row * 40 + 22); continue; }
@@ -593,7 +593,7 @@
     if (!GNM.dna) { cv.getContext("2d").clearRect(0, 0, cv.width, cv.height); return; }
     var i = genomeIdx(t); GNM.rna[i] = genomeLook();
     var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 64, half = FL(W / cw / 2), j, x, row, cod, s, set, y, q, fr = (t - GNM.base) / GNM.P - FL((t - GNM.base) / GNM.P);
-    g.clearRect(0, 0, W, H); g.font = "600 16px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle"; g.textAlign = "center";
+    g.clearRect(0, 0, W, H); g.font = "600 16px " + css.getPropertyValue("--ds-font-mono").trim(); g.textBaseline = "middle"; g.textAlign = "center";
     for (row = 0; row < 2; row++) {
       y = row ? 46 : 6; /* rows 34 high */
       for (j = i - half; j <= i + half + 1; j++) {
@@ -605,7 +605,7 @@
         else { g.fillStyle = C.dim; g.fillText("···", x + cw / 2 - 1, y + 14); }
       }
     }
-    g.globalAlpha = 1; g.fillStyle = C.dim; g.font = "600 12px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textAlign = "left"; g.fillText("DNA song", 6, 92); g.textAlign = "right"; g.fillText("RNA look", W - 6, 92);
+    g.globalAlpha = 1; g.fillStyle = C.dim; g.font = "600 12px " + css.getPropertyValue("--ds-font-mono").trim(); g.textAlign = "left"; g.fillText("DNA song", 6, 92); g.textAlign = "right"; g.fillText("RNA look", W - 6, 92);
     g.strokeStyle = C.gold; g.lineWidth = 2; g.beginPath(); g.moveTo(W / 2, 2); g.lineTo(W / 2, 82); g.stroke();
     if (i !== GNM.lastI) { GNM.lastI = i; var w = genomeWords(GNM.dna[i], GNM.rna[i]); $("gline").textContent = "Sound: " + w.sound + ". Look: " + w.look + ". Each letter is a quartile, so a recipe and not a measurement."; }
     GNM.ms.push(NOW() - t0); if (GNM.ms.length > 40) GNM.ms.shift();
@@ -973,7 +973,7 @@
     g.globalAlpha = 1;
     var steps = [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 30, 60, 120], st = steps[steps.length - 1], k;
     for (k = 0; k < steps.length; k++) if (steps[k] / span * W >= 70) { st = steps[k]; break; }
-    g.fillStyle = C.text2 || C.dim; g.font = "11px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle";
+    g.fillStyle = C.text2 || C.dim; g.font = "11px " + css.getPropertyValue("--ds-font-mono").trim(); g.textBaseline = "middle";
     for (var tt = Math.ceil(a / st) * st; tt < b; tt += st) { var xx = RD((tt - a) / span * W); g.fillRect(xx, 14, 1, 8); g.fillText(st < 1 ? tt.toFixed(2) : fmt(tt), xx + 4, 9); }
     var col = { chapter: C.cyan, onset: C.gold, valley: C.green, grid: C.dim };
     MAGNETS.forEach(function (m) { if (m.t < a || m.t > b) return; var xm = RD((m.t - a) / span * W); g.fillStyle = col[m.k]; g.globalAlpha = m.k === "grid" ? 0.35 : 0.9; var hh = m.k === "chapter" ? H - 22 : m.k === "onset" ? 14 : m.k === "valley" ? 8 : 4; g.fillRect(xm, m.k === "valley" ? H - hh : 22, m.k === "chapter" ? 2 : 1, hh); });
