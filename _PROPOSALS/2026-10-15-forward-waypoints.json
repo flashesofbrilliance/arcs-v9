@@ -1,0 +1,294 @@
+{
+  "id": "prop-2026-10-15-forward-waypoints",
+  "title": "Forward waypoints",
+  "date": "2026-10-15",
+  "status": "PROPOSAL",
+  "tone": "gold",
+  "worktree": "relaxed-merkle-130db6",
+  "base": "main@fb89a755",
+  "one_line": "The next steps in order, each with what we know about it, why it beats the alternatives, and what would make us drop it.",
+  "bottom_line": [
+    {
+      "label": "The deadline is behind us",
+      "text": "Zach said on 2026-10-15 that the monday.com take-home was submitted yesterday, 2026-10-14. That is his statement; this session did not verify which build went in. The latest build on disk is submission-rc46.zip (4.2 MB, built 2026-10-14 12:46, tag rc46-2026-10-14) in ~/ret-rfp-intelligence/dist. The 2026-10-13 handoff block in CLAUDE.md still lists the submission as due, so it is stale. An earlier version of this page ranked the deadline first for that reason; the closing fact had never been written down."
+    },
+    {
+      "label": "Two dated clocks",
+      "text": "Ticket GW-002 (request limits and spend caps) is waived until 2026-10-28, 13 days out. The Lore falsifier says that by 2027-01-01, 78 days out, some cohort must reach 30 closed outcomes. The system has 1 real closure in 261 receipts as of 2026-10-03. At that rate the deadline will most likely be missed unless outcome capture changes."
+    },
+    {
+      "label": "What 'proven' means here",
+      "text": "Almost nothing below is proven. Four labels are used: PROVEN means it ran and passed, DERISKED means a cheap test with a failing and a passing case is written down, UNTESTED means neither, and BLOCKED means it waits on a decision. Ranking favors cheap, reversible steps that produce a number."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "question": "Take W1 to W4 as the next sitting, after the take-home is submitted?",
+      "recommended": "Yes. Commit the work to a branch (done), report the dangling references, save Field view snapshots, plant a known echo. About half a day in total, all read-only.",
+      "options": [
+        "approve",
+        "reorder",
+        "hold"
+      ],
+      "why": "Each is cheap, reversible and turns an open question into a number. None needs production access."
+    },
+    {
+      "id": "D2",
+      "question": "Will you tag provenance (real or test) on the 78 untagged receipts?",
+      "recommended": "Yes, in one pass with the existing candidate-listing script. Only you can set it, and it is never guessed.",
+      "options": [
+        "one pass now",
+        "later"
+      ],
+      "why": "Without it no cohort count is trustworthy, so the 2027-01-01 test cannot even be read."
+    },
+    {
+      "id": "D3",
+      "question": "Pull GW-002 forward from its 2026-10-28 waiver?",
+      "recommended": "Yes, and read the current Vercel firewall settings first. That read is the first step and has not been done.",
+      "options": [
+        "pull forward",
+        "keep waiver"
+      ],
+      "why": "The in-memory limiter is per server instance, and a known-bad case already reproduces the gap."
+    }
+  ],
+  "tables": [
+    {
+      "id": "waypoints",
+      "title": "Waypoints in recommended order",
+      "intro": "Evidence class: PROVEN ran and passed. DERISKED a cheap test is specified. UNTESTED no test yet. BLOCKED waits on a decision. Cost is rough effort to a first result.",
+      "columns": [
+        "Order",
+        "Waypoint",
+        "When",
+        "Evidence class",
+        "Why it is safer or better than the alternatives",
+        "Drop it if"
+      ],
+      "rows": [
+        [
+          "W0",
+          "RET take-home submission (another session)",
+          "done 2026-10-14",
+          "DONE, per Zach",
+          "Zach said it is submitted. Not verified here, and not checked which build went in. The handoff block that listed it as due is stale.",
+          "Nothing to drop. Update the handoff block."
+        ],
+        [
+          "W1",
+          "Commit this work to a branch",
+          "today, minutes",
+          "PROVEN risk",
+          "Worktrees get cleaned up (a repo memory records the trap) and 4 checkpoints are already flagged unclaimed. Losing the renderer, ranking and proposals costs hours. Committing costs minutes.",
+          "Never. Needs your go, since commits are on request."
+        ],
+        [
+          "W2",
+          "Report the 52 dangling backlog references",
+          "today, minutes",
+          "DERISKED",
+          "A failing and a passing fixture are written. It is a read, and the simulation and ranking depend on edge quality.",
+          "The 52 prove to be intentional links to other stores, then keep as a labelled list."
+        ],
+        [
+          "W3",
+          "Save a dated Field view snapshot per run",
+          "today, minutes",
+          "DERISKED",
+          "Without it rank flips and flow cannot be measured at all. Test: zero phantom flips on an unchanged repo.",
+          "Snapshots show nothing changing for two weeks."
+        ],
+        [
+          "W4",
+          "Plant a known echo in the echo detector",
+          "next, under an hour",
+          "DERISKED",
+          "The one test that separates a blind detector from an empty field. Zero real echoes was the 2026-09-27 result. Also unblocks the HUD echo strip.",
+          "The planted echo fires: then the detector is sound and the field is empty."
+        ],
+        [
+          "W5",
+          "Tag provenance on the 78 untagged receipts",
+          "next, one pass",
+          "DERISKED",
+          "A listing script exists and the write path is built. It is a prerequisite for any cohort count.",
+          "You prefer to start a fresh tagged cohort instead."
+        ],
+        [
+          "W6",
+          "Read the Vercel firewall settings, then add the rate-limit rule",
+          "before 2026-10-28",
+          "DERISKED",
+          "Known-bad reproduces the gap. The waiver has a date. The rule is platform level, with no app write and no privacy change. Needs approval for the change itself.",
+          "The firewall already enforces a durable limit."
+        ],
+        [
+          "W7",
+          "Browser leak check as a build gate",
+          "next, an hour",
+          "PROVEN once by hand",
+          "Scored 0 hits today. Making it a gate stops a silent regression for the price of one script.",
+          "Prompt and gate constants move out of the app entirely."
+        ],
+        [
+          "W8",
+          "Ex-ante receipts and witness stubs for today's pre-registrations",
+          "next",
+          "UNTESTED",
+          "Timestamps the predictions before counting. The mechanism is cheap, but there is no check yet that anyone reads them.",
+          "A receipt costs more attention than the claim is worth."
+        ],
+        [
+          "W9",
+          "Empiricism ledger: class, n, falsifier per claim",
+          "next, half a day",
+          "UNTESTED",
+          "Directly raises the bar you named. Judgment heavy, so weights stay assumed until anchors are applied to real claims.",
+          "The first 20 rows all land in one class."
+        ],
+        [
+          "W10",
+          "Trim the anonymous answer plus the sealed package",
+          "later",
+          "UNTESTED",
+          "Bigger change to a production route. The design reads the code but has no prototype, so it ranks below the controls that already have a test.",
+          "A prototype breaks the save path."
+        ],
+        [
+          "W11",
+          "Private atlas explorer prototype, with two independent axes: the altitude gate (L levels) and the structural invariant (strata and domains)",
+          "later",
+          "BLOCKED",
+          "Waits on you defining the two axes, since they are separate and I had wrongly merged them. The HUD already draws the lattice, so the new part is the per-surface nav.",
+          "The HUD gap list is closed another way."
+        ],
+        [
+          "W12",
+          "Cold-read test with five outsiders",
+          "later, needs people",
+          "UNTESTED",
+          "The only item that gives a second vantage on your own intuition. Highest value, highest cost to your time.",
+          "Five outsiders cannot be found."
+        ],
+        [
+          "W13",
+          "Calibrated date simulation",
+          "after W2",
+          "UNTESTED",
+          "73 of 86 open rows have no cost. Running it first would be confident output about nothing.",
+          "Cost coverage stays under half."
+        ],
+        [
+          "W14",
+          "Hidden watermark",
+          "last",
+          "UNTESTED, may fail",
+          "Capacity per answer is unmeasured, and a paraphrase strips it. Measure capacity first, read-only.",
+          "Median active sites per answer is under 32."
+        ]
+      ]
+    },
+    {
+      "id": "projection",
+      "title": "Dated projections",
+      "intro": "What the data implies if nothing changes. These are arithmetic on measured counts, not predictions about you.",
+      "columns": [
+        "Date",
+        "Event",
+        "Evidence",
+        "Projection"
+      ],
+      "rows": [
+        [
+          "2026-10-14",
+          "Take-home submitted",
+          "Zach, in chat 2026-10-15; repo shows rc46 built the same day",
+          "Submitted. The 2026-10-13 handoff block and project memory were stale and are being corrected."
+        ],
+        [
+          "2026-10-28",
+          "GW-002 waiver ends",
+          "night-moves 2026-09-29: waived to that date",
+          "13 days. If the firewall read is skipped, the ticket returns to the smoke job red."
+        ],
+        [
+          "2027-01-01",
+          "Lore falsifier: a cohort reaches 30 closed outcomes",
+          "lore-001 draft; operators/arcs_accountant.py CALIBRATION_MIN_N = 30; 1 real closure in 261 on 2026-10-03",
+          "78 days. Needs about 29 more closures, roughly one every 2.7 days. At the observed rate, most likely missed, which downgrades the thesis from exoskeleton to starter motor as the draft itself says."
+        ]
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "W1c",
+      "name": "Work survives a worktree cleanup",
+      "plain": "After the commit, the renderer, ranking, rubric and proposals exist on a branch.",
+      "stage": "proposed",
+      "bad": "Today's state: the files are untracked in a worktree, so a cleanup loses them.",
+      "good": "After the commit, the files are tracked on a pushed or local branch and listed by git ls-files.",
+      "assay_ready": "specified",
+      "threshold": "all new files tracked"
+    },
+    {
+      "id": "W5c",
+      "name": "Provenance coverage",
+      "plain": "Count receipts by tag: real, test, untagged.",
+      "stage": "proposed",
+      "bad": "Today: 0 real, 189 test, 78 untagged on 2026-10-06, so no cohort is readable.",
+      "good": "Untagged is 0 and every row carries a tag set by its owner.",
+      "assay_ready": "specified",
+      "threshold": "0 untagged"
+    },
+    {
+      "id": "W6c",
+      "name": "Durable limit",
+      "plain": "The limit holds across servers.",
+      "stage": "proposed",
+      "bad": "11 requests in 60 seconds over 3 limiter instances: today's limiter allows all 11.",
+      "good": "The firewall denies the 11th.",
+      "assay_ready": "known-bad already reproduces",
+      "threshold": "11th request denied"
+    }
+  ],
+  "heuristics": {
+    "human": [
+      "W0 is done. Pick the next waypoint by cost and dependency.",
+      "Prefer the waypoint that makes a number appear. A framework that produces no number stays at the bottom.",
+      "A waypoint with a date beats one without. Two are dated: 2026-10-28 and 2027-01-01.",
+      "If a waypoint has no 'drop it if', it has no kill condition and should not be on the list."
+    ],
+    "agent": [
+      "Do not commit, change production, write to the backlog or file receipts until the matching decision is approved.",
+      "Never tag provenance. Only the owner sets it.",
+      "W0 is closed on Zach's word. The handoff block in CLAUDE.md is stale and should be updated through /handoff, not edited here.",
+      "Keep the order stable between runs. A rank flip needs a recorded cause.",
+      "Mint no ADR number until a decision is approved."
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Waypoint",
+      "plain": "A marked step on the route, with a reason it comes before the next one."
+    },
+    {
+      "term": "GW-002",
+      "plain": "The open ticket for request limits and daily spend caps at the gateway, waived until 2026-10-28."
+    },
+    {
+      "term": "Falsifier",
+      "plain": "The result that would prove a claim wrong, written down before the result is known."
+    }
+  ],
+  "sources": [
+    "CLAUDE.md (latest handoff block)",
+    "_STATE/night-moves/2026-09-29.md",
+    "_PROPOSALS/2026-10-02-lore-001-the-exoskeleton.md",
+    "_PROPOSALS/2026-10-15-next-measurements.json",
+    "_PROPOSALS/2026-10-15-compass-exposure-audit.json",
+    "AGENTS.md"
+  ]
+}

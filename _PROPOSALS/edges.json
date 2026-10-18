@@ -1,0 +1,60 @@
+{
+  "_doc": "Cross-proposal edges and human judgments for the proposal wiki. Owned by the wiki layer so no proposal's own JSON is touched. Idempotent: scripts/proposal_rank.py reads this and never writes it. 'depends_on' means the first item cannot be decided cleanly before the second. 'judgments' holds 0 to 5 scores a human supplied; an absent score is shown as unscored, never guessed.",
+  "edges": [
+    {
+      "from": "prop-2026-10-15-hud-moire-audit#D3",
+      "to": "prop-2026-10-15-compass-exposure#D1",
+      "kind": "depends_on",
+      "why": "Retiring coherence_pct as a gauge must not remove it from the API answer, which the save path reads to recompute the Y-gate. Exposure D1 decides what the answer keeps."
+    },
+    {
+      "from": "prop-2026-10-15-hud-moire-audit#D1",
+      "to": "prop-2026-10-15-next-measurements#D1",
+      "kind": "depends_on",
+      "why": "The echo overlap strip has no real known-good case until a planted echo is shown to fire (measurement M3)."
+    },
+    {
+      "from": "prop-2026-10-15-next-measurements#D2",
+      "to": "prop-2026-10-15-next-measurements#D1",
+      "kind": "depends_on",
+      "why": "Routing a measurement to another session only makes sense once the measurement is approved."
+    },
+    {
+      "from": "prop-2026-10-15-forward-waypoints#D1",
+      "to": "prop-2026-10-15-next-measurements#D1",
+      "kind": "depends_on",
+      "why": "W2 to W4 are the cheapest three measurements approved in next-measurements D1."
+    },
+    {
+      "from": "prop-2026-10-15-forward-waypoints#D3",
+      "to": "prop-2026-10-15-compass-exposure#D3",
+      "kind": "depends_on",
+      "why": "The firewall numbers are decided in exposure D3."
+    },
+    {
+      "from": "prop-2026-10-15-blameless-copilot#D2",
+      "to": "prop-2026-10-15-blameless-copilot#D1",
+      "kind": "depends_on",
+      "why": "Clinical-safety review only matters once the private test shows it is worth showing anyone."
+    },
+    {
+      "from": "prop-2026-10-15-blameless-copilot#D4",
+      "to": "prop-2026-10-15-blameless-copilot#D1",
+      "kind": "depends_on",
+      "why": "The private log needs its gitignore line before the test starts."
+    },
+    {
+      "from": "prop-2026-10-16-typesafe-fit#D3",
+      "to": "prop-2026-10-16-typesafe-fit#D2",
+      "kind": "depends_on",
+      "why": "Whether private text can ever go depends on TypeSafe's answers to the open questions."
+    },
+    {
+      "from": "prop-2026-10-15-blameless-copilot#D1",
+      "to": "prop-2026-10-16-typesafe-fit#D3",
+      "kind": "depends_on",
+      "why": "The blameless log stays local, which D3 here confirms."
+    }
+  ],
+  "judgments": {}
+}

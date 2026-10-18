@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-10-10T21:53:05-04:00",
+  "captured_at": "2026-10-15T15:48:22-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
     "head_sha": "9d37d2b",
@@ -40,8 +40,8 @@
   "open_adrs": [
     "none minted this session; ADR candidates listed in _STATE/2026-09-27-forensic-recoil.md"
   ],
-  "session_summary": "Backlog rows got a state enum + status_note with a pre-commit/CI gate (#1153); three stale rows closed (#1159).",
-  "next_action": "On or after 2026-10-13 run backlog_status_check.py --gh and confirm or close the 3 RUNNING rows.",
+  "session_summary": "Built the one-source proposal wiki (human page plus machine JSON), a five-axis ranking with nested decision edges, and a field view on the ui-kit; audited compass cloning exposure and the HUD moire claim; ran one backlog hindcast (nothing passed). No production change, nothing pushed.",
+  "next_action": "Zach: approve opening a PR for claude/relaxed-merkle-130db6 so it can merge, log one receipt, and let a molt correct the stale take-home block in CLAUDE.md.",
   "blocking": "PRL go-live: publish the staged step 8 fix in Zap 376827315 (Lead mapped from step 5 ID, not the static Roger A Lamarre pick), after confirming whether empty update fields skip or clear; then repair Roger and run the repeat-chat proof. Empty-email guard is hardening, not the Sep 17 cause (root cause in _ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md).",
   "git_refreshed_at": "2026-10-05T17:21:49-04:00"
 }

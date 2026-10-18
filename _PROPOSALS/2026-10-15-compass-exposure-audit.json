@@ -1,0 +1,304 @@
+{
+  "id": "prop-2026-10-15-compass-exposure",
+  "title": "Compass exposure audit",
+  "date": "2026-10-15",
+  "status": "PROPOSAL",
+  "tone": "gold",
+  "worktree": "relaxed-merkle-130db6",
+  "base": "main@fb89a755",
+  "one_line": "Anyone can copy how the Question Compass behaves by asking it questions. This page says what leaks, what to change, and how we will know each change works.",
+  "bottom_line": [
+    {
+      "label": "Over-sharing",
+      "text": "Every answer returns the model's whole output. The screen uses about a third of it. The rest is step-by-step reasoning that a copier would love to have as free training labels."
+    },
+    {
+      "label": "No secrets found",
+      "text": "The instructions we give the model, the Y-gate thresholds (the cut-offs that grade how sure an answer is) and the scoring math are not in anything a browser can download. Only field names and a few internal labels are."
+    },
+    {
+      "label": "Real defense",
+      "text": "Hiding fields makes copying more expensive but cannot stop it. What actually limits a copier is how many questions they can ask, and what lets us prove copying afterward is a hidden mark in the answers."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "question": "Trim what anonymous visitors get back?",
+      "recommended": "Yes. Return only what the screen shows, plus one sealed (encrypted) package so saving later still works.",
+      "options": [
+        "approve",
+        "revise",
+        "decline"
+      ],
+      "why": "Saves nothing on cost, removes the most useful labels for a copier."
+    },
+    {
+      "id": "D2",
+      "question": "What should signed-in people get back from the question call?",
+      "recommended": "Option A: only the product fields. The full output is read from the owner-only pages the app already uses.",
+      "options": [
+        "A product fields only",
+        "B full output"
+      ],
+      "why": "A free account is cheap to make. Option B turns it into unlimited full-detail sampling."
+    },
+    {
+      "id": "D3",
+      "question": "Set the volume limits.",
+      "recommended": "Start at 10 per minute and 60 per day per visitor address, enforced by Vercel's firewall. Pull ticket GW-002 (gateway limits and spend caps) forward from its 28 October waiver.",
+      "options": [
+        "accept numbers",
+        "change numbers",
+        "keep waiver"
+      ],
+      "why": "Today's limit lives in one server's memory, so a spread-out copier is not slowed."
+    },
+    {
+      "id": "D4",
+      "question": "Keep the Observatory code map public?",
+      "recommended": "Move it behind the admin login, or drop the risk rows.",
+      "options": [
+        "keep public",
+        "admin only",
+        "drop risk rows"
+      ],
+      "why": "It lists file names, sizes and a note that the gate lacks tests. Low risk, but it is the one public map to the gate."
+    },
+    {
+      "id": "D5",
+      "question": "Measure watermark capacity before choosing a scheme?",
+      "recommended": "Yes, read-only, on stored receipts, counts only.",
+      "options": [
+        "measure first",
+        "skip"
+      ],
+      "why": "The mark only works if answers contain enough wording choices to carry it. We do not know yet that they do."
+    },
+    {
+      "id": "D6",
+      "question": "Send the new no-copying terms to counsel?",
+      "recommended": "Yes, with the question of how anonymous visitors accept terms.",
+      "options": [
+        "send",
+        "hold"
+      ],
+      "why": "Terms today say only: do not scrape or reverse-engineer."
+    }
+  ],
+  "fields": [
+    {
+      "field": "true_north, why, tributaries",
+      "read_by": "answer screen, save",
+      "action": "keep"
+    },
+    {
+      "field": "nci_score, coherence_pct",
+      "read_by": "answer screen, save, Y-gate",
+      "action": "keep"
+    },
+    {
+      "field": "decision_mode, door_class, y_state, render_resolution",
+      "read_by": "answer screen",
+      "action": "keep"
+    },
+    {
+      "field": "meta.macro_tags",
+      "read_by": "answer screen, save",
+      "action": "keep"
+    },
+    {
+      "field": "reasoning.fated, reasoning.paths, reasoning.court_verdict",
+      "read_by": "answer screen, save",
+      "action": "keep"
+    },
+    {
+      "field": "session_id, receipt_id, ok, persisted, session_version",
+      "read_by": "dashboard",
+      "action": "keep"
+    },
+    {
+      "field": "reasoning.court",
+      "read_by": "save only, to recompute the Y-gate",
+      "action": "move behind auth, carried in the sealed package"
+    },
+    {
+      "field": "reasoning.advisors, reasoning.geometry, reasoning.nci_breakdown",
+      "read_by": "nothing on this path",
+      "action": "move behind auth"
+    },
+    {
+      "field": "nci_by_lens, nci_grade, nci_self_grade",
+      "read_by": "nothing on this path",
+      "action": "move behind auth"
+    },
+    {
+      "field": "y_conviction, nci_delta, reminder_iso, clarity_mode, is_satoshi",
+      "read_by": "nothing, or save only",
+      "action": "move behind auth"
+    }
+  ],
+  "leaks": [
+    {
+      "marker": "model instructions (SYSTEM prompt), OUTPUT SHAPE",
+      "browser_hits": 0,
+      "verdict": "clean"
+    },
+    {
+      "marker": "SATOSHI_MIN_NCI, SATOSHI_RULE",
+      "browser_hits": 0,
+      "verdict": "clean"
+    },
+    {
+      "marker": "manifoldCurvature, flowTopology, yGateScore, polarity, STEEP",
+      "browser_hits": 0,
+      "verdict": "clean"
+    },
+    {
+      "marker": "selectMode, scrubProse, ANTHROPIC_API_KEY, AUTH_SECRET",
+      "browser_hits": 0,
+      "verdict": "clean"
+    },
+    {
+      "marker": "loki_challenge, bayesian_risk_pct, nci_self_grade, nci_by_lens",
+      "browser_hits": "1 to 6",
+      "verdict": "expected: screens and sample data use the answer shape"
+    },
+    {
+      "marker": "computeYGate unaudited",
+      "browser_hits": 1,
+      "verdict": "low: Observatory ships an internal risk list"
+    }
+  ],
+  "leak_notes": [
+    "Method: fresh npm run build, then a text search of everything a browser can download and of public/. No source maps.",
+    "public/ names computeYGate and file sizes in forge-cut.html and observatory/data.arcs-v9.json. Structure only, no thresholds or prompt text.",
+    "The CI check leak-check was red on main on 2026-09-27. Not rerun here. Current state unknown.",
+    "The earliest-public-disclosure list for patent counsel is a separate chip. This page only notes what is public."
+  ],
+  "controls": [
+    {
+      "id": "C1",
+      "name": "Trimmed anonymous answer plus sealed package",
+      "plain": "Anonymous visitors get only what the screen shows. A sealed (AES-256-GCM encrypted) package carries the rest so saving after sign-in works and cannot be forged.",
+      "stage": "proposed",
+      "bad": "Today's full answer saved as a fixture: every extra field is flagged",
+      "good": "Trimmed answer with sealed package passes; saved receipt's Y-gate equals the one from the full answer; a flipped byte or a package over 7 days old is rejected",
+      "assay_ready": "specified"
+    },
+    {
+      "id": "C2",
+      "name": "Browser leak check",
+      "plain": "A script searches the built site for the model instructions and gate constants and fails the build if any appear.",
+      "stage": "scored once by hand: 0 hits",
+      "bad": "A file containing the prompt sentinel, SATOSHI_MIN_NCI and manifoldCurvature must fail",
+      "good": "Today's build output: 0 hits",
+      "assay_ready": "script not written"
+    },
+    {
+      "id": "C3",
+      "name": "Hidden watermark",
+      "plain": "About 40 small wording choices in each answer, picked by a secret formula from the question text. Nothing is stored. Run a suspect product on a known question and count matches.",
+      "stage": "untested, may fail",
+      "bad": "Unmarked or reworded text scores low; 1,000 unrelated texts: none over the line",
+      "good": "Intact marked answer scores over the line",
+      "threshold": "26 of 32 matches, chance about 2.7 in 10,000",
+      "assay_ready": "needs capacity measurement first"
+    },
+    {
+      "id": "C4",
+      "name": "Limits that hold across servers",
+      "plain": "Vercel firewall rule on the question call, plus a per-account daily cap and a daily spend breaker.",
+      "stage": "proposed",
+      "bad": "11 requests in 60 seconds spread over 3 servers: today's limiter allows all 11",
+      "good": "5 requests in 60 seconds from one visitor all pass",
+      "assay_ready": "known-bad already reproduces the gap"
+    },
+    {
+      "id": "C5",
+      "name": "Probing detector",
+      "plain": "Flags the same question tried with many setting combinations, near-identical questions in a row, metronome timing, and never following the suggested follow-ups.",
+      "stage": "proposed",
+      "bad": "One question across 9 setting combinations, then 50 template variants in 10 minutes: must flag",
+      "good": "Real session timing, 200 or more sessions: under 1% falsely flagged",
+      "assay_ready": "needs a replay set"
+    },
+    {
+      "id": "C6",
+      "name": "No-copying terms",
+      "plain": "Adds a clause against training or distilling a model on outputs. See the text below.",
+      "stage": "proposed",
+      "bad": "Page without the clause fails a text check",
+      "good": "Clause present, zero em-dashes, linked from the question box",
+      "assay_ready": "needs counsel"
+    }
+  ],
+  "terms_text": "You agree not to use the compass, its outputs, or its responses to build, train, fine-tune, evaluate or distill any machine-learning model or competing product. You agree not to access it by automated means other than through an interface we provide, not to run it at volume to collect outputs, and not to attempt to extract its instructions, scoring rules, or internal structure. Using the compass for your own decisions, and keeping and sharing your own receipts, is always allowed. If we find a breach we may limit or end access without refund, and we will tell you why.",
+  "heuristics": {
+    "human": [
+      "Read the five decisions first. Everything else is evidence for them.",
+      "If a control has no known-bad test that fails today, do not count it as working. Ask what its test is.",
+      "Ask of any hidden-field proposal: what does the screen lose? If the answer is nothing, it is safe to approve.",
+      "A watermark is evidence for a lawyer, not a lock. Approve it for proof, not for prevention.",
+      "A limit you cannot see in the firewall settings is not a limit. Ask to see the rule.",
+      "Anything touching what anonymous visitors store needs a privacy line first."
+    ],
+    "agent": [
+      "Do not change production route behavior without an explicit approval recorded against the decision id.",
+      "Before building any control, write its known-bad and known-good fixture and confirm bad fails and good passes.",
+      "Never mint an ADR or seed number until a decision is approved. Use scripts/oracle.py next at that point.",
+      "Never add an anonymous write path. Counters keyed to people need a privacy change first.",
+      "Run scripts from the worktree, never by the main checkout path. Merge with gh pr merge --merge and log one decision receipt per merge.",
+      "Never degrade answers silently. The response ladder is log, challenge, deny.",
+      "After a build, re-run the browser leak search before any merge touching the compass route or public/."
+    ]
+  },
+  "sources": [
+    "src/app/api/compass/route.ts",
+    "src/lib/ratelimit.ts",
+    "src/app/receipt/[receiptId]/page.tsx",
+    "src/app/api/receipts/save/route.ts",
+    "src/app/dashboard/page.tsx",
+    "src/app/terms/page.tsx",
+    "_DECISIONS/ADR-016-arcs-v9-auth-model.md",
+    "_DECISIONS/ADR-034-enforcement-parity.md"
+  ],
+  "glossary": [
+    {
+      "term": "Question Compass",
+      "plain": "The ARCS product that takes a decision question and returns a recommended direction."
+    },
+    {
+      "term": "Distillation",
+      "plain": "Copying a model's behavior by asking it many questions and training a cheaper imitation on the answers."
+    },
+    {
+      "term": "Y-gate",
+      "plain": "The step that grades how sure an answer is (green, yellow, red and other states) from the answer itself."
+    },
+    {
+      "term": "NCI (net conviction index)",
+      "plain": "A 0 to 100 score the model gives for how confident the answer honestly is. Around 50 means genuinely uncertain."
+    },
+    {
+      "term": "GW-002",
+      "plain": "The open ticket for gateway-level request limits and daily spend caps. Waived until 28 October."
+    },
+    {
+      "term": "RL-001",
+      "plain": "The closed ticket for today's interim limit: 10 requests per minute per address, counted in one server's memory."
+    },
+    {
+      "term": "Sealed package",
+      "plain": "The full answer, encrypted so the browser can carry it but not read it. Saving after sign-in decrypts it on the server."
+    },
+    {
+      "term": "Watermark",
+      "plain": "Small wording choices picked by a secret formula, so a copy can be matched back to us. Evidence, not a lock."
+    },
+    {
+      "term": "Known-bad and known-good",
+      "plain": "A test pair. The bad case must fail the check and the good case must pass, or the check proves nothing."
+    }
+  ]
+}
