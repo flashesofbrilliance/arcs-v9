@@ -901,8 +901,7 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 **Why This Works**:
 - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
-- If client followed recommendations ≥80% and failed → ARCS refunds
-- If client ignored recommendations and failed → No refund (client fault documented)
+- [struck 2026-10-17: no supporting data] (the refund conditions)
 - Competitors can't copy without entire receipt infrastructure
 
 **Strategic Effect**:
@@ -3375,18 +3374,7 @@ Week 19+: Expansion
 | Growth | $750K | 10-30 | 500-2000 | Standard | Mid-market |
 | Enterprise | $2.5M | Unlimited | Unlimited | Premium | Fortune 1000 |
 
-**Performance Guarantee**:
-
-**Status**: Design intent, unvalidated (Technical Overview Part III). The improvement-or-refund form elsewhere in the canon was struck for lack of supporting data, so this refund trigger has none either; do not use it.
-
-```
-If ARCS-recommended campaigns underperform baseline by >10%:
-  AND client followed ≥80% of recommendations:
-  THEN full refund + next year 50% discount
-
-Rationale: Receipts prove attribution (whose fault was underperformance)
-Result: Competitors can't match without decision documentation system
-```
+**Performance Guarantee**: [struck 2026-10-17: no supporting data] (the refund trigger, the compliance condition and the discount)
 
 **Success Metrics (Phase 1)**:
 

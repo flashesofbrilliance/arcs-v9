@@ -582,7 +582,7 @@ Promise: [struck 2026-10-17: no supporting data]
 Evidence: Pre-campaign baseline documented in receipts
 Tracking: All recommendations logged in blockchain
 Attribution: Determine fault via decision receipt analysis
-Refund: If client followed recommendations ≥80% and missed target → Full refund
+Refund: [struck 2026-10-17: no supporting data]
 ```
 
 **Why Competitors Cannot Copy**:
