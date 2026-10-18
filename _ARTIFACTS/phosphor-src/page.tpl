@@ -394,8 +394,9 @@
     <button class="btn dkup" type="button" id="kpick">Add song</button>
   </div>
   <div class="dkscrub"><input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub playback"><div class="pinbar" id="pinbar" aria-hidden="true"></div></div>
-  <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" aria-label="Hide the player">Hide</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
+  <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" aria-label="Hide the player">Hide</button><button class="btn" type="button" id="dkfx" aria-expanded="false" aria-controls="fxtray" data-min="4">Mix</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
 </div>
+<div id="fxtray" role="group" aria-label="Effect levels and limits" data-min="4" hidden></div>
 <button class="btn" type="button" id="dkbump" aria-label="Show the player">Player</button>
 <script>
 <!--@app.js-->

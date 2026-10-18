@@ -292,6 +292,17 @@
   }
   /* effect stages: Distort then Crush, each a dry and effect path crossfaded; a gate (level or beat) can cut the effect path */
   var FXKINDS = ["crush", "dist", "echo", "room", "shim", "sweep"];
+  /* Effect levels: each effect has a level (1 is the old behaviour) held inside grown-up bounds. Every source (slider, MIDI, preset, pad) goes through fxE. */
+  var FXLK = [["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], FXL = {}, FXLKEY = "phosphor.mix.v1";
+  FXLK.forEach(function (k) { FXL[k[0]] = { v: 1, lo: 0, hi: 1 }; });
+  try { var mxs = JSON.parse(localStorage.getItem(FXLKEY) || "{}"); FXLK.forEach(function (k) { var m = mxs[k[0]]; if (m && m.hi >= m.lo) FXL[k[0]] = { v: MN(m.hi, MX(m.lo, +m.v || 0)), lo: +m.lo, hi: +m.hi }; }); } catch (e) { /* storage blocked */ }
+  function fxE(k) { var m = FXL[k]; return m ? MN(m.hi, MX(m.lo, m.v)) : 1; }
+  function fxApply(k) {
+    if (!AC || !AC._fx || !FX[k] || !FX[k].on) return; var e = fxE(k), t = AC.currentTime;
+    if (AC._fx.sends[k]) AC._fx.sends[k].gain.setTargetAtTime(({ echo: 0.7, room: 0.6, shim: 0.8 })[k] * e, t, 0.02);
+    else if (k === "sweep") AC._fx.sweep.frequency.setTargetAtTime(20000 * PW(250 / 20000, e), t, 0.15);
+    else if (FXG.mode === "off") fxWet(k, 1, 0.01);
+  }
   var FX = { crush: { on: false }, dist: { on: false }, echo: { on: false }, room: { on: false }, shim: { on: false }, sweep: { on: false } }, FXG = { mode: "off", thr: -20, div: 4, open: true, depth: 1, lag: 0, hold: false, lastBeat: -1 };
   function fxStage(fxIn, fxOut) {
     var inn = AC.createGain(), out = AC.createGain(), dry = AC.createGain(), wet = AC.createGain();
@@ -322,12 +333,12 @@
     AC._bus = inG; AC._anaIn = aIn; AC._fx = { dist: dist, crush: crush, pre: pre, q: q, sweep: sweepF, sends: { echo: eS, room: rS, shim: sS }, echoDelay: eD, setHold: function (v) { n = MX(1, v | 0); } }; AC._bits = 8;
   }
   function fxParams() { if (!AC || !AC._fx) return; var a = GAMT, bits = MX(2, RD(8 - a * 6)); AC._fx.pre.gain.value = 1 + a * 14; AC._fx.setHold(1 + RD(a * 7)); if (bits !== AC._bits) { AC._bits = bits; AC._fx.q.curve = quantCurve(bits); } }
-  function fxWet(kind, v, tc) { var s = AC._fx[kind], t0 = AC.currentTime; s.wet.gain.setTargetAtTime(v, t0, tc || 0.004); s.dry.gain.setTargetAtTime(1 - v, t0, tc || 0.004); }
+  function fxWet(kind, v, tc) { var s = AC._fx[kind], t0 = AC.currentTime; v *= fxE(kind); s.wet.gain.setTargetAtTime(v, t0, tc || 0.004); s.dry.gain.setTargetAtTime(1 - v, t0, tc || 0.004); }
   function fxTrigger(kind, on) {
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); FX[kind].on = on; fxParams();
     var tt = AC.currentTime;
-    if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] : 0, tt, on ? 0.01 : 0.03); return; }
-    if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 250 : 20000, tt + (on ? 1.2 : 0.35)); return; }
+    if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] * fxE(kind) : 0, tt, on ? 0.01 : 0.03); return; }
+    if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 20000 * PW(250 / 20000, fxE("sweep")) : 20000, tt + (on ? 1.2 : 0.35)); return; }
     if (!on) fxWet(kind, 0, 0.006); else if (FXG.mode === "off") fxWet(kind, 1, 0.003);
     clearInterval(FXG.timer); if (FX.crush.on || FX.dist.on) FXG.timer = setInterval(fxPump, 25);
   }
@@ -353,9 +364,9 @@
     var P = 60 / (BPM || 120) / FXG.div, ref = (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), bar = 4 * FXG.div, dep = FXG.depth, lag = FXG.lag * P, sw = (SWING - 0.5) * 2 * P, seed = eff === "seed" ? gateSeed() : null;
     function tj(j) { return ref + j * P + lag + ((((j % 2) + 2) % 2) === 1 ? sw : 0); }
     function base(j) { var jj = (((j % bar) + bar) % bar); if (eff === "bar") return jj === 0 ? 1 : 0; if (eff === "seed") return seed[FL(jj / bar * 16)] ? 1 : 0; return (((j % 2) + 2) % 2 === 0 ? 1 : 0); }
-    function map(v) { return 1 - dep * (1 - v); }
+    var E = 1; function map(v) { return E * (1 - dep * (1 - v)); }
     ['crush', 'dist'].forEach(function (k2) {
-      if (!FX[k2].on) return; var s = AC._fx[k2], j0 = FL((now - lag - ref) / P), j;
+      if (!FX[k2].on) return; E = fxE(k2); var s = AC._fx[k2], j0 = FL((now - lag - ref) / P), j;
       while (tj(j0 + 1) <= now) j0++; while (tj(j0) > now) j0--;
       s.wet.gain.cancelScheduledValues(now); s.dry.gain.cancelScheduledValues(now);
       if (eff === "tri") {
@@ -1248,7 +1259,7 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1320,23 +1331,23 @@
   function gsLabel() { $("gsto").textContent = document.querySelector("input[name=gst]:checked").nextElementSibling.textContent + (NOW() < GLIM.until ? " (flash limit on)" : ""); }
   function gvis(k) { var now = NOW(); if (GLITCH[k]) GLAST[k] = now; return GLITCH[k] || now - (GLAST[k] || -1e9) < MO.hold; }
   function glitchPixels(g, W, H, fn, tsec) {
-    var A = GAMT, tear = gvis("tear"), rgb = gvis("rgb"), blocks = gvis("blocks"), y, x, lk = NOW() < GLIM.until, S = lk ? 1 : GSTR;
+    var A = GAMT, tear = gvis("tear") && fxE("tear") > 0, rgb = gvis("rgb") && fxE("rgb") > 0, blocks = gvis("blocks") && fxE("blocks") > 0, y, x, lk = NOW() < GLIM.until, S = lk ? 1 : GSTR;
     if (!(tear || rgb || blocks)) return;
     var pose = FL((tsec || 0) * MO.pose), ph = 2 * PI * (pose % 12) / 12;
     if (tear) {
       GTMP = GTMP || document.createElement("canvas"); GTMP.width = W; GTMP.height = H; var tg = GTMP.getContext("2d"); tg.drawImage(g.canvas, 0, 0);
-      var hb = MX(4, RD(H / 90)), amp = 0.02 * W * A * S;
+      var hb = MX(4, RD(H / 90)), amp = 0.02 * W * A * S * fxE("tear");
       for (y = 0; y < H; y += hb) { var dx = RD(SIN(2 * PI * (y / (H * 0.33)) + ph) * amp); if (dx) g.drawImage(GTMP, 0, y, W, hb, dx, y, W, hb); }
     }
     if (rgb) {
-      var id = g.getImageData(0, 0, W, H), d = id.data, off = MX(1, RD(W * 0.004 * (0.4 + A) * S)), row = new Uint8ClampedArray(W * 4), i;
+      var id = g.getImageData(0, 0, W, H), d = id.data, off = MX(1, RD(W * 0.004 * (0.4 + A) * S * fxE("rgb"))), row = new Uint8ClampedArray(W * 4), i;
       for (y = 0; y < H; y++) { var b0 = y * W * 4; row.set(d.subarray(b0, b0 + W * 4)); for (x = 0; x < W; x++) { i = b0 + x * 4; d[i] = row[MN(W - 1, x + off) * 4]; d[i + 2] = row[MX(0, x - off) * 4 + 2]; } }
       g.putImageData(id, 0, 0);
     }
     if (blocks) {
       CODONS = CODONS || [C.cyan, C.gold, C.green, C.magenta];
       var ch = RD(H * 0.09), cw = ch, cy = RD(H * 0.5 - ch / 2), step = FL((tsec || 0) * MO.pose), n = Math.ceil(W / cw) + 2, k, c0;
-      g.globalAlpha = MN(0.5, (0.1 + 0.2 * A) * S);
+      g.globalAlpha = MN(0.5, (0.1 + 0.2 * A) * S * fxE("blocks"));
       for (k = 0; k < n; k++) { c0 = (k + FL(step / 3)) | 0; var hv = (Math.imul(c0, 2654435761) >>> 0) % 4; g.fillStyle = CODONS[hv]; g.fillRect(k * cw - ((step % 3) * cw / 3), cy, cw - 2, ch); }
       g.globalAlpha = 1;
     }
@@ -1897,6 +1908,28 @@
     bp.addEventListener("click", function () { if (sup) return; if (pos && pos.t) { pos.t = ""; place(); save(); } else { setDock(false); saveSettings(); } });
   })();
   (function () { var y0 = null; function dn(e) { if (e.target.closest("button, input, select, a, summary")) return; y0 = e.clientY; } function up(e) { if (y0 !== null && e.clientY - y0 > 56) { setDock(true); saveSettings(); } y0 = null; } $("dock").addEventListener("pointerdown", dn); $("dock").addEventListener("pointerup", up); })();
+  /* The tray: open it with Mix. Each row is a level slider that lives between its own min and max limits. */
+  (function () {
+    var tr = $("fxtray"), h = "";
+    function save() { try { localStorage.setItem(FXLKEY, JSON.stringify(FXL)); } catch (e) { /* storage blocked */ } }
+    FXLK.forEach(function (k) {
+      h += '<div class="fxr" data-k="' + k[0] + '"><label for="mv_' + k[0] + '">' + k[1] + '</label><input type="range" id="mv_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' level"><span class="fxl"><label for="ml_' + k[0] + '">min</label><input type="range" id="ml_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' lowest level"><label for="mh_' + k[0] + '">max</label><input type="range" id="mh_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' highest level"></span></div>';
+    });
+    tr.innerHTML = h;
+    function sync(k) {
+      var m = FXL[k], r = tr.querySelector('[data-k=' + k + ']'), v = r.querySelector('[id^=mv_]');
+      v.min = RD(m.lo * 100); v.max = RD(m.hi * 100); v.value = RD(fxE(k) * 100); r.querySelector('[id^=ml_]').value = RD(m.lo * 100); r.querySelector('[id^=mh_]').value = RD(m.hi * 100);
+      fxApply(k);
+    }
+    EA(tr.querySelectorAll(".fxr"), function (r) {
+      var k = r.getAttribute("data-k"), m = FXL[k];
+      r.querySelector("[id^=mv_]").addEventListener("input", function (e) { m.v = e.target.value / 100; sync(k); save(); frame(playing); });
+      r.querySelector("[id^=ml_]").addEventListener("input", function (e) { m.lo = MN(m.hi, e.target.value / 100); sync(k); save(); frame(playing); });
+      r.querySelector("[id^=mh_]").addEventListener("input", function (e) { m.hi = MX(m.lo, e.target.value / 100); sync(k); save(); frame(playing); });
+      sync(k);
+    });
+    $("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden = !o; $("dkfx").setAttribute("aria-expanded", o ? "true" : "false"); });
+  })();
   var ESCT = 0;
   function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
   document.addEventListener("keyup", function (e) { if (e.key === "Escape") { clearTimeout(ESCT); ESCT = 0; } });
