@@ -34,7 +34,7 @@ If you are signed in, your decision receipt is stored in your account and access
 > **Disclosure (2026-07-13 — repair seam, kept visible on purpose):** From launch until
 > 2026-07-13, a defect stored anonymous receipts server-side, contrary to this section —
 > 48 such receipts existed when it was found. The write path was fixed the same day
-> (commit `8b486e8`; the repository is public, so this is verifiable, not just claimed).
+> (commit `8b486e8`; the source is private, so this is verifiable on request, not just claimed).
 > The pre-fix receipts were deliberately retained rather than deleted: receipt links are
 > made to be shared, and some are referenced in the wild — deleting them would break
 > those references. They carry no account identity. If you ran an anonymous session
