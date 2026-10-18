@@ -6,18 +6,18 @@
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 236,
+  "script": 233,
   "skill": 22,
   "workflow": 2
  },
- "total": 330,
+ "total": 327,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
    "WIRED": 437,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 22,
+   "INSTALLED-UNUSED": 19,
    "DUPLICATE": 6,
    "BROKEN": 1
   },
@@ -130,22 +130,6 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "receipt_efficacy_probe.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "release_notes.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
     "name": "scout_dossier_ingest.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
@@ -171,14 +155,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "time_machine_data.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "tributary_backfill_probe.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -1883,14 +1859,6 @@
   },
   {
    "kind": "script",
-   "name": "receipt_efficacy_probe.py",
-   "path": "scripts/receipt_efficacy_probe.py",
-   "jtbd": "receipt_efficacy_probe: plumbing proof for predictions -> closes -> Accountant scoring.",
-   "invoke": "python3 scripts/receipt_efficacy_probe.py",
-   "state": "INSTALLED-UNUSED"
-  },
-  {
-   "kind": "script",
    "name": "receipt_lookup.py",
    "path": "scripts/receipt_lookup.py",
    "jtbd": "receipt_lookup.py — the Detective query over the internal recoil ledger.",
@@ -1944,14 +1912,6 @@
    "jtbd": "reel_in_scan.py — the deterministic scout for float→reel-in events across the WHOLE ref graph.",
    "invoke": "python3 scripts/reel_in_scan.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "release_notes.py",
-   "path": "scripts/release_notes.py",
-   "jtbd": "release_notes: what actually landed on main, grouped by week and area, from git alone.",
-   "invoke": "python3 scripts/release_notes.py",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -2352,14 +2312,6 @@
    "jtbd": "scripts/torch_sage_distillation.py — PyTorch distillation of SAGE's kinematic classifier.",
    "invoke": "python3 scripts/torch_sage_distillation.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "tributary_backfill_probe.py",
-   "path": "scripts/tributary_backfill_probe.py",
-   "jtbd": "tributary_backfill_probe.py: can Receipt.parentTributaryIndex be inferred for existing children? READ-ONLY.",
-   "invoke": "python3 scripts/tributary_backfill_probe.py",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
