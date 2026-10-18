@@ -5,7 +5,7 @@
 > still an assumption, with the test that would decide it. When the test runs it closes to `held`
 > or `falsified` and points at its F-row / receipt; the row is never edited, a successor is added.
 
-Rows: 19 · falsified: 4 · held: 2 · open: 13
+Rows: 20 · falsified: 5 · held: 2 · open: 13
 
 | id | status | assumption | held by | since | test that would decide | decided |
 |---|---|---|---|---|---|---|
@@ -28,3 +28,4 @@ Rows: 19 · falsified: 4 · held: 2 · open: 13
 | asm-017 | **open** | Tier-fit labels on ATG tributaries are right at least 75% of the time and change a user's branch choice in at least 5 observed uses. | claude-fable | 2026-10-17 | Score 20 labelled tributaries against the top tier and count branch changes in 5 uses; falsified if more than 25% mislabelled or fewer than 5 changes. | open |
 | asm-018 | **open** | By 2026-12-31 at least one ledger cohort has 30 or more scored forecasts, so scripts/ledger_score.py can report a skill number. | claude-fable | 2026-10-17 | Run the scorer on 2026-12-31 and read n scored per cohort; hold if any cohort has n >= 30. | open |
 | asm-019 | **open** | On the held-out RET question set golden_wave3.json (14 questions), claude-haiku-5-5 passes at least 12 of 14 against the repo's own golden checks, so Sonnet is overkill for that lookup class. | claude-fable | 2026-10-18 | In a copy of ret-rfp-intelligence run CLAUDE_MODEL=claude-haiku-5-5 ./rfp eval --set wave3 --provider claude; count passes against the golden checks. Hold if >= 12/14, falsified if fewer. Comparator: logged Sonnet wave3 runs (mostly 14/14). | open |
+| asm-020 | **falsified** | The regex contradiction check in scripts/coherence_sweep.py flags at least half (21 of 42) of the falsification ledger's claim/delta pairs as contradictions, so a regex tier is not underkill for that recall task. | claude-fable | 2026-10-18 | For each of the 42 rows in _STATE/falsification-ledger.jsonl, build two pseudo-notes (body = claim; body = delta; frontmatter date = the row ts) and call coherence_sweep.sweep_memory on them with today fixed at 2026-10-18 and stale_days 45; a row is caught if any finding has check == 'contradiction'. Recall = caught / 42. Hold if recall >= 0.50, falsified if lower. The rows come from the ledger as of origin/main at registration. | 2026-10-18 · `scripts/recall_coherence_ledger.py` |

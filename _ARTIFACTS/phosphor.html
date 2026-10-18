@@ -1060,7 +1060,7 @@ if (CRT) { var step = MX(3, RD(DH / 180)); dctx.fillStyle = C.bg; dctx.globalAlp
 shutterApply(dctx, DW, DH);
 LASTMS = NOW() - t0; if (forPlay) { MS.push(LASTMS); if (MS.length > 30) MS.shift(); }
 }
-var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
+var RENDERMODE = window.name === "phosphor-render", AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
 var RESTORED = false, SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
 var BUSFULL = false;
 function outBus() {
@@ -1121,7 +1121,7 @@ var tt = AC.currentTime;
 if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] * fxE(kind) : 0, tt, on ? 0.01 : 0.03); return; }
 if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 20000 * PW(250 / 20000, fxE("sweep")) : 20000, tt + (on ? 1.2 : 0.35)); return; }
 if (!on) fxWet(kind, 0, 0.006); else if (FXG.mode === "off") fxWet(kind, 1, 0.003);
-clearInterval(FXG.timer); if (FX.crush.on || FX.dist.on) FXG.timer = setInterval(fxPump, 25);
+clearInterval(FXG.timer); if ((FX.crush.on || FX.dist.on) && !RENDERMODE) FXG.timer = setInterval(fxPump, 25);
 }
 function fxEff() { return FXG.hold ? (FXG.mode === "tri" || FXG.mode === "bar" || FXG.mode === "seed" ? FXG.mode : "beat") : FXG.mode; }
 function gateSeed(M, bpm, g0) {
@@ -2038,7 +2038,7 @@ $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "ph
 EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
 function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
 function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, recipe: { exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
 var R = null;
 return {
 start: function () {
@@ -2182,7 +2182,7 @@ var w = fxWant(kind); if (w && !GLITCH[kind]) glitchOn(kind); else if (!w && GLI
 }
 function fxHold(kind, src, on) {
 if (kind === "gold") { if (on) glitchOn(kind); return; }
-var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src);
+var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src); if (src !== "seq") recAct("fx", [kind, src, on ? 1 : 0]);
 }
 function fxToggle(kind, src) { fxHold(kind, src, !(HOLD[kind] && HOLD[kind][src])); }
 function fxReleaseMomentary() { HKINDS.forEach(function (k) { var h = HOLD[k]; if (h) { Object.keys(h).forEach(function (s) { if (s !== "latch") delete h[s]; }); fxReconcile(k); } }); }
@@ -2355,7 +2355,7 @@ document.addEventListener("pointerdown", function (e) { var b = e.target.closest
 document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
 var REC = { ev: [], cur: {}, base: {}, t0: NOW() };
 function recScan() {
-var m = {}; EA(QA("input[id],select[id]"), function (e) { var y = e.type; if (y === "radio") { if (e.checked) m[e.name] = e.value; } else if (y === "range") m[e.id] = +e.value; else if (y === "checkbox") m[e.id] = e.checked ? 1 : 0; else if (e.tagName === "SELECT") m[e.id] = e.value; }); return m;
+var m = {}; EA(QA("input[id],select[id]"), function (e) { var y = e.type; if (e.id === "scrub" || e.id === "hscrub") return; if (y === "radio") { if (e.checked) m[e.name] = e.value; } else if (y === "range") m[e.id] = +e.value; else if (y === "checkbox") m[e.id] = e.checked ? 1 : 0; else if (e.tagName === "SELECT") m[e.id] = e.value; }); return m;
 }
 function recSync() {
 var now = recScan(), k, t = RD(NOW() - REC.t0);
@@ -2371,6 +2371,65 @@ try { var o = JSON.parse(l.slice(1).join("\n")); if (!o || typeof o.base !== "ob
 function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo && e[2][0] !== "@") s[e[2]] = e[3]; }); return s; }
 function recInit() { REC.base = recScan(); for (var rk in REC.base) REC.cur[rk] = REC.base[rk]; REC.t0 = NOW(); }
 document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(recSync, 200);
+function recApply(e) {
+var id = e[2], v = e[3], els, hit, t;
+if (id === "@fx") { fxHold(v[0], v[1], !!v[2]); return; }
+if (id[0] === "@") return;
+els = QA("input[name=\"" + id + "\"]");
+if (els.length) { hit = Array.prototype.filter.call(els, function (r) { return r.value === String(v); })[0]; if (hit) { hit.checked = true; hit.dispatchEvent(new Event("change", { bubbles: true })); } return; }
+t = $(id); if (!t) return;
+if (t.type === "checkbox") { t.checked = !!v; t.dispatchEvent(new Event("change", { bubbles: true })); }
+else { t.value = v; t.dispatchEvent(new Event(t.tagName === "SELECT" ? "change" : "input", { bubbles: true })); }
+}
+function recPlay(pos, at) { if (SRC) { try { SRC.stop(at); } catch (e) { /* ended */ } } SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.connect(deckIn("A")); SRC.start(at, pos); off0 = pos; t0ctx = at; playing = true; }
+function recAt(e) {
+var n = e[2];
+if (n === "@play") recPlay(e[3], AC.currentTime);
+else if (n === "@stop") { if (SRC) { try { SRC.stop(AC.currentTime); } catch (x) { /* ended */ } SRC = null; } playing = false; }
+else if (n === "@seek") { if (playing) recPlay(e[3], AC.currentTime); else tpaused = e[3]; }
+else recApply(e);
+}
+function renderOffline(rec) {
+var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg"; });
+ev.forEach(function (e) { last = MX(last, e[0]); });
+var N = RD(MN(600, MX(3, last / 1000 + 1.5)) * sr), OC = new OfflineAudioContext(2, N, sr);
+stopSource(); AC = OC; playing = false;
+Object.keys(rec.base).forEach(function (k) { recApply([0, null, k, rec.base[k]]); });
+outBus();
+ev.forEach(function (e) { var q = FL(e[0] / 1000 * sr / 128); (pts[q] = pts[q] || []).push(e); });
+qs = Object.keys(pts).map(Number); if (pump) for (i = 8; i * 128 < N; i += 8) qs.push(i);
+qs = qs.filter(function (q, k, a) { return a.indexOf(q) === k && q * 128 < N; }).sort(function (a, b) { return a - b; });
+qs.forEach(function (q) {
+var go = function () { (pts[q] || []).forEach(recAt); if (pump) fxPump(); };
+if (q === 0) go(); else OC.suspend(q * 128 / sr).then(function () { go(); OC.resume(); });
+});
+return OC.startRendering().then(function (buf) { return { sr: sr, l: buf.getChannelData(0), r: buf.getChannelData(1), info: { bpm: BPM, grid0: GRID0, gamt: GAMT, dur: DUR, thr: FXG.mode } }; });
+}
+function recWav(o) {
+var n = o.l.length, b = new DataView(new ArrayBuffer(44 + n * 4)), i, v;
+function w(p, t) { for (var k = 0; k < t.length; k++) b.setUint8(p + k, t.charCodeAt(k)); }
+w(0, "RIFF"); b.setUint32(4, 36 + n * 4, true); w(8, "WAVEfmt "); b.setUint32(16, 16, true); b.setUint16(20, 1, true); b.setUint16(22, 2, true); b.setUint32(24, o.sr, true); b.setUint32(28, o.sr * 4, true); b.setUint16(32, 4, true); b.setUint16(34, 16, true); w(36, "data"); b.setUint32(40, n * 4, true);
+for (i = 0; i < n; i++) { v = MX(-1, MN(1, o.l[i])); b.setInt16(44 + i * 4, v < 0 ? v * 32768 : v * 32767, true); v = MX(-1, MN(1, o.r[i])); b.setInt16(46 + i * 4, v < 0 ? v * 32768 : v * 32767, true); }
+return new Uint8Array(b.buffer);
+}
+if (RENDERMODE) {
+window.addEventListener("message", function (m) {
+var d = m.data; if (!d || d.type !== "phosphor-render") return;
+var settled = function () { return new Promise(function (r) { var k = setInterval(function () { if (BUF && !ANALYZING) { clearInterval(k); r(); } }, 50); }); };
+(d.bytes ? loadBytes(d.bytes, "render", d.mime) : Promise.resolve()).then(settled).then(function () { return renderOffline(d.rec); }).then(function (o) { parent.postMessage({ type: "phosphor-rendered", sr: o.sr, l: o.l, r: o.r, info: o.info }, "*", [o.l.buffer, o.r.buffer]); }, function (e) { parent.postMessage({ type: "phosphor-rendered", error: String(e && e.message || e) }, "*"); });
+});
+}
+function recRender(text) {
+return new Promise(function (res, rej) {
+var rec = recImport(text || recExport()), f = document.createElement("iframe"), done = false;
+if (!rec) { rej(new Error("not a recipe")); return; }
+f.name = "phosphor-render"; f.setAttribute("aria-hidden", "true"); f.tabIndex = -1; f.style.cssText = "position:fixed;width:1px;height:1px;border:0;opacity:0;pointer-events:none;left:-9px;top:0";
+function fin(fn, v) { if (done) return; done = true; window.removeEventListener("message", on); f.remove(); fn(v); }
+function on(m) { var d = m.data; if (m.source !== f.contentWindow || !d) return; if (d.type === "phosphor-render-ready") f.contentWindow.postMessage({ type: "phosphor-render", rec: rec, bytes: SRCBYTES ? SRCBYTES.slice(0) : null, mime: SRCMIME }, "*"); else if (d.type === "phosphor-rendered") { if (d.error) fin(rej, new Error(d.error)); else fin(res, d); } }
+window.addEventListener("message", on); f.srcdoc = "<!doctype html>" + document.documentElement.outerHTML; document.body.appendChild(f);
+setTimeout(function () { fin(rej, new Error("the render timed out")); }, 180000);
+});
+}
 var ELOG = { on: false, ev: [], ls: {}, key: "phosphor.playlog.v1", dirty: false };
 try { var els = JSON.parse(localStorage.getItem(ELOG.key) || "null"); if (els && els.ev) { ELOG.ev = els.ev; ELOG.on = !!els.on; } } catch (e) {}
 function elog(k, id, v) {
@@ -2742,7 +2801,7 @@ sync(k);
 (function () {
 var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
 try { ok = localStorage.getItem(KEY) === "1"; } catch (e) {}
-if (ok || /[?&]test=1/.test(location.search)) return;
+if (ok || RENDERMODE || /[?&]test=1/.test(location.search)) return;
 function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
 cs.hidden = false; lock(true); $("csgo").focus();
 $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) {} cs.hidden = true; lock(false); });
@@ -2912,6 +2971,7 @@ for (q = 0; q < bin.length; q++) u[q] = bin.charCodeAt(q);
 $("status").textContent = "Decoding"; loadBytes(u.buffer, o.name, o.mime).catch(function () { $("status").textContent = "The embedded song could not be decoded in this browser."; });
 } else loadDemo();
 recInit();
+if (RENDERMODE) parent.postMessage({ type: "phosphor-render-ready" }, "*");
 })();
 </script>
 </body>

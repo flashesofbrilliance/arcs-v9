@@ -125,13 +125,13 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 
 ### Economic Model: Non-Dilutive Growth
 
-**Capital Strategy** ($102M with <5% dilution):
+**Capital Strategy** ([struck 2026-10-17: no supporting data] the total and its dilution figure; components below are plans):
 1. **Enterprise Pre-Sale**: $81M from 20 customers (prepaid 3-year contracts at 40% discount)
 2. **Token Generation Event**: $12M ($ARCS utility token for ecosystem participation)
 3. **Revenue Reinvestment**: [struck 2026-10-17: no supporting data] (the profitability claim it rested on)
 4. **Strategic Debt**: $5M credit facility
 
-**vs. Traditional VC**: $70M with 40-50% dilution
+**vs. Traditional VC**: [struck 2026-10-17: no supporting data]
 
 **Revenue Model** (Marketing OS):
 - Individual: Free basic → $49/month Pro → $199/month Premium

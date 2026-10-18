@@ -528,7 +528,7 @@ By Phase 3, customers face a unique retention dynamic:
    - Prime + 2% (~8.5% interest rate)
    - Dilution: 0% (debt, not equity)
 
-**Total Capital**: $102M with <5% dilution vs. $70M with 40-50% dilution
+**Total Capital**: [struck 2026-10-17: no supporting data] (the total, the dilution figure and the venture comparison)
 
 **Strategic Advantage**: Founders retain control, timeline flexibility, and capture full upside.
 
@@ -743,7 +743,7 @@ Three possible futures:
 
 We have:
 - Proven demand (47-company waitlist)
-- Capital strategy ($102M non-dilutive path)
+- Capital strategy [struck 2026-10-17: no supporting data]
 - Clear roadmap (36 months to $412M ARR)
 - Unfair advantages (receipts, guarantees, network effects)
 
