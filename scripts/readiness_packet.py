@@ -31,7 +31,8 @@ usage:
   readiness_packet.py <row-id> [--conviction N] [--json] [--file F] [--today YYYY-MM-DD]
   readiness_packet.py --queue [--file F]       rows that reach a human, ranked by verdict
   readiness_packet.py --self-test              known-bad and known-good fixtures, no network
-Optional new row fields (none are required, absent ones print UNCONFIRMED): door, abort, rollback.
+Optional row fields door, abort, rollback are documented in runtime/specs/backlog-status.json (optional_fields).
+Absent ones print UNCONFIRMED. `door` must be one of the values listed there.
 """
 import argparse
 import datetime as dt
@@ -47,6 +48,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import backlog_ripeness as br  # noqa: E402
 
 DEFAULT_FILE = ROOT / "_QUEUE" / "induced-backlog.jsonl"
+SPEC = ROOT / "runtime" / "specs" / "backlog-status.json"
+
+
+def door_values():
+    """Allowed `door` values, read from the spec so the enum lives in one place."""
+    try:
+        return list(json.loads(SPEC.read_text())["optional_fields"]["door"]["values"])
+    except (OSError, KeyError, ValueError):
+        return ["one-way", "two-way"]
+
 ONE_WAY = re.compile(r"\b(delet\w*|drop\w*|migrat\w*|deploy\w*|prod(?:uction)?|payment\w*|auth\w*|secret\w*|"
                      r"publish\w*|send\w*|force-push|write-lock|irreversib\w*)\b", re.I)
 PATH_RE = re.compile(r"(?<![\w/.-])((?:[\w.-]+/)+[\w.-]+\.\w{1,6}|[\w-]+\.(?:py|md|json|ts|tsx|sh|mjs|html))\b")
@@ -64,7 +75,9 @@ def _text(row):
 
 def l_door(row):
     if row.get("door"):
-        return line(1, "door", "DECLARED", str(row["door"]))
+        if str(row["door"]).strip().lower() not in door_values():
+            return line(1, "door", "UNCONFIRMED", f"door '{row['door']}' is not one of {door_values()}")
+        return line(1, "door", "DECLARED", str(row["door"]).strip().lower())
     cues = sorted({m.group(1).lower() for m in ONE_WAY.finditer(_text(row))})
     if cues:
         return line(1, "door", "CUE", "possibly one-way; words seen: " + ", ".join(cues))
@@ -188,6 +201,8 @@ def self_test():
         ("no conviction means UNCONFIRMED om line", build(good, bygood, today)["lines"][5]["state"] == "UNCONFIRMED"),
         ("overconfidence is named", "more sure than the evidence" in low["lines"][5]["text"]),
         ("no input makes a CUE line count as MEASURED", all(x["state"] != "MEASURED" for x in b["lines"] if x["name"] in ("door", "abort+undo"))),
+        ("an invalid door value is UNCONFIRMED, not DECLARED", build({**good, "door": "maybe"}, bygood, today)["lines"][0]["state"] == "UNCONFIRMED"),
+        ("the spec lists the door values", door_values() == ["one-way", "two-way"]),
         ("full render has no em-dash", "\u2014" not in render(g)),
     ]
     ok = True
