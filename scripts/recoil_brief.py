@@ -177,15 +177,15 @@ def render_md(p):
 # HTML renderer -- generates the full styled page FROM the SSOT (audience-projected)
 # ---------------------------------------------------------------------------
 CSS = """/* ARCS Recoil Report — Design Tokens */
-:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#8391a7;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+:root{--fs-label:0.6875rem;--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#8391a7;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:48px 24px 96px;line-height:1.62;}
 .page{max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:22px;}
-.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dimmed);}
+.eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dimmed);}
 h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;}
 .sub{font-size:14px;color:var(--muted);margin-top:6px;}
 .rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.3;margin:4px 0;}
-.sec-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dimmed);margin:10px 2px -6px;}
+.sec-label{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dimmed);margin:10px 2px -6px;}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;}
 .card h2{font-size:12px;font-family:var(--mono);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;}
 .card p{font-size:14.5px;color:var(--text);margin-bottom:10px;}
@@ -198,7 +198,7 @@ ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-hei
 .tbl{width:100%;border-collapse:collapse;font-size:13px;}
 .tbl td,.tbl th{padding:10px 12px;border-bottom:1px solid rgba(30,41,59,0.6);vertical-align:top;line-height:1.45;text-align:left;}
 .tbl tr:last-child td{border-bottom:none;}
-.tbl th{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dimmed);}
+.tbl th{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dimmed);}
 .tbl .yours{color:var(--muted);width:46%;}.tbl .mine{color:var(--text);}
 .arrow{color:var(--cyan);font-family:var(--mono);}
 a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}
@@ -209,19 +209,19 @@ a:hover{opacity:0.82;}
 .swatch{width:14px;height:3px;border-radius:2px;display:inline-block;}
 .pilot{border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.04);}
 .foot{font-size:13px;color:var(--muted);text-align:center;padding-top:6px;line-height:1.6;}
-.stamp{text-align:center;margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);}
+.stamp{text-align:center;margin-top:8px;font-family:var(--mono);font-size:var(--fs-label);letter-spacing:0.06em;color:var(--dimmed);}
 .tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;margin-bottom:4px;}
-.tab-btn{flex:1;min-width:88px;padding:11px 10px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--dimmed);border-bottom:2px solid transparent;margin-bottom:-1px;}
+.tab-btn{flex:1;min-width:88px;padding:11px 10px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--dimmed);border-bottom:2px solid transparent;margin-bottom:-1px;}
 .tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
 .tab-btn:hover:not(.active){color:var(--text);}
 .tab-pane{display:none;flex-direction:column;gap:22px;}
 .tab-pane.active{display:flex;}
-.rk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:3px;margin-top:14px;}
+.rk{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:3px;margin-top:14px;}
 .rk:first-child{margin-top:0;}
 .rv{font-size:13.5px;line-height:1.6;color:var(--text);}
 .kv{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid rgba(30,41,59,0.5);}
 .kv:last-child{border-bottom:none;}
-.kv .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.06em;color:var(--dimmed);width:92px;flex-shrink:0;padding-top:2px;}
+.kv .k{font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.06em;color:var(--dimmed);width:92px;flex-shrink:0;padding-top:2px;}
 .kv .v{font-size:13.5px;color:var(--text);line-height:1.5;}"""
 
 
@@ -258,7 +258,7 @@ def _ground_quotes(series):
         gq = s.get("grounding_quote")
         if gq:
             out.append(f'<div style="padding:11px 14px;border-left:2px solid {s["color"]};background:var(--surface2);border-radius:0 8px 8px 0;">'
-                       f'<div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:4px;">grounded in &#183; your words</div>'
+                       f'<div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:4px;">grounded in &#183; your words</div>'
                        f'<div style="font-size:13.5px;line-height:1.5;color:var(--text);font-style:italic;">"{gq}"</div></div>')
     return '<div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">' + "".join(out) + "</div>"
 
@@ -306,9 +306,9 @@ def _render_block(b, data, audience, series, insights, prov):
         return (f'<div class="card" style="border-color:rgba(255,215,0,0.28);"><h2 style="color:var(--gold);">Source &amp; provenance</h2>'
                 f'<p>Everything here traces to {prov.get("captured","our call")}. Each read is anchored to a line you said, cleaned of filler but never paraphrased. <strong>If it is in quotes, it is your words. If it is my read, it is labeled as mine.</strong></p>'
                 f'<div style="margin-top:14px;padding:14px 16px;border-left:2px solid var(--gold);background:var(--surface2);border-radius:0 8px 8px 0;">'
-                f'<div style="font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px;">Load-bearing line &#183; your words</div>'
+                f'<div style="font-family:var(--mono);font-size:var(--fs-label);letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px;">Load-bearing line &#183; your words</div>'
                 f'<div style="font-size:15px;line-height:1.5;color:var(--text);font-style:italic;">"{prov.get("load_bearing_quote","")}"</div></div>'
-                f'<div style="margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);">PROVENANCE &#183; call {data["meta"]["date"]} &#183; {data["meta"].get("segments","")} segments &#183; verbatim-anchored</div></div>')
+                f'<div style="margin-top:12px;font-family:var(--mono);font-size:var(--fs-label);letter-spacing:0.06em;color:var(--dimmed);">PROVENANCE &#183; call {data["meta"]["date"]} &#183; {data["meta"].get("segments","")} segments &#183; verbatim-anchored</div></div>')
     if t == "worked_example":
         return f'<div class="card"><h2>{b["h2"]}</h2><p>{b["intro"]}</p>{_chart_svg(series)}<p style="margin-top:16px;">{b["close"]}</p>{_ground_quotes(series)}</div>'
     if t == "insights":
