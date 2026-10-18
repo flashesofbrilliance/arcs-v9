@@ -45,3 +45,7 @@ A repo-seed with `lab_candidate.status: "ripe"` is a queued lab experiment. `arc
 `index.jsonl` and `ledger.jsonl` are ARCS-private (they encode priority/strategy/routing). A public
 repo learns only its own one-line conformance badge — never this bank. Do not mirror this into any
 public repo.
+
+## Lineage (2026-10-17)
+
+A seed's ancestry should be traceable by a script, not only readable by a person. `scripts/seed_lineage_check.py` reads the pointers out of `provenance` (an exact seed id, a commit that is an ancestor of HEAD, an ADR number, a repo path) and honours an explicit `parent` or `derived_from` field. It reports ROOTED, TEXT_ONLY and ORPHAN seeds, flags dangling pointers, and fails on any cycle. It is a ratchet: `_SEEDS/lineage-baseline.json` grandfathers the seeds that were not rooted when it was set, and a NEW seed with no resolvable pointer fails the pre-commit hook and CI. Fix an old seed and it can leave the baseline (`--report` lists the ones ready). `confluence`, `alias` and `conforms_to` are lateral relations and are not read as ancestry.
