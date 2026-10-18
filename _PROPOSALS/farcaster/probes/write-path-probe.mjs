@@ -2,7 +2,8 @@
 // run only against a throwaway account with Zach's go. Helper names are as documented for @farcaster/core 0.20.0;
 // if any import is missing or its signature differs, the probe fails loudly at import/call time: that IS a finding.
 import fs from "node:fs";
-import { requireThrowaway } from "./guard.mjs";
+import { requireThrowaway, checkArgv } from "./guard.mjs";
+checkArgv();
 import { classifyWrite, EXIT } from "./classify.mjs";
 const fx = process.argv.indexOf("--fixture");
 if (fx > 0) { const v = classifyWrite(JSON.parse(fs.readFileSync(process.argv[fx + 1], "utf8"))); console.log(JSON.stringify(v)); process.exit(EXIT[v.verdict]); }

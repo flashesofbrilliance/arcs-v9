@@ -10,3 +10,13 @@ export function requireThrowaway(env = process.env) {
   if (env.FC_DENY_FIDS && env.FC_DENY_FIDS.split(",").map((x) => x.trim()).includes(String(env.FC_FID).trim())) refuse("FID is on the deny list (main account)");
   return { nodeUrl: env.FC_NODE_URL.replace(/\/$/, ""), key, fid: Number(env.FC_FID) };
 }
+
+// I8: a key or seed never travels in argv. Only --fixture <file> and bare numbers are accepted; anything else is refused WITHOUT echoing it.
+export function checkArgv(argv = process.argv.slice(2)) {
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === "--fixture") { i++; continue; }
+    if (/^\d+$/.test(argv[i])) continue;
+    console.error("REFUSING: unexpected argument (keys and seeds are never accepted in argv)");
+    process.exit(2);
+  }
+}

@@ -2,6 +2,8 @@
 // usage: FC_NODE_URL=http://host:3381 node events-probe.mjs [pages=5] [pageSize=100]
 import fs from "node:fs";
 import { classifyEvents, EXIT } from "./classify.mjs";
+import { checkArgv } from "./guard.mjs";
+checkArgv();
 const fx = process.argv.indexOf("--fixture");
 if (fx > 0) { const v = classifyEvents(JSON.parse(fs.readFileSync(process.argv[fx + 1], "utf8"))); console.log(JSON.stringify(v)); process.exit(EXIT[v.verdict]); }
 const base = (process.env.FC_NODE_URL ?? "").replace(/\/$/, "");
