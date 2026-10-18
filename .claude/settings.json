@@ -114,7 +114,13 @@
       "Bash(python3 scripts/write_lock.py status)",
       "Bash(python3 scripts/write_lock.py status *)",
       "Bash(python3 scripts/findings_gait.py status)",
-      "Bash(python3 scripts/oracle.py audit *)"
+      "Bash(python3 scripts/oracle.py audit *)",
+      "Bash(python3 scripts/backlog_status_check.py --check)",
+      "Bash(python3 scripts/universe_sweep.py --no-write)",
+      "Bash(python3 scripts/universe_ask.py --self-test)",
+      "Bash(python3 scripts/operator_registry_emit.py --check)",
+      "Bash(python3 scripts/receipt_outcome_queue.py status)",
+      "Bash(unzip -l *)"
     ],
     "ask": [
       "Bash(git push:*)"
