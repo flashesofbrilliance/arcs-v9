@@ -839,7 +839,7 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 **Phase 1: Intelligence Augmentation** (Months 0-12)
 - **Positioning**: "Next-generation ad server with AI optimization"
-- **Value Prop**: 40% ROAS improvement with performance guarantee
+- **Value Prop**: 40% ROAS improvement with performance guarantee [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
 - **Customer Psychology**: "We need better ad performance" (solves immediate pain)
 - **Lock-In**: Moderate (switching cost = lost accuracy + retraining)
 - **Expected Churn**: 12-18% annually
@@ -880,6 +880,8 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 | Partial | $4.5M | Anonymized patterns | 82% | Rational middle ground |
 | Full | $2.5M | All receipts shared | 87% | Transparent agencies win |
 
+**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
+
 **Strategic Effect**:
 1. Agencies initially recommend Tier 1 (protect information advantage)
 2. Clients observe 15% performance gap vs. Tier 3
@@ -914,6 +916,8 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 **Insight**: Competitors can't offer guarantees without decision receipts. Receipts take 2-3 years to build.
 
 **Implementation**: "40% ROAS improvement or full refund"
+
+**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
 
 **Why This Works**:
 - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
@@ -3346,7 +3350,7 @@ Phase 3 (Months 24-36): Infrastructure Standard
 
 #### 10.2 Phase 1: The Trojan Horse Entry
 
-**Value Proposition**: "40% ROAS improvement with performance guarantee"
+**Value Proposition**: "40% ROAS improvement with performance guarantee" [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
 
 **Why This Works**:
 - Solves immediate pain (underperforming campaigns)
@@ -3397,6 +3401,8 @@ Week 19+: Expansion
 | Enterprise | $2.5M | Unlimited | Unlimited | Premium | Fortune 1000 |
 
 **Performance Guarantee**:
+
+**Status**: Design intent, unvalidated (Technical Overview Part III). The refund trigger below (underperforming baseline) is a different form from the improvement-or-refund form in the Value Prop lines and in the Performance Guarantee Moat section; reconcile before any use.
 
 ```
 If ARCS-recommended campaigns underperform baseline by >10%:

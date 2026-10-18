@@ -54,7 +54,7 @@ Neither category addresses the core problem: **marketing lacks a decision intell
 We propose a three-phase architectural evolution that uses each phase as foundation for the next:
 
 **Phase 1 (Intelligence Layer)**: Enter market as next-generation optimization engine
-- Hook: Measurable performance improvement (40%+ ROAS lift)
+- Hook: Measurable performance improvement (40%+ ROAS lift) [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
 - Value: Better outcomes through AI-powered prediction
 - Lock-in: Moderate (switching cost = lost accuracy)
 
@@ -387,7 +387,7 @@ More Customers → More Receipts Generated → More Patterns Extracted →
 
 **Value Proposition**:
 - 40%+ ROAS improvement over baseline
-- Performance guarantees (refund if targets missed)
+- Performance guarantees (refund if targets missed) [Unvalidated: no guarantee terms have data behind them; see Technical Overview Part III.]
 - Confidence-interval predictions (honest uncertainty)
 
 **Customer Adoption Pattern**:
@@ -512,6 +512,8 @@ The only churn at this phase results from:
 | Partial | $4.5M | Anonymized patterns | 82-88% | Rational clients choose |
 | Full | $2.5M | All receipts shared | 87-92% | Optimal performance |
 
+**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
+
 **Strategic Effect**:
 
 1. Agencies recommend Private tier (protect information advantage)
@@ -585,6 +587,8 @@ Users engage with platform daily (not weekly). Engagement drives:
 **Observation**: No enterprise marketing vendor offers money-back guarantees. This creates trust deficit.
 
 **Mechanism**: Offer contractual performance guarantees backed by receipt attribution:
+
+**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
 
 **Guarantee Structure**:
 ```
