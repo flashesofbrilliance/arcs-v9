@@ -1,6 +1,6 @@
 # ADR-088 : Librarian anticipation hook: suggest an echo scan before the reader has to ask, and make each scan free to reuse
 
-**Status:** DRAFT / PROPOSAL (2026-10-17). Placement decided 2026-10-17; T2 and T3 warn-only pre-commit built the same day. T1, the echo ledger writers and the suggestion log are not built.
+**Status:** DRAFT / PROPOSAL (2026-10-17). Placement decided 2026-10-17; T2 and T3 warn-only pre-commit built the same day. A suggestion log and acceptance rule followed. T1 and the echo ledger writers are not built.
 **Sequence:** allocated via `python3 scripts/oracle.py next adr` -> 88.
 **Source:** `runtime/specs/librarian-anticipation-hook-v0.md` (merged in PR 1306), which holds the full trigger table, rate limits and fixtures. This ADR records the decision and the kill condition; the spec stays the working detail.
 **Prior art read:** `operators/arcs_librarian.py` (already has `recommend(q, budget)`), `scripts/prior_art.py`, the `/echo-scan` skill, `scripts/provenance_lint.py`, `scripts/canon_claims_report.py`, ADR-044 (temporal provenance), ADR-075 (metabolic router), AGENTS.md gotchas 11 and 15.
@@ -37,11 +37,11 @@ Every check ships a known-bad and a known-good fixture in its `--self-test`, wir
 
 - Cost: a small deterministic scan per trigger; model spend only when Zach accepts a scan.
 - Risk: noise (bounded by the limits and K1/K2) and a ledger that no one reads (K4).
-- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. The hook logs no suggestions yet, so K1 and K2 cannot be measured until a log or an acceptance rule exists (see Open).
+- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. A suggestion log and acceptance rule were added the same day (see Open).
 
 ## Open
 
-1. How acceptance is measured for a pre-commit warning (candidate rule: a later commit adds a ledger, glossary or rosetta entry for the flagged token). Until then K1 and K2 are unmeasurable.
+1. Acceptance rule decided 2026-10-17 (Zach): a logged warning is ACCEPTED when a later commit adds an evidence-ledger, glossary or rosetta line for the flagged token, PENDING for 14 days, then DECLINED. `python3 scripts/librarian_hook.py --report` computes K1 from a log in the git common dir (shared by all worktrees, never tracked). K1 stays 'not yet measurable' until 10 distinct firing days. K2 (5 declined+ignored in 3 consecutive sessions) is not computed yet, and the 14-day re-warning mute is not built.
 2. Keep, cite or strike each uncovered canon token.
 3. Reconcile the Librarian's registry row, which says store/retrieve only.
 4. The NCI definition split and the Litepaper acronym mismatch are definitional drift outside these numeric triggers.
