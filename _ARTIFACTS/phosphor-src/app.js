@@ -1956,6 +1956,15 @@
     });
     $("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden = !o; $("dkfx").setAttribute("aria-expanded", o ? "true" : "false"); });
   })();
+  /* Consent splash: shown once per device on the hosted page; test mode skips it so the checks drive the page directly. */
+  (function () {
+    var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
+    try { ok = localStorage.getItem(KEY) === "1"; } catch (e) { /* storage blocked: ask every time */ }
+    if (ok || /[?&]test=1/.test(location.search)) return;
+    function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
+    cs.hidden = false; lock(true); $("csgo").focus();
+    $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) { /* storage blocked */ } cs.hidden = true; lock(false); });
+  })();
   var ESCT = 0;
   function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
   document.addEventListener("keyup", function (e) { if (e.key === "Escape") { clearTimeout(ESCT); ESCT = 0; } });

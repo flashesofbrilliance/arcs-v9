@@ -370,6 +370,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 #fxtray input[type=range] { min-height: 44px; margin: 0; width: 100%; accent-color: var(--orange); }
 #fxtray .fxl { display: flex; gap: 6px; align-items: center; font-size: 0.6875rem; color: var(--muted); } #fxtray .fxl input { width: 72px; }
 @media (max-width: 640px) { #fxtray .fxr { grid-template-columns: 80px minmax(0, 1fr); } #fxtray .fxl { grid-column: 2; } }
+/* Consent splash: a grown-up reads three short notes and presses Start (first load only, remembered on this device) */
+#consent { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--bg); overflow-y: auto; }
+#consent[hidden] { display: none; }
+#consent .csbox { width: min(560px, 100%); display: grid; gap: 12px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-m); }
+#consent h2 { margin: 0; font-size: 1.15rem; } #consent p { margin: 0; font-size: 0.925rem; line-height: 1.5; }
+#consent .csgo { min-height: 56px; border-color: var(--cyan); color: var(--cyan); }
 </style>
 </head>
 <body>
@@ -759,6 +765,16 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" aria-label="Hide the player">Hide</button><button class="btn" type="button" id="dkfx" aria-expanded="false" aria-controls="fxtray" data-min="4">Mix</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
 </div>
 <div id="fxtray" role="group" aria-label="Effect levels and limits" data-min="4" hidden></div>
+<div id="consent" role="dialog" aria-modal="true" aria-labelledby="cstitle" hidden>
+  <div class="csbox">
+    <h2 id="cstitle">Before you start</h2>
+    <p>Phosphor turns a song into moving light. The songs you pick and everything you play stay on this device. Nothing is sent anywhere or counted.</p>
+    <p><b>Loud sound.</b> Start with the volume low, especially with headphones.</p>
+    <p><b>Flashing light.</b> Some effects flash. A limit keeps them under three flashes a second, but if you or your child are sensitive to flashing light, turn Glitch off at the top of the page or skip it.</p>
+    <p><b>Grown-ups first.</b> A grown-up should press Start. Kid mode keeps little hands away from the grown-up controls.</p>
+    <button class="btn csgo" type="button" id="csgo">I am a grown-up. Start.</button>
+  </div>
+</div>
 <button class="btn" type="button" id="dkbump" aria-label="Show the player">Player</button>
 <script>
 (function () {
@@ -2639,6 +2655,14 @@ r.querySelector("[id^=mh_]").addEventListener("input", function (e) { m.hi = MX(
 sync(k);
 });
 $("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden = !o; $("dkfx").setAttribute("aria-expanded", o ? "true" : "false"); });
+})();
+(function () {
+var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
+try { ok = localStorage.getItem(KEY) === "1"; } catch (e) { /* storage blocked: ask every time */ }
+if (ok || /[?&]test=1/.test(location.search)) return;
+function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
+cs.hidden = false; lock(true); $("csgo").focus();
+$("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) { /* storage blocked */ } cs.hidden = true; lock(false); });
 })();
 var ESCT = 0;
 function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }

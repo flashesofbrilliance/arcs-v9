@@ -398,6 +398,16 @@
   <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" aria-label="Hide the player">Hide</button><button class="btn" type="button" id="dkfx" aria-expanded="false" aria-controls="fxtray" data-min="4">Mix</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
 </div>
 <div id="fxtray" role="group" aria-label="Effect levels and limits" data-min="4" hidden></div>
+<div id="consent" role="dialog" aria-modal="true" aria-labelledby="cstitle" hidden>
+  <div class="csbox">
+    <h2 id="cstitle">Before you start</h2>
+    <p>Phosphor turns a song into moving light. The songs you pick and everything you play stay on this device. Nothing is sent anywhere or counted.</p>
+    <p><b>Loud sound.</b> Start with the volume low, especially with headphones.</p>
+    <p><b>Flashing light.</b> Some effects flash. A limit keeps them under three flashes a second, but if you or your child are sensitive to flashing light, turn Glitch off at the top of the page or skip it.</p>
+    <p><b>Grown-ups first.</b> A grown-up should press Start. Kid mode keeps little hands away from the grown-up controls.</p>
+    <button class="btn csgo" type="button" id="csgo">I am a grown-up. Start.</button>
+  </div>
+</div>
 <button class="btn" type="button" id="dkbump" aria-label="Show the player">Player</button>
 <script>
 <!--@app.js-->
