@@ -30,7 +30,7 @@ A print must say so on its face. Wiring real fidelity needs a receipt link per p
 ## Results (this session)
 - K1 PASS, K2 PASS (registration 3.47 to 0.12, specks 1289 to 45 across f 0.15 to 0.97), K4 PASS: `python3 scripts/tao_print_check.py`.
 - K3 machine proxy PASS (rho 1.0 on v3). The pixel score was rewritten twice after the v1 score failed on new molds (now: share of inked pixels that are a pure plate ink, minus grain share); the rho >= 0.9 bar was not changed. Caveat: this only proves the encoding is recoverable from pixels. I built the encoding, so it does not prove a person perceives it. Human blind sheet still pending.
-- K5 PARTIAL at 360px (Playwright): no horizontal scroll, proverb text about 12.7px (passes the 11px floor). The provenance caption was about 7px and was raised to 12 units (about 10px at 360px, still under 11; move it into HTML before minting a series). Strip panels are about 50px wide and read as shapes, not detail.
+- K5 PASS at 360px (Playwright, 2026-10-17): no horizontal scroll, proverb text 12.7px, provenance caption moved into HTML at 14.8px (was 7-10px inside the SVG), and all nine views now keep width/height >= 0.7 (none edge-on), so strip panels read as rings. Panels are still about 50px wide on the strip.
 - K6: no PNG export route found. `scripts/html_video_render.mjs` renders video frames and posters via Playwright; a still PNG would be a 10-line Playwright call (the check script already does this). Not built into a route.
 - K7: prototype proverb `adr039-W-recapitulate` sources from ADR-080, no person. An earlier candidate (`lyndon-onesheet-W-synthesize`) sources from a counterpart PDF and was excluded.
 
