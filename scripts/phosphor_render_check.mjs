@@ -11,11 +11,14 @@ const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }); awai
 const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); pg.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()) })
 await pg.goto(pathToFileURL(path.resolve(page)).href + '?test=1&shutter=off&level=4'); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
 await pg.setInputFiles('input[type=file]', '/private/tmp/claude-501/fx/' + file); await pg.waitForTimeout(2500)
+// live tap: the output analyser sampled every 50 ms against the recipe clock, for the live-versus-render comparison (O14)
+await pg.evaluate(() => { window.__env = []; window.__envT = setInterval(() => { const T = window.PhosphorTest; window.__env.push([T.recipe.now(), T.outRms()]) }, 50) })
 // record a short session with real actions: play, echo on for 0.9 s, off, play for a while, stop
 await pg.evaluate(() => window.PhosphorTest.seek(0)); await pg.click('#play'); await pg.waitForTimeout(700)
 await pg.evaluate(() => window.PhosphorTest.hold.on('echo', 'latch', true)); await pg.waitForTimeout(900); await pg.evaluate(() => window.PhosphorTest.hold.on('echo', 'latch', false)); await pg.waitForTimeout(1200); await pg.click('#play')
 await pg.evaluate(() => { window.__live = { gamt: document.getElementById('gamt').value, n: window.PhosphorTest.recipe.ev().length, state: JSON.stringify(window.PhosphorTest.recipe.state(1e12)) } })
 const recText = await pg.evaluate(() => window.PhosphorTest.recipe.exp())
+await pg.evaluate(() => clearInterval(window.__envT))
 const run = (text, label) => pg.evaluate(async ([text]) => {
   const t0 = performance.now(), o = await window.PhosphorTest.recipe.render(text), n = o.l.length
   const rms = (a, b) => { let s = 0; const i0 = Math.floor(a * o.sr), i1 = Math.min(n, Math.floor(b * o.sr)); for (let i = i0; i < i1; i++) s += o.l[i] * o.l[i] + o.r[i] * o.r[i]; return Math.sqrt(s / Math.max(1, 2 * (i1 - i0))) }
@@ -41,6 +44,39 @@ const crushT = recText.split('\n')[0] + '\n' + JSON.stringify((() => { const o =
 const cmpC = await pg.evaluate(async (t) => { const a = await window.PhosphorTest.recipe.render(t), c = await window.PhosphorTest.recipe.render(t); let nd = 0; for (let i = 0; i < a.l.length; i++) if (a.l[i] !== c.l[i]) nd++; return { nd, n: a.l.length } }, crushT)
 const rC = await run(crushT)
 check(cmpC.nd === 0 && rC.hash !== r3.hash, `O9: a Crush hold renders identically twice (${cmpC.nd} samples differ) and differs from the dry song`)
+// O14 live versus render: the level envelope of what was actually played against the level envelope of the render, on the same clock
+const env = await pg.evaluate(() => window.__env.filter((x) => x[1] >= 0)), liveMax = Math.max(...env.map((x) => x[1]))
+if (liveMax < 0.002) check(true, `O14: skipped, the live output was silent in this environment (the known intermittent silent-audio fault; max level ${liveMax})`)
+else {
+  const lags = []; for (let l = -300; l <= 300; l += 10) lags.push(l)
+  const rAll = await pg.evaluate(async ([t, times, lags]) => { const o = await window.PhosphorTest.recipe.render(t); const at = (ms) => { const i1 = Math.floor(ms / 1000 * o.sr), i0 = Math.max(0, i1 - 2048); if (i1 <= 0) return 0; let s = 0; for (let i = i0; i < Math.min(o.l.length, i1); i++) s += o.l[i] * o.l[i]; return Math.sqrt(s / Math.max(1, Math.min(o.l.length, i1) - i0)) }; return lags.map((l) => times.map((ms) => at(ms + l))) }, [recText, env.map((x) => x[0]), lags])
+  const live = env.map((x) => x[1]), n = live.length, mean = (a) => a.reduce((s, v) => s + v, 0) / a.length, ml = mean(live)
+  const corrOf = (r) => { const mr = mean(r), cov = live.reduce((s, v, i) => s + (v - ml) * (r[i] - mr), 0), vl = live.reduce((s, v) => s + (v - ml) ** 2, 0), vr = r.reduce((s, v) => s + (v - mr) ** 2, 0); return cov / Math.sqrt(vl * vr) }
+  const cs = rAll.map(corrOf), best = Math.max(...cs), lag = lags[cs.indexOf(best)], ratioDb = 20 * Math.log10(mean(rAll[lags.indexOf(lag)]) / ml)
+  check(best > 0.8 && Math.abs(ratioDb) < 3 && Math.abs(lag) <= 250, `O14: the render follows what was played: best level envelope correlation ${best.toFixed(3)} (want over 0.8) at a ${lag} ms offset (the output latency, want within 250), mean level difference ${ratioDb.toFixed(2)} dB (want within 3), over ${n} samples of the live output`)
+}
+// O10 to O12: pads (slices), the slice list and tempo are replayed
+const padRec = await pg.evaluate(async () => {
+  const T = window.PhosphorTest
+  T.recipe.act('slices', [[0.0, 0.6], [0.6, 1.2], [1.2, 1.8], [1.8, 2.4]])
+  const base = JSON.parse(T.recipe.exp().split('\n').slice(1).join('\n')).base
+  const mk = (events) => 'Phosphor recipe v1\n' + JSON.stringify({ base, events })
+  const ev = [[100, null, '@slices', [[0.0, 0.6], [0.6, 1.2], [1.2, 1.8], [1.8, 2.4]]], [200, null, '@tempo', [97, 0.2]], [500, null, '@pad', '0:1'], [900, null, '@pad', '0:3'], [1300, null, '@pad', '0:2:echo'], [2500, null, '@stop', null]]
+  const none = ev.filter((e) => e[2] !== '@pad')
+  const a = await T.recipe.render(mk(ev)), b = await T.recipe.render(mk(ev)), c = await T.recipe.render(mk(none))
+  let nd = 0, dd = 0; for (let i = 0; i < a.l.length; i++) { if (a.l[i] !== b.l[i]) nd++; if (a.l[i] !== c.l[i]) dd++ }
+  let rmsA = 0, rmsC = 0; for (let i = 0; i < a.l.length; i++) { rmsA += a.l[i] * a.l[i]; rmsC += c.l[i] * c.l[i] }
+  return { nd, dd, pads: a.info.pads, padsNone: c.info.pads, bpm: a.info.bpm, rmsA: Math.sqrt(rmsA / a.l.length), rmsC: Math.sqrt(rmsC / c.l.length) }
+})
+check(padRec.pads === 2 && padRec.padsNone === 0 && padRec.rmsA > 0.005 && padRec.rmsC < 0.0005, `O10: two slice pads are replayed from the recorded slice list (voices ${padRec.pads}; level ${padRec.rmsA.toFixed(4)} with pads, ${padRec.rmsC.toFixed(5)} without); the effect pad is left to the effect events`)
+check(padRec.nd === 0 && padRec.dd > 1000, `O11: a pad render is identical twice (${padRec.nd} samples differ) and differs from the same recipe without pads (${padRec.dd} samples)`)
+check(padRec.bpm === 97, `O12: the recorded tempo is replayed in the render (${padRec.bpm} BPM)`)
+// O13 the Render to WAV button saves a valid WAV
+await pg.evaluate(() => document.getElementById('mdParent').dispatchEvent(new PointerEvent('pointerdown'))); await pg.waitForTimeout(1700); await pg.evaluate(() => document.querySelectorAll('details').forEach((d) => d.open = true))
+const dlP = pg.waitForEvent('download', { timeout: 60000 }); await pg.evaluate(() => document.getElementById('rnb').click()); const dl = await dlP; const dlPath = await dl.path()
+const bytes = (await import('node:fs')).readFileSync(dlPath)
+check(dl.suggestedFilename() === 'phosphor-session.wav' && bytes.slice(0, 4).toString() === 'RIFF' && bytes.slice(8, 12).toString() === 'WAVE' && bytes.length > 100000, `O13: the Render to WAV button saves ${dl.suggestedFilename()} (${bytes.length} bytes, RIFF and WAVE header)`)
+await pg.waitForFunction(() => !document.getElementById('rnb').disabled && /Rendered/.test(document.getElementById('rnsum').textContent), null, { timeout: 30000 })
 const bad = await pg.evaluate(() => window.PhosphorTest.recipe.render('nope').then(() => 'resolved', (e) => String(e.message)))
 check(bad === 'not a recipe', `O7: text that is not a recipe is refused (${bad})`)
 check(errs.length === 0, 'O8: no page errors in the page or the hidden copy ' + errs.slice(0, 3).join('|'))

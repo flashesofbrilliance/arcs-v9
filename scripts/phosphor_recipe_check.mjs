@@ -54,7 +54,7 @@ const a0 = (await acts()).length
 await pg.evaluate(() => { document.getElementById('dkpad').click() }); await pg.evaluate(() => document.querySelector('[data-pk="3"]').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }))); await pg.keyboard.press('KeyE'); await pg.evaluate(() => { document.getElementById('dkpad').click(); const p = document.getElementById('perf'); if (!p.checked) { p.checked = true; p.dispatchEvent(new Event('change', { bubbles: true })) } }); await pg.keyboard.press('Digit5')
 await pg.evaluate(() => window.PhosphorTest.seek(2.5)); await pg.evaluate(() => window.PhosphorTest.tap.set(97, 0.2))
 const na = (await acts()).slice(a0), names = na.map((e) => e[2])
-check(names.includes('@pad') && names.includes('@key') && names.includes('@seek') && names.includes('@tempo') && na.filter((e) => e[2] === '@pad').map((e) => e[3]).join() === '0:3,0:6' && na.find((e) => e[2] === '@tempo')[3] === 97, `R7: pads (a tap and a key), a Perform key, seek and tempo are recorded as actions in order (${names.join(' ')})`)
+check(names.includes('@pad') && names.includes('@key') && names.includes('@seek') && names.includes('@tempo') && na.filter((e) => e[2] === '@pad').map((e) => e[3]).join() === '0:3,0:6' && na.find((e) => e[2] === '@tempo')[3][0] === 97, `R7: pads (a tap and a key), a Perform key, seek and tempo are recorded as actions in order (${names.join(' ')})`)
 await pg.click('#play'); await pg.waitForTimeout(300); await pg.click('#play'); const pl = (await acts()).map((e) => e[2])
 check(pl.includes('@play') && pl.includes('@stop'), 'R8: play and stop are recorded')
 const songs = (await acts()).filter((e) => e[2] === '@song')
