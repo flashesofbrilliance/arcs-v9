@@ -1,0 +1,32 @@
+<!-- @dsCard group="Instrument Lab" name="Pad Grid" subtitle="Tabbed pad grid · pads with a code and a name · pressed state" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 44px; padding: 8px 14px; cursor: pointer; }
+.hint { color: var(--muted); }
+.btn:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+/* @prim:begin 22-pad-grid */
+.pads { display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); gap: 6px; align-items: center; }
+.pads .ph { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); text-align: center; }
+.pads .pr { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--muted); }
+.pad { position: relative; font: inherit; color: var(--text-secondary); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-md); min-height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.pad:hover { border-color: var(--cyan); }
+.pad small { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .04em; }
+.pads .ph { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text-secondary); background: none; border: 0; border-bottom: 2px solid transparent; min-height: 44px; cursor: pointer; }
+.pads .ph[aria-pressed=true] { color: var(--text); border-bottom-color: var(--cyan); }
+.pad[aria-pressed=true] { background: var(--cyan-bg); border-color: var(--cyan); color: var(--text); box-shadow: inset 0 -2px 0 var(--cyan); }
+/* @prim:end 22-pad-grid */
+</style>
+</head>
+<body>
+<div class="section-label">Pad grid</div>
+<div class="pads"><span class="pr">Row 1</span><button class="pad" type="button"><small>Q</small></button><button class="pad" type="button" aria-pressed="true"><small>W</small></button><button class="pad" type="button"><small>E</small></button><button class="pad" type="button"><small>R</small></button></div>
+</body>
+</html>

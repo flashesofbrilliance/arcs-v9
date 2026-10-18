@@ -27,7 +27,7 @@ FDE archetype: lead differentiator #2 (embed) then #1 (build). Squat NY is the h
 | Nice: React/TypeScript, Next.js | ARCS is Next.js + TypeScript (live at arcs.care) | documented |
 | Nice: Dagster / Airflow | Not claimed | n/a |
 | Nice: startup ambiguity | ARCS founder 2025 to present | documented |
-| AI fluency, concrete tools and workflows | ARCS on Claude, custom MCP server, agentic pipelines; "coding agents in daily use"; public commit trail at status.arcs.care | documented (live product, public trail) |
+| AI fluency, concrete tools and workflows | ARCS on Claude, custom MCP server, agentic pipelines; "coding agents in daily use"; live app at app.arcs.care, commit history on request (arcs-v9 is private) | documented (live product, public trail) |
 
 ## Evidence grade per lead claim on the cut
 

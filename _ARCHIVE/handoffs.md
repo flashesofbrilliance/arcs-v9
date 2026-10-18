@@ -1,3 +1,197 @@
+# Handoff — v3.136.0 (2026-10-15)
+
+## Goal / true north
+Land the monday FDE take-home and bank what it taught.
+
+## What changed
+- #1339 merged: night moves 2026-10-14 (monday take-home submitted as rc46; K71 to K79 hardening; cold run from the ZIP; live board tidy).
+- Take-home submitted: ret-rfp-intelligence rc46 (4.22 MB, tag rc46-2026-10-14 in that repo); rc43 carried the last full release check and a live end-to-end run from inside the ZIP.
+- Post-mortem pass 1 (extraction): 192 mistake rows, 134 belief rows in falsification-ledger schema, 38 session rows, a T0-to-rc46 timeline, in the local untracked ret-postmortem-raw-2026-10-15 folder under _STATE.
+
+## Current state
+Take-home submitted and frozen until the panel. Live boards on the assessment account: public links off, Welcome doc trimmed, scorecard synced. Post-mortem waiting on pass 2.
+
+## Decisions made
+- Post-mortem outputs live in arcs-v9, never in the take-home repo (its leak check bans ARCS vocabulary; frozen until the panel).
+- Belief-ledger rows are proposed to Zach before any write-locked append; publishing to status.arcs.care/beliefs stays Zach's call.
+- rc33's 10.45 MB was a control that held (size cap), not a crisis.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Post-mortem pass 2 (recoil report, mistake savings bank, six simulated P0 incidents, phase 2 backlog, ledger rows F43+).
+2. Enterprise access landed on the zachharriss-team account, not the assessment account.
+3. Stashes tagged wt-flightlog-dupes-* in the take-home repo (duplicates of lines on main; safe to drop).
+
+## Next action
+Resume post-mortem pass 2 from the RESUME note in the ret-postmortem-raw-2026-10-15 folder under _STATE.
+
+## Cold-start recipe
+Read the RESUME note in the local ret-postmortem-raw-2026-10-15 folder under _STATE; it lists the inputs, the eight pass 2 steps and the constraints.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261015T210121Z--claude-suspicious-austin-8898c4.md` (branch `claude/suspicious-austin-8898c4`, head `c7260eb9`).
+
+---
+
+# Handoff — v3.135.0 (2026-10-13)
+
+> ### Shavasana — handoff pause, 2026-10-13 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-decision-geometry), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 2 dissent markers, 1 unconfirmed markers in the day's records.
+> - **Breath balance**: mirror (inhale, no exhale).
+> - **Sycophancy check**: agreement 3 / dissent 3 (ratio 0.75) → OK: dissent present.
+> - **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> Attachment release: every claim kept; each cites a PR, commit, receipt id or URL. Somatic: not asked. Disposition: release.
+>
+> > Built the 5x5 decision geometry explorer over the RET take-home DECISIONS.md, merged it on local gates during the Actions billing block, logged its receipt, fixed the Supabase CLI, and published a private artifact link.
+>
+> > RET take-home session (2026-10-10 to 2026-10-13): built and hardened Zach's monday.com FDE take-home in the separate
+> > repo ret-rfp-intelligence (rc23 to rc35), rehearsed the panel in four rounds, and handed the navigation redesign to a
+> > fresh session. Work product lives in that repo; this fragment banks the internal notes in _STATE.
+>
+> ### Shavasana — handoff pause, 2026-10-13 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/ret-takehome-handoff), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 1 / dissent 0 (ratio 1.0) → OK: dissent present.
+> - **Cold re-read (canary on the draft fragment.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+> - Attachment release: every claim in Changed and State was re-checked this session against git tags, the release log and the live run; none downgraded.
+> - Somatic: not asked.
+> - Disposition: release.
+
+## Goal / true north
+Submit the take-home Thursday 2026-10-15 morning: one ZIP under 10,000,000 bytes with source/, exactly one presentation
+PDF, and README.md, that a cold reviewer can run and navigate.
+
+## What changed
+- #1294 merged with --merge (`5f3d0b17`): `scripts/decision_geometry_ret.py` (stdlib), `scripts/templates/decision-geometry.template.html`, `_ARTIFACTS/decision-geometry/{ret-decisions.json,decision-geometry.html}`. 23 decisions scored; codes 22211 (6), 21211 (6), 11211 (5), 11111 (5), 22111 (1).
+- Receipt 2026-10-12--decision-geometry-explorer-pr1294--ZH logged; read back via plain Supabase MCP (project URL xbbpiryokswwvcrcutge) and via `supabase db query --linked`.
+- Supabase CLI: 2.101.0 binary had an invalid code signature (exit 137 on every call); clean uninstall plus fresh install gave 2.118.0, codesign passes. Memory `supabase-mcp-wrong-org-use-cli` amended.
+- Private artifact published: https://claude.ai/artifact/QFNkJMHFvG2sVdKrdUQh2R (snapshot of the page; republish after regenerating).
+- #1298 (this fragment's PR); receipt 2026-10-13--ret-takehome-handoff-pr1298--ZH
+- ret-rfp-intelligence main 175afe2 (pushed), release candidate rc35 (tag rc35-2026-10-13, 3.36 MB, release check exit 0,
+   live end-to-end run from the ZIP passed). Not an arcs-v9 PR; that repo is the deliverable.
+- Size gate fixed: rc25 to rc33 exceeded 10 MB on the decimal reading (K67); history.bundle replaced by HISTORY.txt (D-HISTORY).
+- Hardening found in rehearsal: K60 (bench from ZIP), K61 (runaway pollers; one poller per computer), K62 (borderline
+   eval, temperature 0 reverted), K63 to K66 (file viewer, evidence loop, column ids, poller write order), K67 (size).
+- Mistake link table with a build gate (60 of 67 guarded, 7 process lessons); wiki, controls map, FAQ, cases.
+- Internal notes added under _STATE (panel audit, question tree, lightning FAQ, enterprise test plan, design handoff).
+
+## Current state
+- rc35 is the latest verified release; main 175afe2 carries the newer page work (five-card start page, page bar,
+  verdict-first pages, light/dark, deck opens in present mode on laptops).
+- A design-gauntlet session is offered as a task chip; its handoff is the 2026-10-13 RET design-gauntlet handoff note (untracked, in the main checkout state folder).
+- The explainer session is holding the video re-render until the design pass ends.
+
+## Decisions made
+- Zach: merge #1294 on local gates (wrap-lint, token_source_gate, page_gate --matrix full, kintsugi design-debt 0).
+- Zach: publish a private artifact link despite unconfirmed take-home publishing terms.
+- Ship HISTORY.txt instead of the git bundle: the bundle was 8.7 of 10.4 MB; cited hashes stay findable.
+- Submit from the free monday.com plan the brief prescribes; enterprise access is tested in a copy only.
+- Deck first, then How we got here; proof, mistakes and build log become Evidence one level down.
+- Zach's packaging model (presentation/ = deck, source/ = code and documentation, README = front door) goes to the
+   design session, with a show-the-tree-first gate before any file move.
+
+## Open decisions (waiting on Zach)
+1. Zach: the 11 canon choices in the #1294 PR body (text adaptation of level rules, L4 bar, L5 unreachable, A-E grades as C2, H rung keywords, drill pairing, 3125 layout, W2 tokens, unstructured records, page placement, draft spec status).
+2. Zach: Actions spending limit (Settings > Billing).
+3. Zach: create view-only share links for the four RET boards, then wire them in.
+
+## Open (other)
+1. Design gauntlet session: packaging model, one navigation system, link every provenance file, OTel answer.
+2. Explainer videos re-render from the final head; then cut rc36 and run the live test from its ZIP.
+
+## Next action
+Start the "Run the RET design gauntlet" task chip.
+
+## Cold-start recipe
+Read the 2026-10-13 RET design-gauntlet handoff note (untracked, in the main checkout state folder); repo /Users/zharris/ret-rfp-intelligence; `cd source && ./rfp serve`
+then http://127.0.0.1:8765/presentation/index.html; `./rfp status`; releases via `./scripts/release_check.sh` (detached,
+read dist/release_check_exit). Debt tracker: https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm (debt collection).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261013T161607Z--claude-handoff-decision-geometry.md` (branch `claude/handoff-decision-geometry`, head `b1f0080d`); `_HANDOFFS/fragments/20261013T165149Z--claude-ret-takehome-handoff.md` (branch `claude/ret-takehome-handoff`, head `e83abaed`).
+
+---
+
+# Handoff — v3.134.0 (2026-10-13)
+
+> 2026-10-12: the take-home design gauntlet and explainer session closed. Every finding was relayed to the take-home session and verified there; rc25 is the submission and the three phone items were skipped by Zach.
+
+## Goal / true north
+Ship the monday.com take-home by Thu 2026-10-15 17:00 ET with every claim traceable to its log.
+
+## What changed
+- #1295 merged (`1a7db6da`): handoff fragment for the design gauntlet and explainer session. Receipt `2026-10-12--handoff-design-gauntlet-pr1295--ZH`.
+
+## Current state
+- Take-home submission is rc25 (ZIP = source/ + presentation/ only); final videos are in ~/ret-rfp-intelligence/dist/videos/ (rendered from rc24), old explainers moved to dist/videos/superseded/.
+- Zach skipped three phone items for submission: present-mode tap targets (3-7 px letters), the landscape-preferred overlay, the phone bottom bar.
+- Watchers and the port-8766 copy server are stopped.
+
+## Decisions made
+- Run every check read-only against a copy of the take-home repo (port 8766) because bench runs append to its flightlog and that session is the single writer.
+- Correct own errors in a new message rather than silently: the "about 3 s" flag was retracted after the e2e log showed a 3.2 s median; the v8 staleness flags were withdrawn once dist held v4.
+
+## Open decisions (waiting on Zach)
+1. Zach: a real-iPhone tap check of the grade tooltips (verified only under Chromium touch emulation).
+
+## Open (other)
+1. After submission: the three skipped phone items, and K-numbers still visible in the Beliefs and Evals tabs.
+
+## Next action
+Zach submits rc25 by Thu 2026-10-15 17:00 ET.
+
+## Cold-start recipe
+- /handoff-pickup; `git -C ~/ret-rfp-intelligence log --oneline -5`; videos listed in ~/ret-rfp-intelligence/dist/videos/MANIFEST.md.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261013T004500Z--claude-design-gauntlet-heuristic-bf77a6.md
+> Design gauntlet and Ahmed-heuristic review of the monday take-home (127.0.0.1:8765, repo ~/ret-rfp-intelligence), read-only, relaying every finding to the take-home session as single writer; plus the explainer video v1 to v7.1, then handed the cards rig to the explainer session.
+
+### Notes: Cold
+- /handoff-pickup; `git -C ~/ret-rfp-intelligence log --oneline -5`; videos in ~/ret-rfp-intelligence/dist/videos/MANIFEST.md.
+
+### Lessons
+- Verify a subagent's NOT FOUND against the repo's evidence index before relaying it (the e2e log held the "3 s" figure).
+- A video that quotes the deck drifts whenever the deck changes; generate its text from the deck's own data ids.
+
+### Notes: Shavasana
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/design-gauntlet-heuristic-bf77a6), receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 3 / dissent 0 (ratio 3.0) → OK: dissent present.
+- **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+- Attachment release: kept all claims; each Changed sha was read in git log on ~/ret-rfp-intelligence this session. Somatic: not asked. Disposition: release.
+
+> Molted from `_HANDOFFS/fragments/20261013T004500Z--claude-design-gauntlet-heuristic-bf77a6.md` (branch `claude/design-gauntlet-heuristic-bf77a6`, head `5f3d0b17`).
+
+---
+
 # Handoff — v3.133.0 (2026-10-12)
 
 > ### Shavasana — handoff pause, 2026-10-10 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)

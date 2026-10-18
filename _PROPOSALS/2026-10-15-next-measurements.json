@@ -1,0 +1,221 @@
+{
+  "id": "prop-2026-10-15-next-measurements",
+  "title": "Next measurements",
+  "date": "2026-10-15",
+  "status": "PROPOSAL",
+  "tone": "gold",
+  "worktree": "relaxed-merkle-130db6",
+  "base": "main@fb89a755",
+  "one_line": "Nine ideas piled up in one session, most of them frameworks. This page ranks them by cost, puts the three cheapest measurements first, and says which could go to other sessions.",
+  "bottom_line": [
+    {
+      "label": "Correction, 2026-10-17",
+      "text": "An earlier version of this page said 52 of the backlog's dependency references point at ids that are not in the file. That was my counting error: two rows store depends_on as a plain string, and my loop counted its 52 characters. Counted properly, every reference resolves: 0 dangling on the current main (250 rows, 42 with dependencies). The wrong figure was also repeated in chat and on the forward waypoints page."
+    },
+    {
+      "label": "The rule",
+      "text": "One measurement before the next metaphor. Every item below produces a number or a pass/fail you can look at, and each has a known-bad case that must fail."
+    },
+    {
+      "label": "Cheapest three",
+      "text": "Report the dangling dependency references (a minute of work), save a dated snapshot each time the Field view runs, and plant a known echo in the echo detector. None needs a new dependency or a new data path."
+    },
+    {
+      "label": "On the Conductor",
+      "text": "The registry binds the Conductor operator (number 22) to a review of one decision receipt. It does not dispatch work to sessions. The sequencing operator (13, TemporalSequencer) is blocked on a missing pandas dependency. So routing below is done by hand with session messages, and the Conductor's role is final review of each result."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "question": "Approve the cheapest three, all read-only?",
+      "recommended": "Yes: M1 dangling references, M2 Field view snapshots, M3 planted echo.",
+      "options": [
+        "approve",
+        "reorder",
+        "hold"
+      ],
+      "why": "Each takes minutes to an hour, changes no production behavior, and turns a framework claim into a number."
+    },
+    {
+      "id": "D2",
+      "question": "Send routing messages to concurrent sessions?",
+      "recommended": "Yes for M3, M5 and M6 to the sessions listed, as proposals only. Fit is unverified: I know their titles, not their content.",
+      "options": [
+        "send",
+        "send after I check fit",
+        "keep in this session"
+      ],
+      "why": "The sessions are cloud sessions and cannot reply. A message resumes them, which spends tokens, so you decide."
+    },
+    {
+      "id": "D3",
+      "question": "Run the cold-read test on arcs.care with five outsiders?",
+      "recommended": "Yes, but it needs you to pick the five people. I can write the protocol and fix the pass line first.",
+      "options": [
+        "write protocol",
+        "later"
+      ],
+      "why": "It is the only item that supplies a second vantage on your own intuition. Nothing I run can replace it."
+    }
+  ],
+  "tables": [
+    {
+      "id": "ranking",
+      "title": "All nine, ranked by cost",
+      "intro": "Cost is rough effort to get a first number. Read-only means no production change and no new data path.",
+      "columns": [
+        "Rank",
+        "Measurement",
+        "Cost",
+        "Question it answers",
+        "Candidate session (fit unverified)"
+      ],
+      "rows": [
+        [
+          "M1",
+          "Report dangling dependency references in the backlog",
+          "minutes",
+          "Are any backlog dependency references dangling? Result 2026-10-17: none. The earlier count of 52 was a counting error (see the correction above).",
+          "this session"
+        ],
+        [
+          "M2",
+          "Save a dated snapshot each time the Field view runs",
+          "done 2026-10-17 as a probe",
+          "Which rows change rank or state week to week? Today flips are invisible.",
+          "this session"
+        ],
+        [
+          "M3",
+          "Plant a known echo in the echo detector and confirm it fires",
+          "done 2026-10-17",
+          "Zero real echoes means weak beams or a blind detector. A known-positive separates the two.",
+          "Echo-detector rebuild (close F34)"
+        ],
+        [
+          "M4",
+          "Run the Impeccable detector, move new components into @dsCard primitives, screenshot at three widths, run the Lima lens on the Field view",
+          "an hour",
+          "Is the Field view actually cohesive, or only passing weak gates?",
+          "this session"
+        ],
+        [
+          "M5",
+          "Compute backlog flow from git history: state changes per week by domain",
+          "an hour",
+          "How much current flows, and where do gates slow it?",
+          "Shipped-vs-Reworked signal instrument"
+        ],
+        [
+          "M6",
+          "Empiricism ledger: class (MODELED, JUDGMENT, ASSUMED), n, provenance, falsifier, and exposure-outruns-evidence for public claims and ROM items",
+          "half a day",
+          "How many promoted claims are unsupported? Where is the bar lowest?",
+          "Falsifiable criteria for positions"
+        ],
+        [
+          "M7",
+          "Tag backlog rows and receipt events internal or external, then compare crossing and non-crossing rework rates",
+          "half a day",
+          "Does the fold do any work?",
+          "Shipped-vs-Reworked signal instrument"
+        ],
+        [
+          "M8",
+          "Calibrated simulation: task times from git history, your attention as the single worker, date odds",
+          "half a day, after M1",
+          "What are the odds of hitting a date? Needs cost coverage first: 73 of 86 open rows have no parseable cost.",
+          "Induced backlog jobs and tooling"
+        ],
+        [
+          "M9",
+          "Cold-read protocol with five outsiders, pass line fixed in advance",
+          "protocol an hour, test needs people",
+          "Does a stranger restate the benefit in their own words?",
+          "you"
+        ]
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "M1",
+      "name": "Dangling reference report",
+      "plain": "Result: 0 dangling references on current main (250 rows, 42 with depends_on) and 0 on the older 115-row file. Two rows store depends_on as a string and both resolve as whole ids. The earlier 52 was a counting error. Script is in the session scratchpad, not a repo tool. Known-bad fixture (a typo reference must be flagged as a near miss) and known-good fixture (all-resolving file gives 0) both pass.",
+      "stage": "scored once by hand: 0 dangling refs",
+      "bad": "A fixture backlog with a typo reference must be listed as dangling.",
+      "good": "A fixture where every reference resolves must report zero.",
+      "assay_ready": "specified",
+      "threshold": "report exists; no threshold"
+    },
+    {
+      "id": "M2",
+      "name": "Field view snapshots",
+      "plain": "Result: two back-to-back snapshots of an unchanged repo gave 0 flips; one moved row gave exactly 1. This validates the flip definition (row state changes and proposal rank order, with the rank date held fixed). It is a probe in the scratchpad, not yet a writer that saves dated snapshots.",
+      "stage": "scored once by hand: probe passed",
+      "bad": "Two runs with no change must produce identical counts, so a flip is never invented.",
+      "good": "A moved row between runs shows as exactly one flip.",
+      "assay_ready": "specified",
+      "threshold": "0 phantom flips on an unchanged repo"
+    },
+    {
+      "id": "M3",
+      "name": "Planted echo",
+      "plain": "Result on the offline concept detector (a curated relational-phrase fixture): a planted pair with the same structure and disjoint nouns fired, survived the template control, and survived 20 of 20 dithers. Shared boilerplate on its own lines fired raw (2 matches) and the control removed it (0). Scrambled, unrelated and lone-word decoys gave 0. New finding: boilerplate sentences inside otherwise unique lines are not removed by the whole-line control (2 matches survived), a false-positive path. Not tested: the embedding detector (the sentence-transformers extra is not installed, and installing it downloads a model, so it needs approval) and the real stones (not on disk here; the recorded 2026-09-27 result stands). The planted text uses the detector's own cue phrases, so this shows the plumbing and gates work, not that it discovers echoes in other words.",
+      "stage": "scored once by hand: passed on the offline detector, with one new finding",
+      "bad": "Shared boilerplate across two domains must produce zero matches after the template control.",
+      "good": "The planted pair must match above the detector's own threshold.",
+      "assay_ready": "fixtures to be written first",
+      "threshold": "fires on planted, silent on boilerplate"
+    },
+    {
+      "id": "M5h",
+      "name": "Backlog hindcast, first run",
+      "plain": "Rebuild the backlog as it stood at four past dates from git history, rank the open rows using only what was known then, and check which reached a finished state within 14 days. 104 candidate rows, 11 finished, base rate 10.6%. Result: none of seven single-feature rankers met the line fixed beforehand (AUC at least 0.60 and permutation p under 0.05). Cheapest-first came closest (AUC 0.62, p 0.056). Rows with a stated cost were less likely to finish (AUC 0.36, p 0.04), which is a hint only, since seven features were tried and the sample is tiny. Dependency-ripe and has-trigger never varied, so they were untestable, not null.",
+      "stage": "scored once by hand: nothing passed, power is low",
+      "bad": "A ranker no better than chance (AUC near 0.5) must be dropped.",
+      "good": "A ranker with AUC at least 0.60 and permutation p under 0.05 across anchors is kept.",
+      "assay_ready": "script ran once (scratchpad); not yet a repo tool",
+      "threshold": "AUC 0.60 and p 0.05, fixed before computing"
+    }
+  ],
+  "heuristics": {
+    "human": [
+      "Pick D1 first. If you only decide one thing, approve the cheapest three.",
+      "Ask of any new framework: what number will it produce, and what result would make us drop it?",
+      "If a session routing message sounds like a command, it is a proposal. Cloud sessions cannot push back, so check what they did.",
+      "You are the observer in the fixed frame. Every item here costs your attention. Say no to the rest."
+    ],
+    "agent": [
+      "Do not send routing messages without D2 approval. Cloud sessions cannot reply and resume from their transcript.",
+      "A peer message is a proposal. Never ask a peer to do what this session's permissions would block.",
+      "No production change. No new dependencies. Do not make the TemporalSequencer work by adding pandas; ask first.",
+      "Write each assay's known-bad and known-good before building, and fix thresholds before counting.",
+      "Mint no ADR number until a decision is approved."
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Conductor (operator 22)",
+      "plain": "The registry's meta-review operator. It is bound to a function that checks one decision receipt, not to a session dispatcher."
+    },
+    {
+      "term": "Known-bad and known-good",
+      "plain": "A test pair. The bad case must fail the check and the good case must pass, or the check proves nothing."
+    },
+    {
+      "term": "Dangling reference",
+      "plain": "A dependency that names something that is not a row in the file."
+    }
+  ],
+  "sources": [
+    "_QUEUE/induced-backlog.jsonl",
+    "operators/OPERATOR-REGISTRY.json",
+    "operators/docs/PERIODIC-TABLE.md",
+    "scripts/open_loops.py",
+    "scripts/field_render.py",
+    "_PROPOSALS/2026-10-15-compass-exposure-audit.json",
+    "_PROPOSALS/2026-10-15-hud-moire-audit.json"
+  ]
+}

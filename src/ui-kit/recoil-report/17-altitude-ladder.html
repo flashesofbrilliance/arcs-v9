@@ -1,0 +1,43 @@
+<!-- @dsCard group="Instrument Lab" name="Altitude Ladder" subtitle="Progressive disclosure · one card per depth · altitude tag + title + what is inside" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* Organism: progressive disclosure by altitude. One card per depth; the summary names the altitude, the title,
+   and what is inside, so a reader chooses depth. Closed by default except where the page needs one open. */
+.alts { display: flex; flex-direction: column; gap: 12px; }
+details.alt { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); }
+details.alt > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: auto 1fr auto; gap: 6px 16px; align-items: baseline; padding: 18px 20px; }
+details.alt > summary::-webkit-details-marker { display: none; }
+.alt-n { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); white-space: nowrap; }
+.alt-t { font-family: var(--ds-font-display); font-size: var(--fs-headline); font-weight: 600; line-height: 1.2; min-width: 0; }
+.alt-go { font-family: var(--ds-font-mono); font-size: var(--fs-headline); color: var(--text-secondary); transition: transform var(--dur-base) var(--ease-out); }
+details[open] > summary .alt-go { transform: rotate(45deg); }
+.alt-s { grid-column: 2 / 3; color: var(--muted); }
+.alt-body { padding: 4px 20px 24px; border-top: 1px solid var(--border); }
+.alt-body p { margin: 16px 0 0; }
+@media (max-width: 860px) { details.alt > summary { grid-template-columns: 1fr auto; } .alt-n, .alt-s { grid-column: 1 / 3; } }
+@media (prefers-reduced-motion: reduce) { .alt-go { transition: none; } }
+</style>
+</head>
+<body>
+<div class="section-label">Altitude ladder</div>
+<div class="alts">
+  <details class="alt" open>
+    <summary><span class="alt-n">Altitude 2</span><span class="alt-t">The map</span><span class="alt-go" aria-hidden="true">+</span><span class="alt-s">Which parts are mechanism and which are only a picture.</span></summary>
+    <div class="alt-body"><p>Body copy fills the card, so its right edge lines up with the cards around it. A deeper altitude adds evidence, never a new claim.</p></div>
+  </details>
+  <details class="alt">
+    <summary><span class="alt-n">Altitude 3</span><span class="alt-t">The evidence</span><span class="alt-go" aria-hidden="true">+</span><span class="alt-s">What was run, and what was not.</span></summary>
+    <div class="alt-body"><p>Closed by default.</p></div>
+  </details>
+</div>
+</body>
+</html>

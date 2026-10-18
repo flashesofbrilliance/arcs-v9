@@ -736,7 +736,24 @@
     ],
     "createdAt": "2026-10-11T00:00:00.000Z",
     "reason": "The count is the '-->' arrows in the page's Mermaid diagram source, rendered as SVG edges, not prose; the visible copy has 0 em-dashes (wrap lint clean)."
+   },
+   {
+    "rule": "shape-assembled-illustration",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/tao-print-prototype.html",
+     "_ARTIFACTS/tao-print-paper.html"
+    ],
+    "createdAt": "2026-10-15T20:00:00.000Z",
+    "reason": "Generated data graphic, not clip art: the ARCS Mobius strip is a parametric projection and every mark is derived from proverb id, recipe and seed (scripts/tao_print.py)"
    }
   ]
+ },
+ "hook": {
+  "enabled": true,
+  "limits": {
+   "maxFindings": 5,
+   "maxChars": 8000
+  }
  }
 }

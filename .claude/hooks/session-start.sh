@@ -34,6 +34,7 @@ for _d in "$CLAUDE_PROJECT_DIR" "$PWD"; do
   [ -x "$_d/scripts/hookspath_arm.sh" ] && "$_d/scripts/hookspath_arm.sh" "$_d" 2>/dev/null || true
   # (3b) Project skills/commands load from the MAIN checkout; warn when it drifts from origin/main.
   [ -x "$_d/scripts/project_skills_drift.sh" ] && "$_d/scripts/project_skills_drift.sh" "$_d" 2>/dev/null || true
+  [ -f "$_d/scripts/sentries.py" ] && python3 "$_d/scripts/sentries.py" 2>/dev/null | head -12 || true
   [ "$PWD" = "$CLAUDE_PROJECT_DIR" ] && break
 done
 

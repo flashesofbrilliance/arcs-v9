@@ -185,3 +185,13 @@ systems (GitHub PRs, `_PATTERNS/ledger.json`, `_QUEUE/induced-backlog.jsonl`, pe
 `_STATE/handoff-progress.jsonl`, `decision_receipt`) by hand to answer "what's actually
 blocking what" — and the sweep then caught a live collision (PR #533 vs #537, both
 touching the same leak-check files) that the manual pass had missed.
+
+## Universe contamination sweep (added 2026-10-15)
+
+Run `python3 scripts/universe_sweep.py` once per digest. It is read-only over the clean-room universes
+(`_STATE/job-search/universe/`), appends one dated receipt to `_INBOX/universe-drift.jsonl`, and exits 2 on a
+hard finding. Report the verdict line under "What we learned". Any CROSS-NAME, ALIAS-LEAK, CONTAMINATED or
+UNSOURCED finding goes under "What's next" as a fix to the atom that carried it (fix upstream, not the leaf).
+A `canon-adapter-receipt` DRIFT (canon source changed, or a canon file names a counterpart) is a question
+for Zach; never edit `_CANON/` or `_DECISIONS/` from the digest. Re-run `python3 scripts/universe_canon_adapter.py`
+first when canon changed.

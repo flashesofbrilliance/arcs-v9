@@ -9,7 +9,7 @@ Record of record: `_STATE/job-search/forge-inputs/record-of-record.txt` (the con
 |---|---|---|---|
 | Embed with teams, learn workflows inside and out, build agents to offload the work | Squat: sole product-and-tech partner, discovery through QA and handoff, embedded inside a $350M-ARR company. ARCS: built the agentic pipeline itself, end to end. | Summary, pillars, Squat bullet | Yes, both in record |
 | No established playbook; decompose novel problems from first principles | CTF and WTA: "the first intelligence layer those teams had," built from scratch with no inherited spec. Axon: MVP defined with no established playbook. | Summary, CTF, WTA, Axon | Yes |
-| Excited about working with coding agents; unlimited token budget | ARCS: MCP server + agentic orchestration on Claude, in production, public commit trail. | Summary, ARCS, skills | Yes |
+| Excited about working with coding agents; unlimited token budget | ARCS: MCP server + agentic orchestration on Claude, in production, commit history on request. | Summary, ARCS, skills | Yes |
 | Future founders: agency, customer obsession, product taste, technical skill, communication | ARCS: "operate the full stack, single-threaded" (product, GTM, growth, commercial). Grayscale and Squat: cross-functional translation between non-technical stakeholders and engineering. | ARCS, Grayscale, Squat | Yes |
 | Regulated context (Basis serves accounting firms) | Grayscale: SEC/FINRA-regulated digital-asset products, $7B AUM, translated regulatory requirements into buildable ones. Twill: HIPAA-regulated digital health. | Grayscale, Twill | Directionally yes (finance/health regulation, not accounting specifically; named as a gap below) |
 | Passionate about outcomes; success of the embedded team is your success | Squat: aligned engineering, clinical, and operations to ship on schedule. Twill: KPI frameworks drove go-forward on 2 of 3 lines. | Squat, Twill | Yes |
@@ -23,7 +23,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 
 | Claim on the page | Grade | Trace |
 |---|---|---|
-| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; public GitHub |
+| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
 | $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
@@ -46,7 +46,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 3. $850K+ and <120ms (WTA). Answer: first-year partnership revenue and scoring latency from the 2016 to 2018 build; consistent with the role, not externally auditable.
 4. 20% net-new revenue (CTF). Answer: measured against the prior year after the segmentation and personalization rollout; internal figure.
 5. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP). Answer: used in the CTF and WTA data-layer work; drop any one the moment it cannot be discussed fluently.
-6. "In production, not experiments" for ARCS. Answer: live MCP server, live app, public commit trail.
+6. "In production, not experiments" for ARCS. Answer: live MCP server, live app (app.arcs.care); commit history and traces on request (arcs-v9 is private).
 7. Regulated-industry fluency framed against Basis's accounting-firm customer base. Answer: SEC/FINRA and HIPAA are the actual regulated environments worked in; accounting/audit specifically is not claimed as domain experience, only the muscle of shipping inside compliance gates.
 
 **Dropped (not on the page):**

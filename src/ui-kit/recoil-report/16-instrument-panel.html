@@ -1,0 +1,66 @@
+<!-- @dsCard group="Instrument Lab" name="Instrument Panel" subtitle="Canvas frame · segmented control · labeled range · readout cells · Y-state verdict" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* Organism: a live instrument. Canvas frame + control panel (segmented control, labeled range) + readout cells
+   + state verdict. Molecules inside: .seg, .ctl-label, .cell, .y. State pills use the Y render scale. */
+.inst { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 20px; }
+.frame { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 10px; }
+.slot { aspect-ratio: 16 / 9; border-radius: var(--ds-r-md); background: var(--bg); display: grid; place-items: center; color: var(--muted); font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 18px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.ctl-label { display: flex; justify-content: space-between; gap: 12px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 6px; }
+.ctl-label output { color: var(--text); font-variant-numeric: tabular-nums; }
+input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin: 0; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { text-align: center; font-size: var(--fs-body); line-height: 1.25; padding: 10px 6px; cursor: pointer; color: var(--text-secondary); background: var(--elevated); border-left: 1px solid var(--border); }
+.seg label:first-of-type { border-left: 0; }
+.seg input:checked + label { background: var(--cyan-bg); color: var(--text); box-shadow: inset 0 -2px 0 var(--cyan); }
+.seg input:focus-visible + label { outline: 2px solid var(--cyan); outline-offset: -2px; }
+.read { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px; min-width: 0; }
+.cell h2 { font-family: var(--ds-font-mono); font-weight: 500; font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 8px; }
+.big { font-family: var(--ds-font-display); font-size: var(--fs-display); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.sub { font-size: var(--fs-body); color: var(--muted); margin: 6px 0 0; }
+.bar2 { height: 10px; border-radius: var(--ds-r-sm); background: var(--elevated); display: flex; overflow: hidden; margin-top: 10px; border: 1px solid var(--border); }
+.bar2 i { display: block; height: 100%; } .b-real { background: var(--green); } .b-fake { background: var(--red); }
+.verdict { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px 16px; background: var(--surface); }
+.y { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; border-radius: var(--ds-r-pill); padding: 4px 12px; border: 1px solid var(--border); white-space: nowrap; }
+.y.sharp { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.y.degraded { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.y.grain { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.y.moire { color: var(--magenta); border-color: var(--magenta); background: var(--magenta-bg); }
+.verdict p { flex: 1 1 320px; min-width: 0; }
+@media (max-width: 860px) { .inst, .read { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<div class="section-label">Instrument panel</div>
+<div class="inst">
+  <div class="frame"><div class="slot">canvas slot</div></div>
+  <div class="panel">
+    <div><div class="ctl-label"><span>Capture</span></div>
+      <div class="seg" role="radiogroup" aria-label="Capture">
+        <input type="radio" name="cap" id="a" checked><label for="a">Wide<br>range</label>
+        <input type="radio" name="cap" id="b"><label for="b">Clipped</label>
+        <input type="radio" name="cap" id="c"><label for="c">Dim</label>
+      </div></div>
+    <div><div class="ctl-label"><label for="ev">Exposure</label><output>+1.0 EV</output></div><input type="range" id="ev" min="-2" max="5" step="0.05" value="1"></div>
+  </div>
+</div>
+<div class="read">
+  <div class="cell"><h2>Gone at capture</h2><div class="big">24%</div><p class="sub">Saturated pixels.</p></div>
+  <div class="cell"><h2>Detail you see</h2><div class="big">41</div><div class="bar2"><i class="b-real" style="width:27%"></i><i class="b-fake" style="width:73%"></i></div><p class="sub">27% real, 73% noise.</p></div>
+  <div class="cell"><h2>Drift</h2><div class="big">1.6</div><p class="sub">8-bit levels RMS.</p></div>
+</div>
+<div class="verdict"><span class="y grain">GRAIN</span><p>Most of this sharpness is noise. The capture does not hold the detail you are asking for.</p></div>
+</body>
+</html>

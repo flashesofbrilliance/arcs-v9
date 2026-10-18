@@ -16,8 +16,8 @@ Record of record: `_STATE/job-search/forge-inputs/record-of-record.txt` (the res
 | Enterprise production experience, stayed to see it operate, governance and resilience at scale | Grayscale: 10 SEC/FINRA-regulated products, $7B AUM, regulated release gates. CTF: enterprise data layer across 3 business units. | pillars, Grayscale, CTF | Yes |
 | Nice-to-have: customer-facing / professional services role | Squat, Twill, Axon, Verizon, GoPro: five embedded and advisory engagements, 2019 to 2024. | Embedded section | Yes |
 | Nice-to-have: regulated industries (financial services, healthcare, insurance) | Grayscale (SEC/FINRA), Twill (HIPAA). No insurance claim. | Grayscale, Twill | Yes; insurance gap left open |
-| Nice-to-have: production experience with agentic systems | ARCS: MCP server, agentic orchestration, live commit trail, public repo. | ARCS | Yes |
-| Nice-to-have: contributions to a shared platform / open source others build on | Not directly claimed. Public GitHub referenced as the only checkable proxy. | Skills/footer link | Gap acknowledged, not invented |
+| Nice-to-have: production experience with agentic systems | ARCS: MCP server, agentic orchestration, live commit trail on request, repo private. | ARCS | Yes |
+| Nice-to-have: contributions to a shared platform / open source others build on | Not directly claimed. Private repo; walkthrough on request is the checkable proxy. | Skills/footer link | Gap acknowledged, not invented |
 | Java services and React interfaces | Not claimed. No Java or React experience in the record. | (absent) | Gap, left open on purpose, not papered over |
 | Fully remote, global | "Fully remote (US)" in header contact block. | Header | Yes |
 | #USEAST | Not addressed on the page; candidate location is not in the record beyond "fully remote." | (absent) | Neutral; no false claim either way |
@@ -28,7 +28,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 
 | Claim on the page | Grade | Trace |
 |---|---|---|
-| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; public GitHub |
+| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
 | $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |

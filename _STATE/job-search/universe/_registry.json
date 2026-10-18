@@ -1,0 +1,195 @@
+{
+  "_doc": "Clean-room registry. One universe per counterpart or canon corpus. Atoms never cross universes: a query names ONE universe; bridging needs --bridge with --why and is logged. anti_aliases = names that look like the entity but are NOT it (a query containing one gets a conflation warning; an atom may mention one only if type=collision). audience: every atom is internal unless tagged external; external is allowed only on type=claim, grade A/B/C, and a public projection (--project public) replaces names with the client's SHAPE (registry shape/name_shapes, what it does, never a hand-picked alias; null = refuse) and prints an opaque tag from the private hash table sources/pseudonym-key.json (gitignored). tier=canon is read-only: built by scripts/universe_canon_adapter.py from _CANON/ and _DECISIONS/, no counterpart name may appear in it. grades: A primary document authored by the entity, B self-reported by the subject, C second-hand (relayed), inference, hypothesis. tier=personal: a person's own receipts, always internal, no public projection; atoms name counterparts only through declared `bridges`.",
+  "universes": {
+    "vico": {
+      "tier": "counterpart",
+      "entities": [
+        "lyndon",
+        "vinci",
+        "vico",
+        "joe",
+        "hypothesis"
+      ],
+      "names": [
+        "vico",
+        "lyndon oh",
+        "anthony vinci",
+        "joe schriner",
+        "oxenham"
+      ],
+      "anti_aliases": [
+        "veeqo",
+        "vico energy",
+        "vico foods",
+        "arcturus uav",
+        "aerovironment",
+        "vico technologies series b",
+        "sdic tronfund"
+      ],
+      "alias_notes": "Joe misheard the company as 'Veeqo' on a call (memory: project_joe_schriner_oxenham_autopilot_vico). Autopilot is a different Oxenham thread and a different universe. 'Arcturus UAV' (AeroVironment, drone maker) is not the geospatial Arcturus in Lyndon's profile. A 'Vico Technologies' Series B (SDIC Tronfund, 2022) on CB Insights is likely a different company.",
+      "audience_default": "internal",
+      "shape": "a predictive analytics and forecasting company",
+      "name_shapes": {
+        "lyndon oh": "its CTO",
+        "anthony vinci": "a co-founder",
+        "joe schriner": "an introducing advisor",
+        "oxenham": "the advisory firm"
+      }
+    },
+    "wonderful-ai": {
+      "tier": "counterpart",
+      "entities": [
+        "wonderful",
+        "roles",
+        "process",
+        "itay",
+        "founders",
+        "collision",
+        "hypothesis"
+      ],
+      "names": [
+        "wonderful.ai",
+        "wonderful ai",
+        "itay",
+        "bar winkler",
+        "roey lalazar"
+      ],
+      "anti_aliases": [
+        "the wonderful company",
+        "wonderful pistachios",
+        "fiji water",
+        "pom wonderful",
+        "bridge-wonderful-e2618671"
+      ],
+      "alias_notes": "The jobs board row bridge-wonderful-e2618671 is The Wonderful Company (the pistachio and Fiji Water group; Ashby board slug 'wonderful'), NOT wonderful.ai. Found 2026-10-14; the company field of the row reads 'The Wonderful Company', location 'Andean; Remote'. Never score or cite that row as evidence about wonderful.ai.",
+      "audience_default": "internal",
+      "speakers": {
+        "george": "them",
+        "zach": "me"
+      },
+      "quote_sources": {
+        "call-2026-10-13": "sources/scout-call-2026-10-13.txt"
+      },
+      "shape": "an enterprise AI agent platform",
+      "name_shapes": {
+        "itay": "the company's talent lead",
+        "bar winkler": "its CEO",
+        "roey lalazar": "its CTO"
+      },
+      "redact": [
+        "wonderful"
+      ]
+    },
+    "scout-global": {
+      "tier": "counterpart",
+      "entities": [
+        "scout",
+        "george",
+        "hypothesis"
+      ],
+      "names": [
+        "scout global",
+        "scout-global.com",
+        "george suttie"
+      ],
+      "anti_aliases": [],
+      "alias_notes": "No look-alike found yet (checked 2026-10-15 by name only, no web search). Add on first collision.",
+      "audience_default": "internal",
+      "speakers": {
+        "george": "them",
+        "zach": "me"
+      },
+      "quote_sources": {
+        "call-2026-10-13": "sources/scout-call-2026-10-13.txt"
+      },
+      "shape": "a specialist recruiting firm",
+      "name_shapes": {
+        "george suttie": "its recruiter"
+      }
+    },
+    "canon": {
+      "tier": "canon",
+      "readonly": true,
+      "roots": [
+        "_CANON",
+        "_DECISIONS"
+      ],
+      "entities": [
+        "adr",
+        "canon-doc",
+        "tao"
+      ],
+      "names": [],
+      "anti_aliases": [],
+      "alias_notes": "Derived, never hand-edited: python3 scripts/universe_canon_adapter.py. No counterpart fact may enter canon.",
+      "audience_default": "internal"
+    },
+    "zach-receipts": {
+      "tier": "personal",
+      "entities": [
+        "receipt",
+        "confirmed",
+        "unconfirmed"
+      ],
+      "names": [],
+      "anti_aliases": [],
+      "audience_default": "internal",
+      "shape": null,
+      "alias_notes": "Zach's own decision_receipt rows (all receipt ids end --ZH). Built by scripts/universe_receipts_adapter.py; generated files are gitignored. Never external, never public. Atoms that name a counterpart universe declare it in `bridges`."
+    }
+  },
+  "bridges": [],
+  "canon_denied_names_extra": [
+    "robin daniels",
+    "zensai",
+    "yuri kleban",
+    "ahmed elsamadisi",
+    "polyform",
+    "rayan saleh",
+    "periscope",
+    "julia trabulski",
+    "todd hotes",
+    "kam palizban",
+    "brooks thomas",
+    "jeben"
+  ],
+  "collisions": [
+    {
+      "ref": "bridge-wonderful-e2618671",
+      "is": "The Wonderful Company",
+      "is_not": "wonderful.ai",
+      "universe": "wonderful-ai",
+      "evidence": "_STATE/job-search/employer-index/reqs.jsonl:546 (company field)",
+      "found": "2026-10-14"
+    },
+    {
+      "ref": "Arcturus UAV",
+      "is": "AeroVironment's drone-maker acquisition (Feb 2021)",
+      "is_not": "Lyndon's geospatial 'Arcturus' board seat",
+      "universe": "vico",
+      "evidence": "vico/L14",
+      "found": "2026-10-15"
+    },
+    {
+      "ref": "Vico Technologies",
+      "is": "a different company on CB Insights (SDIC Tronfund, April 2022)",
+      "is_not": "VICO",
+      "universe": "vico",
+      "evidence": "vico/C10",
+      "found": "2026-10-15"
+    }
+  ],
+  "canon_accepted_exposure": {
+    "decided": "2026-10-15",
+    "by": "Zach",
+    "reason": "canon lives in a private repo; counterpart names in existing ADRs stay. Canon atoms are internal-only and can never be projected public.",
+    "files": [
+      "_DECISIONS/ADR-033-serialization-pathogen-family.md",
+      "_DECISIONS/ADR-044-temporal-provenance-gate.md",
+      "_DECISIONS/ADR-050-federated-family-airgap.md",
+      "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
+      "_DECISIONS/ADR-067-cross-subject-comparative-recoil.md",
+      "_DECISIONS/ADR-080-instance-to-class-self-promotion-build-loop.md"
+    ]
+  }
+}

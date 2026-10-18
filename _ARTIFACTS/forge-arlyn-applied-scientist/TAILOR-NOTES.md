@@ -29,7 +29,7 @@ Grades: **documented** (verbatim in the record of record, or independently publi
 
 | Claim on the page | Grade | Trace |
 |---|---|---|
-| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; public GitHub |
+| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | ARCS: structured evidence taxonomy / gating architecture | documented | record ROLES.arcs bullet ("structured evidence taxonomy and evidence-gating architecture") |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
 | $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |

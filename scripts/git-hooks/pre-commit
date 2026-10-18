@@ -429,6 +429,42 @@ if [ -f scripts/token_source_gate.py ] && command -v python3 >/dev/null 2>&1; th
   fi
 fi
 
+# Motion policy gate (2026-10-16): pages that move read the --mo-* motion and safety tokens from
+# src/ui-kit/recoil-report/_tokens.css (flash cap, pose rate, holds) and obey them. Stdlib-only.
+# See scripts/motion_policy_gate.py and DESIGN.md "Motion and safety".
+if [ -f scripts/motion_policy_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  mpages=$(git diff --cached --name-only --diff-filter=ACM -- '_ARTIFACTS/*.html' 'public/*.html')
+  if [ -n "$mpages" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/motion_policy_gate.py $mpages; then
+      echo "✖ commit blocked: motion policy gate (see above). Edit the --mo-* tokens in src/ui-kit/recoil-report/_tokens.css and re-inline; do not hand-edit a page's copy." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# Phosphor build (2026-10-17): _ARTIFACTS/phosphor.html is built from _ARTIFACTS/phosphor-src/ by
+# scripts/phosphor_build.py. A commit that touches either side must leave them in agreement.
+if [ -f scripts/phosphor_build.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(_ARTIFACTS/phosphor\.html|_ARTIFACTS/phosphor-src/|scripts/phosphor_build\.py)'; then
+    if ! python3 scripts/phosphor_build.py --check; then
+      echo "✖ commit blocked: _ARTIFACTS/phosphor.html is not what its sources build. Edit _ARTIFACTS/phosphor-src/ and run python3 scripts/phosphor_build.py." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# Kit primitive sync (2026-10-16): the Instrument Lab primitives promoted from Phosphor (kit 21 to 26,
+# marked @prim blocks) must stay identical to the page. See scripts/kit_primitive_sync.py.
+if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(_ARTIFACTS/phosphor\.html|src/ui-kit/recoil-report/2[1-6]-)'; then
+    if ! python3 scripts/kit_primitive_sync.py --check || ! python3 scripts/inline_token_sync.py --check _ARTIFACTS/phosphor.html; then
+      echo "✖ commit blocked: a kit primitive and _ARTIFACTS/phosphor.html disagree. The kit is the source: copy the kit @prim block into the page." >&2
+      exit 1
+    fi
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # component-source gate (visual twin of token-source, 2026-09-26): an ENROLLED single-file
 # page (one carrying  <!-- @arcs-template: <name> --> ) must assemble from the registered
@@ -622,6 +658,14 @@ if [ -f scripts/provenance_lint.py ] && command -v python3 >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# Librarian anticipation hook (ADR-088, T2 + T3): WARN-only. Lines added to _CANON/** or
+# operators/arcs_primitives.py with a metric that no evidence ledger covers, or a term the canon,
+# glossary and rosetta have never seen. Never blocks; LIBRARIAN_HOOK=0 silences one commit.
+if [ -f scripts/librarian_hook.py ] && [ "${LIBRARIAN_HOOK:-1}" != "0" ] && command -v python3 >/dev/null 2>&1; then
+  python3 scripts/librarian_hook.py || true
+fi
+
+# ---------------------------------------------------------------------------
 # case-world drift gate (AGENTS.md #13/#15): playable case pages carry the kit's Case World
 # blocks verbatim (src/ui-kit/recoil-report/15-case-world.html). Block the commit if an
 # enrolled page drifted or is half-enrolled. Fix by editing the kit and running
@@ -793,7 +837,7 @@ fi
 # Each carries a --self-test that proves it; run it whenever that script is staged.
 for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
          connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
-         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
+         provenance_lint librarian_hook canon_claims_report case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
          bridge_index_scan snapshot_prune_ui_artifacts research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
          linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
@@ -882,6 +926,18 @@ if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1;
     fi
   fi
 fi
+# public-claim guard (2026-10-17): arcs-v9 is private; resumes/covers/pages must not call its repo or
+# commit trail public. See scripts/public_claim_gate.py.
+if [ -f scripts/public_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pc=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/*/*resume*' '_ARTIFACTS/*/*cover*' '_ARTIFACTS/*/page.html' 'public/*resume*' 2>/dev/null || true)
+  if [ -n "$pc" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/public_claim_gate.py $pc >&2; then
+      echo "✖ pre-commit(public-claim): arcs-v9 is private; reword (see scripts/public_claim_gate.py)." >&2
+      exit 1
+    fi
+  fi
+fi
 # ---------------------------------------------------------------------------
 # Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be
 # guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads
@@ -931,4 +987,20 @@ held=$(git diff --cached --name-only -- package.json .github/dependabot.yml runt
 if [ -n "$held" ] && [ -f scripts/held_exceptions.py ] && command -v python3 >/dev/null 2>&1; then
   python3 scripts/held_exceptions.py check >/dev/null 2>&1 || { python3 scripts/held_exceptions.py check || true; exit 1; }
 fi
+# Seed-agent merge rule (2026-10-15): idea-*, chief-* and scenario-* agents enter as [CANDIDATE] and only
+# merge as SURVIVED with >= 3 recorded uses; a tripped kill line must delete the spec. See scripts/agent_seed_gate.py.
+seedag=$(git diff --cached --name-only -- .claude/agents runtime/specs/agent-seed-ledger.jsonl scripts/agent_seed_gate.py 2>/dev/null || true)
+if [ -n "$seedag" ] && [ -f scripts/agent_seed_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/agent_seed_gate.py --check; then
+    echo "✖ commit blocked: seed-agent ledger rule failed (see FAIL lines above)." >&2
+    exit 1
+  fi
+fi
+# Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
+# See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
+if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then
+  rl=$(git diff --cached --name-only)
+  [ -n "$rl" ] && python3 scripts/ripple_ledger.py --touch $rl || true
+fi
+
 exit 0
