@@ -330,7 +330,7 @@ Anonymized Pattern (Shared):
 
 **Positioning**: "Next-generation ad server with AI optimization"
 
-**Value Proposition**: 40% ROAS improvement with performance guarantee
+**Value Proposition**: 40% ROAS improvement with performance guarantee [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
 
 **Customer Psychology**: "We need better ad performance" → Solves immediate pain
 
@@ -412,6 +412,8 @@ By Phase 3, customers face a unique retention dynamic:
 - **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns, gets 82% accuracy  
 - **Tier 3 (Full Contribution)**: $2.5M/year—shares all receipts, gets 87% accuracy
 
+**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
+
 **Strategic Effect**: 
 1. Agencies recommend Tier 1 (protect asymmetry)
 2. Clients see 15% performance gap vs. Tier 3
@@ -453,6 +455,8 @@ By Phase 3, customers face a unique retention dynamic:
 **Insight**: Competitors can't offer guarantees without receipts. Receipts take 2-3 years to build.
 
 **Implementation**: "40% ROAS improvement or full refund"
+
+**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
 
 **Why This Works**:
 - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
