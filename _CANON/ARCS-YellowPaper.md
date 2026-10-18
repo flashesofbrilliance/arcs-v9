@@ -155,13 +155,7 @@ Where:
 
 ### 2.4 Empirical Validation
 
-Across [REDACTED] test scenarios comparing abductive predictions to actual outcomes:
-
-- **Precision**: Mean Absolute Percentage Error (MAPE) of 12-15%
-- **Comparative Performance**: Outperforms human expert predictions in 76% of cases
-- **Calibration**: Predicted confidence levels align with observed outcome distributions (χ² test, p < 0.01)
-
-These results demonstrate that abductive reasoning, when applied to sufficient historical data, provides reliable predictive capability for marketing optimization.
+[struck 2026-10-17: no supporting data] (the test scenarios were never specified and no results exist in the repo)
 
 ---
 
@@ -202,12 +196,7 @@ Input → Feature Extraction → Similarity Search → Ensemble Prediction →
 
 **Performance Characteristics**:
 
-| Receipt Database Size | Prediction Accuracy | MAPE | Latency |
-|-----------------------|---------------------|------|----------|
-| 1,000 | 68% | 22% | 0.3s |
-| 10,000 | 78% | 17% | 0.8s |
-| 100,000 | [struck 2026-10-17: no supporting data] | 12% | 2.1s |
-| 1,000,000 (projected) | 92% | 8% | 4.5s |
+[struck 2026-10-17: no supporting data]
 
 **Network Effect Mechanism**: Prediction accuracy improves logarithmically with database size. This creates sustainable advantage for early-adopting platforms with larger receipt collections.
 
@@ -505,16 +494,16 @@ The only churn at this phase results from:
 
 | Tier | Annual Fee | Data Contribution | Prediction Accuracy | Expected Outcome |
 |------|-----------|-------------------|---------------------|------------------|
-| Private | $7.5M | Zero (siloed) | 72-78% | Agency recommended |
-| Partial | $4.5M | Anonymized patterns | 82-88% | Rational clients choose |
-| Full | $2.5M | All receipts shared | 87-92% | Optimal performance |
+| Private | $7.5M | Zero (siloed) | [struck 2026-10-17: no supporting data] | Agency recommended |
+| Partial | $4.5M | Anonymized patterns | [struck 2026-10-17: no supporting data] | Rational clients choose |
+| Full | $2.5M | All receipts shared | [struck 2026-10-17: no supporting data] | Optimal performance |
 
-**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
+**Status**: Illustrative pricing. The tier accuracy figures and the performance gap between tiers were struck for lack of supporting data.
 
 **Strategic Effect**:
 
 1. Agencies recommend Private tier (protect information advantage)
-2. Clients observe 15-18% performance gap vs. Full tier
+2. [struck 2026-10-17: no supporting data]
 3. Clients either fire agency or demand Full tier
 4. Transparent agencies capture all new business
 5. Opaque agencies decline or adapt
@@ -681,29 +670,11 @@ vendor for compliance implementation.
 
 Let \( N \) be the number of platform customers and \( A(N) \) be prediction accuracy as function of customer count.
 
-Empirical observation suggests:
-
-\[
-A(N) \approx A_{\infty} - (A_{\infty} - A_0) \cdot e^{-\lambda N}
-\]
-
-Where:
-- \( A_0 \) = baseline accuracy with zero network (≈68%)
-- \( A_{\infty} \) = asymptotic accuracy at infinite scale (≈92%)
-- \( \lambda \) = network effect strength parameter
-
-Fitted values: \( \lambda \approx 0.000012 \), yielding:
-
-| Customers (N) | Receipts | Accuracy A(N) | Competitive Gap |
-|--------------|----------|---------------|-----------------|
-| 10 | 5,000 | 69% | - |
-| 100 | 50,000 | 77% | +8% vs. new entrant |
-| 500 | 250,000 | 85% | +16% vs. new entrant |
-| 1,000 | 500,000 | 88% | +19% vs. new entrant |
+[struck 2026-10-17: no supporting data] (the accuracy curve, its fitted parameters and the competitive-gap table)
 
 **Winner-Take-Most Dynamics**:
 
-Early platform with 500 customers provides 16% better predictions than new entrant starting from zero. Rational customers prefer established platform, creating:
+Early platform with 500 customers [struck 2026-10-17: no supporting data]. Rational customers prefer established platform, creating:
 
 1. **Acquisition Advantage**: Established platform wins competitive deals
 2. **Retention Advantage**: Customers hesitant to switch (lose accuracy)

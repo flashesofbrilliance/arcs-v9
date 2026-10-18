@@ -149,9 +149,7 @@ Process:
 Output: Prediction with confidence interval + alternatives + reasoning
 ```
 
-**Accuracy Metrics**:
-- Mean Absolute Percentage Error (MAPE): 12-15%
-- Outperforms human experts 76% of the time on blind tests
+**Accuracy Metrics**: [struck 2026-10-17: no supporting data]
 
 ### 3.2 Pillar 2: Decision Receipt System
 
@@ -312,12 +310,7 @@ Anonymized Pattern (Shared):
 
 **Quantified Network Effects**:
 
-| Receipts in Database | Prediction Accuracy | Average Customer ROAS |
-|---------------------|-------------------|----------------------|
-| 1,000 | 68% | 2.9x |
-| 10,000 | 78% | 3.4x |
-| 100,000 | [struck 2026-10-17: no supporting data] | 4.1x |
-| 1,000,000 (projected) | 92% (projected) | 4.8x (projected) |
+[struck 2026-10-17: no supporting data]
 
 **Strategic Implication**: Early customers benefit from the network but contribute to the moat. Late customers benefit more but have higher switching costs due to accumulated learning.
 
@@ -406,15 +399,15 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Implementation**: Data Contribution Pricing Tiers
 
-- **Tier 1 (Private Mode)**: $7.5M/year—agency hoards client data, gets 72% accuracy
-- **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns, gets 82% accuracy  
+- **Tier 1 (Private Mode)**: $7.5M/year—agency hoards client data
+- **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns
 - **Tier 3 (Full Contribution)**: $2.5M/year—shares all receipts
 
-**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
+**Status**: Illustrative pricing. The tier accuracy figures and the performance gap between tiers were struck for lack of supporting data.
 
 **Strategic Effect**: 
 1. Agencies recommend Tier 1 (protect asymmetry)
-2. Clients see 15% performance gap vs. Tier 3
+2. [struck 2026-10-17: no supporting data]
 3. Clients fire agency or demand Tier 3
 4. Agencies either adapt (transparency) or die (dinosaurs)
 
@@ -606,7 +599,7 @@ Yes, because marketing technology is fragmented:
 
 **Network Effects Math**:
 - At 175 customers: 100,000+ receipts in database
-- At 500 customers: 1,000,000+ receipts (92% accuracy, unbeatable)
+- At 500 customers: 1,000,000+ receipts
 - At that point, joining ARCS isn't optional—competitors with inferior predictions lose market share
 
 ---
