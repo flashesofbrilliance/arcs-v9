@@ -1,15 +1,14 @@
 {
-  "acquired_at": 1792282141.179327,
-  "acquired_at_iso": "2026-10-18T00:09:01Z",
-  "expires_at": 1792283941.179327,
+  "acquired_at": 1792282392.527443,
+  "acquired_at_iso": "2026-10-18T00:13:12Z",
+  "expires_at": 1792284192.527443,
   "holder": "zharris@zh-m1-2020:/Users/zharris/arcs-v9/.claude/worktrees/affectionate-williams-5808c3",
   "host": "zh-m1-2020.local",
   "name": "main",
-  "pid": 58524,
+  "pid": 64111,
   "reason": "",
-  "released_at_iso": "2026-10-18T00:12:57Z",
-  "seq": 84,
-  "state": "free",
+  "seq": 85,
+  "state": "held",
   "took_over_from": null,
   "ttl": 1800
 }
