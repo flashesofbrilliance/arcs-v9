@@ -109,3 +109,17 @@ The registration says each paraphrase changes at least 60 percent of content wor
 
 The frozen datasets are in a benchmark fixture folder under the tests directory, with a `SHA256SUMS` file. They quote corpus text, which contains paths and commit ids that `integrity_gate` would read as claims, so they live in a fixture folder that gate does not scan. No threshold, hypothesis or dataset definition changed.
 
+### 2026-10-18, note 3: implementation choices fixed before the run
+
+Written after the systems, harness and scorer were implemented and before any of them ran on the frozen datasets. The systems are in `scripts/provenance_bench_systems.py`, the harness in `scripts/provenance_bench_run.py`, the scorer in `scripts/provenance_bench_score.py` (its docstring holds the scoring definitions). Self-tests use a synthetic corpus only. No threshold, hypothesis or dataset definition changed.
+
+- Tokens and sentences use the same functions the datasets were drawn with. The verdict for B0, B1, S and S+Bloom is CLEAN or UNSOURCED; the registered rule is a single ratio line, so ANCHORED is not used.
+- B0 builds one `SequenceMatcher` per query and sentence pair and takes `ratio()`, with no `quick_ratio` shortcut: it is the current approach, not an optimised one. B1 is exact substring search on whitespace-normalized text with case and punctuation kept, so by construction it finds nothing for Set B (those queries are token strings or stripped text). Its Set A accuracy is the reference for H2.
+- S ranks candidate sentences by shared 5-shingle count (ties by sentence id), verifies the top 3 with the same ratio rule as B0, and has no cap on posting-list length. A query under 5 tokens has no shingles and is UNSOURCED.
+- S+Bloom keep rule: a file stays if at least one of the query's 5-shingles is probably in its filter (1 percent target false-positive rate, sha256 double hashing).
+- **Known weakness, stated before the run and not tuned away:** for a short sentence, one deleted token or one swap can destroy every 5-shingle of the query. S can then miss it, and the Bloom prefilter can drop the true file, which H5 counts as a false negative and which would kill layer 5. H3 and H5 will show whether this bites.
+- Timing: per corpus fraction one fresh process does a timed index build, one cold pass and warm passes over Set A. At full corpus the cold pass is repeated in 3 fresh processes (3 cold) and 5 warm passes are taken in the first. The 25 and 50 percent fractions use nested subsets (indexed files shuffled by seed 20261019, first share taken). Timing runs alone with nothing else running; verdict runs follow in parallel.
+- Determinism: each system's verdict files come from 12 separate processes (hash seeds 1 to 4, repetitions 1 to 3) and are hashed. The canonical files are the seed 1, repetition 1 outputs. Verdict files carry no timings.
+- Speaker check (H9): S proposes candidate turns by shared 5-shingles and scores them with the lint's own scoring functions and verdict rule; a quote under 5 tokens falls back to scanning every turn.
+- H8: registered query is "ADR-084" with n_max 3 on the full pool with the receipts universe loaded, 3 repetitions, median. The "before" wall is measured in the same session with the pairwise pass swapped in, not copied from the 5.3 s note, so machine state cancels. The H8 change is a draft PR and merges only if H8 passes.
+
