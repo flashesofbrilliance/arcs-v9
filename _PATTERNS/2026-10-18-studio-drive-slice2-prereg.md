@@ -30,4 +30,21 @@ That the pairings are the right ones (they are defaults; the table is editable).
 the exporter muxes the dry file, and that gap is stated, not hidden. Phone behaviour and the Artifact viewer are untested.
 
 ## Results
-(appended after the build)
+Built 2026-10-18: per-control slew-limited curves, the Stutter depth and rate controls, the Key map (six pads and keys 1 to 6, live audio effects, paired visual
+controls, a performance log), all saved inside the look. Headless Playwright run (script not committed; it reads `window.TaoDrive`):
+
+- S1 PASS at frame centres: with worst-case stacked rows (stutter, onset in both directions, low, sine, ramp) and keys mashed, the largest step of any driven control
+  between consecutive 30 fps frames is exactly 0.2000 of its range. Caveat: sampled at exact frame boundaries a float floor skipped a frame and read 0.24 (1.2 frames); that is a
+  measurement artifact, confirmed by re-sampling at frame centres. At the page's 48 ms render throttle two frames can sit between renders, so a rendered step can reach 0.4, but a
+  full rise and fall still takes at least 10 frames, so the 3 per second ceiling holds.
+- S2 PASS, with a weak measure: over 5 s of a 10 Hz kick with stutter depth 100, loudness and onset driving fidelity, offset and view, and keys mashed, the print's mean luminance
+  stayed between 72 and 81 (of 255) and never swung by 12 percent of range, so zero flashes per second. This measures the whole print, which is the right unit for the general
+  flash rule, but it is not a photosensitivity test on a real display.
+- S3 PASS: at stutter depth 100, fidelity averaged 15 with the gate high against 75 with it low (60 points), and plate slip 250 against 145. At depth 0 the stutter rows add nothing.
+- S4 PASS: markup at 2.5 s is identical after scrubbing away and back and after a full page reload from the saved settings.
+- S5 PASS: holding Crush 2.0 to 3.0 s raises the pixel control to 56 at 2.5 s (the paired 57.6 rounded to the control's step of 8) and back to 0 by 3.6 s.
+- S6 PASS: no effect node and no AudioContext before Play; after Play six effects exist; the Crush wet gain read 0.997 sixty milliseconds after key down and 0.001 sixty milliseconds after key up.
+- S7 PASS with a cap: 10 minutes at 4 presses a second is 4,800 events, which is 49 KB; the log refuses new events at 4,000 (about 56 KB at that density) and says so.
+- S8 PASS: a saved look carries the stutter settings, the key map and the log, and loading it restores identical markup after the state was wiped.
+
+Not tested: a real song, a real phone, the Artifact viewer, a person playing the pads by hand, audible quality of the effects, whether the exported video carries the effects (it does not: the exporter muxes the dry file).
