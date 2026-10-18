@@ -13,44 +13,221 @@
   "id_scheme": {
     "rule": "id = '<kind>:<namespace>:<key>'. key is the source catalog's own natural key, copied verbatim (lowercased only where the source is case-insensitive). Never a row index, line number, hash of content, or position. A rename at source is a new id plus a 'replaces' edge from the new atom to the old one.",
     "namespaces": {
-      "tool:skill":    {"source": "runtime/specs/tool-catalog.json", "key": "tools[].name where kind=skill", "pattern": "^tool:skill:[A-Za-z0-9._-]+$"},
-      "tool:command":  {"source": "runtime/specs/tool-catalog.json", "key": "tools[].name where kind=command", "pattern": "^tool:command:[A-Za-z0-9._-]+$"},
-      "tool:workflow": {"source": "runtime/specs/tool-catalog.json", "key": "tools[].name where kind=workflow", "pattern": "^tool:workflow:[A-Za-z0-9._-]+$"},
-      "tool:hook":     {"source": "runtime/specs/tool-catalog.json", "key": "tools[].name where kind=hook", "pattern": "^tool:hook:[A-Za-z0-9._-]+$"},
-      "tool:script":   {"source": "runtime/specs/tool-catalog.json", "key": "tools[].name where kind=script", "pattern": "^tool:script:[A-Za-z0-9._-]+$"},
-      "tool:operator": {"source": "runtime/specs/tool-catalog.json", "key": "tools[].name where kind=operator (file name)", "pattern": "^tool:operator:[A-Za-z0-9._-]+$"},
-      "tool:package":  {"source": "runtime/specs/tool-catalog.json", "key": "tools[].name where kind=package", "pattern": "^tool:package:[A-Za-z0-9@/._-]+$"},
-      "tool:op":       {"source": "operators/OPERATOR-REGISTRY.json", "key": "operators[].op (periodic-table number, locked by operators/docs/PERIODIC-TABLE.md)", "pattern": "^tool:op:[1-9][0-9]*$"},
-      "tool:surface":  {"source": "runtime/specs/surface-catalog.json", "key": "rows[].host + rows[].path", "pattern": "^tool:surface:[a-z0-9.-]+/[^\\s]*$"},
-      "job:backlog":   {"source": "_QUEUE/induced-backlog.jsonl", "key": "row id", "pattern": "^job:backlog:[a-z0-9][a-z0-9.-]*$"},
-      "job:memory":    {"source": "~/.claude/projects/-Users-zharris-arcs-v9/memory/*.md", "key": "front-matter name (not the file stem; 10 files differ)", "pattern": "^job:memory:[A-Za-z0-9_-]+$"},
-      "job:pattern":   {"source": "_PATTERNS/*.md", "key": "file stem", "pattern": "^job:pattern:[A-Za-z0-9._-]+$"},
-      "blocker:backlog": {"source": "_QUEUE/induced-backlog.jsonl", "key": "row id where state=BLOCKED", "pattern": "^blocker:backlog:[a-z0-9][a-z0-9.-]*$"},
-      "dep:npm":       {"source": "package.json", "key": "dependencies / devDependencies name", "pattern": "^dep:npm:[A-Za-z0-9@/._-]+$"},
-      "dep:env":       {"source": "AGENTS.md env table and src/lib/env.ts", "key": "variable name", "pattern": "^dep:env:[A-Z][A-Z0-9_]*$"},
-      "dep:service":   {"source": "AGENTS.md connected systems, hand-declared", "key": "lowercase service slug", "pattern": "^dep:service:[a-z0-9-]+$"}
+      "tool:skill": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=skill",
+        "pattern": "^tool:skill:[A-Za-z0-9._-]+$"
+      },
+      "tool:command": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=command",
+        "pattern": "^tool:command:[A-Za-z0-9._-]+$"
+      },
+      "tool:workflow": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=workflow",
+        "pattern": "^tool:workflow:[A-Za-z0-9._-]+$"
+      },
+      "tool:hook": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=hook",
+        "pattern": "^tool:hook:[A-Za-z0-9._-]+$"
+      },
+      "tool:script": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=script",
+        "pattern": "^tool:script:[A-Za-z0-9._-]+$"
+      },
+      "tool:operator": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=operator (file name)",
+        "pattern": "^tool:operator:[A-Za-z0-9._-]+$"
+      },
+      "tool:package": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=package",
+        "pattern": "^tool:package:[A-Za-z0-9@/._-]+$"
+      },
+      "tool:op": {
+        "source": "operators/OPERATOR-REGISTRY.json",
+        "key": "operators[].op (periodic-table number, locked by operators/docs/PERIODIC-TABLE.md)",
+        "pattern": "^tool:op:[1-9][0-9]*$"
+      },
+      "tool:surface": {
+        "source": "runtime/specs/surface-catalog.json",
+        "key": "rows[].host + rows[].path",
+        "pattern": "^tool:surface:[a-z0-9.-]+/[^\\s]*$"
+      },
+      "job:backlog": {
+        "source": "_QUEUE/induced-backlog.jsonl",
+        "key": "row id",
+        "pattern": "^job:backlog:[a-z0-9][a-z0-9.-]*$"
+      },
+      "job:memory": {
+        "source": "~/.claude/projects/-Users-zharris-arcs-v9/memory/*.md",
+        "key": "front-matter name (not the file stem; 10 files differ)",
+        "pattern": "^job:memory:[A-Za-z0-9_-]+$"
+      },
+      "job:pattern": {
+        "source": "_PATTERNS/*.md",
+        "key": "file stem",
+        "pattern": "^job:pattern:[A-Za-z0-9._-]+$"
+      },
+      "blocker:backlog": {
+        "source": "_QUEUE/induced-backlog.jsonl",
+        "key": "row id where state=BLOCKED",
+        "pattern": "^blocker:backlog:[a-z0-9][a-z0-9.-]*$"
+      },
+      "dep:npm": {
+        "source": "package.json",
+        "key": "dependencies / devDependencies name",
+        "pattern": "^dep:npm:[A-Za-z0-9@/._-]+$"
+      },
+      "dep:env": {
+        "source": "AGENTS.md env table and src/lib/env.ts",
+        "key": "variable name",
+        "pattern": "^dep:env:[A-Z][A-Z0-9_]*$"
+      },
+      "dep:service": {
+        "source": "AGENTS.md connected systems, hand-declared",
+        "key": "lowercase service slug",
+        "pattern": "^dep:service:[a-z0-9-]+$"
+      }
     },
-    "source_duplicates": "A duplicate natural key inside one source is a hard error (SOURCE-DUP). The adapter refuses to emit until the source is fixed; it never suffixes or numbers its way out."
+    "source_duplicates": "A duplicate natural key inside one source is a hard error (SOURCE-DUP). The adapter refuses to emit until the source is fixed; it never suffixes or numbers its way out.",
+    "canonical_identity": "One real thing, one canonical id. Operators: tool:op:<number> (registry) is canonical; a tool:operator:<file> atom is the implementing file and links to it with a design-dep edge (evidence: the registry binding file:line). Retrieval answers with the canonical id; counts reconcile per source, so the file atom is never deduped away."
   },
-  "atom_required": ["id", "kind", "source"],
-  "atom_source_required": ["catalog", "key", "line"],
+  "atom_required": [
+    "id",
+    "kind",
+    "source"
+  ],
+  "atom_source_required": [
+    "catalog",
+    "key",
+    "line"
+  ],
   "evidence_formats": {
-    "file_line":   "^[^\\s:]+:[1-9][0-9]*$",
-    "import":      "^import:[^\\s:]+:[1-9][0-9]*$",
+    "file_line": "^[^\\s:]+:[1-9][0-9]*$",
+    "import": "^import:[^\\s:]+:[1-9][0-9]*$",
     "backlog_row": "^backlog:[a-z0-9][a-z0-9.-]*$",
-    "route_tool":  "^route\\.tool:[a-z0-9][a-z0-9.-]*$",
-    "commit":      "^commit:[0-9a-f]{7,40}$",
-    "receipt":     "^receipt:\\S+--[A-Z]{2}$"
+    "route_tool": "^route\\.tool:[a-z0-9][a-z0-9.-]*$",
+    "commit": "^commit:[0-9a-f]{7,40}$",
+    "receipt": "^receipt:\\S+--[A-Z]{2}$"
   },
   "edge_types": {
-    "serves":      {"meaning": "tool does (part of) job", "pairs": [["tool", "job"]], "evidence": ["route_tool", "file_line", "receipt"]},
-    "blocks":      {"meaning": "blocker stops job or tool", "pairs": [["blocker", "job"], ["blocker", "tool"]], "evidence": ["backlog_row", "file_line"]},
-    "needs":       {"meaning": "job requires a tool, dep or prior job", "pairs": [["job", "tool"], ["job", "dep"], ["job", "job"]], "evidence": ["backlog_row", "file_line"]},
-    "design-dep":  {"meaning": "build-time: tool is written against another tool or dep (import, cite, generated from)", "pairs": [["tool", "tool"], ["tool", "dep"]], "evidence": ["import", "file_line"]},
-    "runtime-dep": {"meaning": "run-time: tool fails if the other is down or missing (route, env read, network call)", "pairs": [["tool", "tool"], ["tool", "dep"]], "evidence": ["import", "file_line"]},
-    "replaces":    {"meaning": "from-atom supersedes to-atom", "pairs": [["tool", "tool"], ["job", "job"]], "evidence": ["commit", "backlog_row", "file_line"]}
+    "serves": {
+      "meaning": "tool does (part of) job",
+      "pairs": [
+        [
+          "tool",
+          "job"
+        ]
+      ],
+      "evidence": [
+        "route_tool",
+        "file_line",
+        "receipt"
+      ]
+    },
+    "blocks": {
+      "meaning": "blocker stops job or tool",
+      "pairs": [
+        [
+          "blocker",
+          "job"
+        ],
+        [
+          "blocker",
+          "tool"
+        ]
+      ],
+      "evidence": [
+        "backlog_row",
+        "file_line"
+      ]
+    },
+    "needs": {
+      "meaning": "job requires a tool, dep or prior job",
+      "pairs": [
+        [
+          "job",
+          "tool"
+        ],
+        [
+          "job",
+          "dep"
+        ],
+        [
+          "job",
+          "job"
+        ]
+      ],
+      "evidence": [
+        "backlog_row",
+        "file_line"
+      ]
+    },
+    "design-dep": {
+      "meaning": "build-time: tool is written against another tool or dep (import, cite, generated from); also file-implements-operator (tool:operator:<file> to tool:op:<n>)",
+      "pairs": [
+        [
+          "tool",
+          "tool"
+        ],
+        [
+          "tool",
+          "dep"
+        ]
+      ],
+      "evidence": [
+        "import",
+        "file_line"
+      ]
+    },
+    "runtime-dep": {
+      "meaning": "run-time: tool fails if the other is down or missing (route, env read, network call)",
+      "pairs": [
+        [
+          "tool",
+          "tool"
+        ],
+        [
+          "tool",
+          "dep"
+        ]
+      ],
+      "evidence": [
+        "import",
+        "file_line"
+      ]
+    },
+    "replaces": {
+      "meaning": "from-atom supersedes to-atom",
+      "pairs": [
+        [
+          "tool",
+          "tool"
+        ],
+        [
+          "job",
+          "job"
+        ]
+      ],
+      "evidence": [
+        "commit",
+        "backlog_row",
+        "file_line"
+      ]
+    }
   },
-  "edge_required": ["from", "to", "type", "evidence", "inferred"],
+  "edge_required": [
+    "from",
+    "to",
+    "type",
+    "evidence",
+    "inferred"
+  ],
   "edge_rules": [
     "evidence is a non-empty list; every item must match a format the edge type allows",
     "inferred is a boolean; inferred=true edges also carry 'by' (the agent or rule that inferred it)",
