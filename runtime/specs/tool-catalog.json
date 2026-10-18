@@ -2,20 +2,20 @@
  "schema": "tool-catalog-v1",
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
-  "command": 15,
+  "command": 17,
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 225,
+  "script": 235,
   "skill": 22,
   "workflow": 2
  },
- "total": 317,
+ "total": 329,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 389,
+   "WIRED": 415,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 43,
    "DUPLICATE": 6,
@@ -42,7 +42,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "coherence_sweep.py",
+    "name": "decision_geometry_ret.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -50,7 +50,15 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "decision_geometry_ret.py",
+    "name": "doc_classify.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "field_render.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -114,6 +122,14 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
+    "name": "phosphor_consent_check.mjs",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
     "name": "phosphor_eject_check.mjs",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
@@ -122,39 +138,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "phosphor_flash_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_fx_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_gate_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
     "name": "phosphor_glitchpre_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_gold_check.mjs",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -186,6 +170,14 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
+    "name": "phosphor_measure.mjs",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
     "name": "phosphor_midi_check.mjs",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
@@ -194,23 +186,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "phosphor_mix_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
     "name": "phosphor_notes_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_pins_check.mjs",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -258,7 +234,15 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "phosphor_sing_check.mjs",
+    "name": "phosphor_states_check.mjs",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "phosphor_suite.sh",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -290,7 +274,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "phosphor_zoomrow_check.mjs",
+    "name": "provenance_bench_dataset.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -298,7 +282,15 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "readiness_packet.py",
+    "name": "provenance_bench_score.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "recall_coherence_ledger.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -331,6 +323,14 @@
     "surface": "repo",
     "kind": "script",
     "name": "second_pass_ledger.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "tao_print_export.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -611,6 +611,14 @@
   },
   {
    "kind": "command",
+   "name": "backlog-graph",
+   "path": ".claude/commands/backlog-graph.md",
+   "jtbd": "Read-only. Wraps `scripts/backlog_graph.py` (stdlib, no model calls). It orders and labels; it never",
+   "invoke": "/backlog-graph",
+   "state": "WIRED"
+  },
+  {
+   "kind": "command",
    "name": "canon-review",
    "path": ".claude/commands/canon-review.md",
    "jtbd": "description: Batch-review the canon-propagation queue — quick yes/no multi-picker over DEROT / ESCALATE / FORK items, then apply the yes'd ones",
@@ -695,6 +703,14 @@
    "path": ".claude/commands/rca.md",
    "jtbd": "On-demand root-cause analysis for a specific error. Invoke this ONLY when an error is worth the",
    "invoke": "/rca",
+   "state": "WIRED"
+  },
+  {
+   "kind": "command",
+   "name": "readiness",
+   "path": ".claude/commands/readiness.md",
+   "jtbd": "Read-only. Wraps `scripts/readiness_packet.py`. It labels preparation and never blocks the act",
+   "invoke": "/readiness",
    "state": "WIRED"
   },
   {
@@ -867,10 +883,26 @@
   },
   {
    "kind": "script",
+   "name": "backlog_graph.py",
+   "path": "scripts/backlog_graph.py",
+   "jtbd": "backlog_graph.py: the induced backlog as a computational graph. Read-only, stdlib, no model calls.",
+   "invoke": "python3 scripts/backlog_graph.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "backlog_issue_sync.py",
    "path": "scripts/backlog_issue_sync.py",
    "jtbd": "backlog_issue_sync.py — mirror induced-backlog rows to GitHub issues (create-only, idempotent).",
    "invoke": "python3 scripts/backlog_issue_sync.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "backlog_merge_by_id.py",
+   "path": "scripts/backlog_merge_by_id.py",
+   "jtbd": "backlog_merge_by_id: resolve a git merge conflict in _QUEUE/induced-backlog.jsonl by row id (stdlib only).",
+   "invoke": "python3 scripts/backlog_merge_by_id.py",
    "state": "WIRED"
   },
   {
@@ -1087,7 +1119,7 @@
    "path": "scripts/coherence_sweep.py",
    "jtbd": "coherence_sweep: cheap, batched disturbance detector over a ledger of claims. Stdlib only, no model calls.",
    "invoke": "python3 scripts/coherence_sweep.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1187,6 +1219,14 @@
   },
   {
    "kind": "script",
+   "name": "doc_classify.py",
+   "path": "scripts/doc_classify.py",
+   "jtbd": "doc_classify: classify the markdown docs of a foreign tree and relate them to this repo. READ-ONLY.",
+   "invoke": "python3 scripts/doc_classify.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
    "name": "doll_export.py",
    "path": "scripts/doll_export.py",
    "jtbd": "doll_export.py — cut a russian-doll seed bundle from the corpus (User0 side).",
@@ -1271,7 +1311,7 @@
    "path": "scripts/field_render.py",
    "jtbd": "field_render.py: a bird's-eye \"field\" page over the repo's live state, built on the ARCS ui-kit.",
    "invoke": "python3 scripts/field_render.py",
-   "state": "WIRED"
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1551,6 +1591,14 @@
    "path": "scripts/ledger_check.py",
    "jtbd": "Enforcement-parity ledger gate (ADR-034).",
    "invoke": "python3 scripts/ledger_check.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "ledger_score.py",
+   "path": "scripts/ledger_score.py",
+   "jtbd": "ledger_score.py: score the falsification ledger as probability forecasts (read-only, stdlib only).",
+   "invoke": "python3 scripts/ledger_score.py",
    "state": "WIRED"
   },
   {
@@ -1835,11 +1883,27 @@
   },
   {
    "kind": "script",
+   "name": "phosphor_playlog_summary.py",
+   "path": "scripts/phosphor_playlog_summary.py",
+   "jtbd": "phosphor_playlog_summary: read a play log exported from Phosphor (the Copy log button) and print what the sessions show. Stdlib only, offline.",
+   "invoke": "python3 scripts/phosphor_playlog_summary.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "phosphor_static_review.py",
    "path": "scripts/phosphor_static_review.py",
    "jtbd": "phosphor_static_review: deterministic review of the Phosphor sources (stdlib only, no browser).",
    "invoke": "python3 scripts/phosphor_static_review.py",
    "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "phosphor_suite.sh",
+   "path": "scripts/phosphor_suite.sh",
+   "jtbd": "phosphor_suite.sh: run every Phosphor check ONE process at a time against the built page, N rounds (default 1), and print a flake ledger:",
+   "invoke": "scripts/phosphor_suite.sh",
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1899,6 +1963,22 @@
   },
   {
    "kind": "script",
+   "name": "provenance_bench_dataset.py",
+   "path": "scripts/provenance_bench_dataset.py",
+   "jtbd": "provenance_bench_dataset: build and freeze the datasets for the provenance-retrieval benchmark.",
+   "invoke": "python3 scripts/provenance_bench_dataset.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
+   "name": "provenance_bench_score.py",
+   "path": "scripts/provenance_bench_score.py",
+   "jtbd": "provenance_bench_score: score the provenance-retrieval benchmark against the thresholds REGISTERED in",
+   "invoke": "python3 scripts/provenance_bench_score.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
    "name": "provenance_candidates.py",
    "path": "scripts/provenance_candidates.py",
    "jtbd": "provenance_candidates.py: the owner's untagged receipts, listed for a one-pass tag. READ-ONLY.",
@@ -1951,6 +2031,14 @@
    "path": "scripts/readiness_packet.py",
    "jtbd": "readiness_packet.py: the tier-4 readiness card for one induced-backlog row. Read-only, stdlib.",
    "invoke": "python3 scripts/readiness_packet.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recall_coherence_ledger.py",
+   "path": "scripts/recall_coherence_ledger.py",
+   "jtbd": "recall_coherence_ledger.py: recall of coherence_sweep's contradiction check on the ledger's claim/delta pairs.",
+   "invoke": "python3 scripts/recall_coherence_ledger.py",
    "state": "INSTALLED-UNUSED"
   },
   {
@@ -2320,6 +2408,14 @@
    "jtbd": "tao_print_check.py: pre-registered kill checks for the Tao silkscreen print (K1-K4).",
    "invoke": "python3 scripts/tao_print_check.py",
    "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "tao_print_export.py",
+   "path": "scripts/tao_print_export.py",
+   "jtbd": "tao_print_export.py: export a Tao print as a PNG (the Artifact viewer blocks downloads; this runs outside it).",
+   "invoke": "python3 scripts/tao_print_export.py",
+   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
