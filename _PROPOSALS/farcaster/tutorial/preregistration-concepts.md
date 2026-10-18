@@ -1,0 +1,5 @@
+# Preregistration: tutorial concepts.md (A9). Committed before drafting, 2026-10-17.
+Scope: seven sections in this order: FID; custody address vs app key (signer); Snapchain messages and how a message becomes merged; read node vs validator (incl. read nodes relay writes); storage rent (units, price, what happens at the limit); gasless KEY_ADD with scopes, TTL and nonces; seed-phrase safety.
+Sources allowed: public docs only: docs.farcaster.xyz and snapchain.farcaster.xyz (the Snapchain site source lives in github.com/farcasterxyz/snapchain/site; where I read the repo file instead of the rendered page, the line says so).
+Rules: every factual sentence carries a source URL and the date read (2026-10-17); anything not confirmed is marked UNVERIFIED and is not stated as fact; no filler; no em-dashes; plain sentences that read at 360px.
+PASS LINE: (a) every factual sentence has a source URL; (b) zero UNVERIFIED sentences are stated as fact. Checked by tutorial/check_concepts.py (mechanical: a sentence line is either a SOURCE line or an UNVERIFIED line) plus the claims-skeptic review. Failures are reported, not repaired in place.
