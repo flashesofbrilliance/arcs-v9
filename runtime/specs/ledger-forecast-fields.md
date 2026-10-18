@@ -2,7 +2,9 @@
 
 > Confirmed by Zach 2026-10-17. Purpose: make a ledger row scoreable (Brier, log score, calibration) without changing what the ledger already does. Pattern note: `_PATTERNS/2026-10-15-tier-fit-goldilocks.md`.
 
-New rows in `_STATE/falsification-ledger.jsonl` that make a prediction carry three extra keys, written BEFORE the outcome is known:
+**Where they go (corrected 2026-10-17):** an open prediction is registered in `_STATE/assumptions.jsonl` (status `open`), because the falsification ledger's hard fate gate (`runtime/specs/fates.json`) accepts only FALSIFIED or HELD and so cannot hold a pending row. The assumption closes into a falsification-ledger F-row or HELD row. A row that already carries a verdict (an F-row or HELD row) may also carry the keys. The first version of this note named only the falsification ledger; that was wrong.
+
+A prediction row carries three extra keys, written BEFORE the outcome is known:
 
 | Key | Type | Meaning |
 |---|---|---|
@@ -17,3 +19,5 @@ Rules:
 - The older `prior` key stays as is. It is not a calibrated probability unless the author says so in `test`.
 - A row that passes `resolve_by` with no verdict counts as unresolved in the scoring report; it is not dropped.
 - This is a convention, not a gate. Promote it to a pre-commit check only after a scoring script exists and at least one cohort nears n=30.
+
+Scoring (`scripts/ledger_score.py`): reads both ledgers by default. Outcome 1 = verdict `CONFIRMED` or `HELD`, or assumption status `held`; outcome 0 = `FALSIFIED` or `falsified`; `open` is unresolved. An assumption whose `decided_ref` names an F-row is counted once, on the F-row. Survivorship: the falsification ledger holds claims that fell, so on its own its base rate is near 0; register predictions as they are made, not only after they fail.

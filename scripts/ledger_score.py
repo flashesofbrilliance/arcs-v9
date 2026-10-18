@@ -3,13 +3,18 @@
 
 Convention: runtime/specs/ledger-forecast-fields.md. A row is scored when it has a numeric
 `probability` in [0,1] (fallback: a numeric `prior` in [0,1], labelled 'legacy prior, not
-calibrated') AND a verdict of CONFIRMED (outcome 1) or FALSIFIED (outcome 0).
+calibrated') AND a decided outcome: verdict (or assumptions-ledger `status`) CONFIRMED / HELD / held (outcome 1)
+or FALSIFIED / falsified (outcome 0). HELD is the falsification ledger's own word for a claim that
+survived its test; `held` / `falsified` are the assumptions ledger's. `open` is unresolved.
 Any other verdict, or a row past `resolve_by` with no verdict, is unresolved: counted, never
 dropped. A row with no usable probability is unscoreable: counted, never guessed.
-Skill is not claimed below N_MIN scored rows per cohort. Output is deterministic.
+A row whose `decided_ref` names another row's id (an assumption closed into an F-row) is counted once,
+on the row it points to. Skill is not claimed below N_MIN scored rows per cohort. Output is deterministic.
+Survivorship: the falsification ledger holds claims that fell, so on its own its base rate is near 0;
+default input is therefore both the falsification ledger and the assumptions ledger.
 
 Usage:
-  python3 scripts/ledger_score.py [--ledger PATH] [--today YYYY-MM-DD]
+  python3 scripts/ledger_score.py [--ledger PATH ...] [--today YYYY-MM-DD]
   python3 scripts/ledger_score.py --self-test
 """
 import argparse
@@ -21,6 +26,8 @@ from datetime import date
 from pathlib import Path
 
 DEFAULT_LEDGER = Path(__file__).resolve().parent.parent / "_STATE" / "falsification-ledger.jsonl"
+DEFAULT_LEDGERS = [DEFAULT_LEDGER, DEFAULT_LEDGER.parent / "assumptions.jsonl"]
+WON, LOST = ("CONFIRMED", "HELD", "held"), ("FALSIFIED", "falsified")
 N_MIN = 30
 CLIP = (0.001, 0.999)
 RESAMPLES = 10000
@@ -47,9 +54,9 @@ def classify(rows, today):
         if p is None:
             unscoreable.append(r)
             continue
-        verdict = r.get("verdict")
-        if verdict in ("CONFIRMED", "FALSIFIED"):
-            scored.append({"p": p, "o": 1 if verdict == "CONFIRMED" else 0, "src": src,
+        verdict = r.get("verdict") or (r.get("status") if r.get("status") in ("held", "falsified") else None)
+        if verdict in WON + LOST:
+            scored.append({"p": p, "o": 1 if verdict in WON else 0, "src": src,
                            "prov": r.get("provenance"), "id": r.get("id")})
             continue
         rb = r.get("resolve_by")
@@ -186,6 +193,13 @@ def report(rows, today, bad_lines=0):
     return "\n".join(L).rstrip() + "\n"
 
 
+def dedupe(rows):
+    """Drop a row whose `decided_ref` is another row's id: that outcome is scored on the row it points to."""
+    ids = {r.get("id") for r in rows}
+    keep = [r for r in rows if r.get("decided_ref") not in ids or r.get("decided_ref") == r.get("id")]
+    return keep, len(rows) - len(keep)
+
+
 def load(path):
     rows, bad = [], 0
     for line in Path(path).read_text().splitlines():
@@ -266,6 +280,18 @@ def self_test():
     check("bootstrap deterministic", b1, b2)
     check("n>=30 reports bss", "BSS vs base-rate forecast: 0.8400" in b1, True)
     check("n>=30 reports interval", "95% bootstrap interval for BSS (10000 resamples" in b1, True)
+    # outcome words across both ledgers: HELD / held win, falsified loses, open is unresolved
+    rows2 = [
+        {"id": "k", "probability": 0.7, "verdict": "HELD"},
+        {"id": "l", "probability": 0.7, "status": "held"},
+        {"id": "m", "probability": 0.7, "status": "falsified"},
+        {"id": "n", "probability": 0.7, "status": "open"},
+    ]
+    sc2, un2, us2 = classify(rows2, date(2026, 10, 17))
+    check("held words score", [(x["id"], x["o"]) for x in sc2], [("k", 1), ("l", 1), ("m", 0)])
+    check("open is unresolved", [x["id"] for x in un2], ["n"])
+    kept, closed = dedupe([{"id": "F1", "verdict": "FALSIFIED"}, {"id": "asm-1", "decided_ref": "F1"}, {"id": "asm-2", "decided_ref": "receipt-x"}])
+    check("dedupe drops closed assumption", ([r["id"] for r in kept], closed), (["F1", "asm-2"], 1))
     for f in fails:
         print("FAIL", f)
     print("self-test:", "FAIL" if fails else "OK")
@@ -274,15 +300,20 @@ def self_test():
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--ledger", default=str(DEFAULT_LEDGER))
+    ap.add_argument("--ledger", action="append", default=None,
+                    help="ledger path; repeatable (default: falsification + assumptions ledgers)")
     ap.add_argument("--today", default=None, help="YYYY-MM-DD for the resolve_by check (default: today)")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
     today = date.fromisoformat(a.today) if a.today else date.today()
-    rows, bad = load(a.ledger)
-    sys.stdout.write(report(rows, today, bad))
+    rows, bad = [], 0
+    for path in a.ledger or DEFAULT_LEDGERS:
+        r, b = load(path)
+        rows, bad = rows + r, bad + b
+    rows, closed = dedupe(rows)
+    sys.stdout.write(report(rows, today, bad) + (f"closed into another row, counted once there: {closed}\n" if closed else ""))
     return 0
 
 
