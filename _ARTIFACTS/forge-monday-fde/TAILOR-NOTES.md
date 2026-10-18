@@ -11,14 +11,14 @@ the req title).
 
 | JD hook | What the resume answers with | Where in the cut | Honest? |
 |---|---|---|---|
-| MCP named explicitly (developer tools incl. "the monday.com API, MCP, and apps framework") | ARCS: built and operate a live MCP server + agentic orchestration layer on Claude, in production. This is the scorer's own flagged direct hit. | Pillars (primary), ARCS job | Yes, documented via public GitHub |
+| MCP named explicitly (developer tools incl. "the monday.com API, MCP, and apps framework") | ARCS: built and operate a live MCP server + agentic orchestration layer on Claude, in production. This is the scorer's own flagged direct hit. | Pillars (primary), ARCS job | Yes, documented via live app, repo private |
 | Fluency in Generative and Agentic AI, LLM workflows, agent orchestration, tool use | ARCS: AI-native analysis pipeline on Claude, agentic orchestration layer, in production not experiments. | Summary, ARCS job, skills | Yes |
 | AI-assisted editors (Cursor, Claude Code) in daily use | Not claimed as a named tool. This session and its predecessor are built inside Claude Code, which is circumstantial but not a resume-line claim; left off rather than asserted without a checkable trace. | (not on page) | Gap acknowledged, not invented |
 | Evaluation harnesses, guardrails, human-in-the-loop, tracing, production AI failure modes | Not claimed directly. ARCS's "experimentation and outcome-capture framework" and "in production, not experiments" gesture at operational rigor without asserting eval-harness or guardrail work specifically. | ARCS job (soft) | Yes, no overclaim |
 | APIs (REST, GraphQL), webhooks, MCP, SCIM, SAML/OAuth | MCP: yes, hands-on. REST/webhooks: implied by "MCP server" build but not separately claimed. GraphQL, SCIM, SAML/OAuth: not claimed, not in record. | Skills (MCP only) | Partial; real gap on SCIM/SAML/OAuth, left open |
-| TypeScript and JavaScript, React or Node.js, full-stack preferred | New skill line added this pass: "TypeScript and JavaScript, Next.js (ARCS platform, public repo)." The record of record does not list a programming language under SKILLS, but ARCS is publicly built and shipped as a Next.js/TypeScript app on GitHub (flashesofbrilliance/arcs-v9), so the claim is checkable, not invented. React vs. Node depth is not separately claimed. | Skills, new "Application layer" group | Documented (public, checkable), narrower than the JD's ask |
+| TypeScript and JavaScript, React or Node.js, full-stack preferred | New skill line added this pass: "TypeScript and JavaScript, Next.js (ARCS platform, private repo, code walkthrough on request)." The record of record does not list a programming language under SKILLS, but ARCS is publicly built and shipped as a Next.js/TypeScript app on GitHub (flashesofbrilliance/arcs-v9), so the claim is checkable, not invented. React vs. Node depth is not separately claimed. | Skills, new "Application layer" group | Documented (public, checkable), narrower than the JD's ask |
 | n8n or Workato automations, SQL/scripts for data migration | SQL is in the record. n8n/Workato: not claimed, not in record. | Skills (SQL only) | Gap acknowledged |
-| CI/CD, version control, deploy to AWS/GCP/Azure | Not claimed. GitHub is claimed (version control, public). Cloud deploy platforms: not in record. | (not on page) | Gap acknowledged |
+| CI/CD, version control, deploy to AWS/GCP/Azure | Not claimed. GitHub is claimed (version control; arcs-v9 is private, only germinate, rosetta-shell, resume-tailor-skill are public). Cloud deploy platforms: not in record. | (not on page) | Gap acknowledged |
 | 3+ years as FDE, software engineer, or technical consultant delivering hands-on work for external customers in complex enterprise environments | Never held the title "Forward Deployed Engineer." The cut proves the shape instead: Squat (sole tech partner, discovery through QA and handoff, 2019-2020), the four other embedded/advisory engagements 2019-2024, and ARCS (2025-present, hands-on build). Headline names the archetype. | Headline, pillars, embedded section | Yes; title never claimed, shape substantiated |
 | Consultative range: frame a business problem, communicate to non-technical audience | Grayscale (cross-functional coordination through regulated gates), Squat (cross-functional across engineering, marketing, design, clinical, operations), CTF/WTA/Twill (translated business problems into KPI frameworks). | Grayscale, Squat, CTF/WTA | Yes |
 | Adaptability across customers, tech stacks, unfamiliar domains | Five embedded engagements across health, gov, consumer, telecom, plus finance (Grayscale) and sports (WTA). Named explicitly as breadth in the record's own TRUE_NORTH copy. | Embedded section | Yes |
@@ -35,8 +35,8 @@ be shown).
 
 | Claim on the page | Grade | Trace |
 |---|---|---|
-| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; public GitHub (flashesofbrilliance/arcs-v9) |
-| TypeScript/JavaScript, Next.js on ARCS | documented (public repo, not in record's own SKILLS list) | inferred from public GitHub, not from record text, see defend-or-drop |
+| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; live app app.arcs.care; arcs-v9 is PRIVATE (gh api verified 2026-10-14), history shown on request |
+| TypeScript/JavaScript, Next.js on ARCS | self-reported, checkable on request (private repo, not in record's own SKILLS list) | inferred from the repo, not from record text, see defend-or-drop |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
 | $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
@@ -57,14 +57,14 @@ be shown).
    tech partner, discovery through handoff) and ARCS (built on contact with the real problem, no
    inherited spec). If asked "were you ever titled FDE": no, and the resume does not say so.
 2. TypeScript/JavaScript/Next.js skill line. Answer: not in the record's own SKILLS list, but the ARCS
-   platform is publicly built and shipped in TypeScript/Next.js on GitHub; point to the repo, do not
+   platform is built and shipped in TypeScript/Next.js in a private repo; offer a code walkthrough, do not
    claim deep React or Node.js authorship beyond what the repo shows. This is the single claim most
    likely to be probed technically (see red-team #1).
 3. $7B AUM. Answer: the suite of 10 products the GTM covered; Grayscale's public AUM figure for the
    period, not a personal P&L.
 4. $850K+ and <120ms (WTA); 20% net-new revenue (CTF). Answer: internal figures from the 2016-2019
    builds, consistent with the roles, not externally auditable.
-5. "In production, not experiments" for ARCS. Answer: live MCP server, live app, public commit trail.
+5. "In production, not experiments" for ARCS. Answer: live MCP server, live app (app.arcs.care), commit history and traces on request (repo is private).
 
 **Dropped (not on the page):**
 1. SCIM, SAML 2.0/OAuth 2.0, GraphQL as named protocols. Never claimed as hands-on; only MCP is claimed

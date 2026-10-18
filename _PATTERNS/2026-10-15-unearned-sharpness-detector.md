@@ -165,3 +165,43 @@ B9. 1993 captures score lower cutoff_ratio than 2014 real-time captures of the s
 B10. Palette dithering in the 1993 images raises tail_ratio above the 2014 value, masking band-limiting. Prior 0.5. Kill: 1993 tail_ratio not above 2014's.
 B11. Capture scale (emulator or window scaling) moves the cutoff by more than the 1993-vs-2014 gap. Prior 0.7. Control: integer scaling or native-resolution capture only; the claim is tested by capturing one scene at 1x and 2x. Kill: scale effect under half the era gap.
 Limits stated now: five scenes, one capture each, 16 sampled rows per crop (round 3 showed that noise is large); a result is a reading of band-limit, never "fake" or "upscaled".
+
+## Round 5: pre-registered beliefs (written before ScummVM or any game file was fetched or run)
+
+Approval: Zach said "yes" in chat on 2026-10-16 to (1) ScummVM from scummvm.org, (2) `FOTAQ_Floppy.zip`, 6.8 MiB, from https://downloads.scummvm.org/frs/extras/Flight of the Amazon Queen/ (Flight of the Amazon Queen, freeware floppy build; the page lists it as freeware, licence text not on the page, Debian's copyright file describes the sibling Lure data as BSD-like and a ScummVM developer said the same for this title, neither read in full). Manifest (URL, bytes, sha256, licence text found) is recorded with the results. Captures stay in the session scratchpad, not in git.
+Scope: this tests the capture method, the integer-scale control and the palette confound on real 1990s 256-colour art. It is NOT a Myst result and says nothing about era.
+B21. A 2x integer-scaled capture of the same scene moves the absolute cutoff (ratio x width/2) by more than the spread between two different scenes at 1x. Prior 0.5. Kill: scale effect under the between-scene spread on 4 or more of 5 scenes (then B11's worry is not supported for this setup).
+B22. The bilinear-foil K4 gap (true frame minus bilinear 4x upscale of its 64 row, bar 4.8 cycles) clears the bar on at least 4 of 5 scenes. Prior 0.4 (round 2 of the arcade note found rendered UI-like art is where the statistic fails). Kill: fewer than 4 of 5.
+Limits stated now: five scenes of one game, one capture each, 16 sampled rows; the game was painted and dithered for 256 colours, so palette and dither confound the reading (detector note B10) and the result is a band-limit reading, never "fake" or "authentic".
+
+### Round 5 results, 2026-10-16 (ScummVM 2026.4.0 running Flight of the Amazon Queen floppy build; capture key Alt+S with the window frontmost, per the ScummVM keyboard-shortcuts docs; analysis script in the session scratchpad, not committed; images scratchpad only)
+
+Manifest. ScummVM: `scummvm-2026.4.0-macosx.dmg` from https://downloads.scummvm.org/frs/scummvm/2026.4.0/, 169,280,944 bytes, sha256 5614527fa57ffce14773c69923b96eeb7b1b135bcd96bfe74640ca341cad4598 (matches the download page). Licence: the dmg ships GPL, LGPL, BSD, MIT and other licence files; not read in full. Game: `FOTAQ_Floppy.zip` from https://downloads.scummvm.org/frs/extras/Flight%20of%20the%20Amazon%20Queen/, 7,109,570 bytes, sha256 2e59de85f708cdb32bf85c85b394ac091c05f7647e856b71f5b3ae73fde761e0; `queen.1` 22,677,657 bytes (md5 recorded in ScummVM log, not a commit). Licence: the zip's `readme.txt` permits free distribution on any medium with the readme and notices intact, and permits modification (headline terms read, not every clause).
+
+Capture facts. A background keystroke did not save a screenshot; the same key worked once the window was frontmost under display-scope control. ScummVM's screenshot is the window output, not the game surface: 1280x1017 PNG, the game drawn 4x nearest-neighbour inside black bars (rows 108 to 908). Taking every 4th pixel recovers the 320x200 native frame exactly: 199 of 199 block-consistency checks passed on all six files. So the 1x versus 2x comparison pre-registered in B21 was NOT run; the scale confound was removed instead, by recovering the native frame losslessly. That is a design change made after seeing the output.
+
+Deviations from the pre-registration, stated before the numbers. (1) Native frames are 320x200, so the 256-px crop could not be used; I used a 192x192 center crop with rows 192 / 96 / 48 and scaled the K4 bar by 192/256 to 3.6 cycles. (2) Six frames, not five scenes: frame 00000 was taken before the rule was fixed; 00001 to 00005 were taken on a fixed 10-second schedule. All six sit in two scenes (the credits scroll and the opening room, with different poses and captions), so the distinct-scene count is 2, not 5.
+
+| frame | abs cutoff 48 / 96 / 192 | ordering | K4 gap vs bilinear (bar 3.6) |
+|---|---|---|---|
+| 00000 (credits, pre-rule) | 23 / 48 / 92 | ok | 55 |
+| 00001 | 23 / 47 / 84 | ok | 58 |
+| 00002 | 22 / 41 / 82 | ok | 56 |
+| 00003 | 22 / 45 / 84 | ok | 57 |
+| 00004 | 22 / 43 / 86 | ok | 59 |
+| 00005 | 23 / 43 / 84 | ok | 57 |
+
+- B21: NOT TESTED as written (see above).
+- B22: cleared on 5 of 5 frames (prior 0.4), but the claim was "4 of 5 scenes" and only 2 distinct scenes exist, so it is not earned. The gap of 55 to 59 is more than 15 times the scaled bar, so the margin is not marginal. Plausible reasons it passed where rendered UI failed in the arcade note's round 2 (untested): painted, dithered, high-contrast sprite art with soft gradients rather than one-pixel text; and the foil is bilinear, the weaker upscaler (arcade note round 6).
+- What the data cannot say: anything about era, anything about palette or dither (B10 untouched; palette not extracted), anything about other upscalers, or whether the result survives scenes beyond a room and a credits roll.
+- Round 6 need: five distinct scenes means playing past the intro to different rooms, which needs real input, not a timed capture.
+
+## Round 6: pre-registered beliefs (written before the game is played past the intro; Zach watching, Claude driving the window)
+
+Scope: close round 5's gap (2 distinct scenes, not 5). Same game, same build (Flight of the Amazon Queen floppy, ScummVM 2026.4.0), same recovery of the native 320x200 frame by taking every 4th pixel, same 192x192 centre crop, bar scaled to 3.6 cycles.
+Scene rule, fixed now: the first five distinct room backgrounds reached in play order after the intro is skipped, one Alt+S capture per room taken on arrival, no selection by me, no retakes except for a capture that failed to save. A room counts as new when its background differs, not when the characters or the caption do. If the game cannot reach five rooms in the session, I report how many and stop.
+B23. Ordering abs cutoff 48 < 96 < 192 holds on all five scenes. Prior 0.8. Kill: an inversion on any scene.
+B22 (re-asked). The bilinear-foil K4 gap clears 3.6 cycles on at least 4 of the 5 scenes. Prior 0.7 (round 5: 55 to 59 on two scenes). Kill: fewer than 4 of 5.
+B24. Scene-to-scene spread of abs cutoff at 192 exceeds 10 cycles across the five scenes (round 5 had 82 to 92 on two scenes). Prior 0.7. Kill: spread of 10 or less (then content dependence is smaller than my round-3 reading suggested for this art).
+B21b (replaces round 5's untested B21). The recovered native frame is byte-identical between two window scale factors for one scene (capture the same frame at scale 2x and 4x, recover, compare). Prior 0.85. Kill: any differing pixel (then recovery is not lossless and every number so far carries an unmeasured error).
+Limits stated now: one game, five rooms, 16 sampled rows, painted and dithered 256-colour art, a reading of band limit only; nothing here is about era, palette extraction (B10 untouched) or other upscalers.

@@ -166,9 +166,127 @@ B18 (footprint). A 256 crop of a 1024-px derivative spans about 4x more scene th
 B19 (smoothness). Per-crop luma standard deviation (a statistic independent of the detector) predicts the K4 gap across the 9 native crops: Spearman rank correlation of std versus gap at least 0.7. Prior 0.5. Kill: under 0.7 (then flat content does not explain which crops fail).
 Limits stated now: nine crops from one scan; if both are killed the flip stays unexplained, and that is a result.
 
-### Round 5 results, 2026-10-15 (`python3 -I scripts/era_b1_probe.py --down4 <1024 png> ...` and `--std <256 png> ...`; crops and 1024 regions cut from the same master with `sips`, scratchpad only; Spearman computed in a one-off inline script, not committed)
+### Round 5 results, 2026-10-15 (ground: merged in arcs-v9 PR 1352 at 77605497, receipt 2026-10-15--b1-round5-gap-flip-pr1352--ZH; `python3 -I scripts/era_b1_probe.py --down4 <1024 png> ...` and `--std <256 png> ...`; crops and 1024 regions cut from the same master with `sips`, scratchpad only; Spearman computed in a one-off inline script, not committed)
+
+Ground: merged in arcs-v9 PR 1352 at 77605497; receipt 2026-10-15--b1-round5-gap-flip-pr1352--ZH; probe `scripts/era_b1_probe.py`.
 
 - B18 FAILED (prior 0.6). On 1024-px native regions box-downsampled 4x to 256, the K4 gap cleared 4.8 on 0 of 9 (gaps -6.0, -6.0, -8.0, 1.0, -10.0, -18.0, -12.0, 4.0, 4.0; ordering ok on 9 of 9). Matching the derivative's scene footprint did not recover round 3's pass; it made it worse. The footprint and oversampling explanation is dead. What round 3's derivative did differently (LoC's own downsample, JPEG generation, tone processing) is unknown and untested here.
 - B19 FAILED, in the opposite direction (prior 0.5). Spearman of luma std vs K4 gap across the 9 native crops is -0.82, not at least +0.7. Higher-contrast crops have a WORSE gap: the crop std 3.08 (flat, noise-dominated, a256 116) gave +11.0, while std 36 to 40 crops gave -30.0, -5.0 and -6.0. The flat-content explanation is dead; the data suggest the reverse. With nine crops of one scene a strong rank correlation is suggestive, not established, and I give no significance figure.
 - Untested hypothesis (from the round-1 attack by `chief-loki`, an agent report I did not re-run): the nearest-neighbour foil replicates edges and leaves spectral images, and the 99% cutoff counts them, so on edge-heavy, high-contrast crops the foil reads as sharp as or sharper than the true frame. That fits a negative correlation with contrast. Candidate B20, written now and not run: replacing the foil with a bilinear 4x upscale restores a gap of at least 4.8 on at least 6 of 9 native crops (prior 0.6; kill: fewer than 6). Chief-loki reported bilinear reading far lower than nearest-neighbour on its test images.
 - The flip between round 3 and round 4 remains unexplained. Both candidate causes were killed. K4 as defined (nearest-neighbour foil, 99% cutoff) is not a robust test, and its result depends on the foil and on content contrast, not on the frame's true resolution alone.
+
+### Round 6: pre-registered belief (written before the run; B20 as stated in round 5, with the committed script now covering the Spearman figure too)
+
+B20. Replacing the nearest-neighbour foil with a 4x bilinear upscale (the repo's `_bilinear2x` applied twice to the 64 row) restores a K4 gap of at least 4.8 cycles on at least 6 of the 9 native crops. Prior 0.6. Kill: fewer than 6 of 9.
+Honest scope: this tests the FOIL, not the gate. Passing would mean the nearest-neighbour test was the weak part; it would not mean a gate refusing real upscales exists, because a bilinear upscale is only one of the upscalers a real pipeline would use.
+
+### Round 6 results, 2026-10-16 (`python3 -I scripts/era_b1_probe.py --r5 <nine 256 crops>`; same master crops as round 4, scratchpad only)
+
+Ground: merged in arcs-v9 PR 1386 at b2d6417b; receipt 2026-10-16--b1-round6-bilinear-foil-pr1386--ZH; probe `scripts/era_b1_probe.py --r5`.
+
+| crop | luma std | K4 gap, nearest-neighbour foil | K4 gap, bilinear foil |
+|---|---|---|---|
+| 20,20 | 8.17 | 6.0 | 57.0 |
+| 20,50 | 25.77 | 4.0 | 17.0 |
+| 20,80 | 39.73 | -5.0 | 8.0 |
+| 50,20 | 39.23 | -6.0 | 4.0 |
+| 50,50 | 25.91 | 4.0 | 17.0 |
+| 50,80 | 19.15 | 6.0 | 26.0 |
+| 80,20 | 29.57 | -35.0 | 15.0 |
+| 80,50 | 36.00 | -30.0 | 16.0 |
+| 80,80 | 3.08 | 11.0 | 5.0 |
+
+- B20 survived (prior 0.6): the bilinear foil cleared 4.8 on 8 of 9 crops (nearest-neighbour: 3 of 9). The one miss is 50,20 at 4.0, 0.8 under the bar.
+- The committed script now reproduces round 5's correlation: Spearman of std vs nearest-neighbour gap -0.824; against the bilinear gap it is -0.477 (n=9, one scene, no significance claimed). The nearest-neighbour foil's dependence on contrast is much weaker with the bilinear foil, which fits the edge-replication hypothesis but does not prove it.
+- Reading: the K4 flip was mostly the nearest-neighbour foil, which is the hardest foil and reads as sharp because replicated edges leave spectral images that the 99% cutoff counts. Against a bilinear upscale the statistic separates true from upscaled on 8 of 9 native crops. This is a statement about two upscalers, not about every upscaler.
+- Still not supported: a refusal gate. K4 passes against bilinear and fails against nearest-neighbour, so a gate would need a stated list of upscalers it covers, and an attacker or a pipeline can choose the one that passes. Not tested: bicubic, Lanczos, learned upscalers, other scans, era game art, 99.9% cutoff. Status unchanged: INTENDED.
+
+### Round 7 (B21, the vision-judge round): pre-registered before any trial image exists or any judge is run
+
+Ground: pre-registration merged in arcs-v9 PR 1401 at 52fbf7cd; receipt 2026-10-16--b21-vision-judge-pr1401--ZH; trials by `scripts/era_b21.py`.
+
+Question (Zach, 2026-10-16: "why cant we prompt this with a model we trust?"): can a vision model tell a genuine 256-pixel frame from an upscaled one better than the cutoff statistic, on the same frames?
+Design, fixed now:
+- Sources, 12 frames at 256x256: the 9 native crops from the 1935 FSA master (round 4; one scene, so not independent) and the central 256 crops of the 3 LoC derivatives (round 3). All kept in the session scratchpad.
+- Foils, 3 per source: (a) nearest-neighbour 4x of the 64 row, (b) bilinear 4x of the 64 row (the repo's `_bilinear2x` twice), (c) bilinear 2x of the 128 row (the subtle foil). 36 trials.
+- Each trial shows two 256x256 grayscale images, labelled A and B, one genuine and one upscaled; order set by a fixed seed (21) and not written to disk until judging is complete. The judge must say which one is the upscaled one. Judges are `opus` subagents, a different model from the orchestrator (sonnet); they may use only the Read tool on the images.
+- The statistic's outcome on the same trial: it is "correct" when the genuine frame's absolute cutoff exceeds the foil's by at least 4.8 cycles (the K4 criterion).
+B21. The vision judge picks the upscaled frame in at least 33 of 36 trials (90 percent) and at least 10 of the 12 subtle-foil trials. Prior 0.5.
+Kill: judge accuracy overall lower than the statistic's on the same 36 trials, or fewer than 9 of 12 on the subtle foil, or fewer than 27 of 36 overall.
+Limits stated now: one judge model, one pass, no repeats; judges could read other files on disk despite instructions (the answer key does not exist on disk during judging); 9 of 12 sources share one scene; a judge that spots blocky nearest-neighbour pixels is detecting a crude artifact, which is why the subtle foil is its own bar; a result says nothing about era.
+
+### Round 7 results, 2026-10-16 (B21)
+
+Ground: trials built and scored by `scripts/era_b21.py` (seed 21; the key was never written to disk during judging; the three judge outputs were transcribed by hand into an answers file and scored by the committed script); builds on rounds 1 to 6, last merged at b2d6417b (PR 1386). Judges: three `opus` subagents, 12 trials each, Read tool only, one pass.
+
+| foil | judge correct | cutoff statistic correct (gap of at least 4.8) |
+|---|---|---|
+| nearest-neighbour 4x of the 64 row | 12 / 12 | 6 / 12 |
+| bilinear 4x of the 64 row | 12 / 12 | 11 / 12 |
+| bilinear 2x of the 128 row (subtle) | 10 / 12 | 11 / 12 |
+| overall | 34 / 36 | 28 / 36 |
+
+- B21 survived (prior 0.5): 34 of 36 overall (bar 33), 10 of 12 on the subtle foil (bar 10), and above the statistic's 28 of 36. None of the three kill conditions tripped. The margins are thin: 34 against 33 and 10 against 10.
+- Where each fails: both wrong on 0 trials; the judge was right and the statistic wrong on 8 (all nearest-neighbour); the statistic was right and the judge wrong on 2. Both judge misses were bilinear-2x trials on near-identical frames and both carried confidence 1 ("near-identical"). Confidence 4 or 5 was correct 18 of 18; confidence 3 or lower was correct 16 of 18. No position bias (picked A 17 of 36).
+- Reading: the vision judge and the statistic fail in different places. The judge sees blocky nearest-neighbour pixels the statistic misreads; the statistic keeps its edge on the subtle foil. This is a post-hoc observation on 36 trials, not a result about either instrument in general.
+- B24, written now and not run: a two-tier rule (use the judge's answer, and fall back to the statistic when the judge's confidence is 1 or 2) scores at least 35 of 36 on a fresh set of at least 36 trials from frames not used here. Prior 0.5; kill: 34 or fewer. This rule was found after seeing these results, so on these 36 trials it can only be checked, not claimed.
+- Caveats: one judge model family on one pass; 9 of 12 sources share one scene; the judge may be detecting a crude artifact (nearest-neighbour blocks), which is not the same as judging fidelity; the judges could read other files on disk despite instructions and I cannot rule out that they looked; the statistic's "correct" is a threshold I chose (4.8), not a property of the frame. Not tested: a stronger upscaler (bicubic, Lanczos, learned), era game art, any claim about year. A refusal gate remains unsupported; a judge tier is now a candidate for the second tier, status INTENDED.
+
+### Round 8 (the bits-per-frame view): pre-registered before the page or any fit was computed
+
+Request (Zach, 2026-10-16): show 1-bit to 8K as compounding, not linear, and show where cost rises or falls.
+Series definition, fixed now: the first consumer product shipping each pixel count, any form factor, per press and archival reports found by web search on 2026-10-16 (not verified as the global first; sources disagree on who was first at 4K and the 1080p and 8K "firsts" are the makers' own claims). Axis: pixels per frame, because bit depth is sourced only for the first two rows. Rows: 1984 first Macintosh 512x342 (1 bit); 1987 VGA in IBM PS/2 640x480 (4 bits); 2005 Samsung HLR5688W 1920x1080; 2012 15-inch MacBook Pro with Retina display 2880x1800; 2012 84-inch 4K TVs from LG and Sony 3840x2160; 2018 Sharp LC-70X500 8K 7680x4320.
+B22. On these six points, a straight-line fit of ln(pixels) against year has an R-squared at least 0.05 higher than a straight-line fit of pixels against year. Prior 0.8. Kill: the gap is under 0.05, in which case the exponential framing is dropped.
+B23 (cost lane): price per unit of display falls across the sourced rows. Prior: not stated, because it cannot be run. Prices were found for four rows only (1984 whole computer, 2012 laptop, 2012 84-inch TVs, 2018 8K TV), across three kinds of product, so there is no consistent basis. Decision made now, before building: the page shows launch prices as annotations on those rows, labelled non-comparable, with no per-bit curve and no claim about cost falling.
+Limits stated now: six milestone points chosen as "firsts" are a frontier staircase, so any exponential fit describes the frontier, not typical use; the rough arithmetic for B22 was in my head when I wrote it, so this is a weak pre-registration; a result says nothing about "compounding innovation", which stays a METAPHOR unless sourced.
+
+### Round 8 results, 2026-10-16 (B22 and B23)
+
+Ground: page `_ARTIFACTS/era-dial/bits-per-frame.html` computes both fits in the browser from the six sourced rows (the same arithmetic reproduced in a one-off script before the page was written, not committed); pre-registration above was written to this file before either computation ran; receipt follows the merge.
+
+- B22 survived (prior 0.8): R-squared 0.47 for a straight-line fit of pixels against year and 0.96 for a straight-line fit of ln(pixels), a gap of 0.49 against the 0.05 bar. The log fit implies a doubling time of 5.0 years. My earlier mental estimate was about 4.5; the fit says 5.0.
+- B23 was not run, as pre-registered: prices were found for four rows only across three kinds of product, so the page lists them as notes and draws no cost curve. Nothing here shows that cost falls. One price (the 84-inch 4K sets at about $20,000 to $25,000) is reported but not pinned to one page, and the Retina laptop price is from one report that also listed a cheaper model; both are flagged on the page.
+- What the page shows: the linear and log views of the same six points, labels that move between views so they do not collide, frames drawn to scale by area (the 1984 frame is under 1 percent of the 8K frame by area), and a sources table. The linear view makes the case for the log axis visually; the fit statistics make it numerically.
+- Limits unchanged from the pre-registration: a frontier staircase of six hand-picked milestones, firsts that are makers' claims or disputed, bit depth sourced for two rows, no evidence on acceleration or on "compounding innovation". Unconfirmed: dates are from press and archival pages found by web search, not primary documents.
+
+### Round 9 (B24, the two-tier rule on fresh photographs): pre-registered before any fresh frame was chosen
+
+Ground: B24 was written in round 7 (PR 1401 at 52fbf7cd, receipt 2026-10-16--b21-vision-judge-pr1401--ZH) and is fixed here, unchanged, before any new frame exists. Zach chose photographs only (2026-10-17: "photographs only, go ahead"); the downloads still need his approval of each file before they happen.
+Rule, fixed now with no tuning afterwards: the two-tier answer is the judge's answer, except when the judge's confidence is 1 or 2, in which case it is the statistic's answer (the genuine frame's absolute cutoff exceeds the foil's by at least 4.8 cycles means the statistic picks correctly).
+Design: at least 12 photographs not used in rounds 3, 4 or 7 (no FSA 8a16694 scene, no Detroit Publishing 4a27449 or 4a05168), central 256x256 crops, the same three foils (nearest-neighbour 4x of the 64 row, bilinear 4x of the 64 row, bilinear 2x of the 128 row), 36 or more trials, a new seed, the key not on disk during judging, three `opus` judges, Read tool only. Same scorer family (`scripts/era_b21.py`, with the seed and source list passed in).
+B24. The two-tier rule is correct on at least 35 of 36 fresh trials (or the same 97 percent on a larger set). Prior 0.5. Kill: 34 of 36 or fewer, in which case the rule is dropped and no judge tier is claimed.
+Also reported, not gating: the judge alone and the statistic alone on the same trials, so the rule can be compared with each instrument.
+Limits stated now: one judge model family, one pass; a fresh set that shares scenes or photographers is less independent than it looks; the confidence threshold was chosen after seeing B21 and is not retunable; 12 photographs is small; a result says nothing about era and nothing about rendered interface graphics (excluded by Zach's choice).
+
+### Round 9 results, 2026-10-17 (B24)
+
+Ground: pre-registration above (this branch, written before any fresh frame was chosen); trials built and scored by `scripts/era_b21.py` with `ERA_B21_SEED=24` and, for the two-tier line, `ERA_B21_CONF` pointing at the judges' confidence file (both added in this change; the default seed 21 path is unchanged by code inspection, but the round 7 inputs no longer exist in the scratchpad so I could not re-run it); receipt follows the merge. Frames: 12 FSA/OWI photographs (1934 to 1943) downloaded after Zach approved the list; four came back larger than the sizes I had quoted (8c17960v 298,476 B, 8b16733v 349,710, 8c11013v 284,172, 8d15106v 269,547, against 208,092, 165,417, 227,530, 194,281 in the loc.gov item data) and Zach approved using them as downloaded. Three `opus` judges, Read tool only, the key never on disk, one pass.
+
+| rule | nn4 | bil4 | bil2 | overall |
+|---|---|---|---|---|
+| vision judge alone | 12 / 12 | 12 / 12 | 12 / 12 | 36 / 36 |
+| cutoff statistic alone (gap of at least 4.8) | 11 / 12 | 12 / 12 | 12 / 12 | 35 / 36 |
+| two-tier (judge unless confidence 1 or 2, then statistic) | 12 / 12 | 12 / 12 | 12 / 12 | 36 / 36 |
+
+- B24 survived (prior 0.5): 36 of 36 against the bar of 35. No kill condition tripped.
+- It is weaker evidence than the headline suggests. The judge alone also scored 36 of 36, so the two-tier rule did not beat the judge. The fallback fired once (t31, a bilinear-2x trial, confidence 2) and the judge was already right there; the statistic was right there too (gap 69.0). Confidence was 5 on 27 of 36 trials, 4 on 3, 3 on 5 and 2 on 1, so there was almost nothing for a fallback to do. The statistic's one miss (t07, nearest-neighbour on the cafe photograph, gap -29.0) was a confidence-5 judge hit.
+- Against round 7 (judge 34 of 36, statistic 28 of 36 on different frames): both instruments scored higher here. The earlier set included nine native-scan crops from one master, a harder case; this set is twelve 1024-px derivatives, which is the easier regime where round 3 also passed. A better score on an easier set is not a better instrument.
+- What B24 licenses: a judge tier with a statistic fallback is a reasonable design on photographic derivatives. What it does not license: a refusal gate, any claim on native-resolution scans or rendered interface graphics (excluded by Zach's choice and weak for the statistic in rounds 2 and 4), or any claim about era.
+- Limits: one judge model family, one pass, no repeats; all 12 sources are one collection and one decade; the confidence threshold was fixed after B21 and was not retuned; four downloaded files did not match the item data they were quoted from. Two process notes: a git merge left `_SEEDS/_oracle.json` and `_STATE/pulse.json` unresolved in this worktree before I switched branches (backed up to the scratchpad and restored, not my changes); the scratchpad did not survive the session resume, so the round 3, 4 and 7 inputs and the B21 answers file are gone and reproducing those rounds needs re-downloads.
+
+## Scope decision, 2026-10-17
+
+Ground: written at Zach's request ("write the scope decision into the note", 2026-10-17); the evidence is the rounds merged in arcs-v9 PR 1386 at b2d6417b, PR 1401 at 52fbf7cd, PR 1466 at f7a01807, with the pages in PR 1402 at 0c3e4519 and PR 1405 at 81ec98df. The recommendations are Claude's; Zach's instruction was to record them, not to rule on each line, so each reopen trigger below is a proposal he can change.
+
+Supported by the evidence so far:
+- The band-limit reading orders with resolution on textured synthetic scenes, three LoC derivative photographs, nine native-scan crops and two rendered interface images (rounds 1 to 4). It is built as a reading panel in `_ARTIFACTS/era-dial/era-dial.html`, which never refuses a frame.
+- Separating a true frame from an upscale: the cutoff statistic does it against a bilinear foil (8 of 9 native crops) and not against nearest-neighbour on rendered UI or most native crops. A vision judge scored 34 of 36 (round 7) and 36 of 36 (round 9) on photograph derivatives. The two-tier rule scored 36 of 36 but did not beat the judge alone.
+- The dial, the pixel chart and the link between them exist as artifacts; the chart's exponential-fit claim passed its pre-registered test (R-squared 0.96 against 0.47) on six hand-picked milestone points.
+
+Parked, with the condition that reopens each:
+- A gate that refuses frames. Not built and not supported. Reopen if a judge tier holds at 90 percent or better on a collection other than FSA/OWI and on native-resolution scans, with a judge model family other than the one used here, and the gate states which upscalers it covers.
+- A cost curve. Prices were found for four rows across three kinds of product. Reopen if a source tracks one product type's price over time.
+- Any claim about era, authenticity or "compounding innovation". Never supported by these measurements; the dial's frames are our drawings.
+
+Status labels: reading panel BOUND; judge tier INTENDED; refusal gate PARKED; cost lane PARKED.
+Still open outside this note: the seed ledger has three recorded uses (idea-alchemist, idea-detective, chief-loki, one each) and no agent has the three the gate requires for SURVIVED; honest-notes rows for earlier merges were closed in PR 1334 and the receipts since are logged.

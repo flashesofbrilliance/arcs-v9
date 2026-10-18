@@ -1,6 +1,6 @@
 {
   "_doc": "Single source of truth for _QUEUE/induced-backlog.jsonl row `state`. Prose history lives in `status_note` (never deleted). Enforced by scripts/backlog_status_check.py (pre-commit + CI).",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minted": "2026-10-10",
   "states": {
     "OPEN":       {"terminal": false, "meaning": "Known work, not yet claimed, not waiting on anything named."},
@@ -13,5 +13,11 @@
     "COMPOSTED":  {"terminal": true,  "meaning": "Cut: deliberately dropped; its learning stays in status_note."},
     "SUPERSEDED": {"terminal": true,  "meaning": "Replaced by another row or artifact."}
   },
-  "running_stale_days_default": 3
+  "running_stale_days_default": 3,
+  "optional_fields": {
+    "_doc": "Optional row fields read by scripts/readiness_packet.py (the tier-4 readiness card). All absent by default; an absent field prints UNCONFIRMED on the card, never a guess. Added 2026-10-18, additive, so the version moves 1.0.0 to 1.1.0.",
+    "door": {"type": "string", "values": ["one-way", "two-way"], "meaning": "Whether the act can be undone. One-way means irreversible or ruin-exposed; declare it, do not assume it (WRITE-LOCK)."},
+    "abort": {"type": "string", "meaning": "The condition under which the human stops before or during the act."},
+    "rollback": {"type": "string", "meaning": "The exact undo, or the statement that none exists. Declared by the row author; the card cannot verify that it works."}
+  }
 }

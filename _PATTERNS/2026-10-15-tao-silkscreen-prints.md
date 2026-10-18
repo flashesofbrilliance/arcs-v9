@@ -6,7 +6,13 @@ Status: prototype only. No series minted. Nothing published.
 ## Form, not subject
 Borrowed form: one mold repeated in a grid, flat inks, registration and ink loss drifting across repeats.
 Not used: any crash imagery, any existing artist's work. The subject is a proverb and its source.
-v1 used a flat lemniscate and was wrong. v2 uses the actual ARCS Möbius: the parametric strip, two offset strand families and gold horizon from `_ARTIFACTS/arcs-moire-mobius.html`. v3 (this one) draws the strip as depth-sorted flat facets in the four signal inks, one ink per face and band, so the twist is visible as the face colour flips. Four plates slip apart, ink drops out in patches and the horizon breaks, all scaling with (1 - f) and the repeat index.
+v1 used a flat lemniscate and was wrong. v2 uses the actual ARCS Möbius: the parametric strip, two offset strand families and gold horizon from `_ARTIFACTS/arcs-moire-mobius.html`. v3 drew the strip as depth-sorted flat facets in the four signal inks, one ink per face and band, so the twist is visible as the face colour flips. Four plates slip apart, ink drops out in patches and the horizon breaks, all scaling with (1 - f) and the repeat index.
+
+v4 (permutations, Zach 2026-10-15 "need to be more pronounced"): each of the nine repeats is a lawful variant of the one mold: its own strip rotation, ink rotation (which plate prints which face), and a flat ink ground on five of nine. Degradation by fidelity is layered on top. Caveat: the K3 proxy margin shrank (score 72.9 to 76.0 across f) because flat ground area is constant; rho still passes but the proxy is now weak, and the human ranking matters more.
+
+v5 (paper ground, Zach 2026-10-17): `--ground paper` prints the same permutations on the light `--text` ground. Inks multiply (subtractive, like real plates), a dark key plate holds only the strip's two long edges and does not slip, so plate misregistration reads against a fixed line. Output `_ARTIFACTS/tao-print-paper.html`; the dark version stays. Caveat: the K3 proxy first FAILED on paper (rho -0.26) because the score looked for neon inks and multiply darkens them; the palette check was corrected to ink x paper / 255 (bar unchanged, rho then 1.0). Treat that as a metric fix after the fact, not a result in the encoding's favour; the human ranking still decides.
+
+v6 (proverb inside the print, Zach 2026-10-17): the nine grid panels read in order as the sentence (one or two words per panel, so "the" and "moment" literally repeat) on a printed label slab in the bottom of each panel. The slab slips and flakes with the same (1 - f) x repeat law as the plates. The separate caption copy of the proverb is gone; the strip panels carry no text (too small). Limits: two-word runs set on two lines at 11.4 units, about 11.5px at 360px, and the label hides the lower part of the strip.
 
 ## Finding that changes the design
 `runtime/tao/proverbs.json` rows carry id, aspect, verb, source, text, canon_ref. They carry NO NCI and NO Y state.
@@ -28,7 +34,7 @@ A print must say so on its face. Wiring real fidelity needs a receipt link per p
 ## Results (this session)
 - K1 PASS, K2 PASS (registration 3.47 to 0.12, specks 1289 to 45 across f 0.15 to 0.97), K4 PASS: `python3 scripts/tao_print_check.py`.
 - K3 machine proxy PASS (rho 1.0 on v3). The pixel score was rewritten twice after the v1 score failed on new molds (now: share of inked pixels that are a pure plate ink, minus grain share); the rho >= 0.9 bar was not changed. Caveat: this only proves the encoding is recoverable from pixels. I built the encoding, so it does not prove a person perceives it. Human blind sheet still pending.
-- K5 PARTIAL at 360px (Playwright): no horizontal scroll, proverb text about 12.7px (passes the 11px floor). The provenance caption was about 7px and was raised to 12 units (about 10px at 360px, still under 11; move it into HTML before minting a series). Strip panels are about 50px wide and read as shapes, not detail.
+- K5 PASS at 360px (Playwright, 2026-10-17): no horizontal scroll, proverb text 12.7px, provenance caption moved into HTML at 14.8px (was 7-10px inside the SVG), and all nine views now keep width/height >= 0.7 (none edge-on), so strip panels read as rings. Panels are still about 50px wide on the strip.
 - K6: no PNG export route found. `scripts/html_video_render.mjs` renders video frames and posters via Playwright; a still PNG would be a 10-line Playwright call (the check script already does this). Not built into a route.
 - K7: prototype proverb `adr039-W-recapitulate` sources from ADR-080, no person. An earlier candidate (`lyndon-onesheet-W-synthesize`) sources from a counterpart PDF and was excluded.
 

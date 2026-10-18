@@ -1,0 +1,2 @@
+# Rosetta rows (ADR-088). Append-only; a correction is a new row pointing at the old.
+# {"their_term","arcs_term","kind":"MECHANISM|METAPHOR","delta","source_receipt","universe"}

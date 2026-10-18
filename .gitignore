@@ -125,3 +125,6 @@ _STATE/bank-dependents.jsonl
 .claude/skills/impeccable/scripts/bin/
 .github/skills/impeccable/scripts/bin/
 .impeccable/config.local.json
+
+# findings ledger (findings_gait.py): quotes drift findings that cite paths absent from main; local state, never committed
+_STATE/findings.jsonl

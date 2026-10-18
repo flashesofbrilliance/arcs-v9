@@ -1,0 +1,2 @@
+# Librarian anticipation hook, echo ledger (ADR-088). Append-only; one receipt row per /echo-scan run.
+# {"id","date","source","verdict","kill_condition","backlog_ids"}

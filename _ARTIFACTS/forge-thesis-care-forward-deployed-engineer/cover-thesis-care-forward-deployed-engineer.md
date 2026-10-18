@@ -15,7 +15,7 @@ The part of your model I respect most is the forward-deployed framing itself. A 
 
 On the technical side: I built ARCS from scratch, an AI-native platform on Claude with a live MCP server and agentic orchestration, running in production. I debug live integrations across APIs, data flows, and auth. I do not escalate everything.
 
-The bundle at the links below has the commit trail and the fuller picture. Happy to go deep on any of it.
+The bundle at the links below has the fuller picture. Happy to go deep on any of it.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance

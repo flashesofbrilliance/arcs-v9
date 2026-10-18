@@ -1,0 +1,76 @@
+{
+  "graded": "2026-10-14",
+  "method": "MANUAL in-session scoring against the deployed rubrics (runtime/specs/target-role-scan.json v1.3 and bridge-scan.json v1.1), same anchors and weights as src/app/api/jobs/score/route.ts. NOT the deployed Haiku route (no ANTHROPIC_API_KEY in this session). The route runs at temperature 0 and may differ by a few points; treat composites as +/- 0.03.",
+  "culture_cue_regex": "zero positive and zero negative cue hits on all three Wonderful documents (spec's culture_cues patterns)",
+  "jd_source": "george@scout-global.com attachments, 2026-10-13",
+  "roles": {
+    "Forward Deployed Engineer": {
+      "target_role_scan": {
+        "dims": {
+          "role_shape": 3,
+          "ai_native": 3,
+          "rare_combination": 2,
+          "domain_breadth": 2,
+          "scope_authority": 3,
+          "culture": 1,
+          "comp_level": 2,
+          "logistics": 3,
+          "warm_path": 1
+        },
+        "raw": 64,
+        "max": 81,
+        "composite": 0.79,
+        "band": "PURSUE",
+        "tier": "T2 (0.70-0.79)",
+        "gates": []
+      },
+      "assessment": "Textbook build-and-embed role, agents are the product, NYC; engineer-first so the operator-who-builds moat is only partly rewarded; no stated comp, no culture cues.",
+      "bridge_scan": {
+        "gated": "FDE-lane title (score under target-role-scan)",
+        "note": "The bridge lens mechanically defers FDE titles to target-role-scan; no win-probability grade exists for FDE in this system."
+      }
+    },
+    "Deployment Strategist": {
+      "target_role_scan": {
+        "dims": {
+          "role_shape": 2,
+          "ai_native": 3,
+          "rare_combination": 3,
+          "domain_breadth": 3,
+          "scope_authority": 2,
+          "culture": 1,
+          "comp_level": 2,
+          "logistics": 3,
+          "warm_path": 1
+        },
+        "raw": 63,
+        "max": 81,
+        "composite": 0.778,
+        "band": "PURSUE",
+        "tier": "T2 (0.70-0.79)",
+        "gates": []
+      },
+      "assessment": "Engagement-manager shape: owns discovery to rollout across enterprise customers; rewards multi-domain fluency and the operator moat; less build authority than FDE; no stated comp, no culture cues.",
+      "bridge_scan": {
+        "dims": {
+          "req_reality": 2,
+          "competition_density": 1,
+          "level_fit": 2,
+          "shape_fit": 3,
+          "stability_parent_signal": 2,
+          "edge_rewarded": 3,
+          "logistics": 3,
+          "comp_floor": 2,
+          "warm_path": 1
+        },
+        "raw": 61,
+        "max": 87,
+        "composite": 0.701,
+        "band": "PURSUE (at threshold)",
+        "competition_read": "HIGH",
+        "gates": [],
+        "note": "Win-probability lens. Competition is the drag: hypergrowth AI brand plus a consulting-alumni pool."
+      }
+    }
+  }
+}

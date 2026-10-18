@@ -149,10 +149,7 @@ Process:
 Output: Prediction with confidence interval + alternatives + reasoning
 ```
 
-**Accuracy Metrics**:
-- 87% of predictions fall within stated confidence intervals
-- Mean Absolute Percentage Error (MAPE): 12-15%
-- Outperforms human experts 76% of the time on blind tests
+**Accuracy Metrics**: [struck 2026-10-17: no supporting data]
 
 ### 3.2 Pillar 2: Decision Receipt System
 
@@ -313,12 +310,7 @@ Anonymized Pattern (Shared):
 
 **Quantified Network Effects**:
 
-| Receipts in Database | Prediction Accuracy | Average Customer ROAS |
-|---------------------|-------------------|----------------------|
-| 1,000 | 68% | 2.9x |
-| 10,000 | 78% | 3.4x |
-| 100,000 | 87% | 4.1x |
-| 1,000,000 (projected) | 92% (projected) | 4.8x (projected) |
+[struck 2026-10-17: no supporting data]
 
 **Strategic Implication**: Early customers benefit from the network but contribute to the moat. Late customers benefit more but have higher switching costs due to accumulated learning.
 
@@ -330,7 +322,7 @@ Anonymized Pattern (Shared):
 
 **Positioning**: "Next-generation ad server with AI optimization"
 
-**Value Proposition**: 40% ROAS improvement with performance guarantee
+**Value Proposition**: [struck 2026-10-17: no supporting data] (the ROAS improvement figure and the performance guarantee)
 
 **Customer Psychology**: "We need better ad performance" → Solves immediate pain
 
@@ -390,8 +382,7 @@ By Phase 3, customers face a unique retention dynamic:
 - Our entire decision receipt history (fiduciary exposure)
 - Our accumulated learning patterns (performance regression)
 - Our network intelligence access (competitive disadvantage)
-- Our compliance documentation (regulatory risk)
-- Our predictive accuracy (back to 68% from 87%)"
+- Our compliance documentation (regulatory risk)"
 
 **Expected Churn Rate by Phase**:
 - Phase 1 (Ad Server): 12-18% annually (normal SaaS)
@@ -408,13 +399,15 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Implementation**: Data Contribution Pricing Tiers
 
-- **Tier 1 (Private Mode)**: $7.5M/year—agency hoards client data, gets 72% accuracy
-- **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns, gets 82% accuracy  
-- **Tier 3 (Full Contribution)**: $2.5M/year—shares all receipts, gets 87% accuracy
+- **Tier 1 (Private Mode)**: $7.5M/year—agency hoards client data
+- **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns
+- **Tier 3 (Full Contribution)**: $2.5M/year—shares all receipts
+
+**Status**: Illustrative pricing. The tier accuracy figures and the performance gap between tiers were struck for lack of supporting data.
 
 **Strategic Effect**: 
 1. Agencies recommend Tier 1 (protect asymmetry)
-2. Clients see 15% performance gap vs. Tier 3
+2. [struck 2026-10-17: no supporting data]
 3. Clients fire agency or demand Tier 3
 4. Agencies either adapt (transparency) or die (dinosaurs)
 
@@ -452,7 +445,9 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Insight**: Competitors can't offer guarantees without receipts. Receipts take 2-3 years to build.
 
-**Implementation**: "40% ROAS improvement or full refund"
+**Implementation**: [struck 2026-10-17: no supporting data]
+
+**Status**: Design intent, not an offer. The performance threshold was struck for lack of supporting data; no guarantee terms are defined. Do not quote any guarantee to a counterparty.
 
 **Why This Works**:
 - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
@@ -524,8 +519,7 @@ By Phase 3, customers face a unique retention dynamic:
    - Use: Network participation, governance, marketplace transactions
    - Dilution: 0% (tokens ≠ equity)
 
-3. **Revenue Reinvestment**: $4.3M from operations
-   - Currently profitable ($180K/month EBITDA)
+3. **Revenue Reinvestment**: [struck 2026-10-17: no supporting data] (the profitability claim it rested on)
    - Reinvest cash flow into growth
    - Dilution: 0% (organic)
 
@@ -559,7 +553,7 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Why This Isn't a Scam**:
 - Real utility (not speculative)
-- Conservative pricing ($40M FDV for $2.1M ARR company = 19x, reasonable)
+- Conservative pricing ($40M FDV)
 - Long vesting (team can't dump)
 - Regulatory compliant (working with SEC counsel)
 
@@ -574,7 +568,6 @@ By Phase 3, customers face a unique retention dynamic:
 - US Enterprise (500+ employees): $350B annually
 - Addressable (Fortune 5000 + growth cos): $180B annually
 
-**Current Market Penetration**: 0.001% ($2.1M ARR / $180B TAM)
 
 ### 7.2 36-Month Projections
 
@@ -606,7 +599,7 @@ Yes, because marketing technology is fragmented:
 
 **Network Effects Math**:
 - At 175 customers: 100,000+ receipts in database
-- At 500 customers: 1,000,000+ receipts (92% accuracy, unbeatable)
+- At 500 customers: 1,000,000+ receipts
 - At that point, joining ARCS isn't optional—competitors with inferior predictions lose market share
 
 ---
@@ -728,7 +721,7 @@ Five forces align simultaneously for the first time:
 - $350B allocated annually on intuition
 
 **After ARCS**:
-- Marketing becomes evidence-based (predict with 87% accuracy)
+- Marketing becomes evidence-based
 - Decisions are meritocratic (best receipts win)
 - Accountability is built-in (blockchain-verified)
 - CMOs succeed or fail on actual performance
@@ -749,7 +742,6 @@ Three possible futures:
 ### 10.3 The Call to Action
 
 We have:
-- Product-market fit ($2.1M ARR, profitable)
 - Proven demand (47-company waitlist)
 - Capital strategy ($102M non-dilutive path)
 - Clear roadmap (36 months to $412M ARR)
