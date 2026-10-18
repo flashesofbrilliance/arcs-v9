@@ -31,4 +31,15 @@ fidelity. The grit sliders lock. At fidelity 1 every grit value is zero.
 | T7 | Light enough | a 2x2 Tag render takes over 2.5 s in headless Chromium (phone proxy) |
 
 ## Results
-(appended after the build)
+Built 2026-10-17: studio label style "On the strip", checkbox "Fidelity drives the grit (one dial)", Tag preset rebuilt. Checks are a headless
+Playwright run against the studio (not committed as a script; reproduce by loading the Tag preset and reading `[data-strip-text]` attributes).
+
+- T1 PASS: at fidelity 1, every glyph renders in all 38 proverbs (4 panels each), none missing.
+- T2 PASS: all 38 proverbs have at least 3 of 4 panels holding both upright and mirrored glyphs. The twist is visible in the type.
+- T3 PASS: SVG node count falls monotonically with fidelity (2268, 2011, 1815, 1675, 1557 at 0.2 to 1.0) and no filter is applied at 1.0.
+- T4 PASS: smallest glyph about 24 px at the 900 px export width.
+- T7 PASS on JS build only: 9 ms to rebuild a 2x2 Tag. This does NOT measure paint cost of the SVG filters on a phone; that is still untested.
+- T6 machine proxy PASS (pure-ink share rises 23, 31, 45, 61, 77, 85 across fidelity 0.15 to 0.97, rho 1.0). It only shows the encoding is recoverable from pixels. Human ranking pending; sheet and key are outside the repo.
+- T5 PENDING (human): ablation sheet shows pinned-full, no tag mark, no outline, no spatter at fidelity 0.6. The tag mark and the outline are obviously load-bearing. Spatter is hard to see at this size, so my call is to cut it from Tag unless Zach can tell it apart.
+
+Known tension: letter dropout scales with wear, so at fidelity 0.6 some letters vanish ("C T THE MOLD"). That is honest wear but costs the proverb its legibility. Open decision: cap letter dropout, or accept it as the cost of low fidelity.
