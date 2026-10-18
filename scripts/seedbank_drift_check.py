@@ -117,11 +117,12 @@ def check():
         findings.append({"claim": "jsonl-valid", "drift": True, "detail": idx_bad + led_bad})
 
     seeds_in_ledger = {e.get("seed") for e in led}
+    ids_in_ledger = {e.get("seed_id") for e in led if e.get("seed_id")}  # same rule as scripts/seed_ledger_gate.py
     # index rows are keyed by alias (ledger `seed` field uses the short alias)
     for row in idx:
         alias = row.get("alias", "").split(" ")[0]  # strip "(proposed repo)" suffixes
         rid = row.get("id", "?")
-        if alias and alias not in seeds_in_ledger and row.get("id", "").replace("seed-", "").replace("repo-", "") not in seeds_in_ledger:
+        if alias and alias not in seeds_in_ledger and rid not in ids_in_ledger and row.get("id", "").replace("seed-", "").replace("repo-", "") not in seeds_in_ledger:
             findings.append({"claim": "orphan-seed", "drift": True, "detail": f"{rid} has no ledger receipt"})
         local = row.get("local")
         # a row whose `repo` is another repo keeps its `local` paths relative to THAT repo
@@ -197,6 +198,15 @@ def self_test():
         rows = [json.loads(l) for l in open(rec)] if os.path.exists(rec) else []
         check("receipts appended, regenerated flag stamped",
               len(rows) == 2 and [x["regenerated"] for x in rows] == [False, True])
+    total += 1
+    with tempfile.TemporaryDirectory() as t2:
+        os.makedirs(os.path.join(t2, "_SEEDS"))
+        open(os.path.join(t2, "_SEEDS", "index.jsonl"), "w").write(json.dumps({"id": "seed-x-y", "alias": "x-y"}) + "\n")
+        open(os.path.join(t2, "_SEEDS", "ledger.jsonl"), "w").write(json.dumps({"seed": "short", "seed_id": "seed-x-y", "event": "planted", "ts": "2999-01-01"}) + "\n")
+        r2 = subprocess.run([sys.executable, me], cwd=t2, env=dict(env, CLAUDE_PROJECT_DIR=t2), capture_output=True, text=True)
+        ok5 = "orphan-seed" not in r2.stdout
+        print(("PASS " if ok5 else "FAIL ") + "a ledger row matched by seed_id alone clears the orphan finding")
+        fails += 0 if ok5 else 1
     total += 2
     for name, ok in (("line ranges are stripped from a path", local_paths("scripts/x.js:239-260 (origin)") == ["scripts/x.js"]),
                      ("placeholders are not paths", local_paths("_QUEUE/linkedin/<id>.json + scripts/y.py") == ["scripts/y.py"])):
