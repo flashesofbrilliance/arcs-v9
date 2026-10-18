@@ -101,7 +101,15 @@
       "Bash(python3 scripts/slop_lint.py *)",
       "Bash(python3 scripts/sentries.py *)",
       "Bash(python3 scripts/altitude_canary.py *)",
-      "Bash(python3 scripts/open_loops.py *)"
+      "Bash(python3 scripts/open_loops.py *)",
+      "Bash(git grep *)",
+      "Bash(git -C * log *)",
+      "Bash(git -C * status *)",
+      "Bash(git -C * rev-parse *)",
+      "Bash(git -C * show *)",
+      "Bash(python3 scripts/page_gate.py *)",
+      "Bash(node scripts/card_gutter_check.mjs *)",
+      "Bash(python3 scripts/backlog_status_check.py --check*)"
     ],
     "ask": [
       "Bash(git push:*)"
