@@ -26,6 +26,11 @@ already exist, not a new store?
   package.json dependency name, env var name. Never a row index, line number or content hash.
   A rename at source is a new id plus a `replaces` edge. A duplicate key inside one source is a
   hard error (SOURCE-DUP); the adapter does not number its way out.
+- **One thing, one canonical id.** An operator appears in two sources: the registry (by
+  periodic-table number) and tool-catalog (by file name). `tool:op:<n>` is canonical; the
+  `tool:operator:<file>` atom is the implementing file and links to it with a `design-dep` edge
+  citing the registry binding. Each source still reconciles its own count; retrieval answers
+  with the canonical id. Added before merge (review 2026-10-18) so the write-lock covers it.
 - Checker: `scripts/jtbd_graph_schema_check.py` (stdlib). `--self-test` runs one good fixture and
   eight bad ones (fixtures beside `runtime/specs/fixtures/jtbd-graph/good.json`): unknown kind, illegal pair, no evidence,
   malformed evidence, unstable id, duplicate id, inferred edge without `by`, dangling edge.
