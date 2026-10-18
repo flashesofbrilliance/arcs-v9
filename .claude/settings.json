@@ -120,7 +120,12 @@
       "Bash(python3 scripts/universe_ask.py --self-test)",
       "Bash(python3 scripts/operator_registry_emit.py --check)",
       "Bash(python3 scripts/receipt_outcome_queue.py status)",
-      "Bash(unzip -l *)"
+      "Bash(unzip -l *)",
+      "mcp__ccd_session_mgmt__get_session",
+      "Bash(python3 scripts/handoff_fold.py --help)",
+      "Bash(node scripts/phosphor_look_check.mjs)",
+      "Bash(node scripts/phosphor_look_check.mjs *)",
+      "Bash(python3 scripts/phosphor_build.py --check)"
     ],
     "ask": [
       "Bash(git push:*)"
