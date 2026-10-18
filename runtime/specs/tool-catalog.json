@@ -6,30 +6,22 @@
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 235,
+  "script": 233,
   "skill": 22,
   "workflow": 2
  },
- "total": 329,
+ "total": 327,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 415,
+   "WIRED": 437,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 43,
+   "INSTALLED-UNUSED": 19,
    "DUPLICATE": 6,
    "BROKEN": 1
   },
   "gaps": [
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "backlog_status_migrate.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
@@ -122,54 +114,6 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "phosphor_consent_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_eject_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_glitchpre_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_hide_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_keys_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_look_default_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
     "name": "phosphor_measure.mjs",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
@@ -178,135 +122,7 @@
     "state": "INSTALLED-UNUSED",
     "surface": "repo",
     "kind": "script",
-    "name": "phosphor_midi_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_notes_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_poly_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_quick_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_rack_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_sampler_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_seq_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_states_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_suite.sh",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_sun_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_tmap_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_touch_check.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "provenance_bench_dataset.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "provenance_bench_score.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
     "name": "recall_coherence_ledger.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "receipt_efficacy_probe.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "release_notes.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -339,14 +155,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "time_machine_data.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "tributary_backfill_probe.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -920,14 +728,6 @@
    "jtbd": "Read-only gate over _QUEUE/induced-backlog.jsonl `state` (enum in runtime/specs/backlog-status.json).",
    "invoke": "python3 scripts/backlog_status_check.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "backlog_status_migrate.py",
-   "path": "scripts/backlog_status_migrate.py",
-   "jtbd": "One-shot, deterministic migration: induced-backlog `status` prose -> `state` enum + `status_note`.",
-   "invoke": "python3 scripts/backlog_status_migrate.py",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -1903,7 +1703,7 @@
    "path": "scripts/phosphor_suite.sh",
    "jtbd": "phosphor_suite.sh: run every Phosphor check ONE process at a time against the built page, N rounds (default 1), and print a flake ledger:",
    "invoke": "scripts/phosphor_suite.sh",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1967,7 +1767,15 @@
    "path": "scripts/provenance_bench_dataset.py",
    "jtbd": "provenance_bench_dataset: build and freeze the datasets for the provenance-retrieval benchmark.",
    "invoke": "python3 scripts/provenance_bench_dataset.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "provenance_bench_run.py",
+   "path": "scripts/provenance_bench_run.py",
+   "jtbd": "provenance_bench_run: the run harness for the provenance-retrieval benchmark (registered in",
+   "invoke": "python3 scripts/provenance_bench_run.py",
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1975,7 +1783,15 @@
    "path": "scripts/provenance_bench_score.py",
    "jtbd": "provenance_bench_score: score the provenance-retrieval benchmark against the thresholds REGISTERED in",
    "invoke": "python3 scripts/provenance_bench_score.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "provenance_bench_systems.py",
+   "path": "scripts/provenance_bench_systems.py",
+   "jtbd": "provenance_bench_systems: the systems under test for the provenance-retrieval benchmark.",
+   "invoke": "python3 scripts/provenance_bench_systems.py",
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -2043,14 +1859,6 @@
   },
   {
    "kind": "script",
-   "name": "receipt_efficacy_probe.py",
-   "path": "scripts/receipt_efficacy_probe.py",
-   "jtbd": "receipt_efficacy_probe: plumbing proof for predictions -> closes -> Accountant scoring.",
-   "invoke": "python3 scripts/receipt_efficacy_probe.py",
-   "state": "INSTALLED-UNUSED"
-  },
-  {
-   "kind": "script",
    "name": "receipt_lookup.py",
    "path": "scripts/receipt_lookup.py",
    "jtbd": "receipt_lookup.py — the Detective query over the internal recoil ledger.",
@@ -2104,14 +1912,6 @@
    "jtbd": "reel_in_scan.py — the deterministic scout for float→reel-in events across the WHOLE ref graph.",
    "invoke": "python3 scripts/reel_in_scan.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "release_notes.py",
-   "path": "scripts/release_notes.py",
-   "jtbd": "release_notes: what actually landed on main, grouped by week and area, from git alone.",
-   "invoke": "python3 scripts/release_notes.py",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
@@ -2512,14 +2312,6 @@
    "jtbd": "scripts/torch_sage_distillation.py — PyTorch distillation of SAGE's kinematic classifier.",
    "invoke": "python3 scripts/torch_sage_distillation.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "tributary_backfill_probe.py",
-   "path": "scripts/tributary_backfill_probe.py",
-   "jtbd": "tributary_backfill_probe.py: can Receipt.parentTributaryIndex be inferred for existing children? READ-ONLY.",
-   "invoke": "python3 scripts/tributary_backfill_probe.py",
-   "state": "INSTALLED-UNUSED"
   },
   {
    "kind": "script",
