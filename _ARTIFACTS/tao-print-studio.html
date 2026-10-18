@@ -7,7 +7,7 @@
 <title>Tao Print Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bowlby+One&family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bowlby+One&family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&family=Permanent+Marker&family=Rubik+Spray+Paint&family=Stardos+Stencil:wght@400;700&family=Black+Ops+One&family=Rock+Salt&display=swap">
 <style>
 /* ARCS Recoil Report — Design Tokens */
 :root {
@@ -199,12 +199,21 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
       <div class="row"><label for="leading"><span>Line spacing</span><output id="leading-o"></output></label><input id="leading" type="range" min="80" max="160" step="5"></div>
       <div class="row two">
         <div class="row"><label for="case">Case</label><select id="case"><option value="upper">UPPER</option><option value="title">Title</option><option value="lower">lower</option></select></div>
-        <div class="row"><label for="style">Label style</label><select id="style"><option value="slab">Slab</option><option value="band">Full band</option><option value="knock">Knockout</option></select></div>
+        <div class="row"><label for="style">Label style</label><select id="style"><option value="slab">Slab</option><option value="band">Full band</option><option value="knock">Knockout</option><option value="spray">Spray</option></select></div>
       </div>
       <div class="row two">
         <div class="row"><label for="pos">Position</label><select id="pos"><option value="bottom">Bottom</option><option value="middle">Middle</option><option value="top">Top</option></select></div>
         <div class="row"><label for="height"><span>Label height</span><output id="height-o"></output></label><input id="height" type="range" min="18" max="50" step="1"></div>
       </div>
+    </fieldset>
+
+    <fieldset><legend>Street grit</legend>
+      <div class="btns"><button type="button" id="p-silk">Silkscreen</button><button type="button" id="p-street" class="primary">Street</button></div>
+      <div class="row"><label for="rough"><span>Rough edges</span><output id="rough-o"></output></label><input id="rough" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="spray"><span>Spray overspray</span><output id="spray-o"></output></label><input id="spray" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="drips"><span>Drips</span><output id="drips-o"></output></label><input id="drips" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="outline"><span>Marker outline</span><output id="outline-o"></output></label><input id="outline" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="wall"><span>Wall grit</span><output id="wall-o"></output></label><input id="wall" type="range" min="0" max="100" step="5"></div>
     </fieldset>
 
     <fieldset><legend>Take it with you</legend>
@@ -241,13 +250,19 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     bowlby:   { label: 'Bowlby One', stack: "'Bowlby One','Arial Black',sans-serif", weights: [400] },
     playfair: { label: 'Playfair Display', stack: "'Playfair Display',Georgia,serif", weights: [400, 700, 900] },
     mono:     { label: 'Space Mono', stack: "'Space Mono',ui-monospace,Menlo,monospace", weights: [400, 700] },
+    spray:    { label: 'Rubik Spray Paint', stack: "'Rubik Spray Paint','Permanent Marker',Impact,sans-serif", weights: [400] },
+    marker:   { label: 'Permanent Marker', stack: "'Permanent Marker','Rock Salt',cursive", weights: [400] },
+    stencil:  { label: 'Stardos Stencil', stack: "'Stardos Stencil','Black Ops One',Impact,sans-serif", weights: [400, 700] },
+    ops:      { label: 'Black Ops One', stack: "'Black Ops One',Impact,sans-serif", weights: [400] },
+    salt:     { label: 'Rock Salt, scrawl', stack: "'Rock Salt','Permanent Marker',cursive", weights: [400] },
     sans:     { label: 'System sans', stack: "system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif", weights: [400, 700, 900] }
   };
   var DEFAULTS = {
     proverb: 'adr039-W-recapitulate', fidelity: 80, seed: 7, grid: 3, strip: true,
     palette: 'signal', ground: 'paper', slip: 100, dropout: 100, grain: 100,
     views: 100, inkrot: true, grounds: true,
-    label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29
+    label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
+    rough: 0, spray: 0, drips: 0, wall: 0, outline: 0
   };
   var cfg = {};
   Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; });
@@ -303,6 +318,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     if (!cfg.label || !text) return '';
     var dark = (gnd !== null || paper);
     var slab = dark ? P.key : P.light, ink = dark ? P.light : P.key;
+    var contrast = (gnd === null && !paper) ? P.light : P.key;     // text with no slab must read against the panel ground
     var r = rng('label', cfg.proverb, cfg.seed, k);
     var ox = (r() * 2 - 1) * MAX_PLATE * loss * drift * cfg.slip / 100, oy = (r() * 2 - 1) * MAX_PLATE * 0.5 * loss * drift * cfg.slip / 100;
     var t = casing(text), words = t.split(/\s+/), lines;
@@ -312,7 +328,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     } else lines = words;
     var F = FONTS[cfg.font], longest = 0;
     lines.forEach(function (l) { longest = Math.max(longest, widthRatio(l, F.stack, cfg.weight)); });
-    var cap = lines.length === 1 ? 17 : 12.5;
+    var cap = cfg.style === 'spray' ? (lines.length === 1 ? 22 : 15) : (lines.length === 1 ? 17 : 12.5);
     var size = Math.min(cap, (cfg.style === 'band' ? 94 : 88) / longest) * cfg.size / 100;
     var hgt = cfg.height, top = cfg.pos === 'top' ? (cfg.style === 'band' ? 0 : 3) : cfg.pos === 'middle' ? (100 - hgt) / 2 : 100 - hgt - (cfg.style === 'band' ? 0 : 3);
     var lh = cfg.leading / 100, total = (lines.length - 1) * size * lh;
@@ -320,6 +336,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var body = lines.map(function (l, i) {
       var y = cy - total / 2 + i * size * lh + size * 0.34;
       var common = ' x="50" y="' + f1(y) + '" text-anchor="middle" font-family="' + F.stack.replace(/"/g, "'") + '" font-weight="' + cfg.weight + '" font-size="' + size.toFixed(2) + '" letter-spacing="' + (cfg.track / 100 * size).toFixed(2) + '"';
+      if (cfg.style === 'spray') return '<text' + common + ' fill="' + contrast + '">' + esc(l) + '</text>';
       if (cfg.style === 'knock') return '<text' + common + ' fill="' + P.light + '" stroke="' + P.key + '" stroke-width="' + (size * 0.22).toFixed(2) + '" stroke-linejoin="round" paint-order="stroke">' + esc(l) + '</text>';
       return '<text' + common + ' fill="' + ink + '">' + esc(l) + '</text>';
     }).join('');
@@ -327,8 +344,34 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     if (cfg.style === 'slab') box = '<rect x="3" y="' + f1(top) + '" width="94" height="' + hgt + '" fill="' + slab + '"/>';
     if (cfg.style === 'band') box = '<rect x="0" y="' + f1(top) + '" width="100" height="' + hgt + '" fill="' + slab + '"/>';
     var nf = cfg.style === 'knock' ? 0 : Math.round(9 * loss * drift * cfg.dropout / 100), fl = '';
+    var dr = dripsMarkup(r, 6, 94, top + hgt, cfg.style === 'knock' ? P.light : slab, drift);
+    if (cfg.style === 'spray') { var ty = top + hgt / 2 + total / 2 + size * 0.5; dr = dripsMarkup(r, 10, 90, ty, contrast, drift); }
     for (var q = 0; q < nf; q++) fl += '<rect x="' + f1(r() * 92) + '" y="' + f1(top + r() * (hgt - 3)) + '" width="' + f1(2 + r() * 6) + '" height="' + f1(1.5 + r() * 4) + '"/>';
-    return '<g transform="translate(' + ox.toFixed(2) + ' ' + oy.toFixed(2) + ')">' + box + body + '<g fill="' + slab + '">' + fl + '</g></g>';
+    return '<g transform="translate(' + ox.toFixed(2) + ' ' + oy.toFixed(2) + ')">' + grit(box + body + '<g fill="' + slab + '">' + fl + '</g>' + dr) + '</g>';
+  }
+
+  /* ---- street grit: filters, drips ---- */
+  function defsMarkup() {
+    var sd = (cfg.spray * 0.035).toFixed(2), rs = (cfg.rough * 0.07).toFixed(2), sed = cfg.seed % 97;
+    return '<defs>'
+      + '<filter id="rough" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="' + sed + '" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="' + rs + '" xChannelSelector="R" yChannelSelector="G"/></filter>'
+      + '<filter id="spray" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceGraphic" stdDeviation="' + sd + '" result="b"/><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="1" seed="' + (sed + 3) + '" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 5.1" result="dots"/><feComposite in="b" in2="dots" operator="in" result="halo"/><feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+      + '<filter id="wallK" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="' + (sed + 7) + '"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 1.45"/></filter>'
+      + '<filter id="wallL" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="' + (sed + 7) + '"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -2.4 1.45"/></filter>'
+      + '</defs>';
+  }
+  function grit(markup) {
+    if (cfg.spray > 0) markup = '<g filter="url(#spray)">' + markup + '</g>';
+    if (cfg.rough > 0) markup = '<g filter="url(#rough)">' + markup + '</g>';
+    return markup;
+  }
+  function dripsMarkup(r, x0, x1, y, color, drift) {
+    var n = Math.round(cfg.drips / 100 * 8 * (0.5 + 0.5 * drift)), o = '';
+    for (var i = 0; i < n; i++) {
+      var x = x0 + r() * (x1 - x0), w = 0.8 + r() * 1.2, len = 3 + r() * 15 * cfg.drips / 100 + r() * 3;
+      o += '<rect x="' + f1(x) + '" y="' + f1(y - 1) + '" width="' + w.toFixed(2) + '" height="' + f1(len + 1) + '" rx="' + (w / 2).toFixed(2) + '"/><circle cx="' + f1(x + w / 2) + '" cy="' + f1(y + len) + '" r="' + (w * 0.95).toFixed(2) + '"/>';
+    }
+    return o ? '<g fill="' + color + '">' + o + '</g>' : '';
   }
 
   /* ---- one pull of the mold ---- */
@@ -358,15 +401,15 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var gaps = '', ng = Math.round(10 * loss * drift * cfg.dropout / 100);
     var base = gnd !== null ? P.inks[gnd] : (paper ? P.light : P.key);
     for (var g = 0; g < ng; g++) gaps += '<rect x="' + f1(rs() * 90) + '" y="' + (HORIZON - 1) + '" width="' + f1(3 + rs() * 8) + '" height="4" fill="' + base + '"/>';
-    var key = '';
-    if (paper) {
+    var key = '', dark2 = (gnd === null && !paper), ow = Math.max(paper ? 0.6 : 0, cfg.outline / 100 * 1.8);
+    if (ow > 0) {
       var rk = rng('key', cfg.proverb, cfg.seed, k), kp = '';
       facets(ph).forEach(function (F) {
         if (rk() < drop * 0.6 || (F.band !== 0 && F.band !== NV - 1)) return;
         var a = F.band === 0 ? F.q[0] : F.q[3], b = F.band === 0 ? F.q[1] : F.q[2];
         kp += '<path d="M' + f1(a[0]) + ',' + f1(a[1]) + ' L' + f1(b[0]) + ',' + f1(b[1]) + '"/>';
       });
-      key = '<g fill="none" stroke="' + P.key + '" stroke-width=".6" stroke-linecap="round">' + kp + '</g>';
+      key = '<g fill="none" stroke="' + (dark2 ? P.light : P.key) + '" stroke-width="' + ow.toFixed(2) + '" stroke-linecap="round">' + grit(kp) + '</g>';
     }
     var blend = gnd !== null ? 'normal' : (paper ? 'multiply' : 'screen');
     var horizonFill = (gnd !== null || paper) ? P.key : P.horizon;
@@ -374,9 +417,10 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     o.stats.reg += offs / 4; o.stats.drop += dropped; o.stats.specks += ns; o.stats.n++;
     return '<g' + tf + '><rect width="100" height="100" fill="' + (gnd !== null ? P.inks[gnd] : (paper ? P.light : P.key)) + '"/>'
       + '<rect y="' + HORIZON + '" width="100" height="2.4" fill="' + horizonFill + '"/>' + gaps
-      + '<g style="mix-blend-mode:' + blend + '">' + layers + '</g>' + key
+      + '<g style="mix-blend-mode:' + blend + '">' + grit(layers) + '</g>' + key + dripsMarkup(rs, 4, 96, HORIZON + 2, horizonFill, drift)
       + label(P, k, loss, drift, gnd, paper, o.text, cfg.style)
-      + '<g fill="' + ((gnd !== null || paper) ? P.key : css('--dimmed')) + '">' + specks + '</g></g>';
+      + '<g fill="' + ((gnd !== null || paper) ? P.key : css('--dimmed')) + '">' + specks + '</g>'
+      + (cfg.wall > 0 ? '<rect width="100" height="100" filter="url(#' + (dark2 ? 'wallL' : 'wallK') + ')" opacity="' + (cfg.wall / 100 * (dark2 ? 0.35 : 0.6)).toFixed(2) + '"/>' : '') + '</g>';
   }
 
   function build() {
@@ -385,7 +429,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var R = runs(row.text, n), stats = { reg: 0, drop: 0, specks: 0, n: 0 };
     var m = cols === 1 ? 0 : (cfg.strip ? Math.min(6, cols * 2) : 0), sw = m ? (W - (m - 1) * 6) / m : 0, H = W + (m ? 18 + sw : 0);
     var out = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + f1(H) + '" width="' + W + '" height="' + f1(H) + '" role="img" aria-label="Silkscreen print of the proverb: ' + esc(row.text) + '">',
-      '<rect width="' + W + '" height="' + f1(H) + '" fill="' + P.key + '"/>'];
+      defsMarkup(), '<rect width="' + W + '" height="' + f1(H) + '" fill="' + P.key + '"/>'];
     for (var k = 0; k < n; k++) {
       var x = (k % cols) * (CELL + gap), y = Math.floor(k / cols) * (CELL + gap);
       out.push('<svg x="' + x + '" y="' + y + '" width="' + CELL + '" height="' + CELL + '" viewBox="0 0 100 100">' + panel(P, f, k, n, { text: R[k], stats: stats }) + '</svg>');
@@ -416,7 +460,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     F.weights.forEach(function (w) { var o = document.createElement('option'); o.value = w; o.textContent = w === 400 ? 'Regular' : w === 700 ? 'Bold' : w === 900 ? 'Black' : w; sel.appendChild(o); });
     sel.value = cfg.weight;
   }
-  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; } };
+  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; } };
   function sync() {
     Object.keys(DEFAULTS).forEach(function (k) {
       var el = $(k); if (!el) return;
@@ -442,6 +486,13 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     });
     $('reroll').addEventListener('click', function () { cfg.seed = Math.floor(Math.random() * 99999); $('seed').value = cfg.seed; schedule(); });
     $('reset').addEventListener('click', function () { Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; }); fillWeights(); sync(); loadFace(); schedule(); say('Reset to the default recipe.'); });
+    var PRESETS = {
+      silk: DEFAULTS,
+      street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70 }
+    };
+    function preset(name) { var P = PRESETS[name]; Object.keys(P).forEach(function (k) { cfg[k] = P[k]; }); fillWeights(); sync(); loadFace(); schedule(); say(name === 'street' ? 'Street preset on.' : 'Silkscreen preset on.'); }
+    $('p-silk').addEventListener('click', function () { preset('silk'); });
+    $('p-street').addEventListener('click', function () { preset('street'); });
     $('copy-svg').addEventListener('click', function () { copy(last.svg, 'SVG copied.'); });
     $('copy-cmd').addEventListener('click', function () { copy($('cmd').textContent, 'Command copied.'); });
     loadFace(); render();
