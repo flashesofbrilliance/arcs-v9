@@ -68,7 +68,17 @@
       "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__get_message",
       "mcp__claude-in-chrome__list_connected_browsers",
       "mcp__scheduled-tasks__list_scheduled_tasks",
-      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__get_meetings"
+      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__get_meetings",
+      "Bash(git check-ignore *)",
+      "Bash(git ls-tree *)",
+      "Bash(git merge-base *)",
+      "Bash(pdfinfo *)",
+      "Bash(dig *)",
+      "Bash(mdfind *)",
+      "Bash(gh search *)",
+      "Bash(supabase projects list)",
+      "mcp__ccd_session_mgmt__list_events",
+      "mcp__computer-use__app_screenshot"
     ],
     "ask": [
       "Bash(git push:*)"
