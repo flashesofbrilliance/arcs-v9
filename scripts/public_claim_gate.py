@@ -13,8 +13,10 @@ OK_NEAR = re.compile(r"germinate|rosetta|resume-tailor|arcs-skills", re.I)
 def main(paths):
     bad = 0
     for p in paths:
+        if not p.lower().endswith((".html", ".htm", ".md", ".txt", ".json")):
+            continue  # PDFs and images match the resume globs but are not text
         try:
-            text = open(p, encoding="utf-8").read()
+            text = open(p, encoding="utf-8", errors="replace").read()
         except OSError:
             continue
         for m in BAD.finditer(text):
