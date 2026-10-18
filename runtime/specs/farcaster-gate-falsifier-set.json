@@ -224,10 +224,10 @@
     "receipt_resolves": true
    },
    "answer_key": {
-    "claim_true": false,
+    "claim_true": true,
     "evidence_supports": false,
     "expected_verdict": "NOT_VERIFIED",
-    "note": "FALSE claim, strong-looking evidence: independent, fresh, keyword-rich; but network scope (devnet/testnet vs mainnet) contradicts the claim. NOTE: conflicts with the brief's 'engine V16 gasless KEY_ADD' ground truth and T2; the probe decides, this case is a scope-qualifier test."
+    "note": "FALSE claim, strong-looking evidence: independent, fresh, keyword-rich; but network scope (devnet/testnet vs mainnet) contradicts the claim. NOTE: conflicts with the brief's 'engine V16 gasless KEY_ADD' ground truth and T2; the probe decides, this case is a scope-qualifier test. | LABEL CORRECTED 2026-10-17: Snapchain writing-messages.mdx (commit fc87f268) says gasless signers are live on mainnet as of engine V16, so claim_true is True; expected_verdict stays NOT_VERIFIED because THIS receipt (devnet/testnet only) does not establish it. Verdict unchanged, no gate result changes."
    }
   },
   {
