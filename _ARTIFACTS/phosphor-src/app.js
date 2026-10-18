@@ -575,7 +575,7 @@
     var r = dnaCompute({ bpm: BPM, grid0: GRID0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on });
     /* The song fingerprint must not move when a person corrects the tempo, so it comes from a fixed half-second grid, not the beat grid. */
     var fpd = dnaCompute({ bpm: 0, grid0: 0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on }).dna, fs = fpd.map(function (c) { return c.join(""); }).join("") + "|" + RD(DUR), fh = 2166136261, fi; for (fi = 0; fi < fs.length; fi++) { fh ^= fs.charCodeAt(fi); fh = Math.imul(fh, 16777619) >>> 0; } GNM.fp = fh.toString(16).padStart(8, "0");
-    GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9;
+    GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9; recAct("song", GNM.fp + "|" + RD(DUR));
   }
   function genomeLook() {
     var nfx = 0; ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep"].forEach(function (k) { if (GLITCH[k]) nfx++; }); if (GLITCH.stut) nfx++;
@@ -724,7 +724,7 @@
   function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); seqTick(); raf = requestAnimationFrame(loop); }
   function stopSource() { if (SRC) { try { SRC.onended = null; SRC.stop(); } catch (e) {} SRC = null; } }
   var startSeq = 0;
-  function startPlay(at) { if (typeof elog === "function") elog("play");
+  function startPlay(at) { if (typeof elog === "function") elog("play"); recAct("play", +(at || 0).toFixed(3));
     if (!BUF) return; spStop();
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
     var mine = ++startSeq;
@@ -737,8 +737,8 @@
     if (AC.state === "running") begin();
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
   }
-  function stopPlay(msg) { if (typeof elog === "function") elog("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
-  function seek(t) { t = MX(0, MN(DUR, t)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
+  function stopPlay(msg) { if (typeof elog === "function") elog("stop"); recAct("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
+  function seek(t) { t = MX(0, MN(DUR, t)); recAct("seek", +t.toFixed(3)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
   /* ---------------- loading ---------------- */
@@ -1147,7 +1147,7 @@
     for (; (t = tmapTime(b)) < DUR && MAGNETS.length < 6000; b++) if (t >= 0) MAGNETS.push({ t: t, w: KIND_W.grid, k: "grid" });
     MAGNETS.sort(function (x, y) { return x.t - y.t; });
   }
-  function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function";
+  function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function"; recAct("tempo", +(+bpm).toFixed(2));
     bpm = MX(40, MN(240, RD(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
     TMAP = null; gridMagnets();
     $("sbpm").value = bpm; if (!SP.touched) $("tbpm").value = bpm;
@@ -1292,7 +1292,7 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, recipe: { ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, recipe: { exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1560,7 +1560,7 @@
     for (k = 1; k < s.length; k++) { d = s[k].i - s[k - 1].i; if (d === 1 || d === -1) { if (cur && cur.d === d) cur.n++; else { cur = { d: d, n: 1 }; runs.push(cur); } } else cur = null; }
     runs.forEach(function (r, j) { if (r.n >= 6) unlock("sweep"); if (r.d === 1 && r.n >= 4 && runs[j + 1] && runs[j + 1].d === -1 && runs[j + 1].n >= 4) unlock("trip"); });
   }
-  function pkDown(code) {
+  function pkDown(code) { recAct("key", code);
     var i, c;
     if ((i = ROW1.indexOf(code)) >= 0) { if (!PK.rungs.length && PK.saved === null) PK.saved = RUNG; PK.rungs.push(i); pkRung(RD(i * 8 / 9)); sweepScan(Date.now(), 1, i); }
     else if ((i = ROW2.indexOf(code)) >= 0) {
@@ -1630,7 +1630,14 @@
     for (k in now) if (REC.cur[k] !== now[k]) { REC.ev.push([t, playing ? +tnow().toFixed(3) : null, k, now[k]]); REC.cur[k] = now[k]; }
     if (REC.ev.length > 20000) REC.ev.splice(0, REC.ev.length - 20000);
   }
-  function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo) s[e[2]] = e[3]; }); return s; }
+  /* Actions: things a person does that are not a control value (pads, keys, play, stop, seek, tempo, the song's fingerprint). Same list, ids start with an at sign, so the state replay skips them. */
+  function recAct(name, arg) { if (!REC || !REC.ev) return; REC.ev.push([RD(NOW() - REC.t0), playing ? +tnow().toFixed(3) : null, "@" + name, arg === undefined ? null : arg]); if (REC.ev.length > 20000) REC.ev.splice(0, REC.ev.length - 20000); }
+  function recExport() { return "Phosphor recipe v1\n" + JSON.stringify({ base: REC.base, events: REC.ev }); }
+  function recImport(t) {
+    var l = String(t || "").split("\n"); if (!/^Phosphor recipe v1/.test(l[0] || "")) return null;
+    try { var o = JSON.parse(l.slice(1).join("\n")); if (!o || typeof o.base !== "object" || !Array.isArray(o.events)) return null; return o.events.every(function (e) { return Array.isArray(e) && typeof e[0] === "number" && typeof e[2] === "string"; }) ? o : null; } catch (e) { return null; }
+  }
+  function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo && e[2][0] !== "@") s[e[2]] = e[3]; }); return s; }
   function recInit() { REC.base = recScan(); for (var rk in REC.base) REC.cur[rk] = REC.base[rk]; REC.t0 = NOW(); }
   document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(recSync, 200);
   /* Play log (opt in, this device only): which controls, which values, when. Never song or file names, notes or audio. */
@@ -1779,7 +1786,7 @@
   })();
   /* Tighten: a real-time quantizer can only wait, so a press is delayed toward the next swung step by QZ of the wait. */
   function qzWait(tnowS) { if (!QZ || !playing && !BPM) return 0; var st = seqStep(), j = seqN(tnowS) - 1, w = 1e9, k, f; for (k = j; k <= j + 3; k++) { f = seqT(k) + swingOff(k); if (f >= tnowS - 1e-6 && f - tnowS < w) w = f - tnowS; } return w > st * 2 ? 0 : w * QZ; }
-  function noteStartQ(i) { var w = qzWait(playing ? tnow() : (AC ? AC.currentTime : 0) - 0); if (w > 0.004) { NOTES.pend = NOTES.pend || {}; NOTES.pend[i] = setTimeout(function () { delete NOTES.pend[i]; if (!NOTES.stopEarly || !NOTES.stopEarly[i]) noteStart(i); else delete NOTES.stopEarly[i]; }, w * 1000); } else noteStart(i); }
+  function noteStartQ(i) { recAct("note", i); var w = qzWait(playing ? tnow() : (AC ? AC.currentTime : 0) - 0); if (w > 0.004) { NOTES.pend = NOTES.pend || {}; NOTES.pend[i] = setTimeout(function () { delete NOTES.pend[i]; if (!NOTES.stopEarly || !NOTES.stopEarly[i]) noteStart(i); else delete NOTES.stopEarly[i]; }, w * 1000); } else noteStart(i); }
   function noteMark(i, on) { var b = $("nkeys").querySelector('[data-i="' + i + '"]'); if (b) AP(b, on); }
   function noteStart(i) {
     if (NOTES.voices[i] || Object.keys(NOTES.voices).length >= 4) return;
@@ -2039,7 +2046,7 @@
   }
   function padHit(i) {
     if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
-    var fx = padFx(i); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
+    recAct("pad", PAD.bank + ":" + i); var fx = padFx(i); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
     if (!BUF) { padMsg("Load a song first."); return; }
     if (!SLICES.length) { var k, n = 16; for (k = 0; k < n; k++) addSlice(k * DUR / n, (k + 1) * DUR / n); renderSlices(); drawStrip(tnow()); padMsg("The song is chopped into 16 equal parts. Cut your own on the slice strip any time."); }
     var s = SLICES[PAD.bank * 16 + i]; if (!s) return;

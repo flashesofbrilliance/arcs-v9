@@ -11,7 +11,7 @@ const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }), pg =
 await pg.goto(pathToFileURL(path.resolve(page)).href + '?test=1&shutter=off&level=4'); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
 await pg.setInputFiles('input[type=file]', '/private/tmp/claude-501/fx/' + file); await pg.waitForTimeout(2500)
 const R = (fn, ...a) => pg.evaluate(([fn, a]) => { const r = window.PhosphorTest.recipe[fn](...a); return r }, [fn, a])
-const eq = (a, b2) => { const ks = new Set([...Object.keys(a), ...Object.keys(b2)]); const d = []; for (const k of ks) if (a[k] !== b2[k]) d.push(k + ':' + a[k] + '/' + b2[k]); return d }
+const eq0 = 0; const eq = (a, b2) => { const ks = new Set([...Object.keys(a), ...Object.keys(b2)]); const d = []; for (const k of ks) if (a[k] !== b2[k]) d.push(k + ':' + a[k] + '/' + b2[k]); return d }
 // R1 each move of one slider is its own event, in order (no coalescing)
 const e0 = (await R('ev')).length
 for (const v of [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]) await pg.evaluate((v) => { const e = document.getElementById('gamt'); e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })) }, v)
@@ -48,5 +48,20 @@ await ctx2.close()
 // R5 memory only, no text
 const keys = await pg.evaluate(() => Object.keys(localStorage)); const dump = JSON.stringify(await R('ev'))
 check(!keys.some((k) => /rec/i.test(k)) && !/lullaby|secret/i.test(dump), 'R5: nothing from the recipe log is written to storage')
+// R7 to R11: actions
+const acts = async () => (await R('ev')).filter((e) => e[2][0] === '@')
+const a0 = (await acts()).length
+await pg.evaluate(() => { document.getElementById('dkpad').click() }); await pg.evaluate(() => document.querySelector('[data-pk="3"]').dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }))); await pg.keyboard.press('KeyE'); await pg.evaluate(() => { document.getElementById('dkpad').click(); const p = document.getElementById('perf'); if (!p.checked) { p.checked = true; p.dispatchEvent(new Event('change', { bubbles: true })) } }); await pg.keyboard.press('Digit5')
+await pg.evaluate(() => window.PhosphorTest.seek(2.5)); await pg.evaluate(() => window.PhosphorTest.tap.set(97, 0.2))
+const na = (await acts()).slice(a0), names = na.map((e) => e[2])
+check(names.includes('@pad') && names.includes('@key') && names.includes('@seek') && names.includes('@tempo') && na.filter((e) => e[2] === '@pad').map((e) => e[3]).join() === '0:3,0:6' && na.find((e) => e[2] === '@tempo')[3] === 97, `R7: pads (a tap and a key), a Perform key, seek and tempo are recorded as actions in order (${names.join(' ')})`)
+await pg.click('#play'); await pg.waitForTimeout(300); await pg.click('#play'); const pl = (await acts()).map((e) => e[2])
+check(pl.includes('@play') && pl.includes('@stop'), 'R8: play and stop are recorded')
+const songs = (await acts()).filter((e) => e[2] === '@song')
+check(songs.length >= 1 && /^[0-9a-f]{8}\|\d+$/.test(songs[songs.length - 1][3]), `R9: the loaded song is recorded as a content fingerprint and length only (${songs.length && songs[songs.length - 1][3]})`)
+const st1 = await R('state', 1e12); const txt = await pg.evaluate(() => window.PhosphorTest.recipe.exp()); const back = await pg.evaluate((t) => window.PhosphorTest.recipe.imp(t), txt)
+check(/^Phosphor recipe v1\n/.test(txt) && back && back.events.length === (await R('ev')).length && JSON.stringify(back.base) === JSON.stringify(await pg.evaluate(() => window.PhosphorTest.recipe.exp().length ? JSON.parse(window.PhosphorTest.recipe.exp().split('\n').slice(1).join('\n')).base : null)) && !/lullaby|secret|\.wav/i.test(txt), `R10: the recipe exports to text and reads back with every event (${back && back.events.length}), and the text holds no file name`)
+const bad = await pg.evaluate(() => [window.PhosphorTest.recipe.imp(''), window.PhosphorTest.recipe.imp('nope'), window.PhosphorTest.recipe.imp('Phosphor recipe v1\n{"base":1}'), window.PhosphorTest.recipe.imp('Phosphor recipe v1\n{"base":{},"events":[["x"]]}')])
+check(bad.every((x) => x === null), 'R11: text that is not a recipe, or has malformed events, is refused (nothing is applied)')
 check(errs.length === 0, 'R6: no page errors ' + errs.join('|'))
 await b.close(); process.exit(failed() ? 1 : 0)
