@@ -83,7 +83,9 @@ def messages(t2, t3):
     return out
 
 ACCEPT_PATHS = (":(glob)**/evidence.jsonl", ":(glob)**/*.evidence.jsonl", GLOSSARY, ROSETTA)
-MUTE_DAYS = 14
+MUTE_DAYS = 14          # pending window; a declined row then mutes its token another MUTE_DAYS
+WARN_MUTE_DAYS = 2 * MUTE_DAYS
+K2_ROWS, K2_DAYS = 5, 3  # ADR-088 K2: >=5 declined within any 3 consecutive firing days
 
 def log_path():
     d = git("rev-parse", "--path-format=absolute", "--git-common-dir").strip()
@@ -102,7 +104,9 @@ def record(t2, t3, path=None, now=None):
     path = path or log_path()
     if not path:
         return 0
-    seen = {(r["trigger"], r["token"], r["file"]) for r in _read_log(path)}
+    n_ = now or _now()
+    seen = {(r["trigger"], r["token"], r["file"]) for r in _read_log(path)
+            if (n_ - datetime.datetime.fromisoformat(r["ts"])).days < WARN_MUTE_DAYS}
     rows = [("T2", t) for t in t2] + [("T3", t) for t in t3]
     n = 0
     with open(path, "a", encoding="utf-8") as fh:
@@ -114,6 +118,24 @@ def record(t2, t3, path=None, now=None):
                                  "file": f, "line": ln}) + "\n")
             n += 1
     return n
+
+def muted(trigger, token, rows, now=None):
+    """True while the latest logged row for this token is pending, or declined less than
+    MUTE_DAYS ago (age < WARN_MUTE_DAYS). After that the token may warn, and log, again."""
+    n_ = now or _now()
+    ages = [(n_ - datetime.datetime.fromisoformat(r["ts"])).days for r in rows
+            if r["trigger"] == trigger and r["token"] == token]
+    return bool(ages) and min(ages) < WARN_MUTE_DAYS
+
+def k2(res):
+    """res: [(row, status)]. Declined rows per firing day; trip when any 3 consecutive firing days hold >=5."""
+    per = {}
+    for r, st in res:
+        if st == "declined":
+            per[r["ts"][:10]] = per.get(r["ts"][:10], 0) + 1
+    days = sorted({r["ts"][:10] for r, _ in res})
+    worst = max((sum(per.get(d, 0) for d in days[i:i + K2_DAYS]) for i in range(len(days))), default=0)
+    return worst, worst >= K2_ROWS
 
 def is_accepted(row, added):
     """added: '+' lines (without the plus) from ledger/glossary/rosetta commits after row['ts']."""
@@ -151,8 +173,11 @@ def report(path=None, now=None, added_fn=added_since):
     days = len({r["ts"][:10] for r in rows})
     ratio = acc / (acc + dec) if acc + dec else None
     k1 = "NOT YET MEASURABLE" if days < 10 or ratio is None else ("TRIPPED: throttle to T2 / stakes high" if ratio < 1/3 else "ok")
+    worst, k2_trip = k2(res)
     lines = [f"suggestions {len(rows)}: accepted {acc}, pending {pend}, declined {dec}; firing days {days}",
-             "K1 accepted/(accepted+declined): " + ("n/a" if ratio is None else f"{ratio:.2f}") + f" -> {k1}"]
+             "K1 accepted/(accepted+declined): " + ("n/a" if ratio is None else f"{ratio:.2f}") + f" -> {k1}",
+             f"K2 declined in worst {K2_DAYS} consecutive firing days: {worst} -> "
+             + ("TRIPPED: mute T1 until re-registered (T1 is not built, so no live effect)" if k2_trip else "ok")]
     return lines, res
 
 def ledger_for(f):
@@ -193,6 +218,25 @@ def self_test():
         check("log: first firing recorded, repeat deduped", n1 == 2 and n2 == 0)
         lines, res = report(lg, soon, lambda ts: ["- Zorblax-Kappa: x"])
         check("report: accepted 1 pending 1, K1 not yet measurable", "accepted 1, pending 1" in lines[0] and "NOT YET" in lines[1])
+    # re-warning mute
+    def ago(days): return (late - datetime.timedelta(days=days)).isoformat()
+    mk = lambda days, tok="76%", trig="T2": {"ts": ago(days), "trigger": trig, "token": tok, "file": "f", "line": 1}
+    check("mute: pending (5d) token is muted", muted("T2", "76%", [mk(5)], late))
+    check("mute: declined 20d ago still muted (<28d)", muted("T2", "76%", [mk(20)], late))
+    check("mute: expires after 28d", not muted("T2", "76%", [mk(30)], late))
+    check("mute: other token / other trigger not muted", not muted("T2", "5%", [mk(5)], late) and not muted("T3", "76%", [mk(5)], late))
+    with tempfile.TemporaryDirectory() as t:
+        lg = os.path.join(t, "log.jsonl")
+        open(lg, "w").write(json.dumps(mk(30)) + "\n")
+        check("log: expired row allows a fresh row for the same token", record([("f", 1, "76%")], [], lg, late) == 1)
+    # K2
+    def drow(day, i): return ({"ts": f"2026-10-{day:02d}T0{i}:00:00+00:00", "trigger": "T3", "token": f"t{day}{i}", "file": "f", "line": 1}, "declined")
+    five = [drow(1, 1), drow(1, 2), drow(2, 1), drow(2, 2), drow(3, 1)]
+    check("K2: 5 declined in 3 consecutive firing days trips", k2(five) == (5, True))
+    check("K2: 4 declined does not trip", k2(five[:4])[1] is False)
+    spread = [drow(1, 1), drow(2, 1), drow(3, 1), drow(4, 1), drow(5, 1)]
+    check("K2: 5 declined spread one per day does not trip", k2(spread) == (3, False))
+    check("K2: accepted and pending rows do not count", k2([(r, "accepted") for r, _ in five]) == (0, False))
     # CLI end to end in a throwaway git repo: warns, exits 0, writes nothing
     me = os.path.abspath(__file__)
     with tempfile.TemporaryDirectory() as t:
@@ -207,6 +251,10 @@ def self_test():
         check("CLI: warns on bad staged diff and exits 0", r.returncode == 0 and "T2" in r.stderr and "T3" in r.stderr)
         lg = os.path.join(t, ".git", "librarian-suggestions.jsonl")
         check("CLI: firing logged in git common dir, tree stays clean of logs", os.path.exists(lg) and "librarian" not in run("git", "status", "--porcelain").stdout)
+        again = run(sys.executable, me)
+        check("CLI: same token is silent on the second firing (muted) and not re-logged",
+              again.returncode == 0 and "T2" not in again.stderr and "T3" not in again.stderr
+              and len(open(lg).read().splitlines()) == 2)
         os.makedirs(os.path.join(t, "runtime", "echo"), exist_ok=True)
         open(os.path.join(t, "_CANON", "evidence.jsonl"), "w").write(json.dumps({"pattern": "76%", "source": "self-reported:Z:2026-10-17"}) + "\n")
         run("git", "add", "-A"); run("git", "commit", "-qm", "ledger")
@@ -226,6 +274,12 @@ def main():
     if not lines:
         return 0
     t2, t3 = analyze(lines, ledger_for, known_text())
+    try:
+        rows = _read_log(log_path())
+        t2 = [x for x in t2 if not muted("T2", x[2], rows)]
+        t3 = [x for x in t3 if not muted("T3", x[2], rows)]
+    except (OSError, ValueError):
+        pass  # a broken log must never break a commit
     for m in messages(t2, t3):
         print("⚠ " + m, file=sys.stderr)
     try:
