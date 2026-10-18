@@ -27,7 +27,8 @@ description: Tier-4 readiness card for an induced-backlog row (door, prepared, u
 
 `door` (`one-way` or `two-way`), `abort`, `rollback`, plus the fields every row already has
 (`trigger`, `gates`, `route.tool`, `depends_on`, `consent`). The optional three are specified in
-`runtime/specs/backlog-status.json` under `optional_fields`. An absent field prints UNCONFIRMED.
+`runtime/specs/backlog-status.json` under `optional_fields`. An absent field prints UNCONFIRMED. So does an `abort` or `rollback` that starts with `DRAFT`: an agent-written
+safety statement is not the owner's word until a human reads it and removes the prefix.
 
 ## Verdicts
 
