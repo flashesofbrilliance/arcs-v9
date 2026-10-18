@@ -24,3 +24,7 @@ if [ "$ROUNDS" -gt 1 ]; then
   echo "flake ledger (checks whose result changed between rounds):"; cat "$OUT"/round*.txt | sort | uniq -c | awk '{print $2" "$3" x"$1}' | sort | awk '{c[$1]++; l[$1]=l[$1]" "$2"x"$3} END {for (k in c) if (c[k]>1) print "  "k":"l[k]}' | sort
 fi
 echo "details in $OUT"
+# Gate (2026-10-18): exit nonzero if any check failed in any round, or if a round ran no checks (a missing run must never read as green). A check whose browser fails to launch exits nonzero, so it counts as a failure.
+BAD=0; for f in "$OUT"/round*.txt; do [ -s "$f" ] || { echo "GATE: $f ran no checks"; BAD=1; }; grep -vq ' 0$' "$f" && BAD=1; done
+[ "$BAD" -eq 0 ] || { echo "GATE: FAIL (${PHOSPHOR_BROWSER:-chromium})"; exit 1; }
+echo "GATE: PASS (${PHOSPHOR_BROWSER:-chromium})"
