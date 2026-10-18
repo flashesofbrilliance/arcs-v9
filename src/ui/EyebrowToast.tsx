@@ -30,7 +30,7 @@ const CHIPS = [
   { label: 'Storage', body: 'Nothing stored without sign-in' },
   { label: 'Training', body: 'Input never trains a model' },
   { label: 'Autonomy', body: 'You decide. ARCS doesn\'t.' },
-  { label: 'Source', body: 'Repo is public and forkable' },
+  { label: 'Source', body: 'Private repo; history on request' },
 ]
 
 const ROADMAP = [
