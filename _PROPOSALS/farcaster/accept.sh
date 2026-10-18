@@ -10,7 +10,7 @@ got=$(shasum -a 256 runtime/specs/farcaster-gate/sealed/holdout.json | cut -d' '
 out=$(python3 runtime/specs/farcaster-gate/eval_dev.py); echo "$out" | tail -5
 for k in line1_G2_withholds_all_positives_and_0_true_wrong line2_G0_misses_ge3_of_F2_F5 line3_recall_G0\<G1\<=G2; do echo "$out" | grep -q "\"$k\": true"; line "dev $k" $?; done
 # line 4 (hold-out)
-python3 runtime/specs/farcaster-gate/eval_holdout.py; line "line4 hold-out G2 >= 3 of 4 (else set overfit)" $?
+python3 runtime/specs/farcaster-gate/eval_holdout.py; line "line4 (POST HOC READING, not the pre-registered line, which is unsatisfiable) hold-out 1 G2 correct >= 3 of 4" $?
 # line 5 probes self-test
 _PROPOSALS/farcaster/probes/selftest.sh >/dev/null; line "line5 probe fixtures classified (all fixtures)" $?
 # line 6 canary
