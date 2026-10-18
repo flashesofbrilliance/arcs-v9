@@ -5,7 +5,7 @@ A private candidate bundle for Zach's application path to Wonderful via George S
 ## Files
 | File | What it is |
 |---|---|
-| `positioning-brief.md` | External cut of the brief promised to George. No internal scores, rubric or tooling language. Draft for Zach to edit; not sent. Internal reasoning stays in the memo and ledger. |
+| `positioning-brief.md` | External cut of the brief promised to George. No internal scores, rubric or tooling language. Sent to George with the bundle email on 2026-10-16. Internal reasoning stays in the memo and ledger. |
 | `hyperstition-ledger.md` | Rubric grades for both roles, Loki-tested claims, decomposition rehearsal, draft ex-ante receipt, the kintsugi seam. |
 | `grades.json` | Per-dimension scores on target-role-scan v1.3 and bridge-scan v1.1. |
 | `role-choice.md` | Internal decision note: grades, what would actually disqualify, what George already said on the call, revised read. The richer `role-choice.html` is LOCAL ONLY (fails the design gates). |
@@ -21,7 +21,7 @@ Only files that can go to George. Everything else in this folder is internal.
 - `Zach-Harris-Positioning-Brief.pdf` (2 pages)
 - `Zach-Harris-Resume-Forward-Deployed-Engineer.pdf` and `-ATS.pdf` (lead, Zach's first pick)
 - `Zach-Harris-Resume-Deployment-Strategist.pdf` and `-ATS.pdf` (alternative)
-- `cover-note.md`: the email text, FDE first, with the 12-month answer filled in. A Gmail draft (unsent, no attachments) exists on the George thread.
+- `cover-note.md`: the email text, FDE first, with the 12-month answer filled in. Sent by Zach on 2026-10-16 14:25 UTC (about 1.2 MB, the PDFs attached) as new thread 1a1451af4dc0d68e, subject "Follow-up: Wonderful Roles // ZH Bundle"; the old thread 1a135e43497f691a only holds George's Oct 13 reply.
 Checked: text scan of all five PDFs for internal terms (rubric, scores, ledger, recoil, hyperstition, tailored, target) found none; PDF titles read "Zach Harris - Resume" (no role or company); 0 em-dashes. Not run: counterpart gauntlet, strict slop eval. 12-month answer filled 2026-10-14 from Zach ("have not applied in the last 12 months"); "about eight years of AI, discovery to delivery" added to the brief from Zach, self-reported. Confirmed by Zach 2026-10-14: independent since 2019; a year and a half building ARCS with a full agentic harness.
 
 ## Gates run
@@ -32,8 +32,8 @@ Checked: text scan of all five PDFs for internal terms (rubric, scores, ledger, 
 - Recoil JSON validated against `tools/recoil-report/schema/report.schema.json`.
 - Both resumes render at 2 pages; the designed one leaves white space at the foot of page 1 because the embedded-engagements block stays intact on page 2.
 
-## Before you send anything
+## Before you send anything (done: sent 2026-10-16; kept as the record of what was checked)
 1. Answer George's 12-month "no prior application to Wonderful" question yourself.
 2. Lead role: FDE first (Zach's pick, conditional on meeting their engineering standard); Strategist as the alternative. Graded a tie on fit; see `role-choice.md`.
-3. Attach the five PDFs to the Gmail draft, read it, and send to George only.
-4. The ex-ante receipt is filed: `2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH`.
+3. Attach the five PDFs, read it, and send to George only. Done 2026-10-16 14:25 UTC.
+4. The ex-ante receipt is filed: `2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH` (filed 13:52 UTC, about 33 minutes before the send). Next: wait for George's reply, then close the loop and have the Accountant score the prediction.
