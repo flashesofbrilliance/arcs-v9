@@ -517,7 +517,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
     in production, and <strong>documented from day one so a team could take it over without me in the room</strong>.
-    Every number on this page comes from the repository itself. Every milestone links to real commits. The dial
+    Every number on this page comes from the repository itself. Every milestone names its real commit. The dial
     below lets you read the story at whatever depth you want: the one page version, or all the way down to the code.
   </div>
 
@@ -639,8 +639,8 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       principles the system was built on, and for each, the concrete place it is enforced.
     </div>
     <div class="gauge-grid">
-      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRACEABILITY</div><div class="gauge-def">Every answer links back to its receipt. Every claim on this page links to a commit.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRANSPARENCY</div><div class="gauge-def">Reasoning shown, not just conclusions. The build record itself is public.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRACEABILITY</div><div class="gauge-def">Every answer links back to its receipt. Every milestone on this page names its commit; the commit history is available on request.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRANSPARENCY</div><div class="gauge-def">Reasoning shown, not just conclusions. The build record is kept in a private repository; commit history is available on request.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">EXPLAINABILITY</div><div class="gauge-def">Plain-language readouts at every altitude. The legend at the bottom of this page is the rule, not a courtesy.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">EVIDENCE GATING</div><div class="gauge-def">Features switch on at data thresholds, never on enthusiasm. The roadmap below runs on this.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">SOURCE QUALITY GRADING</div><div class="gauge-def">Every input is rated before it is allowed to move a conclusion.</div></div>
@@ -690,8 +690,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
       <strong>The one page read</strong> shows 8 milestones, one plain sentence each. Each level down adds
-      more events and more detail, until <strong>Commits</strong> links every milestone to the actual code
-      in the public repo. Keys 1 to 5 work too.
+      more events and more detail, until <strong>Commits</strong> names the commit behind each milestone. Keys 1 to 5 work too.
     </div>
 
     <div class="tele-tabs">
@@ -1577,7 +1576,8 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
 })();
 </script>
 <script>
-/* Live pulse — reads the PUBLIC repo via the GitHub REST API, no auth/secrets.
+/* Live pulse — tries the GitHub REST API without auth. arcs-v9 is private, so that call returns 404 and
+   the fields show a dash unless the server-side pulse below supplies them.
    Near-real-time by polling (on load, on tab focus, every 5 min). */
 (function () {
   var API = "https://api.github.com/repos/flashesofbrilliance/arcs-v9";

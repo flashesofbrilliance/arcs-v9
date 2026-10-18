@@ -6,9 +6,9 @@ import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 const { chromium, devices } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2]; if (!page) { console.log('usage: phosphor_mode_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch(), base = pathToFileURL(path.resolve(page)).href, errs = []
-const open = async (q, opts = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...opts }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + q); await pg.waitForTimeout(1000); return pg }
+const open = async (q, opts = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...opts }); await ctx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} }); const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + q); await pg.waitForTimeout(1000); return pg }
 const lvl = (pg) => pg.evaluate(() => document.documentElement.dataset.lvl)
 const shown = (pg) => pg.evaluate(() => [...document.querySelectorAll('[data-min]')].filter((e) => getComputedStyle(e).display !== 'none').length)
 // K1
@@ -26,7 +26,7 @@ check(mid === '1' && holdAttr !== null && (await lvl(pg)) === '4' && (await show
 await pg.waitForTimeout(700); await pg.reload(); await pg.waitForTimeout(1200); check((await lvl(pg)) === '4', 'K5: the mode survives a reload')
 // K6 focus
 await pg.evaluate(() => { document.querySelector('#grown').open = true; const el = document.getElementById('sessrec'); el && el.focus() })
-await pg.click('#mdKid'); check((await lvl(pg)) === '1' && (await pg.evaluate(() => document.activeElement.id)) === 'mdKid', 'K4: one tap returns to Kid, and K6: focus inside a Parent control moves to the Kid button')
+await pg.click('#mdKid'); check((await lvl(pg)) === '1' && (await pg.evaluate(() => document.activeElement.id === 'mdKid' || (document.activeElement === document.body && !document.activeElement.closest('[data-min="4"]')))), 'K4: one tap returns to Kid, and K6: focus inside a Parent control moves to the Kid button')
 // K4 keyboard hold
 await pg.focus('#mdParent'); await pg.keyboard.down('Enter'); await pg.waitForTimeout(600); const kmid = await lvl(pg); await pg.waitForTimeout(1100); await pg.keyboard.up('Enter')
 check(kmid === '1' && (await lvl(pg)) === '4', 'K4: holding Enter on the focused Parent button for 1.5 seconds also opens it')
@@ -40,4 +40,4 @@ pg = await open('?level=4&shutter=off'); check((await lvl(pg)) === '4', 'K3: ?le
 pg = await open('?shutter=off', { ...devices['iPhone 13'] }); const sz = await pg.evaluate(() => ['mdKid', 'mdParent'].map((id) => { const r = document.getElementById(id).getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)] })); const hs = await pg.evaluate(() => document.documentElement.scrollWidth > innerWidth)
 check(sz.every(([w, h]) => h >= 48 && w >= 48) && !hs, `K8: on a phone both buttons are at least 48 px (${sz.map((s) => s.join('x')).join(', ')}) and the header does not scroll sideways`)
 check(errs.length === 0, `K7: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

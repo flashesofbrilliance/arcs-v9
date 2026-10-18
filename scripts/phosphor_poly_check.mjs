@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url'
 const require = createRequire(import.meta.url + '/../../../package.json'.replace('file://', ''))
 let chromium; try { ({ chromium } = require('playwright')) } catch { ({ chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')) }
 const page = process.argv[2]; if (!page) { console.log('usage: phosphor_poly_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), pg = await b.newPage({ viewport: { width: 1280, height: 900 } })
 const errs = []; pg.on('pageerror', (e) => errs.push(String(e)))
 await pg.goto(pathToFileURL(page).href + '?test=1&shutter=off'); await pg.waitForTimeout(1500)
@@ -53,4 +53,4 @@ await pg.evaluate(() => { document.getElementById('perf').checked = true; docume
 await pg.evaluate(() => { document.getElementById('perf').checked = false; document.getElementById('perf').dispatchEvent(new Event('change', { bubbles: true })) }); s = await on()
 check(!s.echo && !s.crush && !s.tear, 'P8: turning Perform off clears every effect')
 check(errs.length === 0, `P9: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

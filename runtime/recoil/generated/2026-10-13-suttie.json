@@ -1,0 +1,186 @@
+{
+  "reportId": "2026-10-13-suttie",
+  "notice": "PRIVATE · INTERNAL ONLY · DO NOT FORWARD",
+  "meta": {
+    "callTitle": "Zach Harris x George Suttie (Scout Global) // Wonderful intro",
+    "counterpart": "George Suttie, Director, Scout Global (UK recruiter, GTM/AI-DeepTech)",
+    "counterpartRole": "Retained-or-contingent recruiter placing founding FDE and Deployment Strategist hires for Wonderful (NY); arrangement not stated",
+    "callDate": "2026-10-13",
+    "callTime": "11:00 AM EDT",
+    "durationMinutes": 29,
+    "segmentCount": 5,
+    "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(29)))",
+    "prePrepSession": "none: no pre-call expectation captured",
+    "note": "Source: Granola transcript ad6a86df. George recorded on a vendor note-taker until Zach asked for removal. Recruiter is second-hand on the client; he said he is not privy to interview content."
+  },
+  "cover": {
+    "yGate": "YELLOW",
+    "conviction": "MEDIUM",
+    "stability": "STABLE",
+    "renderState": "DEGRADED",
+    "nci": 62,
+    "headline": "Door is open on the self-taught path; the bar is the real gate, not the recruiter.",
+    "subline": "George softened the one screening 'no' (no software-engineering background) to 'not black and white' if the skill is real, then sent both JDs and asked Zach to pick a role. He is non-technical, cannot qualify the bar himself, and has not seen the evidence yet. The next move is a role pick backed by a mapped, honest bundle."
+  },
+  "loadBearingQuote": {
+    "text": "They're not that short-sighted where they're not open to people that have kind of taught themselves these skills right over the course of their career. The caveat to that is that it needs to be at a strong enough level.",
+    "attribution": "GRANOLA TRANSCRIPT · GEORGE SUTTIE (SCOUT GLOBAL) · 2026-10-13",
+    "significance": "Names the exact test: self-taught is admissible, but only if demonstrably senior. The OpenTelemetry link and commit trail are the evidence that carries the application, not the resume titles."
+  },
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "CONSENT AND RAPPORT",
+      "time": "0-4 min",
+      "direction": "FORWARD",
+      "summary": "Zach asked about the AI note-taker; George removed it. Purpose of the call set.",
+      "divergenceFlag": "LOW: forward and backward agree."
+    },
+    {
+      "segment": 2,
+      "label": "ZACH'S PITCH",
+      "time": "4-11 min",
+      "direction": "FORWARD",
+      "summary": "Six years independent consulting, builder/founder/operator, Grayscale, WTA, ARCS. Wants full-time in-house; ARCS goes open source and to the back burner.",
+      "divergenceFlag": "LOW."
+    },
+    {
+      "segment": 3,
+      "label": "THE HINGE: THE 'NO'",
+      "time": "11-17 min",
+      "direction": "FORWARD",
+      "summary": "George raises the failed screening answer. Zach asks if a missing 5-10 years of SWE history is a deal breaker and shares the OpenTelemetry link. George: not black and white; a strong self-taught level is fine.",
+      "divergenceFlag": "HIGH: forward read sounds like reassurance; backward read shows no commitment beyond 'I'll have a look'."
+    },
+    {
+      "segment": 4,
+      "label": "THE CLIENT AND BAR",
+      "time": "17-24 min",
+      "direction": "FORWARD",
+      "summary": "Wonderful: Series C, under 2 years old, NY founding team, about 10 FDEs and 5-6 Deployment Strategists, Palantir/Databricks/Google/MBB alumni, in-person NYC, startup and founder experience a bonus. Strategist = engagement manager role.",
+      "divergenceFlag": "MEDIUM: bar called 'pretty high' and also 'not as specific as that'."
+    },
+    {
+      "segment": 5,
+      "label": "CLOSE: SEND AND PICK",
+      "time": "24-29 min",
+      "direction": "FORWARD",
+      "summary": "5-stage loop, possibly under 2 weeks: talent call with Itay, technical interview, decomposition case study, 2 more. George sends both JDs, overview and pitch; Zach picks a role and runs his Honest Resumes mapping. Zach flags other processes and asks to compress if needed.",
+      "divergenceFlag": "LOW."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "SELF_TAUGHT_PATH",
+      "label": "Self-taught path admissible",
+      "color": "green",
+      "strength": "SOFT_YES",
+      "description": "Stated twice by George. Conditional on a demonstrated senior level, which he cannot verify himself."
+    },
+    {
+      "id": "STRATEGIST_FIT",
+      "label": "Deployment Strategist maps most cleanly",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "Described as engagement manager and pre-sales glue. Zach said he has done pre-sales, scoping and strategy-to-delivery handoff. The JD lists prior hands-on engineering as a nice-to-have."
+    },
+    {
+      "id": "FOUNDER_BONUS",
+      "label": "Founder and builder is a stated bonus",
+      "color": "green",
+      "strength": "SOFT_YES",
+      "description": "Co-founders and people who built AI on the side get extra credit; ARCS is this."
+    },
+    {
+      "id": "NYC_IN_PERSON",
+      "label": "NYC in-person is required",
+      "color": "amber",
+      "strength": "CONSTRAINT",
+      "description": "No remote; client site and office. Zach is New York Metro, which fits."
+    },
+    {
+      "id": "RECRUITER_OPACITY",
+      "label": "Recruiter is not the decider",
+      "color": "amber",
+      "strength": "UNKNOWN",
+      "description": "George does not know the case study format, the hiring manager or GM/CTO status, and said he cannot qualify the bar. His signals are fit-to-brief, not outcome."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "A",
+      "probability": 50,
+      "label": "BASE: Strategist-led submission, talent call with Itay",
+      "description": "George submits the profile; talent screen within about a week; the decomposition case study is the real test.",
+      "trigger": "A same-week role pick with a sourced mapping and the 12-month attestation answered cleanly.",
+      "watch": "Whether George names a hiring-manager contact or only relays."
+    },
+    {
+      "id": "B",
+      "probability": 30,
+      "label": "FDE-led: bar mismatch surfaces at the technical stage",
+      "description": "The FDE JD asks for 5+ years building software and system design; the OpenTelemetry trail carries it only if the repo reads as production engineering.",
+      "trigger": "Zach leads with FDE.",
+      "watch": "Technical questions on distributed systems, evals and production reliability."
+    },
+    {
+      "id": "C",
+      "probability": 20,
+      "label": "STALL: submission without feedback",
+      "description": "The recruiter relays and the client goes quiet.",
+      "trigger": "No named client contact and no timeline.",
+      "watch": "No reply 5 business days after submission; ask for stage and Itay's calendar."
+    }
+  ],
+  "riskFlags": [
+    {
+      "id": "ATTESTATION",
+      "severity": "HIGH",
+      "label": "12-month prior-application attestation is unanswered",
+      "description": "George asked Zach to confirm he has not applied to Wonderful in the past 12 months, directly or indirectly. Zach's reply promised a brief and a resume but did not answer it. A mailbox search found no sign of a prior application, which is not proof.",
+      "action": "Zach checks his own records, then answers in one plain line. Do not assert it from inference."
+    },
+    {
+      "id": "FDE_BAR",
+      "severity": "HIGH",
+      "label": "FDE 5+ years building software, plus pedigree",
+      "description": "Zach has no titled engineering history; the case rests on ARCS and embedded delivery. Alumni named: Palantir, Databricks, Google, Microsoft, McKinsey, Bain, BCG.",
+      "action": "Lead with the sharpest claim: live MCP server, agentic orchestration, public commit trail. Name the gap; do not smooth it. Offer Strategist as the stronger fit."
+    },
+    {
+      "id": "EXCLUSIVITY",
+      "severity": "MEDIUM",
+      "label": "Representation and exclusivity unclear",
+      "description": "George may need to be the sole channel; Zach has other processes running.",
+      "action": "Ask once whether Scout is retained or contingent for this role and whether submission is exclusive."
+    },
+    {
+      "id": "PRIVACY",
+      "severity": "LOW",
+      "label": "Third-party processing of candidate data",
+      "description": "The note-taker was handled in the call; Scout's footer consents to storage of candidate data for evaluation.",
+      "action": "Send resumes to George only, not a distribution list."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "The close is send-and-pick: George wants one role chosen. Read backward, the hinge is not the reassurance but that nothing was committed beyond sending a materials pack; the evidence link was acknowledged, not reviewed."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "keyFinding": "No pre-call expectation was captured, so nothing is scored. Zach's best unprompted asks (hiring-manager background, FDE team already hired, anti-profile heuristics) went mostly unanswered by a non-technical recruiter. Ask them again in writing."
+      }
+    ],
+    "immediateActions": [
+      "Answer the 12-month attestation truthfully in one line.",
+      "Pick the lead role: Deployment Strategist as primary with FDE as the stretch, or FDE as primary with an explicit gap statement. Zach decides.",
+      "Send the two resumes (designed leave-behind, ATS upload) with a short positioning note, to George only.",
+      "Ask in writing: retained or contingent, hiring manager, how many FDEs are already hired, decomposition-case format.",
+      "File the ex-ante receipt before any send to the client."
+    ]
+  }
+}

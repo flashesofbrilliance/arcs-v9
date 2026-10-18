@@ -6,7 +6,7 @@ import path from 'node:path'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], file = path.basename((process.env.PHOSPHOR_FILES || '').split(',')[0])
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_mix_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(path.resolve(page)).href, errs = []
 const open = async () => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + '?test=1&shutter=off&level=4'); await pg.waitForFunction(() => document.getElementById('status').textContent === ''); await pg.setInputFiles('input[type=file]', '/private/tmp/claude-501/fx/' + file); await pg.waitForTimeout(2500); await pg.click('#play'); await pg.waitForTimeout(500); return pg }
 const parent = (pg) => pg.evaluate(() => document.getElementById('mdParent').dispatchEvent(new PointerEvent('pointerdown'))).then(() => pg.waitForTimeout(1700))
@@ -62,4 +62,4 @@ const diff = (a, b2) => { let n = 0; for (let i = 0; i < a.length; i++) if (Math
 await set(pg, 'mh_tear', 0); const A = await shot(), A2 = await shot(); await set(pg, 'mh_tear', 100); const B = await shot()
 check(diff(A, A2) < 0.001 && diff(A, B) > 0.003, `T8: at a fixed playhead the same level draws the same frame (${diff(A, A2).toFixed(4)}) and Tear 0 against Tear 100 differ (${diff(A, B).toFixed(4)})`)
 check(errs.length === 0, 'T9: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

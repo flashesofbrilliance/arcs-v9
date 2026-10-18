@@ -3,9 +3,9 @@ import { chromium } from 'playwright'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2]; if (!page) { console.log('usage: node scripts/phosphor_eject_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch(), errs = []
-const pg = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
+const ectx = await b.newContext({ viewport: { width: 1280, height: 900 } }); await ectx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} }); const pg = await ectx.newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
 await pg.goto(pathToFileURL(path.resolve(page)).href); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
 const w = await pg.evaluate(() => { const r = (s) => Math.round(document.querySelector(s).getBoundingClientRect().width); return { dock: r('#dock'), frame: r('#frame'), tag: getComputedStyle(document.getElementById('tag')).display } })
 check(w.tag === 'none', 'E2: the mode readout at the top left is gone')
@@ -27,4 +27,4 @@ check(await pg.evaluate(() => window.__ejectLock() && document.getElementById('f
 await hold('#hej', 3300)
 check(!(await pg.evaluate(() => window.__ejectLock())), 'E9: and Eject held for 3 seconds leaves it')
 check(errs.length === 0, 'E8: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

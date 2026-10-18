@@ -1,0 +1,81 @@
+{
+  "version": "0.1-PROPOSAL",
+  "status": "PROPOSAL (draft PR). Read by .claude/hooks/canon-write-guard.py. Not a gate on commits.",
+  "doc": "Which files are canon, and what an in-place edit by Claude's Edit or Write tool should do. First match wins, so list specific entries before broad ones. Every entry cites where the repo itself says so. Scripts that append with Python or shell are not seen by this guard (it only sees Claude's Edit, Write and MultiEdit tools).",
+  "classes": {
+    "deny": "block the edit; Claude is told to propose the change in a draft PR or ask Zach",
+    "ask": "ask Zach to confirm in the permission prompt, with the reason shown",
+    "insert_only": "allow only edits that keep every existing byte (appending or inserting); deny anything that removes or rewrites existing text",
+    "mint_only": "an existing file is denied (mint a new version as a new file); a new file asks (numbering authority is upstream)"
+  },
+  "rules": [
+    {
+      "glob": "_CANON/ordinals/*.md",
+      "class": "mint_only",
+      "except": [
+        "_CANON/ordinals/README.md"
+      ],
+      "why": "Ordinals are immutable and chained: mint-don't-edit, a new version is a new file (_CANON/ordinals/README.md). Numbering authority is upstream."
+    },
+    {
+      "glob": "_CANON/ARCS-Canon-v2-0-Complete.md",
+      "class": "deny",
+      "why": "Marked CANONICAL, v2.0 frozen (_CANON/index.md)."
+    },
+    {
+      "glob": "_CANON/ARCS-Canon-v1-1.md",
+      "class": "ask",
+      "why": "Marked CANONICAL, kept for lineage (_CANON/index.md). Corrective edits are legitimate when receipted (on 2026-10-17 three strike and label passes removed unsupported figures), so this asks and does not deny."
+    },
+    {
+      "glob": "_CANON/tao-proverbs.jsonl",
+      "class": "insert_only",
+      "why": "The compounding Tao SSOT: proverbs are minted by appending, never rewritten."
+    },
+    {
+      "glob": "_CANON/great-moments.jsonl",
+      "class": "insert_only",
+      "why": "A record of moments; appended, not rewritten."
+    },
+    {
+      "glob": "_SEEDS/ledger.jsonl",
+      "class": "insert_only",
+      "why": "The seed ledger is append-only, one event per line (_SEEDS/README.md): never rewrite a past line."
+    },
+    {
+      "glob": "_STATE/falsification-ledger.jsonl",
+      "class": "insert_only",
+      "why": "The falsification ledger: its count is a public claim, so history may only grow."
+    },
+    {
+      "glob": "_ARCHIVE/handoffs.md",
+      "class": "insert_only",
+      "why": "Handoff history is relocated here by scripts/handoff_fold.py and never deleted."
+    },
+    {
+      "glob": "_CANON/*.md",
+      "class": "ask",
+      "except": [
+        "_CANON/index.md"
+      ],
+      "why": "Marked CANONICAL in _CANON/index.md. A canon change is a declared, receipted decision (ROM primitive 7, write-lock)."
+    },
+    {
+      "glob": "runtime/specs/ARCS-v9-ROM.md",
+      "class": "ask",
+      "why": "The ROM: constitutional primitives. Changes need a write-lock declaration."
+    },
+    {
+      "glob": "operators/docs/PERIODIC-TABLE.md",
+      "class": "ask",
+      "why": "Operator numbering is the periodic table and nothing else (AGENTS.md gotcha 16); it is locked."
+    },
+    {
+      "glob": "WORLD.md",
+      "class": "ask",
+      "why": "The founding document of the world; edits are deliberate (CLAUDE.md orientation)."
+    }
+  ],
+  "escape": "Set CANON_GUARD=off in the environment that launches Claude Code to bypass the guard for a scripted session. It is not a per-file override.",
+  "backstop": "Pre-commit already refuses cites to things that do not exist and duplicate ADR numbers, but nothing refuses a canon-file diff. A commit-msg check requiring a Canon-Write receipt trailer is the proposed follow-up; the hook alone depends on how bypass permission modes treat a hook's deny, which the hooks docs do not state."
+}

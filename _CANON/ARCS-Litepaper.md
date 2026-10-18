@@ -149,10 +149,7 @@ Process:
 Output: Prediction with confidence interval + alternatives + reasoning
 ```
 
-**Accuracy Metrics**:
-- 87% of predictions fall within stated confidence intervals
-- Mean Absolute Percentage Error (MAPE): 12-15%
-- Outperforms human experts 76% of the time on blind tests
+**Accuracy Metrics**: [struck 2026-10-17: no supporting data]
 
 ### 3.2 Pillar 2: Decision Receipt System
 
@@ -313,12 +310,7 @@ Anonymized Pattern (Shared):
 
 **Quantified Network Effects**:
 
-| Receipts in Database | Prediction Accuracy | Average Customer ROAS |
-|---------------------|-------------------|----------------------|
-| 1,000 | 68% | 2.9x |
-| 10,000 | 78% | 3.4x |
-| 100,000 | 87% | 4.1x |
-| 1,000,000 (projected) | 92% (projected) | 4.8x (projected) |
+[struck 2026-10-17: no supporting data]
 
 **Strategic Implication**: Early customers benefit from the network but contribute to the moat. Late customers benefit more but have higher switching costs due to accumulated learning.
 
@@ -330,7 +322,7 @@ Anonymized Pattern (Shared):
 
 **Positioning**: "Next-generation ad server with AI optimization"
 
-**Value Proposition**: 40% ROAS improvement with performance guarantee [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+**Value Proposition**: [struck 2026-10-17: no supporting data] (the ROAS improvement figure and the performance guarantee)
 
 **Customer Psychology**: "We need better ad performance" → Solves immediate pain
 
@@ -390,8 +382,7 @@ By Phase 3, customers face a unique retention dynamic:
 - Our entire decision receipt history (fiduciary exposure)
 - Our accumulated learning patterns (performance regression)
 - Our network intelligence access (competitive disadvantage)
-- Our compliance documentation (regulatory risk)
-- Our predictive accuracy (back to 68% from 87%)"
+- Our compliance documentation (regulatory risk)"
 
 **Expected Churn Rate by Phase**:
 - Phase 1 (Ad Server): 12-18% annually (normal SaaS)
@@ -408,15 +399,15 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Implementation**: Data Contribution Pricing Tiers
 
-- **Tier 1 (Private Mode)**: $7.5M/year—agency hoards client data, gets 72% accuracy
-- **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns, gets 82% accuracy  
-- **Tier 3 (Full Contribution)**: $2.5M/year—shares all receipts, gets 87% accuracy
+- **Tier 1 (Private Mode)**: $7.5M/year—agency hoards client data
+- **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns
+- **Tier 3 (Full Contribution)**: $2.5M/year—shares all receipts
 
-**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
+**Status**: Illustrative pricing. The tier accuracy figures and the performance gap between tiers were struck for lack of supporting data.
 
 **Strategic Effect**: 
 1. Agencies recommend Tier 1 (protect asymmetry)
-2. Clients see 15% performance gap vs. Tier 3
+2. [struck 2026-10-17: no supporting data]
 3. Clients fire agency or demand Tier 3
 4. Agencies either adapt (transparency) or die (dinosaurs)
 
@@ -450,23 +441,9 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Result**: Engagement → Retention → Network effects → Competitive moat
 
-### 5.4 The Performance Guarantee Moat
+### 5.4 [struck 2026-10-17: no supporting data]
 
-**Insight**: Competitors can't offer guarantees without receipts. Receipts take 2-3 years to build.
-
-**Implementation**: "40% ROAS improvement or full refund"
-
-**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
-
-**Why This Works**:
-- ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
-- If client followed recommendations and failed → ARCS refunds
-- If client ignored recommendations and failed → No refund
-- Competitors can't copy this without building entire receipt infrastructure first
-
-**Strategic Effect**: Every competitor sales call includes "Will you match ARCS's guarantee?" Competitors either lose margin (say yes) or lose deal (say no).
-
-**Result**: First-mover advantage becomes insurmountable.
+The performance guarantee moat (insight, implementation, strategic effect) is struck.
 
 ### 5.5 The Regulatory Capture Strategy
 
@@ -528,8 +505,7 @@ By Phase 3, customers face a unique retention dynamic:
    - Use: Network participation, governance, marketplace transactions
    - Dilution: 0% (tokens ≠ equity)
 
-3. **Revenue Reinvestment**: $4.3M from operations
-   - Currently profitable ($180K/month EBITDA)
+3. **Revenue Reinvestment**: [struck 2026-10-17: no supporting data] (the profitability claim it rested on)
    - Reinvest cash flow into growth
    - Dilution: 0% (organic)
 
@@ -538,7 +514,7 @@ By Phase 3, customers face a unique retention dynamic:
    - Prime + 2% (~8.5% interest rate)
    - Dilution: 0% (debt, not equity)
 
-**Total Capital**: $102M with <5% dilution vs. $70M with 40-50% dilution
+**Total Capital**: [struck 2026-10-17: no supporting data] (the total, the dilution figure and the venture comparison)
 
 **Strategic Advantage**: Founders retain control, timeline flexibility, and capture full upside.
 
@@ -563,7 +539,7 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Why This Isn't a Scam**:
 - Real utility (not speculative)
-- Conservative pricing ($40M FDV for $2.1M ARR company = 19x, reasonable)
+- Conservative pricing ($40M FDV)
 - Long vesting (team can't dump)
 - Regulatory compliant (working with SEC counsel)
 
@@ -578,7 +554,6 @@ By Phase 3, customers face a unique retention dynamic:
 - US Enterprise (500+ employees): $350B annually
 - Addressable (Fortune 5000 + growth cos): $180B annually
 
-**Current Market Penetration**: 0.001% ($2.1M ARR / $180B TAM)
 
 ### 7.2 36-Month Projections
 
@@ -610,7 +585,7 @@ Yes, because marketing technology is fragmented:
 
 **Network Effects Math**:
 - At 175 customers: 100,000+ receipts in database
-- At 500 customers: 1,000,000+ receipts (92% accuracy, unbeatable)
+- At 500 customers: 1,000,000+ receipts
 - At that point, joining ARCS isn't optional—competitors with inferior predictions lose market share
 
 ---
@@ -624,7 +599,6 @@ Yes, because marketing technology is fragmented:
 **Impact**: High (delays revenue, increases burn)
 
 **Mitigation**:
-- Performance guarantee removes buyer risk
 - Competitive threat playbook collapses 18-month cycles to 30 days
 - Pre-sale program validates demand before scaling
 
@@ -673,7 +647,6 @@ Yes, because marketing technology is fragmented:
 - Hire proven ML/AI leadership (ex-Google/Meta/Amazon)
 - Budget 20% engineering contingency
 - Alpha program validates before scaling
-- Performance guarantee has exit clause (refund if tech fails)
 
 ---
 
@@ -687,7 +660,7 @@ Five forces align simultaneously for the first time:
 2. **Fiduciary Awakening**: Boards requiring marketing accountability
 3. **AI Readiness**: ChatGPT proved AI can transform knowledge work overnight
 4. **MarTech Fatigue**: 47 average tools, consolidation inevitable
-5. **Performance Gap**: No vendor offers guarantees, procurement desperate for accountability
+5. **Performance Gap**: [struck 2026-10-17: no supporting data]
 
 **Why This Moment Is Unique**: For 30 years, marketing operated on faith. These converging forces create a once-in-a-generation window where the entire industry is ready for transformation.
 
@@ -698,9 +671,7 @@ Five forces align simultaneously for the first time:
 - Competitors need 2-3 years to rebuild
 - First-mover advantage insurmountable
 
-**2. Performance Guarantee Capability**
-- Receipts prove attribution → can offer guarantees
-- Competitors can't match without receipts
+**2. [struck 2026-10-17: no supporting data]**
 
 **3. Network Learning Effects**
 - 100,000+ receipts create prediction advantages
@@ -732,7 +703,7 @@ Five forces align simultaneously for the first time:
 - $350B allocated annually on intuition
 
 **After ARCS**:
-- Marketing becomes evidence-based (predict with 87% accuracy)
+- Marketing becomes evidence-based
 - Decisions are meritocratic (best receipts win)
 - Accountability is built-in (blockchain-verified)
 - CMOs succeed or fail on actual performance
@@ -753,11 +724,10 @@ Three possible futures:
 ### 10.3 The Call to Action
 
 We have:
-- Product-market fit ($2.1M ARR, profitable)
 - Proven demand (47-company waitlist)
-- Capital strategy ($102M non-dilutive path)
+- Capital strategy [struck 2026-10-17: no supporting data]
 - Clear roadmap (36 months to $412M ARR)
-- Unfair advantages (receipts, guarantees, network effects)
+- Unfair advantages (receipts, network effects)
 
 **The question is not whether this should be built.**
 

@@ -14,6 +14,7 @@ The six lines
   3 unconfirmed  every line that is not MEASURED, plus the row's open_questions.
   4 trigger      the row's `trigger`, with the ripeness verdict from scripts/backlog_ripeness.py.
   5 abort+undo   row fields `abort` and `rollback`. Absent means UNCONFIRMED. Present is DECLARED.
+                 Text starting with DRAFT (written by an agent, not yet read by the row owner) is UNCONFIRMED.
   6 om gap       evidence coverage beside the conviction you supply with --conviction (0 to 100).
 
 Verdict (pre-registered, fixed before any run)
@@ -112,8 +113,16 @@ def l_trigger(row, by_id, today):
     return line(4, "trigger", state, f"{trig} || ripeness {v[0]}: {v[1]}"), v[0]
 
 
+def _is_draft(v):
+    return str(v or "").strip().upper().startswith("DRAFT")
+
+
 def l_abort(row):
     a, r = row.get("abort"), row.get("rollback")
+    drafts = [k for k, v in (("abort", a), ("rollback", r)) if v and _is_draft(v)]
+    if drafts:
+        return line(5, "abort+undo", "UNCONFIRMED",
+                    " and ".join(drafts) + " drafted but not reviewed by the row owner; remove the DRAFT prefix once a human has read it")
     if a and r:
         return line(5, "abort+undo", "DECLARED", f"abort: {a} | rollback: {r}")
     miss = [k for k, v in (("abort", a), ("rollback", r)) if not v]
@@ -201,6 +210,9 @@ def self_test():
         ("no conviction means UNCONFIRMED om line", build(good, bygood, today)["lines"][5]["state"] == "UNCONFIRMED"),
         ("overconfidence is named", "more sure than the evidence" in low["lines"][5]["text"]),
         ("no input makes a CUE line count as MEASURED", all(x["state"] != "MEASURED" for x in b["lines"] if x["name"] in ("door", "abort+undo"))),
+        ("a DRAFT abort or rollback is UNCONFIRMED, so the row cannot be READY on an agent's own words",
+         build({**good, "abort": "DRAFT (agent, unreviewed): stop"}, bygood, today, conviction=80)["lines"][4]["state"] == "UNCONFIRMED"
+         and build({**good, "rollback": "draft: undo"}, bygood, today, conviction=80)["verdict"] != "READY"),
         ("an invalid door value is UNCONFIRMED, not DECLARED", build({**good, "door": "maybe"}, bygood, today)["lines"][0]["state"] == "UNCONFIRMED"),
         ("the spec lists the door values", door_values() == ["one-way", "two-way"]),
         ("full render has no em-dash", "\u2014" not in render(g)),

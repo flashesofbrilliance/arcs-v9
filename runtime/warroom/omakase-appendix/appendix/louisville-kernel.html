@@ -648,6 +648,7 @@ function dismissToast(e) {
   <div class="stats">
     <div class="stat"><div class="k">Pilot cost (base)</div><div class="v">$30K</div><div class="s">$10K/mo × 3 months, capped &amp; known. Month-one exit limits worst case to $10K.</div></div>
     <div class="stat"><div class="k">One avoided rework</div><div class="v">~$90K</div><div class="s">Assumed cost of a Pumps-scale build-ship-rebuild cycle (brand, tooling, run, rework).</div></div>
+    <div class="stat"><div class="k">One weak campaign killed early</div><div class="v">~$15K</div><div class="s">Assumed saving; not measured.</div></div>
     <div class="stat"><div class="k">One avoided bad vendor year</div><div class="v">$240K</div><div class="s">$20K/mo × 12 with no exit tripwires – the known quote, not an assumption.</div></div>
     <div class="stat"><div class="k">Annual capital at play</div><div class="v">$2–2.5M</div><div class="s">If discipline redirects even 10% of it, that's $200–250K/yr of better allocation.</div></div>
   </div>
@@ -664,7 +665,7 @@ function dismissToast(e) {
       <tr>
         <td>Base case</td>
         <td>One Pumps-scale rework avoided (~$90K) and one weak campaign killed early (~$15K); decisions land faster.</td>
-        <td class="num">$30K</td><td class="num">~$105K</td><td class="num">~3.5×</td><td class="num">~60–75 days</td>
+        <td class="num">$30K</td><td class="num">~$105K</td><td class="num">~3.5×</td><td class="num">~60–75 days (assumed)</td>
       </tr>
       <tr>
         <td class="bad">Worst case</td>
@@ -674,7 +675,7 @@ function dismissToast(e) {
     </tbody>
   </table></div>
 
-  <p style="margin-top:18px"><b>The terms a board would use, translated.</b> <i>ROI</i> (return on investment): base case, every dollar in returns roughly $3.50 of avoided waste and captured value within the year – about a 250% return. <i>MOIC</i> (multiple on invested capital – "how many times over do I get my money back"): ~3.5× base, ~8× best. <i>IRR</i> (the annualized rate of return): honestly, IRR is built for money that comes back over years; here the money comes back in weeks, which makes the annualized figure look absurd (triple digits). The plain version is better: <b>the fee pays for itself the first time it stops one bad production run or one bad vendor year.</b> <i>Payback period</i>: roughly the first prevented misstep – call it 60–75 days in the base case.</p>
+  <p style="margin-top:18px"><b>The terms a board would use, translated.</b> <i>ROI</i> (return on investment): base case, every dollar in returns roughly $3.50 of avoided waste and captured value within the year – about a 250% return, assuming a ~$90K rework and a ~$15K campaign saving, neither measured. <i>MOIC</i> (multiple on invested capital – "how many times over do I get my money back"): ~3.5× base, ~8× best. <i>IRR</i> (the annualized rate of return): honestly, IRR is built for money that comes back over years; here the money comes back in weeks, which makes the annualized figure look absurd (triple digits). The plain version is better: <b>the fee pays for itself the first time it stops one bad production run or one bad vendor year.</b> <i>Payback period</i>: roughly the first prevented misstep – call it 60–75 days in the base case, if those two assumptions hold.</p>
 
   <div class="note">
     <b>The stop-loss framing – and it cuts both ways.</b> Today, the cost of a bad bet is uncapped: a vendor deal quietly eats $240K, a launch strands inventory, a Japan expansion eats a year of the CEO's attention. The pilot converts that uncapped exposure into one capped, known cost ($30K), the way insurance does – a stop-loss on wasted opportunity cost. And the engagement obeys its own rule: if after month one the receipts aren't obviously worth more than they cost, stop, out $10K, keep the receipts. ARCS carries the same tripwire it installs.

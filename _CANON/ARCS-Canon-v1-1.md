@@ -88,7 +88,6 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 
 **1. Abductive Prediction Engine**
 - Generate falsifiable predictions with confidence intervals
-- 87% accuracy (vs. 68% baseline, 76% vs. human experts)
 - Multi-dimensional context matching across historical receipts
 
 **2. Decision Receipt System**
@@ -112,7 +111,6 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 - Receipt database: 100,000+ historical decisions = insurmountable training data advantage
 - Patent protection: Abductive raytracing, dual-coach temporal arbitration, folksonomy
 - Network effects: Early adopters benefit but also contribute to moat
-- Performance guarantees: Only possible with receipt attribution (competitors can't match)
 
 **Lock-In Mechanics** (Marketing OS example):
 - **Phase 1** (0-12 months): Better ROAS → 12-18% annual churn
@@ -126,13 +124,13 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 
 ### Economic Model: Non-Dilutive Growth
 
-**Capital Strategy** ($102M with <5% dilution):
+**Capital Strategy** ([struck 2026-10-17: no supporting data] the total and its dilution figure; components below are plans):
 1. **Enterprise Pre-Sale**: $81M from 20 customers (prepaid 3-year contracts at 40% discount)
 2. **Token Generation Event**: $12M ($ARCS utility token for ecosystem participation)
-3. **Revenue Reinvestment**: $4.3M (currently profitable: $180K/month EBITDA)
+3. **Revenue Reinvestment**: [struck 2026-10-17: no supporting data] (the profitability claim it rested on)
 4. **Strategic Debt**: $5M credit facility
 
-**vs. Traditional VC**: $70M with 40-50% dilution
+**vs. Traditional VC**: [struck 2026-10-17: no supporting data]
 
 **Revenue Model** (Marketing OS):
 - Individual: Free basic → $49/month Pro → $199/month Premium
@@ -156,7 +154,7 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 2. **Fiduciary Awakening**: Boards requiring marketing/hiring accountability
 3. **AI Readiness**: ChatGPT proved AI can transform knowledge work overnight
 4. **Tool Fatigue**: 47 average martech tools → consolidation inevitable
-5. **Performance Gap**: No vendor offers guarantees → procurement desperate for accountability
+5. **Performance Gap**: [struck 2026-10-17: no supporting data]
 
 **Cultural Tailwinds**:
 - "Great Re-evaluation" of work (people reject soul-crushing roles)
@@ -196,7 +194,6 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 - Global enterprise marketing: $850B annually
 - US Enterprise (500+ employees): $350B annually
 - Addressable (Fortune 5000 + growth): $180B annually
-- **Current penetration**: 0.001% → massive greenfield
 
 **Career & Talent Optimization**:
 - 2.3M "cognitive synthesizers" in US underearning $35K/year vs. optimal placement
@@ -209,7 +206,7 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 **Primary Risks**:
 
 1. **Slow Enterprise Adoption** (30% probability, high impact)
-   - *Mitigation*: Performance guarantees, competitive threat playbooks, pre-sale validation
+   - *Mitigation*: competitive threat playbooks, pre-sale validation
 
 2. **Agency/HR Resistance** (25% probability, medium impact)
    - *Mitigation*: Direct-to-brand sales, create civil war (transparent vs. opaque), public accuracy rankings
@@ -221,7 +218,7 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
    - *Mitigation*: Proactive SEC engagement, token as utility not security, pre-sale alone funds 18+ months
 
 5. **Technical Execution Failure** (20% probability, very high impact)
-   - *Mitigation*: Hire world-class ML/AI leadership, 20% engineering contingency, alpha program validation, performance guarantee exit clause
+   - *Mitigation*: Hire world-class ML/AI leadership, 20% engineering contingency, alpha program validation
 
 ### Call to Action
 
@@ -556,27 +553,9 @@ Where \(\tau\) is domain-specific half-life:
 
 Let \(N\) = number of customers and \(A(N)\) = prediction accuracy as function of scale.
 
-**Empirical Fit**:
+[struck 2026-10-17: no supporting data] (the accuracy curve, its fitted parameters and the competitive-gap table)
 
-\[
-A(N) = A_{\infty} - (A_{\infty} - A_0) \cdot e^{-\lambda N}
-\]
-
-**Parameters**:
-- \(A_0\) = Baseline accuracy with zero network ≈ 68%
-- \(A_{\infty}\) = Asymptotic accuracy at infinite scale ≈ 92%
-- \(\lambda\) = Network effect strength ≈ 0.000012 (empirically calibrated)
-
-**Competitive Moat Analysis**:
-
-| Customers \(N\) | Receipts | Accuracy \(A(N)\) | Gap vs. New Entrant |
-|-----------------|----------|-------------------|---------------------|
-| 10              | 5,000    | 69%               | 1% advantage        |
-| 100             | 50,000   | 77%               | 8% advantage        |
-| 500             | 250,000  | 85%               | 16% advantage       |
-| 1,000           | 500,000  | 88%               | 19% advantage       |
-
-**Strategic Implication**: By the time platform reaches 500 customers (250K receipts), new entrant faces insurmountable disadvantage. Rational customers prefer established platform (16-19% better predictions), creating winner-take-most dynamics.
+**Strategic Implication**: By the time platform reaches 500 customers (250K receipts), new entrant faces insurmountable disadvantage. Rational customers prefer established platform, creating winner-take-most dynamics.
 
 ### Temporal Optimization: Chrono-Kairos Arbitration
 
@@ -839,7 +818,7 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 **Phase 1: Intelligence Augmentation** (Months 0-12)
 - **Positioning**: "Next-generation ad server with AI optimization"
-- **Value Prop**: 40% ROAS improvement with performance guarantee [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+- **Value Prop**: [struck 2026-10-17: no supporting data] (the ROAS improvement figure and the performance guarantee)
 - **Customer Psychology**: "We need better ad performance" (solves immediate pain)
 - **Lock-In**: Moderate (switching cost = lost accuracy + retraining)
 - **Expected Churn**: 12-18% annually
@@ -876,15 +855,15 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 | Tier | Annual Fee | Data Sharing | Prediction Accuracy | Incentive Alignment |
 |------|-----------|--------------|---------------------|---------------------|
-| Private | $7.5M | Zero (hoarded) | 72% | Agency protects asymmetry |
-| Partial | $4.5M | Anonymized patterns | 82% | Rational middle ground |
-| Full | $2.5M | All receipts shared | 87% | Transparent agencies win |
+| Private | $7.5M | Zero (hoarded) | [struck 2026-10-17: no supporting data] | Agency protects asymmetry |
+| Partial | $4.5M | Anonymized patterns | [struck 2026-10-17: no supporting data] | Rational middle ground |
+| Full | $2.5M | All receipts shared | [struck 2026-10-17: no supporting data] | Transparent agencies win |
 
-**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
+**Status**: Illustrative pricing. The tier accuracy figures and the performance gap between tiers were struck for lack of supporting data.
 
 **Strategic Effect**:
 1. Agencies initially recommend Tier 1 (protect information advantage)
-2. Clients observe 15% performance gap vs. Tier 3
+2. [struck 2026-10-17: no supporting data]
 3. Clients demand Tier 3 or fire agency
 4. Transparent agencies capture all new business
 5. Market selects for honest operators
@@ -911,26 +890,9 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 **Societal Benefit**: Reduces "agency bullshit," improves capital allocation efficiency, increases client-agency trust.
 
-##### 3. Performance Guarantee Moat
+##### 3. [struck 2026-10-17: no supporting data]
 
-**Insight**: Competitors can't offer guarantees without decision receipts. Receipts take 2-3 years to build.
-
-**Implementation**: "40% ROAS improvement or full refund"
-
-**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
-
-**Why This Works**:
-- ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
-- If client followed recommendations ≥80% and failed → ARCS refunds
-- If client ignored recommendations and failed → No refund (client fault documented)
-- Competitors can't copy without entire receipt infrastructure
-
-**Strategic Effect**:
-- Every competitor sales call: "Will you match ARCS's guarantee?"
-- Competitors face lose-lose: Offer guarantee (high refund risk) or decline (appear unconfident)
-- ARCS captures risk-averse enterprise buyers
-
-**Result**: First-mover advantage becomes insurmountable.
+The performance guarantee moat (insight, implementation, strategic effect) is struck.
 
 ##### 4. Regulatory Capture Strategy
 
@@ -3198,25 +3160,20 @@ def network_effect_strength(accuracy_history, customer_count_history):
 
 # Example result:
 # {
-#   'asymptotic_accuracy': 0.92,  # 92% accuracy at infinite customers
-#   'baseline_accuracy': 0.68,     # 68% with zero network
-#   'network_strength': 0.000012,  # How fast accuracy improves
+#   'asymptotic_accuracy': <fitted>,
+#   'baseline_accuracy': <fitted>,
+#   'network_strength': <fitted>,  # How fast accuracy improves
 #   'model': <function>
 # }
 ```
 
 **Competitive Moat Projection**:
 
-| Customers | Receipts | Accuracy | Advantage vs. New Entrant |
-|-----------|----------|----------|---------------------------|
-| 10        | 5,000    | 69%      | 1% (negligible)           |
-| 100       | 50,000   | 77%      | 9% (noticeable)           |
-| 500       | 250,000  | 85%      | 17% (significant)         |
-| 1,000     | 500,000  | 88%      | 20% (insurmountable)      |
+[struck 2026-10-17: no supporting data]
 
 **Strategic Implication**:
 
-By the time platform reaches 500 customers (250K receipts), new entrant faces 17% accuracy disadvantage. Rational customers prefer established platform → winner-take-most dynamics.
+By the time platform reaches 500 customers (250K receipts), new entrant faces [struck 2026-10-17: no supporting data]. Rational customers prefer established platform → winner-take-most dynamics.
 
 #### 9.5 Receipts Registry: Distributed Infrastructure
 
@@ -3350,7 +3307,7 @@ Phase 3 (Months 24-36): Infrastructure Standard
 
 #### 10.2 Phase 1: The Trojan Horse Entry
 
-**Value Proposition**: "40% ROAS improvement with performance guarantee" [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+**Value Proposition**: [struck 2026-10-17: no supporting data] (the ROAS improvement figure and the performance guarantee)
 
 **Why This Works**:
 - Solves immediate pain (underperforming campaigns)
@@ -3400,18 +3357,7 @@ Week 19+: Expansion
 | Growth | $750K | 10-30 | 500-2000 | Standard | Mid-market |
 | Enterprise | $2.5M | Unlimited | Unlimited | Premium | Fortune 1000 |
 
-**Performance Guarantee**:
-
-**Status**: Design intent, unvalidated (Technical Overview Part III). The refund trigger below (underperforming baseline) is a different form from the improvement-or-refund form in the Value Prop lines and in the Performance Guarantee Moat section; reconcile before any use.
-
-```
-If ARCS-recommended campaigns underperform baseline by >10%:
-  AND client followed ≥80% of recommendations:
-  THEN full refund + next year 50% discount
-
-Rationale: Receipts prove attribution (whose fault was underperformance)
-Result: Competitors can't match without decision documentation system
-```
+**Performance Guarantee**: [struck 2026-10-17: no supporting data] (the refund trigger, the compliance condition and the discount)
 
 **Success Metrics (Phase 1)**:
 
@@ -3419,7 +3365,6 @@ Result: Competitors can't match without decision documentation system
 - $15.2M ARR
 - Net Revenue Retention: 120% (expansion within accounts)
 - NPS >70
-- Prediction accuracy: 87% (actual outcomes within stated confidence intervals)
 
 #### 10.3 Phase 2: Platform Consolidation
 
@@ -3667,7 +3612,6 @@ Year 3 (95 people):
 - Target account list: Fortune 1000 + high-growth unicorns (3,500 companies)
 - Personalized outreach: "Your $X marketing budget deserves receipt-level accountability"
 - Executive briefings: 90-minute session with CMO + CFO + board member
-- Competitive displacement: "Your current vendor can't offer guarantees. We can."
 
 **Sales Cycle**:
 
@@ -3688,13 +3632,13 @@ Strategic/Fortune 100: 18 months
 
 **vs. Google/Adobe (Large Incumbents)**:
 - **Their Advantage**: Brand, distribution, existing customer base
-- **Our Advantage**: Receipts, guarantees, network effects they can't replicate quickly
+- **Our Advantage**: Receipts, network effects they can't replicate quickly
 - **Strategy**: "They optimize execution. We optimize decisions. Different layers."
 
 **vs. Startups (New Entrants)**:
 - **Their Advantage**: Agility, innovation, lower pricing
 - **Our Advantage**: 18-24 month head start = 100K-500K receipts they can't match
-- **Strategy**: "Network effects. Our predictions are 17% better because we have more data."
+- **Strategy**: "Network effects. [struck 2026-10-17: no supporting data]"
 
 **vs. Consulting Firms (McKinsey, BCG, Accenture)**:
 - **Their Advantage**: C-suite relationships, strategic credibility
@@ -3787,27 +3731,24 @@ Rationale:
 
 ```
 Year 1: 5,000 receipts
-  - Baseline prediction accuracy: 72%
+  - Baseline prediction accuracy: [struck 2026-10-17: no supporting data]
   - Competitive advantage: Minimal
 
 Year 2: 50,000 receipts
-  - Accuracy: 82%
-  - Advantage: 10% better than new entrant (significant)
+  - Accuracy and advantage: [struck 2026-10-17: no supporting data]
 
 Year 3: 250,000 receipts
-  - Accuracy: 87%
-  - Advantage: 15% better than Year 1 competitor (customer-visible)
+  - Advantage: [struck 2026-10-17: no supporting data]
 
 Year 5 (projected): 1,000,000 receipts
-  - Accuracy: 92%
-  - Advantage: 20% better than Year 3 competitor (insurmountable)
+  - Accuracy and advantage: [struck 2026-10-17: no supporting data]
 ```
 
 **Why Receipts Are Non-Replicable**:
 
 1. **Time Requirement**: Takes 2-3 years to accumulate 100K+ receipts even with aggressive customer acquisition
 2. **Network Effects**: Early receipts attract customers → more receipts → better predictions → more customers (flywheel)
-3. **Cold Start Problem**: New entrant starts at 68% accuracy, must convince customers to tolerate inferior predictions for 2+ years
+3. **Cold Start Problem**: New entrant starts at [struck 2026-10-17: no supporting data], must convince customers to tolerate inferior predictions for 2+ years
 4. **Customer Lock-In**: By the time competitor has enough data, our customers already locked in (Phase 3)
 
 **Data Moat Strategy**:
@@ -4272,8 +4213,8 @@ Measurements:
   - Tertiary: Calibration (do 95% CIs actually contain 95% of outcomes?)
 
 Hypothesis:
-  H1: ARCS accuracy > 85% (vs. H0: ≤68% baseline)
-  H2: ARCS MAPE < 15% (vs. H0: ≥22% baseline)
+  H1: ARCS accuracy > 85% (vs. H0: baseline to be measured)
+  H2: ARCS MAPE < 15% (vs. H0: baseline to be measured)
   H3: ARCS predictions well-calibrated (χ² test, p<0.05)
 
 Timeline: 18 months (12-month data collection + 6-month analysis)
@@ -4360,7 +4301,7 @@ Measurements:
 
 Hypothesis:
   H1: Later cohorts achieve higher accuracy faster (network effect present)
-  H2: Logarithmic improvement: Acc(N) ≈ 92% - 24% × exp(-0.000012 × N)
+  H2: Logarithmic improvement: Acc(N) follows a fitted logarithmic form [parameters struck 2026-10-17: no supporting data]
   H3: First-mover advantage = 18-24 months to reach parity
 
 Timeline: 18 months

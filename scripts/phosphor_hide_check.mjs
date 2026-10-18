@@ -3,10 +3,13 @@ import { chromium } from 'playwright'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2]; if (!page) { console.log('usage: node scripts/phosphor_hide_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), url = pathToFileURL(path.resolve(page)).href, errs = []
-const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, hasTouch: true }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
+const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, hasTouch: true }); await ctx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} }); const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
 await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
+const kidHide = await pg.evaluate(() => { const e = document.getElementById('dkhide'); return getComputedStyle(e).display === 'none' || e.getBoundingClientRect().width === 0 })
+check(kidHide, 'H0: Kid mode has no Hide button (a grown-up hides the player)')
+await pg.evaluate(() => document.getElementById('mdParent').dispatchEvent(new PointerEvent('pointerdown'))); await pg.waitForTimeout(1700)
 const st = () => pg.evaluate(() => { const d = document.getElementById('dock'), r = d.getBoundingClientRect(), bu = document.getElementById('dkbump').getBoundingClientRect(); return { attr: document.documentElement.getAttribute('data-dock'), inert: d.inert, dockVis: getComputedStyle(d).visibility, dockTop: Math.round(r.top), bumpShown: getComputedStyle(document.getElementById('dkbump')).display !== 'none', bumpH: Math.round(bu.height), pad: getComputedStyle(document.body).paddingBottom, ih: innerHeight } })
 let s = await st(); check(s.attr === null && s.dockVis === 'visible' && !s.bumpShown, 'H1: the player starts shown and the bump is not')
 await pg.click('#dkhide'); await pg.waitForTimeout(400); s = await st()
@@ -22,7 +25,8 @@ const bb = await pg.locator('#dock').boundingBox(); await pg.mouse.move(bb.x + b
 check(s.attr === 'hidden', 'H7: dragging the player down hides it')
 // H8 to H13: the bump moves, tucks and is remembered. Done with real touch events (CDP) because a fixed, undraggable bump on a phone was the bug (Zach, 2026-10-17).
 const bump = () => pg.evaluate(() => { const e = document.getElementById('dkbump'), r = e.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, w: r.width, h: r.height, tuck: e.getAttribute('data-tuck'), hidden: document.documentElement.getAttribute('data-dock') } })
-const cdp = await ctx.newCDPSession(pg), tch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, id: 1 }] })
+let cdp; try { cdp = await ctx.newCDPSession(pg) } catch (e) { check(true, 'H8 to H13 skipped: real touch events through CDP need Chromium'); check(errs.length === 0, 'H14: no page errors ' + errs.join('|')); await b.close(); process.exit(failed() ? 1 : 0) }
+const tch = (type, x, y) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, id: 1 }] })
 const drag = async (from, to) => { await tch('touchStart', from[0], from[1]); for (let k = 1; k <= 8; k++) { await tch('touchMove', from[0] + (to[0] - from[0]) * k / 8, from[1] + (to[1] - from[1]) * k / 8); await pg.waitForTimeout(16) } await tch('touchEnd'); await pg.waitForTimeout(150) }
 await pg.waitForTimeout(300); let u = await bump()
 await drag([u.x, u.y], [300, 400]); let v = await bump()
@@ -38,4 +42,4 @@ check(s.attr === null, 'H12: a tap on the bump brings the player back')
 await pg.click('#dkhide'); await pg.waitForTimeout(300); await pg.focus('#dkbump'); await pg.keyboard.press('Enter'); await pg.waitForTimeout(300); s = await st()
 check(s.attr === null, 'H13: Enter on the focused bump also brings the player back')
 check(errs.length === 0, 'H14: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

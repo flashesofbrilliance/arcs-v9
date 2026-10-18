@@ -26,6 +26,10 @@ is a TRIAGE mark, not evidence: it does NOT cover the metric (the gate still fai
 metric from "uncovered" to "acknowledged unvalidated" in the message and in canon_claims_report. Any other
 status value, or a marked entry with no source, is a hard error (exit 2).
 
+Two more triage marks (2026-10-17, final triage): "illustrative" (a worked example, sample output or
+hypothetical, not a claim about the world) and "parameter" (a design constant, threshold, weight or
+definition: a specification, not a measurement). Same semantics: never cover, gate still fails, need a source.
+
 Projection status (2026-10-17): "status": "projection" marks a plan, forecast or target (market size,
 price point, revenue scenario) that the text presents as a number to aim at, not a measured fact. Same
 semantics as unvalidated: never covers, gate still fails, needs a source, only labelled differently.
@@ -69,6 +73,8 @@ def find_ledger(path, explicit=None):
 class LedgerError(ValueError):
     pass
 
+STATUSES = ("unvalidated", "projection", "illustrative", "parameter")
+
 def _entries(lpath):
     for i, ln in enumerate(open(lpath, encoding="utf-8"), 1):
         ln = ln.strip()
@@ -76,8 +82,8 @@ def _entries(lpath):
             continue
         e = json.loads(ln)
         st = e.get("status")
-        if st not in (None, "unvalidated", "projection"):
-            raise LedgerError(f"{lpath}:{i}: unknown status {st!r} (only 'unvalidated' or 'projection' is allowed)")
+        if st not in (None,) + STATUSES:
+            raise LedgerError(f"{lpath}:{i}: unknown status {st!r} (allowed: {', '.join(STATUSES)})")
         if st is not None and not str(e.get("source", "")).strip():
             raise LedgerError(f"{lpath}:{i}: {st} entry needs a source pointing at the audit or plan")
         yield e
@@ -87,17 +93,19 @@ def load_ledger(lpath):
     return [(re.compile(e["pattern"], re.I), e.get("source", "?"))
             for e in _entries(lpath) if e.get("status") is None]
 
-def load_unvalidated(lpath):
+def load_status(lpath, status):
     return [(re.compile(e["pattern"], re.I), e.get("source", "?"))
-            for e in _entries(lpath) if e.get("status") == "unvalidated"]
+            for e in _entries(lpath) if e.get("status") == status]
+
+def load_unvalidated(lpath):
+    return load_status(lpath, "unvalidated")
 
 def load_projection(lpath):
-    return [(re.compile(e["pattern"], re.I), e.get("source", "?"))
-            for e in _entries(lpath) if e.get("status") == "projection"]
+    return load_status(lpath, "projection")
 
 def load_marked(lpath):
-    """Every triage mark (unvalidated or projection); none of them covers a metric."""
-    return load_unvalidated(lpath) + load_projection(lpath)
+    """Every triage mark; none of them covers a metric."""
+    return [m for st in STATUSES for m in load_status(lpath, st)]
 
 def candidates(text):
     out = []
@@ -120,19 +128,20 @@ def report(path, text, ledger_path):
             covered_spans.append((m.start(), m.end()))
     def is_covered(s, e):
         return any(cs <= s and e <= ce for cs, ce in covered_spans)
-    unval_spans = [(m.start(), m.end()) for rx, _ in load_unvalidated(ledger_path) for m in rx.finditer(text)]
-    def is_unval(s, e):
-        return any(cs <= s and e <= ce for cs, ce in unval_spans)
-    proj_spans = [(m.start(), m.end()) for rx, _ in load_projection(ledger_path) for m in rx.finditer(text)]
-    def is_proj(s, e):
-        return any(cs <= s and e <= ce for cs, ce in proj_spans)
+    def spans(st):
+        return [(m.start(), m.end()) for rx, _ in load_status(ledger_path, st) for m in rx.finditer(text)]
+    marks = {st: spans(st) for st in STATUSES}
+    def mark_of(s, e):
+        for st in STATUSES:   # precedence = STATUSES order
+            if any(cs <= s and e <= ce for cs, ce in marks[st]):
+                return st
+        return None
     open_ = [(tok, s, e) for tok, s, e in cands if not is_covered(s, e)]
-    unvalidated = sorted({tok for tok, s, e in open_ if is_unval(s, e)})
-    projection = sorted({tok for tok, s, e in open_ if is_proj(s, e) and not is_unval(s, e)})
-    unverified = sorted({tok for tok, s, e in open_ if not is_unval(s, e) and not is_proj(s, e)})
+    by = {st: sorted({tok for tok, s, e in open_ if mark_of(s, e) == st}) for st in STATUSES}
+    unverified = sorted({tok for tok, s, e in open_ if mark_of(s, e) is None})
     ok = not open_   # an unvalidated mark is not evidence: the gate still fails
     return ok, {"file": path, "ok": ok, "enrolled": True, "ledger": ledger_path,
-                "metrics_found": len(cands), "unverified": unverified, "unvalidated": unvalidated, "projection": projection}
+                "metrics_found": len(cands), "unverified": unverified, **by}
 
 def unit_test():
     """Original in-process cases: fails-on-bad (uncovered number) + passes-on-good (covered)."""
@@ -205,6 +214,10 @@ def self_test():
         open(os.path.join(u, "evidence.jsonl"), "w").write(json.dumps({"pattern": r"87%", "status": "projection", "source": "plan:x"}) + "\n")
         r = cli("u/page.html")
         check("projection entry does NOT cover and is labelled PROJECTION", r.returncode == 1 and "PROJECTION" in r.stdout and "UNVALIDATED" not in r.stdout)
+        for st in ("illustrative", "parameter"):
+            open(os.path.join(u, "evidence.jsonl"), "w").write(json.dumps({"pattern": r"87%", "status": st, "source": "x"}) + "\n")
+            r = cli("u/page.html")
+            check(f"{st} entry does NOT cover and is labelled {st.upper()}", r.returncode == 1 and st.upper() in r.stdout)
         open(os.path.join(u, "evidence.jsonl"), "w").write(json.dumps({"pattern": r"87%", "status": "projection"}) + "\n")
         check("projection entry without source is a hard error (exit 2)", cli("u/page.html").returncode == 2)
     print(f"provenance_lint self-test: {total - fails}/{total}")
@@ -240,10 +253,9 @@ def main(argv):
         else:
             if r["unverified"]:
                 print(f"[FAIL] {path} - uncovered metric(s) with NO evidence-ledger entry: {', '.join(r['unverified'])}")
-            if r["projection"]:
-                print(f"[FAIL] {path} - metric(s) acknowledged PROJECTION (a plan, not evidence, gate still fails): {', '.join(r['projection'])}")
-            if r["unvalidated"]:
-                print(f"[FAIL] {path} - metric(s) acknowledged UNVALIDATED (not evidence, gate still fails): {', '.join(r['unvalidated'])}")
+            for st in STATUSES:
+                if r[st]:
+                    print(f"[FAIL] {path} - metric(s) acknowledged {st.upper()} (a triage mark, not evidence, gate still fails): {', '.join(r[st])}")
             print(f"       add each to {ledger} with its source, or cut the claim.")
     return 1 if bad else 0
 

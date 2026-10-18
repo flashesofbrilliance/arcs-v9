@@ -9,6 +9,8 @@ const SUBDOMAIN_MAP: Record<string, string> = {
   // honest.arcs.care: "Check it before you say it", the in-browser front door to
   // arcs-verb-eval (tools/arcs-verb-eval). Static; every check runs client-side.
   'honest':       '/honest.html',
+  // dj.arcs.care: Phosphor, the family audio instrument. Static, built from _ARTIFACTS/phosphor-src by scripts/phosphor_build.py; noindex.
+  'dj':           '/dj.html',
   // NOTE: 'recruithaus' is handled explicitly below (it has a gated /ammo
   // sub-surface), so it is intentionally NOT in this simple one-to-one map.
 }

@@ -22,6 +22,10 @@ handoff and handoff atomize"):
   CUT         the draft carries the ridgeline categories (fold Step 3) filled from what is
               MECHANICALLY known (paths, gates, triggers, head sha, dates) and marks what a
               human must fill. Attachment release stays human.
+              Routes and Corrections are pre-filled from Librarian.recommend() (Operator 21):
+              each line is a SURFACED pre-score (p_load_bearing, band), never a verdict. The
+              human still sorts and releases. A miss is not proof of none. --no-librarian skips it
+              (the first call verifies shas across the corpus, about 30 s; later calls are fast).
 
 Output: _INBOX/unfold-<date>.md (gitignored derived cache) + a summary on stdout.
 Usage:
@@ -157,7 +161,66 @@ def _shared_ssot(items: list[dict]) -> list[str]:
     return sorted(p for p, n in counts.items() if n >= 2)
 
 
-def draft(domain: str, items: list[dict], head: str, today: str) -> str:
+ROUTE_CLASSES = ["registry", "adr", "seed", "backlog"]
+CORRECTION_CLASSES = ["falsification", "assumption"]
+_LIB = None
+
+
+def _librarian():
+    """One Librarian per process: the first recommend() verifies shas corpus-wide, the rest reuse it."""
+    global _LIB
+    if _LIB is None:
+        sys.path.insert(0, str(ROOT / "operators"))
+        from arcs_librarian import Librarian  # type: ignore
+        _LIB = Librarian(root=ROOT)
+    return _LIB
+
+
+def prescore(items: list[dict], lib=None, n: int = 4) -> dict:
+    """Librarian pre-scores for one stone: candidate routes and candidate corrections. Surfaced only.
+
+    Each item is queried on its own id words, then results merge by highest p_load_bearing. One long
+    query built from the whole cluster dilutes the idf share and returns nothing (measured 2026-10-18:
+    0 hits for a 772-character query, hits for the per-item form). An item's own row, and any other
+    row already in the stone, is dropped: it is not a route to anything new.
+
+    Returns {"routes": [line], "corrections": [line], "error": str | None}. Never raises: a failed
+    Librarian leaves the human placeholders in place. A path outside the repo tree (a memory file) is
+    named by id only, so the chip never cites a path a cold session cannot open.
+    """
+    out = {"routes": [], "corrections": [], "error": None}
+    try:
+        lib = lib or _librarian()
+        tree = _main_tree()
+        own = {it["id"] for it in items} | {f"backlog:{it['id']}" for it in items}
+        def line(it):
+            path = it.get("path") or ""
+            ok = bool(path) and (path.rstrip("/") in tree)
+            where = f"{path} " if ok else ""
+            fr = (it.get("freshness") or {})
+            stale = " STALE" if fr.get("stale") else ""
+            return (f"- {where}[{it['id']}] p_load_bearing={it.get('p_load_bearing')} band={it.get('band')}"
+                    f" verified={fr.get('verified')}{stale} (Librarian pre-score, unsorted)")
+        for key, classes in (("routes", ROUTE_CLASSES), ("corrections", CORRECTION_CLASSES)):
+            best: dict[str, dict] = {}
+            for it in items:
+                words = [w for w in re.split(r"[^a-z]+", it["id"].lower()) if len(w) >= 4]
+                if not words:
+                    continue
+                r = lib.recommend(" ".join(words), budget=6000, n_max=n, classes=classes)
+                for hit in r.get("items", []):
+                    if hit["id"] in own:
+                        continue
+                    if hit["id"] not in best or (hit.get("p_load_bearing") or 0) > (best[hit["id"]].get("p_load_bearing") or 0):
+                        best[hit["id"]] = hit
+            top = sorted(best.values(), key=lambda h: -(h.get("p_load_bearing") or 0))[:n]
+            out[key] = [line(h) for h in top]
+    except Exception as e:  # noqa: BLE001 - the bench must keep running
+        out["error"] = type(e).__name__
+    return out
+
+
+def draft(domain: str, items: list[dict], head: str, today: str, pre: dict | None = None) -> str:
     shared = _shared_ssot(items)
     all_paths = sorted({p for it in items for p in it["paths"]})
     gates = sorted({g for it in items for g in it["gates"]})
@@ -173,15 +236,32 @@ def draft(domain: str, items: list[dict], head: str, today: str) -> str:
         lines.append(f"- NOT on main (cited by an item, treated as vapor, not carried): {', '.join(vapor[:6])}")
     lines += ["", "## SSOT (the files that ARE the state)"]
     lines += [f"- {p}" + ("  (shared by 2+ items)" if p in shared else "") for p in all_paths] or ["- (declared empty: the items name no repo path; a human must point at the SSOT before this stone is set)"]
-    lines += ["", "## Routes (tool -> surface, dated)", "- (human: add the verified route for each item, with its date, or declare empty)"]
+    if pre is None:  # --no-librarian: the original human placeholders, unchanged
+        lines += ["", "## Routes (tool -> surface, dated)", "- (human: add the verified route for each item, with its date, or declare empty)"]
+        pre = {"skip": True}
+    elif pre.get("error"):
+        lines += ["", "## Routes (tool -> surface, dated)", f"- (Librarian unavailable: {pre['error']}; human: add the verified route for each item, with its date, or declare empty)"]
+    else:
+        lines += ["", "## Routes (tool -> surface, dated)",
+                  "- Librarian pre-scores below are surfaced, never acted on; a human sorts and releases"]
+        lines += pre.get("routes") or ["- (Librarian returned no route candidate for this cluster; a miss is not proof of none)"]
+        lines += ["- (human: confirm or drop each line above and add any route it missed, with its date, or declare empty)"]
     lines += ["", "## Gates"] + ([f"- {g}" for g in gates] or ["- (declared empty)"]) + ["- draft-first for anything outward; consent gates ride in, authorization never does"]
-    lines += ["", "## Corrections (stale claims retired since the items were written)", "- (human: check _STATE/falsification-ledger.jsonl rows dated after each item; declare empty if none)"]
+    if pre.get("skip"):
+        lines += ["", "## Corrections (stale claims retired since the items were written)", "- (human: check _STATE/falsification-ledger.jsonl rows dated after each item; declare empty if none)"]
+    elif pre.get("error"):
+        lines += ["", "## Corrections (stale claims retired since the items were written)", f"- (Librarian unavailable: {pre['error']}; human: check _STATE/falsification-ledger.jsonl rows dated after each item; declare empty if none)"]
+    else:
+        lines += ["", "## Corrections (stale claims retired since the items were written)",
+                  "- Librarian pre-scores below are surfaced, never acted on; a human sorts and releases"]
+        lines += pre.get("corrections") or ["- (Librarian returned no falsification or assumption row for this cluster; a miss is not proof of none)"]
+        lines += ["- (human: check _STATE/falsification-ledger.jsonl rows dated after each item; declare empty if none)"]
     lines += ["", "## Timing", "- " + "; ".join(sorted({it['trigger'] for it in items if it['trigger']})[:3] or ["(declared empty)"])]
     lines += ["", "## Close protocol", "- one decision_receipt row per merge (AGENTS.md); waypoints (shas / receipt ids) appended to the fold receipt in _QUEUE/induced-backlog.jsonl; backlog statuses updated; memory additive only", ""]
     return "\n".join(lines)
 
 
-def run(as_json: bool = False) -> dict:
+def run(as_json: bool = False, use_librarian: bool = True) -> dict:
     today = dt.date.today().isoformat()
     head = subprocess.run(["git", "rev-parse", "--short", "origin/main"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
     cands = gather(); clusters = categorize(cands)
@@ -204,7 +284,7 @@ def run(as_json: bool = False) -> dict:
             shared = _shared_ssot(items)
             lines.append(f"- PILE (massif, {len(items)} items): {dom} is too big for one stone; split by shared SSOT ({', '.join(shared[:3]) or 'none shared'}) before cutting")
             continue
-        d = draft(dom, items, head, today)
+        d = draft(dom, items, head, today, prescore(items) if use_librarian else None)
         f = OUT_DIR / f"unfold-{today}-{dom}.md"; f.write_text(d, encoding="utf-8")
         verdict, reasons = "UNLINTED", []
         if lint_mod:
@@ -234,8 +314,10 @@ def run(as_json: bool = False) -> dict:
 
 def self_test() -> int:
     fails = 0
+    n_checks = 0
     def check(label, cond, detail=""):
-        nonlocal fails
+        nonlocal fails, n_checks
+        n_checks += 1
         print(f"  {'PASS' if cond else 'FAIL'}  {label}  {detail}")
         fails += 0 if cond else 1
     items = [{"source": "backlog", "id": "a", "text": "fix the tao book", "paths": ["runtime/tao/proverbs.json"], "gates": ["ruling first"], "trigger": "t", "heavy": False},
@@ -247,6 +329,33 @@ def self_test() -> int:
     for cat in ("Ground truth", "SSOT", "Routes", "Gates", "Corrections", "Close protocol"):
         check(f"draft carries category {cat}", cat in d)
     check("singleton light item does not earn a stone", not (len([items[0]]) >= 2 or items[0]["heavy"]))
+    # Librarian pre-score: stubbed, so the test needs no corpus and runs in a second
+    class StubLib:
+        def recommend(self, q, budget=0, stakes="medium", n_max=4, classes=None):
+            if classes and "falsification" in classes:
+                return {"items": [{"id": "F-9", "path": "_STATE/falsification-ledger.jsonl", "p_load_bearing": 0.61, "band": "maybe", "freshness": {"verified": "2026-10-01", "stale": True}}]}
+            return {"items": [{"id": "backlog:alpha-proverbs", "path": "_QUEUE/induced-backlog.jsonl", "p_load_bearing": 0.9, "band": "likely", "freshness": {}},
+                              {"id": "ADR-070", "path": "scripts/unfold.py", "p_load_bearing": 0.58, "band": "likely", "freshness": {"verified": "2026-09-27", "stale": False}},
+                              {"id": "some-memory", "path": "memory/some-memory.md", "p_load_bearing": 0.4, "band": "maybe", "freshness": {"verified": "2026-09-01", "stale": False}}]}
+    class BrokenLib:
+        def recommend(self, *a, **k):
+            raise RuntimeError("corpus unreadable")
+    items2 = [dict(items[0], id="alpha-proverbs"), dict(items[1], id="beta-proverbs")]
+    pre = prescore(items2, lib=StubLib())
+    check("pre-score yields route and correction lines (own row dropped, merged by highest p)", len(pre["routes"]) == 2 and len(pre["corrections"]) == 1 and pre["error"] is None, pre)
+    check("pre-score shows the score and labels it unsorted", "p_load_bearing=0.58" in pre["routes"][0] and "unsorted" in pre["routes"][0], pre["routes"][:1])
+    check("a path outside the repo tree is named by id only", "memory/some-memory.md" not in " ".join(pre["routes"]) and "[some-memory]" in pre["routes"][1], pre["routes"])
+    check("an item's own row is not offered as its own route", not any("[backlog:a]" in x for x in pre["routes"]), pre["routes"])
+    check("a stale correction candidate is flagged", "STALE" in pre["corrections"][0], pre["corrections"])
+    d2 = draft("tao-lore", items, "abc1234", "2026-09-27", pre)
+    check("draft says pre-scores are surfaced, never acted on", d2.count("never acted on") == 2, d2.count("never acted on"))
+    check("draft keeps the human sort line under both", d2.count("(human:") >= 2)
+    bad = prescore(items2, lib=BrokenLib())
+    check("a failing Librarian is caught, not raised", bad["error"] == "RuntimeError" and not bad["routes"], bad)
+    d3 = draft("tao-lore", items, "abc1234", "2026-09-27", bad)
+    check("a failing Librarian leaves the human placeholders and says why", "Librarian unavailable: RuntimeError" in d3 and "Librarian pre-score" not in d3 and d3.count("(Librarian unavailable") == 2)
+    d4 = draft("tao-lore", items, "abc1234", "2026-09-27", None)
+    check("--no-librarian output is the original placeholders", "Librarian" not in d4 and "(human: add the verified route" in d4 and "(human: check _STATE/falsification-ledger.jsonl" in d4)
     # CLI guard: run a copy of this script in a throwaway repo (ROOT = script's parent's parent)
     import hashlib, os, shutil, tempfile
     def snap(root):
@@ -276,8 +385,7 @@ def self_test() -> int:
         (r / "_HANDOFFS" / "fragments" / "20260102T000000Z--b.md").write_text("<!--\nbranch: b\nhead: abc\ncreated_at: 2026-01-02T00:00:00Z\n-->\n## Open\n1. fragment item\n", encoding="utf-8")
         got = [i["text"] for i in handoff_open(r)]
         check("unfolded fragment Open items are gathered, before the CLAUDE.md block", got == ["fragment item", "old block item"], got)
-    total = 14
-    print(f"unfold self-test: {total - fails}/{total}")
+    print(f"unfold self-test: {n_checks - fails}/{n_checks}")
     return 1 if fails else 0
 
 
@@ -285,11 +393,12 @@ def main(argv: list[str] | None = None) -> int:
     import argparse
     ap = argparse.ArgumentParser(prog="unfold", description="pickup-side atomizer: gather, cluster, draft, lint; WRITES _INBOX/unfold-<date>*.md")
     ap.add_argument("--json", action="store_true", help="machine-readable stdout (still writes the bench files)")
+    ap.add_argument("--no-librarian", action="store_true", help="skip the Librarian pre-score (Routes and Corrections stay human placeholders)")
     ap.add_argument("--self-test", action="store_true", help="run the self-test (writes nothing in the repo)")
     ns = ap.parse_args(argv)
     if ns.self_test:
         return self_test()
-    run(as_json=ns.json)
+    run(as_json=ns.json, use_librarian=not ns.no_librarian)
     return 0
 
 
