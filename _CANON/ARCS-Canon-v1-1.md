@@ -111,7 +111,6 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 - Receipt database: 100,000+ historical decisions = insurmountable training data advantage
 - Patent protection: Abductive raytracing, dual-coach temporal arbitration, folksonomy
 - Network effects: Early adopters benefit but also contribute to moat
-- Performance guarantees: Only possible with receipt attribution (competitors can't match)
 
 **Lock-In Mechanics** (Marketing OS example):
 - **Phase 1** (0-12 months): Better ROAS → 12-18% annual churn
@@ -155,7 +154,7 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 2. **Fiduciary Awakening**: Boards requiring marketing/hiring accountability
 3. **AI Readiness**: ChatGPT proved AI can transform knowledge work overnight
 4. **Tool Fatigue**: 47 average martech tools → consolidation inevitable
-5. **Performance Gap**: No vendor offers guarantees → procurement desperate for accountability
+5. **Performance Gap**: [struck 2026-10-17: no supporting data]
 
 **Cultural Tailwinds**:
 - "Great Re-evaluation" of work (people reject soul-crushing roles)
@@ -207,7 +206,7 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 **Primary Risks**:
 
 1. **Slow Enterprise Adoption** (30% probability, high impact)
-   - *Mitigation*: Performance guarantees, competitive threat playbooks, pre-sale validation
+   - *Mitigation*: competitive threat playbooks, pre-sale validation
 
 2. **Agency/HR Resistance** (25% probability, medium impact)
    - *Mitigation*: Direct-to-brand sales, create civil war (transparent vs. opaque), public accuracy rankings
@@ -219,7 +218,7 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
    - *Mitigation*: Proactive SEC engagement, token as utility not security, pre-sale alone funds 18+ months
 
 5. **Technical Execution Failure** (20% probability, very high impact)
-   - *Mitigation*: Hire world-class ML/AI leadership, 20% engineering contingency, alpha program validation, performance guarantee exit clause
+   - *Mitigation*: Hire world-class ML/AI leadership, 20% engineering contingency, alpha program validation
 
 ### Call to Action
 
@@ -891,25 +890,9 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 **Societal Benefit**: Reduces "agency bullshit," improves capital allocation efficiency, increases client-agency trust.
 
-##### 3. Performance Guarantee Moat
+##### 3. [struck 2026-10-17: no supporting data]
 
-**Insight**: Competitors can't offer guarantees without decision receipts. Receipts take 2-3 years to build.
-
-**Implementation**: [struck 2026-10-17: no supporting data]
-
-**Status**: Design intent, not an offer. The performance threshold was struck for lack of supporting data; no guarantee terms are defined. Do not quote any guarantee to a counterparty.
-
-**Why This Works**:
-- ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
-- [struck 2026-10-17: no supporting data] (the refund conditions)
-- Competitors can't copy without entire receipt infrastructure
-
-**Strategic Effect**:
-- Every competitor sales call: "Will you match ARCS's guarantee?"
-- Competitors face lose-lose: Offer guarantee (high refund risk) or decline (appear unconfident)
-- ARCS captures risk-averse enterprise buyers
-
-**Result**: First-mover advantage becomes insurmountable.
+The performance guarantee moat (insight, implementation, strategic effect) is struck.
 
 ##### 4. Regulatory Capture Strategy
 
@@ -3629,7 +3612,6 @@ Year 3 (95 people):
 - Target account list: Fortune 1000 + high-growth unicorns (3,500 companies)
 - Personalized outreach: "Your $X marketing budget deserves receipt-level accountability"
 - Executive briefings: 90-minute session with CMO + CFO + board member
-- Competitive displacement: "Your current vendor can't offer guarantees. We can."
 
 **Sales Cycle**:
 
@@ -3650,7 +3632,7 @@ Strategic/Fortune 100: 18 months
 
 **vs. Google/Adobe (Large Incumbents)**:
 - **Their Advantage**: Brand, distribution, existing customer base
-- **Our Advantage**: Receipts, guarantees, network effects they can't replicate quickly
+- **Our Advantage**: Receipts, network effects they can't replicate quickly
 - **Strategy**: "They optimize execution. We optimize decisions. Different layers."
 
 **vs. Startups (New Entrants)**:

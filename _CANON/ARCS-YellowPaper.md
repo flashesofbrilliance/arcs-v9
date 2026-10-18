@@ -568,44 +568,9 @@ Users engage with platform daily (not weekly). Engagement drives:
 - Network effects (more engagement → more receipts → better predictions)
 - Viral growth (users evangelize engaging product)
 
-### 5.4 Innovation: Performance Guarantee as Competitive Moat
+### 5.4 [struck 2026-10-17: no supporting data]
 
-**Observation**: No enterprise marketing vendor offers money-back guarantees. This creates trust deficit.
-
-**Mechanism**: Offer contractual performance guarantees backed by receipt attribution:
-
-**Status**: Design intent, not an offer. The performance threshold was struck for lack of supporting data; no guarantee terms are defined. Do not quote any guarantee to a counterparty.
-
-**Guarantee Structure**:
-```
-Promise: [struck 2026-10-17: no supporting data]
-Evidence: Pre-campaign baseline documented in receipts
-Tracking: All recommendations logged in blockchain
-Attribution: Determine fault via decision receipt analysis
-Refund: [struck 2026-10-17: no supporting data]
-```
-
-**Why Competitors Cannot Copy**:
-
-Traditional vendors lack attribution capability:
-- Cannot prove whether client followed recommendations
-- Cannot distinguish vendor fault from client execution failure
-- Offering guarantees would result in uncontrollable refund liability
-
-Receipt-based systems enable guarantees:
-- Recommendations documented with timestamps
-- Client actions logged (followed vs. ignored)
-- Performance variance attributable to specific decisions
-- Fault assignment objective, not subjective
-
-**Strategic Effect**: 
-
-"Will you match their guarantee?" becomes standard procurement question. Competitors face:
-- Lose margin (offer guarantee without attribution → high refund risk)
-- Lose deal (decline guarantee → appear unconfident)
-- Lose market (ARCS captures risk-averse enterprise buyers)
-
-**Market Outcome**: First-mover with decision receipts captures enterprise segment through guarantee-based differentiation.
+The performance guarantee moat (insight, implementation, strategic effect) is struck.
 
 ### 5.5 Innovation: Regulatory Partnership Strategy
 
@@ -725,7 +690,6 @@ Early platform with 500 customers [struck 2026-10-17: no supporting data]. Ratio
 **Impact**: High (revenue delays, burn rate concerns)
 
 **Mitigations**:
-- Performance guarantees reduce buyer risk
 - Competitive threat narratives accelerate decision cycles
 - Pre-sale programs validate demand before scaling
 - Existing customer references build credibility
@@ -784,7 +748,6 @@ Early platform with 500 customers [struck 2026-10-17: no supporting data]. Ratio
 
 **Mitigations**:
 - Conservative accuracy claims (under-promise)
-- Performance guarantees with refunds (backstop)
 - Continuous model improvement (allocated engineering resources)
 - Honest uncertainty communication (avoid false precision)
 
@@ -863,7 +826,7 @@ This paper presents:
 
 3. **Evolution Strategy**: Three-phase path from optimization tool to infrastructure standard with lock-in analysis
 
-4. **Strategic Innovations**: Five novel approaches (agency conflict, stated/revealed preference, gamification, performance guarantees, regulatory capture)
+4. **Strategic Innovations**: Four novel approaches (agency conflict, stated/revealed preference, gamification, regulatory capture)
 
 5. **Economic Analysis**: Market sizing, network effects quantification, switching cost modeling
 
