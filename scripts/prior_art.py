@@ -125,6 +125,25 @@ def rule_docs():
         else:
             buf.append(line)
     flush()
+    # Path-scoped rule files (.claude/rules/*.md) hold content moved out of AGENTS.md so it loads only when
+    # relevant; they stay searchable here, one chunk per section, so /prior-art does not lose them.
+    rules_dir = os.path.join(REPO, ".claude", "rules")
+    if os.path.isdir(rules_dir):
+        for fn in sorted(os.listdir(rules_dir)):
+            if not fn.endswith(".md"):
+                continue
+            head, ref, buf = "", "", []
+            for line in read(os.path.join(rules_dir, fn)).splitlines():
+                if line.startswith("## ") or line.startswith("# "):
+                    if head and buf:
+                        chunks.append(("rules", ref, head, head, "\n".join(buf)))
+                    head = line.lstrip("# ").strip()
+                    ref = f".claude/rules/{fn} § {head}"
+                    buf = [line]
+                elif head:
+                    buf.append(line)
+            if head and buf:
+                chunks.append(("rules", ref, head, head, "\n".join(buf)))
     return chunks
 
 
