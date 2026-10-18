@@ -1,7 +1,7 @@
 # Tailor notes: DevGen.AI Lead Product Engineer, Executive Director · Morgan Stanley
 
 **Source:** Workday req PT-JR042405 (jd-full.txt, jd-workday.json), fetched 2026-09-04. New York, $195,000 to $275,000 base. ATS: Workday (PDF upload; ATS .txt as paste fallback).
-**Record of record:** resume.arcs.care (public/resume.html ROLES + CONSULTING_CLIENTS + education block). Every claim below traces to it or to a public repo.
+**Record of record:** resume.arcs.care (public/resume.html ROLES + CONSULTING_CLIENTS + education block). Every claim below traces to it or to a public repo (germinate, rosetta-shell, resume-tailor-skill) or a private one shown on request.
 **Reference length:** two pages (per _ARTIFACTS/resume-trinity-fdgenai). The first cut was one page; restored to two, see "Seams repaired".
 
 ## Role shape

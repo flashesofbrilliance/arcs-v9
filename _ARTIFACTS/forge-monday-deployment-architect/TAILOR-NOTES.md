@@ -37,7 +37,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 
 | Claim on the page | Grade | Trace |
 |---|---|---|
-| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; public GitHub |
+| ARCS: MCP server + agentic orchestration on Claude, in production, 2025 to present | documented | record ROLES.arcs; app.arcs.care live, repo private |
 | Grayscale: Product Lead, GTM, 10 SEC/FINRA-regulated products, 2024 to 2025 | documented (title, dates, count) | record ROLES.grayscale |
 | $7B AUM | self-reported | record metric "$7B AUM · regulated product suite" |
 | Squat: sole technology partner, seven-figure embedded engagement, $350M ARR client, 2019 to 2020 | self-reported | record CONSULTING_CLIENTS.squat |
@@ -60,7 +60,7 @@ Grades: **documented** (public and checkable, or verbatim in the record of recor
 3. $850K+ and <120ms (WTA). Answer: first-year partnership revenue and scoring latency from the 2016 to 2018 build; consistent with the role, not externally auditable.
 4. 20% net-new revenue (CTF). Answer: measured against the prior year after the segmentation and personalization rollout; internal figure.
 5. Skills not in the record (R, Tableau, Redshift, BigQuery, Salesforce CDP). Answer: used in the CTF and WTA data-layer work; drop any one of them the moment it cannot be discussed fluently.
-6. "In production, not experiments" for ARCS, and the MCP-server claim specifically. Answer: live MCP server, live app, public commit trail, the same protocol named in the posting's own integration-standards list.
+6. "In production, not experiments" for ARCS, and the MCP-server claim specifically. Answer: live MCP server, live app (app.arcs.care), commit history on request, the same protocol named in the posting's own integration-standards list.
 
 **Dropped (not on the page):**
 1. Any claim of holding the title "Solutions Architect" or "Forward Deployed Engineer." Never held; not invented.
