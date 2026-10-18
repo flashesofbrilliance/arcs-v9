@@ -8,7 +8,7 @@ Exit 1 on any hit. stdlib only.
 import re, sys
 
 BAD = re.compile(r"public commit trail|public repo\b|public GitHub (?:repo|commit)|a live commit trail", re.I)
-OK_NEAR = re.compile(r"germinate|rosetta|resume-tailor", re.I)
+OK_NEAR = re.compile(r"germinate|rosetta|resume-tailor|arcs-skills", re.I)
 
 def main(paths):
     bad = 0
