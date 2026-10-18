@@ -6,7 +6,7 @@ import path from 'node:path'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], file = path.basename((process.env.PHOSPHOR_FILES || '').split(',')[0])
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_flash_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(path.resolve(page)).href, errs = []
 const open = async () => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + '?test=1&shutter=off&level=4'); await pg.waitForFunction(() => document.getElementById('status').textContent === ''); return pg }
 const run = async (pg, seq) => pg.evaluate((s) => s.map(([L, t]) => window.PhosphorTest.glim(L, t)), seq)
@@ -46,4 +46,4 @@ check(res.Strong.mot > res.Soft.mot * 1.3, `S4b: Strong moves the picture more t
 pg = await open(); const st = await flashes(pg, true); await pg.context().close(); check(st.worst >= 3, `S4c: the measurer itself sees a strobe (${st.worst} flashes in a second), so a zero above means something`)
 check(res.Soft.worst <= 2 && res.Medium.worst <= 2 && res.Strong.worst <= 2, 'S5: the limit holds at two flashes a second or fewer at every strength')
 check(errs.length === 0, 'S6: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

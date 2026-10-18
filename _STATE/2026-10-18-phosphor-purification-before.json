@@ -1,0 +1,536 @@
+{
+ "desktop/kid/base": {
+  "controls": 30,
+  "byTag": {
+   "button:button": 28,
+   "input:radio": 1,
+   "input:range": 1
+  },
+  "fontSizes": {
+   "11px": 17,
+   "14.8px": 15,
+   "38.4px": 2,
+   "18.4px": 10
+  },
+  "radii": {
+   "10px": 19,
+   "3px": 9,
+   "999px": 5,
+   "16px": 1,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 1,
+   "8px": 5,
+   "0px": 1,
+   "14px": 1,
+   "normal 12px": 1,
+   "10px": 3,
+   "12px": 1
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 2,
+  "duplicateIds": []
+ },
+ "desktop/kid/pads": {
+  "controls": 50,
+  "byTag": {
+   "button:button": 48,
+   "input:radio": 1,
+   "input:range": 1
+  },
+  "fontSizes": {
+   "11px": 53,
+   "14.8px": 16,
+   "38.4px": 2,
+   "18.4px": 10
+  },
+  "radii": {
+   "10px": 19,
+   "3px": 29,
+   "999px": 5,
+   "16px": 1,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 1,
+   "8px": 5,
+   "0px": 1,
+   "14px": 1,
+   "normal 12px": 1,
+   "10px": 6,
+   "12px": 1,
+   "2px": 16
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 2,
+  "duplicateIds": []
+ },
+ "desktop/parent/base": {
+  "controls": 368,
+  "byTag": {
+   "button:button": 302,
+   "input:range": 13,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 210,
+   "14.8px": 122,
+   "38.4px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 276,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 25,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 17,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 1,
+   "4px": 12,
+   "6px 16px": 2
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "desktop/parent/pads": {
+  "controls": 389,
+  "byTag": {
+   "button:button": 323,
+   "input:range": 13,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 247,
+   "14.8px": 123,
+   "38.4px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 297,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 25,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 21,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 1,
+   "4px": 12,
+   "6px 16px": 2,
+   "2px": 16
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "desktop/parent/mix": {
+  "controls": 395,
+  "byTag": {
+   "button:button": 302,
+   "input:range": 40,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 210,
+   "14.8px": 149,
+   "38.4px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 276,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 25,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 27,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 10,
+   "4px": 12,
+   "6px 16px": 2
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "desktop/parent/all-open": {
+  "controls": 368,
+  "byTag": {
+   "button:button": 302,
+   "input:range": 13,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 210,
+   "14.8px": 122,
+   "38.4px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 276,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 25,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 17,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 1,
+   "4px": 12,
+   "6px 16px": 2
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "phone/kid/base": {
+  "controls": 30,
+  "byTag": {
+   "button:button": 28,
+   "input:radio": 1,
+   "input:range": 1
+  },
+  "fontSizes": {
+   "11px": 18,
+   "14.8px": 13,
+   "24px": 2,
+   "18.4px": 10
+  },
+  "radii": {
+   "10px": 19,
+   "3px": 9,
+   "999px": 5,
+   "16px": 1,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 1,
+   "8px": 5,
+   "0px": 1,
+   "14px": 1,
+   "normal 12px": 1,
+   "10px": 3,
+   "12px": 1
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 2,
+  "duplicateIds": []
+ },
+ "phone/kid/pads": {
+  "controls": 50,
+  "byTag": {
+   "button:button": 48,
+   "input:radio": 1,
+   "input:range": 1
+  },
+  "fontSizes": {
+   "11px": 54,
+   "14.8px": 14,
+   "24px": 2,
+   "18.4px": 10
+  },
+  "radii": {
+   "10px": 19,
+   "3px": 29,
+   "999px": 5,
+   "16px": 1,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 1,
+   "8px": 5,
+   "0px": 1,
+   "14px": 1,
+   "normal 12px": 1,
+   "10px": 6,
+   "12px": 1,
+   "2px": 16
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 2,
+  "duplicateIds": []
+ },
+ "phone/parent/base": {
+  "controls": 219,
+  "byTag": {
+   "button:button": 153,
+   "input:range": 13,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 196,
+   "14.8px": 120,
+   "24px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 127,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 27,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 17,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 1,
+   "6px 16px": 2
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "phone/parent/pads": {
+  "controls": 240,
+  "byTag": {
+   "button:button": 174,
+   "input:range": 13,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 233,
+   "14.8px": 121,
+   "24px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 148,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 27,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 21,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 1,
+   "6px 16px": 2,
+   "2px": 16
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "phone/parent/mix": {
+  "controls": 246,
+  "byTag": {
+   "button:button": 153,
+   "input:range": 40,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 196,
+   "14.8px": 147,
+   "24px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 127,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 27,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 27,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 10,
+   "6px 16px": 2
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "phone/parent/all-open": {
+  "controls": 219,
+  "byTag": {
+   "button:button": 153,
+   "input:range": 13,
+   "input:radio": 19,
+   "input:checkbox": 10,
+   "input:text": 2,
+   "textarea:textarea": 1,
+   "summary": 10,
+   "select:select-one": 1,
+   "figure": 8,
+   "input:number": 2
+  },
+  "fontSizes": {
+   "11px": 196,
+   "14.8px": 120,
+   "24px": 2,
+   "18.4px": 12
+  },
+  "radii": {
+   "10px": 70,
+   "3px": 127,
+   "999px": 5,
+   "16px": 5,
+   "50%": 1
+  },
+  "gaps": {
+   "8px 16px": 9,
+   "8px": 27,
+   "0px": 2,
+   "14px": 7,
+   "8px 12px": 1,
+   "10px": 17,
+   "6px 12px": 2,
+   "10px 16px": 1,
+   "12px": 23,
+   "10px 24px": 1,
+   "normal 12px": 1,
+   "4px 28px": 1,
+   "6px": 1,
+   "6px 16px": 2
+  },
+  "smallTargets": 0,
+  "smallSample": [],
+  "inlineStyleVisible": 24,
+  "duplicateIds": []
+ },
+ "source": {
+  "inlineStyleAttrsInTemplate": 26,
+  "distinctFontSizeDeclarations": 8,
+  "distinctRadiusDeclarations": 7,
+  "cssBytes": 36151
+ }
+}

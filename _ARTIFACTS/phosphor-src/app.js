@@ -1214,7 +1214,9 @@
     seqPaint(); seqQuant(P.q); setRadio("sqg", P.gate); setRadio("sqb", P.bars); seqOn(has);
     frame(playing);
   }
-  EA(QA("[data-pre]"), function (b) { b.addEventListener("click", function () { applyPreset(b.getAttribute("data-pre")); }); });
+  /* A preset button is a toggle: tap it again to go back to Plain (so a child needs no Plain button). */
+  var LASTPRE = "";
+  EA(QA("[data-pre]"), function (b) { b.addEventListener("click", function () { var n = b.getAttribute("data-pre"); if (n !== "plain" && LASTPRE === n) n = "plain"; LASTPRE = n === "plain" ? "" : n; applyPreset(n); EA(QA("[data-pre]"), function (o) { AP(o, o.getAttribute("data-pre") === LASTPRE); }); }); });
   var DOCKHID = false;
   var SAVEKEY = "phosphor.settings.v1", saveT = 0;
   function snapshot() {
@@ -1341,9 +1343,7 @@
 
   /* ---------------- glitch: stutter and freeze (time and audio), tear, RGB split, blocks (pixels) ---------------- */
   var GLITCHOFF = false, GKILL = ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "gate"], GLITCH = { stut: null, gate: false, tear: false, rgb: false, blocks: false, crush: false, dist: false, echo: false, room: false, shim: false, sweep: false }, GAMT = 0.6, STSIZE = 0.125, PERFORM = false, GSRC = null, GTMP = null;
-  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var L = MX(s.L, MO.loop), d = t - s.t0; return s.t0 + (((d % L) + L) % L); }
-  function glitchActive() { return !!(GLITCH.stut || GLITCH.tear || GLITCH.rgb || GLITCH.blocks); }
   /* Glitch as a stop-motion zoetrope (Zach, 2026-10-16): constant-speed poses (8 a second), never random per frame. Every displacement is small and bounded, so nothing can strobe. */
   var GLAST = {}, CODONS = null, GSTR = 1, GLIM = { L: -1, dir: 0, ev: [], until: 0 }, GLC = null;
   function glum(cv) {
@@ -2013,7 +2013,6 @@
       r.querySelector("[id^=mh_]").addEventListener("input", function (e) { m.hi = MX(m.lo, e.target.value / 100); sync(k); save(); frame(playing); });
       sync(k);
     });
-    $("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden = !o; $("dkfx").setAttribute("aria-expanded", o ? "true" : "false"); if (o && PAD.open) { PAD.open = false; $("padtray").hidden = true; $("dkpad").setAttribute("aria-expanded", "false"); } });
   })();
   /* Consent splash: shown once per device on the hosted page; test mode skips it so the checks drive the page directly. */
   (function () {
@@ -2066,7 +2065,6 @@
     $("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
     EA(QA("#padpick .btn"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.map[PAD.bank] || (PAD.map[PAD.bank] = {}), v = b.getAttribute("data-fx"); if (v) m[PAD.sel] = v; else delete m[PAD.sel]; try { localStorage.setItem(PAD.key, JSON.stringify(PAD.map)); } catch (e) { /* storage blocked */ } padMsg("Pad " + (PAD.sel + 1) + " is now " + (v ? padName(v) : "a slice") + "."); padRefresh(); }); });
     EA(QA("#pbkb .btn[data-bk]"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; PAD.sel = -1; padReleaseAll(); padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
-    $("dkpad").addEventListener("click", function () { PAD.open = tr.hidden; tr.hidden = !PAD.open; $("dkpad").setAttribute("aria-expanded", PAD.open ? "true" : "false"); if (!PAD.open) padReleaseAll(); if (PAD.open) { $("fxtray").hidden = true; $("dkfx").setAttribute("aria-expanded", "false"); } padRefresh(); });
     window.addEventListener("keydown", function (e) {
       var i = PADKEYS.indexOf(e.code); if (!PAD.open || i < 0 || e.metaKey || e.ctrlKey || e.altKey || pkTyping(e)) return;
       e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) padHit(i);
@@ -2075,6 +2073,14 @@
     window.addEventListener("blur", padReleaseAll);
     padRefresh();
   })();
+  /* One tray component for Pads and Mix: one open at a time, Escape closes and returns focus, both close with the player. */
+  var TRAYS = { padtray: "dkpad", fxtray: "dkfx" };
+  function trayOpen(id, on) {
+    Object.keys(TRAYS).forEach(function (k) { var open = k === id && on; $(k).hidden = !open; $(TRAYS[k]).setAttribute("aria-expanded", open ? "true" : "false"); });
+    PAD.open = !$("padtray").hidden; if (!PAD.open) padReleaseAll(); padRefresh();
+  }
+  Object.keys(TRAYS).forEach(function (k) { $(TRAYS[k]).addEventListener("click", function () { trayOpen(k, $(k).hidden); }); });
+  document.addEventListener("keydown", function (e) { var o; if (e.key !== "Escape") return; Object.keys(TRAYS).forEach(function (k) { if (!$(k).hidden) o = k; }); if (o) { trayOpen(o, false); $(TRAYS[o]).focus(); } }, true);
   var ESCT = 0;
   function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
   document.addEventListener("keyup", function (e) { if (e.key === "Escape") { clearTimeout(ESCT); ESCT = 0; } });

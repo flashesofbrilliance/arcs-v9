@@ -4,7 +4,7 @@ import { chromium, devices } from 'playwright'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2]; if (!page) { console.log('usage: node scripts/phosphor_consent_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch(), url = pathToFileURL(path.resolve(page)).href, errs = []
 const mk = async (extra = {}, init) => { const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, ...extra }); if (init) await ctx.addInitScript(init); const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); return pg }
 const st = (pg) => pg.evaluate(() => { const c = document.getElementById('consent'), m = document.querySelector('main'); return { shown: !c.hidden, modal: c.getAttribute('aria-modal'), role: c.getAttribute('role'), inert: m.inert, focus: document.activeElement && document.activeElement.id, stored: (() => { try { return localStorage.getItem('phosphor.consent.v1') } catch (e) { return 'blocked' } })() } })
@@ -29,4 +29,4 @@ pg = await mk({ ...devices['iPhone 13'] }); await pg.goto(url); await pg.waitFor
 const ph = await pg.evaluate(() => { const r = document.getElementById('csgo').getBoundingClientRect(); return { fits: r.left >= 0 && r.right <= innerWidth, sideways: document.documentElement.scrollWidth > innerWidth } })
 check(ph.fits && !ph.sideways, 'C8: on a phone the dialog and Start fit the width with no sideways scroll')
 check(errs.length === 0, 'C9: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

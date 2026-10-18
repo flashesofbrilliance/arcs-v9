@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], file = (process.env.PHOSPHOR_FILES || '').split(',')[0]
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_pins_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(page).href, errs = [], reqs = []
 const open = async (blocked) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); pg.on('request', (r) => reqs.push(r.url())); if (blocked) await pg.addInitScript(() => Object.defineProperty(window, 'localStorage', { get() { throw new DOMException('blocked', 'SecurityError') } })); await pg.goto(base + '?test=1&shutter=off&level=4'); await pg.waitForTimeout(1200); await pg.setInputFiles('#file', file); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.getElementById('src').textContent !== 'Demo signal', null, { timeout: 60000 }); return pg }
 let pg = await open(false); const P = (fn, ...a) => pg.evaluate(([fn, a]) => window.PhosphorTest.pins[fn](...a), [fn, a])
@@ -58,4 +58,4 @@ await pg.evaluate(() => { window.PhosphorTest.tap.set(98, 0.9); document.getElem
 check(Math.abs(est.bpm - 100) < 0.3 && Math.min(off2, P2 - off2) * 1000 < 5, `N9: with no count and a 2 percent wrong tempo the estimate still lands on ${est.bpm}`)
 // N8
 check(reqs.every((u) => u.startsWith('file:') || u.startsWith('data:') || u.startsWith('blob:')) && errs.length === 0, `N8: no network request and no console error ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

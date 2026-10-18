@@ -197,6 +197,8 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 @media (prefers-reduced-motion: reduce) { #srcseg::after { transition: none; } }
 .btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 8px 12px; cursor: pointer; min-height: 44px; }
 .btn:hover { border-color: var(--cyan); }
+.btn:active { background: var(--cyan-bg); border-color: var(--cyan); }
+.btn:disabled { color: var(--dimmed); border-style: dashed; cursor: not-allowed; }
 .btn[aria-current=true] { border-color: var(--cyan); background: var(--cyan-bg); }
 .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; cursor: pointer; }
 .check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--cyan); }
@@ -362,37 +364,45 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   .btn { min-height: 48px; }
   .stk > * { min-height: 56px; }
 }
+/* Trays (Pads, Mix): one component. Both sit above the player, close with it, and share their frame; only width and height differ. */
+.tray { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--dock-h, 120px) + 22px); z-index: 19; overflow-y: auto; padding: 12px; display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+html[data-dock="hidden"] .tray { display: none; }
+#fxtray { width: min(1120px, calc(100vw - 2 * var(--gutter))); max-height: 52vh; }
+#padtray { width: min(520px, calc(100vw - 2 * var(--gutter))); max-height: 70vh; }
 /* Effect tray: one row per effect, a level slider held inside min and max limits */
-#fxtray { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--dock-h, 120px) + 22px); z-index: 19; width: min(1120px, calc(100vw - 2 * var(--gutter))); max-height: 52vh; overflow-y: auto; padding: 12px; display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-m); }
-#fxtray[hidden], html[data-dock="hidden"] #fxtray { display: none; }
 #fxtray .fxr { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; }
-#fxtray .fxr label { font-size: 0.925rem; } #fxtray .fxr output { font-size: 0.6875rem; color: var(--muted); min-width: 4ch; }
+#fxtray .fxr label { font-size: var(--fs-body); } #fxtray .fxr output { font-size: var(--fs-label); color: var(--muted); min-width: 4ch; }
 #fxtray input[type=range] { min-height: 44px; margin: 0; width: 100%; accent-color: var(--orange); }
-#fxtray .fxl { display: flex; gap: 6px; align-items: center; font-size: 0.6875rem; color: var(--muted); } #fxtray .fxl input { width: 72px; }
+#fxtray .fxl { display: flex; gap: 6px; align-items: center; font-size: var(--fs-label); color: var(--muted); } #fxtray .fxl input { width: 72px; }
 @media (max-width: 640px) { #fxtray .fxr { grid-template-columns: 80px minmax(0, 1fr); } #fxtray .fxl { grid-column: 2; } }
 /* Consent splash: a grown-up reads three short notes and presses Start (first load only, remembered on this device) */
 #consent { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--bg); overflow-y: auto; }
 #consent[hidden] { display: none; }
-#consent .csbox { width: min(560px, 100%); display: grid; gap: 12px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-m); }
-#consent h2 { margin: 0; font-size: 1.15rem; } #consent p { margin: 0; font-size: 0.925rem; line-height: 1.5; }
+#consent .csbox { width: min(560px, 100%); display: grid; gap: 12px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+#consent h2 { margin: 0; font-size: var(--fs-headline); } #consent p { margin: 0; font-size: var(--fs-body); line-height: 1.5; }
 #consent .csgo { min-height: 56px; border-color: var(--cyan); color: var(--cyan); }
 /* Pad tray: a 4 by 4 grid of big pads, banks A to D, laid out like the keys 1234 QWER ASDF ZXCV */
-#padtray { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--dock-h, 120px) + 22px); z-index: 19; width: min(520px, calc(100vw - 2 * var(--gutter))); max-height: 70vh; overflow-y: auto; padding: 12px; display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-m); }
-#padtray[hidden], html[data-dock="hidden"] #padtray { display: none; }
 #padtray .pbkb { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 #padtray .pbk { display: grid; grid-template-columns: repeat(4, minmax(56px, 1fr)); gap: 10px; }
 #padtray .btn { min-height: 56px; touch-action: manipulation; } #padtray .pbk .btn { min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
-#padtray .pbk .btn small { font-size: 0.6875rem; color: var(--muted); } #padtray .pbk .btn[aria-disabled="true"] { opacity: 1; color: var(--dimmed); border-style: dashed; }
+#padtray .pbk .btn small { font-size: var(--fs-label); color: var(--muted); } #padtray .pbk .btn[aria-disabled="true"] { opacity: 1; color: var(--dimmed); border-style: dashed; }
 #padtray .pbk .btn.hit { border-color: var(--cyan); color: var(--cyan); background: var(--surface); }
 /* The hidden attribute always wins over a display rule (the pad picker and the Sing box both leaked through one). */
 [hidden] { display: none !important; }
+/* Spacing and fill helpers that replaced inline style attributes (one scale, no magic numbers in the markup) */
+:root { --sp-1: 6px; --sp-2: 8px; --sp-3: 10px; }
+.above { margin-top: var(--sp-2) !important; } .above-s { margin-top: var(--sp-1) !important; } .above-l { margin-top: var(--sp-3) !important; } .above-0 { margin-top: 0 !important; }
+.w-auto { width: auto !important; } .w-num { width: 92px !important; } .fld { min-width: 240px !important; flex: 0 1 280px !important; } .fld-wide { min-width: 300px !important; flex: 0 1 360px !important; }
+.fill-220 { flex: 1 1 220px !important; width: auto !important; } .fill-200 { flex: 1 1 200px !important; width: auto !important; } .fill-160 { flex: 1 1 160px !important; width: auto !important; }
+.check.check-tight { grid-template-columns: 22px auto !important; }
+#zin { right: 60px; } #zout { right: 112px; }
 </style>
 </head>
 <body>
 <main class="lane">
 <header class="bar">
   <div class="mark"><b>ARCS</b> &nbsp;/&nbsp; Phosphor</div>
-  <div class="row"><div class="mdsw" role="group" aria-label="Who is playing"><button class="btn" type="button" id="mdKid" aria-pressed="true">Kid</button><button class="btn" type="button" id="mdParent" aria-pressed="false" aria-describedby="mdhint">Parent</button></div><span class="vh" id="mdhint">Hold for one and a half seconds to open parent mode</span><button class="btn" id="glitchsw" type="button" aria-pressed="true" title="Glitch on or off. Off stops every glitch effect from starting.">Glitch on</button><button class="btn" id="skinb" type="button" aria-pressed="false">Pocket skin</button><button class="btn svchip" id="svchip" type="button" hidden aria-controls="wp" title="This window cannot keep your settings. Copy a waypoint to keep your place.">Not saved here</button><div class="stage">Stays on your computer</div></div>
+  <div class="row"><div class="mdsw" role="group" aria-label="Who is playing"><button class="btn" type="button" id="mdKid" aria-pressed="true">Kid</button><button class="btn" type="button" id="mdParent" aria-pressed="false" aria-describedby="mdhint">Parent</button></div><span class="vh" id="mdhint">Hold for one and a half seconds to open parent mode</span><button class="btn" id="glitchsw" type="button" aria-pressed="true" title="Glitch on or off. Off stops every glitch effect from starting.">Glitch on</button><button class="btn" id="skinb" data-min="4" type="button" aria-pressed="false">Pocket skin</button><button class="btn svchip" id="svchip" type="button" hidden aria-controls="wp" title="This window cannot keep your settings. Copy a waypoint to keep your place.">Not saved here</button><div class="stage">Stays on your computer</div></div>
 </header>
 
 <section class="hero" aria-labelledby="h1">
@@ -403,11 +413,11 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   <div class="deck" id="deck">
     <div class="frame" id="frame">
       <span class="tag" id="tag">Scope</span>
-      <button class="fsb zmb" id="zin" type="button" aria-label="Zoom in" style="right:60px"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="fsb zmb" id="zout" type="button" aria-label="Zoom out" style="right:112px"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
-      <button class="fsb" id="fsb" type="button" aria-label="Full screen" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+      <button class="fsb zmb" id="zin" data-min="4" type="button" aria-label="Zoom in"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="fsb zmb" id="zout" data-min="4" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+      <button class="fsb" id="fsb" data-min="4" type="button" aria-label="Full screen" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
       <canvas id="cv" width="1280" height="360" aria-label="Audio visualization"></canvas>
       <div class="seqo" id="seqo">
-        <div class="row"><button class="btn" type="button" id="hrun" aria-pressed="false">Run steps</button><button class="btn" type="button" id="hclr">Clear</button><label class="tpl" for="hsnap">Snap to</label><select class="txt" id="hsnap" style="width:auto"><option value="beat">Beat</option><option value="onset">Hits</option><option value="valley">Quiet spots</option><option value="edge">Slice edges</option></select></div>
+        <div class="row"><button class="btn" type="button" id="hrun" aria-pressed="false">Run steps</button><button class="btn" type="button" id="hclr">Clear</button><label class="tpl" for="hsnap">Snap to</label><select class="txt w-auto" id="hsnap"><option value="beat">Beat</option><option value="onset">Hits</option><option value="valley">Quiet spots</option><option value="edge">Slice edges</option></select></div>
         <div class="sqwrap" id="seqf"></div>
       </div>
       <div class="hud" id="hud">
@@ -454,10 +464,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     <p class="hint" id="mxmsg" role="status">Sync changes B's pitch a little, because it plays faster or slower. There is no time-stretch and no key lock yet.</p>
   </div>
   <div class="pins" id="pins" data-min="2">
-    <div class="mxh"><span class="tpl">Pins</span><label class="check" style="grid-template-columns:22px auto"><input type="checkbox" id="cuesOn"><span>Cues armed</span></label></div>
+    <div class="mxh"><span class="tpl">Pins</span><label class="check check-tight"><input type="checkbox" id="cuesOn"><span>Cues armed</span></label></div>
     <p class="hint">A pin saves this moment: the look and the rhythm around it, with a key that proves it was not changed. A note only remembers. A cue puts the look back when the song reaches it, and only when you arm it.</p>
-    <div class="sl"><input class="txt" id="pinnote" type="text" maxlength="140" autocomplete="off" placeholder="Comment for this moment" aria-label="Comment for this pin" style="flex:1 1 200px;width:auto"><div class="seg" role="radiogroup" aria-label="Pin kind" style="width:auto"><input type="radio" name="pk" id="pk0" value="note" checked><label for="pk0">Note</label><input type="radio" name="pk" id="pk1" value="cue"><label for="pk1">Cue</label></div></div>
-    <div class="sl"><label class="check" style="grid-template-columns:22px auto"><input type="checkbox" id="pinanchor"><span>Beat anchor (a true beat)</span></label><button class="btn" type="button" id="pinadd">Pin this moment</button><input class="txt" id="pinbeats" type="text" inputmode="numeric" placeholder="Beats between anchors: one number, or 16, 16, 16 for a tempo map (blank = estimate)" aria-label="Beats between anchors, a single number for the whole span or a comma list for a tempo map, blank to estimate" style="flex:1 1 220px;width:auto"><button class="btn" type="button" id="pinuse">Use anchors</button><button class="btn" type="button" id="pinmap">Make a tempo map</button></div>
+    <div class="sl"><input class="txt fill-200" id="pinnote" type="text" maxlength="140" autocomplete="off" placeholder="Comment for this moment" aria-label="Comment for this pin"><div class="seg w-auto" role="radiogroup" aria-label="Pin kind"><input type="radio" name="pk" id="pk0" value="note" checked><label for="pk0">Note</label><input type="radio" name="pk" id="pk1" value="cue"><label for="pk1">Cue</label></div></div>
+    <div class="sl"><label class="check check-tight"><input type="checkbox" id="pinanchor"><span>Beat anchor (a true beat)</span></label><button class="btn" type="button" id="pinadd">Pin this moment</button><input class="txt fill-220" id="pinbeats" type="text" inputmode="numeric" placeholder="Beats between anchors: one number, or 16, 16, 16 for a tempo map (blank = estimate)" aria-label="Beats between anchors, a single number for the whole span or a comma list for a tempo map, blank to estimate"><button class="btn" type="button" id="pinuse">Use anchors</button><button class="btn" type="button" id="pinmap">Make a tempo map</button></div>
     <ul class="pinlist" id="pinlist" aria-label="Pins for this song"></ul>
     <div class="sl"><button class="btn" type="button" id="pincopy">Copy pins</button><button class="btn" type="button" id="pinapply">Apply pasted pins</button></div>
     <textarea class="txt" id="pinbox" rows="3" spellcheck="false" aria-label="Pins text" placeholder="Paste pins here"></textarea>
@@ -469,7 +479,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   </div>
   <div class="singbox" id="singbox" hidden>
     <button class="rec" id="rec" type="button" data-s="off"><span class="recdot" id="recdot"></span><span id="reclbl">Sing</span></button>
-    <div class="row"><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="clr" type="button">Start over</button><button class="btn" id="ovr" type="button">Sing over this song</button><button class="btn" id="dbtrim" type="button">Start on the downbeat</button><button class="btn" id="clk" type="button" aria-pressed="false">Click</button><select class="txt" id="bpm" style="width:auto" aria-label="Click speed"><option value="80">80</option><option value="100" selected>100</option><option value="120">120</option></select></div>
+    <div class="row"><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="clr" type="button">Start over</button><button class="btn" id="ovr" type="button">Sing over this song</button><button class="btn" id="dbtrim" type="button">Start on the downbeat</button><button class="btn" id="clk" type="button" aria-pressed="false">Click</button><select class="txt w-auto" id="bpm" aria-label="Click speed"><option value="80">80</option><option value="100" selected>100</option><option value="120">120</option></select></div>
     <p class="first" id="recmsg">Headphones work best, so the loop does not hear itself.</p>
   </div>
   <div class="kid" id="kid" data-src="song">
@@ -477,7 +487,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     <button class="bb" type="button" id="kcol">Colors</button><button class="bb" type="button" id="kzoom">Zoom</button><button class="bb" type="button" id="kwob">Wobble</button><button class="bb" type="button" id="kfs">Big screen</button>
   </div>
   <div class="kid presets" id="presets" role="group" aria-label="Say a word">
-    <button class="bb sm" type="button" data-pre="rain">Rain</button><button class="bb sm" type="button" data-pre="robot">Robot</button><button class="bb sm" type="button" data-pre="party">Party</button><button class="bb sm" type="button" data-pre="sleepy">Sleepy</button><button class="bb sm" type="button" data-pre="dino">Dino</button><button class="bb sm" type="button" data-pre="plain">Plain</button><button class="bb sm" type="button" id="notesb" aria-pressed="false">Notes</button>
+    <button class="bb sm" type="button" data-pre="rain">Rain</button><button class="bb sm" type="button" data-pre="robot">Robot</button><button class="bb sm" type="button" data-pre="party">Party</button><button class="bb sm" type="button" data-pre="sleepy">Sleepy</button><button class="bb sm" type="button" data-pre="dino">Dino</button><button class="bb sm" type="button" data-min="4" data-pre="plain">Plain</button><button class="bb sm" type="button" id="notesb" aria-pressed="false">Notes</button>
   </div>
   <div class="stk" id="stk" role="list" aria-label="Stickers"></div>
   <p class="first" id="pkmode" hidden></p>
@@ -497,7 +507,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
               <div class="row"><button class="btn" id="tsave" type="button">Save twin</button><button class="btn" id="tcancel" type="button">Cancel</button></div>
             </div>
             <input type="file" id="file" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden>
-            <p class="hint" style="margin-top:8px">Drop a file on the picture, or choose one. A twin saves the song and this player as one HTML file on your device.</p>
+            <p class="hint above">Drop a file on the picture, or choose one. A twin saves the song and this player as one HTML file on your device.</p>
           </div>
   </div>
 
@@ -512,7 +522,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
           <div>
             <div class="ctl-label"><span>Mode and zoom</span><output id="zso">Scope 1 of 5</output></div>
             <div class="pads" id="pads" role="group" aria-label="Mode and zoom stage"></div>
-            <p class="hint" style="margin-top:6px">Pick a mode by its name. Keypad columns match: swipe down one to zoom in.</p>
+            <p class="hint above-s">Pick a mode by its name. Keypad columns match: swipe down one to zoom in.</p>
           </div>
         </div>
       </details>
@@ -526,14 +536,14 @@ html[data-dock="hidden"] #dkbump { display: flex; }
           <label class="check"><input type="checkbox" id="chsharp"><span>Chapters sharpen the picture, coarse to fine.</span></label>
           <div>
             <label class="check"><input type="checkbox" id="rloop"><span>Auto-loop resolution on the beat. Needs a tempo, falls back to 120 BPM.</span></label>
-            <div class="ctl-label" style="margin-top:10px"><span>Loop length</span><output id="rlo">2 bars, up</output></div>
+            <div class="ctl-label above-l"><span>Loop length</span><output id="rlo">2 bars, up</output></div>
             <div class="seg" role="radiogroup" aria-label="Loop length">
               <input type="radio" name="rb" id="rb0" value="1"><label for="rb0">1 bar</label>
               <input type="radio" name="rb" id="rb1" value="2" checked><label for="rb1">2 bars</label>
               <input type="radio" name="rb" id="rb2" value="4"><label for="rb2">4 bars</label>
               <input type="radio" name="rb" id="rb3" value="8"><label for="rb3">8 bars</label>
             </div>
-            <div class="seg" role="radiogroup" aria-label="Loop direction" style="margin-top:8px">
+            <div class="seg above" role="radiogroup" aria-label="Loop direction">
               <input type="radio" name="rd" id="rd0" value="up" checked><label for="rd0">Forward</label>
               <input type="radio" name="rd" id="rd1" value="down"><label for="rd1">Backward</label>
               <input type="radio" name="rd" id="rd2" value="pp"><label for="rd2">Forward and back</label>
@@ -563,7 +573,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
           <div>
             <div class="ctl-label"><label for="pal">Tones</label><output id="palo">8 bit, off</output></div>
             <input type="range" id="pal" min="1" max="8" step="1" value="8">
-            <div class="seg" role="radiogroup" aria-label="Tone method" style="margin-top:8px">
+            <div class="seg above" role="radiogroup" aria-label="Tone method">
               <input type="radio" name="pm" id="pP" value="plain" checked><label for="pP">Plain steps</label>
               <input type="radio" name="pm" id="pW" value="wood"><label for="pW">Woodblock</label>
             </div>
@@ -590,12 +600,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
               <input type="radio" name="fxg" id="fg4" value="bar"><label for="fg4">Downbeat</label>
               <input type="radio" name="fxg" id="fg5" value="seed"><label for="fg5">Song rhythm</label>
             </div>
-            <div class="ctl-label" style="margin-top:8px"><label for="fxdep">Gate depth</label><output id="fxdepo">100%</output></div>
+            <div class="ctl-label above"><label for="fxdep">Gate depth</label><output id="fxdepo">100%</output></div>
             <input type="range" id="fxdep" min="0" max="100" step="1" value="100" aria-label="Gate depth, how far the effect level drops">
-            <div class="ctl-label" style="margin-top:8px"><label for="fxlag">Lay back</label><output id="fxlago">on the beat</output></div>
+            <div class="ctl-label above"><label for="fxlag">Lay back</label><output id="fxlago">on the beat</output></div>
             <input type="range" id="fxlag" min="0" max="35" step="1" value="0" aria-label="Lay back, how far behind the beat the gate edges fall">
-            <input type="range" id="fxthr" min="-40" max="-6" step="1" value="-20" aria-label="Loudness threshold in decibels" style="margin-top:8px">
-            <div class="seg" role="radiogroup" aria-label="Gate rate" style="margin-top:8px">
+            <input class="above" type="range" id="fxthr" min="-40" max="-6" step="1" value="-20" aria-label="Loudness threshold in decibels">
+            <div class="seg above" role="radiogroup" aria-label="Gate rate">
               <input type="radio" name="fxd" id="fdq" value="1"><label for="fdq">1/4</label>
               <input type="radio" name="fxd" id="fd0" value="2"><label for="fd0">1/8</label>
               <input type="radio" name="fxd" id="fd1" value="4" checked><label for="fd1">1/16</label>
@@ -661,7 +671,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
               <input type="radio" name="sqg" id="sg1" value="0.5" checked><label for="sg1">Half</label>
               <input type="radio" name="sqg" id="sg2" value="1"><label for="sg2">Full</label>
             </div>
-            <div class="seg" role="radiogroup" aria-label="Loop length" style="margin-top:8px">
+            <div class="seg above" role="radiogroup" aria-label="Loop length">
               <input type="radio" name="sqb" id="sb0" value="1" checked><label for="sb0">1 bar</label>
               <input type="radio" name="sqb" id="sb1" value="2"><label for="sb1">2 bars</label>
               <input type="radio" name="sqb" id="sb2" value="4"><label for="sb2">4 bars</label>
@@ -691,7 +701,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 
   <div class="sheet" data-min="4">
     <h2>The next eight bars</h2>
-    <div class="sl" style="margin-top:0"><button class="btn" type="button" id="barplay" aria-pressed="false">Play preview</button><span class="hint" id="barinfo">Load a song to see its next eight bars.</span></div>
+    <div class="sl above-0"><button class="btn" type="button" id="barplay" aria-pressed="false">Play preview</button><span class="hint" id="barinfo">Load a song to see its next eight bars.</span></div>
     <canvas id="barview" width="256" height="144" role="img" aria-label="Stop-motion preview of the next eight bars"></canvas>
     <div class="bars" id="bars"></div>
     <p class="note" id="barnote">Each picture is the song at the start of one of the next eight bars, drawn with your current look. A mark shows a pin inside that bar. Click a picture to jump there. It shows the look you have now, not moves you have not made yet.</p>
@@ -708,17 +718,17 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       <canvas id="strip" class="strip" width="1200" height="88" tabindex="0" aria-label="Slice strip. Drag to cut a slice. Comma and period jump between snap points. Enter marks a slice start, then end."></canvas>
       <div class="sl" id="zoomrow">
         <button class="btn" type="button" id="szout">Zoom out</button><button class="btn" type="button" id="szin">Zoom in</button><button class="btn" type="button" id="zfit">Whole song</button>
-        <input type="range" id="zpan" min="0" max="1000" step="1" value="0" aria-label="Move the view" style="flex:1 1 160px;width:auto">
+        <input class="fill-160" type="range" id="zpan" min="0" max="1000" step="1" value="0" aria-label="Move the view">
         <span class="hint" id="zlab"></span>
       </div>
       <div class="sl" id="autorow">
-        <div class="seg" role="radiogroup" aria-label="How many slices" style="min-width:240px;flex:0 1 280px">
+        <div class="seg fld" role="radiogroup" aria-label="How many slices">
           <input type="radio" name="ahn" id="ah0" value="8"><label for="ah0">Few</label>
           <input type="radio" name="ahn" id="ah1" value="16" checked><label for="ah1">Some</label>
           <input type="radio" name="ahn" id="ah2" value="32"><label for="ah2">Many</label>
         </div>
         <button class="btn" type="button" id="ash">Slice at hits</button>
-        <div class="seg" role="radiogroup" aria-label="Note length" style="min-width:240px;flex:0 1 280px">
+        <div class="seg fld" role="radiogroup" aria-label="Note length">
           <input type="radio" name="abd" id="ab0" value="1"><label for="ab0">1/4</label>
           <input type="radio" name="abd" id="ab1" value="2" checked><label for="ab1">1/8</label>
           <input type="radio" name="abd" id="ab2" value="4"><label for="ab2">1/16</label>
@@ -727,8 +737,8 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       </div>
       <div class="sl" id="tmrow">
         <button class="btn tapb" type="button">Tap tempo</button><button class="btn dbb" type="button">Downbeat here</button>
-        <label class="tpl" for="sbpm">Song BPM</label><input class="txt" id="sbpm" type="number" min="40" max="240" step="1" style="width:92px">
-        <label class="tpl" for="tbpm">Play at BPM</label><input class="txt" id="tbpm" type="number" min="40" max="240" step="1" style="width:92px">
+        <label class="tpl" for="sbpm">Song BPM</label><input class="txt w-num" id="sbpm" type="number" min="40" max="240" step="1">
+        <label class="tpl" for="tbpm">Play at BPM</label><input class="txt w-num" id="tbpm" type="number" min="40" max="240" step="1">
         <button class="btn" type="button" id="spl">Play slices at that tempo</button>
       </div>
       <div class="sl" id="bcrow">
@@ -737,7 +747,7 @@ html[data-dock="hidden"] #dkbump { display: flex; }
       </div>
       <p class="hint" id="sphint">Auto slice and tempo play work on the part of the song you can see. Tempo play keeps the pitch and moves the slices, like ReCycle.</p>
       <div class="sl" id="sl">
-        <div class="seg" role="radiogroup" aria-label="Snap strength" style="min-width:300px;flex:0 1 360px">
+        <div class="seg fld-wide" role="radiogroup" aria-label="Snap strength">
           <input type="radio" name="snap" id="s0" value="0"><label for="s0">Off</label>
           <input type="radio" name="snap" id="s1" value="0.06"><label for="s1">Soft</label>
           <input type="radio" name="snap" id="s2" value="0.12" checked><label for="s2">Medium</label>
@@ -774,10 +784,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
     <button class="btn dkup" type="button" id="kpick">Add song</button>
   </div>
   <div class="dkscrub"><input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub playback"><div class="pinbar" id="pinbar" aria-hidden="true"></div></div>
-  <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" aria-label="Hide the player">Hide</button><button class="btn" type="button" id="dkpad" aria-expanded="false" aria-controls="padtray">Pads</button><button class="btn" type="button" id="dkfx" aria-expanded="false" aria-controls="fxtray" data-min="4">Mix</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
+  <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" data-min="4" aria-label="Hide the player">Hide</button><button class="btn" type="button" id="dkpad" aria-expanded="false" aria-controls="padtray">Pads</button><button class="btn" type="button" id="dkfx" aria-expanded="false" aria-controls="fxtray" data-min="4">Mix</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
 </div>
-<div id="padtray" role="group" aria-label="Pads" hidden></div>
-<div id="fxtray" role="group" aria-label="Effect levels and limits" data-min="4" hidden></div>
+<div id="padtray" class="tray" role="group" aria-label="Pads" hidden></div>
+<div id="fxtray" class="tray" role="group" aria-label="Effect levels and limits" data-min="4" hidden></div>
 <div id="consent" role="dialog" aria-modal="true" aria-labelledby="cstitle" hidden>
   <div class="csbox">
     <h2 id="cstitle">Before you start</h2>
@@ -1953,7 +1963,8 @@ Object.keys(P.cells).forEach(function (l) { var c = P.cells[l]; has = true; if (
 seqPaint(); seqQuant(P.q); setRadio("sqg", P.gate); setRadio("sqb", P.bars); seqOn(has);
 frame(playing);
 }
-EA(QA("[data-pre]"), function (b) { b.addEventListener("click", function () { applyPreset(b.getAttribute("data-pre")); }); });
+var LASTPRE = "";
+EA(QA("[data-pre]"), function (b) { b.addEventListener("click", function () { var n = b.getAttribute("data-pre"); if (n !== "plain" && LASTPRE === n) n = "plain"; LASTPRE = n === "plain" ? "" : n; applyPreset(n); EA(QA("[data-pre]"), function (o) { AP(o, o.getAttribute("data-pre") === LASTPRE); }); }); });
 var DOCKHID = false;
 var SAVEKEY = "phosphor.settings.v1", saveT = 0;
 function snapshot() {
@@ -2073,9 +2084,7 @@ else { d[i] = L.r[d[i]]; d[i + 1] = L.r[d[i + 1]]; d[i + 2] = L.r[d[i + 2]]; }
 g.putImageData(id, 0, 0);
 }
 var GLITCHOFF = false, GKILL = ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "gate"], GLITCH = { stut: null, gate: false, tear: false, rgb: false, blocks: false, crush: false, dist: false, echo: false, room: false, shim: false, sweep: false }, GAMT = 0.6, STSIZE = 0.125, PERFORM = false, GSRC = null, GTMP = null;
-function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var L = MX(s.L, MO.loop), d = t - s.t0; return s.t0 + (((d % L) + L) % L); }
-function glitchActive() { return !!(GLITCH.stut || GLITCH.tear || GLITCH.rgb || GLITCH.blocks); }
 var GLAST = {}, CODONS = null, GSTR = 1, GLIM = { L: -1, dir: 0, ev: [], until: 0 }, GLC = null;
 function glum(cv) {
 GLC = GLC || document.createElement("canvas"); GLC.width = 16; GLC.height = 9; var x = GLC.getContext("2d", { willReadFrequently: true }), d, s = 0, i; x.drawImage(cv, 0, 0, 16, 9); d = x.getImageData(0, 0, 16, 9).data;
@@ -2723,7 +2732,6 @@ r.querySelector("[id^=ml_]").addEventListener("input", function (e) { m.lo = MN(
 r.querySelector("[id^=mh_]").addEventListener("input", function (e) { m.hi = MX(m.lo, e.target.value / 100); sync(k); save(); frame(playing); });
 sync(k);
 });
-$("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden = !o; $("dkfx").setAttribute("aria-expanded", o ? "true" : "false"); if (o && PAD.open) { PAD.open = false; $("padtray").hidden = true; $("dkpad").setAttribute("aria-expanded", "false"); } });
 })();
 (function () {
 var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
@@ -2774,7 +2782,6 @@ b.addEventListener("click", function (e) { if (e.detail === 0) { padHit(k); if (
 $("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
 EA(QA("#padpick .btn"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.map[PAD.bank] || (PAD.map[PAD.bank] = {}), v = b.getAttribute("data-fx"); if (v) m[PAD.sel] = v; else delete m[PAD.sel]; try { localStorage.setItem(PAD.key, JSON.stringify(PAD.map)); } catch (e) {} padMsg("Pad " + (PAD.sel + 1) + " is now " + (v ? padName(v) : "a slice") + "."); padRefresh(); }); });
 EA(QA("#pbkb .btn[data-bk]"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; PAD.sel = -1; padReleaseAll(); padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
-$("dkpad").addEventListener("click", function () { PAD.open = tr.hidden; tr.hidden = !PAD.open; $("dkpad").setAttribute("aria-expanded", PAD.open ? "true" : "false"); if (!PAD.open) padReleaseAll(); if (PAD.open) { $("fxtray").hidden = true; $("dkfx").setAttribute("aria-expanded", "false"); } padRefresh(); });
 window.addEventListener("keydown", function (e) {
 var i = PADKEYS.indexOf(e.code); if (!PAD.open || i < 0 || e.metaKey || e.ctrlKey || e.altKey || pkTyping(e)) return;
 e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) padHit(i);
@@ -2783,6 +2790,13 @@ window.addEventListener("keyup", function (e) { var i = PADKEYS.indexOf(e.code);
 window.addEventListener("blur", padReleaseAll);
 padRefresh();
 })();
+var TRAYS = { padtray: "dkpad", fxtray: "dkfx" };
+function trayOpen(id, on) {
+Object.keys(TRAYS).forEach(function (k) { var open = k === id && on; $(k).hidden = !open; $(TRAYS[k]).setAttribute("aria-expanded", open ? "true" : "false"); });
+PAD.open = !$("padtray").hidden; if (!PAD.open) padReleaseAll(); padRefresh();
+}
+Object.keys(TRAYS).forEach(function (k) { $(TRAYS[k]).addEventListener("click", function () { trayOpen(k, $(k).hidden); }); });
+document.addEventListener("keydown", function (e) { var o; if (e.key !== "Escape") return; Object.keys(TRAYS).forEach(function (k) { if (!$(k).hidden) o = k; }); if (o) { trayOpen(o, false); $(TRAYS[o]).focus(); } }, true);
 var ESCT = 0;
 function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
 document.addEventListener("keyup", function (e) { if (e.key === "Escape") { clearTimeout(ESCT); ESCT = 0; } });

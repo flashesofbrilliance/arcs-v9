@@ -5,7 +5,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2], file = path.basename((process.env.PHOSPHOR_FILES || '').split(',')[0])
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_hidden_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), url = pathToFileURL(path.resolve(page)).href + '?test=1&shutter=off', errs = []
 const leak = (pg) => pg.evaluate(() => [...document.querySelectorAll('[hidden]')].filter((e) => { const s = getComputedStyle(e); const r = e.getBoundingClientRect(); return s.display !== 'none' || r.width * r.height > 0 }).map((e) => (e.id || e.className || e.tagName) + ' display:' + getComputedStyle(e).display))
 for (const [name, extra] of [['desktop', { viewport: { width: 1270, height: 990 } }], ['phone', { ...devices['iPhone 13'] }]]) {
@@ -22,4 +22,4 @@ for (const [name, extra] of [['desktop', { viewport: { width: 1270, height: 990 
   await ctx.close()
 }
 check(errs.length === 0, 'H-errors: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

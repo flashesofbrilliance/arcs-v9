@@ -7,7 +7,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2], file = path.basename((process.env.PHOSPHOR_FILES || '').split(',')[0])
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_playlog_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const secret = path.join(mkdtempSync(path.join(tmpdir(), 'plog-')), 'my-secret-lullaby-title.wav'); copyFileSync('/private/tmp/claude-501/fx/' + file, secret)
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), url = pathToFileURL(path.resolve(page)).href + '?test=1&shutter=off&level=4', errs = []
 const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }); let pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
@@ -39,4 +39,4 @@ check(cap <= 3000, `L10: the log is capped (3100 seeded, ${cap} kept)`)
 await pg.context().close(); const ctx2 = await b.newContext({ viewport: { width: 1270, height: 990 } }); await ctx2.addInitScript(() => { Object.defineProperty(window, 'localStorage', { get() { throw new Error('blocked') } }) }); pg = await ctx2.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(url); await pg.waitForTimeout(1500)
 await pg.evaluate(() => { let e = document.getElementById('elb'); while (e) { if (e.tagName === 'DETAILS') e.open = true; e = e.parentElement } }); await pg.click('#elb'); await pg.click('#elclr'); await pg.waitForTimeout(100)
 check(errs.length === 0, 'L11: with storage blocked it still runs without errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)
