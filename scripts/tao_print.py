@@ -12,7 +12,7 @@ Honest encoding (design note _PATTERNS/2026-10-15-tao-silkscreen-prints.md):
 
   python3 scripts/tao_print.py <proverb-id> [--fidelity 0.9] [--seed 7] [--out print.svg]
 """
-import argparse, hashlib, json, math, random, sys
+import argparse, hashlib, html as htmllib, json, math, random, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -91,7 +91,45 @@ GROUNDS = [None, 2, None, 3, 0, None, 1, None, 2]            # flat ink ground p
 PLATES = ["var(--cyan)", "var(--green)", "var(--gold)", "var(--red)"]   # ink = face * 2 + band parity
 
 
-def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
+def chunks(text, n=9):
+    """The proverb split into n runs of words, so the grid read in order is the sentence."""
+    w = text.rstrip(".").split()
+    cuts = [round(i * len(w) / n) for i in range(n + 1)]
+    out = [" ".join(w[cuts[i]:cuts[i + 1]]) for i in range(n)]
+    if out[-1]:
+        out[-1] += "."
+    return out
+
+
+def label(pid, seed, k, loss, drift, gnd, text):
+    """The proverb run as its own printed label slab: it slips like a plate and flakes like ink."""
+    if not text:
+        return ""
+    s_col, t_col = ("var(--bg)", "var(--text)") if (gnd is not None or PAPER) else ("var(--text)", "var(--bg)")
+    r = rng(pid, seed, "label", k)
+    ox = (r.random() * 2 - 1) * MAX_PLATE * loss * drift
+    oy = (r.random() * 2 - 1) * MAX_PLATE * 0.5 * loss * drift
+    t = text.upper()
+    words = t.split()
+    if len(words) > 1:
+        mid = min(range(1, len(words)), key=lambda i: abs(len(" ".join(words[:i])) - len(" ".join(words[i:]))))
+        lines = [" ".join(words[:mid]), " ".join(words[mid:])]
+    else:
+        lines = words
+    size = min(16.0 if len(lines) == 1 else 11.4, 88 / (0.78 * max(len(l) for l in lines)))
+    top, hgt = 68, 29
+    flakes = "".join(
+        f'<rect x="{r.random()*92:.1f}" y="{top+r.random()*(hgt-3):.1f}" width="{2+r.random()*6:.1f}" height="{1.5+r.random()*4:.1f}"/>'
+        for _ in range(int(round(9 * loss * drift))))
+    body = "".join(
+        f'<text x="50" y="{top + hgt * ((i + 1) / (len(lines) + 1) if len(lines) == 1 else (0.34, 0.76)[i]) + size * 0.36:.1f}" text-anchor="middle" fill="{t_col}" '
+        f'font-family="var(--ds-font-display)" font-weight="700" font-size="{size:.1f}">{htmllib.escape(l)}</text>'
+        for i, l in enumerate(lines))
+    return (f'<g transform="translate({ox:.2f} {oy:.2f})"><rect x="3" y="{top}" width="94" height="{hgt}" fill="{s_col}"/>'
+            f'{body}<g fill="{s_col}">{flakes}</g></g>')
+
+
+def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False, text=None):
     """One pull of the mold. Four plates (inks), each printed flat and offset from the others by an amount that
     grows with (1 - f) and the repeat index (misregistration); ink drops out in patches with the same law
     (the instrument's fog); grain specks sit on the horizon band."""
@@ -144,7 +182,7 @@ def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
         f'<rect width="100" height="100" fill="{PLATES[gnd] if gnd is not None else ("var(--text)" if PAPER else "var(--bg)")}"/>'
         f'<rect y="{HORIZON}" width="100" height="2.4" fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--gold)"}"/>{gaps.replace("var(--bg)", PLATES[gnd]) if gnd is not None else (gaps.replace("var(--bg)", "var(--text)") if PAPER else gaps)}'
         f'<g style="mix-blend-mode:{"normal" if gnd is not None else ("multiply" if PAPER else "screen")}">{"".join(layers)}</g>'
-        f'{key}'
+        f'{key}{label(pid, seed, k, loss, drift, gnd, text)}'
         f'<g fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--dimmed)"}">{specks}</g></g>'
     )
 
@@ -153,19 +191,20 @@ def svg(row, f, seed, caption=True):
     pid = row["id"]
     a = ASPECTS.index(row["aspect"])
     v = VERBS.index(row["verb"])
+    chunk_runs = chunks(row["text"])
     cols = 3
     n = cols * cols
     gap = 14
     W = cols * CELL + (cols - 1) * gap
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+(150 if caption else 142)}" role="img" '
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+(132 if caption else 84)}" role="img" '
            f'aria-label="Silkscreen print of the proverb: {row["text"]}" data-id="{pid}" '
            f'data-fidelity="{f}" data-seed="{seed}">',
-           f'<rect width="{W}" height="{W+(150 if caption else 142)}" fill="var(--bg)"/>']
+           f'<rect width="{W}" height="{W+(132 if caption else 84)}" fill="var(--bg)"/>']
     for k in range(n):
         x = (k % cols) * (CELL + gap)
         y = (k // cols) * (CELL + gap)
         out.append(f'<svg x="{x}" y="{y}" width="{CELL}" height="{CELL}" viewBox="0 0 100 100">'
-                   + panel(pid, seed, f, k, n, a, v) + "</svg>")
+                   + panel(pid, seed, f, k, n, a, v, text=chunk_runs[k]) + "</svg>")
     # Mobius strip: one row of 6 panels, the closing panel is mirrored with swapped inks
     m = 6
     sy = W + 18
@@ -177,16 +216,10 @@ def svg(row, f, seed, caption=True):
         out.append(f'<svg x="{x:.1f}" y="{sy}" width="{sw:.1f}" height="{sw:.1f}" viewBox="0 0 100 100" data-twist="{int(twist)}">'
                    + panel(pid, seed, f, k + n, n + m, a, v, swap=twist, mirror=twist) + "</svg>")
     out.append("</g>")
-    words = row["text"].rstrip(".").split()
-    h = (len(words) + 1) // 2
-    out.append(f'<text x="0" y="{W+sw+54:.0f}" fill="var(--text)" font-family="var(--ds-font-display)" font-size="15">'
-               f'{" ".join(words[:h])}</text>')
-    out.append(f'<text x="{W}" y="{W+sw+78:.0f}" text-anchor="end" fill="var(--text)" '
-               f'font-family="var(--ds-font-display)" font-size="15">{" ".join(words[h:])}.</text>')
     if caption:
-        out.append(f'<text x="0" y="{W+sw+106:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
+        out.append(f'<text x="0" y="{W+sw+24:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
                    f'{pid}  {row["aspect"]}.{row["verb"].upper()}</text>')
-        out.append(f'<text x="0" y="{W+sw+126:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
+        out.append(f'<text x="0" y="{W+sw+44:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
                    f'f={f}  seed={seed}  {row["canon_ref"].split("#")[-1]}</text>')
     out.append("</svg>")
     return "\n".join(out)

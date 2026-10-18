@@ -86,16 +86,16 @@
         ],
         [
           "W2",
-          "Report the 52 dangling backlog references",
-          "today, minutes",
-          "DERISKED",
-          "A failing and a passing fixture are written. It is a read, and the simulation and ranking depend on edge quality.",
-          "The 52 prove to be intentional links to other stores, then keep as a labelled list."
+          "Report dangling backlog references",
+          "done 2026-10-17",
+          "DONE: 0 found",
+          "Ran against current main: no dangling references. The earlier figure of 52 was my counting error (a string read as characters); this page said so wrongly until corrected.",
+          "Nothing to drop."
         ],
         [
           "W3",
           "Save a dated Field view snapshot per run",
-          "today, minutes",
+          "probe done 2026-10-17; writer still to build",
           "DERISKED",
           "Without it rank flips and flow cannot be measured at all. Test: zero phantom flips on an unchanged repo.",
           "Snapshots show nothing changing for two weeks."
@@ -103,7 +103,7 @@
         [
           "W4",
           "Plant a known echo in the echo detector",
-          "next, under an hour",
+          "done 2026-10-17 on the offline detector; embedding path and real stones untested",
           "DERISKED",
           "The one test that separates a blind detector from an empty field. Zero real echoes was the 2026-09-27 result. Also unblocks the HUD echo strip.",
           "The planted echo fires: then the detector is sound and the field is empty."
