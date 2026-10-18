@@ -1,0 +1,612 @@
+{
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+  "meta": {
+    "report_id": "2026-10-16-concourse",
+    "date": "2026-10-16",
+    "counterpart": "Sara Hagey Chima (recruiter)",
+    "company": "Concourse (GovTech, New York)",
+    "segments": 5,
+    "gate": {
+      "internal": "AsW5n0_K1X9i"
+    },
+    "provenance": {
+      "audience": "both",
+      "captured": "Recruiter screen on Fri 2026-10-16, 3:15 PM ET, about 30 min, Granola note 890ba2ec-2e4c-486d-a8c2-126c5cc093f5 (summary and full transcript read). Web check of onconcourse.com and a third-party FDE listing the same evening.",
+      "load_bearing_quote": "I think ultimately the description of those 4 things is actually the FDE role."
+    }
+  },
+  "opportunity": {
+    "audience": "internal",
+    "engagement_type": "candidacy",
+    "req_reality": "2",
+    "req_reality_basis": "A third-party aggregator shows a posted FDE listing with a salary range ($170k to $220k plus equity, 1 to 5 years, listed about 77 days) and Zach said the comp target they shared was below his. Not 3: the hiring manager has not been met, and the posting itself was not read on Concourse's own site (the careers page rendered no listings).",
+    "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
+    "y_state": "YELLOW",
+    "topology": "CONVERGENT",
+    "nci_prior": 0,
+    "nci_post": 0,
+    "note": "Real role, real process, fast. The live tension is level and comp: the posting is 1 to 5 years and Sara says no leveling exists. The multi-hat idea has already been absorbed into FDE, so it is no longer a pitch, it is a scope negotiation for later."
+  },
+  "beliefs": [
+    {
+      "id": "P1",
+      "audience": "internal",
+      "claim": "The company is the finance-AI Concourse on the Ashby board I pulled, so fluency in financial statements is the main gap.",
+      "evidence": "Sara described GovTech, about 25 people, bail payments for Hawaii and a Minneapolis mental health task force. Web check: onconcourse.com says 'AI-native company building software for the public sector'; the Ashby board is a different Concourse (finance agents). This was the assistant's error, carried into the earlier pitch draft.",
+      "inference": "OBS",
+      "confidence": [
+        0.02,
+        0.05
+      ],
+      "conviction": "HIGH",
+      "verdict": "FALSIFIED"
+    },
+    {
+      "id": "P2",
+      "audience": "internal",
+      "claim": "A hub-and-spoke multi-hat role (FDE, GTM, strategist, applied AI) is the right pitch to a recruiter.",
+      "evidence": "Sara: 'I think ultimately the description of those 4 things is actually the FDE role.' She did not push back on scope, she folded it into FDE.",
+      "inference": "OBS",
+      "confidence": [
+        0.35,
+        0.55
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P3",
+      "audience": "internal",
+      "claim": "FDE and FDPM are separate seats worth arguing the boundary of.",
+      "evidence": "Sara: a lot of what Zach described for FDPM 'is actually a part of the FDE role too'. The pod is one FDE plus one FDPM; the FDPM owns intake to delivery.",
+      "inference": "EXP",
+      "confidence": [
+        0.4,
+        0.6
+      ],
+      "conviction": "LOW",
+      "verdict": "DOWNGRADE"
+    },
+    {
+      "id": "P4",
+      "audience": "internal",
+      "claim": "The posted comp is below Zach's target.",
+      "evidence": "Zach on the call: the comp target they shared was not what he would be targeting. A third-party listing shows $170k to $220k plus equity for 1 to 5 years (single source, unverified on Concourse's site).",
+      "inference": "OBS",
+      "confidence": [
+        0.7,
+        0.85
+      ],
+      "conviction": "MED",
+      "verdict": "UPGRADE"
+    },
+    {
+      "id": "P5",
+      "audience": "internal",
+      "claim": "The seniority gap is the real risk, not the skills fit.",
+      "evidence": "Listing says 1 to 5 years; Sara: flat org, everyone reports to the CEO, no leveling, comp 'flexibility for the right candidates'. Neither side has named a level for a pre-sales plus scoping plus delivery scope.",
+      "inference": "EXP",
+      "confidence": [
+        0.55,
+        0.75
+      ],
+      "conviction": "MED",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P6",
+      "audience": "internal",
+      "claim": "Travel is light.",
+      "evidence": "Sara: about 1 trip per month per deployment, 0 to 2 per deployment. The listing says about 5 days per quarter. The two disagree.",
+      "inference": "OBS",
+      "confidence": [
+        0.3,
+        0.5
+      ],
+      "conviction": "LOW",
+      "verdict": "NEW"
+    }
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": []
+  },
+  "insights": [
+    {
+      "audience": "both",
+      "plane": "idea",
+      "title": "Dogfooding is a real wedge in a services-shaped team",
+      "text": "Zach raised that integration teams often under-use their own tooling and can compound by running 20% of what they build for clients on themselves. Sara did not object. Worth testing with the FDE on Monday."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "Sara is a screener, not a decider",
+      "text": "Part-time, DC-based, does not handle comp, ended on time and routed him to a peer. Her useful power is process speed (she offered two weeks or less) and signal to the CEO's team. Do not spend negotiation moves on her."
+    },
+    {
+      "audience": "internal",
+      "plane": "counterpart",
+      "title": "The process is built around a Claude Code take-home reviewed by the hiring manager",
+      "text": "That is where level and scope get decided, not on Monday's peer call."
+    }
+  ],
+  "next_steps": [
+    {
+      "audience": "internal",
+      "owner": "You",
+      "text": "Confirm the Monday 2:30 PM ET engineer call invite arrived (Sara said shortly after the call)."
+    },
+    {
+      "audience": "internal",
+      "owner": "You",
+      "text": "Read Concourse's own site and any posting there; confirm what the FDE role actually lists. The Ashby board you linked is the wrong company."
+    },
+    {
+      "audience": "internal",
+      "owner": "You",
+      "text": "Prep the Monday questions in the Pre-Call tab and file the ex-ante before the call."
+    },
+    {
+      "audience": "internal",
+      "owner": "You",
+      "text": "Decide the level ask before the take-home, since the hiring manager sees it. Do not raise it with the peer."
+    },
+    {
+      "audience": "internal",
+      "owner": "You",
+      "text": "Review the recruiter positioning brief and decide whether to send it to Sara. Nothing has been sent."
+    }
+  ],
+  "redaction_policy": {
+    "rules": [
+      "Method can cross; subject-about-them cannot.",
+      "Show your own updates, never their intent-scores.",
+      "Architecture crosses; weights/sauce do not."
+    ]
+  },
+  "page": {
+    "layout": "tabs",
+    "header": {
+      "eyebrow": "ARCS &#183; War Room",
+      "title": "Sara Hagey Chima &#183; Concourse",
+      "sub": "Recruiter screen closed on Fri Oct 16. Engineer call Mon Oct 19, 2:30 PM ET. FDE track."
+    },
+    "tabs": [
+      {
+        "id": "pre",
+        "label": "Pre-Call"
+      },
+      {
+        "id": "exante",
+        "label": "Ex-Ante"
+      },
+      {
+        "id": "forge",
+        "label": "Forge"
+      },
+      {
+        "id": "recoil",
+        "label": "Recoil"
+      },
+      {
+        "id": "wargame",
+        "label": "War Game"
+      },
+      {
+        "id": "defense",
+        "label": "Defensibility"
+      }
+    ],
+    "blocks": [
+      {
+        "tab": "pre",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "True North",
+        "p": [
+          "Take the FDE seat as the container for the whole blend, learn from the peer how the FDE/FDPM line really works, and keep level and comp for the hiring manager after the take-home."
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Context",
+        "rows": [
+          {
+            "k": "Next event",
+            "v": "Mon Oct 19, 2:30 PM ET, 30 min, virtual, with a peer Forward Deployed Engineer (not the hiring manager)"
+          },
+          {
+            "k": "Register",
+            "v": "Recruiting screen done, next is peer-engineer. Warm, fast, process-driven."
+          },
+          {
+            "k": "Their goal",
+            "v": "Get a qualified FDE into the pipe quickly. Sara said the full process can finish in two weeks or less."
+          },
+          {
+            "k": "Predicted Y-gate",
+            "v": "YELLOW. Skills fit looks strong, but level, comp and in-person are unresolved."
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Intel",
+        "intro": "Concourse is a New York AI-native GovTech company. Most diagnostic facts first.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Pod model</strong>: about 90-day deployments, one FDE plus one FDPM. FDE owns most of the build, FDPM owns intake to delivery and is about 50% in Claude Code."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Load</strong>: 4 to 6 deployments at once per person. Sara: about 1 trip a month. A third-party listing says about 5 days per quarter, so ask which is right."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Process</strong>: peer call, take-home built in Claude Code within 72 hours (hiring manager reviews it), onsite. FDPM pivot adds a PM conversation."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Org</strong>: about 25 people, flat, everyone reports to the CEO, no formal levels. Moved to a Chelsea office on Oct 16. Five days a week in person."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Public record</strong>: onconcourse.com says more than 100 federal, state and local partners. A third-party FDE listing shows $170k to $220k plus equity, 1 to 5 years, about 25% client time and 75% building. Unverified on their own site."
+          },
+          {
+            "dot": "",
+            "html": "<strong>Not this company</strong>: the Ashby board you linked (jobs.ashbyhq.com/concourse) belongs to a finance-AI Concourse. Do not use anything from it."
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Questions &amp; landmines",
+        "intro": "For the Monday peer call. Ask to learn, not to negotiate.",
+        "items": [
+          {
+            "dot": "",
+            "html": "Which deployments are you on now and how is your time split? &#183; look for: real numbers, not a pitch."
+          },
+          {
+            "dot": "",
+            "html": "Where does FDE end and FDPM begin in practice? Who writes the spec and who owns compliance? &#183; look for: a concrete handoff, not 'we all do everything'."
+          },
+          {
+            "dot": "",
+            "html": "Is the 25/75 client/build split real, and how much travel actually happens? &#183; look for: whether it matches Sara's 'one trip a month'."
+          },
+          {
+            "dot": "",
+            "html": "How much of the shared platform do FDEs own, and who dogfoods internal CI/CD and governance? &#183; look for: an opening for the systems-engineering hat."
+          },
+          {
+            "dot": "",
+            "html": "What does a strong take-home look like to the hiring manager? &#183; look for: criteria you can design to."
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine:</span> raising level or comp with the peer. They cannot decide it and it reads as a negotiation before the take-home."
+          },
+          {
+            "dot": "",
+            "html": "<span style='color:var(--red)'>Landmine:</span> repeating the four-hat pitch. Sara already said it is the FDE role. Show it in the take-home instead."
+          }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "receipt",
+        "audience": "internal",
+        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt (for the Monday peer call)",
+        "_doc": "Filed on Fri Oct 16 AFTER the recruiter screen and BEFORE the Monday call. It scores Monday only. No ex-ante existed for the Friday screen (see Recoil tab).",
+        "fields": [
+          {
+            "label": "D &#183; Sharpened question",
+            "value": "Does Concourse's FDE seat actually contain the four-hat blend, and is it worth going to a take-home on these terms?"
+          },
+          {
+            "label": "E &#183; Entity",
+            "value": "A peer FDE (unknown name), the hiring manager behind the take-home, Sara as process owner, the CEO as the only leveling authority."
+          },
+          {
+            "label": "W &#183; Window",
+            "value": "This week and next: Monday call, take-home within 72 hours of receiving it, onsite inside two weeks if both sides move."
+          },
+          {
+            "label": "Hypothesis / expecting to see",
+            "value": "The peer describes FDEs doing scoping, build, light pre-sales and platform contribution, and says FDPM is mostly intake and customer-facing. The 'one trip a month' vs 'five days a quarter' gap resolves to under one trip a month."
+          },
+          {
+            "label": "Predicted Y-gate",
+            "value": "YELLOW. Role content fits, level and comp still open."
+          },
+          {
+            "label": "Pre-committed move",
+            "value": "Ask the questions above, say yes to the take-home, do not discuss comp or level. Choose the take-home send time deliberately."
+          },
+          {
+            "label": "Belief most likely to update",
+            "value": "P3: the FDE/FDPM line is blurrier than Sara made it sound, or sharper."
+          },
+          {
+            "label": "Falsifier",
+            "value": "The peer says FDEs do not scope, do not touch pre-sales, and the platform is owned by a separate team. Then the 'FDE contains the blend' claim is false and the pivot track is worth pursuing."
+          }
+        ]
+      },
+      {
+        "tab": "forge",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "Exhibit 2 &#183; Exogenous Forge",
+        "p": [
+          "Each load-bearing claim run against external substrates: Sara's words on the call transcript, onconcourse.com, and one third-party listing. GROUNDED = source-forced. INFERENCE = my read, not forced. STRUCK = overreach, corrected. No independent skeptic agent was run on this pass, so rulings are mine."
+        ]
+      },
+      {
+        "tab": "forge",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Claim adjudication",
+        "columns": [
+          "Claim",
+          "Ruling",
+          "Source force"
+        ],
+        "rows": [
+          [
+            "Concourse is a GovTech company with a New York team",
+            "GROUNDED",
+            "Transcript and onconcourse.com ('AI-native company building software for the public sector')"
+          ],
+          [
+            "The process is peer call, Claude Code take-home, onsite; two weeks or less",
+            "GROUNDED",
+            "Transcript, Sara's own description"
+          ],
+          [
+            "Posted FDE comp is $170k to $220k plus equity, 1 to 5 years",
+            "INFERENCE",
+            "One third-party aggregator; Concourse's own careers page rendered no listings"
+          ],
+          [
+            "Travel is about one trip a month",
+            "INFERENCE",
+            "Sara said it; the listing says about 5 days per quarter. They conflict"
+          ],
+          [
+            "A Hawaii bail payment system is a Concourse deployment",
+            "INFERENCE",
+            "Sara said it. Web check found a Hawaii Judiciary prototype touching payments, not a confirmed bail system"
+          ],
+          [
+            "The Ashby board I linked is this company's job board",
+            "STRUCK",
+            "It is a different Concourse (finance-AI). My earlier pitch and finance-gap warnings were built on it"
+          ]
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Receipt closed &#183; ex-ante vs actual",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "No ex-ante was filed before Friday's screen. Per ADR-068 this is an unscored drift receipt, not a retroactive prediction."
+          },
+          {
+            "k": "Actual",
+            "v": "Recruiter screen ran past time. Sara folded the four-hat idea into FDE, confirmed a flat org with flexible comp, and booked a peer call for Monday 2:30 PM ET."
+          },
+          {
+            "k": "Fork hit",
+            "v": "FDE track, not the FDPM pivot."
+          },
+          {
+            "k": "Load-bearing",
+            "v": "I think ultimately the description of those 4 things is actually the FDE role."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "belief_log",
+        "audience": "internal",
+        "h2": "Belief Log &#183; confidence x conviction"
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Kairos, quiet signals &amp; risks",
+        "intro": "Read from the transcript, not felt.",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>Kairos:</strong> Sara offered a faster process when Zach mentioned other things coming. The window to move quickly is open now and tied to his timeline."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> she asked for the take-home send time to be Zach's choice. That is a rare amount of control for a candidate."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> 'the goal' is to be competitive when comp was raised. She did not say yes to a number."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> level. A posting built for 1 to 5 years and an org with no leveling means a senior ask has no existing slot."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> five days a week in Chelsea from Connecticut. Zach said it depends on the team and office, which is not a yes."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> the call audio broke up near the end. Take-home hours were asked twice and never answered."
+          }
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "list",
+        "audience": "internal",
+        "h2": "The gauntlet",
+        "intro": "Adversarial pass on the opportunity, not the person.",
+        "items": [
+          {
+            "dot": "",
+            "html": "<strong>BAR (ruin):</strong> spending weeks on a take-home and an onsite for a seat whose level and comp will not meet the target. Mitigation: get the comp conversation scheduled before the onsite, not after."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>LAB &#183; Loki:</strong> the flexibility language is the cheapest thing a recruiter can offer. Steel-manned down: it is a real signal in a 25-person flat company where the CEO can set a number, but it is not a number."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>COURT:</strong> no claim about Concourse goes into the recruiter brief unless it traces to the transcript or their own site. Third-party figures stay out."
+          }
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "table",
+        "audience": "internal",
+        "h2": "ATG pre-mortem &#183; critical path x their objections",
+        "columns": [
+          "Node",
+          "Their objection (verbatim)",
+          "Failure mode",
+          "Handling"
+        ],
+        "rows": [
+          [
+            "1. Peer call Mon",
+            "'a lot of what you described about the FDPM role is actually a part of the FDE role too'",
+            "Peer reads the blend as unfocused, not as scope",
+            "Lead with one deployment story end to end, then name the platform and dogfooding angle"
+          ],
+          [
+            "2. Take-home (72 hours, Claude Code)",
+            "'specifically saying build this in Claude Code'",
+            "Judged on a narrow rubric that ignores scoping and reusable scaffolding",
+            "Ask what the hiring manager scores on, then ship the scaffolding and the spec with the build"
+          ],
+          [
+            "3. Level and comp (bottleneck, in your court)",
+            "'Leveling just essentially doesn't really exist'",
+            "Offer lands at the posted range for 1 to 5 years",
+            "Name the scope that justifies a higher band before the onsite; keep it off the peer call"
+          ],
+          [
+            "4. In person five days",
+            "'5 days a week in person'",
+            "Silent no that appears late",
+            "Decide your own answer first, then state it once to Sara before the onsite"
+          ]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "rosetta",
+        "audience": "internal",
+        "h2": "The same model, both directions",
+        "left": "Their world (Concourse)",
+        "right": "This engine",
+        "rows": [
+          [
+            "Forward Deployed Engineer: scoping, build, delivery",
+            "Take a customer problem to a working system with receipts at each gate"
+          ],
+          [
+            "Forward Deployed PM: intake to delivery, voice of the customer",
+            "Prep session and brief: sharpen the question, name the entities, set the window"
+          ],
+          [
+            "Reusable scaffolding across 4 to 6 deployments",
+            "Operators library, UI kit and pre-commit gates reused across engagements"
+          ],
+          [
+            "90-day deployment",
+            "A bounded window with a pre-committed move and a falsifier"
+          ],
+          [
+            "Dogfooding internal CI/CD and governance",
+            "Receipts or it did not happen: every ship ends in a logged decision receipt"
+          ]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+        "columns": [
+          "Verb",
+          "Air-gap",
+          "Water-proof",
+          "Fire-proof",
+          "Bomb-proof"
+        ],
+        "rows": [
+          [
+            "Analyze",
+            "Transcript and their site, not memory",
+            "Survives a muddy call audio",
+            "Conflicting figures kept visible",
+            "A wrong read becomes a ledger row"
+          ],
+          [
+            "Assess",
+            "Rulings tagged GROUNDED / INFERENCE",
+            "Works with a partial JD",
+            "Third-party listing flagged, not trusted",
+            "Falsifier named up front"
+          ],
+          [
+            "Evaluate",
+            "Uses their stated process",
+            "Still holds if the peer is vague",
+            "BAR names the ruin edge",
+            "Loses only a take-home, not a career move"
+          ],
+          [
+            "Synthesize",
+            "Brief cites only transcript and own site",
+            "Short enough to survive forwarding",
+            "No internal reads in the external brief",
+            "Recruiter can edit without breaking it"
+          ],
+          [
+            "Recapitulate",
+            "Receipt closed against Friday's record",
+            "Unscored Friday is logged as drift",
+            "Own error (wrong company) is shown",
+            "The correction improves Monday's prep"
+          ]
+        ]
+      },
+      {
+        "tab": "defense",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "Antifragile core &amp; the lossless test",
+        "p": [
+          "Being wrong early was the highest-information event of the day: the finance-AI assumption died in one web check, before it reached a recruiter or the peer call.",
+          "Lossless test: I will take on one deployment from scoping through delivery, reuse what I build for the next one, and help the team run its own tools the way it runs its customers'. If that holds in their words, with no ARCS vocabulary, it is defensible."
+        ]
+      }
+    ]
+  }
+}
