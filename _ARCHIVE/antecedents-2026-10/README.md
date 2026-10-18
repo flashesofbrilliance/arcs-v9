@@ -4,6 +4,7 @@ Output of scripts/doc_classify.py run read-only over the original local ARCS pro
 
 - Port verification (identifier and name coverage of the 69 port candidates): 2026-10-17-antecedents-port-verification.md and .json
 - Where the seven missing Space threads probably are: 2026-10-17-space-thread-locator.md
+- The June 2026 migration plan against arcs-v9 today: 2026-10-17-migration-plan-vs-arcs-v9.md
 - The classification and its caveats: 2026-10-17-antecedents-doc-classification.md
 - Row data: 2026-10-17-antecedents-doc-classification.json
 - A verified backup of that tree with .env files excluded sits in ~/Backups/ARCS-antecedents-2026-10-17 (local; encrypt and copy to iCloud per its README).
