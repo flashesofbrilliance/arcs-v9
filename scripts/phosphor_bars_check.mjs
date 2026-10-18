@@ -7,7 +7,7 @@ import path from 'node:path'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], file = (process.env.PHOSPHOR_FILES || '').split(',')[0]
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_bars_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(path.resolve(page)).href, errs = []
 const mk = async (extra = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...extra }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + '?test=1&shutter=off&level=4'); await pg.waitForTimeout(1200); await pg.setInputFiles('#file', file); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.getElementById('src').textContent !== 'Demo signal', null, { timeout: 60000 }); await pg.evaluate(() => document.getElementById('bars').scrollIntoView({ block: 'center' })); await pg.waitForTimeout(300); return pg }
 let pg = await mk(); const T = (fn) => pg.evaluate(fn)
@@ -38,4 +38,4 @@ await pg.evaluate(() => window.PhosphorTest.seek(3)); await pg.waitForTimeout(25
 const cost = await T(() => { const full = [], inc = []; for (let i = 0; i < 9; i++) { let t = performance.now(); window.PhosphorTest.bars.render(true); full.push(performance.now() - t) } const bl = 4 * 60 / window.PhosphorTest.bpm(); for (let i = 0; i < 9; i++) { window.PhosphorTest.seek(window.PhosphorTest.tnow() + bl); let t = performance.now(); window.PhosphorTest.bars.render(); inc.push(performance.now() - t) } const m = (a) => a.sort((x, y) => x - y)[a.length >> 1]; return [m(full), m(inc)] })
 check(cost[0] < 30 && cost[1] < 5, `B7: a full refresh takes ${cost[0].toFixed(1)} ms (on a look change, limit 30) and the update at a bar line takes ${cost[1].toFixed(1)} ms (limit 5)`)
 check(errs.length === 0, `B7: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2]; if (!page) { console.log('usage: phosphor_gain_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 // build a 20 s mono WAV at 44.1 kHz: 120 BPM kicks (90 Hz decaying sine), a bass tone, and noise, scaled to -14 dBFS RMS
 const SR = 44100, N = SR * 20, x = new Float32Array(N); let seed = 12345; const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296) * 2 - 1
 for (let i = 0; i < N; i++) { const t = i / SR, ph = (t % 0.5), kick = Math.sin(2 * Math.PI * (60 + 90 * Math.exp(-ph * 25)) * ph) * Math.exp(-ph * 9) * 1.0; x[i] = kick + 0.25 * Math.sin(2 * Math.PI * 55 * t) + 0.18 * rnd() }
@@ -21,4 +21,4 @@ const r = await pg.evaluate(async () => { const o = { inE: 0, outE: 0, n: 0, tot
 check(r.net >= -3 && r.net <= 1, `G4: the hot track comes out ${r.net.toFixed(1)} dB from its input level (want between minus 3 and plus 1; input peak ${peak.toFixed(2)})`)
 check(r.pct < 0.5 && r.pk <= 0.47, `G4: ${r.pct.toFixed(2)} percent of samples above 0.45 (want under 0.5) and the peak is ${r.pk.toFixed(3)} (ceiling 0.5, want at most 0.47)`)
 check(errs.length === 0, `G4: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

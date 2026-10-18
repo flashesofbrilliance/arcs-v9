@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2]; if (!page) { console.log('usage: node scripts/phosphor_tmap_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 // ground truth: beat times and the wav
 const T0 = 0.3, SEG = [[100, 12], [120, 12], [90, 12]], beats = []; { let t = T0; for (const [bpm, n] of SEG) for (let i = 0; i < n; i++) { beats.push(t); t += 60 / bpm } beats.push(t) }
 const SR = 22050, len = Math.ceil((beats[36] + 2) * SR), pcm = new Int16Array(len)
@@ -55,4 +55,4 @@ await Q('clear'); await pg.evaluate(() => window.PhosphorTest.tap.set(110, 0.3))
 await pg.fill('#pinbeats', ''); const est = await T('make'); check(est && est.segs.join() === '100.0' && /estimate/.test(await pg.textContent('#pinmsg')), `M9: with no typed counts the estimate still finds 12 beats (${est && est.segs.join()} BPM) and the message says it estimated`)
 await pg.evaluate(() => window.PhosphorTest.tap.set(100, 0.3)); check(!(await T('on')), 'M7: changing the tempo by hand clears the map')
 check(errs.length === 0, 'M8: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

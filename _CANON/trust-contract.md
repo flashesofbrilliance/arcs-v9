@@ -34,7 +34,7 @@ If you are signed in, your decision receipt is stored in your account and access
 > **Disclosure (2026-07-13 — repair seam, kept visible on purpose):** From launch until
 > 2026-07-13, a defect stored anonymous receipts server-side, contrary to this section —
 > 48 such receipts existed when it was found. The write path was fixed the same day
-> (commit `8b486e8`; the repository is public, so this is verifiable, not just claimed).
+> (commit `8b486e8`; the source is private, so this is verifiable on request, not just claimed).
 > The pre-fix receipts were deliberately retained rather than deleted: receipt links are
 > made to be shared, and some are referenced in the wild — deleting them would break
 > those references. They carry no account identity. If you ran an anonymous session
@@ -95,7 +95,7 @@ ARCS's own modeling work (operator scoring, NCI calibration) uses aggregate, ano
 
 **Yes — partially, today. More fully, soon.**
 
-The arcs-v9 repository is public: [github.com/flashesofbrilliance/arcs-v9](https://github.com/flashesofbrilliance/arcs-v9). The full application stack (Next.js, Prisma, the L0–L5 pipeline, operator logic) is inspectable and forkable. You can read exactly how your question is processed.
+The arcs-v9 source is private. Code walkthroughs and commit history are available on request, so you can ask to see exactly how your question is processed. A public subset is open: germinate, rosetta-shell and resume-tailor-skill.
 
 Running it locally requires an Anthropic API key, a Supabase instance, and environment setup — there is no one-click local build yet. A packaged local-first version is a stated product direction. It is not yet shipped.
 

@@ -90,7 +90,7 @@ def sweep(reg, root, repo=REPO):
     related = {s: o for s, o in after_tpl.items() if len(o) == 2 and (o & pers) and (o - pers) <= bridged}
     hard = {s: o for s, o in after_tpl.items() if s not in related}
     find["echo_after_lines"] = len(after_lines); find["echo_after_template"] = len(after_tpl); find["echo_declared_relation"] = len(related)
-    find["echo_after_control"] = [{"shingle": s, "universes": sorted(o)} for s, o in list(hard.items())[:20]]
+    find["echo_after_control"] = [{"shingle": s, "universes": sorted(o)} for s, o in sorted(hard.items())[:20]]  # sorted: set order changes with PYTHONHASHSEED, so the output must not depend on it
     find["shared_lines_dropped"] = len(shared_lines)
     rng = random.Random(7)
     def scr(c):
@@ -148,7 +148,22 @@ def self_test():
         f, h, c, m = sweep(reg, tmp)
         ok4 = f["echo_raw"] > 0 and f["shared_lines_dropped"] > 0
         print(("PASS " if ok4 else "FAIL ") + f"identical sentence in two universes is dropped by the control (dropped {f['shared_lines_dropped']})")
-        return 0 if all((ok1, ok2, ok3, ok4)) else 1
+        # determinism: identical input must give byte-identical output under different hash seeds
+        import subprocess
+        dd = tempfile.mkdtemp()
+        try:
+            json.dump(reg, open(os.path.join(dd, "_registry.json"), "w"))
+            ph = "Revenue grows quickly across the three northern regions this year and next"
+            open(os.path.join(dd, "a.claims.jsonl"), "w").write(json.dumps(dict(base, id="a/1", entity="a", claim=ph + " for Alpha.")) + "\n")
+            open(os.path.join(dd, "b.claims.jsonl"), "w").write(json.dumps(dict(base, id="b/1", entity="b", claim="Beta saw it too: " + ph + ".")) + "\n")
+            code = ("import sys,json; sys.path.insert(0,%r); import universe_sweep as sw, universe_ask as ua; "
+                    "reg=ua.load_registry(%r); f,h,c,m=sw.sweep(reg,%r); print(json.dumps([f['echo_after_control'], f['cross_name'], f['alias_leak']]))") % (HERE, dd, dd)
+            outs = {sd: subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env={**os.environ, "PYTHONHASHSEED": sd}).stdout for sd in ("1", "2", "3", "4")}
+            ok5 = len(set(outs.values())) == 1 and len(json.loads(outs["1"])[0]) > 1
+            print(("PASS " if ok5 else "FAIL ") + f"deterministic: byte-identical findings under 4 hash seeds ({len(json.loads(outs['1'])[0])} echo findings compared)")
+        finally:
+            shutil.rmtree(dd, ignore_errors=True)
+        return 0 if all((ok1, ok2, ok3, ok4, ok5)) else 1
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 

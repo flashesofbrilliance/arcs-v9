@@ -190,7 +190,9 @@
       "_DECISIONS/ADR-050-federated-family-airgap.md",
       "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
       "_DECISIONS/ADR-067-cross-subject-comparative-recoil.md",
-      "_DECISIONS/ADR-080-instance-to-class-self-promotion-build-loop.md"
-    ]
+      "_DECISIONS/ADR-080-instance-to-class-self-promotion-build-loop.md",
+      "_DECISIONS/ADR-088-librarian-anticipation-hook.md"
+    ],
+    "amended": "2026-10-18: ADR-088 added (Zach accepted; names VICO as call-prep context; private repo)"
   }
 }

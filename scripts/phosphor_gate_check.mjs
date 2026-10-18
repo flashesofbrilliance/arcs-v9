@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], file = (process.env.PHOSPHOR_FILES || '').split(',')[0]
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break.wav node scripts/phosphor_gate_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), pg = await (await b.newContext({ viewport: { width: 1270, height: 990 } })).newPage(); const errs = []; pg.on('pageerror', (e) => errs.push(String(e)))
 await pg.goto(pathToFileURL(page).href + '?test=1&shutter=off&level=4'); await pg.waitForTimeout(1200)
 await pg.setInputFiles('#file', file); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.getElementById('src').textContent !== 'Demo signal', null, { timeout: 60000 })
@@ -64,4 +64,4 @@ check(off.every((x) => x[1] < 0.05), 'W5: the gate does nothing to an effect tha
 await F('on', 'crush', true); await pg.evaluate(() => { const r = document.querySelector('input[name=fxg][value=beat]'); r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })) }); let pk = 0; for (let i = 0; i < 20; i++) { pk = Math.max(pk, await pg.evaluate(() => window.PhosphorTest.outPeak())); await pg.waitForTimeout(60) }
 check(pk <= 0.51, `W6: output peak with Crush and the gate running is ${pk.toFixed(3)} (ceiling 0.5)`)
 check(errs.length === 0, `W7: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

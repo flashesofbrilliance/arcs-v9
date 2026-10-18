@@ -15,8 +15,19 @@ The 87% belonged to one invented accuracy curve. Its other parts are struck as w
 - The invented baselines in the study hypotheses (now "baseline to be measured") and the fitted-curve parameters in the cohort hypothesis.
 
 ## Not struck, for you
-- The White Paper's "2x improvement or money back" and the Canon v1.1 refund trigger (underperform baseline by a margin) are the same kind of guarantee and are only labelled.
-- The Litepaper funding total ($102M) still includes the struck Revenue Reinvestment amount, so the total is now unsupported.
 - Other comparative claims not on the 87% curve stay labelled only: the energy-first 78% vs 32% retention table, the White Paper product accuracy claims, Canon v2 backtest and test results, and the study targets (for example accuracy above 85%, MAPE below 15%).
 - The Technical Overview's audit still quotes the claims it audits, on purpose.
 - Ledger entries for struck tokens remain but match nothing; three target tokens were re-anchored after their surroundings changed.
+
+## Funding total struck (third pass, 2026-10-18)
+The $102M capital total, its "<5% dilution" figure and the $70M venture comparison are struck in the Canon v1.1 economic model and the Litepaper (including the Litepaper summary bullet). The components (pre-sale, token event, debt) stay as labelled plans; the pre-sale in particular assumes 20 prepaying customers while the Technical Overview says no product had shipped. The headings that say "Non-Dilutive Growth" are left, since they are labels, but they now have no figure under them.
+
+## White Paper guarantee struck (fourth pass, 2026-10-18)
+The White Paper Alpha Program bullet "Performance guarantees: 2x improvement or money back" is struck. It had no data behind it and was only labelled before.
+
+## Canon refund trigger struck (fifth pass, 2026-10-18)
+The Canon v1.1 Performance Guarantee block (refund if campaigns underperform baseline by a margin and the client followed the recommendations, plus a next-year discount) is struck. The refund conditions in the Litepaper and Canon "Why This Works" lists and in the YellowPaper guarantee structure are struck with it. Correction: an earlier line in this note said no guarantee terms were defined after the 40% strike; the refund conditions had not yet been struck at that point.
+
+## Guarantee prose struck (sixth pass, 2026-10-18)
+The three "performance guarantee moat" sections (Litepaper 5.4, Canon v1.1 moat 3, YellowPaper 5.4) are replaced by a struck heading. The one-line mentions are removed or edited: "guarantee removes buyer risk", the exit clause, the "no vendor offers guarantees" why-now item (Litepaper and Canon), the unfair-advantage item, the risk mitigations that listed a guarantee, the competitor-displacement quote, the YellowPaper buyer-risk and refund-backstop bullets, and the "five novel approaches" count (now four). No guarantee claim or term remains in the canon text about the ROAS performance guarantee.
+Left: Canon v1.1 "Future: Energy-first matching with 12-month sustainability guarantee" (a different, career-matching guarantee in a code comment), the Technical Overview audit lines, and the sentence in the Litepaper 3.x example that says "3.8x ROAS guaranteed" in a quote about false precision.

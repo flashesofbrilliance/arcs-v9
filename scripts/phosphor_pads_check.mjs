@@ -5,7 +5,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2], file = path.basename((process.env.PHOSPHOR_FILES || '').split(',')[0])
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_pads_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), url = pathToFileURL(path.resolve(page)).href + '?test=1&shutter=off', errs = []
 const open = async (extra = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...extra }); const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === ''); await pg.setInputFiles('input[type=file]', '/private/tmp/claude-501/fx/' + file); await pg.waitForTimeout(2500); return pg }
 const log = (pg) => pg.evaluate(() => window.PhosphorTest.pads.log())
@@ -50,11 +50,49 @@ await pg.evaluate(() => { document.getElementById('tmpbox').remove(); document.g
 const openState = () => pg.evaluate(() => [!document.getElementById('padtray').hidden, !document.getElementById('fxtray').hidden])
 const s0 = await openState(); await pg.evaluate(() => document.getElementById('dkfx').click()); const s1 = await openState(); await pg.evaluate(() => document.getElementById('dkpad').click()); const s2 = await openState()
 check(s0[0] && !s0[1] && !s1[0] && s1[1] && s2[0] && !s2[1], `P7b: only one tray is open at a time (pads ${s0}, then Mix ${s1}, then pads ${s2})`)
+// P7c Escape closes the open tray and returns focus to its button; hiding the player hides the tray
+await pg.evaluate(() => { if (document.getElementById('padtray').hidden) document.getElementById('dkpad').click() }); await pg.waitForTimeout(100); await pg.keyboard.press('Escape'); await pg.waitForTimeout(100)
+const esc = await pg.evaluate(() => [document.getElementById('padtray').hidden, document.activeElement.tagName + '#' + document.activeElement.id, document.getElementById('dkpad').getAttribute('aria-expanded')])
+await pg.evaluate(() => { if (document.getElementById('padtray').hidden) document.getElementById('dkpad').click() }); await pg.evaluate(() => document.getElementById('dkhide').click()); await pg.waitForTimeout(400); const trayWithHiddenDock = await pg.evaluate(() => { const r = document.getElementById('padtray').getBoundingClientRect(); return getComputedStyle(document.getElementById('padtray')).display !== 'none' && r.width * r.height > 0 })
+check(esc[0] === true && esc[1] === 'BUTTON#dkpad' && esc[2] === 'false' && !trayWithHiddenDock, `P7c: Escape closes the tray and returns focus to its button (${esc}), and hiding the player hides the open tray (${trayWithHiddenDock ? 'still shown' : 'hidden'})`)
 await pg.context().close()
 // P8 touch on a phone
 pg = await open({ ...devices['iPhone 13'] }); await pg.evaluate(() => document.getElementById('dkpad').click()); await pg.waitForTimeout(300)
 const box = await pg.locator('[data-pk="5"]').boundingBox(); await pg.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2); await pg.waitForTimeout(300)
 const l8 = await log(pg), ph = await pg.evaluate(() => { const r = document.getElementById('padtray').getBoundingClientRect(); return { fits: r.left >= 0 && r.right <= innerWidth, side: document.documentElement.scrollWidth > innerWidth, minH: Math.min(...[...document.querySelectorAll('#pbk .btn')].map((e) => e.getBoundingClientRect().height)) } })
 check(l8.length === 1 && l8[0][1] === 5 && ph.fits && !ph.side && ph.minH >= 56, `P8: on a phone a finger tap on pad 6 plays slice 6, the tray fits the width with no sideways scroll, pads are at least ${Math.round(ph.minH)} px tall`)
+// Effect pads: P10 to P16
+pg = await open(); const down = (sel) => pg.evaluate((sel) => document.querySelector(sel).dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true })), sel), up = (sel) => pg.evaluate((sel) => document.querySelector(sel).dispatchEvent(new PointerEvent('pointerup', { bubbles: true })), sel)
+const gl = () => pg.evaluate(() => window.PhosphorTest.glitch().on)
+await pg.evaluate(() => document.getElementById('mdKid').click()); await pg.waitForTimeout(300); await pg.click('#dkpad'); await pg.waitForTimeout(200)
+const kidEdit = await pg.evaluate(() => getComputedStyle(document.getElementById('padedit')).display)
+await pg.evaluate(() => document.getElementById('mdParent').dispatchEvent(new PointerEvent('pointerdown'))); await pg.waitForTimeout(1700)
+const parEdit = await pg.evaluate(() => getComputedStyle(document.getElementById('padedit')).display)
+check(kidEdit === 'none' && parEdit !== 'none', `P10: Edit pads is hidden in Kid mode (${kidEdit}) and there in Parent mode (${parEdit})`)
+const pickShown = await pg.evaluate(() => { const r = document.getElementById('padpick').getBoundingClientRect(); return getComputedStyle(document.getElementById('padpick')).display !== 'none' || r.height > 0 })
+check(!pickShown, `P10b: the chip picker is not visible until Edit pads is on (a CSS display rule once overrode the hidden attribute and showed it to everyone)`)
+const n10 = (await log(pg)).length
+await pg.evaluate(() => document.getElementById('padedit').click()); await down('[data-pk="2"]'); await pg.waitForTimeout(100)
+const pickVis = await pg.evaluate(() => !document.getElementById('padpick').hidden)
+await pg.evaluate(() => document.querySelector('#padpick [data-fx=echo]').click()); await pg.waitForTimeout(100)
+const lab = await pg.textContent('[data-pk="2"] small'), stored = await pg.evaluate(() => localStorage.getItem('phosphor.padmap.v1'))
+check(pickVis && lab === 'Echo' && JSON.parse(stored)['0']['2'] === 'echo' && (await log(pg)).length === n10, `P11: in edit mode a tap picks the pad (nothing plays), the chip Echo assigns it, the pad is labelled ${lab}, and it is stored`)
+await pg.evaluate(() => document.getElementById('padedit').click())
+await down('[data-pk="2"]'); await pg.waitForTimeout(150); const on1 = (await gl()).echo; await up('[data-pk="2"]'); await pg.waitForTimeout(150); const off1 = (await gl()).echo
+check(on1 === true && off1 === false, `P12: holding the Echo pad turns Echo on (${on1}) and letting go turns it off (${off1})`)
+await pg.keyboard.down('Digit3'); await pg.waitForTimeout(150); const on2 = (await gl()).echo; await pg.keyboard.up('Digit3'); await pg.waitForTimeout(150); const off2 = (await gl()).echo
+check(on2 === true && off2 === false, `P12b: the key 3 does the same: hold on (${on2}), release off (${off2})`)
+await pg.click('#pbkb [data-bk="1"]'); const labB = await pg.textContent('[data-pk="2"] small'); await pg.click('#pbkb [data-bk="0"]')
+check(labB === '3', `P13: bank B pad 3 is untouched (label ${labB}); the mapping belongs to bank A`)
+await pg.evaluate(() => { let e = document.getElementById('mh_echo'); while (e) { if (e.tagName === 'DETAILS') e.open = true; e = e.parentElement } e = document.getElementById('mh_echo'); e.value = 0; e.dispatchEvent(new Event('input', { bubbles: true })) })
+await down('[data-pk="2"]'); await pg.waitForTimeout(500); const lim = await pg.evaluate(() => window.PhosphorTest.fxl('echo')); await up('[data-pk="2"]')
+check(lim.e === 0 && lim.g < 0.02, `P14: with Echo capped at 0 in the Mix tray the Echo pad adds no echo (level ${lim.e}, send ${lim.g})`)
+await pg.evaluate(() => { document.getElementById('padedit').click() }); await down('[data-pk="3"]'); await pg.evaluate(() => document.querySelector('#padpick [data-fx=tear]').click()); await pg.evaluate(() => document.getElementById('padedit').click()); await pg.evaluate(() => document.getElementById('glitchsw').click())
+await down('[data-pk="3"]'); await pg.waitForTimeout(200); const tearOff = (await gl()).tear; await up('[data-pk="3"]')
+check(tearOff === false, `P15: with the Glitch switch off a Tear pad starts nothing (${tearOff})`)
+await pg.reload(); await pg.waitForFunction(() => document.getElementById('status').textContent === ''); await pg.evaluate(() => document.getElementById('dkpad').click()); await pg.waitForTimeout(200)
+const labs = await pg.evaluate(() => [document.querySelector('[data-pk="2"] small').textContent, document.querySelector('[data-pk="3"] small').textContent])
+check(labs[0] === 'Echo' && labs[1] === 'Tear', `P16: the assignments are remembered after a reload (${labs})`)
+await pg.context().close()
 check(errs.length === 0, 'P9: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)
