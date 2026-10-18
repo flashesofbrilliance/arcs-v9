@@ -31,4 +31,23 @@ Speed (it is reported, not killed: a full-grit frame can take most of a second).
 whatever ffmpeg encoder is available and says which). Lyrics and captions, which are the next slice.
 
 ## Results
-(appended after the build)
+Built 2026-10-18: stage-only mode in the studio (`?stage=1`), `scripts/tao_studio_video.mjs`, and an elastic layout (see O7). Reproduce with
+`node scripts/tao_studio_checks.mjs offline` (needs ffmpeg, ffprobe, python3 with PIL; about 35 s). The earlier `realtime` checks were re-run after the layout change and still pass,
+and every shape now fills its frame exactly (Fit to frame fill 100 percent in all four).
+
+- O1 PASS: the same frame (1.0 s, Tag, full grit) captured twice with two other times rendered in between was byte-identical.
+- O2 PASS: for each of 16:9, 4:3, 1:1 and 9:16 at 720 short side the file has one video stream and one audio stream at exactly 1280x720, 960x720, 720x720 and 720x1280, 2.000 s long.
+- O3 PASS: audio and video durations differ by 0 ms; the output audio averages -10.7 dB against -10.6 dB for the source over the same span.
+- O4 PASS: a frame from the renderer differs from the studio's own paused Full-quality capture by 0.0000 percent mean absolute pixel difference (identical), while a Draft capture of the same
+  moment differs by 1.7 percent, so the renderer really is at Full.
+- O5 PASS: audio and video start together (0 ms apart) in all four.
+- O6 PASS: zero network requests blocked, a second run to the same file without the force flag exits with code 2 and leaves it alone, and no temp folder was left behind.
+- O7 FAIL as registered, PASS on the direct test. The registered measure (border pixels in the stage colour, at most 5 percent) read 8.3 percent at 16:9 and 8.8 percent at 9:16 for Brainwash.
+  That measure also counts the legitimate gaps between panels, which are stage-coloured by design, so it cannot reach 5 percent while the panels have gaps. The real defect it was
+  after, letterbox bars, was present in the first run (the contained print left bars at 9:16 and 4:3) and is now fixed: the gaps between panels stretch independently, horizontally and
+  vertically, so the print meets the frame edges exactly. The direct test (whole border rows or columns in the stage colour) finds 0. The trade-off: in some shapes the gaps are uneven
+  (for example 6 units across and 37 down at 4:3). The registered result stays recorded as a fail.
+
+Speed, reported not killed: 0.10 to 0.25 s per full-grit frame at 720 short side on this machine (16:9 slowest), so a 30 s clip at 30 fps is roughly 1.5 to 4 minutes.
+
+Not tested: 1080 short side, a real song and long clips, Safari or Firefox rendering, encoders other than libx264, a machine without ffmpeg, the live key effects in the sound (not included by design).

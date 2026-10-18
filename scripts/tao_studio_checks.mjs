@@ -2,11 +2,12 @@
 /**
  * tao_studio_checks.mjs: the pre-registered checks for the Tao print studio's Drive, AnalysisFrame and key map, run headless.
  *
- *   node scripts/tao_studio_checks.mjs drive|frame|slice2|realtime|probe [--phosphor path/to/phosphor.html]
+ *   node scripts/tao_studio_checks.mjs drive|frame|slice2|realtime|probe|offline [--phosphor path/to/phosphor.html]
  *
  *   drive   D1-D8   _PATTERNS/2026-10-18-studio-drive-prereg.md        (audio features move the print controls)
  *   frame   F1-F7   _PATTERNS/2026-10-18-analysis-frame-v1.md          (needs a Phosphor build that has window.PhosphorFrame for F2)
  *   slice2  S1-S8   _PATTERNS/2026-10-18-studio-drive-slice2-prereg.md (stutter, flash limiter, key map)
+ *   offline O1-O7   _PATTERNS/2026-10-18-studio-offline-renderer-prereg.md (frame-exact video render in four shapes with audio; needs ffmpeg, ffprobe, python3 with PIL; renders for a minute or two)
  *   probe           median ms to draw one 1920x1080 frame of each look from SVG to canvas, with and without embedded fonts (the realtime cost basis)
  *   realtime R1-R8  _PATTERNS/2026-10-18-studio-realtime-frames-prereg.md (responsive frames, adaptive quality, live capture; needs ffmpeg and ffprobe)
  *
@@ -248,6 +249,55 @@ async function runRealtime() {
   res.errors = errs; console.log(JSON.stringify(res, null, 1)); await b.close()
 }
 
+
+async function runOffline() {
+  const { existsSync: ex, statSync: st, readdirSync: rd } = await import('node:fs'), here = process.cwd(), vid = join(here, 'scripts/tao_studio_video.mjs'), res = {}
+  const run = (args) => { try { return { code: 0, out: execFileSync('node', [vid, ...args], { stdio: ['ignore', 'pipe', 'pipe'] }).toString() } } catch (e) { return { code: e.status, out: String(e.stdout || ''), err: String(e.stderr || '').slice(0, 200) } } }
+  const shapes = { '16:9': [1280, 720], '4:3': [960, 720], '1:1': [720, 720], '9:16': [720, 1280] }, secs = 2, fps = 12
+  const tmpBefore = rd(tmpdir()).filter((n) => n.startsWith('tao-video-')).length
+  const probe = (f) => JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-show_streams', '-show_format', '-of', 'json', f]).toString())
+  const vol = (f, t) => { const o = execFileSync('sh', ['-c', 'ffmpeg -t ' + t + ' -i "' + f + '" -vn -af volumedetect -f null - 2>&1 | grep mean_volume']).toString(), m = /(-?[\d.]+) dB/.exec(o); return m ? +m[1] : null }
+  res.O2 = {}; res.O3 = {}; res.O5 = {}; let net = 0, demoWav = null
+  for (const [r, [ew, eh]] of Object.entries(shapes)) {
+    const f = join(SP, 'off-' + r.replace(':', 'x') + '.mp4'), o = run(['--out', f, '--preset', 'tag', '--ratio', r, '--short', '720', '--fps', String(fps), '--seconds', String(secs), '--force', ...(r === '16:9' ? ['--keep-frames', join(SP, 'off-frames')] : [])])
+    if (o.code !== 0) { res.O2[r] = { error: o.err || o.out.slice(0, 200) }; continue }
+    const sum = JSON.parse(o.out.trim().split('\n').pop()); net += sum.network_blocked
+    const j = probe(f), v = j.streams.find((x) => x.codec_type === 'video'), a = j.streams.find((x) => x.codec_type === 'audio')
+    res.O2[r] = { size: v.width + 'x' + v.height, expected: ew + 'x' + eh, video_streams: j.streams.filter((x) => x.codec_type === 'video').length, audio_streams: j.streams.filter((x) => x.codec_type === 'audio').length, video_s: +(+v.duration).toFixed(3), seconds_per_frame: sum.seconds_per_frame }
+    res.O2[r].pass = res.O2[r].video_streams === 1 && res.O2[r].audio_streams === 1 && v.width === ew && v.height === eh && Math.abs(+v.duration - secs) <= 1 / fps + 1e-6
+    res.O3[r] = { audio_minus_video_ms: Math.round((+a.duration - +v.duration) * 1000), out_mean_db: vol(f, secs) }
+    res.O5[r] = { start_gap_ms: Math.round(Math.abs(+a.start_time - +v.start_time) * 1000) }
+  }
+  // source audio mean volume over the same span: the page's demo signal written as a WAV
+  { const b = await chromium.launch(), p = await b.newPage({ viewport: { width: 800, height: 600 } }); await p.goto('file://' + here + '/_ARTIFACTS/tao-print-studio.html?stage=1'); await p.waitForFunction(() => window.TaoDrive && TaoDrive.ready()); const b64 = await p.evaluate(() => TaoDrive.wavBase64()); demoWav = join(SP, 'demo-source.wav'); writeFileSync(demoWav, Buffer.from(b64, 'base64'))
+    const srcDb = vol(demoWav, secs); for (const r of Object.keys(res.O3)) { res.O3[r].source_mean_db = srcDb; res.O3[r].pass = Math.abs(res.O3[r].audio_minus_video_ms) <= 50 && res.O3[r].out_mean_db !== null && Math.abs(res.O3[r].out_mean_db - srcDb) <= 1; res.O5[r].pass = res.O5[r].start_gap_ms <= 20 }
+    res.O2.pass = Object.entries(res.O2).filter(([k]) => k !== 'pass').every(([, x]) => x.pass === true); res.O3.pass = Object.entries(res.O3).filter(([k]) => k !== 'pass').every(([, x]) => x.pass === true); res.O5.pass = Object.entries(res.O5).filter(([k]) => k !== 'pass').every(([, x]) => x.pass === true)
+    // O1 frame exact + O4 full quality: same setup as the renderer, in a 1280x720 stage-only page
+    await p.setViewportSize({ width: 1280, height: 720 }); await p.evaluate(() => document.getElementById('p-tag').click()); await p.waitForTimeout(600)
+    const setv = (id, v) => p.evaluate(([id, v]) => { const e = document.getElementById(id); e.value = v; e.dispatchEvent(new Event('change', { bubbles: true })) }, [id, v]); await setv('layout', 'fit'); await setv('frame', 'auto'); await p.evaluate(() => document.getElementById('drive-tagmap').click()); await p.evaluate(() => TaoRT.forceFull()); await p.waitForTimeout(400)
+    const shot = async (t) => { await p.evaluate((t) => window.seek(t), t); await p.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))); return p.screenshot({ type: 'png' }) }
+    const A = await shot(1.0); await shot(0.4); await shot(1.7); const B = await shot(1.0)
+    res.O1 = { identical_bytes: Buffer.compare(A, B) === 0 }; res.O1.pass = res.O1.identical_bytes
+    writeFileSync(join(SP, 'o4-full.png'), A); await p.evaluate(() => TaoRT.setQuality('draft')); const D = await shot(1.0); writeFileSync(join(SP, 'o4-draft.png'), D); await p.evaluate(() => TaoRT.forceFull())
+    const diff = (x, y) => parseFloat(execFileSync('python3', ['-c', "from PIL import Image, ImageChops, ImageStat;a=Image.open('" + x + "').convert('RGB');b=Image.open('" + y + "').convert('RGB');print(sum(ImageStat.Stat(ImageChops.difference(a,b)).mean)/3/255*100)"]).toString())
+    const rf = join(SP, 'off-frames', 'f00012.png')
+    res.O4 = { renderer_frame_vs_full_pct: ex(rf) ? +diff(rf, join(SP, 'o4-full.png')).toFixed(4) : null, draft_vs_full_pct: +diff(join(SP, 'o4-draft.png'), join(SP, 'o4-full.png')).toFixed(4) }
+    res.O4.pass = res.O4.renderer_frame_vs_full_pct !== null && res.O4.renderer_frame_vs_full_pct <= 1 && res.O4.draft_vs_full_pct > res.O4.renderer_frame_vs_full_pct * 3
+    await b.close() }
+  // O6 private and safe: network, overwrite, temp folder
+  const again = run(['--out', join(SP, 'off-16x9.mp4'), '--preset', 'tag', '--seconds', '0.2'])
+  const tmpAfter = rd(tmpdir()).filter((n) => n.startsWith('tao-video-')).length
+  res.O6 = { network_requests_blocked: net, refuses_overwrite_exit_code: again.code, temp_folders_left: tmpAfter - tmpBefore }; res.O6.pass = net === 0 && again.code === 2 && tmpAfter === tmpBefore
+  // O7 fills the shape: Brainwash, first frame, border ring against the stage colour
+  res.O7 = {}
+  for (const r of ['16:9', '9:16']) { const dir = join(SP, 'o7-' + r.replace(':', 'x')); const o = run(['--out', join(SP, 'o7-' + r.replace(':', 'x') + '.mp4'), '--preset', 'brain', '--ratio', r, '--short', '720', '--fps', '10', '--seconds', '0.1', '--drive', 'off', '--force', '--keep-frames', dir]); if (o.code !== 0) { res.O7[r] = { error: o.err }; continue }
+    const f = join(dir, 'f00000.png'), py = "from PIL import Image\nim=Image.open('" + f + "').convert('RGB');w,h=im.size;px=im.load();key=(0x14,0x06,0x0f)\nk=lambda p:all(abs(p[i]-key[i])<14 for i in range(3))\nn=c=0\nfor x in range(w):\n  for y in (0,h-1):\n    c+=1;n+=k(px[x,y])\nfor y in range(h):\n  for x in (0,w-1):\n    c+=1;n+=k(px[x,y])\nrows=sum(all(k(px[x,y]) for x in range(w)) for y in list(range(0,8))+list(range(h-8,h)))\ncols=sum(all(k(px[x,y]) for y in range(h)) for x in list(range(0,8))+list(range(w-8,w)))\nprint(n/c*100,rows,cols)", o2 = execFileSync('python3', ['-c', py]).toString().trim().split(' ')
+    // O7 as registered is the border share in the stage colour; O7b is the direct letterbox test (whole border rows or columns in the stage colour)
+    res.O7[r] = { border_pct_stage_colour: +(+o2[0]).toFixed(2), registered_pass: +o2[0] <= 5, letterbox_rows: +o2[1], letterbox_cols: +o2[2], letterbox_pass: +o2[1] === 0 && +o2[2] === 0 } }
+  res.O7.registered_pass = Object.entries(res.O7).filter(([k]) => !/pass/.test(k)).every(([, x]) => x.registered_pass === true); res.O7.letterbox_pass = Object.entries(res.O7).filter(([k]) => !/pass/.test(k)).every(([, x]) => x.letterbox_pass === true)
+  console.log(JSON.stringify(res, null, 1))
+}
+
 async function runProbe() {const b=await chromium.launch();const p=await b.newPage({viewport:{width:1280,height:900}});
 await p.goto('file://'+process.cwd()+'/_ARTIFACTS/tao-print-studio.html');await p.waitForFunction(()=>window.TaoDrive&&TaoDrive.ready());await p.waitForTimeout(500);
 const run=async(label,setup)=>{await p.evaluate(setup);await p.waitForTimeout(800);
@@ -268,6 +318,6 @@ await run('tag 2x2 full grit',()=>{document.getElementById('p-tag').click()});
 await run('street 3x3 spray+rough+wall',()=>{document.getElementById('p-street').click()});
 await run('tag, grit off (fidelity 100, auto)',()=>{document.getElementById('p-tag').click();const e=document.getElementById('fidelity');e.value=100;e.dispatchEvent(new Event('input'))});
 await b.close()}
-const table = { drive: runDrive, frame: runFrame, slice2: runSlice2, realtime: runRealtime, probe: runProbe }
-if (!table[which]) { console.error('usage: tao_studio_checks.mjs drive|frame|slice2|realtime|probe [--phosphor path]'); process.exit(2) }
+const table = { drive: runDrive, frame: runFrame, slice2: runSlice2, realtime: runRealtime, probe: runProbe, offline: runOffline }
+if (!table[which]) { console.error('usage: tao_studio_checks.mjs drive|frame|slice2|realtime|probe|offline [--phosphor path]'); process.exit(2) }
 await table[which]()

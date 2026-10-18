@@ -132,6 +132,11 @@ h1 { font-family: var(--ds-font-display); font-weight: 600; font-size: var(--fs-
 .studio { display: grid; grid-template-columns: minmax(0, 1fr) var(--panel-w); gap: 24px; align-items: start; }
 @media (max-width: 900px) { .studio { grid-template-columns: minmax(0, 1fr); } }
 .stage { min-width: 0; }
+html.stage-only body { padding: 0; }
+html.stage-only .lane { max-width: none; }
+html.stage-only .bar, html.stage-only h1, html.stage-only .lede, html.stage-only .controls, html.stage-only .readout, html.stage-only #rt-readout, html.stage-only #rec-out, html.stage-only #png-gallery, html.stage-only .stage > .note { display: none !important; }
+html.stage-only .studio { display: block; }
+html.stage-only #print { border: 0; border-radius: 0; }
 #stagewrap { width: 100%; display: grid; justify-items: center; }
 #stage { max-width: 100%; display: grid; }
 #print.fixed { width: 100%; height: 100%; display: grid; place-items: stretch; }
@@ -675,6 +680,8 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     Object.keys(g).forEach(function (k) { saved[k] = cfg[k]; cfg[k] = g[k]; });
     try { return build0(); } finally { Object.keys(saved).forEach(function (k) { cfg[k] = saved[k]; }); }
   }
+  var STAGEONLY = /[?&]stage=1/.test(location.search), PXP = 0;
+  if (STAGEONLY) document.documentElement.classList.add('stage-only');
   var LAYOUT = null, RT = { q: 'auto', tier: 3, outShort: 720, stopEnd: true, ema: 0, fps: 0, lastTs: 0, lastDraw: 0, slow: 0, probeAt: 0, probing: false, probeStart: 0 };
   function draftNow() { return RT.q === 'draft' || (RT.q === 'auto' && RT.tier === 2 && (DR.playing || REC.on)); }
   function build0() {
@@ -683,15 +690,15 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     try { return build00(); } finally { keys.forEach(function (k) { cfg[k] = sv[k]; }); cfg.edge = se; }
   }
   function build00() {
-    var P = PAL[cfg.palette], f = cfg.fidelity / 100, cols = LAYOUT ? LAYOUT.cols : +cfg.grid, rows = LAYOUT ? LAYOUT.rows : cols, n = cols * rows, CELL = 120, gap = 14;
-    var W = cols * CELL + (cols - 1) * gap, GH = rows * CELL + (rows - 1) * gap, row = PROVERBS.filter(function (p) { return p.id === cfg.proverb; })[0] || PROVERBS[0];
+    var P = PAL[cfg.palette], f = cfg.fidelity / 100, cols = LAYOUT ? LAYOUT.cols : +cfg.grid, rows = LAYOUT ? LAYOUT.rows : cols, n = cols * rows, CELL = 120, gap = LAYOUT && LAYOUT.gapx !== undefined ? LAYOUT.gapx : 14, gapY = LAYOUT && LAYOUT.gapy !== undefined ? LAYOUT.gapy : gap;
+    var W = cols * CELL + (cols - 1) * gap, GH = rows * CELL + (rows - 1) * gapY, row = PROVERBS.filter(function (p) { return p.id === cfg.proverb; })[0] || PROVERBS[0];
     var R = runs(row.text, n), stats = { reg: 0, drop: 0, specks: 0, n: 0 };
     var m = cols === 1 ? 0 : (cfg.strip ? Math.min(6, cols * 2) : 0), sw = m ? (W - (m - 1) * 6) / m : 0, H = GH + (m ? 18 + sw : 0);
     var defs = defsMarkup(), panels = [];
     var out = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + f1(H) + '" width="' + W + '" height="' + f1(H) + '" role="img" aria-label="Silkscreen print of the proverb: ' + esc(row.text) + '">',
       defs, '<rect width="' + W + '" height="' + f1(H) + '" fill="' + P.key + '"/>'];
     for (var k = 0; k < n; k++) {
-      var x = (k % cols) * (CELL + gap), y = Math.floor(k / cols) * (CELL + gap);
+      var x = (k % cols) * (CELL + gap), y = Math.floor(k / cols) * (CELL + gapY);
       var pm = panel(P, f, k, n, { text: R[k], stats: stats });
       panels.push({ label: 'Panel ' + (k + 1) + ': ' + R[k], file: 'panel-' + String(k + 1).padStart(2, '0'), x: x, y: y, size: CELL, markup: pm });
       out.push('<svg x="' + x + '" y="' + y + '" width="' + CELL + '" height="' + CELL + '" viewBox="0 0 100 100">' + pm + '</svg>');
@@ -710,23 +717,32 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   var timer = 0, last = null, token = 0;
   var FRAMES = { '16:9': 16 / 9, '4:3': 4 / 3, '1:1': 1, '9:16': 9 / 16 };
   function stageSize() {
+    if (STAGEONLY) return { a: window.innerWidth / window.innerHeight, w: window.innerWidth, h: window.innerHeight };
     var wrap = $('stagewrap'), cw = Math.max(240, wrap.clientWidth || 600), hmax = Math.max(240, (window.innerHeight || 800) * 0.78), a, w, h;
     if (cfg.frame === 'auto') { h = Math.min(hmax, cw * 1.8); return { a: cw / h, w: cw, h: h }; }
     a = FRAMES[cfg.frame] || 1; w = Math.min(cw, hmax * a); return { a: a, w: w, h: w / a };
   }
+  /* Fit to frame: choose columns by rows, then let the horizontal and vertical gaps between panels stretch (independently) so the print meets the frame edges exactly, with no letterbox bars. Falls back to contain with the default gaps when no stretch in range fits. */
   function pickLayout(a, density) {
-    var n0 = density * density, best = null, c, r, bs = 1e9;
+    var n0 = density * density, best = null, bs = 1e9, CELL = 120, c, r, gx, gy;
     for (r = 1; r <= 5; r++) for (c = 1; c <= 6; c++) {
       var n = c * r; if (n > 16 || n < Math.max(1, n0 - 3) || n > n0 + 4) continue;
-      var W = c * 134 - 14, GH = r * 134 - 14, m = c === 1 ? 0 : (cfg.strip ? Math.min(6, c * 2) : 0), SH = m ? 18 + (W - (m - 1) * 6) / m : 0, ca = W / (GH + SH), sc = Math.abs(Math.log(ca / a)) * 3 + Math.abs(n - n0) / n0;
-      if (sc < bs) { bs = sc; best = { cols: c, rows: r, ca: ca }; }
+      var m = c === 1 ? 0 : (cfg.strip ? Math.min(6, c * 2) : 0), ok = null;
+      for (gx = 6; gx <= 40; gx++) {
+        var W = c * CELL + (c - 1) * gx, SH = m ? 18 + (W - (m - 1) * 6) / m : 0, gyv;
+        if (r > 1) { gyv = (W / a - r * CELL - SH) / (r - 1); if (gyv < 6 || gyv > 48) continue; }
+        else { if (Math.abs(W / a - (CELL + SH)) > 1.5) continue; gyv = 14; }
+        var sc = Math.abs(n - n0) / n0 + (Math.abs(gx - 14) + Math.abs(gyv - 14)) / 200; if (!ok || sc < ok.sc) ok = { cols: c, rows: r, gapx: gx, gapy: gyv, ca: a, sc: sc };
+      }
+      if (!ok) { var W2 = c * 134 - 14, GH = r * 134 - 14, SH2 = m ? 18 + (W2 - (m - 1) * 6) / m : 0, ca = W2 / (GH + SH2); ok = { cols: c, rows: r, gapx: 14, gapy: 14, ca: ca, sc: Math.abs(Math.log(ca / a)) * 3 + Math.abs(n - n0) / n0 + 1 }; }
+      if (ok.sc < bs) { bs = ok.sc; best = ok; }
     }
-    return best || { cols: density, rows: density, ca: 1 };
+    return best || { cols: density, rows: density, gapx: 14, gapy: 14, ca: 1 };
   }
   function applyStage() {
-    var fixed = cfg.frame !== 'auto' || cfg.layout === 'fit', sg = stageSize(), st = $('stage');
+    var fixed = STAGEONLY || cfg.frame !== 'auto' || cfg.layout === 'fit', sg = stageSize(), st = $('stage');
     LAYOUT = cfg.layout === 'fit' ? pickLayout(sg.a, +cfg.grid) : null;
-    st.style.width = fixed ? sg.w + 'px' : ''; st.style.height = fixed ? sg.h + 'px' : ''; $('print').className = fixed ? 'fixed' : ''; return sg;
+    st.style.width = fixed ? sg.w + 'px' : ''; st.style.height = fixed ? sg.h + 'px' : ''; $('print').className = fixed ? 'fixed' : ''; $('print').style.background = fixed ? PAL[cfg.palette].key : ''; return sg;
   }
   function render() {
     applyStage(); last = build();
@@ -744,10 +760,10 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   function pixelate(res, tk) {
     var P = PAL[cfg.palette], cells = +cfg.pixel, cu = 120 / cells, gw = Math.ceil(res.W / cu), gh = Math.ceil(res.H / cu);
     var pal = P.inks.concat([P.key, P.light]).filter(function (c, i, a) { return a.indexOf(c) === i; }).map(rgb);
-    var img = new Image(), url = URL.createObjectURL(new Blob([res.svg], { type: 'image/svg+xml' }));
+    var img = new Image(), url = URL.createObjectURL(new Blob([res.svg], { type: 'image/svg+xml' })); PXP++;
     img.onload = function () {
       URL.revokeObjectURL(url);
-      if (tk !== token) return;
+      if (tk !== token) { PXP--; return; }
       var big = document.createElement('canvas'); big.width = gw * 4; big.height = gh * 4;
       var bx = big.getContext('2d'); bx.imageSmoothingQuality = 'high'; bx.drawImage(img, 0, 0, big.width, big.height);
       var sm = document.createElement('canvas'); sm.width = gw; sm.height = gh;
@@ -762,9 +778,9 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       }
       out.style.cssText = 'display:block;width:100%;height:auto;image-rendering:pixelated';
       out.setAttribute('aria-label', 'Tile mosaic of the print');
-      $('print').innerHTML = ''; $('print').appendChild(out);
+      $('print').innerHTML = ''; $('print').appendChild(out); PXP--;
     };
-    img.onerror = function () { URL.revokeObjectURL(url); };
+    img.onerror = function () { URL.revokeObjectURL(url); PXP--; };
     img.src = url;
   }
   /* ---- PNG: the SVG is drawn to a canvas with the fonts embedded in the file, so type and filters match the screen ---- */
@@ -1103,7 +1119,11 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     $('drive-tagmap').addEventListener('click', function () { DR.rows = [{ t: 'travel', s: 'saw', a: 100 }, { t: 'views', s: 'sine', a: 50 }, { t: 'dropout', s: 'onset', a: 40 }, { t: 'fidelity', s: 'loud', a: 35 }, { t: 'horizon', s: 'none', a: 0 }, { t: 'horizon', s: 'none', a: 0 }]; DR.stutter = { depth: 60, rate: 16 }; $('drive-stdepth').value = 60; $('drive-stdepth-o').textContent = '60%'; $('drive-strate').value = 16; DR.on = true; $('drive-on').checked = true; writeDrive(); driveRowsUi(); schedule(); say('Tag stutter map on: the stutter gate drops fidelity and kicks the plate offset.'); });
     readDrive(); var d = demoPCM(); driveLoadPCM(d.pcm, d.sr, 'Demo signal');
   }
-  window.TaoDrive = { key: keyEvent, fxState: function () { var o = {}; if (!DR.fx) return o; KEYS.forEach(function (k) { o[k[0]] = DR.fx[k[0]] ? DR.fx[k[0]].wet.gain.value : null; }); return o; }, stutterGate: function (t) { return srcVal('stutter', t, driveFi(t)); }, kval: kval, logSize: function () { return JSON.stringify(DR.keylog).length; }, frame: frameOut, loadFrame: driveLoadFrame, playing: function () { return DR.playing; }, acCreated: function () { return !!DR.ac; }, dur: function () { return DR.dur; }, ready: function () { return DR.ready; }, seek: function (t) { window.seek(t); }, feat: function (t) { var fi = driveFi(t), S = DR.src, o = {}; ['low', 'mid', 'high', 'loud', 'onset'].forEach(function (k) { o[k] = S[k][fi]; }); ['stutter', 'beat', 'genF', 'genD', 'genX'].forEach(function (k) { o[k] = srcVal(k, t, fi); }); return o; }, eff: function (t) { var was = DR.tpaused, wasPlay = DR.playing; DR.tpaused = t; var ov = driveOverrides(); DR.tpaused = was; return ov; }, load: driveLoadPCM, markup: function () { return $('print').innerHTML; } };
+  window.TaoDrive = { wavBase64: function () {
+    if (!DR.pcm) return null; var n = DR.pcm.length, sr = DR.sr, buf = new Uint8Array(44 + n * 2), dv = new DataView(buf.buffer), i, w = function (o, str) { for (var j = 0; j < str.length; j++) buf[o + j] = str.charCodeAt(j); };
+    w(0, 'RIFF'); dv.setUint32(4, 36 + n * 2, true); w(8, 'WAVEfmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true); dv.setUint32(24, sr, true); dv.setUint32(28, sr * 2, true); dv.setUint16(32, 2, true); dv.setUint16(34, 16, true); w(36, 'data'); dv.setUint32(40, n * 2, true);
+    for (i = 0; i < n; i++) dv.setInt16(44 + i * 2, Math.trunc(Math.max(-1, Math.min(1, DR.pcm[i])) * 32000), true); return b64(buf);
+  }, key: keyEvent, fxState: function () { var o = {}; if (!DR.fx) return o; KEYS.forEach(function (k) { o[k[0]] = DR.fx[k[0]] ? DR.fx[k[0]].wet.gain.value : null; }); return o; }, stutterGate: function (t) { return srcVal('stutter', t, driveFi(t)); }, kval: kval, logSize: function () { return JSON.stringify(DR.keylog).length; }, frame: frameOut, loadFrame: driveLoadFrame, playing: function () { return DR.playing; }, acCreated: function () { return !!DR.ac; }, dur: function () { return DR.dur; }, ready: function () { return DR.ready; }, seek: function (t) { window.seek(t); }, feat: function (t) { var fi = driveFi(t), S = DR.src, o = {}; ['low', 'mid', 'high', 'loud', 'onset'].forEach(function (k) { o[k] = S[k][fi]; }); ['stutter', 'beat', 'genF', 'genD', 'genX'].forEach(function (k) { o[k] = srcVal(k, t, fi); }); return o; }, eff: function (t) { var was = DR.tpaused, wasPlay = DR.playing; DR.tpaused = t; var ov = driveOverrides(); DR.tpaused = was; return ov; }, load: driveLoadPCM, markup: function () { return $('print').innerHTML; } };
   /* ---- realtime: frame pacing, adaptive quality, live capture ---- */
   var REC = { on: false, mr: null, chunks: [], canvas: null, ctx: null, frames: 0, t0: 0, pending: false, mime: '', dest: null, clip0: 0, prevT: 0, blob: null, info: null, raf: 0, w: 0, h: 0 };
   function rtReadout() { var el = $('rt-readout'); if (!el) return; var sg = stageSize(), fill = last ? Math.min(last.W / last.H / sg.a, sg.a / (last.W / last.H)) : 0; el.innerHTML = 'Frame <b>' + (cfg.frame === 'auto' ? 'auto ' + sg.a.toFixed(2) : cfg.frame) + '</b> &middot; Layout <b>' + (LAYOUT ? LAYOUT.cols + 'x' + LAYOUT.rows : (+cfg.grid) + 'x' + (+cfg.grid)) + '</b> &middot; Fill <b>' + Math.round(fill * 100) + '%</b> &middot; Live <b>' + (DR.playing ? (RT.fps ? RT.fps.toFixed(0) + ' fps' : '...') : 'paused') + '</b> &middot; Quality <b>' + (draftNow() ? 'Draft' : 'Full') + '</b>' + (REC.on ? ' &middot; <b>recording</b>' : ''); }
@@ -1159,7 +1179,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var a = document.createElement('a'); a.href = url; a.download = 'tao-print.' + ((REC.mime || '').indexOf('mp4') >= 0 ? 'mp4' : 'webm'); a.textContent = 'Save video'; a.className = 'note tight';
     host.appendChild(v); host.appendChild(cap); host.appendChild(a);
   }
-  window.TaoRT = { tier: function () { return draftNow() ? 2 : 3; }, rawTier: function () { return RT.tier; }, fps: function () { return RT.fps; }, layout: function () { return LAYOUT; }, stage: function () { return stageSize(); }, fill: function () { var sg = stageSize(); return last ? Math.min(last.W / last.H / sg.a, sg.a / (last.W / last.H)) : 0; }, size: function () { return last ? { W: last.W, H: last.H } : null; }, recStart: recStart, recStop: recStop, recInfo: function () { return REC.info; }, recBlob: function () { return REC.blob; }, setQuality: function (q) { RT.q = q; }, markup: function () { return last ? last.svg : ''; } };
+  window.TaoRT = { idle: function () { return PXP === 0; }, forceFull: function () { RT.q = 'full'; RT.tier = 3; }, tier: function () { return draftNow() ? 2 : 3; }, rawTier: function () { return RT.tier; }, fps: function () { return RT.fps; }, layout: function () { return LAYOUT; }, stage: function () { return stageSize(); }, fill: function () { var sg = stageSize(); return last ? Math.min(last.W / last.H / sg.a, sg.a / (last.W / last.H)) : 0; }, size: function () { return last ? { W: last.W, H: last.H } : null; }, recStart: recStart, recStop: recStop, recInfo: function () { return REC.info; }, recBlob: function () { return REC.blob; }, setQuality: function (q) { RT.q = q; }, markup: function () { return last ? last.svg : ''; } };
   function schedule() { cancelAnimationFrame(timer); timer = requestAnimationFrame(render); }
   function fillWeights() {
     var F = FONTS[cfg.font], sel = $('weight'); sel.innerHTML = '';
