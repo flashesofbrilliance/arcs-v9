@@ -366,4 +366,12 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 #consent .csbox { width: min(560px, 100%); display: grid; gap: 12px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-m); }
 #consent h2 { margin: 0; font-size: 1.15rem; } #consent p { margin: 0; font-size: 0.925rem; line-height: 1.5; }
 #consent .csgo { min-height: 56px; border-color: var(--cyan); color: var(--cyan); }
+/* Pad tray: a 4 by 4 grid of big pads, banks A to D, laid out like the keys 1234 QWER ASDF ZXCV */
+#padtray { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--dock-h, 120px) + 22px); z-index: 19; width: min(520px, calc(100vw - 2 * var(--gutter))); max-height: 70vh; overflow-y: auto; padding: 12px; display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-m); }
+#padtray[hidden], html[data-dock="hidden"] #padtray { display: none; }
+#padtray .pbkb { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+#padtray .pbk { display: grid; grid-template-columns: repeat(4, minmax(56px, 1fr)); gap: 10px; }
+#padtray .btn { min-height: 56px; touch-action: manipulation; } #padtray .pbk .btn { min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+#padtray .pbk .btn small { font-size: 0.6875rem; color: var(--muted); } #padtray .pbk .btn[aria-disabled="true"] { opacity: 1; color: var(--dimmed); border-style: dashed; }
+#padtray .pbk .btn.hit { border-color: var(--cyan); color: var(--cyan); background: var(--surface); }
 

@@ -989,6 +989,7 @@
     var xt = tx(tn, W); g.fillStyle = "#e2e8f0"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
   }
   function renderSlices() {
+    if (typeof padRefresh === "function") setTimeout(padRefresh, 0);
     var h = "";
     SLICES.forEach(function (s, k) { h += '<button class="btn" type="button" data-k="' + k + '" aria-pressed="' + (k === SELECTED) + '">S' + (k + 1) + " " + fmt(s.t0) + "–" + fmt(s.t1) + " m" + s.mass.toFixed(2) + "</button>"; });
     if (ARR) h += '<span class="hint">Order: ' + ARR.order.map(function (i) { return "S" + (i + 1); }).join(" → ") + " (flow " + ARR.score.toFixed(2) + ")</span>";
@@ -1289,7 +1290,7 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, recipe: { ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, recipe: { ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -2012,7 +2013,7 @@
       r.querySelector("[id^=mh_]").addEventListener("input", function (e) { m.hi = MX(m.lo, e.target.value / 100); sync(k); save(); frame(playing); });
       sync(k);
     });
-    $("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden = !o; $("dkfx").setAttribute("aria-expanded", o ? "true" : "false"); });
+    $("dkfx").addEventListener("click", function () { var o = tr.hidden; tr.hidden = !o; $("dkfx").setAttribute("aria-expanded", o ? "true" : "false"); if (o && PAD.open) { PAD.open = false; $("padtray").hidden = true; $("dkpad").setAttribute("aria-expanded", "false"); } });
   })();
   /* Consent splash: shown once per device on the hosted page; test mode skips it so the checks drive the page directly. */
   (function () {
@@ -2022,6 +2023,44 @@
     function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
     cs.hidden = false; lock(true); $("csgo").focus();
     $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) { /* storage blocked */ } cs.hidden = true; lock(false); });
+  })();
+  /* Pads: sixteen big pads per bank, four banks, each pad plays one slice of the song (64 slices). Keys 1234 QWER ASDF ZXCV play them while the tray is open. With no slices yet the first press chops the song into 16 equal parts. */
+  var PAD = { open: false, bank: 0, src: [], log: [] }, PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
+  function padMsg(s) { $("padmsg").textContent = s; }
+  function padRefresh() {
+    if (!$("padtray") || !$("pbk")) return;
+    EA(QA("#pbk .btn"), function (b, i) { var has = !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); });
+    EA(QA("#pbkb .btn"), function (b, k) { AP(b, k === PAD.bank); b.firstChild.nodeValue = "ABCD"[k] + " " + MX(0, MN(16, SLICES.length - k * 16)); });
+  }
+  function padHit(i) {
+    if (!BUF) { padMsg("Load a song first."); return; }
+    if (!SLICES.length) { var k, n = 16; for (k = 0; k < n; k++) addSlice(k * DUR / n, (k + 1) * DUR / n); renderSlices(); drawStrip(tnow()); padMsg("The song is chopped into 16 equal parts. Cut your own on the slice strip any time."); }
+    var s = SLICES[PAD.bank * 16 + i]; if (!s) return;
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
+    try { if (PAD.src[i]) PAD.src[i].stop(); } catch (e) { /* ended */ }
+    var b = AC.createBufferSource(), g = AC.createGain(), t = AC.currentTime, d = s.t1 - s.t0, el = QA("#pbk .btn")[i];
+    b.buffer = BUF; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + 0.003); g.gain.setValueAtTime(1, t + MX(0.003, d - 0.006)); g.gain.linearRampToValueAtTime(0.0001, t + d);
+    b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b;
+    PAD.log.push([PAD.bank, i, +s.t0.toFixed(3), +s.t1.toFixed(3)]); if (PAD.log.length > 500) PAD.log.shift();
+    if (el) { el.classList.add("hit"); setTimeout(function () { el.classList.remove("hit"); }, 140); }
+  }
+  (function () {
+    var tr = $("padtray"), h = '<div class="pbkb" id="pbkb" role="group" aria-label="Banks">', i;
+    for (i = 0; i < 4; i++) h += '<button class="btn" type="button" data-bk="' + i + '" aria-pressed="' + (i === 0) + '">' + "ABCD"[i] + " 0</button>";
+    h += '</div><div class="pbk" id="pbk">';
+    for (i = 0; i < 16; i++) h += '<button class="btn" type="button" data-pk="' + i + '" aria-disabled="true" aria-label="Pad ' + (i + 1) + '">' + "1234QWERASDFZXCV"[i] + "<small>" + (i + 1) + "</small></button>";
+    tr.innerHTML = h + '</div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
+    EA(QA("#pbk .btn"), function (b, k) {
+      b.addEventListener("pointerdown", function (e) { e.preventDefault(); padHit(k); });
+      b.addEventListener("click", function (e) { if (e.detail === 0) padHit(k); });
+    });
+    EA(QA("#pbkb .btn"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
+    $("dkpad").addEventListener("click", function () { PAD.open = tr.hidden; tr.hidden = !PAD.open; $("dkpad").setAttribute("aria-expanded", PAD.open ? "true" : "false"); if (PAD.open) { $("fxtray").hidden = true; $("dkfx").setAttribute("aria-expanded", "false"); } padRefresh(); });
+    window.addEventListener("keydown", function (e) {
+      var i = PADKEYS.indexOf(e.code); if (!PAD.open || i < 0 || e.metaKey || e.ctrlKey || e.altKey || pkTyping(e)) return;
+      e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) padHit(i);
+    }, true);
+    padRefresh();
   })();
   var ESCT = 0;
   function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
