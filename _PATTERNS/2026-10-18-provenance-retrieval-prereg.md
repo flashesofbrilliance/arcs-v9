@@ -100,3 +100,12 @@ That the approach beats RAG in general. That it handles paraphrase. That provena
 ## Deviation log
 
 None. Entries are added below this line, dated, never in the sections above.
+
+### 2026-10-18, deviation 1 (before any system ran): Set C paraphrase criterion
+
+The registration says each paraphrase changes at least 60 percent of content words. When the 40 sentences were drawn, many were raw markdown fragments, identifier lists or a citation, so a faithful rewrite could not always reach 60 percent. The dataset generator checks the criterion mechanically (content words are tokens minus a fixed stoplist). Rule used: up to three rewriting rounds per item, then stop. Items still under 60 percent are kept in Set C and flagged `valid: false`; they are not replaced, because the draw had already been seen. Result: 31 of 40 valid, 9 flagged (C12, C13, C16, C20, C24, C26, C27, C30, C35; mostly identifier-heavy, a citation, or within 10 points of the line). Rewrite round 1 passed only 3 of 40 because the paraphrases kept too much of the original wording. Rounds 2 and 3 were aimed at the criterion before any system or score existed. The Set C kill condition (any confident-wrong source) applies to all 40; recall on Set C is reported for the 31 valid items and for all 40 separately.
+
+### 2026-10-18, note 2: where the frozen datasets live
+
+The frozen datasets are in a benchmark fixture folder under the tests directory, with a `SHA256SUMS` file. They quote corpus text, which contains paths and commit ids that `integrity_gate` would read as claims, so they live in a fixture folder that gate does not scan. No threshold, hypothesis or dataset definition changed.
+
