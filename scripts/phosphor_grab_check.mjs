@@ -21,27 +21,32 @@ await pg.evaluate(() => window.PhosphorTest.tap.set(120, 0)); await pg.waitForTi
 await pg.selectOption('#grpre', '1'); await pg.click('#grab'); const empty = await pg.textContent('#grmsg')
 check(kidHidden && /Nothing to grab/.test(empty) && (await pg.evaluate(() => window.PhosphorTest.grab.list().length)) === 0, `G1: the Grab panel is hidden in Kid mode, and with nothing moved Grab says so (${empty.slice(0, 40)})`)
 // G2 a gesture over about 1.4 s at 120 BPM (one bar is 2 s): a slider moved four times and Echo held on then off
-await set('gamt', 10); await pg.waitForTimeout(250); await set('gamt', 40); await pg.waitForTimeout(250); await pg.evaluate(() => window.PhosphorTest.hold.on('echo', 'latch', true)); await set('gamt', 70); await pg.waitForTimeout(400); await set('gamt', 90); await pg.evaluate(() => window.PhosphorTest.hold.on('echo', 'latch', false)); await pg.waitForTimeout(250)
-await pg.click('#grab'); await pg.waitForTimeout(200)
+await set('gamt', 5); await pg.waitForTimeout(150); await set('gamt', 10); await pg.waitForTimeout(250); await set('gamt', 40); await pg.waitForTimeout(250); await pg.evaluate(() => window.PhosphorTest.hold.on('echo', 'latch', true)); await set('gamt', 70); await pg.waitForTimeout(400); await set('gamt', 90); await pg.evaluate(() => window.PhosphorTest.hold.on('echo', 'latch', false)); await pg.waitForTimeout(250)
+const tGrab = await pg.evaluate(() => window.PhosphorTest.recipe.now()); await pg.click('#grab'); await pg.waitForTimeout(200)
+const gestureEv = (await pg.evaluate(() => window.PhosphorTest.recipe.ev())).filter((e) => e[2] === 'gamt' && e[0] >= 0)
 const g1 = (await pg.evaluate(() => window.PhosphorTest.grab.list()))[0], gam = g1.ev.filter((e) => e[1] === 'gamt'), fx = g1.ev.filter((e) => e[1] === '@fx')
-check(g1 && g1.name === 'Grab 1' && g1.beats === 4 && gam.length >= 5 && gam.slice(1).map((e) => e[2]).join() === '10,40,70,90' || (gam.map((e) => e[2]).join().includes('10,40,70,90')), `G2: Grab 1 holds the 4-beat gesture: the slider as a curve (${gam.map((e) => e[2]).join(',')}) and Echo on then off (${fx.map((e) => e[2].join(':')).join(' ')})`)
+check(g1 && g1.name === 'Grab 1' && g1.beats === 4 && gam.length >= 5 && gam.slice(1).map((e) => e[2]).join() === '10,40,70,90' || (gam.map((e) => e[2]).join().includes('10,40,70,90')), `G2: Grab 1 holds the 4-beat gesture: the slider as a curve (${gam.map((e) => e[2]).join(',')}; it starts from 5 so no ramp crosses a later value) and Echo on then off (${fx.map((e) => e[2].join(':')).join(' ')})`)
 check(fx.length === 2 && fx[0][2][1] === 1 && fx[1][2][1] === 0 && fx[1][0] > fx[0][0] && gam.every((e, i) => i === 0 || e[0] >= gam[i - 1][0]), 'G2b: events are in beat order and the effect hold has an on and an off')
+// G2d the stored beats are the true timing of what was done (not just self-consistent): each stored slider point sits within 0.15 beat of the recipe log's own time for that move, measured back from the moment of the grab
+const trueBeat = (v) => { const e = gestureEv.filter((x) => Math.round(x[3]) === v).pop(); return e ? (e[0] - (tGrab - 4 * 500)) / 500 : null }
+const tb = [10, 40, 70, 90].map((v) => [v, trueBeat(v), (gam.find((e) => Math.round(e[2]) === v) || [null])[0]])
+check(tb.every(([v, t, s]) => t !== null && s !== null && Math.abs(t - s) < 0.4), `G2d: the stored beats match the real timing of the moves (value: true beat, stored beat) ${tb.map(([v, t, s]) => v + ': ' + (t === null ? '-' : t.toFixed(2)) + ', ' + (s === null ? '-' : s.toFixed(2))).join('; ')}`)
 const stored = await pg.evaluate(() => localStorage.getItem('phosphor.grabs.v1')); check(stored && JSON.parse(stored)[0].name === 'Grab 1', 'G2c: the grab is saved on this device')
 // G3 replay at the same tempo: values land at their beats (within 80 ms)
 await set('gamt', 5); await pg.waitForTimeout(300); const n0 = (await pg.evaluate(() => window.PhosphorTest.recipe.ev())).length
 const t0 = await pg.evaluate(() => window.PhosphorTest.recipe.now()); await pg.evaluate(() => window.PhosphorTest.grab.play(window.PhosphorTest.grab.list()[0], false)); await pg.waitForTimeout(2600)
-const ev = (await pg.evaluate(() => window.PhosphorTest.recipe.ev())).slice(n0), hit = ev.filter((e) => e[2] === 'gamt' && [10, 40, 70, 90].includes(Math.round(e[3])))
-const first = {}; for (const e of hit) { const k = Math.round(e[3]); if (!(k in first)) first[k] = e[0] - t0 }
-const want = Object.fromEntries(gam.filter((e) => [10, 40, 70, 90].includes(Math.round(e[2]))).map((e) => [Math.round(e[2]), e[0] * 500]))
-const err = Object.keys(want).map((k) => first[k] === undefined ? 9999 : Math.abs(first[k] - want[k]))
-check(Object.keys(want).length === 4 && Math.max(...err) < 120, `G3: replay at 120 BPM lands the slider values at their beats (errors ${err.map((x) => Math.round(x)).join(', ')} ms, want under 120); the Echo hold comes and goes`)
+const ev = (await pg.evaluate(() => window.PhosphorTest.recipe.ev())).slice(n0)
+// the curve must be at each recorded value when its beat arrives: read the slider's value on the recipe clock at each point's time
+const pts = gam.filter((e) => e[0] > 0).map((e) => [e[0] * 500, Math.round(e[2])]), valueAt = (evs, t0, ms) => { let v = null; for (const e of evs) if (e[2] === 'gamt' && e[0] - t0 <= ms) v = Math.round(e[3]); return v }
+const err = pts.map(([ms, v]) => { const got = valueAt(ev, t0, ms + 30); return got === null ? 999 : Math.abs(got - v) })
+check(pts.length >= 4 && Math.max(...err) <= 5, `G3: replay at 120 BPM has the slider at each recorded value when its beat arrives (value errors ${err.join(', ')}, want 5 or less; interpolation reads the value a few units either side)`)
 const fxEv = ev.filter((e) => e[2] === '@fx' && e[3][0] === 'echo' && e[3][1] === 'grab'); check(fxEv.length >= 2 && fxEv[0][3][2] === 1 && fxEv[fxEv.length - 1][3][2] === 0 && !(await pg.evaluate(() => window.PhosphorTest.glitch().on.echo)), `G3b: Echo is held by the grab and let go at the end (${fxEv.map((e) => e[3][2]).join('')}, left on: ${await pg.evaluate(() => window.PhosphorTest.glitch().on.echo)})`)
 // G4 on another tempo the same gesture takes proportionally longer: 90 BPM is 4/3 as long
 await pg.evaluate(() => window.PhosphorTest.tap.set(90, 0)); await set('gamt', 5); await pg.waitForTimeout(300); const n1 = (await pg.evaluate(() => window.PhosphorTest.recipe.ev())).length
 const t1 = await pg.evaluate(() => window.PhosphorTest.recipe.now()); await pg.evaluate(() => window.PhosphorTest.grab.play(window.PhosphorTest.grab.list()[0], false)); await pg.waitForTimeout(3200)
-const ev2 = (await pg.evaluate(() => window.PhosphorTest.recipe.ev())).slice(n1), f2 = {}; for (const e of ev2.filter((e) => e[2] === 'gamt' && [10, 40, 70, 90].includes(Math.round(e[3])))) { const k = Math.round(e[3]); if (!(k in f2)) f2[k] = e[0] - t1 }
-const err2 = Object.keys(want).map((k) => f2[k] === undefined ? 9999 : Math.abs(f2[k] - want[k] * 120 / 90))
-check(Math.max(...err2) < 140, `G4: at 90 BPM the same grab replays stretched to the new tempo (errors ${err2.map((x) => Math.round(x)).join(', ')} ms against beats at 90 BPM, want under 140)`)
+const ev2 = (await pg.evaluate(() => window.PhosphorTest.recipe.ev())).slice(n1)
+const err2 = pts.map(([ms, v]) => { const got = valueAt(ev2, t1, ms * 120 / 90 + 30); return got === null ? 999 : Math.abs(got - v) })
+check(Math.max(...err2) <= 5, `G4: at 90 BPM the same grab is stretched to the new tempo: the slider is at each recorded value at beats 4/3 as long (value errors ${err2.join(', ')}, want 5 or less)`)
 // G5 next bars: Grab 1 bar ahead while a slider is moved after pressing
 await pg.evaluate(() => window.PhosphorTest.tap.set(240, 0)); await pg.selectOption('#grpre', '1'); await pg.selectOption('#grpost', '1'); await set('gamt', 20); await pg.click('#grab'); await set('gamt', 33); await pg.waitForTimeout(400); await set('gamt', 66); await pg.waitForTimeout(1300)
 const g2 = (await pg.evaluate(() => window.PhosphorTest.grab.list()))[1], v2 = g2 && g2.ev.filter((e) => e[1] === 'gamt').map((e) => e[2])

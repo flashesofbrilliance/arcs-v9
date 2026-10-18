@@ -1,0 +1,829 @@
+{
+ "base": "fd8bf4e78bfcc09090e98d20156e5bd13502a83a",
+ "mutations": [
+  {
+   "file": "_DECISIONS/ADR-057-sequence-oracle.md",
+   "offset": 694,
+   "orig_byte": 96,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-10-quiet-signals.md",
+   "offset": 4779,
+   "orig_byte": 105,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/forge-pipeline-handoff.md",
+   "offset": 2330,
+   "orig_byte": 117,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/ARCS-YellowPaper.md",
+   "offset": 23667,
+   "orig_byte": 100,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/sentinel-rebuild-spec.md",
+   "offset": 2004,
+   "orig_byte": 85,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-062-ouroboros-recursive-self-falsification.md",
+   "offset": 855,
+   "orig_byte": 71,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
+   "offset": 22450,
+   "orig_byte": 108,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/ARCS-Phenomenology.md",
+   "offset": 6643,
+   "orig_byte": 49,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md",
+   "offset": 3506,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md",
+   "offset": 17058,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md",
+   "offset": 548,
+   "orig_byte": 10,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-10-formalization-backlog.md",
+   "offset": 1443,
+   "orig_byte": 105,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-arcade-time-machine-earned-fidelity.md",
+   "offset": 38139,
+   "orig_byte": 100,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-012-arcs-care-plg-phase-1.md",
+   "offset": 4089,
+   "orig_byte": 102,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-09-21.md",
+   "offset": 8473,
+   "orig_byte": 115,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-09-07.md",
+   "offset": 4270,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/CANON-COLLISION-rom-vocabulary.md",
+   "offset": 4646,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/ARCS-Canon-v1-1.md",
+   "offset": 96216,
+   "orig_byte": 112,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-09-26-impeccable-detector-upstream-report.md",
+   "offset": 1008,
+   "orig_byte": 115,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-009-design-system-canonicalization.md",
+   "offset": 1760,
+   "orig_byte": 109,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-09-11-compression-anchor-rag-pattern.md",
+   "offset": 231,
+   "orig_byte": 82,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-19-out-of-band-actions.md",
+   "offset": 1564,
+   "orig_byte": 97,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-10-atomic-surface-map.md",
+   "offset": 7613,
+   "orig_byte": 35,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-063-public-goods-connector-visual-family.md",
+   "offset": 652,
+   "orig_byte": 102,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-088-librarian-anticipation-hook.md",
+   "offset": 6079,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/living/ARCS-v9-Canon-Operational.md",
+   "offset": 1213,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md",
+   "offset": 8908,
+   "orig_byte": 108,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-028-scan-arcs-care-staging.md",
+   "offset": 2028,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/living/ARCS-Codex-v8.5.md",
+   "offset": 3361,
+   "orig_byte": 99,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/index.md",
+   "offset": 2899,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-040-debrief-calendar-invite-vs-email.md",
+   "offset": 3872,
+   "orig_byte": 105,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-17-claims-versus-proof.md",
+   "offset": 3292,
+   "orig_byte": 84,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-032-zero-trust-posture.md",
+   "offset": 8733,
+   "orig_byte": 114,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-033-serialization-pathogen-family.md",
+   "offset": 400,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/apex-spine-mobius-induction-circuit.md",
+   "offset": 2018,
+   "orig_byte": 112,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-045-night-moves-digest-routine.md",
+   "offset": 417,
+   "orig_byte": 96,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/ARCS-Litepaper.md",
+   "offset": 12710,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-068-verb-altitude-gate-matrix.md",
+   "offset": 5421,
+   "orig_byte": 97,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-17-tag-exemplar.md",
+   "offset": 2462,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-08-29-ventriloquy-pathogen-investigation.md",
+   "offset": 484,
+   "orig_byte": 109,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/arcs-v9-additional/ARCS-DNA-Omakase-Deck.md",
+   "offset": 20045,
+   "orig_byte": 58,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-007-prisma-migration-strategy.md",
+   "offset": 5523,
+   "orig_byte": 35,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-004-mcp-arcs-care-dns.md",
+   "offset": 736,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-08-01-nonlinear-thread-meta-audit.md",
+   "offset": 8530,
+   "orig_byte": 98,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-041-atomic-honesty-and-considered-molt.md",
+   "offset": 4339,
+   "orig_byte": 67,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-17-phosphor-journey-and-hardening.md",
+   "offset": 2958,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-10-landing-page-optimization-master.md",
+   "offset": 4336,
+   "orig_byte": 116,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-046-witness-trigger-live-capture.md",
+   "offset": 1373,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/living/tao-cellar.md",
+   "offset": 4594,
+   "orig_byte": 118,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-015-arcs-care-case-study-content-gate.md",
+   "offset": 2582,
+   "orig_byte": 45,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-17-ledger-score-baseline-prereg.md",
+   "offset": 683,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-06-api-spend-audit.md",
+   "offset": 3096,
+   "orig_byte": 95,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-078-exogenous-forge.md",
+   "offset": 2992,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-08-31.md",
+   "offset": 6087,
+   "orig_byte": 99,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-10-05.md",
+   "offset": 2587,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-kid-play-surface-pattern.md",
+   "offset": 1126,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/CANON-COLLISION-tao-two-books.md",
+   "offset": 2879,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-09-14.md",
+   "offset": 12629,
+   "orig_byte": 112,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/prod-migrate-baseline-runbook.md",
+   "offset": 1739,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/book-ii/part-i-firehose-to-compass.md",
+   "offset": 8938,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-056-arcs-tie-in-connector-pattern.md",
+   "offset": 373,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-11-alexandria-principles.md",
+   "offset": 2023,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-19-threat-assessment.md",
+   "offset": 6513,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-07-24.md",
+   "offset": 1122,
+   "orig_byte": 118,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-08-24.md",
+   "offset": 3775,
+   "orig_byte": 111,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-025-arcs-go-live-provisional-logic.md",
+   "offset": 3752,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/book-ii/part-iii-constitutional-court.md",
+   "offset": 6777,
+   "orig_byte": 115,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/living/ARCS-Positioning-JTBD.md",
+   "offset": 3903,
+   "orig_byte": 116,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-067-cross-subject-comparative-recoil.md",
+   "offset": 1929,
+   "orig_byte": 104,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-08-03.md",
+   "offset": 6396,
+   "orig_byte": 98,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-phosphor-visualizer-prereg.md",
+   "offset": 61542,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-022-user-schema-emailverified-debt.md",
+   "offset": 269,
+   "orig_byte": 104,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-013-arcs-care-conversion-architecture.md",
+   "offset": 8641,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-cyan-linking-structure-audit.md",
+   "offset": 1751,
+   "orig_byte": 110,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-024-resume-arcs-care-architecture-gates.md",
+   "offset": 2323,
+   "orig_byte": 100,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md",
+   "offset": 3935,
+   "orig_byte": 114,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-09-08-frustration-gate-pattern.md",
+   "offset": 3026,
+   "orig_byte": 10,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-019-receipt-core-python-boundary.md",
+   "offset": 1390,
+   "orig_byte": 67,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-tao-silkscreen-prints.md",
+   "offset": 1461,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-sibling-edge-root-cause.md",
+   "offset": 2102,
+   "orig_byte": 96,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-055-oss-family-two-tier-conformance.md",
+   "offset": 1010,
+   "orig_byte": 117,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-06-24-profile-scan-tei-budget.md",
+   "offset": 4953,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-051-drift-receipt-gate.md",
+   "offset": 908,
+   "orig_byte": 115,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-030-nested-thread-view.md",
+   "offset": 6358,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/ordinals/CANDIDATE-exogenous-forge-glossary.md",
+   "offset": 5791,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-ui-kit-compounding-sweep.md",
+   "offset": 2887,
+   "orig_byte": 124,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-066-generative-recoil-instance-class-invariant.md",
+   "offset": 158,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-027-observatory-substrate-seed.md",
+   "offset": 2151,
+   "orig_byte": 114,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/living/ARCS-Technical-Overview-April2026.md",
+   "offset": 21700,
+   "orig_byte": 111,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/slop-free-rubric.md",
+   "offset": 6578,
+   "orig_byte": 109,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-058-CALIBRATE-IDEA-Construction.md",
+   "offset": 6826,
+   "orig_byte": 148,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/_TEMPLATE.md",
+   "offset": 842,
+   "orig_byte": 116,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-048-secrets-inventory-rotation.md",
+   "offset": 1894,
+   "orig_byte": 96,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-086-two-pass-backlog-induction.md",
+   "offset": 331,
+   "orig_byte": 32,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-005-vercel-supabase-env-injection.md",
+   "offset": 4890,
+   "orig_byte": 116,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-029-onboarding-profile-upload.md",
+   "offset": 2316,
+   "orig_byte": 97,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/2026-07-11-operator20-archaeology.md",
+   "offset": 13701,
+   "orig_byte": 75,
+   "xor": 1
+  },
+  {
+   "file": "_PATTERNS/durable-gotchas.md",
+   "offset": 277,
+   "orig_byte": 79,
+   "xor": 1
+  },
+  {
+   "file": "_DECISIONS/ADR-023-observability-goal-lattice.md",
+   "offset": 16619,
+   "orig_byte": 101,
+   "xor": 1
+  },
+  {
+   "file": "_CANON/arcs-v9-additional/ARCS-YellowPaper-v1-2.md",
+   "offset": 15195,
+   "orig_byte": 43,
+   "xor": 1
+  }
+ ],
+ "unmodified_rereads": [
+  "_DECISIONS/ADR-022-user-schema-emailverified-debt.md",
+  "_DECISIONS/ADR-008-rls-policy-design.md",
+  "_DECISIONS/ADR-083-ui-kit-atomic-ssot-and-component-source-gate.md",
+  "_CANON/living/ARCS-Codex-v8.5.md",
+  "_DECISIONS/ADR-051-drift-receipt-gate.md",
+  "_CANON/Tao-of-ARCS.md",
+  "_CANON/ARCS-YellowPaper.md",
+  "_PATTERNS/drift-audits/2026-09-28.md",
+  "_PATTERNS/2026-10-06-api-spend-audit.md",
+  "_DECISIONS/ADR-011-ui-import-strategy.md",
+  "_DECISIONS/ADR-036-repo-split-public-private.md",
+  "_CANON/ARCS-Manifesto-Final.md",
+  "_PATTERNS/2026-10-03-stopped-light-quantum-memory-isomorphisms.md",
+  "_DECISIONS/ADR-031-design-system-reconciliation.md",
+  "_DECISIONS/ADR-040-debrief-calendar-invite-vs-email.md",
+  "_PATTERNS/2026-06-24-kinematics-adjudication.md",
+  "_DECISIONS/ADR-084-reliance-not-trust-public-surfaces.md",
+  "_DECISIONS/ADR-016-arcs-v9-auth-model.md",
+  "_DECISIONS/CANON-COLLISION-adr-033-duplicate.md",
+  "_CANON/ARCS-Canon-v2-0-Complete.md",
+  "_PATTERNS/2026-09-26-public-projection-factory.md",
+  "_CANON/arcs-v9-additional/ARCS-YellowPaper-v1-2.md",
+  "_PATTERNS/2026-07-11-alexandria-principles.md",
+  "_PATTERNS/2026-07-19-tech-debt-batch.md",
+  "_CANON/book-ii/part-v-the-accumulation-protocol.md",
+  "_DECISIONS/ADR-039-deploy-cost-guardrail-ignored-build-step.md",
+  "_PATTERNS/2026-10-15-ui-kit-compounding-sweep.md",
+  "_DECISIONS/ADR-046-witness-trigger-live-capture.md",
+  "_DECISIONS/ADR-052-inchworm-drift-auditor.md",
+  "_DECISIONS/ADR-066-generative-recoil-instance-class-invariant.md",
+  "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md",
+  "_DECISIONS/ADR-035-commit-nci-rubric.md",
+  "_CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md",
+  "_PATTERNS/sentinel-rebuild-spec.md",
+  "_DECISIONS/RECOIL-REPORT-Zach-Dom-2026-06-16.md",
+  "_PATTERNS/2026-07-19-threat-assessment.md",
+  "_PATTERNS/slop-free-rubric.md",
+  "_PATTERNS/drift-audits/2026-09-21.md",
+  "_PATTERNS/public-repo-exposure-audit.md",
+  "_DECISIONS/CANON-COLLISION-rom-vocabulary.md",
+  "_DECISIONS/ADR-057-sequence-oracle.md",
+  "_PATTERNS/2026-08-01-nonlinear-thread-meta-audit.md",
+  "_CANON/living/tao-cellar.md",
+  "_PATTERNS/2026-10-15-arcade-time-machine-earned-fidelity.md",
+  "_DECISIONS/ADR-025-arcs-go-live-provisional-logic.md",
+  "_DECISIONS/ADR-020-tribune-intelligence-layer.md",
+  "_PATTERNS/2026-09-26-impeccable-detector-upstream-report.md",
+  "_DECISIONS/ADR-070-arcs-two-surface-receipt-and-induction.md",
+  "_CANON/ordinals/README.md",
+  "_PATTERNS/2026-07-10-quiet-signals.md",
+  "_PATTERNS/2026-09-26-ui-kit-migration-plan.md",
+  "_CANON/ordinals/ARCS-Glossary-v0.1.md",
+  "_DECISIONS/ADR-069-first-closed-client-receipt-precedent.md",
+  "_PATTERNS/2026-10-04-linkedin-creator-playbooks-welsh-bloom.md",
+  "_DECISIONS/ADR-041-atomic-honesty-and-considered-molt.md",
+  "_PATTERNS/receipt-studio-integration-scope.md",
+  "_DECISIONS/ADR-067-cross-subject-comparative-recoil.md",
+  "_CANON/trust-contract.md",
+  "_PATTERNS/2026-10-15-bitcrush-woodblock-prereg.md",
+  "_DECISIONS/ADR-007-prisma-migration-strategy.md",
+  "_PATTERNS/2026-06-23-governance-roadmap.md",
+  "_PATTERNS/2026-08-13-umbrella-dunford-positioning-canvas.md",
+  "_DECISIONS/_TEMPLATE.md",
+  "_DECISIONS/ADR-029-onboarding-profile-upload.md",
+  "_CANON/arcs-v9-additional/ARCS-DNA-Omakase-Deck.md",
+  "_DECISIONS/ADR-064-external-corroboration-milestone-gate.md",
+  "_PATTERNS/2026-08-29-adr-033-registry-parity-sweep.md",
+  "_PATTERNS/design-moodboard.md",
+  "_DECISIONS/CANON-COLLISION-tao-two-books.md",
+  "_CANON/book-ii/part-i-firehose-to-compass.md",
+  "_DECISIONS/ADR-037-stateless-anonymous-share.md",
+  "_PATTERNS/2026-07-13-dual-audit-reconciliation.md",
+  "_DECISIONS/ADR-017-receipt-core-schema.md",
+  "_PATTERNS/2026-09-08-frustration-gate-pattern.md",
+  "_CANON/book-ii/part-iii-constitutional-court.md",
+  "_PATTERNS/durable-gotchas.md",
+  "_PATTERNS/2026-10-15-kid-play-surface-pattern.md",
+  "_DECISIONS/ADR-062-ouroboros-recursive-self-falsification.md",
+  "_DECISIONS/ADR-018-helpful-input-model.md",
+  "_PATTERNS/counterpart-artifact-family-blueprint.md",
+  "_PATTERNS/drift-audits/2026-07-24.md",
+  "_PATTERNS/drift-audits/2026-07-27.md",
+  "_DECISIONS/ADR-013-arcs-care-conversion-architecture.md",
+  "_DECISIONS/ADR-030-nested-thread-view.md",
+  "_DECISIONS/ADR-014-arcs-care-ci-cd-governance.md",
+  "_PATTERNS/workflow-cost-ledger.md",
+  "_DECISIONS/ADR-033-serialization-pathogen-family.md",
+  "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
+  "_DECISIONS/ADR-045-night-moves-digest-routine.md",
+  "_PATTERNS/drift-audits/2026-08-24.md",
+  "_DECISIONS/ADR-068-verb-altitude-gate-matrix.md",
+  "_CANON/living/ARCS-Technical-Overview-April2026.md",
+  "_PATTERNS/2026-10-17-claims-versus-proof.md",
+  "_DECISIONS/ADR-065-corpus-ssot-induced-projection-infra-compass.md",
+  "_PATTERNS/2026-07-19-out-of-band-actions.md",
+  "_PATTERNS/2026-07-10-atomic-surface-map.md",
+  "_CANON/book-ii/part-ii-rom-axioms.md",
+  "_DECISIONS/ADR-048-secrets-inventory-rotation.md",
+  "_CANON/ARCS-Litepaper.md",
+  "_DECISIONS/ADR-049-anonymous-receipt-remediation.md"
+ ],
+ "whitespace_only": [
+  {
+   "file": "_CANON/ARCS-Canon-v2-0-Complete.md",
+   "from_byte": 32,
+   "offset": 17242,
+   "to_byte": 9
+  },
+  {
+   "file": "_PATTERNS/receipt-studio-integration-scope.md",
+   "from_byte": 32,
+   "offset": 2610,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/ADR-036-repo-split-public-private.md",
+   "from_byte": 32,
+   "offset": 4442,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/ADR-039-deploy-cost-guardrail-ignored-build-step.md",
+   "from_byte": 32,
+   "offset": 4318,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/ADR-001-auth-gate-strategy.md",
+   "from_byte": 32,
+   "offset": 1170,
+   "to_byte": 9
+  },
+  {
+   "file": "_CANON/arcs-v9-additional/README.md",
+   "from_byte": 32,
+   "offset": 2668,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/ADR-069-first-closed-client-receipt-precedent.md",
+   "from_byte": 32,
+   "offset": 2111,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/ADR-061-verify-flags-against-full-source.md",
+   "from_byte": 32,
+   "offset": 428,
+   "to_byte": 9
+  },
+  {
+   "file": "_PATTERNS/2026-10-15-tier-fit-goldilocks.md",
+   "from_byte": 32,
+   "offset": 8309,
+   "to_byte": 9
+  },
+  {
+   "file": "_PATTERNS/2026-06-23-s-tier-execution-plan.md",
+   "from_byte": 32,
+   "offset": 3177,
+   "to_byte": 9
+  },
+  {
+   "file": "_PATTERNS/2026-09-26-ui-kit-migration-plan.md",
+   "from_byte": 32,
+   "offset": 2897,
+   "to_byte": 9
+  },
+  {
+   "file": "_CANON/Tao-of-ARCS.md",
+   "from_byte": 32,
+   "offset": 3933,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/RECOIL-REPORT-Zach-Dom-2026-06-16.md",
+   "from_byte": 32,
+   "offset": 14152,
+   "to_byte": 9
+  },
+  {
+   "file": "_CANON/ARCS-PHASE-CHANGE-THESIS-001.md",
+   "from_byte": 32,
+   "offset": 511,
+   "to_byte": 9
+  },
+  {
+   "file": "_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md",
+   "from_byte": 32,
+   "offset": 1569,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/ADR-018-helpful-input-model.md",
+   "from_byte": 32,
+   "offset": 5305,
+   "to_byte": 9
+  },
+  {
+   "file": "_DECISIONS/ADR-054-free-to-hold-metered-to-fire-pricing.md",
+   "from_byte": 32,
+   "offset": 2800,
+   "to_byte": 9
+  },
+  {
+   "file": "_CANON/book-ii/part-v-the-accumulation-protocol.md",
+   "from_byte": 32,
+   "offset": 2842,
+   "to_byte": 9
+  },
+  {
+   "file": "_PATTERNS/drift-audits/2026-07-27.md",
+   "from_byte": 32,
+   "offset": 2605,
+   "to_byte": 9
+  },
+  {
+   "file": "_PATTERNS/kintsugi-visual-grammar-seams.md",
+   "from_byte": 32,
+   "offset": 59907,
+   "to_byte": 9
+  }
+ ]
+}
