@@ -8,7 +8,7 @@ const { chromium, devices } = createRequire('/Users/zharris/arcs-v9/package.json
 const page = process.argv[2]; if (!page) { console.log('usage: phosphor_mode_check.mjs <page.html>'); process.exit(2) }
 let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
 const b = await chromium.launch(), base = pathToFileURL(path.resolve(page)).href, errs = []
-const open = async (q, opts = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...opts }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + q); await pg.waitForTimeout(1000); return pg }
+const open = async (q, opts = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...opts }); await ctx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} }); const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + q); await pg.waitForTimeout(1000); return pg }
 const lvl = (pg) => pg.evaluate(() => document.documentElement.dataset.lvl)
 const shown = (pg) => pg.evaluate(() => [...document.querySelectorAll('[data-min]')].filter((e) => getComputedStyle(e).display !== 'none').length)
 // K1

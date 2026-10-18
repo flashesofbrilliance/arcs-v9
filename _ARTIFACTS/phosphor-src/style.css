@@ -360,4 +360,10 @@ html[data-dock="hidden"] #dkbump { display: flex; }
 #fxtray input[type=range] { min-height: 44px; margin: 0; width: 100%; accent-color: var(--orange); }
 #fxtray .fxl { display: flex; gap: 6px; align-items: center; font-size: 0.6875rem; color: var(--muted); } #fxtray .fxl input { width: 72px; }
 @media (max-width: 640px) { #fxtray .fxr { grid-template-columns: 80px minmax(0, 1fr); } #fxtray .fxl { grid-column: 2; } }
+/* Consent splash: a grown-up reads three short notes and presses Start (first load only, remembered on this device) */
+#consent { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--bg); overflow-y: auto; }
+#consent[hidden] { display: none; }
+#consent .csbox { width: min(560px, 100%); display: grid; gap: 12px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-m); }
+#consent h2 { margin: 0; font-size: 1.15rem; } #consent p { margin: 0; font-size: 0.925rem; line-height: 1.5; }
+#consent .csgo { min-height: 56px; border-color: var(--cyan); color: var(--cyan); }
 

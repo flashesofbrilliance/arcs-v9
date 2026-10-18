@@ -33,6 +33,7 @@ const b = await pw.chromium.launch()
 const errors = []
 async function open() {
   const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 } })
+  await ctx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} })
   if (process.env.PHOSPHOR_SKIN) await ctx.addInitScript((v) => { try { localStorage.setItem('phosphor.skin.v1', v) } catch (e) {} }, process.env.PHOSPHOR_SKIN)
   const pg = await ctx.newPage()
   pg.on('pageerror', (e) => errors.push(String(e))); pg.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
@@ -103,7 +104,7 @@ const setRes = (pg, v) => pg.evaluate((v) => { const r = document.getElementById
 }
 // ---- reduced motion
 {
-  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' }), pg = await ctx.newPage()
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' }); await ctx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} }); const pg = await ctx.newPage()
   await pg.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === '', null, { timeout: 30000 })
   const st = await pg.evaluate(() => document.getElementById('play').textContent)
   check(st === 'Play', 'V9: with reduced motion nothing plays on its own')
