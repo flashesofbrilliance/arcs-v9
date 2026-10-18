@@ -96,14 +96,19 @@ def _repo_name(url):
 
 
 def coverage_diff(gh_names, idx, dist_rows):
-    """(public but not catalogued, catalogued repo seeds that are not public). A repo counts as catalogued
-    when a repo-type seed names it OR _SEEDS/distribution.jsonl records it as the distribution of another
-    seed (a service seed can ship as its own repo). The profile README repo is never expected."""
-    cat = {_repo_name(r.get("repo")) for r in idx if r.get("seed_type") == "repo"}
+    """(public but not catalogued, catalogued repo seeds that are not public and not marked private,
+    seeds marked private whose repo is actually PUBLIC). A repo counts as catalogued when a repo-type seed
+    names it OR _SEEDS/distribution.jsonl records it as the distribution of another seed. The profile
+    README repo is never expected. A row with "visibility": "private" is the owner's statement that the
+    repo is intentionally not public; the third list is the dangerous direction and always reported."""
+    repos = [r for r in idx if r.get("seed_type") == "repo"]
+    cat = {_repo_name(r.get("repo")) for r in repos}
+    private = {_repo_name(r.get("repo")) for r in repos if r.get("visibility") == "private"}
     dist = {_repo_name(d.get("repo") or d.get("url")) for d in dist_rows}
     missing = sorted(n for n in gh_names if n != PROFILE_REPO and n not in cat and n not in dist)
-    stale = sorted(n for n in cat if n and n not in gh_names)
-    return missing, stale
+    stale = sorted(n for n in cat if n and n not in gh_names and n not in private)
+    exposed = sorted(n for n in private if n in gh_names)
+    return missing, stale, exposed
 
 
 _PATH_EXT = (".py", ".json", ".jsonl", ".md", ".html", ".sh", ".mjs", ".ts", ".tsx", ".csv", ".yml", ".yaml", ".txt")
@@ -158,11 +163,13 @@ def check():
 
     gh_names = _gh_public_names()
     if gh_names is not None:
-        missing, stale = coverage_diff(gh_names, idx, _load_jsonl(os.path.join(ROOT, "_SEEDS", "distribution.jsonl"))[0])
+        missing, stale, exposed = coverage_diff(gh_names, idx, _load_jsonl(os.path.join(ROOT, "_SEEDS", "distribution.jsonl"))[0])
         for n in missing:
             findings.append({"claim": "coverage-gap", "drift": True, "detail": f"public repo not catalogued: {n}"})
         for n in stale:
             findings.append({"claim": "coverage-stale", "drift": True, "detail": f"catalogued repo seed is not public: {n}"})
+        for n in exposed:
+            findings.append({"claim": "visibility-exposed", "drift": True, "detail": f"seed marked private but the repo is PUBLIC: {n}"})
 
     return idx, led, findings, stale_days
 
@@ -219,9 +226,11 @@ def self_test():
         check("receipts appended, regenerated flag stamped",
               len(rows) == 2 and [x["regenerated"] for x in rows] == [False, True])
     total += 2
-    m, st = coverage_diff({"a", "b", "c", "flashesofbrilliance"}, [{"seed_type": "repo", "repo": "github.com/x/a"}, {"seed_type": "repo", "repo": "github.com/x/gone"}], [{"repo": "b"}])
-    ok6 = m == ["c"] and st == ["gone"]
-    ok7 = coverage_diff({"a"}, [{"seed_type": "repo", "repo": "github.com/x/a"}], []) == ([], [])
+    m, st, ex = coverage_diff({"a", "b", "c", "flashesofbrilliance"}, [{"seed_type": "repo", "repo": "github.com/x/a"}, {"seed_type": "repo", "repo": "github.com/x/gone"}], [{"repo": "b"}])
+    ok6 = m == ["c"] and st == ["gone"] and ex == []
+    ok7 = coverage_diff({"a"}, [{"seed_type": "repo", "repo": "github.com/x/a"}], []) == ([], [], [])
+    _, st2, ex2 = coverage_diff({"a", "leak"}, [{"seed_type": "repo", "repo": "github.com/x/gone", "visibility": "private"}, {"seed_type": "repo", "repo": "github.com/x/leak", "visibility": "private"}], [])
+    ok7 = ok7 and st2 == [] and ex2 == ["leak"]
     for name, ok in (("coverage diff: missing, stale, distribution counts, profile repo ignored", ok6), ("coverage diff: a clean catalogue reports nothing", ok7)):
         print(("PASS " if ok else "FAIL ") + name)
         fails += 0 if ok else 1
