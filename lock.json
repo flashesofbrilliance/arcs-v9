@@ -7,8 +7,9 @@
   "name": "main",
   "pid": 89986,
   "reason": "",
-  "seq": 87,
-  "state": "held",
+  "released_at_iso": "2026-10-18T00:35:29Z",
+  "seq": 88,
+  "state": "free",
   "took_over_from": null,
   "ttl": 1800
 }
