@@ -5,7 +5,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2], file = path.basename((process.env.PHOSPHOR_FILES || '').split(',')[0])
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_font_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch(), errs = []
 const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
 await pg.addInitScript(() => { window.__fonts = new Set(); const d = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'font'); Object.defineProperty(CanvasRenderingContext2D.prototype, 'font', { get() { return d.get.call(this) }, set(v) { window.__fonts.add(String(v)); d.set.call(this, v) } }) })
@@ -19,4 +19,4 @@ check(Math.abs(w.stack - w.mono) < 1 && Math.abs(w.first - w.mono) > 10, `F2: th
 const net = await pg.evaluate(() => performance.getEntriesByType('resource').filter((r) => !/^(blob|data|file):/.test(r.name)).map((r) => r.name))
 check(net.length === 0, `F3: no font or other file is fetched from the network (${net.length})`)
 check(errs.length === 0, 'F4: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

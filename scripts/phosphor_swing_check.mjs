@@ -5,7 +5,7 @@ import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2]; if (!page) { console.log('usage: phosphor_swing_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), ctx = await b.newContext({ viewport: { width: 1280, height: 900 } }), pg = await ctx.newPage()
 const errs = []; pg.on('pageerror', (e) => errs.push(String(e)))
 const url = pathToFileURL(page).href + '?test=1&shutter=off'
@@ -47,4 +47,4 @@ await pg.reload(); await pg.waitForTimeout(1800)
 const keep = await pg.evaluate(() => [document.getElementById('swo').textContent, document.getElementById('tz').value])
 check(keep[0] === '58 percent' && keep[1] === '30', `W6: Feel and Tighten survive a reload (${keep.join(', ')})`)
 check(errs.length === 0, `W6: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

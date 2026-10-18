@@ -221,6 +221,20 @@ Calm and precise. Motion is a still frame in motion, never a flash. The numbers 
 
 Rules: no repeating animation above `--mo-flash-max` unless it only moves position or scale; a strobe-like look is made from shutter angle and pose rate (aliasing), never from raw flashing; reduced motion holds a still frame; kids' mode keeps the loudness ceiling and these limits always on. Measured, not asserted: `phosphor_guard_check.mjs` reads these tokens from the page and fails on a violation under violent random tweaking.
 
+## Phosphor, the instrument surface
+
+Phosphor (dj.arcs.care) is an Operate and Experience surface: a family audio instrument that runs in one page. It inherits the kit tokens verbatim and adds only what an instrument needs. Source of truth for the page: `_ARTIFACTS/phosphor-src/` (built into `_ARTIFACTS/phosphor.html`; see AGENTS.md gotcha 21).
+
+**Atoms.** Every control is one of seven, all built from the same tokens: button (`.btn`, mono caps label, 48 px tall on touch), big button (`.bb`, display face, preset chips), pad (`.pad` for the zoom grid and `#pbk` pads, at least 56 px, 64 px in the tray), slider (native range, 44 px hit height), switch (a radio pair or `aria-pressed` button), segmented choice (`.seg`), and the LCD readout (`.lcd`, tabular numbers). Sizes come only from `--fs-label`, `--fs-body`, `--fs-headline` and `--fs-display`; radii only from `--ds-r-xs/sm/md/lg/pill`; spacing from `--sp-1/2/3` and the lane gutter. No literal size, radius or inline `style` attribute in the markup.
+
+**Composition.** One lane. The player (`#dock`) is fixed at the bottom and is the only chrome that follows you. Trays (`.tray`: Pads, Mix) open above the player, one at a time, close on Escape (focus returns to the button that opened them) and close when the player is hidden. Kid mode shows at most 24 controls at rest; everything else sits behind the Parent hold (1.5 s) and carries `data-min="4"`. The consent dialog is the only modal and makes the page inert behind it.
+
+**State matrix.** rest: token border and `--elevated`. hover: cyan border. focus-visible: a 2 px cyan outline everywhere (one global rule). pressed (`aria-pressed=true`): cyan or gold tint plus a border, never opacity. disabled: dimmed token color and a dashed border, never opacity (contrast rule 3). locked (Eject): `data-lock` on the root hides the exit controls. active (finger down): a pad shows `.hit` for 140 ms. A state that only changes opacity is a defect.
+
+**Motion.** The `--mo-*` tokens govern everything. Glitch poses run at 8 a second and never faster; picture effects scale with Picture strength and the Mix limits but never exceed the flash limit, which is measured on the shown frame and holds strength at Soft for three seconds when two flashes occur in a second. Reduced motion removes transitions and keeps every state change visible.
+
+**The hidden attribute always wins** (`[hidden] { display: none !important; }`): a display rule once showed the pad picker and the Sing box to everyone. The hidden check reads what a person sees, not the attribute.
+
 ## Do's and Don'ts
 
 ### Do:

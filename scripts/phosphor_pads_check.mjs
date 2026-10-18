@@ -5,7 +5,7 @@ import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 const page = process.argv[2], file = path.basename((process.env.PHOSPHOR_FILES || '').split(',')[0])
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_pads_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), url = pathToFileURL(path.resolve(page)).href + '?test=1&shutter=off', errs = []
 const open = async (extra = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...extra }); const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(url); await pg.waitForFunction(() => document.getElementById('status').textContent === ''); await pg.setInputFiles('input[type=file]', '/private/tmp/claude-501/fx/' + file); await pg.waitForTimeout(2500); return pg }
 const log = (pg) => pg.evaluate(() => window.PhosphorTest.pads.log())
@@ -50,6 +50,11 @@ await pg.evaluate(() => { document.getElementById('tmpbox').remove(); document.g
 const openState = () => pg.evaluate(() => [!document.getElementById('padtray').hidden, !document.getElementById('fxtray').hidden])
 const s0 = await openState(); await pg.evaluate(() => document.getElementById('dkfx').click()); const s1 = await openState(); await pg.evaluate(() => document.getElementById('dkpad').click()); const s2 = await openState()
 check(s0[0] && !s0[1] && !s1[0] && s1[1] && s2[0] && !s2[1], `P7b: only one tray is open at a time (pads ${s0}, then Mix ${s1}, then pads ${s2})`)
+// P7c Escape closes the open tray and returns focus to its button; hiding the player hides the tray
+await pg.evaluate(() => { if (document.getElementById('padtray').hidden) document.getElementById('dkpad').click() }); await pg.waitForTimeout(100); await pg.keyboard.press('Escape'); await pg.waitForTimeout(100)
+const esc = await pg.evaluate(() => [document.getElementById('padtray').hidden, document.activeElement.tagName + '#' + document.activeElement.id, document.getElementById('dkpad').getAttribute('aria-expanded')])
+await pg.evaluate(() => { if (document.getElementById('padtray').hidden) document.getElementById('dkpad').click() }); await pg.evaluate(() => document.getElementById('dkhide').click()); await pg.waitForTimeout(400); const trayWithHiddenDock = await pg.evaluate(() => { const r = document.getElementById('padtray').getBoundingClientRect(); return getComputedStyle(document.getElementById('padtray')).display !== 'none' && r.width * r.height > 0 })
+check(esc[0] === true && esc[1] === 'BUTTON#dkpad' && esc[2] === 'false' && !trayWithHiddenDock, `P7c: Escape closes the tray and returns focus to its button (${esc}), and hiding the player hides the open tray (${trayWithHiddenDock ? 'still shown' : 'hidden'})`)
 await pg.context().close()
 // P8 touch on a phone
 pg = await open({ ...devices['iPhone 13'] }); await pg.evaluate(() => document.getElementById('dkpad').click()); await pg.waitForTimeout(300)
@@ -90,4 +95,4 @@ const labs = await pg.evaluate(() => [document.querySelector('[data-pk="2"] smal
 check(labs[0] === 'Echo' && labs[1] === 'Tear', `P16: the assignments are remembered after a reload (${labs})`)
 await pg.context().close()
 check(errs.length === 0, 'P9: no page errors ' + errs.join('|'))
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

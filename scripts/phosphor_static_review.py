@@ -9,6 +9,8 @@ Rules, each a mechanical yes or no:
   R5  no console.log / debugger / TODO / FIXME left in app.js
   R6  every addEventListener target is $(...) of a known id, a selector variable, or document / window
   R7  no em-dash or en-dash in user-visible page text
+  R9  every named function declaration is referenced somewhere (dead code is deleted, not kept)
+  R8  every var(--name) used without a fallback is defined in the stylesheet, the markup or set from the script (an undefined one silently drops the whole declaration)
 Usage: python3 scripts/phosphor_static_review.py [--json]     exit 1 if any rule fails
 """
 import os, re, sys, json
@@ -58,6 +60,14 @@ for n, l in enumerate(lines):
 visible = re.sub(r"<style.*?</style>|<script.*?</script>|<!--.*?-->", "", tpl, flags=re.S)
 visible = re.sub(r"<[^>]+>", " ", visible)
 if re.search("[\u2014\u2013]", visible): add("R7", "page.tpl visible text contains an em-dash or en-dash")
+# R8
+defined = set(re.findall(r"(--[\w-]+)\s*:", css)) | set(re.findall(r"(--[\w-]+)\s*:", tpl)) | set(re.findall(r"setProperty\(\s*[\"'](--[\w-]+)", js)) | set(re.findall(r"[\"'](--[\w-]+)[\"']\s*\)", js))
+for m in re.finditer(r"var\((--[\w-]+)\s*\)", css + tpl):
+    if m.group(1) not in defined: add("R8", "var(%s) is used with no definition and no fallback" % m.group(1))
+# R9
+for n in sorted(set(re.findall(r"(?<!\()function\s+([A-Za-z_$][\w$]*)\s*\(", js))):
+    uses = len(re.findall(r"(?<![\w$.])" + re.escape(n) + r"(?![\w$])", js)) + len(re.findall(r"\b" + re.escape(n) + r"\b", tpl))
+    if uses <= 1: add("R9", "function %s is declared and never referenced" % n)
 if "--json" in sys.argv: print(json.dumps(out, indent=1))
 else:
     for o in out: print("✖ %s %s" % (o["rule"], o["msg"]))
