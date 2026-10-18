@@ -1,0 +1,6 @@
+# Evidence ledger, Wonderful resume. vetted-master = _ARTIFACTS/resume-vico/resume-vico-product-engineer.html; record = forge record-of-record (resume.arcs.care); self-reported = in record, not independently verified.
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html"}
+{"pattern": "\\$350M", "source": "record:CONSULTING_CLIENTS.squat (self-reported)"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html"}
+{"pattern": "\\$850K\\+?\\s?", "source": "record:ROLES.wta (self-reported)"}
