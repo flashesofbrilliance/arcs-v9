@@ -882,6 +882,18 @@ if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1;
     fi
   fi
 fi
+# public-claim guard (2026-10-17): arcs-v9 is private; resumes/covers/pages must not call its repo or
+# commit trail public. See scripts/public_claim_gate.py.
+if [ -f scripts/public_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pc=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/*/*resume*' '_ARTIFACTS/*/*cover*' '_ARTIFACTS/*/page.html' 'public/*resume*' 2>/dev/null || true)
+  if [ -n "$pc" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/public_claim_gate.py $pc >&2; then
+      echo "✖ pre-commit(public-claim): arcs-v9 is private; reword (see scripts/public_claim_gate.py)." >&2
+      exit 1
+    fi
+  fi
+fi
 # ---------------------------------------------------------------------------
 # Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be
 # guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads
