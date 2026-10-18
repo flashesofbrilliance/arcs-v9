@@ -80,8 +80,8 @@ def messages(t2, t3, ack=frozenset()):
         out.append(f"Librarian T2: {len(new)} metric(s) with no evidence-ledger cover, first `{tok}` at {f}:{n}. {COST}")
     elif old:
         f, n, tok = old[0]
-        out.append(f"Librarian T2: {len(old)} added metric(s) re-use a figure the ledger marks UNVALIDATED, first `{tok}` at {f}:{n}. "
-                   "Cite evidence or label it as unvalidated in the text; nothing new to triage.")
+        out.append(f"Librarian T2: {len(old)} added metric(s) re-use a figure the ledger marks unvalidated or projection, first `{tok}` at {f}:{n}. "
+                   "Cite evidence or label it in the text; nothing new to triage.")
     if t3:
         terms = sorted({t for _, _, t in t3})
         out.append(f"Librarian T3: {len(terms)} new canon term(s) not in glossary, rosetta or HEAD canon: {', '.join(terms[:3])}"
@@ -191,7 +191,7 @@ def report(path=None, now=None, added_fn=added_since):
 
 def unval_for(f):
     led = ccr.nearest_ledger(f, "_CANON" if f.startswith("_CANON/") else os.path.dirname(f))
-    return pl.load_unvalidated(led) if led else []
+    return pl.load_marked(led) if led else []
 
 def ledger_for(f):
     led = ccr.nearest_ledger(f, "_CANON" if f.startswith("_CANON/") else os.path.dirname(f))
@@ -219,7 +219,7 @@ def self_test():
     t2b, _ = analyze(bad, lambda f: cov, known)
     ackset = acknowledged(t2b, unv)
     m_ack = messages(t2b, [], ackset)
-    check("unvalidated re-use: still warns, labelled UNVALIDATED", len(m_ack) == 1 and "UNVALIDATED" in m_ack[0])
+    check("unvalidated re-use: still warns, labelled as a marked figure", len(m_ack) == 1 and "unvalidated or projection" in m_ack[0])
     check("unvalidated re-use: a different new metric still gets the normal warning",
           "no evidence-ledger cover" in messages(t2b + [("_CANON/a.md", 4, "91%")], [], ackset)[0])
     # acceptance rule: pure
