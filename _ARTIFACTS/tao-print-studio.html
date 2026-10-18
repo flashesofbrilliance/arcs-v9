@@ -323,6 +323,7 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
 
     <fieldset><legend>Tag mark</legend>
       <label class="check" for="tag"><input id="tag" type="checkbox"> Sign each panel with the tag</label>
+      <div class="row"><label for="mark">Mark</label><select id="mark"><option value="arcs">Handle (loop and name)</option><option value="algo">Algo Andy lockup (alpha, DNA helix, omega)</option></select></div>
       <div class="row"><label for="handle">Handle</label><input id="handle" type="text" maxlength="12" spellcheck="false"></div>
     </fieldset>
 
@@ -421,7 +422,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
     rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50,
     fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50,
-    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false, travel: 0, drive: '', frame: 'auto', layout: 'square',
+    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, mark: 'arcs', handle: 'ARCS', horizon: 100, auto: false, travel: 0, drive: '', frame: 'auto', layout: 'square',
     textsrc: 'proverb', reveal: 'line', cc: 'off', ccpos: 'bottom', ccsize: 100, lyrics: ''
   };
   var cfg = {};
@@ -544,6 +545,25 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       + '<pattern id="benK" width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="1.6" cy="1.6" r="0.95" fill="' + PAL[cfg.palette].key + '"/></pattern>'
       + '<pattern id="benL" width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="1.6" cy="1.6" r="0.95" fill="' + PAL[cfg.palette].light + '"/></pattern>'
       + '</defs>';
+  }
+  /* Algo Andy lockup: capital alpha, a faceted DNA double helix at an angle (taller than the letters), capital omega. Drawn from paths, no font, no random draws. */
+  function algoMark(hc, hc2, tc, g) {
+    var N = 36, cx = 16.5, R = 4.6, y0 = -7, y1 = 19, a = [], b = [], z = [], i, t, out = '', tri = '', rungs = '';
+    for (i = 0; i <= N; i++) { t = i / N * 6.2832 * 1.5; a.push(cx + R * Math.sin(t)); b.push(cx - R * Math.sin(t)); z.push(Math.cos(t)); }
+    function quad(xs, i, w, col, op, shade) {
+      var ya = y0 + (y1 - y0) * i / N, yb = y0 + (y1 - y0) * (i + 1) / N, xa = xs[i], xb = xs[i + 1];
+      return '<path d="M' + f1(xa - w) + ' ' + f1(ya) + 'L' + f1(xb - w) + ' ' + f1(yb) + 'L' + f1(xb + w) + ' ' + f1(yb) + 'L' + f1(xa + w) + ' ' + f1(ya) + 'Z" fill="' + col + '" opacity="' + op + '" stroke="#05070d" stroke-opacity=".55" stroke-width=".3" stroke-linejoin="round"/>'
+        + '<path d="M' + f1(xa - w) + ' ' + f1(ya) + 'L' + f1(xb - w) + ' ' + f1(yb) + 'L' + f1(xa + w) + ' ' + f1(ya) + 'Z" fill="' + shade + '" opacity="0.55"/>';
+    }
+    for (i = 0; i < N; i++) {
+      if (i % 4 === 2) { var yy = y0 + (y1 - y0) * (i + 0.5) / N, xm = (a[i] + a[i + 1]) / 2, xn = (b[i] + b[i + 1]) / 2; rungs += '<path d="M' + f1(xm) + ' ' + f1(yy) + 'L' + f1(xn) + ' ' + f1(yy) + '" stroke="' + tc + '" stroke-width="0.9" stroke-linecap="round" opacity="0.85"/>'; }
+      var za = (z[i] + z[i + 1]) / 2;
+      tri += za >= 0 ? quad(b, i, 0.8, hc2, 0.75, tc) + quad(a, i, 1.35, hc, 1, tc) : quad(a, i, 0.8, hc, 0.75, tc) + quad(b, i, 1.35, hc2, 1, tc);
+    }
+    var letters = '<g fill="none" stroke="' + tc + '" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M0.4 12.2L4.2 0.6L8 12.2M1.9 8.2H6.5"/>'
+      + '<path d="M24.2 12.2H27C24.6 10.6 23.4 8.4 23.4 5.8C23.4 2.4 25.7 0.4 28.6 0.4C31.5 0.4 33.8 2.4 33.8 5.8C33.8 8.4 32.6 10.6 30.2 12.2H33"/></g>';
+    return '<g>' + g(letters + '<path d="M0 15.2C9 17.4 24 17.2 34 14.6" fill="none" stroke="' + hc + '" stroke-width="1" stroke-linecap="round"/>', true) + '<g transform="rotate(-24 ' + cx + ' 6)">' + rungs + tri + '</g></g>';
   }
   function grit(markup, noEdge) {
     if (!noEdge && cfg.edgeamt > 0 && (cfg.edge === 'fuzz' || cfg.edge === 'grime' || cfg.edge === 'cut')) markup = '<g filter="url(#' + cfg.edge + ')">' + markup + '</g>';
@@ -681,7 +701,8 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var tagm = '';
     if (cfg.tag && !o.nolabel) {
       var tcol2 = (gnd === null && !paper) ? P.light : P.key, hc = (gnd === null && !paper) ? P.inks[(k + 1) % 4] : P.key;
-      tagm = '<g transform="translate(56 88) rotate(-6)">' + grit('<g fill="none" stroke="' + hc + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 9.5C3 3 11 3.6 11 8.7 11 13.8 3.5 13.2 0.5 9.5" /><path d="M0.5 9.5C-1 12.5-5 12-5 8.2-5 4.4-1 4.6 0.5 9.5"/></g>'
+      if (cfg.mark === 'algo') tagm = '<g transform="translate(50 76) rotate(-4) scale(1.25)">' + algoMark(hc, (gnd === null && !paper) ? P.inks[(k + 3) % 4] : P.inks[(k + 2) % 4], tcol2, grit) + '</g>';
+      else tagm = '<g transform="translate(56 88) rotate(-6)">' + grit('<g fill="none" stroke="' + hc + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 9.5C3 3 11 3.6 11 8.7 11 13.8 3.5 13.2 0.5 9.5" /><path d="M0.5 9.5C-1 12.5-5 12-5 8.2-5 4.4-1 4.6 0.5 9.5"/></g>'
         + '<text x="14.5" y="10.4" fill="' + tcol2 + '" font-family="' + FONTS.marker.stack.replace(/"/g, "'") + '" font-size="8.5">' + esc(cfg.handle || 'ARCS') + '</text>'
         + '<path d="M13 12.6C20 15 29 14.2 34 11.4" fill="none" stroke="' + hc + '" stroke-width="1.1" stroke-linecap="round"/>', true) + '</g>';
     }
@@ -1382,7 +1403,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70, edge: 'drip', edgeamt: 55, fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50, grid: 3, strip: true, horizon: 40 },
       fancy: { palette: 'mono', ground: 'paper', grid: 1, strip: false, grounds: false, inkrot: false, views: 0, slip: 50, dropout: 40, grain: 30, fidelity: 85, label: true, font: 'marker', weight: 400, size: 100, track: 0, leading: 115, 'case': 'sentence', style: 'spray', pos: 'top', height: 58, rough: 40, spray: 0, drips: 60, wall: 0, outline: 100, edge: 'drip', edgeamt: 40, fill: 0, splat: 0, halftone: 0, pixel: 0, grout: 50, horizon: 0 },
       brain: { palette: 'pop', ground: 'paper', grid: 3, strip: true, grounds: true, inkrot: true, views: 100, slip: 90, dropout: 80, grain: 60, fidelity: 85, label: true, font: 'bowlby', weight: 400, size: 105, track: 0, leading: 100, 'case': 'upper', style: 'knock', pos: 'bottom', height: 30, rough: 25, spray: 35, drips: 40, wall: 15, outline: 60, edge: 'drip', edgeamt: 50, fill: 100, splat: 80, halftone: 45, pixel: 0, grout: 50, horizon: 0 },
-      tag: { palette: 'signal', ground: 'dark', grid: 2, strip: false, grounds: false, inkrot: true, views: 100, slip: 110, dropout: 90, grain: 90, fidelity: 75, label: true, font: 'bowlby', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'strip', pos: 'middle', height: 44, rough: 0, spray: 0, sprayhard: 30, spraydens: 60, drips: 0, wall: 0, outline: 85, edge: 'drip', edgeamt: 0, fill: 100, splat: 0, spatter: 0, halftone: 0, pixel: 0, grout: 50, tag: true, handle: 'ARCS', horizon: 0, auto: true },
+      tag: { palette: 'signal', ground: 'dark', grid: 2, strip: false, grounds: false, inkrot: true, views: 100, slip: 110, dropout: 90, grain: 90, fidelity: 75, label: true, font: 'bowlby', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'strip', pos: 'middle', height: 44, rough: 0, spray: 0, sprayhard: 30, spraydens: 60, drips: 0, wall: 0, outline: 85, edge: 'drip', edgeamt: 0, fill: 100, splat: 0, spatter: 0, halftone: 0, pixel: 0, grout: 50, tag: true, mark: 'algo', handle: 'ARCS', horizon: 0, auto: true },
       invader: { palette: 'pop', ground: 'dark', grid: 3, strip: true, grounds: true, inkrot: true, views: 100, slip: 40, dropout: 40, grain: 0, fidelity: 90, label: true, font: 'sans', weight: 900, size: 120, track: 0, leading: 100, 'case': 'upper', style: 'slab', pos: 'bottom', height: 33, rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50, fill: 100, splat: 0, halftone: 0, pixel: 64, grout: 45, horizon: 40 }
     };
     function preset(name) { Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; }); var P = PRESETS[name]; Object.keys(P).forEach(function (k) { cfg[k] = P[k]; }); fillWeights(); sync(); loadFace(); schedule(); say({ silk: 'Silkscreen preset on.', street: 'Street preset on.', fancy: 'Fancy preset on.', brain: 'Brainwash preset on.', invader: 'Invader preset on.', tag: 'Tag preset on.' }[name]); }
