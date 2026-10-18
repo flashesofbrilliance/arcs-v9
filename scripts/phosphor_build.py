@@ -3,7 +3,7 @@
 
 Sources live in _ARTIFACTS/phosphor-src/: page.tpl (markup, with the two markers below), style.css, app.js.
   <!--@style.css-->  is replaced by style.css verbatim (the kit tokens inside must stay byte-identical).
-  <!--@app.js-->     is replaced by app.js with leading indentation and blank lines removed (the one size saving).
+  <!--@app.js-->     is replaced by app.js with leading indentation, blank lines and comment-only lines removed (the size saving).
 The result is _ARTIFACTS/phosphor.html, which stays committed so the artifact, the gates and the checks are unchanged.
   python3 scripts/phosphor_build.py           write the page
   python3 scripts/phosphor_build.py --check   exit 1 if the committed page differs from a fresh build
@@ -16,8 +16,15 @@ def rd(n): return open(os.path.join(SRC, n), encoding="utf-8").read()
 
 def build():
     page, css, js = rd("page.tpl"), rd("style.css").rstrip("\n"), rd("app.js")
-    lines = [l.lstrip(" \t") for l in js.split("\n")]
-    js = "\n".join(l for l in lines if l.strip() != "")
+    out, blk = [], False
+    for l in (l.lstrip(" \t") for l in js.split("\n")):
+        if blk:
+            blk = "*/" not in l; continue
+        if l == "" or l.startswith("//"): continue
+        if l.startswith("/*"):
+            blk = "*/" not in l; continue
+        out.append(l)
+    js = "\n".join(out)
     for m in ("<!--@style.css-->", "<!--@app.js-->"):
         if page.count(m) != 1: sys.exit("marker %s must appear exactly once in page.tpl" % m)
     out = page.replace("<!--@style.css-->", css).replace("<!--@app.js-->", js)

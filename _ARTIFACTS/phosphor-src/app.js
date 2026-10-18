@@ -652,7 +652,7 @@
   function pinMsg(s) { $("pinmsg").textContent = s; }
   function pinAdd(note, kind, anchor) {
     if (!GNM.dna) { pinMsg("Load a song first."); return Promise.resolve(null); }
-    var tt = tnow(), P = BPM ? 60 / BPM : 0, at = (P && !anchor) ? MX(0, MN(DUR, GRID0 + RD((tt - GRID0) / P) * P)) : tt, i = genomeIdx(at), a = [], b = [], j;
+    var tt = tnow(), P = BPM ? 60 / BPM : 0, at = (P && !anchor) ? MX(0, MN(DUR, tmapTime(RD(tmapBeat(tt))))) : tt, i = genomeIdx(at), a = [], b = [], j;
     for (j = MX(0, i - 1); j <= MN(GNM.n - 1, i + 2); j++) { a.push(genomeStr(GNM.dna[j], GLET.dna)); b.push(genomeStr(GNM.rna[j] || (j === i ? genomeLook() : null), GLET.rna)); }
     var pin = { v: 1, at: +at.toFixed(3), pinned_at: new Date().toISOString(), note: String(note || "").slice(0, 140), kind: kind === "cue" ? "cue" : "note", anchor: !!anchor, armed: false, fp: wpFp(), dna: a, rna: b, settings: snapshot() };
     return pinHash(pinCanon(pin)).then(function (h) { pin.sha = h; pin.id = h.slice(-8); pin.ok = true; var L = pinsHere(); if (!L.some(function (x) { return x.sha === h; })) { L.push(pin); L.sort(function (x, y) { return x.at - y.at; }); pinsSave(); } pinsRender(); return pin; });
@@ -684,10 +684,23 @@
     var A = pinsHere().filter(function (p) { return p.anchor; }).sort(function (x, y) { return x.at - y.at; });
     if (!A.length || !BPM) { pinMsg("Mark at least one pin as a beat anchor first."); return null; }
     var P = 60 / BPM, bpm = BPM;
-    if (A.length >= 2) { var span = A[A.length - 1].at - A[0].at, given = parseInt($("pinbeats").value, 10), n = given > 0 ? given : MX(1, RD(span / P)); bpm = 60 * n / span; }
+    if (A.length >= 2) { var span = A[A.length - 1].at - A[0].at, given = /,/.test($("pinbeats").value) ? 0 : parseInt($("pinbeats").value, 10), n = given > 0 ? given : MX(1, RD(span / P)); bpm = 60 * n / span; }
     setTempo(bpm, A[0].at); pinMsg("The beat grid is set from " + A.length + " anchor" + (A.length > 1 ? "s" : "") + ": " + BPM.toFixed(2) + " BPM."); return { bpm: BPM, grid0: GRID0 };
   }
   $("pinuse").addEventListener("click", pinsUse);
+  /* Make a tempo map: each gap between anchors is counted in beats at the song tempo (to a whole bar when it is six beats or more), then each segment runs at its own steady tempo. */
+  function pinsMap() {
+    var A = pinsHere().filter(function (p) { return p.anchor; }).sort(function (x, y) { return x.at - y.at; }).filter(function (p, i, a) { return !i || p.at - a[i - 1].at > 0.2; });
+    if (A.length < 2 || !BPM) { pinMsg("Mark at least two pins as beat anchors first, and set a tempo."); return null; }
+    var P = 60 / BPM, m = [{ t: A[0].at, b: 0 }], b = 0, bp = [], i, x, n, given = $("pinbeats").value.split(",").map(function (v) { return parseInt(v, 10); }), exact = given.length === A.length - 1 && given.every(function (v) { return v > 0; });
+    if (!exact) given = [];
+    for (i = 1; i < A.length; i++) { x = (A[i].at - A[i - 1].at) / P; n = given[i - 1] > 0 ? given[i - 1] : x >= 6 ? 4 * RD(x / 4) : MX(1, RD(x)); b += n; m.push({ t: A[i].at, b: b }); bp.push((60 * n / (A[i].at - A[i - 1].at)).toFixed(1)); }
+    setTempo(60 * b / (A[A.length - 1].at - A[0].at), A[0].at); TMAP = m; gridMagnets();
+    if (NF) { buildStripBg(); magnetSummary(); drawStrip(tnow()); } renderBars(tnow(), true);
+    pinMsg("Tempo map from " + A.length + " anchors, " + (exact ? "beats as you typed them" : "beats counted by estimate (type the beats between anchors, like 16, 16, 16, to be exact)") + ". Each stretch runs at " + bp.join(", ") + " BPM. The beat grid, bars and pin snapping follow it; the gate, clicks and slicing still use the average.");
+    return { segs: bp, map: m };
+  }
+  $("pinmap").addEventListener("click", pinsMap);
   function pinsExport() { var L = pinsHere(); return ["Phosphor pins v1", "song: " + SRCNAME, "fingerprint: " + wpFp()].concat(L.map(function (p) { var o = JSON.parse(JSON.stringify(p)); delete o.ok; return "pin: " + JSON.stringify(o); })).join("\n"); }
   function pinsImport(text) {
     var lines = String(text || "").split(/\r?\n/).map(function (l) { return l.trim(); }), add = 0, bad = 0, other = 0, jobs = [];
@@ -887,7 +900,7 @@
       var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = MN(lo, sm[k]); hi = MX(hi, sm[k]); }
       if (sm[i] <= lo && hi - sm[i] >= 0.1 && i - lastV >= 9) { M.push({ t: i / FPS, w: KIND_W.valley, k: "valley" }); lastV = i; }
     }
-    BPM = 0; GRID0 = 0; BPMINFO = null;
+    BPM = 0; GRID0 = 0; BPMINFO = null; TMAP = null;
     var tp = detectTempo(onsets);
     if (tp) { BPM = +tp.bpm.toFixed(2); GRID0 = tp.grid0; BPMINFO = tp; var P0 = 60 / BPM; for (var g = GRID0 % P0; g < DUR && M.length < 6000; g += P0) M.push({ t: g, w: KIND_W.grid, k: "grid" }); }
     M.sort(function (x, y) { return x.t - y.t; });
@@ -1114,11 +1127,24 @@
   $("spl").addEventListener("click", function () { if (SP.on) stopPlay(""); else spStart(); });
   /* ---------------- tempo tools: tap tempo, downbeat ---------------- */
   var TAPS = [];
+  /* Tempo map: anchors (time, beat number) with straight lines between them. null means one steady tempo (GRID0 and BPM). */
+  var TMAP = null;
+  function tmapBeat(t) {
+    if (!TMAP) return (t - (BPM ? GRID0 : 0)) / (BPM ? 60 / BPM : 0.5);
+    var i = 0, a, b; while (i < TMAP.length - 2 && t > TMAP[i + 1].t) i++; a = TMAP[i]; b = TMAP[i + 1]; return a.b + (t - a.t) * (b.b - a.b) / (b.t - a.t);
+  }
+  function tmapTime(beat) {
+    if (!TMAP) return (BPM ? GRID0 : 0) + beat * (BPM ? 60 / BPM : 0.5);
+    var i = 0, a, b; while (i < TMAP.length - 2 && beat > TMAP[i + 1].b) i++; a = TMAP[i]; b = TMAP[i + 1]; return a.t + (beat - a.b) * (b.t - a.t) / (b.b - a.b);
+  }
+  function gridMagnets() {
+    var b = FL(tmapBeat(0)), t; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; });
+    for (; (t = tmapTime(b)) < DUR && MAGNETS.length < 6000; b++) if (t >= 0) MAGNETS.push({ t: t, w: KIND_W.grid, k: "grid" });
+    MAGNETS.sort(function (x, y) { return x.t - y.t; });
+  }
   function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function";
     bpm = MX(40, MN(240, RD(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
-    MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; });
-    for (g = GRID0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" });
-    MAGNETS.sort(function (x, y) { return x.t - y.t; });
+    TMAP = null; gridMagnets();
     $("sbpm").value = bpm; if (!SP.touched) $("tbpm").value = bpm;
     if (NF) { buildStripBg(); magnetSummary(); drawStrip(tnow()); }
     EA(QA(".tapb"), function (b) { b.textContent = "Tap tempo " + bpm; });
@@ -1259,7 +1285,7 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, tmap: { time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -2004,19 +2030,19 @@
   function lessonOpen() { var d = document.querySelector("details.lesson"); return !!(d && d.open); }
   var BARS = { n: 8, times: [], i: 0, play: false, timer: 0, lastDraw: 0, reduce: window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches };
   (function () { var h = "", i; for (i = 0; i < 8; i++) h += '<figure class="bar" data-b="' + i + '" tabindex="0" role="button" aria-label="Jump to bar ' + (i + 1) + ' of the next eight"><canvas width="128" height="72"></canvas><figcaption></figcaption></figure>'; $("bars").innerHTML = h; })();
-  function barTimes(t) { var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = FL((t - base) / bl) + 1, out = [], i; for (i = 0; i < 8; i++) out.push(base + (b0 + i) * bl); return out; }
+  function barTimes(t) { var b0 = FL(tmapBeat(t) / 4) + 1, out = [], i; for (i = 0; i < 8; i++) out.push(tmapTime(4 * (b0 + i))); return out; }
   var BARSEEN = true; if (window.IntersectionObserver) new IntersectionObserver(function (es) { BARSEEN = es[0].isIntersecting; }).observe($("bars"));
   function renderBars(t, force) {
     if (!BUF || !$("bars").offsetParent || (!BARSEEN && !force)) return;
-    var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = FL((t - base) / bl) + 1, tiles = $("bars").children, i, pins = pinsHere();
-    var sig = [MODE, $("palsel").value, BITS, RUNG, LOOK.curve, LOOK.amt, CRT, CHSHARP, BPM, GRID0, NF, SRCNAME].join("|"), d = b0 - BARS.b0, from = 0;
+    var b0 = FL(tmapBeat(t) / 4) + 1, tiles = $("bars").children, i, pins = pinsHere();
+    var sig = [MODE, $("palsel").value, BITS, RUNG, LOOK.curve, LOOK.amt, CRT, CHSHARP, BPM, GRID0, NF, SRCNAME, TMAP ? TMAP.length : 0].join("|"), d = b0 - BARS.b0, from = 0;
     BARS.times = barTimes(t);
     if (force || sig !== BARS.sig || BARS.b0 === undefined || d < 0 || d >= 8) { from = 0; }
     else if (d > 0) { for (i = 0; i + d < 8; i++) { var cc = tiles[i].querySelector("canvas"), cs = tiles[i + d].querySelector("canvas"); cc.getContext("2d").drawImage(cs, 0, 0); } from = 8 - d; }
     else from = 8;
     BARS.sig = sig; BARS.b0 = b0;
     for (i = from; i < 8; i++) { var tk = BARS.times[i], c = tiles[i].querySelector("canvas"), g = c.getContext("2d"); if (tk >= DUR) g.clearRect(0, 0, c.width, c.height); else scene(g, c.width, c.height, tk); }
-    for (i = 0; i < 8; i++) { var tk2 = BARS.times[i], cap = tiles[i].querySelector("figcaption"); if (tk2 >= DUR) { cap.textContent = "end"; continue; } var np = pins.filter(function (p) { return p.at >= tk2 && p.at < tk2 + bl; }).length; cap.innerHTML = "Bar " + (i + 1) + " " + fmt(tk2) + (np ? ' <span class="bm">' + np + " pin" + (np > 1 ? "s" : "") + "</span>" : ""); }
+    for (i = 0; i < 8; i++) { var tk2 = BARS.times[i], cap = tiles[i].querySelector("figcaption"); if (tk2 >= DUR) { cap.textContent = "end"; continue; } var np = pins.filter(function (p) { return p.at >= tk2 && p.at < tmapTime(tmapBeat(tk2) + 4); }).length; cap.innerHTML = "Bar " + (i + 1) + " " + fmt(tk2) + (np ? ' <span class="bm">' + np + " pin" + (np > 1 ? "s" : "") + "</span>" : ""); }
     if (from < 8 || BARS.i !== BARS.shown) showBar(BARS.i);
   }
   function showBar(i) {
