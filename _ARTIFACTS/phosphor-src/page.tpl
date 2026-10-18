@@ -306,6 +306,9 @@
           <p class="hint" id="learnhint"></p>
           <div class="row"><button class="btn" type="button" id="elb" aria-pressed="false">Play log: off</button><button class="btn" type="button" id="elcopy">Copy log</button><button class="btn" type="button" id="elclr">Clear log</button><button class="btn" type="button" id="rnb">Render to WAV</button></div>
           <p class="hint" id="rnsum"></p>
+          <div class="row" id="grabrow"><label for="grpre">Grab the last</label><select id="grpre" class="txt w-auto"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4" selected>4 bars</option><option value="8">8 bars</option><option value="16">16 bars</option><option value="32">32 bars</option></select><label for="grpost">and the next</label><select id="grpost" class="txt w-auto"><option value="0" selected>0 bars</option><option value="1">1 bar</option><option value="4">4 bars</option><option value="8">8 bars</option></select><button class="btn" type="button" id="grab">Grab</button></div>
+          <p class="hint" id="grmsg">Keeps your recent control moves as a preset that replays in time on any song.</p>
+          <ul class="pinlist" id="grlist" aria-label="Grabbed gestures"></ul>
           <p class="hint" id="elsum"></p>
         </div>
       </details>

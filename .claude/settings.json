@@ -125,7 +125,9 @@
       "Bash(python3 scripts/handoff_fold.py --help)",
       "Bash(node scripts/phosphor_look_check.mjs)",
       "Bash(node scripts/phosphor_look_check.mjs *)",
-      "Bash(python3 scripts/phosphor_build.py --check)"
+      "Bash(python3 scripts/phosphor_build.py --check)",
+      "Bash(supabase --version)",
+      "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__list_drafts"
     ],
     "ask": [
       "Bash(git push:*)"
