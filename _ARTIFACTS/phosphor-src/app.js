@@ -13,7 +13,8 @@
   var $ = function (id) { return document.getElementById(id); };
   var MO = (function () { var cs = getComputedStyle(document.documentElement); function n(k, d) { var v = parseFloat(cs.getPropertyValue(k)); return v > 0 ? v : d; } return { pose: n("--mo-pose-rate", 8), hold: n("--mo-hold-min", 180), loop: n("--mo-loop-min", 170) / 1000, shutter: n("--mo-shutter-ms", 650), flash: n("--mo-flash-max", 3), swing: n("--mo-lum-swing", 0.1) }; })();
   var FPS = 30, NFFT = 2048, NB = 64, MAXSEC = 900;
-  var cv = $("cv"), dctx = cv.getContext("2d");
+  /* willReadFrequently: the look, crush, glitch and flash limit read this canvas back every frame; without it WebKit starts it on the GPU and moves it to software after a few reads, so the same moment drew two different pictures */
+  var cv = $("cv"), dctx = cv.getContext("2d", { willReadFrequently: true });
   var rm = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   var css = getComputedStyle(document.documentElement);
   function col(n) { return css.getPropertyValue(n).trim(); }
@@ -2034,7 +2035,8 @@
   }
   function pocketText() { if (!$("dock")) return; $("dtitle").textContent = SRCNAME; $("dspec").textContent = "Mono • " + NB + " bands • " + FPS + " fps • " + (SR / 1000).toFixed(1) + " kHz"; }
   function teardownPocket() { var s = $("ledstrip"); if (s) s.remove(); }
-  (function () { pocketText(); if (window.ResizeObserver) new ResizeObserver(function () { if (document.documentElement.getAttribute("data-dock") !== "hidden") document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px"); }).observe($("dock")); })();
+  (function () { pocketText(); if (window.ResizeObserver) /* The write moves the body padding, which can toggle the page scrollbar, rewrap the dock and resize it again: a real loop (WebKit and Firefox report it, Chromium's overlay scrollbars hide it). So write in the next frame, and only when the height changed. */
+    var dkq = 0; new ResizeObserver(function () { if (dkq) return; dkq = requestAnimationFrame(function () { dkq = 0; var r = document.documentElement, v; if (r.getAttribute("data-dock") === "hidden") return; v = $("dock").offsetHeight + "px"; if (r.style.getPropertyValue("--dock-h") !== v) r.style.setProperty("--dock-h", v); }); }).observe($("dock")); })();
   function applySkin(name, save) {
     SKIN = name === "pocket" ? "pocket" : "arcs";
     if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
@@ -2072,7 +2074,7 @@
     cv.width = on ? 1600 : 1280; cv.height = on ? 900 : 360;
     AP($("fsb"), on); wakeHud(); frame(playing);
   }
-  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { if (EJT) wakeHud(); else f.classList.add("idle"); }, 2600); }
   EA(QA("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
   function kidSync() { EA(QA("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
   document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);
