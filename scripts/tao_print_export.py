@@ -8,6 +8,7 @@
 control included, by driving the studio headless (scripts/tao_studio_export.mjs). Get a recipe with the studio's "Copy recipe".
   python3 scripts/tao_print_export.py [<proverb-id>] --preset silk|street|fancy|brain|invader|tag [--fidelity 0.8] [--seed 7] [--ground dark|paper] --out print.png
 
+--panels DIR (with --preset or --recipe) also writes the whole print and one PNG per panel into DIR.
 --preset exports one of the studio's style presets (brain = Brainwash pop splatter and halftone, invader = tile mosaic, fancy =
 hand-lettered, tag = the AI tag artist). The proverb, fidelity, seed and ground are applied only when you give them.
 
@@ -27,6 +28,7 @@ ap.add_argument("--recipe", help="studio recipe: a JSON file or inline JSON; exp
 ap.add_argument("--fidelity", type=float, default=None)
 ap.add_argument("--seed", type=int, default=None)
 ap.add_argument("--ground", choices=["dark", "paper"], default=None)
+ap.add_argument("--panels", metavar="DIR", help="also save the whole print and every panel as its own PNG into DIR (studio export only)")
 ap.add_argument("--preset", choices=["silk", "street", "fancy", "brain", "invader", "tag"], help="export a studio style preset")
 ap.add_argument("--scale", type=int, default=3)
 ap.add_argument("--out", required=True)
@@ -40,6 +42,7 @@ if ns.recipe or ns.preset:
     if ns.ground is not None: over["ground"] = ns.ground
     cmd = ["node", str(ROOT / "scripts/tao_studio_export.mjs"), json.dumps(over) if over else "-", str(Path(ns.out).resolve()), "--scale", str(ns.scale)]
     if ns.preset: cmd += ["--preset", ns.preset]
+    if ns.panels: cmd += ["--panels", str(Path(ns.panels).resolve())]
     subprocess.run(cmd, cwd=ROOT, check=True)
     sys.exit(0)
 if not ns.id:

@@ -24,6 +24,7 @@ const [recipeArg, out] = pos;
 if (!recipeArg || !out) { console.error('usage: tao_studio_export.mjs <recipe.json|inline json|-> <out.png> [--scale 3] [--preset name]'); process.exit(2); }
 const SCALE = +opt('scale', 3);
 const PRESET = opt('preset', null);
+const PANELS = opt('panels', null);     // directory: also save the whole print and every panel as its own PNG
 const recipe = recipeArg === '-' ? {} : JSON.parse(existsSync(recipeArg) ? readFileSync(recipeArg, 'utf8') : recipeArg);
 const studio = pathToFileURL(resolve(dirname(fileURLToPath(import.meta.url)), '..', '_ARTIFACTS', 'tao-print-studio.html')).href;
 
@@ -52,6 +53,28 @@ await page.evaluate(() => document.fonts.ready);
 const pixelOn = await page.evaluate(() => +document.getElementById('pixel').value > 0);
 if (+recipe.pixel > 0 || (PRESET && pixelOn)) await page.waitForSelector('#print canvas', { timeout: 15000 });
 await page.waitForTimeout(PRESET ? 3000 : 1800);     // a preset click shows a status line that clears itself after 2.6 s; let it finish before the page is reframed
+let panelFiles = [];
+if (PANELS) {
+  await page.click('#make-png');
+  const expected = await page.evaluate(() => document.querySelector('#print canvas') ? 0 : document.querySelectorAll('#print svg svg').length + 1);
+  let last = -1, stable = 0;       // done when every panel is drawn (vector prints) or the gallery stops growing (mosaic)
+  for (let i = 0; i < 400 && stable < 5; i++) {
+    await page.waitForTimeout(700);
+    const n = await page.$$eval('#png-gallery figure', (e) => e.length);
+    if (expected && n >= expected) break;
+    stable = !expected && n > 0 && n === last ? stable + 1 : 0; last = n;
+  }
+  panelFiles = await page.evaluate(async () => {
+    const out = [];
+    for (const im of document.querySelectorAll('#png-gallery img')) {
+      const buf = new Uint8Array(await (await (await fetch(im.src)).blob()).arrayBuffer());
+      let s = ''; for (let i = 0; i < buf.length; i += 32768) s += String.fromCharCode.apply(null, buf.subarray(i, i + 32768));
+      out.push({ name: im.dataset.file, b64: btoa(s) });
+    }
+    return out;
+  });
+}
+if (PANELS) await page.waitForTimeout(3000);     // let the studio's status line clear before the page is reframed
 const info = await page.evaluate(() => {
   const rid = document.getElementById('proverb').value;
   const row = PROVERBS.filter((p) => p.id === rid)[0] || PROVERBS[0];
@@ -70,6 +93,13 @@ await page.evaluate((i) => {
   sheet.append(top, pr, bot);
 }, info);
 await page.locator('#sheet').screenshot({ path: resolve(out) });
+if (PANELS) await savePanels(PANELS);
 await browser.close();
+async function savePanels(dir) {
+  const { mkdirSync, writeFileSync } = await import('node:fs');
+  mkdirSync(resolve(dir), { recursive: true });
+  for (const f of panelFiles) writeFileSync(join(resolve(dir), f.name + '.png'), Buffer.from(f.b64, 'base64'));
+  console.log(panelFiles.length + ' images -> ' + resolve(dir));
+}
 if (errs.length) console.error('page errors:', errs.join(' | '));
 console.log(resolve(out));
