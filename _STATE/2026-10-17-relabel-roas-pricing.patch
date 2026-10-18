@@ -1,0 +1,133 @@
+diff --git a/_CANON/ARCS-Canon-v1-1.md b/_CANON/ARCS-Canon-v1-1.md
+index 3dcdfa8fd..c2122ce13 100644
+--- a/_CANON/ARCS-Canon-v1-1.md
++++ b/_CANON/ARCS-Canon-v1-1.md
+@@ -839,7 +839,7 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
+ 
+ **Phase 1: Intelligence Augmentation** (Months 0-12)
+ - **Positioning**: "Next-generation ad server with AI optimization"
+-- **Value Prop**: 40% ROAS improvement with performance guarantee
++- **Value Prop**: 40% ROAS improvement with performance guarantee [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+ - **Customer Psychology**: "We need better ad performance" (solves immediate pain)
+ - **Lock-In**: Moderate (switching cost = lost accuracy + retraining)
+ - **Expected Churn**: 12-18% annually
+@@ -880,6 +880,8 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
+ | Partial | $4.5M | Anonymized patterns | 82% | Rational middle ground |
+ | Full | $2.5M | All receipts shared | 87% | Transparent agencies win |
+ 
++**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
++
+ **Strategic Effect**:
+ 1. Agencies initially recommend Tier 1 (protect information advantage)
+ 2. Clients observe 15% performance gap vs. Tier 3
+@@ -915,6 +917,8 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
+ 
+ **Implementation**: "40% ROAS improvement or full refund"
+ 
++**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
++
+ **Why This Works**:
+ - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
+ - If client followed recommendations ≥80% and failed → ARCS refunds
+@@ -3346,7 +3350,7 @@ Phase 3 (Months 24-36): Infrastructure Standard
+ 
+ #### 10.2 Phase 1: The Trojan Horse Entry
+ 
+-**Value Proposition**: "40% ROAS improvement with performance guarantee"
++**Value Proposition**: "40% ROAS improvement with performance guarantee" [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+ 
+ **Why This Works**:
+ - Solves immediate pain (underperforming campaigns)
+@@ -3398,6 +3402,8 @@ Week 19+: Expansion
+ 
+ **Performance Guarantee**:
+ 
++**Status**: Design intent, unvalidated (Technical Overview Part III). The refund trigger below (underperforming baseline) is a different form from the improvement-or-refund form in the Value Prop lines and in the Performance Guarantee Moat section; reconcile before any use.
++
+ ```
+ If ARCS-recommended campaigns underperform baseline by >10%:
+   AND client followed ≥80% of recommendations:
+diff --git a/_CANON/ARCS-Litepaper.md b/_CANON/ARCS-Litepaper.md
+index 9ffd28f9f..c658aa6e5 100644
+--- a/_CANON/ARCS-Litepaper.md
++++ b/_CANON/ARCS-Litepaper.md
+@@ -330,7 +330,7 @@ Anonymized Pattern (Shared):
+ 
+ **Positioning**: "Next-generation ad server with AI optimization"
+ 
+-**Value Proposition**: 40% ROAS improvement with performance guarantee
++**Value Proposition**: 40% ROAS improvement with performance guarantee [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+ 
+ **Customer Psychology**: "We need better ad performance" → Solves immediate pain
+ 
+@@ -412,6 +412,8 @@ By Phase 3, customers face a unique retention dynamic:
+ - **Tier 2 (Partial Contribution)**: $4.5M/year—shares anonymized patterns, gets 82% accuracy  
+ - **Tier 3 (Full Contribution)**: $2.5M/year—shares all receipts, gets 87% accuracy
+ 
++**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
++
+ **Strategic Effect**: 
+ 1. Agencies recommend Tier 1 (protect asymmetry)
+ 2. Clients see 15% performance gap vs. Tier 3
+@@ -454,6 +456,8 @@ By Phase 3, customers face a unique retention dynamic:
+ 
+ **Implementation**: "40% ROAS improvement or full refund"
+ 
++**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
++
+ **Why This Works**:
+ - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
+ - If client followed recommendations and failed → ARCS refunds
+diff --git a/_CANON/ARCS-YellowPaper.md b/_CANON/ARCS-YellowPaper.md
+index e0b56d09f..d569abd26 100644
+--- a/_CANON/ARCS-YellowPaper.md
++++ b/_CANON/ARCS-YellowPaper.md
+@@ -54,7 +54,7 @@ Neither category addresses the core problem: **marketing lacks a decision intell
+ We propose a three-phase architectural evolution that uses each phase as foundation for the next:
+ 
+ **Phase 1 (Intelligence Layer)**: Enter market as next-generation optimization engine
+-- Hook: Measurable performance improvement (40%+ ROAS lift)
++- Hook: Measurable performance improvement (40%+ ROAS lift) [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+ - Value: Better outcomes through AI-powered prediction
+ - Lock-in: Moderate (switching cost = lost accuracy)
+ 
+@@ -387,7 +387,7 @@ More Customers → More Receipts Generated → More Patterns Extracted →
+ 
+ **Value Proposition**:
+ - 40%+ ROAS improvement over baseline
+-- Performance guarantees (refund if targets missed)
++- Performance guarantees (refund if targets missed) [Unvalidated: no guarantee terms have data behind them; see Technical Overview Part III.]
+ - Confidence-interval predictions (honest uncertainty)
+ 
+ **Customer Adoption Pattern**:
+@@ -512,6 +512,8 @@ The only churn at this phase results from:
+ | Partial | $4.5M | Anonymized patterns | 82-88% | Rational clients choose |
+ | Full | $2.5M | All receipts shared | 87-92% | Optimal performance |
+ 
++**Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
++
+ **Strategic Effect**:
+ 
+ 1. Agencies recommend Private tier (protect information advantage)
+@@ -586,6 +588,8 @@ Users engage with platform daily (not weekly). Engagement drives:
+ 
+ **Mechanism**: Offer contractual performance guarantees backed by receipt attribution:
+ 
++**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
++
+ **Guarantee Structure**:
+ ```
+ Promise: 40% ROAS improvement over baseline within 90 days
+diff --git a/_CANON/arcs-v9-additional/ARCS-WhitePaper-v2-1.md b/_CANON/arcs-v9-additional/ARCS-WhitePaper-v2-1.md
+index 5ed157faf..87f60fb90 100644
+--- a/_CANON/arcs-v9-additional/ARCS-WhitePaper-v2-1.md
++++ b/_CANON/arcs-v9-additional/ARCS-WhitePaper-v2-1.md
+@@ -309,7 +309,7 @@
+ ### 6.2 Alpha Program (Q1 2026)
+ 
+ - 20 design partners across trend detection and rhetorical compilation
+-- Performance guarantees: 2× improvement or money back
++- Performance guarantees: 2× improvement or money back [Unvalidated: not audited in Technical Overview Part III, no data in the repo.]
+ - Feedback incorporated into v2.2
+ 
+ ### 6.3 Patent Filing Sprint (Q4 2025 - Q1 2026)
