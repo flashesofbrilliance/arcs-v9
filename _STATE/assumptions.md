@@ -5,7 +5,7 @@
 > still an assumption, with the test that would decide it. When the test runs it closes to `held`
 > or `falsified` and points at its F-row / receipt; the row is never edited, a successor is added.
 
-Rows: 14 · falsified: 4 · held: 2 · open: 8
+Rows: 18 · falsified: 4 · held: 2 · open: 12
 
 | id | status | assumption | held by | since | test that would decide | decided |
 |---|---|---|---|---|---|---|
@@ -23,3 +23,7 @@ Rows: 14 · falsified: 4 · held: 2 · open: 8
 | asm-012 | **open** | Readers engage more with a forecast that shows its misses than with one that shows only hits. | both | 2026-09-29 | Across 10 tactical posts, split by whether the hook leads with a miss or a hit; compare comments per 1,000 impressions. | open |
 | asm-013 | **open** | Primary Source works better as an interrupt slot than as a standing show. | both | 2026-09-29 | Op 20 placed no Primary Source cluster (2026-09-29). Decide on impressions: news-hooked slot posts within 72 hours of the event must beat the scheduled show posts in the same weeks. | open |
 | asm-014 | **open** | The pre-registered impressions bands (dated 2026-09-29) contain the real number for at least half of the cuts. | both | 2026-09-29 | Op 19 closes each cut 7 days after posting; count hits inside the band after the first 10 closed cuts. | open |
+| asm-015 | **open** | On the 18 RET belief questions, Haiku scores at least 16/18 against the human-confirmed answers, so Sonnet is overkill for that task class. | claude-fable | 2026-10-17 | Re-run the 18 RET belief questions on Haiku and Sonnet and count correct answers against the confirmed ones; hold if Haiku >= 16/18, falsified if below. | open |
+| asm-016 | **open** | A regex-first, Haiku-second cascade reaches at least 0.9 precision on contradiction checks at 30% or more lower cost than Haiku alone. | claude-fable | 2026-10-17 | Run the three variants on the labelled sample; hold only if cascade precision >= 0.9 and cost is >= 30% below Haiku alone. | open |
+| asm-017 | **open** | Tier-fit labels on ATG tributaries are right at least 75% of the time and change a user's branch choice in at least 5 observed uses. | claude-fable | 2026-10-17 | Score 20 labelled tributaries against the top tier and count branch changes in 5 uses; falsified if more than 25% mislabelled or fewer than 5 changes. | open |
+| asm-018 | **open** | By 2026-12-31 at least one ledger cohort has 30 or more scored forecasts, so scripts/ledger_score.py can report a skill number. | claude-fable | 2026-10-17 | Run the scorer on 2026-12-31 and read n scored per cohort; hold if any cohort has n >= 30. | open |
