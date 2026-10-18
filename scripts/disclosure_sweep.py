@@ -72,7 +72,7 @@ def render(res, today):
     L = ["# Retro sweep: earliest dated trace per mechanism, all local clones", "",
          "Generated %s by `scripts/disclosure_sweep.py` (read-only; `git log --all --reverse -i -G`)." % today, "",
          "Commit dates are authorship/conception evidence. A commit in a private repo is not a disclosure by itself; "
-         "counsel decides what each date means. A blank cell means no commit touched that term in that clone, "
+         "counsel decides what each date means. Term hits are LEADS: they match substrings and other meanings (S_min in a test name, a mathematical hypersphere, database write-locks), so read the matching text before relying on a cell. A blank cell means no commit touched that term in that clone, "
          "NOT that the idea did not exist (clones may be partial, history was rewritten once on 2026-06-03 in arcs-v9).", ""]
     names = list(TERMS)
     L.append("| Clone | GitHub remote today | First commit | " + " | ".join(names) + " |")
@@ -81,7 +81,7 @@ def render(res, today):
         if r.get("missing"):
             L.append("| %s | not found | | " % r["repo"] + " | ".join([""] * len(names)) + " |")
             continue
-        label = os.path.basename(r["repo"].rstrip("/")) if "worktrees" not in r["repo"] else "arcs-v9 (this worktree)"
+        label = r["slug"].split("/")[-1] if r.get("slug") else os.path.basename(r["repo"].rstrip("/"))
         L.append("| %s | %s %s | %s | " % (label, r["slug"], r["vis"], r["first_commit"] or "-") +
                  " | ".join((r["hits"][n] or "-") for n in names) + " |")
     allhits = [(h.split()[1], h.split()[0], r["repo"], n) for r in res if not r.get("missing") for n, h in r["hits"].items() if h]
