@@ -45,8 +45,7 @@ def scan(path, ledger_root, only_lines=None):
     text = open(path, encoding="utf-8", errors="replace").read()
     ledger = nearest_ledger(path, ledger_root)
     pats = pl.load_ledger(ledger) if ledger else []
-    unval = pl.load_unvalidated(ledger) if ledger else []
-    proj = pl.load_projection(ledger) if ledger else []
+    marks = {st: (pl.load_status(ledger, st) if ledger else []) for st in pl.STATUSES}
     rows = []
     for i, line in enumerate(text.splitlines(), 1):
         if only_lines is not None and i not in only_lines:
@@ -58,12 +57,13 @@ def scan(path, ledger_root, only_lines=None):
             covered = any(rx.search(line) and any(cm.start() <= m.start() and m.end() <= cm.end()
                           for cm in rx.finditer(line)) for rx, _ in pats)
             if not covered:
-                marked = any(any(c.start() <= m.start() and m.end() <= c.end() for c in rx.finditer(line))
-                             for rx, _ in unval)
-                planned = any(any(c.start() <= m.start() and m.end() <= c.end() for c in rx.finditer(line))
-                              for rx, _ in proj)
-                rows.append((path, i, tok, line.strip()[:140],
-                             "UNVALIDATED" if marked else "PROJECTION" if planned else "UNCOVERED"))
+                state = "UNCOVERED"
+                for st in pl.STATUSES:   # precedence = STATUSES order
+                    if any(any(c.start() <= m.start() and m.end() <= c.end() for c in rx.finditer(line))
+                           for rx, _ in marks[st]):
+                        state = st.upper()
+                        break
+                rows.append((path, i, tok, line.strip()[:140], state))
     return rows
 
 def run(canon="_CANON", prim="operators/arcs_primitives.py"):
