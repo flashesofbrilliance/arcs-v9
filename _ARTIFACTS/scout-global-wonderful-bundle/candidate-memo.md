@@ -1,6 +1,8 @@
 # Wonderful via Scout Global: Candidate Bundle (SSOT)
 > Single source of truth for this candidate bundle. The resumes and recoil report project this and add no claims of their own.
-> Built 2026-10-14 from: George Suttie's email (2026-10-13), the four attachments he sent, Zach's reply, and the Granola transcript of the 11:00 ET call. PRIVATE, INTERNAL. Nothing here has been sent.
+> Built 2026-10-14 from: George Suttie's email (2026-10-13), the four attachments he sent, Zach's reply, and the Granola transcript of the 11:00 ET call. PRIVATE, INTERNAL.
+>
+> Status updated 2026-10-18: the bundle email WAS sent by Zach on 2026-10-16 14:25 UTC (thread 1a1451af4dc0d68e, to george@scout-global.com, all five PDFs attached); the ex-ante receipt `2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH` was filed 13:52 UTC, before the send. No reply from George as of 2026-10-18 18:00 UTC. The line "Nothing here has been sent" was true at build time (2026-10-14) and is kept here as history. Sections 5 and 6 below are marked with what happened.
 
 ## BLUF
 George Suttie (Scout Global) is recruiting Wonderful's founding New York deployment team. He sent two JDs, a company overview and an elevator pitch, and asked Zach to pick the role that fits. Recommendation: **lead with Deployment Strategist, offer FDE as the stretch.** Graded on the jobs.arcs.care rubrics the two tie on fit (FDE 0.790, Strategist 0.778, both PURSUE); the tiebreaker is winnability and bar risk (see `hyperstition-ledger.md`, `grades.json`). Two items need Zach before anything goes out: the 12-month "no prior application" attestation, and the role choice.
@@ -58,7 +60,10 @@ Evidence grades: **documented** (public or in the record), **self-reported** (Za
 - **Do not claim:** a titled FDE tenure; "40+ C-suite demos, 75% to pilot" (untraceable); any eval-harness or guardrail work without a named metric; Squat's $350M ARR as Zach's own.
 - **Ask in writing** (George could not answer on the call): retained or contingent; exclusivity; hiring-manager background; how many FDEs and Strategists are already hired; the decomposition-case format; anti-profile heuristics.
 
-## 5. Draft reply to George (NOT SENT; Zach edits and sends)
+## 5. Reply to George (SENT 2026-10-16, as edited by Zach; original draft below)
+
+Status updated 2026-10-18: Zach sent the FDE-first cover note with his own small edits to the 12-month sentence and the closing. The text below is the original 2026-10-14 draft, kept unedited as history; it led with Strategist and was superseded by the FDE-first revision (see the ex-ante receipt in `hyperstition-ledger.md`).
+
 > Hi George, thanks for the materials.
 > I'd put myself forward for the Deployment Strategist role first, with the FDE role as a stretch I can support with my build record. My read on each is in the attached positioning notes, and I've attached two versions of my resume: a designed one and an ATS-safe one.
 > On your question: [Zach to confirm in one line whether he has applied to Wonderful in the past 12 months].
@@ -66,10 +71,12 @@ Evidence grades: **documented** (public or in the record), **self-reported** (Za
 > Best, Zach
 
 ## 6. Calls and next actions
+
+Status updated 2026-10-18: items 1 to 4 are done (attestation answered and role picked in the sent email; bundle sent 2026-10-16; ex-ante receipt filed). Open: wait for George's reply (none as of 2026-10-18 18:00 UTC) and item 5. Original list kept below.
 1. Zach answers the attestation from his own records. **Blocking.**
 2. Zach picks the lead role.
 3. Zach reads the two resumes (`resume-wonderful-fde.pdf` designed, `resume-wonderful-fde-ats.pdf` ATS) and edits the reply. A Strategist-titled cut can be stamped from the same base in minutes once the role is chosen.
-4. File the ex-ante receipt before any send to Wonderful.
+4. File the ex-ante receipt before any send to Wonderful. **DONE** 2026-10-16 13:52 UTC (`2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH`), about 34 minutes before the send.
 5. Prepare for the Itay talent call and the decomposition case study (first-principles teardown of an enterprise workflow into an agent deployment).
 
 ## 7. Open facts to verify (marked unconfirmed, not assumed)

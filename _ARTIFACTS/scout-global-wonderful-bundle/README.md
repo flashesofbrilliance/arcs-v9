@@ -1,6 +1,6 @@
 # Scout Global / Wonderful: candidate bundle (minimum viable)
 
-A private candidate bundle for Zach's application path to Wonderful via George Suttie at Scout Global. Same shape as `_ARTIFACTS/mercury-bundle`: one SSOT memo, projections of it, no live pages. Nothing here has been sent or deployed.
+A private candidate bundle for Zach's application path to Wonderful via George Suttie at Scout Global. Same shape as `_ARTIFACTS/mercury-bundle`: one SSOT memo, projections of it, no live pages. No live pages are deployed. Status updated 2026-10-18: the bundle email was sent by Zach on 2026-10-16 (see below); "nothing has been sent" was true only at build time.
 
 ## Files
 | File | What it is |
