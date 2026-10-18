@@ -8,7 +8,7 @@
 
 ## Abstract
 
-We present a novel architectural framework for marketing intelligence systems that fundamentally rethinks decision support through the application of abductive reasoning, verifiable decision documentation, and compound network learning. This paper demonstrates how marketing platforms can evolve from traditional optimization tools into comprehensive operating systems through three distinct phases: (1) intelligence augmentation for campaign optimization, (2) platform consolidation through vendor integration, and (3) infrastructure lock-in via regulatory compliance requirements. We introduce the concept of **decision receipts**—blockchain-verified documentation of marketing choices—as a mechanism for creating both accountability and sustainable competitive advantages. Our analysis reveals that this approach creates network effects comparable to those observed in platforms like Amazon and Google, where early adoption advantages compound over time. The framework addresses the $350B accountability gap in enterprise marketing expenditure while providing measurable improvements in prediction accuracy (68% → 87%+) and return on investment (40-60% improvement over baseline).
+We present a novel architectural framework for marketing intelligence systems that fundamentally rethinks decision support through the application of abductive reasoning, verifiable decision documentation, and compound network learning. This paper demonstrates how marketing platforms can evolve from traditional optimization tools into comprehensive operating systems through three distinct phases: (1) intelligence augmentation for campaign optimization, (2) platform consolidation through vendor integration, and (3) infrastructure lock-in via regulatory compliance requirements. We introduce the concept of **decision receipts**—blockchain-verified documentation of marketing choices—as a mechanism for creating both accountability and sustainable competitive advantages. Our analysis reveals that this approach creates network effects comparable to those observed in platforms like Amazon and Google, where early adoption advantages compound over time. The framework addresses the $350B accountability gap in enterprise marketing expenditure.
 
 **Keywords**: Marketing Intelligence, Abductive Reasoning, Decision Verification, Temporal Pattern Recognition, Network Effects, Platform Economics, Blockchain Accountability
 
@@ -54,7 +54,7 @@ Neither category addresses the core problem: **marketing lacks a decision intell
 We propose a three-phase architectural evolution that uses each phase as foundation for the next:
 
 **Phase 1 (Intelligence Layer)**: Enter market as next-generation optimization engine
-- Hook: Measurable performance improvement (40%+ ROAS lift) [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+- Hook: Measurable performance improvement
 - Value: Better outcomes through AI-powered prediction
 - Lock-in: Moderate (switching cost = lost accuracy)
 
@@ -157,7 +157,6 @@ Where:
 
 Across [REDACTED] test scenarios comparing abductive predictions to actual outcomes:
 
-- **Accuracy**: 87% of actual outcomes fall within predicted confidence intervals
 - **Precision**: Mean Absolute Percentage Error (MAPE) of 12-15%
 - **Comparative Performance**: Outperforms human expert predictions in 76% of cases
 - **Calibration**: Predicted confidence levels align with observed outcome distributions (χ² test, p < 0.01)
@@ -207,7 +206,7 @@ Input → Feature Extraction → Similarity Search → Ensemble Prediction →
 |-----------------------|---------------------|------|----------|
 | 1,000 | 68% | 22% | 0.3s |
 | 10,000 | 78% | 17% | 0.8s |
-| 100,000 | 87% | 12% | 2.1s |
+| 100,000 | [struck 2026-10-17: no supporting data] | 12% | 2.1s |
 | 1,000,000 (projected) | 92% | 8% | 4.5s |
 
 **Network Effect Mechanism**: Prediction accuracy improves logarithmically with database size. This creates sustainable advantage for early-adopting platforms with larger receipt collections.
@@ -386,8 +385,6 @@ More Customers → More Receipts Generated → More Patterns Extracted →
 **Market Positioning**: "Next-generation campaign optimization with AI prediction"
 
 **Value Proposition**:
-- 40%+ ROAS improvement over baseline
-- Performance guarantees (refund if targets missed) [Unvalidated: no guarantee terms have data behind them; see Technical Overview Part III.]
 - Confidence-interval predictions (honest uncertainty)
 
 **Customer Adoption Pattern**:
@@ -399,7 +396,7 @@ More Customers → More Receipts Generated → More Patterns Extracted →
 **Lock-In Level**: **Moderate**
 
 Switching costs at this phase:
-- Loss of prediction accuracy (revert to 68% baseline vs. 87% with system)
+- Loss of prediction accuracy
 - Loss of accumulated receipts (cannot export to competing systems)
 - Retraining costs (team accustomed to new workflow)
 
@@ -588,11 +585,11 @@ Users engage with platform daily (not weekly). Engagement drives:
 
 **Mechanism**: Offer contractual performance guarantees backed by receipt attribution:
 
-**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
+**Status**: Design intent, not an offer. The performance threshold was struck for lack of supporting data; no guarantee terms are defined. Do not quote any guarantee to a counterparty.
 
 **Guarantee Structure**:
 ```
-Promise: 40% ROAS improvement over baseline within 90 days
+Promise: [struck 2026-10-17: no supporting data]
 Evidence: Pre-campaign baseline documented in receipts
 Tracking: All recommendations logged in blockchain
 Attribution: Determine fault via decision receipt analysis
@@ -676,7 +673,7 @@ vendor for compliance implementation.
 
 **Probability-Weighted Expected Value**: 0.67% market share, $1.2B ARR
 
-**Validation**: 0.6% market share requires 250 customers from 5,000 addressable companies (5% penetration in 36 months). With 40%+ ROAS improvement and performance guarantees, 5% penetration appears conservative.
+**Validation**: 0.6% market share requires 250 customers from 5,000 addressable companies (5% penetration in 36 months).
 
 ### 6.2 Network Effects and Winner-Take-Most Dynamics
 

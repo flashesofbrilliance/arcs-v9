@@ -88,7 +88,6 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 
 **1. Abductive Prediction Engine**
 - Generate falsifiable predictions with confidence intervals
-- 87% accuracy (vs. 68% baseline, 76% vs. human experts)
 - Multi-dimensional context matching across historical receipts
 
 **2. Decision Receipt System**
@@ -129,7 +128,7 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 **Capital Strategy** ($102M with <5% dilution):
 1. **Enterprise Pre-Sale**: $81M from 20 customers (prepaid 3-year contracts at 40% discount)
 2. **Token Generation Event**: $12M ($ARCS utility token for ecosystem participation)
-3. **Revenue Reinvestment**: $4.3M (currently profitable: $180K/month EBITDA)
+3. **Revenue Reinvestment**: [struck 2026-10-17: no supporting data] (the profitability claim it rested on)
 4. **Strategic Debt**: $5M credit facility
 
 **vs. Traditional VC**: $70M with 40-50% dilution
@@ -196,7 +195,6 @@ Prediction: New campaign with X in context C → ~4.3× ROAS ± confidence inter
 - Global enterprise marketing: $850B annually
 - US Enterprise (500+ employees): $350B annually
 - Addressable (Fortune 5000 + growth): $180B annually
-- **Current penetration**: 0.001% → massive greenfield
 
 **Career & Talent Optimization**:
 - 2.3M "cognitive synthesizers" in US underearning $35K/year vs. optimal placement
@@ -839,7 +837,7 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 **Phase 1: Intelligence Augmentation** (Months 0-12)
 - **Positioning**: "Next-generation ad server with AI optimization"
-- **Value Prop**: 40% ROAS improvement with performance guarantee [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+- **Value Prop**: [struck 2026-10-17: no supporting data] (the ROAS improvement figure and the performance guarantee)
 - **Customer Psychology**: "We need better ad performance" (solves immediate pain)
 - **Lock-In**: Moderate (switching cost = lost accuracy + retraining)
 - **Expected Churn**: 12-18% annually
@@ -878,7 +876,7 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 |------|-----------|--------------|---------------------|---------------------|
 | Private | $7.5M | Zero (hoarded) | 72% | Agency protects asymmetry |
 | Partial | $4.5M | Anonymized patterns | 82% | Rational middle ground |
-| Full | $2.5M | All receipts shared | 87% | Transparent agencies win |
+| Full | $2.5M | All receipts shared | [struck 2026-10-17: no supporting data] | Transparent agencies win |
 
 **Status**: Illustrative pricing. The accuracy figures in this table are unvalidated, and the performance gap between tiers derives from them (Technical Overview Part III).
 
@@ -915,9 +913,9 @@ T_{\text{optimal}} = \{t : E_{\text{team}}(t) > \theta_{\text{collab}}\}
 
 **Insight**: Competitors can't offer guarantees without decision receipts. Receipts take 2-3 years to build.
 
-**Implementation**: "40% ROAS improvement or full refund"
+**Implementation**: [struck 2026-10-17: no supporting data]
 
-**Status**: Design intent, not an offer. The ROAS threshold is unvalidated (Technical Overview Part III); do not quote it to a counterparty.
+**Status**: Design intent, not an offer. The performance threshold was struck for lack of supporting data; no guarantee terms are defined. Do not quote any guarantee to a counterparty.
 
 **Why This Works**:
 - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
@@ -3350,7 +3348,7 @@ Phase 3 (Months 24-36): Infrastructure Standard
 
 #### 10.2 Phase 1: The Trojan Horse Entry
 
-**Value Proposition**: "40% ROAS improvement with performance guarantee" [Unvalidated target: asserted threshold, no control group; see Technical Overview Part III.]
+**Value Proposition**: [struck 2026-10-17: no supporting data] (the ROAS improvement figure and the performance guarantee)
 
 **Why This Works**:
 - Solves immediate pain (underperforming campaigns)
@@ -3402,7 +3400,7 @@ Week 19+: Expansion
 
 **Performance Guarantee**:
 
-**Status**: Design intent, unvalidated (Technical Overview Part III). The refund trigger below (underperforming baseline) is a different form from the improvement-or-refund form in the Value Prop lines and in the Performance Guarantee Moat section; reconcile before any use.
+**Status**: Design intent, unvalidated (Technical Overview Part III). The improvement-or-refund form elsewhere in the canon was struck for lack of supporting data, so this refund trigger has none either; do not use it.
 
 ```
 If ARCS-recommended campaigns underperform baseline by >10%:
@@ -3419,7 +3417,6 @@ Result: Competitors can't match without decision documentation system
 - $15.2M ARR
 - Net Revenue Retention: 120% (expansion within accounts)
 - NPS >70
-- Prediction accuracy: 87% (actual outcomes within stated confidence intervals)
 
 #### 10.3 Phase 2: Platform Consolidation
 
@@ -3795,7 +3792,6 @@ Year 2: 50,000 receipts
   - Advantage: 10% better than new entrant (significant)
 
 Year 3: 250,000 receipts
-  - Accuracy: 87%
   - Advantage: 15% better than Year 1 competitor (customer-visible)
 
 Year 5 (projected): 1,000,000 receipts
