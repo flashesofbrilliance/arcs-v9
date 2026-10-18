@@ -70,17 +70,26 @@ def analyze(lines, ledger_for, known):
                     t3.append((f, n, m.group(0)))
     return t2, t3
 
-def messages(t2, t3):
-    """At most one line per trigger (rate limit)."""
+def messages(t2, t3, ack=frozenset()):
+    """At most one line per trigger (rate limit). ack: tokens the ledger already marks unvalidated."""
     out = []
-    if t2:
-        f, n, tok = t2[0]
-        out.append(f"Librarian T2: {len(t2)} metric(s) with no evidence-ledger cover, first `{tok}` at {f}:{n}. {COST}")
+    new = [x for x in t2 if x[2] not in ack]
+    old = [x for x in t2 if x[2] in ack]
+    if new:
+        f, n, tok = new[0]
+        out.append(f"Librarian T2: {len(new)} metric(s) with no evidence-ledger cover, first `{tok}` at {f}:{n}. {COST}")
+    elif old:
+        f, n, tok = old[0]
+        out.append(f"Librarian T2: {len(old)} added metric(s) re-use a figure the ledger marks UNVALIDATED, first `{tok}` at {f}:{n}. "
+                   "Cite evidence or label it as unvalidated in the text; nothing new to triage.")
     if t3:
         terms = sorted({t for _, _, t in t3})
         out.append(f"Librarian T3: {len(terms)} new canon term(s) not in glossary, rosetta or HEAD canon: {', '.join(terms[:3])}"
                    + (" ..." if len(terms) > 3 else "") + f". {COST}")
     return out
+
+def acknowledged(t2, f_to_unval):
+    return {tok for f, _, tok in t2 if any(rx.search(tok) for rx, _ in f_to_unval(f))}
 
 ACCEPT_PATHS = (":(glob)**/evidence.jsonl", ":(glob)**/*.evidence.jsonl", GLOSSARY, ROSETTA)
 MUTE_DAYS = 14          # pending window; a declined row then mutes its token another MUTE_DAYS
@@ -180,6 +189,10 @@ def report(path=None, now=None, added_fn=added_since):
              + ("TRIPPED: mute T1 until re-registered (T1 is not built, so no live effect)" if k2_trip else "ok")]
     return lines, res
 
+def unval_for(f):
+    led = ccr.nearest_ledger(f, "_CANON" if f.startswith("_CANON/") else os.path.dirname(f))
+    return pl.load_unvalidated(led) if led else []
+
 def ledger_for(f):
     led = ccr.nearest_ledger(f, "_CANON" if f.startswith("_CANON/") else os.path.dirname(f))
     return pl.load_ledger(led) if led else []
@@ -201,6 +214,14 @@ def self_test():
     msgs = messages(*analyze(many, lambda f: [], ""))
     check("rate limit: <=1 line per trigger", len(msgs) == 2)
     check("every message states its cost", all("tokens" in m for m in msgs))
+    # unvalidated acknowledgement: different wording, never silent
+    unv = lambda f: [(re.compile("76%"), "audit:x")]
+    t2b, _ = analyze(bad, lambda f: cov, known)
+    ackset = acknowledged(t2b, unv)
+    m_ack = messages(t2b, [], ackset)
+    check("unvalidated re-use: still warns, labelled UNVALIDATED", len(m_ack) == 1 and "UNVALIDATED" in m_ack[0])
+    check("unvalidated re-use: a different new metric still gets the normal warning",
+          "no evidence-ledger cover" in messages(t2b + [("_CANON/a.md", 4, "91%")], [], ackset)[0])
     # acceptance rule: pure
     row = {"ts": "2026-10-01T00:00:00+00:00", "trigger": "T3", "token": "Zorblax-Kappa", "file": "_CANON/a.md", "line": 1}
     r2 = {**row, "trigger": "T2", "token": "76%"}
@@ -280,7 +301,11 @@ def main():
         t3 = [x for x in t3 if not muted("T3", x[2], rows)]
     except (OSError, ValueError):
         pass  # a broken log must never break a commit
-    for m in messages(t2, t3):
+    try:
+        ack = acknowledged(t2, unval_for)
+    except (pl.LedgerError, OSError, ValueError):
+        ack = frozenset()
+    for m in messages(t2, t3, ack):
         print("⚠ " + m, file=sys.stderr)
     try:
         record(t2, t3)

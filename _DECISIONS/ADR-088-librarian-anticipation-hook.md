@@ -29,6 +29,10 @@ Measured over the first 10 sessions in which the hook fires, from a suggestion l
 - K4: no ledger hit reused by session 10 => the Rosetta design failed; drop T3.
 - Zach decides at the review, not the hook. Changing thresholds after build needs a new dated entry.
 
+## Ledger status `unvalidated` (added 2026-10-17)
+
+An evidence-ledger entry may carry `"status": "unvalidated"` plus a `source` pointing at the audit that says so. It is a triage mark, not evidence: it never covers a metric, `provenance_lint.py` still fails the file, and any other status value or a missing source is a hard error (exit 2). It changes the label (UNVALIDATED, not UNCOVERED) in the lint message and in `canon_claims_report.py`, and the pre-commit hook then words a re-used figure differently from a new one. Reason: the Technical Overview's Claims Audit already calls the headline accuracy figures unvalidated, so adding them as covering entries would make the gate pass numbers the repo itself disowns.
+
 ## Gate for the build (gotcha 15)
 
 Every check ships a known-bad and a known-good fixture in its `--self-test`, wired into pre-commit. The report generator already does this.
