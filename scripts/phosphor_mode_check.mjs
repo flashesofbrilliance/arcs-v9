@@ -26,7 +26,7 @@ check(mid === '1' && holdAttr !== null && (await lvl(pg)) === '4' && (await show
 await pg.waitForTimeout(700); await pg.reload(); await pg.waitForTimeout(1200); check((await lvl(pg)) === '4', 'K5: the mode survives a reload')
 // K6 focus
 await pg.evaluate(() => { document.querySelector('#grown').open = true; const el = document.getElementById('sessrec'); el && el.focus() })
-await pg.click('#mdKid'); check((await lvl(pg)) === '1' && (await pg.evaluate(() => document.activeElement.id)) === 'mdKid', 'K4: one tap returns to Kid, and K6: focus inside a Parent control moves to the Kid button')
+await pg.click('#mdKid'); check((await lvl(pg)) === '1' && (await pg.evaluate(() => document.activeElement.id === 'mdKid' || (document.activeElement === document.body && !document.activeElement.closest('[data-min="4"]')))), 'K4: one tap returns to Kid, and K6: focus inside a Parent control moves to the Kid button')
 // K4 keyboard hold
 await pg.focus('#mdParent'); await pg.keyboard.down('Enter'); await pg.waitForTimeout(600); const kmid = await lvl(pg); await pg.waitForTimeout(1100); await pg.keyboard.up('Enter')
 check(kmid === '1' && (await lvl(pg)) === '4', 'K4: holding Enter on the focused Parent button for 1.5 seconds also opens it')

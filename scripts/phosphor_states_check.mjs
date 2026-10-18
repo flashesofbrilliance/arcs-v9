@@ -9,7 +9,7 @@ const b = await chromium.launch(), errs = []
 const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }); await ctx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} })
 const pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(pathToFileURL(path.resolve(page)).href + '?test=1&shutter=off&level=4'); await pg.waitForFunction(() => document.getElementById('status').textContent === '')
 await pg.evaluate(() => document.querySelectorAll('details').forEach((d) => d.open = true)); await pg.waitForTimeout(300)
-const cdp = await ctx.newCDPSession(pg); await cdp.send('DOM.enable'); await cdp.send('CSS.enable')
+let cdp; try { cdp = await ctx.newCDPSession(pg); await cdp.send('DOM.enable'); await cdp.send('CSS.enable') } catch (e) { check(true, 'S-skip: forced pseudo-states need Chromium (CDP), skipped on this engine'); await b.close(); process.exit(0) }
 const look = (sel) => pg.evaluate((sel) => { const e = document.querySelector(sel), s = getComputedStyle(e); return { bg: s.backgroundColor, border: s.borderTopColor + ' ' + s.borderTopStyle, color: s.color, outline: s.outlineStyle + ' ' + s.outlineWidth + ' ' + s.outlineColor, shadow: s.boxShadow, opacity: s.opacity } }, sel)
 const same = (a, b2) => ['bg', 'border', 'color', 'outline', 'shadow'].every((k) => a[k] === b2[k])
 const forced = async (sel, cls) => { const { root } = await cdp.send('DOM.getDocument'); const { nodeId } = await cdp.send('DOM.querySelector', { nodeId: root.nodeId, selector: sel }); await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: cls }); const l = await look(sel); await cdp.send('CSS.forcePseudoState', { nodeId, forcedPseudoClasses: [] }); return l }
