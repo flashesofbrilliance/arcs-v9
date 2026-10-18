@@ -658,6 +658,14 @@ if [ -f scripts/provenance_lint.py ] && command -v python3 >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# Librarian anticipation hook (ADR-088, T2 + T3): WARN-only. Lines added to _CANON/** or
+# operators/arcs_primitives.py with a metric that no evidence ledger covers, or a term the canon,
+# glossary and rosetta have never seen. Never blocks; LIBRARIAN_HOOK=0 silences one commit.
+if [ -f scripts/librarian_hook.py ] && [ "${LIBRARIAN_HOOK:-1}" != "0" ] && command -v python3 >/dev/null 2>&1; then
+  python3 scripts/librarian_hook.py || true
+fi
+
+# ---------------------------------------------------------------------------
 # case-world drift gate (AGENTS.md #13/#15): playable case pages carry the kit's Case World
 # blocks verbatim (src/ui-kit/recoil-report/15-case-world.html). Block the commit if an
 # enrolled page drifted or is half-enrolled. Fix by editing the kit and running
@@ -829,7 +837,7 @@ fi
 # Each carries a --self-test that proves it; run it whenever that script is staged.
 for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
          connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
-         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
+         provenance_lint librarian_hook canon_claims_report case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
          bridge_index_scan snapshot_prune_ui_artifacts research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
          linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then

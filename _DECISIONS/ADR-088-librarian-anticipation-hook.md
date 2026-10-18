@@ -1,6 +1,6 @@
 # ADR-088 : Librarian anticipation hook: suggest an echo scan before the reader has to ask, and make each scan free to reuse
 
-**Status:** DRAFT / PROPOSAL (2026-10-17). Not decided. Zach reviews; nothing is built or wired.
+**Status:** DRAFT / PROPOSAL (2026-10-17). Placement decided 2026-10-17; T2 and T3 warn-only pre-commit built the same day. T1, the echo ledger writers and the suggestion log are not built.
 **Sequence:** allocated via `python3 scripts/oracle.py next adr` -> 88.
 **Source:** `runtime/specs/librarian-anticipation-hook-v0.md` (merged in PR 1306), which holds the full trigger table, rate limits and fixtures. This ADR records the decision and the kill condition; the spec stays the working detail.
 **Prior art read:** `operators/arcs_librarian.py` (already has `recommend(q, budget)`), `scripts/prior_art.py`, the `/echo-scan` skill, `scripts/provenance_lint.py`, `scripts/canon_claims_report.py`, ADR-044 (temporal provenance), ADR-075 (metabolic router), AGENTS.md gotchas 11 and 15.
@@ -37,11 +37,11 @@ Every check ships a known-bad and a known-good fixture in its `--self-test`, wir
 
 - Cost: a small deterministic scan per trigger; model spend only when Zach accepts a scan.
 - Risk: noise (bounded by the limits and K1/K2) and a ledger that no one reads (K4).
-- Not decided here: placement. Recommendation is a pre-commit warning for T2 and T3 and `/prior-art` for T1.
+- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. The hook logs no suggestions yet, so K1 and K2 cannot be measured until a log or an acceptance rule exists (see Open).
 
 ## Open
 
-1. Placement of the hook (above).
+1. How acceptance is measured for a pre-commit warning (candidate rule: a later commit adds a ledger, glossary or rosetta entry for the flagged token). Until then K1 and K2 are unmeasurable.
 2. Keep, cite or strike each uncovered canon token.
 3. Reconcile the Librarian's registry row, which says store/retrieve only.
 4. The NCI definition split and the Litepaper acronym mismatch are definitional drift outside these numeric triggers.
