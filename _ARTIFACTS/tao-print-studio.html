@@ -161,6 +161,11 @@ button.primary { border-color: var(--cyan); color: var(--cyan); }
 #png-gallery figure.whole { grid-column: 1 / -1; }
 #png-gallery img { display: block; width: 100%; height: auto; border-radius: var(--ds-r-sm); }
 #png-gallery figcaption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; color: var(--dimmed); font-size: var(--fs-body); overflow-wrap: anywhere; }
+#drive-rows { display: grid; gap: 10px; }
+.mrow { display: grid; gap: 6px; padding: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); min-width: 0; }
+.mrow .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.meters { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); font-variant-numeric: tabular-nums; margin: 0; overflow-wrap: anywhere; }
+.meters b { color: var(--text); font-weight: 600; }
 ul.saves { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 ul.saves li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
 ul.saves .nm { min-width: 0; overflow-wrap: anywhere; }
@@ -226,6 +231,7 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
         <div class="row"><label for="weight">Weight</label><select id="weight"></select></div>
       </div>
       <div class="row"><label for="size"><span>Size</span><output id="size-o"></output></label><input id="size" type="range" min="50" max="150" step="5"></div>
+      <div class="row"><label for="travel"><span>Text travel (around the ring)</span><output id="travel-o"></output></label><input id="travel" type="range" min="0" max="100" step="1"></div>
       <div class="row"><label for="track"><span>Tracking</span><output id="track-o"></output></label><input id="track" type="range" min="-4" max="24" step="1"></div>
       <div class="row"><label for="leading"><span>Line spacing</span><output id="leading-o"></output></label><input id="leading" type="range" min="80" max="160" step="5"></div>
       <div class="row two">
@@ -265,6 +271,20 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
     <fieldset><legend>Tag mark</legend>
       <label class="check" for="tag"><input id="tag" type="checkbox"> Sign each panel with the tag</label>
       <div class="row"><label for="handle">Handle</label><input id="handle" type="text" maxlength="12" spellcheck="false"></div>
+    </fieldset>
+
+    <fieldset><legend>Audio drive</legend>
+      <label class="check" for="drive-on"><input id="drive-on" type="checkbox"> Drive the print from the audio</label>
+      <div class="btns"><button type="button" id="drive-play" class="primary">Play</button><button type="button" id="drive-demo">Demo signal</button><button type="button" id="drive-load">Load audio</button><input type="file" id="drive-file" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden></div>
+      <div class="row"><label for="drive-pos"><span id="drive-name">Demo signal</span><output id="drive-time">0:00 / 0:16</output></label><input id="drive-pos" type="range" min="0" max="16" step="0.01" value="0"></div>
+      <p class="meters" id="drive-meters" aria-live="off"></p>
+      <div class="row two">
+        <div class="row"><label for="drive-smooth">Smoothing</label><select id="drive-smooth"><option value="calm">Calm</option><option value="snap">Snap</option></select></div>
+        <div class="row"><label for="drive-period"><span>Cycle length</span><output id="drive-period-o"></output></label><input id="drive-period" type="range" min="2" max="30" step="1" value="8"></div>
+      </div>
+      <div id="drive-rows"></div>
+      <div class="btns"><button type="button" id="drive-sweep">Sweep fidelity 0 to 1</button><button type="button" id="drive-tagmap">Tag stutter map</button></div>
+      <p class="note tight">Audio is analysed in this page and never leaves it. Each row moves one control from one audio source; the print stays a pure function of the recipe and the time.</p>
     </fieldset>
 
     <fieldset><legend>Saved looks</legend>
@@ -336,7 +356,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
     rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50,
     fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50,
-    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false
+    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false, travel: 0, drive: ''
   };
   var cfg = {};
   Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; });
@@ -498,7 +518,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var size = Math.max(4, Math.min(9.5 * cfg.size / 100, cv.total * 0.92 / (n * 0.78 + 0.6))), adv = size * 0.78;
     // advance each glyph by its own perspective-scaled width so near letters do not collide; centre the run on the top of the ring
     function layout(s0) { var pos = [], s = s0; for (var q = 0; q < n; q++) { pos.push(s); s += adv * (3.4 / (3.4 + onCurve(cv, s).z)) / 0.97 * (chars[q] === ' ' ? 0.7 : 1); } return { pos: pos, end: s }; }
-    var L = layout(cv.top - adv * (n - 1) / 2); L = layout(cv.top - (L.end - L.pos[0]) / 2);
+    var L = layout(cv.top - adv * (n - 1) / 2); L = layout(cv.top - (L.end - L.pos[0]) / 2 + cfg.travel / 100 * cv.total);
     var r = rng('striptxt', cfg.proverb, cfg.seed, k), startFace = null, out = '', glyphs = 0, back = 0;
     chars.forEach(function (c, i) {
       if (c === ' ') return;
@@ -606,6 +626,11 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     return { rough: Math.round(60 * Math.pow(ls, 0.8)), spray: Math.round(70 * ls), sprayhard: 30, spraydens: Math.round(50 + 30 * ls), drips: Math.round(80 * ls), spatter: Math.round(90 * ls), edge: 'drip', edgeamt: Math.round(70 * ls), wall: Math.round(35 * ls) };
   }
   function build() {
+    var drv = driveOverrides(), sv = null;
+    if (drv) { sv = {}; Object.keys(drv).forEach(function (k) { sv[k] = cfg[k]; cfg[k] = drv[k]; }); }
+    try { return buildAuto(); } finally { if (sv) Object.keys(sv).forEach(function (k) { cfg[k] = sv[k]; }); }
+  }
+  function buildAuto() {
     if (!cfg.auto) return build0();
     var g = derived(cfg.fidelity / 100), saved = {};
     Object.keys(g).forEach(function (k) { saved[k] = cfg[k]; cfg[k] = g[k]; });
@@ -646,7 +671,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     $('readout').innerHTML = '<li>Fidelity <b>' + (cfg.fidelity / 100).toFixed(2) + '</b></li><li>Mean plate slip <b>' + (st.reg / st.n).toFixed(2) + '</b></li><li>Ink dropouts <b>' + st.drop + '</b></li><li>Grain specks <b>' + st.specks + '</b></li><li>Shape code <b>' + last.row.aspect + '.' + last.row.verb + '</b></li><li>Source <b>' + last.row.source + '</b></li>';
     var g = cfg.ground, c = 'python3 scripts/tao_print_export.py ' + cfg.proverb + ' --fidelity ' + (cfg.fidelity / 100).toFixed(2) + ' --seed ' + cfg.seed + ' --ground ' + g + ' --out print.png';
     $('cmd').textContent = c;
-    try { localStorage.setItem('tao-print-studio', JSON.stringify(cfg)); } catch (e) {}
+    if (!DR.playing) { try { localStorage.setItem('tao-print-studio', JSON.stringify(cfg)); } catch (e) {} }
   }
   function rgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.replace(/(.)/g, '$1$1'); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
   function pixelate(res, tk) {
@@ -739,6 +764,160 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     });
     Promise.all(jobs).then(function () { if (run === pngRun) say((res.panels.length + 1) + ' images ready. Press and hold one to save it.'); }, function (e) { say(e.message || 'Could not draw the images.'); });
   }
+  /* ---- Drive: Phosphor's analysis (FFT 2048 at 30 fps, 64 log bands, loudness, flux, calm envelope), ported ---- */
+  var DRFPS = 30, DNFFT = 2048, DNB = 64, DMAXSEC = 900;
+  var DR = { on: false, rows: [], smooth: 'calm', period: 8, ready: false, nf: 0, dur: 0, sr: 22050, src: null, ac: null, buf: null, node: null, playing: false, off0: 0, t0: 0, tpaused: 0, name: 'Demo signal', raf: 0, last: 0, gen: 0, F: null };
+  var SRCS = [['none', 'Off'], ['low', 'Low band'], ['mid', 'Mid band'], ['high', 'High band'], ['loud', 'Loudness'], ['onset', 'Onset'], ['stutter', 'Stutter gate'], ['saw', 'Cycle ramp'], ['sine', 'Cycle sine'], ['clip', 'Clip progress 0 to 1']];
+  var DTARGETS = ['fidelity', 'slip', 'dropout', 'grain', 'rough', 'spray', 'drips', 'spatter', 'edgeamt', 'wall', 'splat', 'halftone', 'views', 'outline', 'horizon', 'size', 'travel', 'fill'];
+  function dFFT(n) {
+    var bits = Math.round(Math.log(n) / Math.LN2), rev = new Uint32Array(n), cs = new Float64Array(n / 2), sn = new Float64Array(n / 2), i;
+    for (i = 0; i < n; i++) rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bits - 1));
+    for (i = 0; i < n / 2; i++) { cs[i] = Math.cos(2 * Math.PI * i / n); sn[i] = -Math.sin(2 * Math.PI * i / n); }
+    return function (re, im) {
+      var i, j, k, size, half, step, a, b, tr, ti, t;
+      for (i = 0; i < n; i++) { j = rev[i]; if (j > i) { t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; } }
+      for (size = 2; size <= n; size <<= 1) { half = size >> 1; step = n / size;
+        for (i = 0; i < n; i += size) for (j = 0, k = 0; j < half; j++, k += step) { a = i + j; b = a + half;
+          tr = re[b] * cs[k] - im[b] * sn[k]; ti = re[b] * sn[k] + im[b] * cs[k]; re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti; } }
+    };
+  }
+  var dfft = dFFT(DNFFT), dhann = new Float64Array(DNFFT);
+  for (var dh = 0; dh < DNFFT; dh++) dhann[dh] = 0.5 - 0.5 * Math.cos(2 * Math.PI * dh / (DNFFT - 1));
+  function dpct(arr, p) { var a = arr.slice().sort(function (x, y) { return x - y; }); return a[Math.min(a.length - 1, Math.floor(p * (a.length - 1)))]; }
+  function dAnalyze(pcm, sr, done, gen) {
+    var hop = Math.round(sr / DRFPS), nf = Math.max(1, Math.floor((pcm.length - DNFFT) / hop) + 1), bands = new Float32Array(nf * DNB), rms = new Float32Array(nf), raw = new Float32Array(nf * DNB);
+    var binHz = sr / DNFFT, fmin = 40, fmax = Math.min(16000, sr * 0.45), edges = [], lo = [], hi = [], i, b, f = 0;
+    for (i = 0; i <= DNB; i++) edges.push(fmin * Math.pow(fmax / fmin, i / DNB));
+    for (b = 0; b < DNB; b++) { var c = Math.sqrt(edges[b] * edges[b + 1]), l = Math.ceil(edges[b] / binHz), h = Math.floor(edges[b + 1] / binHz); if (h < l) { l = h = Math.round(c / binHz); } lo.push(Math.max(1, l)); hi.push(Math.max(1, h)); }
+    var re = new Float64Array(DNFFT), im = new Float64Array(DNFFT);
+    function step() {
+      if (gen !== DR.gen) return;
+      var end = Math.min(nf, f + 300);
+      for (; f < end; f++) {
+        var s0 = f * hop, e2 = 0, k;
+        for (k = 0; k < DNFFT; k++) { re[k] = (pcm[s0 + k] || 0) * dhann[k]; im[k] = 0; }
+        for (k = 0; k < hop && s0 + k < pcm.length; k++) e2 += pcm[s0 + k] * pcm[s0 + k];
+        rms[f] = Math.sqrt(e2 / hop); dfft(re, im);
+        for (b = 0; b < DNB; b++) { var p = 0, cnt = 0; for (k = lo[b]; k <= hi[b]; k++) { p += re[k] * re[k] + im[k] * im[k]; cnt++; } raw[f * DNB + b] = 10 * Math.log10(p / cnt / (DNFFT * DNFFT) + 1e-12); }
+      }
+      if (f < nf) { setTimeout(step, 0); return; }
+      var sample = []; for (i = 0; i < raw.length; i += 7) sample.push(raw[i]);
+      var dhi = dpct(sample, 0.995), dlo = Math.max(dpct(sample, 0.05), dhi - 66), span = Math.max(1, dhi - dlo);
+      for (i = 0; i < raw.length; i++) bands[i] = Math.min(1, Math.max(0, (raw[i] - dlo) / span));
+      var rdb = []; for (i = 0; i < nf; i++) rdb.push(20 * Math.log10(rms[i] + 1e-6));
+      var rlo = dpct(rdb, 0.05), rhi = dpct(rdb, 0.995), rspan = Math.max(1, rhi - rlo), lev = new Float32Array(nf), flux = new Float32Array(nf);
+      for (i = 0; i < nf; i++) { lev[i] = Math.min(1, Math.max(0, (rdb[i] - rlo) / rspan)); var fl = 0; for (b = 0; b < DNB; b++) if (i) fl += Math.max(0, bands[i * DNB + b] - bands[(i - 1) * DNB + b]); flux[i] = fl; }
+      done({ nf: nf, bands: bands, lev: lev, flux: flux });
+    }
+    step();
+  }
+  function dEnv(arr, att, rel) { var o = new Float32Array(arr.length), e = 0, i; for (i = 0; i < arr.length; i++) { var v = arr[i]; e = v > e ? Math.min(v, e + att) : Math.max(v, e - rel); o[i] = e; } return o; }
+  function dSources() {
+    var F = DR.F; if (!F) return; var nf = F.nf, low = new Float32Array(nf), mid = new Float32Array(nf), high = new Float32Array(nf), on = new Float32Array(nf), i, b, calm = DR.smooth === 'calm';
+    for (i = 0; i < nf; i++) {
+      var a = 0, m = 0, h = 0; for (b = 0; b < 16; b++) a += F.bands[i * DNB + b]; for (b = 16; b < 40; b++) m += F.bands[i * DNB + b]; for (b = 40; b < 64; b++) h += F.bands[i * DNB + b];
+      low[i] = a / 16; mid[i] = m / 24; high[i] = h / 24;
+    }
+    var fp = dpct(Array.prototype.slice.call(F.flux), 0.95) || 1; for (i = 0; i < nf; i++) on[i] = Math.min(1, F.flux[i] / fp);
+    var at = calm ? 0.07 : 1, rl = calm ? 0.045 : 0.25;
+    DR.src = { low: dEnv(low, at, rl), mid: dEnv(mid, at, rl), high: dEnv(high, at, rl), loud: dEnv(F.lev, at, rl), onset: dEnv(on, 1, calm ? 0.12 : 0.3) };
+  }
+  function dHash(n) { n = Math.imul(n ^ (n >>> 15), 2246822507); n = Math.imul(n ^ (n >>> 13), 3266489909); return ((n ^ (n >>> 16)) >>> 0) / 4294967296; }
+  function srcVal(name, t, fi) {
+    var S = DR.src; if (name === 'saw') return (t % DR.period) / DR.period; if (name === 'sine') return 0.5 + 0.5 * Math.sin(2 * Math.PI * t / DR.period); if (name === 'clip') return DR.dur ? Math.min(1, t / DR.dur) : 0;
+    if (name === 'stutter') return dHash(Math.floor(t / (DR.period / 16)) + cfg.seed * 7919) < 0.45 ? 1 : 0;
+    return S && S[name] ? S[name][fi] : 0;
+  }
+  function driveTime() { if (DR.playing && DR.ac) { var x = DR.off0 + (DR.ac.currentTime - DR.t0); return DR.dur ? x % DR.dur : 0; } return DR.tpaused; }
+  function driveFi(t) { return Math.max(0, Math.min(DR.nf - 1, Math.floor(t * DRFPS))); }
+  function driveOverrides() {
+    if (!DR.on || !DR.ready) return null;
+    var t = driveTime(), fi = driveFi(t), ov = {}, any = false;
+    DR.rows.forEach(function (r) {
+      if (r.s === 'none' || !r.t || !r.a) return;
+      var el = $(r.t); if (!el) return; var lo = +el.min, hi = +el.max, base = r.t in ov ? ov[r.t] : cfg[r.t];
+      ov[r.t] = Math.min(hi, Math.max(lo, base + r.a / 100 * (hi - lo) * srcVal(r.s, t, fi))); any = true;
+    });
+    if ('pixel' in ov) ov.pixel = Math.round(ov.pixel / 8) * 8;
+    return any ? ov : null;
+  }
+  function demoPCM() {
+    var sr = 22050, dur = 16, n = sr * dur, pcm = new Float32Array(n), seed = 12345, prev = 0, i;
+    var rnd = function () { seed = (seed * 16807) % 2147483647; return seed / 2147483647 * 2 - 1; };
+    var notes = [55, 55, 73.4, 65.4];
+    for (i = 0; i < n; i++) {
+      var t = i / sr, bt = t % 0.5, kick = Math.sin(2 * Math.PI * (45 * bt + 110 * (1 - Math.exp(-30 * bt)) / 30)) * Math.exp(-bt * 9) * 0.9;
+      var nz = rnd(), ht = t % 0.25, hat = (nz - prev) * Math.exp(-ht * 60) * 0.35; prev = nz;
+      var bass = Math.sin(2 * Math.PI * notes[Math.floor(t / 2) % 4] * t) * 0.3, sw = 0.5 - 0.5 * Math.cos(2 * Math.PI * t / 8);
+      var pad = (Math.sin(2 * Math.PI * 440 * t) + Math.sin(2 * Math.PI * 554.4 * t) + Math.sin(2 * Math.PI * 659.3 * t)) * 0.05 * sw;
+      pcm[i] = Math.max(-1, Math.min(1, kick + hat + bass + pad));
+    }
+    return { pcm: pcm, sr: sr };
+  }
+  function driveLoadPCM(pcm, sr, name, cb) {
+    var gen = ++DR.gen; DR.ready = false; DR.name = name; DR.sr = sr; DR.dur = pcm.length / sr;
+    try { if (DR.ac) { DR.buf = DR.ac.createBuffer(1, pcm.length, sr); DR.buf.copyToChannel(pcm, 0); } else DR.buf = null; } catch (e) { DR.buf = null; }
+    DR.pcm = pcm; DR.tpaused = 0; drivePause();
+    dAnalyze(pcm, sr, function (F) { if (gen !== DR.gen) return; DR.F = F; DR.nf = F.nf; dSources(); DR.ready = true; window.DURATION = DR.dur; $('drive-pos').max = DR.dur.toFixed(2); $('drive-name').textContent = name; driveUiTime(); schedule(); if (cb) cb(); }, gen);
+  }
+  function mmss(s) { s = Math.max(0, s); return Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2); }
+  function driveUiTime() { var t = driveTime(); $('drive-pos').value = t; $('drive-time').textContent = mmss(t) + ' / ' + mmss(DR.dur); if (DR.ready) { var fi = driveFi(t), S = DR.src; $('drive-meters').innerHTML = 'Low <b>' + S.low[fi].toFixed(2) + '</b> &middot; Mid <b>' + S.mid[fi].toFixed(2) + '</b> &middot; High <b>' + S.high[fi].toFixed(2) + '</b> &middot; Loud <b>' + S.loud[fi].toFixed(2) + '</b> &middot; Onset <b>' + S.onset[fi].toFixed(2) + '</b> &middot; Stutter <b>' + srcVal('stutter', t, fi) + '</b>'; } }
+  function ensureAC() { if (!DR.ac) { var A = window.AudioContext || window.webkitAudioContext; if (!A) return false; DR.ac = new A(); if (DR.pcm && !DR.buf) { DR.buf = DR.ac.createBuffer(1, DR.pcm.length, DR.sr); DR.buf.copyToChannel(DR.pcm, 0); } } return true; }
+  function drivePlay() {
+    if (!DR.ready || !ensureAC()) { say('Audio is not ready yet.'); return; }
+    if (DR.ac.state === 'suspended') DR.ac.resume();
+    var off = DR.tpaused; DR.node = DR.ac.createBufferSource(); DR.node.buffer = DR.buf; DR.node.loop = true; DR.node.connect(DR.ac.destination); DR.node.start(0, off % DR.dur);
+    DR.off0 = off; DR.t0 = DR.ac.currentTime; DR.playing = true; $('drive-play').textContent = 'Pause'; DR.last = 0; DR.raf = requestAnimationFrame(driveLoop);
+  }
+  function drivePause() { if (DR.playing) { DR.tpaused = driveTime(); } DR.playing = false; try { if (DR.node) { DR.node.stop(); DR.node.disconnect(); } } catch (e) {} DR.node = null; cancelAnimationFrame(DR.raf); $('drive-play').textContent = 'Play'; }
+  function driveLoop(ts) { if (!DR.playing) return; if (ts - DR.last > 48) { DR.last = ts; driveUiTime(); render(); } DR.raf = requestAnimationFrame(driveLoop); }
+  function driveSeek(t) { t = Math.max(0, Math.min(DR.dur, t)); var was = DR.playing; if (was) drivePause(); DR.tpaused = t; if (was) drivePlay(); driveUiTime(); schedule(); }
+  window.seek = function (t) { var was = DR.playing; if (was) drivePause(); DR.tpaused = Math.max(0, Math.min(DR.dur, t)); render(); };
+  function defaultRows() { return [{ t: 'fidelity', s: 'loud', a: 45 }, { t: 'travel', s: 'saw', a: 100 }, { t: 'views', s: 'sine', a: 60 }, { t: 'slip', s: 'low', a: 70 }, { t: 'dropout', s: 'onset', a: 50 }, { t: 'horizon', s: 'none', a: 0 }]; }
+  function writeDrive() { cfg.drive = JSON.stringify({ on: DR.on, rows: DR.rows, smooth: DR.smooth, period: DR.period }); }
+  function readDrive() {
+    var o = {}; try { o = JSON.parse(cfg.drive || '{}') || {}; } catch (e) { o = {}; }
+    DR.on = !!o.on; DR.rows = (Array.isArray(o.rows) && o.rows.length ? o.rows : defaultRows()).slice(0, 6).map(function (r) { return { t: DTARGETS.indexOf(r.t) >= 0 ? r.t : 'fidelity', s: SRCS.some(function (x) { return x[0] === r.s; }) ? r.s : 'none', a: Math.max(-100, Math.min(100, +r.a || 0)) }; });
+    while (DR.rows.length < 6) DR.rows.push({ t: 'fidelity', s: 'none', a: 0 });
+    DR.smooth = o.smooth === 'snap' ? 'snap' : 'calm'; DR.period = Math.max(2, Math.min(30, +o.period || 8)); if (DR.F) dSources();
+    $('drive-on').checked = DR.on; $('drive-smooth').value = DR.smooth; $('drive-period').value = DR.period; $('drive-period-o').textContent = DR.period + ' s'; driveRowsUi();
+  }
+  function driveRowsUi() {
+    var host = $('drive-rows'); host.innerHTML = '';
+    DR.rows.forEach(function (r, i) {
+      var d = document.createElement('div'); d.className = 'mrow';
+      var pair = document.createElement('div'); pair.className = 'pair';
+      var st = document.createElement('select'), ss = document.createElement('select'); st.id = 'drive-t' + i; ss.id = 'drive-s' + i; st.setAttribute('aria-label', 'Row ' + (i + 1) + ' control'); ss.setAttribute('aria-label', 'Row ' + (i + 1) + ' source');
+      DTARGETS.forEach(function (k) { var o = document.createElement('option'), lb = document.querySelector('label[for="' + k + '"] span') || document.querySelector('label[for="' + k + '"]'); o.value = k; o.textContent = lb ? lb.textContent : k; st.appendChild(o); });
+      SRCS.forEach(function (x) { var o = document.createElement('option'); o.value = x[0]; o.textContent = x[1]; ss.appendChild(o); });
+      st.value = r.t; ss.value = r.s;
+      var lab = document.createElement('label'), sp = document.createElement('span'), out = document.createElement('output'), rg = document.createElement('input');
+      rg.type = 'range'; rg.min = -100; rg.max = 100; rg.step = 5; rg.value = r.a; rg.id = 'drive-a' + i; lab.setAttribute('for', rg.id); sp.textContent = 'Amount'; out.textContent = r.a + '%'; lab.appendChild(sp); lab.appendChild(out);
+      var upd = function () { r.t = st.value; r.s = ss.value; r.a = +rg.value; out.textContent = r.a + '%'; writeDrive(); schedule(); };
+      st.addEventListener('change', upd); ss.addEventListener('change', upd); rg.addEventListener('input', upd);
+      pair.appendChild(st); pair.appendChild(ss); d.appendChild(pair); d.appendChild(lab); d.appendChild(rg); host.appendChild(d);
+    });
+  }
+  function driveInit() {
+    $('drive-on').addEventListener('change', function () { DR.on = this.checked; writeDrive(); schedule(); });
+    $('drive-smooth').addEventListener('change', function () { DR.smooth = this.value; if (DR.F) dSources(); writeDrive(); schedule(); });
+    $('drive-period').addEventListener('input', function () { DR.period = +this.value; $('drive-period-o').textContent = DR.period + ' s'; writeDrive(); schedule(); });
+    $('drive-play').addEventListener('click', function () { if (DR.playing) drivePause(); else drivePlay(); });
+    $('drive-pos').addEventListener('input', function () { driveSeek(+this.value); });
+    $('drive-demo').addEventListener('click', function () { var d = demoPCM(); driveLoadPCM(d.pcm, d.sr, 'Demo signal'); });
+    $('drive-load').addEventListener('click', function () { $('drive-file').click(); });
+    $('drive-file').addEventListener('change', function () {
+      var f = this.files && this.files[0]; if (!f) return; if (!ensureAC()) { say('This browser cannot decode audio here.'); return; } say('Reading ' + f.name + '...');
+      f.arrayBuffer().then(function (ab) { return DR.ac.decodeAudioData(ab); }).then(function (buf) {
+        var n = Math.min(buf.length, buf.sampleRate * DMAXSEC), mono = new Float32Array(n), c, i; for (c = 0; c < buf.numberOfChannels; c++) { var ch = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += ch[i] / buf.numberOfChannels; }
+        driveLoadPCM(mono, buf.sampleRate, f.name, function () { say('Analysed ' + f.name + '.'); });
+      }).catch(function () { say('That file could not be decoded.'); });
+    });
+    $('drive-sweep').addEventListener('click', function () { cfg.fidelity = 0; $('fidelity').value = 0; $('fidelity-o').textContent = '0.00'; DR.rows[0] = { t: 'fidelity', s: 'clip', a: 100 }; for (var i = 1; i < 6; i++) DR.rows[i] = { t: 'fidelity', s: 'none', a: 0 }; DR.on = true; $('drive-on').checked = true; writeDrive(); driveRowsUi(); driveSeek(0); say('Fidelity now runs from 0 to 1 across the clip. Press Play.'); });
+    $('drive-tagmap').addEventListener('click', function () { DR.rows = [{ t: 'fidelity', s: 'stutter', a: -60 }, { t: 'slip', s: 'stutter', a: 80 }, { t: 'travel', s: 'saw', a: 100 }, { t: 'views', s: 'sine', a: 50 }, { t: 'dropout', s: 'onset', a: 40 }, { t: 'fidelity', s: 'loud', a: 35 }]; DR.on = true; $('drive-on').checked = true; writeDrive(); driveRowsUi(); schedule(); say('Tag stutter map on: the stutter gate drops fidelity and kicks the plate offset.'); });
+    readDrive(); var d = demoPCM(); driveLoadPCM(d.pcm, d.sr, 'Demo signal');
+  }
+  window.TaoDrive = { playing: function () { return DR.playing; }, acCreated: function () { return !!DR.ac; }, dur: function () { return DR.dur; }, ready: function () { return DR.ready; }, seek: function (t) { window.seek(t); }, feat: function (t) { var fi = driveFi(t), S = DR.src, o = {}; ['low', 'mid', 'high', 'loud', 'onset'].forEach(function (k) { o[k] = S[k][fi]; }); o.stutter = srcVal('stutter', t, fi); return o; }, eff: function (t) { var was = DR.tpaused, wasPlay = DR.playing; DR.tpaused = t; var ov = driveOverrides(); DR.tpaused = was; return ov; }, load: driveLoadPCM, markup: function () { return $('print').innerHTML; } };
   function schedule() { cancelAnimationFrame(timer); timer = requestAnimationFrame(render); }
   function fillWeights() {
     var F = FONTS[cfg.font], sel = $('weight'); sel.innerHTML = '';
@@ -746,7 +925,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     F.weights.forEach(function (w) { var o = document.createElement('option'); o.value = w; o.textContent = w === 400 ? 'Regular' : w === 700 ? 'Bold' : w === 900 ? 'Black' : w; sel.appendChild(o); });
     sel.value = cfg.weight;
   }
-  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; }, fill: function (v) { return v + '%'; }, splat: function (v) { return v + '%'; }, halftone: function (v) { return v + '%'; }, pixel: function (v) { return v > 0 ? v + ' cells' : 'Off'; }, grout: function (v) { return v + '%'; }, spatter: function (v) { return v + '%'; }, sprayhard: function (v) { return v < 34 ? 'Soft ' + v + '%' : v > 66 ? 'Hard ' + v + '%' : 'Medium ' + v + '%'; }, horizon: function (v) { return v ? v + '%' : 'Off'; }, spraydens: function (v) { return v + '%'; } };
+  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; }, fill: function (v) { return v + '%'; }, splat: function (v) { return v + '%'; }, halftone: function (v) { return v + '%'; }, pixel: function (v) { return v > 0 ? v + ' cells' : 'Off'; }, grout: function (v) { return v + '%'; }, spatter: function (v) { return v + '%'; }, sprayhard: function (v) { return v < 34 ? 'Soft ' + v + '%' : v > 66 ? 'Hard ' + v + '%' : 'Medium ' + v + '%'; }, travel: function (v) { return v + '%'; }, horizon: function (v) { return v ? v + '%' : 'Off'; }, spraydens: function (v) { return v + '%'; } };
   function lockGrit() { ['rough', 'spray', 'sprayhard', 'spraydens', 'drips', 'spatter', 'edge', 'edgeamt', 'wall'].forEach(function (id) { var el = $(id); if (el) el.disabled = !!cfg.auto; }); }
   function sync() {
     Object.keys(DEFAULTS).forEach(function (k) {
@@ -754,7 +933,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       if (el.type === 'checkbox') el.checked = !!cfg[k]; else el.value = cfg[k];
       if (OUT[k]) $(k + '-o').textContent = OUT[k](cfg[k]);
     });
-    lockGrit();
+    lockGrit(); if (typeof readDrive === 'function' && $('drive-rows')) readDrive();
   }
   function init() {
     var ps = $('proverb'); PROVERBS.forEach(function (p) { var o = document.createElement('option'); o.value = p.id; o.textContent = p.text.length > 58 ? p.text.slice(0, 56) + '...' : p.text; ps.appendChild(o); });
@@ -842,7 +1021,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     $('make-png').addEventListener('click', makePngs);
     $('copy-svg').addEventListener('click', function () { copy(last.svg, 'SVG copied.'); });
     $('copy-cmd').addEventListener('click', function () { copy($('cmd').textContent, 'Command copied.'); });
-    loadFace(); render();
+    loadFace(); driveInit(); render();
   }
   function say(m) { $('status').textContent = m; clearTimeout(say.t); say.t = setTimeout(function () { $('status').textContent = ''; }, 2600); }
   function copy(text, ok) {

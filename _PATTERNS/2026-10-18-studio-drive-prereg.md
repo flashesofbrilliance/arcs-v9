@@ -36,4 +36,15 @@ That it feels musical. That fidelity-from-loudness is the right default (it is a
 separate slice (frame-by-frame render with the existing renderer, then mux the audio).
 
 ## Results
-(appended after the build)
+Slice 1 built 2026-10-18 (Drive panel: analysis port, six-row matrix, transport, demo signal, Sweep and Tag stutter presets, Text travel control, `window.seek`/`DURATION`). Headless Playwright run (script not committed; it reads `window.TaoDrive`):
+
+- D1 PASS: markup at t=2.5 is identical before and after seeking to 7.25 and back; the two times differ.
+- D2 PASS: 110 Hz puts Low above Mid and High, 440 Hz puts Mid above the others, 7040 Hz puts High above Low and Mid.
+- D3 PASS with base slip set to 0 (with the default base of 100 a 3x ratio is impossible by construction): slip 103 on 110 Hz against 0 on 7040 Hz.
+- D4 PASS on this measure: 0 luminance jumps over 12 percent of range per second across 4 s of the Tag stutter map (mean luminance stayed between 65 and 82). Measured on the print element only, at 20 fps, so it does not cover a full-screen flash.
+- D5 PASS on JS only: median 4.6 ms to rebuild a 2x2 Tag per seek. Paint cost of the SVG filters is not measured and is likely the real cost.
+- D6 PASS: nothing playing, no AudioContext created, markup unchanged over 1.2 s at rest.
+- D7 PASS: zero network requests after load.
+- D8 PASS: scrubbing to 2.5 equals seek(2.5).
+
+Not tested: a real audio file through the file picker, playback in the Artifact viewer, a real phone, long-running drift between the audio clock and the render loop.
