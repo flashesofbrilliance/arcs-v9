@@ -15,7 +15,6 @@ The 87% belonged to one invented accuracy curve. Its other parts are struck as w
 - The invented baselines in the study hypotheses (now "baseline to be measured") and the fitted-curve parameters in the cohort hypothesis.
 
 ## Not struck, for you
-- The Canon v1.1 refund trigger (underperform baseline by a margin) is the same kind of guarantee and is only labelled.
 - Other comparative claims not on the 87% curve stay labelled only: the energy-first 78% vs 32% retention table, the White Paper product accuracy claims, Canon v2 backtest and test results, and the study targets (for example accuracy above 85%, MAPE below 15%).
 - The Technical Overview's audit still quotes the claims it audits, on purpose.
 - Ledger entries for struck tokens remain but match nothing; three target tokens were re-anchored after their surroundings changed.
@@ -25,3 +24,7 @@ The $102M capital total, its "<5% dilution" figure and the $70M venture comparis
 
 ## White Paper guarantee struck (fourth pass, 2026-10-18)
 The White Paper Alpha Program bullet "Performance guarantees: 2x improvement or money back" is struck. It had no data behind it and was only labelled before.
+
+## Canon refund trigger struck (fifth pass, 2026-10-18)
+The Canon v1.1 Performance Guarantee block (refund if campaigns underperform baseline by a margin and the client followed the recommendations, plus a next-year discount) is struck. The refund conditions in the Litepaper and Canon "Why This Works" lists and in the YellowPaper guarantee structure are struck with it. Correction: an earlier line in this note said no guarantee terms were defined after the 40% strike; the refund conditions had not yet been struck at that point.
+Still in the text as strategy prose, not terms: Litepaper line about an exit clause (refund if tech fails), the competitors-lose-lose lines, the YellowPaper risk bullets about refund liability and the backstop bullet.

@@ -451,8 +451,7 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Why This Works**:
 - ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
-- If client followed recommendations and failed → ARCS refunds
-- If client ignored recommendations and failed → No refund
+- [struck 2026-10-17: no supporting data] (the refund conditions)
 - Competitors can't copy this without building entire receipt infrastructure first
 
 **Strategic Effect**: Every competitor sales call includes "Will you match ARCS's guarantee?" Competitors either lose margin (say yes) or lose deal (say no).
