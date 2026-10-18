@@ -49,7 +49,7 @@ paths:
 | | KAIROS | `operators/arcs_operator_kairos.py` | 9.4KB | Timing operator — horizon/window | READY |
 | | CONTRACT | `operators/arcs_operator_contract.py` | 9.8KB | Constitutional reasoning | READY |
 | | OPERATOR20 | `operators/arcs_operator20.py` | 38KB | Phase 5 synthesis · Folksonomy Cultivator (54-dim DBSCAN) | READY |
-| | OPERATOR21 | `operators/arcs_operator21.py` | 24KB | Anterior/posterior spline inference — knot resolution. P1 determinism PASS (2026-08-28) | READY |
+| | OPERATOR21 | `operators/arcs_operator21.py` | 24KB | Anterior/posterior spline inference — knot resolution. Shares only the number 21: Operator 21 is the Librarian (`operators/arcs_librarian.py`) per `operators/docs/PERIODIC-TABLE.md`. P1 determinism PASS (2026-08-28) | READY |
 | | KINTSUGI | `operators/arcs_kintsugi.py` | 26KB | Phase gate validation + healing | READY |
 | | ACCOUNTANT (Op 19) | `operators/arcs_accountant.py` + `prod_receipt_to_accountant.py` | 15KB | The Scoreboard: per-cohort (founder/external/anonymous) closed positions, closure rate, fates; NCI-vs-outcome calibration only at n>=30 closed per cohort, else `sufficiency=insufficient` with n. Bound in the registry (`callable`, `run`); report `_STATE/2026-09-27-accountant-scoreboard.json` | READY |
 | | ECHO EMBEDDING (RC-OPS-001 companion) | `operators/arcs_echo_embedding.py` | 11KB | Embedding-backed `signature_fn` / `orthogonality_fn` for `OrthogonalEchoDetector` (same local model as `arcs_api.py` `/api/embed`; orthogonality = 1 - cosine of domain TEXT vectors, names are only the lookup handle). `scripts/echo_ridgeline_feed.py --signature embedding` / `--compare` for before/after; first run 2026-09-27: scrambled-control FP 0.8 -> 0.0, but 0 real echoes once the shared-template control drops boilerplate lines (`_STATE/2026-09-27-echo-signature-before-after.json`). Needs the declared `embeddings` extra in `operators/.venv` | READY |
@@ -58,7 +58,7 @@ paths:
 | | Receipt | `operators/arcs_receipt_core.py` | 7.6KB | Receipt contract | READY |
 | **Systems** | Constitutional Court | `operators/arcs_constitutional_court.py` | 25KB | Axiom enforcement | READY |
 | | Heart/Coherence | `operators/arcs_hc.py` | 34KB | Coherence metrics | READY |
-| | LTE | `operators/arcs_lte.py` | 46KB | Trajectory modeling | READY |
+| | LTE | `operators/arcs_lte.py` | 46KB | Lossless Translation Engine (7-stage: HC pre-scan, Intake, Altitude Detector, Lossless Codex, Rhetorical Resonance, Recomp, Transceiver) | READY |
 | | ROM | `operators/arcs_rom.py` | 19KB | Motion rules | READY |
 | | Trace | `operators/arcs_trace.py` + `arcs_trace_loki.py` | 79KB | Execution tracing | READY |
 | **Infrastructure** | Pipeline | `operators/arcs_pipeline_v1.py` | 20KB | Operator sequencing | READY |
