@@ -78,7 +78,26 @@
       "Bash(gh search *)",
       "Bash(supabase projects list)",
       "mcp__ccd_session_mgmt__list_events",
-      "mcp__computer-use__app_screenshot"
+      "mcp__computer-use__app_screenshot",
+      "Bash(git fetch -q origin)",
+      "Bash(git fetch -q origin main)",
+      "Bash(python3 scripts/artifact_wrap_lint.py *)",
+      "Bash(git fetch -q)",
+      "Bash(git rev-list *)",
+      "Bash(python3 scripts/backlog_status_check.py *)",
+      "Bash(python3 scripts/token_source_gate.py *)",
+      "Bash(python3 scripts/public_claim_gate.py *)",
+      "Bash(python3 scripts/prior_art.py *)",
+      "Bash(python3 scripts/component_source_gate.py *)",
+      "Bash(python3 scripts/castellum.py *)",
+      "Bash(python3 scripts/phosphor_static_review.py *)",
+      "Bash(python3 scripts/neighbor_scan.py *)",
+      "Bash(git fetch -q origin --tags)",
+      "Bash(python3 scripts/motion_policy_gate.py *)",
+      "Bash(python3 scripts/slop_lint.py *)",
+      "Bash(python3 scripts/sentries.py *)",
+      "Bash(python3 scripts/altitude_canary.py *)",
+      "Bash(python3 scripts/open_loops.py *)"
     ],
     "ask": [
       "Bash(git push:*)"
