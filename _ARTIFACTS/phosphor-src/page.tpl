@@ -327,7 +327,7 @@
     <div class="alt-body">
       <canvas id="strip" class="strip" width="1200" height="88" tabindex="0" aria-label="Slice strip. Drag to cut a slice. Comma and period jump between snap points. Enter marks a slice start, then end."></canvas>
       <div class="sl" id="zoomrow">
-        <button class="btn" type="button" id="zout">Zoom out</button><button class="btn" type="button" id="zin">Zoom in</button><button class="btn" type="button" id="zfit">Whole song</button>
+        <button class="btn" type="button" id="szout">Zoom out</button><button class="btn" type="button" id="szin">Zoom in</button><button class="btn" type="button" id="zfit">Whole song</button>
         <input type="range" id="zpan" min="0" max="1000" step="1" value="0" aria-label="Move the view" style="flex:1 1 160px;width:auto">
         <span class="hint" id="zlab"></span>
       </div>

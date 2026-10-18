@@ -447,8 +447,8 @@ fi
 # scripts/phosphor_build.py. A commit that touches either side must leave them in agreement.
 if [ -f scripts/phosphor_build.py ] && command -v python3 >/dev/null 2>&1; then
   if git diff --cached --name-only | grep -qE '^(_ARTIFACTS/phosphor\.html|_ARTIFACTS/phosphor-src/|scripts/phosphor_build\.py)'; then
-    if ! python3 scripts/phosphor_build.py --check; then
-      echo "✖ commit blocked: _ARTIFACTS/phosphor.html is not what its sources build. Edit _ARTIFACTS/phosphor-src/ and run python3 scripts/phosphor_build.py." >&2
+    if ! python3 scripts/phosphor_build.py --check || { [ -f scripts/phosphor_static_review.py ] && ! python3 scripts/phosphor_static_review.py; }; then
+      echo "✖ commit blocked: _ARTIFACTS/phosphor.html is not what its sources build, or the static review found a defect. Edit _ARTIFACTS/phosphor-src/ and run python3 scripts/phosphor_build.py; see python3 scripts/phosphor_static_review.py." >&2
       exit 1
     fi
   fi
