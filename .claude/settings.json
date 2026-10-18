@@ -109,7 +109,12 @@
       "Bash(git -C * show *)",
       "Bash(python3 scripts/page_gate.py *)",
       "Bash(node scripts/card_gutter_check.mjs *)",
-      "Bash(python3 scripts/backlog_status_check.py --check*)"
+      "Bash(python3 scripts/backlog_status_check.py --check*)",
+      "Bash(python3 scripts/integrity_gate.py --staged)",
+      "Bash(python3 scripts/write_lock.py status)",
+      "Bash(python3 scripts/write_lock.py status *)",
+      "Bash(python3 scripts/findings_gait.py status)",
+      "Bash(python3 scripts/oracle.py audit *)"
     ],
     "ask": [
       "Bash(git push:*)"
