@@ -27,4 +27,8 @@ Any scored row at all, or a BSS above 0.3 on fewer than 30 rows: either would me
 
 ## Actual result (recorded after the first real run)
 
-_Pending._
+Run on 2026-10-17 against the 42-row ledger, after the prediction was committed (the prediction commit precedes this one in the PR history):
+
+- rows read 42, unparseable 0. n scored 0 (new-field 0, legacy 0). n unresolved 0. n unscoreable 42.
+- Base rate, Brier, BSS, log score: not computed ('no scored rows'). No skill claimed.
+- Prediction held on every line. Nothing surprised me. The result is a statement about the ledger's missing fields, not about forecasting skill: calibration scoring starts when new rows carry `probability`, and a skill claim needs n=30 per cohort.
