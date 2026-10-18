@@ -12,6 +12,8 @@ v4 (permutations, Zach 2026-10-15 "need to be more pronounced"): each of the nin
 
 v5 (paper ground, Zach 2026-10-17): `--ground paper` prints the same permutations on the light `--text` ground. Inks multiply (subtractive, like real plates), a dark key plate holds only the strip's two long edges and does not slip, so plate misregistration reads against a fixed line. Output `_ARTIFACTS/tao-print-paper.html`; the dark version stays. Caveat: the K3 proxy first FAILED on paper (rho -0.26) because the score looked for neon inks and multiply darkens them; the palette check was corrected to ink x paper / 255 (bar unchanged, rho then 1.0). Treat that as a metric fix after the fact, not a result in the encoding's favour; the human ranking still decides.
 
+v6 (proverb inside the print, Zach 2026-10-17): the nine grid panels read in order as the sentence (one or two words per panel, so "the" and "moment" literally repeat) on a printed label slab in the bottom of each panel. The slab slips and flakes with the same (1 - f) x repeat law as the plates. The separate caption copy of the proverb is gone; the strip panels carry no text (too small). Limits: two-word runs set on two lines at 11.4 units, about 11.5px at 360px, and the label hides the lower part of the strip.
+
 ## Finding that changes the design
 `runtime/tao/proverbs.json` rows carry id, aspect, verb, source, text, canon_ref. They carry NO NCI and NO Y state.
 So "image derived from the proverb's NCI and Y state" cannot be done from data today.
