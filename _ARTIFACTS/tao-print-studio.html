@@ -275,7 +275,7 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
 
     <fieldset><legend>Audio drive</legend>
       <label class="check" for="drive-on"><input id="drive-on" type="checkbox"> Drive the print from the audio</label>
-      <div class="btns"><button type="button" id="drive-play" class="primary">Play</button><button type="button" id="drive-demo">Demo signal</button><button type="button" id="drive-load">Load audio</button><input type="file" id="drive-file" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden></div>
+      <div class="btns"><button type="button" id="drive-play" class="primary">Play</button><button type="button" id="drive-demo">Demo signal</button><button type="button" id="drive-load">Load audio</button><button type="button" id="drive-copyframe">Copy analysis</button><button type="button" id="drive-loadframe">Load analysis</button><input type="file" id="drive-framefile" accept=".json,application/json" hidden><input type="file" id="drive-file" accept="audio/*,video/*,.mp3,.m4a,.mp4,.wav,.aac,.ogg,.flac" hidden></div>
       <div class="row"><label for="drive-pos"><span id="drive-name">Demo signal</span><output id="drive-time">0:00 / 0:16</output></label><input id="drive-pos" type="range" min="0" max="16" step="0.01" value="0"></div>
       <p class="meters" id="drive-meters" aria-live="off"></p>
       <div class="row two">
@@ -766,8 +766,8 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   }
   /* ---- Drive: Phosphor's analysis (FFT 2048 at 30 fps, 64 log bands, loudness, flux, calm envelope), ported ---- */
   var DRFPS = 30, DNFFT = 2048, DNB = 64, DMAXSEC = 900;
-  var DR = { on: false, rows: [], smooth: 'calm', period: 8, ready: false, nf: 0, dur: 0, sr: 22050, src: null, ac: null, buf: null, node: null, playing: false, off0: 0, t0: 0, tpaused: 0, name: 'Demo signal', raf: 0, last: 0, gen: 0, F: null };
-  var SRCS = [['none', 'Off'], ['low', 'Low band'], ['mid', 'Mid band'], ['high', 'High band'], ['loud', 'Loudness'], ['onset', 'Onset'], ['stutter', 'Stutter gate'], ['saw', 'Cycle ramp'], ['sine', 'Cycle sine'], ['clip', 'Clip progress 0 to 1']];
+  var DR = { meta: null, silent: false, ts0: 0, on: false, rows: [], smooth: 'calm', period: 8, ready: false, nf: 0, dur: 0, sr: 22050, src: null, ac: null, buf: null, node: null, playing: false, off0: 0, t0: 0, tpaused: 0, name: 'Demo signal', raf: 0, last: 0, gen: 0, F: null };
+  var SRCS = [['none', 'Off'], ['low', 'Low band'], ['mid', 'Mid band'], ['high', 'High band'], ['loud', 'Loudness'], ['onset', 'Onset'], ['stutter', 'Stutter gate'], ['beat', 'Beat pulse'], ['genF', 'Genome fidelity'], ['genD', 'Genome depth'], ['genX', 'Genome distortion'], ['saw', 'Cycle ramp'], ['sine', 'Cycle sine'], ['clip', 'Clip progress 0 to 1']];
   var DTARGETS = ['fidelity', 'slip', 'dropout', 'grain', 'rough', 'spray', 'drips', 'spatter', 'edgeamt', 'wall', 'splat', 'halftone', 'views', 'outline', 'horizon', 'size', 'travel', 'fill'];
   function dFFT(n) {
     var bits = Math.round(Math.log(n) / Math.LN2), rev = new Uint32Array(n), cs = new Float64Array(n / 2), sn = new Float64Array(n / 2), i;
@@ -807,7 +807,11 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       var rdb = []; for (i = 0; i < nf; i++) rdb.push(20 * Math.log10(rms[i] + 1e-6));
       var rlo = dpct(rdb, 0.05), rhi = dpct(rdb, 0.995), rspan = Math.max(1, rhi - rlo), lev = new Float32Array(nf), flux = new Float32Array(nf);
       for (i = 0; i < nf; i++) { lev[i] = Math.min(1, Math.max(0, (rdb[i] - rlo) / rspan)); var fl = 0; for (b = 0; b < DNB; b++) if (i) fl += Math.max(0, bands[i * DNB + b] - bands[(i - 1) * DNB + b]); flux[i] = fl; }
-      done({ nf: nf, bands: bands, lev: lev, flux: flux });
+      var bu = new Uint8Array(nf * DNB), lu = new Uint8Array(nf), fu = new Uint8Array(nf), fm = 0;
+      for (i = 0; i < bands.length; i++) bu[i] = Math.round(Math.min(1, Math.max(0, bands[i])) * 255);
+      for (i = 0; i < nf; i++) { lu[i] = Math.round(Math.min(1, Math.max(0, lev[i])) * 255); if (flux[i] > fm) fm = flux[i]; }
+      fm = fm || 1; for (i = 0; i < nf; i++) fu[i] = Math.round(Math.min(1, flux[i] / fm) * 255);
+      done({ nf: nf, bands: bu, lev: lu, flux: fu, fluxMax: fm });
     }
     step();
   }
@@ -815,20 +819,24 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   function dSources() {
     var F = DR.F; if (!F) return; var nf = F.nf, low = new Float32Array(nf), mid = new Float32Array(nf), high = new Float32Array(nf), on = new Float32Array(nf), i, b, calm = DR.smooth === 'calm';
     for (i = 0; i < nf; i++) {
-      var a = 0, m = 0, h = 0; for (b = 0; b < 16; b++) a += F.bands[i * DNB + b]; for (b = 16; b < 40; b++) m += F.bands[i * DNB + b]; for (b = 40; b < 64; b++) h += F.bands[i * DNB + b];
+      var a = 0, m = 0, h = 0; for (b = 0; b < 16; b++) a += F.bands[i * DNB + b] / 255; for (b = 16; b < 40; b++) m += F.bands[i * DNB + b] / 255; for (b = 40; b < 64; b++) h += F.bands[i * DNB + b] / 255;
       low[i] = a / 16; mid[i] = m / 24; high[i] = h / 24;
     }
     var fp = dpct(Array.prototype.slice.call(F.flux), 0.95) || 1; for (i = 0; i < nf; i++) on[i] = Math.min(1, F.flux[i] / fp);
+    var lv = new Float32Array(nf); for (i = 0; i < nf; i++) lv[i] = F.lev[i] / 255;
     var at = calm ? 0.07 : 1, rl = calm ? 0.045 : 0.25;
-    DR.src = { low: dEnv(low, at, rl), mid: dEnv(mid, at, rl), high: dEnv(high, at, rl), loud: dEnv(F.lev, at, rl), onset: dEnv(on, 1, calm ? 0.12 : 0.3) };
+    DR.src = { low: dEnv(low, at, rl), mid: dEnv(mid, at, rl), high: dEnv(high, at, rl), loud: dEnv(lv, at, rl), onset: dEnv(on, 1, calm ? 0.12 : 0.3) };
   }
   function dHash(n) { n = Math.imul(n ^ (n >>> 15), 2246822507); n = Math.imul(n ^ (n >>> 13), 3266489909); return ((n ^ (n >>> 16)) >>> 0) / 4294967296; }
   function srcVal(name, t, fi) {
     var S = DR.src; if (name === 'saw') return (t % DR.period) / DR.period; if (name === 'sine') return 0.5 + 0.5 * Math.sin(2 * Math.PI * t / DR.period); if (name === 'clip') return DR.dur ? Math.min(1, t / DR.dur) : 0;
+    var M = DR.meta;
+    if (name === 'beat') { if (!M || !M.bpm) return 0; var P = 60 / M.bpm, ph = ((((t - (M.grid0 || 0)) / P) % 1) + 1) % 1; return Math.exp(-4 * ph); }
+    if (name === 'genF' || name === 'genD' || name === 'genX') { if (!M || !M.dna || !M.dna.length || !M.dnaP) return 0; var gi = Math.max(0, Math.min(M.dna.length - 1, Math.floor((t - (M.dnaBase || 0)) / M.dnaP))), cd = M.dna[gi]; return cd ? cd[name === 'genF' ? 0 : name === 'genD' ? 1 : 2] / 3 : 0; }
     if (name === 'stutter') return dHash(Math.floor(t / (DR.period / 16)) + cfg.seed * 7919) < 0.45 ? 1 : 0;
     return S && S[name] ? S[name][fi] : 0;
   }
-  function driveTime() { if (DR.playing && DR.ac) { var x = DR.off0 + (DR.ac.currentTime - DR.t0); return DR.dur ? x % DR.dur : 0; } return DR.tpaused; }
+  function driveTime() { if (DR.playing) { var x = DR.off0 + (DR.silent ? (performance.now() - DR.ts0) / 1000 : (DR.ac ? DR.ac.currentTime - DR.t0 : 0)); return DR.dur ? x % DR.dur : 0; } return DR.tpaused; }
   function driveFi(t) { return Math.max(0, Math.min(DR.nf - 1, Math.floor(t * DRFPS))); }
   function driveOverrides() {
     if (!DR.on || !DR.ready) return null;
@@ -855,19 +863,42 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     return { pcm: pcm, sr: sr };
   }
   function driveLoadPCM(pcm, sr, name, cb) {
-    var gen = ++DR.gen; DR.ready = false; DR.name = name; DR.sr = sr; DR.dur = pcm.length / sr;
+    var gen = ++DR.gen; DR.ready = false; DR.name = name; DR.sr = sr; DR.dur = pcm.length / sr; DR.meta = name === 'Demo signal' ? { bpm: 120, grid0: 0, chapters: [], chapterLabels: [], dna: null, dnaP: 0, dnaBase: 0, src: 'studio' } : { bpm: null, grid0: null, chapters: [], chapterLabels: [], dna: null, dnaP: 0, dnaBase: 0, src: 'studio' };
     try { if (DR.ac) { DR.buf = DR.ac.createBuffer(1, pcm.length, sr); DR.buf.copyToChannel(pcm, 0); } else DR.buf = null; } catch (e) { DR.buf = null; }
     DR.pcm = pcm; DR.tpaused = 0; drivePause();
     dAnalyze(pcm, sr, function (F) { if (gen !== DR.gen) return; DR.F = F; DR.nf = F.nf; dSources(); DR.ready = true; window.DURATION = DR.dur; $('drive-pos').max = DR.dur.toFixed(2); $('drive-name').textContent = name; driveUiTime(); schedule(); if (cb) cb(); }, gen);
+  }
+  /* AnalysisFrame v1 (_PATTERNS/2026-10-18-analysis-frame-v1.md): the same object Phosphor's window.PhosphorFrame() returns */
+  function b64(u) { var s = '', i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s); }
+  function unb64(str, n) { var bin = atob(str), u = new Uint8Array(bin.length), i; if (bin.length !== n) throw new Error('A data block has the wrong length.'); for (i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; }
+  function frameOut() {
+    if (!DR.ready || !DR.F) return null; var M = DR.meta || {}, F = DR.F;
+    return { v: 1, kind: 'tao.analysis', src: M.src || 'studio', fps: DRFPS, nfft: DNFFT, nb: DNB, nf: F.nf, dur: DR.dur, sr: DR.sr, name: DR.name, fmin: 40, fmax: Math.min(16000, DR.sr * 0.45), bands: b64(F.bands), lev: b64(F.lev), flux: b64(F.flux), fluxMax: F.fluxMax, bpm: M.bpm || null, grid0: M.bpm ? M.grid0 : null, chapters: M.chapters || [], chapterLabels: M.chapterLabels || [], dna: M.dna || null, dnaP: M.dnaP || 0, dnaBase: M.dnaBase || 0 };
+  }
+  function frameIn(o) {
+    if (!o || o.kind !== 'tao.analysis' || o.v !== 1) throw new Error('This is not an analysis frame.');
+    if (o.nb !== DNB || o.fps !== DRFPS || !(o.nf > 0) || !(o.dur > 0)) throw new Error('This frame uses a different analysis setting.');
+    var ch = o.chapters || [], i; for (i = 1; i < ch.length; i++) if (!(ch[i] > ch[i - 1])) throw new Error('Chapters are out of order.');
+    if (o.dna) for (i = 0; i < o.dna.length; i++) if (o.dna[i] && o.dna[i].some(function (c) { return !(c >= 0 && c <= 3); })) throw new Error('A genome codon is out of range.');
+    return { F: { nf: o.nf, bands: unb64(o.bands, o.nf * DNB), lev: unb64(o.lev, o.nf), flux: unb64(o.flux, o.nf), fluxMax: o.fluxMax || 1 }, meta: { bpm: o.bpm || null, grid0: o.grid0, chapters: ch, chapterLabels: o.chapterLabels || [], dna: o.dna || null, dnaP: o.dnaP || 0, dnaBase: o.dnaBase || 0, src: o.src || 'file' }, dur: o.dur, sr: o.sr || 22050, name: o.name || 'Analysis frame' };
+  }
+  function driveLoadFrame(o, cb) {
+    var r = frameIn(o); ++DR.gen; drivePause(); DR.F = r.F; DR.nf = r.F.nf; DR.meta = r.meta; DR.dur = r.dur; DR.sr = r.sr; DR.name = r.name; DR.pcm = null; DR.buf = null; DR.tpaused = 0; dSources(); DR.ready = true;
+    window.DURATION = DR.dur; $('drive-pos').max = DR.dur.toFixed(2); $('drive-name').textContent = DR.name + ' (analysis only)'; driveUiTime(); schedule(); if (cb) cb();
   }
   function mmss(s) { s = Math.max(0, s); return Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2); }
   function driveUiTime() { var t = driveTime(); $('drive-pos').value = t; $('drive-time').textContent = mmss(t) + ' / ' + mmss(DR.dur); if (DR.ready) { var fi = driveFi(t), S = DR.src; $('drive-meters').innerHTML = 'Low <b>' + S.low[fi].toFixed(2) + '</b> &middot; Mid <b>' + S.mid[fi].toFixed(2) + '</b> &middot; High <b>' + S.high[fi].toFixed(2) + '</b> &middot; Loud <b>' + S.loud[fi].toFixed(2) + '</b> &middot; Onset <b>' + S.onset[fi].toFixed(2) + '</b> &middot; Stutter <b>' + srcVal('stutter', t, fi) + '</b>'; } }
   function ensureAC() { if (!DR.ac) { var A = window.AudioContext || window.webkitAudioContext; if (!A) return false; DR.ac = new A(); if (DR.pcm && !DR.buf) { DR.buf = DR.ac.createBuffer(1, DR.pcm.length, DR.sr); DR.buf.copyToChannel(DR.pcm, 0); } } return true; }
   function drivePlay() {
-    if (!DR.ready || !ensureAC()) { say('Audio is not ready yet.'); return; }
-    if (DR.ac.state === 'suspended') DR.ac.resume();
-    var off = DR.tpaused; DR.node = DR.ac.createBufferSource(); DR.node.buffer = DR.buf; DR.node.loop = true; DR.node.connect(DR.ac.destination); DR.node.start(0, off % DR.dur);
-    DR.off0 = off; DR.t0 = DR.ac.currentTime; DR.playing = true; $('drive-play').textContent = 'Pause'; DR.last = 0; DR.raf = requestAnimationFrame(driveLoop);
+    if (!DR.ready) { say('Audio is not ready yet.'); return; }
+    var off = DR.tpaused;
+    if (DR.buf || (DR.pcm && ensureAC())) {
+      if (!DR.buf) { DR.buf = DR.ac.createBuffer(1, DR.pcm.length, DR.sr); DR.buf.copyToChannel(DR.pcm, 0); }
+      if (!ensureAC()) { say('Audio is not ready yet.'); return; }
+      if (DR.ac.state === 'suspended') DR.ac.resume();
+      DR.node = DR.ac.createBufferSource(); DR.node.buffer = DR.buf; DR.node.loop = true; DR.node.connect(DR.ac.destination); DR.node.start(0, off % DR.dur); DR.t0 = DR.ac.currentTime; DR.silent = false;
+    } else { DR.silent = true; DR.ts0 = performance.now(); say('Playing the analysis without sound. Load the audio file to hear it.'); }
+    DR.off0 = off; DR.playing = true; $('drive-play').textContent = 'Pause'; DR.last = 0; DR.raf = requestAnimationFrame(driveLoop);
   }
   function drivePause() { if (DR.playing) { DR.tpaused = driveTime(); } DR.playing = false; try { if (DR.node) { DR.node.stop(); DR.node.disconnect(); } } catch (e) {} DR.node = null; cancelAnimationFrame(DR.raf); $('drive-play').textContent = 'Play'; }
   function driveLoop(ts) { if (!DR.playing) return; if (ts - DR.last > 48) { DR.last = ts; driveUiTime(); render(); } DR.raf = requestAnimationFrame(driveLoop); }
@@ -913,11 +944,14 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
         driveLoadPCM(mono, buf.sampleRate, f.name, function () { say('Analysed ' + f.name + '.'); });
       }).catch(function () { say('That file could not be decoded.'); });
     });
+    $('drive-copyframe').addEventListener('click', function () { var o = frameOut(); if (!o) { say('Nothing analysed yet.'); return; } copy(JSON.stringify(o), 'Analysis copied (' + Math.round(JSON.stringify(o).length / 1024) + ' KB). Paste it into a file ending in .json.'); });
+    $('drive-loadframe').addEventListener('click', function () { $('drive-framefile').click(); });
+    $('drive-framefile').addEventListener('change', function () { var f = this.files && this.files[0]; if (!f) return; f.text().then(function (t) { driveLoadFrame(JSON.parse(t), function () { say('Loaded ' + f.name + '.'); }); }).catch(function (e) { say(e && e.message ? e.message : 'That file could not be read.'); }); });
     $('drive-sweep').addEventListener('click', function () { cfg.fidelity = 0; $('fidelity').value = 0; $('fidelity-o').textContent = '0.00'; DR.rows[0] = { t: 'fidelity', s: 'clip', a: 100 }; for (var i = 1; i < 6; i++) DR.rows[i] = { t: 'fidelity', s: 'none', a: 0 }; DR.on = true; $('drive-on').checked = true; writeDrive(); driveRowsUi(); driveSeek(0); say('Fidelity now runs from 0 to 1 across the clip. Press Play.'); });
     $('drive-tagmap').addEventListener('click', function () { DR.rows = [{ t: 'fidelity', s: 'stutter', a: -60 }, { t: 'slip', s: 'stutter', a: 80 }, { t: 'travel', s: 'saw', a: 100 }, { t: 'views', s: 'sine', a: 50 }, { t: 'dropout', s: 'onset', a: 40 }, { t: 'fidelity', s: 'loud', a: 35 }]; DR.on = true; $('drive-on').checked = true; writeDrive(); driveRowsUi(); schedule(); say('Tag stutter map on: the stutter gate drops fidelity and kicks the plate offset.'); });
     readDrive(); var d = demoPCM(); driveLoadPCM(d.pcm, d.sr, 'Demo signal');
   }
-  window.TaoDrive = { playing: function () { return DR.playing; }, acCreated: function () { return !!DR.ac; }, dur: function () { return DR.dur; }, ready: function () { return DR.ready; }, seek: function (t) { window.seek(t); }, feat: function (t) { var fi = driveFi(t), S = DR.src, o = {}; ['low', 'mid', 'high', 'loud', 'onset'].forEach(function (k) { o[k] = S[k][fi]; }); o.stutter = srcVal('stutter', t, fi); return o; }, eff: function (t) { var was = DR.tpaused, wasPlay = DR.playing; DR.tpaused = t; var ov = driveOverrides(); DR.tpaused = was; return ov; }, load: driveLoadPCM, markup: function () { return $('print').innerHTML; } };
+  window.TaoDrive = { frame: frameOut, loadFrame: driveLoadFrame, playing: function () { return DR.playing; }, acCreated: function () { return !!DR.ac; }, dur: function () { return DR.dur; }, ready: function () { return DR.ready; }, seek: function (t) { window.seek(t); }, feat: function (t) { var fi = driveFi(t), S = DR.src, o = {}; ['low', 'mid', 'high', 'loud', 'onset'].forEach(function (k) { o[k] = S[k][fi]; }); ['stutter', 'beat', 'genF', 'genD', 'genX'].forEach(function (k) { o[k] = srcVal(k, t, fi); }); return o; }, eff: function (t) { var was = DR.tpaused, wasPlay = DR.playing; DR.tpaused = t; var ov = driveOverrides(); DR.tpaused = was; return ov; }, load: driveLoadPCM, markup: function () { return $('print').innerHTML; } };
   function schedule() { cancelAnimationFrame(timer); timer = requestAnimationFrame(render); }
   function fillWeights() {
     var F = FONTS[cfg.font], sel = $('weight'); sel.innerHTML = '';

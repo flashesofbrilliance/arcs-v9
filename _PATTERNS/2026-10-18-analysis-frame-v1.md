@@ -43,4 +43,18 @@ No audio samples are ever in the file. A 4-minute song is about 600 KB.
 Anything about how it feels. That the uint8 quantisation is audible or visible. Genome codons carry meaning for the print beyond what the matrix rows make of them.
 
 ## Results
-(appended after the build)
+Built 2026-10-18. Phosphor side: `window.PhosphorFrame()` (+22 lines in `_ARTIFACTS/phosphor-src/app.js`, rebuilt `phosphor.html`, branch `claude/phosphor-analysis-frame`).
+Studio side: analysis now ends in the same uint8 frame; `Copy analysis`, `Load analysis`, `TaoDrive.frame()` and `TaoDrive.loadFrame()`; sources Beat pulse and Genome
+fidelity, depth and distortion; a silent clock plays a frame with no audio. Run headless (Playwright, script not committed) against a deterministic 10 s fixture WAV
+(kick, hats, bass, pad at 120 BPM, 16-bit mono 22,050 Hz):
+
+- F1 PASS: 40 sampled source values and 5 print markups are identical after export and re-import.
+- F2 PASS, and exactly: on the same decoded fixture, Phosphor and the studio produced the same frame count (299) and 0 differing values out of 19,136 band values, 299 loudness values and 299 flux values (maximum difference 0 of 255). The ported analysis is bit-for-bit Phosphor's.
+- F3 PASS: the studio's frame validates (version, byte lengths, ascending chapters).
+- F4 PASS: a 16 s frame is 42 KB; projected 4 minutes is about 621 KB, under the 700 KB limit.
+- F5 PASS: zero requests after load, and no field the size of audio samples.
+- F6 PASS: `phosphor.html` is 287,438 bytes (cap 320,000), `phosphor_build.py --check` matches, `phosphor_static_review.py` reports 0 findings.
+- F7 PASS: after loading a frame with loudness doctored to 255, every sampled loudness source value followed the file (above 0.9).
+- Bonus: a Phosphor frame loads into the studio and drives it. On the fixture Phosphor reported 120 BPM, 2 chapters and 20 genome beats, and the Beat pulse and Genome fidelity sources read them.
+
+Not tested: a real song through both pages, mp4 audio, a frame larger than 4 minutes, Phosphor's full check suite beyond build and static review, a real phone, the Artifact viewer.
