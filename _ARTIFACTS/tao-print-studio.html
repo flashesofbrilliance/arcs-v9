@@ -138,6 +138,7 @@ legend { padding: 0 6px; font-family: var(--ds-font-mono); font-size: var(--fs-b
 label, .lab { font-size: var(--fs-body); color: var(--dimmed); display: flex; justify-content: space-between; gap: 8px; }
 .lab output { color: var(--text); font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; }
 select, input[type=number], input[type=text] { width: 100%; min-height: 44px; padding: 8px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
+input:disabled, select:disabled { opacity: .45; cursor: not-allowed; }
 input[type=range] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
 .check { display: flex; justify-content: flex-start; align-items: center; gap: 10px; color: var(--text); font-size: var(--fs-body); min-height: 28px; }
 .check input { width: 18px; height: 18px; accent-color: var(--cyan); }
@@ -213,7 +214,7 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
       <div class="row"><label for="leading"><span>Line spacing</span><output id="leading-o"></output></label><input id="leading" type="range" min="80" max="160" step="5"></div>
       <div class="row two">
         <div class="row"><label for="case">Case</label><select id="case"><option value="upper">UPPER</option><option value="title">Title</option><option value="lower">lower</option><option value="sentence">Sentence</option></select></div>
-        <div class="row"><label for="style">Label style</label><select id="style"><option value="slab">Slab</option><option value="band">Full band</option><option value="knock">Knockout</option><option value="spray">Spray</option><option value="throw">Throw-up</option></select></div>
+        <div class="row"><label for="style">Label style</label><select id="style"><option value="slab">Slab</option><option value="band">Full band</option><option value="knock">Knockout</option><option value="spray">Spray</option><option value="throw">Throw-up</option><option value="strip">On the strip</option></select></div>
       </div>
       <div class="row two">
         <div class="row"><label for="pos">Position</label><select id="pos"><option value="bottom">Bottom</option><option value="middle">Middle</option><option value="top">Top</option></select></div>
@@ -222,6 +223,7 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
     </fieldset>
 
     <fieldset><legend>Street grit</legend>
+      <label class="check" for="auto"><input id="auto" type="checkbox"> Fidelity drives the grit (one dial)</label>
       <div class="row two">
         <div class="row"><label for="edge">Edge</label><select id="edge"><option value="clean">Clean</option><option value="drip">Drip</option><option value="fuzz">Fuzz</option><option value="grime">Grime</option><option value="cut">Cut</option></select></div>
         <div class="row"><label for="edgeamt"><span>Edge amount</span><output id="edgeamt-o"></output></label><input id="edgeamt" type="range" min="0" max="100" step="5"></div>
@@ -312,7 +314,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
     rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50,
     fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50,
-    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100
+    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false
   };
   var cfg = {};
   Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; });
@@ -364,8 +366,9 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     if (n <= w.length) out[n - 1] += '.';
     return out;
   }
-  function label(P, k, loss, drift, gnd, paper, text, st) {
+  function label(P, k, loss, drift, gnd, paper, text, st, ph) {
     if (!cfg.label || !text) return '';
+    if (cfg.style === 'strip') return stripText(P, k, loss, text, ph);
     var dark = (gnd !== null || paper);
     var slab = dark ? P.key : P.light, ink = dark ? P.light : P.key;
     var contrast = (gnd === null && !paper) ? P.light : P.key;     // text with no slab must read against the panel ground
@@ -442,6 +445,52 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       o += '<rect x="' + f1(x) + '" y="' + f1(y - 1) + '" width="' + w.toFixed(2) + '" height="' + f1(len + 1) + '" rx="' + (w / 2).toFixed(2) + '"/><circle cx="' + f1(x + w / 2) + '" cy="' + f1(y + len) + '" r="' + (w * 0.95).toFixed(2) + '"/>';
     }
     return o ? '<g fill="' + color + '">' + o + '</g>' : '';
+  }
+
+  /* ---- the proverb on the strip: glyphs ride the ring's centre line and flip to their mirrored back face at the twist ---- */
+  var CC = {};
+  function curve(ph) {
+    var key = ph.toFixed(3); if (CC[key]) return CC[key];
+    var N = 360, du = 0.02, dv = 0.05, pts = [], i, k;
+    for (i = 0; i <= N; i++) {
+      var u = 2 * Math.PI * i / N, c = project(u, 0, ph);
+      var q = [project(u - du, -dv, ph), project(u + du, -dv, ph), project(u + du, dv, ph), project(u - du, dv, ph)], area = 0;
+      for (k = 0; k < 4; k++) { var nx = q[(k + 1) % 4]; area += q[k][0] * nx[1] - nx[0] * q[k][1]; }
+      pts.push({ x: c[0], y: c[1], z: c[2], face: area > 0 });
+    }
+    var top = 0; pts.forEach(function (p, j) { if (p.y < pts[top].y) top = j; });
+    if (pts[(top + 1) % N].x - pts[(top - 1 + N) % N].x < 0) pts.reverse();          // read left to right across the top of the ring
+    var cum = [0]; for (i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
+    top = 0; pts.forEach(function (p, j) { if (p.y < pts[top].y) top = j; });
+    return (CC[key] = { pts: pts, cum: cum, total: cum[cum.length - 1], top: cum[top] });
+  }
+  function onCurve(cv, s) {
+    s = ((s % cv.total) + cv.total) % cv.total;
+    var lo = 0, hi = cv.cum.length - 1; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (cv.cum[m] <= s) lo = m; else hi = m; }
+    var t = (s - cv.cum[lo]) / Math.max(1e-6, cv.cum[hi] - cv.cum[lo]), a = cv.pts[lo], b = cv.pts[hi];
+    return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, z: a.z + (b.z - a.z) * t, ang: Math.atan2(b.y - a.y, b.x - a.x), face: t < 0.5 ? a.face : b.face };
+  }
+  function stripText(P, k, loss, text, ph) {
+    var t = casing(text).replace(/\s+/g, ' ').trim(); if (!t) return '';
+    var cv = curve(ph), F = FONTS[cfg.pixel > 0 ? 'sans' : cfg.font], wt = cfg.pixel > 0 ? 900 : cfg.weight, chars = t.split(''), n = chars.length;
+    var size = Math.max(4, Math.min(9.5 * cfg.size / 100, cv.total * 0.92 / (n * 0.78 + 0.6))), adv = size * 0.78;
+    // advance each glyph by its own perspective-scaled width so near letters do not collide; centre the run on the top of the ring
+    function layout(s0) { var pos = [], s = s0; for (var q = 0; q < n; q++) { pos.push(s); s += adv * (3.4 / (3.4 + onCurve(cv, s).z)) / 0.97 * (chars[q] === ' ' ? 0.7 : 1); } return { pos: pos, end: s }; }
+    var L = layout(cv.top - adv * (n - 1) / 2); L = layout(cv.top - (L.end - L.pos[0]) / 2);
+    var r = rng('striptxt', cfg.proverb, cfg.seed, k), startFace = null, out = '', glyphs = 0, back = 0;
+    chars.forEach(function (c, i) {
+      if (c === ' ') return;
+      var p = onCurve(cv, L.pos[i]);
+      if (startFace === null) startFace = p.face;
+      var skip = r() < loss * 0.22 * cfg.dropout / 100, j1 = r(), j2 = r();
+      if (skip) return;
+      var bk = p.face !== startFace, gs = size * (3.4 / (3.4 + p.z)) / 0.97, jit = loss * cfg.slip / 100;
+      var dy = (j1 - 0.5) * gs * 0.45 * jit, rot = (j2 - 0.5) * 24 * jit, fill = bk ? P.inks[2] : P.light;
+      out += '<g transform="translate(' + f1(p.x) + ' ' + f1(p.y + dy) + ') rotate(' + (p.ang * 180 / Math.PI + rot).toFixed(1) + ')' + (bk ? ' scale(-1 1)' : '') + '" opacity="' + (p.z < 0.25 ? 1 : 0.8) + '" data-g="1" data-back="' + (bk ? 1 : 0) + '">'
+        + '<text x="0" y="' + (gs * 0.35).toFixed(2) + '" text-anchor="middle" font-family="' + F.stack.replace(/"/g, "'") + '" font-weight="' + wt + '" font-size="' + gs.toFixed(2) + '" fill="' + fill + '" stroke="' + P.key + '" stroke-width="' + (gs * 0.2).toFixed(2) + '" stroke-linejoin="round" paint-order="stroke">' + esc(c) + '</text></g>';
+      glyphs++; if (bk) back++;
+    });
+    return '<g data-strip-text="1" data-glyphs="' + glyphs + '" data-back-glyphs="' + back + '" data-chars="' + t.replace(/ /g, '').length + '">' + grit(out, true) + '</g>';
   }
 
   /* ---- one pull of the mold ---- */
@@ -525,12 +574,22 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       + '<g opacity="' + (cfg.fill / 100).toFixed(2) + '" style="mix-blend-mode:' + blend + '">' + grit(layers + edrips) + '</g>' + key + (cfg.horizon > 0 ? dripsMarkup(rs, 4, 96, HORIZON + 2, horizonFill, drift) : '')
       + grit(spl, true) + spt
       + (cfg.halftone > 0 ? '<rect width="100" height="100" fill="url(#' + (dark2 ? 'benL' : 'benK') + ')" opacity="' + (cfg.halftone / 100 * 0.45).toFixed(2) + '"/>' : '')
-      + label(P, k, loss, drift, gnd, paper, o.text, cfg.style) + tagm
+      + label(P, k, loss, drift, gnd, paper, o.text, cfg.style, ph) + tagm
       + '<g fill="' + ((gnd !== null || paper) ? P.key : css('--dimmed')) + '">' + specks + '</g>'
       + (cfg.wall > 0 ? '<rect width="100" height="100" filter="url(#' + (dark2 ? 'wallL' : 'wallK') + ')" opacity="' + (cfg.wall / 100 * (dark2 ? 0.35 : 0.6)).toFixed(2) + '"/>' : '') + '</g>';
   }
 
+  function derived(f) {
+    var ls = 1 - f;
+    return { rough: Math.round(60 * Math.pow(ls, 0.8)), spray: Math.round(70 * ls), sprayhard: 30, spraydens: Math.round(50 + 30 * ls), drips: Math.round(80 * ls), spatter: Math.round(90 * ls), edge: 'drip', edgeamt: Math.round(70 * ls), wall: Math.round(35 * ls) };
+  }
   function build() {
+    if (!cfg.auto) return build0();
+    var g = derived(cfg.fidelity / 100), saved = {};
+    Object.keys(g).forEach(function (k) { saved[k] = cfg[k]; cfg[k] = g[k]; });
+    try { return build0(); } finally { Object.keys(saved).forEach(function (k) { cfg[k] = saved[k]; }); }
+  }
+  function build0() {
     var P = PAL[cfg.palette], f = cfg.fidelity / 100, cols = +cfg.grid, n = cols * cols, CELL = 120, gap = 14;
     var W = cols * CELL + (cols - 1) * gap, row = PROVERBS.filter(function (p) { return p.id === cfg.proverb; })[0] || PROVERBS[0];
     var R = runs(row.text, n), stats = { reg: 0, drop: 0, specks: 0, n: 0 };
@@ -597,12 +656,14 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     sel.value = cfg.weight;
   }
   var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; }, fill: function (v) { return v + '%'; }, splat: function (v) { return v + '%'; }, halftone: function (v) { return v + '%'; }, pixel: function (v) { return v > 0 ? v + ' cells' : 'Off'; }, grout: function (v) { return v + '%'; }, spatter: function (v) { return v + '%'; }, sprayhard: function (v) { return v < 34 ? 'Soft ' + v + '%' : v > 66 ? 'Hard ' + v + '%' : 'Medium ' + v + '%'; }, horizon: function (v) { return v ? v + '%' : 'Off'; }, spraydens: function (v) { return v + '%'; } };
+  function lockGrit() { ['rough', 'spray', 'sprayhard', 'spraydens', 'drips', 'spatter', 'edge', 'edgeamt', 'wall'].forEach(function (id) { var el = $(id); if (el) el.disabled = !!cfg.auto; }); }
   function sync() {
     Object.keys(DEFAULTS).forEach(function (k) {
       var el = $(k); if (!el) return;
       if (el.type === 'checkbox') el.checked = !!cfg[k]; else el.value = cfg[k];
       if (OUT[k]) $(k + '-o').textContent = OUT[k](cfg[k]);
     });
+    lockGrit();
   }
   function init() {
     var ps = $('proverb'); PROVERBS.forEach(function (p) { var o = document.createElement('option'); o.value = p.id; o.textContent = p.text.length > 58 ? p.text.slice(0, 56) + '...' : p.text; ps.appendChild(o); });
@@ -618,6 +679,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
         if (k === 'font') { fillWeights(); loadFace(); }
         if (k === 'weight') loadFace();
         if (OUT[k]) $(k + '-o').textContent = OUT[k](v);
+        if (k === 'auto') lockGrit();
         schedule();
       });
     });
@@ -676,7 +738,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
       street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70, edge: 'drip', edgeamt: 55, fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50, grid: 3, strip: true, horizon: 40 },
       fancy: { palette: 'mono', ground: 'paper', grid: 1, strip: false, grounds: false, inkrot: false, views: 0, slip: 50, dropout: 40, grain: 30, fidelity: 85, label: true, font: 'marker', weight: 400, size: 100, track: 0, leading: 115, 'case': 'sentence', style: 'spray', pos: 'top', height: 58, rough: 40, spray: 0, drips: 60, wall: 0, outline: 100, edge: 'drip', edgeamt: 40, fill: 0, splat: 0, halftone: 0, pixel: 0, grout: 50, horizon: 0 },
       brain: { palette: 'pop', ground: 'paper', grid: 3, strip: true, grounds: true, inkrot: true, views: 100, slip: 90, dropout: 80, grain: 60, fidelity: 85, label: true, font: 'bowlby', weight: 400, size: 105, track: 0, leading: 100, 'case': 'upper', style: 'knock', pos: 'bottom', height: 30, rough: 25, spray: 35, drips: 40, wall: 15, outline: 60, edge: 'drip', edgeamt: 50, fill: 100, splat: 80, halftone: 45, pixel: 0, grout: 50, horizon: 0 },
-      tag: { palette: 'signal', ground: 'dark', grid: 2, strip: true, grounds: true, inkrot: true, views: 100, slip: 110, dropout: 90, grain: 90, fidelity: 75, label: true, font: 'bowlby', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'throw', pos: 'middle', height: 44, rough: 35, spray: 45, sprayhard: 30, spraydens: 60, drips: 45, wall: 20, outline: 85, edge: 'drip', edgeamt: 45, fill: 100, splat: 25, spatter: 60, halftone: 0, pixel: 0, grout: 50, tag: true, handle: 'ARCS', horizon: 40 },
+      tag: { palette: 'signal', ground: 'dark', grid: 2, strip: false, grounds: false, inkrot: true, views: 100, slip: 110, dropout: 90, grain: 90, fidelity: 75, label: true, font: 'bowlby', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'strip', pos: 'middle', height: 44, rough: 0, spray: 0, sprayhard: 30, spraydens: 60, drips: 0, wall: 0, outline: 85, edge: 'drip', edgeamt: 0, fill: 100, splat: 0, spatter: 0, halftone: 0, pixel: 0, grout: 50, tag: true, handle: 'ARCS', horizon: 0, auto: true },
       invader: { palette: 'pop', ground: 'dark', grid: 3, strip: true, grounds: true, inkrot: true, views: 100, slip: 40, dropout: 40, grain: 0, fidelity: 90, label: true, font: 'sans', weight: 900, size: 120, track: 0, leading: 100, 'case': 'upper', style: 'slab', pos: 'bottom', height: 33, rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50, fill: 100, splat: 0, halftone: 0, pixel: 64, grout: 45, horizon: 40 }
     };
     function preset(name) { Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; }); var P = PRESETS[name]; Object.keys(P).forEach(function (k) { cfg[k] = P[k]; }); fillWeights(); sync(); loadFace(); schedule(); say({ silk: 'Silkscreen preset on.', street: 'Street preset on.', fancy: 'Fancy preset on.', brain: 'Brainwash preset on.', invader: 'Invader preset on.', tag: 'Tag preset on.' }[name]); }
