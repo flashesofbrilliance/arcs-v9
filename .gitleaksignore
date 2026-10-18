@@ -45,3 +45,8 @@ e0a1e018d8ad83914296a3c439345b6c9c317e27:_ARTIFACTS/arcs-conviction-ledger.html:
 # 2026-10-05: Upside's public Ashby job page embeds its own Datadog RUM browser IDs (ddRumApplicationId, ddRumClientToken 'pub...'), public-by-design client tokens owned by the employer, scraped into jd-full.txt; not an ARCS secret.
 _ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/jd-full.txt:generic-api-key:165
 _ARTIFACTS/forge-upside-staff-forward-deployed-engineer-g/jd-full.txt:generic-api-key:274
+
+# 2026-10-18, triaged with the value masked: set_B.jsonl line 254 (B3-054) holds a sentence quoted from ADR-032 prose
+# ("known keys (githubCommitVerification)"), the same text already triaged for ADR-032 above. A sentence, no secret.
+# Approved by Zach in chat. Fixture of quoted corpus text for the provenance benchmark; see the registration in _PATTERNS.
+tests/fixtures/provenance-bench/dataset/set_B.jsonl:generic-api-key:254

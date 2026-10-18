@@ -32,7 +32,10 @@ Use Wonderful's own six steps (identify workflow, connect systems, build agent, 
 6. **Monitor and expand:** drift, failure review, the next use case. State what you do not know and what you would ask in week one.
 This maps to Strategist (scoping, plan, stakeholders) and shows the build depth FDE needs (tools, evals, failure modes). Deliberately includes unknowns; do not invent Wonderful internals.
 
-## Ex-ante receipt (DRAFT, not filed; Zach files before any send to Wonderful)
+## Ex-ante receipt (FILED 2026-10-16 13:52 UTC as `2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH`; original draft text below)
+
+Status updated 2026-10-18: this was a draft when written. It was filed about 34 minutes before Zach sent the bundle email (2026-10-16 14:25 UTC, thread 1a1451af4dc0d68e). The filed row is the record; the draft text below is kept as history and is not edited.
+
 - **question:** Lead the Wonderful application with Forward Deployed Engineer (Zach's first pick, conditional on meeting their engineering standard) and offer Deployment Strategist as the alternative, rather than Strategist first? (Revised 2026-10-15 after George said on the call that Strategists are 'not the doers'.)
 - **horizon:** this-week · **stakes:** medium · **mode:** PLAN
 - **prediction (my estimates, Zach to override before filing):** talent screen with Itay follows if the attestation is answered and a role is named: about 50% either way; given a screen, passing the technical interview is the main uncertainty for FDE and is unmeasured (no winnability grade exists for FDE). Re-estimate after George replies.
