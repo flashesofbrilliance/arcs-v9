@@ -127,6 +127,7 @@ h1 { font-family: var(--ds-font-display); font-weight: 600; font-size: var(--fs-
 #print svg { display: block; width: 100%; height: auto; }
 .readout { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 12px 0 0; padding: 0; list-style: none; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); font-variant-numeric: tabular-nums; }
 .readout b { color: var(--text); font-weight: 600; }
+.note.tight { margin: 0; }
 .note { color: var(--dimmed); font-size: var(--fs-body); margin: 12px 0 0; max-width: none; }
 
 .controls { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
@@ -136,7 +137,7 @@ legend { padding: 0 6px; font-family: var(--ds-font-mono); font-size: var(--fs-b
 .row.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 label, .lab { font-size: var(--fs-body); color: var(--dimmed); display: flex; justify-content: space-between; gap: 8px; }
 .lab output { color: var(--text); font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; }
-select, input[type=number] { width: 100%; min-height: 44px; padding: 8px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
+select, input[type=number], input[type=text] { width: 100%; min-height: 44px; padding: 8px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
 input[type=range] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
 .check { display: flex; justify-content: flex-start; align-items: center; gap: 10px; color: var(--text); font-size: var(--fs-body); min-height: 28px; }
 .check input { width: 18px; height: 18px; accent-color: var(--cyan); }
@@ -144,6 +145,13 @@ input[type=range] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
 button { min-height: 44px; padding: 8px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); cursor: pointer; }
 button:hover { border-color: var(--cyan); }
 button.primary { border-color: var(--cyan); color: var(--cyan); }
+ul.saves { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+ul.saves li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
+ul.saves .nm { min-width: 0; overflow-wrap: anywhere; }
+ul.saves .when { color: var(--dimmed); font-size: var(--fs-body); display: block; }
+ul.saves .acts { display: flex; gap: 6px; }
+ul.saves button { min-height: 44px; padding: 6px 12px; }
+.empty { color: var(--dimmed); margin: 0; font-size: var(--fs-body); }
 pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); white-space: pre-wrap; overflow-wrap: anywhere; }
 .status { min-height: 1.4em; font-size: var(--fs-body); color: var(--green); margin: 0; }
 </style>
@@ -158,10 +166,15 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
   <section class="stage" aria-label="Print preview">
     <div id="print" role="img" aria-label="Silkscreen print of the selected proverb"></div>
     <ul class="readout" id="readout"></ul>
-    <p class="note">Studio prints repeat exactly inside the studio. The PNG exporter in the repo uses a different random stream, so its output matches the recipe, not the pixels.</p>
+    <p class="note">Pixel mosaic rasterizes the print, so it uses a system typeface and Copy SVG still copies the vector print. Studio prints repeat exactly inside the studio. The PNG exporter in the repo uses a different random stream, so its output matches the recipe, not the pixels.</p>
   </section>
 
   <form class="controls" id="controls" autocomplete="off" onsubmit="return false">
+    <fieldset><legend>Style</legend>
+      <div class="btns"><button type="button" id="p-silk">Silkscreen</button><button type="button" id="p-street">Street</button><button type="button" id="p-fancy">Fancy</button><button type="button" id="p-brain">Brainwash</button><button type="button" id="p-invader">Invader</button><button type="button" id="p-tag" class="primary">Tag</button></div>
+      <p class="note tight">Each preset takes the form of an artist's approach: hand-lettered marker, splatter and Ben-Day dots, tile mosaic. No existing artwork is copied.</p>
+    </fieldset>
+
     <fieldset><legend>Print</legend>
       <div class="row"><label for="proverb">Proverb</label><select id="proverb"></select></div>
       <div class="row"><label for="fidelity"><span>Fidelity</span><output id="fidelity-o"></output></label><input id="fidelity" type="range" min="0" max="100" step="1"></div>
@@ -174,7 +187,7 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
 
     <fieldset><legend>Ink and ground</legend>
       <div class="row two">
-        <div class="row"><label for="palette">Palette</label><select id="palette"><option value="signal">ARCS signal</option><option value="pop">Pop</option><option value="duo">Duotone</option></select></div>
+        <div class="row"><label for="palette">Palette</label><select id="palette"><option value="signal">ARCS signal</option><option value="pop">Pop</option><option value="duo">Duotone</option><option value="mono">Ink and red</option></select></div>
         <div class="row"><label for="ground">Ground</label><select id="ground"><option value="dark">Dark</option><option value="paper">Paper</option></select></div>
       </div>
       <div class="row"><label for="slip"><span>Plate slip</span><output id="slip-o"></output></label><input id="slip" type="range" min="0" max="250" step="5"></div>
@@ -198,8 +211,8 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
       <div class="row"><label for="track"><span>Tracking</span><output id="track-o"></output></label><input id="track" type="range" min="-4" max="24" step="1"></div>
       <div class="row"><label for="leading"><span>Line spacing</span><output id="leading-o"></output></label><input id="leading" type="range" min="80" max="160" step="5"></div>
       <div class="row two">
-        <div class="row"><label for="case">Case</label><select id="case"><option value="upper">UPPER</option><option value="title">Title</option><option value="lower">lower</option></select></div>
-        <div class="row"><label for="style">Label style</label><select id="style"><option value="slab">Slab</option><option value="band">Full band</option><option value="knock">Knockout</option><option value="spray">Spray</option></select></div>
+        <div class="row"><label for="case">Case</label><select id="case"><option value="upper">UPPER</option><option value="title">Title</option><option value="lower">lower</option><option value="sentence">Sentence</option></select></div>
+        <div class="row"><label for="style">Label style</label><select id="style"><option value="slab">Slab</option><option value="band">Full band</option><option value="knock">Knockout</option><option value="spray">Spray</option><option value="throw">Throw-up</option></select></div>
       </div>
       <div class="row two">
         <div class="row"><label for="pos">Position</label><select id="pos"><option value="bottom">Bottom</option><option value="middle">Middle</option><option value="top">Top</option></select></div>
@@ -208,16 +221,45 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
     </fieldset>
 
     <fieldset><legend>Street grit</legend>
-      <div class="btns"><button type="button" id="p-silk">Silkscreen</button><button type="button" id="p-street" class="primary">Street</button></div>
       <div class="row two">
         <div class="row"><label for="edge">Edge</label><select id="edge"><option value="clean">Clean</option><option value="drip">Drip</option><option value="fuzz">Fuzz</option><option value="grime">Grime</option><option value="cut">Cut</option></select></div>
         <div class="row"><label for="edgeamt"><span>Edge amount</span><output id="edgeamt-o"></output></label><input id="edgeamt" type="range" min="0" max="100" step="5"></div>
       </div>
       <div class="row"><label for="rough"><span>Rough edges</span><output id="rough-o"></output></label><input id="rough" type="range" min="0" max="100" step="5"></div>
       <div class="row"><label for="spray"><span>Spray overspray</span><output id="spray-o"></output></label><input id="spray" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="sprayhard"><span>Spray hardness</span><output id="sprayhard-o"></output></label><input id="sprayhard" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="spraydens"><span>Spray density</span><output id="spraydens-o"></output></label><input id="spraydens" type="range" min="0" max="100" step="5"></div>
       <div class="row"><label for="drips"><span>Drips</span><output id="drips-o"></output></label><input id="drips" type="range" min="0" max="100" step="5"></div>
       <div class="row"><label for="outline"><span>Marker outline</span><output id="outline-o"></output></label><input id="outline" type="range" min="0" max="100" step="5"></div>
       <div class="row"><label for="wall"><span>Wall grit</span><output id="wall-o"></output></label><input id="wall" type="range" min="0" max="100" step="5"></div>
+    </fieldset>
+
+    <fieldset><legend>Pop and pixels</legend>
+      <div class="row"><label for="fill"><span>Plate fill</span><output id="fill-o"></output></label><input id="fill" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="splat"><span>Splatter</span><output id="splat-o"></output></label><input id="splat" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="spatter"><span>Spatter</span><output id="spatter-o"></output></label><input id="spatter" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="halftone"><span>Halftone dots</span><output id="halftone-o"></output></label><input id="halftone" type="range" min="0" max="100" step="5"></div>
+      <div class="row"><label for="pixel"><span>Pixel mosaic</span><output id="pixel-o"></output></label><input id="pixel" type="range" min="0" max="96" step="8"></div>
+      <div class="row"><label for="grout"><span>Tile grout</span><output id="grout-o"></output></label><input id="grout" type="range" min="0" max="100" step="5"></div>
+    </fieldset>
+
+    <fieldset><legend>Tag mark</legend>
+      <label class="check" for="tag"><input id="tag" type="checkbox"> Sign each panel with the tag</label>
+      <div class="row"><label for="handle">Handle</label><input id="handle" type="text" maxlength="12" spellcheck="false"></div>
+    </fieldset>
+
+    <fieldset><legend>Saved looks</legend>
+      <div class="row two">
+        <div class="row"><label for="save-name">Name</label><input id="save-name" type="text" maxlength="40" spellcheck="false" placeholder="Look 1"></div>
+        <div class="row"><span class="lab">&nbsp;</span><button type="button" id="save-btn" class="primary">Save this look</button></div>
+      </div>
+      <ul class="saves" id="saves"></ul>
+      <p class="note tight" id="save-note">Saved looks stay in this browser. Copy a recipe to move one to another browser or share it.</p>
+      <div class="btns"><button type="button" id="copy-recipe">Copy recipe</button></div>
+      <div class="row two">
+        <div class="row"><label for="paste-recipe">Paste a recipe</label><input id="paste-recipe" type="text" spellcheck="false" placeholder="Paste copied recipe"></div>
+        <div class="row"><span class="lab">&nbsp;</span><button type="button" id="load-recipe">Load recipe</button></div>
+      </div>
     </fieldset>
 
     <fieldset><legend>Take it with you</legend>
@@ -245,6 +287,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   var PAL = {
     signal: { inks: [css('--cyan'), css('--green'), css('--gold'), css('--red')], key: css('--bg'), light: css('--text'), horizon: css('--gold') },
     pop:    { inks: ['#ff2e93', '#ffe600', '#00b8ff', '#ff6a13'], key: '#14060f', light: '#fff3d6', horizon: '#ffe600' },
+    mono:   { inks: ['#0b0b0c', '#0b0b0c', '#0b0b0c', '#e11d2e'], key: '#0b0b0c', light: '#faf8f3', horizon: '#e11d2e' },
     duo:    { inks: ['#ff4d6d', '#ff4d6d', '#00f0ff', '#00f0ff'], key: '#06080f', light: '#e9eef6', horizon: '#00f0ff' }
   };
   var FONTS = {
@@ -266,7 +309,9 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     palette: 'signal', ground: 'paper', slip: 100, dropout: 100, grain: 100,
     views: 100, inkrot: true, grounds: true,
     label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
-    rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50
+    rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50,
+    fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50,
+    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS'
   };
   var cfg = {};
   Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; });
@@ -309,7 +354,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   /* ---- type ---- */
   var mctx = document.createElement('canvas').getContext('2d');
   function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function casing(t) { return cfg['case'] === 'upper' ? t.toUpperCase() : cfg['case'] === 'lower' ? t.toLowerCase() : t.toLowerCase().replace(/(^|\s|-)([a-z])/g, function (m, a, b) { return a + b.toUpperCase(); }); }
+  function casing(t) { if (cfg['case'] === 'sentence') { var l = t.toLowerCase(); return l.charAt(0).toUpperCase() + l.slice(1); } return cfg['case'] === 'upper' ? t.toUpperCase() : cfg['case'] === 'lower' ? t.toLowerCase() : t.toLowerCase().replace(/(^|\s|-)([a-z])/g, function (m, a, b) { return a + b.toUpperCase(); }); }
   function widthRatio(line, stack, weight) { mctx.font = weight + ' 100px ' + stack; return mctx.measureText(line).width / 100 + (cfg.track / 100) * line.length; }
   function runs(text, n) {
     var w = text.replace(/\.$/, '').split(/\s+/), out = [], i;
@@ -326,20 +371,30 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     var r = rng('label', cfg.proverb, cfg.seed, k);
     var ox = (r() * 2 - 1) * MAX_PLATE * loss * drift * cfg.slip / 100, oy = (r() * 2 - 1) * MAX_PLATE * 0.5 * loss * drift * cfg.slip / 100;
     var t = casing(text), words = t.split(/\s+/), lines;
-    if (words.length > 1) {
-      var best = 1, bd = 1e9; for (var i = 1; i < words.length; i++) { var dd = Math.abs(words.slice(0, i).join(' ').length - words.slice(i).join(' ').length); if (dd < bd) { bd = dd; best = i; } }
-      lines = [words.slice(0, best).join(' '), words.slice(best).join(' ')];
-    } else lines = words;
-    var F = FONTS[cfg.font], longest = 0;
-    lines.forEach(function (l) { longest = Math.max(longest, widthRatio(l, F.stack, cfg.weight)); });
-    var cap = cfg.style === 'spray' ? (lines.length === 1 ? 22 : 15) : (lines.length === 1 ? 17 : 12.5);
+    if (words.length <= 2) lines = words;
+    else {
+      var L = Math.min(4, Math.ceil(words.length / 3)), tgt = t.length / L, cur = '';
+      lines = [];
+      words.forEach(function (w) { if (cur && (cur + ' ' + w).length > tgt * 1.05 && lines.length < L - 1) { lines.push(cur); cur = w; } else cur = cur ? cur + ' ' + w : w; });
+      lines.push(cur);
+    }
+    var F = FONTS[cfg.pixel > 0 ? 'sans' : cfg.font], wt = cfg.pixel > 0 ? 900 : cfg.weight, longest = 0;     // mosaic mode rasterizes the SVG, which cannot load web fonts
+    lines.forEach(function (l) { longest = Math.max(longest, widthRatio(l, F.stack, wt)); });
+    var cap = (cfg.style === 'spray' || cfg.style === 'throw') ? (lines.length === 1 ? 22 : 15) : (lines.length === 1 ? 17 : 12.5);
     var size = Math.min(cap, (cfg.style === 'band' ? 94 : 88) / longest) * cfg.size / 100;
     var hgt = cfg.height, top = cfg.pos === 'top' ? (cfg.style === 'band' ? 0 : 3) : cfg.pos === 'middle' ? (100 - hgt) / 2 : 100 - hgt - (cfg.style === 'band' ? 0 : 3);
     var lh = cfg.leading / 100, total = (lines.length - 1) * size * lh;
     var cy = top + hgt / 2;
     var body = lines.map(function (l, i) {
       var y = cy - total / 2 + i * size * lh + size * 0.34;
-      var common = ' x="50" y="' + f1(y) + '" text-anchor="middle" font-family="' + F.stack.replace(/"/g, "'") + '" font-weight="' + cfg.weight + '" font-size="' + size.toFixed(2) + '" letter-spacing="' + (cfg.track / 100 * size).toFixed(2) + '"';
+      var common = ' x="50" y="' + f1(y) + '" text-anchor="middle" font-family="' + F.stack.replace(/"/g, "'") + '" font-weight="' + wt + '" font-size="' + size.toFixed(2) + '" letter-spacing="' + (cfg.track / 100 * size).toFixed(2) + '"';
+      if (cfg.style === 'throw') {
+        var tcol = P.inks[(k * 3 + 1) % 4]; if (tcol === (gnd !== null ? P.inks[gnd] : (paper ? P.light : P.key))) tcol = P.light;
+        var yy = f1(y), sw = (size * 0.3).toFixed(2), off = (size * 0.09).toFixed(2);
+        return '<text' + common + ' transform="translate(' + off + ' ' + off + ')" fill="' + P.key + '" stroke="' + P.key + '" stroke-width="' + sw + '" stroke-linejoin="round">' + esc(l) + '</text>'
+          + '<text' + common + ' fill="' + P.key + '" stroke="' + P.key + '" stroke-width="' + sw + '" stroke-linejoin="round">' + esc(l) + '</text>'
+          + '<text' + common + ' fill="' + tcol + '">' + esc(l) + '</text>';
+      }
       if (cfg.style === 'spray') return '<text' + common + ' fill="' + contrast + '">' + esc(l) + '</text>';
       if (cfg.style === 'knock') return '<text' + common + ' fill="' + P.light + '" stroke="' + P.key + '" stroke-width="' + (size * 0.22).toFixed(2) + '" stroke-linejoin="round" paint-order="stroke">' + esc(l) + '</text>';
       return '<text' + common + ' fill="' + ink + '">' + esc(l) + '</text>';
@@ -356,15 +411,17 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
 
   /* ---- street grit: filters, drips ---- */
   function defsMarkup() {
-    var sd = (cfg.spray * 0.035).toFixed(2), rs = (cfg.rough * 0.07).toFixed(2), sed = cfg.seed % 97;
+    var hd = cfg.sprayhard / 100, de = cfg.spraydens / 100, sd = (cfg.spray * 0.035 * (1.55 - hd * 1.3)).toFixed(2), slope = 6 + hd * 14, sth = (slope * (0.28 + de * 0.5)).toFixed(2), rs = (cfg.rough * 0.07).toFixed(2), sed = cfg.seed % 97;
     return '<defs>'
       + '<filter id="rough" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="' + sed + '" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="' + rs + '" xChannelSelector="R" yChannelSelector="G"/></filter>'
-      + '<filter id="spray" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceGraphic" stdDeviation="' + sd + '" result="b"/><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="1" seed="' + (sed + 3) + '" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 5.1" result="dots"/><feComposite in="b" in2="dots" operator="in" result="halo"/><feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+      + '<filter id="spray" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceGraphic" stdDeviation="' + sd + '" result="b"/><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="1" seed="' + (sed + 3) + '" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -' + slope.toFixed(1) + ' ' + sth + '" result="dots"/><feComposite in="b" in2="dots" operator="in" result="halo"/><feMerge><feMergeNode in="halo"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
       + '<filter id="wallK" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="' + (sed + 7) + '"/><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 1.45"/></filter>'
       + '<filter id="wallL" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="' + (sed + 7) + '"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -2.4 1.45"/></filter>'
       + '<filter id="fuzz" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="' + (sed + 11) + '" result="f"/><feDisplacementMap in="SourceGraphic" in2="f" scale="' + (cfg.edgeamt * 0.05).toFixed(2) + '" xChannelSelector="R" yChannelSelector="B" result="d"/><feGaussianBlur in="d" stdDeviation="' + (0.1 + cfg.edgeamt * 0.0032).toFixed(2) + '"/></filter>'
       + '<filter id="grime" x="-15%" y="-15%" width="130%" height="130%"><feMorphology in="SourceAlpha" operator="dilate" radius="' + (0.4 + cfg.edgeamt * 0.02).toFixed(2) + '" result="dil"/><feComposite in="dil" in2="SourceAlpha" operator="out" result="ring"/><feTurbulence type="fractalNoise" baseFrequency="0.35" numOctaves="3" seed="' + (sed + 13) + '" result="m"/><feColorMatrix in="m" type="matrix" values="0 0 0 0 0.09  0 0 0 0 0.07  0 0 0 0 0.05  0 0 0 -4 3.2" result="crust"/><feComposite in="crust" in2="ring" operator="in" result="gr"/><feMerge><feMergeNode in="gr"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
       + '<filter id="cut" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="' + (sed + 17) + '" result="c"/><feDisplacementMap in="SourceGraphic" in2="c" scale="' + (cfg.edgeamt * 0.09).toFixed(2) + '" xChannelSelector="R" yChannelSelector="G" result="e"/><feComponentTransfer in="e"><feFuncA type="discrete" tableValues="0 0 1 1"/></feComponentTransfer></filter>'
+      + '<pattern id="benK" width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="1.6" cy="1.6" r="0.95" fill="' + PAL[cfg.palette].key + '"/></pattern>'
+      + '<pattern id="benL" width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="1.6" cy="1.6" r="0.95" fill="' + PAL[cfg.palette].light + '"/></pattern>'
       + '</defs>';
   }
   function grit(markup, noEdge) {
@@ -429,12 +486,45 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     }
     var blend = gnd !== null ? 'normal' : (paper ? 'multiply' : 'screen');
     var horizonFill = (gnd !== null || paper) ? P.key : P.horizon;
+    var spl = '';
+    if (cfg.splat > 0) {
+      var rp = rng('splat', cfg.proverb, cfg.seed, k), cnt = Math.round(cfg.splat / 100 * 3 * (0.6 + 0.4 * drift) + (rp() < 0.5 ? 1 : 0));
+      for (var si = 0; si < cnt; si++) {
+        var cx = 10 + rp() * 80, cy = 8 + rp() * 62, col = P.inks[Math.floor(rp() * 4)], R = 2.2 + rp() * 5 * (0.5 + cfg.splat / 200), bits = '';
+        if (col === (gnd !== null ? P.inks[gnd] : (paper ? P.light : P.key))) col = P.inks[(P.inks.indexOf(col) + 1) % 4];
+        bits += '<circle cx="' + f1(cx) + '" cy="' + f1(cy) + '" r="' + R.toFixed(2) + '"/>';
+        for (var sj = 0; sj < 9; sj++) { var an = rp() * 6.283, ds = R * (1 + rp() * 1.9); bits += '<circle cx="' + f1(cx + Math.cos(an) * ds) + '" cy="' + f1(cy + Math.sin(an) * ds) + '" r="' + (R * (0.08 + rp() * 0.32)).toFixed(2) + '"/>'; }
+        if (rp() < 0.6) bits += '<rect x="' + f1(cx - 0.5) + '" y="' + f1(cy) + '" width="1" height="' + f1(R * 2 + rp() * 10) + '" rx=".5"/>';
+        spl += '<g fill="' + col + '">' + bits + '</g>';
+      }
+    }
+    var spt = '';
+    if (cfg.spatter > 0) {
+      var rq = rng('spatter', cfg.proverb, cfg.seed, k), flicks = 1 + Math.round(cfg.spatter / 100 * 3 * (0.6 + 0.4 * drift));
+      for (var fi = 0; fi < flicks; fi++) {
+        var ox0 = 8 + rq() * 84, oy0 = 6 + rq() * 70, ang = rq() * 6.283, cone = 0.45 + rq() * 0.5, dots = Math.round(cfg.spatter * 0.9), colS = P.inks[Math.floor(rq() * 4)], bits2 = '';
+        for (var di = 0; di < dots; di++) {
+          var dist = Math.pow(rq(), 1.7) * (26 + cfg.spatter * 0.3), a2 = ang + (rq() - 0.5) * cone, rad = 0.22 + (1 - dist / 70) * rq() * 0.9;
+          bits2 += '<circle cx="' + f1(ox0 + Math.cos(a2) * dist) + '" cy="' + f1(oy0 + Math.sin(a2) * dist) + '" r="' + Math.max(0.15, rad).toFixed(2) + '"/>';
+        }
+        spt += '<g fill="' + colS + '">' + bits2 + '</g>';
+      }
+    }
+    var tagm = '';
+    if (cfg.tag && !o.nolabel) {
+      var tcol2 = (gnd === null && !paper) ? P.light : P.key, hc = (gnd === null && !paper) ? P.inks[(k + 1) % 4] : P.key;
+      tagm = '<g transform="translate(56 88) rotate(-6)">' + grit('<g fill="none" stroke="' + hc + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 9.5C3 3 11 3.6 11 8.7 11 13.8 3.5 13.2 0.5 9.5" /><path d="M0.5 9.5C-1 12.5-5 12-5 8.2-5 4.4-1 4.6 0.5 9.5"/></g>'
+        + '<text x="14.5" y="10.4" fill="' + tcol2 + '" font-family="' + FONTS.marker.stack.replace(/"/g, "'") + '" font-size="8.5">' + esc(cfg.handle || 'ARCS') + '</text>'
+        + '<path d="M13 12.6C20 15 29 14.2 34 11.4" fill="none" stroke="' + hc + '" stroke-width="1.1" stroke-linecap="round"/>', true) + '</g>';
+    }
     var tf = o.mirror ? ' transform="translate(100 0) scale(-1 1)"' : '';
     o.stats.reg += offs / 4; o.stats.drop += dropped; o.stats.specks += ns; o.stats.n++;
     return '<g' + tf + '><rect width="100" height="100" fill="' + (gnd !== null ? P.inks[gnd] : (paper ? P.light : P.key)) + '"/>'
       + '<rect y="' + HORIZON + '" width="100" height="2.4" fill="' + horizonFill + '"/>' + gaps
-      + '<g style="mix-blend-mode:' + blend + '">' + grit(layers + edrips) + '</g>' + key + dripsMarkup(rs, 4, 96, HORIZON + 2, horizonFill, drift)
-      + label(P, k, loss, drift, gnd, paper, o.text, cfg.style)
+      + '<g opacity="' + (cfg.fill / 100).toFixed(2) + '" style="mix-blend-mode:' + blend + '">' + grit(layers + edrips) + '</g>' + key + dripsMarkup(rs, 4, 96, HORIZON + 2, horizonFill, drift)
+      + grit(spl, true) + spt
+      + (cfg.halftone > 0 ? '<rect width="100" height="100" fill="url(#' + (dark2 ? 'benL' : 'benK') + ')" opacity="' + (cfg.halftone / 100 * 0.45).toFixed(2) + '"/>' : '')
+      + label(P, k, loss, drift, gnd, paper, o.text, cfg.style) + tagm
       + '<g fill="' + ((gnd !== null || paper) ? P.key : css('--dimmed')) + '">' + specks + '</g>'
       + (cfg.wall > 0 ? '<rect width="100" height="100" filter="url(#' + (dark2 ? 'wallL' : 'wallK') + ')" opacity="' + (cfg.wall / 100 * (dark2 ? 0.35 : 0.6)).toFixed(2) + '"/>' : '') + '</g>';
   }
@@ -452,22 +542,51 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     }
     for (var s = 0; s < m; s++) {
       var twist = s === m - 1, sx = s * (sw + 6);
-      out.push('<svg x="' + f1(sx) + '" y="' + (W + 18) + '" width="' + f1(sw) + '" height="' + f1(sw) + '" viewBox="0 0 100 100" data-twist="' + (twist ? 1 : 0) + '">' + panel(P, f, s + n, n + m, { swap: twist, mirror: twist, text: '', stats: stats }) + '</svg>');
+      out.push('<svg x="' + f1(sx) + '" y="' + (W + 18) + '" width="' + f1(sw) + '" height="' + f1(sw) + '" viewBox="0 0 100 100" data-twist="' + (twist ? 1 : 0) + '">' + panel(P, f, s + n, n + m, { swap: twist, mirror: twist, text: '', stats: stats, nolabel: true }) + '</svg>');
     }
     out.push('</svg>');
-    return { svg: out.join('\n'), stats: stats, row: row, W: W };
+    return { svg: out.join('\n'), stats: stats, row: row, W: W, H: H };
   }
 
   /* ---- UI ---- */
-  var timer = 0, last = null;
+  var timer = 0, last = null, token = 0;
   function render() {
     last = build();
+    var tk = ++token;
     $('print').innerHTML = last.svg;
+    if (cfg.pixel > 0) pixelate(last, tk);
     var st = last.stats, loss = 1 - cfg.fidelity / 100;
     $('readout').innerHTML = '<li>Fidelity <b>' + (cfg.fidelity / 100).toFixed(2) + '</b></li><li>Mean plate slip <b>' + (st.reg / st.n).toFixed(2) + '</b></li><li>Ink dropouts <b>' + st.drop + '</b></li><li>Grain specks <b>' + st.specks + '</b></li><li>Shape code <b>' + last.row.aspect + '.' + last.row.verb + '</b></li><li>Source <b>' + last.row.source + '</b></li>';
     var g = cfg.ground, c = 'python3 scripts/tao_print_export.py ' + cfg.proverb + ' --fidelity ' + (cfg.fidelity / 100).toFixed(2) + ' --seed ' + cfg.seed + ' --ground ' + g + ' --out print.png';
     $('cmd').textContent = c;
     try { localStorage.setItem('tao-print-studio', JSON.stringify(cfg)); } catch (e) {}
+  }
+  function rgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.replace(/(.)/g, '$1$1'); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+  function pixelate(res, tk) {
+    var P = PAL[cfg.palette], cells = +cfg.pixel, cu = 120 / cells, gw = Math.ceil(res.W / cu), gh = Math.ceil(res.H / cu);
+    var pal = P.inks.concat([P.key, P.light]).filter(function (c, i, a) { return a.indexOf(c) === i; }).map(rgb);
+    var img = new Image(), url = URL.createObjectURL(new Blob([res.svg], { type: 'image/svg+xml' }));
+    img.onload = function () {
+      URL.revokeObjectURL(url);
+      if (tk !== token) return;
+      var big = document.createElement('canvas'); big.width = gw * 4; big.height = gh * 4;
+      var bx = big.getContext('2d'); bx.imageSmoothingQuality = 'high'; bx.drawImage(img, 0, 0, big.width, big.height);
+      var sm = document.createElement('canvas'); sm.width = gw; sm.height = gh;
+      var sx = sm.getContext('2d'); sx.imageSmoothingQuality = 'high'; sx.drawImage(big, 0, 0, gw, gh);
+      var d = sx.getImageData(0, 0, gw, gh).data, S = 8, out = document.createElement('canvas'); out.width = gw * S; out.height = gh * S;
+      var ox = out.getContext('2d'), g = cfg.grout / 100 * S * 0.32;
+      ox.fillStyle = P.key; ox.fillRect(0, 0, out.width, out.height);
+      for (var y = 0; y < gh; y++) for (var x = 0; x < gw; x++) {
+        var i = (y * gw + x) * 4, best = 0, bd = 1e9;
+        for (var c = 0; c < pal.length; c++) { var dr = d[i] - pal[c][0], dg = d[i + 1] - pal[c][1], db = d[i + 2] - pal[c][2], dd = dr * dr + dg * dg + db * db; if (dd < bd) { bd = dd; best = c; } }
+        ox.fillStyle = 'rgb(' + pal[best].join(',') + ')'; ox.fillRect(x * S + g, y * S + g, S - 2 * g, S - 2 * g);
+      }
+      out.style.cssText = 'display:block;width:100%;height:auto;image-rendering:pixelated';
+      out.setAttribute('aria-label', 'Tile mosaic of the print');
+      $('print').innerHTML = ''; $('print').appendChild(out);
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); };
+    img.src = url;
   }
   function schedule() { cancelAnimationFrame(timer); timer = requestAnimationFrame(render); }
   function fillWeights() {
@@ -476,7 +595,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     F.weights.forEach(function (w) { var o = document.createElement('option'); o.value = w; o.textContent = w === 400 ? 'Regular' : w === 700 ? 'Bold' : w === 900 ? 'Black' : w; sel.appendChild(o); });
     sel.value = cfg.weight;
   }
-  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; } };
+  var OUT = { fidelity: function (v) { return (v / 100).toFixed(2); }, slip: function (v) { return v + '%'; }, dropout: function (v) { return v + '%'; }, grain: function (v) { return v + '%'; }, views: function (v) { return v + '%'; }, size: function (v) { return v + '%'; }, track: function (v) { return (v / 100).toFixed(2) + ' em'; }, leading: function (v) { return (v / 100).toFixed(2); }, height: function (v) { return v + ' u'; }, rough: function (v) { return v + '%'; }, spray: function (v) { return v + '%'; }, drips: function (v) { return v + '%'; }, wall: function (v) { return v + '%'; }, outline: function (v) { return v + '%'; }, edgeamt: function (v) { return v + '%'; }, fill: function (v) { return v + '%'; }, splat: function (v) { return v + '%'; }, halftone: function (v) { return v + '%'; }, pixel: function (v) { return v > 0 ? v + ' cells' : 'Off'; }, grout: function (v) { return v + '%'; }, spatter: function (v) { return v + '%'; }, sprayhard: function (v) { return v < 34 ? 'Soft ' + v + '%' : v > 66 ? 'Hard ' + v + '%' : 'Medium ' + v + '%'; }, spraydens: function (v) { return v + '%'; } };
   function sync() {
     Object.keys(DEFAULTS).forEach(function (k) {
       var el = $(k); if (!el) return;
@@ -491,8 +610,9 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     fillWeights(); sync();
     Object.keys(DEFAULTS).forEach(function (k) {
       var el = $(k); if (!el) return;
-      el.addEventListener(el.type === 'range' || el.type === 'number' ? 'input' : 'change', function () {
+      el.addEventListener(el.type === 'range' || el.type === 'number' || el.type === 'text' ? 'input' : 'change', function () {
         var v = el.type === 'checkbox' ? el.checked : (el.type === 'range' || el.type === 'number' || k === 'grid' || k === 'weight') ? +el.value : el.value;
+        if (k === 'handle') v = String(el.value).replace(/[^A-Za-z0-9 _.-]/g, '').slice(0, 12);
         cfg[k] = v;
         if (k === 'font') { fillWeights(); loadFace(); }
         if (k === 'weight') loadFace();
@@ -502,13 +622,69 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     });
     $('reroll').addEventListener('click', function () { cfg.seed = Math.floor(Math.random() * 99999); $('seed').value = cfg.seed; schedule(); });
     $('reset').addEventListener('click', function () { Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; }); fillWeights(); sync(); loadFace(); schedule(); say('Reset to the default recipe.'); });
+    /* ---- saved looks: per-browser list plus a copyable recipe ---- */
+    var SKEY = 'tao-print-studio-saves', mem = [], storeOk = true;
+    function readSaves() { try { var a = JSON.parse(localStorage.getItem(SKEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { storeOk = false; return mem; } }
+    function writeSaves(a) { mem = a; try { localStorage.setItem(SKEY, JSON.stringify(a)); } catch (e) { storeOk = false; } $('save-note').textContent = storeOk ? 'Saved looks stay in this browser. Copy a recipe to move one to another browser or share it.' : 'This browser blocks saving, so looks last until you leave. Copy a recipe to keep one.'; }
+    function clean(obj) {
+      var out = {};
+      Object.keys(DEFAULTS).forEach(function (k) {
+        var d = DEFAULTS[k], v = obj[k], el = $(k);
+        if (v === undefined || v === null) { out[k] = d; return; }
+        if (typeof d === 'number') { v = Number(v); out[k] = isFinite(v) ? v : d; }
+        else if (typeof d === 'boolean') out[k] = !!v;
+        else out[k] = String(v);
+        if (el && el.tagName === 'SELECT' && !Array.prototype.some.call(el.options, function (o) { return o.value === String(out[k]); })) out[k] = d;
+        if (el && el.type === 'range') out[k] = Math.min(+el.max, Math.max(+el.min, out[k]));
+      });
+      if (k0(out.font) === false) out.font = DEFAULTS.font;
+      out.handle = String(out.handle).replace(/[^A-Za-z0-9 _.-]/g, '').slice(0, 12);
+      return out;
+    }
+    function k0(f) { return !!FONTS[f]; }
+    function applyCfg(obj) { var c = clean(obj); Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = c[k]; }); fillWeights(); sync(); loadFace(); schedule(); }
+    function renderSaves() {
+      var list = $('saves'), a = readSaves(); list.innerHTML = '';
+      if (!a.length) { var li0 = document.createElement('li'); li0.innerHTML = '<p class="empty">No saved looks yet. Set a look you like, name it, and save it.</p>'; list.appendChild(li0); return; }
+      a.forEach(function (sv, i) {
+        var li = document.createElement('li'), nm = document.createElement('span'), acts = document.createElement('span'), ld = document.createElement('button'), dl = document.createElement('button');
+        nm.className = 'nm'; nm.textContent = sv.name; var w = document.createElement('span'); w.className = 'when'; w.textContent = sv.at ? new Date(sv.at).toLocaleString() : ''; nm.appendChild(w);
+        acts.className = 'acts'; ld.type = 'button'; ld.textContent = 'Load'; dl.type = 'button'; dl.textContent = 'Delete';
+        ld.addEventListener('click', function () { applyCfg(sv.cfg || {}); say('Loaded ' + sv.name + '.'); });
+        dl.addEventListener('click', function () { var b = readSaves(); b.splice(i, 1); writeSaves(b); renderSaves(); say('Deleted ' + sv.name + '.'); });
+        acts.appendChild(ld); acts.appendChild(dl); li.appendChild(nm); li.appendChild(acts); list.appendChild(li);
+      });
+    }
+    $('save-btn').addEventListener('click', function () {
+      var a = readSaves(), name = ($('save-name').value || '').trim().slice(0, 40) || ('Look ' + (a.length + 1)), snap = JSON.parse(JSON.stringify(cfg)), hit = -1;
+      a.forEach(function (x, i) { if (x.name === name) hit = i; });
+      var rec = { name: name, at: Date.now(), cfg: snap };
+      if (hit >= 0) a[hit] = rec; else a.unshift(rec);
+      a = a.slice(0, 24); writeSaves(a); renderSaves(); $('save-name').value = ''; say(hit >= 0 ? 'Updated ' + name + '.' : 'Saved ' + name + '.');
+    });
+    $('copy-recipe').addEventListener('click', function () { copy(JSON.stringify(cfg), 'Recipe copied.'); });
+    $('load-recipe').addEventListener('click', function () {
+      var raw = ($('paste-recipe').value || '').trim();
+      try { var o = JSON.parse(raw); if (!o || typeof o !== 'object' || Array.isArray(o)) throw 0; applyCfg(o); $('paste-recipe').value = ''; say('Recipe loaded.'); }
+      catch (e) { say('That is not a recipe. Use Copy recipe and paste the whole text.'); }
+    });
+    renderSaves();
+
     var PRESETS = {
       silk: DEFAULTS,
-      street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70, edge: 'drip', edgeamt: 55 }
+      street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70, edge: 'drip', edgeamt: 55, fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50, grid: 3, strip: true },
+      fancy: { palette: 'mono', ground: 'paper', grid: 1, strip: false, grounds: false, inkrot: false, views: 0, slip: 50, dropout: 40, grain: 30, fidelity: 85, label: true, font: 'marker', weight: 400, size: 100, track: 0, leading: 115, 'case': 'sentence', style: 'spray', pos: 'top', height: 58, rough: 40, spray: 0, drips: 60, wall: 0, outline: 100, edge: 'drip', edgeamt: 40, fill: 0, splat: 0, halftone: 0, pixel: 0, grout: 50 },
+      brain: { palette: 'pop', ground: 'paper', grid: 3, strip: true, grounds: true, inkrot: true, views: 100, slip: 90, dropout: 80, grain: 60, fidelity: 85, label: true, font: 'bowlby', weight: 400, size: 105, track: 0, leading: 100, 'case': 'upper', style: 'knock', pos: 'bottom', height: 30, rough: 25, spray: 35, drips: 40, wall: 15, outline: 60, edge: 'drip', edgeamt: 50, fill: 100, splat: 80, halftone: 45, pixel: 0, grout: 50 },
+      tag: { palette: 'signal', ground: 'dark', grid: 2, strip: true, grounds: true, inkrot: true, views: 100, slip: 110, dropout: 90, grain: 90, fidelity: 75, label: true, font: 'bowlby', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'throw', pos: 'middle', height: 44, rough: 35, spray: 45, sprayhard: 30, spraydens: 60, drips: 45, wall: 20, outline: 85, edge: 'drip', edgeamt: 45, fill: 100, splat: 25, spatter: 60, halftone: 0, pixel: 0, grout: 50, tag: true, handle: 'ARCS' },
+      invader: { palette: 'pop', ground: 'dark', grid: 3, strip: true, grounds: true, inkrot: true, views: 100, slip: 40, dropout: 40, grain: 0, fidelity: 90, label: true, font: 'sans', weight: 900, size: 120, track: 0, leading: 100, 'case': 'upper', style: 'slab', pos: 'bottom', height: 33, rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50, fill: 100, splat: 0, halftone: 0, pixel: 64, grout: 45 }
     };
-    function preset(name) { var P = PRESETS[name]; Object.keys(P).forEach(function (k) { cfg[k] = P[k]; }); fillWeights(); sync(); loadFace(); schedule(); say(name === 'street' ? 'Street preset on.' : 'Silkscreen preset on.'); }
+    function preset(name) { Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; }); var P = PRESETS[name]; Object.keys(P).forEach(function (k) { cfg[k] = P[k]; }); fillWeights(); sync(); loadFace(); schedule(); say({ silk: 'Silkscreen preset on.', street: 'Street preset on.', fancy: 'Fancy preset on.', brain: 'Brainwash preset on.', invader: 'Invader preset on.', tag: 'Tag preset on.' }[name]); }
     $('p-silk').addEventListener('click', function () { preset('silk'); });
     $('p-street').addEventListener('click', function () { preset('street'); });
+    $('p-fancy').addEventListener('click', function () { preset('fancy'); });
+    $('p-brain').addEventListener('click', function () { preset('brain'); });
+    $('p-invader').addEventListener('click', function () { preset('invader'); });
+    $('p-tag').addEventListener('click', function () { preset('tag'); });
     $('copy-svg').addEventListener('click', function () { copy(last.svg, 'SVG copied.'); });
     $('copy-cmd').addEventListener('click', function () { copy($('cmd').textContent, 'Command copied.'); });
     loadFace(); render();
