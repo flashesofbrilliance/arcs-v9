@@ -37,11 +37,11 @@ Every check ships a known-bad and a known-good fixture in its `--self-test`, wir
 
 - Cost: a small deterministic scan per trigger; model spend only when Zach accepts a scan.
 - Risk: noise (bounded by the limits and K1/K2) and a ledger that no one reads (K4).
-- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. The hook logs no suggestions yet, so K1 and K2 cannot be measured until a log or an acceptance rule exists (see Open).
+- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. a suggestion log and acceptance rule were added the same day (see Open).
 
 ## Open
 
-1. How acceptance is measured for a pre-commit warning (candidate rule: a later commit adds a ledger, glossary or rosetta entry for the flagged token). Until then K1 and K2 are unmeasurable.
+1. Acceptance rule decided 2026-10-17 (Zach): a logged warning is ACCEPTED when a later commit adds an evidence-ledger, glossary or rosetta line for the flagged token, PENDING for 14 days, then DECLINED. `python3 scripts/librarian_hook.py --report` computes K1 from a log in the git common dir (shared by all worktrees, never tracked). K1 stays 'not yet measurable' until 10 distinct firing days. K2 (5 declined+ignored in 3 consecutive sessions) is not computed yet, and the 14-day re-warning mute is not built.
 2. Keep, cite or strike each uncovered canon token.
 3. Reconcile the Librarian's registry row, which says store/retrieve only.
 4. The NCI definition split and the Litepaper acronym mismatch are definitional drift outside these numeric triggers.
