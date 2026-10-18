@@ -1,3 +1,5 @@
+# PAUSED 2026-10-18: Zach paused the bounty entry (voucher path judged unrealistic; node spend held). Resume triggers: the cost to a voucher drops (Zach covers their VM, or an operator with an existing node volunteers) or a new deadline appears. The items below describe the entry if it resumes.
+
 # Farcaster entry: what only Zach can unblock (dependency doc, 2026-10-17)
 
 Parent session (this branch) owns this list and talks to Zach. The child session `fc-cli-loop2` (branch `claude/fc-cli-loop2-d953c2`) does the work that needs no Zach input and never chases these items. Downstream counts are computed from `depends_on` in the 33 `fc-*` rows (non-container rows only). Conservative bounty deadline: 2026-10-24 09:00 US Eastern; the exact post time is still unknown (Z1).
@@ -31,3 +33,7 @@ Hard rule across all of these: nothing public, sent or spent until Zach says so.
 - Proceed now, zero spend: voucher recruiting (Zach names people and sends the ask himself), tutorial concept drafting from public docs, offline tests and fixtures, doc-fix PR research.
 - Hold: `fc-derisk-budget-guard`, `fc-node-spike`, both probes against a live node, anything that provisions or pays. Still unanswered: Z1, Z2, Z3, Z5.
 - Consequence: checkpoint 1 (node synced, one signed write by end of 10-18) is missed. Per the stop-loss rule, next step is to re-plan the dates once a voucher commits; the later the commit, the less room for a multi-hour node sync before the deadline of about 2026-10-24 09:00 ET.
+
+## Update 2026-10-18: voucher ask
+- A zero-spend ask draft is on main at `_PROPOSALS/2026-10-17-farcaster-voucher-ask-zero-spend.md`. It replaces the "I'll cover the VM cost" sentence, so Z3 can stay unanswered. Zach still names the candidate, fills the placeholders and sends it himself.
+- Cost to the voucher (not a quote): a 16 GB, 2 TB cloud VM on their own account for the sync and test window, plus 4 to 6 hours. That is a large ask of a stranger; expect fewer yeses than with a covered VM. If Zach later chooses to cover it, answer Z3 and add one line to the draft.

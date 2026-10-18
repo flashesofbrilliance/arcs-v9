@@ -66,7 +66,7 @@ Each facet is a node type hung on a coordinate. "Missing" says how absence is de
 | Shape fit | 23 leaf rows scored by `prior_art.py` | weak; see below |
 
 ## 6. Blindspots named now (not yet in the queue)
-- **B1:** the plan assumes a fresh throwaway FID, but an existing memory says Zach already connected with someone on Farcaster, so he may hold an account. Using it would break "test accounts only"; creating a new one may duplicate cost. Ask.
+- **B1:** the plan assumes a fresh throwaway FID, but an existing memory says Zach already connected with someone on Farcaster, so he may hold an account. Using it would break "test accounts only"; creating a new one may duplicate cost. Ask. RESOLVED 2026-10-17: Zach confirmed in chat that FID 10351 (fname zachharris, custody 0x0b60...e139) is his. The entry still uses a throwaway account; 10351 stays his public identity.
 - **B2:** the judging rubric is unknown ("sole discretion"); no one has read how earlier bounties were judged.
 - **B3:** the competitive field is unscanned. The thread names at least one builder and a previous winner who forked a client; their quality sets the bar and nobody has looked.
 - **B4:** Snapchain's README says the network is in its "migration phase", so node and engine versions may move during the week. Pin versions.
