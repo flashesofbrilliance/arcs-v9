@@ -129,7 +129,8 @@
       "entities": [
         "receipt",
         "confirmed",
-        "unconfirmed"
+        "unconfirmed",
+        "outcome"
       ],
       "names": [],
       "anti_aliases": [],
