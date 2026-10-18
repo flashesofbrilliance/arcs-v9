@@ -1293,7 +1293,7 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1709,6 +1709,62 @@
       setTimeout(function () { fin(rej, new Error("the render timed out")); }, 180000);
     });
   }
+  /* Gesture grab: the recipe is already a rolling buffer of everything you did with the controls. Grab keeps the last few bars (and optionally the next few) as a small automation: curves for sliders, steps for switches, effect holds and pads, with times in beats so it replays in time on any song at any tempo. */
+  var GRB = { list: [], key: "phosphor.grabs.v1", tm: 0, run: null };
+  try { GRB.list = JSON.parse(localStorage.getItem(GRB.key) || "[]") || []; } catch (e) { /* storage blocked */ }
+  function grabSave() { try { localStorage.setItem(GRB.key, JSON.stringify(GRB.list)); } catch (e) { /* storage blocked */ } }
+  function grabBeatMs() { return 60000 / (BPM || 120); }
+  function grabCut(t0, t1) {
+    var bm = grabBeatMs(), st = recState(t0), on = {}, ev = [], last = {}, ids = {}, out = [];
+    REC.ev.forEach(function (e) { if (e[0] < t0 && e[2] === "@fx") on[e[3][0]] = e[3][2]; });
+    Object.keys(on).forEach(function (k) { if (on[k]) ev.push([0, "@fx", [k, 1]]); });
+    REC.ev.forEach(function (e) {
+      if (e[0] < t0 || e[0] > t1) return; var id = e[2], el, keep = true;
+      if (id === "@fx") ev.push([(e[0] - t0) / bm, id, [e[3][0], e[3][2]]]);
+      else if (id === "@pad" && String(e[3]).split(":").length === 2) ev.push([(e[0] - t0) / bm, id, e[3]]);
+      else if (id[0] !== "@" && !/^(grpre|grpost|sbpm|tbpm)$/.test(id)) { el = $(id); if (el && el.type === "range" && last[id] !== undefined && e[0] - last[id] < 40) keep = false; if (keep) { ev.push([(e[0] - t0) / bm, id, e[3]]); last[id] = e[0]; ids[id] = 1; } }
+    });
+    Object.keys(ids).forEach(function (k) { out.push([0, k, st[k]]); });
+    return out.concat(ev.map(function (x) { return [+x[0].toFixed(3), x[1], x[2]]; })).sort(function (a, b) { return a[0] - b[0]; });
+  }
+  function grabMake(pre, post) {
+    var bm = grabBeatMs(), now = RD(NOW() - REC.t0), t0 = now - pre * 4 * bm, t1 = now + post * 4 * bm, ev = grabCut(t0, t1);
+    if (!ev.some(function (e) { return e[0] > 0 || e[1][0] === "@"; })) return null;
+    var g = { name: "Grab " + (GRB.list.reduce(function (m, x) { return MX(m, +(x.name.match(/^Grab (\d+)$/) || [0, 0])[1]); }, 0) + 1), beats: (pre + post) * 4, ev: ev };
+    GRB.list.push(g); if (GRB.list.length > 20) GRB.list.shift(); grabSave(); grabShow(); return g;
+  }
+  function grabApply(e) {
+    var id = e[1], v = e[2], q;
+    if (id === "@fx") fxHold(v[0], "grab", !!v[1]);
+    else if (id === "@pad") { q = String(v).split(":"); PAD.bank = +q[0]; padHit(+q[1]); setTimeout(function () { padRelease(+q[1]); }, 150); }
+    else recApply([0, null, id, v]);
+  }
+  function grabStop() { clearInterval(GRB.tm); if (GRB.run) { Object.keys(GRB.run.fx || {}).forEach(function (k) { fxHold(k, "grab", false); }); GRB.run = null; } grabShow(); }
+  function grabPlay(g, loop) {
+    grabStop(); var bm = grabBeatMs(), b0 = playing ? tmapBeat(tnow()) : 0, start = playing ? Math.ceil(b0 / 4) * 4 : 0, t0 = NOW(), i = 0, ids = {};
+    GRB.run = { g: g, fx: {}, loop: !!loop };
+    g.ev.forEach(function (e) { if (e[1][0] !== "@") ids[e[1]] = 1; });
+    GRB.tm = setInterval(function () {
+      var beat = (playing ? tmapBeat(tnow()) : (NOW() - t0) / grabBeatMs()) - start, e;
+      while (i < g.ev.length && g.ev[i][0] <= beat) { e = g.ev[i++]; if (e[1] === "@fx") GRB.run.fx[e[2][0]] = e[2][1]; grabApply(e); }
+      Object.keys(ids).forEach(function (id) { var el = $(id), a, b2, k, n; if (!el || el.type !== "range") return; a = null; b2 = null; for (k = 0; k < g.ev.length; k++) { if (g.ev[k][1] !== id) continue; if (g.ev[k][0] <= beat) a = g.ev[k]; else { b2 = g.ev[k]; break; } } if (a && b2 && b2[0] > a[0]) { n = a[2] + (b2[2] - a[2]) * (beat - a[0]) / (b2[0] - a[0]); if (AB(+el.value - n) >= (+el.step || 1)) { el.value = n; el.dispatchEvent(new Event("input", { bubbles: true })); } } });
+      if (beat >= g.beats) { if (GRB.run && GRB.run.loop) { i = 0; start += g.beats; } else grabStop(); }
+    }, 20);
+    grabShow();
+  }
+  function grabShow() {
+    var ul = $("grlist"), h = "";
+    GRB.list.forEach(function (g, k) { h += '<li><input class="txt" type="text" value="' + esc(g.name) + '" data-gn="' + k + '" aria-label="Name of grab ' + (k + 1) + '"><button class="btn" type="button" data-grplay="' + k + '">' + (GRB.run && GRB.run.g === g ? "Stop" : "Play") + '</button><button class="btn" type="button" data-gl="' + k + '" aria-pressed="' + !!(GRB.run && GRB.run.g === g && GRB.run.loop) + '">Loop</button><button class="btn" type="button" data-gd="' + k + '">Delete</button></li>'; });
+    ul.innerHTML = h || '<li class="hint">Nothing grabbed yet. Move some controls, then press Grab.</li>';
+  }
+  $("grlist").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; var k; if (b.hasAttribute("data-grplay")) { k = +b.getAttribute("data-grplay"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); else grabPlay(GRB.list[k], false); } else if (b.hasAttribute("data-gl")) { k = +b.getAttribute("data-gl"); grabPlay(GRB.list[k], !(GRB.run && GRB.run.g === GRB.list[k] && GRB.run.loop)); } else if (b.hasAttribute("data-gd")) { k = +b.getAttribute("data-gd"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); GRB.list.splice(k, 1); grabSave(); grabShow(); } });
+  $("grlist").addEventListener("change", function (e) { var t = e.target; if (t.hasAttribute && t.hasAttribute("data-gn")) { GRB.list[+t.getAttribute("data-gn")].name = String(t.value).slice(0, 40); grabSave(); } });
+  $("grab").addEventListener("click", function () {
+    var pre = +$("grpre").value, post = +$("grpost").value, m = $("grmsg"), bm = grabBeatMs();
+    if (post > 0) { m.textContent = "Grabbing for " + post + " more bar" + (post > 1 ? "s" : "") + ". Keep playing."; $("grab").disabled = true; setTimeout(function () { var g = grabMake(pre, post); $("grab").disabled = false; m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window."; }, post * 4 * bm); return; }
+    var g = grabMake(pre, 0); m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window.";
+  });
+  grabShow();
   /* Play log (opt in, this device only): which controls, which values, when. Never song or file names, notes or audio. */
   var ELOG = { on: false, ev: [], ls: {}, key: "phosphor.playlog.v1", dirty: false };
   try { var els = JSON.parse(localStorage.getItem(ELOG.key) || "null"); if (els && els.ev) { ELOG.ev = els.ev; ELOG.on = !!els.on; } } catch (e) { /* storage blocked */ }
