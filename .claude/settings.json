@@ -68,7 +68,15 @@
       "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__get_message",
       "mcp__claude-in-chrome__list_connected_browsers",
       "mcp__scheduled-tasks__list_scheduled_tasks",
-      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__get_meetings"
+      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__get_meetings",
+      "Bash(git fetch -q origin main)",
+      "Bash(git fetch -q origin)",
+      "Bash(python3 scripts/backlog_status_check.py --check)",
+      "Bash(python3 scripts/universe_sweep.py --no-write)",
+      "Bash(python3 scripts/universe_ask.py --self-test)",
+      "Bash(python3 scripts/operator_registry_emit.py --check)",
+      "Bash(python3 scripts/receipt_outcome_queue.py status)",
+      "Bash(unzip -l *)"
     ],
     "ask": [
       "Bash(git push:*)"
