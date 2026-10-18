@@ -16,7 +16,9 @@ The 87% belonged to one invented accuracy curve. Its other parts are struck as w
 
 ## Not struck, for you
 - The White Paper's "2x improvement or money back" and the Canon v1.1 refund trigger (underperform baseline by a margin) are the same kind of guarantee and are only labelled.
-- The Litepaper funding total ($102M) still includes the struck Revenue Reinvestment amount, so the total is now unsupported.
 - Other comparative claims not on the 87% curve stay labelled only: the energy-first 78% vs 32% retention table, the White Paper product accuracy claims, Canon v2 backtest and test results, and the study targets (for example accuracy above 85%, MAPE below 15%).
 - The Technical Overview's audit still quotes the claims it audits, on purpose.
 - Ledger entries for struck tokens remain but match nothing; three target tokens were re-anchored after their surroundings changed.
+
+## Funding total struck (third pass, 2026-10-18)
+The $102M capital total, its "<5% dilution" figure and the $70M venture comparison are struck in the Canon v1.1 economic model and the Litepaper (including the Litepaper summary bullet). The components (pre-sale, token event, debt) stay as labelled plans; the pre-sale in particular assumes 20 prepaying customers while the Technical Overview says no product had shipped. The headings that say "Non-Dilutive Growth" are left, since they are labels, but they now have no figure under them.
