@@ -2,11 +2,13 @@
 /**
  * tao_studio_checks.mjs: the pre-registered checks for the Tao print studio's Drive, AnalysisFrame and key map, run headless.
  *
- *   node scripts/tao_studio_checks.mjs drive|frame|slice2 [--phosphor path/to/phosphor.html]
+ *   node scripts/tao_studio_checks.mjs drive|frame|slice2|realtime|probe [--phosphor path/to/phosphor.html]
  *
  *   drive   D1-D8   _PATTERNS/2026-10-18-studio-drive-prereg.md        (audio features move the print controls)
  *   frame   F1-F7   _PATTERNS/2026-10-18-analysis-frame-v1.md          (needs a Phosphor build that has window.PhosphorFrame for F2)
  *   slice2  S1-S8   _PATTERNS/2026-10-18-studio-drive-slice2-prereg.md (stutter, flash limiter, key map)
+ *   probe           median ms to draw one 1920x1080 frame of each look from SVG to canvas, with and without embedded fonts (the realtime cost basis)
+ *   realtime R1-R8  _PATTERNS/2026-10-18-studio-realtime-frames-prereg.md (responsive frames, adaptive quality, live capture; needs ffmpeg and ffprobe)
  *
  * Opens _ARTIFACTS/tao-print-studio.html with Playwright (repo node_modules or global). Needs python3 with PIL for the luminance checks (D4, S2).
  * Writes scratch files to $TAO_TMP or the system temp directory. Prints one JSON object; read the pass fields. Local only, no network.
@@ -192,6 +194,80 @@ const L=[];for(let i=0;i<150;i++){await p.evaluate(t=>window.seek(t),i/30);const
 const thr=0.12*255;let dir=0,ext=L[0],rev=new Array(5).fill(0);for(let i=1;i<L.length;i++){const d=L[i]-ext;if(dir>=0&&d>=thr){if(dir<0)rev[Math.floor(i/30)]++;dir=1;ext=L[i]}else if(dir<=0&&d<=-thr){if(dir>0)rev[Math.floor(i/30)]++;dir=-1;ext=L[i]}else if(dir>=0&&L[i]>ext){ext=L[i]}else if(dir<=0&&L[i]<ext){ext=L[i]}else if(dir>0&&d<=-thr){rev[Math.floor(i/30)]++;dir=-1;ext=L[i]}else if(dir<0&&d>=thr){rev[Math.floor(i/30)]++;dir=1;ext=L[i]}}
 res.S2={reversals_per_second:rev,flashes_per_second:rev.map(r=>+(r/2).toFixed(1)),lum_range:[Math.min(...L).toFixed(1),Math.max(...L).toFixed(1)],pass:rev.every(r=>r/2<=3)};
 res.errors=errs;console.log(JSON.stringify(res,null,1));await b.close()}
-const table = { drive: runDrive, frame: runFrame, slice2: runSlice2 }
-if (!table[which]) { console.error('usage: tao_studio_checks.mjs drive|frame|slice2 [--phosphor path]'); process.exit(2) }
+
+async function runRealtime() {
+  const b = await chromium.launch(), ctx = await b.newContext({ viewport: { width: 1280, height: 900 } }), p = await ctx.newPage(), res = {}, errs = [], reqs = []
+  p.on('pageerror', (e) => errs.push(e.message)); p.on('request', (r) => { if (!/^(file|data|blob):/.test(r.url())) reqs.push(r.url()) })
+  const url = 'file://' + process.cwd() + '/_ARTIFACTS/tao-print-studio.html'
+  await p.goto(url); await p.waitForFunction(() => window.TaoDrive && TaoDrive.ready()); await p.waitForTimeout(500)
+  const sel = (id, v) => p.evaluate(([id, v]) => { const e = document.getElementById(id); e.value = v; e.dispatchEvent(new Event('change', { bubbles: true })) }, [id, v])
+  const chk = (id, v) => p.evaluate(([id, v]) => { const e = document.getElementById(id); e.checked = v; e.dispatchEvent(new Event('change', { bubbles: true })) }, [id, v])
+  res.R6_at_rest = { recording: await p.evaluate(() => !!TaoRT.recInfo()), audioContext: await p.evaluate(() => TaoDrive.acCreated()) }
+  // R1 layout fills the frame, R8 deterministic layout
+  const fills = {}, shapes = { '16:9': [1280, 720], '4:3': [960, 720], '1:1': [720, 720], '9:16': [720, 1280] }
+  await sel('layout', 'fit'); res.R8 = {}
+  for (const fr of Object.keys(shapes)) { await sel('frame', fr); await p.waitForTimeout(400); fills[fr] = { fill: +(await p.evaluate(() => TaoRT.fill())).toFixed(3), layout: await p.evaluate(() => { const l = TaoRT.layout(); return l.cols + 'x' + l.rows }) }
+    const m1 = await p.evaluate(() => TaoRT.markup()); await p.evaluate(() => window.seek(0)); await p.waitForTimeout(150); const m2 = await p.evaluate(() => TaoRT.markup()); res.R8[fr] = m1 === m2 }
+  res.R1 = { fills, pass: Object.values(fills).every((f) => f.fill >= 0.75) }
+  // R2 responsive: Auto + Fit through a desktop to a phone width
+  await sel('frame', 'auto'); await p.waitForTimeout(400); const lay1 = await p.evaluate(() => { const l = TaoRT.layout(); return l.cols + 'x' + l.rows })
+  await p.setViewportSize({ width: 390, height: 800 }); await p.waitForTimeout(700)
+  const lay2 = await p.evaluate(() => { const l = TaoRT.layout(); return l.cols + 'x' + l.rows }), sw = await p.evaluate(() => document.documentElement.scrollWidth)
+  res.R2 = { desktop: lay1, phone: lay2, scrollWidth: sw, innerWidth: 390, pass: lay1 !== lay2 && sw <= 390 }
+  await p.setViewportSize({ width: 1280, height: 900 }); await p.waitForTimeout(500)
+  // R3 adaptive quality: an affordable look, throttled 6x, then released
+  await p.click('#p-silk'); await p.waitForTimeout(1500); await sel('frame', 'auto'); await sel('layout', 'square'); await sel('rt-quality', 'auto')
+  const cdp = await ctx.newCDPSession(p); await p.click('#drive-play'); await p.waitForTimeout(1200)
+  const tier0 = await p.evaluate(() => TaoRT.tier())
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 }); let dropped = null, t0 = Date.now()
+  while (Date.now() - t0 < 6000) { await p.waitForTimeout(250); if ((await p.evaluate(() => TaoRT.tier())) === 2) { dropped = (Date.now() - t0) / 1000; break } }
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 }); let back = null; t0 = Date.now()
+  while (Date.now() - t0 < 10000) { await p.waitForTimeout(250); if ((await p.evaluate(() => TaoRT.rawTier())) === 3 && (await p.evaluate(() => TaoRT.tier())) === 3) { back = (Date.now() - t0) / 1000; break } }
+  await p.click('#drive-play'); await p.waitForTimeout(300)
+  res.R3 = { tier_before: tier0, seconds_to_draft_under_throttle: dropped, seconds_back_to_full_after_release: back, pass: tier0 === 3 && dropped !== null && dropped <= 3 && back !== null && back <= 8 }
+  // R4 + R5 + R7: capture each shape for 3 s, probe with ffmpeg
+  await sel('layout', 'fit'); await sel('rt-quality', 'draft'); await sel('rt-size', '720'); await chk('rt-stop', false); res.R4 = {}
+  for (const [fr, [ew, eh]] of Object.entries(shapes)) {
+    await sel('frame', fr); await p.waitForTimeout(500); await p.evaluate(() => window.seek(0)); await p.click('#rec-btn'); await p.waitForTimeout(3200); await p.click('#rec-btn')
+    await p.waitForFunction(() => !!TaoRT.recBlob(), null, { timeout: 15000 }); await p.waitForTimeout(300)
+    const info = await p.evaluate(() => TaoRT.recInfo()), b64 = await p.evaluate(async () => { const buf = new Uint8Array(await TaoRT.recBlob().arrayBuffer()); let s = ''; for (let i = 0; i < buf.length; i += 32768) s += String.fromCharCode.apply(null, buf.subarray(i, i + 32768)); return btoa(s) })
+    const file = join(SP, 'rec-' + fr.replace(':', 'x') + '.webm'); writeFileSync(file, Buffer.from(b64, 'base64'))
+    let probe = {}; try { const j = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-show_streams', '-of', 'json', file]).toString()); probe.video = j.streams.filter((x) => x.codec_type === 'video').length; probe.audio = j.streams.filter((x) => x.codec_type === 'audio').length; const v = j.streams.find((x) => x.codec_type === 'video'); probe.w = v && v.width; probe.h = v && v.height } catch (e) { probe.err = String(e.message).slice(0, 80) }
+    let dur = null, vol = null; try { const o = execFileSync('ffmpeg', ['-v', 'info', '-i', file, '-af', 'volumedetect', '-f', 'null', '-'], { stdio: ['ignore', 'pipe', 'pipe'] }); } catch (e) {}
+    const lg = (() => { try { return execFileSync('sh', ['-c', 'ffmpeg -i "' + file + '" -af volumedetect -f null - 2>&1 | tail -30']).toString() } catch (e) { return '' } })()
+    const tm = lg.match(/time=(\d+):(\d+):([\d.]+)/g); if (tm) { const m = /time=(\d+):(\d+):([\d.]+)/.exec(tm[tm.length - 1]); dur = +m[1] * 3600 + +m[2] * 60 + +m[3] }
+    const mv = /mean_volume: (-?[\d.]+) dB/.exec(lg); vol = mv ? +mv[1] : null
+    await p.evaluate(() => { document.getElementById('rec-out').innerHTML = '' })
+    res.R4[fr] = { expected: ew + 'x' + eh, got: probe.w + 'x' + probe.h, video: probe.video, audio: probe.audio, seconds: dur, mean_volume_db: vol, fps: info && info.fps, tier: info && info.tier, pass: probe.video === 1 && probe.audio === 1 && probe.w === ew && probe.h === eh && dur >= 2.4 && dur <= 3.9 }
+    await p.evaluate(() => { window.seek(0) })
+  }
+  res.R4.pass = Object.values(res.R4).every((x) => x.pass !== false && x.pass !== undefined)
+  res.R5 = { pass: Object.entries(res.R4).filter(([k]) => k !== 'pass').every(([, x]) => x.mean_volume_db !== null && x.mean_volume_db > -60) }
+  res.R7 = { fps: Object.fromEntries(Object.entries(res.R4).filter(([k]) => k !== 'pass').map(([k, x]) => [k, x.fps])), pass: Object.entries(res.R4).filter(([k]) => k !== 'pass').every(([, x]) => x.fps >= 12) }
+  res.R6 = { requests_after_load: reqs.length, nothing_before_click: !res.R6_at_rest.recording && !res.R6_at_rest.audioContext }
+  res.errors = errs; console.log(JSON.stringify(res, null, 1)); await b.close()
+}
+
+async function runProbe() {const b=await chromium.launch();const p=await b.newPage({viewport:{width:1280,height:900}});
+await p.goto('file://'+process.cwd()+'/_ARTIFACTS/tao-print-studio.html');await p.waitForFunction(()=>window.TaoDrive&&TaoDrive.ready());await p.waitForTimeout(500);
+const run=async(label,setup)=>{await p.evaluate(setup);await p.waitForTimeout(800);
+ const r=await p.evaluate(async()=>{
+  const svgEl=document.querySelector('#print svg');const svg=svgEl.outerHTML;const css=document.getElementById('studio-fonts').textContent;
+  const fam=(document.getElementById('font').value);
+  const draw=async(doc,w,h)=>{const t0=performance.now();const url=URL.createObjectURL(new Blob([doc],{type:'image/svg+xml'}));const img=new Image();img.src=url;await img.decode();const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(url);return performance.now()-t0};
+  const med=async(doc,w,h,n=8)=>{const xs=[];for(let i=0;i<n;i++)xs.push(await draw(doc,w,h));xs.sort((a,b)=>a-b);return xs[Math.floor(n/2)]};
+  const noFont=svg.replace(/^(<svg[^>]*>)/,'$1');
+  const withAll=svg.replace(/^(<svg[^>]*>)/,'$1<style>'+css+'</style>');
+  // only the face in use: keep font-faces whose family appears in the svg
+  const used=css.split('\n').filter(l=>{const m=/font-family:'([^']+)'/.exec(l);return m&&svg.indexOf(m[1])>=0}).join('\n');
+  const withUsed=svg.replace(/^(<svg[^>]*>)/,'$1<style>'+used+'</style>');
+  return {markupKB:Math.round(svg.length/1024),usedFontKB:Math.round(used.length/1024),noFont:Math.round(await med(noFont,1920,1080)),usedFont:Math.round(await med(withUsed,1920,1080)),allFonts:Math.round(await med(withAll,1920,1080))};
+ });console.log(label,JSON.stringify(r))};
+await run('silkscreen 3x3 plain',()=>{document.getElementById('p-silk').click()});
+await run('tag 2x2 full grit',()=>{document.getElementById('p-tag').click()});
+await run('street 3x3 spray+rough+wall',()=>{document.getElementById('p-street').click()});
+await run('tag, grit off (fidelity 100, auto)',()=>{document.getElementById('p-tag').click();const e=document.getElementById('fidelity');e.value=100;e.dispatchEvent(new Event('input'))});
+await b.close()}
+const table = { drive: runDrive, frame: runFrame, slice2: runSlice2, realtime: runRealtime, probe: runProbe }
+if (!table[which]) { console.error('usage: tao_studio_checks.mjs drive|frame|slice2|realtime|probe [--phosphor path]'); process.exit(2) }
 await table[which]()

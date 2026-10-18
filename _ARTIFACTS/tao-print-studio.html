@@ -132,6 +132,14 @@ h1 { font-family: var(--ds-font-display); font-weight: 600; font-size: var(--fs-
 .studio { display: grid; grid-template-columns: minmax(0, 1fr) var(--panel-w); gap: 24px; align-items: start; }
 @media (max-width: 900px) { .studio { grid-template-columns: minmax(0, 1fr); } }
 .stage { min-width: 0; }
+#stagewrap { width: 100%; display: grid; justify-items: center; }
+#stage { max-width: 100%; display: grid; }
+#print.fixed { width: 100%; height: 100%; display: grid; place-items: stretch; }
+#print.fixed svg { width: 100%; height: 100%; }
+#print.fixed canvas { width: 100% !important; height: 100% !important; object-fit: contain; }
+#rec-out { display: grid; gap: 8px; margin-top: 12px; }
+#rec-out:empty { display: none; }
+#rec-out video { display: block; width: 100%; max-height: 70vh; border-radius: var(--ds-r-md); background: var(--bg); }
 #print { border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; background: var(--surface); }
 #print svg { display: block; width: 100%; height: auto; }
 .readout { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 12px 0 0; padding: 0; list-style: none; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); font-variant-numeric: tabular-nums; }
@@ -188,7 +196,9 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
 
 <div class="studio">
   <section class="stage" aria-label="Print preview">
-    <div id="print" role="img" aria-label="Silkscreen print of the selected proverb"></div>
+    <div id="stagewrap"><div id="stage"><div id="print" role="img" aria-label="Silkscreen print of the selected proverb"></div></div></div>
+    <p class="meters" id="rt-readout" aria-live="off"></p>
+    <div id="rec-out" aria-live="polite"></div>
     <ul class="readout" id="readout"></ul>
     <div id="png-gallery" aria-live="polite"></div>
     <p class="note">Pixel mosaic rasterizes the print, so it uses a system typeface and Copy SVG still copies the vector print. Studio prints repeat exactly inside the studio. The PNG exporter in the repo uses a different random stream, so its output matches the recipe, not the pixels.</p>
@@ -198,6 +208,20 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
     <fieldset><legend>Style</legend>
       <div class="btns"><button type="button" id="p-silk">Silkscreen</button><button type="button" id="p-street">Street</button><button type="button" id="p-fancy">Fancy</button><button type="button" id="p-brain">Brainwash</button><button type="button" id="p-invader">Invader</button><button type="button" id="p-tag" class="primary">Tag</button></div>
       <p class="note tight">Each preset takes the form of an artist's approach: hand-lettered marker, splatter and Ben-Day dots, tile mosaic. No existing artwork is copied.</p>
+    </fieldset>
+
+    <fieldset><legend>Frame and live</legend>
+      <div class="row two">
+        <div class="row"><label for="frame">Frame</label><select id="frame"><option value="auto">Auto (follow window)</option><option value="16:9">16:9 landscape</option><option value="4:3">4:3</option><option value="1:1">1:1 square</option><option value="9:16">9:16 portrait</option></select></div>
+        <div class="row"><label for="layout">Layout</label><select id="layout"><option value="square">Square grid</option><option value="fit">Fit to frame</option></select></div>
+      </div>
+      <div class="row two">
+        <div class="row"><label for="rt-quality">Live quality</label><select id="rt-quality"><option value="auto">Auto</option><option value="full">Full</option><option value="draft">Draft (no filters)</option></select></div>
+        <div class="row"><label for="rt-size">Capture size</label><select id="rt-size"><option value="720">720 short side</option><option value="1080">1080 short side</option></select></div>
+      </div>
+      <label class="check" for="rt-stop"><input id="rt-stop" type="checkbox" checked> Stop recording at the end of the clip</label>
+      <div class="btns"><button type="button" id="rec-btn" class="primary">Record</button></div>
+      <p class="note tight">Draft drops the rough, spray and wall filters so the picture can move live; Full and the paused frame keep them. A recording is a live capture at the frame rate the screen can reach.</p>
     </fieldset>
 
     <fieldset><legend>Print</legend>
@@ -371,7 +395,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     label: true, font: 'serif', weight: 700, size: 100, track: 0, leading: 105, 'case': 'upper', style: 'slab', pos: 'bottom', height: 29,
     rough: 0, spray: 0, drips: 0, wall: 0, outline: 0, edge: 'clean', edgeamt: 50,
     fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50,
-    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false, travel: 0, drive: ''
+    spatter: 0, sprayhard: 50, spraydens: 50, tag: false, handle: 'ARCS', horizon: 100, auto: false, travel: 0, drive: '', frame: 'auto', layout: 'square'
   };
   var cfg = {};
   Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; });
@@ -651,11 +675,18 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     Object.keys(g).forEach(function (k) { saved[k] = cfg[k]; cfg[k] = g[k]; });
     try { return build0(); } finally { Object.keys(saved).forEach(function (k) { cfg[k] = saved[k]; }); }
   }
+  var LAYOUT = null, RT = { q: 'auto', tier: 3, outShort: 720, stopEnd: true, ema: 0, fps: 0, lastTs: 0, lastDraw: 0, slow: 0, probeAt: 0, probing: false, probeStart: 0 };
+  function draftNow() { return RT.q === 'draft' || (RT.q === 'auto' && RT.tier === 2 && (DR.playing || REC.on)); }
   function build0() {
-    var P = PAL[cfg.palette], f = cfg.fidelity / 100, cols = +cfg.grid, n = cols * cols, CELL = 120, gap = 14;
-    var W = cols * CELL + (cols - 1) * gap, row = PROVERBS.filter(function (p) { return p.id === cfg.proverb; })[0] || PROVERBS[0];
+    if (!draftNow()) return build00();
+    var keys = ['rough', 'spray', 'wall', 'edgeamt'], sv = {}, se = cfg.edge; keys.forEach(function (k) { sv[k] = cfg[k]; cfg[k] = 0; }); if (cfg.edge === 'fuzz' || cfg.edge === 'grime' || cfg.edge === 'cut') cfg.edge = 'clean';
+    try { return build00(); } finally { keys.forEach(function (k) { cfg[k] = sv[k]; }); cfg.edge = se; }
+  }
+  function build00() {
+    var P = PAL[cfg.palette], f = cfg.fidelity / 100, cols = LAYOUT ? LAYOUT.cols : +cfg.grid, rows = LAYOUT ? LAYOUT.rows : cols, n = cols * rows, CELL = 120, gap = 14;
+    var W = cols * CELL + (cols - 1) * gap, GH = rows * CELL + (rows - 1) * gap, row = PROVERBS.filter(function (p) { return p.id === cfg.proverb; })[0] || PROVERBS[0];
     var R = runs(row.text, n), stats = { reg: 0, drop: 0, specks: 0, n: 0 };
-    var m = cols === 1 ? 0 : (cfg.strip ? Math.min(6, cols * 2) : 0), sw = m ? (W - (m - 1) * 6) / m : 0, H = W + (m ? 18 + sw : 0);
+    var m = cols === 1 ? 0 : (cfg.strip ? Math.min(6, cols * 2) : 0), sw = m ? (W - (m - 1) * 6) / m : 0, H = GH + (m ? 18 + sw : 0);
     var defs = defsMarkup(), panels = [];
     var out = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + f1(H) + '" width="' + W + '" height="' + f1(H) + '" role="img" aria-label="Silkscreen print of the proverb: ' + esc(row.text) + '">',
       defs, '<rect width="' + W + '" height="' + f1(H) + '" fill="' + P.key + '"/>'];
@@ -668,8 +699,8 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     for (var s = 0; s < m; s++) {
       var twist = s === m - 1, sx = s * (sw + 6);
       var sm = panel(P, f, s + n, n + m, { swap: twist, mirror: twist, text: '', stats: stats, nolabel: true });
-      panels.push({ label: 'Strip ' + (s + 1) + (twist ? ' (twist)' : ''), file: 'strip-' + String(s + 1).padStart(2, '0'), x: sx, y: W + 18, size: sw, markup: sm });
-      out.push('<svg x="' + f1(sx) + '" y="' + (W + 18) + '" width="' + f1(sw) + '" height="' + f1(sw) + '" viewBox="0 0 100 100" data-twist="' + (twist ? 1 : 0) + '">' + sm + '</svg>');
+      panels.push({ label: 'Strip ' + (s + 1) + (twist ? ' (twist)' : ''), file: 'strip-' + String(s + 1).padStart(2, '0'), x: sx, y: GH + 18, size: sw, markup: sm });
+      out.push('<svg x="' + f1(sx) + '" y="' + (GH + 18) + '" width="' + f1(sw) + '" height="' + f1(sw) + '" viewBox="0 0 100 100" data-twist="' + (twist ? 1 : 0) + '">' + sm + '</svg>');
     }
     out.push('</svg>');
     return { svg: out.join('\n'), stats: stats, row: row, W: W, H: H, defs: defs, panels: panels, P: P };
@@ -677,8 +708,28 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
 
   /* ---- UI ---- */
   var timer = 0, last = null, token = 0;
+  var FRAMES = { '16:9': 16 / 9, '4:3': 4 / 3, '1:1': 1, '9:16': 9 / 16 };
+  function stageSize() {
+    var wrap = $('stagewrap'), cw = Math.max(240, wrap.clientWidth || 600), hmax = Math.max(240, (window.innerHeight || 800) * 0.78), a, w, h;
+    if (cfg.frame === 'auto') { h = Math.min(hmax, cw * 1.8); return { a: cw / h, w: cw, h: h }; }
+    a = FRAMES[cfg.frame] || 1; w = Math.min(cw, hmax * a); return { a: a, w: w, h: w / a };
+  }
+  function pickLayout(a, density) {
+    var n0 = density * density, best = null, c, r, bs = 1e9;
+    for (r = 1; r <= 5; r++) for (c = 1; c <= 6; c++) {
+      var n = c * r; if (n > 16 || n < Math.max(1, n0 - 3) || n > n0 + 4) continue;
+      var W = c * 134 - 14, GH = r * 134 - 14, m = c === 1 ? 0 : (cfg.strip ? Math.min(6, c * 2) : 0), SH = m ? 18 + (W - (m - 1) * 6) / m : 0, ca = W / (GH + SH), sc = Math.abs(Math.log(ca / a)) * 3 + Math.abs(n - n0) / n0;
+      if (sc < bs) { bs = sc; best = { cols: c, rows: r, ca: ca }; }
+    }
+    return best || { cols: density, rows: density, ca: 1 };
+  }
+  function applyStage() {
+    var fixed = cfg.frame !== 'auto' || cfg.layout === 'fit', sg = stageSize(), st = $('stage');
+    LAYOUT = cfg.layout === 'fit' ? pickLayout(sg.a, +cfg.grid) : null;
+    st.style.width = fixed ? sg.w + 'px' : ''; st.style.height = fixed ? sg.h + 'px' : ''; $('print').className = fixed ? 'fixed' : ''; return sg;
+  }
   function render() {
-    last = build();
+    applyStage(); last = build();
     var tk = ++token;
     $('print').innerHTML = last.svg;
     if (cfg.pixel > 0) pixelate(last, tk);
@@ -686,6 +737,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     $('readout').innerHTML = '<li>Fidelity <b>' + (cfg.fidelity / 100).toFixed(2) + '</b></li><li>Mean plate slip <b>' + (st.reg / st.n).toFixed(2) + '</b></li><li>Ink dropouts <b>' + st.drop + '</b></li><li>Grain specks <b>' + st.specks + '</b></li><li>Shape code <b>' + last.row.aspect + '.' + last.row.verb + '</b></li><li>Source <b>' + last.row.source + '</b></li>';
     var g = cfg.ground, c = 'python3 scripts/tao_print_export.py ' + cfg.proverb + ' --fidelity ' + (cfg.fidelity / 100).toFixed(2) + ' --seed ' + cfg.seed + ' --ground ' + g + ' --out print.png';
     $('cmd').textContent = c;
+    rtReadout();
     if (!DR.playing) { try { localStorage.setItem('tao-print-studio', JSON.stringify(cfg)); } catch (e) {} }
   }
   function rgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.replace(/(.)/g, '$1$1'); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
@@ -892,7 +944,7 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
   }
   /* live audio effects: monitoring only. Nodes exist only after Play. */
   function fxBuild() {
-    var ac = DR.ac, out = ac.createGain(), dry = ac.createGain(), fx = {}, sr = ac.sampleRate; out.connect(ac.destination); DR.node.connect(dry); dry.connect(out);
+    var ac = DR.ac, out = ac.createGain(), dry = ac.createGain(), fx = {}, sr = ac.sampleRate; out.connect(ac.destination); DR.outNode = out; DR.node.connect(dry); dry.connect(out);
     function wetOf(name, chain) { var w = ac.createGain(), rec = { wet: w }; w.gain.value = 0; fx[name] = rec; chain(DR.node, w, rec); w.connect(out); return rec; }
     function curve(f) { var c = new Float32Array(2048), i; for (i = 0; i < 2048; i++) c[i] = f((i - 1024) / 1024); return c; }
     wetOf('crush', function (src, w) { var sh = ac.createWaveShaper(); sh.curve = curve(function (x) { return Math.round(x * 7) / 7; }); src.connect(sh); sh.connect(w); });
@@ -966,8 +1018,8 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     } else { DR.silent = true; DR.ts0 = performance.now(); say('Playing the analysis without sound. Load the audio file to hear it.'); }
     DR.off0 = off; DR.playing = true; $('drive-play').textContent = 'Pause'; DR.last = 0; DR.raf = requestAnimationFrame(driveLoop);
   }
-  function drivePause() { if (DR.playing) { DR.tpaused = driveTime(); var q; for (q = 0; q < 6; q++) if (DR.held[q]) keyEvent(q, false, DR.tpaused); } DR.playing = false; DR.fx = null; try { if (DR.node) { DR.node.stop(); DR.node.disconnect(); } } catch (e) {} DR.node = null; cancelAnimationFrame(DR.raf); $('drive-play').textContent = 'Play'; }
-  function driveLoop(ts) { if (!DR.playing) return; if (ts - DR.last > 48) { DR.last = ts; driveUiTime(); render(); } DR.raf = requestAnimationFrame(driveLoop); }
+  function drivePause() { if (DR.playing) { DR.tpaused = driveTime(); var q; for (q = 0; q < 6; q++) if (DR.held[q]) keyEvent(q, false, DR.tpaused); } DR.playing = false; DR.fx = null; try { if (DR.node) { DR.node.stop(); DR.node.disconnect(); } } catch (e) {} DR.node = null; cancelAnimationFrame(DR.raf); $('drive-play').textContent = 'Play'; RT.slow = 0; RT.lastTs = 0; RT.probing = false; if (RT.tier === 2 && RT.q === 'auto') RT.tier = 3; if (REC.on) recStop(); schedule(); }
+  function driveLoop(ts) { if (!DR.playing) return; rtTick(ts); if (ts - DR.last > 30) { DR.last = ts; driveUiTime(); render(); } DR.raf = requestAnimationFrame(driveLoop); }
   function driveSeek(t) { t = Math.max(0, Math.min(DR.dur, t)); var was = DR.playing; if (was) drivePause(); DR.tpaused = t; if (was) drivePlay(); driveUiTime(); schedule(); }
   window.seek = function (t) { var was = DR.playing; if (was) drivePause(); DR.tpaused = Math.max(0, Math.min(DR.dur, t)); render(); };
   function defaultRows() { return [{ t: 'fidelity', s: 'loud', a: 45 }, { t: 'travel', s: 'saw', a: 100 }, { t: 'views', s: 'sine', a: 60 }, { t: 'slip', s: 'low', a: 70 }, { t: 'dropout', s: 'onset', a: 50 }, { t: 'horizon', s: 'none', a: 0 }]; }
@@ -1022,6 +1074,12 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     document.addEventListener('keydown', function (e) { keyDownUp(e, true); }); document.addEventListener('keyup', function (e) { keyDownUp(e, false); });
     $('drive-stdepth').addEventListener('input', function () { DR.stutter.depth = +this.value; $('drive-stdepth-o').textContent = this.value + '%'; writeDrive(); schedule(); });
     $('drive-strate').addEventListener('change', function () { DR.stutter.rate = +this.value; writeDrive(); schedule(); });
+    $('rt-quality').addEventListener('change', function () { RT.q = this.value; RT.tier = 3; RT.slow = 0; schedule(); });
+    $('rt-size').addEventListener('change', function () { RT.outShort = +this.value; });
+    $('rt-stop').addEventListener('change', function () { RT.stopEnd = this.checked; });
+    $('rec-btn').addEventListener('click', function () { if (REC.on) recStop(); else recStart(); });
+    window.addEventListener('resize', function () { schedule(); });
+    if (window.ResizeObserver) new ResizeObserver(function () { schedule(); }).observe($('stagewrap'));
     $('key-clear').addEventListener('click', function () { DR.keylog = []; DR.held = [0, 0, 0, 0, 0, 0]; logInfo(); writeDrive(); schedule(); say('Performance cleared.'); });
     $('key-reset').addEventListener('click', function () { DR.keymap = defaultKeymap(); keyUi(); writeDrive(); schedule(); say('Pairings reset.'); });
     $('drive-on').addEventListener('change', function () { DR.on = this.checked; writeDrive(); schedule(); });
@@ -1046,6 +1104,62 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     readDrive(); var d = demoPCM(); driveLoadPCM(d.pcm, d.sr, 'Demo signal');
   }
   window.TaoDrive = { key: keyEvent, fxState: function () { var o = {}; if (!DR.fx) return o; KEYS.forEach(function (k) { o[k[0]] = DR.fx[k[0]] ? DR.fx[k[0]].wet.gain.value : null; }); return o; }, stutterGate: function (t) { return srcVal('stutter', t, driveFi(t)); }, kval: kval, logSize: function () { return JSON.stringify(DR.keylog).length; }, frame: frameOut, loadFrame: driveLoadFrame, playing: function () { return DR.playing; }, acCreated: function () { return !!DR.ac; }, dur: function () { return DR.dur; }, ready: function () { return DR.ready; }, seek: function (t) { window.seek(t); }, feat: function (t) { var fi = driveFi(t), S = DR.src, o = {}; ['low', 'mid', 'high', 'loud', 'onset'].forEach(function (k) { o[k] = S[k][fi]; }); ['stutter', 'beat', 'genF', 'genD', 'genX'].forEach(function (k) { o[k] = srcVal(k, t, fi); }); return o; }, eff: function (t) { var was = DR.tpaused, wasPlay = DR.playing; DR.tpaused = t; var ov = driveOverrides(); DR.tpaused = was; return ov; }, load: driveLoadPCM, markup: function () { return $('print').innerHTML; } };
+  /* ---- realtime: frame pacing, adaptive quality, live capture ---- */
+  var REC = { on: false, mr: null, chunks: [], canvas: null, ctx: null, frames: 0, t0: 0, pending: false, mime: '', dest: null, clip0: 0, prevT: 0, blob: null, info: null, raf: 0, w: 0, h: 0 };
+  function rtReadout() { var el = $('rt-readout'); if (!el) return; var sg = stageSize(), fill = last ? Math.min(last.W / last.H / sg.a, sg.a / (last.W / last.H)) : 0; el.innerHTML = 'Frame <b>' + (cfg.frame === 'auto' ? 'auto ' + sg.a.toFixed(2) : cfg.frame) + '</b> &middot; Layout <b>' + (LAYOUT ? LAYOUT.cols + 'x' + LAYOUT.rows : (+cfg.grid) + 'x' + (+cfg.grid)) + '</b> &middot; Fill <b>' + Math.round(fill * 100) + '%</b> &middot; Live <b>' + (DR.playing ? (RT.fps ? RT.fps.toFixed(0) + ' fps' : '...') : 'paused') + '</b> &middot; Quality <b>' + (draftNow() ? 'Draft' : 'Full') + '</b>' + (REC.on ? ' &middot; <b>recording</b>' : ''); }
+  function rtTick(ts) {
+    if (RT.lastTs) { var dt = ts - RT.lastTs; RT.ema = RT.ema ? RT.ema * 0.8 + dt * 0.2 : dt; RT.fps = 1000 / RT.ema; if (RT.probing) { RT.probing = false; if (dt < 45) { RT.tier = 3; RT.slow = 0; } else { RT.tier = 2; } } }
+    RT.lastTs = ts;
+    if (RT.q !== 'auto') return;
+    if (RT.tier === 3) { if (RT.ema > 80) { RT.slow++; if (RT.slow >= 6) { RT.tier = 2; RT.probeAt = ts + 4000; } } else RT.slow = 0; }
+    else if (ts > RT.probeAt) { RT.tier = 3; RT.probing = true; RT.probeAt = ts + 4000; }
+  }
+  var FONTCSS = {};
+  function usedFontCss(svg) { var k = cfg.font + '|' + cfg.weight + '|' + cfg.pixel; if (FONTCSS[k] === undefined) FONTCSS[k] = $('studio-fonts').textContent.split('\n').filter(function (l) { var m = /font-family:'([^']+)'/.exec(l); return m && svg.indexOf(m[1]) >= 0; }).join('\n'); return FONTCSS[k]; }
+  function recFrame() {
+    var c = REC.canvas, x = REC.ctx, W = c.width, H = c.height, P = PAL[cfg.palette], mosaic = $('print').querySelector('canvas');
+    x.fillStyle = P.key; x.fillRect(0, 0, W, H);
+    function fit(sw, sh) { var s = Math.min(W / sw, H / sh); return { w: sw * s, h: sh * s, x: (W - sw * s) / 2, y: (H - sh * s) / 2 }; }
+    if (mosaic) { var r = fit(mosaic.width, mosaic.height); x.imageSmoothingEnabled = false; x.drawImage(mosaic, r.x, r.y, r.w, r.h); REC.frames++; return Promise.resolve(); }
+    var res = last, doc = res.svg.replace(/^(<svg[^>]*>)/, '$1<style>' + usedFontCss(res.svg) + '</style>');
+    return new Promise(function (resolve) {
+      var img = new Image(), url = URL.createObjectURL(new Blob([doc], { type: 'image/svg+xml' }));
+      img.onload = function () { var r2 = fit(res.W, res.H); x.drawImage(img, r2.x, r2.y, r2.w, r2.h); URL.revokeObjectURL(url); REC.frames++; resolve(); };
+      img.onerror = function () { URL.revokeObjectURL(url); resolve(); };
+      img.src = url;
+    });
+  }
+  function recSize() { var a = stageSize().a, sh = RT.outShort, w, h; if (a >= 1) { h = sh; w = Math.round(sh * a / 2) * 2; } else { w = sh; h = Math.round(sh / a / 2) * 2; } return { w: w, h: h }; }
+  function recLoop() {
+    if (!REC.on) return;
+    var t = driveTime(); if (RT.stopEnd && t < REC.prevT - 0.5) { recStop(); return; } REC.prevT = t;
+    if (!REC.pending && last) { REC.pending = true; recFrame().then(function () { REC.pending = false; }); }
+    REC.raf = requestAnimationFrame(recLoop);
+  }
+  function recStart() {
+    if (REC.on) return; if (!DR.ready) { say('Audio is not ready yet.'); return; } if (typeof MediaRecorder === 'undefined') { say('This browser cannot record video here.'); return; }
+    var sz = recSize(); REC.canvas = document.createElement('canvas'); REC.canvas.width = sz.w; REC.canvas.height = sz.h; REC.ctx = REC.canvas.getContext('2d'); REC.w = sz.w; REC.h = sz.h;
+    if (!DR.playing) { DR.tpaused = 0; drivePlay(); }
+    var stream = REC.canvas.captureStream(30);
+    if (DR.ac && DR.outNode && DR.ac.createMediaStreamDestination) { REC.dest = DR.ac.createMediaStreamDestination(); DR.outNode.connect(REC.dest); REC.dest.stream.getAudioTracks().forEach(function (tr) { stream.addTrack(tr); }); }
+    var opts = ['video/mp4;codecs=avc1', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'], mime = ''; opts.forEach(function (o) { if (!mime && MediaRecorder.isTypeSupported(o)) mime = o; }); REC.mime = mime;
+    REC.chunks = []; REC.frames = 0; REC.blob = null; REC.info = null;
+    try { REC.mr = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 6000000 } : {}); } catch (e) { say('Recording could not start: ' + e.message); return; }
+    REC.mr.ondataavailable = function (e) { if (e.data && e.data.size) REC.chunks.push(e.data); }; REC.mr.onstop = recFinish; REC.mr.start(250);
+    REC.on = true; REC.t0 = performance.now(); REC.clip0 = driveTime(); REC.prevT = REC.clip0; $('rec-btn').textContent = 'Stop recording'; REC.raf = requestAnimationFrame(recLoop); say('Recording ' + sz.w + 'x' + sz.h + '.');
+  }
+  function recStop() { if (!REC.on) return; REC.on = false; cancelAnimationFrame(REC.raf); try { REC.mr.stop(); } catch (e) {} }
+  function recFinish() {
+    var secs = (performance.now() - REC.t0) / 1000, blob = new Blob(REC.chunks, { type: (REC.mime || 'video/webm').split(';')[0] });
+    try { if (REC.dest && DR.outNode) DR.outNode.disconnect(REC.dest); } catch (e) {} REC.dest = null; REC.blob = blob; $('rec-btn').textContent = 'Record';
+    REC.info = { w: REC.w, h: REC.h, frames: REC.frames, secs: +secs.toFixed(2), fps: +(REC.frames / secs).toFixed(1), tier: draftNow() ? 'Draft' : 'Full', mime: REC.mime, bytes: blob.size };
+    var url = URL.createObjectURL(blob), host = $('rec-out'); host.innerHTML = '';
+    var v = document.createElement('video'); v.controls = true; v.src = url; v.setAttribute('playsinline', ''); v.setAttribute('aria-label', 'Recorded video');
+    var cap = document.createElement('p'); cap.className = 'note tight'; cap.textContent = REC.info.w + ' x ' + REC.info.h + ', ' + REC.info.secs + ' s, ' + REC.info.fps + ' fps live capture (' + REC.info.tier + '), ' + Math.round(blob.size / 1024) + ' KB. Press and hold or right-click the video to save it; the Artifact viewer may block saving.';
+    var a = document.createElement('a'); a.href = url; a.download = 'tao-print.' + ((REC.mime || '').indexOf('mp4') >= 0 ? 'mp4' : 'webm'); a.textContent = 'Save video'; a.className = 'note tight';
+    host.appendChild(v); host.appendChild(cap); host.appendChild(a);
+  }
+  window.TaoRT = { tier: function () { return draftNow() ? 2 : 3; }, rawTier: function () { return RT.tier; }, fps: function () { return RT.fps; }, layout: function () { return LAYOUT; }, stage: function () { return stageSize(); }, fill: function () { var sg = stageSize(); return last ? Math.min(last.W / last.H / sg.a, sg.a / (last.W / last.H)) : 0; }, size: function () { return last ? { W: last.W, H: last.H } : null; }, recStart: recStart, recStop: recStop, recInfo: function () { return REC.info; }, recBlob: function () { return REC.blob; }, setQuality: function (q) { RT.q = q; }, markup: function () { return last ? last.svg : ''; } };
   function schedule() { cancelAnimationFrame(timer); timer = requestAnimationFrame(render); }
   function fillWeights() {
     var F = FONTS[cfg.font], sel = $('weight'); sel.innerHTML = '';
