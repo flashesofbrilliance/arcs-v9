@@ -145,6 +145,13 @@ input[type=range] { width: 100%; min-height: 44px; accent-color: var(--cyan); }
 button { min-height: 44px; padding: 8px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); cursor: pointer; }
 button:hover { border-color: var(--cyan); }
 button.primary { border-color: var(--cyan); color: var(--cyan); }
+ul.saves { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+ul.saves li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); }
+ul.saves .nm { min-width: 0; overflow-wrap: anywhere; }
+ul.saves .when { color: var(--dimmed); font-size: var(--fs-body); display: block; }
+ul.saves .acts { display: flex; gap: 6px; }
+ul.saves button { min-height: 44px; padding: 6px 12px; }
+.empty { color: var(--dimmed); margin: 0; font-size: var(--fs-body); }
 pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--ds-r-sm); font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); white-space: pre-wrap; overflow-wrap: anywhere; }
 .status { min-height: 1.4em; font-size: var(--fs-body); color: var(--green); margin: 0; }
 </style>
@@ -239,6 +246,20 @@ pre.cmd { margin: 0; padding: 10px 12px; background: var(--bg); border: 1px soli
     <fieldset><legend>Tag mark</legend>
       <label class="check" for="tag"><input id="tag" type="checkbox"> Sign each panel with the tag</label>
       <div class="row"><label for="handle">Handle</label><input id="handle" type="text" maxlength="12" spellcheck="false"></div>
+    </fieldset>
+
+    <fieldset><legend>Saved looks</legend>
+      <div class="row two">
+        <div class="row"><label for="save-name">Name</label><input id="save-name" type="text" maxlength="40" spellcheck="false" placeholder="Look 1"></div>
+        <div class="row"><span class="lab">&nbsp;</span><button type="button" id="save-btn" class="primary">Save this look</button></div>
+      </div>
+      <ul class="saves" id="saves"></ul>
+      <p class="note tight" id="save-note">Saved looks stay in this browser. Copy a recipe to move one to another browser or share it.</p>
+      <div class="btns"><button type="button" id="copy-recipe">Copy recipe</button></div>
+      <div class="row two">
+        <div class="row"><label for="paste-recipe">Paste a recipe</label><input id="paste-recipe" type="text" spellcheck="false" placeholder="Paste copied recipe"></div>
+        <div class="row"><span class="lab">&nbsp;</span><button type="button" id="load-recipe">Load recipe</button></div>
+      </div>
     </fieldset>
 
     <fieldset><legend>Take it with you</legend>
@@ -601,6 +622,54 @@ var PROVERBS = [{"id": "adr040-R-analyze", "aspect": "R", "verb": "analyze", "so
     });
     $('reroll').addEventListener('click', function () { cfg.seed = Math.floor(Math.random() * 99999); $('seed').value = cfg.seed; schedule(); });
     $('reset').addEventListener('click', function () { Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = DEFAULTS[k]; }); fillWeights(); sync(); loadFace(); schedule(); say('Reset to the default recipe.'); });
+    /* ---- saved looks: per-browser list plus a copyable recipe ---- */
+    var SKEY = 'tao-print-studio-saves', mem = [], storeOk = true;
+    function readSaves() { try { var a = JSON.parse(localStorage.getItem(SKEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { storeOk = false; return mem; } }
+    function writeSaves(a) { mem = a; try { localStorage.setItem(SKEY, JSON.stringify(a)); } catch (e) { storeOk = false; } $('save-note').textContent = storeOk ? 'Saved looks stay in this browser. Copy a recipe to move one to another browser or share it.' : 'This browser blocks saving, so looks last until you leave. Copy a recipe to keep one.'; }
+    function clean(obj) {
+      var out = {};
+      Object.keys(DEFAULTS).forEach(function (k) {
+        var d = DEFAULTS[k], v = obj[k], el = $(k);
+        if (v === undefined || v === null) { out[k] = d; return; }
+        if (typeof d === 'number') { v = Number(v); out[k] = isFinite(v) ? v : d; }
+        else if (typeof d === 'boolean') out[k] = !!v;
+        else out[k] = String(v);
+        if (el && el.tagName === 'SELECT' && !Array.prototype.some.call(el.options, function (o) { return o.value === String(out[k]); })) out[k] = d;
+        if (el && el.type === 'range') out[k] = Math.min(+el.max, Math.max(+el.min, out[k]));
+      });
+      if (k0(out.font) === false) out.font = DEFAULTS.font;
+      out.handle = String(out.handle).replace(/[^A-Za-z0-9 _.-]/g, '').slice(0, 12);
+      return out;
+    }
+    function k0(f) { return !!FONTS[f]; }
+    function applyCfg(obj) { var c = clean(obj); Object.keys(DEFAULTS).forEach(function (k) { cfg[k] = c[k]; }); fillWeights(); sync(); loadFace(); schedule(); }
+    function renderSaves() {
+      var list = $('saves'), a = readSaves(); list.innerHTML = '';
+      if (!a.length) { var li0 = document.createElement('li'); li0.innerHTML = '<p class="empty">No saved looks yet. Set a look you like, name it, and save it.</p>'; list.appendChild(li0); return; }
+      a.forEach(function (sv, i) {
+        var li = document.createElement('li'), nm = document.createElement('span'), acts = document.createElement('span'), ld = document.createElement('button'), dl = document.createElement('button');
+        nm.className = 'nm'; nm.textContent = sv.name; var w = document.createElement('span'); w.className = 'when'; w.textContent = sv.at ? new Date(sv.at).toLocaleString() : ''; nm.appendChild(w);
+        acts.className = 'acts'; ld.type = 'button'; ld.textContent = 'Load'; dl.type = 'button'; dl.textContent = 'Delete';
+        ld.addEventListener('click', function () { applyCfg(sv.cfg || {}); say('Loaded ' + sv.name + '.'); });
+        dl.addEventListener('click', function () { var b = readSaves(); b.splice(i, 1); writeSaves(b); renderSaves(); say('Deleted ' + sv.name + '.'); });
+        acts.appendChild(ld); acts.appendChild(dl); li.appendChild(nm); li.appendChild(acts); list.appendChild(li);
+      });
+    }
+    $('save-btn').addEventListener('click', function () {
+      var a = readSaves(), name = ($('save-name').value || '').trim().slice(0, 40) || ('Look ' + (a.length + 1)), snap = JSON.parse(JSON.stringify(cfg)), hit = -1;
+      a.forEach(function (x, i) { if (x.name === name) hit = i; });
+      var rec = { name: name, at: Date.now(), cfg: snap };
+      if (hit >= 0) a[hit] = rec; else a.unshift(rec);
+      a = a.slice(0, 24); writeSaves(a); renderSaves(); $('save-name').value = ''; say(hit >= 0 ? 'Updated ' + name + '.' : 'Saved ' + name + '.');
+    });
+    $('copy-recipe').addEventListener('click', function () { copy(JSON.stringify(cfg), 'Recipe copied.'); });
+    $('load-recipe').addEventListener('click', function () {
+      var raw = ($('paste-recipe').value || '').trim();
+      try { var o = JSON.parse(raw); if (!o || typeof o !== 'object' || Array.isArray(o)) throw 0; applyCfg(o); $('paste-recipe').value = ''; say('Recipe loaded.'); }
+      catch (e) { say('That is not a recipe. Use Copy recipe and paste the whole text.'); }
+    });
+    renderSaves();
+
     var PRESETS = {
       silk: DEFAULTS,
       street: { palette: 'pop', ground: 'dark', grounds: true, inkrot: true, views: 100, slip: 130, dropout: 120, grain: 160, fidelity: 70, label: true, font: 'spray', weight: 400, size: 100, track: 0, leading: 100, 'case': 'upper', style: 'spray', pos: 'bottom', height: 30, rough: 55, spray: 50, drips: 55, wall: 30, outline: 70, edge: 'drip', edgeamt: 55, fill: 100, splat: 0, halftone: 0, pixel: 0, grout: 50, grid: 3, strip: true },
