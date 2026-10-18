@@ -9,6 +9,10 @@
   "one_line": "Nine ideas piled up in one session, most of them frameworks. This page ranks them by cost, puts the three cheapest measurements first, and says which could go to other sessions.",
   "bottom_line": [
     {
+      "label": "Correction, 2026-10-17",
+      "text": "An earlier version of this page said 52 of the backlog's dependency references point at ids that are not in the file. That was my counting error: two rows store depends_on as a plain string, and my loop counted its 52 characters. Counted properly, every reference resolves: 0 dangling on the current main (250 rows, 42 with dependencies). The wrong figure was also repeated in chat and on the forward waypoints page."
+    },
+    {
       "label": "The rule",
       "text": "One measurement before the next metaphor. Every item below produces a number or a pass/fail you can look at, and each has a known-bad case that must fail."
     },
@@ -72,20 +76,20 @@
           "M1",
           "Report dangling dependency references in the backlog",
           "minutes",
-          "52 of the backlog's dependency references point at ids not in the file. Are they typos, other stores, or rot?",
+          "Are any backlog dependency references dangling? Result 2026-10-17: none. The earlier count of 52 was a counting error (see the correction above).",
           "this session"
         ],
         [
           "M2",
           "Save a dated snapshot each time the Field view runs",
-          "minutes",
+          "done 2026-10-17 as a probe",
           "Which rows change rank or state week to week? Today flips are invisible.",
           "this session"
         ],
         [
           "M3",
           "Plant a known echo in the echo detector and confirm it fires",
-          "under an hour",
+          "done 2026-10-17",
           "Zero real echoes means weak beams or a blind detector. A known-positive separates the two.",
           "Echo-detector rebuild (close F34)"
         ],
@@ -138,8 +142,8 @@
     {
       "id": "M1",
       "name": "Dangling reference report",
-      "plain": "List every depends_on value that is not a row id, with the row that holds it, grouped by pattern (PR number, file path, other store, typo).",
-      "stage": "proposed",
+      "plain": "Result: 0 dangling references on current main (250 rows, 42 with depends_on) and 0 on the older 115-row file. Two rows store depends_on as a string and both resolve as whole ids. The earlier 52 was a counting error. Script is in the session scratchpad, not a repo tool. Known-bad fixture (a typo reference must be flagged as a near miss) and known-good fixture (all-resolving file gives 0) both pass.",
+      "stage": "scored once by hand: 0 dangling refs",
       "bad": "A fixture backlog with a typo reference must be listed as dangling.",
       "good": "A fixture where every reference resolves must report zero.",
       "assay_ready": "specified",
@@ -148,8 +152,8 @@
     {
       "id": "M2",
       "name": "Field view snapshots",
-      "plain": "Each run appends one dated JSON line (counts by state, worktree ages, rank) to a gitignored file.",
-      "stage": "proposed",
+      "plain": "Result: two back-to-back snapshots of an unchanged repo gave 0 flips; one moved row gave exactly 1. This validates the flip definition (row state changes and proposal rank order, with the rank date held fixed). It is a probe in the scratchpad, not yet a writer that saves dated snapshots.",
+      "stage": "scored once by hand: probe passed",
       "bad": "Two runs with no change must produce identical counts, so a flip is never invented.",
       "good": "A moved row between runs shows as exactly one flip.",
       "assay_ready": "specified",
@@ -158,8 +162,8 @@
     {
       "id": "M3",
       "name": "Planted echo",
-      "plain": "Two short domain texts with the same structure and disjoint vocabulary must make the detector fire. A shared-boilerplate pair must not.",
-      "stage": "proposed",
+      "plain": "Result on the offline concept detector (a curated relational-phrase fixture): a planted pair with the same structure and disjoint nouns fired, survived the template control, and survived 20 of 20 dithers. Shared boilerplate on its own lines fired raw (2 matches) and the control removed it (0). Scrambled, unrelated and lone-word decoys gave 0. New finding: boilerplate sentences inside otherwise unique lines are not removed by the whole-line control (2 matches survived), a false-positive path. Not tested: the embedding detector (the sentence-transformers extra is not installed, and installing it downloads a model, so it needs approval) and the real stones (not on disk here; the recorded 2026-09-27 result stands). The planted text uses the detector's own cue phrases, so this shows the plumbing and gates work, not that it discovers echoes in other words.",
+      "stage": "scored once by hand: passed on the offline detector, with one new finding",
       "bad": "Shared boilerplate across two domains must produce zero matches after the template control.",
       "good": "The planted pair must match above the detector's own threshold.",
       "assay_ready": "fixtures to be written first",
