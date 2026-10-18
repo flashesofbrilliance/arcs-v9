@@ -76,6 +76,7 @@ def facets(ph=PHASE):
 
 
 _FC = {}
+PAPER = False         # recipe option: print on a light paper ground, inks multiply, a dark key plate holds the line
 
 
 def facets_at(ph):
@@ -126,13 +127,25 @@ def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
         for _ in range(ns))
     gaps = "".join(f'<rect x="{rs.random()*90:.1f}" y="{HORIZON-1}" width="{3+rs.random()*8:.1f}" height="4" fill="var(--bg)"/>'
                    for _ in range(int(round(10 * loss * drift))))
+    key = ""
+    if PAPER:
+        rk = rng(pid, seed, "key", k)
+        kp = ""
+        for _, face, band, pts, i in facets_at(ph):
+            if rk.random() < drop * 0.6 or band not in (0, NV - 1):
+                continue
+            q = pts.split()
+            a, b = (q[0], q[1]) if band == 0 else (q[3], q[2])     # only the strip's two long edges: the key line
+            kp += f'<path d="M{a} L{b}"/>'
+        key = f'<g fill="none" stroke="var(--bg)" stroke-width=".6" stroke-linecap="round">{kp}</g>'
     tf = ' transform="translate(100 0) scale(-1 1)"' if mirror else ""
     return (
         f'<g data-k="{k}" data-reg="{sum(offs)/len(offs):.3f}" data-specks="{ns + dropped}"{tf}>'
-        f'<rect width="100" height="100" fill="{PLATES[gnd] if gnd is not None else "var(--bg)"}"/>'
-        f'<rect y="{HORIZON}" width="100" height="2.4" fill="{"var(--bg)" if gnd is not None else "var(--gold)"}"/>{gaps.replace("var(--bg)", PLATES[gnd]) if gnd is not None else gaps}'
-        f'<g style="mix-blend-mode:{"normal" if gnd is not None else "screen"}">{"".join(layers)}</g>'
-        f'<g fill="{"var(--bg)" if gnd is not None else "var(--dimmed)"}">{specks}</g></g>'
+        f'<rect width="100" height="100" fill="{PLATES[gnd] if gnd is not None else ("var(--text)" if PAPER else "var(--bg)")}"/>'
+        f'<rect y="{HORIZON}" width="100" height="2.4" fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--gold)"}"/>{gaps.replace("var(--bg)", PLATES[gnd]) if gnd is not None else (gaps.replace("var(--bg)", "var(--text)") if PAPER else gaps)}'
+        f'<g style="mix-blend-mode:{"normal" if gnd is not None else ("multiply" if PAPER else "screen")}">{"".join(layers)}</g>'
+        f'{key}'
+        f'<g fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--dimmed)"}">{specks}</g></g>'
     )
 
 
@@ -222,6 +235,8 @@ if __name__ == "__main__":
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--out")
     ap.add_argument("--html", action="store_true")
+    ap.add_argument("--ground", choices=["dark", "paper"], default="dark")
     ns = ap.parse_args()
+    PAPER = ns.ground == "paper"
     s = (html if ns.html else svg)(load(ns.id), ns.fidelity, ns.seed)
     Path(ns.out).write_text(s) if ns.out else print(s)
