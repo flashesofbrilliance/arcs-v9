@@ -12,9 +12,9 @@ This benchmark can support claims about three things only: speed against the cur
 
 ## Corpus and datasets
 
-Indexed corpus: `_CANON/*.md`, `_DECISIONS/*.md` and `_PATTERNS/*.md` at the frozen sha: 191 files, 10,398 sentences of 8 or more tokens, 10,271 of them occurring in exactly one place. Tokens are lowercase runs of `[a-z0-9']`. A sentence is text split after `.`, `!` or `?` followed by whitespace, with whitespace collapsed.
+Indexed corpus: `_CANON/*.md`, `_DECISIONS/*.md` and `_PATTERNS/*.md` at the frozen sha `fd8bf4e7`: 191 files, 10,398 sentences of 8 or more tokens, 10,271 of them occurring in exactly one place. Tokens are lowercase runs of `[a-z0-9']`. A sentence is text split after `.`, `!` or `?` followed by whitespace, with whitespace collapsed.
 
-All sampling uses `random.Random(20261018)` over lists sorted by path then position. A sentence is eligible only if it occurs in exactly one place in the whole 191-file corpus (this is the shared-boilerplate control from memory `template-aliasing-shared-boilerplate-fakes-cross-domain-echo`; ambiguous ground truth is dropped, and the number dropped is reported).
+All sampling uses `random.Random(20261018)` over lists sorted by path then position. A sentence is eligible only if it occurs in exactly one place in the whole 191-file corpus (this is the shared-boilerplate control from [[template-aliasing-shared-boilerplate-fakes-cross-domain-echo]], already applied in `scripts/universe_sweep.py`; ambiguous ground truth is dropped, and the number dropped is reported).
 
 - Held-out files: 19 files (10 percent of 191, drawn by the seed) are removed from the index. They exist only to supply negatives.
 - Set A, verbatim, n = 300: sentences from the 172 indexed files. Ground truth: the file.
@@ -28,7 +28,7 @@ The frozen dataset files and their sha256 values are committed before any system
 
 ## Systems under test
 
-- B0, the current approach: for each query, compare its tokens to every indexed sentence with `difflib.SequenceMatcher` and accept the best sentence if its ratio is at least 0.80 (the lint's `VERBATIM_T`). Otherwise the verdict is UNSOURCED.
+- B0, the current approach: for each query, compare its tokens to every indexed sentence with `difflib.SequenceMatcher` and accept the best sentence if its ratio is at least 0.80 (the `VERBATIM_T` constant in `scripts/attribution_provenance_lint.py`). Otherwise the verdict is UNSOURCED.
 - B1, plain substring search: whitespace-normalized exact substring match over the indexed files. Otherwise UNSOURCED.
 - S, shingle index: posting lists from 5-token shingles to sentence ids. A query collects candidates by shared shingles, ranks them by shared-shingle count, and verifies the top 3 with the same SequenceMatcher rule as B0 (best ratio at least 0.80). The verdict rule is identical to B0 on purpose, so any difference in confident-wrong rate comes from candidate generation and not from a different threshold.
 - S+Bloom: per-file Bloom filters of 5-shingles, sized for a 1 percent false-positive rate, applied as a prefilter before S.
@@ -43,14 +43,14 @@ Thresholds are fixed now. A kill condition is binary.
 | # | Hypothesis | Metric and threshold | Kill condition |
 |---|---|---|---|
 | H1 | S is much faster than B0 | Median per-query latency on Set A at full corpus, index build excluded: at least 10x faster than B0. 3x to 10x is a weak pass. | Under 3x: layer 4 is dropped as a speed play. |
-| H2 | S is accurate on verbatim text | Top-1 source accuracy on Set A at least 99 percent, and not below B1. | Under 97 percent. |
+| H2 | S is accurate on verbatim text (B0 and B1 are the reference points; the verdict rule comes from `scripts/attribution_provenance_lint.py`) | Top-1 source accuracy on Set A at least 99 percent, and not below B1. | Under 97 percent. |
 | H3 | S keeps recall under light edits | Top-1 recall on Set B at least 90 percent, and no more than 3 points below B0. | Recall more than 3 points below B0, or under 85 percent. |
 | H4 | S fails safe on text it cannot source | On Set D, at most 1 percent of negatives receive a CLEAN or ANCHORED source. On Set C, any miss must be UNSOURCED, never a confident wrong source. | More than 2 percent on Set D, or any confident-wrong source on Set C. |
 | H5 | The Bloom prefilter is safe and useful | No false negatives on Sets A and B (a missed file is a failure), and at least 80 percent of candidate files removed before verification. | Any false negative, or under 50 percent removed. |
-| H6 | Hash verification detects tampering | 100 of 100 single-byte mutations flagged, 0 of 100 unmodified re-reads flagged. | Any miss, or any false alarm. |
-| H7 | Outputs are deterministic | Byte-identical results from all systems under four values of `PYTHONHASHSEED` (1, 2, 3, 4), and across 3 repeated runs. | Any difference. |
-| H8 | Operator 21's lineage step is the cause of the added Librarian time, and an index fixes it | First, profile `recommend()` with the 854 receipt candidates loaded: the lineage pass must account for at least 50 percent of its wall time, or this hypothesis is dropped. Then a posting-list lineage must give exactly the same in-degree for every candidate as today, and cut `recommend()` wall time to 3.7 s or less (from 5.3 s measured on 2026-10-18), with a time-versus-candidates exponent of at most 1.2 at 25, 50 and 100 percent of the pool. | Lineage under 50 percent of time, any in-degree mismatch, or under a 15 percent reduction: the Librarian is left untouched. |
-| H9 | Speaker attribution is not weakened | On Set E, all 18 correct attributions CLEAN or ANCHORED and all 18 swapped ones CONTAMINATED, matching the current lint. | Any deviation from the current lint's results. |
+| H6 | Hash verification detects tampering (the rehash `canon_drift` in `scripts/universe_ask.py` already does this for canon atoms) | 100 of 100 single-byte mutations flagged, 0 of 100 unmodified re-reads flagged. | Any miss, or any false alarm. |
+| H7 | Outputs are deterministic (`scripts/universe_sweep.py` was the first tool found to depend on hash order) | Byte-identical results from all systems under four values of `PYTHONHASHSEED` (1, 2, 3, 4), and across 3 repeated runs. | Any difference. |
+| H8 | Operator 21's lineage step (`operators/arcs_librarian.py`, the pairwise pass in `recommend()`) is the cause of the added Librarian time, and an index fixes it | First, profile `recommend()` with the 854 receipt candidates loaded: the lineage pass must account for at least 50 percent of its wall time, or this hypothesis is dropped. Then a posting-list lineage must give exactly the same in-degree for every candidate as today, and cut `recommend()` wall time to 3.7 s or less (from 5.3 s measured on 2026-10-18), with a time-versus-candidates exponent of at most 1.2 at 25, 50 and 100 percent of the pool. | Lineage under 50 percent of time, any in-degree mismatch, or under a 15 percent reduction: the Librarian is left untouched. |
+| H9 | Speaker attribution is not weakened | On Set E, all 18 correct attributions CLEAN or ANCHORED and all 18 swapped ones CONTAMINATED, matching `scripts/attribution_provenance_lint.py` as it is today. | Any deviation from that script's results. |
 
 Primary safety metric: confident-wrong provenance. This counts a verdict of CLEAN or ANCHORED that names a source other than the ground truth, or that names any source for a negative. Threshold for S over Sets A, B and D combined (800 queries): at most 0.5 percent (4 or fewer), and not above B0's own count. Kill condition: more than 1 percent (9 or more).
 
