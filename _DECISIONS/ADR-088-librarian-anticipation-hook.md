@@ -1,6 +1,6 @@
 # ADR-088 : Librarian anticipation hook: suggest an echo scan before the reader has to ask, and make each scan free to reuse
 
-**Status:** DRAFT / PROPOSAL (2026-10-17). Placement decided 2026-10-17; T2 and T3 warn-only pre-commit built the same day. T1, the echo ledger writers and the suggestion log are not built.
+**Status:** DRAFT / PROPOSAL (2026-10-17). Placement decided 2026-10-17; T2 and T3 warn-only pre-commit built the same day. A suggestion log and acceptance rule followed. T1 and the echo ledger writers are not built.
 **Sequence:** allocated via `python3 scripts/oracle.py next adr` -> 88.
 **Source:** `runtime/specs/librarian-anticipation-hook-v0.md` (merged in PR 1306), which holds the full trigger table, rate limits and fixtures. This ADR records the decision and the kill condition; the spec stays the working detail.
 **Prior art read:** `operators/arcs_librarian.py` (already has `recommend(q, budget)`), `scripts/prior_art.py`, the `/echo-scan` skill, `scripts/provenance_lint.py`, `scripts/canon_claims_report.py`, ADR-044 (temporal provenance), ADR-075 (metabolic router), AGENTS.md gotchas 11 and 15.
@@ -37,7 +37,7 @@ Every check ships a known-bad and a known-good fixture in its `--self-test`, wir
 
 - Cost: a small deterministic scan per trigger; model spend only when Zach accepts a scan.
 - Risk: noise (bounded by the limits and K1/K2) and a ledger that no one reads (K4).
-- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. a suggestion log and acceptance rule were added the same day (see Open).
+- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. A suggestion log and acceptance rule were added the same day (see Open).
 
 ## Open
 
