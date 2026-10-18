@@ -31,7 +31,7 @@ the exporter muxes the dry file, and that gap is stated, not hidden. Phone behav
 
 ## Results
 Built 2026-10-18: per-control slew-limited curves, the Stutter depth and rate controls, the Key map (six pads and keys 1 to 6, live audio effects, paired visual
-controls, a performance log), all saved inside the look. Headless Playwright run (script not committed; it reads `window.TaoDrive`):
+controls, a performance log), all saved inside the look. Headless Playwright run, reproducible with `node scripts/tao_studio_checks.mjs slice2` (the same script runs the earlier checks as `drive` and `frame`; it reads `window.TaoDrive`):
 
 - S1 PASS at frame centres: with worst-case stacked rows (stutter, onset in both directions, low, sine, ramp) and keys mashed, the largest step of any driven control
   between consecutive 30 fps frames is exactly 0.2000 of its range. Caveat: sampled at exact frame boundaries a float floor skipped a frame and read 0.24 (1.2 frames); that is a
