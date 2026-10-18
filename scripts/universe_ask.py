@@ -79,6 +79,10 @@ def load(u, reg, root=ROOT, repo=REPO):
         aud = r.get("audience", d.get("audience_default", "internal"))
         if aud not in ("internal", "external"):
             sys.exit(f"BAD AUDIENCE on {r['id']}: '{aud}' (internal|external).")
+        if aud == "external" and d.get("tier") == "personal":
+            sys.exit(f"AIR-GAP: {r['id']} is tagged external but universe '{u}' is a personal-tier universe (a person's own receipts never leave internal).")
+        if aud == "external" and r.get("bridges"):
+            sys.exit(f"AIR-GAP: {r['id']} is tagged external but declares bridges {r['bridges']} to counterpart universes.")
         if aud == "external" and (r["type"] not in EXTERNAL_TYPES or r.get("grade") not in EXTERNAL_GRADES):
             sys.exit(f"AIR-GAP: {r['id']} is tagged external but is type={r['type']} grade={r.get('grade')}. Only sourced claims (A/B/C) may be external; inferences, hypotheses, quotes and collisions are internal.")
         if r["type"] == "quote" and not (r.get("speaker") and r.get("source_ref")):
@@ -188,6 +192,8 @@ def project_public(u, reg, rows, root=ROOT):
     registry `shape` / `name_shapes`), never by a hand-picked alias. Fails closed: no shape, a shape that names a counterpart,
     or any counterpart name left after substitution -> refuse. Atom ids are opaque hashes (the universe name identifies too)."""
     d = reg["universes"][u]
+    if d.get("tier") == "personal":
+        sys.exit(f"REFUSED: universe '{u}' is personal-tier; it has no public projection.")
     shape = d.get("shape")
     if d.get("tier") != "canon" and not shape:
         sys.exit(f"REFUSED: universe '{u}' has no `shape` in the registry (a public description of what the client does, e.g. 'a predictive analytics and forecasting company').")
