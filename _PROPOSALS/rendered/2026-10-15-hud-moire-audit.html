@@ -1,0 +1,737 @@
+<!doctype html><html lang="en"><head>
+<!-- @arcs-template: recoil-report -->
+<!-- @arcs-mode: operate -->
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HUD moire audit</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 15px; line-height: 1.6; margin: 0; padding-inline: 16px; padding-block: 28px; }
+main { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+h1 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 600; line-height: 1.2; margin: 0 0 6px; text-wrap: balance; }
+p { margin: 0 0 10px; }
+.recoil-header { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.recoil-header::before { content: ''; width: 4px; flex-shrink: 0; background: var(--gold); }
+.header-arcs { padding: 16px 24px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+.arcs-mark { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--cyan); line-height: 1; }
+.arcs-sub { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-top: 6px; }
+.header-center { flex: 1; min-width: 0; padding: 16px 24px; }
+.receipt-id { font-family: var(--font-mono); font-size: 11px; color: var(--dimmed); letter-spacing: .04em; margin-bottom: 8px; overflow-wrap: anywhere; }
+.y-gate-badge { display: inline-flex; background: var(--gold-bg); border: 1px solid var(--gold); color: var(--gold); border-radius: var(--r-sm); padding: 3px 12px; font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+.section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.cell { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px; min-width: 0; }
+.cell b { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; }
+.decision { border-top: 1px solid var(--border); padding-block: 14px; }
+.decision:first-of-type { border-top: 0; padding-top: 0; }
+.decision .h3 { font-size: 1rem; margin: 0 0 4px; }
+.decision .rec { color: var(--green); }
+.decision .why, .muted { color: var(--dimmed); font-size: 13px; }
+.did { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); margin-right: 8px; }
+.tw { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--muted); font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 500; }
+td.mono { font-family: var(--font-mono); font-size: 12px; }
+.pill { display: inline-block; padding: 1px 9px; border-radius: 99px; font-family: var(--font-mono); font-size: 11px; border: 1px solid; white-space: nowrap; }
+.pill.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.pill.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.pill.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.pill.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.ctl { border-top: 1px solid var(--border); padding-block: 16px; }
+.ctl:first-of-type { border-top: 0; padding-top: 0; }
+.ctl .h3 { font-size: 1rem; margin: 0 0 6px; display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.ab { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 8px; }
+.ab div { background: var(--surface-2); border-radius: var(--r-sm); padding: 10px 12px; font-size: 13px; min-width: 0; }
+.ab .bad { border-left: 3px solid var(--red); }
+.ab .good { border-left: 3px solid var(--green); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.two ul { margin: 8px 0 0; padding-left: 18px; }
+.two li { margin-bottom: 8px; }
+blockquote { margin: 0; padding: 12px 16px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); font-size: 14px; }
+code { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); overflow-wrap: anywhere; }
+.toc { display: flex; flex-wrap: wrap; gap: 6px 16px; position: sticky; top: 0; background: var(--bg); padding-block: 8px; z-index: 1; border-bottom: 1px solid var(--border); }
+.toc .section-label { margin: 0; align-self: center; }
+.toc a { color: var(--cyan); font-size: 13px; text-decoration: none; padding: 10px 4px; display: inline-block; }
+section { scroll-margin-top: 120px; }
+h2.h3 { font-family: var(--font-sans); }
+details > summary { cursor: pointer; list-style: none; }
+dl { margin: 0; display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 8px 16px; }
+dt { font-weight: 600; } dd { margin: 0; color: var(--dimmed); }
+@media (max-width: 640px) { .toc { position: static; } dl { grid-template-columns: 1fr; } }
+footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+@media (max-width: 640px) { .recoil-header { flex-direction: column; } .header-arcs { border-right: 0; border-bottom: 1px solid var(--border); } }
+</style></head><body>
+<main>
+<div class="recoil-header"><div class="header-arcs"><div class="arcs-mark">ARCS</div><div class="arcs-sub">Proposal</div></div><div class="header-center"><div class="receipt-id">prop-2026-10-15-hud-moire-audit · 2026-10-15 · main@af988087</div><h1>HUD moire audit</h1><p>The HUD already draws a moire, but it is made from product roadmap dots, not from echo data. This page says what runs, what is only a picture, and the smallest honest visual that would show real overlap.</p><span class="y-gate-badge">PROPOSAL · nothing in production has changed</span></div></div>
+<nav class="toc" aria-label="Contents"><div class="section-label">Contents</div><a href="#short">Short version</a><a href="#decisions">Decisions</a><a href="#heuristics">Heuristics</a><a href="#mechanisms">Mechanism map: what runs and</a><a href="#gaps">Gaps between the HUD and the</a><a href="#zoom">Zoom model tested against th</a><a href="#gauges">Measurable definitions for t</a><a href="#lima">Design crit: simulated Lima </a><a href="#fields">Fields</a><a href="#leaks">Leak check</a><a href="#controls">Controls</a><a href="#terms">Terms</a><a href="#glossary">Glossary</a><a href="#files">Files</a></nav>
+<section id="short"><div class="section-label">§ The short version</div><div class="grid">
+<div class="cell"><b>What is on screen</b>arcs.care/hud (checked live: arcs.care redirects to www.arcs.care/hud, which serves &#x27;ARCS · Field HUD&#x27;) is src/organisms/Scope.tsx pinned full screen. Its interference rings are real drawing code, but the ring sources are 11 hard-coded product waypoints plus the navigator. No echo, receipt or Y-gate value feeds them.</div>
+<div class="cell"><b>What runs underneath</b>The orthogonal echo detector, the embedding signature and the MOIRE render state all exist. The embedding module has a --self-test that I could not run here (no operators/.venv in this worktree), so &#x27;runs&#x27; rests on the 2026-09-27 run record. The 2026-09-27 run found 0 real echoes once the shared-template control removed boilerplate. Cascade as an event, phase-shift events and vector collision have no running code (vector collision is listed as not built in CLAUDE.md).</div>
+<div class="cell"><b>Smallest honest step</b>One echo overlap strip: two stripe families whose spacing comes from each domain&#x27;s concept strengths. It shows a beat only where a match survives the template control, and shows flat lines with the words &#x27;0 real echoes&#x27; otherwise. Today that means flat.</div>
+</div></section>
+<section class="panel" id="decisions"><div class="section-label">§ Decisions waiting on you</div>
+<div class="decision"><h2 class="h3"><span class="did">D1</span>Build the echo overlap strip, admin-only first?</h2><p class="rec">Recommended: Yes. Build-time JSON from the existing detector, drawn in the HUD side panel behind the same admin check the ziggurat loader uses. Public only after one real echo survives the template control.</p><p class="why">A moire drawn from nothing is what the brand promise refuses. Showing flat lines honestly is the feature.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D2</span>Label the current waypoint ripples as illustrative?</h2><p class="rec">Recommended: Yes. One line in the HUD panel: &#x27;Ripples mark roadmap waypoints, not data.&#x27; Costs nothing and stops the existing moire being read as evidence.</p><p class="why">The ripples are the HUD&#x27;s only texture and they look like measurement.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D3</span>Merge the clarity and coherence gauges at the question level?</h2><p class="rec">Recommended: Yes. Keep the clarity lens (nci_by_lens.clarity) and retire coherence_pct as a separate gauge; keep HUD coherence as a lattice property under its own name. Define consonance as the gap between stated confidence and closed outcomes (the Accountant already computes calibration at n of 30 or more per cohort).</p><p class="why">The compass prompt describes both as &#x27;well-formed&#x27; and &#x27;answerable&#x27;. The HUD uses the same words for different repo-level counts.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D4</span>Drive per-node grain from evidence counts?</h2><p class="rec">Recommended: Yes, as a second step. Node uncertainty = 1 minus min(1, evidence / 10), evidence = mapped files + commits in the last 28 days, both already in universe-field.json.</p><p class="why">This is how zoom shows less certainty where little is known, using data that exists, instead of a fog slider.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D5</span>Fix the L3 label drift?</h2><p class="rec">Recommended: Yes. CLAUDE.md says L3 is cascade. The compass prompt (route.ts) runs L3 as the Kintsugi immune check. Pick one and make the other match.</p><p class="why">Anyone building a cascade visual from the L3 label would draw something the pipeline does not compute.</p></div>
+</section>
+<section class="panel" id="heuristics"><div class="section-label">§ Heuristics: for you, and for me</div><div class="two">
+<div class="cell"><b>For you (human)</b><ul><li>Read the short version, then the mechanism map. A green MECHANISM pill has code behind it; a gold METAPHOR pill is a picture only.</li><li>If a visual cannot go flat when the data is empty, it is decoration. Ask what the HUD shows on 0 echoes.</li><li>The Lima review is a simulated lens built from general network and hierarchy design practice. It is not his view and nothing was sent to him.</li><li>Approve D2 and D5 even if you hold the rest. They cost nothing and remove two misreadings.</li></ul></div>
+<div class="cell"><b>For the agent (machine)</b><ul><li>No production change from this proposal. Any build needs an approval recorded against its decision id.</li><li>Claim only what runs: grep for the symbol before labelling it MECHANISM. &#x27;phase shift&#x27; returned zero code hits on 2026-10-15.</li><li>Fixtures are pre-registered here before any build. Do not tune a threshold after seeing a run.</li><li>Do not touch _STATE/job-search/ or any VICO file. Run scripts/page_gate.py on any rendered page; em-dashes stay at 0.</li><li>scripts/proposal_render.py in this worktree is a copy of the relaxed-merkle-130db6 renderer plus one generic &#x27;tables&#x27; section; drop the copy when that one merges.</li></ul></div>
+</div></section>
+<section class="panel" id="mechanisms"><div class="section-label">§ Mechanism map: what runs and what is a picture</div>
+<p class="muted">MECHANISM means code that executes and produces the value. METAPHOR means the name or picture has no computation behind it. UNBUILT means named in canon with no code.</p>
+<div class="tw" tabindex="0"><table><tr><th>Thing</th><th>Where</th><th>Label</th><th>What actually runs</th></tr>
+<tr><td>HUD page, route and host</td><td>src/app/hud/page.tsx; surface-catalog lists app.arcs.care /hud; no rewrite or proxy rule for it</td><td><span class="pill green">MECHANISM</span></td><td>Live check 2026-10-15: arcs.care answers 308 to www.arcs.care/hud; app.arcs.care/hud and www.arcs.care/hud answer 200 with title &#x27;ARCS · Field HUD&#x27;. The ziggurat loader inside it is admin-only.</td></tr>
+<tr><td>Ripple interference (moire) in the HUD</td><td>src/organisms/Scope.tsx, droplet loop near line 730</td><td><span class="pill green">MECHANISM</span></td><td>Canvas rings from each source cross and interfere; spacing widens with fog. The drawing runs.</td></tr>
+<tr><td>Ripple sources</td><td>Scope.tsx WAYPOINTS (11 entries) plus navigator</td><td><span class="pill gold">METAPHOR</span></td><td>Positions come from hard-coded tier and angle numbers. No echo, receipt or gate value is read, so the moire carries no data.</td></tr>
+<tr><td>Fog</td><td>HudClient.tsx useState(0.35); Scope setVis and Alt-scroll</td><td><span class="pill gold">METAPHOR</span></td><td>A constant or a user dial. It is not computed from how many receipts or files support what you see.</td></tr>
+<tr><td>Fathoms F1 to F7 (depth dial)</td><td>Scope.tsx FATHOMS</td><td><span class="pill green">MECHANISM</span></td><td>One dial sets camera and resolution crossfade. It is not tied to the L0 to L7 stack.</td></tr>
+<tr><td>Lattice hop state (open, obscured, blocked)</td><td>Scope.tsx holds(); universe-field.json status and shore_open</td><td><span class="pill green">MECHANISM</span></td><td>Real rule: gate nodes block; nodes with open shore questions obscure when fog is above 0.5.</td></tr>
+<tr><td>Orthogonal echo detector</td><td>operators/arcs_inchworm_echo.py OrthogonalEchoDetector</td><td><span class="pill green">MECHANISM</span></td><td>Compares concept strengths per domain pair; returns EchoMatch with similarity, evidence and pattern name.</td></tr>
+<tr><td>Embedding signature for the detector</td><td>operators/arcs_echo_embedding.py</td><td><span class="pill green">MECHANISM</span></td><td>Local embeddings; orthogonality = 1 minus cosine of domain text vectors. Needs the declared embeddings extra.</td></tr>
+<tr><td>Echo ridgeline feed, dither and controls</td><td>scripts/echo_ridgeline_feed.py; _STATE/2026-09-27-echo-signature-before-after.json</td><td><span class="pill green">MECHANISM</span></td><td>2026-09-27, seed 27: keyword signature 0 matches, scrambled-control false-positive proxy 0.8. Embedding signature 3 baseline matches, proxy 0.0, but real_echoes_after_template_control = 0 for both. Claimable: the detector runs and its controls work. Not claimable: that any real echo exists.</td></tr>
+<tr><td>MOIRE render state</td><td>src/lib/ygate.ts line 204 (PARADOX gives MOIRE); src/ui/tokens.ts</td><td><span class="pill green">MECHANISM</span></td><td>Computed per receipt. Used on /recoil/close, the design test page and AhmedOrder. Not used by the HUD.</td></tr>
+<tr><td>Paradox condition</td><td>ygate.ts: viable === 2 and nci below 60</td><td><span class="pill green">MECHANISM</span></td><td>Narrow rule: two paths, low coherence. A question-level state, not an overlap of two domains.</td></tr>
+<tr><td>L3 in the compass pipeline</td><td>src/app/api/compass/route.ts prompt line 69</td><td><span class="pill green">MECHANISM</span></td><td>L3 runs as the Kintsugi immune check (false-premise and overconfidence signals), asked inside one model call. It is not a cascade.</td></tr>
+<tr><td>Cascade as an event</td><td>threshold_cascade pattern in the echo library</td><td><span class="pill green">MECHANISM</span></td><td>Only a text pattern the detector looks for (words like chain reaction, avalanche). No code simulates or detects a cascade in receipts or the lattice.</td></tr>
+<tr><td>Phase-shift events</td><td>none</td><td><span class="pill red">UNBUILT</span></td><td>Zero code hits for phase shift in ts, tsx, py, json. WORLD.md gas, liquid, solid, superionic phases are naming only.</td></tr>
+<tr><td>Drift state</td><td>ygate.ts driftState: LOCKED, ON_TRACK, DRIFTING (session version 5 or more)</td><td><span class="pill green">MECHANISM</span></td><td>The closest running thing to a regime change, but it keys on session count, not on a measured shift.</td></tr>
+<tr><td>Y-state change between receipt versions</td><td>Receipt Y-gate fields plus parent link</td><td><span class="pill green">MECHANISM</span></td><td>Data exists per receipt; no code computes the transition. Derivable, not derived. Unconfirmed that parent chains are populated enough to plot.</td></tr>
+<tr><td>Vector collision</td><td>CLAUDE.md &#x27;What&#x27;s NOT built yet&#x27;</td><td><span class="pill red">UNBUILT</span></td><td>Listed as the Python Vector Collision microservice, not built.</td></tr>
+</table></div></section>
+<section class="panel" id="gaps"><div class="section-label">§ Gaps between the HUD and the mechanisms</div>
+<p class="muted">Each row is something a viewer could reasonably believe from the HUD, and what the code does.</p>
+<div class="tw" tabindex="0"><table><tr><th>Gap</th><th>HUD shows</th><th>Mechanism computes</th><th>Size</th></tr>
+<tr><td>G1 Moire without data</td><td>Interference rings across the terrain</td><td>Echo similarity per domain pair exists in the detector but never reaches the HUD</td><td>Large</td></tr>
+<tr><td>G2 Fog is not evidence</td><td>Fog thins as you lean in</td><td>Evidence counts per node exist (files, commits in 28 days, shore_open) and are unused for fog</td><td>Large</td></tr>
+<tr><td>G3 Cascade and phase shift</td><td>Nothing, but the brief implies them</td><td>No code. Only the text pattern threshold_cascade and the drift counter exist</td><td>Naming gap</td></tr>
+<tr><td>G4 MOIRE state unused</td><td>No PARADOX or MOIRE cue</td><td>ygate.ts computes MOIRE per receipt</td><td>Medium</td></tr>
+<tr><td>G5 Conviction row</td><td>&#x27;No signal&#x27;</td><td>universe-field.json says the Y-gate spread lives in the prod Receipt table and is not read. Per AGENTS.md prod held 267 receipts on 2026-10-06 (real 0, test 189, untagged 78)</td><td>Honest today; would mislead if filled from test rows</td></tr>
+<tr><td>G6 Gauge names collide</td><td>Clarity, Coherence, Consonance as repo counts (53 of 81 nodes clear; 3 diamonds; 4 empirical of 16 invariants)</td><td>The compass uses clarity and coherence as model-scored numbers about one question</td><td>Definition gap</td></tr>
+<tr><td>G7 Public sees a sketch</td><td>Default five-terrace ziggurat</td><td>The real atlas tiers load only for admins</td><td>Framing gap</td></tr>
+</table></div></section>
+<section class="panel" id="zoom"><div class="section-label">§ Zoom model tested against the HUD</div>
+<p class="muted">Three zoom dials (depth, altitude, resolution) and five gauges (fidelity, coherence, conviction, clarity, consonance). WORLD.md rule: render at earned fidelity only, so zooming must show less certainty where little is known, never invented detail.</p>
+<div class="tw" tabindex="0"><table><tr><th>Element</th><th>Label</th><th>Evidence and what it would take</th></tr>
+<tr><td>Depth dial, L0 to L7</td><td><span class="pill gold">METAPHOR</span></td><td>HUD fathoms F1 to F7 are camera steps. The compass runs L0 to L5 inside one prompt. L6 to L7 are not built. No link between the two today.</td></tr>
+<tr><td>Altitude (skim, scan, trenches)</td><td><span class="pill gold">METAPHOR</span></td><td>Closest running thing: fathom names and the Chronicle books (executive to surgical). A label set, not a computed level.</td></tr>
+<tr><td>Resolution dial</td><td><span class="pill green">MECHANISM</span></td><td>Scope crossfades lattice detail by fathom (lod 4, 2, 1, 0). Set by the dial, not by evidence.</td></tr>
+<tr><td>Fidelity gauge</td><td><span class="pill green">MECHANISM</span></td><td>ygate.ts renderResolution SHARP, DEGRADED, GRAIN, MOIRE per receipt. Not shown in the HUD.</td></tr>
+<tr><td>Conviction gauge</td><td><span class="pill green">MECHANISM</span></td><td>NCI per receipt (model-scored) in the compass. HUD row is &#x27;No signal&#x27; (null by design).</td></tr>
+<tr><td>Clarity gauge</td><td><span class="pill green">MECHANISM</span></td><td>Two computations: compass lens nci_by_lens.clarity (model-scored, 0 to 20); HUD nodes_clear over nodes (repo count).</td></tr>
+<tr><td>Coherence gauge</td><td><span class="pill green">MECHANISM</span></td><td>Compass coherence_pct (model-scored); HUD diamonds and mean hardness (repo count). Same word, different quantity.</td></tr>
+<tr><td>Consonance gauge</td><td><span class="pill green">MECHANISM (repo-level)</span></td><td>HUD counts empirical invariants against all invariants (4 of 16). Nothing in the compass computes it. The candidate meaning, agreement between internal and external sides, is not implemented.</td></tr>
+<tr><td>Internal and external side at each level</td><td><span class="pill red">UNBUILT</span></td><td>Internal side exists (model-scored lenses, lattice counts). External side exists only as Outcome.matched on closed receipts: 2 of 247 closed at the last count in AGENTS.md. Not yet drawable.</td></tr>
+<tr><td>Can the HUD show &#x27;less certain here&#x27; at depth?</td><td>Answer</td><td>Not today: fog is a dial. Yes after D4: per-node grain from evidence, plus gauge rows that show n. Cost: one build-time script and one lookup in Scope; no new data source.</td></tr>
+</table></div></section>
+<section class="panel" id="gauges"><div class="section-label">§ Measurable definitions for the five gauges</div>
+<p class="muted">Open point for Zach: clarity and consonance overlap with coherence. Each definition below is computable from data that exists or is named.</p>
+<div class="tw" tabindex="0"><table><tr><th>Gauge</th><th>Proposed definition</th><th>Source</th><th>Verdict</th></tr>
+<tr><td>Fidelity</td><td>renderResolution of the receipt; for a lattice node, the grain from evidence (D4)</td><td>ygate.ts; universe-field.json</td><td>Keep</td></tr>
+<tr><td>Conviction</td><td>NCI of the receipt (model-scored honest confidence)</td><td>compass route; Receipt</td><td>Keep, show n</td></tr>
+<tr><td>Clarity</td><td>Question level: nci_by_lens.clarity. Lattice level: share of nodes with shore_open = 0</td><td>compass; universe-field.json</td><td>Keep, one name per level</td></tr>
+<tr><td>Coherence</td><td>Agreement of Y-gate polarity across repeated asks of the same question. Needs a repeat protocol that does not exist yet; until then retire coherence_pct as a separate gauge</td><td>none yet</td><td>Merge into clarity until a repeat protocol exists</td></tr>
+<tr><td>Consonance</td><td>Gap between mean NCI and matched-outcome rate on closed receipts, per cohort, only at n of 30 or more (the Accountant&#x27;s rule). Below that, show GRAIN with n</td><td>operators/arcs_accountant.py</td><td>Keep, redefine; the echo detector does not feed it</td></tr>
+</table></div></section>
+<section class="panel" id="lima"><div class="section-label">§ Design crit: simulated Lima lens (not Manuel Lima&#x27;s view)</div>
+<p class="muted">Built from general practice in network and hierarchy visualization: pick a layout that matches the structure, reduce hairballs, one visual channel per meaning, legible labels. No quote and no statement is attributed to him. Nothing was sent to him or anyone. Every finding is a simulated lens finding, ranked.</p>
+<div class="tw" tabindex="0"><table><tr><th>Rank</th><th>HUD element</th><th>Problem</th><th>Change</th><th>Check (bad fails, good passes)</th></tr>
+<tr><td>1</td><td>Ziggurat terraces (default five tiers)</td><td>A tree-shaped container (tiers, now/next/later) is laid over a lattice that is a network: 81 nodes, 119 edges, 77% of edges cross domains. The shape implies hierarchy; the data is a web. Simulated lens, not Manuel Lima&#x27;s view.</td><td>Add a flat node-link or adjacency view toggle; keep the terrace as the optional altitude view.</td><td>Bad: a fixture lattice whose edges all cross strata must show every edge in the flat view. Good: edges drawn = edges in universe-field.json (119). Whether coarse fathoms draw edges at all is unconfirmed.</td></tr>
+<tr><td>2</td><td>Colour of waypoints and terrace walls</td><td>Green means &#x27;Now&#x27; on waypoints (TIER_COLOR.now = signal.green) and &#x27;gate pass&#x27; on walls (GATE_COLOR.pass = signal.green). Two meanings, one channel. Simulated lens, not Manuel Lima&#x27;s view.</td><td>Move tier to shape or ring style; reserve green for gate state.</td><td>Mechanizable: assert TIER_COLOR and GATE_COLOR values share no colour. Bad: today&#x27;s tables fail. Good: disjoint sets pass.</td></tr>
+<tr><td>3</td><td>Ripple moire</td><td>Decorative texture styled as measurement; every source rings alike, so overlap cannot be read as anything. Simulated lens, not Manuel Lima&#x27;s view.</td><td>Keep as ambience but label it (D2); put real overlap in the echo overlap strip (C1).</td><td>Bad: ripples with shuffled sources look the same, so they carry no signal. Good: the strip goes flat on shuffled data.</td></tr>
+<tr><td>4</td><td>Gauge rows (Clarity, Coherence, Consonance)</td><td>Mixed units on one list (&#x27;53/81 clear · 2652 fog&#x27;), no n on some rows, no uncertainty mark. Simulated lens, not Manuel Lima&#x27;s view.</td><td>Each row: value, n, and a grain marker when n is under the threshold.</td><td>Mechanizable: every row renders an n. Bad: current rows without n fail. Good: rows with n and marker pass.</td></tr>
+<tr><td>5</td><td>Canvas labels</td><td>Five canvas text sites in Scope.tsx draw below 11px (lines 763, 823, 831 and 950 at 9px; 947 at 10px), including the north marker. The 11px floor is this proposal&#x27;s own. Simulated lens, not Manuel Lima&#x27;s view.</td><td>Raise canvas label sizes to 11px or more, scaled with the field.</td><td>Mechanizable: grep canvas font sizes; fail under 11px.</td></tr>
+<tr><td>6</td><td>Depth dial</td><td>One dial mixes camera height and detail, so a viewer cannot tell &#x27;farther&#x27; from &#x27;less known&#x27;. Simulated lens, not Manuel Lima&#x27;s view.</td><td>Split: camera stays; a separate evidence grain (D4) carries certainty.</td><td>Bad: two nodes with 0 and 20 evidence render the same grain. Good: they differ monotonically.</td></tr>
+</table></div></section>
+<section class="panel" id="controls"><div class="section-label">§ Proposed controls and how we will know each works</div>
+<p class="muted">Each control is a guess until its test runs. A test has a known-bad case that must fail and a known-good case that must pass.</p>
+<div class="ctl"><h2 class="h3"><span class="did">C1</span>Echo overlap strip <span class="pill gold">proposed</span></h2><p>Two stripe families, one per domain. Stripe spacing comes from that domain&#x27;s concept strength for the matched pattern. The strip shows a beat (the moire) with amplitude equal to the match similarity, only for matches that survive the template control. With none, it draws flat lines and the words &#x27;0 real echoes&#x27;.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>Pre-registered known-bad, two fixtures: (a) the word-scrambled controls from echo_ridgeline_feed.py (seed 27, 5 runs) and (b) the shared-template fixture (13 verbatim lines in 2 or more domains). Both must render beat amplitude exactly 0.</div><div class="good"><b class="muted">Must pass</b><br>Pre-registered known-good, SYNTHETIC and labelled so: two short domain texts that state the ratchet_irreversibility structure with disjoint vocabulary and no shared lines, same seed. Must render amplitude equal to the detector&#x27;s similarity within 0.000001 and beat spacing equal to the absolute difference of the two stripe spacings. No real known-good exists yet, because real_echoes_after_template_control is 0.</div></div><p class="muted" style="margin-top:8px">Test status: specified; fixtures named, thresholds fixed here before any build · line: amplitude 0 on bad, match similarity on good (tolerance 1e-6)</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">C2</span>Per-node grain from evidence <span class="pill gold">proposed</span></h2><p>Each lattice node is drawn with grain 1 minus min(1, evidence / 10), evidence = files plus commits in the last 28 days. Zoomed in on a thin node, you see less certainty, not invented detail.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>A node with 0 files and 0 recent commits drawn at full sharpness fails.</div><div class="good"><b class="muted">Must pass</b><br>Grain is monotone non-increasing in evidence across all 81 nodes; node zp (0 files) is at maximum grain.</div></div><p class="muted" style="margin-top:8px">Test status: specified · line: 0 monotonicity violations across 81 nodes</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">C3</span>Colour channel check <span class="pill gold">proposed</span></h2><p>A test asserts that tier colours and gate colours in Scope.tsx share no value.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>Today&#x27;s constants (TIER_COLOR.now and GATE_COLOR.pass are both signal.green) must fail.</div><div class="good"><b class="muted">Must pass</b><br>After the change, disjoint colour sets pass.</div></div><p class="muted" style="margin-top:8px">Test status: specified; fails today · line: 0 shared colours</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">C4</span>Gauge rows carry n <span class="pill gold">proposed</span></h2><p>Every gauge row in ScopeHud prints its sample size and shows a grain marker below the threshold.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>A render of today&#x27;s Clarity row without n fails.</div><div class="good"><b class="muted">Must pass</b><br>A row with n and marker passes; consonance with 2 closed receipts shows GRAIN.</div></div><p class="muted" style="margin-top:8px">Test status: specified · line: n shown on 5 of 5 rows</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">C5</span>Canvas label floor <span class="pill gold">proposed</span></h2><p>Grep fails the build if any canvas font in Scope.tsx is smaller than 11px.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>The five sub-11px sites fail today (lines 763, 823, 831, 947, 950).</div><div class="good"><b class="muted">Must pass</b><br>11px or larger passes.</div></div><p class="muted" style="margin-top:8px">Test status: specified; fails today · line: minimum 11px</p></div>
+</section>
+<section class="panel" id="glossary"><div class="section-label">§ Glossary</div><dl><dt>Moire</dt><dd>The pattern that appears where two regular patterns overlap at slightly different spacing. It belongs to neither layer alone.</dd><dt>Orthogonal echo</dt><dd>The same shape of behaviour showing up in two unrelated domains, found by comparing structure, not shared words.</dd><dt>Template control</dt><dd>A check that drops lines repeated word for word in two or more domains, so boilerplate cannot pass as a real echo. On 2026-09-27 both detectors found 0 real echoes after it.</dd><dt>Fathom</dt><dd>One of seven depth steps in the HUD, from orbit (F1) down to grain (F7).</dd><dt>Earned fidelity</dt><dd>Showing detail only as sharp as the evidence deserves.</dd><dt>Y-gate</dt><dd>The step that grades how sure an answer is from the answer itself.</dd><dt>MOIRE render state</dt><dd>The Y-gate&#x27;s rendering for the PARADOX state: reduced weight and an interference overlay.</dd></dl></section>
+<section class="panel" id="files"><div class="section-label">§ Every file this rests on</div><ul><li><code>src/app/hud/page.tsx</code></li><li><code>src/app/hud/HudClient.tsx</code></li><li><code>src/organisms/Scope.tsx</code></li><li><code>src/organisms/ScopeHud.tsx</code></li><li><code>src/data/universe-field.json</code></li><li><code>src/lib/ygate.ts</code></li><li><code>src/app/api/compass/route.ts</code></li><li><code>operators/arcs_inchworm_echo.py</code></li><li><code>operators/arcs_echo_embedding.py</code></li><li><code>scripts/echo_ridgeline_feed.py</code></li><li><code>_STATE/2026-09-27-echo-signature-before-after.json</code></li><li><code>runtime/specs/surface-catalog.json</code></li><li><code>WORLD.md</code></li><li><code>DESIGN.md</code></li><li><code>AGENTS.md</code></li><li><code>_PROPOSALS/prop-2026-10-15-hud-moire-audit.json</code> (source of this page)</li></ul></section>
+<footer>Source: _PROPOSALS/prop-2026-10-15-hud-moire-audit.json · sources: src/app/hud/page.tsx, src/app/hud/HudClient.tsx, src/organisms/Scope.tsx, src/organisms/ScopeHud.tsx, src/data/universe-field.json, src/lib/ygate.ts, src/app/api/compass/route.ts, operators/arcs_inchworm_echo.py, operators/arcs_echo_embedding.py, scripts/echo_ridgeline_feed.py, _STATE/2026-09-27-echo-signature-before-after.json, runtime/specs/surface-catalog.json, WORLD.md, DESIGN.md, AGENTS.md · the machine layer is the JSON block in this page (id arcs-proposal)</footer>
+</main>
+<script type="application/json" id="arcs-proposal">
+{
+ "id": "prop-2026-10-15-hud-moire-audit",
+ "title": "HUD moire audit",
+ "date": "2026-10-15",
+ "status": "PROPOSAL",
+ "tone": "gold",
+ "worktree": "optimistic-neumann-071530",
+ "base": "main@af988087",
+ "one_line": "The HUD already draws a moire, but it is made from product roadmap dots, not from echo data. This page says what runs, what is only a picture, and the smallest honest visual that would show real overlap.",
+ "bottom_line": [
+  {
+   "label": "What is on screen",
+   "text": "arcs.care/hud (checked live: arcs.care redirects to www.arcs.care/hud, which serves 'ARCS · Field HUD') is src/organisms/Scope.tsx pinned full screen. Its interference rings are real drawing code, but the ring sources are 11 hard-coded product waypoints plus the navigator. No echo, receipt or Y-gate value feeds them."
+  },
+  {
+   "label": "What runs underneath",
+   "text": "The orthogonal echo detector, the embedding signature and the MOIRE render state all exist. The embedding module has a --self-test that I could not run here (no operators/.venv in this worktree), so 'runs' rests on the 2026-09-27 run record. The 2026-09-27 run found 0 real echoes once the shared-template control removed boilerplate. Cascade as an event, phase-shift events and vector collision have no running code (vector collision is listed as not built in CLAUDE.md)."
+  },
+  {
+   "label": "Smallest honest step",
+   "text": "One echo overlap strip: two stripe families whose spacing comes from each domain's concept strengths. It shows a beat only where a match survives the template control, and shows flat lines with the words '0 real echoes' otherwise. Today that means flat."
+  }
+ ],
+ "decisions": [
+  {
+   "id": "D1",
+   "question": "Build the echo overlap strip, admin-only first?",
+   "recommended": "Yes. Build-time JSON from the existing detector, drawn in the HUD side panel behind the same admin check the ziggurat loader uses. Public only after one real echo survives the template control.",
+   "options": [
+    "approve admin-only",
+    "approve public",
+    "hold"
+   ],
+   "why": "A moire drawn from nothing is what the brand promise refuses. Showing flat lines honestly is the feature."
+  },
+  {
+   "id": "D2",
+   "question": "Label the current waypoint ripples as illustrative?",
+   "recommended": "Yes. One line in the HUD panel: 'Ripples mark roadmap waypoints, not data.' Costs nothing and stops the existing moire being read as evidence.",
+   "options": [
+    "label it",
+    "leave as is"
+   ],
+   "why": "The ripples are the HUD's only texture and they look like measurement."
+  },
+  {
+   "id": "D3",
+   "question": "Merge the clarity and coherence gauges at the question level?",
+   "recommended": "Yes. Keep the clarity lens (nci_by_lens.clarity) and retire coherence_pct as a separate gauge; keep HUD coherence as a lattice property under its own name. Define consonance as the gap between stated confidence and closed outcomes (the Accountant already computes calibration at n of 30 or more per cohort).",
+   "options": [
+    "merge",
+    "keep five",
+    "revise"
+   ],
+   "why": "The compass prompt describes both as 'well-formed' and 'answerable'. The HUD uses the same words for different repo-level counts."
+  },
+  {
+   "id": "D4",
+   "question": "Drive per-node grain from evidence counts?",
+   "recommended": "Yes, as a second step. Node uncertainty = 1 minus min(1, evidence / 10), evidence = mapped files + commits in the last 28 days, both already in universe-field.json.",
+   "options": [
+    "approve",
+    "hold"
+   ],
+   "why": "This is how zoom shows less certainty where little is known, using data that exists, instead of a fog slider."
+  },
+  {
+   "id": "D5",
+   "question": "Fix the L3 label drift?",
+   "recommended": "Yes. CLAUDE.md says L3 is cascade. The compass prompt (route.ts) runs L3 as the Kintsugi immune check. Pick one and make the other match.",
+   "options": [
+    "fix CLAUDE.md",
+    "rename the prompt layer",
+    "hold"
+   ],
+   "why": "Anyone building a cascade visual from the L3 label would draw something the pipeline does not compute."
+  }
+ ],
+ "heuristics": {
+  "human": [
+   "Read the short version, then the mechanism map. A green MECHANISM pill has code behind it; a gold METAPHOR pill is a picture only.",
+   "If a visual cannot go flat when the data is empty, it is decoration. Ask what the HUD shows on 0 echoes.",
+   "The Lima review is a simulated lens built from general network and hierarchy design practice. It is not his view and nothing was sent to him.",
+   "Approve D2 and D5 even if you hold the rest. They cost nothing and remove two misreadings."
+  ],
+  "agent": [
+   "No production change from this proposal. Any build needs an approval recorded against its decision id.",
+   "Claim only what runs: grep for the symbol before labelling it MECHANISM. 'phase shift' returned zero code hits on 2026-10-15.",
+   "Fixtures are pre-registered here before any build. Do not tune a threshold after seeing a run.",
+   "Do not touch _STATE/job-search/ or any VICO file. Run scripts/page_gate.py on any rendered page; em-dashes stay at 0.",
+   "scripts/proposal_render.py in this worktree is a copy of the relaxed-merkle-130db6 renderer plus one generic 'tables' section; drop the copy when that one merges."
+  ]
+ },
+ "tables": [
+  {
+   "id": "mechanisms",
+   "title": "Mechanism map: what runs and what is a picture",
+   "intro": "MECHANISM means code that executes and produces the value. METAPHOR means the name or picture has no computation behind it. UNBUILT means named in canon with no code.",
+   "columns": [
+    "Thing",
+    "Where",
+    "Label",
+    "What actually runs"
+   ],
+   "rows": [
+    [
+     "HUD page, route and host",
+     "src/app/hud/page.tsx; surface-catalog lists app.arcs.care /hud; no rewrite or proxy rule for it",
+     "MECHANISM",
+     "Live check 2026-10-15: arcs.care answers 308 to www.arcs.care/hud; app.arcs.care/hud and www.arcs.care/hud answer 200 with title 'ARCS · Field HUD'. The ziggurat loader inside it is admin-only."
+    ],
+    [
+     "Ripple interference (moire) in the HUD",
+     "src/organisms/Scope.tsx, droplet loop near line 730",
+     "MECHANISM",
+     "Canvas rings from each source cross and interfere; spacing widens with fog. The drawing runs."
+    ],
+    [
+     "Ripple sources",
+     "Scope.tsx WAYPOINTS (11 entries) plus navigator",
+     "METAPHOR",
+     "Positions come from hard-coded tier and angle numbers. No echo, receipt or gate value is read, so the moire carries no data."
+    ],
+    [
+     "Fog",
+     "HudClient.tsx useState(0.35); Scope setVis and Alt-scroll",
+     "METAPHOR",
+     "A constant or a user dial. It is not computed from how many receipts or files support what you see."
+    ],
+    [
+     "Fathoms F1 to F7 (depth dial)",
+     "Scope.tsx FATHOMS",
+     "MECHANISM",
+     "One dial sets camera and resolution crossfade. It is not tied to the L0 to L7 stack."
+    ],
+    [
+     "Lattice hop state (open, obscured, blocked)",
+     "Scope.tsx holds(); universe-field.json status and shore_open",
+     "MECHANISM",
+     "Real rule: gate nodes block; nodes with open shore questions obscure when fog is above 0.5."
+    ],
+    [
+     "Orthogonal echo detector",
+     "operators/arcs_inchworm_echo.py OrthogonalEchoDetector",
+     "MECHANISM",
+     "Compares concept strengths per domain pair; returns EchoMatch with similarity, evidence and pattern name."
+    ],
+    [
+     "Embedding signature for the detector",
+     "operators/arcs_echo_embedding.py",
+     "MECHANISM",
+     "Local embeddings; orthogonality = 1 minus cosine of domain text vectors. Needs the declared embeddings extra."
+    ],
+    [
+     "Echo ridgeline feed, dither and controls",
+     "scripts/echo_ridgeline_feed.py; _STATE/2026-09-27-echo-signature-before-after.json",
+     "MECHANISM",
+     "2026-09-27, seed 27: keyword signature 0 matches, scrambled-control false-positive proxy 0.8. Embedding signature 3 baseline matches, proxy 0.0, but real_echoes_after_template_control = 0 for both. Claimable: the detector runs and its controls work. Not claimable: that any real echo exists."
+    ],
+    [
+     "MOIRE render state",
+     "src/lib/ygate.ts line 204 (PARADOX gives MOIRE); src/ui/tokens.ts",
+     "MECHANISM",
+     "Computed per receipt. Used on /recoil/close, the design test page and AhmedOrder. Not used by the HUD."
+    ],
+    [
+     "Paradox condition",
+     "ygate.ts: viable === 2 and nci below 60",
+     "MECHANISM",
+     "Narrow rule: two paths, low coherence. A question-level state, not an overlap of two domains."
+    ],
+    [
+     "L3 in the compass pipeline",
+     "src/app/api/compass/route.ts prompt line 69",
+     "MECHANISM",
+     "L3 runs as the Kintsugi immune check (false-premise and overconfidence signals), asked inside one model call. It is not a cascade."
+    ],
+    [
+     "Cascade as an event",
+     "threshold_cascade pattern in the echo library",
+     "MECHANISM",
+     "Only a text pattern the detector looks for (words like chain reaction, avalanche). No code simulates or detects a cascade in receipts or the lattice."
+    ],
+    [
+     "Phase-shift events",
+     "none",
+     "UNBUILT",
+     "Zero code hits for phase shift in ts, tsx, py, json. WORLD.md gas, liquid, solid, superionic phases are naming only."
+    ],
+    [
+     "Drift state",
+     "ygate.ts driftState: LOCKED, ON_TRACK, DRIFTING (session version 5 or more)",
+     "MECHANISM",
+     "The closest running thing to a regime change, but it keys on session count, not on a measured shift."
+    ],
+    [
+     "Y-state change between receipt versions",
+     "Receipt Y-gate fields plus parent link",
+     "MECHANISM",
+     "Data exists per receipt; no code computes the transition. Derivable, not derived. Unconfirmed that parent chains are populated enough to plot."
+    ],
+    [
+     "Vector collision",
+     "CLAUDE.md 'What's NOT built yet'",
+     "UNBUILT",
+     "Listed as the Python Vector Collision microservice, not built."
+    ]
+   ]
+  },
+  {
+   "id": "gaps",
+   "title": "Gaps between the HUD and the mechanisms",
+   "intro": "Each row is something a viewer could reasonably believe from the HUD, and what the code does.",
+   "columns": [
+    "Gap",
+    "HUD shows",
+    "Mechanism computes",
+    "Size"
+   ],
+   "rows": [
+    [
+     "G1 Moire without data",
+     "Interference rings across the terrain",
+     "Echo similarity per domain pair exists in the detector but never reaches the HUD",
+     "Large"
+    ],
+    [
+     "G2 Fog is not evidence",
+     "Fog thins as you lean in",
+     "Evidence counts per node exist (files, commits in 28 days, shore_open) and are unused for fog",
+     "Large"
+    ],
+    [
+     "G3 Cascade and phase shift",
+     "Nothing, but the brief implies them",
+     "No code. Only the text pattern threshold_cascade and the drift counter exist",
+     "Naming gap"
+    ],
+    [
+     "G4 MOIRE state unused",
+     "No PARADOX or MOIRE cue",
+     "ygate.ts computes MOIRE per receipt",
+     "Medium"
+    ],
+    [
+     "G5 Conviction row",
+     "'No signal'",
+     "universe-field.json says the Y-gate spread lives in the prod Receipt table and is not read. Per AGENTS.md prod held 267 receipts on 2026-10-06 (real 0, test 189, untagged 78)",
+     "Honest today; would mislead if filled from test rows"
+    ],
+    [
+     "G6 Gauge names collide",
+     "Clarity, Coherence, Consonance as repo counts (53 of 81 nodes clear; 3 diamonds; 4 empirical of 16 invariants)",
+     "The compass uses clarity and coherence as model-scored numbers about one question",
+     "Definition gap"
+    ],
+    [
+     "G7 Public sees a sketch",
+     "Default five-terrace ziggurat",
+     "The real atlas tiers load only for admins",
+     "Framing gap"
+    ]
+   ]
+  },
+  {
+   "id": "zoom",
+   "title": "Zoom model tested against the HUD",
+   "intro": "Three zoom dials (depth, altitude, resolution) and five gauges (fidelity, coherence, conviction, clarity, consonance). WORLD.md rule: render at earned fidelity only, so zooming must show less certainty where little is known, never invented detail.",
+   "columns": [
+    "Element",
+    "Label",
+    "Evidence and what it would take"
+   ],
+   "rows": [
+    [
+     "Depth dial, L0 to L7",
+     "METAPHOR",
+     "HUD fathoms F1 to F7 are camera steps. The compass runs L0 to L5 inside one prompt. L6 to L7 are not built. No link between the two today."
+    ],
+    [
+     "Altitude (skim, scan, trenches)",
+     "METAPHOR",
+     "Closest running thing: fathom names and the Chronicle books (executive to surgical). A label set, not a computed level."
+    ],
+    [
+     "Resolution dial",
+     "MECHANISM",
+     "Scope crossfades lattice detail by fathom (lod 4, 2, 1, 0). Set by the dial, not by evidence."
+    ],
+    [
+     "Fidelity gauge",
+     "MECHANISM",
+     "ygate.ts renderResolution SHARP, DEGRADED, GRAIN, MOIRE per receipt. Not shown in the HUD."
+    ],
+    [
+     "Conviction gauge",
+     "MECHANISM",
+     "NCI per receipt (model-scored) in the compass. HUD row is 'No signal' (null by design)."
+    ],
+    [
+     "Clarity gauge",
+     "MECHANISM",
+     "Two computations: compass lens nci_by_lens.clarity (model-scored, 0 to 20); HUD nodes_clear over nodes (repo count)."
+    ],
+    [
+     "Coherence gauge",
+     "MECHANISM",
+     "Compass coherence_pct (model-scored); HUD diamonds and mean hardness (repo count). Same word, different quantity."
+    ],
+    [
+     "Consonance gauge",
+     "MECHANISM (repo-level)",
+     "HUD counts empirical invariants against all invariants (4 of 16). Nothing in the compass computes it. The candidate meaning, agreement between internal and external sides, is not implemented."
+    ],
+    [
+     "Internal and external side at each level",
+     "UNBUILT",
+     "Internal side exists (model-scored lenses, lattice counts). External side exists only as Outcome.matched on closed receipts: 2 of 247 closed at the last count in AGENTS.md. Not yet drawable."
+    ],
+    [
+     "Can the HUD show 'less certain here' at depth?",
+     "Answer",
+     "Not today: fog is a dial. Yes after D4: per-node grain from evidence, plus gauge rows that show n. Cost: one build-time script and one lookup in Scope; no new data source."
+    ]
+   ]
+  },
+  {
+   "id": "gauges",
+   "title": "Measurable definitions for the five gauges",
+   "intro": "Open point for Zach: clarity and consonance overlap with coherence. Each definition below is computable from data that exists or is named.",
+   "columns": [
+    "Gauge",
+    "Proposed definition",
+    "Source",
+    "Verdict"
+   ],
+   "rows": [
+    [
+     "Fidelity",
+     "renderResolution of the receipt; for a lattice node, the grain from evidence (D4)",
+     "ygate.ts; universe-field.json",
+     "Keep"
+    ],
+    [
+     "Conviction",
+     "NCI of the receipt (model-scored honest confidence)",
+     "compass route; Receipt",
+     "Keep, show n"
+    ],
+    [
+     "Clarity",
+     "Question level: nci_by_lens.clarity. Lattice level: share of nodes with shore_open = 0",
+     "compass; universe-field.json",
+     "Keep, one name per level"
+    ],
+    [
+     "Coherence",
+     "Agreement of Y-gate polarity across repeated asks of the same question. Needs a repeat protocol that does not exist yet; until then retire coherence_pct as a separate gauge",
+     "none yet",
+     "Merge into clarity until a repeat protocol exists"
+    ],
+    [
+     "Consonance",
+     "Gap between mean NCI and matched-outcome rate on closed receipts, per cohort, only at n of 30 or more (the Accountant's rule). Below that, show GRAIN with n",
+     "operators/arcs_accountant.py",
+     "Keep, redefine; the echo detector does not feed it"
+    ]
+   ]
+  },
+  {
+   "id": "lima",
+   "title": "Design crit: simulated Lima lens (not Manuel Lima's view)",
+   "intro": "Built from general practice in network and hierarchy visualization: pick a layout that matches the structure, reduce hairballs, one visual channel per meaning, legible labels. No quote and no statement is attributed to him. Nothing was sent to him or anyone. Every finding is a simulated lens finding, ranked.",
+   "columns": [
+    "Rank",
+    "HUD element",
+    "Problem",
+    "Change",
+    "Check (bad fails, good passes)"
+   ],
+   "rows": [
+    [
+     "1",
+     "Ziggurat terraces (default five tiers)",
+     "A tree-shaped container (tiers, now/next/later) is laid over a lattice that is a network: 81 nodes, 119 edges, 77% of edges cross domains. The shape implies hierarchy; the data is a web. Simulated lens, not Manuel Lima's view.",
+     "Add a flat node-link or adjacency view toggle; keep the terrace as the optional altitude view.",
+     "Bad: a fixture lattice whose edges all cross strata must show every edge in the flat view. Good: edges drawn = edges in universe-field.json (119). Whether coarse fathoms draw edges at all is unconfirmed."
+    ],
+    [
+     "2",
+     "Colour of waypoints and terrace walls",
+     "Green means 'Now' on waypoints (TIER_COLOR.now = signal.green) and 'gate pass' on walls (GATE_COLOR.pass = signal.green). Two meanings, one channel. Simulated lens, not Manuel Lima's view.",
+     "Move tier to shape or ring style; reserve green for gate state.",
+     "Mechanizable: assert TIER_COLOR and GATE_COLOR values share no colour. Bad: today's tables fail. Good: disjoint sets pass."
+    ],
+    [
+     "3",
+     "Ripple moire",
+     "Decorative texture styled as measurement; every source rings alike, so overlap cannot be read as anything. Simulated lens, not Manuel Lima's view.",
+     "Keep as ambience but label it (D2); put real overlap in the echo overlap strip (C1).",
+     "Bad: ripples with shuffled sources look the same, so they carry no signal. Good: the strip goes flat on shuffled data."
+    ],
+    [
+     "4",
+     "Gauge rows (Clarity, Coherence, Consonance)",
+     "Mixed units on one list ('53/81 clear · 2652 fog'), no n on some rows, no uncertainty mark. Simulated lens, not Manuel Lima's view.",
+     "Each row: value, n, and a grain marker when n is under the threshold.",
+     "Mechanizable: every row renders an n. Bad: current rows without n fail. Good: rows with n and marker pass."
+    ],
+    [
+     "5",
+     "Canvas labels",
+     "Five canvas text sites in Scope.tsx draw below 11px (lines 763, 823, 831 and 950 at 9px; 947 at 10px), including the north marker. The 11px floor is this proposal's own. Simulated lens, not Manuel Lima's view.",
+     "Raise canvas label sizes to 11px or more, scaled with the field.",
+     "Mechanizable: grep canvas font sizes; fail under 11px."
+    ],
+    [
+     "6",
+     "Depth dial",
+     "One dial mixes camera height and detail, so a viewer cannot tell 'farther' from 'less known'. Simulated lens, not Manuel Lima's view.",
+     "Split: camera stays; a separate evidence grain (D4) carries certainty.",
+     "Bad: two nodes with 0 and 20 evidence render the same grain. Good: they differ monotonically."
+    ]
+   ]
+  }
+ ],
+ "controls": [
+  {
+   "id": "C1",
+   "name": "Echo overlap strip",
+   "plain": "Two stripe families, one per domain. Stripe spacing comes from that domain's concept strength for the matched pattern. The strip shows a beat (the moire) with amplitude equal to the match similarity, only for matches that survive the template control. With none, it draws flat lines and the words '0 real echoes'.",
+   "stage": "proposed",
+   "bad": "Pre-registered known-bad, two fixtures: (a) the word-scrambled controls from echo_ridgeline_feed.py (seed 27, 5 runs) and (b) the shared-template fixture (13 verbatim lines in 2 or more domains). Both must render beat amplitude exactly 0.",
+   "good": "Pre-registered known-good, SYNTHETIC and labelled so: two short domain texts that state the ratchet_irreversibility structure with disjoint vocabulary and no shared lines, same seed. Must render amplitude equal to the detector's similarity within 0.000001 and beat spacing equal to the absolute difference of the two stripe spacings. No real known-good exists yet, because real_echoes_after_template_control is 0.",
+   "assay_ready": "specified; fixtures named, thresholds fixed here before any build",
+   "threshold": "amplitude 0 on bad, match similarity on good (tolerance 1e-6)"
+  },
+  {
+   "id": "C2",
+   "name": "Per-node grain from evidence",
+   "plain": "Each lattice node is drawn with grain 1 minus min(1, evidence / 10), evidence = files plus commits in the last 28 days. Zoomed in on a thin node, you see less certainty, not invented detail.",
+   "stage": "proposed",
+   "bad": "A node with 0 files and 0 recent commits drawn at full sharpness fails.",
+   "good": "Grain is monotone non-increasing in evidence across all 81 nodes; node zp (0 files) is at maximum grain.",
+   "assay_ready": "specified",
+   "threshold": "0 monotonicity violations across 81 nodes"
+  },
+  {
+   "id": "C3",
+   "name": "Colour channel check",
+   "plain": "A test asserts that tier colours and gate colours in Scope.tsx share no value.",
+   "stage": "proposed",
+   "bad": "Today's constants (TIER_COLOR.now and GATE_COLOR.pass are both signal.green) must fail.",
+   "good": "After the change, disjoint colour sets pass.",
+   "assay_ready": "specified; fails today",
+   "threshold": "0 shared colours"
+  },
+  {
+   "id": "C4",
+   "name": "Gauge rows carry n",
+   "plain": "Every gauge row in ScopeHud prints its sample size and shows a grain marker below the threshold.",
+   "stage": "proposed",
+   "bad": "A render of today's Clarity row without n fails.",
+   "good": "A row with n and marker passes; consonance with 2 closed receipts shows GRAIN.",
+   "assay_ready": "specified",
+   "threshold": "n shown on 5 of 5 rows"
+  },
+  {
+   "id": "C5",
+   "name": "Canvas label floor",
+   "plain": "Grep fails the build if any canvas font in Scope.tsx is smaller than 11px.",
+   "stage": "proposed",
+   "bad": "The five sub-11px sites fail today (lines 763, 823, 831, 947, 950).",
+   "good": "11px or larger passes.",
+   "assay_ready": "specified; fails today",
+   "threshold": "minimum 11px"
+  }
+ ],
+ "glossary": [
+  {
+   "term": "Moire",
+   "plain": "The pattern that appears where two regular patterns overlap at slightly different spacing. It belongs to neither layer alone."
+  },
+  {
+   "term": "Orthogonal echo",
+   "plain": "The same shape of behaviour showing up in two unrelated domains, found by comparing structure, not shared words."
+  },
+  {
+   "term": "Template control",
+   "plain": "A check that drops lines repeated word for word in two or more domains, so boilerplate cannot pass as a real echo. On 2026-09-27 both detectors found 0 real echoes after it."
+  },
+  {
+   "term": "Fathom",
+   "plain": "One of seven depth steps in the HUD, from orbit (F1) down to grain (F7)."
+  },
+  {
+   "term": "Earned fidelity",
+   "plain": "Showing detail only as sharp as the evidence deserves."
+  },
+  {
+   "term": "Y-gate",
+   "plain": "The step that grades how sure an answer is from the answer itself."
+  },
+  {
+   "term": "MOIRE render state",
+   "plain": "The Y-gate's rendering for the PARADOX state: reduced weight and an interference overlay."
+  }
+ ],
+ "sources": [
+  "src/app/hud/page.tsx",
+  "src/app/hud/HudClient.tsx",
+  "src/organisms/Scope.tsx",
+  "src/organisms/ScopeHud.tsx",
+  "src/data/universe-field.json",
+  "src/lib/ygate.ts",
+  "src/app/api/compass/route.ts",
+  "operators/arcs_inchworm_echo.py",
+  "operators/arcs_echo_embedding.py",
+  "scripts/echo_ridgeline_feed.py",
+  "_STATE/2026-09-27-echo-signature-before-after.json",
+  "runtime/specs/surface-catalog.json",
+  "WORLD.md",
+  "DESIGN.md",
+  "AGENTS.md"
+ ],
+ "what_unconfirmed": [
+  "Whether coarse fathoms draw lattice edges (finding 1).",
+  "Whether Receipt parent chains are populated enough to plot Y-state changes.",
+  "Prod receipt counts are quoted from AGENTS.md (2026-10-06), not re-queried.",
+  "Whether DESIGN.md or the kit sets the 11px canvas floor; it is the proposal's own floor."
+ ]
+}
+</script></body></html>
