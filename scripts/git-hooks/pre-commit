@@ -1017,6 +1017,17 @@ if [ -n "$seedag" ] && [ -f scripts/agent_seed_gate.py ] && command -v python3 >
     exit 1
   fi
 fi
+# Archive-move gate (2026-10-18): a staged rename or delete must not leave a live citer of the old path.
+# 4983bd57 and c42d4b68 archived four scripts without re-pointing the records that cite them; the integrity
+# gate only reads staged records, so two night-moves digests failed unseen. See scripts/archive_move_gate.py.
+# One-off bypass: ARCHIVE_MOVE_GATE=0 git commit ... (say why in the message). Skips without python3.
+am=$(git diff --cached --name-only --diff-filter=DR 2>/dev/null || true)
+if [ -n "$am" ] && [ "${ARCHIVE_MOVE_GATE:-1}" != "0" ] && [ -f scripts/archive_move_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/archive_move_gate.py --staged; then
+    echo "✖ commit blocked: a moved or deleted file is still cited (see above)." >&2
+    exit 1
+  fi
+fi
 # Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
 # See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
 if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then
