@@ -746,6 +746,15 @@
     ],
     "createdAt": "2026-10-15T20:00:00.000Z",
     "reason": "Generated data graphic, not clip art: the ARCS Mobius strip is a parametric projection and every mark is derived from proverb id, recipe and seed (scripts/tao_print.py)"
+   },
+   {
+    "rule": "design-system-font",
+    "value": "*",
+    "files": [
+     "_ARTIFACTS/tao-print-studio.html"
+    ],
+    "createdAt": "2026-10-17T22:00:00.000Z",
+    "reason": "The studio's Type controls exist to try poster typefaces (Anton, Archivo Black, Bowlby One, Playfair Display, Space Mono) on a print; the faces are user-selectable content of the instrument, not the page's own typography, which stays on the DESIGN.md stack"
    }
   ]
  },
