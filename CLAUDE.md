@@ -124,6 +124,95 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
+# Handoff — v3.138.0 (2026-10-18)
+
+> Three sessions folded here, unrelated to each other. (1) Integrity gate: the foreign-sha lookup was fixed to ignore the hook's GIT_* env vars (#1406, #1408). (2) Sharpness detector and Cyan audit: a stdlib detector with pre-registered beliefs, validated only on planted synthetic images, plus a pre-registered Cyan linking-structure audit that killed the "fractal" claim (#1313 to #1316, handoff #1438). (3) Phosphor: the family audio instrument shipped four PRs (#1428 to #1431) and handed two new tasks to a fresh session, front/back build decoupling and a design-system true-up.
+
+## Goal / true north
+Three goals, one per thread. Integrity gate: keep CLAUDE.md citations verifiable with zero WARN, in the hook and by hand. Sharpness and Cyan: test whether "sharpness must not exceed information content" can be a mechanical detector, and whether the Cyan linking-structure idea survives a pre-registered test. Phosphor: family co-creation instrument with a Kid track and a Parent track, next decouple its build and true up its design system.
+
+## What changed
+- #1406 merged (`b6246512`): molt of the integrity-gate fragment into handoff v3.137.0. Receipt `2026-10-16--handoff-molt-v3.137.0-pr1406--ZH`.
+- #1408 merged (`b51bfa44`) after both checks passed: the foreign-sha lookup in scripts/integrity_gate.py drops GIT_* env vars, because the hook's GIT_DIR overrode `git -C` and read arcs-v9. Receipt `2026-10-16--integrity-gate-hook-git-env-pr1408--ZH`.
+- #1313 merged (`97b31f7c`): sharpness note plus `scripts/sharpness_cutoff.py` round 1; receipt 2026-10-15--unearned-sharpness-detector-pr1313--ZH
+- #1314 merged (`41bc2f0c`): cite ground for the run section; receipt 2026-10-15--sharpness-note-ground-pr1314--ZH
+- #1315 merged (`af669865`): round 2 tests (round trip, noise floor, toy held-out gap) and the evidence image; receipt 2026-10-15--sharpness-cutoff-round2-pr1315--ZH
+- #1316 merged (`fe2a27b0`): Cyan linking-structure audit note; receipt 2026-10-15--cyan-linking-audit-pr1316--ZH
+
+## Current state
+- Detector passes only on planted synthetic images: B1, B3, B4, B5, B7 pass; B2 and B6 fail and are recorded as findings. Real photos, a real JPEG and a true splat scene are untested.
+- Cyan audit: B9 (fractal) killed; B8 and B10 hinge on one unresolved Firmament coding decision. Myst page read only to character 100000 of 152715.
+- Memory `always-nudge-to-close-the-loop-before-opening-new` carries the close-what-you-can and auto-merge-lane rules.
+
+## Decisions made
+- Strip GIT_* for the one sibling-repo subprocess only, so the rest of the gate keeps the hook's index view.
+- Close mechanical loose ends before reporting; ask only for decisions (Zach, 2026-10-15).
+- Docs-only PRs that pass gates go through the auto-merge lane via scripts/ship_docs.sh; native GitHub auto-merge stays off (no required checks on this plan).
+- Merge the code PR 1315 on Zach's explicit go.
+- Dissent on record: disagreed that the real-time polygon engine was the 1993 unlock (it was precomputation plus CD storage); disagreed that violent games are established as the cause of consequence decoupling (contested research, not shown); disagreed that the Myst thread was pure distraction (it produced the image-sourcing rules in the detector chip). Zach's own corrections (close loops, auto-merge lane, split the PR) were adopted.
+
+## Open decisions (waiting on Zach)
+1. Zach: whether to write the evidence-image sourcing rules as their own pattern note (currently carried by the detector chip).
+
+## Open (other)
+1. Add the gate's foreign-sha cases (found, typo, unnamed hex, repo not cloned, GIT_DIR set) to a test file; still run by hand.
+2. Front/back decoupling: today one hand-edited 280 KB HTML. Candidate: source partials (CSS tokens, engine JS, UI) built into the single file by a small stdlib script, so the cap and token gates run on the output. Adopt-vs-build lens: `runtime/specs/phosphor-adopt-vs-build.md`. No new dependency without Zach's approval.
+3. Design system true-up: kit at `src/ui-kit/recoil-report/_tokens.css` (inline verbatim, sentinel header kept, `token_source_gate.py`), DESIGN.md radii 3/6/10/16, type ramp 0.6875/0.925/1.15rem. Backlog rows: `design-system-trueup-claude-design-magic-patterns` (Material/MUI reference only; a new dep needs approval), `phosphor-heading-light-rays` (HOLDING). Needs: atomic primitives, composition rules, state matrix (rest/hover/press/focus/disabled/locked), motion guide (durations, easing, reduced-motion, the kintsugi design-debt bans on glow shadows and wide blur), tracking and rendering notes, light design.
+4. Kid pad bank in the dock tray (`phosphor-pad-block-banks`, unblocked), conventional DJ deck layout (CSS regrid, keep ids dbplay/dbcue/dbsync/mxla/mxx/mxlb), mini draggable widget, `phosphor-parent-kid-access` (awaiting Zach: per-child profiles/time limits or parent passkey first), key bindings (which variable Ctrl +/- sweeps; suggest effect wet amount), `phosphor-consonance-shavasana` (after the tempo map).
+5. Owed: decision receipts for PRs #1422 to #1431 (Supabase `decision_receipt`, project xbbpiryokswwvcrcutge; use the lock: dry run, canary, review, batch); results sections for prereg amendments 31 and 32; reword the Gold Coast true-up row (reference only); hosting on an arcs subdomain (needs Zach's go and subdomain choice; kid-safety gating first).
+6. Environment: `gold` and `fx` audio checks read silence since the last resume, identical on merged HEAD (not a regression, undiagnosed). Known failing: sing S2, slice S4. `keys`/`quick` flake under load.
+7. Chip task_e7f44e5c: test the detector on a real dated image pair, resolve B6.
+8. Chip task_9720aca5: resolve the Firmament coding, read the rest of the Myst page, test B11.
+
+## Next action
+Check the two started chips for results and fold their outputs into the two notes.
+
+## Cold-start recipe
+Read `_PATTERNS/2026-10-15-unearned-sharpness-detector.md` and `_PATTERNS/2026-10-15-cyan-linking-structure-audit.md`; run `python3 scripts/sharpness_cutoff.py --self-test` (exit 0 expected); chips task_e7f44e5c and task_9720aca5 run in their own sessions. Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261016T144544Z--claude-handoff-gate-hook-env.md
+> Molted the integrity-gate fragment into v3.137.0, then fixed the gate's foreign-sha lookup reading the wrong repo inside the pre-commit hook.
+
+### Notes: lead of 20261017T190000Z--claude-phosphor-cold-molt.md
+# Phosphor cold molt, 2026-10-17
+
+### Notes: lead of 20261017T225105Z--claude-handoff-sharpness-cyan.md
+> Built and merged a stdlib unearned-sharpness detector with pre-registered beliefs, then audited whether Cyan's games are fractal or only repeated; both ended mostly in findings of limits, and two chips carry the open work.
+
+> ### Shavasana — handoff pause, 2026-10-17 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> 
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-sharpness-cyan), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 5 / dissent 0 (ratio 5.0) → RETURN: agreement with no dissent on record.
+> - **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> 
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Sycophancy RETURN stands and this handoff ships anyway: the check counts dissent markers in the day's records (0), not prose. Real dissent in the transcript is listed under Decisions.
+> - Attachment release: every claim kept; each cites a PR, merge sha or receipt id. The four merged PRs were each read back from GitHub and Vercel status. Somatic: not asked. Disposition: release.
+
+### Notes: Do NOT redo
+Wide frame, hide bump, Eject lock, Song/Sing switch, dock, Impeccable install (project copy done; Codex/Cursor/user-level held), TypeSafe skill (decided not for Phosphor).
+
+### Notes: Tools, skills, memory to load in the new session
+- Skills: `impeccable` (project copy in the project skills folder, user-level 4.0.0; run `impeccable context` once), `token-savings-bank` before fan-out, `witness`, `artifact-design`.
+- Memory slugs: `single-file-artifacts-inherit-tokens-never-copy`, `arcs-fieldos-design-system`, `design-full-width-lede-matches-heading`, `run-the-repos-own-gates-before-shipping`, `preview-serves-root-branch-trap`, `when-to-teleport-to-terminal-vs-agents`.
+- Docs: `PRODUCT.md` (Phosphor section), `DESIGN.md`, `_PATTERNS/arcs-artifact-css-base.css`, `runtime/specs/phosphor-adopt-vs-build.md`, prereg file above.
+- Gates: `page_gate.py --matrix full`, `token_source_gate.py`, `component_source_gate`, kintsugi design-debt, `artifact_wrap_lint.py`, `card_gutter_check.mjs`.
+- Tests: 38 phosphor check scripts under scripts/ (named phosphor, then the check, ending .mjs); run ONE process at a time, no `timeout` on macOS; fixtures `python3 scripts/beat_truth_tracks.py <dir>` then PHOSPHOR_FILES=break-100.wav (mixer: break-100.wav,break-120.wav) for bars/dock/gate/glitchoff/pins/mixer; exclude slice, twin, sing.
+- Ship: `scripts/ship_docs.sh "<title>" "<body>"` (clean tracked tree; move the untracked 2026-10-15 witness file under _STATE aside), merges with `--merge`. Republish the artifact with `Artifact publish url=https://claude.ai/code/artifact/5a1e7b86-43c1-4d04-95c8-ae79282b7869 file_path=<phosphor.html>`.
+- Comment threads awaiting Zach: 2786a303 (parent-kid-access), 8688ee2f (key bindings).
+
+- Design vibe (Zach, 2026-10-17): cypherpunk plus vintage electronic. Wants many controller types; backlog row `phosphor-controller-zoo` (one control model, many skins).
+
+> Molted from `_HANDOFFS/fragments/20261016T144544Z--claude-handoff-gate-hook-env.md` (branch `claude/handoff-gate-hook-env`, head `b51bfa44`); `_HANDOFFS/fragments/20261017T190000Z--claude-phosphor-cold-molt.md` (branch `?`, head `?`); `_HANDOFFS/fragments/20261017T225105Z--claude-handoff-sharpness-cyan.md` (branch `claude/handoff-sharpness-cyan`, head `ed906257`).
+
 # Handoff — v3.137.0 (2026-10-16)
 
 > > Molted the take-home gauntlet fragment into v3.134.0 and cleared the CLAUDE.md integrity-gate warning by teaching the gate to verify cited shas in named sibling repos.
@@ -174,39 +263,3 @@ _This block asserts nothing new. Counts, paths, and questions only._
 Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
 
 > Molted from `_HANDOFFS/fragments/20261016T135237Z--claude-handoff-integrity-gate.md` (branch `claude/handoff-integrity-gate`, head `94a90803`).
-
-# Handoff — v3.136.0 (2026-10-15)
-
-## Goal / true north
-Land the monday FDE take-home and bank what it taught.
-
-## What changed
-- #1339 merged: night moves 2026-10-14 (monday take-home submitted as rc46; K71 to K79 hardening; cold run from the ZIP; live board tidy).
-- Take-home submitted: ret-rfp-intelligence rc46 (4.22 MB, tag rc46-2026-10-14 in that repo); rc43 carried the last full release check and a live end-to-end run from inside the ZIP.
-- Post-mortem pass 1 (extraction): 192 mistake rows, 134 belief rows in falsification-ledger schema, 38 session rows, a T0-to-rc46 timeline, in the local untracked ret-postmortem-raw-2026-10-15 folder under _STATE.
-
-## Current state
-Take-home submitted and frozen until the panel. Live boards on the assessment account: public links off, Welcome doc trimmed, scorecard synced. Post-mortem waiting on pass 2.
-
-## Decisions made
-- Post-mortem outputs live in arcs-v9, never in the take-home repo (its leak check bans ARCS vocabulary; frozen until the panel).
-- Belief-ledger rows are proposed to Zach before any write-locked append; publishing to status.arcs.care/beliefs stays Zach's call.
-- rc33's 10.45 MB was a control that held (size cap), not a crisis.
-
-## Open decisions (waiting on Zach)
-None.
-
-## Open (other)
-1. Post-mortem pass 2 (recoil report, mistake savings bank, six simulated P0 incidents, phase 2 backlog, ledger rows F43+).
-2. Enterprise access landed on the zachharriss-team account, not the assessment account.
-3. Stashes tagged wt-flightlog-dupes-* in the take-home repo (duplicates of lines on main; safe to drop).
-
-## Next action
-Resume post-mortem pass 2 from the RESUME note in the ret-postmortem-raw-2026-10-15 folder under _STATE.
-
-## Cold-start recipe
-Read the RESUME note in the local ret-postmortem-raw-2026-10-15 folder under _STATE; it lists the inputs, the eight pass 2 steps and the constraints.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-> Molted from `_HANDOFFS/fragments/20261015T210121Z--claude-suspicious-austin-8898c4.md` (branch `claude/suspicious-austin-8898c4`, head `c7260eb9`).
