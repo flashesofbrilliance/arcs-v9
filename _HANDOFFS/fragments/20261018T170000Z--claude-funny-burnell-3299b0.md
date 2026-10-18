@@ -24,3 +24,6 @@ f. The Vico onepager is Tier 2 (contains a formula): not to be sent before a mut
 
 ## Next action
 Zach reviews the draft PR and says go; the merge needs `gh pr merge --merge` plus one decision_receipt row.
+
+## ERRATUM (2026-10-18, appended; the text above is left as written)
+Item (a) is closed and was wrong. Zach already sent the bundle email to George on 2026-10-16 14:25 UTC (new thread 1a1451af4dc0d68e, to george@scout-global.com, about 1.2 MB). The earlier note checked only the old thread 1a135e43497f691a, which holds George's Oct 13 reply. Verified from Gmail thread metadata (SENT label, sizeEstimate 1255580). A Mixmax reminder fired 2026-10-18 14:23 UTC; no reply from George seen. Open for Zach instead: wait for the reply, then close the loop and have the Accountant score the prediction. The merge receipt 2026-10-17--scout-wonderful-bundle-pr1442--ZH carries the same wrong "unsent" line; it was not edited, Zach decides how to correct it.
