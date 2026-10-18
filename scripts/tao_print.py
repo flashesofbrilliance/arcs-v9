@@ -59,7 +59,7 @@ def project(u, v, ph):
     return 50 + x1 * sc, 46 + y1 * sc, z2
 
 
-def facets():
+def facets(ph=PHASE):
     """Depth-sorted flat facets of the strip. Each carries its face (the sign of its screen area flips as the
     strip twists, so the two faces of the Moebius print in different inks) and its band."""
     out = []
@@ -67,15 +67,26 @@ def facets():
     for i in range(NU):
         u0, u1 = 2 * math.pi * i / NU, 2 * math.pi * (i + 1) / NU
         for j in range(NV):
-            q = [project(u0, vs[j], PHASE), project(u1, vs[j], PHASE),
-                 project(u1, vs[j + 1], PHASE), project(u0, vs[j + 1], PHASE)]
+            q = [project(u0, vs[j], ph), project(u1, vs[j], ph),
+                 project(u1, vs[j + 1], ph), project(u0, vs[j + 1], ph)]
             area = sum(q[k][0] * q[(k + 1) % 4][1] - q[(k + 1) % 4][0] * q[k][1] for k in range(4))
             out.append((sum(p[2] for p in q) / 4, area > 0, j, " ".join(f"{p[0]:.1f},{p[1]:.1f}" for p in q), i))
     out.sort(key=lambda t: -t[0])
     return out
 
 
-FACETS = facets()
+_FC = {}
+
+
+def facets_at(ph):
+    if ph not in _FC:
+        _FC[ph] = facets(ph)
+    return _FC[ph]
+
+
+# Permutation table: each repeat is a lawful variant of the same mold (ADR-071: one surface, many views).
+VIEWS = [0.9, 0.1, 1.15, -0.6, 2.2, 0.5, -0.9, 2.6, 0.0]       # strip rotation per repeat
+GROUNDS = [None, 2, None, 3, 0, None, 1, None, 2]            # flat ink ground per repeat (index into PLATES)
 PLATES = ["var(--cyan)", "var(--green)", "var(--gold)", "var(--red)"]   # ink = face * 2 + band parity
 
 
@@ -89,10 +100,14 @@ def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
     plates = [[], [], [], []]
     dropped = 0
     r = rng(pid, seed, "ink", k)
-    for _, face, band, pts, i in FACETS:
-        ink = (2 if face else 0) + (band % 2)
+    ph = VIEWS[k % 9]
+    gnd = GROUNDS[k % 9]
+    for _, face, band, pts, i in facets_at(ph):
+        ink = ((2 if face else 0) + (band % 2) + k) % 4          # ink rotation: which plate prints which face and band
         if swap:
             ink = (ink + 2) % 4
+        if ink == gnd:
+            ink = (ink + 1) % 4
         if r.random() < drop:
             dropped += 1
             continue
@@ -114,10 +129,10 @@ def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
     tf = ' transform="translate(100 0) scale(-1 1)"' if mirror else ""
     return (
         f'<g data-k="{k}" data-reg="{sum(offs)/len(offs):.3f}" data-specks="{ns + dropped}"{tf}>'
-        f'<rect width="100" height="100" fill="var(--bg)"/>'
-        f'<rect y="{HORIZON}" width="100" height="2.4" fill="var(--gold)"/>{gaps}'
-        f'<g style="mix-blend-mode:screen">{"".join(layers)}</g>'
-        f'<g fill="var(--dimmed)">{specks}</g></g>'
+        f'<rect width="100" height="100" fill="{PLATES[gnd] if gnd is not None else "var(--bg)"}"/>'
+        f'<rect y="{HORIZON}" width="100" height="2.4" fill="{"var(--bg)" if gnd is not None else "var(--gold)"}"/>{gaps.replace("var(--bg)", PLATES[gnd]) if gnd is not None else gaps}'
+        f'<g style="mix-blend-mode:{"normal" if gnd is not None else "screen"}">{"".join(layers)}</g>'
+        f'<g fill="{"var(--bg)" if gnd is not None else "var(--dimmed)"}">{specks}</g></g>'
     )
 
 

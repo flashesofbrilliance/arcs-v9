@@ -6,7 +6,9 @@ Status: prototype only. No series minted. Nothing published.
 ## Form, not subject
 Borrowed form: one mold repeated in a grid, flat inks, registration and ink loss drifting across repeats.
 Not used: any crash imagery, any existing artist's work. The subject is a proverb and its source.
-v1 used a flat lemniscate and was wrong. v2 uses the actual ARCS Möbius: the parametric strip, two offset strand families and gold horizon from `_ARTIFACTS/arcs-moire-mobius.html`. v3 (this one) draws the strip as depth-sorted flat facets in the four signal inks, one ink per face and band, so the twist is visible as the face colour flips. Four plates slip apart, ink drops out in patches and the horizon breaks, all scaling with (1 - f) and the repeat index.
+v1 used a flat lemniscate and was wrong. v2 uses the actual ARCS Möbius: the parametric strip, two offset strand families and gold horizon from `_ARTIFACTS/arcs-moire-mobius.html`. v3 drew the strip as depth-sorted flat facets in the four signal inks, one ink per face and band, so the twist is visible as the face colour flips. Four plates slip apart, ink drops out in patches and the horizon breaks, all scaling with (1 - f) and the repeat index.
+
+v4 (permutations, Zach 2026-10-15 "need to be more pronounced"): each of the nine repeats is a lawful variant of the one mold: its own strip rotation, ink rotation (which plate prints which face), and a flat ink ground on five of nine. Degradation by fidelity is layered on top. Caveat: the K3 proxy margin shrank (score 72.9 to 76.0 across f) because flat ground area is constant; rho still passes but the proxy is now weak, and the human ranking matters more.
 
 ## Finding that changes the design
 `runtime/tao/proverbs.json` rows carry id, aspect, verb, source, text, canon_ref. They carry NO NCI and NO Y state.
