@@ -950,7 +950,7 @@ fi
 # public-claim guard (2026-10-17, scope widened 2026-10-18 to the status/chan pages, src/app pages and the trust contract):
 # arcs-v9 is private; resumes/covers/pages must not call its repo or commit trail public. See scripts/public_claim_gate.py.
 if [ -f scripts/public_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then
-  pc=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/*/*resume*' '_ARTIFACTS/*/*cover*' '_ARTIFACTS/*/page.html' 'public/*resume*' 'public/status.html' 'public/chan.html' 'src/app/*page.tsx' '_CANON/trust-contract.md' 2>/dev/null || true)
+  pc=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/*/*resume*' '_ARTIFACTS/*/*cover*' '_ARTIFACTS/*/page.html' 'public/*resume*' 'public/status.html' 'public/chan.html' 'src/app/*page.tsx' 'src/ui/*.tsx' '_CANON/trust-contract.md' ':!src/app/internal/*' 2>/dev/null || true)
   if [ -n "$pc" ]; then
     # shellcheck disable=SC2086
     if ! python3 scripts/public_claim_gate.py $pc >&2; then
