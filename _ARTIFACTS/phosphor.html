@@ -2731,14 +2731,22 @@ function lock(on) { hold.forEach(function (id) { var el = id === "main" ? docume
 cs.hidden = false; lock(true); $("csgo").focus();
 $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) {} cs.hidden = true; lock(false); });
 })();
-var PAD = { open: false, bank: 0, src: [], log: [] }, PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
+var PAD = { open: false, bank: 0, src: [], log: [], held: {}, edit: false, sel: -1, map: {}, key: "phosphor.padmap.v1" }, PADFX = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
+try { PAD.map = JSON.parse(localStorage.getItem(PAD.key) || "{}") || {}; } catch (e) {}
+function padFx(i) { return (PAD.map[PAD.bank] || {})[i] || ""; }
+function padName(k) { var f = PADFX.filter(function (x) { return x[0] === k; })[0]; return f ? f[1] : ""; }
 function padMsg(s) { $("padmsg").textContent = s; }
+function padRelease(i) { var k = PAD.held[i]; if (k) { fxHold(k.k, k.src, false); delete PAD.held[i]; } }
+function padReleaseAll() { Object.keys(PAD.held).forEach(padRelease); }
 function padRefresh() {
 if (!$("padtray") || !$("pbk")) return;
-EA(QA("#pbk .btn"), function (b, i) { var has = !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); });
+EA(QA("#pbk .btn"), function (b, i) { var fx = padFx(i), has = !!fx || !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); b.querySelector("small").textContent = fx ? padName(fx) : String(i + 1); AP(b, PAD.edit && PAD.sel === i); });
+EA(QA("#padpick .btn"), function (b) { AP(b, PAD.sel >= 0 && (b.getAttribute("data-fx") || "") === padFx(PAD.sel)); });
 EA(QA("#pbkb .btn"), function (b, k) { AP(b, k === PAD.bank); b.firstChild.nodeValue = "ABCD"[k] + " " + MX(0, MN(16, SLICES.length - k * 16)); });
 }
 function padHit(i) {
+if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
+var fx = padFx(i); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
 if (!BUF) { padMsg("Load a song first."); return; }
 if (!SLICES.length) { var k, n = 16; for (k = 0; k < n; k++) addSlice(k * DUR / n, (k + 1) * DUR / n); renderSlices(); drawStrip(tnow()); padMsg("The song is chopped into 16 equal parts. Cut your own on the slice strip any time."); }
 var s = SLICES[PAD.bank * 16 + i]; if (!s) return;
@@ -2753,19 +2761,24 @@ if (el) { el.classList.add("hit"); setTimeout(function () { el.classList.remove(
 (function () {
 var tr = $("padtray"), h = '<div class="pbkb" id="pbkb" role="group" aria-label="Banks">', i;
 for (i = 0; i < 4; i++) h += '<button class="btn" type="button" data-bk="' + i + '" aria-pressed="' + (i === 0) + '">' + "ABCD"[i] + " 0</button>";
-h += '</div><div class="pbk" id="pbk">';
+h += '</div><div class="pbkb"><button class="btn" type="button" id="padedit" data-min="4" aria-pressed="false">Edit pads</button></div><div class="pbk" id="pbk">';
 for (i = 0; i < 16; i++) h += '<button class="btn" type="button" data-pk="' + i + '" aria-disabled="true" aria-label="Pad ' + (i + 1) + '">' + "1234QWERASDFZXCV"[i] + "<small>" + (i + 1) + "</small></button>";
-tr.innerHTML = h + '</div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
+tr.innerHTML = h + '</div><div class="pbkb" id="padpick" hidden role="group" aria-label="What the pad does"><button class="btn" type="button" data-fx="">Slice</button>' + PADFX.map(function (f) { return '<button class="btn" type="button" data-fx="' + f[0] + '">' + f[1] + "</button>"; }).join("") + '</div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
 EA(QA("#pbk .btn"), function (b, k) {
 b.addEventListener("pointerdown", function (e) { e.preventDefault(); padHit(k); });
-b.addEventListener("click", function (e) { if (e.detail === 0) padHit(k); });
+["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) { b.addEventListener(ev, function () { padRelease(k); b.classList.remove("hit"); }); });
+b.addEventListener("click", function (e) { if (e.detail === 0) { padHit(k); if (PAD.held[k]) setTimeout(function () { padRelease(k); b.classList.remove("hit"); }, 400); } });
 });
-EA(QA("#pbkb .btn"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
-$("dkpad").addEventListener("click", function () { PAD.open = tr.hidden; tr.hidden = !PAD.open; $("dkpad").setAttribute("aria-expanded", PAD.open ? "true" : "false"); if (PAD.open) { $("fxtray").hidden = true; $("dkfx").setAttribute("aria-expanded", "false"); } padRefresh(); });
+$("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
+EA(QA("#padpick .btn"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.map[PAD.bank] || (PAD.map[PAD.bank] = {}), v = b.getAttribute("data-fx"); if (v) m[PAD.sel] = v; else delete m[PAD.sel]; try { localStorage.setItem(PAD.key, JSON.stringify(PAD.map)); } catch (e) {} padMsg("Pad " + (PAD.sel + 1) + " is now " + (v ? padName(v) : "a slice") + "."); padRefresh(); }); });
+EA(QA("#pbkb .btn[data-bk]"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; PAD.sel = -1; padReleaseAll(); padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
+$("dkpad").addEventListener("click", function () { PAD.open = tr.hidden; tr.hidden = !PAD.open; $("dkpad").setAttribute("aria-expanded", PAD.open ? "true" : "false"); if (!PAD.open) padReleaseAll(); if (PAD.open) { $("fxtray").hidden = true; $("dkfx").setAttribute("aria-expanded", "false"); } padRefresh(); });
 window.addEventListener("keydown", function (e) {
 var i = PADKEYS.indexOf(e.code); if (!PAD.open || i < 0 || e.metaKey || e.ctrlKey || e.altKey || pkTyping(e)) return;
 e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) padHit(i);
 }, true);
+window.addEventListener("keyup", function (e) { var i = PADKEYS.indexOf(e.code); if (i >= 0 && PAD.held[i]) { padRelease(i); var el = QA("#pbk .btn")[i]; if (el) el.classList.remove("hit"); } }, true);
+window.addEventListener("blur", padReleaseAll);
 padRefresh();
 })();
 var ESCT = 0;
