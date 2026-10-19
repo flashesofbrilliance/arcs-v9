@@ -140,7 +140,11 @@
       "Bash(python3 scripts/canon_claims_report.py --self-test)",
       "Bash(python3 scripts/proposal_render.py --self-test)",
       "Bash(python3 scripts/librarian_hook.py --self-test)",
-      "Bash(python3 scripts/handoff_fold.py list *)"
+      "Bash(python3 scripts/handoff_fold.py list *)",
+      "Bash(git worktree add *)",
+      "Bash(git switch -q --detach *)",
+      "Bash(python3 scripts/linkedin_cut.py check)",
+      "Bash(python3 scripts/token_kaizen.py)"
     ],
     "ask": [
       "Bash(git push:*)"
