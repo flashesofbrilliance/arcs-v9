@@ -3,7 +3,7 @@
  "operator": 19,
  "symbol": "Acco",
  "name": "Accountant",
- "generated_at": "2026-10-06T14:24:36+00:00",
+ "generated_at": "2026-10-06T18:13:07+00:00",
  "thresholds": {
   "calibration_min_n": 30
  },
@@ -13,13 +13,15 @@
   "outcomes_joined": 3,
   "cohorts": {
    "anonymous": 48,
-   "founder": 209,
-   "external": 10
+   "test": 189,
+   "external": 10,
+   "founder": 20
   },
   "closed_by_cohort": {
    "anonymous": 0,
-   "founder": 3,
-   "external": 0
+   "test": 2,
+   "external": 0,
+   "founder": 1
   }
  },
  "cohorts": {
@@ -113,46 +115,93 @@
   },
   "founder": {
    "cohort": "founder",
-   "receipts": 209,
-   "receipts_with_horizon": 209,
+   "receipts": 20,
+   "receipts_with_horizon": 20,
    "by_horizon": {
-    "QUARTER": 36,
-    "WEEK": 139,
-    "TODAY": 17,
-    "YEARS": 17
+    "WEEK": 12,
+    "YEARS": 2,
+    "QUARTER": 4,
+    "TODAY": 2
    },
    "by_mode": {
-    "COURT": 73,
-    "PLAN": 127,
-    "QUICKMOVE": 9
+    "PLAN": 10,
+    "COURT": 8,
+    "QUICKMOVE": 2
    },
-   "outcomes_logged": 3,
-   "matched": 2,
+   "outcomes_logged": 1,
+   "matched": 0,
    "unmatched": 1,
    "fate": {
-    "OPEN": 206,
-    "LOGGED": 3,
+    "OPEN": 19,
+    "LOGGED": 1,
     "EXPIRED": "not_computed"
    },
    "drift": {
-    "ON_TRACK": 203,
-    "DRIFTING": 4,
-    "LANDED": 2
+    "ON_TRACK": 19,
+    "DRIFTING": 1,
+    "LANDED": 0
    },
-   "closure_rate": 0.0144,
+   "closure_rate": 0.05,
    "regret_scores": [
-    1,
-    3,
     3
    ],
-   "mean_regret": 2.333,
-   "mean_nci_all": 57.431,
-   "nci_scored": 209,
+   "mean_regret": 3.0,
+   "mean_nci_all": 49.05,
+   "nci_scored": 20,
    "calibration": {
     "sufficiency": "insufficient",
-    "n": 3,
+    "n": 1,
     "threshold": 30,
-    "reason": "n=3 < 30; a curve at this n would be two or three points dressed as a trend",
+    "reason": "n=1 < 30; a curve at this n would be two or three points dressed as a trend",
+    "mean_nci_matched": null,
+    "mean_nci_unmatched": null,
+    "spearman_nci_vs_regret": null,
+    "n_matched": null,
+    "n_unmatched": null
+   },
+   "missing_fields": {}
+  },
+  "test": {
+   "cohort": "test",
+   "receipts": 189,
+   "receipts_with_horizon": 189,
+   "by_horizon": {
+    "QUARTER": 32,
+    "WEEK": 127,
+    "TODAY": 15,
+    "YEARS": 15
+   },
+   "by_mode": {
+    "COURT": 65,
+    "PLAN": 117,
+    "QUICKMOVE": 7
+   },
+   "outcomes_logged": 2,
+   "matched": 2,
+   "unmatched": 0,
+   "fate": {
+    "OPEN": 187,
+    "LOGGED": 2,
+    "EXPIRED": "not_computed"
+   },
+   "drift": {
+    "ON_TRACK": 184,
+    "DRIFTING": 3,
+    "LANDED": 2
+   },
+   "closure_rate": 0.0106,
+   "regret_scores": [
+    1,
+    3
+   ],
+   "mean_regret": 2.0,
+   "mean_nci_all": 58.317,
+   "nci_scored": 189,
+   "calibration": {
+    "sufficiency": "insufficient",
+    "n": 2,
+    "threshold": 30,
+    "reason": "n=2 < 30; a curve at this n would be two or three points dressed as a trend",
     "mean_nci_matched": null,
     "mean_nci_unmatched": null,
     "spearman_nci_vs_regret": null,
@@ -165,8 +214,9 @@
  "sufficiency": "insufficient",
  "refusals": [
   "anonymous: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
-  "founder: calibration refused, n=3 closed positions with nci+outcome < threshold 30",
+  "test: calibration refused, n=2 closed positions with nci+outcome < threshold 30",
   "external: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
+  "founder: calibration refused, n=1 closed positions with nci+outcome < threshold 30",
   "EXPIRED not computed: no expiry rule registered for receipt horizons (fates.json receipt class is soft; Receipt has no status column)."
  ],
  "orphans": {},
@@ -183,8 +233,8 @@
   "source": "runtime/specs/fates.json (class receipt)"
  },
  "provenance": {
-  "source_export": "mcp-19ba8754-b4f4-48bf-af48-1a5034789808-execute_sql-1791296653369.txt",
-  "source_export_sha256": "12e93cf77e48930a41ed4f70515a56b96881d43f2479627cf3f596952f1ab884",
+  "source_export": "mcp-19ba8754-b4f4-48bf-af48-1a5034789808-execute_sql-1791310383336.txt",
+  "source_export_sha256": "247088c321af3ab22ddd93ad45939f81da1ae61b22656f5efe97ffddf8904f4d",
   "source_query": "read-only SELECT on prod Receipt LEFT JOIN User LEFT JOIN Outcome (EXPORT_SQL in operators/prod_receipt_to_accountant.py), via Supabase execute_sql",
   "adapter": "operators/prod_receipt_to_accountant.py",
   "runner": "scripts/accountant_weekly.py",
