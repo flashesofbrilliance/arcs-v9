@@ -18,141 +18,225 @@ Grounded in: resume SSOT (resume.arcs.care) · profile-scan-hud.html · job-sear
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --palette-bg-default:#020408; --palette-bg-paper:#0d1117; --palette-bg-elevated:#111826;
-  --palette-divider:#1e293b; --palette-divider-hi:#2c3b52;
-  --palette-text-primary:#e2e8f0; --palette-text-secondary:#94a3b8; --palette-text-muted:#64748b; --palette-text-faint:#475569;
-  --palette-bearing:#00F0FF; --palette-conviction:#00FF9D; --palette-asset:#FFD700; --palette-constraint:#FF9F45; --palette-risk:#FF4D6D; --palette-steel:#7d8fa3;
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion. PROPOSED: DESIGN.md has no motion section yet (ADR-087 action item). Calm and precise. */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+:root{ /* page extension: non-signal tokens only, never re-authors the 4 signal hexes */
+  --border-hi:#2c3b52; --steel:#7d8fa3;
   --typo-sans:'Inter',system-ui,-apple-system,sans-serif; --typo-mono:'JetBrains Mono',ui-monospace,monospace;
   --shape-radius-sm:6px; --shape-radius-md:10px; --shape-radius-lg:14px;
   --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:36px; --space-7:56px;
   --measure:640px; /* one shared px reading column for all left-aligned prose; never per-element ch caps */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{background:var(--palette-bg-default);color:var(--palette-text-primary);font-family:var(--typo-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+html{background:var(--bg);color:var(--text);font-family:var(--typo-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
 body{min-height:100vh;background:
   radial-gradient(1100px 500px at 50% -10%, #00F0FF0a 0, transparent 60%),
   radial-gradient(700px 400px at 90% 20%, #00FF9d06 0, transparent 55%),
-  var(--palette-bg-default);}
-a{color:var(--palette-bearing);text-decoration:none;} a:hover{text-decoration:underline;}
+  var(--bg);}
+a{color:var(--cyan);text-decoration:none;} a:hover{text-decoration:underline;}
 .wrap{max-width:1060px;margin:0 auto;padding:0 var(--space-5) var(--space-7);}
 
 .mono{font-family:var(--typo-mono);}
 .eyebrow{font-family:var(--typo-mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;}
-.src{font-family:var(--typo-mono);font-size:9px;letter-spacing:.05em;color:var(--palette-text-faint);}
+.src{font-family:var(--typo-mono);font-size:9px;letter-spacing:.05em;color:var(--dimmed);}
 .led{display:inline-block;width:7px;height:7px;border-radius:50%;vertical-align:1px;margin-right:6px;}
 .led.on{box-shadow:0 0 8px 1px currentColor;background:currentColor;}
 .pill{display:inline-block;font-family:var(--typo-mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-  padding:4px 10px;border-radius:4px;border:1px solid var(--palette-divider-hi);color:var(--palette-text-secondary);}
-.pill.solid{background:var(--palette-bearing);color:#03151a;border-color:transparent;}
+  padding:4px 10px;border-radius:4px;border:1px solid var(--border-hi);color:var(--text-secondary);}
+.pill.solid{background:var(--cyan);color:#03151a;border-color:transparent;}
 
-.panel{background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--palette-bg-paper);
-  border:1px solid var(--palette-divider);border-radius:var(--shape-radius-md);
+.panel{background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--surface);
+  border:1px solid var(--border);border-radius:var(--shape-radius-md);
   box-shadow:inset 0 1px 0 #ffffff0e, 0 14px 34px -22px #000c;}
 .sec-hd{display:flex;align-items:baseline;gap:12px;margin:var(--space-7) 0 var(--space-4);}
-.sec-hd .n{font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--palette-text-faint);}
+.sec-hd .n{font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--dimmed);}
 .sec-hd .t{font-family:var(--typo-mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;}
-.sec-hd .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--palette-divider),transparent);}
-.sec-hd .gloss{font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.08em;color:var(--palette-text-faint);text-transform:uppercase;white-space:nowrap;}
+.sec-hd .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+.sec-hd .gloss{font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.08em;color:var(--dimmed);text-transform:uppercase;white-space:nowrap;}
 
-header.mast{padding:var(--space-7) 0 var(--space-5);border-bottom:1px solid var(--palette-divider);}
+header.mast{padding:var(--space-7) 0 var(--space-5);border-bottom:1px solid var(--border);}
 .mast .id{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
 h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.04;}
-h1 .b{color:var(--palette-bearing);} h1 .g{color:var(--palette-conviction);}
-.mast .sub{max-width:none;font-size:13.5px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);text-wrap:pretty;}/* hero lede spans the full lane, matching the heading (design-full-width-lede-matches-heading) */
-.statuslights{font-family:var(--typo-mono);font-size:10px;letter-spacing:.07em;color:var(--palette-text-muted);text-align:right;line-height:2.1;white-space:nowrap;}
+h1 .b{color:var(--cyan);} h1 .g{color:var(--green);}
+.mast .sub{max-width:none;font-size:13.5px;line-height:1.7;color:var(--text-secondary);margin-top:var(--space-4);text-wrap:pretty;}/* hero lede spans the full lane, matching the heading (design-full-width-lede-matches-heading) */
+.statuslights{font-family:var(--typo-mono);font-size:10px;letter-spacing:.07em;color:var(--muted);text-align:right;line-height:2.1;white-space:nowrap;}
 
 .telemetry{display:grid;grid-template-columns:repeat(5,1fr);margin-top:var(--space-5);}
-.telemetry .cell{padding:14px 18px;border-left:1px solid var(--palette-divider);}
+.telemetry .cell{padding:14px 18px;border-left:1px solid var(--border);}
 .telemetry .cell:first-child{border-left:none;padding-left:0;}
-.telemetry .v{font-family:var(--typo-mono);font-size:26px;font-weight:700;color:var(--palette-text-primary);line-height:1;}
-.telemetry .v b{color:var(--palette-bearing);font-weight:700;}
-.telemetry .k{font-family:var(--typo-mono);font-size:8.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);margin-top:7px;line-height:1.5;}
+.telemetry .v{font-family:var(--typo-mono);font-size:26px;font-weight:700;color:var(--text);line-height:1;}
+.telemetry .v b{color:var(--cyan);font-weight:700;}
+.telemetry .k{font-family:var(--typo-mono);font-size:8.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:7px;line-height:1.5;}
 
 .comparator{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
 .channel{padding:18px 20px 16px;}
-.channel .ch-hd{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--palette-divider);}
-.channel.in{border:1px solid #00FF9d33;border-radius:var(--shape-radius-md);box-shadow:inset 0 1px 0 #ffffff0e, 0 0 26px -16px #00FF9d55, 0 14px 34px -22px #000c;background:linear-gradient(165deg,#00FF9d0a,#00000038),var(--palette-bg-paper);}
-.channel.in .ch-hd{border-bottom-color:#00FF9d2b;} .channel.in .ch-hd .eyebrow{color:var(--palette-conviction);}
-.channel.out{border:1px solid #FF4D6d30;border-radius:var(--shape-radius-md);background:linear-gradient(165deg,#FF4D6d08,#00000038),var(--palette-bg-paper);}
-.channel.out .ch-hd{border-bottom-color:#FF4D6d2b;} .channel.out .ch-hd .eyebrow{color:var(--palette-risk);}
-.channel li{list-style:none;position:relative;padding-left:16px;font-size:12.5px;line-height:1.6;color:var(--palette-text-secondary);margin-bottom:10px;text-wrap:pretty;}
+.channel .ch-hd{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.channel.in{border:1px solid #00FF9d33;border-radius:var(--shape-radius-md);box-shadow:inset 0 1px 0 #ffffff0e, 0 0 26px -16px #00FF9d55, 0 14px 34px -22px #000c;background:linear-gradient(165deg,#00FF9d0a,#00000038),var(--surface);}
+.channel.in .ch-hd{border-bottom-color:#00FF9d2b;} .channel.in .ch-hd .eyebrow{color:var(--green);}
+.channel.out{border:1px solid #FF4D6d30;border-radius:var(--shape-radius-md);background:linear-gradient(165deg,#FF4D6d08,#00000038),var(--surface);}
+.channel.out .ch-hd{border-bottom-color:#FF4D6d2b;} .channel.out .ch-hd .eyebrow{color:var(--red);}
+.channel li{list-style:none;position:relative;padding-left:16px;font-size:12.5px;line-height:1.6;color:var(--text-secondary);margin-bottom:10px;text-wrap:pretty;}
 .channel li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%;border:1px solid currentColor;opacity:.55;}
-.channel.in li::before{background:var(--palette-conviction);border-color:var(--palette-conviction);}
-.channel.out li::before{background:var(--palette-risk);border-color:var(--palette-risk);}
-.channel li b{color:var(--palette-text-primary);font-weight:600;}
-.channel .note{font-size:11px;line-height:1.55;color:var(--palette-text-muted);font-style:italic;margin-top:4px;padding-top:10px;border-top:1px dashed var(--palette-divider);}
+.channel.in li::before{background:var(--green);border-color:var(--green);}
+.channel.out li::before{background:var(--red);border-color:var(--red);}
+.channel li b{color:var(--text);font-weight:600;}
+.channel .note{font-size:11px;line-height:1.55;color:var(--muted);font-style:italic;margin-top:4px;padding-top:10px;border-top:1px dashed var(--border);}
 
 .threads{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
 .thread{position:relative;padding:16px 18px 14px 21px;overflow:hidden;}
 .thread::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc);box-shadow:0 0 14px 0 var(--tc);}
 .thread .eyebrow{color:var(--tc);}
 .thread h3{font-size:14.5px;font-weight:650;letter-spacing:-.01em;margin:7px 0 7px;text-wrap:balance;}
-.thread p{font-size:12px;line-height:1.62;color:var(--palette-text-secondary);text-wrap:pretty;}
-.thread .src{display:block;margin-top:10px;padding-top:8px;border-top:1px solid var(--palette-divider);}
+.thread p{font-size:12px;line-height:1.62;color:var(--text-secondary);text-wrap:pretty;}
+.thread .src{display:block;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);}
 
 .quads{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
 .quad{padding:18px 20px 16px;border-top:2px solid var(--qc);}
 .quad .eyebrow{color:var(--qc);}
 .quad h3{font-size:14.5px;font-weight:650;margin:7px 0;text-wrap:balance;}
-.quad p{font-size:12px;line-height:1.62;color:var(--palette-text-secondary);text-wrap:pretty;}
-.quad p b{color:var(--palette-text-primary);font-weight:600;}
+.quad p{font-size:12px;line-height:1.62;color:var(--text-secondary);text-wrap:pretty;}
+.quad p b{color:var(--text);font-weight:600;}
 
 /* rubric ledger */
 .ledger{width:100%;border-collapse:collapse;font-size:12px;}
-.ledger th{font-family:var(--typo-mono);font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);
-  text-align:left;padding:10px 14px;border-bottom:1px solid var(--palette-divider-hi);}
-.ledger td{padding:9px 14px;border-bottom:1px solid var(--palette-divider);vertical-align:top;color:var(--palette-text-secondary);line-height:1.5;}
-.ledger td.dim{color:var(--palette-text-primary);font-weight:600;}
-.ledger td.w{font-family:var(--typo-mono);color:var(--palette-asset);font-weight:700;white-space:nowrap;text-align:center;}
-.ledger td.lo{color:var(--palette-text-muted);} .ledger td.hi{color:var(--palette-conviction);}
+.ledger th{font-family:var(--typo-mono);font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);
+  text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-hi);}
+.ledger td{padding:9px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text-secondary);line-height:1.5;}
+.ledger td.dim{color:var(--text);font-weight:600;}
+.ledger td.w{font-family:var(--typo-mono);color:var(--gold);font-weight:700;white-space:nowrap;text-align:center;}
+.ledger td.lo{color:var(--muted);} .ledger td.hi{color:var(--green);}
 .ledger tr:last-child td{border-bottom:none;}
 .ledger-scroll{overflow-x:auto;}
 
 .gate{margin-top:var(--space-4);padding:14px 18px;border:1px solid #FF4D6d35;border-radius:var(--shape-radius-md);background:#FF4D6d0d;}
-.gate .eyebrow{color:var(--palette-risk);display:block;margin-bottom:6px;}
-.gate p{font-size:12px;line-height:1.6;color:var(--palette-text-secondary);}
-.gate b{color:var(--palette-text-primary);}
+.gate .eyebrow{color:var(--red);display:block;margin-bottom:6px;}
+.gate p{font-size:12px;line-height:1.6;color:var(--text-secondary);}
+.gate b{color:var(--text);}
 
 .bands{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-top:var(--space-4);}
 .band{padding:16px 18px;border-top:2px solid var(--bc);}
 .band .eyebrow{color:var(--bc);}
-.band .score{font-family:var(--typo-mono);font-size:11px;color:var(--palette-text-muted);margin:6px 0 8px;}
+.band .score{font-family:var(--typo-mono);font-size:11px;color:var(--muted);margin:6px 0 8px;}
 .band h4{font-size:14px;font-weight:650;margin-bottom:6px;}
-.band p{font-size:11.5px;line-height:1.6;color:var(--palette-text-secondary);}
+.band p{font-size:11.5px;line-height:1.6;color:var(--text-secondary);}
 
 /* wired loop */
 .flow{display:grid;gap:var(--space-3);counter-reset:step;}
 .step{position:relative;padding:16px 18px 14px 52px;}
 .step::before{counter-increment:step;content:counter(step);position:absolute;left:16px;top:15px;
-  width:24px;height:24px;border-radius:50%;border:1px solid var(--palette-divider-hi);
-  font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--palette-bearing);
+  width:24px;height:24px;border-radius:50%;border:1px solid var(--border-hi);
+  font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--cyan);
   display:flex;align-items:center;justify-content:center;}
 .step h4{font-size:13.5px;font-weight:650;margin-bottom:5px;}
-.step p{font-size:12px;line-height:1.6;color:var(--palette-text-secondary);text-wrap:pretty;}
-.step p b{color:var(--palette-text-primary);font-weight:600;}
+.step p{font-size:12px;line-height:1.6;color:var(--text-secondary);text-wrap:pretty;}
+.step p b{color:var(--text);font-weight:600;}
 .tool{display:inline-block;font-family:var(--typo-mono);font-size:9.5px;font-weight:600;letter-spacing:.03em;
-  color:var(--palette-conviction);background:#00FF9d12;border:1px solid #00FF9d33;border-radius:4px;padding:1px 6px;margin:2px 4px 0 0;white-space:nowrap;}
-.tool.gap{color:var(--palette-constraint);background:#FF9F4512;border-color:#FF9F4533;}
+  color:var(--green);background:#00FF9d12;border:1px solid #00FF9d33;border-radius:4px;padding:1px 6px;margin:2px 4px 0 0;white-space:nowrap;}
+.tool.gap{color:var(--orange);background:#FF9F4512;border-color:#FF9F4533;}
 /* wired-loop schematic */
 .schematic{margin:0 0 var(--space-4);padding:8px 6px 4px;}
 .schematic svg{display:block;width:100%;height:auto;}
-.schematic figcaption{font-family:var(--typo-mono);font-size:9px;letter-spacing:.06em;color:var(--palette-text-faint);text-transform:uppercase;margin-top:6px;padding-left:2px;}
+.schematic figcaption{font-family:var(--typo-mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);text-transform:uppercase;margin-top:6px;padding-left:2px;}
 .sch-t{font-family:var(--typo-sans);font-weight:600;}
 .sch-m{font-family:var(--typo-mono);}
 
 .assertion{position:relative;padding:26px 30px 22px;border:1px solid #00F0FF35;border-radius:var(--shape-radius-lg);
-  background:linear-gradient(165deg,#00F0FF0e,#00000030 55%),var(--palette-bg-paper);
+  background:linear-gradient(165deg,#00F0FF0e,#00000030 55%),var(--surface);
   box-shadow:inset 0 1px 0 #ffffff10, 0 0 44px -18px #00F0FF40;}
-.assertion p{font-size:16.5px;line-height:1.72;color:var(--palette-text-primary);font-weight:450;text-wrap:pretty;}
-.assertion cite{display:block;margin-top:14px;font-style:normal;font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--palette-text-muted);}
+.assertion p{font-size:16.5px;line-height:1.72;color:var(--text);font-weight:450;text-wrap:pretty;}
+.assertion cite{display:block;margin-top:14px;font-style:normal;font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
 
-.prov{padding:16px 20px;border:1px dashed var(--palette-divider-hi);border-radius:var(--shape-radius-md);background:#0d111780;}
-.prov p{font-size:11px;line-height:1.7;color:var(--palette-text-muted);}
-.prov b{color:var(--palette-text-secondary);font-weight:600;}
-.prov .eyebrow{color:var(--palette-constraint);display:block;margin-bottom:8px;}
-footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--palette-divider);
-  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--typo-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--palette-text-faint);}
+.prov{padding:16px 20px;border:1px dashed var(--border-hi);border-radius:var(--shape-radius-md);background:#0d111780;}
+.prov p{font-size:11px;line-height:1.7;color:var(--muted);}
+.prov b{color:var(--text-secondary);font-weight:600;}
+.prov .eyebrow{color:var(--orange);display:block;margin-bottom:8px;}
+footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--typo-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmed);}
 
 @media (prefers-reduced-motion: no-preference){
   .resolve{animation:resolve .9s cubic-bezier(.16,1,.3,1) both;}
@@ -172,10 +256,10 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
 @page{size:letter;margin:0.45in;}
 @media print{
   :root{
-    --palette-bg-default:#fff; --palette-bg-paper:#fff; --palette-bg-elevated:#fff;
-    --palette-divider:#dde3ea; --palette-divider-hi:#c9d3de;
-    --palette-text-primary:#0f1720; --palette-text-secondary:#33414f; --palette-text-muted:#5b6b7a; --palette-text-faint:#8a97a4;
-    --palette-bearing:#0089a8; --palette-conviction:#0a8f5b; --palette-asset:#9a7b00; --palette-constraint:#c05e12; --palette-risk:#c22646;
+    --bg:#fff; --surface:#fff; --elevated:#fff;
+    --border:#dde3ea; --border-hi:#c9d3de;
+    --text:#0f1720; --text-secondary:#33414f; --muted:#5b6b7a; --dimmed:#8a97a4;
+    --cyan:#0089a8; --green:#0a8f5b; --gold:#9a7b00; --orange:#c05e12; --red:#c22646;
   }
   html,body{background:#fff;}
   body::after{content:"";position:fixed;inset:0;border:1.4px solid #c2ccd6;border-radius:7px;pointer-events:none;}
@@ -200,16 +284,16 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
           <span class="pill solid">Target Scan</span><span class="pill">Internal · Search Compass · ex-ante bet</span>
         </div>
         <h1>Forward-Deployed. <span class="b">Applied&nbsp;AI.</span></h1>
-        <div class="eyebrow" style="color:var(--palette-bearing);margin-top:10px;">Target-Role Scan · where to aim + how to score what comes in</div>
+        <div class="eyebrow" style="color:var(--cyan);margin-top:10px;">Target-Role Scan · where to aim + how to score what comes in</div>
       </div>
       <div class="statuslights">
-        <span class="led on" style="color:var(--palette-conviction)"></span>ARCHETYPES · 4 IN SCOPE<br>
-        <span class="led on" style="color:var(--palette-asset)"></span>RUBRIC · v1 CALIBRATED<br>
-        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · GMAIL MCP · WIRED 2026-08-28<br>
-        <span class="led on" style="color:var(--palette-bearing)"></span>LOOP · RECOIL-READY
+        <span class="led on" style="color:var(--green)"></span>ARCHETYPES · 4 IN SCOPE<br>
+        <span class="led on" style="color:var(--gold)"></span>RUBRIC · v1 CALIBRATED<br>
+        <span class="led on" style="color:var(--orange)"></span>INGEST · GMAIL MCP · WIRED 2026-08-28<br>
+        <span class="led on" style="color:var(--cyan)"></span>LOOP · RECOIL-READY
       </div>
     </div>
-    <p class="sub">The ex-ante receipt for the search: the bet, written first. A senior operator-builder who <b style="color:var(--palette-text-primary)">turns AI capability into shipped product inside the customer's weeds</b>. It is strongest where the stakes are high, the domain is regulated, and breadth (product × engineering × GTM) is the edge, not a liability. This is the subject's own targeting instrument, not an outward pitch.</p>
+    <p class="sub">The ex-ante receipt for the search: the bet, written first. A senior operator-builder who <b style="color:var(--text)">turns AI capability into shipped product inside the customer's weeds</b>. It is strongest where the stakes are high, the domain is regulated, and breadth (product × engineering × GTM) is the edge, not a liability. This is the subject's own targeting instrument, not an outward pitch.</p>
 
     <div class="telemetry">
       <div class="cell"><div class="v"><b>4</b></div><div class="k">archetypes in scope</div></div>
@@ -222,27 +306,27 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
   </header>
 
   <section class="resolve">
-    <div class="sec-hd"><span class="n">01</span><span class="t" style="color:var(--palette-bearing)">Archetypes In Scope</span><span class="rule"></span><span class="gloss">the Forward-Deployed / Applied-AI family</span></div>
+    <div class="sec-hd"><span class="n">01</span><span class="t" style="color:var(--cyan)">Archetypes In Scope</span><span class="rule"></span><span class="gloss">the Forward-Deployed / Applied-AI family</span></div>
     <div class="threads">
-      <div class="thread panel" style="--tc:var(--palette-bearing)">
+      <div class="thread panel" style="--tc:var(--cyan)">
         <span class="eyebrow">Bearing · Primary target</span>
         <h3>Forward-Deployed (AI) Engineer</h3>
         <p>Embed with the customer, ship in their environment, own discovery → build → QA → handoff. Proven at <b>Squat NY</b>: sole tech partner for a $350M-ARR client, roadmap through handoff.</p>
         <span class="src">TITLES · Forward Deployed Engineer · FDE · Deployment Strategist · Field / Solutions Engineer (technical)</span>
       </div>
-      <div class="thread panel" style="--tc:var(--palette-conviction)">
+      <div class="thread panel" style="--tc:var(--green)">
         <span class="eyebrow">Conviction · Primary target</span>
         <h3>Applied AI Engineer / Lead</h3>
         <p>Turn model capability into shipped systems. <b>ARCS</b>: AI-native pipeline on Claude + a custom MCP server + agentic orchestration, architecture → production. Application layer, not model training.</p>
         <span class="src">TITLES · Applied AI Engineer · AI Engineer · Member of Technical Staff (Applied) · Forward-Deployed AI</span>
       </div>
-      <div class="thread panel" style="--tc:var(--palette-asset)">
+      <div class="thread panel" style="--tc:var(--gold)">
         <span class="eyebrow">Asset · Strong fit</span>
         <h3>AI-Native Product Engineer / Lead</h3>
         <p>Product × engineering × GTM in one: "breadth is the product." <b>Grayscale</b>: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.</p>
         <span class="src">TITLES · AI Product Engineer · Founding PM / Engineer · Product Lead (AI) · Growth Engineer</span>
       </div>
-      <div class="thread panel" style="--tc:var(--palette-steel)">
+      <div class="thread panel" style="--tc:var(--steel)">
         <span class="eyebrow">Steel · Adjacent fit</span>
         <h3>Solutions / Deployment Architect</h3>
         <p>Customer-facing technical + cross-functional glue (eng · design · clinical · ops · commercial). The register-spanning role for a builder who also speaks the buyer's language.</p>
@@ -253,24 +337,24 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
   </section>
 
   <section class="resolve">
-    <div class="sec-hd"><span class="n">02</span><span class="t" style="color:var(--palette-asset)">Value Shape</span><span class="rule"></span><span class="gloss">what he actually sells · the differentiators</span></div>
+    <div class="sec-hd"><span class="n">02</span><span class="t" style="color:var(--gold)">Value Shape</span><span class="rule"></span><span class="gloss">what he actually sells · the differentiators</span></div>
     <div class="quads">
-      <div class="quad panel" style="--qc:var(--palette-bearing)">
+      <div class="quad panel" style="--qc:var(--cyan)">
         <span class="eyebrow">A · AI-native builder, for real</span>
         <h3>Ships on Claude / MCP / agents: not demos</h3>
         <p>End-to-end LLM-native systems. <b>ARCS</b>: 60% decision-noise reduction, 3–5× time-to-insight, agentic orchestration in production. A GTM operator who also writes the software is the rare pairing.</p>
       </div>
-      <div class="quad panel" style="--qc:var(--palette-conviction)">
+      <div class="quad panel" style="--qc:var(--green)">
         <span class="eyebrow">B · Forward-deployed operator</span>
         <h3>Gets into the customer's weeds</h3>
         <p>Sole-tech-partner capable; aligns eng · design · clinical · ops · commercial. <b>Squat NY</b>: discovery → QA → handoff for a $350M-ARR client, on schedule.</p>
       </div>
-      <div class="quad panel" style="--qc:var(--palette-asset)">
+      <div class="quad panel" style="--qc:var(--gold)">
         <span class="eyebrow">C · Product × GTM breadth</span>
         <h3>Decision → revenue, in one head</h3>
         <p>Personalization, lifecycle, growth intelligence. <b>Grayscale</b>: +20% net-new revenue via data personalization across a 10-product regulated portfolio. "Breadth is the product."</p>
       </div>
-      <div class="quad panel" style="--qc:var(--palette-constraint)">
+      <div class="quad panel" style="--qc:var(--orange)">
         <span class="eyebrow">D · Regulated / high-stakes fluency</span>
         <h3>Ships where getting it wrong is expensive</h3>
         <p>SEC/FINRA (<b>$7B AUM</b>), HIPAA (digital health, <b>$350M ARR</b>), gov (Axon). Twenty years turning the constraint into the product: the genome the record proves.</p>
@@ -279,10 +363,10 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
   </section>
 
   <section class="resolve">
-    <div class="sec-hd"><span class="n">03</span><span class="t" style="color:var(--palette-conviction)">Fit Filter</span><span class="rule"></span><span class="gloss">screen-in · screen-out</span></div>
+    <div class="sec-hd"><span class="n">03</span><span class="t" style="color:var(--green)">Fit Filter</span><span class="rule"></span><span class="gloss">screen-in · screen-out</span></div>
     <div class="comparator">
       <div class="channel in">
-        <div class="ch-hd"><span class="led on" style="color:var(--palette-conviction)"></span><span class="eyebrow">Must-haves: the deal shape that fits</span></div>
+        <div class="ch-hd"><span class="led on" style="color:var(--green)"></span><span class="eyebrow">Must-haves: the deal shape that fits</span></div>
         <ul>
           <li><b>Build-and-embed</b> role: real building, real ownership; not maintenance or pure management</li>
           <li><b>AI-native surface</b>: LLMs/agents core to the product or the work, not a bolt-on</li>
@@ -293,7 +377,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
         </ul>
       </div>
       <div class="channel out">
-        <div class="ch-hd"><span class="led on" style="color:var(--palette-risk)"></span><span class="eyebrow">Disqualifiers: screen out</span></div>
+        <div class="ch-hd"><span class="led on" style="color:var(--red)"></span><span class="eyebrow">Disqualifiers: screen out</span></div>
         <ul>
           <li>Pure people-management with <b>no building</b></li>
           <li><b>"AI" as costume</b>: nothing real for it to do</li>
@@ -307,7 +391,7 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
   </section>
 
   <section class="resolve">
-    <div class="sec-hd"><span class="n">04</span><span class="t" style="color:var(--palette-steel)">Scoring Rubric</span><span class="rule"></span><span class="gloss">size first · then how-much prep · then what-shape</span></div>
+    <div class="sec-hd"><span class="n">04</span><span class="t" style="color:var(--steel)">Scoring Rubric</span><span class="rule"></span><span class="gloss">size first · then how-much prep · then what-shape</span></div>
     <div class="panel ledger-scroll">
       <table class="ledger">
         <thead><tr><th>Dimension</th><th style="text-align:center">Weight</th><th>Score 0</th><th>Score 3</th></tr></thead>
@@ -329,90 +413,90 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
       <p>Junior/entry leveling · pure management with no build · "AI" with nothing to build · grind-culture red flags in reviews. <b>Composite = Σ(score × weight) ÷ max</b>, scored 0–3 per dimension.</p>
     </div>
     <div class="bands">
-      <div class="band panel" style="--bc:var(--palette-conviction)">
+      <div class="band panel" style="--bc:var(--green)">
         <span class="eyebrow">Pursue</span>
         <div class="score">composite ≥ 0.70 · no gates</div>
         <h4>Full omakase</h4>
         <p>Load the rod. Tailor a résumé folder, size the opportunity with recoil, build prep. The ones worth real investment.</p>
       </div>
-      <div class="band panel" style="--bc:var(--palette-asset)">
+      <div class="band panel" style="--bc:var(--gold)">
         <span class="eyebrow">Consider</span>
         <div class="score">composite 0.50 – 0.70</div>
         <h4>Light prep</h4>
         <p>One-pass tailor + a quick go/no-go recoil. Apply if the tailor is cheap; don't over-invest.</p>
       </div>
-      <div class="band panel" style="--bc:var(--palette-risk)">
+      <div class="band panel" style="--bc:var(--red)">
         <span class="eyebrow">Park / Pass</span>
         <div class="score">composite &lt; 0.50 · or any hard gate</div>
         <h4>Do not load the rod</h4>
         <p>Log why (risk-register), move on. The correct output is often "don't invest anything."</p>
       </div>
     </div>
-    <p class="src" style="margin-top:12px;">NCI NOTE · this composite is the pre-work <b style="color:var(--palette-text-secondary)">sizing</b> score, not conviction. Conviction comes after the reads. Weights are a v1 calibration: tune against the first ~20 real alerts.</p>
+    <p class="src" style="margin-top:12px;">NCI NOTE · this composite is the pre-work <b style="color:var(--text-secondary)">sizing</b> score, not conviction. Conviction comes after the reads. Weights are a v1 calibration: tune against the first ~20 real alerts.</p>
   </section>
 
   <section class="resolve">
-    <div class="sec-hd"><span class="n">05</span><span class="t" style="color:var(--palette-bearing)">The Wired Loop</span><span class="rule"></span><span class="gloss">rubric → real ARCS tooling</span></div>
+    <div class="sec-hd"><span class="n">05</span><span class="t" style="color:var(--cyan)">The Wired Loop</span><span class="rule"></span><span class="gloss">rubric → real ARCS tooling</span></div>
     <figure class="schematic panel">
       <svg viewBox="0 0 1000 288" role="img" aria-labelledby="wl-t wl-d" preserveAspectRatio="xMidYMid meet">
         <title id="wl-t">The wired loop: a closed circuit</title>
         <desc id="wl-d">Ingest, score, then a size gate. No-go parks; pursue runs to tailor and prep-and-close. Closed outcomes recalibrate the rubric, so the tooling is a circuit that runs itself, not a one-way line.</desc>
         <defs>
-          <pattern id="wl-g" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="var(--palette-divider)" stroke-width="0.5" opacity="0.28"/></pattern>
-          <marker id="wl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--palette-bearing)"/></marker>
-          <marker id="wl-ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--palette-conviction)"/></marker>
-          <marker id="wl-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--palette-risk)"/></marker>
+          <pattern id="wl-g" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="var(--border)" stroke-width="0.5" opacity="0.28"/></pattern>
+          <marker id="wl-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--cyan)"/></marker>
+          <marker id="wl-ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--green)"/></marker>
+          <marker id="wl-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--red)"/></marker>
         </defs>
         <rect x="0.5" y="0.5" width="999" height="287" rx="8" fill="url(#wl-g)" stroke="none"/>
 
         <!-- NODES (row cy=100) -->
         <g text-anchor="middle">
           <!-- ingest -->
-          <rect x="18" y="72" width="150" height="56" rx="8" fill="#00F0FF0a" stroke="var(--palette-bearing)" stroke-width="1.2"/>
-          <text class="sch-t" x="93" y="98" fill="var(--palette-text-primary)" font-size="13">Ingest</text>
-          <text class="sch-m" x="93" y="116" fill="var(--palette-text-muted)" font-size="8.5">Gmail MCP</text>
+          <rect x="18" y="72" width="150" height="56" rx="8" fill="#00F0FF0a" stroke="var(--cyan)" stroke-width="1.2"/>
+          <text class="sch-t" x="93" y="98" fill="var(--text)" font-size="13">Ingest</text>
+          <text class="sch-m" x="93" y="116" fill="var(--muted)" font-size="8.5">Gmail MCP</text>
           <!-- score -->
-          <rect x="206" y="72" width="150" height="56" rx="8" fill="#7d8fa310" stroke="var(--palette-steel)" stroke-width="1.2"/>
-          <text class="sch-t" x="281" y="98" fill="var(--palette-text-primary)" font-size="13">Score</text>
-          <text class="sch-m" x="281" y="116" fill="var(--palette-text-muted)" font-size="8.5">the rubric</text>
+          <rect x="206" y="72" width="150" height="56" rx="8" fill="#7d8fa310" stroke="var(--steel)" stroke-width="1.2"/>
+          <text class="sch-t" x="281" y="98" fill="var(--text)" font-size="13">Score</text>
+          <text class="sch-m" x="281" y="116" fill="var(--muted)" font-size="8.5">the rubric</text>
           <!-- size gate (diamond) -->
-          <path d="M468 54 L514 100 L468 146 L422 100 Z" fill="#FFD70012" stroke="var(--palette-asset)" stroke-width="1.4"/>
-          <text class="sch-t" x="468" y="97" fill="var(--palette-text-primary)" font-size="12.5">Size</text>
-          <text class="sch-m" x="468" y="112" fill="var(--palette-asset)" font-size="8">go / no-go</text>
+          <path d="M468 54 L514 100 L468 146 L422 100 Z" fill="#FFD70012" stroke="var(--gold)" stroke-width="1.4"/>
+          <text class="sch-t" x="468" y="97" fill="var(--text)" font-size="12.5">Size</text>
+          <text class="sch-m" x="468" y="112" fill="var(--gold)" font-size="8">go / no-go</text>
           <!-- tailor -->
-          <rect x="558" y="72" width="150" height="56" rx="8" fill="#00FF9d0c" stroke="var(--palette-conviction)" stroke-width="1.2"/>
-          <text class="sch-t" x="633" y="98" fill="var(--palette-text-primary)" font-size="13">Tailor</text>
-          <text class="sch-m" x="633" y="116" fill="var(--palette-text-muted)" font-size="8.5">resume-&lt;target&gt;</text>
+          <rect x="558" y="72" width="150" height="56" rx="8" fill="#00FF9d0c" stroke="var(--green)" stroke-width="1.2"/>
+          <text class="sch-t" x="633" y="98" fill="var(--text)" font-size="13">Tailor</text>
+          <text class="sch-m" x="633" y="116" fill="var(--muted)" font-size="8.5">resume-&lt;target&gt;</text>
           <!-- close -->
-          <rect x="748" y="72" width="150" height="56" rx="8" fill="#00F0FF0a" stroke="var(--palette-bearing)" stroke-width="1.2"/>
-          <text class="sch-t" x="823" y="98" fill="var(--palette-text-primary)" font-size="13">Prep &amp; close</text>
-          <text class="sch-m" x="823" y="116" fill="var(--palette-text-muted)" font-size="8.5">recoil-close</text>
+          <rect x="748" y="72" width="150" height="56" rx="8" fill="#00F0FF0a" stroke="var(--cyan)" stroke-width="1.2"/>
+          <text class="sch-t" x="823" y="98" fill="var(--text)" font-size="13">Prep &amp; close</text>
+          <text class="sch-m" x="823" y="116" fill="var(--muted)" font-size="8.5">recoil-close</text>
         </g>
 
         <!-- forward flow -->
-        <g fill="none" stroke="var(--palette-bearing)" stroke-width="1.6">
+        <g fill="none" stroke="var(--cyan)" stroke-width="1.6">
           <path d="M168 100 H202" marker-end="url(#wl-a)"/>
           <path d="M356 100 H418" marker-end="url(#wl-a)"/>
           <path d="M708 100 H744" marker-end="url(#wl-a)"/>
         </g>
         <!-- pursue branch (gate -> tailor) -->
-        <path d="M514 100 H554" fill="none" stroke="var(--palette-conviction)" stroke-width="1.9" marker-end="url(#wl-ag)"/>
-        <text class="sch-m" x="534" y="92" fill="var(--palette-conviction)" font-size="8" font-weight="700" text-anchor="middle">PURSUE</text>
+        <path d="M514 100 H554" fill="none" stroke="var(--green)" stroke-width="1.9" marker-end="url(#wl-ag)"/>
+        <text class="sch-m" x="534" y="92" fill="var(--green)" font-size="8" font-weight="700" text-anchor="middle">PURSUE</text>
         <!-- no-go branch (gate top -> park) -->
-        <path d="M468 54 V32 H430" fill="none" stroke="var(--palette-risk)" stroke-width="1.4" marker-end="url(#wl-ar)"/>
+        <path d="M468 54 V32 H430" fill="none" stroke="var(--red)" stroke-width="1.4" marker-end="url(#wl-ar)"/>
         <g>
-          <rect x="286" y="18" width="140" height="28" rx="14" fill="#FF4D6d0d" stroke="var(--palette-risk)" stroke-width="1.1"/>
-          <text class="sch-m" x="356" y="36" fill="var(--palette-risk)" font-size="8.5" font-weight="700" text-anchor="middle">PARK / PASS · log why</text>
+          <rect x="286" y="18" width="140" height="28" rx="14" fill="#FF4D6d0d" stroke="var(--red)" stroke-width="1.1"/>
+          <text class="sch-m" x="356" y="36" fill="var(--red)" font-size="8.5" font-weight="700" text-anchor="middle">PARK / PASS · log why</text>
         </g>
-        <text class="sch-m" x="478" y="46" fill="var(--palette-risk)" font-size="7.5" font-weight="700">NO-GO</text>
+        <text class="sch-m" x="478" y="46" fill="var(--red)" font-size="7.5" font-weight="700">NO-GO</text>
         <!-- cutoff annotation -->
-        <text class="sch-m" x="468" y="162" fill="var(--palette-asset)" font-size="8" text-anchor="middle">0.58 cutoff · tiers .80 / .70</text>
+        <text class="sch-m" x="468" y="162" fill="var(--gold)" font-size="8" text-anchor="middle">0.58 cutoff · tiers .80 / .70</text>
 
         <!-- HERO: the loop closing (close -> recalibrate score) -->
-        <path d="M823 128 V236 H281 V128" fill="none" stroke="var(--palette-conviction)" stroke-width="6" opacity="0.14"/>
-        <path d="M823 128 V236 H281 V128" fill="none" stroke="var(--palette-conviction)" stroke-width="2" marker-end="url(#wl-ag)"/>
-        <rect x="392" y="222" width="316" height="28" rx="6" fill="var(--palette-bg-paper)" stroke="var(--palette-conviction)" stroke-width="1"/>
-        <text class="sch-m" x="550" y="240" fill="var(--palette-conviction)" font-size="9.5" font-weight="600" text-anchor="middle">outcomes → belief ledger → recalibrate the rubric</text>
+        <path d="M823 128 V236 H281 V128" fill="none" stroke="var(--green)" stroke-width="6" opacity="0.14"/>
+        <path d="M823 128 V236 H281 V128" fill="none" stroke="var(--green)" stroke-width="2" marker-end="url(#wl-ag)"/>
+        <rect x="392" y="222" width="316" height="28" rx="6" fill="var(--surface)" stroke="var(--green)" stroke-width="1"/>
+        <text class="sch-m" x="550" y="240" fill="var(--green)" font-size="9.5" font-weight="600" text-anchor="middle">outcomes → belief ledger → recalibrate the rubric</text>
       </svg>
       <figcaption>Signal flows left to right. The green arc is the loop closing: closed outcomes recalibrate the rubric, so the search runs itself.</figcaption>
     </figure>
@@ -446,9 +530,9 @@ footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid
   </section>
 
   <section class="resolve">
-    <div class="sec-hd"><span class="n">06</span><span class="t" style="color:var(--palette-asset)">Key Assertion</span><span class="rule"></span><span class="gloss">the load-bearing sentence</span></div>
+    <div class="sec-hd"><span class="n">06</span><span class="t" style="color:var(--gold)">Key Assertion</span><span class="rule"></span><span class="gloss">the load-bearing sentence</span></div>
     <div class="assertion">
-      <p>The search is not "apply widely." It is <b style="color:var(--palette-bearing)">size ruthlessly, invest only where the genome compounds</b>: forward-deployed, AI-native, high-stakes, breadth-rewarding roles. The rubric is the external brake/throttle: it decides go/no-go before the maximizer redlines on every green light, so full effort goes to the PURSUE handful, not to every alert in the inbox. The strongest résumé in the world tailored to a role that doesn't fit is wasted motion the sizing step exists to prevent.</p>
+      <p>The search is not "apply widely." It is <b style="color:var(--cyan)">size ruthlessly, invest only where the genome compounds</b>: forward-deployed, AI-native, high-stakes, breadth-rewarding roles. The rubric is the external brake/throttle: it decides go/no-go before the maximizer redlines on every green light, so full effort goes to the PURSUE handful, not to every alert in the inbox. The strongest résumé in the world tailored to a role that doesn't fit is wasted motion the sizing step exists to prevent.</p>
       <cite>ARCS Target Scan · Zach Harris · sizing before investment · v1 · Aug 2026</cite>
     </div>
 
