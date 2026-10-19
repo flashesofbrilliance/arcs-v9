@@ -416,6 +416,12 @@ def edge_self_test():
                  ("scripts/r.sh", 'echo "run python3 scripts/a.py"', 0),
                  (".claude/commands/c.md", 'Run `python3 scripts/a.py` first.', 1),
                  (".claude/commands/c.md", 'Queue produced by scripts/a.py nightly.', 0)]
+        rt = lambda x: [c for c in ge.ROUTE_SPLIT.split(x) if not ge.ROUTE_HEDGE.search(c) and not ge.ROUTE_TARGET.search(c)]
+        for clause, want_n in (("scripts/a.py", 1), ("NEW scripts/a.py", 0), ("extend scripts/a.py", 0),
+                               ("scripts/a.py format", 0), ("pattern scripts/a.py", 0), ("np.polyfit (a.py:136)", 0)):
+            n = len(rt(clause))
+            print(f"route.tool clause {clause!r}: {'ok' if n == want_n else 'WRONG'}")
+            ok &= n == want_n
         for f, line, want_n in cases:
             n = len(ge.run_paths(line, f, rr))
             good_case = n == want_n
