@@ -158,8 +158,10 @@ def env_hard(L, i, form):
 
 # round 9 exhaustive: a row sentence that names a path as an analogy, as history, or as a caller of the job
 ROW_NOT_USED = re.compile(r"\bsame\s+(lesson|shape|invariant|idea|pattern|pitfall)\s+as\b|\bsuperseded\b|\bremoved\b|"
-                          r"\bnow exists\b|\breplaced by\b|\binstead of\b|\bcalls? (it|this)\b|\bwill call\b", re.I)
-SENTENCE = re.compile(r"(?<=[.!?;])\s+|\s+\|\|\s+|\\n")
+                          r"\bnow exists\b|\breplaced by\b|\bcalls? (it|this)\b|\bwill call\b", re.I)
+# round 10: "instead of" describes the change a job makes, not a tool it skips; and a trigger must not drop a
+# whole JSON field, so fields split too
+SENTENCE = re.compile(r"(?<=[.!?;])\s+|\s+\|\|\s+|\\n|\",\s*\"")
 
 
 def row_sentences(text):

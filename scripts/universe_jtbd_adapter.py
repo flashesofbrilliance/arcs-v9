@@ -451,7 +451,9 @@ def edge_self_test():
             ok &= got == want
         for txt, want in (("Run scripts/a.py --check first.", 1), ("Same lesson as the /rca capture step.", 0),
                           ("x was superseded by scripts/a.py.", 0), ("Removed: 11 cites whose target now exists (a.py).", 0),
-                          ("/prior-art and /catalog call it.", 0), ("Uses a.py. Same shape as b.py.", 1)):
+                          ("/prior-art and /catalog call it.", 0), ("Uses a.py. Same shape as b.py.", 1),
+                          ("scripts/a.py fills x instead of leaving it empty", 1),
+                          ('{"jtbd": "edit scripts/a.py", "note": "superseded old flow"}', 1)):
             got = len([x for x in ge.SENTENCE.split(ge.row_sentences(txt)) if "a.py" in x or "rca" in x or "catalog" in x])
             print(f"row-cite sentence {txt[:40]!r}: {'ok' if got == want else 'WRONG'}")
             ok &= got == want
