@@ -28,7 +28,7 @@ Control tower: session infallible-mirzakhani-f58a2a (branch claude/tower-decisio
 
 | # | Finding | Ask |
 |---|---|---|
-| D1 | Local branch `claude/recursing-brattain-190758`: 6 commits never pushed (brand: identity-origami, composite-identity map, five-fathom resume sounding, provenance chip, attraction rules, plus a wip-preserve commit). Its worktree is gone. | Push and open a PR, bundle to the archive, or compost |
+| D1 | RULED 2026-10-19 by Zach in the tower: push and park. `claude/recursing-brattain-190758` pushed (fast-forward, 6 commits), no PR; backlog row identity-arcs-care-attraction-rules-parked (HOLDING). |
 | D2 | `feat/audit-service`: 15 commits on origin not on main, last touched 2026-09-07 | Salvage or close |
 | D3 | 3 old checkpoint trails (linkedin-alerts-scraper x2, agitated-feynman) have no branch delta left | None: mark claimed |
 | D4 | Main checkout is detached at de463cb6, behind origin/main 69d36e79 (session-start sentry), so new agents and skills do not load | OK to move main to origin/main |
