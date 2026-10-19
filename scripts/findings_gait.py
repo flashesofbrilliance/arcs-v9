@@ -18,14 +18,27 @@ State is folded from events. Stdlib only. Reuses scripts/pulse.py for the beat.
   findings_gait.py status [--json]                phase, open, oldest age, displacement, warnings
   findings_gait.py --self-test                    runs in a throwaway dir, never touches real state
 """
-import argparse, datetime, hashlib, json, os, sys
+import subprocess, argparse, datetime, hashlib, json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import pulse  # noqa: E402
 
 ROOT = pulse.ROOT
-LEDGER = os.environ.get("FINDINGS_LEDGER") or os.path.join(ROOT, "_STATE", "findings.jsonl")
+def _shared_root():
+    """The first entry of `git worktree list` is the main checkout; the ledger lives there (gitignored) so every
+    worktree and session reads and writes the same file. Falls back to this root."""
+    try:
+        out = subprocess.run(["git", "-C", ROOT, "worktree", "list", "--porcelain"], capture_output=True, text=True).stdout
+        first = out.split("\n", 1)[0]
+        if first.startswith("worktree "):
+            return first[len("worktree "):].strip() or ROOT
+    except Exception:
+        pass
+    return ROOT
+
+
+LEDGER = os.environ.get("FINDINGS_LEDGER") or os.path.join(_shared_root(), "_STATE", "findings.jsonl")
 STRETCH_CAP = 10      # advisory only in the loose run
 STRETCH_AGE = 3       # beats
 WINDOW = 7            # beats for displacement
@@ -69,7 +82,12 @@ def fold():
         elif i in st and t == "fate":
             st[i].update(fate={k: ev[k] for k in ("owner", "due", "compost") if k in ev}, fated_beat=ev["beat"])
         elif i in st and t == "close":
-            st[i].update(state="CLOSED", closed_beat=ev["beat"], note=ev.get("note", ""))
+            st[i].update(state="CLOSED", closed_beat=ev["beat"], note=ev.get("note", ""), how=ev.get("how", st[i].get("how", "unspecified")))
+        elif i in st and t == "tag":
+            st[i]["how"] = ev["how"]
+        elif i in st and t == "reopen":
+            st[i].update(state="OPEN", reopens=st[i].get("reopens", 0) + 1, opened_beat=ev["beat"])
+            st[i].pop("fate", None)
     return st
 
 
@@ -112,7 +130,12 @@ def _fp(source, text):
 
 def cmd_open(source, text):
     i = _fp(source, text)
-    if i in fold():
+    cur = fold().get(i)
+    if cur and cur["state"] == "CLOSED":
+        _append({"type": "reopen", "id": i, "beat": _beat(), "ts": _now()})
+        print(f"REOPENED {i}")
+        return i
+    if cur:
         print(f"exists {i}")
         return i
     _append({"type": "open", "id": i, "source": source, "text": text, "beat": _beat(), "ts": _now()})
@@ -220,10 +243,20 @@ def cmd_fate(i, owner=None, due=None, compost=None):
     print(f"fated {i}")
 
 
-def cmd_close(i, note):
-    if i not in fold():
-        sys.exit(f"unknown id {i}")
-    _append({"type": "close", "id": i, "note": note, "beat": _beat(), "ts": _now()})
+HOWS = ("fixed-at-source", "false-positive", "verified", "paper", "compost", "unspecified")
+
+
+def cmd_tag(i, how):
+    if i not in fold() or how not in HOWS:
+        sys.exit(f"unknown id or how; how in {HOWS}")
+    _append({"type": "tag", "id": i, "how": how, "beat": _beat(), "ts": _now()})
+    print(f"tagged {i} {how}")
+
+
+def cmd_close(i, note, how="unspecified"):
+    if i not in fold() or how not in HOWS:
+        sys.exit(f"unknown id or how; how in {HOWS}")
+    _append({"type": "close", "id": i, "note": note, "how": how, "beat": _beat(), "ts": _now()})
     print(f"closed {i}")
 
 
@@ -248,7 +281,25 @@ def status():
     pace = pacing(b, len(open_), closed_since)
     if pace and pace["wall_risk"]:
         warn.append("WALL RISK: past halfway and more than a quarter of the field behind pace. Shorten the stride (close small), do not sprint")
-    return {"pace": pace, "beat": b, "phase": "EXTEND" if b % 2 == 0 else "CONTRACT", "open": len(open_), "unfated": len(unfated),
+    closed_all = [v for v in st.values() if v.get("closed_beat") is not None]
+    ever_closed = len(closed_all) + sum(1 for v in st.values() if v.get("reopens"))
+    reopens = sum(v.get("reopens", 0) for v in st.values())
+    hows = {}
+    for v in st.values():
+        if v["state"] == "CLOSED":
+            hows[v.get("how", "unspecified")] = hows.get(v.get("how", "unspecified"), 0) + 1
+    by_src = {}
+    for v in st.values():
+        a = by_src.setdefault(v["source"], [0, 0])
+        a[0] += 1
+        a[1] += 1 if v.get("how") == "false-positive" else 0
+    metrics = {"closed": sum(hows.values()), "reopens": reopens,
+               "reopen_rate": round(reopens / ever_closed, 2) if ever_closed else None,
+               "fix_at_source_share": round(hows.get("fixed-at-source", 0) / sum(hows.values()), 2) if hows else None,
+               "paper_share": round(hows.get("paper", 0) / sum(hows.values()), 2) if hows else None,
+               "closes_by_how": hows,
+               "false_positive_rate_by_source": {k: {"n": v[0], "fp": v[1], "rate": round(v[1] / v[0], 2)} for k, v in by_src.items()}}
+    return {"metrics": metrics, "pace": pace, "beat": b, "phase": "EXTEND" if b % 2 == 0 else "CONTRACT", "open": len(open_), "unfated": len(unfated),
             "oldest_age": max((b - v["opened_beat"] for v in open_), default=0),
             "opened_window": opened_w, "closed_window": closed_w, "displacement": closed_w - opened_w,
             "window_beats": WINDOW, "warnings": warn, "mode": "LOOSE"}
@@ -265,6 +316,10 @@ def cmd_status(as_json=False):
     if pc:
         ns = pc["next_station"]
         print(f"pace: {int(pc['fraction']*100)}% of race, closed {pc['closed']} vs target {pc['target_closed']} ({pc['gap']:+}); " + (f"next aid station {ns['pct']}% at beat {ns['beat']}" if ns else "past the finish"))
+    m = s["metrics"]
+    if m["closed"] or m["reopens"]:
+        fp = ", ".join(f"{k} {v['fp']}/{v['n']}" for k, v in m["false_positive_rate_by_source"].items())
+        print(f"quality: closed {m['closed']} (fixed-at-source {m['fix_at_source_share']}, paper {m['paper_share']}), reopens {m['reopens']} (rate {m['reopen_rate']}); false positives by source: {fp}")
     for w in s["warnings"]:
         print("  WARN", w)
     if s["phase"] == "CONTRACT":
@@ -305,6 +360,16 @@ def self_test():
     pc = status()["pace"]
     check("plan sets pace and next aid station", pc is not None and pc["next_station"]["pct"] == 25 and pc["wall_risk"] is False)
     check("pacing math: even split, slow first quarter", pacing(_beat(), 1, 0)["target_closed"] == 0.0)
+    r1 = cmd_open("t", "reopen-me")
+    cmd_close(r1, "x", how="false-positive")
+    check("close records how", fold()[r1]["how"] == "false-positive")
+    cmd_open("t", "reopen-me")
+    check("re-detection of a closed finding reopens it", fold()[r1]["state"] == "OPEN" and fold()[r1]["reopens"] == 1)
+    cmd_close(r1, "y", how="fixed-at-source")
+    m = status()["metrics"]
+    check("metrics: reopen rate and fix share", m["reopens"] == 1 and m["reopen_rate"] is not None and m["fix_at_source_share"] is not None)
+    cmd_tag(r1, "paper")
+    check("tag rewrites how without a new close", fold()[r1]["how"] == "paper")
     bad = False
     try:
         cmd_close("nope", "x")
@@ -323,7 +388,8 @@ def main():
     g = sub.add_parser("ingest"); g.add_argument("file", nargs="?"); g.add_argument("--source")
     sub.add_parser("check")
     f = sub.add_parser("fate"); f.add_argument("id"); f.add_argument("--owner"); f.add_argument("--due"); f.add_argument("--compost")
-    c = sub.add_parser("close"); c.add_argument("id"); c.add_argument("--note", default="")
+    c = sub.add_parser("close"); c.add_argument("id"); c.add_argument("--note", default=""); c.add_argument("--how", default="unspecified")
+    tg = sub.add_parser("tag"); tg.add_argument("id"); tg.add_argument("--how", required=True)
     pl = sub.add_parser("plan"); pl.add_argument("--days", required=True)
     s = sub.add_parser("status"); s.add_argument("--json", action="store_true")
     a = ap.parse_args()
@@ -334,7 +400,8 @@ def main():
     elif a.cmd == "check": sys.exit(cmd_check())
     elif a.cmd == "fate": cmd_fate(a.id, a.owner, a.due, a.compost)
     elif a.cmd == "plan": cmd_plan(a.days)
-    elif a.cmd == "close": cmd_close(a.id, a.note)
+    elif a.cmd == "close": cmd_close(a.id, a.note, a.how)
+    elif a.cmd == "tag": cmd_tag(a.id, a.how)
     else: cmd_status(getattr(a, "json", False))
 
 

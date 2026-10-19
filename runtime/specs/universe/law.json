@@ -26,13 +26,14 @@
  "dimensions": {
   "corpus": 0,
   "canon": 0,
-  "codebase": 2,
-  "files": 2
+  "codebase": 3,
+  "files": 3
  },
  "systems": {
-  "operators": 2
+  "operators": 3
  },
  "files": [
+  "operators/arcs_primitives.evidence.jsonl",
   "operators/arcs_primitives.py",
   "operators/arcs_primitives_bridge.py"
  ]

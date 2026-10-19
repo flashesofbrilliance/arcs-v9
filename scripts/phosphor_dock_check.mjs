@@ -7,7 +7,7 @@ import path from 'node:path'
 const { chromium, devices } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], file = (process.env.PHOSPHOR_FILES || '').split(',')[0]
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_dock_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(path.resolve(page)).href, errs = []
 const open = async (q, extra = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 900 }, ...extra }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + q); await pg.waitForTimeout(1000); return pg }
 let pg = await open('?test=1&shutter=off&level=4')
@@ -36,4 +36,4 @@ const p360 = await open('?shutter=off', { ...devices['iPhone 13'], viewport: { w
 // D7 pocket skin look on the same dock
 pg = await open('?shutter=off&skin=pocket'); const d7 = await pg.evaluate(() => ({ n: document.querySelectorAll('#dock').length, bg: getComputedStyle(document.getElementById('dock')).backgroundImage, strip: !!document.getElementById('ledstrip') })); check(d7.n === 1 && /svg|gradient/.test(d7.bg) && d7.strip, 'D7: with the Pocket skin there is still exactly one dock, with the Pocket look, and the LED strip')
 check(errs.length === 0, `D7: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

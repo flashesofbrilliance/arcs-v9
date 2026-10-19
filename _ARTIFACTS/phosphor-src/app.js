@@ -170,7 +170,8 @@
         v = v * mul; if (v > 1) v = 1; else if (v < 0.003) v = 0.003; var c = S.gam[(v * 1024) | 0], o = i * 4; d[o] = d[o + 1] = d[o + 2] = c; d[o + 3] = 255;
       }
     }
-    S.sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(S.sc, 0, 0, Wd, Hd);
+    var sc = g.canvas._sun; if (!sc) { sc = g.canvas._sun = document.createElement("canvas"); sc.width = S.sc.width; sc.height = S.sc.height; } /* per-target scratch: WebKit defers drawImage, a shared one let bar tiles overwrite the main picture */
+    sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(sc, 0, 0, Wd, Hd);
   }
   function scene(g, W, H, t) {
     var fi = fidx(t), i, b, lw = MX(1, H / 360);
@@ -206,7 +207,7 @@
       for (b = 0; b < NB; b++) { var a0 = PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + SIN(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + SIN(a) * (r0 + ln)); } }
       g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * PI); g.stroke(); g.restore();
     } else {
-      var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
+      var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = g.canvas._spec || (g.canvas._spec = document.createElement("canvas")); /* one scratch per target: WebKit defers drawImage, so a shared scratch let bar tiles overwrite the main picture */ img.width = cols; img.height = NB;
       var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
       for (x2 = 0; x2 < cols; x2++) {
         var f2 = MX(0, fi - (cols - 1 - x2));
@@ -224,7 +225,7 @@
   /* Rungs below 144 rows are drawn 4x and averaged down, so a coarse rung is the true low-resolution picture. */
   function drawRung(target, w, h, t) {
     if (h >= 144) { scene(target, w, h, t); return; }
-    var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
+    var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = target.canvas._ss || (target.canvas._ss = document.createElement("canvas")); SS.width = sw; SS.height = sh;
     scene(SS.getContext("2d"), sw, sh, t);
     target.imageSmoothingEnabled = true; target.imageSmoothingQuality = "high"; target.drawImage(SS, 0, 0, w, h);
   }
@@ -276,7 +277,7 @@
   }
 
   /* ---------------- playback: follows the audio clock ---------------- */
-  var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
+  var RENDERMODE = window.name === "phosphor-render", AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
   var RESTORED = false, SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
   /* Output bus: everything the page plays goes through a limiter and a kid volume ceiling (about minus 6 dB), so no effect or layer can be painfully loud. A grown-up can turn it off. */
   var BUSFULL = false;
@@ -292,6 +293,17 @@
   }
   /* effect stages: Distort then Crush, each a dry and effect path crossfaded; a gate (level or beat) can cut the effect path */
   var FXKINDS = ["crush", "dist", "echo", "room", "shim", "sweep"];
+  /* Effect levels: each effect has a level (1 is the old behaviour) held inside grown-up bounds. Every source (slider, MIDI, preset, pad) goes through fxE. */
+  var FXLK = [["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], FXL = {}, FXLKEY = "phosphor.mix.v1";
+  FXLK.forEach(function (k) { FXL[k[0]] = { v: 1, lo: 0, hi: 1 }; });
+  try { var mxs = JSON.parse(localStorage.getItem(FXLKEY) || "{}"); FXLK.forEach(function (k) { var m = mxs[k[0]]; if (m && m.hi >= m.lo) FXL[k[0]] = { v: MN(m.hi, MX(m.lo, +m.v || 0)), lo: +m.lo, hi: +m.hi }; }); } catch (e) { /* storage blocked */ }
+  function fxE(k) { var m = FXL[k]; return m ? MN(m.hi, MX(m.lo, m.v)) : 1; }
+  function fxApply(k) {
+    if (!AC || !AC._fx || !FX[k] || !FX[k].on) return; var e = fxE(k), t = AC.currentTime;
+    if (AC._fx.sends[k]) AC._fx.sends[k].gain.setTargetAtTime(({ echo: 0.7, room: 0.6, shim: 0.8 })[k] * e, t, 0.02);
+    else if (k === "sweep") AC._fx.sweep.frequency.setTargetAtTime(20000 * PW(250 / 20000, e), t, 0.15);
+    else if (FXG.mode === "off") fxWet(k, 1, 0.01);
+  }
   var FX = { crush: { on: false }, dist: { on: false }, echo: { on: false }, room: { on: false }, shim: { on: false }, sweep: { on: false } }, FXG = { mode: "off", thr: -20, div: 4, open: true, depth: 1, lag: 0, hold: false, lastBeat: -1 };
   function fxStage(fxIn, fxOut) {
     var inn = AC.createGain(), out = AC.createGain(), dry = AC.createGain(), wet = AC.createGain();
@@ -322,14 +334,14 @@
     AC._bus = inG; AC._anaIn = aIn; AC._fx = { dist: dist, crush: crush, pre: pre, q: q, sweep: sweepF, sends: { echo: eS, room: rS, shim: sS }, echoDelay: eD, setHold: function (v) { n = MX(1, v | 0); } }; AC._bits = 8;
   }
   function fxParams() { if (!AC || !AC._fx) return; var a = GAMT, bits = MX(2, RD(8 - a * 6)); AC._fx.pre.gain.value = 1 + a * 14; AC._fx.setHold(1 + RD(a * 7)); if (bits !== AC._bits) { AC._bits = bits; AC._fx.q.curve = quantCurve(bits); } }
-  function fxWet(kind, v, tc) { var s = AC._fx[kind], t0 = AC.currentTime; s.wet.gain.setTargetAtTime(v, t0, tc || 0.004); s.dry.gain.setTargetAtTime(1 - v, t0, tc || 0.004); }
+  function fxWet(kind, v, tc) { var s = AC._fx[kind], t0 = AC.currentTime; v *= fxE(kind); s.wet.gain.setTargetAtTime(v, t0, tc || 0.004); s.dry.gain.setTargetAtTime(1 - v, t0, tc || 0.004); }
   function fxTrigger(kind, on) {
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); FX[kind].on = on; fxParams();
     var tt = AC.currentTime;
-    if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] : 0, tt, on ? 0.01 : 0.03); return; }
-    if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 250 : 20000, tt + (on ? 1.2 : 0.35)); return; }
+    if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] * fxE(kind) : 0, tt, on ? 0.01 : 0.03); return; }
+    if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 20000 * PW(250 / 20000, fxE("sweep")) : 20000, tt + (on ? 1.2 : 0.35)); return; }
     if (!on) fxWet(kind, 0, 0.006); else if (FXG.mode === "off") fxWet(kind, 1, 0.003);
-    clearInterval(FXG.timer); if (FX.crush.on || FX.dist.on) FXG.timer = setInterval(fxPump, 25);
+    clearInterval(FXG.timer); if ((FX.crush.on || FX.dist.on) && !RENDERMODE) FXG.timer = setInterval(fxPump, 25);
   }
   function fxEff() { return FXG.hold ? (FXG.mode === "tri" || FXG.mode === "bar" || FXG.mode === "seed" ? FXG.mode : "beat") : FXG.mode; }
   /* The song's own rhythm folded into one sixteen-step bar: a step is open where at least 60 percent of the most common step's onsets fall. */
@@ -350,12 +362,12 @@
       ['crush', 'dist'].forEach(function (k2) { if (FX[k2].on) fxWet(k2, FXG.open ? 1 : 0, FXG.open ? 0.003 : 0.05); });
       return;
     }
-    var P = 60 / (BPM || 120) / FXG.div, ref = (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), bar = 4 * FXG.div, dep = FXG.depth, lag = FXG.lag * P, sw = (SWING - 0.5) * 2 * P, seed = eff === "seed" ? gateSeed() : null;
-    function tj(j) { return ref + j * P + lag + ((((j % 2) + 2) % 2) === 1 ? sw : 0); }
+    var P = 60 / (BPM || 120) / FXG.div, ref = playing ? t0ctx - off0 : 0, bar = 4 * FXG.div, dep = FXG.depth, lag = FXG.lag * P, sw = (SWING - 0.5) * 2 * P, seed = eff === "seed" ? gateSeed() : null;
+    function tj(j) { return ref + stepT(j, FXG.div, "gate") + lag + ((((j % 2) + 2) % 2) === 1 ? sw : 0); }
     function base(j) { var jj = (((j % bar) + bar) % bar); if (eff === "bar") return jj === 0 ? 1 : 0; if (eff === "seed") return seed[FL(jj / bar * 16)] ? 1 : 0; return (((j % 2) + 2) % 2 === 0 ? 1 : 0); }
-    function map(v) { return 1 - dep * (1 - v); }
+    var E = 1; function map(v) { return E * (1 - dep * (1 - v)); }
     ['crush', 'dist'].forEach(function (k2) {
-      if (!FX[k2].on) return; var s = AC._fx[k2], j0 = FL((now - lag - ref) / P), j;
+      if (!FX[k2].on) return; E = fxE(k2); var s = AC._fx[k2], j0 = stepN(now - lag - ref, FXG.div, "gate"), j;
       while (tj(j0 + 1) <= now) j0++; while (tj(j0) > now) j0--;
       s.wet.gain.cancelScheduledValues(now); s.dry.gain.cancelScheduledValues(now);
       if (eff === "tri") {
@@ -372,13 +384,13 @@
   function tnow() { if (SP.on) return spNow(); if (!playing) return tpaused; var x = off0 + (AC.currentTime - t0ctx); return LOOPPLAY ? ((x % DUR) + DUR) % DUR : MN(DUR, x); }
   function chapterAt(t) { var f = t * FPS, k = 0, i; for (i = 0; i < CHAPS.length; i++) if (CHAPS[i] <= f) k = i; return k; }
   function loopRung(t) {
-    var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = (t - (BPM ? GRID0 : 0)) / (P * nb); ph -= FL(ph);
+    var P = 60 / (BPM || 120), nb = 4 * RL.bars, ph = tmapBeat(t) / nb; ph -= FL(ph); STEPUSE.ladder = (STEPUSE.ladder || 0) + 1;
     var b = MN(nb - 1, FL(ph * nb)), u;
     if (RL.dir === "pp") u = 1 - AB(2 * (b + 0.5) / nb - 1); else { u = nb > 1 ? b / (nb - 1) : 1; if (RL.dir === "down") u = 1 - u; }
     return MX(0, MN(8, RD(u * 8)));
   }
   function seqDetailAt(t) {
-    var st = seqStep(), j0 = FL((t - seqBase()) / st), j, v, c;
+    var st = seqStep(), j0 = seqN(t), j, v, c;
     for (j = j0; j > j0 - 17; j--) { if (j < 0) break; c = ((j % 16) + 16) % 16; v = SEQ.cells.detail[c]; if (v && t >= seqFire(j)) return v - 1; }
     return -1;
   }
@@ -512,7 +524,7 @@
   }
   function mixDraw() {
     var cv = $("mxcv"); if (!cv) return; var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 52, half = FL(W / cw / 2), row, j, x, q, cod, set = GLET.dna, i, fr, dn, P, base, pos;
-    g.clearRect(0, 0, W, H); g.font = "600 14px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle"; g.textAlign = "center";
+    g.clearRect(0, 0, W, H); g.font = "600 14px " + css.getPropertyValue("--ds-font-mono").trim(); g.textBaseline = "middle"; g.textAlign = "center";
     for (row = 0; row < 2; row++) {
       if (row === 0) { dn = GNM.dna; P = GNM.P; base = GNM.base; pos = tnow(); } else { dn = DB.dna; P = DB.P / (DB.rate || 1) * (DB.mult || 1) * 0 + dbPe(); base = DB.grid0 % dbPe(); pos = dbPos(); }
       if (!dn) { g.fillStyle = C.dim; g.fillText(row ? "Deck B: no song" : "Deck A: no song", W / 2, row * 40 + 22); continue; }
@@ -564,7 +576,7 @@
     var r = dnaCompute({ bpm: BPM, grid0: GRID0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on });
     /* The song fingerprint must not move when a person corrects the tempo, so it comes from a fixed half-second grid, not the beat grid. */
     var fpd = dnaCompute({ bpm: 0, grid0: 0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on }).dna, fs = fpd.map(function (c) { return c.join(""); }).join("") + "|" + RD(DUR), fh = 2166136261, fi; for (fi = 0; fi < fs.length; fi++) { fh ^= fs.charCodeAt(fi); fh = Math.imul(fh, 16777619) >>> 0; } GNM.fp = fh.toString(16).padStart(8, "0");
-    GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9;
+    GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9; recAct("song", GNM.fp + "|" + RD(DUR));
   }
   function genomeLook() {
     var nfx = 0; ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep"].forEach(function (k) { if (GLITCH[k]) nfx++; }); if (GLITCH.stut) nfx++;
@@ -582,7 +594,7 @@
     if (!GNM.dna) { cv.getContext("2d").clearRect(0, 0, cv.width, cv.height); return; }
     var i = genomeIdx(t); GNM.rna[i] = genomeLook();
     var g = cv.getContext("2d"), W = cv.width, H = cv.height, cw = 64, half = FL(W / cw / 2), j, x, row, cod, s, set, y, q, fr = (t - GNM.base) / GNM.P - FL((t - GNM.base) / GNM.P);
-    g.clearRect(0, 0, W, H); g.font = "600 16px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle"; g.textAlign = "center";
+    g.clearRect(0, 0, W, H); g.font = "600 16px " + css.getPropertyValue("--ds-font-mono").trim(); g.textBaseline = "middle"; g.textAlign = "center";
     for (row = 0; row < 2; row++) {
       y = row ? 46 : 6; /* rows 34 high */
       for (j = i - half; j <= i + half + 1; j++) {
@@ -594,7 +606,7 @@
         else { g.fillStyle = C.dim; g.fillText("···", x + cw / 2 - 1, y + 14); }
       }
     }
-    g.globalAlpha = 1; g.fillStyle = C.dim; g.font = "600 12px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textAlign = "left"; g.fillText("DNA song", 6, 92); g.textAlign = "right"; g.fillText("RNA look", W - 6, 92);
+    g.globalAlpha = 1; g.fillStyle = C.dim; g.font = "600 12px " + css.getPropertyValue("--ds-font-mono").trim(); g.textAlign = "left"; g.fillText("DNA song", 6, 92); g.textAlign = "right"; g.fillText("RNA look", W - 6, 92);
     g.strokeStyle = C.gold; g.lineWidth = 2; g.beginPath(); g.moveTo(W / 2, 2); g.lineTo(W / 2, 82); g.stroke();
     if (i !== GNM.lastI) { GNM.lastI = i; var w = genomeWords(GNM.dna[i], GNM.rna[i]); $("gline").textContent = "Sound: " + w.sound + ". Look: " + w.look + ". Each letter is a quartile, so a recipe and not a measurement."; }
     GNM.ms.push(NOW() - t0); if (GNM.ms.length > 40) GNM.ms.shift();
@@ -641,7 +653,7 @@
   function pinMsg(s) { $("pinmsg").textContent = s; }
   function pinAdd(note, kind, anchor) {
     if (!GNM.dna) { pinMsg("Load a song first."); return Promise.resolve(null); }
-    var tt = tnow(), P = BPM ? 60 / BPM : 0, at = (P && !anchor) ? MX(0, MN(DUR, GRID0 + RD((tt - GRID0) / P) * P)) : tt, i = genomeIdx(at), a = [], b = [], j;
+    var tt = tnow(), P = BPM ? 60 / BPM : 0, at = (P && !anchor) ? MX(0, MN(DUR, tmapTime(RD(tmapBeat(tt))))) : tt, i = genomeIdx(at), a = [], b = [], j;
     for (j = MX(0, i - 1); j <= MN(GNM.n - 1, i + 2); j++) { a.push(genomeStr(GNM.dna[j], GLET.dna)); b.push(genomeStr(GNM.rna[j] || (j === i ? genomeLook() : null), GLET.rna)); }
     var pin = { v: 1, at: +at.toFixed(3), pinned_at: new Date().toISOString(), note: String(note || "").slice(0, 140), kind: kind === "cue" ? "cue" : "note", anchor: !!anchor, armed: false, fp: wpFp(), dna: a, rna: b, settings: snapshot() };
     return pinHash(pinCanon(pin)).then(function (h) { pin.sha = h; pin.id = h.slice(-8); pin.ok = true; var L = pinsHere(); if (!L.some(function (x) { return x.sha === h; })) { L.push(pin); L.sort(function (x, y) { return x.at - y.at; }); pinsSave(); } pinsRender(); return pin; });
@@ -673,10 +685,23 @@
     var A = pinsHere().filter(function (p) { return p.anchor; }).sort(function (x, y) { return x.at - y.at; });
     if (!A.length || !BPM) { pinMsg("Mark at least one pin as a beat anchor first."); return null; }
     var P = 60 / BPM, bpm = BPM;
-    if (A.length >= 2) { var span = A[A.length - 1].at - A[0].at, given = parseInt($("pinbeats").value, 10), n = given > 0 ? given : MX(1, RD(span / P)); bpm = 60 * n / span; }
+    if (A.length >= 2) { var span = A[A.length - 1].at - A[0].at, given = /,/.test($("pinbeats").value) ? 0 : parseInt($("pinbeats").value, 10), n = given > 0 ? given : MX(1, RD(span / P)); bpm = 60 * n / span; }
     setTempo(bpm, A[0].at); pinMsg("The beat grid is set from " + A.length + " anchor" + (A.length > 1 ? "s" : "") + ": " + BPM.toFixed(2) + " BPM."); return { bpm: BPM, grid0: GRID0 };
   }
   $("pinuse").addEventListener("click", pinsUse);
+  /* Make a tempo map: each gap between anchors is counted in beats at the song tempo (to a whole bar when it is six beats or more), then each segment runs at its own steady tempo. */
+  function pinsMap() {
+    var A = pinsHere().filter(function (p) { return p.anchor; }).sort(function (x, y) { return x.at - y.at; }).filter(function (p, i, a) { return !i || p.at - a[i - 1].at > 0.2; });
+    if (A.length < 2 || !BPM) { pinMsg("Mark at least two pins as beat anchors first, and set a tempo."); return null; }
+    var P = 60 / BPM, m = [{ t: A[0].at, b: 0 }], b = 0, bp = [], i, x, n, given = $("pinbeats").value.split(",").map(function (v) { return parseInt(v, 10); }), exact = given.length === A.length - 1 && given.every(function (v) { return v > 0; });
+    if (!exact) given = [];
+    for (i = 1; i < A.length; i++) { x = (A[i].at - A[i - 1].at) / P; n = given[i - 1] > 0 ? given[i - 1] : x >= 6 ? 4 * RD(x / 4) : MX(1, RD(x)); b += n; m.push({ t: A[i].at, b: b }); bp.push((60 * n / (A[i].at - A[i - 1].at)).toFixed(1)); }
+    setTempo(60 * b / (A[A.length - 1].at - A[0].at), A[0].at); TMAP = m; gridMagnets();
+    if (NF) { buildStripBg(); magnetSummary(); drawStrip(tnow()); } renderBars(tnow(), true);
+    pinMsg("Tempo map from " + A.length + " anchors, " + (exact ? "beats as you typed them" : "beats counted by estimate (type the beats between anchors, like 16, 16, 16, to be exact)") + ". Each stretch runs at " + bp.join(", ") + " BPM. The beat grid, bars and pin snapping follow it; the gate, clicks and slicing still use the average.");
+    return { segs: bp, map: m };
+  }
+  $("pinmap").addEventListener("click", pinsMap);
   function pinsExport() { var L = pinsHere(); return ["Phosphor pins v1", "song: " + SRCNAME, "fingerprint: " + wpFp()].concat(L.map(function (p) { var o = JSON.parse(JSON.stringify(p)); delete o.ok; return "pin: " + JSON.stringify(o); })).join("\n"); }
   function pinsImport(text) {
     var lines = String(text || "").split(/\r?\n/).map(function (l) { return l.trim(); }), add = 0, bad = 0, other = 0, jobs = [];
@@ -700,21 +725,21 @@
   function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); seqTick(); raf = requestAnimationFrame(loop); }
   function stopSource() { if (SRC) { try { SRC.onended = null; SRC.stop(); } catch (e) {} SRC = null; } }
   var startSeq = 0;
-  function startPlay(at) {
+  function startPlay(at) { if (typeof elog === "function") elog("play");
     if (!BUF) return; spStop();
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
     var mine = ++startSeq;
     function begin() {
       if (mine !== startSeq) return;
       stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(deckIn("A"));
-      off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
+      off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = []; recAct("play", +(at || 0).toFixed(3));
       $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; if (typeof sunriseStart === "function") sunriseStart(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
     }
     if (AC.state === "running") begin();
     else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
   }
-  function stopPlay(msg) { startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
-  function seek(t) { t = MX(0, MN(DUR, t)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
+  function stopPlay(msg) { if (typeof elog === "function") elog("stop"); recAct("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
+  function seek(t) { t = MX(0, MN(DUR, t)); recAct("seek", +t.toFixed(3)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
   /* ---------------- loading ---------------- */
@@ -876,7 +901,7 @@
       var lo = 1, hi = 0; for (k = i - 15; k <= i + 15; k++) { lo = MN(lo, sm[k]); hi = MX(hi, sm[k]); }
       if (sm[i] <= lo && hi - sm[i] >= 0.1 && i - lastV >= 9) { M.push({ t: i / FPS, w: KIND_W.valley, k: "valley" }); lastV = i; }
     }
-    BPM = 0; GRID0 = 0; BPMINFO = null;
+    BPM = 0; GRID0 = 0; BPMINFO = null; TMAP = null;
     var tp = detectTempo(onsets);
     if (tp) { BPM = +tp.bpm.toFixed(2); GRID0 = tp.grid0; BPMINFO = tp; var P0 = 60 / BPM; for (var g = GRID0 % P0; g < DUR && M.length < 6000; g += P0) M.push({ t: g, w: KIND_W.grid, k: "grid" }); }
     M.sort(function (x, y) { return x.t - y.t; });
@@ -949,7 +974,7 @@
     g.globalAlpha = 1;
     var steps = [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 30, 60, 120], st = steps[steps.length - 1], k;
     for (k = 0; k < steps.length; k++) if (steps[k] / span * W >= 70) { st = steps[k]; break; }
-    g.fillStyle = C.text2 || C.dim; g.font = "11px " + css.getPropertyValue("--ds-font-mono").trim().split(",")[0]; g.textBaseline = "middle";
+    g.fillStyle = C.text2 || C.dim; g.font = "11px " + css.getPropertyValue("--ds-font-mono").trim(); g.textBaseline = "middle";
     for (var tt = Math.ceil(a / st) * st; tt < b; tt += st) { var xx = RD((tt - a) / span * W); g.fillRect(xx, 14, 1, 8); g.fillText(st < 1 ? tt.toFixed(2) : fmt(tt), xx + 4, 9); }
     var col = { chapter: C.cyan, onset: C.gold, valley: C.green, grid: C.dim };
     MAGNETS.forEach(function (m) { if (m.t < a || m.t > b) return; var xm = RD((m.t - a) / span * W); g.fillStyle = col[m.k]; g.globalAlpha = m.k === "grid" ? 0.35 : 0.9; var hh = m.k === "chapter" ? H - 22 : m.k === "onset" ? 14 : m.k === "valley" ? 8 : 4; g.fillRect(xm, m.k === "valley" ? H - hh : 22, m.k === "chapter" ? 2 : 1, hh); });
@@ -965,6 +990,8 @@
     var xt = tx(tn, W); g.fillStyle = "#e2e8f0"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
   }
   function renderSlices() {
+    recSlices();
+    if (typeof padRefresh === "function") setTimeout(padRefresh, 0);
     var h = "";
     SLICES.forEach(function (s, k) { h += '<button class="btn" type="button" data-k="' + k + '" aria-pressed="' + (k === SELECTED) + '">S' + (k + 1) + " " + fmt(s.t0) + "–" + fmt(s.t1) + " m" + s.mass.toFixed(2) + "</button>"; });
     if (ARR) h += '<span class="hint">Order: ' + ARR.order.map(function (i) { return "S" + (i + 1); }).join(" → ") + " (flow " + ARR.score.toFixed(2) + ")</span>";
@@ -1023,8 +1050,8 @@
     buildStripBg(); samplerUI(); drawStrip(tnow());
   }
   function viewZoom(f, cx) { var span = VIEW.b - VIEW.a, ns = MX(0.2, MN(DUR, span * f)), frac = (cx - VIEW.a) / span; viewSet(cx - frac * ns, cx - frac * ns + ns); }
-  $("zin").addEventListener("click", function () { viewZoom(0.5, (VIEW.a + VIEW.b) / 2); });
-  $("zout").addEventListener("click", function () { viewZoom(2, (VIEW.a + VIEW.b) / 2); });
+  $("szin").addEventListener("click", function () { viewZoom(0.5, (VIEW.a + VIEW.b) / 2); });
+  $("szout").addEventListener("click", function () { viewZoom(2, (VIEW.a + VIEW.b) / 2); });
   $("zfit").addEventListener("click", function () { viewSet(0, DUR); });
   $("zpan").addEventListener("input", function () { var sp = VIEW.b - VIEW.a; viewSet((+$("zpan").value / 1000) * (DUR - sp), (+$("zpan").value / 1000) * (DUR - sp) + sp); });
   $("strip").addEventListener("wheel", function (e) {
@@ -1062,8 +1089,8 @@
   }
   function autoBeats(div) {
     if (!BPM) { $("sphint").textContent = "No tempo was found in this song. Type a Song BPM first."; return 0; }
-    var step = 60 / BPM / div, a = VIEW.a, b = VIEW.b, pts = [], k = Math.ceil((a - GRID0) / step - 1e-9), tt;
-    for (; (tt = GRID0 + k * step) < b - 0.05; k++) { if (tt >= a - 1e-9) pts.push(nearestZero(tt)); }
+    var step = 60 / BPM / div, a = VIEW.a, b = VIEW.b, pts = [], k = Math.ceil(tmapBeat(a) * div - 1e-9), tt;
+    for (; (tt = stepT(k, div, "slice")) < b - 0.05; k++) { if (tt >= a - 1e-9) pts.push(nearestZero(tt)); }
     var many = pts.length > 64, c = sliceFrom(pts, MN(b, (pts.length ? pts[MN(pts.length, 64) - 1] : 0) + step)); $("sphint").textContent = c + " slices on the beat." + (many ? " Zoom in for the rest; 64 is the most." : ""); return c;
   }
   $("ash").addEventListener("click", function () { autoHits(+document.querySelector("input[name=ahn]:checked").value); });
@@ -1103,11 +1130,28 @@
   $("spl").addEventListener("click", function () { if (SP.on) stopPlay(""); else spStart(); });
   /* ---------------- tempo tools: tap tempo, downbeat ---------------- */
   var TAPS = [];
-  function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function";
-    bpm = MX(40, MN(240, RD(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
-    MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; });
-    for (g = GRID0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" });
+  /* Tempo map: anchors (time, beat number) with straight lines between them. null means one steady tempo (GRID0 and BPM). */
+  var TMAP = null;
+  function tmapBeat(t) {
+    if (!TMAP) return (t - (BPM ? GRID0 : 0)) / (BPM ? 60 / BPM : 0.5);
+    var i = 0, a, b; while (i < TMAP.length - 2 && t > TMAP[i + 1].t) i++; a = TMAP[i]; b = TMAP[i + 1]; return a.b + (t - a.t) * (b.b - a.b) / (b.t - a.t);
+  }
+  function tmapTime(beat) {
+    if (!TMAP) return (BPM ? GRID0 : 0) + beat * (BPM ? 60 / BPM : 0.5);
+    var i = 0, a, b; while (i < TMAP.length - 2 && beat > TMAP[i + 1].b) i++; a = TMAP[i]; b = TMAP[i + 1]; return a.t + (beat - a.b) * (b.t - a.t) / (b.b - a.b);
+  }
+  /* Steps in the beat domain: step j at div steps per beat. Every timed consumer goes through these so the tempo map reaches all of them; the counter shows which consumers did. */
+  var STEPUSE = {};
+  function stepT(j, div, who) { STEPUSE[who] = (STEPUSE[who] || 0) + 1; return tmapTime(j / div); }
+  function stepN(t, div, who) { STEPUSE[who] = (STEPUSE[who] || 0) + 1; return FL(tmapBeat(t) * div); }
+  function gridMagnets() {
+    var b = FL(tmapBeat(0)), t; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; });
+    for (; (t = tmapTime(b)) < DUR && MAGNETS.length < 6000; b++) if (t >= 0) MAGNETS.push({ t: t, w: KIND_W.grid, k: "grid" });
     MAGNETS.sort(function (x, y) { return x.t - y.t; });
+  }
+  function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function"; recAct("tempo", [+(+bpm).toFixed(2), +(+origin || 0).toFixed(4)]);
+    bpm = MX(40, MN(240, RD(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
+    TMAP = null; gridMagnets();
     $("sbpm").value = bpm; if (!SP.touched) $("tbpm").value = bpm;
     if (NF) { buildStripBg(); magnetSummary(); drawStrip(tnow()); }
     EA(QA(".tapb"), function (b) { b.textContent = "Tap tempo " + bpm; });
@@ -1135,8 +1179,8 @@
   var BC = { on: false, timer: 0, last: -9, times: [] };
   function bcInfo() { var i = BPMINFO; $("bcinfo").textContent = BPM ? BPM.toFixed(1) + " BPM" + (i ? ", confidence " + i.conf.toFixed(1) + ", could also be " + i.alt.map(function (v) { return v.toFixed(0); }).join(" or ") : "") : "No tempo found. Tap one."; }
   function bcPump() {
-    if (!BC.on || !AC || !playing || SP.on) return; var P = 60 / (BPM || 120), now = AC.currentTime, ref = t0ctx - off0 + (BPM ? GRID0 : 0), k, tt;
-    for (k = MX(0, Math.ceil((now - ref) / P)); ref + k * P < now + 0.12; k++) { tt = ref + k * P; if (tt <= BC.last + P * 0.5) continue; singClick(tt, k % 4 === 0); BC.last = tt; BC.times.push(+(GRID0 + k * P).toFixed(4)); if (BC.times.length > 64) BC.shift ? BC.times.shift() : 0; }
+    if (!BC.on || !AC || !playing || SP.on) return; var P = 60 / (BPM || 120), now = AC.currentTime, ref = t0ctx - off0, k, tt;
+    for (k = MX(0, Math.ceil(tmapBeat(now - ref))); (tt = ref + stepT(k, 1, "click")) < now + 0.12; k++) { if (tt <= BC.last + P * 0.5) continue; singClick(tt, k % 4 === 0); BC.last = tt; BC.times.push(+(tt - ref).toFixed(4)); if (BC.times.length > 64) BC.shift ? BC.times.shift() : 0; }
   }
   function bcOn(on) { BC.on = on; AP($("bcb"), on); clearInterval(BC.timer); BC.last = -9; if (on) { if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); outBus(); BC.timer = setInterval(bcPump, 25); } bcInfo(); }
   $("bcb").addEventListener("click", function () { bcOn(!BC.on); });
@@ -1172,7 +1216,9 @@
     seqPaint(); seqQuant(P.q); setRadio("sqg", P.gate); setRadio("sqb", P.bars); seqOn(has);
     frame(playing);
   }
-  EA(QA("[data-pre]"), function (b) { b.addEventListener("click", function () { applyPreset(b.getAttribute("data-pre")); }); });
+  /* A preset button is a toggle: tap it again to go back to Plain (so a child needs no Plain button). */
+  var LASTPRE = "";
+  EA(QA("[data-pre]"), function (b) { b.addEventListener("click", function () { var n = b.getAttribute("data-pre"); if (n !== "plain" && LASTPRE === n) n = "plain"; LASTPRE = n === "plain" ? "" : n; applyPreset(n); EA(QA("[data-pre]"), function (o) { AP(o, o.getAttribute("data-pre") === LASTPRE); }); }); });
   var DOCKHID = false;
   var SAVEKEY = "phosphor.settings.v1", saveT = 0;
   function snapshot() {
@@ -1248,7 +1294,19 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  /* AnalysisFrame v1 (_PATTERNS/2026-10-18-analysis-frame-v1.md): what this song's analysis is, as one small object the Tao print studio can read.
+     Always available, test mode or not. Arrays are uint8 (value/255), so a value read from a file equals the value used here. No audio samples are included. */
+  window.PhosphorFrame = function () {
+    if (!NF || !BANDS) return null;
+    function b64(u) { var s = "", i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s); }
+    var bu = new Uint8Array(NF * NB), lu = new Uint8Array(NF), fu = new Uint8Array(NF), i, fm = 0;
+    for (i = 0; i < NF * NB; i++) bu[i] = RD(MN(1, MX(0, BANDS[i])) * 255);
+    for (i = 0; i < NF; i++) { lu[i] = RD(MN(1, MX(0, RMS[i])) * 255); if (FLUX[i] > fm) fm = FLUX[i]; }
+    fm = fm || 1;
+    for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
+    return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
+  };
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1260,7 +1318,7 @@
         return new Promise(function (res) { R.mr.onstop = function () { var fr = new FileReader(); fr.onload = function () { res(String(fr.result).split(",")[1]); }; fr.readAsDataURL(new Blob(R.chunks, { type: "video/webm" })); try { AC._sh.disconnect(R.dst); } catch (e) { /* gone */ } }; R.mr.stop(); });
       }
     };
-  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, gsw: { set: setGlitch, off: function () { return GLITCHOFF; } }, bars: { times: function () { return BARS.times.slice(); }, render: function (f) { renderBars(tnow(), f); }, show: showBar, play: barsPlay, index: function () { return BARS.i; }, playing: function () { return BARS.play; } }, pins: { add: pinAdd, list: function () { return pinsHere().map(function (p) { return JSON.parse(JSON.stringify(p)); }); }, arm: function (i, v) { pinsHere()[i].armed = v; }, cues: function (v) { CUES.on = v; $("cuesOn").checked = v; }, fired: function () { return CUES.fired.slice(); }, resetFired: function () { CUES.fired = []; }, export: pinsExport, import: pinsImport, tamper: function (i, note) { var p = pinsHere()[i]; p.note = note; return pinVerify(p); }, verify: function (i) { return pinVerify(pinsHere()[i]); }, use: pinsUse, clear: function () { PINS = {}; pinsRender(); } }, mix: { gains: function () { return { a: MIX.gA, b: MIX.gB, nodeA: AC && AC._mixA ? AC._mixA.gain.value : null, nodeB: AC && AC._mixB ? AC._mixB.gain.value : null }; }, set: function (xf, la, lb, curve) { if (xf !== undefined) { MIX.xf = xf; $("mxx").value = RD(xf * 100); } if (la !== undefined) { MIX.lvA = la; $("mxla").value = RD(la * 100); } if (lb !== undefined) { MIX.lvB = lb; $("mxlb").value = RD(lb * 100); } if (curve) MIX.curve = curve; applyMix(); }, math: function (xf, curve, la, lb) { var s = { xf: MIX.xf, curve: MIX.curve, lvA: MIX.lvA, lvB: MIX.lvB }; MIX.xf = xf; MIX.curve = curve; MIX.lvA = la === undefined ? 1 : la; MIX.lvB = lb === undefined ? 1 : lb; var g = mixGains(); MIX.xf = s.xf; MIX.curve = s.curve; MIX.lvA = s.lvA; MIX.lvB = s.lvB; return g; }, b: function () { return { bpm: DB.bpm, grid0: DB.grid0, rate: DB.rate, mult: DB.mult, pos: dbPos(), playing: DB.playing, dur: DB.dur, n: DB.n, nf: DB.nf, name: DB.name, dna: DB.dna ? DB.dna.length : 0 }; }, play: function (at) { dbStart(at || 0); }, stop: dbStop, sync: dbSync, align: dbAlign, nudge: dbNudge, phase: dbPhaseMs, follow: function (v) { MIX.follow = v; frame(playing); }, ceiling: function () { return outPeak(); } }, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; } }, mode: { level: function () { return LVL; }, set: setLevel }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { clock: function () { return AC ? { now: AC.currentTime, ref: (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), P: 60 / (BPM || 120) / FXG.div } : null; }, wet: function (k) { return AC && AC._fx ? { wet: AC._fx[k].wet.gain.value, dry: AC._fx[k].dry.gain.value } : null; }, seed: gateSeed, depth: function (d) { FXG.depth = d; }, lag: function (l) { FXG.lag = l; }, gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = F32(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = F32(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = F32(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += AB(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"), d = $("dmeter"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, dock: d ? d.querySelectorAll("i.on").length : -1, dockN: d ? d.children.length : 0, level: RMS[fidx(tnow())] }; } };
+  })(), tap: { at: tapAt, set: setTempo, down: downbeatHere, taps: function () { return TAPS.length; } }, preset: applyPreset, sig: function () { var n = 0; LANES.forEach(function (l) { SEQ.cells[l[0]].forEach(function (v) { if (v) n++; }); }); return { mode: MODE, pal: $("palsel").value, bits: BITS, res: +$("res").value, rl: RL.on ? RL.bars + RL.dir : "off", q: SEQ.quant, gate: SEQ.gate, cells: n, seqOn: SEQ.on, playing: playing, src: SRCNAME }; }, saved: function () { try { return localStorage.getItem(SAVEKEY); } catch (e) { return null; } }, sampler: { view: function () { return { a: VIEW.a, b: VIEW.b }; }, zoom: viewZoom, set: viewSet, plan: spPlan, now: function () { return tnow(); }, hits: autoHits, beats: autoBeats, rates: function () { return SP.rates.slice(); }, on: function () { return SP.on; }, start: spStart, bg: function () { var d = $("strip").getContext("2d").getImageData(0, 0, 1200, 88).data, s = 0, i; for (i = 0; i < d.length; i += 97) s += d[i]; return s; } }, magnets: function () { return MAGNETS.slice(); }, snap: snapTime, zero: nearestZero, add: addSlice, slices: function () { return SLICES; }, makeSlice: makeSlice, coherence: coherence, arrange: arrange, pcm: function (i) { return PCM[i]; }, sr: function () { return SR; }, dur: function () { return DUR; }, setSnap: function (r) { SNAPR = r; }, lut: function () { return buildLUT(); }, curve: curveVal, glitch: function () { return { stut: GLITCH.stut, loop: GSRC ? { loop: GSRC.loop, start: GSRC.loopStart, end: GSRC.loopEnd } : null, perform: PERFORM, on: JSON.parse(JSON.stringify(GLITCH, function (k, v) { return k === "stut" ? undefined : v; })) }; }, gtime: glitchTime, on: glitchOn, off: glitchOff, tnow: tnow, mo: MO, gsw: { set: setGlitch, off: function () { return GLITCHOFF; } }, bars: { times: function () { return BARS.times.slice(); }, render: function (f) { renderBars(tnow(), f); }, show: showBar, play: barsPlay, index: function () { return BARS.i; }, playing: function () { return BARS.play; } }, pins: { add: pinAdd, list: function () { return pinsHere().map(function (p) { return JSON.parse(JSON.stringify(p)); }); }, arm: function (i, v) { pinsHere()[i].armed = v; }, cues: function (v) { CUES.on = v; $("cuesOn").checked = v; }, fired: function () { return CUES.fired.slice(); }, resetFired: function () { CUES.fired = []; }, export: pinsExport, import: pinsImport, tamper: function (i, note) { var p = pinsHere()[i]; p.note = note; return pinVerify(p); }, verify: function (i) { return pinVerify(pinsHere()[i]); }, use: pinsUse, clear: function () { PINS = {}; pinsRender(); } }, mix: { gains: function () { return { a: MIX.gA, b: MIX.gB, nodeA: AC && AC._mixA ? AC._mixA.gain.value : null, nodeB: AC && AC._mixB ? AC._mixB.gain.value : null }; }, set: function (xf, la, lb, curve) { if (xf !== undefined) { MIX.xf = xf; $("mxx").value = RD(xf * 100); } if (la !== undefined) { MIX.lvA = la; $("mxla").value = RD(la * 100); } if (lb !== undefined) { MIX.lvB = lb; $("mxlb").value = RD(lb * 100); } if (curve) MIX.curve = curve; applyMix(); }, math: function (xf, curve, la, lb) { var s = { xf: MIX.xf, curve: MIX.curve, lvA: MIX.lvA, lvB: MIX.lvB }; MIX.xf = xf; MIX.curve = curve; MIX.lvA = la === undefined ? 1 : la; MIX.lvB = lb === undefined ? 1 : lb; var g = mixGains(); MIX.xf = s.xf; MIX.curve = s.curve; MIX.lvA = s.lvA; MIX.lvB = s.lvB; return g; }, b: function () { return { bpm: DB.bpm, grid0: DB.grid0, rate: DB.rate, mult: DB.mult, pos: dbPos(), playing: DB.playing, dur: DB.dur, n: DB.n, nf: DB.nf, name: DB.name, dna: DB.dna ? DB.dna.length : 0 }; }, play: function (at) { dbStart(at || 0); }, stop: dbStop, sync: dbSync, align: dbAlign, nudge: dbNudge, phase: dbPhaseMs, follow: function (v) { MIX.follow = v; frame(playing); }, ceiling: function () { return outPeak(); } }, wp: { text: wpText, apply: wpApply, fp: wpFp, store: function () { return STORE.ok; }, probe: storeProbe, msg: function () { return $("wpmsg").textContent; } }, molt: { level: function () { return LVL; } }, mode: { level: function () { return LVL; }, set: setLevel }, genome: { dna: function () { return GNM.dna ? GNM.dna.map(function (c) { return genomeStr(c, GLET.dna); }) : null; }, rna: function () { return GNM.rna.map(function (c) { return genomeStr(c, GLET.rna); }); }, look: genomeLook, now: function () { var n = genomeNow(tnow()); return { i: n.i, dna: genomeStr(n.dna, GLET.dna), rna: genomeStr(n.rna, GLET.rna) }; }, draw: function () { genomeDraw(tnow()); }, words: genomeWords, recipe: genomeRecipe, ms: function () { return GNM.ms.slice(); }, n: function () { return GNM.n; }, period: function () { return GNM.P; } }, groove: { swing: setSwing, tighten: setTighten, fire: seqFire, step: seqStep, base: seqBase, head: seqHead, col: function () { return SEQ.col; }, wait: qzWait, startQ: noteStartQ, voices: function () { return Object.keys(NOTES.voices).length; } }, hold: { on: fxHold, toggle: fxToggle, who: fxHolders, latch: function (v) { PK.latch = v; pkLabel(); } }, beatcheck: { on: function (v) { bcOn(v); }, times: function () { return BC.times.slice(); } }, shutter: function (on) { SHUT.on = on; SHUT.trig = -1e9; SHUT.prev = null; SHUT.acc = null; }, rmsAt: function (tt) { return RMS ? RMS[fidx(tt)] : 0; }, outPeak: outPeak, fx: { clock: function () { return AC ? { now: AC.currentTime, ref: (playing ? t0ctx - off0 : 0) + (BPM ? GRID0 : 0), P: 60 / (BPM || 120) / FXG.div } : null; }, wet: function (k) { return AC && AC._fx ? { wet: AC._fx[k].wet.gain.value, dry: AC._fx[k].dry.gain.value } : null; }, seed: gateSeed, depth: function (d) { FXG.depth = d; }, lag: function (l) { FXG.lag = l; }, gate: function (m, thr, div) { FXG.mode = m; if (thr !== undefined) FXG.thr = thr; if (div) FXG.div = div; FXG.open = true; }, bufs: function () { var d = F32(2048); AC._ana.getFloatTimeDomainData(d); return Array.from(d); }, sr: function () { return AC.sampleRate; }, bpmInfo: function () { return BPMINFO; }, gold: { root: goldRoot, play: goldChime, voices: function () { return GOLD.voices; } }, sweepHz: function () { return AC._fx ? AC._fx.sweep.frequency.value : -1; }, bufsFx: function () { var d = F32(2048); AC._anaFx.getFloatTimeDomainData(d); return Array.from(d); }, bufsIn: function () { var d = F32(512); AC._anaIn.getFloatTimeDomainData(d); return Array.from(d); }, on: function (k, v) { if (v) glitchOn(k); else glitchOff(k); } }, notes: { freq: noteFreq, name: noteName, on: notesOn, voices: function () { return Object.keys(NOTES.voices).length; }, mirror: function () { return SING.mirror; } }, sing: { state: function () { return SING.state; }, lvl: function () { return SING.lvl; }, dur: function () { return DUR; }, loop: function () { return LOOPPLAY; }, bpm: function () { return BPM; }, hist: function () { return SING.hist.length; }, ovr: function () { return !$("ovr").hidden; }, srate: function () { return SING.sr; }, plog: function () { return PLOG.slice(); }, live: function () { return SING.stream ? SING.stream.getTracks().filter(function (x) { return x.readyState === "live"; }).length : 0; }, sum: function () { var s = 0, i; if (!SING.pcm) return 0; for (i = 0; i < SING.pcm.length; i += 7) s += AB(SING.pcm[i]); return s; }, gridN: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).length; } }, pk: { got: function () { return GOT.slice(); }, state: function () { return { latch: PK.latch, bank: PK.bank, rung: RUNG, mode: MODE, bits: BITS, pal: Array.prototype.map.call($("palsel").options, function (o) { return o.value; }) }; }, pocketHit: pocketHit, feed: pocketFeed, banks: function () { return SEQ.banks.length; } }, seq: { set: function (l, i, v) { SEQ.cells[l][i] = v; seqPaint(); }, quant: seqQuant, gate: function (g) { SEQ.gate = g; }, bars: function (b) { SEQ.bars = b; }, fire: seqFire, step: seqStep, base: seqBase, snap: seqSnap, active: seqActive, on: seqOn, clear: seqClear }, rungAt: rungFor, loop: function (on, bars, dir) { RL.on = on; RL.bars = bars; RL.dir = dir; }, grid0: function () { return GRID0; }, bpm: function () { return BPM; }, fs: function () { return FS; }, zoom: function () { return { mode: MODE, zs: ZS.slice(), keymap: KEYMAP }; }, meter: function () { var s = $("ledstrip"); return { strip: s ? s.querySelectorAll("i.on").length : -1, stripN: s ? s.children.length : 0, level: RMS[fidx(tnow())] }; } };
 
 
   /* ---------------- look: curve, invert, palette swap (one lookup-table pass) ---------------- */
@@ -1299,9 +1357,7 @@
 
   /* ---------------- glitch: stutter and freeze (time and audio), tear, RGB split, blocks (pixels) ---------------- */
   var GLITCHOFF = false, GKILL = ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "gate"], GLITCH = { stut: null, gate: false, tear: false, rgb: false, blocks: false, crush: false, dist: false, echo: false, room: false, shim: false, sweep: false }, GAMT = 0.6, STSIZE = 0.125, PERFORM = false, GSRC = null, GTMP = null;
-  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function glitchTime(t) { var s = GLITCH.stut; if (!s) return t; var L = MX(s.L, MO.loop), d = t - s.t0; return s.t0 + (((d % L) + L) % L); }
-  function glitchActive() { return !!(GLITCH.stut || GLITCH.tear || GLITCH.rgb || GLITCH.blocks); }
   /* Glitch as a stop-motion zoetrope (Zach, 2026-10-16): constant-speed poses (8 a second), never random per frame. Every displacement is small and bounded, so nothing can strobe. */
   var GLAST = {}, CODONS = null, GSTR = 1, GLIM = { L: -1, dir: 0, ev: [], until: 0 }, GLC = null;
   function glum(cv) {
@@ -1320,23 +1376,23 @@
   function gsLabel() { $("gsto").textContent = document.querySelector("input[name=gst]:checked").nextElementSibling.textContent + (NOW() < GLIM.until ? " (flash limit on)" : ""); }
   function gvis(k) { var now = NOW(); if (GLITCH[k]) GLAST[k] = now; return GLITCH[k] || now - (GLAST[k] || -1e9) < MO.hold; }
   function glitchPixels(g, W, H, fn, tsec) {
-    var A = GAMT, tear = gvis("tear"), rgb = gvis("rgb"), blocks = gvis("blocks"), y, x, lk = NOW() < GLIM.until, S = lk ? 1 : GSTR;
+    var A = GAMT, tear = gvis("tear") && fxE("tear") > 0, rgb = gvis("rgb") && fxE("rgb") > 0, blocks = gvis("blocks") && fxE("blocks") > 0, y, x, lk = NOW() < GLIM.until, S = lk ? 1 : GSTR;
     if (!(tear || rgb || blocks)) return;
     var pose = FL((tsec || 0) * MO.pose), ph = 2 * PI * (pose % 12) / 12;
     if (tear) {
       GTMP = GTMP || document.createElement("canvas"); GTMP.width = W; GTMP.height = H; var tg = GTMP.getContext("2d"); tg.drawImage(g.canvas, 0, 0);
-      var hb = MX(4, RD(H / 90)), amp = 0.02 * W * A * S;
+      var hb = MX(4, RD(H / 90)), amp = 0.02 * W * A * S * fxE("tear");
       for (y = 0; y < H; y += hb) { var dx = RD(SIN(2 * PI * (y / (H * 0.33)) + ph) * amp); if (dx) g.drawImage(GTMP, 0, y, W, hb, dx, y, W, hb); }
     }
     if (rgb) {
-      var id = g.getImageData(0, 0, W, H), d = id.data, off = MX(1, RD(W * 0.004 * (0.4 + A) * S)), row = new Uint8ClampedArray(W * 4), i;
+      var id = g.getImageData(0, 0, W, H), d = id.data, off = MX(1, RD(W * 0.004 * (0.4 + A) * S * fxE("rgb"))), row = new Uint8ClampedArray(W * 4), i;
       for (y = 0; y < H; y++) { var b0 = y * W * 4; row.set(d.subarray(b0, b0 + W * 4)); for (x = 0; x < W; x++) { i = b0 + x * 4; d[i] = row[MN(W - 1, x + off) * 4]; d[i + 2] = row[MX(0, x - off) * 4 + 2]; } }
       g.putImageData(id, 0, 0);
     }
     if (blocks) {
       CODONS = CODONS || [C.cyan, C.gold, C.green, C.magenta];
       var ch = RD(H * 0.09), cw = ch, cy = RD(H * 0.5 - ch / 2), step = FL((tsec || 0) * MO.pose), n = Math.ceil(W / cw) + 2, k, c0;
-      g.globalAlpha = MN(0.5, (0.1 + 0.2 * A) * S);
+      g.globalAlpha = MN(0.5, (0.1 + 0.2 * A) * S * fxE("blocks"));
       for (k = 0; k < n; k++) { c0 = (k + FL(step / 3)) | 0; var hv = (Math.imul(c0, 2654435761) >>> 0) % 4; g.fillStyle = CODONS[hv]; g.fillRect(k * cw - ((step % 3) * cw / 3), cy, cw - 2, ch); }
       g.globalAlpha = 1;
     }
@@ -1403,7 +1459,7 @@
   }
   function fxHold(kind, src, on) {
     if (kind === "gold") { if (on) glitchOn(kind); return; }
-    var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind);
+    var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src); if (src !== "seq") recAct("fx", [kind, src, on ? 1 : 0]);
   }
   function fxToggle(kind, src) { fxHold(kind, src, !(HOLD[kind] && HOLD[kind][src])); }
   function fxReleaseMomentary() { HKINDS.forEach(function (k) { var h = HOLD[k]; if (h) { Object.keys(h).forEach(function (s) { if (s !== "latch") delete h[s]; }); fxReconcile(k); } }); }
@@ -1430,6 +1486,9 @@
   function swingOff(j) { return (((j % 2) + 2) % 2) === 1 ? (SWING - 0.5) * 2 * seqStep() : 0; }
   function seqStep() { return 60 / (BPM || 120) * 4 * SEQ.bars / 16; }
   function seqBase() { return BPM ? GRID0 : 0; }
+  function seqDiv() { return 4 / SEQ.bars; }
+  function seqN(t) { return stepN(t, seqDiv(), "seq"); }
+  function seqT(j) { return stepT(j, seqDiv(), "seq"); }
   function seqSnap(t, tol) {
     var q = SEQ.quant, best = null, bd = tol + 1e-9, i, d;
     if (q === "beat") return t;
@@ -1437,9 +1496,9 @@
     else for (i = 0; i < MAGNETS.length; i++) { if (MAGNETS[i].k !== q) continue; d = AB(MAGNETS[i].t - t); if (d < bd) { bd = d; best = MAGNETS[i].t; } }
     return best === null ? t : best;
   }
-  function seqFire(j) { var st = seqStep(); return seqSnap(seqBase() + j * st + swingOff(j), st * 0.5); }
+  function seqFire(j) { var st = seqStep(); return seqSnap(seqT(j) + swingOff(j), st * 0.5); }
   function seqActive(t) {
-    var st = seqStep(), j0 = FL((t - seqBase()) / st), out = {}, j, c, f, li, k, v;
+    var st = seqStep(), j0 = seqN(t), out = {}, j, c, f, li, k, v;
     for (j = j0 - 1; j <= j0 + 1; j++) {
       if (j < 0) continue; c = ((j % 16) + 16) % 16; f = seqFire(j);
       for (li = 0; li < LANES.length; li++) {
@@ -1455,7 +1514,7 @@
     EA(QA(".sq"), function (b) { var v = SEQ.cells[b.getAttribute("data-l")][+b.getAttribute("data-i")]; AP(b, v); b.textContent = (b.getAttribute("data-l") === "jog" || b.getAttribute("data-l") === "detail") && v ? String(v) : ""; });
   }
   function seqHead(t) {
-    var st = seqStep(), j = FL((t - seqBase()) / st); if (j % 2 !== 0 && t < seqBase() + j * st + swingOff(j)) j--; var c = ((j % 16) + 16) % 16; if (c === SEQ.col) return; SEQ.col = c;
+    var st = seqStep(), j = seqN(t); if (j % 2 !== 0 && t < seqT(j) + swingOff(j)) j--; var c = ((j % 16) + 16) % 16; if (c === SEQ.col) return; SEQ.col = c;
     EA(QA(".sq,.sqn"), function (b) { b.classList.toggle("now", +b.getAttribute("data-i") === c); });
   }
   function seqRelease() { ["stutter", "freeze", "tear", "rgb", "blocks", "crush", "dist", "echo", "sweep"].forEach(function (k) { if (SEQ.held[k]) { SEQ.held[k] = false; fxHold(k, "seq", false); } }); }
@@ -1507,7 +1566,7 @@
   function pkFx(k, on) { fxHold(k, "pk:" + k, on); }
   function pkBank(i) { while (SEQ.banks.length <= i) SEQ.banks.push(makeCells()); PK.bank = i; SEQ.cells = SEQ.banks[i]; seqPaint(); }
   function pkBits(n) { $("pal").value = n; $("pal").dispatchEvent(new Event("input")); }
-  function pocketHit(t) { var P = 60 / (BPM || 120) / 2, d = (((t - seqBase()) % P) + P) % P; return MN(d, P - d) < 0.045; }
+  function pocketHit(t) { var P = 60 / (BPM || 120) / 2, d = (((tmapBeat(t) * 2) % 1 + 1) % 1) * P; return MN(d, P - d) < 0.045; }
   function pocketFeed(t) { if (pocketHit(t)) { PK.pocket++; if (PK.pocket >= 8) unlock("pocket"); } else PK.pocket = 0; }
   function sweepScan(now, row, idx) {
     PK.seq = PK.seq.filter(function (s) { return s.row === row && now - s.t < 5000; }); PK.seq.push({ row: row, i: idx, t: now });
@@ -1515,7 +1574,7 @@
     for (k = 1; k < s.length; k++) { d = s[k].i - s[k - 1].i; if (d === 1 || d === -1) { if (cur && cur.d === d) cur.n++; else { cur = { d: d, n: 1 }; runs.push(cur); } } else cur = null; }
     runs.forEach(function (r, j) { if (r.n >= 6) unlock("sweep"); if (r.d === 1 && r.n >= 4 && runs[j + 1] && runs[j + 1].d === -1 && runs[j + 1].n >= 4) unlock("trip"); });
   }
-  function pkDown(code) {
+  function pkDown(code) { recAct("key", code);
     var i, c;
     if ((i = ROW1.indexOf(code)) >= 0) { if (!PK.rungs.length && PK.saved === null) PK.saved = RUNG; PK.rungs.push(i); pkRung(RD(i * 8 / 9)); sweepScan(Date.now(), 1, i); }
     else if ((i = ROW2.indexOf(code)) >= 0) {
@@ -1575,6 +1634,234 @@
   function plog(e) { PLOG.push({ t: RD(NOW()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
   document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
   document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
+  /* Recipe log: every change to a control (sliders, switches, radios, selects; not the two position sliders the player moves by itself) as an event with wall and media time, kept in memory only. The state at any moment is the starting state with the events up to then applied. Text boxes are left out on purpose. */
+  var REC = { ev: [], cur: {}, base: {}, t0: NOW() };
+  function recScan() {
+    var m = {}; EA(QA("input[id],select[id]"), function (e) { var y = e.type; if (e.id === "scrub" || e.id === "hscrub") return; if (y === "radio") { if (e.checked) m[e.name] = e.value; } else if (y === "range") m[e.id] = +e.value; else if (y === "checkbox") m[e.id] = e.checked ? 1 : 0; else if (e.tagName === "SELECT") m[e.id] = e.value; }); return m;
+  }
+  function recSync() {
+    var now = recScan(), k, t = RD(NOW() - REC.t0);
+    for (k in now) if (REC.cur[k] !== now[k]) { REC.ev.push([t, playing ? +tnow().toFixed(3) : null, k, now[k]]); REC.cur[k] = now[k]; }
+    if (REC.ev.length > 20000) REC.ev.splice(0, REC.ev.length - 20000);
+  }
+  /* Actions: things a person does that are not a control value (pads, keys, play, stop, seek, tempo, the song's fingerprint). Same list, ids start with an at sign, so the state replay skips them. */
+  function recAct(name, arg) { if (!REC || !REC.ev) return; REC.ev.push([RD(NOW() - REC.t0), playing ? +tnow().toFixed(3) : null, "@" + name, arg === undefined ? null : arg]); if (REC.ev.length > 20000) REC.ev.splice(0, REC.ev.length - 20000); }
+  function recSlices() {
+    if (!REC || !REC.ev) return; var sig = JSON.stringify(SLICES.map(function (x) { return [+x.t0.toFixed(4), +x.t1.toFixed(4)]; })), L = REC.ev[REC.ev.length - 1];
+    if (sig === REC.sig) return; REC.sig = sig;
+    if (L && L[2] === "@slices" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("slices", JSON.parse(sig));
+  }
+  function recCells() {
+    if (!REC || !REC.ev) return; var sig = JSON.stringify(SEQ.cells), L = REC.ev[REC.ev.length - 1];
+    if (REC.csig === undefined) REC.csig = JSON.stringify(makeCells()); if (sig === REC.csig) return; REC.csig = sig;
+    if (L && L[2] === "@cells" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("cells", JSON.parse(sig));
+  }
+  function recExport() { return "Phosphor recipe v1\n" + JSON.stringify({ base: REC.base, events: REC.ev }); }
+  function recImport(t) {
+    var l = String(t || "").split("\n"); if (!/^Phosphor recipe v1/.test(l[0] || "")) return null;
+    try { var o = JSON.parse(l.slice(1).join("\n")); if (!o || typeof o.base !== "object" || !Array.isArray(o.events)) return null; return o.events.every(function (e) { return Array.isArray(e) && typeof e[0] === "number" && typeof e[2] === "string"; }) ? o : null; } catch (e) { return null; }
+  }
+  function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo && e[2][0] !== "@") s[e[2]] = e[3]; }); return s; }
+  function recInit() { REC.base = recScan(); for (var rk in REC.base) REC.cur[rk] = REC.base[rk]; REC.t0 = NOW(); }
+  document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(function () { recSync(); recCells(); }, 200);
+  /* Offline render: a hidden copy of the page (the render realm) plays the recipe through the real effect chain in an OfflineAudioContext, so the live page never moves. Controls and effect holds are replayed at their event times; play, stop and seek drive the song. Not replayed yet: pads, the sequencer, tempo changes and the level-gate mode (an offline analyser reads nothing). */
+  function recApply(e) {
+    var id = e[2], v = e[3], els, hit, t;
+    if (id === "@fx") { fxHold(v[0], v[1], !!v[2]); return; }
+    if (id[0] === "@") return;
+    els = QA("input[name=\"" + id + "\"]");
+    if (els.length) { hit = Array.prototype.filter.call(els, function (r) { return r.value === String(v); })[0]; if (hit) { hit.checked = true; hit.dispatchEvent(new Event("change", { bubbles: true })); } return; }
+    t = $(id); if (!t) return;
+    if (t.type === "checkbox") { t.checked = !!v; t.dispatchEvent(new Event("change", { bubbles: true })); }
+    else { t.value = v; t.dispatchEvent(new Event(t.tagName === "SELECT" ? "change" : "input", { bubbles: true })); }
+  }
+  function recPlay(pos, at) { if (SRC) { try { SRC.stop(at); } catch (e) { /* ended */ } } SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.connect(deckIn("A")); SRC.start(at, pos); off0 = pos; t0ctx = at; playing = true; }
+  function recAt(e) {
+    var n = e[2];
+    if (n === "@play") recPlay(e[3], AC.currentTime);
+    else if (n === "@stop") { if (SRC) { try { SRC.stop(AC.currentTime); } catch (x) { /* ended */ } SRC = null; } playing = false; }
+    else if (n === "@seek") { if (playing) recPlay(e[3], AC.currentTime); else tpaused = e[3]; }
+    else if (n === "@cells") { SEQ.cells = e[3]; }
+    else if (n === "@slices") { SLICES = []; e[3].forEach(function (p) { addSlice(p[0], p[1]); }); }
+    else if (n === "@tempo") setTempo(e[3][0], e[3][1]);
+    else if (n === "@pad") { var q = String(e[3]).split(":"), sl; if (q.length === 2) { PAD.bank = +q[0]; sl = SLICES[PAD.bank * 16 + +q[1]]; if (sl) padVoice(+q[1], sl); } }
+    else recApply(e);
+  }
+  function renderOffline(rec) {
+    var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg" || e[2] === "@cells"; });
+    ev.forEach(function (e) { last = MX(last, e[0]); });
+    var N = RD(MN(600, MX(3, last / 1000 + 1.5)) * sr), OC = new OfflineAudioContext(2, N, sr);
+    stopSource(); AC = OC; playing = false;
+    Object.keys(rec.base).forEach(function (k) { recApply([0, null, k, rec.base[k]]); });
+    outBus();
+    ev.forEach(function (e) { var q = FL(e[0] / 1000 * sr / 128); (pts[q] = pts[q] || []).push(e); });
+    qs = Object.keys(pts).map(Number); if (pump) for (i = 8; i * 128 < N; i += 8) qs.push(i);
+    qs = qs.filter(function (q, k, a) { return a.indexOf(q) === k && q * 128 < N; }).sort(function (a, b) { return a - b; });
+    qs.forEach(function (q) {
+      var go = function () { (pts[q] || []).forEach(recAt); if (pump) { seqTick(); fxPump(); } };
+      if (q === 0) go(); else OC.suspend(q * 128 / sr).then(function () { go(); OC.resume(); });
+    });
+    return OC.startRendering().then(function (buf) { return { sr: sr, l: buf.getChannelData(0), r: buf.getChannelData(1), info: { pads: PAD.voices || 0, bpm: BPM, grid0: GRID0, gamt: GAMT, dur: DUR, thr: FXG.mode } }; });
+  }
+  function recWav(o) {
+    var n = o.l.length, b = new DataView(new ArrayBuffer(44 + n * 4)), i, v;
+    function w(p, t) { for (var k = 0; k < t.length; k++) b.setUint8(p + k, t.charCodeAt(k)); }
+    w(0, "RIFF"); b.setUint32(4, 36 + n * 4, true); w(8, "WAVEfmt "); b.setUint32(16, 16, true); b.setUint16(20, 1, true); b.setUint16(22, 2, true); b.setUint32(24, o.sr, true); b.setUint32(28, o.sr * 4, true); b.setUint16(32, 4, true); b.setUint16(34, 16, true); w(36, "data"); b.setUint32(40, n * 4, true);
+    for (i = 0; i < n; i++) { v = MX(-1, MN(1, o.l[i])); b.setInt16(44 + i * 4, v < 0 ? v * 32768 : v * 32767, true); v = MX(-1, MN(1, o.r[i])); b.setInt16(46 + i * 4, v < 0 ? v * 32768 : v * 32767, true); }
+    return new Uint8Array(b.buffer);
+  }
+  if (RENDERMODE) {
+    window.addEventListener("message", function (m) {
+      var d = m.data; if (!d || d.type !== "phosphor-render") return;
+      var settled = function () { return new Promise(function (r) { var k = setInterval(function () { if (BUF && !ANALYZING) { clearInterval(k); r(); } }, 50); }); };
+      (d.bytes ? loadBytes(d.bytes, "render", d.mime) : Promise.resolve()).then(settled).then(function () { return renderOffline(d.rec); }).then(function (o) { parent.postMessage({ type: "phosphor-rendered", sr: o.sr, l: o.l, r: o.r, info: o.info }, "*", [o.l.buffer, o.r.buffer]); }, function (e) { parent.postMessage({ type: "phosphor-rendered", error: String(e && e.message || e) }, "*"); });
+    });
+  }
+  function recRender(text) {
+    return new Promise(function (res, rej) {
+      var rec = recImport(text || recExport()), f = document.createElement("iframe"), done = false;
+      if (!rec) { rej(new Error("not a recipe")); return; }
+      f.name = "phosphor-render"; f.setAttribute("aria-hidden", "true"); f.tabIndex = -1; f.style.cssText = "position:fixed;width:1px;height:1px;border:0;opacity:0;pointer-events:none;left:-9px;top:0";
+      function fin(fn, v) { if (done) return; done = true; window.removeEventListener("message", on); f.remove(); fn(v); }
+      function on(m) { var d = m.data; if (m.source !== f.contentWindow || !d) return; if (d.type === "phosphor-render-ready") f.contentWindow.postMessage({ type: "phosphor-render", rec: rec, bytes: SRCBYTES ? SRCBYTES.slice(0) : null, mime: SRCMIME }, "*"); else if (d.type === "phosphor-rendered") { if (d.error) fin(rej, new Error(d.error)); else fin(res, d); } }
+      window.addEventListener("message", on); f.srcdoc = "<!doctype html>" + document.documentElement.outerHTML; document.body.appendChild(f);
+      setTimeout(function () { fin(rej, new Error("the render timed out")); }, 180000);
+    });
+  }
+  /* Gesture grab: the recipe is already a rolling buffer of everything you did with the controls. Grab keeps the last few bars (and optionally the next few) as a small automation: curves for sliders, steps for switches, effect holds and pads, with times in beats so it replays in time on any song at any tempo. */
+  var GRB = { list: [], key: "phosphor.grabs.v1", tm: 0, run: null };
+  try { GRB.list = JSON.parse(localStorage.getItem(GRB.key) || "[]") || []; } catch (e) { /* storage blocked */ }
+  function grabSave() { try { localStorage.setItem(GRB.key, JSON.stringify(GRB.list)); } catch (e) { /* storage blocked */ } }
+  function grabBeatMs() { return 60000 / (BPM || 120); }
+  function grabCut(t0, t1) {
+    var bm = grabBeatMs(), st = recState(t0), on = {}, ev = [], last = {}, ids = {}, out = [];
+    REC.ev.forEach(function (e) { if (e[0] < t0 && e[2] === "@fx") on[e[3][0]] = e[3][2]; });
+    Object.keys(on).forEach(function (k) { if (on[k]) ev.push([0, "@fx", [k, 1]]); });
+    REC.ev.forEach(function (e) {
+      if (e[0] < t0 || e[0] > t1) return; var id = e[2], el, keep = true;
+      if (id === "@fx") ev.push([(e[0] - t0) / bm, id, [e[3][0], e[3][2]]]);
+      else if (id === "@pad" && String(e[3]).split(":").length === 2) ev.push([(e[0] - t0) / bm, id, e[3]]);
+      else if (id[0] !== "@" && !/^(grpre|grpost|sbpm|tbpm)$/.test(id)) { el = $(id); if (el && el.type === "range" && last[id] !== undefined && e[0] - last[id] < 40) keep = false; if (keep) { ev.push([(e[0] - t0) / bm, id, e[3]]); last[id] = e[0]; ids[id] = 1; } }
+    });
+    Object.keys(ids).forEach(function (k) { out.push([0, k, st[k]]); });
+    return out.concat(ev.map(function (x) { return [+x[0].toFixed(3), x[1], x[2]]; })).sort(function (a, b) { return a[0] - b[0]; });
+  }
+  function grabMake(pre, post) {
+    var bm = grabBeatMs(), now = RD(NOW() - REC.t0), t0 = now - pre * 4 * bm, t1 = now + post * 4 * bm, ev = grabCut(t0, t1);
+    if (!ev.some(function (e) { return e[0] > 0 || e[1][0] === "@"; })) return null;
+    var g = { name: "Grab " + (GRB.list.reduce(function (m, x) { return MX(m, +(x.name.match(/^Grab (\d+)$/) || [0, 0])[1]); }, 0) + 1), beats: (pre + post) * 4, ev: ev };
+    GRB.list.push(g); if (GRB.list.length > 20) GRB.list.shift(); grabSave(); grabShow(); return g;
+  }
+  function grabApply(e) {
+    var id = e[1], v = e[2], q;
+    if (id === "@fx") fxHold(v[0], "grab", !!v[1]);
+    else if (id === "@pad") { q = String(v).split(":"); PAD.bank = +q[0]; padHit(+q[1]); setTimeout(function () { padRelease(+q[1]); }, 150); }
+    else recApply([0, null, id, v]);
+  }
+  function grabStop() { clearInterval(GRB.tm); if (GRB.run) { Object.keys(GRB.run.fx || {}).forEach(function (k) { fxHold(k, "grab", false); }); GRB.run = null; } grabShow(); }
+  function grabPlay(g, loop) {
+    grabStop(); var bm = grabBeatMs(), b0 = playing ? tmapBeat(tnow()) : 0, start = playing ? Math.ceil(b0 / 4) * 4 : 0, t0 = NOW(), i = 0, ids = {};
+    GRB.run = { g: g, fx: {}, loop: !!loop };
+    g.ev.forEach(function (e) { if (e[1][0] !== "@") ids[e[1]] = 1; });
+    GRB.tm = setInterval(function () {
+      var beat = (playing ? tmapBeat(tnow()) : (NOW() - t0) / grabBeatMs()) - start, e;
+      while (i < g.ev.length && g.ev[i][0] <= beat) { e = g.ev[i++]; if (e[1] === "@fx") GRB.run.fx[e[2][0]] = e[2][1]; grabApply(e); }
+      Object.keys(ids).forEach(function (id) { var el = $(id), a, b2, k, n; if (!el || el.type !== "range") return; a = null; b2 = null; for (k = 0; k < g.ev.length; k++) { if (g.ev[k][1] !== id) continue; if (g.ev[k][0] <= beat) a = g.ev[k]; else { b2 = g.ev[k]; break; } } if (a && b2 && b2[0] > a[0]) { n = a[2] + (b2[2] - a[2]) * (beat - a[0]) / (b2[0] - a[0]); if (AB(+el.value - n) >= (+el.step || 1)) { el.value = n; el.dispatchEvent(new Event("input", { bubbles: true })); } } });
+      if (beat >= g.beats) { if (GRB.run && GRB.run.loop) { i = 0; start += g.beats; } else grabStop(); }
+    }, 20);
+    grabShow();
+  }
+  /* Flying faders: one automation lane. Points are (song beat, value) on the tempo map. The lane moves its slider through the ordinary input event, so the recipe log, the limits and the offline render treat it like a hand. */
+  var LANE = { id: "", mode: "off", pts: [], held: false, latched: false, gl: null, self: false, lastW: -9 };
+  function laneVal(b) {
+    var p = LANE.pts, k; if (!p.length) return null; if (b <= p[0][0]) return p[0][1]; if (b >= p[p.length - 1][0]) return p[p.length - 1][1];
+    for (k = 1; k < p.length; k++) if (b <= p[k][0]) return p[k - 1][1] + (p[k][1] - p[k - 1][1]) * (b - p[k - 1][0]) / MX(1e-6, p[k][0] - p[k - 1][0]);
+    return null;
+  }
+  function laneSet(el, v) { LANE.self = true; el.value = v; el.dispatchEvent(new Event("input", { bubbles: true })); LANE.self = false; }
+  function laneWrite(b, v) {
+    if (b - LANE.lastW < 0.05) return; LANE.lastW = b;
+    LANE.pts = LANE.pts.filter(function (q) { return AB(q[0] - b) >= 0.05; }); LANE.pts.push([+b.toFixed(3), +v]); LANE.pts.sort(function (x, y) { return x[0] - y[0]; }); laneShow();
+  }
+  function laneShow() { var m = $("lnmsg"); if (m) m.textContent = LANE.pts.length ? LANE.pts.length + " points on " + (LANE.id || "no slider") + "." : "Pick a slider, press Record while the song plays and move it; Play makes it move on its own."; }
+  function laneFill() { var s = $("lnid"), h = ""; EA(QA("input[type=range][id]"), function (e) { if (e.id === "scrub" || e.id === "hscrub") return; var l = e.getAttribute("aria-label") || e.id; h += '<option value="' + e.id + '">' + esc(l) + "</option>"; }); s.innerHTML = h; LANE.id = s.value; }
+  document.addEventListener("input", function (e) {
+    if (LANE.self || !playing || e.target.id !== LANE.id) return; var b = tmapBeat(tnow());
+    if (LANE.mode === "rec" || ((LANE.mode === "touch" || LANE.mode === "latch") && (LANE.held || LANE.latched))) { laneWrite(b, +e.target.value); if (LANE.mode === "latch") LANE.latched = true; LANE.gl = null; }
+  }, true);
+  document.addEventListener("pointerdown", function (e) { if (e.target.id === LANE.id) { LANE.held = true; LANE.gl = null; } }, true);
+  function laneRelease() { var el, b; if (!LANE.held) return; LANE.held = false; el = $(LANE.id); if (el && LANE.mode === "touch" && playing) { b = tmapBeat(tnow()); LANE.gl = { from: +el.value, b0: b }; } }
+  document.addEventListener("pointerup", laneRelease, true); document.addEventListener("change", function (e) { if (e.target.id === LANE.id) laneRelease(); }, true);
+  setInterval(function () {
+    var el, b, v, w;
+    if (!playing) { LANE.latched = false; LANE.gl = null; return; }
+    if (LANE.mode === "off" || LANE.mode === "rec" || !LANE.id || !LANE.pts.length || LANE.held || LANE.latched) return;
+    el = $(LANE.id); if (!el) return; b = tmapBeat(tnow()); v = laneVal(b); if (v === null) return;
+    if (LANE.gl) { w = MN(1, (b - LANE.gl.b0) / 1); v = LANE.gl.from + (v - LANE.gl.from) * w; if (w >= 1) LANE.gl = null; }
+    if (AB(+el.value - v) >= (+el.step || 1)) laneSet(el, v);
+  }, 20);
+  $("lnid").addEventListener("change", function () { LANE.id = $("lnid").value; laneShow(); });
+  $("lnmode").addEventListener("change", function () { LANE.mode = $("lnmode").value; LANE.latched = false; LANE.gl = null; });
+  $("lnclr").addEventListener("click", function () { LANE.pts = []; LANE.gl = null; laneShow(); });
+  laneFill();
+  function grabShow() {
+    var ul = $("grlist"), h = "";
+    GRB.list.forEach(function (g, k) { h += '<li><input class="txt" type="text" value="' + esc(g.name) + '" data-gn="' + k + '" aria-label="Name of grab ' + (k + 1) + '"><button class="btn" type="button" data-grplay="' + k + '">' + (GRB.run && GRB.run.g === g ? "Stop" : "Play") + '</button><button class="btn" type="button" data-gl="' + k + '" aria-pressed="' + !!(GRB.run && GRB.run.g === g && GRB.run.loop) + '">Loop</button><button class="btn" type="button" data-gd="' + k + '">Delete</button></li>'; });
+    ul.innerHTML = h || '<li class="hint">Nothing grabbed yet. Move some controls, then press Grab.</li>';
+  }
+  $("grlist").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; var k; if (b.hasAttribute("data-grplay")) { k = +b.getAttribute("data-grplay"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); else grabPlay(GRB.list[k], false); } else if (b.hasAttribute("data-gl")) { k = +b.getAttribute("data-gl"); grabPlay(GRB.list[k], !(GRB.run && GRB.run.g === GRB.list[k] && GRB.run.loop)); } else if (b.hasAttribute("data-gd")) { k = +b.getAttribute("data-gd"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); GRB.list.splice(k, 1); grabSave(); grabShow(); } });
+  $("grlist").addEventListener("change", function (e) { var t = e.target; if (t.hasAttribute && t.hasAttribute("data-gn")) { GRB.list[+t.getAttribute("data-gn")].name = String(t.value).slice(0, 40); grabSave(); } });
+  $("grab").addEventListener("click", function () {
+    var pre = +$("grpre").value, post = +$("grpost").value, m = $("grmsg"), bm = grabBeatMs();
+    if (post > 0) { m.textContent = "Grabbing for " + post + " more bar" + (post > 1 ? "s" : "") + ". Keep playing."; $("grab").disabled = true; setTimeout(function () { var g = grabMake(pre, post); $("grab").disabled = false; m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window."; }, post * 4 * bm); return; }
+    var g = grabMake(pre, 0); m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window.";
+  });
+  grabShow();
+  /* Play log (opt in, this device only): which controls, which values, when. Never song or file names, notes or audio. */
+  var ELOG = { on: false, ev: [], ls: {}, key: "phosphor.playlog.v1", dirty: false };
+  try { var els = JSON.parse(localStorage.getItem(ELOG.key) || "null"); if (els && els.ev) { ELOG.ev = els.ev; ELOG.on = !!els.on; } } catch (e) { /* storage blocked */ }
+  function elog(k, id, v) {
+    if (!ELOG.on) return; var now = Date.now(), L;
+    L = k === "set" && ELOG.ls[id];
+    if (L && now - L[0] < 600 && ELOG.ev.indexOf(L) >= 0) { L[0] = now; L[4] = v; }
+    else { L = [now, playing ? +tnow().toFixed(1) : null, k, id, v === undefined ? null : v]; ELOG.ev.push(L); if (k === "set") ELOG.ls[id] = L; if (ELOG.ev.length > 3000) ELOG.ev.splice(0, ELOG.ev.length - 3000); }
+    ELOG.dirty = true;
+  }
+  function elSave() { if (!ELOG.dirty && !ELOG.flag) return; ELOG.dirty = ELOG.flag = false; try { localStorage.setItem(ELOG.key, JSON.stringify({ on: ELOG.on, ev: ELOG.ev })); } catch (e) { /* storage blocked */ } }
+  function elSummary() {
+    var ses = [], cur = null, ids = {}, pre = 0, man = 0, tt = [];
+    ELOG.ev.forEach(function (e) {
+      if (e[2] === "start" || !cur || e[0] - cur.last > 1800000) { cur = { t0: e[0], last: e[0], n: 0, ttfs: null, errs: 0, lastId: "" }; ses.push(cur); }
+      cur.last = e[0]; cur.n++;
+      if (cur.ttfs === null && (e[2] === "play" || e[2] === "key")) { cur.ttfs = e[0] - cur.t0; tt.push(cur.ttfs); }
+      if (e[2] === "err") cur.errs++;
+      if (e[2] === "tap" || e[2] === "set" || e[2] === "pick" || e[2] === "fx" || e[2] === "preset") { ids[e[3]] = (ids[e[3]] || 0) + 1; cur.lastId = e[3]; if (e[2] === "preset" || /^(gp|pre)=/.test(e[3])) pre++; else if (e[2] === "set") man++; }
+    });
+    tt.sort(function (a, b) { return a - b; });
+    return { sessions: ses.length, events: ELOG.ev.length, medianFirstSoundSec: tt.length ? +(tt[FL(tt.length / 2)] / 1000).toFixed(1) : null, presetTaps: pre, sliderMoves: man, top: Object.keys(ids).sort(function (a, b) { return ids[b] - ids[a]; }).slice(0, 5).map(function (k) { return k + " x" + ids[k]; }), errors: ses.reduce(function (n, x) { return n + x.errs; }, 0), stoppedAt: ses.map(function (x) { return x.lastId || "-"; }).slice(-5) };
+  }
+  function elLabel(t) { if (t.id) return t.id; var a = t.attributes, i; for (i = 0; i < a.length; i++) if (/^data-/.test(a[i].name)) return a[i].name.slice(5) + "=" + a[i].value; return t.tagName.toLowerCase(); }
+  function elShow() {
+    var sm = elSummary(), on = ELOG.on; AP($("elb"), on); $("elb").textContent = on ? "Play log: on" : "Play log: off";
+    $("elsum").textContent = on || sm.events ? sm.sessions + " session(s), " + sm.events + " events. First sound after " + (sm.medianFirstSoundSec === null ? "no data" : sm.medianFirstSoundSec + " s") + ". Presets " + sm.presetTaps + ", slider moves " + sm.sliderMoves + ". Most used: " + (sm.top.join(", ") || "none") + ". Errors: " + sm.errors + "." : "Off. When on, this device keeps which controls were used and when, never song names or sound.";
+  }
+  document.addEventListener("pointerdown", function (e) { var t = e.target.closest && e.target.closest("button,label,summary"); if (t) elog("tap", elLabel(t.tagName === "LABEL" && t.control ? t.control : t)); }, true);
+  document.addEventListener("input", function (e) { var t = e.target; if (t && t.type === "range") elog("set", elLabel(t), +t.value); }, true);
+  document.addEventListener("change", function (e) { var t = e.target; if (t && (t.type === "radio" || t.type === "checkbox")) elog("pick", elLabel(t), t.type === "checkbox" ? (t.checked ? 1 : 0) : t.value); }, true);
+  document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) elog("key", e.code); }, true);
+  window.addEventListener("error", function (e) { elog("err", String(e.message || "").slice(0, 60)); });
+  window.addEventListener("pagehide", elSave); document.addEventListener("visibilitychange", elSave); setInterval(elSave, 5000);
+  $("rnb").addEventListener("click", function () {
+    var b = $("rnb"), m = $("rnsum"); b.disabled = true; b.textContent = "Rendering"; m.textContent = "Rendering the session through the effect chain. Nothing is sent anywhere.";
+    recRender().then(function (o) {
+      var u = URL.createObjectURL(new Blob([recWav(o)], { type: "audio/wav" })), a = document.createElement("a"); a.href = u; a.download = "phosphor-session.wav"; document.body.appendChild(a); a.click(); a.remove();
+      m.textContent = "Rendered " + (o.l.length / o.sr).toFixed(1) + " seconds. If nothing was saved, this page blocks downloads."; setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
+    }, function (e) { m.textContent = "The render did not finish: " + e.message; }).then(function () { b.disabled = false; b.textContent = "Render to WAV"; });
+  });
+  $("elb").addEventListener("click", function () { ELOG.on = !ELOG.on; ELOG.flag = true; if (ELOG.on) elog("start"); elSave(); elShow(); });
+  $("elclr").addEventListener("click", function () { ELOG.ev = []; ELOG.flag = true; elSave(); elShow(); });
+  $("elcopy").addEventListener("click", function () { var t = JSON.stringify({ v: 1, summary: elSummary(), events: ELOG.ev }); try { navigator.clipboard.writeText(t).then(function () { $("elsum").textContent = "Play log copied (" + ELOG.ev.length + " events)."; }, function () { $("elsum").textContent = "Copy was blocked here."; }); } catch (e) { $("elsum").textContent = "Copy was blocked here."; } });
+  if (ELOG.on) elog("start"); elShow();
   function singMsg(s) { $("recmsg").textContent = s; }
   var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
   function singUI() { $("ovr").hidden = SING.state !== "armed"; $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }
@@ -1682,8 +1969,8 @@
     });
   })();
   /* Tighten: a real-time quantizer can only wait, so a press is delayed toward the next swung step by QZ of the wait. */
-  function qzWait(tnowS) { if (!QZ || !playing && !BPM) return 0; var st = seqStep(), base = seqBase(), j = FL((tnowS - base) / st) - 1, w = 1e9, k, f; for (k = j; k <= j + 3; k++) { f = base + k * st + swingOff(k); if (f >= tnowS - 1e-6 && f - tnowS < w) w = f - tnowS; } return w > st * 2 ? 0 : w * QZ; }
-  function noteStartQ(i) { var w = qzWait(playing ? tnow() : (AC ? AC.currentTime : 0) - 0); if (w > 0.004) { NOTES.pend = NOTES.pend || {}; NOTES.pend[i] = setTimeout(function () { delete NOTES.pend[i]; if (!NOTES.stopEarly || !NOTES.stopEarly[i]) noteStart(i); else delete NOTES.stopEarly[i]; }, w * 1000); } else noteStart(i); }
+  function qzWait(tnowS) { if (!QZ || !playing && !BPM) return 0; var st = seqStep(), j = seqN(tnowS) - 1, w = 1e9, k, f; for (k = j; k <= j + 3; k++) { f = seqT(k) + swingOff(k); if (f >= tnowS - 1e-6 && f - tnowS < w) w = f - tnowS; } return w > st * 2 ? 0 : w * QZ; }
+  function noteStartQ(i) { recAct("note", i); var w = qzWait(playing ? tnow() : (AC ? AC.currentTime : 0) - 0); if (w > 0.004) { NOTES.pend = NOTES.pend || {}; NOTES.pend[i] = setTimeout(function () { delete NOTES.pend[i]; if (!NOTES.stopEarly || !NOTES.stopEarly[i]) noteStart(i); else delete NOTES.stopEarly[i]; }, w * 1000); } else noteStart(i); }
   function noteMark(i, on) { var b = $("nkeys").querySelector('[data-i="' + i + '"]'); if (b) AP(b, on); }
   function noteStart(i) {
     if (NOTES.voices[i] || Object.keys(NOTES.voices).length >= 4) return;
@@ -1787,7 +2074,8 @@
   }
   function pocketText() { if (!$("dock")) return; $("dtitle").textContent = SRCNAME; $("dspec").textContent = "Mono • " + NB + " bands • " + FPS + " fps • " + (SR / 1000).toFixed(1) + " kHz"; }
   function teardownPocket() { var s = $("ledstrip"); if (s) s.remove(); }
-  (function () { pocketText(); if (window.ResizeObserver) new ResizeObserver(function () { if (document.documentElement.getAttribute("data-dock") !== "hidden") document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px"); }).observe($("dock")); })();
+  (function () { pocketText(); /* The write moves the body padding, which can toggle the page scrollbar, rewrap the dock and resize it again: a real loop (WebKit and Firefox report it, Chromium's overlay scrollbars hide it). So write in the next frame, and only when the height changed. */
+    if (window.ResizeObserver) { var dkq = 0; new ResizeObserver(function () { if (dkq) return; dkq = requestAnimationFrame(function () { dkq = 0; var r = document.documentElement, v; if (r.getAttribute("data-dock") === "hidden") return; v = $("dock").offsetHeight + "px"; if (r.style.getPropertyValue("--dock-h") !== v) r.style.setProperty("--dock-h", v); }); }).observe($("dock")); } })();
   function applySkin(name, save) {
     SKIN = name === "pocket" ? "pocket" : "arcs";
     if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
@@ -1825,7 +2113,7 @@
     cv.width = on ? 1600 : 1280; cv.height = on ? 900 : 360;
     AP($("fsb"), on); wakeHud(); frame(playing);
   }
-  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { if (EJT) { wakeHud(); return; } f.classList.add("idle"); }, 2600); } /* never fade the HUD under a held Eject: WebKit fires pointerleave and cancels the hold */
   EA(QA("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
   function kidSync() { EA(QA("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
   document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);
@@ -1897,6 +2185,97 @@
     bp.addEventListener("click", function () { if (sup) return; if (pos && pos.t) { pos.t = ""; place(); save(); } else { setDock(false); saveSettings(); } });
   })();
   (function () { var y0 = null; function dn(e) { if (e.target.closest("button, input, select, a, summary")) return; y0 = e.clientY; } function up(e) { if (y0 !== null && e.clientY - y0 > 56) { setDock(true); saveSettings(); } y0 = null; } $("dock").addEventListener("pointerdown", dn); $("dock").addEventListener("pointerup", up); })();
+  /* The tray: open it with Mix. Each row is a level slider that lives between its own min and max limits. */
+  (function () {
+    var tr = $("fxtray"), h = "";
+    function save() { try { localStorage.setItem(FXLKEY, JSON.stringify(FXL)); } catch (e) { /* storage blocked */ } }
+    FXLK.forEach(function (k) {
+      h += '<div class="fxr" data-k="' + k[0] + '"><label for="mv_' + k[0] + '">' + k[1] + '</label><input type="range" id="mv_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' level"><span class="fxl"><label for="ml_' + k[0] + '">min</label><input type="range" id="ml_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' lowest level"><label for="mh_' + k[0] + '">max</label><input type="range" id="mh_' + k[0] + '" min="0" max="100" aria-label="' + k[1] + ' highest level"></span></div>';
+    });
+    tr.innerHTML = h;
+    function sync(k) {
+      var m = FXL[k], r = tr.querySelector('[data-k=' + k + ']'), v = r.querySelector('[id^=mv_]');
+      v.min = RD(m.lo * 100); v.max = RD(m.hi * 100); v.value = RD(fxE(k) * 100); r.querySelector('[id^=ml_]').value = RD(m.lo * 100); r.querySelector('[id^=mh_]').value = RD(m.hi * 100);
+      fxApply(k);
+    }
+    EA(tr.querySelectorAll(".fxr"), function (r) {
+      var k = r.getAttribute("data-k"), m = FXL[k];
+      r.querySelector("[id^=mv_]").addEventListener("input", function (e) { m.v = e.target.value / 100; sync(k); save(); frame(playing); });
+      r.querySelector("[id^=ml_]").addEventListener("input", function (e) { m.lo = MN(m.hi, e.target.value / 100); sync(k); save(); frame(playing); });
+      r.querySelector("[id^=mh_]").addEventListener("input", function (e) { m.hi = MX(m.lo, e.target.value / 100); sync(k); save(); frame(playing); });
+      sync(k);
+    });
+  })();
+  /* Consent splash: shown once per device on the hosted page; test mode skips it so the checks drive the page directly. */
+  (function () {
+    var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
+    try { ok = localStorage.getItem(KEY) === "1"; } catch (e) { /* storage blocked: ask every time */ }
+    if (ok || RENDERMODE || /[?&]test=1/.test(location.search)) return;
+    function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
+    cs.hidden = false; lock(true); $("csgo").focus();
+    $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) { /* storage blocked */ } cs.hidden = true; lock(false); });
+  })();
+  /* Pads: sixteen big pads per bank, four banks, each pad plays one slice of the song (64 slices). Keys 1234 QWER ASDF ZXCV play them while the tray is open. With no slices yet the first press chops the song into 16 equal parts. */
+  var PAD = { open: false, bank: 0, src: [], log: [], held: {}, edit: false, sel: -1, map: {}, key: "phosphor.padmap.v1" }, PADFX = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
+  try { PAD.map = JSON.parse(localStorage.getItem(PAD.key) || "{}") || {}; } catch (e) { /* storage blocked */ }
+  function padFx(i) { return (PAD.map[PAD.bank] || {})[i] || ""; }
+  function padName(k) { var f = PADFX.filter(function (x) { return x[0] === k; })[0]; return f ? f[1] : ""; }
+  function padMsg(s) { $("padmsg").textContent = s; }
+  function padRelease(i) { var k = PAD.held[i]; if (k) { fxHold(k.k, k.src, false); delete PAD.held[i]; } }
+  function padReleaseAll() { Object.keys(PAD.held).forEach(padRelease); }
+  function padRefresh() {
+    if (!$("padtray") || !$("pbk")) return;
+    EA(QA("#pbk .btn"), function (b, i) { var fx = padFx(i), has = !!fx || !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); b.querySelector("small").textContent = fx ? padName(fx) : String(i + 1); AP(b, PAD.edit && PAD.sel === i); });
+    EA(QA("#padpick .btn"), function (b) { AP(b, PAD.sel >= 0 && (b.getAttribute("data-fx") || "") === padFx(PAD.sel)); });
+    EA(QA("#pbkb .btn"), function (b, k) { AP(b, k === PAD.bank); b.firstChild.nodeValue = "ABCD"[k] + " " + MX(0, MN(16, SLICES.length - k * 16)); });
+  }
+  function padVoice(i, s) {
+    try { if (PAD.src[i]) PAD.src[i].stop(); } catch (e) { /* ended */ }
+    var b = AC.createBufferSource(), g = AC.createGain(), t = AC.currentTime, d = s.t1 - s.t0;
+    b.buffer = BUF; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + 0.003); g.gain.setValueAtTime(1, t + MX(0.003, d - 0.006)); g.gain.linearRampToValueAtTime(0.0001, t + d);
+    b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b; PAD.voices = (PAD.voices || 0) + 1;
+  }
+  function padHit(i) {
+    if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
+    var fx = padFx(i); recAct("pad", PAD.bank + ":" + i + (fx ? ":" + fx : "")); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
+    if (!BUF) { padMsg("Load a song first."); return; }
+    if (!SLICES.length) { var k, n = 16; for (k = 0; k < n; k++) addSlice(k * DUR / n, (k + 1) * DUR / n); renderSlices(); drawStrip(tnow()); padMsg("The song is chopped into 16 equal parts. Cut your own on the slice strip any time."); }
+    var s = SLICES[PAD.bank * 16 + i]; if (!s) return;
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
+    padVoice(i, s); var el = QA("#pbk .btn")[i];
+    PAD.log.push([PAD.bank, i, +s.t0.toFixed(3), +s.t1.toFixed(3)]); if (PAD.log.length > 500) PAD.log.shift();
+    if (el) { el.classList.add("hit"); setTimeout(function () { el.classList.remove("hit"); }, 140); }
+  }
+  (function () {
+    var tr = $("padtray"), h = '<div class="pbkb" id="pbkb" role="group" aria-label="Banks">', i;
+    for (i = 0; i < 4; i++) h += '<button class="btn" type="button" data-bk="' + i + '" aria-pressed="' + (i === 0) + '">' + "ABCD"[i] + " 0</button>";
+    h += '</div><div class="pbkb"><button class="btn" type="button" id="padedit" data-min="4" aria-pressed="false">Edit pads</button></div><div class="pbk" id="pbk">';
+    for (i = 0; i < 16; i++) h += '<button class="btn" type="button" data-pk="' + i + '" aria-disabled="true" aria-label="Pad ' + (i + 1) + '">' + "1234QWERASDFZXCV"[i] + "<small>" + (i + 1) + "</small></button>";
+    tr.innerHTML = h + '</div><div class="pbkb" id="padpick" hidden role="group" aria-label="What the pad does"><button class="btn" type="button" data-fx="">Slice</button>' + PADFX.map(function (f) { return '<button class="btn" type="button" data-fx="' + f[0] + '">' + f[1] + "</button>"; }).join("") + '</div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
+    EA(QA("#pbk .btn"), function (b, k) {
+      b.addEventListener("pointerdown", function (e) { e.preventDefault(); padHit(k); });
+      ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) { b.addEventListener(ev, function () { padRelease(k); b.classList.remove("hit"); }); });
+      b.addEventListener("click", function (e) { if (e.detail === 0) { padHit(k); if (PAD.held[k]) setTimeout(function () { padRelease(k); b.classList.remove("hit"); }, 400); } });
+    });
+    $("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
+    EA(QA("#padpick .btn"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.map[PAD.bank] || (PAD.map[PAD.bank] = {}), v = b.getAttribute("data-fx"); if (v) m[PAD.sel] = v; else delete m[PAD.sel]; try { localStorage.setItem(PAD.key, JSON.stringify(PAD.map)); } catch (e) { /* storage blocked */ } padMsg("Pad " + (PAD.sel + 1) + " is now " + (v ? padName(v) : "a slice") + "."); padRefresh(); }); });
+    EA(QA("#pbkb .btn[data-bk]"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; PAD.sel = -1; padReleaseAll(); padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
+    window.addEventListener("keydown", function (e) {
+      var i = PADKEYS.indexOf(e.code); if (!PAD.open || i < 0 || e.metaKey || e.ctrlKey || e.altKey || pkTyping(e)) return;
+      e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) padHit(i);
+    }, true);
+    window.addEventListener("keyup", function (e) { var i = PADKEYS.indexOf(e.code); if (i >= 0 && PAD.held[i]) { padRelease(i); var el = QA("#pbk .btn")[i]; if (el) el.classList.remove("hit"); } }, true);
+    window.addEventListener("blur", padReleaseAll);
+    padRefresh();
+  })();
+  /* One tray component for Pads and Mix: one open at a time, Escape closes and returns focus, both close with the player. */
+  var TRAYS = { padtray: "dkpad", fxtray: "dkfx" };
+  function trayOpen(id, on) {
+    Object.keys(TRAYS).forEach(function (k) { var open = k === id && on; $(k).hidden = !open; $(TRAYS[k]).setAttribute("aria-expanded", open ? "true" : "false"); });
+    PAD.open = !$("padtray").hidden; if (!PAD.open) padReleaseAll(); padRefresh();
+  }
+  Object.keys(TRAYS).forEach(function (k) { $(TRAYS[k]).addEventListener("click", function () { trayOpen(k, $(k).hidden); }); });
+  document.addEventListener("keydown", function (e) { var o; if (e.key !== "Escape") return; Object.keys(TRAYS).forEach(function (k) { if (!$(k).hidden) o = k; }); if (o) { trayOpen(o, false); $(TRAYS[o]).focus(); } }, true);
   var ESCT = 0;
   function escStart() { if (ESCT) return; ESCT = setTimeout(function () { ESCT = 0; if (!LOCK) { setLock(true); saveSettings(); } }, EJMS); }
   document.addEventListener("keyup", function (e) { if (e.key === "Escape") { clearTimeout(ESCT); ESCT = 0; } });
@@ -1971,19 +2350,19 @@
   function lessonOpen() { var d = document.querySelector("details.lesson"); return !!(d && d.open); }
   var BARS = { n: 8, times: [], i: 0, play: false, timer: 0, lastDraw: 0, reduce: window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches };
   (function () { var h = "", i; for (i = 0; i < 8; i++) h += '<figure class="bar" data-b="' + i + '" tabindex="0" role="button" aria-label="Jump to bar ' + (i + 1) + ' of the next eight"><canvas width="128" height="72"></canvas><figcaption></figcaption></figure>'; $("bars").innerHTML = h; })();
-  function barTimes(t) { var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = FL((t - base) / bl) + 1, out = [], i; for (i = 0; i < 8; i++) out.push(base + (b0 + i) * bl); return out; }
+  function barTimes(t) { var b0 = FL(tmapBeat(t) / 4) + 1, out = [], i; for (i = 0; i < 8; i++) out.push(tmapTime(4 * (b0 + i))); return out; }
   var BARSEEN = true; if (window.IntersectionObserver) new IntersectionObserver(function (es) { BARSEEN = es[0].isIntersecting; }).observe($("bars"));
   function renderBars(t, force) {
     if (!BUF || !$("bars").offsetParent || (!BARSEEN && !force)) return;
-    var P = BPM ? 60 / BPM : 0.5, bl = 4 * P, base = BPM ? GRID0 : 0, b0 = FL((t - base) / bl) + 1, tiles = $("bars").children, i, pins = pinsHere();
-    var sig = [MODE, $("palsel").value, BITS, RUNG, LOOK.curve, LOOK.amt, CRT, CHSHARP, BPM, GRID0, NF, SRCNAME].join("|"), d = b0 - BARS.b0, from = 0;
+    var b0 = FL(tmapBeat(t) / 4) + 1, tiles = $("bars").children, i, pins = pinsHere();
+    var sig = [MODE, $("palsel").value, BITS, RUNG, LOOK.curve, LOOK.amt, CRT, CHSHARP, BPM, GRID0, NF, SRCNAME, TMAP ? TMAP.length : 0].join("|"), d = b0 - BARS.b0, from = 0;
     BARS.times = barTimes(t);
     if (force || sig !== BARS.sig || BARS.b0 === undefined || d < 0 || d >= 8) { from = 0; }
     else if (d > 0) { for (i = 0; i + d < 8; i++) { var cc = tiles[i].querySelector("canvas"), cs = tiles[i + d].querySelector("canvas"); cc.getContext("2d").drawImage(cs, 0, 0); } from = 8 - d; }
     else from = 8;
     BARS.sig = sig; BARS.b0 = b0;
     for (i = from; i < 8; i++) { var tk = BARS.times[i], c = tiles[i].querySelector("canvas"), g = c.getContext("2d"); if (tk >= DUR) g.clearRect(0, 0, c.width, c.height); else scene(g, c.width, c.height, tk); }
-    for (i = 0; i < 8; i++) { var tk2 = BARS.times[i], cap = tiles[i].querySelector("figcaption"); if (tk2 >= DUR) { cap.textContent = "end"; continue; } var np = pins.filter(function (p) { return p.at >= tk2 && p.at < tk2 + bl; }).length; cap.innerHTML = "Bar " + (i + 1) + " " + fmt(tk2) + (np ? ' <span class="bm">' + np + " pin" + (np > 1 ? "s" : "") + "</span>" : ""); }
+    for (i = 0; i < 8; i++) { var tk2 = BARS.times[i], cap = tiles[i].querySelector("figcaption"); if (tk2 >= DUR) { cap.textContent = "end"; continue; } var np = pins.filter(function (p) { return p.at >= tk2 && p.at < tmapTime(tmapBeat(tk2) + 4); }).length; cap.innerHTML = "Bar " + (i + 1) + " " + fmt(tk2) + (np ? ' <span class="bm">' + np + " pin" + (np > 1 ? "s" : "") + "</span>" : ""); }
     if (from < 8 || BARS.i !== BARS.shown) showBar(BARS.i);
   }
   function showBar(i) {
@@ -2007,4 +2386,6 @@
     for (q = 0; q < bin.length; q++) u[q] = bin.charCodeAt(q);
     $("status").textContent = "Decoding"; loadBytes(u.buffer, o.name, o.mime).catch(function () { $("status").textContent = "The embedded song could not be decoded in this browser."; });
   } else loadDemo();
+  recInit();
+  if (RENDERMODE) parent.postMessage({ type: "phosphor-render-ready" }, "*");
 })();

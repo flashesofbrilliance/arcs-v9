@@ -4,7 +4,8 @@
   "spec_version": "0.1.0-draft",
   "source": "ret-rfp-intelligence/DECISIONS.md (read-only)",
   "generator": "scripts/decision_geometry_ret.py",
-  "note": "Text adaptation of the spec's Receipt-column rules; see adaptation. L0 = tilde. No L5 is reachable from DECISIONS.md."
+  "scoring": "text-scored",
+  "note": "Text-scored: a text adaptation of the spec's Receipt-column rules; see adaptation. L0 = tilde. No L5 is reachable from DECISIONS.md."
  },
  "aspects": [
   {
@@ -358,12 +359,8 @@
   ],
   "D2": [
    {
-    "level": 4,
-    "rule": "Why cites a measured (B) or primary-source (C) grade"
-   },
-   {
     "level": 3,
-    "rule": "Why carries an A-E source grade"
+    "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
    },
    {
     "level": 2,
@@ -488,8 +485,12 @@
   ],
   "C2": [
    {
+    "level": 2,
+    "rule": "conviction stated: the record grades its own claim A to E"
+   },
+   {
     "level": 1,
-    "rule": "conviction inferred from an A-E source grade or measurement"
+    "rule": "conviction inferred from a measurement with no grade"
    }
   ],
   "C3": [
@@ -547,7 +548,7 @@
    "title": "Large documents (a real RFP runs 400-600 pages)",
    "fields": {
     "Decision": "Keep retrieval-then-select: the parser chunks the RFP into clauses; each question sends only the question plus ~8 retrieved clauses to the model. The model's context window is never the constraint.",
-    "Why": "Sam Ito: only what is needed leaves RET's environment. Nina: figures verbatim; checking ~8 clauses is tractable, checking a whole document per answer is not. Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+    "Why": "Sam Ito: only what is needed leaves RET's environment. Nina: figures verbatim; checking ~8 clauses is tractable, checking a whole document per answer is not. Measured cost ~$0.0038/question with this path on 2026-10-10 (since re-measured; the deck shows the current figure) (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
     "What Changes At 600 Pages, In Order Of Risk": "1. PDF extraction (tables, page breaks; KINTSUGI K1). Production path: Docling (MIT, runs locally). 2. Retrieval recall (vocabulary misses grow with size; K5, K25). Production path: add local embeddings as a second retriever and merge results; keep the glossary. 3. Bulk extraction of key facts from a new RFP: run offline through a batch API at reduced cost.",
     "Rejected": "Whole-document prompts as the answer path (cost, data leaving the environment, unverifiable volume). A long-context model is kept as an optional offline auditor that asks \"what did retrieval miss?\". Prompt caching: the repeated prefix (instructions) is below the size where it pays.",
     "Revisit When": "The PJM real-document test runs (HYPOTHESES H3, H4)."
@@ -559,9 +560,9 @@
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
-     "evidence": "Why: Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "level": 3,
+     "evidence": "Why: Measured cost ~$0.0038/question with this path on 2026-10-10 (since re-measured; the deck shows the current figure) (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -580,7 +581,7 @@
     },
     "R1": {
      "level": 2,
-     "evidence": "Why: Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+     "evidence": "Why: Measured cost ~$0.0038/question with this path on 2026-10-10 (since re-measured; the deck shows the current figure) (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
      "rule": "a quantified stake ($, %, MB, multiple)"
     },
     "R2": {
@@ -604,9 +605,9 @@
      "rule": "cites a logged mistake (KINTSUGI K id)"
     },
     "W1": {
-     "level": 0,
-     "evidence": null,
-     "rule": "no matching text: tilde (unknown), not guessed"
+     "level": 2,
+     "evidence": "Why: Measured cost ~$0.0038/question with this path on 2026-10-10 (since re-measured; the deck shows the current figure) (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+     "rule": "a dated or deadline-bounded window"
     },
     "W2": {
      "level": 2,
@@ -635,8 +636,8 @@
     },
     "C2": {
      "level": 1,
-     "evidence": "Why: Measured cost ~$0.0038/question with this path (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "evidence": "Why: Measured cost ~$0.0038/question with this path on 2026-10-10 (since re-measured; the deck shows the current figure) (UNIT-ECONOMICS.md); sending the whole document is an estimated ~157x more.",
+     "rule": "conviction inferred from a measurement with no grade"
     },
     "C3": {
      "level": 1,
@@ -683,7 +684,8 @@
    "index": 775,
    "rungs": [
     "Tactical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-K33",
@@ -701,9 +703,9 @@
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
+     "level": 3,
      "evidence": "Why: Measured (B): the follow-up call alone passed 3 of 3 manual runs, then failed inside the pre-commit gate, so a second model call is still a coin flip.",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -776,9 +778,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: Measured (B): the follow-up call alone passed 3 of 3 manual runs, then failed inside the pre-commit gate, so a second model call is still a coin flip.",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -826,7 +828,8 @@
    "rungs": [
     "Operational",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-K34",
@@ -921,7 +924,7 @@
     "C2": {
      "level": 1,
      "evidence": "Rejected: Cheaper and no force-push, but it removes the verifiable record that every \"measured\" claim leans on.",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction inferred from a measurement with no grade"
     },
     "C3": {
      "level": 1,
@@ -972,7 +975,8 @@
     "Operational",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-LAYOUT",
@@ -990,9 +994,9 @@
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
+     "level": 3,
      "evidence": "Why: Five independent scroll areas cannot be printed as one document, and below about 1,000 px wide they stack anyway (D: inference, not yet measured on this deck).",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -1065,9 +1069,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: Five independent scroll areas cannot be printed as one document, and below about 1,000 px wide they stack anyway (D: inference, not yet measured on this deck).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -1116,7 +1120,8 @@
     "Strategic",
     "Operational",
     "Tactical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-DISCLAIM",
@@ -1136,7 +1141,7 @@
     "D2": {
      "level": 3,
      "evidence": "Why: The client set these rules (A: brief, discovery).",
-     "rule": "Why carries an A-E source grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -1209,9 +1214,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: The client set these rules (A: brief, discovery).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -1256,7 +1261,8 @@
    },
    "shape": "22211",
    "index": 775,
-   "rungs": []
+   "rungs": [],
+   "unstructured": false
   },
   {
    "id": "D-SHOW",
@@ -1274,9 +1280,9 @@
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
+     "level": 3,
      "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -1349,9 +1355,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
-     "evidence": "Why: The provenance rule (every number measured, cited, client-provided, derived with inputs shown, or an explicit placeholder) is enforced in the files but invisible to the panel.",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "level": 2,
+     "evidence": "Why: The briefing video grades how reasoning is communicated (A).",
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -1400,7 +1406,8 @@
     "Strategic",
     "Operational",
     "Tactical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-EVALMAP",
@@ -1418,9 +1425,9 @@
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
+     "level": 3,
      "evidence": "Why: Code paths and changed files are measured, so they cannot drift from the code (B).",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -1493,9 +1500,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: Code paths and changed files are measured, so they cannot drift from the code (B).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -1543,7 +1550,8 @@
    "rungs": [
     "Operational",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-DIAGRAM",
@@ -1563,7 +1571,7 @@
     "D2": {
      "level": 3,
      "evidence": "Why: The runtime stays standard-library only, which is the support and air-gap story Sam Ito's constraints point to (A).",
-     "rule": "Why carries an A-E source grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -1636,9 +1644,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: The runtime stays standard-library only, which is the support and air-gap story Sam Ito's constraints point to (A).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -1687,7 +1695,8 @@
     "Strategic",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-SCOPE",
@@ -1707,7 +1716,7 @@
     "D2": {
      "level": 3,
      "evidence": "Why: No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement).",
-     "rule": "Why carries an A-E source grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -1780,9 +1789,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: No line in the brief asks for per-stakeholder dashboards or commercial terms, and they had become the critical path (bar-raiser BR2, BR3; D: reviewer judgement).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -1830,31 +1839,32 @@
    "rungs": [
     "Strategic",
     "Operational"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-BRAND",
    "title": "The deck uses monday.com's public design-system colours and type, not its logo (Zach, 2026-10-10)",
    "fields": {
-    "Decision": "Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles. No logo.",
+    "Decision": "Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/source/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles. No logo.",
     "Why": "The candidate presents as monday.com's forward deployed engineer to a monday.com customer, so the deck should look at home next to monday.com's own product (C: primary source opened). Values were read from the source, not recalled.",
     "Rejected": "The candidate's personal dark palette (reads as a personal brand, prints poorly). monday.com's logo (would make a candidate's deck look like an official monday.com document).",
-    "Revisit When": "monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered."
+    "Revisit When": "monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered. **Correction (2026-10-12, brief trace).** No separate Deadlines board or Amendment Log was built. The deadlines are rows on RET · Key Facts (the proposal due date and key dates, with the governing text), and each amendment's changes are the \"What it changes\" column on RET · Solicitations. The record above described the intent; this is what shipped."
    },
    "cells": {
     "D1": {
      "level": 2,
-     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/source/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
+     "level": 3,
      "evidence": "Why: The candidate presents as monday.com's forward deployed engineer to a monday.com customer, so the deck should look at home next to monday.com's own product (C: primary source opened).",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
-     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered. **Correction (2026-10-12, brief trace).** No separate Deadlines board or Amendment Log was built.",
      "rule": "Rejected alternatives plus a revisit trigger (the meta-question) both present; needs Rejected too"
     },
     "D4": {
@@ -1894,18 +1904,18 @@
     },
     "W1": {
      "level": 2,
-     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/source/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
      "rule": "a dated or deadline-bounded window"
     },
     "W2": {
      "level": 2,
-     "evidence": "[CONDITIONAL] Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "evidence": "[CONDITIONAL] Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered. **Correction (2026-10-12, brief trace).** No separate Deadlines board or Amendment Log was built.",
      "rule": "a Revisit trigger: the window is CONDITIONAL (CLOSED when it says Never)"
     },
     "W3": {
-     "level": 0,
-     "evidence": null,
-     "rule": "no matching text: tilde (unknown), not guessed"
+     "level": 2,
+     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered. **Correction (2026-10-12, brief trace).** No separate Deadlines board or Amendment Log was built.",
+     "rule": "the Revisit trigger is an observable entry condition"
     },
     "W4": {
      "level": 2,
@@ -1919,13 +1929,13 @@
     },
     "C1": {
      "level": 1,
-     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/source/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: The candidate presents as monday.com's forward deployed engineer to a monday.com customer, so the deck should look at home next to monday.com's own product (C: primary source opened).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -1939,7 +1949,7 @@
     },
     "C5": {
      "level": 1,
-     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered. **Correction (2026-10-12, brief trace).** No separate Deadlines board or Amendment Log was built.",
      "rule": "cadence inferred: a revisit timing exists"
     },
     "H1": {
@@ -1959,12 +1969,12 @@
     },
     "H4": {
      "level": 1,
-     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered.",
+     "evidence": "Revisit When: monday.com supplies a presentation template, or the fonts cannot load where the PDF is rendered. **Correction (2026-10-12, brief trace).** No separate Deadlines board or Amendment Log was built.",
      "rule": "implied Tactical: a named tool or format choice"
     },
     "H5": {
      "level": 1,
-     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/src/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
+     "evidence": "Decision: Colours and fonts come from monday.com's open Vibe design system (github.com/mondaycom/vibe: `packages/style/source/themes/light-theme.scss`, `typography.scss`; read 2026-10-10): primary #0073ea, positive #00854d, text #323338 and #676879, borders #d0d4e4, grey background #f6f7fb; Figtree for text, Poppins for titles.",
      "rule": "implied Surgical: a named file, command or test"
     }
    },
@@ -1974,7 +1984,8 @@
     "Strategic",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-SUBTRACT",
@@ -1994,7 +2005,7 @@
     "D2": {
      "level": 3,
      "evidence": "Why: Brief p7 rewards a modest build that proves you listened (A); the bar-raiser put over-built perception at 55% if extra work ships and is shown (D, BR-P3).",
-     "rule": "Why carries an A-E source grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -2067,9 +2078,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: Brief p7 rewards a modest build that proves you listened (A); the bar-raiser put over-built perception at 55% if extra work ships and is shown (D, BR-P3).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -2118,7 +2129,8 @@
     "Strategic",
     "Operational",
     "Tactical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-MCP",
@@ -2136,9 +2148,9 @@
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
+     "level": 3,
      "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -2211,9 +2223,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: Our writes must be deterministic and auditable: upserts keyed on the clause (no duplicates on re-run), every call's complexity cost logged (B: flightlog/monday_calls.jsonl), and an allowlist of four boards (war game S7).",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -2262,7 +2274,8 @@
     "Strategic",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-FREEZE",
@@ -2280,9 +2293,9 @@
      "rule": "a **Decision.** paragraph states the choice"
     },
     "D2": {
-     "level": 4,
+     "level": 3,
      "evidence": "Why: Measured on the plan itself: in the last ~60 commits it grew from 18 to 45 tasks while done went from 6 to 15 (B: plan.json history), and more asks lived only in HANDOFF.md.",
-     "rule": "Why cites a measured (B) or primary-source (C) grade"
+     "rule": "Why carries an A-E source grade or a measurement (self-cited, so capped at L3: L4 needs a second source a script opens)"
     },
     "D3": {
      "level": 2,
@@ -2355,9 +2368,9 @@
      "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
     },
     "C2": {
-     "level": 1,
+     "level": 2,
      "evidence": "Why: Measured on the plan itself: in the last ~60 commits it grew from 18 to 45 tasks while done went from 6 to 15 (B: plan.json history), and more asks lived only in HANDOFF.md.",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction stated: the record grades its own claim A to E"
     },
     "C3": {
      "level": 1,
@@ -2406,7 +2419,8 @@
     "Operational",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-REUSE",
@@ -2547,7 +2561,8 @@
    "index": 0,
    "rungs": [
     "Executive"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-SETUPRUN",
@@ -2690,7 +2705,8 @@
     "Operational",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-SDK",
@@ -2783,7 +2799,7 @@
     "C2": {
      "level": 1,
      "evidence": "Decision: We did not use it: the build is standard-library Python with no npm step, and our own client logs the cost and complexity of every call and applies the retry rules we measured (`source/rfp/monday.py`), which the SDK would hide.",
-     "rule": "conviction inferred from an A-E source grade or measurement"
+     "rule": "conviction inferred from a measurement with no grade"
     },
     "C3": {
      "level": 0,
@@ -2831,7 +2847,8 @@
    "rungs": [
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-ORCH",
@@ -2973,7 +2990,8 @@
     "Strategic",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-PLAY",
@@ -3113,7 +3131,8 @@
    "rungs": [
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-HELP",
@@ -3254,7 +3273,8 @@
     "Strategic",
     "Operational",
     "Tactical"
-   ]
+   ],
+   "unstructured": false
   },
   {
    "id": "D-RC14-GATE",
@@ -3395,7 +3415,8 @@
     "Operational",
     "Tactical",
     "Surgical"
-   ]
+   ],
+   "unstructured": true
   },
   {
    "id": "D-SIZE",
@@ -3534,7 +3555,8 @@
    "index": 0,
    "rungs": [
     "Operational"
-   ]
+   ],
+   "unstructured": true
   },
   {
    "id": "D-CLAIMS",
@@ -3673,7 +3695,8 @@
    "index": 0,
    "rungs": [
     "Surgical"
-   ]
+   ],
+   "unstructured": true
   },
   {
    "id": "D-UNFREEZE",
@@ -3813,7 +3836,572 @@
    "rungs": [
     "Strategic",
     "Operational"
-   ]
+   ],
+   "unstructured": true
+  },
+  {
+   "id": "D-NOTBUILT",
+   "title": "What this pilot does not build, and why (2026-10-12)",
+   "fields": {
+    "Body": "**Not built:** watching the ISO portal for new amendments (staff add the file; the sync does the rest); a link to RET's document-management system; submitting anything to the ISO; the ~50-row response tracker Doug keeps today; leadership decks. **Why:** each is either outside what the brief asks the pilot to prove (Elena's three tests), or a decision that belongs to RET's own teams (Sam Ito for integrations, Doug for the tracker). **Revisit when:** the pilot passes its exit test and RET names one of these as the next pain."
+   },
+   "cells": {
+    "D1": {
+     "level": 1,
+     "evidence": "Body: **Not built:** watching the ISO portal for new amendments (staff add the file; the sync does the rest); a link to RET's document-management system; submitting anything to the ISO; the ~50-row response tracker Doug keeps today; leadership decks. **Why:** each is either outside what the brief asks the pilot to prove (Elena's three tests), or a decision that belongs to RET's own teams (Sam Ito for integrations, Doug for the tracker). **Revisit when:** the pilot passes its exit test and RET names one of these as the next pain.",
+     "rule": "unstructured record: the choice is inferred from the prose"
+    },
+    "D2": {
+     "level": 1,
+     "evidence": "Body: **Not built:** watching the ISO portal for new amendments (staff add the file; the sync does the rest); a link to RET's document-management system; submitting anything to the ISO; the ~50-row response tracker Doug keeps today; leadership decks. **Why:** each is either outside what the brief asks the pilot to prove (Elena's three tests), or a decision that belongs to RET's own teams (Sam Ito for integrations, Doug for the tracker). **Revisit when:** the pilot passes its exit test and RET names one of these as the next pain.",
+     "rule": "a reason appears in unstructured prose"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Body: **Not built:** watching the ISO portal for new amendments (staff add the file; the sync does the rest); a link to RET's document-management system; submitting anything to the ISO; the ~50-row response tracker Doug keeps today; leadership decks. **Why:** each is either outside what the brief asks the pilot to prove (Elena's three tests), or a decision that belongs to RET's own teams (Sam Ito for integrations, Doug for the tracker). **Revisit when:** the pilot passes its exit test and RET names one of these as the next pain.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [],
+   "unstructured": true
+  },
+  {
+   "id": "D-NOTIFY",
+   "title": "No notifier in the pilot (2026-10-12)",
+   "fields": {
+    "Decision": "Not pursued. A monday.com automation (notify Doug when a fact is amended) was considered and dropped: this account is on the free plan, where automations are not included, and it reached past what the brief asks. The honest line in the demo is enough: a person still downloads the amendment, as Doug asked, and the board shows what changed."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: Not pursued.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: Not pursued.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: Not pursued.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: A monday.com automation (notify Doug when a fact is amended) was considered and dropped: this account is on the free plan, where automations are not included, and it reached past what the brief asks.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [
+    "Operational"
+   ],
+   "unstructured": false
+  },
+  {
+   "id": "D-PLAN",
+   "title": "Everything here is measured on the free plan (2026-10-12)",
+   "fields": {
+    "Decision": "The submission is built, tested and measured on a free monday.com trial account, as the brief asks. Every monday.com figure (calls a day, complexity cost, timings) comes from that account. Three things a paid plan offers were not used, and none is claimed: monday.com's own AI models (the `monday` provider exists but has never answered, 403 on free), automations (D-NOTIFY), and API usage analytics. **If a paid plan becomes available.** Test in a copy, against separate boards, with a separate token; never change the submitted build. The order: the live-question path, then the eval set on `--provider monday`, then one automation for amended facts. Use monday.com only where it does not bypass the figure check: no AI column or assistant answers RFP questions directly, because their answers would skip the word-for-word check that every figure must pass."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: The submission is built, tested and measured on a free monday.com trial account, as the brief asks.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Decision: Three things a paid plan offers were not used, and none is claimed: monday.com's own AI models (the `monday` provider exists but has never answered, 403 on free), automations (D-NOTIFY), and API usage analytics. **If a paid plan becomes available.** Test in a copy, against separate boards, with a separate token; never change the submitted build.",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 1,
+     "evidence": "Decision: Every monday.com figure (calls a day, complexity cost, timings) comes from that account.",
+     "rule": "stakes named in words only"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 2,
+     "evidence": "Decision: Three things a paid plan offers were not used, and none is claimed: monday.com's own AI models (the `monday` provider exists but has never answered, 403 on free), automations (D-NOTIFY), and API usage analytics. **If a paid plan becomes available.** Test in a copy, against separate boards, with a separate token; never change the submitted build.",
+     "rule": "reversibility stated explicitly (backup, lossless, never, idempotent)"
+    },
+    "R5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 1,
+     "evidence": "Decision: The submission is built, tested and measured on a free monday.com trial account, as the brief asks.",
+     "rule": "one heading only (no rejected line recorded)"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: The submission is built, tested and measured on a free monday.com trial account, as the brief asks.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 1,
+     "evidence": "Decision: The submission is built, tested and measured on a free monday.com trial account, as the brief asks.",
+     "rule": "conviction inferred from a measurement with no grade"
+    },
+    "C3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: The submission is built, tested and measured on a free monday.com trial account, as the brief asks.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: Three things a paid plan offers were not used, and none is claimed: monday.com's own AI models (the `monday` provider exists but has never answered, 403 on free), automations (D-NOTIFY), and API usage analytics. **If a paid plan becomes available.** Test in a copy, against separate boards, with a separate token; never change the submitted build.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: Three things a paid plan offers were not used, and none is claimed: monday.com's own AI models (the `monday` provider exists but has never answered, 403 on free), automations (D-NOTIFY), and API usage analytics. **If a paid plan becomes available.** Test in a copy, against separate boards, with a separate token; never change the submitted build.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "11111",
+   "index": 0,
+   "rungs": [
+    "Operational",
+    "Tactical",
+    "Surgical"
+   ],
+   "unstructured": false
+  },
+  {
+   "id": "D-HISTORY",
+   "title": "The ZIP carries a readable change history, not the git bundle (Zach, 2026-10-13)",
+   "fields": {
+    "Decision": "`HISTORY.txt` (every commit: hash, date, release tag, full message, files changed) replaces `history.bundle`, and every log ships whole. The ZIP falls from about 10.4 to about 3 MB.",
+    "Why": "The bundle was 8.7 of the ZIP's 10.4 MB, mostly past versions of the PDF and the AI call log, and the ZIP was over 10 MB on the stricter reading (10,000,000 bytes; K67). Every cited hash is still findable in `HISTORY.txt`; what is lost from the ZIP is cloning and checking out an old commit, which the repository still allows.",
+    "Rejected": "A slimmer clonable history without the old PDF versions: it changes every commit hash, so every cited hash would need a translation table. Keeping the bundle and reading 10 MB as 10,485,760 bytes: no margin, and wrong if the portal counts decimal bytes."
+   },
+   "cells": {
+    "D1": {
+     "level": 2,
+     "evidence": "Decision: `HISTORY.txt` (every commit: hash, date, release tag, full message, files changed) replaces `history.bundle`, and every log ships whole.",
+     "rule": "a **Decision.** paragraph states the choice"
+    },
+    "D2": {
+     "level": 2,
+     "evidence": "Why: The bundle was 8.7 of the ZIP's 10.4 MB, mostly past versions of the PDF and the AI call log, and the ZIP was over 10 MB on the stricter reading (10,000,000 bytes; K67).",
+     "rule": "a **Why.** paragraph gives reasons"
+    },
+    "D3": {
+     "level": 1,
+     "evidence": "Rejected: A slimmer clonable history without the old PDF versions: it changes every commit hash, so every cited hash would need a translation table.",
+     "rule": "a **Rejected.** paragraph names at least one alternative"
+    },
+    "D4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "D5": {
+     "level": 2,
+     "evidence": "Why: The bundle was 8.7 of the ZIP's 10.4 MB, mostly past versions of the PDF and the AI call log, and the ZIP was over 10 MB on the stricter reading (10,000,000 bytes; K67).",
+     "rule": "cites another logged id (mistake K, review BR, decision D, case, hypothesis): thread position stated"
+    },
+    "R1": {
+     "level": 2,
+     "evidence": "Decision: The ZIP falls from about 10.4 to about 3 MB.",
+     "rule": "a quantified stake ($, %, MB, multiple)"
+    },
+    "R2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "R5": {
+     "level": 2,
+     "evidence": "Why: The bundle was 8.7 of the ZIP's 10.4 MB, mostly past versions of the PDF and the AI call log, and the ZIP was over 10 MB on the stricter reading (10,000,000 bytes; K67).",
+     "rule": "cites a logged mistake (KINTSUGI K id)"
+    },
+    "W1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W3": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "W4": {
+     "level": 2,
+     "evidence": "Rejected: A slimmer clonable history without the old PDF versions: it changes every commit hash, so every cited hash would need a translation table.",
+     "rule": "two or more headings: the chosen line plus a rejected one"
+    },
+    "W5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C1": {
+     "level": 1,
+     "evidence": "Decision: `HISTORY.txt` (every commit: hash, date, release tag, full message, files changed) replaces `history.bundle`, and every log ships whole.",
+     "rule": "clarity inferred: a Decision paragraph exists (no clarity score in the source)"
+    },
+    "C2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C3": {
+     "level": 1,
+     "evidence": "Why: The bundle was 8.7 of the ZIP's 10.4 MB, mostly past versions of the PDF and the AI call log, and the ZIP was over 10 MB on the stricter reading (10,000,000 bytes; K67).",
+     "rule": "coherence inferred: a Why paragraph exists (no coherence score)"
+    },
+    "C4": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "C5": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H1": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H2": {
+     "level": 0,
+     "evidence": null,
+     "rule": "no matching text: tilde (unknown), not guessed"
+    },
+    "H3": {
+     "level": 1,
+     "evidence": "Decision: `HISTORY.txt` (every commit: hash, date, release tag, full message, files changed) replaces `history.bundle`, and every log ships whole.",
+     "rule": "implied Operational: plan, release or gate process"
+    },
+    "H4": {
+     "level": 1,
+     "evidence": "Decision: The ZIP falls from about 10.4 to about 3 MB.",
+     "rule": "implied Tactical: a named tool or format choice"
+    },
+    "H5": {
+     "level": 1,
+     "evidence": "Decision: `HISTORY.txt` (every commit: hash, date, release tag, full message, files changed) replaces `history.bundle`, and every log ships whole.",
+     "rule": "implied Surgical: a named file, command or test"
+    }
+   },
+   "shape": "21111",
+   "index": 625,
+   "rungs": [
+    "Operational",
+    "Tactical",
+    "Surgical"
+   ],
+   "unstructured": false
   }
  ]
 }

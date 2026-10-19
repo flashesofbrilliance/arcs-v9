@@ -241,10 +241,10 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
             {row("Canon", `${d.canon.files} · ${d.canon.tao_proverbs} tao · ${d.canon.adrs} ADR`)}
             {row("Codebase", `${d.codebase} files`)}
             {row("Conviction", "No signal", text.dimmed)}
-            {row("Clarity", `${d.clarity.nodes_clear}/${d.clarity.nodes} clear · ${d.clarity.files_fog} fog`, signal.cyan)}
-            {row("Coherence", `${d.coherence.diamonds} diamonds · h ${d.coherence.mean_hardness}`, signal.gold)}
+            {row("Clarity · lattice", `${d.clarity.nodes_clear}/${d.clarity.nodes} clear · ${d.clarity.files_fog} fog`, signal.cyan)}
+            {row("Coherence · lattice", `${d.coherence.diamonds} diamonds · h ${d.coherence.mean_hardness}`, signal.gold)}
             {row("Cohesion", `${Math.round(d.cohesion.ratio * 100)}% cross-domain`)}
-            {row("Consonance", `${d.consonance.empirical} empirical of ${d.consonance.tautology + d.consonance.constitutional + d.consonance.empirical}`)}
+            {row("Consonance · invariants", `${d.consonance.empirical} empirical of ${d.consonance.tautology + d.consonance.constitutional + d.consonance.empirical}`)}
             {r.node && (
               <div style={{ marginTop: 8, paddingTop: 6, borderTop: `1px solid ${signal.gold}66` }}>
                 <div style={{ ...label, color: signal.gold, whiteSpace: "normal" }}>Ø{r.nest} · {r.node.label}</div>

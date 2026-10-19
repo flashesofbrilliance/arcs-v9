@@ -55,6 +55,7 @@ DEFAULT_ROOT = HERE.parent
 TIERS_REL = Path("runtime/specs/read-friction-tiers.json")
 TRUST_REL = Path("runtime/specs/source-trust.json")
 PICKS_REL = Path("_STATE/librarian")
+UNIVERSE_REL = Path("_STATE/job-search/universe")
 
 DISPLACEMENT_WEIGHT = 1.0
 DEMOTION_PER_FALSIFIED_PICK = 0.15
@@ -290,6 +291,51 @@ def load_ledgers(root: Path) -> List[Candidate]:
     return out
 
 
+def load_universes(root: Path) -> List[Candidate]:
+    """Personal-tier universes only (registry tier == 'personal'): a person's own decision receipts, projected by
+    scripts/universe_receipts_adapter.py. Counterpart universes are never read here (crossing universes needs
+    scripts/universe_ask.py --bridge --why) and canon is already loaded by load_adrs. One Candidate per receipt:
+    the question, its confirmed and unconfirmed lines, and the receipt's own refs (commit shas, PRs, ADRs, files)
+    so the existing M0/M1 backing rule applies unchanged. The files are generated and gitignored; absent -> []."""
+    udir = root / UNIVERSE_REL
+    try:
+        reg = json.loads((udir / "_registry.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    out: List[Candidate] = []
+    for name, d in (reg.get("universes") or {}).items():
+        if not isinstance(d, dict) or d.get("tier") != "personal":
+            continue
+        refs: Dict[str, List[str]] = {}
+        for e in _jsonl(udir / f"{name}.edges.jsonl"):
+            node = str(e.get("to", ""))
+            if node.startswith("commit:"):
+                node = node[7:]
+            elif node.startswith("pr:") and "#" in node:
+                node = "PR #" + node.rsplit("#", 1)[1]
+            elif node.startswith("file:"):
+                node = node[5:]
+            refs.setdefault(str(e.get("from")), []).append(node)
+        recs: Dict[str, Dict[str, Any]] = {}
+        for a in _jsonl(udir / f"{name}.claims.jsonl"):
+            src = str(a.get("source", ""))
+            if not src.startswith("decision_receipt:"):
+                continue
+            rec = recs.setdefault(src.split(":", 1)[1], {"q": "", "c": [], "u": [], "date": a.get("verified_at")})
+            ent = a.get("entity")
+            if ent == "receipt":
+                rec["q"] = str(a.get("claim", ""))
+            elif ent == "confirmed":
+                rec["c"].append(str(a.get("claim", "")))
+            elif ent == "unconfirmed":
+                rec["u"].append(str(a.get("claim", "")))
+        for rid, rec in recs.items():
+            text = rec["q"] + (" Confirmed: " + " | ".join(rec["c"]) if rec["c"] else "") + (" Unconfirmed: " + " | ".join(rec["u"]) if rec["u"] else "")
+            out.append(Candidate(id=rid, cls="personal-receipt", text=_clip(text), path=f"decision_receipt:{rid} via {UNIVERSE_REL}/{name}.claims.jsonl",
+                                 date=_first_date(rec["date"]), refs=refs.get(rid, [])))
+    return out
+
+
 def load_prior_picks(root: Path) -> Tuple[List[Candidate], List[Dict[str, Any]]]:
     """The ouroboros pool: every item this Librarian recommended before, with when."""
     picks: List[Dict[str, Any]] = []
@@ -357,7 +403,7 @@ class Librarian:
         self.prior_picks: List[Dict[str, Any]] = []
         if load_corpus:
             self.candidates += load_adrs(self.root) + load_seeds(self.root) + load_tao(self.root) + load_legend(self.root) \
-                + load_lore(self.root) + load_registry(self.root) + load_lattice(self.root) + load_ledgers(self.root)
+                + load_lore(self.root) + load_registry(self.root) + load_lattice(self.root) + load_ledgers(self.root) + load_universes(self.root)
             mem = load_memory(self.memory_dir)
             if not mem:
                 self.not_consulted.append("memory bodies: no memory dir found (set ARCS_MEMORY_DIR)")
@@ -677,6 +723,30 @@ def self_test() -> int:
           "big-tao-item" not in got3 and "small-adr-item" in got3 and "big-tao-item" in r3["skipped_for_displacement"], (got3, r3["skipped_for_displacement"]))
     tiny = lib.recommend(q, budget=40, stakes="high")
     check("budget respected: nothing over 40 bytes is taken; skips recorded", tiny["budget"]["used_bytes"] <= 40 and (tiny["skipped_for_displacement"] or not tiny["items"]), (tiny["budget"], len(tiny["skipped_for_displacement"])))
+    # personal-tier universe loader (universe-librarian-loader, 2026-10-18)
+    udir = tmp / UNIVERSE_REL
+    udir.mkdir(parents=True)
+    (udir / "_registry.json").write_text(json.dumps({"universes": {"me": {"tier": "personal"}, "acme": {"tier": "counterpart"}}}))
+    def atom(u, rid, ent, typ, text):
+        return json.dumps({"id": f"{u}/{rid}", "entity": ent, "type": typ, "claim": text, "source": f"decision_receipt:{rid.split('#')[0]}", "verified_at": "2026-10-01"}) + "\n"
+    (udir / "me.claims.jsonl").write_text(
+        atom("me", "2026-10-01--shipped--ZH", "receipt", "claim", "Ship the zebra quartz brief?")
+        + atom("me", "2026-10-01--shipped--ZH#c0", "confirmed", "claim", "merged and live")
+        + atom("me", "2026-10-01--shipped--ZH#u0", "unconfirmed", "hypothesis", "tone untested")
+        + atom("me", "2026-10-02--ghost--ZH", "receipt", "claim", "Ship the zebra quartz ghost?"))
+    (udir / "acme.claims.jsonl").write_text(atom("acme", "2026-10-03--counterpart--ZH", "receipt", "claim", "Counterpart zebra quartz fact"))
+    (udir / "me.edges.jsonl").write_text(json.dumps({"from": "2026-10-01--shipped--ZH", "to": "commit:" + real_sha[:9], "kind": "commit"}) + "\n"
+                                         + json.dumps({"from": "2026-10-02--ghost--ZH", "to": "commit:deadbeef1", "kind": "commit"}) + "\n")
+    uc = load_universes(tmp)
+    check("universe loader: personal tier only, one candidate per receipt, counterpart universe never read",
+          sorted(c.id for c in uc) == ["2026-10-01--shipped--ZH", "2026-10-02--ghost--ZH"], [c.id for c in uc])
+    check("universe loader: confirmed and unconfirmed lines are folded into one candidate with its refs",
+          any("merged and live" in c.text and "tone untested" in c.text and real_sha[:9] in c.refs for c in uc))
+    check("universe loader: absent universe dir degrades to []", load_universes(tmp / "nope") == [])
+    lib4 = Librarian(root=tmp, git_root=DEFAULT_ROOT, memory_dir=None, extra_candidates=uc, load_corpus=False, trust_path=tmp / TRUST_REL)
+    r4 = lib4.recommend("zebra quartz", budget=20000, stakes="high")
+    check("universe loader: a receipt whose commit resolves is M0-backed; an unresolvable commit stays what_unconfirmed (rule unchanged)",
+          "2026-10-01--shipped--ZH" in r4["what_confirmed"] and "2026-10-02--ghost--ZH" in r4["what_unconfirmed"], (r4["what_confirmed"], r4["what_unconfirmed"]))
     print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
     return 1 if fails else 0
 

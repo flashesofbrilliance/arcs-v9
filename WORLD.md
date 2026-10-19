@@ -21,92 +21,19 @@ You are building **a navigable world** — a place a person enters when they are
 
 ## THE PHYSICS
 
-Decisions are positions on a manifold under pressure.
-
-You enter in fog. Your position is defined by the DEWY state vector:
-
-- **D** — the sharpened question. What you are actually deciding.
-- **E** — the entity. Who or what else is in the terrain with you.
-- **W** — the window. Today, this week, this quarter, years out.
-- **Y** — the yellow gate. The conviction gradient. Solid, shifting, flat, or entangled?
-
-### The Four Zones
-
-```
-OUTER FOG LAYER       →  Dense, low visibility, coarse grain.
-                          Y: SCRATCH / PARADOX
-                          Navigate: orient only. Don't commit.
-                          Visual: barely legible, maximum grain.
-
-PRESSURE BAND         →  Turbulent, phase-change territory.
-                          Y: YELLOW / FORK / DELTA
-                          Navigate: careful movement. Y gate active.
-                          Visual: coarse grain, contested terrain.
-
-CLARITY RIDGE         →  High ground. True North visible.
-                          Y: GREEN / HIGH conviction
-                          Navigate: move confidently. Lock what you've earned.
-                          Visual: sharp, full contrast, fine grain.
-
-SUPERIONIC NUCLEUS    →  Crystalline. Frictionless. Luminous.
-                          Y: LOCKED / post-Court resolved
-                          Navigate: flow state — decisions arrive before questions.
-                          Visual: crystal-sharp, hard edges, maximum resolution.
-```
-
-### Phase States (Matter Metaphor)
-
-| Phase | Decision quality | Visual |
-|-------|-----------------|--------|
-| Gas | SCATTER — no coherence | Fog particles, no structure |
-| Liquid | FLOWING but unstable | Fluid grid, shifting terrain |
-| Solid | LOCKED but brittle | Hard blocks, sharp shadows |
-| **Superionic** | **Structure + flow fused** | **Luminous crystal, light through fixed form** |
-
----
+> Moved verbatim to `.claude/rules/world-product.md` (2026-10-17, WS1 slice 3). It loads when you read, write or edit anything in the src or prisma folders.
 
 ## THE ARTIFACTS
 
-**The Receipt** — a state vector frozen in time. A coordinate. A seed. Not a document — a position on the manifold with full DEWY decomposition.
-
-**The Brief** — the cartography output. Renders when clarity is earned. Silkscreen fidelity: honest to the data. In dense fog, coarse-grained. At the clarity ridge, sharp and fully populated. The brief never lies about how certain it is.
-
-**The Compass** — the parser. Takes a question, runs L0–L5, returns a bearing + Y gate state. Does not tell you what to decide. Tells you *where you are and which direction is uphill*.
-
-**The PrepSession** — the calibration instrument. Five fields. Two minutes. Stakes, window, what you're protecting, how certain you already are, strongest argument against your instinct. Optional — but when used, the compass runs with richer context and the terrain sharpens.
-
-**The Observatory** — instant replay theater. Every session recorded as a kinematic trajectory. Scrub backward to any Receipt. Watch conviction gradient peak and collapse. See where you overrode a YELLOW. Overlay two sessions. Annotate inflection points.
-
----
+> Moved verbatim to `.claude/rules/world-product.md` (2026-10-17, WS1 slice 3). It loads when you read, write or edit anything in the src or prisma folders.
 
 ## THE TERRAIN METAPHOR (Backcountry Avalanche)
 
-Think backcountry avalanche terrain, not a marked resort trail.
-
-- **Fresh snow** = apparent optionality. Many lines look open; most hide unknown layers.
-- **Hidden weak layers** = unseen constraints and ruin risks (legal, reputational, liquidity, relationships).
-- **Avalanche forecast + snowpit** = prep + Court — deliberate probing before committing to a line.
-- **Skintrack choice** = path selection at a FORK — once you traverse onto a slab, some options disappear.
-- **Safe travel protocols** = Y gate + BAR — assume hidden failure modes and move in ways that survive being wrong.
-
-ARCS is the avalanche education + beacon + map + trip report system for decisions. You don't ride because the bowl looks good. You check layers, pick a line with survivable failure, and log what you saw so the next tour (future you) isn't guessing under fresh snow again.
-
----
+> Moved verbatim to `.claude/rules/world-product.md` (2026-10-17, WS1 slice 3). It loads when you read, write or edit anything in the src or prisma folders.
 
 ## THE BAR EDGE (Free Solo)
 
-Free solo is the BAR/Ruin edge in its purest form: one hidden constraint, one missed hold = total loss.
-
-In ARCS terms:
-- Stakes = existential, reversibility = zero → `mode = COURT`, Y = **RED**
-- The system's job is to surface: *"You're free-soloing this decision. Any slip is unrecoverable. Are you sure you want this topology?"*
-- ARCS strongly biases toward **adding protection or changing the climb**: partners, belay, smaller bet, simulation first.
-
-If the underlying reality is "0% margin of error," the correct ARCS behavior treats it as a **design bug, not a personality quirk.** Redesign the decision so that a single mistake is survivable. Do not optimize grip strength on a no-rope route.
-
-The Y gate's RED state is the system saying: "This is a free-solo topology. The Court has reviewed the route. You are exposed."
-
----
+> Moved verbatim to `.claude/rules/world-product.md` (2026-10-17, WS1 slice 3). It loads when you read, write or edit anything in the src or prisma folders.
 
 ## THE ENEMY
 
@@ -159,14 +86,7 @@ change of basis. Returning to zero returns *you* to *your* null point.
 
 ## THE PROGRESSION
 
-Receipts earned → fog retreats → terrain readable → nucleus approaches.
-
-Early: heavy fog, coarse briefs, Y gates firing yellow often.
-Mid: patterns surface in Observatory, compass gets faster, NCI climbing.
-Late: navigating from clarity ridge. Receipt history becomes a personal atlas.
-Superionic: structure of clarity + fluidity of instinct. Decisions move through you like charge through crystal — fast, directional, lossless.
-
----
+> Moved verbatim to `.claude/rules/world-render.md` (2026-10-17, WS1 slice 3). It loads when you read, write or edit anything in the src, public or _ARTIFACTS folders.
 
 ## THE TONAL REGISTER
 
@@ -182,50 +102,19 @@ Copy that doesn't explain what you already understand. Visual fidelity that is *
 
 ## BRAND IDENTITY
 
-**Name:** ARCS  
-**Tagline:** *Navigate to clarity. Survive the pressure. Find the flow.*  
-**Visual world:** 2.5D isometric decision observatory — mission control + geological survey + instant replay theater
-
-**Tagline system:**
-- Primary: *Navigate to clarity.*
-- Secondary: *Render through the fog.*
-- Mechanic: *Survive the pressure. Find the flow.*
-- Observatory: *Every decision, recorded. Every path, replayable.*
-- Nucleus: *Superionic: where structure meets flow.*
-
----
+> Moved verbatim to `.claude/rules/world-render.md` (2026-10-17, WS1 slice 3). It loads when you read, write or edit anything in the src, public or _ARTIFACTS folders.
 
 ## THE RENDER SCALE
 
-The brief and all UI sections render at **earned fidelity** — never at higher resolution than the data deserves.
-
-| Y State | Fog density | renderResolution | Visual treatment |
-|---------|-------------|-----------------|-----------------|
-| SCRATCH / EPHEMERAL | Pea soup | GRAIN | weight: 300, tracking: +0.02em, grain overlay |
-| PARADOX | Dense fog | MOIRE | weight: 300, tracking: +0.03em + CSS ::after |
-| YELLOW / CONTESTED | Clearing | DEGRADED | weight: 400, tracking: +0.01em |
-| GREEN / HIGH | Clear | SHARP | weight: 500, tracking: normal |
-| LOCKED / Nucleus | Crystal | SHARP + hard edges | weight: 600, tracking: -0.01em |
+The brief and all UI sections render at **earned fidelity**: never at higher resolution than the data deserves.
 
 Text always renders at full opacity (Zach, 2026-10-11). Fog is shown through weight, tracking and the grain overlay, never by dimming the words: a fog you cannot read fails the contrast floor, and the brief must stay legible at every depth.
 
-**Earned fidelity has a floor: coherent wrapping.** Fidelity is the *resolution* of the render, never a licence for a ragged one. BODY reading text on a surface shares ONE measure (a single px `--measure`, never per-element `ch` caps); bordered callouts carry that measure on the box so every right edge lines up. But a LEDE is not body text: a hero or section lede spans the full lane, edge-to-edge with its heading — a lede pinched to the narrow body measure leaves a dead right gutter that reads as broken and abridged, the fog leaking back in from the other side. Both failures are the same sin (a text block whose width lies about its role), and the narrow one is invisible to overflow gates — so eyeball the lede against its heading, not just the sweep. Verify across the full width band (360–1440, especially 700–1000) with the surface's own gate before calling anything SHARP. Canon: `_PATTERNS/arcs-artifact-css-base.css`; enforcement in AGENTS.md gotcha #13; preference in memory `design-full-width-lede-matches-heading`.
+**Earned fidelity has a floor: coherent wrapping.** One shared px measure for body text, ledes at full width, verified with the surface's own gate (AGENTS.md gotcha 13).
 
----
+> The Y-state fidelity table and the full reading are in `.claude/rules/world-render.md`, which loads when you read, write or edit anything in the src, public or _ARTIFACTS folders.
 
 ## THE FIRST THING TO BUILD
 
-One isometric terrain tile. Four fog densities. A glowing navigator node. A True North bearing arrow.
+> Moved verbatim to `.claude/rules/world-product.md` (2026-10-17, WS1 slice 3). It loads when you read, write or edit anything in the src or prisma folders.
 
-Drop the navigator into the outermost fog tile. Watch the terrain clarify as the compass runs. The brief renders as the silkscreen sharpens beneath the navigator's feet.
-
-That single animation is the product demo, the brand story, the onboarding sequence, and the investor deck simultaneously.
-
-Everything else is navigation.
-
-```
-// END WORLD BUILDER BRIEF v1.0
-// Situational awareness loaded.
-// The world is live.
-// Begin.
-```

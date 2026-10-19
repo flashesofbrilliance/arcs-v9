@@ -1,0 +1,320 @@
+{
+ "id": "prop-2026-10-15-closed-course-concierge",
+ "title": "Closed course concierge test",
+ "date": "2026-10-15",
+ "status": "PROPOSAL",
+ "tone": "gold",
+ "worktree": "optimistic-neumann-071530",
+ "base": "main@af988087",
+ "one_line": "Before building any learning path, walk five people through one closed-course decision and one small real one by hand, and see whether they come back to close it.",
+ "bottom_line": [
+  {
+   "label": "What the funnel says",
+   "text": "The read-only count found 271 receipts but only 6 distinct owners, 4 users who were sent a first debrief, 0 who opted in to more, and 3 outcomes. You have not gone to market, so this is not a market funnel and says nothing about demand in either direction. It is the founder-and-tests baseline, and it shows the loop is rarely closed even by the people closest to it."
+  },
+  {
+   "label": "The test",
+   "text": "A first positioning test, not a demand verdict. Five people, two of whom owe you nothing. One closed-course case with a hidden outcome (immediate feedback), then one small reversible real decision with a written trigger, abort and rollback, then a check at day 7. No build, nothing published, nothing sent by me."
+  },
+  {
+   "label": "The kill line",
+   "text": "Fewer than 2 of the people who volunteer a real decision come back and close it unprompted: drop the learning-path framing and keep the readiness packet as an internal tool."
+  }
+ ],
+ "decisions": [
+  {
+   "id": "D1",
+   "question": "Run the five-person concierge test?",
+   "recommended": "Yes. You pick the five and send the invitations yourself; I draft the script and the log sheet only.",
+   "options": [
+    "approve",
+    "revise",
+    "hold"
+   ],
+   "why": "It costs hours, builds nothing and tests the one thing that matters: do people return to close."
+  },
+  {
+   "id": "D2",
+   "question": "Who counts as one of the five?",
+   "recommended": "At least two who owe you nothing and have a decision of their own pending. The rest can be people you know.",
+   "options": [
+    "approve",
+    "change mix"
+   ],
+   "why": "Friends are polite. A polite yes is the agreement without dissent the Shavasana check flags."
+  },
+  {
+   "id": "D3",
+   "question": "Which closed-course case first?",
+   "recommended": "Case file 001 (the six-week outage) at good.arcs.care/cases, after one check: the outcome must be hideable until the learner has logged a prediction.",
+   "options": [
+    "case 001",
+    "case 002",
+    "write a new one"
+   ],
+   "why": "Both case pages exist with evidence cards that reveal as fog clears. Neither is confirmed to ask for a prediction first."
+  },
+  {
+   "id": "D4",
+   "question": "Hold the fake-door page until at least three concierge cohorts are in?",
+   "recommended": "Yes. A public page that collects emails needs your go and a privacy line first, and one cohort cannot settle positioning.",
+   "options": [
+    "hold",
+    "approve now"
+   ],
+   "why": "Publishing and collecting addresses are outward-facing and cannot be taken back."
+  }
+ ],
+ "heuristics": {
+  "human": [
+   "Set the numbers in the signal table yourself before the first session. Do not change them after.",
+   "A person who says it was great but does not return at day 7 is a no. Count returns, not praise.",
+   "Ask at day 7 without a reminder from you. A reminder you send tests your nudge, not their demand."
+  ],
+  "agent": [
+   "Send nothing. Draft only; Zach sends. No form, no page, no email collection from this proposal.",
+   "Log by participant code, never by name or address. Aggregate only in any file I write.",
+   "The signal thresholds are Zach's. The ones below are suggestions until he sets them.",
+   "Do not touch _STATE/job-search/ or any VICO file."
+  ]
+ },
+ "tables": [
+  {
+   "id": "funnel",
+   "title": "Measured funnel (read-only, 2026-10-15)",
+   "intro": "Counts from the production database via the Supabase CLI, aggregates only, no rows or identities read.",
+   "columns": [
+    "Step",
+    "Count",
+    "Reading"
+   ],
+   "rows": [
+    [
+     "Receipts",
+     "271",
+     "Provenance: real 0, test 189, untagged 82"
+    ],
+    [
+     "Receipts with an owner",
+     "223 of 271",
+     "The rest are anonymous"
+    ],
+    [
+     "Distinct owners",
+     "6",
+     "All owned receipts come from six accounts. Who they are was not queried."
+    ],
+    [
+     "Users sent a first debrief",
+     "4 of 6",
+     "The first debrief is always sent by design"
+    ],
+    [
+     "Debrief marked sent on receipts",
+     "141",
+     "All older than 7 days"
+    ],
+    [
+     "Users opted in to later debriefs",
+     "0 of 4",
+     "Nobody asked for more"
+    ],
+    [
+     "Outcomes logged",
+     "3 (0 synthetic)",
+     "Two were counted before; one more since"
+    ],
+    [
+     "What this does not show",
+     "UNCONFIRMED",
+     "Whether more users or more time would change any rate; whether the 6 accounts are mostly the founder and tests"
+    ]
+   ]
+  },
+  {
+   "id": "positioning",
+   "title": "Positioning arms, tested over time",
+   "intro": "You have not tested positioning systematically yet. Five people cannot rank framings; they can only tell you which words made someone act. So the same script runs in repeated small cohorts over several weeks, each cohort hearing one framing, and the results are read as a trend, never as a winner from one round.",
+   "columns": [
+    "Arm",
+    "Framing in the two-minute brief",
+    "What it is testing"
+   ],
+   "rows": [
+    [
+     "A Calibration",
+     "Learn how well your confidence matches what happens",
+     "Does a measurement promise get people to close?"
+    ],
+    [
+     "B Readiness",
+     "Be ready before a decision you cannot undo",
+     "Does irreversibility get people to prepare?"
+    ],
+    [
+     "C Close the loop",
+     "Finish what you decided and see what you learned",
+     "Does the habit framing get people to return?"
+    ],
+    [
+     "Rule",
+     "Rotate one arm per cohort, same script, same measures, 3 or more weeks apart",
+     "Record the arm per participant code. Do not mix arms inside a cohort."
+    ],
+    [
+     "Honest limit",
+     "UNCONFIRMED",
+     "With 5 people per cohort, differences between arms will look large and mean little. Read direction across 3 or more cohorts."
+    ]
+   ]
+  },
+  {
+   "id": "script",
+   "title": "Concierge script (about 40 minutes plus a day-7 check)",
+   "intro": "Everything here is done by hand. Nothing is built or published.",
+   "columns": [
+    "Step",
+    "What happens",
+    "What is recorded"
+   ],
+   "rows": [
+    [
+     "1 Brief",
+     "Two minutes: what a decision receipt is and what closing it means, in the framing of this cohort's arm",
+     "The arm shown (A, B or C)"
+    ],
+    [
+     "2 Closed course",
+     "The learner reads a case with the outcome hidden, writes a prediction and a confidence from 0 to 100",
+     "Prediction and confidence, saved before the reveal"
+    ],
+    [
+     "3 Reveal",
+     "The outcome is shown. The learner sees the gap between stated confidence and what happened",
+     "Whether they could say why they were off"
+    ],
+    [
+     "4 Permit",
+     "The learner picks one small, reversible real decision due within 7 days and writes the six packet lines: door type, prepared state, what is unconfirmed, trigger, abort and rollback, confidence against felt read",
+     "The six lines, filled or marked unconfirmed"
+    ],
+    [
+     "5 Day 7",
+     "No reminder from you. Note whether they come back and report the outcome",
+     "Returned or not, matched or not, their stated confidence"
+    ],
+    [
+     "6 License",
+     "A learner who closes one real decision gets their calibration line: stated confidence against outcome",
+     "That line, nothing else"
+    ]
+   ]
+  },
+  {
+   "id": "signal",
+   "title": "Pre-registered signal (suggested thresholds, Zach sets them)",
+   "intro": "Frozen before the first session. Do not edit after the first learner starts.",
+   "columns": [
+    "Measure",
+    "Pass line",
+    "Kill line"
+   ],
+   "rows": [
+    [
+     "Finish the closed course in one sitting",
+     "4 of 5 or more",
+     "2 of 5 or fewer"
+    ],
+    [
+     "Volunteer a real decision",
+     "3 of 5 or more",
+     "1 of 5 or fewer"
+    ],
+    [
+     "Return at day 7 and close, unprompted",
+     "2 or more of those who volunteered",
+     "Fewer than 2"
+    ],
+    [
+     "Includes at least two people who owe you nothing",
+     "Yes",
+     "If no, the result is labelled friendly sample"
+    ]
+   ]
+  }
+ ],
+ "controls": [
+  {
+   "id": "C1",
+   "name": "Hidden outcome stays hidden until the prediction is saved",
+   "plain": "The closed-course case must not reveal the outcome before a prediction and confidence are recorded.",
+   "stage": "proposed",
+   "bad": "A case page whose outcome is visible in the page text before any prediction field exists fails.",
+   "good": "A case where the outcome appears only after a prediction is logged passes.",
+   "assay_ready": "specified; the two existing case pages have not been checked against this",
+   "threshold": "0 outcome strings visible before prediction"
+  },
+  {
+   "id": "C2",
+   "name": "Permit needs all six lines",
+   "plain": "A real decision is accepted into the test only if the six packet lines are present, each either filled or marked unconfirmed.",
+   "stage": "proposed",
+   "bad": "A packet with no trigger or no abort and rollback fails.",
+   "good": "A packet with all six lines passes, even if some say unconfirmed.",
+   "assay_ready": "specified",
+   "threshold": "6 of 6 lines present"
+  },
+  {
+   "id": "C3",
+   "name": "Signal frozen before the first session",
+   "plain": "The pass and kill lines are written and dated before the first learner, then not changed.",
+   "stage": "proposed",
+   "bad": "Thresholds edited after a session has started fail.",
+   "good": "A dated file whose thresholds match the table passes.",
+   "assay_ready": "specified",
+   "threshold": "thresholds unchanged after first session date"
+  },
+  {
+   "id": "C4",
+   "name": "No identities in any file",
+   "plain": "Logs use participant codes only. Names and addresses stay outside the repo.",
+   "stage": "proposed",
+   "bad": "A log containing an email address or full name fails a grep.",
+   "good": "A log with codes P1 to P5 passes.",
+   "assay_ready": "specified",
+   "threshold": "0 address or name matches"
+  }
+ ],
+ "glossary": [
+  {
+   "term": "Closed course",
+   "plain": "A past decision whose outcome is already known, used so a learner gets feedback in minutes instead of weeks."
+  },
+  {
+   "term": "Permit and license",
+   "plain": "The permit is a first small real decision logged with its safeguards. The license is the first one closed with a calibration reading."
+  },
+  {
+   "term": "Calibration line",
+   "plain": "How far a person's stated confidence was from what actually happened."
+  },
+  {
+   "term": "Fake door",
+   "plain": "A page offering something that does not exist yet, used to count interest. Held here until the concierge result is in."
+  }
+ ],
+ "sources": [
+  "prisma/schema.prisma",
+  "src/app/api/receipts/[receiptId]/outcome/route.ts",
+  "src/emails/debriefEmail.ts",
+  "public/good-case-six-week-outage.html",
+  "public/good-case-reader-who-remembered.html",
+  "AGENTS.md",
+  "_PROPOSALS/2026-10-15-hud-widget-lockups-spec.md"
+ ],
+ "what_unconfirmed": [
+  "Who the six owner accounts are.",
+  "Whether either case page can hide its outcome until a prediction is logged.",
+  "All demand claims: no outside data was gathered."
+ ]
+}

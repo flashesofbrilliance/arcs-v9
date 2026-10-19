@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], files = (process.env.PHOSPHOR_FILES || '').split(',').filter(Boolean)
 if (!page || files.length < 2) { console.log('usage: PHOSPHOR_FILES=a.wav,b.wav node scripts/phosphor_mixer_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(page).href, errs = []
 const ctx = await b.newContext({ viewport: { width: 1270, height: 990 } }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e)))
 const M = (fn, ...a) => pg.evaluate(([fn, a]) => window.PhosphorTest.mix[fn](...a), [fn, a])
@@ -59,4 +59,4 @@ await pg.evaluate(() => window.PhosphorTest.seek(5)); const hash = () => pg.eval
 await M('follow', 'A'); const hA = await hash(); await pg.evaluate(() => { window.PhosphorTest.mix.stop(); }); await M('play', 4); await pg.waitForTimeout(300); await M('stop'); await M('follow', 'B'); await pg.waitForTimeout(200); const hB = await hash(); await M('follow', 'A'); await pg.waitForTimeout(200); const hA2 = await hash()
 check(hA !== hB && hA === hA2, 'X8: following B changes the picture and following A again restores the exact original')
 check(errs.length === 0, `X9: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

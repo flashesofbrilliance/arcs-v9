@@ -7,14 +7,16 @@ Exit 1 on any hit. stdlib only.
 """
 import re, sys
 
-BAD = re.compile(r"public commit trail|public repo\b|public GitHub (?:repo|commit)|a live commit trail", re.I)
+BAD = re.compile(r"public commit trail|public repo\b|public GitHub (?:repo|commit)|a live commit trail|repo(?:sitory)? is public|source is public|build record itself is public|links? to (?:real commits|a commit)", re.I)  # widened 2026-10-18: the trust and status pages said these and the old pattern could not match them
 OK_NEAR = re.compile(r"germinate|rosetta|resume-tailor|arcs-skills", re.I)
 
 def main(paths):
     bad = 0
     for p in paths:
+        if not p.lower().endswith((".html", ".htm", ".md", ".txt", ".json", ".tsx")):
+            continue  # PDFs and images match the resume globs but are not text
         try:
-            text = open(p, encoding="utf-8").read()
+            text = open(p, encoding="utf-8", errors="replace").read()
         except OSError:
             continue
         for m in BAD.finditer(text):

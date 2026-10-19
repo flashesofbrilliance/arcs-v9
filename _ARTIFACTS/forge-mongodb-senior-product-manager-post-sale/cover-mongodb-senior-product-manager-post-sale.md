@@ -17,7 +17,7 @@ The piece I am most directly ready to contribute on is the AI-enabled support ca
 
 I do not just write the PRD. I hold technical tradeoff conversations with engineering, prototype with AI tools before committing engineering time, and have coordinated product, legal, risk, and compliance through regulated release gates at Grayscale. I am ready to move fast.
 
-The bundle at zachharris.xyz has the live commit trail and the full context. Happy to go deep on any of it.
+The bundle at zachharris.xyz has the live app and the full context. Happy to go deep on any of it.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance

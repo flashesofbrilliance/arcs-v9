@@ -1,6 +1,6 @@
 # ADR-088 : Librarian anticipation hook: suggest an echo scan before the reader has to ask, and make each scan free to reuse
 
-**Status:** DRAFT / PROPOSAL (2026-10-17). Not decided. Zach reviews; nothing is built or wired.
+**Status:** DRAFT / PROPOSAL (2026-10-17). Placement decided 2026-10-17; T2 and T3 warn-only pre-commit built the same day. A suggestion log and acceptance rule followed. T1 and the echo ledger writers are not built.
 **Sequence:** allocated via `python3 scripts/oracle.py next adr` -> 88.
 **Source:** `runtime/specs/librarian-anticipation-hook-v0.md` (merged in PR 1306), which holds the full trigger table, rate limits and fixtures. This ADR records the decision and the kill condition; the spec stays the working detail.
 **Prior art read:** `operators/arcs_librarian.py` (already has `recommend(q, budget)`), `scripts/prior_art.py`, the `/echo-scan` skill, `scripts/provenance_lint.py`, `scripts/canon_claims_report.py`, ADR-044 (temporal provenance), ADR-075 (metabolic router), AGENTS.md gotchas 11 and 15.
@@ -29,6 +29,10 @@ Measured over the first 10 sessions in which the hook fires, from a suggestion l
 - K4: no ledger hit reused by session 10 => the Rosetta design failed; drop T3.
 - Zach decides at the review, not the hook. Changing thresholds after build needs a new dated entry.
 
+## Ledger status `unvalidated` (added 2026-10-17)
+
+An evidence-ledger entry may carry `"status": "unvalidated"` plus a `source` pointing at the audit that says so. It is a triage mark, not evidence: it never covers a metric, `provenance_lint.py` still fails the file, and any other status value or a missing source is a hard error (exit 2). It changes the label (UNVALIDATED, not UNCOVERED) in the lint message and in `canon_claims_report.py`, and the pre-commit hook then words a re-used figure differently from a new one. A second mark, `"status": "projection"`, has the same semantics for plans and forecasts (market capture scenarios, TAM by year, price points); it needs a source too and is labelled PROJECTION. Present-tense market-size estimates are not projections and are marked unvalidated. Two more marks complete the set (final triage, 2026-10-17): `illustrative` for worked examples, sample outputs and hypotheticals, and `parameter` for design constants, thresholds, weights, definitions and gates. All four marks share one rule: a mark is a label, never evidence, and the gate still fails the token. Reason: the Technical Overview's Claims Audit already calls the headline accuracy figures unvalidated, so adding them as covering entries would make the gate pass numbers the repo itself disowns.
+
 ## Gate for the build (gotcha 15)
 
 Every check ships a known-bad and a known-good fixture in its `--self-test`, wired into pre-commit. The report generator already does this.
@@ -37,11 +41,11 @@ Every check ships a known-bad and a known-good fixture in its `--self-test`, wir
 
 - Cost: a small deterministic scan per trigger; model spend only when Zach accepts a scan.
 - Risk: noise (bounded by the limits and K1/K2) and a ledger that no one reads (K4).
-- Not decided here: placement. Recommendation is a pre-commit warning for T2 and T3 and `/prior-art` for T1.
+- Placement decided 2026-10-17 (Zach): T2 and T3 run as a warn-only pre-commit check, `scripts/librarian_hook.py`, built with fixtures. T1 stays with `/prior-art` and is not built. A suggestion log and acceptance rule were added the same day (see Open).
 
 ## Open
 
-1. Placement of the hook (above).
+1. Acceptance rule decided 2026-10-17 (Zach): a logged warning is ACCEPTED when a later commit adds an evidence-ledger, glossary or rosetta line for the flagged token, PENDING for 14 days, then DECLINED. `python3 scripts/librarian_hook.py --report` computes K1 from a log in the git common dir (shared by all worktrees, never tracked). K1 stays 'not yet measurable' until 10 distinct firing days. K2 is computed by the same report: declined rows (no separate 'ignored' state exists, since pending becomes declined) in any 3 consecutive firing days, tripped at 5; it lags 14 days behind firing and its only consequence (mute T1) has no live effect while T1 is unbuilt. The re-warning mute is live: a token is not warned again while its row is pending, nor for 14 days after it is declined; then it may warn and log afresh. Zach confirmed the 28-day total (14 pending + 14 after declined) on 2026-10-17; it supersedes the spec's flat 14-day wording.
 2. Keep, cite or strike each uncovered canon token.
 3. Reconcile the Librarian's registry row, which says store/retrieve only.
 4. The NCI definition split and the Litepaper acronym mismatch are definitional drift outside these numeric triggers.

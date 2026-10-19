@@ -186,6 +186,11 @@ HERMES_USER = os.path.join(HOME, ".hermes/memories/USER.md")
 # Claude's operating surface is the THREE always-loaded files, not AGENTS.md alone
 # (NOTOMATION etc. live in WORLD.md / CLAUDE.md). Compare against their union.
 CLAUDE_SURFACE = [os.path.join(ROOT, f) for f in ("AGENTS.md", "WORLD.md", "CLAUDE.md")]
+# path-scoped rule files (.claude/rules/*.md) carry content moved out of AGENTS.md (WS1 lazy loading, 2026-10-17);
+# an invariant moved there must still count as present on Claude's surface.
+_RULES = os.path.join(ROOT, ".claude", "rules")
+if os.path.isdir(_RULES):
+    CLAUDE_SURFACE += [os.path.join(_RULES, f) for f in sorted(os.listdir(_RULES)) if f.endswith(".md")]
 SHARED_INVARIANTS = {
     "NOTOMATION": ["notomation"],
     "oracle-first numbering": ["oracle"],

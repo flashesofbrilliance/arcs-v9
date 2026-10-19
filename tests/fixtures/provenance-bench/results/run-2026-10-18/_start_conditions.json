@@ -1,0 +1,26 @@
+{
+ "purpose": "starting conditions of the single registered run (prereg step 5)",
+ "started_local": "2026-10-18T16:53:27",
+ "uptime": "16:53  up 1 day, 21 hrs, 1 user, load averages: 2.47 3.58 4.12",
+ "ncpu": "8",
+ "python": "3.9.6",
+ "branch": "claude/provenance-bench-run",
+ "branch_head": "776f9bcfd3a052ee8f99fbf6f974a0ed286c9e44",
+ "origin_main": "0c5c5a224e5c75e82235a8298acf691f038ce2ae",
+ "librarian_draft_head": "a88b7ed5c7850c15961e890213ffc433eb4c92cf",
+ "corpus_pin": "fd8bf4e78bfcc09090e98d20156e5bd13502a83a",
+ "dataset_sha256sums": "6e64970a5d481ee80e62bd5beb8ef52d8f1a1c9e2092113a4747c00205105716  tests/fixtures/provenance-bench/dataset/SHA256SUMS",
+ "scorer_sha256": "dfe377cd6b3cee9c66f92de3508d632c543ac841ea65e2fe5679cd0213edc4fb  scripts/provenance_bench_score.py",
+ "systems_sha256": "c4a08eb43cad2406be097446f29f197bc36be14ebcf97b6f19a9ebb0084cc3ea  scripts/provenance_bench_systems.py",
+ "harness_sha256": "d8a5ce9ef7603cd23565a4ed7018f446f2fa18b4cbc877feea5b00c778bf7765  scripts/provenance_bench_run.py",
+ "top_cpu_processes": [
+  "%CPU COMM",
+  "107.3 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.fra",
+  " 73.0 /System/Library/PrivateFrameworks/MediaAnalysis.framework/Versions/A/mediaanalysisd",
+  " 27.2 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer",
+  " 25.2 /Users/zharris/Library/Application Support/Claude/claude-code/2.1.299/4fa9694b7975/c",
+  " 11.0 /System/Library/ExtensionKit/Extensions/WallpaperAerialsExtension.appex/Contents/Mac"
+ ],
+ "busy_phosphor_playwright_benchmark_processes": "0",
+ "note": "load threshold 3.0 was an operational choice, not registered; macOS background daemons (mediaanalysisd, Spotlight) were running at launch; no user-level heavy process"
+}

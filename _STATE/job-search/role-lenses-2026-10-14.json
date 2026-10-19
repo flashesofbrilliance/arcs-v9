@@ -1,0 +1,509 @@
+{
+ "trs": {
+  "forward-deployed": {
+   "n": 90,
+   "pursue": 69,
+   "mean_composite": 0.78,
+   "mass": 56.8,
+   "dim_mean": {
+    "role_shape": 2.93,
+    "ai_native": 2.51,
+    "rare_combination": 2.5,
+    "domain_breadth": 1.22,
+    "scope_authority": 2.78,
+    "culture": 2.39,
+    "comp_level": 2.4,
+    "logistics": 2.21,
+    "warm_path": 0.09
+   },
+   "top_companies": [
+    [
+     "talentpluto",
+     6
+    ],
+    [
+     "Cloudflare",
+     5
+    ],
+    [
+     "AvePoint",
+     4
+    ],
+    [
+     "Camunda",
+     3
+    ],
+    [
+     "Tenex",
+     3
+    ]
+   ]
+  },
+  "applied-ai-engineer": {
+   "n": 44,
+   "pursue": 34,
+   "mean_composite": 0.756,
+   "mass": 27.4,
+   "dim_mean": {
+    "role_shape": 2.7,
+    "ai_native": 2.89,
+    "rare_combination": 2.27,
+    "domain_breadth": 1.16,
+    "scope_authority": 2.55,
+    "culture": 2.32,
+    "comp_level": 2.52,
+    "logistics": 1.95,
+    "warm_path": 0.05
+   },
+   "top_companies": [
+    [
+     "Scale AI",
+     2
+    ],
+    [
+     "American Express",
+     2
+    ],
+    [
+     "People In AI",
+     2
+    ],
+    [
+     "Clay",
+     2
+    ],
+    [
+     "Ramp",
+     2
+    ]
+   ]
+  },
+  "embedded-product": {
+   "n": 34,
+   "pursue": 21,
+   "mean_composite": 0.741,
+   "mass": 17.1,
+   "dim_mean": {
+    "role_shape": 2.65,
+    "ai_native": 2.62,
+    "rare_combination": 2.38,
+    "domain_breadth": 1.15,
+    "scope_authority": 2.76,
+    "culture": 2.44,
+    "comp_level": 2.35,
+    "logistics": 1.47,
+    "warm_path": 0.06
+   },
+   "top_companies": [
+    [
+     "Rippling",
+     2
+    ],
+    [
+     "Brex",
+     2
+    ],
+    [
+     "LawnStarter",
+     1
+    ],
+    [
+     "Morgan Stanley",
+     1
+    ],
+    [
+     "AirOps",
+     1
+    ]
+   ]
+  },
+  "deployment-solutions": {
+   "n": 15,
+   "pursue": 5,
+   "mean_composite": 0.676,
+   "mass": 4.1,
+   "dim_mean": {
+    "role_shape": 2.2,
+    "ai_native": 2.33,
+    "rare_combination": 1.93,
+    "domain_breadth": 1.2,
+    "scope_authority": 2.47,
+    "culture": 2.4,
+    "comp_level": 2.47,
+    "logistics": 1.67,
+    "warm_path": 0.2
+   },
+   "top_companies": [
+    [
+     "monday.com",
+     1
+    ],
+    [
+     "Salesforce",
+     1
+    ],
+    [
+     "Kombo",
+     1
+    ],
+    [
+     "Fifth Dimension",
+     1
+    ],
+    [
+     "Maven AGI",
+     1
+    ]
+   ]
+  },
+  "other": {
+   "n": 15,
+   "pursue": 7,
+   "mean_composite": 0.7,
+   "mass": 5.6,
+   "dim_mean": {
+    "role_shape": 2.4,
+    "ai_native": 2.73,
+    "rare_combination": 2.27,
+    "domain_breadth": 0.93,
+    "scope_authority": 2.47,
+    "culture": 2.13,
+    "comp_level": 2.6,
+    "logistics": 1.47,
+    "warm_path": 0.0
+   },
+   "top_companies": [
+    [
+     "Datadog",
+     2
+    ],
+    [
+     "Accenture",
+     1
+    ],
+    [
+     "Citi",
+     1
+    ],
+    [
+     "Wonder",
+     1
+    ],
+    [
+     "Mercury",
+     1
+    ]
+   ]
+  },
+  "transformation-strategy-ops": {
+   "n": 15,
+   "pursue": 7,
+   "mean_composite": 0.708,
+   "mass": 6.0,
+   "dim_mean": {
+    "role_shape": 2.2,
+    "ai_native": 2.33,
+    "rare_combination": 1.93,
+    "domain_breadth": 1.73,
+    "scope_authority": 2.53,
+    "culture": 2.4,
+    "comp_level": 2.6,
+    "logistics": 1.93,
+    "warm_path": 0.2
+   },
+   "top_companies": [
+    [
+     "Distyl",
+     2
+    ],
+    [
+     "Bloomberg",
+     2
+    ],
+    [
+     "SentiLink",
+     1
+    ],
+    [
+     "Salesforce",
+     1
+    ],
+    [
+     "Kirkland & Ellis",
+     1
+    ]
+   ]
+  },
+  "gtm-systems": {
+   "n": 4,
+   "pursue": 4,
+   "mean_composite": 0.784,
+   "mass": 3.1,
+   "dim_mean": {
+    "role_shape": 3.0,
+    "ai_native": 3.0,
+    "rare_combination": 2.5,
+    "domain_breadth": 0.0,
+    "scope_authority": 3.0,
+    "culture": 2.75,
+    "comp_level": 2.25,
+    "logistics": 2.25,
+    "warm_path": 0.25
+   },
+   "top_companies": [
+    [
+     "AssemblyAI",
+     1
+    ],
+    [
+     "Basis",
+     1
+    ],
+    [
+     "Qualitate",
+     1
+    ],
+    [
+     "LangChain",
+     1
+    ]
+   ]
+  }
+ },
+ "bridge": {
+  "transformation-strategy-ops": {
+   "n": 114,
+   "pursue": 72,
+   "mean_composite": 0.719,
+   "mass": 55.5,
+   "dim_mean": {
+    "req_reality": 2.94,
+    "competition_density": 1.46,
+    "level_fit": 2.23,
+    "shape_fit": 2.26,
+    "stability_parent_signal": 2.89,
+    "edge_rewarded": 1.33,
+    "logistics": 2.57,
+    "comp_floor": 2.4,
+    "warm_path": 0.0
+   },
+   "top_companies": [
+    [
+     "Gusto",
+     7
+    ],
+    [
+     "Oscar Health",
+     7
+    ],
+    [
+     "Adyen",
+     6
+    ],
+    [
+     "Mercury",
+     6
+    ],
+    [
+     "Affirm",
+     6
+    ]
+   ]
+  },
+  "embedded-product": {
+   "n": 114,
+   "pursue": 37,
+   "mean_composite": 0.668,
+   "mass": 28.6,
+   "dim_mean": {
+    "req_reality": 2.95,
+    "competition_density": 0.61,
+    "level_fit": 2.37,
+    "shape_fit": 1.65,
+    "stability_parent_signal": 2.92,
+    "edge_rewarded": 1.54,
+    "logistics": 2.76,
+    "comp_floor": 2.66,
+    "warm_path": 0.0
+   },
+   "top_companies": [
+    [
+     "Datadog",
+     10
+    ],
+    [
+     "Affirm",
+     8
+    ],
+    [
+     "Justworks",
+     7
+    ],
+    [
+     "Mercury",
+     6
+    ],
+    [
+     "Upstart",
+     6
+    ]
+   ]
+  },
+  "deployment-solutions": {
+   "n": 82,
+   "pursue": 39,
+   "mean_composite": 0.689,
+   "mass": 29.7,
+   "dim_mean": {
+    "req_reality": 2.91,
+    "competition_density": 1.39,
+    "level_fit": 2.26,
+    "shape_fit": 1.84,
+    "stability_parent_signal": 2.88,
+    "edge_rewarded": 1.44,
+    "logistics": 2.13,
+    "comp_floor": 2.4,
+    "warm_path": 0.0
+   },
+   "top_companies": [
+    [
+     "Cloudflare",
+     28
+    ],
+    [
+     "Snowflake",
+     11
+    ],
+    [
+     "Ramp",
+     8
+    ],
+    [
+     "Datadog",
+     3
+    ],
+    [
+     "Notion",
+     3
+    ]
+   ]
+  },
+  "gtm-systems": {
+   "n": 53,
+   "pursue": 43,
+   "mean_composite": 0.781,
+   "mass": 34.9,
+   "dim_mean": {
+    "req_reality": 2.98,
+    "competition_density": 1.7,
+    "level_fit": 2.36,
+    "shape_fit": 2.64,
+    "stability_parent_signal": 2.94,
+    "edge_rewarded": 1.94,
+    "logistics": 2.79,
+    "comp_floor": 2.13,
+    "warm_path": 0.0
+   },
+   "top_companies": [
+    [
+     "Ramp",
+     5
+    ],
+    [
+     "Clay",
+     5
+    ],
+    [
+     "Betterment",
+     4
+    ],
+    [
+     "Affirm",
+     4
+    ],
+    [
+     "Datadog",
+     4
+    ]
+   ]
+  },
+  "other": {
+   "n": 47,
+   "pursue": 19,
+   "mean_composite": 0.679,
+   "mass": 14.9,
+   "dim_mean": {
+    "req_reality": 2.98,
+    "competition_density": 1.3,
+    "level_fit": 2.04,
+    "shape_fit": 1.57,
+    "stability_parent_signal": 2.91,
+    "edge_rewarded": 1.55,
+    "logistics": 2.6,
+    "comp_floor": 2.32,
+    "warm_path": 0.0
+   },
+   "top_companies": [
+    [
+     "Notion",
+     6
+    ],
+    [
+     "Snowflake",
+     5
+    ],
+    [
+     "Celonis",
+     4
+    ],
+    [
+     "FanDuel",
+     3
+    ],
+    [
+     "Cloudflare",
+     2
+    ]
+   ]
+  },
+  "applied-ai-engineer": {
+   "n": 6,
+   "pursue": 2,
+   "mean_composite": 0.713,
+   "mass": 1.8,
+   "dim_mean": {
+    "req_reality": 3.0,
+    "competition_density": 1.17,
+    "level_fit": 2.5,
+    "shape_fit": 1.33,
+    "stability_parent_signal": 2.83,
+    "edge_rewarded": 2.0,
+    "logistics": 3.0,
+    "comp_floor": 2.67,
+    "warm_path": 0.0
+   },
+   "top_companies": [
+    [
+     "Braze",
+     2
+    ],
+    [
+     "Madhive",
+     1
+    ],
+    [
+     "Affirm",
+     1
+    ],
+    [
+     "Datadog",
+     1
+    ],
+    [
+     "Upstart",
+     1
+    ]
+   ]
+  }
+ }
+}

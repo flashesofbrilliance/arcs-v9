@@ -120,6 +120,9 @@ jobs:
       - name: Every backlog row has a valid state enum
         if: always()
         run: python3 scripts/backlog_status_check.py --self-test && python3 scripts/backlog_status_check.py --check
+      - name: Every new seed carries a resolvable lineage pointer, no ancestry cycles
+        if: always()
+        run: python3 scripts/seed_lineage_check.py --self-test && python3 scripts/seed_lineage_check.py --check
       - name: good.arcs.care gallery + connector pages match their renderer
         if: always()
         run: python3 scripts/connector_render.py --check

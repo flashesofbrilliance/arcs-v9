@@ -4,11 +4,7 @@
  "failures": {
   "AGENTS.md": [
    "path|operators/.venv",
-   "path|runtime/specs/tool-catalog",
-   "path|src/lib/gigi.ts"
-  ],
-  "CLAUDE.md": [
-   "path|scripts/dependency_sweep.py"
+   "path|runtime/specs/tool-catalog"
   ],
   "MEMORY.md": [
    "commit|47b86cd1",
@@ -187,9 +183,6 @@
   "_PATTERNS/2026-08-13-umbrella-dunford-positioning-canvas.md": [
    "path|_STATE/2026-08-13-oss-family-",
    "path|docs/adjacencies.md"
-  ],
-  "_PATTERNS/2026-08-29-ventriloquy-pathogen-investigation.md": [
-   "path|scripts/attribution_provenance_lint.py"
   ],
   "_PATTERNS/2026-09-26-impeccable-detector-upstream-report.md": [
    "path|public/blog-nftt-",
@@ -455,10 +448,8 @@
    "path|runtime/specs/tokens.json",
    "path|scripts/VERSION",
    "path|scripts/adr_dewy_watch.py",
-   "path|scripts/attribution_provenance_lint.py",
    "path|scripts/check-spec-frontmatter.py",
    "path|scripts/cold_reader_gate.py",
-   "path|scripts/dependency_sweep.py",
    "path|scripts/deploy-smoke.mjs",
    "path|scripts/orthogonal_echo.py",
    "path|scripts/pii_leak_gate.py",
@@ -843,24 +834,13 @@
   ],
   "_STATE/night-moves/2026-10-01.md": [
    "commit|98b84036",
-   "commit|ac11cde4",
-   "path|scripts/dependency_sweep.py"
-  ],
-  "_STATE/night-moves/2026-10-02.md": [
-   "path|scripts/dependency_sweep.py"
+   "commit|ac11cde4"
   ],
   "_STATE/night-moves/2026-10-03.md": [
-   "commit|f41067ec",
-   "path|scripts/dependency_sweep.py",
-   "script|dependency_sweep.py"
-  ],
-  "_STATE/night-moves/2026-10-05.md": [
-   "path|scripts/dependency_sweep.py",
-   "script|dependency_sweep.py"
+   "commit|f41067ec"
   ],
   "_STATE/night-moves/2026-10-07.md": [
-   "commit|c6ed0833",
-   "path|scripts/dependency_sweep.py"
+   "commit|c6ed0833"
   ],
   "_STATE/orchestration-layer-spec.md": [
    "path|operators/concepts"

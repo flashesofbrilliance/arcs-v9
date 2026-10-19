@@ -187,6 +187,8 @@ input[type=range] { width: 100%; accent-color: var(--cyan); height: 44px; margin
 @media (prefers-reduced-motion: reduce) { #srcseg::after { transition: none; } }
 .btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 8px 12px; cursor: pointer; min-height: 44px; }
 .btn:hover { border-color: var(--cyan); }
+.btn:active { background: var(--cyan-bg); border-color: var(--cyan); }
+.btn:disabled { color: var(--dimmed); border-style: dashed; cursor: not-allowed; }
 .btn[aria-current=true] { border-color: var(--cyan); background: var(--cyan-bg); }
 .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; cursor: pointer; }
 .check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--cyan); }
@@ -309,6 +311,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .frame:fullscreen { padding: 0; border: 0; border-radius: 0; background: var(--bg); }
 .frame.fs canvas, .frame:fullscreen canvas { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; object-fit: contain; border-radius: 0; }
 .frame.fs .hud { display: flex; }
+.deck:has(.frame.fs) { z-index: 50; } /* the sticky deck is a stacking context: without native fullscreen (WebKit Escape) the dock (z 20) would cover the theater frame */
 .frame.fs .fsb { display: none; }
 .fsb.zmb:hover { border-color: var(--cyan); }
 .frame.fs.idle .hud { opacity: 0; pointer-events: none; }
@@ -352,3 +355,36 @@ html[data-dock="hidden"] #dkbump { display: flex; }
   .btn { min-height: 48px; }
   .stk > * { min-height: 56px; }
 }
+/* Trays (Pads, Mix): one component. Both sit above the player, close with it, and share their frame; only width and height differ. */
+.tray { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--dock-h, 120px) + 22px); z-index: 19; overflow-y: auto; padding: 12px; display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+html[data-dock="hidden"] .tray { display: none; }
+#fxtray { width: min(1120px, calc(100vw - 2 * var(--gutter))); max-height: 52vh; }
+#padtray { width: min(520px, calc(100vw - 2 * var(--gutter))); max-height: 70vh; }
+/* Effect tray: one row per effect, a level slider held inside min and max limits */
+#fxtray .fxr { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; }
+#fxtray .fxr label { font-size: var(--fs-body); } #fxtray .fxr output { font-size: var(--fs-label); color: var(--muted); min-width: 4ch; }
+#fxtray input[type=range] { min-height: 44px; margin: 0; width: 100%; accent-color: var(--orange); }
+#fxtray .fxl { display: flex; gap: 6px; align-items: center; font-size: var(--fs-label); color: var(--muted); } #fxtray .fxl input { width: 72px; }
+@media (max-width: 640px) { #fxtray .fxr { grid-template-columns: 80px minmax(0, 1fr); } #fxtray .fxl { grid-column: 2; } }
+/* Consent splash: a grown-up reads three short notes and presses Start (first load only, remembered on this device) */
+#consent { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--bg); overflow-y: auto; }
+#consent[hidden] { display: none; }
+#consent .csbox { width: min(560px, 100%); display: grid; gap: 12px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+#consent h2 { margin: 0; font-size: var(--fs-headline); } #consent p { margin: 0; font-size: var(--fs-body); line-height: 1.5; }
+#consent .csgo { min-height: 56px; border-color: var(--cyan); color: var(--cyan); }
+/* Pad tray: a 4 by 4 grid of big pads, banks A to D, laid out like the keys 1234 QWER ASDF ZXCV */
+#padtray .pbkb { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+#padtray .pbk { display: grid; grid-template-columns: repeat(4, minmax(56px, 1fr)); gap: 10px; }
+#padtray .btn { min-height: 56px; touch-action: manipulation; } #padtray .pbk .btn { min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+#padtray .pbk .btn small { font-size: var(--fs-label); color: var(--muted); } #padtray .pbk .btn[aria-disabled="true"] { opacity: 1; color: var(--dimmed); border-style: dashed; }
+#padtray .pbk .btn.hit { border-color: var(--cyan); color: var(--cyan); background: var(--surface); }
+/* The hidden attribute always wins over a display rule (the pad picker and the Sing box both leaked through one). */
+[hidden] { display: none !important; }
+/* Spacing and fill helpers that replaced inline style attributes (one scale, no magic numbers in the markup) */
+:root { --sp-1: 6px; --sp-2: 8px; --sp-3: 10px; }
+.above { margin-top: var(--sp-2) !important; } .above-s { margin-top: var(--sp-1) !important; } .above-l { margin-top: var(--sp-3) !important; } .above-0 { margin-top: 0 !important; }
+.w-auto { width: auto !important; } .w-num { width: 92px !important; } .fld { min-width: 240px !important; flex: 0 1 280px !important; } .fld-wide { min-width: 300px !important; flex: 0 1 360px !important; }
+.fill-220 { flex: 1 1 220px !important; width: auto !important; } .fill-200 { flex: 1 1 200px !important; width: auto !important; } .fill-160 { flex: 1 1 160px !important; width: auto !important; }
+.check.check-tight { grid-template-columns: 22px auto !important; }
+#zin { right: 60px; } #zout { right: 112px; }
+
