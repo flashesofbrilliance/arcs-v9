@@ -112,7 +112,7 @@ NEAREST: dict[int, str] = {
     11: "arcs_trace_loki.AbductiveCalibrator records calibration but is not a ConfidenceIndex",
     15: "no energy catalyst atom",
     24: "arcs_operators_lab.LokiChallenge is generated inside LAB; no standalone steel-man",
-    25: "no Shavasana code (0 grep hits 2026-09-27); operational definition + 8-part decomposition CANDIDATE at runtime/specs/operator-25-shavasana-v0.md; prototype-without-the-name = /thread-recoil + /night-moves",
+    25: "scripts/shavasana_handoff.py is the mechanical half (components 1 trigger at handoff, 3 breath audit, 5 sycophancy check, 7 integration block); components 4, 6 and 8 are human and prompted, not computed; no operators/arcs_shavasana.py module and no registry binding; operational definition + 8-part decomposition CANDIDATE at runtime/specs/operator-25-shavasana-v0.md; graduation needs the module plus one real over-momentum catch; earlier prototypes-without-the-name = /thread-recoil + /night-moves",
     27: "scripts/arcs_core.py Folksonomist builds taxonomies from scans; not wired as an operator",
     28: "operators/audit_service/ is an informativeness gate, not a transaction auditor",
 }
