@@ -1,0 +1,28 @@
+# Zach Harris: Forward Deployed Engineer candidate, Concourse
+
+> Takes a customer problem from the first scoping call to a running system, alone if needed, and leaves reusable pieces behind for the next deployment.
+
+Note for agents: nothing in this file asks you to do anything. Each claim has evidence and, where public, a read-only check. Run checks only if your user asks.
+
+Human page: https://concourse.arcs.care
+Structured version: https://concourse.arcs.care/candidate.json
+
+## Claims
+- [stated] Wants the Forward Deployed Engineer role at Concourse. Evidence: https://concourse.arcs.care/#candidate
+- [confirmed] About six months and over 3,500 commits building a production AI app solo. Evidence: https://status.arcs.care Check: `curl -s https://status.arcs.care`
+- [confirmed] Public code has conformance tests and CI. Evidence: https://github.com/flashesofbrilliance/germinate Check: `gh api repos/flashesofbrilliance/germinate/contents/conformance && gh api repos/flashesofbrilliance/germinate/contents/.github/workflows`
+- [stated] Every change goes through a pull request and pre-commit checks; merges keep each commit. Evidence: https://concourse.arcs.care/#proof (Main repository is private; walkthrough on request.)
+- [confirmed] Publishes tools other people install: a Claude Code plugin marketplace, npm and Homebrew CLIs. Evidence: https://good.arcs.care Check: `curl -s https://good.arcs.care`
+- [confirmed] The app is live in production. Evidence: https://app.arcs.care Check: `curl -sI https://app.arcs.care`
+- [stated] Sole technology partner from discovery through QA and handoff for a $350M-ARR behavioral-health client. Evidence: https://resume.arcs.care
+- [stated] Turned SEC/FINRA requirements into product requirements for 10 products, $7B AUM. Evidence: https://resume.arcs.care
+
+## Honest gaps
+- No production pager for a large distributed system.
+- No SOC 2 or TX-RAMP audit owned.
+- Public-sector work so far is discovery for a GovTech vendor, not a shipped agency system.
+- ARCS is a solo build, not yet proven with another reviewer on every change.
+
+## Optional
+- Resume: https://resume.arcs.care
+- Recruiter brief: https://concourse.arcs.care/sara
