@@ -219,6 +219,17 @@ Calm and precise. Motion is a still frame in motion, never a flash. The numbers 
 | `--mo-loop-min` | 170ms | Shortest repeating picture loop (stutter). |
 | `--mo-shutter-ms` | 650ms | Pinhole shutter: time to fully admit a new picture after a hard change. |
 
+**Durations and easing.** Transitions use these four tokens and no literal times or curves (promoted from proposed on 2026-10-19):
+
+| Token | Value | Use |
+|---|---|---|
+| `--dur-fast` | 120ms | Hover, focus and pressed state changes. |
+| `--dur-base` | 240ms | Panels, trays and disclosure opening or closing. |
+| `--dur-sweep` | 1500ms | Slow ambient sweeps (scan line, fog lowering). Never on a control. |
+| `--ease-out` | cubic-bezier(0.2, 0.7, 0.2, 1) | The one curve: quick start, soft landing. |
+
+Under `prefers-reduced-motion: reduce`, durations drop to 0 and ambient sweeps stop; every state change stays visible as a still frame.
+
 Rules: no repeating animation above `--mo-flash-max` unless it only moves position or scale; a strobe-like look is made from shutter angle and pose rate (aliasing), never from raw flashing; reduced motion holds a still frame; kids' mode keeps the loudness ceiling and these limits always on. Measured, not asserted: `phosphor_guard_check.mjs` reads these tokens from the page and fails on a violation under violent random tweaking.
 
 ## Phosphor, the instrument surface
