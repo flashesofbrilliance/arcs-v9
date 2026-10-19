@@ -209,6 +209,34 @@
       "conviction": "HIGH",
       "verdict": "FALSIFIED: reliability is his home turf, so the on-call gap is the gap he is best placed to see",
       "date": "2026-10-19"
+    },
+    {
+      "id": "P12",
+      "audience": "internal",
+      "claim": "FDPM at Concourse is engagement management; product judgment sits with the CTO and FDEs on the platform.",
+      "evidence": "Krish: FDPM handles 'herding', access, scope before the FDE, and with 'our like one sales guy' the lifecycle. Rapolas's profile: leads the centralized platform, modules and orchestration behind every deployment. Krish: 'the really key piece of the FDE role is that platform product feedback loop'.",
+      "inference": "INF",
+      "confidence": [
+        0.65,
+        0.8
+      ],
+      "conviction": "MED",
+      "verdict": "NEW",
+      "date": "2026-10-19"
+    },
+    {
+      "id": "P13",
+      "audience": "internal",
+      "claim": "Krish's 'why FDE as a focused role' was a sort between engineering and product backgrounds; current read: strong hybrid leaning product.",
+      "evidence": "The question followed his own summary of Zach as 'operating across kind of functional and technical roles'. Zach told Sara he wants all four hats and Sara folded them into FDE; the engineering readers (Krish, the CTO) weight the build and platform hat.",
+      "inference": "INF",
+      "confidence": [
+        0.55,
+        0.7
+      ],
+      "conviction": "LOW",
+      "verdict": "NEW",
+      "date": "2026-10-19"
     }
   ],
   "kinematic_series": {
