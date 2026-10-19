@@ -6,16 +6,16 @@
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 233,
+  "script": 236,
   "skill": 22,
   "workflow": 2
  },
- "total": 327,
+ "total": 330,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 437,
+   "WIRED": 442,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 19,
    "DUPLICATE": 6,
@@ -623,6 +623,14 @@
    "path": "scripts/archetype_scan.py",
    "jtbd": "ARCS Archetype Scan — Resonance Scoring & Force-Directed Graph",
    "invoke": "python3 scripts/archetype_scan.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "archive_move_gate.py",
+   "path": "scripts/archive_move_gate.py",
+   "jtbd": "archive_move_gate: a file that is moved, renamed or deleted must not leave a live citer behind.",
+   "invoke": "python3 scripts/archive_move_gate.py",
    "state": "WIRED"
   },
   {
@@ -1351,6 +1359,14 @@
    "path": "scripts/jobs_prose_gate.py",
    "jtbd": "jobs_prose_gate: Job Factory slice 7. The NFTT prose factory's gate chain, run on",
    "invoke": "python3 scripts/jobs_prose_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_graph_schema_check.py",
+   "path": "scripts/jtbd_graph_schema_check.py",
+   "jtbd": "Validate a JTBD graph ({atoms, edges}) against runtime/specs/jtbd-graph-schema.json.",
+   "invoke": "python3 scripts/jtbd_graph_schema_check.py",
    "state": "WIRED"
   },
   {
@@ -2351,6 +2367,14 @@
    "path": "scripts/universe_canon_adapter.py",
    "jtbd": "universe_canon_adapter: thin, READ-ONLY adapter that projects ARCS canon into the `canon` universe.",
    "invoke": "python3 scripts/universe_canon_adapter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "universe_jtbd_adapter.py",
+   "path": "scripts/universe_jtbd_adapter.py",
+   "jtbd": "universe_jtbd_adapter: emit the JTBD graph's nodes (Sprint 1, backlog row jtbd-graph-s1-nodes).",
+   "invoke": "python3 scripts/universe_jtbd_adapter.py",
    "state": "WIRED"
   },
   {
