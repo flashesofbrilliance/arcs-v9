@@ -35,3 +35,18 @@ export function classifyWrite(obs) {
   return { verdict: "proven", reasons: ["KEY_ADD accepted, cast accepted, readable, merge event seen"] };
 }
 export const EXIT = { proven: 0, fallback: 10, killed: 11 };
+
+// Build a classifier observation from raw event pages (real API shape: events[] with type/id). Pure; used by the live path and by the offline test.
+export function observeShard(pages) {
+  const ids = pages.map((p) => p.map((e) => Number(e.id)));
+  const blocks = []; let seen = 0, open = false;
+  for (const e of pages.flat()) {
+    if (e.type === "HUB_EVENT_TYPE_BLOCK_CONFIRMED") {
+      // BLOCK_CONFIRMED.totalEvents counts the block's events; the confirm event itself is the first event of its block in the doc example
+      if (open) blocks.push({ total: blocks.cur, seen });
+      blocks.cur = e.blockConfirmedBody?.totalEvents; seen = 1; open = true;
+    } else if (open) seen++;
+  }
+  if (open) blocks.push({ total: blocks.cur, seen, partial: true });
+  return { pages: ids, blocks: blocks.filter((b) => !b.partial) };
+}

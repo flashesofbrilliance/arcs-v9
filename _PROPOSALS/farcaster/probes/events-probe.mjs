@@ -1,7 +1,7 @@
 // fc-derisk-events-probe. Written, NOT RUN. Read-only. Needs only FC_NODE_URL (key guard is skipped).
 // usage: FC_NODE_URL=http://host:3381 node events-probe.mjs [pages=5] [pageSize=100]
 import fs from "node:fs";
-import { classifyEvents, EXIT } from "./classify.mjs";
+import { classifyEvents, observeShard, EXIT } from "./classify.mjs";
 import { checkArgv } from "./guard.mjs";
 checkArgv();
 const fx = process.argv.indexOf("--fixture");
