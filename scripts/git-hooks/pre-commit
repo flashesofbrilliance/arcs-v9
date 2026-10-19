@@ -73,7 +73,7 @@ fi
 # Done goal: all served pages clean except reasoned exemptions. Skips without python3; the detector
 # column skips cleanly on machines without the Impeccable launcher.
 if [ -f scripts/design_debt_sweep.py ] && [ -f runtime/specs/design-debt-baseline.json ] && command -v python3 >/dev/null 2>&1; then
-  dd=$(git diff --cached --name-only --diff-filter=AM -- 'public/*.html' 'public/**/*.html' 2>/dev/null || true)
+  dd=$(git diff --cached --name-only --diff-filter=AM -- 'public/*.html' 'public/**/*.html' 'runtime/warroom/*.html' 2>/dev/null || true)
   if [ -n "$dd" ]; then
     if ! python3 scripts/design_debt_sweep.py --check $dd; then
       echo "✖ commit blocked: a served page's design debt went up (see above). Burn-down only goes down." >&2
