@@ -183,6 +183,31 @@
       ],
       "conviction": "MED",
       "verdict": "NEW (inference, confirm with Sara)",
+      "date": "2026-10-19",
+      "posterior": {
+        "claim": "The CTO is Rapolas Binkys; he likely reviews the take-home as hiring manager.",
+        "evidence": "LinkedIn export (Zach, 2026-10-19): CTO since Oct 2025, 'Lead the centralized technical platform and execution behind every Concourse deployment', including infrastructure, compliance foundation, modules and orchestration. Name heard on the call as 'Rappolis' = Rapolas. Hiring-manager role still not stated by Concourse.",
+        "confidence": [
+          0.7,
+          0.8
+        ],
+        "conviction": "MED",
+        "verdict": "NAME CONFIRMED; HM still inference",
+        "date": "2026-10-19"
+      }
+    },
+    {
+      "id": "P11",
+      "audience": "internal",
+      "claim": "Krish is a product-platform peer, so the 'no pager' gap is a minor point with him.",
+      "evidence": "LinkedIn export: Senior SRE at Replit (2023-2025), SRE at Google on planet-scale object storage, Kubernetes SIG Storage at Red Hat, then Rippling and Concourse (Aug 2026). He is a reliability specialist.",
+      "inference": "OBS",
+      "confidence": [
+        0.1,
+        0.2
+      ],
+      "conviction": "HIGH",
+      "verdict": "FALSIFIED: reliability is his home turf, so the on-call gap is the gap he is best placed to see",
       "date": "2026-10-19"
     }
   ],
@@ -219,7 +244,7 @@
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Confirm the CTO's name (heard as 'Rappolis') and whether the CTO is the hiring manager; ask Sara in one line."
+      "text": "CTO confirmed as Rapolas Binkys. Still confirm with Sara whether he is the hiring manager who scores the take-home."
     },
     {
       "audience": "internal",
@@ -373,6 +398,31 @@
           {
             "dot": "",
             "html": "<span style='color:var(--red)'>Landmine:</span> repeating the four-hat pitch. Sara already said it is the FDE role. Show it in the take-home instead."
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Who reads the take-home (from LinkedIn exports, 2026-10-19)",
+        "intro": "Internal only. Never put profile content on a counterpart page.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Rapolas Binkys, CTO</strong> (since Oct 2025). Owns the central platform: infrastructure, compliance foundation, government modules, and the orchestration from agency requirements to software. Before: technical co-founder twice (Narrativ, an AI likeness marketplace; Peppercorn, voice games), Bain Capital, four years at Bain &amp; Company. Applied math and economics, Brown."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Read:</strong> a consultant-turned-builder, like Zach. He will reward an analytics-driven, trade-off-explicit design, and he owns the modules and compliance foundation your design should reuse rather than reinvent. Frame the take-home as 'what I would reuse from the platform, and what I would add back to it'."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Krish Chowdhary</strong>, engineer (since Aug 2026). Senior SRE at Replit, SRE at Google (object storage), Kubernetes SIG Storage at Red Hat, then Rippling. Reliability is his specialty."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> the 'no production pager' gap lands hardest with Krish. In the take-home, name the alerts, the runbook and the failure handling explicitly (he raised 'what if the payments processor breaks' himself)."
           }
         ]
       },
