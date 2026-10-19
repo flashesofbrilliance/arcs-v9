@@ -29,7 +29,7 @@
   var NUM = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
   /* ---------------- analysis ---------------- */
-  var SR = 44100, PCM = F32(0), DUR = 0, NF = 0, BANDS = null, RMS = null, FLUX = null, CENT = null, CENTERS = [], BUF = null, CHAPS = [], SRCNAME = "Demo signal", ANALYZING = false, GEN = 0;
+  var SR = 44100, PCM = F32(0), DUR = 0, NF = 0, BANDS = null, BANDST = null, RMS = null, FLUX = null, CENT = null, CENTERS = [], BUF = null, CHAPS = [], SRCNAME = "Demo signal", ANALYZING = false, GEN = 0;
   function makeFFT(n) {
     var bits = RD(Math.log(n) / Math.LN2), rev = new Uint32Array(n), cs = new Float64Array(n / 2), sn = new Float64Array(n / 2), i;
     for (i = 0; i < n; i++) rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bits - 1));
@@ -44,6 +44,14 @@
   }
   var fft = makeFFT(NFFT), hann = new Float64Array(NFFT);
   for (var hi = 0; hi < NFFT; hi++) hann[hi] = 0.5 - 0.5 * Math.cos(2 * PI * hi / (NFFT - 1));
+  /* Low-band resolution (2026-10-19): the 2048-point window has 21.5 Hz bins at 44.1 kHz, wider than the lowest of the 64 log bands. Bands under LOWHZ read a second, longer transform of a decimated copy (about 1.3 Hz bins), so two bass notes 10 Hz apart land in different bands. */
+  var NLO = 1024, LOWHZ = 600, fftLo = makeFFT(NLO), hannLo = new Float64Array(NLO);
+  for (var hj = 0; hj < NLO; hj++) hannLo[hj] = 0.5 - 0.5 * Math.cos(2 * PI * hj / (NLO - 1));
+  function decimate(pcm, D) {
+    var n = FL(pcm.length / D), out = F32(n), j, m, w, acc, i0, L = pcm.length;
+    for (j = 0; j < n; j++) { acc = 0; for (m = 1 - D; m < D; m++) { i0 = j * D + m; if (i0 >= 0 && i0 < L) acc += pcm[i0] * (D - (m < 0 ? -m : m)); } out[j] = acc / (D * D); }
+    return out;
+  }
   function pct(arr, p) { var s = arr.slice().sort(function (a, b) { return a - b; }); return s[MN(s.length - 1, FL(p * (s.length - 1)))]; }
 
   function analyze(pcm, sr, done, progress, gen) {
@@ -52,6 +60,10 @@
     for (i = 0; i <= NB; i++) edges.push(fmin * PW(fmax / fmin, i / NB));
     for (b = 0; b < NB; b++) { var c = Math.sqrt(edges[b] * edges[b + 1]); cent.push(c); var l = Math.ceil(edges[b] / binHz), h = FL(edges[b + 1] / binHz); if (h < l) { l = h = RD(c / binHz); } lo.push(MX(1, l)); hiB.push(MX(1, h)); }
     var re = new Float64Array(NFFT), im = new Float64Array(NFFT), raw = F32(nf * NB), f = 0;
+    var D = MX(1, FL(sr / 1400)), nLow = 0, dec = null, binLo = (sr / D) / NLO, loL = [], hiL = [], reL = new Float64Array(NLO), imL = new Float64Array(NLO);
+    if (sr / D >= 2 * LOWHZ) { for (b = 0; b < NB; b++) if (edges[b + 1] <= LOWHZ) nLow = b + 1; }
+    if (nLow) { dec = decimate(pcm, D); for (b = 0; b < nLow; b++) { var l2 = Math.ceil(edges[b] / binLo), h2 = FL(edges[b + 1] / binLo); if (h2 < l2) { l2 = h2 = RD(cent[b] / binLo); } loL.push(MX(1, l2)); hiL.push(MX(1, h2)); } }
+    var NLW = MX(1, nLow), rawS = F32(nf * NLW); /* the short window stays the source of onsets: the long one smears a kick over three quarters of a second */
     function step() {
       if (gen !== GEN) return;
       var end = MN(nf, f + 300);
@@ -61,19 +73,22 @@
         for (k = 0; k < hop && s0 + k < pcm.length; k++) e2 += pcm[s0 + k] * pcm[s0 + k];
         rms[f] = Math.sqrt(e2 / hop);
         fft(re, im);
-        for (b = 0; b < NB; b++) { var p = 0, cnt = 0; for (k = lo[b]; k <= hiB[b]; k++) { p += re[k] * re[k] + im[k] * im[k]; cnt++; } raw[f * NB + b] = 10 * Math.log10(p / cnt / (NFFT * NFFT) + 1e-12); }
+        if (nLow) { var cj = (s0 + NFFT / 2) / D - NLO / 2, c0 = RD(cj); for (k = 0; k < NLO; k++) { var xi = dec[c0 + k] || 0; reL[k] = (c0 + k >= 0 ? xi : 0) * hannLo[k]; imL[k] = 0; } fftLo(reL, imL); }
+        for (b = 0; b < NB; b++) { var p = 0, cnt = 0; if (b < nLow) { for (k = loL[b]; k <= hiL[b]; k++) { p += reL[k] * reL[k] + imL[k] * imL[k]; cnt++; } raw[f * NB + b] = 10 * Math.log10(p / cnt / (NLO * NLO) + 1e-12); p = 0; cnt = 0; for (k = lo[b]; k <= hiB[b]; k++) { p += re[k] * re[k] + im[k] * im[k]; cnt++; } rawS[f * NLW + b] = 10 * Math.log10(p / cnt / (NFFT * NFFT) + 1e-12); continue; } for (k = lo[b]; k <= hiB[b]; k++) { p += re[k] * re[k] + im[k] * im[k]; cnt++; } raw[f * NB + b] = 10 * Math.log10(p / cnt / (NFFT * NFFT) + 1e-12); }
       }
       progress(f / nf);
       if (f < nf) { setTimeout(step, 0); return; }
-      var sample = []; for (i = 0; i < raw.length; i += 7) sample.push(raw[i]);
+      var sample = [], fi, fb; /* levels are scaled from the short-window values, as before the low-band change, so onsets and tempo do not move */
+      for (i = 0; i < raw.length; i += 7) { fi = FL(i / NB); fb = i - fi * NB; sample.push(fb < nLow ? rawS[fi * NLW + fb] : raw[i]); }
       var dhi = pct(sample, 0.995), dlo = MX(pct(sample, 0.05), dhi - 66), span = MX(1, dhi - dlo);
       for (i = 0; i < raw.length; i++) bands[i] = MN(1, MX(0, (raw[i] - dlo) / span));
       var rdb = []; for (i = 0; i < nf; i++) rdb.push(20 * Math.log10(rms[i] + 1e-6));
       var rlo = pct(rdb, 0.05), rhi = pct(rdb, 0.995), rspan = MX(1, rhi - rlo), lev = F32(nf);
       for (i = 0; i < nf; i++) lev[i] = MN(1, MX(0, (rdb[i] - rlo) / rspan));
-      var flux = F32(nf), centr = F32(nf);
-      for (i = 0; i < nf; i++) { var fl = 0, cw = 0, cs2 = 0; for (b = 0; b < NB; b++) { var v = bands[i * NB + b]; if (i) fl += MX(0, v - bands[(i - 1) * NB + b]); cw += v * b; cs2 += v; } flux[i] = fl; centr[i] = cs2 > 1e-6 ? cw / cs2 : 0; }
-      done({ nf: nf, bands: bands, rms: lev, flux: flux, cent: centr, centers: cent, dB: [dlo, dhi] });
+      var flux = F32(nf), centr = F32(nf), bandsF = bands;
+      if (nLow) { bandsF = F32(bands.length); bandsF.set(bands); for (i = 0; i < nf; i++) for (b = 0; b < nLow; b++) bandsF[i * NB + b] = MN(1, MX(0, (rawS[i * NLW + b] - dlo) / span)); }
+      for (i = 0; i < nf; i++) { var fl = 0, cw = 0, cs2 = 0; for (b = 0; b < NB; b++) { var v = bandsF[i * NB + b]; if (i) fl += MX(0, v - bandsF[(i - 1) * NB + b]); cw += v * b; cs2 += v; } flux[i] = fl; centr[i] = cs2 > 1e-6 ? cw / cs2 : 0; }
+      done({ nf: nf, bands: bands, bandsT: bandsF, rms: lev, flux: flux, cent: centr, centers: cent, dB: [dlo, dhi] });
     }
     step();
   }
@@ -472,10 +487,10 @@
     return AC[k];
   }
   function deckSwap(D) {
-    var s = { NF: NF, BANDS: BANDS, RMS: RMS, FLUX: FLUX, CENT: CENT, CENTERS: CENTERS, PCM: PCM, SR: SR, DUR: DUR };
-    NF = D.nf; BANDS = D.bands; RMS = D.rms; FLUX = D.flux; CENT = D.cent; CENTERS = D.centers; PCM = D.pcm; SR = D.sr; DUR = D.dur; if (SUN) SUN.nf = -1; return s;
+    var s = { NF: NF, BANDS: BANDS, BANDST: BANDST, RMS: RMS, FLUX: FLUX, CENT: CENT, CENTERS: CENTERS, PCM: PCM, SR: SR, DUR: DUR };
+    NF = D.nf; BANDS = D.bands; BANDST = D.bandsT || D.bands; RMS = D.rms; FLUX = D.flux; CENT = D.cent; CENTERS = D.centers; PCM = D.pcm; SR = D.sr; DUR = D.dur; if (SUN) SUN.nf = -1; return s;
   }
-  function deckRestore(s) { NF = s.NF; BANDS = s.BANDS; RMS = s.RMS; FLUX = s.FLUX; CENT = s.CENT; CENTERS = s.CENTERS; PCM = s.PCM; SR = s.SR; DUR = s.DUR; if (SUN) SUN.nf = -1; }
+  function deckRestore(s) { NF = s.NF; BANDS = s.BANDS; BANDST = s.BANDST; RMS = s.RMS; FLUX = s.FLUX; CENT = s.CENT; CENTERS = s.CENTERS; PCM = s.PCM; SR = s.SR; DUR = s.DUR; if (SUN) SUN.nf = -1; }
   function mixFollowB() { return MIX.follow === "B" ? DB.nf > 0 : MIX.follow === "mix" ? DB.nf > 0 && DB.playing && MIX.gB > MIX.gA : false; }
   function dbPos() { return DB.playing && AC ? MN(DB.dur, DB.off + (AC.currentTime - DB.t0) * DB.rate) : DB.pausedAt; }
   function dbPe() { return DB.bpm ? 60 / DB.bpm / DB.mult : 0.5; }
@@ -513,7 +528,7 @@
       var n = buf.length, ch = buf.numberOfChannels, mono = F32(n), c, i; for (c = 0; c < ch; c++) { var d = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += d[i] / ch; }
       if (mono.length > MAXSEC * buf.sampleRate) mono = mono.subarray(0, MAXSEC * buf.sampleRate);
       analyze(mono, buf.sampleRate, function (R) {
-        dbStop(); DB.buf = buf; DB.pcm = mono; DB.sr = buf.sampleRate; DB.dur = mono.length / buf.sampleRate; DB.nf = R.nf; DB.bands = R.bands; DB.rms = R.rms; DB.flux = R.flux; DB.cent = R.cent; DB.centers = R.centers; DB.name = name; DB.pausedAt = 0; DB.rate = 1; DB.mult = 1;
+        dbStop(); DB.buf = buf; DB.pcm = mono; DB.sr = buf.sampleRate; DB.dur = mono.length / buf.sampleRate; DB.nf = R.nf; DB.bands = R.bands; DB.bandsT = R.bandsT; DB.rms = R.rms; DB.flux = R.flux; DB.cent = R.cent; DB.centers = R.centers; DB.name = name; DB.pausedAt = 0; DB.rate = 1; DB.mult = 1;
         var sv = deckSwap(DB), on = [], i2, k, W = RD(0.5 * FPS), last = -999, tp = null;
         try { for (i2 = 1; i2 < NF - 1; i2++) { var s = 0, nn = 0; for (k = MX(0, i2 - W); k <= MN(NF - 1, i2 + W); k++) { s += FLUX[k]; nn++; } if (FLUX[i2] > 1.5 * (s / nn) + 0.05 && FLUX[i2] >= FLUX[i2 - 1] && FLUX[i2] > FLUX[i2 + 1] && i2 - last >= 3) { on.push(i2); last = i2; } } tp = detectTempo(on); } finally { deckRestore(sv); }
         DB.bpm = tp ? +tp.bpm.toFixed(2) : 0; DB.grid0 = tp ? tp.grid0 : 0;
@@ -740,16 +755,39 @@
   }
   function stopPlay(msg) { if (typeof elog === "function") elog("stop"); recAct("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
   function seek(t) { t = MX(0, MN(DUR, t)); recAct("seek", +t.toFixed(3)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
+  /* Cue point (CDJ style): paused, press sets the cue at the playhead snapped to the nearest bar start; at the cue, hold to play from it and let go to return; playing, press stops and returns to the cue. */
+  var CUEP = { t: null, prev: false };
+  function cueSnap(t) {
+    if (!BPM && !TMAP) return t;
+    var ph = BPMINFO && typeof BPMINFO.downbeat === "number" ? BPMINFO.downbeat : 0, bar = RD((tmapBeat(t) - ph) / 4) * 4 + ph;
+    return MX(0, MN(DUR, tmapTime(bar)));
+  }
+  function cueLabel() { var c = $("cuebtn"); c.textContent = CUEP.t === null ? "Cue" : "Cue " + mmss(CUEP.t); AP(c, CUEP.t !== null); }
+  function cueDown() {
+    if (!BUF || CUEP.prev) return;
+    if (playing) { stopPlay(""); if (CUEP.t !== null) tpaused = CUEP.t; frame(false); return; }
+    if (CUEP.t === null || AB(tpaused - CUEP.t) > 0.02) { CUEP.t = cueSnap(tpaused); tpaused = CUEP.t; cueLabel(); frame(false); return; }
+    CUEP.prev = true; startPlay(CUEP.t);
+  }
+  function cueUp() { if (!CUEP.prev) return; CUEP.prev = false; stopPlay(""); tpaused = CUEP.t; frame(false); }
+  (function () {
+    var c = $("cuebtn"), kd = false;
+    c.addEventListener("pointerdown", function (e) { e.preventDefault(); try { c.setPointerCapture(e.pointerId); } catch (x) { /* no capture */ } cueDown(); });
+    ["pointerup", "pointercancel"].forEach(function (n) { c.addEventListener(n, cueUp); });
+    c.addEventListener("keydown", function (e) { if ((e.key === " " || e.key === "Enter") && !e.repeat && !kd) { kd = true; e.preventDefault(); cueDown(); } });
+    c.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") { kd = false; e.preventDefault(); cueUp(); } });
+    c.addEventListener("blur", function () { kd = false; cueUp(); });
+  })();
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
   /* ---------------- loading ---------------- */
   function setSource(pcm, sr, buf, name, after) {
     GEN++; var gen = GEN; stopPlay(""); ANALYZING = true; BUF = buf; SRCNAME = name; $("status").textContent = "Analyzing 0%";
     var cap = MN(pcm.length, MAXSEC * sr); if (cap < pcm.length) pcm = pcm.subarray(0, cap);
-    PCM = pcm; SR = sr; DUR = pcm.length / sr;
+    PCM = pcm; SR = sr; DUR = pcm.length / sr; if (typeof CUEP !== "undefined") { CUEP.t = null; CUEP.prev = false; cueLabel(); }
     analyze(pcm, sr, function (R) {
       if (gen !== GEN) return;
-      NF = R.nf; BANDS = R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
+      NF = R.nf; BANDS = R.bands; BANDST = R.bandsT || R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
       var rest = 0, best = -1, i; for (i = 0; i < NF; i++) if (RMS[i] > best) { best = RMS[i]; rest = i; } tpaused = MN(DUR, rest / FPS);
       buildChapters(); onSourceReady(); pocketText(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false); if (after) after();
     }, function (p) { if (gen === GEN) $("status").textContent = "Analyzing " + RD(p * 100) + "%"; }, gen);
@@ -850,7 +888,7 @@
     for (i = 0; i < n; i++) {
       var f = on[i], a = f > 0 ? FLUX[f - 1] : 0, b = FLUX[f], c = f + 1 < NF ? FLUX[f + 1] : 0, den = a - 2 * b + c, dl = den < -1e-9 ? 0.5 * (a - c) / den : 0; dl = MX(-0.5, MN(0.5, dl));
       T.push((f + dl) / FPS + tOff); Wt.push(MN(3, b / avg));
-      var lo = 0; for (k = 0; k < 10; k++) lo += MX(0, BANDS[f * NB + k] - (f > 0 ? BANDS[(f - 1) * NB + k] : 0)); LO.push(lo);
+      var lo = 0; for (k = 0; k < 10; k++) lo += MX(0, BANDST[f * NB + k] - (f > 0 ? BANDST[(f - 1) * NB + k] : 0)); /* timing wants the short window */ LO.push(lo);
     }
     // phase weights: where there is a clear kick (low-band energy), the beat is the kick; otherwise every hit counts
     var loSum = 0, loMax = 0; for (i = 0; i < n; i++) { loSum += LO[i]; if (LO[i] > loMax) loMax = LO[i]; }
@@ -1306,7 +1344,7 @@
     for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
     return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
   };
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
