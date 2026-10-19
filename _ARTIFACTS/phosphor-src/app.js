@@ -13,8 +13,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var MO = (function () { var cs = getComputedStyle(document.documentElement); function n(k, d) { var v = parseFloat(cs.getPropertyValue(k)); return v > 0 ? v : d; } return { pose: n("--mo-pose-rate", 8), hold: n("--mo-hold-min", 180), loop: n("--mo-loop-min", 170) / 1000, shutter: n("--mo-shutter-ms", 650), flash: n("--mo-flash-max", 3), swing: n("--mo-lum-swing", 0.1) }; })();
   var FPS = 30, NFFT = 2048, NB = 64, MAXSEC = 900;
-  /* willReadFrequently: the look, crush, glitch and flash limit read this canvas back every frame; without it WebKit starts it on the GPU and moves it to software after a few reads, so the same moment drew two different pictures */
-  var cv = $("cv"), dctx = cv.getContext("2d", { willReadFrequently: true });
+  var cv = $("cv"), dctx = cv.getContext("2d");
   var rm = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   var css = getComputedStyle(document.documentElement);
   function col(n) { return css.getPropertyValue(n).trim(); }
@@ -2069,8 +2068,8 @@
   }
   function pocketText() { if (!$("dock")) return; $("dtitle").textContent = SRCNAME; $("dspec").textContent = "Mono • " + NB + " bands • " + FPS + " fps • " + (SR / 1000).toFixed(1) + " kHz"; }
   function teardownPocket() { var s = $("ledstrip"); if (s) s.remove(); }
-  (function () { pocketText(); if (window.ResizeObserver) /* The write moves the body padding, which can toggle the page scrollbar, rewrap the dock and resize it again: a real loop (WebKit and Firefox report it, Chromium's overlay scrollbars hide it). So write in the next frame, and only when the height changed. */
-    var dkq = 0; new ResizeObserver(function () { if (dkq) return; dkq = requestAnimationFrame(function () { dkq = 0; var r = document.documentElement, v; if (r.getAttribute("data-dock") === "hidden") return; v = $("dock").offsetHeight + "px"; if (r.style.getPropertyValue("--dock-h") !== v) r.style.setProperty("--dock-h", v); }); }).observe($("dock")); })();
+  (function () { pocketText(); /* The write moves the body padding, which can toggle the page scrollbar, rewrap the dock and resize it again: a real loop (WebKit and Firefox report it, Chromium's overlay scrollbars hide it). So write in the next frame, and only when the height changed. */
+    if (window.ResizeObserver) { var dkq = 0; new ResizeObserver(function () { if (dkq) return; dkq = requestAnimationFrame(function () { dkq = 0; var r = document.documentElement, v; if (r.getAttribute("data-dock") === "hidden") return; v = $("dock").offsetHeight + "px"; if (r.style.getPropertyValue("--dock-h") !== v) r.style.setProperty("--dock-h", v); }); }).observe($("dock")); } })();
   function applySkin(name, save) {
     SKIN = name === "pocket" ? "pocket" : "arcs";
     if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
