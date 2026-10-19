@@ -420,7 +420,7 @@ def edge_self_test():
                         and not ge.ROUTE_TARGET.search(ge.ROUTE_NEGATED.sub(" ", c))]
         for clause, want_n in (("scripts/a.py", 1), ("NEW scripts/a.py", 0), ("extend scripts/a.py", 0),
                                ("scripts/a.py format", 0), ("pattern scripts/a.py", 0), ("np.polyfit (a.py:136)", 0),
-                               ("NEW scripts/a.py + .claude/commands/b.md", 0), ("b.md (step 3 stale)", 0),
+                               ("NEW scripts/a.py + .claude/commands/b.md", 1), ("scripts/a.py (tao ns) + new scripts/b.py", 1), ("b.md (step 3 stale)", 0),
                                ("scripts/a.py BINDINGS[21]", 0), ("scripts/a.py; no new channel", 2),
                                ("the weekday 8:00 note / scripts/a.py", 1)):
             n = len(rt(clause))
@@ -430,6 +430,16 @@ def edge_self_test():
         jt_miss = bool(re.search(ge.JTBD_EDIT + r"(?<![\w-])/?tao-mint", "run /tao-mint on the batch", re.I))
         print(f"jtbd edit verb near a route.tool name makes a target: {'ok' if jt_hit and not jt_miss else 'WRONG'}")
         ok &= jt_hit and not jt_miss
+        rdir = os.path.join(tmp, "runtime/specs"); json.dump({"note": "t", "edges": [], "retype": [{"mechanical":
+            ["tool:script:a.py", "serves", "job:backlog:row-a"], "edge": {"from": "job:backlog:row-a", "to": "tool:script:a.py",
+            "type": "needs", "evidence": ["backlog:row-a"], "match": "scripts/a.py", "by": "t", "rule": "residue-retype"}}]},
+            open(os.path.join(rdir, "jtbd-graph-inferred-edges.json"), "w"))
+        _, g2 = run(tmp, False, mem, None, quiet=True)
+        t2 = {(e["from"], e["type"], e["to"], e["inferred"]) for e in g2["edges"]}
+        rt_ok = ("tool:script:a.py", "serves", "job:backlog:row-a", False) not in t2 and ("job:backlog:row-a", "needs", "tool:script:a.py", True) in t2
+        print(f"retype replaces the mechanical edge with a flagged inferred one: {'ok' if rt_ok else 'WRONG'}")
+        ok &= rt_ok
+        os.remove(os.path.join(rdir, "jtbd-graph-inferred-edges.json"))
         for f, line, want_n in cases:
             n = len(ge.run_paths(line, f, rr))
             good_case = n == want_n

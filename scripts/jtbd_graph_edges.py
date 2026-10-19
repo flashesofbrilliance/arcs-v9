@@ -57,7 +57,10 @@ ROUTE_TARGET = re.compile(r"\b(NEW|new|extend|edit|rename|add|wire|fix|(?i:step)
 ROUTE_NEGATED = re.compile(r"\b(no|not|without)\s+(new|adding|add|editing|edit)\b", re.I)
 # round 6: the edit verb can sit in the row's jtbd, next to a path that route.tool names
 JTBD_EDIT = r"\b(point|wire|widen|edit|extend|update|fix|rename|add)\b[^.;]{0,60}?"
-ROUTE_LIST = re.compile(r"\s*(?:[;,·]|\bOR\b|\bor\b|\band\b|->)\s*")  # "+" joins items one verb governs
+# round 7: carrying a verb across a "+" list over-corrected 5 real tools (oracle.py, op20, op21, token_source_gate,
+# unfold.py); whether NEW governs one item or the whole list is grammar the shell cannot settle, so each item stands
+# alone and the one list case that needs the carry (catalog) is a judgment retype in INFERRED
+ROUTE_LIST = re.compile(r"\s*(?:[;,·+]|\bOR\b|\bor\b|\band\b|->)\s*")  # same split as ROUTE_SPLIT
 ROUTE_SPLIT = re.compile(r"\s*(?:[;,·+]|\bOR\b|\bor\b|\band\b|->)\s*")
 CODE_EXT = (".py", ".ts", ".tsx", ".js", ".mjs", ".cjs", ".sh")
 ENV_RE = re.compile(r"""process\.env\.([A-Z][A-Z0-9_]*)|process\.env\[["']([A-Z][A-Z0-9_]*)["']\]|os\.environ\.get\(\s*["']([A-Z][A-Z0-9_]*)|os\.environ\[\s*["']([A-Z][A-Z0-9_]*)|os\.getenv\(\s*["']([A-Z][A-Z0-9_]*)""")
@@ -212,7 +215,8 @@ def build_edges(root, atoms, rows, op_edges):
         for tid, m in name_hits(" ; ".join(c for c in clauses if is_target(c))):
             edges.append(_edge(jid, tid, "needs", f"backlog:{r['id']}", m, "route-target"))
         for tid, m in name_hits(" ; ".join(c for c in clauses if not is_target(c))):
-            stem = os.path.splitext(m.lstrip("/").split("/")[-1])[0]
+            parts = m.lstrip("/").split("/")
+            stem = parts[-2] if len(parts) > 1 and parts[-1] in ("SKILL.md", "README.md") else os.path.splitext(parts[-1])[0]
             if re.search(JTBD_EDIT + r"(?<![\w-])/?" + re.escape(stem), jt, re.I):
                 edges.append(_edge(jid, tid, "needs", f"backlog:{r['id']}", m, "route-target"))
                 continue
@@ -306,7 +310,11 @@ def build_edges(root, atoms, rows, op_edges):
     # judgment residue (hand pass), committed
     ip = os.path.join(root, INFERRED)
     if os.path.isfile(ip):
-        for e in json.load(open(ip))["edges"]:
+        doc = json.load(open(ip))
+        # retype: a mechanical edge whose role the shell got wrong is replaced by an inferred edge (never silently)
+        drop = {tuple(x["mechanical"]) for x in doc.get("retype", [])}
+        edges = [e for e in edges if (e["from"], e["type"], e["to"]) not in drop]
+        for e in doc["edges"] + [x["edge"] for x in doc.get("retype", [])]:
             edges.append(dict(e, inferred=True))
     # one edge per (from, to, type): keep the first evidence
     out, seen = [], set()

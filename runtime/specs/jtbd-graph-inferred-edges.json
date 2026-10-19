@@ -1,5 +1,5 @@
 {
- "note": "Judgment edges on the s2 residue: route.tool strings that name a tool by bare name, a skill directory, or operator numbers, which the mechanical rules do not resolve. Loaded by scripts/jtbd_graph_edges.py with inferred=true. No replaces edges: the 4 SUPERSEDED rows name successors that are not atoms (a memory, a spec file, a check).",
+ "note": "Judgment edges on the s2 residue: route.tool strings that name a tool by bare name, a skill directory, or operator numbers, which the mechanical rules do not resolve. Loaded by scripts/jtbd_graph_edges.py with inferred=true. No replaces edges: the 4 SUPERSEDED rows name successors that are not atoms (a memory, a spec file, a check). retype: mechanical edges whose role the shell gets wrong, replaced by a flagged inferred edge.",
  "edges": [
   {
    "from": "tool:skill:nftt-story-factory",
@@ -154,6 +154,27 @@
    "match": "operators 19/20/21",
    "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (operator numbers named in route.tool)",
    "rule": "residue-op-number"
+  }
+ ],
+ "retype": [
+  {
+   "mechanical": [
+    "tool:command:catalog",
+    "serves",
+    "job:backlog:tool-catalog-dispatcher-induction-surface"
+   ],
+   "why": "route.tool 'NEW scripts/tool_catalog_emit.py + .claude/commands/catalog.md': NEW governs both items, so catalog is built by the job (a target); the shell lets each '+' item stand alone (round 7)",
+   "edge": {
+    "from": "job:backlog:tool-catalog-dispatcher-induction-surface",
+    "to": "tool:command:catalog",
+    "type": "needs",
+    "evidence": [
+     "backlog:tool-catalog-dispatcher-induction-surface"
+    ],
+    "match": ".claude/commands/catalog.md",
+    "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (NEW scope over a + list)",
+    "rule": "residue-retype"
+   }
   }
  ]
 }
