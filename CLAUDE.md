@@ -162,7 +162,7 @@ Keep every outward claim honest and every loop closed: decisions waiting on Zach
 ## Current state
 - Submitted 2026-10-14: rc46 (Zach confirmed 2026-10-18).
 - dist/videos and its MANIFEST.md are deleted, so the take-home repo's freshness script reports "nothing to compare" for videos. The explainer stays on YouTube: https://youtu.be/w7b-FVA3qSE.
-- Internal RET notes (the 2026-10-1x RET notes) are untracked in the state folder of worktree mystifying-neumann-91d534, with archived copies in worktree ret-notes-2026-10 (archive folder ret-takehome-2026-10); not in the main checkout. They cite another repo, which the integrity gate blocks.
+- Internal RET notes (all 12, plus post-mortem raw data) are committed on main under `_ARCHIVE/ret-takehome-2026-10/` (#1644).
 
 ## Decisions made
 - Zach: merge on local gates while Actions is off (receipts note CI is off by choice).
