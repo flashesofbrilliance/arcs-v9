@@ -52,7 +52,7 @@ sopts = '<option value="">all sources</option>' + "".join(f'<option value="{s}">
 
 page = f'''<style>
   :root{{--bg:#020408;--panel:#0d1117;--elevated:#111827;--border:#1e293b;--text:#e2e8f0;
-    --sec:#94a3b8;--dim:#64748b;--mut:#475569;--cyan:#00F0FF;--gold:#FFD700;
+    --sec:#94a3b8;--dim:#8391a7;--mut:#7a8699;--cyan:#00F0FF;--gold:#FFD700;
     --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
     --sans:'Inter',system-ui,-apple-system,sans-serif;
     --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}}
@@ -64,19 +64,19 @@ page = f'''<style>
   .deck{{position:sticky;top:0;z-index:40;background:rgba(2,4,8,.94);backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);margin:0 -1.25rem 2rem;padding:.75rem 1.25rem}}
   .deck-in{{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .8rem}}
-  .wordmark{{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.24em;color:var(--text)}}
+  .wordmark{{font-family:var(--mono);font-size:.6875rem;font-weight:700;letter-spacing:.24em;color:var(--text)}}
   .wordmark b{{color:var(--cyan)}}
-  .chip{{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  .chip{{font-family:var(--mono);font-size:.6875rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
     background:none;border:1px solid var(--border);border-radius:4px;color:var(--dim);padding:.34rem .55rem;cursor:pointer;transition:.15s}}
   .chip:hover{{color:var(--sec);border-color:var(--sec)}}
   .chip.on{{color:var(--text);border-color:var(--c,var(--cyan));background:color-mix(in srgb,var(--c,var(--cyan)) 12%,transparent)}}
   .chip:focus-visible{{outline:1px solid var(--cyan);outline-offset:-1px}}
   .grp{{display:flex;gap:.35rem;flex-wrap:wrap}}
   .sep{{width:1px;align-self:stretch;background:var(--border);margin:0 .2rem}}
-  select,input[type=search]{{font-family:var(--mono);font-size:.6rem;background:var(--elevated);border:1px solid var(--border);
+  select,input[type=search]{{font-family:var(--mono);font-size:.6875rem;background:var(--elevated);border:1px solid var(--border);
     color:var(--sec);border-radius:4px;padding:.35rem .5rem}}
   input[type=search]{{min-width:150px}}
-  .count{{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--mut);margin-left:auto;text-transform:uppercase}}
+  .count{{font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;color:var(--mut);margin-left:auto;text-transform:uppercase}}
 
   header{{padding:3.2rem 0 .4rem}}
   .mark{{font-size:1.5rem;color:var(--gold)}}
@@ -88,10 +88,10 @@ page = f'''<style>
     padding:1.3rem 1.25rem 1rem;overflow:hidden;display:flex;flex-direction:column;min-height:130px}}
   .pcard::after{{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:var(--ac);opacity:.85}}
   .ptext{{font-family:var(--serif);font-size:1.02rem;line-height:1.36;color:var(--text);margin:0 0 auto;text-wrap:pretty}}
-  .pmeta{{font-family:var(--mono);font-size:.56rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.9rem}}
+  .pmeta{{font-family:var(--mono);font-size:.6875rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.9rem}}
   .pmeta b{{font-weight:700}}
   .empty{{text-align:center;color:var(--dim);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;padding:3rem;grid-column:1/-1}}
-  footer{{margin-top:3rem;border-top:1px solid var(--border);padding-top:1.2rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}}
+  footer{{margin-top:3rem;border-top:1px solid var(--border);padding-top:1.2rem;font-family:var(--mono);font-size:.6875rem;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}}
   @media print{{.deck{{position:static}}body{{background:#fff;color:#111}}.pcard{{background:#fff}}.ptext{{color:#111}}}}
 </style>
 
