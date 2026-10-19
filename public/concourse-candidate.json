@@ -56,6 +56,13 @@
       "status": "confirmed"
     },
     {
+      "area": "platform",
+      "claim": "Client tenants get their own Postgres role with row-level security pinned to the tenant, failing closed; inventories are generated and drift-checked; the main app's user data still filters in code.",
+      "evidence": "https://concourse.arcs.care/#proof",
+      "check": "Main repository is private; walkthrough on request.",
+      "status": "stated"
+    },
+    {
       "area": "dri",
       "claim": "Sole technology partner from discovery through QA and handoff for a $350M-ARR behavioral-health client.",
       "evidence": "https://resume.arcs.care",
