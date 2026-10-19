@@ -6,10 +6,10 @@
 <link rel="stylesheet" href="_tokens.css">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+body { background: var(--bg); font-family: var(--ds-font-sans); padding: 24px; }
 
 .section-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--ds-font-mono); font-size: 9px; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
 }
 
@@ -38,23 +38,23 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
   background: var(--beat-color, var(--muted));
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  font-family: var(--font-sans); font-size: 13px; font-weight: 700;
+  font-family: var(--ds-font-sans); font-size: 13px; font-weight: 700;
   color: var(--bg);
 }
 
 .beat-content { flex: 1; display: flex; flex-direction: column; gap: 3px; }
 .beat-title {
-  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  font-family: var(--ds-font-sans); font-size: 14px; font-weight: 600;
   color: var(--beat-color, var(--text));
 }
 .beat-body {
-  font-family: var(--font-mono); font-size: 11px; color: var(--dimmed);
+  font-family: var(--ds-font-mono); font-size: 11px; color: var(--dimmed);
   line-height: 1.4;
 }
 
 .beat-tag {
   flex-shrink: 0;
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  font-family: var(--ds-font-mono); font-size: 9px; font-weight: 700;
   letter-spacing: 0.1em; padding: 3px 8px;
   border-radius: var(--r-sm); border: 1px solid var(--beat-color, var(--border));
   color: var(--beat-color, var(--muted));
