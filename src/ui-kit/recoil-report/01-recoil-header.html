@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="_tokens.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+  body { background: var(--bg); font-family: var(--ds-font-sans); padding: 24px; }
 
   .recoil-header {
     display: flex; align-items: stretch;
@@ -28,14 +28,14 @@
     min-width: 120px;
   }
   .arcs-mark {
-    font-family: var(--font-display);
+    font-family: var(--ds-font-sans);
     font-size: 32px; font-weight: 700;
     color: var(--cyan);
     letter-spacing: -0.02em;
     line-height: 1;
   }
   .arcs-sub {
-    font-family: var(--font-mono);
+    font-family: var(--ds-font-mono);
     font-size: 9px; color: var(--muted);
     letter-spacing: 0.12em; text-transform: uppercase;
     margin-top: 6px;
@@ -46,7 +46,7 @@
     display: flex; flex-direction: column; justify-content: center; gap: 8px;
   }
   .receipt-id {
-    font-family: var(--font-mono);
+    font-family: var(--ds-font-mono);
     font-size: 11px; color: var(--dimmed);
     letter-spacing: 0.04em;
   }
@@ -56,7 +56,7 @@
     border: 1px solid var(--green);
     border-radius: var(--r-sm);
     padding: 4px 12px;
-    font-family: var(--font-sans);
+    font-family: var(--ds-font-sans);
     font-size: 11px; font-weight: 600;
     color: var(--green);
     letter-spacing: 0.08em;
@@ -73,23 +73,23 @@
     gap: 2px;
   }
   .nci-label {
-    font-family: var(--font-mono); font-size: 10px;
+    font-family: var(--ds-font-mono); font-size: 10px;
     color: var(--muted); letter-spacing: 0.1em;
   }
   .nci-value {
-    font-family: var(--font-mono); font-size: 36px; font-weight: 700;
+    font-family: var(--ds-font-mono); font-size: 36px; font-weight: 700;
     color: var(--green); line-height: 1;
   }
   .nci-value.yellow { color: var(--gold); }
   .nci-value.red    { color: var(--red); }
   .nci-render {
-    font-family: var(--font-mono); font-size: 10px;
+    font-family: var(--ds-font-mono); font-size: 10px;
     color: var(--cyan); letter-spacing: 0.08em;
   }
 
   .mode-pill {
     display: inline-flex; align-items: center; gap: 6px;
-    font-family: var(--font-mono); font-size: 9px;
+    font-family: var(--ds-font-mono); font-size: 9px;
     color: var(--muted); letter-spacing: 0.1em;
   }
   .mode-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
@@ -104,7 +104,7 @@
 
   /* Variant showcase */
   .variants { display: flex; flex-direction: column; gap: 12px; }
-  .variant-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.1em; }
+  .variant-label { font-family: var(--ds-font-mono); font-size: 10px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.1em; }
 </style>
 </head>
 <body>
