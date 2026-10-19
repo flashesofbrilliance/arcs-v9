@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 286,
+  "rows": 287,
   "hosts": 81,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 227,
+   "product page": 228,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 28,
   "app_routes": 47,
   "missing_purpose": 5,
-  "unlisted": 111
+  "unlisted": 112
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -1383,7 +1383,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-19"
   },
   {
    "host": "concourse.arcs.care",
@@ -1402,6 +1402,26 @@
    "index": null,
    "unlisted": false,
    "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-19"
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/plan",
+   "catch_all": false,
+   "destination": "/concourse-plan.html",
+   "pattern": false,
+   "file": "public/concourse-plan.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Concourse Deployment Plan",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Concourse Deployment Plan",
    "kind": "product page",
    "last_commit": null
   },
