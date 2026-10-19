@@ -1,0 +1,18 @@
+# Evidence ledger, Concourse FDE resume. vetted-master = _ARTIFACTS/resume-vico/resume-vico-product-engineer.html; live pages = public/concourse.html, public/concourse-sara.html (same claims).
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html:106,116,139"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:142"}
+{"pattern": "zero SEC or FINRA violations", "source": "self-reported:ZH-Resume-Scale-CoS.md + Zach confirmed 2026-09-28"}
+{"pattern": "20\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html:157"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html:165"}
+{"pattern": "\\$850K", "source": "self-reported:Zach:2026-09-25"}
+{"pattern": "\\$350M", "source": "self-reported:ZH-Resume-Scale-CoS.md (Squat)"}
+{"pattern": "\\$2M", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "24 months", "source": "vetted-master:resume-vico-product-engineer.html:173"}
+{"pattern": "\\$4,500\\s?", "source": "vetted-master:resume-vico-product-engineer.html:180"}
+{"pattern": "\\$1M", "source": "vetted-master:resume-vico-product-engineer.html:180"}
+{"pattern": "(?:over )?3,500", "source": "documented:status.arcs.care (public); public/concourse.html + concourse-candidate.json"}
+{"pattern": "six months", "source": "documented:status.arcs.care; public/concourse.html"}
+{"pattern": "(?:over )?20,000", "source": "public/concourse-sara.html (operators library over 20,000 lines of Python)"}
+{"pattern": "Twenty years", "source": "public/concourse.html lede"}
+{"pattern": "two years", "source": "public/concourse.html lede"}
+{"pattern": "5G", "source": "vetted-master (Verizon Media five 5G assessments)"}
