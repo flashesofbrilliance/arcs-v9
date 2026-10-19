@@ -329,7 +329,7 @@ def _fixture(tmp, dup=False):
     open(os.path.join(tmp, BACKLOG), "w").write(json.dumps({"id": "row-a", "state": "OPEN", "route": {"tool": "scripts/a.py"}, "depends_on": ["row-b"], "jtbd": "needs ANTHROPIC_API_KEY"}) + "\n" +
                                                  json.dumps({"id": "row-b", "state": "BLOCKED"}) + "\n")
     os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "src/lib"))
-    open(os.path.join(tmp, "scripts/a.py"), "w").write('# emits operators/op_x.py\nimport anthropic\nimport op_x\nimport os\nU = os.environ.get("DATABASE_URL")\nsubprocess.run(["gh", "pr", "list"])\ntry:\n    subprocess.run(["vercel", "ls"])\nexcept OSError:\n    pass\n')
+    open(os.path.join(tmp, "scripts/a.py"), "w").write('# emits operators/op_x.py\nimport anthropic\nimport op_x\nimport os\nU = os.environ["DATABASE_URL"]\nsubprocess.run(["gh", "pr", "list"])\ntry:\n    subprocess.run(["vercel", "ls"])\nexcept OSError:\n    pass\n')
     open(os.path.join(tmp, "operators/op_x.py"), "w").write('# see scripts/a.py\nsubprocess.run(["python3", "scripts/a.py"])\nraise SystemExit("run: python3 scripts/a.py")\nprint("fix:", ["python3", "scripts/a.py"])\n')
     open(os.path.join(tmp, "AGENTS.md"), "w").write("Stack: Anthropic SDK, Supabase (prod), Magic link emails via Resend, Vercel `get_deployment`\n"
         "gh pr merge --merge\n| Perplexity MCP | x |\n## Environment variables\n| `ANTHROPIC_API_KEY` | k |\n| `DATABASE_URL` | d |\n## Next\n")
@@ -440,6 +440,15 @@ def edge_self_test():
         print(f"retype replaces the mechanical edge with a flagged inferred one: {'ok' if rt_ok else 'WRONG'}")
         ok &= rt_ok
         os.remove(os.path.join(rdir, "jtbd-graph-inferred-edges.json"))
+        for src, want in (('k = os.environ["ANTHROPIC_API_KEY"]', True),
+                          ('if judge and os.environ.get("ANTHROPIC_API_KEY"):\n    run()\nelse:\n    skip()', False),
+                          ('key = os.environ.get("ANTHROPIC_API_KEY")\nif not key:\n    return None', False),
+                          ('key = os.environ.get("ANTHROPIC_API_KEY")\nif not key:\n    sys.exit("set it")', True),
+                          ('u = os.environ.get("DATABASE_URL") or sys.exit("no db")', True)):
+            Ls = src.split("\n"); m = ge.ENV_RE.search(Ls[0])
+            got = ge.env_hard(Ls, 0, "index" if m.group(4) or m.group(2) else "get")
+            print(f"env-read case {Ls[0][:44]!r}: {'ok' if got == want else 'WRONG'}")
+            ok &= got == want
         for f, line, want_n in cases:
             n = len(ge.run_paths(line, f, rr))
             good_case = n == want_n

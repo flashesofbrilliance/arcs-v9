@@ -19,7 +19,8 @@ Mechanical rules
                              argv list); bare prose mentions give no edge (round 3). Also (neighbor_scan.py citer rule, full path only;
                              skipped: CITE_NOISE pages, lines with direction words (writes, emits, generated, feeds,
                              checks...), and script/operator -> surface, which is generator or gate, not written against)
-  runtime-dep  env-read      process.env.X / os.environ[...] / os.getenv for an env var that is a dep:env atom
+  runtime-dep  env-read      process.env.X / os.environ[...] / os.getenv for an env var that is a dep:env atom, only when a
+                             missing var fails the tool (indexing read, or exit/raise within 3 lines; round 8)
   runtime-dep  service       a tool file line matches a service's call signature (SERVICES below), unless the call
                              is guarded. anthropic/database/resend: import signatures. github/vercel/perplexity: only
                              set -e shell lines with no 2>/dev/null or || fallback on the joined logical line
@@ -138,6 +139,20 @@ def run_paths(line, p, run_re):
             continue  # .py/.js: only a real argv list runs the path
         out.append(m)
     return out
+
+
+ENV_FAIL = re.compile(r"sys\.exit|SystemExit|\braise\b|\bthrow\b|process\.exit")
+
+
+def env_hard(L, i, form):
+    """round 8 (seed 20261025): an env read is a runtime-dep only when a missing variable makes the tool fail:
+    an indexing read (os.environ["X"]), or an exit/raise on the line or within the 3 lines after it.
+    A read inside an if condition, or followed by a quiet return, is optional."""
+    if form == "index":
+        return True
+    if re.match(r"\s*(if|elif|while)\b", L[i]) or re.search(r"\bif\b.*(os\.environ|getenv|process\.env)", L[i]):
+        return bool(ENV_FAIL.search(L[i]))
+    return any(ENV_FAIL.search(l) for l in L[i:i + 4])
 
 
 def _soft(L, i):
@@ -292,7 +307,8 @@ def build_edges(root, atoms, rows, op_edges):
                             edges.append(_edge(fr, f"dep:npm:{pkg}", "design-dep", f"import:{ev}", spec, "js-import"))
             for m in ENV_RE.finditer(line):
                 n = next(g for g in m.groups() if g)
-                if n in env_names:
+                form = "index" if m.group(4) or m.group(2) else "get"
+                if n in env_names and env_hard(L, i, form):
                     for fr in tids:
                         edges.append(_edge(fr, f"dep:env:{n}", "runtime-dep", ev, n, "env-read"))
             for s, rx in svc.items():
