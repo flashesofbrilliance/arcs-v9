@@ -301,6 +301,7 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
       <li><a href="#cases">2 Cases</a></li>
       <li><a href="#premortem">3 Pre-mortem</a></li>
       <li><a href="#path">4 Critical path</a></li>
+      <li><a href="#guardrails">5 Guardrails</a></li>
     </ol>
   </nav>
 
@@ -358,6 +359,27 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
         <li><span class="day">Day 45 to 60</span><span><strong>Clerk completes a real permit.</strong> Accessibility checked before each demo.</span></li>
         <li><span class="day">Day 60 to 90</span><span><strong>County runs it alone for two weeks.</strong> Then hypercare, and the learnings go back into the platform.</span></li>
       </ol>
+    </section>
+
+    <section class="wide" id="guardrails">
+      <h2>5 · Guardrails agreed at kickoff</h2>
+      <p class="take">Written with the client on day one, so scope and pace are decided by rules, not by whoever asks last.</p>
+      <div class="scroll">
+      <table class="ledger">
+        <thead><tr><th>Rule</th><th>What it covers</th></tr></thead>
+        <tbody>
+          <tr><td class="s"><span class="tag open">Always</span></td><td>Every new request is written down with its cost in days. The signed measure and the 90-day date only move by the director's written decision. Every change is reviewed and logged.</td></tr>
+          <tr><td class="s"><span class="tag">Sometimes</span></td><td>A small request (under a day, inside the measure) goes in the current phase. Anything bigger trades against something already planned, or waits for phase two.</td></tr>
+          <tr><td class="s"><span class="tag gap">Never</span></td><td>Build on data without written access. Add scope without naming what it replaces. Let the weekly line go out without the budget and days remaining.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="margin-top:14px"><strong>Check-in pace changes on triggers, not on mood.</strong></p>
+      <dl class="qa">
+        <div><dt>Speed up to twice weekly</dt><dd>If days used run more than 15 percent ahead of plan, a gate misses its date, or a new request would move the measure. Stays fast until two check-ins in a row are on plan.</dd></div>
+        <div><dt>Slow to every other week</dt><dd>In hypercare, when alerts are quiet and the measure holds for two weeks. Any new incident returns it to weekly.</dd></div>
+        <div><dt>Stop and decide</dt><dd>If committed days or budget would be exceeded before the next gate, work pauses on that item until the director picks: cut scope, add time, or fund phase two.</dd></div>
+      </dl>
     </section>
   </div>
 
