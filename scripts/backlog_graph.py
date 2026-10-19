@@ -64,6 +64,13 @@ def known_tools():
     return out
 
 
+# Claude Code built-in slash commands. They live in the app, not in this repo or the tool catalog, so a row
+# that names one (for example /mcp) is not naming a missing tool. The list is conservative and not exhaustive:
+# extend it when a row names a built-in, and check /help for the current set. A name that is not here is
+# still resolved first against the repo commands, the catalog and the URL routes.
+BUILTIN_COMMANDS = {"add-dir", "agents", "clear", "compact", "config", "context", "cost", "doctor", "export", "fast",
+                    "help", "hooks", "ide", "init", "login", "logout", "mcp", "memory", "model", "permissions",
+                    "plugin", "resume", "status"}
 PLANNED_RE = re.compile(r"\b(build|builds|create|creates|add|new|write|mint|draft|emit|generate)\b", re.I)
 
 
@@ -77,11 +84,13 @@ def repo_files():
 
 
 def resolve_token(tok, catalog, files):
-    """-> (kind, detail). kind: FILE, SUFFIX, AMBIGUOUS, ROUTE, COMMAND or UNRESOLVED."""
+    """-> (kind, detail). kind: FILE, SUFFIX, AMBIGUOUS, ROUTE, COMMAND, BUILTIN or UNRESOLVED."""
     if tok.startswith("/") and "/" not in tok[1:]:
         name = tok[1:]
         if tok in catalog or (".claude/commands/%s.md" % name) in files:
             return "COMMAND", tok
+        if name in BUILTIN_COMMANDS:
+            return "BUILTIN", tok
         if any(("/%s/" % name) in f or f.startswith("src/app/%s/" % name) for f in files):
             return "ROUTE", tok
         return "UNRESOLVED", tok
@@ -282,6 +291,10 @@ def self_test():
         ("a path that does not exist is reported as missing, not as prose", build([{"id": "m", "state": "OPEN", "trigger": "after 2026-10-01", "route": {"tool": "scripts/no_such_tool.py"}}], today, cat, T)["nodes"][0]["tool_missing"] == ["scripts/no_such_tool.py"]),
         ("prose has no missing path", byid["x"]["tool_missing"] == []),
         ("a one-way door cues tier 4", build([{"id": "d", "state": "OPEN", "trigger": "after 2026-10-01", "door": "one-way"}], today, cat, T)["nodes"][0]["tier_cue"] == 4),
+        ("a Claude Code built-in command (/mcp) resolves as BUILTIN, not as a missing tool", resolve_token("/mcp", cat, FX)[0] == "BUILTIN"),
+        ("a row naming only a built-in has its tool found", resolve_tool({"jtbd": "x", "route": {"tool": "connect via /mcp"}}, cat, FX)[0] == "HAVE"),
+        ("a repo command still wins over a built-in name", resolve_token("/readiness", cat, FX)[0] == "COMMAND"),
+        ("a name that is no built-in, command or route is still UNRESOLVED", resolve_token("/design-sync", cat, FX)[0] == "UNRESOLVED" and "design-sync" not in BUILTIN_COMMANDS),
         ("a short path resolves by suffix to the right file, not to another route.ts", resolve_token("compass/route.ts", cat, FX) == ("SUFFIX", "src/app/api/compass/route.ts")),
         ("a bare generic basename with several matches is AMBIGUOUS", resolve_token("route.ts", cat, FX)[0] == "AMBIGUOUS"),
         ("a URL route resolves as ROUTE", resolve_token("/brief", cat, FX)[0] == "ROUTE"),
