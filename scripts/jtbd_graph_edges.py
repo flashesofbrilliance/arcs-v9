@@ -52,7 +52,12 @@ SH_START = re.compile(r"^\s*(?:(?:then|do|else|&&|\|\||[A-Z_]+=\$\()\s*)?(?:pyth
 # a route.tool clause offering a template, precedent or proposal names no tool doing the job
 ROUTE_HEDGE = re.compile(r"\b(pattern|template|precedent|prior art|when built|sibling|e\.g\.|like|modelled|modeled|format)\b", re.I)
 # round 5 exhaustive check: a clause naming a file the job creates, edits or studies makes it a target, not a server
-ROUTE_TARGET = re.compile(r"\b(NEW|new|extend|edit|rename|add|wire|fix|Step\s*-?\d+)\b|[\w.]+:\d+")
+ROUTE_TARGET = re.compile(r"\b(NEW|new|extend|edit|rename|add|wire|fix|(?i:step)\s*-?\d+)\b|\b[\w-]+\.[A-Za-z]\w*:\d+|\b[A-Z_]+\[\d+\]")
+# round 6: "no new channel" is a negation, not a creation
+ROUTE_NEGATED = re.compile(r"\b(no|not|without)\s+(new|adding|add|editing|edit)\b", re.I)
+# round 6: the edit verb can sit in the row's jtbd, next to a path that route.tool names
+JTBD_EDIT = r"\b(point|wire|widen|edit|extend|update|fix|rename|add)\b[^.;]{0,60}?"
+ROUTE_LIST = re.compile(r"\s*(?:[;,·]|\bOR\b|\bor\b|\band\b|->)\s*")  # "+" joins items one verb governs
 ROUTE_SPLIT = re.compile(r"\s*(?:[;,·+]|\bOR\b|\bor\b|\band\b|->)\s*")
 CODE_EXT = (".py", ".ts", ".tsx", ".js", ".mjs", ".cjs", ".sh")
 ENV_RE = re.compile(r"""process\.env\.([A-Z][A-Z0-9_]*)|process\.env\[["']([A-Z][A-Z0-9_]*)["']\]|os\.environ\.get\(\s*["']([A-Z][A-Z0-9_]*)|os\.environ\[\s*["']([A-Z][A-Z0-9_]*)|os\.getenv\(\s*["']([A-Z][A-Z0-9_]*)""")
@@ -201,11 +206,16 @@ def build_edges(root, atoms, rows, op_edges):
     for ln, r in rows:
         jid = f"job:backlog:{r['id']}"
         rt = (r.get("route") or {}).get("tool") or ""
-        clauses = [c for c in ROUTE_SPLIT.split(STRIP_ROUTE.sub(" ", rt)) if c and not ROUTE_HEDGE.search(c)]
-        targets = " ; ".join(c for c in clauses if ROUTE_TARGET.search(c))
-        for tid, m in name_hits(targets):
+        clauses = [c for c in ROUTE_LIST.split(STRIP_ROUTE.sub(" ", rt)) if c and not ROUTE_HEDGE.search(c)]
+        is_target = lambda c: bool(ROUTE_TARGET.search(ROUTE_NEGATED.sub(" ", c)))
+        jt = r.get("jtbd") or ""
+        for tid, m in name_hits(" ; ".join(c for c in clauses if is_target(c))):
             edges.append(_edge(jid, tid, "needs", f"backlog:{r['id']}", m, "route-target"))
-        for tid, m in name_hits(" ; ".join(c for c in clauses if not ROUTE_TARGET.search(c))):
+        for tid, m in name_hits(" ; ".join(c for c in clauses if not is_target(c))):
+            stem = os.path.splitext(m.lstrip("/").split("/")[-1])[0]
+            if re.search(JTBD_EDIT + r"(?<![\w-])/?" + re.escape(stem), jt, re.I):
+                edges.append(_edge(jid, tid, "needs", f"backlog:{r['id']}", m, "route-target"))
+                continue
             if tid.startswith("tool:surface:"):
                 # a page named in route.tool is what the job edits, not a tool doing it (round 2, seed 20261019)
                 edges.append(_edge(jid, tid, "needs", f"backlog:{r['id']}", m, "route-target"))
