@@ -1,0 +1,496 @@
+{"ts": "2026-10-10 00:00", "phase": "-", "event": "commits per day", "metric": "commits", "value": 165, "source": "git log"}
+{"ts": "2026-10-10 00:00", "phase": "-", "event": "rcs cut per day", "metric": "rcs", "value": 11, "source": "git tag"}
+{"ts": "2026-10-10 00:00", "phase": "-", "event": "model_calls usd per day", "metric": "usd", "value": 4.0736, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-10 00:00", "phase": "-", "event": "monday_calls per day", "metric": "calls, complexity, failed", "value": [1007, 6284407, 2], "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-10 10:11", "phase": "P1 build", "event": "first commit", "metric": "commit", "value": "9040211", "source": "git log"}
+{"ts": "2026-10-10 10:29", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "16/18 claude ", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 10:30", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "17/18 claude ", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 10:31", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude ", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 10:35", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "14/18 local ", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 10:43", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude ", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:15", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude ", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:22", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude ", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:49", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "10/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:49", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "10/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:50", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:53", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "10/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:53", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:56", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "9/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 11:57", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "15/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:00", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "16/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:00", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "10/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:01", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "17/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:01", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "11/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:02", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:02", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:22", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "16/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:22", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:23", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:23", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:48", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:49", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:51", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 12:52", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:03", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:03", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "11/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:06", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "0/1 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:06", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "1/1 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:06", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "0/1 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:10", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:11", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:11", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:12", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:12", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "11/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:16", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:16", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:48", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 13:49", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 14:18", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 14:19", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "12/12 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 14:22", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "14/15 claude", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 14:22", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "15/15 claude", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 14:31", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:02", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:02", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:09", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:09", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:15", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:16", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:22", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:22", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 15:30", "phase": "P1 build", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "0/1 from_zip=False", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-10 15:34", "phase": "P1 build", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "3/3 from_zip=False", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-10 16:07", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 16:07", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 17:59", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "737084a", "live": false, "failed_steps": [], "seconds": 16.6}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 17:59", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "16/16 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:00", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "737084a", "live": false, "failed_steps": [], "seconds": 18.6}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:00", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "737084a", "live": false, "failed_steps": [], "seconds": 16.5}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:00", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "16/16 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:00", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "16/16 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:00", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "16/16 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:08", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "1463d64", "live": false, "failed_steps": [], "seconds": 20.1}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:08", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "16/16 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:10", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "a8248a5", "live": false, "failed_steps": [], "seconds": 17.8}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:10", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "16/16 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:18", "phase": "P1 build", "event": "rehearsal run", "metric": "red", "value": {"commit": "bbd3602", "live": false, "failed_steps": ["overflow", "package", "unzip", "onboarding doc-test", "e2e from ZIP"], "seconds": 10.8}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:18", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "bbd3602", "live": false, "failed_steps": [], "seconds": 17.5}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:18", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:18", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:24", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:25", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "ac7c9ae", "live": true, "failed_steps": [], "seconds": 82.9}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:25", "phase": "P1 build", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=False", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-10 18:28", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "958fc21", "live": false, "failed_steps": [], "seconds": 17.2}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:28", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:31", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 18:32", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "44c393a", "live": false, "failed_steps": [], "seconds": 17.5}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 18:32", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 19:51", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 19:52", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "44c393a", "live": true, "failed_steps": [], "seconds": 79.0}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 19:52", "phase": "P1 build", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=False", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-10 20:45", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 20:49", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "4/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 20:49", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 20:57", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 20:58", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "99cc2bf", "live": false, "failed_steps": [], "seconds": 19.2}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 21:03", "phase": "P1 build", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 21:08", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "fbaf1da", "live": false, "failed_steps": [], "seconds": 23.9}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 21:08", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 21:12", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "c6f1048", "live": false, "failed_steps": [], "seconds": 26.5}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 21:12", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 21:16", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "da5e16d", "live": false, "failed_steps": [], "seconds": 25.7}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 21:16", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 21:20", "phase": "P1 build", "event": "rehearsal run", "metric": "green", "value": {"commit": "8976d23", "live": false, "failed_steps": [], "seconds": 29.3}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-10 21:20", "phase": "P1 build", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-10 21:23", "phase": "P1 build", "event": "phase commits", "metric": "commits", "value": 149, "source": "git log"}
+{"ts": "2026-10-10 21:23", "phase": "P1 build", "event": "phase commit types", "metric": "types", "value": {"feat": 57, "docs": 37, "fix": 30, "chore": 15, "test": 5, "ci": 3, "data": 1, "eval": 1}, "source": "git log"}
+{"ts": "2026-10-10 21:23", "phase": "P1 build", "event": "phase commit scopes top8", "metric": "scopes", "value": {"deck": 28, "handoff": 13, "plan": 11, "none": 8, "flight": 7, "decisions": 5, "cost": 5, "release": 4}, "source": "git log"}
+{"ts": "2026-10-10 21:23", "phase": "P1 build", "event": "rc1 cut", "metric": "zip_bytes", "value": 5658083, "source": "dist/submission-rc1.zip"}
+{"ts": "2026-10-10 21:23", "phase": "P1 build", "event": "phase API spend", "metric": "usd", "value": 3.3098, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-10 21:23", "phase": "P1 build", "event": "phase model calls (errors)", "metric": "calls", "value": [1026, 16], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-10 21:27", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 21:30", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 21:32", "phase": "P2 polishing the argument", "event": "rc2 cut", "metric": "zip_bytes", "value": 5674420, "source": "dist/submission-rc2.zip"}
+{"ts": "2026-10-10 21:32", "phase": "P2 polishing the argument", "event": "rc2 gap since previous rc", "metric": "minutes", "value": 9, "source": "git tag"}
+{"ts": "2026-10-10 21:34", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 21:35", "phase": "P2 polishing the argument", "event": "rc3 cut", "metric": "zip_bytes", "value": 5728440, "source": "dist/submission-rc3.zip"}
+{"ts": "2026-10-10 21:35", "phase": "P2 polishing the argument", "event": "rc3 gap since previous rc", "metric": "minutes", "value": 3, "source": "git tag"}
+{"ts": "2026-10-10 21:38", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 21:42", "phase": "P2 polishing the argument", "event": "rc4 cut", "metric": "zip_bytes", "value": 5757320, "source": "dist/submission-rc4.zip"}
+{"ts": "2026-10-10 21:42", "phase": "P2 polishing the argument", "event": "rc4 gap since previous rc", "metric": "minutes", "value": 7, "source": "git tag"}
+{"ts": "2026-10-10 22:01", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 22:02", "phase": "P2 polishing the argument", "event": "rc5 cut", "metric": "zip_bytes", "value": 5812357, "source": "dist/submission-rc5.zip"}
+{"ts": "2026-10-10 22:02", "phase": "P2 polishing the argument", "event": "rc5 gap since previous rc", "metric": "minutes", "value": 20, "source": "git tag"}
+{"ts": "2026-10-10 22:05", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 22:07", "phase": "P2 polishing the argument", "event": "rc6 cut", "metric": "zip_bytes", "value": 5805884, "source": "dist/submission-rc6.zip"}
+{"ts": "2026-10-10 22:07", "phase": "P2 polishing the argument", "event": "rc6 gap since previous rc", "metric": "minutes", "value": 5, "source": "git tag"}
+{"ts": "2026-10-10 22:10", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 22:12", "phase": "P2 polishing the argument", "event": "rc7 cut", "metric": "zip_bytes", "value": 5855550, "source": "dist/submission-rc7.zip"}
+{"ts": "2026-10-10 22:12", "phase": "P2 polishing the argument", "event": "rc7 gap since previous rc", "metric": "minutes", "value": 5, "source": "git tag"}
+{"ts": "2026-10-10 22:19", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 22:21", "phase": "P2 polishing the argument", "event": "rc8 cut", "metric": "zip_bytes", "value": 5873789, "source": "dist/submission-rc8.zip"}
+{"ts": "2026-10-10 22:21", "phase": "P2 polishing the argument", "event": "rc8 gap since previous rc", "metric": "minutes", "value": 9, "source": "git tag"}
+{"ts": "2026-10-10 22:29", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "14/18 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 22:32", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 22:33", "phase": "P2 polishing the argument", "event": "rc9 cut", "metric": "zip_bytes", "value": 6293660, "source": "dist/submission-rc9.zip"}
+{"ts": "2026-10-10 22:33", "phase": "P2 polishing the argument", "event": "rc9 gap since previous rc", "metric": "minutes", "value": 13, "source": "git tag"}
+{"ts": "2026-10-10 22:54", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 22:56", "phase": "P2 polishing the argument", "event": "rc10 cut", "metric": "zip_bytes", "value": 6425063, "source": "dist/submission-rc10.zip"}
+{"ts": "2026-10-10 22:56", "phase": "P2 polishing the argument", "event": "rc10 gap since previous rc", "metric": "minutes", "value": 22, "source": "git tag"}
+{"ts": "2026-10-10 23:01", "phase": "P2 polishing the argument", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-10 23:03", "phase": "P2 polishing the argument", "event": "phase commits", "metric": "commits", "value": 15, "source": "git log"}
+{"ts": "2026-10-10 23:03", "phase": "P2 polishing the argument", "event": "phase commit types", "metric": "types", "value": {"feat": 7, "fix": 7, "docs": 1}, "source": "git log"}
+{"ts": "2026-10-10 23:03", "phase": "P2 polishing the argument", "event": "phase commit scopes top8", "metric": "scopes", "value": {"deck": 6, "bench": 6, "release": 1, "decisions": 1, "claims": 1}, "source": "git log"}
+{"ts": "2026-10-10 23:03", "phase": "P2 polishing the argument", "event": "rc11 cut", "metric": "zip_bytes", "value": 6452651, "source": "dist/submission-rc11.zip"}
+{"ts": "2026-10-10 23:03", "phase": "P2 polishing the argument", "event": "rc11 gap since previous rc", "metric": "minutes", "value": 7, "source": "git tag"}
+{"ts": "2026-10-10 23:03", "phase": "P2 polishing the argument", "event": "phase API spend", "metric": "usd", "value": 0.7638, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-10 23:03", "phase": "P2 polishing the argument", "event": "phase model calls (errors)", "metric": "calls", "value": [257, 2], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-11 00:00", "phase": "-", "event": "commits per day", "metric": "commits", "value": 19, "source": "git log"}
+{"ts": "2026-10-11 00:00", "phase": "-", "event": "rcs cut per day", "metric": "rcs", "value": 3, "source": "git tag"}
+{"ts": "2026-10-11 00:00", "phase": "-", "event": "model_calls usd per day", "metric": "usd", "value": 0.2226, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-11 00:00", "phase": "-", "event": "monday_calls per day", "metric": "calls, complexity, failed", "value": [99, 770286, 1], "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-11 04:51", "phase": "P3 surface grows", "event": "eval run", "metric": "passed/total", "value": "4/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-11 04:55", "phase": "P3 surface grows", "event": "eval run", "metric": "passed/total", "value": "4/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-11 05:05", "phase": "P3 surface grows", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-11 05:07", "phase": "P3 surface grows", "event": "rc12 cut", "metric": "zip_bytes", "value": 7703725, "source": "dist/submission-rc12.zip"}
+{"ts": "2026-10-11 05:07", "phase": "P3 surface grows", "event": "rc12 gap since previous rc", "metric": "minutes", "value": 364, "source": "git tag"}
+{"ts": "2026-10-11 05:08", "phase": "P3 surface grows", "event": "eval run", "metric": "passed/total", "value": "4/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-11 05:18", "phase": "P3 surface grows", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-11 05:20", "phase": "P3 surface grows", "event": "rc13 cut", "metric": "zip_bytes", "value": 8260876, "source": "dist/submission-rc13.zip"}
+{"ts": "2026-10-11 05:20", "phase": "P3 surface grows", "event": "rc13 gap since previous rc", "metric": "minutes", "value": 12, "source": "git tag"}
+{"ts": "2026-10-11 05:48", "phase": "P3 surface grows", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-11 05:50", "phase": "P3 surface grows", "event": "phase commits", "metric": "commits", "value": 18, "source": "git log"}
+{"ts": "2026-10-11 05:50", "phase": "P3 surface grows", "event": "phase commit types", "metric": "types", "value": {"feat": 8, "fix": 7, "chore": 3}, "source": "git log"}
+{"ts": "2026-10-11 05:50", "phase": "P3 surface grows", "event": "phase commit scopes top8", "metric": "scopes", "value": {"deck": 6, "bench": 5, "release": 3, "boards": 1, "eval": 1, "canaries": 1, "evidence": 1}, "source": "git log"}
+{"ts": "2026-10-11 05:50", "phase": "P3 surface grows", "event": "rc14 cut", "metric": "zip_bytes", "value": 8978430, "source": "dist/submission-rc14.zip"}
+{"ts": "2026-10-11 05:50", "phase": "P3 surface grows", "event": "rc14 gap since previous rc", "metric": "minutes", "value": 30, "source": "git tag"}
+{"ts": "2026-10-11 05:50", "phase": "P3 surface grows", "event": "phase API spend", "metric": "usd", "value": 0.2226, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-11 05:50", "phase": "P3 surface grows", "event": "phase model calls (errors)", "metric": "calls", "value": [380, 76], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 00:00", "phase": "-", "event": "commits per day", "metric": "commits", "value": 63, "source": "git log"}
+{"ts": "2026-10-12 00:00", "phase": "-", "event": "rcs cut per day", "metric": "rcs", "value": 18, "source": "git tag"}
+{"ts": "2026-10-12 00:00", "phase": "-", "event": "model_calls usd per day", "metric": "usd", "value": 1.8896, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 00:00", "phase": "-", "event": "monday_calls per day", "metric": "calls, complexity, failed", "value": [389, 1643208, 0], "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-12 11:38", "phase": "P4 honesty and reasoning", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 11:40", "phase": "P4 honesty and reasoning", "event": "rc15 cut", "metric": "zip_bytes", "value": 9173555, "source": "dist/submission-rc15.zip"}
+{"ts": "2026-10-12 11:40", "phase": "P4 honesty and reasoning", "event": "rc15 gap since previous rc", "metric": "minutes", "value": 1790, "source": "git tag"}
+{"ts": "2026-10-12 11:45", "phase": "P4 honesty and reasoning", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 11:47", "phase": "P4 honesty and reasoning", "event": "rc16 cut", "metric": "zip_bytes", "value": 9221631, "source": "dist/submission-rc16.zip"}
+{"ts": "2026-10-12 11:47", "phase": "P4 honesty and reasoning", "event": "rc16 gap since previous rc", "metric": "minutes", "value": 7, "source": "git tag"}
+{"ts": "2026-10-12 11:52", "phase": "P4 honesty and reasoning", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 11:54", "phase": "P4 honesty and reasoning", "event": "phase commits", "metric": "commits", "value": 15, "source": "git log"}
+{"ts": "2026-10-12 11:54", "phase": "P4 honesty and reasoning", "event": "phase commit types", "metric": "types", "value": {"feat": 6, "fix": 5, "docs": 2, "chore": 2}, "source": "git log"}
+{"ts": "2026-10-12 11:54", "phase": "P4 honesty and reasoning", "event": "phase commit scopes top8", "metric": "scopes", "value": {"reasoning": 5, "deck": 2, "decisions": 1, "bench": 1, "index": 1, "home": 1, "rubric": 1, "demo": 1}, "source": "git log"}
+{"ts": "2026-10-12 11:54", "phase": "P4 honesty and reasoning", "event": "rc17 cut", "metric": "zip_bytes", "value": 9262972, "source": "dist/submission-rc17.zip"}
+{"ts": "2026-10-12 11:54", "phase": "P4 honesty and reasoning", "event": "rc17 gap since previous rc", "metric": "minutes", "value": 7, "source": "git tag"}
+{"ts": "2026-10-12 11:54", "phase": "P4 honesty and reasoning", "event": "phase API spend", "metric": "usd", "value": 0.1833, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 11:54", "phase": "P4 honesty and reasoning", "event": "phase model calls (errors)", "metric": "calls", "value": [45, 0], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 11:58", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "14/18 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 12:15", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 12:15", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 12:38", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 12:40", "phase": "P5 back to the product", "event": "rc18 cut", "metric": "zip_bytes", "value": 9509466, "source": "dist/submission-rc18.zip"}
+{"ts": "2026-10-12 12:40", "phase": "P5 back to the product", "event": "rc18 gap since previous rc", "metric": "minutes", "value": 46, "source": "git tag"}
+{"ts": "2026-10-12 14:15", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:15", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:34", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:34", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:39", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:41", "phase": "P5 back to the product", "event": "rc19 cut", "metric": "zip_bytes", "value": 9649462, "source": "dist/submission-rc19.zip"}
+{"ts": "2026-10-12 14:41", "phase": "P5 back to the product", "event": "rc19 gap since previous rc", "metric": "minutes", "value": 121, "source": "git tag"}
+{"ts": "2026-10-12 14:45", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:46", "phase": "P5 back to the product", "event": "rc20 cut", "metric": "zip_bytes", "value": 9763882, "source": "dist/submission-rc20.zip"}
+{"ts": "2026-10-12 14:46", "phase": "P5 back to the product", "event": "rc20 gap since previous rc", "metric": "minutes", "value": 6, "source": "git tag"}
+{"ts": "2026-10-12 14:50", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:51", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:55", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 14:57", "phase": "P5 back to the product", "event": "rc21 cut", "metric": "zip_bytes", "value": 9867985, "source": "dist/submission-rc21.zip"}
+{"ts": "2026-10-12 14:57", "phase": "P5 back to the product", "event": "rc21 gap since previous rc", "metric": "minutes", "value": 10, "source": "git tag"}
+{"ts": "2026-10-12 15:03", "phase": "P5 back to the product", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 15:04", "phase": "P5 back to the product", "event": "phase commits", "metric": "commits", "value": 12, "source": "git log"}
+{"ts": "2026-10-12 15:04", "phase": "P5 back to the product", "event": "phase commit types", "metric": "types", "value": {"fix": 8, "feat": 2, "docs": 2}, "source": "git log"}
+{"ts": "2026-10-12 15:04", "phase": "P5 back to the product", "event": "phase commit scopes top8", "metric": "scopes", "value": {"sources": 1, "ingest": 1, "deck": 1, "monday": 1, "submission": 1, "provider": 1, "rehearsal-1": 1, "start-page": 1}, "source": "git log"}
+{"ts": "2026-10-12 15:04", "phase": "P5 back to the product", "event": "rc22 cut", "metric": "zip_bytes", "value": 9887026, "source": "dist/submission-rc22.zip"}
+{"ts": "2026-10-12 15:04", "phase": "P5 back to the product", "event": "rc22 gap since previous rc", "metric": "minutes", "value": 7, "source": "git tag"}
+{"ts": "2026-10-12 15:04", "phase": "P5 back to the product", "event": "phase API spend", "metric": "usd", "value": 0.7486, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 15:04", "phase": "P5 back to the product", "event": "phase model calls (errors)", "metric": "calls", "value": [258, 3], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 16:29", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 16:37", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 16:38", "phase": "P6 rehearsal, packaging, size cap", "event": "rc23 cut", "metric": "zip_bytes", "value": 10302063, "source": "dist/submission-rc23.zip"}
+{"ts": "2026-10-12 16:38", "phase": "P6 rehearsal, packaging, size cap", "event": "rc23 gap since previous rc", "metric": "minutes", "value": 94, "source": "git tag"}
+{"ts": "2026-10-12 16:43", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 16:46", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 16:47", "phase": "P6 rehearsal, packaging, size cap", "event": "rc24 cut", "metric": "zip_bytes", "value": 9985350, "source": "dist/submission-rc24.zip"}
+{"ts": "2026-10-12 16:47", "phase": "P6 rehearsal, packaging, size cap", "event": "rc24 gap since previous rc", "metric": "minutes", "value": 9, "source": "git tag"}
+{"ts": "2026-10-12 19:15", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 19:17", "phase": "P6 rehearsal, packaging, size cap", "event": "rc25 cut", "metric": "zip_bytes", "value": 10010541, "source": "dist/submission-rc25.zip"}
+{"ts": "2026-10-12 19:17", "phase": "P6 rehearsal, packaging, size cap", "event": "rc25 gap since previous rc", "metric": "minutes", "value": 150, "source": "git tag"}
+{"ts": "2026-10-12 19:42", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 19:43", "phase": "P6 rehearsal, packaging, size cap", "event": "rc26 cut", "metric": "zip_bytes", "value": 10025006, "source": "dist/submission-rc26.zip"}
+{"ts": "2026-10-12 19:43", "phase": "P6 rehearsal, packaging, size cap", "event": "rc26 gap since previous rc", "metric": "minutes", "value": 26, "source": "git tag"}
+{"ts": "2026-10-12 20:00", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 20:01", "phase": "P6 rehearsal, packaging, size cap", "event": "rc27 cut", "metric": "zip_bytes", "value": 10087955, "source": "dist/submission-rc27.zip"}
+{"ts": "2026-10-12 20:01", "phase": "P6 rehearsal, packaging, size cap", "event": "rc27 gap since previous rc", "metric": "minutes", "value": 18, "source": "git tag"}
+{"ts": "2026-10-12 20:46", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "17/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 20:47", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "4/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 20:47", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "1/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 20:49", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "14/18 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 20:53", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 20:54", "phase": "P6 rehearsal, packaging, size cap", "event": "rc28 cut", "metric": "zip_bytes", "value": 10198577, "source": "dist/submission-rc28.zip"}
+{"ts": "2026-10-12 20:54", "phase": "P6 rehearsal, packaging, size cap", "event": "rc28 gap since previous rc", "metric": "minutes", "value": 53, "source": "git tag"}
+{"ts": "2026-10-12 21:00", "phase": "P6 rehearsal, packaging, size cap", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "0/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-12 21:01", "phase": "P6 rehearsal, packaging, size cap", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-12 21:08", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 21:10", "phase": "P6 rehearsal, packaging, size cap", "event": "rc29 cut", "metric": "zip_bytes", "value": 10222678, "source": "dist/submission-rc29.zip"}
+{"ts": "2026-10-12 21:10", "phase": "P6 rehearsal, packaging, size cap", "event": "rc29 gap since previous rc", "metric": "minutes", "value": 15, "source": "git tag"}
+{"ts": "2026-10-12 21:13", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 21:14", "phase": "P6 rehearsal, packaging, size cap", "event": "rc30 cut", "metric": "zip_bytes", "value": 10252169, "source": "dist/submission-rc30.zip"}
+{"ts": "2026-10-12 21:14", "phase": "P6 rehearsal, packaging, size cap", "event": "rc30 gap since previous rc", "metric": "minutes", "value": 5, "source": "git tag"}
+{"ts": "2026-10-12 21:34", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 21:35", "phase": "P6 rehearsal, packaging, size cap", "event": "rc31 cut", "metric": "zip_bytes", "value": 10286917, "source": "dist/submission-rc31.zip"}
+{"ts": "2026-10-12 21:35", "phase": "P6 rehearsal, packaging, size cap", "event": "rc31 gap since previous rc", "metric": "minutes", "value": 21, "source": "git tag"}
+{"ts": "2026-10-12 21:44", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "9/10 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 21:47", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "13/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 22:15", "phase": "P6 rehearsal, packaging, size cap", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-12 22:16", "phase": "P6 rehearsal, packaging, size cap", "event": "phase commits", "metric": "commits", "value": 38, "source": "git log"}
+{"ts": "2026-10-12 22:16", "phase": "P6 rehearsal, packaging, size cap", "event": "phase commit types", "metric": "types", "value": {"feat": 12, "docs": 11, "fix": 8, "chore": 3, "build": 2, "test": 2}, "source": "git log"}
+{"ts": "2026-10-12 22:16", "phase": "P6 rehearsal, packaging, size cap", "event": "phase commit scopes top8", "metric": "scopes", "value": {"demo": 5, "bench": 5, "reasoning": 4, "evidence": 3, "readme": 3, "deck": 2, "decisions": 2, "package": 2}, "source": "git log"}
+{"ts": "2026-10-12 22:16", "phase": "P6 rehearsal, packaging, size cap", "event": "rc32 cut", "metric": "zip_bytes", "value": 10337775, "source": "dist/submission-rc32.zip"}
+{"ts": "2026-10-12 22:16", "phase": "P6 rehearsal, packaging, size cap", "event": "rc32 gap since previous rc", "metric": "minutes", "value": 41, "source": "git tag"}
+{"ts": "2026-10-12 22:16", "phase": "P6 rehearsal, packaging, size cap", "event": "phase API spend", "metric": "usd", "value": 0.9397, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 22:16", "phase": "P6 rehearsal, packaging, size cap", "event": "phase model calls (errors)", "metric": "calls", "value": [467, 55], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-12 22:18", "phase": "P7 review surface and size cut", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-13 00:00", "phase": "-", "event": "commits per day", "metric": "commits", "value": 51, "source": "git log"}
+{"ts": "2026-10-13 00:00", "phase": "-", "event": "rcs cut per day", "metric": "rcs", "value": 3, "source": "git tag"}
+{"ts": "2026-10-13 00:00", "phase": "-", "event": "model_calls usd per day", "metric": "usd", "value": 1.2448, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-13 00:00", "phase": "-", "event": "monday_calls per day", "metric": "calls, complexity, failed", "value": [360, 2686299, 1], "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-13 09:18", "phase": "P7 review surface and size cut", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 09:20", "phase": "P7 review surface and size cut", "event": "rc33 cut", "metric": "zip_bytes", "value": 10445157, "source": "dist/submission-rc33.zip"}
+{"ts": "2026-10-13 09:20", "phase": "P7 review surface and size cut", "event": "rc33 gap since previous rc", "metric": "minutes", "value": 664, "source": "git tag"}
+{"ts": "2026-10-13 09:21", "phase": "P7 review surface and size cut", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-13 10:21", "phase": "P7 review surface and size cut", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 10:22", "phase": "P7 review surface and size cut", "event": "rc34 cut", "metric": "zip_bytes", "value": 3345548, "source": "dist/submission-rc34.zip"}
+{"ts": "2026-10-13 10:22", "phase": "P7 review surface and size cut", "event": "rc34 gap since previous rc", "metric": "minutes", "value": 62, "source": "git tag"}
+{"ts": "2026-10-13 10:24", "phase": "P7 review surface and size cut", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-13 12:13", "phase": "P7 review surface and size cut", "event": "eval run", "metric": "passed/total", "value": "18/18 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 12:15", "phase": "P7 review surface and size cut", "event": "phase commits", "metric": "commits", "value": 11, "source": "git log"}
+{"ts": "2026-10-13 12:15", "phase": "P7 review surface and size cut", "event": "phase commit types", "metric": "types", "value": {"feat": 5, "docs": 2, "fix": 2, "build": 1, "chore": 1}, "source": "git log"}
+{"ts": "2026-10-13 12:15", "phase": "P7 review surface and size cut", "event": "phase commit scopes top8", "metric": "scopes", "value": {"wiki": 3, "package": 2, "build-log": 1, "readme": 1, "proof": 1, "pages": 1, "mistakes": 1, "boards": 1}, "source": "git log"}
+{"ts": "2026-10-13 12:15", "phase": "P7 review surface and size cut", "event": "rc35 cut", "metric": "zip_bytes", "value": 3356926, "source": "dist/submission-rc35.zip"}
+{"ts": "2026-10-13 12:15", "phase": "P7 review surface and size cut", "event": "rc35 gap since previous rc", "metric": "minutes", "value": 113, "source": "git tag"}
+{"ts": "2026-10-13 12:15", "phase": "P7 review surface and size cut", "event": "phase API spend", "metric": "usd", "value": 0.2398, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-13 12:15", "phase": "P7 review surface and size cut", "event": "phase model calls (errors)", "metric": "calls", "value": [57, 0], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-13 12:16", "phase": "P8 design pass", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-13 15:25", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/18 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 15:36", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 15:47", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "15/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 15:49", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 15:49", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 15:56", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 15:57", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 16:08", "phase": "P8 design pass", "event": "rehearsal run", "metric": "red", "value": {"commit": "e854e5f", "live": false, "failed_steps": ["canaries", "package", "unzip", "onboarding doc-test", "e2e from ZIP"], "seconds": 78.2}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 16:08", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 16:13", "phase": "P8 design pass", "event": "rehearsal run", "metric": "red", "value": {"commit": "e854e5f", "live": false, "failed_steps": ["package", "unzip", "onboarding doc-test", "e2e from ZIP"], "seconds": 115.8}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 16:13", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 16:15", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 16:16", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "e854e5f", "live": false, "failed_steps": [], "seconds": 113.5}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 16:30", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 16:31", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "b896ecd", "live": false, "failed_steps": [], "seconds": 123.0}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 16:33", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 16:33", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 16:43", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 16:44", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "906b6de", "live": false, "failed_steps": [], "seconds": 124.5}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 16:52", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 16:52", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 16:57", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 16:59", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "9febab0", "live": true, "failed_steps": [], "seconds": 202.8}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 16:59", "phase": "P8 design pass", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=False", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-13 17:06", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 17:07", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "e0f509f", "live": false, "failed_steps": [], "seconds": 154.8}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 17:08", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 18:16", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "18/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 18:16", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 18:21", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 18:22", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "12/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 18:27", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 18:27", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "13/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:10", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:14", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 19:16", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "d5e1e04", "live": true, "failed_steps": [], "seconds": 223.9}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 19:16", "phase": "P8 design pass", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=False", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-13 19:22", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:22", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:25", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:26", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "15/19 local golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:28", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:31", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:31", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:31", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:33", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:33", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:34", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "13/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 19:46", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 19:47", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "bf11ab4", "live": false, "failed_steps": [], "seconds": 169.3}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 19:50", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "11/14 mock golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 22:11", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 22:12", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "ae84178", "live": false, "failed_steps": [], "seconds": 167.9}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 22:25", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 22:26", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "7e3fbaf", "live": false, "failed_steps": [], "seconds": 247.9}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 22:35", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 22:36", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "4a2146d", "live": false, "failed_steps": [], "seconds": 155.2}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 22:43", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 22:44", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "7dccd1a", "live": false, "failed_steps": [], "seconds": 165.6}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 22:48", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-13 22:49", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 22:50", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "24f4df5", "live": false, "failed_steps": [], "seconds": 147.8}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 23:26", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "6863c3e", "live": false, "failed_steps": [], "seconds": 208.7}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 23:26", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 23:35", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-13 23:36", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "e1e247b", "live": false, "failed_steps": [], "seconds": 208.6}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-13 23:58", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-14 00:00", "phase": "-", "event": "commits per day", "metric": "commits", "value": 29, "source": "git log"}
+{"ts": "2026-10-14 00:00", "phase": "-", "event": "rcs cut per day", "metric": "rcs", "value": 11, "source": "git tag"}
+{"ts": "2026-10-14 00:00", "phase": "-", "event": "model_calls usd per day", "metric": "usd", "value": 1.0818, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 00:00", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "d84aba6", "live": true, "failed_steps": [], "seconds": 250.0}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 00:00", "phase": "P8 design pass", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=False", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 00:00", "phase": "-", "event": "monday_calls per day", "metric": "calls, complexity, failed", "value": [52, 215889, 0], "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 00:19", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-14 00:20", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "eb63499", "live": false, "failed_steps": [], "seconds": 178.9}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 00:25", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "14/19 mock golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 00:32", "phase": "P8 design pass", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-14 00:33", "phase": "P8 design pass", "event": "rehearsal run", "metric": "green", "value": {"commit": "eb63499", "live": false, "failed_steps": [], "seconds": 200.5}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 00:51", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 01:14", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "4/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 01:17", "phase": "P8 design pass", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 01:19", "phase": "P8 design pass", "event": "rc36 cut", "metric": "zip_bytes", "value": 3931318, "source": "dist/submission-rc36.zip"}
+{"ts": "2026-10-14 01:19", "phase": "P8 design pass", "event": "rc36 gap since previous rc", "metric": "minutes", "value": 784, "source": "git tag"}
+{"ts": "2026-10-14 01:28", "phase": "P8 design pass", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 01:36", "phase": "P8 design pass", "event": "rc37 cut", "metric": "zip_bytes", "value": 3932774, "source": "dist/submission-rc37.zip"}
+{"ts": "2026-10-14 01:36", "phase": "P8 design pass", "event": "rc37 gap since previous rc", "metric": "minutes", "value": 17, "source": "git tag"}
+{"ts": "2026-10-14 01:40", "phase": "P8 design pass", "event": "phase commits", "metric": "commits", "value": 50, "source": "git log"}
+{"ts": "2026-10-14 01:40", "phase": "P8 design pass", "event": "phase commit types", "metric": "types", "value": {"feat": 16, "chore": 9, "fix": 8, "style": 8, "docs": 4, "refactor": 2, "test": 2, "other": 1}, "source": "git log"}
+{"ts": "2026-10-14 01:40", "phase": "P8 design pass", "event": "phase commit scopes top8", "metric": "scopes", "value": {"pages": 11, "bench": 9, "flightlog": 6, "start": 5, "deck": 5, "release": 4, "package": 2, "readme": 2}, "source": "git log"}
+{"ts": "2026-10-14 01:40", "phase": "P8 design pass", "event": "rc38 cut", "metric": "zip_bytes", "value": 3932935, "source": "dist/submission-rc38.zip"}
+{"ts": "2026-10-14 01:40", "phase": "P8 design pass", "event": "rc38 gap since previous rc", "metric": "minutes", "value": 3, "source": "git tag"}
+{"ts": "2026-10-14 01:40", "phase": "P8 design pass", "event": "phase API spend", "metric": "usd", "value": 1.1761, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 01:40", "phase": "P8 design pass", "event": "phase model calls (errors)", "metric": "calls", "value": [780, 100], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 09:04", "phase": "P9 hardening and final cuts", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-14 09:05", "phase": "P9 hardening and final cuts", "event": "rehearsal run", "metric": "green", "value": {"commit": "715927e", "live": false, "failed_steps": [], "seconds": 294.3}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 09:10", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 09:11", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 09:11", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "14/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 09:18", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 09:21", "phase": "P9 hardening and final cuts", "event": "rc39 cut", "metric": "zip_bytes", "value": 4002095, "source": "dist/submission-rc39.zip"}
+{"ts": "2026-10-14 09:21", "phase": "P9 hardening and final cuts", "event": "rc39 gap since previous rc", "metric": "minutes", "value": 462, "source": "git tag"}
+{"ts": "2026-10-14 09:23", "phase": "P9 hardening and final cuts", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 09:27", "phase": "P9 hardening and final cuts", "event": "rc40 cut", "metric": "zip_bytes", "value": 4003610, "source": "dist/submission-rc40.zip"}
+{"ts": "2026-10-14 09:27", "phase": "P9 hardening and final cuts", "event": "rc40 gap since previous rc", "metric": "minutes", "value": 6, "source": "git tag"}
+{"ts": "2026-10-14 10:00", "phase": "P9 hardening and final cuts", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-14 10:03", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 10:03", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 10:04", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "14/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 10:08", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 10:08", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 10:09", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "14/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 10:20", "phase": "P9 hardening and final cuts", "event": "wargame run", "metric": "passed/total", "value": "17/17 mock", "source": "flightlog/wargame_runs.jsonl"}
+{"ts": "2026-10-14 10:22", "phase": "P9 hardening and final cuts", "event": "rehearsal run", "metric": "green", "value": {"commit": "f554350", "live": false, "failed_steps": [], "seconds": 320.9}, "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 10:37", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 10:41", "phase": "P9 hardening and final cuts", "event": "rc41 cut", "metric": "zip_bytes", "value": 4130430, "source": "dist/submission-rc41.zip"}
+{"ts": "2026-10-14 10:41", "phase": "P9 hardening and final cuts", "event": "rc41 gap since previous rc", "metric": "minutes", "value": 75, "source": "git tag"}
+{"ts": "2026-10-14 10:43", "phase": "P9 hardening and final cuts", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 10:48", "phase": "P9 hardening and final cuts", "event": "rc42 cut", "metric": "zip_bytes", "value": 4131802, "source": "dist/submission-rc42.zip"}
+{"ts": "2026-10-14 10:48", "phase": "P9 hardening and final cuts", "event": "rc42 gap since previous rc", "metric": "minutes", "value": 6, "source": "git tag"}
+{"ts": "2026-10-14 11:32", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 11:32", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "13/13 claude golden_wave2.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 11:32", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "14/14 claude golden_wave3.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 11:40", "phase": "P9 hardening and final cuts", "event": "eval run", "metric": "passed/total", "value": "19/19 claude golden.json", "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 11:43", "phase": "P9 hardening and final cuts", "event": "rc43 cut", "metric": "zip_bytes", "value": 4194808, "source": "dist/submission-rc43.zip"}
+{"ts": "2026-10-14 11:43", "phase": "P9 hardening and final cuts", "event": "rc43 gap since previous rc", "metric": "minutes", "value": 56, "source": "git tag"}
+{"ts": "2026-10-14 11:45", "phase": "P9 hardening and final cuts", "event": "live e2e run (claude, live monday)", "metric": "passed/runs", "value": "1/1 from_zip=True", "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 11:49", "phase": "P9 hardening and final cuts", "event": "rc44 cut", "metric": "zip_bytes", "value": 4196175, "source": "dist/submission-rc44.zip"}
+{"ts": "2026-10-14 11:49", "phase": "P9 hardening and final cuts", "event": "rc44 gap since previous rc", "metric": "minutes", "value": 5, "source": "git tag"}
+{"ts": "2026-10-14 12:21", "phase": "P9 hardening and final cuts", "event": "rc45 cut", "metric": "zip_bytes", "value": 4206208, "source": "dist/submission-rc45.zip"}
+{"ts": "2026-10-14 12:21", "phase": "P9 hardening and final cuts", "event": "rc45 gap since previous rc", "metric": "minutes", "value": 32, "source": "git tag"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "tag rc46-2026-10-14 (done)", "metric": "tag", "value": "rc46", "source": "git tag"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase commits", "metric": "commits", "value": 19, "source": "git log"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase commit types", "metric": "types", "value": {"chore": 9, "fix": 5, "docs": 3, "feat": 2}, "source": "git log"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase commit scopes top8", "metric": "scopes", "value": {"release": 7, "answer": 3, "deck": 3, "demo": 2, "resolve": 2, "readme": 2, "trace": 2, "troubleshoot": 1}, "source": "git log"}
+{"ts": "2026-10-14 12:46", "phase": "-", "event": "overall commit scopes top12", "metric": "scopes", "value": {"deck": 53, "bench": 26, "release": 19, "handoff": 13, "plan": 12, "pages": 12, "demo": 10, "none": 9, "package": 9, "decisions": 9, "reasoning": 9, "readme": 9}, "source": "git log"}
+{"ts": "2026-10-14 12:46", "phase": "-", "event": "overall commit types", "metric": "types", "value": {"feat": 115, "fix": 80, "docs": 62, "chore": 42, "test": 9, "style": 8, "ci": 3, "build": 3, "refactor": 2, "data": 1, "eval": 1, "other": 1}, "source": "git log"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "rc46 cut", "metric": "zip_bytes", "value": 4221328, "source": "dist/submission-rc46.zip"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "rc46 gap since previous rc", "metric": "minutes", "value": 25, "source": "git tag"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase API spend", "metric": "usd", "value": 0.9286, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase model calls (errors)", "metric": "calls", "value": [227, 1], "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "-", "event": "total model_calls usd", "metric": "usd", "value": 8.5123, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "-", "event": "usd by model", "metric": "usd", "value": {"claude-sonnet-5-5": 8.5053, "qwen2.5:7b-instruct": 0.0, "mock:wrong_figure": 0.0, "mock:none": 0.0, "mock:refuse": 0.0, "mock:fake_citation": 0.0, "claude-haiku-5-5": 0.007, "mock:garbage": 0.0}, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "-", "event": "model calls without usd field", "metric": "calls", "value": 253, "source": "flightlog/model_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P1 build", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [59, 41, 0.9481], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P2 polishing the argument", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [12, 11, 0.9815], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P3 surface grows", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [6, 3, 0.6111], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P4 honesty and reasoning", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [3, 3, 1.0], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P5 back to the product", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [14, 13, 0.9828], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P6 rehearsal, packaging, size cap", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [18, 12, 0.8925], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P7 review surface and size cut", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [3, 3, 1.0], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P8 design pass", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [35, 15, 0.844], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase eval summary", "metric": "runs, fully green, case pass rate", "value": [15, 15, 1.0], "source": "flightlog/eval_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P1 build", "event": "phase rehearsal summary", "metric": "runs, green, live", "value": [16, 15, 2], "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P8 design pass", "event": "phase rehearsal summary", "metric": "runs, green, live", "value": [19, 17, 3], "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase rehearsal summary", "metric": "runs, green, live", "value": [2, 2, 0], "source": "flightlog/rehearsal_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P1 build", "event": "phase live e2e summary", "metric": "runs, passes", "value": [6, 5], "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P6 rehearsal, packaging, size cap", "event": "phase live e2e summary", "metric": "runs, passes", "value": [2, 1], "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P7 review surface and size cut", "event": "phase live e2e summary", "metric": "runs, passes", "value": [3, 3], "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P8 design pass", "event": "phase live e2e summary", "metric": "runs, passes", "value": [5, 5], "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase live e2e summary", "metric": "runs, passes", "value": [3, 3], "source": "flightlog/e2e_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P2 polishing the argument", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [18, 1], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P3 surface grows", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [73, 17], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P4 honesty and reasoning", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [15, 0], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P5 back to the product", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [37, 4], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P6 rehearsal, packaging, size cap", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [76, 13], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P7 review surface and size cut", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [11, 0], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P8 design pass", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [428, 30], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase bench runs (with any failing row)", "metric": "runs", "value": [35, 0], "source": "flightlog/bench_runs.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P1 build", "event": "phase monday calls", "metric": "calls", "value": 858, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P2 polishing the argument", "event": "phase monday calls", "metric": "calls", "value": 82, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P3 surface grows", "event": "phase monday calls", "metric": "calls", "value": 149, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P4 honesty and reasoning", "event": "phase monday calls", "metric": "calls", "value": 17, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P5 back to the product", "event": "phase monday calls", "metric": "calls", "value": 143, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P6 rehearsal, packaging, size cap", "event": "phase monday calls", "metric": "calls", "value": 246, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P7 review surface and size cut", "event": "phase monday calls", "metric": "calls", "value": 6, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P8 design pass", "event": "phase monday calls", "metric": "calls", "value": 367, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "P9 hardening and final cuts", "event": "phase monday calls", "metric": "calls", "value": 39, "source": "flightlog/monday_calls.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-tokens-per-q", "metric": "measured", "value": "1,288 + 129 tokens", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-cost-per-q", "metric": "derived", "value": "$0.0042 per question", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-local-eval", "metric": "measured", "value": "Qwen 2.5 7B 14/18, mean 11.2 s; Claude 18/18, mean 1.7 s", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-build-spend", "metric": "measured", "value": "$8.51", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-monday-version", "metric": "measured", "value": "API version 2026-07 served as 'current' (live version query, 2026-10-10)", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-monday-budget", "metric": "measured", "value": "Complexity budget 1,000,000/min on this free account; whoami query cost 32", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-monday-tier", "metric": "measured", "value": "Account tier: free", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-monday-write-cost", "metric": "measured", "value": "Each create_item / change_multiple_column_values / create_board costs 30,000 complexity points; reads 1-40", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-monday-sync-steady", "metric": "measured", "value": "Unchanged re-sync: 25 calls, 906 complexity points", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-eval-wave1", "metric": "measured", "value": "19 of 19", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-eval-wave2", "metric": "measured", "value": "13 of 13", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-scenarios", "metric": "derived", "value": "3,072 of 3,072", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-haiku", "metric": "measured", "value": "Claude Haiku 5.5: 16/18 and 12/12, ~$0.00023/question; misses on the refusal channel", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-latency", "metric": "measured", "value": "~1.6 s", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-poll", "metric": "derived", "value": "about a minute", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-facts", "metric": "measured", "value": "14 key facts posted by one sync, each with verbatim governing text and source; 2 changed by an amendment (3.2, 7.1) and 1 added by it (5.5)", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-repairs", "metric": "measured", "value": "79 errors logged", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-payload", "metric": "derived", "value": "~3,400 characters", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-monday-models-api", "metric": "measured", "value": "monday Models API on this free account: HTTP 403 insufficient_credits (\"AI credits limit reached\"); docs require a Pro or Enterprise workspace", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-cycle-cost", "metric": "derived", "value": "about $0.76", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-scenarios-checked", "metric": "derived", "value": "1,024", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-ex-hours-cycle", "metric": "measured", "value": "at least 500 hours", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-ex-hours-year", "metric": "derived", "value": "about 6,000 hours", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-ex-target-value", "metric": "derived", "value": "about $800K", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-eval-wave1-record", "metric": "measured", "value": "79 of 87 runs fully green (worst 15/18); 6 runs with no API key set excluded", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-eval-wave2-record", "metric": "measured", "value": "30 of 38 runs fully green (worst 9/12); 1 run with no API key set excluded", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-e2e-answer", "metric": "measured", "value": "about 3 s", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-build-session-spend", "metric": "measured", "value": "at least $262.77", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-build-total", "metric": "derived", "value": "about $271", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-blind", "metric": "measured", "value": "16 of 20 and 17 of 20", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-e2e-live", "metric": "measured", "value": "15 of 17", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-rehearsal", "metric": "measured", "value": "green, 2026-10-14", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "evidence E-wargame", "metric": "measured", "value": "17 of 17", "source": "evidence/evidence.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "kintsugi ledger rows", "metric": "count", "value": 79, "source": "KINTSUGI.md"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "kintsugi whose_error", "metric": "count", "value": {"tool": 7, "premise": 4, "test": 6, "me": 7, "test + tool": 1, "system": 6, "system (caught before it fired)": 1, "system (nondeterminism) + test (single-run gate)": 1, "me (gate scope)": 1, "me (process)": 2, "me (design)": 1, "system (scope in prompt only) + test (vacuous passes)": 1, "me (process) + gate gap": 1, "me (deck code) + gate blind spots": 1, "me (selection)": 1, "me (design: empty parse treated as a silent RFP)": 1, "me (guard too broad; tests written in the RFP's words)": 1, "me (search had no typo tolerance; vocabulary lived in code)": 1, "system (label) + me (expectations, a backfilled probability)": 1, "me (design: clause boundaries trusted blindly; no cap on what is sent)": 1, "me (gate tied to a removed element; density treated as a type-size problem)": 1, "me (the from-ZIP test never asserted which copy it imported)": 1, "me (ran checks on a dirty tree and logged only the HEAD commit)": 1, "me (read a tail, not an exit code)": 1, "me (wrote the column as a default instead of a create-only field)": 1, "Mine (builder)": 28}, "source": "KINTSUGI.md"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "trace spans: reconstructed from git / with discovered_at / total", "metric": "count", "value": [1, 1, 399], "source": "flightlog/trace.jsonl"}
+{"ts": "2026-10-14 12:46", "phase": "final", "event": "trace spans with a usd cost", "metric": "count", "value": [7, 399], "source": "flightlog/trace.jsonl"}
