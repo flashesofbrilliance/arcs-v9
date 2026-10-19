@@ -103,8 +103,9 @@ def surfaces(root):
     cur = _seek(L, 0, '"rows": [', "rows[]"); out, unresolved = [], []
     for r in d["rows"]:
         cur = _seek(L, cur + 1, f'"host": {json.dumps(r["host"])}', r["host"])
-        key = r["host"] + r["path"]
-        if not SURF_HOST_RE.match(r["host"]):
+        host = "any" if r["host"] == "*" else r["host"]  # wildcard host -> "any" (Zach, 2026-10-18, ADR-089 amendment 1)
+        key = host + r["path"]
+        if not SURF_HOST_RE.match(host):
             # host '*' (catch-all) fails the write-locked id pattern; held for Zach's id decision, counted not dropped
             unresolved.append({"namespace": "tool:surface", "key": key, "source": {"catalog": SURF, "line": cur + 1},
                                "why": "host fails tool:surface id pattern (write-locked, ADR-089)"})
@@ -222,7 +223,8 @@ def verify_lines(graph, root, mem_dir=MEM_DIR):
         line = L[ln - 1] if 0 < ln <= len(L) else ""
         key = src["key"]
         if a["id"].startswith("tool:surface:"):
-            ok = '"host": ' in line and key.startswith(json.loads(line.split('"host": ', 1)[1].rstrip(',')))
+            h = json.loads(line.split('"host": ', 1)[1].rstrip(',')) if '"host": ' in line else None
+            ok = h is not None and key.startswith("any" if h == "*" else h)
         elif cat == PAT_CAT:
             ok = bool(JOB_RE.search(line))
         elif cat == BACKLOG:
@@ -320,8 +322,8 @@ def self_test():
         ids = sorted(a["id"] for a in g["atoms"])
         want = ["blocker:backlog:row-b", "dep:npm:@types/node", "dep:npm:next", "job:backlog:row-a", "job:backlog:row-b",
                 "job:memory:m-one", "job:pattern:p1", "tool:op:1", "tool:operator:op_x.py", "tool:script:a.py",
-                "tool:surface:a.arcs.care/"]
-        good = good and ids == want and len(g["edges"]) == 1 and [u["key"] for u in g["unresolved"]] == ["*/x"]
+                "tool:surface:a.arcs.care/", "tool:surface:any/x"]
+        good = good and ids == want and len(g["edges"]) == 1 and [u["key"] for u in g["unresolved"]] == []
         print(f"good fixture: {'PASS' if good else 'FAIL'} ({len(ids)} atoms, {len(g['edges'])} edges)")
         ok &= good
         g["atoms"][0]["source"]["line"] += 1

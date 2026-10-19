@@ -55,7 +55,7 @@
       },
       "tool:surface": {
         "source": "runtime/specs/surface-catalog.json",
-        "key": "rows[].host + rows[].path",
+        "key": "rows[].host + rows[].path; a wildcard host \"*\" is written as \"any\" (tool:surface:any/omakase), amendment 2026-10-18 by Zach",
         "pattern": "^tool:surface:[a-z0-9.-]+/[^\\s]*$"
       },
       "job:backlog": {

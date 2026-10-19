@@ -27,11 +27,14 @@ def check(graph, schema):
         smiss = [k for k in schema["atom_source_required"] if k not in src]
         if smiss:
             out.append(f"SOURCE-FIELDS {aid}: missing {smiss}")
+        ln = src.get("line")
+        if not isinstance(ln, int) or isinstance(ln, bool) or ln < 1:
+            out.append(f"SOURCE-LINE {aid}: {ln!r} is not a positive int")
         # namespace = first two segments; a key may itself contain ':' (route params like /:slug)
         ns = ":".join(aid.split(":", 2)[:2]) if aid.count(":") >= 2 else None
         if ns not in ns_map or not ns.startswith(kind + ":"):
             out.append(f"UNKNOWN-NAMESPACE {aid}: kind {kind}"); continue
-        if not re.match(ns_map[ns]["pattern"], aid):
+        if not re.fullmatch(ns_map[ns]["pattern"], aid):
             out.append(f"ID-PATTERN {aid}")
         # stability: the id is re-derivable from the source's natural key, nothing else
         if aid != f"{ns}:{src.get('key')}":
@@ -63,7 +66,7 @@ def check(graph, schema):
             out.append(f"NO-EVIDENCE {tag}")
         else:
             for item in ev:
-                if not any(fmts[f].match(str(item)) for f in et["evidence"]):
+                if not any(fmts[f].fullmatch(str(item)) for f in et["evidence"]):
                     out.append(f"BAD-EVIDENCE {tag}: {item!r} (allowed {et['evidence']})")
         if not isinstance(e["inferred"], bool):
             out.append(f"INFERRED-FLAG {tag}")
