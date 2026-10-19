@@ -297,6 +297,7 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
 
   <nav class="toc" aria-label="Sections" style="margin-top:20px">
     <ol>
+      <li><a href="#spec">0 Spec</a></li>
       <li><a href="#phases">1 Phases</a></li>
       <li><a href="#cases">2 Cases</a></li>
       <li><a href="#premortem">3 Pre-mortem</a></li>
@@ -306,6 +307,45 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
   </nav>
 
   <div class="grid">
+    <section class="wide" id="spec">
+      <h2>0 · Spec: what this plan rests on</h2>
+      <p class="take">Inputs, assumptions and the tests that would prove me wrong, stated before the plan so you can argue with them first.</p>
+      <dl class="map">
+        <div><dt>Problem</dt><dd>Residential permit decisions take 45 business days; target 10, measured from complete application to decision, on the county's own records.</dd></div>
+        <div><dt>Non-goals</dt><dd>Commercial permits, inspections scheduling, replacing the county's payment processor, a public chatbot. Each is a phase-two candidate, not a day-one promise.</dd></div>
+        <div><dt>What I know</dt><dd>From two conversations, not from inside: pods are one FDE and one FDPM on roughly 90 days; each person carries several deployments; operations clears access before kickoff; a shared integrations library exists; TypeScript, AWS and Postgres are the defaults; FDEs platformize during hypercare.</dd></div>
+        <div><dt>Constraints</dt><dd>Contract-mandated vendors stay. Records retention set by county counsel. Accessibility is a launch criterion. Access by named role only.</dd></div>
+      </dl>
+      <div class="scroll" style="margin-top:16px">
+      <table class="ledger">
+        <thead><tr><th>Assumption</th><th>If wrong</th><th>Falsifier, by when</th></tr></thead>
+        <tbody>
+          <tr><td>The 45 days is mostly queue time, not review time.</td><td>Software cannot reach 10; the fix is staffing or policy.</td><td>Time-stamp 20 recent permits by stage, day 10.</td></tr>
+          <tr><td>The library covers records and payments; at most one integration is new.</td><td>Build time doubles; phase two eats phase three.</td><td>List every system the permit touches, day 7.</td></tr>
+          <tr><td>The director can sign the measure without council.</td><td>Gate one slips by weeks.</td><td>Ask who else signs, kickoff call.</td></tr>
+          <tr><td>Clerks have time for weekly demos.</td><td>Feedback arrives at launch, too late.</td><td>Two clerks named with calendar holds, day 5.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <dl class="map" style="margin-top:16px">
+        <div><dt>Dependencies</dt><dd>Written data access (IT security), the signed measure (director), the records policy (counsel), sandbox credentials for each vendor system (operations).</dd></div>
+        <div><dt>Blind spots</dt><dd>Informal workarounds the clerks never wrote down; seasonal volume; whether the county counts a decision the way the measure does.</dd></div>
+        <div><dt>Headwinds</dt><dd>Procurement or security review that runs on its own calendar; a sponsor change mid-deployment; my own lack of large-scale on-call, covered by the team's runbook and alerting norms.</dd></div>
+      </dl>
+      <h2 style="margin-top:22px">Stated vs revealed: tests that do not trust the meeting</h2>
+      <div class="scroll">
+      <table class="ledger">
+        <thead><tr><th>Stated</th><th>Revealed (what I check)</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td>"You have data access."</td><td>One real record queried from the mirror.</td><td class="s">Day 20</td></tr>
+          <tr><td>"The director owns this."</td><td>The director signs the measure and attends one demo.</td><td class="s">Day 30</td></tr>
+          <tr><td>"The clerks want it."</td><td>A clerk finishes a real permit without help.</td><td class="s">Day 60</td></tr>
+          <tr><td>"It is ready to hand off."</td><td>County staff run it two weeks with no ticket we fix.</td><td class="s">Day 90</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
     <section class="wide" id="phases">
       <h2>1 · 30, 60, 90 days</h2>
       <p class="take">Three phases, each ending at a gate someone on the county side signs.</p>
