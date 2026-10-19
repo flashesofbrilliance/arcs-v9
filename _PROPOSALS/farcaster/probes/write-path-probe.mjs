@@ -1,51 +1,48 @@
-// fc-derisk-write-path-probe. Written, NOT RUN. Spends no money by design (gasless KEY_ADD) but WRITES to mainnet:
-// run only against a throwaway account with Zach's go. Helper names are as documented for @farcaster/core 0.20.0;
-// if any import is missing or its signature differs, the probe fails loudly at import/call time: that IS a finding.
+// fc-derisk-write-path-probe. WRITES to the node it is pointed at (devnet: FC_NETWORK=devnet; mainnet only with Zach's go and a throwaway account).
+// Verified API names for @farcaster/core 0.20.0 (read from its type declarations 2026-10-19): makeKeyAddBody, makeKeyAdd, makeCastAdd, getFarcasterTime, NobleEd25519Signer, ViemLocalEip712Signer.
+// getGaslessSignedKeyRequestMetadata does NOT exist in 0.20.0 (earlier draft was wrong). Needs: npm i @farcaster/core@0.20.0 viem @noble/curves (use '@noble/curves/ed25519.js'; v2 dropped the extensionless subpath).
 import fs from "node:fs";
+import crypto from "node:crypto";
 import { requireThrowaway, checkArgv } from "./guard.mjs";
-checkArgv();
 import { classifyWrite, EXIT } from "./classify.mjs";
+checkArgv();
 const fx = process.argv.indexOf("--fixture");
 if (fx > 0) { const v = classifyWrite(JSON.parse(fs.readFileSync(process.argv[fx + 1], "utf8"))); console.log(JSON.stringify(v)); process.exit(EXIT[v.verdict]); }
 const { nodeUrl, key, fid } = requireThrowaway();
-const core = await import("@farcaster/core");           // 0.20.0
+const core = await import("@farcaster/core");
 const { privateKeyToAccount } = await import("viem/accounts");
-const { ed25519 } = await import("@noble/curves/ed25519");
-const network = core.FarcasterNetwork.MAINNET;
-const submit = async (msg) => {
-  const bytes = core.Message.encode(msg).finish();
-  const r = await fetch(`${nodeUrl}/v1/submitMessage`, { method: "POST", headers: { "content-type": "application/octet-stream" }, body: bytes });
-  return { status: r.status, body: await r.text() };
-};
-const must = (res, what) => { if (res.isErr()) { console.error(`FAIL ${what}:`, res.error); process.exit(1); } return res.value; };
+const { ed25519 } = await import("@noble/curves/ed25519.js");
+const network = process.env.FC_NETWORK === "devnet" ? core.FarcasterNetwork.DEVNET : core.FarcasterNetwork.MAINNET;
+const hex = (u) => "0x" + Buffer.from(u).toString("hex");
+const must = (r, w) => { if (r.isErr()) { console.error(`FAIL ${w}: ${String(r.error)}`); process.exit(EXIT.fallback); } return r.value; };
+const submit = async (m) => { const r = await fetch(`${nodeUrl}/v1/submitMessage`, { method: "POST", headers: { "content-type": "application/octet-stream" }, body: core.Message.encode(m).finish() }); return { status: r.status, error: r.ok ? undefined : (await r.text()).slice(0, 120) }; };
 
-// 1. fresh app key (ed25519) + gasless signed key request metadata, signed by custody key
-const appPriv = ed25519.utils.randomPrivateKey();
-const appPub = ed25519.getPublicKey(appPriv);
+const info = await (await fetch(`${nodeUrl}/v1/signersByFid?fid=${fid}`)).json();
+const priv = crypto.randomBytes(32), pub = ed25519.getPublicKey(priv);
 const custody = new core.ViemLocalEip712Signer(privateKeyToAccount(key));
-const deadline = Math.floor(Date.now() / 1000) + 3600;
-const metadata = must(await core.getGaslessSignedKeyRequestMetadata?.(custody, { requestFid: fid, key: appPub, deadline }) ?? { isErr: () => true, error: "getGaslessSignedKeyRequestMetadata missing" }, "metadata");
-const body = must(core.makeKeyAddBody({ key: appPub, keyType: 1, metadata, metadataType: 1 }), "makeKeyAddBody");
-const keyAdd = must(await core.makeKeyAdd(body, { fid, network }, custody), "makeKeyAdd");
-const lastKeyAdd = await submit(keyAdd); console.log("KEY_ADD status:", lastKeyAdd.status);
-
-// 2. one cast signed by the new app key
-const appSigner = new core.NobleEd25519Signer(appPriv);
-const text = `probe ${new Date().toISOString()} (throwaway)`;
-const cast = must(await core.makeCastAdd({ text, embeds: [], embedsDeprecated: [], mentions: [], mentionsPositions: [] }, { fid, network }, appSigner), "makeCastAdd");
-const hashHex = "0x" + Buffer.from(cast.hash).toString("hex");
-const lastCast = await submit(cast); console.log("CAST status:", lastCast.status, hashHex);
-
-// 3. read it back, and watch events for the merge
-let found = false, mergeSeen = false;
-for (let i = 0; i < 12 && !found; i++) {
-  await new Promise((r) => setTimeout(r, 5000));
-  const g = await fetch(`${nodeUrl}/v1/castById?fid=${fid}&hash=${hashHex}`);
-  const ev = await fetch(`${nodeUrl}/v1/events?shard_index=1&from_event_id=0&pageSize=100`);
-  const evText = ev.ok ? await ev.text() : "";
-  mergeSeen = mergeSeen || evText.toLowerCase().includes(hashHex.slice(2).toLowerCase()) || evText.includes(Buffer.from(cast.hash).toString("base64"));
-  found = g.ok; console.log(`poll ${i}: castById=${g.status} events=${ev.status} mergeSeen=${mergeSeen}`);
+const body = must(await core.makeKeyAddBody({ fid: BigInt(fid), key: pub, scopes: [core.MessageType.CAST_ADD, core.MessageType.REACTION_ADD, core.MessageType.LINK_ADD], ttl: 7 * 24 * 3600, nonce: (info.currentUserNonce ?? 0) + 1, deadline: must(core.getFarcasterTime(), "time") + 600 }, custody), "makeKeyAddBody");
+const keyadd = await submit(must(await core.makeKeyAdd(body, { fid, network }, new core.NobleEd25519Signer(priv)), "makeKeyAdd"));
+console.log("KEY_ADD status:", keyadd.status);
+// KEY_ADD is asynchronous: 200 means accepted, not merged. A cast signed before the key is merged is rejected ("signer not authorized"; observed on devnet 2026-10-19).
+let keyMergedAfterS = null; const tk = Date.now();
+for (let i = 0; i < 15 && keyadd.status === 200 && keyMergedAfterS === null; i++) {
+  const sg = await (await fetch(`${nodeUrl}/v1/signersByFid?fid=${fid}`)).json();
+  if ((sg.signers ?? []).some((x) => x.key === hex(pub))) keyMergedAfterS = Math.round((Date.now() - tk) / 1000); else await new Promise((r) => setTimeout(r, 2000));
 }
-const v = classifyWrite({ keyadd: lastKeyAdd, cast: lastCast, readback: found, merge_event: mergeSeen });
+console.log("key visible in signersByFid after (s):", keyMergedAfterS);
+const cast = must(await core.makeCastAdd({ text: `probe ${new Date().toISOString()}`, embeds: [], embedsDeprecated: [], mentions: [], mentionsPositions: [] }, { fid, network }, new core.NobleEd25519Signer(priv)), "makeCastAdd");
+const castRes = keyadd.status === 200 ? await submit(cast) : { status: 0 };
+const h = hex(cast.hash);
+let readback = false, mergeEvent = false;
+for (let i = 0; i < 12 && !(readback && mergeEvent); i++) {
+  await new Promise((r) => setTimeout(r, 5000));
+  readback = readback || (await fetch(`${nodeUrl}/v1/castById?fid=${fid}&hash=${h}`)).ok;
+  for (const sh of [1, 2]) {
+    const r = await fetch(`${nodeUrl}/v1/events?shard_index=${sh}&reverse=true&pageSize=300`);
+    if (r.ok) mergeEvent = mergeEvent || JSON.stringify((await r.json()).events ?? []).includes(h);
+  }
+  console.log(`poll ${i}: readback=${readback} mergeEvent=${mergeEvent}`);
+}
+const v = classifyWrite({ keyadd, cast: castRes, readback, merge_event: mergeEvent });
 console.log(JSON.stringify(v));
 process.exit(EXIT[v.verdict]);
