@@ -37,7 +37,7 @@ Control tower: session infallible-mirzakhani-f58a2a (branch claude/tower-decisio
 
 | # | Question |
 |---|---|
-| E1 | Live sessions: 8 are running now (4 children from this fold plus drift sentry, field os weekly, jobs autorun, HUD audit), against the 4-session cap in memory `session-budget-discipline-cap-parallel-molt-long`. Should the tower hold new starts until it drops below 4? |
+| E1 | RULED 2026-10-19 (relayed from the funny-burnell session, not given in the tower session): HOLD. The tower starts no session, including the next jtbd-graph child, until fewer than 4 are running (cap: memory session-budget-discipline-cap-parallel-molt-long). |
 | E2 | RULED 2026-10-19 (relayed from the funny-burnell session, not given in the tower session): the "Session dependency hierarchy" session (local_5bd11219) and PR 1606 (assembly lines, local_e3ca00a6) both stay separate; the tower absorbs neither. |
 | E3 | Carried from handoff v3.140.0, items 1 to 12 (Amy draft, covers sent, Norm PDF, backup encryption, funnel kill on 10-22, eye-tracking stub, Perplexity exports, port candidates, Actions billing lines, ADR-088 VICO, trust or status wording, Lead index verdict). Their status has not changed. |
 
