@@ -1306,7 +1306,7 @@
     for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
     return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
   };
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1851,9 +1851,44 @@
   document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) elog("key", e.code); }, true);
   window.addEventListener("error", function (e) { elog("err", String(e.message || "").slice(0, 60)); });
   window.addEventListener("pagehide", elSave); document.addEventListener("visibilitychange", elSave); setInterval(elSave, 5000);
+  /* Recipe link: the recipe as text, deflated and put after the hash of this page's address, so it can be pasted anywhere. It holds control moves and actions only: no song, no file name. Nothing is sent; the hash never leaves the browser. A link opened here is never applied by itself: it waits for a press on Load, and every field is checked first. */
+  var SHARED = null, LINKMAX = 8000, SHAREIN = null, KNOWN = { fx: 1, pad: 1, key: 1, note: 1, play: 1, stop: 1, seek: 1, tempo: 1, song: 1, slices: 1, cells: 1 };
+  function b64e(u) { var s = "", i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+  function b64d(t) { var s = atob(t.replace(/-/g, "+").replace(/_/g, "/")), u = new Uint8Array(s.length), i; for (i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+  function zipRun(u, S) { var w = S.writable.getWriter(); w.write(u).catch(function () { /* surfaces on read */ }); w.close().catch(function () { /* surfaces on read */ }); var r = S.readable.getReader(), n = 0, parts = []; return (function pump() { return r.read().then(function (x) { if (x.done) { var o = new Uint8Array(n), k = 0; parts.forEach(function (p) { o.set(p, k); k += p.length; }); return o; } n += x.value.length; if (n > 1500000) { r.cancel(); throw new Error("too big"); } parts.push(x.value); return pump(); }); })(); }
+  function recSafe(rec) {
+    var ok = /^@?[A-Za-z0-9_-]{1,40}$/, ev = [], base = {}, k, bad = 0;
+    if (!rec || typeof rec.base !== "object" || !Array.isArray(rec.events) || rec.events.length > 20000) return null;
+    for (k in rec.base) if (ok.test(k) && (typeof rec.base[k] === "number" || (typeof rec.base[k] === "string" && rec.base[k].length < 200))) base[k] = rec.base[k];
+    rec.events.forEach(function (e) {
+      var id = Array.isArray(e) && e[2], good = Array.isArray(e) && typeof e[0] === "number" && isFinite(e[0]) && (e[1] === null || typeof e[1] === "number") && typeof id === "string" && ok.test(id) && JSON.stringify(e[3]).length < 6000;
+      if (good && id[0] === "@") good = !!KNOWN[id.slice(1)]; else if (good) good = !!($(id) || QA("input[name=\"" + id + "\"]").length);
+      if (good) ev.push([e[0], e[1], id, e[3]]); else bad++;
+    });
+    return { base: base, events: ev, dropped: bad };
+  }
+  function recLink() {
+    var t = recExport().split("\n").slice(1).join("\n");
+    return zipRun(new TextEncoder().encode(t), new CompressionStream("deflate-raw")).then(function (z) { return location.href.split("#")[0].split("?")[0] + "#r=" + b64e(z); });
+  }
+  function recOpen(h) {
+    if (!/^#r=[A-Za-z0-9_-]+$/.test(h || "") || h.length > LINKMAX + 4) return Promise.reject(new Error("not a recipe link"));
+    return zipRun(b64d(h.slice(3)), new DecompressionStream("deflate-raw")).then(function (u) { var r = recSafe(JSON.parse(new TextDecoder().decode(u))); if (!r) throw new Error("not a recipe"); return r; });
+  }
+  function shareShow() { $("rload").hidden = !SHAREIN; $("rdrop").hidden = !SHARED; }
+  $("rlink").addEventListener("click", function () {
+    var m = $("rnsum");
+    recLink().then(function (u) {
+      if (u.length > LINKMAX) { m.textContent = "This session is too long to fit in a link (" + u.length + " characters, limit " + LINKMAX + "). Clear the play log or record a shorter one."; return; }
+      try { navigator.clipboard.writeText(u).then(function () { m.textContent = "Recipe link copied (" + u.length + " characters). It carries your moves, not the song."; }, function () { m.textContent = "Copy was blocked here."; }); } catch (e) { m.textContent = "Copy was blocked here."; }
+    }, function () { m.textContent = "This browser cannot make a link."; });
+  });
+  $("rload").addEventListener("click", function () { if (!SHAREIN) return; SHARED = "Phosphor recipe v1\n" + JSON.stringify({ base: SHAREIN.base, events: SHAREIN.events }); $("rnsum").textContent = "Shared recipe loaded: " + SHAREIN.events.length + " events" + (SHAREIN.dropped ? ", " + SHAREIN.dropped + " dropped as unsafe" : "") + ". Render to WAV will use it on the song you have loaded."; SHAREIN = null; shareShow(); });
+  $("rdrop").addEventListener("click", function () { SHARED = null; $("rnsum").textContent = "Shared recipe dropped. Render to WAV uses your own session again."; shareShow(); });
+  if (/^#r=/.test(location.hash)) recOpen(location.hash).then(function (r) { SHAREIN = r; $("rnsum").textContent = "This link carries a recipe of " + r.events.length + " events. Press Load shared recipe in the grown-up controls to use it."; shareShow(); }, function () { $("rnsum").textContent = "That recipe link could not be read."; });
   $("rnb").addEventListener("click", function () {
     var b = $("rnb"), m = $("rnsum"); b.disabled = true; b.textContent = "Rendering"; m.textContent = "Rendering the session through the effect chain. Nothing is sent anywhere.";
-    recRender().then(function (o) {
+    recRender(SHARED || undefined).then(function (o) {
       var u = URL.createObjectURL(new Blob([recWav(o)], { type: "audio/wav" })), a = document.createElement("a"); a.href = u; a.download = "phosphor-session.wav"; document.body.appendChild(a); a.click(); a.remove();
       m.textContent = "Rendered " + (o.l.length / o.sr).toFixed(1) + " seconds. If nothing was saved, this page blocks downloads."; setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
     }, function (e) { m.textContent = "The render did not finish: " + e.message; }).then(function () { b.disabled = false; b.textContent = "Render to WAV"; });
