@@ -6,6 +6,7 @@ Read-only, stdlib, no model calls. Reads scripts/backlog_graph.py --json plus th
 fates stay human (NOTOMATION). First matching rule wins, and the rule that fired is printed.
 
 usage: line_triage.py [--all] [--json] [--self-test]
+  R1 requires the row field `mechanical: true` (author-declared); a resolving path alone gives R2.
   default lists wave-0 startable rows (ready_now); --all lists every active row.
 """
 import argparse, json, subprocess, sys
@@ -35,7 +36,9 @@ def level(node, row):
     if node.get("tool") == "PARTIAL":
         return "R2", "tool partly resolves"
     if node.get("tool") == "HAVE":
-        return "R1", "tool resolves, two-way, tier cue 2"
+        if row.get("mechanical") is True:
+            return "R1", "tool resolves, two-way, row marked mechanical"
+        return "R2", "tool resolves but no mechanical marker: a build, not a rule"
     return "R4", "unrecognised tool label, default to human"
 
 
@@ -64,7 +67,9 @@ def load():
 def self_test():
     base = {"state": "READY", "tool": "HAVE", "tier_cue": 2, "consent": None, "ready_now": True, "descendants": 0}
     cases = [
-        ({**base, "id": "x"}, {}, "R1"),
+        ({**base, "id": "x"}, {"mechanical": True}, "R1"),
+        ({**base, "id": "x"}, {}, "R2"),                            # a resolving path alone is not enough for R1
+        ({**base, "id": "x"}, {"mechanical": True, "door": "one-way"}, "R3"),
         ({**base, "id": "x"}, {"door": "one-way"}, "R3"),          # fail-on-bad: one-way door must never be R1
         ({**base, "id": "x", "tier_cue": 4}, {}, "R3"),
         ({**base, "id": "x", "tool": "NOT-RESOLVED"}, {}, "R-1"),

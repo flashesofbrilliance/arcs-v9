@@ -172,3 +172,14 @@ Cohort: sessions whose first message was `/handoff-pickup` (5 distinct of the 40
 Median net drag 296k (range 171k to 559k). Caveats: cache-creation grows with tool output, so this is a proxy for spend, not a bill; "first edit" counts as useful action even when the edit was the pickup's own bookkeeping; n=5, not a calibrated baseline. The 30 percent kill condition therefore reads: median under about 207k.
 
 Observation: boot alone is about 100k before any work, a fixed floor the loop cannot cut. Drag above the floor is 70k to 500k and tracks tool calls (5 to 60), not file reads. The cut lines should target calls, not reading.
+
+### Pilot lane B result (2026-10-18, inline, no child sessions)
+
+Resolved `route.tool` on 5 rows by hand (the 2 receipt-closing rows and 3 phosphor rows; prior prose kept in `route.prior_tool`). NOT-RESOLVED fell from 151 to 146, meeting the pre-registered threshold of 5.
+
+What it taught, and changed:
+- A resolving path alone made those rows triage as R1, which was wrong: they are builds or human-supplied work. R1 now requires the author-declared row field `mechanical: true`; a resolving path alone gives R2. No existing row carries the marker yet, so wave 0 has no R1 rows until someone marks one (R2=3, R3=3 today).
+- A brief's OWNS defaulted to the tool files (the build and check scripts), not the files the work edits. Rows may now declare `route.owns`; the three phosphor rows do. Tool files then move to read-only SSOT.
+- The overlap gate did its job: all the phosphor rows edit the same source files, so only one can be in a wave.
+- Cost note: the same 5 edits as child sessions would have cost about 100k boot + 170k drag each. Resolving routes is inline work; spawn children for builds.
+- Weak spot: "NOT-RESOLVED falls" measures that a path exists, not that it is the right tool. I chose the paths by reading each row; nobody else has checked them.

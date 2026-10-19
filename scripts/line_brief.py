@@ -29,16 +29,19 @@ def git(*a):
         return "UNCONFIRMED"
 
 
-def owns_for(level, node):
-    """Write scope. R-1 children write no file: they return the route.tool value as a row delta."""
+def owns_for(level, node, row=None):
+    """Write scope. R-1 children write no file: they return the route.tool value as a row delta.
+    A row may declare route.owns (the files its work edits); otherwise the resolved tool files are the scope."""
     if level == "R-1":
         return []
-    paths = [p for p in node.get("tool_resolved", []) if (ROOT / p).is_file() and not p.startswith(FORBIDDEN_WRITE)]
+    declared = ((row or {}).get("route") or {}).get("owns")
+    cand = declared if declared else node.get("tool_resolved", [])
+    paths = [p for p in cand if (ROOT / p).is_file() and not p.startswith(FORBIDDEN_WRITE)]
     return sorted(set(paths))
 
 
 def build(node, row, level, rule):
-    owns = owns_for(level, node)
+    owns = owns_for(level, node, row)
     if level in ("R1", "R2") and not owns:
         return None, "no writable resolved file in route.tool; triage R-1 first"
     sizes = {p: len((ROOT / p).read_text(errors="ignore").splitlines()) for p in owns}
@@ -96,13 +99,27 @@ def make_wave(ids, nodes, rows):
     return briefs, refused
 
 
+def self_test_owns():
+    """route.owns overrides the tool files; two rows declaring the same owned file collide."""
+    n1 = {"id": "p1", "state": "OPEN", "tool": "HAVE", "tier_cue": 2, "consent": None, "ready_now": True, "descendants": 0,
+          "tool_resolved": ["scripts/line_triage.py"]}
+    n2 = {**n1, "id": "p2"}
+    rows = {i: {"mechanical": False, "route": {"owns": ["scripts/line_brief.py", "_QUEUE/induced-backlog.jsonl"]}} for i in ("p1", "p2")}
+    briefs, refused = make_wave(["p1", "p2"], [n1, n2], rows)
+    return [
+        ("route.owns replaces tool files and drops hot files", len(briefs) == 1 and briefs[0]["owns"] == ["scripts/line_brief.py"]),
+        ("tool file moves to SSOT", briefs[0]["ssot"] == ["scripts/line_triage.py"]),
+        ("second row on the same owned file refused", any(i == "p2" and "overlap" in w for i, w in refused)),
+    ]
+
+
 def self_test():
     N = lambda i, tool="HAVE", paths=(), **k: {"id": i, "state": "READY", "tool": tool, "tier_cue": 2, "consent": None, "ready_now": True, "descendants": 0, "tool_resolved": list(paths), **k}
     real = "scripts/line_triage.py"
     nodes = [N("a", paths=[real]), N("b", paths=[real]), N("c", tool="NOT-RESOLVED"), N("d", tier_cue=4, paths=[real]),
              N("e", paths=["_QUEUE/induced-backlog.jsonl"]), N("filing-x", paths=[real])]
     nodes[3]["tier_cue"] = 4
-    briefs, refused = make_wave(["a", "b", "c", "d", "e", "filing-x"], nodes, {})
+    briefs, refused = make_wave(["a", "b", "c", "d", "e", "filing-x"], nodes, {i: {"mechanical": True} for i in "abde"})
     got = {b["row"].get("id", b["title"]): b for b in briefs}
     ok = [
         ("a gets a brief", any(b["title"] == "Close a" for b in briefs)),
@@ -114,6 +131,7 @@ def self_test():
         ("no brief ever owns a hot file", all(not p.startswith(FORBIDDEN_WRITE) for b in briefs for p in b["owns"])),
         ("rendered brief carries all template sections", all(s in render(briefs[0]) for s in ("TITLE:", "AS-OF", "ROW:", "OWNS", "SSOT", "DONE LOOKS LIKE:", "DO NOT:", "RETURN CONTRACT:", "FIRST MOVE:"))),
     ]
+    ok += self_test_owns()
     bad = [n for n, v in ok if not v]
     if bad:
         print("self-test FAILED:", bad); return 1
