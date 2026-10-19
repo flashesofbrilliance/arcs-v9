@@ -303,6 +303,7 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
       <li><a href="#premortem">3 Pre-mortem</a></li>
       <li><a href="#path">4 Critical path</a></li>
       <li><a href="#guardrails">5 Guardrails</a></li>
+      <li><a href="#ramps">6 Ramps</a></li>
     </ol>
   </nav>
 
@@ -420,6 +421,28 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
         <div><dt>Slow to every other week</dt><dd>In hypercare, when alerts are quiet and the measure holds for two weeks. Any new incident returns it to weekly.</dd></div>
         <div><dt>Stop and decide</dt><dd>If committed days or budget would be exceeded before the next gate, work pauses on that item until the director picks: cut scope, add time, or fund phase two.</dd></div>
       </dl>
+    </section>
+
+    <section class="wide" id="ramps">
+      <h2>6 · On-ramps, off-ramps and workback</h2>
+      <p class="take">Staffing follows readiness, feedback follows the calendar, and every exit leaves the work runnable.</p>
+      <dl class="map">
+        <div><dt>On-ramp</dt><dd>Part-time until three things are true: written access, a signed measure, two named clerks. Then full build pace. Before that, time goes to discovery and the other deployments in flight.</dd></div>
+        <div><dt>Pause off-ramp</dt><dd>Blocked more than five working days: shift time to another deployment, keep the weekly line going, and name the one decision that unblocks it and who owns it.</dd></div>
+        <div><dt>Planned off-ramp</dt><dd>Hand off, then hypercare with alerts and a runbook, then anything one-off goes into the shared library. The client never depends on one person's memory.</dd></div>
+        <div><dt>Early off-ramp</dt><dd>If the measure cannot be reached (for example the delay is policy, not software), say so at the next gate, ship what holds up, and write the phase-two case instead of stretching phase one.</dd></div>
+      </dl>
+      <div class="scroll" style="margin-top:16px">
+      <table class="ledger">
+        <thead><tr><th>Workback from each gate</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td>Demo to the users who will run it</td><td class="s">Gate minus 10 days</td></tr>
+          <tr><td>Feedback due, two revision rounds at most</td><td class="s">Gate minus 7 days</td></tr>
+          <tr><td>Scope freeze; later requests queue for the next phase</td><td class="s">Gate minus 5 days</td></tr>
+          <tr><td>Sign-off rehearsal with the sponsor</td><td class="s">Gate minus 2 days</td></tr>
+        </tbody>
+      </table>
+      </div>
     </section>
   </div>
 
