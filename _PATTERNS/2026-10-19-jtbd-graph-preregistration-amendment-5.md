@@ -1,4 +1,4 @@
-# JTBD graph pre-registration, amendment 4 (2026-10-19)
+# JTBD graph pre-registration, amendment 5 (2026-10-19; number 4 is PR 1666)
 
 Amends the s3 section of `_PATTERNS/2026-10-18-jtbd-graph-preregistration.md`. No threshold changes: every
 rule stays zero-tolerance. Written by the s3 child (row `jtbd-graph-s3-gates`).

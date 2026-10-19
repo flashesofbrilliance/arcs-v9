@@ -1,5 +1,5 @@
 {
- "status": "PROPOSED 2026-10-19, needs Zach's approval (row jtbd-graph-s3-gates; amendment 4). Known violations on main when the s3 gate was wired. The rules have zero tolerance; ids listed here are held so the gate is green on main. The list may only shrink: --check fails on a held id that no longer violates (STALE-BASELINE) and on any id that is not in the first committed version of this file (BASELINE-GREW).",
+ "status": "PROPOSED 2026-10-19, needs Zach's approval (row jtbd-graph-s3-gates; amendment 5). Known violations on main when the s3 gate was wired. The rules have zero tolerance; ids listed here are held so the gate is green on main. The list may only shrink: --check fails on a held id that no longer violates (STALE-BASELINE) and on any id that is not in the first committed version of this file (BASELINE-GREW).",
  "counted_at": "2026-10-19 on origin/main 4beca333",
  "rules": {
   "ORPHAN-TOOL": [

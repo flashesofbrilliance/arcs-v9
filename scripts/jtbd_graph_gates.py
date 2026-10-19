@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """jtbd_graph_gates: the six Sprint 3 integrity rules over the JTBD graph (row jtbd-graph-s3-gates, ADR-089).
 
-Rules (defined in _PATTERNS/2026-10-19-jtbd-graph-preregistration-amendment-4.md; zero tolerance, no threshold):
+Rules (defined in _PATTERNS/2026-10-19-jtbd-graph-preregistration-amendment-5.md; zero tolerance, no threshold):
   ORPHAN-TOOL           a tool whose live component holds no job
   ORPHAN-JOB            a job whose live component holds no tool and no dep
   BLOCKER-NO-RESOLVE-BY a blocker atom without a real YYYY-MM-DD resolve_by

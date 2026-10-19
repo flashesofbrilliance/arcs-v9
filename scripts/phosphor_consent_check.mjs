@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// phosphor_consent_check.mjs: the first-load consent splash on the hosted page (amendment 40). Usage: node scripts/phosphor_consent_check.mjs <page.html>
+// phosphor_consent_check.mjs: the first-load consent splash on the hosted page (amendment 50). Usage: node scripts/phosphor_consent_check.mjs <page.html>
 import { chromium, devices } from 'playwright'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
