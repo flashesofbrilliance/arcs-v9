@@ -449,6 +449,12 @@ def edge_self_test():
             got = ge.env_hard(Ls, 0, "index" if m.group(4) or m.group(2) else "get")
             print(f"env-read case {Ls[0][:44]!r}: {'ok' if got == want else 'WRONG'}")
             ok &= got == want
+        for txt, want in (("Run scripts/a.py --check first.", 1), ("Same lesson as the /rca capture step.", 0),
+                          ("x was superseded by scripts/a.py.", 0), ("Removed: 11 cites whose target now exists (a.py).", 0),
+                          ("/prior-art and /catalog call it.", 0), ("Uses a.py. Same shape as b.py.", 1)):
+            got = len([x for x in ge.SENTENCE.split(ge.row_sentences(txt)) if "a.py" in x or "rca" in x or "catalog" in x])
+            print(f"row-cite sentence {txt[:40]!r}: {'ok' if got == want else 'WRONG'}")
+            ok &= got == want
         for f, line, want_n in cases:
             n = len(ge.run_paths(line, f, rr))
             good_case = n == want_n

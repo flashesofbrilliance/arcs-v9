@@ -11,7 +11,8 @@ Mechanical rules
                              (NEW, extend, edit, add, wire, fix, Step N, file:line), is the job's target: job -> tool
   blocks       blocked-row   blocker:backlog:X -> job:backlog:X ; and -> job:backlog:Y when Y.depends_on has X
   needs        depends-on    job -> job from depends_on
-  needs        row-cite      a row's text (route excluded) names a tool path/basename, an env var or a quoted npm package
+  needs        row-cite      a row's text (route excluded) names a tool path/basename, an env var or a quoted npm package,
+                             except in a sentence that names it as an analogy, history or a caller (round 9)
   design-dep   operator-bind tool:operator:<file> -> tool:op:<n> (registry binding.module, s1)
   design-dep   py-import     `import x` / `from x import` resolving to a cataloged scripts/ or operators/ file
   design-dep   js-import     import/require of an npm package that is a dep:npm atom
@@ -155,6 +156,17 @@ def env_hard(L, i, form):
     return any(ENV_FAIL.search(l) for l in L[i:i + 4])
 
 
+# round 9 exhaustive: a row sentence that names a path as an analogy, as history, or as a caller of the job
+ROW_NOT_USED = re.compile(r"\bsame\s+(lesson|shape|invariant|idea|pattern|pitfall)\s+as\b|\bsuperseded\b|\bremoved\b|"
+                          r"\bnow exists\b|\breplaced by\b|\binstead of\b|\bcalls? (it|this)\b|\bwill call\b", re.I)
+SENTENCE = re.compile(r"(?<=[.!?;])\s+|\s+\|\|\s+|\\n")
+
+
+def row_sentences(text):
+    """Sentences of a row's text that may state what the job uses (ROW_NOT_USED sentences dropped)."""
+    return " ; ".join(x for x in SENTENCE.split(text) if not ROW_NOT_USED.search(x))
+
+
 def _soft(L, i):
     """True when line i is guarded: shell fallback on the line, or a Python try: opening within 3 lines above."""
     if SOFT_SH.search(L[i]):
@@ -248,7 +260,7 @@ def build_edges(root, atoms, rows, op_edges):
                 if row_by.get(d, (0, {}))[1].get("state") == "BLOCKED":
                     edges.append(_edge(f"blocker:backlog:{d}", jid, "blocks", f"backlog:{r['id']}", d, "blocked-row"))
         rest = {k: v for k, v in r.items() if k not in ("route", "id", "depends_on", "unblocks")}
-        text = json.dumps(rest, ensure_ascii=False)
+        text = row_sentences(json.dumps(rest, ensure_ascii=False))
         for tid, m in name_hits(text):
             edges.append(_edge(jid, tid, "needs", f"backlog:{r['id']}", m, "row-cite"))
         if env_word:
