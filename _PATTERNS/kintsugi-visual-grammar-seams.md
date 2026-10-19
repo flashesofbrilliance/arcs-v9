@@ -21,6 +21,12 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-10-19 · the generated Tao corpus page carried 303 undersized-text findings, and its low-contrast greys were hidden by that same undersizing
+- break: regenerating `_ARTIFACTS/arcs-tao-corpus.html` (241 to 272 proverbs) raised the design findings from 286 to 343, and the pre-commit ratchet blocked the commit. 303 of the 343 were one defect: functional text below the 11px floor (8.96px, 9.28px, 10.56px) on the chips, card meta, wordmark and footer. The 31 added cards simply repeated it.
+- found by: the kintsugi pre-commit ratchet; then the headless a11y sweep, which showed axe colour-contrast violations jumping from 13 to 285 once the text reached 11px. At 8.96px axe had not evaluated the card meta text, so the page's `--dim` (#64748b, about 4.3:1) and `--mut` (#475569) greys were failing contrast unseen.
+- repair: `scripts/gen_tao_corpus.py` raises the six sub-11px `font-size` declarations to `.6875rem` and sets `--dim` and `--mut` to the repo's AA values (#8391a7 and #7a8699, the "dimmed" and "muted" tokens raised 2026-10-04). Regenerated page: detector findings 343 to 37 (undersized text 303 to 0); axe colour-contrast 13 to 0.
+- guard: the kintsugi pre-commit ratchet (net-new design debt blocks) plus the axe sweep in `scripts/page_gate.py`. Not fixed and not guarded here: the page still has no doctype, charset or viewport, 28 all-caps findings, and a 20px overflow at 790 and 1280px wide; those were already on the live page.
+
 ## 2026-10-09 · WCAG mechanical batch: lang, zoom, names, roles, focusable scroll boxes, underlined prose links
 
 Found by: axe over every served page (non-contrast rules), grouped by rule and element.
