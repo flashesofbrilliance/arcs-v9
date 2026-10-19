@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { surface, border, signal } from "@/ui/tokens"
+import { surface, border, signal, text } from "@/ui/tokens"
 import { REASONS, FATES, type FateKey } from "@/lib/lane-outcome"
 
 // Compass Lane — three wired surfaces over the live job-search lane.
@@ -13,7 +13,7 @@ import { REASONS, FATES, type FateKey } from "@/lib/lane-outcome"
 // Inline styles only; AA-clean text (secondary #94a3b8, never muted on this ground).
 
 const mono = "'JetBrains Mono', ui-monospace, monospace"
-const fg1 = "#e2e8f0", fg2 = "#94a3b8"
+const fg1 = text.primary, fg2 = text.secondary
 const PANEL = "linear-gradient(160deg,#ffffff0d,#ffffff03 38%,#0000002e), linear-gradient(165deg,#11181f,#0a1016)"
 const BEVEL = "inset 0 1px 0 #ffffff1a, inset 0 -2px 8px #00000080, 0 5px 16px #00000073"
 

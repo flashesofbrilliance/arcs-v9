@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react"
+import { signal } from "@/ui/tokens"
 
 // ── CSS variables + keyframes injected once ───────────────────────────────────
 const OBS_CSS = `
@@ -22,7 +23,7 @@ const OBS_CSS = `
 `
 
 // ── Data ──────────────────────────────────────────────────────────────────────
-const C = { cyan:"#00F0FF", green:"#00FF9D", gold:"#FFD700", orange:"#ff9d3c", red:"#FF4D6D", steel:"#94a3b8" }
+const C = { cyan: signal.cyan, green: signal.green, gold: signal.gold, orange: signal.orange, red: signal.red, steel: signal.steel }
 const REPO = "https://github.com/flashesofbrilliance/arcs-v9/commit/"
 const REPO_BASE = "https://github.com/flashesofbrilliance/arcs-v9"
 const PROV_LEDGER = `${REPO_BASE}/blob/main/docs/provenance-ledger.md`
