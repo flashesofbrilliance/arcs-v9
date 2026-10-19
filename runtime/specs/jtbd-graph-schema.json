@@ -56,7 +56,7 @@
       "tool:surface": {
         "source": "runtime/specs/surface-catalog.json",
         "key": "rows[].host + rows[].path",
-        "pattern": "^tool:surface:[a-z0-9.*-]+/[^\\s]*$"
+        "pattern": "^tool:surface:[a-z0-9.-]+/[^\\s]*$"
       },
       "job:backlog": {
         "source": "_QUEUE/induced-backlog.jsonl",

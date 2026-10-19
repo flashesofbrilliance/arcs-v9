@@ -41,6 +41,7 @@ OUT = "_STATE/jtbd-graph"
 JOB_RE = re.compile(r"jtbd|jobs? to be done|jobs?-to-be-done", re.I)
 PAT_EXCLUDE = {"2026-10-18-jtbd-graph-preregistration", "2026-10-18-jtbd-s1-mined-job-rule"}
 SEED = 20261018
+SURF_HOST_RE = re.compile(r"^[a-z0-9.-]+$")
 
 
 class SourceDup(Exception):
@@ -99,13 +100,18 @@ def operators(root):
 def surfaces(root):
     d = json.load(open(os.path.join(root, SURF))); L = _lines(root, SURF)
     _dups([(r["host"], r["path"]) for r in d["rows"]], SURF)
-    cur = _seek(L, 0, '"rows": [', "rows[]"); out = []
+    cur = _seek(L, 0, '"rows": [', "rows[]"); out, unresolved = [], []
     for r in d["rows"]:
         cur = _seek(L, cur + 1, f'"host": {json.dumps(r["host"])}', r["host"])
         key = r["host"] + r["path"]
+        if not SURF_HOST_RE.match(r["host"]):
+            # host '*' (catch-all) fails the write-locked id pattern; held for Zach's id decision, counted not dropped
+            unresolved.append({"namespace": "tool:surface", "key": key, "source": {"catalog": SURF, "line": cur + 1},
+                               "why": "host fails tool:surface id pattern (write-locked, ADR-089)"})
+            continue
         out.append(atom(f"tool:surface:{key}", "tool", SURF, key, cur + 1,
                         title=r.get("purpose") or r.get("title"), path=r.get("file")))
-    return out, d
+    return out, d, unresolved
 
 
 def npm(root):
@@ -173,7 +179,7 @@ def mined(root, mem_dir):
 
 
 def build(root, with_mined=False, mem_dir=MEM_DIR):
-    t, tcat = tools(root); o, binds = operators(root); s, scat = surfaces(root)
+    t, tcat = tools(root); o, binds = operators(root); s, scat, unres = surfaces(root)
     n, npm_n = npm(root); j, b, rows = backlog(root)
     atoms = t + o + s + n + j + b
     file_of = {a["path"]: a["id"] for a in t if a["id"].startswith("tool:operator:")}
@@ -190,11 +196,14 @@ def build(root, with_mined=False, mem_dir=MEM_DIR):
     skipped = []
     if with_mined:
         m, skipped = mined(root, mem_dir); atoms += m
-    return {"atoms": atoms, "edges": edges}, expected, binds, skipped
+    unres += [{"namespace": "job:memory", "key": f, "source": {"catalog": MEM_CAT, "line": None},
+               "why": "matches the mined-job rule but has no top-of-file front-matter name"} for f in skipped]
+    return {"atoms": atoms, "edges": edges, "unresolved": unres}, expected, binds, skipped
 
 
 def reconcile(graph, expected):
     got = collections.Counter(":".join(a["id"].split(":", 2)[:2]) for a in graph["atoms"])
+    got.update(u["namespace"] for u in graph.get("unresolved", []) if u["namespace"] in expected)
     rows = [(ns, expected.get(ns), got.get(ns, 0)) for ns in sorted(set(expected) | set(got))]
     bad = [r for r in rows if r[1] is not None and r[1] != r[2]]
     return rows, bad
@@ -257,6 +266,9 @@ def run(root, with_mined, mem_dir, out_dir, quiet=False):
         print("namespace            expected  emitted")
         for ns, e, g in rows:
             print(f"  {ns:18} {str(e if e is not None else '(mined)'):>8} {g:>8}")
+        for u in graph["unresolved"]:
+            print(f"  UNRESOLVED {u['namespace']} {u['key']} ({u['why']})")
+        print(f"emitted counts include {len(graph['unresolved'])} unresolved (held, not atoms)")
         print(f"atoms {len(graph['atoms'])} · design-dep operator edges {len(graph['edges'])}")
         print(f"reconcile: {'EXACT' if not bad_counts else bad_counts}")
         print(f"cited lines: {len(graph['atoms']) - len(bad_lines)}/{len(graph['atoms'])} resolve" + (f" BAD {bad_lines[:5]}" if bad_lines else ""))
@@ -308,8 +320,8 @@ def self_test():
         ids = sorted(a["id"] for a in g["atoms"])
         want = ["blocker:backlog:row-b", "dep:npm:@types/node", "dep:npm:next", "job:backlog:row-a", "job:backlog:row-b",
                 "job:memory:m-one", "job:pattern:p1", "tool:op:1", "tool:operator:op_x.py", "tool:script:a.py",
-                "tool:surface:*/x", "tool:surface:a.arcs.care/"]
-        good = good and ids == want and len(g["edges"]) == 1
+                "tool:surface:a.arcs.care/"]
+        good = good and ids == want and len(g["edges"]) == 1 and [u["key"] for u in g["unresolved"]] == ["*/x"]
         print(f"good fixture: {'PASS' if good else 'FAIL'} ({len(ids)} atoms, {len(g['edges'])} edges)")
         ok &= good
         g["atoms"][0]["source"]["line"] += 1
