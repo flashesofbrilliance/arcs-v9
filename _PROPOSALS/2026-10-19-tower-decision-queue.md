@@ -6,7 +6,7 @@ Control tower: session infallible-mirzakhani-f58a2a (branch claude/tower-decisio
 
 | # | Decision | Unblocks | Source |
 |---|---|---|---|
-| A1 | Rule D1 to D5 of `_PROPOSALS/2026-10-15-hud-moire-audit.json` | 11 HUD rows (all HOLDING or BLOCKED behind hud-proposals-ruling) | backlog row hud-proposals-ruling |
+| A1 | RULED 2026-10-19 by Zach in the tower: C0 and D1-D5 all as recommended, phased (1: D2+D3, 2: registry then D1 admin-only, 3: D4). Releases 9 rows by the graph (the earlier 11 was my miscount). | hud-proposals-ruling DONE; new row hud-evidence-grain-d4 |
 | A2 | Compass anti-distillation options (memo arriving from the compass child session) | compass-anti-distillation-build | row compass-anti-distillation-decisions (P0) |
 | A3 | ADR-085 accept or re-decide (merge train vs bypass) | merge-train-only-path, doc-gates-blocking | row adr-085-acceptance-redecide (trigger date 10-13 passed) |
 | A4 | Fates for the past-review_by rows (the hygiene child brings a proposed table) | about 43 rows | row backlog-fate-triage-2026-10-18 |
