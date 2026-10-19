@@ -55,7 +55,7 @@ const SCREEN_INSET = "inset 0 2px 5px rgba(0,0,0,.55), inset 0 -1px 0 rgba(255,2
 
 const labelStyle: React.CSSProperties = { fontFamily: mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: fg4 }
 const smallLabel: React.CSSProperties = { fontFamily: mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: fg4 }
-const ctl: React.CSSProperties = { minHeight: 36, padding: "0 12px", background: SCREEN, border: `1px solid #1c2736`, borderRadius: radius.sm, color: fg1, fontFamily: sans, fontSize: font.ramp.body, boxShadow: SCREEN_INSET }
+const ctl: React.CSSProperties = { minHeight: 36, padding: "0 10px", background: SCREEN, border: `1px solid #1c2736`, borderRadius: radius.sm, color: fg1, fontFamily: sans, fontSize: font.ramp.body, boxShadow: SCREEN_INSET }
 
 const TITLE_SIGNALS = ["forward deployed", "fde", "applied ai", "ai engineer", "ml engineer", "machine learning", "deployment", "solutions engineer", "solutions architect", "product engineer", "founding engineer", "genai", "gen ai", "llm", "agent", "ai/ml", "developer", "swe", "software engineer"]
 function isSleeper(r: Row, spec: Spec | null): boolean {
@@ -370,11 +370,11 @@ export function JobsBoard() {
           <select aria-label="Company type" value={f.co} onChange={(e) => setF({ ...f, co: e.target.value })} style={ctl}><option value="all">Any company</option>{Object.entries(COTYPE).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>
           <select aria-label="Tag" value={f.tag} onChange={(e) => setF({ ...f, tag: e.target.value })} style={ctl} title="Filter by a computed tag: Moat / Sleeper (leverage & hidden-fit), or role-shape flavor"><option value="all">Any tag</option>{TAG_OPTIONS.map((t) => <option key={t} value={t}>{t}</option>)}</select>
           <select aria-label="Sort by" value={sort.key} onChange={(e) => { const k = e.target.value as "score" | "leverage" | "company" | "date"; setSort({ key: k, dir: k === "company" ? "asc" : "desc" }) }} style={ctl} title="Fit = would he do well here. Leverage = is his rare combination an unfair moat here."><option value="score">Sort: Fit score</option><option value="leverage">Sort: Leverage</option><option value="company">Sort: Company</option><option value="date">Sort: Newest listed</option></select>
-          <input type="search" placeholder="Search role or company" aria-label="Search" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} style={{ ...ctl, flex: "1 1 160px", minWidth: 160 }} />
+          <input type="search" placeholder="Search role or company" aria-label="Search" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} style={{ ...ctl, flex: "1 1 140px", minWidth: 140 }} />
           <label style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: font.ramp.label, color: fg3, flexBasis: phone ? "100%" : undefined }}>Seen <input type="date" aria-label="Seen from" value={f.from} onChange={(e) => setF({ ...f, from: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /> to <input type="date" aria-label="Seen to" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })} style={{ ...ctl, padding: "0 8px", colorScheme: "dark" }} /></label>
           <span style={{ flex: 1 }} />
-          <span style={{ fontSize: font.ramp.body, color: fg3, whiteSpace: "nowrap" }}>{visible.length} of {scored.length}</span>
-          <button onClick={() => setF({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })} style={{ background: "none", border: 0, color: signal.cyan, cursor: "pointer", fontSize: font.ramp.body }}>Reset</button>
+          <span style={{ fontSize: font.ramp.label, color: fg3, whiteSpace: "nowrap" }}>{visible.length} of {scored.length}</span>
+          <button onClick={() => setF({ tier: "all", swipe: "all", ats: "all", arch: "all", co: "all", tag: "all", q: "", from: "", to: "" })} style={{ background: "none", border: 0, color: signal.cyan, cursor: "pointer", fontSize: font.ramp.label }}>Reset</button>
           <Button variant="ghost" size="sm" onClick={() => { setLabOpen((o) => { const n = !o; if (n && !weights) setWeights(Object.fromEntries(DIMS.map((d) => [d.key, d.weight]))); return n }) }} aria-expanded={labOpen}>{labOpen ? "Close lab" : weights ? "Weight lab ●" : "Weight lab"}</Button>
           <Button variant="ghost" size="sm" onClick={() => setAdding((a) => !a)} aria-expanded={adding}>{adding ? "Close" : "+ Add a row"}</Button>
         </div>

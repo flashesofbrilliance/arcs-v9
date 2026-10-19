@@ -266,7 +266,7 @@ function ControlBar({mode,setMode,focus,setFocus,sevFocus,setSevFocus,view,setVi
       <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
         <Dropdown label="View" value={mode} options={MODE_OPTS} onChange={v=>setMode(v as string)} accent={C.cyan} minWidth={190}/>
         <Dropdown label="Focus" value={focusVal} options={focusOpts} onChange={v=>focusSet(v as string)} accent={C.cyan} minWidth={188}/>
-        {periodShown&&<Dropdown label={isRisk?"Window":"Group"} value={periodVal} options={periodOpts} onChange={periodSet} accent={C.cyan} minWidth={130}/>}
+        {periodShown&&<Dropdown label={isRisk?"Window":"Group"} value={periodVal} options={periodOpts} onChange={periodSet} accent={C.cyan} minWidth={160}/>}
         <Sep/>
         <Ctl active={legendOpen} accent={C.cyan} onClick={()=>setLegendOpen(v=>!v)}>legend <span style={{display:"inline-block",fontSize:font.ramp.label,color:"#707e92",transform:legendOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</span></Ctl>
         <Sep/>
