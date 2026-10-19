@@ -19,6 +19,11 @@ over outputs that do not exist yet.
   by `random.Random(20261018)` over the sorted id list must each resolve to that line.
 - `scripts/jtbd_graph_schema_check.py` reports 0 findings on the emitted graph.
 - A SOURCE-DUP (duplicate natural key in one source) fails s1 until fixed at source.
+- Every `tool:operator:<file>` atom whose file the registry binds has exactly one `design-dep`
+  edge to its `tool:op:<n>`; a missing or second link fails s1.
+- Reproducibility caveat: `job:memory` atoms come from `~/.claude/projects/...`, outside the repo.
+  Their exact-count reconciliation runs only on Zach's machine; CI checks the other namespaces.
+  The s1 PR reports the memory count with the machine and date it ran on.
 - Mined jobs (memory, _PATTERNS) are emitted only for files that state a job; the rule for
   "states a job" is written in the s1 PR before the miner runs, and Zach's labelling pass on a
   sample of 30 (same seed) must agree with the miner on at least 24 of 30 (80%), else the

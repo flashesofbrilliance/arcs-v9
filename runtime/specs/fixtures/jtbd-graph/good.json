@@ -53,6 +53,15 @@
     "key": "next",
     "line": 20
    }
+  },
+  {
+   "id": "tool:operator:arcs_librarian.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "arcs_librarian.py",
+    "line": 1
+   }
   }
  ],
  "edges": [
@@ -90,6 +99,15 @@
    "type": "design-dep",
    "evidence": [
     "import:operators/arcs_librarian.py:40"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "tool:operator:arcs_librarian.py",
+   "to": "tool:op:21",
+   "type": "design-dep",
+   "evidence": [
+    "operators/OPERATOR-REGISTRY.json:1"
    ],
    "inferred": false
   }
