@@ -14,7 +14,8 @@ Mechanical rules
   design-dep   operator-bind tool:operator:<file> -> tool:op:<n> (registry binding.module, s1)
   design-dep   py-import     `import x` / `from x import` resolving to a cataloged scripts/ or operators/ file
   design-dep   js-import     import/require of an npm package that is a dep:npm atom
-  design-dep   cite          a tool file names another tool's full path (neighbor_scan.py citer rule, full path only;
+  design-dep   cite          a tool file RUNS another tool's full path on that line (python3/bash/node/./ path, or an
+                             argv list); bare prose mentions give no edge (round 3). Also (neighbor_scan.py citer rule, full path only;
                              skipped: CITE_NOISE pages, lines with direction words (writes, emits, generated, feeds,
                              checks...), and script/operator -> surface, which is generator or gate, not written against)
   runtime-dep  env-read      process.env.X / os.environ[...] / os.getenv for an env var that is a dep:env atom
@@ -34,13 +35,16 @@ INFERRED = "runtime/specs/jtbd-graph-inferred-edges.json"
 
 # slug -> (needle on the AGENTS.md line that declares it, call-signature regex in a tool file)
 SERVICES = {
-    "anthropic": ("Anthropic SDK", r"from anthropic import|^\s*import anthropic\b|@anthropic-ai/sdk|api\.anthropic\.com"),
+    "anthropic": ("Anthropic SDK", r"from anthropic import|^\s*import anthropic\b|@anthropic-ai/sdk"),
     "database": ("Supabase (prod)", r"""from ["']@/lib/db["']|@prisma/client|^\s*import psycopg|from supabase import|@supabase/supabase-js"""),
-    "resend": ("Magic link emails via Resend", r"""from ["']resend["']|next-auth/providers/resend|api\.resend\.com"""),
+    "resend": ("Magic link emails via Resend", r"""from ["']resend["']|next-auth/providers/resend"""),
     "github": ("gh pr merge --merge", r"""\[\s*["']gh["']\s*,|api\.github\.com|^\s*gh (pr|api|run|repo) """),
     "vercel": ("Vercel `get_deployment", r"""\[\s*["']vercel["']\s*,|api\.vercel\.com|^\s*(npx )?vercel """),
     "perplexity-mcp": ("Perplexity MCP |", r"api\.perplexity\.ai"),
 }
+# round 3 (seed 20261020): prose mentions carry no reliable direction ("produced by", "covers", banners, ALLOW
+# lists, wrapped lines). A mechanical cite now needs the cited path to be RUN on that line.
+INVOKE = r"""(?:python3?|bash|sh|node|npx\s+tsx|tsx|zsh)\s+(?:-\S+\s+)*|\./|["'](?:python3?|bash|sh|node)["']\s*,\s*["']"""
 CODE_EXT = (".py", ".ts", ".tsx", ".js", ".mjs", ".cjs", ".sh")
 ENV_RE = re.compile(r"""process\.env\.([A-Z][A-Z0-9_]*)|process\.env\[["']([A-Z][A-Z0-9_]*)["']\]|os\.environ\.get\(\s*["']([A-Z][A-Z0-9_]*)|os\.environ\[\s*["']([A-Z][A-Z0-9_]*)|os\.getenv\(\s*["']([A-Z][A-Z0-9_]*)""")
 PY_IMP = re.compile(r"^\s*(?:from\s+([A-Za-z_][\w.]*)\s+import\b|import\s+([A-Za-z_][\w.]*(?:\s*,\s*[A-Za-z_][\w.]*)*))")
@@ -140,6 +144,7 @@ def build_edges(root, atoms, rows, op_edges):
             inv.setdefault("/" + a["id"].split(":", 2)[2], []).append(a["id"])
     paths_sorted = sorted(by_path, key=len, reverse=True)
     path_re = re.compile("|".join(re.escape(p) for p in paths_sorted)) if paths_sorted else None
+    run_re = re.compile(r"(?:" + INVOKE + r")(" + "|".join(re.escape(p) for p in paths_sorted) + r")(?![\w./-])") if paths_sorted else None
     base_re = re.compile(r"(?<![\w/.-])(" + "|".join(re.escape(b) for b in sorted(base, key=len, reverse=True)) + r")(?![\w-])") if base else None
     inv_re = re.compile(r"(?<![\w/.-])(" + "|".join(re.escape(i) for i in sorted(inv, key=len, reverse=True)) + r")(?![\w/-])") if inv else None
 
@@ -210,17 +215,17 @@ def build_edges(root, atoms, rows, op_edges):
         code = p.endswith(CODE_EXT)
         for i, line in enumerate(L):
             ev = f"{p}:{i + 1}"
-            if path_re and p not in CITE_NOISE and not CITE_DIRECTION.search(line):
-                for m in path_re.finditer(line):
-                    if m.group(0) == p:
+            if run_re and p not in CITE_NOISE and not CITE_DIRECTION.search(line):
+                for m in run_re.finditer(line):
+                    if m.group(1) == p:
                         continue
                     for fr in tids:
-                        for to in by_path[m.group(0)]:
+                        for to in by_path[m.group(1)]:
                             # a script naming a surface is its generator or its gate, never written against it
                             if fr.startswith(("tool:script:", "tool:operator:")) and to.startswith("tool:surface:"):
                                 continue
                             if to != fr:
-                                edges.append(_edge(fr, to, "design-dep", ev, m.group(0), "cite"))
+                                edges.append(_edge(fr, to, "design-dep", ev, m.group(1), "cite"))
             if not code:
                 continue
             if p.endswith(".py"):
@@ -253,6 +258,7 @@ def build_edges(root, atoms, rows, op_edges):
                 # import-signature services always; CLI/API services (github, vercel, perplexity) only from a set -e shell
                 # line with no guard on its logical line. Python subprocess/urlopen calls: failure handling (returncode,
                 # try, or-defaults) cannot be settled by the shell, so no mechanical edge (round 2, 7 of 18 failed soft)
+                # import signatures only for Python/TS (URL constants are not calls; round 3: slop_eval.py:62)
                 hard = s in HARD_SVC and not _soft(L, i)
                 if s not in HARD_SVC and p.endswith(".sh"):
                     hard = any(l.strip().startswith("set -e") for l in L[:20]) and not SOFT_SH.search(_logical(L, i))

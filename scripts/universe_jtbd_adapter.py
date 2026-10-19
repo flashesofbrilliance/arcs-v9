@@ -330,7 +330,7 @@ def _fixture(tmp, dup=False):
                                                  json.dumps({"id": "row-b", "state": "BLOCKED"}) + "\n")
     os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "src/lib"))
     open(os.path.join(tmp, "scripts/a.py"), "w").write('# emits operators/op_x.py\nimport anthropic\nimport op_x\nimport os\nU = os.environ.get("DATABASE_URL")\nsubprocess.run(["gh", "pr", "list"])\ntry:\n    subprocess.run(["vercel", "ls"])\nexcept OSError:\n    pass\n')
-    open(os.path.join(tmp, "operators/op_x.py"), "w").write('# see scripts/a.py\n')
+    open(os.path.join(tmp, "operators/op_x.py"), "w").write('# see scripts/a.py\nsubprocess.run(["python3", "scripts/a.py"])\n')
     open(os.path.join(tmp, "AGENTS.md"), "w").write("Stack: Anthropic SDK, Supabase (prod), Magic link emails via Resend, Vercel `get_deployment`\n"
         "gh pr merge --merge\n| Perplexity MCP | x |\n## Environment variables\n| `ANTHROPIC_API_KEY` | k |\n| `DATABASE_URL` | d |\n## Next\n")
     open(os.path.join(tmp, "src/lib/env.ts"), "w").write("export const e = process.env.EMAIL_FROM\n")
@@ -404,6 +404,9 @@ def edge_self_test():
         wrong_dir = [t for t in trip if t[:3] == ("tool:script:a.py", "design-dep", "tool:operator:op_x.py") and t[3] == "cite"]
         print(f"bad edge fixture (cite line says 'emits' gives no cite edge): {'caught' if not wrong_dir else 'MISSED'}")
         ok &= not wrong_dir
+        prose = [t for t in trip if t[0] == "tool:operator:op_x.py" and t[3] == "cite"]
+        print(f"bad edge fixture (prose mention alone gives no cite; the run line does): {'caught' if len(prose) == 1 else 'MISSED'}")
+        ok &= len(prose) == 1 and all(e["evidence"][0].endswith(":2") for e in g["edges"] if e["rule"] == "cite")
         gh = [t for t in trip if t[2] == "dep:service:github"]
         print(f"bad edge fixture (python gh subprocess is not a mechanical runtime-dep): {'caught' if not gh else 'MISSED'}")
         ok &= not gh
