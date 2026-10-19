@@ -27,7 +27,8 @@ def check(graph, schema):
         smiss = [k for k in schema["atom_source_required"] if k not in src]
         if smiss:
             out.append(f"SOURCE-FIELDS {aid}: missing {smiss}")
-        ns = aid.rsplit(":", 1)[0] if aid.count(":") >= 2 else None
+        # namespace = first two segments; a key may itself contain ':' (route params like /:slug)
+        ns = ":".join(aid.split(":", 2)[:2]) if aid.count(":") >= 2 else None
         if ns not in ns_map or not ns.startswith(kind + ":"):
             out.append(f"UNKNOWN-NAMESPACE {aid}: kind {kind}"); continue
         if not re.match(ns_map[ns]["pattern"], aid):
