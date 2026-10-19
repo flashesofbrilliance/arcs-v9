@@ -10,11 +10,11 @@
 /* demo-only base (pages bring their own) */
 :root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 17px; line-height: 1.6; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--ds-font-sans, system-ui, -apple-system, 'Inter', sans-serif); font-size: 17px; line-height: 1.6; }
 .pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
 .demo { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 40px; }
 .demo button { font: inherit; font-size: 15px; background: transparent; color: var(--cyan); border: 1px solid var(--cyan); border-radius: var(--r-md); padding: 8px 14px; cursor: pointer; }
-.hud { display: flex; gap: 16px; font-family: var(--font-mono); font-size: 14px; }
+.hud { display: flex; gap: 16px; font-family: var(--ds-font-mono, 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace); font-size: 14px; }
 .hud b { color: var(--cyan); }
 /* case-world:css:begin */
 /* earned fidelity: WORLD.md render scale, driven by live calibration */
@@ -39,7 +39,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .scene .trail { fill: none; stroke: var(--cyan); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: 0.55; }
 .scene .wp { fill: var(--bg); stroke: var(--dimmed); stroke-width: 1.5; }
 .scene .fog { fill: var(--text); transition: opacity 1.2s ease; }
-.scene .zl { font-family: var(--font-mono); font-size: 11px; fill: var(--dimmed); letter-spacing: 0.04em; }
+.scene .zl { font-family: var(--ds-font-mono, 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace); font-size: 11px; fill: var(--dimmed); letter-spacing: 0.04em; }
 .scene .node { transition: transform 1.2s ease; }
 .scene .node circle.core { fill: var(--cyan); }
 .scene .node circle.halo { fill: var(--cyan); opacity: 0.18; }
@@ -48,7 +48,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .world[data-render="DEGRADED"] .fog1 { opacity: 0; } .world[data-render="DEGRADED"] .fog2 { opacity: 0.10; } .world[data-render="DEGRADED"] .fog3 { opacity: 0.08; }
 .world[data-render="SHARP"] .fog { opacity: 0; }
 .world[data-render="SHARP"] .north { opacity: 1; }
-.where { font-family: var(--font-mono); font-size: 14px; color: var(--dimmed); margin: 6px 0 0; max-width: none; }
+.where { font-family: var(--ds-font-mono, 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace); font-size: 14px; color: var(--dimmed); margin: 6px 0 0; max-width: none; }
 .where b { color: var(--text); font-weight: 600; }
 .dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--surface); border-top: 1px solid var(--border); }
 .dock .in { max-width: var(--lane); margin: 0 auto; padding: 12px var(--gutter); display: flex; align-items: center; gap: 12px; }
