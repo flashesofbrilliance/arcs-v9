@@ -73,7 +73,7 @@ fi
 # Done goal: all served pages clean except reasoned exemptions. Skips without python3; the detector
 # column skips cleanly on machines without the Impeccable launcher.
 if [ -f scripts/design_debt_sweep.py ] && [ -f runtime/specs/design-debt-baseline.json ] && command -v python3 >/dev/null 2>&1; then
-  dd=$(git diff --cached --name-only --diff-filter=AM -- 'public/*.html' 'public/**/*.html' 2>/dev/null || true)
+  dd=$(git diff --cached --name-only --diff-filter=AM -- 'public/*.html' 'public/**/*.html' 'runtime/warroom/*.html' 2>/dev/null || true)
   if [ -n "$dd" ]; then
     if ! python3 scripts/design_debt_sweep.py --check $dd; then
       echo "✖ commit blocked: a served page's design debt went up (see above). Burn-down only goes down." >&2
@@ -1014,6 +1014,17 @@ seedag=$(git diff --cached --name-only -- .claude/agents runtime/specs/agent-see
 if [ -n "$seedag" ] && [ -f scripts/agent_seed_gate.py ] && command -v python3 >/dev/null 2>&1; then
   if ! python3 scripts/agent_seed_gate.py --check; then
     echo "✖ commit blocked: seed-agent ledger rule failed (see FAIL lines above)." >&2
+    exit 1
+  fi
+fi
+# Archive-move gate (2026-10-18): a staged rename or delete must not leave a live citer of the old path.
+# 4983bd57 and c42d4b68 archived four scripts without re-pointing the records that cite them; the integrity
+# gate only reads staged records, so two night-moves digests failed unseen. See scripts/archive_move_gate.py.
+# One-off bypass: ARCHIVE_MOVE_GATE=0 git commit ... (say why in the message). Skips without python3.
+am=$(git diff --cached --name-only --diff-filter=DR 2>/dev/null || true)
+if [ -n "$am" ] && [ "${ARCHIVE_MOVE_GATE:-1}" != "0" ] && [ -f scripts/archive_move_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/archive_move_gate.py --staged; then
+    echo "✖ commit blocked: a moved or deleted file is still cited (see above)." >&2
     exit 1
   fi
 fi

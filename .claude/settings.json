@@ -129,7 +129,12 @@
       "Bash(supabase --version)",
       "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__list_drafts",
       "Bash(git fetch *)",
-      "Bash(python3 scripts/phosphor_static_review.py)"
+      "Bash(python3 scripts/phosphor_static_review.py)",
+      "Bash(python3 scripts/inline_token_sync.py --check)",
+      "Bash(python3 scripts/home.py --check)",
+      "Bash(python3 scripts/filing_workback.py --check)",
+      "Bash(python3 scripts/proposal_rank.py --self-test)",
+      "Bash(pdftotext * -)"
     ],
     "ask": [
       "Bash(git push:*)"

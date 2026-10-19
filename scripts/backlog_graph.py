@@ -24,6 +24,7 @@ import datetime as dt
 import json
 import os
 import re
+import subprocess
 import sys
 from collections import defaultdict, deque
 from pathlib import Path
@@ -63,18 +64,69 @@ def known_tools():
     return out
 
 
-def resolve_tool(row, catalog):
+# Claude Code built-in slash commands. They live in the app, not in this repo or the tool catalog, so a row
+# that names one (for example /mcp) is not naming a missing tool. The list is conservative and not exhaustive:
+# extend it when a row names a built-in, and check /help for the current set. A name that is not here is
+# still resolved first against the repo commands, the catalog and the URL routes.
+BUILTIN_COMMANDS = {"add-dir", "agents", "clear", "compact", "config", "context", "cost", "doctor", "export", "fast",
+                    "help", "hooks", "ide", "init", "login", "logout", "mcp", "memory", "model", "permissions",
+                    "plugin", "resume", "status"}
+PLANNED_RE = re.compile(r"\b(build|builds|create|creates|add|new|write|mint|draft|emit|generate)\b", re.I)
+
+
+def repo_files():
+    """Tracked repo paths, so a short path such as compass/route.ts can be matched by suffix."""
+    try:
+        out = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+        return [x for x in out.split("\n") if x]
+    except (OSError, subprocess.CalledProcessError):
+        return []
+
+
+def resolve_token(tok, catalog, files):
+    """-> (kind, detail). kind: FILE, SUFFIX, AMBIGUOUS, ROUTE, COMMAND, BUILTIN or UNRESOLVED."""
+    if tok.startswith("/") and "/" not in tok[1:]:
+        name = tok[1:]
+        if tok in catalog or (".claude/commands/%s.md" % name) in files:
+            return "COMMAND", tok
+        if name in BUILTIN_COMMANDS:
+            return "BUILTIN", tok
+        if any(("/%s/" % name) in f or f.startswith("src/app/%s/" % name) for f in files):
+            return "ROUTE", tok
+        return "UNRESOLVED", tok
+    if tok in files or (ROOT / tok.lstrip("/")).exists():
+        return "FILE", tok
+    suffix = [f for f in files if f.endswith("/" + tok)]
+    if len(suffix) == 1:
+        return "SUFFIX", suffix[0]
+    if len(suffix) > 1:
+        return "AMBIGUOUS", ", ".join(suffix[:3])
+    if tok in catalog or Path(tok).name in catalog:
+        return "FILE", tok
+    return "UNRESOLVED", tok
+
+
+def resolve_tool(row, catalog, files=None):
+    """-> (label, resolved, missing, planned). missing = named but not found and not planned.
+    planned = named, not found, and the row says it will build or create it (not stale)."""
+    files = files if files is not None else repo_files()
     tool = (row.get("route") or {}).get("tool")
     if not tool:
-        return "NONE", [], []
+        return "NONE", [], [], []
     toks = sorted(set(TOKEN_RE.findall(str(tool))))
     if not toks:
-        return "NOT-RESOLVED", [], []
-    ok = [t for t in toks if (ROOT / t.lstrip("/")).exists() or t in catalog or Path(t).name in catalog]
-    miss = [t for t in toks if t not in ok]
+        return "NOT-RESOLVED", [], [], []
+    ok, miss, planned = [], [], []
+    says_build = bool(PLANNED_RE.search(str(row.get("jtbd", "")) + " " + str(row.get("next_action", ""))))
+    for t in toks:
+        kind, _ = resolve_token(t, catalog, set(files) if not isinstance(files, set) else files)
+        if kind == "UNRESOLVED":
+            (planned if says_build else miss).append(t)
+        else:
+            ok.append(t)
     if len(ok) == len(toks):
-        return "HAVE", ok, []
-    return ("PARTIAL" if ok else "NOT-RESOLVED"), ok, miss
+        return "HAVE", ok, [], []
+    return ("PARTIAL" if ok else "NOT-RESOLVED"), ok, miss, planned
 
 
 def deps_of(row):
@@ -86,9 +138,10 @@ def deps_of(row):
     return [str(x).strip() for x in d if str(x).strip()]
 
 
-def build(rows, today, catalog=None, terminal=None):
+def build(rows, today, catalog=None, terminal=None, files=None):
     terminal = terminal if terminal is not None else terminal_states()
     catalog = catalog if catalog is not None else known_tools()
+    files = set(files if files is not None else repo_files())
     by_id = {r["id"]: r for r in rows if r.get("id")}
     deps = {i: set(deps_of(r)) for i, r in by_id.items()}
     mismatch = []
@@ -141,11 +194,11 @@ def build(rows, today, catalog=None, terminal=None):
     for i in sorted(active, key=lambda x: (wave.get(x, 999),) + key(x)):
         r = by_id[i]
         v = br.assess(r, by_id, today)
-        tool, resolved, missing = resolve_tool(r, catalog)
+        tool, resolved, missing, planned = resolve_tool(r, catalog, files)
         has_dead = any(d in by_id and state[d] in DEAD for d in deps[i]) or any(d not in by_id for d in deps[i])
         startable = (state[i] in STARTABLE and wave.get(i) == 0 and not has_dead)
         nodes.append({"id": i, "state": state[i], "wave": wave.get(i), "ripeness": v[0] if v else "TERMINAL",
-                      "tool": tool, "tool_resolved": resolved, "tool_missing": missing, "deps": sorted(deps[i]),
+                      "tool": tool, "tool_resolved": resolved, "tool_missing": missing, "tool_planned": planned, "deps": sorted(deps[i]),
                       "descendants": len(descendants(i)), "cost": r.get("cost_prior"),
                       "consent": r.get("consent"),
                       "tier_cue": 4 if (r.get("consent") == "human" or r.get("door") == "one-way" or rp.ONE_WAY.search(rp._text(r))) else 2,
@@ -174,11 +227,13 @@ def render(g, top=8):
         if x["descendants"]:
             out.append(f"  {x['id']:<44} {x['descendants']} downstream  wave {x['wave']}  {x['state']}")
     stale = [x for x in n if x["tool_missing"]]
-    prose = [x for x in n if x["tool"] == "NOT-RESOLVED" and not x["tool_missing"]]
+    planned = [x for x in n if x["tool_planned"]]
+    prose = [x for x in n if x["tool"] == "NOT-RESOLVED" and not x["tool_missing"] and not x["tool_planned"]]
     out.append("")
-    out.append(f"route.tool: {len(stale)} rows name a path or command that does not resolve as written (stale, or a short path), {len(prose)} are prose with no path (cannot be matched)")
+    out.append(f"route.tool: {len(stale)} rows name a path or command that is not found and not planned (stale), "
+               f"{len(planned)} name something the row says it will build, {len(prose)} are prose with no path (cannot be matched)")
     for x in stale[:top]:
-        out.append(f"  {x['id']:<44} missing: {', '.join(x['tool_missing'])[:80]}")
+        out.append(f"  {x['id']:<44} stale: {', '.join(x['tool_missing'])[:80]}")
     for name, items in f.items():
         if items:
             out.append("")
@@ -204,6 +259,7 @@ def self_test():
     today = dt.date(2026, 10, 18)
     T = {"DONE", "COMPOSTED", "SUPERSEDED"}
     cat = {"readiness_packet.py", "/readiness"}
+    FX = {"src/app/api/compass/route.ts", "src/app/api/account/delete/route.ts", "src/app/brief/[receiptId]/page.tsx", ".claude/commands/readiness.md"}
     chain = [{"id": "a", "state": "OPEN", "trigger": "after 2026-10-01", "route": {"tool": "scripts/readiness_packet.py"}},
              {"id": "b", "state": "HOLDING", "depends_on": ["a"], "trigger": "after 2026-10-01"},
              {"id": "c", "state": "HOLDING", "depends_on": "b", "trigger": "after 2026-10-01"}]
@@ -235,6 +291,18 @@ def self_test():
         ("a path that does not exist is reported as missing, not as prose", build([{"id": "m", "state": "OPEN", "trigger": "after 2026-10-01", "route": {"tool": "scripts/no_such_tool.py"}}], today, cat, T)["nodes"][0]["tool_missing"] == ["scripts/no_such_tool.py"]),
         ("prose has no missing path", byid["x"]["tool_missing"] == []),
         ("a one-way door cues tier 4", build([{"id": "d", "state": "OPEN", "trigger": "after 2026-10-01", "door": "one-way"}], today, cat, T)["nodes"][0]["tier_cue"] == 4),
+        ("a Claude Code built-in command (/mcp) resolves as BUILTIN, not as a missing tool", resolve_token("/mcp", cat, FX)[0] == "BUILTIN"),
+        ("a row naming only a built-in has its tool found", resolve_tool({"jtbd": "x", "route": {"tool": "connect via /mcp"}}, cat, FX)[0] == "HAVE"),
+        ("a repo command still wins over a built-in name", resolve_token("/readiness", cat, FX)[0] == "COMMAND"),
+        ("a name that is no built-in, command or route is still UNRESOLVED", resolve_token("/design-sync", cat, FX)[0] == "UNRESOLVED" and "design-sync" not in BUILTIN_COMMANDS),
+        ("a short path resolves by suffix to the right file, not to another route.ts", resolve_token("compass/route.ts", cat, FX) == ("SUFFIX", "src/app/api/compass/route.ts")),
+        ("a bare generic basename with several matches is AMBIGUOUS", resolve_token("route.ts", cat, FX)[0] == "AMBIGUOUS"),
+        ("a URL route resolves as ROUTE", resolve_token("/brief", cat, FX)[0] == "ROUTE"),
+        ("a slash command resolves as COMMAND", resolve_token("/readiness", cat, FX)[0] == "COMMAND"),
+        ("an unknown command or URL is UNRESOLVED", resolve_token("/design-sync", cat, FX)[0] == "UNRESOLVED"),
+        ("a missing path the row says it will build is planned, not stale", resolve_tool({"jtbd": "Build the helper", "route": {"tool": "scripts/not_yet.py"}}, cat, FX)[2:] == ([], ["scripts/not_yet.py"])),
+        ("the same missing path with no build intent is stale", resolve_tool({"jtbd": "Check the helper", "route": {"tool": "scripts/not_yet.py"}}, cat, FX)[2:] == (["scripts/not_yet.py"], [])),
+        ("a resolved short path is HAVE with nothing missing", resolve_tool({"jtbd": "x", "route": {"tool": "compass/route.ts"}}, cat, FX)[:1] + resolve_tool({"jtbd": "x", "route": {"tool": "compass/route.ts"}}, cat, FX)[2:3] == ("HAVE", [])),
         ("rendered text has no em-dash", "\u2014" not in render(g) and "\u2014" not in render(gb)),
     ]
     ok = True

@@ -170,7 +170,8 @@
         v = v * mul; if (v > 1) v = 1; else if (v < 0.003) v = 0.003; var c = S.gam[(v * 1024) | 0], o = i * 4; d[o] = d[o + 1] = d[o + 2] = c; d[o + 3] = 255;
       }
     }
-    S.sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(S.sc, 0, 0, Wd, Hd);
+    var sc = g.canvas._sun; if (!sc) { sc = g.canvas._sun = document.createElement("canvas"); sc.width = S.sc.width; sc.height = S.sc.height; } /* per-target scratch: WebKit defers drawImage, a shared one let bar tiles overwrite the main picture */
+    sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(sc, 0, 0, Wd, Hd);
   }
   function scene(g, W, H, t) {
     var fi = fidx(t), i, b, lw = MX(1, H / 360);
@@ -206,7 +207,7 @@
       for (b = 0; b < NB; b++) { var a0 = PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + SIN(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + SIN(a) * (r0 + ln)); } }
       g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * PI); g.stroke(); g.restore();
     } else {
-      var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
+      var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = g.canvas._spec || (g.canvas._spec = document.createElement("canvas")); /* one scratch per target: WebKit defers drawImage, so a shared scratch let bar tiles overwrite the main picture */ img.width = cols; img.height = NB;
       var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
       for (x2 = 0; x2 < cols; x2++) {
         var f2 = MX(0, fi - (cols - 1 - x2));
@@ -224,7 +225,7 @@
   /* Rungs below 144 rows are drawn 4x and averaged down, so a coarse rung is the true low-resolution picture. */
   function drawRung(target, w, h, t) {
     if (h >= 144) { scene(target, w, h, t); return; }
-    var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
+    var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = target.canvas._ss || (target.canvas._ss = document.createElement("canvas")); SS.width = sw; SS.height = sh;
     scene(SS.getContext("2d"), sw, sh, t);
     target.imageSmoothingEnabled = true; target.imageSmoothingQuality = "high"; target.drawImage(SS, 0, 0, w, h);
   }
@@ -2111,7 +2112,7 @@
     cv.width = on ? 1600 : 1280; cv.height = on ? 900 : 360;
     AP($("fsb"), on); wakeHud(); frame(playing);
   }
-  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { if (EJT) { wakeHud(); return; } f.classList.add("idle"); }, 2600); } /* never fade the HUD under a held Eject: WebKit fires pointerleave and cancels the hold */
   EA(QA("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
   function kidSync() { EA(QA("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
   document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);

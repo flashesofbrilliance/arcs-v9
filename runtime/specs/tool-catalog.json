@@ -6,18 +6,18 @@
   "hook": 2,
   "operator": 48,
   "package": 3,
-  "script": 233,
+  "script": 238,
   "skill": 22,
   "workflow": 2
  },
- "total": 327,
+ "total": 332,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 437,
+   "WIRED": 445,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 19,
+   "INSTALLED-UNUSED": 18,
    "DUPLICATE": 6,
    "BROKEN": 1
   },
@@ -59,22 +59,6 @@
     "surface": "repo",
     "kind": "script",
     "name": "forge_finalize.sh",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "handoff_cluster.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "handoff_excavate.py",
     "why": "no hook/command/task/CI/doc references it",
     "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
    },
@@ -173,6 +157,14 @@
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
+   },
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "user",
+    "kind": "plugin",
+    "name": "stripe@claude-plugins-official",
+    "why": "project-scoped to /Users/zharris only",
+    "fix": "claude plugin uninstall stripe@claude-plugins-official"
    },
    {
     "state": "BROKEN",
@@ -623,6 +615,14 @@
    "path": "scripts/archetype_scan.py",
    "jtbd": "ARCS Archetype Scan — Resonance Scoring & Force-Directed Graph",
    "invoke": "python3 scripts/archetype_scan.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "archive_move_gate.py",
+   "path": "scripts/archive_move_gate.py",
+   "jtbd": "archive_move_gate: a file that is moved, renamed or deleted must not leave a live citer behind.",
+   "invoke": "python3 scripts/archive_move_gate.py",
    "state": "WIRED"
   },
   {
@@ -1279,7 +1279,7 @@
    "path": "scripts/handoff_cluster.py",
    "jtbd": "handoff_cluster — deterministic domain clustering of excavated handoff units (no LLM).",
    "invoke": "python3 scripts/handoff_cluster.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1287,7 +1287,7 @@
    "path": "scripts/handoff_excavate.py",
    "jtbd": "handoff_excavate — mechanical index of every handoff block ever committed (no LLM).",
    "invoke": "python3 scripts/handoff_excavate.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1323,6 +1323,14 @@
   },
   {
    "kind": "script",
+   "name": "hud_signal_audit.py",
+   "path": "scripts/hud_signal_audit.py",
+   "jtbd": "hud_signal_audit.py: mechanical baseline of what the field HUD actually reads. Read-only, stdlib.",
+   "invoke": "python3 scripts/hud_signal_audit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "hypercube_sampler.py",
    "path": "scripts/hypercube_sampler.py",
    "jtbd": "hypercube_sampler.py — the cost-governed hypercube gauntlet sampling engine (v1)",
@@ -1351,6 +1359,14 @@
    "path": "scripts/jobs_prose_gate.py",
    "jtbd": "jobs_prose_gate: Job Factory slice 7. The NFTT prose factory's gate chain, run on",
    "invoke": "python3 scripts/jobs_prose_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_graph_schema_check.py",
+   "path": "scripts/jtbd_graph_schema_check.py",
+   "jtbd": "Validate a JTBD graph ({atoms, edges}) against runtime/specs/jtbd-graph-schema.json.",
+   "invoke": "python3 scripts/jtbd_graph_schema_check.py",
    "state": "WIRED"
   },
   {
@@ -2355,10 +2371,26 @@
   },
   {
    "kind": "script",
+   "name": "universe_jtbd_adapter.py",
+   "path": "scripts/universe_jtbd_adapter.py",
+   "jtbd": "universe_jtbd_adapter: emit the JTBD graph's nodes (Sprint 1, backlog row jtbd-graph-s1-nodes).",
+   "invoke": "python3 scripts/universe_jtbd_adapter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "universe_receipts_adapter.py",
    "path": "scripts/universe_receipts_adapter.py",
    "jtbd": "universe_receipts_adapter: project one person's decision receipts into a personal universe of atoms + a link graph.",
    "invoke": "python3 scripts/universe_receipts_adapter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "universe_snapshot_drift_check.py",
+   "path": "scripts/universe_snapshot_drift_check.py",
+   "jtbd": "universe_snapshot_drift_check: is the committed universe snapshot (the HUD's field data) stale?",
+   "invoke": "python3 scripts/universe_snapshot_drift_check.py",
    "state": "WIRED"
   },
   {
