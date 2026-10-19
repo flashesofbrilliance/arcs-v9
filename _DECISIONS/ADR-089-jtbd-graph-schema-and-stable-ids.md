@@ -64,6 +64,14 @@ memory files and 6 of 70 pattern files mention JTBD by keyword, so most job atom
 backlog rows; whether a memory or pattern file *states a job* is s1's mining rule, gated in the
 pre-registration (80% agreement on a 30-file labelled sample, else those namespaces ship empty).
 
+## Correction (2026-10-18, amendment 1)
+A claims-skeptic check after merge refuted three statements here. (1) The memory row's "Missing key 0"
+is wrong: `project_yuri_kleban_google.md` has no top-of-file front matter. (2) The good fixture linked
+`arcs_librarian.py` to op 21; the registry binds op 21 to `arcs_store.py` (line 332). The fixture now
+uses that binding and cites that line. (3) Wildcard-host surfaces had no legal id; host `*` is written
+`any` (Zach). The checker now uses full matches (a trailing newline no longer passes) and requires
+`source.line` to be a positive int. Details: `_PATTERNS/2026-10-18-jtbd-graph-preregistration-amendment-1.md`.
+
 ## W — What would change this
 - A source whose natural key is itself unstable (e.g. tool names that churn with every refactor).
   Mitigation is `replaces` edges, not a new derivation.

@@ -15,7 +15,7 @@
    "source": {
     "catalog": "operators/OPERATOR-REGISTRY.json",
     "key": "21",
-    "line": 1
+    "line": 325
    }
   },
   {
@@ -55,12 +55,21 @@
    }
   },
   {
-   "id": "tool:operator:arcs_librarian.py",
+   "id": "tool:operator:arcs_store.py",
    "kind": "tool",
    "source": {
     "catalog": "runtime/specs/tool-catalog.json",
-    "key": "arcs_librarian.py",
-    "line": 1
+    "key": "arcs_store.py",
+    "line": 2742
+   }
+  },
+  {
+   "id": "tool:surface:any/omakase",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/surface-catalog.json",
+    "key": "any/omakase",
+    "line": 5707
    }
   }
  ],
@@ -94,20 +103,11 @@
    "by": "counter-agent sample"
   },
   {
-   "from": "tool:op:21",
-   "to": "tool:script:oracle.py",
-   "type": "design-dep",
-   "evidence": [
-    "import:operators/arcs_librarian.py:40"
-   ],
-   "inferred": false
-  },
-  {
-   "from": "tool:operator:arcs_librarian.py",
+   "from": "tool:operator:arcs_store.py",
    "to": "tool:op:21",
    "type": "design-dep",
    "evidence": [
-    "operators/OPERATOR-REGISTRY.json:1"
+    "operators/OPERATOR-REGISTRY.json:332"
    ],
    "inferred": false
   }
