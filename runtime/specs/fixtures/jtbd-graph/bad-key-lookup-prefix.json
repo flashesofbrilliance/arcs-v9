@@ -1,0 +1,20 @@
+{
+ "_expect": "KEY-LOOKUP",
+ "_root": true,
+ "_note": "skeptic round 1 class L: a key that is a prefix of the name on the line, ending at '.'",
+ "atoms": [
+  {
+   "id": "tool:script:jtbd_graph_schema_check",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "jtbd_graph_schema_check",
+    "line": 1366
+   },
+   "title": "Validate a JTBD graph ({atoms, edges}) against runtime/specs/jtbd-graph-schema.json.",
+   "path": "scripts/jtbd_graph_schema_check.py",
+   "state": "WIRED"
+  }
+ ],
+ "edges": []
+}

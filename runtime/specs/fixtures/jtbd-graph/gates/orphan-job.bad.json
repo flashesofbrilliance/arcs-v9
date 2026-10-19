@@ -1,0 +1,177 @@
+{
+ "atoms": [
+  {
+   "id": "tool:script:t.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "t.py",
+    "line": 1
+   },
+   "path": "scripts/jtbd_graph_gates.py"
+  },
+  {
+   "id": "job:backlog:j",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j",
+    "line": 1
+   }
+  },
+  {
+   "id": "blocker:backlog:b",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b",
+    "line": 1
+   },
+   "resolve_by": "2026-11-01"
+  },
+  {
+   "id": "dep:env:FIXTURE_KEY",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "FIXTURE_KEY",
+    "line": 1
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "job:backlog:j2",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j2",
+    "line": 1
+   }
+  },
+  {
+   "id": "job:backlog:j3",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j3",
+    "line": 1
+   }
+  },
+  {
+   "id": "job:backlog:j4",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j4",
+    "line": 1
+   }
+  },
+  {
+   "id": "job:backlog:j5",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j5",
+    "line": 1
+   }
+  },
+  {
+   "id": "job:backlog:j6",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j6",
+    "line": 1
+   }
+  }
+ ],
+ "edges": [
+  {
+   "from": "tool:script:t.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "route.tool:jtbd-graph-s3-gates"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "blocker:backlog:b",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:env:FIXTURE_KEY",
+   "type": "runtime-dep",
+   "evidence": [
+    "scripts/jtbd_graph_gates.py:1"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "blocker:backlog:b",
+   "to": "job:backlog:j2",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "job:backlog:j2",
+   "type": "serves",
+   "evidence": [
+    ""
+   ],
+   "inferred": false
+  },
+  {
+   "from": "job:backlog:j3",
+   "to": "job:backlog:j4",
+   "type": "needs",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "job:backlog:j5",
+   "to": "dep:env:FIXTURE_KEY",
+   "type": "needs",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "job:backlog:j6",
+   "type": "serves",
+   "evidence": [
+    "route.tool:no-such-row"
+   ],
+   "inferred": false
+  }
+ ],
+ "probes": {
+  "dep:env:FIXTURE_KEY": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe.sh",
+   "line": 2,
+   "match": "curl"
+  }
+ },
+ "_note": "blocks-only plus malformed serves, job island, needs only a dep (C), serves with evidence to a missing row (A)",
+ "_expect_ids": [
+  "job:backlog:j2",
+  "job:backlog:j3",
+  "job:backlog:j4",
+  "job:backlog:j5",
+  "job:backlog:j6"
+ ]
+}

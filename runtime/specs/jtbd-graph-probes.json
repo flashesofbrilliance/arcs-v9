@@ -1,0 +1,23 @@
+{
+  "note": "Health probes for runtime-dep targets in the JTBD graph (row jtbd-graph-s3-gates). One entry per dep id: the file:line that exercises it and a needle that must be on that line. Read by scripts/jtbd_graph_gates.py rule RUNTIME-DEP-NO-PROBE. A probe must be code (not .md/.json/.txt, not a comment line); an env probe's line must name the variable. Line numbers move when the file is edited; the gate then goes red and the entry is re-pointed. DATABASE_URL has no entry: the deep probe only lists it among required env names (route.ts:31), a string list that calls nothing, which the rule does not count as a probe.",
+  "probes": {
+    "dep:service:database": {
+      "file": "src/app/api/health/route.ts",
+      "line": 47,
+      "match": "SELECT 1",
+      "kind": "live query on GET /api/health"
+    },
+    "dep:service:anthropic": {
+      "file": "src/app/api/health/route.ts",
+      "line": 191,
+      "match": "messages.create",
+      "kind": "1-token call on GET /api/health?deep=1"
+    },
+    "dep:env:ANTHROPIC_API_KEY": {
+      "file": "src/app/api/health/route.ts",
+      "line": 191,
+      "match": "apiKey: process.env.ANTHROPIC_API_KEY",
+      "kind": "key exercised by the deep probe call"
+    }
+  }
+}
