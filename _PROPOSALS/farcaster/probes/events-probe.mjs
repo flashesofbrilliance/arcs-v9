@@ -19,29 +19,31 @@ const typeOf = (e) => e.type ?? e.event_type ?? e.eventType ?? JSON.stringify(Ob
 const msgTypeOf = (e) => e.message?.data?.type ?? e.mergeMessageBody?.message?.data?.type ?? e.body?.message?.data?.type ?? null;
 
 async function run(shard, from) {
-  const seen = [], pages_ = [], types = {}, msgTypes = {};
+  const seen = [], pages_ = [], rawPages_ = [], types = {}, msgTypes = {};
   let cur = from;
   for (let p = 0; p < pages; p++) {
     const j = await get(shard, cur);
     const evs = j.events ?? j;
-    pages_.push(evs.map(idOf));
+    pages_.push(evs.map(idOf)); rawPages_.push(evs);
     if (!evs.length) break;
     for (const e of evs) { seen.push(idOf(e)); types[typeOf(e)] = (types[typeOf(e)] ?? 0) + 1; const m = msgTypeOf(e); if (m) msgTypes[m] = (msgTypes[m] ?? 0) + 1; }
     cur = Math.max(...evs.map(idOf)) + 1;
   }
-  return { seen, pages: pages_, types, msgTypes, next: cur };
+  return { seen, pages: pages_, rawPages: rawPages_, types, msgTypes, next: cur };
 }
 const saved = fs.existsSync(CURSOR) ? JSON.parse(fs.readFileSync(CURSOR, "utf8")) : {};
 const report = {};
-for (const shard of [0, 1, 2]) {
+const SHARDS = (process.env.FC_SHARDS ?? "1,2").split(",").map(Number); // devnet finding: /v1/events answers "Shard not found" for shard 0
+for (const shard of SHARDS) {
   const start = saved[shard]?.next ?? 0;
   const a = await run(shard, start);
   const b = await run(shard, a.next);           // "restart" from the saved cursor
   const ids = [...a.seen, ...b.seen];
   const dups = ids.length - new Set(ids).size;
   let gaps = 0; for (let i = 1; i < ids.length; i++) if (ids[i] > ids[i - 1] + 1) gaps += ids[i] - ids[i - 1] - 1;
-  (globalThis.obsShards ??= {})[shard] = { pages: [...a.pages, ...b.pages] };
-  report[shard] = { start, firstRun: a.seen.length, afterRestart: b.seen.length, duplicates: dups, gapIds: gaps, eventTypes: { ...a.types }, messageTypes: { ...a.msgTypes, ...b.msgTypes } };
+  const rawPages = [...a.rawPages, ...b.rawPages];
+  (globalThis.obsShards ??= {})[shard] = observeShard(rawPages);
+  report[shard] = { start, firstRun: a.seen.length, afterRestart: b.seen.length, duplicates: dups, idJumpsInfoOnly: gaps, eventTypes: { ...a.types }, messageTypes: { ...a.msgTypes, ...b.msgTypes } };
   saved[shard] = { next: b.next };
 }
 fs.writeFileSync(CURSOR, JSON.stringify(saved));
@@ -50,6 +52,6 @@ const need = ["MESSAGE_TYPE_CAST_ADD", "MESSAGE_TYPE_LINK_ADD", "MESSAGE_TYPE_RE
 const found = new Set(Object.values(report).flatMap((r) => Object.keys(r.messageTypes)));
 console.log("required types missing from sample:", need.filter((n) => !found.has(n)));
 
-const v = classifyEvents({ expected_shards: [0, 1, 2], shards: globalThis.obsShards });
+const v = classifyEvents({ expected_shards: SHARDS, shards: globalThis.obsShards });
 console.log(JSON.stringify(v));
 process.exit(EXIT[v.verdict]);
