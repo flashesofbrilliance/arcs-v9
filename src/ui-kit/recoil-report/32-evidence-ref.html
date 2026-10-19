@@ -1,0 +1,26 @@
+<!-- @dsCard group="Molecules" name="Evidence Ref" subtitle="Inline source cite: mono, dimmed, linkable" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidence Ref</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+/* @prim:begin 32-evidence-ref */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }
+.ref a { color: var(--cyan); text-decoration: none; }
+.ref a:hover, .ref a:focus-visible { text-decoration: underline; }
+/* @prim:end 32-evidence-ref */
+</style>
+</head>
+<body>
+<main>
+<h1 class="section-label">Evidence Ref</h1>
+<p>Pipeline grew three quarters in a row. <span class="ref">src: <a href="#">10-K 2025, p. 41</a></span></p>
+</main>
+</body>
+</html>

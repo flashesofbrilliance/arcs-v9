@@ -17,7 +17,7 @@ to *snap into*. This kit is that SSOT.
 ```
 atoms      → recoil-report/_tokens.css  (color · type · space · radius · glow)
              the ONE palette. Signal hexes #00F0FF #00FF9D #FFD700 #FF4D6D live here and NOWHERE else.
-molecules  → section-label · chip/pill/badge · stat/prob tile · evidence-ref · callout · button · led
+molecules  → recoil-report/27..33 (@dsCard group=Molecules): 27-section-label · 28-chip (pill/badge) · 29-tile (stat/prob) · 30-button · 31-callout · 32-evidence-ref · 33-led
 organisms  → recoil-report/NN-*.html (the 14 numbered @dsCard primitives):
              01 header · 02 hyperstition-arc · 03 entity-card · 04 signal-delta-table ·
              05 kairos-node · 06 beat-stepper · 07 probability-bar · 08 receipt-table ·

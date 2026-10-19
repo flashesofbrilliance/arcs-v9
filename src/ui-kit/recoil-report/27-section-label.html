@@ -1,0 +1,23 @@
+<!-- @dsCard group="Molecules" name="Section Label" subtitle="Mono uppercase index line that opens every panel" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Section Label</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+/* @prim:begin 27-section-label */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+/* @prim:end 27-section-label */
+</style>
+</head>
+<body>
+<main>
+<h1 class="section-label">Section Label</h1>
+<p>The label above is the molecule. Every panel opens with one.</p>
+</main>
+</body>
+</html>

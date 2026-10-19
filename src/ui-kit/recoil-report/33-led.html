@@ -1,0 +1,28 @@
+<!-- @dsCard group="Molecules" name="LED" subtitle="Status light: off, on and alert, with a text label for color-blind readers" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LED</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+/* @prim:begin 33-led */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.led { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.led::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.led.on::before { background: var(--green); }
+.led.alert::before { background: var(--red); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; }
+/* @prim:end 33-led */
+</style>
+</head>
+<body>
+<main>
+<h1 class="section-label">LED</h1>
+<div class="row"><span class="led">idle</span><span class="led on">live</span><span class="led alert">fault</span></div>
+</main>
+</body>
+</html>

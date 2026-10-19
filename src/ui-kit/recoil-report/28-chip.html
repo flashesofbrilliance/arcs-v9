@@ -1,0 +1,29 @@
+<!-- @dsCard group="Molecules" name="Chip" subtitle="Pill, badge and state chip in the four signal colors" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chip</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+/* @prim:begin 28-chip */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }
+.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+/* @prim:end 28-chip */
+</style>
+</head>
+<body>
+<main>
+<h1 class="section-label">Chip</h1>
+<div class="row"><span class="chip">neutral</span><span class="chip cyan">bearing</span><span class="chip green">GREEN</span><span class="chip gold">locked</span><span class="chip red">ruin</span></div>
+</main>
+</body>
+</html>
