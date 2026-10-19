@@ -8,7 +8,7 @@
     "key": "t.py",
     "line": 1
    },
-   "path": "scripts/jtbd_graph_gates.py"
+   "path": "scripts/git-hooks/pre-commit"
   },
   {
    "id": "job:backlog:j",
@@ -83,6 +83,15 @@
     "key": "j6",
     "line": 1
    }
+  },
+  {
+   "id": "job:backlog:j7",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j7",
+    "line": 1
+   }
   }
  ],
  "edges": [
@@ -93,7 +102,8 @@
    "evidence": [
     "route.tool:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
   },
   {
    "from": "blocker:backlog:b",
@@ -102,16 +112,18 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
    "to": "dep:env:FIXTURE_KEY",
    "type": "runtime-dep",
    "evidence": [
-    "scripts/jtbd_graph_gates.py:1"
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "FIXTURE_KEY"
   },
   {
    "from": "blocker:backlog:b",
@@ -120,7 +132,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -129,7 +142,8 @@
    "evidence": [
     ""
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "job:backlog:j3",
@@ -138,7 +152,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "job:backlog:j5",
@@ -147,7 +162,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -156,7 +172,18 @@
    "evidence": [
     "route.tool:no-such-row"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "job:backlog:j7",
+   "to": "tool:script:t.py",
+   "type": "needs",
+   "evidence": [
+    "backlog:jtbd-graph-s2-edges"
+   ],
+   "inferred": false,
+   "match": "jtbd"
   }
  ],
  "probes": {
@@ -166,12 +193,13 @@
    "match": "curl"
   }
  },
- "_note": "blocks-only plus malformed serves, job island, needs only a dep (C), serves with evidence to a missing row (A)",
+ "_note": "blocks-only plus malformed serves, job island, needs only a dep (C), serves with evidence to a missing row (A); round 2 class 1: needs a tool via an unrelated real row",
  "_expect_ids": [
   "job:backlog:j2",
   "job:backlog:j3",
   "job:backlog:j4",
   "job:backlog:j5",
-  "job:backlog:j6"
+  "job:backlog:j6",
+  "job:backlog:j7"
  ]
 }

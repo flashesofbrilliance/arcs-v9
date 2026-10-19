@@ -8,7 +8,7 @@
     "key": "t.py",
     "line": 1
    },
-   "path": "scripts/jtbd_graph_gates.py"
+   "path": "scripts/git-hooks/pre-commit"
   },
   {
    "id": "job:backlog:j",
@@ -138,6 +138,46 @@
     "line": 1
    },
    "path": "AGENTS.md"
+  },
+  {
+   "id": "dep:env:FIXTURE_R1",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "FIXTURE_R1",
+    "line": 1
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "dep:env:FIXTURE_R2",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "FIXTURE_R2",
+    "line": 1
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "dep:service:github",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md connected systems, hand-declared",
+    "key": "github",
+    "line": 1
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "dep:env:FIXTURE_R3",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "FIXTURE_R3",
+    "line": 1
+   },
+   "path": "AGENTS.md"
   }
  ],
  "edges": [
@@ -148,7 +188,8 @@
    "evidence": [
     "route.tool:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
   },
   {
    "from": "blocker:backlog:b",
@@ -157,16 +198,18 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
    "to": "dep:env:FIXTURE_KEY",
    "type": "runtime-dep",
    "evidence": [
-    "scripts/jtbd_graph_gates.py:1"
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "FIXTURE_KEY"
   },
   {
    "from": "tool:script:t.py",
@@ -176,7 +219,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -186,7 +230,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -196,7 +241,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -206,7 +252,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -216,7 +263,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -226,7 +274,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -236,7 +285,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -246,7 +296,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -256,7 +307,8 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
-   "by": "fixture"
+   "by": "fixture",
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -266,6 +318,51 @@
     "scripts/jtbd_graph_gates.py:1"
    ],
    "inferred": true,
+   "by": "fixture",
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:env:FIXTURE_R1",
+   "type": "runtime-dep",
+   "evidence": [
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
+   ],
+   "inferred": true,
+   "match": "curl",
+   "by": "fixture"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:env:FIXTURE_R2",
+   "type": "runtime-dep",
+   "evidence": [
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
+   ],
+   "inferred": true,
+   "match": "curl",
+   "by": "fixture"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:service:github",
+   "type": "runtime-dep",
+   "evidence": [
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
+   ],
+   "inferred": true,
+   "match": "curl",
+   "by": "fixture"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:env:FIXTURE_R3",
+   "type": "runtime-dep",
+   "evidence": [
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
+   ],
+   "inferred": true,
+   "match": "curl",
    "by": "fixture"
   }
  ],
@@ -324,9 +421,29 @@
    "file": "runtime/specs/fixtures/jtbd-graph/gates/probe.yaml",
    "line": 1,
    "match": "curl"
+  },
+  "dep:env:FIXTURE_R1": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe-evasions.ts",
+   "line": 6,
+   "match": "FIXTURE_R1"
+  },
+  "dep:env:FIXTURE_R2": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe-evasions.ts",
+   "line": 8,
+   "match": "fetch"
+  },
+  "dep:service:github": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe-evasions.ts",
+   "line": 10,
+   "match": "f(2)"
+  },
+  "dep:env:FIXTURE_R3": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe-evasions.py",
+   "line": 3,
+   "match": "prisma.query"
   }
  },
- "_note": "comment line, .md doc, absent needle, blank needle, block comment (G), trailing comment (G), string-only line (G), env name as a prefix (H), .yaml (I), line not naming the service (J)",
+ "_note": "comment line, .md doc, absent needle, blank needle, block comment (G), trailing comment (G), string-only line (G), env name as a prefix (H), .yaml (I), line not naming the service (J); round 2 classes 3-5: needle in a string arg, inside a /* */ block, a bare gh variable, inside a docstring",
  "_expect_ids": [
   "dep:env:FIXTURE_KEY2 <- tool:script:t.py",
   "dep:service:fx-doc <- tool:script:t.py",
@@ -337,6 +454,10 @@
   "dep:env:FIXTURE_G3 <- tool:script:t.py",
   "dep:env:FIXTURE_H <- tool:script:t.py",
   "dep:service:fxsvc <- tool:script:t.py",
-  "dep:env:FIXTURE_I <- tool:script:t.py"
+  "dep:env:FIXTURE_I <- tool:script:t.py",
+  "dep:env:FIXTURE_R1 <- tool:script:t.py",
+  "dep:env:FIXTURE_R2 <- tool:script:t.py",
+  "dep:service:github <- tool:script:t.py",
+  "dep:env:FIXTURE_R3 <- tool:script:t.py"
  ]
 }

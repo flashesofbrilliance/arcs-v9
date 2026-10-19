@@ -8,7 +8,7 @@
     "key": "t.py",
     "line": 1
    },
-   "path": "scripts/jtbd_graph_gates.py"
+   "path": "scripts/git-hooks/pre-commit"
   },
   {
    "id": "job:backlog:j",
@@ -117,6 +117,26 @@
     "line": 1
    },
    "resolve_by": " 2026-11-01"
+  },
+  {
+   "id": "blocker:backlog:b10",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b10",
+    "line": 1
+   },
+   "resolve_by": "2020-01-02"
+  },
+  {
+   "id": "blocker:backlog:b11",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b11",
+    "line": 1
+   },
+   "resolve_by": "2026-10-18"
   }
  ],
  "edges": [
@@ -127,7 +147,8 @@
    "evidence": [
     "route.tool:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
   },
   {
    "from": "blocker:backlog:b",
@@ -136,16 +157,18 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
    "to": "dep:env:FIXTURE_KEY",
    "type": "runtime-dep",
    "evidence": [
-    "scripts/jtbd_graph_gates.py:1"
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "FIXTURE_KEY"
   },
   {
    "from": "blocker:backlog:b2",
@@ -154,7 +177,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b3",
@@ -163,7 +187,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b4",
@@ -172,7 +197,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b5",
@@ -181,7 +207,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b6",
@@ -190,7 +217,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b7",
@@ -199,7 +227,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b8",
@@ -208,7 +237,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b9",
@@ -217,7 +247,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   }
  ],
  "probes": {
@@ -227,7 +258,7 @@
    "match": "curl"
   }
  },
- "_note": "missing, TBD, impossible date, datetime, sentinel far future (D), before the floor (D), a number, leading space",
+ "_note": "missing, TBD, impossible date, datetime, sentinel far future (D), before the floor (D), a number, leading space; round 2 class 2: lapsed dates",
  "_expect_ids": [
   "blocker:backlog:b2",
   "blocker:backlog:b3",
@@ -236,6 +267,8 @@
   "blocker:backlog:b6",
   "blocker:backlog:b7",
   "blocker:backlog:b8",
-  "blocker:backlog:b9"
+  "blocker:backlog:b9",
+  "blocker:backlog:b10",
+  "blocker:backlog:b11"
  ]
 }

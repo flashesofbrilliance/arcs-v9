@@ -56,13 +56,17 @@ def check(graph, schema, root=None):
             # several units on one line (AGENTS.md "Stack: Anthropic SDK, Supabase ...")
             # (skeptic round 1, class K) the file form ignores `path`, which a forger can vary; a prose source
             # may hold several units on a line, so there the unit is (line, title)
-            forms = [("key", src.get("key"))]
+            # round 2: the line form is keyed by kind, not namespace (one row emitted as tool:script and
+            # tool:skill is a dup; a job and its blocker share a line legitimately), the path is normalised,
+            # and a prose line may hold several units only when they differ by declared service needle
+            forms = [(ns, "key", src.get("key"))]
             if " " not in str(src.get("catalog")):
-                forms.append(("line", src.get("catalog"), src.get("line")))
+                forms.append((kind, "line", src.get("catalog"), src.get("line")))
             else:
-                forms.append(("line", src.get("catalog"), a.get("path") or "", src.get("line"), a.get("title") or ""))
-            for k in forms:
-                t = (ns,) + k
+                svc = a.get("title") if ns == "dep:service" else ""
+                forms.append((kind, "line", src.get("catalog"), os.path.normpath(a.get("path") or ""), src.get("line"), svc))
+            for t in forms:
+                k = t[1:]
                 if t in srcseen:
                     out.append(f"SOURCE-DUP {aid}: {k[0]} already emitted by {srcseen[t]}")
                 srcseen.setdefault(t, aid)
@@ -160,9 +164,20 @@ def key_lookup(a, ns, root):
     if ns == "dep:npm":
         return "" if json.dumps(key) + ":" in line else f"package {key!r} not on line {ln}"
     if ns == "dep:env":
-        return "" if re.search(r"(?<![A-Za-z0-9_])" + re.escape(key) + r"(?![A-Za-z0-9_])", line) else f"env {key!r} not on line {ln}"
+        # round 2 class 8: an env var is named as the env table cell (`KEY`) or a process.env read, not any word
+        return "" if (f"`{key}`" in line or f"process.env.{key}" in line) else f"env {key!r} not declared on line {ln}"
     if ns.startswith("tool:"):  # tool-catalog: the exact JSON name, so a prefix key does not pass (class L)
-        return "" if f'"name": {json.dumps(key)}' in line else f'"name": {json.dumps(key)} not on line {ln}'
+        if f'"name": {json.dumps(key)}' not in line:
+            return f'"name": {json.dumps(key)} not on line {ln}'
+        # round 2 class 7: the row's kind must be this namespace's kind
+        want = f'"kind": {json.dumps(ns.split(":", 1)[1])}'
+        lo = ln - 1
+        while lo > 0 and L[lo].strip() not in ("{", "},", "}"):
+            lo -= 1
+        hi = ln
+        while hi < len(L) and L[hi].strip() not in ("}", "},"):
+            hi += 1
+        return "" if any(want in x for x in L[lo:hi]) else f"row at line {ln} is not {want}"
     return "" if json.dumps(key) in line else f"key {key!r} not on line {ln}"
 
 

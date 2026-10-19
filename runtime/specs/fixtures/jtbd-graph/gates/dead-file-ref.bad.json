@@ -97,7 +97,8 @@
    "evidence": [
     "route.tool:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
   },
   {
    "from": "blocker:backlog:b",
@@ -106,16 +107,18 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
    "to": "dep:env:FIXTURE_KEY",
    "type": "runtime-dep",
    "evidence": [
-    "scripts/jtbd_graph_gates.py:1"
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "FIXTURE_KEY"
   },
   {
    "from": "tool:script:t.py",
@@ -124,7 +127,8 @@
    "evidence": [
     "scripts/gone.py:3"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
@@ -133,7 +137,8 @@
    "evidence": [
     "import:scripts/jtbd_graph_gates.py:99999"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   }
  ],
  "probes": {

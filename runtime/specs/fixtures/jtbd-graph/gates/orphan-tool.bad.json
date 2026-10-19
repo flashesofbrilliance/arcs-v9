@@ -8,7 +8,7 @@
     "key": "t.py",
     "line": 1
    },
-   "path": "scripts/jtbd_graph_gates.py"
+   "path": "scripts/git-hooks/pre-commit"
   },
   {
    "id": "job:backlog:j",
@@ -101,6 +101,26 @@
     "key": "o8.py",
     "line": 1
    }
+  },
+  {
+   "id": "tool:script:o9.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o9.py",
+    "line": 1
+   },
+   "path": "scripts/oracle.py"
+  },
+  {
+   "id": "tool:script:o10.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o10.py",
+    "line": 1
+   },
+   "path": "scripts/oracle.py"
   }
  ],
  "edges": [
@@ -111,7 +131,8 @@
    "evidence": [
     "route.tool:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
   },
   {
    "from": "blocker:backlog:b",
@@ -120,16 +141,18 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:t.py",
    "to": "dep:env:FIXTURE_KEY",
    "type": "runtime-dep",
    "evidence": [
-    "scripts/jtbd_graph_gates.py:1"
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "FIXTURE_KEY"
   },
   {
    "from": "tool:script:o2.py",
@@ -138,7 +161,8 @@
    "evidence": [
     "scripts/jtbd_graph_gates.py:1"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:o3.py",
@@ -147,7 +171,8 @@
    "evidence": [
     "scripts/jtbd_graph_gates.py:1"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "blocker:backlog:b",
@@ -156,7 +181,8 @@
    "evidence": [
     "backlog:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:o5.py",
@@ -165,7 +191,8 @@
    "evidence": [
     "route.tool:jtbd-graph-s3-gates"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:o6.py",
@@ -174,7 +201,8 @@
    "evidence": [
     "route.tool:no-such-row"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:o7.py",
@@ -183,7 +211,8 @@
    "evidence": [
     "scripts/jtbd_graph_gates.py:1"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
   },
   {
    "from": "tool:script:o8.py",
@@ -192,7 +221,28 @@
    "evidence": [
     "commit:abcdef1"
    ],
-   "inferred": false
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o9.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "route.tool:jtbd-graph-s2-edges"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o10.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "AGENTS.md:2"
+   ],
+   "inferred": false,
+   "match": ""
   }
  ],
  "probes": {
@@ -202,7 +252,7 @@
    "match": "curl"
   }
  },
- "_note": "self-edge, two-tool island, blocks-only, serves to a missing job, serves with evidence to a missing row (A), shared dep hub (B), replaces only",
+ "_note": "self-edge, two-tool island, blocks-only, serves to a missing job, serves with evidence to a missing row (A), shared dep hub (B), replaces only; round 2 class 1: real but unrelated row, blank real line",
  "_expect_ids": [
   "tool:script:o2.py",
   "tool:script:o3.py",
@@ -210,6 +260,8 @@
   "tool:script:o5.py",
   "tool:script:o6.py",
   "tool:script:o7.py",
-  "tool:script:o8.py"
+  "tool:script:o8.py",
+  "tool:script:o9.py",
+  "tool:script:o10.py"
  ]
 }

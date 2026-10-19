@@ -40,7 +40,7 @@ HORIZON_DAYS = 366  # a resolve_by further out than this is a sentinel, not a da
 FLOOR_DATE = datetime.date(2020, 1, 1)
 # a service probe line must name the service by one of these words (skeptic round 1, class J)
 SERVICE_WORDS = {"anthropic": ("anthropic",), "database": ("prisma", "supabase", "psycopg", "database", "postgres"),
-                 "resend": ("resend",), "github": ("gh", "github"), "vercel": ("vercel",), "perplexity-mcp": ("perplexity",)}
+                 "resend": ("resend",), "github": ("github",), "vercel": ("vercel",), "perplexity-mcp": ("perplexity",)}
 
 
 class Ctx:
@@ -52,19 +52,23 @@ class Ctx:
         self.today = datetime.date.today()
         self._rows = None
 
-    def row_ids(self):
+    def rows(self):
+        """backlog row id -> raw line"""
         if self._rows is None:
-            self._rows = set()
+            self._rows = {}
             try:
                 for l in open(os.path.join(self.root, BACKLOG), encoding="utf-8"):
                     if l.strip():
                         try:
-                            self._rows.add(json.loads(l).get("id"))
+                            self._rows[json.loads(l).get("id")] = l
                         except ValueError:
                             pass
             except OSError:
                 pass
         return self._rows
+
+    def row_ids(self):
+        return set(self.rows())
 
 
 def _load(path, default):
@@ -90,8 +94,42 @@ def _ev_resolves(ctx, et, item):
     return False
 
 
+def _ev_text(ctx, et, item):
+    k = _ev_kind(ctx, et, item)
+    if k in FILE_EV:
+        rel, ln = str(item).split(":", 1)[1].rsplit(":", 1) if k == "import" else str(item).rsplit(":", 1)
+        if not _line_ok(ctx, rel, int(ln)):
+            return None
+        return open(_resolve(ctx, rel), encoding="utf-8", errors="replace").read().split("\n")[int(ln) - 1]
+    if k in ("backlog_row", "route_tool"):
+        return ctx.rows().get(str(item).split(":", 1)[1])
+    return None
+
+
+def _names(a):
+    """The strings that name an atom: its natural key, its path and the path's file name."""
+    out = {str((a.get("source") or {}).get("key") or "")}
+    if isinstance(a.get("path"), str):
+        out |= {a["path"], os.path.basename(a["path"])}
+    return {x for x in out if len(x) >= 3}
+
+
+def _about(ctx, e, by):
+    """Round 2 class 1: evidence that merely resolves is not enough. The edge's match text must sit on the first
+    evidence item, and the match must name one of the edge's endpoints (key, path or file name)."""
+    m = e.get("match")
+    if not isinstance(m, str) or len(m.strip()) < 3:
+        return False
+    t = _ev_text(ctx, e["type"], e["evidence"][0])
+    if t is None or (m not in t and json.dumps(m)[1:-1] not in t):
+        return False
+    ml = m.lower()
+    return any(n.lower() in ml or ml.strip('"/`') in n.lower() for x in (e["from"], e["to"]) for n in _names(by[x]))
+
+
 def live_edges(graph, ctx):
-    kind = {a["id"]: a.get("kind") for a in graph.get("atoms", [])}
+    by = {a["id"]: a for a in graph.get("atoms", [])}
+    kind = {i: a.get("kind") for i, a in by.items()}
     out = []
     for e in graph.get("edges", []):
         et = ctx.schema["edge_types"].get(e.get("type"))
@@ -99,6 +137,8 @@ def live_edges(graph, ctx):
         if not et or f == t or f not in kind or t not in kind or [kind[f], kind[t]] not in et["pairs"]:
             continue
         if not isinstance(ev, list) or not ev or not all(_ev_resolves(ctx, e["type"], x) for x in ev):
+            continue
+        if not _about(ctx, e, by):
             continue
         out.append(e)
     return out
@@ -145,11 +185,12 @@ def blocker_no_resolve_by(graph, ctx):
         if ok:
             try:
                 d = datetime.date.fromisoformat(rb)
-                ok = FLOOR_DATE <= d <= ctx.today + datetime.timedelta(days=HORIZON_DAYS)
+                # round 2 class 2: a date already past is lapsed, not a plan; the blocker needs a new date
+                ok = ctx.today <= d <= ctx.today + datetime.timedelta(days=HORIZON_DAYS)
             except ValueError:
                 ok = False
         if not ok:
-            out.append((a["id"], f"resolve_by {rb!r} is not a YYYY-MM-DD date between {FLOOR_DATE} and today + {HORIZON_DAYS} days"))
+            out.append((a["id"], f"resolve_by {rb!r} is not a YYYY-MM-DD date from today to today + {HORIZON_DAYS} days"))
     return out
 
 
@@ -264,6 +305,30 @@ def _code_part(line, ext):
     return "".join(out) + (seg[:cut.start()] if cut else seg)
 
 
+def _live_lines(text, ext):
+    """Per line: False when the line starts inside a multi-line /* */ comment or a Python triple-quoted string.
+    Round 2 class 4: comment state carries across lines."""
+    out, inside = [], None
+    for line in text.split("\n"):
+        out.append(inside is None)
+        i = 0
+        while i < len(line):
+            if inside is None:
+                if ext not in (".py", ".sh") and line.startswith("/*", i):
+                    inside, i = "*/", i + 2; continue
+                if ext == ".py" and line.startswith(('"""', "'''"), i):
+                    inside, i = line[i:i + 3], i + 3; continue
+                if (ext in (".py", ".sh") and line[i] == "#") or (ext not in (".py", ".sh") and line.startswith("//", i)):
+                    break
+                i += 1
+            else:
+                j = line.find(inside, i)
+                if j < 0:
+                    break
+                i, inside = j + len(inside), None
+    return out
+
+
 def _word(w, text):
     return re.search(r"(?<![A-Za-z0-9_])" + re.escape(w) + r"(?![A-Za-z0-9_])", text, re.I) is not None
 
@@ -277,16 +342,20 @@ def _probe_ok(ctx, dep, p):
     ext = os.path.splitext(f)[1]
     if ext not in CODE_EXT or (f.startswith(FIX) and not ctx.fixture_probes) or f == PROBES:
         return False  # classes I: only code files probe, case-sensitive allowlist
-    code = _code_part(open(_resolve(ctx, f), encoding="utf-8", errors="replace").read().split("\n")[ln - 1], ext)
+    text = open(_resolve(ctx, f), encoding="utf-8", errors="replace").read()
+    if not _live_lines(text, ext)[ln - 1]:
+        return False
+    code = _code_part(text.split("\n")[ln - 1], ext)
+    bare = STR_RE.sub('""', code)  # round 2 class 3: the dep must be named in code, not inside a string literal
     if m not in code:
         return False  # class G: a needle in a comment does not probe
     if not CALL_RE.search(STR_RE.sub('""', code)):
         return False  # class G: a line that only holds a string does nothing; a probe line calls or awaits
     key = dep.split(":", 2)[2] if dep.count(":") >= 2 else ""
     if dep.startswith("dep:env:"):
-        return re.search(r"(?<![A-Za-z0-9_])" + re.escape(key) + r"(?![A-Za-z0-9_])", code) is not None  # class H
+        return re.search(r"(?<![A-Za-z0-9_])" + re.escape(key) + r"(?![A-Za-z0-9_])", bare) is not None  # class H
     words = SERVICE_WORDS.get(key, (key,))
-    return any(_word(w, code) for w in words)  # class J: the line names the service
+    return any(_word(w, bare) for w in words)  # class J: the line names the service
 
 
 def runtime_dep_no_probe(graph, ctx):

@@ -518,20 +518,22 @@ def _git(root, *args):
 
 
 def _baseline_head(root):
-    """The baseline as FIRST committed: the reference every later version must be a subset of. Comparing to HEAD
-    let a committed growth pass (skeptic round 1, class N); the first version is fixed in history."""
-    import subprocess
-    first = (_git(root, "log", "--reverse", "--format=%H", "--", gg.BASELINE) or "").split("\n")[0]
+    """The reference the baseline must stay a subset of: its first version on main's first-parent history.
+    Round 2 class 10: a branch's own first version can be amended away before merge, so it never counts.
+    Returns {} when the file is not on main yet (nothing to grow from), and None when git cannot answer, which
+    the caller treats as a failure (round 2 class 11: fail closed)."""
+    ref = "origin/main" if _git(root, "rev-parse", "--verify", "-q", "origin/main") else None
+    if _git(root, "rev-parse", "--git-dir") is None:
+        return None
+    hist = _git(root, "log", "--first-parent", "--reverse", "--format=%H", ref or "HEAD", "--", gg.BASELINE)
+    if hist is None:
+        return None
+    first = hist.split("\n")[0]
     if not first:
-        return None
+        return {}
+    raw = _git(root, "show", f"{first}:{gg.BASELINE}")
     try:
-        r = subprocess.run(["git", "-C", root, "show", f"{first}:{gg.BASELINE}"], capture_output=True, text=True, timeout=10)
-    except (OSError, subprocess.SubprocessError):
-        return None
-    if r.returncode != 0:
-        return None
-    try:
-        return json.loads(r.stdout).get("rules", {})
+        return json.loads(raw).get("rules", {}) if raw is not None else None
     except ValueError:
         return None
 
@@ -547,7 +549,13 @@ def check(root=REPO, mem_dir=MEM_DIR):
     base = gg._load(os.path.join(root, gg.BASELINE), {}).get("rules", {})
     new, held, stale = gg.apply_baseline(found, base)
     head = _baseline_head(root)
-    grew = {r: sorted(set(ids) - set((head or {}).get(r, []))) for r, ids in base.items()} if head is not None else {}
+    if head is None:
+        grew = {"BASELINE-UNCHECKED": ["git history unavailable; cannot check that the baseline only shrinks"]}
+    elif not head:
+        grew = {}
+        print(f"jtbd-graph --check: {gg.BASELINE} is not on main yet; growth is checked against its first main version from the merge on")
+    else:
+        grew = {r: sorted(set(ids) - set(head.get(r, []))) for r, ids in base.items()}
     grew = {r: v for r, v in grew.items() if v}
     if not ok:
         print("jtbd-graph --check: the s1/s2 build checks failed; run `python3 scripts/universe_jtbd_adapter.py` for the report")
