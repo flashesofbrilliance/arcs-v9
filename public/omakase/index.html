@@ -24,7 +24,7 @@
   /* progress: nine lantern dots along the top, lit as the evening advances */
   .lanterns{position:sticky;top:0;z-index:40;display:flex;justify-content:center;gap:14px;
     padding:16px 20px;background:rgba(11,11,12,.94);backdrop-filter:blur(6px)}
-  .lanterns .subnav{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;color:var(--faint);white-space:nowrap}
+  .lanterns .subnav{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:12px;letter-spacing:.13em;color:var(--faint);white-space:nowrap}
   .lanterns .subnav a{color:var(--graphite);text-decoration:none;border-bottom:1px dashed var(--line)}
   .lanterns .subnav a:hover,.lanterns .subnav a:focus-visible{color:var(--gold);border-bottom-color:var(--gold)}
   .lanterns .subnav .here{color:var(--gold)}
@@ -69,26 +69,26 @@
 
   .step{margin-top:40px}
   .step button{background:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);
-    font-size:11px;letter-spacing:.28em;padding:14px 34px;border-radius:3px;transition:background .3s,color .3s}
+    font-size:12px;letter-spacing:.28em;padding:14px 34px;border-radius:3px;transition:background .3s,color .3s}
   .step button:hover{background:var(--gold);color:var(--case)}
   .step button:disabled{border-color:var(--faint);color:var(--faint);cursor:default;background:none}
-  .quiet{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--graphite);margin-top:16px}
+  .quiet{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--graphite);margin-top:16px}
 
 
   /* easter eggs: visible only after 完, faint until sought (the teacher appears to the one who seeks) */
   /* walk-through doors: every course opens into the room it was cooked in */
-  .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.65;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
+  .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--gold);opacity:.65;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
   .door.locked{cursor:default;color:var(--faint);opacity:.55}
   .door.tea{opacity:.85}
   .door.tea:hover,.door.tea:focus-visible{opacity:1;border-color:var(--gold);border-style:solid}
 
   /* the take-home: 土産: what the lacquered box was built to carry, handed at the door */
   .gift{margin-top:44px}
-  .glbl{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--gold)}
-  .cta{display:block;max-width:580px;margin:18px auto 0;text-align:center;text-decoration:none;border:1px solid var(--verm);color:var(--verm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;padding:16px 20px;border-radius:3px;transition:background .3s,color .3s}
+  .glbl{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--gold)}
+  .cta{display:block;max-width:580px;margin:18px auto 0;text-align:center;text-decoration:none;border:1px solid var(--verm);color:var(--verm);font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.24em;padding:16px 20px;border-radius:3px;transition:background .3s,color .3s}
   .cta:hover,.cta:focus-visible{background:var(--verm);color:var(--case);text-decoration:none}
-  .assure{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite);margin-top:12px;line-height:1.9;max-width:580px;margin-left:auto;margin-right:auto}
-  .qlinks{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--faint);margin-top:16px}
+  .assure{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--graphite);margin-top:12px;line-height:1.9;max-width:580px;margin-left:auto;margin-right:auto}
+  .qlinks{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--faint);margin-top:16px}
   .qlinks a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)}
   .qlinks a:hover,.qlinks a:focus-visible{border-bottom-color:var(--gold)}
   /* silk: scroll-choreographed brush-dash field behind the evening */
@@ -97,30 +97,30 @@
   /* 間: the pause between courses; the last taste lingers before the next */
   .ma{margin-bottom:36px}
   .ma .mjp{display:block;font-size:15px;letter-spacing:.28em;color:var(--gold);opacity:.7;line-height:2}
-  .ma .men{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--graphite);margin-top:7px;line-height:1.9}
+  .ma .men{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--graphite);margin-top:7px;line-height:1.9}
   /* CJK display text obeys Japanese line-breaking, never western word-wrap */
   [lang="ja"],.jp,.kanji-big,.ma .mjp{word-break:keep-all;line-break:strict;overflow-wrap:normal;
     font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",var(--sans)}
   .jp{font-size:clamp(30px,9.5vw,44px)}
   /* 路地: the alleys, rabbit holes off the welcome, ordered by depth; the map re-cuts itself */
   .alley{margin-top:38px}
-  .alleyk{background:none;border:none;font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:var(--graphite);opacity:.65;cursor:pointer;padding:8px 12px;transition:opacity .4s,color .4s}
+  .alleyk{background:none;border:none;font-family:var(--mono);font-size:12px;letter-spacing:.26em;color:var(--graphite);opacity:.65;cursor:pointer;padding:8px 12px;transition:opacity .4s,color .4s}
   .alleyk:hover,.alleyk:focus-visible{opacity:1;color:var(--gold)}
   .alleymap{overflow:hidden;max-height:0;opacity:0;transition:max-height .9s ease,opacity .7s ease;max-width:600px;margin:0 auto}
   .alleymap.open{max-height:900px;opacity:1;padding-top:14px}
-  .ao{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--graphite);line-height:2.4;margin-top:10px}
-  .ao b{display:block;color:var(--faint);letter-spacing:.26em;font-weight:600;font-size:8.5px}
+  .ao{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--graphite);line-height:2.4;margin-top:10px}
+  .ao b{display:block;color:var(--faint);letter-spacing:.26em;font-weight:600;font-size:12px}
   .ao a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint);margin:0 7px;white-space:nowrap}
   .ao a:hover,.ao a:focus-visible{border-bottom-color:var(--gold)}
-  .ao .locked{color:var(--faint);margin:0 7px;white-space:nowrap;cursor:default;opacity:.6;font-size:9px}
+  .ao .locked{color:var(--faint);margin:0 7px;white-space:nowrap;cursor:default;opacity:.6;font-size:12px}
   .rcp{max-width:620px;margin:26px auto 0;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(201,162,39,.05),transparent 70%);padding:20px 22px;text-align:left}
-  .rcp .rk{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px;text-align:center}
+  .rcp .rk{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px;text-align:center}
   .rcp .rrow{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:9px 0;border-top:1px dashed rgba(201,162,39,.25)}
   .rcp .rrow:first-of-type{border-top:0}
-  .rcp .rl{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--faint);padding-top:3px}
+  .rcp .rl{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--faint);padding-top:3px}
   .rcp .rv{font-size:13.5px;color:var(--dial);line-height:1.65}
   @media(max-width:560px){.rcp .rrow{grid-template-columns:1fr;gap:3px}}
-  .an{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;color:var(--faint);line-height:2;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto}
+  .an{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--faint);line-height:2;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto}
   /* the loading stroke: one enso draws itself in ink, breathes, and dissolves into the street.
      Pure CSS timeline (self-clearing without JS); shown once per session; reduced-motion skips it. */
   #loader{position:fixed;inset:0;z-index:100;background:var(--case);display:flex;align-items:center;justify-content:center;
@@ -134,7 +134,7 @@
   @keyframes ldink{to{filter:blur(0)}}
   @keyframes ldveil{to{opacity:0;visibility:hidden;transform:scale(1.06)}}
   @media (prefers-reduced-motion:reduce){#loader{display:none}}
-  footer{padding:0 22px 60px;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);line-height:2.1}
+  footer{padding:0 22px 60px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--faint);line-height:2.1}
   /* dark instrument scrollbar, independent of OS theme */
   html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
   ::-webkit-scrollbar{width:10px;height:10px}
