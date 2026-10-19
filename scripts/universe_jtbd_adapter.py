@@ -329,7 +329,7 @@ def _fixture(tmp, dup=False):
     open(os.path.join(tmp, BACKLOG), "w").write(json.dumps({"id": "row-a", "state": "OPEN", "route": {"tool": "scripts/a.py"}, "depends_on": ["row-b"], "jtbd": "needs ANTHROPIC_API_KEY"}) + "\n" +
                                                  json.dumps({"id": "row-b", "state": "BLOCKED"}) + "\n")
     os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "src/lib"))
-    open(os.path.join(tmp, "scripts/a.py"), "w").write('import op_x\nimport os\nU = os.environ.get("DATABASE_URL")\nsubprocess.run(["gh", "pr", "list"])\n')
+    open(os.path.join(tmp, "scripts/a.py"), "w").write('import op_x\nimport os\nU = os.environ.get("DATABASE_URL")\nsubprocess.run(["gh", "pr", "list"])\ntry:\n    subprocess.run(["vercel", "ls"])\nexcept OSError:\n    pass\n')
     open(os.path.join(tmp, "operators/op_x.py"), "w").write('# written against scripts/a.py\n')
     open(os.path.join(tmp, "AGENTS.md"), "w").write("Stack: Anthropic SDK, Supabase (prod), Magic link emails via Resend, Vercel `get_deployment`\n"
         "gh pr merge --merge\n| Perplexity MCP | x |\n## Environment variables\n| `ANTHROPIC_API_KEY` | k |\n| `DATABASE_URL` | d |\n## Next\n")
@@ -401,6 +401,9 @@ def edge_self_test():
                 ("job:backlog:row-a", "needs", "dep:env:ANTHROPIC_API_KEY", "row-cite"),
                 ("tool:operator:op_x.py", "design-dep", "tool:op:1", "operator-bind")}
         missing = want - trip
+        soft = [t for t in trip if t[2] == "dep:service:vercel"]
+        print(f"bad edge fixture (guarded vercel call emits no runtime-dep): {'caught' if not soft else 'MISSED'}")
+        ok &= not soft
         good = good and not missing
         print(f"edge good fixture: {'PASS' if good else 'FAIL'} ({len(g['edges'])} edges; missing {sorted(missing)})")
         ok &= good

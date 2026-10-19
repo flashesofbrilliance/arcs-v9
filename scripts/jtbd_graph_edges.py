@@ -13,9 +13,11 @@ Mechanical rules
   design-dep   operator-bind tool:operator:<file> -> tool:op:<n> (registry binding.module, s1)
   design-dep   py-import     `import x` / `from x import` resolving to a cataloged scripts/ or operators/ file
   design-dep   js-import     import/require of an npm package that is a dep:npm atom
-  design-dep   cite          a tool file names another tool's full path (neighbor_scan.py citer rule, full path only)
+  design-dep   cite          a tool file names another tool's full path (neighbor_scan.py citer rule, full path only;
+                             generated catalog listing pages in CITE_NOISE are skipped)
   runtime-dep  env-read      process.env.X / os.environ[...] / os.getenv for an env var that is a dep:env atom
-  runtime-dep  service       a tool file line matches a service's call signature (SERVICES below)
+  runtime-dep  service       a tool file line matches a service's call signature (SERVICES below), unless the call
+                             is guarded (shell 2>/dev/null or || fallback on the line, or a Python try: just above)
 Judgment edges: runtime/specs/jtbd-graph-inferred-edges.json (hand pass on the residue), inferred=true + by.
 """
 import json, os, re
@@ -40,6 +42,10 @@ CODE_EXT = (".py", ".ts", ".tsx", ".js", ".mjs", ".cjs", ".sh")
 ENV_RE = re.compile(r"""process\.env\.([A-Z][A-Z0-9_]*)|process\.env\[["']([A-Z][A-Z0-9_]*)["']\]|os\.environ\.get\(\s*["']([A-Z][A-Z0-9_]*)|os\.environ\[\s*["']([A-Z][A-Z0-9_]*)|os\.getenv\(\s*["']([A-Z][A-Z0-9_]*)""")
 PY_IMP = re.compile(r"^\s*(?:from\s+([A-Za-z_][\w.]*)\s+import\b|import\s+([A-Za-z_][\w.]*(?:\s*,\s*[A-Za-z_][\w.]*)*))")
 JS_IMP = re.compile(r"""(?:^\s*import\b[^'"]*?from\s*|^\s*import\s*|\brequire\(\s*|\bimport\(\s*)["']([^"'./][^"']*)["']""")
+# a call that degrades instead of failing is not a runtime-dep (s2 counter-agent, seed 20261018, refuted edge 10)
+SOFT_SH = re.compile(r"2>\s*/dev/null|\|\|\s*(true|echo|:)\b|\|\|\s*:$")
+# generated listing pages cite every row of a catalog; they are offspring of the catalog, not written against each row
+CITE_NOISE = ("runtime/warroom/surfaces.html",)
 STRIP_ROUTE = re.compile(r"(?:pattern|template|resources?|prior art|precedent)\s*:\s*[^;·]+", re.I)
 
 
@@ -78,6 +84,17 @@ def env_and_service_atoms(root, atom, dups):
             raise ValueError(f"service {slug}: needle {needle!r} not in {AGENTS}")
         out.append(atom(f"dep:service:{slug}", "dep", SVC_CAT, slug, ln, path=AGENTS, title=needle))
     return out
+
+
+def _soft(L, i):
+    """True when line i is guarded: shell fallback on the line, or a Python try: opening within 3 lines above."""
+    if SOFT_SH.search(L[i]):
+        return True
+    ind = len(L[i]) - len(L[i].lstrip())
+    for j in range(max(0, i - 3), i):
+        if L[j].strip() == "try:" and len(L[j]) - len(L[j].lstrip()) < ind:
+            return True
+    return False
 
 
 def _edge(fr, to, typ, ev, match, rule):
@@ -171,7 +188,7 @@ def build_edges(root, atoms, rows, op_edges):
         code = p.endswith(CODE_EXT)
         for i, line in enumerate(L):
             ev = f"{p}:{i + 1}"
-            if path_re:
+            if path_re and p not in CITE_NOISE:
                 for m in path_re.finditer(line):
                     if m.group(0) == p:
                         continue
@@ -208,7 +225,7 @@ def build_edges(root, atoms, rows, op_edges):
                         edges.append(_edge(fr, f"dep:env:{n}", "runtime-dep", ev, n, "env-read"))
             for s, rx in svc.items():
                 mm = rx.search(line)
-                if mm:
+                if mm and not _soft(L, i):
                     for fr in tids:
                         edges.append(_edge(fr, f"dep:service:{s}", "runtime-dep", ev, mm.group(0).strip(), "service"))
     # judgment residue (hand pass), committed
