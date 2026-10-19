@@ -280,6 +280,29 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
 .path .day { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--muted); font-variant-numeric: tabular-nums; }
 .path li.crit .day { color: var(--gold); }
 @media (max-width: 640px) { .chain { grid-template-columns: minmax(0, 1fr); } .path li { grid-template-columns: minmax(0, 1fr); } }
+
+.gantt { margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--border); }
+.gantt figcaption { margin-bottom: 10px; color: var(--text-secondary); }
+.g-row, .g-axis { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 26px; }
+.g-l { font-size: var(--fs-body); color: var(--text); }
+.g-t { position: relative; height: 14px; }
+.g-axis .g-t { height: 18px; }
+.g-axis b { position: absolute; transform: translateX(-50%); font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--muted); font-weight: 500; }
+.g-axis b:first-child { transform: none; }
+.g-axis b:last-child { transform: translateX(-100%); }
+.g-t i { position: absolute; top: 2px; height: 10px; border-radius: var(--ds-r-xs); }
+.g-plan { top: 0 !important; height: 14px !important; border: 1px dashed var(--muted); background: transparent; }
+.g-act { background: var(--cyan); }
+.g-slip { background: var(--orange); }
+.g-creep { background: var(--red); }
+.g-cut { background: transparent; border: 2px solid var(--green); }
+.g-90 { left: 75%; top: -4px !important; height: 22px !important; width: 0; border-left: 1px solid var(--gold); border-radius: 0 !important; }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 14px; color: var(--text-secondary); }
+.g-key span::before { content: ""; display: inline-block; width: 14px; height: 8px; margin-right: 6px; border-radius: var(--ds-r-xs); vertical-align: 1px; }
+.g-key .k1::before { background: var(--cyan); } .g-key .k2::before { background: var(--orange); } .g-key .k3::before { background: var(--red); }
+.g-key .k4::before { border: 2px solid var(--green); } .g-key .k5::before { border: 1px dashed var(--muted); } .g-key .k6::before { width: 0; border-left: 1px solid var(--gold); height: 12px; }
+.g-note { margin-top: 8px; }
+@media (max-width: 640px) { .g-row, .g-axis { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 8px; } }
 </style>
 </head>
 <body>
@@ -304,6 +327,7 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
       <li><a href="#path">4 Critical path</a></li>
       <li><a href="#guardrails">5 Guardrails</a></li>
       <li><a href="#ramps">6 Ramps</a></li>
+      <li><a href="#done">7 Scope and RACI</a></li>
     </ol>
   </nav>
 
@@ -370,6 +394,25 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
         </tbody>
       </table>
       </div>
+      <p class="g-key"><span class="k5">Planned</span><span class="k1">Actual</span><span class="k2">Slippage</span><span class="k3">Scope creep</span><span class="k4">Descoped</span><span class="k6">Day 90</span></p>
+      <figure class="gantt" role="img" aria-label="Best: Five days ahead; the time saved buys one added scope item, approved at the gate.">
+        <figcaption><span class="tag open">Best</span> Five days ahead; the time saved buys one added scope item, approved at the gate.</figcaption>
+        <div class="g-axis"><span class="g-l"></span><span class="g-t"><b style="left:0">Day 0</b><b style="left:25.00%">30</b><b style="left:50.00%">60</b><b style="left:75.00%">90</b><b style="left:100.00%">120</b></span></div>
+        <div class="g-row"><span class="g-l">Discover</span><span class="g-t"><i class="g-plan" style="left:0.00%;width:25.00%" title="Planned day 0 to 30"></i><i class="g-act" style="left:0.00%;width:20.83%" title="Done day 25"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Build</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-act" style="left:20.83%;width:25.00%" title="Day 25 to 55"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Second permit type</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:0.00%" title="Planned day 60 to 60"></i><i class="g-creep" style="left:45.83%;width:16.67%" title="Added scope, day 55 to 75, inside the time saved"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Hand off</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-act" style="left:45.83%;width:25.00%" title="Day 55 to 85"></i><i class="g-90"></i></span></div>
+        <p class="g-note"><strong>Descope option:</strong> not needed. If the added item threatens day 90, it moves to phase two first.</p>
+      </figure>
+      <figure class="gantt" role="img" aria-label="Base: Access lands late and one integration is custom; 13 days of slip and creep.">
+        <figcaption><span class="tag ">Base</span> Access lands late and one integration is custom; 13 days of slip and creep.</figcaption>
+        <div class="g-axis"><span class="g-l"></span><span class="g-t"><b style="left:0">Day 0</b><b style="left:25.00%">30</b><b style="left:50.00%">60</b><b style="left:75.00%">90</b><b style="left:100.00%">120</b></span></div>
+        <div class="g-row"><span class="g-l">Discover</span><span class="g-t"><i class="g-plan" style="left:0.00%;width:25.00%" title="Planned day 0 to 30"></i><i class="g-act" style="left:0.00%;width:25.00%" title="Day 0 to 30"></i><i class="g-slip" style="left:25.00%;width:4.17%" title="Access late, +5 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Build</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-act" style="left:29.17%;width:20.83%" title="Day 35 to 60"></i><i class="g-creep" style="left:50.00%;width:6.67%" title="New integration, +8 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Reporting view</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-cut" style="left:51.67%;width:6.67%" title="Cut to phase two, saves 8 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Hand off</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-act" style="left:56.67%;width:20.83%" title="Day 68 to 93"></i><i class="g-slip" style="left:75.00%;width:2.50%" title="3 days over"></i><i class="g-90"></i></span></div>
+        <p class="g-note"><strong>Descope option:</strong> move the reporting view to phase two. That recovers 8 of the 13 days and lands within a few days of 90, agreed at the day-60 gate.</p>
+      </figure>
+      <figure class="gantt" role="img" aria-label="Worst: No access by day 20 and a sponsor change; projected day 110 without action.">
+        <figcaption><span class="tag gap">Worst</span> No access by day 20 and a sponsor change; projected day 110 without action.</figcaption>
+        <div class="g-axis"><span class="g-l"></span><span class="g-t"><b style="left:0">Day 0</b><b style="left:25.00%">30</b><b style="left:50.00%">60</b><b style="left:75.00%">90</b><b style="left:100.00%">120</b></span></div>
+        <div class="g-row"><span class="g-l">Discover</span><span class="g-t"><i class="g-plan" style="left:0.00%;width:25.00%" title="Planned day 0 to 30"></i><i class="g-act" style="left:0.00%;width:25.00%" title="Day 0 to 30"></i><i class="g-slip" style="left:25.00%;width:12.50%" title="No written access, +15 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Build</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-act" style="left:37.50%;width:12.50%" title="Day 45 to 60"></i><i class="g-slip" style="left:50.00%;width:16.67%" title="Sponsor change and records rule, +20 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Payments integration</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-cut" style="left:41.67%;width:12.50%" title="Cut to phase two"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Hand off</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-act" style="left:66.67%;width:8.33%" title="Day 80 to 90"></i><i class="g-slip" style="left:75.00%;width:16.67%" title="Projected 20 days over"></i><i class="g-90"></i></span></div>
+        <p class="g-note"><strong>Descope option:</strong> escalate at day 20, ship on approved data only, and move payments to phase two. Projected finish about day 97, or stop at the gate if the measure no longer holds.</p>
+      </figure>
     </section>
 
     <section class="wide" id="premortem">
@@ -443,6 +486,41 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
         </tbody>
       </table>
       </div>
+    </section>
+
+    <section class="wide" id="done">
+      <h2>7 · Scope, acceptance and who talks to whom</h2>
+      <p class="take">Scope is written before build, "done" is tested by the people who will run it, and every role knows its cadence.</p>
+      <dl class="map">
+        <div><dt>Scoping guardrails</dt><dd>One page per deployment: problem, measure, non-goals, systems touched, data owners. Anything not on it is a change request with a cost in days. The page is versioned; the sponsor signs each version.</dd></div>
+        <div><dt>User acceptance (UAT)</dt><dd>Test scripts written in phase one from the clerks' real cases, not from the spec. UAT runs on real records in a staging copy. Pass means the clerk finishes each script without help; failures are logged, triaged and retested, never waived in the meeting.</dd></div>
+        <div><dt>Definition of done</dt><dd>UAT passed and signed. Measure baseline and current value reported. Accessibility checked. Access reviewed by named role. Runbook, alerts and on-call contact handed over. County staff ran it two weeks alone. One-off pieces filed for the shared library.</dd></div>
+      </dl>
+      <div class="scroll" style="margin-top:16px">
+      <table class="ledger">
+        <thead><tr><th>Decision or task</th><th>Responsible</th><th>Accountable</th><th>Consulted</th><th>Informed</th></tr></thead>
+        <tbody>
+          <tr><td>Scope page and change requests</td><td>FDPM</td><td>Director</td><td>FDE, clerks</td><td>IT, counsel</td></tr>
+          <tr><td>Data access</td><td>FDPM, operations</td><td>IT security</td><td>FDE</td><td>Director</td></tr>
+          <tr><td>Build and integrations</td><td>FDE</td><td>FDE</td><td>FDPM, IT</td><td>Director</td></tr>
+          <tr><td>UAT scripts and sign-off</td><td>FDE, clerks</td><td>Director</td><td>FDPM</td><td>IT</td></tr>
+          <tr><td>Records policy</td><td>Counsel</td><td>Counsel</td><td>FDE, FDPM</td><td>Director</td></tr>
+          <tr><td>Go-live and hypercare</td><td>FDE</td><td>FDPM</td><td>IT, clerks</td><td>Director</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="scroll" style="margin-top:16px">
+      <table class="ledger">
+        <thead><tr><th>Cadence</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td class="s">Daily, async</td><td>FDE and FDPM</td><td>Blockers and one decision needed, in writing.</td></tr>
+          <tr><td class="s">Weekly</td><td>Director, FDPM, FDE</td><td>The one-line report: measure, gate, risk, decision, budget and days left.</td></tr>
+          <tr><td class="s">Weekly demo</td><td>Clerks, FDE</td><td>Working software on real or mirrored data.</td></tr>
+          <tr><td class="s">Each gate</td><td>Director signs; IT and counsel consulted</td><td>Pass, re-scope or stop.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="margin-top:12px" class="k">Tempo follows the triggers in section 5: twice weekly when off plan, every other week in quiet hypercare.</p>
     </section>
   </div>
 
