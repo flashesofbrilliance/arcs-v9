@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 284,
+  "rows": 286,
   "hosts": 81,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 225,
+   "product page": 227,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 28,
   "app_routes": 47,
-  "missing_purpose": 3,
+  "missing_purpose": 5,
   "unlisted": 111
  },
  "retired_hosts": [
@@ -1363,6 +1363,46 @@
    "unlisted": true,
    "purpose": "Zach on a Concourse Pod",
    "kind": "product page",
+   "last_commit": "2026-10-19"
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/candidate.json",
+   "catch_all": false,
+   "destination": "/concourse-candidate.json",
+   "pattern": false,
+   "file": "public/concourse-candidate.json",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/concourse-llms.txt",
+   "pattern": false,
+   "file": "public/concourse-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
    "last_commit": null
   },
   {
@@ -1383,7 +1423,7 @@
    "unlisted": true,
    "purpose": "Zach Harris FDE Brief",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-19"
   },
   {
    "host": "conduit.arcs.care",
@@ -5344,7 +5384,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-17"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "thetrueai.arcs.care",

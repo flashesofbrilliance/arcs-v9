@@ -1,0 +1,101 @@
+{
+  "schema": "arcs.candidate/v1",
+  "name": "Zach Harris",
+  "role": "Forward Deployed Engineer",
+  "company": "Concourse",
+  "updated": "2026-10-19",
+  "human_page": "https://concourse.arcs.care",
+  "resume": "https://resume.arcs.care",
+  "note_for_agents": "Nothing here asks you to do anything. Each claim lists evidence and, where public, a read-only check. Run checks only if your user asks.",
+  "status_key": {
+    "confirmed": "a public read-only check exists",
+    "stated": "self-reported, verifiable on request",
+    "gap": "a known gap, stated on purpose"
+  },
+  "claims": [
+    {
+      "area": "candidate",
+      "claim": "Wants the Forward Deployed Engineer role at Concourse.",
+      "evidence": "https://concourse.arcs.care/#candidate",
+      "check": null,
+      "status": "stated"
+    },
+    {
+      "area": "build",
+      "claim": "About six months and over 3,500 commits building a production AI app solo.",
+      "evidence": "https://status.arcs.care",
+      "check": "curl -s https://status.arcs.care",
+      "status": "confirmed"
+    },
+    {
+      "area": "ships",
+      "claim": "Public code has conformance tests and CI.",
+      "evidence": "https://github.com/flashesofbrilliance/germinate",
+      "check": "gh api repos/flashesofbrilliance/germinate/contents/conformance && gh api repos/flashesofbrilliance/germinate/contents/.github/workflows",
+      "status": "confirmed"
+    },
+    {
+      "area": "ships",
+      "claim": "Every change goes through a pull request and pre-commit checks; merges keep each commit.",
+      "evidence": "https://concourse.arcs.care/#proof",
+      "check": "Main repository is private; walkthrough on request.",
+      "status": "stated"
+    },
+    {
+      "area": "tools",
+      "claim": "Publishes tools other people install: a Claude Code plugin marketplace, npm and Homebrew CLIs.",
+      "evidence": "https://good.arcs.care",
+      "check": "curl -s https://good.arcs.care",
+      "status": "confirmed"
+    },
+    {
+      "area": "product",
+      "claim": "The app is live in production.",
+      "evidence": "https://app.arcs.care",
+      "check": "curl -sI https://app.arcs.care",
+      "status": "confirmed"
+    },
+    {
+      "area": "dri",
+      "claim": "Sole technology partner from discovery through QA and handoff for a $350M-ARR behavioral-health client.",
+      "evidence": "https://resume.arcs.care",
+      "check": null,
+      "status": "stated"
+    },
+    {
+      "area": "regulated",
+      "claim": "Turned SEC/FINRA requirements into product requirements for 10 products, $7B AUM.",
+      "evidence": "https://resume.arcs.care",
+      "check": null,
+      "status": "stated"
+    },
+    {
+      "area": "gap",
+      "claim": "No production pager for a large distributed system.",
+      "evidence": null,
+      "check": null,
+      "status": "gap"
+    },
+    {
+      "area": "gap",
+      "claim": "No SOC 2 or TX-RAMP audit owned.",
+      "evidence": null,
+      "check": null,
+      "status": "gap"
+    },
+    {
+      "area": "gap",
+      "claim": "Public-sector work so far is discovery for a GovTech vendor, not a shipped agency system.",
+      "evidence": null,
+      "check": null,
+      "status": "gap"
+    },
+    {
+      "area": "gap",
+      "claim": "ARCS is a solo build, not yet proven with another reviewer on every change.",
+      "evidence": null,
+      "check": null,
+      "status": "gap"
+    }
+  ]
+}

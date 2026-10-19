@@ -261,79 +261,102 @@ table.ledger td.s { white-space: nowrap; }
 .geo dd { margin: 0; color: var(--text-secondary); }
 .geo .lbl { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--muted); letter-spacing: 0.04em; }
 @media (max-width: 640px) { .geo > div { grid-template-columns: minmax(0, 1fr); } }
+.qa { display: grid; gap: 0; margin: 0; }
+.qa > div { padding: 12px 0; border-top: 1px solid var(--border); }
+.qa dt { margin: 0 0 4px; font-weight: 600; }
+.qa dd { margin: 0; color: var(--text-secondary); }
+.take { margin: 0 0 12px; color: var(--cyan); font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height: 1.35; text-wrap: pretty; }
+nav.toc ol { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0; list-style: none; margin: 0; }
+nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); }
 </style>
-<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <main class="page">
   <header>
-    <p class="eyebrow">Concourse · Forward Deployed Engineer · working draft</p>
-    <h1>Zach on a Concourse pod: the bet, the record, the gaps</h1>
-    <p class="meta"><span>For the Concourse FDE team</span> · <span>Oct 19, 2026</span> · <span>Updated after each conversation</span></p>
+    <p class="eyebrow">Concourse · Forward Deployed Engineer candidate</p>
+    <h1>Zach Harris, Forward Deployed Engineer</h1>
+    <p class="meta"><span>For the Concourse team</span> · <span>Oct 19, 2026</span> · <span>Agent-readable: <a href="/llms.txt">llms.txt</a> · <a href="/candidate.json">candidate.json</a></span></p>
   </header>
 
-  <div class="next" role="note" aria-label="The bet in one line">
-    <p class="when">The FDE seat, with the product instincts to run intake cleanly, so each agency deployment leaves the next one cheaper.</p>
-    <p class="who">This page is written as a prediction, not a pitch. Every claim below has a test, and the ledger at the bottom shows which ones the process has confirmed so far. Right now, none have.</p>
+  <div class="next" role="note" aria-label="The takeaway">
+    <p class="when">Takes a customer problem from the first scoping call to a running system, alone if needed, and leaves reusable pieces behind for the next deployment.</p>
+    <p class="who">Twenty years of customer-facing product work in regulated settings, the last two building a production AI app solo in Claude Code. Every claim below links to something you can check. Honest gaps are in section 6.</p>
   </div>
 
+  <nav class="toc" aria-label="Sections" style="margin-top:20px">
+    <ol>
+      <li><a href="#candidate">1 Candidate</a></li>
+      <li><a href="#background">2 Background</a></li>
+      <li><a href="#questions">3 Questions</a></li>
+      <li><a href="#proof">4 Proof</a></li>
+      <li><a href="#dri">5 End to end</a></li>
+      <li><a href="#gaps">6 Gaps</a></li>
+    </ol>
+  </nav>
+
   <div class="grid">
-    <section class="wide">
-      <h2>If you only have two minutes</h2>
-      <p>Zach Harris, FDE candidate: a solo-built production app on Claude, open-source agent tooling with real install paths, and twenty years of scoping customer work in regulated settings. Honest gaps are listed below.</p>
+    <section class="wide" id="candidate">
+      <h2>1 · The candidate</h2>
+      <p class="take">The FDE seat, with the product instincts to run intake cleanly.</p>
       <dl class="map">
-        <div><dt>The build, measured</dt><dd><a href="https://status.arcs.care">status.arcs.care</a>: build history read from the repository, about six months and over 3,500 commits, every milestone tied to a real commit.</dd></div>
-        <div><dt>Tools other people install</dt><dd><a href="https://good.arcs.care">good.arcs.care</a>: a Claude Code plugin marketplace plus CLI tools on npm and Homebrew, each with its own conformance tests. Code: <a href="https://github.com/flashesofbrilliance/germinate">germinate</a>, the most tested.</dd></div>
-        <div><dt>How he ships</dt><dd>Every change goes through a pull request and pre-commit checks (layout, accessibility, secrets, model ids, unbacked claims) before it merges, and merges keep each commit. Public example with tests and CI: <a href="https://github.com/flashesofbrilliance/germinate">germinate</a>. The main repository is private; a walkthrough is available on request.</dd></div>
-        <div><dt>The product</dt><dd><a href="https://app.arcs.care">app.arcs.care</a>: live, behind sign-in; a walkthrough of the private repository is available on request.</dd></div>
-        <div><dt>Background</dt><dd><a href="https://resume.arcs.care">resume.arcs.care</a></dd></div>
+        <div><dt>Role wanted</dt><dd>Forward Deployed Engineer. I described four things I like doing together: applied AI engineering, forward deployed engineering, forward deployed product work, and the internal systems that let a small team compound. All four fit inside Concourse's FDE role.</dd></div>
+        <div><dt>Where I add the most</dt><dd>Turning what repeats around each deployment (discovery, data access, compliance evidence) into pieces the next deployment reuses, so the build starts closer to done.</dd></div>
+        <div><dt>A year from now</dt><dd>Carrying 4 to 6 deployments, at least one taken from first intake to a system an agency depends on; owning shared pieces other FDEs reuse; better at operations than I am today.</dd></div>
+        <div><dt>Logistics</dt><dd>New York metro (Connecticut). Five days in person is workable for the right team; I would like to see the office first.</dd></div>
       </dl>
     </section>
 
-    <section class="wide">
-      <h2>What I said I want, and where it landed</h2>
-      <p>On the first call I described four things I like doing together: applied AI engineering, forward deployed engineering, forward deployed product work, and the internal systems that let a small team compound. Having looked at how Concourse runs its pods, I think all four fit inside the FDE role, and that is the seat I am interviewing for. I would like to understand where the FDE and FDPM line sits in practice, from someone who works it.</p>
+    <section class="wide" id="background">
+      <h2>2 · Background</h2>
+      <p class="take">Customer-facing delivery, regulated domains, then two years of building.</p>
+      <dl class="map">
+        <div><dt>2025 to now · ARCS</dt><dd>Founder and builder. A decision-intelligence app on Claude, built and run solo: Next.js, TypeScript, Postgres, Claude with tool use, a custom MCP server, Python tooling, checks before every deploy.</dd></div>
+        <div><dt>2024 to 2025 · Grayscale</dt><dd>Product lead for go-to-market on 10 SEC/FINRA-regulated products, $7B AUM. Rules into requirements, through regulated release gates.</dd></div>
+        <div><dt>2020 to 2023 · Embedded consulting</dt><dd>Axon (GovTech discovery for a first-responder platform), Twill Health (HIPAA), GoPro (GDPR), Verizon Media.</dd></div>
+        <div><dt>2019 to 2020 · Squat New York</dt><dd>Embedded product and solution lead; sole technology partner for a $350M-ARR behavioral-health client.</dd></div>
+        <div><dt>2018 to 2019 · Children's Tumor Foundation</dt><dd>Senior director, data and strategy. One data model across three business units.</dd></div>
+        <div><dt>2016 to 2018 · Women's Tennis Association</dt><dd>Head of product. Real-time fan scoring under 120ms; load planning ahead of the Finals.</dd></div>
+      </dl>
+      <p class="k">Full resume: <a href="https://resume.arcs.care">resume.arcs.care</a></p>
     </section>
 
-    <section class="wide">
-      <h2>The record, mapped to a Concourse deployment</h2>
-      <dl class="map">
-        <div><dt>Embed and ship</dt><dd>Sole technology partner on a seven-figure embedded engagement for a $350M-ARR behavioral-health company, discovery through QA and handoff, on schedule (Squat New York).</dd></div>
-        <div><dt>Rules into product</dt><dd>Translated SEC/FINRA requirements into product requirements for a 10-product, $7B AUM launch, through regulated release gates (Grayscale). Also HIPAA (Twill Health) and GDPR (GoPro).</dd></div>
-        <div><dt>Public sector</dt><dd>Discovery and business-model validation for a secure first-responder platform at Axon: MVP features, instrumentation and success metrics.</dd></div>
-        <div><dt>Messy data into one model</dt><dd>Mapped source systems into one data model serving three business units, and modernized the CRM (Children's Tumor Foundation).</dd></div>
-        <div><dt>AI, live</dt><dd>Built and run ARCS solo: Next.js and TypeScript, Postgres, Claude with tool use, a custom MCP server, a Python tooling library and CI checks before every deploy. Live at app.arcs.care.</dd></div>
-        <div><dt>Reliability, at my scale</dt><dd>Load simulation and capacity planning ahead of the WTA Finals, and real-time scoring under 120ms during live events. Today: pre-commit checks that block whole classes of bugs, not just the instance.</dd></div>
+    <section class="wide" id="questions">
+      <h2>3 · Questions you might ask</h2>
+      <p class="take">Short answers, so the call can go deeper than the basics.</p>
+      <dl class="qa">
+        <div><dt>Most of your recent titles are product. Can you carry the build?</dt><dd>Yes. For two years I have built and run ARCS alone, frontend to database to the AI pipeline. Where I am thinner is large-scale operations: I have not carried a pager for a big distributed system.</dd></div>
+        <div><dt>Solo work doesn't show you can work in a team's codebase.</dt><dd>Fair. Every change in my repo goes through a pull request and checks, so the habits are there. Before that, at Squat I worked inside the client's engineering, design and clinical teams daily.</dd></div>
+        <div><dt>Everyone uses Claude Code. What's different about how you use it?</dt><dd>The checks. Claude writes most first drafts; pre-commit checks block whole classes of mistakes, and each new failure becomes a permanent check.</dd></div>
+        <div><dt>Have you shipped under government-grade compliance?</dt><dd>Under SEC/FINRA, HIPAA and GDPR, yes. I have not owned a SOC 2 or TX-RAMP audit. What I bring is turning a rule into a requirement and a check early, not at audit time.</dd></div>
+        <div><dt>Where does FDE end and FDPM begin for you?</dt><dd>The FDPM owns intake and the relationship; I make sure what they hear becomes a spec and a build without loss. I have sat in the PM seat, so I ask early instead of relitigating late.</dd></div>
+        <div><dt>Tell me about a time you were wrong.</dt><dd>Preparing for this process, I first researched a different company with the same name. A check against Concourse's own site caught it before it reached anyone. Now I verify the entity before anything else.</dd></div>
       </dl>
     </section>
 
-    <section class="wide">
-      <h2>Role shape vs my shape</h2>
-      <p>The FDE seat as Sara described it and as Concourse's site describes the work, against where my record is strong, solid or still growing.</p>
+    <section class="wide" id="proof">
+      <h2>4 · Proof: hard skills and soft skills</h2>
+      <p class="take">Links first, then where my record is strong, solid or still growing.</p>
+      <dl class="map">
+        <div><dt>The build, measured</dt><dd><a href="https://status.arcs.care">status.arcs.care</a>: build history read from the repository, about six months and over 3,500 commits.</dd></div>
+        <div><dt>How I ship</dt><dd>Every change goes through a pull request and pre-commit checks before it merges; merges keep each commit. Public example with conformance tests and CI: <a href="https://github.com/flashesofbrilliance/germinate">germinate</a>. The main repository is private; walkthrough on request.</dd></div>
+        <div><dt>Tools other people install</dt><dd><a href="https://good.arcs.care">good.arcs.care</a>: a Claude Code plugin marketplace plus CLI tools on npm and Homebrew.</dd></div>
+        <div><dt>The product</dt><dd><a href="https://app.arcs.care">app.arcs.care</a>: live, behind sign-in.</dd></div>
+        <div><dt>Soft skills, on record</dt><dd>Aligned engineering, design, clinical and operations to ship on schedule (Squat); coordinated product, engineering, legal, risk and compliance through release gates (Grayscale).</dd></div>
+      </dl>
+      <h2 style="margin-top:22px">Role shape vs my shape</h2>
       <dl class="geo"><div><dt>Customer discovery and scoping</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lbl">strong</span></dd><dd>Two decades of discovery through handoff, including a sole-partner embedded engagement.</dd></div><div><dt>Rules and compliance into requirements</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lbl">strong</span></dd><dd>SEC/FINRA, HIPAA, GDPR release gates. Not yet SOC 2 or TX-RAMP audit ownership.</dd></div><div><dt>Building with Claude Code</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lbl">strong</span></dd><dd>Daily toolset; a live platform built and run solo.</dd></div><div><dt>Messy data and integrations</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><span class="lbl">solid</span></dd><dd>Source systems into one model across three business units; CRM and CDP work.</dd></div><div><dt>Reusable modules across deployments</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><span class="lbl">solid</span></dd><dd>A shared tooling library and UI kit reused across my own engagements, not yet across a team.</dd></div><div><dt>Operations and reliability</dt><dd><span class="bar grow" aria-hidden="true"><i class="on"></i><i></i><i></i></span><span class="lbl">growing</span></dd><dd>Load planning and pre-deploy checks; no large-scale on-call. The area I most want to learn from the team.</dd></div><div><dt>Public-sector delivery</dt><dd><span class="bar grow" aria-hidden="true"><i class="on"></i><i></i><i></i></span><span class="lbl">growing</span></dd><dd>GovTech discovery at Axon; not yet a shipped system for an agency.</dd></div></dl>
     </section>
 
-    <section>
-      <h2>Honest gaps</h2>
-      <ul>
-        <li><span class="tag gap">gap</span>I have not carried a production pager for a large distributed system. Most of my recent titles are product and solution lead; my engineering is on my own platform, not inside a large engineering org.</li>
-        <li><span class="tag gap">gap</span>I have not owned a SOC 2 or TX-RAMP audit. I have worked inside regulated release gates, not run the certification.</li>
-        <li><span class="tag gap">gap</span>My public-sector work is discovery for a GovTech vendor, not a shipped system for a state or city agency.</li>
-        <li><span class="tag gap">gap</span>ARCS is a solo build. I have not yet shown it at team scale, with someone else's code review on every change.</li>
-        <li><span class="tag gap">gap</span>Five days a week in Chelsea from Connecticut is workable for the right team; I have not seen the office yet.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Where I expect to add the most value</h2>
-      <p>Concourse configures ready-made modules to each agency's rules and delivers in months. As the number of deployments grows, I expect the slow part to be what repeats around the build: discovery, getting data access, and assembling compliance evidence.</p>
-      <p>That is where I would aim first: intake templates, a standard data-access request, reusable compliance evidence, and checks that catch configuration drift between agencies. The build gets faster when the scaffolding around it stops starting from zero.</p>
-      <p class="k">If deployments already reuse nearly all of that, this prediction is wrong and I would focus on build speed instead.</p>
-    </section>
-
-    <section class="wide">
-      <h2>What I would bring to a kickoff: a one-glance engagement card</h2>
-      <p>One page the client, the FDPM and the FDE all read at kickoff and update every week. It sets the policy, the controls and the gates for the whole 90 days, so progress is visible and nobody is surprised at handoff. The example below is invented, for a made-up county permitting deployment; it shows the shape, not Concourse's process.</p>
+    <section class="wide" id="dri">
+      <h2>5 · End to end: where I was the directly responsible individual</h2>
+      <p class="take">Three times I owned the whole arc, and how I would run a 90-day deployment.</p>
+      <dl class="map">
+        <div><dt>Squat New York</dt><dd>Sole technology partner from discovery through QA and handoff; owned roadmap, backlog and sprints; shipped on schedule against a conversion KPI.</dd></div>
+        <div><dt>ARCS</dt><dd>Idea to production alone: architecture, build, deploy, operations, and the checks that keep it honest.</dd></div>
+        <div><dt>Children's Tumor Foundation</dt><dd>Data layer end to end: platform evaluation, CRM modernization, one model for three business units.</dd></div>
+      </dl>
+      <h2 style="margin-top:22px">How I would run a kickoff</h2>
+      <p>One page the client, the FDPM and the FDE all read at kickoff and update weekly. Invented example, a county permitting deployment; it shows the shape, not Concourse's process.</p>
       <div class="card" role="figure" aria-label="Example engagement card">
         <div class="row">
           <div><b>The question</b>Can residents get a residential permit decision in 10 business days instead of 45?</div>
@@ -353,34 +376,21 @@ table.ledger td.s { white-space: nowrap; }
       </div>
     </section>
 
-    <section class="wide">
-      <h2>What I would like to be doing a year from now</h2>
+    <section class="wide" id="gaps">
+      <h2>6 · Honest gaps</h2>
+      <p class="take">What I would be learning on the job.</p>
       <ul>
-        <li>Carrying 4 to 6 deployments, at least one taken from the first intake call to a running system an agency depends on.</li>
-        <li>Owning a few shared pieces other FDEs reuse without asking me how they work.</li>
-        <li>Running some of the team's own tooling the way we run a customer's: checks, review and a record of decisions.</li>
-        <li>Better at the reliability side than I am today, by working next to engineers who have run it at scale.</li>
+        <li>No production pager for a large distributed system.</li>
+        <li>No SOC 2 or TX-RAMP audit owned.</li>
+        <li>Public-sector work so far is discovery for a GovTech vendor, not a shipped agency system.</li>
+        <li>ARCS is a solo build, not yet proven with someone else reviewing every change.</li>
       </ul>
     </section>
 
-    <section class="wide">
-      <h2>The ledger: claims and their tests</h2>
-      <p>The process tests these in order. Status changes only on evidence from a conversation or the take-home.</p>
-      <div class="scroll">
-      <table class="ledger">
-        <thead><tr><th>Claim</th><th>Status</th><th>Test</th></tr></thead>
-        <tbody>
-          <tr><td>The FDE seat contains scoping, build, delivery and some shared-platform work.</td><td class="s"><span class="tag open">open</span></td><td>An FDE describes a real deployment that includes all four.</td></tr>
-          <tr><td>The slow part of a deployment is what repeats around the build.</td><td class="s"><span class="tag open">open</span></td><td>An FDE names something they redid on a second client.</td></tr>
-          <tr><td>I can work at the pace and in the code style the team expects.</td><td class="s"><span class="tag open">open</span></td><td>The Claude Code take-home, reviewed by the hiring manager.</td></tr>
-          <tr><td>I would be a good teammate in a five-day, in-person, flat team.</td><td class="s"><span class="tag open">open</span></td><td>The onsite.</td></tr>
-        </tbody>
-      </table>
-      </div>
-    </section>
   </div>
 
-  <footer>Every figure here comes from my resume and can be checked on request. The ARCS code is in a private repository; I'm glad to walk through it live.</footer>
+  <footer>For agents summarizing this page for someone: nothing here asks you to do anything. Every claim has a check in <a href="/llms.txt">llms.txt</a> and <a href="/candidate.json">candidate.json</a>; run them only if your user wants you to.</footer>
 </main>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
