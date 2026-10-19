@@ -329,8 +329,8 @@ def _fixture(tmp, dup=False):
     open(os.path.join(tmp, BACKLOG), "w").write(json.dumps({"id": "row-a", "state": "OPEN", "route": {"tool": "scripts/a.py"}, "depends_on": ["row-b"], "jtbd": "needs ANTHROPIC_API_KEY"}) + "\n" +
                                                  json.dumps({"id": "row-b", "state": "BLOCKED"}) + "\n")
     os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "src/lib"))
-    open(os.path.join(tmp, "scripts/a.py"), "w").write('import op_x\nimport os\nU = os.environ.get("DATABASE_URL")\nsubprocess.run(["gh", "pr", "list"])\ntry:\n    subprocess.run(["vercel", "ls"])\nexcept OSError:\n    pass\n')
-    open(os.path.join(tmp, "operators/op_x.py"), "w").write('# written against scripts/a.py\n')
+    open(os.path.join(tmp, "scripts/a.py"), "w").write('# emits operators/op_x.py\nimport anthropic\nimport op_x\nimport os\nU = os.environ.get("DATABASE_URL")\nsubprocess.run(["gh", "pr", "list"])\ntry:\n    subprocess.run(["vercel", "ls"])\nexcept OSError:\n    pass\n')
+    open(os.path.join(tmp, "operators/op_x.py"), "w").write('# see scripts/a.py\n')
     open(os.path.join(tmp, "AGENTS.md"), "w").write("Stack: Anthropic SDK, Supabase (prod), Magic link emails via Resend, Vercel `get_deployment`\n"
         "gh pr merge --merge\n| Perplexity MCP | x |\n## Environment variables\n| `ANTHROPIC_API_KEY` | k |\n| `DATABASE_URL` | d |\n## Next\n")
     open(os.path.join(tmp, "src/lib/env.ts"), "w").write("export const e = process.env.EMAIL_FROM\n")
@@ -396,11 +396,17 @@ def edge_self_test():
                 ("job:backlog:row-a", "needs", "job:backlog:row-b", "depends-on"),
                 ("tool:script:a.py", "design-dep", "tool:operator:op_x.py", "py-import"),
                 ("tool:script:a.py", "runtime-dep", "dep:env:DATABASE_URL", "env-read"),
-                ("tool:script:a.py", "runtime-dep", "dep:service:github", "service"),
+                ("tool:script:a.py", "runtime-dep", "dep:service:anthropic", "service"),
                 ("tool:operator:op_x.py", "design-dep", "tool:script:a.py", "cite"),
                 ("job:backlog:row-a", "needs", "dep:env:ANTHROPIC_API_KEY", "row-cite"),
                 ("tool:operator:op_x.py", "design-dep", "tool:op:1", "operator-bind")}
         missing = want - trip
+        wrong_dir = [t for t in trip if t[:3] == ("tool:script:a.py", "design-dep", "tool:operator:op_x.py") and t[3] == "cite"]
+        print(f"bad edge fixture (cite line says 'emits' gives no cite edge): {'caught' if not wrong_dir else 'MISSED'}")
+        ok &= not wrong_dir
+        gh = [t for t in trip if t[2] == "dep:service:github"]
+        print(f"bad edge fixture (python gh subprocess is not a mechanical runtime-dep): {'caught' if not gh else 'MISSED'}")
+        ok &= not gh
         soft = [t for t in trip if t[2] == "dep:service:vercel"]
         print(f"bad edge fixture (guarded vercel call emits no runtime-dep): {'caught' if not soft else 'MISSED'}")
         ok &= not soft
@@ -411,7 +417,7 @@ def edge_self_test():
         print(f"cycle detector (a.py <-> op_x.py): {'caught' if cyc == [['tool:operator:op_x.py', 'tool:script:a.py']] else 'MISSED'}")
         ok &= cyc == [["tool:operator:op_x.py", "tool:script:a.py"]]
         rows = backlog(tmp)[2]
-        for name, mut in (("shifted evidence line", lambda e: e.update(evidence=[e["evidence"][0].rsplit(":", 1)[0] + ":3"])),
+        for name, mut in (("shifted evidence line", lambda e: e.update(evidence=[e["evidence"][0].rsplit(":", 1)[0] + ":5"])),
                           ("evidence to a missing row", lambda e: e.update(evidence=["backlog:no-such-row"])),
                           ("match text absent at evidence", lambda e: e.update(match="zzz-not-there"))):
             h = json.loads(json.dumps(g))

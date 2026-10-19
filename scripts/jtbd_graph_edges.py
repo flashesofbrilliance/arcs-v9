@@ -6,7 +6,8 @@ each mechanical edge carries `rule` (which rule made it) and `match` (the text t
 contain), so verify_edges() can reopen the evidence and confirm it without trusting the builder.
 
 Mechanical rules
-  serves       route.tool    a backlog row's route.tool names a tool (path, surface file, /invoke, script basename)
+  serves       route.tool    a backlog row's route.tool names a tool (path, /invoke, script basename)
+  needs        route-target  a surface file named in route.tool is the job's target: job -> surface
   blocks       blocked-row   blocker:backlog:X -> job:backlog:X ; and -> job:backlog:Y when Y.depends_on has X
   needs        depends-on    job -> job from depends_on
   needs        row-cite      a row's text (route excluded) names a tool path/basename, an env var or a quoted npm package
@@ -14,10 +15,12 @@ Mechanical rules
   design-dep   py-import     `import x` / `from x import` resolving to a cataloged scripts/ or operators/ file
   design-dep   js-import     import/require of an npm package that is a dep:npm atom
   design-dep   cite          a tool file names another tool's full path (neighbor_scan.py citer rule, full path only;
-                             generated catalog listing pages in CITE_NOISE are skipped)
+                             skipped: CITE_NOISE pages, lines with direction words (writes, emits, generated, feeds,
+                             checks...), and script/operator -> surface, which is generator or gate, not written against)
   runtime-dep  env-read      process.env.X / os.environ[...] / os.getenv for an env var that is a dep:env atom
   runtime-dep  service       a tool file line matches a service's call signature (SERVICES below), unless the call
-                             is guarded (shell 2>/dev/null or || fallback on the line, or a Python try: just above)
+                             is guarded. anthropic/database/resend: import signatures. github/vercel/perplexity: only
+                             set -e shell lines with no 2>/dev/null or || fallback on the joined logical line
 Judgment edges: runtime/specs/jtbd-graph-inferred-edges.json (hand pass on the residue), inferred=true + by.
 """
 import json, os, re
@@ -46,6 +49,10 @@ JS_IMP = re.compile(r"""(?:^\s*import\b[^'"]*?from\s*|^\s*import\s*|\brequire\(\
 SOFT_SH = re.compile(r"2>\s*/dev/null|\|\|\s*(true|echo|:)\b|\|\|\s*:$")
 # generated listing pages cite every row of a catalog; they are offspring of the catalog, not written against each row
 CITE_NOISE = ("runtime/warroom/surfaces.html",)
+# round 2 (seed 20261019): a cite whose line says the citer writes/feeds/generates the cited file, or that the cited
+# file reads from the citer, runs the other way; the shell cannot tell the direction, so it emits nothing
+CITE_DIRECTION = re.compile(r"\b(writ(e|es|ten|ing)|emit(s|ted|ting)?|generat(e|es|ed|ing)|render(s|ed|ing)?|feed(s|ing)?|"
+                            r"output|produc(e|es|ed)|from here|once recovered|reads? from|consumer|scan(s|ned)?|check(s|ed)?|gate(s|d)?)\b", re.I)
 STRIP_ROUTE = re.compile(r"(?:pattern|template|resources?|prior art|precedent)\s*:\s*[^;·]+", re.I)
 
 
@@ -83,6 +90,17 @@ def env_and_service_atoms(root, atom, dups):
         if ln is None:
             raise ValueError(f"service {slug}: needle {needle!r} not in {AGENTS}")
         out.append(atom(f"dep:service:{slug}", "dep", SVC_CAT, slug, ln, path=AGENTS, title=needle))
+    return out
+
+
+HARD_SVC = {"anthropic", "database", "resend"}  # import-signature services: an import that fails at load is a hard dep
+
+
+def _logical(L, i):
+    """The shell logical line starting at i (backslash and trailing-pipe continuations joined)."""
+    out, j = L[i], i
+    while j + 1 < len(L) and (L[j].rstrip().endswith("\\") or L[j].rstrip().endswith("|")):
+        j += 1; out += " " + L[j]
     return out
 
 
@@ -155,7 +173,11 @@ def build_edges(root, atoms, rows, op_edges):
         jid = f"job:backlog:{r['id']}"
         rt = (r.get("route") or {}).get("tool") or ""
         for tid, m in name_hits(STRIP_ROUTE.sub(" ", rt)):
-            edges.append(_edge(tid, jid, "serves", f"route.tool:{r['id']}", m, "route.tool"))
+            if tid.startswith("tool:surface:"):
+                # a page named in route.tool is what the job edits, not a tool doing it (round 2, seed 20261019)
+                edges.append(_edge(jid, tid, "needs", f"backlog:{r['id']}", m, "route-target"))
+            else:
+                edges.append(_edge(tid, jid, "serves", f"route.tool:{r['id']}", m, "route.tool"))
         if r.get("state") == "BLOCKED":
             edges.append(_edge(f"blocker:backlog:{r['id']}", jid, "blocks", f"backlog:{r['id']}", '"state": "BLOCKED"', "blocked-row"))
         for d in r.get("depends_on") or []:
@@ -188,12 +210,15 @@ def build_edges(root, atoms, rows, op_edges):
         code = p.endswith(CODE_EXT)
         for i, line in enumerate(L):
             ev = f"{p}:{i + 1}"
-            if path_re and p not in CITE_NOISE:
+            if path_re and p not in CITE_NOISE and not CITE_DIRECTION.search(line):
                 for m in path_re.finditer(line):
                     if m.group(0) == p:
                         continue
                     for fr in tids:
                         for to in by_path[m.group(0)]:
+                            # a script naming a surface is its generator or its gate, never written against it
+                            if fr.startswith(("tool:script:", "tool:operator:")) and to.startswith("tool:surface:"):
+                                continue
                             if to != fr:
                                 edges.append(_edge(fr, to, "design-dep", ev, m.group(0), "cite"))
             if not code:
@@ -225,7 +250,13 @@ def build_edges(root, atoms, rows, op_edges):
                         edges.append(_edge(fr, f"dep:env:{n}", "runtime-dep", ev, n, "env-read"))
             for s, rx in svc.items():
                 mm = rx.search(line)
-                if mm and not _soft(L, i):
+                # import-signature services always; CLI/API services (github, vercel, perplexity) only from a set -e shell
+                # line with no guard on its logical line. Python subprocess/urlopen calls: failure handling (returncode,
+                # try, or-defaults) cannot be settled by the shell, so no mechanical edge (round 2, 7 of 18 failed soft)
+                hard = s in HARD_SVC and not _soft(L, i)
+                if s not in HARD_SVC and p.endswith(".sh"):
+                    hard = any(l.strip().startswith("set -e") for l in L[:20]) and not SOFT_SH.search(_logical(L, i))
+                if mm and hard:
                     for fr in tids:
                         edges.append(_edge(fr, f"dep:service:{s}", "runtime-dep", ev, mm.group(0).strip(), "service"))
     # judgment residue (hand pass), committed
