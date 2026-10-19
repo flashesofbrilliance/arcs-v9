@@ -50,6 +50,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'monstro':   { '/full': '/monstro-full.html', '/resume': '/monstro-resume.html', '/cover': '/monstro-cover.html', '/monstro-resume.pdf': '/monstro-resume.pdf', '/monstro-cover.pdf': '/monstro-cover.pdf', default: '/monstro.html' },
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   // claritai.arcs.care: Head of Operational Excellence & AI Systems bundle (2026-09-28): OPEN (ungated), noindex, for Jeff Kronisch (Harris Allied) to forward to Seth Merrin. root = brief + objections + history; PDF mapped to itself.
+  // concourse.arcs.care: Concourse FDE bundle (2026-10-19): OPEN (ungated), noindex. root = candidate page (bet, record, role shape, gaps, kickoff card, ledger), /sara = recruiter brief. External cuts only; no counterpart profile content.
+  'concourse': { '/sara': '/concourse-sara.html', default: '/concourse.html' },
   'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
   // conduit.arcs.care — Conduit Health PM, Patient Experience bundle (2026-09-28): OPEN (ungated), noindex, for Annie Wasserman (HappyPath) to forward to co-founder Rocky Seftel. root = positioning brief, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
