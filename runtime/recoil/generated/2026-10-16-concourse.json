@@ -170,6 +170,20 @@
       "conviction": "MED",
       "verdict": "DOWNGRADE (design first, build onsite)",
       "date": "2026-10-19"
+    },
+    {
+      "id": "P10",
+      "audience": "internal",
+      "claim": "The hiring manager who reviews the take-home is the CTO.",
+      "evidence": "Sara (Fri): the hiring manager reviews the take-home. Krish (Mon): take-home questions can go 'straight to me and Rappolis, who's our CTO'. Flat org, all report to the CEO. Not stated outright by either.",
+      "inference": "INF",
+      "confidence": [
+        0.6,
+        0.75
+      ],
+      "conviction": "MED",
+      "verdict": "NEW (inference, confirm with Sara)",
+      "date": "2026-10-19"
     }
   ],
   "kinematic_series": {
@@ -205,7 +219,7 @@
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Confirm the CTO's name (heard as 'Rappolis') before writing to him."
+      "text": "Confirm the CTO's name (heard as 'Rappolis') and whether the CTO is the hiring manager; ask Sara in one line."
     },
     {
       "audience": "internal",
@@ -280,7 +294,7 @@
           },
           {
             "k": "Register",
-            "v": "Recruiter screen and peer call done. Next readers: hiring manager and CTO via the take-home."
+            "v": "Recruiter screen and peer call done. Next reader: the hiring manager, likely the CTO (inference), via the take-home."
           },
           {
             "k": "Their goal",
