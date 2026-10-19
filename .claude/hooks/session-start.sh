@@ -77,6 +77,12 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 # emit a receipt; curation stays human-owned. Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
 
+# Universe snapshot — OPEN end. Read-only: is the committed HUD field data stale against the tracked
+# tree (the emitter's own --check), how old is its last regeneration, does the history stamp exist?
+# Prints one line and appends a receipt to _INBOX/universe-snapshot-drift.jsonl (gitignored).
+# Regeneration and `--refresh` (which pushes to origin/main) stay human-gated. Never fails the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/universe_snapshot_drift_check.py" 2>/dev/null || true
+
 # Findings gait — the pace line (ADR-086 part E). Read-only: prints the EXTEND/CONTRACT phase,
 # open findings, displacement and the next aid station from _STATE/findings.jsonl so the
 # detectors above have a place where findings get a fate and a close. Never fails the hook.
