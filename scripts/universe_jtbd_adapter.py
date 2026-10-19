@@ -40,7 +40,9 @@ PAT_CAT = "_PATTERNS/*.md"
 MEM_DIR = os.path.expanduser("~/.claude/projects/-Users-zharris-arcs-v9/memory")
 OUT = "_STATE/jtbd-graph"
 JOB_RE = re.compile(r"jtbd|jobs? to be done|jobs?-to-be-done", re.I)
-PAT_EXCLUDE = {"2026-10-18-jtbd-graph-preregistration", "2026-10-18-jtbd-s1-mined-job-rule"}
+# Amendment 4 (_PATTERNS/2026-10-19-jtbd-graph-preregistration-amendment-4.md): exclude by pattern.
+PAT_EXCLUDE_RE = re.compile(r"-preregistration|^2026-10-18-jtbd-s1-mined-job-rule$")
+SAMPLE_FROZEN = "runtime/specs/jtbd-label-sample-20261018.json"
 SEED = 20261018
 SURF_HOST_RE = re.compile(r"^[a-z0-9.-]+$")
 
@@ -171,7 +173,7 @@ def mined(root, mem_dir):
     pdir = os.path.join(root, "_PATTERNS")
     for f in sorted(os.listdir(pdir)) if os.path.isdir(pdir) else []:
         stem = f[:-3]
-        if not f.endswith(".md") or stem in PAT_EXCLUDE:
+        if not f.endswith(".md") or PAT_EXCLUDE_RE.search(stem):
             continue
         L = _lines(root, f"_PATTERNS/{f}")
         hit = next((i for i, l in enumerate(L) if JOB_RE.search(l)), None)
@@ -263,7 +265,10 @@ def operator_links(graph, binds):
     return bad
 
 
-def label_sample(graph):
+def label_sample(graph, root=REPO):
+    fz = os.path.join(root, SAMPLE_FROZEN)
+    if os.path.exists(fz):  # frozen as drawn (amendment 4); independent of later miner changes
+        return json.load(open(fz))["ids"]
     ids = sorted(a["id"] for a in graph["atoms"] if a["id"].startswith(("job:memory:", "job:pattern:")))
     return random.Random(SEED).sample(ids, min(30, len(ids)))
 
@@ -306,7 +311,7 @@ def run(root, with_mined, mem_dir, out_dir, quiet=False):
         json.dump(graph, open(os.path.join(out_dir, "graph.json"), "w"), indent=1, ensure_ascii=False)
         if with_mined:
             json.dump({"seed": SEED, "rule": "_PATTERNS/2026-10-18-jtbd-s1-mined-job-rule.md",
-                       "sample": [{"id": i, "label": None} for i in label_sample(graph)]},
+                       "sample": [{"id": i, "label": None} for i in label_sample(graph, root)]},
                       open(os.path.join(out_dir, "label-sample.json"), "w"), indent=1)
         if not quiet:
             print(f"wrote {out_dir}/graph.json")
@@ -336,6 +341,7 @@ def _fixture(tmp, dup=False):
     open(os.path.join(tmp, "src/lib/env.ts"), "w").write("export const e = process.env.EMAIL_FROM\n")
     open(os.path.join(tmp, "_PATTERNS/p1.md"), "w").write("# P1\nthe JTBD here\n")
     open(os.path.join(tmp, "_PATTERNS/p2.md"), "w").write("# P2\nno job stated\n")
+    open(os.path.join(tmp, "_PATTERNS/x-preregistration-amendment-9.md"), "w").write("# A\nthe JTBD here\n")
     mem = os.path.join(tmp, "mem"); os.makedirs(mem)
     open(os.path.join(mem, "m1.md"), "w").write("---\nname: m-one\n---\njob to be done: x\n")
     open(os.path.join(mem, "m2.md"), "w").write("---\nname: m-two\n---\nnothing\n")
@@ -355,6 +361,9 @@ def self_test():
         good = good and ids == sorted(want) and sum(e["rule"] == "operator-bind" for e in g["edges"]) == 1 and [u["key"] for u in g["unresolved"]] == []
         print(f"good fixture: {'PASS' if good else 'FAIL'} ({len(ids)} atoms, {len(g['edges'])} edges)")
         ok &= good
+        leak = [i for i in ids if "preregistration" in i]
+        print(f"amendment exclusion (x-preregistration-amendment-9 not mined): {'PASS' if not leak else 'FAIL ' + str(leak)}")
+        ok &= not leak
         g["atoms"][0]["source"]["line"] += 1
         caught = bool(verify_lines(g, tmp, mem))
         print(f"bad fixture (shifted cite line): {'caught' if caught else 'MISSED'}")
