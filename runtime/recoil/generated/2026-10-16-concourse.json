@@ -12,20 +12,21 @@
     "provenance": {
       "audience": "both",
       "captured": "Recruiter screen on Fri 2026-10-16, 3:15 PM ET, about 30 min, Granola note 890ba2ec-2e4c-486d-a8c2-126c5cc093f5 (summary and full transcript read). Web check of onconcourse.com and a third-party FDE listing the same evening.",
-      "load_bearing_quote": "I think ultimately the description of those 4 things is actually the FDE role."
+      "load_bearing_quote": "I think ultimately the description of those 4 things is actually the FDE role.",
+      "captured_monday": "Peer call with Krish Chowdhary (lead engineer, about 2.5 months at Concourse, ex-Rippling) Mon 2026-10-19 2:30 PM ET, about 30 min, Granola 17406cde-5423-42ea-b6ef-f4404c035674 (full transcript read), plus Zach's notes right after the call."
     }
   },
   "opportunity": {
     "audience": "internal",
     "engagement_type": "candidacy",
     "req_reality": "2",
-    "req_reality_basis": "A third-party aggregator shows a posted FDE listing with a salary range ($170k to $220k plus equity, 1 to 5 years, listed about 77 days) and Zach said the comp target they shared was below his. Not 3: the hiring manager has not been met, and the posting itself was not read on Concourse's own site (the careers page rendered no listings).",
+    "req_reality_basis": "A third-party aggregator shows a posted FDE listing with a salary range ($170k to $220k plus equity, 1 to 5 years, listed about 77 days) and Zach said the comp target they shared was below his. Not 3: the hiring manager has not been met, and the posting itself was not read on Concourse's own site (the careers page rendered no listings). Mon 10-19: unchanged at 2. Krish (peer, not decider) laid out the process: 'a short kind of take-home assignment ... way more design-focused', then onsite to 'rip and build ... a v0'. Hiring manager and CTO still not met.",
     "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
     "y_state": "YELLOW",
     "topology": "CONVERGENT",
     "nci_prior": 0,
     "nci_post": 0,
-    "note": "Real role, real process, fast. The live tension is level and comp: the posting is 1 to 5 years and Sara says no leveling exists. The multi-hat idea has already been absorbed into FDE, so it is no longer a pitch, it is a scope negotiation for later."
+    "note": "Real role, real process, fast. The live tension is level and comp: the posting is 1 to 5 years and Sara says no leveling exists. The multi-hat idea has already been absorbed into FDE, so it is no longer a pitch, it is a scope negotiation for later. Mon 10-19 close: the FDE seat is execution plus platformization, not pre-sales; the blend lives in the hypercare-to-platform loop. Gate stays YELLOW."
   },
   "beliefs": [
     {
@@ -65,7 +66,18 @@
         0.6
       ],
       "conviction": "LOW",
-      "verdict": "DOWNGRADE"
+      "verdict": "DOWNGRADE",
+      "posterior": {
+        "claim": "The FDE/FDPM line is sharper than Sara made it sound: FDPM handles access, credential chasing and scope before the FDE is looped in; FDE executes and platformizes.",
+        "evidence": "Krish: 'super useful again for the FDEs to lean on the FDPMs to handle some of that herding or ... chasing people around for access'; an operations team now clears roadblocks pre-kickoff. Zach: FDPM sounds more admin-heavy; process is evolving.",
+        "confidence": [
+          0.7,
+          0.85
+        ],
+        "conviction": "MED",
+        "verdict": "UPGRADE (sharper)",
+        "date": "2026-10-19"
+      }
     },
     {
       "id": "P4",
@@ -104,7 +116,60 @@
         0.5
       ],
       "conviction": "LOW",
-      "verdict": "NEW"
+      "verdict": "NEW",
+      "posterior": {
+        "claim": "Travel is light.",
+        "evidence": "Not raised on Monday. Still two conflicting sources.",
+        "confidence": [
+          0.3,
+          0.5
+        ],
+        "conviction": "LOW",
+        "verdict": "UNCHANGED",
+        "date": "2026-10-19"
+      }
+    },
+    {
+      "id": "P7",
+      "audience": "internal",
+      "claim": "FDEs do light pre-sales and could carry the GTM hat.",
+      "evidence": "Krish: 'The main focus right now is more on the execution and platformization piece for FDEs ... a little bit of pre-sales work, but ... FDPMs and some of the folks that we have that are more demo-focused ... handle most of that.' They are growing an AE team so the FDE/FDPM are not seen as upselling.",
+      "inference": "OBS",
+      "confidence": [
+        0.1,
+        0.2
+      ],
+      "conviction": "HIGH",
+      "verdict": "FALSIFIED (GTM hat is not in FDE)",
+      "date": "2026-10-19"
+    },
+    {
+      "id": "P8",
+      "audience": "internal",
+      "claim": "FDEs own reusable platform pieces (the systems-engineering hat).",
+      "evidence": "Krish: hypercare 'is the time where the FDEs can kind of focus on platformizing learning'; 'the really key piece of the FDE role is that platform product feedback loop'; in-house integrations library (example: Ohio's CBOS payments processor, built once and reused).",
+      "inference": "OBS",
+      "confidence": [
+        0.8,
+        0.9
+      ],
+      "conviction": "HIGH",
+      "verdict": "NEW, CONFIRMED",
+      "date": "2026-10-19"
+    },
+    {
+      "id": "P9",
+      "audience": "internal",
+      "claim": "The take-home is a Claude Code build.",
+      "evidence": "Krish: design-focused, a spec for an open-ended problem based on software they built in-house; code is the onsite v0. Sara had described a Claude Code take-home.",
+      "inference": "OBS",
+      "confidence": [
+        0.3,
+        0.5
+      ],
+      "conviction": "MED",
+      "verdict": "DOWNGRADE (design first, build onsite)",
+      "date": "2026-10-19"
     }
   ],
   "kinematic_series": {
@@ -135,27 +200,27 @@
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Confirm the Monday 2:30 PM ET engineer call invite arrived (Sara said shortly after the call)."
+      "text": "Reconcile the commit count said on the call (about 5,000 since April) with the written one (over 3,500, about six months). Re-measure at status.arcs.care; the written number stands until then."
     },
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Read Concourse's own site and any posting there; confirm what the FDE role actually lists. The Ashby board you linked is the wrong company."
+      "text": "Watch for the take-home spec from Sara. Design-first: state assumptions, treat gaps as intentional, ship a first version fast."
     },
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Prep the Monday questions in the Pre-Call tab and file the ex-ante before the call."
+      "text": "Confirm the CTO's name (heard as 'Rappolis') before writing to him."
     },
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Decide the level ask before the take-home, since the hiring manager sees it. Do not raise it with the peer."
+      "text": "Optional: a short thank-you to Krish by email. Draft first; nothing sent."
     },
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Review the recruiter positioning brief and decide whether to send it to Sara. Nothing has been sent."
+      "text": "Still open: travel cadence, level and comp (hiring manager, after the take-home), and five days in person."
     }
   ],
   "redaction_policy": {
@@ -459,6 +524,87 @@
         ]
       },
       {
+        "tab": "recoil",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Receipt closed &#183; Monday peer call (Krish) vs ex-ante",
+        "rows": [
+          {
+            "k": "Predicted",
+            "v": "FDEs do scoping, build, light pre-sales and platform contribution; FDPM mostly intake. Travel under one trip a month. YELLOW."
+          },
+          {
+            "k": "Actual",
+            "v": "Build and platform: yes. Pre-sales: mostly no (FDPM, demo people and a growing AE team carry it). FDPM: intake, access and scope before the FDE joins. Travel: not discussed. Informal, easy call; Krish took Zach's email."
+          },
+          {
+            "k": "Falsifier",
+            "v": "Partly fired. 'FDEs do not touch pre-sales' is true; 'platform owned by a separate team' is false (FDEs platformize in hypercare). The blend survives as build plus platform, minus GTM."
+          },
+          {
+            "k": "Y-gate",
+            "v": "YELLOW, unchanged. Role content fits on build and platform; level, comp and in-person still open."
+          },
+          {
+            "k": "Load-bearing",
+            "v": "the really key piece of the FDE role is that platform product feedback loop."
+          }
+        ]
+      },
+      {
+        "tab": "recoil",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Monday: facts, take-home clues, signals",
+        "intro": "From the transcript and Zach's notes right after.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "<strong>Scale:</strong> about 30 deployments live past hypercare; each FDE or FDPM carries 4 or 5 in flight. Muni and state work (Ohio agencies named)."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Stack:</strong> TypeScript front and back, AWS, Postgres; defaults, not fixed. Prefer best-in-class (Stripe) unless the contract forces otherwise."
+          },
+          {
+            "dot": "c",
+            "html": "<strong>Pre-kickoff:</strong> an operations team clears access and data before the pod is staffed; parallel deployments absorb blockers."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Take-home clue 1:</strong> ambiguity is sometimes intentional; it mirrors the real environment. State assumptions."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Take-home clue 2:</strong> startup pace; the first version does not need to be perfect, it needs to exist."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Take-home format:</strong> design-focused spec, then onsite build of a v0. Questions go by email, or straight to Krish and the CTO (name heard as 'Rappolis'; spelling unconfirmed)."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> Krish agreed with the now/next/later vendor-lock trade-off framing ('100%') and said explaining GovCloud vs public cloud trade-offs is a big part of the engineering piece."
+          },
+          {
+            "dot": "g",
+            "html": "<strong>Quiet signal:</strong> Zach shared concourse.arcs.care and invited Krish or the CTO to press on weak points and send clarifying questions; Krish said he would give it a pass and took Zach's email. Watch for questions back."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> no open source now and no plans ('can often come with a fair few trade-offs'). The public-goods angle is not a wedge here."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Kintsugi seam:</strong> Zach said 'almost like 5,000 commits since April' on the call; the live pre-read and resume say about six months and over 3,500 commits (status.arcs.care). Reconcile before the take-home or any written follow-up; the written number wins until re-measured."
+          },
+          {
+            "dot": "r",
+            "html": "<strong>Risk:</strong> long intro and an ARCS method explanation took much of the 30 minutes; the hiring manager will see the design, so keep the take-home tight."
+          }
+        ]
+      },
+      {
         "tab": "wargame",
         "type": "list",
         "audience": "internal",
@@ -514,6 +660,44 @@
             "'5 days a week in person'",
             "Silent no that appears late",
             "Decide your own answer first, then state it once to Sara before the onsite"
+          ]
+        ]
+      },
+      {
+        "tab": "wargame",
+        "type": "table",
+        "audience": "internal",
+        "h2": "ATG pre-mortem after Monday (assume dead in 90 days)",
+        "columns": [
+          "Node",
+          "Their objection",
+          "In whose court"
+        ],
+        "rows": [
+          [
+            "Take-home spec arrives",
+            "None yet; timing is Sara's",
+            "Theirs"
+          ],
+          [
+            "Design submission",
+            "Over-built or over-explained; ignores intentional ambiguity; pitches the four hats again",
+            "Yours (bottleneck)"
+          ],
+          [
+            "Onsite v0 build",
+            "Too slow to a first version; not TypeScript/Postgres-native",
+            "Yours"
+          ],
+          [
+            "Level and comp",
+            "Posting is 1 to 5 years; no leveling exists",
+            "Shared, after onsite"
+          ],
+          [
+            "Five days in Chelsea",
+            "Not yet a yes from Zach",
+            "Yours"
           ]
         ]
       },
