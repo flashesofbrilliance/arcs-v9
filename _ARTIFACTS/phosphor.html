@@ -2057,7 +2057,7 @@ fm = fm || 1;
 for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
 return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
 };
-if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
 var R = null;
 return {
 start: function () {
@@ -2387,6 +2387,11 @@ if (!REC || !REC.ev) return; var sig = JSON.stringify(SLICES.map(function (x) { 
 if (sig === REC.sig) return; REC.sig = sig;
 if (L && L[2] === "@slices" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("slices", JSON.parse(sig));
 }
+function recCells() {
+if (!REC || !REC.ev) return; var sig = JSON.stringify(SEQ.cells), L = REC.ev[REC.ev.length - 1];
+if (REC.csig === undefined) REC.csig = JSON.stringify(makeCells()); if (sig === REC.csig) return; REC.csig = sig;
+if (L && L[2] === "@cells" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("cells", JSON.parse(sig));
+}
 function recExport() { return "Phosphor recipe v1\n" + JSON.stringify({ base: REC.base, events: REC.ev }); }
 function recImport(t) {
 var l = String(t || "").split("\n"); if (!/^Phosphor recipe v1/.test(l[0] || "")) return null;
@@ -2394,7 +2399,7 @@ try { var o = JSON.parse(l.slice(1).join("\n")); if (!o || typeof o.base !== "ob
 }
 function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo && e[2][0] !== "@") s[e[2]] = e[3]; }); return s; }
 function recInit() { REC.base = recScan(); for (var rk in REC.base) REC.cur[rk] = REC.base[rk]; REC.t0 = NOW(); }
-document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(recSync, 200);
+document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(function () { recSync(); recCells(); }, 200);
 function recApply(e) {
 var id = e[2], v = e[3], els, hit, t;
 if (id === "@fx") { fxHold(v[0], v[1], !!v[2]); return; }
@@ -2411,13 +2416,14 @@ var n = e[2];
 if (n === "@play") recPlay(e[3], AC.currentTime);
 else if (n === "@stop") { if (SRC) { try { SRC.stop(AC.currentTime); } catch (x) { /* ended */ } SRC = null; } playing = false; }
 else if (n === "@seek") { if (playing) recPlay(e[3], AC.currentTime); else tpaused = e[3]; }
+else if (n === "@cells") { SEQ.cells = e[3]; }
 else if (n === "@slices") { SLICES = []; e[3].forEach(function (p) { addSlice(p[0], p[1]); }); }
 else if (n === "@tempo") setTempo(e[3][0], e[3][1]);
 else if (n === "@pad") { var q = String(e[3]).split(":"), sl; if (q.length === 2) { PAD.bank = +q[0]; sl = SLICES[PAD.bank * 16 + +q[1]]; if (sl) padVoice(+q[1], sl); } }
 else recApply(e);
 }
 function renderOffline(rec) {
-var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg"; });
+var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg" || e[2] === "@cells"; });
 ev.forEach(function (e) { last = MX(last, e[0]); });
 var N = RD(MN(600, MX(3, last / 1000 + 1.5)) * sr), OC = new OfflineAudioContext(2, N, sr);
 stopSource(); AC = OC; playing = false;
@@ -2427,7 +2433,7 @@ ev.forEach(function (e) { var q = FL(e[0] / 1000 * sr / 128); (pts[q] = pts[q] |
 qs = Object.keys(pts).map(Number); if (pump) for (i = 8; i * 128 < N; i += 8) qs.push(i);
 qs = qs.filter(function (q, k, a) { return a.indexOf(q) === k && q * 128 < N; }).sort(function (a, b) { return a - b; });
 qs.forEach(function (q) {
-var go = function () { (pts[q] || []).forEach(recAt); if (pump) fxPump(); };
+var go = function () { (pts[q] || []).forEach(recAt); if (pump) { seqTick(); fxPump(); } };
 if (q === 0) go(); else OC.suspend(q * 128 / sr).then(function () { go(); OC.resume(); });
 });
 return OC.startRendering().then(function (buf) { return { sr: sr, l: buf.getChannelData(0), r: buf.getChannelData(1), info: { pads: PAD.voices || 0, bpm: BPM, grid0: GRID0, gamt: GAMT, dur: DUR, thr: FXG.mode } }; });
