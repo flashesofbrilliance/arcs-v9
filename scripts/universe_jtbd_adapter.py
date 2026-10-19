@@ -28,6 +28,7 @@ import collections, json, os, random, re, shutil, sys, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import jtbd_graph_schema_check as gc
+import jtbd_graph_edges as ge
 
 TOOLS = "runtime/specs/tool-catalog.json"
 REG = "operators/OPERATOR-REGISTRY.json"
@@ -182,21 +183,26 @@ def mined(root, mem_dir):
 def build(root, with_mined=False, mem_dir=MEM_DIR):
     t, tcat = tools(root); o, binds = operators(root); s, scat, unres = surfaces(root)
     n, npm_n = npm(root); j, b, rows = backlog(root)
-    atoms = t + o + s + n + j + b
+    ev = ge.env_and_service_atoms(root, atom, _dups)
+    atoms = t + o + s + n + j + b + ev
     file_of = {a["path"]: a["id"] for a in t if a["id"].startswith("tool:operator:")}
     edges = []
     for op, mod, ln in binds:
         fid = file_of.get(f"operators/{mod}")
         if fid:
             edges.append({"from": fid, "to": f"tool:op:{op}", "type": "design-dep",
-                          "evidence": [f"{REG}:{ln}"], "inferred": False})
+                          "evidence": [f"{REG}:{ln}"], "inferred": False,
+                          "rule": "operator-bind", "match": json.dumps(mod)})
     expected = {f"tool:{k}": v for k, v in tcat["counts"].items()}
+    expected.update({"dep:env": sum(1 for a in ev if a["id"].startswith("dep:env:")),
+                     "dep:service": len(ge.SERVICES)})
     expected.update({"tool:op": len(json.load(open(os.path.join(root, REG)))["operators"]),
                      "tool:surface": scat["counts"]["rows"], "dep:npm": npm_n, "job:backlog": len(rows),
                      "blocker:backlog": sum(1 for _, r in rows if r.get("state") == "BLOCKED")})
     skipped = []
     if with_mined:
         m, skipped = mined(root, mem_dir); atoms += m
+    edges = ge.build_edges(root, atoms, rows, edges)
     unres += [{"namespace": "job:memory", "key": f, "source": {"catalog": MEM_CAT, "line": None},
                "why": "matches the mined-job rule but has no top-of-file front-matter name"} for f in skipped]
     return {"atoms": atoms, "edges": edges, "unresolved": unres}, expected, binds, skipped
@@ -216,7 +222,7 @@ def verify_lines(graph, root, mem_dir=MEM_DIR):
     for a in graph["atoms"]:
         src = a["source"]; cat = src["catalog"]
         path = os.path.join(mem_dir, os.path.basename(a["path"])) if cat == MEM_CAT else \
-            os.path.join(root, a["path"]) if cat == PAT_CAT else os.path.join(root, cat)
+            os.path.join(root, a["path"]) if cat in (PAT_CAT, ge.ENV_CAT, ge.SVC_CAT) else os.path.join(root, cat)
         if path not in cache:
             cache[path] = open(path, encoding="utf-8").read().split("\n")
         L = cache[path]; ln = src["line"]
@@ -232,6 +238,10 @@ def verify_lines(graph, root, mem_dir=MEM_DIR):
                 ok = json.loads(line).get("id") == key
             except ValueError:
                 ok = False
+        elif cat == ge.ENV_CAT:
+            ok = f"`{key}`" in line or f"process.env.{key}" in line
+        elif cat == ge.SVC_CAT:
+            ok = a.get("title", "\0") in line
         elif cat == REG:
             ok = f'"op": {key},' in line
         else:
@@ -263,6 +273,11 @@ def run(root, with_mined, mem_dir, out_dir, quiet=False):
     rows, bad_counts = reconcile(graph, expected)
     bad_lines = verify_lines(graph, root, mem_dir)
     bad_links = operator_links(graph, binds)
+    rows_ = backlog(root)[2]
+    bad_edges = ge.verify_edges(graph, root, rows_)
+    E = graph["edges"]; mech = sum(1 for e in E if not e["inferred"])
+    share = mech / len(E) if E else 1.0
+    cyc = ge.cycles(graph); graph["cycles"] = cyc
     findings = gc.check(graph, json.load(open(os.path.join(REPO, "runtime/specs/jtbd-graph-schema.json"))))
     if not quiet:
         print("namespace            expected  emitted")
@@ -271,14 +286,21 @@ def run(root, with_mined, mem_dir, out_dir, quiet=False):
         for u in graph["unresolved"]:
             print(f"  UNRESOLVED {u['namespace']} {u['key']} ({u['why']})")
         print(f"emitted counts include {len(graph['unresolved'])} unresolved (held, not atoms)")
-        print(f"atoms {len(graph['atoms'])} · design-dep operator edges {len(graph['edges'])}")
+        print(f"atoms {len(graph['atoms'])} · edges {len(E)}")
+        for (t, r), c in sorted(collections.Counter((e["type"], e.get("rule")) for e in E).items()):
+            print(f"  {t:12} {r:18} {c:>5}")
+        print(f"mechanical share: {mech}/{len(E)} = {share:.4f} (gate >= 0.90) {'PASS' if share >= 0.90 else 'FAIL'}")
+        print(f"inferred edges: {len(E) - mech}, all flagged with by: {all(e.get('by') for e in E if e['inferred'])}")
+        print(f"edge evidence: {len(E) - len(bad_edges)}/{len(E)} resolve" + (f" BAD {bad_edges[:5]}" if bad_edges else ""))
+        for t, cs in cyc.items():
+            print(f"cycles {t}: {len(cs)}" + "".join(f"\n    {' <-> '.join(c)}" for c in cs))
         print(f"reconcile: {'EXACT' if not bad_counts else bad_counts}")
         print(f"cited lines: {len(graph['atoms']) - len(bad_lines)}/{len(graph['atoms'])} resolve" + (f" BAD {bad_lines[:5]}" if bad_lines else ""))
         print(f"operator links: {'OK' if not bad_links else bad_links}")
         print(f"schema check: {len(findings)} findings" + (f" {findings[:5]}" if findings else ""))
         if skipped:
             print(f"memory files matching the rule but lacking front-matter name (not emitted): {skipped}")
-    ok = not (bad_counts or bad_lines or bad_links or findings)
+    ok = not (bad_counts or bad_lines or bad_links or findings or bad_edges or share < 0.90)
     if out_dir and ok:
         os.makedirs(out_dir, exist_ok=True)
         json.dump(graph, open(os.path.join(out_dir, "graph.json"), "w"), indent=1, ensure_ascii=False)
@@ -304,8 +326,14 @@ def _fixture(tmp, dup=False):
     json.dump({"counts": {"rows": 2}, "rows": [{"host": "a.arcs.care", "path": "/"}, {"host": "*", "path": "/x"}]},
               open(os.path.join(tmp, SURF), "w"), indent=2)
     json.dump({"dependencies": {"next": "1"}, "devDependencies": {"@types/node": "1"}}, open(os.path.join(tmp, PKG), "w"), indent=2)
-    open(os.path.join(tmp, BACKLOG), "w").write(json.dumps({"id": "row-a", "state": "OPEN"}) + "\n" +
+    open(os.path.join(tmp, BACKLOG), "w").write(json.dumps({"id": "row-a", "state": "OPEN", "route": {"tool": "scripts/a.py"}, "depends_on": ["row-b"], "jtbd": "needs ANTHROPIC_API_KEY"}) + "\n" +
                                                  json.dumps({"id": "row-b", "state": "BLOCKED"}) + "\n")
+    os.makedirs(os.path.join(tmp, "scripts")); os.makedirs(os.path.join(tmp, "src/lib"))
+    open(os.path.join(tmp, "scripts/a.py"), "w").write('# emits operators/op_x.py\nimport anthropic\nimport op_x\nimport os\nU = os.environ["DATABASE_URL"]\nsubprocess.run(["gh", "pr", "list"])\ntry:\n    subprocess.run(["vercel", "ls"])\nexcept OSError:\n    pass\n')
+    open(os.path.join(tmp, "operators/op_x.py"), "w").write('# see scripts/a.py\nsubprocess.run(["python3", "scripts/a.py"])\nraise SystemExit("run: python3 scripts/a.py")\nprint("fix:", ["python3", "scripts/a.py"])\n')
+    open(os.path.join(tmp, "AGENTS.md"), "w").write("Stack: Anthropic SDK, Supabase (prod), Magic link emails via Resend, Vercel `get_deployment`\n"
+        "gh pr merge --merge\n| Perplexity MCP | x |\n## Environment variables\n| `ANTHROPIC_API_KEY` | k |\n| `DATABASE_URL` | d |\n## Next\n")
+    open(os.path.join(tmp, "src/lib/env.ts"), "w").write("export const e = process.env.EMAIL_FROM\n")
     open(os.path.join(tmp, "_PATTERNS/p1.md"), "w").write("# P1\nthe JTBD here\n")
     open(os.path.join(tmp, "_PATTERNS/p2.md"), "w").write("# P2\nno job stated\n")
     mem = os.path.join(tmp, "mem"); os.makedirs(mem)
@@ -320,10 +348,11 @@ def self_test():
         mem = _fixture(tmp)
         good, g = run(tmp, True, mem, None, quiet=True)
         ids = sorted(a["id"] for a in g["atoms"])
-        want = ["blocker:backlog:row-b", "dep:npm:@types/node", "dep:npm:next", "job:backlog:row-a", "job:backlog:row-b",
+        want = ["blocker:backlog:row-b", "dep:env:ANTHROPIC_API_KEY", "dep:env:DATABASE_URL", "dep:env:EMAIL_FROM",
+                "dep:npm:@types/node", "dep:npm:next"] + [f"dep:service:{x}" for x in sorted(ge.SERVICES)] + [ "job:backlog:row-a", "job:backlog:row-b",
                 "job:memory:m-one", "job:pattern:p1", "tool:op:1", "tool:operator:op_x.py", "tool:script:a.py",
                 "tool:surface:a.arcs.care/", "tool:surface:any/x"]
-        good = good and ids == want and len(g["edges"]) == 1 and [u["key"] for u in g["unresolved"]] == []
+        good = good and ids == sorted(want) and sum(e["rule"] == "operator-bind" for e in g["edges"]) == 1 and [u["key"] for u in g["unresolved"]] == []
         print(f"good fixture: {'PASS' if good else 'FAIL'} ({len(ids)} atoms, {len(g['edges'])} edges)")
         ok &= good
         g["atoms"][0]["source"]["line"] += 1
@@ -350,7 +379,126 @@ def self_test():
         bad_ok, _ = run(tmp, False, None, None, quiet=True)
         print(f"bad fixture (count drift vs catalog): {'caught' if not bad_ok else 'MISSED'}")
         ok &= not bad_ok
+    ok &= edge_self_test()
     print("self-test OK" if ok else "self-test FAILED")
+    return ok
+
+
+def edge_self_test():
+    ok = True
+    with tempfile.TemporaryDirectory() as tmp:
+        mem = _fixture(tmp)
+        good, g = run(tmp, False, mem, None, quiet=True)
+        trip = {(e["from"], e["type"], e["to"], e["rule"]) for e in g["edges"]}
+        want = {("tool:script:a.py", "serves", "job:backlog:row-a", "route.tool"),
+                ("blocker:backlog:row-b", "blocks", "job:backlog:row-b", "blocked-row"),
+                ("blocker:backlog:row-b", "blocks", "job:backlog:row-a", "blocked-row"),
+                ("job:backlog:row-a", "needs", "job:backlog:row-b", "depends-on"),
+                ("tool:script:a.py", "design-dep", "tool:operator:op_x.py", "py-import"),
+                ("tool:script:a.py", "runtime-dep", "dep:env:DATABASE_URL", "env-read"),
+                ("tool:script:a.py", "runtime-dep", "dep:service:anthropic", "service"),
+                ("tool:operator:op_x.py", "design-dep", "tool:script:a.py", "cite"),
+                ("job:backlog:row-a", "needs", "dep:env:ANTHROPIC_API_KEY", "row-cite"),
+                ("tool:operator:op_x.py", "design-dep", "tool:op:1", "operator-bind")}
+        missing = want - trip
+        wrong_dir = [t for t in trip if t[:3] == ("tool:script:a.py", "design-dep", "tool:operator:op_x.py") and t[3] == "cite"]
+        print(f"bad edge fixture (cite line says 'emits' gives no cite edge): {'caught' if not wrong_dir else 'MISSED'}")
+        ok &= not wrong_dir
+        prose = [t for t in trip if t[0] == "tool:operator:op_x.py" and t[3] == "cite"]
+        print(f"bad edge fixture (prose mention alone gives no cite; the run line does): {'caught' if len(prose) == 1 else 'MISSED'}")
+        ok &= len(prose) == 1 and all(e["evidence"][0].endswith(":2") for e in g["edges"] if e["rule"] == "cite")
+        rr = re.compile(r"(?:" + ge.INVOKE + r")(scripts/a\.py)(?![\w./-])")
+        cases = [("operators/o.py", 'subprocess.run(["python3", "scripts/a.py"])', 1),
+                 ("operators/o.py", 'print("fix:", ["python3", "scripts/a.py"])', 0),
+                 ("operators/o.py", 'raise SystemExit("run: python3 scripts/a.py")', 0),
+                 ("operators/o.py", '# python3 scripts/a.py', 0),
+                 ("scripts/r.sh", 'python3 scripts/a.py --check', 1),
+                 ("scripts/r.sh", 'echo "run python3 scripts/a.py"', 0),
+                 (".claude/commands/c.md", 'Run `python3 scripts/a.py` first.', 1),
+                 (".claude/commands/c.md", 'Queue produced by scripts/a.py nightly.', 0)]
+        rt = lambda x: [c for c in ge.ROUTE_LIST.split(x) if not ge.ROUTE_HEDGE.search(c)
+                        and not ge.ROUTE_TARGET.search(ge.ROUTE_NEGATED.sub(" ", c))]
+        for clause, want_n in (("scripts/a.py", 1), ("NEW scripts/a.py", 0), ("extend scripts/a.py", 0),
+                               ("scripts/a.py format", 0), ("pattern scripts/a.py", 0), ("np.polyfit (a.py:136)", 0),
+                               ("NEW scripts/a.py + .claude/commands/b.md", 1), ("scripts/a.py (tao ns) + new scripts/b.py", 1), ("b.md (step 3 stale)", 0),
+                               ("scripts/a.py BINDINGS[21]", 0), ("scripts/a.py; no new channel", 2),
+                               ("the weekday 8:00 note / scripts/a.py", 1)):
+            n = len(rt(clause))
+            print(f"route.tool clause {clause!r}: {'ok' if n == want_n else 'WRONG'}")
+            ok &= n == want_n
+        jt_hit = bool(re.search(ge.JTBD_EDIT + r"(?<![\w-])/?tao-mint", "point /tao-mint and x at canon", re.I))
+        jt_miss = bool(re.search(ge.JTBD_EDIT + r"(?<![\w-])/?tao-mint", "run /tao-mint on the batch", re.I))
+        print(f"jtbd edit verb near a route.tool name makes a target: {'ok' if jt_hit and not jt_miss else 'WRONG'}")
+        ok &= jt_hit and not jt_miss
+        rdir = os.path.join(tmp, "runtime/specs"); json.dump({"note": "t", "edges": [], "retype": [{"mechanical":
+            ["tool:script:a.py", "serves", "job:backlog:row-a"], "edge": {"from": "job:backlog:row-a", "to": "tool:script:a.py",
+            "type": "needs", "evidence": ["backlog:row-a"], "match": "scripts/a.py", "by": "t", "rule": "residue-retype"}}]},
+            open(os.path.join(rdir, "jtbd-graph-inferred-edges.json"), "w"))
+        _, g2 = run(tmp, False, mem, None, quiet=True)
+        t2 = {(e["from"], e["type"], e["to"], e["inferred"]) for e in g2["edges"]}
+        rt_ok = ("tool:script:a.py", "serves", "job:backlog:row-a", False) not in t2 and ("job:backlog:row-a", "needs", "tool:script:a.py", True) in t2
+        print(f"retype replaces the mechanical edge with a flagged inferred one: {'ok' if rt_ok else 'WRONG'}")
+        ok &= rt_ok
+        os.remove(os.path.join(rdir, "jtbd-graph-inferred-edges.json"))
+        for src, want in (('k = os.environ["ANTHROPIC_API_KEY"]', True),
+                          ('if judge and os.environ.get("ANTHROPIC_API_KEY"):\n    run()\nelse:\n    skip()', False),
+                          ('key = os.environ.get("ANTHROPIC_API_KEY")\nif not key:\n    return None', False),
+                          ('key = os.environ.get("ANTHROPIC_API_KEY")\nif not key:\n    sys.exit("set it")', True),
+                          ('u = os.environ.get("DATABASE_URL") or sys.exit("no db")', True)):
+            Ls = src.split("\n"); m = ge.ENV_RE.search(Ls[0])
+            got = ge.env_hard(Ls, 0, "index" if m.group(4) or m.group(2) else "get")
+            print(f"env-read case {Ls[0][:44]!r}: {'ok' if got == want else 'WRONG'}")
+            ok &= got == want
+        for txt, want in (("Run scripts/a.py --check first.", 1), ("Same lesson as the /rca capture step.", 0),
+                          ("x was superseded by scripts/a.py.", 0), ("Removed: 11 cites whose target now exists (a.py).", 0),
+                          ("/prior-art and /catalog call it.", 0), ("Uses a.py. Same shape as b.py.", 1),
+                          ("scripts/a.py fills x instead of leaving it empty", 1),
+                          ('{"jtbd": "edit scripts/a.py", "note": "superseded old flow"}', 1)):
+            got = len([x for x in ge.SENTENCE.split(ge.row_sentences(txt)) if "a.py" in x or "rca" in x or "catalog" in x])
+            print(f"row-cite sentence {txt[:40]!r}: {'ok' if got == want else 'WRONG'}")
+            ok &= got == want
+        for f, line, want_n in cases:
+            n = len(ge.run_paths(line, f, rr))
+            good_case = n == want_n
+            print(f"cite line case {f} {line[:40]!r}: {'ok' if good_case else 'WRONG'} ({n} vs {want_n})")
+            ok &= good_case
+        msg_ok = all(e["evidence"][0].endswith(":2") for e in g["edges"] if e["rule"] == "cite")
+        print(f"bad edge fixture (command quoted in a SystemExit/print message gives no cite): {'caught' if msg_ok else 'MISSED'}")
+        ok &= msg_ok
+        gh = [t for t in trip if t[2] == "dep:service:github"]
+        print(f"bad edge fixture (python gh subprocess is not a mechanical runtime-dep): {'caught' if not gh else 'MISSED'}")
+        ok &= not gh
+        soft = [t for t in trip if t[2] == "dep:service:vercel"]
+        print(f"bad edge fixture (guarded vercel call emits no runtime-dep): {'caught' if not soft else 'MISSED'}")
+        ok &= not soft
+        good = good and not missing
+        print(f"edge good fixture: {'PASS' if good else 'FAIL'} ({len(g['edges'])} edges; missing {sorted(missing)})")
+        ok &= good
+        cyc = g["cycles"]["design-dep"]
+        print(f"cycle detector (a.py <-> op_x.py): {'caught' if cyc == [['tool:operator:op_x.py', 'tool:script:a.py']] else 'MISSED'}")
+        ok &= cyc == [["tool:operator:op_x.py", "tool:script:a.py"]]
+        rows = backlog(tmp)[2]
+        for name, mut in (("shifted evidence line", lambda e: e.update(evidence=[e["evidence"][0].rsplit(":", 1)[0] + ":5"])),
+                          ("evidence to a missing row", lambda e: e.update(evidence=["backlog:no-such-row"])),
+                          ("match text absent at evidence", lambda e: e.update(match="zzz-not-there"))):
+            h = json.loads(json.dumps(g))
+            tgt = next(e for e in h["edges"] if e["rule"] == ("py-import" if "line" in name else "depends-on"))
+            mut(tgt)
+            caught = bool(ge.verify_edges(h, tmp, rows))
+            print(f"bad edge fixture ({name}): {'caught' if caught else 'MISSED'}")
+            ok &= caught
+        h = json.loads(json.dumps(g)); h["edges"].append(dict(h["edges"][0], inferred=True))
+        h["edges"][-1].pop("by", None); h["edges"][-1]["to"] = "job:backlog:row-b"
+        f = gc.check(h, json.load(open(os.path.join(REPO, "runtime/specs/jtbd-graph-schema.json"))))
+        caught = any(x.startswith("INFERRED-NO-BY") for x in f)
+        print(f"bad edge fixture (inferred without by): {'caught' if caught else 'MISSED'}")
+        ok &= caught
+        h = json.loads(json.dumps(g))
+        for e in h["edges"]:
+            e["inferred"] = True; e["by"] = "x"
+        E = h["edges"]; share = sum(1 for e in E if not e["inferred"]) / len(E)
+        print(f"bad edge fixture (mechanical share {share:.2f} < 0.90): {'caught' if share < 0.90 else 'MISSED'}")
+        ok &= share < 0.90
     return ok
 
 
