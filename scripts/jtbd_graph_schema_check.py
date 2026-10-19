@@ -30,7 +30,8 @@ def check(graph, schema):
         ln = src.get("line")
         if not isinstance(ln, int) or isinstance(ln, bool) or ln < 1:
             out.append(f"SOURCE-LINE {aid}: {ln!r} is not a positive int")
-        ns = aid.rsplit(":", 1)[0] if aid.count(":") >= 2 else None
+        # namespace = first two segments; a key may itself contain ':' (route params like /:slug)
+        ns = ":".join(aid.split(":", 2)[:2]) if aid.count(":") >= 2 else None
         if ns not in ns_map or not ns.startswith(kind + ":"):
             out.append(f"UNKNOWN-NAMESPACE {aid}: kind {kind}"); continue
         if not re.fullmatch(ns_map[ns]["pattern"], aid):

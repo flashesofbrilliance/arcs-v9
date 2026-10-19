@@ -64,6 +64,24 @@
    }
   },
   {
+   "id": "tool:surface:good.arcs.care/blog/nftt/:slug",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/surface-catalog.json",
+    "key": "good.arcs.care/blog/nftt/:slug",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:surface:any/omakase",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/surface-catalog.json",
+    "key": "any/omakase",
+    "line": 5707
+   }
+  },
+  {
    "id": "tool:surface:*/omakase",
    "kind": "tool",
    "source": {
