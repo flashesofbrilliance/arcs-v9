@@ -18,8 +18,11 @@ description: The induced backlog as a graph: what depends on what, in what order
 3. Show the output as printed. Without `gh`, say that PR-gated triggers were not checked, because the
    script prints that line and a silent omission would read as "none".
 4. Do not turn a label into a claim. NOT-RESOLVED means no path or command in `route.tool` matched the
-   repo or the tool catalog; it does not mean the work is impossible. "Stale" means a path that does not
-   resolve as written, so a short form of a real path can be a false stale.
+   repo or the tool catalog; it does not mean the work is impossible. A short path such as
+   `compass/route.ts` is matched by suffix, `/name` by a slash command or a URL route, and a bare name
+   with several matches is AMBIGUOUS (counted as found). "Stale" means named, not found, and the row
+   does not say it will build it; "planned" means named, not found, and the row says build or create.
+   A stale entry can still be an unbuilt tool the row forgot to mark, so ask the row owner.
 5. Close with ONE nudge, never a new loop:
    - the top "ready now" row, with `/readiness <id>` as the next step, or
    - if nothing is ready, the cheapest finding to clear (a dead dependency to re-point, or an
@@ -39,4 +42,4 @@ description: The induced backlog as a graph: what depends on what, in what order
 
 The graph is only as good as its edges: many rows carry `unblocks` and few carry `depends_on`, so the
 ordering is shallow outside well-linked chains. Check the tool itself with
-`python3 scripts/backlog_graph.py --self-test` (16 fixtures, no network).
+`python3 scripts/backlog_graph.py --self-test` (24 fixtures, no network).

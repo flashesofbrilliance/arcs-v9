@@ -58,8 +58,10 @@ def p_lattice(out, rc, cmd):
 
 def p_seedbank(out, rc, cmd):
     n = num(r"(\d+) finding", out)
+    if n is None and re.search(r"^seedbank-drift: OK\b", out, re.M):
+        return None  # the detector prints no finding count when clean: "seedbank-drift: OK · N seeds · M receipts"
     if n is None:
-        return unparsed("seedbank-drift", "drift", "no 'N finding(s)' line", cmd)
+        return unparsed("seedbank-drift", "drift", "no 'N finding(s)' line and no 'seedbank-drift: OK' line", cmd)
     if n == 0:
         return None
     paths = len(re.findall(r"\[broken-local-path\]", out))
@@ -250,6 +252,10 @@ def self_test():
     f = p_lattice("lattice-drift: DRIFT · 2 drifted claim(s)", 0, cmd); assert f and f["count"] == 2
     g = p_lattice("traceback: boom", 1, cmd); assert g and g["summary"].startswith("UNPARSED")         # fail-on-bad: garbage is never zero
     assert p_seedbank("seedbank-drift: DRIFT · 47 finding(s)\n [broken-local-path] a\n [orphan-seed] b", 0, cmd)["count"] == 47
+    assert p_seedbank("seedbank-drift: OK · 71 seeds · 116 receipts · stale 1d", 0, cmd) is None       # pass-on-good: the detector's clean line is clean, not UNPARSED
+    assert p_seedbank("seedbank-drift: no _SEEDS bank yet (skip)", 0, cmd)["summary"].startswith("UNPARSED")   # fail-on-bad: a skip measured nothing, never zero
+    assert p_seedbank("Traceback (most recent call last): boom", 1, cmd)["summary"].startswith("UNPARSED")     # garbage is never zero
+    assert p_seedbank("seedbank-drift: OK · 71 seeds\nseedbank-drift: DRIFT · 3 finding(s)", 0, cmd)["count"] == 3  # a finding count wins over a stray OK
     c = p_canon("canon-propagation: DRIFT · 1 drifted pair(s) · 0 mechanical / 1 judgment", 0, cmd); assert c["route"] == "judgment"
     r = p_ripeness("backlog ripeness: SECRETLY-DONE 7 · RIPE 3 · BLOCKED 1 · WAITING 24", 0, cmd); assert r["count"] == 8
     assert p_registry("registry OK (28 rows)", 0, cmd) is None and p_registry("mismatch", 1, cmd)["class"] == "architecture debt"
