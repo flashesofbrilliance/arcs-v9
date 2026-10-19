@@ -280,6 +280,29 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
 .path .day { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--muted); font-variant-numeric: tabular-nums; }
 .path li.crit .day { color: var(--gold); }
 @media (max-width: 640px) { .chain { grid-template-columns: minmax(0, 1fr); } .path li { grid-template-columns: minmax(0, 1fr); } }
+
+.gantt { margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--border); }
+.gantt figcaption { margin-bottom: 10px; color: var(--text-secondary); }
+.g-row, .g-axis { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 12px; align-items: center; min-height: 26px; }
+.g-l { font-size: var(--fs-body); color: var(--text); }
+.g-t { position: relative; height: 14px; }
+.g-axis .g-t { height: 18px; }
+.g-axis b { position: absolute; transform: translateX(-50%); font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--muted); font-weight: 500; }
+.g-axis b:first-child { transform: none; }
+.g-axis b:last-child { transform: translateX(-100%); }
+.g-t i { position: absolute; top: 2px; height: 10px; border-radius: var(--ds-r-xs); }
+.g-plan { top: 0 !important; height: 14px !important; border: 1px dashed var(--muted); background: transparent; }
+.g-act { background: var(--cyan); }
+.g-slip { background: var(--orange); }
+.g-creep { background: var(--red); }
+.g-cut { background: transparent; border: 2px solid var(--green); }
+.g-90 { left: 75%; top: -4px !important; height: 22px !important; width: 0; border-left: 1px solid var(--gold); border-radius: 0 !important; }
+.g-key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 14px; color: var(--text-secondary); }
+.g-key span::before { content: ""; display: inline-block; width: 14px; height: 8px; margin-right: 6px; border-radius: var(--ds-r-xs); vertical-align: 1px; }
+.g-key .k1::before { background: var(--cyan); } .g-key .k2::before { background: var(--orange); } .g-key .k3::before { background: var(--red); }
+.g-key .k4::before { border: 2px solid var(--green); } .g-key .k5::before { border: 1px dashed var(--muted); } .g-key .k6::before { width: 0; border-left: 1px solid var(--gold); height: 12px; }
+.g-note { margin-top: 8px; }
+@media (max-width: 640px) { .g-row, .g-axis { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 8px; } }
 </style>
 </head>
 <body>
@@ -371,6 +394,25 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
         </tbody>
       </table>
       </div>
+      <p class="g-key"><span class="k5">Planned</span><span class="k1">Actual</span><span class="k2">Slippage</span><span class="k3">Scope creep</span><span class="k4">Descoped</span><span class="k6">Day 90</span></p>
+      <figure class="gantt" role="img" aria-label="Best: Five days ahead; the time saved buys one added scope item, approved at the gate.">
+        <figcaption><span class="tag open">Best</span> Five days ahead; the time saved buys one added scope item, approved at the gate.</figcaption>
+        <div class="g-axis"><span class="g-l"></span><span class="g-t"><b style="left:0">Day 0</b><b style="left:25.00%">30</b><b style="left:50.00%">60</b><b style="left:75.00%">90</b><b style="left:100.00%">120</b></span></div>
+        <div class="g-row"><span class="g-l">Discover</span><span class="g-t"><i class="g-plan" style="left:0.00%;width:25.00%" title="Planned day 0 to 30"></i><i class="g-act" style="left:0.00%;width:20.83%" title="Done day 25"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Build</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-act" style="left:20.83%;width:25.00%" title="Day 25 to 55"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Second permit type</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:0.00%" title="Planned day 60 to 60"></i><i class="g-creep" style="left:45.83%;width:16.67%" title="Added scope, day 55 to 75, inside the time saved"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Hand off</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-act" style="left:45.83%;width:25.00%" title="Day 55 to 85"></i><i class="g-90"></i></span></div>
+        <p class="g-note"><strong>Descope option:</strong> not needed. If the added item threatens day 90, it moves to phase two first.</p>
+      </figure>
+      <figure class="gantt" role="img" aria-label="Base: Access lands late and one integration is custom; 13 days of slip and creep.">
+        <figcaption><span class="tag ">Base</span> Access lands late and one integration is custom; 13 days of slip and creep.</figcaption>
+        <div class="g-axis"><span class="g-l"></span><span class="g-t"><b style="left:0">Day 0</b><b style="left:25.00%">30</b><b style="left:50.00%">60</b><b style="left:75.00%">90</b><b style="left:100.00%">120</b></span></div>
+        <div class="g-row"><span class="g-l">Discover</span><span class="g-t"><i class="g-plan" style="left:0.00%;width:25.00%" title="Planned day 0 to 30"></i><i class="g-act" style="left:0.00%;width:25.00%" title="Day 0 to 30"></i><i class="g-slip" style="left:25.00%;width:4.17%" title="Access late, +5 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Build</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-act" style="left:29.17%;width:20.83%" title="Day 35 to 60"></i><i class="g-creep" style="left:50.00%;width:6.67%" title="New integration, +8 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Reporting view</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-cut" style="left:51.67%;width:6.67%" title="Cut to phase two, saves 8 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Hand off</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-act" style="left:56.67%;width:20.83%" title="Day 68 to 93"></i><i class="g-slip" style="left:75.00%;width:2.50%" title="3 days over"></i><i class="g-90"></i></span></div>
+        <p class="g-note"><strong>Descope option:</strong> move the reporting view to phase two. That recovers 8 of the 13 days and lands within a few days of 90, agreed at the day-60 gate.</p>
+      </figure>
+      <figure class="gantt" role="img" aria-label="Worst: No access by day 20 and a sponsor change; projected day 110 without action.">
+        <figcaption><span class="tag gap">Worst</span> No access by day 20 and a sponsor change; projected day 110 without action.</figcaption>
+        <div class="g-axis"><span class="g-l"></span><span class="g-t"><b style="left:0">Day 0</b><b style="left:25.00%">30</b><b style="left:50.00%">60</b><b style="left:75.00%">90</b><b style="left:100.00%">120</b></span></div>
+        <div class="g-row"><span class="g-l">Discover</span><span class="g-t"><i class="g-plan" style="left:0.00%;width:25.00%" title="Planned day 0 to 30"></i><i class="g-act" style="left:0.00%;width:25.00%" title="Day 0 to 30"></i><i class="g-slip" style="left:25.00%;width:12.50%" title="No written access, +15 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Build</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-act" style="left:37.50%;width:12.50%" title="Day 45 to 60"></i><i class="g-slip" style="left:50.00%;width:16.67%" title="Sponsor change and records rule, +20 days"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Payments integration</span><span class="g-t"><i class="g-plan" style="left:25.00%;width:25.00%" title="Planned day 30 to 60"></i><i class="g-cut" style="left:41.67%;width:12.50%" title="Cut to phase two"></i><i class="g-90"></i></span></div><div class="g-row"><span class="g-l">Hand off</span><span class="g-t"><i class="g-plan" style="left:50.00%;width:25.00%" title="Planned day 60 to 90"></i><i class="g-act" style="left:66.67%;width:8.33%" title="Day 80 to 90"></i><i class="g-slip" style="left:75.00%;width:16.67%" title="Projected 20 days over"></i><i class="g-90"></i></span></div>
+        <p class="g-note"><strong>Descope option:</strong> escalate at day 20, ship on approved data only, and move payments to phase two. Projected finish about day 97, or stop at the gate if the measure no longer holds.</p>
+      </figure>
     </section>
 
     <section class="wide" id="premortem">
