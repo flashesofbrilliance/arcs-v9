@@ -407,6 +407,20 @@ def edge_self_test():
         prose = [t for t in trip if t[0] == "tool:operator:op_x.py" and t[3] == "cite"]
         print(f"bad edge fixture (prose mention alone gives no cite; the run line does): {'caught' if len(prose) == 1 else 'MISSED'}")
         ok &= len(prose) == 1 and all(e["evidence"][0].endswith(":2") for e in g["edges"] if e["rule"] == "cite")
+        rr = re.compile(r"(?:" + ge.INVOKE + r")(scripts/a\.py)(?![\w./-])")
+        cases = [("operators/o.py", 'subprocess.run(["python3", "scripts/a.py"])', 1),
+                 ("operators/o.py", 'print("fix:", ["python3", "scripts/a.py"])', 0),
+                 ("operators/o.py", 'raise SystemExit("run: python3 scripts/a.py")', 0),
+                 ("operators/o.py", '# python3 scripts/a.py', 0),
+                 ("scripts/r.sh", 'python3 scripts/a.py --check', 1),
+                 ("scripts/r.sh", 'echo "run python3 scripts/a.py"', 0),
+                 (".claude/commands/c.md", 'Run `python3 scripts/a.py` first.', 1),
+                 (".claude/commands/c.md", 'Queue produced by scripts/a.py nightly.', 0)]
+        for f, line, want_n in cases:
+            n = len(ge.run_paths(line, f, rr))
+            good_case = n == want_n
+            print(f"cite line case {f} {line[:40]!r}: {'ok' if good_case else 'WRONG'} ({n} vs {want_n})")
+            ok &= good_case
         msg_ok = all(e["evidence"][0].endswith(":2") for e in g["edges"] if e["rule"] == "cite")
         print(f"bad edge fixture (command quoted in a SystemExit/print message gives no cite): {'caught' if msg_ok else 'MISSED'}")
         ok &= msg_ok

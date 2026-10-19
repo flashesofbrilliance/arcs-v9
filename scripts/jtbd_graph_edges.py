@@ -114,6 +114,21 @@ def _logical(L, i):
     return out
 
 
+def run_paths(line, p, run_re):
+    """Matches on `line` (in tool file p) where p really runs another path; the cite rule's whole decision."""
+    code = p.endswith(CODE_EXT)
+    if code and (line.lstrip().startswith(("#", "//", "*")) or MSG_RE.search(line)):
+        return []
+    out = []
+    for m in run_re.finditer(line):
+        if code and p.endswith(".sh") and not SH_START.match(line):
+            continue
+        if code and not p.endswith(".sh") and m.group(0)[0] not in "\"'":
+            continue  # .py/.js: only a real argv list runs the path
+        out.append(m)
+    return out
+
+
 def _soft(L, i):
     """True when line i is guarded: shell fallback on the line, or a Python try: opening within 3 lines above."""
     if SOFT_SH.search(L[i]):
@@ -223,12 +238,7 @@ def build_edges(root, atoms, rows, op_edges):
         for i, line in enumerate(L):
             ev = f"{p}:{i + 1}"
             if run_re and p not in CITE_NOISE and not CITE_DIRECTION.search(line):
-                quiet = code and (line.lstrip().startswith(("#", "//", "*")) or MSG_RE.search(line))
-                for m in ([] if quiet else run_re.finditer(line)):
-                    if code and p.endswith(".sh") and not SH_START.match(line):
-                        continue
-                    if code and not p.endswith(".sh") and m.group(0)[0] not in "\"'":
-                        continue  # .py/.js: only a real argv list runs the path
+                for m in run_paths(line, p, run_re):
                     if m.group(1) == p:
                         continue
                     for fr in tids:
