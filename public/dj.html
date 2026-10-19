@@ -321,6 +321,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .frame:fullscreen { padding: 0; border: 0; border-radius: 0; background: var(--bg); }
 .frame.fs canvas, .frame:fullscreen canvas { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; object-fit: contain; border-radius: 0; }
 .frame.fs .hud { display: flex; }
+.deck:has(.frame.fs) { z-index: 50; } /* the sticky deck is a stacking context: without native fullscreen (WebKit Escape) the dock (z 20) would cover the theater frame */
 .frame.fs .fsb { display: none; }
 .fsb.zmb:hover { border-color: var(--cyan); }
 .frame.fs.idle .hud { opacity: 0; pointer-events: none; }
@@ -695,6 +696,8 @@ html[data-dock="hidden"] .tray { display: none; }
           <p class="hint" id="rnsum"></p>
           <div class="row" id="grabrow"><label for="grpre">Grab the last</label><select id="grpre" class="txt w-auto"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4" selected>4 bars</option><option value="8">8 bars</option><option value="16">16 bars</option><option value="32">32 bars</option></select><label for="grpost">and the next</label><select id="grpost" class="txt w-auto"><option value="0" selected>0 bars</option><option value="1">1 bar</option><option value="4">4 bars</option><option value="8">8 bars</option></select><button class="btn" type="button" id="grab">Grab</button></div>
           <p class="hint" id="grmsg">Keeps your recent control moves as a preset that replays in time on any song.</p>
+          <div class="row" id="lanerow"><label for="lnid">Lane</label><select id="lnid" class="txt w-auto"></select><label for="lnmode">mode</label><select id="lnmode" class="txt w-auto"><option value="off" selected>Off</option><option value="play">Play</option><option value="rec">Record</option><option value="touch">Touch</option><option value="latch">Latch</option></select><button class="btn" type="button" id="lnclr">Clear</button></div>
+          <p class="hint" id="lnmsg">Pick a slider, press Record while the song plays and move it; Play makes it move on its own.</p>
           <ul class="pinlist" id="grlist" aria-label="Grabbed gestures"></ul>
           <p class="hint" id="elsum"></p>
         </div>
@@ -964,7 +967,8 @@ else { var dd = y - (S.tops[k2][x] + S.off[k2]), base = S.L[k2] * (1 - 0.25 * MN
 v = v * mul; if (v > 1) v = 1; else if (v < 0.003) v = 0.003; var c = S.gam[(v * 1024) | 0], o = i * 4; d[o] = d[o + 1] = d[o + 2] = c; d[o + 3] = 255;
 }
 }
-S.sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(S.sc, 0, 0, Wd, Hd);
+var sc = g.canvas._sun; if (!sc) { sc = g.canvas._sun = document.createElement("canvas"); sc.width = S.sc.width; sc.height = S.sc.height; } /* per-target scratch: WebKit defers drawImage, a shared one let bar tiles overwrite the main picture */
+sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(sc, 0, 0, Wd, Hd);
 }
 function scene(g, W, H, t) {
 var fi = fidx(t), i, b, lw = MX(1, H / 360);
@@ -1000,7 +1004,7 @@ g.strokeStyle = C.cyan; g.lineWidth = lw * 1.4; g.lineCap = "round"; g.beginPath
 for (b = 0; b < NB; b++) { var a0 = PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + SIN(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + SIN(a) * (r0 + ln)); } }
 g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * PI); g.stroke(); g.restore();
 } else {
-var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
+var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = g.canvas._spec || (g.canvas._spec = document.createElement("canvas")); /* one scratch per target: WebKit defers drawImage, so a shared scratch let bar tiles overwrite the main picture */ img.width = cols; img.height = NB;
 var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
 for (x2 = 0; x2 < cols; x2++) {
 var f2 = MX(0, fi - (cols - 1 - x2));
@@ -1017,7 +1021,7 @@ g.strokeStyle = C.gold; g.lineWidth = lw * 2; g.beginPath(); g.moveTo(W - lw, 0)
 var SPEC = null, OC = null, SS = null;
 function drawRung(target, w, h, t) {
 if (h >= 144) { scene(target, w, h, t); return; }
-var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
+var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = target.canvas._ss || (target.canvas._ss = document.createElement("canvas")); SS.width = sw; SS.height = sh;
 scene(SS.getContext("2d"), sw, sh, t);
 target.imageSmoothingEnabled = true; target.imageSmoothingQuality = "high"; target.drawImage(SS, 0, 0, w, h);
 }
@@ -2053,7 +2057,7 @@ fm = fm || 1;
 for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
 return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
 };
-if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
 var R = null;
 return {
 start: function () {
@@ -2383,6 +2387,11 @@ if (!REC || !REC.ev) return; var sig = JSON.stringify(SLICES.map(function (x) { 
 if (sig === REC.sig) return; REC.sig = sig;
 if (L && L[2] === "@slices" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("slices", JSON.parse(sig));
 }
+function recCells() {
+if (!REC || !REC.ev) return; var sig = JSON.stringify(SEQ.cells), L = REC.ev[REC.ev.length - 1];
+if (REC.csig === undefined) REC.csig = JSON.stringify(makeCells()); if (sig === REC.csig) return; REC.csig = sig;
+if (L && L[2] === "@cells" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("cells", JSON.parse(sig));
+}
 function recExport() { return "Phosphor recipe v1\n" + JSON.stringify({ base: REC.base, events: REC.ev }); }
 function recImport(t) {
 var l = String(t || "").split("\n"); if (!/^Phosphor recipe v1/.test(l[0] || "")) return null;
@@ -2390,7 +2399,7 @@ try { var o = JSON.parse(l.slice(1).join("\n")); if (!o || typeof o.base !== "ob
 }
 function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo && e[2][0] !== "@") s[e[2]] = e[3]; }); return s; }
 function recInit() { REC.base = recScan(); for (var rk in REC.base) REC.cur[rk] = REC.base[rk]; REC.t0 = NOW(); }
-document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(recSync, 200);
+document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(function () { recSync(); recCells(); }, 200);
 function recApply(e) {
 var id = e[2], v = e[3], els, hit, t;
 if (id === "@fx") { fxHold(v[0], v[1], !!v[2]); return; }
@@ -2407,13 +2416,14 @@ var n = e[2];
 if (n === "@play") recPlay(e[3], AC.currentTime);
 else if (n === "@stop") { if (SRC) { try { SRC.stop(AC.currentTime); } catch (x) { /* ended */ } SRC = null; } playing = false; }
 else if (n === "@seek") { if (playing) recPlay(e[3], AC.currentTime); else tpaused = e[3]; }
+else if (n === "@cells") { SEQ.cells = e[3]; }
 else if (n === "@slices") { SLICES = []; e[3].forEach(function (p) { addSlice(p[0], p[1]); }); }
 else if (n === "@tempo") setTempo(e[3][0], e[3][1]);
 else if (n === "@pad") { var q = String(e[3]).split(":"), sl; if (q.length === 2) { PAD.bank = +q[0]; sl = SLICES[PAD.bank * 16 + +q[1]]; if (sl) padVoice(+q[1], sl); } }
 else recApply(e);
 }
 function renderOffline(rec) {
-var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg"; });
+var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg" || e[2] === "@cells"; });
 ev.forEach(function (e) { last = MX(last, e[0]); });
 var N = RD(MN(600, MX(3, last / 1000 + 1.5)) * sr), OC = new OfflineAudioContext(2, N, sr);
 stopSource(); AC = OC; playing = false;
@@ -2423,7 +2433,7 @@ ev.forEach(function (e) { var q = FL(e[0] / 1000 * sr / 128); (pts[q] = pts[q] |
 qs = Object.keys(pts).map(Number); if (pump) for (i = 8; i * 128 < N; i += 8) qs.push(i);
 qs = qs.filter(function (q, k, a) { return a.indexOf(q) === k && q * 128 < N; }).sort(function (a, b) { return a - b; });
 qs.forEach(function (q) {
-var go = function () { (pts[q] || []).forEach(recAt); if (pump) fxPump(); };
+var go = function () { (pts[q] || []).forEach(recAt); if (pump) { seqTick(); fxPump(); } };
 if (q === 0) go(); else OC.suspend(q * 128 / sr).then(function () { go(); OC.resume(); });
 });
 return OC.startRendering().then(function (buf) { return { sr: sr, l: buf.getChannelData(0), r: buf.getChannelData(1), info: { pads: PAD.voices || 0, bpm: BPM, grid0: GRID0, gamt: GAMT, dur: DUR, thr: FXG.mode } }; });
@@ -2495,6 +2505,38 @@ if (beat >= g.beats) { if (GRB.run && GRB.run.loop) { i = 0; start += g.beats; }
 }, 20);
 grabShow();
 }
+var LANE = { id: "", mode: "off", pts: [], held: false, latched: false, gl: null, self: false, lastW: -9 };
+function laneVal(b) {
+var p = LANE.pts, k; if (!p.length) return null; if (b <= p[0][0]) return p[0][1]; if (b >= p[p.length - 1][0]) return p[p.length - 1][1];
+for (k = 1; k < p.length; k++) if (b <= p[k][0]) return p[k - 1][1] + (p[k][1] - p[k - 1][1]) * (b - p[k - 1][0]) / MX(1e-6, p[k][0] - p[k - 1][0]);
+return null;
+}
+function laneSet(el, v) { LANE.self = true; el.value = v; el.dispatchEvent(new Event("input", { bubbles: true })); LANE.self = false; }
+function laneWrite(b, v) {
+if (b - LANE.lastW < 0.05) return; LANE.lastW = b;
+LANE.pts = LANE.pts.filter(function (q) { return AB(q[0] - b) >= 0.05; }); LANE.pts.push([+b.toFixed(3), +v]); LANE.pts.sort(function (x, y) { return x[0] - y[0]; }); laneShow();
+}
+function laneShow() { var m = $("lnmsg"); if (m) m.textContent = LANE.pts.length ? LANE.pts.length + " points on " + (LANE.id || "no slider") + "." : "Pick a slider, press Record while the song plays and move it; Play makes it move on its own."; }
+function laneFill() { var s = $("lnid"), h = ""; EA(QA("input[type=range][id]"), function (e) { if (e.id === "scrub" || e.id === "hscrub") return; var l = e.getAttribute("aria-label") || e.id; h += '<option value="' + e.id + '">' + esc(l) + "</option>"; }); s.innerHTML = h; LANE.id = s.value; }
+document.addEventListener("input", function (e) {
+if (LANE.self || !playing || e.target.id !== LANE.id) return; var b = tmapBeat(tnow());
+if (LANE.mode === "rec" || ((LANE.mode === "touch" || LANE.mode === "latch") && (LANE.held || LANE.latched))) { laneWrite(b, +e.target.value); if (LANE.mode === "latch") LANE.latched = true; LANE.gl = null; }
+}, true);
+document.addEventListener("pointerdown", function (e) { if (e.target.id === LANE.id) { LANE.held = true; LANE.gl = null; } }, true);
+function laneRelease() { var el, b; if (!LANE.held) return; LANE.held = false; el = $(LANE.id); if (el && LANE.mode === "touch" && playing) { b = tmapBeat(tnow()); LANE.gl = { from: +el.value, b0: b }; } }
+document.addEventListener("pointerup", laneRelease, true); document.addEventListener("change", function (e) { if (e.target.id === LANE.id) laneRelease(); }, true);
+setInterval(function () {
+var el, b, v, w;
+if (!playing) { LANE.latched = false; LANE.gl = null; return; }
+if (LANE.mode === "off" || LANE.mode === "rec" || !LANE.id || !LANE.pts.length || LANE.held || LANE.latched) return;
+el = $(LANE.id); if (!el) return; b = tmapBeat(tnow()); v = laneVal(b); if (v === null) return;
+if (LANE.gl) { w = MN(1, (b - LANE.gl.b0) / 1); v = LANE.gl.from + (v - LANE.gl.from) * w; if (w >= 1) LANE.gl = null; }
+if (AB(+el.value - v) >= (+el.step || 1)) laneSet(el, v);
+}, 20);
+$("lnid").addEventListener("change", function () { LANE.id = $("lnid").value; laneShow(); });
+$("lnmode").addEventListener("change", function () { LANE.mode = $("lnmode").value; LANE.latched = false; LANE.gl = null; });
+$("lnclr").addEventListener("click", function () { LANE.pts = []; LANE.gl = null; laneShow(); });
+laneFill();
 function grabShow() {
 var ul = $("grlist"), h = "";
 GRB.list.forEach(function (g, k) { h += '<li><input class="txt" type="text" value="' + esc(g.name) + '" data-gn="' + k + '" aria-label="Name of grab ' + (k + 1) + '"><button class="btn" type="button" data-grplay="' + k + '">' + (GRB.run && GRB.run.g === g ? "Stop" : "Play") + '</button><button class="btn" type="button" data-gl="' + k + '" aria-pressed="' + !!(GRB.run && GRB.run.g === g && GRB.run.loop) + '">Loop</button><button class="btn" type="button" data-gd="' + k + '">Delete</button></li>'; });
@@ -2791,7 +2833,7 @@ else { FS = false; NATIVE = false; f.classList.remove("fs", "idle", "steps"); if
 cv.width = on ? 1600 : 1280; cv.height = on ? 900 : 360;
 AP($("fsb"), on); wakeHud(); frame(playing);
 }
-function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { if (EJT) { wakeHud(); return; } f.classList.add("idle"); }, 2600); } /* never fade the HUD under a held Eject: WebKit fires pointerleave and cancels the hold */
 EA(QA("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
 function kidSync() { EA(QA("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
 document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);
