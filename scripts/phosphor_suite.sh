@@ -12,7 +12,7 @@ while [ "$r" -le "$ROUNDS" ]; do
     case "$n" in phosphor_slice_check|phosphor_twin_check|phosphor_sing_check|phosphor_gold_check|phosphor_fx_check) [ "$3" = "--all" ] || [ "$2" = "--all" ] || continue;; esac
     case "$n" in
       phosphor_mixer_check) E="$FX/break-100.wav,$FX/break-120.wav";;
-      phosphor_bars_check|phosphor_dock_check|phosphor_gate_check|phosphor_glitchoff_check|phosphor_pins_check|phosphor_flash_check|phosphor_mix_check|phosphor_zoomrow_check|phosphor_font_check|phosphor_playlog_check|phosphor_recipe_check|phosphor_pads_check|phosphor_hidden_check|phosphor_kidcap_check|phosphor_render_check|phosphor_grab_check|phosphor_lane_check) E="$FX/break-100.wav";;
+      phosphor_bars_check|phosphor_dock_check|phosphor_gate_check|phosphor_glitchoff_check|phosphor_pins_check|phosphor_flash_check|phosphor_mix_check|phosphor_zoomrow_check|phosphor_font_check|phosphor_playlog_check|phosphor_recipe_check|phosphor_pads_check|phosphor_hidden_check|phosphor_kidcap_check|phosphor_render_check|phosphor_grab_check|phosphor_lane_check|phosphor_seqrender_check) E="$FX/break-100.wav";;
       *) E="";;
     esac
     PHOSPHOR_FILES=$E node $NODEOPT "$s" "$PAGE" >"$OUT/$n.r$r.txt" 2>&1; echo "$n $?" >> "$OUT/round$r.txt"
