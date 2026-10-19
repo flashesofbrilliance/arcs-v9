@@ -1,6 +1,6 @@
 # Phosphor backlog triage: release slices and compost candidates (2026-10-19)
 
-Status: PROPOSAL, read-only. No row in `_QUEUE/induced-backlog.jsonl` was changed. Every fate below is Zach's ruling.
+Status: PROPOSAL, read-only. Slice 1 approved as next by Zach, 2026-10-19 (compost lines still unruled). No row in `_QUEUE/induced-backlog.jsonl` was changed. Every fate below is Zach's ruling.
 
 Counts (from the file, 2026-10-19): 99 `phosphor-*` rows: 83 OPEN, 12 DONE, 2 HOLDING, 1 HELD, 1 SUPERSEDED. 85 rows are live (OPEN + HOLDING + HELD, minus none). Build rules: edit `_ARTIFACTS/phosphor-src/`, run `scripts/phosphor_build.py`; public copy only via `--release` (about every 5 shipped rows).
 
