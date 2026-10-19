@@ -1,0 +1,98 @@
+{
+ "atoms": [
+  {
+   "id": "tool:script:oracle.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "oracle.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:op:21",
+   "kind": "tool",
+   "source": {
+    "catalog": "operators/OPERATOR-REGISTRY.json",
+    "key": "21",
+    "line": 1
+   }
+  },
+  {
+   "id": "job:backlog:jtbd-graph-s0-schema",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "jtbd-graph-s0-schema",
+    "line": 298
+   }
+  },
+  {
+   "id": "job:memory:when-to-teleport-to-terminal-vs-agents",
+   "kind": "job",
+   "source": {
+    "catalog": "~/.claude/projects/-Users-zharris-arcs-v9/memory/*.md",
+    "key": "when-to-teleport-to-terminal-vs-agents",
+    "line": 2
+   }
+  },
+  {
+   "id": "blocker:backlog:example-blocked-row",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "example-blocked-row",
+    "line": 10
+   }
+  },
+  {
+   "id": "dep:npm:next",
+   "kind": "dep",
+   "source": {
+    "catalog": "package.json",
+    "key": "next",
+    "line": 20
+   }
+  }
+ ],
+ "edges": [
+  {
+   "from": "tool:script:oracle.py",
+   "to": "job:backlog:jtbd-graph-s0-schema",
+   "type": "serves",
+   "evidence": [
+    "trust me"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "blocker:backlog:example-blocked-row",
+   "to": "job:backlog:jtbd-graph-s0-schema",
+   "type": "blocks",
+   "evidence": [
+    "backlog:example-blocked-row"
+   ],
+   "inferred": false
+  },
+  {
+   "from": "job:backlog:jtbd-graph-s0-schema",
+   "to": "dep:npm:next",
+   "type": "needs",
+   "evidence": [
+    "AGENTS.md:12"
+   ],
+   "inferred": true,
+   "by": "counter-agent sample"
+  },
+  {
+   "from": "tool:op:21",
+   "to": "tool:script:oracle.py",
+   "type": "design-dep",
+   "evidence": [
+    "import:operators/arcs_librarian.py:40"
+   ],
+   "inferred": false
+  }
+ ],
+ "_expect": "BAD-EVIDENCE"
+}

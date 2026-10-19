@@ -308,6 +308,8 @@
           <p class="hint" id="rnsum"></p>
           <div class="row" id="grabrow"><label for="grpre">Grab the last</label><select id="grpre" class="txt w-auto"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4" selected>4 bars</option><option value="8">8 bars</option><option value="16">16 bars</option><option value="32">32 bars</option></select><label for="grpost">and the next</label><select id="grpost" class="txt w-auto"><option value="0" selected>0 bars</option><option value="1">1 bar</option><option value="4">4 bars</option><option value="8">8 bars</option></select><button class="btn" type="button" id="grab">Grab</button></div>
           <p class="hint" id="grmsg">Keeps your recent control moves as a preset that replays in time on any song.</p>
+          <div class="row" id="lanerow"><label for="lnid">Lane</label><select id="lnid" class="txt w-auto"></select><label for="lnmode">mode</label><select id="lnmode" class="txt w-auto"><option value="off" selected>Off</option><option value="play">Play</option><option value="rec">Record</option><option value="touch">Touch</option><option value="latch">Latch</option></select><button class="btn" type="button" id="lnclr">Clear</button></div>
+          <p class="hint" id="lnmsg">Pick a slider, press Record while the song plays and move it; Play makes it move on its own.</p>
           <ul class="pinlist" id="grlist" aria-label="Grabbed gestures"></ul>
           <p class="hint" id="elsum"></p>
         </div>
