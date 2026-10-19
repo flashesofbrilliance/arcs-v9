@@ -200,11 +200,6 @@
     {
       "audience": "internal",
       "owner": "You",
-      "text": "Reconcile the commit count said on the call (about 5,000 since April) with the written one (over 3,500, about six months). Re-measure at status.arcs.care; the written number stands until then."
-    },
-    {
-      "audience": "internal",
-      "owner": "You",
       "text": "Watch for the take-home spec from Sara. Design-first: state assumptions, treat gaps as intentional, ship a first version fast."
     },
     {
@@ -235,7 +230,7 @@
     "header": {
       "eyebrow": "ARCS &#183; War Room",
       "title": "Sara Hagey Chima &#183; Concourse",
-      "sub": "Recruiter screen closed on Fri Oct 16. Engineer call Mon Oct 19, 2:30 PM ET. FDE track."
+      "sub": "Recruiter screen Fri Oct 16; peer FDE call with Krish Mon Oct 19 (closed). Next: design take-home, then onsite. FDE track."
     },
     "tabs": [
       {
@@ -281,11 +276,11 @@
         "rows": [
           {
             "k": "Next event",
-            "v": "Mon Oct 19, 2:30 PM ET, 30 min, virtual, with a peer Forward Deployed Engineer (not the hiring manager)"
+            "v": "Take-home spec from Sara (design-focused), then onsite v0 build. Peer call with Krish done Mon Oct 19."
           },
           {
             "k": "Register",
-            "v": "Recruiting screen done, next is peer-engineer. Warm, fast, process-driven."
+            "v": "Recruiter screen and peer call done. Next readers: hiring manager and CTO via the take-home."
           },
           {
             "k": "Their goal",
@@ -595,8 +590,8 @@
             "html": "<strong>Risk:</strong> no open source now and no plans ('can often come with a fair few trade-offs'). The public-goods angle is not a wedge here."
           },
           {
-            "dot": "r",
-            "html": "<strong>Kintsugi seam:</strong> Zach said 'almost like 5,000 commits since April' on the call; the live pre-read and resume say about six months and over 3,500 commits (status.arcs.care). Reconcile before the take-home or any written follow-up; the written number wins until re-measured."
+            "dot": "g",
+            "html": "<strong>Commit count, reconciled:</strong> both numbers are true. Main has 5,002 commits since 2026-04-09 counting merge commits (what Zach said on the call, 'almost 5,000 since April') and 3,551 without merges; status.arcs.care shows 3,575. Written materials keep 'over 3,500'; if it comes up, say 'about 3,500 commits, about 5,000 counting merges'."
           },
           {
             "dot": "r",
