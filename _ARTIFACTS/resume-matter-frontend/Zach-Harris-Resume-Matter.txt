@@ -1,0 +1,49 @@
+Zach Harris
+Front-end product engineer: TypeScript, React, design systems, and interaction craft
+New York Metro, hybrid · zach.harris@gmail.com · linkedin.com/in/zharris · github.com/flashesofbrilliance
+
+Product engineer with a studio-art foundation and two decades shipping consumer and regulated products end to end. I
+build front-end surfaces in TypeScript and React, own features from design through release with little oversight, and test my
+own work before calling it done. I led a mobile-first platform rebuild where 70 percent of traffic was mobile, and today I
+maintain a large TypeScript and Next.js codebase solo, with nearly 500 merged pull requests and gated releases.
+EXPERIENCE
+ARCS, Founder and Builder                                                                                       2025 to Present
+   Built and ship the full product surface of an AI decision platform in TypeScript, React, and Next.js: a question interface,
+   a two-column reasoning brief, and a receipt view, with inline styles from a single token set.
+   Maintain a large, fast-moving codebase alone: nearly 500 merged pull requests, pre-commit gates and regression suites,
+   and failing checks traced to root cause before merge.
+   Built automated page gates that fail the build on visual defects (text wrapping, contrast, layout overflow) across viewport
+   widths, so a class of bug is caught once rather than fixed one instance at a time.
+   Built the back end the surface depends on: API routes, Prisma and Postgres, magic-link authentication (Auth.js), and a
+   Model Context Protocol (MCP) server on Claude.
+Grayscale Investments (Digital Currency Group), Product Lead                                                      2024 to 2025
+   Owned the investor-facing platform for a ten-product, $7B regulated launch; built role-based access and pre-deployment
+   gates so no unapproved content could ship.
+   Ran releases across four time zones and cut release-cycle time 35 percent with automated QA.
+Mañana, Product Partner (independent practice)                                                                 2020 to Present
+   Embedded product partner on client-facing 0-to-1 work: Axon (first-responder video app launch), GoPro (EMEA and
+   APAC growth), Verizon Media (five 5G venture assessments), Twill Health (three AI-enabled product lines tested, two
+   validated).
+Squat New York, Head of Product Innovation and Tech Lead                                                          2019 to 2020
+   Sole product and technology partner for a behavioral health client: rebuilt the front end and back end end to end, with
+   an accessible (WCAG 2.0) design system built in from the start.
+   Rebuilt mobile-first for 70 percent mobile traffic and reworked search and booking flows: 40 percent more qualified
+   leads, 63 percent higher booking success, NPS up 23 points.
+Women's Tennis Association, Head of Product and Strategic Partnerships                                            2016 to 2018
+   Modernized the stack for a global consumer sports platform and built real-time fan-behavior scoring that ran in under
+   120 milliseconds.
+IBRShop, Co-founder and EVP, eCommerce                                                                            2012 to 2016
+   Product lead for the eCommerce site of a direct-to-consumer brand grown from zero to profitability and more than $2M
+   in revenue in 24 months.
+Earlier: Selectable Media, General Manager (2010 to 2011); VentureBeat, video growth (2007 to 2008); Yahoo, Creative
+Technology intern (2004)
+SKILLS
+Front end: TypeScript, React, Next.js (App Router), responsive and mobile-first layout, design tokens and design systems,
+CSS animation and keyframes, accessibility (WCAG AA).
+Quality: automated regression and page gates, pre-commit checks, CI/CD, cross-browser and multi-viewport testing, root-
+cause analysis.
+Back end: Node.js API routes, Prisma, Postgres (Supabase), SQLite, authentication flows (Auth.js), Python (FastAPI),
+Vercel.
+EDUCATION
+Oberlin College, Bachelor of Arts, Studio Art. MIT xPRO, Designing and Building AI Products and Services.
+
