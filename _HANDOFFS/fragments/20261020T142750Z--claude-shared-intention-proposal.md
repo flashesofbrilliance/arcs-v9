@@ -27,9 +27,9 @@ created_at: 2026-10-20T14:27:50Z
 
 ## Open
 1. Zach: Amy draft to amy@recruithaus.com (Gmail draft dated 2026-10-18): send, edit or drop.
-2. Zach: George (Scout Global) reply pending; bundle sent 2026-10-16, nudge 2026-10-19; record a verdict on 2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH when it lands.
+2. George (Scout Global): Zach followed up (bundle 2026-10-16, nudge 2026-10-19; Zach confirmed 2026-10-20). Waiting on George; record a verdict on 2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH when he replies.
 3. Zach: funnel seed kill condition due 2026-10-22 (finding f-d1cb1802f5); no receipt yet.
-4. Zach: Vico follow-up to Joe Schriner pending since 2026-10-14; confirm which one-page attachment was sent, given the handoff note that the Vico onepager is Tier 2 (no send before mutual NDA).
+4. Vico: Zach is in touch with Joe Schriner (confirmed 2026-10-20). Open only: Zach confirms which one-page attachment went on 2026-10-14, given the Tier 2 no-send-before-NDA note.
 5. Zach: ship or hold PR #1695 (s4 freeze: do not regenerate the tool catalog).
 6. Domino line D1 to D17 in PR #1691 section 4g; ripe now: D1 (intention test trigger), D2 (steelman the 10 DRAFT abort/rollback texts), D3 (= item 5).
 
