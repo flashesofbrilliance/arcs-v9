@@ -283,6 +283,7 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 
 | # | Domino | Falls when (trigger) | Tips |
 |---|---|---|---|
+| D0 | Onramp check: is this the right problem? Red team, blue team, inverse, then steelman vs strawman of the premise "timing is the bottleneck, and pricing risk is the first move" | now, before D2; one pass, about 30 min | confirms or swaps the onramp; every later domino inherits its answer |
 | D1 | Give the intention test a real trigger [14] | now: pick an event, e.g. the next `/fold` or `scripts/unfold.py` run that adds 10 or more rows | nothing else waits on it; it stops the test from quietly never running |
 | D2 | Steelman the 10 DRAFT covers [2] | now, Zach in chat, one row at a time | D4, D8 |
 | D3 | Ship ruling on PR #1695 [1] | now, Zach | D5, D6, D9 (other sessions and Hermes can run the tool) |
@@ -304,7 +305,16 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 Not a domino (a standing limit): the validator seats are the same model family as the worker [11].
 It never falls; every sprint states it, and only detector re-runs and outcomes count as outside proof.
 
-Now-ripe set: D1, D2, D3. Everything else waits on a named trigger.
+Now-ripe set: D0, then D1, D2, D3.
+
+**Wrong-onramp tripwires (pre-registered).** The onramp is mostly a two-way door: everything built so
+far is read-only or a proposal, so a wrong onramp costs time, not damage. It is wrong if any fires:
+1. D4 priced triage changes no fate and sharpens none (the underwriter added nothing).
+2. The mirror sentence and Zach's intention share fewer than 2 of 8 core rows (the backlog is
+   pulling somewhere else).
+3. No real outcome lands within 30 days (2026-11-19): the calibration chain cannot teach timing,
+   so the timing intention needs a different feedback source.
+On a fire: stop the line, write a seam line, re-run D0 with the alternate onramp named in its output. Everything else waits on a named trigger.
 
 ## 4h. Failure modes banked this session (seam ledger, 2026-10-20)
 
