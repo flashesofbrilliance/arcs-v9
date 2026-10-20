@@ -42,7 +42,7 @@ H3 (predicted pass), H5 (predicted pass), H1 magnitude (predicted 20x to 100x, g
 
 ## Independent re-score
 
-The agent's code is not committed; its inputs were the published raw results and the frozen datasets, and the comparison target was `scripts/provenance_bench_score.py` output. Its own script and report live only in this session's scratch, so treat the agreement as reported, not archived.
+The agent's code is not committed; its inputs were the published raw results and the frozen datasets, and the comparison target was `scripts/provenance_bench_score.py` output. Its own script lived only in this session's scratch folder and was lost when the machine rebooted on 2026-10-19, so treat the agreement as reported, not archived and not rerunnable. Anyone who wants an independent check should write a new one from the published verdict files.
 
 A separate claims-skeptic agent (same model family as the author, stated for what it is) recomputed every count with its own stdlib code and without importing the scorer. Both SHA-256 manifests verified. The frozen scorer's output matched the published scores exactly. Its counts equal the table above (for example S Set B 255, B0 261, 37 dropped true files, 0 confident-wrong, 12 identical hashes per group).
 
