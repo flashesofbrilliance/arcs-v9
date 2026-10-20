@@ -149,7 +149,9 @@
       "Bash(python3 scripts/universe_jtbd_adapter.py --self-test)",
       "Bash(python3 scripts/jtbd_graph_schema_check.py --self-test)",
       "Bash(python3 scripts/backlog_graph.py --self-test)",
-      "Bash(python3 scripts/ripple_ledger.py --check)"
+      "Bash(python3 scripts/ripple_ledger.py --check)",
+      "Bash(node scripts/phosphor_check.mjs *)",
+      "Bash(node scripts/phosphor_guard_check.mjs *)"
     ],
     "ask": [
       "Bash(git push:*)"
