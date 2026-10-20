@@ -1,0 +1,240 @@
+{
+ "rule": "amendment 7 (n=18, gate >=15 and strictly more than /catalog)",
+ "n": 18,
+ "untuned_n": 15,
+ "verdict": "WIN",
+ "notes": [
+  "Row 16: Zach marked two beat-detection tools essential for a memory-shard job; a blind mark stands as given. With them as W the graph still passes 15/18 (sensitivity check).",
+  "Known weakness (amendment 7): longer graph lists; graph had 1 W item across 18 rows and essential recall 0.89 vs 0.16."
+ ],
+ "graph": {
+  "pass": 16,
+  "untuned_pass": 13,
+  "mean_essential_recall": 0.89,
+  "rows": [
+   {
+    "row": 1,
+    "marks": "EEUUU",
+    "pass": true,
+    "essential_recall": 0.667
+   },
+   {
+    "row": 2,
+    "marks": "EEUEU",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 3,
+    "marks": "UEEE",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 4,
+    "marks": "UEEUE",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 5,
+    "marks": "UEUEE",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 6,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 7,
+    "marks": "EWU",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 8,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 9,
+    "marks": "UEUUE",
+    "pass": true,
+    "essential_recall": 0.667
+   },
+   {
+    "row": 10,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 11,
+    "marks": "EEEU",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 12,
+    "marks": "EEUE",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 13,
+    "marks": "UEUU",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 14,
+    "marks": "UUEUE",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 15,
+    "marks": "UEEU",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 16,
+    "marks": "EE",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 17,
+    "marks": "UUUU",
+    "pass": false,
+    "essential_recall": null
+   },
+   {
+    "row": 18,
+    "marks": "EEEUE",
+    "pass": true,
+    "essential_recall": 0.8
+   }
+  ]
+ },
+ "catalog": {
+  "pass": 6,
+  "untuned_pass": 6,
+  "mean_essential_recall": 0.159,
+  "rows": [
+   {
+    "row": 1,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 0.333
+   },
+   {
+    "row": 2,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 3,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 4,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 5,
+    "marks": "",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 6,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 1.0
+   },
+   {
+    "row": 7,
+    "marks": "",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 8,
+    "marks": "",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 9,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 0.333
+   },
+   {
+    "row": 10,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 11,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 12,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 0.333
+   },
+   {
+    "row": 13,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 14,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 15,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 0.5
+   },
+   {
+    "row": 16,
+    "marks": "U",
+    "pass": false,
+    "essential_recall": 0.0
+   },
+   {
+    "row": 17,
+    "marks": "",
+    "pass": false,
+    "essential_recall": null
+   },
+   {
+    "row": 18,
+    "marks": "E",
+    "pass": true,
+    "essential_recall": 0.2
+   }
+  ]
+ }
+}
