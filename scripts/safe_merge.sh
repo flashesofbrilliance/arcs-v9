@@ -10,7 +10,7 @@
 #        scripts/safe_merge.sh --self-test      (offline: fake gh on PATH, merge gates + job/tool derivation)
 #   1. refuses unless the PR head equals <expected-head-sha> (full sha or a prefix of 7+)
 #   2. waits until every check on that head is final, then refuses unless all are SUCCESS
-#      (PENDING past the timeout, FAILURE, CANCELLED, SKIPPED-as-only-check, or zero checks: refuse)
+#      (PENDING past the timeout, FAILURE, CANCELLED, only-SKIPPED checks, or zero checks: refuse; SKIPPED beside a SUCCESS is neutral)
 #   3. CONFLICTING mergeable: stop and say so (never rebases)
 #   4. merges with `gh pr merge --merge --match-head-commit <sha>` (gotcha 17: never squash/rebase)
 #   5. prints the merge commit and a decision_receipt INSERT template (never writes to Supabase), with
@@ -77,6 +77,10 @@ FAKE
   run_case conflict             1 no  abc1234def0000 CONFLICTING 60 "[$S]"
   run_case timeout              1 no  abc1234def0000 MERGEABLE 0 "[$P]"
   run_case zero-checks          1 no  abc1234def0000 MERGEABLE 60 "[]"
+  K='{"name":"smoke","state":"SKIPPED"}'
+  run_case skipped-beside-success 0 yes abc1234def0000 MERGEABLE 60 "[$S,$K]"
+  run_case only-skipped         1 no  abc1234def0000 MERGEABLE 60 "[$K]"
+  run_case skipped-beside-failure 1 no abc1234def0000 MERGEABLE 60 "[$S,$K,$F]"
   run_case github-down          1 no  authdown       MERGEABLE 60 "[$S]"
   # Receipt job_id/tool_id derivation (Sprint 5): body ref, backlog-diff row, placeholders.
   derive_case() { # name meta-json diff-text want-job-grep want-tool-grep
@@ -139,9 +143,12 @@ check_state() {
 import json,sys
 cs=json.load(sys.stdin)
 if not cs: print("NOCHECKS"); sys.exit()
-bad=[c["name"]+"="+c["state"] for c in cs if c["state"] not in ("SUCCESS","PENDING","QUEUED","IN_PROGRESS","WAITING","REQUESTED","EXPECTED")]
+# SKIPPED is neutral (path-filtered jobs skip on docs-only PRs) unless every check skipped.
+real=[c for c in cs if c["state"]!="SKIPPED"]
+if not real: print("FAILURE:only SKIPPED checks"); sys.exit()
+bad=[c["name"]+"="+c["state"] for c in real if c["state"] not in ("SUCCESS","PENDING","QUEUED","IN_PROGRESS","WAITING","REQUESTED","EXPECTED")]
 if bad: print("FAILURE:"+",".join(bad)); sys.exit()
-print("PENDING" if any(c["state"]!="SUCCESS" for c in cs) else "SUCCESS")'
+print("PENDING" if any(c["state"]!="SUCCESS" for c in real) else "SUCCESS")'
 }
 
 # GitHub health probe (jtbd-graph dep:service:github, runtime/specs/jtbd-graph-probes.json): refuse before any read or merge.
