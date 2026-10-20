@@ -45,7 +45,8 @@ def build(node, row, level, rule):
     if level in ("R1", "R2") and not owns:
         return None, "no writable resolved file in route.tool; triage R-1 first"
     sizes = {p: len((ROOT / p).read_text(errors="ignore").splitlines()) for p in owns}
-    done = row.get("done_check") or (row.get("gates") or ["UNCONFIRMED: row names no gate; ask the parent before acting"])[0]
+    # A gate is a constraint, not a check: never present gates[0] as the done-check.
+    done = row.get("done_check") or "UNCONFIRMED: the row names no done_check; the parent must supply one before this brief is sent"
     brief = {
         "title": f"Resolve {node['id']}" if level == "R-1" else f"Close {node['id']}",
         "level": level,
@@ -58,6 +59,7 @@ def build(node, row, level, rule):
         "owns_lines": sizes,
         "ssot": [p for p in node.get("tool_resolved", []) if p not in owns],
         "done_check": done,
+        "gates": row.get("gates") or [],
         "do_not": ["merge", "edit _QUEUE/ (return row_deltas instead)", "start sessions", "touch files outside OWNS"],
         "return_contract": ["status", "pr", "touched", "evidence", "row_deltas", "new_rows(with evidence)", "unblocks_observed"],
     }
@@ -70,6 +72,7 @@ def render(b):
          "ROW: " + json.dumps(b["row"], ensure_ascii=False),
          "OWNS (write): " + (", ".join(f"{p} ({b['owns_lines'][p]} lines)" for p in b["owns"]) or "none; return the route.tool value as a row_delta"),
          "SSOT (read-only): " + (", ".join(b["ssot"]) or "none"),
+         "GATES (constraints, all hold): " + (" | ".join(b["gates"]) or "none"),
          f"DONE LOOKS LIKE: {b['done_check']}", "DO NOT: " + "; ".join(b["do_not"]),
          "RETURN CONTRACT: " + ", ".join(b["return_contract"]),
          "FIRST MOVE: act on OWNS directly; the orientation above is current. Read only what OWNS names."]
@@ -129,7 +132,8 @@ def self_test():
         ("e refused: only hot file resolves", any(i == "e" for i, _ in refused)),
         ("filing-x refused as human track", any(i == "filing-x" and w.startswith("R4") for i, w in refused)),
         ("no brief ever owns a hot file", all(not p.startswith(FORBIDDEN_WRITE) for b in briefs for p in b["owns"])),
-        ("rendered brief carries all template sections", all(s in render(briefs[0]) for s in ("TITLE:", "AS-OF", "ROW:", "OWNS", "SSOT", "DONE LOOKS LIKE:", "DO NOT:", "RETURN CONTRACT:", "FIRST MOVE:"))),
+        ("gate is never passed off as the done-check", all("UNCONFIRMED" in b["done_check"] for b in briefs)),
+        ("rendered brief carries all template sections", all(s in render(briefs[0]) for s in ("TITLE:", "AS-OF", "ROW:", "OWNS", "SSOT", "GATES", "DONE LOOKS LIKE:", "DO NOT:", "RETURN CONTRACT:", "FIRST MOVE:"))),
     ]
     ok += self_test_owns()
     bad = [n for n, v in ok if not v]
