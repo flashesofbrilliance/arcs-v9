@@ -136,6 +136,42 @@ and a `spec` key on the row holding that path. backlog_status_check.py does not 
 Short horizons skip high altitudes (a day has no milestone). Row placement in the grid is never
 a ranking; examples in the 2026-10-20 sketch were illustrative only and are not core picks.
 
+## 4c. Many paths to one waypoint, and the om among them (Zach, 2026-10-20)
+
+Zach: there are endless paths to the safe waypoint; consider them all, then adjust the gear,
+training and mindset each one needs, from the most dangerous to the safest. And treat the session's
+chatter as signal: constructive or destructive interference, converging on a shared om instead of
+dissonance or an endless echo, with standing disagreement recorded so it cannot deadlock, ending
+in one prime torque move.
+
+How it fits this design:
+
+1. **Waypoint** = the intention at a horizon (section 1). Paths are routes through the backlog
+   graph that reach the core rows. REUSE: dependency waves and descendants in backlog_graph.py
+   enumerate routes; the `ex-ante-paired-paths-template` row already wants paired paths with cost
+   if wrong and a falsifier per path. GAP: "all paths" is unbounded, so v0 shows a bounded set
+   (say safest, fastest, and the one Zach would pick by feel) and says what was not enumerated.
+2. **Danger per path** = the sum of its rows' risk fields (`ruin`, `door`, `gates`, `abort`,
+   `rollback`; section 4b), priced by the risk underwriter (PR #1694, PROPOSED). REUSE: compass
+   L2 path survivability as the frame.
+3. **Gear, training, mindset** = what must be true before a path is walkable. Gear = tools
+   (tool-fit, HAVE or PARTIAL). Training = skills or past receipts that show it was done before.
+   Mindset = the human's time mode (Kairos) and the Op 25 somatic read. GAP: no per-path readiness
+   readout exists; v0 is a three-line checklist per path.
+4. **Chatter as interference.** Echo is already detected: Op 25 sycophancy check (agreement with no
+   dissent). Its known flaw: it counts keywords, so it misses dissent in other words. Om is already
+   defined: confidence vs conviction gap (Op 25 spec). REUSE as math only: `WaveDiffusion` and
+   `PhaseCancel` in `operators/core/atoms.py` smooth and notch a number series. GAP: no series
+   exists; the cheapest one is each core row's confidence per turn or per day.
+5. **Agree to disagree** = recorded unruled collision, the pattern already used for FATED and KKL
+   in `runtime/specs/legend.jsonl`. A disagreement on record stops blocking; it does not vanish.
+6. **Prime torque move** = the single next move that the most considered parties push the same
+   way, after recorded disagreements are set aside. It is a proposal Zach releases, never an
+   automatic vote (NOTOMATION). GAP: multi-party conviction readings do not exist; v0 parties are
+   Zach, the mirror sentence, and the risk underwriter's price.
+
+The test in section 5 is unchanged; path views are shown after it, so they cannot steer the picks.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
