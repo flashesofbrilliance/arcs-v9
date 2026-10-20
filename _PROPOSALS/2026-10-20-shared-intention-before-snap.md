@@ -485,6 +485,48 @@ step in order, each pinned to its last green rc. GAP: no event runner and no per
 in arcs-v9 yet; the RET script is the template. First candidate to put through it: the underwriter
 (PR #1695), since it has a self-test and no consumers yet.
 
+## 4k. Next sprint: the receipt bridge (onramp, chosen by Zach 2026-10-20)
+
+**Job.** Let outcomes on Zach's real decisions reach the Accountant. Today they cannot: ex-ante
+receipts live in `decision_receipt` (854 receipts), their outcomes in `_STATE/receipt-outcomes.jsonl`
+(30 verdict rows on 21 receipts), and the Accountant reads only the compass `Receipt` table
+(0 real-tagged).
+
+**Facts the design rests on (read 2026-10-20).**
+- Ledger verdicts: held/external 12, held/self 8, dropped/self 5, open/external 4, reeled/external 1.
+- The Accountant takes receipts `{receipt_id, cohort, nci_score, horizon, stakes, mode}` and
+  outcomes `{matched, regret_score}`; cohorts are fixed in `KNOWN_COHORTS` (founder, external,
+  anonymous, test, real); calibration needs 30 closed per cohort (`CALIBRATION_MIN_N`).
+- Ledger verdicts are per open line, not per receipt; `decision_receipt` has no NCI and no regret.
+
+**Design (REUSE: `receipt_outcome_queue.py`, `universe_receipts_adapter.py --export`,
+`prod_receipt_to_accountant.py` as the adapter pattern, `accountant_weekly.py --ingest`).**
+1. New read-only adapter `decision_receipt_to_accountant.py` (GAP): joins the export and the ledger,
+   emits Accountant-shaped rows in a new cohort `decisions` (one line added to `KNOWN_COHORTS`).
+2. Receipt closes when every in-scope open line has a verdict other than `open`. Matched = no line
+   `reeled`. Dropped lines are excluded, not counted as held.
+3. Only `external` verdicts score. `self` verdicts are carried and reported, never scored (the
+   ledger's own rule and effort-policy evidence grade).
+4. No NCI on decision receipts, so the decisions cohort cannot be NCI-calibrated. It reports closure
+   rate and hit rate by stakes and horizon instead; that is the timing reading the intention asks for
+   (did holding or striking at this horizon land). GAP, Zach's call: add a confidence field to new
+   decision receipts so a calibration curve becomes possible later.
+5. Regret: blank; the Accountant already tolerates a missing regret score (unverified, checked in
+   the self-test before relying on it).
+
+**Wrapper (section 4f).** Claim (alchemist): "the bridge reports the externally adjudicated, fully
+closed decision receipts exactly, no more and no fewer." Cheapest falsifier (detective): recount
+by hand from the ledger and compare. Second pass (hyperstition): the weekly scoreboard shows a
+`decisions` line with n, closure and hit rate, and the synthetic and self exclusions printed.
+
+**Exit (checkable).** Self-test with known-bad and known-good fixtures; on today's data the
+`decisions` cohort n equals the hand recount; `accountant_weekly.py` prints it; underwriter re-price
+of the sprint row recorded. RC-shipped per 4j. Not in this sprint: closing George and Vico (that is
+Zach's verdict when replies land), and any Accountant change beyond the one cohort name.
+
+**Risk read.** Two-way door, low ruin: read-only on prod, new script, one tuple entry. Main failure
+mode: counting self verdicts as evidence (guarded by rule 3 and a fixture).
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
