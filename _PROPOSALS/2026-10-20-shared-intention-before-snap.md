@@ -284,7 +284,7 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 | # | Domino | Falls when (trigger) | Tips |
 |---|---|---|---|
 | D0 | Onramp check: is this the right problem? Red team, blue team, inverse, then steelman vs strawman of the premise "timing is the bottleneck, and pricing risk is the first move" | now, before D2; one pass, about 30 min | confirms or swaps the onramp; every later domino inherits its answer |
-| D1 | Give the intention test a real trigger [14] | now: pick an event, e.g. the next `/fold` or `scripts/unfold.py` run that adds 10 or more rows | nothing else waits on it; it stops the test from quietly never running |
+| D1 | DECIDED (Zach 2026-10-20): the intention test fires by default on the next `/fold` or `scripts/unfold.py` run that adds 10 or more rows, with an override switch: Zach may fire it now on any backlog, skip one trigger, or change the threshold; each use of the switch is logged with his reason, so the default stays honest [14] | default event, or Zach's override | nothing else waits on it; it stops the test from quietly never running |
 | D2 | Steelman the 10 DRAFT covers [2] | now, Zach in chat, one row at a time | D4, D8 |
 | D3 | Ship ruling on PR #1695 [1] | now, Zach | D5, D6, D9 (other sessions and Hermes can run the tool) |
 | D4 | Priced triage: fate the five rows | D2 done for those rows | D7 for the one-way rows |
