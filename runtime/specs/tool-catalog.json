@@ -4,168 +4,24 @@
  "counts": {
   "command": 17,
   "hook": 2,
-  "operator": 48,
+  "operator": 49,
   "package": 3,
-  "script": 233,
+  "script": 247,
   "skill": 22,
   "workflow": 2
  },
- "total": 327,
+ "total": 342,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 437,
+   "WIRED": 504,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 19,
+   "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
-   "BROKEN": 1
+   "BROKEN": 0
   },
   "gaps": [
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "claim_check.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "decision_geometry_ret.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "doc_classify.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "field_render.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "forge_finalize.sh",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "handoff_cluster.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "handoff_excavate.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "jobs_rescore_split.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "jobs_seed.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "nftt_claim_batch.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "nftt_dropcap_lint.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_measure.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "recall_coherence_ledger.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "scout_dossier_ingest.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "second_pass_ledger.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "tao_print_export.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "time_machine_data.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "trust_name_leak.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -173,14 +29,6 @@
     "name": "frontend-design@claude-plugins-official",
     "why": "project-scoped to /Users/zharris/arcs only",
     "fix": "claude plugin uninstall frontend-design@claude-plugins-official"
-   },
-   {
-    "state": "BROKEN",
-    "surface": "user",
-    "kind": "task",
-    "name": "replay-booth-kickoff",
-    "why": "references missing repo path(s): scripts/flightlog_sweep.py, scripts/package.py",
-    "fix": ""
    },
    {
     "state": "DUPLICATE",
@@ -253,7 +101,7 @@
    "kind": "skill",
    "name": "fold",
    "path": ".claude/skills/fold/SKILL.md",
-   "jtbd": "Reverse-ATG session decomposition. When a session has grown dense with threads from more than one domain, sweep its residue, sort by domain gravity, and re-serialize each cluster into a self-contained composed session (spawn_task chip) whos",
+   "jtbd": "Serialize half-written state and scattered shards into clean sessions, and cut handoff landing drag. Reverse-ATG session decomposition. When a session has grown dense with threads from more than one domain, sweep its residue, sort by domain",
    "invoke": "/fold",
    "state": "WIRED"
   },
@@ -627,6 +475,14 @@
   },
   {
    "kind": "script",
+   "name": "archive_move_gate.py",
+   "path": "scripts/archive_move_gate.py",
+   "jtbd": "archive_move_gate: a file that is moved, renamed or deleted must not leave a live citer behind.",
+   "invoke": "python3 scripts/archive_move_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "arcs_cli.py",
    "path": "scripts/arcs_cli.py",
    "jtbd": "arcs_cli.py — ARCS 5-Verb Pipeline",
@@ -903,7 +759,15 @@
    "path": "scripts/claim_check.py",
    "jtbd": "Governance claim-check scaffold.",
    "invoke": "python3 scripts/claim_check.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "claim_index.py",
+   "path": "scripts/claim_index.py",
+   "jtbd": "claim_index: every public number (commits, merged PRs, receipts, days) mapped to where it is stated.",
+   "invoke": "python3 scripts/claim_index.py",
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -983,7 +847,15 @@
    "path": "scripts/decision_geometry_ret.py",
    "jtbd": "decision_geometry_ret.py: score the RET take-home DECISIONS.md on the 5x5 decision geometry.",
    "invoke": "python3 scripts/decision_geometry_ret.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "decision_receipt_to_accountant.py",
+   "path": "scripts/decision_receipt_to_accountant.py",
+   "jtbd": "decision_receipt_to_accountant: bridge outcomes on Zach's decision receipts into the Accountant. Read-only, stdlib.",
+   "invoke": "python3 scripts/decision_receipt_to_accountant.py",
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1023,7 +895,7 @@
    "path": "scripts/doc_classify.py",
    "jtbd": "doc_classify: classify the markdown docs of a foreign tree and relate them to this repo. READ-ONLY.",
    "invoke": "python3 scripts/doc_classify.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1111,7 +983,7 @@
    "path": "scripts/field_render.py",
    "jtbd": "field_render.py: a bird's-eye \"field\" page over the repo's live state, built on the ARCS ui-kit.",
    "invoke": "python3 scripts/field_render.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1167,7 +1039,7 @@
    "path": "scripts/forge_finalize.sh",
    "jtbd": "forge_finalize.sh <jobid> <slug> <actual_tokens> \"<note>\" — mechanical close of a light-tier forge run:",
    "invoke": "scripts/forge_finalize.sh",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1279,7 +1151,7 @@
    "path": "scripts/handoff_cluster.py",
    "jtbd": "handoff_cluster — deterministic domain clustering of excavated handoff units (no LLM).",
    "invoke": "python3 scripts/handoff_cluster.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1287,13 +1159,13 @@
    "path": "scripts/handoff_excavate.py",
    "jtbd": "handoff_excavate — mechanical index of every handoff block ever committed (no LLM).",
    "invoke": "python3 scripts/handoff_excavate.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
    "name": "handoff_fold.py",
    "path": "scripts/handoff_fold.py",
-   "jtbd": "handoff_fold — fragments are raw material; molt turns them into ONE cold-moltable arc. ADR-085 (d).",
+   "jtbd": "handoff_fold: cold-molt half-written handoff shards into ONE arc a cold session resumes from fast (cuts landing drag). ADR-085 (d).",
    "invoke": "python3 scripts/handoff_fold.py",
    "state": "WIRED"
   },
@@ -1319,6 +1191,14 @@
    "path": "scripts/html_div_balance_lint.py",
    "jtbd": "html_div_balance_lint.py - Frustration Gate for the \"unclosed div\" column-collapse bug class.",
    "invoke": "python3 scripts/html_div_balance_lint.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "hud_signal_audit.py",
+   "path": "scripts/hud_signal_audit.py",
+   "jtbd": "hud_signal_audit.py: mechanical baseline of what the field HUD actually reads. Read-only, stdlib.",
+   "invoke": "python3 scripts/hud_signal_audit.py",
    "state": "WIRED"
   },
   {
@@ -1351,6 +1231,54 @@
    "path": "scripts/jobs_prose_gate.py",
    "jtbd": "jobs_prose_gate: Job Factory slice 7. The NFTT prose factory's gate chain, run on",
    "invoke": "python3 scripts/jobs_prose_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_drift_report.py",
+   "path": "scripts/jtbd_drift_report.py",
+   "jtbd": "jtbd_drift_report: weekly read-only drift report for the JTBD graph (row jtbd-graph-s5-feedback). Stdlib.",
+   "invoke": "python3 scripts/jtbd_drift_report.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_edge_weights.py",
+   "path": "scripts/jtbd_edge_weights.py",
+   "jtbd": "jtbd_edge_weights: outcome-weighted (job, tool) edges for the JTBD graph (row jtbd-graph-s5-feedback). Stdlib, read-only.",
+   "invoke": "python3 scripts/jtbd_edge_weights.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_graph_edges.py",
+   "path": "scripts/jtbd_graph_edges.py",
+   "jtbd": "jtbd_graph_edges: Sprint 2 edges for the JTBD graph (backlog row jtbd-graph-s2-edges).",
+   "invoke": "python3 scripts/jtbd_graph_edges.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_graph_gates.py",
+   "path": "scripts/jtbd_graph_gates.py",
+   "jtbd": "jtbd_graph_gates: the six Sprint 3 integrity rules over the JTBD graph (row jtbd-graph-s3-gates, ADR-089).",
+   "invoke": "python3 scripts/jtbd_graph_gates.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_graph_schema_check.py",
+   "path": "scripts/jtbd_graph_schema_check.py",
+   "jtbd": "Validate a JTBD graph ({atoms, edges}) against runtime/specs/jtbd-graph-schema.json.",
+   "invoke": "python3 scripts/jtbd_graph_schema_check.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_s4_pool.py",
+   "path": "scripts/jtbd_s4_pool.py",
+   "jtbd": "Prepare and seal the Sprint 4 blind pool (amendment 7 rule 3).",
+   "invoke": "python3 scripts/jtbd_s4_pool.py",
    "state": "WIRED"
   },
   {
@@ -1567,7 +1495,7 @@
    "path": "scripts/nftt_claim_batch.py",
    "jtbd": "nftt_claim_batch: pilot of the Message Batches API (50% off, async) on the NFTT corpus.",
    "invoke": "python3 scripts/nftt_claim_batch.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1583,7 +1511,7 @@
    "path": "scripts/nftt_dropcap_lint.py",
    "jtbd": "nftt_dropcap_lint.py — catch the drop-cap \"eats the space\" render bug.",
    "invoke": "python3 scripts/nftt_dropcap_lint.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1855,7 +1783,7 @@
    "path": "scripts/recall_coherence_ledger.py",
    "jtbd": "recall_coherence_ledger.py: recall of coherence_sweep's contradiction check on the ledger's claim/delta pairs.",
    "invoke": "python3 scripts/recall_coherence_ledger.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1971,6 +1899,22 @@
   },
   {
    "kind": "script",
+   "name": "risk_underwriter.py",
+   "path": "scripts/risk_underwriter.py",
+   "jtbd": "risk_underwriter.py: price each induced-backlog row's risk. Read-only, stdlib, no model calls.",
+   "invoke": "python3 scripts/risk_underwriter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "safe_merge.sh",
+   "path": "scripts/safe_merge.sh",
+   "jtbd": "safe_merge.sh: the one way a session merges a PR in arcs-v9.",
+   "invoke": "scripts/safe_merge.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "sage_distillation_data.py",
    "path": "scripts/sage_distillation_data.py",
    "jtbd": "scripts/sage_distillation_data.py — shared synthetic dataset for the SAGE",
@@ -1991,7 +1935,7 @@
    "path": "scripts/scout_dossier_ingest.py",
    "jtbd": "Perplexity scout intake: validate a role dossier in _INBOX/evidence/ and map it onto the jobs board.",
    "invoke": "python3 scripts/scout_dossier_ingest.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1999,7 +1943,7 @@
    "path": "scripts/second_pass_ledger.py",
    "jtbd": "Second-pass validator for the 2026 rejection ground-truth ledger.",
    "invoke": "python3 scripts/second_pass_ledger.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -2215,7 +2159,7 @@
    "path": "scripts/tao_print_export.py",
    "jtbd": "tao_print_export.py: export a Tao print as a PNG (the Artifact viewer blocks downloads; this runs outside it).",
    "invoke": "python3 scripts/tao_print_export.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -2263,7 +2207,7 @@
    "path": "scripts/time_machine_data.py",
    "jtbd": "time_machine_data: the numbers behind _ARTIFACTS/arcs-time-machine.html, regenerated from git (and Downloads when present).",
    "invoke": "python3 scripts/time_machine_data.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -2327,7 +2271,7 @@
    "path": "scripts/trust_name_leak.py",
    "jtbd": "trust_name_leak: Job Factory slice 6. A staged artifact (resume cut, draft page,",
    "invoke": "python3 scripts/trust_name_leak.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -2355,10 +2299,26 @@
   },
   {
    "kind": "script",
+   "name": "universe_jtbd_adapter.py",
+   "path": "scripts/universe_jtbd_adapter.py",
+   "jtbd": "universe_jtbd_adapter: emit the JTBD graph's nodes (Sprint 1, backlog row jtbd-graph-s1-nodes).",
+   "invoke": "python3 scripts/universe_jtbd_adapter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "universe_receipts_adapter.py",
    "path": "scripts/universe_receipts_adapter.py",
    "jtbd": "universe_receipts_adapter: project one person's decision receipts into a personal universe of atoms + a link graph.",
    "invoke": "python3 scripts/universe_receipts_adapter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "universe_snapshot_drift_check.py",
+   "path": "scripts/universe_snapshot_drift_check.py",
+   "jtbd": "universe_snapshot_drift_check: is the committed universe snapshot (the HUD's field data) stale?",
+   "invoke": "python3 scripts/universe_snapshot_drift_check.py",
    "state": "WIRED"
   },
   {
@@ -2783,6 +2743,14 @@
    "path": "operators/cli_arcs_run.py",
    "jtbd": "cli_arcs_run.py — ARCS v9 Decision CLI",
    "invoke": "python3 operators/cli_arcs_run.py",
+   "state": "UNAUDITED"
+  },
+  {
+   "kind": "operator",
+   "name": "jtbd_query.py",
+   "path": "operators/jtbd_query.py",
+   "jtbd": "jtbd_query: the s4 retrieval shape jtbd(job) over the JTBD graph (backlog row jtbd-graph-s4-retrieval).",
+   "invoke": "python3 operators/jtbd_query.py",
    "state": "UNAUDITED"
   },
   {

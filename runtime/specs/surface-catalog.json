@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 282,
-  "hosts": 80,
+  "rows": 289,
+  "hosts": 81,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 223,
+   "product page": 230,
    "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 27,
+  "proxy_hosts": 28,
   "app_routes": 47,
-  "missing_purpose": 3,
-  "unlisted": 109
+  "missing_purpose": 6,
+  "unlisted": 113
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -997,7 +997,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Trust Contract",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "app.arcs.care",
@@ -1200,7 +1200,7 @@
    "unlisted": true,
    "purpose": "Staff Product Engineer for the code-validation era. Built for a developer I already am.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "blacksmith.arcs.care",
@@ -1220,7 +1220,7 @@
    "unlisted": true,
    "purpose": "Instant replay of an honest, agentic resume build. The machinery, not the marketing.",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "blacksmith.arcs.care",
@@ -1240,7 +1240,7 @@
    "unlisted": true,
    "purpose": "Instant replay of an honest, agentic resume build. The machinery, not the marketing.",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "blacksmith.arcs.care",
@@ -1323,7 +1323,7 @@
    "unlisted": true,
    "purpose": "ARCS: Day 0 to Today",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "claritai.arcs.care",
@@ -1344,6 +1344,106 @@
    "purpose": "Zach Harris · Head of Operational Excellence and AI Systems · Claritai",
    "kind": "product page",
    "last_commit": "2026-10-04"
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/concourse.html",
+   "pattern": false,
+   "file": "public/concourse.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach on a Concourse Pod",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Zach on a Concourse Pod",
+   "kind": "product page",
+   "last_commit": "2026-10-19"
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/candidate.json",
+   "catch_all": false,
+   "destination": "/concourse-candidate.json",
+   "pattern": false,
+   "file": "public/concourse-candidate.json",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-19"
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/concourse-llms.txt",
+   "pattern": false,
+   "file": "public/concourse-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-19"
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/plan",
+   "catch_all": false,
+   "destination": "/concourse-plan.html",
+   "pattern": false,
+   "file": "public/concourse-plan.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Concourse Deployment Plan",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Concourse Deployment Plan",
+   "kind": "product page",
+   "last_commit": "2026-10-19"
+  },
+  {
+   "host": "concourse.arcs.care",
+   "path": "/sara",
+   "catch_all": false,
+   "destination": "/concourse-sara.html",
+   "pattern": false,
+   "file": "public/concourse-sara.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach Harris FDE Brief",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Zach Harris FDE Brief",
+   "kind": "product page",
+   "last_commit": "2026-10-19"
   },
   {
    "host": "conduit.arcs.care",
@@ -1444,7 +1544,7 @@
    "unlisted": true,
    "purpose": "Phosphor",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-18"
   },
   {
    "host": "forge-cut.arcs.care",
@@ -3481,7 +3581,7 @@
    "unlisted": true,
    "purpose": "Senior AI product operations for a growth org that needs adoption, not another pilot. Built by someone already running this exact motion.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -3501,7 +3601,7 @@
    "unlisted": true,
    "purpose": "Instant replay of an honest, agentic resume build. The machinery, not the marketing.",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -3521,7 +3621,7 @@
    "unlisted": true,
    "purpose": "Instant replay of an honest, agentic resume build. The machinery, not the marketing.",
    "kind": "explorer",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -3832,7 +3932,7 @@
    "unlisted": true,
    "purpose": "Recoil Report",
    "kind": "gated",
-   "last_commit": "2026-10-14"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "mercury.arcs.care",
@@ -3873,7 +3973,7 @@
    "unlisted": true,
    "purpose": "The operator-builder for Mercury's Open Call: ships AI products with AI on Command/CLI/MCP, with regulated-capital fluency so yield and treasury claims survive compliance.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "monolith.arcs.care",
@@ -4055,7 +4155,7 @@
    "unlisted": false,
    "purpose": "The Louisville canon, served as one evening. An interactive omakase by ARCS: nine courses, guest-paced, chef's order.",
    "kind": "product page",
-   "last_commit": "2026-08-01"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "omakase.arcs.care",
@@ -4075,7 +4175,7 @@
    "unlisted": false,
    "purpose": "One sealed decision is a seed. The atom, the lossless cut, the crew, the ladder, and the loop, told as one story.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "playground.arcs.care",
@@ -4207,7 +4307,7 @@
    "host": "prl.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!.*prl-status-).*)",
+   "source": "/:path((?!.*prl-status-|.*prl-checkpoint).*)",
    "destination": "/todd-call.html",
    "pattern": false,
    "file": "public/todd-call.html",
@@ -4224,6 +4324,48 @@
    "purpose": "PRL Chatbot // Where We Are, What's Next",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "prl.arcs.care",
+   "path": "/checkpoint",
+   "catch_all": false,
+   "destination": "/prl-checkpoint.html",
+   "pattern": false,
+   "file": "public/prl-checkpoint.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts",
+    "src/proxy.ts"
+   ],
+   "title": "PRL · Chatbot Checkpoint",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "PRL · Chatbot Checkpoint",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "prl.arcs.care",
+   "path": "/checkpoint.pdf",
+   "catch_all": false,
+   "destination": "/prl-checkpoint.pdf",
+   "pattern": false,
+   "file": "public/prl-checkpoint.pdf",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts",
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "prl.arcs.care",
@@ -4483,7 +4625,7 @@
    "unlisted": true,
    "purpose": "Candidate Positioning Brief · Zach Harris",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "recruithaus.arcs.care",
@@ -4546,7 +4688,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "resume.arcs.care",
@@ -4851,7 +4993,7 @@
    "unlisted": true,
    "purpose": "Zach Harris · Product Engineer, Front-End · Vico",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "scott-arcs-demo.arcs.care",
@@ -5101,7 +5243,7 @@
    "unlisted": true,
    "purpose": "The 0 to 1 operator who stands up SentiLink's Government Program Integrity line: build, compliance, and go-to-market in one head.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "serialized-teardown.arcs.care",
@@ -5142,7 +5284,7 @@
    "unlisted": true,
    "purpose": "Zach Harris · Product Engineer · Squad",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "squad.arcs.care",
@@ -5182,7 +5324,7 @@
    "unlisted": true,
    "purpose": "Zach Harris · Résumé · Product Engineer",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "status.arcs.care",
@@ -5203,7 +5345,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "status.arcs.care",
@@ -5263,7 +5405,7 @@
    "unlisted": true,
    "purpose": "Zach Harris · AI Product Manager · Success Academy",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "success-academy.arcs.care",
@@ -5304,7 +5446,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -5470,7 +5612,7 @@
    "unlisted": true,
    "purpose": "Zach Harris · Engineering Leadership · Vico",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-17"
   },
   {
    "host": "vishal.arcs.care",
@@ -5781,7 +5923,7 @@
    "unlisted": false,
    "purpose": "The Louisville canon, served as one evening. An interactive omakase by ARCS: nine courses, guest-paced, chef's order.",
    "kind": "product page",
-   "last_commit": "2026-08-01"
+   "last_commit": "2026-10-18"
   },
   {
    "host": "*",
@@ -5801,7 +5943,7 @@
    "unlisted": false,
    "purpose": "One sealed decision is a seed. The atom, the lossless cut, the crew, the ladder, and the loop, told as one story.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-18"
   }
  ]
 }

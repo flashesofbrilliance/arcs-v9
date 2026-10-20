@@ -5,6 +5,11 @@
   ],
   "ignoreFiles": [],
   "ignoreValues": [
+   {"rule": "design-system-color", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
+   {"rule": "design-system-font", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
+   {"rule": "design-system-font-size", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
+   {"rule": "design-system-radius", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
+   {"rule": "cream-palette", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
    {
     "rule": "design-system-font",
     "value": "*",

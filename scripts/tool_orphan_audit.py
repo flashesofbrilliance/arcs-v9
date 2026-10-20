@@ -254,6 +254,8 @@ def referrers(name, own_path, idx, root, home):
     return sorted(hits - own)
 
 
+# an absolute checkout path inside a scheduled task: /Users/<name>/<repo>. The self-test rebinds this to a temp dir.
+CHECKOUT_RE = re.compile(r"(/Users/[\w.-]+/[\w.-]+)")
 REPO_PATH_RE = re.compile(r"(?<![\w/.~-])((?:scripts|operators|tools|\.claude)/[\w./-]+\.(?:py|sh|mjs|js|md|json))")
 
 
@@ -407,7 +409,11 @@ def classify(root, home, pub=None):
         elif k == "task":
             text = read(it["path"])
             # a task may target another checkout by absolute path; a relative path is fine if it exists in any
-            bases = [root] + [d for d in set(re.findall(r"(/Users/[\w.-]+/[\w.-]+)", text)) if os.path.isdir(d)]
+            # try the path as written AND with trailing sentence punctuation stripped: "in /Users/me/repo." usually ends a
+            # sentence, but a directory literally named "repo." can exist too, so keeping both loses neither
+            raw = set(CHECKOUT_RE.findall(text))
+            cand = raw | {d.rstrip(".-") for d in raw}
+            bases = [root] + [d for d in cand if os.path.isdir(d)]
             missing = sorted({p for p in REPO_PATH_RE.findall(text) if "*" not in p and "<" not in p
                               and not any(os.path.exists(os.path.join(b, p)) for b in bases)})
             if missing:
@@ -526,8 +532,11 @@ def report(res):
 # ---------------------------------------------------------------- self-test
 
 def self_test():
+    global CHECKOUT_RE
+    saved_checkout_re = CHECKOUT_RE
     ok = True
     with tempfile.TemporaryDirectory() as t:
+        CHECKOUT_RE = re.compile(r"(" + re.escape(t) + r"/Users/[\w.-]+/[\w.-]+)")
         root, home = os.path.join(t, "repo"), os.path.join(t, "home")
 
         def w(p, s=""):
@@ -557,6 +566,13 @@ def self_test():
         w(f"{home}/.claude/skills/token-savings-bank/SKILL.md", "---\ndescription: budget\n---\n")
         w(f"{home}/.claude/scheduled-tasks/good-task/SKILL.md", "run scripts/wired_tool.py\n")
         w(f"{home}/.claude/scheduled-tasks/bad-task/SKILL.md", "run scripts/vanished.py\n")  # BROKEN task
+        # cross-checkout task: the script lives in another checkout named by an absolute path that ends a sentence
+        w(f"{t}/Users/me/other-repo/scripts/elsewhere.py", "# lives in the other checkout\n")
+        w(f"{home}/.claude/scheduled-tasks/cross-task/SKILL.md", f"work in {t}/Users/me/other-repo. Run scripts/elsewhere.py first.\n")
+        # a directory whose name really ends in a dot must still be found when the text names it that way
+        w(f"{t}/Users/me/dotted-repo./scripts/inside.py", "# lives in a dir named with a trailing dot\n")
+        w(f"{home}/.claude/scheduled-tasks/cross-dotted-task/SKILL.md", f"work in {t}/Users/me/dotted-repo. Run scripts/inside.py first.\n")
+        w(f"{home}/.claude/scheduled-tasks/cross-bad-task/SKILL.md", f"work in {t}/Users/me/other-repo. Run scripts/nowhere.py first.\n")
         os.makedirs(f"{home}/.claude/plugins/cache/p1")
         w(f"{home}/.claude/plugins/installed_plugins.json", json.dumps({"plugins": {
             "ok@m": [{"scope": "user", "installPath": f"{home}/.claude/plugins/cache/p1"}],
@@ -586,6 +602,9 @@ def self_test():
             ("repo", "operator", "op2:Gone"): "BROKEN",
             ("user", "task", "good-task"): "WIRED",
             ("user", "task", "bad-task"): "BROKEN",
+            ("user", "task", "cross-task"): "WIRED",
+            ("user", "task", "cross-bad-task"): "BROKEN",
+            ("user", "task", "cross-dotted-task"): "WIRED",
             ("user", "plugin", "ok@m"): "WIRED",
             ("user", "plugin", "gone@m"): "BROKEN",
             ("user", "plugin", "off@m"): "INSTALLED-UNUSED",
@@ -611,6 +630,7 @@ def self_test():
         good = "--orphans" not in clean_line
         print(f"  {'PASS' if good else 'FAIL'} one-line silent nudge when clean: {clean_line}")
         ok &= good
+    CHECKOUT_RE = saved_checkout_re
     print("self-test:", "OK" if ok else "FAILED")
     return 0 if ok else 1
 

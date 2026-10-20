@@ -321,6 +321,7 @@ details.grp[open] > summary::after { transform: rotate(45deg); }
 .frame:fullscreen { padding: 0; border: 0; border-radius: 0; background: var(--bg); }
 .frame.fs canvas, .frame:fullscreen canvas { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; object-fit: contain; border-radius: 0; }
 .frame.fs .hud { display: flex; }
+.deck:has(.frame.fs) { z-index: 50; } /* the sticky deck is a stacking context: without native fullscreen (WebKit Escape) the dock (z 20) would cover the theater frame */
 .frame.fs .fsb { display: none; }
 .fsb.zmb:hover { border-color: var(--cyan); }
 .frame.fs.idle .hud { opacity: 0; pointer-events: none; }
@@ -691,7 +692,13 @@ html[data-dock="hidden"] .tray { display: none; }
           <p class="hint" id="lastkey">Press any key to see its code.</p>
           <div class="row"><button class="btn" type="button" id="plogb">Copy play log</button><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
           <p class="hint" id="learnhint"></p>
-          <div class="row"><button class="btn" type="button" id="elb" aria-pressed="false">Play log: off</button><button class="btn" type="button" id="elcopy">Copy log</button><button class="btn" type="button" id="elclr">Clear log</button></div>
+          <div class="row"><button class="btn" type="button" id="elb" aria-pressed="false">Play log: off</button><button class="btn" type="button" id="elcopy">Copy log</button><button class="btn" type="button" id="elclr">Clear log</button><button class="btn" type="button" id="rnb">Render to WAV</button></div>
+          <p class="hint" id="rnsum"></p>
+          <div class="row" id="grabrow"><label for="grpre">Grab the last</label><select id="grpre" class="txt w-auto"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4" selected>4 bars</option><option value="8">8 bars</option><option value="16">16 bars</option><option value="32">32 bars</option></select><label for="grpost">and the next</label><select id="grpost" class="txt w-auto"><option value="0" selected>0 bars</option><option value="1">1 bar</option><option value="4">4 bars</option><option value="8">8 bars</option></select><button class="btn" type="button" id="grab">Grab</button></div>
+          <p class="hint" id="grmsg">Keeps your recent control moves as a preset that replays in time on any song.</p>
+          <div class="row" id="lanerow"><label for="lnid">Lane</label><select id="lnid" class="txt w-auto"></select><label for="lnmode">mode</label><select id="lnmode" class="txt w-auto"><option value="off" selected>Off</option><option value="play">Play</option><option value="rec">Record</option><option value="touch">Touch</option><option value="latch">Latch</option></select><button class="btn" type="button" id="lnclr">Clear</button></div>
+          <p class="hint" id="lnmsg">Pick a slider, press Record while the song plays and move it; Play makes it move on its own.</p>
+          <ul class="pinlist" id="grlist" aria-label="Grabbed gestures"></ul>
           <p class="hint" id="elsum"></p>
         </div>
       </details>
@@ -960,7 +967,8 @@ else { var dd = y - (S.tops[k2][x] + S.off[k2]), base = S.L[k2] * (1 - 0.25 * MN
 v = v * mul; if (v > 1) v = 1; else if (v < 0.003) v = 0.003; var c = S.gam[(v * 1024) | 0], o = i * 4; d[o] = d[o + 1] = d[o + 2] = c; d[o + 3] = 255;
 }
 }
-S.sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(S.sc, 0, 0, Wd, Hd);
+var sc = g.canvas._sun; if (!sc) { sc = g.canvas._sun = document.createElement("canvas"); sc.width = S.sc.width; sc.height = S.sc.height; } /* per-target scratch: WebKit defers drawImage, a shared one let bar tiles overwrite the main picture */
+sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(sc, 0, 0, Wd, Hd);
 }
 function scene(g, W, H, t) {
 var fi = fidx(t), i, b, lw = MX(1, H / 360);
@@ -996,7 +1004,7 @@ g.strokeStyle = C.cyan; g.lineWidth = lw * 1.4; g.lineCap = "round"; g.beginPath
 for (b = 0; b < NB; b++) { var a0 = PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + SIN(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + SIN(a) * (r0 + ln)); } }
 g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * PI); g.stroke(); g.restore();
 } else {
-var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
+var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = g.canvas._spec || (g.canvas._spec = document.createElement("canvas")); /* one scratch per target: WebKit defers drawImage, so a shared scratch let bar tiles overwrite the main picture */ img.width = cols; img.height = NB;
 var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
 for (x2 = 0; x2 < cols; x2++) {
 var f2 = MX(0, fi - (cols - 1 - x2));
@@ -1013,7 +1021,7 @@ g.strokeStyle = C.gold; g.lineWidth = lw * 2; g.beginPath(); g.moveTo(W - lw, 0)
 var SPEC = null, OC = null, SS = null;
 function drawRung(target, w, h, t) {
 if (h >= 144) { scene(target, w, h, t); return; }
-var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
+var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = target.canvas._ss || (target.canvas._ss = document.createElement("canvas")); SS.width = sw; SS.height = sh;
 scene(SS.getContext("2d"), sw, sh, t);
 target.imageSmoothingEnabled = true; target.imageSmoothingQuality = "high"; target.drawImage(SS, 0, 0, w, h);
 }
@@ -1060,7 +1068,7 @@ if (CRT) { var step = MX(3, RD(DH / 180)); dctx.fillStyle = C.bg; dctx.globalAlp
 shutterApply(dctx, DW, DH);
 LASTMS = NOW() - t0; if (forPlay) { MS.push(LASTMS); if (MS.length > 30) MS.shift(); }
 }
-var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
+var RENDERMODE = window.name === "phosphor-render", AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
 var RESTORED = false, SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
 var BUSFULL = false;
 function outBus() {
@@ -1121,7 +1129,7 @@ var tt = AC.currentTime;
 if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] * fxE(kind) : 0, tt, on ? 0.01 : 0.03); return; }
 if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 20000 * PW(250 / 20000, fxE("sweep")) : 20000, tt + (on ? 1.2 : 0.35)); return; }
 if (!on) fxWet(kind, 0, 0.006); else if (FXG.mode === "off") fxWet(kind, 1, 0.003);
-clearInterval(FXG.timer); if (FX.crush.on || FX.dist.on) FXG.timer = setInterval(fxPump, 25);
+clearInterval(FXG.timer); if ((FX.crush.on || FX.dist.on) && !RENDERMODE) FXG.timer = setInterval(fxPump, 25);
 }
 function fxEff() { return FXG.hold ? (FXG.mode === "tri" || FXG.mode === "bar" || FXG.mode === "seed" ? FXG.mode : "beat") : FXG.mode; }
 function gateSeed(M, bpm, g0) {
@@ -1350,7 +1358,7 @@ if (!NF || !BANDS) { GNM.dna = null; return; }
 var on = [], m; for (m = 0; m < MAGNETS.length; m++) if (MAGNETS[m].k === "onset") on.push(MAGNETS[m].t);
 var r = dnaCompute({ bpm: BPM, grid0: GRID0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on });
 var fpd = dnaCompute({ bpm: 0, grid0: 0, dur: DUR, nf: NF, bands: BANDS, cent: CENT, on: on }).dna, fs = fpd.map(function (c) { return c.join(""); }).join("") + "|" + RD(DUR), fh = 2166136261, fi; for (fi = 0; fi < fs.length; fi++) { fh ^= fs.charCodeAt(fi); fh = Math.imul(fh, 16777619) >>> 0; } GNM.fp = fh.toString(16).padStart(8, "0");
-GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9;
+GNM.dna = r.dna; GNM.P = r.P; GNM.base = r.base; GNM.n = r.n; GNM.rna = []; GNM.key = SRCNAME + "|" + r.n; GNM.lastI = -9; recAct("song", GNM.fp + "|" + RD(DUR));
 }
 function genomeLook() {
 var nfx = 0; ["tear", "rgb", "blocks", "crush", "dist", "echo", "room", "shim", "sweep"].forEach(function (k) { if (GLITCH[k]) nfx++; }); if (GLITCH.stut) nfx++;
@@ -1504,14 +1512,14 @@ var mine = ++startSeq;
 function begin() {
 if (mine !== startSeq) return;
 stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(deckIn("A"));
-off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
+off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = []; recAct("play", +(at || 0).toFixed(3));
 $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; if (typeof sunriseStart === "function") sunriseStart(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
 }
 if (AC.state === "running") begin();
 else { $("status").textContent = "Starting audio"; AC.resume().then(begin, function () { $("status").textContent = "The browser blocked audio. Press Play again."; }); }
 }
-function stopPlay(msg) { if (typeof elog === "function") elog("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
-function seek(t) { t = MX(0, MN(DUR, t)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
+function stopPlay(msg) { if (typeof elog === "function") elog("stop"); recAct("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
+function seek(t) { t = MX(0, MN(DUR, t)); recAct("seek", +t.toFixed(3)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
 function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 function setSource(pcm, sr, buf, name, after) {
 GEN++; var gen = GEN; stopPlay(""); ANALYZING = true; BUF = buf; SRCNAME = name; $("status").textContent = "Analyzing 0%";
@@ -1744,6 +1752,7 @@ if (STRIPHL) { var xm = tx(STRIPHL.t, W); g.strokeStyle = C.cyan; g.lineWidth = 
 var xt = tx(tn, W); g.fillStyle = "#e2e8f0"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
 }
 function renderSlices() {
+recSlices();
 if (typeof padRefresh === "function") setTimeout(padRefresh, 0);
 var h = "";
 SLICES.forEach(function (s, k) { h += '<button class="btn" type="button" data-k="' + k + '" aria-pressed="' + (k === SELECTED) + '">S' + (k + 1) + " " + fmt(s.t0) + "–" + fmt(s.t1) + " m" + s.mass.toFixed(2) + "</button>"; });
@@ -1898,7 +1907,7 @@ var b = FL(tmapBeat(0)), t; MAGNETS = MAGNETS.filter(function (m) { return m.k !
 for (; (t = tmapTime(b)) < DUR && MAGNETS.length < 6000; b++) if (t >= 0) MAGNETS.push({ t: t, w: KIND_W.grid, k: "grid" });
 MAGNETS.sort(function (x, y) { return x.t - y.t; });
 }
-function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function";
+function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function"; recAct("tempo", [+(+bpm).toFixed(2), +(+origin || 0).toFixed(4)]);
 bpm = MX(40, MN(240, RD(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
 TMAP = null; gridMagnets();
 $("sbpm").value = bpm; if (!SP.touched) $("tbpm").value = bpm;
@@ -2038,7 +2047,17 @@ $("forget").addEventListener("click", function () { ["phosphor.settings.v1", "ph
 EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
 function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
 function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, recipe: { ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+window.PhosphorFrame = function () {
+if (!NF || !BANDS) return null;
+function b64(u) { var s = "", i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s); }
+var bu = new Uint8Array(NF * NB), lu = new Uint8Array(NF), fu = new Uint8Array(NF), i, fm = 0;
+for (i = 0; i < NF * NB; i++) bu[i] = RD(MN(1, MX(0, BANDS[i])) * 255);
+for (i = 0; i < NF; i++) { lu[i] = RD(MN(1, MX(0, RMS[i])) * 255); if (FLUX[i] > fm) fm = FLUX[i]; }
+fm = fm || 1;
+for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
+return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
+};
+if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
 var R = null;
 return {
 start: function () {
@@ -2182,7 +2201,7 @@ var w = fxWant(kind); if (w && !GLITCH[kind]) glitchOn(kind); else if (!w && GLI
 }
 function fxHold(kind, src, on) {
 if (kind === "gold") { if (on) glitchOn(kind); return; }
-var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src);
+var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src); if (src !== "seq") recAct("fx", [kind, src, on ? 1 : 0]);
 }
 function fxToggle(kind, src) { fxHold(kind, src, !(HOLD[kind] && HOLD[kind][src])); }
 function fxReleaseMomentary() { HKINDS.forEach(function (k) { var h = HOLD[k]; if (h) { Object.keys(h).forEach(function (s) { if (s !== "latch") delete h[s]; }); fxReconcile(k); } }); }
@@ -2295,7 +2314,7 @@ var runs = [], cur = null, k, d, s = PK.seq;
 for (k = 1; k < s.length; k++) { d = s[k].i - s[k - 1].i; if (d === 1 || d === -1) { if (cur && cur.d === d) cur.n++; else { cur = { d: d, n: 1 }; runs.push(cur); } } else cur = null; }
 runs.forEach(function (r, j) { if (r.n >= 6) unlock("sweep"); if (r.d === 1 && r.n >= 4 && runs[j + 1] && runs[j + 1].d === -1 && runs[j + 1].n >= 4) unlock("trip"); });
 }
-function pkDown(code) {
+function pkDown(code) { recAct("key", code);
 var i, c;
 if ((i = ROW1.indexOf(code)) >= 0) { if (!PK.rungs.length && PK.saved === null) PK.saved = RUNG; PK.rungs.push(i); pkRung(RD(i * 8 / 9)); sweepScan(Date.now(), 1, i); }
 else if ((i = ROW2.indexOf(code)) >= 0) {
@@ -2355,16 +2374,182 @@ document.addEventListener("pointerdown", function (e) { var b = e.target.closest
 document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
 var REC = { ev: [], cur: {}, base: {}, t0: NOW() };
 function recScan() {
-var m = {}; EA(QA("input[id],select[id]"), function (e) { var y = e.type; if (y === "radio") { if (e.checked) m[e.name] = e.value; } else if (y === "range") m[e.id] = +e.value; else if (y === "checkbox") m[e.id] = e.checked ? 1 : 0; else if (e.tagName === "SELECT") m[e.id] = e.value; }); return m;
+var m = {}; EA(QA("input[id],select[id]"), function (e) { var y = e.type; if (e.id === "scrub" || e.id === "hscrub") return; if (y === "radio") { if (e.checked) m[e.name] = e.value; } else if (y === "range") m[e.id] = +e.value; else if (y === "checkbox") m[e.id] = e.checked ? 1 : 0; else if (e.tagName === "SELECT") m[e.id] = e.value; }); return m;
 }
 function recSync() {
 var now = recScan(), k, t = RD(NOW() - REC.t0);
 for (k in now) if (REC.cur[k] !== now[k]) { REC.ev.push([t, playing ? +tnow().toFixed(3) : null, k, now[k]]); REC.cur[k] = now[k]; }
 if (REC.ev.length > 20000) REC.ev.splice(0, REC.ev.length - 20000);
 }
-function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo) s[e[2]] = e[3]; }); return s; }
+function recAct(name, arg) { if (!REC || !REC.ev) return; REC.ev.push([RD(NOW() - REC.t0), playing ? +tnow().toFixed(3) : null, "@" + name, arg === undefined ? null : arg]); if (REC.ev.length > 20000) REC.ev.splice(0, REC.ev.length - 20000); }
+function recSlices() {
+if (!REC || !REC.ev) return; var sig = JSON.stringify(SLICES.map(function (x) { return [+x.t0.toFixed(4), +x.t1.toFixed(4)]; })), L = REC.ev[REC.ev.length - 1];
+if (sig === REC.sig) return; REC.sig = sig;
+if (L && L[2] === "@slices" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("slices", JSON.parse(sig));
+}
+function recCells() {
+if (!REC || !REC.ev) return; var sig = JSON.stringify(SEQ.cells), L = REC.ev[REC.ev.length - 1];
+if (REC.csig === undefined) REC.csig = JSON.stringify(makeCells()); if (sig === REC.csig) return; REC.csig = sig;
+if (L && L[2] === "@cells" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("cells", JSON.parse(sig));
+}
+function recExport() { return "Phosphor recipe v1\n" + JSON.stringify({ base: REC.base, events: REC.ev }); }
+function recImport(t) {
+var l = String(t || "").split("\n"); if (!/^Phosphor recipe v1/.test(l[0] || "")) return null;
+try { var o = JSON.parse(l.slice(1).join("\n")); if (!o || typeof o.base !== "object" || !Array.isArray(o.events)) return null; return o.events.every(function (e) { return Array.isArray(e) && typeof e[0] === "number" && typeof e[2] === "string"; }) ? o : null; } catch (e) { return null; }
+}
+function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo && e[2][0] !== "@") s[e[2]] = e[3]; }); return s; }
 function recInit() { REC.base = recScan(); for (var rk in REC.base) REC.cur[rk] = REC.base[rk]; REC.t0 = NOW(); }
-document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(recSync, 200);
+document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(function () { recSync(); recCells(); }, 200);
+function recApply(e) {
+var id = e[2], v = e[3], els, hit, t;
+if (id === "@fx") { fxHold(v[0], v[1], !!v[2]); return; }
+if (id[0] === "@") return;
+els = QA("input[name=\"" + id + "\"]");
+if (els.length) { hit = Array.prototype.filter.call(els, function (r) { return r.value === String(v); })[0]; if (hit) { hit.checked = true; hit.dispatchEvent(new Event("change", { bubbles: true })); } return; }
+t = $(id); if (!t) return;
+if (t.type === "checkbox") { t.checked = !!v; t.dispatchEvent(new Event("change", { bubbles: true })); }
+else { t.value = v; t.dispatchEvent(new Event(t.tagName === "SELECT" ? "change" : "input", { bubbles: true })); }
+}
+function recPlay(pos, at) { if (SRC) { try { SRC.stop(at); } catch (e) { /* ended */ } } SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.connect(deckIn("A")); SRC.start(at, pos); off0 = pos; t0ctx = at; playing = true; }
+function recAt(e) {
+var n = e[2];
+if (n === "@play") recPlay(e[3], AC.currentTime);
+else if (n === "@stop") { if (SRC) { try { SRC.stop(AC.currentTime); } catch (x) { /* ended */ } SRC = null; } playing = false; }
+else if (n === "@seek") { if (playing) recPlay(e[3], AC.currentTime); else tpaused = e[3]; }
+else if (n === "@cells") { SEQ.cells = e[3]; }
+else if (n === "@slices") { SLICES = []; e[3].forEach(function (p) { addSlice(p[0], p[1]); }); }
+else if (n === "@tempo") setTempo(e[3][0], e[3][1]);
+else if (n === "@pad") { var q = String(e[3]).split(":"), sl; if (q.length === 2) { PAD.bank = +q[0]; sl = SLICES[PAD.bank * 16 + +q[1]]; if (sl) padVoice(+q[1], sl); } }
+else recApply(e);
+}
+function renderOffline(rec) {
+var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg" || e[2] === "@cells"; });
+ev.forEach(function (e) { last = MX(last, e[0]); });
+var N = RD(MN(600, MX(3, last / 1000 + 1.5)) * sr), OC = new OfflineAudioContext(2, N, sr);
+stopSource(); AC = OC; playing = false;
+Object.keys(rec.base).forEach(function (k) { recApply([0, null, k, rec.base[k]]); });
+outBus();
+ev.forEach(function (e) { var q = FL(e[0] / 1000 * sr / 128); (pts[q] = pts[q] || []).push(e); });
+qs = Object.keys(pts).map(Number); if (pump) for (i = 8; i * 128 < N; i += 8) qs.push(i);
+qs = qs.filter(function (q, k, a) { return a.indexOf(q) === k && q * 128 < N; }).sort(function (a, b) { return a - b; });
+qs.forEach(function (q) {
+var go = function () { (pts[q] || []).forEach(recAt); if (pump) { seqTick(); fxPump(); } };
+if (q === 0) go(); else OC.suspend(q * 128 / sr).then(function () { go(); OC.resume(); });
+});
+return OC.startRendering().then(function (buf) { return { sr: sr, l: buf.getChannelData(0), r: buf.getChannelData(1), info: { pads: PAD.voices || 0, bpm: BPM, grid0: GRID0, gamt: GAMT, dur: DUR, thr: FXG.mode } }; });
+}
+function recWav(o) {
+var n = o.l.length, b = new DataView(new ArrayBuffer(44 + n * 4)), i, v;
+function w(p, t) { for (var k = 0; k < t.length; k++) b.setUint8(p + k, t.charCodeAt(k)); }
+w(0, "RIFF"); b.setUint32(4, 36 + n * 4, true); w(8, "WAVEfmt "); b.setUint32(16, 16, true); b.setUint16(20, 1, true); b.setUint16(22, 2, true); b.setUint32(24, o.sr, true); b.setUint32(28, o.sr * 4, true); b.setUint16(32, 4, true); b.setUint16(34, 16, true); w(36, "data"); b.setUint32(40, n * 4, true);
+for (i = 0; i < n; i++) { v = MX(-1, MN(1, o.l[i])); b.setInt16(44 + i * 4, v < 0 ? v * 32768 : v * 32767, true); v = MX(-1, MN(1, o.r[i])); b.setInt16(46 + i * 4, v < 0 ? v * 32768 : v * 32767, true); }
+return new Uint8Array(b.buffer);
+}
+if (RENDERMODE) {
+window.addEventListener("message", function (m) {
+var d = m.data; if (!d || d.type !== "phosphor-render") return;
+var settled = function () { return new Promise(function (r) { var k = setInterval(function () { if (BUF && !ANALYZING) { clearInterval(k); r(); } }, 50); }); };
+(d.bytes ? loadBytes(d.bytes, "render", d.mime) : Promise.resolve()).then(settled).then(function () { return renderOffline(d.rec); }).then(function (o) { parent.postMessage({ type: "phosphor-rendered", sr: o.sr, l: o.l, r: o.r, info: o.info }, "*", [o.l.buffer, o.r.buffer]); }, function (e) { parent.postMessage({ type: "phosphor-rendered", error: String(e && e.message || e) }, "*"); });
+});
+}
+function recRender(text) {
+return new Promise(function (res, rej) {
+var rec = recImport(text || recExport()), f = document.createElement("iframe"), done = false;
+if (!rec) { rej(new Error("not a recipe")); return; }
+f.name = "phosphor-render"; f.setAttribute("aria-hidden", "true"); f.tabIndex = -1; f.style.cssText = "position:fixed;width:1px;height:1px;border:0;opacity:0;pointer-events:none;left:-9px;top:0";
+function fin(fn, v) { if (done) return; done = true; window.removeEventListener("message", on); f.remove(); fn(v); }
+function on(m) { var d = m.data; if (m.source !== f.contentWindow || !d) return; if (d.type === "phosphor-render-ready") f.contentWindow.postMessage({ type: "phosphor-render", rec: rec, bytes: SRCBYTES ? SRCBYTES.slice(0) : null, mime: SRCMIME }, "*"); else if (d.type === "phosphor-rendered") { if (d.error) fin(rej, new Error(d.error)); else fin(res, d); } }
+window.addEventListener("message", on); f.srcdoc = "<!doctype html>" + document.documentElement.outerHTML; document.body.appendChild(f);
+setTimeout(function () { fin(rej, new Error("the render timed out")); }, 180000);
+});
+}
+var GRB = { list: [], key: "phosphor.grabs.v1", tm: 0, run: null };
+try { GRB.list = JSON.parse(localStorage.getItem(GRB.key) || "[]") || []; } catch (e) {}
+function grabSave() { try { localStorage.setItem(GRB.key, JSON.stringify(GRB.list)); } catch (e) {} }
+function grabBeatMs() { return 60000 / (BPM || 120); }
+function grabCut(t0, t1) {
+var bm = grabBeatMs(), st = recState(t0), on = {}, ev = [], last = {}, ids = {}, out = [];
+REC.ev.forEach(function (e) { if (e[0] < t0 && e[2] === "@fx") on[e[3][0]] = e[3][2]; });
+Object.keys(on).forEach(function (k) { if (on[k]) ev.push([0, "@fx", [k, 1]]); });
+REC.ev.forEach(function (e) {
+if (e[0] < t0 || e[0] > t1) return; var id = e[2], el, keep = true;
+if (id === "@fx") ev.push([(e[0] - t0) / bm, id, [e[3][0], e[3][2]]]);
+else if (id === "@pad" && String(e[3]).split(":").length === 2) ev.push([(e[0] - t0) / bm, id, e[3]]);
+else if (id[0] !== "@" && !/^(grpre|grpost|sbpm|tbpm)$/.test(id)) { el = $(id); if (el && el.type === "range" && last[id] !== undefined && e[0] - last[id] < 40) keep = false; if (keep) { ev.push([(e[0] - t0) / bm, id, e[3]]); last[id] = e[0]; ids[id] = 1; } }
+});
+Object.keys(ids).forEach(function (k) { out.push([0, k, st[k]]); });
+return out.concat(ev.map(function (x) { return [+x[0].toFixed(3), x[1], x[2]]; })).sort(function (a, b) { return a[0] - b[0]; });
+}
+function grabMake(pre, post) {
+var bm = grabBeatMs(), now = RD(NOW() - REC.t0), t0 = now - pre * 4 * bm, t1 = now + post * 4 * bm, ev = grabCut(t0, t1);
+if (!ev.some(function (e) { return e[0] > 0 || e[1][0] === "@"; })) return null;
+var g = { name: "Grab " + (GRB.list.reduce(function (m, x) { return MX(m, +(x.name.match(/^Grab (\d+)$/) || [0, 0])[1]); }, 0) + 1), beats: (pre + post) * 4, ev: ev };
+GRB.list.push(g); if (GRB.list.length > 20) GRB.list.shift(); grabSave(); grabShow(); return g;
+}
+function grabApply(e) {
+var id = e[1], v = e[2], q;
+if (id === "@fx") fxHold(v[0], "grab", !!v[1]);
+else if (id === "@pad") { q = String(v).split(":"); PAD.bank = +q[0]; padHit(+q[1]); setTimeout(function () { padRelease(+q[1]); }, 150); }
+else recApply([0, null, id, v]);
+}
+function grabStop() { clearInterval(GRB.tm); if (GRB.run) { Object.keys(GRB.run.fx || {}).forEach(function (k) { fxHold(k, "grab", false); }); GRB.run = null; } grabShow(); }
+function grabPlay(g, loop) {
+grabStop(); var bm = grabBeatMs(), b0 = playing ? tmapBeat(tnow()) : 0, start = playing ? Math.ceil(b0 / 4) * 4 : 0, t0 = NOW(), i = 0, ids = {};
+GRB.run = { g: g, fx: {}, loop: !!loop };
+g.ev.forEach(function (e) { if (e[1][0] !== "@") ids[e[1]] = 1; });
+GRB.tm = setInterval(function () {
+var beat = (playing ? tmapBeat(tnow()) : (NOW() - t0) / grabBeatMs()) - start, e;
+while (i < g.ev.length && g.ev[i][0] <= beat) { e = g.ev[i++]; if (e[1] === "@fx") GRB.run.fx[e[2][0]] = e[2][1]; grabApply(e); }
+Object.keys(ids).forEach(function (id) { var el = $(id), a, b2, k, n; if (!el || el.type !== "range") return; a = null; b2 = null; for (k = 0; k < g.ev.length; k++) { if (g.ev[k][1] !== id) continue; if (g.ev[k][0] <= beat) a = g.ev[k]; else { b2 = g.ev[k]; break; } } if (a && b2 && b2[0] > a[0]) { n = a[2] + (b2[2] - a[2]) * (beat - a[0]) / (b2[0] - a[0]); if (AB(+el.value - n) >= (+el.step || 1)) { el.value = n; el.dispatchEvent(new Event("input", { bubbles: true })); } } });
+if (beat >= g.beats) { if (GRB.run && GRB.run.loop) { i = 0; start += g.beats; } else grabStop(); }
+}, 20);
+grabShow();
+}
+var LANE = { id: "", mode: "off", pts: [], held: false, latched: false, gl: null, self: false, lastW: -9 };
+function laneVal(b) {
+var p = LANE.pts, k; if (!p.length) return null; if (b <= p[0][0]) return p[0][1]; if (b >= p[p.length - 1][0]) return p[p.length - 1][1];
+for (k = 1; k < p.length; k++) if (b <= p[k][0]) return p[k - 1][1] + (p[k][1] - p[k - 1][1]) * (b - p[k - 1][0]) / MX(1e-6, p[k][0] - p[k - 1][0]);
+return null;
+}
+function laneSet(el, v) { LANE.self = true; el.value = v; el.dispatchEvent(new Event("input", { bubbles: true })); LANE.self = false; }
+function laneWrite(b, v) {
+if (b - LANE.lastW < 0.05) return; LANE.lastW = b;
+LANE.pts = LANE.pts.filter(function (q) { return AB(q[0] - b) >= 0.05; }); LANE.pts.push([+b.toFixed(3), +v]); LANE.pts.sort(function (x, y) { return x[0] - y[0]; }); laneShow();
+}
+function laneShow() { var m = $("lnmsg"); if (m) m.textContent = LANE.pts.length ? LANE.pts.length + " points on " + (LANE.id || "no slider") + "." : "Pick a slider, press Record while the song plays and move it; Play makes it move on its own."; }
+function laneFill() { var s = $("lnid"), h = ""; EA(QA("input[type=range][id]"), function (e) { if (e.id === "scrub" || e.id === "hscrub") return; var l = e.getAttribute("aria-label") || e.id; h += '<option value="' + e.id + '">' + esc(l) + "</option>"; }); s.innerHTML = h; LANE.id = s.value; }
+document.addEventListener("input", function (e) {
+if (LANE.self || !playing || e.target.id !== LANE.id) return; var b = tmapBeat(tnow());
+if (LANE.mode === "rec" || ((LANE.mode === "touch" || LANE.mode === "latch") && (LANE.held || LANE.latched))) { laneWrite(b, +e.target.value); if (LANE.mode === "latch") LANE.latched = true; LANE.gl = null; }
+}, true);
+document.addEventListener("pointerdown", function (e) { if (e.target.id === LANE.id) { LANE.held = true; LANE.gl = null; } }, true);
+function laneRelease() { var el, b; if (!LANE.held) return; LANE.held = false; el = $(LANE.id); if (el && LANE.mode === "touch" && playing) { b = tmapBeat(tnow()); LANE.gl = { from: +el.value, b0: b }; } }
+document.addEventListener("pointerup", laneRelease, true); document.addEventListener("change", function (e) { if (e.target.id === LANE.id) laneRelease(); }, true);
+setInterval(function () {
+var el, b, v, w;
+if (!playing) { LANE.latched = false; LANE.gl = null; return; }
+if (LANE.mode === "off" || LANE.mode === "rec" || !LANE.id || !LANE.pts.length || LANE.held || LANE.latched) return;
+el = $(LANE.id); if (!el) return; b = tmapBeat(tnow()); v = laneVal(b); if (v === null) return;
+if (LANE.gl) { w = MN(1, (b - LANE.gl.b0) / 1); v = LANE.gl.from + (v - LANE.gl.from) * w; if (w >= 1) LANE.gl = null; }
+if (AB(+el.value - v) >= (+el.step || 1)) laneSet(el, v);
+}, 20);
+$("lnid").addEventListener("change", function () { LANE.id = $("lnid").value; laneShow(); });
+$("lnmode").addEventListener("change", function () { LANE.mode = $("lnmode").value; LANE.latched = false; LANE.gl = null; });
+$("lnclr").addEventListener("click", function () { LANE.pts = []; LANE.gl = null; laneShow(); });
+laneFill();
+function grabShow() {
+var ul = $("grlist"), h = "";
+GRB.list.forEach(function (g, k) { h += '<li><input class="txt" type="text" value="' + esc(g.name) + '" data-gn="' + k + '" aria-label="Name of grab ' + (k + 1) + '"><button class="btn" type="button" data-grplay="' + k + '">' + (GRB.run && GRB.run.g === g ? "Stop" : "Play") + '</button><button class="btn" type="button" data-gl="' + k + '" aria-pressed="' + !!(GRB.run && GRB.run.g === g && GRB.run.loop) + '">Loop</button><button class="btn" type="button" data-gd="' + k + '">Delete</button></li>'; });
+ul.innerHTML = h || '<li class="hint">Nothing grabbed yet. Move some controls, then press Grab.</li>';
+}
+$("grlist").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; var k; if (b.hasAttribute("data-grplay")) { k = +b.getAttribute("data-grplay"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); else grabPlay(GRB.list[k], false); } else if (b.hasAttribute("data-gl")) { k = +b.getAttribute("data-gl"); grabPlay(GRB.list[k], !(GRB.run && GRB.run.g === GRB.list[k] && GRB.run.loop)); } else if (b.hasAttribute("data-gd")) { k = +b.getAttribute("data-gd"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); GRB.list.splice(k, 1); grabSave(); grabShow(); } });
+$("grlist").addEventListener("change", function (e) { var t = e.target; if (t.hasAttribute && t.hasAttribute("data-gn")) { GRB.list[+t.getAttribute("data-gn")].name = String(t.value).slice(0, 40); grabSave(); } });
+$("grab").addEventListener("click", function () {
+var pre = +$("grpre").value, post = +$("grpost").value, m = $("grmsg"), bm = grabBeatMs();
+if (post > 0) { m.textContent = "Grabbing for " + post + " more bar" + (post > 1 ? "s" : "") + ". Keep playing."; $("grab").disabled = true; setTimeout(function () { var g = grabMake(pre, post); $("grab").disabled = false; m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window."; }, post * 4 * bm); return; }
+var g = grabMake(pre, 0); m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window.";
+});
+grabShow();
 var ELOG = { on: false, ev: [], ls: {}, key: "phosphor.playlog.v1", dirty: false };
 try { var els = JSON.parse(localStorage.getItem(ELOG.key) || "null"); if (els && els.ev) { ELOG.ev = els.ev; ELOG.on = !!els.on; } } catch (e) {}
 function elog(k, id, v) {
@@ -2398,6 +2583,13 @@ document.addEventListener("change", function (e) { var t = e.target; if (t && (t
 document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) elog("key", e.code); }, true);
 window.addEventListener("error", function (e) { elog("err", String(e.message || "").slice(0, 60)); });
 window.addEventListener("pagehide", elSave); document.addEventListener("visibilitychange", elSave); setInterval(elSave, 5000);
+$("rnb").addEventListener("click", function () {
+var b = $("rnb"), m = $("rnsum"); b.disabled = true; b.textContent = "Rendering"; m.textContent = "Rendering the session through the effect chain. Nothing is sent anywhere.";
+recRender().then(function (o) {
+var u = URL.createObjectURL(new Blob([recWav(o)], { type: "audio/wav" })), a = document.createElement("a"); a.href = u; a.download = "phosphor-session.wav"; document.body.appendChild(a); a.click(); a.remove();
+m.textContent = "Rendered " + (o.l.length / o.sr).toFixed(1) + " seconds. If nothing was saved, this page blocks downloads."; setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
+}, function (e) { m.textContent = "The render did not finish: " + e.message; }).then(function () { b.disabled = false; b.textContent = "Render to WAV"; });
+});
 $("elb").addEventListener("click", function () { ELOG.on = !ELOG.on; ELOG.flag = true; if (ELOG.on) elog("start"); elSave(); elShow(); });
 $("elclr").addEventListener("click", function () { ELOG.ev = []; ELOG.flag = true; elSave(); elShow(); });
 $("elcopy").addEventListener("click", function () { var t = JSON.stringify({ v: 1, summary: elSummary(), events: ELOG.ev }); try { navigator.clipboard.writeText(t).then(function () { $("elsum").textContent = "Play log copied (" + ELOG.ev.length + " events)."; }, function () { $("elsum").textContent = "Copy was blocked here."; }); } catch (e) { $("elsum").textContent = "Copy was blocked here."; } });
@@ -2508,7 +2700,7 @@ b.addEventListener("pointerdown", function (e) { e.preventDefault(); b.setPointe
 });
 })();
 function qzWait(tnowS) { if (!QZ || !playing && !BPM) return 0; var st = seqStep(), j = seqN(tnowS) - 1, w = 1e9, k, f; for (k = j; k <= j + 3; k++) { f = seqT(k) + swingOff(k); if (f >= tnowS - 1e-6 && f - tnowS < w) w = f - tnowS; } return w > st * 2 ? 0 : w * QZ; }
-function noteStartQ(i) { var w = qzWait(playing ? tnow() : (AC ? AC.currentTime : 0) - 0); if (w > 0.004) { NOTES.pend = NOTES.pend || {}; NOTES.pend[i] = setTimeout(function () { delete NOTES.pend[i]; if (!NOTES.stopEarly || !NOTES.stopEarly[i]) noteStart(i); else delete NOTES.stopEarly[i]; }, w * 1000); } else noteStart(i); }
+function noteStartQ(i) { recAct("note", i); var w = qzWait(playing ? tnow() : (AC ? AC.currentTime : 0) - 0); if (w > 0.004) { NOTES.pend = NOTES.pend || {}; NOTES.pend[i] = setTimeout(function () { delete NOTES.pend[i]; if (!NOTES.stopEarly || !NOTES.stopEarly[i]) noteStart(i); else delete NOTES.stopEarly[i]; }, w * 1000); } else noteStart(i); }
 function noteMark(i, on) { var b = $("nkeys").querySelector('[data-i="' + i + '"]'); if (b) AP(b, on); }
 function noteStart(i) {
 if (NOTES.voices[i] || Object.keys(NOTES.voices).length >= 4) return;
@@ -2641,7 +2833,7 @@ else { FS = false; NATIVE = false; f.classList.remove("fs", "idle", "steps"); if
 cv.width = on ? 1600 : 1280; cv.height = on ? 900 : 360;
 AP($("fsb"), on); wakeHud(); frame(playing);
 }
-function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { if (EJT) { wakeHud(); return; } f.classList.add("idle"); }, 2600); } /* never fade the HUD under a held Eject: WebKit fires pointerleave and cancels the hold */
 EA(QA("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
 function kidSync() { EA(QA("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
 document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);
@@ -2736,7 +2928,7 @@ sync(k);
 (function () {
 var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
 try { ok = localStorage.getItem(KEY) === "1"; } catch (e) {}
-if (ok || /[?&]test=1/.test(location.search)) return;
+if (ok || RENDERMODE || /[?&]test=1/.test(location.search)) return;
 function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
 cs.hidden = false; lock(true); $("csgo").focus();
 $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) {} cs.hidden = true; lock(false); });
@@ -2754,17 +2946,20 @@ EA(QA("#pbk .btn"), function (b, i) { var fx = padFx(i), has = !!fx || !!SLICES[
 EA(QA("#padpick .btn"), function (b) { AP(b, PAD.sel >= 0 && (b.getAttribute("data-fx") || "") === padFx(PAD.sel)); });
 EA(QA("#pbkb .btn"), function (b, k) { AP(b, k === PAD.bank); b.firstChild.nodeValue = "ABCD"[k] + " " + MX(0, MN(16, SLICES.length - k * 16)); });
 }
+function padVoice(i, s) {
+try { if (PAD.src[i]) PAD.src[i].stop(); } catch (e) { /* ended */ }
+var b = AC.createBufferSource(), g = AC.createGain(), t = AC.currentTime, d = s.t1 - s.t0;
+b.buffer = BUF; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + 0.003); g.gain.setValueAtTime(1, t + MX(0.003, d - 0.006)); g.gain.linearRampToValueAtTime(0.0001, t + d);
+b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b; PAD.voices = (PAD.voices || 0) + 1;
+}
 function padHit(i) {
 if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
-var fx = padFx(i); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
+var fx = padFx(i); recAct("pad", PAD.bank + ":" + i + (fx ? ":" + fx : "")); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
 if (!BUF) { padMsg("Load a song first."); return; }
 if (!SLICES.length) { var k, n = 16; for (k = 0; k < n; k++) addSlice(k * DUR / n, (k + 1) * DUR / n); renderSlices(); drawStrip(tnow()); padMsg("The song is chopped into 16 equal parts. Cut your own on the slice strip any time."); }
 var s = SLICES[PAD.bank * 16 + i]; if (!s) return;
 if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
-try { if (PAD.src[i]) PAD.src[i].stop(); } catch (e) { /* ended */ }
-var b = AC.createBufferSource(), g = AC.createGain(), t = AC.currentTime, d = s.t1 - s.t0, el = QA("#pbk .btn")[i];
-b.buffer = BUF; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + 0.003); g.gain.setValueAtTime(1, t + MX(0.003, d - 0.006)); g.gain.linearRampToValueAtTime(0.0001, t + d);
-b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b;
+padVoice(i, s); var el = QA("#pbk .btn")[i];
 PAD.log.push([PAD.bank, i, +s.t0.toFixed(3), +s.t1.toFixed(3)]); if (PAD.log.length > 500) PAD.log.shift();
 if (el) { el.classList.add("hit"); setTimeout(function () { el.classList.remove("hit"); }, 140); }
 }
@@ -2906,6 +3101,7 @@ for (q = 0; q < bin.length; q++) u[q] = bin.charCodeAt(q);
 $("status").textContent = "Decoding"; loadBytes(u.buffer, o.name, o.mime).catch(function () { $("status").textContent = "The embedded song could not be decoded in this browser."; });
 } else loadDemo();
 recInit();
+if (RENDERMODE) parent.postMessage({ type: "phosphor-render-ready" }, "*");
 })();
 </script>
 </body>

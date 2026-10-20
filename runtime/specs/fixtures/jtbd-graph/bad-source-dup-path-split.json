@@ -1,0 +1,32 @@
+{
+ "_expect": "SOURCE-DUP",
+ "_root": true,
+ "_note": "class K: same catalog line, different key and path",
+ "atoms": [
+  {
+   "id": "tool:script:jtbd_graph_schema_check.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "jtbd_graph_schema_check.py",
+    "line": 1366
+   },
+   "title": "Validate a JTBD graph ({atoms, edges}) against runtime/specs/jtbd-graph-schema.json.",
+   "path": "scripts/jtbd_graph_schema_check.py",
+   "state": "WIRED"
+  },
+  {
+   "id": "tool:script:zz_split.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "zz_split.py",
+    "line": 1366
+   },
+   "title": "Validate a JTBD graph ({atoms, edges}) against runtime/specs/jtbd-graph-schema.json.",
+   "path": "scripts/jtbd_graph_gates.py",
+   "state": "WIRED"
+  }
+ ],
+ "edges": []
+}

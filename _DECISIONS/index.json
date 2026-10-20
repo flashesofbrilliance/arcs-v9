@@ -673,5 +673,14 @@
     "stability": "PROVISIONAL",
     "gate": "see content",
     "file": "ADR-087-animation-as-a-timeline-over-a-recipe.md"
+  },
+  {
+    "id": "ADR-089",
+    "title": "ADR-089: JTBD graph schema: four atom kinds, six edge types, source-derived stable ids",
+    "status": "PROPOSED",
+    "y_state": "YELLOW",
+    "stability": "PROVISIONAL",
+    "gate": "write-lock: Zach approves id scheme before merge",
+    "file": "ADR-089-jtbd-graph-schema-and-stable-ids.md"
   }
 ]

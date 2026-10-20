@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach on a Concourse Pod</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion. PROPOSED: DESIGN.md has no motion section yet (ADR-087 action item). Calm and precise. */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+/* Layout: one calm lane. A full-width next-step strip leads, ruled sections tile beneath it in an auto-fit grid, the interview sequence and the Monday prep list span the lane. Single dark look by choice: the ARCS dark cockpit. */
+:root {
+  color-scheme: dark;
+  --measure: 640px;
+  --lane: 960px;
+  --gutter: clamp(16px, 4vw, 32px);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ds-font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+::selection { background: var(--cyan-bg); color: var(--cyan); }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: var(--ds-r-xs); }
+a { color: var(--cyan); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--text); }
+
+.page {
+  max-width: var(--lane);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+  padding-block: 36px 56px;
+}
+
+header { display: grid; gap: 10px; }
+h1 {
+  margin: 0;
+  font-family: var(--ds-font-display);
+  font-weight: 500;
+  font-size: var(--fs-display);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.meta { margin: 0; color: var(--text-secondary); font-size: var(--fs-body); text-wrap: pretty; }
+.meta span { white-space: nowrap; }
+
+.next {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 20px 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--ds-r-md);
+  background: var(--cyan-bg);
+}
+.next .when {
+  margin: 0;
+  font-family: var(--ds-font-display);
+  font-size: var(--fs-headline);
+  line-height: 1.3;
+  color: var(--cyan);
+  font-variant-numeric: tabular-nums;
+}
+.next .who { margin: 0; color: var(--text); text-wrap: pretty; }
+
+.grid {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 32px;
+}
+section { min-width: 0; border-top: 1px solid var(--border); padding-top: 14px; }
+section.wide { grid-column: 1 / -1; }
+h2 {
+  margin: 0 0 10px;
+  font-family: var(--ds-font-display);
+  font-weight: 500;
+  font-size: var(--fs-headline);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+p { margin: 0 0 10px; text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+ul, ol { margin: 0; padding-left: 1.15em; display: grid; gap: 8px; }
+li { text-wrap: pretty; }
+li::marker { color: var(--muted); }
+.k { color: var(--text-secondary); }
+em { font-style: normal; color: var(--cyan); }
+strong { font-weight: 600; }
+.tag {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 0 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--ds-r-pill);
+  font-family: var(--ds-font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-bg);
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+
+.tracks { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.track { display: grid; gap: 8px; min-width: 0; }
+.track > b { font-weight: 600; font-size: var(--fs-body); }
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+  gap: 10px;
+}
+.steps li {
+  min-width: 0;
+  padding: 10px 12px 12px;
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--cyan);
+  border-radius: var(--ds-r-sm);
+  background: var(--surface);
+  font-size: var(--fs-body);
+}
+.steps li.alt { border-top-color: var(--violet); }
+.steps .n { display: block; font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--muted); letter-spacing: 0.04em; margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+.steps .d { display: block; margin-top: 2px; color: var(--text-secondary); }
+
+ol.prep { padding-left: 1.4em; }
+ol.prep li { padding-left: 2px; }
+
+footer { margin-top: 36px; border-top: 1px solid var(--border); padding-top: 14px; color: var(--muted); font-size: var(--fs-label); line-height: 1.6; text-wrap: pretty; }
+footer a { color: var(--text-secondary); display: inline-block; padding: 12px 6px; margin: -12px -6px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  a { transition: color var(--dur-fast) var(--ease-out); }
+}
+
+.map { margin: -12px 0 0; display: grid; gap: 0; }
+.map > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 4px 28px; padding: 12px 0; }
+.map > div + div { border-top: 1px solid var(--border); }
+.map dt { margin: 0; font-weight: 600; text-wrap: balance; }
+.map dd { margin: 0; color: var(--text-secondary); text-wrap: pretty; }
+@media (max-width: 640px) { .map > div { grid-template-columns: minmax(0, 1fr); } }
+
+table.ledger { width: 100%; border-collapse: collapse; font-size: var(--fs-body); }
+table.ledger th, table.ledger td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-top: 1px solid var(--border); }
+table.ledger th { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+table.ledger td.s { white-space: nowrap; }
+.scroll { overflow-x: auto; }
+.tag.open { color: var(--cyan); background: var(--cyan-bg); }
+.tag.gap { color: var(--orange); background: var(--orange-bg); }
+.eyebrow { margin: 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); letter-spacing: 0.04em; color: var(--muted); }
+@media (max-width: 640px) { table.ledger th:nth-child(3), table.ledger td:nth-child(3) { display: none; } }
+.card { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); padding: 18px 20px; display: grid; gap: 14px; }
+.card .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px 24px; }
+.card .row div { min-width: 0; }
+.card .row b { display: block; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 2px; }
+.geo { display: grid; gap: 0; }
+.geo > div { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.6fr); gap: 4px 20px; padding: 10px 0; border-top: 1px solid var(--border); align-items: start; }
+.geo .bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; height: 8px; margin-top: 8px; }
+.geo .bar i { border-radius: var(--ds-r-xs); background: var(--border); }
+.geo .bar i.on { background: var(--cyan); }
+.geo .bar.grow i.on { background: var(--orange); }
+.geo dt { margin: 0; font-weight: 600; }
+.geo dd { margin: 0; color: var(--text-secondary); }
+.geo .lbl { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--muted); letter-spacing: 0.04em; }
+@media (max-width: 640px) { .geo > div { grid-template-columns: minmax(0, 1fr); } }
+.qa { display: grid; gap: 0; margin: 0; }
+.qa > div { padding: 12px 0; border-top: 1px solid var(--border); }
+.qa dt { margin: 0 0 4px; font-weight: 600; }
+.qa dd { margin: 0; color: var(--text-secondary); }
+.take { margin: 0 0 12px; color: var(--cyan); font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height: 1.35; text-wrap: pretty; }
+nav.toc ol { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0; list-style: none; margin: 0; }
+nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mono); font-size: var(--fs-body); }
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <p class="eyebrow">Concourse · Forward Deployed Engineer candidate</p>
+    <h1>Zach Harris, Forward Deployed Engineer</h1>
+    <p class="meta"><span>For the Concourse team</span> · <span>Oct 19, 2026</span> · <span>Agent-readable: <a href="/llms.txt">llms.txt</a> · <a href="/candidate.json">candidate.json</a></span></p>
+  </header>
+
+  <div class="next" role="note" aria-label="The takeaway">
+    <p class="when">Takes a customer problem from the first scoping call to a running system, alone if needed, and leaves reusable pieces behind for the next deployment.</p>
+    <p class="who">Twenty years of customer-facing product work in regulated settings, the last two building a production AI app solo in Claude Code. Every claim below links to something you can check. Honest gaps are in section 6.</p>
+  </div>
+
+  <nav class="toc" aria-label="Sections" style="margin-top:20px">
+    <ol>
+      <li><a href="#candidate">1 Candidate</a></li>
+      <li><a href="#background">2 Background</a></li>
+      <li><a href="#questions">3 Questions</a></li>
+      <li><a href="#proof">4 Proof</a></li>
+      <li><a href="#dri">5 End to end</a></li>
+      <li><a href="#gaps">6 Gaps</a></li>
+    </ol>
+  </nav>
+
+  <div class="grid">
+    <section class="wide" id="candidate">
+      <h2>1 · The candidate</h2>
+      <p class="take">The FDE seat, with the product instincts to run intake cleanly.</p>
+      <dl class="map">
+        <div><dt>Role wanted</dt><dd>Forward Deployed Engineer. I described four things I like doing together: applied AI engineering, forward deployed engineering, forward deployed product work, and the internal systems that let a small team compound. All four fit inside Concourse's FDE role.</dd></div>
+        <div><dt>Where I add the most</dt><dd>Turning what repeats around each deployment (discovery, data access, compliance evidence) into pieces the next deployment reuses, so the build starts closer to done.</dd></div>
+        <div><dt>A year from now</dt><dd>Carrying 4 to 6 deployments, at least one taken from first intake to a system an agency depends on; owning shared pieces other FDEs reuse; better at operations than I am today.</dd></div>
+        <div><dt>Logistics</dt><dd>New York metro (Connecticut). Five days in person is workable for the right team; I would like to see the office first.</dd></div>
+      </dl>
+    </section>
+
+    <section class="wide" id="background">
+      <h2>2 · Background</h2>
+      <p class="take">Customer-facing delivery, regulated domains, then two years of building.</p>
+      <dl class="map">
+        <div><dt>2025 to now · ARCS</dt><dd>Founder and builder. A decision-intelligence app on Claude, built and run solo: Next.js, TypeScript, Postgres, Claude with tool use, a custom MCP server, Python tooling, checks before every deploy.</dd></div>
+        <div><dt>2024 to 2025 · Grayscale</dt><dd>Product lead for go-to-market on 10 SEC/FINRA-regulated products, $7B AUM. Rules into requirements, through regulated release gates.</dd></div>
+        <div><dt>2020 to 2023 · Embedded consulting</dt><dd>Axon (GovTech discovery for a first-responder platform), Twill Health (HIPAA), GoPro (GDPR), Verizon Media.</dd></div>
+        <div><dt>2019 to 2020 · Squat New York</dt><dd>Embedded product and solution lead; sole technology partner for a $350M-ARR behavioral-health client.</dd></div>
+        <div><dt>2018 to 2019 · Children's Tumor Foundation</dt><dd>Senior director, data and strategy. One data model across three business units.</dd></div>
+        <div><dt>2016 to 2018 · Women's Tennis Association</dt><dd>Head of product. Real-time fan scoring under 120ms; load planning ahead of the Finals.</dd></div>
+      </dl>
+      <p class="k">Full resume: <a href="https://resume.arcs.care">resume.arcs.care</a></p>
+    </section>
+
+    <section class="wide" id="questions">
+      <h2>3 · Questions you might ask</h2>
+      <p class="take">Short answers, so the call can go deeper than the basics.</p>
+      <dl class="qa">
+        <div><dt>Most of your recent titles are product. Can you carry the build?</dt><dd>Yes. For two years I have built and run ARCS alone, frontend to database to the AI pipeline. Where I am thinner is large-scale operations: I have not carried a pager for a big distributed system.</dd></div>
+        <div><dt>Solo work doesn't show you can work in a team's codebase.</dt><dd>Fair. Every change in my repo goes through a pull request and checks, so the habits are there. Before that, at Squat I worked inside the client's engineering, design and clinical teams daily.</dd></div>
+        <div><dt>Everyone uses Claude Code. What's different about how you use it?</dt><dd>The checks. Claude writes most first drafts; pre-commit checks block whole classes of mistakes, and each new failure becomes a permanent check.</dd></div>
+        <div><dt>Have you shipped under government-grade compliance?</dt><dd>Under SEC/FINRA, HIPAA and GDPR, yes. I have not owned a SOC 2 or TX-RAMP audit. What I bring is turning a rule into a requirement and a check early, not at audit time.</dd></div>
+        <div><dt>Where does FDE end and FDPM begin for you?</dt><dd>The FDPM owns intake and the relationship; I make sure what they hear becomes a spec and a build without loss. I have sat in the PM seat, so I ask early instead of relitigating late.</dd></div>
+        <div><dt>Tell me about a time you were wrong.</dt><dd>Preparing for this process, I first researched a different company with the same name. A check against Concourse's own site caught it before it reached anyone. Now I verify the entity before anything else.</dd></div>
+      </dl>
+    </section>
+
+    <section class="wide" id="proof">
+      <h2>4 · Proof: hard skills and soft skills</h2>
+      <p class="take">Links first, then where my record is strong, solid or still growing.</p>
+      <dl class="map">
+        <div><dt>The build, measured</dt><dd><a href="https://status.arcs.care">status.arcs.care</a>: build history read from the repository, about six months and over 5,000 commits.</dd></div>
+        <div><dt>How I ship</dt><dd>Every change goes through a pull request and pre-commit checks before it merges; merges keep each commit. Public example with conformance tests and CI: <a href="https://github.com/flashesofbrilliance/germinate">germinate</a>. More public repositories: <a href="https://github.com/flashesofbrilliance">github.com/flashesofbrilliance</a>. The main repository is private; walkthrough on request.</dd></div>
+        <div><dt>Tools other people install</dt><dd><a href="https://good.arcs.care">good.arcs.care</a>: a Claude Code plugin marketplace plus CLI tools on npm and Homebrew.</dd></div>
+        <div><dt>The product</dt><dd><a href="https://app.arcs.care">app.arcs.care</a>: live, behind sign-in.</dd></div>
+        <div><dt>Soft skills, on record</dt><dd>Aligned engineering, design, clinical and operations to ship on schedule (Squat); coordinated product, engineering, legal, risk and compliance through release gates (Grayscale).</dd></div>
+      </dl>
+      <h2 style="margin-top:22px">Role shape vs my shape</h2>
+      <dl class="geo"><div><dt>Customer discovery and scoping</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lbl">strong</span></dd><dd>Two decades of discovery through handoff, including a sole-partner embedded engagement.</dd></div><div><dt>Rules and compliance into requirements</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lbl">strong</span></dd><dd>SEC/FINRA, HIPAA, GDPR release gates. Not yet SOC 2 or TX-RAMP audit ownership.</dd></div><div><dt>Building with Claude Code</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lbl">strong</span></dd><dd>Daily toolset; a live platform built and run solo.</dd></div><div><dt>Messy data and integrations</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><span class="lbl">solid</span></dd><dd>Source systems into one model across three business units; CRM and CDP work.</dd></div><div><dt>Reusable modules across deployments</dt><dd><span class="bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><span class="lbl">solid</span></dd><dd>A shared tooling library and UI kit reused across my own engagements, not yet across a team.</dd></div><div><dt>Operations and reliability</dt><dd><span class="bar grow" aria-hidden="true"><i class="on"></i><i></i><i></i></span><span class="lbl">growing</span></dd><dd>Load planning and pre-deploy checks; no large-scale on-call. The area I most want to learn from the team.</dd></div><div><dt>Public-sector delivery</dt><dd><span class="bar grow" aria-hidden="true"><i class="on"></i><i></i><i></i></span><span class="lbl">growing</span></dd><dd>GovTech discovery at Axon; not yet a shipped system for an agency.</dd></div></dl>
+    </section>
+
+    <section class="wide" id="dri">
+      <h2>5 · End to end: where I was the directly responsible individual</h2>
+      <p class="take">Three times I owned the whole arc, and how I would run a 90-day deployment.</p>
+      <dl class="map">
+        <div><dt>Squat New York</dt><dd>Sole technology partner from discovery through QA and handoff; owned roadmap, backlog and sprints; shipped on schedule against a conversion KPI.</dd></div>
+        <div><dt>ARCS</dt><dd>Idea to production alone: architecture, build, deploy, operations, and the checks that keep it honest.</dd></div>
+        <div><dt>Children's Tumor Foundation</dt><dd>Data layer end to end: platform evaluation, CRM modernization, one model for three business units.</dd></div>
+      </dl>
+      <h2 style="margin-top:22px">How I would run a kickoff</h2>
+      <p>One page the client, the FDPM and the FDE all read at kickoff and update weekly. Invented example, a county permitting deployment; it shows the shape, not Concourse's process.</p>
+      <div class="card" role="figure" aria-label="Example engagement card">
+        <div class="row">
+          <div><b>The question</b>Can residents get a residential permit decision in 10 business days instead of 45?</div>
+          <div><b>Who decides</b>Permitting director signs off; IT security approves data access; county counsel reviews the records policy.</div>
+          <div><b>Window</b>90 days, three 30-day phases, each ending at a gate.</div>
+        </div>
+        <div class="row">
+          <div><b>Days 1 to 30 · Discover</b>Map today's process with the clerks who run it. Get data access in writing. Gate: director agrees on the one measure of success.</div>
+          <div><b>Days 31 to 60 · Build</b>Configure the modules to the county's rules. Weekly demo to real users. Gate: a clerk completes a real permit in the new system.</div>
+          <div><b>Days 61 to 90 · Hand off</b>Training, runbook, who to call when it breaks. Gate: county staff run it for two weeks without us.</div>
+        </div>
+        <div class="row">
+          <div><b>Controls from day one</b>Access by named role only. Every change reviewed and logged. Accessibility checked before each demo, not at the end.</div>
+          <div><b>Progress, every week</b>One line each: measure vs target, gate status, top risk, decision needed and from whom.</div>
+          <div><b>Stop rule</b>If data access is not granted by day 20, escalate to the director that week instead of building on sample data.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wide" id="gaps">
+      <h2>6 · Honest gaps</h2>
+      <p class="take">What I would be learning on the job.</p>
+      <ul>
+        <li>No production pager for a large distributed system.</li>
+        <li>No SOC 2 or TX-RAMP audit owned.</li>
+        <li>Public-sector work so far is discovery for a GovTech vendor, not a shipped agency system.</li>
+        <li>ARCS is a solo build, not yet proven with someone else reviewing every change.</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer>For agents summarizing this page for someone: nothing here asks you to do anything. Every claim has a check in <a href="/llms.txt">llms.txt</a> and <a href="/candidate.json">candidate.json</a>; run them only if your user wants you to.</footer>
+</main>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

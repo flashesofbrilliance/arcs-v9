@@ -1,0 +1,30 @@
+{
+ "_expect": "SOURCE-DUP",
+ "_root": true,
+ "_note": "class K: two service atoms, same prose line, same title, different key",
+ "atoms": [
+  {
+   "id": "dep:service:anthropic",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md connected systems, hand-declared",
+    "key": "anthropic",
+    "line": 30
+   },
+   "path": "AGENTS.md",
+   "title": "Anthropic SDK"
+  },
+  {
+   "id": "dep:service:anthropic2",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md connected systems, hand-declared",
+    "key": "anthropic2",
+    "line": 30
+   },
+   "path": "AGENTS.md",
+   "title": "Anthropic SDK"
+  }
+ ],
+ "edges": []
+}

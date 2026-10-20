@@ -12,7 +12,7 @@ while [ "$r" -le "$ROUNDS" ]; do
     case "$n" in phosphor_slice_check|phosphor_twin_check|phosphor_sing_check|phosphor_gold_check|phosphor_fx_check) [ "$3" = "--all" ] || [ "$2" = "--all" ] || continue;; esac
     case "$n" in
       phosphor_mixer_check) E="$FX/break-100.wav,$FX/break-120.wav";;
-      phosphor_bars_check|phosphor_dock_check|phosphor_gate_check|phosphor_glitchoff_check|phosphor_pins_check|phosphor_flash_check|phosphor_mix_check|phosphor_zoomrow_check|phosphor_font_check|phosphor_playlog_check|phosphor_recipe_check|phosphor_pads_check|phosphor_hidden_check|phosphor_kidcap_check|phosphor_render_check) E="$FX/break-100.wav";;
+      phosphor_bars_check|phosphor_cue_check|phosphor_dock_check|phosphor_gate_check|phosphor_glitchoff_check|phosphor_pins_check|phosphor_flash_check|phosphor_mix_check|phosphor_zoomrow_check|phosphor_font_check|phosphor_playlog_check|phosphor_recipe_check|phosphor_pads_check|phosphor_hidden_check|phosphor_kidcap_check|phosphor_render_check|phosphor_grab_check|phosphor_lane_check|phosphor_seqrender_check|phosphor_share_check) E="$FX/break-100.wav";;
       *) E="";;
     esac
     PHOSPHOR_FILES=$E node $NODEOPT "$s" "$PAGE" >"$OUT/$n.r$r.txt" 2>&1; echo "$n $?" >> "$OUT/round$r.txt"
@@ -24,3 +24,7 @@ if [ "$ROUNDS" -gt 1 ]; then
   echo "flake ledger (checks whose result changed between rounds):"; cat "$OUT"/round*.txt | sort | uniq -c | awk '{print $2" "$3" x"$1}' | sort | awk '{c[$1]++; l[$1]=l[$1]" "$2"x"$3} END {for (k in c) if (c[k]>1) print "  "k":"l[k]}' | sort
 fi
 echo "details in $OUT"
+# Gate (2026-10-18): exit nonzero if any check failed in any round, or if a round ran no checks (a missing run must never read as green). A check whose browser fails to launch exits nonzero, so it counts as a failure.
+BAD=0; for f in "$OUT"/round*.txt; do [ -s "$f" ] || { echo "GATE: $f ran no checks"; BAD=1; }; grep -vq ' 0$' "$f" && BAD=1; done
+[ "$BAD" -eq 0 ] || { echo "GATE: FAIL (${PHOSPHOR_BROWSER:-chromium})"; exit 1; }
+echo "GATE: PASS (${PHOSPHOR_BROWSER:-chromium})"

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""handoff_fold — fragments are raw material; molt turns them into ONE cold-moltable arc. ADR-085 (d).
+"""handoff_fold: cold-molt half-written handoff shards into ONE arc a cold session resumes from fast (cuts landing drag). ADR-085 (d).
+
+Fragments are raw material; molt turns them into ONE cold-moltable arc.
 
 Why: every /handoff used to edit the same lines of CLAUDE.md, and two sessions collided (#893 and
 #894 both shipped "v3.101.0" on 2026-10-06). Fragments (one new file per session) fixed the write

@@ -1,0 +1,166 @@
+{
+ "atoms": [
+  {
+   "id": "tool:script:t.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "t.py",
+    "line": 1
+   },
+   "path": "scripts/no_such_file.py"
+  },
+  {
+   "id": "job:backlog:j",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j",
+    "line": 1
+   }
+  },
+  {
+   "id": "blocker:backlog:b",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b",
+    "line": 1
+   },
+   "resolve_by": "2026-11-01"
+  },
+  {
+   "id": "dep:env:FIXTURE_KEY",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "FIXTURE_KEY",
+    "line": 1
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "tool:script:u.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "u.py",
+    "line": 1
+   },
+   "path": "../outside.py"
+  },
+  {
+   "id": "tool:script:v.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/no-such-catalog.json",
+    "key": "v.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:w.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "w.py",
+    "line": 1
+   },
+   "path": "."
+  },
+  {
+   "id": "tool:script:x.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "x.py",
+    "line": 1
+   },
+   "path": "scripts"
+  },
+  {
+   "id": "job:memory:m",
+   "kind": "job",
+   "source": {
+    "catalog": "~/.claude/projects/-Users-zharris-arcs-v9/memory/*.md",
+    "key": "m",
+    "line": 1
+   },
+   "path": "memory/m.md"
+  }
+ ],
+ "edges": [
+  {
+   "from": "tool:script:t.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "route.tool:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
+  },
+  {
+   "from": "blocker:backlog:b",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:env:FIXTURE_KEY",
+   "type": "runtime-dep",
+   "evidence": [
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
+   ],
+   "inferred": false,
+   "match": "FIXTURE_KEY"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "tool:script:u.py",
+   "type": "design-dep",
+   "evidence": [
+    "scripts/gone.py:3"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "tool:script:v.py",
+   "type": "design-dep",
+   "evidence": [
+    "import:scripts/jtbd_graph_gates.py:99999"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  }
+ ],
+ "probes": {
+  "dep:env:FIXTURE_KEY": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe.sh",
+   "line": 2,
+   "match": "curl"
+  },
+  "dep:env:OTHER": {
+   "file": "scripts/missing_probe.sh",
+   "line": 1,
+   "match": "x"
+  }
+ },
+ "_note": "missing path, escaping path, missing catalog, missing evidence file, line past EOF, missing probe file, '.' (E), a directory (E), memory ref with no memory dir (F)",
+ "_expect_ids": [
+  "tool:script:t.py",
+  "tool:script:u.py",
+  "tool:script:v.py",
+  "tool:script:w.py",
+  "tool:script:x.py",
+  "job:memory:m",
+  "dep:env:OTHER"
+ ]
+}

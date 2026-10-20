@@ -1,0 +1,7 @@
+{
+ "_doc": "s5 constants, pre-registered in _PATTERNS/2026-10-20-jtbd-s5-preregistration.md. start = merge time of the s5 PR (ISO-8601 UTC); null means nothing counts and every weight is 1.0. Change only by dated amendment.",
+ "start": "2026-10-20T16:36:24Z",
+ "n_min": 3,
+ "alpha": 0.1,
+ "promote_days": 30
+}

@@ -11,6 +11,10 @@ Sources (each optional; a missing one is skipped, never an error):
   adr        _DECISIONS/*.md
   rules      AGENTS.md, one chunk per section and per numbered gotcha
   tool       runtime/specs/tool-catalog.json (jtbd lines; reuse-before-invent)
+  jtbd       the JTBD graph's jtbd(job) assembly (operators/jtbd_query.py lookup): best tool, open
+             blockers, dependency closure, last receipts. Its own section, printed first; the five
+             sources above are ranked exactly as before. A missing, stale or empty graph falls back
+             to the keyword "tool" section and the section says which path answered (--no-jtbd skips it).
 
 A source that cannot be found is reported on stderr, so a partial result never
 passes for a complete one.
@@ -159,11 +163,30 @@ def tool_docs():
         yield "tool", label, t.get("name", "") + " " + jtbd, jtbd, ""
 
 
+def jtbd_section(job):
+    """The graph lookup, or a fallback dict. Never raises: prior-art must still answer without the graph."""
+    if not REPO:
+        return {"path": "fallback", "reason": "no arcs-v9 checkout", "answer": None}
+    try:
+        sys.path.insert(0, os.path.join(REPO, "operators"))
+        import jtbd_query
+        try:
+            from arcs_librarian import load_universes
+            from pathlib import Path
+            recs = load_universes(Path(REPO))
+        except Exception:
+            recs = None
+        return jtbd_query.lookup(job, REPO, MEMDIR, recs)
+    except Exception as e:
+        return {"path": "fallback", "reason": f"lookup failed ({type(e).__name__})", "answer": None}
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("job", nargs="+", help="plain-language description of the task")
     ap.add_argument("--top", type=int, default=5, help="max hits per source (default 5)")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--no-jtbd", action="store_true", help="skip the JTBD graph tool assembly")
     a = ap.parse_args()
 
     q = terms(" ".join(a.job))
@@ -201,10 +224,23 @@ def main():
             by_kind.setdefault(kind, []).append((s, ref, desc))
     result = {k: sorted(v, key=lambda r: -r[0])[: a.top] for k, v in by_kind.items()}
 
+    jt = None if a.no_jtbd else jtbd_section(" ".join(a.job))
     if a.json:
-        print(json.dumps({k: [{"score": s, "ref": r, "desc": d} for s, r, d in v]
-                          for k, v in result.items()}, indent=2))
+        out = {k: [{"score": s, "ref": r, "desc": d} for s, r, d in v] for k, v in result.items()}
+        if jt is not None:
+            out["jtbd"] = jt
+        print(json.dumps(out, indent=2))
         return
+    if jt is not None:
+        print("## tool assembly (jtbd graph)")
+        try:
+            import jtbd_query
+            print(jtbd_query.render(jt))
+        except Exception:
+            print(f"answered by: {jt['path']} ({jt['reason']})")
+        if jt["path"] != "jtbd-graph":
+            print("  -> see the keyword-ranked `## tool` section below")
+        print()
     if not result:
         print("prior_art: no prior learnings matched. Plan fresh, and capture what you learn.")
         return

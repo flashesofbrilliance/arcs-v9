@@ -5,7 +5,7 @@
  "as_of_date": null,
  "backbone": "runtime/specs/knowledge-lattice-v1.json",
  "lattice_reviewed": "2026-10-06",
- "lattice_drift_check": "2026-10-17T20:22:08",
+ "lattice_drift_check": "2026-10-20T12:45:02",
  "null_origin": "zp",
  "federation": {
   "domains": {
@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2288,
+  "corpus": 2378,
   "canon": {
-   "files": 121,
+   "files": 122,
    "tao_proverbs": 287,
-   "adrs": 83
+   "adrs": 84
   },
-  "codebase": 689,
+  "codebase": 744,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -45,8 +45,8 @@
    "nodes_clear": 53,
    "nodes": 81,
    "shore_open": 37,
-   "files_mapped": 261,
-   "files_fog": 2837
+   "files_mapped": 265,
+   "files_fog": 2979
   },
   "coherence": {
    "diamonds": 3,
@@ -1032,10 +1032,10 @@
    },
    "galaxy": "runtime/specs/universe/hyp.json",
    "population": {
-    "corpus": 8,
+    "corpus": 9,
     "canon": 0,
     "codebase": 1,
-    "files": 9
+    "files": 10
    }
   },
   {
@@ -1170,8 +1170,8 @@
    "population": {
     "corpus": 13,
     "canon": 2,
-    "codebase": 6,
-    "files": 28
+    "codebase": 8,
+    "files": 29
    }
   },
   {
@@ -1409,7 +1409,7 @@
     "corpus": 30,
     "canon": 4,
     "codebase": 50,
-    "files": 253
+    "files": 256
    }
   },
   {
@@ -1477,7 +1477,7 @@
     "corpus": 7,
     "canon": 1,
     "codebase": 3,
-    "files": 21
+    "files": 22
    }
   },
   {
@@ -1511,7 +1511,7 @@
     "corpus": 1,
     "canon": 1,
     "codebase": 2,
-    "files": 8
+    "files": 7
    }
   },
   {
@@ -2280,7 +2280,7 @@
   },
   {
    "id": "adrs",
-   "label": "83 ADRs",
+   "label": "84 ADRs",
    "stratum": "l",
    "domain": "lib",
    "status": "ok",
@@ -2307,9 +2307,9 @@
    "galaxy": "runtime/specs/universe/adrs.json",
    "population": {
     "corpus": 0,
-    "canon": 83,
+    "canon": 84,
     "codebase": 0,
-    "files": 83
+    "files": 84
    }
   },
   {
@@ -3271,7 +3271,7 @@
   {
    "path": "_ARTIFACTS/canon-universe-catalog.json",
    "kind": "catalog",
-   "rows": 161,
+   "rows": 167,
    "private": true
   },
   {
@@ -3301,7 +3301,7 @@
   {
    "path": "_DECISIONS/index.json",
    "kind": "index",
-   "rows": 75,
+   "rows": 76,
    "private": false
   },
   {
@@ -3325,13 +3325,13 @@
   {
    "path": "_SEEDS/index.jsonl",
    "kind": "index",
-   "rows": 70,
+   "rows": 73,
    "private": false
   },
   {
    "path": "_SEEDS/ledger.jsonl",
    "kind": "ledger",
-   "rows": 98,
+   "rows": 118,
    "private": false
   },
   {
@@ -3425,9 +3425,33 @@
    "private": false
   },
   {
+   "path": "runtime/specs/fixtures/jtbd-graph/root/operators/OPERATOR-REGISTRY.json",
+   "kind": "registry",
+   "rows": 28,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/fixtures/jtbd-graph/root/runtime/specs/surface-catalog.json",
+   "kind": "catalog",
+   "rows": null,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/fixtures/jtbd-graph/root/runtime/specs/tool-catalog.json",
+   "kind": "catalog",
+   "rows": 332,
+   "private": false
+  },
+  {
    "path": "runtime/specs/fonts-manifest.json",
    "kind": "manifest",
    "rows": 2,
+   "private": false
+  },
+  {
+   "path": "runtime/specs/jtbd-s4/catalog-raw.json",
+   "kind": "catalog",
+   "rows": 18,
    "private": false
   },
   {
@@ -3439,13 +3463,13 @@
   {
    "path": "runtime/specs/surface-catalog.json",
    "kind": "catalog",
-   "rows": 281,
+   "rows": 289,
    "private": false
   },
   {
    "path": "runtime/specs/tool-catalog.json",
    "kind": "catalog",
-   "rows": 269,
+   "rows": 342,
    "private": false
   },
   {
@@ -3458,6 +3482,12 @@
    "path": "scripts/nftt_index_layout.json",
    "kind": "index",
    "rows": 33,
+   "private": false
+  },
+  {
+   "path": "tests/fixtures/provenance-bench/dataset/manifest.json",
+   "kind": "manifest",
+   "rows": 9,
    "private": false
   }
  ],
