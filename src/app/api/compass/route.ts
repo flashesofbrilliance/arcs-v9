@@ -14,6 +14,8 @@ import { normalizeHorizon, reviewDateForWindow, reminderDateForWindow } from "@/
 import { auth } from "@/lib/auth"
 import { reportModelError, modelErrorBody } from "@/lib/model-error"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
+import { logAnonymousCall } from "@/lib/anon-counter"
+import { shapeForOwner } from "@/lib/compass-shape"
 import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
 import { receiptEmail } from "@/emails/receiptEmail"
@@ -172,6 +174,8 @@ export async function POST(req: NextRequest) {
   const session = await auth()
   const userId = session?.user?.id ?? null
   // ADR-016 Option C: compass open to anonymous users; userId written as null
+  // Log-only daily count of anonymous calls (anti-distillation ruling 3). Never blocks.
+  if (!userId) logAnonymousCall()
 
   const parsedBody = CompassBody.safeParse(await req.json().catch(() => null))
   if (!parsedBody.success) {
@@ -660,7 +664,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     }
   }
 
-  const response = NextResponse.json({
+  const fullBody = {
     ...parsed,
     // Deterministic fields win - Claude's own JSON echoes decision_mode and
     // door_class per the OUTPUT SHAPE schema, but those are advisory text,
@@ -680,7 +684,11 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     y_conviction: yGate.yConviction,
     render_resolution: yGate.renderResolution,
     nci_delta: parent?.nciScore != null && receipt ? receipt.nciScore - parent.nciScore : null,
-  })
+  }
+  // Signed-in owners get product fields plus ids (ruling 5, option A); the
+  // full output is read through the owner-gated receipt and brief endpoints.
+  // Test the id explicitly: a null userId must never take the owner branch.
+  const response = NextResponse.json(userId ? shapeForOwner(fullBody) : fullBody)
 
   // NOTE (2026-07-13, trust-contract conformance): the anonymous
   // `arcs_session_id` claim cookie is no longer set here - with no anonymous
