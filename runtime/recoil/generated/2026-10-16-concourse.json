@@ -186,13 +186,13 @@
       "date": "2026-10-19",
       "posterior": {
         "claim": "The CTO is Rapolas Binkys; he likely reviews the take-home as hiring manager.",
-        "evidence": "LinkedIn export (Zach, 2026-10-19): CTO since Oct 2025, 'Lead the centralized technical platform and execution behind every Concourse deployment', including infrastructure, compliance foundation, modules and orchestration. Name heard on the call as 'Rappolis' = Rapolas. Hiring-manager role still not stated by Concourse.",
+        "evidence": "LinkedIn export (Zach, 2026-10-19): CTO since Oct 2025, 'Lead the centralized technical platform and execution behind every Concourse deployment', including infrastructure, compliance foundation, modules and orchestration. Name heard on the call as 'Rappolis' = Rapolas. Hiring-manager role still not stated by Concourse. Zach (2026-10-19, after the call): near-certain from the conversation that the CTO is the hiring manager.",
         "confidence": [
-          0.7,
-          0.8
+          0.85,
+          0.95
         ],
-        "conviction": "MED",
-        "verdict": "NAME CONFIRMED; HM still inference",
+        "conviction": "HIGH",
+        "verdict": "UPGRADE: near-certain (Zach), not stated by Concourse",
         "date": "2026-10-19"
       }
     },
