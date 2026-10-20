@@ -1,5 +1,7 @@
 -- decision_receipt is append-only (backlog row decision-receipt-append-only; Zach approved the rule in chat 2026-10-20,
--- "yes to both", with UPDATE refused as well as DELETE). NOT YET APPLIED: apply only after Zach's go on this file.
+-- "yes to both", with UPDATE refused as well as DELETE). APPLIED 2026-10-20 via apply_migration "decision_receipt_append_only" on
+-- project xbbpiryokswwvcrcutge after Zach's explicit go; proof passed (see the .test.sql file). Receipt
+-- 2026-10-20--receipt-append-only-applied--ZH.
 -- One-way door in practice: once applied, no session can edit or delete a receipt. A wrong receipt is corrected by a new
 -- row whose supersedes column names the receipt_id it replaces. Revert (deliberate, visible):
 --   drop trigger decision_receipt_append_only on public.decision_receipt;

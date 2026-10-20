@@ -169,6 +169,8 @@ against Sprint 5's coverage check (at least 70% by 2026-11-03, else they become 
 `_PATTERNS/2026-10-20-jtbd-s5-preregistration.md`); check it with `python3 scripts/receipt_coverage.py --export`. Matched by any verifier against real git/GitHub/Vercel state —
 anything not verifiable goes in `what_unconfirmed`, never `what_confirmed`. Do not invent field values.
 
+**The ledger is append-only (2026-10-20).** A database trigger refuses UPDATE and DELETE on `decision_receipt`. To correct a receipt, insert a new row whose `supersedes` names the old `receipt_id`; the old row stays. See `runtime/specs/decision-receipt/2026-10-20-append-only.sql`.
+
 An action without a logged receipt is not considered complete, regardless of whether the underlying
 merge/deploy/publish succeeded. This applies to every harness (Claude Code, Hermes, or future) equally.
 
