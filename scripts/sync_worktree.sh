@@ -9,7 +9,7 @@
 # is that dance.
 set -e
 
-STATE_FILES="_INBOX/lattice-drift.jsonl _INBOX/seedbank-drift.jsonl _STATE/snapshot.json public/family-roster.json"
+STATE_FILES="public/family-roster.json"  # _INBOX receipts are gitignored and the hook no longer writes snapshot (2026-10-20)
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 [ "$BRANCH" = "main" ] && { echo "sync_worktree: already on main — nothing to do" >&2; exit 1; }
