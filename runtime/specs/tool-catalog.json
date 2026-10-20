@@ -6,16 +6,16 @@
   "hook": 2,
   "operator": 49,
   "package": 3,
-  "script": 247,
+  "script": 250,
   "skill": 22,
   "workflow": 2
  },
- "total": 342,
+ "total": 345,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 504,
+   "WIRED": 507,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -1301,7 +1301,7 @@
    "kind": "script",
    "name": "lattice_sim.py",
    "path": "scripts/lattice_sim.py",
-   "jtbd": "lattice_sim.py — Structural load test for the superionic goal lattice (ADR-023).",
+   "jtbd": "Goal lattice stalls, clumps or collapses under synthetic load? Run this structural load test of the superionic goal lattice (ADR-023); load-bearing for the Conductor.",
    "invoke": "python3 scripts/lattice_sim.py",
    "state": "WIRED"
   },
@@ -1343,6 +1343,22 @@
    "path": "scripts/librarian_hook.py",
    "jtbd": "librarian_hook: pre-commit WARNING for ADR-088 triggers T2 (uncovered metric) and T3 (new term).",
    "invoke": "python3 scripts/librarian_hook.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "line_brief.py",
+   "path": "scripts/line_brief.py",
+   "jtbd": "line_brief.py: render the child-session brief for assembly-line rows, with the orientation pre-paid.",
+   "invoke": "python3 scripts/line_brief.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "line_triage.py",
+   "path": "scripts/line_triage.py",
+   "jtbd": "line_triage.py: assign each startable backlog row a resolution level (R-1, R0..R4) for the assembly line.",
+   "invoke": "python3 scripts/line_triage.py",
    "state": "WIRED"
   },
   {
@@ -1783,6 +1799,14 @@
    "path": "scripts/recall_coherence_ledger.py",
    "jtbd": "recall_coherence_ledger.py: recall of coherence_sweep's contradiction check on the ledger's claim/delta pairs.",
    "invoke": "python3 scripts/recall_coherence_ledger.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "receipt_coverage.py",
+   "path": "scripts/receipt_coverage.py",
+   "jtbd": "receipt_coverage: share of decision receipts since the Sprint 5 start that carry both job_id and tool_id. Stdlib, read-only.",
+   "invoke": "python3 scripts/receipt_coverage.py",
    "state": "WIRED"
   },
   {
