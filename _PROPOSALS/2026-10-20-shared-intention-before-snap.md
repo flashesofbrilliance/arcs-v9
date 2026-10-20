@@ -307,6 +307,30 @@ It never falls; every sprint states it, and only detector re-runs and outcomes c
 
 Now-ripe set: D0, then D1, D2, D3.
 
+**D0 result (run 2026-10-20 by Claude, same model family as the worker: a pre-score, not proof).**
+Premise under test: "timing is the bottleneck, and pricing risk is the first move."
+Facts used (prod, read-only, 2026-10-20): 271 receipts; provenance real 0, test 189, untagged 82;
+3 outcomes scored by the Accountant; external cohort 11 receipts, 0 closed.
+
+- Red team: the bottleneck is outcomes, not risk. With 0 real-tagged receipts, nothing can learn
+  timing. Of the rows priced, only 2 are one-way doors; the rest are internal and reversible.
+  Building tooling over a 247-row backlog risks entropy masquerading as motion (WORLD.md).
+- Blue team: the underwriter is cheap, read-only, and its first catch was real: the one outbound
+  send in the chain priced as SPECIALTY, which matches the intention (do not strike early). The
+  plumbing test proved outcomes can close.
+- Inverse (how to guarantee the timing intention fails): keep live decisions outside ARCS. That is
+  today's state: the handoff's open decisions (the Amy draft, the George reply, the funnel kill
+  condition due 2026-10-22, the Vico follow-up) have no receipts.
+- Steelman of the alternate onramp: file one receipt per live timing decision this week (sow,
+  rest or strike, with a resolve-by date), close each as it lands. Minutes each; it feeds
+  `receipt-real-interview-closes` directly and tests the intention on real moments.
+- Strawman of the current onramp: pricing a mostly reversible internal backlog before any real
+  decision is on record.
+
+Lean (Zach decides): swap the order. Onramp = real receipts on live decisions (D16 moves from a
+passive arrival to an active step, now). The underwriter stays as the counterweight on one-way rows
+only. D2 onward continue behind it.
+
 **Wrong-onramp tripwires (pre-registered).** The onramp is mostly a two-way door: everything built so
 far is read-only or a proposal, so a wrong onramp costs time, not damage. It is wrong if any fires:
 1. D4 priced triage changes no fate and sharpens none (the underwriter added nothing).
