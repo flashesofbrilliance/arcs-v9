@@ -155,7 +155,11 @@
       "mcp__54572e56-c71b-4661-b211-1825f46eeda1__search_contacts",
       "mcp__54572e56-c71b-4661-b211-1825f46eeda1__search_companies",
       "mcp__54572e56-c71b-4661-b211-1825f46eeda1__lookup",
-      "mcp__8545a323-d874-4ccc-9a66-88dcd8fb9f9d__read_file_content"
+      "mcp__8545a323-d874-4ccc-9a66-88dcd8fb9f9d__read_file_content",
+      "Bash(python3 scripts/backlog_graph.py --json)",
+      "Bash(python3 scripts/jtbd_graph_schema_check.py --mutation-proof)",
+      "Bash(python3 scripts/jtbd_graph_gates.py --mutation-proof)",
+      "Bash(python3 scripts/readiness_packet.py --self-test)"
     ],
     "ask": [
       "Bash(git push:*)"
