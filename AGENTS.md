@@ -172,6 +172,9 @@ merge/deploy/publish succeeded. This applies to every harness (Claude Code, Herm
 > `this-quarter`, `1-3y`} · `stakes` ∈ {`low`, `medium`, `high`, `critical`} · `mode` ∈ {`QUICKMOVE`,
 > `PLAN`, `COURT`}. Anything else is rejected by a CHECK constraint (`QUARTER`/`MEDIUM` failed once).
 > `what_confirmed`, `what_unconfirmed`, `refs` are `text[]`; `event_at` is timestamptz.
+> Optional since 2026-10-20 (`runtime/specs/decision-receipt/2026-10-20-job-tool-ids.sql`): `job_id`
+> (`job:<source>:<key>`) and `tool_id` (`tool:<kind>:<name>`), the JTBD graph atoms the action served and used;
+> CHECK-enforced prefixes, null when none applies. Fill them when the graph named the job or tool.
 >
 > Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
 > or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry
