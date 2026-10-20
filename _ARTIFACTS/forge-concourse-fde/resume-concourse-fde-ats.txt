@@ -1,53 +1,54 @@
 Zach Harris
-Builder who takes a customer problem from first scoping call to a running system
+Forward-deployed builder: from scoping call to production, leaving platform pieces the next deployment reuses
 New York Metro · zach.harris@gmail.com · linkedin.com/in/zharris · github.com/flashesofbrilliance
+Check the work: app.arcs.care (live app) · status.arcs.care (build history) · good.arcs.care (published tools) ·
+github.com/flashesofbrilliance/germinate (tests and CI)
 
-Twenty years of customer-facing product work in regulated settings, the last two building and running a production AI app solo
-with Claude Code. I own the whole arc: discovery with the people who run the process today, requirements that carry the rules
-(SEC and FINRA, HIPAA, GDPR, ADA), the build, and a handoff the customer can run without me. I have sat in the product
-seat, so intake and handoff stay clean between engineer and product owner, and I leave reusable pieces behind so the next
-deployment starts closer to done.
-
+Builder first: for the last two years I have built and run a production AI app solo in TypeScript, Postgres and Claude, with the
+guardrails in code rather than in memory. Before that, twenty years of customer-facing delivery in regulated settings (SEC and
+FINRA, HIPAA, GDPR, ADA), so I can take a problem from the people who run the process today to a system they run without
+me. Product experience means intake and handoff stay clean with the product owner; the build and the platform are where I
+spend my time.
 EXPERIENCE
-ARCS, Founder and Builder                                                                                         2025 to Present
-   Built and run a decision-intelligence app on Claude alone, frontend to database to AI pipeline: Next.js, TypeScript,
-   Postgres, Claude with tool use, a custom Model Context Protocol (MCP) server, and Python tooling. Live app
-   (app.arcs.care); commit history and traces on request.
-   About six months and over 3,500 commits (status.arcs.care). Every change goes through a pull request and pre-commit
-   checks; each new class of failure becomes a permanent check.
-   Built reusable scaffolding: an operators library of over 20,000 lines of Python, a shared UI kit, and tools other people install
-   (a Claude Code plugin marketplace and CLIs on npm and Homebrew, with conformance tests and CI).
-Grayscale Investments (Digital Currency Group), Product Lead, Go-to-Market                                           2024 to 2025
-   Turned SEC and FINRA requirements into product requirements for ten regulated digital-asset products, a portfolio of $7B
-   in assets, coordinating product, engineering, legal, risk, and compliance through release gates.
-   Cut release-cycle time 35 percent with zero SEC or FINRA violations.
-Mañana, Product Partner (independent practice)                                                                    2020 to Present
-   Embedded discovery and delivery for regulated clients: Axon (GovTech discovery and MVP scope for a first-responder
-   video platform), Twill Health (HIPAA; tested three AI-enabled product lines, validated two), GoPro (EMEA and APAC
-   growth under GDPR), Verizon Media (five 5G venture assessments).
-   Current client work runs on ARCS, including an AI chatbot for a manufacturing client that captures leads and routes them
-   into its CRM, verified end to end in a sandbox; go-live in progress.
-Squat New York, Head of Product Innovation and Tech Lead                                                             2019 to 2020
-   Sole product and technology partner, discovery through QA and handoff, on a seven-figure embedded engagement for a PE-
-   backed, $350M ARR behavioral health client. Owned roadmap, backlog, and sprints; worked daily inside the client's
-   engineering, design, clinical, and operations teams; rebuilt the platform with HIPAA and ADA compliance built in and
-   shipped on schedule against a conversion KPI.
-Children's Tumor Foundation, Senior Director, Data and Strategy                                                      2018 to 2019
-   Owned the data layer end to end: platform evaluation, CRM modernization on Salesforce, and one data model across three
-   business units; grew net-new revenue by 20 percent.
-Women's Tennis Association, Head of Product and Strategic Partnerships                                               2016 to 2018
-   Built real-time fan-behavior scoring that ran in under 120 milliseconds, ran load planning ahead of the Finals, and closed
-   the first commercial data partnerships with Twitter and Facebook, worth $850K in the first year.
-IBRShop and Selectable Media (acquired by Meredith), Co-founder; General Manager                                     2010 to 2016
-   Grew a direct-to-consumer brand from zero to more than $2M in revenue in 24 months; as General Manager grew a video
-   ad network from $4,500 to more than $1M a month.
-
+ARCS, Founder and Builder                                                                                        2025 to Present
+  Built and run a decision-intelligence app on Claude alone, frontend to database to AI pipeline: Next.js, TypeScript, Postgres,
+  Claude with tool use, a custom Model Context Protocol (MCP) server, and Python tooling. Live app (app.arcs.care); commit
+  history and traces on request.
+  Platform guardrails as code: each client tenant gets its own Postgres role with row-level security pinned to the tenant, set on
+  the server and failing closed; route and tool inventories are generated from source and fail the commit on drift; merge rules
+  are enforced by repository settings.
+  Ship daily: about six months and over 3,500 commits (status.arcs.care); every change through a pull request and pre-
+  commit checks, and each new class of failure becomes a permanent check.
+  Reusable pieces others install: a Claude Code plugin marketplace and CLIs on npm and Homebrew with conformance tests
+  and CI, plus an operators library of over 20,000 lines of Python and a shared UI kit.
+Grayscale Investments (Digital Currency Group), Product Lead, Go-to-Market                                   2024 to 2025
+  Turned SEC and FINRA requirements into product requirements for ten regulated digital-asset products, a portfolio of $7B
+  in assets, coordinating product, engineering, legal, risk, and compliance through release gates.
+  Cut release-cycle time 35 percent with zero SEC or FINRA violations.
+Mañana, Product Partner (independent practice)                                                                     2020 to Present
+   Embedded discovery and delivery for regulated clients: Axon (GovTech discovery and MVP scope), Twill Health (HIPAA;
+   three AI product lines tested, two validated), GoPro (GDPR), Verizon Media (five 5G assessments). Current work runs on
+   ARCS, including a lead-capture AI chatbot routed into a manufacturer's CRM, sandbox-verified; go-live in progress.
+Squat New York, Head of Product Innovation and Tech Lead                                                       2019 to 2020
+  Sole product and technology partner, discovery through QA and handoff, on a seven-figure embedded engagement for a PE-
+  backed, $350M ARR behavioral health client. Owned roadmap, backlog, and sprints; worked daily inside the client's
+  engineering, design, clinical, and operations teams; rebuilt the platform with HIPAA and ADA compliance built in and
+  shipped on schedule against a conversion KPI.
+Children's Tumor Foundation, Senior Director, Data and Strategy                                              2018 to 2019
+  Owned the data layer end to end: platform evaluation, CRM modernization on Salesforce, and one data model across three
+  business units; grew net-new revenue by 20 percent.
+Women's Tennis Association, Head of Product and Strategic Partnerships                                             2016 to 2018
+  Built real-time fan-behavior scoring that ran in under 120 milliseconds, ran load planning ahead of the Finals, and closed
+  the first commercial data partnerships with Twitter and Facebook, worth $850K in the first year.
+IBRShop and Selectable Media (acquired by Meredith), Co-founder; General Manager                           2010 to 2016
+  Grew a direct-to-consumer brand from zero to more than $2M in revenue in 24 months; as General Manager grew a video
+  ad network from $4,500 to more than $1M a month.
 SKILLS
-Build: TypeScript, Next.js, Python, SQL, Postgres, Prisma, Git and GitHub, CI/CD, pre-commit checks, Vercel, Supabase.
+Build: TypeScript, Next.js, Python, SQL, Postgres (row-level security, per-tenant roles), Prisma, Git and GitHub, CI/CD, pre-
+commit checks, Vercel, Supabase.
 Applied AI: Claude Code daily, Anthropic API, tool use, MCP servers, agentic workflows, evaluation and gating.
 Deployment: customer discovery and scoping, requirements from regulation, integrations (CRM, CDP), runbooks and
 handoff, alignment with non-technical owners.
-
 EDUCATION
 Oberlin College, Bachelor of Arts, Studio Art. MIT xPRO, Designing and Building AI Products and Services. Section4, Certified
 Product Strategist.
