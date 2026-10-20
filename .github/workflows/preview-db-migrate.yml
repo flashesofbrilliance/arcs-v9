@@ -30,20 +30,15 @@ permissions:
 
 jobs:
   schema-dryrun:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:17
-        env:
-          POSTGRES_USER: arcs
-          POSTGRES_PASSWORD: arcs
-          POSTGRES_DB: arcs
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U arcs" --health-interval 5s --health-timeout 5s --health-retries 10
+    runs-on: [self-hosted, arcs-mac]
     env:
-      DATABASE_URL: postgresql://arcs:arcs@localhost:5432/arcs
+      DATABASE_URL: postgresql://arcs:arcs@localhost:55433/arcs
     steps:
+      - name: Start Postgres (docker; service containers are Linux-runner only)
+        run: |
+          docker rm -f arcs-ci-pg-migrate 2>/dev/null || true
+          docker run -d --name arcs-ci-pg-migrate -e POSTGRES_USER=arcs -e POSTGRES_PASSWORD=arcs -e POSTGRES_DB=arcs -p 55433:5432 postgres:17
+          for i in $(seq 1 40); do docker exec arcs-ci-pg-migrate pg_isready -U arcs && exit 0; sleep 2; done; exit 1
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
@@ -67,7 +62,7 @@ jobs:
   # the April SQLite-dialect entries that fail from zero (P3019 — the KNOWN DEBT above). A
   # comment/format-only edit to schema.prisma does not trip it (datamodel-equal → pass).
   schema-has-migration:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     steps:
       - uses: actions/checkout@v7
         with:
@@ -109,7 +104,7 @@ jobs:
 
   migrate-preview:
     needs: schema-dryrun
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     # `if` cannot read secrets directly; the step below exits early when the secret is unset.
     steps:
       - uses: actions/checkout@v7
