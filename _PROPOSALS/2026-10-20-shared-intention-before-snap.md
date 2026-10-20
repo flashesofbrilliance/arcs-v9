@@ -402,6 +402,20 @@ needs two sources from different sites (the uncorrelated-families rule). The pag
 it cannot tell whether a claim is true. So arcs-verb-eval is the mechanical floor for both axes;
 signatures 1, 2, 3 and 6 and the truth states stay judgment, recorded with their evidence.
 
+REUSE from resume-tailor (resume-tailor.arcs.care, `public/resume-tailor.html`; Zach's private
+overlay skill `resume-tailor-zach`), same problem shape (nothing written past its evidence):
+- Checkability grade, three tiers: documented, self-reported, unverifiable. Maps onto the truth
+  axis (confirmed; circumstantial or probable; unknown) and is already field-tested on real sends.
+- Record of record: one source outranks the others (LinkedIn export over old resumes, "your own
+  say-so"). Here: prod tables and git outrank handoff prose and memory.
+- Evidence ledger plus lint: `evidence.jsonl` (one pattern and source per number) checked by
+  `scripts/provenance_lint.py --ledger`. Its known blind spot is banked: it misses claims with no
+  digit, so a gauntlet runs after it. Same pairing here: lint for numbers, judgment for the rest.
+- Stress-test flags become prep: what cannot be defended becomes the pre-mortem list (domino D7).
+- Red-team rule: only true hits change a word; edits are subtractive, never puffed. Here: a
+  validator's dissent changes the plan only if it survives the evidence rule.
+- "Say which stages ran and which skipped": every sprint receipt states the passes it ran.
+
 **Self-deception guard: a hardening floor on every recommendation (Zach, 2026-10-20).**
 The system can talk itself into a route. Rule: a lean may be no more confident than the evidence
 state of the claims it rests on, and the bar rises with the climb.
