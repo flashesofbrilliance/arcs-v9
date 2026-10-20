@@ -249,6 +249,21 @@ Mapping (REUSE: the I.D.E.A. and Staff of Chiefs agents in `.claude/agents/`, al
   step, the same pattern as oracle numbering. Sprint ids: GAP, `scripts/oracle.py` has namespaces
   adr, handoff, seed, tao only; adding `sprint` is a small change, Zach's call.
 
+**Second wrapper: hyperstition (Zach, 2026-10-20).** Two wrappers, picked per sprint by its job:
+
+| | I.D.E.A. | Hyperstition (ROM 3) |
+|---|---|---|
+| Job | de-risk: kill a wrong claim cheaply | make: bring an artifact into being |
+| Stages | librarian, alchemist, detective, curator, work, three validators, conductor | ethereal (the vision, stated), Loki test, receipt evaluation, ROM (graduate or compost) |
+| Exit | the falsifiable claim survived its cheapest attack | one S-tier, diamond-cut apex artifact that passes its own gates |
+| Fails as | analysis paralysis | a beautiful artifact nobody needed |
+
+Guard on "diamond cut": earned fidelity, not maximal (memory `earned-fidelity-not-maximal-diamond-cut`).
+The apex is cut only as fine as its evidence supports, and its gates are the repo's own
+(page_gate, artifact_wrap_lint, the counterpart gauntlet where it goes outward). A sprint may chain
+the two: I.D.E.A. first to find what is true, hyperstition second to make it real. GAP: no field
+on the row says which wrapper; proposed `wrapper: idea | hyperstition | both`.
+
 Known limits, stated now:
 - The validator seats are the same model family as the worker (memory
   `control-integrity-described-vs-wired`). Loki and Bayesian are pre-scores; the outside check is
