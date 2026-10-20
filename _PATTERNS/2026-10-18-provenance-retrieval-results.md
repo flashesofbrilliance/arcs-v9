@@ -53,6 +53,21 @@ Its flags, none of which change a verdict:
 - Whether the S timing is a cached lookup was not checked by the skeptic from the files; the timing harness counts warm passes only, as registered.
 - Lint and S agree on all 36 speaker cases; they may share a code path, so H9 shows equivalence, not independence.
 
-## Pending
+## Addendum 2026-10-20: H8 measured (Librarian lineage index)
 
-H8 (Librarian lineage index against brute force) has not run. The machine was under memory pressure and load above 15 at the last check, and the registration requires a quiet machine. It will be published as an addendum, run once. Librarian draft PR #1588 merges only if H8 passes.
+Run once with `scripts/provenance_bench_run.py h8` and scored by the frozen `scripts/provenance_bench_score.py`.
+
+| Measure | Registered bar | Measured | Verdict |
+|---|---|---|---|
+| Lineage share of `recommend()` wall time | at least 50% | 80.5% | PASS |
+| In-degree mismatches | 0 | 0 | PASS |
+| Wall time, same-session before to after | at most 3.7 s and at least 15% cut | 5.15 s to 1.55 s, 69.9% cut | PASS |
+| Time-versus-candidates exponent | at most 1.2 | 1.183 | PASS, close to the bar |
+
+H8 PASS. The registered rule applies: the draft Librarian change (PR 1588) may merge. Merging stays Zach's call.
+
+Disclosures, none of which I think changes the verdict:
+- The pool was 2,677 candidates with 1,147 receipts loaded, not the 854 receipts in the registration, because the receipts universe grew before the run. The before-and-after comparison is in one session, so growth cancels, but the absolute 3.7 s bar was set for the smaller pool.
+- The first attempt crashed before measuring, on a Python 3.9 dataclass lookup in `load_librarian`. The fix (register the module in `sys.modules` before executing it) is one line and does not touch the measurement. It is committed with this addendum.
+- Machine state at start: load 2.7 (bar 3), swap about 90% full, no browser tests running. The exponent margin (1.183 against 1.2) is small enough that a noisy machine could flip it; I did not rerun, to keep one run.
+- The audit trail: `h8.json` joins the published results with its checksum. The independent re-score by a second agent was not repeated for H8.
