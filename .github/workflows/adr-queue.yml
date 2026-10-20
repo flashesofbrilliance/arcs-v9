@@ -8,7 +8,7 @@ on:
 
 jobs:
   process-adr:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     permissions:
       contents: write
 

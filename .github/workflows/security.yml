@@ -70,7 +70,7 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.actor != 'dependabot[bot]' &&
       (github.event.action != 'labeled' || github.event.label.name == 'security-review')
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     steps:
       - name: Checkout
         uses: actions/checkout@v7

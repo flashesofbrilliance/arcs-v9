@@ -38,7 +38,7 @@ permissions:
 jobs:
   advisory:
     if: github.event.pull_request.draft != true
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     steps:
       - uses: actions/checkout@v7
         with:
