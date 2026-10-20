@@ -196,7 +196,7 @@ The snap list gets a counterweight that prices risk before a fate is picked.
   the same unreviewed rollback text, one detector's false positives) are correlated; pricing them
   one by one undercounts. v1 groups rows by shared source and prices the group's worst case once.
 
-## 6. Build order with nested dependencies (hardened 2026-10-20)
+## 4e. Build order with nested dependencies (hardened 2026-10-20)
 
 Serial by default. Each step names what it needs (entry), what proves it done (exit), and what
 it unblocks. "Needs" is a hard edge; a step never starts before its entry holds.
