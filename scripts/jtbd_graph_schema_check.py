@@ -12,6 +12,7 @@ import json, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCHEMA = os.path.join(ROOT, "runtime/specs/jtbd-graph-schema.json")
 FIX = os.path.join(ROOT, "runtime/specs/fixtures/jtbd-graph")
+FIX_ROOT = os.path.join(FIX, "root")  # frozen sources the fixtures cite; live catalogs regenerate
 
 
 DISABLED = set()  # mutation proof only
@@ -191,15 +192,15 @@ def self_test(schema, missed=None):
     for x in f: print("   ", x)
     ok &= not f
     gk = json.load(open(os.path.join(FIX, "good-keylookup.json")))
-    f = check(gk, schema, ROOT)
+    f = check(gk, schema, FIX_ROOT)
     print(f"good-keylookup.json (with --root): {'PASS' if not f else 'FAIL'} ({len(f)} findings)")
     for x in f: print("   ", x)
     ok &= not f
     for name in sorted(os.listdir(FIX)):
-        if not name.startswith("bad-"): continue
+        if not name.startswith("bad-") or not name.endswith(".json"): continue
         bad = json.load(open(os.path.join(FIX, name)))
         expect = bad.pop("_expect")
-        f = check(bad, schema, ROOT if bad.pop("_root", False) else None)
+        f = check(bad, schema, FIX_ROOT if bad.pop("_root", False) else None)
         hit = any(x.startswith(expect) for x in f)
         if missed is not None and not hit:
             missed.add(expect)
