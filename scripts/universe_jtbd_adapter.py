@@ -445,6 +445,11 @@ def edge_self_test():
                  ("operators/o.py", '# python3 scripts/a.py', 0),
                  ("scripts/r.sh", 'python3 scripts/a.py --check', 1),
                  ("scripts/r.sh", 'echo "run python3 scripts/a.py"', 0),
+                 ("scripts/r.sh", 'if ! python3 scripts/a.py --check; then', 1),
+                 ("scripts/git-hooks/pre-commit", 'if ! python3 scripts/a.py --check; then', 1),
+                 ("scripts/git-hooks/pre-commit", '# Fix: python3 scripts/a.py, re-stage.', 0),
+                 ("scripts/git-hooks/pre-commit", '  echo "  run python3 scripts/a.py" >&2', 0),
+                 ("scripts/git-hooks/pre-commit", 'if [ -f scripts/a.py ]; then', 0),
                  (".claude/commands/c.md", 'Run `python3 scripts/a.py` first.', 1),
                  (".claude/commands/c.md", 'Queue produced by scripts/a.py nightly.', 0)]
         rt = lambda x: [c for c in ge.ROUTE_LIST.split(x) if not ge.ROUTE_HEDGE.search(c)
@@ -479,6 +484,11 @@ def edge_self_test():
             Ls = src.split("\n"); m = ge.ENV_RE.search(Ls[0])
             got = ge.env_hard(Ls, 0, "index" if m.group(4) or m.group(2) else "get")
             print(f"env-read case {Ls[0][:44]!r}: {'ok' if got == want else 'WRONG'}")
+            ok &= got == want
+        for src, want in (('U = os.environ["DATABASE_URL"]', False), ("w.write('U = os.environ[\"DATABASE_URL\"]')", True),
+                          ('x = f"{os.environ[\'DATABASE_URL\']}"', False)):
+            got = ge._in_string(src, ge.ENV_RE.search(src).start())
+            print(f"env read inside a string literal {src[:40]!r}: {'ok' if got == want else 'WRONG'}")
             ok &= got == want
         for txt, want in (("Run scripts/a.py --check first.", 1), ("Same lesson as the /rca capture step.", 0),
                           ("x was superseded by scripts/a.py.", 0), ("Removed: 11 cites whose target now exists (a.py).", 0),

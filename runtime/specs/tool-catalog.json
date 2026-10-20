@@ -3,19 +3,19 @@
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
   "command": 17,
-  "hook": 2,
+  "hook": 3,
   "operator": 49,
   "package": 3,
-  "script": 247,
+  "script": 248,
   "skill": 22,
   "workflow": 2
  },
- "total": 342,
+ "total": 344,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 504,
+   "WIRED": 505,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -423,6 +423,14 @@
    "path": ".claude/hooks/session-start.sh",
    "jtbd": "SessionStart hook — ARCS v9",
    "invoke": "(automatic — hook)",
+   "state": "WIRED"
+  },
+  {
+   "kind": "hook",
+   "name": "pre-commit",
+   "path": "scripts/git-hooks/pre-commit",
+   "jtbd": "pre-commit — oracle guard: reject a commit that introduces a DUPLICATE ADR number.",
+   "invoke": "(automatic — git hook)",
    "state": "WIRED"
   },
   {
@@ -1783,6 +1791,14 @@
    "path": "scripts/recall_coherence_ledger.py",
    "jtbd": "recall_coherence_ledger.py: recall of coherence_sweep's contradiction check on the ledger's claim/delta pairs.",
    "invoke": "python3 scripts/recall_coherence_ledger.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "receipt_coverage.py",
+   "path": "scripts/receipt_coverage.py",
+   "jtbd": "receipt_coverage: share of decision receipts since the Sprint 5 start that carry both job_id and tool_id. Stdlib, read-only.",
+   "invoke": "python3 scripts/receipt_coverage.py",
    "state": "WIRED"
   },
   {
