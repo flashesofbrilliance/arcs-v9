@@ -1164,9 +1164,9 @@
   {
    "kind": "script",
    "name": "forge_finalize.sh",
-   "path": "scripts/forge_finalize.sh",
+   "path": "scripts/_archive/forge_finalize.sh",
    "jtbd": "forge_finalize.sh <jobid> <slug> <actual_tokens> \"<note>\" — mechanical close of a light-tier forge run:",
-   "invoke": "scripts/forge_finalize.sh",
+   "invoke": "scripts/_archive/forge_finalize.sh",
    "state": "INSTALLED-UNUSED"
   },
   {
@@ -1260,9 +1260,9 @@
   {
    "kind": "script",
    "name": "gravity_well_fork_scan.py",
-   "path": "scripts/gravity_well_fork_scan.py",
+   "path": "scripts/_archive/gravity_well_fork_scan.py",
    "jtbd": "gravity_well_fork_scan — the ziggurat decomposition detector.",
-   "invoke": "python3 scripts/gravity_well_fork_scan.py",
+   "invoke": "python3 scripts/_archive/gravity_well_fork_scan.py",
    "state": "WIRED"
   },
   {
@@ -1596,9 +1596,9 @@
   {
    "kind": "script",
    "name": "nftt_dropcap_lint.py",
-   "path": "scripts/nftt_dropcap_lint.py",
+   "path": "scripts/_archive/nftt_dropcap_lint.py",
    "jtbd": "nftt_dropcap_lint.py — catch the drop-cap \"eats the space\" render bug.",
-   "invoke": "python3 scripts/nftt_dropcap_lint.py",
+   "invoke": "python3 scripts/_archive/nftt_dropcap_lint.py",
    "state": "INSTALLED-UNUSED"
   },
   {
@@ -1980,9 +1980,9 @@
   {
    "kind": "script",
    "name": "risk_sweep_cron.sh",
-   "path": "scripts/risk_sweep_cron.sh",
+   "path": "scripts/_archive/risk_sweep_cron.sh",
    "jtbd": "risk_sweep_cron.sh - zero-token nightly entry for scripts/risk_sweep.py.",
-   "invoke": "scripts/risk_sweep_cron.sh",
+   "invoke": "scripts/_archive/risk_sweep_cron.sh",
    "state": "WIRED"
   },
   {
@@ -2012,9 +2012,9 @@
   {
    "kind": "script",
    "name": "second_pass_ledger.py",
-   "path": "scripts/second_pass_ledger.py",
+   "path": "scripts/_archive/second_pass_ledger.py",
    "jtbd": "Second-pass validator for the 2026 rejection ground-truth ledger.",
-   "invoke": "python3 scripts/second_pass_ledger.py",
+   "invoke": "python3 scripts/_archive/second_pass_ledger.py",
    "state": "INSTALLED-UNUSED"
   },
   {
@@ -2116,9 +2116,9 @@
   {
    "kind": "script",
    "name": "snapshot_prune_ui_artifacts.py",
-   "path": "scripts/snapshot_prune_ui_artifacts.py",
+   "path": "scripts/_archive/snapshot_prune_ui_artifacts.py",
    "jtbd": "snapshot_prune_ui_artifacts.py — keep _STATE/snapshot.json `ui_artifacts` honest.",
-   "invoke": "python3 scripts/snapshot_prune_ui_artifacts.py",
+   "invoke": "python3 scripts/_archive/snapshot_prune_ui_artifacts.py",
    "state": "WIRED"
   },
   {

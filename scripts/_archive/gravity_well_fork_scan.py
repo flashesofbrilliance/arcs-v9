@@ -18,9 +18,9 @@ High-value SINGLE-repo net-news (e.g. the Norse stack: 8 members, 1 repo) do NOT
 fork on mass×gravity — their pull is value, not cross-domain mass; they graduate
 via the ESCALATE→promotion path instead. That distinction is intentional.
 
-Usage:  python3 scripts/gravity_well_fork_scan.py <folksonomy.json> [--emit]
+Usage:  python3 scripts/_archive/gravity_well_fork_scan.py <folksonomy.json> [--emit]
         --emit appends fork items to _INBOX/canon-propagation-queue.json.
-        python3 scripts/gravity_well_fork_scan.py --self-test
+        python3 scripts/_archive/gravity_well_fork_scan.py --self-test
 Without --emit it is read-only. Stdlib only. Exit 0 on success; 2 on a bad
 command line (unknown flag, extra or missing positional).
 """

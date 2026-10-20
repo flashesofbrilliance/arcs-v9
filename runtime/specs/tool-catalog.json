@@ -7,30 +7,22 @@
   "hook": 3,
   "operator": 46,
   "package": 3,
-  "script": 252,
+  "script": 246,
   "skill": 22,
   "workflow": 2
  },
- "total": 367,
+ "total": 361,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 508,
+   "WIRED": 504,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
+   "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "integrity_gate_selftest.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -1228,14 +1220,6 @@
   },
   {
    "kind": "script",
-   "name": "forge_finalize.sh",
-   "path": "scripts/forge_finalize.sh",
-   "jtbd": "forge_finalize.sh <jobid> <slug> <actual_tokens> \"<note>\" — mechanical close of a light-tier forge run:",
-   "invoke": "scripts/forge_finalize.sh",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
    "name": "forge_finalize_one.sh",
    "path": "scripts/forge_finalize_one.sh",
    "jtbd": "forge_finalize_one.sh <jobid> <slug> <tokens> \"<note>\" — lean per-bundle close:",
@@ -1320,14 +1304,6 @@
    "path": "scripts/github_ingest.py",
    "jtbd": "github_ingest.py — plug-and-play GitHub → ARCS Observatory dataset builder.",
    "invoke": "python3 scripts/github_ingest.py",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "gravity_well_fork_scan.py",
-   "path": "scripts/gravity_well_fork_scan.py",
-   "jtbd": "gravity_well_fork_scan — the ziggurat decomposition detector.",
-   "invoke": "python3 scripts/gravity_well_fork_scan.py",
    "state": "WIRED"
   },
   {
@@ -1424,7 +1400,7 @@
    "path": "scripts/integrity_gate_selftest.py",
    "jtbd": "Fixtures for integrity_gate.py matcher fixes: directory ancestors and placeholder-truncated cites.",
    "invoke": "python3 scripts/integrity_gate_selftest.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1728,14 +1704,6 @@
    "path": "scripts/nftt_contrast_ratchet.py",
    "jtbd": "nftt_contrast_ratchet: an HONEST low-contrast gate for the NFTT dark-theme pages.",
    "invoke": "python3 scripts/nftt_contrast_ratchet.py",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "nftt_dropcap_lint.py",
-   "path": "scripts/nftt_dropcap_lint.py",
-   "jtbd": "nftt_dropcap_lint.py — catch the drop-cap \"eats the space\" render bug.",
-   "invoke": "python3 scripts/nftt_dropcap_lint.py",
    "state": "WIRED"
   },
   {
@@ -2124,14 +2092,6 @@
   },
   {
    "kind": "script",
-   "name": "risk_sweep_cron.sh",
-   "path": "scripts/risk_sweep_cron.sh",
-   "jtbd": "risk_sweep_cron.sh - zero-token nightly entry for scripts/risk_sweep.py.",
-   "invoke": "scripts/risk_sweep_cron.sh",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
    "name": "risk_underwriter.py",
    "path": "scripts/risk_underwriter.py",
    "jtbd": "risk_underwriter.py: price each induced-backlog row's risk. Read-only, stdlib, no model calls.",
@@ -2168,14 +2128,6 @@
    "path": "scripts/scout_dossier_ingest.py",
    "jtbd": "Perplexity scout intake: validate a role dossier in _INBOX/evidence/ and map it onto the jobs board.",
    "invoke": "python3 scripts/scout_dossier_ingest.py",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "second_pass_ledger.py",
-   "path": "scripts/second_pass_ledger.py",
-   "jtbd": "Second-pass validator for the 2026 rejection ground-truth ledger.",
-   "invoke": "python3 scripts/second_pass_ledger.py",
    "state": "WIRED"
   },
   {
@@ -2272,14 +2224,6 @@
    "path": "scripts/smoke.sh",
    "jtbd": "scripts/smoke.sh — ADR-016 acceptance gate",
    "invoke": "scripts/smoke.sh",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "snapshot_prune_ui_artifacts.py",
-   "path": "scripts/snapshot_prune_ui_artifacts.py",
-   "jtbd": "snapshot_prune_ui_artifacts.py — keep _STATE/snapshot.json `ui_artifacts` honest.",
-   "invoke": "python3 scripts/snapshot_prune_ui_artifacts.py",
    "state": "WIRED"
   },
   {
