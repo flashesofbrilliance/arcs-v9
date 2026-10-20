@@ -285,12 +285,13 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 |---|---|---|---|
 | D0 | Onramp check: is this the right problem? Red team, blue team, inverse, then steelman vs strawman of the premise "timing is the bottleneck, and pricing risk is the first move" | now, before D2; one pass, about 30 min | confirms or swaps the onramp; every later domino inherits its answer |
 | D1 | DECIDED (Zach 2026-10-20): the intention test fires by default on the next `/fold` or `scripts/unfold.py` run that adds 10 or more rows, with an override switch: Zach may fire it now on any backlog, skip one trigger, or change the threshold; each use of the switch is logged with his reason, so the default stays honest [14] | default event, or Zach's override | nothing else waits on it; it stops the test from quietly never running |
-| D2 | Steelman the 10 DRAFT covers [2] | now, Zach in chat, one row at a time | D4, D8 |
+| D1b | Defensive structural scan (Zach 2026-10-20: weaknesses first, defensive before offensive): for each of the 10 rows with DRAFT cover, list its weak joints and failure modes (detective pass, one line each) | now, before D2; cheap, no fate needed | D2 attacks known weak joints instead of guessing |
+| D2 | Steelman the 10 DRAFT covers against the D1b weak joints [2] | now, Zach in chat, one row at a time | D4, D8 |
 | D3 | Ship ruling on PR #1695 [1] | now, Zach | D5, D6, D9 (other sessions and Hermes can run the tool) |
 | D4 | Priced triage: fate the five rows | D2 done for those rows | D7 for the one-way rows |
 | D5 | DONE in PR #1698: Accountant scoreboard prints synthetic_excluded [12] | D3 merged (same review rhythm), any session | honest weekly output |
 | D6 | Exposure passes down from one-way blockers [6] | D3 merged | correct prices on chains |
-| D7 | Pre-mortem and recovery spec files for the one-way rows | D4 fate is not drop | SPECIALTY riders on file |
+| D7 | Offensive pre-mortem (best, base, worst) and recovery spec files for the one-way rows, building on D1b | D4 fate is not drop | SPECIALTY riders on file |
 | D8 | Ruin bands for the remaining 256 rows, in batches of about 25 [9] | D2 done (a reviewed cover makes the band honest) | D10, D11; kill rule check: if most land low, stop the line at D7 |
 | D9 | Sprint id namespace in `scripts/oracle.py` [3] | D3 merged and Zach says yes | D12 |
 | D10 | Shared ledger for pathogen and repair loading [5] | D8 at least half done | D11, PR #1694 section 5 policy update |
@@ -305,7 +306,7 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 Not a domino (a standing limit): the validator seats are the same model family as the worker [11].
 It never falls; every sprint states it, and only detector re-runs and outcomes count as outside proof.
 
-Now-ripe set: D0, then D1, D2, D3.
+Now-ripe set: D1b, then D2 and D3 (D0 and D1 done).
 
 **D0 result (run 2026-10-20 by Claude, same model family as the worker: a pre-score, not proof).**
 Premise under test: "timing is the bottleneck, and pricing risk is the first move."
