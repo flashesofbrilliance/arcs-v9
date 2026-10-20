@@ -27,17 +27,17 @@
   "corpus": 30,
   "canon": 4,
   "codebase": 50,
-  "files": 253
+  "files": 256
  },
  "systems": {
-  "runtime": 152,
+  "runtime": 154,
   "src": 47,
   "_ARTIFACTS": 29,
   ".claude": 10,
   "tools": 5,
   "_DECISIONS": 4,
   "scripts": 3,
-  "_ARCHIVE": 1,
+  "_ARCHIVE": 2,
   "_HANDOFFS": 1,
   "_STATE": 1
  },
@@ -53,6 +53,7 @@
   ".claude/skills/thread-recoil/SKILL.md",
   ".claude/workflows/recoil-report.mjs",
   "_ARCHIVE/fanatics-pages/arcs_recoil_cj_masopust.png",
+  "_ARCHIVE/ret-takehome-2026-10/2026-10-12-ret-takehome-recoil.md",
   "_ARTIFACTS/2026-08-21-scott-recoil.md",
   "_ARTIFACTS/atlas/digest-recoil.json",
   "_ARTIFACTS/forensic-recoil-2026-08-27/CANON_INDEX-baseline.md",
@@ -158,6 +159,8 @@
   "runtime/recoil/generated/2026-10-03-oh-vico.json",
   "runtime/recoil/generated/2026-10-08-myallyld-jacobson-starks.md",
   "runtime/recoil/generated/2026-10-08-myallyld.json",
+  "runtime/recoil/generated/2026-10-13-suttie.json",
+  "runtime/recoil/generated/2026-10-16-concourse.json",
   "runtime/recoil/generated/demo.json",
   "runtime/recoil/generated/pilot-court-todd-hotes-2026-07-13.json",
   "runtime/recoil/generated/precall-ayesha-khan-toronto-2026-07-17.json",
