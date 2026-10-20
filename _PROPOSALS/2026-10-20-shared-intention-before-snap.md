@@ -266,10 +266,10 @@ backlog). The map is updated as each step lands; the date above changes with it.
 
 ```
 backlog-fate-triage-2026-10-18        READY    needs human   tool HAVE      no deps
-receipt-randomized-plumbing-closes    HOLDING  RIPE          tool HAVE
+receipt-randomized-plumbing-closes    DONE     proven 2026-10-20 (5 synthetic closes, seed 20261020)
   receipt-test-real-tag               DONE
-receipt-real-interview-closes         HOLDING  waiting       tool NOT-RESOLVED
-  receipt-randomized-plumbing-closes  (above)
+receipt-real-interview-closes         HOLDING  now unblocked tool NOT-RESOLVED
+  receipt-randomized-plumbing-closes  DONE
 accountant-real-cohort-calibration    HOLDING  waiting       tool HAVE
   accountant-calibration-curve        HOLDING  waiting
     accountant-external-cohort-nonzero HOLDING waiting
@@ -278,6 +278,8 @@ accountant-real-cohort-calibration    HOLDING  waiting       tool HAVE
   receipt-real-interview-closes       (above)
 handoff-open-items-closes-when        OPEN     needs human   tool HAVE      no deps
 ```
+
+Step log: 2026-10-20 plumbing proven; finding: accountant_weekly.py does not print synthetic_excluded (5 here), so the exclusion is invisible in the weekly scoreboard.
 
 Kintsugi seam: the first draft of this chain (in chat) said to release a stale claim on
 receipt-test-real-tag first. That came from the 2026-10-18 handoff; the live row is DONE. The
