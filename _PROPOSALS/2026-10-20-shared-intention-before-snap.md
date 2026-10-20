@@ -108,6 +108,31 @@ the mirror also picked. Large disagreement is the useful reading, not a fault. R
 output of `backlog_graph.py` already emits the graph; the ring layout is a GAP (no new dependency;
 plain SVG or the existing DOT path).
 
+## 4b. Altitude drill-down (Zach, 2026-10-20)
+
+The intention is shown at four horizons side by side (today, this week, this quarter, 12 months;
+12 months records as `1-3y`, the nearest receipt horizon). Each horizon drills down by altitude:
+
+| Altitude | Unit | What it holds |
+|---|---|---|
+| Exec | epoch | the intention at that horizon |
+| Strategic | milestone | the outcome that shows the intention landed |
+| Operational | sprint | the bounded run of work toward the milestone |
+| Tactical | issue | one backlog row with its blockers, dependencies, configs, risks and failure modes (Zach) |
+| Surgical | spec | the decomposition of that issue into steps (Zach) |
+
+Tactical fields already on the rows (counts out of 324, 2026-10-20): blockers and dependencies =
+`depends_on` (167) and `unblocks` (157), REUSE via backlog_graph.py; configs = `route` (303) and
+`needs` (53), REUSE; risks = `ruin` (58), `door` (29), `gates` (303), REUSE; failure modes =
+`abort` (10) and `rollback` (10), REUSE but thin. GAP: no field names failure modes directly,
+and most rows lack abort and rollback.
+
+Surgical has no home on the row: only 2 rows carry `next_action`. GAP: where the decomposition
+lives (inline list on the row, or a linked spec file). Zach's call.
+
+Short horizons skip high altitudes (a day has no milestone). Row placement in the grid is never
+a ranking; examples in the 2026-10-20 sketch were illustrative only and are not core picks.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
