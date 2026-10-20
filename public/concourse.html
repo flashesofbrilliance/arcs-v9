@@ -338,6 +338,7 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
       <p class="take">Links first, then where my record is strong, solid or still growing.</p>
       <dl class="map">
         <div><dt>The build, measured</dt><dd><a href="https://status.arcs.care">status.arcs.care</a>: build history read from the repository, about six months and over 3,500 commits.</dd></div>
+        <div><dt>Platform guardrails</dt><dd>Rules live where they cannot be skipped. Merge commits are enforced by the repository's own settings. Route, tool and operator inventories are generated from source, and a check fails the commit when they drift from it. Each client tenant gets its own Postgres role with row-level security pinned to that tenant, set on the server, failing closed if its secret is missing. Known gap: my own app's user data still relies on filtering in code; moving it to row-level security is next.</dd></div>
         <div><dt>How I ship</dt><dd>Every change goes through a pull request and pre-commit checks before it merges; merges keep each commit. Public example with conformance tests and CI: <a href="https://github.com/flashesofbrilliance/germinate">germinate</a>. More public repositories: <a href="https://github.com/flashesofbrilliance">github.com/flashesofbrilliance</a>. The main repository is private; walkthrough on request.</dd></div>
         <div><dt>Tools other people install</dt><dd><a href="https://good.arcs.care">good.arcs.care</a>: a Claude Code plugin marketplace plus CLI tools on npm and Homebrew.</dd></div>
         <div><dt>The product</dt><dd><a href="https://app.arcs.care">app.arcs.care</a>: live, behind sign-in.</dd></div>
@@ -374,6 +375,7 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
           <div><b>Stop rule</b>If data access is not granted by day 20, escalate to the director that week instead of building on sample data.</div>
         </div>
       </div>
+      <p style="margin-top:14px">The full plan, with best, base and worst cases, a pre-mortem, the critical path and scope guardrails: <a href="/plan">concourse.arcs.care/plan</a>.</p>
     </section>
 
     <section class="wide" id="gaps">
