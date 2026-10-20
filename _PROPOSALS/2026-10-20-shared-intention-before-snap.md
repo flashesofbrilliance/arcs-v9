@@ -357,6 +357,46 @@ heading change. Banked here until the repo-wide ledger (domino D10) exists.
 
 Gap: these lines live in a proposal, not a ledger a detector can re-read. D10 is where they move.
 
+## 4i. Evidence rule for the validators: truth axis plus provenance axis (Zach, 2026-10-20)
+
+Truth axis, one state per claim, each earned by its own test:
+
+| State | Earned by |
+|---|---|
+| Confirmed true | a resolving source shows it; anyone can re-run it |
+| Confidently false | the opposite shown, or a falsifier written before the check fired; absence counts only after every place it could live was searched (memory `false-null-requires-provenance-exhaustion`) |
+| Circumstantially true, not provable | at least two uncorrelated source families agree, none contradicts, the reason proof cannot exist is stated, and a re-check date is set (memory `defeasible-warrant-freshness-horizon-and-defeater-triggers`) |
+| Probable | best explanation; the cheapest test that would move it is named |
+| Unknown | stated as unknown, never filled |
+
+Liveness (live or moot) stays a separate axis (memory `claim-exit-lattice-falsification-truth-axis-vs-mootness-liveness-axis`).
+
+Provenance axis (Zach: a truth constructed to look credible, synthesized to make the receiver
+believe it is not a false positive). Classified by chain of custody, never by guessed intent:
+intent is unknowable from the artifact, and the same signature comes from deliberate fabrication,
+from model confabulation, and from self-deception.
+
+| Provenance state | Meaning |
+|---|---|
+| Witnessed | captured at the moment by the source itself (memory `witness-trigger-attest-in-the-moment`) |
+| Reconstructed | written after the fact by someone who was there; labeled as such |
+| Relayed | passed through an intermediary; the original speaker is named (ADR-033 ventriloquy guard) |
+| Unattested | no chain of custody; carries zero weight however credible it reads (memory `hermes-attestations-carry-zero-evidentiary-weight`) |
+| Counterfeit suspected | chain of custody broken AND a counterfeit signature present |
+
+Counterfeit signatures (each a cheap check; two or more together raise the flag):
+1. Temporal paradox: the evidence predates its own cause (memory `pathogen-detection-via-temporal-paradox-pre-merge`).
+2. Too tidy: a clean reversal or perfect fit with no loose ends (memory `coherence-is-not-correctness-suspect-the-tidy-reversal`).
+3. One source wearing many hats: "independent" confirmations trace to one origin.
+4. Self-citation loop: the evidence cites the claim, or its own author.
+5. Unresolvable reference: an id, sha, URL or quote that does not resolve when checked.
+6. Stamped preference: a decision presented as the human's revealed preference that the human
+   never stated (memory `counterfeit-system2-fabrication-stamped-as-revealed-preference`).
+
+A counterfeit-suspected claim drops to Unknown on the truth axis, is never scored, and gets a seam
+line. Rule for Claude itself: its own unverified output is Reconstructed at best, never Witnessed.
+GAP: neither axis is a field on receipts yet; today both squash into `what_unconfirmed`.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
