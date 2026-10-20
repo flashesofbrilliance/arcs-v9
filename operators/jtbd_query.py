@@ -18,8 +18,10 @@ Ranking, fixed before any s4 run (no weight was tuned on an s4 query; amendment 
   4. Assembly = tools scoring at least 0.6 x the top score, at most 5, at least 1.
 
   python3 operators/jtbd_query.py "job text"      # print the answer JSON
+  python3 operators/jtbd_query.py --lookup "job"  # what /catalog and /prior-art call: freshness check, fallback, text
   python3 operators/jtbd_query.py --self-test     # fixture: right tool first, budget held, blockers and closure found
-Stdlib only. Reads _STATE/jtbd-graph/graph.json; builds it with scripts/universe_jtbd_adapter.py when missing.
+Stdlib only. Reads _STATE/jtbd-graph/graph.json; rebuilds it with scripts/universe_jtbd_adapter.py when missing or
+older than any source catalog (SOURCES), and never serves a stale graph: lookup() falls back and says why.
 """
 import collections, json, math, os, re, subprocess, sys, tempfile
 
@@ -81,12 +83,123 @@ def _read(path, n=1200):
         return ""
 
 
-def load_graph(root):
-    p = os.path.join(root, GRAPH)
-    if not os.path.exists(p):
-        subprocess.run([sys.executable, os.path.join(root, "scripts/universe_jtbd_adapter.py")], cwd=root,
-                       stdout=subprocess.DEVNULL, check=False)
-    return json.load(open(p, encoding="utf-8"))
+# Source catalogs the adapter reads (scripts/universe_jtbd_adapter.py docstring + jtbd_graph_edges.py). A graph
+# older than the newest of these is stale. Folders count by their newest *.md (memory, _PATTERNS).
+SOURCES = (TOOLS, REG, "runtime/specs/surface-catalog.json", "package.json", "_QUEUE/induced-backlog.jsonl",
+           "AGENTS.md", "src/lib/env.ts", "runtime/specs/jtbd-graph-inferred-edges.json",
+           "runtime/specs/jtbd-graph-schema.json", "runtime/specs/jtbd-label-sample-20261018.json")
+# Edges are also mined from each atom's own file (jtbd_graph_edges reads tool sources), so every atom path in the
+# graph counts as a source too (graph_status reads them from the graph itself).
+SOURCE_DIRS = ("_PATTERNS",)
+
+
+def _mtime(p):
+    try:
+        return os.path.getmtime(p)
+    except OSError:
+        return 0.0
+
+
+def _atom_paths(root):
+    try:
+        g = json.load(open(os.path.join(root, GRAPH), encoding="utf-8"))
+        return sorted({a["path"] for a in g.get("atoms", []) if a.get("path") and not a["id"].startswith("job:memory:")})
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return []
+
+
+def newest_source(root, mem_dir=MEM_DIR):
+    """(mtime, path) of the newest source file (catalogs, folders, every atom's own file), or (0, None)."""
+    best = (0.0, None)
+    for rel in tuple(SOURCES) + tuple(_atom_paths(root)):
+        m = _mtime(os.path.join(root, rel))
+        if m > best[0]:
+            best = (m, rel)
+    for d in [os.path.join(root, x) for x in SOURCE_DIRS] + [mem_dir]:
+        try:
+            names = [n for n in os.listdir(d) if n.endswith(".md") and n != "MEMORY.md"]
+        except OSError:
+            continue
+        for n in names:
+            m = _mtime(os.path.join(d, n))
+            if m > best[0]:
+                best = (m, os.path.join(d, n))
+    return best
+
+
+def graph_status(root, mem_dir=MEM_DIR):
+    """'missing' | 'stale' | 'fresh', with the source that made it stale."""
+    g = _mtime(os.path.join(root, GRAPH))
+    if not g:
+        return "missing", None
+    m, src = newest_source(root, mem_dir)
+    return ("stale", src) if m > g else ("fresh", None)
+
+
+def build_graph(root):
+    """Run the adapter; True only if it exits 0 and the graph file then exists."""
+    try:
+        r = subprocess.run([sys.executable, os.path.join(root, "scripts/universe_jtbd_adapter.py")], cwd=root,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, timeout=300)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return r.returncode == 0 and os.path.exists(os.path.join(root, GRAPH))
+
+
+def load_graph(root, mem_dir=MEM_DIR):
+    """Graph JSON, rebuilt first when missing or stale. Raises RuntimeError rather than serving a stale graph."""
+    st, src = graph_status(root, mem_dir)
+    if st != "fresh" and not build_graph(root):
+        raise RuntimeError(f"graph {st}" + (f" (newer source {src})" if src else "") + "; rebuild failed")
+    st, src = graph_status(root, mem_dir)
+    if st != "fresh":
+        raise RuntimeError(f"graph still {st} after rebuild" + (f" (newer source {src})" if src else ""))
+    return json.load(open(os.path.join(root, GRAPH), encoding="utf-8"))
+
+
+def lookup(job, root=REPO, mem_dir=MEM_DIR, receipts=None, rebuild=True):
+    """First source for "which tool for this job". Returns {"path": "jtbd-graph"|"fallback", "reason", "answer"}.
+    path=fallback means the caller must answer the old way (keyword ranking / reading the catalog), and say so.
+    Never raises; never serves a graph older than its sources."""
+    st, src = graph_status(root, mem_dir)
+    if st != "fresh":
+        if not rebuild:
+            return {"path": "fallback", "reason": f"graph {st}" + (f" (newer source {src})" if src else "")
+                    + "; rebuild disabled", "answer": None}
+        if not build_graph(root) or graph_status(root, mem_dir)[0] != "fresh":
+            return {"path": "fallback", "reason": f"graph {st}; rebuild failed", "answer": None}
+        note = f"graph was {st}, rebuilt"
+    else:
+        note = "graph fresh"
+    try:
+        g = json.load(open(os.path.join(root, GRAPH), encoding="utf-8"))
+        a = answer(job, root, g, mem_dir, receipts)
+    except Exception as e:  # a corrupt graph must not crash the command; it falls back loudly
+        return {"path": "fallback", "reason": f"graph unreadable ({type(e).__name__}: {str(e)[:80]})", "answer": None}
+    if not a.get("assembly"):
+        return {"path": "fallback", "reason": note + "; graph returned nothing for this job", "answer": a}
+    return {"path": "jtbd-graph", "reason": note, "answer": a}
+
+
+def render(res):
+    """Short text block for the commands. The JSON answer itself is held under BUDGET_TOKENS by answer()."""
+    lines = [f"answered by: {res['path']} ({res['reason']})"]
+    a = res.get("answer")
+    if res["path"] != "jtbd-graph" or not a:
+        lines.append("fallback: use the keyword ranking / catalog read below; the graph did not answer.")
+        return "\n".join(lines)
+    for i, (t, s) in enumerate(zip(a["assembly"], a["scores"])):
+        lines.append(f"  {'best' if i == 0 else '    '} [{s:>5}] {t}")
+    if a["blockers"]:
+        lines.append("  open blockers: " + ", ".join(b["id"] + (f" (resolve by {b['resolve_by']})" if b.get("resolve_by") else "")
+                                             for b in a["blockers"]))
+    if a["closure_total"]:
+        shown = a["closure"][:8]
+        lines.append(f"  needs ({a['closure_total']}): " + ", ".join(shown) + (" ..." if a["closure_total"] > len(shown) else ""))
+    r = a["receipts"]
+    lines.append("  last receipts: " + (", ".join(f"{x['id']} {x['date'] or ''}".strip() for x in r) if isinstance(r, list) else r))
+    lines.append(f"  ({a['tokens']} tokens)")
+    return "\n".join(lines)
 
 
 def tool_texts(root, atoms):
@@ -131,7 +244,7 @@ def job_texts(root, atoms, mem_dir):
 
 
 def rank(job, root=REPO, graph=None, mem_dir=MEM_DIR):
-    graph = graph or load_graph(root)
+    graph = graph or load_graph(root, mem_dir)
     atoms = graph["atoms"]
     tt = tool_texts(root, atoms); jt = job_texts(root, atoms, mem_dir)
     tids, jids = list(tt), list(jt)
@@ -184,7 +297,7 @@ def answer(job, root=REPO, graph=None, mem_dir=MEM_DIR, receipts=None):
         if name in hay or (path and path in hay):
             recs.append({"id": c.id, "date": c.date})
     recs = sorted(recs, key=lambda r: r["date"] or "", reverse=True)[:3]
-    res = {"job": job, "assembly": asm, "scores": [round(score[t], 3) for t in asm],
+    res = {"job": job if len(job) <= 200 else job[:200] + "...", "assembly": asm, "scores": [round(score[t], 3) for t in asm],
            "matched_jobs": top_jobs[:3], "blockers": blockers, "closure": closure, "closure_total": len(closure),
            "receipts": recs or "none local naming the best tool"}
     while len(json.dumps(res)) / 4 > BUDGET_TOKENS and res["closure"]:
@@ -228,6 +341,35 @@ def self_test():
         }
         bad = answer("zzqx", tmp, g, tmp, recs)
         checks["no match says no tool fits"] = bad["assembly"] == []
+        # lookup(): the command entry. No adapter in tmp, so every rebuild fails: it must fall back, not crash or serve.
+        gp = os.path.join(tmp, GRAPH)
+        lk = lambda **kw: lookup("prune git worktrees", tmp, tmp, recs, **kw)
+        checks["absent graph falls back"] = lk()["path"] == "fallback" and "missing" in lk()["reason"]
+        os.makedirs(os.path.dirname(gp)); json.dump(g, open(gp, "w"))
+        os.utime(os.path.join(tmp, TOOLS), (1e9, 1e9)); os.utime(os.path.join(tmp, REG), (1e9, 1e9)); os.utime(gp, (2e9, 2e9))
+        fresh = lk()
+        checks["fresh graph answers"] = fresh["path"] == "jtbd-graph" and fresh["answer"]["assembly"][0] == "tool:script:wt_prune.py"
+        checks["render names the path"] = render(fresh).startswith("answered by: jtbd-graph")
+        os.utime(os.path.join(tmp, TOOLS), (3e9, 3e9))
+        st = lk()
+        checks["stale graph never served"] = st["path"] == "fallback" and "stale" in st["reason"] and st["answer"] is None
+        checks["stale names the source"] = "stale" in lk(rebuild=False)["reason"] and TOOLS in lk(rebuild=False)["reason"]
+        try:
+            load_graph(tmp, tmp); checks["load_graph refuses stale"] = False
+        except RuntimeError:
+            checks["load_graph refuses stale"] = True
+        open(gp, "w").write("{not json"); os.utime(gp, (4e9, 4e9))
+        checks["corrupt graph falls back"] = lk()["path"] == "fallback" and "unreadable" in lk()["reason"]
+        json.dump(g, open(gp, "w")); os.utime(gp, (4e9, 4e9))
+        nothing = lookup("zzqx", tmp, tmp, recs)
+        checks["empty answer falls back"] = nothing["path"] == "fallback" and "nothing" in nothing["reason"]
+        os.makedirs(os.path.join(tmp, "scripts"), exist_ok=True); open(os.path.join(tmp, "scripts/wt_prune.py"), "w").write("x")
+        os.utime(os.path.join(tmp, "scripts/wt_prune.py"), (5e9, 5e9))
+        checks["changed tool source makes it stale"] = graph_status(tmp, tmp)[0] == "stale"
+        os.utime(gp, (6e9, 6e9))
+        long = lookup("prune git worktrees " * 400 + "\u00e9\u4e2d" * 1500, tmp, tmp, recs)
+        checks["long job stays under budget"] = long["path"] == "jtbd-graph" and len(json.dumps(long)) / 4 <= BUDGET_TOKENS
+        checks["fallback render says fallback"] = "fallback" in render(nothing).split("\n")[1]
         ok = all(checks.values())
         for k, v in checks.items():
             print(f"{k}: {'PASS' if v else 'FAIL'}")
@@ -240,7 +382,17 @@ if __name__ == "__main__":
         sys.exit(0 if self_test() else 1)
     job = " ".join(a for a in sys.argv[1:] if not a.startswith("--"))
     if not job:
-        print("usage: jtbd_query.py \"job text\""); sys.exit(2)
+        print("usage: jtbd_query.py [--lookup [--json] [--no-rebuild]] \"job text\""); sys.exit(2)
     sys.path.insert(0, HERE)
+    if "--lookup" in sys.argv:  # /catalog and /prior-art entry: freshness-checked, falls back, never crashes
+        recs = None
+        try:
+            from arcs_librarian import Librarian, load_universes
+            recs = load_universes(__import__("pathlib").Path(REPO))
+        except Exception:
+            recs = None
+        res = lookup(job, REPO, MEM_DIR, recs, rebuild="--no-rebuild" not in sys.argv)
+        print(json.dumps(res, indent=1) if "--json" in sys.argv else render(res))
+        sys.exit(0)
     from arcs_librarian import Librarian
     print(json.dumps(Librarian(load_corpus=False).jtbd(job), indent=1))
