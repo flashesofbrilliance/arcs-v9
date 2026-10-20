@@ -542,6 +542,16 @@ const TRUE_NORTH = {
 };
 
 const SKILLS = [
+  { id:'react',    label:'React',                       accent:T.cyan,  views:['all'] },
+  { id:'ts',       label:'TypeScript',                  accent:T.cyan,  views:['all'] },
+  { id:'nextjs',   label:'Next.js (App Router)',        accent:T.cyan,  views:['all'] },
+  { id:'fastapi',  label:'Python (FastAPI)',            accent:T.cyan,  views:['all'] },
+  { id:'postgres', label:'PostgreSQL',                  accent:T.cyan,  views:['all'] },
+  { id:'supabase', label:'Supabase',                    accent:T.cyan,  views:['all'] },
+  { id:'prisma',   label:'Prisma',                      accent:T.cyan,  views:['all'] },
+  { id:'vercel',   label:'Vercel',                      accent:T.cyan,  views:['all'] },
+  { id:'apis',     label:'API-driven architecture',     accent:T.cyan,  views:['all'] },
+  { id:'claudecode',label:'Claude Code',                accent:T.cyan,  views:['all'] },
   { id:'claude',   label:'Claude', accent:T.cyan,  views:['all','figma'] },
   { id:'mcp',      label:'MCP Server',                  accent:T.cyan,  views:['all','figma'] },
   { id:'agentic',  label:'Agentic AI Pipelines',        accent:T.cyan,  views:['all','figma'] },
@@ -643,9 +653,10 @@ function GrainResume() {
       <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
         textTransform:'uppercase', color:T.fg4, marginBottom:14 }}>Technical Proficiency</div>
       <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
-        {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
+        {[['Full Stack',        'React · TypeScript · Next.js (App Router) · Python (FastAPI) · PostgreSQL · Supabase · Prisma · Vercel · API-driven architecture (Next.js API routes, MCP server)'],
+          ['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
           ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
-          ['AI & Tools',        'Claude · MCP Server · Glean · Agentic AI pipelines · GitHub'],
+          ['AI & Tools',        'Claude Code (daily) · Claude API · MCP Server · Glean · Agentic AI pipelines · GitHub'],
           ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
         ].map(([label,val],i) => (
           <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
