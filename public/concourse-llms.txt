@@ -9,7 +9,7 @@ Structured version: https://concourse.arcs.care/candidate.json
 
 ## Claims
 - [stated] Wants the Forward Deployed Engineer role at Concourse. Evidence: https://concourse.arcs.care/#candidate
-- [confirmed] About six months and over 3,500 commits building a production AI app solo. Evidence: https://status.arcs.care Check: `curl -s https://status.arcs.care`
+- [confirmed] About six months and over 5,000 commits building a production AI app solo. Evidence: https://status.arcs.care Check: `curl -s https://status.arcs.care`
 - [confirmed] Public code has conformance tests and CI. Evidence: https://github.com/flashesofbrilliance/germinate Check: `gh api repos/flashesofbrilliance/germinate/contents/conformance && gh api repos/flashesofbrilliance/germinate/contents/.github/workflows`
 - [stated] Every change goes through a pull request and pre-commit checks; merges keep each commit. Evidence: https://concourse.arcs.care/#proof (Main repository is private; walkthrough on request.)
 - [confirmed] Publishes tools other people install: a Claude Code plugin marketplace, npm and Homebrew CLIs. Evidence: https://good.arcs.care Check: `curl -s https://good.arcs.care`
