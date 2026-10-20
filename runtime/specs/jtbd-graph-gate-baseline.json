@@ -442,7 +442,6 @@
    "tool:surface:yuri-recoil.arcs.care/",
    "tool:surface:yuri-sample.arcs.care/",
    "tool:surface:yuri.arcs.care/",
-   "tool:workflow:counterpart-gauntlet",
    "tool:workflow:recoil-report"
   ],
   "ORPHAN-JOB": [
@@ -611,11 +610,7 @@
    "job:backlog:ziggurat-trailhead-key0"
   ],
   "BLOCKER-NO-RESOLVE-BY": [
-   "blocker:backlog:anthropic-spend-monitor",
-   "blocker:backlog:hud-snapshot-determinism-cadence",
-   "blocker:backlog:magic-patterns-true-up-hud",
-   "blocker:backlog:old-anthropic-callers-moved",
-   "blocker:backlog:op20-somatic-axiom-real-signal-source"
+   "blocker:backlog:old-anthropic-callers-moved"
   ],
   "RUNTIME-DEP-NO-PROBE": [
    "dep:env:DATABASE_URL <- tool:script:outcome_funnel.py",
