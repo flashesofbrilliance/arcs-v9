@@ -34,7 +34,9 @@ name: security-review
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review, labeled]
+    # Self-hosted runner (2026-10-20): per-PR checks stay fast. The agentic review runs only when
+    # the `security-review` label is added (opt-in), so it no longer queues on the single Mac runner.
+    types: [labeled]
     paths:
       - "src/app/api/**"
       - "src/proxy.ts"
@@ -69,7 +71,7 @@ jobs:
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.actor != 'dependabot[bot]' &&
-      (github.event.action != 'labeled' || github.event.label.name == 'security-review')
+      (github.event.action == 'labeled' && github.event.label.name == 'security-review')
     runs-on: [self-hosted, arcs-mac]
     steps:
       - name: Checkout
