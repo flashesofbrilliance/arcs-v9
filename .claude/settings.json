@@ -181,7 +181,13 @@
       "Bash(node scripts/phosphor_gain_check.mjs *)",
       "Bash(node scripts/phosphor_hide_check.mjs *)",
       "Bash(node scripts/beat_eval.mjs *)",
-      "Bash(node scripts/raw_capture_anim_check.mjs *)"
+      "Bash(node scripts/raw_capture_anim_check.mjs *)",
+      "Bash(python3 scripts/universe_receipts_adapter.py --export)",
+      "Bash(python3 scripts/universe_jtbd_adapter.py)",
+      "Bash(python3 scripts/jtbd_edge_weights.py)",
+      "Bash(python3 scripts/jtbd_drift_report.py)",
+      "Bash(python3 scripts/jtbd_edge_weights.py --self-test)",
+      "Bash(python3 scripts/jtbd_drift_report.py --self-test)"
     ],
     "ask": [
       "Bash(git push:*)"
