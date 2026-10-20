@@ -19,28 +19,35 @@ changes them.
 No labels are suggested here on purpose: a label proposed by an agent that has read the catalog is
 the contamination the pre-registration guards against.
 
-| # | Source | Job statement | label |
-|---|---|---|---|
-| 1 | real ask | check if the scheduled ones are hung | |
-| 2 | real ask | check them for half-written state | |
-| 3 | real ask | molt the handoff fragments now | |
-| 4 | real ask | I closed a bunch of stuff - check again? | |
-| 5 | real ask | measure landing drag on the last three handoffs (tokens to first useful action, re-derivation count) | |
-| 6 | Zach | | |
-| 7 | Zach | | |
-| 8 | Zach | | |
-| 9 | Zach | | |
-| 10 | Zach | | |
-| 11 | Zach | | |
-| 12 | Zach | | |
-| 13 | Zach | | |
-| 14 | Zach | | |
-| 15 | Zach | | |
-| 16 | Zach | | |
-| 17 | Zach | | |
-| 18 | Zach | | |
-| 19 | Zach | | |
-| 20 | Zach | | |
+| # | Source | Job statement | label | tuned |
+|---|---|---|---|---|
+| 1 | real ask | check if the scheduled ones are hung | | |
+| 2 | real ask | check them for half-written state | | 1688 |
+| 3 | real ask | molt the handoff fragments now | | 1688 |
+| 4 | real ask | I closed a bunch of stuff - check again? | | |
+| 5 | real ask | measure landing drag on the last three handoffs (tokens to first useful action, re-derivation count) | | 1688 |
+| 6 | Zach | | | |
+| 7 | Zach | | | |
+| 8 | Zach | | | |
+| 9 | Zach | | | |
+| 10 | Zach | | | |
+| 11 | Zach | | | |
+| 12 | Zach | | | |
+| 13 | Zach | | | |
+| 14 | Zach | | | |
+| 15 | Zach | | | |
+| 16 | Zach | | | |
+| 17 | Zach | | | |
+| 18 | Zach | | | |
+| 19 | Zach | | | |
+| 20 | Zach | | | |
+
+## Tuned rows (amendment 6)
+Rows 2, 3 and 5 are marked `tuned: 1688`. PR 1688 rewrote the `/fold` and `scripts/handoff_fold.py`
+descriptions after row 2's symptom showed up here. Row 2 is the half-written-state query the amendment names.
+Rows 3 and 5 are marked too, to be safe: row 3 (molt) targets handoff_fold.py, whose description changed,
+and row 5 (landing drag) matches the words "cuts landing drag" that 1688 added. s4 reports an untuned-subset
+score alongside the all-20 score. Any row Zach adds later that paraphrases half-written state is marked the same way.
 
 ## Scoring (fixed, for whoever runs it)
 - Baseline first: the /catalog procedure at the start sha, a fresh session with only that command and
