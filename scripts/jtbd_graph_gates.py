@@ -84,13 +84,19 @@ def _ev_kind(ctx, et, item):
 
 def _ev_resolves(ctx, et, item):
     """Evidence counts for attachment only if it points at something real (skeptic round 1, class A).
-    commit and receipt evidence cannot be resolved offline, so it never attaches."""
+    commit evidence cannot be resolved offline, so it never attaches; receipt evidence attaches only through the
+    committed MCP receipt projection (amendment 8)."""
     k = _ev_kind(ctx, et, item)
     if k in FILE_EV:
         rel, ln = str(item).split(":", 1)[1].rsplit(":", 1) if k == "import" else str(item).rsplit(":", 1)
         return _line_ok(ctx, rel, int(ln))
     if k in ("backlog_row", "route_tool"):
         return str(item).split(":", 1)[1] in ctx.row_ids()
+    if k == "receipt" and "RECEIPT-EV" in DISABLED:  # mutation proof only: any well-formed receipt id resolves
+        return True
+    if k == "receipt":  # amendment 8: resolves only when the id is on a line of the committed MCP receipt projection
+        import jtbd_graph_edges as ge
+        return ge.receipt_line(ctx.root, str(item).split(":", 1)[1]) is not None
     return False
 
 
@@ -127,6 +133,15 @@ def _about(ctx, e, by):
     return any(n.lower() in ml or ml.strip('"/`') in n.lower() for x in (e["from"], e["to"]) for n in _names(by[x]))
 
 
+def _receipts_name_edge(ctx, e):
+    """Amendment 9: every receipt:<id> item must sit on a projection line naming this edge's own tool and job."""
+    import jtbd_graph_edges as ge
+    rids = [str(x)[8:] for x in e["evidence"] if str(x).startswith("receipt:")]
+    if str(e.get("from", "")).startswith(MCP_INDEX_PREFIX) and not rids:
+        return False  # round 2 skeptic: an MCP edge with no receipt item never attaches (amendment 8 rule (d))
+    return all(ge.receipt_line(ctx.root, r, tool=e["from"], job=e["to"]) is not None for r in rids)
+
+
 def live_edges(graph, ctx):
     by = {a["id"]: a for a in graph.get("atoms", [])}
     kind = {i: a.get("kind") for i, a in by.items()}
@@ -137,6 +152,8 @@ def live_edges(graph, ctx):
         if not et or f == t or f not in kind or t not in kind or [kind[f], kind[t]] not in et["pairs"]:
             continue
         if not isinstance(ev, list) or not ev or not all(_ev_resolves(ctx, e["type"], x) for x in ev):
+            continue
+        if "RECEIPT-EV" not in DISABLED and not _receipts_name_edge(ctx, e):
             continue
         if not _about(ctx, e, by):
             continue
@@ -163,10 +180,14 @@ def _components(graph, ctx):
     return {a["id"]: comp[find(a["id"])] for a in graph.get("atoms", [])}
 
 
+MCP_INDEX_PREFIX = "tool:mcp:"  # amendment 8 rule (d): index entries, not owned tools; exempt from ORPHAN-TOOL only
+
+
 def orphan_tool(graph, ctx):
     c = _components(graph, ctx)
     return [(a["id"], "no job reachable over serves/needs/design-dep/runtime-dep between tools and jobs")
-            for a in graph.get("atoms", []) if a.get("kind") == "tool" and "job" not in c[a["id"]]]
+            for a in graph.get("atoms", []) if a.get("kind") == "tool" and "job" not in c[a["id"]]
+            and not ("ORPHAN-TOOL:mcp" not in DISABLED and a["id"].startswith(MCP_INDEX_PREFIX))]
 
 
 def orphan_job(graph, ctx):
@@ -484,9 +505,40 @@ def self_test(verbose=True, missed=None):
     if verbose:
         print(f"triage holds (dated hold passes; expired, rowless, too long and stale all fail): {'ok' if tri else 'WRONG'}")
     ok &= tri
+    m = mcp_self_test()
+    if verbose:
+        print(f"mcp index (unused index tool not orphan; receipt on file attaches; forged receipt does not): {'ok' if m else 'WRONG'}")
+    ok &= m
     if verbose:
         print("gates self-test OK" if ok else "gates self-test FAILED")
     return ok
+
+
+def mcp_self_test():
+    """Amendment 8: tool:mcp atoms are exempt from ORPHAN-TOOL; a job attaches to one only over a serves edge whose
+    receipt id is on a line of the committed projection. A name-only or forged-receipt edge leaves the job an orphan."""
+    import tempfile, jtbd_graph_edges as ge
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, "runtime/specs"))
+        line = json.dumps({"receipt_id": "r-ok--ZH", "job_id": "job:backlog:j1", "tool_id": "tool:mcp:s.apply"})
+        open(os.path.join(tmp, ge.MCP_RECEIPTS), "w").write(line + "\n")
+        A = lambda i, k, key: {"id": i, "kind": k, "source": {"catalog": "x", "key": key, "line": 1}}
+        ev = lambda rid: [f"{ge.MCP_RECEIPTS}:1", f"receipt:{rid}"]
+        g = {"atoms": [A("tool:mcp:s.apply", "tool", "s.apply"), A("tool:mcp:s.unused", "tool", "s.unused"),
+                       A("job:backlog:j1", "job", "j1"), A("job:backlog:j2", "job", "j2"), A("job:backlog:j3", "job", "j3"), A("job:backlog:j4", "job", "j4"), A("job:backlog:j5", "job", "j5")],
+             "edges": [{"from": "tool:mcp:s.apply", "to": "job:backlog:j1", "type": "serves", "evidence": ev("r-ok--ZH"),
+                        "inferred": False, "match": "s.apply"},
+                       {"from": "tool:mcp:s.apply", "to": "job:backlog:j2", "type": "serves", "evidence": ev("r-forged--ZH"),
+                        "inferred": False, "match": "s.apply"},
+                       {"from": "tool:mcp:s.apply", "to": "job:backlog:j3", "type": "serves", "evidence": ["receipt:r-ok--ZH"],
+                        "inferred": False, "match": "j3"},
+                       {"from": "tool:mcp:s.apply", "to": "job:backlog:j4", "type": "serves", "evidence": ev("r-ok--ZH"),
+                        "inferred": False, "match": "s.apply"},  # round 1 skeptic: a real receipt for j1 reused for j4
+                       {"from": "tool:mcp:s.apply", "to": "job:backlog:j5", "type": "serves", "evidence": [f"{ge.MCP_RECEIPTS}:1"],
+                        "inferred": False, "match": "s.apply"}]}  # round 2 skeptic: no receipt item at all
+        found = run_rules(g, Ctx(tmp, probes={}))
+    ot = {i for i, _ in found["ORPHAN-TOOL"]}; oj = {i for i, _ in found["ORPHAN-JOB"]}
+    return ot == set() and oj == {"job:backlog:j2", "job:backlog:j3", "job:backlog:j4", "job:backlog:j5"}
 
 
 def mutation_proof():
@@ -501,6 +553,12 @@ def mutation_proof():
         print(f"mutation: {rule} disabled -> self-test {'PASSED' if survived else 'FAILED'}, missed {sorted(missed)}: {'proof ok' if good else 'PROOF FAILS'}")
         ok &= good
     DISABLED.clear()
+    for mut in ("ORPHAN-TOOL:mcp", "RECEIPT-EV"):  # amendment 8 mutations: the mcp self-test must catch each
+        DISABLED.add(mut)
+        caught = not mcp_self_test()
+        DISABLED.discard(mut)
+        print(f"mutation: {mut} disabled -> mcp self-test {'FAILED' if caught else 'PASSED'}: {'proof ok' if caught else 'PROOF FAILS'}")
+        ok &= caught
     print("gates mutation proof OK" if ok else "gates mutation proof FAILED")
     return ok
 

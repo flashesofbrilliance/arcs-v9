@@ -82,3 +82,8 @@ uses that binding and cites that line. (3) Wildcard-host surfaces had no legal i
 - s1 builds its universe adapter against this schema, pattern of
   `scripts/universe_receipts_adapter.py`.
 - No new dependency, no new store: the graph is generated output from existing catalogs.
+
+## Amendment 8 (2026-10-20): MCP tools as a cached index
+New namespace `tool:mcp:<server>.<tool>` (schema 1.1.0, additive; no existing derivation changes).
+Source of truth, label rule, read/write rule, evidence-only edges and the retrieval rule are fixed in
+`_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-8.md`, committed before the Sprint 6 code.
