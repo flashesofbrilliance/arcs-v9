@@ -7,7 +7,7 @@
 # Gate (AGENTS.md gotcha 15): one helper that fails the whole class instead of three instance fixes.
 #
 # Usage: scripts/safe_merge.sh <pr> <expected-head-sha> [--timeout SECS] [--interval SECS]
-#        scripts/safe_merge.sh --self-test      (offline: fake gh on PATH, five scenarios)
+#        scripts/safe_merge.sh --self-test      (offline: fake gh on PATH, seven scenarios)
 #   1. refuses unless the PR head equals <expected-head-sha> (full sha or a prefix of 7+)
 #   2. waits until every check on that head is final, then refuses unless all are SUCCESS
 #      (PENDING past the timeout, FAILURE, CANCELLED, SKIPPED-as-only-check, or zero checks: refuse)
@@ -41,6 +41,7 @@ case "$1 $2" in
     total=$(wc -l < "$d/checks"); [ $n -gt $total ] && n=$total
     sed -n "${n}p" "$d/checks";;
   "pr merge") echo "$*" > "$d/merged";;
+  "auth status") [ "$(cat "$d/head")" = authdown ] && { echo "not logged in" >&2; exit 1; }; exit 0;;
   *) echo "fake gh: unexpected $*" >&2; exit 9;;
 esac
 FAKE
@@ -69,6 +70,7 @@ FAKE
   run_case conflict             1 no  abc1234def0000 CONFLICTING 60 "[$S]"
   run_case timeout              1 no  abc1234def0000 MERGEABLE 0 "[$P]"
   run_case zero-checks          1 no  abc1234def0000 MERGEABLE 60 "[]"
+  run_case github-down          1 no  authdown       MERGEABLE 60 "[$S]"
   echo "self-test: $pass passed, $fail failed"
   [ "$fail" -eq 0 ]
 }
@@ -117,6 +119,8 @@ if bad: print("FAILURE:"+",".join(bad)); sys.exit()
 print("PENDING" if any(c["state"]!="SUCCESS" for c in cs) else "SUCCESS")'
 }
 
+# GitHub health probe (jtbd-graph dep:service:github, runtime/specs/jtbd-graph-probes.json): refuse before any read or merge.
+gh_probe=$(gh auth status --hostname github.com 2>&1) || die "github.com unreachable or gh not signed in: $gh_probe"
 start=$(date +%s)
 while :; do
   check_head
