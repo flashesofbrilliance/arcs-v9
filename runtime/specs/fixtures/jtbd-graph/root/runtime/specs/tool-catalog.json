@@ -2564,9 +2564,9 @@
   {
    "kind": "operator",
    "name": "arcs_diagnostic.py",
-   "path": "operators/arcs_diagnostic.py",
+   "path": "scripts/_archive/arcs_diagnostic.py",
    "jtbd": "ARCS INIT Diagnostic Tool",
-   "invoke": "python3 operators/arcs_diagnostic.py",
+   "invoke": "python3 scripts/_archive/arcs_diagnostic.py",
    "state": "UNAUDITED"
   },
   {
@@ -2868,17 +2868,17 @@
   {
    "kind": "operator",
    "name": "seed_test_receipts.py",
-   "path": "operators/seed_test_receipts.py",
+   "path": "scripts/_archive/seed_test_receipts.py",
    "jtbd": "Seed test receipts via POST /question-compass for /guide[receiptId] fixtures.",
-   "invoke": "python3 operators/seed_test_receipts.py",
+   "invoke": "python3 scripts/_archive/seed_test_receipts.py",
    "state": "UNAUDITED"
   },
   {
    "kind": "operator",
    "name": "waveform_optimizer.py",
-   "path": "operators/waveform_optimizer.py",
+   "path": "scripts/_archive/waveform_optimizer.py",
    "jtbd": "ARCS Operator: WaveformOptimizer",
-   "invoke": "python3 operators/waveform_optimizer.py",
+   "invoke": "python3 scripts/_archive/waveform_optimizer.py",
    "state": "UNAUDITED"
   }
  ]

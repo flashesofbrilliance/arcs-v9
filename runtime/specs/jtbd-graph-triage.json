@@ -32,6 +32,14 @@
    "row": "jtbd-graph-triage-2026-10-20",
    "added": "2026-10-20",
    "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:decision-receipt-append-only",
+   "reason": "new row 2026-10-20; no tool exists yet for an append-only ledger (the row's own job is to build it)",
+   "row": "decision-receipt-append-only",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
   }
  ]
 }
