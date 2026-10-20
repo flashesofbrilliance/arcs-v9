@@ -22,7 +22,7 @@
     },
     {
       "area": "build",
-      "claim": "About six months and over 3,500 commits building a production AI app solo.",
+      "claim": "About six months and over 5,000 commits building a production AI app solo.",
       "evidence": "https://status.arcs.care",
       "check": "curl -s https://status.arcs.care",
       "status": "confirmed"
