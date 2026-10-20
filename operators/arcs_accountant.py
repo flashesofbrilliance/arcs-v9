@@ -60,7 +60,7 @@ CALIBRATION_MIN_N = 30
 
 RECEIPT_FATES = {"OPEN": "non_terminal", "LOGGED": "terminal", "EXPIRED": "terminal"}
 DRIFT_FATES = ("LANDED", "DRIFTING")
-KNOWN_COHORTS = ("founder", "external", "anonymous", "test", "real")
+KNOWN_COHORTS = ("founder", "external", "anonymous", "test", "real", "decisions")
 
 
 # ── report shape ────────────────────────────────────────────────────────────
