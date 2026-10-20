@@ -1,7 +1,7 @@
 ---
 title: Shared intention before the snap (design only)
 date: 2026-10-20
-status: PROPOSED, waiting on Zach to pick a definition
+status: PROPOSED, definition chosen (B with C mirror, Zach 2026-10-20); not built
 scope: the first step after a backlog is induced, before backlog_graph.py ranks anything
 freeze: s4 amendment 6 holds; this file edits no tool description and no code
 ---
@@ -147,7 +147,11 @@ cheapest repeat.
 | Mirror sentence drafting | GAP (v0 can be manual) |
 | Ring view | GAP |
 
+## Decision
+
+Zach, 2026-10-20: B (felt intention, stated by Zach) with C (mirror drafted from the backlog) shown beside it.
+
 ## Ask
 
-Zach: pick A, B, C, or B with C as mirror. Nothing is built until you choose, and the s4 freeze
-means no tool-description edits come out of this either way.
+Next: Zach writes the one sentence, horizon and exclusion line, and marks 3 to 7 core rows, before
+seeing either list (test step 1). Building waits for that and for s4 to be scored.
