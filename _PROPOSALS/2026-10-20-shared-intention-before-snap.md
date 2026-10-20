@@ -196,6 +196,29 @@ The snap list gets a counterweight that prices risk before a fate is picked.
   the same unreviewed rollback text, one detector's false positives) are correlated; pricing them
   one by one undercounts. v1 groups rows by shared source and prices the group's worst case once.
 
+## 6. Build order with nested dependencies (hardened 2026-10-20)
+
+Serial by default. Each step names what it needs (entry), what proves it done (exit), and what
+it unblocks. "Needs" is a hard edge; a step never starts before its entry holds.
+
+| # | Step | Needs | Exit (checkable) | Unblocks |
+|---|---|---|---|---|
+| 1 | Ship ruling on PR #1695 (s4 freeze) | none | Zach rules: merged with --merge and catalog untouched, or held | nothing hard; the tool runs from its branch |
+| 2 | Fill `ruin` bands on the rows in play (5 triage + calibration chain), then the rest in batches | tool on any branch | each band proposed by Claude with a reason, confirmed by Zach, written to the row; `backlog_status_check.py --check` exits 0 | 4, 7 |
+| 3 | Steelman pass on the 10 DRAFT `abort`/`rollback` texts | none | each text reviewed by Zach: kept, edited or struck; DRAFT marker removed only on his word | 4, 5, 7 |
+| 4 | Priced triage: re-run the underwriter, Zach fates the five rows | 2 (those rows), 3 (those rows) | five fates recorded on the triage row | 5 |
+| 5 | Pre-mortem the one-way rows (scenario-runner, best/base/worst + recovery plan) into their surgical spec files | 3, 4 (fate is not "drop") | one spec file per one-way row at `runtime/specs/issues/<row-id>.md`, `spec` key on the row | SPECIALTY riders |
+| 6 | Arrival-rate model for WAIT rows on the calibration chain | none (reads prod counts read-only) | best/base/worst date to n>=30 from the measured close rate, rate and window stated | timing reading for the intention |
+| 7 | Reinsurance: group rows by shared failure source, price each group once | 2, 3 (it groups on those fields) | group table with members and group worst case; self-test | weighted dimensions |
+| 8 | Weight lab, exploratory only, never edits the frozen table | 7, and the PR #1694 test set frozen first | live sliders, writes nothing; frozen table unchanged (diff check) | none |
+
+Nested edges inside step 2: a row's band waits on its blockers' bands when the blocker is a
+one-way door (exposure inherits downstream). Inside step 4: a row whose upstream is unfated is
+fated "hold" by default unless Zach says otherwise.
+
+Kill rule: if step 2 shows most rows are low, the price spread is too thin to matter; stop at 4
+and say so, before building 7 and 8.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
