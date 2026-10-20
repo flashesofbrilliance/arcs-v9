@@ -439,6 +439,36 @@ A counterfeit-suspected claim drops to Unknown on the truth axis, is never score
 line. Rule for Claude itself: its own unverified output is Reconstructed at best, never Witnessed.
 GAP: neither axis is a field on receipts yet; today both squash into `what_unconfirmed`.
 
+## 4j. RC shipping discipline for the eval harness (Zach, 2026-10-20)
+
+Zach: the release-candidate discipline from the monday.com take-home and dj.arcs.care belongs in
+the eval harness, as composable, self-sovereign micro-services that run when a current is induced.
+
+REUSE, the two working precedents:
+- `ret-rfp-intelligence/scripts/release_check.sh`: golden check, eval run, seeded fuzz (30,000 runs,
+  seed 7), report check, freshness, package; under `set -e`, so only a fully green run tags the
+  next `rcN-YYYY-MM-DD`, keeps the exact artifact, and writes its sha256. rc46 was the one sent.
+- `scripts/phosphor_build.py --release`: a merge does not change what the public sees; the public
+  copy (public/dj.html) is written only at a release checkpoint, after the full suite and a
+  browser pass (AGENTS.md gotcha 21).
+
+Applied here, each harness piece is one service: `risk_underwriter.py`, `arcs-verb-eval`,
+`provenance_lint.py`, `backlog_graph.py`, `backlog_ripeness.py`, the outcome plumbing check.
+
+| Property | Meaning for one service |
+|---|---|
+| Self-sovereign | stdlib, own `--self-test`, own golden fixtures, reads files or read-only queries, writes nothing it does not own |
+| Composable | JSON in, JSON out (`--json`), so one service's output is the next one's input |
+| RC-shipped | its own release check: self-test, golden set, a seeded run; only a green run tags `<service>-rcN-date` and records the sha256 of the script |
+| Pinned | consumers (the sprint wrapper, the snap list) name the rc they ran; a receipt cites it |
+| Public on checkpoint | anything outward-facing updates only at a release checkpoint, never on merge |
+
+"Inducing a current" (my reading, Zach to confirm): an event, not a clock, sets the chain running.
+Backlog induction is the first such event: it fires ripeness, graph, underwriter and the intention
+step in order, each pinned to its last green rc. GAP: no event runner and no per-service tag scheme
+in arcs-v9 yet; the RET script is the template. First candidate to put through it: the underwriter
+(PR #1695), since it has a self-test and no consumers yet.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
