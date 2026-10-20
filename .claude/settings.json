@@ -151,7 +151,11 @@
       "Bash(python3 scripts/backlog_graph.py --self-test)",
       "Bash(python3 scripts/ripple_ledger.py --check)",
       "Bash(node scripts/phosphor_check.mjs *)",
-      "Bash(node scripts/phosphor_guard_check.mjs *)"
+      "Bash(node scripts/phosphor_guard_check.mjs *)",
+      "mcp__54572e56-c71b-4661-b211-1825f46eeda1__search_contacts",
+      "mcp__54572e56-c71b-4661-b211-1825f46eeda1__search_companies",
+      "mcp__54572e56-c71b-4661-b211-1825f46eeda1__lookup",
+      "mcp__8545a323-d874-4ccc-9a66-88dcd8fb9f9d__read_file_content"
     ],
     "ask": [
       "Bash(git push:*)"
