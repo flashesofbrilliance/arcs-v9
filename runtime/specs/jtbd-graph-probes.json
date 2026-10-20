@@ -18,6 +18,12 @@
       "line": 191,
       "match": "apiKey: process.env.ANTHROPIC_API_KEY",
       "kind": "key exercised by the deep probe call"
+    },
+    "dep:service:github": {
+      "file": "scripts/safe_merge.sh",
+      "line": 123,
+      "match": "gh auth status --hostname github.com",
+      "kind": "auth + reachability check before any merge; refuses on failure (self-test case github-down)"
     }
   }
 }
