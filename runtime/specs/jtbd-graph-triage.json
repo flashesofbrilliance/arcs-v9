@@ -32,6 +32,14 @@
    "row": "jtbd-graph-triage-2026-10-20",
    "added": "2026-10-20",
    "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "RUNTIME-DEP-NO-PROBE",
+   "id": "dep:service:github <- tool:script:safe_merge.sh",
+   "reason": "safe_merge.sh shipped 2026-10-20 calling gh; dep:service:github has no health probe yet (3 older callers held in the baseline)",
+   "row": "safe-merge-helper",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
   }
  ]
 }

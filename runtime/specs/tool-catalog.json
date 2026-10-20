@@ -4,56 +4,24 @@
  "counts": {
   "command": 17,
   "hook": 2,
-  "operator": 48,
+  "operator": 49,
   "package": 3,
-  "script": 240,
+  "script": 247,
   "skill": 22,
   "workflow": 2
  },
- "total": 334,
+ "total": 342,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 465,
+   "WIRED": 504,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 5,
+   "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "jobs_rescore_split.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "jobs_seed.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "nftt_claim_batch.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_measure.mjs",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -795,6 +763,14 @@
   },
   {
    "kind": "script",
+   "name": "claim_index.py",
+   "path": "scripts/claim_index.py",
+   "jtbd": "claim_index: every public number (commits, merged PRs, receipts, days) mapped to where it is stated.",
+   "invoke": "python3 scripts/claim_index.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "classname_guard.py",
    "path": "scripts/classname_guard.py",
    "jtbd": "Fail when className / Tailwind / stray stylesheets creep back into src/ (LINT-006).",
@@ -871,6 +847,14 @@
    "path": "scripts/decision_geometry_ret.py",
    "jtbd": "decision_geometry_ret.py: score the RET take-home DECISIONS.md on the 5x5 decision geometry.",
    "invoke": "python3 scripts/decision_geometry_ret.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "decision_receipt_to_accountant.py",
+   "path": "scripts/decision_receipt_to_accountant.py",
+   "jtbd": "decision_receipt_to_accountant: bridge outcomes on Zach's decision receipts into the Accountant. Read-only, stdlib.",
+   "invoke": "python3 scripts/decision_receipt_to_accountant.py",
    "state": "WIRED"
   },
   {
@@ -1251,6 +1235,22 @@
   },
   {
    "kind": "script",
+   "name": "jtbd_drift_report.py",
+   "path": "scripts/jtbd_drift_report.py",
+   "jtbd": "jtbd_drift_report: weekly read-only drift report for the JTBD graph (row jtbd-graph-s5-feedback). Stdlib.",
+   "invoke": "python3 scripts/jtbd_drift_report.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_edge_weights.py",
+   "path": "scripts/jtbd_edge_weights.py",
+   "jtbd": "jtbd_edge_weights: outcome-weighted (job, tool) edges for the JTBD graph (row jtbd-graph-s5-feedback). Stdlib, read-only.",
+   "invoke": "python3 scripts/jtbd_edge_weights.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "jtbd_graph_edges.py",
    "path": "scripts/jtbd_graph_edges.py",
    "jtbd": "jtbd_graph_edges: Sprint 2 edges for the JTBD graph (backlog row jtbd-graph-s2-edges).",
@@ -1271,6 +1271,14 @@
    "path": "scripts/jtbd_graph_schema_check.py",
    "jtbd": "Validate a JTBD graph ({atoms, edges}) against runtime/specs/jtbd-graph-schema.json.",
    "invoke": "python3 scripts/jtbd_graph_schema_check.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_s4_pool.py",
+   "path": "scripts/jtbd_s4_pool.py",
+   "jtbd": "Prepare and seal the Sprint 4 blind pool (amendment 7 rule 3).",
+   "invoke": "python3 scripts/jtbd_s4_pool.py",
    "state": "WIRED"
   },
   {
@@ -1487,7 +1495,7 @@
    "path": "scripts/nftt_claim_batch.py",
    "jtbd": "nftt_claim_batch: pilot of the Message Batches API (50% off, async) on the NFTT corpus.",
    "invoke": "python3 scripts/nftt_claim_batch.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",
@@ -1887,6 +1895,22 @@
    "path": "scripts/risk_sweep_cron.sh",
    "jtbd": "risk_sweep_cron.sh - zero-token nightly entry for scripts/risk_sweep.py.",
    "invoke": "scripts/risk_sweep_cron.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "risk_underwriter.py",
+   "path": "scripts/risk_underwriter.py",
+   "jtbd": "risk_underwriter.py: price each induced-backlog row's risk. Read-only, stdlib, no model calls.",
+   "invoke": "python3 scripts/risk_underwriter.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "safe_merge.sh",
+   "path": "scripts/safe_merge.sh",
+   "jtbd": "safe_merge.sh: the one way a session merges a PR in arcs-v9.",
+   "invoke": "scripts/safe_merge.sh",
    "state": "WIRED"
   },
   {
@@ -2719,6 +2743,14 @@
    "path": "operators/cli_arcs_run.py",
    "jtbd": "cli_arcs_run.py — ARCS v9 Decision CLI",
    "invoke": "python3 operators/cli_arcs_run.py",
+   "state": "UNAUDITED"
+  },
+  {
+   "kind": "operator",
+   "name": "jtbd_query.py",
+   "path": "operators/jtbd_query.py",
+   "jtbd": "jtbd_query: the s4 retrieval shape jtbd(job) over the JTBD graph (backlog row jtbd-graph-s4-retrieval).",
+   "invoke": "python3 operators/jtbd_query.py",
    "state": "UNAUDITED"
   },
   {
