@@ -104,6 +104,9 @@ export const radius = {
   pill: '999px',
 } as const
 
+// One shared px measure for body and lede reading text (never a per-element ch cap; AGENTS.md gotcha 13).
+export const measure = 640
+
 // ─── Spacing — 4px base ───────────────────────────────────────────────────────
 
 export const space = {
