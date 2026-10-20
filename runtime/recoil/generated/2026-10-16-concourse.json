@@ -186,13 +186,13 @@
       "date": "2026-10-19",
       "posterior": {
         "claim": "The CTO is Rapolas Binkys; he likely reviews the take-home as hiring manager.",
-        "evidence": "LinkedIn export (Zach, 2026-10-19): CTO since Oct 2025, 'Lead the centralized technical platform and execution behind every Concourse deployment', including infrastructure, compliance foundation, modules and orchestration. Name heard on the call as 'Rappolis' = Rapolas. Hiring-manager role still not stated by Concourse.",
+        "evidence": "LinkedIn export (Zach, 2026-10-19): CTO since Oct 2025, 'Lead the centralized technical platform and execution behind every Concourse deployment', including infrastructure, compliance foundation, modules and orchestration. Name heard on the call as 'Rappolis' = Rapolas. Hiring-manager role still not stated by Concourse. Zach (2026-10-19, after the call): near-certain from the conversation that the CTO is the hiring manager.",
         "confidence": [
-          0.7,
-          0.8
+          0.85,
+          0.95
         ],
-        "conviction": "MED",
-        "verdict": "NAME CONFIRMED; HM still inference",
+        "conviction": "HIGH",
+        "verdict": "UPGRADE: near-certain (Zach), not stated by Concourse",
         "date": "2026-10-19"
       }
     },
@@ -267,17 +267,17 @@
     {
       "audience": "internal",
       "owner": "You",
+      "text": "Sent: links note to Sara (2026-10-19 18:19 UTC, thread 1a15563b046604d7) and thank-you to Krish, Sara cc'd (2026-10-20 00:57 UTC, thread 1a156d0a29060eb2, 'Enjoyed our call today'). Wait for the take-home spec; no further send until it arrives."
+    },
+    {
+      "audience": "internal",
+      "owner": "You",
       "text": "Watch for the take-home spec from Sara. Design-first: state assumptions, treat gaps as intentional, ship a first version fast."
     },
     {
       "audience": "internal",
       "owner": "You",
       "text": "CTO confirmed as Rapolas Binkys. Still confirm with Sara whether he is the hiring manager who scores the take-home."
-    },
-    {
-      "audience": "internal",
-      "owner": "You",
-      "text": "Optional: a short thank-you to Krish by email. Draft first; nothing sent."
     },
     {
       "audience": "internal",
