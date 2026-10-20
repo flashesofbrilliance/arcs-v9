@@ -104,7 +104,6 @@
    "tool:script:html_div_balance_lint.py",
    "tool:script:hypercube_sampler.py",
    "tool:script:jobs_prose_gate.py",
-   "tool:script:lattice_sim.py",
    "tool:script:leak_check.sh",
    "tool:script:ledger_check.py",
    "tool:script:ledger_score.py",

@@ -429,6 +429,15 @@ def edge_self_test():
         prose = [t for t in trip if t[0] == "tool:operator:op_x.py" and t[3] == "cite"]
         print(f"bad edge fixture (prose mention alone gives no cite; the run line does): {'caught' if len(prose) == 1 else 'MISSED'}")
         ok &= len(prose) == 1 and all(e["evidence"][0].endswith(":2") for e in g["edges"] if e["rule"] == "cite")
+        defl = '    "resend": ("x", r"""from ["\']resend["\']|next-auth/providers/resend"""),'
+        mm = re.compile(ge.SERVICES["resend"][1]).search(defl)
+        self_match = bool(mm) and not ge.SVC_REGEX_DEF.search(defl[:mm.start()])
+        print(f"bad edge fixture (a detector's own regex literal gives no service edge): {'caught' if not self_match else 'MISSED'}")
+        ok &= not self_match
+        real = 'import Resend from "next-auth/providers/' + 'resend"'  # split so this file is not itself a resend import
+        mr = re.compile(ge.SERVICES["resend"][1]).search(real)
+        print(f"good edge fixture (a real resend import still matches): {'ok' if mr and not ge.SVC_REGEX_DEF.search(real[:mr.start()]) else 'WRONG'}")
+        ok &= bool(mr) and not ge.SVC_REGEX_DEF.search(real[:mr.start()])
         rr = re.compile(r"(?:" + ge.INVOKE + r")(scripts/a\.py)(?![\w./-])")
         cases = [("operators/o.py", 'subprocess.run(["python3", "scripts/a.py"])', 1),
                  ("operators/o.py", 'print("fix:", ["python3", "scripts/a.py"])', 0),
@@ -564,6 +573,9 @@ def check(root=REPO, mem_dir=MEM_DIR):
     found = gg.run_rules(graph, gg.Ctx(root, mem_dir=mem_dir if os.path.isdir(mem_dir) else None))
     base = gg._load(os.path.join(root, gg.BASELINE), {}).get("rules", {})
     new, held, stale = gg.apply_baseline(found, base)
+    tri = gg._load(os.path.join(root, gg.TRIAGE), {}).get("holds", [])
+    rows = {json.loads(l)["id"] for l in open(os.path.join(root, BACKLOG)) if l.strip()}
+    new, triaged, tri_problems = gg.apply_triage(new, tri, __import__("datetime").date.today(), rows)
     head = _baseline_head(root)
     if head is None:
         grew = {"BASELINE-UNCHECKED": ["git history unavailable; cannot check that the baseline only shrinks"]}
@@ -582,12 +594,16 @@ def check(root=REPO, mem_dir=MEM_DIR):
             print(f"{r} {i}: {d}")
         for i in stale.get(r, []):
             print(f"STALE-BASELINE {r} {i}: no longer violates; remove it from {gg.BASELINE}")
+    for x in tri_problems:
+        print(x)
+    for r, i, due in triaged:
+        print(f"TRIAGED {r} {i}: held until {due}")
     for r, ids in grew.items():
         for i in ids:
             print(f"BASELINE-GREW {r} {i}: the baseline may only shrink (add a dated amendment and get Zach's ok to grow it)")
     line = " · ".join(f"{r.lower()} {len(new[r])} new/{len(held[r])} held" for r in gg.RULES)
     print(f"jtbd-graph --check: atoms {len(graph['atoms'])} edges {len(graph['edges'])} · {line}")
-    bad = (not ok) or lookup or any(new.values()) or any(stale.values()) or grew
+    bad = (not ok) or lookup or any(new.values()) or any(stale.values()) or grew or tri_problems
     summary = {"ok": not bad, "atoms": len(graph["atoms"]), "edges": len(graph["edges"]),
                "rules": {r: {"new": len(new[r]), "held": len(held[r]), "stale": len(stale.get(r, []))} for r in gg.RULES},
                "key_lookup": len(lookup), "baseline_grew": sum(len(v) for v in grew.values()),

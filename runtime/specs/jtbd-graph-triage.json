@@ -1,0 +1,37 @@
+{
+ "note": "Time-boxed holds for NEW jtbd-graph --check findings (Zach, 2026-10-20). Each entry needs a reason, a backlog row and resolve_by within 14 days of added. It passes until resolve_by, then fails TRIAGE-EXPIRED; an entry whose finding is gone fails TRIAGE-STALE. The baseline is separate: old debt only, and it may only shrink.",
+ "holds": [
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:concourse.arcs.care/plan",
+   "reason": "surface shipped 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:prl.arcs.care/checkpoint",
+   "reason": "surface shipped 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:prl.arcs.care/checkpoint.pdf",
+   "reason": "surface shipped 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:drift-classifier-productive-destructive",
+   "reason": "row states its tool is 'none yet (gap)'; a known gap",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  }
+ ]
+}
