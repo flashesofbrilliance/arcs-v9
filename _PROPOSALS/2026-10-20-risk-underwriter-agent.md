@@ -1,7 +1,7 @@
 ---
-title: Risk underwriter, an entangled risk-adjustment policy agent (proposal, not built)
+title: Risk underwriter, an entangled risk-adjustment policy agent (proposal; v0 pricer built)
 date: 2026-10-20
-status: PROPOSED
+status: PROPOSED (v0 read-only pricer merged in PR 1695, 2026-10-20)
 author: Claude (side session of the shared-intention session), for Zach
 asks_for: Zach's ruling on the five questions in section 9
 parent: _PROPOSALS/2026-10-20-shared-intention-before-snap.md, section 4b (tactical layer)
@@ -156,9 +156,20 @@ follow-up fix PR within 7 days; its receipt outcome is recorded as missed.
 **Fail:** anything else, including n under 15 at day 30. On fail the agent is composted, not
 re-tuned on the same set (the s4 amendment-6 lesson: tuning on the test set voids it).
 
-## 8. Gaps, in build order (none built here)
+## 7b. Built since this proposal (PR 1695, merged by Zach 2026-10-20 14:38 UTC)
 
-1. `underwriting` field on rows. GAP.
+`scripts/risk_underwriter.py` is a read-only, stdlib pricer that runs the section 2 table and
+writes nothing to rows; its self-test runs in pre-commit, and a blank `ruin` prints UNPRICED.
+It goes beyond this proposal in two ways, both added after it and not part of the design above:
+a SPECIALTY rider tier, and a pre-registered three-point duration table (best, likely, worst)
+with a critical path per case (`--path ROOT`). The tool catalog was not regenerated (s4 freeze).
+The PR body said it was not for merge until Zach ruled on the s4 freeze; Zach merged it himself,
+and no separate ruling is recorded here.
+
+## 8. Gaps, in build order
+
+0. Pricing table runs as a read-only report. BUILT (PR 1695).
+1. `underwriting` field on rows. GAP (v0 writes nothing to rows).
 2. One entangled ledger joining finding id, repair id and price change. GAP (risk register,
    findings_gait ledger and seam ledgers exist separately).
 3. Temporal-paradox check as a script. GAP.
