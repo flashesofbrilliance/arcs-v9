@@ -1,0 +1,162 @@
+{
+ "sample": "runtime/specs/jtbd-label-sample-20261018.json",
+ "labeller": "Zach",
+ "labelled": "2026-10-20",
+ "method": "Round 1 (7 riskiest) labelled item by item: 15, 16, 22 = no. Rounds 2 and 3 (23 files) labelled yes as a batch by Zach in chat (\"treat all the numbers as jobs\").",
+ "miner_agreement": 27,
+ "of": 30,
+ "bar": 24,
+ "verdict": "PASS",
+ "rows": [
+  {
+   "n": 1,
+   "id": "job:memory:forensic-quality-bar-correct-premise-name-loss-channel",
+   "label": "yes"
+  },
+  {
+   "n": 2,
+   "id": "job:memory:mechanical-pass-first-vibes-last",
+   "label": "yes"
+  },
+  {
+   "n": 3,
+   "id": "job:memory:arcs-two-surface-receipt-and-induction",
+   "label": "yes"
+  },
+  {
+   "n": 4,
+   "id": "job:memory:project_jarrod_wolf_success_academy",
+   "label": "yes"
+  },
+  {
+   "n": 5,
+   "id": "job:memory:rca-solution-verify-is-the-universal-jtbd",
+   "label": "yes"
+  },
+  {
+   "n": 6,
+   "id": "job:memory:template-aliasing-shared-boilerplate-fakes-cross-domain-echo",
+   "label": "yes"
+  },
+  {
+   "n": 7,
+   "id": "job:memory:champion-fit-heuristic",
+   "label": "yes"
+  },
+  {
+   "n": 8,
+   "id": "job:memory:git-is-the-write-lock-untracked-is-the-gap",
+   "label": "yes"
+  },
+  {
+   "n": 9,
+   "id": "job:memory:arcs-mcp-led-growth-gtm",
+   "label": "yes"
+  },
+  {
+   "n": 10,
+   "id": "job:pattern:2026-07-10-formalization-backlog",
+   "label": "yes"
+  },
+  {
+   "n": 11,
+   "id": "job:memory:inlier-run-the-falsifying-test-before-confident-claim",
+   "label": "yes"
+  },
+  {
+   "n": 12,
+   "id": "job:memory:inbound-opportunity-three-gate-smoke-test",
+   "label": "yes"
+  },
+  {
+   "n": 13,
+   "id": "job:memory:tool-fit-marker-convention",
+   "label": "yes"
+  },
+  {
+   "n": 14,
+   "id": "job:memory:false-null-requires-provenance-exhaustion",
+   "label": "yes"
+  },
+  {
+   "n": 15,
+   "id": "job:pattern:2026-10-18-jtbd-graph-preregistration-amendment-1",
+   "label": "no"
+  },
+  {
+   "n": 16,
+   "id": "job:pattern:2026-10-18-jtbd-graph-preregistration-amendment-2",
+   "label": "no"
+  },
+  {
+   "n": 17,
+   "id": "job:pattern:2026-07-10-landing-page-optimization-master",
+   "label": "yes"
+  },
+  {
+   "n": 18,
+   "id": "job:memory:hot-fix-leave-a-debt-marker-for-the-road-not-taken",
+   "label": "yes"
+  },
+  {
+   "n": 19,
+   "id": "job:memory:precompute-pregate-before-delegation",
+   "label": "yes"
+  },
+  {
+   "n": 20,
+   "id": "job:memory:operator-numbering-locked-periodic-table-registry-generated",
+   "label": "yes"
+  },
+  {
+   "n": 21,
+   "id": "job:pattern:jtbd-orchestration-map",
+   "label": "yes"
+  },
+  {
+   "n": 22,
+   "id": "job:memory:malicious-take-home-contagious-interview-redflags",
+   "label": "no"
+  },
+  {
+   "n": 23,
+   "id": "job:memory:shared-anchor-append-refetch-before-write",
+   "label": "yes"
+  },
+  {
+   "n": 24,
+   "id": "job:memory:arcs-communication-heuristic-subtract-to-clarity",
+   "label": "yes"
+  },
+  {
+   "n": 25,
+   "id": "job:memory:jtbd-reuse-existing-tool-before-inventing",
+   "label": "yes"
+  },
+  {
+   "n": 26,
+   "id": "job:pattern:2026-07-19-out-of-band-actions",
+   "label": "yes"
+  },
+  {
+   "n": 27,
+   "id": "job:memory:keep-a-tidy-house-consolidate-dont-accumulate",
+   "label": "yes"
+  },
+  {
+   "n": 28,
+   "id": "job:memory:burden-of-proof-on-you-escalate-threat-level-on-go-deeper",
+   "label": "yes"
+  },
+  {
+   "n": 29,
+   "id": "job:memory:when-to-teleport-to-terminal-vs-agents",
+   "label": "yes"
+  },
+  {
+   "n": 30,
+   "id": "job:memory:trade-cloud-spend-for-local-compute",
+   "label": "yes"
+  }
+ ]
+}
