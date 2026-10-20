@@ -15,7 +15,8 @@ Pricing table v0 (proposal section 2, pre-registered; changed only by Zach's rul
   ruin high         one-way   no rollback, gate + abort   SPECIALTY (Zach 2026-10-20: a bespoke rider,
                                                           priced case by case; riders listed)
   ruin high         one-way   no rollback, no gate/abort  UNINSURABLE (shown, never blocked)
-A blank door prices as two-way. A blank ruin prices as low but is flagged "exposure unpriced".
+A blank door prices as two-way. A blank ruin on a two-way row prints UNPRICED, never 0 coins: an empty
+exposure field is unmeasured, not safe (hardening 2026-10-20). A one-way row still prices from the door.
 Cover written as "DRAFT ... unreviewed" counts, and is flagged. Missing cover is listed, never
 filled in. Write-lock is never on a row today, so a one-way door always lists it as missing.
 
@@ -92,6 +93,10 @@ def price(row):
                 missing.append(name)
     elif ruin == "medium":
         premium = 1 if (has_gate and has_rollback) else 2
+        if not has_gate:
+            missing.append("gate")
+    elif ruin is None:
+        premium = "UNPRICED"
         if not has_gate:
             missing.append("gate")
     else:
@@ -211,7 +216,7 @@ def select(rows, ids=None, all_rows=False):
 def render(priced):
     out = [f"risk underwriter {POLICY_VERSION}: {len(priced)} rows priced, loading 0 (no ledger yet). "
            "Prices only; fates stay human."]
-    order = {"UNINSURABLE": 0, "SPECIALTY": 1}
+    order = {"UNINSURABLE": 0, "SPECIALTY": 1, "UNPRICED": 3}
     for p in sorted(priced, key=lambda x: (order.get(x["premium"], 2), -(x["premium"] if isinstance(x["premium"], int) else 0), x["id"])):
         prem = p["premium"] if isinstance(p["premium"], str) else f"{p['premium']} coins"
         out.append(f"  {p['id']:<44} {prem:<12} door {p['door'] or '-':<8} ruin {p['ruin'] or '-'}")
@@ -225,8 +230,8 @@ def render(priced):
 
 def self_test():
     cases = [
-        ("blank row prices 0, flags unpriced, lists gate", {"id": "a"},
-         lambda p: p["premium"] == 0 and "gate" in p["missing_cover"] and any("unpriced" in f for f in p["flags"])),
+        ("blank ruin prints UNPRICED, never 0, lists gate", {"id": "a"},
+         lambda p: p["premium"] == "UNPRICED" and "gate" in p["missing_cover"] and any("unpriced" in f for f in p["flags"])),
         ("low two-way with gate prices 0, nothing missing", {"id": "b", "ruin": "low", "door": "two-way", "gates": ["g"]},
          lambda p: p["premium"] == 0 and not p["missing_cover"]),
         ("medium with gate and rollback prices 1", {"id": "c", "ruin": "medium", "gates": ["g"], "rollback": "git revert"},
