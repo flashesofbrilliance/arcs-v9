@@ -172,6 +172,30 @@ How it fits this design:
 
 The test in section 5 is unchanged; path views are shown after it, so they cannot steer the picks.
 
+## 4d. Risk counterweight: underwriter, pre-mortem, reinsurance (Zach, 2026-10-20)
+
+The snap list gets a counterweight that prices risk before a fate is picked.
+
+- **Built (read-only, PR #1695, unmerged):** `scripts/risk_underwriter.py` prices rows by the
+  PR #1694 table (coins; SPECIALTY rider tier and UNINSURABLE, both shown, never blocked) and runs
+  a pre-registered three-point duration table with a critical path per case. WAIT and UNKNOWN rows
+  are named, never guessed. First readout: the two one-way rows price at 4 coins (no write-lock,
+  DRAFT cover); every other row prices 0 because `ruin` is blank on 266 rows (exposure unpriced).
+- **Glass box:** both tables live at the top of the script; every price shows inputs, missing
+  cover and flags; changes only by Zach's ruling with a version stamp.
+- **Weight lab (GAP):** restate the price as weighted dimensions (exposure, door, missing cover,
+  draft cover, duration spread, loading) and recompute live, writing nothing, as `src/app/jobs/JobsBoard.tsx`
+  does. Exploratory only: the frozen table is what the PR #1694 test scores, so sliding weights on
+  rows with known outcomes must never change it.
+- **Pre-mortem and disaster recovery (Zach):** failure modes = `abort`; recovery = `rollback` plus
+  the surgical spec file per issue. A cover is a strawman while marked DRAFT unreviewed (already
+  flagged), steelmanned once someone other than its author attacked it and it held. The
+  `scenario-runner` agent writes the best, base and worst pre-mortem for one row. GAP: no field
+  records "steelmanned by whom".
+- **Reinsurance (second order, GAP):** rows that share a failure source (a common upstream blocker,
+  the same unreviewed rollback text, one detector's false positives) are correlated; pricing them
+  one by one undercounts. v1 groups rows by shared source and prices the group's worst case once.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
