@@ -161,8 +161,12 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
 `decision_receipt` table (Supabase project `xbbpiryokswwvcrcutge`, ARCS_v9), in the fixed form:
-`question, horizon, stakes, mode, what_confirmed[], what_unconfirmed[], operator, event_at`
-(+ `source_repo`, `refs[]`). Matched by any verifier against real git/GitHub/Vercel state —
+`question, horizon, stakes, mode, what_confirmed[], what_unconfirmed[], operator, event_at, job_id, tool_id`
+(+ `source_repo`, `refs[]`). `job_id` = the backlog row the work served (`job:backlog:<id>`); `tool_id` = the tool
+used (`tool:<kind>:<name>`, e.g. `tool:script:safe_merge.sh`). `scripts/safe_merge.sh` prints both in its template
+(derived from the PR, else a `<REQUIRED ...>` placeholder that fails the column CHECK). A receipt without them counts
+against Sprint 5's coverage check (at least 70% by 2026-11-03, else they become mandatory;
+`_PATTERNS/2026-10-20-jtbd-s5-preregistration.md`); check it with `python3 scripts/receipt_coverage.py --export`. Matched by any verifier against real git/GitHub/Vercel state —
 anything not verifiable goes in `what_unconfirmed`, never `what_confirmed`. Do not invent field values.
 
 An action without a logged receipt is not considered complete, regardless of whether the underlying
@@ -172,9 +176,9 @@ merge/deploy/publish succeeded. This applies to every harness (Claude Code, Herm
 > `this-quarter`, `1-3y`} · `stakes` ∈ {`low`, `medium`, `high`, `critical`} · `mode` ∈ {`QUICKMOVE`,
 > `PLAN`, `COURT`}. Anything else is rejected by a CHECK constraint (`QUARTER`/`MEDIUM` failed once).
 > `what_confirmed`, `what_unconfirmed`, `refs` are `text[]`; `event_at` is timestamptz.
-> Optional since 2026-10-20 (`runtime/specs/decision-receipt/2026-10-20-job-tool-ids.sql`): `job_id`
+> Nullable in the schema since 2026-10-20 (`runtime/specs/decision-receipt/2026-10-20-job-tool-ids.sql`), required by the form above: `job_id`
 > (`job:<source>:<key>`) and `tool_id` (`tool:<kind>:<name>`), the JTBD graph atoms the action served and used;
-> CHECK-enforced prefixes, null when none applies. Fill them when the graph named the job or tool.
+> CHECK-enforced prefixes. NULL is legal only for rows written before the form required them.
 >
 > Write paths (verified 2026-09-10): Supabase MCP `execute_sql` against `public.decision_receipt`,
 > or the `log_arcs_session` MCP tool **only once** its `arcs_session_log` schema is extended to carry

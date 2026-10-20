@@ -25,6 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import jtbd_edge_weights as jew  # noqa: E402
+import receipt_coverage as rc  # noqa: E402
 
 OUT_DIR = "_STATE/jtbd-graph"
 GRAPH = OUT_DIR + "/graph.json"
@@ -111,6 +112,9 @@ def render(rep, today):
     L.append(f"- start: {rep['start'] or 'not set (nothing counted yet; set after merge)'}")
     L.append(f"- receipts since start: {c['receipts_since_start']}, with job_id and tool_id: {c['with_job_and_tool']}"
              + (f" ({c['share']:.0%})" if c["share"] is not None else ""))
+    for m in rep.get("coverage_missing", []):
+        L.append(f"  - lacks {'+'.join(m['lacks'])}: {m['receipt_id']}")
+    L.append("- one command for the 2026-11-03 check: `python3 scripts/receipt_coverage.py --export`")
     if rep["note"]:
         L.append(f"- {rep['note']}")
     L += ["", "## New tools with no job"]
@@ -150,6 +154,7 @@ def run(root=REPO, out_dir=OUT_DIR, today=None, graph=None, quiet=False):
         weights["note"] = "no receipt export; run `python3 scripts/universe_receipts_adapter.py --export`"
     hist = _history(d)
     snap, rep = build(graph, rows, weights, hist, today)
+    rep["coverage_missing"] = rc.coverage(rec or [], jew._ts(cfg.get("start")))["missing"]
     text = render(rep, today)
     os.makedirs(d, exist_ok=True)
     for name in (f"drift-{today}.md", "drift-latest.md"):

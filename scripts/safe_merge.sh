@@ -7,13 +7,18 @@
 # Gate (AGENTS.md gotcha 15): one helper that fails the whole class instead of three instance fixes.
 #
 # Usage: scripts/safe_merge.sh <pr> <expected-head-sha> [--timeout SECS] [--interval SECS]
-#        scripts/safe_merge.sh --self-test      (offline: fake gh on PATH, five scenarios)
+#        scripts/safe_merge.sh --self-test      (offline: fake gh on PATH, merge gates + job/tool derivation)
 #   1. refuses unless the PR head equals <expected-head-sha> (full sha or a prefix of 7+)
 #   2. waits until every check on that head is final, then refuses unless all are SUCCESS
 #      (PENDING past the timeout, FAILURE, CANCELLED, SKIPPED-as-only-check, or zero checks: refuse)
 #   3. CONFLICTING mergeable: stop and say so (never rebases)
 #   4. merges with `gh pr merge --merge --match-head-commit <sha>` (gotcha 17: never squash/rebase)
-#   5. prints the merge commit and a decision_receipt INSERT template (never writes to Supabase)
+#   5. prints the merge commit and a decision_receipt INSERT template (never writes to Supabase), with
+#      job_id and tool_id filled (Sprint 5 coverage, AGENTS.md "Receipts or it didn't happen"):
+#      job_id = a `job:backlog:<id>` named in the PR body or branch, else the one backlog row the diff adds
+#      or changes; tool_id = tool:script:<name> of the scripts/ file with the most changed lines. When
+#      neither derives, a '<REQUIRED ...>' placeholder is printed: it fails the column CHECK, so it can
+#      never land as a silent NULL.
 # Env: SAFE_MERGE_TIMEOUT (default 1800), SAFE_MERGE_INTERVAL (default 20),
 #      SAFE_MERGE_NOCHECK_GRACE (default 120: zero checks right after a push counts as pending this long).
 # Exit: 0 merged · 1 refused · 2 usage. Gating steps are never piped through tail/head/grep.
@@ -35,12 +40,14 @@ d="$FAKE_DIR"
 case "$1 $2" in
   "pr view")
     if [[ "$*" == *mergeCommit* ]]; then echo '{"state":"MERGED","mergeCommit":{"oid":"m3rg3c0mm1t"}}'; exit 0; fi
+    if [[ "$*" == *files* ]]; then cat "$d/meta" 2>/dev/null || echo '{"body":"","headRefName":"b","files":[]}'; exit 0; fi
     printf '{"headRefOid":"%s","mergeable":"%s","state":"OPEN","title":"t","url":"u"}\n' "$(cat "$d/head")" "$(cat "$d/mergeable")";;
   "pr checks")
     n=$(cat "$d/n" 2>/dev/null || echo 0); n=$((n+1)); echo $n > "$d/n"
     total=$(wc -l < "$d/checks"); [ $n -gt $total ] && n=$total
     sed -n "${n}p" "$d/checks";;
   "pr merge") echo "$*" > "$d/merged";;
+  "pr diff") cat "$d/diff" 2>/dev/null || true;;
   *) echo "fake gh: unexpected $*" >&2; exit 9;;
 esac
 FAKE
@@ -69,6 +76,24 @@ FAKE
   run_case conflict             1 no  abc1234def0000 CONFLICTING 60 "[$S]"
   run_case timeout              1 no  abc1234def0000 MERGEABLE 0 "[$P]"
   run_case zero-checks          1 no  abc1234def0000 MERGEABLE 60 "[]"
+  # Receipt job_id/tool_id derivation (Sprint 5): body ref, backlog-diff row, placeholders.
+  derive_case() { # name meta-json diff-text want-job-grep want-tool-grep
+    local name="$1" d="$tmp/$1"; mkdir -p "$d"; echo abc1234def0000 > "$d/head"; echo MERGEABLE > "$d/mergeable"
+    echo "[$S]" > "$d/checks"; printf '%s\n' "$2" > "$d/meta"; printf '%s\n' "$3" > "$d/diff"
+    FAKE_DIR="$d" PATH="$tmp/bin:$PATH" SAFE_MERGE_INTERVAL=0 SAFE_MERGE_NOCHECK_GRACE=0 bash "$here" 42 abc1234def > "$d/out" 2>&1 || true
+    if grep -qF -- "$4" "$d/out" && grep -qF -- "$5" "$d/out"; then echo "PASS $name"; pass=$((pass+1))
+    else echo "FAIL $name (want '$4' and '$5')"; sed 's/^/    /' "$d/out"; fail=$((fail+1)); fi
+  }
+  derive_case job-from-body \
+    '{"body":"Serves job:backlog:row-a.","headRefName":"claude/x","files":[{"path":"scripts/a.py","additions":9,"deletions":1},{"path":"scripts/b.sh","additions":2,"deletions":0}]}' '' \
+    "'job:backlog:row-a'," "'tool:script:a.py'"
+  derive_case job-from-backlog-diff \
+    '{"body":"","headRefName":"claude/x","files":[{"path":"_QUEUE/induced-backlog.jsonl","additions":1,"deletions":0},{"path":"AGENTS.md","additions":3,"deletions":0}]}' \
+    $'diff --git a/_QUEUE/induced-backlog.jsonl b/_QUEUE/induced-backlog.jsonl\n+++ b/_QUEUE/induced-backlog.jsonl\n+{"id": "row-b", "state": "RUNNING"}' \
+    "'job:backlog:row-b'," "'<REQUIRED tool:<kind>:<name>"
+  derive_case placeholders \
+    '{"body":"","headRefName":"claude/x","files":[{"path":"README.md","additions":1,"deletions":0}]}' '' \
+    "'<REQUIRED job:backlog:<row-id>" "'<REQUIRED tool:<kind>:<name>"
   echo "self-test: $pass passed, $fail failed"
   [ "$fail" -eq 0 ]
 }
@@ -138,12 +163,33 @@ gh pr merge "$PR" --merge --match-head-commit "$HEAD_SHA"
 MERGE_SHA="$(gh pr view "$PR" --json state,mergeCommit | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["state"]=="MERGED", d; print(d["mergeCommit"]["oid"])')"
 echo "MERGED: PR $PR head $HEAD_SHA merge commit $MERGE_SHA"
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+# job_id / tool_id for the receipt. Best effort: a lookup failure yields the REQUIRED placeholder, never NULL.
+JOB_TOOL="$( { gh pr view "$PR" --json body,headRefName,files 2>/dev/null || echo '{}'; echo '#--DIFF--'; gh pr diff "$PR" 2>/dev/null || true; } | python3 -c '
+import json,re,sys
+meta,_,diff=sys.stdin.read().partition("#--DIFF--")
+try: m=json.loads(meta)
+except ValueError: m={}
+J=re.compile(r"job:backlog:([a-z0-9][a-z0-9._-]*[a-z0-9])")
+jobs=sorted(set(J.findall((m.get("body") or "")+" "+(m.get("headRefName") or ""))))
+if not jobs:
+    infile=False
+    for l in diff.splitlines():
+        if l.startswith("diff --git"): infile=l.endswith("_QUEUE/induced-backlog.jsonl")
+        elif infile and l.startswith("+{"):
+            try: jobs.append(json.loads(l[1:])["id"])
+            except (ValueError,KeyError,TypeError): pass
+    jobs=sorted(set(jobs))
+job="job:backlog:"+jobs[0] if len(jobs)==1 else "<REQUIRED job:backlog:<row-id>"+(" one of "+",".join(jobs) if jobs else "")+">"
+sc=[(f.get("additions",0)+f.get("deletions",0),f["path"]) for f in m.get("files") or [] if f.get("path","").startswith("scripts/") and "/git-hooks/" not in f["path"]]
+tool="tool:script:"+max(sc)[1].rsplit("/",1)[-1] if sc else "<REQUIRED tool:<kind>:<name>>"
+print(job.replace(chr(39),"")+"\t"+tool.replace(chr(39),""))')"
+JOB_ID="${JOB_TOOL%%$'\t'*}"; TOOL_ID="${JOB_TOOL#*$'\t'}"
 q_title="${TITLE//\'/\'\'}"
 cat <<SQL
 
--- decision_receipt template (fill the <...> fields; run via Supabase execute_sql). Not written by this script.
+-- decision_receipt template (fill the <...> fields, including any <REQUIRED ...> job_id/tool_id; run via Supabase execute_sql). Not written by this script.
 INSERT INTO public.decision_receipt
-  (receipt_id, question, horizon, stakes, mode, what_confirmed, what_unconfirmed, operator, event_at, source_repo, refs)
+  (receipt_id, question, horizon, stakes, mode, what_confirmed, what_unconfirmed, operator, event_at, source_repo, refs, job_id, tool_id)
 VALUES (
   '$(date -u +%Y-%m-%d)--<slug>-pr${PR}--ZH',
   'Merge PR ${PR}: ${q_title}?',
@@ -155,6 +201,8 @@ VALUES (
   '<operator>',
   '${NOW}',
   'flashesofbrilliance/arcs-v9',
-  ARRAY['${URL}', '${MERGE_SHA}']
+  ARRAY['${URL}', '${MERGE_SHA}'],
+  '${JOB_ID}',  -- job_id: the backlog row this served (Sprint 5 coverage; never NULL)
+  '${TOOL_ID}'  -- tool_id: the tool used (tool:<kind>:<name>); check it, the derivation is a default
 );
 SQL
