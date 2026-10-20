@@ -402,6 +402,25 @@ needs two sources from different sites (the uncorrelated-families rule). The pag
 it cannot tell whether a claim is true. So arcs-verb-eval is the mechanical floor for both axes;
 signatures 1, 2, 3 and 6 and the truth states stay judgment, recorded with their evidence.
 
+**Self-deception guard: a hardening floor on every recommendation (Zach, 2026-10-20).**
+The system can talk itself into a route. Rule: a lean may be no more confident than the evidence
+state of the claims it rests on, and the bar rises with the climb.
+
+1. Every lean lists its load-bearing claims with their truth state (table above).
+2. Required floor by stakes: two-way and low ruin, probable claims may carry the lean. Medium
+   ruin or a deadline inside the week: every load-bearing claim must be confirmed or
+   circumstantial. One-way door or high ruin: every load-bearing claim confirmed, plus a
+   pre-mortem on file (domino D7) and the Op 25 cold re-read passed.
+3. Below the floor, the lean is rewritten as "untested" and the recommended next move becomes
+   the cheapest check that would lift it, never the plan itself.
+4. Effort is weighed against the moment: if the check costs more than the plan's worst case on a
+   two-way door, act and record the gap (over-hardening is also a failure; memory
+   `pessimism-bias-is-a-daemon-gate-not-rigor`).
+
+Caught in this session: D0's "swap the onramp" lean rested on four probable claims (from the
+2026-10-18 handoff) and was first stated as a lean anyway. Under this rule it reads "untested;
+next move: verify the four decisions live (read-only)".
+
 A counterfeit-suspected claim drops to Unknown on the truth axis, is never scored, and gets a seam
 line. Rule for Claude itself: its own unverified output is Reconstructed at best, never Witnessed.
 GAP: neither axis is a field on receipts yet; today both squash into `what_unconfirmed`.
