@@ -258,6 +258,31 @@ edges inside the shortlist 14 > 15 > 2 and 18 > 9; outside blockers on 1, 2, 9, 
 tool NOT-RESOLVED on 7, 11, 15, 16, PARTIAL on 12, NONE (human work) on 13. "HAVE" means the
 named tool resolves, not that it fits the job.
 
+### Live dependency map for the compounding chain (refreshed 2026-10-20 from backlog_graph.py --json)
+
+Zach chose to start with the smallest, highest-leverage, compounding steps, picked after the
+structure reveal (so these are post-reveal picks; the blind test moves to the next induced
+backlog). The map is updated as each step lands; the date above changes with it.
+
+```
+backlog-fate-triage-2026-10-18        READY    needs human   tool HAVE      no deps
+receipt-randomized-plumbing-closes    HOLDING  RIPE          tool HAVE
+  receipt-test-real-tag               DONE
+receipt-real-interview-closes         HOLDING  waiting       tool NOT-RESOLVED
+  receipt-randomized-plumbing-closes  (above)
+accountant-real-cohort-calibration    HOLDING  waiting       tool HAVE
+  accountant-calibration-curve        HOLDING  waiting
+    accountant-external-cohort-nonzero HOLDING waiting
+      agent-receipts-audit-first-conversion HOLDING RIPE  tool NOT-RESOLVED (one-way external send, Zach)
+      notomation-receipt-save-nudge   DONE
+  receipt-real-interview-closes       (above)
+handoff-open-items-closes-when        OPEN     needs human   tool HAVE      no deps
+```
+
+Kintsugi seam: the first draft of this chain (in chat) said to release a stale claim on
+receipt-test-real-tag first. That came from the 2026-10-18 handoff; the live row is DONE. The
+step is dropped.
+
 ## Ask
 
 Next: Zach writes the one sentence, horizon and exclusion line, and marks 3 to 7 core rows, before
