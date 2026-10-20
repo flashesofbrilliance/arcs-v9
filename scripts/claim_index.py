@@ -7,7 +7,10 @@ what backs it, is it current" from the files themselves, so the answer never com
 
 Each index row: claim (the metric), value (the number as stated), locations (file:line, phrase),
 kind (running = a "today" figure such as "over 3,500 commits" or a stamped status field;
-point = a dated snapshot such as "859 commits" in a case study, listed but never checked),
+point = a bare figure such as "859 commits" in a case study, listed but never checked;
+history = any figure inside a dated record (a YYYY-MM-DD path, runtime/recoil/generated,
+_ARTIFACTS/milestones or atlas): true on its date, no drift computed, never queued for rewording;
+unquantified = a claim with no digits such as "thousands of commits", listed so it is findable),
 evidence (where the true number lives), recompute (the command), live (recomputed now, or null
 when it cannot be recomputed offline), drift (live minus stated, over live).
 
@@ -23,7 +26,7 @@ Stdlib only. Counts come from origin/main (run `git fetch` first for a fresh num
 import argparse, datetime as dt, json, os, re, subprocess, sys, tempfile
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-SCAN_DIRS = ("public", "_ARTIFACTS")
+SCAN_DIRS = ("public", "_ARTIFACTS", "runtime/recoil/generated")
 TEXT_EXT = (".html", ".htm", ".json", ".txt", ".md", ".tsx")
 T0 = dt.date(2026, 4, 9)  # Day 0, same anchor as status_floor_emit.py
 DEFAULT_TOL = 0.15
@@ -76,6 +79,16 @@ def live_merged_prs(root):
     return int(out) if out.isdigit() else None
 
 
+def live_adrs(root):
+    nums = set()
+    d = os.path.join(root, "_DECISIONS")
+    for fn in os.listdir(d) if os.path.isdir(d) else ():
+        m = re.match(r"ADR-(\d+)", fn)
+        if m:
+            nums.add(int(m.group(1)))
+    return len(nums) or None
+
+
 def live_days(root, today=None):
     return ((today or dt.date.today()) - T0).days
 
@@ -105,6 +118,12 @@ METRICS = {
         "recompute": "Supabase execute_sql: select count(*) from public.decision_receipt",
         "live": None,
     },
+    "adrs": {
+        "noun": r"ADRs",
+        "evidence": "distinct ADR numbers in _DECISIONS/ (oracle.py audit adr lists collisions)",
+        "recompute": "ls _DECISIONS | grep -oE '^ADR-[0-9]+' | sort -u | wc -l",
+        "live": live_adrs,
+    },
     "days": {
         "noun": None,  # "over 30 days" is almost always a duration, so only stamped Day fields count
         "evidence": "days since T0 2026-04-09 (status_floor_emit.py)",
@@ -113,11 +132,24 @@ METRICS = {
     },
 }
 
-RUNNING_QUAL = r"(?:over|more than|nearly|almost|about|around|roughly|~|≈)"
-NUM = r"(\d{1,3}(?:,\d{3})+|\d{2,})(\+)?"
+RUNNING_QUAL = r"(?:over|more than|upwards of|north of|nearly|almost|about|around|roughly|~|≈)"
+NUM = r"(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?[kK]|\d{2,})(\+)?"
 # Stamped status fields are "today" figures by construction.
+# Claims with no digits: listed so they are findable, never checked (no number to compare).
+WORDY_RE = re.compile(r"\b(?:many |several )?(thousands|hundreds|dozens) of (?:merged )?(commits|PRs|pull requests|receipts|ADRs|decisions)\b", re.I)
+WORDY_METRIC = {"commits": "commits", "prs": "merged_prs", "pull requests": "merged_prs",
+                "receipts": "receipts", "decisions": "receipts", "adrs": "adrs"}
+# Dated records: a number in them was true on their date. Kind "history", listed, never reworded.
+HISTORY_RE = re.compile(r"(?:^|/)(?:runtime/recoil/generated|_ARTIFACTS/(?:milestones|atlas))/|\d{4}-\d{2}-\d{2}")
 STAMPED_IDS = {"sv-commits": "commits", "stat-days": "days", "hero-day": "days", "era-day": "days"}
 STAMP_RE = re.compile(r'id="(%s)"[^>]*>\s*(?:Day\s*)?(\d{1,3}(?:,\d{3})+|\d+)' % "|".join(STAMPED_IDS))
+
+
+def parse_num(txt):
+    t = txt.replace(",", "")
+    if t[-1] in "kK":
+        return int(round(float(t[:-1]) * 1000))
+    return int(float(t))
 
 
 def _patterns():
@@ -150,20 +182,23 @@ def scan(root):
         except OSError:
             continue
         rel = os.path.relpath(path, root)
-        frozen = rel in SNAPSHOT_FILES
+        frozen = rel in SNAPSHOT_FILES or bool(HISTORY_RE.search(rel))
+        base_point = "history" if HISTORY_RE.search(rel) else "point"
         seen = set()
         for i, line in enumerate(lines, 1):
             for m in STAMP_RE.finditer(line):
                 hits.append((STAMPED_IDS[m.group(1)], int(m.group(2).replace(",", "")),
-                             "point" if frozen else "running", rel, i, "#%s stamp" % m.group(1)))
+                             base_point if frozen else "running", rel, i, "#%s stamp" % m.group(1)))
+            for m in WORDY_RE.finditer(line):
+                hits.append((WORDY_METRIC[m.group(2).lower()], None, "unquantified", rel, i, m.group(0)))
             for name, rx in pats:
                 for m in rx.finditer(line):
                     qual, num, plus = m.group(1), m.group(2), m.group(3)
-                    kind = "running" if (qual or plus) and not frozen else "point"
+                    kind = "running" if (qual or plus or num[-1] in "kK") and not frozen else base_point
                     if (name, i, m.group(0)) in seen:
                         continue
                     seen.add((name, i, m.group(0)))
-                    hits.append((name, int(num.replace(",", "")), kind, rel, i, m.group(0).strip()))
+                    hits.append((name, parse_num(num), kind, rel, i, m.group(0).strip()))
     return hits
 
 
@@ -183,9 +218,9 @@ def build_index(root, today=None):
         })
         r["locations"].append({"file": rel, "line": line, "phrase": phrase})
     for r in rows.values():
-        if r["live"]:
+        if r["live"] and r["value"] is not None and r["kind"] != "history":
             r["drift"] = round((r["live"] - r["value"]) / r["live"], 3)
-    return sorted(rows.values(), key=lambda r: (r["claim"], r["kind"], -r["value"]))
+    return sorted(rows.values(), key=lambda r: (r["claim"], r["kind"], -(r["value"] or 0)))
 
 
 def drifted(index, tol):
@@ -197,8 +232,8 @@ def render(index):
     for r in index:
         live = "?" if r["live"] is None else r["live"]
         drift = "" if r["drift"] is None else " drift %+.0f%%" % (100 * r["drift"])
-        out.append("%-10s %-7s %7s live %s%s  (%d place%s)" % (
-            r["claim"], r["kind"], "{:,}".format(r["value"]), live, drift,
+        out.append("%-17s %-12s %7s live %s%s  (%d place%s)" % (
+            r["claim"], r["kind"], "-" if r["value"] is None else "{:,}".format(r["value"]), live, drift,
             len(r["locations"]), "" if len(r["locations"]) == 1 else "s"))
         for loc in r["locations"]:
             out.append("    %s:%d  %s" % (loc["file"], loc["line"], loc["phrase"]))
@@ -211,7 +246,11 @@ def self_test():
         with open(os.path.join(d, "public", "a.txt"), "w") as f:
             f.write("About six months and over 3,500 commits.\nThe case study had 859 commits.\n")
         with open(os.path.join(d, "public", "s.html"), "w") as f:
-            f.write('<div id="sv-commits">4,900</div> and 1,200+ merged PRs and 254 receipts\n')
+            f.write('<div id="sv-commits">4,900</div> and 1,200+ merged PRs and 254 receipts\n'
+                    'about 4.9k commits, 3500+ commits, thousands of commits, 84 ADRs\n')
+        os.makedirs(os.path.join(d, "runtime", "recoil", "generated"))
+        with open(os.path.join(d, "runtime", "recoil", "generated", "2026-08-27-x.json"), "w") as f:
+            f.write('{"note": "over 1,535 commits"}\n')
         subprocess.run(["git", "-C", d, "init", "-q"], check=True)
         env = dict(os.environ, GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@t", GIT_COMMITTER_NAME="t", GIT_COMMITTER_EMAIL="t@t")
         subprocess.run(["git", "-C", d, "commit", "-q", "--allow-empty", "-m", "x"], check=True, env=env)
@@ -226,9 +265,13 @@ def self_test():
         assert by[("merged_prs", 1200)]["kind"] == "running"  # the "+" marks a running figure
         assert by[("receipts", 254)]["live"] is None  # not recomputable offline, never flagged
         assert by[("commits", 3500)]["live"] == 1
+        assert by[("commits", 4900)]["kind"] == "running" and len(by[("commits", 4900)]["locations"]) == 2  # 4.9k
+        assert any(r["kind"] == "unquantified" and r["claim"] == "commits" for r in idx)
+        assert by[("commits", 1535)]["kind"] == "history"  # dated record, never flagged
+        assert by[("adrs", 84)]["kind"] == "point"
         # with a fake live count of 5,065 the 3,500 claim drifts about 31 percent and is flagged
         for r in idx:
-            if r["claim"] == "commits":
+            if r["claim"] == "commits" and r["value"] is not None:
                 r["live"] = 5065
                 r["drift"] = round((5065 - r["value"]) / 5065, 3)
         flagged = {(r["claim"], r["value"]) for r in drifted(idx, DEFAULT_TOL)}
