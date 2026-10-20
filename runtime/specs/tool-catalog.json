@@ -2,20 +2,21 @@
  "schema": "tool-catalog-v1",
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
+  "agent": 22,
   "command": 17,
   "hook": 3,
   "operator": 46,
   "package": 3,
-  "script": 248,
+  "script": 250,
   "skill": 22,
   "workflow": 2
  },
- "total": 341,
+ "total": 365,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 505,
+   "WIRED": 507,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -407,6 +408,182 @@
    "path": ".claude/workflows/recoil-report.mjs",
    "jtbd": "Multi-agent recoil report: gather signals, analyze through ARCS operator lenses, adversarially verify every claim, synthesize a provenance-graded report",
    "invoke": "Workflow scriptPath=.claude/workflows/recoil-report.mjs",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "chief-bayesian",
+   "path": ".claude/agents/chief-bayesian.md",
+   "jtbd": "[CANDIDATE] Staff of Chiefs, Bayesian: audit every prior and update for evidence.",
+   "invoke": "Agent subagent_type=chief-bayesian",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "chief-conductor",
+   "path": ".claude/agents/chief-conductor.md",
+   "jtbd": "[CANDIDATE] Staff of Chiefs, Conductor: sequence surviving paths and rank them with reasons.",
+   "invoke": "Agent subagent_type=chief-conductor",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "chief-loki",
+   "path": ".claude/agents/chief-loki.md",
+   "jtbd": "[CANDIDATE] Staff of Chiefs, Loki: attack with the cheapest thing that breaks the claim.",
+   "invoke": "Agent subagent_type=chief-loki",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "ciso-review",
+   "path": ".claude/agents/ciso-review.md",
+   "jtbd": "Security review of a diff or PR from a CISO perspective. Run on changes touching API routes, auth, schema, env handling, or external calls.",
+   "invoke": "Agent subagent_type=ciso-review",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "claim-index-sme",
+   "path": ".claude/agents/claim-index-sme.md",
+   "jtbd": "[CANDIDATE] Answers \\\"where is X claimed, what backs it, is it current\\\" for any public number (commits, merged PRs, receipts, days). Read-only; reports drift, never rewords a page.",
+   "invoke": "Agent subagent_type=claim-index-sme",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "claims-skeptic",
+   "path": ".claude/agents/claims-skeptic.md",
+   "jtbd": "Adversarial verifier — takes any document (ADR, handoff, audit, canon, README) and proves or disproves each factual claim against the live repo. Use before promoting a document to canonical, and on any status table.",
+   "invoke": "Agent subagent_type=claims-skeptic",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "claude-code-config-auditor",
+   "path": ".claude/agents/claude-code-config-auditor.md",
+   "jtbd": "Audits this repo's Claude Code setup (CLAUDE.md and its imports, .claude/settings*.json, agents, skills, commands, hooks, .mcp.json) against the official Claude Code docs, which are the master standard. Use when adding or changing any Claud",
+   "invoke": "Agent subagent_type=claude-code-config-auditor",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "idea-alchemist",
+   "path": ".claude/agents/idea-alchemist.md",
+   "jtbd": "[CANDIDATE] Sharpen a fuzzy premise into ONE falsifiable claim with labelled parts.",
+   "invoke": "Agent subagent_type=idea-alchemist",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "idea-curator",
+   "path": ".claude/agents/idea-curator.md",
+   "jtbd": "[CANDIDATE] Seat for the Curator (orthogonal reframe): offer ONE reframe perpendicular to the current framing. Not a keep or cut filter, not the Taxonomist.",
+   "invoke": "Agent subagent_type=idea-curator",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "idea-detective",
+   "path": ".claude/agents/idea-detective.md",
+   "jtbd": "[CANDIDATE] Find the single weak joint and its cheapest falsifier.",
+   "invoke": "Agent subagent_type=idea-detective",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "idea-librarian",
+   "path": ".claude/agents/idea-librarian.md",
+   "jtbd": "[CANDIDATE] Ground each part in repo prior art. Reads ADR-058 and runs /prior-art first.",
+   "invoke": "Agent subagent_type=idea-librarian",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "impeccable-asset-producer",
+   "path": ".claude/agents/impeccable-asset-producer.md",
+   "jtbd": "Produces clean reusable raster assets from approved Impeccable mock references without redesigning the direction.",
+   "invoke": "Agent subagent_type=impeccable-asset-producer",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "impeccable-documenter",
+   "path": ".claude/agents/impeccable-documenter.md",
+   "jtbd": "Records DESIGN.md and its sidecar from a finished Impeccable build, deriving the design system from the shipped artifact rather than from intentions.",
+   "invoke": "Agent subagent_type=impeccable-documenter",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "impeccable-finish-reviewer",
+   "path": ".claude/agents/impeccable-finish-reviewer.md",
+   "jtbd": "Reviews a finished Impeccable build against its direction contract, the approved comp, and the chosen world's quality bar, returning an ordered list of material fixes.",
+   "invoke": "Agent subagent_type=impeccable-finish-reviewer",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "impeccable-manual-edit-applier",
+   "path": ".claude/agents/impeccable-manual-edit-applier.md",
+   "jtbd": "Applies leased Impeccable live manual copy-edit batches to source and returns canonical Apply results.",
+   "invoke": "Agent subagent_type=impeccable-manual-edit-applier",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "platform-standards-auditor",
+   "path": ".claude/agents/platform-standards-auditor.md",
+   "jtbd": "Audits GitHub (and any other platform/harness — Vercel, Supabase, Claude Code config, CI) for features we already pay for but don't use, and for homegrown tooling that duplicates a platform-native capability. Use when standing up a new work",
+   "invoke": "Agent subagent_type=platform-standards-auditor",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "privacy-review",
+   "path": ".claude/agents/privacy-review.md",
+   "jtbd": "Privacy/compliance review — verifies code matches the published trust contract and privacy claims. Run on changes touching data storage, emails, analytics, retention, or any public claim page.",
+   "invoke": "Agent subagent_type=privacy-review",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "recoil-gather-git",
+   "path": ".claude/agents/recoil-gather-git.md",
+   "jtbd": "Git-telemetry gatherer for the recoil-report workflow. Holds a shell (git needs it) but NOTHING else that reaches the network or mutates state — no WebFetch, no MCP, no Write/Edit, no subagent spawning. Use only for the git-log/commit-trail",
+   "invoke": "Agent subagent_type=recoil-gather-git",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "recoil-gather-web",
+   "path": ".claude/agents/recoil-gather-web.md",
+   "jtbd": "Web/profile gatherer for the recoil-report workflow. Can fetch a pre-approved URL and read — nothing else. No Bash/shell, no MCP, no Write/Edit, no subagent spawning. Use for the LinkedIn/public-profile gather stage, which ingests fully att",
+   "invoke": "Agent subagent_type=recoil-gather-web",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "recoil-reason",
+   "path": ".claude/agents/recoil-reason.md",
+   "jtbd": "Pure-reasoning stage for the recoil-report workflow (profile synthesis, operator lenses, adversarial verify, final synthesis). Least-privilege — restricted to Read only (no Bash, WebFetch, MCP, Write, Edit, Grep/Glob, or subagent spawning).",
+   "invoke": "Agent subagent_type=recoil-reason",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "scenario-runner",
+   "path": ".claude/agents/scenario-runner.md",
+   "jtbd": "[CANDIDATE] Run ONE case (best, base or worst) with a pre-mortem, post-mortem and probability graph.",
+   "invoke": "Agent subagent_type=scenario-runner",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "sre-review",
+   "path": ".claude/agents/sre-review.md",
+   "jtbd": "Reliability/operability review — failure modes, observability, migrations, and rollback. Run on changes touching infra config, schema migrations, cron/background work, or external service calls.",
+   "invoke": "Agent subagent_type=sre-review",
    "state": "WIRED"
   },
   {
@@ -1309,7 +1486,7 @@
    "kind": "script",
    "name": "lattice_sim.py",
    "path": "scripts/lattice_sim.py",
-   "jtbd": "lattice_sim.py — Structural load test for the superionic goal lattice (ADR-023).",
+   "jtbd": "Goal lattice stalls, clumps or collapses under synthetic load? Run this structural load test of the superionic goal lattice (ADR-023); load-bearing for the Conductor.",
    "invoke": "python3 scripts/lattice_sim.py",
    "state": "WIRED"
   },
@@ -1351,6 +1528,22 @@
    "path": "scripts/librarian_hook.py",
    "jtbd": "librarian_hook: pre-commit WARNING for ADR-088 triggers T2 (uncovered metric) and T3 (new term).",
    "invoke": "python3 scripts/librarian_hook.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "line_brief.py",
+   "path": "scripts/line_brief.py",
+   "jtbd": "line_brief.py: render the child-session brief for assembly-line rows, with the orientation pre-paid.",
+   "invoke": "python3 scripts/line_brief.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "line_triage.py",
+   "path": "scripts/line_triage.py",
+   "jtbd": "line_triage.py: assign each startable backlog row a resolution level (R-1, R0..R4) for the assembly line.",
+   "invoke": "python3 scripts/line_triage.py",
    "state": "WIRED"
   },
   {

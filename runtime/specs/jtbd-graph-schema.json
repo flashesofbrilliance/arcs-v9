@@ -28,6 +28,11 @@
         "key": "tools[].name where kind=workflow",
         "pattern": "^tool:workflow:[A-Za-z0-9._-]+$"
       },
+      "tool:agent": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=agent",
+        "pattern": "^tool:agent:[A-Za-z0-9._-]+$"
+      },
       "tool:hook": {
         "source": "runtime/specs/tool-catalog.json",
         "key": "tools[].name where kind=hook",

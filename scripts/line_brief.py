@@ -10,7 +10,7 @@ _QUEUE/; they return row deltas (parent is the only writer there).
 
 usage: line_brief.py ROW_ID [ROW_ID ...] [--json] | --self-test
 """
-import argparse, json, subprocess, sys
+import argparse, fnmatch, json, re, shlex, subprocess, sys
 from datetime import date
 from pathlib import Path
 
@@ -20,6 +20,72 @@ import line_triage  # noqa: E402
 ROOT = line_triage.ROOT
 SPAWNABLE = {"R1", "R2", "R-1"}
 FORBIDDEN_WRITE = ("_QUEUE/", "CLAUDE.md", "_SEEDS/_oracle.json")  # hot files: parent or lease holder only
+
+
+HOOK = ROOT / "scripts/git-hooks/pre-commit"
+_STOP = ("2>", "||", "|", ")", ">", "&&", ";")
+_CMD = re.compile(r"\b(python3|node|sh|bash) ((?:scripts|operators|\.claude|tools)/[^\s;&|)>]+(?: --[a-z-]+)*)")
+
+
+def parse_gates(text):
+    """Extract (pathspecs, diff_filter, label, command) per `git diff --cached --name-only ... --` line.
+    Static read of the hook: pathspecs are git pathspec globs; the command is the first repo script
+    invoked in the next 14 lines. Approximate by design: the brief says 'may fire', the hook decides."""
+    text = text.replace("\\\n", " ")
+    lines = text.split("\n")
+    gates = []
+    for n, ln in enumerate(lines):
+        if "git diff --cached --name-only" not in ln or " -- " not in ln:
+            continue
+        flt = (re.search(r"--diff-filter=([A-Z]+)", ln) or [None, ""])[1]
+        try:
+            toks = shlex.split(ln.split(" -- ", 1)[1])
+        except ValueError:
+            continue
+        specs = []
+        for t in toks:
+            if t.startswith(_STOP):
+                break
+            t = t.rstrip(")")
+            if t and not t.startswith(":("):
+                specs.append(t)
+        if not specs:
+            continue
+        label, i = "", n - 1
+        while i >= 0 and lines[i].lstrip().startswith("#") and not lines[i].startswith("#!"):
+            label = lines[i].lstrip("# ").strip() or label
+            i -= 1
+        cmd = ""
+        for nxt in lines[n + 1:n + 15]:
+            if "git diff --cached --name-only" in nxt:
+                break
+            m = _CMD.search(nxt)
+            if m:
+                cmd = f"{m.group(1)} {m.group(2)}"
+                break
+        gates.append({"specs": specs, "filter": flt, "label": label[:110], "command": cmd})
+    return gates
+
+
+def spec_match(path, spec):
+    if spec.endswith("/"):
+        spec = spec.rstrip("/")
+    return (path == spec or path.startswith(spec + "/")
+            or fnmatch.fnmatchcase(path, spec) or fnmatch.fnmatchcase(path, spec.replace("**/", "*")))
+
+
+def gates_for(paths, text=None):
+    """Pre-commit gates that may fire when any of `paths` is staged."""
+    if text is None:
+        text = HOOK.read_text(errors="ignore") if HOOK.is_file() else ""
+    out, seen = [], set()
+    for g in parse_gates(text):
+        hit = sorted({p for p in paths for sp in g["specs"] if spec_match(p, sp)})
+        key = (g["command"], g["label"])
+        if hit and key not in seen:
+            seen.add(key)
+            out.append({**{k: g[k] for k in ("label", "command", "filter")}, "matched": hit})
+    return out
 
 
 def git(*a):
@@ -45,7 +111,8 @@ def build(node, row, level, rule):
     if level in ("R1", "R2") and not owns:
         return None, "no writable resolved file in route.tool; triage R-1 first"
     sizes = {p: len((ROOT / p).read_text(errors="ignore").splitlines()) for p in owns}
-    done = row.get("done_check") or (row.get("gates") or ["UNCONFIRMED: row names no gate; ask the parent before acting"])[0]
+    # A gate is a constraint, not a check: never present gates[0] as the done-check.
+    done = row.get("done_check") or "UNCONFIRMED: the row names no done_check; the parent must supply one before this brief is sent"
     brief = {
         "title": f"Resolve {node['id']}" if level == "R-1" else f"Close {node['id']}",
         "level": level,
@@ -58,6 +125,8 @@ def build(node, row, level, rule):
         "owns_lines": sizes,
         "ssot": [p for p in node.get("tool_resolved", []) if p not in owns],
         "done_check": done,
+        "gates": row.get("gates") or [],
+        "commit_gates": gates_for(owns),
         "do_not": ["merge", "edit _QUEUE/ (return row_deltas instead)", "start sessions", "touch files outside OWNS"],
         "return_contract": ["status", "pr", "touched", "evidence", "row_deltas", "new_rows(with evidence)", "unblocks_observed"],
     }
@@ -70,6 +139,11 @@ def render(b):
          "ROW: " + json.dumps(b["row"], ensure_ascii=False),
          "OWNS (write): " + (", ".join(f"{p} ({b['owns_lines'][p]} lines)" for p in b["owns"]) or "none; return the route.tool value as a row_delta"),
          "SSOT (read-only): " + (", ".join(b["ssot"]) or "none"),
+         "COMMIT GATES (pre-commit may block; run these BEFORE committing, they are cheaper than a failed commit): "
+         + (" || ".join(f"{g['command'] or 'see hook'} [{g['label'][:60]}; staged {g['filter'] or 'any'}]" for g in b["commit_gates"][:8])
+            + (f" || +{len(b['commit_gates']) - 8} more in scripts/git-hooks/pre-commit" if len(b["commit_gates"]) > 8 else "")
+            if b["commit_gates"] else "none matched on OWNS"),
+         "GATES (constraints, all hold): " + (" | ".join(b["gates"]) or "none"),
          f"DONE LOOKS LIKE: {b['done_check']}", "DO NOT: " + "; ".join(b["do_not"]),
          "RETURN CONTRACT: " + ", ".join(b["return_contract"]),
          "FIRST MOVE: act on OWNS directly; the orientation above is current. Read only what OWNS names."]
@@ -113,6 +187,40 @@ def self_test_owns():
     ]
 
 
+def self_test_gates():
+    """Commit-gate discovery: pathspec globs, diff-filter, continuation lines, label, command; fail-on-bad and pass-on-good."""
+    hook = """#!/bin/sh
+# Alpha gate: scripts edits must keep the thing green.
+ga=$(git diff --cached --name-only --diff-filter=AM -- scripts runtime/specs 2>/dev/null || true)
+if [ -n "$ga" ]; then
+  if ! python3 scripts/alpha_check.py --check; then exit 1; fi
+fi
+# Beta gate: new pages only.
+gb=$(git diff --cached --name-only --diff-filter=A -- 'public/**/*.html' 'public/*.html' 2>/dev/null || true)
+if [ -n "$gb" ]; then
+  node scripts/beta_check.mjs
+fi
+# Gamma gate: continuation line pathspecs.
+gc=$(git diff --cached --name-only -- \\
+    'ops/a.jsonl' \\
+    'ops/b.json' 2>/dev/null || true)
+if [ -n "$gc" ]; then python3 scripts/gamma.py; fi
+"""
+    cmds = lambda paths: sorted(g["command"] for g in gates_for(paths, hook))
+    real = gates_for(["scripts/lattice_sim.py", "runtime/specs/tool-catalog.json", "_QUEUE/induced-backlog.jsonl"])
+    return [
+        ("dir pathspec matches a file under it", cmds(["scripts/x.py"]) == ["python3 scripts/alpha_check.py --check"]),
+        ("glob with ** matches a nested page", cmds(["public/sub/a.html"]) == ["node scripts/beta_check.mjs"]),
+        ("continuation-line pathspecs are joined", cmds(["ops/b.json"]) == ["python3 scripts/gamma.py"]),
+        ("no path, no gate (fail-on-bad)", cmds([]) == []),
+        ("unrelated path fires nothing", cmds(["src/z.ts", "docs/readme.md"]) == []),
+        ("label comes from the comment above", gates_for(["scripts/x.py"], hook)[0]["label"].startswith("Alpha gate")),
+        ("diff-filter is carried", gates_for(["public/a.html"], hook)[0]["filter"] == "A"),
+        ("real hook: the jtbd-graph gate that blocked pilot child 1 is found",
+         any("universe_jtbd_adapter.py" in g["command"] for g in real)),
+    ]
+
+
 def self_test():
     N = lambda i, tool="HAVE", paths=(), **k: {"id": i, "state": "READY", "tool": tool, "tier_cue": 2, "consent": None, "ready_now": True, "descendants": 0, "tool_resolved": list(paths), **k}
     real = "scripts/line_triage.py"
@@ -129,9 +237,11 @@ def self_test():
         ("e refused: only hot file resolves", any(i == "e" for i, _ in refused)),
         ("filing-x refused as human track", any(i == "filing-x" and w.startswith("R4") for i, w in refused)),
         ("no brief ever owns a hot file", all(not p.startswith(FORBIDDEN_WRITE) for b in briefs for p in b["owns"])),
-        ("rendered brief carries all template sections", all(s in render(briefs[0]) for s in ("TITLE:", "AS-OF", "ROW:", "OWNS", "SSOT", "DONE LOOKS LIKE:", "DO NOT:", "RETURN CONTRACT:", "FIRST MOVE:"))),
+        ("gate is never passed off as the done-check", all("UNCONFIRMED" in b["done_check"] for b in briefs)),
+        ("rendered brief carries all template sections", all(s in render(briefs[0]) for s in ("TITLE:", "AS-OF", "ROW:", "OWNS", "SSOT", "GATES", "DONE LOOKS LIKE:", "DO NOT:", "RETURN CONTRACT:", "FIRST MOVE:"))),
     ]
     ok += self_test_owns()
+    ok += self_test_gates()
     bad = [n for n, v in ok if not v]
     if bad:
         print("self-test FAILED:", bad); return 1
