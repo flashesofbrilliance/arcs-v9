@@ -60,7 +60,9 @@ def check(graph, schema, root=None):
             # tool:skill is a dup; a job and its blocker share a line legitimately), the path is normalised,
             # and a prose line may hold several units only when they differ by declared service needle
             forms = [(ns, "key", src.get("key"))]
-            if " " not in str(src.get("catalog")):
+            # s4: a glob catalog (memory/*.md, _PATTERNS/*.md) spans many files, so its line form needs the path
+            # too; keyed by line alone, line 2 of every memory file collided (38 false SOURCE-DUPs with mined jobs)
+            if " " not in str(src.get("catalog")) and "*" not in str(src.get("catalog")):
                 forms.append((kind, "line", src.get("catalog"), src.get("line")))
             else:
                 svc = a.get("title") if ns == "dep:service" else ""
