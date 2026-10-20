@@ -183,3 +183,11 @@ What it taught, and changed:
 - The overlap gate did its job: all the phosphor rows edit the same source files, so only one can be in a wave.
 - Cost note: the same 5 edits as child sessions would have cost about 100k boot + 170k drag each. Resolving routes is inline work; spawn children for builds.
 - Weak spot: "NOT-RESOLVED falls" measures that a path exists, not that it is the right tool. I chose the paths by reading each row; nobody else has checked them.
+
+### Pilot child 1 result (2026-10-20, catalog-fixes-after-s4, PR 1747 merged)
+
+- **Drag to first edit:** 15k net tokens and 3 tool calls (baseline median 296k, 5 to 60 calls). n=1 on a small, bounded task, so this is not a verdict on the 30 percent kill condition.
+- **What actually cost the time:** three pre-commit gate blocks the brief did not mention. Adding a catalog surface cascaded into the jtbd-graph gate (22 findings: the agents surface was unknown to the adapter, plus two line scripts with no job edge). The child stopped and asked each time, bypassed nothing, and stayed inside its scope. Total runs were four child turns and about six parent decisions.
+- **Change made:** `line_brief.py` now parses the pre-commit hook and lists, in each brief, the gates that may fire for the paths in OWNS, with the command to run before committing. Static and approximate: the hook decides, the brief only warns. Fixtures cover pathspec globs, continuation lines, diff filter and label, and a real-hook case for the exact gate that blocked this child.
+- **Deferred:** the agents surface in the catalog, until the jtbd adapter learns the agent namespace (separate row, Zach).
+- **Verdict so far:** pre-rendered briefs removed orientation cost; unlisted commit gates became the new cost. Two comparable rows are needed before judging the kill condition.
