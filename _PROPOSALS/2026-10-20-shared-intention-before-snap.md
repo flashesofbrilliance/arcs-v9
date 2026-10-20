@@ -331,6 +331,22 @@ Lean (Zach decides): swap the order. Onramp = real receipts on live decisions (D
 passive arrival to an active step, now). The underwriter stays as the counterweight on one-way rows
 only. D2 onward continue behind it.
 
+
+**D0 verification (2026-10-20, read-only: Gmail and decision_receipt).** The lean did not survive as stated.
+- Amy draft: CONFIRMED open (Gmail draft to amy@recruithaus.com dated 2026-10-18, unsent). No receipt.
+- George reply: CONFIRMED open. Bundle sent 2026-10-16, a nudge sent 2026-10-19, no reply seen.
+  But a receipt EXISTS: `2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH`.
+- Vico follow-up: CONFIRMED open. Email to Joe Schriner 2026-10-14 with a one-page attachment,
+  Mixmax reminder 2026-10-16, no reply seen. Receipts EXIST (`2026-10-14--lyndon-followup-close-pr1304--ZH` and others).
+- Funnel kill condition: still due 2026-10-22; no receipt found.
+- So "the live decisions have no receipts" is confidently false for two of four. The real gap is a
+  bridge: ex-ante receipts live in `decision_receipt`, while the Accountant's real cohort reads the
+  compass `Receipt` table (0 real-tagged). Outcomes on decision_receipt rows never reach calibration.
+- Revised lean (untested): the onramp is the bridge, not new filing. Close the George and Vico
+  ex-antes when replies land, and count decision_receipt outcomes in the Accountant as their own
+  cohort. Seam banked: the inverse step asserted absence without searching the decision_receipt
+  table (memory `false-null-requires-provenance-exhaustion`).
+
 **Wrong-onramp tripwires (pre-registered).** The onramp is mostly a two-way door: everything built so
 far is read-only or a proposal, so a wrong onramp costs time, not damage. It is wrong if any fires:
 1. D4 priced triage changes no fate and sharpens none (the underwriter added nothing).
