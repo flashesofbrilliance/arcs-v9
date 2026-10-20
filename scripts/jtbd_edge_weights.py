@@ -21,6 +21,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import sys
 import tempfile
 
@@ -37,8 +38,11 @@ def _ts(s):
     """ISO-8601 -> aware UTC datetime, or None. A bare date is read as midnight UTC."""
     if not s:
         return None
+    # Postgres text form ("2026-10-20 16:57:46.010822+00") has an hour-only offset and 6-digit micros; Python 3.9's
+    # fromisoformat rejects "+00", which made every exported receipt read as undated (coverage 0, 2026-10-20).
+    v = re.sub(r"([+-]\d\d)$", r"\1:00", str(s).strip().replace("Z", "+00:00").replace(" ", "T", 1))
     try:
-        t = dt.datetime.fromisoformat(str(s).replace("Z", "+00:00").replace(" ", "T", 1))
+        t = dt.datetime.fromisoformat(v)
     except ValueError:
         return None
     return t if t.tzinfo else t.replace(tzinfo=dt.timezone.utc)

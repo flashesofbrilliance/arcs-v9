@@ -56,7 +56,7 @@ def self_test():
             {"receipt_id": "a", "event_at": "2026-10-21T00:00:00Z", "job_id": "job:backlog:x", "tool_id": "tool:script:y.py"},
             {"receipt_id": "a", "event_at": "2026-10-21T00:00:00Z"},
             {"receipt_id": "b", "event_at": "2026-10-22T00:00:00Z", "job_id": "job:backlog:x"},
-            {"receipt_id": "c", "event_at": "2026-10-23T00:00:00Z", "job_id": "job:backlog:x", "tool_id": "tool:script:y.py"},
+            {"receipt_id": "c", "event_at": "2026-10-23 00:00:00.010822+00", "job_id": "job:backlog:x", "tool_id": "tool:script:y.py"},
             {"receipt_id": "future", "event_at": "2026-12-01T00:00:00Z"}]
     c = coverage(rows, s, now)
     ok = [("counts only [start, now], dedup", c["receipts_since_start"] == 3),
