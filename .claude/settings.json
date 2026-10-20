@@ -162,7 +162,6 @@
       "Bash(python3 scripts/readiness_packet.py --self-test)",
       "Bash(git fetch)",
       "Bash(python3 scripts/castellum.py --check)",
-      "Bash(python3 scripts/universe_jtbd_adapter.py --check)",
       "Bash(python3 scripts/tool_orphan_audit.py)",
       "Bash(python3 scripts/tool_orphan_audit.py *)",
       "Bash(python3 scripts/backlog_graph.py)",
