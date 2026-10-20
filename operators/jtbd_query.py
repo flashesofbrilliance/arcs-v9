@@ -243,6 +243,16 @@ def job_texts(root, atoms, mem_dir):
     return out
 
 
+def _weights(root):
+    """{(job, tool): W} from scripts/jtbd_edge_weights.py; {} on any problem (never breaks retrieval)."""
+    try:
+        sys.path.insert(0, os.path.join(root, "scripts"))
+        import jtbd_edge_weights
+        return jtbd_edge_weights.load_weights(root)
+    except Exception:  # noqa: BLE001
+        return {}
+
+
 def rank(job, root=REPO, graph=None, mem_dir=MEM_DIR):
     graph = graph or load_graph(root, mem_dir)
     atoms = graph["atoms"]
@@ -255,7 +265,10 @@ def rank(job, root=REPO, graph=None, mem_dir=MEM_DIR):
     adj = collections.defaultdict(set)
     for e in graph["edges"]:
         adj[e["from"]].add(e["to"]); adj[e["to"]].add(e["from"])
-    score = {t: ts[t] + JOB_BOOST * sum(js[j] for j in top_jobs if t in adj[j]) for t in tids}
+    # s5 (row jtbd-graph-s5-feedback): per-edge outcome weight W(j, t), promote-only and 1.0 by default, so an
+    # empty or missing weights file leaves this byte-identical to s4. Rules: _PATTERNS/2026-10-20-jtbd-s5-preregistration.md.
+    W = _weights(root)
+    score = {t: ts[t] + JOB_BOOST * sum(js[j] * W.get((j, t), 1.0) for j in top_jobs if t in adj[j]) for t in tids}
     order = sorted((t for t in tids if score[t] > 0), key=lambda t: (-score[t], t))
     return order, score, top_jobs, graph
 
