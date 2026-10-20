@@ -32,13 +32,13 @@ jobs:
   schema-dryrun:
     runs-on: [self-hosted, arcs-mac]
     env:
-      DATABASE_URL: postgresql://arcs:arcs@localhost:55433/arcs
+      DATABASE_URL: postgresql://arcs:arcs@127.0.0.1:55433/arcs
     steps:
       - name: Start Postgres (docker; service containers are Linux-runner only)
         run: |
           docker rm -f arcs-ci-pg-migrate 2>/dev/null || true
           docker run -d --name arcs-ci-pg-migrate -e POSTGRES_USER=arcs -e POSTGRES_PASSWORD=arcs -e POSTGRES_DB=arcs -p 55433:5432 postgres:17
-          for i in $(seq 1 40); do docker exec arcs-ci-pg-migrate pg_isready -U arcs && exit 0; sleep 2; done; exit 1
+          for i in $(seq 1 40); do docker exec arcs-ci-pg-migrate pg_isready -h 127.0.0.1 -U arcs && exit 0; sleep 2; done; exit 1
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
