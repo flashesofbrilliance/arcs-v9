@@ -27,6 +27,23 @@ SCAN_DIRS = ("public", "_ARTIFACTS")
 TEXT_EXT = (".html", ".htm", ".json", ".txt", ".md", ".tsx")
 T0 = dt.date(2026, 4, 9)  # Day 0, same anchor as status_floor_emit.py
 DEFAULT_TOL = 0.15
+# A "N commits" phrase is ambiguous between all commits and non-merge commits. Where a source
+# records which one was meant, map it here: (path regex, stated value, metric, where it was decided).
+METRIC_OVERRIDES = [
+    (r"concourse", 3500, "commits_no_merges",
+     "runtime/recoil/generated/2026-10-16-concourse.json: written materials keep the no-merge count"),
+]
+
+
+def _override(metric, rel, value):
+    if metric != "commits":
+        return metric
+    for rx, v, m, _why in METRIC_OVERRIDES:
+        if re.search(rx, rel) and (v is None or v == value):
+            return m
+    return metric
+
+
 # Frozen copies: every number in them is a dated snapshot, so all their hits are kind "point".
 SNAPSHOT_FILES = {
     "public/chan.html": "noindex counterpart copy of status.html frozen at Day 98",
@@ -49,6 +66,11 @@ def live_commits(root):
     return int(out) if out.isdigit() else None
 
 
+def live_commits_no_merges(root):
+    out = _git(root, "rev-list", "--count", "--no-merges", _ref(root))
+    return int(out) if out.isdigit() else None
+
+
 def live_merged_prs(root):
     out = _git(root, "rev-list", "--count", "--merges", "--first-parent", _ref(root))
     return int(out) if out.isdigit() else None
@@ -64,6 +86,12 @@ METRICS = {
         "evidence": "git history of arcs-v9 main; status.arcs.care paints it live via /api/pulse",
         "recompute": "git fetch -q origin main && git rev-list --count origin/main",
         "live": live_commits,
+    },
+    "commits_no_merges": {
+        "noun": None,  # assigned only through METRIC_OVERRIDES: the text says "commits" either way
+        "evidence": "non-merge commits on arcs-v9 main",
+        "recompute": "git fetch -q origin main && git rev-list --count --no-merges origin/main",
+        "live": live_commits_no_merges,
     },
     "merged_prs": {
         "noun": r"(?:merged PRs|merged pull requests|PRs merged|pull requests merged|merges)",
@@ -146,6 +174,7 @@ def build_index(root, today=None):
         live[name] = None if fn is None else (fn(root, today) if fn is live_days else fn(root))
     rows = {}
     for metric, value, kind, rel, line, phrase in scan(root):
+        metric = _override(metric, rel, value)
         key = (metric, value, kind)
         r = rows.setdefault(key, {
             "claim": metric, "value": value, "kind": kind, "locations": [],
@@ -186,8 +215,11 @@ def self_test():
         subprocess.run(["git", "-C", d, "init", "-q"], check=True)
         env = dict(os.environ, GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@t", GIT_COMMITTER_NAME="t", GIT_COMMITTER_EMAIL="t@t")
         subprocess.run(["git", "-C", d, "commit", "-q", "--allow-empty", "-m", "x"], check=True, env=env)
+        with open(os.path.join(d, "public", "concourse-x.txt"), "w") as f:
+            f.write("over 3,500 commits\n")
         idx = build_index(d, today=dt.date(2026, 10, 20))
-        by = {(r["claim"], r["value"]): r for r in idx}
+        assert any(r["claim"] == "commits_no_merges" and r["value"] == 3500 for r in idx), idx
+        by = {(r["claim"], r["value"]): r for r in idx if r["claim"] != "commits_no_merges"}
         assert by[("commits", 3500)]["kind"] == "running", by
         assert by[("commits", 859)]["kind"] == "point"
         assert by[("commits", 4900)]["kind"] == "running"  # stamped field
