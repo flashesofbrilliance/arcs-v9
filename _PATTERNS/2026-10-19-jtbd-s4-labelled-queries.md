@@ -32,9 +32,9 @@ the contamination the pre-registration guards against.
 | 9 | Zach | contour of shape of problem emerges and jobs to be done magnetically attract to the loadbearing edges of the problem space; tools snap to jobs as more current is induced; backlog prioritizes on electromagnetic principles and creates a dynamo effect | same quorum as row 8; backlog prioritization becomes greek-chorus constructive interference and productive discord |  |
 | 10 | Zach | vector collision engine v2 and orthogonal echo detector start firing to look out for rare earth arcs periodic elements and we ensure that our conditions are dialed in | lattice density and load-bearing properties: net-new adjacent / orthogonal cuts that add to brilliance, coherence, clarity and conviction, not diminish it |  |
 | 11 | Zach | reverse look up index, catalog, state, memory, handoff files to date and piece together well inferred hypotheses with source quality grading and explainable provenance | quorum: Op 19 Accountant, 20 Folksonomy, 21 Librarian, 25 (Sage; unbuilt) plus auditor and scholar; cross-reference DEWY receipts, Apex Spine and ADRs as a card-catalog sweep; add Op 17 Detective, 16 Orchestrator, 12 Bayesian, 18 Immune, 14 Coherence where beneficial |  |
-| 12 | Zach | sweep for seed candidates and night moves and check if any memories conflict or need to be updated |  |  |
-| 13 | Zach | audit priors and see if any net-new data requires changes in belief or adaptive time signature detection |  |  |
-| 14 | Zach | run a forensic recoil report on the thread and map out the full kinematic manifold between null, om and infinite |  |  |
+| 12 | Zach | sweep for seed candidates and night moves and check if any memories conflict or need to be updated | /night-moves is right; a collector basin for seed, ADR, DEWY and wisdom receipts we may have overlooked; it does not take a global write-lock |  |
+| 13 | Zach | audit priors and see if any net-new data requires changes in belief or adaptive time signature detection | a belief log updated by the Golden Inchworm forcing function, as on status.arcs.care/beliefs |  |
+| 14 | Zach | run a forensic recoil report on the thread and map out the full kinematic manifold between null, om and infinite | a recoil report for a conversation, a composable meeting, or a disposable thread; or a map of the kinematic manifold at the choice moments of an I/O arc |  |
 | 15 | Zach rewrite of 1 | sweep the housekeeping night-moves chore, including whether scheduled runs are hung |  |  |
 | 16 | Zach rewrite of 2 | check head / tail / ephemeral memory shards and cross-reference the oracle and GitHub source of truth |  | 1688 |
 | 17 | Zach rewrite of 3 | compare cold molt against handoff pickup for efficacy and cold retrieval, evidence only (receipts or it didn't happen) |  |  |
@@ -42,8 +42,8 @@ the contamination the pre-registration guards against.
 | 19 | Zach | | | |
 | 20 | Zach | | | |
 
-## Disclosure: labels 1 to 11 were written after seeing /catalog's answers (2026-10-20)
-Zach's labels for rows 1 to 11 came while judging a /catalog baseline run (fresh agent, catalog only,
+## Disclosure: labels 1 to 14 were written after seeing /catalog's answers (2026-10-20)
+Zach's labels for rows 1 to 14 came while judging a /catalog baseline run (fresh agent, catalog only,
 one shot) on rows 1 to 14, so /catalog's answers were seen first. The pre-registration requires labels before
 either system runs. These rows therefore cannot score /catalog against the graph as pre-registered; they are
 kept as realistic queries. Before s4 scores, Zach decides one of: a fresh set labelled blind, pooled blind
@@ -52,7 +52,7 @@ this set with the disclosure. Rows 15 to 18 are Zach's rewrites and have not bee
 
 Baseline marks (Zach; provisional ones are Claude's readings, unconfirmed): 1 wrong, 2 wrong, 3 right
 (provisional), 4 close (provisional), 5 right (none is honest), 6 close, 7 wrong, 8 wrong, 9 close,
-10 wrong, 11 close. 12 to 14 not yet marked.
+10 wrong, 11 close, 12 right, 13 wrong (assumptions.py is a premises ledger; scripts/belief_log_emit.py, which builds the beliefs log, exists in the catalog and was passed over), 14 close (provisional: /thread-recoil covers a conversation, not meetings or the manifold). Tally of 14: 3 right, 5 close, 6 wrong.
 
 Several labels are an assembly of operators, not one tool (rows 8, 9, 11). A top-1 tool test cannot score
 an assembly; whether s4 is judged on assembling the right set is Zach's call and needs an amendment.
