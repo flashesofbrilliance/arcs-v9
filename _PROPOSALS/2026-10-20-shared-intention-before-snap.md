@@ -502,7 +502,7 @@ in arcs-v9 yet; the RET script is the template. First candidate to put through i
 ## 4k. Sprint: the receipt bridge (onramp, chosen by Zach 2026-10-20; DONE, PR #1698 merged 7506fbde, receipt 2026-10-20--decision-receipt-bridge-pr1698--ZH)
 
 **Job.** Let outcomes on Zach's real decisions reach the Accountant. Today they cannot: ex-ante
-receipts live in `decision_receipt` (1,104 receipts on prod, counted 2026-10-20; an earlier draft said 854, taken from a 2026-10-18 docstring), their outcomes in `_STATE/receipt-outcomes.jsonl`
+receipts live in `decision_receipt` (1,104 rows on prod at my count late on 2026-10-20, 1,098 earlier the same day; the 854 is the 2026-10-17 universe adapter snapshot), their outcomes in `_STATE/receipt-outcomes.jsonl`
 (30 verdict rows on 21 receipts), and the Accountant reads only the compass `Receipt` table
 (0 real-tagged).
 
