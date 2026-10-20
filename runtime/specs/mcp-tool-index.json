@@ -6,7 +6,7 @@
  "counts": {
   "tools": 1037,
   "servers": 27,
-  "write": 595,
+  "write": 600,
   "dropped_unlisted_prefix": 120
  },
  "tools": [
@@ -719,7 +719,7 @@
    "tool": "get_recording_by_url",
    "fn": "mcp__1545da2a-932c-4354-b0b7-941748b30996__get_recording_by_url",
    "purpose": "get recording by url (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -4184,7 +4184,7 @@
    "tool": "notion-get-enabled-skills",
    "fn": "mcp__4c7edfae-9c05-4fc5-9d32-8fdad213afdc__notion-get-enabled-skills",
    "purpose": "notion get enabled skills (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -4301,7 +4301,7 @@
    "tool": "notion-list-shared-pages",
    "fn": "mcp__4c7edfae-9c05-4fc5-9d32-8fdad213afdc__notion-list-shared-pages",
    "purpose": "notion list shared pages (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -5858,7 +5858,7 @@
    "tool": "list_scheduled_tasks",
    "fn": "mcp__scheduled-tasks__list_scheduled_tasks",
    "purpose": "list scheduled tasks (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -7595,7 +7595,7 @@
    "tool": "get_shared_env_var",
    "fn": "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_shared_env_var",
    "purpose": "get shared env var (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",

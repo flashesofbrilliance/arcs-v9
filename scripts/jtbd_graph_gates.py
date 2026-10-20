@@ -136,8 +136,10 @@ def _about(ctx, e, by):
 def _receipts_name_edge(ctx, e):
     """Amendment 9: every receipt:<id> item must sit on a projection line naming this edge's own tool and job."""
     import jtbd_graph_edges as ge
-    return all(ge.receipt_line(ctx.root, str(x)[8:], tool=e["from"], job=e["to"]) is not None
-               for x in e["evidence"] if str(x).startswith("receipt:"))
+    rids = [str(x)[8:] for x in e["evidence"] if str(x).startswith("receipt:")]
+    if str(e.get("from", "")).startswith(MCP_INDEX_PREFIX) and not rids:
+        return False  # round 2 skeptic: an MCP edge with no receipt item never attaches (amendment 8 rule (d))
+    return all(ge.receipt_line(ctx.root, r, tool=e["from"], job=e["to"]) is not None for r in rids)
 
 
 def live_edges(graph, ctx):
@@ -523,7 +525,7 @@ def mcp_self_test():
         A = lambda i, k, key: {"id": i, "kind": k, "source": {"catalog": "x", "key": key, "line": 1}}
         ev = lambda rid: [f"{ge.MCP_RECEIPTS}:1", f"receipt:{rid}"]
         g = {"atoms": [A("tool:mcp:s.apply", "tool", "s.apply"), A("tool:mcp:s.unused", "tool", "s.unused"),
-                       A("job:backlog:j1", "job", "j1"), A("job:backlog:j2", "job", "j2"), A("job:backlog:j3", "job", "j3"), A("job:backlog:j4", "job", "j4")],
+                       A("job:backlog:j1", "job", "j1"), A("job:backlog:j2", "job", "j2"), A("job:backlog:j3", "job", "j3"), A("job:backlog:j4", "job", "j4"), A("job:backlog:j5", "job", "j5")],
              "edges": [{"from": "tool:mcp:s.apply", "to": "job:backlog:j1", "type": "serves", "evidence": ev("r-ok--ZH"),
                         "inferred": False, "match": "s.apply"},
                        {"from": "tool:mcp:s.apply", "to": "job:backlog:j2", "type": "serves", "evidence": ev("r-forged--ZH"),
@@ -531,10 +533,12 @@ def mcp_self_test():
                        {"from": "tool:mcp:s.apply", "to": "job:backlog:j3", "type": "serves", "evidence": ["receipt:r-ok--ZH"],
                         "inferred": False, "match": "j3"},
                        {"from": "tool:mcp:s.apply", "to": "job:backlog:j4", "type": "serves", "evidence": ev("r-ok--ZH"),
-                        "inferred": False, "match": "s.apply"}]}  # round 1 skeptic: a real receipt for j1 reused for j4
+                        "inferred": False, "match": "s.apply"},  # round 1 skeptic: a real receipt for j1 reused for j4
+                       {"from": "tool:mcp:s.apply", "to": "job:backlog:j5", "type": "serves", "evidence": [f"{ge.MCP_RECEIPTS}:1"],
+                        "inferred": False, "match": "s.apply"}]}  # round 2 skeptic: no receipt item at all
         found = run_rules(g, Ctx(tmp, probes={}))
     ot = {i for i, _ in found["ORPHAN-TOOL"]}; oj = {i for i, _ in found["ORPHAN-JOB"]}
-    return ot == set() and oj == {"job:backlog:j2", "job:backlog:j3", "job:backlog:j4"}
+    return ot == set() and oj == {"job:backlog:j2", "job:backlog:j3", "job:backlog:j4", "job:backlog:j5"}
 
 
 def mutation_proof():

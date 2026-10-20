@@ -37,6 +37,7 @@ train pay charge refund order book schedule notify ping trigger invoke call exec
 unlink attach detach mute pin unpin star like follow unfollow vote review comment tag untag reorder sort split join fork
 clone build compile install uninstall migrate seed backup export download print render transcode convert translate
 summarize analyze process handle do make perform""".split())
+WRITE_VERBS |= set("nuke truncate evict consume pop kick expire invalidate void burn reap scrub erase mutate".split())  # am. 10
 RULES9 = "_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-9.md"
 UUID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 FN_RE = re.compile(r"^mcp__(.+?)__([A-Za-z0-9_-]+)$")
@@ -55,6 +56,17 @@ def prefix_of(server):
     return server["id"] if server.get("id") else re.sub(r"[^A-Za-z0-9_-]", "_", server["name"])
 
 
+def _forms(t):
+    """Amendment 10: the token plus its verb forms (-ed/-d/-ing removed, doubled consonant collapsed, e restored).
+    Plural -s is not stripped: plural nouns that are also verbs (comments, labels, runs) would turn reads into writes."""
+    out = {t}
+    for x in ("ed", "d", "ing"):
+        if t.endswith(x) and len(t) > len(x) + 1:
+            b = t[: -len(x)]
+            out |= {b, b + "e"} | ({b[:-1]} if len(b) > 2 and b[-1] == b[-2] else set())
+    return out
+
+
 def classify(tool, label):
     """Rule (c). Read only when the first verb (after the server's own name) is a read verb and no token is a write
     verb; everything else, including anything unparseable, is write."""
@@ -62,7 +74,7 @@ def classify(tool, label):
     lt = [t for t in label.split("-") if t]
     while toks and lt and toks[0] == lt[0]:
         toks.pop(0); lt.pop(0)
-    if not toks or toks[0] not in READ_VERBS or any(t in WRITE_VERBS for t in toks):
+    if not toks or toks[0] not in READ_VERBS or any(_forms(t) & WRITE_VERBS for t in toks):
         return "write"
     return "read"
 
@@ -237,6 +249,8 @@ def self_test():
     trap = [v for v in sorted(WRITE_VERBS)] + [f"get_or_{v}" for v in sorted(WRITE_VERBS)] + \
            [f"list_and_{v}_items" for v in sorted(WRITE_VERBS)] + ["", "_", "do_thing", "execute_read_action",
                                                                   "get", "fetchall", "readwrite", "search-and-destroy"]
+    trap += ["get_nuke", "query_truncate", "fetch_evict", "read_consume", "get_pop", "list_dropped",
+             "view_wiping", "search_deleted"]  # get_purges is a recorded known miss (amendment 10)  # round 2 skeptic
     trap += ["get_purge", "query_drop_table", "list_then_destroy", "search_unsubscribe", "read_ack"]  # round 1 skeptic
     wrong = [t for t in trap if classify(t, "x") == "read" and t not in ("get",)]
     check(f"write class: {len(trap)} trap names, none classed read except bare 'get' ({wrong[:3]})", not wrong)
