@@ -162,7 +162,27 @@
       "Bash(python3 scripts/readiness_packet.py --self-test)",
       "Bash(git fetch)",
       "Bash(python3 scripts/castellum.py --check)",
-      "Bash(python3 scripts/universe_jtbd_adapter.py --check)"
+      "Bash(python3 scripts/universe_jtbd_adapter.py --check)",
+      "Bash(python3 scripts/tool_orphan_audit.py)",
+      "Bash(python3 scripts/tool_orphan_audit.py *)",
+      "Bash(python3 scripts/backlog_graph.py)",
+      "Bash(python3 scripts/backlog_graph.py *)",
+      "Bash(python3 scripts/surface_catalog_emit.py --check)",
+      "Bash(python3 scripts/universe_sweep.py --self-test)",
+      "Bash(python3 operators/jtbd_query.py --self-test)",
+      "Bash(node scripts/phosphor_midi_check.mjs *)",
+      "Bash(node scripts/phosphor_skin_check.mjs *)",
+      "Bash(node scripts/phosphor_tmap_check.mjs *)",
+      "Bash(node scripts/phosphor_stage_check.mjs *)",
+      "Bash(node scripts/phosphor_reach_check.mjs *)",
+      "Bash(node scripts/phosphor_touch_check.mjs *)",
+      "Bash(node scripts/phosphor_keys_check.mjs *)",
+      "Bash(node scripts/phosphor_sing_check.mjs *)",
+      "Bash(node scripts/phosphor_waypoint_check.mjs *)",
+      "Bash(node scripts/phosphor_gain_check.mjs *)",
+      "Bash(node scripts/phosphor_hide_check.mjs *)",
+      "Bash(node scripts/beat_eval.mjs *)",
+      "Bash(node scripts/raw_capture_anim_check.mjs *)"
     ],
     "ask": [
       "Bash(git push:*)"
