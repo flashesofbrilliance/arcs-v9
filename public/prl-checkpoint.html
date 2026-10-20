@@ -25,6 +25,7 @@ main{max-width:var(--measure);margin:0 auto;padding:24px 16px 64px;display:flex;
 <body>
 <header><div class="bar"><div><h1>Website chat: sales team checkpoint</h1><p>PRL Resins · October 2026 · 12 slides</p></div><a class="dl" href="/checkpoint.pdf" download>Download PDF</a></div></header>
 <main>
+<div class="frame" style="background:#1F1A1A"><iframe src="https://www.youtube-nocookie.com/embed/GCEPvH6tDUQ?rel=0" title="PRL chatbot explainer video, 87 seconds" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe></div>
 <div class="frame"><section id="cover" data-transition="fade" style="background:#791F1D;color:#FFFFFF;font-family:'Manrope', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
 <h1 style="font-family:'Archivo', Arial, sans-serif;letter-spacing:-2px;font-weight:700;font-size:160px;line-height:1">More buyers.<br>Right desk.<br>Faster.</h1>
 <p style="font-size:44px;line-height:1.3;color:#EADBD3">A night-shift receptionist for the website. It takes the message. You make the sale.</p>
@@ -115,7 +116,7 @@ main{max-width:var(--measure);margin:0 auto;padding:24px 16px 64px;display:flex;
 </section></div>
 </main>
 <script>
-function fit(){document.querySelectorAll('.frame').forEach(function(f){var s=f.firstElementChild;s.style.transform='scale('+(f.clientWidth/1920)+')'})}
+function fit(){document.querySelectorAll('.frame:not([style])').forEach(function(f){var s=f.firstElementChild;s.style.transform='scale('+(f.clientWidth/1920)+')'})}
 addEventListener('resize',fit);fit();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
