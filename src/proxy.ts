@@ -80,7 +80,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // lewoof block in proxy() below.
   'lewoof':    { '/invoicing': '/lewoof-intake.html', default: '/lewoof-playbook.html' },
   // prl.arcs.care/status/<seg> status-page family (2026-08-17).
-  'prl':       { '/status/catchup': '/prl-status-catchup.html', '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', '/status/receipt': '/prl-status-receipt.html', '/status/runbook': '/prl-status-runbook.html', default: '/todd-call.html' }, // root = overview (masked); status pages ride under /status/<seg>
+  'prl':       { '/status/catchup': '/prl-status-catchup.html', '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', '/status/receipt': '/prl-status-receipt.html', '/status/runbook': '/prl-status-runbook.html', '/checkpoint': '/prl-checkpoint.html', '/checkpoint.pdf': '/prl-checkpoint.pdf', default: '/todd-call.html' }, // root = overview (masked); status pages ride under /status/<seg>
   // good.arcs.care/blog/nftt/<slug> — Notes from the Trenches long-form posts (2026-08-18).
   // Rendered via scripts/blog_render.py from _ARTIFACTS/blog/*.md; default stays the goods gallery.
   // Three depth tiers per post, water-fountain first: bare slug = 90-second exec (default depth),
