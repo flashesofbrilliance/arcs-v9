@@ -280,7 +280,7 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
 
   <div class="next" role="note" aria-label="The takeaway">
     <p class="when">Takes a customer problem from the first scoping call to a running system, alone if needed, and leaves reusable pieces behind for the next deployment.</p>
-    <p class="who">Twenty years of customer-facing product work in regulated settings, the last two building a production AI app solo in Claude Code. Every claim below links to something you can check. Honest gaps are in section 6.</p>
+    <p class="who">Twenty years of customer-facing product work in regulated settings, the last two building a production AI app solo in Claude Code. Every claim below links to something you can check. Honest gaps are in section 7.</p>
   </div>
 
   <nav class="toc" aria-label="Sections" style="margin-top:20px">
@@ -290,7 +290,8 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
       <li><a href="#questions">3 Questions</a></li>
       <li><a href="#proof">4 Proof</a></li>
       <li><a href="#dri">5 End to end</a></li>
-      <li><a href="#gaps">6 Gaps</a></li>
+      <li><a href="#hardening">6 Hardening</a></li>
+      <li><a href="#gaps">7 Gaps</a></li>
     </ol>
   </nav>
 
@@ -378,9 +379,33 @@ nav.toc a { display: inline-block; padding: 6px 0; font-family: var(--ds-font-mo
       <p style="margin-top:14px">The full plan, with best, base and worst cases, a pre-mortem, the critical path and scope guardrails: <a href="/plan">concourse.arcs.care/plan</a>.</p>
     </section>
 
+    <section class="wide" id="hardening">
+      <h2>6 · How I harden work: attack it before anyone else does</h2>
+      <p class="take">Every claim I ship gets argued against on purpose, by a separate agent, and the repair is shown, not hidden.</p>
+      <dl class="map">
+        <div><dt>Four readings of one claim</dt><dd><table class="ledger"><tbody><tr><td class="s"><span class="tag">Thesis</span></td><td><strong>What I claim.</strong> "The Sprint 0 checker catches a malformed graph."</td></tr><tr><td class="s"><span class="tag">Antithesis</span></td><td><strong>The opposite case.</strong> Build bad inputs it should reject and see which get through.</td></tr><tr><td class="s"><span class="tag">Cynic</span></td><td><strong>Assume it's spin.</strong> Which numbers in the write-up can nobody reproduce?</td></tr><tr><td class="s"><span class="tag">Stoic</span></td><td><strong>Accept and repair.</strong> Fix what broke, keep the thresholds, record the correction where the team can see it.</td></tr></tbody></table></dd></div>
+        <div><dt>Red team, blue team</dt><dd>One agent builds; a separate claims-skeptic agent tries to break it after merge. A two-role split (an outside bar-raiser that audits, an implementer that edits and commits) keeps the author from grading their own work.</dd></div>
+        <div><dt>Before anything goes to a person</dt><dd>A pre-send gauntlet simulates the reader across six angles (the most technical version of them, the practitioner, the hype-allergic skeptic, the busy reader and two more), then a second pass rejects any finding that does not trace to their own words.</dd></div>
+      </dl>
+      <h2 style="margin-top:22px">Worked example, today</h2>
+      <div class="scroll">
+      <table class="ledger">
+        <thead><tr><th>Before the counter-check</th><th>After the repair</th></tr></thead>
+        <tbody>
+          <tr><td>The write-up claimed "6 known tool duplicates".</td><td>Nobody could reproduce it. Withdrawn in a dated amendment, with the earlier in-place edit disclosed.</td></tr>
+          <tr><td>The design record said one memory file had "missing key 0".</td><td>Wrong: that file has no front matter at all. Corrected in the record.</td></tr>
+          <tr><td>A test fixture bound operator 21 to the wrong file.</td><td>Rebound to the file the registry names, and a made-up edge removed.</td></tr>
+          <tr><td>The checker accepted ids with a trailing newline, source line 0, and a wildcard host.</td><td>Stricter matching, plus three new bad fixtures. Proof: the old checker misses two of them.</td></tr>
+          <tr><td>The design decision record stated the original version.</td><td>A correction note added; no threshold numbers changed.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="margin-top:12px" class="k">Three pull requests carry the trail: the original, a follow-up fix, and the repair. Commit history and traces on request.</p>
+    </section>
+
     <section class="wide" id="gaps">
-      <h2>6 · Honest gaps</h2>
-      <p class="take">What I would be learning on the job.</p>
+      <h2>7 · Honest gaps</h2>
+      <p class="take">New challenges I am excited to take on.</p>
       <ul>
         <li>No production pager for a large distributed system.</li>
         <li>No SOC 2 or TX-RAMP audit owned.</li>

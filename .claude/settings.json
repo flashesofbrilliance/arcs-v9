@@ -144,7 +144,12 @@
       "Bash(git worktree add *)",
       "Bash(git switch -q --detach *)",
       "Bash(python3 scripts/linkedin_cut.py check)",
-      "Bash(python3 scripts/token_kaizen.py)"
+      "Bash(python3 scripts/token_kaizen.py)",
+      "Bash(python3 scripts/kit_primitive_sync.py --check)",
+      "Bash(python3 scripts/universe_jtbd_adapter.py --self-test)",
+      "Bash(python3 scripts/jtbd_graph_schema_check.py --self-test)",
+      "Bash(python3 scripts/backlog_graph.py --self-test)",
+      "Bash(python3 scripts/ripple_ledger.py --check)"
     ],
     "ask": [
       "Bash(git push:*)"
