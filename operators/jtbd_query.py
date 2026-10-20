@@ -6,6 +6,9 @@ Given a stated job, returns under 1,000 tokens (len/4 of the JSON):
   blockers       open blocker atoms touching the matched jobs or the assembly
   closure        dependency closure of the assembly (design-dep, runtime-dep, needs; outgoing)
   receipts       last 3 personal decision receipts that name the best tool (Librarian load_universes)
+  mcp            0 to 5 MCP tools with a receipt-backed serves edge to a matched job (amendment 8 rule (e)); never
+                 ranked by text. Each write-class tool carries "flag": "write: confirm before use"; "load" is the
+                 one-line ToolSearch hint that loads only those tools. Trimmed first when over budget.
 
 Ranking, fixed before any s4 run (no weight was tuned on an s4 query; amendment 6 rule 4):
   1. Tool text = catalog jtbd line + name + path (tool:op: registry name, role and function).
@@ -87,7 +90,10 @@ def _read(path, n=1200):
 # older than the newest of these is stale. Folders count by their newest *.md (memory, _PATTERNS).
 SOURCES = (TOOLS, REG, "runtime/specs/surface-catalog.json", "package.json", "_QUEUE/induced-backlog.jsonl",
            "AGENTS.md", "src/lib/env.ts", "runtime/specs/jtbd-graph-inferred-edges.json",
-           "runtime/specs/jtbd-graph-schema.json", "runtime/specs/jtbd-label-sample-20261018.json")
+           "runtime/specs/jtbd-graph-schema.json", "runtime/specs/jtbd-label-sample-20261018.json",
+           "runtime/specs/mcp-tool-index.json", "runtime/specs/mcp-tool-receipts.jsonl")
+WRITE_FLAG = "write: confirm before use"
+MCP_RECEIPTS = "runtime/specs/mcp-tool-receipts.jsonl"
 # Edges are also mined from each atom's own file (jtbd_graph_edges reads tool sources), so every atom path in the
 # graph counts as a source too (graph_status reads them from the graph itself).
 SOURCE_DIRS = ("_PATTERNS",)
@@ -198,6 +204,10 @@ def render(res):
         lines.append(f"  needs ({a['closure_total']}): " + ", ".join(shown) + (" ..." if a["closure_total"] > len(shown) else ""))
     r = a["receipts"]
     lines.append("  last receipts: " + (", ".join(f"{x['id']} {x['date'] or ''}".strip() for x in r) if isinstance(r, list) else r))
+    for x in a.get("mcp") or []:
+        lines.append(f"  mcp  {x['id']} [{x['class']}]" + (f" {x['flag']}" if x.get("flag") else ""))
+    if a.get("load"):
+        lines.append(f"  load: {a['load']}")
     lines.append(f"  ({a['tokens']} tokens)")
     return "\n".join(lines)
 
@@ -273,6 +283,39 @@ def rank(job, root=REPO, graph=None, mem_dir=MEM_DIR):
     return order, score, top_jobs, graph
 
 
+def _receipt_on_file(root, rid):
+    """receipt:<id> evidence counts only when that id is on a line of the committed MCP receipt projection."""
+    try:
+        for t in open(os.path.join(root, MCP_RECEIPTS), encoding="utf-8"):
+            if t.strip() and json.loads(t).get("receipt_id") == rid:
+                return True
+    except (OSError, ValueError):
+        pass
+    return False
+
+
+def mcp_slice(graph, root, jobs):
+    """Amendment 8 rule (e): MCP tools reach an answer only over a serves edge to a matched job whose receipt evidence
+    is on file. A tool whose class is not exactly "read" is treated as write and flagged."""
+    byid = {a["id"]: a for a in graph["atoms"]}
+    out, seen = [], set()
+    for e in graph["edges"]:
+        f = e.get("from", "")
+        if (e.get("type") != "serves" or not f.startswith("tool:mcp:") or e.get("to") not in jobs or f in seen
+                or f not in byid):
+            continue
+        rids = [x[8:] for x in e.get("evidence") or [] if str(x).startswith("receipt:")]
+        if not rids or not all(_receipt_on_file(root, r) for r in rids):
+            continue
+        seen.add(f); a = byid[f]
+        item = {"id": f, "class": "read" if a.get("cls") == "read" else "write", "fn": a.get("fn") or ""}
+        if item["class"] != "read":
+            item["flag"] = WRITE_FLAG
+        out.append(item)
+    out.sort(key=lambda x: (jobs.index(next(e["to"] for e in graph["edges"] if e.get("from") == x["id"] and e.get("to") in jobs)), x["id"]))
+    return out[:MAX_ITEMS]
+
+
 def answer(job, root=REPO, graph=None, mem_dir=MEM_DIR, receipts=None):
     order, score, top_jobs, graph = rank(job, root, graph, mem_dir)
     if not order:
@@ -313,6 +356,16 @@ def answer(job, root=REPO, graph=None, mem_dir=MEM_DIR, receipts=None):
     res = {"job": job if len(job) <= 200 else job[:200] + "...", "assembly": asm, "scores": [round(score[t], 3) for t in asm],
            "matched_jobs": top_jobs[:3], "blockers": blockers, "closure": closure, "closure_total": len(closure),
            "receipts": recs or "none local naming the best tool"}
+    mcp = mcp_slice(graph, root, top_jobs)
+    if mcp:
+        res["mcp"] = mcp
+        res["load"] = "ToolSearch select:" + ",".join(x["fn"] for x in mcp if x["fn"])
+    while len(json.dumps(res)) / 4 > BUDGET_TOKENS and res.get("mcp"):
+        res["mcp"] = res["mcp"][:-1]  # whole entries go, never a flag alone
+        if res["mcp"]:
+            res["load"] = "ToolSearch select:" + ",".join(x["fn"] for x in res["mcp"] if x["fn"])
+        else:
+            res.pop("mcp"); res["load"] = "mcp tools trimmed to hold the token budget"
     while len(json.dumps(res)) / 4 > BUDGET_TOKENS and res["closure"]:
         res["closure"] = res["closure"][: len(res["closure"]) // 2] if len(res["closure"]) > 1 else []
     while len(json.dumps(res)) / 4 > BUDGET_TOKENS and len(res["blockers"]) > 1:
@@ -352,6 +405,42 @@ def self_test():
             "last 3 receipts newest first": [x["id"] for x in r["receipts"]] == ["r5", "r4", "r3"],
             "budget under 1,000 tokens": r["tokens"] <= BUDGET_TOKENS,
         }
+        # amendment 8: MCP slice. Edge with on-file receipt -> listed and flagged; edge without -> never listed.
+        open(os.path.join(tmp, MCP_RECEIPTS), "w").write(json.dumps({"receipt_id": "r-ok--ZH"}) + "\n")
+        fn = "mcp__srv__apply_migration"
+        g2 = json.loads(json.dumps(g))
+        g2["edges"] = [e for e in g2["edges"] if not e["to"].startswith("tool:script:x")]  # small closure: no trim
+        g2["atoms"] += [{"id": "tool:mcp:srv.apply_migration", "kind": "tool", "cls": "write", "fn": fn},
+                        {"id": "tool:mcp:srv.list_tables", "kind": "tool", "cls": "read", "fn": "mcp__srv__list_tables"},
+                        {"id": "tool:mcp:srv.drop_db", "kind": "tool", "cls": "read", "fn": "mcp__srv__drop_db"},
+                        {"id": "tool:mcp:srv.nocls", "kind": "tool", "fn": "mcp__srv__nocls"}]
+        J = "job:backlog:clean-trees"
+        g2["edges"] += [{"from": "tool:mcp:srv.apply_migration", "to": J, "type": "serves", "evidence": ["x:1", "receipt:r-ok--ZH"]},
+                        {"from": "tool:mcp:srv.list_tables", "to": J, "type": "serves", "evidence": ["x:1", "receipt:r-ok--ZH"]},
+                        {"from": "tool:mcp:srv.drop_db", "to": J, "type": "serves", "evidence": ["x:1", "receipt:r-forged--ZH"]},
+                        {"from": "tool:mcp:srv.nocls", "to": J, "type": "serves", "evidence": ["x:1", "receipt:r-ok--ZH"]},
+                        {"from": "tool:mcp:srv.list_tables", "to": J, "type": "needs", "evidence": ["x:1"]}]
+        m = answer("my git worktrees keep piling up, prune them", tmp, g2, tmp, recs)
+        mm = {x["id"]: x for x in m.get("mcp", [])}
+        checks["mcp: receipt-backed write tool listed with flag"] = mm.get("tool:mcp:srv.apply_migration", {}).get("flag") == WRITE_FLAG
+        checks["mcp: read tool listed without flag"] = "flag" not in mm.get("tool:mcp:srv.list_tables", {"flag": 1})
+        checks["mcp: no edge evidence on file -> never listed"] = "tool:mcp:srv.drop_db" not in mm
+        checks["mcp: missing class treated as write and flagged"] = mm.get("tool:mcp:srv.nocls", {}).get("flag") == WRITE_FLAG
+        checks["mcp: never in the ranked assembly"] = not any(a.startswith("tool:mcp:") for a in m["assembly"])
+        checks["mcp: load hint names only listed tools"] = m.get("load", "").startswith("ToolSearch select:") and fn in m["load"] \
+            and "drop_db" not in m["load"]
+        checks["mcp: render shows the flag text"] = WRITE_FLAG in render({"path": "jtbd-graph", "reason": "t", "answer": m})
+        t = answer("my git worktrees keep piling up, prune them", tmp, dict(g2, edges=g2["edges"] + g["edges"]), tmp, recs)
+        checks["mcp: trimmed first, whole entries, when over budget"] = "mcp" not in t and t["tokens"] <= BUDGET_TOKENS \
+            and "trimmed" in t.get("load", "")
+        big = json.loads(json.dumps(g2))
+        for i in range(3000):
+            big["atoms"].append({"id": f"tool:mcp:huge.write_thing_{i}", "kind": "tool", "cls": "write", "fn": "mcp__huge__" + "w" * 300 + str(i)})
+            big["edges"].append({"from": f"tool:mcp:huge.write_thing_{i}", "to": J, "type": "serves", "evidence": ["receipt:r-ok--ZH"]})
+        b = answer("my git worktrees keep piling up, prune them", tmp, big, tmp, recs)
+        checks["mcp: a 3,000-tool server stays under budget, at most 5, all write flagged"] = (
+            b["tokens"] <= BUDGET_TOKENS and len(b.get("mcp", [])) <= 5
+            and all(x.get("flag") == WRITE_FLAG for x in b.get("mcp", []) if x["class"] == "write"))
         bad = answer("zzqx", tmp, g, tmp, recs)
         checks["no match says no tool fits"] = bad["assembly"] == []
         # lookup(): the command entry. No adapter in tmp, so every rebuild fails: it must fall back, not crash or serve.

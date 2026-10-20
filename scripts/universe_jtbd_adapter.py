@@ -12,6 +12,8 @@ Sources and namespaces:
   runtime/specs/surface-catalog.json rows[]        -> tool:surface:<host><path>
   package.json  dependencies + devDependencies     -> dep:npm:<name>
   _QUEUE/induced-backlog.jsonl  every row          -> job:backlog:<id>; BLOCKED rows also blocker:backlog:<id>
+  runtime/specs/mcp-tool-index.json tools[]        -> tool:mcp:<server>.<tool> (amendment 8; cached index, no schemas)
+    + serves edges only from runtime/specs/mcp-tool-receipts.jsonl (a receipt naming tool_id and job_id)
   mined (default since s4; the miner gate passed 27/30, runtime/specs/jtbd-label-sample-20261018-labels.json):
   memory front-matter + _PATTERNS stems, by the rule in
   _PATTERNS/2026-10-18-jtbd-s1-mined-job-rule.md     -> job:memory:<name>, job:pattern:<stem>
@@ -42,6 +44,7 @@ REG = "operators/OPERATOR-REGISTRY.json"
 SURF = "runtime/specs/surface-catalog.json"
 PKG = "package.json"
 BACKLOG = "_QUEUE/induced-backlog.jsonl"
+MCP_INDEX = "runtime/specs/mcp-tool-index.json"
 MEM_CAT = "~/.claude/projects/-Users-zharris-arcs-v9/memory/*.md"
 PAT_CAT = "_PATTERNS/*.md"
 MEM_DIR = os.path.expanduser("~/.claude/projects/-Users-zharris-arcs-v9/memory")
@@ -137,6 +140,40 @@ def npm(root):
     return out, len(names)
 
 
+def mcp_tools(root):
+    """Amendment 8: one atom per index row. An absent index emits nothing (the namespace is optional)."""
+    p = os.path.join(root, MCP_INDEX)
+    if not os.path.exists(p):
+        return [], 0, None
+    d = json.load(open(p, encoding="utf-8")); L = _lines(root, MCP_INDEX)
+    _dups([r["name"] for r in d["tools"]], MCP_INDEX)
+    cur = _seek(L, 0, '"tools": [', "tools[]"); out = []
+    for r in d["tools"]:
+        cur = _seek(L, cur + 1, f'"name": {json.dumps(r["name"])}', r["name"])
+        out.append(atom(f"tool:mcp:{r['name']}", "tool", MCP_INDEX, r["name"], cur + 1,
+                        title=r.get("purpose"), cls=r.get("class"), fn=r.get("fn")))
+    return out, len(d["tools"]), d.get("captured_at")
+
+
+def mcp_edges(root, atoms):
+    """Amendment 8 rule (d): a serves edge only where a receipt names both the MCP tool and the backlog job.
+    Never from names or purpose text. Evidence: the projection line, then receipt:<id>."""
+    ids = {a["id"] for a in atoms}; out = []
+    for n, line in enumerate(_lines(root, ge.MCP_RECEIPTS) if os.path.exists(os.path.join(root, ge.MCP_RECEIPTS)) else [], 1):
+        try:
+            r = json.loads(line)
+        except ValueError:
+            continue
+        t, j = r.get("tool_id"), r.get("job_id")
+        if not (isinstance(t, str) and t.startswith("tool:mcp:") and t in ids and isinstance(j, str)
+                and j.startswith("job:") and j in ids and r.get("receipt_id")):
+            continue
+        out.append({"from": t, "to": j, "type": "serves",
+                    "evidence": [f"{ge.MCP_RECEIPTS}:{n}", f"receipt:{r['receipt_id']}"], "inferred": False,
+                    "rule": "mcp-receipt", "match": t.split(":", 2)[2]})
+    return out
+
+
 def backlog(root):
     rows = [(i + 1, json.loads(l)) for i, l in enumerate(_lines(root, BACKLOG)) if l.strip()]
     _dups([r["id"] for _, r in rows], BACKLOG)
@@ -193,7 +230,8 @@ def build(root, with_mined=False, mem_dir=MEM_DIR):
     t, tcat = tools(root); o, binds = operators(root); s, scat, unres = surfaces(root)
     n, npm_n = npm(root); j, b, rows = backlog(root)
     ev = ge.env_and_service_atoms(root, atom, _dups)
-    atoms = t + o + s + n + j + b + ev
+    mc, mcp_n, _ = mcp_tools(root)
+    atoms = t + o + s + n + j + b + ev + mc
     file_of = {a["path"]: a["id"] for a in t if a["id"].startswith("tool:operator:")}
     edges = []
     for op, mod, ln in binds:
@@ -208,10 +246,13 @@ def build(root, with_mined=False, mem_dir=MEM_DIR):
     expected.update({"tool:op": len(json.load(open(os.path.join(root, REG)))["operators"]),
                      "tool:surface": scat["counts"]["rows"], "dep:npm": npm_n, "job:backlog": len(rows),
                      "blocker:backlog": sum(1 for _, r in rows if r.get("state") == "BLOCKED")})
+    if mcp_n:
+        expected["tool:mcp"] = mcp_n
     skipped = []
     if with_mined:
         m, skipped = mined(root, mem_dir); atoms += m
     edges = ge.build_edges(root, atoms, rows, edges)
+    edges += mcp_edges(root, atoms)
     unres += [{"namespace": "job:memory", "key": f, "source": {"catalog": MEM_CAT, "line": None},
                "why": "matches the mined-job rule but has no top-of-file front-matter name"} for f in skipped]
     return {"atoms": atoms, "edges": edges, "unresolved": unres}, expected, binds, skipped
@@ -402,8 +443,36 @@ def self_test():
     print(f"default emits mined jobs (s4 flip; --no-mined opts out): {'PASS' if flip else 'FAIL'}")
     ok &= flip
     ok &= edge_self_test()
+    ok &= mcp_self_test()
     print("self-test OK" if ok else "self-test FAILED")
     return ok
+
+
+def mcp_self_test():
+    """Amendment 8: index rows become tool:mcp atoms citing their line; serves edges come only from receipt lines
+    naming both ends, never from a tool name that resembles a job."""
+    with tempfile.TemporaryDirectory() as tmp:
+        os.makedirs(os.path.join(tmp, "runtime/specs"))
+        rows = [{"kind": "mcp", "name": "srv.apply_migration", "server": "srv", "tool": "apply_migration",
+                 "fn": "mcp__srv__apply_migration", "purpose": "apply migration (from name)", "class": "write"},
+                {"kind": "mcp", "name": "srv.row-a", "server": "srv", "tool": "row-a", "fn": "mcp__srv__row-a",
+                 "purpose": "row a (from name)", "class": "write"}]
+        json.dump({"captured_at": "2026-10-20", "tools": rows}, open(os.path.join(tmp, MCP_INDEX), "w"), indent=1)
+        R = [{"receipt_id": "r1--ZH", "job_id": "job:backlog:row-a", "tool_id": "tool:mcp:srv.apply_migration"},
+             {"receipt_id": "r2--ZH", "job_id": "job:backlog:no-such", "tool_id": "tool:mcp:srv.apply_migration"},
+             {"receipt_id": "r3--ZH", "job_id": "job:backlog:row-a", "tool_id": "tool:mcp:srv.absent"},
+             {"receipt_id": "", "job_id": "job:backlog:row-a", "tool_id": "tool:mcp:srv.row-a"}]
+        open(os.path.join(tmp, ge.MCP_RECEIPTS), "w").write("\n".join(json.dumps(r) for r in R) + "\n")
+        at, n, _ = mcp_tools(tmp)
+        atoms = at + [{"id": "job:backlog:row-a", "kind": "job"}]
+        E = mcp_edges(tmp, atoms)
+        L = _lines(tmp, MCP_INDEX)
+        good = (n == 2 and [a["id"] for a in at] == ["tool:mcp:srv.apply_migration", "tool:mcp:srv.row-a"]
+                and all('"name": ' + json.dumps(a["source"]["key"]) in L[a["source"]["line"] - 1] for a in at)
+                and [(e["from"], e["to"], e["evidence"]) for e in E]
+                == [("tool:mcp:srv.apply_migration", "job:backlog:row-a", [f"{ge.MCP_RECEIPTS}:1", "receipt:r1--ZH"])])
+    print(f"mcp index atoms + receipt-only edges (no edge from a name match, dangling end or blank id): {'PASS' if good else 'FAIL'}")
+    return good
 
 
 def edge_self_test():
@@ -611,6 +680,13 @@ def check(root=REPO, mem_dir=MEM_DIR):
     for r, ids in grew.items():
         for i in ids:
             print(f"BASELINE-GREW {r} {i}: the baseline may only shrink (add a dated amendment and get Zach's ok to grow it)")
+    try:  # amendment 8 rule (a): a stale MCP index warns here and never fails the pre-commit gate
+        import mcp_tool_index_emit as mie
+        idx = mie.load_index(root)
+        for w in (mie.staleness(idx) if idx else []):
+            print(f"WARN mcp-index {w} (re-capture: python3 scripts/mcp_tool_index_emit.py --capture ...)")
+    except Exception as e:  # noqa: BLE001
+        print(f"WARN mcp-index: staleness not checked ({type(e).__name__})")
     line = " · ".join(f"{r.lower()} {len(new[r])} new/{len(held[r])} held" for r in gg.RULES)
     print(f"jtbd-graph --check: atoms {len(graph['atoms'])} edges {len(graph['edges'])} · {line}")
     bad = (not ok) or lookup or any(new.values()) or any(stale.values()) or grew or tri_problems

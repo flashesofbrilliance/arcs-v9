@@ -26,7 +26,8 @@ flowchart TD
 | Receipts | One row per merge, with `job_id` (the backlog row) and `tool_id` | Supabase `public.decision_receipt` | `receipt_coverage.py` (Sprint 5: >= 70% by 2026-11-03) |
 | JTBD graph | Tools, jobs, blockers and deps as stable-id atoms with evidence-backed edges (ADR-089) | generated from the catalogs into `_STATE/jtbd-graph/` | `universe_jtbd_adapter.py --check` (pre-commit) |
 | Gates | Zero-tolerance rules; old debt in a shrink-only baseline; new findings only as dated triage holds | `runtime/specs/jtbd-graph-gate-baseline.json`, `runtime/specs/jtbd-graph-triage.json` | TRIAGE-EXPIRED, BASELINE-GREW |
-| Retrieval | `jtbd(job)` returns best tool, open blockers, dependency closure, last receipts | `operators/jtbd_query.py` | Sprint 4 blind test: 16/18 vs /catalog 6/18 |
+| MCP index | Connector tools as `tool:mcp:<server>.<tool>` atoms: names, one-liners and read/write class, no schemas; edges only from receipts naming the tool (amendment 8) | `runtime/specs/mcp-tool-index.json` from a session capture (`scripts/mcp_tool_index_emit.py`); edges from `runtime/specs/mcp-tool-receipts.jsonl` | `mcp_tool_index_emit.py --check` (stale after 30 days) |
+| Retrieval | `jtbd(job)` returns best tool, open blockers, dependency closure, last receipts, and receipt-backed MCP tools with a write flag and a ToolSearch load line | `operators/jtbd_query.py` | Sprint 4 blind test: 16/18 vs /catalog 6/18 |
 | Feedback | Outcome weights (3+ receipts, promote-only for 30 days) and a weekly read-only drift report | Sprint 5 scripts and scheduled tasks | re-judge 2026-11-17 |
 
 ## Rules that keep the loop honest
