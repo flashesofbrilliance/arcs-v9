@@ -34,3 +34,17 @@ the baseline itself) and in no row.
 ## Done means
 `python3 scripts/universe_jtbd_adapter.py --check` PASS; each fixed id removed from the baseline;
 before and after counts per rule in the PR.
+
+## Amendment 1 (2026-10-20, written before counting): stricter COMPOST rule
+The first rule found 0 candidates because prose mentions count as use. Zach asked for a stricter one.
+- A tier C orphan tool (not a periodic-table op, not a surface) is a COMPOST candidate when its name
+  token appears in no tracked code or config file other than its own: extensions .py .sh .ts .tsx .js
+  .mjs .cjs .json .jsonl .yml .yaml .toml, plus `.claude/settings.json`, excluding the generated
+  catalogs listed above, the baseline, and anything under `_STATE/`, `_ARCHIVE/` or `_ARTIFACTS/`.
+- Markdown never counts, under this rule, as use. Commands and skills are .md files people invoke by hand, so they
+  are listed in their own group, kept apart from the scripts.
+- Output: a list for Zach with each candidate's last commit date. Nothing is deleted or moved.
+
+## Erratum (2026-10-20)
+The message of commit 30d36669 (merged in PR 1730) says "614 to 609". The true count is 613 to 608,
+as the PR body and the receipt say. Merged history is not rewritten; this line is the correction.
