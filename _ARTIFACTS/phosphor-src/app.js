@@ -1334,6 +1334,7 @@
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
   /* AnalysisFrame v1 (_PATTERNS/2026-10-18-analysis-frame-v1.md): what this song's analysis is, as one small object the Tao print studio can read.
      Always available, test mode or not. Arrays are uint8 (value/255), so a value read from a file equals the value used here. No audio samples are included. */
+  // eslint-disable-next-line react/display-name -- not a React component
   window.PhosphorFrame = function () {
     if (!NF || !BANDS) return null;
     function b64(u) { var s = "", i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s); }
