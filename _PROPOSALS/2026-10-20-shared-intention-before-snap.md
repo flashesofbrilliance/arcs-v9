@@ -393,6 +393,15 @@ Counterfeit signatures (each a cheap check; two or more together raise the flag)
 6. Stamped preference: a decision presented as the human's revealed preference that the human
    never stated (memory `counterfeit-system2-fabrication-stamped-as-revealed-preference`).
 
+REUSE before building (Zach, 2026-10-20): honest.arcs.care already runs the deterministic half of
+this, client-side, as the front door to `tools/arcs-verb-eval` (route in `src/proxy.ts`). Its five
+steps (analysis, assessment, evaluation, synthesis, recapitulation) stamp go or stop on: every
+marked fact names a source (signature 5), no new marked fact sneaks in during synthesis (the Op 25
+"no new claim" rule), at least one review disagrees (the sycophancy check), and a high-stakes fact
+needs two sources from different sites (the uncorrelated-families rule). The page says it plainly:
+it cannot tell whether a claim is true. So arcs-verb-eval is the mechanical floor for both axes;
+signatures 1, 2, 3 and 6 and the truth states stay judgment, recorded with their evidence.
+
 A counterfeit-suspected claim drops to Unknown on the truth axis, is never scored, and gets a seam
 line. Rule for Claude itself: its own unverified output is Reconstructed at best, never Witnessed.
 GAP: neither axis is a field on receipts yet; today both squash into `what_unconfirmed`.
