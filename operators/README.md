@@ -53,7 +53,7 @@ This directory contains the atomic design components that compose the ARCS decis
 | **Trace** | `arcs_trace.py` | 39KB | Execution tracing and debugging |
 | **Trace Loki** | `arcs_trace_loki.py` | 40KB | Loki adversarial trace analysis |
 | **CIS** | `arcs_cis.py` | 22KB | Cognitive Interface System ("Babel Fish") — HC→LTE integration: altitude detection + cognitive-safety-modulated signal encoding (per the file's own header) |
-| **Diagnostic** | `arcs_diagnostic.py` | 17KB | System diagnostics and validation |
+| **Diagnostic** | `scripts/_archive/arcs_diagnostic.py` (composted 2026-10-20, uncalled) | 17KB | System diagnostics and validation |
 
 ### Storage & Infrastructure
 
@@ -74,7 +74,7 @@ This directory contains the atomic design components that compose the ARCS decis
 
 | Component | File | Purpose |
 |-----------|------|---------|
-| **Test Receipts** | `seed_test_receipts.py` | Test fixture generator |
+| **Test Receipts** | `scripts/_archive/seed_test_receipts.py` (composted 2026-10-20, uncalled) | Test fixture generator |
 
 ### ROM Candidates — Experimentation (not yet canonical)
 
@@ -130,7 +130,7 @@ where:
 
 ## Development Notes
 
-**Dependencies (corrected 2026-07-11 — the prior "all operators are stdlib-only" claim was false):** 12 of 34 files import numpy and/or scipy: `arcs_api`, `arcs_hc`, `arcs_constitutional_court`, `arcs_kinematics`, `arcs_operators_bar`, `arcs_operators_lab`, `arcs_operators_curator`, `arcs_operators_sage`, `arcs_pipeline_v1`, `arcs_primitives`, `arcs_store`, `waveform_optimizer` (verified by grep). The remaining 22 are stdlib-only. Operators are composable and testable in isolation.
+**Dependencies (corrected 2026-07-11 — the prior "all operators are stdlib-only" claim was false):** 12 of 34 files import numpy and/or scipy: `arcs_api`, `arcs_hc`, `arcs_constitutional_court`, `arcs_kinematics`, `arcs_operators_bar`, `arcs_operators_lab`, `arcs_operators_curator`, `arcs_operators_sage`, `arcs_pipeline_v1`, `arcs_primitives`, `arcs_store`, `waveform_optimizer` (composted 2026-10-20 to scripts/_archive/) (verified by grep). The remaining 22 are stdlib-only. Operators are composable and testable in isolation.
 
 **Status (relabeled 2026-07-11):** These operators are a reference implementation of the ARCS decision reasoning engine at component resolution. They complement (not replace) the Claude L0–L5 pipeline in the compass route — but they are not integrated with it, and no deployment or end-to-end evidence backs a "production-ready" label.
 

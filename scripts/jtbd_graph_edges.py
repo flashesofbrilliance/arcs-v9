@@ -20,6 +20,7 @@ Mechanical rules
                              argv list); bare prose mentions give no edge (round 3). Also (neighbor_scan.py citer rule, full path only;
                              skipped: CITE_NOISE pages, lines with direction words (writes, emits, generated, feeds,
                              checks...), and script/operator -> surface, which is generator or gate, not written against)
+  (shell files and extensionless git hooks: a line that starts by running a path is a run even with a direction word)
   runtime-dep  env-read      process.env.X / os.environ[...] / os.getenv for an env var that is a dep:env atom, only when a
                              missing var fails the tool (indexing read, or exit/raise within 3 lines; round 8)
   runtime-dep  service       a tool file line matches a service's call signature (SERVICES below), unless the call
@@ -50,7 +51,7 @@ SERVICES = {
 INVOKE = r"""(?:python3?|bash|sh|node|npx\s+tsx|tsx|zsh)\s+(?:-\S+\s+)*|\./|["'](?:python3?|bash|sh|node)["']\s*,\s*["']"""
 # round 4 (seed 20261021): in code, a command quoted in a message/remedy/comment is not run by the citer
 MSG_RE = re.compile(r"SystemExit|sys\.exit|\bprint\(|\bfix\s*=|remed|\braise\b|\becho\b|console\.(log|error)|f[\"']|hint|finding\(")
-SH_START = re.compile(r"^\s*(?:(?:then|do|else|&&|\|\||[A-Z_]+=\$\()\s*)?(?:python3?|bash|sh|node|npx\s+tsx|tsx|zsh|\./)")
+SH_START = re.compile(r"^\s*(?:(?:then|do|else|&&|\|\||[A-Z_]+=\$\(|if\s+!?|!)\s*)?(?:python3?|bash|sh|node|npx\s+tsx|tsx|zsh|\./)")
 # a route.tool clause offering a template, precedent or proposal names no tool doing the job
 ROUTE_HEDGE = re.compile(r"\b(pattern|template|precedent|prior art|when built|sibling|e\.g\.|like|modelled|modeled|format)\b", re.I)
 # round 5 exhaustive check: a clause naming a file the job creates, edits or studies makes it a target, not a server
@@ -130,16 +131,36 @@ def _logical(L, i):
     return out
 
 
+def _in_string(line, i):
+    """True when position i sits inside a quoted literal opened earlier on the line (plain, not f-string)."""
+    q = None; j = 0
+    while j < i:
+        c = line[j]
+        if q is None and c in "'\"" and not (j > 0 and line[j - 1] in "fF"):
+            q = c
+        elif q is not None and c == "\\":
+            j += 1
+        elif c == q:
+            q = None
+        j += 1
+    return q is not None
+
+
+def _is_shell(p):
+    """A .sh file, or an extensionless git hook (scripts/git-hooks/*), is read as shell."""
+    return p.endswith(".sh") or p.startswith("scripts/git-hooks/")
+
+
 def run_paths(line, p, run_re):
     """Matches on `line` (in tool file p) where p really runs another path; the cite rule's whole decision."""
-    code = p.endswith(CODE_EXT)
+    code = p.endswith(CODE_EXT) or _is_shell(p)
     if code and (line.lstrip().startswith(("#", "//", "*")) or MSG_RE.search(line)):
         return []
     out = []
     for m in run_re.finditer(line):
-        if code and p.endswith(".sh") and not SH_START.match(line):
+        if code and _is_shell(p) and not SH_START.match(line):
             continue
-        if code and not p.endswith(".sh") and m.group(0)[0] not in "\"'":
+        if code and not _is_shell(p) and m.group(0)[0] not in "\"'":
             continue  # .py/.js: only a real argv list runs the path
         out.append(m)
     return out
@@ -289,7 +310,9 @@ def build_edges(root, atoms, rows, op_edges):
         code = p.endswith(CODE_EXT)
         for i, line in enumerate(L):
             ev = f"{p}:{i + 1}"
-            if run_re and p not in CITE_NOISE and not CITE_DIRECTION.search(line):
+            # a shell line that starts by running a path is a run even when it says "--check" (git hooks, 2026-10-20)
+            sh_run = _is_shell(p) and SH_START.match(line)
+            if run_re and p not in CITE_NOISE and (sh_run or not CITE_DIRECTION.search(line)):
                 for m in run_paths(line, p, run_re):
                     if m.group(1) == p:
                         continue
@@ -323,6 +346,8 @@ def build_edges(root, atoms, rows, op_edges):
                         for fr in tids:
                             edges.append(_edge(fr, f"dep:npm:{pkg}", "design-dep", f"import:{ev}", spec, "js-import"))
             for m in ENV_RE.finditer(line):
+                if _in_string(line, m.start()):
+                    continue  # a read written inside a string literal (a test fixture's file text) runs nothing
                 n = next(g for g in m.groups() if g)
                 form = "index" if m.group(4) or m.group(2) else "get"
                 if n in env_names and env_hard(L, i, form):

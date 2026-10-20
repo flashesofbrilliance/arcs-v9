@@ -32,6 +32,14 @@
    "row": "jtbd-graph-triage-2026-10-20",
    "added": "2026-10-20",
    "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:decision-receipt-append-only",
+   "reason": "DONE via the Supabase apply_migration MCP tool, which is not a repo tool atom; decide by resolve_by whether the graph should model MCP tools or the row needs a repo-side tool",
+   "row": "decision-receipt-append-only",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
   }
  ]
 }

@@ -156,6 +156,12 @@ export default async function proxy(request: NextRequest) {
       return NextResponse.rewrite(url)
     }
   }
+  // lewoof.arcs.care/desk (2026-10-20): short link to the Le Woof Daily Desk
+  // artifact, the single tracker (PR 1719's in-app desk was discarded). Sits
+  // after the gate, so the link itself stays behind the passcode.
+  if (sub === 'lewoof' && (pathname === '/desk' || pathname === '/desk/')) {
+    return NextResponse.redirect('https://claude.ai/artifact/EN1E3113GZGsrc2UobDyvM', 302)
+  }
 
   // --- myally.arcs.care: whole host behind its OWN passcode -----------------
   // Proposal for a counterpart team (names, scope, internal context). Same shape
