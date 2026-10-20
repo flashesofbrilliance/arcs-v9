@@ -159,7 +159,10 @@
       "Bash(python3 scripts/backlog_graph.py --json)",
       "Bash(python3 scripts/jtbd_graph_schema_check.py --mutation-proof)",
       "Bash(python3 scripts/jtbd_graph_gates.py --mutation-proof)",
-      "Bash(python3 scripts/readiness_packet.py --self-test)"
+      "Bash(python3 scripts/readiness_packet.py --self-test)",
+      "Bash(git fetch)",
+      "Bash(python3 scripts/castellum.py --check)",
+      "Bash(python3 scripts/universe_jtbd_adapter.py --check)"
     ],
     "ask": [
       "Bash(git push:*)"
