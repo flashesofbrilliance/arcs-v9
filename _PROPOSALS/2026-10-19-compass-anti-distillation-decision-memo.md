@@ -26,16 +26,16 @@ Recommendation: do volume control first and now (it is cheap, reversible and als
 
 ## Rulings needed (mark each YES, NO, or an edit)
 
-1. **Firewall numbers (audit 3b.1).** Proposed: `POST /api/compass` at 10 per minute and 60 per day per client IP; challenge, then deny. First step is a read of the current firewall config. Ruling: ____
-2. **Pull GW-002 forward from 2026-10-28.** Proposed: yes, start this week. Ruling: ____
-3. **Spend breaker (audit 3b.3).** Anthropic key usage limit plus an env flag that switches anonymous callers to a waitlist reply past a daily count. Proposed daily count: ____ (no number in the audit; Zach sets it).
-4. **Anonymous allowlist plus `_sealed` (audit 1b).** Proposed: yes. Ruling: ____
-5. **Signed-in response, option A or B.** A (recommended): POST returns only the product fields plus ids; full output read through the owner-gated endpoints the UI already uses. B: keep the full output for owners; a free magic-link account then equals full-schema sampling. Ruling: A / B
-6. **Per-account cap for signed-in users (audit 3b.2).** Proposed: 100 per day, counted from existing Receipt rows (no new data category). Ruling: ____
-7. **Observatory code map public?** Proposed: drop the risk-register rows ("computeYGate unaudited") from the client bundle; keep file sizes. Ruling: ____
-8. **Watermark measurement first (audit 3a).** Read-only aggregate count of active substitution sites over stored receipts, before choosing to build the watermark. Proposed: yes. Ruling: ____
-9. **Terms clause and anonymous notice (audit 3d).** Proposed: send the clause to counsel; add a one-line notice under the question box linking /terms. Ruling: ____
-10. **App-level hashed-IP counter (audit 3b.4).** Proposed: NO for now; it adds a data category and needs a /privacy line. Revisit only if the Firewall rule proves too weak. Ruling: ____
+1. **Firewall numbers (audit 3b.1).** Proposed: `POST /api/compass` at 10 per minute and 60 per day per client IP; challenge, then deny. First step is a read of the current firewall config. Ruling: RULED 2026-10-20 (Zach): measure first. Firewall rule set to LOG ONLY for a week; no 10/min and 60/day numbers are enforced until they come from data. Enforced value will be a stated multiple (default 3x) of the observed peak, with the peak and multiple written into the receipt. Existing in-memory 10/min stays as the only hard gate.
+2. **Pull GW-002 forward from 2026-10-28.** Proposed: yes, start this week. Ruling: RULED 2026-10-20 (Zach): YES, start this week (log-only observation counts as the start; the waiver ends 2026-10-28).
+3. **Spend breaker (audit 3b.3).** Anthropic key usage limit plus an env flag that switches anonymous callers to a waitlist reply past a daily count. Proposed daily count: ____ (no number in the audit; Zach sets it). Ruling: RULED 2026-10-20 (Zach): measure first. Daily counter added in LOG ONLY mode with no waitlist switch; threshold set later at a stated multiple (default 3x) of the observed peak. Until then the only spend ceiling is the Anthropic key usage limit.
+4. **Anonymous allowlist plus `_sealed` (audit 1b).** Proposed: yes. Ruling: RULED 2026-10-20 (Zach): YES. WRITE-LOCK 1 (_sealed key derivation) still has to be declared by Zach before that part ships.
+5. **Signed-in response, option A or B.** A (recommended): POST returns only the product fields plus ids; full output read through the owner-gated endpoints the UI already uses. B: keep the full output for owners; a free magic-link account then equals full-schema sampling. Ruling: RULED 2026-10-20 (Zach): A (product fields plus ids; full output through owner-gated endpoints).
+6. **Per-account cap for signed-in users (audit 3b.2).** Proposed: 100 per day, counted from existing Receipt rows (no new data category). Ruling: RULED 2026-10-20 (Zach): measure first. Observed maximum is 3 saved receipts per account per day (14 days to 2026-10-20, one account), so no cap is set until there is real signed-in volume. Revisit with data.
+7. **Observatory code map public?** Proposed: drop the risk-register rows ("computeYGate unaudited") from the client bundle; keep file sizes. Ruling: RULED 2026-10-20 (Zach): YES, drop the risk-register rows from the client bundle; keep file sizes. (Reversible; keeping the map public is the one-way choice.)
+8. **Watermark measurement first (audit 3a).** Read-only aggregate count of active substitution sites over stored receipts, before choosing to build the watermark. Proposed: yes. Ruling: RULED 2026-10-20 (Zach): YES, read-only aggregate count first.
+9. **Terms clause and anonymous notice (audit 3d).** Proposed: send the clause to counsel; add a one-line notice under the question box linking /terms. Ruling: RULED 2026-10-20 (Zach): YES, clause to counsel (nothing publishes before review) plus the one-line notice.
+10. **App-level hashed-IP counter (audit 3b.4).** Proposed: NO for now; it adds a data category and needs a /privacy line. Revisit only if the Firewall rule proves too weak. Ruling: RULED 2026-10-20 (Zach): NO for now.
 
 ## WRITE-LOCK: one-way doors
 
