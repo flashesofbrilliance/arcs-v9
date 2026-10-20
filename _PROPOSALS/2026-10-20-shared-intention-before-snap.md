@@ -249,7 +249,7 @@ Mapping (REUSE: the I.D.E.A. and Staff of Chiefs agents in `.claude/agents/`, al
   step, the same pattern as oracle numbering. Sprint ids: GAP, `scripts/oracle.py` has namespaces
   adr, handoff, seed, tao only; adding `sprint` is a small change, Zach's call.
 
-**Second wrapper: hyperstition (Zach, 2026-10-20).** Two wrappers, picked per sprint by its job:
+**Second pass: hyperstition (Zach, 2026-10-20).** Two passes in a fixed order: I.D.E.A. first, then hyperstition as the second pass that tests and validates what I.D.E.A. let through:
 
 | | I.D.E.A. | Hyperstition (ROM 3) |
 |---|---|---|
@@ -260,9 +260,11 @@ Mapping (REUSE: the I.D.E.A. and Staff of Chiefs agents in `.claude/agents/`, al
 
 Guard on "diamond cut": earned fidelity, not maximal (memory `earned-fidelity-not-maximal-diamond-cut`).
 The apex is cut only as fine as its evidence supports, and its gates are the repo's own
-(page_gate, artifact_wrap_lint, the counterpart gauntlet where it goes outward). A sprint may chain
-the two: I.D.E.A. first to find what is true, hyperstition second to make it real. GAP: no field
-on the row says which wrapper; proposed `wrapper: idea | hyperstition | both`.
+(page_gate, artifact_wrap_lint, the counterpart gauntlet where it goes outward). Order is fixed:
+I.D.E.A. finds what is true; hyperstition makes it real and tests the made thing. A sprint that
+fails I.D.E.A. never reaches the second pass. A sprint whose job is pure de-risking (no artifact)
+stops after I.D.E.A. and says so. GAP: no row field records the pass reached; proposed
+`pass: idea | hyperstition | rom`.
 
 Known limits, stated now:
 - The validator seats are the same model family as the worker (memory
