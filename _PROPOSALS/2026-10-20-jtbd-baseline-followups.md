@@ -18,7 +18,7 @@ command or skill names. Last commit date first. Fates: compost (move to `scripts
 | 2026-09-10 | `scripts/_archive/second_pass_ledger.py` (COMPOSTED 2026-10-20, Zach) |
 | 2026-09-24 | `scripts/baseline-prod-migrations.sh` |
 | 2026-10-04 | `scripts/blog_provenance.py` |
-| 2026-10-04 | `scripts/_archive/gravity_well_fork_scan.py` (COMPOSTED 2026-10-20, Zach) |
+| 2026-10-04 | `scripts/gravity_well_fork_scan.py` (keep as manual tool (Zach unsure 2026-10-20)) |
 | 2026-10-04 | `scripts/linkedin_render.py` |
 | 2026-10-04 | `scripts/_archive/snapshot_prune_ui_artifacts.py` (COMPOSTED 2026-10-20, Zach) |
 | 2026-10-05 | `scripts/forge_finalize_one.sh` (KEPT 2026-10-20: live caller, scheduled task arcs-job-search-loop-retargeted-alerts) |

@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 3,
-  "script": 246,
+  "script": 247,
   "skill": 22,
   "workflow": 2
  },
- "total": 361,
+ "total": 362,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 504,
+   "WIRED": 505,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -1304,6 +1304,14 @@
    "path": "scripts/github_ingest.py",
    "jtbd": "github_ingest.py — plug-and-play GitHub → ARCS Observatory dataset builder.",
    "invoke": "python3 scripts/github_ingest.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "gravity_well_fork_scan.py",
+   "path": "scripts/gravity_well_fork_scan.py",
+   "jtbd": "gravity_well_fork_scan — the ziggurat decomposition detector.",
+   "invoke": "python3 scripts/gravity_well_fork_scan.py",
    "state": "WIRED"
   },
   {

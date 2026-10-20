@@ -1260,9 +1260,9 @@
   {
    "kind": "script",
    "name": "gravity_well_fork_scan.py",
-   "path": "scripts/_archive/gravity_well_fork_scan.py",
+   "path": "scripts/gravity_well_fork_scan.py",
    "jtbd": "gravity_well_fork_scan — the ziggurat decomposition detector.",
-   "invoke": "python3 scripts/_archive/gravity_well_fork_scan.py",
+   "invoke": "python3 scripts/gravity_well_fork_scan.py",
    "state": "WIRED"
   },
   {
