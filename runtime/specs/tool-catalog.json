@@ -3,14 +3,14 @@
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
   "command": 17,
-  "hook": 2,
+  "hook": 3,
   "operator": 46,
   "package": 3,
   "script": 248,
   "skill": 22,
   "workflow": 2
  },
- "total": 340,
+ "total": 341,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
@@ -423,6 +423,14 @@
    "path": ".claude/hooks/session-start.sh",
    "jtbd": "SessionStart hook — ARCS v9",
    "invoke": "(automatic — hook)",
+   "state": "WIRED"
+  },
+  {
+   "kind": "hook",
+   "name": "pre-commit",
+   "path": "scripts/git-hooks/pre-commit",
+   "jtbd": "pre-commit — oracle guard: reject a commit that introduces a DUPLICATE ADR number.",
+   "invoke": "(automatic — git hook)",
    "state": "WIRED"
   },
   {

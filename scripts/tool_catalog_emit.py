@@ -155,6 +155,13 @@ def collect():
             if f.endswith(".sh"):
                 p = os.path.join(hk, f)
                 add("hook", os.path.splitext(f)[0], p, sh_jtbd(p), "(automatic — hook)")
+    # git hooks (core.hooksPath): extensionless shell files that run the gate scripts
+    gh = os.path.join(ROOT, "scripts", "git-hooks")
+    if os.path.isdir(gh):
+        for f in sorted(os.listdir(gh)):
+            p = os.path.join(gh, f)
+            if os.path.isfile(p):
+                add("hook", f, p, sh_jtbd(p), "(automatic — git hook)")
 
     # scripts
     sc = os.path.join(ROOT, "scripts")
