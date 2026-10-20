@@ -23,8 +23,8 @@ def level(node, row):
     nid = node["id"]
     if nid.startswith(HUMAN_TRACK_PREFIXES):
         return "R4", "human-track prefix"
-    if node.get("state") == "BLOCKED" or node.get("consent") or row.get("ruin"):
-        return "R4", "blocked, consent or ruin"
+    if node.get("state") == "BLOCKED" or node.get("consent") or row.get("ruin") == "high":
+        return "R4", "blocked, consent or high ruin"
     if node.get("tool") == "NONE":
         return "R4", "no route.tool: human work"
     if nid.endswith(DECISION_SUFFIXES):
@@ -36,7 +36,7 @@ def level(node, row):
     if node.get("tool") == "PARTIAL":
         return "R2", "tool partly resolves"
     if node.get("tool") == "HAVE":
-        if row.get("mechanical") is True:
+        if row.get("mechanical") is True and row.get("ruin") in (None, "low"):
             return "R1", "tool resolves, two-way, row marked mechanical"
         return "R2", "tool resolves but no mechanical marker: a build, not a rule"
     return "R4", "unrecognised tool label, default to human"
@@ -76,7 +76,10 @@ def self_test():
         ({**base, "id": "x", "tool": "PARTIAL"}, {}, "R2"),
         ({**base, "id": "x", "tool": "NONE"}, {}, "R4"),
         ({**base, "id": "x", "consent": "human"}, {}, "R4"),
-        ({**base, "id": "x"}, {"ruin": "yes"}, "R4"),
+        ({**base, "id": "x"}, {"ruin": "high"}, "R4"),
+        ({**base, "id": "x"}, {"ruin": "low"}, "R2"),                # `ruin` is a level (low/medium/high), not a flag
+        ({**base, "id": "x"}, {"ruin": "medium", "mechanical": True}, "R2"),  # medium ruin never auto-qualifies for R1
+        ({**base, "id": "x"}, {"ruin": "low", "mechanical": True}, "R1"),
         ({**base, "id": "filing-draft"}, {}, "R4"),                 # filing hub stays human even with a resolved tool
         ({**base, "id": "x", "state": "BLOCKED"}, {}, "R4"),
         ({**base, "id": "adr-9-acceptance-redecide", "tool": "NOT-RESOLVED"}, {}, "R3"),  # decision beats R-1
