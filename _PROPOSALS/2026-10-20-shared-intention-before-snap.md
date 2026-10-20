@@ -15,6 +15,19 @@ but I think it will help to visualize what we're manifesting."
 Labels used below: **REUSE** names existing code or spec that does the job today. **GAP** names
 something that does not exist yet. Nothing here is built.
 
+## Status at a glance (as of 2026-10-20; hardened after a claims-skeptic pass)
+
+Every count below is dated 2026-10-20 unless it says otherwise. Section labels:
+
+| Section | State |
+|---|---|
+| 1, First intention, D1 trigger, 4b drill-down, surgical spec home | DECIDED by Zach |
+| 4k receipt bridge (PR #1698), underwriter rc1 (PR #1695), plumbing proof, status restamp (PR #1697) | BUILT and merged |
+| 2, 3, 4, 4c, 4d, 4f, 4i, 4j, 5, 6 | PROPOSED design, not built |
+| 4e build order, 4g domino line, live dependency map | PLAN, live; refresh before acting |
+| 4h seam ledger | RECORD |
+| Risk underwriter design | PROPOSED in PR #1694 (separate) |
+
 ## 1. What the intention is (three candidate definitions, pick one)
 
 All three share this shape: **one sentence, one owner, one horizon, one exclusion line.**
@@ -64,7 +77,7 @@ Rules that hold for any choice:
 
 Today `backlog_graph.py` orders by wave, then `rank`, then `order`, then `priority`, then id, and
 labels tool fit (HAVE / PARTIAL / NOT-RESOLVED / NONE from `route.tool`). Urgency comes from
-`backlog_ripeness.py` (RIPE etc.). REUSE all three.
+`scripts/backlog_ripeness.py` (RIPE etc.). REUSE all three.
 
 Proposed: keep the three terms and **rename the old fit to tool-fit**, then add **alignment**:
 
@@ -121,9 +134,9 @@ The intention is shown at four horizons side by side (today, this week, this qua
 | Tactical | issue | one backlog row with its blockers, dependencies, configs, risks and failure modes (Zach) |
 | Surgical | spec | the decomposition of that issue into steps (Zach) |
 
-Tactical fields already on the rows (counts out of 324, 2026-10-20): blockers and dependencies =
-`depends_on` (167) and `unblocks` (157), REUSE via backlog_graph.py; configs = `route` (303) and
-`needs` (53), REUSE; risks = `ruin` (58), `door` (29), `gates` (303), REUSE; failure modes =
+Tactical fields already on the rows (rows carrying the key, out of 327, recounted 2026-10-20 after the ruin fill): blockers and dependencies =
+`depends_on` (170) and `unblocks` (160), REUSE via backlog_graph.py; configs = `route` (306) and
+`needs` (53), REUSE; risks = `ruin` (71), `door` (32), `gates` (306), REUSE; failure modes =
 `abort` (10) and `rollback` (10), REUSE but thin. GAP: no field names failure modes directly,
 and most rows lack abort and rollback.
 
@@ -176,11 +189,11 @@ The test in section 5 is unchanged; path views are shown after it, so they canno
 
 The snap list gets a counterweight that prices risk before a fate is picked.
 
-- **Built (read-only, PR #1695, unmerged):** `scripts/risk_underwriter.py` prices rows by the
+- **Built (read-only, PR #1695 merged 2026-10-20 as 45a93f68, tag risk_underwriter-rc1-2026-10-20; blank ruin prints UNPRICED):** `scripts/risk_underwriter.py` prices rows by the
   PR #1694 table (coins; SPECIALTY rider tier and UNINSURABLE, both shown, never blocked) and runs
   a pre-registered three-point duration table with a critical path per case. WAIT and UNKNOWN rows
-  are named, never guessed. First readout: the two one-way rows price at 4 coins (no write-lock,
-  DRAFT cover); every other row prices 0 because `ruin` is blank on 266 rows (exposure unpriced).
+  are named, never guessed. First readout at build time: two one-way rows at 4 coins, the rest 0 with `ruin` blank on 266 rows.
+  After the 10-row ruin fill (as of 2026-10-20): `ruin` blank on 256; blank two-way rows now read UNPRICED.
 - **Glass box:** both tables live at the top of the script; every price shows inputs, missing
   cover and flags; changes only by Zach's ruling with a version stamp.
 - **Weight lab (GAP):** restate the price as weighted dimensions (exposure, door, missing cover,
@@ -203,7 +216,7 @@ it unblocks. "Needs" is a hard edge; a step never starts before its entry holds.
 
 | # | Step | Needs | Exit (checkable) | Unblocks |
 |---|---|---|---|---|
-| 1 | Ship ruling on PR #1695 (s4 freeze) | none | Zach rules: merged with --merge and catalog untouched, or held | nothing hard; the tool runs from its branch |
+| 1 | DONE 2026-10-20: PR #1695 merged (45a93f68), rc1 tagged, catalog untouched | none | merged with --merge | 4, 7 |
 | 2 | Fill `ruin` bands on the rows in play (5 triage + calibration chain), then the rest in batches (first 10 DONE 2026-10-20, Zach confirmed) | tool on any branch | each band proposed by Claude with a reason, confirmed by Zach, written to the row; `backlog_status_check.py --check` exits 0 | 4, 7 |
 | 3 | Steelman pass on the 10 DRAFT `abort`/`rollback` texts | none | each text reviewed by Zach: kept, edited or struck; DRAFT marker removed only on his word | 4, 5, 7 |
 | 4 | Priced triage: re-run the underwriter, Zach fates the five rows | 2 (those rows), 3 (those rows) | five fates recorded on the triage row | 5 |
@@ -287,7 +300,7 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 | D1 | DECIDED (Zach 2026-10-20): the intention test fires by default on the next `/fold` or `scripts/unfold.py` run that adds 10 or more rows, with an override switch: Zach may fire it now on any backlog, skip one trigger, or change the threshold; each use of the switch is logged with his reason, so the default stays honest [14] | default event, or Zach's override | nothing else waits on it; it stops the test from quietly never running |
 | D1b | Defensive structural scan (Zach 2026-10-20: weaknesses first, defensive before offensive): for each of the 10 rows with DRAFT cover, list its weak joints and failure modes (detective pass, one line each) | now, before D2; cheap, no fate needed | D2 attacks known weak joints instead of guessing |
 | D2 | Steelman the 10 DRAFT covers against the D1b weak joints [2] | now, Zach in chat, one row at a time | D4, D8 |
-| D3 | Ship ruling on PR #1695 [1] | now, Zach | D5, D6, D9 (other sessions and Hermes can run the tool) |
+| D3 | DONE 2026-10-20: PR #1695 merged (45a93f68), tag risk_underwriter-rc1-2026-10-20 [1] | done | D6, D9 |
 | D4 | Priced triage: fate the five rows | D2 done for those rows | D7 for the one-way rows |
 | D5 | DONE in PR #1698: Accountant scoreboard prints synthetic_excluded [12] | D3 merged (same review rhythm), any session | honest weekly output |
 | D6 | Exposure passes down from one-way blockers [6] | D3 merged | correct prices on chains |
@@ -306,7 +319,7 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 Not a domino (a standing limit): the validator seats are the same model family as the worker [11].
 It never falls; every sprint states it, and only detector re-runs and outcomes count as outside proof.
 
-Now-ripe set: D1b, then D2 and D3 (D0 and D1 done).
+Now-ripe set (as of 2026-10-20): D1b, then D2 (D0, D1, D3, D5 done).
 
 **D0 result (run 2026-10-20 by Claude, same model family as the worker: a pre-score, not proof).**
 Premise under test: "timing is the bottleneck, and pricing risk is the first move."
@@ -315,7 +328,7 @@ Facts used (prod, read-only, 2026-10-20): 271 receipts; provenance real 0, test 
 
 - Red team: the bottleneck is outcomes, not risk. With 0 real-tagged receipts, nothing can learn
   timing. Of the rows priced, only 2 are one-way doors; the rest are internal and reversible.
-  Building tooling over a 247-row backlog risks entropy masquerading as motion (WORLD.md).
+  Building tooling over a 249-row open backlog (327 rows in all, as of 2026-10-20) risks entropy masquerading as motion (WORLD.md).
 - Blue team: the underwriter is cheap, read-only, and its first catch was real: the one outbound
   send in the chain priced as SPECIALTY, which matches the intention (do not strike early). The
   plumbing test proved outcomes can close.
@@ -364,12 +377,12 @@ heading change. Banked here until the repo-wide ledger (domino D10) exists.
 
 | Seam | Detected by | Whose | Repair | Heading change |
 |---|---|---|---|---|
-| Told Zach to release a stale claim on receipt-test-real-tag; the row was DONE | live row read during the dependency map | Claude (trusted the 2026-10-18 handoff prose) | step dropped, noted in the live map | verify handoff claims against the live backlog before advising (memory `verify-handoff-prose-against-live-backlog-not-just-doc`, already banked; not applied) |
+| Told Zach to release a stale claim on receipt-test-real-tag; the row was DONE | live row read during the dependency map | Claude (trusted the 2026-10-18 handoff prose) | step dropped, noted in the live map | verify handoff claims against the live backlog before advising (memory `false-null-requires-provenance-exhaustion`, already banked; not applied) |
 | Placed two rows in the horizon grid as examples; Zach read them as priorities | Zach's question | Claude (examples inside a would-be-blind exercise) | said so; marked illustrative in 4b | no example rows inside a blind step |
 | Backlog edit rewrote 64 lines (json.dumps re-encoded others) | git diff --stat before commit | Claude | reverted, single-line replace | diff-stat check before any jsonl commit (it caught this one) |
 | Picker (AskUserQuestion) returned empty twice | the tool result | harness or client, unclear | switched to wrap_up buttons | prefer button replies with this user |
-| Accountant weekly output hides synthetic_excluded | plumbing test | pre-existing tool gap | row note; domino D5 | none yet |
-| Built the underwriter before the ship ruling was answered | own review | Claude (read "good safeguard" as a go) | kept on a branch, PR unmerged | a go to build is not a go to ship |
+| Accountant weekly output hides synthetic_excluded | plumbing test | pre-existing tool gap | repaired in PR #1698 (7506fbde) | print every exclusion |
+| Built the underwriter before the ship ruling was answered | own review | Claude (read "good safeguard" as a go) | kept on a branch, then merged on Zach's ruling (45a93f68) | a go to build is not a go to ship |
 | Hand risk table first said "no overlay applied" only when asked | Zach's question | Claude (did not say what the leans were based on) | priced overlay built | state the basis of every lean in the same message |
 
 Gap: these lines live in a proposal, not a ledger a detector can re-read. D10 is where they move.
@@ -489,7 +502,7 @@ in arcs-v9 yet; the RET script is the template. First candidate to put through i
 ## 4k. Sprint: the receipt bridge (onramp, chosen by Zach 2026-10-20; DONE, PR #1698 merged 7506fbde, receipt 2026-10-20--decision-receipt-bridge-pr1698--ZH)
 
 **Job.** Let outcomes on Zach's real decisions reach the Accountant. Today they cannot: ex-ante
-receipts live in `decision_receipt` (1,098 rows on 2026-10-20; the 854 in the 2026-10-17 universe adapter run is an older snapshot), their outcomes in `_STATE/receipt-outcomes.jsonl`
+receipts live in `decision_receipt` (1,104 rows on prod at my count late on 2026-10-20, 1,098 earlier the same day; the 854 is the 2026-10-17 universe adapter snapshot), their outcomes in `_STATE/receipt-outcomes.jsonl`
 (30 verdict rows on 21 receipts), and the Accountant reads only the compass `Receipt` table
 (0 real-tagged).
 
@@ -497,12 +510,12 @@ receipts live in `decision_receipt` (1,098 rows on 2026-10-20; the 854 in the 20
 - Ledger verdicts: held/external 12, held/self 8, dropped/self 5, open/external 4, reeled/external 1.
 - The Accountant takes receipts `{receipt_id, cohort, nci_score, horizon, stakes, mode}` and
   outcomes `{matched, regret_score}`; cohorts are fixed in `KNOWN_COHORTS` (founder, external,
-  anonymous, test, real); calibration needs 30 closed per cohort (`CALIBRATION_MIN_N`).
+  anonymous, test, real, and `decisions`, added in PR #1698); calibration needs 30 closed per cohort (`CALIBRATION_MIN_N`).
 - Ledger verdicts are per open line, not per receipt; `decision_receipt` has no NCI and no regret.
 
 **Design (REUSE: `receipt_outcome_queue.py`, `universe_receipts_adapter.py --export`,
-`prod_receipt_to_accountant.py` as the adapter pattern, `accountant_weekly.py --ingest`).**
-1. New read-only adapter `decision_receipt_to_accountant.py` (GAP): joins the export and the ledger,
+`operators/prod_receipt_to_accountant.py` as the adapter pattern, `accountant_weekly.py --ingest`).**
+1. Read-only adapter `scripts/decision_receipt_to_accountant.py` (built, PR #1698): joins the export and the ledger,
    emits Accountant-shaped rows in a new cohort `decisions` (one line added to `KNOWN_COHORTS`).
 2. Receipt closes when every in-scope open line has a verdict other than `open`. Matched = no line
    `reeled`. Dropped lines are excluded, not counted as held.
@@ -635,7 +648,7 @@ accountant-real-cohort-calibration    HOLDING  waiting       tool HAVE
 handoff-open-items-closes-when        OPEN     needs human   tool HAVE      no deps
 ```
 
-Step log: 2026-10-20 plumbing proven; finding: accountant_weekly.py does not print synthetic_excluded (5 here), so the exclusion is invisible in the weekly scoreboard.
+Step log: 2026-10-20 plumbing proven; finding: accountant_weekly.py does not print synthetic_excluded (5 here), so the exclusion was invisible in the weekly scoreboard (fixed in PR #1698, 7506fbde).
 
 Kintsugi seam: the first draft of this chain (in chat) said to release a stale claim on
 receipt-test-real-tag first. That came from the 2026-10-18 handoff; the live row is DONE. The
