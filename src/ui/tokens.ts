@@ -61,6 +61,14 @@ export const font = {
     lg:   '1.125rem',  // 18px
     xl:   '1.25rem',   // 20px
   },
+  // DESIGN.md four-step type ramp (the same values as --fs-* in src/ui-kit/recoil-report/_tokens.css).
+  // New code uses these; the size scale above predates DESIGN.md and stays for existing callers.
+  ramp: {
+    label:    '0.6875rem',               // 11px floor for functional text, mono caps
+    body:     '0.925rem',                // prose
+    headline: '1.15rem',                 // section titles
+    display:  'clamp(1.5rem, 4vw, 2.4rem)',
+  },
   weight: {
     normal: 400,
     medium: 500,
