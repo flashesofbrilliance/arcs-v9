@@ -10,9 +10,9 @@ command or skill names. Last commit date first. Fates: compost (move to `scripts
 
 | Last commit | Path |
 |---|---|
-| 2026-06-16 | `operators/arcs_diagnostic.py` |
-| 2026-06-16 | `operators/seed_test_receipts.py` |
-| 2026-07-08 | `operators/waveform_optimizer.py` |
+| 2026-06-16 | `scripts/_archive/arcs_diagnostic.py` (COMPOSTED 2026-10-20, Zach) |
+| 2026-06-16 | `scripts/_archive/seed_test_receipts.py` (COMPOSTED 2026-10-20, Zach) |
+| 2026-07-08 | `scripts/_archive/waveform_optimizer.py` (COMPOSTED 2026-10-20, Zach) |
 | 2026-09-07 | `scripts/forge_finalize.sh` |
 | 2026-09-07 | `scripts/nftt_dropcap_lint.py` |
 | 2026-09-10 | `scripts/second_pass_ledger.py` |

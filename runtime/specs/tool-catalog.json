@@ -4,13 +4,13 @@
  "counts": {
   "command": 17,
   "hook": 3,
-  "operator": 49,
+  "operator": 46,
   "package": 3,
   "script": 248,
   "skill": 22,
   "workflow": 2
  },
- "total": 344,
+ "total": 341,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
@@ -2507,14 +2507,6 @@
   },
   {
    "kind": "operator",
-   "name": "arcs_diagnostic.py",
-   "path": "operators/arcs_diagnostic.py",
-   "jtbd": "ARCS INIT Diagnostic Tool",
-   "invoke": "python3 operators/arcs_diagnostic.py",
-   "state": "UNAUDITED"
-  },
-  {
-   "kind": "operator",
    "name": "arcs_echo_embedding.py",
    "path": "operators/arcs_echo_embedding.py",
    "jtbd": "arcs_echo_embedding.py — ARCS v9",
@@ -2816,22 +2808,6 @@
    "jtbd": "receipt_evaluator.py — KINTSUGI phase-gate wrapper",
    "invoke": "python3 operators/receipt_evaluator.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "operator",
-   "name": "seed_test_receipts.py",
-   "path": "operators/seed_test_receipts.py",
-   "jtbd": "Seed test receipts via POST /question-compass for /guide[receiptId] fixtures.",
-   "invoke": "python3 operators/seed_test_receipts.py",
-   "state": "UNAUDITED"
-  },
-  {
-   "kind": "operator",
-   "name": "waveform_optimizer.py",
-   "path": "operators/waveform_optimizer.py",
-   "jtbd": "ARCS Operator: WaveformOptimizer",
-   "invoke": "python3 operators/waveform_optimizer.py",
-   "state": "UNAUDITED"
   }
  ]
 }
