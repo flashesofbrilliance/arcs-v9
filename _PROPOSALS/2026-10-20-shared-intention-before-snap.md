@@ -127,8 +127,11 @@ Tactical fields already on the rows (counts out of 324, 2026-10-20): blockers an
 `abort` (10) and `rollback` (10), REUSE but thin. GAP: no field names failure modes directly,
 and most rows lack abort and rollback.
 
-Surgical has no home on the row: only 2 rows carry `next_action`. GAP: where the decomposition
-lives (inline list on the row, or a linked spec file). Zach's call.
+Surgical has no home on the row: only 2 rows carry `next_action`. Decided (Zach, 2026-10-20): one linked spec
+file per issue, referenced from the row. Proposed shape, not built: `runtime/specs/issues/<row-id>.md`,
+and a `spec` key on the row holding that path. backlog_status_check.py does not restrict row keys
+(checked 2026-10-20), so the key needs no gate change. GAP: a check that each `spec` path resolves
+(the archive-move gate pattern would cover renames).
 
 Short horizons skip high altitudes (a day has no milestone). Row placement in the grid is never
 a ranking; examples in the 2026-10-20 sketch were illustrative only and are not core picks.
