@@ -4,18 +4,18 @@
  "counts": {
   "command": 17,
   "hook": 2,
-  "operator": 49,
+  "operator": 46,
   "package": 3,
-  "script": 247,
+  "script": 248,
   "skill": 22,
   "workflow": 2
  },
- "total": 342,
+ "total": 340,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 504,
+   "WIRED": 505,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -1787,6 +1787,14 @@
   },
   {
    "kind": "script",
+   "name": "receipt_coverage.py",
+   "path": "scripts/receipt_coverage.py",
+   "jtbd": "receipt_coverage: share of decision receipts since the Sprint 5 start that carry both job_id and tool_id. Stdlib, read-only.",
+   "invoke": "python3 scripts/receipt_coverage.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "receipt_lookup.py",
    "path": "scripts/receipt_lookup.py",
    "jtbd": "receipt_lookup.py — the Detective query over the internal recoil ledger.",
@@ -2491,14 +2499,6 @@
   },
   {
    "kind": "operator",
-   "name": "arcs_diagnostic.py",
-   "path": "operators/arcs_diagnostic.py",
-   "jtbd": "ARCS INIT Diagnostic Tool",
-   "invoke": "python3 operators/arcs_diagnostic.py",
-   "state": "UNAUDITED"
-  },
-  {
-   "kind": "operator",
    "name": "arcs_echo_embedding.py",
    "path": "operators/arcs_echo_embedding.py",
    "jtbd": "arcs_echo_embedding.py — ARCS v9",
@@ -2800,22 +2800,6 @@
    "jtbd": "receipt_evaluator.py — KINTSUGI phase-gate wrapper",
    "invoke": "python3 operators/receipt_evaluator.py",
    "state": "WIRED"
-  },
-  {
-   "kind": "operator",
-   "name": "seed_test_receipts.py",
-   "path": "operators/seed_test_receipts.py",
-   "jtbd": "Seed test receipts via POST /question-compass for /guide[receiptId] fixtures.",
-   "invoke": "python3 operators/seed_test_receipts.py",
-   "state": "UNAUDITED"
-  },
-  {
-   "kind": "operator",
-   "name": "waveform_optimizer.py",
-   "path": "operators/waveform_optimizer.py",
-   "jtbd": "ARCS Operator: WaveformOptimizer",
-   "invoke": "python3 operators/waveform_optimizer.py",
-   "state": "UNAUDITED"
   }
  ]
 }
