@@ -620,7 +620,6 @@
   "RUNTIME-DEP-NO-PROBE": [
    "dep:env:DATABASE_URL <- tool:script:outcome_funnel.py",
    "dep:env:DATABASE_URL <- tool:script:universe_jtbd_adapter.py",
-   "dep:service:github <- tool:script:ship_docs.sh",
    "dep:service:vercel <- tool:script:deploy-prod.sh"
   ]
  }
