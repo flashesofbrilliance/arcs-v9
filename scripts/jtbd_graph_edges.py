@@ -388,13 +388,16 @@ def build_edges(root, atoms, rows, op_edges):
 MCP_RECEIPTS = "runtime/specs/mcp-tool-receipts.jsonl"  # amendment 8 rule (d): the committed receipt projection
 
 
-def receipt_line(root, rid, cache=None):
+def receipt_line(root, rid, cache=None, tool=None, job=None):
     """(line number, text) of receipt `rid` in the committed MCP receipt projection, or None. This is how receipt:
-    evidence resolves offline (amendment 8); a receipt id not on a line there does not resolve."""
+    evidence resolves offline (amendment 8). With tool/job (amendment 9) the line must also name exactly that
+    tool_id and job_id, so a real receipt cannot vouch for an edge to some other job."""
     L = _read(root, MCP_RECEIPTS, cache if cache is not None else {}) or []
     for n, t in enumerate(L, 1):
         try:
-            if t.strip() and json.loads(t).get("receipt_id") == rid:
+            r = json.loads(t) if t.strip() else {}
+            if (r.get("receipt_id") == rid and (tool is None or r.get("tool_id") == tool)
+                    and (job is None or r.get("job_id") == job)):
                 return n, t
         except ValueError:
             pass

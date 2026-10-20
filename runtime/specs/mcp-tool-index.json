@@ -6,7 +6,7 @@
  "counts": {
   "tools": 1037,
   "servers": 27,
-  "write": 584,
+  "write": 595,
   "dropped_unlisted_prefix": 120
  },
  "tools": [
@@ -170,7 +170,7 @@
    "tool": "get-export-formats",
    "fn": "mcp__75e73a54-83f9-4b3f-8e55-74b72bc0e518__get-export-formats",
    "purpose": "get export formats (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -602,7 +602,7 @@
    "tool": "read_process_output",
    "fn": "mcp__plugin_desktop-commander_desktop-commander__read_process_output",
    "purpose": "read process output (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -710,7 +710,7 @@
    "tool": "get_recording_by_call_id",
    "fn": "mcp__1545da2a-932c-4354-b0b7-941748b30996__get_recording_by_call_id",
    "purpose": "get recording by call id (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -1277,7 +1277,7 @@
    "tool": "get_export_status",
    "fn": "mcp__89f60db2-46c4-43d3-9d2a-b546039cd3da__get_export_status",
    "purpose": "get export status (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -4193,7 +4193,7 @@
    "tool": "notion-get-file-download-urls",
    "fn": "mcp__4c7edfae-9c05-4fc5-9d32-8fdad213afdc__notion-get-file-download-urls",
    "purpose": "notion get file download urls (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -7208,7 +7208,7 @@
    "tool": "get_domain_order",
    "fn": "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_domain_order",
    "purpose": "get domain order (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -7271,7 +7271,7 @@
    "tool": "get_edge_config_backup",
    "fn": "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_edge_config_backup",
    "purpose": "get edge config backup (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -7433,7 +7433,7 @@
    "tool": "get_order",
    "fn": "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_order",
    "purpose": "get order (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -7451,7 +7451,7 @@
    "tool": "get_project_deletion_link",
    "fn": "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_project_deletion_link",
    "purpose": "get project deletion link (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -8909,7 +8909,7 @@
    "tool": "get_trigger_field_choices",
    "fn": "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__get_trigger_field_choices",
    "purpose": "get trigger field choices (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",
@@ -8918,7 +8918,7 @@
    "tool": "get_trigger_fields",
    "fn": "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__get_trigger_fields",
    "purpose": "get trigger fields (from name)",
-   "class": "read"
+   "class": "write"
   },
   {
    "kind": "mcp",

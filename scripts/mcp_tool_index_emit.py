@@ -30,6 +30,14 @@ restore publish post write upsert patch put cancel trash untrash forward reply s
 enable disable sign revoke rotate kill stop start invalidate approve edit label unlabel mark unmark generate copy duplicate
 record complete issue assign connect transfer verify confirm save submit respond give provision activate extend stage
 replace retry rerequest request accept authorize change resolve spawn convert remix mint initiate test or and""".split())
+# amendment 9 (counter-agent round 1): side-effect words the first list missed
+WRITE_VERBS |= set("""purge drop destroy wipe clear archive unarchive unsubscribe subscribe ack dismiss revert rollback
+terminate cancel close open lock unlock invite block unblock ban flush prune sync push pull refresh reload scrape crawl
+train pay charge refund order book schedule notify ping trigger invoke call exec eval shell sudo grant deny allow link
+unlink attach detach mute pin unpin star like follow unfollow vote review comment tag untag reorder sort split join fork
+clone build compile install uninstall migrate seed backup export download print render transcode convert translate
+summarize analyze process handle do make perform""".split())
+RULES9 = "_PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-9.md"
 UUID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 FN_RE = re.compile(r"^mcp__(.+?)__([A-Za-z0-9_-]+)$")
 KEY_RE = re.compile(r"^[a-z0-9-]+\.[A-Za-z0-9_-]+$")
@@ -127,6 +135,8 @@ def build(cap):
             keys.add(key)
             pur = (cap.get("purposes") or {}).get(f"mcp__{p}__{t}")
             pur = pur.split("\n")[0][:120] if pur else re.sub(r"[_\-]+", " ", t) + " (from name)"
+            if pur.lstrip().startswith(("{", "[")) or '"type":' in pur or '"properties"' in pur:
+                pur = re.sub(r"[_\-]+", " ", t) + " (from name)"  # never cache a schema-shaped purpose
             rows.append({"kind": "mcp", "name": key, "server": lab, "tool": t, "fn": f"mcp__{p}__{t}",
                          "purpose": pur, "class": classify(t, lab)})
     return rows, dropped
@@ -158,7 +168,9 @@ def staleness(doc, today=None, newer=None):
     out = []
     try:
         age = (today - datetime.date.fromisoformat(doc["captured_at"])).days
-        if age > STALE_DAYS:
+        if age < 0:
+            out.append(f"STALE: captured_at {doc['captured_at']} is in the future (amendment 9)")
+        elif age > STALE_DAYS:
             out.append(f"STALE: captured_at {doc['captured_at']} is {age} days old (> {STALE_DAYS})")
     except (KeyError, TypeError, ValueError):
         out.append("STALE: captured_at missing or not a date")
@@ -178,8 +190,11 @@ def leaks(doc):
         extra = set(r) - set(FIELDS)
         if extra:
             bad.append((r.get("name"), sorted(extra)))
-        if any(isinstance(v, (dict, list)) for v in r.values()) or len(str(r.get("purpose", ""))) > 120:
+        pur = str(r.get("purpose", ""))
+        if any(isinstance(v, (dict, list)) for v in r.values()) or len(pur) > 120:
             bad.append((r.get("name"), "structured or long value"))
+        elif pur.lstrip().startswith(("{", "[")) or '"type":' in pur or '"properties"' in pur:
+            bad.append((r.get("name"), "purpose looks like a schema (amendment 9)"))
     return bad
 
 
@@ -222,6 +237,7 @@ def self_test():
     trap = [v for v in sorted(WRITE_VERBS)] + [f"get_or_{v}" for v in sorted(WRITE_VERBS)] + \
            [f"list_and_{v}_items" for v in sorted(WRITE_VERBS)] + ["", "_", "do_thing", "execute_read_action",
                                                                   "get", "fetchall", "readwrite", "search-and-destroy"]
+    trap += ["get_purge", "query_drop_table", "list_then_destroy", "search_unsubscribe", "read_ack"]  # round 1 skeptic
     wrong = [t for t in trap if classify(t, "x") == "read" and t not in ("get",)]
     check(f"write class: {len(trap)} trap names, none classed read except bare 'get' ({wrong[:3]})", not wrong)
     check("read verbs classify read", all(classify(f"{v}_items", "x") == "read" for v in READ_VERBS))
@@ -233,6 +249,9 @@ def self_test():
         check("a leaked schema field is detected", bool(leaks(bad)))
         check("fresh snapshot is not stale", not staleness(doc, datetime.date(2026, 10, 25)))
         check("stale snapshot flagged (> 30 days)", bool(staleness(doc, datetime.date(2026, 11, 25))))
+        check("future captured_at flagged", bool(staleness(dict(doc, captured_at="2099-01-01"), datetime.date(2026, 10, 25))))
+        js = json.loads(json.dumps(doc)); js["tools"][0]["purpose"] = '{"type":"object","properties":{"x":1}}'
+        check("a schema hidden in purpose as a JSON string is a leak", bool(leaks(js)))
         newer = json.loads(json.dumps(cap)); newer["tools"].append("mcp__supabase__get_logs")
         check("stale snapshot flagged (newer capture has a tool the index lacks)",
               any("lacks" in x for x in staleness(doc, datetime.date(2026, 10, 21), newer)))

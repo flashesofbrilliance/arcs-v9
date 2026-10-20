@@ -133,6 +133,13 @@ def _about(ctx, e, by):
     return any(n.lower() in ml or ml.strip('"/`') in n.lower() for x in (e["from"], e["to"]) for n in _names(by[x]))
 
 
+def _receipts_name_edge(ctx, e):
+    """Amendment 9: every receipt:<id> item must sit on a projection line naming this edge's own tool and job."""
+    import jtbd_graph_edges as ge
+    return all(ge.receipt_line(ctx.root, str(x)[8:], tool=e["from"], job=e["to"]) is not None
+               for x in e["evidence"] if str(x).startswith("receipt:"))
+
+
 def live_edges(graph, ctx):
     by = {a["id"]: a for a in graph.get("atoms", [])}
     kind = {i: a.get("kind") for i, a in by.items()}
@@ -143,6 +150,8 @@ def live_edges(graph, ctx):
         if not et or f == t or f not in kind or t not in kind or [kind[f], kind[t]] not in et["pairs"]:
             continue
         if not isinstance(ev, list) or not ev or not all(_ev_resolves(ctx, e["type"], x) for x in ev):
+            continue
+        if "RECEIPT-EV" not in DISABLED and not _receipts_name_edge(ctx, e):
             continue
         if not _about(ctx, e, by):
             continue
@@ -514,16 +523,18 @@ def mcp_self_test():
         A = lambda i, k, key: {"id": i, "kind": k, "source": {"catalog": "x", "key": key, "line": 1}}
         ev = lambda rid: [f"{ge.MCP_RECEIPTS}:1", f"receipt:{rid}"]
         g = {"atoms": [A("tool:mcp:s.apply", "tool", "s.apply"), A("tool:mcp:s.unused", "tool", "s.unused"),
-                       A("job:backlog:j1", "job", "j1"), A("job:backlog:j2", "job", "j2"), A("job:backlog:j3", "job", "j3")],
+                       A("job:backlog:j1", "job", "j1"), A("job:backlog:j2", "job", "j2"), A("job:backlog:j3", "job", "j3"), A("job:backlog:j4", "job", "j4")],
              "edges": [{"from": "tool:mcp:s.apply", "to": "job:backlog:j1", "type": "serves", "evidence": ev("r-ok--ZH"),
                         "inferred": False, "match": "s.apply"},
                        {"from": "tool:mcp:s.apply", "to": "job:backlog:j2", "type": "serves", "evidence": ev("r-forged--ZH"),
                         "inferred": False, "match": "s.apply"},
                        {"from": "tool:mcp:s.apply", "to": "job:backlog:j3", "type": "serves", "evidence": ["receipt:r-ok--ZH"],
-                        "inferred": False, "match": "j3"}]}
+                        "inferred": False, "match": "j3"},
+                       {"from": "tool:mcp:s.apply", "to": "job:backlog:j4", "type": "serves", "evidence": ev("r-ok--ZH"),
+                        "inferred": False, "match": "s.apply"}]}  # round 1 skeptic: a real receipt for j1 reused for j4
         found = run_rules(g, Ctx(tmp, probes={}))
     ot = {i for i, _ in found["ORPHAN-TOOL"]}; oj = {i for i, _ in found["ORPHAN-JOB"]}
-    return ot == set() and oj == {"job:backlog:j2", "job:backlog:j3"}
+    return ot == set() and oj == {"job:backlog:j2", "job:backlog:j3", "job:backlog:j4"}
 
 
 def mutation_proof():
