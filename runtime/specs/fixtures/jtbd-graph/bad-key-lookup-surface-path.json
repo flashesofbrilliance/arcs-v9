@@ -1,0 +1,19 @@
+{
+ "_expect": "KEY-LOOKUP",
+ "_root": true,
+ "_note": "class M: real host line, made-up path",
+ "atoms": [
+  {
+   "id": "tool:surface:ahmed-ext.arcs.care/totally-fake",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/surface-catalog.json",
+    "key": "ahmed-ext.arcs.care/totally-fake",
+    "line": 58
+   },
+   "title": "Ahmed \u00b7 one read",
+   "path": "public/ahmed.html"
+  }
+ ],
+ "edges": []
+}

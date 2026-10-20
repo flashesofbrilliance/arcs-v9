@@ -1,0 +1,19 @@
+{
+ "_expect": "KEY-LOOKUP",
+ "_root": true,
+ "_note": "class M: a service slug that is not declared, with a one-character title",
+ "atoms": [
+  {
+   "id": "dep:service:fake",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md connected systems, hand-declared",
+    "key": "fake",
+    "line": 30
+   },
+   "path": "AGENTS.md",
+   "title": "\u00b7"
+  }
+ ],
+ "edges": []
+}

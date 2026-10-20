@@ -87,6 +87,9 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/universe_snapshot_drift_check.py" 2>/dev/nu
 # open findings, displacement and the next aid station from _STATE/findings.jsonl so the
 # detectors above have a place where findings get a fate and a close. Never fails the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/findings_gait.py" status 2>/dev/null | sed 's/^/findings-gait: /' || true
+# JTBD graph pulse (row jtbd-graph-s3-gates): counts only, read from the last --check (_STATE/jtbd-graph/check.json,
+# gitignored); no rebuild, ~50 ms. Never fails the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/universe_jtbd_adapter.py" --pulse 2>/dev/null || true
 # model drift: flag a newer Claude model per role in src/lib/claude-models.ts (advisory; free
 # GET /v1/models with ANTHROPIC_API_KEY, else silent skip). Never switches a model.
 python3 "$CLAUDE_PROJECT_DIR/scripts/model_drift_check.py" 2>/dev/null || true

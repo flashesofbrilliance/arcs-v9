@@ -1,0 +1,167 @@
+{
+ "_note": "a script atom cites another script's name line",
+ "atoms": [
+  {
+   "id": "tool:skill:cruft-sweep",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "cruft-sweep",
+    "line": 230
+   },
+   "title": "Survey, classify, and safely reclaim stale git worktrees in a many-worktree repo, and spread shared files across them. Use when worktrees accumulate (\"clean up worktrees\", \"prune stale branches\", \"spread this to other worktrees\"), before a ",
+   "path": ".claude/skills/cruft-sweep/SKILL.md",
+   "state": "WIRED"
+  },
+  {
+   "id": "tool:command:arcs-brand-manager",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "arcs-brand-manager",
+    "line": 406
+   },
+   "title": "Forked from Anthropic's `brand-guidelines` skill, adapted into an ARCS-specific brand",
+   "path": ".claude/commands/arcs-brand-manager.md",
+   "state": "WIRED"
+  },
+  {
+   "id": "tool:workflow:counterpart-gauntlet",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "counterpart-gauntlet",
+    "line": 542
+   },
+   "title": "Parameterized pre-send gauntlet for ANY counterpart artifact family: simulate the counterpart across N facets at high burden of proof, then adversarially verify + synthesize register-tuned fixes. Pass the counterpart via args.",
+   "path": ".claude/workflows/counterpart-gauntlet.js",
+   "state": "WIRED"
+  },
+  {
+   "id": "tool:hook:pre-compact",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "pre-compact",
+    "line": 558
+   },
+   "title": "PreCompact hook \u2014 ARCS v9",
+   "path": ".claude/hooks/pre-compact.sh",
+   "state": "WIRED"
+  },
+  {
+   "id": "tool:script:accountant_weekly.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "accountant_weekly.py",
+    "line": 582
+   },
+   "title": "accountant_weekly.py: the weekly Operator 19 (Accountant) scoreboard. READ-ONLY on prod.",
+   "path": "scripts/accountant_weekly.py",
+   "state": "WIRED"
+  },
+  {
+   "id": "tool:package:arcs-verb-eval",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "arcs-verb-eval",
+    "line": 2478
+   },
+   "title": "Check it before you say it: five evals, one per step between an idea and a message, each ending in a go or stop stamp.",
+   "path": "tools/arcs-verb-eval/README.md",
+   "state": "UNAUDITED"
+  },
+  {
+   "id": "tool:operator:adr_audit.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "adr_audit.py",
+    "line": 2502
+   },
+   "title": "adr_audit.py \u2014 ADR quality-gate wrapper",
+   "path": "operators/adr_audit.py",
+   "state": "UNAUDITED"
+  },
+  {
+   "id": "tool:op:1",
+   "kind": "tool",
+   "source": {
+    "catalog": "operators/OPERATOR-REGISTRY.json",
+    "key": "1",
+    "line": 14
+   },
+   "title": "FirstDerivative (Fd)",
+   "state": "READY"
+  },
+  {
+   "id": "tool:surface:ahmed-ext.arcs.care/",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/surface-catalog.json",
+    "key": "ahmed-ext.arcs.care/",
+    "line": 58
+   },
+   "title": "Ahmed \u00b7 one read",
+   "path": "public/ahmed.html"
+  },
+  {
+   "id": "dep:npm:@anthropic-ai/sdk",
+   "kind": "dep",
+   "source": {
+    "catalog": "package.json",
+    "key": "@anthropic-ai/sdk",
+    "line": 25
+   },
+   "title": "dependencies ^0.131.0"
+  },
+  {
+   "id": "job:backlog:prl-empty-email-e2e",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "prl-empty-email-e2e",
+    "line": 1
+   },
+   "title": "Final e2e proof of the v5 guard: one real empty-email chat through the Tidio widget must create (Path B), never update",
+   "state": "HELD"
+  },
+  {
+   "id": "blocker:backlog:op20-somatic-axiom-real-signal-source",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "op20-somatic-axiom-real-signal-source",
+    "line": 19
+   },
+   "title": "OPEN \u2014 blocked on upstream signal generation, NOT persistence. Adapter enrichment path ready in operators/prod_receipt_to_op20_seed.py",
+   "state": "BLOCKED"
+  },
+  {
+   "id": "dep:env:ANTHROPIC_API_KEY",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "ANTHROPIC_API_KEY",
+    "line": 39
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "dep:service:anthropic",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md connected systems, hand-declared",
+    "key": "anthropic",
+    "line": 30
+   },
+   "path": "AGENTS.md",
+   "title": "Anthropic SDK"
+  }
+ ],
+ "edges": [],
+ "_expect": "KEY-LOOKUP",
+ "_root": true
+}

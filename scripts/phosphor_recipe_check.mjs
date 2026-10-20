@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// phosphor_recipe_check.mjs: the recipe log (amendment 45). Every control change is an event; replaying the events reproduces the controls at any moment, whatever changed them. Usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_recipe_check.mjs <page.html>
+// phosphor_recipe_check.mjs: the recipe log (amendment 55). Every control change is an event; replaying the events reproduces the controls at any moment, whatever changed them. Usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_recipe_check.mjs <page.html>
 import { chromium } from 'playwright'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'

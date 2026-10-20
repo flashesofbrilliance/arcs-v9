@@ -21,6 +21,11 @@ Output is generated and gitignored (receipts-adapter precedent): _STATE/jtbd-gra
   python3 scripts/universe_jtbd_adapter.py              # build, reconcile, verify lines, schema-check
   python3 scripts/universe_jtbd_adapter.py --mined      # also mined jobs + the 30-file label sample
   python3 scripts/universe_jtbd_adapter.py --self-test  # good fixture passes, bad fixtures fail
+  python3 scripts/universe_jtbd_adapter.py --check      # s3 gate: build in memory, run every s1/s2 check, the schema
+                                                        # checker with --root key lookup, and the six rules in
+                                                        # scripts/jtbd_graph_gates.py against the baseline; exit 1 on
+                                                        # any new finding, stale baseline id or grown baseline
+  python3 scripts/universe_jtbd_adapter.py --pulse      # one counts line from the last --check (no rebuild; session start)
 Stdlib only.
 """
 import collections, json, os, random, re, shutil, sys, tempfile
@@ -29,6 +34,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import jtbd_graph_schema_check as gc
 import jtbd_graph_edges as ge
+import jtbd_graph_gates as gg
 
 TOOLS = "runtime/specs/tool-catalog.json"
 REG = "operators/OPERATOR-REGISTRY.json"
@@ -138,7 +144,7 @@ def backlog(root):
         jobs.append(atom(f"job:backlog:{r['id']}", "job", BACKLOG, r["id"], ln, title=r.get("jtbd"), state=r.get("state")))
         if r.get("state") == "BLOCKED":
             blockers.append(atom(f"blocker:backlog:{r['id']}", "blocker", BACKLOG, r["id"], ln,
-                                 title=r.get("status_note"), state="BLOCKED"))
+                                 title=r.get("status_note"), state="BLOCKED", resolve_by=r.get("resolve_by")))
     return jobs, blockers, rows
 
 
@@ -511,7 +517,104 @@ def edge_self_test():
     return ok
 
 
+def _git(root, *args):
+    import subprocess
+    try:
+        r = subprocess.run(["git", "-C", root, *args], capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return r.stdout.strip() if r.returncode == 0 else None
+
+
+def _baseline_head(root):
+    """The reference the baseline must stay a subset of: its first version on main's first-parent history.
+    Round 2 class 10: a branch's own first version can be amended away before merge, so it never counts.
+    Returns {} when the file is not on main yet (nothing to grow from), and None when git cannot answer, which
+    the caller treats as a failure (round 2 class 11: fail closed)."""
+    ref = "origin/main" if _git(root, "rev-parse", "--verify", "-q", "origin/main") else None
+    if _git(root, "rev-parse", "--git-dir") is None:
+        return None
+    hist = _git(root, "log", "--first-parent", "--reverse", "--format=%H", ref or "HEAD", "--", gg.BASELINE)
+    if hist is None:
+        return None
+    first = hist.split("\n")[0]
+    if not first:
+        return {}
+    raw = _git(root, "show", f"{first}:{gg.BASELINE}")
+    try:
+        return json.loads(raw).get("rules", {}) if raw is not None else None
+    except ValueError:
+        return None
+
+
+def check(root=REPO, mem_dir=MEM_DIR):
+    try:
+        ok, graph = run(root, False, mem_dir, None, quiet=True)
+    except SourceDup as e:
+        print(e); return 1
+    schema = json.load(open(os.path.join(REPO, "runtime/specs/jtbd-graph-schema.json")))
+    lookup = gc.check(graph, schema, root)
+    found = gg.run_rules(graph, gg.Ctx(root, mem_dir=mem_dir if os.path.isdir(mem_dir) else None))
+    base = gg._load(os.path.join(root, gg.BASELINE), {}).get("rules", {})
+    new, held, stale = gg.apply_baseline(found, base)
+    head = _baseline_head(root)
+    if head is None:
+        grew = {"BASELINE-UNCHECKED": ["git history unavailable; cannot check that the baseline only shrinks"]}
+    elif not head:
+        grew = {}
+        print(f"jtbd-graph --check: {gg.BASELINE} is not on main yet; growth is checked against its first main version from the merge on")
+    else:
+        grew = {r: sorted(set(ids) - set(head.get(r, []))) for r, ids in base.items()}
+    grew = {r: v for r, v in grew.items() if v}
+    if not ok:
+        print("jtbd-graph --check: the s1/s2 build checks failed; run `python3 scripts/universe_jtbd_adapter.py` for the report")
+    for x in lookup:
+        print(x)
+    for r in gg.RULES:
+        for i, d in new[r]:
+            print(f"{r} {i}: {d}")
+        for i in stale.get(r, []):
+            print(f"STALE-BASELINE {r} {i}: no longer violates; remove it from {gg.BASELINE}")
+    for r, ids in grew.items():
+        for i in ids:
+            print(f"BASELINE-GREW {r} {i}: the baseline may only shrink (add a dated amendment and get Zach's ok to grow it)")
+    line = " · ".join(f"{r.lower()} {len(new[r])} new/{len(held[r])} held" for r in gg.RULES)
+    print(f"jtbd-graph --check: atoms {len(graph['atoms'])} edges {len(graph['edges'])} · {line}")
+    bad = (not ok) or lookup or any(new.values()) or any(stale.values()) or grew
+    summary = {"ok": not bad, "atoms": len(graph["atoms"]), "edges": len(graph["edges"]),
+               "rules": {r: {"new": len(new[r]), "held": len(held[r]), "stale": len(stale.get(r, []))} for r in gg.RULES},
+               "key_lookup": len(lookup), "baseline_grew": sum(len(v) for v in grew.values()),
+               "head": _git(root, "rev-parse", "HEAD"),
+               "at": __import__("datetime").datetime.now().astimezone().isoformat(timespec="seconds")}
+    try:
+        os.makedirs(os.path.join(root, OUT), exist_ok=True)
+        json.dump(summary, open(os.path.join(root, OUT, "check.json"), "w"), indent=1)
+    except OSError:
+        pass
+    print("jtbd-graph --check: " + ("FAIL" if bad else "PASS"))
+    return 1 if bad else 0
+
+
+def pulse(root=REPO):
+    s = gg._load(os.path.join(root, OUT, "check.json"), None)
+    if not s:
+        return "jtbd-graph: no --check run yet (python3 scripts/universe_jtbd_adapter.py --check)"
+    r = s["rules"]
+    held = sum(v["held"] for v in r.values()); new = sum(v["new"] + v["stale"] for v in r.values())
+    short = {"ORPHAN-TOOL": "orphan-tool", "ORPHAN-JOB": "orphan-job", "BLOCKER-NO-RESOLVE-BY": "blocker",
+             "DEP-CYCLE": "cycle", "DEAD-FILE-REF": "dead-ref", "RUNTIME-DEP-NO-PROBE": "no-probe"}
+    parts = " ".join(f"{short.get(k, k)} {v['new']}/{v['held']}" for k, v in r.items())
+    head = _git(root, "rev-parse", "HEAD")
+    stale = "" if head and s.get("head") == head else " · STALE (HEAD moved since; rerun --check)"
+    return (f"jtbd-graph: {'PASS' if s['ok'] else 'FAIL'}{stale} · atoms {s['atoms']} edges {s['edges']} · new {new} held {held} · "
+            f"{parts} (new/held) · checked {s['at'][:16]}")
+
+
 def main(argv):
+    if "--pulse" in argv:
+        print(pulse()); return 0
+    if "--check" in argv:
+        return check()
     if "--self-test" in argv:
         return 0 if self_test() else 1
     try:
