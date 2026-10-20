@@ -258,6 +258,37 @@ Known limits, stated now:
 - Hermes integration and global rules wait until one sprint has run through the wrapper and its
   receipt shows the wrapper caught something (earned, not decreed).
 
+## 4g. Domino line: the open items in order, each with the moment it falls (2026-10-20)
+
+Zach: line the right dominoes up in the right order, to knock them down at the right time.
+Each domino names what tips it (the trigger) and what it tips next. A domino with no trigger is
+not in the line. Numbers in brackets are the open-items list from the chat of 2026-10-20.
+
+| # | Domino | Falls when (trigger) | Tips |
+|---|---|---|---|
+| D1 | Give the intention test a real trigger [14] | now: pick an event, e.g. the next `/fold` or `scripts/unfold.py` run that adds 10 or more rows | nothing else waits on it; it stops the test from quietly never running |
+| D2 | Steelman the 10 DRAFT covers [2] | now, Zach in chat, one row at a time | D4, D8 |
+| D3 | Ship ruling on PR #1695 [1] | now, Zach | D5, D6, D9 (other sessions and Hermes can run the tool) |
+| D4 | Priced triage: fate the five rows | D2 done for those rows | D7 for the one-way rows |
+| D5 | Accountant scoreboard prints synthetic_excluded [12] | D3 merged (same review rhythm), any session | honest weekly output |
+| D6 | Exposure passes down from one-way blockers [6] | D3 merged | correct prices on chains |
+| D7 | Pre-mortem and recovery spec files for the one-way rows | D4 fate is not drop | SPECIALTY riders on file |
+| D8 | Ruin bands for the remaining 256 rows, in batches of about 25 [9] | D2 done (a reviewed cover makes the band honest) | D10, D11; kill rule check: if most land low, stop the line at D7 |
+| D9 | Sprint id namespace in `scripts/oracle.py` [3] | D3 merged and Zach says yes | D12 |
+| D10 | Shared ledger for pathogen and repair loading [5] | D8 at least half done | D11, PR #1694 section 5 policy update |
+| D11 | Reinsurance groups | D8 and D10 | weight lab |
+| D12 | Run ONE sprint through the I.D.E.A. wrapper by hand [7, 13] | D9 | measure wrapper cost vs what it caught; decides the light-wrapper rule |
+| D13 | Wire the wrapper as a script | D12 shows the wrapper caught something | D14 |
+| D14 | Hermes and global config rules [8] | D13 merged and one receipt shows a catch (earned, not decreed) | the whole line runs across harnesses |
+| D15 | Duration table calibration [10] | 10 rows on a priced path reach DONE with real hours logged | better critical path |
+| D16 | Real outcomes toward n>=30 [4] | each real interview outcome as it lands; no clock, it is an arrival | calibration chain; the timing reading the intention asks for |
+| D17 | Weight lab | D11, and the PR #1694 test set frozen first | exploratory only |
+
+Not a domino (a standing limit): the validator seats are the same model family as the worker [11].
+It never falls; every sprint states it, and only detector re-runs and outcomes count as outside proof.
+
+Now-ripe set: D1, D2, D3. Everything else waits on a named trigger.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
