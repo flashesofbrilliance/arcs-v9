@@ -40,7 +40,7 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
-/* DESIGN.md conformance layer (2026-10-15), additive: new surfaces use these names; legacy tokens above are untouched. Drift table: _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md. */
+/* DESIGN.md conformance layer (2026-10-15), additive: new surfaces use these names; legacy tokens above are untouched. Drift table: the ui-kit compounding sweep note. */
 :root {
   /* Colors DESIGN.md defines that the legacy tokens lack */
   --elevated:       #111827;
