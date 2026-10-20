@@ -288,7 +288,7 @@ not in the line. Numbers in brackets are the open-items list from the chat of 20
 | D2 | Steelman the 10 DRAFT covers [2] | now, Zach in chat, one row at a time | D4, D8 |
 | D3 | Ship ruling on PR #1695 [1] | now, Zach | D5, D6, D9 (other sessions and Hermes can run the tool) |
 | D4 | Priced triage: fate the five rows | D2 done for those rows | D7 for the one-way rows |
-| D5 | Accountant scoreboard prints synthetic_excluded [12] | D3 merged (same review rhythm), any session | honest weekly output |
+| D5 | DONE in PR #1698: Accountant scoreboard prints synthetic_excluded [12] | D3 merged (same review rhythm), any session | honest weekly output |
 | D6 | Exposure passes down from one-way blockers [6] | D3 merged | correct prices on chains |
 | D7 | Pre-mortem and recovery spec files for the one-way rows | D4 fate is not drop | SPECIALTY riders on file |
 | D8 | Ruin bands for the remaining 256 rows, in batches of about 25 [9] | D2 done (a reviewed cover makes the band honest) | D10, D11; kill rule check: if most land low, stop the line at D7 |
@@ -485,7 +485,7 @@ step in order, each pinned to its last green rc. GAP: no event runner and no per
 in arcs-v9 yet; the RET script is the template. First candidate to put through it: the underwriter
 (PR #1695), since it has a self-test and no consumers yet.
 
-## 4k. Next sprint: the receipt bridge (onramp, chosen by Zach 2026-10-20)
+## 4k. Sprint: the receipt bridge (onramp, chosen by Zach 2026-10-20; DONE, PR #1698 merged 7506fbde, receipt 2026-10-20--decision-receipt-bridge-pr1698--ZH)
 
 **Job.** Let outcomes on Zach's real decisions reach the Accountant. Today they cannot: ex-ante
 receipts live in `decision_receipt` (854 receipts), their outcomes in `_STATE/receipt-outcomes.jsonl`
