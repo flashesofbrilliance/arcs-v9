@@ -215,6 +215,29 @@ cheapest repeat.
 
 Zach, 2026-10-20: B (felt intention, stated by Zach) with C (mirror drafted from the backlog) shown beside it.
 
+### First intention (stated by Zach, 2026-10-20)
+
+Root: mono no aware. Time is precious and passing; learn to tell the right moment to sow, rest or
+strike from the wrong moment to act, before hindsight shows it.
+
+| Horizon | Line (drafted by Claude, confirmed by Zach as right) |
+|---|---|
+| today | Notice the moment before acting on it |
+| this-week | Close one loop at its ripe time |
+| this-quarter | Learn my timing from receipts |
+| 1-3y (shown as 12 months) | ARCS tells sow, rest, strike apart |
+
+Exclusion, Zach verbatim: "intention is not for summary judgment" or momentum for the sake of it
+but reserved for thoughtful action that's deliberate, with meditative consideration for the value
+of not acting at all or holding off on implementing a plan until it feels more right or will be
+better received in the spirit in which its intended.
+
+Consequence for ranking: "wait" is a valid outcome. A row can be core and still be shown as
+"hold", so the snap list must be able to say "nothing yet" for a horizon (GAP: today's
+ready-now list always fills).
+
+Core picks: pending.
+
 ## Ask
 
 Next: Zach writes the one sentence, horizon and exclusion line, and marks 3 to 7 core rows, before
