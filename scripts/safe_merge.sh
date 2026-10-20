@@ -47,6 +47,7 @@ case "$1 $2" in
     total=$(wc -l < "$d/checks"); [ $n -gt $total ] && n=$total
     sed -n "${n}p" "$d/checks";;
   "pr merge") echo "$*" > "$d/merged";;
+  "auth status") [ "$(cat "$d/head")" = authdown ] && { echo "not logged in" >&2; exit 1; }; exit 0;;
   "pr diff") cat "$d/diff" 2>/dev/null || true;;
   *) echo "fake gh: unexpected $*" >&2; exit 9;;
 esac
@@ -76,6 +77,7 @@ FAKE
   run_case conflict             1 no  abc1234def0000 CONFLICTING 60 "[$S]"
   run_case timeout              1 no  abc1234def0000 MERGEABLE 0 "[$P]"
   run_case zero-checks          1 no  abc1234def0000 MERGEABLE 60 "[]"
+  run_case github-down          1 no  authdown       MERGEABLE 60 "[$S]"
   # Receipt job_id/tool_id derivation (Sprint 5): body ref, backlog-diff row, placeholders.
   derive_case() { # name meta-json diff-text want-job-grep want-tool-grep
     local name="$1" d="$tmp/$1"; mkdir -p "$d"; echo abc1234def0000 > "$d/head"; echo MERGEABLE > "$d/mergeable"
@@ -142,6 +144,8 @@ if bad: print("FAILURE:"+",".join(bad)); sys.exit()
 print("PENDING" if any(c["state"]!="SUCCESS" for c in cs) else "SUCCESS")'
 }
 
+# GitHub health probe (jtbd-graph dep:service:github, runtime/specs/jtbd-graph-probes.json): refuse before any read or merge.
+gh_probe=$(gh auth status --hostname github.com 2>&1) || die "github.com unreachable or gh not signed in: $gh_probe"
 start=$(date +%s)
 while :; do
   check_head

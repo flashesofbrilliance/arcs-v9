@@ -400,12 +400,14 @@ if __name__ == "__main__":
     if "--lookup" in sys.argv:  # /catalog and /prior-art entry: freshness-checked, falls back, never crashes
         recs = None
         try:
-            from arcs_librarian import Librarian, load_universes
+            from arcs_librarian import load_universes
             recs = load_universes(__import__("pathlib").Path(REPO))
         except Exception:
             recs = None
         res = lookup(job, REPO, MEM_DIR, recs, rebuild="--no-rebuild" not in sys.argv)
         print(json.dumps(res, indent=1) if "--json" in sys.argv else render(res))
         sys.exit(0)
-    from arcs_librarian import Librarian
-    print(json.dumps(Librarian(load_corpus=False).jtbd(job), indent=1))
+    # One-way: this module reads the Librarian's personal-tier receipts; the Librarian never imports this module
+    # (its jtbd() wrapper was removed 2026-10-20 to break the DEP-CYCLE the jtbd-graph gate reported).
+    from arcs_librarian import load_universes
+    print(json.dumps(answer(job, REPO, None, MEM_DIR, load_universes(__import__("pathlib").Path(REPO))), indent=1))
