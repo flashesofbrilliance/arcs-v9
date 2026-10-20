@@ -1,6 +1,6 @@
 ---
 name: night-moves
-description: End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a five-part digest — what shipped · what's next · what we learned · the new shape of tools-for-JTBD · net-new tools built — into a dated markdown log at _STATE/night-moves/YYYY-MM-DD.md. Use at the end of a work session to keep a running record of the day. Manual, subscription-tier, cheap (git + find, no network).
+description: Housekeeping: day's work is scattered, or a scheduled run hung or never produced a digest? End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a five-part digest — what shipped · what's next · what we learned · the new shape of tools-for-JTBD · net-new tools built — into a dated markdown log at _STATE/night-moves/YYYY-MM-DD.md. Use at the end of a work session to keep a running record of the day. Manual, subscription-tier, cheap (git + find, no network).
 ---
 
 # /night-moves [YYYY-MM-DD] — the nightly work digest

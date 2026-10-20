@@ -7,22 +7,30 @@
   "hook": 3,
   "operator": 46,
   "package": 3,
-  "script": 250,
+  "script": 252,
   "skill": 22,
   "workflow": 2
  },
- "total": 365,
+ "total": 367,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 507,
+   "WIRED": 508,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 1,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "integrity_gate_selftest.py",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -158,7 +166,7 @@
    "kind": "skill",
    "name": "night-moves",
    "path": ".claude/skills/night-moves/SKILL.md",
-   "jtbd": "End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a five-part digest — what shipped · what's next · what we learned · the new shape of tools-for",
+   "jtbd": "Housekeeping: day's work is scattered, or a scheduled run hung or never produced a digest? End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a f",
    "invoke": "/night-moves",
    "state": "WIRED"
   },
@@ -1412,6 +1420,14 @@
   },
   {
    "kind": "script",
+   "name": "integrity_gate_selftest.py",
+   "path": "scripts/integrity_gate_selftest.py",
+   "jtbd": "Fixtures for integrity_gate.py matcher fixes: directory ancestors and placeholder-truncated cites.",
+   "invoke": "python3 scripts/integrity_gate_selftest.py",
+   "state": "INSTALLED-UNUSED"
+  },
+  {
+   "kind": "script",
    "name": "jobs_prose_gate.py",
    "path": "scripts/jobs_prose_gate.py",
    "jtbd": "jobs_prose_gate: Job Factory slice 7. The NFTT prose factory's gate chain, run on",
@@ -1576,6 +1592,14 @@
    "path": "scripts/lore.py",
    "jtbd": "lore.py — LORE: the book of stories with their verdicts. LEGEND's uncle.",
    "invoke": "python3 scripts/lore.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "mcp_tool_index_emit.py",
+   "path": "scripts/mcp_tool_index_emit.py",
+   "jtbd": "mcp_tool_index_emit: the cached MCP tool index for the JTBD graph (Sprint 6, row jtbd-graph-s6-mcp-tools).",
+   "invoke": "python3 scripts/mcp_tool_index_emit.py",
    "state": "WIRED"
   },
   {
