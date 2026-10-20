@@ -116,6 +116,9 @@ def env_and_service_atoms(root, atom, dups):
     return out
 
 
+# a call signature inside a raw-string regex literal is a detector's own pattern, not a call (2026-10-20: this file matched
+# its own resend regex). Skip a match when r" or r' opens before it on the line.
+SVC_REGEX_DEF = re.compile(r"""\br(?:\"|')""")
 HARD_SVC = {"anthropic", "database", "resend"}  # import-signature services: an import that fails at load is a hard dep
 
 
@@ -334,6 +337,8 @@ def build_edges(root, atoms, rows, op_edges):
                 hard = s in HARD_SVC and not _soft(L, i)
                 if s not in HARD_SVC and p.endswith(".sh"):
                     hard = any(l.strip().startswith("set -e") for l in L[:20]) and not SOFT_SH.search(_logical(L, i))
+                if mm and SVC_REGEX_DEF.search(line[:mm.start()]):
+                    mm = None
                 if mm and hard:
                     for fr in tids:
                         edges.append(_edge(fr, f"dep:service:{s}", "runtime-dep", ev, mm.group(0).strip(), "service"))

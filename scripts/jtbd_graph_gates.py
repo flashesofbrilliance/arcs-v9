@@ -399,6 +399,40 @@ def apply_baseline(found, baseline):
     return new, held, stale
 
 
+TRIAGE = "runtime/specs/jtbd-graph-triage.json"
+TRIAGE_MAX_DAYS = 14
+
+
+def apply_triage(new, triage, today, rows=None):
+    """Time-boxed holds for NEW findings (the baseline only holds old debt and may only shrink).
+    An entry {rule, id, reason, row, added, resolve_by} passes its finding until resolve_by, then fails TRIAGE-EXPIRED.
+    It must name a backlog row (when rows is given), carry a reason, and resolve within TRIAGE_MAX_DAYS of added;
+    an entry whose finding is gone fails TRIAGE-STALE so the file is cleaned up. -> (new, triaged, problems)"""
+    import datetime as _dt
+    out = {r: list(v) for r, v in new.items()}
+    triaged, problems = [], []
+    for e in triage:
+        r, i = e.get("rule"), e.get("id")
+        try:
+            added = _dt.date.fromisoformat(e.get("added", "")); due = _dt.date.fromisoformat(e.get("resolve_by", ""))
+        except ValueError:
+            problems.append(f"TRIAGE-INVALID {r} {i}: added and resolve_by must be YYYY-MM-DD"); continue
+        if not e.get("reason") or not e.get("row"):
+            problems.append(f"TRIAGE-INVALID {r} {i}: needs a reason and a backlog row"); continue
+        if rows is not None and e["row"] not in rows:
+            problems.append(f"TRIAGE-INVALID {r} {i}: row {e['row']!r} is not in the backlog"); continue
+        if (due - added).days > TRIAGE_MAX_DAYS:
+            problems.append(f"TRIAGE-INVALID {r} {i}: resolve_by is more than {TRIAGE_MAX_DAYS} days after added"); continue
+        hit = [x for x in out.get(r, []) if x[0] == i]
+        if not hit:
+            problems.append(f"TRIAGE-STALE {r} {i}: no longer a new finding; remove it from {TRIAGE}"); continue
+        if today > due:
+            problems.append(f"TRIAGE-EXPIRED {r} {i}: resolve_by {due} has passed (row {e['row']})"); continue
+        out[r] = [x for x in out[r] if x[0] != i]
+        triaged.append((r, i, str(due)))
+    return out, triaged, problems
+
+
 def self_test(verbose=True, missed=None):
     ok = True
     fixdir = os.path.join(REPO, FIX)
@@ -435,6 +469,21 @@ def self_test(verbose=True, missed=None):
     if verbose:
         print(f"baseline ratchet (held passes, new fails, stale fails): {'ok' if rat else 'WRONG'}")
     ok &= rat
+    # the triage file: a dated hold passes until resolve_by, then fails; no row, too long, or stale all fail
+    import datetime as _dt
+    d0 = _dt.date(2026, 10, 20); tid = "tool:script:triage-fixture.py"  # fixed id: independent of any rule's output
+    e = {"rule": "ORPHAN-TOOL", "id": tid, "reason": "fixture", "row": "row-a", "added": "2026-10-20", "resolve_by": "2026-10-27"}
+    n_ok, t_ok, p_ok = apply_triage({"ORPHAN-TOOL": [(tid, "x")]}, [e], d0, {"row-a"})
+    held_ok = not p_ok and not any(x[0] == tid for x in n_ok["ORPHAN-TOOL"])
+    _, _, p_exp = apply_triage({"ORPHAN-TOOL": [(tid, "x")]}, [e], d0 + _dt.timedelta(days=8), {"row-a"})
+    _, _, p_row = apply_triage({"ORPHAN-TOOL": [(tid, "x")]}, [dict(e, row="no-such-row")], d0, {"row-a"})
+    _, _, p_long = apply_triage({"ORPHAN-TOOL": [(tid, "x")]}, [dict(e, resolve_by="2026-12-31")], d0, {"row-a"})
+    _, _, p_stale = apply_triage({"ORPHAN-TOOL": []}, [e], d0, {"row-a"})
+    tri = (held_ok and any(x.startswith("TRIAGE-EXPIRED") for x in p_exp) and any(x.startswith("TRIAGE-INVALID") for x in p_row)
+           and any(x.startswith("TRIAGE-INVALID") for x in p_long) and any(x.startswith("TRIAGE-STALE") for x in p_stale))
+    if verbose:
+        print(f"triage holds (dated hold passes; expired, rowless, too long and stale all fail): {'ok' if tri else 'WRONG'}")
+    ok &= tri
     if verbose:
         print("gates self-test OK" if ok else "gates self-test FAILED")
     return ok
