@@ -148,6 +148,16 @@ def collect():
                 add("workflow", os.path.splitext(f)[0], p, js_jtbd(read(p)),
                     f"Workflow scriptPath={os.path.relpath(p, ROOT)}")
 
+    # agents (added 2026-10-20: the operator ensemble was invisible to /catalog)
+    ag = os.path.join(ROOT, ".claude", "agents")
+    if os.path.isdir(ag):
+        for f in sorted(os.listdir(ag)):
+            if f.endswith(".md"):
+                p = os.path.join(ag, f)
+                m = DESC_RE.search(read(p))
+                add("agent", f[:-3], p, m.group(1) if m else md_command_jtbd(read(p)),
+                    f"Agent subagent_type={f[:-3]}")
+
     # hooks
     hk = os.path.join(ROOT, ".claude", "hooks")
     if os.path.isdir(hk):
@@ -221,7 +231,7 @@ def main():
     if audit:
         by_path = {os.path.relpath(i["path"], ROOT): i["state"] for i in audit["items"] if i.get("path")}
         for t in tools:
-            t["state"] = by_path.get(t["path"], "WIRED" if t["kind"] in ("skill", "command", "hook", "workflow") else "UNAUDITED")
+            t["state"] = by_path.get(t["path"], "WIRED" if t["kind"] in ("skill", "command", "hook", "workflow", "agent") else "UNAUDITED")
         gaps = [{k: i.get(k, "") for k in ("state", "surface", "kind", "name", "why", "fix")}
                 for i in audit["items"] if i["state"] != "WIRED"]
     counts = {}
@@ -261,7 +271,7 @@ def main():
             lines.append(f"- **{g['state']}** [{g['surface']}:{g['kind']}] {g['name']} — {g['why']}"
                          + (f"  \n  fix: `{g['fix']}`" if g["fix"] else ""))
         lines.append("")
-    for kind in ["skill", "command", "workflow", "hook", "script", "package", "operator"]:
+    for kind in ["skill", "command", "agent", "workflow", "hook", "script", "package", "operator"]:
         grp = [t for t in tools if t["kind"] == kind]
         if not grp:
             continue
