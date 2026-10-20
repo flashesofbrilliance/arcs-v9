@@ -3,14 +3,6 @@
  "holds": [
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:surface:concourse.arcs.care/plan",
-   "reason": "surface shipped 2026-10-20 before a job row existed",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-10-20",
-   "resolve_by": "2026-11-03"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:surface:prl.arcs.care/checkpoint",
    "reason": "surface shipped 2026-10-20 before a job row existed",
    "row": "jtbd-graph-triage-2026-10-20",
