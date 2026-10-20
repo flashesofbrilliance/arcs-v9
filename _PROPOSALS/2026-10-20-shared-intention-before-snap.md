@@ -204,7 +204,7 @@ it unblocks. "Needs" is a hard edge; a step never starts before its entry holds.
 | # | Step | Needs | Exit (checkable) | Unblocks |
 |---|---|---|---|---|
 | 1 | Ship ruling on PR #1695 (s4 freeze) | none | Zach rules: merged with --merge and catalog untouched, or held | nothing hard; the tool runs from its branch |
-| 2 | Fill `ruin` bands on the rows in play (5 triage + calibration chain), then the rest in batches | tool on any branch | each band proposed by Claude with a reason, confirmed by Zach, written to the row; `backlog_status_check.py --check` exits 0 | 4, 7 |
+| 2 | Fill `ruin` bands on the rows in play (5 triage + calibration chain), then the rest in batches (first 10 DONE 2026-10-20, Zach confirmed) | tool on any branch | each band proposed by Claude with a reason, confirmed by Zach, written to the row; `backlog_status_check.py --check` exits 0 | 4, 7 |
 | 3 | Steelman pass on the 10 DRAFT `abort`/`rollback` texts | none | each text reviewed by Zach: kept, edited or struck; DRAFT marker removed only on his word | 4, 5, 7 |
 | 4 | Priced triage: re-run the underwriter, Zach fates the five rows | 2 (those rows), 3 (those rows) | five fates recorded on the triage row | 5 |
 | 5 | Pre-mortem the one-way rows (scenario-runner, best/base/worst + recovery plan) into their surgical spec files | 3, 4 (fate is not "drop") | one spec file per one-way row at `runtime/specs/issues/<row-id>.md`, `spec` key on the row | SPECIALTY riders |
@@ -218,6 +218,45 @@ fated "hold" by default unless Zach says otherwise.
 
 Kill rule: if step 2 shows most rows are low, the price spread is too thin to matter; stop at 4
 and say so, before building 7 and 8.
+
+## 4f. I.D.E.A. as the sprint wrapper (Zach, 2026-10-20)
+
+Zach: the I.D.E.A. macro and loop should be interoperable with this, as a wrapper for a
+multi-validated learning loop over a graph of related, globally serialized sprints.
+
+Mapping (REUSE: the I.D.E.A. and Staff of Chiefs agents in `.claude/agents/`, all [CANDIDATE]):
+
+- **Sprint** = one step of the build order (section 4e). Its node and edges come from that table;
+  the graph is the loop graph. A sprint closes on its exit check, never on the clock.
+- **Wrapper, per sprint, in order:**
+  1. `idea-librarian`: prior art for the sprint (runs /prior-art first).
+  2. `idea-alchemist`: the sprint's one falsifiable claim, MECHANISM vs METAPHOR. It must match
+     the exit column, or the exit is rewritten before work starts.
+  3. `idea-detective`: the weak joint and its cheapest falsifier, run before the main work.
+  4. `idea-curator`: one orthogonal reframe; recorded, not obeyed.
+  5. Work.
+  6. Multi-validation, three independent seats: `chief-loki` (break it cheaply),
+     `chief-bayesian` (did the evidence move the prior, by how much), and the underwriter re-price
+     (did risk go down, by a detector re-run, never by assertion). A sprint passes on all three
+     or returns to the queue with the dissent attached.
+  7. `chief-conductor`: sequences what survives and names the next ripe sprint from the graph.
+- **Learning loop:** each sprint ends with one kintsugi seam line (what broke, who caught it, the
+  repair) and one Accountant-readable outcome via `scripts/receipt_outcome_queue.py`. Those feed
+  the slow policy update in PR #1694 section 5.
+- **Global serialization:** one sprint RUNNING at a time across all sessions and harnesses
+  (Claude Code and Hermes). The lock is the backlog row's `RUNNING` claim (`claimed_by`,
+  `claimed_at`); git's non-fast-forward rejection on `_QUEUE/induced-backlog.jsonl` is the atomic
+  step, the same pattern as oracle numbering. Sprint ids: GAP, `scripts/oracle.py` has namespaces
+  adr, handoff, seed, tao only; adding `sprint` is a small change, Zach's call.
+
+Known limits, stated now:
+- The validator seats are the same model family as the worker (memory
+  `control-integrity-described-vs-wired`). Loki and Bayesian are pre-scores; the outside check is
+  the detector re-run and the outcome, never the seats alone.
+- Seven stages per sprint is heavy for a 1 h step. Rule: sprints under 2 h likely run stages 2, 5
+  and the underwriter re-price only; the full wrapper is for one-way doors and multi-hour sprints.
+- Hermes integration and global rules wait until one sprint has run through the wrapper and its
+  receipt shows the wrapper caught something (earned, not decreed).
 
 ## 5. Pre-registered test (judged by Zach)
 
