@@ -17,7 +17,7 @@ ARCS, Founder and Builder                                                       
   Platform guardrails as code: each client tenant gets its own Postgres role with row-level security pinned to the tenant, set on
   the server and failing closed; route and tool inventories are generated from source and fail the commit on drift; merge rules
   are enforced by repository settings.
-  Ship daily: about six months and over 3,500 commits (status.arcs.care); every change through a pull request and pre-
+  Ship daily: about six months and over 5,000 commits (status.arcs.care); every change through a pull request and pre-
   commit checks, and each new class of failure becomes a permanent check.
   Reusable pieces others install: a Claude Code plugin marketplace and CLIs on npm and Homebrew with conformance tests
   and CI, plus an operators library of over 20,000 lines of Python and a shared UI kit.

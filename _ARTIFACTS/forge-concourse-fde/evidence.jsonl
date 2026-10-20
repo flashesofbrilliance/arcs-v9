@@ -10,7 +10,7 @@
 {"pattern": "24 months", "source": "vetted-master:resume-vico-product-engineer.html:173"}
 {"pattern": "\\$4,500\\s?", "source": "vetted-master:resume-vico-product-engineer.html:180"}
 {"pattern": "\\$1M", "source": "vetted-master:resume-vico-product-engineer.html:180"}
-{"pattern": "(?:over )?3,500", "source": "documented:status.arcs.care (public); public/concourse.html + concourse-candidate.json"}
+{"pattern": "(?:over )?5,000", "source": "documented:status.arcs.care shows 5,065 commits incl. merges (2026-10-20); public/concourse.html + concourse-candidate.json (PR 1703)"}
 {"pattern": "six months", "source": "documented:status.arcs.care; public/concourse.html"}
 {"pattern": "(?:over )?20,000", "source": "public/concourse-sara.html (operators library over 20,000 lines of Python)"}
 {"pattern": "Twenty years", "source": "public/concourse.html lede"}

@@ -21,3 +21,6 @@ The pre-commit design detector (impeccable) blocks a NEW `_ARTIFACTS/*.html` on 
 
 ## Revision 2 (2026-10-19, after the peer call)
 FDE-first and tech-first for engineering readers (Krish, an SRE, and the CTO, Rapolas Binkys). Header and summary lead with the build; a "Check the work" line links app.arcs.care, status.arcs.care, good.arcs.care and germinate; new ARCS bullet on platform guardrails (per-tenant Postgres row-level security failing closed, drift-checked inventories, repository-enforced merge rules), the same claim now live on resume.arcs.care and concourse.arcs.care, so this cut is additive to them. Mañana compressed to one bullet to hold one page. Gates: provenance_lint, slop_lint, public_claim_gate pass; slop_eval still SKIP (no key).
+
+## Revision 3 (2026-10-20)
+Commit count now 'over 5,000 commits', matching status.arcs.care (5,065, counting merges) and the live concourse pages (PR 1703). Zach chose the wording.
