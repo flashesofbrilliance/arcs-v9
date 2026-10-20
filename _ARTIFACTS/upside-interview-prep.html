@@ -1,0 +1,295 @@
+<!doctype html>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Upside Interview Prep</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion. PROPOSED: DESIGN.md has no motion section yet (ADR-087 action item). Calm and precise. */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+/* Layout: ARCS dark run sheet, one 680px measure, cyan signal on the timing strip and the open line */
+:root{color-scheme:dark;--measure:680px}
+body{background:var(--bg);color:var(--text);font:15px/1.6 var(--ds-font-sans)}
+.wrap{max-width:var(--measure);margin:0 auto;padding-block:36px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font:600 var(--fs-display)/1.1 var(--ds-font-display);margin:0 0 8px;letter-spacing:-.01em;text-wrap:balance}
+h2{font:600 var(--fs-headline)/1.3 var(--ds-font-display);margin:30px 0 8px;padding-top:16px;border-top:1px solid var(--border);text-wrap:balance}
+h2::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-right:10px;vertical-align:middle}
+.meta{color:var(--text-secondary);font:var(--fs-label)/1.6 var(--ds-font-mono);letter-spacing:.04em;margin:0}
+.strip{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.strip li{background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:4px 10px;font:var(--fs-label)/1.5 var(--ds-font-mono);font-variant-numeric:tabular-nums;color:var(--text)}
+.strip b{color:var(--cyan)}
+b{color:var(--text);font-weight:600}
+p{margin:6px 0}
+ul,ol{margin:6px 0;padding-left:20px}
+li{margin:4px 0}
+li::marker{color:var(--muted)}
+.q{font-weight:600;color:var(--text)}
+.a{color:var(--text-secondary);margin:2px 0 12px}
+.say{border:1px solid var(--border);border-radius:var(--ds-r-sm);padding:8px 12px;margin:12px 0;background:var(--cyan-bg)}
+.lbl{font:var(--fs-label)/1.4 var(--ds-font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+
+nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--bg);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px 18px;padding-block:10px;margin:18px 0 0}
+nav.jump a{font:var(--fs-label)/1.5 var(--ds-font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary);text-decoration:none}
+nav.jump a:hover,nav.jump a:focus-visible{color:var(--cyan)}
+section.block{scroll-margin-top:56px;padding-top:8px}
+section.block>h2.part{font:600 var(--fs-display)/1.1 var(--ds-font-display);border-top:none;margin:40px 0 4px}
+section.block>h2.part::before{display:none}
+.kicker{font:var(--fs-label)/1.4 var(--ds-font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin:0}
+h3{font:600 var(--fs-headline)/1.3 var(--ds-font-display);margin:24px 0 6px;padding-top:12px;border-top:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:var(--fs-body)}
+td,th{text-align:left;vertical-align:top;padding:7px 8px;border-bottom:1px solid var(--border)}
+th{font:var(--fs-label)/1.4 var(--ds-font-mono);text-transform:uppercase;color:var(--muted);font-weight:400}
+td:first-child{white-space:nowrap;color:var(--cyan);font-family:var(--ds-font-mono);font-size:var(--fs-label);font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+.pend{color:var(--muted);font-style:italic}
+.flag{color:var(--gold)}
+.stop{color:var(--red)}
+
+.card{border:1px solid var(--border);border-radius:var(--ds-r-md);background:var(--surface);padding:20px 22px;margin:20px 0 8px;display:grid;gap:18px}
+.verdict{font:600 1.25rem/1.35 var(--ds-font-display);color:var(--text);margin:0;text-wrap:balance}
+.big{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.big .n{font:600 2.2rem/1 var(--ds-font-display);color:var(--cyan);font-variant-numeric:tabular-nums}
+.big .t{color:var(--text-secondary)}
+.card h2.ch{margin:0 0 6px;border-top:none;padding-top:0;font:var(--fs-label)/1.4 var(--ds-font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin:0 0 6px;font-weight:400}
+.card ol,.card ul{margin:0}
+.qa dt{font-weight:600;margin-top:8px}
+.qa dd{margin:2px 0 0;color:var(--text-secondary)}
+details.depth{margin-top:28px;border-top:1px solid var(--border);padding-top:12px}
+details.depth>summary{cursor:pointer;font:var(--fs-label)/1.5 var(--ds-font-mono);color:var(--text-secondary)}
+details.depth>summary:focus-visible{outline:1px solid var(--cyan);outline-offset:3px}
+
+h1{color:var(--text)}
+.card h2.ch::before{display:none}
+li,p,dd,dt,td,h1,h2,h3,.say{color:var(--text)}
+body{font-size:var(--fs-body)}
+h1{font-size:var(--fs-display)}
+h2{font-size:var(--fs-headline)}
+section.block>h2.part{font-size:var(--fs-display)}
+h3{font-size:var(--fs-headline)}
+.card h2.ch{font-size:var(--fs-label)}
+</style>
+<div class="wrap">
+<p class="kicker">Call brief · internal</p>
+<h1>Upside, hiring manager</h1>
+<p class="meta">Staff Forward Deployed Engineer, GTM Platform · Tue Oct 20, 3:30 to 4:15pm ET · Google Meet, link in Lindsey Mertz's invite</p>
+<div class="card" id="card">
+<p class="verdict">Lindsey is hiring his first engineer to free his revenue teams from admin. Win by showing you will sit with his reps and ship one tool that saves them hours inside 60 days.</p>
+<div><h2 class="ch">3 reasons he should care</h2><ol>
+<li>You have done this exact job before: sole embedded builder at Squat, discovery through relaunch.</li>
+<li>Their stack is the one you build on daily (React, TypeScript, Next.js, FastAPI, Postgres, Supabase, Vercel). Your first month goes to his teams, not tools.</li>
+<li>You speak sales ops: ad-network sales and ad ops at Selectable Media, go-to-market for 10 products at Grayscale.</li>
+</ol></div>
+<div class="big"><span class="n">60 days</span><span class="t">to the first tool his reps feel. Your one number.</span></div>
+<div><h2 class="ch">His first 3 questions, your short answers</h2><dl class="qa">
+<dt>What would you build first?</dt><dd>Nothing until I've sat with the team. Then the one workflow that costs the most hours, shipped narrow.</dd>
+<dt>How do I trust AI with revenue data?</dt><dd>Fixed rules stay in code, outputs are checked before they're saved, and people approve anything that can't be undone.</dd>
+<dt>Can you work without an engineering team around you?</dt><dd>I built and run ARCS alone, every architecture call mine, with every decision written down.</dd>
+</dl></div>
+<div><h2 class="ch">Your 3 tasks on the call</h2><ol>
+<li>Open: "Where does your team's time go today that you most want back?"</li>
+<li>Confirm the role: you applied to GTM Systems; this call is GTM Platform, the one you want.</li>
+<li>Close: "How will you and I decide what to build first, and how will we know it's working?"</li>
+</ol></div>
+</div>
+<details class="depth"><summary>Full brief: background, call walk, risks, post-call, receipt</summary>
+<nav class="jump"><a href="#precall">Pre-Call</a><a href="#recoil">Recoil</a><a href="#postcall">Post-Call</a><a href="#receipt">Receipt</a></nav>
+
+<section class="block" id="precall">
+<h2 class="part">Pre-Call</h2>
+<h3>Who you're talking with</h3>
+<p><b>Lindsey Mertz, Senior Director of Revenue Operations at Upside</b>, and he is the hiring manager himself. He booked the call personally, which explains the thin replies: a busy exec scheduling his own first engineer, not a recruiter going quiet.</p>
+<ul>
+<li>Career sales ops, not engineering: Upside since Dec 2023 (Director, Sales Operations, then Senior Director, RevOps from Mar 2025), Roku (Senior Manager, Sales Ops), POLITICO (Director, Sales Ops), AudienceView (ticketing software, 7 years in sales ops and support).</li>
+<li>Earlier: ticketing at The Festival Network, information services at an events company, ESPN camera crew. Entertainment, live events and media throughout.</li>
+<li>Top skills listed: CRM, SaaS, event management. His summary stresses closing strategic and tactical gaps and measurable impact.</li>
+</ul>
+<p>So speak his language: pipeline, CRM hygiene, lead routing, forecasting, territory and quota, rep time lost to admin. He'll judge whether you'll make his team's week better, not your code.</p>
+<h3>Common ground to use</h3>
+<ul>
+<li><b>Media and ad sales:</b> you ran a video ad network at Selectable Media, including channel-partner sales, account management and ad operations. He ran sales ops at Roku and POLITICO, both ad-sales businesses.</li>
+<li><b>Sports and live events:</b> WTA (real-time fan scoring, data partnerships) lines up with his ESPN and festival ticketing years.</li>
+<li><b>Grayscale:</b> you ran release gates across product, legal and compliance, the cross-functional coordination RevOps lives in.</li>
+</ul>
+<div class="say"><span class="lbl">Open with</span><br>"Thanks for making time, Lindsey. I saw you built sales ops at Roku and POLITICO before Upside. I'd love to hear where your team's time goes today that you most want back."</div>
+<h3>Which role this is</h3>
+<p>You applied to <b>Staff Full Stack Engineer, GTM Systems</b> (posted Jun 8). The interview invite is titled <b>Staff Forward Deployed Engineer, GTM Platform</b> (posted Aug 12). Both are live, both sit in Lindsey's GTM org, and both pay $214K to $245K or more. The invite suggests he has already moved you to the Platform role, the first-engineer, own-the-architecture job, which is the better fit.</p>
+<div class="say"><span class="lbl">Confirm early</span><br>"I applied to the GTM Systems role, and I see this call is for the GTM Platform role. That's the one I'm most excited about. Are you hiring for both, and how do they fit together?"</div>
+<p>Stack named in the Systems posting: React, TypeScript, Next.js, Python (FastAPI), PostgreSQL, Supabase, Vercel. That is the ARCS stack. Nice-to-haves there include Salesforce or HubSpot, RAG and embedding search, and Snowflake. Hybrid in NYC: in office Monday, Tuesday and Thursday.</p>
+<h3>The job in one line</h3>
+<p>First engineer inside Revenue Ops. Sit with the sales and partner teams, then build an AI-native platform from scratch that runs AI agents in place of their legacy tools. You own the architecture and are measured on business results.</p>
+<h3>Range of possible outcomes</h3>
+<ul>
+<li><b>Strong:</b> they describe a specific painful workflow and ask how you'd attack it. Move to next round with a named panel.</li>
+<li><b>Mixed:</b> they like the forward-deployed story but probe staff-level engineering depth or the commerce domain. Next step is a technical round.</li>
+<li><b>Weak:</b> they want a classic staff engineer with a long engineering-title history. Learn what they value and close cleanly.</li>
+</ul>
+<h3>Your 60-second story</h3>
+<ol>
+<li>I embed with a business, learn how the work actually gets done, then build the system that changes it.</li>
+<li><b>Squat:</b> sole product and technology partner, embedded from discovery through relaunch. The forward-deployed model, done before.</li>
+<li><b>ARCS:</b> built an AI platform on Claude from scratch, with AI agents and an MCP server, in production. Every architecture call was mine.</li>
+<li><b>Grayscale:</b> led go-to-market for 10 regulated products with $7B in assets. I know how revenue teams work.</li>
+</ol>
+<h3>Listening questions</h3>
+<ul>
+<li>Which team's workflow hurts most today, and what does it cost? <span class="pend">Listening for: a concrete first target.</span></li>
+<li>What would make this hire a clear success at 6 months, and at 12? <span class="pend">Listening for: outcome versus output framing.</span></li>
+<li>Which tools are in the way (Salesforce, HubSpot, spreadsheets), and who owns the data? <span class="pend">Listening for: data access, the real blocker.</span></li>
+<li>How will security and infrastructure work with this role? <span class="pend">Listening for: how much freedom you'd have.</span></li>
+<li>If the first version proves out, is there appetite for a second engineer? <span class="pend">Listening for: whether this is a team or a one-off.</span></li>
+<li>What are the next steps, and who else will I meet?</li>
+</ul>
+</section>
+
+<section class="block" id="recoil">
+<h2 class="part">Recoil</h2>
+<h3>Call walk</h3>
+<div class="tw"><table>
+<tr><th>Time</th><th>Segment</th><th>Your move</th></tr>
+<tr><td>0 to 5</td><td>Intros</td><td>Use the opener. Let him describe his team's pain first, then tilt everything toward it.</td></tr>
+<tr><td>5 to 12</td><td>Your story</td><td>The 60-second version, then stop and let them pick a thread.</td></tr>
+<tr><td>12 to 30</td><td>Their questions</td><td>Short answers, one concrete example each, then check: "Want me to go deeper?"</td></tr>
+<tr><td>30 to 40</td><td>Your questions</td><td>Lead with the workflow-pain question. Take notes on names and tools.</td></tr>
+<tr><td>40 to 45</td><td>Close</td><td>Ask about next steps and timeline. Thank them.</td></tr>
+</table></div>
+<h3>Questions to expect</h3>
+<p class="q">Walk me through something you built from zero.</p>
+<p class="a">ARCS: the problem, the architecture choices, what you'd change. Be clear about what's live and what isn't.</p>
+<p class="q">How do you make AI output reliable?</p>
+<p class="a">Every model response is checked for the right shape and for truncation before it's saved. A fixed test set catches regressions. People approve decisions. Offer to say where it didn't work.</p>
+<p class="q">What would your first 90 days look like?</p>
+<p class="a">Weeks 1 to 4: sit with the teams and find the costliest work. Weeks 4 to 8: ship one narrow tool that saves real hours. Then grow from that first win. No big platform promise on day one.</p>
+<p class="q">When do you use AI, and when plain code?</p>
+<p class="a">Fixed rules stay in plain code. AI handles judgment and reading text. People approve anything that can't be undone.</p>
+<p class="q">You haven't worked in commerce. Why you?</p>
+<p class="a">Say it first: I learn a domain by sitting with the people doing the work, as I did in health, finance and sports. That's this job.</p>
+<p class="q">Why Upside?</p>
+<p class="a">Building from scratch, real users in the next room, results you can measure, and a team that wants the change.</p>
+<h3>Signal threads</h3>
+<ul>
+<li>Do they name a specific team or workflow? That means the first project is real.</li>
+<li>Do they talk about outcomes or headcount? Outcomes means the forward-deployed framing is sincere.</li>
+<li>Do they mention budget for tools or a second hire? That means it's a funded program, not an experiment.</li>
+</ul>
+<h3>Risk flags</h3>
+<ul>
+<li class="flag">Staff-level depth: about 8 years of engineering asked. Frame yours as owning systems end to end for 20 years, not titles.</li>
+<li class="flag">Commerce domain is new. Raise it yourself, early, with the learn-by-embedding answer.</li>
+<li class="flag">The ARCS codebase is private. A demo is available on request. Never call it public.</li>
+<li class="flag">No accuracy figure for ARCS decision scoring. Not enough outcomes have closed.</li>
+</ul>
+<h3>Stop-loss</h3>
+<p class="stop">If it turns into a pure engineering-titles screen, don't stretch claims to match. Answer straight, ask what the next round tests, and close cleanly.</p>
+</section>
+
+<section class="block" id="postcall">
+<h2 class="part">Post-Call</h2>
+<p class="pend">Fill after the call.</p>
+<ul>
+<li><b>Who I met:</b> <span class="pend">name, title</span></li>
+<li><b>What they pushed on:</b> <span class="pend">top 2 to 3 probes</span></li>
+<li><b>Which outcome landed:</b> <span class="pend">strong, mixed, or weak</span></li>
+<li><b>Next steps:</b> <span class="pend">round, who, when</span></li>
+<li><b>Thank-you note:</b> <span class="pend">sent same day, yes or no</span></li>
+</ul>
+</section>
+
+<section class="block" id="receipt">
+<h2 class="part">Decision receipt</h2>
+<div class="tw"><table>
+<tr><th>Field</th><th>Pre-call</th></tr>
+<tr><td>Question</td><td>Does Upside's GTM Platform role fit, and do they see it?</td></tr>
+<tr><td>True north</td><td>Leave with a named next step and the first workflow they'd want fixed.</td></tr>
+<tr><td>Hypothesis</td><td>A sales ops leader will weigh workflow empathy and fast wins over engineering pedigree; the forward-deployed story lands if told in RevOps terms.</td></tr>
+<tr><td>Y gate</td><td>YELLOW: strong fit on paper (job score 0.889, PURSUE), interviewer now known (Lindsey Mertz).</td></tr>
+<tr><td>Window</td><td>Today, 3:30 to 4:15pm ET.</td></tr>
+</table></div>
+<h3>Close-out</h3>
+<p class="pend">After the call: what opened, next action, Y gate shift, conviction up or down, and 2 to 4 things that changed your view.</p>
+</section>
+</details>
+</div>
