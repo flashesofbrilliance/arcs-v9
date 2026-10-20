@@ -464,6 +464,16 @@ class Librarian:
             per_class[str(f["class"])] = per_class.get(str(f["class"]), 0) + 1
         return {k: max(DEMOTION_FLOOR, 1.0 - DEMOTION_PER_FALSIFIED_PICK * n) for k, n in per_class.items()}, falsified
 
+    def jtbd(self, job: str, graph: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """s4 query shape (backlog row jtbd-graph-s4-retrieval): best tools (1 to 5), open blockers, dependency
+        closure and the last 3 personal receipts naming the best tool, under 1,000 tokens. Ranking lives in
+        operators/jtbd_query.py; the receipts come from this Librarian's personal-tier universes."""
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import jtbd_query
+        recs = [c for c in self.candidates if c.cls == "personal-receipt"] or load_universes(self.root)
+        mem = str(self.memory_dir) if self.memory_dir else jtbd_query.MEM_DIR
+        return jtbd_query.answer(job, str(self.root), graph, mem, recs)
+
     def recommend(self, q: str, budget: int = 16000, stakes: str = "medium", n_max: int = 12,
                   classes: Optional[List[str]] = None) -> Dict[str, Any]:
         t0 = time.time()
