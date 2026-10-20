@@ -155,6 +155,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 21. **Phosphor is built from sources (2026-10-17).** Edit `_ARTIFACTS/phosphor-src/` (`page.tpl`, `style.css`, `app.js`), then run `python3 scripts/phosphor_build.py` to write `_ARTIFACTS/phosphor.html`; never hand-edit the built file (pre-commit runs `--check` and blocks a mismatch). The build only strips indentation from the script, so the kit tokens in the stylesheet stay verbatim: never trim anything inside the token sentinel block. Page cap 400,000 bytes applies to the built file (raised from 280,000 to 320,000 on 2026-10-17, amendment 43, and to 400,000 on 2026-10-18, amendment 57, both by Zach). The public copy (public/dj.html, served at dj.arcs.care) is written only by `python3 scripts/phosphor_build.py --release` at a release checkpoint (about every five shipped rows, after the full suite and a browser pass), so a merge does not change what the public sees.
 
+22. **One owner per PR branch (Zach, 2026-10-20).** Only the session that opened a PR pushes to its branch. Any other session that wants a change sends the owner a message (SendMessage with its session id) and waits, or takes the branch over only on Zach's explicit go, building on the current remote head. Git rejecting a push because the branch moved means another writer is active: stop and ask, never force. Cause: on 2026-10-20 two sessions pushed rewordings to PR 1671 within 30 seconds of each other. For merging several PRs at once, use `scripts/merge_train.sh --lock` (ADR-085, still PROPOSED).
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
