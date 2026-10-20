@@ -306,6 +306,23 @@ It never falls; every sprint states it, and only detector re-runs and outcomes c
 
 Now-ripe set: D1, D2, D3. Everything else waits on a named trigger.
 
+## 4h. Failure modes banked this session (seam ledger, 2026-10-20)
+
+Format per memory `kintsugi-seam-when-the-test-was-wrong`: seam, detected by, whose error, repair,
+heading change. Banked here until the repo-wide ledger (domino D10) exists.
+
+| Seam | Detected by | Whose | Repair | Heading change |
+|---|---|---|---|---|
+| Told Zach to release a stale claim on receipt-test-real-tag; the row was DONE | live row read during the dependency map | Claude (trusted the 2026-10-18 handoff prose) | step dropped, noted in the live map | verify handoff claims against the live backlog before advising (memory `verify-handoff-prose-against-live-backlog-not-just-doc`, already banked; not applied) |
+| Placed two rows in the horizon grid as examples; Zach read them as priorities | Zach's question | Claude (examples inside a would-be-blind exercise) | said so; marked illustrative in 4b | no example rows inside a blind step |
+| Backlog edit rewrote 64 lines (json.dumps re-encoded others) | git diff --stat before commit | Claude | reverted, single-line replace | diff-stat check before any jsonl commit (it caught this one) |
+| Picker (AskUserQuestion) returned empty twice | the tool result | harness or client, unclear | switched to wrap_up buttons | prefer button replies with this user |
+| Accountant weekly output hides synthetic_excluded | plumbing test | pre-existing tool gap | row note; domino D5 | none yet |
+| Built the underwriter before the ship ruling was answered | own review | Claude (read "good safeguard" as a go) | kept on a branch, PR unmerged | a go to build is not a go to ship |
+| Hand risk table first said "no overlay applied" only when asked | Zach's question | Claude (did not say what the leans were based on) | priced overlay built | state the basis of every lean in the same message |
+
+Gap: these lines live in a proposal, not a ledger a detector can re-read. D10 is where they move.
+
 ## 5. Pre-registered test (judged by Zach)
 
 **Question:** does an intention-aligned snap list help Zach pick what to do next better than
