@@ -48,3 +48,8 @@ The first rule found 0 candidates because prose mentions count as use. Zach aske
 ## Erratum (2026-10-20)
 The message of commit 30d36669 (merged in PR 1730) says "614 to 609". The true count is 613 to 608,
 as the PR body and the receipt say. Merged history is not rewritten; this line is the correction.
+
+## Amendment 2 (2026-10-20, after the first run of amendment 1 returned 0)
+That run returned 0 because `runtime/specs/fixtures/jtbd-graph/root/` holds frozen copies of the generated
+catalogs, which name every tool. Those copies are the excluded files under another path, so they are
+excluded too. Nothing else changed.
