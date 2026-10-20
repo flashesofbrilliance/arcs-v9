@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2375,
+  "corpus": 2378,
   "canon": {
    "files": 122,
    "tao_proverbs": 287,
    "adrs": 84
   },
-  "codebase": 741,
+  "codebase": 744,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -46,7 +46,7 @@
    "nodes": 81,
    "shore_open": 37,
    "files_mapped": 265,
-   "files_fog": 2973
+   "files_fog": 2979
   },
   "coherence": {
    "diamonds": 3,
@@ -3469,7 +3469,7 @@
   {
    "path": "runtime/specs/tool-catalog.json",
    "kind": "catalog",
-   "rows": 334,
+   "rows": 342,
    "private": false
   },
   {
