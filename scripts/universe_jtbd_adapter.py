@@ -12,14 +12,15 @@ Sources and namespaces:
   runtime/specs/surface-catalog.json rows[]        -> tool:surface:<host><path>
   package.json  dependencies + devDependencies     -> dep:npm:<name>
   _QUEUE/induced-backlog.jsonl  every row          -> job:backlog:<id>; BLOCKED rows also blocker:backlog:<id>
-  --mined only: memory front-matter + _PATTERNS stems, by the rule in
+  mined (default since s4; the miner gate passed 27/30, runtime/specs/jtbd-label-sample-20261018-labels.json):
+  memory front-matter + _PATTERNS stems, by the rule in
   _PATTERNS/2026-10-18-jtbd-s1-mined-job-rule.md     -> job:memory:<name>, job:pattern:<stem>
 
 A duplicate natural key inside one source raises SOURCE-DUP and nothing is written (schema rule).
 Output is generated and gitignored (receipts-adapter precedent): _STATE/jtbd-graph/graph.json.
 
   python3 scripts/universe_jtbd_adapter.py              # build, reconcile, verify lines, schema-check
-  python3 scripts/universe_jtbd_adapter.py --mined      # also mined jobs + the 30-file label sample
+  python3 scripts/universe_jtbd_adapter.py --no-mined   # skip mined jobs (--mined is accepted and is the default)
   python3 scripts/universe_jtbd_adapter.py --self-test  # good fixture passes, bad fixtures fail
   python3 scripts/universe_jtbd_adapter.py --check      # s3 gate: build in memory, run every s1/s2 check, the schema
                                                         # checker with --root key lookup, and the six rules in
@@ -351,6 +352,8 @@ def _fixture(tmp, dup=False):
     mem = os.path.join(tmp, "mem"); os.makedirs(mem)
     open(os.path.join(mem, "m1.md"), "w").write("---\nname: m-one\n---\njob to be done: x\n")
     open(os.path.join(mem, "m2.md"), "w").write("---\nname: m-two\n---\nnothing\n")
+    # m3 cites the same line number as m1 in another file: must not read as SOURCE-DUP (s4 glob-catalog fix)
+    open(os.path.join(mem, "m3.md"), "w").write("---\nname: m-three\n---\njtbd: y\n")
     return mem
 
 
@@ -362,7 +365,7 @@ def self_test():
         ids = sorted(a["id"] for a in g["atoms"])
         want = ["blocker:backlog:row-b", "dep:env:ANTHROPIC_API_KEY", "dep:env:DATABASE_URL", "dep:env:EMAIL_FROM",
                 "dep:npm:@types/node", "dep:npm:next"] + [f"dep:service:{x}" for x in sorted(ge.SERVICES)] + [ "job:backlog:row-a", "job:backlog:row-b",
-                "job:memory:m-one", "job:pattern:p1", "tool:op:1", "tool:operator:op_x.py", "tool:script:a.py",
+                "job:memory:m-one", "job:memory:m-three", "job:pattern:p1", "tool:op:1", "tool:operator:op_x.py", "tool:script:a.py",
                 "tool:surface:a.arcs.care/", "tool:surface:any/x"]
         good = good and ids == sorted(want) and sum(e["rule"] == "operator-bind" for e in g["edges"]) == 1 and [u["key"] for u in g["unresolved"]] == []
         print(f"good fixture: {'PASS' if good else 'FAIL'} ({len(ids)} atoms, {len(g['edges'])} edges)")
@@ -394,6 +397,10 @@ def self_test():
         bad_ok, _ = run(tmp, False, None, None, quiet=True)
         print(f"bad fixture (count drift vs catalog): {'caught' if not bad_ok else 'MISSED'}")
         ok &= not bad_ok
+    d_on, d_off, d_old = _with_mined([]), _with_mined(["--no-mined"]), _with_mined(["--mined"])
+    flip = d_on and not d_off and d_old
+    print(f"default emits mined jobs (s4 flip; --no-mined opts out): {'PASS' if flip else 'FAIL'}")
+    ok &= flip
     ok &= edge_self_test()
     print("self-test OK" if ok else "self-test FAILED")
     return ok
@@ -610,6 +617,10 @@ def pulse(root=REPO):
             f"{parts} (new/held) · checked {s['at'][:16]}")
 
 
+def _with_mined(argv):
+    return "--no-mined" not in argv
+
+
 def main(argv):
     if "--pulse" in argv:
         print(pulse()); return 0
@@ -618,7 +629,7 @@ def main(argv):
     if "--self-test" in argv:
         return 0 if self_test() else 1
     try:
-        ok, _ = run(REPO, "--mined" in argv, MEM_DIR, os.path.join(REPO, OUT))
+        ok, _ = run(REPO, _with_mined(argv), MEM_DIR, os.path.join(REPO, OUT))
     except SourceDup as e:
         print(e); return 1
     return 0 if ok else 1
