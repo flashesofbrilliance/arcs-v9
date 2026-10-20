@@ -551,6 +551,8 @@ const SKILLS = [
   { id:'prisma',   label:'Prisma',                      accent:T.cyan,  views:['all'] },
   { id:'vercel',   label:'Vercel',                      accent:T.cyan,  views:['all'] },
   { id:'apis',     label:'API-driven architecture',     accent:T.cyan,  views:['all'] },
+  { id:'eslint',   label:'ESLint',                      accent:T.cyan,  views:['all'] },
+  { id:'cicd',     label:'GitHub Actions CI/CD',        accent:T.cyan,  views:['all'] },
   { id:'claudecode',label:'Claude Code',                accent:T.cyan,  views:['all'] },
   { id:'claude',   label:'Claude', accent:T.cyan,  views:['all','figma'] },
   { id:'mcp',      label:'MCP Server',                  accent:T.cyan,  views:['all','figma'] },
@@ -654,6 +656,7 @@ function GrainResume() {
         textTransform:'uppercase', color:T.fg4, marginBottom:14 }}>Technical Proficiency</div>
       <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
         {[['TypeScript Stack',        'TypeScript · React · Next.js (App Router) · Python (FastAPI) · PostgreSQL · Supabase · Prisma · Vercel · API-driven architecture (Next.js API routes, MCP server)'],
+          ['Testing & CI/CD',   'ESLint · TypeScript unit tests (Node test runner) · GitHub Actions CI · pre-commit gates'],
           ['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
           ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
           ['AI & Tools',        'Claude Code (daily) · Claude API · MCP Server · Glean · Agentic AI pipelines · GitHub'],
