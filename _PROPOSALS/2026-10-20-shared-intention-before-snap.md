@@ -236,7 +236,27 @@ Consequence for ranking: "wait" is a valid outcome. A row can be core and still 
 "hold", so the snap list must be able to say "nothing yet" for a horizon (GAP: today's
 ready-now list always fills).
 
-Core picks: pending.
+Core picks: pending, by this process (Zach asked for a more scientific one, 2026-10-20):
+
+1. Horizon fit, mechanical from `cost_prior` (unsized rows: Zach decides).
+2. Alignment 0/1/2 per horizon line, scored by Zach from row text and size only, blind to
+   ripeness, waves and downstream counts (those are L0's inputs).
+3. Hold test from the exclusion: "would acting now be momentum for its own sake?" yes = HOLD.
+4. Core = alignment 2 and fits; fewer than 3 fills from 1s; more than 7 breaks ties by forced
+   pairs; none = "nothing yet" for that horizon.
+5. Sealed cross-check: Claude scores alignment first and commits only a SHA-256 of the scores;
+   agreement (kappa 0.6 or more) means the lines are legible.
+6. Structure reveal, AFTER picks are recorded (Zach, 2026-10-20: one row may block another; solve
+   first-order things first; or build or adjust a tool for the job shape). Show dependency edges
+   among the shortlist, outside blockers, and tool fit. Zach may then promote a blocker to core
+   as "first-order" or add a "tool gap" row. Pre-reveal and post-reveal picks are both recorded;
+   the blind test runs on pre-reveal picks, and a second arm (L2) on post-reveal picks shows what
+   the structure added.
+
+Reveal data, computed 2026-10-20 by backlog_graph.py --json, withheld from Zach until step 6:
+edges inside the shortlist 14 > 15 > 2 and 18 > 9; outside blockers on 1, 2, 9, 10, 12, 14, 17;
+tool NOT-RESOLVED on 7, 11, 15, 16, PARTIAL on 12, NONE (human work) on 13. "HAVE" means the
+named tool resolves, not that it fits the job.
 
 ## Ask
 
