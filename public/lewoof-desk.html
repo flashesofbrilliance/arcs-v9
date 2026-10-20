@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Woof Desk</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light">
+<style>
+:root {
+  --bg: #fbf7f2; --surface: #ffffff; --wash: #f4ede3; --rule: #ded5c8;
+  --text: #221f1a; --muted: #5e574c; --accent: #25604f; --accent-ink: #ffffff;
+  --accent-wash: #e6f0eb; --ochre: #7c5a14; --ochre-wash: #f7edd4; --danger: #8a2d1e;
+  --measure: 680px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif; font-size: 18px; line-height: 1.55; overflow-wrap: break-word; }
+.ui, button, a.btn, label, .chip, .meta { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+.lane { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 0 16px 96px; }
+h1, h2, h3 { margin: 0; line-height: 1.25; text-wrap: balance; }
+h1 { font-size: 38px; letter-spacing: -0.01em; }
+h2 { font-size: 22px; }
+p { margin: 0 0 12px; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.mast { padding: 20px 0 14px; border-bottom: 1px solid var(--rule); font-family: system-ui, sans-serif; font-size: 15px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; }
+.mast b { color: var(--text); }
+header { padding-top: 32px; }
+.lede { color: var(--muted); font-size: 19px; margin: 10px 0 0; max-width: none; }
+.card { margin-top: 18px; padding: 18px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; }
+.card .why { font-family: system-ui, sans-serif; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.card h3 { font-size: 22px; margin: 6px 0 4px; }
+.meta { font-size: 14px; color: var(--muted); margin: 0 0 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+button, a.btn { font-size: 16px; font-weight: 600; min-height: 44px; padding: 10px 16px; border-radius: 4px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+button.alt, a.btn.alt { background: var(--surface); color: var(--accent); }
+.results { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.results .lab { width: 100%; font-family: system-ui, sans-serif; font-size: 14px; color: var(--muted); }
+.chip { font-size: 15px; min-height: 44px; padding: 8px 14px; border-radius: 22px; border: 1px solid var(--rule); background: var(--wash); color: var(--text); cursor: pointer; font-weight: 600; }
+.chip.stop { color: var(--danger); border-color: var(--danger); background: var(--surface); }
+details { margin-top: 10px; font-size: 16px; }
+summary { cursor: pointer; font-family: system-ui, sans-serif; font-size: 14px; color: var(--accent); }
+.script { white-space: pre-wrap; background: var(--wash); border-radius: 4px; padding: 10px 12px; font-size: 16px; margin: 8px 0; }
+.empty { margin-top: 24px; padding: 24px; background: var(--accent-wash); border-radius: 6px; text-align: center; }
+table { width: 100%; border-collapse: collapse; font-family: system-ui, sans-serif; font-size: 14px; }
+th, td { padding: 8px 6px; border-bottom: 1px solid var(--rule); text-align: left; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+.v-pass { color: var(--accent); font-weight: 700; } .v-fail { color: var(--danger); font-weight: 700; } .v-tie { color: var(--ochre); font-weight: 700; }
+#toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--text); color: #fff; padding: 12px 18px; border-radius: 6px; font-family: system-ui, sans-serif; font-size: 15px; opacity: 0; pointer-events: none; transition: opacity .2s; max-width: calc(100% - 32px); }
+#toast.on { opacity: 1; }
+.fine { font-family: system-ui, sans-serif; font-size: 13px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { #toast { transition: none; } }
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="lane">
+  <div class="mast"><b>Le Woof Desk</b><span id="today"></span></div>
+  <header>
+    <h1 id="head">Today</h1>
+    <p class="lede" id="lede">Loading your list.</p>
+  </header>
+  <main id="list" aria-live="polite"></main>
+
+  <section style="margin-top:44px">
+    <details id="score">
+      <summary>How the four groups are doing</summary>
+      <p class="fine" style="margin-top:10px">A group is judged only after 20 contacts. About 3 strong replies in 25 is a pass, fewer than 1 means set it aside. A starting guess you can change.</p>
+      <div class="tablewrap"><table><thead><tr><th>Group</th><th>Contacted</th><th>Strong</th><th>Orders</th><th>Verdict</th></tr></thead><tbody id="rows"></tbody></table></div>
+    </details>
+  </section>
+  <p class="fine" style="margin-top:28px">Nothing here sends a message or places a call for you. The email button opens a draft in your own mail app. Anyone who says stop is removed and never shown again.</p>
+</div>
+<div id="toast" role="status"></div>
+<script>
+(function () {
+  var API = '/api/lewoof/desk';
+  var GROUPS = { 'pet-boutique': 'Pet boutiques', 'pet-brand': 'Pet-product brands', 'clean-brand': 'Clean brands', 'hotel': 'Pet-friendly hotels', 'groomer': 'Groomers and trainers' };
+  var SCRIPTS = {
+    'pet-boutique': {
+      subject: 'Local, clean dog care for {name}',
+      body: 'Hi {first},\n\nI make Le Woof, a clean, American-made dog-care line, and I would like to send you a sample set to try. If you order through my Faire link, your first order has free shipping.\n\nCould I send it to the shop? Reply "no" and I will not follow up.\n\nHila\nLe Woof',
+      call: 'Hi, this is Hila from Le Woof. I will be quick. I make clean, American-made dog care and I would like to send your shop a free sample set. Who decides what goes on your shelf, and what is the best address?'
+    },
+    'default': {
+      subject: 'A pet line for {name}?',
+      body: 'Hi {first},\n\nA lot of your customers own dogs. I make Le Woof, clean, American-made dog products, and I build them as a pet line for brands like yours: co-branded or private label, no R&D on your side.\n\nCan I send a sample box and a one-page line sheet?\n\nHila\nLe Woof\nNot the right person? Reply "no" and I will not follow up.',
+      call: 'Hi, this is Hila from Le Woof. I make clean, American-made dog care and I would like to send you a sample box. Who is the right person to talk to about adding a pet product?'
+    }
+  };
+  var $ = function (s) { return document.querySelector(s); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function toast(msg) { var t = $('#toast'); t.textContent = msg; t.className = 'on'; setTimeout(function () { t.className = ''; }, 2600); }
+  function fill(s, a) { var first = (a.contactName || '').split(' ')[0] || 'there'; return s.replace(/\{first\}/g, first).replace(/\{name\}/g, a.name); }
+  function scriptFor(a) { return SCRIPTS[a.section] || SCRIPTS['default']; }
+  function day(d) { return new Date(d).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }); }
+
+  function card(a) {
+    var c = el('article', 'card');
+    c.appendChild(el('div', 'why ui', a.why + ' · ' + (GROUPS[a.section] || a.section)));
+    c.appendChild(el('h3', null, a.name));
+    var who = a.contactName ? a.contactName + (a.contactTitle ? ', ' + a.contactTitle : '') : 'No named contact yet';
+    c.appendChild(el('p', 'meta', who));
+    var acts = el('div', 'actions');
+    var sc = scriptFor(a);
+    if (a.email) {
+      var m = el('a', 'btn', 'Draft email');
+      m.href = 'mailto:' + encodeURIComponent(a.email).replace('%40', '@') + '?subject=' + encodeURIComponent(fill(sc.subject, a)) + '&body=' + encodeURIComponent(fill(sc.body, a));
+      acts.appendChild(m);
+    }
+    if (a.phone) { var p = el('a', 'btn' + (a.email ? ' alt' : ''), 'Call ' + a.phone); p.href = 'tel:' + a.phone.replace(/[^+\d]/g, ''); acts.appendChild(p); }
+    if (!a.email && !a.phone && a.contactPage) { var w = el('a', 'btn', 'Open contact page'); w.href = a.contactPage; w.target = '_blank'; w.rel = 'noopener'; acts.appendChild(w); }
+    c.appendChild(acts);
+    if (a.phoneNote) c.appendChild(el('p', 'fine', 'Phone note: ' + a.phoneNote));
+    if (a.notes) c.appendChild(el('p', 'fine', 'Check first: ' + a.notes));
+    var det = el('details'); det.appendChild(el('summary', null, 'Script and details'));
+    det.appendChild(el('div', 'script', 'Email:\n' + fill(sc.subject, a) + '\n\n' + fill(sc.body, a)));
+    det.appendChild(el('div', 'script', 'Call:\n' + sc.call));
+    var bits = [];
+    if (a.flags) bits.push('Flags: ' + a.flags);
+    if (a.website) bits.push('Website: ' + a.website);
+    if (a.score) bits.push('Fit score: ' + a.score);
+    if (bits.length) det.appendChild(el('p', 'fine', bits.join(' · ')));
+    c.appendChild(det);
+    var res = el('div', 'results'); res.appendChild(el('div', 'lab', 'How did it go? One tap saves it and sets the next date.'));
+    [['strong', 'Wants samples, price or a call'], ['medium', 'Asked a question'], ['weak', 'Polite no'], ['no_reply', 'No answer'], ['order', 'Placed an order'], ['opted_out', 'Said stop']].forEach(function (r) {
+      var b = el('button', 'chip' + (r[0] === 'opted_out' ? ' stop' : ''), r[1]); b.type = 'button';
+      b.addEventListener('click', function () { log(a, r[0], c); });
+      res.appendChild(b);
+    });
+    c.appendChild(res);
+    return c;
+  }
+
+  function log(a, result, node) {
+    var kind = a.email ? 'email' : 'call';
+    fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin', body: JSON.stringify({ accountId: a.id, kind: kind, result: result }) })
+      .then(function (r) { if (!r.ok) throw new Error('save'); return r.json(); })
+      .then(function (j) { node.remove(); toast(j.nextTouch ? 'Saved. Next touch ' + day(j.nextTouch) + '.' : 'Saved. Removed from your list.'); if (!$('#list').children.length) load(); })
+      .catch(function () { toast('Could not save. Try again.'); });
+  }
+
+  function render(data) {
+    var list = $('#list'); list.textContent = '';
+    var n = data.today.length;
+    $('#head').textContent = n ? n + (n === 1 ? ' thing' : ' things') + ' to do today' : 'You are caught up';
+    $('#lede').textContent = n ? 'Work top to bottom. Tap the result when you are done and the next one is ready.' : 'Nothing is due. New accounts appear here when they have a phone or email to use.';
+    data.today.forEach(function (a) { list.appendChild(card(a)); });
+    if (!n) { var e = el('div', 'empty'); e.appendChild(el('h2', null, 'Nothing due today')); e.appendChild(el('p', 'fine', data.total ? 'Add a phone or email to an account, or check back tomorrow.' : 'No accounts have been loaded yet.')); list.appendChild(e); }
+    var rows = $('#rows'); rows.textContent = '';
+    var V = { pass: ['Pass', 'v-pass'], fail: ['Set aside', 'v-fail'], tie: ['Rerun', 'v-tie'], needs_more_contacts: ['Needs 20 contacts', ''] };
+    data.scorecard.forEach(function (g) {
+      var tr = el('tr'); tr.appendChild(el('td', null, GROUPS[g.section] || g.section));
+      [g.contacted + ' of ' + g.accounts, String(g.strong), String(g.orders)].forEach(function (t) { tr.appendChild(el('td', null, t)); });
+      var v = V[g.verdict]; tr.appendChild(el('td', v[1], v[0])); rows.appendChild(tr);
+    });
+  }
+
+  function load() {
+    $('#today').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+    fetch(API, { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (r) { if (r.status === 401) { location.href = '/'; throw new Error('locked'); } if (!r.ok) throw new Error('load'); return r.json(); })
+      .then(render)
+      .catch(function (e) { if (e.message !== 'locked') $('#lede').textContent = 'Could not load your list. Reload the page.'; });
+  }
+  load();
+})();
+</script>
+</body>
+</html>

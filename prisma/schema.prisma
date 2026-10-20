@@ -763,3 +763,50 @@ model DemandSignal {
   @@index([probe, action])
   @@index([createdAt])
 }
+
+// ─── Le Woof Desk (lewoof.arcs.care/desk) ─────────────────────────────────────
+// One row per account Hila works, one row per call/email result she logs. Contacts
+// live here, never in public/ (files there are directly fetchable). Reads and writes
+// go through /api/lewoof/desk, which checks the lewoof passcode cookie itself.
+// Stage: new, touched, replied, sampled, ordered, nurture, lost, opted_out.
+model LewoofAccount {
+  id          String    @id
+  section     String
+  rank        Int       @default(0)
+  name        String
+  website     String?
+  contactPage String?
+  flags       String?
+  score       Int       @default(0)
+  contactName String?
+  contactTitle String?
+  email       String?
+  emailSource String?
+  phone       String?
+  phoneNote   String?
+  hook        String?
+  notes       String?
+  stage       String    @default("new")
+  touches     Int       @default(0)
+  lastResult  String?
+  nextTouch   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([section])
+  @@index([stage, nextTouch])
+  @@map("lewoof_accounts")
+}
+
+model LewoofTouch {
+  id        String   @id @default(cuid())
+  accountId String
+  kind      String
+  result    String
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([accountId])
+  @@index([createdAt])
+  @@map("lewoof_touches")
+}

@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 289,
+  "rows": 290,
   "hosts": 81,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
    "product page": 230,
-   "gated": 31
+   "gated": 32
   },
   "next_config_hosts": 79,
   "proxy_hosts": 28,
   "app_routes": 47,
   "missing_purpose": 6,
-  "unlisted": 113
+  "unlisted": 114
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -1363,7 +1363,7 @@
    "unlisted": true,
    "purpose": "Zach on a Concourse Pod",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "concourse.arcs.care",
@@ -1383,7 +1383,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "concourse.arcs.care",
@@ -1403,7 +1403,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "concourse.arcs.care",
@@ -1443,7 +1443,7 @@
    "unlisted": true,
    "purpose": "Zach Harris FDE Brief",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "conduit.arcs.care",
@@ -3874,6 +3874,26 @@
   },
   {
    "host": "lewoof.arcs.care",
+   "path": "/desk",
+   "catch_all": false,
+   "destination": "/lewoof-desk.html",
+   "pattern": false,
+   "file": "public/lewoof-desk.html",
+   "gate": "shared passcode (whole host)",
+   "gate_file": "/lewoof-gate.html",
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Le Woof Desk",
+   "description": null,
+   "index": "noindex,nofollow",
+   "unlisted": true,
+   "purpose": "Le Woof Desk",
+   "kind": "gated",
+   "last_commit": null
+  },
+  {
+   "host": "lewoof.arcs.care",
    "path": "/invoicing",
    "catch_all": false,
    "destination": "/lewoof-intake.html",
@@ -4344,7 +4364,7 @@
    "unlisted": true,
    "purpose": "PRL · Chatbot Checkpoint",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-20"
   },
   {
    "host": "prl.arcs.care",
@@ -4365,7 +4385,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-19"
   },
   {
    "host": "prl.arcs.care",
@@ -5345,7 +5365,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-10-18"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "status.arcs.care",

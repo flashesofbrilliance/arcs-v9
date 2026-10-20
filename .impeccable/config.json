@@ -9,6 +9,7 @@
    {"rule": "design-system-font", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
    {"rule": "design-system-font-size", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
    {"rule": "design-system-radius", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
+   {"rule": "cream-palette", "value": "*", "files": ["public/lewoof-desk.html"], "createdAt": "2026-10-20T16:30:00.000Z", "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as public/lewoof-playbook.html and the PRL client surface. Not drift."},
    {"rule": "cream-palette", "value": "*", "files": ["public/prl-checkpoint.html"], "createdAt": "2026-10-20T00:15:00.000Z", "reason": "PRL client surface: uses the PRL Field Kit (prlresins.com maroon/champagne, Archivo + Manrope; design system artifact LAX8zY9rcWDpiBTGnY6ePe), a deliberately separate per-engagement world from DESIGN.md per PRODUCT.md, not drift"},
    {
     "rule": "design-system-font",
@@ -642,7 +643,8 @@
     "rule": "design-system-color",
     "value": "*",
     "files": [
-     "public/lewoof-playbook.html"
+     "public/lewoof-playbook.html",
+     "public/lewoof-desk.html"
     ],
     "createdAt": "2026-10-07T01:43:21.539Z",
     "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
@@ -651,7 +653,8 @@
     "rule": "design-system-radius",
     "value": "*",
     "files": [
-     "public/lewoof-playbook.html"
+     "public/lewoof-playbook.html",
+     "public/lewoof-desk.html"
     ],
     "createdAt": "2026-10-07T01:43:21.557Z",
     "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
@@ -660,7 +663,8 @@
     "rule": "design-system-font",
     "value": "*",
     "files": [
-     "public/lewoof-playbook.html"
+     "public/lewoof-playbook.html",
+     "public/lewoof-desk.html"
     ],
     "createdAt": "2026-10-07T01:43:21.576Z",
     "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."
@@ -669,7 +673,8 @@
     "rule": "design-system-font-size",
     "value": "*",
     "files": [
-     "public/lewoof-playbook.html"
+     "public/lewoof-playbook.html",
+     "public/lewoof-desk.html"
     ],
     "createdAt": "2026-10-07T01:43:21.594Z",
     "reason": "Counterpart-facing Le Woof page with its own warm design world (cream and green, serif), a deliberately separate surface from DESIGN.md; same exception class as the other counterpart pages. Not drift."

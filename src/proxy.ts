@@ -78,7 +78,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // lewoof.arcs.care (2026-10-07): root = the Le Woof playbook, /invoicing = the deal-intake
   // and invoice builder that used to be the whole host. The host is gated, see the
   // lewoof block in proxy() below.
-  'lewoof':    { '/invoicing': '/lewoof-intake.html', default: '/lewoof-playbook.html' },
+  'lewoof':    { '/invoicing': '/lewoof-intake.html', '/desk': '/lewoof-desk.html', default: '/lewoof-playbook.html' },
   // prl.arcs.care/status/<seg> status-page family (2026-08-17).
   'prl':       { '/status/catchup': '/prl-status-catchup.html', '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', '/status/receipt': '/prl-status-receipt.html', '/status/runbook': '/prl-status-runbook.html', '/checkpoint': '/prl-checkpoint.html', '/checkpoint.pdf': '/prl-checkpoint.pdf', default: '/todd-call.html' }, // root = overview (masked); status pages ride under /status/<seg>
   // good.arcs.care/blog/nftt/<slug> — Notes from the Trenches long-form posts (2026-08-18).
