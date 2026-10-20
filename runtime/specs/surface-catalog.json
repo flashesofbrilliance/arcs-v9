@@ -457,7 +457,7 @@
    "gate_file": null,
    "unlisted": true,
    "purpose": "ARCS · Internal · Patents",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "app.arcs.care",
@@ -497,7 +497,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "jobs.arcs.care/<jobid> — the Role Scan: the Profile Scan (who) overlaid on the",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "app.arcs.care",
@@ -637,7 +637,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Apply bg on atm change",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "app.arcs.care",
@@ -1098,7 +1098,7 @@
    "unlisted": false,
    "purpose": "An open Next.js web app: paste a LinkedIn profile or upload a PDF to generate an adaptive ARCS-style scan. Runs a local mock scan in the browser. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "autopilot.arcs.care",
@@ -1363,7 +1363,7 @@
    "unlisted": true,
    "purpose": "Zach on a Concourse Pod",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "concourse.arcs.care",
@@ -1383,7 +1383,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "concourse.arcs.care",
@@ -1403,7 +1403,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "concourse.arcs.care",
@@ -1423,7 +1423,7 @@
    "unlisted": true,
    "purpose": "Concourse Deployment Plan",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "concourse.arcs.care",
@@ -1443,7 +1443,7 @@
    "unlisted": true,
    "purpose": "Zach Harris FDE Brief",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "conduit.arcs.care",
@@ -1544,7 +1544,7 @@
    "unlisted": true,
    "purpose": "Phosphor",
    "kind": "product page",
-   "last_commit": "2026-10-18"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "forge-cut.arcs.care",
@@ -1647,7 +1647,7 @@
    "unlisted": false,
    "purpose": "A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work. Compact a session into a dense seed; let many workers reconcile through git without lost updates. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "good.arcs.care",
@@ -1669,7 +1669,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "good.arcs.care",
@@ -3870,7 +3870,7 @@
    "unlisted": true,
    "purpose": "Le Woof Launch Playbook",
    "kind": "gated",
-   "last_commit": "2026-10-06"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "lewoof.arcs.care",
@@ -4344,7 +4344,7 @@
    "unlisted": true,
    "purpose": "PRL · Chatbot Checkpoint",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-20"
   },
   {
    "host": "prl.arcs.care",
@@ -4365,7 +4365,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-19"
   },
   {
    "host": "prl.arcs.care",
@@ -4688,7 +4688,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "resume.arcs.care",
@@ -4833,7 +4833,7 @@
    "unlisted": false,
    "purpose": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "saul.arcs.care",
@@ -5345,7 +5345,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-10-18"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "status.arcs.care",
