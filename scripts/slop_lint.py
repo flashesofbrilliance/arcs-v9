@@ -148,6 +148,32 @@ def metrics(text, mode="default"):
             "mode": mode, "specificity_floor": spec_min,
             "tier_a": len(r["tier_a"]), "em_dashes": r["em_dashes"], "meets_baseline": ok}
 
+# ---- structural tells (opt-in: --structural; banked 2026-10-21) ----------------------------
+# Root cause: a tailored resume passed tier-A, em-dash AND the burstiness/specificity baseline,
+# yet an outside recruiter simulator flagged "AI telltale signs: Many". The tells were structural,
+# not lexical. Opt-in so persuasive pages that use one deliberate contrast are not blocked; the
+# resume-tailor gate runs it strict. Counts are per document; limits are set so a clean resume
+# with one honest contrast still passes.
+STRUCT = {
+    # sentences that echo the job description back at the screener ("this role", "this team is built on")
+    "jd_echo": (re.compile(r"\b(?:this|the) (?:role|team|position|job|company)(?:'s)?\b(?! (?:of|at|in) )", re.I), 0),
+    # binary contrast: "not just X", ", not Y", "X, not Y"
+    "contrast": (re.compile(r"\bnot just\b|,\s+not\s+(?:a|an|the|just|only)?\s*\w+", re.I), 1),
+    # dramatic colon reveal mid-sentence: "...personalization: the growth motion..." / "Label as X: ..."
+    "colon_reveal": (re.compile(r"[a-z)]\s*:\s+(?:the|a|an|that|this|which|it)\b", re.I), 1),
+    # self-describing reliability/trust claims with no object ("needs to be trusted", "actually use it")
+    "puffery": (re.compile(r"\b(?:needs to be trusted|actually use it|real numbers|moved real|at a system level)\b", re.I), 0),
+}
+
+def structural(text):
+    vis = strip_to_text(text)
+    hits = {}
+    for k, (p, limit) in STRUCT.items():
+        found = [m.group(0).strip() for m in p.finditer(vis)]
+        hits[k] = {"count": len(found), "limit": limit, "examples": found[:4]}
+    ok = all(v["count"] <= v["limit"] for v in hits.values())
+    return ok, hits
+
 def _head_terms(head_text):
     r = scan(head_text)
     return set(r["tier_a"]), r["em_dashes"]
@@ -206,6 +232,17 @@ def self_test():
     ef, rf = MODE_SPEC["essay"], MODE_SPEC["read"]
     mode_ok = (sg >= ef) and (sb < ef) and (sr < rf)
     passed = passed and mode_ok
+    # structural: fail-on-bad (lines from the 2026-10-21 flagged resume) + pass-on-good
+    s_bad = ("That is the reliability layer an agentic ecosystem needs to be trusted. Drove a 20% increase "
+             "through personalization: the growth-via-personalization motion this team is built on. "
+             "It uses the same primitives this role operates. Coherent, not just functional.")
+    s_good = ("Built ARCS on Claude with an MCP server and an evaluation layer. Closed the first data "
+              "partnerships with Twitter and Facebook, $850K in year one. Cut release cycle time 35%.")
+    sb_ok, _ = structural(s_bad)
+    sg_ok, _ = structural(s_good)
+    passed = passed and (not sb_ok) and sg_ok
+    print(f"  structural fail-on-bad -> {'FAIL (correct)' if not sb_ok else 'PASS (WRONG)'}"
+          f"  · structural pass-on-good -> {'PASS (correct)' if sg_ok else 'FAIL (WRONG)'}")
     print(f"  essay pass-on-good spec {sg:.2f} -> {'>=floor (correct)' if sg >= ef else 'UNDER (WRONG)'}"
           f"  · essay fail-on-bad spec {sb:.2f} -> {'<floor (correct)' if sb < ef else 'WRONG'}"
           f"  · read fail-on-bad spec {sr:.2f} -> {'<50% (correct)' if sr < rf else 'WRONG'}")
@@ -237,6 +274,17 @@ def run_metrics(files, as_json, strict, mode="default"):
 def main(argv):
     if "--self-test" in argv:
         return self_test()
+    if "--structural" in argv:
+        bad = False
+        for path in [a for a in argv if not a.startswith("--")]:
+            ok, hits = structural(open(path, encoding="utf-8", errors="replace").read())
+            bad = bad or not ok
+            print(f"[{'PASS' if ok else 'FAIL'}] {path} (structural)")
+            for k, v in hits.items():
+                if v["count"]:
+                    flag = "FAIL" if v["count"] > v["limit"] else "ok"
+                    print(f"    {flag} {k}: {v['count']} (limit {v['limit']}) e.g. {v['examples']}")
+        return 1 if bad else 0
     if "--metrics" in argv:
         strict = "--strict-metrics" in argv
         as_json = "--json" in argv
