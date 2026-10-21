@@ -255,6 +255,14 @@ jobs:
       - name: Build
         run: npm run build
 
+      # The arcs-mac runner is self-hosted and persistent: a cancelled or interrupted
+      # run leaves its `npm run start` server listening on :3000 (found 2026-10-20,
+      # orphan 5.5h old; the next run tested the stale server and timed out).
+      - name: Free port 3000 (stale server from an earlier run)
+        run: |
+          pids=$(lsof -ti tcp:3000 -sTCP:LISTEN || true)
+          if [ -n "$pids" ]; then echo "killing stale listener(s): $pids"; kill $pids || true; sleep 2; fi
+
       - name: Start server + wait for it to bind
         run: |
           npm run start &
@@ -294,3 +302,9 @@ jobs:
           npm run test:smoke
         env:
           SMOKE_BASE_URL: "http://localhost:3000"
+
+      - name: Stop server
+        if: always()
+        run: |
+          pids=$(lsof -ti tcp:3000 -sTCP:LISTEN || true)
+          if [ -n "$pids" ]; then kill $pids || true; fi
