@@ -83,3 +83,20 @@ Pieces that point at it, by file or title (none confirmed to do the portable-own
 - Outcome truth: `scripts/receipt_outcome_queue.py`, `scripts/receipt_outcome_resolver.py` (a decision only teaches once its result is recorded).
 
 Gaps I can see without reading deeper: no file I found exports one person's receipts as a graph they hold outside the hosted database; nothing marks a receipt as "bad decision, lesson attached" for a reader other than the author; no heir or inheritance concept appears in the ADR titles. Whether the term reads as slop is a copy question, not a coverage one.
+
+## Addendum 4 (Zach, 2026-10-21): Socratic questioning and molding the input
+
+Zach's observations: Socratic questioning (question everything) is a practice modern life has mostly dropped, and people take inputs as given without molding them. (Socratic and Cynic are different stances; the Socratic one, finding what you actually believe, is the one that fits.) Fits factors 1 and 2.
+
+What the compass does today (read in `src/app/api/compass/route.ts` lines 58 to 100, not run): it analyzes the question as given data. L0 only asks whether it is a real decision. Reframing arrives after the verdict, as tributary [0]. The rules ban "It depends" and demand one `true_north` sentence.
+
+Feedback from Vic (Zach's friend) is the concrete fix: pre-frame before the question is answered.
+
+| Vic's prompt | What exists (`PrepSession` in `prisma/schema.prisma`) | Verdict |
+|---|---|---|
+| Is it the right first question? | Nothing | Missing |
+| What have you explored before? | Nothing for a fresh question; a follow-up receipt carries its parent | Missing |
+| Critical assumptions or dependencies | `adversarialInput` asks for the strongest case against your instinct, not for assumptions; L3 checks a false premise after the fact | Partial |
+| What does your gut tell you? | `confidence` (1 to 5) and the "your instinct" wording; no direct gut-answer field | Partial |
+
+Not decided: (a) the wording that captures the gut answer, which also gives a revealed-preference baseline for NOTOMATION; (b) whether the reframe step is optional on the average-person telemetry path. Cheap test, not run: send the compass "job A or job B?" when the real question is whether to leave at all, and see whether any output questions the frame. Backlog row: `compass-pre-framing-step`.
