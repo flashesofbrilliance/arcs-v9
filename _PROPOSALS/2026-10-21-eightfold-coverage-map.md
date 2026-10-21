@@ -71,3 +71,15 @@ Right livelihood here means opportunity-cost stop loss: break the habit of apply
 ## Addendum 2 (Zach, 2026-10-21): telemetry for the average person
 
 Show progress and trajectory as numbers even when they are rough ("even if inaccurate"), in a form an ordinary user can read. Fits factors 7 and 8 (see the whole terrain; every pull moves you forward). What exists today is built for Zach, not a first-time visitor: `scripts/outcome_funnel.py`, `scripts/accountant_weekly.py`, `scripts/receipt_coverage.py`, `status.arcs.care` (`public/status.html`). Tension to resolve before building: the repo's refusal-to-overclaim stance (`_DECISIONS/ADR-079-refusal-to-overclaim-is-the-product.md`) means a rough number must be labelled as rough ("first read, will sharpen", as the proposal already says), not hidden.
+
+## Addendum 3 (Zach, 2026-10-21): livelihood as a portable, owned belief graph
+
+Second half of right livelihood: a belief graph with receipts behind each decision, decoupled from any employer, owned by the person and built on their own zone of genius ("neural net worth" is Zach's phrase). The aim is heirloom grade: Zach's example is a son compounding on a parent's judgment and learning from the bad decisions, not only the good ones. This makes the failures part of the asset, which is the Kintsugi primitive applied to a life.
+
+Pieces that point at it, by file or title (none confirmed to do the portable-ownership part):
+- Receipts as the evidence layer: `operators/arcs_receipt_core.py`, `operators/receipt_evaluator.py`, `_DECISIONS/ADR-017-receipt-core-schema.md`, the `decision_receipt` ledger (append-only, AGENTS.md).
+- Memory and retrieval: `operators/arcs_store.py` (#21 Librarian, READY), `runtime/memory-export/`.
+- Ownership and portability, title-only: `_DECISIONS/ADR-072-engine-sovereignty-gradient.md`, `_DECISIONS/ADR-037-stateless-anonymous-share.md`, `_DECISIONS/ADR-050-federated-family-airgap.md`, `_DECISIONS/ADR-038-recoil-bookmark-primitive.md`.
+- Outcome truth: `scripts/receipt_outcome_queue.py`, `scripts/receipt_outcome_resolver.py` (a decision only teaches once its result is recorded).
+
+Gaps I can see without reading deeper: no file I found exports one person's receipts as a graph they hold outside the hosted database; nothing marks a receipt as "bad decision, lesson attached" for a reader other than the author; no heir or inheritance concept appears in the ADR titles. Whether the term reads as slop is a copy question, not a coverage one.
