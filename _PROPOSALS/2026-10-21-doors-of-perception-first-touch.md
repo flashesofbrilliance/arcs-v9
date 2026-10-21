@@ -100,6 +100,25 @@ on return.
 
 Groupings: wisdom (1, 2), conduct (3, 4, 5), practice (6, 7, 8).
 
+## Internal overlay: flow, direction, and the false binary
+
+Internal design spine only. Never front-door copy, never a health or energetic claim.
+
+- Root cause, the false binary: stuck is seeing two doors; free is seeing one dance. Y gate FORK is
+  the binary as seen; PARADOX (rendered MOIRE) is both true at once.
+- Yin and yang: push is yang, pull is yin; stuck is too much yang on a yin door. ARCS supplies the
+  yang so the visitor can do the yin: "Under pressure, everyone pushes. ARCS pushes back so you can
+  pull."
+- Acupuncture for judgment: one precise question where the flow is blocked (Golden Inchworm Needle).
+  Counterflow qi is the vicious loop. Diagnosis before the needle. One needle, not twenty; measure
+  flow afterward.
+- Axes: chakras vertical (altitude), meridians horizontal (connections), qi the current (effort),
+  ma the pause (a beat before the pushback), wu wei the way of moving (pull, not push).
+- Chakras: root (arrive stuck), sacral (feeling), solar plexus (wits, effort), heart (heart, action,
+  livelihood), throat (speech), third eye (needle), crown (summit).
+- Coverage map: the thin factors (speech, action, livelihood) all sit in Heart; blocked channels.
+  Connect, don't add.
+
 ## Guardrails
 
 - Refuse to overclaim: the page shows the shape of compounding; receipts at 30 and 90 days prove it.
