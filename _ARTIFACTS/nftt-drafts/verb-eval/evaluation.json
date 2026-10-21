@@ -1,0 +1,39 @@
+{
+ "lenses": [
+  {
+   "name": "LAB",
+   "result": "pass",
+   "reason": "each sourced claim traces to a commit, and its self-test passes today"
+  },
+  {
+   "name": "BAR",
+   "result": "dissent",
+   "reason": "C10 said every merge ends in a receipt; measured coverage is about 75%"
+  },
+  {
+   "name": "Loki",
+   "result": "dissent",
+   "reason": "C5 implies strong checks while CI is switched off"
+  },
+  {
+   "name": "dual bar-raiser",
+   "result": "pass",
+   "reason": "argument holds; C6 rests on one record, kept as unresolved"
+  }
+ ],
+ "verdict": "conditional pass",
+ "conditions": [
+  {
+   "id": "k1",
+   "claim": "C5",
+   "action": "degrade",
+   "text": "name that CI is off, so the merge script waits on few checks"
+  },
+  {
+   "id": "k2",
+   "claim": "C10",
+   "action": "degrade",
+   "text": "say the rule, then the measured coverage (about 75%)"
+  }
+ ]
+}

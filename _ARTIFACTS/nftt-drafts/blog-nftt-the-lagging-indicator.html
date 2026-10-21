@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>The Lagging Indicator · NFTT</title>
+<meta property="article:published_time" content="2026-09-02T16:37:28-04:00">
+<meta name="description" content="Timed hand-coding measures how you used to build; for builders who work through agents, the signal worth gating on is how you check the work.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#020408; --surface:#0b1017; --surface-2:#111823; --border:#1e293b; --border-2:#2a3a4d;
+    --text:#e7ecf3; --muted:#9aa8bc; --dim:#748699;
+    --cyan:#00F0FF; --cyan-dim:#3aa8b4; --red:#FF4D6D; --gold:#FFD700;
+    --redact:#26303d;
+    --serif:"Newsreader","Newsreader Fallback",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","IBM Plex Mono Fallback",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--serif); font-size:19px; line-height:1.75; font-weight:400;
+    -webkit-font-smoothing:antialiased; letter-spacing:.005em;
+  }
+  .wrap{max-width:40rem; margin:0 auto; padding:0 22px}
+
+  /* classification rails */
+  .cls{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--dim); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    border-bottom:1px solid var(--border); padding:12px 0; margin-bottom:44px}
+  .cls b{color:var(--red); font-weight:600}
+  .cls .sp{margin-left:auto}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block}
+
+  header.hero{padding-block:20px 10px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 20px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(2.6rem,8vw,4.1rem); line-height:1.02;
+    letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance}
+  h1 em{font-style:italic; font-weight:500; color:var(--cyan)}
+  .standfirst{font-size:1.24rem; line-height:1.6; color:var(--muted); font-style:italic;
+    margin:0 0 8px; max-width:34rem}
+  .byline{font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--dim); margin:26px 0 0; padding-top:18px; border-top:1px solid var(--border)}
+
+  section{margin:52px 0}
+  .num{font-family:var(--mono); font-size:12px; letter-spacing:.24em; color:var(--cyan-dim);
+    display:block; margin:0 0 14px}
+  h2{font-family:var(--serif); font-weight:600; font-size:1.7rem; line-height:1.15; letter-spacing:-.01em;
+    margin:0 0 20px; text-wrap:balance}
+  p{margin:0 0 22px}
+  .lead::first-letter{
+    font-weight:600; font-size:3.5em; line-height:.82; float:left;
+    padding:.02em .09em 0 0; color:var(--cyan);
+  }
+  em{font-style:italic}
+  .vox{font-style:italic; color:var(--text)}
+
+  /* redaction */
+  .rd{background:var(--redact); color:transparent; border-radius:2px; padding:.02em .2em;
+    user-select:none; box-shadow:inset 0 0 0 1px var(--border-2); -webkit-user-select:none}
+  .rd::selection{background:var(--redact)}
+  .rdrow{display:inline-flex; gap:7px; flex-wrap:wrap; vertical-align:-2px; margin:0 .1em}
+  .rdrow span{background:var(--redact); border-radius:2px; height:1.05em; display:inline-block;
+    box-shadow:inset 0 0 0 1px var(--border-2)}
+
+  /* threat vector card */
+  .vector{border:1px solid color-mix(in srgb,var(--red) 32%,var(--border-2));
+    background:linear-gradient(180deg,rgba(255,77,109,.05),var(--bg)); border-radius:12px;
+    padding:22px 24px; margin:44px 0; font-family:var(--mono)}
+  .vector h3{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin:0 0 4px; display:flex; align-items:center; gap:9px}
+  .vector .sub{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim);
+    margin:0 0 18px}
+  .vector dl{display:grid; grid-template-columns:auto 1fr; gap:9px 16px; margin:0; font-size:13px; line-height:1.5}
+  .vector dt{color:var(--cyan-dim); letter-spacing:.06em; text-transform:uppercase; font-size:10.5px; padding-top:2px; white-space:nowrap}
+  .vector dd{margin:0; color:var(--text)}
+  .vector dd .df{color:var(--muted)}
+  .vector .dispo{margin-top:16px; padding-top:14px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); letter-spacing:.04em}
+  .vector .dispo b{color:var(--gold); font-weight:600}
+  @media(max-width:520px){.vector dl{grid-template-columns:1fr; gap:3px 0} .vector dt{padding-top:12px}}
+
+  blockquote{margin:34px 0; padding:0 0 0 20px; border-left:2px solid var(--cyan);
+    font-size:1.28rem; line-height:1.5; font-style:italic; color:var(--text)}
+
+  /* operational instrument panels, interleaved through the prose */
+  .panel{border:1px solid color-mix(in srgb,var(--cyan) 20%,var(--border)); background:var(--surface-2);
+    border-radius:10px; padding:20px 22px; margin:40px 0; font-family:var(--mono)}
+  .panel h4{font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 15px; font-weight:600; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .panel .step{display:grid; grid-template-columns:auto 1fr; gap:9px 15px; font-size:12.5px; line-height:1.5}
+  .panel .step b{color:var(--text); font-weight:500}
+  .panel .step b.df{color:var(--muted)}
+  .panel .step em{color:var(--cyan); font-style:italic}
+  .panel .k{color:var(--cyan-dim); text-transform:uppercase; letter-spacing:.05em; font-size:11.5px;
+    white-space:nowrap; padding-top:2px}
+  .panel code{color:var(--gold); font-size:.9em}
+  /* ledger rows: single column, label as a heading with a divider (2026-09-29) */
+  .panel .step{grid-template-columns:1fr; gap:4px 0}
+  .panel .step .k{white-space:normal; border-top:1px solid var(--border); padding-top:14px; margin-top:10px}
+  .panel .step .k:first-child{border-top:0; padding-top:0; margin-top:0}
+  .panel > p{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.6; margin:14px 0 0}
+  .panel .sev{font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--red);
+    border:1px solid var(--red); border-radius:4px; padding:1px 6px; font-weight:600}
+  @media(max-width:520px){.panel .step{grid-template-columns:1fr; gap:2px 0} .panel .k{padding-top:12px}}
+
+  footer{margin:64px 0 80px; padding-top:22px; border-top:1px solid var(--border);
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--dim); line-height:1.9}
+  footer b{color:var(--muted); font-weight:500}
+
+  .more{margin:56px 0 0; text-align:center}
+  .more a{font-family:var(--mono); font-size:13px; letter-spacing:.07em; color:var(--cyan);
+    text-decoration:none; border:1px solid var(--border-2); border-radius:9px; padding:15px 24px;
+    display:inline-block; transition:border-color .15s, background .15s}
+  .more a:hover{border-color:var(--cyan); background:rgba(0,240,255,.06)}
+  .more .lbl{color:var(--dim); text-transform:uppercase; letter-spacing:.16em; font-size:10px;
+    display:block; margin-bottom:6px}
+
+  ::selection{background:rgba(0,240,255,.22)}
+  :focus-visible{outline:2px solid var(--cyan); outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+  /* mobile-lock */
+  html,body{overflow-x:clip; overscroll-behavior-y:none}
+  .mono{overflow-wrap:anywhere}
+  footer{margin-bottom:44px}
+  /* lede spans the full lane, edge to edge with the heading (design-full-width-lede-matches-heading) */
+  .standfirst{max-width:none}
+</style>
+<link rel="preload" href="/fonts/newsreader-normal-200-800-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-italic-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 800;font-display:swap;src:url('/fonts/newsreader-normal-200-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Newsreader Fallback';src:local('Times New Roman'),local('Liberation Serif'),local('Tinos');size-adjust:105.48%;ascent-override:69.68%;descent-override:25.12%;line-gap-override:0.00%;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-400-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-500-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-600-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/ibm-plex-mono-normal-700-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.52%;descent-override:27.50%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+<!-- DRAFT, HELD: not routed, not indexed, not deployed. Publish only after Zach's bless, and not before the open interview loop closes. -->
+<style>
+/* Acetate plate: five sheets of depth laid over the essay (Exec, Strategic, Operational, Tactical, Surgical).
+   Ink-line drawing, no glow. Text keeps full opacity: claims are tinted, never the rest faded. */
+.pl-open{position:fixed;right:16px;bottom:16px;z-index:40;font:500 .72rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--cyan);border:0;border-radius:999px;padding:11px 15px;cursor:pointer}
+.pl-open:focus-visible,.pl-bar button:focus-visible,.cl:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+body.pl .pl-open{display:none}
+.pl-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(11,16,23,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--border-2);padding:8px 16px}
+body.pl .pl-bar{display:block}
+.pl-bar .in{max-width:64rem;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pl-bar .lbl{font:500 .66rem/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pl-steps{display:flex;gap:4px;flex-wrap:wrap}
+.pl-bar button{font:500 .7rem/1 var(--mono);letter-spacing:.04em;color:var(--text);background:transparent;border:1px solid var(--border-2);border-radius:999px;padding:7px 10px;cursor:pointer}
+.pl-bar button[aria-pressed="true"]{background:var(--cyan);color:var(--bg);border-color:var(--cyan)}
+.pl-bar .x{margin-left:auto}
+body.pl{padding-top:52px}
+@media (min-width:1101px){body.pl .wrap{margin-left:max(24px,calc((100vw - 40rem - 372px) / 2));margin-right:auto}}
+/* the glass card */
+.pl-card{display:none;position:fixed;z-index:35;right:16px;top:64px;width:340px;max-height:calc(100vh - 84px);overflow-y:auto;background:rgba(11,16,23,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border-2);border-radius:10px;padding:16px 16px 18px}
+body.pl .pl-card{display:block}
+.pl-card .fig{font:500 .62rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin:0 0 6px}
+.pl-card h3{font:600 1.05rem/1.3 var(--serif);color:var(--text);margin:0 0 6px}
+.pl-card p,.pl-card li{font:.86rem/1.5 var(--serif);color:var(--text);margin:0 0 8px}
+.pl-card .mono{font:.72rem/1.5 var(--mono);color:var(--muted)}
+.pl-card ul{padding-left:16px;margin:0 0 8px}
+.pl-stamp{display:inline-block;font:600 .9rem/1 var(--mono);letter-spacing:.1em;padding:7px 12px;border:1.5px solid var(--gold);color:var(--gold);border-radius:4px;margin:2px 0 8px}
+.pl-stamp.go{border-color:var(--cyan);color:var(--cyan)}.pl-stamp.stop{border-color:var(--red);color:var(--red)}
+.pl-kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0 0 10px}
+.pl-kv dt{font:.68rem/1.5 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.pl-kv dd{margin:0;font:.84rem/1.5 var(--serif);color:var(--text)}
+.pl-code{font:.68rem/1.5 var(--mono);color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px;overflow-x:auto;white-space:pre;margin:0 0 10px}
+.pl-code .ln{color:var(--dim);user-select:none}
+.pl-al{display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 6px}
+.pl-al div{border:1px solid var(--border-2);border-radius:6px;padding:8px}
+.pl-al div{font:.84rem/1.5 var(--serif);color:var(--text)}
+.pl-al b{display:block;font:600 .64rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin:0 0 3px}
+.pl-al .as b{color:var(--cyan)}.pl-al .li b{color:var(--gold)}
+.pl-tag{display:inline-block;font:500 .62rem/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border-2);border-radius:3px;padding:1px 5px;margin:0 4px 4px 0;color:var(--text)}
+.pl-tag.dis{border-color:var(--gold);color:var(--gold)}
+.pl-svg{width:100%;height:auto;display:block;margin:4px 0 8px}
+.pl-svg .ink{fill:none;stroke:var(--text);stroke-width:1}
+.pl-svg .guide{stroke:var(--border-2);stroke-dasharray:3 4}
+.pl-svg text{font:10px var(--mono);fill:var(--text)}
+.pl-svg .cap{font:italic 11px var(--serif);fill:var(--muted)}
+/* sheet 1: the page as one object */
+body.lv1 .wrap{outline:2px solid var(--gold);outline-offset:14px}
+/* sheet 2: sections by role */
+body.lv2 section[data-src],body.lv3 section[data-src]{position:relative;outline:1px solid var(--cyan-dim);outline-offset:10px}
+body.lv2 section[data-role]::before{content:attr(data-role);position:absolute;top:-24px;right:0;font:500 .64rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--cyan);padding:2px 6px;border-radius:3px}
+body.lv2 section[data-dissent]::after{content:attr(data-dissent);position:absolute;top:-24px;left:0;font:500 .64rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:2px 6px;border-radius:3px}
+/* sheet 3: sources per section */
+body.lv3 section[data-src]::before{content:attr(data-src);position:absolute;top:-24px;right:0;font:500 .64rem/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--bg);background:var(--gold);padding:2px 6px;border-radius:3px}
+/* sheets 4 and 5: every claim pinned and typed */
+body.lv4 .cl,body.lv5 .cl{position:relative;cursor:pointer;border-bottom:1px solid var(--cyan);background:rgba(0,240,255,.07);-webkit-touch-callout:none;user-select:none}
+body.lv4 .cl[data-type="inference"],body.lv5 .cl[data-type="inference"]{border-bottom-style:dashed;border-bottom-color:var(--muted);background:rgba(154,168,188,.08)}
+body.lv4 .cl[data-type="unproven"],body.lv5 .cl[data-type="unproven"]{border-bottom-color:var(--gold);background:rgba(255,215,0,.07)}
+body.lv4 .cl[data-type="steelman"],body.lv5 .cl[data-type="steelman"]{border-bottom-style:double;border-bottom-width:3px}
+body.lv4 .cl::before,body.lv5 .cl::before{content:attr(data-n);display:inline-block;font:600 .6rem/1 var(--mono);color:var(--bg);background:var(--cyan);border-radius:999px;min-width:1.35em;padding:2px 3px;margin-right:3px;text-align:center;vertical-align:.25em}
+body.lv4 .cl[data-verdict="unresolved"]::before,body.lv5 .cl[data-verdict="unresolved"]::before{background:var(--gold)}
+.cl.sel{background:rgba(255,215,0,.16)!important;outline:1px solid var(--gold);outline-offset:2px}
+@media (max-width:1100px){.pl-card{top:auto;bottom:0;right:0;left:0;width:auto;max-height:46vh;border-radius:12px 12px 0 0}body.pl{padding-bottom:48vh}}
+@media (max-width:640px){.pl-bar .in{flex-wrap:nowrap}.pl-bar .lbl{display:none}.pl-steps{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.pl-bar button{white-space:nowrap}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div class="wrap">
+  <div class="cls">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Field Notes</span>
+    <span>Draft</span>
+    <span class="sp"><b>Signal vs. gate</b></span>
+  </div>
+  <header class="hero">
+    <p class="eyebrow">Notes from the Trenches // On hiring builders</p>
+    <h1>The Lagging <em>Indicator</em></h1>
+    <p class="standfirst">A timed coding round tells you how someone used to build. For people who now build through agents, the signal worth gating on is how they check the work, and that is something you can test.</p>
+    <p class="byline">Draft · unpublished · receipts drawn from my own repository</p>
+  </header>
+
+  <section data-src="S1 conversation · T1 thesis">
+    <span class="num">I · A rule from the revenue side</span>
+    <p class="lead">There is a rule every operator learns the expensive way: <span class="cl" data-claim="C1" data-n="1" data-type="inference">if you treat a lagging indicator as a leading one, you steer by the wake.</span> Closed revenue tells you what last quarter's pipeline was worth. It cannot tell you whether this quarter's pipeline is any good. The data is accurate. It just answers an older question.</p>
+    <p>I think much of technical hiring is doing this right now. A timed round where you write code by hand, from memory, under observation, measures something real. It measures practice: years of typing the loop, recalling the method, holding the stack in your head. That practice happened in the past. <span class="cl" data-claim="C2" data-n="2" data-type="inference">The round reports it faithfully, the way closed revenue does.</span></p>
+    <p>The question a team is actually asking has moved. It is no longer only whether this person can produce code. It is whether this person can be trusted with a system that now produces code faster than any of us can read it.</p>
+  </section>
+
+  <section data-src="T2 steelman">
+    <span class="num">II · What the old gate gets right</span>
+    <p>Before I argue with it, the strongest case for the timed round deserves a fair hearing, because it is not a strawman.</p>
+    <p>Reading code is not optional. <span class="cl" data-claim="C3" data-n="3" data-type="steelman">When an agent writes two hundred lines in a minute, someone has to know whether those lines are right.</span> A person who cannot follow a loop, spot an off-by-one, or tell a race condition from a typo is not reviewing anything. They are approving it. Stripped to its core, the hand-coding round asks something fair: do you understand what you are looking at?</p>
+    <blockquote>Reading and judging code is a real signal. The trouble starts when we test it the slow way and call the speed the skill.</blockquote>
+    <p>So I am not arguing that literacy has stopped mattering. I am arguing that a stopwatch, a blank editor and no tools test the oldest, narrowest version of it, and miss most of what now separates a careful builder from a fast one.</p>
+  </section>
+
+  <section data-src="S2 practice · T1 thesis">
+    <span class="num">III · The leading indicators</span>
+    <p>If the old round measures past practice, what predicts whether someone will build well with agents? From <span class="cl claim" data-id="C4" data-render="sharp" data-claim="C4" data-n="4" data-type="sourced">a few thousand commits</span> of building this way, these are the behaviours I would want to watch, in roughly the order they happen.</p>
+    <div class="panel">
+      <h4>What to watch instead</h4>
+      <div class="step">
+        <span class="k">Before the prompt</span><b>Do they break the problem down first, and say what done looks like, before asking a model anything?</b>
+        <span class="k">Before the code</span><b>Do they write the test, or the check, that would fail if the answer were wrong?</b>
+        <span class="k">After the output</span><b>Do they catch what the model got wrong, and explain why it was wrong, not just that it was?</b>
+        <span class="k">Before the ship</span><b>Are the rules in place before anything merges: gates that refuse bad changes rather than reviewers who might notice them?</b>
+        <span class="k">After the ship</span><b>Do they write down what they decided and what they expected, so the next person can check them against what happened?</b>
+      </div>
+      <p>None of these needs a stopwatch. Each one leaves a trace you can read.</p>
+    </div>
+  </section>
+
+  <section data-src="S3 repository · G gates">
+    <span class="num">IV · Receipts from my own repository</span>
+    <p>I can only speak to how I work, so here is the shape of it, with the parts that are still unproven marked as unproven.</p>
+    <p><span class="cl claim" data-id="C5" data-render="degraded" data-claim="C5" data-n="5" data-type="sourced">Merges go through a script that pins the exact commit being merged and refuses if any check is still pending or failing.</span> <span class="cl claim" data-id="C6" data-render="degraded" data-claim="C6" data-n="6" data-type="sourced">It has refused me twice when a branch moved under me</span>, which is the point: the rule was in place before I needed it, so I did not have to be careful in the moment. One honest limit: it can only wait on the checks that exist, and with my CI switched off to save money right now, that is fewer checks than it sounds.</p>
+    <p>Pre-commit gates block whole classes of mistake rather than single instances: <span class="cl claim" data-id="C7" data-render="sharp" data-claim="C7" data-n="7" data-type="sourced">a model name typed by hand</span>, <span class="cl claim" data-id="C8" data-render="sharp" data-claim="C8" data-n="8" data-type="sourced">a file moved while something still points to the old path</span>, <span class="cl claim" data-id="C9" data-render="sharp" data-claim="C9" data-n="9" data-type="sourced">a page whose text wraps badly at some screen width</span>. When a bug comes back twice, the fix is not just the patch. It is a check that fails the build on the entire class.</p>
+    <p>The rule is that every merge, deploy or publish ends with a decision receipt: what I expected, what I confirmed, what I could not confirm. Measured, about three in four do so far. <span class="cl claim" data-id="C10" data-render="degraded" data-claim="C10" data-n="10" data-type="sourced">The ledger refuses edits; a correction is a new row that names the old one.</span> <span class="cl claim" data-id="C11" data-render="sharp" data-claim="C11" data-n="11" data-type="unproven">What is not yet proven: whether these receipts make my calls better over time.</span> There are not enough closed outcomes to say, so that scoring stays switched off until there are.</p>
+    <p>None of this shows up in a timed round. All of it is what I would want to see if I were hiring someone to build with agents next to me.</p>
+  </section>
+
+  <section data-src="S4 take-home · T1 thesis">
+    <span class="num">V · A better gate</span>
+    <p>The fix is not to drop the test of understanding. It is to test understanding the way the work actually happens, and then make the candidate defend it live.</p>
+    <div class="panel">
+      <h4>A two-part gate</h4>
+      <div class="step">
+        <span class="k">1 build</span><b>A take-home, built with the candidate's own tools: their editor, their agents, their rules. Untimed or generously timed. Ask for the tests and the decision notes along with the code.</b>
+        <span class="k">1a the hidden edge</span><b>Write the spec the way stakeholders really talk: finance needs the totals to reconcile, legal needs an audit trail, sales wants it to feel smart. Never say which parts must be deterministic. A strong candidate finds the edges on their own: plain code where the answer has to be the same every time, a model only where judgment helps, and a person wherever a mistake cannot be undone.</b>
+        <span class="k">2 defend</span><b>A live session on that work. Walk me through it. Change this requirement now. Where did the model mislead you, and how did you catch it? What would break first in production?</b>
+      </div>
+      <p>The take-home shows how they build. The defense shows they understand what they built. <span class="cl" data-claim="C12" data-n="12" data-type="inference">Faking both at once is much harder than gaming either one alone.</span></p>
+    </div>
+    <p>The best take-home I have done worked exactly this way. The brief set the boundaries through what each stakeholder needed, and never said where the deterministic edges were. <span class="cl" data-claim="C13" data-n="13" data-type="inference">Finding them was the test.</span> That is the skill that matters when a model sits in the middle of the system: knowing where it must not be allowed to decide.</p>
+    <p>A side effect worth naming: a format like this is also kinder to people whose minds do not do their best work against a clock, and who check their work by going back over it. That is a large share of careful engineers.</p>
+  </section>
+
+  <section data-src="T1 thesis">
+    <span class="num">VI · Steer by the bow</span>
+    <p>Closed revenue is worth tracking. So is hand-coding fluency. Both are honest reports of the past. The mistake is gating on them as if they predicted the future, when the future is someone directing a system that writes faster than they can read, and the only safe version of that person is one who has built the habit of checking.</p>
+    <p>Test the checking. It leaves receipts.</p>
+  </section>
+
+  <footer>
+    <b>Field notes, 2026.</b> Drawn from the author's own repository and working practice. No employer or hiring process is described here.<br>
+    Claims about the author's tooling are verifiable in the author's own repository; outcome-based scoring is marked unproven above.
+  </footer>
+</div>
+
+<script type="application/json" id="plate-data">{"exec": {"stamp": "HOLD", "why": "2 claims unresolved, conditional pass, human scorecard not filled", "held": 6, "of": 8, "unresolved": 2, "judged": 0, "status": "Held draft: not indexed, not routed"}, "stages": [{"step": "analysis", "fate": "sourced"}, {"step": "assessment", "fate": "pass"}, {"step": "evaluation", "fate": "conditional pass"}, {"step": "synthesis", "fate": "ship"}, {"step": "recapitulation", "fate": "n/a, no note for a held post"}], "lenses": [{"name": "LAB", "result": "pass", "reason": "each sourced claim traces to a commit, and its self-test passes today"}, {"name": "BAR", "result": "dissent", "reason": "C10 said every merge ends in a receipt; measured coverage is about 75%"}, {"name": "Loki", "result": "dissent", "reason": "C5 implies strong checks while CI is switched off"}, {"name": "dual bar-raiser", "result": "pass", "reason": "argument holds; C6 rests on one record, kept as unresolved"}], "roles": {"I": "Thesis", "II": "Steelman", "III": "Leading indicators", "IV": "Receipts", "V": "Proposed gate", "VI": "Close"}, "claims": [{"id": "C1", "section": "I", "type": "inference", "text": "Treating a lagging indicator as a leading one means steering by the wake.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": null, "liability": null, "evidence": null, "measured": null, "n": 1, "verdict": null, "severity": null, "render": null, "dissent": []}, {"id": "C2", "section": "I", "type": "inference", "text": "A timed hand-coding round measures past practice, faithfully.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": null, "liability": null, "evidence": null, "measured": null, "n": 2, "verdict": null, "severity": null, "render": null, "dissent": []}, {"id": "C3", "section": "II", "type": "steelman", "text": "Reading and judging code is a real signal; someone has to know whether the agent's lines are right.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": null, "liability": null, "evidence": null, "measured": null, "n": 3, "verdict": null, "severity": null, "render": null, "dissent": []}, {"id": "C4", "section": "III", "type": "sourced", "text": "A few thousand commits of building this way.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": "The count comes from git, so anyone with the repo gets the same number.", "liability": "Commit count measures activity, not quality; the post must not lean on it as proof of skill.", "evidence": null, "measured": "3729", "n": 4, "verdict": "verified", "severity": "low", "render": "sharp", "dissent": []}, {"id": "C5", "section": "IV", "type": "sourced", "text": "Merges go through a script that pins the exact commit being merged and refuses if any check is pending or failing.", "file": "scripts/safe_merge.sh", "atom": {"sha": "51ddf069", "date": "2026-10-20", "subject": "feat(scripts): safe_merge.sh pins head, waits for all-SUCCESS checks, refuses conflicts [NCI:64]", "added": 160, "removed": 0, "files_touched": 4, "pr": "#1728"}, "applied": null, "excerpt": {"start": 13, "lines": ["#      (PENDING past the timeout, FAILURE, CANCELLED, SKIPPED-as-only-check, or zero checks: refuse)", "#   3. CONFLICTING mergeable: stop and say so (never rebases)", "#   4. merges with `gh pr merge --merge --match-head-commit <sha>` (gotcha 17: never squash/rebase)", "#   5. prints the merge commit and a decision_receipt INSERT template (never writes to Supabase), with", "#      job_id and tool_id filled (Sprint 5 coverage, AGENTS.md \"Receipts or it didn't happen\"):", "#      job_id = a `job:backlog:<id>` named in the PR body or branch, else the one backlog row the diff adds", "#      or changes; tool_id = tool:script:<name> of the scripts/ file with the most changed lines. When", "#      neither derives, a '<REQUIRED ...>' placeholder is printed: it fails the column CHECK, so it can"], "dashes_normalized": false}, "selftest_result": "PASS", "asset": "Invariant: the commit merged is the commit reviewed; a moved head or a non-SUCCESS check refuses the merge.", "liability": "It trusts the checks it waits on; with CI switched off for budget, 'every check SUCCESS' can mean very few checks ran.", "evidence": null, "measured": null, "n": 5, "verdict": "verified", "severity": "medium", "render": "degraded", "dissent": ["name that CI is off, so the merge script waits on few checks"]}, {"id": "C6", "section": "IV", "type": "sourced", "text": "It has refused me twice when a branch moved under me.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": "The refusals are recorded in the handoff, written the same day.", "liability": "The handoff is the only record; the refusals are not in a receipt, so this is the weakest sourced claim.", "evidence": "CLAUDE.md handoff v3.141.0: 'it refused twice on moved heads, as designed'", "measured": null, "n": 6, "verdict": "unresolved", "severity": "low", "render": "degraded", "dissent": []}, {"id": "C7", "section": "IV", "type": "sourced", "text": "Pre-commit gates block a model name typed by hand.", "file": "scripts/model_id_gate.py", "atom": {"sha": "afa2ca5c", "date": "2026-10-05", "subject": "refactor(models): make claude-models.ts the single model registry and gate hardcoded ids [NCI:55]", "added": 71, "removed": 0, "files_touched": 17, "pr": "#882"}, "applied": null, "excerpt": {"start": 12, "lines": ["import re, subprocess, sys", "", "ID = re.compile(r\"claude-(?:haiku|sonnet|opus|fable)-\\d[\\w.-]*\")", "SCOPE = (\"src/\", \"scripts/\", \"operators/\")", "EXT = (\".ts\", \".tsx\", \".js\", \".mjs\", \".py\", \".sh\")", "ALLOW = {\"src/lib/claude-models.ts\", \"scripts/model_id_gate.py\", \"scripts/model_drift_check.py\"}", "", ""], "dashes_normalized": false}, "selftest_result": "PASS", "asset": "Invariant: model ids live in one registry; a hardcoded id cannot be committed.", "liability": "A pattern gate: a new model naming scheme it does not know slips through until the pattern is updated.", "evidence": null, "measured": null, "n": 7, "verdict": "verified", "severity": "low", "render": "sharp", "dissent": []}, {"id": "C8", "section": "IV", "type": "sourced", "text": "Pre-commit gates block a file moved while something still points to the old path.", "file": "scripts/archive_move_gate.py", "atom": {"sha": "f905adbd", "date": "2026-10-18", "subject": "feat(gates): archive-move gate, block a staged rename or delete that leaves a live citer [NCI:45]", "added": 226, "removed": 0, "files_touched": 3, "pr": "#1614"}, "applied": null, "excerpt": {"start": 16, "lines": ["  skipped line: for a rename, a citer line that also names the NEW path (it documents the move, \"old -> new\")", "  not gated:    moves OUT of _ARCHIVE/, _RELEASES/, _INBOX/, and deleted handoff fragments (a molt does that)", "Not caught: a directory cited without a file name, and a bare basename. The check is by full path.", "", "  python3 scripts/archive_move_gate.py --staged     # pre-commit: staged moves and deletes vs the index", "  python3 scripts/archive_move_gate.py --rev SHA    # a past commit: SHA^..SHA, citers read from tree SHA", "  python3 scripts/archive_move_gate.py --self-test", ""], "dashes_normalized": false}, "selftest_result": "PASS", "asset": "Invariant: no live file cites a path that a commit renames or deletes.", "liability": "By its own docstring: 'Not caught: a directory cited without a file name, and a bare basename.' A path built at runtime is invisible too.", "evidence": null, "measured": null, "n": 8, "verdict": "verified", "severity": "low", "render": "sharp", "dissent": []}, {"id": "C9", "section": "IV", "type": "sourced", "text": "Pre-commit gates block a page whose text wraps badly at some screen width.", "file": "scripts/artifact_wrap_lint.py", "atom": {"sha": "74705416", "date": "2026-09-03", "subject": "feat(wrap-lint): add MODE 5 -- container/measure mismatch gate [NCI:SKIP]", "added": 135, "removed": 2, "files_touched": 1, "pr": "#279"}, "applied": null, "excerpt": {"start": 47, "lines": ["TAG_RE = re.compile(r\"<[^>]+>\")", "", "# MODE 5 -- container/measure mismatch.", "# How much wider than the reading measure a layout container may be before the prose", "# column reads as a ragged narrow sub-column beside full-width siblings. 120px leaves", "# room for horizontal padding + slack (a container whose INNER width equals the measure", "# is the goal), while still catching egregious cases like .wrap:940 vs --maxw:660 (Δ280).", "MISMATCH_THRESHOLD_PX = 120"], "dashes_normalized": true}, "selftest_result": "PASS", "asset": "Invariant: one body measure per page; a container/measure mismatch fails the commit.", "liability": "Static CSS reading: a layout bug that only appears in a real browser at an odd width still needs the screenshot sweep.", "evidence": null, "measured": null, "n": 9, "verdict": "verified", "severity": "low", "render": "sharp", "dissent": []}, {"id": "C10", "section": "IV", "type": "sourced", "text": "Every merge ends with a decision receipt, and the ledger refuses edits; a correction is a new row.", "file": "runtime/specs/decision-receipt/2026-10-20-append-only.sql", "atom": {"sha": "9a7968d4", "date": "2026-10-20", "subject": "feat(receipts): append-only trigger migration and rolled-back proof, not applied [NCI:SKIP schema-draft]", "added": 29, "removed": 0, "files_touched": 3, "pr": "#1742"}, "applied": {"sha": "2ebb2b30", "date": "2026-10-20", "subject": "docs(receipts): append-only applied; proof file, AGENTS.md rule, row DONE [NCI:SKIP docs]"}, "excerpt": {"start": 28, "lines": ["", "create trigger decision_receipt_append_only", "  before update or delete on public.decision_receipt", "  for each row execute function public.decision_receipt_refuse_change();"], "dashes_normalized": false}, "selftest_result": null, "asset": "Invariant: a filed receipt cannot be rewritten after the outcome is known, which is what makes it a leading indicator.", "liability": "Applied per the proof file in 2ebb2b30; the live trigger was not re-queried for this plate. 'Every merge' is the rule, and coverage is about 75%, not 100%.", "evidence": null, "measured": null, "n": 10, "verdict": "unresolved", "severity": "medium", "render": "degraded", "dissent": ["say the rule, then the measured coverage (about 75%)"]}, {"id": "C11", "section": "IV", "type": "unproven", "text": "Whether the receipts make the calls better over time is not yet known; scoring stays off until enough outcomes close.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": "Marked unproven in the text itself.", "liability": "The core promise of the system has no result yet; a sceptic is right to discount it.", "evidence": null, "measured": null, "n": 11, "verdict": "verified", "severity": "low", "render": "sharp", "dissent": []}, {"id": "C12", "section": "V", "type": "inference", "text": "A take-home plus a live defense is harder to fake than either alone.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": null, "liability": null, "evidence": null, "measured": null, "n": 12, "verdict": null, "severity": null, "render": null, "dissent": []}, {"id": "C13", "section": "V", "type": "inference", "text": "A stakeholder-language spec tests whether the candidate finds the deterministic edges unaided.", "file": null, "atom": null, "applied": null, "excerpt": null, "selftest_result": null, "asset": null, "liability": null, "evidence": null, "measured": null, "n": 13, "verdict": null, "severity": null, "render": null, "dissent": []}]}</script>
+
+<button class="pl-open" type="button">Open the acetate</button>
+<div class="pl-bar" role="toolbar" aria-label="Acetate depth">
+  <div class="in">
+    <span class="lbl">Depth</span>
+    <div class="pl-steps">
+      <button type="button" data-lv="1">1 Exec</button>
+      <button type="button" data-lv="2">2 Strategic</button>
+      <button type="button" data-lv="3">3 Operational</button>
+      <button type="button" data-lv="4">4 Tactical</button>
+      <button type="button" data-lv="5">5 Surgical</button>
+    </div>
+    <button type="button" class="x" data-lv="0">Close</button>
+  </div>
+</div>
+<aside class="pl-card" aria-live="polite" aria-label="Acetate reading"></aside>
+<script>
+(function(){
+var D=JSON.parse(document.getElementById('plate-data').textContent);
+var B=document.body,card=document.querySelector('.pl-card'),lv=0,sel=null;
+var C={};D.claims.forEach(function(c){C[c.id]=c;});
+var ROMAN=['I','II','III','IV','V','VI'];var SH={'sourced':'1 ok','pass':'2 ok','conditional pass':'3 cond','ship':'4 ok'};
+document.querySelectorAll('section[data-src]').forEach(function(s,i){
+  var r=ROMAN[i];s.dataset.sec=r;s.setAttribute('data-role',r+' · '+(D.roles[r]||''));
+  var dis=D.claims.filter(function(c){return c.section===r&&c.dissent.length;}).length;
+  if(dis)s.setAttribute('data-dissent',dis+' dissent');
+});
+document.querySelectorAll('.cl').forEach(function(el){var c=C[el.dataset.claim];if(c&&c.verdict)el.dataset.verdict=c.verdict;el.tabIndex=-1;});
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];});}
+function stampCls(s){return s==='GO'?'go':s==='STOP'?'stop':'';}
+function iso(){ // exploded view of the render, drawn from the stage prints
+  var P=[['Fate',[D.exec.stamp]],['Gates',D.stages.slice(0,4).map(function(s){return SH[s.fate]||s.fate;})],['Transforms',['thesis','steel','unproven']],['Sources',['talk','practice','repo','brief']]];
+  var o='<svg class="pl-svg" viewBox="0 0 340 300" role="img" aria-label="Exploded view: sources at the bottom, then transforms, gates, and the page">';
+  var cx=118,w=100,h=30;
+  P.forEach(function(p,i){var y=40+i*68;
+    if(i<3){[[cx+w,y],[cx-w,y],[cx,y+h]].forEach(function(q){o+='<line class="guide" x1="'+q[0]+'" y1="'+(q[1]+3)+'" x2="'+q[0]+'" y2="'+(q[1]+68)+'"/>';});}
+    o+='<polygon class="ink" style="stroke-width:'+(1.6-i*.3)+'" points="'+cx+','+(y-h)+' '+(cx+w)+','+y+' '+cx+','+(y+h)+' '+(cx-w)+','+y+'"/>';
+    p[1].forEach(function(n,j){var k=p[1].length,u=(j-(k-1)/2)*(1.7/Math.max(k,2));var x=cx+w*u*.9,yy=y+h*u*.3;
+      o+='<text x="'+x.toFixed(0)+'" y="'+(yy+3).toFixed(0)+'" text-anchor="middle" style="font-size:8px">'+esc(n)+'</text>';});
+    o+='<line class="ink" x1="'+(cx+w+3)+'" y1="'+y+'" x2="'+(cx+w+22)+'" y2="'+y+'"/><text x="'+(cx+w+26)+'" y="'+(y+3)+'">'+(i+1)+'. '+p[0]+'</text>';
+  });
+  return o+'<text class="cap" x="0" y="296">Fig. 3 · Exploded view, read bottom to top.</text></svg>';
+}
+function sheet(){
+  var e=D.exec,h='';
+  if(lv===1){h='<p class="fig">Sheet 1 · Exec</p><h3>Can I trust this page?</h3><span class="pl-stamp '+stampCls(e.stamp)+'">'+e.stamp+'</span>'+
+    '<dl class="pl-kv"><dt>Claims held</dt><dd>'+e.held+' of '+e.of+' facts verified</dd><dt>Unresolved</dt><dd>'+e.unresolved+'</dd><dt>Scorecard</dt><dd>'+(e.judged?e.judged+' rows scored':'not yet scored by a person')+'</dd><dt>Why</dt><dd>'+esc(e.why)+'</dd><dt>Status</dt><dd>'+esc(e.status)+'</dd></dl>'+
+    '<p class="mono">The stamp is computed from the sheets below it and can never read higher than they do.</p>';}
+  if(lv===2){h='<p class="fig">Sheet 2 · Strategic</p><h3>Is the argument whole?</h3><ul>'+ROMAN.map(function(r){return '<li><b>'+r+'</b> '+esc(D.roles[r])+'</li>';}).join('')+'</ul><p class="fig">Review lenses</p>'+
+    D.lenses.map(function(l){return '<p><span class="pl-tag'+(l.result==='dissent'?' dis':'')+'">'+esc(l.name)+' · '+esc(l.result)+'</span>'+esc(l.reason)+'</p>';}).join('');}
+  if(lv===3){h='<p class="fig">Sheet 3 · Operational</p><h3>Where did each part come from?</h3>'+iso()+'<dl class="pl-kv">'+
+    D.stages.map(function(s,i){return '<dt>'+(i+1)+' '+esc(s.step)+'</dt><dd>'+esc(s.fate)+'</dd>';}).join('')+'</dl><p class="mono">Each section on the page is tagged with the sources that fed it.</p>';}
+  if(lv===4){var n={sourced:0,inference:0,unproven:0,steelman:0};D.claims.forEach(function(c){n[c.type]++;});
+    h='<p class="fig">Sheet 4 · Tactical</p><h3>Is each claim earned?</h3><p>'+D.claims.length+' claims pinned: '+n.sourced+' sourced, '+n.inference+' inference, '+n.unproven+' unproven, '+n.steelman+' steelman.</p>'+
+    '<p class="mono">Solid line: sourced. Dashed: inference. Gold: unproven or unresolved. Double: steelman. Click a pin, or press and hold on touch to dissect it.</p>'+(sel?tact(C[sel]):'');}
+  if(lv===5){h='<p class="fig">Sheet 5 · Surgical</p>'+(sel?surg(C[sel]):'<h3>What exactly makes this true?</h3><p>Pick a pinned claim to open its cross-section.</p>');}
+  card.innerHTML=h;
+}
+function tact(c){return '<h3>'+c.n+'. '+esc(c.text)+'</h3><span class="pl-tag">'+esc(c.type)+'</span>'+(c.verdict?'<span class="pl-tag">'+esc(c.verdict)+' · '+esc(c.severity)+'</span>':'')+(c.render?'<span class="pl-tag">render '+esc(c.render)+'</span>':'')+
+  c.dissent.map(function(d){return '<p><span class="pl-tag dis">dissent</span>'+esc(d)+'</p>';}).join('')+(c.file||c.asset?'<p><button type="button" class="pl-go" style="font:500 .7rem/1 var(--mono);padding:7px 10px;border-radius:999px;border:1px solid var(--cyan);background:none;color:var(--cyan);cursor:pointer">Dissect</button></p>':'');}
+function surg(c){var a=c.atom,h='<h3>'+c.n+'. '+esc(c.text)+'</h3><span class="pl-tag">'+esc(c.type)+'</span>'+(c.verdict?'<span class="pl-tag">'+esc(c.verdict)+'</span>':'');
+  if(!c.file&&!c.asset)return h+'<p>An argument, not a fact. No file or commit can force it; it stands or falls on the reasoning.</p>';
+  h+='<dl class="pl-kv">'+(c.file?'<dt>File</dt><dd>'+esc(c.file)+'</dd>':'')+(a?'<dt>Diff atom</dt><dd>'+esc(a.sha)+' · '+esc(a.date)+'</dd><dt>Size</dt><dd>+'+a.added+' / -'+a.removed+' in this file, '+a.files_touched+' files touched</dd><dt>Merged</dt><dd>'+esc(a.pr||'direct')+'</dd><dt>Subject</dt><dd>'+esc(a.subject)+'</dd>':'')+
+    (c.applied?'<dt>Applied</dt><dd>'+esc(c.applied.sha)+' · '+esc(c.applied.date)+'</dd>':'')+(c.measured?'<dt>Measured</dt><dd>'+esc(c.measured)+'</dd>':'')+(c.evidence?'<dt>Record</dt><dd>'+esc(c.evidence)+'</dd>':'')+
+    (c.selftest_result?'<dt>Self-test</dt><dd>'+esc(c.selftest_result)+' (run at build)</dd>':'')+'</dl>';
+  if(c.excerpt)h+='<pre class="pl-code">'+c.excerpt.lines.map(function(l,i){return '<span class="ln">'+String(c.excerpt.start+i).padStart(4,' ')+'  </span>'+esc(l);}).join('\n')+'</pre>';
+  h+='<div class="pl-al"><div class="as"><b>Invariant asset</b>'+esc(c.asset||'')+'</div><div class="li"><b>Liability</b>'+esc(c.liability||'')+'</div></div>';
+  return h+c.dissent.map(function(d){return '<p><span class="pl-tag dis">dissent</span>'+esc(d)+'</p>';}).join('');}
+function set(n){lv=n;B.classList.toggle('pl',n>0);for(var i=1;i<=5;i++)B.classList.toggle('lv'+i,i===n);
+  document.querySelectorAll('.pl-bar [data-lv]').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.lv===n));});
+  if(n===5&&!sel)pick('C5');else sheet();}
+function pick(id){document.querySelectorAll('.cl.sel').forEach(function(e){e.classList.remove('sel');});sel=id;var el=document.querySelector('.cl[data-claim="'+id+'"]');if(el)el.classList.add('sel');sheet();}
+document.querySelector('.pl-open').addEventListener('click',function(){set(1);});
+document.querySelectorAll('.pl-bar [data-lv]').forEach(function(b){b.addEventListener('click',function(){set(+b.dataset.lv);});});
+card.addEventListener('click',function(ev){if(ev.target.classList.contains('pl-go'))set(5);});
+var timer=null;
+document.addEventListener('click',function(ev){var el=ev.target.closest&&ev.target.closest('.cl');if(el&&lv>=4){pick(el.dataset.claim);}});
+document.addEventListener('pointerdown',function(ev){if(ev.pointerType==='mouse')return;var el=ev.target.closest&&ev.target.closest('.cl');if(!el||lv<4)return;
+  timer=setTimeout(function(){timer=null;sel=el.dataset.claim;if(navigator.vibrate)navigator.vibrate(12);set(5);pick(sel);},450);});
+['pointerup','pointercancel','pointermove'].forEach(function(t){document.addEventListener(t,function(){if(timer){clearTimeout(timer);timer=null;}});});
+document.addEventListener('contextmenu',function(ev){if(lv>=4&&ev.target.closest&&ev.target.closest('.cl'))ev.preventDefault();});
+document.addEventListener('keydown',function(ev){if(ev.target.tagName==='INPUT')return;if(/^[1-5]$/.test(ev.key))set(+ev.key);if(ev.key==='Escape'||ev.key==='0')set(0);});
+})();
+</script>
+</html>

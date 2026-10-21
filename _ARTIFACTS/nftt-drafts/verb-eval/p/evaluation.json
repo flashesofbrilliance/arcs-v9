@@ -1,0 +1,273 @@
+{
+  "verb": "evaluation",
+  "tool": "Evaluation by ARCS",
+  "fate": "conditional pass",
+  "ok": true,
+  "failed": [],
+  "artifact": "sha256:c5c4bcfcaaf5",
+  "upstream": "sha256:3846377272e1",
+  "gates": [
+    {
+      "id": "min-lenses",
+      "ok": true,
+      "evidence": "4 lenses (min 4): LAB, BAR, Loki, dual bar-raiser",
+      "ms": 0.012
+    },
+    {
+      "id": "lens-result-and-reason",
+      "ok": true,
+      "evidence": "4/4 complete",
+      "ms": 0.006
+    },
+    {
+      "id": "dissent-floor",
+      "ok": true,
+      "evidence": "2 dissent: BAR, Loki",
+      "ms": 0.004
+    },
+    {
+      "id": "verdict-follows",
+      "ok": true,
+      "evidence": "verdict 'conditional pass' \u00b7 0 fail lenses \u00b7 2 conditions",
+      "ms": 0.003
+    },
+    {
+      "id": "conditions-cite-claims",
+      "ok": true,
+      "evidence": "2 conditions",
+      "ms": 0.003
+    },
+    {
+      "id": "sycophancy",
+      "ok": true,
+      "evidence": "OK \u00b7 agreement 3 \u00b7 dissent 3",
+      "ms": 0.047
+    }
+  ],
+  "rubric": [
+    {
+      "row": "dissent-real",
+      "label": "Strongest dissent is real, not a straw man",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "product-truth",
+      "label": "Product truth argued",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "proof-truth",
+      "label": "Proof truth argued",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "conditions-concrete",
+      "label": "Conditions on the pass are concrete",
+      "evidence": "2 conditions",
+      "score": null,
+      "judge": "pending"
+    }
+  ],
+  "floor": {
+    "min_total": 6,
+    "max_total": 8,
+    "must_pass": [
+      "dissent-real",
+      "conditions-concrete"
+    ],
+    "status": "pending",
+    "scored": 0,
+    "rows": 4
+  },
+  "sycophancy": {
+    "agreement": 3,
+    "dissent": 3,
+    "ratio": 0.75,
+    "verdict": "OK",
+    "blocking": true
+  },
+  "verdict": "conditional pass",
+  "conditions": [
+    {
+      "id": "k1",
+      "claim": "C5",
+      "action": "degrade",
+      "text": "name that CI is off, so the merge script waits on few checks"
+    },
+    {
+      "id": "k2",
+      "claim": "C10",
+      "action": "degrade",
+      "text": "say the rule, then the measured coverage (about 75%)"
+    }
+  ],
+  "claims": [
+    {
+      "id": "C4",
+      "text": "A few thousand commits of building this way.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C5",
+      "text": "Merges go through a script that pins the exact commit being merged and refuses if any check is pending or failing.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "medium"
+    },
+    {
+      "id": "C6",
+      "text": "It has refused me twice when a branch moved under me.",
+      "src": [],
+      "verdict": "unresolved",
+      "severity": "low"
+    },
+    {
+      "id": "C7",
+      "text": "Pre-commit gates block a model name typed by hand.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C8",
+      "text": "Pre-commit gates block a file moved while something still points to the old path.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C9",
+      "text": "Pre-commit gates block a page whose text wraps badly at some screen width.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C10",
+      "text": "Every merge ends with a decision receipt, and the ledger refuses edits; a correction is a new row.",
+      "src": [],
+      "verdict": "unresolved",
+      "severity": "medium"
+    },
+    {
+      "id": "C11",
+      "text": "Whether the receipts make the calls better over time is not yet known; scoring stays off until enough outcomes close.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    }
+  ],
+  "trace": [
+    {
+      "lane": "rules",
+      "verb": "evaluation",
+      "id": "min-lenses",
+      "ok": true,
+      "ms": 0.012,
+      "evidence": "4 lenses (min 4): LAB, BAR, Loki, dual bar-raiser",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "evaluation",
+      "id": "lens-result-and-reason",
+      "ok": true,
+      "ms": 0.006,
+      "evidence": "4/4 complete",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "evaluation",
+      "id": "dissent-floor",
+      "ok": true,
+      "ms": 0.004,
+      "evidence": "2 dissent: BAR, Loki",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "evaluation",
+      "id": "verdict-follows",
+      "ok": true,
+      "ms": 0.003,
+      "evidence": "verdict 'conditional pass' \u00b7 0 fail lenses \u00b7 2 conditions",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "evaluation",
+      "id": "conditions-cite-claims",
+      "ok": true,
+      "ms": 0.003,
+      "evidence": "2 conditions",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "evaluation",
+      "id": "sycophancy",
+      "ok": true,
+      "ms": 0.047,
+      "evidence": "OK \u00b7 agreement 3 \u00b7 dissent 3",
+      "skipped": false
+    },
+    {
+      "lane": "judge",
+      "verb": "evaluation",
+      "id": "dissent-real",
+      "label": "Strongest dissent is real, not a straw man",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Evaluation by ARCS rubric.\nQuestion: Strongest dissent is real, not a straw man\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- min-lenses: pass (4 lenses (min 4): LAB, BAR, Loki, dual bar-raiser)\n- lens-result-and-reason: pass (4/4 complete)\n- dissent-floor: pass (2 dissent: BAR, Loki)\n- verdict-follows: pass (verdict 'conditional pass' \u00b7 0 fail lenses \u00b7 2 conditions)\n- conditions-cite-claims: pass (2 conditions)\n- sycophancy: pass (OK \u00b7 agreement 3 \u00b7 dissent 3)\nArtifact: sha256:c5c4bcfcaaf5"
+    },
+    {
+      "lane": "judge",
+      "verb": "evaluation",
+      "id": "product-truth",
+      "label": "Product truth argued",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Evaluation by ARCS rubric.\nQuestion: Product truth argued\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- min-lenses: pass (4 lenses (min 4): LAB, BAR, Loki, dual bar-raiser)\n- lens-result-and-reason: pass (4/4 complete)\n- dissent-floor: pass (2 dissent: BAR, Loki)\n- verdict-follows: pass (verdict 'conditional pass' \u00b7 0 fail lenses \u00b7 2 conditions)\n- conditions-cite-claims: pass (2 conditions)\n- sycophancy: pass (OK \u00b7 agreement 3 \u00b7 dissent 3)\nArtifact: sha256:c5c4bcfcaaf5"
+    },
+    {
+      "lane": "judge",
+      "verb": "evaluation",
+      "id": "proof-truth",
+      "label": "Proof truth argued",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Evaluation by ARCS rubric.\nQuestion: Proof truth argued\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- min-lenses: pass (4 lenses (min 4): LAB, BAR, Loki, dual bar-raiser)\n- lens-result-and-reason: pass (4/4 complete)\n- dissent-floor: pass (2 dissent: BAR, Loki)\n- verdict-follows: pass (verdict 'conditional pass' \u00b7 0 fail lenses \u00b7 2 conditions)\n- conditions-cite-claims: pass (2 conditions)\n- sycophancy: pass (OK \u00b7 agreement 3 \u00b7 dissent 3)\nArtifact: sha256:c5c4bcfcaaf5"
+    },
+    {
+      "lane": "judge",
+      "verb": "evaluation",
+      "id": "conditions-concrete",
+      "label": "Conditions on the pass are concrete",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Evaluation by ARCS rubric.\nQuestion: Conditions on the pass are concrete\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- min-lenses: pass (4 lenses (min 4): LAB, BAR, Loki, dual bar-raiser)\n- lens-result-and-reason: pass (4/4 complete)\n- dissent-floor: pass (2 dissent: BAR, Loki)\n- verdict-follows: pass (verdict 'conditional pass' \u00b7 0 fail lenses \u00b7 2 conditions)\n- conditions-cite-claims: pass (2 conditions)\n- sycophancy: pass (OK \u00b7 agreement 3 \u00b7 dissent 3)\n- row hint: 2 conditions\nArtifact: sha256:c5c4bcfcaaf5"
+    },
+    {
+      "lane": "summary",
+      "verb": "evaluation",
+      "rules": 6,
+      "llm_calls": 0,
+      "judge_pending": 4,
+      "fate": "conditional pass",
+      "decided_by": "rules"
+    }
+  ]
+}

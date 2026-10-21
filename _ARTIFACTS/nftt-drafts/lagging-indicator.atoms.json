@@ -1,0 +1,243 @@
+{
+ "_doc": "Claim ledger for the held NFTT draft 'The Lagging Indicator'. Hand-written fields: id, section, text, type, and for repo-backed claims: file, find (git pickaxe string; empty = the commit that added the file), excerpt_grep, selftest, asset, liability. scripts/nftt_claim_atoms.py fills 'atom', 'excerpt' and 'selftest_result' into lagging-indicator.atoms.json. Types: sourced (backed by the repo), inference (argument, no source can force it), unproven (marked unproven in the text), steelman (the opposing case, argued fairly).",
+ "post": "_ARTIFACTS/nftt-drafts/blog-nftt-the-lagging-indicator.html",
+ "claims": [
+  {
+   "id": "C1",
+   "section": "I",
+   "type": "inference",
+   "text": "Treating a lagging indicator as a leading one means steering by the wake."
+  },
+  {
+   "id": "C2",
+   "section": "I",
+   "type": "inference",
+   "text": "A timed hand-coding round measures past practice, faithfully."
+  },
+  {
+   "id": "C3",
+   "section": "II",
+   "type": "steelman",
+   "text": "Reading and judging code is a real signal; someone has to know whether the agent's lines are right."
+  },
+  {
+   "id": "C4",
+   "section": "III",
+   "type": "sourced",
+   "text": "A few thousand commits of building this way.",
+   "measure": "git rev-list --count --no-merges HEAD",
+   "asset": "The count comes from git, so anyone with the repo gets the same number.",
+   "liability": "Commit count measures activity, not quality; the post must not lean on it as proof of skill.",
+   "measured": "3729"
+  },
+  {
+   "id": "C5",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Merges go through a script that pins the exact commit being merged and refuses if any check is pending or failing.",
+   "file": "scripts/safe_merge.sh",
+   "find": "match-head-commit",
+   "excerpt_grep": "match-head-commit",
+   "selftest": "bash scripts/safe_merge.sh --self-test",
+   "asset": "Invariant: the commit merged is the commit reviewed; a moved head or a non-SUCCESS check refuses the merge.",
+   "liability": "It trusts the checks it waits on; with CI switched off for budget, 'every check SUCCESS' can mean very few checks ran.",
+   "atom": {
+    "sha": "51ddf069",
+    "date": "2026-10-20",
+    "subject": "feat(scripts): safe_merge.sh pins head, waits for all-SUCCESS checks, refuses conflicts [NCI:64]",
+    "added": 160,
+    "removed": 0,
+    "files_touched": 4,
+    "pr": "#1728"
+   },
+   "excerpt": {
+    "start": 13,
+    "lines": [
+     "#      (PENDING past the timeout, FAILURE, CANCELLED, SKIPPED-as-only-check, or zero checks: refuse)",
+     "#   3. CONFLICTING mergeable: stop and say so (never rebases)",
+     "#   4. merges with `gh pr merge --merge --match-head-commit <sha>` (gotcha 17: never squash/rebase)",
+     "#   5. prints the merge commit and a decision_receipt INSERT template (never writes to Supabase), with",
+     "#      job_id and tool_id filled (Sprint 5 coverage, AGENTS.md \"Receipts or it didn't happen\"):",
+     "#      job_id = a `job:backlog:<id>` named in the PR body or branch, else the one backlog row the diff adds",
+     "#      or changes; tool_id = tool:script:<name> of the scripts/ file with the most changed lines. When",
+     "#      neither derives, a '<REQUIRED ...>' placeholder is printed: it fails the column CHECK, so it can"
+    ],
+    "dashes_normalized": false
+   },
+   "selftest_result": "PASS"
+  },
+  {
+   "id": "C6",
+   "section": "IV",
+   "type": "sourced",
+   "text": "It has refused me twice when a branch moved under me.",
+   "evidence": "CLAUDE.md handoff v3.141.0: 'it refused twice on moved heads, as designed'",
+   "asset": "The refusals are recorded in the handoff, written the same day.",
+   "liability": "The handoff is the only record; the refusals are not in a receipt, so this is the weakest sourced claim."
+  },
+  {
+   "id": "C7",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Pre-commit gates block a model name typed by hand.",
+   "file": "scripts/model_id_gate.py",
+   "find": "",
+   "excerpt_grep": "ID = re.compile",
+   "selftest": "python3 scripts/model_id_gate.py --self-test",
+   "asset": "Invariant: model ids live in one registry; a hardcoded id cannot be committed.",
+   "liability": "A pattern gate: a new model naming scheme it does not know slips through until the pattern is updated.",
+   "atom": {
+    "sha": "afa2ca5c",
+    "date": "2026-10-05",
+    "subject": "refactor(models): make claude-models.ts the single model registry and gate hardcoded ids [NCI:55]",
+    "added": 71,
+    "removed": 0,
+    "files_touched": 17,
+    "pr": "#882"
+   },
+   "excerpt": {
+    "start": 12,
+    "lines": [
+     "import re, subprocess, sys",
+     "",
+     "ID = re.compile(r\"claude-(?:haiku|sonnet|opus|fable)-\\d[\\w.-]*\")",
+     "SCOPE = (\"src/\", \"scripts/\", \"operators/\")",
+     "EXT = (\".ts\", \".tsx\", \".js\", \".mjs\", \".py\", \".sh\")",
+     "ALLOW = {\"src/lib/claude-models.ts\", \"scripts/model_id_gate.py\", \"scripts/model_drift_check.py\"}",
+     "",
+     ""
+    ],
+    "dashes_normalized": false
+   },
+   "selftest_result": "PASS"
+  },
+  {
+   "id": "C8",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Pre-commit gates block a file moved while something still points to the old path.",
+   "file": "scripts/archive_move_gate.py",
+   "find": "",
+   "excerpt_grep": "Not caught",
+   "selftest": "python3 scripts/archive_move_gate.py --self-test",
+   "asset": "Invariant: no live file cites a path that a commit renames or deletes.",
+   "liability": "By its own docstring: 'Not caught: a directory cited without a file name, and a bare basename.' A path built at runtime is invisible too.",
+   "atom": {
+    "sha": "f905adbd",
+    "date": "2026-10-18",
+    "subject": "feat(gates): archive-move gate, block a staged rename or delete that leaves a live citer [NCI:45]",
+    "added": 226,
+    "removed": 0,
+    "files_touched": 3,
+    "pr": "#1614"
+   },
+   "excerpt": {
+    "start": 16,
+    "lines": [
+     "  skipped line: for a rename, a citer line that also names the NEW path (it documents the move, \"old -> new\")",
+     "  not gated:    moves OUT of _ARCHIVE/, _RELEASES/, _INBOX/, and deleted handoff fragments (a molt does that)",
+     "Not caught: a directory cited without a file name, and a bare basename. The check is by full path.",
+     "",
+     "  python3 scripts/archive_move_gate.py --staged     # pre-commit: staged moves and deletes vs the index",
+     "  python3 scripts/archive_move_gate.py --rev SHA    # a past commit: SHA^..SHA, citers read from tree SHA",
+     "  python3 scripts/archive_move_gate.py --self-test",
+     ""
+    ],
+    "dashes_normalized": false
+   },
+   "selftest_result": "PASS"
+  },
+  {
+   "id": "C9",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Pre-commit gates block a page whose text wraps badly at some screen width.",
+   "file": "scripts/artifact_wrap_lint.py",
+   "find": "MODE 5",
+   "excerpt_grep": "# MODE 5",
+   "selftest": "python3 scripts/artifact_wrap_lint.py _ARTIFACTS/nftt-drafts/blog-nftt-the-lagging-indicator.html",
+   "asset": "Invariant: one body measure per page; a container/measure mismatch fails the commit.",
+   "liability": "Static CSS reading: a layout bug that only appears in a real browser at an odd width still needs the screenshot sweep.",
+   "atom": {
+    "sha": "74705416",
+    "date": "2026-09-03",
+    "subject": "feat(wrap-lint): add MODE 5 -- container/measure mismatch gate [NCI:SKIP]",
+    "added": 135,
+    "removed": 2,
+    "files_touched": 1,
+    "pr": "#279"
+   },
+   "excerpt": {
+    "start": 47,
+    "lines": [
+     "TAG_RE = re.compile(r\"<[^>]+>\")",
+     "",
+     "# MODE 5 -- container/measure mismatch.",
+     "# How much wider than the reading measure a layout container may be before the prose",
+     "# column reads as a ragged narrow sub-column beside full-width siblings. 120px leaves",
+     "# room for horizontal padding + slack (a container whose INNER width equals the measure",
+     "# is the goal), while still catching egregious cases like .wrap:940 vs --maxw:660 (Δ280).",
+     "MISMATCH_THRESHOLD_PX = 120"
+    ],
+    "dashes_normalized": true
+   },
+   "selftest_result": "PASS"
+  },
+  {
+   "id": "C10",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Every merge ends with a decision receipt, and the ledger refuses edits; a correction is a new row.",
+   "file": "runtime/specs/decision-receipt/2026-10-20-append-only.sql",
+   "find": "",
+   "excerpt_grep": "before update or delete",
+   "applied_by": "2ebb2b30",
+   "asset": "Invariant: a filed receipt cannot be rewritten after the outcome is known, which is what makes it a leading indicator.",
+   "liability": "Applied per the proof file in 2ebb2b30; the live trigger was not re-queried for this plate. 'Every merge' is the rule, and coverage is about 75%, not 100%.",
+   "atom": {
+    "sha": "9a7968d4",
+    "date": "2026-10-20",
+    "subject": "feat(receipts): append-only trigger migration and rolled-back proof, not applied [NCI:SKIP schema-draft]",
+    "added": 29,
+    "removed": 0,
+    "files_touched": 3,
+    "pr": "#1742"
+   },
+   "applied": {
+    "sha": "2ebb2b30",
+    "date": "2026-10-20",
+    "subject": "docs(receipts): append-only applied; proof file, AGENTS.md rule, row DONE [NCI:SKIP docs]"
+   },
+   "excerpt": {
+    "start": 28,
+    "lines": [
+     "",
+     "create trigger decision_receipt_append_only",
+     "  before update or delete on public.decision_receipt",
+     "  for each row execute function public.decision_receipt_refuse_change();"
+    ],
+    "dashes_normalized": false
+   }
+  },
+  {
+   "id": "C11",
+   "section": "IV",
+   "type": "unproven",
+   "text": "Whether the receipts make the calls better over time is not yet known; scoring stays off until enough outcomes close.",
+   "asset": "Marked unproven in the text itself.",
+   "liability": "The core promise of the system has no result yet; a sceptic is right to discount it."
+  },
+  {
+   "id": "C12",
+   "section": "V",
+   "type": "inference",
+   "text": "A take-home plus a live defense is harder to fake than either alone."
+  },
+  {
+   "id": "C13",
+   "section": "V",
+   "type": "inference",
+   "text": "A stakeholder-language spec tests whether the candidate finds the deterministic edges unaided."
+  }
+ ]
+}

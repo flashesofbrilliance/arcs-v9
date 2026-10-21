@@ -1,0 +1,540 @@
+{
+ "_METHOD": "recoil-close v1; skeptic: claims-skeptic (sonnet)",
+ "meta": {
+  "report_id": "2026-10-20-upside-lindsey-mertz",
+  "date": "2026-10-20",
+  "counterpart": "Lindsey Mertz (hiring manager)",
+  "company": "Upside (GTM org, New York)",
+  "segments": 206,
+  "doc_title": "Upside War Room",
+  "gate": {
+   "internal": "cybtAABP0Lm3"
+  },
+  "provenance": {
+   "audience": "both",
+   "captured": "Hiring-manager video interview Tue 2026-10-20 3:30 PM ET, about 45 min, Granola e9893b7a-8882-4457-bee0-c8d943773c24 (full transcript read, 53KB), plus Zach's notes right after the call.",
+   "load_bearing_quote": "I need an engineer. I need someone who has put in those 10,000 hours and thinks about extensibility."
+  }
+ },
+ "opportunity": {
+  "audience": "internal",
+  "engagement_type": "candidacy",
+  "req_reality": "2",
+  "req_reality_basis": "Posted JD ($214K to $245K+) and the hiring manager met on 2026-10-20. Not 3: budget unconfirmed ('didn't have budget for a ton of staff') and the CIO has the final round. Quote: 'it's actually the same role. It was posted as 2 different titles.'",
+  "artifacts_after_signal": 1,
+  "y_state": "YELLOW",
+  "topology": "CONVERGENT",
+  "nci_prior": 0,
+  "nci_post": 0,
+  "note": "Hiring manager confirmed as an advocate; engineer rounds untested. The gate stays YELLOW until the coding and system design rounds."
+ },
+ "beliefs": [
+  {
+   "id": "P1",
+   "audience": "internal",
+   "claim": "The two Upside postings are different roles.",
+   "evidence": "'it's actually the same role. It was posted as 2 different titles.'",
+   "inference": "OBS",
+   "confidence": [
+    0.5,
+    0.02
+   ],
+   "conviction": "HIGH",
+   "verdict": "FALSIFIED"
+  },
+  {
+   "id": "P2",
+   "audience": "internal",
+   "claim": "A RevOps hiring manager weighs workflow empathy over engineering pedigree.",
+   "evidence": "'I need someone who has put in those 10,000 hours'; the loop is engineer-gated.",
+   "inference": "OBS",
+   "confidence": [
+    0.7,
+    0.4
+   ],
+   "conviction": "MEDIUM",
+   "verdict": "WEAKENED"
+  },
+  {
+   "id": "P3",
+   "audience": "internal",
+   "claim": "Lindsey has a concrete first workflow.",
+   "evidence": "A CRM plus self-service onboarding prototype, tied to the 2027 downmarket targets.",
+   "inference": "OBS",
+   "confidence": [
+    0.6,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "CONFIRMED"
+  },
+  {
+   "id": "P4",
+   "audience": "internal",
+   "claim": "The hiring manager will advocate for Zach in the loop.",
+   "evidence": "'very well aligned', 'I really appreciate how you think', the progress question; Zach: barely any pushback, Lindsey wrote a lot down.",
+   "inference": "IMP",
+   "confidence": [
+    0.5,
+    0.75
+   ],
+   "conviction": "MEDIUM",
+   "verdict": "STRENGTHENED"
+  },
+  {
+   "id": "P5",
+   "audience": "internal",
+   "claim": "The role is a funded program, not an experiment.",
+   "evidence": "'didn't have budget for a ton of staff'; team growth only predicted for mid-2027.",
+   "inference": "IMP",
+   "confidence": [
+    0.6,
+    0.5
+   ],
+   "conviction": "LOW",
+   "verdict": "WEAKENED"
+  }
+ ],
+ "kinematic_series": {
+  "dt": 1.0,
+  "series": []
+ },
+ "insights": [],
+ "next_steps": [
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "Thank-you note to Lindsey: SENT by Zach 2026-10-20 (Zach confirmed in chat; not verified in Gmail)."
+  },
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "Katie call: coding format and AI policy, panel makeup, band and level, office days."
+  },
+  {
+   "audience": "internal",
+   "owner": "You",
+   "text": "Prep the senior engineer chat and a timed coding warmup."
+  },
+  {
+   "audience": "internal",
+   "owner": "Lindsey",
+   "text": "Send feedback to Katie."
+  }
+ ],
+ "redaction_policy": {
+  "rules": [
+   "Method can cross; subject-about-them cannot.",
+   "Show your own updates, never their intent-scores.",
+   "Architecture crosses; weights/sauce do not."
+  ]
+ },
+ "page": {
+  "layout": "tabs",
+  "header": {
+   "eyebrow": "ARCS &#183; War Room",
+   "title": "Lindsey Mertz &#183; Upside",
+   "sub": "Hiring-manager call Tue Oct 20 (closed, promising). Next: recruiter Katie, then senior engineer, vibe-coding, system design, CIO and Deputy CIO."
+  },
+  "tabs": [
+   {
+    "id": "pre",
+    "label": "Pre-Call"
+   },
+   {
+    "id": "exante",
+    "label": "Ex-Ante"
+   },
+   {
+    "id": "forge",
+    "label": "Forge"
+   },
+   {
+    "id": "recoil",
+    "label": "Recoil"
+   },
+   {
+    "id": "wargame",
+    "label": "War Game"
+   },
+   {
+    "id": "defense",
+    "label": "Defensibility"
+   }
+  ],
+  "blocks": [
+   {
+    "tab": "pre",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "True North",
+    "p": [
+     "Get past the engineer-led rounds. The hiring manager is already sold on the business-side story; what's left is proving hands-on engineering depth to a senior engineer, the coding and system design rounds, and the CIO and Deputy CIO."
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "keyvalue",
+    "audience": "internal",
+    "h2": "Context",
+    "rows": [
+     {
+      "k": "Counterpart",
+      "v": "Lindsey Mertz, Director of Revenue Operations, Upside (hiring manager; introduced themself as Director, the prep said Senior Director)"
+     },
+     {
+      "k": "Role",
+      "v": "Staff Forward Deployed Engineer, GTM Platform. Same spec as Staff Full Stack Engineer, GTM Systems ('posted as 2 different titles')"
+     },
+     {
+      "k": "Reporting",
+      "v": "Sits in GTM, not engineering. Reports to Lindsey, with dotted lines to other teams. Solo engineer at first."
+     },
+     {
+      "k": "Loop",
+      "v": "Recruiter (Katie), then a senior engineer chat, then a vibe-coding assessment, then a system design panel, then the CIO and Deputy CIO. About 1 to 2 weeks in total."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Intel",
+    "items": [
+     {
+      "dot": "c",
+      "html": "<strong>Origin</strong>: a board member, the COO of Vercel, showed an agentic SDR stack (11 SDRs, 10 redeployed). Lindsey vibe-coded a prototype on Vercel, Supabase, Railway and RAG in 4 days."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Current build</strong>: Lindsey is building a bare-bones CRM with content management and self-service onboarding (customers sign agreements) 'on the side of my desk'."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Why now</strong>: the 2027 site and customer targets can't be met with an enterprise sales cycle, so they need to go downmarket."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Roadmap</strong>: master data management, then self-service for the long tail, then an agentic SDR, then a digital sales room (Gong and Clay context)."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Salesforce</strong>: about $375K a year ('3 quarters of half a million'), 'bloated'. Lindsey wants the admins to work as quasi-product engineers."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Org</strong>: GTM under 100 people. The CIO/CTO drives R&D AI adoption; the president of GTM is involved."
+     }
+    ]
+   },
+   {
+    "tab": "exante",
+    "type": "receipt",
+    "audience": "internal",
+    "h2": "Exhibit 1 &#183; Ex-Ante (from the Upside Interview Prep artifact)",
+    "_doc": "Copied word for word from claude.ai/artifact/HxWR22pGUYWR9Dd59QETeD, filed before the 3:30 PM call.",
+    "fields": [
+     {
+      "label": "D &#183; Question",
+      "value": "Does Upside's GTM Platform role fit, and do they see it?"
+     },
+     {
+      "label": "True north",
+      "value": "Leave with a named next step and the first workflow they'd want fixed."
+     },
+     {
+      "label": "Hypothesis",
+      "value": "A sales ops leader will weigh workflow empathy and fast wins over engineering pedigree; the forward-deployed story lands if told in RevOps terms."
+     },
+     {
+      "label": "Forks",
+      "value": "Strong: names a painful workflow, asks how you'd attack it, next round with a named panel. Mixed: probes staff-level depth or the commerce domain. Weak: wants a classic staff engineer."
+     },
+     {
+      "label": "Y gate",
+      "value": "YELLOW (job score 0.889, PURSUE)"
+     },
+     {
+      "label": "W &#183; Window",
+      "value": "Tue Oct 20, 3:30 to 4:15 PM ET"
+     }
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "Skeptic pass",
+    "p": [
+     "Nine load-bearing claims went to an independent claims-skeptic (Sonnet) that read the whole transcript. It struck two of my reads and softened two more. The rulings are below; the struck ones are fixed in the Recoil tab."
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "table",
+    "audience": "internal",
+    "h2": "Claim adjudication",
+    "columns": [
+     "Claim",
+     "Ruling",
+     "Source force"
+    ],
+    "rows": [
+     [
+      "Lindsey asked about progressing; Katie call in a day or two",
+      "INFERENCE",
+      "'would you be interested in progressing into further stages' and 'the two of you will probably have a conversation over the next day or two'. 'Advanced' is never said outright, but Zach's own read (promising, Lindsey wrote a lot down) agrees."
+     ],
+     [
+      "The req is real and funded",
+      "STRUCK (funded)",
+      "Same role under two titles and the 2027 target are grounded. Funding isn't: 'I didn't have budget for a ton of staff'. Team growth is 'my prediction'."
+     ],
+     [
+      "First build target named: CRM plus self-service onboarding",
+      "GROUNDED",
+      "'a bare-bones CRM tied into a self-service platform'. Caveat: it's Lindsey's own build and the hire may rebuild it."
+     ],
+     [
+      "Empathy over pedigree only partly confirmed",
+      "GROUNDED",
+      "'I need someone who has put in those 10,000 hours'; the loop is engineer-gated."
+     ],
+     [
+      "Lindsey signalled Zach dominated airtime",
+      "STRUCK",
+      "'trying to shut up' was about Lindsey making room for Zach's questions. Only the self-admitted long overview stands."
+     ],
+     [
+      "Hand-coding reluctance is a risk",
+      "GROUNDED quote / INFERENCE risk",
+      "'I just don't know if that'd be the best use of my time or yours', next to 'I can manually review Python stuff'."
+     ],
+     [
+      "The 60-day number and the planned close weren't used",
+      "GROUNDED",
+      "Neither appears anywhere in the transcript."
+     ],
+     [
+      "Best and worst case as stated",
+      "GROUNDED",
+      "Best case: 'central focal point'. Worst case: single-purpose tool, 'probability of that is low'. No base case given."
+     ],
+     [
+      "Warmth isn't fit evidence",
+      "INFERENCE (too strong)",
+      "'very well aligned with ... how I'm thinking about it' is partial fit evidence. Not proof of an offer."
+     ]
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "keyvalue",
+    "audience": "internal",
+    "h2": "Receipt closed",
+    "rows": [
+     {
+      "k": "Predicted",
+      "v": "Strong / Mixed / Weak fork; empathy over pedigree"
+     },
+     {
+      "k": "Actual",
+      "v": "Strong on the hiring manager: workflow named, real interest, Lindsey wrote a lot down and barely pushed back (Zach's own read). Next step is the recruiter, and the full loop was described."
+     },
+     {
+      "k": "Fork hit",
+      "v": "Strong, with a Mixed tail: the engineering-depth probe moves to the later rounds instead of this call"
+     },
+     {
+      "k": "Load-bearing quote",
+      "v": "'I need an engineer. I need someone who has put in those 10,000 hours and thinks about extensibility.'"
+     },
+     {
+      "k": "Y gate",
+      "v": "YELLOW, trending up. Not GREEN: the engineer rounds are untested."
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "belief_log",
+    "audience": "internal",
+    "h2": "Belief Log &#183; confidence x conviction"
+   },
+   {
+    "tab": "recoil",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Quiet signals",
+    "items": [
+     {
+      "dot": "g",
+      "html": "Lindsey asked twice whether the role would really interest Zach ('feels a little different'). The doubt is that Zach is overqualified or a consultant, not that Zach can't do it."
+     },
+     {
+      "dot": "g",
+      "html": "Lindsey has never run this process before ('my first rodeo'), so Katie owns the format details."
+     },
+     {
+      "dot": "c",
+      "html": "Lindsey scanned the ARCS beliefs page live and called it 'fascinating'. The decision-ledger idea landed."
+     },
+     {
+      "dot": "",
+      "html": "Lindsey uses Claude Code and the Vercel stack personally. Shared tooling is rapport."
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "keyvalue",
+    "audience": "internal",
+    "h2": "Requisition reality",
+    "rows": [
+     {
+      "k": "Score",
+      "v": "2 of 3"
+     },
+     {
+      "k": "Basis",
+      "v": "Posted JD with a $214K to $245K+ range, and the hiring manager was met. Budget isn't confirmed ('didn't have budget for a ton of staff'), and the final decision includes the CIO. 'it's actually the same role. It was posted as 2 different titles.'"
+     },
+     {
+      "k": "Artifacts after signal",
+      "v": "0 (nothing sent since the call)"
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Risk flags",
+    "items": [
+     {
+      "dot": "r",
+      "html": "Hand-coding reluctance said out loud. Reframe it before the senior engineer chat."
+     },
+     {
+      "dot": "r",
+      "html": "Long answers (the opening overview ran long). Keep engineer-round answers short."
+     },
+     {
+      "dot": "",
+      "html": "Comp, level and office days (posting: Monday, Tuesday and Thursday in NYC) weren't discussed. Raise them with Katie."
+     },
+     {
+      "dot": "",
+      "html": "Checked 2026-10-20: status.arcs.care and /beliefs contain no counterpart names or secrets. The pages aren't marked noindex, though."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "list",
+    "audience": "internal",
+    "h2": "Gauntlet",
+    "items": [
+     {
+      "dot": "c",
+      "html": "<strong>BAR ruin edge</strong>: being judged unwilling to code in the vibe-coding round. Recoverable if the format allows AI tools; costly if it doesn't."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Loki</strong>: the cheapest way to break 'strong fit' is one senior engineer saying 'harness operator, not engineer'."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Bayesian</strong>: the hiring manager's prior went up. The loop's prior is held until Katie confirms the format."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "table",
+    "audience": "internal",
+    "h2": "ATG pre-mortem: assume it's dead in 90 days",
+    "columns": [
+     "Node",
+     "Their objection",
+     "Owner",
+     "Gate"
+    ],
+    "rows": [
+     [
+      "Thank-you note",
+      "None",
+      "You",
+      "SENT 2026-10-20"
+     ],
+     [
+      "Katie (recruiter)",
+      "Comp or level mismatch",
+      "You",
+      "Ask the band and level first. <strong>Bottleneck: the earliest node in your court.</strong>"
+     ],
+     [
+      "Senior engineer chat",
+      "'Can this person actually code?'",
+      "You",
+      "Lead with hand-built specifics: schema, migrations, gates."
+     ],
+     [
+      "Vibe-coding assessment",
+      "Format unknown; part may be without AI",
+      "You",
+      "Do a timed warmup on Coderbyte-style problems."
+     ],
+     [
+      "System design panel",
+      "Over-architecting a small org's tool",
+      "You",
+      "Use Lindsey's own scale point: no need to build to enterprise grade."
+     ],
+     [
+      "CIO and Deputy CIO",
+      "Governance, and GTM sitting outside engineering",
+      "Them",
+      "Show controls, audit trails and no lock-in."
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "rosetta",
+    "audience": "internal",
+    "h2": "The same model, both directions",
+    "left": "Their world (Upside GTM)",
+    "right": "This engine",
+    "rows": [
+     [
+      "Bare-bones CRM plus self-service onboarding",
+      "A narrow first tool, shipped within 60 days, outcomes captured inside existing work"
+     ],
+     [
+      "Admins as quasi-product engineers",
+      "Product owners who define 'done' and run acceptance tests; prototypes reviewed in Slack"
+     ],
+     [
+      "Retire Salesforce over time",
+      "A phased, headless move: back end first, then the front end, validated with user tests"
+     ],
+     [
+      "CIO controls and audit",
+      "Receipts, gates, and decisions written down for the next engineer"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "prose",
+    "audience": "internal",
+    "h2": "Antifragile core",
+    "p": [
+     "What survives if the format goes badly: Zach thinks in RevOps terms and in systems, and Lindsey already said so. The part that can still break is proof of hands-on coding, so that's where the prep goes."
+    ]
+   }
+  ]
+ }
+}

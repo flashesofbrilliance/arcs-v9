@@ -1,0 +1,233 @@
+{
+  "verb": "assessment",
+  "tool": "Assessment by ARCS",
+  "fate": "pass",
+  "ok": true,
+  "failed": [],
+  "artifact": "sha256:3846377272e1",
+  "upstream": "sha256:0269b65e00cc",
+  "gates": [
+    {
+      "id": "has-claims",
+      "ok": true,
+      "evidence": "8 claim spans",
+      "ms": 0.441
+    },
+    {
+      "id": "verdict-and-severity",
+      "ok": true,
+      "evidence": "8/8 rows complete",
+      "ms": 0.008
+    },
+    {
+      "id": "verified-was-sourced",
+      "ok": true,
+      "evidence": "6 verified resolve upstream",
+      "ms": 0.008
+    },
+    {
+      "id": "summary-matches-rows",
+      "ok": true,
+      "evidence": "header 6/0/2 vs rows 6/0/2",
+      "ms": 0.007
+    }
+  ],
+  "rubric": [
+    {
+      "row": "severity-calibrated",
+      "label": "Severity calibrated to consequence",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "gaps-plain",
+      "label": "Gaps stated as plainly as wins",
+      "evidence": "0 gap rows",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "no-hedge-inflation",
+      "label": "No hedge inflation",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "objection-table",
+      "label": "Objection table present",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    }
+  ],
+  "floor": {
+    "min_total": 6,
+    "max_total": 8,
+    "must_pass": [
+      "severity-calibrated",
+      "gaps-plain"
+    ],
+    "status": "pending",
+    "scored": 0,
+    "rows": 4
+  },
+  "sycophancy": {
+    "agreement": 1,
+    "dissent": 1,
+    "ratio": 0.5,
+    "verdict": "OK",
+    "blocking": false
+  },
+  "counts": {
+    "verified": 6,
+    "gap": 0,
+    "unresolved": 2
+  },
+  "claims": [
+    {
+      "id": "C4",
+      "text": "A few thousand commits of building this way.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C5",
+      "text": "Merges go through a script that pins the exact commit being merged and refuses if any check is pending or failing.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "medium"
+    },
+    {
+      "id": "C6",
+      "text": "It has refused me twice when a branch moved under me.",
+      "src": [],
+      "verdict": "unresolved",
+      "severity": "low"
+    },
+    {
+      "id": "C7",
+      "text": "Pre-commit gates block a model name typed by hand.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C8",
+      "text": "Pre-commit gates block a file moved while something still points to the old path.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C9",
+      "text": "Pre-commit gates block a page whose text wraps badly at some screen width.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    },
+    {
+      "id": "C10",
+      "text": "Every merge ends with a decision receipt, and the ledger refuses edits; a correction is a new row.",
+      "src": [],
+      "verdict": "unresolved",
+      "severity": "medium"
+    },
+    {
+      "id": "C11",
+      "text": "Whether the receipts make the calls better over time is not yet known; scoring stays off until enough outcomes close.",
+      "src": [],
+      "verdict": "verified",
+      "severity": "low"
+    }
+  ],
+  "trace": [
+    {
+      "lane": "rules",
+      "verb": "assessment",
+      "id": "has-claims",
+      "ok": true,
+      "ms": 0.441,
+      "evidence": "8 claim spans",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "assessment",
+      "id": "verdict-and-severity",
+      "ok": true,
+      "ms": 0.008,
+      "evidence": "8/8 rows complete",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "assessment",
+      "id": "verified-was-sourced",
+      "ok": true,
+      "ms": 0.008,
+      "evidence": "6 verified resolve upstream",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "assessment",
+      "id": "summary-matches-rows",
+      "ok": true,
+      "ms": 0.007,
+      "evidence": "header 6/0/2 vs rows 6/0/2",
+      "skipped": false
+    },
+    {
+      "lane": "judge",
+      "verb": "assessment",
+      "id": "severity-calibrated",
+      "label": "Severity calibrated to consequence",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Assessment by ARCS rubric.\nQuestion: Severity calibrated to consequence\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- verdict-and-severity: pass (8/8 rows complete)\n- verified-was-sourced: pass (6 verified resolve upstream)\n- summary-matches-rows: pass (header 6/0/2 vs rows 6/0/2)\nArtifact: sha256:3846377272e1"
+    },
+    {
+      "lane": "judge",
+      "verb": "assessment",
+      "id": "gaps-plain",
+      "label": "Gaps stated as plainly as wins",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Assessment by ARCS rubric.\nQuestion: Gaps stated as plainly as wins\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- verdict-and-severity: pass (8/8 rows complete)\n- verified-was-sourced: pass (6 verified resolve upstream)\n- summary-matches-rows: pass (header 6/0/2 vs rows 6/0/2)\n- row hint: 0 gap rows\nArtifact: sha256:3846377272e1"
+    },
+    {
+      "lane": "judge",
+      "verb": "assessment",
+      "id": "no-hedge-inflation",
+      "label": "No hedge inflation",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Assessment by ARCS rubric.\nQuestion: No hedge inflation\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- verdict-and-severity: pass (8/8 rows complete)\n- verified-was-sourced: pass (6 verified resolve upstream)\n- summary-matches-rows: pass (header 6/0/2 vs rows 6/0/2)\nArtifact: sha256:3846377272e1"
+    },
+    {
+      "lane": "judge",
+      "verb": "assessment",
+      "id": "objection-table",
+      "label": "Objection table present",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Assessment by ARCS rubric.\nQuestion: Objection table present\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- verdict-and-severity: pass (8/8 rows complete)\n- verified-was-sourced: pass (6 verified resolve upstream)\n- summary-matches-rows: pass (header 6/0/2 vs rows 6/0/2)\nArtifact: sha256:3846377272e1"
+    },
+    {
+      "lane": "summary",
+      "verb": "assessment",
+      "rules": 4,
+      "llm_calls": 0,
+      "judge_pending": 4,
+      "fate": "pass",
+      "decided_by": "rules"
+    }
+  ]
+}

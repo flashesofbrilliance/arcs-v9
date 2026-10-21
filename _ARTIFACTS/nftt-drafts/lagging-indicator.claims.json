@@ -1,0 +1,122 @@
+{
+ "_doc": "Claim ledger for the held NFTT draft 'The Lagging Indicator'. Hand-written fields: id, section, text, type, and for repo-backed claims: file, find (git pickaxe string; empty = the commit that added the file), excerpt_grep, selftest, asset, liability. scripts/nftt_claim_atoms.py fills 'atom', 'excerpt' and 'selftest_result' into lagging-indicator.atoms.json. Types: sourced (backed by the repo), inference (argument, no source can force it), unproven (marked unproven in the text), steelman (the opposing case, argued fairly).",
+ "post": "_ARTIFACTS/nftt-drafts/blog-nftt-the-lagging-indicator.html",
+ "claims": [
+  {
+   "id": "C1",
+   "section": "I",
+   "type": "inference",
+   "text": "Treating a lagging indicator as a leading one means steering by the wake."
+  },
+  {
+   "id": "C2",
+   "section": "I",
+   "type": "inference",
+   "text": "A timed hand-coding round measures past practice, faithfully."
+  },
+  {
+   "id": "C3",
+   "section": "II",
+   "type": "steelman",
+   "text": "Reading and judging code is a real signal; someone has to know whether the agent's lines are right."
+  },
+  {
+   "id": "C4",
+   "section": "III",
+   "type": "sourced",
+   "text": "A few thousand commits of building this way.",
+   "measure": "git rev-list --count --no-merges HEAD",
+   "asset": "The count comes from git, so anyone with the repo gets the same number.",
+   "liability": "Commit count measures activity, not quality; the post must not lean on it as proof of skill."
+  },
+  {
+   "id": "C5",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Merges go through a script that pins the exact commit being merged and refuses if any check is pending or failing.",
+   "file": "scripts/safe_merge.sh",
+   "find": "match-head-commit",
+   "excerpt_grep": "match-head-commit",
+   "selftest": "bash scripts/safe_merge.sh --self-test",
+   "asset": "Invariant: the commit merged is the commit reviewed; a moved head or a non-SUCCESS check refuses the merge.",
+   "liability": "It trusts the checks it waits on; with CI switched off for budget, 'every check SUCCESS' can mean very few checks ran."
+  },
+  {
+   "id": "C6",
+   "section": "IV",
+   "type": "sourced",
+   "text": "It has refused me twice when a branch moved under me.",
+   "evidence": "CLAUDE.md handoff v3.141.0: 'it refused twice on moved heads, as designed'",
+   "asset": "The refusals are recorded in the handoff, written the same day.",
+   "liability": "The handoff is the only record; the refusals are not in a receipt, so this is the weakest sourced claim."
+  },
+  {
+   "id": "C7",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Pre-commit gates block a model name typed by hand.",
+   "file": "scripts/model_id_gate.py",
+   "find": "",
+   "excerpt_grep": "ID = re.compile",
+   "selftest": "python3 scripts/model_id_gate.py --self-test",
+   "asset": "Invariant: model ids live in one registry; a hardcoded id cannot be committed.",
+   "liability": "A pattern gate: a new model naming scheme it does not know slips through until the pattern is updated."
+  },
+  {
+   "id": "C8",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Pre-commit gates block a file moved while something still points to the old path.",
+   "file": "scripts/archive_move_gate.py",
+   "find": "",
+   "excerpt_grep": "Not caught",
+   "selftest": "python3 scripts/archive_move_gate.py --self-test",
+   "asset": "Invariant: no live file cites a path that a commit renames or deletes.",
+   "liability": "By its own docstring: 'Not caught: a directory cited without a file name, and a bare basename.' A path built at runtime is invisible too."
+  },
+  {
+   "id": "C9",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Pre-commit gates block a page whose text wraps badly at some screen width.",
+   "file": "scripts/artifact_wrap_lint.py",
+   "find": "MODE 5",
+   "excerpt_grep": "# MODE 5",
+   "selftest": "python3 scripts/artifact_wrap_lint.py _ARTIFACTS/nftt-drafts/blog-nftt-the-lagging-indicator.html",
+   "asset": "Invariant: one body measure per page; a container/measure mismatch fails the commit.",
+   "liability": "Static CSS reading: a layout bug that only appears in a real browser at an odd width still needs the screenshot sweep."
+  },
+  {
+   "id": "C10",
+   "section": "IV",
+   "type": "sourced",
+   "text": "Every merge ends with a decision receipt, and the ledger refuses edits; a correction is a new row.",
+   "file": "runtime/specs/decision-receipt/2026-10-20-append-only.sql",
+   "find": "",
+   "excerpt_grep": "before update or delete",
+   "applied_by": "2ebb2b30",
+   "asset": "Invariant: a filed receipt cannot be rewritten after the outcome is known, which is what makes it a leading indicator.",
+   "liability": "Applied per the proof file in 2ebb2b30; the live trigger was not re-queried for this plate. 'Every merge' is the rule, and coverage is about 75%, not 100%."
+  },
+  {
+   "id": "C11",
+   "section": "IV",
+   "type": "unproven",
+   "text": "Whether the receipts make the calls better over time is not yet known; scoring stays off until enough outcomes close.",
+   "asset": "Marked unproven in the text itself.",
+   "liability": "The core promise of the system has no result yet; a sceptic is right to discount it."
+  },
+  {
+   "id": "C12",
+   "section": "V",
+   "type": "inference",
+   "text": "A take-home plus a live defense is harder to fake than either alone."
+  },
+  {
+   "id": "C13",
+   "section": "V",
+   "type": "inference",
+   "text": "A stakeholder-language spec tests whether the candidate finds the deterministic edges unaided."
+  }
+ ]
+}

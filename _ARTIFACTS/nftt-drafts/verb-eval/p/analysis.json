@@ -1,0 +1,239 @@
+{
+  "verb": "analysis",
+  "tool": "Analysis by ARCS",
+  "fate": "sourced",
+  "ok": true,
+  "failed": [],
+  "artifact": "sha256:0269b65e00cc",
+  "upstream": null,
+  "gates": [
+    {
+      "id": "has-claims",
+      "ok": true,
+      "evidence": "8 claim spans",
+      "ms": 0.244
+    },
+    {
+      "id": "every-claim-sourced",
+      "ok": true,
+      "evidence": "8/8 sourced",
+      "ms": 0.006
+    },
+    {
+      "id": "high-stakes-two-sources",
+      "ok": true,
+      "evidence": "0 high-stakes",
+      "ms": 0.003
+    },
+    {
+      "id": "sources-in-ledger",
+      "ok": true,
+      "evidence": "0 orphan",
+      "ms": 0.003
+    }
+  ],
+  "rubric": [
+    {
+      "row": "coverage",
+      "label": "Coverage: the obvious records were pulled",
+      "evidence": "8 source hosts",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "primary",
+      "label": "Primary source over a summary of it",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "open-question",
+      "label": "The question stays open; no conclusion slipped in",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "anomalies",
+      "label": "Anomalies logged, not dropped",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    }
+  ],
+  "floor": {
+    "min_total": 5,
+    "max_total": 8,
+    "must_pass": [
+      "coverage",
+      "primary"
+    ],
+    "status": "pending",
+    "scored": 0,
+    "rows": 4
+  },
+  "sycophancy": {
+    "agreement": 1,
+    "dissent": 1,
+    "ratio": 0.5,
+    "verdict": "OK",
+    "blocking": false
+  },
+  "notes": [
+    "provenance: not enrolled (not enrolled (no evidence.jsonl); 0 metric(s) unchecked); numbers unchecked"
+  ],
+  "claims": [
+    {
+      "id": "C4",
+      "text": "A few thousand commits of building this way.",
+      "src": [
+        "git:rev-list --no-merges"
+      ],
+      "stakes": "normal"
+    },
+    {
+      "id": "C5",
+      "text": "Merges go through a script that pins the exact commit being merged and refuses if any check is pending or failing.",
+      "src": [
+        "git:51ddf069"
+      ],
+      "stakes": "normal"
+    },
+    {
+      "id": "C6",
+      "text": "It has refused me twice when a branch moved under me.",
+      "src": [
+        "repo:CLAUDE.md#handoff-v3.141.0"
+      ],
+      "stakes": "normal"
+    },
+    {
+      "id": "C7",
+      "text": "Pre-commit gates block a model name typed by hand.",
+      "src": [
+        "git:afa2ca5c"
+      ],
+      "stakes": "normal"
+    },
+    {
+      "id": "C8",
+      "text": "Pre-commit gates block a file moved while something still points to the old path.",
+      "src": [
+        "git:f905adbd"
+      ],
+      "stakes": "normal"
+    },
+    {
+      "id": "C9",
+      "text": "Pre-commit gates block a page whose text wraps badly at some screen width.",
+      "src": [
+        "git:74705416"
+      ],
+      "stakes": "normal"
+    },
+    {
+      "id": "C10",
+      "text": "Every merge ends with a decision receipt, and the ledger refuses edits; a correction is a new row.",
+      "src": [
+        "git:2ebb2b30"
+      ],
+      "stakes": "normal"
+    },
+    {
+      "id": "C11",
+      "text": "Whether the receipts make the calls better over time is not yet known; scoring stays off until enough outcomes close.",
+      "src": [
+        "https://app.arcs.care/api/pulse#gates.calibration"
+      ],
+      "stakes": "normal"
+    }
+  ],
+  "trace": [
+    {
+      "lane": "rules",
+      "verb": "analysis",
+      "id": "has-claims",
+      "ok": true,
+      "ms": 0.244,
+      "evidence": "8 claim spans",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "analysis",
+      "id": "every-claim-sourced",
+      "ok": true,
+      "ms": 0.006,
+      "evidence": "8/8 sourced",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "analysis",
+      "id": "high-stakes-two-sources",
+      "ok": true,
+      "ms": 0.003,
+      "evidence": "0 high-stakes",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "analysis",
+      "id": "sources-in-ledger",
+      "ok": true,
+      "ms": 0.003,
+      "evidence": "0 orphan",
+      "skipped": false
+    },
+    {
+      "lane": "judge",
+      "verb": "analysis",
+      "id": "coverage",
+      "label": "Coverage: the obvious records were pulled",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Analysis by ARCS rubric.\nQuestion: Coverage: the obvious records were pulled\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- every-claim-sourced: pass (8/8 sourced)\n- high-stakes-two-sources: pass (0 high-stakes)\n- sources-in-ledger: pass (0 orphan)\n- row hint: 8 source hosts\nArtifact: sha256:0269b65e00cc"
+    },
+    {
+      "lane": "judge",
+      "verb": "analysis",
+      "id": "primary",
+      "label": "Primary source over a summary of it",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Analysis by ARCS rubric.\nQuestion: Primary source over a summary of it\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- every-claim-sourced: pass (8/8 sourced)\n- high-stakes-two-sources: pass (0 high-stakes)\n- sources-in-ledger: pass (0 orphan)\nArtifact: sha256:0269b65e00cc"
+    },
+    {
+      "lane": "judge",
+      "verb": "analysis",
+      "id": "open-question",
+      "label": "The question stays open; no conclusion slipped in",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Analysis by ARCS rubric.\nQuestion: The question stays open; no conclusion slipped in\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- every-claim-sourced: pass (8/8 sourced)\n- high-stakes-two-sources: pass (0 high-stakes)\n- sources-in-ledger: pass (0 orphan)\nArtifact: sha256:0269b65e00cc"
+    },
+    {
+      "lane": "judge",
+      "verb": "analysis",
+      "id": "anomalies",
+      "label": "Anomalies logged, not dropped",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Analysis by ARCS rubric.\nQuestion: Anomalies logged, not dropped\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- has-claims: pass (8 claim spans)\n- every-claim-sourced: pass (8/8 sourced)\n- high-stakes-two-sources: pass (0 high-stakes)\n- sources-in-ledger: pass (0 orphan)\nArtifact: sha256:0269b65e00cc"
+    },
+    {
+      "lane": "summary",
+      "verb": "analysis",
+      "rules": 4,
+      "llm_calls": 0,
+      "judge_pending": 4,
+      "fate": "sourced",
+      "decided_by": "rules"
+    }
+  ]
+}

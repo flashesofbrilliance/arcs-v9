@@ -1,0 +1,254 @@
+{
+  "verb": "synthesis",
+  "tool": "Synthesis by ARCS",
+  "fate": "ship",
+  "ok": true,
+  "failed": [],
+  "artifact": "sha256:13eee93d7686",
+  "upstream": "sha256:c5c4bcfcaaf5",
+  "gates": [
+    {
+      "id": "no-new-claims",
+      "ok": true,
+      "evidence": "8/8 resolve upstream",
+      "ms": 1.15
+    },
+    {
+      "id": "conditions-honored",
+      "ok": true,
+      "evidence": "all closed",
+      "ms": 0.007
+    },
+    {
+      "id": "render-matches-verdict",
+      "ok": true,
+      "evidence": "earned fidelity holds",
+      "ms": 0.003
+    },
+    {
+      "id": "em-dash-zero",
+      "ok": true,
+      "evidence": "0 em-dashes in visible text",
+      "ms": 0.389
+    },
+    {
+      "id": "noindex",
+      "ok": true,
+      "evidence": "robots noindex present",
+      "ms": 0.004
+    },
+    {
+      "id": "slop-lint",
+      "ok": true,
+      "evidence": "[PASS] /var/folders/1c/xc6tjkr97yj684czzdvvqtlh0000gn/T/tmp8sucgvxw.html",
+      "ms": 51.933
+    }
+  ],
+  "rubric": [
+    {
+      "row": "A-word",
+      "label": "Slop-free rubric A: word level",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "B-structure",
+      "label": "Slop-free rubric B: structure",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "C-rhythm",
+      "label": "Slop-free rubric C: rhythm",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "D-specificity",
+      "label": "Slop-free rubric D: specificity, the positive test",
+      "evidence": "",
+      "score": null,
+      "judge": "pending"
+    },
+    {
+      "row": "compression",
+      "label": "Compression holds near 1:5",
+      "evidence": "1295 words out",
+      "score": null,
+      "judge": "pending"
+    }
+  ],
+  "floor": {
+    "min_total": 7,
+    "max_total": 10,
+    "must_pass": [
+      "A-word",
+      "D-specificity"
+    ],
+    "status": "pending",
+    "scored": 0,
+    "rows": 5
+  },
+  "sycophancy": {
+    "agreement": 4,
+    "dissent": 6,
+    "ratio": 0.57,
+    "verdict": "OK",
+    "blocking": false
+  },
+  "notes": [
+    "provenance: not enrolled (not enrolled (no evidence.jsonl); 0 metric(s) unchecked); numbers unchecked"
+  ],
+  "claims": [
+    {
+      "id": "C4",
+      "text": "a few thousand commits"
+    },
+    {
+      "id": "C5",
+      "text": "Merges go through a script that pins the exact commit being merged and refuses if any check is still pending or failing."
+    },
+    {
+      "id": "C6",
+      "text": "It has refused me twice when a branch moved under me"
+    },
+    {
+      "id": "C7",
+      "text": "a model name typed by hand"
+    },
+    {
+      "id": "C8",
+      "text": "a file moved while something still points to the old path"
+    },
+    {
+      "id": "C9",
+      "text": "a page whose text wraps badly at some screen width"
+    },
+    {
+      "id": "C10",
+      "text": "The ledger refuses edits; a correction is a new row that names the old one."
+    },
+    {
+      "id": "C11",
+      "text": "What is not yet proven: whether these receipts make my calls better over time."
+    }
+  ],
+  "trace": [
+    {
+      "lane": "rules",
+      "verb": "synthesis",
+      "id": "no-new-claims",
+      "ok": true,
+      "ms": 1.15,
+      "evidence": "8/8 resolve upstream",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "synthesis",
+      "id": "conditions-honored",
+      "ok": true,
+      "ms": 0.007,
+      "evidence": "all closed",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "synthesis",
+      "id": "render-matches-verdict",
+      "ok": true,
+      "ms": 0.003,
+      "evidence": "earned fidelity holds",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "synthesis",
+      "id": "em-dash-zero",
+      "ok": true,
+      "ms": 0.389,
+      "evidence": "0 em-dashes in visible text",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "synthesis",
+      "id": "noindex",
+      "ok": true,
+      "ms": 0.004,
+      "evidence": "robots noindex present",
+      "skipped": false
+    },
+    {
+      "lane": "rules",
+      "verb": "synthesis",
+      "id": "slop-lint",
+      "ok": true,
+      "ms": 51.933,
+      "evidence": "[PASS] /var/folders/1c/xc6tjkr97yj684czzdvvqtlh0000gn/T/tmp8sucgvxw.html",
+      "skipped": false
+    },
+    {
+      "lane": "judge",
+      "verb": "synthesis",
+      "id": "A-word",
+      "label": "Slop-free rubric A: word level",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Synthesis by ARCS rubric.\nQuestion: Slop-free rubric A: word level\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- no-new-claims: pass (8/8 resolve upstream)\n- conditions-honored: pass (all closed)\n- render-matches-verdict: pass (earned fidelity holds)\n- em-dash-zero: pass (0 em-dashes in visible text)\n- noindex: pass (robots noindex present)\n- slop-lint: pass ([PASS] /var/folders/1c/xc6tjkr97yj684czzdvvqtlh0000gn/T/tmp8sucgvxw.html)\nArtifact: sha256:13eee93d7686"
+    },
+    {
+      "lane": "judge",
+      "verb": "synthesis",
+      "id": "B-structure",
+      "label": "Slop-free rubric B: structure",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Synthesis by ARCS rubric.\nQuestion: Slop-free rubric B: structure\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- no-new-claims: pass (8/8 resolve upstream)\n- conditions-honored: pass (all closed)\n- render-matches-verdict: pass (earned fidelity holds)\n- em-dash-zero: pass (0 em-dashes in visible text)\n- noindex: pass (robots noindex present)\n- slop-lint: pass ([PASS] /var/folders/1c/xc6tjkr97yj684czzdvvqtlh0000gn/T/tmp8sucgvxw.html)\nArtifact: sha256:13eee93d7686"
+    },
+    {
+      "lane": "judge",
+      "verb": "synthesis",
+      "id": "C-rhythm",
+      "label": "Slop-free rubric C: rhythm",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Synthesis by ARCS rubric.\nQuestion: Slop-free rubric C: rhythm\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- no-new-claims: pass (8/8 resolve upstream)\n- conditions-honored: pass (all closed)\n- render-matches-verdict: pass (earned fidelity holds)\n- em-dash-zero: pass (0 em-dashes in visible text)\n- noindex: pass (robots noindex present)\n- slop-lint: pass ([PASS] /var/folders/1c/xc6tjkr97yj684czzdvvqtlh0000gn/T/tmp8sucgvxw.html)\nArtifact: sha256:13eee93d7686"
+    },
+    {
+      "lane": "judge",
+      "verb": "synthesis",
+      "id": "D-specificity",
+      "label": "Slop-free rubric D: specificity, the positive test",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Synthesis by ARCS rubric.\nQuestion: Slop-free rubric D: specificity, the positive test\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- no-new-claims: pass (8/8 resolve upstream)\n- conditions-honored: pass (all closed)\n- render-matches-verdict: pass (earned fidelity holds)\n- em-dash-zero: pass (0 em-dashes in visible text)\n- noindex: pass (robots noindex present)\n- slop-lint: pass ([PASS] /var/folders/1c/xc6tjkr97yj684czzdvvqtlh0000gn/T/tmp8sucgvxw.html)\nArtifact: sha256:13eee93d7686"
+    },
+    {
+      "lane": "judge",
+      "verb": "synthesis",
+      "id": "compression",
+      "label": "Compression holds near 1:5",
+      "sent": false,
+      "score": null,
+      "judge": "pending",
+      "prompt": "You are scoring one row of the Synthesis by ARCS rubric.\nQuestion: Compression holds near 1:5\nScore 0, 1 or 2. Reply with the number and one sentence of reason.\nMachine-check evidence for this step:\n- no-new-claims: pass (8/8 resolve upstream)\n- conditions-honored: pass (all closed)\n- render-matches-verdict: pass (earned fidelity holds)\n- em-dash-zero: pass (0 em-dashes in visible text)\n- noindex: pass (robots noindex present)\n- slop-lint: pass ([PASS] /var/folders/1c/xc6tjkr97yj684czzdvvqtlh0000gn/T/tmp8sucgvxw.html)\n- row hint: 1295 words out\nArtifact: sha256:13eee93d7686"
+    },
+    {
+      "lane": "summary",
+      "verb": "synthesis",
+      "rules": 6,
+      "llm_calls": 0,
+      "judge_pending": 5,
+      "fate": "ship",
+      "decided_by": "rules"
+    }
+  ]
+}
