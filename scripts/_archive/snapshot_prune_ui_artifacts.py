@@ -5,9 +5,9 @@ Drops every call_briefs / product_status_pages entry whose `file` no longer exis
 tracked tree (git ls-files), and records what was pruned. Mechanical; run after retiring a
 brief. Found necessary 2026-09-06 when integrity_gate flagged 9 retired public/*.html cites.
 
-    python3 scripts/snapshot_prune_ui_artifacts.py            # apply
-    python3 scripts/snapshot_prune_ui_artifacts.py --dry-run  # report only
-    python3 scripts/snapshot_prune_ui_artifacts.py --self-test
+    python3 scripts/_archive/snapshot_prune_ui_artifacts.py            # apply
+    python3 scripts/_archive/snapshot_prune_ui_artifacts.py --dry-run  # report only
+    python3 scripts/_archive/snapshot_prune_ui_artifacts.py --self-test
 """
 import argparse, hashlib, json, os, subprocess, sys
 from datetime import datetime, timezone
@@ -42,7 +42,7 @@ def prune(dry: bool) -> int:
     elif not dry:
         today = str(datetime.now(timezone.utc).date())
         ui["_note"] = (ui.get("_note", "").split(" STALE ")[0].strip()
-                       + f" Pruned {len(pruned)} retired entries on {today} via scripts/snapshot_prune_ui_artifacts.py.")
+                       + f" Pruned {len(pruned)} retired entries on {today} via scripts/_archive/snapshot_prune_ui_artifacts.py.")
         # Ledger by subdomain + basename only: never the repo path, or the ledger itself becomes a
         # vapor cite that integrity_gate.py rightly flags forever.
         ui["pruned"] = ui.get("pruned", []) + [{"subdomain": r.get("subdomain"), "was": os.path.basename(r.get("file") or ""), "pruned_at": today} for r in pruned]

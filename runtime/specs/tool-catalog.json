@@ -7,16 +7,16 @@
   "hook": 3,
   "operator": 46,
   "package": 3,
-  "script": 250,
+  "script": 247,
   "skill": 22,
   "workflow": 2
  },
- "total": 365,
+ "total": 362,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 507,
+   "WIRED": 505,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -158,7 +158,7 @@
    "kind": "skill",
    "name": "night-moves",
    "path": ".claude/skills/night-moves/SKILL.md",
-   "jtbd": "End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a five-part digest — what shipped · what's next · what we learned · the new shape of tools-for",
+   "jtbd": "Housekeeping: day's work is scattered, or a scheduled run hung or never produced a digest? End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a f",
    "invoke": "/night-moves",
    "state": "WIRED"
   },
@@ -1220,14 +1220,6 @@
   },
   {
    "kind": "script",
-   "name": "forge_finalize.sh",
-   "path": "scripts/forge_finalize.sh",
-   "jtbd": "forge_finalize.sh <jobid> <slug> <actual_tokens> \"<note>\" — mechanical close of a light-tier forge run:",
-   "invoke": "scripts/forge_finalize.sh",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
    "name": "forge_finalize_one.sh",
    "path": "scripts/forge_finalize_one.sh",
    "jtbd": "forge_finalize_one.sh <jobid> <slug> <tokens> \"<note>\" — lean per-bundle close:",
@@ -1412,6 +1404,14 @@
   },
   {
    "kind": "script",
+   "name": "integrity_gate_selftest.py",
+   "path": "scripts/integrity_gate_selftest.py",
+   "jtbd": "Fixtures for integrity_gate.py matcher fixes: directory ancestors and placeholder-truncated cites.",
+   "invoke": "python3 scripts/integrity_gate_selftest.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "jobs_prose_gate.py",
    "path": "scripts/jobs_prose_gate.py",
    "jtbd": "jobs_prose_gate: Job Factory slice 7. The NFTT prose factory's gate chain, run on",
@@ -1580,6 +1580,14 @@
   },
   {
    "kind": "script",
+   "name": "mcp_tool_index_emit.py",
+   "path": "scripts/mcp_tool_index_emit.py",
+   "jtbd": "mcp_tool_index_emit: the cached MCP tool index for the JTBD graph (Sprint 6, row jtbd-graph-s6-mcp-tools).",
+   "invoke": "python3 scripts/mcp_tool_index_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "md_page.py",
    "path": "scripts/md_page.py",
    "jtbd": "md_page.py: a small, safe Markdown to HTML body converter for the proposal wiki.",
@@ -1704,14 +1712,6 @@
    "path": "scripts/nftt_contrast_ratchet.py",
    "jtbd": "nftt_contrast_ratchet: an HONEST low-contrast gate for the NFTT dark-theme pages.",
    "invoke": "python3 scripts/nftt_contrast_ratchet.py",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "nftt_dropcap_lint.py",
-   "path": "scripts/nftt_dropcap_lint.py",
-   "jtbd": "nftt_dropcap_lint.py — catch the drop-cap \"eats the space\" render bug.",
-   "invoke": "python3 scripts/nftt_dropcap_lint.py",
    "state": "WIRED"
   },
   {
@@ -2100,14 +2100,6 @@
   },
   {
    "kind": "script",
-   "name": "risk_sweep_cron.sh",
-   "path": "scripts/risk_sweep_cron.sh",
-   "jtbd": "risk_sweep_cron.sh - zero-token nightly entry for scripts/risk_sweep.py.",
-   "invoke": "scripts/risk_sweep_cron.sh",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
    "name": "risk_underwriter.py",
    "path": "scripts/risk_underwriter.py",
    "jtbd": "risk_underwriter.py: price each induced-backlog row's risk. Read-only, stdlib, no model calls.",
@@ -2144,14 +2136,6 @@
    "path": "scripts/scout_dossier_ingest.py",
    "jtbd": "Perplexity scout intake: validate a role dossier in _INBOX/evidence/ and map it onto the jobs board.",
    "invoke": "python3 scripts/scout_dossier_ingest.py",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "second_pass_ledger.py",
-   "path": "scripts/second_pass_ledger.py",
-   "jtbd": "Second-pass validator for the 2026 rejection ground-truth ledger.",
-   "invoke": "python3 scripts/second_pass_ledger.py",
    "state": "WIRED"
   },
   {
@@ -2248,14 +2232,6 @@
    "path": "scripts/smoke.sh",
    "jtbd": "scripts/smoke.sh — ADR-016 acceptance gate",
    "invoke": "scripts/smoke.sh",
-   "state": "WIRED"
-  },
-  {
-   "kind": "script",
-   "name": "snapshot_prune_ui_artifacts.py",
-   "path": "scripts/snapshot_prune_ui_artifacts.py",
-   "jtbd": "snapshot_prune_ui_artifacts.py — keep _STATE/snapshot.json `ui_artifacts` honest.",
-   "invoke": "python3 scripts/snapshot_prune_ui_artifacts.py",
    "state": "WIRED"
   },
   {
