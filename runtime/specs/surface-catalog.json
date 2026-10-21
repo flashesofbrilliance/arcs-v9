@@ -6,13 +6,13 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 289,
+  "rows": 290,
   "hosts": 81,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 230,
+   "product page": 231,
    "gated": 31
   },
   "next_config_hosts": 79,
@@ -637,7 +637,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Apply bg on atm change",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "app.arcs.care",
@@ -3355,6 +3355,26 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/blog/til/one-day-99-merges",
+   "catch_all": false,
+   "destination": "/blog-til-one-day-99-merges.html",
+   "pattern": false,
+   "file": "public/blog-til-one-day-99-merges.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "One Day, 99 Merges · Today I Learned",
+   "description": "Release notes for 2026-10-20: 99 pull requests merged by one founder with a human-in-the-loop harness, what shipped, what broke, why it compounds, and an honest human-time estimate.",
+   "index": null,
+   "unlisted": false,
+   "purpose": "Release notes for 2026-10-20: 99 pull requests merged by one founder with a human-in-the-loop harness, what shipped, what broke, why it compounds, and an honest human-time estimate.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/blog/til/zim",
    "catch_all": false,
    "destination": "/blog-til-zim.html",
@@ -5446,7 +5466,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-20"
   },
   {
    "host": "thetrueai.arcs.care",
