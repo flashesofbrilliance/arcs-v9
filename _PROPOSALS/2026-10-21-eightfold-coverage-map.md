@@ -67,3 +67,7 @@ These exist and I could not honestly place them on the eight. Orphan does not me
 ## Addendum (Zach, 2026-10-21): livelihood is a stop loss
 
 Right livelihood here means opportunity-cost stop loss: break the habit of applying into a void, and do not fire shots that cannot be taken or tracked. Open question this raises, not answered by the audit: which of the pieces above actually *stops* a shot (a gate that refuses an application) versus only *scores or tracks* it. I did not read the jobs code to tell.
+
+## Addendum 2 (Zach, 2026-10-21): telemetry for the average person
+
+Show progress and trajectory as numbers even when they are rough ("even if inaccurate"), in a form an ordinary user can read. Fits factors 7 and 8 (see the whole terrain; every pull moves you forward). What exists today is built for Zach, not a first-time visitor: `scripts/outcome_funnel.py`, `scripts/accountant_weekly.py`, `scripts/receipt_coverage.py`, `status.arcs.care` (`public/status.html`). Tension to resolve before building: the repo's refusal-to-overclaim stance (`_DECISIONS/ADR-079-refusal-to-overclaim-is-the-product.md`) means a rough number must be labelled as rough ("first read, will sharpen", as the proposal already says), not hidden.
