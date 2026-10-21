@@ -7,6 +7,19 @@ scope: ARCS positioning and the landing-page first touch (individual front door 
 
 # Doors of perception: the first touch
 
+## True north
+
+**Keep your head, your heart, and your wits, in the age of AI.**
+
+The purpose behind it: survive modern times with your soul intact, and use technology in a way that
+is good for you and for society.
+
+| | Path grouping | Factors |
+|---|---|---|
+| Head | Wisdom | Right view, right intention |
+| Heart | Conduct | Right speech, right action, right livelihood |
+| Wits | Practice | Right effort, right mindfulness, right concentration |
+
 ## The reframe
 
 ARCS has been positioned on decision science and decision geometry. The thread's premise: most people
