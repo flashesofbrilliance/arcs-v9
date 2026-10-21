@@ -143,7 +143,6 @@
    "tool:script:token_kaizen.py",
    "tool:script:tooltip_link_lint.py",
    "tool:script:trust_name_leak.py",
-   "tool:script:vercel-ignore-build.sh",
    "tool:script:vercel_branch_pin_gate.py",
    "tool:script:video_cut.py",
    "tool:script:warroom_board.py",
