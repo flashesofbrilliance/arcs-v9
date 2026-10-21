@@ -13,18 +13,18 @@ command or skill names. Last commit date first. Fates: compost (move to `scripts
 | 2026-06-16 | `scripts/_archive/arcs_diagnostic.py` (COMPOSTED 2026-10-20, Zach) |
 | 2026-06-16 | `scripts/_archive/seed_test_receipts.py` (COMPOSTED 2026-10-20, Zach) |
 | 2026-07-08 | `scripts/_archive/waveform_optimizer.py` (COMPOSTED 2026-10-20, Zach) |
-| 2026-09-07 | `scripts/forge_finalize.sh` |
-| 2026-09-07 | `scripts/nftt_dropcap_lint.py` |
-| 2026-09-10 | `scripts/second_pass_ledger.py` |
+| 2026-09-07 | `scripts/_archive/forge_finalize.sh` (COMPOSTED 2026-10-20, Zach) |
+| 2026-09-07 | `scripts/_archive/nftt_dropcap_lint.py` (COMPOSTED 2026-10-20, Zach) |
+| 2026-09-10 | `scripts/_archive/second_pass_ledger.py` (COMPOSTED 2026-10-20, Zach) |
 | 2026-09-24 | `scripts/baseline-prod-migrations.sh` |
 | 2026-10-04 | `scripts/blog_provenance.py` |
-| 2026-10-04 | `scripts/gravity_well_fork_scan.py` |
+| 2026-10-04 | `scripts/gravity_well_fork_scan.py` (keep as manual tool (Zach unsure 2026-10-20)) |
 | 2026-10-04 | `scripts/linkedin_render.py` |
-| 2026-10-04 | `scripts/snapshot_prune_ui_artifacts.py` |
-| 2026-10-05 | `scripts/forge_finalize_one.sh` |
+| 2026-10-04 | `scripts/_archive/snapshot_prune_ui_artifacts.py` (COMPOSTED 2026-10-20, Zach) |
+| 2026-10-05 | `scripts/forge_finalize_one.sh` (KEPT 2026-10-20: live caller, scheduled task arcs-job-search-loop-retargeted-alerts) |
 | 2026-10-05 | `scripts/trust_name_leak.py` |
 | 2026-10-06 | `scripts/bank_event.py` |
-| 2026-10-06 | `scripts/risk_sweep_cron.sh` |
+| 2026-10-06 | `scripts/_archive/risk_sweep_cron.sh` (COMPOSTED 2026-10-20, Zach) |
 | 2026-10-07 | `scripts/artifact_reuse_catalog.py` |
 | 2026-10-15 | `scripts/coherence_sweep.py` |
 | 2026-10-17 | `scripts/doc_classify.py` |
