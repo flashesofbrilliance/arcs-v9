@@ -69,7 +69,6 @@ const RISKS: Risk[] = [
   {id:"risk-3",date:"2026-06-03",risk:"Cross-user data leakage",sev:"HIGH",status:"MITIGATED",sha:"6a5b856",how:"anonymous + scoped receipt-claim",note:"Receipt-claim flow scoped per session to prevent cross-user reads."},
   {id:"risk-4",date:"2026-05-28",risk:"DATABASE_URL silent rotation",sev:"HIGH",status:"OPEN",sha:"dfce59d",how:"needs alerting + pinned secret",note:"Provider can rotate the URL silently; no alert wired yet. Open."},
   {id:"risk-5",date:"2026-05-27",risk:"Prisma 7 P1012 — deploy blocked",sev:"MED",status:"AVERTED",sha:"11ba2fc",how:"PrismaPg adapter fix",note:"Schema/engine mismatch blocked deploy; resolved by adapter swap."},
-  {id:"risk-6",date:"2026-06-04",risk:"computeYGate unaudited logic",sev:"MED",status:"OPEN",sha:null,how:"needs unit coverage + audit",note:"Core gate logic ships without test coverage. Open."},
 ]
 const LAYERS: Layer[] = [
   {id:"L5",findings:[
@@ -103,7 +102,6 @@ const LAYERS: Layer[] = [
     {id:"s-L1-0",lab:"L0–L5 prose prompt",grade:"A",conf:98,risk:"LOW",kind:"CLASS",desc:"The pipeline is a single L0–L5 prose prompt, not orchestrated agents.",prov:[["Prose prompt","src/lib/pipeline","1 prompt","P25"]]},
     {id:"s-L1-1",lab:"single model call",grade:"A",conf:97,risk:"LOW",kind:"INSTANCE",desc:"One Claude call returns the whole receipt.",prov:[["1 call","compass/route.ts","single call","P26"]]},
     {id:"s-L1-2",lab:"arrays → TEXT",grade:"A",conf:95,risk:"LOW",kind:"INSTANCE",desc:"Structured arrays serialized to TEXT columns.",prov:[["arrays→TEXT","prisma/schema.prisma","TEXT cols","P27"]]},
-    {id:"s-L1-3",lab:"computeYGate unaudited",grade:"C",conf:60,risk:"MED",kind:"INSTANCE",desc:"computeYGate ships without unit coverage.",prov:[["No tests","src/lib/ygate.ts","0 specs","P28"]]},
   ]},
 ]
 

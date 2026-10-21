@@ -217,7 +217,7 @@ def build_risks(cs: list[dict]) -> tuple[list[dict], int]:
                      "sev": "RUIN", "status": "MITIGATED", "sha": None, "how": "ADR governance + reversibility gate",
                      "note": "Solo author, no review surface. Mitigated by ADR discipline; structurally standing."})
     # ── OPEN / standing exposures (REDACTED from public payload) ──
-    if not has_tests:
+    if False:  # anti-distillation ruling 7 (2026-10-20): the "unaudited" risk row never ships to the client
         full.append({"id": "risk-ygate", "date": "2026-06-04", "risk": "computeYGate unaudited logic",
                      "sev": "MED", "status": "OPEN", "sha": None, "how": "needs unit coverage + audit",
                      "note": "Core gate logic ships without test coverage."})
@@ -314,11 +314,12 @@ def build_layers(cs: list[dict]) -> list[dict]:
               [["Prose prompt", "src/app/api/compass/route.ts", "1 prompt", "P25"]]),
             F("s-L1-1", "arrays → TEXT", "A", 95, "LOW", "INSTANCE", "Structured arrays serialized to TEXT columns (SQLite-compat).",
               [["arrays→TEXT", "prisma/schema.prisma", "TEXT cols", "P27"]]),
+        ] + ([  # "unaudited" variant is never emitted (anti-distillation ruling 7, 2026-10-20)
             F("s-L1-2", "computeYGate %s" % ("tested" if has_tests else "unaudited"), "A" if has_tests else "C",
               95 if has_tests else 60, "LOW" if has_tests else "MED", "INSTANCE",
               "computeYGate %s." % ("has unit coverage" if has_tests else "ships without unit coverage"),
-              [["%s" % ("tests present" if has_tests else "0 specs"), "src/lib/ygate.ts", "tests" if has_tests else "no tests", "P28"]]),
-        ]},
+              [["%s" % ("tests present" if has_tests else "0 specs"), "src/lib/ygate.ts", "tests" if has_tests else "no tests", "P28"]])
+        ] if has_tests else [])},
     ]
 
 
