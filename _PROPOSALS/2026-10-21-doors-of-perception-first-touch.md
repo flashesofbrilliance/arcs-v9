@@ -119,6 +119,17 @@ Internal design spine only. Never front-door copy, never a health or energetic c
 - Coverage map: the thin factors (speech, action, livelihood) all sit in Heart; blocked channels.
   Connect, don't add.
 
+## Reach, depth, and staying power
+
+- Outside reference: the comfort-zone model as drawn by Dr. Thomas Funke (comfort, fear, learning,
+  growth, transformation). ARCS serves the fear band (grain and mirror doors); the spiral is learning,
+  the Heart factors are growth, true north is transformation.
+- Differences: growth loops rather than running one way; and "Confidence comes from doing hard things
+  and seeing honestly how they went."
+- Outward reach, inward depth: the model's rings grow outward; the mandala's fathom rings go inward.
+- Staying power, the sumo ring: lose by leaving the ring, not by being pushed. Low center, feel the
+  edge, redirect the push. "Feel the edge. Stay in the ring."
+
 ## Guardrails
 
 - Refuse to overclaim: the page shows the shape of compounding; receipts at 30 and 90 days prove it.
