@@ -21,6 +21,12 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-10-21 · the eightfold wheel page arrived with 11 design findings, two of them a deliberate 8-bit look
+- break: `_ARTIFACTS/eightfold-scaffold.html` (new page, published as the ARCS Eightfold Wheel artifact) was blocked by the ratchet on 11 findings: pixel labels at 8 to 10px (under the 11px floor), an uppercase label with wide tracking, a decorative scanline gradient, an h1 whose colour the detector read as black because it was inherited, and Press Start 2P plus its pixel sizes sitting outside DESIGN.md.
+- found by: the kintsugi pre-commit ratchet (net-new design debt on a new page).
+- repair: every pixel label raised to 11px; uppercase, tracking and the scanline gradient removed; the h1 colour set explicitly from the kit token. The 8-bit face is Zach's explicit ask (2026-10-21), so it is waived for this one file only (`design-system-font` and `design-system-font-size` entries in `.impeccable/config.json`), not added to DESIGN.md, so it cannot spread. Detector: 11 findings to 0.
+- guard: the kintsugi ratchet plus the file-scoped waivers; any other page using the face still blocks. Not checked: phone width and axe contrast at the new sizes.
+
 ## 2026-10-19 · the generated Tao corpus page carried 303 undersized-text findings, and its low-contrast greys were hidden by that same undersizing
 - break: regenerating `_ARTIFACTS/arcs-tao-corpus.html` (241 to 272 proverbs) raised the design findings from 286 to 343, and the pre-commit ratchet blocked the commit. 303 of the 343 were one defect: functional text below the 11px floor (8.96px, 9.28px, 10.56px) on the chips, card meta, wordmark and footer. The 31 added cards simply repeated it.
 - found by: the kintsugi pre-commit ratchet; then the headless a11y sweep, which showed axe colour-contrast violations jumping from 13 to 285 once the text reached 11px. At 8.96px axe had not evaluated the card meta text, so the page's `--dim` (#64748b, about 4.3:1) and `--mut` (#475569) greys were failing contrast unseen.
