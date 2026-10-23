@@ -187,7 +187,21 @@
       "Bash(python3 scripts/jtbd_edge_weights.py)",
       "Bash(python3 scripts/jtbd_drift_report.py)",
       "Bash(python3 scripts/jtbd_edge_weights.py --self-test)",
-      "Bash(python3 scripts/jtbd_drift_report.py --self-test)"
+      "Bash(python3 scripts/jtbd_drift_report.py --self-test)",
+      "Bash(python3 scripts/universe_jtbd_adapter.py --check)",
+      "Bash(python3 scripts/connector_render.py --check)",
+      "Bash(python3 scripts/status_floor_emit.py --check)",
+      "Bash(python3 scripts/drift_fp_sample.py --measure)",
+      "Bash(python3 scripts/drift_fp_sample.py --measure --rev *)",
+      "Bash(python3 scripts/drift_fp_sample.py --self-test)",
+      "Bash(python3 scripts/adr_dewy_watch.py --list)",
+      "Bash(bash scripts/safe_merge.sh --self-test)",
+      "Bash(python3 scripts/archive_move_gate.py --self-test)",
+      "Bash(python3 scripts/reconcile_epoch.py --self-test)",
+      "Bash(python3 scripts/unfold.py --self-test)",
+      "mcp__scheduled-tasks__list_task_runs",
+      "mcp__mcp-registry__search_mcp_registry",
+      "mcp__claude-in-chrome__read_page"
     ],
     "ask": [
       "Bash(git push:*)"

@@ -10,7 +10,7 @@ permissions:
   pull-requests: read
 jobs:
   detect:
-    runs-on: [self-hosted, arcs-mac]
+    runs-on: [self-hosted, arcs-light]
     steps:
       - uses: actions/checkout@v7
         with:

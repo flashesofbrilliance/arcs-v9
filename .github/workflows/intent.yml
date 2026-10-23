@@ -18,7 +18,7 @@ jobs:
     if: github.event.pull_request.draft != true
     # Inlined from arcs-skills intent-lint.yml: its runs-on is ubuntu-latest, which a reusable-workflow
     # caller cannot override (hosted, billed). Script comes from the public arcs-skills repo.
-    runs-on: [self-hosted, arcs-mac]
+    runs-on: [self-hosted, arcs-light]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/checkout@v7
