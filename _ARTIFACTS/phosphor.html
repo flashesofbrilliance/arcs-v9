@@ -2094,7 +2094,7 @@ fm = fm || 1;
 for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
 return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
 };
-if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, pads: { live: function () { return Object.keys(PAD.live).filter(function (k) { return PAD.live[k]; }).map(Number); }, log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
 var R = null;
 return {
 start: function () {
@@ -2456,7 +2456,7 @@ else if (n === "@seek") { if (playing) recPlay(e[3], AC.currentTime); else tpaus
 else if (n === "@cells") { SEQ.cells = e[3]; }
 else if (n === "@slices") { SLICES = []; e[3].forEach(function (p) { addSlice(p[0], p[1]); }); }
 else if (n === "@tempo") setTempo(e[3][0], e[3][1]);
-else if (n === "@pad") { var q = String(e[3]).split(":"), sl; if (q.length === 2) { PAD.bank = +q[0]; sl = SLICES[PAD.bank * 16 + +q[1]]; if (sl) padVoice(+q[1], sl); } }
+else if (n === "@pad") { var q = String(e[3]).split(":"), sl; if (q.length === 2) { PAD.bank = +q[0]; sl = SLICES[PAD.bank * 16 + +q[1]]; if (sl && !padM(+q[1])) { if (padG(+q[1])) padChoke(+q[1], padG(+q[1])); padVoice(+q[1], sl); } } }
 else recApply(e);
 }
 function renderOffline(rec) {
@@ -3005,8 +3005,20 @@ function lock(on) { hold.forEach(function (id) { var el = id === "main" ? docume
 cs.hidden = false; lock(true); $("csgo").focus();
 $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) {} cs.hidden = true; lock(false); });
 })();
-var PAD = { open: false, bank: 0, src: [], log: [], held: {}, edit: false, sel: -1, map: {}, key: "phosphor.padmap.v1" }, PADFX = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
+var PAD = { open: false, bank: 0, src: [], log: [], held: {}, edit: false, sel: -1, map: {}, key: "phosphor.padmap.v1", gm: { grp: {}, mute: {} }, gkey: "phosphor.padgm.v1", live: {}, gn: {} }, PADFX = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
 try { PAD.map = JSON.parse(localStorage.getItem(PAD.key) || "{}") || {}; } catch (e) {}
+try { var gmr = JSON.parse(localStorage.getItem(PAD.gkey) || "{}") || {}; PAD.gm = { grp: gmr.grp || {}, mute: gmr.mute || {} }; } catch (e) {}
+function padGmSave() { try { localStorage.setItem(PAD.gkey, JSON.stringify(PAD.gm)); } catch (e) {} }
+function padG(i) { return (PAD.gm.grp[PAD.bank] || {})[i] || 0; }
+function padM(i) { return !!(PAD.gm.mute[PAD.bank] || {})[i]; }
+function padChoke(i, g) {
+var j, b, t;
+for (j = 0; j < 16; j++) {
+if (j === i || padG(j) !== g) continue;
+if (PAD.live[j] && PAD.gn[j] && AC) { t = AC.currentTime; try { PAD.gn[j].gain.cancelScheduledValues(t); PAD.gn[j].gain.setValueAtTime(PAD.gn[j].gain.value, t); PAD.gn[j].gain.linearRampToValueAtTime(0.0001, t + 0.008); if (PAD.src[j]) PAD.src[j].stop(t + 0.012); } catch (e) { /* ended */ } }
+PAD.live[j] = false; padRelease(j);
+}
+}
 function padFx(i) { return (PAD.map[PAD.bank] || {})[i] || ""; }
 function padName(k) { var f = PADFX.filter(function (x) { return x[0] === k; })[0]; return f ? f[1] : ""; }
 function padMsg(s) { $("padmsg").textContent = s; }
@@ -3014,7 +3026,9 @@ function padRelease(i) { var k = PAD.held[i]; if (k) { fxHold(k.k, k.src, false)
 function padReleaseAll() { Object.keys(PAD.held).forEach(padRelease); }
 function padRefresh() {
 if (!$("padtray") || !$("pbk")) return;
-EA(QA("#pbk .btn"), function (b, i) { var fx = padFx(i), has = !!fx || !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); b.querySelector("small").textContent = fx ? padName(fx) : String(i + 1); AP(b, PAD.edit && PAD.sel === i); });
+EA(QA("#pbk .btn"), function (b, i) { var fx = padFx(i), has = !!fx || !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); b.querySelector("small").textContent = (fx ? padName(fx) : String(i + 1)) + (padG(i) ? " G" + padG(i) : "") + (padM(i) ? " off" : ""); AP(b, PAD.edit && PAD.sel === i); });
+EA(QA("#padgm .btn[data-g]"), function (b) { AP(b, PAD.sel >= 0 && +b.getAttribute("data-g") === padG(PAD.sel)); });
+if ($("padmute")) AP($("padmute"), PAD.sel >= 0 && padM(PAD.sel));
 EA(QA("#padpick .btn"), function (b) { AP(b, PAD.sel >= 0 && (b.getAttribute("data-fx") || "") === padFx(PAD.sel)); });
 EA(QA("#pbkb .btn"), function (b, k) { AP(b, k === PAD.bank); b.firstChild.nodeValue = "ABCD"[k] + " " + MX(0, MN(16, SLICES.length - k * 16)); });
 }
@@ -3022,11 +3036,12 @@ function padVoice(i, s) {
 try { if (PAD.src[i]) PAD.src[i].stop(); } catch (e) { /* ended */ }
 var b = AC.createBufferSource(), g = AC.createGain(), t = AC.currentTime, d = s.t1 - s.t0;
 b.buffer = BUF; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + 0.003); g.gain.setValueAtTime(1, t + MX(0.003, d - 0.006)); g.gain.linearRampToValueAtTime(0.0001, t + d);
-b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b; PAD.voices = (PAD.voices || 0) + 1;
+b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b; PAD.gn[i] = g; PAD.live[i] = true; b.onended = function () { if (PAD.src[i] === b) PAD.live[i] = false; }; PAD.voices = (PAD.voices || 0) + 1;
 }
 function padHit(i) {
-if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
-var fx = padFx(i); recAct("pad", PAD.bank + ":" + i + (fx ? ":" + fx : "")); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
+if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; $("padgm").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
+if (padM(i)) { padMsg("Pad " + (i + 1) + " is muted."); return; }
+var fx = padFx(i), gg = padG(i); if (gg) padChoke(i, gg); recAct("pad", PAD.bank + ":" + i + (fx ? ":" + fx : "")); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
 if (!BUF) { padMsg("Load a song first."); return; }
 if (!SLICES.length) { var k, n = 16; for (k = 0; k < n; k++) addSlice(k * DUR / n, (k + 1) * DUR / n); renderSlices(); drawStrip(tnow()); padMsg("The song is chopped into 16 equal parts. Cut your own on the slice strip any time."); }
 var s = SLICES[PAD.bank * 16 + i]; if (!s) return;
@@ -3040,14 +3055,16 @@ var tr = $("padtray"), h = '<div class="pbkb" id="pbkb" role="group" aria-label=
 for (i = 0; i < 4; i++) h += '<button class="btn" type="button" data-bk="' + i + '" aria-pressed="' + (i === 0) + '">' + "ABCD"[i] + " 0</button>";
 h += '</div><div class="pbkb"><button class="btn" type="button" id="padedit" data-min="4" aria-pressed="false">Edit pads</button></div><div class="pbk" id="pbk">';
 for (i = 0; i < 16; i++) h += '<button class="btn" type="button" data-pk="' + i + '" aria-disabled="true" aria-label="Pad ' + (i + 1) + '">' + "1234QWERASDFZXCV"[i] + "<small>" + (i + 1) + "</small></button>";
-tr.innerHTML = h + '</div><div class="pbkb" id="padpick" hidden role="group" aria-label="What the pad does"><button class="btn" type="button" data-fx="">Slice</button>' + PADFX.map(function (f) { return '<button class="btn" type="button" data-fx="' + f[0] + '">' + f[1] + "</button>"; }).join("") + '</div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
+tr.innerHTML = h + '</div><div class="pbkb" id="padpick" hidden role="group" aria-label="What the pad does"><button class="btn" type="button" data-fx="">Slice</button>' + PADFX.map(function (f) { return '<button class="btn" type="button" data-fx="' + f[0] + '">' + f[1] + "</button>"; }).join("") + '</div><div class="pbkb" id="padgm" hidden role="group" aria-label="Pad group and mute">' + [0, 1, 2, 3].map(function (g) { return '<button class="btn" type="button" data-g="' + g + '">' + (g ? "Group " + g : "No group") + "</button>"; }).join("") + '<button class="btn" type="button" id="padmute">Mute</button></div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
 EA(QA("#pbk .btn"), function (b, k) {
 b.addEventListener("pointerdown", function (e) { e.preventDefault(); padHit(k); });
 ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) { b.addEventListener(ev, function () { padRelease(k); b.classList.remove("hit"); }); });
 b.addEventListener("click", function (e) { if (e.detail === 0) { padHit(k); if (PAD.held[k]) setTimeout(function () { padRelease(k); b.classList.remove("hit"); }, 400); } });
 });
-$("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
+$("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; $("padgm").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
 EA(QA("#padpick .btn"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.map[PAD.bank] || (PAD.map[PAD.bank] = {}), v = b.getAttribute("data-fx"); if (v) m[PAD.sel] = v; else delete m[PAD.sel]; try { localStorage.setItem(PAD.key, JSON.stringify(PAD.map)); } catch (e) {} padMsg("Pad " + (PAD.sel + 1) + " is now " + (v ? padName(v) : "a slice") + "."); padRefresh(); }); });
+EA(QA("#padgm .btn[data-g]"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var g = +b.getAttribute("data-g"), m = PAD.gm.grp[PAD.bank] || (PAD.gm.grp[PAD.bank] = {}); if (g) m[PAD.sel] = g; else delete m[PAD.sel]; padGmSave(); padMsg("Pad " + (PAD.sel + 1) + (g ? " is in group " + g + ": hitting it cuts the others in the group." : " has no group.")); padRefresh(); }); });
+$("padmute").addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.gm.mute[PAD.bank] || (PAD.gm.mute[PAD.bank] = {}); if (m[PAD.sel]) delete m[PAD.sel]; else m[PAD.sel] = 1; padGmSave(); padMsg("Pad " + (PAD.sel + 1) + (m[PAD.sel] ? " is muted." : " is back on.")); padRefresh(); });
 EA(QA("#pbkb .btn[data-bk]"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; PAD.sel = -1; padReleaseAll(); padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
 window.addEventListener("keydown", function (e) {
 var i = PADKEYS.indexOf(e.code); if (!PAD.open || i < 0 || e.metaKey || e.ctrlKey || e.altKey || pkTyping(e)) return;
