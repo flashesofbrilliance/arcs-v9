@@ -14,9 +14,9 @@ work anonymously with optional account creation as a post-session prompt?
 - `src/lib/auth.ts` — currently a null stub (returns null for every session)
 - `src/app/api/compass/route.ts` — returns 401 in production when `userId === null`
 - `src/app/api/prep/route.ts` — same 401 gate
-- `src/app/api/guide/route.ts` — same 401 gate (×3 guards)
+- `src/app/api/guide/[receiptId]/route.ts` — same 401 gate (×3 guards)
 - `src/app/api/history/route.ts` — same 401 gate
-- `src/app/api/brief/route.ts` — same 401 gate
+- `src/app/api/brief/[receiptId]/route.ts` — same 401 gate
 - `prisma/schema.prisma` — `Receipt.userId` is nullable (allows anonymous)
 
 ## W — Window
