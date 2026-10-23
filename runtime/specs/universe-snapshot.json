@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2378,
+  "corpus": 2398,
   "canon": {
    "files": 122,
    "tao_proverbs": 287,
    "adrs": 84
   },
-  "codebase": 744,
+  "codebase": 754,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -45,8 +45,8 @@
    "nodes_clear": 53,
    "nodes": 81,
    "shore_open": 37,
-   "files_mapped": 265,
-   "files_fog": 2979
+   "files_mapped": 270,
+   "files_fog": 3004
   },
   "coherence": {
    "diamonds": 3,
@@ -1168,10 +1168,10 @@
    },
    "galaxy": "runtime/specs/universe/drift.json",
    "population": {
-    "corpus": 13,
+    "corpus": 15,
     "canon": 2,
-    "codebase": 8,
-    "files": 29
+    "codebase": 9,
+    "files": 32
    }
   },
   {
@@ -1202,10 +1202,10 @@
    },
    "galaxy": "runtime/specs/universe/dewy.json",
    "population": {
-    "corpus": 13,
+    "corpus": 14,
     "canon": 1,
-    "codebase": 1,
-    "files": 25
+    "codebase": 2,
+    "files": 27
    }
   },
   {
@@ -3455,6 +3455,12 @@
    "private": false
   },
   {
+   "path": "runtime/specs/mcp-tool-index.json",
+   "kind": "index",
+   "rows": 1037,
+   "private": false
+  },
+  {
    "path": "runtime/specs/reading-room-manifest.json",
    "kind": "manifest",
    "rows": 5,
@@ -3463,13 +3469,13 @@
   {
    "path": "runtime/specs/surface-catalog.json",
    "kind": "catalog",
-   "rows": 289,
+   "rows": 290,
    "private": false
   },
   {
    "path": "runtime/specs/tool-catalog.json",
    "kind": "catalog",
-   "rows": 342,
+   "rows": 362,
    "private": false
   },
   {
