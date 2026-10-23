@@ -24,15 +24,16 @@
   }
  },
  "dimensions": {
-  "corpus": 13,
+  "corpus": 15,
   "canon": 2,
-  "codebase": 8,
-  "files": 29
+  "codebase": 9,
+  "files": 32
  },
  "systems": {
   "_PATTERNS": 12,
-  "scripts": 6,
+  "scripts": 7,
   "_DECISIONS": 2,
+  "_STATE": 2,
   "runtime": 2,
   "src": 2,
   ".claude": 1,
@@ -60,8 +61,11 @@
   "_PATTERNS/drift-audits/2026-09-28.md",
   "_PATTERNS/drift-audits/2026-10-05.md",
   "_PROPOSALS/2026-10-20-second-probe-gain-and-drift.md",
+  "_STATE/2026-10-18-drift-fp-sample.md",
+  "_STATE/2026-10-18-drift-fp-sample.tsv",
   "runtime/specs/field-os/DRIFT_LOG.md",
   "runtime/specs/universe/drift.json",
+  "scripts/drift_fp_sample.py",
   "scripts/jtbd_drift_report.py",
   "scripts/lattice_drift_check.py",
   "scripts/model_drift_check.py",
