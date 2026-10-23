@@ -75,7 +75,7 @@ memorable single word (surname or similar), marked `PRIVATE · ZACH INTERNAL ONL
 FORWARD` in a gold notice banner. Sections: track record (from Step 1, cite what's confirmed
 vs. what the resume shape implies), site teardown (what's working / what to probe, from
 Step 2), a stated-vs-revealed question bank (5-6 questions, each with a "LISTEN FOR" line —
-see `public/danny.html` §"Stated vs. Revealed" for the template), and a proposed call agenda
+see `runtime/warroom/danny.html` §"Stated vs. Revealed" for the template), and a proposed call agenda
 with a stop-loss condition. Register per Step 0 — if it's a friend, the question bank's
 "listen for" lines should not read like vetting a stranger.
 
