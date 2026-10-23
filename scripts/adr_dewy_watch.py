@@ -148,6 +148,19 @@ def list_pending():
 _PROJECTS = os.path.expanduser("~/.claude/projects")
 
 
+def _project_prefix():
+    """Claude Code names a project folder after its path with / and . turned into -. Sweep only this
+    repo's folders (main checkout and its worktrees) so a scan never reads other projects' transcripts.
+    ADR_DEWY_ALL_PROJECTS=1 lifts the limit for a deliberate wide sweep."""
+    if os.environ.get("ADR_DEWY_ALL_PROJECTS") == "1":
+        return ""
+    import subprocess
+    r = subprocess.run(["git", "-C", _ROOT, "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                       capture_output=True, text=True)
+    top = os.path.dirname(r.stdout.strip()) if r.returncode == 0 and r.stdout.strip() else _ROOT
+    return re.sub(r"[/.]", "-", top)
+
+
 def _session_text(path):
     """Yield (ts, text) for each user/assistant text block in a Claude Code transcript .jsonl.
     Skips thinking / tool_use / tool_result / image — decisions are stated in prose, and tool noise
@@ -180,7 +193,8 @@ def scan_sessions(days=7):
     """Sweep every Claude Code session transcript modified in the last `days` days, harvest
     ADR/DEWY candidates into the ledger. Pure heuristic, no model. Returns (files, written)."""
     cutoff = time.time() - days * 86400
-    files = [p for p in glob.glob(os.path.join(_PROJECTS, "*", "*.jsonl")) if os.path.getmtime(p) >= cutoff]
+    prefix = _project_prefix()
+    files = [p for p in glob.glob(os.path.join(_PROJECTS, prefix + "*", "*.jsonl")) if os.path.getmtime(p) >= cutoff]
     total = 0
     per_session = []
     for path in sorted(files):
