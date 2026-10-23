@@ -62,7 +62,7 @@ jobs:
   # the April SQLite-dialect entries that fail from zero (P3019 — the KNOWN DEBT above). A
   # comment/format-only edit to schema.prisma does not trip it (datamodel-equal → pass).
   schema-has-migration:
-    runs-on: [self-hosted, arcs-mac]
+    runs-on: [self-hosted, arcs-light]
     steps:
       - uses: actions/checkout@v7
         with:

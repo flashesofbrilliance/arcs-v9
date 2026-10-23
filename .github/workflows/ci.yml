@@ -40,7 +40,7 @@ jobs:
   # cannot block merge; if protection is ever enabled, require gates, not smoke.
   changes:
     if: github.event.pull_request.draft != true
-    runs-on: [self-hosted, arcs-mac]
+    runs-on: [self-hosted, arcs-light]
     outputs:
       code_changed: ${{ steps.diff.outputs.code_changed }}
     steps:
@@ -78,7 +78,7 @@ jobs:
   #     air-traffic board, not here.
   gates:
     if: github.event.pull_request.draft != true
-    runs-on: [self-hosted, arcs-mac]
+    runs-on: [self-hosted, arcs-light]
     steps:
       - uses: actions/checkout@v7
         with: { fetch-depth: 0 }
