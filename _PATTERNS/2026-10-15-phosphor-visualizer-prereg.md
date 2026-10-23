@@ -530,3 +530,21 @@ Row phosphor-first-minute-ritual. Zach's brief: something that pulls the child i
 ## Amendment 69 (2026-10-23): release checkpoint 7
 
 The public copy at dj.arcs.care is rebuilt from the same sources as the private artifact (327,480 bytes; the review point is 360,000). Added since checkpoint 6, both built in this session and nothing from other sessions: pad mute and choke groups (amendment 67) and the first-minute ritual with the Kid-mode Space rules (amendment 68: a quiet ring, any first key or tap starts the music, soft rings for a minute, Space tap cuts effects to dry for a beat, a 0.6 s hold starts or stops). Gates: 52 of 52 suite checks on the final tree (Chromium), page gate full matrix on both copies, static review 0 findings, npm run build exit 0. Not checked: any real device, and whether a child begins unprompted (needs a real session).
+
+## Amendment 70 (2026-10-23): pattern text box, design only (row phosphor-pattern-text-box)
+
+Design and pre-registration only; nothing is built, and nothing is built until Zach answers the five questions in `_PATTERNS/2026-10-23-strudel-for-phosphor-decision-note.md` (the licence choice is a one-way door). Written before any code. Rules: (1) A text box labelled "Pattern text" in Parent mode only; it is absent from Kid mode, so the Kid cap of 24 controls is unchanged. (2) It fills one chosen lane of the existing 16-step grid (`SEQ.cells`, values 0 or 1; Zoom and Detail keep their own value ranges) when the player presses Apply; typing alone changes nothing. (3) Subset only: steps separated by spaces, `[ ]` groups, `*n`, `< >` (one choice per bar, so the grid shows the first and a Next-bar control steps it), `~` rest, `_` extend, `!` repeat, `?` drop with a seeded repeatable draw, and `name(k,n)` euclid. Anything else is refused with a plain message naming the first bad character, and the lane is left untouched. (4) The parser is a clean-room one: written from the brief's section 5 and these rules only, with `_PATTERNS/2026-10-23-phosphor-pattern-box-clean-room-log.md` kept. No dependency, no Strudel code, no network, no samples; public/dj.html is not touched. The feature is never called Strudel-compatible. (5) Where our behaviour is our own choice (euclid rotation direction, the `?` seed), the UI help says so.
+
+Check list, written before building (suite name `pattern`, to run inside scripts/phosphor_suite.sh):
+- P1 grid: `x x x x` fills steps 1, 5, 9, 13; `x*4` the same; `[x x] x` fills 1, 3, 9; `x ~ x ~` fills 1, 9. Exact 16-cell arrays.
+- P2 weights: `x _ x` puts hits at 1 and 11 (2:1 over 16 steps, rounded down); `x!2 ~` equals `x x ~`.
+- P3 euclid: `x(3,8)` fills 1, 7, 13 (3 hits over 8 slots, 2 grid steps per slot); `x(4,16)` fills 1, 5, 9, 13; k greater than n is refused.
+- P4 alternation: `<x ~>` fills step 1 on bar 1 and nothing on bar 2; Next-bar flips it, and the offline render of 2 bars matches.
+- P5 determinism: `x*8?` gives the same cells on 10 repeated Applies and changes when the seed control changes.
+- P6 refusal: `x $`, `x(`, `[x`, `x*0`, an empty box, and a string over 200 characters each leave the lane byte-identical and show a message; none throws (console error count 0).
+- P7 containment: no network request during parse (the core no-network check stays green); the Kid-mode control count stays at its cap; the box does not exist in the Kid DOM; pad, recipe and flash guard suites unchanged.
+- P8 recipe: Apply is recorded as one action, and replaying the recipe in the offline render reproduces the lane.
+- P9 size: the built page stays under 400,000 bytes; the parser adds at most 8,000 bytes (estimate from the brief: 3 to 8 KB).
+- P10 provenance: a grep of the parser source and the diff finds no Strudel identifier from its source, and the clean-room log has a dated row for every document read.
+Kill condition: if P1 to P6 cannot be met in 2 days of work, drop the feature (option C) and say so here. Not covered: any real device, and whether kids use it at all (question 2 of the note).
+||||||| c4a196bb
