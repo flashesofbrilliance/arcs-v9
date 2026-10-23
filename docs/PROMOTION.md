@@ -48,5 +48,5 @@ gh api -X PUT repos/flashesofbrilliance/arcs-v9/branches/main/protection \
 ## Feeding the learning loop
 
 Deploy-Verify Issues and blocked-tripwire diffs are the raw receipts. Promote the recurring
-ones into ADRs / DEWY receipts via the ADR/DEWY candidate watcher (`scripts/adr_dewy_watch.py`)
+ones into ADRs / DEWY receipts via the ADR/DEWY candidate watcher (adr_dewy_watch.py, unmerged: it exists only on branch claude/todd-work-continuation-1698a8, not on main)
 so the same decay is caught by construction next time — the gate teaches the generator.
