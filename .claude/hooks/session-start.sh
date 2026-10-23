@@ -166,6 +166,13 @@ if bash /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory-snapshots/
   [ -n "$_tc" ] && echo "timecapsule: memory build-log @ $_tc"
 fi
 
+# ADR/DEWY watcher: count pending decision candidates from the local ledger only (no transcript scan).
+# Silent when there is no ledger or nothing pending. Never fails the hook.
+if [ -f "$CLAUDE_PROJECT_DIR/scripts/adr_dewy_watch.py" ] && [ -f "$CLAUDE_PROJECT_DIR/_INBOX/adr-dewy-candidates.jsonl" ]; then
+  pend=$(cd "$CLAUDE_PROJECT_DIR" && python3 scripts/adr_dewy_watch.py --list 2>/dev/null | head -1 || true)
+  case "${pend:-}" in [1-9]*) echo "adr-dewy: $pend (review: python3 scripts/adr_dewy_watch.py --list)";; esac
+fi
+
 # Only the dependency bootstrap below is remote-only; the grounding above runs everywhere.
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
