@@ -13,7 +13,7 @@ counterpart surface without a manual gate pass.
 
 ## 1. The corpus (as catalogued)
 
-`scripts/corpus_adapter_jeben.py` → `_ARTIFACTS/jeben-catalog.json` — adapter #2 of the
+`scripts/_archive/corpus_adapter_jeben.py` → `_ARTIFACTS/jeben-catalog.json` — adapter #2 of the
 corpus-atlas pattern (pilot: Louisville). 16 nodes, 5 declared edges, 4 version-dupe
 copies, 5 scatter locations, 8 counterpart-facing nodes. Key strata:
 
