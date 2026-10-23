@@ -11,7 +11,7 @@ The spec's hard filter is permissive or file-level copyleft only (MIT, Apache-2.
 | Licence filter | Fails: AGPL-3.0-or-later on every package checked | Passes if truly clean-room | Passes |
 | Offline, no network request | Default samples load from the network; unproven offline | Passes (uses Phosphor's own audio) | Passes |
 | Page cap 400,000 bytes (327,480 at release 7, headroom 72,520) | Fails: about 1.5 MB unpacked | Passes (estimate 3 to 8 KB, UNVERIFIED) | Passes |
-| Measured win over custom code | None measurable: Phosphor has no pattern text today | Measurable by the check list in the prereg amendment 69 | n/a |
+| Measured win over custom code | None measurable: Phosphor has no pattern text today | Measurable by the check list in the prereg amendment 70 | n/a |
 
 Verdict by the lens: A is rejected on three of four rows. B is the only option that adds the feature. C is the fallback if question 1 or 3 below is answered "no".
 
@@ -31,7 +31,7 @@ The clean-room route avoids the door only if it is real: the parser is written f
 
 ## Smallest prototype (designed, not shipped)
 
-Spec and checks are in prereg amendment 69. In short: a pattern text box in Parent mode only, filling the existing 16-step lanes (`LANES`/`SEQ.cells` in `_ARTIFACTS/phosphor-src/app.js`), no new audio engine, no samples, no network, no dependency. Cost estimate 1 to 2 days with tests, from the brief. Gated on questions 1 to 4.
+Spec and checks are in prereg amendment 70. In short: a pattern text box in Parent mode only, filling the existing 16-step lanes (`LANES`/`SEQ.cells` in `_ARTIFACTS/phosphor-src/app.js`), no new audio engine, no samples, no network, no dependency. Cost estimate 1 to 2 days with tests, from the brief. Gated on questions 1 to 4.
 
 ## Open
 

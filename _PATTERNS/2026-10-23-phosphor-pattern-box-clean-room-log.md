@@ -10,3 +10,5 @@ Rule: the parser is written from the documents listed here only. Strudel source 
 Not read, by design: any Strudel repository file, npm package content, or Codeberg page. The design session did not fetch strudel.cc or Codeberg itself.
 
 Caveat: the subagent that wrote the brief says it read a prose summary of krill.pegjs. That is upstream of this log and is a residual risk for the derivative-work question; Zach and counsel should weigh it (decision note, question 3). The implementer may use only the brief's section 5, never the grammar.
+
+Note (2026-10-23): the prereg amendment for this feature is number 70 (69 went to release checkpoint 7 on main while this was in review).
