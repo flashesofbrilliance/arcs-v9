@@ -78,7 +78,7 @@ Every deploy, merge and environment change is reproducible, gated mechanically, 
 7. Drift Sentinel rebuild, report-only, per `_PATTERNS/sentinel-rebuild-spec.md`; SageTrace RLS.
 8. Zach: disable Vercel platform toolbar on production (PENDING.md line ~70).
 9. `security-review` label never rescans (cache key per PR): chip task_d4f6708c.
-10. Orphan tools `scripts/idea_montecarlo.py`, `scripts/provision_studio_tenant.mjs`; confirm
+10. Orphan tools `scripts/_archive/idea_montecarlo.py`, `scripts/provision_studio_tenant.mjs`; confirm
     `state_sync_check.py` hook wiring.
 
 ## Next action
