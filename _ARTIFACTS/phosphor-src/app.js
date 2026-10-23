@@ -312,7 +312,8 @@
   var FXLK = [["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], FXL = {}, FXLKEY = "phosphor.mix.v1";
   FXLK.forEach(function (k) { FXL[k[0]] = { v: 1, lo: 0, hi: 1 }; });
   try { var mxs = JSON.parse(localStorage.getItem(FXLKEY) || "{}"); FXLK.forEach(function (k) { var m = mxs[k[0]]; if (m && m.hi >= m.lo) FXL[k[0]] = { v: MN(m.hi, MX(m.lo, +m.v || 0)), lo: +m.lo, hi: +m.hi }; }); } catch (e) { /* storage blocked */ }
-  function fxE(k) { var m = FXL[k]; return m ? MN(m.hi, MX(m.lo, m.v)) : 1; }
+  var DRY = { on: false, tm: 0, n: 0 };
+  function fxE(k) { if (DRY.on) return 0; var m = FXL[k]; return m ? MN(m.hi, MX(m.lo, m.v)) : 1; }
   function fxApply(k) {
     if (!AC || !AC._fx || !FX[k] || !FX[k].on) return; var e = fxE(k), t = AC.currentTime;
     if (AC._fx.sends[k]) AC._fx.sends[k].gain.setTargetAtTime(({ echo: 0.7, room: 0.6, shim: 0.8 })[k] * e, t, 0.02);
@@ -447,7 +448,7 @@
   var LVL = 1, HOLDMS = 1500, HOLDT = 0;
   function setLevel(n) {
     n = (RD(n) || 1) <= 1 ? 1 : 4; LVL = n; document.documentElement.setAttribute("data-lvl", String(n));
-    AP($("mdKid"), n === 1); AP($("mdParent"), n === 4);
+    AP($("mdKid"), n === 1); AP($("mdParent"), n === 4); if (typeof BEGIN === "object" && BEGIN) beginShow();
     var a = document.activeElement; if (a && a !== document.body && a.offsetParent === null) $("mdKid").focus();
   }
   { var LP = /[?&]level=(\d)/.exec(location.search); setLevel(LP ? +LP[1] : /[?&]test=1/.test(location.search) ? 4 : 1); }
@@ -1345,7 +1346,7 @@
     for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
     return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
   };
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, pads: { live: function () { return Object.keys(PAD.live).filter(function (k) { return PAD.live[k]; }).map(Number); }, log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, dry: function () { return { on: DRY.on, n: DRY.n }; }, begin: function () { return { done: BEGIN.done, mode: BEGIN.mode, ms: BEGIN.ms, playing: playing, rips: $("begin").querySelectorAll(".begin-rip").length, ring: !$("beginring").hidden, shown: !$("begin").hidden }; }, pads: { live: function () { return Object.keys(PAD.live).filter(function (k) { return PAD.live[k]; }).map(Number); }, log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1936,6 +1937,47 @@
   $("elclr").addEventListener("click", function () { ELOG.ev = []; ELOG.flag = true; elSave(); elShow(); });
   $("elcopy").addEventListener("click", function () { var t = JSON.stringify({ v: 1, summary: elSummary(), events: ELOG.ev }); try { navigator.clipboard.writeText(t).then(function () { $("elsum").textContent = "Play log copied (" + ELOG.ev.length + " events)."; }, function () { $("elsum").textContent = "Copy was blocked here."; }); } catch (e) { $("elsum").textContent = "Copy was blocked here."; } });
   if (ELOG.on) elog("start"); elShow();
+  /* First-minute ritual: until the first key or tap, a quiet ring breathes over the picture. The first press starts the music and still does what it normally does; for a minute after, each press sends one soft ring out of the tap point (or the centre for a key). Nothing is stored; no streak, no points, no reminder. */
+  var BEGIN = { done: false, t0: NOW(), until: 0, last: 0, mode: "", ms: 0 };
+  function beginShow() { $("begin").hidden = LVL !== 1; $("beginring").hidden = BEGIN.done; }
+  function beginRip(e) {
+    var h = $("begin"), r = h.getBoundingClientRect(), s, x = r.width / 2, y = r.height / 2;
+    if (NOW() > BEGIN.until || NOW() - BEGIN.last < 350 || h.querySelectorAll(".begin-rip").length >= 6 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (e.clientX !== undefined && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) { x = e.clientX - r.left; y = e.clientY - r.top; }
+    BEGIN.last = NOW(); s = document.createElement("span"); s.className = "begin-rip"; s.style.left = x + "px"; s.style.top = y + "px"; s.addEventListener("animationend", function () { s.remove(); }); h.appendChild(s);
+  }
+  function beginMark(mode) { BEGIN.done = true; BEGIN.until = NOW() + 60000; BEGIN.mode = mode; BEGIN.ms = RD((NOW() - BEGIN.t0) / 100) / 10; beginShow(); elog("begin", mode, BEGIN.ms); }
+  /* Space in Kid mode (when the Play button or nothing is focused): the very first press begins; after that a quick tap never stops the music, it cuts every effect to dry for about a beat, and only a hold of 0.6 s starts or stops. Parent mode and other focused controls keep the normal behaviour. */
+  var SPC = { down: false, long: false, skip: false, tm: 0 };
+  function dryCut() {
+    var ms = MX(250, MN(700, 60000 / (BPM || 120)));
+    DRY.n++; DRY.on = true; clearTimeout(DRY.tm); fxDryApply();
+    DRY.tm = setTimeout(function () { DRY.on = false; fxDryApply(); }, ms);
+  }
+  function fxDryApply() { FXLK.forEach(function (k) { fxApply(k[0]); }); }
+  function spaceOk(e) { return LVL === 1 && e.code === "Space" && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey && (e.target === document.body || e.target.id === "play"); }
+  function spaceDown(e) {
+    e.preventDefault(); e.stopImmediatePropagation(); if (e.repeat || SPC.down) return; SPC.down = true; SPC.long = false; SPC.skip = false;
+    if (!BEGIN.done) { if (!BUF || ANALYZING) { SPC.skip = true; return; } beginMark("key"); if (!playing) play(); SPC.skip = true; beginRip(e); return; }
+    beginRip(e); SPC.tm = setTimeout(function () { SPC.long = true; if (BUF) play(); }, 600);
+  }
+  function spaceUp(e) { e.preventDefault(); e.stopImmediatePropagation(); if (!SPC.down) return; SPC.down = false; clearTimeout(SPC.tm); if (!SPC.long && !SPC.skip) dryCut(); }
+  function beginIn(e) {
+    if (LVL !== 1 || (BEGIN.done && NOW() > BEGIN.until)) return;
+    var key = e.type === "keydown", t = e.target, inCtl = !key && t && t.closest && t.closest("button,input,select,textarea,a,summary,label");
+    if (key && (e.metaKey || e.ctrlKey || e.altKey || e.repeat || pkTyping(e))) return;
+    if (!BEGIN.done) {
+      if (!BUF || ANALYZING) return;
+      beginMark(key ? "key" : "tap");
+      if (!playing && !inCtl && !(key && e.code === "Enter")) play();
+    }
+    beginRip(e);
+  }
+  document.addEventListener("pointerup", beginIn, true);
+  document.addEventListener("keydown", function (e) { if (spaceOk(e)) spaceDown(e); else beginIn(e); }, true);
+  document.addEventListener("keyup", function (e) { if (SPC.down && e.code === "Space") spaceUp(e); }, true);
+  window.addEventListener("blur", function () { if (SPC.down) { SPC.down = false; clearTimeout(SPC.tm); } });
+  beginShow();
   function singMsg(s) { $("recmsg").textContent = s; }
   var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
   function singUI() { $("ovr").hidden = SING.state !== "armed"; $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }
