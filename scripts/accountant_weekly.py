@@ -82,7 +82,9 @@ def build(rows: list, export_name: str, export_sha256: str) -> dict:
     leaked = FORBIDDEN_KEYS & {k for r in rows for k in r}
     if leaked:
         sys.exit(f"refusing: export carries raw fields {sorted(leaked)}; re-run EXPORT_SQL unchanged")
-    rep = AccountantOperator().run(**adapt(rows))
+    adapted = adapt(rows)
+    rep = AccountantOperator().run(**adapted)
+    rep["synthetic_excluded"] = adapted.get("synthetic_excluded", 0)
     rep["provenance"] = {
         "source_export": export_name,
         "source_export_sha256": export_sha256,
@@ -98,7 +100,8 @@ def build(rows: list, export_name: str, export_sha256: str) -> dict:
 
 def summary(rep: dict) -> str:
     t = rep["totals"]
-    lines = [f"receipts={t['receipts']} outcomes={t['outcomes']} sufficiency={rep['sufficiency']}"]
+    lines = [f"receipts={t['receipts']} outcomes={t['outcomes']} sufficiency={rep['sufficiency']} "
+             f"synthetic_excluded={rep.get('synthetic_excluded', 0)} (plumbing probes, never scored)"]
     for name, c in rep["cohorts"].items():
         cal = c["calibration"]
         lines.append(f"  {name:9} receipts={c['receipts']:4} closed={c['outcomes_logged']:3} "
@@ -150,6 +153,11 @@ def main() -> int:
     out.write_text(json.dumps(rep, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"wrote {out.relative_to(REPO) if out.is_relative_to(REPO) else out}")
     print(summary(rep))
+    try:  # decision-receipt cohort (section 4k bridge); needs the gitignored universe export
+        import decision_receipt_to_accountant as drta
+        print(drta.summary(drta.report(drta.roq.load_receipts(), drta.roq.load_ledger())))
+    except SystemExit as e:
+        print(f"  decisions  skipped: {e}")
     return 0
 
 

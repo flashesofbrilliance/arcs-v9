@@ -40,7 +40,7 @@ jobs:
   # cannot block merge; if protection is ever enabled, require gates, not smoke.
   changes:
     if: github.event.pull_request.draft != true
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-light]
     outputs:
       code_changed: ${{ steps.diff.outputs.code_changed }}
     steps:
@@ -78,7 +78,7 @@ jobs:
   #     air-traffic board, not here.
   gates:
     if: github.event.pull_request.draft != true
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-light]
     steps:
       - uses: actions/checkout@v7
         with: { fetch-depth: 0 }
@@ -120,6 +120,9 @@ jobs:
       - name: Every backlog row has a valid state enum
         if: always()
         run: python3 scripts/backlog_status_check.py --self-test && python3 scripts/backlog_status_check.py --check
+      - name: JTBD graph gate (six rules, SOURCE-DUP, key lookup) with fail-on-bad and mutation proofs
+        if: always()
+        run: python3 scripts/jtbd_graph_schema_check.py --mutation-proof && python3 scripts/jtbd_graph_gates.py --mutation-proof && python3 scripts/universe_jtbd_adapter.py --check
       - name: Every new seed carries a resolvable lineage pointer, no ancestry cycles
         if: always()
         run: python3 scripts/seed_lineage_check.py --self-test && python3 scripts/seed_lineage_check.py --check
@@ -140,7 +143,7 @@ jobs:
         run: python3 scripts/surface_catalog_emit.py --check
 
   smoke:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     needs: changes
     if: needs.changes.outputs.code_changed == 'true'
     env:
@@ -204,7 +207,7 @@ jobs:
         run: npm run build
 
   fe-smoke:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     needs: [changes, smoke]
     # Cost gate (2026-10-07): the PR already passed fe-smoke before it merged, so the push to
     # main does not pay for it again (it was the longest job). smoke (lint + unit + build) still
@@ -215,27 +218,19 @@ jobs:
     # Prisma adapter to the DB — with an unreachable DATABASE_URL every route
     # logs a 500 and the console-error assertion fails. An ephemeral service
     # container keeps the smoke honest instead of muting the assertion.
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_PASSWORD: ci
-          POSTGRES_DB: arcs
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 20
     env:
-      DATABASE_URL: "postgresql://postgres:ci@localhost:5432/arcs"
+      DATABASE_URL: "postgresql://postgres:ci@127.0.0.1:55432/arcs"
       ANTHROPIC_API_KEY: "sk-ant-ci-placeholder"
       AUTH_SECRET: "ci-placeholder-secret"
       # Auth.js v5 refuses non-Vercel hosts without this — /api/auth/session
       # 500s on every page (root layout probes it via ClaimAnonymousReceipts).
       AUTH_TRUST_HOST: "true"
     steps:
+      - name: Start Postgres (docker; service containers are Linux-runner only)
+        run: |
+          docker rm -f arcs-ci-pg-ci 2>/dev/null || true
+          docker run -d --name arcs-ci-pg-ci -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=ci -e POSTGRES_DB=arcs -p 55432:5432 postgres:16
+          for i in $(seq 1 40); do docker exec arcs-ci-pg-ci pg_isready -h 127.0.0.1 -U postgres && exit 0; sleep 2; done; exit 1
       - uses: actions/checkout@v7
         with: { fetch-depth: 0 }  # page gate needs the merge-base
 
@@ -251,7 +246,7 @@ jobs:
         run: npx prisma db push
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       # Real eval, not a placeholder: builds the app, boots it, and drives
       # tests/smoke.spec.ts (route loads, no console errors, real content
@@ -259,6 +254,14 @@ jobs:
       # route or a thrown console error blocks the merge.
       - name: Build
         run: npm run build
+
+      # The arcs-mac runner is self-hosted and persistent: a cancelled or interrupted
+      # run leaves its `npm run start` server listening on :3000 (found 2026-10-20,
+      # orphan 5.5h old; the next run tested the stale server and timed out).
+      - name: Free port 3000 (stale server from an earlier run)
+        run: |
+          pids=$(lsof -ti tcp:3000 -sTCP:LISTEN || true)
+          if [ -n "$pids" ]; then echo "killing stale listener(s): $pids"; kill $pids || true; sleep 2; fi
 
       - name: Start server + wait for it to bind
         run: |
@@ -299,3 +302,9 @@ jobs:
           npm run test:smoke
         env:
           SMOKE_BASE_URL: "http://localhost:3000"
+
+      - name: Stop server
+        if: always()
+        run: |
+          pids=$(lsof -ti tcp:3000 -sTCP:LISTEN || true)
+          if [ -n "$pids" ]; then kill $pids || true; fi

@@ -286,6 +286,68 @@ Also fixed in the same pass: presentation chrome (top/bottom bars) was drifting 
 
 ---
 
+
+> **Archived 2026-10-19:** memory `malicious-take-home-contagious-interview-redflags` relocated from the
+> memory dir, verbatim. Live citers re-pointed to this section.
+
+## [memory] malicious-take-home-contagious-interview-redflags (archived 2026-10-19)
+
+```markdown
+---
+name: malicious-take-home-contagious-interview-redflags
+description: "Red-flag checklist for DPRK \"Contagious Interview\" fake-recruiter malicious take-home repos; what caught it, what to do. Stop-you-class."
+metadata: 
+  node_type: memory
+  type: reference
+  originSessionId: cf6db2fc-26a0-4680-92b7-d4397dd56f59
+  modified: 2026-09-02T15:43:52.850Z
+---
+
+On 2026-09-02 Zach was targeted by a DPRK "Contagious Interview" (a.k.a. Famous Chollima,
+Tenacious Pungsan; Lazarus subgroup; MITRE ATT&CK **G1052**) fake-recruiter lure. A "technical
+review" repo (`github.com/Cryptense-Eco/Jackpot`, a poker/crypto wallet-connect app) carried
+**BeaverTail**-style JS malware. He ended the recruiter call early on learning this. Nothing
+executed (audited in sandbox, read-before-run). This is a nation-state, financially-motivated,
+crypto-targeting operation, not a random scammer.
+
+**The repo's tells (all present, any one is disqualifying):**
+- Author identity = the lure: `jackpot_mvp <hiringtecjreview@outlook.com>` ("hiring tech review"
+  throwaway), one squashed commit, no history. Recruiter contact was a separate Gmail
+  (`richardstein692@gmail.com`) — burner identities, low-durability IOCs.
+- **Three silent auto-run triggers** so any engagement fires it: `.vscode/tasks.json` with
+  `"runOn": "folderOpen"` (RCE the moment you open the folder in VS Code), a `package.json`
+  `"prepare"` hook (runs on `npm install`), and an obfuscated beacon appended to a route file.
+- **Off-screen obfuscation** — payloads padded ~450 chars right so they're invisible unless you
+  scroll horizontally.
+- **Exfil + RCE beacon** — grabs full `process.env` and `eval()`s C2 responses every 5s to
+  `http://91.121.235.127:1224/api/checkStatus`. **Port 1224** is the durable BeaverTail IOC (the
+  IP rotates: vendors documented 95.164.17.24:1224; this instance used 91.121.235.127:1224).
+- Second-stage loader `vscode-check-mo4-ten.vercel.app/api/settings/{mac,linux,windows}` via
+  `curl|bash` / `wget|sh` / `curl|cmd`.
+
+**Behavioral red flags (the durable detector — these get reused, the emails don't):**
+unsolicited recruiter on LinkedIn/personal email → "quick technical assessment" → pressure to
+**clone, `npm install`, open in an editor, or screen-share running it** → crypto/wallet scope.
+Never execute interview code on a real machine; sandbox + read-first only.
+
+**What actually caught it (NOT ARCS):** ARCS has no supply-chain/code scanner — its primitives
+(KINTSUGI, ventriloquy/[[ventriloquy-pathogen-speaker-provenance-lambda]], Y-gate) are for
+decision-corpus integrity, not third-party source trees. What protected him: (1) harness-level
+instruction-boundary (tool-read content is data, not commands, so the payload got audited not
+obeyed), and (2) tradecraft — clone-to-sandbox, read-before-run, pattern-recognition.
+
+**Gap closed same session:** `scripts/repo_intake_scan.py` (arcs-v9) — mechanical pre-flight that
+greps any untrusted repo for these exact IOC classes BEFORE reading for meaning. Runs the
+[[cheap-tripwire-before-expensive-jtbd]] gate first. See [[when-to-teleport-to-terminal-vs-agents]].
+
+**Response playbook (if it ever touches a real machine):** rotate all creds + wallet keys as if a
+nation-state backdoor ran; check Gmail forwarding rules + filters + app passwords + active
+sessions (password change alone does NOT evict a live OAuth token or app password); report to
+FBI IC3 (ic3.gov — DPRK job-scam is actively tracked), GitHub abuse (Malware/phishing),
+abuse@outlook.com, Google Safe Browsing. Reports are drafted by Claude, **sent by human**
+([[outbound-comms-draft-first-links-as-anchors]]).
+```
+
 ## Older entries (v3.3.1 and back)
 
 v3.0.0–v3.3.1 relocated to `_ARCHIVE/memory-archive.md` on 2026-09-06; v2.6.0 and back on 2026-07-19.

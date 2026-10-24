@@ -24,20 +24,22 @@
   }
  },
  "dimensions": {
-  "corpus": 13,
+  "corpus": 15,
   "canon": 2,
-  "codebase": 6,
-  "files": 28
+  "codebase": 9,
+  "files": 32
  },
  "systems": {
   "_PATTERNS": 12,
-  "scripts": 4,
-  "_INBOX": 3,
+  "scripts": 7,
   "_DECISIONS": 2,
+  "_STATE": 2,
   "runtime": 2,
   "src": 2,
   ".claude": 1,
   "_ARTIFACTS": 1,
+  "_INBOX": 1,
+  "_PROPOSALS": 1,
   "tests": 1
  },
  "files": [
@@ -45,8 +47,6 @@
   "_ARTIFACTS/drift-book.json",
   "_DECISIONS/ADR-051-drift-receipt-gate.md",
   "_DECISIONS/ADR-052-inchworm-drift-auditor.md",
-  "_INBOX/lattice-drift.jsonl",
-  "_INBOX/seedbank-drift.jsonl",
   "_INBOX/universe-drift.jsonl",
   "_PATTERNS/drift-audits/2026-07-24.md",
   "_PATTERNS/drift-audits/2026-07-27.md",
@@ -60,12 +60,18 @@
   "_PATTERNS/drift-audits/2026-09-21.md",
   "_PATTERNS/drift-audits/2026-09-28.md",
   "_PATTERNS/drift-audits/2026-10-05.md",
+  "_PROPOSALS/2026-10-20-second-probe-gain-and-drift.md",
+  "_STATE/2026-10-18-drift-fp-sample.md",
+  "_STATE/2026-10-18-drift-fp-sample.tsv",
   "runtime/specs/field-os/DRIFT_LOG.md",
   "runtime/specs/universe/drift.json",
+  "scripts/drift_fp_sample.py",
+  "scripts/jtbd_drift_report.py",
   "scripts/lattice_drift_check.py",
   "scripts/model_drift_check.py",
   "scripts/project_skills_drift.sh",
   "scripts/seedbank_drift_check.py",
+  "scripts/universe_snapshot_drift_check.py",
   "src/app/api/jobs/drift/route.ts",
   "src/lib/board-drift.ts",
   "tests/unit/board-drift.test.ts"

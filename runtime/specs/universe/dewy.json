@@ -24,21 +24,24 @@
   }
  },
  "dimensions": {
-  "corpus": 13,
+  "corpus": 14,
   "canon": 1,
-  "codebase": 1,
-  "files": 25
+  "codebase": 2,
+  "files": 27
  },
  "systems": {
   "_STATE": 13,
   "runtime": 8,
   "_DECISIONS": 1,
+  "_PATTERNS": 1,
   "operators": 1,
   "prisma": 1,
+  "scripts": 1,
   "tests": 1
  },
  "files": [
   "_DECISIONS/ADR-010-arcs-dewy-pkg-rename.md",
+  "_PATTERNS/adr-dewy-candidate-watcher.md",
   "_STATE/2026-08-10-session-decisions.dewy.json",
   "_STATE/2026-08-11-session-decisions.dewy.json",
   "_STATE/2026-08-13-session-decisions.dewy.json",
@@ -62,6 +65,7 @@
   "runtime/specs/dewy-receipt-schema-v1.json",
   "runtime/specs/dewy-receipt-schema-v1.md",
   "runtime/specs/universe/dewy.json",
+  "scripts/adr_dewy_watch.py",
   "tests/unit/dewy-schema.test.ts"
  ]
 }

@@ -24,16 +24,17 @@
   }
  },
  "dimensions": {
-  "corpus": 8,
+  "corpus": 9,
   "canon": 0,
   "codebase": 1,
-  "files": 9
+  "files": 10
  },
  "systems": {
-  "_ARTIFACTS": 8,
+  "_ARTIFACTS": 9,
   "src": 1
  },
  "files": [
+  "_ARTIFACTS/scout-global-wonderful-bundle/hyperstition-ledger.md",
   "_ARTIFACTS/vision-films-hyperstition/hyperstition-atlas.html",
   "_ARTIFACTS/vision-films-hyperstition/transcripts/01-force-multiplier.txt",
   "_ARTIFACTS/vision-films-hyperstition/transcripts/02-first-wave.txt",

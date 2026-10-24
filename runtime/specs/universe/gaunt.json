@@ -27,7 +27,7 @@
   "corpus": 7,
   "canon": 1,
   "codebase": 3,
-  "files": 21
+  "files": 22
  },
  "systems": {
   "_ARTIFACTS": 6,
@@ -36,6 +36,7 @@
   "tests": 2,
   "tools": 2,
   ".claude": 1,
+  "_ARCHIVE": 1,
   "_DECISIONS": 1,
   "_SPECS": 1,
   "_STATE": 1,
@@ -43,6 +44,7 @@
  },
  "files": [
   ".claude/workflows/counterpart-gauntlet.js",
+  "_ARCHIVE/ret-takehome-2026-10/2026-10-13-ret-design-gauntlet-handoff.md",
   "_ARTIFACTS/blog/nftt-gauntlet-findings.json",
   "_ARTIFACTS/blog/nftt-gauntlet-runbook.html",
   "_ARTIFACTS/forge-tenex-senior-forward-deployed-engineer/gauntlet.json",

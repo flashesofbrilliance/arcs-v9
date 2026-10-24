@@ -99,11 +99,27 @@ def _git_last_ct(paths):
         return None
 
 
+def _ignored(path):
+    try:
+        return subprocess.run(["git", "-C", ROOT, "check-ignore", "-q", "--", path],
+                              capture_output=True, timeout=15).returncode == 0
+    except Exception:
+        return False
+
+
 def _proof(name, cfg):
     """Return (beats_since, proof_date_iso, source) for a subsystem.
     Resolution order — git commit timestamp (authoritative, tamper-evident) beats the
     self-reported stamp. beats_since is calendar days since proof-of-life; genesis-independent."""
     ct = _git_last_ct(cfg.get("artifacts", []))
+    # A gitignored artifact (the session-start receipt logs, untracked 2026-10-20) is local state:
+    # its file mtime is the proof-of-life, weaker than git but newer than the last commit that held it.
+    for a in cfg.get("artifacts", []):
+        p = os.path.join(ROOT, a)
+        if os.path.isfile(p) and _ignored(a):
+            mt = int(os.path.getmtime(p))
+            if ct is None or mt > ct:
+                ct = mt
     if ct is not None:
         d = datetime.date.fromtimestamp(ct)
         return (_today() - d).days, d.isoformat(), "git"
@@ -216,17 +232,13 @@ def cmd_max(name):
 def cmd_check(strict=False):
     d = _load()
     gb = global_beat(d)
-    d["global_beat"] = gb  # keep the twin honest even on a read-path
     rows = _board(d)
     flatlines = [(n, bs, c.get("max_beats")) for n, c, bs, pd, s, v in rows if v == "FLATLINE"]
     stales = [(n, bs, c.get("max_beats")) for n, c, bs, pd, s, v in rows if v == "STALE"]
     ok_oracle, oracle_notes = _oracle_check()
 
-    # refresh cached last_beat from the git-derived truth (file stays a faithful twin)
-    for n, c, bs, pd, s, v in rows:
-        if bs is not None:
-            d["subsystems"][n]["last_beat"] = gb - bs
-    _save(d)
+    # No write to pulse.json here (2026-10-20): global_beat and last_beat are derived from the date and
+    # git on every read, so caching them dirtied a tracked file every session. Only `stamp` writes it.
 
     alarm = bool(flatlines) or not ok_oracle
     verdict = "ALARM" if alarm else ("STALE" if stales else "OK")
@@ -326,6 +338,8 @@ def self_test():
         r = run("max", "probe"); check("max prints budget", r.returncode == 0 and r.stdout.strip() == "3")
         check("max unknown subsystem exits 2", run("max", "ghost").returncode == 2)
         check("now/status/max wrote nothing", snap() == base)
+        run("check")
+        check("check leaves pulse.json untouched", h(state) == base[os.path.join("_STATE", "pulse.json")])
         r = run("stamp", "probe")
         check("stamp writes last_seen in the temp state", r.returncode == 0 and "last_seen" in json.load(open(state))["subsystems"]["probe"])
         check("stamp unknown subsystem exits 2", run("stamp", "ghost").returncode == 2)

@@ -446,6 +446,9 @@ const ROLES = [
       { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
       { t:'Built AI-native analysis pipeline on Claude; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
       { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions, compounding institutional memory', v:['all','ds'] },
+      { t:'Platform guardrails as code: per-tenant Postgres roles with row-level security that fail closed, generated route and tool inventories with drift checks, and pre-commit gates that block whole classes of bugs. Live app at app.arcs.care; commit history and traces on request', v:['all','ds'] },
+      { t:['Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,580+ PRs merged, 99 in one day, a human approving every merge. Live counts: ',<a key="s" href="https://status.arcs.care" style={{ color:T.cyan }}>status.arcs.care</a>,'; release notes: ',<a key="t" href="https://good.arcs.care/blog/til/one-day-99-merges" style={{ color:T.cyan }}>one day, 99 merges</a>], v:['all','ds'] },
+      { t:'Compounding by design: every merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test', v:['all','ds'] },
       { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product', v:['all'] },
     ] },
   { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
@@ -541,6 +544,18 @@ const TRUE_NORTH = {
 };
 
 const SKILLS = [
+  { id:'ts',       label:'TypeScript',                  accent:T.cyan,  views:['all'] },
+  { id:'react',    label:'React',                       accent:T.cyan,  views:['all'] },
+  { id:'nextjs',   label:'Next.js (App Router)',        accent:T.cyan,  views:['all'] },
+  { id:'fastapi',  label:'Python (FastAPI)',            accent:T.cyan,  views:['all'] },
+  { id:'postgres', label:'PostgreSQL',                  accent:T.cyan,  views:['all'] },
+  { id:'supabase', label:'Supabase',                    accent:T.cyan,  views:['all'] },
+  { id:'prisma',   label:'Prisma',                      accent:T.cyan,  views:['all'] },
+  { id:'vercel',   label:'Vercel',                      accent:T.cyan,  views:['all'] },
+  { id:'apis',     label:'API-driven architecture',     accent:T.cyan,  views:['all'] },
+  { id:'eslint',   label:'ESLint',                      accent:T.cyan,  views:['all'] },
+  { id:'cicd',     label:'GitHub Actions CI/CD',        accent:T.cyan,  views:['all'] },
+  { id:'claudecode',label:'Claude Code',                accent:T.cyan,  views:['all'] },
   { id:'claude',   label:'Claude', accent:T.cyan,  views:['all','figma'] },
   { id:'mcp',      label:'MCP Server',                  accent:T.cyan,  views:['all','figma'] },
   { id:'agentic',  label:'Agentic AI Pipelines',        accent:T.cyan,  views:['all','figma'] },
@@ -571,7 +586,10 @@ function GrainResume() {
       metrics:'60% noise reduction  ·  AI-native: Claude  ·  3–5× time-to-insight',
       bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
                '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
-               'Running on Claude with MCP server: AI-native in production, not experiments'] },
+               'Running on Claude with MCP server: AI-native in production, not experiments',
+               'Guardrails as code: per-tenant Postgres row-level security, drift-checked inventories, pre-commit gates for whole bug classes',
+               ['Built a human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, and an append-only decision ledger in Postgres. 1,580+ PRs merged, 99 in one day, a human approving every merge. Live counts: ',<a key="s" href="https://status.arcs.care" style={{ color:T.cyan }}>status.arcs.care</a>,'; release notes: ',<a key="t" href="https://good.arcs.care/blog/til/one-day-99-merges" style={{ color:T.cyan }}>one day, 99 merges</a>],
+               'Compounding by design: each merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test'] },
     { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Go-To-Market', dates:'2024–2025',
       metrics:'$7B AUM  ·  10 regulated products  ·  SEC / FINRA',
       bullets:['Led go-to-market for 10 SEC/FINRA-regulated investment products ($7B AUM)',
@@ -641,9 +659,11 @@ function GrainResume() {
       <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
         textTransform:'uppercase', color:T.fg4, marginBottom:14 }}>Technical Proficiency</div>
       <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
-        {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
+        {[['TypeScript Stack',        'TypeScript · React · Next.js (App Router) · Python (FastAPI) · PostgreSQL · Supabase · Prisma · Vercel · API-driven architecture (Next.js API routes, MCP server)'],
+          ['Testing & CI/CD',   'ESLint · TypeScript unit tests (Node test runner) · GitHub Actions CI · pre-commit gates'],
+          ['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
           ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
-          ['AI & Tools',        'Claude · MCP Server · Glean · Agentic AI pipelines · GitHub'],
+          ['AI & Tools',        'Claude Code (daily) · Claude API · MCP Server · Glean · Agentic AI pipelines · GitHub'],
           ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
         ].map(([label,val],i) => (
           <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
