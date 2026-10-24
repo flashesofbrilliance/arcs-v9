@@ -1,0 +1,274 @@
+{
+ "atoms": [
+  {
+   "id": "tool:script:t.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "t.py",
+    "line": 1
+   },
+   "path": "scripts/git-hooks/pre-commit"
+  },
+  {
+   "id": "job:backlog:j",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j",
+    "line": 1
+   }
+  },
+  {
+   "id": "blocker:backlog:b",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b",
+    "line": 1
+   },
+   "resolve_by": "2026-11-01"
+  },
+  {
+   "id": "dep:env:FIXTURE_KEY",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "FIXTURE_KEY",
+    "line": 1
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "blocker:backlog:b2",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b2",
+    "line": 1
+   }
+  },
+  {
+   "id": "blocker:backlog:b3",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b3",
+    "line": 1
+   },
+   "resolve_by": "TBD"
+  },
+  {
+   "id": "blocker:backlog:b4",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b4",
+    "line": 1
+   },
+   "resolve_by": "2026-02-30"
+  },
+  {
+   "id": "blocker:backlog:b5",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b5",
+    "line": 1
+   },
+   "resolve_by": "2026-11-01T00:00"
+  },
+  {
+   "id": "blocker:backlog:b6",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b6",
+    "line": 1
+   },
+   "resolve_by": "9999-12-31"
+  },
+  {
+   "id": "blocker:backlog:b7",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b7",
+    "line": 1
+   },
+   "resolve_by": "1900-01-01"
+  },
+  {
+   "id": "blocker:backlog:b8",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b8",
+    "line": 1
+   },
+   "resolve_by": 20261101
+  },
+  {
+   "id": "blocker:backlog:b9",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b9",
+    "line": 1
+   },
+   "resolve_by": " 2026-11-01"
+  },
+  {
+   "id": "blocker:backlog:b10",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b10",
+    "line": 1
+   },
+   "resolve_by": "2020-01-02"
+  },
+  {
+   "id": "blocker:backlog:b11",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b11",
+    "line": 1
+   },
+   "resolve_by": "2026-10-18"
+  }
+ ],
+ "edges": [
+  {
+   "from": "tool:script:t.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "route.tool:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
+  },
+  {
+   "from": "blocker:backlog:b",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:env:FIXTURE_KEY",
+   "type": "runtime-dep",
+   "evidence": [
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
+   ],
+   "inferred": false,
+   "match": "FIXTURE_KEY"
+  },
+  {
+   "from": "blocker:backlog:b2",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b3",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b4",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b5",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b6",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b7",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b8",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b9",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  }
+ ],
+ "probes": {
+  "dep:env:FIXTURE_KEY": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe.sh",
+   "line": 2,
+   "match": "curl"
+  }
+ },
+ "_note": "missing, TBD, impossible date, datetime, sentinel far future (D), before the floor (D), a number, leading space; round 2 class 2: lapsed dates",
+ "_expect_ids": [
+  "blocker:backlog:b2",
+  "blocker:backlog:b3",
+  "blocker:backlog:b4",
+  "blocker:backlog:b5",
+  "blocker:backlog:b6",
+  "blocker:backlog:b7",
+  "blocker:backlog:b8",
+  "blocker:backlog:b9",
+  "blocker:backlog:b10",
+  "blocker:backlog:b11"
+ ]
+}

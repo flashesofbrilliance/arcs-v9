@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   ledger:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-light]
     steps:
       - uses: actions/checkout@v7
 

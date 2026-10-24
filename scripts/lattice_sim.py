@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-lattice_sim.py — Structural load test for the superionic goal lattice (ADR-023).
+Goal lattice stalls, clumps or collapses under synthetic load? Run this structural load test of the superionic goal lattice (ADR-023); load-bearing for the Conductor.
 
 This is the ANTERIOR/POSTERIOR simulation harness for the Conductor loop. It does NOT
 set production constants — per the ADR-023 PR gate, those are BLOCKED until a real-corpus

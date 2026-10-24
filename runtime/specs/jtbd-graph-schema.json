@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "write-locked: the id scheme is a one-way door (ADR-089); kinds, edge types and evidence may extend, ids may not change derivation",
   "adr": "ADR-089",
   "preregistration": "_PATTERNS/2026-10-18-jtbd-graph-preregistration.md",
@@ -27,6 +27,11 @@
         "source": "runtime/specs/tool-catalog.json",
         "key": "tools[].name where kind=workflow",
         "pattern": "^tool:workflow:[A-Za-z0-9._-]+$"
+      },
+      "tool:agent": {
+        "source": "runtime/specs/tool-catalog.json",
+        "key": "tools[].name where kind=agent",
+        "pattern": "^tool:agent:[A-Za-z0-9._-]+$"
       },
       "tool:hook": {
         "source": "runtime/specs/tool-catalog.json",
@@ -57,6 +62,11 @@
         "source": "runtime/specs/surface-catalog.json",
         "key": "rows[].host + rows[].path; a wildcard host \"*\" is written as \"any\" (tool:surface:any/omakase), amendment 2026-10-18 by Zach",
         "pattern": "^tool:surface:[a-z0-9.-]+/[^\\s]*$"
+      },
+      "tool:mcp": {
+        "source": "runtime/specs/mcp-tool-index.json",
+        "key": "tools[].name = <server label>.<tool name>; label rule in _PATTERNS/2026-10-20-jtbd-graph-preregistration-amendment-8.md (never the connector UUID)",
+        "pattern": "^tool:mcp:[a-z0-9-]+\\.[A-Za-z0-9_-]+$"
       },
       "job:backlog": {
         "source": "_QUEUE/induced-backlog.jsonl",

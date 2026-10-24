@@ -859,8 +859,8 @@ fi
 for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
          connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
          provenance_lint librarian_hook canon_claims_report case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
-         bridge_index_scan snapshot_prune_ui_artifacts research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
-         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster; do
+         bridge_index_scan research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
+         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster decision_receipt_to_accountant risk_underwriter; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
     if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
       python3 "scripts/$s.py" --self-test >&2 || true
@@ -1028,6 +1028,20 @@ if [ -n "$am" ] && [ "${ARCHIVE_MOVE_GATE:-1}" != "0" ] && [ -f scripts/archive_
     exit 1
   fi
 fi
+# JTBD graph gate (row jtbd-graph-s3-gates, ADR-089): the six rules (orphan tool, orphan job, blocker without
+# resolve_by, dependency cycle, dead file reference, runtime-dep without a health probe) plus SOURCE-DUP and
+# key lookup. Runs when a graph source or the graph tooling is staged (~3 s). Held ids live in
+# runtime/specs/jtbd-graph-gate-baseline.json, which may only shrink. Gotcha 15 proofs: --self-test, --mutation-proof.
+jg=$(git diff --cached --name-only -- scripts src operators runtime/specs _QUEUE/induced-backlog.jsonl package.json AGENTS.md .claude/commands .claude/skills 2>/dev/null || true)
+if [ -n "$jg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/universe_jtbd_adapter.py ]; then
+  if ! python3 scripts/universe_jtbd_adapter.py --check >/tmp/jtbd-check.$$ 2>&1; then
+    grep -v '^jtbd-graph --check: atoms' /tmp/jtbd-check.$$ | head -40 >&2; rm -f /tmp/jtbd-check.$$
+    echo "✖ pre-commit(jtbd-graph): a new graph violation (see above). Fix the source; never add to the baseline to pass." >&2
+    exit 1
+  fi
+  rm -f /tmp/jtbd-check.$$
+fi
+
 # Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
 # See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
 if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then

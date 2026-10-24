@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { isOwner } from "@/lib/internal-access";
+import { font, radius } from "@/ui/tokens"
 
 // Auth-dependent → never statically cached; never indexed.
 export const dynamic = "force-dynamic";
@@ -52,9 +53,9 @@ function Denied({ email }: { email: string }) {
   return (
     <main style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: C.sans, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
       <div style={{ maxWidth: 460, textAlign: "center" }}>
-        <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: "0.2em", color: C.red, textTransform: "uppercase" }}>403 · Not authorized</div>
+        <div style={{ fontFamily: C.mono, fontSize: font.ramp.label, letterSpacing: "0.2em", color: C.red, textTransform: "uppercase" }}>403 · Not authorized</div>
         <h1 style={{ fontSize: 22, fontWeight: 650, margin: "10px 0 8px" }}>This is an internal surface.</h1>
-        <p style={{ color: C.muted, fontSize: 14, lineHeight: 1.6 }}>
+        <p style={{ color: C.muted, fontSize: font.ramp.body, lineHeight: 1.6 }}>
           You&rsquo;re signed in as <b style={{ color: C.text }}>{email}</b>, but that address isn&rsquo;t on the
           owner allowlist. Access to internal material is restricted to specific accounts by design.
         </p>
@@ -71,21 +72,21 @@ export default async function InternalPage() {
   if (!email) redirect("/compass?callbackUrl=/internal/patents");
   if (!isOwner(email)) return <Denied email={email} />;
 
-  const th: CSSProperties = { textAlign: "left", fontFamily: C.mono, fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.muted, fontWeight: 500, padding: "10px 10px", borderBottom: `1px solid ${C.border}`, background: C.surface };
-  const td: CSSProperties = { padding: "9px 10px", borderBottom: `1px solid ${C.borderSoft}`, verticalAlign: "top", fontSize: 12.5, lineHeight: 1.4 };
+  const th: CSSProperties = { textAlign: "left", fontFamily: C.mono, fontSize: font.ramp.label, letterSpacing: "0.12em", textTransform: "uppercase", color: C.muted, fontWeight: 500, padding: "10px 10px", borderBottom: `1px solid ${C.border}`, background: C.surface };
+  const td: CSSProperties = { padding: "9px 10px", borderBottom: `1px solid ${C.borderSoft}`, verticalAlign: "top", fontSize: font.ramp.body, lineHeight: 1.4 };
 
   return (
     <main style={{ minHeight: "100vh", background: C.bg, color: C.text, fontFamily: C.sans }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "32px 24px 72px" }}>
         {/* Ribbon */}
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, border: `1px solid ${C.border}`, borderLeft: `3px solid ${C.cyan}`, borderRadius: 8, background: "rgba(0,240,255,0.04)", padding: "10px 14px", marginBottom: 22, fontFamily: C.mono, fontSize: 11 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, border: `1px solid ${C.border}`, borderLeft: `3px solid ${C.cyan}`, borderRadius: radius.sm, background: "rgba(0,240,255,0.04)", padding: "10px 14px", marginBottom: 22, fontFamily: C.mono, fontSize: font.ramp.label }}>
           <span style={{ color: C.cyan, fontWeight: 700, letterSpacing: "0.14em" }}>🔒 INTERNAL</span>
           <span style={{ color: C.muted }}>authenticated as {email}</span>
           <a href="/internal" style={{ marginLeft: "auto", color: C.cyan, textDecoration: "none" }}>← owner hub</a>
         </div>
 
         <h1 style={{ fontSize: 30, fontWeight: 650, letterSpacing: "-0.02em", margin: "0 0 6px" }}>Patent pressure-test</h1>
-        <p style={{ color: C.muted, fontSize: 14, maxWidth: 720, lineHeight: 1.6, margin: "0 0 22px" }}>
+        <p style={{ color: C.muted, fontSize: font.ramp.body, maxWidth: 720, lineHeight: 1.6, margin: "0 0 22px" }}>
           Candidate inventions from the Yellow &amp; White papers, stack-ranked by filing priority — §101 eligibility
           and novelty gated first. Triage for counsel, not legal advice. This lives here (authenticated) rather than
           on the public status pages.
@@ -93,9 +94,9 @@ export default async function InternalPage() {
 
         {/* Disclosure alarm */}
         <div style={{ border: `1px solid rgba(255,77,109,0.35)`, borderLeft: `3px solid ${C.red}`, borderRadius: 10, background: "rgba(255,77,109,0.05)", padding: "14px 16px", marginBottom: 22 }}>
-          <div style={{ fontFamily: C.mono, fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: C.red }}>⚠ Disclosure status — resolve before filing · US §102 unresolved</div>
+          <div style={{ fontFamily: C.mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: C.red }}>⚠ Disclosure status — resolve before filing · US §102 unresolved</div>
           <h2 style={{ fontSize: 16, color: "#ffd7de", margin: "8px 0 5px", fontWeight: 650 }}>The papers are internal drafts — not published.</h2>
-          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.55, margin: 0 }}>
+          <p style={{ fontSize: font.ramp.body, color: C.muted, lineHeight: 1.55, margin: 0 }}>
             The Yellow/White papers have not been publicly released — the &ldquo;Public Release / CC BY 4.0&rdquo; header is an
             aspirational draft label. But they sit in a <b style={{ color: "#ff8fa3" }}>public GitHub repo</b>, and a publicly-accessible
             repo file can itself count as a §102 public-accessibility event — a question for counsel keyed to when the
@@ -122,12 +123,12 @@ export default async function InternalPage() {
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, fontWeight: 700, color: verdictColor(row.tier) }}>{row.r}</td>
                   <td style={{ ...td, color: C.text, fontWeight: 600 }}>
                     {row.c}
-                    <span style={{ display: "block", fontFamily: C.mono, fontSize: 11, color: C.faint, fontWeight: 400, marginTop: 2 }}>{row.s}</span>
+                    <span style={{ display: "block", fontFamily: C.mono, fontSize: font.ramp.label, color: C.faint, fontWeight: 400, marginTop: 2 }}>{row.s}</span>
                   </td>
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, color: C.muted }}>{row.e}</td>
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, color: C.muted }}>{row.n}</td>
                   <td style={{ ...td, textAlign: "center", fontFamily: C.mono, color: C.muted }}>{row.st}</td>
-                  <td style={{ ...td, fontFamily: C.mono, fontSize: 11, color: verdictColor(row.tier) }}>{row.v}</td>
+                  <td style={{ ...td, fontFamily: C.mono, fontSize: font.ramp.label, color: verdictColor(row.tier) }}>{row.v}</td>
                 </tr>
               ))}
             </tbody>
@@ -138,25 +139,25 @@ export default async function InternalPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 22 }}>
           {TIER1.map((k) => (
             <div key={k.h} style={{ border: `1px solid rgba(0,255,157,0.22)`, borderRadius: 10, background: C.surface2, padding: "13px 14px" }}>
-              <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.green }}>{k.i}</div>
-              <h3 style={{ fontSize: 14, color: "#eafff6", margin: "5px 0 8px", fontWeight: 650 }}>{k.h}</h3>
-              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Claim</b>{k.claim}</p>
-              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Pressure-test</b>{k.note}</p>
-              <div style={{ fontFamily: C.mono, fontSize: 11, color: C.cyan, marginTop: 6 }}>{k.cpc}</div>
+              <div style={{ fontFamily: C.mono, fontSize: font.ramp.label, letterSpacing: "0.12em", textTransform: "uppercase", color: C.green }}>{k.i}</div>
+              <h3 style={{ fontSize: font.ramp.body, color: "#eafff6", margin: "5px 0 8px", fontWeight: 650 }}>{k.h}</h3>
+              <p style={{ fontSize: font.ramp.label, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: font.ramp.label, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Claim</b>{k.claim}</p>
+              <p style={{ fontSize: font.ramp.label, color: C.muted, lineHeight: 1.45, margin: "5px 0" }}><b style={{ color: C.text, fontFamily: C.mono, fontSize: font.ramp.label, letterSpacing: "0.06em", textTransform: "uppercase", display: "block", marginBottom: 2 }}>Pressure-test</b>{k.note}</p>
+              <div style={{ fontFamily: C.mono, fontSize: font.ramp.label, color: C.cyan, marginTop: 6 }}>{k.cpc}</div>
             </div>
           ))}
         </div>
 
         {/* Do-not-file */}
         <div style={{ border: `1px dashed ${C.faint}`, borderRadius: 10, padding: "13px 16px", marginBottom: 18 }}>
-          <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: C.red, marginBottom: 7 }}>Do-not-file — strategy, not inventions (§101-ineligible)</div>
-          <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.5, margin: 0 }}>
+          <div style={{ fontFamily: C.mono, fontSize: font.ramp.label, letterSpacing: "0.14em", textTransform: "uppercase", color: C.red, marginBottom: 7 }}>Do-not-file — strategy, not inventions (§101-ineligible)</div>
+          <p style={{ fontSize: font.ramp.label, color: C.muted, lineHeight: 1.5, margin: 0 }}>
             <b style={{ color: C.faint, fontFamily: C.mono }}>YP §5.1–5.5</b> agency tiering · prediction-market preference detection · gamification/passport ·
             performance-guarantee structure · regulatory-partnership strategy. Protect via trade secret, trademark, copyright — not utility patents.
           </p>
         </div>
 
-        <div style={{ fontFamily: C.mono, fontSize: 11, color: C.faint, letterSpacing: "0.04em", borderTop: `1px solid ${C.borderSoft}`, paddingTop: 14 }}>
+        <div style={{ fontFamily: C.mono, fontSize: font.ramp.label, color: C.faint, letterSpacing: "0.04em", borderTop: `1px solid ${C.borderSoft}`, paddingTop: 14 }}>
           Sources: ADR-048/032 · ARCS Yellow + White papers (internal drafts) · USPTO/CPC + live prior-art · triage for counsel, not legal advice.
         </div>
       </div>

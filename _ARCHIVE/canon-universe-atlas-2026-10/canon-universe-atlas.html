@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+THESIS: the corpus as a ZIGGURAT · stratum = echo weight (declared in-degree), so the
+pyramid shape is the data: broad terraces of periphery, an apex of load-bearing canon.
+Fog = staleness. District = azimuth (which face a node sits on). Traversal is the point:
+arrows walk the terrace and CLIMB THE STRONGEST DECLARED EDGE between strata.
+OWN-WORLD: ARCS dark cockpit (#020408/#0d1117, cyan/green/gold/orange/red, JetBrains
+Mono + Inter), true 3D stacking (preserve-3d, per-stratum translateZ + terrace plates).
+STORY: Zach lands on the apex canon node, reads its dossier, and traverses the building
+along declared edges. No edge invented · declared only.
+FIRST VIEWPORT: the full ziggurat, navigator pulsing, HUD rail + keyboard legend.
+FORM: single self-contained file; data baked from catalog.json (memory_catalog_emit.py).
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ARCS Terrain Atlas · Louisville</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020408; --panel:#0d1117; --line:#1e293b; --line-hi:#2c3b52;
+  --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#64748b; --fg4:#475569;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#FF9F45; --red:#FF4D6D; --steel:#7d8fa3; --purple:#b48cff;
+  --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:radial-gradient(1200px 600px at 50% -10%,#00F0FF08 0,transparent 60%),var(--bg);
+  color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+#hud{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  padding:12px 18px;background:linear-gradient(180deg,#020408f2,#020408cc 70%,transparent)}
+#hud .t{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--cyan);text-transform:uppercase;white-space:nowrap}
+#hud .sub{font-family:var(--mono);font-size:8.5px;color:var(--fg4);letter-spacing:.08em;white-space:nowrap}
+#q{background:var(--panel);border:1px solid var(--line-hi);border-radius:6px;color:var(--fg1);
+  font-family:var(--mono);font-size:11px;padding:7px 12px;width:220px;outline:none}
+#q:focus{border-color:var(--cyan);box-shadow:0 0 12px -4px var(--cyan)}
+.chip{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 10px;border-radius:4px;border:1px solid var(--line-hi);color:var(--fg3);cursor:pointer;user-select:none;background:transparent}
+.chip.on{color:var(--c,var(--cyan));border-color:var(--c,var(--cyan));box-shadow:0 0 10px -5px var(--c,var(--cyan))}
+#count{font-family:var(--mono);font-size:9px;color:var(--fg4);letter-spacing:.06em;margin-left:auto;white-space:nowrap}
+
+#stage{position:absolute;inset:0;overflow:hidden;cursor:grab;perspective:2000px}
+#stage.dragging{cursor:grabbing}
+#world{position:absolute;left:50%;top:58%;transform-style:preserve-3d}
+#world.glide{transition:transform .5s cubic-bezier(.16,1,.3,1)}
+#plane{position:absolute;transform-style:preserve-3d}
+.plate{position:absolute;border-radius:16px;transform-style:preserve-3d;
+  background:linear-gradient(160deg,#ffffff06,#00000038),#0d111799;border:1px solid #ffffff12;
+  box-shadow:0 0 40px -18px #00F0FF22}
+.plate .pl{position:absolute;left:14px;top:8px;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--fg4);white-space:nowrap}
+.tile{position:absolute;width:26px;height:26px;transform-style:preserve-3d;cursor:pointer}
+.tile .top{position:absolute;inset:0;border-radius:4px;background:var(--panel);border:1px solid var(--tc);
+  transform:translateZ(10px);transition:transform .22s,box-shadow .22s;
+  box-shadow:0 0 calc(5px + var(--glow)) -3px var(--tc)}
+.tile:hover .top,.tile.sel .top{transform:translateZ(20px);box-shadow:0 0 18px -2px var(--tc)}
+.tile.sel .top{border-width:2px}
+.f0 .top{opacity:1}
+.f1 .top{opacity:.78;filter:saturate(.8)}
+.f2 .top{opacity:.5;filter:saturate(.5) blur(.4px)}
+.f3 .top{opacity:.28;filter:saturate(.25) blur(1px)}
+.tile.dim{pointer-events:none}
+.tile.dim .top{opacity:.05;filter:grayscale(1)}
+.tile .pin{position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:var(--cyan);
+  transform:translate(-50%,-50%) translateZ(26px);box-shadow:0 0 14px 2px var(--cyan);display:none}
+.tile.sel .pin{display:block;animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 6px 1px var(--cyan)}50%{box-shadow:0 0 20px 5px var(--cyan)}100%{box-shadow:0 0 6px 1px var(--cyan)}}
+#threads{position:absolute;overflow:visible;pointer-events:none}
+#threads line{stroke-width:1.5;opacity:.9}
+
+#dossier{position:fixed;top:64px;right:0;bottom:0;width:340px;z-index:30;transform:translateX(105%);
+  transition:transform .3s cubic-bezier(.16,1,.3,1);background:linear-gradient(165deg,#ffffff07,#00000040),var(--panel);
+  border-left:1px solid var(--line-hi);padding:20px 22px;overflow-y:auto}
+#dossier.open{transform:none}
+#dossier .k{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--fg4);margin:14px 0 4px}
+#dossier h2{font-size:16px;font-weight:650;letter-spacing:-.01em;text-wrap:balance;line-height:1.3}
+#dossier .desc{font-size:12px;line-height:1.65;color:var(--fg2);margin-top:8px;text-wrap:pretty}
+#dossier .meta{font-family:var(--mono);font-size:9.5px;color:var(--fg3);line-height:2}
+#dossier .edge{display:block;font-family:var(--mono);font-size:10px;color:var(--cyan);padding:3px 0;cursor:pointer}
+#dossier .edge:hover{text-decoration:underline}
+#dossier .close{position:absolute;top:10px;right:14px;font-family:var(--mono);color:var(--fg3);cursor:pointer;font-size:14px}
+#legend{position:fixed;left:18px;bottom:14px;z-index:30;font-family:var(--mono);font-size:8.5px;color:var(--fg4);letter-spacing:.07em;line-height:1.9}
+#legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}
+#legend b{color:var(--fg3);font-weight:600}
+@media (prefers-reduced-motion:no-preference){
+  #plane{animation:resolve 1.1s cubic-bezier(.16,1,.3,1) both}
+  @keyframes resolve{from{opacity:.2;filter:blur(8px)}to{opacity:1;filter:none}}
+}
+</style>
+</head>
+<body>
+<div id="hud">
+  <span class="t">ARCS Terrain Atlas · Louisville</span><span class="sub" id="gen"></span>
+  <input id="q" placeholder="search the corpus…" autocomplete="off">
+  <span id="chips"></span>
+  <span id="count"></span>
+</div>
+<div id="stage"><div id="world"><div id="plane"><svg id="threads"></svg></div></div></div>
+<aside id="dossier"><span class="close" onclick="closeDossier()">×</span><div id="dbody"></div></aside>
+<div id="legend">
+  <i style="background:var(--green)"></i>feedback &nbsp;<i style="background:var(--cyan)"></i>project &nbsp;<i style="background:var(--steel)"></i>reference &nbsp;<i style="background:var(--gold)"></i>user / seed &nbsp;<i style="background:var(--purple)"></i>performer<br>
+  stratum = echo weight (base: uncited → apex: canon) · fog = staleness · district = compass face<br>
+  <b>←→</b> walk terrace · <b>↑</b> climb strongest declared edge · <b>↓</b> descend · <b>T</b> tracking on/off<br>
+  drag pan · <b>right-drag / shift-drag</b> orbit + tilt · scroll zoom · <b>[ ]</b> rotate · <b>- =</b> tilt · <b>1</b> plan <b>2</b> iso <b>3</b> low
+</div>
+<script id="data" type="application/json">{"generated": "2026-10-18 11:12", "corpus": "canon", "nodes": [{"id": "ADR-001", "file": "_DECISIONS/ADR-001-auth-gate-strategy.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-001-auth-gate-strategy · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-002", "file": "_DECISIONS/ADR-002-database-split.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-002-database-split · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-003", "file": "_DECISIONS/ADR-003-arcs-care-cocd-weave.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-003-arcs-care-cocd-weave · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-004", "file": "_DECISIONS/ADR-004-mcp-arcs-care-dns.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-004-mcp-arcs-care-dns · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-005", "file": "_DECISIONS/ADR-005-vercel-supabase-env-injection.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-005-vercel-supabase-env-injection · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-006", "file": "_DECISIONS/ADR-006-supabase-branching-preview-dbs.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-006-supabase-branching-preview-dbs · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-007", "file": "_DECISIONS/ADR-007-prisma-migration-strategy.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-007-prisma-migration-strategy · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-008", "file": "_DECISIONS/ADR-008-rls-policy-design.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-008-rls-policy-design · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-009", "file": "_DECISIONS/ADR-009-design-system-canonicalization.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-009-design-system-canonicalization · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-010", "file": "_DECISIONS/ADR-010-arcs-dewy-pkg-rename.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-010-arcs-dewy-pkg-rename · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-011", "file": "_DECISIONS/ADR-011-ui-import-strategy.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-011-ui-import-strategy · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-012", "file": "_DECISIONS/ADR-012-arcs-care-plg-phase-1.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-012-arcs-care-plg-phase-1 · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-013", "file": "_DECISIONS/ADR-013-arcs-care-conversion-architecture.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-013-arcs-care-conversion-architecture · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-014", "file": "_DECISIONS/ADR-014-arcs-care-ci-cd-governance.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-014-arcs-care-ci-cd-governance · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-015", "file": "_DECISIONS/ADR-015-arcs-care-case-study-content-gate.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-015-arcs-care-case-study-content-gate · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-016", "file": "_DECISIONS/ADR-016-arcs-v9-auth-model.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-016-arcs-v9-auth-model · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-017", "file": "_DECISIONS/ADR-017-receipt-core-schema.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-017-receipt-core-schema · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-018", "file": "_DECISIONS/ADR-018-helpful-input-model.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-018-helpful-input-model · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-019", "file": "_DECISIONS/ADR-019-receipt-core-python-boundary.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-019-receipt-core-python-boundary · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-020", "file": "_DECISIONS/ADR-020-tribune-intelligence-layer.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-020-tribune-intelligence-layer · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-022", "file": "_DECISIONS/ADR-022-user-schema-emailverified-debt.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-022-user-schema-emailverified-debt · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-023", "file": "_DECISIONS/ADR-023-observability-goal-lattice.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-023-observability-goal-lattice · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-024", "file": "_DECISIONS/ADR-024-resume-arcs-care-architecture-gates.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-024-resume-arcs-care-architecture-gates · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-025", "file": "_DECISIONS/ADR-025-arcs-go-live-provisional-logic.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-025-arcs-go-live-provisional-logic · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-026", "file": "_DECISIONS/ADR-026-debrief-delivery-fix.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-026-debrief-delivery-fix · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-027", "file": "_DECISIONS/ADR-027-observatory-substrate-seed.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-027-observatory-substrate-seed · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-028", "file": "_DECISIONS/ADR-028-scan-arcs-care-staging.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-028-scan-arcs-care-staging · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-029", "file": "_DECISIONS/ADR-029-onboarding-profile-upload.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-029-onboarding-profile-upload · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-030", "file": "_DECISIONS/ADR-030-nested-thread-view.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-030-nested-thread-view · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-031", "file": "_DECISIONS/ADR-031-design-system-reconciliation.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-031-design-system-reconciliation · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-032", "file": "_DECISIONS/ADR-032-zero-trust-posture.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-032-zero-trust-posture · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-033", "file": "_DECISIONS/ADR-033-serialization-pathogen-family.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-033-serialization-pathogen-family · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-034", "file": "_DECISIONS/ADR-034-enforcement-parity.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-034-enforcement-parity · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-035", "file": "_DECISIONS/ADR-035-commit-nci-rubric.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-035-commit-nci-rubric · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-036", "file": "_DECISIONS/ADR-036-repo-split-public-private.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-036-repo-split-public-private · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-037", "file": "_DECISIONS/ADR-037-stateless-anonymous-share.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-037-stateless-anonymous-share · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-038", "file": "_DECISIONS/ADR-038-recoil-bookmark-primitive.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-038-recoil-bookmark-primitive · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-039", "file": "_DECISIONS/ADR-039-deploy-cost-guardrail-ignored-build-step.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-039-deploy-cost-guardrail-ignored-build-step · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-040", "file": "_DECISIONS/ADR-040-debrief-calendar-invite-vs-email.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-040-debrief-calendar-invite-vs-email · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-041", "file": "_DECISIONS/ADR-041-atomic-honesty-and-considered-molt.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-041-atomic-honesty-and-considered-molt · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-044", "file": "_DECISIONS/ADR-044-temporal-provenance-gate.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-044-temporal-provenance-gate · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-045", "file": "_DECISIONS/ADR-045-night-moves-digest-routine.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-045-night-moves-digest-routine · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-046", "file": "_DECISIONS/ADR-046-witness-trigger-live-capture.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-046-witness-trigger-live-capture · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-048", "file": "_DECISIONS/ADR-048-secrets-inventory-rotation.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-048-secrets-inventory-rotation · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-049", "file": "_DECISIONS/ADR-049-anonymous-receipt-remediation.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-049-anonymous-receipt-remediation · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-050", "file": "_DECISIONS/ADR-050-federated-family-airgap.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-050-federated-family-airgap · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-051", "file": "_DECISIONS/ADR-051-drift-receipt-gate.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-051-drift-receipt-gate · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-052", "file": "_DECISIONS/ADR-052-inchworm-drift-auditor.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-052-inchworm-drift-auditor · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-053", "file": "_DECISIONS/ADR-053-tao-of-arcs-dormant-potential-vox-animus.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-053-tao-of-arcs-dormant-potential-vox-animus · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-054", "file": "_DECISIONS/ADR-054-free-to-hold-metered-to-fire-pricing.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-054-free-to-hold-metered-to-fire-pricing · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-055", "file": "_DECISIONS/ADR-055-oss-family-two-tier-conformance.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-055-oss-family-two-tier-conformance · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-056", "file": "_DECISIONS/ADR-056-arcs-tie-in-connector-pattern.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-056-arcs-tie-in-connector-pattern · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-057", "file": "_DECISIONS/ADR-057-sequence-oracle.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-057-sequence-oracle · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-058", "file": "_DECISIONS/ADR-058-CALIBRATE-IDEA-Construction.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-058-CALIBRATE-IDEA-Construction · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-059", "file": "_DECISIONS/ADR-059-sage-signal-validation-path.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-059-sage-signal-validation-path · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-060", "file": "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-060-hypercube-gauntlet-arc-weld · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-061", "file": "_DECISIONS/ADR-061-verify-flags-against-full-source.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-061-verify-flags-against-full-source · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-062", "file": "_DECISIONS/ADR-062-ouroboros-recursive-self-falsification.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-062-ouroboros-recursive-self-falsification · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-063", "file": "_DECISIONS/ADR-063-public-goods-connector-visual-family.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-063-public-goods-connector-visual-family · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-064", "file": "_DECISIONS/ADR-064-external-corroboration-milestone-gate.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-064-external-corroboration-milestone-gate · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-065", "file": "_DECISIONS/ADR-065-corpus-ssot-induced-projection-infra-compass.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-065-corpus-ssot-induced-projection-infra-compass · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-066", "file": "_DECISIONS/ADR-066-generative-recoil-instance-class-invariant.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-066-generative-recoil-instance-class-invariant · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-067", "file": "_DECISIONS/ADR-067-cross-subject-comparative-recoil.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-067-cross-subject-comparative-recoil · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-068", "file": "_DECISIONS/ADR-068-verb-altitude-gate-matrix.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-068-verb-altitude-gate-matrix · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-069", "file": "_DECISIONS/ADR-069-first-closed-client-receipt-precedent.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-069-first-closed-client-receipt-precedent · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-070", "file": "_DECISIONS/ADR-070-arcs-two-surface-receipt-and-induction.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-070-arcs-two-surface-receipt-and-induction · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-071", "file": "_DECISIONS/ADR-071-mobius-one-surface-triune-invariant-gravity-well.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-071-mobius-one-surface-triune-invariant-gravity-well · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-072", "file": "_DECISIONS/ADR-072-engine-sovereignty-gradient.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-072-engine-sovereignty-gradient · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-073", "file": "_DECISIONS/ADR-073-model-routing-adr-audit-default.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-073-model-routing-adr-audit-default · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-074", "file": "_DECISIONS/ADR-074-prl-sugar-custom-code-collision-surface.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-074-prl-sugar-custom-code-collision-surface · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-075", "file": "_DECISIONS/ADR-075-metabolic-router-mechanical-judgment-split.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-075-metabolic-router-mechanical-judgment-split · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-076", "file": "_DECISIONS/ADR-076-mcp-led-growth-attribution-wedge.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-076-mcp-led-growth-attribution-wedge · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-077", "file": "_DECISIONS/ADR-077-prime-invariant-reverse-jtbd-magnetize-the-tool.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-077-prime-invariant-reverse-jtbd-magnetize-the-tool · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-078", "file": "_DECISIONS/ADR-078-exogenous-forge.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-078-exogenous-forge · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-079", "file": "_DECISIONS/ADR-079-refusal-to-overclaim-is-the-product.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-079-refusal-to-overclaim-is-the-product · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-080", "file": "_DECISIONS/ADR-080-instance-to-class-self-promotion-build-loop.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-080-instance-to-class-self-promotion-build-loop · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-081", "file": "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-081-kairos-detector-attractor-basin-condenser · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-083", "file": "_DECISIONS/ADR-083-ui-kit-atomic-ssot-and-component-source-gate.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-083-ui-kit-atomic-ssot-and-component-source-gate · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-084", "file": "_DECISIONS/ADR-084-reliance-not-trust-public-surfaces.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-084-reliance-not-trust-public-surfaces · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-085", "file": "_DECISIONS/ADR-085-main-write-lock-and-hot-file-leases.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-085-main-write-lock-and-hot-file-leases · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ADR-086", "file": "_DECISIONS/ADR-086-two-pass-backlog-induction.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-086-two-pass-backlog-induction · 1 atom(s)", "age_days": 0, "promoted": false, "versions": 1}, {"id": "ADR-087", "file": "_DECISIONS/ADR-087-animation-as-a-timeline-over-a-recipe.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-087-animation-as-a-timeline-over-a-recipe · 1 atom(s)", "age_days": 0, "promoted": false, "versions": 1}, {"id": "ADR-088", "file": "_DECISIONS/ADR-088-librarian-anticipation-hook.md", "kind": "adr", "type": "reference", "section": "Decisions (ADRs)", "desc": "ADR-088-librarian-anticipation-hook · 1 atom(s)", "age_days": 0, "promoted": false, "versions": 1}, {"id": "ARCS-Canon-v1-1", "file": "_CANON/ARCS-Canon-v1-1.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Canon-v1-1 · 19 atom(s)", "age_days": 0, "promoted": false, "versions": 1}, {"id": "ARCS-Canon-v2-0-Complete", "file": "_CANON/ARCS-Canon-v2-0-Complete.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Canon-v2-0-Complete · 11 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-Litepaper", "file": "_CANON/ARCS-Litepaper.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Litepaper · 15 atom(s)", "age_days": 0, "promoted": false, "versions": 1}, {"id": "ARCS-Manifesto-Final", "file": "_CANON/ARCS-Manifesto-Final.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Manifesto-Final · 8 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-PHASE-CHANGE-THESIS-001", "file": "_CANON/ARCS-PHASE-CHANGE-THESIS-001.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-PHASE-CHANGE-THESIS-001 · 4 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-Phenomenology", "file": "_CANON/ARCS-Phenomenology.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Phenomenology · 15 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-YellowPaper", "file": "_CANON/ARCS-YellowPaper.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-YellowPaper · 15 atom(s)", "age_days": 0, "promoted": false, "versions": 1}, {"id": "Tao-of-ARCS", "file": "_CANON/Tao-of-ARCS.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "Tao-of-ARCS · 5 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "apex-spine-mobius-induction-circuit", "file": "_CANON/apex-spine-mobius-induction-circuit.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "apex-spine-mobius-induction-circuit · 3 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "index", "file": "_CANON/index.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "index · 1 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-Codex-v8.5", "file": "_CANON/living/ARCS-Codex-v8.5.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Codex-v8.5 · 4 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-Positioning-JTBD", "file": "_CANON/living/ARCS-Positioning-JTBD.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Positioning-JTBD · 6 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-Technical-Overview-April2026", "file": "_CANON/living/ARCS-Technical-Overview-April2026.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-Technical-Overview-April2026 · 7 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "ARCS-v9-Canon-Operational", "file": "_CANON/living/ARCS-v9-Canon-Operational.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "ARCS-v9-Canon-Operational · 9 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "tao-cellar", "file": "_CANON/living/tao-cellar.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "tao-cellar · 3 atom(s)", "age_days": 2, "promoted": false, "versions": 1}, {"id": "trust-contract", "file": "_CANON/trust-contract.md", "kind": "canon", "type": "project", "section": "Canon documents", "desc": "trust-contract · 10 atom(s)", "age_days": 2, "promoted": false, "versions": 1}], "edges": [{"from": "ADR-001", "to": "ADR-002", "rel": "declared-ref"}, {"from": "ADR-002", "to": "ADR-001", "rel": "declared-ref"}, {"from": "ADR-002", "to": "ADR-003", "rel": "declared-ref"}, {"from": "ADR-002", "to": "ADR-005", "rel": "declared-ref"}, {"from": "ADR-002", "to": "ADR-007", "rel": "declared-ref"}, {"from": "ADR-003", "to": "ADR-004", "rel": "declared-ref"}, {"from": "ADR-004", "to": "ADR-003", "rel": "declared-ref"}, {"from": "ADR-005", "to": "ADR-006", "rel": "declared-ref"}, {"from": "ADR-005", "to": "ADR-007", "rel": "declared-ref"}, {"from": "ADR-005", "to": "ADR-002", "rel": "declared-ref"}, {"from": "ADR-006", "to": "ADR-005", "rel": "declared-ref"}, {"from": "ADR-006", "to": "ADR-007", "rel": "declared-ref"}, {"from": "ADR-006", "to": "ADR-026", "rel": "declared-ref"}, {"from": "ADR-006", "to": "ADR-020", "rel": "declared-ref"}, {"from": "ADR-007", "to": "ADR-005", "rel": "declared-ref"}, {"from": "ADR-007", "to": "ADR-006", "rel": "declared-ref"}, {"from": "ADR-007", "to": "ADR-002", "rel": "declared-ref"}, {"from": "ADR-008", "to": "ADR-001", "rel": "declared-ref"}, {"from": "ADR-010", "to": "ADR-007", "rel": "declared-ref"}, {"from": "ADR-011", "to": "ADR-009", "rel": "declared-ref"}, {"from": "ADR-013", "to": "ADR-012", "rel": "declared-ref"}, {"from": "ADR-013", "to": "ADR-001", "rel": "declared-ref"}, {"from": "ADR-015", "to": "ADR-013", "rel": "declared-ref"}, {"from": "ADR-015", "to": "ADR-012", "rel": "declared-ref"}, {"from": "ADR-016", "to": "ADR-022", "rel": "declared-ref"}, {"from": "ADR-016", "to": "ADR-025", "rel": "declared-ref"}, {"from": "ADR-017", "to": "ADR-007", "rel": "declared-ref"}, {"from": "ADR-017", "to": "ADR-008", "rel": "declared-ref"}, {"from": "ADR-017", "to": "ADR-018", "rel": "declared-ref"}, {"from": "ADR-019", "to": "ADR-017", "rel": "declared-ref"}, {"from": "ADR-020", "to": "ADR-019", "rel": "declared-ref"}, {"from": "ADR-020", "to": "ADR-016", "rel": "declared-ref"}, {"from": "ADR-022", "to": "ADR-016", "rel": "declared-ref"}, {"from": "ADR-022", "to": "ADR-007", "rel": "declared-ref"}, {"from": "ADR-023", "to": "ADR-020", "rel": "declared-ref"}, {"from": "ADR-023", "to": "ADR-019", "rel": "declared-ref"}, {"from": "ADR-023", "to": "ADR-017", "rel": "declared-ref"}, {"from": "ADR-024", "to": "ADR-008", "rel": "declared-ref"}, {"from": "ADR-024", "to": "ADR-001", "rel": "declared-ref"}, {"from": "ADR-024", "to": "ADR-025", "rel": "declared-ref"}, {"from": "ADR-024", "to": "ADR-026", "rel": "declared-ref"}, {"from": "ADR-025", "to": "ADR-001", "rel": "declared-ref"}, {"from": "ADR-025", "to": "ADR-016", "rel": "declared-ref"}, {"from": "ADR-025", "to": "ADR-012", "rel": "declared-ref"}, {"from": "ADR-025", "to": "ADR-013", "rel": "declared-ref"}, {"from": "ADR-026", "to": "ADR-059", "rel": "declared-ref"}, {"from": "ADR-026", "to": "ADR-013", "rel": "declared-ref"}, {"from": "ADR-026", "to": "ADR-023", "rel": "declared-ref"}, {"from": "ADR-027", "to": "ADR-023", "rel": "declared-ref"}, {"from": "ADR-028", "to": "ADR-020", "rel": "declared-ref"}, {"from": "ADR-028", "to": "ADR-023", "rel": "declared-ref"}, {"from": "ADR-029", "to": "ADR-028", "rel": "declared-ref"}, {"from": "ADR-031", "to": "ADR-011", "rel": "declared-ref"}, {"from": "ADR-031", "to": "ADR-009", "rel": "declared-ref"}, {"from": "ADR-033", "to": "ADR-034", "rel": "declared-ref"}, {"from": "ADR-033", "to": "ADR-032", "rel": "declared-ref"}, {"from": "ADR-033", "to": "ADR-023", "rel": "declared-ref"}, {"from": "ADR-033", "to": "ADR-015", "rel": "declared-ref"}, {"from": "ADR-034", "to": "ADR-049", "rel": "declared-ref"}, {"from": "ADR-034", "to": "ADR-014", "rel": "declared-ref"}, {"from": "ADR-036", "to": "ADR-035", "rel": "declared-ref"}, {"from": "ADR-036", "to": "ADR-032", "rel": "declared-ref"}, {"from": "ADR-036", "to": "ADR-048", "rel": "declared-ref"}, {"from": "ADR-037", "to": "ADR-016", "rel": "declared-ref"}, {"from": "ADR-037", "to": "ADR-049", "rel": "declared-ref"}, {"from": "ADR-039", "to": "ADR-036", "rel": "declared-ref"}, {"from": "ADR-040", "to": "ADR-026", "rel": "declared-ref"}, {"from": "ADR-040", "to": "ADR-016", "rel": "declared-ref"}, {"from": "ADR-041", "to": "ADR-081", "rel": "declared-ref"}, {"from": "ADR-041", "to": "ADR-080", "rel": "declared-ref"}, {"from": "ADR-041", "to": "ADR-034", "rel": "declared-ref"}, {"from": "ADR-044", "to": "ADR-039", "rel": "declared-ref"}, {"from": "ADR-044", "to": "ADR-035", "rel": "declared-ref"}, {"from": "ADR-046", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-046", "to": "ADR-045", "rel": "declared-ref"}, {"from": "ADR-048", "to": "ADR-005", "rel": "declared-ref"}, {"from": "ADR-049", "to": "ADR-023", "rel": "declared-ref"}, {"from": "ADR-050", "to": "ADR-051", "rel": "declared-ref"}, {"from": "ADR-053", "to": "ADR-054", "rel": "declared-ref"}, {"from": "ADR-054", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-055", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-055", "to": "ADR-052", "rel": "declared-ref"}, {"from": "ADR-056", "to": "ADR-055", "rel": "declared-ref"}, {"from": "ADR-056", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-056", "to": "ADR-051", "rel": "declared-ref"}, {"from": "ADR-057", "to": "ADR-024", "rel": "declared-ref"}, {"from": "ADR-057", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-057", "to": "ADR-032", "rel": "declared-ref"}, {"from": "ADR-057", "to": "ADR-055", "rel": "declared-ref"}, {"from": "ADR-059", "to": "ADR-026", "rel": "declared-ref"}, {"from": "ADR-059", "to": "ADR-008", "rel": "declared-ref"}, {"from": "ADR-059", "to": "ADR-023", "rel": "declared-ref"}, {"from": "ADR-060", "to": "ADR-052", "rel": "declared-ref"}, {"from": "ADR-060", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-060", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-060", "to": "ADR-054", "rel": "declared-ref"}, {"from": "ADR-060", "to": "ADR-050", "rel": "declared-ref"}, {"from": "ADR-061", "to": "ADR-057", "rel": "declared-ref"}, {"from": "ADR-061", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-062", "to": "ADR-057", "rel": "declared-ref"}, {"from": "ADR-062", "to": "ADR-061", "rel": "declared-ref"}, {"from": "ADR-062", "to": "ADR-052", "rel": "declared-ref"}, {"from": "ADR-063", "to": "ADR-057", "rel": "declared-ref"}, {"from": "ADR-063", "to": "ADR-056", "rel": "declared-ref"}, {"from": "ADR-063", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-063", "to": "ADR-055", "rel": "declared-ref"}, {"from": "ADR-064", "to": "ADR-057", "rel": "declared-ref"}, {"from": "ADR-064", "to": "ADR-046", "rel": "declared-ref"}, {"from": "ADR-064", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-064", "to": "ADR-062", "rel": "declared-ref"}, {"from": "ADR-065", "to": "ADR-057", "rel": "declared-ref"}, {"from": "ADR-065", "to": "ADR-051", "rel": "declared-ref"}, {"from": "ADR-065", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-065", "to": "ADR-064", "rel": "declared-ref"}, {"from": "ADR-067", "to": "ADR-066", "rel": "declared-ref"}, {"from": "ADR-067", "to": "ADR-057", "rel": "declared-ref"}, {"from": "ADR-067", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-068", "to": "ADR-066", "rel": "declared-ref"}, {"from": "ADR-068", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-069", "to": "ADR-068", "rel": "declared-ref"}, {"from": "ADR-069", "to": "ADR-066", "rel": "declared-ref"}, {"from": "ADR-070", "to": "ADR-069", "rel": "declared-ref"}, {"from": "ADR-070", "to": "ADR-053", "rel": "declared-ref"}, {"from": "ADR-071", "to": "ADR-070", "rel": "declared-ref"}, {"from": "ADR-071", "to": "ADR-072", "rel": "declared-ref"}, {"from": "ADR-071", "to": "ADR-064", "rel": "declared-ref"}, {"from": "ADR-072", "to": "ADR-067", "rel": "declared-ref"}, {"from": "ADR-072", "to": "ADR-071", "rel": "declared-ref"}, {"from": "ADR-073", "to": "ADR-033", "rel": "declared-ref"}, {"from": "ADR-073", "to": "ADR-032", "rel": "declared-ref"}, {"from": "ADR-073", "to": "ADR-004", "rel": "declared-ref"}, {"from": "ADR-073", "to": "ADR-008", "rel": "declared-ref"}, {"from": "ADR-073", "to": "ADR-029", "rel": "declared-ref"}, {"from": "ADR-073", "to": "ADR-030", "rel": "declared-ref"}, {"from": "ADR-074", "to": "ADR-069", "rel": "declared-ref"}, {"from": "ADR-074", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-076", "to": "ADR-075", "rel": "declared-ref"}, {"from": "ADR-076", "to": "ADR-072", "rel": "declared-ref"}, {"from": "ADR-076", "to": "ADR-054", "rel": "declared-ref"}, {"from": "ADR-077", "to": "ADR-070", "rel": "declared-ref"}, {"from": "ADR-077", "to": "ADR-071", "rel": "declared-ref"}, {"from": "ADR-077", "to": "ADR-072", "rel": "declared-ref"}, {"from": "ADR-078", "to": "ADR-034", "rel": "declared-ref"}, {"from": "ADR-079", "to": "ADR-017", "rel": "declared-ref"}, {"from": "ADR-080", "to": "ADR-038", "rel": "declared-ref"}, {"from": "ADR-081", "to": "ADR-041", "rel": "declared-ref"}, {"from": "ADR-083", "to": "ADR-009", "rel": "declared-ref"}, {"from": "ADR-084", "to": "ADR-068", "rel": "declared-ref"}, {"from": "ADR-086", "to": "ADR-060", "rel": "declared-ref"}, {"from": "ADR-086", "to": "ADR-068", "rel": "declared-ref"}, {"from": "ADR-086", "to": "ADR-070", "rel": "declared-ref"}, {"from": "ADR-086", "to": "ADR-052", "rel": "declared-ref"}, {"from": "ADR-088", "to": "ADR-044", "rel": "declared-ref"}, {"from": "ADR-088", "to": "ADR-075", "rel": "declared-ref"}, {"from": "Tao-of-ARCS", "to": "ADR-053", "rel": "declared-ref"}, {"from": "Tao-of-ARCS", "to": "ADR-054", "rel": "declared-ref"}, {"from": "Tao-of-ARCS", "to": "ADR-068", "rel": "declared-ref"}, {"from": "apex-spine-mobius-induction-circuit", "to": "ADR-071", "rel": "declared-ref"}, {"from": "apex-spine-mobius-induction-circuit", "to": "ADR-070", "rel": "declared-ref"}, {"from": "apex-spine-mobius-induction-circuit", "to": "ADR-072", "rel": "declared-ref"}, {"from": "index", "to": "ADR-053", "rel": "declared-ref"}, {"from": "index", "to": "ADR-023", "rel": "declared-ref"}, {"from": "index", "to": "ADR-013", "rel": "declared-ref"}, {"from": "tao-cellar", "to": "ADR-079", "rel": "declared-ref"}, {"from": "trust-contract", "to": "ADR-037", "rel": "declared-ref"}, {"from": "trust-contract", "to": "ADR-076", "rel": "declared-ref"}, {"from": "trust-contract", "to": "ADR-049", "rel": "declared-ref"}], "version_dupes": 0}</script>
+<script>
+const CAT = JSON.parse(document.getElementById('data').textContent);
+const COLORS = {feedback:'var(--green)',project:'var(--cyan)',reference:'var(--steel)',user:'var(--gold)',
+  repo:'var(--gold)','problem-shape':'var(--orange)',performer:'var(--purple)',unknown:'var(--fg4)'};
+const indeg = {}; CAT.edges.forEach(e => indeg[e.to]=(indeg[e.to]||0)+1);
+// pairwise connection strength (either direction) for "strongest edge" traversal
+const strength = {};
+CAT.edges.forEach(e=>{const k=e.from<e.to?e.from+'|'+e.to:e.to+'|'+e.from;strength[k]=(strength[k]||0)+1});
+const fogClass = d => d<14?'f0':d<45?'f1':d<120?'f2':'f3';
+const stratumOf = n => {const d=indeg[n.id]||0; return d===0?0:d<=2?1:d<=5?2:d<=9?3:4};
+document.getElementById('gen').textContent='· '+CAT.nodes.length+' nodes · '+CAT.edges.length+' declared edges · gen '+CAT.generated;
+
+// ── ziggurat layout: strata plates, nodes ringed by district azimuth ──────────
+const STEP_Z=52, plane=document.getElementById('plane');
+const strata=[[],[],[],[],[]];
+CAT.nodes.forEach(n=>strata[stratumOf(n)].push(n));
+const secList=[...new Set(CAT.nodes.map(n=>n.section))].sort();
+const secAngle={}; secList.forEach((s,i)=>secAngle[s]=(i/secList.length)*Math.PI*2);
+const positions={}, CX=0, CY=0;
+let maxR=0;
+strata.forEach((nodes,k)=>{
+  if(!nodes.length) return;
+  const R=Math.max(70, nodes.length*34/(2*Math.PI)) + (4-k)*26;
+  maxR=Math.max(maxR,R);
+  const plate=document.createElement('div');
+  plate.className='plate';
+  const pr=R+40;
+  plate.style.cssText=`left:${CX-pr}px;top:${CY-pr}px;width:${pr*2}px;height:${pr*2}px;transform:translateZ(${k*STEP_Z}px)`;
+  plate.innerHTML=`<span class="pl">S${k} · ${['uncited','echo 1-2','echo 3-5','echo 6-9','canon 10+'][k]} · ${nodes.length}</span>`;
+  plane.appendChild(plate);
+  nodes.sort((a,b)=>secAngle[a.section]-secAngle[b.section]||a.id.localeCompare(b.id));
+  nodes.forEach((n,i)=>{
+    const th=(i/nodes.length)*Math.PI*2 - Math.PI/2;
+    const x=CX+R*Math.cos(th), y=CY+R*Math.sin(th);
+    positions[n.id]=[x,y,k*STEP_Z];
+    const deg=indeg[n.id]||0, glow=Math.min(14,deg*1.4);
+    const t=document.createElement('div');
+    t.className='tile '+fogClass(n.age_days); t.dataset.id=n.id;
+    t.style.cssText=`left:${x-13}px;top:${y-13}px;--tc:${COLORS[n.type]||COLORS.unknown};--glow:${glow}px;transform:translateZ(${k*STEP_Z}px)`;
+    t.innerHTML='<div class="top"></div><div class="pin"></div>';
+    t.title=`${n.id} · S${k}${deg?` · echoed ×${deg}`:''}`;
+    t.onclick=ev=>{ev.stopPropagation();select(n.id)};
+    plane.appendChild(t);
+  });
+});
+const EXT=maxR+80;
+const svg=document.getElementById('threads');
+svg.setAttribute('width',EXT*2);svg.setAttribute('height',EXT*2);
+svg.style.left=(-EXT)+'px';svg.style.top=(-EXT)+'px';
+
+// ── selection, dossier, threads ───────────────────────────────────────────────
+let SEL=null;
+function select(id){
+  SEL=id;
+  document.querySelectorAll('.tile.sel').forEach(t=>t.classList.remove('sel'));
+  const el=document.querySelector(`.tile[data-id="${CSS.escape(id)}"]`);
+  if(el) el.classList.add('sel');
+  svg.innerHTML='';
+  CAT.edges.filter(e=>e.from===id||e.to===id).forEach(e=>{
+    const a=positions[e.from], b=positions[e.to]; if(!a||!b) return;
+    const L=document.createElementNS('http://www.w3.org/2000/svg','line');
+    L.setAttribute('x1',a[0]+EXT);L.setAttribute('y1',a[1]+EXT);
+    L.setAttribute('x2',b[0]+EXT);L.setAttribute('y2',b[1]+EXT);
+    L.setAttribute('stroke', e.from===id?'#00F0FF':'#FFD700');
+    svg.appendChild(L);
+  });
+  const n=CAT.nodes.find(n=>n.id===id), deg=indeg[id]||0, k=stratumOf(n);
+  const outs=CAT.edges.filter(e=>e.from===id), ins=CAT.edges.filter(e=>e.to===id);
+  document.getElementById('dbody').innerHTML=`
+    <div class="k">${n.kind} · ${n.type} · ${n.section}</div>
+    <h2>${id}</h2>
+    <p class="desc">${n.desc||'(no frontmatter description)'}</p>
+    <div class="k">Field state</div>
+    <div class="meta">stratum · S${k} (${['uncited','echo 1-2','echo 3-5','echo 6-9','canon 10+'][k]})<br>
+    staleness · ${n.age_days}d (${['SHARP','DEGRADED','GRAIN','FOG'][+fogClass(n.age_days)[1]]})<br>
+    echo weight · cited ×${deg}${n.promoted?'<br>PROMOTED / live':''}</div>
+    ${outs.length?`<div class="k">Declares → (${outs.length})</div>`+outs.map(e=>`<a class="edge" onclick="select('${e.to}')">→ ${e.to}</a>`).join(''):''}
+    ${ins.length?`<div class="k">Echoed by ← (${ins.length})</div>`+ins.map(e=>`<a class="edge" onclick="select('${e.from}')">← ${e.from}</a>`).join(''):''}
+    <div class="k">Provenance</div>
+    <div class="meta">${n.file||'(_SEEDS bank row)'} · edges DECLARED only · absent ancestry stays absent</div>
+    <div class="k">Export</div>
+    <a class="edge" onclick="exportBundle('${id}')">⤓ nested ticket · this node + its declared refs, doll-in-doll</a>`;
+  document.getElementById('dossier').classList.add('open');
+  if(TRACK)track(id);
+}
+
+// ── russian-doll export: nested self-contained ticket ────────────────────────
+// BFS the DECLARED edges outward from the node; each node nests at its shallowest
+// depth, and any edge that points back to a shell already opened renders as an
+// @ref pointer — a matryoshka over a cyclic graph without inventing a hierarchy.
+function buildDoll(id, seen){
+  const n=CAT.nodes.find(x=>x.id===id);
+  if(!n) return {ref:id, missing:true};
+  seen.add(id);
+  const deg=indeg[id]||0, k=stratumOf(n);
+  const outs=CAT.edges.filter(e=>e.from===id).map(e=>e.to);
+  const ins=CAT.edges.filter(e=>e.to===id).map(e=>e.from);
+  return {
+    id, kind:n.kind, type:n.type, section:n.section, desc:n.desc||"",
+    field_state:{stratum:`S${k}`, staleness_days:n.age_days, echo_weight:deg, promoted:!!n.promoted},
+    source:n.file||"_SEEDS bank row",
+    declares: outs.map(t=> seen.has(t) ? {"@ref":t} : buildDoll(t,seen)),
+    echoed_by: ins
+  };
+}
+function dollHTML(d,depth){
+  if(d["@ref"]) return `<div class="ref">@ref → ${d["@ref"]} (opened in an outer shell)</div>`;
+  if(d.missing) return `<div class="ref">${d.ref} · declared but not in catalog</div>`;
+  const inner=(d.declares||[]).map(c=>dollHTML(c,depth+1)).join("");
+  return `<details ${depth<1?"open":""}><summary><b>${d.id}</b> · ${d.type} · ${d.field_state.stratum} · ×${d.field_state.echo_weight}</summary>
+    <p>${d.desc||"(no description)"}</p>
+    <div class="m">${d.section} · staleness ${d.field_state.staleness_days}d${d.field_state.promoted?" · PROMOTED":""} · ${d.source}</div>
+    ${d.echoed_by.length?`<div class="m">echoed by ← ${d.echoed_by.join(" · ")}</div>`:""}
+    ${inner}</details>`;
+}
+function exportBundle(id){
+  const doll=buildDoll(id,new Set());
+  const json=JSON.stringify(doll,null,1);
+  const html=`<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<title>ARCS Ticket · ${id}</title><style>
+body{background:#020408;color:#e2e8f0;font-family:Inter,system-ui,sans-serif;max-width:820px;margin:0 auto;padding:40px 24px}
+h1{font-size:20px;letter-spacing:-.01em}
+.hd{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#00F0FF;margin-bottom:6px}
+.note{font-family:ui-monospace,monospace;font-size:9.5px;color:#64748b;line-height:1.7;margin:10px 0 22px}
+details{border:1px solid #1e293b;border-left:3px solid #00F0FF;border-radius:8px;margin:10px 0 10px 14px;padding:10px 14px;background:#0d1117}
+details details{border-left-color:#00FF9D}
+details details details{border-left-color:#FFD700}
+details details details details{border-left-color:#FF9F45}
+summary{cursor:pointer;font-family:ui-monospace,monospace;font-size:11.5px;color:#e2e8f0}
+summary b{color:#00F0FF}
+p{font-size:12.5px;line-height:1.65;color:#94a3b8;margin:8px 0 4px}
+.m{font-family:ui-monospace,monospace;font-size:9px;color:#475569;line-height:1.7}
+.ref{font-family:ui-monospace,monospace;font-size:9.5px;color:#FFD700;margin:6px 0 6px 14px}
+</style></head><body>
+<div class="hd">ARCS Nested Ticket · exported ${new Date().toISOString().slice(0,10)}</div>
+<h1>${id}</h1>
+<div class="note">Self-contained doll-in-doll bundle: this node + its DECLARED refs, nested at shallowest
+depth; back-references render as @ref pointers (no invented hierarchy over a cyclic graph). Content is
+catalog-level (description + field state + edges); full bodies live in the source files named per shell.
+Machine-readable copy embedded below.</div>
+${dollHTML(doll,0)}
+<script type="application/json" id="bundle">${json.replace(/</g,"\\u003c")}<\/script>
+</body></html>`;
+  const blob=new Blob([html],{type:"text/html"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=`ticket-${id}.html`; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+function closeDossier(){document.getElementById('dossier').classList.remove('open');svg.innerHTML='';
+  document.querySelectorAll('.tile.sel').forEach(t=>t.classList.remove('sel'))}
+
+// ── keyboard traversal: terrace walk + strongest-edge climb ──────────────────
+function neighbors(id){return CAT.edges.filter(e=>e.from===id||e.to===id)
+  .map(e=>e.from===id?e.to:e.from)}
+function walk(dir){
+  if(!SEL) return;
+  const n=CAT.nodes.find(x=>x.id===SEL), k=stratumOf(n);
+  const ring=strata[k].map(x=>x.id);
+  const i=ring.indexOf(SEL);
+  select(ring[(i+dir+ring.length)%ring.length]);
+}
+function climb(up){
+  if(!SEL) return;
+  const k=stratumOf(CAT.nodes.find(x=>x.id===SEL));
+  const byId={}; CAT.nodes.forEach(n=>byId[n.id]=n);
+  const cands=neighbors(SEL)
+    .filter(id=>byId[id])
+    .map(id=>({id, k2:stratumOf(byId[id]),
+      s:strength[SEL<id?SEL+'|'+id:id+'|'+SEL]||0}))
+    .filter(c=>up ? c.k2>k : c.k2<k)
+    .sort((a,b)=>b.s-a.s || (indeg[b.id]||0)-(indeg[a.id]||0));
+  if(cands.length){select(cands[0].id);return}
+  // no declared path: step to the spatially nearest tile one stratum away
+  // (an honest camera move, not an invented edge — nothing gets drawn)
+  const k2=up?k+1:k-1;
+  if(k2<0||k2>4||!strata[k2]||!strata[k2].length) return;
+  const p=positions[SEL];
+  const nearest=[...strata[k2]].sort((a,b)=>{
+    const pa=positions[a.id],pb=positions[b.id];
+    return ((pa[0]-p[0])**2+(pa[1]-p[1])**2)-((pb[0]-p[0])**2+(pb[1]-p[1])**2)})[0];
+  select(nearest.id);
+}
+// ── camera: orbit (ROT) + tilt (TILT) + tracking ─────────────────────────────
+let ROT=45, TILT=58, TRACK=true;
+function placePlane(){plane.style.transform=`rotateX(${TILT}deg) rotateZ(${ROT}deg)`;
+  if(TRACK&&SEL)track(SEL)}
+// project a plane point (x,y,z) through rotZ→rotX to screen offsets (orthographic approx)
+function project(x,y,z){
+  const tz=ROT*Math.PI/180, tx=TILT*Math.PI/180;
+  const x1=x*Math.cos(tz)-y*Math.sin(tz), y1=x*Math.sin(tz)+y*Math.cos(tz);
+  return [x1, y1*Math.cos(tx)-z*Math.sin(tx)];
+}
+function track(id){
+  const p=positions[id]; if(!p) return;
+  const [sx,sy]=project(p[0],p[1],p[2]);
+  world.classList.add('glide');
+  px=-sx*zoom; py=-sy*zoom; place();
+  clearTimeout(track._t); track._t=setTimeout(()=>world.classList.remove('glide'),550);
+}
+const PRESETS={'1':[0,45],'2':[58,45],'3':[76,30]}; // plan · isometric · low orbit
+window.addEventListener('keydown',e=>{
+  if(e.target===document.getElementById('q')) return;
+  if(e.key==='ArrowLeft'){e.preventDefault();walk(-1)}
+  else if(e.key==='ArrowRight'){e.preventDefault();walk(1)}
+  else if(e.key==='ArrowUp'){e.preventDefault();climb(true)}
+  else if(e.key==='ArrowDown'){e.preventDefault();climb(false)}
+  else if(e.key==='['){ROT-=15;placePlane()}
+  else if(e.key===']'){ROT+=15;placePlane()}
+  else if(e.key==='-'||e.key==='_'){TILT=Math.min(84,TILT+6);placePlane()}
+  else if(e.key==='='||e.key==='+'){TILT=Math.max(0,TILT-6);placePlane()}
+  else if(PRESETS[e.key]){[TILT,ROT]=PRESETS[e.key];placePlane()}
+  else if(e.key==='t'||e.key==='T'){TRACK=!TRACK;if(TRACK&&SEL)track(SEL)}
+  else if(e.key==='Escape'){closeDossier()}
+});
+placePlane();
+
+// ── filters ──────────────────────────────────────────────────────────────────
+const active=new Set(Object.keys(COLORS));
+const chipbox=document.getElementById('chips');
+Object.entries(COLORS).forEach(([k,c])=>{
+  if(k==='unknown')return;
+  const s=document.createElement('span');
+  s.className='chip on';s.style.setProperty('--c',c);s.textContent=k;
+  s.onclick=()=>{s.classList.toggle('on');s.classList.contains('on')?active.add(k):active.delete(k);apply()};
+  chipbox.appendChild(s);
+});
+const q=document.getElementById('q');
+q.addEventListener('input',apply);
+function apply(){
+  const term=q.value.trim().toLowerCase();let vis=0;
+  CAT.nodes.forEach(n=>{
+    const el=document.querySelector(`.tile[data-id="${CSS.escape(n.id)}"]`);
+    if(!el)return;
+    const hit=(!term||n.id.includes(term)||(n.desc||'').toLowerCase().includes(term))&&active.has(n.type);
+    el.classList.toggle('dim',!hit);if(hit)vis++;
+  });
+  document.getElementById('count').textContent=vis+' / '+CAT.nodes.length+' visible';
+}
+apply();
+
+// ── pan + zoom ───────────────────────────────────────────────────────────────
+const world=document.getElementById('world'),stage=document.getElementById('stage');
+let px=0,py=0,zoom=.9,drag=null,orbit=null;
+function place(){world.style.transform=`translate(${px}px,${py}px) scale(${zoom})`}
+stage.addEventListener('contextmenu',e=>e.preventDefault());
+stage.addEventListener('pointerdown',e=>{
+  if(e.button===2||e.shiftKey){orbit=[e.clientX,e.clientY,ROT,TILT]}
+  else{drag=[e.clientX-px,e.clientY-py]}
+  stage.classList.add('dragging')});
+window.addEventListener('pointermove',e=>{
+  if(orbit){ROT=orbit[2]+(e.clientX-orbit[0])*.25;
+    TILT=Math.min(84,Math.max(0,orbit[3]-(e.clientY-orbit[1])*.25));
+    plane.style.transform=`rotateX(${TILT}deg) rotateZ(${ROT}deg)`}
+  else if(drag){px=e.clientX-drag[0];py=e.clientY-drag[1];place()}});
+window.addEventListener('pointerup',()=>{
+  if(orbit&&TRACK&&SEL)track(SEL);
+  drag=null;orbit=null;stage.classList.remove('dragging')});
+stage.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(2.5,Math.max(.3,zoom*(e.deltaY<0?1.08:0.92)));place()},{passive:false});
+stage.addEventListener('click',closeDossier);
+place();
+
+// boot on the apex's most-echoed node (the canon peak)
+const apex=[...CAT.nodes].sort((a,b)=>(indeg[b.id]||0)-(indeg[a.id]||0))[0];
+if(apex) select(apex.id);
+</script>
+</body>
+</html>

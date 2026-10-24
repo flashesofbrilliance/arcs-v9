@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { pageViewerAllowed, loadScanSpec, loadTriggerSpec, tierOf } from "@/lib/jobs"
-import { surface, border, text, signal, font } from "@/ui/tokens"
+import { surface, border, text, signal, font, radius, measure } from "@/ui/tokens"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import Link from "next/link"
@@ -20,15 +20,15 @@ const fg1 = text.primary, fg2 = text.secondary, fg3 = text.dimmed, fg4 = text.mu
 const PANEL = "linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030), #0d1117"
 const PANEL_SHADOW = "inset 0 1px 0 #ffffff0e, 0 14px 34px -22px #000c"
 
-const eyebrow: React.CSSProperties = { fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase" }
-const src: React.CSSProperties = { fontFamily: mono, fontSize: 11, letterSpacing: ".05em", color: fg4 }
+const eyebrow: React.CSSProperties = { fontFamily: mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase" }
+const src: React.CSSProperties = { fontFamily: mono, fontSize: font.ramp.label, letterSpacing: ".05em", color: fg4 }
 const panel: React.CSSProperties = { background: PANEL, border: `1px solid ${border.subtle}`, borderRadius: 10, boxShadow: PANEL_SHADOW }
 const secHd = (n: string, t: string, color: string, gloss: string) => (
   <div style={{ display: "flex", alignItems: "baseline", gap: 12, margin: "56px 0 16px" }}>
-    <span style={{ fontFamily: mono, fontSize: 11, fontWeight: 700, color: fg4 }}>{n}</span>
-    <span style={{ fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color }}>{t}</span>
+    <span style={{ fontFamily: mono, fontSize: font.ramp.label, fontWeight: 700, color: fg4 }}>{n}</span>
+    <span style={{ fontFamily: mono, fontSize: font.ramp.body, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color }}>{t}</span>
     <span style={{ flex: 1, height: 1, background: `linear-gradient(90deg, ${border.subtle}, transparent)` }} />
-    <span style={{ fontFamily: mono, fontSize: 11, letterSpacing: ".08em", color: fg4, textTransform: "uppercase", whiteSpace: "nowrap" }}>{gloss}</span>
+    <span style={{ fontFamily: mono, fontSize: font.ramp.label, letterSpacing: ".08em", color: fg4, textTransform: "uppercase", whiteSpace: "nowrap" }}>{gloss}</span>
   </div>
 )
 const led = (color: string) => <span style={{ display: "inline-block", width: 7, height: 7, borderRadius: "50%", verticalAlign: 1, marginRight: 6, background: color, boxShadow: `0 0 8px 1px ${color}` }} />
@@ -78,25 +78,25 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 20, flexWrap: "wrap" }}>
             <div>
               <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
-                <span style={{ ...eyebrow, fontSize: 11, letterSpacing: ".09em", padding: "4px 10px", borderRadius: 4, background: signal.cyan, color: "#03151a" }}>Role Scan</span>
-                <span style={{ ...eyebrow, fontSize: 11, letterSpacing: ".09em", padding: "4px 10px", borderRadius: 4, border: `1px solid #2c3b52`, color: fg2 }}>Internal · profile × target · one posting</span>
+                <span style={{ ...eyebrow, fontSize: font.ramp.label, letterSpacing: ".09em", padding: "4px 10px", borderRadius: radius.xs, background: signal.cyan, color: "#03151a" }}>Role Scan</span>
+                <span style={{ ...eyebrow, fontSize: font.ramp.label, letterSpacing: ".09em", padding: "4px 10px", borderRadius: radius.xs, border: `1px solid #2c3b52`, color: fg2 }}>Internal · profile × target · one posting</span>
               </div>
               <h1 style={{ fontSize: "clamp(24px,3.6vw,36px)", fontWeight: 700, letterSpacing: "-.025em", lineHeight: 1.06, margin: 0, textWrap: "balance" }}>{row.title}</h1>
               <div style={{ ...eyebrow, color: signal.cyan, marginTop: 10 }}>{row.company}{row.location ? ` · ${row.location}` : ""}{row.compBand ? ` · ${row.compBand}` : ""}</div>
             </div>
-            <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: ".07em", color: fg3, textAlign: "left", lineHeight: 2.1, whiteSpace: "nowrap" }}>
+            <div style={{ fontFamily: mono, fontSize: font.ramp.label, letterSpacing: ".07em", color: fg3, textAlign: "left", lineHeight: 2.1, whiteSpace: "nowrap" }}>
               {led(bandColor)}BAND · {row.band}{tier ? ` · TIER ${tier}` : ""}<br />
               {led(gates.length ? signal.red : signal.green)}GATES · {gates.length ? `${gates.length} FIRED` : "NONE FIRED"}<br />
               {led(row.swipe ? (row.swipe.direction === "r" ? signal.green : signal.red) : fg4)}SWIPE · {row.swipe ? (row.swipe.direction === "r" ? "RIGHT" : `LEFT${row.swipe.why ? ` · ${row.swipe.why.toUpperCase()}` : ""}`) : "NONE"}<br />
               {led(forge ? (forge.status === "live" ? signal.green : signal.cyan) : fg4)}FORGE · {forge ? forge.status.toUpperCase() : "NOT REQUESTED"}
             </div>
           </div>
-          <p style={{ maxWidth: "66ch", fontSize: 13.5, lineHeight: 1.7, color: fg2, marginTop: 16, textWrap: "pretty" }}>{row.assessment ?? "No read recorded yet. The scorer writes one line per posting after reading the JD; until then this page shows only what the digest carried."}</p>
+          <p style={{ maxWidth: measure, fontSize: font.ramp.body, lineHeight: 1.7, color: fg2, marginTop: 16, textWrap: "pretty" }}>{row.assessment ?? "No read recorded yet. The scorer writes one line per posting after reading the JD; until then this page shows only what the digest carried."}</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", marginTop: 24 }}>
             {[[scored ? row.composite!.toFixed(3) : "—", "composite · sum ÷ 72"], [scored ? `${total}` : "—", `points of ${MAX}`], [row.atsName ?? "unverified", "applicant tracking"], [row.companyType ?? "—", "company type"], [row.firstSeen.toISOString().slice(0, 10), `first seen · ${row.alertQuery ?? "by hand"}`]].map(([v, k], i) => (
               <div key={k} style={{ padding: "14px 18px", borderLeft: i ? `1px solid ${border.subtle}` : "none", paddingLeft: i ? 18 : 0 }}>
                 <div style={{ fontFamily: mono, fontSize: 22, fontWeight: 700, color: i === 0 ? signal.cyan : fg1, lineHeight: 1, overflowWrap: "anywhere" }}>{v}</div>
-                <div style={{ fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, marginTop: 7, lineHeight: 1.5 }}>{k}</div>
+                <div style={{ fontFamily: mono, fontSize: font.ramp.label, fontWeight: 600, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, marginTop: 7, lineHeight: 1.5 }}>{k}</div>
               </div>))}
           </div>
           <div style={{ ...src, marginTop: 10 }}>SRC · <a href={row.url} target="_blank" rel="noopener" style={{ color: signal.cyan }}>the posting</a> · {scoredBy} · resume.arcs.care (record of record){row.scoredAt ? ` · scored ${row.scoredAt.toISOString().slice(0, 10)}` : ""}</div>
@@ -108,14 +108,14 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
           <div style={{ padding: "18px 20px 16px", borderRadius: 10, border: `1px solid ${border.subtle}`, background: `linear-gradient(165deg,#ffffff05,#00000038), ${surface.bg}` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, paddingBottom: 10, borderBottom: `1px solid ${border.subtle}` }}>{led("#7d8fa3")}<span style={{ ...eyebrow, color: fg3 }}>CH·A — What the posting asks</span></div>
             {quads.some((q) => hits[q.id]?.length) ? (
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{quads.map((q) => (hits[q.id] ?? []).map((h, i) => <li key={q.id + i} style={{ position: "relative", paddingLeft: 16, fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 10, textWrap: "pretty" }}><span style={{ position: "absolute", left: 2, top: 8, width: 5, height: 5, borderRadius: "50%", border: `1px solid ${fg3}`, opacity: .55 }} /><b style={{ color: fg1, fontWeight: 600 }}>{q.id} ·</b> {h}</li>))}</ul>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{quads.map((q) => (hits[q.id] ?? []).map((h, i) => <li key={q.id + i} style={{ position: "relative", paddingLeft: 16, fontSize: font.ramp.body, lineHeight: 1.62, color: fg2, marginBottom: 10, textWrap: "pretty" }}><span style={{ position: "absolute", left: 2, top: 8, width: 5, height: 5, borderRadius: "50%", border: `1px solid ${fg3}`, opacity: .55 }} /><b style={{ color: fg1, fontWeight: 600 }}>{q.id} ·</b> {h}</li>))}</ul>
             ) : (
-              <p style={{ fontSize: 12, lineHeight: 1.6, color: fg3, fontStyle: "italic" }}>JD evidence per differentiator arrives with the next scoring pass (the scorer quotes the sentences of the posting itself under A through D). Until then the posting is linked above, not paraphrased here.</p>
+              <p style={{ fontSize: font.ramp.label, lineHeight: 1.6, color: fg3, fontStyle: "italic" }}>JD evidence per differentiator arrives with the next scoring pass (the scorer quotes the sentences of the posting itself under A through D). Until then the posting is linked above, not paraphrased here.</p>
             )}
           </div>
           <div style={{ ...panel, padding: "18px 20px 16px", borderColor: "#00F0FF35", boxShadow: "inset 0 1px 0 #ffffff0e, 0 0 26px -14px #00F0FF55, 0 14px 34px -22px #000c" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, paddingBottom: 10, borderBottom: "1px solid #00F0FF2b" }}>{led(signal.cyan)}<span style={{ ...eyebrow, color: signal.cyan }}>CH·B — What the record shows</span></div>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{quads.map((q) => <li key={q.id} style={{ position: "relative", paddingLeft: 16, fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 10, textWrap: "pretty" }}><span style={{ position: "absolute", left: 2, top: 8, width: 5, height: 5, borderRadius: "50%", background: signal.cyan, opacity: .55 }} /><b style={{ color: fg1, fontWeight: 600 }}>{q.id} · {q.label}</b> <span style={{ fontFamily: mono, fontSize: 11, color: scored ? (q.ratio >= .67 ? signal.green : q.ratio >= .34 ? signal.gold : signal.red) : fg4 }}>{scored ? `${q.p}/${q.m}` : "—"}</span><br />{q.proof.claim}</li>)}</ul>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{quads.map((q) => <li key={q.id} style={{ position: "relative", paddingLeft: 16, fontSize: font.ramp.body, lineHeight: 1.62, color: fg2, marginBottom: 10, textWrap: "pretty" }}><span style={{ position: "absolute", left: 2, top: 8, width: 5, height: 5, borderRadius: "50%", background: signal.cyan, opacity: .55 }} /><b style={{ color: fg1, fontWeight: 600 }}>{q.id} · {q.label}</b> <span style={{ fontFamily: mono, fontSize: font.ramp.label, color: scored ? (q.ratio >= .67 ? signal.green : q.ratio >= .34 ? signal.gold : signal.red) : fg4 }}>{scored ? `${q.p}/${q.m}` : "—"}</span><br />{q.proof.claim}</li>)}</ul>
             <span style={{ ...src, display: "block", marginTop: 6 }}>SRC · target-role-scan.json quads · proof points from the profile scan</span>
           </div>
         </div>
@@ -126,10 +126,10 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>{led((hits.culture_neg?.length ?? 0) >= 2 ? signal.red : (hits.culture_pos?.length ?? 0) ? signal.green : "#7d8fa3")}<span style={{ ...eyebrow, color: fg3 }}>Culture · quoted from the posting</span></div>
             {(hits.culture_pos?.length || hits.culture_neg?.length) ? (
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {(hits.culture_pos ?? []).map((h, i) => <li key={"p" + i} style={{ fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 6, textWrap: "pretty" }}><b style={{ color: signal.green, fontWeight: 600 }}>+</b> {h}</li>)}
-                {(hits.culture_neg ?? []).map((h, i) => <li key={"n" + i} style={{ fontSize: 12.5, lineHeight: 1.62, color: fg2, marginBottom: 6, textWrap: "pretty" }}><b style={{ color: signal.red, fontWeight: 600 }}>−</b> {h}</li>)}
+                {(hits.culture_pos ?? []).map((h, i) => <li key={"p" + i} style={{ fontSize: font.ramp.body, lineHeight: 1.62, color: fg2, marginBottom: 6, textWrap: "pretty" }}><b style={{ color: signal.green, fontWeight: 600 }}>+</b> {h}</li>)}
+                {(hits.culture_neg ?? []).map((h, i) => <li key={"n" + i} style={{ fontSize: font.ramp.body, lineHeight: 1.62, color: fg2, marginBottom: 6, textWrap: "pretty" }}><b style={{ color: signal.red, fontWeight: 600 }}>−</b> {h}</li>)}
               </ul>
-            ) : <p style={{ fontSize: 12, color: fg3, margin: 0 }}>No culture signal in the posting. Not the same as neutral: the score had nothing to quote.</p>}
+            ) : <p style={{ fontSize: font.ramp.label, color: fg3, margin: 0 }}>No culture signal in the posting. Not the same as neutral: the score had nothing to quote.</p>}
           </div>
         )}
 
@@ -145,15 +145,15 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
             <div key={t as string} style={{ ...panel, position: "relative", padding: "16px 18px 14px 21px", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: c as string, boxShadow: `0 0 14px 0 ${c}` }} />
               <span style={{ ...eyebrow, color: c as string }}>{t}</span>
-              <p style={{ fontSize: 12, lineHeight: 1.62, color: fg2, marginTop: 7, textWrap: "pretty" }}>{body}</p>
+              <p style={{ fontSize: font.ramp.label, lineHeight: 1.62, color: fg2, marginTop: 7, textWrap: "pretty" }}>{body}</p>
             </div>))}
         </div>
 
         {/* 03 rubric ledger with this row's scores */}
         {secHd("03", "Scoring Ledger", "#7d8fa3", "this posting against the rubric")}
         <div style={{ ...panel, overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-            <thead><tr>{["Dimension", "Weight", "Score", "Points", "0 reads as", "3 reads as"].map((h, i) => <th key={h} style={{ fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, textAlign: i === 1 || i === 2 || i === 3 ? "center" : "left", padding: "10px 14px", borderBottom: `1px solid #2c3b52` }}>{h}</th>)}</tr></thead>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: font.ramp.label }}>
+            <thead><tr>{["Dimension", "Weight", "Score", "Points", "0 reads as", "3 reads as"].map((h, i) => <th key={h} style={{ fontFamily: mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: ".11em", textTransform: "uppercase", color: fg3, textAlign: i === 1 || i === 2 || i === 3 ? "center" : "left", padding: "10px 14px", borderBottom: `1px solid #2c3b52` }}>{h}</th>)}</tr></thead>
             <tbody>{DIMS.map((d) => { const sc = dims[d.key]; return (
               <tr key={d.key}>
                 <td style={{ padding: "9px 14px", borderBottom: `1px solid ${border.subtle}`, color: fg1, fontWeight: 600 }}>{d.label}</td>
@@ -172,20 +172,20 @@ export default async function RoleScanPage({ params }: { params: Promise<{ jobid
         <div style={{ ...panel, padding: "18px 20px" }}>
           {forge ? (<>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>{led(forge.status === "live" ? signal.green : signal.cyan)}<span style={{ ...eyebrow, color: forge.status === "live" ? signal.green : signal.cyan }}>{forge.status}</span><span style={{ ...src }}>requested {forge.requestedAt.toISOString().slice(0, 16).replace("T", " ")} · updated {forge.updatedAt.toISOString().slice(0, 16).replace("T", " ")}</span></div>
-            {forge.notes && <p style={{ fontSize: 12, lineHeight: 1.6, color: fg2, marginTop: 10, textWrap: "pretty" }}>{forge.notes}</p>}
-            <p style={{ fontSize: 12, lineHeight: 1.6, color: fg3, marginTop: 10 }}>{forge.url ? <>Live at <a href={forge.url} style={{ color: signal.cyan }}>{forge.url}</a>.</> : <>Bundle on disk under <span style={{ fontFamily: mono, color: fg2 }}>_ARTIFACTS/forge-*/</span> (resume PDF, tailor notes, red-team, hiring-manager and contact json, kintsugi, landing page staged as page.html). Hosting is a separate, human-approved step.</>}</p>
-          </>) : <p style={{ fontSize: 12, lineHeight: 1.6, color: fg3 }}>Nothing printed. A right swipe on the board files the request{tier === 3 ? "; on this tier the run waits for a confirm before a cut is spent" : ""}.</p>}
+            {forge.notes && <p style={{ fontSize: font.ramp.label, lineHeight: 1.6, color: fg2, marginTop: 10, textWrap: "pretty" }}>{forge.notes}</p>}
+            <p style={{ fontSize: font.ramp.label, lineHeight: 1.6, color: fg3, marginTop: 10 }}>{forge.url ? <>Live at <a href={forge.url} style={{ color: signal.cyan }}>{forge.url}</a>.</> : <>Bundle on disk under <span style={{ fontFamily: mono, color: fg2 }}>_ARTIFACTS/forge-*/</span> (resume PDF, tailor notes, red-team, hiring-manager and contact json, kintsugi, landing page staged as page.html). Hosting is a separate, human-approved step.</>}</p>
+          </>) : <p style={{ fontSize: font.ramp.label, lineHeight: 1.6, color: fg3 }}>Nothing printed. A right swipe on the board files the request{tier === 3 ? "; on this tier the run waits for a confirm before a cut is spent" : ""}.</p>}
         </div>
 
         {/* 05 assertion */}
         {secHd("05", "Verdict", signal.cyan, "the load-bearing sentence")}
         <div style={{ position: "relative", padding: "26px 30px 22px", border: "1px solid #00F0FF35", borderRadius: 14, background: "linear-gradient(165deg,#00F0FF0e,#00000030 55%), #0d1117", boxShadow: "inset 0 1px 0 #ffffff10, 0 0 44px -18px #00F0FF40" }}>
           <p style={{ fontSize: 16.5, lineHeight: 1.72, color: fg1, fontWeight: 450, textWrap: "pretty", margin: 0 }}>{verdict}</p>
-          <cite style={{ display: "block", marginTop: 14, fontStyle: "normal", fontFamily: mono, fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: fg3 }}>ARCS Role Scan · {row.company} · sizing, not conviction · conviction comes after the reads</cite>
+          <cite style={{ display: "block", marginTop: 14, fontStyle: "normal", fontFamily: mono, fontSize: font.ramp.label, letterSpacing: ".1em", textTransform: "uppercase", color: fg3 }}>ARCS Role Scan · {row.company} · sizing, not conviction · conviction comes after the reads</cite>
         </div>
         <div style={{ marginTop: 24, padding: "16px 20px", border: `1px dashed #2c3b52`, borderRadius: 10, background: "#0d111780" }}>
           <span style={{ ...eyebrow, color: signal.orange, display: "block", marginBottom: 8 }}>Provenance · flags lit, not smoothed</span>
-          <p style={{ fontSize: 11, lineHeight: 1.7, color: fg3, margin: 0 }}>Scores are the pre-work sizing composite, 0 to 3 per dimension against the anchors in the ledger, weights a v1 calibration. The record side of the comparator is the proof points of the target scan, which carry the flags of the profile scan: the ARCS decision-noise and time-to-insight figures are self-reported, ARCS is not a listed LinkedIn position, and AUM reads $7B here. Nothing on this page is sent anywhere; the public forge page is built separately and air-gapped from this instrument. Sibling instruments: <Link href="/jobs/profile" style={{ color: signal.cyan }}>Profile Scan</Link> · <Link href="/jobs/scan" style={{ color: signal.cyan }}>Target Scan</Link>.</p>
+          <p style={{ fontSize: font.ramp.label, lineHeight: 1.7, color: fg3, margin: 0 }}>Scores are the pre-work sizing composite, 0 to 3 per dimension against the anchors in the ledger, weights a v1 calibration. The record side of the comparator is the proof points of the target scan, which carry the flags of the profile scan: the ARCS decision-noise and time-to-insight figures are self-reported, ARCS is not a listed LinkedIn position, and AUM reads $7B here. Nothing on this page is sent anywhere; the public forge page is built separately and air-gapped from this instrument. Sibling instruments: <Link href="/jobs/profile" style={{ color: signal.cyan }}>Profile Scan</Link> · <Link href="/jobs/scan" style={{ color: signal.cyan }}>Target Scan</Link>.</p>
         </div>
       </div>
     </main>

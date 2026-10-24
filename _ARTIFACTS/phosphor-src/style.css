@@ -40,7 +40,7 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
-/* DESIGN.md conformance layer (2026-10-15), additive: new surfaces use these names; legacy tokens above are untouched. Drift table: _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md. */
+/* DESIGN.md conformance layer (2026-10-15), additive: new surfaces use these names; legacy tokens above are untouched. Drift table: the ui-kit compounding sweep note. */
 :root {
   /* Colors DESIGN.md defines that the legacy tokens lack */
   --elevated:       #111827;
@@ -388,3 +388,11 @@ html[data-dock="hidden"] .tray { display: none; }
 .check.check-tight { grid-template-columns: 22px auto !important; }
 #zin { right: 60px; } #zout { right: 112px; }
 
+
+/* First-minute ritual: a quiet breathing ring over the picture until the first key or tap, then one soft ring per press for a minute. A picture only: it takes no pointer and no focus. */
+.begin { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; pointer-events: none; }
+.begin-ring { height: 62%; max-height: 170px; aspect-ratio: 1; border: 2px solid var(--cyan); border-radius: 50%; opacity: .45; animation: beginbreath 3s ease-in-out infinite; }
+.begin-rip { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; border: 2px solid var(--cyan); border-radius: 50%; opacity: .35; animation: beginrip 700ms ease-out forwards; }
+@keyframes beginbreath { 0%, 100% { transform: scale(1); opacity: .3; } 50% { transform: scale(1.08); opacity: .55; } }
+@keyframes beginrip { to { transform: scale(9); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .begin-ring { animation: none; } }
