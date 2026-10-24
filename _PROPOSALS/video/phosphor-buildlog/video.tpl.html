@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Phosphor build log</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/*__TOKENS__*/
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);overflow:hidden}
+body{font-family:var(--ds-font-sans);}
+#stage{position:relative;width:1280px;height:720px;overflow:hidden;background:var(--bg)}
+.sc{position:absolute;inset:0;padding:64px 80px;box-sizing:border-box;opacity:0;display:flex;flex-direction:column;justify-content:center;gap:22px}
+.lab{font-family:var(--ds-font-mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--ds-font-display);font-weight:600;font-size:64px;line-height:1.08;margin:0;letter-spacing:-.01em}
+h2{font-family:var(--ds-font-display);font-weight:600;font-size:44px;line-height:1.12;margin:0}
+.big{font-family:var(--ds-font-mono);font-size:30px;line-height:1.35}
+.c{color:var(--cyan)}.g{color:var(--green)}.o{color:var(--gold)}.r{color:var(--red)}.m{color:var(--muted)}
+.card{border:1px solid var(--border);background:var(--surface);border-radius:var(--ds-r-md);padding:22px 28px}
+.mono{font-family:var(--ds-font-mono)}
+.row{display:flex;gap:28px}.col{flex:1;min-width:0}
+.ln{font-family:var(--ds-font-mono);font-size:22px;line-height:1.5}
+.bar{position:absolute;bottom:0;width:70px;background:var(--cyan-bg);border:1px solid var(--cyan);border-bottom:0;border-radius:6px 6px 0 0}
+.ft{position:absolute;left:80px;right:80px;bottom:26px;font-family:var(--ds-font-mono);font-size:14px;color:var(--dimmed);letter-spacing:.06em;display:flex;justify-content:space-between}
+.prog{position:absolute;left:0;bottom:0;height:3px;background:var(--cyan)}
+</style></head><body>
+<div id="stage">
+<section class="sc" id="s1"><div class="lab">ARCS / receipts / Phosphor build log</div><h1>Nine days. <span class="c">84 receipts.</span></h1><div class="big"><span class="g" id="k322">322</span> things confirmed.<br><span class="o" id="k282">282</span> things not.</div><div class="lab">Git keeps the change. ARCS keeps the claim.</div></section>
+<section class="sc" id="s2"><div class="lab">What a diff cannot tell you</div><div class="row"><div class="card col"><div class="lab">git shows</div><div class="ln m">+ 327,480 bytes<br>+ 52 checks green<br>+ merged</div></div><div class="card col" id="s2b"><div class="lab c">a receipt adds</div><div class="ln"><span class="c">Why</span> was it done<br><span class="g">What</span> was confirmed<br><span class="o">What</span> was not<br><span class="r">What</span> broke, and the fix<br><span class="c">What</span> happened next</div></div></div></section>
+<section class="sc" id="s3"><div class="lab">Oct 15 to Oct 24: receipts per day</div><div id="chart" style="position:relative;height:300px;margin-top:10px"></div><div class="big m" id="s3c" style="margin-top:48px">Busiest day: 35 receipts on Oct 16. Oct 18: releases 2 to 5.</div></section>
+<section class="sc" id="s4"><div class="lab">Anatomy of a receipt: release 7</div><div class="card"><div class="ln c" style="font-size:24px">Cut dj.arcs.care release 7?</div></div><div class="row"><div class="card col"><div class="lab g">confirmed</div><div class="ln" id="conf"></div></div><div class="card col"><div class="lab o">unconfirmed</div><div class="ln" id="unc"></div></div></div></section>
+<section class="sc" id="s5"><div class="lab" id="s5n">Mistakes and corrections</div><div class="card" style="min-height:130px"><div class="lab r">what went wrong</div><div class="big" id="s5a"></div></div><div class="card" style="min-height:130px"><div class="lab g">what changed</div><div class="big" id="s5b"></div></div></section>
+<section class="sc" id="s6"><div class="lab">Version control for an outcome</div><h2>Does a child begin without being asked?</h2><div id="ver"></div></section>
+<section class="sc" id="s7"><div class="lab">The thesis, and its test</div><h2>Git versions the code. <span class="c">ARCS versions the claim:</span> what we said, what we knew, what we fixed, what we still do not know.</h2><div class="card"><div class="lab o">test not yet run</div><div class="ln">Can a stranger rebuild the why of a change from its receipt alone?</div></div><div class="lab" style="text-transform:none;letter-spacing:.04em;color:var(--dimmed)">Receipts are self-attested. Observations are one child. Nothing here proves it works.</div></section>
+<div class="ft"><span>ARCS</span><span id="clock"></span></div><div class="prog" id="prog"></div>
+</div>
+<script>
+var DATA=/*__DATA__*/null, DURATION=84;
+var SC=[["s1",0,7],["s2",7,16],["s3",16,28],["s4",28,40],["s5",40,62],["s6",62,76],["s7",76,84]];
+var MIST=[
+["PENDING: the recipe link reused a name the slice code already owns. Loading a link would have broken slice editing.","Renamed. New build rule R10 fails the build on any duplicate top-level name."],
+["SP: the same class, five days later. Sing playback already owned the name.","R10 caught it before any test ran. The gate paid for itself."],
+["The Grab check passed its own mutation: it only agreed with itself.","Rewrote it against the real timing. Withdrew the accuracy claim."],
+["I told you the WebKit Eject lock was open. Main had already fixed it.","Corrected from the backlog row. Real-iPad proof still owed."],
+["A mutation script said \"fails: 0\" on a file that did not exist.","Runs now must show passes and fails. An empty run is not a pass."]];
+var VER=[
+["v0","Oct 15","hypothesis","Ritual: does he begin unprompted?","UNMEASURED"],
+["v1","Oct 23","observed, n=1","He found that his keys change the picture, and loved it.","change: any first key starts the music (PR 1804)"],
+["v2","Oct 23","observed, n=1","Accidental Space presses kept pausing the music.","change: tap = dry cut, hold 0.6 s = start/stop (PR 1806)"],
+["v3","next","pending","Begins without being asked?","needs a real session, play log on"]];
+var CONF=["PR merged, every check passed","suite 52 of 52, page gate 2 of 2","live page 200, 327,480 bytes"];
+var UNC=["no real device tested","begins unprompted: not measured","dry cut: my reading of the words"];
+function $(i){return document.getElementById(i)}
+function clamp(x){return x<0?0:x>1?1:x}
+function ease(x){x=clamp(x);return 1-Math.pow(1-x,3)}
+function pre(el,t,a,b){var f=ease((t-a)/.5),o=ease((b-t)/.5);return Math.min(f,o)}
+(function build(){
+ var ch=$("chart"),mx=35,days=DATA.by_day,w=ch.clientWidth||1120,gap=(w-days.length*70)/(days.length+1);
+ days.forEach(function(d,i){var b=document.createElement("div");b.className="bar";b.style.left=(gap+i*(70+gap))+"px";b.id="b"+i;ch.appendChild(b);
+  var l=document.createElement("div");l.className="lab";l.style.cssText="position:absolute;bottom:-34px;width:70px;text-align:center;left:"+(gap+i*(70+gap))+"px";l.textContent=d[0].slice(5);ch.appendChild(l);
+  var n=document.createElement("div");n.className="mono c";n.id="n"+i;n.style.cssText="position:absolute;width:70px;text-align:center;left:"+(gap+i*(70+gap))+"px;font-size:22px";n.textContent=d[1];ch.appendChild(n)});
+ var v=$("ver");VER.forEach(function(r,i){var e=document.createElement("div");e.className="card";e.id="v"+i;e.style.padding="14px 24px";
+  e.innerHTML='<div class="row"><div class="mono c" style="width:60px;font-size:24px">'+r[0]+'</div><div class="col"><div class="lab '+(i==3?"o":"g")+'" style="margin-bottom:4px">'+r[1]+' / '+r[2]+'</div><div class="ln" style="font-size:22px">'+r[3]+'</div><div class="ln m" style="font-size:18px">'+r[4]+'</div></div></div>';v.appendChild(e)});
+})();
+function seek(t){
+ SC.forEach(function(s){var e=$(s[0]),a=s[1],b=s[2],o=(t>=a&&t<b)?pre(e,t,a,b):0;e.style.opacity=o;e.style.transform="translateY("+((1-o)*14)+"px)";e.style.pointerEvents="none"});
+ $("k322").textContent=String(Math.round(DATA.confirmed*ease((t-1)/2))); $("k282").textContent=String(Math.round(DATA.unconfirmed*ease((t-2.4)/2)));
+ // s2: second card appears late
+ $("s2b").style.opacity=ease((t-10)/1);
+ // s3 bars
+ var mx=35,H=270;DATA.by_day.forEach(function(d,i){var h=H*d[1]/mx*ease((t-17-i*.35)/.9);$("b"+i).style.height=h+"px";$("n"+i).style.bottom=(h+6)+"px";$("n"+i).style.opacity=ease((t-17.3-i*.35)/.5)});
+ // s4 lines
+ $("conf").innerHTML=CONF.map(function(x,i){return '<div style="opacity:'+ease((t-30-i*1.4)/.5)+'">'+x+'</div>'}).join("");
+ $("unc").innerHTML=UNC.map(function(x,i){return '<div style="opacity:'+ease((t-34-i*1.4)/.5)+'">'+x+'</div>'}).join("");
+ // s5 mistakes, 4.4 s each from 40
+ var k=Math.min(MIST.length-1,Math.max(0,Math.floor((t-40)/4.4))),lt=(t-40)-k*4.4;
+ $("s5n").textContent="Mistakes and corrections ("+(k+1)+" of "+MIST.length+" shown)";
+ $("s5a").textContent=MIST[k][0];$("s5b").textContent=MIST[k][1];
+ $("s5a").style.opacity=ease(lt/.4)*ease((4.2-lt)/.3);$("s5b").style.opacity=ease((lt-1.3)/.5)*ease((4.2-lt)/.3);
+ // s6 versions
+ VER.forEach(function(r,i){var e=$("v"+i),o=ease((t-63-i*2.4)/.6);e.style.opacity=o;e.style.transform="translateX("+((1-o)*-30)+"px)"});
+ var mm=Math.floor(t/60),ss=Math.floor(t%60);$("clock").textContent=mm+":"+(ss<10?"0":"")+ss+" / 1:24";
+ $("prog").style.width=(t/DURATION*100)+"%";
+}
+window.DURATION=DURATION;window.seek=seek;seek(0);
+</script></body></html>
