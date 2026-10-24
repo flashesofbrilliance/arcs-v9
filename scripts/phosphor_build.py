@@ -9,7 +9,7 @@ The result is _ARTIFACTS/phosphor.html (and an identical public/dj.html, served 
   python3 scripts/phosphor_build.py --release write the artifact AND public/dj.html (dj.arcs.care); only at a release checkpoint
   python3 scripts/phosphor_build.py --check   exit 1 if the committed page differs from a fresh build (add --release to also check the public copy)
 """
-import os, re, sys
+import json, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "_ARTIFACTS/phosphor-src"); OUT = os.path.join(ROOT, "_ARTIFACTS/phosphor.html"); PUB = os.path.join(ROOT, "public/dj.html")  # dj.arcs.care serves this copy
 
@@ -37,6 +37,15 @@ if __name__ == "__main__":
         cur = open(OUT, encoding="utf-8").read(); pub = open(PUB, encoding="utf-8").read() if os.path.exists(PUB) else None
         if cur != out or ("--release" in sys.argv and pub != out): print("phosphor_build: _ARTIFACTS/phosphor.html or public/dj.html differs from a fresh build; edit _ARTIFACTS/phosphor-src/ and run python3 scripts/phosphor_build.py"); sys.exit(1)
         print("phosphor_build: page matches its sources (%d bytes)" % len(out.encode())); sys.exit(0)
+    if "--release" in sys.argv:
+        # Release holds (2026-10-24): a feature Zach said to build but not release stays out of the public page until he says go.
+        # Add an entry to runtime/specs/phosphor-release-holds.json; override one deliberately with --allow-hold ID after his go.
+        hp = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "runtime/specs/phosphor-release-holds.json")
+        allow = [sys.argv[i + 1] for i, a in enumerate(sys.argv[:-1]) if a == "--allow-hold"]
+        held = [h for h in (json.load(open(hp, encoding="utf-8")).get("holds", []) if os.path.exists(hp) else []) if ('id="%s"' % h["id"]) in out and h["id"] not in allow]
+        if held:
+            for h in held: print("phosphor_build: RELEASE REFUSED: %s is held (%s). Needs Zach's explicit go, then rerun with --allow-hold %s" % (h["id"], h["reason"], h["id"]))
+            sys.exit(1)
     open(OUT, "w", encoding="utf-8").write(out)
     if "--release" in sys.argv: open(PUB, "w", encoding="utf-8").write(out); print("phosphor_build: wrote %d bytes to the artifact and public/dj.html (release)" % len(out.encode()))
     else: print("phosphor_build: wrote %d bytes to the artifact (public/dj.html unchanged; use --release at a release checkpoint)" % len(out.encode()))
