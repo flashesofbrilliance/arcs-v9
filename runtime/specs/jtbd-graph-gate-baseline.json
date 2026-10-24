@@ -47,7 +47,6 @@
       "tool:script:bank_event.py",
       "tool:script:baseline-prod-migrations.sh",
       "tool:script:beat_reference.py",
-      "tool:script:believability_ledger.py",
       "tool:script:blog_provenance.py",
       "tool:script:blog_render.py",
       "tool:script:bridge_index_scan.py",
