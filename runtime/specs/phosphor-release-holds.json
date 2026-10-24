@@ -1,0 +1,10 @@
+{
+  "note": "Features built in the private Phosphor build that must not go to the public page (public/dj.html) until Zach says go. scripts/phosphor_build.py --release refuses while the id is in the built page. After his go, release with --allow-hold <id> and remove the entry in the same change.",
+  "holds": [
+    {
+      "id": "pttxt",
+      "reason": "pattern text box: Zach said build, no release (prereg amendment 71, 2026-10-23); open: derivative-work risk from the research brief, UI wording that names Strudel in the help text",
+      "set": "2026-10-23"
+    }
+  ]
+}
