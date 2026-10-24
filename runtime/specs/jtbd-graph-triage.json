@@ -1,0 +1,197 @@
+{
+ "note": "Time-boxed holds for NEW jtbd-graph --check findings (Zach, 2026-10-20). Each entry needs a reason, a backlog row and resolve_by within 14 days of added. It passes until resolve_by, then fails TRIAGE-EXPIRED; an entry whose finding is gone fails TRIAGE-STALE. The baseline is separate: old debt only, and it may only shrink.",
+ "holds": [
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:concourse.arcs.care/plan",
+   "reason": "surface shipped 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:prl.arcs.care/checkpoint",
+   "reason": "surface shipped 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:prl.arcs.care/checkpoint.pdf",
+   "reason": "surface shipped 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-JOB",
+   "id": "job:backlog:drift-classifier-productive-destructive",
+   "reason": "row states its tool is 'none yet (gap)'; a known gap",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:chief-bayesian",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:chief-conductor",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:chief-loki",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:ciso-review",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:claims-skeptic",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:claude-code-config-auditor",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:idea-alchemist",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:idea-curator",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:idea-detective",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:impeccable-asset-producer",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:impeccable-documenter",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:impeccable-finish-reviewer",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:impeccable-manual-edit-applier",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:platform-standards-auditor",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:privacy-review",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:recoil-gather-git",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:recoil-gather-web",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:recoil-reason",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:scenario-runner",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:sre-review",
+   "reason": "agent surface added to the catalog 2026-10-20 before a job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-20",
+   "resolve_by": "2026-11-03"
+  }
+ ]
+}

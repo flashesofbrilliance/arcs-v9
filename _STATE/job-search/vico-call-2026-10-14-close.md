@@ -225,3 +225,16 @@ Guardrail: the game-theory column is a stress test, not a story about Lyndon. Ke
 - Investor names (L323) are ASR spellings; one search found nothing.
 - Web checks this session were search snippets only (dealroom, mrweb, BusinessWire, GMU, a podcast listing). Gap 1 is graded C until a primary source names the PE fund.
 - The posteriors and likelihood ratios are my judgment. Zach's own read of the room should override them.
+
+## 10. Close as a pass (Zach, 2026-10-21)
+
+Zach closed VICO as a pass. Reasons, in order of weight:
+1. Joe's brief and Lyndon's revealed preference diverged. Zach asked Joe repeatedly whether this was a real role and Joe was consistently evasive (Zach's account, not verified). On the call Lyndon heard Zach's goals first, then pitched the company, probed capability, and never stated a need.
+2. No seat, reporting line or comp band was named in writing, so the 3-hour effort cap in section 5 was never triggered and no effort was owed.
+3. Joe is fee-interested (section 5 gates), so a debrief from him (G1) would report Joe's read, not Lyndon's. G1 and G2 are not registered as scheduled checks.
+
+Evidence stands on: the transcript lines cited in sections 6 and 7 (L249 to L257 for the needs question, L89 and L241 for goals first), the ex-ante `runtime/recoil/generated/2026-10-03-oh-vico.json`, and the unsent draft `_STATE/job-search/vico-followup-draft-2026-10-18.md`. Joe's evasiveness is Zach's recollection, not in any file.
+
+Hypothesis B (Lyndon sees Zach as a competitor or information gatherer, section 7) is recorded as Zach's impression, unconfirmed. His own weights in section 7 put it at 0.25 against A 0.35 and C 0.30, and the Joe divergence explains the mismatch without it.
+
+Kept: the follow-up draft stays unsent as the one cheap test if Lyndon reaches out; the G3 ghost check `lyndon-vico-ghost-check` (2026-11-11) stays. Keep-in-touch is low effort and goes to Lyndon directly, not through Joe. Zach sent Joe a short coaching email on representing opportunities and need versus nice-to-have (2026-10-20).

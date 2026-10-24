@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zach Harris FDE Brief</title>
 <style>
@@ -51,7 +52,7 @@
    inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
    tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
    New surfaces use these names so they pass without a per-page override layer. See
-   _PATTERNS/2026-10-15-ui-kit-compounding-sweep.md for the drift table and the decision this defers. */
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
 :root {
   /* Colors DESIGN.md defines that the legacy tokens lack */
   --elevated:       #111827;
@@ -242,7 +243,7 @@ footer a { color: var(--text-secondary); display: inline-block; padding: 12px 6p
 <main class="page">
   <header>
     <h1>Zach Harris, Forward Deployed Engineer</h1>
-    <p class="meta"><span>Prepared for Sara Hagey Chima</span> · <span>Concourse</span> · <span>Oct 16, 2026</span> · <span>Engineer call Mon Oct 19, 2:30 PM ET</span></p>
+    <p class="meta"><span>Prepared for Sara</span> · <span>Concourse</span> · <span>Oct 16, 2026</span> · <span>Updated Oct 19</span></p>
   </header>
 
   <div class="next" role="note" aria-label="Positioning in one line">
@@ -258,6 +259,17 @@ footer a { color: var(--text-secondary); display: inline-block; padding: 12px 6p
         <div><dt>Forward deployed engineering</dt><dd>Owns scoping, build and delivery for a customer system, including the integration work that sits between the AI and the customer's existing tools.</dd></div>
         <div><dt>Forward deployed product management</dt><dd>Runs intake, requirements and customer conversations, so the FDE and FDPM share one picture of the problem instead of passing it across a handoff.</dd></div>
         <div><dt>Applied AI systems engineering</dt><dd>Treats shared repos, CI/CD and governance as part of the product. Raised on the call: a team that runs about 20% of what it builds for clients on itself compounds faster.</dd></div>
+      </dl>
+    </section>
+
+    <section class="wide">
+      <h2>Links the team can check</h2>
+      <dl class="map">
+        <div><dt>Can he code the whole stack?</dt><dd><a href="https://status.arcs.care">status.arcs.care</a>: the build history of a production app he built solo, measured from the repository, about six months and over 3,500 commits.</dd></div>
+        <div><dt>Does anyone else use what he builds?</dt><dd><a href="https://good.arcs.care">good.arcs.care</a>: open-source tools he publishes, with install commands for Claude Code, npm and Homebrew.</dd></div>
+        <div><dt>Does he ship quality code?</dt><dd>Every change goes through a pull request and automated checks before it merges. Public example with tests: <a href="https://github.com/flashesofbrilliance/germinate">germinate</a>. More public repositories: <a href="https://github.com/flashesofbrilliance">github.com/flashesofbrilliance</a>. He is glad to walk the team through the main (private) codebase.</dd></div>
+        <div><dt>Is the product real?</dt><dd><a href="https://app.arcs.care">app.arcs.care</a>: the live app (opens on a sign-in page; he is happy to demo it).</dd></div>
+        <div><dt>Full background</dt><dd><a href="https://resume.arcs.care">resume.arcs.care</a></dd></div>
       </dl>
     </section>
 

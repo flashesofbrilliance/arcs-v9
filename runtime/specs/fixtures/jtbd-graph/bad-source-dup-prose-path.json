@@ -1,0 +1,29 @@
+{
+ "_expect": "SOURCE-DUP",
+ "_root": true,
+ "_note": "round 2 class 9: one env line twice, path spelled ./ and a different title",
+ "atoms": [
+  {
+   "id": "dep:env:ANTHROPIC_API_KEY",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "ANTHROPIC_API_KEY",
+    "line": 39
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "dep:env:MODELS",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "MODELS",
+    "line": 39
+   },
+   "path": "./AGENTS.md",
+   "title": "other"
+  }
+ ],
+ "edges": []
+}

@@ -1,0 +1,28 @@
+{
+ "lineage_share": 0.8046675655196348,
+ "indegree_mismatches": 0,
+ "wall_before_s": 5.146137166999999,
+ "wall_after_s": 1.5471430830000017,
+ "scaling": [
+  {
+   "frac": 0.25,
+   "time_s": 0.306481208000001
+  },
+  {
+   "frac": 0.5,
+   "time_s": 0.6752740419999981
+  },
+  {
+   "frac": 1.0,
+   "time_s": 1.578882084
+  }
+ ],
+ "detail": {
+  "candidates": 2677,
+  "pairwise_pass_s": 4.140929666,
+  "index_pass_s": 0.5585750420000011,
+  "query": "ADR-084",
+  "n_max": 3,
+  "reps": 3
+ }
+}

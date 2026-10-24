@@ -1,0 +1,18 @@
+{
+ "_expect": "KEY-LOOKUP",
+ "_root": true,
+ "_note": "round 2 class 8: any uppercase word on the env row",
+ "atoms": [
+  {
+   "id": "dep:env:MODELS",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "MODELS",
+    "line": 39
+   },
+   "path": "AGENTS.md"
+  }
+ ],
+ "edges": []
+}

@@ -147,7 +147,8 @@ echo "  ✔ analytics — every public page carries the Web Analytics snippet."
 # visibly, with why:
 #   - public/observatory/*.json      demo datasets the static observatory loads
 #   - public/compass-kit/README.md   published design-kit doc, part of the kit
-STRAY_ALLOW='^public/(observatory/(data\.[a-z0-9.-]+\.json|datasets\.json)|compass-kit/README\.md|family-roster\.json)$'
+#   - public/concourse-candidate.json  agent-readable candidate card, deliberately public (concourse.arcs.care/candidate.json via src/proxy.ts)
+STRAY_ALLOW='^public/(observatory/(data\.[a-z0-9.-]+\.json|datasets\.json)|compass-kit/README\.md|family-roster\.json|concourse-candidate\.json)$'
 STRAY="$(find public -type f \( -name '*.py' -o -name '*.md' -o -name '*.sh' -o -name '*.json' \) 2>/dev/null | grep -vE "$STRAY_ALLOW" || true)"
 if [ -n "$STRAY" ]; then
   STRAY_COUNT="$(echo "$STRAY" | grep -c . || true)"

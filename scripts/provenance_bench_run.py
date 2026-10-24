@@ -168,7 +168,7 @@ def merge_timing(out):
 def load_librarian():
     import importlib.util
     spec = importlib.util.spec_from_file_location("arcs_librarian", os.path.join(REPO, "operators", "arcs_librarian.py"))
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m); return m
+    m = importlib.util.module_from_spec(spec); sys.modules['arcs_librarian'] = m; spec.loader.exec_module(m); return m
 
 
 def cmd_h8(out, al=None, make_lib=None, query="ADR-084", n_max=3, reps=3):

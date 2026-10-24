@@ -27,20 +27,18 @@
   "corpus": 1,
   "canon": 1,
   "codebase": 2,
-  "files": 8
+  "files": 7
  },
  "systems": {
   "runtime": 2,
   "scripts": 2,
   "_ARTIFACTS": 1,
   "_DECISIONS": 1,
-  "_INBOX": 1,
   "public": 1
  },
  "files": [
   "_ARTIFACTS/arcs-knowledge-lattice.html",
   "_DECISIONS/ADR-023-observability-goal-lattice.md",
-  "_INBOX/lattice-drift.jsonl",
   "public/pf-knowledge-lattice.html",
   "runtime/specs/knowledge-lattice-v1.json",
   "runtime/specs/lattice-pressure-rom.json",

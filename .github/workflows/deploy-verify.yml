@@ -27,7 +27,7 @@ permissions:
 jobs:
   verify:
     if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'production'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, arcs-mac]
     env:
       # Smoke against the PRODUCTION ALIAS, not the raw per-deploy vercel.app URL.
       # deployment_status.target_url is the bare deployment host (e.g.
@@ -109,7 +109,7 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.gate.outputs.skip != 'true'
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       # ADR-016 API assertions against the real live deployment.
       - name: API smoke (scripts/smoke.sh)

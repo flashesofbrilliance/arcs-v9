@@ -22,7 +22,7 @@ The validator never writes. Findings are printed for a human to read and
 adjudicate. Exit 0 only when zero findings. Stdlib only.
 
 Usage:
-  python3 scripts/second_pass_ledger.py <packet.md> <ledger.json> <ledger.md>
+  python3 scripts/_archive/second_pass_ledger.py <packet.md> <ledger.json> <ledger.md>
 """
 import json
 import re

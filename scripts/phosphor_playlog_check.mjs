@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// phosphor_playlog_check.mjs: the opt-in play log (amendment 42). Local only, control ids and values, never names. Usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_playlog_check.mjs <page.html>
+// phosphor_playlog_check.mjs: the opt-in play log (amendment 52). Local only, control ids and values, never names. Usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_playlog_check.mjs <page.html>
 import { chromium } from 'playwright'
 import { copyFileSync, mkdtempSync } from 'node:fs'
 import { tmpdir } from 'node:os'
