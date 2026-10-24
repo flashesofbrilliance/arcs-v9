@@ -651,6 +651,13 @@ html[data-dock="hidden"] .tray { display: none; }
         <div class="gb">
           <label class="check"><input type="checkbox" id="sqon"><span>Run the steps while the song plays.</span></label>
           <div class="sqwrap" id="seqg"></div>
+          <div class="pat" data-min="4">
+            <div class="ctl-label"><label for="pttxt"><span>Pattern text</span></label></div>
+            <div class="row"><select class="txt w-auto" id="ptlane" aria-label="Lane to fill"></select><input class="txt" id="pttxt" type="text" spellcheck="false" autocomplete="off" placeholder="x ~ x [x x]" aria-describedby="pthelp ptmsg"><button class="btn" type="button" id="ptgo">Apply</button><button class="btn" type="button" id="ptnext">Next bar</button></div>
+            <div class="row"><label class="tpl" for="ptseed">Chance seed</label><input class="txt w-auto" id="ptseed" type="number" min="0" max="99" step="1" value="1"></div>
+            <p class="hint" id="pthelp">Our own step text, not Strudel. Steps share one bar: x x x x. ~ rest, _ longer, [x x] group, x*2 twice, x!2 copy, &lt;x ~&gt; one per bar (Next bar steps it), x? maybe, x(3,8) spread 3 over 8. On Zoom and Detail a digit sets the amount. Press Apply; the lane changes only then.</p>
+            <p class="hint" id="ptmsg" role="status" aria-live="polite"></p>
+          </div>
           <div>
             <div class="ctl-label"><span>Snap to</span><output id="sqo">beat</output></div>
             <div class="seg" role="radiogroup" aria-label="Snap to">
@@ -2105,7 +2112,7 @@ fm = fm || 1;
 for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
 return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
 };
-if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, dry: function () { return { on: DRY.on, n: DRY.n }; }, begin: function () { return { done: BEGIN.done, mode: BEGIN.mode, ms: BEGIN.ms, playing: playing, rips: $("begin").querySelectorAll(".begin-rip").length, ring: !$("beginring").hidden, shown: !$("begin").hidden }; }, pads: { live: function () { return Object.keys(PAD.live).filter(function (k) { return PAD.live[k]; }).map(Number); }, log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { pat: { parse: function (t) { try { patParse(t); return true; } catch (e) { return e.message; } }, cells: function (t, bar, seed, lane) { return patCells(patParse(t), bar || 0, seed === undefined ? 1 : seed, lane || "stutter"); }, cur: function () { return PAT; } }, cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, dry: function () { return { on: DRY.on, n: DRY.n }; }, begin: function () { return { done: BEGIN.done, mode: BEGIN.mode, ms: BEGIN.ms, playing: playing, rips: $("begin").querySelectorAll(".begin-rip").length, ring: !$("beginring").hidden, shown: !$("begin").hidden }; }, pads: { live: function () { return Object.keys(PAD.live).filter(function (k) { return PAD.live[k]; }).map(Number); }, log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
 var R = null;
 return {
 start: function () {
@@ -2329,6 +2336,95 @@ var mq = window.matchMedia("(max-width: 700px), (pointer: coarse) and (max-width
 EA(el.querySelectorAll(".sq"), function (b) { b.addEventListener("click", function () { var l = b.getAttribute("data-l"), i = +b.getAttribute("data-i"), v = SEQ.cells[l][i]; SEQ.cells[l][i] = l === "detail" ? (v + 1) % 10 : l === "jog" ? (v + 1) % 6 : (v ? 0 : 1); seqPaint(); }); });
 }
 seqBuild($("seqg")); seqBuild($("seqf")); seqPaint();
+function patParse(src) {
+var i = 0, depth = 0, nid = 0;
+function bad(m) { throw new Error(m); }
+function ws() { while (i < src.length && src.charAt(i) === " ") i++; }
+function num(what) { var m = /^[0-9]+(\.[0-9]+)?/.exec(src.slice(i)); if (!m) bad("Expected " + what + " at character " + (i + 1) + "."); i += m[0].length; return parseFloat(m[0]); }
+function whole(what) { var n = num(what); if (n !== Math.floor(n)) bad("Use a whole number for " + what + " at character " + i + "."); return n; }
+function steps(close) {
+var out = [], c, st, k, nd;
+if (++depth > 6) bad("Too many brackets inside brackets.");
+for (;;) {
+ws(); c = src.charAt(i);
+if (i >= src.length) { if (close) bad("Missing " + close + "."); break; }
+if (c === close) break;
+if (c === "_") { if (!out.length) bad("A _ needs a step before it."); out[out.length - 1].w++; i++; continue; }
+nd = atom();
+st = { node: nd, w: 1 }; var rep = 1, fast = 0, drop = -1, seenM = {};
+for (;;) {
+c = src.charAt(i);
+if ((c === "*" || c === "!" || c === "?") && seenM[c]) bad("Only one " + c + " per step (character " + (i + 1) + ").");
+if (c === "*") { seenM[c] = 1; i++; fast = whole("the * count"); if (fast < 1 || fast > 32) bad("The * count must be 1 to 32."); }
+else if (c === "!") { seenM[c] = 1; i++; if (/[0-9]/.test(src.charAt(i))) { rep = whole("the ! count"); if (rep < 1 || rep > 16) bad("The ! count must be 1 to 16."); } else rep = 2; }
+else if (c === "?") { seenM[c] = 1; i++; drop = /[0-9.]/.test(src.charAt(i)) ? num("a chance") : 0.5; if (!(drop > 0 && drop <= 1)) bad("A ? chance must be above 0 and at most 1."); }
+else break;
+}
+if (fast) st.node = { t: "fast", n: fast, node: st.node };
+if (drop > 0) st.node = { t: "drop", p: drop, id: ++nid, node: st.node };
+for (k = 0; k < rep; k++) out.push(k ? { node: st.node, w: 1 } : st);
+if (out.length > 64) bad("Too many steps.");
+}
+depth--; return out;
+}
+function atom() {
+var c = src.charAt(i), m, k, n, r, v, inner;
+if (c === "~") { i++; return { t: "rest" }; }
+if (c === "[") { i++; inner = steps("]"); i++; return { t: "group", steps: inner }; }
+if (c === "<") { i++; inner = steps(">"); i++; if (!inner.length) bad("An empty < > has nothing to choose."); return { t: "alt", steps: inner }; }
+m = /^[A-Za-z0-9]+/.exec(src.slice(i));
+if (!m) bad("Unexpected " + (c === "" ? "end" : "'" + c + "'") + " at character " + (i + 1) + ". Allowed: names, ~ _ ! ? * [ ] < > and (k,n).");
+i += m[0].length; v = m[0];
+if (src.charAt(i) === "(") {
+i++; ws(); k = whole("k"); ws(); if (src.charAt(i) !== ",") bad("Expected , at character " + (i + 1) + "."); i++; ws(); n = whole("n"); ws(); r = 0;
+if (src.charAt(i) === ",") { i++; ws(); r = whole("the shift"); ws(); }
+if (src.charAt(i) !== ")") bad("Missing ) at character " + (i + 1) + "."); i++;
+if (n < 1 || n > 32) bad("The slots count n must be 1 to 32."); if (k > n) bad("k (" + k + ") cannot be more than n (" + n + ").");
+return { t: "euc", v: v, k: k, n: n, r: r % n };
+}
+return { t: "atom", v: v };
+}
+if (!src || !/\S/.test(src)) bad("Type a pattern first.");
+if (src.length > 200) bad("That is longer than 200 characters.");
+var top = steps(""); if (!top.length) bad("Type a pattern first."); return top;
+}
+function patHash(a, b, c, d) { var h = (a * 374761393 + b * 668265263 + c * 2147483647 + d * 1274126177) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return ((h >>> 0) % 100000) / 100000; }
+function patCells(steps, bar, seed, lane) {
+var haps = [], cells = [], i, mx = lane === "detail" ? 9 : lane === "jog" ? 5 : 1;
+function total(st) { var w = 0, k; for (k = 0; k < st.length; k++) w += st[k].w; return w; }
+function run(st, cyc, t0, t1, out) {
+var W = total(st), at = t0, k, w;
+for (k = 0; k < st.length; k++) { w = (t1 - t0) * st[k].w / W; node(st[k].node, cyc, at, at + w, out); at += w; }
+}
+function node(n, cyc, t0, t1, out) {
+var k, e, tmp, j;
+if (n.t === "atom") out.push({ s: t0, v: n.v });
+else if (n.t === "group") run(n.steps, cyc, t0, t1, out);
+else if (n.t === "alt") node(n.steps[((cyc % n.steps.length) + n.steps.length) % n.steps.length].node, cyc, t0, t1, out);
+else if (n.t === "fast") for (k = 0; k < n.n; k++) node(n.node, cyc * n.n + k, t0 + k * (t1 - t0) / n.n, t0 + (k + 1) * (t1 - t0) / n.n, out);
+else if (n.t === "drop") { tmp = []; node(n.node, cyc, t0, t1, tmp); for (j = 0; j < tmp.length; j++) if (patHash(seed, n.id, cyc, j) >= n.p) out.push(tmp[j]); }
+else if (n.t === "euc") for (k = 0; k < n.n; k++) { e = (k + n.r) % n.n; if (n.k > 0 && (e * n.k) % n.n < n.k) out.push({ s: t0 + k * (t1 - t0) / n.n, v: n.v }); }
+}
+run(steps, bar, 0, 1, haps);
+for (i = 0; i < 16; i++) cells.push(0);
+haps.forEach(function (h) { var c = MN(15, Math.floor(h.s * 16 + 1e-9)), v = 1; if (mx > 1 && /^[0-9]+$/.test(h.v)) v = MX(1, MN(mx, +h.v)); cells[c] = MX(cells[c], v); });
+return cells;
+}
+var PAT = { text: "", lane: "", bar: 0 };
+function patApply(bar) {
+var txt = $("pttxt").value, lane = $("ptlane").value, seed = +$("ptseed").value | 0, st, cells, i, msg = $("ptmsg");
+try { st = patParse(txt); } catch (e) { msg.textContent = e.message + " The lane was not changed."; return false; }
+cells = patCells(st, bar, seed, lane); for (i = 0; i < 16; i++) SEQ.cells[lane][i] = cells[i];
+PAT.text = txt; PAT.lane = lane; PAT.bar = bar; seqPaint();
+msg.textContent = "Filled " + $("ptlane").selectedOptions[0].textContent + " from bar " + (bar + 1) + ": " + cells.filter(function (v) { return v; }).length + " steps on.";
+return true;
+}
+(function () {
+var sel = $("ptlane"); LANES.forEach(function (l) { var o = document.createElement("option"); o.value = l[0]; o.textContent = l[1]; sel.appendChild(o); });
+$("ptgo").addEventListener("click", function () { patApply(0); });
+$("ptnext").addEventListener("click", function () { if (!PAT.text) { $("ptmsg").textContent = "Press Apply first."; return; } patApply(PAT.bar + 1); });
+$("pttxt").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); patApply(0); } });
+})();
 var ROW1 = ["Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0"];
 var ROW2 = ["KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP"];
 var ROW3 = ["KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL"];
