@@ -254,6 +254,13 @@
         <div class="gb">
           <label class="check"><input type="checkbox" id="sqon"><span>Run the steps while the song plays.</span></label>
           <div class="sqwrap" id="seqg"></div>
+          <div class="pat" data-min="4">
+            <div class="ctl-label"><label for="pttxt"><span>Pattern text</span></label></div>
+            <div class="row"><select class="txt w-auto" id="ptlane" aria-label="Lane to fill"></select><input class="txt" id="pttxt" type="text" spellcheck="false" autocomplete="off" placeholder="x ~ x [x x]" aria-describedby="pthelp ptmsg"><button class="btn" type="button" id="ptgo">Apply</button><button class="btn" type="button" id="ptnext">Next bar</button></div>
+            <div class="row"><label class="tpl" for="ptseed">Chance seed</label><input class="txt w-auto" id="ptseed" type="number" min="0" max="99" step="1" value="1"></div>
+            <p class="hint" id="pthelp">Our own step text, not Strudel. Steps share one bar: x x x x. ~ rest, _ longer, [x x] group, x*2 twice, x!2 copy, &lt;x ~&gt; one per bar (Next bar steps it), x? maybe, x(3,8) spread 3 over 8. On Zoom and Detail a digit sets the amount. Press Apply; the lane changes only then.</p>
+            <p class="hint" id="ptmsg" role="status" aria-live="polite"></p>
+          </div>
           <div>
             <div class="ctl-label"><span>Snap to</span><output id="sqo">beat</output></div>
             <div class="seg" role="radiogroup" aria-label="Snap to">
