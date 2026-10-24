@@ -1544,7 +1544,7 @@
    "unlisted": true,
    "purpose": "Phosphor",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-23"
   },
   {
    "host": "forge-cut.arcs.care",
@@ -3271,7 +3271,7 @@
    "unlisted": false,
    "purpose": "Long-form forensic deep dives, each with a belief ledger scored before the outcome and re-scored against it. The calibration system, in public.",
    "kind": "product page",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "good.arcs.care",
@@ -3371,7 +3371,7 @@
    "unlisted": false,
    "purpose": "Release notes for 2026-10-20: 99 pull requests merged by one founder with a human-in-the-loop harness, what shipped, what broke, why it compounds, and an honest human-time estimate.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-21"
   },
   {
    "host": "good.arcs.care",
@@ -4708,7 +4708,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "resume.arcs.care",
@@ -5365,7 +5365,7 @@
    "unlisted": true,
    "purpose": "ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.",
    "kind": "status",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "status.arcs.care",
@@ -5466,7 +5466,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-21"
   },
   {
    "host": "thetrueai.arcs.care",

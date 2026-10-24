@@ -9,7 +9,7 @@
 body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
 
 .section-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
 }
 
@@ -35,11 +35,11 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
 .kairos-body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 8px; }
 
 .kairos-icon {
-  font-size: 20px; line-height: 1;
+  font-size: var(--fs-headline); line-height: 1;
 }
 
 .kairos-type {
-  font-family: var(--font-sans); font-size: 12px; font-weight: 700;
+  font-family: var(--font-sans); font-size: var(--fs-body); font-weight: 700;
   color: var(--signal-color);
   letter-spacing: 0.02em;
 }
@@ -49,12 +49,12 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
 }
 
 .kairos-watch {
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: var(--fs-label);
   color: var(--dimmed); line-height: 1.5;
 }
 
 .kairos-respond {
-  font-family: var(--font-sans); font-size: 11px;
+  font-family: var(--font-sans); font-size: var(--fs-label);
   color: var(--muted); line-height: 1.4;
   font-style: italic; margin-top: 4px;
 }

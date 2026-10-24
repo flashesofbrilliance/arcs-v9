@@ -9,7 +9,7 @@
 body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
 
 .section-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
 }
 
@@ -31,19 +31,19 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
 .phase-num {
   width: 28px; height: 28px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-body); font-weight: 700;
   border: 1px solid; flex-shrink: 0;
 }
 
 .phase-meta { flex: 1; }
 
 .phase-days {
-  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
 }
 
 .phase-name {
-  font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+  font-family: var(--font-sans); font-size: var(--fs-body); font-weight: 600;
   margin-top: 1px;
 }
 
@@ -59,12 +59,12 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
 }
 
 .item-text {
-  font-family: var(--font-sans); font-size: 12px;
+  font-family: var(--font-sans); font-size: var(--fs-body);
   color: var(--text); line-height: 1.4;
 }
 
 .item-sub {
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: var(--fs-label);
   color: var(--dimmed); margin-top: 2px;
 }
 
@@ -74,7 +74,7 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--r-sm);
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: var(--fs-label);
   color: var(--muted); line-height: 1.4;
 }
 .phase-output strong { font-style: normal; }
