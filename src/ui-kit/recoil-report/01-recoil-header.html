@@ -29,14 +29,14 @@
   }
   .arcs-mark {
     font-family: var(--font-display);
-    font-size: 32px; font-weight: 700;
+    font-size: var(--fs-display); font-weight: 700;
     color: var(--cyan);
     letter-spacing: -0.02em;
     line-height: 1;
   }
   .arcs-sub {
     font-family: var(--font-mono);
-    font-size: 9px; color: var(--muted);
+    font-size: var(--fs-label); color: var(--muted);
     letter-spacing: 0.12em; text-transform: uppercase;
     margin-top: 6px;
   }
@@ -47,7 +47,7 @@
   }
   .receipt-id {
     font-family: var(--font-mono);
-    font-size: 11px; color: var(--dimmed);
+    font-size: var(--fs-label); color: var(--dimmed);
     letter-spacing: 0.04em;
   }
   .y-gate-badge {
@@ -57,7 +57,7 @@
     border-radius: var(--r-sm);
     padding: 4px 12px;
     font-family: var(--font-sans);
-    font-size: 11px; font-weight: 600;
+    font-size: var(--fs-label); font-weight: 600;
     color: var(--green);
     letter-spacing: 0.08em;
     width: fit-content;
@@ -73,23 +73,23 @@
     gap: 2px;
   }
   .nci-label {
-    font-family: var(--font-mono); font-size: 10px;
+    font-family: var(--font-mono); font-size: var(--fs-label);
     color: var(--muted); letter-spacing: 0.1em;
   }
   .nci-value {
-    font-family: var(--font-mono); font-size: 36px; font-weight: 700;
+    font-family: var(--font-mono); font-size: var(--fs-display); font-weight: 700;
     color: var(--green); line-height: 1;
   }
   .nci-value.yellow { color: var(--gold); }
   .nci-value.red    { color: var(--red); }
   .nci-render {
-    font-family: var(--font-mono); font-size: 10px;
+    font-family: var(--font-mono); font-size: var(--fs-label);
     color: var(--cyan); letter-spacing: 0.08em;
   }
 
   .mode-pill {
     display: inline-flex; align-items: center; gap: 6px;
-    font-family: var(--font-mono); font-size: 9px;
+    font-family: var(--font-mono); font-size: var(--fs-label);
     color: var(--muted); letter-spacing: 0.1em;
   }
   .mode-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
@@ -104,7 +104,7 @@
 
   /* Variant showcase */
   .variants { display: flex; flex-direction: column; gap: 12px; }
-  .variant-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.1em; }
+  .variant-label { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--muted); margin-bottom: 6px; letter-spacing: 0.1em; }
 </style>
 </head>
 <body>
@@ -175,7 +175,7 @@
       </div>
       <div class="header-nci">
         <div class="nci-label">NCI Δ</div>
-        <div class="nci-value" style="font-size:26px; color:var(--cyan)">91→96</div>
+        <div class="nci-value" style="font-size:var(--fs-display); color:var(--cyan)">91→96</div>
         <div class="nci-render">LOCKED</div>
       </div>
     </div>
