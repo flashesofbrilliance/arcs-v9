@@ -9,7 +9,7 @@
 body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
 
 .variant-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
 }
 
@@ -28,11 +28,11 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 }
 
 .sl-text {
-  font-family: var(--font-mono); font-size: 12px; line-height: 1.5;
+  font-family: var(--font-mono); font-size: var(--fs-body); line-height: 1.5;
 }
 
 .sl-timestamp {
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: var(--fs-label);
   flex-shrink: 0; white-space: nowrap;
 }
 
@@ -60,7 +60,7 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 .sl-triggered .sl-text  { color: var(--text); }
 .sl-triggered .sl-timestamp { color: var(--red); }
 .sl-trigger-badge {
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   padding: 3px 10px; border-radius: var(--r-sm);
   background: var(--red); color: var(--bg);
   letter-spacing: 0.1em; flex-shrink: 0;
@@ -75,7 +75,7 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 .sl-cleared .sl-text  { color: var(--muted); text-decoration: line-through; }
 .sl-cleared .sl-timestamp { color: var(--green); }
 .sl-clear-badge {
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   padding: 3px 10px; border-radius: var(--r-sm);
   border: 1px solid var(--green); color: var(--green);
   background: var(--green-bg); letter-spacing: 0.1em; flex-shrink: 0;
@@ -87,7 +87,7 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
-  font-family: var(--font-sans); font-size: 12px;
+  font-family: var(--font-sans); font-size: var(--fs-body);
   color: var(--dimmed); font-style: italic;
   text-align: center; letter-spacing: 0.02em;
 }

@@ -9,7 +9,7 @@
 body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
 
 .section-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-bottom: 2px;
 }
 
@@ -27,12 +27,12 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 }
 
 .thesis-title {
-  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-body); font-weight: 700;
   color: var(--cyan); letter-spacing: 0.04em;
 }
 
 .thesis-badge {
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   padding: 3px 10px; border-radius: var(--r-sm);
   border: 1px solid var(--cyan); color: var(--cyan);
   background: rgba(0,240,255,0.06); letter-spacing: 0.1em;
@@ -50,18 +50,18 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 .owns-cell:last-child { border-right: none; }
 
 .owns-label {
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--muted); margin-bottom: 6px;
 }
 
 .owns-value {
-  font-family: var(--font-sans); font-size: 13px;
+  font-family: var(--font-sans); font-size: var(--fs-body);
   color: var(--text); line-height: 1.4;
 }
 
 .owns-sub {
-  font-family: var(--font-sans); font-size: 11px;
+  font-family: var(--font-sans); font-size: var(--fs-label);
   color: var(--dimmed); margin-top: 4px; line-height: 1.4;
 }
 
@@ -72,13 +72,13 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 }
 
 .adj-label {
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--muted); flex-shrink: 0;
 }
 
 .adj-chip {
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: var(--fs-label);
   padding: 4px 12px; border-radius: var(--r-sm);
   border: 1px solid;
 }
@@ -88,7 +88,7 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 .adj-cold    { border-color: var(--border); color: var(--muted); }
 
 .adj-arrow {
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: var(--fs-label);
   color: var(--dimmed);
 }
 </style>

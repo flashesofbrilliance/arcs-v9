@@ -128,7 +128,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .render b.r-GRAIN { color: var(--gold); } .render b.r-DEGRADED { color: var(--cyan); } .render b.r-SHARP { color: var(--green); }
 
 /* world pass: scene, compact hud, investigator dock, evidence drawer */
-.hud { flex-wrap: nowrap; gap: 16px; font-size: 14px; white-space: nowrap; overflow: hidden; padding: 10px 0; margin: 24px 0 24px; }
+.hud { flex-wrap: nowrap; gap: 16px; font-size: var(--fs-body); white-space: nowrap; overflow: hidden; padding: 10px 0; margin: 24px 0 24px; }
 .chair, #predict, #reveal { scroll-margin-top: 64px; }
 .scene { margin: 32px 0 0; }
 .scene + h1 { margin-top: 20px; }
@@ -140,7 +140,7 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .scene .trail { fill: none; stroke: var(--cyan); stroke-width: 1.5; stroke-dasharray: 4 6; opacity: 0.55; }
 .scene .wp { fill: var(--bg); stroke: var(--dimmed); stroke-width: 1.5; }
 .scene .fog { fill: var(--text); transition: opacity 1.2s ease; }
-.scene .zl { font-family: var(--font-mono); font-size: 11px; fill: var(--dimmed); letter-spacing: 0.04em; }
+.scene .zl { font-family: var(--font-mono); font-size: var(--fs-label); fill: var(--dimmed); letter-spacing: 0.04em; }
 .scene .node { transition: transform 1.2s ease; }
 .scene .node circle.core { fill: var(--cyan); }
 .scene .node circle.halo { fill: var(--cyan); opacity: 0.18; }
@@ -149,11 +149,11 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .world[data-render="DEGRADED"] .fog1 { opacity: 0; } .world[data-render="DEGRADED"] .fog2 { opacity: 0.10; } .world[data-render="DEGRADED"] .fog3 { opacity: 0.08; }
 .world[data-render="SHARP"] .fog { opacity: 0; }
 .world[data-render="SHARP"] .north { opacity: 1; }
-.where { font-family: var(--font-mono); font-size: 14px; color: var(--dimmed); margin: 6px 0 0; max-width: none; }
+.where { font-family: var(--font-mono); font-size: var(--fs-body); color: var(--dimmed); margin: 6px 0 0; max-width: none; }
 .where b { color: var(--text); font-weight: 600; }
 .dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--surface); border-top: 1px solid var(--border); }
 .dock .in { max-width: var(--lane); margin: 0 auto; padding: 12px var(--gutter); display: flex; align-items: center; gap: 12px; }
-.dock .line { flex: 1; margin: 0; max-width: none; font-size: 15px; min-height: 1.6em; }
+.dock .line { flex: 1; margin: 0; max-width: none; font-size: var(--fs-body); min-height: 1.6em; }
 .dock .line.ok { color: var(--green); } .dock .line.warn { color: var(--gold); } .dock .line.bad { color: var(--red); }
 .dock .evbtn { visibility: hidden; display: none; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); border-radius: var(--r-md); padding: 8px 14px; cursor: pointer; font-weight: 600; white-space: nowrap; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

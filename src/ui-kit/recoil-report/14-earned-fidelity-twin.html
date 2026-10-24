@@ -9,7 +9,7 @@
 body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 20px; }
 
 .section-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
 }
 
@@ -24,11 +24,11 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
   background: var(--surface-2);
 }
 .twin-label {
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   letter-spacing: 0.12em; text-transform: uppercase;
   margin-bottom: 6px; display: block;
 }
-.twin-cell p { font-family: var(--font-sans); font-size: 12px; line-height: 1.6; color: var(--dimmed); }
+.twin-cell p { font-family: var(--font-sans); font-size: var(--fs-body); line-height: 1.6; color: var(--dimmed); }
 .twin-cell p b { color: var(--text); font-weight: 600; }
 
 /* AS RENDERED: the printed state's own signal colour (here GREEN) */

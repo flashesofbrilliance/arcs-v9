@@ -9,7 +9,7 @@
 body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 20px; }
 
 .section-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  font-family: var(--font-mono); font-size: var(--fs-label); letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
 }
 
@@ -31,14 +31,14 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 }
 
 .td-key {
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   color: var(--muted); letter-spacing: 0.06em;
   white-space: nowrap; width: 22%;
   border-right: 1px solid var(--border);
 }
 
 .td-val {
-  font-family: var(--font-mono); font-size: 12px; color: var(--text);
+  font-family: var(--font-mono); font-size: var(--fs-body); color: var(--text);
   line-height: 1.5;
 }
 
@@ -47,13 +47,13 @@ body { background: var(--bg); font-family: var(--font-sans); padding: 24px; disp
 .td-val.warn   { color: var(--gold); }
 .td-val.stop   { color: var(--red); }
 .td-val.thresh {
-  font-family: var(--font-sans); font-size: 12px;
+  font-family: var(--font-sans); font-size: var(--fs-body);
   display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
 }
 .thresh-chip {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 2px 10px; border-radius: var(--r-sm);
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 700;
   border: 1px solid;
 }
 .thresh-chip.proceed { color: var(--green); border-color: var(--green); background: var(--green-bg); }
