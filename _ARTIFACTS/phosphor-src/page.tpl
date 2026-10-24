@@ -29,6 +29,7 @@
       <button class="fsb zmb" id="zin" data-min="4" type="button" aria-label="Zoom in"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2"/></svg></button><button class="fsb zmb" id="zout" data-min="4" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
       <button class="fsb" id="fsb" data-min="4" type="button" aria-label="Full screen" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
       <canvas id="cv" width="1280" height="360" aria-label="Audio visualization"></canvas>
+      <div class="begin" id="begin" aria-hidden="true"><span class="begin-ring" id="beginring"></span></div>
       <div class="seqo" id="seqo">
         <div class="row"><button class="btn" type="button" id="hrun" aria-pressed="false">Run steps</button><button class="btn" type="button" id="hclr">Clear</button><label class="tpl" for="hsnap">Snap to</label><select class="txt w-auto" id="hsnap"><option value="beat">Beat</option><option value="onset">Hits</option><option value="valley">Quiet spots</option><option value="edge">Slice edges</option></select></div>
         <div class="sqwrap" id="seqf"></div>
@@ -304,7 +305,14 @@
           <p class="hint" id="lastkey">Press any key to see its code.</p>
           <div class="row"><button class="btn" type="button" id="plogb">Copy play log</button><button class="btn" type="button" data-learn="0">Learn Scope</button><button class="btn" type="button" data-learn="1">Learn Bars</button><button class="btn" type="button" data-learn="2">Learn Radial</button><button class="btn" type="button" data-learn="3">Learn Spectro</button><button class="btn" type="button" id="resetkeys">Reset keys</button></div>
           <p class="hint" id="learnhint"></p>
-          <div class="row"><button class="btn" type="button" id="elb" aria-pressed="false">Play log: off</button><button class="btn" type="button" id="elcopy">Copy log</button><button class="btn" type="button" id="elclr">Clear log</button></div>
+          <div class="row"><button class="btn" type="button" id="elb" aria-pressed="false">Play log: off</button><button class="btn" type="button" id="elcopy">Copy log</button><button class="btn" type="button" id="elclr">Clear log</button><button class="btn" type="button" id="rnb">Render to WAV</button></div>
+          <div class="row"><button class="btn" type="button" id="rlink">Copy recipe link</button><button class="btn" type="button" id="rload" hidden>Load shared recipe</button><button class="btn" type="button" id="rdrop" hidden>Drop shared recipe</button></div>
+          <p class="hint" id="rnsum"></p>
+          <div class="row" id="grabrow"><label for="grpre">Grab the last</label><select id="grpre" class="txt w-auto"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4" selected>4 bars</option><option value="8">8 bars</option><option value="16">16 bars</option><option value="32">32 bars</option></select><label for="grpost">and the next</label><select id="grpost" class="txt w-auto"><option value="0" selected>0 bars</option><option value="1">1 bar</option><option value="4">4 bars</option><option value="8">8 bars</option></select><button class="btn" type="button" id="grab">Grab</button></div>
+          <p class="hint" id="grmsg">Keeps your recent control moves as a preset that replays in time on any song.</p>
+          <div class="row" id="lanerow"><label for="lnid">Lane</label><select id="lnid" class="txt w-auto"></select><label for="lnmode">mode</label><select id="lnmode" class="txt w-auto"><option value="off" selected>Off</option><option value="play">Play</option><option value="rec">Record</option><option value="touch">Touch</option><option value="latch">Latch</option></select><button class="btn" type="button" id="lnclr">Clear</button></div>
+          <p class="hint" id="lnmsg">Pick a slider, press Record while the song plays and move it; Play makes it move on its own.</p>
+          <ul class="pinlist" id="grlist" aria-label="Grabbed gestures"></ul>
           <p class="hint" id="elsum"></p>
         </div>
       </details>
@@ -397,7 +405,7 @@
     <button class="btn dkup" type="button" id="kpick">Add song</button>
   </div>
   <div class="dkscrub"><input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Scrub playback"><div class="pinbar" id="pinbar" aria-hidden="true"></div></div>
-  <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" data-min="4" aria-label="Hide the player">Hide</button><button class="btn" type="button" id="dkpad" aria-expanded="false" aria-controls="padtray">Pads</button><button class="btn" type="button" id="dkfx" aria-expanded="false" aria-controls="fxtray" data-min="4">Mix</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
+  <div class="dkrow"><button class="btn dkhide" type="button" id="dkhide" data-min="4" aria-label="Hide the player">Hide</button><button class="btn" type="button" id="dkpad" aria-expanded="false" aria-controls="padtray">Pads</button><button class="btn" type="button" id="cuebtn" data-min="4" aria-pressed="false" title="Paused: set the cue here (snaps to a bar start). Hold at the cue to play from it; let go to return.">Cue</button><button class="btn" type="button" id="dkfx" aria-expanded="false" aria-controls="fxtray" data-min="4">Mix</button><button class="btn dkej" type="button" id="eject" aria-pressed="false" title="Hold for 3 seconds to lock or unlock Kid mode full screen">Eject: hold 3 s</button><button class="btn" type="button" id="back" hidden>Back</button><button class="btn" type="button" id="fwd" hidden>Forward</button><span class="hint" role="status" id="status"></span></div>
 </div>
 <div id="padtray" class="tray" role="group" aria-label="Pads" hidden></div>
 <div id="fxtray" class="tray" role="group" aria-label="Effect levels and limits" data-min="4" hidden></div>

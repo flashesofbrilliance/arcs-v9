@@ -666,23 +666,6 @@
               "P27"
             ]
           ]
-        },
-        {
-          "id": "s-L1-2",
-          "lab": "computeYGate unaudited",
-          "grade": "C",
-          "conf": 60,
-          "risk": "MED",
-          "kind": "INSTANCE",
-          "desc": "computeYGate ships without unit coverage.",
-          "prov": [
-            [
-              "0 specs",
-              "src/lib/ygate.ts",
-              "no tests",
-              "P28"
-            ]
-          ]
         }
       ]
     }

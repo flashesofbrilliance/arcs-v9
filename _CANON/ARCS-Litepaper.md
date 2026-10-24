@@ -441,23 +441,9 @@ By Phase 3, customers face a unique retention dynamic:
 
 **Result**: Engagement → Retention → Network effects → Competitive moat
 
-### 5.4 The Performance Guarantee Moat
+### 5.4 [struck 2026-10-17: no supporting data]
 
-**Insight**: Competitors can't offer guarantees without receipts. Receipts take 2-3 years to build.
-
-**Implementation**: [struck 2026-10-17: no supporting data]
-
-**Status**: Design intent, not an offer. The performance threshold was struck for lack of supporting data; no guarantee terms are defined. Do not quote any guarantee to a counterparty.
-
-**Why This Works**:
-- ARCS receipts prove attribution (was client wrong or was ARCS wrong?)
-- If client followed recommendations and failed → ARCS refunds
-- If client ignored recommendations and failed → No refund
-- Competitors can't copy this without building entire receipt infrastructure first
-
-**Strategic Effect**: Every competitor sales call includes "Will you match ARCS's guarantee?" Competitors either lose margin (say yes) or lose deal (say no).
-
-**Result**: First-mover advantage becomes insurmountable.
+The performance guarantee moat (insight, implementation, strategic effect) is struck.
 
 ### 5.5 The Regulatory Capture Strategy
 
@@ -613,7 +599,6 @@ Yes, because marketing technology is fragmented:
 **Impact**: High (delays revenue, increases burn)
 
 **Mitigation**:
-- Performance guarantee removes buyer risk
 - Competitive threat playbook collapses 18-month cycles to 30 days
 - Pre-sale program validates demand before scaling
 
@@ -662,7 +647,6 @@ Yes, because marketing technology is fragmented:
 - Hire proven ML/AI leadership (ex-Google/Meta/Amazon)
 - Budget 20% engineering contingency
 - Alpha program validates before scaling
-- Performance guarantee has exit clause (refund if tech fails)
 
 ---
 
@@ -676,7 +660,7 @@ Five forces align simultaneously for the first time:
 2. **Fiduciary Awakening**: Boards requiring marketing accountability
 3. **AI Readiness**: ChatGPT proved AI can transform knowledge work overnight
 4. **MarTech Fatigue**: 47 average tools, consolidation inevitable
-5. **Performance Gap**: No vendor offers guarantees, procurement desperate for accountability
+5. **Performance Gap**: [struck 2026-10-17: no supporting data]
 
 **Why This Moment Is Unique**: For 30 years, marketing operated on faith. These converging forces create a once-in-a-generation window where the entire industry is ready for transformation.
 
@@ -687,9 +671,7 @@ Five forces align simultaneously for the first time:
 - Competitors need 2-3 years to rebuild
 - First-mover advantage insurmountable
 
-**2. Performance Guarantee Capability**
-- Receipts prove attribution → can offer guarantees
-- Competitors can't match without receipts
+**2. [struck 2026-10-17: no supporting data]**
 
 **3. Network Learning Effects**
 - 100,000+ receipts create prediction advantages
@@ -745,7 +727,7 @@ We have:
 - Proven demand (47-company waitlist)
 - Capital strategy [struck 2026-10-17: no supporting data]
 - Clear roadmap (36 months to $412M ARR)
-- Unfair advantages (receipts, guarantees, network effects)
+- Unfair advantages (receipts, network effects)
 
 **The question is not whether this should be built.**
 

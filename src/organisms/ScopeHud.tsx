@@ -53,7 +53,7 @@ const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, col
 // A node's signature: altitude (stratum), resonance (domain mix of its lattice neighbours, one
 // bar per domain), frequency (commits on its files, an as-of reading stamped with the refresh epoch
 // that counted it). No signal when a node has no mapped files or no refresh has counted it yet.
-const DOM_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
+const DOM_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: text.secondary, lib: text.primary }
 function Signature({ n }: { n: UNode }) {
   const f = n.sig.frequency
   const mix = Object.entries(n.sig.resonance as Record<string, number>)

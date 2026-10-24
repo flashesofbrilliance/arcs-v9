@@ -29,7 +29,7 @@
   var NUM = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
   /* ---------------- analysis ---------------- */
-  var SR = 44100, PCM = F32(0), DUR = 0, NF = 0, BANDS = null, RMS = null, FLUX = null, CENT = null, CENTERS = [], BUF = null, CHAPS = [], SRCNAME = "Demo signal", ANALYZING = false, GEN = 0;
+  var SR = 44100, PCM = F32(0), DUR = 0, NF = 0, BANDS = null, BANDST = null, RMS = null, FLUX = null, CENT = null, CENTERS = [], BUF = null, CHAPS = [], SRCNAME = "Demo signal", ANALYZING = false, GEN = 0;
   function makeFFT(n) {
     var bits = RD(Math.log(n) / Math.LN2), rev = new Uint32Array(n), cs = new Float64Array(n / 2), sn = new Float64Array(n / 2), i;
     for (i = 0; i < n; i++) rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bits - 1));
@@ -44,6 +44,14 @@
   }
   var fft = makeFFT(NFFT), hann = new Float64Array(NFFT);
   for (var hi = 0; hi < NFFT; hi++) hann[hi] = 0.5 - 0.5 * Math.cos(2 * PI * hi / (NFFT - 1));
+  /* Low-band resolution (2026-10-19): the 2048-point window has 21.5 Hz bins at 44.1 kHz, wider than the lowest of the 64 log bands. Bands under LOWHZ read a second, longer transform of a decimated copy (about 1.3 Hz bins), so two bass notes 10 Hz apart land in different bands. */
+  var NLO = 1024, LOWHZ = 600, fftLo = makeFFT(NLO), hannLo = new Float64Array(NLO);
+  for (var hj = 0; hj < NLO; hj++) hannLo[hj] = 0.5 - 0.5 * Math.cos(2 * PI * hj / (NLO - 1));
+  function decimate(pcm, D) {
+    var n = FL(pcm.length / D), out = F32(n), j, m, w, acc, i0, L = pcm.length;
+    for (j = 0; j < n; j++) { acc = 0; for (m = 1 - D; m < D; m++) { i0 = j * D + m; if (i0 >= 0 && i0 < L) acc += pcm[i0] * (D - (m < 0 ? -m : m)); } out[j] = acc / (D * D); }
+    return out;
+  }
   function pct(arr, p) { var s = arr.slice().sort(function (a, b) { return a - b; }); return s[MN(s.length - 1, FL(p * (s.length - 1)))]; }
 
   function analyze(pcm, sr, done, progress, gen) {
@@ -52,6 +60,10 @@
     for (i = 0; i <= NB; i++) edges.push(fmin * PW(fmax / fmin, i / NB));
     for (b = 0; b < NB; b++) { var c = Math.sqrt(edges[b] * edges[b + 1]); cent.push(c); var l = Math.ceil(edges[b] / binHz), h = FL(edges[b + 1] / binHz); if (h < l) { l = h = RD(c / binHz); } lo.push(MX(1, l)); hiB.push(MX(1, h)); }
     var re = new Float64Array(NFFT), im = new Float64Array(NFFT), raw = F32(nf * NB), f = 0;
+    var D = MX(1, FL(sr / 1400)), nLow = 0, dec = null, binLo = (sr / D) / NLO, loL = [], hiL = [], reL = new Float64Array(NLO), imL = new Float64Array(NLO);
+    if (sr / D >= 2 * LOWHZ) { for (b = 0; b < NB; b++) if (edges[b + 1] <= LOWHZ) nLow = b + 1; }
+    if (nLow) { dec = decimate(pcm, D); for (b = 0; b < nLow; b++) { var l2 = Math.ceil(edges[b] / binLo), h2 = FL(edges[b + 1] / binLo); if (h2 < l2) { l2 = h2 = RD(cent[b] / binLo); } loL.push(MX(1, l2)); hiL.push(MX(1, h2)); } }
+    var NLW = MX(1, nLow), rawS = F32(nf * NLW); /* the short window stays the source of onsets: the long one smears a kick over three quarters of a second */
     function step() {
       if (gen !== GEN) return;
       var end = MN(nf, f + 300);
@@ -61,19 +73,22 @@
         for (k = 0; k < hop && s0 + k < pcm.length; k++) e2 += pcm[s0 + k] * pcm[s0 + k];
         rms[f] = Math.sqrt(e2 / hop);
         fft(re, im);
-        for (b = 0; b < NB; b++) { var p = 0, cnt = 0; for (k = lo[b]; k <= hiB[b]; k++) { p += re[k] * re[k] + im[k] * im[k]; cnt++; } raw[f * NB + b] = 10 * Math.log10(p / cnt / (NFFT * NFFT) + 1e-12); }
+        if (nLow) { var cj = (s0 + NFFT / 2) / D - NLO / 2, c0 = RD(cj); for (k = 0; k < NLO; k++) { var xi = dec[c0 + k] || 0; reL[k] = (c0 + k >= 0 ? xi : 0) * hannLo[k]; imL[k] = 0; } fftLo(reL, imL); }
+        for (b = 0; b < NB; b++) { var p = 0, cnt = 0; if (b < nLow) { for (k = loL[b]; k <= hiL[b]; k++) { p += reL[k] * reL[k] + imL[k] * imL[k]; cnt++; } raw[f * NB + b] = 10 * Math.log10(p / cnt / (NLO * NLO) + 1e-12); p = 0; cnt = 0; for (k = lo[b]; k <= hiB[b]; k++) { p += re[k] * re[k] + im[k] * im[k]; cnt++; } rawS[f * NLW + b] = 10 * Math.log10(p / cnt / (NFFT * NFFT) + 1e-12); continue; } for (k = lo[b]; k <= hiB[b]; k++) { p += re[k] * re[k] + im[k] * im[k]; cnt++; } raw[f * NB + b] = 10 * Math.log10(p / cnt / (NFFT * NFFT) + 1e-12); }
       }
       progress(f / nf);
       if (f < nf) { setTimeout(step, 0); return; }
-      var sample = []; for (i = 0; i < raw.length; i += 7) sample.push(raw[i]);
+      var sample = [], fi, fb; /* levels are scaled from the short-window values, as before the low-band change, so onsets and tempo do not move */
+      for (i = 0; i < raw.length; i += 7) { fi = FL(i / NB); fb = i - fi * NB; sample.push(fb < nLow ? rawS[fi * NLW + fb] : raw[i]); }
       var dhi = pct(sample, 0.995), dlo = MX(pct(sample, 0.05), dhi - 66), span = MX(1, dhi - dlo);
       for (i = 0; i < raw.length; i++) bands[i] = MN(1, MX(0, (raw[i] - dlo) / span));
       var rdb = []; for (i = 0; i < nf; i++) rdb.push(20 * Math.log10(rms[i] + 1e-6));
       var rlo = pct(rdb, 0.05), rhi = pct(rdb, 0.995), rspan = MX(1, rhi - rlo), lev = F32(nf);
       for (i = 0; i < nf; i++) lev[i] = MN(1, MX(0, (rdb[i] - rlo) / rspan));
-      var flux = F32(nf), centr = F32(nf);
-      for (i = 0; i < nf; i++) { var fl = 0, cw = 0, cs2 = 0; for (b = 0; b < NB; b++) { var v = bands[i * NB + b]; if (i) fl += MX(0, v - bands[(i - 1) * NB + b]); cw += v * b; cs2 += v; } flux[i] = fl; centr[i] = cs2 > 1e-6 ? cw / cs2 : 0; }
-      done({ nf: nf, bands: bands, rms: lev, flux: flux, cent: centr, centers: cent, dB: [dlo, dhi] });
+      var flux = F32(nf), centr = F32(nf), bandsF = bands;
+      if (nLow) { bandsF = F32(bands.length); bandsF.set(bands); for (i = 0; i < nf; i++) for (b = 0; b < nLow; b++) bandsF[i * NB + b] = MN(1, MX(0, (rawS[i * NLW + b] - dlo) / span)); }
+      for (i = 0; i < nf; i++) { var fl = 0, cw = 0, cs2 = 0; for (b = 0; b < NB; b++) { var v = bandsF[i * NB + b]; if (i) fl += MX(0, v - bandsF[(i - 1) * NB + b]); cw += v * b; cs2 += v; } flux[i] = fl; centr[i] = cs2 > 1e-6 ? cw / cs2 : 0; }
+      done({ nf: nf, bands: bands, bandsT: bandsF, rms: lev, flux: flux, cent: centr, centers: cent, dB: [dlo, dhi] });
     }
     step();
   }
@@ -170,7 +185,8 @@
         v = v * mul; if (v > 1) v = 1; else if (v < 0.003) v = 0.003; var c = S.gam[(v * 1024) | 0], o = i * 4; d[o] = d[o + 1] = d[o + 2] = c; d[o + 3] = 255;
       }
     }
-    S.sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(S.sc, 0, 0, Wd, Hd);
+    var sc = g.canvas._sun; if (!sc) { sc = g.canvas._sun = document.createElement("canvas"); sc.width = S.sc.width; sc.height = S.sc.height; } /* per-target scratch: WebKit defers drawImage, a shared one let bar tiles overwrite the main picture */
+    sc.getContext("2d").putImageData(S.img, 0, 0); g.imageSmoothingEnabled = false; g.drawImage(sc, 0, 0, Wd, Hd);
   }
   function scene(g, W, H, t) {
     var fi = fidx(t), i, b, lw = MX(1, H / 360);
@@ -206,7 +222,7 @@
       for (b = 0; b < NB; b++) { var a0 = PI * (b + 0.5) / NB, ln = bandVal(fi, b) * H * 0.28, sd; for (sd = -1; sd <= 1; sd += 2) { var a = rot + sd * a0 - PI / 2; g.moveTo(cx + Math.cos(a) * r0, cy + SIN(a) * r0); g.lineTo(cx + Math.cos(a) * (r0 + ln), cy + SIN(a) * (r0 + ln)); } }
       g.stroke(); g.strokeStyle = C.gold; g.lineWidth = lw * 1.2; g.beginPath(); g.arc(cx, cy, r0 * (0.72 + 0.28 * lvl), 0, 2 * PI); g.stroke(); g.restore();
     } else {
-      var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = SPEC || (SPEC = document.createElement("canvas")); img.width = cols; img.height = NB;
+      var cols = [180, 90, 45, 22, 11][ZS[3] - 1], img = g.canvas._spec || (g.canvas._spec = document.createElement("canvas")); /* one scratch per target: WebKit defers drawImage, so a shared scratch let bar tiles overwrite the main picture */ img.width = cols; img.height = NB;
       var ig = img.getContext("2d"), id = ig.createImageData(cols, NB), d = id.data, x2, y2;
       for (x2 = 0; x2 < cols; x2++) {
         var f2 = MX(0, fi - (cols - 1 - x2));
@@ -224,7 +240,7 @@
   /* Rungs below 144 rows are drawn 4x and averaged down, so a coarse rung is the true low-resolution picture. */
   function drawRung(target, w, h, t) {
     if (h >= 144) { scene(target, w, h, t); return; }
-    var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = SS || document.createElement("canvas"); SS.width = sw; SS.height = sh;
+    var sw = MX(64, w * 4), sh = MX(36, h * 4); SS = target.canvas._ss || (target.canvas._ss = document.createElement("canvas")); SS.width = sw; SS.height = sh;
     scene(SS.getContext("2d"), sw, sh, t);
     target.imageSmoothingEnabled = true; target.imageSmoothingQuality = "high"; target.drawImage(SS, 0, 0, w, h);
   }
@@ -276,7 +292,7 @@
   }
 
   /* ---------------- playback: follows the audio clock ---------------- */
-  var AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
+  var RENDERMODE = window.name === "phosphor-render", AC = null, SRC = null, playing = false, t0ctx = 0, off0 = 0, tpaused = 0, raf = 0;
   var RESTORED = false, SP = { on: false, plan: null, srcs: [], rates: [], iter: 0, t0ctx: 0, timer: 0 }, VIEW = { a: 0, b: 0 };
   /* Output bus: everything the page plays goes through a limiter and a kid volume ceiling (about minus 6 dB), so no effect or layer can be painfully loud. A grown-up can turn it off. */
   var BUSFULL = false;
@@ -296,7 +312,8 @@
   var FXLK = [["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], FXL = {}, FXLKEY = "phosphor.mix.v1";
   FXLK.forEach(function (k) { FXL[k[0]] = { v: 1, lo: 0, hi: 1 }; });
   try { var mxs = JSON.parse(localStorage.getItem(FXLKEY) || "{}"); FXLK.forEach(function (k) { var m = mxs[k[0]]; if (m && m.hi >= m.lo) FXL[k[0]] = { v: MN(m.hi, MX(m.lo, +m.v || 0)), lo: +m.lo, hi: +m.hi }; }); } catch (e) { /* storage blocked */ }
-  function fxE(k) { var m = FXL[k]; return m ? MN(m.hi, MX(m.lo, m.v)) : 1; }
+  var DRY = { on: false, tm: 0, n: 0 };
+  function fxE(k) { if (DRY.on) return 0; var m = FXL[k]; return m ? MN(m.hi, MX(m.lo, m.v)) : 1; }
   function fxApply(k) {
     if (!AC || !AC._fx || !FX[k] || !FX[k].on) return; var e = fxE(k), t = AC.currentTime;
     if (AC._fx.sends[k]) AC._fx.sends[k].gain.setTargetAtTime(({ echo: 0.7, room: 0.6, shim: 0.8 })[k] * e, t, 0.02);
@@ -340,7 +357,7 @@
     if (kind === "echo" || kind === "room" || kind === "shim") { if (kind === "echo") AC._fx.echoDelay.delayTime.setTargetAtTime(MN(1.9, 60 / (BPM || 120) * 0.75), tt, 0.01); AC._fx.sends[kind].gain.setTargetAtTime(on ? ({ echo: 0.7, room: 0.6, shim: 0.8 })[kind] * fxE(kind) : 0, tt, on ? 0.01 : 0.03); return; }
     if (kind === "sweep") { var f = AC._fx.sweep.frequency; f.cancelScheduledValues(tt); f.setValueAtTime(MX(20, f.value), tt); f.exponentialRampToValueAtTime(on ? 20000 * PW(250 / 20000, fxE("sweep")) : 20000, tt + (on ? 1.2 : 0.35)); return; }
     if (!on) fxWet(kind, 0, 0.006); else if (FXG.mode === "off") fxWet(kind, 1, 0.003);
-    clearInterval(FXG.timer); if (FX.crush.on || FX.dist.on) FXG.timer = setInterval(fxPump, 25);
+    clearInterval(FXG.timer); if ((FX.crush.on || FX.dist.on) && !RENDERMODE) FXG.timer = setInterval(fxPump, 25);
   }
   function fxEff() { return FXG.hold ? (FXG.mode === "tri" || FXG.mode === "bar" || FXG.mode === "seed" ? FXG.mode : "beat") : FXG.mode; }
   /* The song's own rhythm folded into one sixteen-step bar: a step is open where at least 60 percent of the most common step's onsets fall. */
@@ -431,7 +448,7 @@
   var LVL = 1, HOLDMS = 1500, HOLDT = 0;
   function setLevel(n) {
     n = (RD(n) || 1) <= 1 ? 1 : 4; LVL = n; document.documentElement.setAttribute("data-lvl", String(n));
-    AP($("mdKid"), n === 1); AP($("mdParent"), n === 4);
+    AP($("mdKid"), n === 1); AP($("mdParent"), n === 4); if (typeof BEGIN === "object" && BEGIN) beginShow();
     var a = document.activeElement; if (a && a !== document.body && a.offsetParent === null) $("mdKid").focus();
   }
   { var LP = /[?&]level=(\d)/.exec(location.search); setLevel(LP ? +LP[1] : /[?&]test=1/.test(location.search) ? 4 : 1); }
@@ -471,10 +488,10 @@
     return AC[k];
   }
   function deckSwap(D) {
-    var s = { NF: NF, BANDS: BANDS, RMS: RMS, FLUX: FLUX, CENT: CENT, CENTERS: CENTERS, PCM: PCM, SR: SR, DUR: DUR };
-    NF = D.nf; BANDS = D.bands; RMS = D.rms; FLUX = D.flux; CENT = D.cent; CENTERS = D.centers; PCM = D.pcm; SR = D.sr; DUR = D.dur; if (SUN) SUN.nf = -1; return s;
+    var s = { NF: NF, BANDS: BANDS, BANDST: BANDST, RMS: RMS, FLUX: FLUX, CENT: CENT, CENTERS: CENTERS, PCM: PCM, SR: SR, DUR: DUR };
+    NF = D.nf; BANDS = D.bands; BANDST = D.bandsT || D.bands; RMS = D.rms; FLUX = D.flux; CENT = D.cent; CENTERS = D.centers; PCM = D.pcm; SR = D.sr; DUR = D.dur; if (SUN) SUN.nf = -1; return s;
   }
-  function deckRestore(s) { NF = s.NF; BANDS = s.BANDS; RMS = s.RMS; FLUX = s.FLUX; CENT = s.CENT; CENTERS = s.CENTERS; PCM = s.PCM; SR = s.SR; DUR = s.DUR; if (SUN) SUN.nf = -1; }
+  function deckRestore(s) { NF = s.NF; BANDS = s.BANDS; BANDST = s.BANDST; RMS = s.RMS; FLUX = s.FLUX; CENT = s.CENT; CENTERS = s.CENTERS; PCM = s.PCM; SR = s.SR; DUR = s.DUR; if (SUN) SUN.nf = -1; }
   function mixFollowB() { return MIX.follow === "B" ? DB.nf > 0 : MIX.follow === "mix" ? DB.nf > 0 && DB.playing && MIX.gB > MIX.gA : false; }
   function dbPos() { return DB.playing && AC ? MN(DB.dur, DB.off + (AC.currentTime - DB.t0) * DB.rate) : DB.pausedAt; }
   function dbPe() { return DB.bpm ? 60 / DB.bpm / DB.mult : 0.5; }
@@ -512,7 +529,7 @@
       var n = buf.length, ch = buf.numberOfChannels, mono = F32(n), c, i; for (c = 0; c < ch; c++) { var d = buf.getChannelData(c); for (i = 0; i < n; i++) mono[i] += d[i] / ch; }
       if (mono.length > MAXSEC * buf.sampleRate) mono = mono.subarray(0, MAXSEC * buf.sampleRate);
       analyze(mono, buf.sampleRate, function (R) {
-        dbStop(); DB.buf = buf; DB.pcm = mono; DB.sr = buf.sampleRate; DB.dur = mono.length / buf.sampleRate; DB.nf = R.nf; DB.bands = R.bands; DB.rms = R.rms; DB.flux = R.flux; DB.cent = R.cent; DB.centers = R.centers; DB.name = name; DB.pausedAt = 0; DB.rate = 1; DB.mult = 1;
+        dbStop(); DB.buf = buf; DB.pcm = mono; DB.sr = buf.sampleRate; DB.dur = mono.length / buf.sampleRate; DB.nf = R.nf; DB.bands = R.bands; DB.bandsT = R.bandsT; DB.rms = R.rms; DB.flux = R.flux; DB.cent = R.cent; DB.centers = R.centers; DB.name = name; DB.pausedAt = 0; DB.rate = 1; DB.mult = 1;
         var sv = deckSwap(DB), on = [], i2, k, W = RD(0.5 * FPS), last = -999, tp = null;
         try { for (i2 = 1; i2 < NF - 1; i2++) { var s = 0, nn = 0; for (k = MX(0, i2 - W); k <= MN(NF - 1, i2 + W); k++) { s += FLUX[k]; nn++; } if (FLUX[i2] > 1.5 * (s / nn) + 0.05 && FLUX[i2] >= FLUX[i2 - 1] && FLUX[i2] > FLUX[i2 + 1] && i2 - last >= 3) { on.push(i2); last = i2; } } tp = detectTempo(on); } finally { deckRestore(sv); }
         DB.bpm = tp ? +tp.bpm.toFixed(2) : 0; DB.grid0 = tp ? tp.grid0 : 0;
@@ -724,14 +741,14 @@
   function loop() { if (!playing) return; if (tnow() >= DUR) { stopPlay("Finished."); tpaused = DUR; frame(false); return; } frame(true); seqTick(); raf = requestAnimationFrame(loop); }
   function stopSource() { if (SRC) { try { SRC.onended = null; SRC.stop(); } catch (e) {} SRC = null; } }
   var startSeq = 0;
-  function startPlay(at) { if (typeof elog === "function") elog("play"); recAct("play", +(at || 0).toFixed(3));
+  function startPlay(at) { if (typeof elog === "function") elog("play");
     if (!BUF) return; spStop();
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
     var mine = ++startSeq;
     function begin() {
       if (mine !== startSeq) return;
       stopSource(); SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.loop = LOOPPLAY; SRC.connect(deckIn("A"));
-      off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = [];
+      off0 = at; t0ctx = AC.currentTime; SRC.start(0, at); playing = true; MS = []; recAct("play", +(at || 0).toFixed(3));
       $("play").textContent = "Pause"; $("first").hidden = true; $("status").textContent = ""; if (typeof sunriseStart === "function") sunriseStart(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
     }
     if (AC.state === "running") begin();
@@ -739,16 +756,39 @@
   }
   function stopPlay(msg) { if (typeof elog === "function") elog("stop"); recAct("stop"); startSeq++; if (SP.on) { tpaused = tnow(); spStop(); playing = false; } setTimeout(seqRelease, 0); if (playing) tpaused = tnow(); playing = false; stopSource(); cancelAnimationFrame(raf); $("play").textContent = "Play"; $("status").textContent = msg || ""; }
   function seek(t) { t = MX(0, MN(DUR, t)); recAct("seek", +t.toFixed(3)); if (typeof CUES !== "undefined") CUES.last = t; if (playing) { startPlay(t); } else { tpaused = t; frame(false); } }
+  /* Cue point (CDJ style): paused, press sets the cue at the playhead snapped to the nearest bar start; at the cue, hold to play from it and let go to return; playing, press stops and returns to the cue. */
+  var CUEP = { t: null, prev: false };
+  function cueSnap(t) {
+    if (!BPM && !TMAP) return t;
+    var ph = BPMINFO && typeof BPMINFO.downbeat === "number" ? BPMINFO.downbeat : 0, bar = RD((tmapBeat(t) - ph) / 4) * 4 + ph;
+    return MX(0, MN(DUR, tmapTime(bar)));
+  }
+  function cueLabel() { var c = $("cuebtn"); c.textContent = CUEP.t === null ? "Cue" : "Cue " + mmss(CUEP.t); AP(c, CUEP.t !== null); }
+  function cueDown() {
+    if (!BUF || CUEP.prev) return;
+    if (playing) { stopPlay(""); if (CUEP.t !== null) tpaused = CUEP.t; frame(false); return; }
+    if (CUEP.t === null || AB(tpaused - CUEP.t) > 0.02) { CUEP.t = cueSnap(tpaused); tpaused = CUEP.t; cueLabel(); frame(false); return; }
+    CUEP.prev = true; startPlay(CUEP.t);
+  }
+  function cueUp() { if (!CUEP.prev) return; CUEP.prev = false; stopPlay(""); tpaused = CUEP.t; frame(false); }
+  (function () {
+    var c = $("cuebtn"), kd = false;
+    c.addEventListener("pointerdown", function (e) { e.preventDefault(); try { c.setPointerCapture(e.pointerId); } catch (x) { /* no capture */ } cueDown(); });
+    ["pointerup", "pointercancel"].forEach(function (n) { c.addEventListener(n, cueUp); });
+    c.addEventListener("keydown", function (e) { if ((e.key === " " || e.key === "Enter") && !e.repeat && !kd) { kd = true; e.preventDefault(); cueDown(); } });
+    c.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") { kd = false; e.preventDefault(); cueUp(); } });
+    c.addEventListener("blur", function () { kd = false; cueUp(); });
+  })();
   function play() { if (!BUF) return; if (playing) { stopPlay("Paused."); frame(false); } else startPlay(tpaused >= DUR - 0.05 ? 0 : tpaused); }
 
   /* ---------------- loading ---------------- */
   function setSource(pcm, sr, buf, name, after) {
     GEN++; var gen = GEN; stopPlay(""); ANALYZING = true; BUF = buf; SRCNAME = name; $("status").textContent = "Analyzing 0%";
     var cap = MN(pcm.length, MAXSEC * sr); if (cap < pcm.length) pcm = pcm.subarray(0, cap);
-    PCM = pcm; SR = sr; DUR = pcm.length / sr;
+    PCM = pcm; SR = sr; DUR = pcm.length / sr; if (typeof CUEP !== "undefined") { CUEP.t = null; CUEP.prev = false; cueLabel(); }
     analyze(pcm, sr, function (R) {
       if (gen !== GEN) return;
-      NF = R.nf; BANDS = R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
+      NF = R.nf; BANDS = R.bands; BANDST = R.bandsT || R.bands; RMS = R.rms; FLUX = R.flux; CENT = R.cent; CENTERS = R.centers; CHAPS = chapterize(NF, BANDS, RMS, CENT); LABELS = chapterLabels(CHAPS, NF, RMS, CENT);
       var rest = 0, best = -1, i; for (i = 0; i < NF; i++) if (RMS[i] > best) { best = RMS[i]; rest = i; } tpaused = MN(DUR, rest / FPS);
       buildChapters(); onSourceReady(); pocketText(); $("src").textContent = SRCNAME; ANALYZING = false; $("status").textContent = ""; frame(false); if (after) after();
     }, function (p) { if (gen === GEN) $("status").textContent = "Analyzing " + RD(p * 100) + "%"; }, gen);
@@ -849,7 +889,7 @@
     for (i = 0; i < n; i++) {
       var f = on[i], a = f > 0 ? FLUX[f - 1] : 0, b = FLUX[f], c = f + 1 < NF ? FLUX[f + 1] : 0, den = a - 2 * b + c, dl = den < -1e-9 ? 0.5 * (a - c) / den : 0; dl = MX(-0.5, MN(0.5, dl));
       T.push((f + dl) / FPS + tOff); Wt.push(MN(3, b / avg));
-      var lo = 0; for (k = 0; k < 10; k++) lo += MX(0, BANDS[f * NB + k] - (f > 0 ? BANDS[(f - 1) * NB + k] : 0)); LO.push(lo);
+      var lo = 0; for (k = 0; k < 10; k++) lo += MX(0, BANDST[f * NB + k] - (f > 0 ? BANDST[(f - 1) * NB + k] : 0)); /* timing wants the short window */ LO.push(lo);
     }
     // phase weights: where there is a clear kick (low-band energy), the beat is the kick; otherwise every hit counts
     var loSum = 0, loMax = 0; for (i = 0; i < n; i++) { loSum += LO[i]; if (LO[i] > loMax) loMax = LO[i]; }
@@ -989,6 +1029,7 @@
     var xt = tx(tn, W); g.fillStyle = "#e2e8f0"; g.globalAlpha = 0.9; g.fillRect(xt, 0, 1.5, H); g.globalAlpha = 1;
   }
   function renderSlices() {
+    recSlices();
     if (typeof padRefresh === "function") setTimeout(padRefresh, 0);
     var h = "";
     SLICES.forEach(function (s, k) { h += '<button class="btn" type="button" data-k="' + k + '" aria-pressed="' + (k === SELECTED) + '">S' + (k + 1) + " " + fmt(s.t0) + "–" + fmt(s.t1) + " m" + s.mass.toFixed(2) + "</button>"; });
@@ -1147,7 +1188,7 @@
     for (; (t = tmapTime(b)) < DUR && MAGNETS.length < 6000; b++) if (t >= 0) MAGNETS.push({ t: t, w: KIND_W.grid, k: "grid" });
     MAGNETS.sort(function (x, y) { return x.t - y.t; });
   }
-  function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function"; recAct("tempo", +(+bpm).toFixed(2));
+  function setTempo(bpm, origin) { var gb = typeof genomeBuild === "function"; recAct("tempo", [+(+bpm).toFixed(2), +(+origin || 0).toFixed(4)]);
     bpm = MX(40, MN(240, RD(bpm * 100) / 100)); var P = 60 / bpm, g, i; BPM = bpm; GRID0 = ((origin % P) + P) % P;
     TMAP = null; gridMagnets();
     $("sbpm").value = bpm; if (!SP.touched) $("tbpm").value = bpm;
@@ -1292,7 +1333,20 @@
   EA(QA("input[name=snap]"), function (r) { r.addEventListener("change", function () { SNAPR = parseFloat(r.value); }); });
   function applyForcedBpm() { if (!FORCEBPM) return; BPM = FORCEBPM; GRID0 = 0; var P = 60 / BPM; MAGNETS = MAGNETS.filter(function (m) { return m.k !== "grid"; }); for (var g = 0; g < DUR && MAGNETS.length < 6000; g += P) MAGNETS.push({ t: g, w: KIND_W.grid, k: "grid" }); MAGNETS.sort(function (x, y) { return x.t - y.t; }); }
   function onSourceReady() { SLICES = []; PENDING = null; SELECTED = -1; ARR = null; computeMagnets(); applyForcedBpm(); genomeBuild(); if (typeof pinsRender === "function") pinsRender(); VIEW.a = 0; VIEW.b = DUR; samplerUI(); buildStripBg(); magnetSummary(); renderSlices(); drawStrip(tnow()); if (typeof bcLoad === "function") bcLoad(); if (typeof bcInfo === "function") bcInfo(); if (!RESTORED) { RESTORED = true; if (!restoreSaved()) applyDefaultLook(); } }
-  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { midi: midiIn, pads: { log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, recipe: { exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
+  /* AnalysisFrame v1 (_PATTERNS/2026-10-18-analysis-frame-v1.md): what this song's analysis is, as one small object the Tao print studio can read.
+     Always available, test mode or not. Arrays are uint8 (value/255), so a value read from a file equals the value used here. No audio samples are included. */
+  // eslint-disable-next-line react/display-name -- not a React component
+  window.PhosphorFrame = function () {
+    if (!NF || !BANDS) return null;
+    function b64(u) { var s = "", i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s); }
+    var bu = new Uint8Array(NF * NB), lu = new Uint8Array(NF), fu = new Uint8Array(NF), i, fm = 0;
+    for (i = 0; i < NF * NB; i++) bu[i] = RD(MN(1, MX(0, BANDS[i])) * 255);
+    for (i = 0; i < NF; i++) { lu[i] = RD(MN(1, MX(0, RMS[i])) * 255); if (FLUX[i] > fm) fm = FLUX[i]; }
+    fm = fm || 1;
+    for (i = 0; i < NF; i++) fu[i] = RD(MN(1, FLUX[i] / fm) * 255);
+    return { v: 1, kind: "tao.analysis", src: "phosphor", fps: FPS, nfft: NFFT, nb: NB, nf: NF, dur: DUR, sr: SR, name: SRCNAME, fmin: 40, fmax: MN(16000, SR * 0.45), bands: b64(bu), lev: b64(lu), flux: b64(fu), fluxMax: fm, bpm: BPM || null, grid0: BPM ? GRID0 : null, chapters: CHAPS.slice(), chapterLabels: LABELS.slice(), dna: GNM.dna ? GNM.dna.map(function (c) { return c ? [c[0], c[1], c[2]] : null; }) : null, dnaP: GNM.P, dnaBase: GNM.base };
+  };
+  if (/[?&]test=1/.test(location.search)) window.PhosphorTest = { cue: { t: function () { return CUEP.t; }, down: cueDown, up: cueUp, prev: function () { return CUEP.prev; } }, bandMean: function () { var m = [], b, f; for (b = 0; b < NB; b++) { var t = 0; for (f = 0; f < NF; f++) t += BANDS[f * NB + b]; m.push(t / NF); } return { mean: m, centers: CENTERS.slice() }; }, midi: midiIn, dry: function () { return { on: DRY.on, n: DRY.n }; }, begin: function () { return { done: BEGIN.done, mode: BEGIN.mode, ms: BEGIN.ms, playing: playing, rips: $("begin").querySelectorAll(".begin-rip").length, ring: !$("beginring").hidden, shown: !$("begin").hidden }; }, pads: { live: function () { return Object.keys(PAD.live).filter(function (k) { return PAD.live[k]; }).map(Number); }, log: function () { return PAD.log.slice(); }, bank: function () { return PAD.bank; }, open: function () { return PAD.open; } }, outRms: function () { if (!AC || !AC._ana) return -1; var d = F32(2048), i, m = 0; AC._ana.getFloatTimeDomainData(d); for (i = 0; i < d.length; i++) m += d[i] * d[i]; return Math.sqrt(m / d.length); }, lane: { st: function () { return { id: LANE.id, mode: LANE.mode, pts: LANE.pts.slice(), held: LANE.held, latched: LANE.latched }; }, set: function (id, mode, pts) { LANE.id = id; $("lnid").value = id; LANE.mode = mode; $("lnmode").value = mode; if (pts) LANE.pts = pts; } }, grab: { list: function () { return GRB.list; }, make: grabMake, play: grabPlay, stop: grabStop, running: function () { return !!GRB.run; } }, recipe: { render: recRender, wav: recWav, exp: recExport, imp: recImport, act: recAct, ev: function () { return REC.ev.slice(); }, state: recState, cells: recCells, link: recLink, open: recOpen, shared: function () { return SHARED; }, scan: recScan, sync: recSync, now: function () { return RD(NOW() - REC.t0); } }, elog: { ev: function () { return ELOG.ev.slice(); }, summary: elSummary, seed: function (ev, on) { ELOG.ev = ev; ELOG.on = on !== false; elShow(); }, on: function () { return ELOG.on; } }, view: function () { return { a: VIEW.a, b: VIEW.b }; }, tmap: { used: function () { return JSON.parse(JSON.stringify(STEPUSE)); }, bc: function () { return BC.times.slice(); }, time: tmapTime, beat: tmapBeat, on: function () { return !!TMAP; }, make: pinsMap, bars: barTimes, grid: function () { return MAGNETS.filter(function (m) { return m.k === "grid"; }).map(function (m) { return m.t; }); } }, fxl: function (k) { var f = AC && AC._fx, g = f && (f.sends[k] ? f.sends[k].gain.value : f[k] && f[k].wet ? f[k].wet.gain.value : k === "sweep" ? f.sweep.frequency.value : null); return { e: fxE(k), g: g }; }, glim: function (L, t) { return glim(L, t); }, gstr: function () { return GSTR; }, gpre: function () { return GPCUR; }, seek: seek, chaps: function () { return CHAPS.map(function (f) { return f / FPS; }); }, rec: (function () {
     var R = null;
     return {
       start: function () {
@@ -1445,7 +1499,7 @@
   }
   function fxHold(kind, src, on) {
     if (kind === "gold") { if (on) glitchOn(kind); return; }
-    var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src);
+    var h = HOLD[kind] || (HOLD[kind] = {}); if (on) h[src] = ++HSEQ; else delete h[src]; fxReconcile(kind); if (src !== "seq" && on) elog("fx", kind, src); if (src !== "seq") recAct("fx", [kind, src, on ? 1 : 0]);
   }
   function fxToggle(kind, src) { fxHold(kind, src, !(HOLD[kind] && HOLD[kind][src])); }
   function fxReleaseMomentary() { HKINDS.forEach(function (k) { var h = HOLD[k]; if (h) { Object.keys(h).forEach(function (s) { if (s !== "latch") delete h[s]; }); fxReconcile(k); } }); }
@@ -1620,10 +1674,10 @@
   function plog(e) { PLOG.push({ t: RD(NOW()), e: e }); if (PLOG.length > 2000) PLOG.shift(); }
   document.addEventListener("pointerdown", function (e) { var b = e.target.closest && e.target.closest("button,label"); if (b) plog("tap:" + (b.id || b.getAttribute("data-km") || b.textContent.trim().slice(0, 12))); }, true);
   document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) plog("key:" + e.code); }, true);
-  /* Recipe log: every change to a control (sliders, switches, radios, selects) as an event with wall and media time, kept in memory only. The state at any moment is the starting state with the events up to then applied. Text boxes are left out on purpose. */
+  /* Recipe log: every change to a control (sliders, switches, radios, selects; not the two position sliders the player moves by itself) as an event with wall and media time, kept in memory only. The state at any moment is the starting state with the events up to then applied. Text boxes are left out on purpose. */
   var REC = { ev: [], cur: {}, base: {}, t0: NOW() };
   function recScan() {
-    var m = {}; EA(QA("input[id],select[id]"), function (e) { var y = e.type; if (y === "radio") { if (e.checked) m[e.name] = e.value; } else if (y === "range") m[e.id] = +e.value; else if (y === "checkbox") m[e.id] = e.checked ? 1 : 0; else if (e.tagName === "SELECT") m[e.id] = e.value; }); return m;
+    var m = {}; EA(QA("input[id],select[id]"), function (e) { var y = e.type; if (e.id === "scrub" || e.id === "hscrub") return; if (y === "radio") { if (e.checked) m[e.name] = e.value; } else if (y === "range") m[e.id] = +e.value; else if (y === "checkbox") m[e.id] = e.checked ? 1 : 0; else if (e.tagName === "SELECT") m[e.id] = e.value; }); return m;
   }
   function recSync() {
     var now = recScan(), k, t = RD(NOW() - REC.t0);
@@ -1632,6 +1686,16 @@
   }
   /* Actions: things a person does that are not a control value (pads, keys, play, stop, seek, tempo, the song's fingerprint). Same list, ids start with an at sign, so the state replay skips them. */
   function recAct(name, arg) { if (!REC || !REC.ev) return; REC.ev.push([RD(NOW() - REC.t0), playing ? +tnow().toFixed(3) : null, "@" + name, arg === undefined ? null : arg]); if (REC.ev.length > 20000) REC.ev.splice(0, REC.ev.length - 20000); }
+  function recSlices() {
+    if (!REC || !REC.ev) return; var sig = JSON.stringify(SLICES.map(function (x) { return [+x.t0.toFixed(4), +x.t1.toFixed(4)]; })), L = REC.ev[REC.ev.length - 1];
+    if (sig === REC.sig) return; REC.sig = sig;
+    if (L && L[2] === "@slices" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("slices", JSON.parse(sig));
+  }
+  function recCells() {
+    if (!REC || !REC.ev) return; var sig = JSON.stringify(SEQ.cells), L = REC.ev[REC.ev.length - 1];
+    if (REC.csig === undefined) REC.csig = JSON.stringify(makeCells()); if (sig === REC.csig) return; REC.csig = sig;
+    if (L && L[2] === "@cells" && RD(NOW() - REC.t0) - L[0] < 400) { L[0] = RD(NOW() - REC.t0); L[3] = JSON.parse(sig); } else recAct("cells", JSON.parse(sig));
+  }
   function recExport() { return "Phosphor recipe v1\n" + JSON.stringify({ base: REC.base, events: REC.ev }); }
   function recImport(t) {
     var l = String(t || "").split("\n"); if (!/^Phosphor recipe v1/.test(l[0] || "")) return null;
@@ -1639,7 +1703,160 @@
   }
   function recState(upTo) { var s = {}, k; for (k in REC.base) s[k] = REC.base[k]; REC.ev.forEach(function (e) { if (e[0] <= upTo && e[2][0] !== "@") s[e[2]] = e[3]; }); return s; }
   function recInit() { REC.base = recScan(); for (var rk in REC.base) REC.cur[rk] = REC.base[rk]; REC.t0 = NOW(); }
-  document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(recSync, 200);
+  document.addEventListener("input", recSync, true); document.addEventListener("change", recSync, true); setInterval(function () { recSync(); recCells(); }, 200);
+  /* Offline render: a hidden copy of the page (the render realm) plays the recipe through the real effect chain in an OfflineAudioContext, so the live page never moves. Controls and effect holds are replayed at their event times; play, stop and seek drive the song. Not replayed yet: pads, the sequencer, tempo changes and the level-gate mode (an offline analyser reads nothing). */
+  function recApply(e) {
+    var id = e[2], v = e[3], els, hit, t;
+    if (id === "@fx") { fxHold(v[0], v[1], !!v[2]); return; }
+    if (id[0] === "@") return;
+    els = QA("input[name=\"" + id + "\"]");
+    if (els.length) { hit = Array.prototype.filter.call(els, function (r) { return r.value === String(v); })[0]; if (hit) { hit.checked = true; hit.dispatchEvent(new Event("change", { bubbles: true })); } return; }
+    t = $(id); if (!t) return;
+    if (t.type === "checkbox") { t.checked = !!v; t.dispatchEvent(new Event("change", { bubbles: true })); }
+    else { t.value = v; t.dispatchEvent(new Event(t.tagName === "SELECT" ? "change" : "input", { bubbles: true })); }
+  }
+  function recPlay(pos, at) { if (SRC) { try { SRC.stop(at); } catch (e) { /* ended */ } } SRC = AC.createBufferSource(); SRC.buffer = BUF; SRC.connect(deckIn("A")); SRC.start(at, pos); off0 = pos; t0ctx = at; playing = true; }
+  function recAt(e) {
+    var n = e[2];
+    if (n === "@play") recPlay(e[3], AC.currentTime);
+    else if (n === "@stop") { if (SRC) { try { SRC.stop(AC.currentTime); } catch (x) { /* ended */ } SRC = null; } playing = false; }
+    else if (n === "@seek") { if (playing) recPlay(e[3], AC.currentTime); else tpaused = e[3]; }
+    else if (n === "@cells") { SEQ.cells = e[3]; }
+    else if (n === "@slices") { SLICES = []; e[3].forEach(function (p) { addSlice(p[0], p[1]); }); }
+    else if (n === "@tempo") setTempo(e[3][0], e[3][1]);
+    else if (n === "@pad") { var q = String(e[3]).split(":"), sl; if (q.length === 2) { PAD.bank = +q[0]; sl = SLICES[PAD.bank * 16 + +q[1]]; if (sl && !padM(+q[1])) { if (padG(+q[1])) padChoke(+q[1], padG(+q[1])); padVoice(+q[1], sl); } } }
+    else recApply(e);
+  }
+  function renderOffline(rec) {
+    var sr = 44100, last = 0, ev = rec.events.slice().sort(function (a, b) { return a[0] - b[0]; }), pts = {}, qs, i, pump = rec.base.fxg !== "off" || ev.some(function (e) { return e[2] === "fxg" || e[2] === "@cells"; });
+    ev.forEach(function (e) { last = MX(last, e[0]); });
+    var N = RD(MN(600, MX(3, last / 1000 + 1.5)) * sr), OC = new OfflineAudioContext(2, N, sr);
+    stopSource(); AC = OC; playing = false;
+    Object.keys(rec.base).forEach(function (k) { recApply([0, null, k, rec.base[k]]); });
+    outBus();
+    ev.forEach(function (e) { var q = FL(e[0] / 1000 * sr / 128); (pts[q] = pts[q] || []).push(e); });
+    qs = Object.keys(pts).map(Number); if (pump) for (i = 8; i * 128 < N; i += 8) qs.push(i);
+    qs = qs.filter(function (q, k, a) { return a.indexOf(q) === k && q * 128 < N; }).sort(function (a, b) { return a - b; });
+    qs.forEach(function (q) {
+      var go = function () { (pts[q] || []).forEach(recAt); if (pump) { seqTick(); fxPump(); } };
+      if (q === 0) go(); else OC.suspend(q * 128 / sr).then(function () { go(); OC.resume(); });
+    });
+    return OC.startRendering().then(function (buf) { return { sr: sr, l: buf.getChannelData(0), r: buf.getChannelData(1), info: { pads: PAD.voices || 0, bpm: BPM, grid0: GRID0, gamt: GAMT, dur: DUR, thr: FXG.mode } }; });
+  }
+  function recWav(o) {
+    var n = o.l.length, b = new DataView(new ArrayBuffer(44 + n * 4)), i, v;
+    function w(p, t) { for (var k = 0; k < t.length; k++) b.setUint8(p + k, t.charCodeAt(k)); }
+    w(0, "RIFF"); b.setUint32(4, 36 + n * 4, true); w(8, "WAVEfmt "); b.setUint32(16, 16, true); b.setUint16(20, 1, true); b.setUint16(22, 2, true); b.setUint32(24, o.sr, true); b.setUint32(28, o.sr * 4, true); b.setUint16(32, 4, true); b.setUint16(34, 16, true); w(36, "data"); b.setUint32(40, n * 4, true);
+    for (i = 0; i < n; i++) { v = MX(-1, MN(1, o.l[i])); b.setInt16(44 + i * 4, v < 0 ? v * 32768 : v * 32767, true); v = MX(-1, MN(1, o.r[i])); b.setInt16(46 + i * 4, v < 0 ? v * 32768 : v * 32767, true); }
+    return new Uint8Array(b.buffer);
+  }
+  if (RENDERMODE) {
+    window.addEventListener("message", function (m) {
+      var d = m.data; if (!d || d.type !== "phosphor-render") return;
+      var settled = function () { return new Promise(function (r) { var k = setInterval(function () { if (BUF && !ANALYZING) { clearInterval(k); r(); } }, 50); }); };
+      (d.bytes ? loadBytes(d.bytes, "render", d.mime) : Promise.resolve()).then(settled).then(function () { return renderOffline(d.rec); }).then(function (o) { parent.postMessage({ type: "phosphor-rendered", sr: o.sr, l: o.l, r: o.r, info: o.info }, "*", [o.l.buffer, o.r.buffer]); }, function (e) { parent.postMessage({ type: "phosphor-rendered", error: String(e && e.message || e) }, "*"); });
+    });
+  }
+  function recRender(text) {
+    return new Promise(function (res, rej) {
+      var rec = recImport(text || recExport()), f = document.createElement("iframe"), done = false;
+      if (!rec) { rej(new Error("not a recipe")); return; }
+      f.name = "phosphor-render"; f.setAttribute("aria-hidden", "true"); f.tabIndex = -1; f.style.cssText = "position:fixed;width:1px;height:1px;border:0;opacity:0;pointer-events:none;left:-9px;top:0";
+      function fin(fn, v) { if (done) return; done = true; window.removeEventListener("message", on); f.remove(); fn(v); }
+      function on(m) { var d = m.data; if (m.source !== f.contentWindow || !d) return; if (d.type === "phosphor-render-ready") f.contentWindow.postMessage({ type: "phosphor-render", rec: rec, bytes: SRCBYTES ? SRCBYTES.slice(0) : null, mime: SRCMIME }, "*"); else if (d.type === "phosphor-rendered") { if (d.error) fin(rej, new Error(d.error)); else fin(res, d); } }
+      window.addEventListener("message", on); f.srcdoc = "<!doctype html>" + document.documentElement.outerHTML; document.body.appendChild(f);
+      setTimeout(function () { fin(rej, new Error("the render timed out")); }, 180000);
+    });
+  }
+  /* Gesture grab: the recipe is already a rolling buffer of everything you did with the controls. Grab keeps the last few bars (and optionally the next few) as a small automation: curves for sliders, steps for switches, effect holds and pads, with times in beats so it replays in time on any song at any tempo. */
+  var GRB = { list: [], key: "phosphor.grabs.v1", tm: 0, run: null };
+  try { GRB.list = JSON.parse(localStorage.getItem(GRB.key) || "[]") || []; } catch (e) { /* storage blocked */ }
+  function grabSave() { try { localStorage.setItem(GRB.key, JSON.stringify(GRB.list)); } catch (e) { /* storage blocked */ } }
+  function grabBeatMs() { return 60000 / (BPM || 120); }
+  function grabCut(t0, t1) {
+    var bm = grabBeatMs(), st = recState(t0), on = {}, ev = [], last = {}, ids = {}, out = [];
+    REC.ev.forEach(function (e) { if (e[0] < t0 && e[2] === "@fx") on[e[3][0]] = e[3][2]; });
+    Object.keys(on).forEach(function (k) { if (on[k]) ev.push([0, "@fx", [k, 1]]); });
+    REC.ev.forEach(function (e) {
+      if (e[0] < t0 || e[0] > t1) return; var id = e[2], el, keep = true;
+      if (id === "@fx") ev.push([(e[0] - t0) / bm, id, [e[3][0], e[3][2]]]);
+      else if (id === "@pad" && String(e[3]).split(":").length === 2) ev.push([(e[0] - t0) / bm, id, e[3]]);
+      else if (id[0] !== "@" && !/^(grpre|grpost|sbpm|tbpm)$/.test(id)) { el = $(id); if (el && el.type === "range" && last[id] !== undefined && e[0] - last[id] < 40) keep = false; if (keep) { ev.push([(e[0] - t0) / bm, id, e[3]]); last[id] = e[0]; ids[id] = 1; } }
+    });
+    Object.keys(ids).forEach(function (k) { out.push([0, k, st[k]]); });
+    return out.concat(ev.map(function (x) { return [+x[0].toFixed(3), x[1], x[2]]; })).sort(function (a, b) { return a[0] - b[0]; });
+  }
+  function grabMake(pre, post) {
+    var bm = grabBeatMs(), now = RD(NOW() - REC.t0), t0 = now - pre * 4 * bm, t1 = now + post * 4 * bm, ev = grabCut(t0, t1);
+    if (!ev.some(function (e) { return e[0] > 0 || e[1][0] === "@"; })) return null;
+    var g = { name: "Grab " + (GRB.list.reduce(function (m, x) { return MX(m, +(x.name.match(/^Grab (\d+)$/) || [0, 0])[1]); }, 0) + 1), beats: (pre + post) * 4, ev: ev };
+    GRB.list.push(g); if (GRB.list.length > 20) GRB.list.shift(); grabSave(); grabShow(); return g;
+  }
+  function grabApply(e) {
+    var id = e[1], v = e[2], q;
+    if (id === "@fx") fxHold(v[0], "grab", !!v[1]);
+    else if (id === "@pad") { q = String(v).split(":"); PAD.bank = +q[0]; padHit(+q[1]); setTimeout(function () { padRelease(+q[1]); }, 150); }
+    else recApply([0, null, id, v]);
+  }
+  function grabStop() { clearInterval(GRB.tm); if (GRB.run) { Object.keys(GRB.run.fx || {}).forEach(function (k) { fxHold(k, "grab", false); }); GRB.run = null; } grabShow(); }
+  function grabPlay(g, loop) {
+    grabStop(); var bm = grabBeatMs(), b0 = playing ? tmapBeat(tnow()) : 0, start = playing ? Math.ceil(b0 / 4) * 4 : 0, t0 = NOW(), i = 0, ids = {};
+    GRB.run = { g: g, fx: {}, loop: !!loop };
+    g.ev.forEach(function (e) { if (e[1][0] !== "@") ids[e[1]] = 1; });
+    GRB.tm = setInterval(function () {
+      var beat = (playing ? tmapBeat(tnow()) : (NOW() - t0) / grabBeatMs()) - start, e;
+      while (i < g.ev.length && g.ev[i][0] <= beat) { e = g.ev[i++]; if (e[1] === "@fx") GRB.run.fx[e[2][0]] = e[2][1]; grabApply(e); }
+      Object.keys(ids).forEach(function (id) { var el = $(id), a, b2, k, n; if (!el || el.type !== "range") return; a = null; b2 = null; for (k = 0; k < g.ev.length; k++) { if (g.ev[k][1] !== id) continue; if (g.ev[k][0] <= beat) a = g.ev[k]; else { b2 = g.ev[k]; break; } } if (a && b2 && b2[0] > a[0]) { n = a[2] + (b2[2] - a[2]) * (beat - a[0]) / (b2[0] - a[0]); if (AB(+el.value - n) >= (+el.step || 1)) { el.value = n; el.dispatchEvent(new Event("input", { bubbles: true })); } } });
+      if (beat >= g.beats) { if (GRB.run && GRB.run.loop) { i = 0; start += g.beats; } else grabStop(); }
+    }, 20);
+    grabShow();
+  }
+  /* Flying faders: one automation lane. Points are (song beat, value) on the tempo map. The lane moves its slider through the ordinary input event, so the recipe log, the limits and the offline render treat it like a hand. */
+  var LANE = { id: "", mode: "off", pts: [], held: false, latched: false, gl: null, self: false, lastW: -9 };
+  function laneVal(b) {
+    var p = LANE.pts, k; if (!p.length) return null; if (b <= p[0][0]) return p[0][1]; if (b >= p[p.length - 1][0]) return p[p.length - 1][1];
+    for (k = 1; k < p.length; k++) if (b <= p[k][0]) return p[k - 1][1] + (p[k][1] - p[k - 1][1]) * (b - p[k - 1][0]) / MX(1e-6, p[k][0] - p[k - 1][0]);
+    return null;
+  }
+  function laneSet(el, v) { LANE.self = true; el.value = v; el.dispatchEvent(new Event("input", { bubbles: true })); LANE.self = false; }
+  function laneWrite(b, v) {
+    if (b - LANE.lastW < 0.05) return; LANE.lastW = b;
+    LANE.pts = LANE.pts.filter(function (q) { return AB(q[0] - b) >= 0.05; }); LANE.pts.push([+b.toFixed(3), +v]); LANE.pts.sort(function (x, y) { return x[0] - y[0]; }); laneShow();
+  }
+  function laneShow() { var m = $("lnmsg"); if (m) m.textContent = LANE.pts.length ? LANE.pts.length + " points on " + (LANE.id || "no slider") + "." : "Pick a slider, press Record while the song plays and move it; Play makes it move on its own."; }
+  function laneFill() { var s = $("lnid"), h = ""; EA(QA("input[type=range][id]"), function (e) { if (e.id === "scrub" || e.id === "hscrub") return; var l = e.getAttribute("aria-label") || e.id; h += '<option value="' + e.id + '">' + esc(l) + "</option>"; }); s.innerHTML = h; LANE.id = s.value; }
+  document.addEventListener("input", function (e) {
+    if (LANE.self || !playing || e.target.id !== LANE.id) return; var b = tmapBeat(tnow());
+    if (LANE.mode === "rec" || ((LANE.mode === "touch" || LANE.mode === "latch") && (LANE.held || LANE.latched))) { laneWrite(b, +e.target.value); if (LANE.mode === "latch") LANE.latched = true; LANE.gl = null; }
+  }, true);
+  document.addEventListener("pointerdown", function (e) { if (e.target.id === LANE.id) { LANE.held = true; LANE.gl = null; } }, true);
+  function laneRelease() { var el, b; if (!LANE.held) return; LANE.held = false; el = $(LANE.id); if (el && LANE.mode === "touch" && playing) { b = tmapBeat(tnow()); LANE.gl = { from: +el.value, b0: b }; } }
+  document.addEventListener("pointerup", laneRelease, true); document.addEventListener("change", function (e) { if (e.target.id === LANE.id) laneRelease(); }, true);
+  setInterval(function () {
+    var el, b, v, w;
+    if (!playing) { LANE.latched = false; LANE.gl = null; return; }
+    if (LANE.mode === "off" || LANE.mode === "rec" || !LANE.id || !LANE.pts.length || LANE.held || LANE.latched) return;
+    el = $(LANE.id); if (!el) return; b = tmapBeat(tnow()); v = laneVal(b); if (v === null) return;
+    if (LANE.gl) { w = MN(1, (b - LANE.gl.b0) / 1); v = LANE.gl.from + (v - LANE.gl.from) * w; if (w >= 1) LANE.gl = null; }
+    if (AB(+el.value - v) >= (+el.step || 1)) laneSet(el, v);
+  }, 20);
+  $("lnid").addEventListener("change", function () { LANE.id = $("lnid").value; laneShow(); });
+  $("lnmode").addEventListener("change", function () { LANE.mode = $("lnmode").value; LANE.latched = false; LANE.gl = null; });
+  $("lnclr").addEventListener("click", function () { LANE.pts = []; LANE.gl = null; laneShow(); });
+  laneFill();
+  function grabShow() {
+    var ul = $("grlist"), h = "";
+    GRB.list.forEach(function (g, k) { h += '<li><input class="txt" type="text" value="' + esc(g.name) + '" data-gn="' + k + '" aria-label="Name of grab ' + (k + 1) + '"><button class="btn" type="button" data-grplay="' + k + '">' + (GRB.run && GRB.run.g === g ? "Stop" : "Play") + '</button><button class="btn" type="button" data-gl="' + k + '" aria-pressed="' + !!(GRB.run && GRB.run.g === g && GRB.run.loop) + '">Loop</button><button class="btn" type="button" data-gd="' + k + '">Delete</button></li>'; });
+    ul.innerHTML = h || '<li class="hint">Nothing grabbed yet. Move some controls, then press Grab.</li>';
+  }
+  $("grlist").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; var k; if (b.hasAttribute("data-grplay")) { k = +b.getAttribute("data-grplay"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); else grabPlay(GRB.list[k], false); } else if (b.hasAttribute("data-gl")) { k = +b.getAttribute("data-gl"); grabPlay(GRB.list[k], !(GRB.run && GRB.run.g === GRB.list[k] && GRB.run.loop)); } else if (b.hasAttribute("data-gd")) { k = +b.getAttribute("data-gd"); if (GRB.run && GRB.run.g === GRB.list[k]) grabStop(); GRB.list.splice(k, 1); grabSave(); grabShow(); } });
+  $("grlist").addEventListener("change", function (e) { var t = e.target; if (t.hasAttribute && t.hasAttribute("data-gn")) { GRB.list[+t.getAttribute("data-gn")].name = String(t.value).slice(0, 40); grabSave(); } });
+  $("grab").addEventListener("click", function () {
+    var pre = +$("grpre").value, post = +$("grpost").value, m = $("grmsg"), bm = grabBeatMs();
+    if (post > 0) { m.textContent = "Grabbing for " + post + " more bar" + (post > 1 ? "s" : "") + ". Keep playing."; $("grab").disabled = true; setTimeout(function () { var g = grabMake(pre, post); $("grab").disabled = false; m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window."; }, post * 4 * bm); return; }
+    var g = grabMake(pre, 0); m.textContent = g ? g.name + " saved (" + g.beats + " beats)." : "Nothing to grab: no controls moved in that window.";
+  });
+  grabShow();
   /* Play log (opt in, this device only): which controls, which values, when. Never song or file names, notes or audio. */
   var ELOG = { on: false, ev: [], ls: {}, key: "phosphor.playlog.v1", dirty: false };
   try { var els = JSON.parse(localStorage.getItem(ELOG.key) || "null"); if (els && els.ev) { ELOG.ev = els.ev; ELOG.on = !!els.on; } } catch (e) { /* storage blocked */ }
@@ -1674,10 +1891,93 @@
   document.addEventListener("keydown", function (e) { if (!e.repeat && !pkTyping(e)) elog("key", e.code); }, true);
   window.addEventListener("error", function (e) { elog("err", String(e.message || "").slice(0, 60)); });
   window.addEventListener("pagehide", elSave); document.addEventListener("visibilitychange", elSave); setInterval(elSave, 5000);
+  /* Recipe link: the recipe as text, deflated and put after the hash of this page's address, so it can be pasted anywhere. It holds control moves and actions only: no song, no file name. Nothing is sent; the hash never leaves the browser. A link opened here is never applied by itself: it waits for a press on Load, and every field is checked first. */
+  var SHARED = null, LINKMAX = 8000, SHAREIN = null, KNOWN = { fx: 1, pad: 1, key: 1, note: 1, play: 1, stop: 1, seek: 1, tempo: 1, song: 1, slices: 1, cells: 1 };
+  function b64e(u) { var s = "", i; for (i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+  function b64d(t) { var s = atob(t.replace(/-/g, "+").replace(/_/g, "/")), u = new Uint8Array(s.length), i; for (i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+  function zipRun(u, S) { var w = S.writable.getWriter(); w.write(u).catch(function () { /* surfaces on read */ }); w.close().catch(function () { /* surfaces on read */ }); var r = S.readable.getReader(), n = 0, parts = []; return (function pump() { return r.read().then(function (x) { if (x.done) { var o = new Uint8Array(n), k = 0; parts.forEach(function (p) { o.set(p, k); k += p.length; }); return o; } n += x.value.length; if (n > 1500000) { r.cancel(); throw new Error("too big"); } parts.push(x.value); return pump(); }); })(); }
+  function recSafe(rec) {
+    var ok = /^@?[A-Za-z0-9_-]{1,40}$/, ev = [], base = {}, k, bad = 0;
+    if (!rec || typeof rec.base !== "object" || !Array.isArray(rec.events) || rec.events.length > 20000) return null;
+    for (k in rec.base) if (ok.test(k) && (typeof rec.base[k] === "number" || (typeof rec.base[k] === "string" && rec.base[k].length < 200))) base[k] = rec.base[k];
+    rec.events.forEach(function (e) {
+      var id = Array.isArray(e) && e[2], good = Array.isArray(e) && typeof e[0] === "number" && isFinite(e[0]) && (e[1] === null || typeof e[1] === "number") && typeof id === "string" && ok.test(id) && JSON.stringify(e[3]).length < 6000;
+      if (good && id[0] === "@") good = !!KNOWN[id.slice(1)]; else if (good) good = !!($(id) || QA("input[name=\"" + id + "\"]").length);
+      if (good) ev.push([e[0], e[1], id, e[3]]); else bad++;
+    });
+    return { base: base, events: ev, dropped: bad };
+  }
+  function recLink() {
+    var t = recExport().split("\n").slice(1).join("\n");
+    return zipRun(new TextEncoder().encode(t), new CompressionStream("deflate-raw")).then(function (z) { return location.href.split("#")[0].split("?")[0] + "#r=" + b64e(z); });
+  }
+  function recOpen(h) {
+    if (!/^#r=[A-Za-z0-9_-]+$/.test(h || "") || h.length > LINKMAX + 4) return Promise.reject(new Error("not a recipe link"));
+    return zipRun(b64d(h.slice(3)), new DecompressionStream("deflate-raw")).then(function (u) { var r = recSafe(JSON.parse(new TextDecoder().decode(u))); if (!r) throw new Error("not a recipe"); return r; });
+  }
+  function shareShow() { $("rload").hidden = !SHAREIN; $("rdrop").hidden = !SHARED; }
+  $("rlink").addEventListener("click", function () {
+    var m = $("rnsum");
+    recLink().then(function (u) {
+      if (u.length > LINKMAX) { m.textContent = "This session is too long to fit in a link (" + u.length + " characters, limit " + LINKMAX + "). Clear the play log or record a shorter one."; return; }
+      try { navigator.clipboard.writeText(u).then(function () { m.textContent = "Recipe link copied (" + u.length + " characters). It carries your moves, not the song."; }, function () { m.textContent = "Copy was blocked here."; }); } catch (e) { m.textContent = "Copy was blocked here."; }
+    }, function () { m.textContent = "This browser cannot make a link."; });
+  });
+  $("rload").addEventListener("click", function () { if (!SHAREIN) return; SHARED = "Phosphor recipe v1\n" + JSON.stringify({ base: SHAREIN.base, events: SHAREIN.events }); $("rnsum").textContent = "Shared recipe loaded: " + SHAREIN.events.length + " events" + (SHAREIN.dropped ? ", " + SHAREIN.dropped + " dropped as unsafe" : "") + ". Render to WAV will use it on the song you have loaded."; SHAREIN = null; shareShow(); });
+  $("rdrop").addEventListener("click", function () { SHARED = null; $("rnsum").textContent = "Shared recipe dropped. Render to WAV uses your own session again."; shareShow(); });
+  if (/^#r=/.test(location.hash)) recOpen(location.hash).then(function (r) { SHAREIN = r; $("rnsum").textContent = "This link carries a recipe of " + r.events.length + " events. Press Load shared recipe in the grown-up controls to use it."; shareShow(); }, function () { $("rnsum").textContent = "That recipe link could not be read."; });
+  $("rnb").addEventListener("click", function () {
+    var b = $("rnb"), m = $("rnsum"); b.disabled = true; b.textContent = "Rendering"; m.textContent = "Rendering the session through the effect chain. Nothing is sent anywhere.";
+    recRender(SHARED || undefined).then(function (o) {
+      var u = URL.createObjectURL(new Blob([recWav(o)], { type: "audio/wav" })), a = document.createElement("a"); a.href = u; a.download = "phosphor-session.wav"; document.body.appendChild(a); a.click(); a.remove();
+      m.textContent = "Rendered " + (o.l.length / o.sr).toFixed(1) + " seconds. If nothing was saved, this page blocks downloads."; setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
+    }, function (e) { m.textContent = "The render did not finish: " + e.message; }).then(function () { b.disabled = false; b.textContent = "Render to WAV"; });
+  });
   $("elb").addEventListener("click", function () { ELOG.on = !ELOG.on; ELOG.flag = true; if (ELOG.on) elog("start"); elSave(); elShow(); });
   $("elclr").addEventListener("click", function () { ELOG.ev = []; ELOG.flag = true; elSave(); elShow(); });
   $("elcopy").addEventListener("click", function () { var t = JSON.stringify({ v: 1, summary: elSummary(), events: ELOG.ev }); try { navigator.clipboard.writeText(t).then(function () { $("elsum").textContent = "Play log copied (" + ELOG.ev.length + " events)."; }, function () { $("elsum").textContent = "Copy was blocked here."; }); } catch (e) { $("elsum").textContent = "Copy was blocked here."; } });
   if (ELOG.on) elog("start"); elShow();
+  /* First-minute ritual: until the first key or tap, a quiet ring breathes over the picture. The first press starts the music and still does what it normally does; for a minute after, each press sends one soft ring out of the tap point (or the centre for a key). Nothing is stored; no streak, no points, no reminder. */
+  var BEGIN = { done: false, t0: NOW(), until: 0, last: 0, mode: "", ms: 0 };
+  function beginShow() { $("begin").hidden = LVL !== 1; $("beginring").hidden = BEGIN.done; }
+  function beginRip(e) {
+    var h = $("begin"), r = h.getBoundingClientRect(), s, x = r.width / 2, y = r.height / 2;
+    if (NOW() > BEGIN.until || NOW() - BEGIN.last < 350 || h.querySelectorAll(".begin-rip").length >= 6 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (e.clientX !== undefined && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) { x = e.clientX - r.left; y = e.clientY - r.top; }
+    BEGIN.last = NOW(); s = document.createElement("span"); s.className = "begin-rip"; s.style.left = x + "px"; s.style.top = y + "px"; s.addEventListener("animationend", function () { s.remove(); }); h.appendChild(s);
+  }
+  function beginMark(mode) { BEGIN.done = true; BEGIN.until = NOW() + 60000; BEGIN.mode = mode; BEGIN.ms = RD((NOW() - BEGIN.t0) / 100) / 10; beginShow(); elog("begin", mode, BEGIN.ms); }
+  /* Space in Kid mode (when the Play button or nothing is focused): the very first press begins; after that a quick tap never stops the music, it cuts every effect to dry for about a beat, and only a hold of 0.6 s starts or stops. Parent mode and other focused controls keep the normal behaviour. */
+  var SPC = { down: false, long: false, skip: false, tm: 0 };
+  function dryCut() {
+    var ms = MX(250, MN(700, 60000 / (BPM || 120)));
+    DRY.n++; DRY.on = true; clearTimeout(DRY.tm); fxDryApply();
+    DRY.tm = setTimeout(function () { DRY.on = false; fxDryApply(); }, ms);
+  }
+  function fxDryApply() { FXLK.forEach(function (k) { fxApply(k[0]); }); }
+  function spaceOk(e) { return LVL === 1 && e.code === "Space" && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey && (e.target === document.body || e.target.id === "play"); }
+  function spaceDown(e) {
+    e.preventDefault(); e.stopImmediatePropagation(); if (e.repeat || SPC.down) return; SPC.down = true; SPC.long = false; SPC.skip = false;
+    if (!BEGIN.done) { if (!BUF || ANALYZING) { SPC.skip = true; return; } beginMark("key"); if (!playing) play(); SPC.skip = true; beginRip(e); return; }
+    beginRip(e); SPC.tm = setTimeout(function () { SPC.long = true; if (BUF) play(); }, 600);
+  }
+  function spaceUp(e) { e.preventDefault(); e.stopImmediatePropagation(); if (!SPC.down) return; SPC.down = false; clearTimeout(SPC.tm); if (!SPC.long && !SPC.skip) dryCut(); }
+  function beginIn(e) {
+    if (LVL !== 1 || (BEGIN.done && NOW() > BEGIN.until)) return;
+    var key = e.type === "keydown", t = e.target, inCtl = !key && t && t.closest && t.closest("button,input,select,textarea,a,summary,label");
+    if (key && (e.metaKey || e.ctrlKey || e.altKey || e.repeat || pkTyping(e))) return;
+    if (!BEGIN.done) {
+      if (!BUF || ANALYZING) return;
+      beginMark(key ? "key" : "tap");
+      if (!playing && !inCtl && !(key && e.code === "Enter")) play();
+    }
+    beginRip(e);
+  }
+  document.addEventListener("pointerup", beginIn, true);
+  document.addEventListener("keydown", function (e) { if (spaceOk(e)) spaceDown(e); else beginIn(e); }, true);
+  document.addEventListener("keyup", function (e) { if (SPC.down && e.code === "Space") spaceUp(e); }, true);
+  window.addEventListener("blur", function () { if (SPC.down) { SPC.down = false; clearTimeout(SPC.tm); } });
+  beginShow();
   function singMsg(s) { $("recmsg").textContent = s; }
   var RECLBL = { off: "Sing", armed: "Record", rec: "Stop", loop: "Add a layer", layer: "Stop layer" };
   function singUI() { $("ovr").hidden = SING.state !== "armed"; $("rec").setAttribute("data-s", SING.state); $("reclbl").textContent = RECLBL[SING.state] || "Sing"; $("undo").disabled = !SING.hist.length; }
@@ -1890,7 +2190,8 @@
   }
   function pocketText() { if (!$("dock")) return; $("dtitle").textContent = SRCNAME; $("dspec").textContent = "Mono • " + NB + " bands • " + FPS + " fps • " + (SR / 1000).toFixed(1) + " kHz"; }
   function teardownPocket() { var s = $("ledstrip"); if (s) s.remove(); }
-  (function () { pocketText(); if (window.ResizeObserver) new ResizeObserver(function () { if (document.documentElement.getAttribute("data-dock") !== "hidden") document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px"); }).observe($("dock")); })();
+  (function () { pocketText(); /* The write moves the body padding, which can toggle the page scrollbar, rewrap the dock and resize it again: a real loop (WebKit and Firefox report it, Chromium's overlay scrollbars hide it). So write in the next frame, and only when the height changed. */
+    if (window.ResizeObserver) { var dkq = 0; new ResizeObserver(function () { if (dkq) return; dkq = requestAnimationFrame(function () { dkq = 0; var r = document.documentElement, v; if (r.getAttribute("data-dock") === "hidden") return; v = $("dock").offsetHeight + "px"; if (r.style.getPropertyValue("--dock-h") !== v) r.style.setProperty("--dock-h", v); }); }).observe($("dock")); } })();
   function applySkin(name, save) {
     SKIN = name === "pocket" ? "pocket" : "arcs";
     if (SKIN === "pocket") document.documentElement.setAttribute("data-skin", "pocket"); else document.documentElement.removeAttribute("data-skin");
@@ -1928,7 +2229,7 @@
     cv.width = on ? 1600 : 1280; cv.height = on ? 900 : 360;
     AP($("fsb"), on); wakeHud(); frame(playing);
   }
-  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { f.classList.add("idle"); }, 2600); }
+  function wakeHud() { var f = $("frame"); f.classList.remove("idle"); clearTimeout(idleT); if (FS) idleT = setTimeout(function () { if (EJT) { wakeHud(); return; } f.classList.add("idle"); }, 2600); } /* never fade the HUD under a held Eject: WebKit fires pointerleave and cancels the hold */
   EA(QA("[data-km]"), function (b) { b.addEventListener("click", function () { var c = +b.getAttribute("data-km"); setStage(c, ZS[c]); }); });
   function kidSync() { EA(QA("[data-km]"), function (b) { AP(b, +b.getAttribute("data-km") === MODE); }); }
   document.addEventListener("click", kidSync); document.addEventListener("keyup", kidSync);
@@ -2025,14 +2326,26 @@
   (function () {
     var cs = $("consent"), KEY = "phosphor.consent.v1", ok = false, hold = ["main", "dock", "dkbump", "fxtray"];
     try { ok = localStorage.getItem(KEY) === "1"; } catch (e) { /* storage blocked: ask every time */ }
-    if (ok || /[?&]test=1/.test(location.search)) return;
+    if (ok || RENDERMODE || /[?&]test=1/.test(location.search)) return;
     function lock(on) { hold.forEach(function (id) { var el = id === "main" ? document.querySelector("main") : $(id); if (el) el.inert = on; }); }
     cs.hidden = false; lock(true); $("csgo").focus();
     $("csgo").addEventListener("click", function () { try { localStorage.setItem(KEY, "1"); } catch (e) { /* storage blocked */ } cs.hidden = true; lock(false); });
   })();
   /* Pads: sixteen big pads per bank, four banks, each pad plays one slice of the song (64 slices). Keys 1234 QWER ASDF ZXCV play them while the tray is open. With no slices yet the first press chops the song into 16 equal parts. */
-  var PAD = { open: false, bank: 0, src: [], log: [], held: {}, edit: false, sel: -1, map: {}, key: "phosphor.padmap.v1" }, PADFX = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
+  var PAD = { open: false, bank: 0, src: [], log: [], held: {}, edit: false, sel: -1, map: {}, key: "phosphor.padmap.v1", gm: { grp: {}, mute: {} }, gkey: "phosphor.padgm.v1", live: {}, gn: {} }, PADFX = [["stutter", "Stutter"], ["freeze", "Freeze"], ["tear", "Tear"], ["rgb", "Split"], ["blocks", "Blocks"], ["crush", "Crush"], ["dist", "Distort"], ["echo", "Echo"], ["room", "Room"], ["shim", "Shimmer"], ["sweep", "Sweep"]], PADKEYS = ["Digit1", "Digit2", "Digit3", "Digit4", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyA", "KeyS", "KeyD", "KeyF", "KeyZ", "KeyX", "KeyC", "KeyV"];
   try { PAD.map = JSON.parse(localStorage.getItem(PAD.key) || "{}") || {}; } catch (e) { /* storage blocked */ }
+  try { var gmr = JSON.parse(localStorage.getItem(PAD.gkey) || "{}") || {}; PAD.gm = { grp: gmr.grp || {}, mute: gmr.mute || {} }; } catch (e) { /* storage blocked */ }
+  function padGmSave() { try { localStorage.setItem(PAD.gkey, JSON.stringify(PAD.gm)); } catch (e) { /* storage blocked */ } }
+  function padG(i) { return (PAD.gm.grp[PAD.bank] || {})[i] || 0; }
+  function padM(i) { return !!(PAD.gm.mute[PAD.bank] || {})[i]; }
+  function padChoke(i, g) {
+    var j, b, t;
+    for (j = 0; j < 16; j++) {
+      if (j === i || padG(j) !== g) continue;
+      if (PAD.live[j] && PAD.gn[j] && AC) { t = AC.currentTime; try { PAD.gn[j].gain.cancelScheduledValues(t); PAD.gn[j].gain.setValueAtTime(PAD.gn[j].gain.value, t); PAD.gn[j].gain.linearRampToValueAtTime(0.0001, t + 0.008); if (PAD.src[j]) PAD.src[j].stop(t + 0.012); } catch (e) { /* ended */ } }
+      PAD.live[j] = false; padRelease(j);
+    }
+  }
   function padFx(i) { return (PAD.map[PAD.bank] || {})[i] || ""; }
   function padName(k) { var f = PADFX.filter(function (x) { return x[0] === k; })[0]; return f ? f[1] : ""; }
   function padMsg(s) { $("padmsg").textContent = s; }
@@ -2040,21 +2353,27 @@
   function padReleaseAll() { Object.keys(PAD.held).forEach(padRelease); }
   function padRefresh() {
     if (!$("padtray") || !$("pbk")) return;
-    EA(QA("#pbk .btn"), function (b, i) { var fx = padFx(i), has = !!fx || !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); b.querySelector("small").textContent = fx ? padName(fx) : String(i + 1); AP(b, PAD.edit && PAD.sel === i); });
+    EA(QA("#pbk .btn"), function (b, i) { var fx = padFx(i), has = !!fx || !!SLICES[PAD.bank * 16 + i]; b.setAttribute("aria-disabled", has ? "false" : "true"); b.querySelector("small").textContent = (fx ? padName(fx) : String(i + 1)) + (padG(i) ? " G" + padG(i) : "") + (padM(i) ? " off" : ""); AP(b, PAD.edit && PAD.sel === i); });
+    EA(QA("#padgm .btn[data-g]"), function (b) { AP(b, PAD.sel >= 0 && +b.getAttribute("data-g") === padG(PAD.sel)); });
+    if ($("padmute")) AP($("padmute"), PAD.sel >= 0 && padM(PAD.sel));
     EA(QA("#padpick .btn"), function (b) { AP(b, PAD.sel >= 0 && (b.getAttribute("data-fx") || "") === padFx(PAD.sel)); });
     EA(QA("#pbkb .btn"), function (b, k) { AP(b, k === PAD.bank); b.firstChild.nodeValue = "ABCD"[k] + " " + MX(0, MN(16, SLICES.length - k * 16)); });
   }
+  function padVoice(i, s) {
+    try { if (PAD.src[i]) PAD.src[i].stop(); } catch (e) { /* ended */ }
+    var b = AC.createBufferSource(), g = AC.createGain(), t = AC.currentTime, d = s.t1 - s.t0;
+    b.buffer = BUF; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + 0.003); g.gain.setValueAtTime(1, t + MX(0.003, d - 0.006)); g.gain.linearRampToValueAtTime(0.0001, t + d);
+    b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b; PAD.gn[i] = g; PAD.live[i] = true; b.onended = function () { if (PAD.src[i] === b) PAD.live[i] = false; }; PAD.voices = (PAD.voices || 0) + 1;
+  }
   function padHit(i) {
-    if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
-    recAct("pad", PAD.bank + ":" + i); var fx = padFx(i); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
+    if (PAD.edit) { PAD.sel = i; $("padpick").hidden = false; $("padgm").hidden = false; padMsg("Pad " + (i + 1) + ": pick what it does."); padRefresh(); return; }
+    if (padM(i)) { padMsg("Pad " + (i + 1) + " is muted."); return; }
+    var fx = padFx(i), gg = padG(i); if (gg) padChoke(i, gg); recAct("pad", PAD.bank + ":" + i + (fx ? ":" + fx : "")); if (fx) { padRelease(i); PAD.held[i] = { k: fx, src: "pad" + PAD.bank + "_" + i }; fxHold(fx, PAD.held[i].src, true); PAD.log.push([PAD.bank, i, fx]); var e2 = QA("#pbk .btn")[i]; if (e2) e2.classList.add("hit"); return; }
     if (!BUF) { padMsg("Load a song first."); return; }
     if (!SLICES.length) { var k, n = 16; for (k = 0; k < n; k++) addSlice(k * DUR / n, (k + 1) * DUR / n); renderSlices(); drawStrip(tnow()); padMsg("The song is chopped into 16 equal parts. Cut your own on the slice strip any time."); }
     var s = SLICES[PAD.bank * 16 + i]; if (!s) return;
     if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state !== "running") AC.resume();
-    try { if (PAD.src[i]) PAD.src[i].stop(); } catch (e) { /* ended */ }
-    var b = AC.createBufferSource(), g = AC.createGain(), t = AC.currentTime, d = s.t1 - s.t0, el = QA("#pbk .btn")[i];
-    b.buffer = BUF; g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(1, t + 0.003); g.gain.setValueAtTime(1, t + MX(0.003, d - 0.006)); g.gain.linearRampToValueAtTime(0.0001, t + d);
-    b.connect(g); g.connect(outBus()); b.start(t, s.t0, d + 0.01); PAD.src[i] = b;
+    padVoice(i, s); var el = QA("#pbk .btn")[i];
     PAD.log.push([PAD.bank, i, +s.t0.toFixed(3), +s.t1.toFixed(3)]); if (PAD.log.length > 500) PAD.log.shift();
     if (el) { el.classList.add("hit"); setTimeout(function () { el.classList.remove("hit"); }, 140); }
   }
@@ -2063,14 +2382,16 @@
     for (i = 0; i < 4; i++) h += '<button class="btn" type="button" data-bk="' + i + '" aria-pressed="' + (i === 0) + '">' + "ABCD"[i] + " 0</button>";
     h += '</div><div class="pbkb"><button class="btn" type="button" id="padedit" data-min="4" aria-pressed="false">Edit pads</button></div><div class="pbk" id="pbk">';
     for (i = 0; i < 16; i++) h += '<button class="btn" type="button" data-pk="' + i + '" aria-disabled="true" aria-label="Pad ' + (i + 1) + '">' + "1234QWERASDFZXCV"[i] + "<small>" + (i + 1) + "</small></button>";
-    tr.innerHTML = h + '</div><div class="pbkb" id="padpick" hidden role="group" aria-label="What the pad does"><button class="btn" type="button" data-fx="">Slice</button>' + PADFX.map(function (f) { return '<button class="btn" type="button" data-fx="' + f[0] + '">' + f[1] + "</button>"; }).join("") + '</div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
+    tr.innerHTML = h + '</div><div class="pbkb" id="padpick" hidden role="group" aria-label="What the pad does"><button class="btn" type="button" data-fx="">Slice</button>' + PADFX.map(function (f) { return '<button class="btn" type="button" data-fx="' + f[0] + '">' + f[1] + "</button>"; }).join("") + '</div><div class="pbkb" id="padgm" hidden role="group" aria-label="Pad group and mute">' + [0, 1, 2, 3].map(function (g) { return '<button class="btn" type="button" data-g="' + g + '">' + (g ? "Group " + g : "No group") + "</button>"; }).join("") + '<button class="btn" type="button" id="padmute">Mute</button></div><p class="hint" id="padmsg" role="status">Tap a pad, or press the keys 1 2 3 4, Q W E R, A S D F, Z X C V.</p>';
     EA(QA("#pbk .btn"), function (b, k) {
       b.addEventListener("pointerdown", function (e) { e.preventDefault(); padHit(k); });
       ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) { b.addEventListener(ev, function () { padRelease(k); b.classList.remove("hit"); }); });
       b.addEventListener("click", function (e) { if (e.detail === 0) { padHit(k); if (PAD.held[k]) setTimeout(function () { padRelease(k); b.classList.remove("hit"); }, 400); } });
     });
-    $("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
+    $("padedit").addEventListener("click", function () { PAD.edit = !PAD.edit; PAD.sel = -1; AP($("padedit"), PAD.edit); $("padpick").hidden = !PAD.edit; $("padgm").hidden = !PAD.edit; padReleaseAll(); padMsg(PAD.edit ? "Tap a pad, then pick what it does." : "Back to playing."); padRefresh(); });
     EA(QA("#padpick .btn"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.map[PAD.bank] || (PAD.map[PAD.bank] = {}), v = b.getAttribute("data-fx"); if (v) m[PAD.sel] = v; else delete m[PAD.sel]; try { localStorage.setItem(PAD.key, JSON.stringify(PAD.map)); } catch (e) { /* storage blocked */ } padMsg("Pad " + (PAD.sel + 1) + " is now " + (v ? padName(v) : "a slice") + "."); padRefresh(); }); });
+    EA(QA("#padgm .btn[data-g]"), function (b) { b.addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var g = +b.getAttribute("data-g"), m = PAD.gm.grp[PAD.bank] || (PAD.gm.grp[PAD.bank] = {}); if (g) m[PAD.sel] = g; else delete m[PAD.sel]; padGmSave(); padMsg("Pad " + (PAD.sel + 1) + (g ? " is in group " + g + ": hitting it cuts the others in the group." : " has no group.")); padRefresh(); }); });
+    $("padmute").addEventListener("click", function () { if (PAD.sel < 0) { padMsg("Tap a pad first."); return; } var m = PAD.gm.mute[PAD.bank] || (PAD.gm.mute[PAD.bank] = {}); if (m[PAD.sel]) delete m[PAD.sel]; else m[PAD.sel] = 1; padGmSave(); padMsg("Pad " + (PAD.sel + 1) + (m[PAD.sel] ? " is muted." : " is back on.")); padRefresh(); });
     EA(QA("#pbkb .btn[data-bk]"), function (b, k) { b.addEventListener("click", function () { PAD.bank = k; PAD.sel = -1; padReleaseAll(); padRefresh(); padMsg(SLICES.length > k * 16 ? "Bank " + "ABCD"[k] + "." : "Bank " + "ABCD"[k] + " is empty. Cut more slices on the strip."); }); });
     window.addEventListener("keydown", function (e) {
       var i = PADKEYS.indexOf(e.code); if (!PAD.open || i < 0 || e.metaKey || e.ctrlKey || e.altKey || pkTyping(e)) return;
@@ -2199,4 +2520,5 @@
     $("status").textContent = "Decoding"; loadBytes(u.buffer, o.name, o.mime).catch(function () { $("status").textContent = "The embedded song could not be decoded in this browser."; });
   } else loadDemo();
   recInit();
+  if (RENDERMODE) parent.postMessage({ type: "phosphor-render-ready" }, "*");
 })();

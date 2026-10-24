@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// phosphor_pads_check.mjs: the pad block (amendment 47). 16 pads, banks A to D, each pad plays one slice. Usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_pads_check.mjs <page.html>
+// phosphor_pads_check.mjs: the pad block (amendment 57). 16 pads, banks A to D, each pad plays one slice. Usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_pads_check.mjs <page.html>
 import { chromium, devices } from 'playwright'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'

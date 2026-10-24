@@ -1,0 +1,339 @@
+{
+ "op19": {
+  "schema": "arcs-accountant-report/v1",
+  "operator": 19,
+  "symbol": "Acco",
+  "name": "Accountant",
+  "generated_at": "2026-10-10T21:42:01+00:00",
+  "thresholds": {
+   "calibration_min_n": 30
+  },
+  "totals": {
+   "receipts": 39,
+   "outcomes": 10,
+   "outcomes_joined": 10,
+   "cohorts": {
+    "founder": 39
+   },
+   "closed_by_cohort": {
+    "founder": 10
+   }
+  },
+  "cohorts": {
+   "founder": {
+    "cohort": "founder",
+    "receipts": 39,
+    "receipts_with_horizon": 39,
+    "by_horizon": {
+     "this-week": 39
+    },
+    "by_mode": {},
+    "outcomes_logged": 10,
+    "matched": 6,
+    "unmatched": 4,
+    "fate": {
+     "LOGGED": 10,
+     "OPEN": 29,
+     "EXPIRED": "not_computed"
+    },
+    "drift": {
+     "LANDED": 0,
+     "DRIFTING": 0
+    },
+    "closure_rate": 0.2564,
+    "regret_scores": [],
+    "mean_regret": null,
+    "mean_nci_all": 58.205,
+    "nci_scored": 39,
+    "calibration": {
+     "sufficiency": "insufficient",
+     "n": 0,
+     "threshold": 30,
+     "reason": "n=0 < 30; a curve at this n would be two or three points dressed as a trend",
+     "mean_nci_matched": null,
+     "mean_nci_unmatched": null,
+     "spearman_nci_vs_regret": null,
+     "n_matched": null,
+     "n_unmatched": null
+    },
+    "missing_fields": {
+     "drift_state": 39,
+     "outcome.regret_score": 10
+    }
+   }
+  },
+  "sufficiency": "insufficient",
+  "refusals": [
+   "founder: calibration refused, n=0 closed positions with nci+outcome < threshold 30",
+   "EXPIRED not computed: no expiry rule registered for receipt horizons (fates.json receipt class is soft; Receipt has no status column)."
+  ],
+  "orphans": {},
+  "vocabulary": {
+   "receipt_fates": {
+    "OPEN": "non_terminal",
+    "LOGGED": "terminal",
+    "EXPIRED": "terminal"
+   },
+   "drift_fates": [
+    "LANDED",
+    "DRIFTING"
+   ],
+   "source": "runtime/specs/fates.json (class receipt)"
+  }
+ },
+ "op21": {
+  "operator": "OP-21",
+  "version": "v0.1.0-phase3",
+  "knot_count": 4,
+  "segment_count": 3,
+  "fuzziness_gradient": {
+   "segments": [
+    {
+     "from": "cold2",
+     "to": "cold1",
+     "fuzziness": 0.475,
+     "coherence": 0.525,
+     "directional_vector": {
+      "data": {
+       "from": 3.3,
+       "to": 3.3,
+       "direction": "stable",
+       "magnitude": 0.0
+      },
+      "clarity": {
+       "from": 2.3,
+       "to": 2.3,
+       "direction": "stable",
+       "magnitude": 0.0
+      },
+      "ambiguity": {
+       "from": 3.7,
+       "to": 3,
+       "direction": "decreases",
+       "magnitude": 0.7000000000000002
+      },
+      "tradeoffs": {
+       "from": 3,
+       "to": 2.7,
+       "direction": "decreases",
+       "magnitude": 0.2999999999999998
+      }
+     }
+    },
+    {
+     "from": "cold3",
+     "to": "cold2",
+     "fuzziness": 0.475,
+     "coherence": 0.525,
+     "directional_vector": {
+      "data": {
+       "from": 3.3,
+       "to": 3.3,
+       "direction": "stable",
+       "magnitude": 0.0
+      },
+      "clarity": {
+       "from": 2.3,
+       "to": 2.3,
+       "direction": "stable",
+       "magnitude": 0.0
+      },
+      "ambiguity": {
+       "from": 3.7,
+       "to": 3.7,
+       "direction": "stable",
+       "magnitude": 0.0
+      },
+      "tradeoffs": {
+       "from": 3,
+       "to": 3,
+       "direction": "stable",
+       "magnitude": 0
+      }
+     }
+    },
+    {
+     "from": "cold4",
+     "to": "cold3",
+     "fuzziness": 0.4525,
+     "coherence": 0.5475,
+     "directional_vector": {
+      "data": {
+       "from": 3.3,
+       "to": 3.3,
+       "direction": "stable",
+       "magnitude": 0.0
+      },
+      "clarity": {
+       "from": 3,
+       "to": 2.3,
+       "direction": "decreases",
+       "magnitude": 0.7000000000000002
+      },
+      "ambiguity": {
+       "from": 3.7,
+       "to": 3.7,
+       "direction": "stable",
+       "magnitude": 0.0
+      },
+      "tradeoffs": {
+       "from": 3,
+       "to": 3,
+       "direction": "stable",
+       "magnitude": 0
+      }
+     }
+    }
+   ],
+   "overall_fuzziness": 0.46749999999999997,
+   "sharp_regions": [
+    {
+     "segment": "cold2->cold1",
+     "fuzziness": 0.475,
+     "coherence": 0.525
+    },
+    {
+     "segment": "cold3->cold2",
+     "fuzziness": 0.475,
+     "coherence": 0.525
+    },
+    {
+     "segment": "cold4->cold3",
+     "fuzziness": 0.4525,
+     "coherence": 0.5475
+    }
+   ],
+   "fuzzy_regions": [],
+   "next_cut_recommendation": "lattice is sharp \u2014 no cut needed"
+  },
+  "progressive_defuzzing": {
+   "knot_count": 4,
+   "rolling_fuzziness": [
+    {
+     "knot_count": 2,
+     "overall_fuzziness": 0.475,
+     "timestamp": 1791668521.189167
+    },
+    {
+     "knot_count": 3,
+     "overall_fuzziness": 0.475,
+     "timestamp": 1791668521.189169
+    },
+    {
+     "knot_count": 4,
+     "overall_fuzziness": 0.46749999999999997,
+     "timestamp": 1791668521.18917
+    }
+   ],
+   "trend": "defuzzing",
+   "defuzzing_rate": 0.0025000000000000022
+  },
+  "segments": [
+   {
+    "from": "cold2",
+    "to": "cold1",
+    "fuzziness": 0.475,
+    "coherence": 0.525,
+    "directional_vector": {
+     "data": {
+      "from": 3.3,
+      "to": 3.3,
+      "direction": "stable",
+      "magnitude": 0.0
+     },
+     "clarity": {
+      "from": 2.3,
+      "to": 2.3,
+      "direction": "stable",
+      "magnitude": 0.0
+     },
+     "ambiguity": {
+      "from": 3.7,
+      "to": 3,
+      "direction": "decreases",
+      "magnitude": 0.7000000000000002
+     },
+     "tradeoffs": {
+      "from": 3,
+      "to": 2.7,
+      "direction": "decreases",
+      "magnitude": 0.2999999999999998
+     }
+    }
+   },
+   {
+    "from": "cold3",
+    "to": "cold2",
+    "fuzziness": 0.475,
+    "coherence": 0.525,
+    "directional_vector": {
+     "data": {
+      "from": 3.3,
+      "to": 3.3,
+      "direction": "stable",
+      "magnitude": 0.0
+     },
+     "clarity": {
+      "from": 2.3,
+      "to": 2.3,
+      "direction": "stable",
+      "magnitude": 0.0
+     },
+     "ambiguity": {
+      "from": 3.7,
+      "to": 3.7,
+      "direction": "stable",
+      "magnitude": 0.0
+     },
+     "tradeoffs": {
+      "from": 3,
+      "to": 3,
+      "direction": "stable",
+      "magnitude": 0
+     }
+    }
+   },
+   {
+    "from": "cold4",
+    "to": "cold3",
+    "fuzziness": 0.4525,
+    "coherence": 0.5475,
+    "directional_vector": {
+     "data": {
+      "from": 3.3,
+      "to": 3.3,
+      "direction": "stable",
+      "magnitude": 0.0
+     },
+     "clarity": {
+      "from": 3,
+      "to": 2.3,
+      "direction": "decreases",
+      "magnitude": 0.7000000000000002
+     },
+     "ambiguity": {
+      "from": 3.7,
+      "to": 3.7,
+      "direction": "stable",
+      "magnitude": 0.0
+     },
+     "tradeoffs": {
+      "from": 3,
+      "to": 3,
+      "direction": "stable",
+      "magnitude": 0
+     }
+    }
+   }
+  ],
+  "canonicality": "seed",
+  "pollination": {
+   "exports": [],
+   "imports": [],
+   "compatible_tiers": [
+    "lab"
+   ],
+   "last_pollinated_at": null
+  }
+ }
+}

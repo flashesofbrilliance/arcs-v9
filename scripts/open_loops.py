@@ -264,8 +264,17 @@ def gather(scheduled: Path | None, today: dt.date, now: dt.datetime) -> dict:
     else:
         gaps.append("coming-up not checked (pass --scheduled, or run /loops)")
 
+    drift = None
+    try:  # JTBD drift report link (row jtbd-graph-s5-feedback): read-only pointer to the weekly file, never regenerated here
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import jtbd_drift_report as jdr
+        drift = jdr.latest_link(str(ROOT))
+    except Exception as e:  # noqa: BLE001
+        gaps.append(f"jtbd drift report unreadable ({type(e).__name__})")
+
     return {
         "date": str(today),
+        "jtbd_drift": drift,
         "this_worktree": mine,
         "sections": [
             ["Waiting on your go", go],
@@ -296,6 +305,9 @@ def render_page(d: dict, cap: int) -> str:
         out += [f"   - {it['text']}  [{it['why']}]" for it in top] or ["   - nothing"]
         if rest:
             out.append(f"   + {rest} more (--cap to see them)")
+    dr = d.get("jtbd_drift")
+    out.append(f"\nJTBD drift report (weekly, read-only): {dr[0]} ({dr[1]})" if dr else
+               "\nJTBD drift report: none yet (python3 scripts/jtbd_drift_report.py)")
     if d["gaps"]:
         out.append("\nNot read: " + "; ".join(d["gaps"]))
     return "\n".join(out)

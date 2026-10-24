@@ -1,0 +1,31 @@
+{
+ "_expect": "SOURCE-DUP",
+ "_note": "two tool atoms (one-unit-per-line catalog) cite one name line under different keys",
+ "atoms": [
+  {
+   "id": "tool:script:accountant_weekly.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "accountant_weekly.py",
+    "line": 574
+   },
+   "title": "accountant_weekly.py: the weekly Operator 19 (Accountant) scoreboard. READ-ONLY on prod.",
+   "path": "scripts/accountant_weekly.py",
+   "state": "WIRED"
+  },
+  {
+   "id": "tool:script:zz_twin.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "zz_twin.py",
+    "line": 574
+   },
+   "title": "accountant_weekly.py: the weekly Operator 19 (Accountant) scoreboard. READ-ONLY on prod.",
+   "path": "scripts/accountant_weekly.py",
+   "state": "WIRED"
+  }
+ ],
+ "edges": []
+}

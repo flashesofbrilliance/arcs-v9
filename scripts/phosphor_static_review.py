@@ -10,6 +10,7 @@ Rules, each a mechanical yes or no:
   R6  every addEventListener target is $(...) of a known id, a selector variable, or document / window
   R7  no em-dash or en-dash in user-visible page text
   R9  every named function declaration is referenced somewhere (dead code is deleted, not kept)
+  R10 no top-level name is declared twice with var or function (the second silently shares the first one's storage; the recipe link once reused PENDING from the slice code)
   R8  every var(--name) used without a fallback is defined in the stylesheet, the markup or set from the script (an undefined one silently drops the whole declaration)
 Usage: python3 scripts/phosphor_static_review.py [--json]     exit 1 if any rule fails
 """
@@ -68,6 +69,23 @@ for m in re.finditer(r"var\((--[\w-]+)\s*\)", css + tpl):
 for n in sorted(set(re.findall(r"(?<!\()function\s+([A-Za-z_$][\w$]*)\s*\(", js))):
     uses = len(re.findall(r"(?<![\w$.])" + re.escape(n) + r"(?![\w$])", js)) + len(re.findall(r"\b" + re.escape(n) + r"\b", tpl))
     if uses <= 1: add("R9", "function %s is declared and never referenced" % n)
+# R10
+from collections import Counter
+decl = Counter()
+for m in re.finditer(r"^  var (.+?);\s*(?:/\*.*)?$", js, flags=re.M):
+    st, d, cur, names = m.group(1), 0, "", []
+    for ch in st:
+        if ch in "([{": d += 1
+        elif ch in ")]}": d -= 1
+        if ch == "," and d == 0: names.append(cur); cur = ""
+        else: cur += ch
+    names.append(cur)
+    for n in names:
+        q = re.match(r"\s*([A-Za-z_$][\w$]*)\s*(=|$)", n)
+        if q: decl[q.group(1)] += 1
+for m in re.finditer(r"^  function\s+([A-Za-z_$][\w$]*)\s*\(", js, flags=re.M): decl[m.group(1)] += 1
+for n, c in sorted(decl.items()):
+    if c > 1: add("R10", "%s is declared %d times at the top level of app.js" % (n, c))
 if "--json" in sys.argv: print(json.dumps(out, indent=1))
 else:
     for o in out: print("✖ %s %s" % (o["rule"], o["msg"]))

@@ -37,7 +37,12 @@ select { background: var(--surface); color: var(--text); border: 1px solid var(-
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .tabs button { min-height: 44px; min-width: 44px; padding: 0 14px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 6px; font: inherit; cursor: pointer; }
 .tabs button[aria-pressed="true"] { border-color: var(--cyan); background: var(--cyan-bg); }
-.drill { display: grid; grid-template-columns: 130px 70px minmax(0, 1fr); gap: 6px 10px; align-items: start; }
+.drill { display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 6px 10px; align-items: start; }
+.rungs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.rung { padding: 6px 10px; border: 1px dashed var(--border); border-radius: 6px; font-size: 0.6875rem; }
+.rung.on { border: 1px solid var(--cyan); background: var(--cyan-bg); }
+.tag { display: inline-block; padding: 2px 8px; border: 1px solid var(--gold); border-radius: 999px; font-size: 0.6875rem; margin-left: 6px; vertical-align: middle; }
+.shape .h { color: var(--muted); }
 .drill > div { overflow-wrap: anywhere; font-size: 0.925rem; padding: 6px 0; border-top: 1px solid var(--border); }
 .space { width: 100%; height: auto; display: block; background: var(--surface); border-radius: 6px; }
 .legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.6875rem; color: var(--muted); margin-top: 8px; }
@@ -48,15 +53,15 @@ ul.canon { padding-left: 18px; max-width: var(--measure); }
   .grid { grid-template-columns: 64px repeat(5, minmax(0, 1fr)); }
   .cell { font-size: 0.6875rem; padding: 4px; min-height: 48px; }
   .cell .lbl { display: none; }
-  .drill { grid-template-columns: 96px 48px minmax(0, 1fr); }
+  .drill { grid-template-columns: 48px minmax(0, 1fr); }
 }
 @media (max-width: 380px) { .grid { grid-template-columns: 36px repeat(5, minmax(44px, 1fr)); gap: 3px; } }
 </style>
 </head>
 <body>
 <main>
-<h1>Decision Geometry Explorer</h1>
-<p class="lede">Each decision is scored on 25 cells: five aspects (Decision, Risk, Window, Clarity, Altitude) by five cells, each from L0 (unknown) to L5 (confirmed by an outcome). Every level quotes the text behind it; a cell with no matching text stays L0. The five aspects collapse to a five-digit shape code, one point among 3,125.</p>
+<h1>Decision Geometry Explorer <span class="tag">text-scored</span></h1>
+<p class="lede">Each decision is scored on 25 cells: five aspects (Decision, Risk, Window, Clarity, Altitude) by five cells, each from L0 (unknown) to L5 (confirmed by an outcome). Every level quotes the text behind it; a cell with no matching text stays L0. This dataset is text-scored: levels come from what each record says about itself, not from a measured receipt, so nothing here reaches L4 or L5. The five aspects collapse to a five-digit shape code, one point among 3,125.</p>
 
 <div class="row">
   <div style="flex:1 1 320px"><label for="pick">Decision</label><select id="pick"></select></div>
@@ -75,7 +80,8 @@ ul.canon { padding-left: 18px; max-width: var(--measure); }
 <div class="legend" id="legend"></div>
 
 <h2>2. Drill an aspect, Executive to Surgical</h2>
-<p class="note">Cells are read coarse to fine: the first cell of an aspect sits at the Executive rung, the fifth at Surgical. The middle column is this decision's own altitude-rung level.</p>
+<p class="note">The rung strip shows the altitudes this decision occupies, Executive to Surgical (inferred from wording, so L1 at most). Below it are the selected aspect's five cells. Cells are not paired with rungs: the spec defines no such pairing.</p>
+<div class="rungs" id="rungs" aria-label="Altitude rungs occupied"></div>
 <div class="tabs" id="tabs" role="group" aria-label="Aspect"></div>
 <div class="drill" id="drill"></div>
 
@@ -106,9 +112,9 @@ $("rules").innerHTML = Object.entries(DATA.adaptation).map(([k, v]) =>
 
 function render() {
   const d = DATA.decisions[cur];
-  $("shape").textContent = d.shape.split("").join(" ");
-  $("shapeMeta").textContent = `index ${d.index} of 3,125 · rungs {${d.rungs.join(", ") || "none"}}`;
-  $("dtitle").innerHTML = `<b>${esc(d.id)}</b>: ${esc(d.fields.Decision || d.fields.Body || "")}`;
+  $("shape").innerHTML = d.shape.slice(0, 4).split("").join(" ") + ` <span class="h" title="H is inferred from wording and carries no position; read the rung set instead">${d.shape[4]}</span>`;
+  $("shapeMeta").textContent = `index ${d.index} of 3,125 · rungs {${d.rungs.join(", ") || "none"}} · H digit greyed: wording-inferred` + (d.unstructured ? " · unstructured record" : "");
+  $("dtitle").innerHTML = `<b>${esc(d.id)}</b>${d.unstructured ? '<span class="tag">unstructured: no Decision or Why paragraph, so low levels reflect format, not quality</span>' : ""}: ${esc(d.fields.Decision || d.fields.Body || "")}`;
   let g = `<div class="hd"></div>` + [1,2,3,4,5].map(i => `<div class="hd">cell ${i}</div>`).join("");
   DATA.aspects.forEach((a, ai) => {
     g += `<div class="hd"><b>${a.key}</b> <span class="lbl">${esc(a.label.split(" (")[0])}</span> · ${d.shape[ai]}</div>`;
@@ -122,9 +128,10 @@ function render() {
     `<div class="note" style="margin-top:8px">Spec rule (Receipt columns): ${esc(c.spec_rule["L" + Math.max(v.level, 1)] || "")}</div>`;
   [...$("tabs").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.a === aspect));
   const A = DATA.aspects.find(a => a.key === aspect);
-  $("drill").innerHTML = `<div class="note">Rung</div><div class="note">Rung lvl</div><div class="note">${esc(A.label)}</div>` +
-    A.cells.map((c, i) => { const v = d.cells[c.id], h = d.cells["H" + (i + 1)];
-      return `<div><b>${DATA.rungs[i]}</b></div><div class="mono">${h.level ? "L" + h.level : "~"}</div><div><b>${c.id} ${esc(c.label)}</b>: ${v.level ? "L" + v.level : "~ (L0)"}<br><span class="note">${esc(v.evidence || "no evidence")}</span></div>`; }).join("");
+  $("rungs").innerHTML = DATA.rungs.map((r, i) => `<span class="rung${d.cells["H" + (i + 1)].level ? " on" : ""}">${r}${d.cells["H" + (i + 1)].level ? " L" + d.cells["H" + (i + 1)].level : " ~"}</span>`).join("");
+  $("drill").innerHTML = `<div class="note">Level</div><div class="note">${esc(A.label)}</div>` +
+    A.cells.map(c => { const v = d.cells[c.id];
+      return `<div class="mono">${v.level ? "L" + v.level : "~"}</div><div><b>${c.id} ${esc(c.label)}</b><br><span class="note">${esc(v.evidence || "no evidence, so L0")}</span></div>`; }).join("");
   drawSpace(d);
 }
 function pos(s) { const n = s.split("").map(x => +x - 1); return { x: n[2] * 25 + n[3] * 5 + n[4], y: n[0] * 5 + n[1] }; }

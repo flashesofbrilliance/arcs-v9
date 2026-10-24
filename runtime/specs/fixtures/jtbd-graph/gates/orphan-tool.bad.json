@@ -1,0 +1,267 @@
+{
+ "atoms": [
+  {
+   "id": "tool:script:t.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "t.py",
+    "line": 1
+   },
+   "path": "scripts/git-hooks/pre-commit"
+  },
+  {
+   "id": "job:backlog:j",
+   "kind": "job",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "j",
+    "line": 1
+   }
+  },
+  {
+   "id": "blocker:backlog:b",
+   "kind": "blocker",
+   "source": {
+    "catalog": "_QUEUE/induced-backlog.jsonl",
+    "key": "b",
+    "line": 1
+   },
+   "resolve_by": "2026-11-01"
+  },
+  {
+   "id": "dep:env:FIXTURE_KEY",
+   "kind": "dep",
+   "source": {
+    "catalog": "AGENTS.md env table and src/lib/env.ts",
+    "key": "FIXTURE_KEY",
+    "line": 1
+   },
+   "path": "AGENTS.md"
+  },
+  {
+   "id": "tool:script:o2.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o2.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:o3.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o3.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:o4.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o4.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:o5.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o5.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:o6.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o6.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:o7.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o7.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:o8.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o8.py",
+    "line": 1
+   }
+  },
+  {
+   "id": "tool:script:o9.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o9.py",
+    "line": 1
+   },
+   "path": "scripts/oracle.py"
+  },
+  {
+   "id": "tool:script:o10.py",
+   "kind": "tool",
+   "source": {
+    "catalog": "runtime/specs/tool-catalog.json",
+    "key": "o10.py",
+    "line": 1
+   },
+   "path": "scripts/oracle.py"
+  }
+ ],
+ "edges": [
+  {
+   "from": "tool:script:t.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "route.tool:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "scripts/git-hooks/pre-commit"
+  },
+  {
+   "from": "blocker:backlog:b",
+   "to": "job:backlog:j",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:t.py",
+   "to": "dep:env:FIXTURE_KEY",
+   "type": "runtime-dep",
+   "evidence": [
+    "runtime/specs/fixtures/jtbd-graph/gates/probe.sh:2"
+   ],
+   "inferred": false,
+   "match": "FIXTURE_KEY"
+  },
+  {
+   "from": "tool:script:o2.py",
+   "to": "tool:script:o2.py",
+   "type": "design-dep",
+   "evidence": [
+    "scripts/jtbd_graph_gates.py:1"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o3.py",
+   "to": "tool:script:o4.py",
+   "type": "design-dep",
+   "evidence": [
+    "scripts/jtbd_graph_gates.py:1"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "blocker:backlog:b",
+   "to": "tool:script:o5.py",
+   "type": "blocks",
+   "evidence": [
+    "backlog:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o5.py",
+   "to": "job:backlog:ghost",
+   "type": "serves",
+   "evidence": [
+    "route.tool:jtbd-graph-s3-gates"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o6.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "route.tool:no-such-row"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o7.py",
+   "to": "dep:env:FIXTURE_KEY",
+   "type": "runtime-dep",
+   "evidence": [
+    "scripts/jtbd_graph_gates.py:1"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o8.py",
+   "to": "tool:script:t.py",
+   "type": "replaces",
+   "evidence": [
+    "commit:abcdef1"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o9.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "route.tool:jtbd-graph-s2-edges"
+   ],
+   "inferred": false,
+   "match": "jtbd"
+  },
+  {
+   "from": "tool:script:o10.py",
+   "to": "job:backlog:j",
+   "type": "serves",
+   "evidence": [
+    "AGENTS.md:2"
+   ],
+   "inferred": false,
+   "match": ""
+  }
+ ],
+ "probes": {
+  "dep:env:FIXTURE_KEY": {
+   "file": "runtime/specs/fixtures/jtbd-graph/gates/probe.sh",
+   "line": 2,
+   "match": "curl"
+  }
+ },
+ "_note": "self-edge, two-tool island, blocks-only, serves to a missing job, serves with evidence to a missing row (A), shared dep hub (B), replaces only; round 2 class 1: real but unrelated row, blank real line",
+ "_expect_ids": [
+  "tool:script:o2.py",
+  "tool:script:o3.py",
+  "tool:script:o4.py",
+  "tool:script:o5.py",
+  "tool:script:o6.py",
+  "tool:script:o7.py",
+  "tool:script:o8.py",
+  "tool:script:o9.py",
+  "tool:script:o10.py"
+ ]
+}

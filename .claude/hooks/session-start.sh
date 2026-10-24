@@ -38,13 +38,14 @@ for _d in "$CLAUDE_PROJECT_DIR" "$PWD"; do
   [ "$PWD" = "$CLAUDE_PROJECT_DIR" ] && break
 done
 
-# Cloud sessions run in throwaway containers, so the receipts and snapshot refresh written
-# below are discarded with the container. Writing them there only dirties tracked files and
+# Since 2026-10-20 the receipt logs are gitignored and pulse/snapshot are no longer rewritten here;
+# only `lattice_drift_check.py --regenerate` (not run by this hook) can touch the file below.
+# Cloud sessions run in throwaway containers, so anything written below is discarded with the container. Writing them there only dirties tracked files and
 # trips the environment's stop-hook ("uncommitted changes") on every turn. In cloud: still run
 # every check and print the readout, then restore each of these files that was clean when the
 # hook started; a file already edited this session (e.g. by /handoff) is left alone. Local
 # machines keep writing them as before, since there they are the real ledger.
-_HOOK_STATE_FILES="_INBOX/pulse.jsonl _INBOX/lattice-drift.jsonl _INBOX/seedbank-drift.jsonl _STATE/pulse.json _STATE/snapshot.json runtime/specs/knowledge-lattice-v1.json"
+_HOOK_STATE_FILES="runtime/specs/knowledge-lattice-v1.json"
 _CLEAN_AT_START=""
 if [ "${CLAUDE_CODE_REMOTE:-}" = "true" ]; then
   for _f in $_HOOK_STATE_FILES; do
@@ -77,10 +78,19 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 # emit a receipt; curation stays human-owned. Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
 
+# Universe snapshot — OPEN end. Read-only: is the committed HUD field data stale against the tracked
+# tree (the emitter's own --check), how old is its last regeneration, does the history stamp exist?
+# Prints one line and appends a receipt to _INBOX/universe-snapshot-drift.jsonl (gitignored).
+# Regeneration and `--refresh` (which pushes to origin/main) stay human-gated. Never fails the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/universe_snapshot_drift_check.py" 2>/dev/null || true
+
 # Findings gait — the pace line (ADR-086 part E). Read-only: prints the EXTEND/CONTRACT phase,
 # open findings, displacement and the next aid station from _STATE/findings.jsonl so the
 # detectors above have a place where findings get a fate and a close. Never fails the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/findings_gait.py" status 2>/dev/null | sed 's/^/findings-gait: /' || true
+# JTBD graph pulse (row jtbd-graph-s3-gates): counts only, read from the last --check (_STATE/jtbd-graph/check.json,
+# gitignored); no rebuild, ~50 ms. Never fails the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/universe_jtbd_adapter.py" --pulse 2>/dev/null || true
 # model drift: flag a newer Claude model per role in src/lib/claude-models.ts (advisory; free
 # GET /v1/models with ANTHROPIC_API_KEY, else silent skip). Never switches a model.
 python3 "$CLAUDE_PROJECT_DIR/scripts/model_drift_check.py" 2>/dev/null || true
@@ -99,55 +109,11 @@ _MIS=$(git -C "$CLAUDE_PROJECT_DIR" show origin/main:scripts/memory_index_sync.p
 if [ -n "$_MIS" ]; then printf '%s\n' "$_MIS" | python3 - --append 2>/dev/null || true
 else python3 "$CLAUDE_PROJECT_DIR/scripts/memory_index_sync.py" --append 2>/dev/null || true; fi
 
-# Snapshot auto-refresh (mechanical fields only — local file, never committed/pushed
-# by this hook). Narrative fields (session_summary, next_action, nci_counter,
-# active_briefs) are NOT touched here; those require /handoff (a judgment call).
+# Snapshot: read-only here (2026-10-20). The hook used to rewrite the mechanical git fields of the
+# tracked _STATE/snapshot.json every session, which kept every checkout dirty. Only /handoff writes it;
+# live git state is one `git status` away.
 SNAPFILE="$CLAUDE_PROJECT_DIR/_STATE/snapshot.json"
 if [ -f "$SNAPFILE" ]; then
-  HEAD_SHA=$(git -C "$CLAUDE_PROJECT_DIR" rev-parse --short HEAD 2>/dev/null || echo "")
-  HEAD_MSG=$(git -C "$CLAUDE_PROJECT_DIR" log -1 --pretty=%s 2>/dev/null || echo "")
-  DIRTY=$(git -C "$CLAUDE_PROJECT_DIR" status --porcelain 2>/dev/null | awk '{print $2}')
-  git -C "$CLAUDE_PROJECT_DIR" fetch origin main --quiet 2>/dev/null || true
-  AHEAD_BEHIND=$(git -C "$CLAUDE_PROJECT_DIR" rev-list --left-right --count HEAD...origin/main 2>/dev/null || echo "0	0")
-  IN_SYNC="true"
-  [ "$(echo "$AHEAD_BEHIND" | awk '{print $1+$2}')" != "0" ] && IN_SYNC="false"
-
-  python3 -c "
-import json, datetime, sys
-
-path = '$SNAPFILE'
-head_sha = '''$HEAD_SHA'''
-head_msg = '''$HEAD_MSG'''
-dirty = [l for l in '''$DIRTY'''.strip().splitlines() if l]
-in_sync = $( [ "$IN_SYNC" = "true" ] && echo "True" || echo "False" )
-
-try:
-    d = json.load(open(path))
-except Exception:
-    sys.exit(0)
-
-g = d.setdefault('git', {})
-changed = (g.get('head_sha') != head_sha or g.get('dirty_files') != dirty or g.get('in_sync_with_origin') != in_sync)
-g['head_sha'] = head_sha
-g['head_message'] = head_msg
-g['dirty_files'] = dirty
-g['in_sync_with_origin'] = in_sync
-g.pop('in_sync_note', None)
-
-# git_refreshed_at is separate from captured_at: captured_at marks when the
-# narrative fields (session_summary/next_action/nci_counter) were last set by
-# /handoff, and must NOT be reset just because a mechanical field changed —
-# otherwise every new commit would silently mask stale narrative content.
-if changed:
-    d['git_refreshed_at'] = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-    with open(path, 'w') as f:
-        json.dump(d, f, indent=2)
-        f.write('\n')
-    print(f'snapshot: mechanical fields auto-refreshed (head={head_sha}, in_sync={in_sync})')
-else:
-    print('snapshot: mechanical fields already current')
-" 2>/dev/null || echo "snapshot: mechanical refresh skipped (non-blocking)"
-
   narrative_age=$(python3 -c "
 import json, datetime
 try:
@@ -198,6 +164,13 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/tool_orphan_audit.py" --line 2>/dev/null ||
 if bash /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory-snapshots/git_autocommit.sh 2>/dev/null; then
   _tc=$(git -C /Users/zharris/.claude/projects/-Users-zharris-arcs-v9/memory rev-parse --short HEAD 2>/dev/null || true)
   [ -n "$_tc" ] && echo "timecapsule: memory build-log @ $_tc"
+fi
+
+# ADR/DEWY watcher: count pending decision candidates from the local ledger only (no transcript scan).
+# Silent when there is no ledger or nothing pending. Never fails the hook.
+if [ -f "$CLAUDE_PROJECT_DIR/scripts/adr_dewy_watch.py" ] && [ -f "$CLAUDE_PROJECT_DIR/_INBOX/adr-dewy-candidates.jsonl" ]; then
+  pend=$(cd "$CLAUDE_PROJECT_DIR" && python3 scripts/adr_dewy_watch.py --list 2>/dev/null | head -1 || true)
+  case "${pend:-}" in [1-9]*) echo "adr-dewy: $pend (review: python3 scripts/adr_dewy_watch.py --list)";; esac
 fi
 
 # Only the dependency bootstrap below is remote-only; the grounding above runs everywhere.

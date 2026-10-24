@@ -74,7 +74,7 @@ export const WAYPOINTS: { id: string; label: string; note: string; tier: Tier; k
   { id: "kairos", label: "Kairos", note: "Knowing when, not only what", tier: "later", k: 5, a: 2.4 },
   { id: "governance", label: "L6 to L7", note: "Ecosystem and governance layers", tier: "later", k: 5, a: 5.6 },
 ]
-const TIER_COLOR: Record<Tier, string> = { now: signal.green, next: signal.cyan, later: "#94a3b8" }
+const TIER_COLOR: Record<Tier, string> = { now: signal.green, next: signal.cyan, later: text.secondary }
 const TIER_NAME: Record<Tier, string> = { now: "Now", next: "Next", later: "Later" }
 export const FATHOMS = [
   { n: 1, name: "Exosphere", altitude: "600 km", resolution: "orbital", pitch: 1.5, dist: 6.8, zoom: 0.8, size: 4.2 },
@@ -122,7 +122,7 @@ function terracePoint(k: number, a: number) {
 export type UNode = (typeof universe.nodes)[number]
 const STRATUM_K: Record<string, number> = { q: 5, a: 4, m: 3, o: 2, l: 1, g: 0 }
 const DOMAIN_DEG: Record<string, number> = { ont: -90, epi: -18, met: 54, ety: 126, lib: 198 }
-const DOMAIN_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
+const DOMAIN_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: text.secondary, lib: text.primary }
 const UPOS: Record<string, { u: number; v: number; k: number }> = (() => {
   const groups: Record<string, UNode[]> = {}
   universe.nodes.forEach((n) => { (groups[n.stratum + n.domain] ||= []).push(n) })
@@ -768,7 +768,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
       for (let k = 1; k <= LEVELS; k++) {
         const d = HALF - (k - 1) * STEP_W, h = k * STEP_H
         const apexGold = k === LEVELS && st.nav > 0.5
-        ctx.strokeStyle = apexGold ? rgba(signal.gold, 0.85) : ZIG ? rgba(GATE_COLOR[ZIG[k - 1].gate], 0.35 + clarity * 0.35) : rgba(k >= 5 ? "#94a3b8" : k >= 3 ? signal.cyan : signal.green, 0.12 + clarity * 0.25)
+        ctx.strokeStyle = apexGold ? rgba(signal.gold, 0.85) : ZIG ? rgba(GATE_COLOR[ZIG[k - 1].gate], 0.35 + clarity * 0.35) : rgba(k >= 5 ? text.secondary : k >= 3 ? signal.cyan : signal.green, 0.12 + clarity * 0.25)
         ctx.lineWidth = k === LEVELS ? 1 : 0.7
         path([[-d, -d], [d, -d], [d, d], [-d, d], [-d, -d]].map(([a, b]) => proj(SUMMIT.u + a, h, SUMMIT.v + b)))
       }
@@ -848,7 +848,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
           const pa = UPOS[a], pb = UPOS[b]; if (!pa || !pb) continue
           const sa = proj(pa.u, height(pa.u, pa.v) + 0.06, pa.v), sb = proj(pb.u, height(pb.u, pb.v) + 0.06, pb.v)
           if (!sa || !sb) continue
-          ctx.strokeStyle = rgba(DOMAIN_COLOR[UBY[a]?.domain] ?? "#94a3b8", 0.08 + clarity * 0.1)
+          ctx.strokeStyle = rgba(DOMAIN_COLOR[UBY[a]?.domain] ?? text.secondary, 0.08 + clarity * 0.1)
           ctx.beginPath(); ctx.moveTo(sa.x, sa.y); ctx.lineTo(sb.x, sb.y); ctx.stroke()
         }
         // Holds from the current vantage: green = open hop, red dashed = blocked, grey dashed = obscured.
@@ -857,7 +857,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
         if (cs) for (const h of holds(cur, st.fog)) {
           const q = UPOS[h.id], hs = proj(q.u, height(q.u, q.v) + 0.06, q.v); if (!hs) continue
           ctx.lineWidth = h.state === "open" ? 1.6 : 1
-          ctx.strokeStyle = h.state === "open" ? rgba(signal.green, 0.8) : h.state === "blocked" ? rgba(signal.red, 0.7) : rgba("#94a3b8", 0.5)
+          ctx.strokeStyle = h.state === "open" ? rgba(signal.green, 0.8) : h.state === "blocked" ? rgba(signal.red, 0.7) : rgba(text.secondary, 0.5)
           ctx.setLineDash(h.state === "open" ? [] : [3, 4])
           ctx.beginPath(); ctx.moveTo(cs.x, cs.y); ctx.lineTo(hs.x, hs.y); ctx.stroke()
         }
@@ -872,7 +872,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
             arc.push(proj(u, h, v))
           }
           ctx.lineWidth = 1.2; ctx.setLineDash(b.state === "open" ? [6, 3] : [2, 5])
-          ctx.strokeStyle = b.state === "open" ? rgba(dir > 0 ? signal.gold : signal.cyan, 0.75) : rgba(b.state === "blocked" ? signal.red : "#94a3b8", 0.5)
+          ctx.strokeStyle = b.state === "open" ? rgba(dir > 0 ? signal.gold : signal.cyan, 0.75) : rgba(b.state === "blocked" ? signal.red : text.secondary, 0.5)
           path(arc)
         }
         ctx.setLineDash([])
@@ -884,7 +884,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
           ctl.lookAt = la
         }
         for (const { n, s: sp } of un) {
-          const p2 = sp!, col = DOMAIN_COLOR[n.domain] ?? "#94a3b8"
+          const p2 = sp!, col = DOMAIN_COLOR[n.domain] ?? text.secondary
           const open = n.status !== "ok", here = ctl.originNode === n.id
           const cc = here ? 0 : coc(p2.d)
           const r = Math.min(9, 2.4 + Math.sqrt(n.files) * 0.7) * (here ? 1.4 : 1) * (1 + cc * 1.6)
@@ -945,7 +945,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
         ctx.fillText(w.label.toUpperCase(), tx, top.y)
         if (noteA > 0.05) {
           ctx.font = `400 10px ${font.sans}`
-          ctx.fillStyle = rgba("#94a3b8", 0.9 * noteA * grow)
+          ctx.fillStyle = rgba(text.secondary, 0.9 * noteA * grow)
           ctx.fillText(w.note, tx, top.y + 10)
           ctx.font = `600 9px ${font.mono}`
         }
@@ -1037,13 +1037,13 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
       if (!ctl.full) {
         const fi = clamp(Math.round(st.depth), 1, NF) - 1, F0 = FATHOMS[fi]
         ctx.font = `600 9px ${font.mono}`; ctx.textBaseline = "alphabetic"; ctx.textAlign = "left"
-        ctx.fillStyle = rgba("#94a3b8", 0.9)
+        ctx.fillStyle = rgba(text.secondary, 0.9)
         ctx.fillText(`F${F0.n} · ${F0.name.toUpperCase()}`, 20, 26)
         ctx.fillStyle = rgba(text.dimmed, 0.95)
         ctx.fillText(`${F0.altitude.toUpperCase()} · ${F0.resolution.toUpperCase()}`, 20, 37)
         // Depth gauge on the left, mirroring clarity on the right.
         const lx = 18, ly0 = Math.max(64, SH * 0.26), ly1 = SH - BAR_H - 26
-        ctx.strokeStyle = rgba("#94a3b8", 0.3); ctx.lineWidth = 1
+        ctx.strokeStyle = rgba(text.secondary, 0.3); ctx.lineWidth = 1
         ctx.beginPath(); ctx.moveTo(lx, ly0); ctx.lineTo(lx, ly1); ctx.stroke()
         for (let i = 0; i < NF; i++) {
           const y = ly0 + (i / (NF - 1)) * (ly1 - ly0)
@@ -1056,8 +1056,8 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
         ctx.beginPath(); ctx.moveTo(lx - 7, my - 3.5); ctx.lineTo(lx - 2, my); ctx.lineTo(lx - 7, my + 3.5); ctx.closePath(); ctx.fill()
       }
 
-      const hud = rgba("#94a3b8", 0.85), dim = rgba(text.dimmed, 0.95)
-      ctx.strokeStyle = rgba("#94a3b8", 0.4); ctx.lineWidth = 1
+      const hud = rgba(text.secondary, 0.85), dim = rgba(text.dimmed, 0.95)
+      ctx.strokeStyle = rgba(text.secondary, 0.4); ctx.lineWidth = 1
       ;[[10, 10, 1, 1], [SW - 10, 10, -1, 1], [SW - 10, SH - BAR_H - 8, -1, -1], [10, SH - BAR_H - 8, 1, -1]].forEach(([x, y, dx, dy]) => {
         ctx.beginPath(); ctx.moveTo(x, y + dy * 14); ctx.lineTo(x, y); ctx.lineTo(x + dx * 14, y); ctx.stroke()
       })
@@ -1071,7 +1071,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
         const val = Math.round((hdg + dgr) / 5) * 5
         const x = MX + (val - hdg) * 1.4
         const major = ((val % 30) + 30) % 30 === 0
-        ctx.strokeStyle = rgba("#94a3b8", major ? 0.6 : 0.3)
+        ctx.strokeStyle = rgba(text.secondary, major ? 0.6 : 0.3)
         ctx.beginPath(); ctx.moveTo(x, 34); ctx.lineTo(x, major ? 27 : 30); ctx.stroke()
         if (major) { ctx.fillStyle = dim; ctx.textAlign = "center"; ctx.fillText(pad(((val % 360) + 360) % 360, 3), x, 23) }
       }
@@ -1082,7 +1082,7 @@ export function Scope({ fog, clear, zone, zoneColor, pinned = false, barSlot, zi
       ctx.fillText(`HDG ${pad(hdg, 3)}`, MX, 52)
 
       const gx = SW - 18, gy0 = Math.max(64, SH * 0.26), gy1 = SH - BAR_H - 26
-      ctx.strokeStyle = rgba("#94a3b8", 0.3)
+      ctx.strokeStyle = rgba(text.secondary, 0.3)
       ctx.strokeRect(gx - 2, gy0, 4, gy1 - gy0)
       const fillTop = gy1 - (gy1 - gy0) * clarity
       ctx.fillStyle = isClear ? signal.green : clarity > 0.1 ? signal.gold : "#64748b"

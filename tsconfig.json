@@ -32,5 +32,6 @@
   ],
   "exclude": ["node_modules", "tests/unit",
     "scripts/brief_eval.mts",
-    "scripts/culture_cues_dryrun.mts"]
+    "scripts/culture_cues_dryrun.mts",
+    "runtime/specs/fixtures"]
 }
