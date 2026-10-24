@@ -248,3 +248,45 @@ Ground: page `_ARTIFACTS/era-dial/bits-per-frame.html` computes both fits in the
 - B23 was not run, as pre-registered: prices were found for four rows only across three kinds of product, so the page lists them as notes and draws no cost curve. Nothing here shows that cost falls. One price (the 84-inch 4K sets at about $20,000 to $25,000) is reported but not pinned to one page, and the Retina laptop price is from one report that also listed a cheaper model; both are flagged on the page.
 - What the page shows: the linear and log views of the same six points, labels that move between views so they do not collide, frames drawn to scale by area (the 1984 frame is under 1 percent of the 8K frame by area), and a sources table. The linear view makes the case for the log axis visually; the fit statistics make it numerically.
 - Limits unchanged from the pre-registration: a frontier staircase of six hand-picked milestones, firsts that are makers' claims or disputed, bit depth sourced for two rows, no evidence on acceleration or on "compounding innovation". Unconfirmed: dates are from press and archival pages found by web search, not primary documents.
+
+### Round 9 (B24, the two-tier rule on fresh photographs): pre-registered before any fresh frame was chosen
+
+Ground: B24 was written in round 7 (PR 1401 at 52fbf7cd, receipt 2026-10-16--b21-vision-judge-pr1401--ZH) and is fixed here, unchanged, before any new frame exists. Zach chose photographs only (2026-10-17: "photographs only, go ahead"); the downloads still need his approval of each file before they happen.
+Rule, fixed now with no tuning afterwards: the two-tier answer is the judge's answer, except when the judge's confidence is 1 or 2, in which case it is the statistic's answer (the genuine frame's absolute cutoff exceeds the foil's by at least 4.8 cycles means the statistic picks correctly).
+Design: at least 12 photographs not used in rounds 3, 4 or 7 (no FSA 8a16694 scene, no Detroit Publishing 4a27449 or 4a05168), central 256x256 crops, the same three foils (nearest-neighbour 4x of the 64 row, bilinear 4x of the 64 row, bilinear 2x of the 128 row), 36 or more trials, a new seed, the key not on disk during judging, three `opus` judges, Read tool only. Same scorer family (`scripts/era_b21.py`, with the seed and source list passed in).
+B24. The two-tier rule is correct on at least 35 of 36 fresh trials (or the same 97 percent on a larger set). Prior 0.5. Kill: 34 of 36 or fewer, in which case the rule is dropped and no judge tier is claimed.
+Also reported, not gating: the judge alone and the statistic alone on the same trials, so the rule can be compared with each instrument.
+Limits stated now: one judge model family, one pass; a fresh set that shares scenes or photographers is less independent than it looks; the confidence threshold was chosen after seeing B21 and is not retunable; 12 photographs is small; a result says nothing about era and nothing about rendered interface graphics (excluded by Zach's choice).
+
+### Round 9 results, 2026-10-17 (B24)
+
+Ground: pre-registration above (this branch, written before any fresh frame was chosen); trials built and scored by `scripts/era_b21.py` with `ERA_B21_SEED=24` and, for the two-tier line, `ERA_B21_CONF` pointing at the judges' confidence file (both added in this change; the default seed 21 path is unchanged by code inspection, but the round 7 inputs no longer exist in the scratchpad so I could not re-run it); receipt follows the merge. Frames: 12 FSA/OWI photographs (1934 to 1943) downloaded after Zach approved the list; four came back larger than the sizes I had quoted (8c17960v 298,476 B, 8b16733v 349,710, 8c11013v 284,172, 8d15106v 269,547, against 208,092, 165,417, 227,530, 194,281 in the loc.gov item data) and Zach approved using them as downloaded. Three `opus` judges, Read tool only, the key never on disk, one pass.
+
+| rule | nn4 | bil4 | bil2 | overall |
+|---|---|---|---|---|
+| vision judge alone | 12 / 12 | 12 / 12 | 12 / 12 | 36 / 36 |
+| cutoff statistic alone (gap of at least 4.8) | 11 / 12 | 12 / 12 | 12 / 12 | 35 / 36 |
+| two-tier (judge unless confidence 1 or 2, then statistic) | 12 / 12 | 12 / 12 | 12 / 12 | 36 / 36 |
+
+- B24 survived (prior 0.5): 36 of 36 against the bar of 35. No kill condition tripped.
+- It is weaker evidence than the headline suggests. The judge alone also scored 36 of 36, so the two-tier rule did not beat the judge. The fallback fired once (t31, a bilinear-2x trial, confidence 2) and the judge was already right there; the statistic was right there too (gap 69.0). Confidence was 5 on 27 of 36 trials, 4 on 3, 3 on 5 and 2 on 1, so there was almost nothing for a fallback to do. The statistic's one miss (t07, nearest-neighbour on the cafe photograph, gap -29.0) was a confidence-5 judge hit.
+- Against round 7 (judge 34 of 36, statistic 28 of 36 on different frames): both instruments scored higher here. The earlier set included nine native-scan crops from one master, a harder case; this set is twelve 1024-px derivatives, which is the easier regime where round 3 also passed. A better score on an easier set is not a better instrument.
+- What B24 licenses: a judge tier with a statistic fallback is a reasonable design on photographic derivatives. What it does not license: a refusal gate, any claim on native-resolution scans or rendered interface graphics (excluded by Zach's choice and weak for the statistic in rounds 2 and 4), or any claim about era.
+- Limits: one judge model family, one pass, no repeats; all 12 sources are one collection and one decade; the confidence threshold was fixed after B21 and was not retuned; four downloaded files did not match the item data they were quoted from. Two process notes: a git merge left `_SEEDS/_oracle.json` and `_STATE/pulse.json` unresolved in this worktree before I switched branches (backed up to the scratchpad and restored, not my changes); the scratchpad did not survive the session resume, so the round 3, 4 and 7 inputs and the B21 answers file are gone and reproducing those rounds needs re-downloads.
+
+## Scope decision, 2026-10-17
+
+Ground: written at Zach's request ("write the scope decision into the note", 2026-10-17); the evidence is the rounds merged in arcs-v9 PR 1386 at b2d6417b, PR 1401 at 52fbf7cd, PR 1466 at f7a01807, with the pages in PR 1402 at 0c3e4519 and PR 1405 at 81ec98df. The recommendations are Claude's; Zach's instruction was to record them, not to rule on each line, so each reopen trigger below is a proposal he can change.
+
+Supported by the evidence so far:
+- The band-limit reading orders with resolution on textured synthetic scenes, three LoC derivative photographs, nine native-scan crops and two rendered interface images (rounds 1 to 4). It is built as a reading panel in `_ARTIFACTS/era-dial/era-dial.html`, which never refuses a frame.
+- Separating a true frame from an upscale: the cutoff statistic does it against a bilinear foil (8 of 9 native crops) and not against nearest-neighbour on rendered UI or most native crops. A vision judge scored 34 of 36 (round 7) and 36 of 36 (round 9) on photograph derivatives. The two-tier rule scored 36 of 36 but did not beat the judge alone.
+- The dial, the pixel chart and the link between them exist as artifacts; the chart's exponential-fit claim passed its pre-registered test (R-squared 0.96 against 0.47) on six hand-picked milestone points.
+
+Parked, with the condition that reopens each:
+- A gate that refuses frames. Not built and not supported. Reopen if a judge tier holds at 90 percent or better on a collection other than FSA/OWI and on native-resolution scans, with a judge model family other than the one used here, and the gate states which upscalers it covers.
+- A cost curve. Prices were found for four rows across three kinds of product. Reopen if a source tracks one product type's price over time.
+- Any claim about era, authenticity or "compounding innovation". Never supported by these measurements; the dial's frames are our drawings.
+
+Status labels: reading panel BOUND; judge tier INTENDED; refusal gate PARKED; cost lane PARKED.
+Still open outside this note: the seed ledger has three recorded uses (idea-alchemist, idea-detective, chief-loki, one each) and no agent has the three the gate requires for SURVIVED; honest-notes rows for earlier merges were closed in PR 1334 and the receipts since are logged.

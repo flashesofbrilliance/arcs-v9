@@ -1,5 +1,5 @@
 {
-  "_doc": "Clean-room registry. One universe per counterpart or canon corpus. Atoms never cross universes: a query names ONE universe; bridging needs --bridge with --why and is logged. anti_aliases = names that look like the entity but are NOT it (a query containing one gets a conflation warning; an atom may mention one only if type=collision). audience: every atom is internal unless tagged external; external is allowed only on type=claim, grade A/B/C, and a public projection (--project public) replaces names with the client's SHAPE (registry shape/name_shapes, what it does, never a hand-picked alias; null = refuse) and prints an opaque tag from the private hash table sources/pseudonym-key.json (gitignored). tier=canon is read-only: built by scripts/universe_canon_adapter.py from _CANON/ and _DECISIONS/, no counterpart name may appear in it. grades: A primary document authored by the entity, B self-reported by the subject, C second-hand (relayed), inference, hypothesis.",
+  "_doc": "Clean-room registry. One universe per counterpart or canon corpus. Atoms never cross universes: a query names ONE universe; bridging needs --bridge with --why and is logged. anti_aliases = names that look like the entity but are NOT it (a query containing one gets a conflation warning; an atom may mention one only if type=collision). audience: every atom is internal unless tagged external; external is allowed only on type=claim, grade A/B/C, and a public projection (--project public) replaces names with the client's SHAPE (registry shape/name_shapes, what it does, never a hand-picked alias; null = refuse) and prints an opaque tag from the private hash table sources/pseudonym-key.json (gitignored). tier=canon is read-only: built by scripts/universe_canon_adapter.py from _CANON/ and _DECISIONS/, no counterpart name may appear in it. grades: A primary document authored by the entity, B self-reported by the subject, C second-hand (relayed), inference, hypothesis. tier=personal: a person's own receipts, always internal, no public projection; atoms name counterparts only through declared `bridges`.",
   "universes": {
     "vico": {
       "tier": "counterpart",
@@ -123,6 +123,20 @@
       "anti_aliases": [],
       "alias_notes": "Derived, never hand-edited: python3 scripts/universe_canon_adapter.py. No counterpart fact may enter canon.",
       "audience_default": "internal"
+    },
+    "zach-receipts": {
+      "tier": "personal",
+      "entities": [
+        "receipt",
+        "confirmed",
+        "unconfirmed",
+        "outcome"
+      ],
+      "names": [],
+      "anti_aliases": [],
+      "audience_default": "internal",
+      "shape": null,
+      "alias_notes": "Zach's own decision_receipt rows (all receipt ids end --ZH). Built by scripts/universe_receipts_adapter.py; generated files are gitignored. Never external, never public. Atoms that name a counterpart universe declare it in `bridges`."
     }
   },
   "bridges": [],
@@ -176,7 +190,9 @@
       "_DECISIONS/ADR-050-federated-family-airgap.md",
       "_DECISIONS/ADR-060-hypercube-gauntlet-arc-weld.md",
       "_DECISIONS/ADR-067-cross-subject-comparative-recoil.md",
-      "_DECISIONS/ADR-080-instance-to-class-self-promotion-build-loop.md"
-    ]
+      "_DECISIONS/ADR-080-instance-to-class-self-promotion-build-loop.md",
+      "_DECISIONS/ADR-088-librarian-anticipation-hook.md"
+    ],
+    "amended": "2026-10-18: ADR-088 added (Zach accepted; names VICO as call-prep context; private repo)"
   }
 }

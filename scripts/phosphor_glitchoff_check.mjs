@@ -7,7 +7,7 @@ import path from 'node:path'
 const { chromium, devices } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], file = (process.env.PHOSPHOR_FILES || '').split(',')[0]
 if (!page || !file) { console.log('usage: PHOSPHOR_FILES=break-100.wav node scripts/phosphor_glitchoff_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), base = pathToFileURL(path.resolve(page)).href, errs = []
 const open = async (q, extra = {}) => { const ctx = await b.newContext({ viewport: { width: 1270, height: 990 }, ...extra }), pg = await ctx.newPage(); pg.on('pageerror', (e) => errs.push(String(e))); await pg.goto(base + q); await pg.waitForTimeout(1000); await pg.setInputFiles('#file', file); await pg.waitForFunction(() => document.getElementById('status').textContent === '' && document.getElementById('src').textContent !== 'Demo signal', null, { timeout: 60000 }); return pg }
 let pg = await open('?test=1&shutter=off&level=4'); const KINDS = ['stutter', 'freeze', 'tear', 'rgb', 'blocks', 'crush', 'dist', 'gate']
@@ -39,4 +39,4 @@ await pg.context().close()
 pg = await open('?shutter=off', { ...devices['iPhone 13'] }); const sz = await pg.evaluate(() => { const r = document.getElementById('glitchsw').getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height), document.documentElement.scrollWidth > innerWidth] })
 check(sz[1] >= 48 && sz[0] >= 48 && !sz[2], `O8: on a phone the switch is ${sz[0]} by ${sz[1]} px and the header does not scroll sideways`)
 check(errs.length === 0, `O8: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

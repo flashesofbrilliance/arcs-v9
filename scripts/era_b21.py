@@ -3,12 +3,12 @@
 
   python3 scripts/era_b21.py make OUTDIR SRC.png [SRC.png ...]   # writes tNN_A.png, tNN_B.png; writes NO key
   python3 scripts/era_b21.py score ANSWERS.json SRC.png [...]     # ANSWERS = {"t01": "A", ...}; recomputes the order from SEED
-Sources are cropped to the central 256x256. Foils: nn4 (NN 4x of the 64 row), bil4 (bilinear 4x of 64), bil2 (bilinear 2x of 128).
+Sources are cropped to the central 256x256. Set ERA_B21_SEED to change the trial order (default 21). Foils: nn4 (NN 4x of the 64 row), bil4 (bilinear 4x of 64), bil2 (bilinear 2x of 128).
 """
 import json, os, random, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sharpness_cutoff as sc
-SEED, FOILS = 21, ("nn4", "bil4", "bil2")
+SEED, FOILS = int(os.environ.get("ERA_B21_SEED", "21")), ("nn4", "bil4", "bil2")  # B21 used the default 21; B24 uses 24
 
 def load(path):
     w, h, pix = sc.read_png(open(path, "rb").read())
@@ -36,7 +36,15 @@ def score(ans, srcs):
         pick = answers.get(f"t{tid:02d}"); truth = "B" if gA else "A"
         tot[f][1] += 1; tot[f][0] += pick == truth
         gap = absc(imgs[s]) - absc(foil(imgs[s], f)); st[f][1] += 1; st[f][0] += gap >= 4.8
-    for name, d in (("judge", tot), ("statistic", st)):
+    conf = json.load(open(os.environ["ERA_B21_CONF"])) if os.environ.get("ERA_B21_CONF") else None
+    if conf is not None:  # two-tier rule (B24): the judge, unless its confidence is 1 or 2, then the statistic
+        tt = {f: [0, 0] for f in FOILS}
+        for tid, s, f, gA in plan(len(srcs)):
+            k = f"t{tid:02d}"; truth = "B" if gA else "A"; judge_ok = answers.get(k) == truth
+            stat_ok = absc(imgs[s]) - absc(foil(imgs[s], f)) >= 4.8
+            tt[f][1] += 1; tt[f][0] += stat_ok if conf.get(k, 5) <= 2 else judge_ok
+        tot2 = tt
+    for name, d in (("judge", tot), ("statistic", st)) + ((("two-tier", tot2),) if conf is not None else ()):
         print(name, {f: f"{d[f][0]}/{d[f][1]}" for f in FOILS}, "overall", f"{sum(v[0] for v in d.values())}/{sum(v[1] for v in d.values())}")
 if __name__ == "__main__":
     if sys.argv[1] == "make": make(sys.argv[2], sys.argv[3:])

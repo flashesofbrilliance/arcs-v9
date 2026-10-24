@@ -1,6 +1,6 @@
 ---
 name: fold
-description: Reverse-ATG session decomposition. When a session has grown dense with threads from more than one domain, sweep its residue, sort by domain gravity, and re-serialize each cluster into a self-contained composed session (spawn_task chip) whose context is only the load-bearing edges. Use at natural density points ("lets stack X into one consolidated new session"), before a handoff on a sprawling session, or whenever open threads from 2+ domains are interleaving. The folding half of the induced-backlog doctrine.
+description: Serialize half-written state and scattered shards into clean sessions, and cut handoff landing drag. Reverse-ATG session decomposition. When a session has grown dense with threads from more than one domain, sweep its residue, sort by domain gravity, and re-serialize each cluster into a self-contained composed session (spawn_task chip) whose context is only the load-bearing edges. Use at natural density points ("lets stack X into one consolidated new session"), before a handoff on a sprawling session, or whenever open threads from 2+ domains are interleaving. The folding half of the induced-backlog doctrine.
 ---
 
 # /fold — decompose the session, re-serialize at load-bearing edges

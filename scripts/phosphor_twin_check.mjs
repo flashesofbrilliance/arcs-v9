@@ -30,7 +30,7 @@ for (const f of files) {
   const label = path.basename(f).slice(0, 18), songBytes = fs.statSync(f).size, tags = tagsOf(f)
   // T5: the demo state has the button disabled and nothing is saved or requested until Save is clicked
   const reqs = [], downloads = []
-  const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 }, acceptDownloads: true }), pg = await ctx.newPage()
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 1000 }, acceptDownloads: true }); await ctx.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} }); const pg = await ctx.newPage()
   pg.on('request', (r) => reqs.push(r.url())); pg.on('download', (d) => downloads.push(d))
   await pg.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await pg.goto(url + (url.includes("?") ? "&" : "?") + "shutter=off&level=4"); await ready(pg)
   check(await pg.evaluate(() => document.getElementById('twinb').disabled), 'T5: with the demo signal Save as twin is disabled')
@@ -57,7 +57,7 @@ for (const f of files) {
   const foot1 = (html.match(/<p id="foot1">([\s\S]*?)<\/p>/) || [])[1] || ''
   check(form.credit ? foot1.includes(form.credit) && /This music is AI-generated/.test(foot1) === /suno/i.test(form.credit) : !/suno|AI-generated/i.test(foot1), `T7 ${label}: the visible credit in the footer matches the credit line`)
   // T1, T2: open the twin from disk
-  const ctx2 = await b.newContext({ viewport: { width: 1280, height: 1000 }, acceptDownloads: true }), tp = await ctx2.newPage()
+  const ctx2 = await b.newContext({ viewport: { width: 1280, height: 1000 }, acceptDownloads: true }); await ctx2.addInitScript(() => { try { localStorage.setItem('phosphor.consent.v1', '1') } catch (e) {} }); const tp = await ctx2.newPage()
   const reqs2 = []; tp.on('request', (r) => reqs2.push(r.url()))
   const errs = []; tp.on('pageerror', (e) => errs.push(String(e)))
   await tp.addInitScript(() => document.addEventListener('DOMContentLoaded', () => { const g = document.getElementById('grown'); if (g) g.open = true })); await tp.goto(pathToFileURL(twinPath).href + "?shutter=off&level=4"); await ready(tp)

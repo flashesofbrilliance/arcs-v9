@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react"
+import { signal, font, radius, measure } from "@/ui/tokens"
 
 // ── CSS variables + keyframes injected once ───────────────────────────────────
 const OBS_CSS = `
@@ -22,7 +23,7 @@ const OBS_CSS = `
 `
 
 // ── Data ──────────────────────────────────────────────────────────────────────
-const C = { cyan:"#00F0FF", green:"#00FF9D", gold:"#FFD700", orange:"#ff9d3c", red:"#FF4D6D", steel:"#94a3b8" }
+const C = { cyan: signal.cyan, green: signal.green, gold: signal.gold, orange: signal.orange, red: signal.red, steel: signal.steel }
 const REPO = "https://github.com/flashesofbrilliance/arcs-v9/commit/"
 const REPO_BASE = "https://github.com/flashesofbrilliance/arcs-v9"
 const PROV_LEDGER = `${REPO_BASE}/blob/main/docs/provenance-ledger.md`
@@ -68,7 +69,6 @@ const RISKS: Risk[] = [
   {id:"risk-3",date:"2026-06-03",risk:"Cross-user data leakage",sev:"HIGH",status:"MITIGATED",sha:"6a5b856",how:"anonymous + scoped receipt-claim",note:"Receipt-claim flow scoped per session to prevent cross-user reads."},
   {id:"risk-4",date:"2026-05-28",risk:"DATABASE_URL silent rotation",sev:"HIGH",status:"OPEN",sha:"dfce59d",how:"needs alerting + pinned secret",note:"Provider can rotate the URL silently; no alert wired yet. Open."},
   {id:"risk-5",date:"2026-05-27",risk:"Prisma 7 P1012 — deploy blocked",sev:"MED",status:"AVERTED",sha:"11ba2fc",how:"PrismaPg adapter fix",note:"Schema/engine mismatch blocked deploy; resolved by adapter swap."},
-  {id:"risk-6",date:"2026-06-04",risk:"computeYGate unaudited logic",sev:"MED",status:"OPEN",sha:null,how:"needs unit coverage + audit",note:"Core gate logic ships without test coverage. Open."},
 ]
 const LAYERS: Layer[] = [
   {id:"L5",findings:[
@@ -102,7 +102,6 @@ const LAYERS: Layer[] = [
     {id:"s-L1-0",lab:"L0–L5 prose prompt",grade:"A",conf:98,risk:"LOW",kind:"CLASS",desc:"The pipeline is a single L0–L5 prose prompt, not orchestrated agents.",prov:[["Prose prompt","src/lib/pipeline","1 prompt","P25"]]},
     {id:"s-L1-1",lab:"single model call",grade:"A",conf:97,risk:"LOW",kind:"INSTANCE",desc:"One Claude call returns the whole receipt.",prov:[["1 call","compass/route.ts","single call","P26"]]},
     {id:"s-L1-2",lab:"arrays → TEXT",grade:"A",conf:95,risk:"LOW",kind:"INSTANCE",desc:"Structured arrays serialized to TEXT columns.",prov:[["arrays→TEXT","prisma/schema.prisma","TEXT cols","P27"]]},
-    {id:"s-L1-3",lab:"computeYGate unaudited",grade:"C",conf:60,risk:"MED",kind:"INSTANCE",desc:"computeYGate ships without unit coverage.",prov:[["No tests","src/lib/ygate.ts","0 specs","P28"]]},
   ]},
 ]
 
@@ -139,7 +138,7 @@ function Ctl({active,accent=C.green,children,...rest}:{active?:boolean;accent?:s
     <button onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} {...rest as React.ButtonHTMLAttributes<HTMLButtonElement>} style={{
       flex:"0 0 auto",border:`1px solid ${active?accent:(h?C.cyan:"#1e293b")}`,color:active?accent:(h?C.cyan:"#cbd5e1"),
       background:active?`linear-gradient(180deg,${accent}14,${accent}06)`:"linear-gradient(180deg,#0e151e,#0b1117)",
-      padding:"7px 11px",fontSize:11,borderRadius:6,cursor:"pointer",minHeight:34,whiteSpace:"nowrap",
+      padding:"7px 11px",fontSize:font.ramp.label,borderRadius:6,cursor:"pointer",minHeight:34,whiteSpace:"nowrap",
       fontFamily:"var(--font-mono)",display:"inline-flex",alignItems:"center",letterSpacing:".02em",
       boxShadow:active?`inset 0 -6px 11px -7px ${accent}40`:"inset 0 1px 0 rgba(255,255,255,.04)",transition:"all .15s",
     }}>{children}</button>
@@ -163,15 +162,15 @@ function Dropdown({label,value,options,onChange,accent=C.cyan,minWidth=150}:{lab
     <div ref={ref} style={{position:"relative",flex:"0 0 auto"}}>
       <button onClick={()=>setOpen(v=>!v)} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{
         display:"inline-flex",alignItems:"center",gap:8,width:minWidth,minHeight:34,padding:"7px 11px",
-        border:`1px solid ${open?accent:(h?C.cyan:"#1e293b")}`,borderRadius:8,cursor:"pointer",
+        border:`1px solid ${open?accent:(h?C.cyan:"#1e293b")}`,borderRadius:radius.sm,cursor:"pointer",
         background:"linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 40%,rgba(0,0,0,.18)),linear-gradient(165deg,#11181f,#0a1016)",
         boxShadow:open?`inset 0 1px 0 rgba(255,255,255,.06),inset 0 -6px 11px -7px ${accent}40`:"inset 0 1px 0 rgba(255,255,255,.05),inset 0 -2px 6px rgba(0,0,0,.45)",
-        fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".02em",transition:"all .15s",
+        fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".02em",transition:"all .15s",
       }}>
-        {label&&<span style={{fontSize:11,color:"#707e92",letterSpacing:".12em",textTransform:"uppercase"}}>{label}</span>}
+        {label&&<span style={{fontSize:font.ramp.label,color:"#707e92",letterSpacing:".12em",textTransform:"uppercase"}}>{label}</span>}
         {current?.glyph&&<span style={{color:current.accent||accent}}>{current.glyph}</span>}
         <span style={{color:open||h?accent:"#e2e8f0",flex:1,textAlign:"left",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{current?.label}</span>
-        <span style={{color:"#707e92",fontSize:11,transform:open?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</span>
+        <span style={{color:"#707e92",fontSize:font.ramp.label,transform:open?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</span>
       </button>
       {open&&(
         <div style={{position:"absolute",top:"calc(100% + 5px)",left:0,width:"max-content",minWidth,zIndex:70,
@@ -184,7 +183,7 @@ function Dropdown({label,value,options,onChange,accent=C.cyan,minWidth=150}:{lab
                 display:"flex",alignItems:"center",gap:9,width:"100%",padding:"8px 10px",borderRadius:6,cursor:"pointer",
                 border:"1px solid transparent",textAlign:"left",whiteSpace:"nowrap",
                 background:sel?`linear-gradient(180deg,${(o.accent||accent)}1c,${(o.accent||accent)}08)`:"transparent",
-                fontFamily:"var(--font-mono)",fontSize:11.5,transition:"background .12s",
+                fontFamily:"var(--font-mono)",fontSize:font.ramp.label,transition:"background .12s",
                 boxShadow:sel?`inset 0 -6px 11px -8px ${(o.accent||accent)}50`:"none",
               }}
               onMouseEnter={ev=>{if(!sel)(ev.currentTarget as HTMLButtonElement).style.background="rgba(255,255,255,.04)"}}
@@ -192,9 +191,9 @@ function Dropdown({label,value,options,onChange,accent=C.cyan,minWidth=150}:{lab
                 {o.glyph&&<span style={{color:o.accent||accent,width:14,textAlign:"center"}}>{o.glyph}</span>}
                 <span style={{display:"flex",flexDirection:"column",gap:1,flex:1}}>
                   <span style={{color:sel?(o.accent||accent):"#e2e8f0"}}>{o.label}</span>
-                  {o.hint&&<span style={{color:"#707e92",fontSize:11}}>{o.hint}</span>}
+                  {o.hint&&<span style={{color:"#707e92",fontSize:font.ramp.label}}>{o.hint}</span>}
                 </span>
-                {sel&&<span style={{color:o.accent||accent,fontSize:11}}>●</span>}
+                {sel&&<span style={{color:o.accent||accent,fontSize:font.ramp.label}}>●</span>}
               </button>
             )
           })}
@@ -233,16 +232,16 @@ function SearchBox({query,setQuery}:{query:string;setQuery:(v:string)=>void}){
   const lit=f||h||query
   return(
     <div style={{position:"relative",display:"flex",alignItems:"center",width:"100%"}}>
-      <span style={{position:"absolute",left:9,fontSize:14,color:lit?C.cyan:"#707e92",pointerEvents:"none",transition:"color .15s"}}>⌕</span>
+      <span style={{position:"absolute",left:9,fontSize:font.ramp.body,color:lit?C.cyan:"#707e92",pointerEvents:"none",transition:"color .15s"}}>⌕</span>
       <input value={query} onChange={e=>setQuery(e.target.value)} onFocus={()=>setF(true)} onBlur={()=>setF(false)}
         onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} placeholder="Filter events, risks, commits…"
-        style={{width:"100%",minHeight:34,padding:"7px 26px 7px 28px",borderRadius:8,
+        style={{width:"100%",minHeight:34,padding:"7px 26px 7px 28px",borderRadius:radius.sm,
           border:`1px solid ${f?C.cyan:(h?C.cyan+"88":"#1e293b")}`,outline:"none",
           background:"linear-gradient(160deg,rgba(255,255,255,.04),rgba(0,0,0,.18)),linear-gradient(165deg,#0e151e,#0a1016)",
           boxShadow:f?`inset 0 1px 0 rgba(255,255,255,.05),inset 0 -6px 11px -7px ${C.cyan}40,0 0 0 1px ${C.cyan}2a`:"inset 0 1px 0 rgba(255,255,255,.04),inset 0 2px 5px rgba(0,0,0,.45)",
-          color:"#e2e8f0",fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".02em",transition:"all .15s"}}/>
-      {query&&<button onClick={()=>setQuery("")} style={{position:"absolute",right:7,width:18,height:18,borderRadius:5,border:"none",cursor:"pointer",
-        background:"rgba(255,255,255,.06)",color:"#8593a6",fontFamily:"var(--font-mono)",fontSize:11,display:"inline-flex",alignItems:"center",justifyContent:"center",padding:0}}>✕</button>}
+          color:"#e2e8f0",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".02em",transition:"all .15s"}}/>
+      {query&&<button onClick={()=>setQuery("")} style={{position:"absolute",right:7,width:18,height:18,borderRadius:radius.sm,border:"none",cursor:"pointer",
+        background:"rgba(255,255,255,.06)",color:"#8593a6",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,display:"inline-flex",alignItems:"center",justifyContent:"center",padding:0}}>✕</button>}
     </div>
   )
 }
@@ -265,9 +264,9 @@ function ControlBar({mode,setMode,focus,setFocus,sevFocus,setSevFocus,view,setVi
       <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
         <Dropdown label="View" value={mode} options={MODE_OPTS} onChange={v=>setMode(v as string)} accent={C.cyan} minWidth={190}/>
         <Dropdown label="Focus" value={focusVal} options={focusOpts} onChange={v=>focusSet(v as string)} accent={C.cyan} minWidth={188}/>
-        {periodShown&&<Dropdown label={isRisk?"Window":"Group"} value={periodVal} options={periodOpts} onChange={periodSet} accent={C.cyan} minWidth={130}/>}
+        {periodShown&&<Dropdown label={isRisk?"Window":"Group"} value={periodVal} options={periodOpts} onChange={periodSet} accent={C.cyan} minWidth={160}/>}
         <Sep/>
-        <Ctl active={legendOpen} accent={C.cyan} onClick={()=>setLegendOpen(v=>!v)}>legend <span style={{display:"inline-block",fontSize:11,color:"#707e92",transform:legendOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</span></Ctl>
+        <Ctl active={legendOpen} accent={C.cyan} onClick={()=>setLegendOpen(v=>!v)}>legend <span style={{display:"inline-block",fontSize:font.ramp.label,color:"#707e92",transform:legendOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</span></Ctl>
         <Sep/>
         <Ctl active accent={C.gold} onClick={()=>setFace(f=>f==="trajectory"?(isRisk?"by severity":"by altitude"):"trajectory")} title="flip the card">⇄ {face==="trajectory"?(isRisk?"by severity":"by altitude"):"trajectory"}</Ctl>
       </div>
@@ -284,9 +283,9 @@ function Legend({open}:{open:boolean}){
       margin:open?"8px 0 0":"0"}}>
       <div style={{border:"1px solid #22324d",borderRadius:10,padding:"12px 16px",
         background:"linear-gradient(180deg,#0e151e,#0b1117)",boxShadow:"inset 0 1px 0 rgba(255,255,255,.05),inset 0 -2px 8px rgba(0,0,0,.4)"}}>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"2px 28px",fontSize:11,whiteSpace:"nowrap"}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"2px 28px",fontSize:font.ramp.label,whiteSpace:"nowrap"}}>
           <div>
-            <p style={{color:C.gold,fontSize:11,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 5px"}}>How to use</p>
+            <p style={{color:C.gold,fontSize:font.ramp.label,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 5px"}}>How to use</p>
             <ul style={{margin:0,paddingLeft:16,color:"#8593a6",lineHeight:1.85,listStyle:"none"}}>
               <li><b style={{color:"#cbd5e1"}}>Tap</b> a row or node → its card</li>
               <li><b style={{color:"#cbd5e1"}}>View</b> → glance · chain · risk</li>
@@ -297,7 +296,7 @@ function Legend({open}:{open:boolean}){
             </ul>
           </div>
           <div>
-            <p style={{color:C.gold,fontSize:11,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 5px"}}>The 4 encoded dimensions</p>
+            <p style={{color:C.gold,fontSize:font.ramp.label,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 5px"}}>The 4 encoded dimensions</p>
             <div style={{color:"#8593a6",lineHeight:2.0}}>
               <div><b style={{color:C.gold}}>1 Altitude</b> — Exec → Surgical · audience zoom</div>
               <div><b style={{color:C.gold}}>2 Hue</b> — grade{sw(C.green)}A{sw(C.cyan)}B{sw(C.gold)}C{sw(C.orange)}D{sw(C.red)}F</div>
@@ -307,15 +306,15 @@ function Legend({open}:{open:boolean}){
           </div>
         </div>
         <div style={{marginTop:12,borderTop:"1px solid #16202e",paddingTop:10}}>
-          <p style={{color:C.gold,fontSize:11,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 7px"}}>Map glyphs</p>
+          <p style={{color:C.gold,fontSize:font.ramp.label,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 7px"}}>Map glyphs</p>
           <div style={{display:"flex",flexWrap:"wrap",gap:"8px 16px"}}>
             {[["✦","genesis",C.steel],["❖","canon",C.steel],["⊕","feature",C.steel],["⊘","security",C.steel],["✕","fix",C.steel],["◇","kairos",C.gold],["★","peak milestone",C.gold],["◆","risk",C.red]].map(([g,l,col])=>{
               const isR=g==="◆"
               return(
-                <span key={l} style={{display:"inline-flex",alignItems:"center",gap:7,fontSize:11}}>
+                <span key={l} style={{display:"inline-flex",alignItems:"center",gap:7,fontSize:font.ramp.label}}>
                   <span style={{width:17,height:17,flex:"0 0 auto",borderRadius:isR?3:"50%",transform:isR?"rotate(45deg)":"none",
                     display:"inline-flex",alignItems:"center",justifyContent:"center",background:col,color:"#04070c",
-                    fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,boxShadow:`0 0 6px -1px ${col},inset 0 1px 0 rgba(255,255,255,.4)`}}>{isR?"":g}</span>
+                    fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,boxShadow:`0 0 6px -1px ${col},inset 0 1px 0 rgba(255,255,255,.4)`}}>{isR?"":g}</span>
                   <b style={{color:"#cbd5e1",fontWeight:500}}>{l}</b>
                 </span>
               )
@@ -348,12 +347,12 @@ function TrajectoryMap({visibleCount,query,focus,onOpen}:{visibleCount:number;qu
       <div style={{position:"relative",flex:"0 0 78px",height:H}}>
         {MAP_ALTS.map(alt=>(
           <div key={alt} style={{position:"absolute",left:0,top:laneCenter(alt),transform:"translateY(-50%)",display:"flex",flexDirection:"column",lineHeight:1.1,opacity:laneOff(alt)?0.2:1,transition:"opacity .3s"}}>
-            <span style={{fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,color:ALT[alt].accent,letterSpacing:".04em",whiteSpace:"nowrap"}}>{alt}</span>
-            <span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",letterSpacing:".07em",whiteSpace:"nowrap"}}>{ALT[alt].name}</span>
+            <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,color:ALT[alt].accent,letterSpacing:".04em",whiteSpace:"nowrap"}}>{alt}</span>
+            <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",letterSpacing:".07em",whiteSpace:"nowrap"}}>{ALT[alt].name}</span>
           </div>
         ))}
         <div style={{position:"absolute",left:0,top:riskCenter,transform:"translateY(-50%)",opacity:riskOff?0.2:1,transition:"opacity .3s"}}>
-          <span style={{fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,color:C.red,letterSpacing:".04em",whiteSpace:"nowrap"}}>⚠ RISK</span>
+          <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,color:C.red,letterSpacing:".04em",whiteSpace:"nowrap"}}>⚠ RISK</span>
         </div>
       </div>
       <div style={{position:"relative",flex:"1 1 auto",height:H,minWidth:0}}>
@@ -396,13 +395,13 @@ function TrajectoryMap({visibleCount,query,focus,onOpen}:{visibleCount:number;qu
           return(
             <div style={{position:"absolute",left:`${hv.x}%`,top:below?hv.cy+14:hv.cy-14,transform:`translate(-50%,${below?"0":"-100%"})`,
               zIndex:6,pointerEvents:"none",width:"max-content",maxWidth:250,
-              border:`1px solid ${accent}66`,borderRadius:8,padding:"7px 10px",
+              border:`1px solid ${accent}66`,borderRadius:radius.sm,padding:"7px 10px",
               background:"linear-gradient(180deg,#0e151e,#0a0f16)",boxShadow:`0 12px 26px -10px rgba(0,0,0,.85),0 0 0 1px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05)`}}>
-              <div style={{fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".06em",color:accent,fontWeight:700,marginBottom:3,whiteSpace:"nowrap"}}>
+              <div style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".06em",color:accent,fontWeight:700,marginBottom:3,whiteSpace:"nowrap"}}>
                 {x.date.slice(5)} · {isRisk?`⚠ ${rk.sev} · ${rk.status}`:`${ev.alt} ${ALT[ev.alt]?.name} · ${String(ev.type).toUpperCase()}`}
               </div>
-              <div style={{fontFamily:"var(--font-sans)",fontSize:11.5,color:"#e2e8f0",lineHeight:1.35}}>{ev.label||rk.risk}</div>
-              <div style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#8593a6",marginTop:4,whiteSpace:"nowrap"}}>
+              <div style={{fontFamily:"var(--font-sans)",fontSize:font.ramp.label,color:"#e2e8f0",lineHeight:1.35}}>{ev.label||rk.risk}</div>
+              <div style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#8593a6",marginTop:4,whiteSpace:"nowrap"}}>
                 {isRisk?`countered: ${rk.how}`:`conf ${ev.conf}${ev.sha?" · "+ev.sha:""}`}
               </div>
             </div>
@@ -420,13 +419,13 @@ function FocusedAltitudeStrip({focus,visibleCount,query,onOpen}:{focus:string;vi
         const dimAlt=focus!=="all"&&focus!==alt
         const evs=EVENTS.filter(e=>e.alt===alt)
         return(
-          <div key={alt} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",borderRadius:8,
+          <div key={alt} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",borderRadius:radius.sm,
             border:`1px solid ${ALT[alt].accent}2e`,borderLeft:`3px solid ${ALT[alt].accent}`,
             background:"linear-gradient(180deg,rgba(255,255,255,.015),rgba(0,0,0,.12))",
             opacity:dimAlt?0.2:1,pointerEvents:dimAlt?"none":"auto",transition:"opacity .3s"}}>
             <div style={{flex:"0 0 86px",display:"flex",flexDirection:"column",lineHeight:1.15}}>
-              <span style={{fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,color:ALT[alt].accent}}>{alt}</span>
-              <span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",letterSpacing:".07em"}}>{ALT[alt].name}</span>
+              <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,color:ALT[alt].accent}}>{alt}</span>
+              <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",letterSpacing:".07em"}}>{ALT[alt].name}</span>
             </div>
             <div style={{display:"flex",flexWrap:"wrap",gap:6,flex:"1 1 auto",minWidth:0}}>
               {evs.length?evs.map(e=>{
@@ -441,12 +440,12 @@ function FocusedAltitudeStrip({focus,visibleCount,query,onOpen}:{focus:string;vi
                       opacity:dim?0.22:1,pointerEvents:dim?"none":"auto",transition:"opacity .3s,border-color .15s"}}
                     onMouseEnter={ev=>(ev.currentTarget as HTMLButtonElement).style.borderColor=accent}
                     onMouseLeave={ev=>(ev.currentTarget as HTMLButtonElement).style.borderColor=`${accent}45`}>
-                    <span style={{flex:"0 0 auto",width:16,height:16,borderRadius:"50%",background:accent,color:"#04070c",display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,boxShadow:`0 0 6px -1px ${accent}`}}>{glyph}</span>
-                    <span style={{fontSize:11,color:"#cbd5e1",maxWidth:230,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{e.label}</span>
-                    <span style={{flex:"0 0 auto",fontSize:11,color:"#707e92"}}>{e.date.slice(5)}</span>
+                    <span style={{flex:"0 0 auto",width:16,height:16,borderRadius:"50%",background:accent,color:"#04070c",display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:font.ramp.label,fontWeight:700,boxShadow:`0 0 6px -1px ${accent}`}}>{glyph}</span>
+                    <span style={{fontSize:font.ramp.label,color:"#cbd5e1",maxWidth:230,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{e.label}</span>
+                    <span style={{flex:"0 0 auto",fontSize:font.ramp.label,color:"#707e92"}}>{e.date.slice(5)}</span>
                   </button>
                 )
-              }):<span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#5b6675"}}>no build events</span>}
+              }):<span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#5b6675"}}>no build events</span>}
             </div>
           </div>
         )
@@ -459,12 +458,12 @@ function ScBtn({active,accent,glyph,children,...rest}:{active?:boolean;accent:st
   const [h,setH]=useState(false)
   return(
     <button {...rest as React.ButtonHTMLAttributes<HTMLButtonElement>} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{
-      cursor:"pointer",fontSize:11,borderRadius:5,padding:"3px 6px",minHeight:24,minWidth:glyph?28:22,fontFamily:"var(--font-mono)",
+      cursor:"pointer",fontSize:font.ramp.label,borderRadius:radius.sm,padding:"3px 6px",minHeight:24,minWidth:glyph?28:22,fontFamily:"var(--font-mono)",
       border:`1px solid ${active?accent:(h?C.cyan:accent+"55")}`,
       color:active?"#04070c":(h?C.cyan:accent),
       background:active?accent:`${accent}12`,fontWeight:active?700:400,
       transition:"all .14s",display:"inline-flex",alignItems:"center",justifyContent:"center",gap:3,
-    }}>{glyph&&<span style={{fontSize:11}}>{glyph}</span>}{children}</button>
+    }}>{glyph&&<span style={{fontSize:font.ramp.label}}>{glyph}</span>}{children}</button>
   )
 }
 
@@ -477,14 +476,14 @@ function Scrubber({replay,setReplay,playing,setPlaying,focus}:{replay:"all"|numb
   return(
     <div style={{margin:"2px 0 14px"}}>
       <div style={{display:"flex",alignItems:"baseline",gap:9,marginBottom:8,flexWrap:"wrap"}}>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,letterSpacing:".1em",color:C.gold}}>▸ MILESTONE REPLAY</span>
-        <span style={{fontSize:11,color:"#8593a6"}}>each numbered marker is one logged milestone. ★ = peak. Press ▶ to play forward, or pick a step.</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,letterSpacing:".1em",color:C.gold}}>▸ MILESTONE REPLAY</span>
+        <span style={{fontSize:font.ramp.label,color:"#8593a6"}}>each numbered marker is one logged milestone. ★ = peak. Press ▶ to play forward, or pick a step.</span>
       </div>
       <div style={{display:"flex",flexWrap:"wrap",gap:5,alignItems:"center"}}>
         <button onClick={()=>{if(playing){setPlaying(false);return}if(pos<0||pos>=steps.length-1)setReplay(steps[0]);setPlaying(true)}}
-          style={{cursor:"pointer",fontSize:11,borderRadius:5,padding:"3px 9px",minHeight:24,fontFamily:"var(--font-mono)",fontWeight:700,letterSpacing:".04em",
+          style={{cursor:"pointer",fontSize:font.ramp.label,borderRadius:radius.sm,padding:"3px 9px",minHeight:24,fontFamily:"var(--font-mono)",fontWeight:700,letterSpacing:".04em",
             border:`1px solid ${playing?C.gold:C.green}`,color:"#04070c",background:playing?C.gold:C.green,display:"inline-flex",alignItems:"center",gap:5,transition:"all .14s"}}>
-          <span style={{fontSize:11}}>{playing?"⏸":"▶"}</span>{playing?"PLAYING":"PLAY"}
+          <span style={{fontSize:font.ramp.label}}>{playing?"⏸":"▶"}</span>{playing?"PLAYING":"PLAY"}
         </button>
         <span style={{width:1,height:18,background:"#1e293b",margin:"0 2px"}}/>
         {steps.map((li,n)=>{const x=LEDGER[li];return(
@@ -493,9 +492,9 @@ function Scrubber({replay,setReplay,playing,setPlaying,focus}:{replay:"all"|numb
         <span style={{width:1,height:18,background:"#1e293b",margin:"0 2px"}}/>
         <ScBtn active={replay==="all"} accent={C.cyan} onClick={()=>{setPlaying(false);setReplay("all")}}>all</ScBtn>
       </div>
-      <div style={{marginTop:9,padding:"8px 11px",borderRadius:8,border:`1px solid ${sel?tColor(sel)+"55":"#1e293b"}`,
+      <div style={{marginTop:9,padding:"8px 11px",borderRadius:radius.sm,border:`1px solid ${sel?tColor(sel)+"55":"#1e293b"}`,
         background:"linear-gradient(180deg,#0c121a,#0e151e)",boxShadow:"inset 0 1px 0 rgba(255,255,255,.04)",
-        fontFamily:"var(--font-mono)",fontSize:11,display:"flex",gap:10,alignItems:"baseline",flexWrap:"wrap"}}>
+        fontFamily:"var(--font-mono)",fontSize:font.ramp.label,display:"flex",gap:10,alignItems:"baseline",flexWrap:"wrap"}}>
         {sel?<>
           <span style={{color:"#707e92"}}>{String(Math.max(1,pos+1)).padStart(2,"0")} / {steps.length}</span>
           <span style={{color:"#8593a6"}}>{sel.date.slice(5)}</span>
@@ -518,16 +517,16 @@ function EventRow({ev,dim,onOpen}:{ev:LedgerItem;dim:boolean;onOpen:(x:LedgerIte
     <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{display:"flex",gap:12,alignItems:"center",borderLeft:`3px solid ${accent}`,
       padding:"9px 11px",borderRadius:7,background:e.peak?"rgba(255,215,0,.05)":(h?"rgba(0,240,255,.06)":"rgba(255,255,255,.015)"),opacity:dim?0.16:1,transition:"opacity .3s,background .2s"}}>
       <button onClick={()=>onOpen(ev)} style={{display:"flex",flexDirection:"column",gap:3,flex:"1 1 auto",minWidth:0,background:"none",border:"none",cursor:"pointer",textAlign:"left",padding:0}}>
-        <span style={{display:"flex",gap:8,alignItems:"baseline",flexWrap:"wrap",whiteSpace:"nowrap",fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".04em"}}>
+        <span style={{display:"flex",gap:8,alignItems:"baseline",flexWrap:"wrap",whiteSpace:"nowrap",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".04em"}}>
           <span style={{color:"#8593a6"}}>{e.date.slice(5)}</span>
           <span style={{color:"#3a4a5e"}}>·</span>
           <span style={{fontWeight:700,color:ALT[e.alt]?.accent}}>{e.alt} {ALT[e.alt]?.name}</span>
           <span style={{color:"#3a4a5e"}}>·</span>
           <span style={{color:TYPE_COLOR[e.type]||C.steel,textTransform:"uppercase",letterSpacing:".08em"}}>{e.peak?"★ ":""}{e.type}</span>
         </span>
-        <span style={{fontFamily:"var(--font-sans)",fontSize:14,fontWeight:500,lineHeight:1.35,color:h?C.cyan:"var(--fg1)",transition:"color .15s"}}>{e.label}</span>
+        <span style={{fontFamily:"var(--font-sans)",fontSize:font.ramp.body,fontWeight:500,lineHeight:1.35,color:h?C.cyan:"var(--fg1)",transition:"color .15s"}}>{e.label}</span>
       </button>
-      <a href={REPO+e.sha} target="_blank" rel="noopener" style={{color:C.green,fontFamily:"var(--font-mono)",fontSize:11,flex:"0 0 auto",textDecoration:"none",alignSelf:"center"}}>{e.sha}↗</a>
+      <a href={REPO+e.sha} target="_blank" rel="noopener" style={{color:C.green,fontFamily:"var(--font-mono)",fontSize:font.ramp.label,flex:"0 0 auto",textDecoration:"none",alignSelf:"center"}}>{e.sha}↗</a>
     </div>
   )
 }
@@ -539,17 +538,17 @@ function RiskRow({rk,dim,onOpen}:{rk:LedgerItem;dim:boolean;onOpen:(x:LedgerItem
     <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{display:"flex",gap:12,alignItems:"center",borderLeft:`3px solid ${SEV[r.sev]}`,
       padding:"9px 11px",borderRadius:7,background:h?"rgba(255,77,109,.10)":"rgba(255,77,109,.045)",opacity:dim?0.16:1,transition:"opacity .3s,background .2s"}}>
       <button onClick={()=>onOpen(rk)} style={{display:"flex",flexDirection:"column",gap:3,flex:"1 1 auto",minWidth:0,background:"none",border:"none",cursor:"pointer",textAlign:"left",padding:0}}>
-        <span style={{display:"flex",gap:8,alignItems:"baseline",flexWrap:"wrap",whiteSpace:"nowrap",fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".04em"}}>
+        <span style={{display:"flex",gap:8,alignItems:"baseline",flexWrap:"wrap",whiteSpace:"nowrap",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".04em"}}>
           <span style={{color:"#8593a6"}}>{r.date.slice(5)}</span>
           <span style={{color:"#3a4a5e"}}>·</span>
           <span style={{fontWeight:700,color:SEV[r.sev]}}>⚠ {r.sev} RISK</span>
           <span style={{color:"#3a4a5e"}}>·</span>
           <span style={{color:STATUS[r.status],textTransform:"uppercase",letterSpacing:".08em"}}>{r.status}</span>
         </span>
-        <span style={{fontFamily:"var(--font-sans)",fontSize:14,fontWeight:500,lineHeight:1.35,color:h?C.cyan:"var(--fg1)",transition:"color .15s"}}>{r.risk}</span>
+        <span style={{fontFamily:"var(--font-sans)",fontSize:font.ramp.body,fontWeight:500,lineHeight:1.35,color:h?C.cyan:"var(--fg1)",transition:"color .15s"}}>{r.risk}</span>
       </button>
-      {r.sha?<a href={REPO+r.sha} target="_blank" rel="noopener" style={{color:SEV[r.sev],fontFamily:"var(--font-mono)",fontSize:11,flex:"0 0 auto",textDecoration:"none",alignSelf:"center"}}>{r.sha}↗</a>
-        :<span style={{color:"#707e92",fontSize:11,flex:"0 0 auto",alignSelf:"center"}}>standing</span>}
+      {r.sha?<a href={REPO+r.sha} target="_blank" rel="noopener" style={{color:SEV[r.sev],fontFamily:"var(--font-mono)",fontSize:font.ramp.label,flex:"0 0 auto",textDecoration:"none",alignSelf:"center"}}>{r.sha}↗</a>
+        :<span style={{color:"#707e92",fontSize:font.ramp.label,flex:"0 0 auto",alignSelf:"center"}}>standing</span>}
     </div>
   )
 }
@@ -557,7 +556,7 @@ function RiskRow({rk,dim,onOpen}:{rk:LedgerItem;dim:boolean;onOpen:(x:LedgerItem
 function Ledger({view,visibleCount,query,onOpen}:{view:string;visibleCount:number;query:string;onOpen:(x:LedgerItem)=>void}){
   const rows=LEDGER.filter(x=>matchQ(x as unknown as Record<string,unknown>,query))
   if(rows.length===0)return(
-    <div style={{padding:"18px 11px",fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",textAlign:"center"}}>
+    <div style={{padding:"18px 11px",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",textAlign:"center"}}>
       No milestones match <span style={{color:C.cyan}}>&quot;{query}&quot;</span>.
     </div>
   )
@@ -571,7 +570,7 @@ function Ledger({view,visibleCount,query,onOpen}:{view:string;visibleCount:numbe
         const dim=i>=visibleCount
         return(
           <div key={x.id}>
-            {showHeader&&<p style={{margin:"9px 0 1px",padding:"2px 8px",fontSize:11,letterSpacing:".1em",textTransform:"uppercase",
+            {showHeader&&<p style={{margin:"9px 0 1px",padding:"2px 8px",fontSize:font.ramp.label,letterSpacing:".1em",textTransform:"uppercase",
               color:view==="month"?C.cyan:view==="week"?C.gold:"#8593a6",
               borderBottom:view==="month"?"1px solid #1c2a40":"none",fontWeight:view==="month"?700:400}}>{key}</p>}
             {x.kind==="event"?<EventRow ev={x} dim={dim} onOpen={onOpen}/>:<RiskRow rk={x} dim={dim} onOpen={onOpen}/>}
@@ -604,8 +603,8 @@ function Timeline({replay,setReplay,view,query,face,focus,onOpen}:{replay:"all"|
     <section style={{position:"relative",border:"1px solid #22324d",borderRadius:12,padding:"12px 14px 14px",
       background:"linear-gradient(180deg,rgba(14,22,38,.92),rgba(9,14,24,.92))"}}>
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:10,marginBottom:12}}>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:onBack?C.gold:C.cyan,fontWeight:700}}>{onBack?"BY ALTITUDE":"8-WEEK TRAJECTORY"}</span>
-        <span style={{fontSize:11,color:"#8593a6"}}>{onBack?"each altitude as a labelled lane · tap → card":"5 altitude lanes · glyph = type · ★ peak · ⚠ risk band · tap → card"}</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".08em",color:onBack?C.gold:C.cyan,fontWeight:700}}>{onBack?"BY ALTITUDE":"8-WEEK TRAJECTORY"}</span>
+        <span style={{fontSize:font.ramp.label,color:"#8593a6"}}>{onBack?"each altitude as a labelled lane · tap → card":"5 altitude lanes · glyph = type · ★ peak · ⚠ risk band · tap → card"}</span>
       </div>
       {onBack?<FocusedAltitudeStrip focus={focus} visibleCount={visibleCount} query={query} onOpen={onOpen}/>
         :<TrajectoryMap visibleCount={visibleCount} query={query} focus={focus} onOpen={onOpen}/>}
@@ -639,8 +638,8 @@ function ScoreNode({node,onOpen}:{node:Finding;onOpen:(x:Finding)=>void}){
         boxShadow:high?undefined:`inset 0 1px 0 rgba(255,255,255,.05),inset 0 -8px 13px -9px ${c}${confBloom(node.conf)},0 0 ${h?13:8}px -4px ${c},0 4px 11px rgba(0,0,0,.4)`,
         transform:h?"translateY(-2px)":"none",transition:"transform .25s,box-shadow .2s",fontFamily:"var(--font-mono)",
         animation:high?"obs-pulse 1.8s infinite":"none"}}>
-      <div style={{fontSize:11.5,color:"#e2e8f0",lineHeight:1.3}}>{node.lab}</div>
-      <div style={{fontSize:11,color:"#8593a6",letterSpacing:".04em",marginTop:3,display:"flex",gap:6}}>
+      <div style={{fontSize:font.ramp.label,color:"#e2e8f0",lineHeight:1.3}}>{node.lab}</div>
+      <div style={{fontSize:font.ramp.label,color:"#8593a6",letterSpacing:".04em",marginTop:3,display:"flex",gap:6}}>
         <span style={{fontWeight:700,color:c}}>{node.grade}</span><span>conf {node.conf}</span><span>{node.risk}</span>
       </div>
     </button>
@@ -657,12 +656,12 @@ function AltitudePlane({layer,dim,query,onOpen}:{layer:Layer;dim:boolean;query:s
       opacity:dim?0.16:1,pointerEvents:dim?"none":"auto",transition:"opacity .3s,box-shadow .3s"}}>
       <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
         <span style={{width:8,height:8,borderRadius:"50%",background:meta.accent,boxShadow:`0 0 8px ${meta.accent}`}}/>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:meta.accent,fontWeight:600}}>{meta.name}</span>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#8593a6"}}>{findings.length} findings</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".08em",color:meta.accent,fontWeight:600}}>{meta.name}</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#8593a6"}}>{findings.length} findings</span>
       </div>
       <div style={{display:"flex",flexWrap:"wrap",gap:9}}>
         {findings.length?findings.map(n=><ScoreNode key={n.id} node={n} onOpen={onOpen}/>)
-          :<span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#5b6675"}}>no matching findings</span>}
+          :<span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#5b6675"}}>no matching findings</span>}
       </div>
     </section>
   )
@@ -685,20 +684,20 @@ function RiskNode({rk,onOpen}:{rk:Risk;onOpen:(x:Risk)=>void}){
         border:`1px solid ${sc}45`,borderLeft:`3px solid ${sc}`,borderRadius:12,padding:"9px 11px",background:"linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 40%,rgba(0,0,0,.18)),linear-gradient(165deg,#11181f,#0a1016)",
         boxShadow:`inset 0 1px 0 rgba(255,255,255,.05),inset 0 -8px 13px -9px ${sc}40,0 0 ${h?12:8}px -4px ${sc},0 4px 12px rgba(0,0,0,.4)`,transform:h?"translateY(-2px)":"none",transition:"transform .25s,box-shadow .2s",fontFamily:"var(--font-mono)"}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}}>
-        <span style={{fontSize:11,fontWeight:700,letterSpacing:".08em",padding:"1px 6px",borderRadius:4,background:"rgba(255,255,255,.06)",color:SEV[rk.sev]}}>{rk.sev}</span>
-        <span style={{fontSize:11,fontWeight:700,letterSpacing:".06em",padding:"1px 7px",border:`1px solid ${sc}`,borderRadius:5,color:sc}}>{rk.status}</span>
+        <span style={{fontSize:font.ramp.label,fontWeight:700,letterSpacing:".08em",padding:"1px 6px",borderRadius:radius.xs,background:"rgba(255,255,255,.06)",color:SEV[rk.sev]}}>{rk.sev}</span>
+        <span style={{fontSize:font.ramp.label,fontWeight:700,letterSpacing:".06em",padding:"1px 7px",border:`1px solid ${sc}`,borderRadius:radius.sm,color:sc}}>{rk.status}</span>
       </div>
-      <div style={{fontSize:12,fontWeight:700,color:"#e2e8f0",lineHeight:1.3}}>{rk.risk}</div>
-      <div style={{fontSize:11,color:C.cyan,marginTop:3,letterSpacing:".03em"}}>{rk.how}</div>
-      <div style={{fontSize:11,color:rk.sha?C.green:"#707e92",marginTop:6}}>{rk.sha?rk.sha+"↗":"standing"}</div>
+      <div style={{fontSize:font.ramp.label,fontWeight:700,color:"#e2e8f0",lineHeight:1.3}}>{rk.risk}</div>
+      <div style={{fontSize:font.ramp.label,color:C.cyan,marginTop:3,letterSpacing:".03em"}}>{rk.how}</div>
+      <div style={{fontSize:font.ramp.label,color:rk.sha?C.green:"#707e92",marginTop:6}}>{rk.sha?rk.sha+"↗":"standing"}</div>
     </button>
   )
 }
 
 const MetaPill=({label,value,color}:{label:string;value:string;color:string})=>(
-  <span style={{display:"inline-flex",alignItems:"baseline",gap:6,fontFamily:"var(--font-mono)",fontSize:11,
+  <span style={{display:"inline-flex",alignItems:"baseline",gap:6,fontFamily:"var(--font-mono)",fontSize:font.ramp.label,
     padding:"4px 10px",borderRadius:6,border:`1px solid ${color}45`,background:`${color}12`}}>
-    <span style={{fontSize:11,color:"var(--fg4)",letterSpacing:".1em",textTransform:"uppercase"}}>{label}</span>
+    <span style={{fontSize:font.ramp.label,color:"var(--fg4)",letterSpacing:".1em",textTransform:"uppercase"}}>{label}</span>
     <span style={{color,fontWeight:700}}>{value}</span>
   </span>
 )
@@ -729,17 +728,17 @@ function Sheet({item,onClose}:{item:SheetItem|null;onClose:()=>void}){
           <div style={{maxWidth:880,margin:"0 auto"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:16}}>
               <div style={{minWidth:0}}>
-                <div style={{fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".12em",textTransform:"uppercase",color:accent,fontWeight:700,marginBottom:6}}>{kicker}</div>
+                <div style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".12em",textTransform:"uppercase",color:accent,fontWeight:700,marginBottom:6}}>{kicker}</div>
                 <h3 style={{margin:0,fontFamily:"var(--font-sans)",fontSize:17,fontWeight:600,letterSpacing:"-0.01em",color:"var(--fg1)",lineHeight:1.25}}>
                   {(item as Finding).lab||(item as Risk).risk||(item as Event).label}
                 </h3>
               </div>
               <div style={{display:"flex",alignItems:"center",gap:8,flex:"0 0 auto"}}>
                 {(isEvent||isRisk)&&((item as Event|Risk).sha
-                  ?<a href={REPO+(item as Event|Risk).sha} target="_blank" rel="noopener" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:11,color:C.green,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.green}45`,background:`${C.green}10`,textDecoration:"none",whiteSpace:"nowrap"}}>{(item as Event|Risk).sha}<span style={{fontSize:11}}>↗</span></a>
-                  :<span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"var(--fg4)",padding:"5px 10px",borderRadius:6,border:"1px solid #243042",whiteSpace:"nowrap"}}>standing</span>)}
-                {isNode&&leadProv&&<a href={PROV_LEDGER} target="_blank" rel="noopener" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:11,color:C.cyan,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.cyan}45`,background:`${C.cyan}10`,whiteSpace:"nowrap",textDecoration:"none"}}>prov {leadProv}<span style={{fontSize:11}}>↗</span></a>}
-                <button onClick={onClose} style={{width:30,height:30,borderRadius:6,border:"1px solid #243042",background:"linear-gradient(180deg,#11181f,#0a1016)",color:"var(--fg3)",cursor:"pointer",fontFamily:"var(--font-mono)",fontSize:12,display:"inline-flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+                  ?<a href={REPO+(item as Event|Risk).sha} target="_blank" rel="noopener" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:C.green,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.green}45`,background:`${C.green}10`,textDecoration:"none",whiteSpace:"nowrap"}}>{(item as Event|Risk).sha}<span style={{fontSize:font.ramp.label}}>↗</span></a>
+                  :<span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"var(--fg4)",padding:"5px 10px",borderRadius:6,border:"1px solid #243042",whiteSpace:"nowrap"}}>standing</span>)}
+                {isNode&&leadProv&&<a href={PROV_LEDGER} target="_blank" rel="noopener" style={{display:"inline-flex",alignItems:"center",gap:5,fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:C.cyan,padding:"5px 10px",borderRadius:6,border:`1px solid ${C.cyan}45`,background:`${C.cyan}10`,whiteSpace:"nowrap",textDecoration:"none"}}>prov {leadProv}<span style={{fontSize:font.ramp.label}}>↗</span></a>}
+                <button onClick={onClose} style={{width:30,height:30,borderRadius:6,border:"1px solid #243042",background:"linear-gradient(180deg,#11181f,#0a1016)",color:"var(--fg3)",cursor:"pointer",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,display:"inline-flex",alignItems:"center",justifyContent:"center"}}>✕</button>
               </div>
             </div>
             <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"13px 0 14px"}}>
@@ -747,21 +746,21 @@ function Sheet({item,onClose}:{item:SheetItem|null;onClose:()=>void}){
               {isRisk&&<><MetaPill label="severity" value={(item as Risk).sev} color={SEV[(item as Risk).sev]}/><MetaPill label="status" value={(item as Risk).status} color={STATUS[(item as Risk).status]}/><MetaPill label="countered by" value={(item as Risk).how} color={C.cyan}/></>}
               {isEvent&&<><MetaPill label="altitude" value={`${(item as Event).alt} · ${ALT[(item as Event).alt]?.name||""}`} color={ALT[(item as Event).alt]?.accent||C.cyan}/><MetaPill label="type" value={(item as Event).type} color={TYPE_COLOR[(item as Event).type]||C.steel}/><MetaPill label="date" value={(item as Event).date.slice(5)} color={C.steel}/></>}
             </div>
-            <p style={{color:"var(--fg2)",maxWidth:"76ch",margin:"0 0 14px",lineHeight:1.6,fontFamily:"var(--font-sans)",fontSize:13}}>
+            <p style={{color:"var(--fg2)",maxWidth: measure,margin:"0 0 14px",lineHeight:1.6,fontFamily:"var(--font-sans)",fontSize:font.ramp.body}}>
               {(item as Finding).desc||(item as Risk).note}
             </p>
             {isNode&&(item as Finding).prov&&(
               <div>
-                <div style={{fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".12em",textTransform:"uppercase",color:"var(--fg4)",marginBottom:7}}>Provenance · reproducible</div>
-                <div style={{overflowX:"auto",border:"1px solid #1a2533",borderRadius:8}}>
-                  <table style={{borderCollapse:"collapse",width:"100%",minWidth:520,fontSize:11.5,fontFamily:"var(--font-mono)"}}>
+                <div style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".12em",textTransform:"uppercase",color:"var(--fg4)",marginBottom:7}}>Provenance · reproducible</div>
+                <div style={{overflowX:"auto",border:"1px solid #1a2533",borderRadius:radius.sm}}>
+                  <table style={{borderCollapse:"collapse",width:"100%",minWidth:520,fontSize:font.ramp.label,fontFamily:"var(--font-mono)"}}>
                     <thead><tr>{["Claim","Source","Observed","ID"].map(th=><th key={th} style={{padding:"7px 10px",textAlign:"left",color:C.cyan,fontWeight:500,letterSpacing:".04em",borderBottom:"1px solid #1a2533",background:"rgba(255,255,255,.015)"}}>{th}</th>)}</tr></thead>
                     <tbody>{(item as Finding).prov.map((row,i)=>(
                       <tr key={i}>
                         <td style={tdS}>{row[0]}</td>
-                        <td style={tdS}>{(()=>{const h=srcHref(row[1]);return h?<a href={h} target="_blank" rel="noopener" style={{color:C.green,fontSize:11,wordBreak:"break-word",textDecoration:"none"}}>{row[1]}<span style={{fontSize:11}}>↗</span></a>:<code style={{color:C.green,fontSize:11,wordBreak:"break-word"}}>{row[1]}</code>})()}</td>
+                        <td style={tdS}>{(()=>{const h=srcHref(row[1]);return h?<a href={h} target="_blank" rel="noopener" style={{color:C.green,fontSize:font.ramp.label,wordBreak:"break-word",textDecoration:"none"}}>{row[1]}<span style={{fontSize:font.ramp.label}}>↗</span></a>:<code style={{color:C.green,fontSize:font.ramp.label,wordBreak:"break-word"}}>{row[1]}</code>})()}</td>
                         <td style={{...tdS,color:C.gold}}>{row[2]}</td>
-                        <td style={tdS}><a href={PROV_LEDGER} target="_blank" rel="noopener" style={{color:"var(--fg3)",textDecoration:"none"}}>{row[3]}<span style={{fontSize:11,color:C.cyan}}> ↗</span></a></td>
+                        <td style={tdS}><a href={PROV_LEDGER} target="_blank" rel="noopener" style={{color:"var(--fg3)",textDecoration:"none"}}>{row[3]}<span style={{fontSize:font.ramp.label,color:C.cyan}}> ↗</span></a></td>
                       </tr>
                     ))}</tbody>
                   </table>
@@ -792,8 +791,8 @@ function ChainOfEvents({focus,query,current,setCurrent,onOpen}:{focus:string;que
       background:"linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#11181f,#0a1016)",
       boxShadow:"inset 0 1px 0 rgba(255,255,255,.08),inset 0 -2px 8px rgba(0,0,0,.5),0 5px 16px rgba(0,0,0,.4)"}}>
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:10,marginBottom:6}}>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:C.green,fontWeight:700}}>CHAIN OF EVENTS</span>
-        <span style={{fontSize:11,color:"#8593a6"}}>Exec → Surgical — lanes are altitude · x is uniform build order · ★ kairos punctuated · tap a node → card</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".08em",color:C.green,fontWeight:700}}>CHAIN OF EVENTS</span>
+        <span style={{fontSize:font.ramp.label,color:"#8593a6"}}>Exec → Surgical — lanes are altitude · x is uniform build order · ★ kairos punctuated · tap a node → card</span>
       </div>
       <div style={{overflowX:"auto"}}>
         <div style={{position:"relative",minWidth:680,height:H}}>
@@ -803,8 +802,8 @@ function ChainOfEvents({focus,query,current,setCurrent,onOpen}:{focus:string;que
               background:focus!=="all"&&focus!==alt?"transparent":(i%2?"rgba(255,255,255,.012)":"transparent"),
               opacity:focus!=="all"&&focus!==alt?0.22:1,transition:"opacity .3s"}}>
               <div style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",display:"flex",flexDirection:"column",gap:2,width:88}}>
-                <span style={{fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,color:ALT[alt].accent,letterSpacing:".06em"}}>{alt}</span>
-                <span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",letterSpacing:".1em",whiteSpace:"nowrap"}}>{ALT[alt].name}</span>
+                <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,color:ALT[alt].accent,letterSpacing:".06em"}}>{alt}</span>
+                <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",letterSpacing:".1em",whiteSpace:"nowrap"}}>{ALT[alt].name}</span>
               </div>
               <span style={{position:"absolute",left:96,top:0,bottom:0,width:1,background:"#16202e"}}/>
             </div>
@@ -830,7 +829,7 @@ function ChainOfEvents({focus,query,current,setCurrent,onOpen}:{focus:string;que
                     opacity:dim?0.18:1,pointerEvents:dim?"none":"auto",transition:"opacity .3s,transform .15s"}}
                   onMouseEnter={ev_=>{(ev_.currentTarget as HTMLButtonElement).style.transform="scale(1.35)";setHv({x:(x/plotW)*100,y,e})}}
                   onMouseLeave={ev_=>{(ev_.currentTarget as HTMLButtonElement).style.transform="scale(1)";setHv(h=>(h&&h.e.id===e.id?null:h))}}>
-                  {e.peak&&<span style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,color:"#1a1404"}}>★</span>}
+                  {e.peak&&<span style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:font.ramp.label,color:"#1a1404"}}>★</span>}
                 </button>
               </div>
             )
@@ -840,18 +839,18 @@ function ChainOfEvents({focus,query,current,setCurrent,onOpen}:{focus:string;que
             return(
               <div style={{position:"absolute",left:`${hv.x}%`,top:below?hv.y+16:hv.y-16,transform:`translate(-50%,${below?"0":"-100%"})`,
                 zIndex:8,pointerEvents:"none",width:"max-content",maxWidth:250,
-                border:`1px solid ${accent}66`,borderRadius:8,padding:"7px 10px",
+                border:`1px solid ${accent}66`,borderRadius:radius.sm,padding:"7px 10px",
                 background:"linear-gradient(180deg,#0e151e,#0a0f16)",boxShadow:`0 12px 26px -10px rgba(0,0,0,.85),0 0 0 1px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05)`}}>
-                <div style={{fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".06em",color:accent,fontWeight:700,marginBottom:3,whiteSpace:"nowrap"}}>
+                <div style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".06em",color:accent,fontWeight:700,marginBottom:3,whiteSpace:"nowrap"}}>
                   {e.date.slice(5)} · {e.alt} {ALT[e.alt].name} · {String(e.type).toUpperCase()}{e.peak?" · ★":""}
                 </div>
-                <div style={{fontFamily:"var(--font-sans)",fontSize:11.5,color:"#e2e8f0",lineHeight:1.35}}>{e.label}</div>
+                <div style={{fontFamily:"var(--font-sans)",fontSize:font.ramp.label,color:"#e2e8f0",lineHeight:1.35}}>{e.label}</div>
               </div>
             )
           })()}
         </div>
       </div>
-      <div style={{display:"flex",justifyContent:"space-between",padding:"6px 34px 2px 116px",fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",letterSpacing:".06em"}}>
+      <div style={{display:"flex",justifyContent:"space-between",padding:"6px 34px 2px 116px",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",letterSpacing:".06em"}}>
         <span>Apr 9 · genesis</span><span>build order →</span><span>Jun 4 · now</span>
       </div>
     </section>
@@ -887,15 +886,15 @@ function RiskLanes({query,sel=0,setSel,sevFocus="all",win=14,onOpen}:{query:stri
       background:"linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#11181f,#0a1016)",
       boxShadow:"inset 0 1px 0 rgba(255,255,255,.08),inset 0 -2px 8px rgba(0,0,0,.5),0 5px 16px rgba(0,0,0,.4)"}}>
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:10,marginBottom:10}}>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:C.red,fontWeight:700}}>RISK REGISTER</span>
-        <span style={{fontSize:11,color:"#8593a6"}}>rolling window · ◆ risk in severity lanes · ← → step · ↑ ↓ focus lane</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".08em",color:C.red,fontWeight:700}}>RISK REGISTER</span>
+        <span style={{fontSize:font.ramp.label,color:"#8593a6"}}>rolling window · ◆ risk in severity lanes · ← → step · ↑ ↓ focus lane</span>
       </div>
       <div style={{display:"flex"}}>
         <div style={{position:"relative",flex:`0 0 ${gut}px`,height:H+axisH}}>
           {rows.map(r=>(
             <div key={r.key} style={{position:"absolute",left:0,top:r.cy,transform:"translateY(-50%)",display:"flex",flexDirection:"column",lineHeight:1.15,opacity:r.key!=="BUILD"&&laneDim(r.key)?0.28:1,transition:"opacity .3s"}}>
-              <span style={{fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,color:r.color,letterSpacing:".04em",whiteSpace:"nowrap"}}>{r.glyph} {r.key}</span>
-              <span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",letterSpacing:".06em",whiteSpace:"nowrap"}}>{r.name} · {r.n}</span>
+              <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,color:r.color,letterSpacing:".04em",whiteSpace:"nowrap"}}>{r.glyph} {r.key}</span>
+              <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",letterSpacing:".06em",whiteSpace:"nowrap"}}>{r.name} · {r.n}</span>
             </div>
           ))}
         </div>
@@ -947,7 +946,7 @@ function RiskLanes({query,sel=0,setSel,sevFocus="all",win=14,onOpen}:{query:stri
             )
           })}
           {weeks.map(d=>(
-            <span key={"wl"+d} style={{position:"absolute",left:`${xpDay(d)}%`,top:H+3,transform:"translateX(-50%)",fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",whiteSpace:"nowrap"}}>{wkLabel(d)}</span>
+            <span key={"wl"+d} style={{position:"absolute",left:`${xpDay(d)}%`,top:H+3,transform:"translateX(-50%)",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",whiteSpace:"nowrap"}}>{wkLabel(d)}</span>
           ))}
           {hv&&(()=>{
             const x=hv.item,isRisk=hv.isRisk,below=hv.cy<70
@@ -955,18 +954,18 @@ function RiskLanes({query,sel=0,setSel,sevFocus="all",win=14,onOpen}:{query:stri
             return(
               <div style={{position:"absolute",left:`${hv.x}%`,top:below?hv.cy+16:hv.cy-16,transform:`translate(-50%,${below?"0":"-100%"})`,
                 zIndex:8,pointerEvents:"none",width:"max-content",maxWidth:250,
-                border:`1px solid ${accent}66`,borderRadius:8,padding:"7px 10px",
+                border:`1px solid ${accent}66`,borderRadius:radius.sm,padding:"7px 10px",
                 background:"linear-gradient(180deg,#0e151e,#0a0f16)",boxShadow:`0 12px 26px -10px rgba(0,0,0,.85),0 0 0 1px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05)`}}>
-                <div style={{fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".06em",color:accent,fontWeight:700,marginBottom:3,whiteSpace:"nowrap"}}>
+                <div style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".06em",color:accent,fontWeight:700,marginBottom:3,whiteSpace:"nowrap"}}>
                   {x.date.slice(5)} · {isRisk?`⚠ ${(x as Risk).sev} · ${(x as Risk).status}`:`${(x as Event).alt} ${ALT[(x as Event).alt].name} · ${String((x as Event).type).toUpperCase()}`}
                 </div>
-                <div style={{fontFamily:"var(--font-sans)",fontSize:11.5,color:"#e2e8f0",lineHeight:1.35}}>{(x as Risk).risk||(x as Event).label}</div>
+                <div style={{fontFamily:"var(--font-sans)",fontSize:font.ramp.label,color:"#e2e8f0",lineHeight:1.35}}>{(x as Risk).risk||(x as Event).label}</div>
               </div>
             )
           })()}
         </div>
       </div>
-      <div style={{display:"flex",flexWrap:"wrap",gap:16,padding:"10px 4px 2px 92px",fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".04em"}}>
+      <div style={{display:"flex",flexWrap:"wrap",gap:16,padding:"10px 4px 2px 92px",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".04em"}}>
         {[["AVERTED",STATUS.AVERTED],["MITIGATED",STATUS.MITIGATED],["OPEN · standing",STATUS.OPEN]].map(([l,c])=>(
           <span key={l} style={{display:"inline-flex",alignItems:"center",gap:5}}>
             <span style={{width:8,height:8,borderRadius:2,transform:"rotate(45deg)",border:`2px solid ${c}`,background:"#0a1016"}}/>
@@ -984,21 +983,21 @@ function RiskByLane({sevFocus="all",query,onOpen}:{sevFocus:string;query:string;
       background:"linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#11181f,#0a1016)",
       boxShadow:"inset 0 1px 0 rgba(255,255,255,.08),inset 0 -2px 8px rgba(0,0,0,.5),0 5px 16px rgba(0,0,0,.4)"}}>
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:10,marginBottom:10}}>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:C.red,fontWeight:700}}>RISK REGISTER</span>
-        <span style={{fontSize:11,color:"#8593a6"}}>by lane — ring = status · tap → card</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".08em",color:C.red,fontWeight:700}}>RISK REGISTER</span>
+        <span style={{fontSize:font.ramp.label,color:"#8593a6"}}>by lane — ring = status · tap → card</span>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:8}}>
         {SEV_ORDER.map(sev=>{
           const dimLane=sevFocus!=="all"&&sev!==sevFocus
           const items=RISKS.filter(r=>r.sev===sev).sort((a,b)=>Date.parse(a.date)-Date.parse(b.date))
           return(
-            <div key={sev} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",borderRadius:8,
+            <div key={sev} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 10px",borderRadius:radius.sm,
               border:`1px solid ${SEV[sev]}2e`,borderLeft:`3px solid ${SEV[sev]}`,
               background:"linear-gradient(180deg,rgba(255,255,255,.015),rgba(0,0,0,.12))",
               opacity:dimLane?0.22:1,pointerEvents:dimLane?"none":"auto",transition:"opacity .3s"}}>
               <div style={{flex:"0 0 96px",display:"flex",flexDirection:"column",lineHeight:1.15}}>
-                <span style={{fontFamily:"var(--font-mono)",fontSize:11,fontWeight:700,color:SEV[sev]}}>⚠ {sev}</span>
-                <span style={{fontFamily:"var(--font-mono)",fontSize:11,color:"#707e92",letterSpacing:".07em"}}>{SEV_NAME[sev]} · {items.length}</span>
+                <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,fontWeight:700,color:SEV[sev]}}>⚠ {sev}</span>
+                <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,color:"#707e92",letterSpacing:".07em"}}>{SEV_NAME[sev]} · {items.length}</span>
               </div>
               <div style={{display:"flex",flexWrap:"wrap",gap:6,flex:"1 1 auto",minWidth:0}}>
                 {items.map(r=>{
@@ -1014,8 +1013,8 @@ function RiskByLane({sevFocus="all",query,onOpen}:{sevFocus:string;query:string;
                       onMouseEnter={ev=>(ev.currentTarget as HTMLButtonElement).style.borderColor=sc}
                       onMouseLeave={ev=>(ev.currentTarget as HTMLButtonElement).style.borderColor=`${sc}55`}>
                       <span style={{flex:"0 0 auto",width:13,height:13,transform:"rotate(45deg)",background:SEV[sev],border:`2px solid ${sc}`,boxShadow:`0 0 6px -1px ${SEV[sev]}`}}/>
-                      <span style={{fontSize:11,color:"#cbd5e1",maxWidth:230,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.risk}</span>
-                      <span style={{flex:"0 0 auto",fontSize:11,color:sc}}>{r.status}</span>
+                      <span style={{fontSize:font.ramp.label,color:"#cbd5e1",maxWidth:230,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.risk}</span>
+                      <span style={{flex:"0 0 auto",fontSize:font.ramp.label,color:sc}}>{r.status}</span>
                     </button>
                   )
                 })}
@@ -1127,10 +1126,10 @@ export default function ObservatoryPage(){
           <div style={{width:"min(880px,100%)",margin:"0 auto",padding:"0 16px",boxSizing:"border-box"}}>
             {/* header */}
             <header style={{display:"flex",alignItems:"baseline",gap:14,padding:"12px 0 10px",flexWrap:"wrap"}}>
-              <h1 style={{fontSize:14,letterSpacing:".04em",margin:0,fontWeight:600,color:C.cyan}}>
+              <h1 style={{fontSize:font.ramp.body,letterSpacing:".04em",margin:0,fontWeight:600,color:C.cyan}}>
                 ARCS v9 <span style={{color:"#475569"}}>·</span> <span style={{color:"#e2e8f0"}}>OBSERVATORY</span>
               </h1>
-              <span style={{color:"#8593a6",fontSize:11}}>Forensic reconstruction — 5 altitudes · scored · provenance-cited · reusable</span>
+              <span style={{color:"#8593a6",fontSize:font.ramp.label}}>Forensic reconstruction — 5 altitudes · scored · provenance-cited · reusable</span>
             </header>
             <ControlBar mode={mode} setMode={setMode} focus={focus} setFocus={setFocus} sevFocus={sevFocus} setSevFocus={setSevFocus}
               view={view} setView={setView} riskWin={riskWin} setRiskWin={setRiskWin}
@@ -1161,14 +1160,14 @@ export default function ObservatoryPage(){
         {/* tweaks corner */}
         <div style={{position:"fixed",bottom:16,right:16,zIndex:45,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:8}}>
           <div style={{background:"linear-gradient(180deg,#0e151e,#0a1016)",border:"1px solid #22324d",borderRadius:10,padding:"10px 14px",display:"flex",flexDirection:"column",gap:8}}>
-            <span style={{fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".1em",color:"#707e92",textTransform:"uppercase"}}>Atmosphere</span>
+            <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".1em",color:"#707e92",textTransform:"uppercase"}}>Atmosphere</span>
             <div style={{display:"flex",gap:5}}>
               {(["deepspace","blueprint","phosphor"] as const).map(atm=>{
                 const on=tweaks.atmosphere===atm
-                return<button key={atm} onClick={()=>setTweaks(t=>({...t,atmosphere:atm}))} style={{padding:"3px 7px",borderRadius:5,border:`1px solid ${on?C.cyan:"#1e293b"}`,background:on?`${C.cyan}18`:"transparent",color:on?C.cyan:"#8593a6",fontFamily:"var(--font-mono)",fontSize:11,cursor:"pointer",transition:"all .14s"}}>{atm}</button>
+                return<button key={atm} onClick={()=>setTweaks(t=>({...t,atmosphere:atm}))} style={{padding:"3px 7px",borderRadius:radius.sm,border:`1px solid ${on?C.cyan:"#1e293b"}`,background:on?`${C.cyan}18`:"transparent",color:on?C.cyan:"#8593a6",fontFamily:"var(--font-mono)",fontSize:font.ramp.label,cursor:"pointer",transition:"all .14s"}}>{atm}</button>
               })}
             </div>
-            <span style={{fontFamily:"var(--font-mono)",fontSize:11,letterSpacing:".1em",color:"#707e92",textTransform:"uppercase"}}>Vividness {tweaks.vividness}</span>
+            <span style={{fontFamily:"var(--font-mono)",fontSize:font.ramp.label,letterSpacing:".1em",color:"#707e92",textTransform:"uppercase"}}>Vividness {tweaks.vividness}</span>
             <input type="range" min={0} max={100} value={tweaks.vividness} onChange={e=>setTweaks(t=>({...t,vividness:Number(e.target.value)}))}
               style={{width:"100%",accentColor:C.cyan}}/>
           </div>

@@ -106,7 +106,7 @@ If leaked: fix HTML → re-render `chrome --headless=new --print-to-pdf` → `pd
 1. SUBSTRATE: `WORLD.md` → `CLAUDE.md` → this runbook.
 2. STRUCTURAL MAP: `AGENTS.md` + `_STATE/snapshot.json` (head d9e48193+).
 3. COMPONENTS: `scripts/forge_edit_from_seed.mjs` (the worker, 127 lines) →
-   `runtime/specs/forge-triggers.json` (what fires when) → `scripts/forge_finalize.sh` (full-forge sibling) →
+   `runtime/specs/forge-triggers.json` (what fires when) → `scripts/_archive/forge_finalize.sh` (full-forge sibling) →
    `src/app/api/jobs/edit-from-seed/route.ts` (the model call) → `runtime/specs/forge-bundles.json` (registry).
 4. SYNTHESIZE: queue state via `/api/jobs` (fact 1) → drain t1/t2, confirm t3 list with Zach,
    settle the invariant-drift item.

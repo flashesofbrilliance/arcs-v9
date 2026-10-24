@@ -21,7 +21,7 @@ On me: I do not just write the deck. I am in the code reviews, sprint planning, 
 
 One note in the spirit of no surprises: I tore my ACL and meniscus and have surgery scheduled shortly, so I would need a little flexibility on the on-site start. Everything else, I am ready to move fast on.
 
-The bundle linked here pulls the proof together, including the live commit trail and the open-source tools. Happy to go deep on any of it.
+The bundle linked here pulls the proof together, including the live app and the open-source tools. Happy to go deep on any of it.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance
@@ -39,6 +39,6 @@ Your moat is not the faster runner. It is that you own the bare metal, the stora
 
 The one-line diff is the design choice I most respect: clean surface, hard interior. And a CI that validates code before it merges is the same instinct as ARCS, which validates a decision before you commit to it. I built a CI for decisions.
 
-I do not just write the deck. I am in the code reviews, sprint planning, and incident response. Receipts, not adjectives: the bundle at blacksmith.arcs.care has the live commit trail, the graded résumé, and the director's cut of exactly how this was built.
+I do not just write the deck. I am in the code reviews, sprint planning, and incident response. Receipts, not adjectives: the bundle at blacksmith.arcs.care has the live app, the graded résumé, and the director's cut of exactly how this was built.
 
 Zach

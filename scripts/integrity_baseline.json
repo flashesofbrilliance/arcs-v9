@@ -3,12 +3,7 @@
  "ref": "origin/main",
  "failures": {
   "AGENTS.md": [
-   "path|operators/.venv",
-   "path|runtime/specs/tool-catalog",
-   "path|src/lib/gigi.ts"
-  ],
-  "CLAUDE.md": [
-   "path|scripts/dependency_sweep.py"
+   "path|operators/.venv"
   ],
   "MEMORY.md": [
    "commit|47b86cd1",
@@ -17,18 +12,12 @@
   "_CANON/index.md": [
    "path|_DECISIONS/ADR-023"
   ],
-  "_CANON/living/tao-cellar.md": [
-   "path|_CANON/living/ARCS-Codex-"
-  ],
   "_CANON/ordinals/README.md": [
    "commit|2af3c13",
    "commit|a0507a1"
   ],
   "_CANON/trust-contract.md": [
    "commit|8b486e8"
-  ],
-  "_DECISIONS/ADR-001-auth-gate-strategy.md": [
-   "path|src/app/api/"
   ],
   "_DECISIONS/ADR-002-database-split.md": [
    "commit|11ba2fc",
@@ -65,8 +54,7 @@
    "commit|6a5b856",
    "commit|d732dad",
    "path|src/app/api/brief/route.ts",
-   "path|src/app/api/guide/route.ts",
-   "path|src/app/api/receipts/"
+   "path|src/app/api/guide/route.ts"
   ],
   "_DECISIONS/ADR-019-receipt-core-python-boundary.md": [
    "path|tests/test_receipt_bridge_roundtrip.py",
@@ -76,8 +64,7 @@
    "commit|d732dad"
   ],
   "_DECISIONS/ADR-026-debrief-delivery-fix.md": [
-   "commit|8ded67f",
-   "path|src/app/api/cron/"
+   "commit|8ded67f"
   ],
   "_DECISIONS/ADR-028-scan-arcs-care-staging.md": [
    "path|runtime/flows/profile-scan-flow-v0.1.md"
@@ -126,16 +113,11 @@
    "script|arcs_kairos_detector.py"
   ],
   "_DECISIONS/ADR-083-ui-kit-atomic-ssot-and-component-source-gate.md": [
-   "adr|ADR-082",
-   "path|src/ui-kit/recoil-report/NN-"
+   "adr|ADR-082"
   ],
   "_DECISIONS/ADR-085-main-write-lock-and-hot-file-leases.md": [
    "path|_STATE/leases.json",
-   "path|_STATE/lock.json",
-   "path|scripts/git-hooks/pre-commit.d/"
-  ],
-  "_DECISIONS/CANON-COLLISION-tao-two-books.md": [
-   "path|scripts/gen_tao_"
+   "path|_STATE/lock.json"
   ],
   "_DECISIONS/index.json": [
    "script|provcheck.py"
@@ -164,9 +146,7 @@
   ],
   "_PATTERNS/2026-07-11-operator20-archaeology.md": [
    "adr|ADR-021",
-   "path|operators/README",
-   "path|runtime/specs/ARCS-Vector-Collision-Engine-",
-   "path|runtime/specs/dewy-receipt-schema-v1"
+   "path|operators/README"
   ],
   "_PATTERNS/2026-07-13-dual-audit-reconciliation.md": [
    "adr|ADR-021"
@@ -185,29 +165,13 @@
    "path|.github/backlog-index.md"
   ],
   "_PATTERNS/2026-08-13-umbrella-dunford-positioning-canvas.md": [
-   "path|_STATE/2026-08-13-oss-family-",
    "path|docs/adjacencies.md"
   ],
-  "_PATTERNS/2026-08-29-ventriloquy-pathogen-investigation.md": [
-   "path|scripts/attribution_provenance_lint.py"
-  ],
   "_PATTERNS/2026-09-26-impeccable-detector-upstream-report.md": [
-   "path|public/blog-nftt-",
    "path|scripts/VERSION"
   ],
   "_PATTERNS/2026-09-26-ui-kit-migration-plan.md": [
-   "commit|98b8013d",
-   "path|public/autopilot",
-   "path|public/blog-nftt-",
-   "path|public/jack-rain",
-   "path|public/schriner",
-   "path|public/squad",
-   "path|public/success-academy",
-   "path|public/vico",
-   "path|runtime/warroom/jack-rain"
-  ],
-  "_PATTERNS/counterpart-artifact-family-blueprint.md": [
-   "path|public/robin"
+   "commit|98b8013d"
   ],
   "_PATTERNS/drift-audits/2026-07-24.md": [
    "path|docs/state-only"
@@ -266,21 +230,13 @@
    "path|prisma/config"
   ],
   "_PATTERNS/durable-gotchas.md": [
-   "path|_STATE/branch-",
    "script|vercel.ts"
-  ],
-  "_PATTERNS/forge-pipeline-handoff.md": [
-   "path|runtime/recoil/generated/2026-08-05-daniels-"
   ],
   "_PATTERNS/jtbd-orchestration-map.md": [
    "path|_DECISIONS/ADR-048"
   ],
   "_PATTERNS/kintsugi-visual-grammar-seams.md": [
-   "path|_ARTIFACTS/forge-",
-   "path|public/blog-nftt-",
    "path|public/louisville-brooks-war.html",
-   "path|public/prl-",
-   "path|public/prl-status-",
    "path|public/surfaces.html"
   ],
   "_PATTERNS/ledger.json": [
@@ -311,7 +267,6 @@
    "path|.github/workflows/release.yml"
   ],
   "_SEEDS/index.jsonl": [
-   "path|_INBOX/evidence/SCOUT-",
    "path|_QUEUE/press/",
    "path|_STATE/witness/2026-09-17.jsonl",
    "path|docs/RISK_MANAGEMENT.md",
@@ -324,7 +279,6 @@
    "path|scripts/worktree_audit.py"
   ],
   "_SEEDS/ledger.jsonl": [
-   "path|_INBOX/evidence/SCOUT-",
    "path|docs/adjacencies.md",
    "path|runtime/specs/decision-receipt.json",
    "path|scripts/receipt.py",
@@ -352,7 +306,6 @@
    "adr|ADR-047"
   ],
   "_STATE/2026-08-14-milestone-artifact-engine-plan.md": [
-   "path|_ARTIFACTS/milestones/2026-08-13-fortnight",
    "path|_ARTIFACTS/milestones/GRAMMAR.md"
   ],
   "_STATE/2026-08-14-session-decisions.dewy.json": [
@@ -455,10 +408,8 @@
    "path|runtime/specs/tokens.json",
    "path|scripts/VERSION",
    "path|scripts/adr_dewy_watch.py",
-   "path|scripts/attribution_provenance_lint.py",
    "path|scripts/check-spec-frontmatter.py",
    "path|scripts/cold_reader_gate.py",
-   "path|scripts/dependency_sweep.py",
    "path|scripts/deploy-smoke.mjs",
    "path|scripts/orthogonal_echo.py",
    "path|scripts/pii_leak_gate.py",
@@ -485,7 +436,6 @@
   "_STATE/2026-10-06-doc-reconciliation.md": [
    "path|_ARTIFACTS/mercury-pitch/pitch-memo.md",
    "path|_ARTIFACTS/sentilink-pitch/pitch-memo.md",
-   "path|_STATE/job-search/forge-inputs/prompt-",
    "path|runtime/specs/arcs-v9-engineering-spec.md",
    "path|scripts/doc_reconcile.py"
   ],
@@ -610,8 +560,7 @@
    "commit|95d752b",
    "commit|b305306",
    "commit|d9147db",
-   "commit|e888cc4",
-   "path|_STATE/branch-"
+   "commit|e888cc4"
   ],
   "_STATE/checkpoint-resume-tailor-pwa-2026-08-28.md": [
    "path|docs/resume-tailor-theming-engine-spec.md",
@@ -631,8 +580,7 @@
    "commit|e2474e0"
   ],
   "_STATE/compass-kit-phase2-handoff.md": [
-   "path|src/ui/Button",
-   "path|src/ui/compass-kit/"
+   "path|src/ui/Button"
   ],
   "_STATE/consolidated_session_memory-2026-08-29.md": [
    "path|_STATE/operator-audit-2026-08-29.md",
@@ -681,7 +629,6 @@
    "path|.claude/commands/dual-bar-raiser-operators-integration.md"
   ],
   "_STATE/handoff-2026-09-10.md": [
-   "path|_INBOX/roles/",
    "path|docs/resume-tailor-theming-engine-spec.md",
    "path|public/static-serve.py",
    "path|scripts/gen_tailor_icons.py"
@@ -689,7 +636,6 @@
   "_STATE/handoff-2026-09-11-cross-harness-pickup.md": [
    "adr|ADR-021",
    "commit|b0d8b5c1",
-   "path|_DECISIONS/025",
    "path|_STATE/roadmap.md"
   ],
   "_STATE/handoff-2026-09-11-forge-queue-runbook.md": [
@@ -702,7 +648,6 @@
    "path|_DECISIONS/ADR-009",
    "path|public/blog-nftt-tribes-vibes-lies.html",
    "path|scripts/idea_montecarlo.py",
-   "path|src/app/api/reading-room",
    "script|vercel.ts"
   ],
   "_STATE/handoff-resume-pwa-theming-2026-08-28.md": [
@@ -726,18 +671,13 @@
   ],
   "_STATE/hermes-operationalization.md": [
    "path|docs/audit-service-interface.md",
-   "path|docs/monthly-review-template",
    "path|docs/rag-kernel-discovery.md",
-   "path|src/lib/audit-",
    "script|audit-translator.ts",
    "script|validate_translator.py"
   ],
   "_STATE/job-search/architect-review-triune-productization.md": [
    "path|public/resume-tailor-pwa.html",
    "path|scripts/pii_leak_gate.py"
-  ],
-  "_STATE/job-search/champion-fit-heuristic.md": [
-   "path|scripts/network_scan"
   ],
   "_STATE/job-search/forge-inputs/prompt-bjak-tpl-ai-neobank.md": [
    "path|_ARTIFACTS/forge-bjak-tpl-ai-neobank/"
@@ -782,7 +722,6 @@
    "commit|f2ec265",
    "commit|f443006",
    "path|_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
-   "path|_DECISIONS/CANON-COLLISION-",
    "path|operators/sage",
    "path|public/kelly-interview.html",
    "path|scripts/cold_reader_gate.py",
@@ -815,8 +754,7 @@
    "commit|9f2d0f73",
    "commit|ab7c73f8",
    "commit|b2144d9e",
-   "commit|f4a2ccbc",
-   "path|operators/dogfood"
+   "commit|f4a2ccbc"
   ],
   "_STATE/night-moves/2026-09-10.md": [
    "path|docs/scripts"
@@ -843,33 +781,18 @@
   ],
   "_STATE/night-moves/2026-10-01.md": [
    "commit|98b84036",
-   "commit|ac11cde4",
-   "path|scripts/dependency_sweep.py"
-  ],
-  "_STATE/night-moves/2026-10-02.md": [
-   "path|scripts/dependency_sweep.py"
+   "commit|ac11cde4"
   ],
   "_STATE/night-moves/2026-10-03.md": [
-   "commit|f41067ec",
-   "path|scripts/dependency_sweep.py",
-   "script|dependency_sweep.py"
-  ],
-  "_STATE/night-moves/2026-10-05.md": [
-   "path|scripts/dependency_sweep.py",
-   "script|dependency_sweep.py"
+   "commit|f41067ec"
   ],
   "_STATE/night-moves/2026-10-07.md": [
-   "commit|c6ed0833",
-   "path|scripts/dependency_sweep.py"
+   "commit|c6ed0833"
   ],
   "_STATE/orchestration-layer-spec.md": [
    "path|operators/concepts"
   ],
-  "_STATE/pickup-trust-contract-privacy.md": [
-   "path|src/app/api"
-  ],
   "_STATE/tao-implementation-plan-v1.md": [
-   "path|_DECISIONS/ADR-",
    "path|src/tao/"
   ],
   "_STATE/worktree-audit-2026-09-11.json": [
@@ -928,7 +851,6 @@
   ],
   "_STATE/worktree-audit-2026-09-11.md": [
    "commit|481433ff",
-   "path|_STATE/handoff-progress",
    "path|docs/receipts-standing-rule"
   ]
  }

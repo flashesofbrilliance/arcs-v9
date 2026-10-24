@@ -5,7 +5,7 @@ import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
 const { chromium } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2]; if (!page) { console.log('usage: phosphor_genome_check.mjs <page.html>'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] }), pg = await (await b.newContext({ viewport: { width: 1280, height: 900 } })).newPage()
 const errs = [], reqs = []; pg.on('pageerror', (e) => errs.push(String(e))); pg.on('request', (r) => reqs.push(r.url()))
 await pg.goto(pathToFileURL(page).href + '?test=1&shutter=off'); await pg.waitForTimeout(2000)
@@ -50,4 +50,4 @@ check(keysAfter.split(',').filter((k) => /genome|rna|dna/i.test(k)).length === 0
 check(reqs.every((u) => u.startsWith('file:') || u.startsWith('data:') || u.startsWith('blob:')), 'G7: no network requests')
 check(med < 1.5, `G7: median ribbon draw ${med.toFixed(2)} ms (want under 1.5)`)
 check(errs.length === 0, `G7: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

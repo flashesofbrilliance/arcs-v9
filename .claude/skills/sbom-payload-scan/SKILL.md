@@ -25,7 +25,7 @@ tool that inspects them must never itself run them. This skill is that tool.
   detonating it.
 
 ## How to run it
-The engine is `scripts/scan_repo.py` — Python stdlib only, and inert by construction: it **reads**
+The engine is `.claude/skills/sbom-payload-scan/scripts/scan_repo.py` — Python stdlib only, and inert by construction: it **reads**
 files and never installs, executes, evals, spawns a shell, or touches the network. Run it against the
 suspect path from a location where the repo is NOT open in an editor and has NOT been installed.
 

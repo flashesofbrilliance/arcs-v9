@@ -54,10 +54,12 @@
       "title": "Vercel domain-to-project history per surface (arcs-v9 and arcs-care)",
       "needs": [],
       "owner": "claude",
-      "status": "ready",
+      "status": "done",
       "days": 2,
       "done_when": "Per-subdomain first-resolve date in ledger",
-      "why": "Dates the first public serving of each page"
+      "why": "Dates the first public serving of each page",
+      "done_on": "2026-10-17",
+      "evidence": "_STATE/domain-history-2026-10-17.md"
     },
     {
       "id": "offrepo",
@@ -211,14 +213,16 @@
       "id": "file",
       "title": "FILE tier-1 provisionals",
       "needs": [
-        "review"
+        "review",
+        "wl-file"
       ],
       "owner": "counsel",
       "status": "blocked",
       "days": 1,
       "done_when": "Filing receipt with date",
       "why": "The gate: status.arcs.care says patent first, publish second",
-      "milestone": true
+      "milestone": true,
+      "one_way": true
     },
     {
       "id": "prereg",
@@ -237,25 +241,29 @@
       "title": "arXiv / SSRN preprint",
       "needs": [
         "file",
-        "prereg"
+        "prereg",
+        "wl-preprint"
       ],
       "owner": "zach",
       "status": "blocked",
       "days": 14,
       "done_when": "Posted",
-      "why": "A preprint is a public disclosure; only after the filing"
+      "why": "A preprint is a public disclosure; only after the filing",
+      "one_way": true
     },
     {
       "id": "outreach",
       "title": "Institutes and grant programs with dated filing in hand",
       "needs": [
-        "preprint"
+        "preprint",
+        "wl-outreach"
       ],
       "owner": "zach",
       "status": "blocked",
       "days": 14,
       "done_when": "Applications sent",
-      "why": "status.arcs.care roadmap"
+      "why": "status.arcs.care roadmap",
+      "one_way": true
     },
     {
       "id": "nonprov",
@@ -276,10 +284,12 @@
       "title": "Sweep GitHub repos with no local clone for mechanism text and past visibility (gigi, arcs-field-scan, arcs-canon, arcs-field-os, arcs-immune-system)",
       "needs": [],
       "owner": "claude",
-      "status": "ready",
+      "status": "done",
       "days": 2,
       "done_when": "Each repo: visibility history, earliest mechanism term hit, or 'none'",
-      "why": "gigi and arcs-field-scan are public today and predate arcs-v9; nobody has read them"
+      "why": "gigi and arcs-field-scan are public today and predate arcs-v9; nobody has read them",
+      "done_on": "2026-10-17",
+      "evidence": "_STATE/disclosure-retro-sweep-uncloned-2026-10-17.md"
     },
     {
       "id": "who-saw-it",
@@ -301,6 +311,48 @@
       "days": 1,
       "done_when": "What changed (profile, org name, commit authors, files), the dates, and whether any rewrite beyond 2026-06-03 happened",
       "why": "Zach's account: pseudonymized to avoid crawling. Current history still shows the real name on 5,647 commits and a personal email, so the change is not visible in the commits; it may be in the profile or org name"
+    },
+    {
+      "id": "wl-file",
+      "title": "Write-lock declaration: Filing is a one-way door: once filed, the text and the filing date are",
+      "kind": "write_lock",
+      "needs": [
+        "review"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 0.5,
+      "done_when": "Zach's dated written declaration (the one-way door is named, and what must be true first)",
+      "declare": "Filing is a one-way door: once filed, the text and the filing date are fixed. Declare only when the claims text is final, the ledger facts it rests on are verified or explicitly accepted as open, and counsel has reviewed.",
+      "why": "ROM primitive 7: irreversibility is declared, not assumed"
+    },
+    {
+      "id": "wl-preprint",
+      "title": "Write-lock declaration: A preprint is a public disclosure and cannot be recalled. Declare only",
+      "kind": "write_lock",
+      "needs": [
+        "file"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 0.5,
+      "done_when": "Zach's dated written declaration (the one-way door is named, and what must be true first)",
+      "declare": "A preprint is a public disclosure and cannot be recalled. Declare only after the filing receipt exists and counsel has cleared the preprint text.",
+      "why": "ROM primitive 7: irreversibility is declared, not assumed"
+    },
+    {
+      "id": "wl-outreach",
+      "title": "Write-lock declaration: Sending the work to institutes and funders discloses it to third parti",
+      "kind": "write_lock",
+      "needs": [
+        "preprint"
+      ],
+      "owner": "zach",
+      "status": "blocked",
+      "days": 0.5,
+      "done_when": "Zach's dated written declaration (the one-way door is named, and what must be true first)",
+      "declare": "Sending the work to institutes and funders discloses it to third parties. Declare only after the preprint, with counsel's view on what each recipient may receive.",
+      "why": "ROM primitive 7: irreversibility is declared, not assumed"
     }
   ],
   "est_note": "Every `days` value is an author estimate unless the node sets `measured: true`; the page prints the estimated share.",
@@ -348,10 +400,18 @@
       "claim": "The 2026-05-28 'first arcs-v9 deploy' in the global CLAUDE.md is an arcs-care conflation, not deleted arcs-v9 deployments",
       "p": 0.7,
       "test": "Vercel project deployment history incl. dashboard for deleted deployments",
-      "verdict": "OPEN",
+      "verdict": "CONFIRMED",
       "scope": "records",
       "frame": "fact",
-      "reason_logged_at": "2026-10-15"
+      "reason_logged_at": "2026-10-15",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "Vercel project and domain dates",
+          "note": "arcs-v9 project created 2026-06-02T21:07Z, so no arcs-v9 deployment can predate it; delete-and-recreate not excluded"
+        }
+      ]
     },
     {
       "id": "FB4",
@@ -363,7 +423,14 @@
       "scope": "legal-status",
       "frame": "fact",
       "reason_logged_at": "2026-10-15",
-      "path_not_taken": "Assume a filing exists and skip the USPTO search"
+      "path_not_taken": "Assume a filing exists and skip the USPTO search",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "history of the public gigi repo",
+          "note": "Text there says GIGI's filing covers the geometric database engine; a filing of some kind may exist. Prior left unchanged; verdict stays OPEN"
+        }
+      ]
     },
     {
       "id": "FB5",
@@ -382,10 +449,18 @@
       "claim": "gigi or arcs-field-scan contains text of a candidate mechanism",
       "p": 0.4,
       "test": "Clone and run scripts/disclosure_sweep.py on each",
-      "verdict": "OPEN",
+      "verdict": "CONFIRMED",
       "scope": "channels",
       "frame": "fact",
-      "reason_logged_at": "2026-10-15"
+      "reason_logged_at": "2026-10-15",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "full clones, hits read by hand",
+          "note": "arcs-field-scan (public) renders Golden Inchworm and Kintsugi at concept/interface level; gigi hits were false positives"
+        }
+      ]
     },
     {
       "id": "FB7",
@@ -409,6 +484,106 @@
       "scope": "schedule",
       "frame": "estimate",
       "reason_logged_at": "2026-10-15"
+    },
+    {
+      "id": "FB9",
+      "node": "file",
+      "claim": "Under the author's duration spreads, the chance of filing by the 2027-04-04 base case is at least 0.9",
+      "p": 0.7,
+      "test": "Monte Carlo of the plan graph (20000 runs, fixed seed)",
+      "verdict": "CONFIRMED",
+      "scope": "schedule",
+      "frame": "estimate",
+      "reason_logged_at": "2026-10-17",
+      "kill": "below 0.9 means the base case is at risk on the author's own numbers",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "filing_workback.py --simulate, 20000 runs, seeds 17 to 21",
+          "note": "100 percent on time under the author's bounded spreads, 5 seeds"
+        }
+      ]
+    },
+    {
+      "id": "FB10",
+      "node": "select-counsel",
+      "claim": "Choosing counsel sits on the critical path in at least 70 percent of simulated runs, more than any other single step",
+      "p": 0.65,
+      "test": "Criticality index from the same Monte Carlo run",
+      "verdict": "FALSIFIED",
+      "scope": "schedule",
+      "frame": "estimate",
+      "reason_logged_at": "2026-10-17",
+      "kill": "another step with a higher criticality index, or select-counsel under 70 percent",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "filing_workback.py --simulate, 20000 runs, seeds 17 to 21",
+          "note": "select-counsel was on the critical path in about 52 percent of runs, below 70, and five later steps (prioritize, draft, review, the file write-lock, file) sit on it in 100 percent; the long fixed chain after counsel intake dominates, not the choice of counsel"
+        }
+      ]
+    },
+    {
+      "id": "FB11",
+      "node": "file",
+      "claim": "Filing a thin provisional early in parallel with the ledger has a higher chance of meeting the date than the sequential path",
+      "p": 0.6,
+      "test": "Per-path Monte Carlo under the same seed and spreads",
+      "verdict": "FALSIFIED",
+      "scope": "schedule",
+      "frame": "estimate",
+      "reason_logged_at": "2026-10-17",
+      "kill": "sequential path's chance is equal or higher",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "filing_workback.py --simulate, 20000 runs, seeds 17 to 21",
+          "note": "Bounded spreads give 100 percent on every path, so the sequential path is equal, which the kill criterion counts as falsified; ceiling effect, the paths differ only in median date (thin-early about four weeks earlier). The comparison that can discriminate is FB13"
+        }
+      ]
+    },
+    {
+      "id": "FB12",
+      "node": "file",
+      "claim": "With heavy-tailed stalls added, the sequential path's chance of filing by the base case falls below 0.9",
+      "p": 0.5,
+      "test": "Same Monte Carlo with the stall scenario switched on (author priors)",
+      "verdict": "FALSIFIED",
+      "scope": "schedule",
+      "frame": "estimate",
+      "reason_logged_at": "2026-10-17",
+      "kill": "sequential stays at or above 0.9 under stalls",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "filing_workback.py --simulate, 20000 runs, seeds 17 to 21",
+          "note": "Sequential stays at about 97.2 percent with stalls (97.1 to 97.2 across 5 seeds), above 0.9"
+        }
+      ]
+    },
+    {
+      "id": "FB13",
+      "node": "file-thin",
+      "claim": "Under the stall scenario the thin-early path has a higher chance of meeting the date than the sequential path",
+      "p": 0.7,
+      "test": "Per-path Monte Carlo under common random numbers with stalls on",
+      "verdict": "CONFIRMED",
+      "scope": "schedule",
+      "frame": "estimate",
+      "reason_logged_at": "2026-10-17",
+      "kill": "thin-early's chance is equal or lower than sequential's",
+      "resolved_on": "2026-10-17",
+      "updates": [
+        {
+          "on": "2026-10-17",
+          "source": "filing_workback.py --simulate, 20000 runs, seeds 17 to 21",
+          "note": "Thin-early 99.6 percent vs sequential 97.2 percent with stalls, +2.4 to +2.6 points on all 5 seeds under common random numbers; model-dependent and small"
+        }
+      ]
     }
   ],
   "beliefs_note": "Priors are the author's, written before any check ran, and are Zach's to overwrite. Verdicts follow the RET ledger: CONFIRMED, FALSIFIED, REVISED, OPEN. `scope` and `frame` come from the lists `scopes` and `frames`, fixed before any belief resolves. A resolved belief needs `resolved_on`, and `reason_logged_at` must not be later than it. `pr` (optional) is the probability of REVISED, which turns the score into a three-outcome score.",
@@ -466,5 +641,167 @@
     "US",
     "foreign",
     "estimate"
-  ]
+  ],
+  "sim": {
+    "runs": 20000,
+    "seed": 17,
+    "min_confidence": 0.8,
+    "hard_floor": 0.5,
+    "spreads": {
+      "claude": [
+        0.3,
+        1.0,
+        3.0
+      ],
+      "zach": [
+        0.5,
+        1.0,
+        3.0
+      ],
+      "counsel": [
+        0.7,
+        1.0,
+        2.5
+      ]
+    },
+    "note": "Duration spreads are author estimates (multipliers on each step's days: optimistic, likely, pessimistic), not measurements. A step may set dur {opt, likely, pess} or measured true. Durations are sampled as floats and steps fire when their preconditions finish (event time); the 12-month window is the only hard calendar edge, plus any step window.not_before.",
+    "stall": {
+      "p": {
+        "claude": 0.05,
+        "zach": 0.2,
+        "counsel": 0.15
+      },
+      "mean_mult": 2.0,
+      "note": "Author priors for heavy-tailed stalls: with probability p a step suffers an extra exponential delay with mean mean_mult times its likely duration. The repo merge gaps show a long tail (median about 5 minutes, p99 about 22 hours, burstiness 0.64) but there are no step-duration data for people or counsel, so these numbers are not measurements."
+    }
+  },
+  "types": {
+    "instant": "a sampled finish time, reported as an interval (percentiles), never a point",
+    "order": "the needs edges: a partial order of what must finish before what",
+    "duration": "a distribution (triangular), sampled as a float number of days",
+    "branch": "a path patch over the graph; branches are compared under common random numbers and are not weighted by the author"
+  },
+  "paths": [
+    {
+      "id": "seq",
+      "title": "Sequential (baseline)",
+      "summary": "Verify the ledger, hand it to counsel, tier the mechanisms, draft, review, file.",
+      "patch": {},
+      "tradeoffs": [
+        "One filing and one one-way door before the date",
+        "Counsel starts only after the ledger is verified, so it uses the most calendar time",
+        "Lowest rework risk: claims rest on verified facts"
+      ]
+    },
+    {
+      "id": "thin-early",
+      "title": "Thin provisional early, full ledger in parallel",
+      "summary": "File a thin provisional on the mechanisms with no known public trace as soon as counsel is engaged; finish the ledger and the full filing afterwards.",
+      "patch": {
+        "target": "file-thin",
+        "also": [
+          "file"
+        ],
+        "nodes_add": [
+          {
+            "id": "thin-scope",
+            "title": "Pick the mechanisms with no known public trace so far; counsel confirms the cut",
+            "needs": [
+              "select-counsel",
+              "audit-log",
+              "prior-filings"
+            ],
+            "owner": "claude",
+            "status": "blocked",
+            "days": 2,
+            "done_when": "Delivered and acknowledged"
+          },
+          {
+            "id": "draft-thin",
+            "title": "Draft a thin provisional on that subset",
+            "needs": [
+              "thin-scope"
+            ],
+            "owner": "counsel",
+            "status": "blocked",
+            "days": 10,
+            "done_when": "Delivered and acknowledged"
+          },
+          {
+            "id": "review-thin",
+            "title": "Zach reviews the thin draft",
+            "needs": [
+              "draft-thin"
+            ],
+            "owner": "zach",
+            "status": "blocked",
+            "days": 3,
+            "done_when": "Delivered and acknowledged"
+          },
+          {
+            "id": "wl-file-thin",
+            "title": "Write-lock declaration: thin filing",
+            "kind": "write_lock",
+            "needs": [
+              "review-thin"
+            ],
+            "owner": "zach",
+            "status": "blocked",
+            "days": 0.5,
+            "done_when": "Zach's dated written declaration",
+            "declare": "Filing a thin provisional is a one-way door: the subset and the date are fixed. Declare only when the cut of mechanisms is confirmed by counsel."
+          },
+          {
+            "id": "file-thin",
+            "title": "FILE the thin provisional",
+            "needs": [
+              "review-thin",
+              "wl-file-thin"
+            ],
+            "owner": "counsel",
+            "status": "blocked",
+            "days": 1,
+            "done_when": "Delivered and acknowledged",
+            "one_way": true,
+            "milestone": true
+          }
+        ]
+      },
+      "tradeoffs": [
+        "Two filings and two one-way doors, so more counsel cost",
+        "Only the confirmed subset is covered by the date; already-disclosed mechanisms wait for the full filing",
+        "Depends on the cut being right: a mechanism wrongly judged never-public would be filed on weaker facts",
+        "Counsel decides whether a later filing can build on the thin one"
+      ]
+    },
+    {
+      "id": "parallel-draft",
+      "title": "Draft in parallel with the ledger",
+      "summary": "Counsel and the inventory start now; the ledger is only required before review.",
+      "patch": {
+        "needs_set": {
+          "counsel-intake": [
+            "conception",
+            "select-counsel"
+          ],
+          "inventory": [
+            "retro-sweep"
+          ],
+          "review": [
+            "draft",
+            "ledger-final"
+          ]
+        }
+      },
+      "tradeoffs": [
+        "Shortest critical path of the three",
+        "Counsel receives facts that are still marked UNVERIFIED, so drafts may need rework if the audit log or the prior-filings answer changes the picture",
+        "One filing and one one-way door, same as sequential"
+      ]
+    }
+  ],
+  "sim_findings": {
+    "on": "2026-10-17",
+    "note": "The date itself is safe on the author's numbers (about 97 to 100 percent) but the margin is mostly cushion in the date: if the real deadline were 90 days earlier the chance falls to 76 percent bounded and 47 percent with stalls, and at 120 days earlier it is about 0. The plan's real risk is a wrong anchor, not slow work."
+  }
 }

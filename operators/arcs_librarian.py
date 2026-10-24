@@ -55,6 +55,7 @@ DEFAULT_ROOT = HERE.parent
 TIERS_REL = Path("runtime/specs/read-friction-tiers.json")
 TRUST_REL = Path("runtime/specs/source-trust.json")
 PICKS_REL = Path("_STATE/librarian")
+UNIVERSE_REL = Path("_STATE/job-search/universe")
 
 DISPLACEMENT_WEIGHT = 1.0
 DEMOTION_PER_FALSIFIED_PICK = 0.15
@@ -290,6 +291,51 @@ def load_ledgers(root: Path) -> List[Candidate]:
     return out
 
 
+def load_universes(root: Path) -> List[Candidate]:
+    """Personal-tier universes only (registry tier == 'personal'): a person's own decision receipts, projected by
+    scripts/universe_receipts_adapter.py. Counterpart universes are never read here (crossing universes needs
+    scripts/universe_ask.py --bridge --why) and canon is already loaded by load_adrs. One Candidate per receipt:
+    the question, its confirmed and unconfirmed lines, and the receipt's own refs (commit shas, PRs, ADRs, files)
+    so the existing M0/M1 backing rule applies unchanged. The files are generated and gitignored; absent -> []."""
+    udir = root / UNIVERSE_REL
+    try:
+        reg = json.loads((udir / "_registry.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    out: List[Candidate] = []
+    for name, d in (reg.get("universes") or {}).items():
+        if not isinstance(d, dict) or d.get("tier") != "personal":
+            continue
+        refs: Dict[str, List[str]] = {}
+        for e in _jsonl(udir / f"{name}.edges.jsonl"):
+            node = str(e.get("to", ""))
+            if node.startswith("commit:"):
+                node = node[7:]
+            elif node.startswith("pr:") and "#" in node:
+                node = "PR #" + node.rsplit("#", 1)[1]
+            elif node.startswith("file:"):
+                node = node[5:]
+            refs.setdefault(str(e.get("from")), []).append(node)
+        recs: Dict[str, Dict[str, Any]] = {}
+        for a in _jsonl(udir / f"{name}.claims.jsonl"):
+            src = str(a.get("source", ""))
+            if not src.startswith("decision_receipt:"):
+                continue
+            rec = recs.setdefault(src.split(":", 1)[1], {"q": "", "c": [], "u": [], "date": a.get("verified_at")})
+            ent = a.get("entity")
+            if ent == "receipt":
+                rec["q"] = str(a.get("claim", ""))
+            elif ent == "confirmed":
+                rec["c"].append(str(a.get("claim", "")))
+            elif ent == "unconfirmed":
+                rec["u"].append(str(a.get("claim", "")))
+        for rid, rec in recs.items():
+            text = rec["q"] + (" Confirmed: " + " | ".join(rec["c"]) if rec["c"] else "") + (" Unconfirmed: " + " | ".join(rec["u"]) if rec["u"] else "")
+            out.append(Candidate(id=rid, cls="personal-receipt", text=_clip(text), path=f"decision_receipt:{rid} via {UNIVERSE_REL}/{name}.claims.jsonl",
+                                 date=_first_date(rec["date"]), refs=refs.get(rid, [])))
+    return out
+
+
 def load_prior_picks(root: Path) -> Tuple[List[Candidate], List[Dict[str, Any]]]:
     """The ouroboros pool: every item this Librarian recommended before, with when."""
     picks: List[Dict[str, Any]] = []
@@ -340,6 +386,65 @@ def _guess_memory_dir(root: Path) -> Optional[Path]:
     return p if p.exists() else None
 
 
+def _lineage_keys(c: "Candidate") -> List[str]:
+    keys = [c.id.lower()] + [a.lower() for a in c.aliases if a and len(a) >= 4]
+    return [k for k in keys if len(k) >= 4]
+
+
+def _lineage_indegree_bruteforce(cands: List["Candidate"], texts_l: List[str]) -> Dict[str, int]:
+    """The original pairwise pass, kept verbatim as the reference the index must equal exactly (H8 in
+    _PATTERNS/2026-10-18-provenance-retrieval-prereg.md). Quadratic: every candidate against every text."""
+    indeg: Dict[str, int] = {}
+    for c in cands:
+        keys = _lineage_keys(c)
+        n = 0
+        for j, tl in enumerate(texts_l):
+            if cands[j] is c:
+                continue
+            if any(k in tl for k in keys):
+                n += 1
+        indeg[c.id] = n
+    return indeg
+
+
+def _lineage_indegree(cands: List["Candidate"], texts_l: List[str]) -> Dict[str, int]:
+    """Same result as _lineage_indegree_bruteforce, from a 4-gram posting-list index. A key (4+ chars) can only occur in a text
+    that contains every one of the key's 4-grams, so each key intersects its grams' posting lists, smallest first, and the
+    survivors are confirmed with the same `key in text` test. The index holds only grams that some key needs. Exactly equal by
+    construction: the index proposes, the substring test decides; self-mentions are removed by object identity as before."""
+    keys_of = [_lineage_keys(c) for c in cands]
+    need = set()
+    for ks in keys_of:
+        for k in ks:
+            need.update(k[i:i + 4] for i in range(len(k) - 3))
+    post: Dict[str, List[int]] = {}
+    for j, tl in enumerate(texts_l):
+        for g in {tl[i:i + 4] for i in range(len(tl) - 3)} & need:
+            post.setdefault(g, []).append(j)
+    pos_of: Dict[int, set] = {}
+    for j, c in enumerate(cands):
+        pos_of.setdefault(id(c), set()).add(j)
+    hits_cache: Dict[str, set] = {}
+    def hits(k: str) -> set:
+        h = hits_cache.get(k)
+        if h is None:
+            lists = sorted((post.get(k[i:i + 4], []) for i in range(len(k) - 3)), key=len)
+            cand_j = set(lists[0])
+            for lst in lists[1:]:
+                if not cand_j:
+                    break
+                cand_j &= set(lst)
+            h = hits_cache[k] = {j for j in cand_j if k in texts_l[j]}
+        return h
+    indeg: Dict[str, int] = {}
+    for c, ks in zip(cands, keys_of):
+        found: set = set()
+        for k in ks:
+            found |= hits(k)
+        indeg[c.id] = len(found - pos_of[id(c)])
+    return indeg
+
+
 class Librarian:
     def __init__(self, root: Optional[Path] = None, git_root: Optional[Path] = None,
                  memory_dir: Optional[Path] = None, extra_candidates: Optional[List[Candidate]] = None,
@@ -357,7 +462,7 @@ class Librarian:
         self.prior_picks: List[Dict[str, Any]] = []
         if load_corpus:
             self.candidates += load_adrs(self.root) + load_seeds(self.root) + load_tao(self.root) + load_legend(self.root) \
-                + load_lore(self.root) + load_registry(self.root) + load_lattice(self.root) + load_ledgers(self.root)
+                + load_lore(self.root) + load_registry(self.root) + load_lattice(self.root) + load_ledgers(self.root) + load_universes(self.root)
             mem = load_memory(self.memory_dir)
             if not mem:
                 self.not_consulted.append("memory bodies: no memory dir found (set ARCS_MEMORY_DIR)")
@@ -431,17 +536,7 @@ class Librarian:
         n_docs = max(1, len(texts_l))
         idf = {w: math.log((n_docs + 1) / (1 + sum(1 for tl in texts_l if w in tl))) + 0.1 for w in qset}
         idf_total = sum(idf.values()) or 1.0
-        indeg: Dict[str, int] = {}
-        for c in cands:
-            keys = [c.id.lower()] + [a.lower() for a in c.aliases if a and len(a) >= 4]
-            keys = [k for k in keys if len(k) >= 4]
-            n = 0
-            for j, tl in enumerate(texts_l):
-                if cands[j] is c:
-                    continue
-                if any(k in tl for k in keys):
-                    n += 1
-            indeg[c.id] = n
+        indeg = _lineage_indegree(cands, texts_l)
         sha_ok = self._verify_shas(s for c in cands for s in SHA_RE.findall(c.text + " " + " ".join(c.refs)))
         demotion, falsified_picks = self._demotions()
         cia_map = self.tiers.get("cost_if_absent_by_stakes", {})
@@ -677,6 +772,47 @@ def self_test() -> int:
           "big-tao-item" not in got3 and "small-adr-item" in got3 and "big-tao-item" in r3["skipped_for_displacement"], (got3, r3["skipped_for_displacement"]))
     tiny = lib.recommend(q, budget=40, stakes="high")
     check("budget respected: nothing over 40 bytes is taken; skips recorded", tiny["budget"]["used_bytes"] <= 40 and (tiny["skipped_for_displacement"] or not tiny["items"]), (tiny["budget"], len(tiny["skipped_for_displacement"])))
+    # personal-tier universe loader (universe-librarian-loader, 2026-10-18)
+    udir = tmp / UNIVERSE_REL
+    udir.mkdir(parents=True)
+    (udir / "_registry.json").write_text(json.dumps({"universes": {"me": {"tier": "personal"}, "acme": {"tier": "counterpart"}}}))
+    def atom(u, rid, ent, typ, text):
+        return json.dumps({"id": f"{u}/{rid}", "entity": ent, "type": typ, "claim": text, "source": f"decision_receipt:{rid.split('#')[0]}", "verified_at": "2026-10-01"}) + "\n"
+    (udir / "me.claims.jsonl").write_text(
+        atom("me", "2026-10-01--shipped--ZH", "receipt", "claim", "Ship the zebra quartz brief?")
+        + atom("me", "2026-10-01--shipped--ZH#c0", "confirmed", "claim", "merged and live")
+        + atom("me", "2026-10-01--shipped--ZH#u0", "unconfirmed", "hypothesis", "tone untested")
+        + atom("me", "2026-10-02--ghost--ZH", "receipt", "claim", "Ship the zebra quartz ghost?"))
+    (udir / "acme.claims.jsonl").write_text(atom("acme", "2026-10-03--counterpart--ZH", "receipt", "claim", "Counterpart zebra quartz fact"))
+    (udir / "me.edges.jsonl").write_text(json.dumps({"from": "2026-10-01--shipped--ZH", "to": "commit:" + real_sha[:9], "kind": "commit"}) + "\n"
+                                         + json.dumps({"from": "2026-10-02--ghost--ZH", "to": "commit:deadbeef1", "kind": "commit"}) + "\n")
+    uc = load_universes(tmp)
+    check("universe loader: personal tier only, one candidate per receipt, counterpart universe never read",
+          sorted(c.id for c in uc) == ["2026-10-01--shipped--ZH", "2026-10-02--ghost--ZH"], [c.id for c in uc])
+    check("universe loader: confirmed and unconfirmed lines are folded into one candidate with its refs",
+          any("merged and live" in c.text and "tone untested" in c.text and real_sha[:9] in c.refs for c in uc))
+    check("universe loader: absent universe dir degrades to []", load_universes(tmp / "nope") == [])
+    lib4 = Librarian(root=tmp, git_root=DEFAULT_ROOT, memory_dir=None, extra_candidates=uc, load_corpus=False, trust_path=tmp / TRUST_REL)
+    r4 = lib4.recommend("zebra quartz", budget=20000, stakes="high")
+    check("universe loader: a receipt whose commit resolves is M0-backed; an unresolvable commit stays what_unconfirmed (rule unchanged)",
+          "2026-10-01--shipped--ZH" in r4["what_confirmed"] and "2026-10-02--ghost--ZH" in r4["what_unconfirmed"], (r4["what_confirmed"], r4["what_unconfirmed"]))
+    # lineage index (H8): the posting-list pass must equal the pairwise pass exactly, on awkward inputs
+    odd = [Candidate(id="adr-084", cls="adr", text="see adr-084 and xadr-084y inside other tokens; also ADR-084", aliases=["reliance-not-trust"]),
+           Candidate(id="reliance-not-trust", cls="memory", text="the rule behind adr-084 is reliance-not-trust, no more", aliases=["adr-084", "abc"]),
+           Candidate(id="abcd", cls="adr", text="abcd abcd abcd and abcde; mentions abcd-extra"),
+           Candidate(id="abcd-extra", cls="adr", text="contains abcd inside and ABCD-EXTRA again"),
+           Candidate(id="zzzz", cls="tao", text="nothing here at all", aliases=["qq", "reliance"]),
+           Candidate(id="adr-084", cls="adr", text="a second candidate with the same id mentions reliance-not-trust")]
+    odd.append(odd[0])        # the very same object twice: both positions are excluded for it, as before
+    tl_odd = [c.text.lower() for c in odd]
+    check("lineage index equals the pairwise pass exactly (aliases, overlapping keys, keys inside tokens, duplicate ids, the same object twice)",
+          _lineage_indegree(odd, tl_odd) == _lineage_indegree_bruteforce(odd, tl_odd), (_lineage_indegree(odd, tl_odd), _lineage_indegree_bruteforce(odd, tl_odd)))
+    import random as _r
+    rr = _r.Random(11); alpha = "ab-cd_ef 01"
+    rnd = [Candidate(id="".join(rr.choice(alpha) for _ in range(rr.randint(4, 9))).strip() or "abcd", cls="adr", text="".join(rr.choice(alpha) for _ in range(rr.randint(0, 120)))) for _ in range(80)]
+    tl_r = [c.text.lower() for c in rnd]
+    check("lineage index equals the pairwise pass on 80 random short candidates", _lineage_indegree(rnd, tl_r) == _lineage_indegree_bruteforce(rnd, tl_r))
+    check("lineage index handles an empty pool", _lineage_indegree([], []) == {})
     print(f"self-test: {'OK' if fails == 0 else f'{fails} FAIL'}")
     return 1 if fails else 0
 

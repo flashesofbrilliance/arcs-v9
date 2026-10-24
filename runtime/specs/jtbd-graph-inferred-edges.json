@@ -1,0 +1,180 @@
+{
+ "note": "Judgment edges on the s2 residue: route.tool strings that name a tool by bare name, a skill directory, or operator numbers, which the mechanical rules do not resolve. Loaded by scripts/jtbd_graph_edges.py with inferred=true. No replaces edges: the 4 SUPERSEDED rows name successors that are not atoms (a memory, a spec file, a check). retype: mechanical edges whose role the shell gets wrong, replaced by a flagged inferred edge.",
+ "edges": [
+  {
+   "from": "tool:skill:nftt-story-factory",
+   "to": "job:backlog:nftt-monday-fde-takehome-build-log",
+   "type": "serves",
+   "evidence": [
+    "route.tool:nftt-monday-fde-takehome-build-log"
+   ],
+   "match": "nftt-story-factory",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:tool-forge",
+   "to": "job:backlog:role-lens-ssot-v0",
+   "type": "serves",
+   "evidence": [
+    "route.tool:role-lens-ssot-v0"
+   ],
+   "match": "tool-forge",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:forge",
+   "to": "job:backlog:lens-forward-deployed-pack",
+   "type": "serves",
+   "evidence": [
+    "route.tool:lens-forward-deployed-pack"
+   ],
+   "match": "forge",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:forge",
+   "to": "job:backlog:lens-applied-ai-engineer-pack",
+   "type": "serves",
+   "evidence": [
+    "route.tool:lens-applied-ai-engineer-pack"
+   ],
+   "match": "forge",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:forge",
+   "to": "job:backlog:lens-embedded-product-pack",
+   "type": "serves",
+   "evidence": [
+    "route.tool:lens-embedded-product-pack"
+   ],
+   "match": "forge",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:forge",
+   "to": "job:backlog:lens-deployment-strategist-pack",
+   "type": "serves",
+   "evidence": [
+    "route.tool:lens-deployment-strategist-pack"
+   ],
+   "match": "forge",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:impeccable",
+   "to": "job:backlog:resume-arcs-care-role-lens-page",
+   "type": "serves",
+   "evidence": [
+    "route.tool:resume-arcs-care-role-lens-page"
+   ],
+   "match": "impeccable",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:page-gate",
+   "to": "job:backlog:resume-arcs-care-role-lens-page",
+   "type": "serves",
+   "evidence": [
+    "route.tool:resume-arcs-care-role-lens-page"
+   ],
+   "match": "page-gate",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:night-moves",
+   "to": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
+   "type": "serves",
+   "evidence": [
+    "route.tool:taxonomy-conflict-ledger-and-atlas-edges"
+   ],
+   "match": "night-moves",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:recoil-ship",
+   "to": "job:backlog:vico-followup-draft",
+   "type": "serves",
+   "evidence": [
+    "route.tool:vico-followup-draft"
+   ],
+   "match": "recoil-ship",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:skill:recoil-prep",
+   "to": "job:backlog:ex-ante-paired-paths-template",
+   "type": "serves",
+   "evidence": [
+    "route.tool:ex-ante-paired-paths-template"
+   ],
+   "match": ".claude/skills/recoil-prep",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
+  },
+  {
+   "from": "tool:op:19",
+   "to": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
+   "type": "serves",
+   "evidence": [
+    "route.tool:taxonomy-conflict-ledger-and-atlas-edges"
+   ],
+   "match": "operators 19/20/21",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (operator numbers named in route.tool)",
+   "rule": "residue-op-number"
+  },
+  {
+   "from": "tool:op:20",
+   "to": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
+   "type": "serves",
+   "evidence": [
+    "route.tool:taxonomy-conflict-ledger-and-atlas-edges"
+   ],
+   "match": "operators 19/20/21",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (operator numbers named in route.tool)",
+   "rule": "residue-op-number"
+  },
+  {
+   "from": "tool:op:21",
+   "to": "job:backlog:taxonomy-conflict-ledger-and-atlas-edges",
+   "type": "serves",
+   "evidence": [
+    "route.tool:taxonomy-conflict-ledger-and-atlas-edges"
+   ],
+   "match": "operators 19/20/21",
+   "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (operator numbers named in route.tool)",
+   "rule": "residue-op-number"
+  }
+ ],
+ "retype": [
+  {
+   "mechanical": [
+    "tool:command:catalog",
+    "serves",
+    "job:backlog:tool-catalog-dispatcher-induction-surface"
+   ],
+   "why": "route.tool 'NEW scripts/tool_catalog_emit.py + .claude/commands/catalog.md': NEW governs both items, so catalog is built by the job (a target); the shell lets each '+' item stand alone (round 7)",
+   "edge": {
+    "from": "job:backlog:tool-catalog-dispatcher-induction-surface",
+    "to": "tool:command:catalog",
+    "type": "needs",
+    "evidence": [
+     "backlog:tool-catalog-dispatcher-induction-surface"
+    ],
+    "match": ".claude/commands/catalog.md",
+    "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (NEW scope over a + list)",
+    "rule": "residue-retype"
+   }
+  }
+ ]
+}

@@ -11,10 +11,11 @@ Checks (each is a mechanical grep or count, no model):
   4 speaker lint               ADR-033 attribution_provenance_lint over every quote atom (CONTAMINATED / UNSOURCED fail)
   5 air-gap hygiene            atoms without an explicit audience (fail closed to internal), external count per universe
   6 canon                      source changed since the adapter ran, quarantine file non-empty, registered collisions present
-Exit 2 on any hard finding (CROSS-NAME, ALIAS-LEAK, CONTAMINATED, UNSOURCED, ECHO-after-control).
+Exit 2 on a hard finding (CROSS-NAME, ALIAS-LEAK, CONTAMINATED, UNSOURCED, canon quarantine, missing collision atom).
+A leftover echo after the controls is REVIEW (listed, exit 0). Controls: shared-line, template-frequency (3+ atoms in one universe), declared-relation (personal universe and a universe it bridges to).
 Stdlib only.   python3 scripts/universe_sweep.py [--no-write] [--self-test]
 """
-import json, os, random, re, sys, time
+import collections, json, os, random, re, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
@@ -35,13 +36,23 @@ def sweep(reg, root, repo=REPO):
     allnames = {u: reg["universes"][u].get("names", []) + reg["universes"][u].get("entities_public", []) for u in rows}
     extra = reg.get("canon_denied_names_extra", [])
     allalias = {u: reg["universes"][u].get("anti_aliases", []) for u in rows}
+    owner = {}
+    for v, ns in allnames.items():
+        for n in ns:
+            owner[n] = v
     for u, rs in rows.items():
-        foreign = [n for v, ns in allnames.items() if v != u for n in ns] + (extra if u != "canon" else [])
-        if reg["universes"][u].get("tier") == "canon":
-            foreign = [n for v, ns in allnames.items() if v != u for n in ns] + extra
+        personal = reg["universes"][u].get("tier") == "personal"
+        foreign = [n for v, ns in allnames.items() if v != u for n in ns] + ([] if personal else extra)  # a person's own receipts may name counterparts who have no universe yet; those are counted, not failed
+        if personal:
+            for r in rs:
+                for n in ua.find_names(ua.atom_text(r), extra):
+                    find.setdefault("unregistered_mentions", collections.Counter())[n] += 1
         for r in rs:
             txt = ua.atom_text(r)
             for n in ua.find_names(txt, foreign):
+                if owner.get(n) in r.get("bridges", []):
+                    find["declared_bridges"] = find.get("declared_bridges", 0) + 1  # declared edge to a counterpart universe, not a leak
+                    continue
                 find["cross_name"].append({"atom": r["id"], "name": n})
             if r["type"] != "collision":
                 for v, als in allalias.items():
@@ -65,8 +76,21 @@ def sweep(reg, root, repo=REPO):
                 line_owners.setdefault(x, set()).add(u)
     shared_lines = {x for x, o in line_owners.items() if len(o) > 1}
     cleaned = {u: [" ".join(x for x in re.split(r"(?<=[.!?])\s+", c) if x.strip().lower() not in shared_lines) for c in claims] for u, claims in by_u.items()}
-    after = echo(cleaned)
-    find["echo_after_control"] = [{"shingle": s, "universes": sorted(o)} for s, o in list(after.items())[:20]]
+    after_lines = echo(cleaned)
+    # template-frequency control (added 2026-10-18, after the first receipts run): a phrase repeated in 3+ atoms of ONE universe is template wording, not motion
+    freq = {}
+    for u, claims in cleaned.items():
+        cnt = collections.Counter(s for c in claims for s in shingles(c))
+        freq[u] = {s for s, k in cnt.items() if k >= 3}
+    template = set().union(*freq.values()) if freq else set()
+    after_tpl = {s: o for s, o in after_lines.items() if s not in template}
+    # declared-relation split: a personal universe and a universe its atoms declare a bridge to describe the same events by design
+    bridged = {v for u, rs in rows.items() if reg["universes"][u].get("tier") == "personal" for r in rs for v in r.get("bridges", [])}
+    pers = {u for u in rows if reg["universes"][u].get("tier") == "personal"}
+    related = {s: o for s, o in after_tpl.items() if len(o) == 2 and (o & pers) and (o - pers) <= bridged}
+    hard = {s: o for s, o in after_tpl.items() if s not in related}
+    find["echo_after_lines"] = len(after_lines); find["echo_after_template"] = len(after_tpl); find["echo_declared_relation"] = len(related)
+    find["echo_after_control"] = [{"shingle": s, "universes": sorted(o)} for s, o in sorted(hard.items())[:20]]  # sorted: set order changes with PYTHONHASHSEED, so the output must not depend on it
     find["shared_lines_dropped"] = len(shared_lines)
     rng = random.Random(7)
     def scr(c):
@@ -86,9 +110,15 @@ def sweep(reg, root, repo=REPO):
 
 
 def verdict(find, canon, missing):
-    hard = bool(find["cross_name"] or find["alias_leak"] or find["echo_after_control"] or missing
+    # Hard failures are mechanical greps and refusals. A leftover echo is evidence to inspect, not proof (REVIEW, exit 0):
+    # a receipt that cites an ADR restates the ADR by design. Severity changed 2026-10-18 after the first receipts run.
+    hard = bool(find["cross_name"] or find["alias_leak"] or missing
                 or any(q["verdict"] in ("CONTAMINATED", "UNSOURCED") for q in find["quote"]) or canon.get("quarantined"))
-    return "CONTAMINATED" if hard else ("DRIFT" if canon.get("source_changed") else "CLEAN")
+    if hard:
+        return "CONTAMINATED"
+    if find["echo_after_control"]:
+        return "REVIEW"
+    return "DRIFT" if canon.get("source_changed") else "CLEAN"
 
 
 def self_test():
@@ -118,7 +148,22 @@ def self_test():
         f, h, c, m = sweep(reg, tmp)
         ok4 = f["echo_raw"] > 0 and f["shared_lines_dropped"] > 0
         print(("PASS " if ok4 else "FAIL ") + f"identical sentence in two universes is dropped by the control (dropped {f['shared_lines_dropped']})")
-        return 0 if all((ok1, ok2, ok3, ok4)) else 1
+        # determinism: identical input must give byte-identical output under different hash seeds
+        import subprocess
+        dd = tempfile.mkdtemp()
+        try:
+            json.dump(reg, open(os.path.join(dd, "_registry.json"), "w"))
+            ph = "Revenue grows quickly across the three northern regions this year and next"
+            open(os.path.join(dd, "a.claims.jsonl"), "w").write(json.dumps(dict(base, id="a/1", entity="a", claim=ph + " for Alpha.")) + "\n")
+            open(os.path.join(dd, "b.claims.jsonl"), "w").write(json.dumps(dict(base, id="b/1", entity="b", claim="Beta saw it too: " + ph + ".")) + "\n")
+            code = ("import sys,json; sys.path.insert(0,%r); import universe_sweep as sw, universe_ask as ua; "
+                    "reg=ua.load_registry(%r); f,h,c,m=sw.sweep(reg,%r); print(json.dumps([f['echo_after_control'], f['cross_name'], f['alias_leak']]))") % (HERE, dd, dd)
+            outs = {sd: subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env={**os.environ, "PYTHONHASHSEED": sd}).stdout for sd in ("1", "2", "3", "4")}
+            ok5 = len(set(outs.values())) == 1 and len(json.loads(outs["1"])[0]) > 1
+            print(("PASS " if ok5 else "FAIL ") + f"deterministic: byte-identical findings under 4 hash seeds ({len(json.loads(outs['1'])[0])} echo findings compared)")
+        finally:
+            shutil.rmtree(dd, ignore_errors=True)
+        return 0 if all((ok1, ok2, ok3, ok4, ok5)) else 1
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -133,16 +178,18 @@ def main():
     for q in find["quote"]:
         qc[q["verdict"]] = qc.get(q["verdict"], 0) + 1
     receipt = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "type": "universe-sweep-receipt", "universes": sorted(hyg), "verdict": v,
-               "cross_name": find["cross_name"], "alias_leak": find["alias_leak"], "echo_raw": find["echo_raw"], "shared_lines_dropped": find["shared_lines_dropped"],
+               "declared_bridges": find.get("declared_bridges", 0), "cross_name": find["cross_name"], "alias_leak": find["alias_leak"], "echo_raw": find["echo_raw"], "shared_lines_dropped": find["shared_lines_dropped"], "echo_after_lines": find["echo_after_lines"], "echo_after_template": find["echo_after_template"], "echo_declared_relation": find["echo_declared_relation"], "unregistered_mentions": dict(find.get("unregistered_mentions", {})),
                "real_echoes_after_template_control": find["echo_after_control"], "scramble_fp_proxy": find["scramble_fp"], "quote_lint": qc,
                "audience_hygiene": hyg, "canon": canon, "collisions_missing_atom": missing}
     print(f"universe sweep {receipt['ts'][:10]}: {v}")
     print("  universes " + ", ".join("%s(%d)" % (u, h["atoms"]) for u, h in hyg.items()))
-    print(f"  cross-universe names {len(find['cross_name'])} · alias leaks {len(find['alias_leak'])} · missing collision atoms {len(missing)}")
-    print(f"  echoes raw {find['echo_raw']} -> after shared-line control {len(find['echo_after_control'])} (scramble FP proxy {find['scramble_fp']})")
+    print(f"  declared bridges {find.get('declared_bridges', 0)} · cross-universe names {len(find['cross_name'])} · alias leaks {len(find['alias_leak'])} · missing collision atoms {len(missing)}")
+    print(f"  echoes raw {find['echo_raw']} -> shared-line {find['echo_after_lines']} -> template-frequency {find['echo_after_template']} -> declared-relation {find['echo_declared_relation']} -> real {len(find['echo_after_control'])} (scramble FP proxy {find['scramble_fp']})")
+    if find.get("unregistered_mentions"):
+        print("  personal receipts name counterparts with no universe yet: " + ", ".join(f"{n} {k}" for n, k in find["unregistered_mentions"].most_common(8)))
     print(f"  quote lint {qc or 'no quote atoms'} · canon {canon or 'not built'}")
     print("  no explicit audience: " + ", ".join(f"{u} {h['no_explicit_audience']}" for u, h in hyg.items() if h["no_explicit_audience"]) if any(h["no_explicit_audience"] for h in hyg.values()) else "  every atom carries an explicit audience tag")
-    for x in find["cross_name"][:10] + find["alias_leak"][:10]:
+    for x in find["cross_name"][:10] + find["alias_leak"][:10] + find["echo_after_control"][:8]:
         print("  FINDING", x)
     if "--no-write" not in sys.argv:
         open(os.path.join(REPO, "_INBOX", "universe-drift.jsonl"), "a", encoding="utf-8").write(json.dumps(receipt) + "\n")

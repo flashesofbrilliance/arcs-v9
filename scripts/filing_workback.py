@@ -5,6 +5,7 @@ python3 scripts/filing_workback.py                 # text report
 python3 scripts/filing_workback.py --html          # also write _ARTIFACTS/filing-workback.html
 python3 scripts/filing_workback.py --anchor arcs-v9-first-deploy   # plan against a different anchor
 python3 scripts/filing_workback.py --slip ledger-final=10          # what a 10-day slip does downstream
+python3 scripts/filing_workback.py --simulate      # event-time Monte Carlo: chance of making the date, percentile dates, criticality, paths
 python3 scripts/filing_workback.py --check         # gates: exit 1 on negative slack, bad DAG, done without evidence
 python3 scripts/filing_workback.py --strict        # also fail on an UNVERIFIED anchor or a too-comfortable plan
 python3 scripts/filing_workback.py --self-test     # plant faults, prove each gate fails on them
@@ -20,7 +21,12 @@ Planning aid, not legal advice: counsel decides what each anchor means.
 import argparse
 import datetime as dt
 import json
+import inspect
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import filing_event_time as fet  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PLAN = os.path.join(ROOT, "runtime", "specs", "filing-workback-plan.json")
@@ -145,7 +151,7 @@ def report(plan, nodes, today, anchor, plan_date, topo, done):
     return cp, ready, neg
 
 
-def html(plan, nodes, today, anchor, plan_date, topo, done, cp, ready):
+def html(plan, nodes, today, anchor, plan_date, topo, done, cp, ready, simd=None):
     tokens = open(TOKENS).read()
     rows = []
     for i in sorted(topo, key=lambda i: (nodes[i]["ls"] is None, nodes[i]["ls"] or today)):
@@ -157,7 +163,8 @@ def html(plan, nodes, today, anchor, plan_date, topo, done, cp, ready):
     data = {"today": str(today), "plan_date": str(plan_date), "anchor": anchor, "anchors": plan["anchors"], "rows": rows,
             "note": plan["note"], "buffer": plan["buffer_days"],
             "gates": [{"name": g[0], "hard": g[1], "ok": g[2], "msg": g[3]} for g in gates(plan, nodes, anchor, today, topo, done)],
-            "beliefs": plan.get("beliefs", []), "lessons": plan.get("lessons", [])}
+            "beliefs": plan.get("beliefs", []), "lessons": plan.get("lessons", []),
+            "sim": ({k: v for k, v in simd.items() if k != "_raw"} if simd else None)}
     page = TEMPLATE.replace("/*TOKENS*/", tokens).replace("/*DATA*/", json.dumps(data))
     open(OUT, "w").write(page)
     print("wrote " + os.path.relpath(OUT, ROOT))
@@ -197,14 +204,19 @@ small{color:var(--dimmed);font-size:.6875rem}
 <div class="warn" id="note"></div>
 <div class="big">
   <div class="card"><div class="k">Plan date (file by)</div><div class="v" id="cd">-</div><div class="sub" id="cdsub"></div></div>
-  <div class="card"><div class="k">Next start by</div><div class="v" id="nx">-</div><div class="sub" id="nxsub"></div></div>
+  <div class="card"><div class="k">Steps you can start</div><div class="v" id="nx">-</div><div class="sub" id="nxsub"></div></div>
   <div class="card"><div class="k">Anchor in use</div><div class="v sm" id="an">-</div><div class="sub" id="ansub"></div></div>
 </div>
+<h2>Chance of making the date</h2>
+<div class="big" id="simcards"></div>
+<div class="wrap" tabindex="0" role="region" aria-label="Alternative paths"><table id="paths"></table></div>
+<h2>Most often on the critical path</h2>
+<div id="crit"></div>
 <h2>Gates</h2><div id="gates" class="wrap" tabindex="0" role="region" aria-label="Gates"></div>
 <p><label class="k" for="pick">Show</label> <select id="pick"><option value="all">all steps</option><option value="ready">ready now</option><option value="cp">critical path</option></select></p>
 <div class="wrap" tabindex="0" role="region" aria-label="Filing steps"><table><thead><tr><th>Step</th><th>Owner</th><th>Status</th><th>Days</th><th>Start by</th><th>Finish by</th><th>Slack</th><th>Needs / holds up</th></tr></thead><tbody id="rows"></tbody></table></div>
 <h2>Pre-registered beliefs</h2><div id="beliefs" class="wrap" tabindex="0" role="region" aria-label="Beliefs"></div>
-<p class="sub">Slack is days between the latest start that still meets the plan date and the earliest start from today. Negative means the plan date cannot be met on these estimates. Rebuild with <code>python3 scripts/filing_workback.py --html</code> after changing statuses in <code>runtime/specs/filing-workback-plan.json</code>.</p>
+<p class="sub">The Start by, Finish by and Slack columns are the old point-estimate schedule (even integer days, one path): treat them as false precision and read the simulation above instead. Slack is days between the latest start that still meets the plan date and the earliest start from today. Negative means the plan date cannot be met on these estimates. Rebuild with <code>python3 scripts/filing_workback.py --html</code> after changing statuses in <code>runtime/specs/filing-workback-plan.json</code>.</p>
 </main>
 <script>
 var D=/*DATA*/;
@@ -219,8 +231,9 @@ function tick(){
   document.getElementById('cdsub').textContent=D.plan_date+' = anchor + 12 months - '+D.buffer+' day buffer';
 }
 tick();setInterval(tick,1000);
-var ready=D.rows.filter(function(r){return r.status==='ready'&&r.ls}).sort(function(a,b){return a.ls<b.ls?-1:1})[0];
-if(ready){document.getElementById('nx').textContent=ready.ls;document.getElementById('nxsub').textContent=ready.title+' ('+ready.owner+', '+days(new Date(),new Date(ready.ls))+' days from now)'}
+var rdy=D.rows.filter(function(r){return r.status==='ready'}).sort(function(a,b){return b.holds.length-a.holds.length});
+document.getElementById('nx').textContent=rdy.length+' ready now';
+document.getElementById('nxsub').textContent=rdy.length?('Biggest unlock first: '+rdy[0].title+' ('+rdy[0].owner+', holds up '+rdy[0].holds.length+' steps). Starting early costs nothing; waiting is what the simulation penalises.'):'Nothing is ready; see the blocked steps.';
 document.getElementById('an').textContent=D.anchor.date;
 document.getElementById('ansub').textContent=D.anchor.id+' ['+D.anchor.status+']: '+D.anchor.what;
 function draw(){
@@ -232,6 +245,14 @@ function draw(){
   document.getElementById('rows').innerHTML=h;
 }
 document.getElementById('pick').onchange=draw;draw();
+if(D.sim){var S=D.sim;
+ var cards='<div class="card"><div class="k">Chance of filing by '+S.deadline+'</div><div class="v">'+(S.p_on_time*100).toFixed(0)+'%</div><div class="sub">author-estimated spreads, '+S.runs+' runs</div></div>';
+ if(S.p_stress!==null){cards+='<div class="card"><div class="k">With stalls (author priors)</div><div class="v">'+(S.p_stress*100).toFixed(0)+'%</div><div class="sub">median '+S.dates_stress['50']+', p95 '+S.dates_stress['95']+'</div></div>';}
+ cards+='<div class="card"><div class="k">Finish interval, p10 to p95</div><div class="v sm">'+S.dates['10']+' to '+S.dates['95']+'</div><div class="sub">median '+S.dates['50']+', p80 '+S.dates['80']+'</div></div>';
+ document.getElementById('simcards').innerHTML=cards;
+ document.getElementById('paths').innerHTML='<thead><tr><th>Path</th><th>On time</th><th>With stalls</th><th>Median</th><th>p80</th><th>Doors</th><th>Trade-offs (no recommendation)</th></tr></thead><tbody>'+S.paths.map(function(x){return '<tr><td><b>'+esc(x.id)+'</b><br>'+esc(x.summary)+'</td><td>'+(x.p_on_time*100).toFixed(0)+'%</td><td>'+(x.p_stress===null?'-':(x.p_stress*100).toFixed(0)+'%')+'</td><td>'+x.dates['50']+'</td><td>'+x.dates['80']+'</td><td>'+x.doors.length+'</td><td><small>'+x.tradeoffs.map(esc).join('<br>')+'</small></td></tr>'}).join('')+'</tbody>';
+ document.getElementById('crit').innerHTML='<table><tbody>'+S.crit.map(function(c){return '<tr><td style="width:30%"><b>'+esc(c[0])+'</b></td><td><div style="height:8px;border-radius:3px;background:var(--cyan);width:'+(c[1]*100).toFixed(0)+'%"></div></td><td style="width:15%">'+(c[1]*100).toFixed(0)+'%</td></tr>'}).join('')+'</tbody></table>';
+}
 document.getElementById('gates').innerHTML='<table><tbody>'+D.gates.map(function(g){return '<tr><td><b>'+esc(g.name)+'</b></td><td><span class="pill s-'+(g.ok?'ready':(g.hard?'blocked':'done'))+'">'+(g.ok?'ok':(g.hard?'FAIL':'warn'))+'</span></td><td>'+esc(g.msg)+'</td></tr>'}).join('')+'</tbody></table>';
 document.getElementById('beliefs').innerHTML='<table><thead><tr><th>Id</th><th>Claim</th><th>Prior</th><th>Scope / frame</th><th>Test</th><th>Verdict</th></tr></thead><tbody>'+D.beliefs.map(function(b){return '<tr><td>'+esc(b.id)+'</td><td>'+esc(b.claim)+'<br><small>step: '+esc(b.node)+'</small></td><td>'+b.p+'</td><td><small>'+esc(b.test)+'</small></td><td><span class="pill">'+esc(b.verdict)+'</span></td></tr>'}).join('')+'</tbody></table>';
 </script></body></html>
@@ -279,7 +300,97 @@ def gates(plan, nodes, anchor, today, topo, done):
     tot = sum(nodes[i]["days"] for i in nodes if i not in done)
     est = sum(nodes[i]["days"] for i in nodes if i not in done and not nodes[i].get("measured"))
     out.append(("estimate_share", False, est == 0, "%d of %d remaining schedule days (%d%%) are author estimates" % (est, tot, round(100.0 * est / max(tot, 1)))))
+    out.extend(sim_gates(plan, nodes, anchor, today))
     return out
+
+
+def sim_gates(plan, nodes, anchor, today):
+    """write-lock, confidence and path gates from the event-time layer (lessons L2, L4; ROM primitive 7)."""
+    sim = plan.get("sim")
+    if not sim:
+        return []
+    out = []
+    pdate = plan_date_of(plan, anchor)
+    problems = list(fet.write_lock_problems(nodes))
+    errs = []
+    for pth in plan.get("paths", []):
+        try:
+            pn = fet.apply_patch(nodes, pth.get("patch", {}))
+            fet.order(pn)
+            problems += ["[%s] %s" % (pth["id"], x) for x in fet.write_lock_problems(pn)]
+            fet.simulate(pn, sim, pth.get("patch", {}).get("target", "file"), today, pdate, runs=200)
+        except (ValueError, KeyError) as e:
+            errs.append("%s: %s" % (pth["id"], e))
+    out.append(("write_lock", True, not problems, "; ".join(problems) or "every one-way door has a declared write-lock step before it, in every path"))
+    out.append(("paths", True, not errs, "; ".join(errs) or "%d alternative paths build, order and simulate" % len(plan.get("paths", []))))
+    try:
+        p = fet.simulate(nodes, sim, "file", today, pdate)["p_on_time"]
+    except ValueError as e:
+        return out + [("confidence_floor", True, False, str(e))]
+    floor, want = sim.get("hard_floor", 0.5), sim.get("min_confidence", 0.8)
+    out.append(("confidence_floor", True, p >= floor, "chance of filing by %s is %.0f%% (hard floor %.0f%%)" % (pdate, 100 * p, 100 * floor)))
+    out.append(("confidence", False, p >= want, "chance of filing by %s is %.0f%% (wanted %.0f%%), on author-estimated spreads" % (pdate, 100 * p, 100 * want)))
+    stall = sim.get("stall")
+    if stall:
+        ps = fet.simulate(nodes, sim, "file", today, pdate, stall=stall)["p_on_time"]
+        out.append(("confidence_stress", False, ps >= want, "with heavy-tailed stalls (author priors) the chance of filing by %s is %.0f%% (wanted %.0f%%)" % (pdate, 100 * ps, 100 * want)))
+    return out
+
+
+def _date(today, days):
+    return today + dt.timedelta(days=days)
+
+
+def sim_data(plan, nodes, today, pdate):
+    sim = plan.get("sim")
+    if not sim:
+        return None
+    base = fet.simulate(nodes, sim, "file", today, pdate)
+    stall = sim.get("stall")
+    base_s = fet.simulate(nodes, sim, "file", today, pdate, stall=stall) if stall else None
+    paths = []
+    for pth in plan.get("paths", []):
+        pn = fet.apply_patch(nodes, pth.get("patch", {}))
+        tgt = pth.get("patch", {}).get("target", "file")
+        r = fet.simulate(pn, sim, tgt, today, pdate, also=pth.get("patch", {}).get("also", []))
+        rs = fet.simulate(pn, sim, tgt, today, pdate, stall=stall) if stall else None
+        paths.append({"id": pth["id"], "title": pth["title"], "summary": pth.get("summary", ""), "tradeoffs": pth.get("tradeoffs", []),
+                      "target": tgt, "p_on_time": r["p_on_time"], "p_stress": rs["p_on_time"] if rs else None,
+                      "dates_stress": ({str(q): str(_date(today, v)) for q, v in rs["pct"].items()} if rs else None), "dates": {str(q): str(_date(today, v)) for q, v in r["pct"].items()},
+                      "effort": r["mean_effort_days"], "doors": r["one_way_doors"],
+                      "also": {a: {k: str(_date(today, v)) for k, v in d.items()} for a, d in r["also"].items()}})
+    top = sorted(base["crit"].items(), key=lambda kv: -kv[1])[:8]
+    return {"runs": base["runs"], "seed": base["seed"], "p_on_time": base["p_on_time"], "deadline": str(pdate),
+            "p_stress": base_s["p_on_time"] if base_s else None, "p_if_earlier": base["p_if_earlier"],
+            "p_if_earlier_stress": base_s["p_if_earlier"] if base_s else None,
+            "dates_stress": ({str(q): str(_date(today, v)) for q, v in base_s["pct"].items()} if base_s else None),
+            "dates": {str(q): str(_date(today, v)) for q, v in base["pct"].items()}, "crit": [[k, v] for k, v in top],
+            "paths": paths, "floor": sim.get("hard_floor", 0.5), "want": sim.get("min_confidence", 0.8),
+            "write_locks": [[i, n.get("declare", "")] for i, n in nodes.items() if n.get("kind") == "write_lock"],
+            "_raw": base}
+
+
+def sim_block(plan, nodes, today, pdate):
+    d = sim_data(plan, nodes, today, pdate)
+    if not d:
+        return None
+    print("\nEVENT-TIME SIMULATION (%d runs, seed %s). Durations are author estimates sampled as floats; each step fires when its preconditions finish." % (d["runs"], d["seed"]))
+    print("  Chance of filing by %s: %.1f%%   (hard floor %.0f%%, wanted %.0f%%)" % (d["deadline"], 100 * d["p_on_time"], 100 * d["floor"], 100 * d["want"]))
+    print("  Finish, as an interval not a point: p10 %s  p50 %s  p80 %s  p95 %s" % tuple(d["dates"][q] for q in ("10", "50", "80", "95")))
+    if d["p_stress"] is not None:
+        print("  With heavy-tailed stalls (author priors, not measurements): %.1f%% on time; p50 %s  p95 %s" % (100 * d["p_stress"], d["dates_stress"]["50"], d["dates_stress"]["95"]))
+        print("  If the real deadline were earlier by 30 / 60 / 90 / 120 days: %s  (bounded)   %s  (with stalls)" % (
+            " ".join("%3.0f%%" % (100 * d["p_if_earlier"][k]) for k in (30, 60, 90, 120)), " ".join("%3.0f%%" % (100 * d["p_if_earlier_stress"][k]) for k in (30, 60, 90, 120))))
+    print("  Most often on the critical path: " + ", ".join("%s %.0f%%" % (k, 100 * v) for k, v in d["crit"][:6]))
+    print("  Alternative paths, same random numbers (no recommendation; counsel decides):")
+    print("    %-15s %-9s %-9s %-11s %-11s %-9s %-5s %s" % ("path", "on time", "stalls", "p50", "p80", "effort-d", "doors", "title"))
+    for pth in d["paths"]:
+        stress = "%7.1f%%" % (100 * pth["p_stress"]) if pth["p_stress"] is not None else "      -"
+        print("    %-15s %7.1f%%  %s  %-11s %-11s %9.1f %5d %s" % (pth["id"], 100 * pth["p_on_time"], stress, pth["dates"]["50"], pth["dates"]["80"], pth["effort"], len(pth["doors"]), pth["title"][:40]))
+        for a, v in pth["also"].items():
+            print("      also %s: p50 %s p80 %s" % (a, v["p50"], v["p80"]))
+    print("  Write-lock steps (one-way doors need one): " + ", ".join(i for i, _ in d["write_locks"]))
+    return d
 
 
 def plan_date_of(plan, anchor):
@@ -312,6 +423,8 @@ def self_test():
     def fails(mut, strict=False):
         p = json.loads(json.dumps(base))
         mut(p)
+        if "sim" in p:
+            p["sim"]["runs"] = min(p["sim"].get("runs", 1500), 1500)  # keep the self-test fast; the real runs use the plan setting
         a = argparse.Namespace(anchor=None, slip=None, strict=strict)
         try:
             return {f[0] for f in run_gates(p, a, quiet=True)}
@@ -332,6 +445,13 @@ def self_test():
     assert "base_case" not in fails(lambda p: None), "base_case fired on the clean plan"
     assert "anchor_verified" in fails(lambda p: None, strict=True), "strict does not flag the unverified anchor"
     assert "anchor_verified" not in fails(lambda p: p.update(anchors=[dict(a, status="VERIFIED") for a in p["anchors"]]), strict=True), "verified anchor still flagged"
+    assert "write_lock" in fails(lambda p: node(p, "file").update(needs=[x for x in node(p, "file")["needs"] if x != "wl-file"])), "one-way door without a write-lock accepted"
+    assert "write_lock" in fails(lambda p: node(p, "wl-file").update(declare="")), "empty write-lock declaration accepted"
+    assert "write_lock" not in fails(lambda p: None), "write_lock fired on the clean plan"
+    assert "confidence_floor" in fails(lambda p: node(p, "select-counsel").update(days=900)), "confidence floor cannot fail"
+    assert "confidence_floor" not in fails(lambda p: None), "confidence floor cried wolf on the clean plan"
+    assert "paths" in fails(lambda p: p["paths"][1]["patch"]["nodes_add"][0]["needs"].append("file-thin")), "a cyclic alternative path was accepted"
+    assert "paths" not in fails(lambda p: None), "paths gate fired on the clean plan"
     def mk(v, p, scope="records", frame="fact", **kw):
         return dict({"id": "t", "p": p, "verdict": v, "scope": scope, "frame": frame, "node": "n", "claim": "c",
                      "reason_logged_at": "2026-10-01", "resolved_on": "2026-10-02"}, **kw)
@@ -349,7 +469,9 @@ def self_test():
     assert belief_problems(late), "post hoc reasoning accepted"
     assert belief_problems({"beliefs": [mk("OPEN", .5, scope="oops")], "scopes": ["records"], "frames": ["fact"]}), "unregistered scope accepted"
     assert not belief_problems({"beliefs": [mk("OPEN", .5)], "scopes": ["records"], "frames": ["fact"]}), "clean belief rejected"
-    print("self-test OK: 22 planted faults and controls behaved (schedule gates plus score, cross-scale identity, REVISED handling, post hoc reasoning, unregistered scope)")
+    fet.self_test()
+    n = sum(1 for l in inspect.getsource(self_test).splitlines() if l.strip().startswith("assert "))
+    print("self-test OK: %d assertion sites here (schedule gates, score, cross-scale identity, REVISED handling, post hoc reasoning, unregistered scope, write-lock, confidence, paths) plus the event-time module's own" % n)
 
 
 def _rows(plan):
@@ -517,6 +639,7 @@ def main():
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--strict", action="store_true")
     ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--simulate", action="store_true")
     ap.add_argument("--calibration", action="store_true")
     ap.add_argument("--backlog", action="store_true")
     ap.add_argument("--backlog-check", action="store_true")
@@ -532,14 +655,18 @@ def main():
         return backlog(plan, nodes, today, args.write)
     if args.backlog_check:
         raise SystemExit(1 if backlog_check(nodes) else 0)
+    if args.simulate:
+        sim_block(plan, nodes, today, plan_date)
+        return
     cp, ready, neg = report(plan, nodes, today, anchor, plan_date, topo, done)
+    simd = sim_block(plan, nodes, today, plan_date)
     fails = run_gates(json.load(open(PLAN)), args) if (args.check or args.strict) else []
     if args.check or args.strict:
         for x in belief_problems(plan):
             print("  BELIEF PROBLEM " + x)
             fails.append(x)
     if args.html:
-        html(plan, nodes, today, anchor, plan_date, topo, done, cp, ready)
+        html(plan, nodes, today, anchor, plan_date, topo, done, cp, ready, simd)
     if fails:
         raise SystemExit(1)
 

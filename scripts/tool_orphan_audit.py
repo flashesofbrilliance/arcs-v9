@@ -34,7 +34,7 @@ Usage:
 Read-only except its two cache files under ~/.claude/cache/. Stdlib only. Exit 0 (receipt, not gate),
 except --self-test which exits 1 on failure.
 """
-import json, os, re, subprocess, sys, tempfile, time
+import fnmatch, json, os, re, subprocess, sys, tempfile, time
 
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HOME = os.path.expanduser("~")
@@ -211,6 +211,42 @@ def token_index(corpus):
     return idx
 
 
+GLOB_RE = re.compile(r"(?<![\w/.~*-])((?:[\w.-]+/)*[\w.-]*\*[\w.*-]*)")
+GLOB_EXT = (".py", ".sh", ".mjs", ".js", ".ts", ".md", ".json")
+
+
+def glob_patterns(corpus):
+    """[(pattern, file)] for path globs written in the reference corpus, for example the loop in
+    phosphor_suite.sh that runs scripts/phosphor_*_check.mjs. A text match on the name cannot see these.
+    Guards against over-broad globs: the pattern must end in a file extension and its file-name part must
+    carry at least 4 literal characters, so scripts/* and *.py never wire everything."""
+    out = []
+    for f, t in corpus.items():
+        if f == "scripts/tool_orphan_audit.py":   # its own docstring quotes example globs; those must not wire anything
+            continue
+        for m in GLOB_RE.findall(t):
+            pat = m.strip(".,;:)'\"`")
+            if not pat.endswith(GLOB_EXT):
+                continue
+            base = pat.rsplit("/", 1)[-1].rsplit(".", 1)[0]
+            if len(re.sub(r"[^A-Za-z0-9_-]", "", base)) < 4:
+                continue
+            out.append((pat, f))
+    return out
+
+
+def glob_referrers(relpath, globs, own):
+    """Files whose written glob matches this script's repo-relative path (never the file's own text)."""
+    name = relpath.rsplit("/", 1)[-1]
+    hits = set()
+    for pat, f in globs:
+        if f in own:
+            continue
+        if fnmatch.fnmatch(relpath if "/" in pat else name, pat):
+            hits.add(f"{f} ({pat})")
+    return sorted(hits)
+
+
 def referrers(name, own_path, idx, root, home):
     stem = re.sub(r"\.(py|sh|mjs)$", "", name)
     own = {os.path.relpath(own_path, root), "~/" + os.path.relpath(own_path, home)}
@@ -218,6 +254,8 @@ def referrers(name, own_path, idx, root, home):
     return sorted(hits - own)
 
 
+# an absolute checkout path inside a scheduled task: /Users/<name>/<repo>. The self-test rebinds this to a temp dir.
+CHECKOUT_RE = re.compile(r"(/Users/[\w.-]+/[\w.-]+)")
 REPO_PATH_RE = re.compile(r"(?<![\w/.~-])((?:scripts|operators|tools|\.claude)/[\w./-]+\.(?:py|sh|mjs|js|md|json))")
 
 
@@ -322,7 +360,9 @@ def toks(s):
 
 def classify(root, home, pub=None):
     items = inventory(root, home)
-    idx = token_index(ref_corpus(root, home))
+    corpus = ref_corpus(root, home)
+    idx = token_index(corpus)
+    globs = glob_patterns(corpus)
 
     for it in items:
         if it["state"]:
@@ -332,8 +372,12 @@ def classify(root, home, pub=None):
             it.update(state="WIRED", why="loaded by sessions")
         elif k == "script":
             refs = referrers(it["name"], it["path"], idx, root, home)
+            grefs = [] if refs else glob_referrers(os.path.relpath(it["path"], root), globs,
+                                                     {os.path.relpath(it["path"], root)})
             if refs:
                 it.update(state="WIRED", why=f"{len(refs)} ref(s): " + ", ".join(refs[:3]))
+            elif grefs:
+                it.update(state="WIRED", why=f"matched by a written glob: " + ", ".join(grefs[:2]))
             else:
                 it.update(state="INSTALLED-UNUSED", why="no hook/command/task/CI/doc references it",
                           fix="wire it (command/hook/doc) or retire it to _ARCHIVE")
@@ -365,7 +409,11 @@ def classify(root, home, pub=None):
         elif k == "task":
             text = read(it["path"])
             # a task may target another checkout by absolute path; a relative path is fine if it exists in any
-            bases = [root] + [d for d in set(re.findall(r"(/Users/[\w.-]+/[\w.-]+)", text)) if os.path.isdir(d)]
+            # try the path as written AND with trailing sentence punctuation stripped: "in /Users/me/repo." usually ends a
+            # sentence, but a directory literally named "repo." can exist too, so keeping both loses neither
+            raw = set(CHECKOUT_RE.findall(text))
+            cand = raw | {d.rstrip(".-") for d in raw}
+            bases = [root] + [d for d in cand if os.path.isdir(d)]
             missing = sorted({p for p in REPO_PATH_RE.findall(text) if "*" not in p and "<" not in p
                               and not any(os.path.exists(os.path.join(b, p)) for b in bases)})
             if missing:
@@ -484,8 +532,11 @@ def report(res):
 # ---------------------------------------------------------------- self-test
 
 def self_test():
+    global CHECKOUT_RE
+    saved_checkout_re = CHECKOUT_RE
     ok = True
     with tempfile.TemporaryDirectory() as t:
+        CHECKOUT_RE = re.compile(r"(" + re.escape(t) + r"/Users/[\w.-]+/[\w.-]+)")
         root, home = os.path.join(t, "repo"), os.path.join(t, "home")
 
         def w(p, s=""):
@@ -498,6 +549,14 @@ def self_test():
         w(f"{root}/.claude/commands/run-wired.md", "> run `python3 scripts/wired_tool.py`\n")
         w(f"{root}/scripts/wired_tool.py", '"""wired"""\n')                                 # WIRED (good)
         w(f"{root}/scripts/lonely_tool.py", '"""nobody calls me"""\n')                      # INSTALLED-UNUSED
+        # glob wiring: good (both match the written glob) and bad (too-broad globs and a non-matching sibling)
+        w(f"{root}/scripts/glob_a_check.mjs", "// a\n")
+        w(f"{root}/scripts/glob_b_check.mjs", "// b\n")
+        w(f"{root}/scripts/glob_a_other.mjs", "// not matched by the glob\n")
+        w(f"{root}/scripts/broad_victim.py", '"""only broad globs point here"""\n')
+        w(f"{root}/scripts/tool_orphan_audit.py", "# example only: scripts/glob_x_only_*.mjs\n")   # self-quote must wire nothing
+        w(f"{root}/scripts/glob_x_only_one.mjs", "// matched only by the audit's own comment\n")
+        w(f"{root}/.claude/commands/run-suite.md", "> run every `scripts/glob_*_check.mjs`; never `scripts/*` or `*.py` or `scripts/*.mjs`\n")
         w(f"{root}/operators/core/atoms.py", "class A: pass\n")
         w(f"{root}/operators/OPERATOR-REGISTRY.json", json.dumps({"operators": [
             {"op": 1, "name": "Good", "binding": {"module": "core/atoms.py"}, "status": "READY"},
@@ -507,6 +566,13 @@ def self_test():
         w(f"{home}/.claude/skills/token-savings-bank/SKILL.md", "---\ndescription: budget\n---\n")
         w(f"{home}/.claude/scheduled-tasks/good-task/SKILL.md", "run scripts/wired_tool.py\n")
         w(f"{home}/.claude/scheduled-tasks/bad-task/SKILL.md", "run scripts/vanished.py\n")  # BROKEN task
+        # cross-checkout task: the script lives in another checkout named by an absolute path that ends a sentence
+        w(f"{t}/Users/me/other-repo/scripts/elsewhere.py", "# lives in the other checkout\n")
+        w(f"{home}/.claude/scheduled-tasks/cross-task/SKILL.md", f"work in {t}/Users/me/other-repo. Run scripts/elsewhere.py first.\n")
+        # a directory whose name really ends in a dot must still be found when the text names it that way
+        w(f"{t}/Users/me/dotted-repo./scripts/inside.py", "# lives in a dir named with a trailing dot\n")
+        w(f"{home}/.claude/scheduled-tasks/cross-dotted-task/SKILL.md", f"work in {t}/Users/me/dotted-repo. Run scripts/inside.py first.\n")
+        w(f"{home}/.claude/scheduled-tasks/cross-bad-task/SKILL.md", f"work in {t}/Users/me/other-repo. Run scripts/nowhere.py first.\n")
         os.makedirs(f"{home}/.claude/plugins/cache/p1")
         w(f"{home}/.claude/plugins/installed_plugins.json", json.dumps({"plugins": {
             "ok@m": [{"scope": "user", "installPath": f"{home}/.claude/plugins/cache/p1"}],
@@ -525,11 +591,20 @@ def self_test():
         expect = {
             ("repo", "script", "wired_tool.py"): "WIRED",
             ("repo", "script", "lonely_tool.py"): "INSTALLED-UNUSED",
+            ("repo", "script", "glob_a_check.mjs"): "WIRED",
+            ("repo", "script", "glob_b_check.mjs"): "WIRED",
+            ("repo", "script", "glob_a_other.mjs"): "INSTALLED-UNUSED",
+            ("repo", "script", "broad_victim.py"): "INSTALLED-UNUSED",
+            ("repo", "script", "glob_x_only_one.mjs"): "INSTALLED-UNUSED",
+            ("repo", "script", "tool_orphan_audit.py"): "INSTALLED-UNUSED",
             ("repo", "skill", "empty"): "BROKEN",
             ("repo", "operator", "op1:Good"): "WIRED",
             ("repo", "operator", "op2:Gone"): "BROKEN",
             ("user", "task", "good-task"): "WIRED",
             ("user", "task", "bad-task"): "BROKEN",
+            ("user", "task", "cross-task"): "WIRED",
+            ("user", "task", "cross-bad-task"): "BROKEN",
+            ("user", "task", "cross-dotted-task"): "WIRED",
             ("user", "plugin", "ok@m"): "WIRED",
             ("user", "plugin", "gone@m"): "BROKEN",
             ("user", "plugin", "off@m"): "INSTALLED-UNUSED",
@@ -555,6 +630,7 @@ def self_test():
         good = "--orphans" not in clean_line
         print(f"  {'PASS' if good else 'FAIL'} one-line silent nudge when clean: {clean_line}")
         ok &= good
+    CHECKOUT_RE = saved_checkout_re
     print("self-test:", "OK" if ok else "FAILED")
     return 0 if ok else 1
 

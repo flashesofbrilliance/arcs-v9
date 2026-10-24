@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 const { chromium, devices } = createRequire('/Users/zharris/arcs-v9/package.json')('playwright')
 const page = process.argv[2], baseline = process.argv[3]; if (!page) { console.log('usage: phosphor_touch_check.mjs <page.html> [baseline.html]'); process.exit(2) }
-let bad = 0; const check = (ok, msg) => { console.log(`${ok ? '✓' : '✗'} ${msg}`); if (!ok) bad++ }
+import { check, failed } from './lib/phosphor_check_lib.mjs'
 const b = await chromium.launch(), errs = [], url = (f) => pathToFileURL(path.resolve(f)).href + '?test=1&shutter=off&level=4'
 const grp = async (pg, name) => { await pg.evaluate((name) => { document.querySelector('#grown').open = true; document.querySelectorAll('details.grp').forEach((d) => (d.open = d.querySelector('summary').textContent === name)) }, name); await pg.waitForTimeout(350) }
 const prep = async (pg) => { await pg.goto(url(page)); await pg.waitForTimeout(1200); await pg.evaluate(() => { const n = document.getElementById('notesb'); if (n.getAttribute('aria-pressed') !== 'true') n.click() }) }
@@ -45,4 +45,4 @@ if (baseline) {
   check(!A.lane && JSON.stringify(A.r) === JSON.stringify(B0.r) && A.r.length === 176, `R2 desktop: the sequencer is not in lane view and its ${A.r.length} step sizes match the baseline page`)
 }
 check(errs.length === 0, `R2: no console errors ${errs.slice(0, 2).join('; ')}`)
-await b.close(); process.exit(bad ? 1 : 0)
+await b.close(); process.exit(failed() ? 1 : 0)

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""handoff_fold — fragments are raw material; molt turns them into ONE cold-moltable arc. ADR-085 (d).
+"""handoff_fold: cold-molt half-written handoff shards into ONE arc a cold session resumes from fast (cuts landing drag). ADR-085 (d).
+
+Fragments are raw material; molt turns them into ONE cold-moltable arc.
 
 Why: every /handoff used to edit the same lines of CLAUDE.md, and two sessions collided (#893 and
 #894 both shipped "v3.101.0" on 2026-10-06). Fragments (one new file per session) fixed the write
@@ -14,13 +16,18 @@ resume from. Now:
   handoff_fold.py new [--branch B] [--session S] < body.md
         write _HANDOFFS/fragments/<utc-ts>--<branch>.md (body = headed sections, no '# Handoff' title)
   handoff_fold.py list                     unfolded fragments, oldest first
-  handoff_fold.py molt [--input F|-] [--dry-run] [--keep 2]
+  handoff_fold.py molt [--input F|-] [--dry-run] [--keep 1]
         synthesize every fragment (+ optional summary/override sections from F or stdin) into one
         block, gate it, allocate the version from the oracle, prepend to CLAUDE.md, relocate
         overflow (chosen by VERSION, not position) to the top of _ARCHIVE/handoffs.md, delete the
         molted fragments. Commit CLAUDE.md, _ARCHIVE/handoffs.md, _HANDOFFS/fragments/ and
         _SEEDS/_oracle.json together; a non-ff push rejection means someone took the number:
         reset to origin/main, keep your fragments, molt again.
+  handoff_fold.py archive [--keep 1] [--dry-run]
+        relocate live blocks beyond --keep (newest by VERSION kept) to the top of _ARCHIVE/handoffs.md, with
+        no new block and no oracle number. Same relocation `molt` does; use it to trim CLAUDE.md between molts.
+        Default keep is 1: CLAUDE.md is always-on context, /handoff-pickup reads only the highest version, and
+        older arcs stay in _ARCHIVE/handoffs.md and git (2026-10-17, WS1 slice 2).
   handoff_fold.py fold ...                 DEPRECATED alias of molt (prints a notice)
   handoff_fold.py --self-test              throwaway dirs; touches nothing else
 
@@ -241,6 +248,35 @@ def oracle(root, dry):
     return int(r.stdout.strip())
 
 
+DEFAULT_KEEP = 1
+
+
+def archive(root, dry, keep):
+    """Relocate blocks beyond `keep` (newest by version kept) to the archive. Anything after the last block's
+    title (a stray trailing section) travels with that block, exactly as in molt."""
+    cm, arch, _ = paths(root)
+    pre, blocks = split_blocks(open(cm).read())
+    blocks = sorted(blocks, key=block_version, reverse=True)
+    live, overflow = blocks[:keep], blocks[keep:]
+    if not overflow:
+        print(f"handoff_fold: {len(live)} live block(s), keep {keep}: nothing to archive"); return 0
+    if dry:
+        print(f"DRY RUN: would keep {len(live)} live and relocate {len(overflow)}:")
+        for b in overflow:
+            print(f"  {b.splitlines()[0]} ({len(b.encode())} bytes)")
+        return 0
+    old = open(arch).read() if os.path.exists(arch) else ""
+    os.makedirs(os.path.dirname(arch), exist_ok=True)
+    with open(arch, "w") as f:
+        f.write("\n\n---\n\n".join(overflow) + "\n\n---\n\n" + old)
+    for b in overflow:
+        print(f"archived: {b.splitlines()[0]}")
+    with open(cm, "w") as f:
+        f.write(pre + "\n\n".join(live) + "\n")
+    print("handoff_fold: archived. Commit CLAUDE.md and _ARCHIVE/handoffs.md together.")
+    return 0
+
+
 def molt(root, dry, keep, inp):
     cm, arch, _ = paths(root)
     fps = fragments(root)
@@ -341,7 +377,7 @@ def self_test():
               and counter(T) is None, "dry run: v3.103.0 previewed, no writes")
 
         print("(4) full arc accepted (pass-on-good): ONE block, oracle version, version-sorted archive")
-        r = run("molt", "--input", "-", inp="## Summary\nTwo sessions, one arc.\n")
+        r = run("molt", "--keep", "2", "--input", "-", inp="## Summary\nTwo sessions, one arc.\n")
         check(r.returncode == 0, f"molt exit 0 {r.stderr.strip()[:120]}")
         txt = open(os.path.join(T, "CLAUDE.md")).read()
         titles = [l.split(" (")[0] for l in txt.splitlines() if l.startswith("# Handoff")]
@@ -371,7 +407,7 @@ def self_test():
         for who in ("A", "B"):
             D = os.path.join(T, who); subprocess.run(["git", "clone", "-q", O, D], capture_output=True)
             runner(D)("new", "--branch", f"claude/{who}", inp=FULL)
-            r = runner(D)("molt")
+            r = runner(D)("molt", "--keep", "2")
             gi(D, "add", "-A"); gi(D, "commit", "-qm", f"molt {who}")
             res[who] = (r.returncode, counter(D))
         check(res["A"] == (0, 111) and res["B"] == (0, 111), f"both sessions allocate v3.111.0 locally: {res}")
@@ -381,7 +417,7 @@ def self_test():
         # B's loser recovery: reset to the winner's main, re-write its fragment, molt again
         gi(B, "fetch", "-q"); gi(B, "reset", "-q", "--hard", "origin/main")
         runner(B)("new", "--branch", "claude/B", inp=FULL)
-        r = runner(B)("molt"); gi(B, "add", "-A"); gi(B, "commit", "-qm", "re-molt B")
+        r = runner(B)("molt", "--keep", "2"); gi(B, "add", "-A"); gi(B, "commit", "-qm", "re-molt B")
         bt = [l.split(" (")[0] for l in open(os.path.join(B, "CLAUDE.md")).read().splitlines() if l.startswith("# Handoff")]
         check(r.returncode == 0 and counter(B) == 112 and bt[:2] == ["# Handoff — v3.112.0", "# Handoff — v3.111.0"],
               f"B re-molts on fresh main to v3.112.0, no duplicate: {bt}")
@@ -393,6 +429,29 @@ def self_test():
         r = runner(F)("fold")
         check(r.returncode == 0 and "deprecated" in r.stderr.lower() and "v3.1.0" in open(os.path.join(F, "CLAUDE.md")).read(),
               "fold -> molt with a notice")
+
+        print("(8) archive: trim CLAUDE.md between molts (WS1 slice 2), default keep is 1")
+        A8 = os.path.join(T, "a8"); os.makedirs(os.path.join(A8, "_ARCHIVE"))
+        blk = lambda v: f"# Handoff — v3.{v}.0 (2026-10-1{v % 10})\n\n## Goal / true north\nG{v}\n"
+        open(os.path.join(A8, "CLAUDE.md"), "w").write("# Project\n\nrules\n\n---\n\n" + blk(7) + "\n" + blk(9) + "\n" + blk(8) + "\n# Stray tail section\n\nkeep with the last block\n")
+        open(os.path.join(A8, "_ARCHIVE", "handoffs.md"), "w").write("# Handoff — v3.5.0 (2026-10-01)\n\nold\n")
+        r8 = runner(A8)
+        before = open(os.path.join(A8, "CLAUDE.md")).read()
+        d = r8("archive", "--dry-run")
+        check(d.returncode == 0 and open(os.path.join(A8, "CLAUDE.md")).read() == before, "dry run changes nothing")
+        r = r8("archive")
+        cm8 = open(os.path.join(A8, "CLAUDE.md")).read()
+        ar8 = open(os.path.join(A8, "_ARCHIVE", "handoffs.md")).read()
+        live8 = [l.split(" (")[0] for l in cm8.splitlines() if l.startswith("# Handoff")]
+        arch8 = [l.split(" (")[0] for l in ar8.splitlines() if l.startswith("# Handoff")]
+        check(r.returncode == 0 and live8 == ["# Handoff — v3.9.0"], f"keeps only the highest version (not the topmost): {live8}")
+        check(arch8 == ["# Handoff — v3.8.0", "# Handoff — v3.7.0", "# Handoff — v3.5.0"], f"others archived newest first above the old archive: {arch8}")
+        check(cm8.startswith("# Project\n\nrules\n\n---\n\n") and "G9" in cm8 and "G8" not in cm8, "preamble kept, newest body kept, older bodies gone from CLAUDE.md")
+        check("Stray tail section" in ar8 and "Stray tail section" not in cm8, "a trailing section travels with the last block it follows")
+        again = r8("archive")
+        check(again.returncode == 0 and "nothing to archive" in again.stdout and open(os.path.join(A8, "CLAUDE.md")).read() == cm8, "second run is a no-op (idempotent)")
+        check(r8("archive", "--keep", "2").returncode == 0, "explicit --keep is accepted")
+        check(r8("archive", "--nope").returncode == 2, "archive rejects an unknown flag")
 
         print("(7) usage guard")
         check(run("bogus").returncode == 2, "unknown command exit 2")
@@ -406,14 +465,14 @@ def self_test():
 def main(argv):
     if argv[:1] == ["--self-test"]:
         return self_test()
-    if not argv or argv[0] not in ("new", "list", "molt", "fold"):
+    if not argv or argv[0] not in ("new", "list", "molt", "fold", "archive"):
         sys.stderr.write(__doc__.split("\n\n")[3] + "\n"); return 2
     cmd, rest = argv[0], argv[1:]
     if cmd == "fold":
         sys.stderr.write("handoff_fold: `fold` is DEPRECATED; it now runs `molt` (one arc from all fragments).\n")
         cmd = "molt"
     branch = session = inp_path = None
-    dry, keep, i = False, 2, 0
+    dry, keep, i = False, DEFAULT_KEEP, 0
     while i < len(rest):
         a = rest[i]
         val = rest[i + 1] if i + 1 < len(rest) else None
@@ -423,9 +482,9 @@ def main(argv):
             session = val; i += 2; continue
         if cmd == "molt" and a == "--input" and val:
             inp_path = val; i += 2; continue
-        if cmd == "molt" and a == "--keep" and val and val.isdigit():
+        if cmd in ("molt", "archive") and a == "--keep" and val and val.isdigit():
             keep = int(val); i += 2; continue
-        if cmd == "molt" and a == "--dry-run":
+        if cmd in ("molt", "archive") and a == "--dry-run":
             dry = True; i += 1; continue
         sys.stderr.write(f"handoff_fold: unknown argument {a!r} for {cmd}\n"); return 2
     if cmd == "new":
@@ -434,6 +493,8 @@ def main(argv):
         fr = fragments(ROOT)
         print("\n".join(os.path.relpath(p, ROOT) for p in fr) if fr else "no unfolded fragments")
         return 0
+    if cmd == "archive":
+        return archive(ROOT, dry, keep)
     inp = None
     if inp_path:
         inp = sys.stdin.read() if inp_path == "-" else open(inp_path).read()

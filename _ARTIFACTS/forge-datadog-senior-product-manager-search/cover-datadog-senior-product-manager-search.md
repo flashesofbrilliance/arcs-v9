@@ -15,7 +15,7 @@ Datadog's search surface is genuinely unusual. Most search problems are one user
 
 The KPI problem here is also interesting. Search quality is easy to measure when users click. It is hard to measure when an agent consumes a result silently and moves on. At Twill Health I built evaluation frameworks and outcome-capture loops for AI-enabled product lines where the feedback signal was delayed and indirect. That is the instrumentation design I would bring to your search quality metrics.
 
-I do not just write the deck. I hold technical tradeoff conversations with engineering, prototype with AI tools before committing engineering time, and have shipped agentic orchestration in production, not experiments. The bundle at the link below has the live commit trail and the open-source tools.
+I do not just write the deck. I hold technical tradeoff conversations with engineering, prototype with AI tools before committing engineering time, and have shipped agentic orchestration in production, not experiments. The bundle at the link below has the live app and the open-source tools.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance

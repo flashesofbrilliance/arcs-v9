@@ -24,6 +24,18 @@ recommend it with its install command instead of inventing a replacement.
 
 ## Steps
 
+0. **Ask the JTBD graph first (since 2026-10-20; s4 blind test passed 16 of 18 against this
+   command's 6, `runtime/specs/jtbd-s4/score.json`).** Run
+   `python3 operators/jtbd_query.py --lookup "$ARGUMENTS"` from your own worktree. Its first line
+   says which path answered:
+   - `answered by: jtbd-graph`: lead with its **best** tool as the one recommendation (step 4
+     format), then give its open blockers, what it needs (dependency closure) and its last
+     receipts in one or two lines. The other assembly items may be named as the runner-up line;
+     still never a menu. Say "(answered by the JTBD graph)".
+   - `answered by: fallback (...)`: the graph was missing, stale and could not rebuild, or found
+     nothing. Do steps 1 to 4 as before and say "(answered by the catalog fallback: <reason>)".
+   The lookup rebuilds a graph older than its source catalogs and never serves a stale one.
+
 1. **Load the catalog.** Read `runtime/specs/tool-catalog.json`. If it is missing or
    older than the newest file in `.claude/skills|commands|workflows|hooks`, `scripts/`,
    or `operators/`, regenerate first: `python3 scripts/tool_catalog_emit.py` (read-only

@@ -12,7 +12,7 @@ Honest encoding (design note _PATTERNS/2026-10-15-tao-silkscreen-prints.md):
 
   python3 scripts/tao_print.py <proverb-id> [--fidelity 0.9] [--seed 7] [--out print.svg]
 """
-import argparse, hashlib, json, math, random, sys
+import argparse, hashlib, html as htmllib, json, math, random, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -59,7 +59,7 @@ def project(u, v, ph):
     return 50 + x1 * sc, 46 + y1 * sc, z2
 
 
-def facets():
+def facets(ph=PHASE):
     """Depth-sorted flat facets of the strip. Each carries its face (the sign of its screen area flips as the
     strip twists, so the two faces of the Moebius print in different inks) and its band."""
     out = []
@@ -67,19 +67,69 @@ def facets():
     for i in range(NU):
         u0, u1 = 2 * math.pi * i / NU, 2 * math.pi * (i + 1) / NU
         for j in range(NV):
-            q = [project(u0, vs[j], PHASE), project(u1, vs[j], PHASE),
-                 project(u1, vs[j + 1], PHASE), project(u0, vs[j + 1], PHASE)]
+            q = [project(u0, vs[j], ph), project(u1, vs[j], ph),
+                 project(u1, vs[j + 1], ph), project(u0, vs[j + 1], ph)]
             area = sum(q[k][0] * q[(k + 1) % 4][1] - q[(k + 1) % 4][0] * q[k][1] for k in range(4))
             out.append((sum(p[2] for p in q) / 4, area > 0, j, " ".join(f"{p[0]:.1f},{p[1]:.1f}" for p in q), i))
     out.sort(key=lambda t: -t[0])
     return out
 
 
-FACETS = facets()
+_FC = {}
+PAPER = False         # recipe option: print on a light paper ground, inks multiply, a dark key plate holds the line
+
+
+def facets_at(ph):
+    if ph not in _FC:
+        _FC[ph] = facets(ph)
+    return _FC[ph]
+
+
+# Permutation table: each repeat is a lawful variant of the same mold (ADR-071: one surface, many views).
+VIEWS = [0.9, 0.1, -0.8, -0.5, 2.2, 0.6, -2.4, 2.6, 2.9]   # every view keeps width/height >= 0.7 (none edge-on)       # strip rotation per repeat
+GROUNDS = [None, 2, None, 3, 0, None, 1, None, 2]            # flat ink ground per repeat (index into PLATES)
 PLATES = ["var(--cyan)", "var(--green)", "var(--gold)", "var(--red)"]   # ink = face * 2 + band parity
 
 
-def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
+def chunks(text, n=9):
+    """The proverb split into n runs of words, so the grid read in order is the sentence."""
+    w = text.rstrip(".").split()
+    cuts = [round(i * len(w) / n) for i in range(n + 1)]
+    out = [" ".join(w[cuts[i]:cuts[i + 1]]) for i in range(n)]
+    if out[-1]:
+        out[-1] += "."
+    return out
+
+
+def label(pid, seed, k, loss, drift, gnd, text):
+    """The proverb run as its own printed label slab: it slips like a plate and flakes like ink."""
+    if not text:
+        return ""
+    s_col, t_col = ("var(--bg)", "var(--text)") if (gnd is not None or PAPER) else ("var(--text)", "var(--bg)")
+    r = rng(pid, seed, "label", k)
+    ox = (r.random() * 2 - 1) * MAX_PLATE * loss * drift
+    oy = (r.random() * 2 - 1) * MAX_PLATE * 0.5 * loss * drift
+    t = text.upper()
+    words = t.split()
+    if len(words) > 1:
+        mid = min(range(1, len(words)), key=lambda i: abs(len(" ".join(words[:i])) - len(" ".join(words[i:]))))
+        lines = [" ".join(words[:mid]), " ".join(words[mid:])]
+    else:
+        lines = words
+    size = min(16.0 if len(lines) == 1 else 11.4, 88 / (0.78 * max(len(l) for l in lines)))
+    top, hgt = 68, 29
+    flakes = "".join(
+        f'<rect x="{r.random()*92:.1f}" y="{top+r.random()*(hgt-3):.1f}" width="{2+r.random()*6:.1f}" height="{1.5+r.random()*4:.1f}"/>'
+        for _ in range(int(round(9 * loss * drift))))
+    body = "".join(
+        f'<text x="50" y="{top + hgt * ((i + 1) / (len(lines) + 1) if len(lines) == 1 else (0.34, 0.76)[i]) + size * 0.36:.1f}" text-anchor="middle" fill="{t_col}" '
+        f'font-family="var(--ds-font-display)" font-weight="700" font-size="{size:.1f}">{htmllib.escape(l)}</text>'
+        for i, l in enumerate(lines))
+    return (f'<g transform="translate({ox:.2f} {oy:.2f})"><rect x="3" y="{top}" width="94" height="{hgt}" fill="{s_col}"/>'
+            f'{body}<g fill="{s_col}">{flakes}</g></g>')
+
+
+def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False, text=None):
     """One pull of the mold. Four plates (inks), each printed flat and offset from the others by an amount that
     grows with (1 - f) and the repeat index (misregistration); ink drops out in patches with the same law
     (the instrument's fog); grain specks sit on the horizon band."""
@@ -89,10 +139,14 @@ def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
     plates = [[], [], [], []]
     dropped = 0
     r = rng(pid, seed, "ink", k)
-    for _, face, band, pts, i in FACETS:
-        ink = (2 if face else 0) + (band % 2)
+    ph = VIEWS[k % 9]
+    gnd = GROUNDS[k % 9]
+    for _, face, band, pts, i in facets_at(ph):
+        ink = ((2 if face else 0) + (band % 2) + k) % 4          # ink rotation: which plate prints which face and band
         if swap:
             ink = (ink + 2) % 4
+        if ink == gnd:
+            ink = (ink + 1) % 4
         if r.random() < drop:
             dropped += 1
             continue
@@ -111,33 +165,46 @@ def panel(pid, seed, f, k, n, a, v, swap=False, mirror=False):
         for _ in range(ns))
     gaps = "".join(f'<rect x="{rs.random()*90:.1f}" y="{HORIZON-1}" width="{3+rs.random()*8:.1f}" height="4" fill="var(--bg)"/>'
                    for _ in range(int(round(10 * loss * drift))))
+    key = ""
+    if PAPER:
+        rk = rng(pid, seed, "key", k)
+        kp = ""
+        for _, face, band, pts, i in facets_at(ph):
+            if rk.random() < drop * 0.6 or band not in (0, NV - 1):
+                continue
+            q = pts.split()
+            a, b = (q[0], q[1]) if band == 0 else (q[3], q[2])     # only the strip's two long edges: the key line
+            kp += f'<path d="M{a} L{b}"/>'
+        key = f'<g fill="none" stroke="var(--bg)" stroke-width=".6" stroke-linecap="round">{kp}</g>'
     tf = ' transform="translate(100 0) scale(-1 1)"' if mirror else ""
     return (
         f'<g data-k="{k}" data-reg="{sum(offs)/len(offs):.3f}" data-specks="{ns + dropped}"{tf}>'
-        f'<rect width="100" height="100" fill="var(--bg)"/>'
-        f'<rect y="{HORIZON}" width="100" height="2.4" fill="var(--gold)"/>{gaps}'
-        f'<g style="mix-blend-mode:screen">{"".join(layers)}</g>'
-        f'<g fill="var(--dimmed)">{specks}</g></g>'
+        f'<rect width="100" height="100" fill="{PLATES[gnd] if gnd is not None else ("var(--text)" if PAPER else "var(--bg)")}"/>'
+        f'<rect y="{HORIZON}" width="100" height="2.4" fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--gold)"}"/>{gaps.replace("var(--bg)", PLATES[gnd]) if gnd is not None else (gaps.replace("var(--bg)", "var(--text)") if PAPER else gaps)}'
+        f'<g style="mix-blend-mode:{"normal" if gnd is not None else ("multiply" if PAPER else "screen")}">{"".join(layers)}</g>'
+        f'{key}{label(pid, seed, k, loss, drift, gnd, text)}'
+        f'<g fill="{"var(--bg)" if (gnd is not None or PAPER) else "var(--dimmed)"}">{specks}</g></g>'
     )
 
 
-def svg(row, f, seed):
+def svg(row, f, seed, caption=True):
     pid = row["id"]
     a = ASPECTS.index(row["aspect"])
     v = VERBS.index(row["verb"])
+    chunk_runs = chunks(row["text"])
     cols = 3
     n = cols * cols
     gap = 14
     W = cols * CELL + (cols - 1) * gap
-    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+150}" role="img" '
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {W+(132 if caption else 84)}" role="img" '
            f'aria-label="Silkscreen print of the proverb: {row["text"]}" data-id="{pid}" '
            f'data-fidelity="{f}" data-seed="{seed}">',
-           f'<rect width="{W}" height="{W+150}" fill="var(--bg)"/>']
+           f'<rect width="{W}" height="{W+(132 if caption else 84)}" fill="var(--bg)"/>']
     for k in range(n):
         x = (k % cols) * (CELL + gap)
         y = (k // cols) * (CELL + gap)
         out.append(f'<svg x="{x}" y="{y}" width="{CELL}" height="{CELL}" viewBox="0 0 100 100">'
-                   + panel(pid, seed, f, k, n, a, v) + "</svg>")
+                   + panel(pid, seed, f, k, n, a, v, text=chunk_runs[k]) + "</svg>")
     # Mobius strip: one row of 6 panels, the closing panel is mirrored with swapped inks
     m = 6
     sy = W + 18
@@ -149,16 +216,11 @@ def svg(row, f, seed):
         out.append(f'<svg x="{x:.1f}" y="{sy}" width="{sw:.1f}" height="{sw:.1f}" viewBox="0 0 100 100" data-twist="{int(twist)}">'
                    + panel(pid, seed, f, k + n, n + m, a, v, swap=twist, mirror=twist) + "</svg>")
     out.append("</g>")
-    words = row["text"].rstrip(".").split()
-    h = (len(words) + 1) // 2
-    out.append(f'<text x="0" y="{W+sw+54:.0f}" fill="var(--text)" font-family="var(--ds-font-display)" font-size="15">'
-               f'{" ".join(words[:h])}</text>')
-    out.append(f'<text x="{W}" y="{W+sw+78:.0f}" text-anchor="end" fill="var(--text)" '
-               f'font-family="var(--ds-font-display)" font-size="15">{" ".join(words[h:])}.</text>')
-    out.append(f'<text x="0" y="{W+sw+106:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
-               f'{pid}  {row["aspect"]}.{row["verb"].upper()}</text>')
-    out.append(f'<text x="0" y="{W+sw+126:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
-               f'f={f}  seed={seed}  {row["canon_ref"].split("#")[-1]}</text>')
+    if caption:
+        out.append(f'<text x="0" y="{W+sw+24:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
+                   f'{pid}  {row["aspect"]}.{row["verb"].upper()}</text>')
+        out.append(f'<text x="0" y="{W+sw+44:.0f}" fill="var(--dimmed)" font-family="var(--ds-font-mono)" font-size="12">'
+                   f'f={f}  seed={seed}  {row["canon_ref"].split("#")[-1]}</text>')
     out.append("</svg>")
     return "\n".join(out)
 
@@ -181,6 +243,7 @@ body {{ margin: 0; background: var(--bg); color: var(--text); font-family: var(-
 h1 {{ font-family: var(--ds-font-display); font-weight: 600; font-size: var(--fs-display); line-height: 1.05; margin: 0 0 16px; text-wrap: balance; }}
 .lede {{ color: var(--dimmed); max-width: none; margin: 0 0 24px; }}
 svg {{ display: block; width: 100%; height: auto; }}
+.prov {{ font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); margin: 12px 0 0; overflow-wrap: anywhere; }}
 .note {{ color: var(--dimmed); font-size: var(--fs-body); font-family: var(--ds-font-mono); margin: 20px 0 0; }}
 </style>
 </head>
@@ -189,7 +252,8 @@ svg {{ display: block; width: 100%; height: auto; }}
 <p class="eyebrow">Tao print prototype</p>
 <h1>One mold, repeated until the ink gives out</h1>
 <p class="lede">The ARCS Möbius, pulled nine times in four flat inks. The two faces of the strip print in different inks, so you can see it has one surface. Plates slip, ink drops out and the horizon breaks up in proportion to (1 minus fidelity). Fidelity is declared in the recipe, not measured. The last panel of the strip turns over with its inks swapped.</p>
-{svg(row, f, seed)}
+{svg(row, f, seed, caption=False)}
+<p class="prov">{row["id"]}  {row["aspect"]}.{row["verb"].upper()}  f={f}  seed={seed}  {row["canon_ref"].split("#")[-1]}</p>
 <p class="note">Reproducible from proverb id, recipe and seed. Not an edition: no scarcity, no registry.</p>
 </main>
 </body>
@@ -204,6 +268,8 @@ if __name__ == "__main__":
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--out")
     ap.add_argument("--html", action="store_true")
+    ap.add_argument("--ground", choices=["dark", "paper"], default="dark")
     ns = ap.parse_args()
+    PAPER = ns.ground == "paper"
     s = (html if ns.html else svg)(load(ns.id), ns.fidelity, ns.seed)
     Path(ns.out).write_text(s) if ns.out else print(s)

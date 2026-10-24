@@ -13,7 +13,7 @@ The scrappy-builder requirement is the one I want to address directly. I founded
 
 The hardware-plus-software dimension is one I find genuinely interesting. At the WTA I built real-time fan-behavior scoring at under 120ms, serving personalized offers inside a live, high-stakes usage window, which is the same shape of problem: software that has to be right when the physical experience is already in motion. A Peloton bike mid-class is not a moment for latency or ambiguity in the operator layer.
 
-I do not just write the deck. I am in the discovery sessions, the instrumentation design, and the tradeoff calls. Receipts, not adjectives: the bundle at zachharris.xyz has the live commit trail and the fuller picture of how I work.
+I do not just write the deck. I am in the discovery sessions, the instrumentation design, and the tradeoff calls. Receipts, not adjectives: the bundle at zachharris.xyz has the live app and the fuller picture of how I work.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance

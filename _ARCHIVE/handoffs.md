@@ -1,3 +1,532 @@
+# Handoff — v3.140.0 (2026-10-19)
+
+> Six fragments (2026-10-11 to 2026-10-18): billing-era one-way rulings, public-claim wording fixes, process architecture and session-start baseline, outcome capture on receipts, Scout/Wonderful leftovers, and the RET take-home close-out (rc46 submitted, confirmed by Zach 2026-10-18).
+
+## Goal / true north
+Keep every outward claim honest and every loop closed: decisions waiting on Zach are listed once, and the RET take-home arc is closed.
+
+## What changed
+- Ranked the OPEN induced-backlog rows into six groups (the row field is `state`, not `status`; an earlier claim that it was missing was wrong). Verified the six "probably done" rows and closed five in #1583 (b236861e), which supersedes #1288: outcome-loop-timing-wiring-horizon-reviewdate-blind, compass-mobile-timeout-recover-receipt, handoff-postmerge-ci-936, receipted-fears-stunt, accountable-copypasta-card. conviction-chips-calibration stays OPEN (its gate needs at least 5 real players before it extends past the prototype). #1288 conflicted with the backlog's growth, and a local merge commit on it was blocked by the pre-commit page checks on other sessions' files, so the change was re-made on a fresh branch off main; the gate was not bypassed.
+- #1578 (d107dc2e): scripts/unfold.py fills Routes and Corrections from Librarian.recommend() pre-scores, surfaced and never acted on (row unfold-uses-librarian). The stones are still UNCUT (0 FLAWLESS before and after): their only lint reason is the integrity gate on item-text cites, not Routes or Corrections. Relevance of the pre-score lines is unjudged.
+- PR 1470 (`2bd18f63`): regenerated `resume-norm-ai-fde-ats.pdf`; `public_claim_gate.py` now skips binary files (it crashed on PDF/PNG matching the resume globs). Receipt 2026-10-17--norm-pdf-regen-pr1470--ZH.
+- PR 1481 (`ad3b599d`): 12 forge page.html footers say "Live commit and merge counts" (status.arcs.care shows aggregate telemetry, not a browsable log). Receipt 2026-10-17--status-wording-pr1481--ZH.
+- PR 1491 (`2fcf67f2`): 44 files, covers (datadog x4, mongodb, thesis, blacksmith), bundles, forge evidence rows, served public/ pages; tear-sheet-amy gutter 44px to 40px for gutter-lint. Receipt 2026-10-17--covers-sweep-pr1491--ZH.
+- PR 1500 (`39e63554`): blacksmith-observatory and growth-ai-observatory skills note now "demonstrated in a live app; code walkthrough on request". Receipt 2026-10-17--observatory-skills-note-pr1500--ZH.
+- Gmail draft to amy@recruithaus.com ("Updated resume wording"), unsent.
+- Proposals and tooling merged: #1307 (ADR-086, effort-policy, shape-card, port reconciliation; receipt 2026-10-15--adr-086-proposals-pr1307--ZH), #1308 (findings_gait ledger and pace clock; receipt 2026-10-15--findings-gait-pr1308--ZH), #1309 (16 LEGEND terms, FATED and KKL recorded as unruled; receipt 2026-10-15--legend-terms-pr1309--ZH), #1437 (finding-row schema and adapters; receipt 2026-10-17--finding-row-adapters-pr1437--ZH), #1467 (lap 2 quality metrics and shared ledger; receipt 2026-10-17--findings-lap2-pr1467--ZH).
+- Detector and gate fixes: #1445 (seedbank local-path parsing; receipt 2026-10-17--seedbank-detector-fix-pr1445--ZH), #1478 (seed-ledger pre-commit gate; receipt 2026-10-17--seed-ledger-gate-pr1478--ZH), #1504 (repo coverage by name; receipt 2026-10-17--repo-coverage-by-name-pr1504--ZH).
+- Seed bank curation, drift 47 to 0: #1449, #1485, #1494, #1497, #1508 (receipts 2026-10-17--orphan-seed-ledger-pr1449--ZH, --seed-status-mismatches-pr1485--ZH, --jobtracker-seed-ledger-pr1494--ZH, --last-orphans-pr1497--ZH, --scaffold-private-pr1508--ZH).
+- Perplexity port reconciliation (archived prints under _ARCHIVE/antecedents-2026-10): #1515, #1519, #1520, #1521 (receipts 2026-10-17--antecedents-doc-classification-pr1515--ZH, --antecedents-port-verification-pr1519--ZH, --space-thread-locator-pr1520--ZH, --port-plan-vs-arcsv9-pr1521--ZH).
+- Context diet: #1523 slice 1 (receipt 2026-10-17--ws1-slice1-path-scoped-rules-pr1523--ZH), #1526 slice 2 (receipt 2026-10-17--ws1-slice2-handoff-archive-pr1526--ZH), #1528 slice 3 (receipt 2026-10-17--ws1-slice3-world-split-pr1528--ZH). Always-on set 83,427 to about 47,500 bytes.
+- Canon-write guard: #1532 (receipt 2026-10-17--canon-write-guard-pr1532--ZH), live-tested by Zach in a fresh session.
+- Also done outside git: A.R.C.S. verified backup in ~/Backups/ARCS-antecedents-2026-10-17 (.env files excluded, unencrypted); main checkout reset to origin/main, then briefly moved to a test commit and restored.
+- #1489 merged with --merge (`c19325b5`): scripts/receipt_outcome_queue.py (queue, record, status), append-only ledger _STATE/receipt-outcomes.jsonl, outcome atoms in the zach-receipts universe. Receipt 2026-10-17--universe-outcome-capture-pr1489--ZH.
+- #1530 merged (`9a837d5d`): first 18 verdicts. Receipt 2026-10-18--outcome-verdicts-first-18-pr1530--ZH.
+- #1540 merged (`796eccd7`): 6 more verdicts, 24 of 88 in scope. Receipt 2026-10-18--outcome-verdicts-24-of-88-pr1540--ZH.
+- #1524 merged (`fa46c2ea`) and #1534 merged (`65c13523`): backlog rows status-page-public-claims-fix and trust-page-public-claims-fix. Receipts 2026-10-18--status-page-claims-row-pr1524--ZH and 2026-10-18--trust-page-claims-row-pr1534--ZH.
+- #1543 merged (`801133a7`): canon universe regenerated from main after the 2026-10-17 canon strike (3 atoms changed text, 1 added). Receipt 2026-10-18--canon-universe-refresh-pr1543--ZH.
+- 14 rows from the staged-rows folder appended to `_QUEUE/induced-backlog.jsonl` (none already present); `backlog_status_check.py --check` exits 0; staged folder deleted. All stay OPEN (resume-arcs-care-role-lens-page stays HELD). Checked against ADR-086, effort-policy.json and ADR-088: none of the five named rows is covered, so none was marked DONE or SUPERSEDED. `status_note` records the partial overlap for claims-atom-seed-gate (public_claim_gate.py, PR 1300) and taxonomy-conflict-ledger-and-atlas-edges (the Operator 21 label fix).
+- `.claude/rules/operators-and-workers.md` (the AGENTS.md operators table was moved there 2026-10-17): OPERATOR21 row now says it shares only the number, Operator 21 is the Librarian per PERIODIC-TABLE.md row 21; LTE row now reads Lossless Translation Engine (checked against the docstring of `operators/arcs_lte.py`; the registry JSON has no LTE entry).
+- Filed from the stoic-benz worktree (read only there, copied here): `_STATE/job-search/vico-call-2026-10-14-close.md`, `_STATE/job-search/vico-arcs-law-onepager-DRAFT.md`, and its 2026-10-15 witness line appended to main's `_STATE/witness/2026-10-15.jsonl` (different timestamp and quote, so not a duplicate). No Vico war-room or close note was on main. The close note says its universe edits (38 to 57 atoms) live in that worktree and were not copied; main's `vico.claims.jsonl` is unchanged.
+- ret-rfp-intelligence main `1972551` produced rc46 (dist/submission-rc46.zip, 4,221,328 bytes); not an arcs-v9 PR.
+- iCloud "RET take-home/" cleared to submission-rc46.zip plus the unzipped submission-rc46 folder (Zach's yes, 2026-10-18).
+- ret-rfp-intelligence/dist cleared from 365 MB to submission-rc46.zip and its .sha256 (Zach's yes, 2026-10-18).
+- This fragment's PR; receipt 2026-10-18--ret-submitted-handoff--ZH.
+
+## Current state
+- Submitted 2026-10-14: rc46 (Zach confirmed 2026-10-18).
+- dist/videos and its MANIFEST.md are deleted, so the take-home repo's freshness script reports "nothing to compare" for videos. The explainer stays on YouTube: https://youtu.be/w7b-FVA3qSE.
+- Internal RET notes (all 12, plus post-mortem raw data) are committed on main under `_ARCHIVE/ret-takehome-2026-10/` (#1644).
+
+## Decisions made
+- Zach: merge on local gates while Actions is off (receipts note CI is off by choice).
+- Zach: merge each PR on local gates; save the Amy note as a draft, not send; sweep covers.
+- Decided: status.arcs.care footer says "commit and merge counts", kept as a link (page shows commits per week, PR tempo, latest commit).
+- Aspiration never raises an effort level by itself; it triggers a cohort check and a chutes-and-ladders board (`runtime/specs/effort-policy.json`, sections cohort_check and board; Zach, in chat 2026-10-15).
+- A detector precision fix beats closing findings one by one, and a closure counts only if it survives re-detection (`scripts/findings_gait.py` status quality line; PR #1467).
+- FATED, KKL and the two L-stacks stay UNRULED canon collisions; no policy picks one (`runtime/specs/legend.jsonl` rows FATED and KKL; PR #1309).
+- Canon v1.1 asks and does not deny, because three corrective strike passes edited it on 2026-10-17 (`runtime/specs/canon-paths.json`; PR #1532).
+- Prefer local compute to paid cloud when an equivalent exists, and never trade a correctness gate for cost (memory `trade-cloud-spend-for-local-compute`; Actions off since 2026-10-15).
+- Merge a draft only after Zach confirms the live load: slices 1 and 3 and the canon guard waited for his check (PRs #1523, #1528, #1532).
+- arcs-claude-project-scaffold is intentionally private (Zach, 2026-10-17; PR #1508, `_SEEDS/index.jsonl` row seed-repo-project-scaffold).
+- Triage queue design, chosen by Zach after measurement: compass Receipt had 0 rows tagged real, and git-side adjudication is nearly always held.
+- Checkable lines first; a verdict is external only with an evidence ref that resolves; self-graded is recorded but never scored.
+- Zach did not accept the "no unique index on Lead" verdict, so it was not recorded. I did not add ADR-088 to the accepted-exposure list; that is Zach's call.
+- Pushback kept on record. (1) The first eight verdicts were uniformly held and self-graded, which carries little information. (2) The independent check came from the same model family. (3) #1534 was merged when GitHub showed Vercel pending, on the strength of the Vercel API showing the deployment READY. (4) Canon atoms were grade A copies of text that proved unbacked; the refresh fixes the snapshot but not how the adapter trusts canon.
+- Zach: keep only rc46 in iCloud and in dist; delete everything else, including history.bundle and the local videos.
+
+## Open decisions (waiting on Zach)
+1. Zach: send, edit or drop the Amy draft.
+2. Zach: which Datadog, MongoDB, Thesis and Blacksmith covers were sent (sent copies keep old wording).
+3. Zach: whether to rebuild the designed Norm PDF (no html source in the repo; it went to Dean Harris).
+4. Zach: encrypt and copy the A.R.C.S. backup (commands in the README next to the archive); it is a plain local copy until then.
+5. Zach: decide the funnel seed kill condition on 2026-10-22 (Vercel Web Analytics, at least 3 pageviews on /dashboard with utm_campaign=2026-10-05-ledger); finding f-d1cb1802f5.
+6. Zach: delete or keep the eye-tracking stub in the private job-tracker-pro repo (seed anti-consentless-biometrics).
+7. Zach: export three Perplexity Space transcripts that are not on this machine: the long "based-on-my-tendency-to-speak" thread, the Pilot's Manual positioning thread, the Ripple-BVF thread.
+8. Zach: rule on the port candidates (my advisory lean, not a decision: compost the eight L0 skills and most missing agents, since the Python operators cover them; see `_ARCHIVE/antecedents-2026-10/2026-10-17-migration-plan-vs-arcs-v9.md`): the SuperAdmin Orchestrator spec (strongest real gap), the five advisor archetypes, the 18 PARTIAL and 5 UNVERIFIABLE docs, and the two stale REVIEW docs (Recursive Engine Spec v2, DEV_DECISIONS).
+9. Zach: choose a verdict for the five GitHub Actions billing lines (still open, or dropped because Actions is off by decision).
+10. Zach: accept ADR-088's VICO mention as exposure, or reword it.
+11. Zach: replacement wording for the trust page and status page, and a monitored deletion contact for trust-contract line 88; any _CANON edit is proposed first.
+12. Zach: verdict for the Lead unique-index line (evidence: model Lead has only two plain indexes).
+
+## Open (other)
+1. Backlog ripeness (2026-10-18): 8 RIPE rows. Zach decides: rc-ops-001-graduation-ruling (one-way), adr-085-acceptance-redecide (ADR-085 still PROPOSED; needs the train-vs-bypass counts), agent-receipts-audit-first-conversion (one-way external send). Read the 2026-10-17 accountant-weekly run output (13 s, reported succeeded, no new scoreboard since 2026-10-06) before closing accountant-weekly-first-unattended. forensic-arc-reconstruction: its claim (unnamed session since 2026-10-10) needs releasing; PR #951 merged. doc-gate-false-positive-cleanup is mechanical and ready.
+2. 43 rows are past review_by (backlog_freshness.py), seven of them P1 and overdue about a week; fates are Zach's (renew, promote, compost, supersede). Three RUNNING claims are stale (> 3 days): forensic-arc-reconstruction, salvage-pass-promote-two, receipt-test-real-tag. Two rows are BLOCKED on dead dependencies (asm-009-net-direction-decided, tao-renders-regenerated-from-projection).
+3. surfaces.arcs.care is not worth folding into the backlog yet (different job; one row mentions it). Revisit if rows get a stable key to a route.
+4. scripts/unfold.py has a pre-existing integrity-gate failure (a vapor inbox path prefix in its docstring), present in main before #1578.
+5. Fix the Actions spending limit so CI runs again (all five PRs merged on local gates).
+6. Remaining "commit trail" phrases sit in atlas, red-team, CHRONICLE, nftt and defend-or-drop records, left as history.
+7. cover-letter-blacksmith.md has one pre-existing em-dash that slop_lint flags.
+8. Fix the AGENTS.md labels not yet corrected: OPERATOR21 is spline inference by file name only (periodic-table operator 21 is the Librarian), and arcs_lte.py is the Lossless Translation Engine, not trajectory modeling.
+9. Run arcs_lte on one real technical-to-lay sample to test whether its IPS score means anything (not done).
+10. Verify the Vercel production deploys reached Ready.
+11. Air-gap review of _CANON/arcs-v9-additional/ARCS-DNA-Omakase-Deck.md (named profile scores), a folder the canon adapter does not read.
+12. Existing rows still open: universe-atlas-tokens, universe-scenario-anonymizer, universe-breakoff-conductor-gate.
+13. a. The Gmail draft to George (thread 1a135e43497f691a) is unsent and has no attachments. Owner: Zach.
+   b. Debrief-vox answers for the Vico call are owed by Zach (row debrief-vox-capture).
+   c. Funnel seed kill condition decision due 2026-10-22 (effort-policy session).
+   d. Decide whether to send corrected resumes to direct contacts who got the old "public repo" resumes.
+   e. Counterpart gauntlet has not been run on `_ARTIFACTS/scout-global-wonderful-bundle/external/`.
+   f. The Vico onepager is Tier 2 (contains a formula): not to be sent before a mutual NDA or a deliberate downgrade.
+14. After the interview: run /recoil-close on the RET engagement.
+
+## Next action
+Compare this session's session-start hook output with the 2026-10-17 baseline per the pending-check memory note, report pass or fail per line, then delete that note.
+
+## Cold-start recipe
+/handoff-pickup; then `python3 scripts/open_loops.py` (/loops) for the decisions waiting on Zach; RET: repo /Users/zharris/ret-rfp-intelligence, dist holds only submission-rc46.zip (the submitted build). Debt: https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm (debt collection).
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261018T010206Z--claude-handoff-public-claim-fix-2.md
+> ### Shavasana — handoff pause, 2026-10-17 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> 
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-public-claim-fix-2), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: mirror (inhale, no exhale).
+> - **Sycophancy check**: agreement 2 / dissent 1 (ratio 1.0) → OK: dissent present.
+> - **Cold re-read (canary on the draft draft2.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> 
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: every claim kept; each cites a PR, merge commit, receipt id or sent-folder check. Somatic: not asked. Disposition: release.
+
+> Follow-on to the public-claim fix: regenerated the Norm ATS PDF, settled the status.arcs.care wording, swept covers and served pages, fixed the observatory skills note; four more PRs merged on local gates, deploy checked by served content.
+
+### Notes: lead of 20261018T124627Z--claude-handoff-process-architecture.md
+> ### Shavasana — handoff pause, 2026-10-18 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-process-architecture), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 1 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: mirror (inhale, no exhale).
+> - **Sycophancy check**: agreement 8 / dissent 1 (ratio 4.0) → OK: dissent present.
+> - **Cold re-read (canary on the draft handoff-fragment.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: re-read cold. Downgraded one claim: the bypass-mode result of the canon guard is reported by Zach (step 6 was optional and I did not ask which mode), not observed. Moved one advisory lean (compost the L0 skills) out of Decisions into Open. Kept the rest; each cites a PR, receipt id or file.
+> - Scope note: the counts above are scoped to this branch, which has no commits yet, so the exhale reads 0; the session's real exhale is the 22 merged PRs under Changed. A first run scoped to the author identity read exhale 5 commits and 2 merges, and agreement 11 against dissent 1 (THIN); this run reads 8 against 1 (OK). Either way dissent in the day's records is thin. The pushback this session happened in chat prose, which those markers do not count: no 10X goal without a baseline, "novel" docs overstated, 65 percent of race closes were false positives, my own false receipt and shell-quoting slips. Disposition: release, with that limit stated.
+> - Somatic: not asked. Sends today: none by me.
+
+> Process-architecture session (2026-10-15 to 10-18): proposed the job-search effort policy and ADR-086, then ran the alternating findings race to drive the seed bank and its detectors to zero findings, reconciled the pre-v9 Perplexity material, cut the always-on context by 43 percent in three slices, and shipped a canon-write guard that Zach live-tested.
+
+### Notes: lead of 20261018T150619Z--claude-universe-handoff-3.md
+> ### Shavasana — handoff pause, 2026-10-18 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/universe-handoff-3), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 7 / dissent 0 (ratio 7.0) → RETURN: agreement with no dissent on record.
+> - **Cold re-read (canary on the draft frag4.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> _This block asserts nothing new. Counts, paths, and questions only._
+> - Attachment release: every claim re-read cold against the merged PRs, the ledger and the sweep output; none dropped. Disposition: release, with an explicit RETURN override. The sycophancy check returned RETURN (agreement 7, dissent 0) because its counter matches keywords and this draft's pushback is in other words (see the Pushback line under Decisions). I did not reword it to flip the counter. Somatic: not asked.
+
+> Built the outcome triage queue for decision receipts, recorded the first 24 verdicts (16 of them backed by primary-source evidence), queued two public-claim fix rows, and refreshed the canon universe after another session struck unbacked canon claims.
+
+### Notes: lead of 20261018T170000Z--claude-funny-burnell-3299b0.md
+> Converged the Scout/Wonderful session (2026-10-14..18) onto main: 14 staged backlog rows appended, stale operator labels fixed, two Vico files and one witness stub filed. Nothing was emailed, messaged or published.
+
+### Notes: lead of 20261019T005142Z--claude-ret-submitted-handoff.md
+### Shavasana — handoff pause, 2026-10-18 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/ret-submitted-handoff), receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 1 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 0 / dissent 1 (ratio 0.0) → OK: dissent present.
+- **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+- Attachment release: every claim kept; the submitted-rc claim is marked unconfirmed. Somatic: not asked. Disposition: release.
+
+> RET take-home close-out: Zach submitted the monday.com FDE take-home on 2026-10-14; this session then cleared old builds from iCloud and from ret-rfp-intelligence/dist, keeping only rc46.
+
+### Notes: Lessons
+- A count rule hid which repos differed; compare by name in both directions.
+- A gate that fails on bad input must also be tested through its real entry point: two of my scripts passed their self-tests and then crashed live.
+- Close the loop at the source: one detector fix cleared more findings than all the hand closures.
+- Do not chain commands past a failed step: one chain logged a receipt for a PR that was never created; I deleted the row and chained strictly afterwards.
+
+### Notes: ERRATUM (2026-10-18, appended; the text above is left as written)
+Item (a) is closed and was wrong. Zach already sent the bundle email to George on 2026-10-16 14:25 UTC (new thread 1a1451af4dc0d68e, to george@scout-global.com, about 1.2 MB). The earlier note checked only the old thread 1a135e43497f691a, which holds George's Oct 13 reply. Verified from Gmail thread metadata (SENT label, sizeEstimate 1255580). A Mixmax reminder fired 2026-10-18 14:23 UTC; no reply from George seen. Open for Zach instead: wait for the reply, then close the loop and have the Accountant score the prediction. The merge receipt 2026-10-17--scout-wonderful-bundle-pr1442--ZH carries the same wrong "unsent" line; it was not edited, Zach decides how to correct it.
+
+> Molted from `_HANDOFFS/fragments/20261011T130753Z--claude-mystifying-tesla-6bc6f3-billing.md` (branch `claude/handoff-billing-note`, head `updated 2026-10-18 (first written 2026-10-11)`); `_HANDOFFS/fragments/20261018T010206Z--claude-handoff-public-claim-fix-2.md` (branch `claude/handoff-public-claim-fix-2`, head `eb5013eb`); `_HANDOFFS/fragments/20261018T124627Z--claude-handoff-process-architecture.md` (branch `claude/handoff-process-architecture`, head `47a8ae73`); `_HANDOFFS/fragments/20261018T150619Z--claude-universe-handoff-3.md` (branch `claude/universe-handoff-3`, head `801133a7`); `_HANDOFFS/fragments/20261018T170000Z--claude-funny-burnell-3299b0.md` (branch `claude/funny-burnell-3299b0`, head `260ab9cd`); `_HANDOFFS/fragments/20261019T005142Z--claude-ret-submitted-handoff.md` (branch `claude/ret-submitted-handoff`, head `67d468d4`).
+
+---
+
+# Handoff — v3.139.0 (2026-10-18)
+
+> Three unrelated sessions folded here. (1) Tier fit and calibration: a written tier-fit standard with a lock addendum, a stdlib interlock checker, and a scoped Brier standard for the falsification ledger (#1311, #1312). (2) Public-claim fix: false "public repo / public commit trail" wording removed from about 60 resume and page files, plus a pre-commit gate (#1300). (3) Universe clean-room, second half: Zach's 854 decision receipts as a personal-tier universe with a link graph (#1452), the Operator 21 Librarian loader that reads it (#1455), and the backlog close-out (#1463).
+
+## Goal / true north
+Three goals, one per thread. Tier fit: make "right amount of machinery per task" and forecast calibration measurable and reproducible at near-zero cost. Public claim: no outward-facing resume or page calls the ARCS repo or commit trail public; the wording is "live app (app.arcs.care), commit history and traces on request". Universe: make a person's own decision receipts a retrievable, linked, internal-only graph so Operator 21 can recommend past decisions with their backing, as the base for a later breakoff section (Operators 20, 21, 22).
+
+## What changed
+- #1311 merged (`a5345389`): `_PATTERNS/2026-10-15-tier-fit-goldilocks.md`; receipt 2026-10-15--tier-fit-goldilocks-pr1311--ZH
+- #1312 merged (`63f042e1`): lock addendum, `scripts/tier_ladder_check.py` with self-test, TF-B4 confirmed, TF-B5 killed; receipt 2026-10-15--tier-ladder-interlock-pr1312--ZH
+- PR 1300 merged with --merge (`6d51bd3b`), about 60 files: forge-* resumes, ATS html/txt, page.html, TAILOR-NOTES, recoil-schriner, resume-blacksmith, vico-vp-wargame, and served public/ pages (vico, schriner, squad, blacksmith, success-academy, growth-ai, mercury, sentilink).
+- New `scripts/public_claim_gate.py`, wired into `scripts/git-hooks/pre-commit`; allows germinate, rosetta-shell, resume-tailor-skill, arcs-skills. Proven fail-on-bad (caught a stale norm-ai ATS txt) and pass-on-good.
+- Receipts: 2026-10-17--public-claim-fix-pr1300--ZH and 2026-10-17--public-claim-fix-deploy-verify--ZH (the first could not be updated, UPDATE was declined, so the second records the deploy check).
+- Vercel dpl_qqH5EGXkXMGCqPkhxyA7PnwyvEiJ READY from 6d51bd3b; vico-resume, blacksmith-resume, squad-resume live with new wording.
+- #1452 merged with --merge (`68aec3c6`): scripts/universe_receipts_adapter.py; universe `zach-receipts` (854 receipts to 6509 atoms and 2109 edges: pr 741, commit 666, file 211, adr 13, receipt 36, other 442); new personal tier in universe_ask.py (always internal, no public projection, bridged atoms never external); universe_sweep.py counts declared bridges as edges. Receipt 2026-10-17--universe-receipts-as-atoms-pr1452--ZH.
+- #1455 merged with --merge (`12f1134d`), Zach approved the diff: operators/arcs_librarian.py `load_universes()` plus class personal-receipt in runtime/specs/read-friction-tiers.json. Receipt 2026-10-17--universe-librarian-loader-pr1455--ZH.
+- #1463 merged with --merge (`dc69c420`): backlog row universe-librarian-loader DONE. Receipt 2026-10-17--universe-loader-row-done-pr1463--ZH.
+
+## Current state
+- Sweep over five universes (vico 38, wonderful-ai 32, scout-global 10, canon 210, zach-receipts 6509): 0 hard findings, verdict REVIEW. Six canon-receipt echoes remain (the receipt "Adopt ADR-084" restates ADR-084; ADR-067 contains scripts/oracle.py next). Receipts name Brooks (2), Jeben (2), Todd (1), who have no universe yet.
+- Librarian self-test OK with 4 new cases. A real query for ADR-084 returns the ADR and two receipts with commit-sha M0 backing. recommend() went from 3.3 s to 5.3 s.
+- The generated atoms, edges and the raw export are gitignored (the database is the SSOT): a fresh clone loads zero receipts until `python3 scripts/universe_receipts_adapter.py --export` is run.
+- Only Vercel checks ran on all three PRs; no GitHub Actions checks, no reviews beyond Zach's approval of #1455.
+
+## Decisions made
+- Use the base rate, not the coinflip, as the baseline; stop at the Cut rung now and defer Diamond (holdout, replication) until a cohort reaches n=30.
+- Extend the falsification ledger with probability, resolve_by, resolution_source rather than altering the decision_receipt table.
+- Do not fix the main checkout skills drift first; start a fresh session from origin/main.
+- Zach: merge on local gates; add a second receipt row instead of editing the first.
+- Receipts are Zach's only: all 854 ids end --ZH, the 89 operator values are sessions. The prod compass Receipt table was not read (real users' rows need consent).
+- Three sweep rules were added after seeing the data, not pre-registered: the template-frequency control, the declared-relation split, and a leftover echo set to REVIEW instead of a failure.
+- The Librarian reads personal-tier universes only; counterpart universes still need --bridge --why and canon is loaded by load_adrs. Class personal-receipt (T3, PATHOLOGY, 90 days) is tentative.
+- Pushback kept on record. (1) Setting a leftover echo to REVIEW after seeing the data softens the sweep; treat REVIEW as a weaker gate than the first design and pre-register any further rule before counting. (2) Merging an edit to Operator 21 on Vercel-only checks is thin evidence; the 4 new self-test cases are the real gate. (3) The loader's value is tested on one real query; its rank (receipts 2 and 3 behind the ADR) does not show the extra 2 s per call pays for itself. (4) GitHub auto-merge was declined because it merges at once here, and the atlas HTML was left out of the commit rather than bypassing token_source_gate.
+
+## Open decisions (waiting on Zach)
+1. Zach: confirm extending the falsification ledger fields (probability, resolve_by, resolution_source).
+2. Zach: which resumes or PDFs were already sent (monday, oxenham, blacksmith, others); sent copies still say "public" and need a corrected re-send.
+3. Zach: whether status.arcs.care shows commits; its "live commit trail" footers on forge page.html files were left as is.
+4. Zach: how outcomes get captured (row universe-outcome-capture; 2 of 247 closed).
+5. Zach: fix the canon atlas with shared tokens or keep it local-only (row universe-atlas-tokens).
+
+## Open (other)
+1. Capture a routed-task log (tier, pass/fail per tier, irreversible flag) so TF-B1, TF-B2 and the checker can run on real data.
+2. Main checkout drifts 71 files from origin/main; needs a look at what is dirty before moving it.
+3. Fix Actions spending limit so CI runs again.
+4. Reconcile the AGENTS.md OPERATOR21 row (spline inference) with the periodic table (Librarian) before more work names Operator 21.
+5. Calibrate the personal-receipt tier against labelled picks, and decide whether the 2 s cost matters.
+
+## Next action
+Zach names the sent resumes so corrected copies can be prepared; the tier-fit thread's next step (build the stdlib ledger scoring script, pre-registering the baseline first) and the universe thread's (decide how outcomes are captured, then start universe-outcome-capture) are listed under Open.
+
+## Cold-start recipe
+Per thread. Tier fit: read `_PATTERNS/2026-10-15-tier-fit-goldilocks.md`, then `python3 scripts/tier_ladder_check.py --self-test`. Public claim: `python3 scripts/public_claim_gate.py $(git ls-files '_ARTIFACTS/*/*resume*' '_ARTIFACTS/*/page.html' 'public/*resume*')` should exit 0. Universe: `python3 scripts/universe_receipts_adapter.py --export`, then `python3 scripts/universe_sweep.py --no-write` and `python3 operators/arcs_librarian.py "ADR-084" --n-max 3`; the open work is the universe-* rows in _QUEUE/induced-backlog.jsonl.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261018T001337Z--claude-zealous-bardeen-06d4dd.md
+> Defined tier-fit (overkill, underkill, just right) with the lock/interlock addendum, shipped a stdlib interlock checker, and scoped a Brier-based standard for the falsification ledger.
+
+### Notes: lead of 20261018T001935Z--claude-handoff-public-claim-fix.md
+> ### Shavasana — handoff pause, 2026-10-17 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> 
+> - **Exhale** (what went out): 2 commits, 1 merges to main (scope: branch claude/zealous-grothendieck-73e154), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 2 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 5 / dissent 2 (ratio 1.67) → OK: dissent present.
+> - **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> 
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: every claim kept; each cites a PR, commit, receipt id or deploy id. Somatic: not asked. Disposition: release.
+
+> Removed false "public repo / public commit trail" claims (arcs-v9 and perplexity-mcp are private) from resumes, ATS copies, forge pages, notes and served public/ pages; added a pre-commit gate; merged PR 1300 on local gates; deploy verified live.
+
+### Notes: lead of 20261018T002644Z--claude-universe-handoff-2.md
+> ### Shavasana — handoff pause, 2026-10-17 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/universe-handoff-2), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 6 / dissent 0 (ratio 6.0) → RETURN: agreement with no dissent on record.
+> - **Cold re-read (canary on the draft frag3.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> _This block asserts nothing new. Counts, paths, and questions only._
+> - Attachment release: every claim re-read cold against the merged PRs and the sweep output; none dropped. Disposition: release, with an explicit RETURN override. The sycophancy check returned RETURN (agreement 6, dissent 0) because its counter looks for keywords such as refused, blocked or wrong, and this draft's pushback is in other words (see the Pushback line under Decisions). I did not reword it to flip the counter. Somatic: not asked.
+
+> Built receipts-as-atoms (Zach's 854 decision receipts as a personal-tier universe with a link graph) and the Librarian loader that reads it, and merged both plus the backlog close-out, all on Vercel-only checks.
+
+### Notes: Shavasana
+- Mechanical half: 0 commits and 0 merges counted in the day's records (counts run on 2026-10-17, after both merges); canary GROUNDED; sycophancy check verdicted RETURN (agreement 5, dissent 0 by keyword).
+- Shipping anyway, and saying so: dissent exists in substance but not in the checker's keywords. TF-B5 was killed, the coinflip bar was rejected as the wrong baseline, and both receipts are self-attested (no independent verifier matched them).
+- Attachment release: TF-B4 downgraded to "confirmed on synthetic cases only"; the existing RET tier table is motivating evidence, not proof; priors in the old ledger are not calibrated probabilities.
+- Somatic: not asked. Disposition: release.
+
+> Molted from `_HANDOFFS/fragments/20261018T001337Z--claude-zealous-bardeen-06d4dd.md` (branch `claude/zealous-bardeen-06d4dd`, head `421205c7`); `_HANDOFFS/fragments/20261018T001935Z--claude-handoff-public-claim-fix.md` (branch `claude/handoff-public-claim-fix`, head `37d66c79`); `_HANDOFFS/fragments/20261018T002644Z--claude-universe-handoff-2.md` (branch `claude/universe-handoff-2`, head `f7a01807`).
+
+---
+
+# Handoff — v3.138.0 (2026-10-18)
+
+> Five unrelated sessions folded here. (1) Integrity gate: the foreign-sha lookup now ignores the hook's GIT_* env vars (#1406, #1408). (2) Sharpness detector and Cyan audit: a stdlib detector with pre-registered beliefs, validated only on planted synthetic images, and a Cyan linking-structure audit that killed the "fractal" claim (#1313 to #1316, handoff #1438). (3) Phosphor: four PRs (#1428 to #1431) and two tasks handed to a fresh session, build decoupling and a design-system true-up. (4) Universe clean-room: a sourced retrieval stack merged as #1404 with five backlog rows queued. (5) Proposal wiki: a one-source proposal wiki and ranking; its fragment records two unpushed commits with no PR, and main later shows #1444 from that branch.
+
+## Goal / true north
+Five goals, one per thread. Integrity gate: keep CLAUDE.md citations verifiable with zero WARN. Sharpness and Cyan: test whether sharpness above information content can be detected mechanically, and whether the Cyan linking idea survives a pre-registered test. Phosphor: a family co-creation instrument, next decouple its build and true up its design system. Universe: keep each counterpart and canon fact in its own sourced universe so a breakoff can ship a standalone SSOT. Proposal wiki: make repo state and proposals visible from above and ranked by measured evidence.
+
+## What changed
+- Commits `399715ac` and `88aedf35` on branch `claude/relaxed-merkle-130db6`: `scripts/proposal_render.py`, `proposal_rank.py`, `field_render.py`, `md_page.py`, `_PROPOSALS/rubric.json`, `edges.json`, four proposals. Not pushed. No PR. No receipt. Molt will refuse this fragment until a PR or receipt id is added here.
+- Private wiki artifact https://claude.ai/artifact/AZVTgYt17dFKgupBFLtrJD (version 16). Republish after regenerating.
+- Memory: wiki-as-artifact preference; body-scan-then-Shavasana order; the take-home recorded as submitted 2026-10-14.
+- #1406 merged (`b6246512`): molt of the integrity-gate fragment into handoff v3.137.0. Receipt `2026-10-16--handoff-molt-v3.137.0-pr1406--ZH`.
+- #1408 merged (`b51bfa44`) after both checks passed: the foreign-sha lookup in scripts/integrity_gate.py drops GIT_* env vars, because the hook's GIT_DIR overrode `git -C` and read arcs-v9. Receipt `2026-10-16--integrity-gate-hook-git-env-pr1408--ZH`.
+- #1404 merged with --merge (`9477bccc`): scripts/universe_ask.py, universe_canon_adapter.py, universe_sweep.py, attribution_provenance_lint.py (byte-identical copy of a commit that is still unmerged on another branch, so not citable here), data in _STATE/job-search/universe/, night-moves SKILL.md section. Receipts 2026-10-16--universe-clean-room-pr1404--ZH (open) and 2026-10-16--universe-clean-room-pr1404-merged--ZH (merge).
+- Five backlog rows queued: universe-receipts-as-atoms, universe-outcome-capture, universe-scenario-anonymizer, universe-breakoff-conductor-gate, universe-atlas-tokens.
+- #1313 merged (`97b31f7c`): sharpness note plus `scripts/sharpness_cutoff.py` round 1; receipt 2026-10-15--unearned-sharpness-detector-pr1313--ZH
+- #1314 merged (`41bc2f0c`): cite ground for the run section; receipt 2026-10-15--sharpness-note-ground-pr1314--ZH
+- #1315 merged (`af669865`): round 2 tests (round trip, noise floor, toy held-out gap) and the evidence image; receipt 2026-10-15--sharpness-cutoff-round2-pr1315--ZH
+- #1316 merged (`fe2a27b0`): Cyan linking-structure audit note; receipt 2026-10-15--cyan-linking-audit-pr1316--ZH
+
+## Current state
+- Detector passes only on planted synthetic images: B1, B3, B4, B5, B7 pass; B2 and B6 fail and are recorded as findings. Real photos, a real JPEG and a true splat scene are untested.
+- Cyan audit: B9 (fractal) killed; B8 and B10 hinge on one unresolved Firmament coding decision. Myst page read only to character 100000 of 152715.
+- Memory `always-nudge-to-close-the-loop-before-opening-new` carries the close-what-you-can and auto-merge-lane rules.
+
+## Decisions made
+- Zach: shared scale for proposal axes is 0 to 5. Reason: matches the decision-geometry axes.
+- Zach: the five axis anchors in `_PROPOSALS/rubric.json` are approved as written.
+- Zach: Fibonacci steps (1, 2, 3, 5, 8, 13, 21) are the step function for zoom, not the dial weights.
+- Strip GIT_* for the one sibling-repo subprocess only, so the rest of the gate keeps the hook's index view.
+- Pseudonyms are descriptive shapes plus a private hash table, not hand-picked aliases (Zach), so a public surface says what a client does and never who.
+- Keep the six counterpart-naming ADRs as they are (Zach).
+- Left the generated canon atlas HTML out of the commit because token_source_gate blocks a page that re-authors the palette.
+- Close mechanical loose ends before reporting; ask only for decisions (Zach, 2026-10-15).
+- Docs-only PRs that pass gates go through the auto-merge lane via scripts/ship_docs.sh; native GitHub auto-merge stays off (no required checks on this plan).
+- Merge the code PR 1315 on Zach's explicit go.
+- Dissent on record: disagreed that the real-time polygon engine was the 1993 unlock (it was precomputation plus CD storage); disagreed that violent games are established as the cause of consequence decoupling (contested research, not shown); disagreed that the Myst thread was pure distraction (it produced the image-sourcing rules in the detector chip). Zach's own corrections (close loops, auto-merge lane, split the PR) were adopted.
+
+## Open decisions (waiting on Zach)
+1. Zach: approve opening a PR for the branch so it can merge with `--merge` and log one decision receipt.
+2. Zach: the decisions on each proposal page (compass exposure D1 to D6, HUD audit D1 to D5, next measurements D1 to D3, forward waypoints D1 to D3, blameless copilot D1 to D5).
+3. Zach: tag provenance on the 78 untagged receipts; only the owner can set it.
+4. Zach: which stage names the I.D.E.A. loop uses; the repo holds no expansion.
+5. Zach: fix the canon atlas with shared tokens, or keep it local-only (row universe-atlas-tokens).
+6. Zach: run the sweep nightly now, or leave it to the next night-moves.
+7. Zach: whether to write the evidence-image sourcing rules as their own pattern note (currently carried by the detector chip).
+
+## Open (other)
+1. Firewall settings have not been read; the GW-002 waiver ends 2026-10-28.
+2. Not filed: no ADR, no DEWY receipt, no witness stubs. Witness candidates are Zach's lines on the fold, the zoom axes, the weld as the spark, and the empiricism bar.
+3. Add the gate's foreign-sha cases (found, typo, unnamed hex, repo not cloned, GIT_DIR set) to a test file; still run by hand.
+4. Front/back decoupling: today one hand-edited 280 KB HTML. Candidate: source partials (CSS tokens, engine JS, UI) built into the single file by a small stdlib script, so the cap and token gates run on the output. Adopt-vs-build lens: `runtime/specs/phosphor-adopt-vs-build.md`. No new dependency without Zach's approval.
+5. Design system true-up: kit at `src/ui-kit/recoil-report/_tokens.css` (inline verbatim, sentinel header kept, `token_source_gate.py`), DESIGN.md radii 3/6/10/16, type ramp 0.6875/0.925/1.15rem. Backlog rows: `design-system-trueup-claude-design-magic-patterns` (Material/MUI reference only; a new dep needs approval), `phosphor-heading-light-rays` (HOLDING). Needs: atomic primitives, composition rules, state matrix (rest/hover/press/focus/disabled/locked), motion guide (durations, easing, reduced-motion, the kintsugi design-debt bans on glow shadows and wide blur), tracking and rendering notes, light design.
+6. Kid pad bank in the dock tray (`phosphor-pad-block-banks`, unblocked), conventional DJ deck layout (CSS regrid, keep ids dbplay/dbcue/dbsync/mxla/mxx/mxlb), mini draggable widget, `phosphor-parent-kid-access` (awaiting Zach: per-child profiles/time limits or parent passkey first), key bindings (which variable Ctrl +/- sweeps; suggest effect wet amount), `phosphor-consonance-shavasana` (after the tempo map).
+7. Owed: decision receipts for PRs #1422 to #1431 (Supabase `decision_receipt`, project xbbpiryokswwvcrcutge; use the lock: dry run, canary, review, batch); results sections for prereg amendments 31 and 32; reword the Gold Coast true-up row (reference only); hosting on an arcs subdomain (needs Zach's go and subdomain choice; kid-safety gating first).
+8. Environment: `gold` and `fx` audio checks read silence since the last resume, identical on merged HEAD (not a regression, undiagnosed). Known failing: sing S2, slice S4. `keys`/`quick` flake under load.
+9. Candidate-memo cite in scout-global atoms stays UNMERGED until scout-global-candidate-bundle-c430df commits; drop its older universe_ask.py copy.
+10. Reconcile the AGENTS.md OPERATOR21 row (spline inference) with the periodic table (Librarian).
+11. Chip task_e7f44e5c: test the detector on a real dated image pair, resolve B6.
+12. Chip task_9720aca5: resolve the Firmament coding, read the rest of the Myst page, test B11.
+
+## Next action
+Check the two started chips for results and fold their outputs into the two notes.
+
+## Cold-start recipe
+Read `_PATTERNS/2026-10-15-unearned-sharpness-detector.md` and `_PATTERNS/2026-10-15-cyan-linking-structure-audit.md`; run `python3 scripts/sharpness_cutoff.py --self-test` (exit 0 expected); chips task_e7f44e5c and task_9720aca5 run in their own sessions. Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+### Notes: lead of 20261015T194817Z--claude-relaxed-merkle-130db6.md
+> ### Shavasana, handoff pause, 2026-10-15 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 2 commits, 0 merges to main (scope: branch claude/relaxed-merkle-130db6), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: manifesto (exhale, no inhale).
+> - **Sycophancy check**: agreement 0 / dissent 0 (ratio 0.0) → OK: dissent present.
+> - **Cold re-read (canary on the draft draft-fragment.md)**: GROUNDED; no ground return: none; thin air: none.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+> - Attachment release: one claim downgraded to unconfirmed (strata versus altitude gates, taken from Zach's correction, canon not read). Every other claim cites a commit, a file, a count or Zach's own words. Somatic: not asked at writing time. Disposition: release; molt stays blocked until the fragment names a PR or receipt.
+
+> Built a one-source proposal wiki (human page plus machine JSON), a five-axis idempotent ranking with nested decision edges, and a read-only field view, all on the ARCS ui-kit. Audited how the compass can be cloned, audited the HUD against the moire claim, ran one hindcast, and recorded the decisions Zach made. No production change. Nothing pushed.
+
+### Notes: lead of 20261016T144544Z--claude-handoff-gate-hook-env.md
+> Molted the integrity-gate fragment into v3.137.0, then fixed the gate's foreign-sha lookup reading the wrong repo inside the pre-commit hook.
+
+### Notes: lead of 20261017T190000Z--claude-phosphor-cold-molt.md
+# Phosphor cold molt, 2026-10-17
+
+### Notes: lead of 20261017T213920Z--claude-universe-backlog-handoff.md
+> ### Shavasana — handoff pause, 2026-10-17 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/universe-backlog-handoff), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 3 / dissent 0 (ratio 3.0) → OK: dissent present.
+> - **Cold re-read (canary on the draft frag.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> _This block asserts nothing new. Counts, paths, and questions only._
+> - Attachment release: every claim re-read cold; each cites a PR, commit, receipt id or file. Not run from main after the merge, and the Vercel-only check basis, are stated under State, not hidden. Somatic: not asked. Disposition: release.
+
+> Built the clean-room universe retrieval stack (retrieval, read-only canon universe, contamination sweep, ADR-033 speaker lint, audience gate, shape-based public projection, sealed pseudonym key), merged it on Vercel-only checks, and queued the breakoff roadmap.
+
+### Notes: lead of 20261017T225105Z--claude-handoff-sharpness-cyan.md
+> Built and merged a stdlib unearned-sharpness detector with pre-registered beliefs, then audited whether Cyan's games are fractal or only repeated; both ended mostly in findings of limits, and two chips carry the open work.
+
+> ### Shavasana — handoff pause, 2026-10-17 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+> 
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-sharpness-cyan), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: breathing (both directions).
+> - **Sycophancy check**: agreement 5 / dissent 0 (ratio 5.0) → RETURN: agreement with no dissent on record.
+> - **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+> 
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Sycophancy RETURN stands and this handoff ships anyway: the check counts dissent markers in the day's records (0), not prose. Real dissent in the transcript is listed under Decisions.
+> - Attachment release: every claim kept; each cites a PR, merge sha or receipt id. The four merged PRs were each read back from GitHub and Vercel status. Somatic: not asked. Disposition: release.
+
+### Notes: Creases
+- The progressive ledger flagged at session start sits in the main checkout `/Users/zharris/arcs-v9/_STATE/`, with other sessions' checkpoints on head `9abadfb0`. This worktree has none. Do not claim the main checkout's ledger from here; that would mark other sessions' trails folded.
+- Strata (quantum to meta) and the altitude gates (L levels) are two separate axes, per Zach's correction on 2026-10-15. Unconfirmed: the canon on altitude gating was not read. Three different L stacks appear in the repo: compass prompt stages, CLAUDE.md L0 to L7, atlas strata. ADR-071 says the Mobius has no sides, only traversals.
+- Vector collision was composted, not just unbuilt. The HUD audit labels it UNBUILT.
+- The zero-point node `zp` maps 0 files, so local recall on the zero point has no corpus yet.
+- In the real lattice, 5-step directed paths number 47 each way; 4-step undirected walks number 33,330.
+- The lore drafts in `_PROPOSALS` are private: personal text, and a ruling of 2026-10-03 bars any diagnostic label in public. The artifact is private; do not share the link without a PII pass.
+- `oracle.py next adr` mints a number on every run. One was minted by mistake and reverted. Next free ADR was 86.
+- Pre-registered pass lines (fixed before counting): hindcast AUC 0.60 with permutation p 0.05; planted echo must fire and shared boilerplate must not; limiter must deny the 11th request in 60 seconds across three instances.
+- Change-coupling test and planted echo are next after the PR. The node-to-file mapping has not been located.
+
+### Notes: Do NOT redo
+Wide frame, hide bump, Eject lock, Song/Sing switch, dock, Impeccable install (project copy done; Codex/Cursor/user-level held), TypeSafe skill (decided not for Phosphor).
+
+### Notes: Tools, skills, memory to load in the new session
+- Skills: `impeccable` (project copy in the project skills folder, user-level 4.0.0; run `impeccable context` once), `token-savings-bank` before fan-out, `witness`, `artifact-design`.
+- Memory slugs: `single-file-artifacts-inherit-tokens-never-copy`, `arcs-fieldos-design-system`, `design-full-width-lede-matches-heading`, `run-the-repos-own-gates-before-shipping`, `preview-serves-root-branch-trap`, `when-to-teleport-to-terminal-vs-agents`.
+- Docs: `PRODUCT.md` (Phosphor section), `DESIGN.md`, `_PATTERNS/arcs-artifact-css-base.css`, `runtime/specs/phosphor-adopt-vs-build.md`, prereg file above.
+- Gates: `page_gate.py --matrix full`, `token_source_gate.py`, `component_source_gate`, kintsugi design-debt, `artifact_wrap_lint.py`, `card_gutter_check.mjs`.
+- Tests: 38 phosphor check scripts under scripts/ (named phosphor, then the check, ending .mjs); run ONE process at a time, no `timeout` on macOS; fixtures `python3 scripts/beat_truth_tracks.py <dir>` then PHOSPHOR_FILES=break-100.wav (mixer: break-100.wav,break-120.wav) for bars/dock/gate/glitchoff/pins/mixer; exclude slice, twin, sing.
+- Ship: `scripts/ship_docs.sh "<title>" "<body>"` (clean tracked tree; move the untracked 2026-10-15 witness file under _STATE aside), merges with `--merge`. Republish the artifact with `Artifact publish url=https://claude.ai/code/artifact/5a1e7b86-43c1-4d04-95c8-ae79282b7869 file_path=<phosphor.html>`.
+- Comment threads awaiting Zach: 2786a303 (parent-kid-access), 8688ee2f (key bindings).
+
+- Design vibe (Zach, 2026-10-17): cypherpunk plus vintage electronic. Wants many controller types; backlog row `phosphor-controller-zoo` (one control model, many skins).
+
+> Molted from `_HANDOFFS/fragments/20261015T194817Z--claude-relaxed-merkle-130db6.md` (branch `claude/relaxed-merkle-130db6`, head `88aedf35`); `_HANDOFFS/fragments/20261016T144544Z--claude-handoff-gate-hook-env.md` (branch `claude/handoff-gate-hook-env`, head `b51bfa44`); `_HANDOFFS/fragments/20261017T190000Z--claude-phosphor-cold-molt.md` (branch `?`, head `?`); `_HANDOFFS/fragments/20261017T213920Z--claude-universe-backlog-handoff.md` (branch `claude/universe-backlog-handoff`, head `a648bb04`); `_HANDOFFS/fragments/20261017T225105Z--claude-handoff-sharpness-cyan.md` (branch `claude/handoff-sharpness-cyan`, head `ed906257`).
+
+---
+
+# Handoff — v3.137.0 (2026-10-16)
+
+> > Molted the take-home gauntlet fragment into v3.134.0 and cleared the CLAUDE.md integrity-gate warning by teaching the gate to verify cited shas in named sibling repos.
+
+## Goal / true north
+Keep CLAUDE.md citations verifiable by the integrity gate with zero WARN.
+
+## What changed
+- #1296 merged (`b1f0080d`): molt of the design gauntlet fragment into handoff v3.134.0. Receipt `2026-10-12--handoff-molt-v3.134.0-pr1296--ZH`.
+- #1397 merged (`94a90803`): scripts/integrity_gate.py looks up a sha unknown to this clone in the repo named on the same line (FOREIGN_REPOS, default ret-rfp-intelligence; extend with INTEGRITY_FOREIGN_REPOS). Receipt `2026-10-16--integrity-gate-foreign-shas-pr1397--ZH`.
+
+## Current state
+- `python3 scripts/integrity_gate.py CLAUDE.md` returns OK, 36 cites, including ret-rfp-intelligence 175afe2 as foreign.
+- On a machine without ~/ret-rfp-intelligence (CI), such cites stay WARN with "not cloned here".
+
+## Decisions made
+- Fix the gate rather than reword the handoff line, so the real cross-repo cite survives.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Add the gate's foreign-sha cases (found, typo, unnamed hex, repo not cloned) to a test file; they were run by hand only.
+
+## Next action
+Add a self-test for the integrity gate's foreign-sha lookup.
+
+## Cold-start recipe
+- `python3 scripts/integrity_gate.py CLAUDE.md`; memory `gh-auto-merge-no-required-checks-merges-now`.
+
+### Lessons
+- #1397 merged before CI finished: `gh pr merge --auto` merges at once in this repo because no checks are required. Wait for green, then merge.
+
+### Notes: Shavasana
+
+- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-integrity-gate), receipts in digest: no digest file.
+- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
+- **Breath balance**: breathing (both directions).
+- **Sycophancy check**: agreement 4 / dissent 0 (ratio 4.0) → OK: dissent present.
+- **Cold re-read (canary on the draft frag2.md)**: GROUNDED; no ground return: none; thin air: none.
+- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+
+_This block asserts nothing new. Counts, paths, and questions only._
+- Attachment release: kept all claims; both merges and receipts were read back this session. Somatic: not asked. Disposition: release.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261016T135237Z--claude-handoff-integrity-gate.md` (branch `claude/handoff-integrity-gate`, head `94a90803`).
+
+---
+
+# Handoff — v3.136.0 (2026-10-15)
+
+## Goal / true north
+Land the monday FDE take-home and bank what it taught.
+
+## What changed
+- #1339 merged: night moves 2026-10-14 (monday take-home submitted as rc46; K71 to K79 hardening; cold run from the ZIP; live board tidy).
+- Take-home submitted: ret-rfp-intelligence rc46 (4.22 MB, tag rc46-2026-10-14 in that repo); rc43 carried the last full release check and a live end-to-end run from inside the ZIP.
+- Post-mortem pass 1 (extraction): 192 mistake rows, 134 belief rows in falsification-ledger schema, 38 session rows, a T0-to-rc46 timeline, in the local untracked ret-postmortem-raw-2026-10-15 folder under _STATE.
+
+## Current state
+Take-home submitted and frozen until the panel. Live boards on the assessment account: public links off, Welcome doc trimmed, scorecard synced. Post-mortem waiting on pass 2.
+
+## Decisions made
+- Post-mortem outputs live in arcs-v9, never in the take-home repo (its leak check bans ARCS vocabulary; frozen until the panel).
+- Belief-ledger rows are proposed to Zach before any write-locked append; publishing to status.arcs.care/beliefs stays Zach's call.
+- rc33's 10.45 MB was a control that held (size cap), not a crisis.
+
+## Open decisions (waiting on Zach)
+None.
+
+## Open (other)
+1. Post-mortem pass 2 (recoil report, mistake savings bank, six simulated P0 incidents, phase 2 backlog, ledger rows F43+).
+2. Enterprise access landed on the zachharriss-team account, not the assessment account.
+3. Stashes tagged wt-flightlog-dupes-* in the take-home repo (duplicates of lines on main; safe to drop).
+
+## Next action
+Resume post-mortem pass 2 from the RESUME note in the ret-postmortem-raw-2026-10-15 folder under _STATE.
+
+## Cold-start recipe
+Read the RESUME note in the local ret-postmortem-raw-2026-10-15 folder under _STATE; it lists the inputs, the eight pass 2 steps and the constraints.
+
+Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
+
+> Molted from `_HANDOFFS/fragments/20261015T210121Z--claude-suspicious-austin-8898c4.md` (branch `claude/suspicious-austin-8898c4`, head `c7260eb9`).
+
+---
+
 # Handoff — v3.135.0 (2026-10-13)
 
 > ### Shavasana — handoff pause, 2026-10-13 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)

@@ -17,7 +17,7 @@ Experience · newest first
 ARCS · Decision Intelligence Platform
 Founder · 2025 to present
 Built a decision-intelligence platform from scratch: structured pre- and post-decision capture, an AI-native analysis pipeline on Claude, and compounding feedback loops.
-- Built the MCP server and agentic orchestration layer that runs pre- and post-decision capture automatically; live and in production, with a public commit trail on GitHub.
+- Built the MCP server and agentic orchestration layer that runs pre- and post-decision capture automatically; live at app.arcs.care; commit history and traces shown on request.
 - Designed the experimentation and outcome-capture framework: models recalibrate scoring weights from prior decisions, compounding institutional memory.
 - Operate the full stack: product development, go-to-market, growth motion, and commercial strategy, standalone, end to end.
 Grayscale Investments · Digital Currency Group · SEC/FINRA
@@ -46,7 +46,7 @@ Skills · what I use, not what I have heard of
 AI and agent systems
 Claude · MCP servers · agentic AI pipelines and orchestration · Glean · GitHub
 Application layer
-TypeScript and JavaScript, Next.js (ARCS platform, public repo) · SQL · Python
+TypeScript and JavaScript, Next.js (ARCS platform, private repo, code walkthrough on request) · SQL · Python · open-source tools: germinate, rosetta-shell, resume-tailor-skill (github.com/flashesofbrilliance)
 Analytics and modeling
 Forecasting · data modeling · A/B and multivariate experimentation · attribution modeling
 Data systems

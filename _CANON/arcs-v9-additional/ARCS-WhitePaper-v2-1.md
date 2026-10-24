@@ -309,7 +309,7 @@
 ### 6.2 Alpha Program (Q1 2026)
 
 - 20 design partners across trend detection and rhetorical compilation
-- Performance guarantees: 2× improvement or money back
+- Performance guarantees: [struck 2026-10-17: no supporting data]
 - Feedback incorporated into v2.2
 
 ### 6.3 Patent Filing Sprint (Q4 2025 - Q1 2026)

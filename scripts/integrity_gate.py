@@ -98,8 +98,11 @@ def extract(text: str) -> tuple[set[int], set[str], set[str], set[str]]:
     adrs = {int(n) for n in ADR_RE.findall(text)}
     shas = {s for s in SHA_RE.findall(GMAIL_ID_RE.sub(" ", text)) if re.search(r"\d", s) and re.search(r"[a-f]", s)}
     paths: set[str] = set()
-    for p in PATH_RE.findall(text):
-        p = p.rstrip(TRAIL)
+    for m in PATH_RE.finditer(text):
+        p = m.group(1).rstrip(TRAIL)
+        # cite cut short by a placeholder (`ADR-*.md`, `forge-<name>.html`, `x-{a,b}`): not a real cite
+        if text[m.end():m.end() + 1] in ("*", "<", "{", "?"):
+            continue
         # trailing '/' means a directory cite; keep for prefix check
         if "*" in p or "{" in p or "<" in p or "[" in p and "]" not in p:
             continue
@@ -116,7 +119,13 @@ class RefState:
         if not sh("rev-parse", "--verify", "-q", ref).strip():
             sys.exit(f"integrity_gate: ref '{ref}' not found — run `git fetch origin main` first")
         self.tree = set(sh("ls-tree", "-r", "--name-only", ref).split("\n")) - {""}
-        self.dirs = {os.path.dirname(p) for p in self.tree}
+        # every ancestor directory of every tracked file, so a dir holding only subdirs still exists
+        self.dirs = set()
+        for p in self.tree:
+            d = os.path.dirname(p)
+            while d and d not in self.dirs:
+                self.dirs.add(d)
+                d = os.path.dirname(d)
         self.basenames: dict[str, list[str]] = {}
         for p in self.tree:
             self.basenames.setdefault(os.path.basename(p), []).append(p)

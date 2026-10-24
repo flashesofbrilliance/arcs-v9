@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { surface, text, signal, font, border } from '@/ui/tokens'
+import { surface, text, signal, font, border, radius } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { useToastDrawer } from '@/ui/ToastDrawerContext'
 import { FOOTER_H } from '@/ui/StickyFooter'
@@ -30,7 +30,7 @@ const CHIPS = [
   { label: 'Storage', body: 'Nothing stored without sign-in' },
   { label: 'Training', body: 'Input never trains a model' },
   { label: 'Autonomy', body: 'You decide. ARCS doesn\'t.' },
-  { label: 'Source', body: 'Repo is public and forkable' },
+  { label: 'Source', body: 'Private repo; history on request' },
 ]
 
 const ROADMAP = [
@@ -170,7 +170,7 @@ export function EyebrowToast() {
                 What&apos;s the deal with my data?
               </span>
               <span aria-hidden="true" style={{
-                fontFamily: mono, fontSize: 11, color: `${signal.gold}aa`,
+                fontFamily: mono, fontSize: font.ramp.label, color: `${signal.gold}aa`,
                 display: 'inline-block',
                 transition: 'transform 0.2s',
                 transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
@@ -220,7 +220,7 @@ export function EyebrowToast() {
                 {/* Depth selector */}
                 <div style={{
                   display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',
-                  border: `0.5px solid ${border.subtle}`, borderRadius: 8, overflow: 'hidden',
+                  border: `0.5px solid ${border.subtle}`, borderRadius: radius.sm, overflow: 'hidden',
                   marginBottom: '1.1rem',
                 }}>
                   {DEPTHS.map((d, i) => (
@@ -249,7 +249,7 @@ export function EyebrowToast() {
                       }}>{d.label}</span>
                       <span style={{
                         display: 'block', fontFamily: mono,
-                        fontSize: 11, fontWeight: 400, letterSpacing: '0.05em',
+                        fontSize: font.ramp.label, fontWeight: 400, letterSpacing: '0.05em',
                         marginTop: 2,
                         color: depth === d.id ? `${signal.cyan}99` : text.muted,
                         transition: 'color 0.12s',
@@ -272,7 +272,7 @@ export function EyebrowToast() {
                           background: surface.elevated, border: `0.5px solid ${border.subtle}`,
                           borderRadius: 7, padding: '0.55rem 0.7rem',
                         }}>
-                          <div style={{ fontFamily: mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.2rem' }}>{c.label}</div>
+                          <div style={{ fontFamily: mono, fontSize: font.ramp.label, textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.2rem' }}>{c.label}</div>
                           <div style={{ fontFamily: sans, fontSize: sm ? 11 : 12, color: text.primary, fontWeight: 500, lineHeight: 1.3 }}>{c.body}</div>
                         </div>
                       ))}
@@ -280,7 +280,7 @@ export function EyebrowToast() {
 
                     {/* Roadmap table */}
                     <div style={{ border: `0.5px solid ${border.subtle}`, borderRadius: 7, overflow: 'hidden', marginBottom: '1rem' }}>
-                      <div style={{ padding: '0.35rem 0.75rem', background: surface.elevated, borderBottom: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>
+                      <div style={{ padding: '0.35rem 0.75rem', background: surface.elevated, borderBottom: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: font.ramp.label, letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>
                         What you&apos;re entering into
                       </div>
                       {ROADMAP.map((r, i) => (
@@ -291,11 +291,11 @@ export function EyebrowToast() {
                           padding: '0.45rem 0.75rem',
                           borderBottom: i < ROADMAP.length - 1 ? `0.5px solid ${border.subtle}` : 'none',
                         }}>
-                          <div style={{ fontFamily: sans, fontSize: 12, fontWeight: 500, color: text.primary }}>{r.name}</div>
-                          {!sm && <div style={{ fontFamily: sans, fontSize: 11, color: text.muted, lineHeight: 1.35 }}>{r.desc}</div>}
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.label, fontWeight: 500, color: text.primary }}>{r.name}</div>
+                          {!sm && <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.muted, lineHeight: 1.35 }}>{r.desc}</div>}
                           <div style={{
-                            fontFamily: mono, fontSize: 11, letterSpacing: '0.05em',
-                            padding: '2px 7px', borderRadius: 4, whiteSpace: 'nowrap',
+                            fontFamily: mono, fontSize: font.ramp.label, letterSpacing: '0.05em',
+                            padding: '2px 7px', borderRadius: radius.xs, whiteSpace: 'nowrap',
                             background: r.bg, color: r.color,
                             ...(r.bd ? { border: `0.5px solid ${r.bd}` } : {}),
                           }}>{r.badge}</div>
@@ -316,27 +316,27 @@ export function EyebrowToast() {
                     <div style={{ border: `0.5px solid ${border.subtle}`, borderRadius: 7, overflow: 'hidden', marginBottom: '0.9rem' }}>
                       {!sm && (
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', background: surface.elevated, borderBottom: `0.5px solid ${border.subtle}` }}>
-                          <div style={{ padding: '0.4rem 0.75rem', fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: signal.cyan, borderRight: `0.5px solid ${border.subtle}` }}>ARCS commits to you</div>
-                          <div style={{ padding: '0.4rem 0.75rem', fontFamily: mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: text.primary }}>You commit to ARCS</div>
+                          <div style={{ padding: '0.4rem 0.75rem', fontFamily: mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: signal.cyan, borderRight: `0.5px solid ${border.subtle}` }}>ARCS commits to you</div>
+                          <div style={{ padding: '0.4rem 0.75rem', fontFamily: mono, fontSize: font.ramp.label, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: text.primary }}>You commit to ARCS</div>
                         </div>
                       )}
                       {COVENANT_GROUPS.map(group => (
                         <div key={group.group}>
-                          <div style={{ padding: '0.3rem 0.75rem', background: surface.bg, borderTop: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>
+                          <div style={{ padding: '0.3rem 0.75rem', background: surface.bg, borderTop: `0.5px solid ${border.subtle}`, fontFamily: mono, fontSize: font.ramp.label, letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted }}>
                             {group.group}
                           </div>
                           {group.rows.map((row, i) => (
                             sm ? (
                               <div key={i} style={{ borderTop: `0.5px solid ${border.subtle}`, padding: '0.5rem 0.75rem' }}>
-                                <div style={{ fontFamily: mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: signal.cyan, marginBottom: 2 }}>ARCS</div>
-                                <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.45, marginBottom: 6 }}>{row.arcs}</div>
-                                <div style={{ fontFamily: mono, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, marginBottom: 2 }}>You</div>
-                                <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.45 }}>{row.you}</div>
+                                <div style={{ fontFamily: mono, fontSize: font.ramp.label, textTransform: 'uppercase', letterSpacing: '0.08em', color: signal.cyan, marginBottom: 2 }}>ARCS</div>
+                                <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.45, marginBottom: 6 }}>{row.arcs}</div>
+                                <div style={{ fontFamily: mono, fontSize: font.ramp.label, textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, marginBottom: 2 }}>You</div>
+                                <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.45 }}>{row.you}</div>
                               </div>
                             ) : (
                               <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderTop: `0.5px solid ${border.subtle}` }}>
-                                <div style={{ padding: '0.5rem 0.75rem', fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.45, borderRight: `0.5px solid ${border.subtle}` }}>{row.arcs}</div>
-                                <div style={{ padding: '0.5rem 0.75rem', fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.45 }}>{row.you}</div>
+                                <div style={{ padding: '0.5rem 0.75rem', fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.45, borderRight: `0.5px solid ${border.subtle}` }}>{row.arcs}</div>
+                                <div style={{ padding: '0.5rem 0.75rem', fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.45 }}>{row.you}</div>
                               </div>
                             )
                           ))}
@@ -346,8 +346,8 @@ export function EyebrowToast() {
 
                     {/* Axiom */}
                     <div style={{ borderLeft: `2px solid ${signal.cyan}33`, paddingLeft: '0.75rem', marginBottom: '1rem' }}>
-                      <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, lineHeight: 1.4 }}>Loyalty is earned through demonstrated reciprocity, not demanded through terms.</div>
-                      <div style={{ fontFamily: sans, fontSize: 11, color: text.muted, marginTop: '0.2rem' }}>If ARCS breaks this covenant, you are released from it immediately.</div>
+                      <div style={{ fontFamily: sans, fontSize: font.ramp.body, fontWeight: 500, color: text.primary, lineHeight: 1.4 }}>Loyalty is earned through demonstrated reciprocity, not demanded through terms.</div>
+                      <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.muted, marginTop: '0.2rem' }}>If ARCS breaks this covenant, you are released from it immediately.</div>
                     </div>
 
                     <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
@@ -362,9 +362,9 @@ export function EyebrowToast() {
                     {FULL_SECTIONS.map((s, i, arr) => (
                       <div key={s.n}>
                         <div style={{ marginBottom: '0.8rem' }}>
-                          <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
-                          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
-                          <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
+                          <div style={{ fontFamily: mono, fontSize: font.ramp.label, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.body, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
                         </div>
                         {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
                       </div>
@@ -382,9 +382,9 @@ export function EyebrowToast() {
                     {PHILOSOPHY_SECTIONS.map((s, i, arr) => (
                       <div key={s.n}>
                         <div style={{ marginBottom: '0.8rem' }}>
-                          <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
-                          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
-                          <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
+                          <div style={{ fontFamily: mono, fontSize: font.ramp.label, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.body, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
                         </div>
                         {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
                       </div>
@@ -402,9 +402,9 @@ export function EyebrowToast() {
                     {BILL_OF_RIGHTS_SECTIONS.map((s, i, arr) => (
                       <div key={s.n}>
                         <div style={{ marginBottom: '0.8rem' }}>
-                          <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
-                          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
-                          <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
+                          <div style={{ fontFamily: mono, fontSize: font.ramp.label, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.body, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
                         </div>
                         {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
                       </div>
@@ -422,9 +422,9 @@ export function EyebrowToast() {
                     {MANIFESTO_SECTIONS.map((s, i, arr) => (
                       <div key={s.n}>
                         <div style={{ marginBottom: '0.8rem' }}>
-                          <div style={{ fontFamily: mono, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
-                          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
-                          <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
+                          <div style={{ fontFamily: mono, fontSize: font.ramp.label, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.body, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
+                          <div style={{ fontFamily: sans, fontSize: font.ramp.label, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
                         </div>
                         {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
                       </div>

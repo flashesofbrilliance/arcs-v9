@@ -6,7 +6,7 @@ linkedin.com/in/zharris
 github.com/flashesofbrilliance
 
 Summary
-A product engineer who owns the whole loop: I take an ambiguous problem, build a working surface in code, put it in front of real users, and ship the AI underneath it. Most recently I built ARCS from scratch and run it largely solo: a GenAI decision-intelligence app on Next.js and TypeScript with a RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer, in production with a public commit trail. Its premise is the same as Squad's: turning noisy, AI-inflated signal into an honest, checkable match. Over 15 years turning ambiguous problems into shipped, adopted systems, including a $7B SEC/FINRA launch, so I ship with taste and where being wrong is expensive. Public commit trail at status.arcs.care; this resume was built by a tool I shipped and run, resume-tailor.arcs.care.
+A product engineer who owns the whole loop: I take an ambiguous problem, build a working surface in code, put it in front of real users, and ship the AI underneath it. Most recently I built ARCS from scratch and run it largely solo: a GenAI decision-intelligence app on Next.js and TypeScript with a RAG pipeline, a live MCP server, agentic orchestration, and an evaluation layer, in production behind a live app (app.arcs.care); commit history shown on request. Its premise is the same as Squad's: turning noisy, AI-inflated signal into an honest, checkable match. Over 15 years turning ambiguous problems into shipped, adopted systems, including a $7B SEC/FINRA launch, so I ship with taste and where being wrong is expensive. Live app at app.arcs.care, commit history on request; this resume was built by a tool I shipped and run, resume-tailor.arcs.care.
 
 Core Strengths
 - End-to-end product engineering, first-hire shape: I build the product surface and the systems under it, solo, in code (Next.js, TypeScript, Node, Prisma, Postgres). ARCS is a live proof, front to back, one person.
@@ -20,7 +20,7 @@ Experience
 
 ARCS, GenAI app I built and run solo
 Founder & Builder, 2025 to Present
-Architect and run a working GenAI product end to end on Next.js, TypeScript, Prisma, Postgres: a RAG pipeline, a custom MCP server, agentic orchestration, and an evaluation layer, in production with a public commit trail at status.arcs.care.
+Architect and run a working GenAI product end to end on Next.js, TypeScript, Prisma, Postgres: a RAG pipeline, a custom MCP server, agentic orchestration, and an evaluation layer, in production behind a live app (app.arcs.care); commit history shown on request at status.arcs.care.
 - Built the RAG pipeline, custom MCP server, and agentic pipelines (Claude API, tool use, extended thinking); carry the full delivery loop solo that a release-train team split at Grayscale.
 - Built an evidence gate that decides when deterministic context is enough versus when LLM reasoning is required, tuned from watching what actually got used, the trust layer an agentic product needs.
 - Built a claims-verification layer that grades each output by how checkable it is and holds back fidelity when the signal is thin, the honest-signal-versus-AI-inflated-noise problem at the core of matching.

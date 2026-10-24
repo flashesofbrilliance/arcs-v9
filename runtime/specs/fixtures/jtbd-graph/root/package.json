@@ -1,0 +1,71 @@
+{
+  "name": "arcs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "NODE_ENV=production next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:push": "npx prisma db push",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio",
+    "postinstall": "prisma generate",
+    "db:generate": "npx prisma generate",
+    "db:reset": "npx prisma migrate reset --force",
+    "verify": "agent-browser open http://localhost:3000 && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser open http://localhost:3000/dashboard && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser close",
+    "test": "npm run lint && npm run test:unit && npm run test:card-gutter",
+    "test:card-gutter": "node scripts/card_gutter_check.mjs --selftest",
+    "test:smoke": "playwright test",
+    "test:unit": "node --experimental-strip-types --import ./tests/unit/register.mjs --test tests/unit/*.test.ts",
+    "test:almanac": "playwright test tests/almanac.spec.ts",
+    "test:nftt": "playwright test tests/nftt.spec.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "@auth/prisma-adapter": "^2.11.3",
+    "@auth/supabase-adapter": "^1.11.3",
+    "@hookform/resolvers": "^5.9.1",
+    "@prisma/adapter-better-sqlite3": "^7.10.0",
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "@supabase/supabase-js": "^2.117.2",
+    "@types/pg": "^8.23.1",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/blob": "^2.8.0",
+    "@vercel/speed-insights": "^2.0.0",
+    "better-sqlite3": "^13.0.3",
+    "dotenv": "^18.0.5",
+    "next": "^16.3.8",
+    "next-auth": "^5.0.0-beta.32",
+    "pg": "^8.23.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-hook-form": "^7.89.0",
+    "resend": "^6.32.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^26",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vercel/toolbar": "^0.2.7",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "impeccable": "4.1.0",
+    "prisma": "^7.10.0",
+    "typescript": "^5"
+  },
+  "allowScripts": {
+    "@prisma/engines@7.10.0": true,
+    "better-sqlite3@12.10.0": true,
+    "prisma@7.10.0": true,
+    "unrs-resolver@1.12.2": true
+  },
+  "overrides": {
+    "mysql2": "3.23.1"
+  }
+}

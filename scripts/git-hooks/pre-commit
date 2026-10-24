@@ -73,7 +73,7 @@ fi
 # Done goal: all served pages clean except reasoned exemptions. Skips without python3; the detector
 # column skips cleanly on machines without the Impeccable launcher.
 if [ -f scripts/design_debt_sweep.py ] && [ -f runtime/specs/design-debt-baseline.json ] && command -v python3 >/dev/null 2>&1; then
-  dd=$(git diff --cached --name-only --diff-filter=AM -- 'public/*.html' 'public/**/*.html' 2>/dev/null || true)
+  dd=$(git diff --cached --name-only --diff-filter=AM -- 'public/*.html' 'public/**/*.html' 'runtime/warroom/*.html' 2>/dev/null || true)
   if [ -n "$dd" ]; then
     if ! python3 scripts/design_debt_sweep.py --check $dd; then
       echo "✖ commit blocked: a served page's design debt went up (see above). Burn-down only goes down." >&2
@@ -159,6 +159,17 @@ if [ -n "$gen_bl" ] && [ -f scripts/backlog_status_check.py ] && command -v pyth
     exit 1
   fi
 fi
+# Seed lineage (2026-10-17): every seed carries a resolvable pointer to its ancestry (a seed id, a commit that is an
+# ancestor of HEAD, an ADR number or a repo path) and ancestry has no cycles. Ratchet over _SEEDS/lineage-baseline.json:
+# today's debt is grandfathered, NEW seeds need a pointer.
+gen_sl=$(git diff --cached --name-only -- _SEEDS/index.jsonl _SEEDS/lineage-baseline.json scripts/seed_lineage_check.py 2>/dev/null || true)
+if [ -n "$gen_sl" ] && [ -f scripts/seed_lineage_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/seed_lineage_check.py --check; then
+    echo "✖ commit blocked: a seed has no resolvable lineage pointer, or ancestry has a cycle (see PROBLEM lines above)." >&2
+    echo "  add a pointer to the seed's provenance (a seed id, a commit on this branch, an ADR number or a repo path) or a parent field." >&2
+    exit 1
+  fi
+fi
 # Surface catalog (2026-10-07): runtime/specs/surface-catalog.json + runtime/warroom/surfaces.html are
 # GENERATED from next.config.ts, src/proxy.ts and the src/app route tree. Fires when any of those
 # is staged. Blocks when a host in next.config.ts is missing from the catalog, when the catalog
@@ -182,6 +193,16 @@ if [ -n "$gen_univ" ] && [ -f scripts/universe_snapshot_emit.py ] && command -v 
   if ! python3 scripts/universe_snapshot_emit.py --check; then
     echo "✖ commit blocked: the universe snapshot content is stale (files named above)." >&2
     echo "  run 'python3 scripts/universe_snapshot_emit.py', then stage runtime/specs/universe-snapshot.json runtime/specs/universe src/data/universe-field.json." >&2
+    exit 1
+  fi
+fi
+# Seed ledger gate (2026-10-17): a seed may not be born without a receipt. Fires only when
+# _SEEDS/index.jsonl is staged. Every index row ADDED by the commit needs a ledger row in the same
+# commit (15 seeds were planted inside two feature commits without one). See scripts/seed_ledger_gate.py.
+gen_seed=$(git diff --cached --name-only -- _SEEDS/index.jsonl _SEEDS/ledger.jsonl 2>/dev/null || true)
+if [ -n "$gen_seed" ] && [ -f scripts/seed_ledger_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/seed_ledger_gate.py; then
+    echo "✖ commit blocked: a new _SEEDS/index.jsonl row has no _SEEDS/ledger.jsonl row." >&2
     exit 1
   fi
 fi
@@ -443,6 +464,17 @@ if [ -f scripts/motion_policy_gate.py ] && command -v python3 >/dev/null 2>&1; t
   fi
 fi
 
+# Phosphor build (2026-10-17): _ARTIFACTS/phosphor.html is built from _ARTIFACTS/phosphor-src/ by
+# scripts/phosphor_build.py. A commit that touches either side must leave them in agreement.
+if [ -f scripts/phosphor_build.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(_ARTIFACTS/phosphor\.html|_ARTIFACTS/phosphor-src/|scripts/phosphor_build\.py)'; then
+    if ! python3 scripts/phosphor_build.py --check || { [ -f scripts/phosphor_static_review.py ] && ! python3 scripts/phosphor_static_review.py; }; then
+      echo "✖ commit blocked: _ARTIFACTS/phosphor.html is not what its sources build, or the static review found a defect. Edit _ARTIFACTS/phosphor-src/ and run python3 scripts/phosphor_build.py; see python3 scripts/phosphor_static_review.py." >&2
+      exit 1
+    fi
+  fi
+fi
+
 # Kit primitive sync (2026-10-16): the Instrument Lab primitives promoted from Phosphor (kit 21 to 26,
 # marked @prim blocks) must stay identical to the page. See scripts/kit_primitive_sync.py.
 if [ -f scripts/kit_primitive_sync.py ] && command -v python3 >/dev/null 2>&1; then
@@ -647,6 +679,14 @@ if [ -f scripts/provenance_lint.py ] && command -v python3 >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# Librarian anticipation hook (ADR-088, T2 + T3): WARN-only. Lines added to _CANON/** or
+# operators/arcs_primitives.py with a metric that no evidence ledger covers, or a term the canon,
+# glossary and rosetta have never seen. Never blocks; LIBRARIAN_HOOK=0 silences one commit.
+if [ -f scripts/librarian_hook.py ] && [ "${LIBRARIAN_HOOK:-1}" != "0" ] && command -v python3 >/dev/null 2>&1; then
+  python3 scripts/librarian_hook.py || true
+fi
+
+# ---------------------------------------------------------------------------
 # case-world drift gate (AGENTS.md #13/#15): playable case pages carry the kit's Case World
 # blocks verbatim (src/ui-kit/recoil-report/15-case-world.html). Block the commit if an
 # enrolled page drifted or is half-enrolled. Fix by editing the kit and running
@@ -818,9 +858,9 @@ fi
 # Each carries a --self-test that proves it; run it whenever that script is staged.
 for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao_project status_floor_emit source_trust_emit pulse \
          connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
-         provenance_lint case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
-         bridge_index_scan snapshot_prune_ui_artifacts research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
-         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster; do
+         provenance_lint librarian_hook canon_claims_report case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
+         bridge_index_scan research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
+         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster decision_receipt_to_accountant risk_underwriter; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
     if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
       python3 "scripts/$s.py" --self-test >&2 || true
@@ -907,6 +947,18 @@ if [ -f scripts/resume_location_gate.py ] && command -v python3 >/dev/null 2>&1;
     fi
   fi
 fi
+# public-claim guard (2026-10-17, scope widened 2026-10-18 to the status/chan pages, src/app pages and the trust contract):
+# arcs-v9 is private; resumes/covers/pages must not call its repo or commit trail public. See scripts/public_claim_gate.py.
+if [ -f scripts/public_claim_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  pc=$(git diff --cached --name-only --diff-filter=AM -- '_ARTIFACTS/*/*resume*' '_ARTIFACTS/*/*cover*' '_ARTIFACTS/*/page.html' 'public/*resume*' 'public/status.html' 'public/chan.html' 'src/app/*page.tsx' 'src/ui/*.tsx' '_CANON/trust-contract.md' ':!src/app/internal/*' 2>/dev/null || true)
+  if [ -n "$pc" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/public_claim_gate.py $pc >&2; then
+      echo "✖ pre-commit(public-claim): arcs-v9 is private; reword (see scripts/public_claim_gate.py)." >&2
+      exit 1
+    fi
+  fi
+fi
 # ---------------------------------------------------------------------------
 # Null-userId gate (2026-10-05): a userId taken from session?.user?.id must be
 # guarded (`if (!userId)` -> 401) before it filters a Prisma `where`. Prisma reads
@@ -965,6 +1017,31 @@ if [ -n "$seedag" ] && [ -f scripts/agent_seed_gate.py ] && command -v python3 >
     exit 1
   fi
 fi
+# Archive-move gate (2026-10-18): a staged rename or delete must not leave a live citer of the old path.
+# 4983bd57 and c42d4b68 archived four scripts without re-pointing the records that cite them; the integrity
+# gate only reads staged records, so two night-moves digests failed unseen. See scripts/archive_move_gate.py.
+# One-off bypass: ARCHIVE_MOVE_GATE=0 git commit ... (say why in the message). Skips without python3.
+am=$(git diff --cached --name-only --diff-filter=DR 2>/dev/null || true)
+if [ -n "$am" ] && [ "${ARCHIVE_MOVE_GATE:-1}" != "0" ] && [ -f scripts/archive_move_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/archive_move_gate.py --staged; then
+    echo "✖ commit blocked: a moved or deleted file is still cited (see above)." >&2
+    exit 1
+  fi
+fi
+# JTBD graph gate (row jtbd-graph-s3-gates, ADR-089): the six rules (orphan tool, orphan job, blocker without
+# resolve_by, dependency cycle, dead file reference, runtime-dep without a health probe) plus SOURCE-DUP and
+# key lookup. Runs when a graph source or the graph tooling is staged (~3 s). Held ids live in
+# runtime/specs/jtbd-graph-gate-baseline.json, which may only shrink. Gotcha 15 proofs: --self-test, --mutation-proof.
+jg=$(git diff --cached --name-only -- scripts src operators runtime/specs _QUEUE/induced-backlog.jsonl package.json AGENTS.md .claude/commands .claude/skills 2>/dev/null || true)
+if [ -n "$jg" ] && command -v python3 >/dev/null 2>&1 && [ -f scripts/universe_jtbd_adapter.py ]; then
+  if ! python3 scripts/universe_jtbd_adapter.py --check >/tmp/jtbd-check.$$ 2>&1; then
+    grep -v '^jtbd-graph --check: atoms' /tmp/jtbd-check.$$ | head -40 >&2; rm -f /tmp/jtbd-check.$$
+    echo "✖ pre-commit(jtbd-graph): a new graph violation (see above). Fix the source; never add to the baseline to pass." >&2
+    exit 1
+  fi
+  rm -f /tmp/jtbd-check.$$
+fi
+
 # Ripple ledger (2026-10-16): warn, never block, when a staged path touches a one-way door that is not yet de-risked.
 # See scripts/ripple_ledger.py and _QUEUE/ripple-ledger.jsonl.
 if [ -f scripts/ripple_ledger.py ] && command -v python3 >/dev/null 2>&1; then

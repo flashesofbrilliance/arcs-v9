@@ -119,7 +119,7 @@ The ARCS system follows the **Atomic Design Philosophy** with six hierarchical l
 | 18 | **Immu** | Immune | CSO | Protect identity coherence | The Immune System |
 | 19 | **Acco** | Accountant | CFO | Measure outcomes | The Scoreboard |
 | 20 | **Folk** | Folksonomy | CMO | Discover emergent patterns | The Naturalist |
-| 21 | **Libr** | Librarian | CTO | Store and retrieve decisions | The Library |
+| 21 | **Libr** | Librarian | CTO | Store decisions; recommend what to retrieve by expected value under a context budget | The Library |
 
 ### Meta Operators (The Chorus)
 

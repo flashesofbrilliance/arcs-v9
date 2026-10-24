@@ -49,5 +49,7 @@ URL=$(gh pr create --title "$TITLE" --body "$BODY
 echo "PR: $URL"
 sleep 5
 NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
-gh pr merge --merge "$NUM" || { echo "ship_docs: merge failed — PR $NUM left open for review"; exit 1; }
+HEAD_SHA=$(git rev-parse HEAD)
+# safe_merge waits for every check on this exact head to be SUCCESS (AGENTS.md gotcha 17).
+"$(dirname "$0")/safe_merge.sh" "$NUM" "$HEAD_SHA" || { echo "ship_docs: merge refused — PR $NUM left open for review"; exit 1; }
 echo "MERGED: PR #$NUM"

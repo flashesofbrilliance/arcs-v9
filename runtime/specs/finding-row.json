@@ -1,0 +1,14 @@
+{
+  "name": "finding-row",
+  "version": 1,
+  "purpose": "One row shape for every detector finding, so findings_gait.py ingests any detector through a thin adapter.",
+  "fields": {
+    "source": {"type": "string", "doc": "detector name: lattice, seedbank or pulse"},
+    "claim": {"type": "string", "doc": "short class of the finding, such as broken-local-path or flatline"},
+    "detail": {"type": "string", "doc": "one line of evidence, as the detector printed it"},
+    "severity": {"type": "string", "enum": ["info", "warn", "alarm"], "doc": "alarm halts attention, warn queues it, info is context"},
+    "observed_beat": {"type": "integer", "doc": "global pulse beat when the finding was ingested"},
+    "fingerprint": {"type": "string", "doc": "stable id: f- plus ten hex of sha1 of source, claim and detail; the ledger uses it as the finding id"}
+  },
+  "required": ["source", "claim", "detail", "severity", "observed_beat", "fingerprint"]
+}

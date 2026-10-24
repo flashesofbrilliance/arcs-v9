@@ -195,3 +195,13 @@ Deviations from the pre-registration, stated before the numbers. (1) Native fram
 - B22: cleared on 5 of 5 frames (prior 0.4), but the claim was "4 of 5 scenes" and only 2 distinct scenes exist, so it is not earned. The gap of 55 to 59 is more than 15 times the scaled bar, so the margin is not marginal. Plausible reasons it passed where rendered UI failed in the arcade note's round 2 (untested): painted, dithered, high-contrast sprite art with soft gradients rather than one-pixel text; and the foil is bilinear, the weaker upscaler (arcade note round 6).
 - What the data cannot say: anything about era, anything about palette or dither (B10 untouched; palette not extracted), anything about other upscalers, or whether the result survives scenes beyond a room and a credits roll.
 - Round 6 need: five distinct scenes means playing past the intro to different rooms, which needs real input, not a timed capture.
+
+## Round 6: pre-registered beliefs (written before the game is played past the intro; Zach watching, Claude driving the window)
+
+Scope: close round 5's gap (2 distinct scenes, not 5). Same game, same build (Flight of the Amazon Queen floppy, ScummVM 2026.4.0), same recovery of the native 320x200 frame by taking every 4th pixel, same 192x192 centre crop, bar scaled to 3.6 cycles.
+Scene rule, fixed now: the first five distinct room backgrounds reached in play order after the intro is skipped, one Alt+S capture per room taken on arrival, no selection by me, no retakes except for a capture that failed to save. A room counts as new when its background differs, not when the characters or the caption do. If the game cannot reach five rooms in the session, I report how many and stop.
+B23. Ordering abs cutoff 48 < 96 < 192 holds on all five scenes. Prior 0.8. Kill: an inversion on any scene.
+B22 (re-asked). The bilinear-foil K4 gap clears 3.6 cycles on at least 4 of the 5 scenes. Prior 0.7 (round 5: 55 to 59 on two scenes). Kill: fewer than 4 of 5.
+B24. Scene-to-scene spread of abs cutoff at 192 exceeds 10 cycles across the five scenes (round 5 had 82 to 92 on two scenes). Prior 0.7. Kill: spread of 10 or less (then content dependence is smaller than my round-3 reading suggested for this art).
+B21b (replaces round 5's untested B21). The recovered native frame is byte-identical between two window scale factors for one scene (capture the same frame at scale 2x and 4x, recover, compare). Prior 0.85. Kill: any differing pixel (then recovery is not lossless and every number so far carries an unmeasured error).
+Limits stated now: one game, five rooms, 16 sampled rows, painted and dithered 256-colour art, a reading of band limit only; nothing here is about era, palette extraction (B10 untouched) or other upscalers.

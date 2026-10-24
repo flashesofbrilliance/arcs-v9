@@ -326,7 +326,7 @@
       "symbol": "Libr",
       "name": "Librarian",
       "role": "CTO",
-      "function": "Store and retrieve decisions",
+      "function": "Store decisions; recommend what to retrieve by expected value under a context budget",
       "level": "boardroom",
       "binding": {
         "module": "arcs_store.py",
@@ -392,7 +392,7 @@
       "function": "Contemplative pause",
       "level": "chorus",
       "status": "UNBUILT",
-      "nearest": "no Shavasana code (0 grep hits 2026-09-27); operational definition + 8-part decomposition CANDIDATE at runtime/specs/operator-25-shavasana-v0.md; prototype-without-the-name = /thread-recoil + /night-moves"
+      "nearest": "scripts/shavasana_handoff.py is the mechanical half (components 1 trigger at handoff, 3 breath audit, 5 sycophancy check, 7 integration block); components 4, 6 and 8 are human and prompted, not computed; no operators/arcs_shavasana.py module and no registry binding; operational definition + 8-part decomposition CANDIDATE at runtime/specs/operator-25-shavasana-v0.md; graduation needs the module plus one real over-momentum catch; earlier prototypes-without-the-name = /thread-recoil + /night-moves"
     },
     {
       "op": 26,

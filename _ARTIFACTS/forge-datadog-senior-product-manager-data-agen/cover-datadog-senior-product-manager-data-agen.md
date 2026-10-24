@@ -17,7 +17,7 @@ The observability-plus-business-data angle is the part of your product I find mo
 
 On me: I write SQL and Python in daily use for product decisions, I hold my own in technical tradeoff conversations with engineering, and I prototype with AI tools before committing engineering time. Two decades across finance, health, sports, and consumer, always on the data-intensive side. I do not just write the deck.
 
-The bundle at datadog.arcs.care has the live commit trail and the director's cut of how ARCS was built. Happy to go deep on any of it.
+The bundle at datadog.arcs.care has the live app and the director's cut of how ARCS was built. Happy to go deep on any of it.
 
 Zach Harris
 zachharris.xyz · github.com/flashesofbrilliance

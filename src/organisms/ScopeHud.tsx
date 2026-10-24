@@ -53,7 +53,7 @@ const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, col
 // A node's signature: altitude (stratum), resonance (domain mix of its lattice neighbours, one
 // bar per domain), frequency (commits on its files, an as-of reading stamped with the refresh epoch
 // that counted it). No signal when a node has no mapped files or no refresh has counted it yet.
-const DOM_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: "#94a3b8", lib: "#e2e8f0" }
+const DOM_COLOR: Record<string, string> = { ont: signal.green, epi: signal.cyan, met: signal.gold, ety: text.secondary, lib: text.primary }
 function Signature({ n }: { n: UNode }) {
   const f = n.sig.frequency
   const mix = Object.entries(n.sig.resonance as Record<string, number>)
@@ -241,10 +241,10 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
             {row("Canon", `${d.canon.files} · ${d.canon.tao_proverbs} tao · ${d.canon.adrs} ADR`)}
             {row("Codebase", `${d.codebase} files`)}
             {row("Conviction", "No signal", text.dimmed)}
-            {row("Clarity", `${d.clarity.nodes_clear}/${d.clarity.nodes} clear · ${d.clarity.files_fog} fog`, signal.cyan)}
-            {row("Coherence", `${d.coherence.diamonds} diamonds · h ${d.coherence.mean_hardness}`, signal.gold)}
+            {row("Clarity · lattice", `${d.clarity.nodes_clear}/${d.clarity.nodes} clear · ${d.clarity.files_fog} fog`, signal.cyan)}
+            {row("Coherence · lattice", `${d.coherence.diamonds} diamonds · h ${d.coherence.mean_hardness}`, signal.gold)}
             {row("Cohesion", `${Math.round(d.cohesion.ratio * 100)}% cross-domain`)}
-            {row("Consonance", `${d.consonance.empirical} empirical of ${d.consonance.tautology + d.consonance.constitutional + d.consonance.empirical}`)}
+            {row("Consonance · invariants", `${d.consonance.empirical} empirical of ${d.consonance.tautology + d.consonance.constitutional + d.consonance.empirical}`)}
             {r.node && (
               <div style={{ marginTop: 8, paddingTop: 6, borderTop: `1px solid ${signal.gold}66` }}>
                 <div style={{ ...label, color: signal.gold, whiteSpace: "normal" }}>Ø{r.nest} · {r.node.label}</div>

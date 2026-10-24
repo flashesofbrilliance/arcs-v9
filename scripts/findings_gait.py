@@ -10,21 +10,35 @@ Events (one JSON line each, never edited): open | fate | close.
 State is folded from events. Stdlib only. Reuses scripts/pulse.py for the beat.
 
   findings_gait.py open --source S --text T       record a finding
-  findings_gait.py ingest FILE.jsonl              open findings from the LAST row of a drift receipt (idempotent)
+  findings_gait.py ingest --source lattice|seedbank|pulse [FILE]   open findings from the LAST row of that detector's receipt (idempotent; schema runtime/specs/finding-row.json)
+  findings_gait.py check                          validate the finding-row spec and every adapter
   findings_gait.py fate ID --owner O --due BEAT   or  --compost SUPERSESSOR
   findings_gait.py close ID --note N
   findings_gait.py plan --days N                  set the race: clear the open findings by beat (now+N); marks 25/50/75/100% aid stations
   findings_gait.py status [--json]                phase, open, oldest age, displacement, warnings
   findings_gait.py --self-test                    runs in a throwaway dir, never touches real state
 """
-import argparse, datetime, hashlib, json, os, sys
+import subprocess, argparse, datetime, hashlib, json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import pulse  # noqa: E402
 
 ROOT = pulse.ROOT
-LEDGER = os.environ.get("FINDINGS_LEDGER") or os.path.join(ROOT, "_STATE", "findings.jsonl")
+def _shared_root():
+    """The first entry of `git worktree list` is the main checkout; the ledger lives there (gitignored) so every
+    worktree and session reads and writes the same file. Falls back to this root."""
+    try:
+        out = subprocess.run(["git", "-C", ROOT, "worktree", "list", "--porcelain"], capture_output=True, text=True).stdout
+        first = out.split("\n", 1)[0]
+        if first.startswith("worktree "):
+            return first[len("worktree "):].strip() or ROOT
+    except Exception:
+        pass
+    return ROOT
+
+
+LEDGER = os.environ.get("FINDINGS_LEDGER") or os.path.join(_shared_root(), "_STATE", "findings.jsonl")
 STRETCH_CAP = 10      # advisory only in the loose run
 STRETCH_AGE = 3       # beats
 WINDOW = 7            # beats for displacement
@@ -68,7 +82,12 @@ def fold():
         elif i in st and t == "fate":
             st[i].update(fate={k: ev[k] for k in ("owner", "due", "compost") if k in ev}, fated_beat=ev["beat"])
         elif i in st and t == "close":
-            st[i].update(state="CLOSED", closed_beat=ev["beat"], note=ev.get("note", ""))
+            st[i].update(state="CLOSED", closed_beat=ev["beat"], note=ev.get("note", ""), how=ev.get("how", st[i].get("how", "unspecified")))
+        elif i in st and t == "tag":
+            st[i]["how"] = ev["how"]
+        elif i in st and t == "reopen":
+            st[i].update(state="OPEN", reopens=st[i].get("reopens", 0) + 1, opened_beat=ev["beat"])
+            st[i].pop("fate", None)
     return st
 
 
@@ -111,7 +130,12 @@ def _fp(source, text):
 
 def cmd_open(source, text):
     i = _fp(source, text)
-    if i in fold():
+    cur = fold().get(i)
+    if cur and cur["state"] == "CLOSED":
+        _append({"type": "reopen", "id": i, "beat": _beat(), "ts": _now()})
+        print(f"REOPENED {i}")
+        return i
+    if cur:
         print(f"exists {i}")
         return i
     _append({"type": "open", "id": i, "source": source, "text": text, "beat": _beat(), "ts": _now()})
@@ -119,7 +143,72 @@ def cmd_open(source, text):
     return i
 
 
-def cmd_ingest(path):
+SPEC = os.path.join(ROOT, "runtime", "specs", "finding-row.json")
+INBOX = {"lattice": "lattice-drift", "seedbank": "seedbank-drift", "pulse": "pulse"}
+
+
+def _row(source, claim, detail, severity, beat):
+    text = f"[{claim}] {detail}"
+    return {"source": source, "claim": claim, "detail": detail, "severity": severity,
+            "observed_beat": beat, "fingerprint": _fp(source, text)}
+
+
+def _drift_rows(source, last, beat):
+    return [_row(source, f.get("claim", "?"), f.get("detail") or f"lattice {f.get('lattice')} vs repo {f.get('repo')}", "warn", beat)
+            for f in last.get("findings", []) if f.get("drift", True)]
+
+
+def _pulse_rows(source, last, beat):
+    beat = last.get("global_beat", beat)
+    out = []
+    for kind, sev in (("flatlines", "alarm"), ("stale", "warn")):
+        for x in last.get(kind, []):
+            out.append(_row(source, kind.rstrip("s") if kind == "flatlines" else kind,
+                            f"{x.get('subsystem')} {x.get('beats_since')}/{x.get('max_beats')} beats", sev, beat))
+    return out
+
+
+ADAPTERS = {"lattice": _drift_rows, "seedbank": _drift_rows, "pulse": _pulse_rows}
+
+
+def validate_row(r, spec=None):
+    """Return a list of problems with a finding row (empty when it conforms)."""
+    spec = spec or json.load(open(SPEC))
+    bad = [f"missing {k}" for k in spec["required"] if k not in r]
+    for k, d in spec["fields"].items():
+        if k in r:
+            if d["type"] == "integer" and not isinstance(r[k], int):
+                bad.append(f"{k} not integer")
+            if d["type"] == "string" and not isinstance(r[k], str):
+                bad.append(f"{k} not string")
+            if "enum" in d and r[k] not in d["enum"]:
+                bad.append(f"{k} not in enum")
+    return bad
+
+
+def cmd_check():
+    spec = json.load(open(SPEC))
+    ok = set(spec["required"]) == set(spec["fields"]) and spec["fields"]["severity"]["enum"] == ["info", "warn", "alarm"]
+    for src, fn in ADAPTERS.items():
+        for r in fn(src, _SAMPLES[src], 0):
+            ok = ok and not validate_row(r, spec)
+    print("finding-row check:", "OK" if ok else "FAILED")
+    return 0 if ok else 1
+
+
+_SAMPLES = {
+    "lattice": {"findings": [{"claim": "ADR count", "lattice": 78, "repo": 80, "drift": True}, {"claim": "x", "drift": False}]},
+    "seedbank": {"findings": [{"claim": "orphan-seed", "drift": True, "detail": "s has no ledger receipt"}]},
+    "pulse": {"global_beat": 5, "flatlines": [{"subsystem": "commits", "beats_since": 6, "max_beats": 1}],
+              "stale": [{"subsystem": "x", "beats_since": 1, "max_beats": 1}]},
+}
+
+
+def cmd_ingest(path=None, source=None):
+    source = source or "seedbank"  # legacy: bare FILE meant a seedbank-shaped receipt
+    if source not in ADAPTERS:
+        sys.exit(f"unknown source {source}; use one of {sorted(ADAPTERS)}")
+    path = path or os.path.join(ROOT, "_INBOX", INBOX[source] + ".jsonl")
     last = None
     for line in open(path):
         if line.strip():
@@ -127,14 +216,18 @@ def cmd_ingest(path):
     if not last:
         print("no rows")
         return 0
+    spec = json.load(open(SPEC))
     n = 0
-    src = last.get("check", os.path.basename(path))
-    for f in last.get("findings", []):
-        if f.get("drift", True):
-            before = len(fold())
-            cmd_open(src, f"[{f.get('claim','?')}] {f.get('detail','')}")
-            n += len(fold()) - before
-    print(f"ingested {n} new from {src} row dated {last.get('ts','?')}")
+    for r in ADAPTERS[source](source, last, _beat()):
+        bad = validate_row(r, spec)
+        if bad:
+            sys.exit(f"adapter produced a bad row: {bad}")
+        if r["fingerprint"] in fold():
+            continue
+        _append({"type": "open", "id": r["fingerprint"], "source": source, "text": f"[{r['claim']}] {r['detail']}",
+                 "severity": r["severity"], "beat": r["observed_beat"], "ts": _now()})
+        n += 1
+    print(f"ingested {n} new from {source} row dated {last.get('ts','?')}")
     return n
 
 
@@ -150,10 +243,20 @@ def cmd_fate(i, owner=None, due=None, compost=None):
     print(f"fated {i}")
 
 
-def cmd_close(i, note):
-    if i not in fold():
-        sys.exit(f"unknown id {i}")
-    _append({"type": "close", "id": i, "note": note, "beat": _beat(), "ts": _now()})
+HOWS = ("fixed-at-source", "false-positive", "verified", "paper", "compost", "unspecified")
+
+
+def cmd_tag(i, how):
+    if i not in fold() or how not in HOWS:
+        sys.exit(f"unknown id or how; how in {HOWS}")
+    _append({"type": "tag", "id": i, "how": how, "beat": _beat(), "ts": _now()})
+    print(f"tagged {i} {how}")
+
+
+def cmd_close(i, note, how="unspecified"):
+    if i not in fold() or how not in HOWS:
+        sys.exit(f"unknown id or how; how in {HOWS}")
+    _append({"type": "close", "id": i, "note": note, "how": how, "beat": _beat(), "ts": _now()})
     print(f"closed {i}")
 
 
@@ -178,7 +281,25 @@ def status():
     pace = pacing(b, len(open_), closed_since)
     if pace and pace["wall_risk"]:
         warn.append("WALL RISK: past halfway and more than a quarter of the field behind pace. Shorten the stride (close small), do not sprint")
-    return {"pace": pace, "beat": b, "phase": "EXTEND" if b % 2 == 0 else "CONTRACT", "open": len(open_), "unfated": len(unfated),
+    closed_all = [v for v in st.values() if v.get("closed_beat") is not None]
+    ever_closed = len(closed_all) + sum(1 for v in st.values() if v.get("reopens"))
+    reopens = sum(v.get("reopens", 0) for v in st.values())
+    hows = {}
+    for v in st.values():
+        if v["state"] == "CLOSED":
+            hows[v.get("how", "unspecified")] = hows.get(v.get("how", "unspecified"), 0) + 1
+    by_src = {}
+    for v in st.values():
+        a = by_src.setdefault(v["source"], [0, 0])
+        a[0] += 1
+        a[1] += 1 if v.get("how") == "false-positive" else 0
+    metrics = {"closed": sum(hows.values()), "reopens": reopens,
+               "reopen_rate": round(reopens / ever_closed, 2) if ever_closed else None,
+               "fix_at_source_share": round(hows.get("fixed-at-source", 0) / sum(hows.values()), 2) if hows else None,
+               "paper_share": round(hows.get("paper", 0) / sum(hows.values()), 2) if hows else None,
+               "closes_by_how": hows,
+               "false_positive_rate_by_source": {k: {"n": v[0], "fp": v[1], "rate": round(v[1] / v[0], 2)} for k, v in by_src.items()}}
+    return {"metrics": metrics, "pace": pace, "beat": b, "phase": "EXTEND" if b % 2 == 0 else "CONTRACT", "open": len(open_), "unfated": len(unfated),
             "oldest_age": max((b - v["opened_beat"] for v in open_), default=0),
             "opened_window": opened_w, "closed_window": closed_w, "displacement": closed_w - opened_w,
             "window_beats": WINDOW, "warnings": warn, "mode": "LOOSE"}
@@ -195,6 +316,10 @@ def cmd_status(as_json=False):
     if pc:
         ns = pc["next_station"]
         print(f"pace: {int(pc['fraction']*100)}% of race, closed {pc['closed']} vs target {pc['target_closed']} ({pc['gap']:+}); " + (f"next aid station {ns['pct']}% at beat {ns['beat']}" if ns else "past the finish"))
+    m = s["metrics"]
+    if m["closed"] or m["reopens"]:
+        fp = ", ".join(f"{k} {v['fp']}/{v['n']}" for k, v in m["false_positive_rate_by_source"].items())
+        print(f"quality: closed {m['closed']} (fixed-at-source {m['fix_at_source_share']}, paper {m['paper_share']}), reopens {m['reopens']} (rate {m['reopen_rate']}); false positives by source: {fp}")
     for w in s["warnings"]:
         print("  WARN", w)
     if s["phase"] == "CONTRACT":
@@ -223,10 +348,28 @@ def self_test():
     rp = os.path.join(d, "r.jsonl")
     open(rp, "w").write(json.dumps({"check": "x", "ts": "t", "findings": [{"claim": "c", "drift": True, "detail": "d1"}, {"claim": "c", "drift": False, "detail": "skip"}]}) + "\n")
     check("ingest takes drift rows only", cmd_ingest(rp) == 1 and cmd_ingest(rp) == 0)
+    for src, want in (("lattice", 1), ("seedbank", 1), ("pulse", 2)):
+        fp = os.path.join(d, src + ".jsonl")
+        open(fp, "w").write(json.dumps(_SAMPLES[src]) + "\n")
+        check(f"adapter {src} ingests {want} and is idempotent", cmd_ingest(fp, src) == want and cmd_ingest(fp, src) == 0)
+    rows = [r for src in ADAPTERS for r in ADAPTERS[src](src, _SAMPLES[src], 0)]
+    check("every adapter row conforms to finding-row.json", not any(validate_row(r) for r in rows))
+    check("validator rejects a bad row", bool(validate_row({"source": "x", "severity": "loud"})))
+    check("spec check passes", cmd_check() == 0)
     cmd_plan(14)
     pc = status()["pace"]
     check("plan sets pace and next aid station", pc is not None and pc["next_station"]["pct"] == 25 and pc["wall_risk"] is False)
     check("pacing math: even split, slow first quarter", pacing(_beat(), 1, 0)["target_closed"] == 0.0)
+    r1 = cmd_open("t", "reopen-me")
+    cmd_close(r1, "x", how="false-positive")
+    check("close records how", fold()[r1]["how"] == "false-positive")
+    cmd_open("t", "reopen-me")
+    check("re-detection of a closed finding reopens it", fold()[r1]["state"] == "OPEN" and fold()[r1]["reopens"] == 1)
+    cmd_close(r1, "y", how="fixed-at-source")
+    m = status()["metrics"]
+    check("metrics: reopen rate and fix share", m["reopens"] == 1 and m["reopen_rate"] is not None and m["fix_at_source_share"] is not None)
+    cmd_tag(r1, "paper")
+    check("tag rewrites how without a new close", fold()[r1]["how"] == "paper")
     bad = False
     try:
         cmd_close("nope", "x")
@@ -242,19 +385,23 @@ def main():
     ap.add_argument("--self-test", action="store_true")
     sub = ap.add_subparsers(dest="cmd")
     o = sub.add_parser("open"); o.add_argument("--source", required=True); o.add_argument("--text", required=True)
-    g = sub.add_parser("ingest"); g.add_argument("file")
+    g = sub.add_parser("ingest"); g.add_argument("file", nargs="?"); g.add_argument("--source")
+    sub.add_parser("check")
     f = sub.add_parser("fate"); f.add_argument("id"); f.add_argument("--owner"); f.add_argument("--due"); f.add_argument("--compost")
-    c = sub.add_parser("close"); c.add_argument("id"); c.add_argument("--note", default="")
+    c = sub.add_parser("close"); c.add_argument("id"); c.add_argument("--note", default=""); c.add_argument("--how", default="unspecified")
+    tg = sub.add_parser("tag"); tg.add_argument("id"); tg.add_argument("--how", required=True)
     pl = sub.add_parser("plan"); pl.add_argument("--days", required=True)
     s = sub.add_parser("status"); s.add_argument("--json", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         sys.exit(self_test())
     if a.cmd == "open": cmd_open(a.source, a.text)
-    elif a.cmd == "ingest": cmd_ingest(a.file)
+    elif a.cmd == "ingest": cmd_ingest(a.file, a.source)
+    elif a.cmd == "check": sys.exit(cmd_check())
     elif a.cmd == "fate": cmd_fate(a.id, a.owner, a.due, a.compost)
     elif a.cmd == "plan": cmd_plan(a.days)
-    elif a.cmd == "close": cmd_close(a.id, a.note)
+    elif a.cmd == "close": cmd_close(a.id, a.note, a.how)
+    elif a.cmd == "tag": cmd_tag(a.id, a.how)
     else: cmd_status(getattr(a, "json", False))
 
 

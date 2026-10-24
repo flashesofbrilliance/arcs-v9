@@ -71,7 +71,7 @@ GREEN=SHARP · YELLOW/FORK=DEGRADED · SCRATCH/DELTA/DRIFT=GRAIN · PARADOX=MOIR
 7. **WRITE-LOCK** — one-way-door decisions require explicit write-lock declaration before commit; irreversibility is declared, not assumed
 
 ## L0–L7 Stack (current impl: L0–L5 only)
-L0=atomic signal · L1=coherence · L2=path survivability · L3=cascade · L4=cross-domain · L5=global coherence · L6=ecosystem · L7=meta-governance
+L0=atomic signal · L1=coherence · L2=path survivability · L3=cascade (canon name; the compass prompt runs L3 as the Kintsugi immune check, and no cascade code exists) · L4=cross-domain · L5=global coherence · L6=ecosystem · L7=meta-governance
 
 ## ATG — next major feature (backlog)
 Every compass response should include 2–4 tributaries: meta-question · need-to-hear branch · unnamed adjacent primitive
@@ -106,7 +106,7 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 > `_PATTERNS/2026-07-19-token-efficiency-audit.md`.
 
 - **CLAUDE.md is a working file, kept lean — not an archive.** It holds durable facts (Project Map,
-  ROM primitives, token-saving rules) plus **only the latest 1–2 handoff sections**. Sessions no longer edit
+  ROM primitives, token-saving rules) plus **only the latest handoff section** (older arcs live in `_ARCHIVE/handoffs.md` and git; `scripts/handoff_fold.py archive` trims between molts; the cap is 2, the default keep is 1, since 2026-10-17). Sessions no longer edit
   this file to hand off: `/handoff` writes a fragment (`_HANDOFFS/fragments/`, one file per session, raw
   material) and `scripts/handoff_fold.py molt` synthesizes ALL fragments into ONE arc block (Goal, What
   changed, State, Decisions, Open, ONE Next action, Cold-start recipe), versioned by
@@ -124,89 +124,103 @@ Confirm the `/observatory` route vs the static-demo rewrite before relying on ei
 
 ---
 
-# Handoff — v3.137.0 (2026-10-16)
+# Handoff — v3.141.0 (2026-10-20)
 
-> > Molted the take-home gauntlet fragment into v3.134.0 and cleared the CLAUDE.md integrity-gate warning by teaching the gate to verify cited shas in named sibling repos.
+> > Shared-intention session (2026-10-20): designed the step after backlog induction (one shared intention, horizons, altitude drill-down, domino line), built a read-only risk underwriter, proved the outcome plumbing, and bridged decision-receipt outcomes into the Accountant.
+>
+> ### Shavasana — handoff pause, 2026-10-20 (Operator 25, mechanical half; spec runtime/specs/operator-25-shavasana-v0.md)
+>
+> - **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-jtbd-framework), receipts in digest: no digest file.
+> - **Inhale** (what came in): 0 falsification rows today, 2 dissent markers, 0 unconfirmed markers in the day's records.
+> - **Breath balance**: mirror (inhale, no exhale).
+> - **Sycophancy check**: agreement 1 / dissent 2 (ratio 0.33) → OK: dissent present.
+> - **Cold re-read (canary on the draft draft.md)**: GROUNDED; no ground return: none; thin air: none.
+> - **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
+> - **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
+> - **Disposition** (human): release the handoff, or return it to the queue with this block attached.
+>
+> _This block asserts nothing new. Counts, paths, and questions only._
+>
+> - Attachment release: every claim cites a PR, merge commit or receipt id; kept. Two own-errors stay on record in their receipts (merge before a child final push, #1621 to #1627; merge on a pending check, #1722). Somatic: not asked. Disposition: release.
+>
+> > Opus 5.5 JTBD framework session (2026-10-18 to 2026-10-20): planned and ran the JTBD graph roadmap (Sprints 0 to 5) as a parent session with child sessions and counter-agents, then hardened the merge and receipt path.
 
 ## Goal / true north
-Keep CLAUDE.md citations verifiable by the integrity gate with zero WARN.
+One generated graph of every Tool, Job, Blocker and design/runtime Dependency in arcs-v9 that Opus can query (`jtbd(job)`), kept honest by gates, receipts and pre-registered tests.
 
 ## What changed
-- #1296 merged (`b1f0080d`): molt of the design gauntlet fragment into handoff v3.134.0. Receipt `2026-10-12--handoff-molt-v3.134.0-pr1296--ZH`.
-- #1397 merged (`94a90803`): scripts/integrity_gate.py looks up a sha unknown to this clone in the repo named on the same line (FOREIGN_REPOS, default ret-rfp-intelligence; extend with INTEGRITY_FOREIGN_REPOS). Receipt `2026-10-16--integrity-gate-foreign-shas-pr1397--ZH`.
+- PR #1697 merged (cc17e2ca): status.arcs.care no-JS floor restamped to 5,065 commits, day 194. Receipt 2026-10-20--status-floor-restamp-pr1697--ZH.
+- PR #1698 merged (7506fbde): scripts/decision_receipt_to_accountant.py, Accountant cohort `decisions`, accountant_weekly prints synthetic_excluded. Receipt 2026-10-20--decision-receipt-bridge-pr1698--ZH.
+- Backlog: receipt-randomized-plumbing-closes DONE (proven, seed 20261020, 5 synthetic closes); ruin bands on 10 rows, confirmed by Zach.
+- Open PRs, not merged: #1691 (proposal _PROPOSALS/2026-10-20-shared-intention-before-snap.md), #1694 (risk underwriter design), #1695 (risk underwriter v0 script, branch claude/risk-underwriter-v0), #1696 (claim index, another session).
+- Roadmap rows jtbd-graph-s0..s5 (#1613). s0 schema and stable ids, ADR-089 (#1621, repairs #1627, #1631: wildcard host is `any`, checker uses fullmatch). s1 nodes (#1630). s2 edges (#1640). s3 gates (#1667, build fix: tsconfig excludes the fixtures folder, runtime/specs/fixtures/jtbd-graph/gates/probe-evasions.ts).
+- s4 retrieval (#1706) won the pre-registered blind test (amendment 7, pool sealed by a separate session #1707, scored #1708): graph 16/18 vs /catalog 6/18, essential recall 0.89 vs 0.16. Wired into /prior-art and /catalog (#1714).
+- s5 feedback (#1723, #1726): outcome weights, weekly drift report; receipts gained job_id and tool_id (#1718), on by default via the safe_merge template (#1734); timestamp parse fix (#1737) shows coverage 9/12 (75%).
+- scripts/safe_merge.sh (#1728): head pinned, every check SUCCESS, refuses on conflict. Used for every later merge; it refused twice on moved heads, as designed.
+- Main gate repair (#1722): dated triage holds (runtime/specs/jtbd-graph-triage.json, max 14 days) for new findings; baseline stays shrink-only. Catalog regen fixed 5 findings at source (#1735).
+- decision_receipt is append-only (applied 2026-10-20 after Zach's go; proof passed; #1742, #1743). Receipt 2026-10-20--receipt-append-only-applied--ZH.
+- Hook-written state untracked (#1727); schema self-test uses a frozen catalog (#1725); baseline 613 to 418 orphan tools (#1730, #1740); 3 operators composted (#1739); architecture note _PATTERNS/2026-10-20-jtbd-system-architecture.md (#1738).
+- Concourse: both pre-reads live with GitHub link (#1670); tailored resume draft PR #1672, held.
 
 ## Current state
-- `python3 scripts/integrity_gate.py CLAUDE.md` returns OK, 36 cites, including ret-rfp-intelligence 175afe2 as foreign.
-- On a machine without ~/ret-rfp-intelligence (CI), such cites stay WARN with "not cloned here".
+- Main checkout on origin/main. jtbd --check PASS. Triage holds due 2026-11-03.
+- Sprint 5 row HOLDING: coverage check 2026-11-03, blind re-judge 2026-11-17.
+- Scheduled: jtbd-weekly-drift-report (Mon, now also reconcile epoch and status-floor check), jtbd-daily-weights-refresh (Mon/Wed/Fri). Both bypass-permission mode, read-only by prompt.
+- CI is off (Actions spending limit); merges rested on Vercel and local gates.
 
 ## Decisions made
-- Fix the gate rather than reword the handoff line, so the real cross-repo cite survives.
+- Zach: intention definition B (stated by Zach) with C (mirror from the backlog) beside it.
+- Zach: surgical decomposition lives in a linked spec file per issue (path proposed in PR #1691, not on main).
+- Zach: onramp swapped after D0 to the decision-receipt bridge (built, PR #1698).
+- Zach: SPECIALTY tier added beside UNINSURABLE in the underwriter; prices shown, never blocking.
+- Zach: hyperstition is the fixed second pass after I.D.E.A.
+- Zach: execution model is a two-level lattice (parent, children, counter-agents); one pusher per branch (gotcha 22); merges pin the head.
+- Zach: s4 judged by pooled blind scoring (amendment 7); "no proof yet" lane declined.
+- Zach: hold new gate findings in dated triage, not the baseline.
+- Zach: receipts append-only, UPDATE and DELETE refused, corrections by a superseding row.
+- Every spawned session gets a backlog row first; its receipt job_id names that row (memory every-spawned-session-gets-a-backlog-row-first).
 
 ## Open decisions (waiting on Zach)
-None.
+1. Zach: Amy draft to amy@recruithaus.com (Gmail draft dated 2026-10-18): send, edit or drop.
+2. Zach: funnel seed kill condition due 2026-10-22 (finding f-d1cb1802f5); no receipt yet.
+3. Zach: ship or hold PR #1695 (s4 freeze: do not regenerate the tool catalog).
+4. Zach: whether to turn CI back on (budget).
 
 ## Open (other)
-1. Add the gate's foreign-sha cases (found, typo, unnamed hex, repo not cloned) to a test file; they were run by hand only.
+1. George (Scout Global): Zach followed up (bundle 2026-10-16, nudge 2026-10-19; Zach confirmed 2026-10-20). Waiting on George; record a verdict on 2026-10-16--scout-wonderful-fde-lead-ex-ante--ZH when he replies.
+2. Vico: Zach is in touch with Joe Schriner (confirmed 2026-10-20). Open only: Zach confirms which one-page attachment went on 2026-10-14, given the Tier 2 no-send-before-NDA note.
+3. Domino line D1 to D17 in PR #1691 section 4g; ripe now: D1 (intention test trigger), D2 (steelman the 10 DRAFT abort/rollback texts), D3 (= item 5).
+4. Sprint 6 (next): MCP tools as graph atoms so jobs done through Supabase, Vercel, Gmail and others are visible; clears the decision-receipt-append-only triage hold by 2026-11-03.
+5. 22 compost candidates in _PROPOSALS/2026-10-20-jtbd-baseline-followups.md await Zach's ruling.
+6. 158 orphan jobs; 649 grandfathered integrity cites (judgment work, not scheduled).
+7. Concourse: forward the take-home spec when it arrives; resume PR #1672 is ready.
 
 ## Next action
-Add a self-test for the integrity gate's foreign-sha lookup.
+Start Sprint 6 (MCP tools in the graph) as a child session with a backlog row first.
 
 ## Cold-start recipe
-- `python3 scripts/integrity_gate.py CLAUDE.md`; memory `gh-auto-merge-no-required-checks-merges-now`.
-
-### Lessons
-- #1397 merged before CI finished: `gh pr merge --auto` merges at once in this repo because no checks are required. Wait for green, then merge.
-
-### Notes: Shavasana
-
-- **Exhale** (what went out): 0 commits, 0 merges to main (scope: branch claude/handoff-integrity-gate), receipts in digest: no digest file.
-- **Inhale** (what came in): 0 falsification rows today, 0 dissent markers, 0 unconfirmed markers in the day's records.
-- **Breath balance**: breathing (both directions).
-- **Sycophancy check**: agreement 4 / dissent 0 (ratio 4.0) → OK: dissent present.
-- **Cold re-read (canary on the draft frag2.md)**: GROUNDED; no ground return: none; thin air: none.
-- **Attachment release** (human): for each claim in the draft, does it survive without the momentum? Downgrade or drop, and say which.
-- **Somatic read** (human, one question): certainty now vs certainty at the start of the session, and were there sends today?
-- **Disposition** (human): release the handoff, or return it to the queue with this block attached.
-
-_This block asserts nothing new. Counts, paths, and questions only._
-- Attachment release: kept all claims; both merges and receipts were read back this session. Somatic: not asked. Disposition: release.
+- Read _PATTERNS/2026-10-20-jtbd-system-architecture.md, then the jtbd-graph-* rows in _QUEUE/induced-backlog.jsonl.
+- Run `python3 scripts/universe_jtbd_adapter.py --check` and `bash scripts/safe_merge.sh --self-test`.
 
 Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
 
-> Molted from `_HANDOFFS/fragments/20261016T135237Z--claude-handoff-integrity-gate.md` (branch `claude/handoff-integrity-gate`, head `94a90803`).
+### Notes: Ground truth
+- Prod read-only (2026-10-20): decision_receipt and Receipt tables via Supabase execute_sql; git origin/main for counts.
 
-# Handoff — v3.136.0 (2026-10-15)
+### Notes: SSOT
+- Backlog `_QUEUE/induced-backlog.jsonl`; outcome ledger `_STATE/receipt-outcomes.jsonl`; proposal in PR #1691.
 
-## Goal / true north
-Land the monday FDE take-home and bank what it taught.
+### Notes: Routes
+- Outcome verdicts: `python3 scripts/receipt_outcome_queue.py record`. Accountant: `python3 scripts/accountant_weekly.py --ingest`.
 
-## What changed
-- #1339 merged: night moves 2026-10-14 (monday take-home submitted as rc46; K71 to K79 hardening; cold run from the ZIP; live board tidy).
-- Take-home submitted: ret-rfp-intelligence rc46 (4.22 MB, tag rc46-2026-10-14 in that repo); rc43 carried the last full release check and a live end-to-end run from inside the ZIP.
-- Post-mortem pass 1 (extraction): 192 mistake rows, 134 belief rows in falsification-ledger schema, 38 session rows, a T0-to-rc46 timeline, in the local untracked ret-postmortem-raw-2026-10-15 folder under _STATE.
+### Notes: Gates
+- `python3 scripts/backlog_status_check.py --check`; `python3 scripts/decision_receipt_to_accountant.py --self-test`; merge with `gh pr merge --merge` only on Zach's yes.
 
-## Current state
-Take-home submitted and frozen until the panel. Live boards on the assessment account: public links off, Welcome doc trimmed, scorecard synced. Post-mortem waiting on pass 2.
+### Notes: Corrections
+- D0 first claimed the live decisions had no receipts; George and Vico do (false null, banked in PR #1691 section 4h).
+- "Over 3,500 commits" was first called stale; it is the no-merge count and correct.
 
-## Decisions made
-- Post-mortem outputs live in arcs-v9, never in the take-home repo (its leak check bans ARCS vocabulary; frozen until the panel).
-- Belief-ledger rows are proposed to Zach before any write-locked append; publishing to status.arcs.care/beliefs stays Zach's call.
-- rc33's 10.45 MB was a control that held (size cap), not a crisis.
+### Notes: Close protocol
+- Record a decision receipt for every merge; mark backlog rows DONE only with evidence in status_note.
 
-## Open decisions (waiting on Zach)
-None.
-
-## Open (other)
-1. Post-mortem pass 2 (recoil report, mistake savings bank, six simulated P0 incidents, phase 2 backlog, ledger rows F43+).
-2. Enterprise access landed on the zachharriss-team account, not the assessment account.
-3. Stashes tagged wt-flightlog-dupes-* in the take-home repo (duplicates of lines on main; safe to drop).
-
-## Next action
-Resume post-mortem pass 2 from the RESUME note in the ret-postmortem-raw-2026-10-15 folder under _STATE.
-
-## Cold-start recipe
-Read the RESUME note in the local ret-postmortem-raw-2026-10-15 folder under _STATE; it lists the inputs, the eight pass 2 steps and the constraints.
-
-Debt lives in the tracker (https://claude.ai/artifact/AvE1T5TMQD164GPFGetHvm, `debt` collection); not restated here.
-
-> Molted from `_HANDOFFS/fragments/20261015T210121Z--claude-suspicious-austin-8898c4.md` (branch `claude/suspicious-austin-8898c4`, head `c7260eb9`).
+> Molted from `_HANDOFFS/fragments/20261020T142750Z--claude-shared-intention-proposal.md` (branch `claude/shared-intention-proposal`, head `7506fbde`); `_HANDOFFS/fragments/20261020T173031Z--claude-opus-jobs-framework-be7d0b.md` (branch `claude/opus-jobs-framework-be7d0b`, head `c062a6d2`).

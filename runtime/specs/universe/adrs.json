@@ -4,7 +4,7 @@
  "as_of_sha": null,
  "as_of_date": null,
  "id": "adrs",
- "label": "80 ADRs",
+ "label": "84 ADRs",
  "parent": "universe",
  "null_origin": "adrs",
  "signature": {
@@ -25,12 +25,12 @@
  },
  "dimensions": {
   "corpus": 0,
-  "canon": 80,
+  "canon": 84,
   "codebase": 0,
-  "files": 80
+  "files": 84
  },
  "systems": {
-  "_DECISIONS": 80
+  "_DECISIONS": 84
  },
  "files": [
   "_DECISIONS/ADR-001-auth-gate-strategy.md",
@@ -112,6 +112,10 @@
   "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md",
   "_DECISIONS/ADR-083-ui-kit-atomic-ssot-and-component-source-gate.md",
   "_DECISIONS/ADR-084-reliance-not-trust-public-surfaces.md",
-  "_DECISIONS/ADR-085-main-write-lock-and-hot-file-leases.md"
+  "_DECISIONS/ADR-085-main-write-lock-and-hot-file-leases.md",
+  "_DECISIONS/ADR-086-two-pass-backlog-induction.md",
+  "_DECISIONS/ADR-087-animation-as-a-timeline-over-a-recipe.md",
+  "_DECISIONS/ADR-088-librarian-anticipation-hook.md",
+  "_DECISIONS/ADR-089-jtbd-graph-schema-and-stable-ids.md"
  ]
 }
