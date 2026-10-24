@@ -36,7 +36,7 @@
    "tao_proverbs": 287,
    "adrs": 84
   },
-  "codebase": 758,
+  "codebase": 765,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -45,7 +45,7 @@
    "nodes_clear": 53,
    "nodes": 81,
    "shore_open": 37,
-   "files_mapped": 270,
+   "files_mapped": 277,
    "files_fog": 3011
   },
   "coherence": {
@@ -1408,8 +1408,8 @@
    "population": {
     "corpus": 30,
     "canon": 4,
-    "codebase": 50,
-    "files": 256
+    "codebase": 57,
+    "files": 263
    }
   },
   {

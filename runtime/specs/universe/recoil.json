@@ -26,12 +26,12 @@
  "dimensions": {
   "corpus": 30,
   "canon": 4,
-  "codebase": 50,
-  "files": 256
+  "codebase": 57,
+  "files": 263
  },
  "systems": {
   "runtime": 154,
-  "src": 47,
+  "src": 54,
   "_ARTIFACTS": 29,
   ".claude": 10,
   "tools": 5,
@@ -284,6 +284,13 @@
   "src/ui-kit/recoil-report/24-segmented-control.html",
   "src/ui-kit/recoil-report/25-resolution-ladder.html",
   "src/ui-kit/recoil-report/26-beat-check.html",
+  "src/ui-kit/recoil-report/27-section-label.html",
+  "src/ui-kit/recoil-report/28-chip.html",
+  "src/ui-kit/recoil-report/29-tile.html",
+  "src/ui-kit/recoil-report/30-button.html",
+  "src/ui-kit/recoil-report/31-callout.html",
+  "src/ui-kit/recoil-report/32-evidence-ref.html",
+  "src/ui-kit/recoil-report/33-led.html",
   "src/ui-kit/recoil-report/_tokens.css",
   "src/ui-kit/recoil-report/chase-intro.html",
   "src/ui-kit/recoil-report/chris-lamontagne-recoil.html",

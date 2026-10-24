@@ -1,0 +1,30 @@
+<!-- @dsCard group="Molecules" name="Button" subtitle="Mono caps button: rest, hover, focus, pressed and disabled" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+/* @prim:begin 30-button */
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-sm); min-height: 44px; padding: 0 16px; cursor: pointer; transition: border-color var(--dur-fast) var(--ease-out); }
+.btn:hover { border-color: var(--cyan); }
+.btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.btn[aria-pressed="true"] { background: var(--cyan-bg); border-color: var(--cyan); }
+.btn:disabled { color: var(--dimmed); border-style: dashed; cursor: not-allowed; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+/* @prim:end 30-button */
+</style>
+</head>
+<body>
+<main>
+<h1 class="section-label">Button</h1>
+<div class="row"><button class="btn" type="button">Run</button><button class="btn" type="button" aria-pressed="true">Armed</button><button class="btn" type="button" disabled>Locked</button></div>
+</main>
+</body>
+</html>
