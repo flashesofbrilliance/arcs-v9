@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2398,
+  "corpus": 2402,
   "canon": {
    "files": 122,
    "tao_proverbs": 287,
    "adrs": 84
   },
-  "codebase": 754,
+  "codebase": 756,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -46,7 +46,7 @@
    "nodes": 81,
    "shore_open": 37,
    "files_mapped": 270,
-   "files_fog": 3004
+   "files_fog": 3010
   },
   "coherence": {
    "diamonds": 3,
