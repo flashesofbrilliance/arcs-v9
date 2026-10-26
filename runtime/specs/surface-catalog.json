@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 293,
+  "rows": 291,
   "hosts": 82,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 234,
+   "product page": 232,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 30,
   "app_routes": 47,
-  "missing_purpose": 8,
+  "missing_purpose": 6,
   "unlisted": 114
  },
  "retired_hosts": [
@@ -4014,47 +4014,7 @@
    "unlisted": true,
    "purpose": "RET RFP Submission Guide",
    "kind": "product page",
-   "last_commit": null
-  },
-  {
-   "host": "monday.arcs.care",
-   "path": "/deck.pdf",
-   "catch_all": false,
-   "destination": "/monday-guide-deck.pdf",
-   "pattern": false,
-   "file": "public/monday-guide-deck.pdf",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": null,
-   "description": null,
-   "index": null,
-   "unlisted": false,
-   "purpose": null,
-   "kind": "product page",
-   "last_commit": null
-  },
-  {
-   "host": "monday.arcs.care",
-   "path": "/rc46.zip",
-   "catch_all": false,
-   "destination": "/monday-guide-rc46.zip",
-   "pattern": false,
-   "file": "public/monday-guide-rc46.zip",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": null,
-   "description": null,
-   "index": null,
-   "unlisted": false,
-   "purpose": null,
-   "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-26"
   },
   {
    "host": "monolith.arcs.care",
@@ -5527,7 +5487,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-24"
+   "last_commit": "2026-10-26"
   },
   {
    "host": "thetrueai.arcs.care",
