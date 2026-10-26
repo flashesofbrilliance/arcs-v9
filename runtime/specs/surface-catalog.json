@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 290,
-  "hosts": 81,
+  "rows": 293,
+  "hosts": 82,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 231,
+   "product page": 234,
    "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 28,
+  "proxy_hosts": 30,
   "app_routes": 47,
-  "missing_purpose": 6,
-  "unlisted": 113
+  "missing_purpose": 8,
+  "unlisted": 114
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -51,6 +51,7 @@
   "public/blacksmith-cover.html",
   "public/blacksmith-resume.html",
   "public/jack-rain-resume.html",
+  "public/monday-gate.html",
   "public/myally-gate.html"
  ],
  "rows": [
@@ -1098,7 +1099,7 @@
    "unlisted": false,
    "purpose": "An open Next.js web app: paste a LinkedIn profile or upload a PDF to generate an adaptive ARCS-style scan. Runs a local mock scan in the browser. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "autopilot.arcs.care",
@@ -1544,7 +1545,7 @@
    "unlisted": true,
    "purpose": "Phosphor",
    "kind": "product page",
-   "last_commit": "2026-10-23"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "forge-cut.arcs.care",
@@ -1647,7 +1648,7 @@
    "unlisted": false,
    "purpose": "A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work. Compact a session into a dense seed; let many workers reconcile through git without lost updates. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "good.arcs.care",
@@ -1669,7 +1670,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "good.arcs.care",
@@ -3412,7 +3413,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "good.arcs.care",
@@ -3433,7 +3434,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real warm-versus-cold reconstruction experiment. Commit your predictions before the evidence, take each chair, and watch the world sharpen only as your receipt earns it.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "good.arcs.care",
@@ -3454,7 +3455,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-19"
   },
   {
    "host": "good.arcs.care",
@@ -3994,6 +3995,66 @@
    "purpose": "The operator-builder for Mercury's Open Call: ships AI products with AI on Command/CLI/MCP, with regulated-capital fluency so yield and treasury claims survive compliance.",
    "kind": "product page",
    "last_commit": "2026-10-17"
+  },
+  {
+   "host": "monday.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/monday-guide.html",
+   "pattern": false,
+   "file": "public/monday-guide.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "RET RFP Submission Guide",
+   "description": null,
+   "index": "noindex,nofollow",
+   "unlisted": true,
+   "purpose": "RET RFP Submission Guide",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "monday.arcs.care",
+   "path": "/deck.pdf",
+   "catch_all": false,
+   "destination": "/monday-guide-deck.pdf",
+   "pattern": false,
+   "file": "public/monday-guide-deck.pdf",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "monday.arcs.care",
+   "path": "/rc46.zip",
+   "catch_all": false,
+   "destination": "/monday-guide-rc46.zip",
+   "pattern": false,
+   "file": "public/monday-guide-rc46.zip",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "monolith.arcs.care",
@@ -4853,7 +4914,7 @@
    "unlisted": false,
    "purpose": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "saul.arcs.care",
@@ -5466,7 +5527,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-21"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "thetrueai.arcs.care",
