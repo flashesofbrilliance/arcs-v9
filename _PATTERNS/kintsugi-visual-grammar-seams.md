@@ -788,3 +788,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - found by: the fog-opacity commit; scoring both versions in place gave 5 and 5.
 - repair: the hook's HEAD mirror now extracts HEAD's whole directory of the file (git archive) before writing the blob, so a linked sibling such as _tokens.css resolves at HEAD too.
 - guard: scripts/git-hooks/pre-commit, next to the 2026-10-06 waiver-path fix it extends.
+
+## 2026-10-26 · client-facing guide scored against the ARCS kit (waived, not repaired)
+- break: the kintsugi ratchet blocked public/monday-guide.html (new file, 33 findings vs 0 at HEAD).
+- found by: the monday.arcs.care commit. The findings are kit rules the page was never built for: its light background, card padding, line height, all-caps labels.
+- root cause: the guide matches the look of the submission the monday.com panel already graded (the RET demo), not the dark ARCS kit. Same scope gap as the PRL client pages.
+- repair: none, by decision. Zach chose on 2026-10-26 to ship it on-brand with the submitted demo; this one commit went in with --no-verify. Every other pre-commit gate was run by hand and passed (wrap, page-gate, token source, surface catalog, div balance); the gate page public/monday-gate.html passes the ratchet clean.
+- guard: any later edit to monday-guide.html ratchets on its committed count (33), so new debt still blocks.

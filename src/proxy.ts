@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
-import { MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
+import { MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
@@ -51,6 +51,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   // claritai.arcs.care: Head of Operational Excellence & AI Systems bundle (2026-09-28): OPEN (ungated), noindex, for Jeff Kronisch (Harris Allied) to forward to Seth Merrin. root = brief + objections + history; PDF mapped to itself.
   // concourse.arcs.care: Concourse FDE bundle (2026-10-19): OPEN (ungated), noindex. root = candidate page (bet, record, role shape, gaps, kickoff card, ledger), /sara = recruiter brief, /plan = 90-day plan + pre-mortem (draft 2026-10-19), /llms.txt + /candidate.json = agent-readable claims with read-only checks. External cuts only; no counterpart profile content.
+  // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; the panel already has the ZIP and deck, so they are not hosted.
+  'monday':    { default: '/monday-guide.html' },
   'concourse': { '/sara': '/concourse-sara.html', '/plan': '/concourse-plan.html', '/llms.txt': '/concourse-llms.txt', '/candidate.json': '/concourse-candidate.json', default: '/concourse.html' },
   'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
@@ -161,6 +163,30 @@ export default async function proxy(request: NextRequest) {
   // after the gate, so the link itself stays behind the passcode.
   if (sub === 'lewoof' && (pathname === '/desk' || pathname === '/desk/')) {
     return NextResponse.redirect('https://claude.ai/artifact/EN1E3113GZGsrc2UobDyvM', 302)
+  }
+
+  // --- monday.arcs.care: submission guide for the monday.com FDE panel -------
+  // Same shape as the myally gate, own secret (MONDAY_PASSCODE) and cookie.
+  // /monday-guide* is locked on every host; the gate page and /api stay open.
+  if (pathname.startsWith('/monday-gate')) return NextResponse.next()
+  const mondayFile = pathname.startsWith('/monday-guide')
+  const mondayHostOpen =
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/api') ||
+    pathname === '/robots.txt' ||
+    SHARED_ICON_PATH.test(pathname)
+  if (mondayFile || (sub === 'monday' && !mondayHostOpen)) {
+    const ok = await gateUnlocked(
+      MONDAY_GATE.ns,
+      request.cookies.get(MONDAY_GATE.cookie)?.value,
+      process.env[MONDAY_GATE.env],
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/monday-gate.html'
+      return NextResponse.rewrite(url)
+    }
   }
 
   // --- myally.arcs.care: whole host behind its OWN passcode -----------------
