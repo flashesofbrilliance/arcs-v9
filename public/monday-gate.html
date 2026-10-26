@@ -126,7 +126,7 @@ button{margin-top:12px;width:100%;padding:10px 12px;border:0;border-radius:6px;b
     m.textContent = 'Checking...';
     fetch('/api/monday/unlock', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ passcode: code }) })
       .then(function (r) {
-        if (r.ok) { m.textContent = 'Unlocked. Opening...'; window.location.href = '/'; return; }
+        if (r.ok) { m.textContent = 'Unlocked. Opening...'; window.location.replace(window.location.pathname + window.location.search); return; }
         m.textContent = r.status === 503 ? 'The gate is not set up yet. Please tell Zach.' : 'That passcode did not match. Try again.';
       })
       .catch(function () { m.textContent = 'Could not reach the server. Try again.'; });
