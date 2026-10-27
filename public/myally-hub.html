@@ -379,7 +379,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 @media (prefers-reduced-motion:reduce){.trk,.trk::after{transition:none}}
 .toprow .themetog .ttl{color:var(--dim)}.toprow .themetog[data-mode="dark"] .ttl{color:var(--accent)}
 .readfab{right:max(16px,calc((100vw - 1008px) / 4 - 24px))}.readopts{right:max(16px,calc((100vw - 1008px) / 4 - 24px))}
-@media (min-width:700px){.shell-meta{position:sticky;top:0;z-index:21}.shell-bar{position:sticky;top:var(--metah,0px);z-index:20;background:var(--surface)}.shell-bar.stuck{box-shadow:0 4px 12px rgba(0,0,0,.08)}}
+@media (min-width:700px){.shell-meta{position:sticky;top:12px;z-index:21}.shell-meta::before{content:"";position:absolute;left:-2px;right:-2px;bottom:100%;height:13px;background:var(--pg-bg,var(--bg))}.shell-bar{position:sticky;top:calc(var(--metah,0px) + 12px);z-index:20;background:var(--surface)}.shell-bar.stuck{box-shadow:0 4px 12px rgba(0,0,0,.08)}}
 @media (max-width:560px){.shell-bar{position:relative;flex-wrap:nowrap!important;justify-content:space-between;align-items:center!important;padding:10px 16px!important}
 .burger{display:inline-grid;place-items:center;width:44px;height:44px;margin-right:-8px;border:0;border-radius:6px;background:none;color:var(--text);cursor:pointer}
 .burger span,.burger span::before,.burger span::after{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:transform .15s}
@@ -1232,6 +1232,15 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 [hidden]:not([hidden=&quot;until-found&quot;]){display:none !important}
 @media (max-width:600px){.gloss&gt;div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
 @media print{:root,:root[data-theme]{--pg-bg:#f7f8fa !important;--pg-surface:#ffffff !important;--pg-surface2:#eef1f5 !important;--pg-line:#d5dbe3 !important;--pg-edge:#76808d !important;--pg-text:#1c2430 !important;--pg-muted:#566170 !important;--pg-dim:#475262 !important;--pg-accent:#00606b !important;--pg-accent-bg:rgba(0,96,107,0.09) !important;--pg-warn-bg:#fff3c4 !important;--pg-warn-edge:#8a6d00 !important}[hidden]{display:block !important;content-visibility:visible !important}.alt,.more,.themebtn,nav,header.top,.skip,.scopebar,.quicksteps,.tip,.readfab,.readopts{display:none !important}}
+
+
+}
+/* index selection: a translucent sticker laid down top to bottom */
+nav.toc a{position:relative}
+nav.toc a::after{content:&quot;&quot;;position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,color-mix(in srgb,var(--pg-accent) 16%,transparent),color-mix(in srgb,var(--pg-accent) 9%,transparent));clip-path:inset(0 0 100% 0)}
+nav.toc a[aria-current=&quot;true&quot;]::after{clip-path:inset(0 0 0 0);animation:tocSticker .45s cubic-bezier(.22,.8,.24,1) both}
+@keyframes tocSticker{from{clip-path:inset(0 0 100% 0);opacity:.35}to{clip-path:inset(0 0 0 0);opacity:1}}
+@media (prefers-reduced-motion:reduce){nav.toc a[aria-current=&quot;true&quot;]::after{animation:none}}
 &lt;/style&gt;
 &lt;script defer src=&quot;/_vercel/insights/script.js&quot;&gt;&lt;/script&gt;
 &lt;/head&gt;
