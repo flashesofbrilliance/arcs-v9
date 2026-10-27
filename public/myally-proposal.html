@@ -285,7 +285,9 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .dim{color:var(--pg-dim)}
 .hand{padding-left:22px}.hand li{margin:0 0 10px}
 .prop table{border-collapse:collapse;width:100%}.prop th,.prop td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical-align:top}
-.prop thead th{background:var(--pg-surface2);color:var(--pg-dim)}.prop tr.tot th,.prop tr.tot td{font-weight:700}
+.prop thead th{background:var(--pg-surface2);color:var(--pg-dim)}
+.prop tbody th[scope="row"]{white-space:nowrap;width:1%}
+@media (max-width:640px){.prop tbody th[scope="row"]{white-space:normal;width:auto}}.prop tr.tot th,.prop tr.tot td{font-weight:700}
 .lvl>details>summary{cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:10px;min-height:44px}
 .lvl>details>summary::-webkit-details-marker{display:none}
 .lvl>details>summary::before{content:"+";flex:none;width:1.5rem;height:1.5rem;margin-top:.15rem;border:1px solid var(--pg-line);border-radius:6px;display:grid;place-items:center;color:var(--pg-accent);font-weight:700}
