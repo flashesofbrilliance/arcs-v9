@@ -391,15 +391,87 @@ def render_html(data, audience):
     return "".join(out)
 
 
+# ---- beats (2026-10-27): the per-beat timeline the recoil player plays ------------------------------
+# Optional top-level "beats" array; reports without it are unchanged. Spec: runtime/specs/recoil-beats.md
+BEAT_REQUIRED = ("id", "t_start", "t_end", "speaker", "summary")
+LOCK_STATES = ("open", "pending", "locked", "released")
+
+
+def check_beats(data):
+    """Return a list of problems with data["beats"] (empty list = valid, or no beats at all)."""
+    beats = data.get("beats")
+    if beats is None:
+        return []
+    errs = []
+    belief_ids = {b["id"] for b in data.get("beliefs", [])}
+    prev_end = None
+    for i, b in enumerate(beats):
+        tag = f"beats[{i}]"
+        for k in BEAT_REQUIRED:
+            if k not in b:
+                errs.append(f"{tag}: missing {k}")
+        ts, te = b.get("t_start"), b.get("t_end")
+        if isinstance(ts, (int, float)) and isinstance(te, (int, float)):
+            if te < ts:
+                errs.append(f"{tag}: t_end before t_start")
+            if prev_end is not None and ts < prev_end:
+                errs.append(f"{tag}: overlaps the previous beat")
+            prev_end = te
+        k = b.get("kairos")
+        if k is not None:
+            if not isinstance(k, dict) or k.get("lock") not in LOCK_STATES:
+                errs.append(f"{tag}: kairos.lock must be one of {', '.join(LOCK_STATES)}")
+        for d in b.get("belief_deltas", []):
+            if d.get("belief") not in belief_ids:
+                errs.append(f"{tag}: belief_deltas names unknown belief {d.get('belief')!r}")
+            to = d.get("to")
+            if not isinstance(to, (int, float)) or not 0 <= to <= 1:
+                errs.append(f"{tag}: belief_deltas.to must be a number from 0 to 1")
+    return errs
+
+
+def project_player(data, audience):
+    """Beats plus the belief manifold: confidence per beat and its D1-D3, for the recoil player."""
+    beats = [b for b in data.get("beats", []) if visible(b, audience)]
+    beliefs = [b for b in data.get("beliefs", []) if visible(b, audience)]
+    manifold = []
+    for bl in beliefs:
+        conf = bl.get("confidence") or [0.5]
+        cur = float(conf[0])
+        pts = [cur]
+        for bt in beats:
+            for d in bt.get("belief_deltas", []):
+                if d["belief"] == bl["id"]:
+                    cur = float(d["to"])
+            pts.append(round(cur, 3))
+        v, a, j, engine = _derivatives(pts, 1.0)
+        manifold.append({"belief": bl["id"], "claim": bl.get("claim", ""), "points": pts,
+                         "D1": [round(x, 3) for x in v], "D2": [round(x, 3) for x in a],
+                         "D3": [round(x, 3) for x in j], "engine": engine})
+    return {"meta": data.get("meta", {}), "audience": audience, "beats": beats, "manifold": manifold,
+            "note": "points[0] is the prior before beat 1; points[i] is confidence after beat i. "
+                    "dt = one beat. D3 is marginal below about 6 beats."}
+
+
 def main():
     ap = argparse.ArgumentParser(description="Single-source recoil brief generator.")
     ap.add_argument("--data", required=True)
     ap.add_argument("--audience", choices=["internal", "external"], default="internal")
-    ap.add_argument("--format", choices=["md", "json", "html"], default="md")
+    ap.add_argument("--format", choices=["md", "json", "html", "player"], default="md")
+    ap.add_argument("--check-beats", action="store_true", help="validate the beats array and exit")
     ap.add_argument("--set", action="append", default=[], help="pass-through override key.path=value")
     a = ap.parse_args()
 
     data = apply_overrides(load(a.data), a.set)
+    errs = check_beats(data)
+    if a.check_beats:
+        print("\n".join(errs) if errs else f"beats OK ({len(data.get('beats', []))})")
+        sys.exit(1 if errs else 0)
+    if a.format == "player":
+        if errs:
+            sys.exit("recoil: invalid beats:\n" + "\n".join(errs))
+        print(json.dumps(project_player(data, a.audience), indent=2))
+        return
     if a.format == "html":
         print(render_html(data, a.audience))
     else:

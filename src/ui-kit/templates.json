@@ -48,6 +48,14 @@
       "canonical_examples": ["_ARTIFACTS/raw-capture.html", "src/ui-kit/recoil-report/16-instrument-panel.html"],
       "signature_selectors": [".inst", ".alt-body", ".gates", ".plug", ".sheet", ".tp", ".kid", ".bb", ".pads", ".sqrow", ".seg", ".rungs"],
       "min_signatures": 3
+    },
+    "recoil-player": {
+      "mode": "operate",
+      "kind": "instrument-replay",
+      "description": "Plays a recoil report backwards in slow motion or forwards at full recall. Transport (20) with Reverse, tempo as a segmented control (24: slow mo, real time, max recall), detail as a resolution ladder (25: gist, beats, full recall), the beat track as a step sequencer (23), the belief manifold (34) with kairos pins and a synced scrub head, and the backlog graph (35). Data: ./scripts/recoil --data <report.json> --format player, and scripts/backlog_graph.py --json. Shared code: recoil-report/_player.js.",
+      "canonical_examples": ["src/ui-kit/recoil-report/recoil-player.html", "src/ui-kit/recoil-report/34-manifold.html", "src/ui-kit/recoil-report/35-backlog-graph.html"],
+      "signature_selectors": [".tp", ".seg", ".rungs", ".sqrow", ".mf-line", ".bg-node", ".chip", ".led"],
+      "min_signatures": 4
     }
   }
 }

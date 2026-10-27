@@ -1,0 +1,19 @@
+{
+  "meta": {"counterpart": "Rowan Vale (made-up)", "company": "Example Orchard Co. (fictional)", "date": "2026-10-27", "note": "Invented demo data for the recoil player. No real call."},
+  "beliefs": [
+    {"id": "B1", "audience": "both", "claim": "They want a pilot this quarter", "confidence": [0.4, 0.8], "conviction": "MEDIUM"},
+    {"id": "B2", "audience": "both", "claim": "Budget sits with the founder", "confidence": [0.7, 0.3], "conviction": "LOW"},
+    {"id": "B3", "audience": "both", "claim": "Data access is the real blocker", "confidence": [0.3, 0.85], "conviction": "HIGH"}
+  ],
+  "kinematic_series": {"dt": 1.0, "series": []},
+  "beats": [
+    {"id": "b01", "audience": "both", "t_start": 0, "t_end": 95, "speaker": "Rowan", "summary": "Opens with the harvest forecast problem and a missed season.", "evidence": "we guessed wrong twice last year"},
+    {"id": "b02", "audience": "both", "t_start": 95, "t_end": 210, "speaker": "Us", "summary": "Asks what a good forecast would let them do differently.", "belief_deltas": [{"belief": "B1", "to": 0.5}]},
+    {"id": "b03", "audience": "both", "t_start": 210, "t_end": 340, "speaker": "Rowan", "summary": "Names a pilot window before the spring planting order.", "evidence": "if we had something by March I would sign", "kairos": {"label": "Pilot window named", "lock": "pending"}, "belief_deltas": [{"belief": "B1", "to": 0.75}]},
+    {"id": "b04", "audience": "both", "t_start": 340, "t_end": 455, "speaker": "Rowan", "summary": "Says the ops lead holds the budget, not the founder.", "evidence": "Priya owns that line, I just nod", "belief_deltas": [{"belief": "B2", "to": 0.35}]},
+    {"id": "b05", "audience": "both", "t_start": 455, "t_end": 600, "speaker": "Us", "summary": "Probes where the sensor data lives today.", "belief_deltas": [{"belief": "B3", "to": 0.5}]},
+    {"id": "b06", "audience": "both", "t_start": 600, "t_end": 760, "speaker": "Rowan", "summary": "Admits the data sits with a vendor who will not export it.", "evidence": "they hold it hostage, honestly", "kairos": {"label": "Real blocker surfaced", "lock": "locked"}, "belief_deltas": [{"belief": "B3", "to": 0.85}]},
+    {"id": "b07", "audience": "both", "t_start": 760, "t_end": 880, "speaker": "Us", "summary": "Offers a manual export path for the pilot only.", "belief_deltas": [{"belief": "B1", "to": 0.8}, {"belief": "B2", "to": 0.3}]},
+    {"id": "b08", "audience": "both", "t_start": 880, "t_end": 990, "speaker": "Rowan", "summary": "Agrees to intro the ops lead next week.", "evidence": "I will loop Priya in Tuesday", "kairos": {"label": "Next step owned", "lock": "open"}}
+  ]
+}

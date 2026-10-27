@@ -1,0 +1,64 @@
+<!-- @dsCard group="Instrument Lab" name="Belief Manifold" subtitle="Confidence per belief over the call · kairos pins by lock state · scrub head · D1 to D3 at the head" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Belief manifold</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+::selection { background: var(--cyan-bg); color: var(--text); }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px 16px; }
+main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.btn { font: inherit; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: var(--elevated); border: 1px solid var(--border); border-radius: var(--ds-r-xs); padding: 8px 12px; cursor: pointer; min-height: 44px; }
+.btn:hover { border-color: var(--cyan); }
+.btn[aria-pressed=true] { border-color: var(--cyan); color: var(--cyan); }
+.btn:focus-visible, input:focus-visible, .sq:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.hint { color: var(--text-secondary); }
+.tp { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.tpl { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.tp input[type=range] { flex: 1 1 200px; min-width: 0; height: 44px; accent-color: var(--cyan); margin: 0; }
+.tp .hint { flex: 1 1 100%; }
+/* Organism 34: belief manifold. Confidence per belief over the call, kairos pins, scrub head, D1 to D3 readout. */
+.mf svg { display: block; width: 100%; height: auto; }
+.mf-grid { stroke: var(--border); stroke-width: 1; }
+.mf-axis { fill: var(--text-secondary); font-family: var(--ds-font-mono); font-size: 11px; font-variant-numeric: tabular-nums; }
+.mf-line { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
+.mf-pin { stroke-width: 1; stroke-dasharray: 3 4; }
+.mf-head { stroke: var(--text); stroke-width: 1.5; }
+.mf-dot { stroke: var(--bg); stroke-width: 2; }
+.mf-sw { display: inline-block; width: 10px; height: 10px; border-radius: var(--ds-r-xs); margin-right: 8px; vertical-align: baseline; }
+.mf-line.cyan, .mf-pin.cyan { stroke: var(--cyan); } .mf-line.green, .mf-pin.green { stroke: var(--green); } .mf-line.gold, .mf-pin.gold { stroke: var(--gold); }
+.mf-pin.muted { stroke: var(--muted); }
+.mf-node.cyan, .mf-dot.cyan, .mf-sw.cyan { fill: var(--cyan); background: var(--cyan); }
+.mf-node.green, .mf-dot.green, .mf-sw.green { fill: var(--green); background: var(--green); }
+.mf-node.gold, .mf-dot.gold, .mf-sw.gold { fill: var(--gold); background: var(--gold); }
+.mf-node.muted { fill: var(--muted); }
+.mf-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-variant-numeric: tabular-nums; }
+.mf-table th, .mf-table td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--border); font-family: var(--ds-font-mono); font-size: var(--fs-label); }
+.mf-table thead th { color: var(--text-secondary); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+.mf-table tbody th { text-align: left; font-family: var(--ds-font-sans); font-size: var(--fs-body); font-weight: 500; color: var(--text); }
+.mf-scroll { overflow-x: auto; }
+.mf-scroll:focus-visible, .bg-scroll:focus-visible, .sqwrap:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+<section class="mf" aria-labelledby="mf-h"><h1 class="section-label" id="mf-h">Belief manifold</h1>
+<svg data-m role="img" aria-label="Belief confidence over the call, with kairos moments pinned"></svg>
+<div class="tp"><span class="tpl">Scrub</span><input type="range" min="0" value="0" data-s aria-label="Scrub the call"></div>
+<div class="mf-scroll" tabindex="0" role="region" aria-label="Kinematics at the scrub head"><table class="mf-table"><thead><tr><th scope="col" style="text-align:left">Belief</th><th scope="col">Confidence</th><th scope="col">D1 speed</th><th scope="col">D2 accel</th><th scope="col">D3 jerk</th></tr></thead><tbody data-readout></tbody></table></div>
+<p class="hint">Made-up demo data. Pins: green locked, gold pending, cyan open.</p></section>
+</main>
+<script src="_player.js"></script>
+<script>
+var P={"meta":{"counterpart":"Rowan Vale (made-up)","company":"Example Orchard Co. (fictional)","date":"2026-10-27","note":"Invented demo data for the recoil player. No real call."},"audience":"internal","beats":[{"id":"b01","audience":"both","t_start":0,"t_end":95,"speaker":"Rowan","summary":"Opens with the harvest forecast problem and a missed season.","evidence":"we guessed wrong twice last year"},{"id":"b02","audience":"both","t_start":95,"t_end":210,"speaker":"Us","summary":"Asks what a good forecast would let them do differently.","belief_deltas":[{"belief":"B1","to":0.5}]},{"id":"b03","audience":"both","t_start":210,"t_end":340,"speaker":"Rowan","summary":"Names a pilot window before the spring planting order.","evidence":"if we had something by March I would sign","kairos":{"label":"Pilot window named","lock":"pending"},"belief_deltas":[{"belief":"B1","to":0.75}]},{"id":"b04","audience":"both","t_start":340,"t_end":455,"speaker":"Rowan","summary":"Says the ops lead holds the budget, not the founder.","evidence":"Priya owns that line, I just nod","belief_deltas":[{"belief":"B2","to":0.35}]},{"id":"b05","audience":"both","t_start":455,"t_end":600,"speaker":"Us","summary":"Probes where the sensor data lives today.","belief_deltas":[{"belief":"B3","to":0.5}]},{"id":"b06","audience":"both","t_start":600,"t_end":760,"speaker":"Rowan","summary":"Admits the data sits with a vendor who will not export it.","evidence":"they hold it hostage, honestly","kairos":{"label":"Real blocker surfaced","lock":"locked"},"belief_deltas":[{"belief":"B3","to":0.85}]},{"id":"b07","audience":"both","t_start":760,"t_end":880,"speaker":"Us","summary":"Offers a manual export path for the pilot only.","belief_deltas":[{"belief":"B1","to":0.8},{"belief":"B2","to":0.3}]},{"id":"b08","audience":"both","t_start":880,"t_end":990,"speaker":"Rowan","summary":"Agrees to intro the ops lead next week.","evidence":"I will loop Priya in Tuesday","kairos":{"label":"Next step owned","lock":"open"}}],"manifold":[{"belief":"B1","claim":"They want a pilot this quarter","points":[0.4,0.4,0.5,0.75,0.75,0.75,0.75,0.8,0.8],"D1":[0.0,0.05,0.175,0.125,0.0,0.0,0.025,0.025,0.0],"D2":[0.05,0.087,0.038,-0.087,-0.062,0.013,0.013,-0.013,-0.025],"D3":[0.038,-0.006,-0.087,-0.05,0.05,0.038,-0.013,-0.019,-0.013],"engine":"arcs_kinematics.py v1.3 (numpy)"},{"belief":"B2","claim":"Budget sits with the founder","points":[0.7,0.7,0.7,0.7,0.35,0.35,0.35,0.3,0.3],"D1":[0.0,0.0,0.0,-0.175,-0.175,0.0,-0.025,-0.025,0.0],"D2":[0.0,0.0,-0.087,-0.087,0.087,0.075,-0.012,0.012,0.025],"D3":[0.0,-0.044,-0.044,0.087,0.081,-0.05,-0.031,0.019,0.012],"engine":"arcs_kinematics.py v1.3 (numpy)"},{"belief":"B3","claim":"Data access is the real blocker","points":[0.3,0.3,0.3,0.3,0.3,0.5,0.85,0.85,0.85],"D1":[0.0,0.0,0.0,0.0,0.1,0.275,0.175,0.0,0.0],"D2":[0.0,0.0,0.0,0.05,0.138,0.037,-0.138,-0.087,0.0],"D3":[0.0,0.0,0.025,0.069,-0.006,-0.138,-0.062,0.069,0.087],"engine":"arcs_kinematics.py v1.3 (numpy)"}],"note":"points[0] is the prior before beat 1; points[i] is confidence after beat i. dt = one beat. D3 is marginal below about 6 beats."};
+var m=new ArcsRecoil.Manifold(document.querySelector("[data-m]"),P),s=document.querySelector("[data-s]"),tb=document.querySelector("[data-readout]");
+s.max=P.beats[P.beats.length-1].t_end;
+function go(){m.seek(+s.value);ArcsRecoil.readout(tb,P,m.index(+s.value));}
+s.addEventListener("input",go);go();
+</script>
+</body>
+</html>
