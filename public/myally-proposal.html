@@ -212,7 +212,6 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .checklist{margin:0 0 16px;padding-left:1.4em}.checklist li{margin:0 0 8px}
 .note{background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px;padding:12px 16px;color:var(--pg-dim)}
 .sec,section[id],[id^="g-"],[id^="s-"],[id^="n-grp-"],h3[id],.stage{scroll-margin-top:calc(var(--hdr, 100px) + var(--sticky-h, 0px) + 16px)}
-.hand{padding-left:22px}.hand li{margin:0 0 10px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 [hidden]:not([hidden="until-found"]){display:none !important}
 @media (max-width:600px){.gloss>div{grid-template-columns:1fr}.tname .w{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}a.gl::after{transition:transform .15s}.flash{transition:background .4s}}
@@ -246,210 +245,63 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .nda .back{margin:32px 0 0;font-weight:600}
 .nfoot{margin:32px 0 0;color:var(--pg-muted)}
 @media print{.why{display:none}.why-note[hidden]{display:block !important}}
-.prop h2{font-size:1.5rem;margin:40px 0 8px}.prop h3{font-size:1.15rem;margin:20px 0 6px}
-.prop section{border-top:1px solid var(--pg-line);padding-top:8px;scroll-margin-top:140px}
+
+.prop h2{font-size:1.5rem;line-height:1.25;margin:0 0 10px}.prop h3{font-size:1.15rem;margin:0 0 6px}
+.prop .lvl{padding:0 0 8px;scroll-margin-top:140px}
+.prop hr.rule{border:0;height:1px;background:var(--pg-line);margin:24px 0}
 .byline{color:var(--pg-muted);margin:0 0 8px}
-.tbd{background:var(--pg-accent-bg);border:1px dashed var(--pg-accent);border-radius:4px;padding:0 4px}
-.steps{list-style:none;margin:16px 0;padding:0;display:grid;grid-template-columns:1fr;gap:8px}
-.steps li{display:grid;grid-template-columns:2rem 9rem 1fr;gap:4px 12px;align-items:baseline;padding:14px;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:8px}
-.steps .sn{color:var(--pg-accent);font-weight:700}
-.steps .sk{grid-column:2/-1;color:var(--pg-dim);font-size:0.925rem}
-.facts li{margin:4px 0}
-.phases dt{font-weight:600;margin:16px 0 4px}.phases dd{margin:0}
-.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0}
-.case{padding:14px 16px;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:8px}
-.case h3{margin:0 0 6px}.case p{margin:0 0 8px}.case.base{border:2px solid var(--pg-accent)}
-.amt{font-weight:600}.flag{color:var(--pg-accent);font-weight:600}.dim{color:var(--pg-dim)}
+.exec{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:8px;margin:16px 0}
+.kpi{border:1px solid var(--pg-line);border-radius:6px;background:var(--pg-surface);padding:12px 14px;display:grid;gap:2px}
+.kl{color:var(--pg-dim);font-size:.925rem}.kv{font-weight:700;font-size:1.15rem}
+.ask{font-size:1.15rem}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbd{background:var(--pg-accent-bg);border:1px dashed var(--pg-accent);border-radius:6px;padding:0 4px}
+.tag{display:inline-block;margin-left:8px;font-size:.925rem;font-weight:600;border-radius:999px;padding:0 10px;vertical-align:middle}
+.tag.pick{background:var(--pg-accent-bg);color:var(--pg-accent);border:1px solid var(--pg-accent)}
+.steps{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+.step{display:grid;grid-template-columns:2rem 8.5rem minmax(0,1fr) auto;gap:4px 12px;align-items:baseline;padding:12px 14px;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px}
+.sn{color:var(--pg-accent);font-weight:700}.sname{font-weight:700}.swhat{color:var(--pg-dim)}.scost{font-weight:600}
+@media (max-width:640px){.step{grid-template-columns:2rem minmax(0,1fr)}.swhat,.scost{grid-column:2}}
+.cases{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin:12px 0}
+.case{padding:14px 16px;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:6px}
+.case.pick{border:2px solid var(--pg-accent)}.case p{margin:0 0 6px}.cmeta{font-weight:600}
+.dim{color:var(--pg-dim)}
+.hand{padding-left:22px}.hand li{margin:0 0 10px}
 .prop table{border-collapse:collapse;width:100%}.prop th,.prop td{border:1px solid var(--pg-line);padding:10px 12px;text-align:left;vertical-align:top}
 .prop thead th{background:var(--pg-surface2);color:var(--pg-dim)}.prop tr.tot th,.prop tr.tot td{font-weight:700}
+.prop details>summary{cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:10px;min-height:44px}
+.prop details>summary::-webkit-details-marker{display:none}
+.prop details>summary::before{content:"+";flex:none;width:1.5rem;height:1.5rem;margin-top:.15rem;border:1px solid var(--pg-line);border-radius:6px;display:grid;place-items:center;color:var(--pg-accent);font-weight:700}
+.prop details[open]>summary::before{content:"\2212"}
+.prop details>summary h2{margin:0}.prop details>summary:focus-visible{outline:3px solid var(--pg-accent);outline-offset:2px}
+.fold{padding:8px 0 0 calc(1.5rem + 10px)}
+@media (max-width:640px){.fold{padding-left:0}}
+@media print{.prop details>.fold{display:block}.prop details>summary::before{display:none}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the proposal</a>
 <header class="top"><nav aria-label="Sections"><div class="wrap bar"><a class="brand" href="/" aria-label="ARCS Field OS. Back to the plan"><span class="wa">ARCS</span><span class="wf">FIELD OS</span></a><span class="links"><a class="pill primary" href="/">Back to the plan</a></span></div></nav></header>
 <main class="nda prop" id="main">
-<p class="byline">For Chelsea, Kelly and Leah, from Zach. Draft, <span class="tbd">date TBD</span>. Confidential under our NDA.</p>
+<p class="byline">For Chelsea, Kelly and Leah, from Zach. Draft, <span class="tbd">date</span>. Confidential under our NDA.</p>
 <h1>Alyce: a proposal to build her</h1>
-<p class="lede">You keep shaping the product; I connect Alyce underneath it. Lovable stays your UI layer. Here is how, in five steps you can stop after, with a plain price for each.</p>
-
-<section aria-labelledby="pic"><h2 id="pic">The whole plan on one line</h2>
-<ol class="steps">
-<li><span class="sn">1</span><strong>Audit</strong><span>2 weeks · 56 h · $8,400 fixed</span><span class="sk">Find what must be true first</span></li>
-<li><span class="sn">2</span><strong>Foundation</strong><span>plus a first Alyce slice you can click · about 70 h · $10,500</span><span class="sk">A safe base</span></li>
-<li><span class="sn">3</span><strong>Alyce core</strong><span>working end to end, made-up data · about 120 h · $18,000</span><span class="sk">Ready for testing</span></li>
-<li><span class="sn">4</span><strong>Guardrails</strong><span>tested before every release · about 60 h · $9,000</span><span class="sk">Safe to show families</span></li>
-<li><span class="sn">5</span><strong>Launch</strong><span>deployed, with a runbook · about 30 h · $4,500</span><span class="sk">Yours to run</span></li>
-</ol>
-<ul class="facts">
-<li>You can stop after any step and keep everything, in your own accounts.</li>
-<li>Alyce never diagnoses and starts from strengths.</li>
-<li>Your counsel decides the law; I build to what they sign off.</li>
-<li><strong>All in, most likely case: $50,400 in fees.</strong> Build prices are the most likely case; the audit sets the firm number.</li>
-</ul></section>
-
-<section aria-labelledby="audit"><h2 id="audit">Step 1: the audit</h2>
-<p>Two weeks, fixed at $8,400. The goal is simple: find what must be true at the foundation before each later step can safely start, and in what order.</p>
-<h3>How it works</h3>
-<ul>
-<li><strong>Looking out:</strong> what Alyce must serve. Your parent journeys and user stories, what Alyce must and must never say, the questions for your counsel, and the dates that set the clock. No interviews with families; made-up data only until launch.</li>
-<li><strong>Looking in:</strong> what exists today. The spec, the code, how data is stored, the cost model, and whether the Ages+ stub shares Alyce's code.</li>
-<li><strong>Bringing it together:</strong> a short list of open questions, answered with you in one joint session.</li>
-</ul>
-<h3>Conversations, all inside the fee</h3>
-<ul>
-<li>45 minutes each with Chelsea and Kelly.</li>
-<li>45 minutes with Leah on what Alyce must never say to a family, and the legal questions that matter most to her. Her answers become page one of Alyce's guardrails.</li>
-<li>A 60-minute joint session in week 2, and a 30-minute readout at the end.</li>
-</ul>
-<h3>What you receive</h3>
-<p>One short report, about 6 to 8 pages:</p>
-<div class="tablewrap"><table><tbody>
-<tr><th scope="row">Spec check</th><td>Each item in your spec: built, partly built, not built, or only planned</td></tr>
-<tr><th scope="row">What exists today</th><td>A one-page map of screens, tables, functions and connected services</td></tr>
-<tr><th scope="row">Keep, adjust or rebuild</th><td>For each area of the app, the call and the reason</td></tr>
-<tr><th scope="row">Data map</th><td>Each kind of data, where it lives, who can see it, how sensitive it is, and how each family is kept separate</td></tr>
-<tr><th scope="row">Findings</th><td>Risks ranked by severity, each with its fix and the step that fixes it</td></tr>
-<tr><th scope="row">Dependency map</th><td>What has to happen before what: technical, legal, vendor, and decisions only you can make</td></tr>
-<tr><th scope="row">First steps</th><td>What every later step depends on, each with what "done" looks like. I own every technical one.</td></tr>
-<tr><th scope="row">AI provider</th><td>Which one, why, and how to switch later</td></tr>
-<tr><th scope="row">Case and quote</th><td>Best, base or worst, with the evidence; a firm cap per step; weeks to launch</td></tr>
-<tr><th scope="row">First build step plan</th><td>Its checks, and the clickable Alyce slice defined</td></tr>
-</tbody></table></div>
-<p>Plus three working sheets, kept up to date through the build:</p>
-<ul>
-<li><strong>Questions for your counsel</strong>, each marked with the step it holds up.</li>
-<li><strong>Alyce's three lists, first draft:</strong> always, only with a check, never, started from Leah's call.</li>
-<li><strong>Accounts and costs:</strong> every service, who owns it, who has access, the monthly cost, and spending caps.</li>
-</ul>
-<p>No slide deck and no long narrative: each piece is a table or a list, so it all fits in the two weeks.</p>
-<p class="note">During the audit I test with made-up accounts only and never download or copy documents. If I see real family data, I stop and tell Chelsea the same day. At the end my access is removed and my notes are deleted, confirmed in writing.</p>
-</section>
-
-<section aria-labelledby="build"><h2 id="build">Steps 2 to 5: the build</h2>
-<dl class="phases">
-<dt>Foundation plus a first Alyce slice</dt><dd>The first steps from the audit: who can read which records, where keys live, a separate test copy, each family's data kept apart. Then a thin Alyce you can click: one parent, one child, a Vault document, a safe answer.</dd>
-<dt>Alyce core</dt><dd>The AI connected behind one swappable layer, so changing provider later is not a rebuild, and an Ages+ Alyce can plug in. Replies short, plain and strengths-first, checked for reading load and read-aloud.</dd>
-<dt>Guardrails</dt><dd>Three lists written with your counsel: always, only with a check, never. Tested against fixed sample questions before every release: no diagnosis, no medical or legal advice, crisis handling, tone. You get a record of what was tested. It is not a certification.</dd>
-<dt>Launch</dt><dd>Full desktop and mobile accessibility pass, deploy, and a runbook any developer can follow.</dd>
-</dl>
-</section>
-
-<section aria-labelledby="cases"><h2 id="cases">Three possible cases</h2>
-<p>The audit tells us which one we are in before any build money is spent.</p>
-<div class="cases">
-<div class="case"><h3>Best: the foundation holds</h3><p>The base is ready for Alyce. The first step is short and Alyce work starts around week 3 or 4.</p><p class="amt">Build about $27,000 · about 11 weeks</p></div>
-<div class="case base"><h3>Base: a few settings to tighten</h3><p>The screens and structure carry over. Settings that are fine for four testers get tightened before a real family's IEP goes in. One to three extra weeks before Alyce.</p><p class="amt">Build about $42,000 · about 16 weeks</p><p class="flag">Plan the budget on this case.</p></div>
-<div class="case"><h3>Worst: a decision comes first</h3><p>Some data needs to live where counsel prefers, or a provider can't sign what is needed. We decide together before Alyce is built. Four to eight extra weeks, and dates may move.</p><p class="amt">Build $69,000 to $84,000 · about 25 to 30 weeks</p></div>
-</div>
-<p>Finding a worst case in a two-week audit, rather than after families are using Alyce, is the reason the audit comes first.</p>
-<p class="dim">Weeks assume about <span class="tbd">20</span> hours a week from me.</p>
-</section>
-
-<section aria-labelledby="cost"><h2 id="cost">Cost</h2>
-<p><strong>$150 an hour</strong>, a friends-and-family rate. My standard rate is $275 an hour, so this is about 45% off. In the most likely case (336 hours, audit plus build) that is $50,400 instead of $92,400, a saving of $42,000.</p>
-<div class="tablewrap"><table>
-<thead><tr><th scope="col">Step</th><th scope="col">Best</th><th scope="col">Base</th><th scope="col">Worst</th></tr></thead>
-<tbody>
-<tr><th scope="row">Audit (fixed)</th><td>$8,400</td><td>$8,400</td><td>$8,400</td></tr>
-<tr><th scope="row">Foundation and Alyce slice</th><td>$6,000</td><td>$10,500</td><td>$15,000</td></tr>
-<tr><th scope="row">Move part of the app</th><td>not needed</td><td>not needed</td><td>$9,000 to $24,000</td></tr>
-<tr><th scope="row">Alyce core</th><td>$12,000</td><td>$18,000</td><td>$24,000</td></tr>
-<tr><th scope="row">Guardrails</th><td>$6,000</td><td>$9,000</td><td>$13,500</td></tr>
-<tr><th scope="row">Launch</th><td>$3,000</td><td>$4,500</td><td>$7,500</td></tr>
-<tr class="tot"><th scope="row">All in, fees</th><td>$35,400</td><td>$50,400</td><td>$77,400 to $92,400</td></tr>
-</tbody></table></div>
-<ul>
-<li>Plan on <strong>$50,400</strong>. Keep a further $27,000 to $42,000 in reserve, used only for the worst case and only with your written OK.</li>
-<li>The audit costs at most $8,400; any overrun is mine. Half at the start, half on delivery.</li>
-<li>Audit and the first build step share one agreement. The first step is approved up to $6,000; anything more waits for your OK on the firm quote.</li>
-<li>Every build step has a written cap. Going over needs your written OK. Billed every two weeks.</li>
-<li>If you continue after the audit, <span class="tbd">$1,500</span> comes off the first build bill.</li>
-<li>Tools such as the AI provider, Supabase and Lovable are billed by each provider to you directly, about <span class="tbd">$X to $Y</span> a month. The audit narrows it and recommends spending caps.</li>
-</ul>
-<h3>Optional</h3>
-<ul>
-<li><strong>Hours block:</strong> 10 hours for $1,500, used within 3 months, for extra review rounds, questions after launch and upkeep. More time is a new block, never a running tab.</li>
-<li><strong>Focus-group and beta support:</strong> up to <span class="tbd">N</span> sessions, evenings included, booked 5 business days ahead.</li>
-<li><strong>Ages+ review</strong> after the Alyce core: about 10 hours, $1,500.</li>
-</ul>
-</section>
-
-<section aria-labelledby="stop"><h2 id="stop">You are never locked in</h2>
-<div class="tablewrap"><table>
-<thead><tr><th scope="col">Stop after</th><th scope="col">You keep</th></tr></thead>
-<tbody>
-<tr><th scope="row">Audit</th><td>The first-steps list, the keep or rebuild table, the roadmap, the provider pick, and a quote any developer can bid against</td></tr>
-<tr><th scope="row">Foundation</th><td>A secured setup and the clickable Alyce slice, enough to show funders</td></tr>
-<tr><th scope="row">Alyce core</th><td>Alyce working end to end, ready for internal testing and focus groups</td></tr>
-<tr><th scope="row">Guardrails</th><td>The guardrail tests and results, rerunnable on any later change</td></tr>
-<tr><th scope="row">Launch</th><td>Everything deployed, with the runbook</td></tr>
-</tbody></table></div>
-<p>To stop at a checkpoint, send one email within 5 business days. Mid-step, either of us can end with two weeks' notice; you pay for hours worked and that work is yours. Everything already lives in your accounts, so there is nothing to move.</p>
-</section>
-
-<section aria-labelledby="who"><h2 id="who">Who does what</h2>
-<div class="tablewrap"><table>
-<tbody>
-<tr><th scope="row">Zach</th><td>Every technical step, the build, a short weekly note. I do the work myself; anyone who helps is approved by you by name first. Fairfield CT, Eastern time.</td></tr>
-<tr><th scope="row">Chelsea</th><td>Product and design direction; one combined list of comments per review. About <span class="tbd">4 to 6</span> hours during the audit, then about 1 hour a week.</td></tr>
-<tr><th scope="row">Kelly</th><td>Budget sign-off and dates.</td></tr>
-<tr><th scope="row">Leah</th><td>The "never say" list with counsel, and final sign-off on Alyce's voice.</td></tr>
-</tbody></table></div>
-<p>Reach me on Slack, email or text, whichever suits you. Each week: a short plan on Monday, a 30-minute demo on Thursday, and a Friday note with hours used and any decisions or changes, so nothing agreed in a quick message gets lost. Everything happens in accounts you own; you add me as a member and remove me at the end.</p>
-</section>
-
-<section aria-labelledby="rules"><h2 id="rules">Reviews, fixes and changes</h2>
-<ul>
-<li><strong>Reviews:</strong> 2 rounds per piece of work, 3 for Alyce's voice. One round is one combined list, sent within 5 business days of a demo.</li>
-<li><strong>Fixes:</strong> each step starts with a short list of checks. Anything that fails a check, I fix free, until 30 days after launch.</li>
-<li><strong>Changes:</strong> new ideas are quoted first and need your OK. Work outside the agreed steps is at my standard $275 an hour, quoted first. If a decision waits more than two weeks, the dates move; the price does not.</li>
-<li><strong>After launch:</strong> I reply to any issue within 4 business hours.</li>
-</ul>
-</section>
-
-<section aria-labelledby="data"><h2 id="data">Data, ownership and the law</h2>
-<p class="note">I'm not a lawyer, and none of this is legal advice. Your counsel decides; I bring them short, specific questions.</p>
-<ul>
-<li><strong>Children's data:</strong> each family's data is kept strictly apart, with parent and child permissions. Made-up data only until launch.</li>
-<li><strong>Questions for counsel:</strong> does HIPAA apply, and what must Supabase and the AI provider sign? Do children ever use the app directly (COPPA)? What must Alyce say about being an AI under Connecticut law? Is a data protection assessment needed before launch?</li>
-<li><strong>Ownership:</strong> everything I make for MyAlly is yours. Methods I had before stay mine, and you get a free, permanent licence to any of them inside your app.</li>
-<li><strong>AI tools:</strong> the tools I use on your materials are <span class="tbd">named here</span>, set so they never train on your data.</li>
-<li><strong>Calls:</strong> I record or transcribe only if you say yes at the start of that call.</li>
-<li><strong>Liability</strong> and insurance are set in the services agreement with your counsel.</li>
-<li>On our first call I mentioned a $2 million figure from memory. Please disregard it; it is a question for your counsel.</li>
-</ul>
-</section>
-
-<section aria-labelledby="provider"><h2 id="provider">Which AI provider</h2>
-<p>I compare Anthropic, OpenAI and others on their own published terms: agreements for health data, how long they keep data, rules for children under 13, cost and tone. The audit confirms the pick. Alyce talks to one internal layer, and her prompts and tests live in your accounts, so a later switch is not a rebuild.</p>
-</section>
-
-<section aria-labelledby="ages"><h2 id="ages">Ages+</h2>
-<p>What carries over: the structure, the guardrail tests, the provider layer and the way data is kept apart, now for an adult child helping a parent. What it adds: questions about consent and capacity, care and benefits terms, and likely different questions for counsel. An optional review after the Alyce core: about 10 hours, $1,500.</p>
-</section>
-
-<section aria-labelledby="exp"><h2 id="exp">Experience and references</h2>
-<p>You have already seen how I work: the plan on this site, the NDA notes, and our first conversation. I don't have a children's product in my record yet; the audit is how you check my work before committing to the build. References are available on request.</p>
-</section>
-
-<section aria-labelledby="next"><h2 id="next">Before we start: a short checklist</h2>
-<p>Everything I need to begin, in order. Most of it takes minutes.</p>
-<ol class="hand">
-<li><strong>Countersign the NDA.</strong> My signed copy is on the <a href="/mnda-edits">NDA page</a>.</li>
-<li><strong>Fill in page 1 of the <a href="https://tally.so/r/xXkrP5" target="_blank" rel="noopener">intake form (opens in a new tab)</a>.</strong> About 5 minutes. The rest is optional.</li>
-<li><strong>Tell me, yes or no: is any real family or child information in the app today, even from testing?</strong> If yes or not sure, I won't open live data. We use a copy with made-up records, or I look only at the structure.</li>
-<li><strong>Share the documents in one folder:</strong> the build spec, roadmap, user stories or parent journeys, cost model, and any notes for or from your lawyers.</li>
-<li><strong>Add me as a member</strong> (my own login, never a shared one) to Lovable, Supabase, your AI provider's console, and GitHub if you use it.</li>
-<li><strong>Name your lawyer</strong>, with a way to reach them.</li>
-<li><strong>Hold four times:</strong> 45 minutes each with Chelsea, Kelly and Leah in week 1, and 60 minutes together in week 2.</li>
-<li><strong>Sign the agreement</strong> and pay the first half of the audit. Then we start.</li>
-</ol>
-<p class="note"><strong>Please leave out:</strong> anything about a real family or child (names, IEPs, evaluations, school records, photos, including screenshots), passwords or keys, and card or bank details. Business figures are fine to share under our NDA; blank out any you'd rather talk through.</p>
-<p>Rather talk it through? Tell me and we will do it together on a call.</p>
-</section>
-<p class="nfoot">Happy to talk any of this through. If something here doesn't fit how you work, tell me and we'll change it.</p>
-<p class="back"><a href="/">Back to the plan</a></p>
-</main>
+<p class="lede">You keep shaping the product; I connect Alyce underneath it. Lovable stays your interface. Five steps, a plain price for each, and you can stop after any of them.</p>
+<div class="exec"><div class="kpi"><span class="kl">Most likely, all in</span><span class="kv">$50,400</span></div><div class="kpi"><span class="kl">First step</span><span class="kv">2-week audit, $8,400</span></div><div class="kpi"><span class="kl">Launch-ready</span><span class="kv">about week 16</span></div><div class="kpi"><span class="kl">Rate</span><span class="kv">$150/hr, about 45% off</span></div></div>
+<p class="ask"><strong>To start:</strong> countersign the NDA and fill in page 1 of the <a href="https://tally.so/r/xXkrP5" target="_blank" rel="noopener">intake form (opens in a new tab)</a>. About 5 minutes. The full checklist is below.</p>
+<hr class="rule"><section class="lvl lvl-strategic" aria-labelledby="plan"><h2 id="plan">Five steps. The audit comes first, so nothing is built on a guess.</h2><ol class="steps"><li class="step"><span class="sn" aria-hidden="true">1</span><span class="sname">Audit</span><span class="swhat">find what must be true before anything is built</span><span class="scost"><span class="num">56 h · $8,400 fixed</span></span></li><li class="step"><span class="sn" aria-hidden="true">2</span><span class="sname">Foundation</span><span class="swhat">a safe base, plus a first Alyce you can click</span><span class="scost"><span class="num">70 h · $10,500</span></span></li><li class="step"><span class="sn" aria-hidden="true">3</span><span class="sname">Alyce core</span><span class="swhat">working end to end on made-up data</span><span class="scost"><span class="num">120 h · $18,000</span></span></li><li class="step"><span class="sn" aria-hidden="true">4</span><span class="sname">Guardrails</span><span class="swhat">tested before every release</span><span class="scost"><span class="num">60 h · $9,000</span></span></li><li class="step"><span class="sn" aria-hidden="true">5</span><span class="sname">Launch</span><span class="swhat">deployed, with a runbook</span><span class="scost"><span class="num">30 h · $4,500</span></span></li></ol><p class="dim">Build prices are the most likely case. The audit turns them into firm caps.</p></section>
+<hr class="rule"><section class="lvl lvl-strategic" aria-labelledby="cases"><h2 id="cases">Plan on $50,400. The audit tells us which case we are in before any build money is spent.</h2><div class="cases"><div class="case"><h3>Best: the foundation holds</h3><p>The base is ready for Alyce. The first step is short.</p><p class="cmeta"><span class="num">$35,400</span> all in · about 11 weeks</p></div><div class="case pick"><h3>Base: a few settings to tighten<span class="tag pick">plan on this</span></h3><p>The screens carry over. Settings that are fine for four testers get tightened before a real family&#x27;s IEP goes in.</p><p class="cmeta"><span class="num">$50,400</span> all in · about 16 weeks</p></div><div class="case"><h3>Worst: a decision comes first</h3><p>Some data needs a different home, or a provider can&#x27;t sign what&#x27;s needed. We decide together before Alyce is built.</p><p class="cmeta"><span class="num">$77,400 to $92,400</span> all in · about 25 to 30 weeks</p></div></div><p class="dim">Finding a worst case in a two-week audit, rather than after families are using Alyce, is the reason the audit comes first.</p></section>
+<hr class="rule"><section class="lvl lvl-operational" aria-labelledby="start"><h2 id="start">Eight things to start, most of them minutes.</h2><ol class="hand"><li><strong>Countersign the NDA.</strong> My signed copy is on the <a href="/mnda-edits">NDA page</a>.</li><li><strong>Fill in page 1 of the <a href="https://tally.so/r/xXkrP5" target="_blank" rel="noopener">intake form (opens in a new tab)</a>.</strong> About 5 minutes. The rest is optional.</li><li><strong>Tell me, yes or no: is any real family or child information in the app today, even from testing?</strong> If yes or not sure, I won&#x27;t open live data. We use a copy with made-up records, or I look only at the structure.</li><li><strong>Share the documents in one folder:</strong> the build spec, roadmap, user stories or parent journeys, cost model, and any notes for or from your lawyers.</li><li><strong>Add me as a member</strong> (my own login, never a shared one) to Lovable, Supabase, your AI provider&#x27;s console, and GitHub if you use it.</li><li><strong>Name your lawyer</strong>, with a way to reach them.</li><li><strong>Hold four times:</strong> 45 minutes each with Chelsea, Kelly and Leah in week 1, and 60 minutes together in week 2.</li><li><strong>Sign the agreement</strong> and pay the first half of the audit. Then we start.</li></ol><p class="note"><strong>Please leave out:</strong> anything about a real family or child (names, IEPs, evaluations, school records, photos, including screenshots), passwords or keys, and card or bank details. Business figures are fine under our NDA; blank out any you&#x27;d rather talk through.</p><p>Rather talk it through? Tell me and we will do it together on a call.</p></section>
+<hr class="rule"><section class="lvl lvl-operational" aria-labelledby="audit"><h2 id="audit">The audit: two weeks, $8,400, and you keep everything it produces.</h2><p>Looking out (what Alyce must serve: your parent journeys, what she must never say, the questions for your lawyer, your dates) and looking in (the spec, the code, how data is stored), at the same time. Week 2 brings them together with you.</p><div class="tablewrap"><table><caption class="vh">What the audit delivers</caption><tbody><tr><th scope="row">Spec check</th><td>Each item in your spec: built, partly built, not built, or only planned</td></tr><tr><th scope="row">Keep, adjust or rebuild</th><td>Each area scored on six questions, with the evidence and the cost both ways</td></tr><tr><th scope="row">Data map</th><td>Each kind of data, where it lives, who can see it, and how each family is kept apart</td></tr><tr><th scope="row">Dependency map</th><td>What has to happen before what: technical, legal, vendor, and decisions only you can make</td></tr><tr><th scope="row">First steps</th><td>What every later step depends on, each with what done looks like. I own every technical one.</td></tr><tr><th scope="row">AI provider</th><td>Which one, why, and how to switch later</td></tr><tr><th scope="row">Case and quote</th><td>Best, base or worst, with the evidence; a firm cap per step</td></tr><tr><th scope="row">Three working sheets</th><td>Questions for your lawyer; Alyce&#x27;s always, check and never lists; accounts and costs</td></tr></tbody></table></div><p class="note">I test with made-up accounts only and never download or copy documents. If I see real family data, I stop and tell Chelsea the same day.</p></section>
+<hr class="rule"><section class="lvl lvl-operational" aria-labelledby="who"><h2 id="who">You lead the product; I do every technical step.</h2><div class="tablewrap"><table><caption class="vh">Who does what</caption><tbody><tr><th scope="row">Zach</th><td>Every technical step, the build, a short weekly note. I do the work myself. Fairfield CT, Eastern time.</td></tr><tr><th scope="row">Chelsea</th><td>Product and design direction; one combined list of comments per review. About <span class="tbd">4 to 6</span> hours during the audit, then about 1 hour a week.</td></tr><tr><th scope="row">Kelly</th><td>Budget sign-off and dates.</td></tr><tr><th scope="row">Leah</th><td>The never-say list with your lawyer, and final sign-off on Alyce&#x27;s voice.</td></tr></tbody></table></div><p>Reach me on Slack, email or text. Each week: a short plan on Monday, a 30-minute demo on Thursday, and a Friday note with hours used and any decisions or changes.</p></section>
+<hr class="rule"><section class="lvl lvl-tactical" aria-labelledby="cost"><details><summary><h2 id="cost">Cost, step by step, in all three cases</h2></summary><div class="fold"><p><strong>$150 an hour</strong>, a friends-and-family rate. My standard rate is $275, so this is about 45% off.</p><div class="tablewrap"><table><caption class="vh">Cost by step and case</caption><thead><tr><th scope="col">Step</th><th scope="col">Best</th><th scope="col">Base</th><th scope="col">Worst</th></tr></thead><tbody><tr><th scope="row">Audit (fixed)</th><td><span class="num">$8,400</span></td><td><span class="num">$8,400</span></td><td><span class="num">$8,400</span></td></tr><tr><th scope="row">Foundation and Alyce slice</th><td><span class="num">$6,000</span></td><td><span class="num">$10,500</span></td><td><span class="num">$15,000</span></td></tr><tr><th scope="row">Move part of the app</th><td><span class="num">not needed</span></td><td><span class="num">not needed</span></td><td><span class="num">$9,000 to $24,000</span></td></tr><tr><th scope="row">Alyce core</th><td><span class="num">$12,000</span></td><td><span class="num">$18,000</span></td><td><span class="num">$24,000</span></td></tr><tr><th scope="row">Guardrails</th><td><span class="num">$6,000</span></td><td><span class="num">$9,000</span></td><td><span class="num">$13,500</span></td></tr><tr><th scope="row">Launch</th><td><span class="num">$3,000</span></td><td><span class="num">$4,500</span></td><td><span class="num">$7,500</span></td></tr><tr class="tot"><th scope="row">All in, fees</th><td><span class="num">$35,400</span></td><td><span class="num">$50,400</span></td><td><span class="num">$77,400 to $92,400</span></td></tr></tbody></table></div><ul><li>Keep a further $27,000 to $42,000 in reserve, used only for the worst case and only with your written OK.</li><li>The audit costs at most $8,400; any overrun is mine. Half at the start, half on delivery.</li><li>One agreement covers the audit and the first build step. The first $6,000 of that step is approved in advance; anything more waits for your OK on the audit&#x27;s quote.</li><li>Every build step has a written cap. Going over needs your written OK. Billed every two weeks.</li><li>If you continue after the audit, <span class="tbd">$1,500</span> comes off the first build bill.</li><li>Tools (AI provider, Supabase, Lovable, hosting) are billed to you directly, about <span class="tbd">$X to $Y</span> a month. The audit narrows it.</li><li>Optional: a 10-hour block for $1,500 for questions and upkeep; focus-group support at $3,000 per 20 hours; an Ages+ review for $1,500.</li></ul></div></details></section>
+<hr class="rule"><section class="lvl lvl-tactical" aria-labelledby="stop"><details><summary><h2 id="stop">You are never locked in: stop after any step and keep everything</h2></summary><div class="fold"><div class="tablewrap"><table><caption class="vh">What you keep</caption><tbody><tr><th scope="row">Audit</th><td>The first-steps list, the keep or rebuild table, the roadmap, the provider pick, and a quote any developer can bid against</td></tr><tr><th scope="row">Foundation</th><td>A secured setup and the clickable Alyce, enough to show funders</td></tr><tr><th scope="row">Alyce core</th><td>Alyce working end to end, ready for testing and focus groups</td></tr><tr><th scope="row">Guardrails</th><td>The guardrail tests and results, rerunnable on any later change</td></tr><tr><th scope="row">Launch</th><td>Everything deployed, with the runbook</td></tr></tbody></table></div><p>To stop at a checkpoint, send one email within 5 business days. Mid-step, either of us can end with two weeks&#x27; notice; you pay for hours worked and that work is yours. Everything already lives in your accounts.</p></div></details></section>
+<hr class="rule"><section class="lvl lvl-tactical" aria-labelledby="rules"><details><summary><h2 id="rules">Reviews, fixes and changes, in plain terms</h2></summary><div class="fold"><ul><li><strong>Reviews:</strong> 2 rounds per piece of work, 3 for Alyce&#x27;s voice. One round is one combined list, sent within 5 business days of a demo.</li><li><strong>Fixes:</strong> each step starts with a short list of checks. Anything that fails a check I fix free, until 30 days after launch.</li><li><strong>Changes:</strong> new ideas are quoted first and need your OK. Work outside the agreed steps is at my standard $275 an hour, quoted first. If a decision waits more than two weeks, the dates move; the price does not.</li><li><strong>After launch:</strong> I reply to any issue within 4 business hours.</li></ul></div></details></section>
+<hr class="rule"><section class="lvl lvl-surgical" aria-labelledby="s0"><details><summary><h2 id="s0">Data, ownership and the law</h2></summary><div class="fold"><p class="note">I&#x27;m not a lawyer, and none of this is legal advice. Your lawyer decides; I bring short, specific questions.</p><ul><li><strong>Children&#x27;s data:</strong> each family&#x27;s data kept strictly apart, with parent and child permissions. Made-up data only until launch.</li><li><strong>Questions for your lawyer:</strong> does HIPAA apply, and what must Supabase and the AI provider sign? Do children ever use the app directly (COPPA)? What must Alyce say about being an AI under Connecticut law? Is a data protection assessment needed before launch?</li><li><strong>Ownership:</strong> everything I make for MyAlly is yours. Methods I had before stay mine, and you get a free, permanent licence to any of them inside your app.</li><li><strong>AI tools:</strong> the tools I use on your materials are <span class="tbd">named here</span>, set so they never train on your data.</li><li><strong>Calls:</strong> I record or transcribe only if you say yes at the start of that call.</li><li><strong>Liability</strong> and insurance are set in the services agreement with your lawyer.</li><li>On our first call I mentioned a $2 million figure from memory. Please disregard it; it is a question for your lawyer.</li></ul></div></details></section>
+<hr class="rule"><section class="lvl lvl-surgical" aria-labelledby="s1"><details><summary><h2 id="s1">Which AI provider</h2></summary><div class="fold"><ul><li>I compare Anthropic, OpenAI and others on their own published terms: agreements for health data, how long they keep data, rules for children under 13, cost and tone. The audit confirms the pick.</li><li>Alyce talks to one internal layer, and her prompts and tests live in your accounts, so a later switch is not a rebuild.</li></ul></div></details></section>
+<hr class="rule"><section class="lvl lvl-surgical" aria-labelledby="s2"><details><summary><h2 id="s2">Ages+</h2></summary><div class="fold"><ul><li><strong>Carries over:</strong> the structure, the guardrail tests, the provider layer, and how data is kept apart, now for an adult child helping a parent.</li><li><strong>Adds:</strong> questions about consent and capacity, care and benefits terms, and likely different questions for your lawyer.</li><li><strong>Optional review</strong> after the Alyce core: about 10 hours, $1,500.</li></ul></div></details></section>
+<hr class="rule"><section class="lvl lvl-surgical" aria-labelledby="s3"><details><summary><h2 id="s3">Experience and references</h2></summary><div class="fold"><ul><li>You have already seen how I work: the plan on this site, the NDA notes, and our first conversation.</li><li>I don&#x27;t have a children&#x27;s product in my record yet; the audit is how you check my work before committing to the build. References are available on request.</li></ul></div></details></section>
+<p class="nfoot">Happy to talk any of this through. If something here doesn&#x27;t fit how you work, tell me and we&#x27;ll change it.</p>
+<p class="back"><a href="/">Back to the plan</a></p></main>
 
 </body>
 </html>
