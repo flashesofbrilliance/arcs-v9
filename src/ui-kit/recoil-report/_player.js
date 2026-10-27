@@ -147,7 +147,9 @@
     var scrub = q("[data-scrub]"), status = q("[data-status]"), playBtn = q("[data-play]");
     scrub.max = String(Math.round(dur));
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { playBtn.hidden = true; q("[data-reverse]").hidden = true; }
+    if (reduce) playBtn.hidden = true;
+    var LEVELS = ["gist", "moments", "beats", "motion", "full"];
+    function at(level) { return LEVELS.indexOf(state.detail) >= LEVELS.indexOf(level); }
 
     var track = q("[data-track]");
     track.style.gridTemplateColumns = "64px repeat(" + player.beats.length + ", minmax(44px, 1fr))";
@@ -179,21 +181,22 @@
       q("[data-clock]").textContent = fmtT(state.t) + " / " + fmtT(dur);
     }
     function renderBeat(i) {
-      var b = player.beats[i], box = q("[data-beat]"), d = state.detail;
+      var b = player.beats[i], box = q("[data-beat]");
+      var rw = q("[data-readout-wrap]"); if (rw) rw.hidden = !at("motion");
       box.textContent = "";
       var head = document.createElement("div"); head.className = "pl-beat-head";
       var num = document.createElement("span"); num.className = "chip" + (b.kairos ? " " + (LOCK[b.kairos.lock] || "cyan") : ""); num.textContent = "Beat " + (i + 1);
       head.appendChild(num);
-      if (d !== "gist") { var who = document.createElement("span"); who.className = "ref"; who.textContent = b.speaker + ", " + fmtT(b.t_start) + " to " + fmtT(b.t_end); head.appendChild(who); }
+      if (at("beats")) { var who = document.createElement("span"); who.className = "ref"; who.textContent = b.speaker + ", " + fmtT(b.t_start) + " to " + fmtT(b.t_end); head.appendChild(who); }
       box.appendChild(head);
       var p = document.createElement("p"); p.className = "pl-summary"; p.textContent = b.summary; box.appendChild(p);
-      if (b.kairos) {
+      if (b.kairos && at("moments")) {
         var k = document.createElement("p"); k.className = "led " + (b.kairos.lock === "locked" ? "on" : "");
         k.textContent = "Kairos: " + b.kairos.label + ". Write-lock " + b.kairos.lock + ".";
         box.appendChild(k);
       }
-      if (d === "full" && b.evidence) { var e = document.createElement("blockquote"); e.className = "pl-quote"; e.textContent = "“" + b.evidence + "”"; box.appendChild(e); }
-      if (d !== "gist" && b.belief_deltas && b.belief_deltas.length) {
+      if (at("full") && b.evidence) { var e = document.createElement("blockquote"); e.className = "pl-quote"; e.textContent = "“" + b.evidence + "”"; box.appendChild(e); }
+      if (at("beats") && b.belief_deltas && b.belief_deltas.length) {
         var ul = document.createElement("ul"); ul.className = "pl-deltas";
         b.belief_deltas.forEach(function (x) {
           var m = player.manifold.filter(function (mm) { return mm.belief === x.belief; })[0];
@@ -222,8 +225,11 @@
     function say(s) { status.textContent = s; }
     function step(n) { stop(); var i = clamp(beatAt(player, state.t) + n, 0, player.beats.length - 1); seek(player.beats[i].t_start); say("Beat " + (i + 1) + " of " + player.beats.length + "."); }
 
-    playBtn.addEventListener("click", function () { state.playing && state.dir > 0 ? (stop(), say("Paused.")) : start(1); });
-    q("[data-reverse]").addEventListener("click", function () { state.playing && state.dir < 0 ? (stop(), say("Paused.")) : start(-1); });
+    var wantDir = 1;
+    playBtn.addEventListener("click", function () { state.playing ? (stop(), say("Paused.")) : start(wantDir); });
+    rootEl.querySelectorAll("[name=dir]").forEach(function (r) {
+      r.addEventListener("change", function () { wantDir = +r.value; if (state.playing) start(wantDir); });
+    });
     q("[data-back]").addEventListener("click", function () { step(-1); });
     q("[data-fwd]").addEventListener("click", function () { step(1); });
     scrub.addEventListener("input", function () { stop(); seek(+scrub.value); });
@@ -242,7 +248,7 @@
     drawRungs(rootEl, player);
     seek(0);
     say(reduce ? "Ready. Step with Back and Forward, the beat track, or the scrubber."
-               : "Ready. Play goes forward; Reverse plays the call backwards.");
+               : "Ready. Set direction and speed, then Play.");
   }
 
   /* Resolution ladder previews: the same manifold at three detail levels. */
@@ -252,12 +258,15 @@
       var level = cv.getAttribute("data-level"), c = cv.getContext("2d"), w = cv.width, h = cv.height;
       c.fillStyle = css.getPropertyValue("--bg"); c.fillRect(0, 0, w, h);
       player.manifold.forEach(function (m, i) {
-        var pts = level === "gist" ? [m.points[0], m.points[m.points.length - 1]] : m.points;
+        var pts = level === "gist" ? [m.points[0], m.points[m.points.length - 1]]
+          : level === "moments" ? [m.points[0]].concat(player.beats.map(function (b, k) { return b.kairos ? m.points[k + 1] : null; }).filter(function (v) { return v !== null; }), [m.points[m.points.length - 1]])
+          : m.points;
         c.strokeStyle = css.getPropertyValue("--" + SERIES[i % SERIES.length]); c.lineWidth = 2; c.beginPath();
         pts.forEach(function (v, k) { var x = 6 + (w - 12) * k / (pts.length - 1), y = 6 + (h - 12) * (1 - v); k ? c.lineTo(x, y) : c.moveTo(x, y); });
         c.stroke();
+        if (level === "full") pts.forEach(function (v, k) { c.fillStyle = c.strokeStyle; c.fillRect(6 + (w - 12) * k / (pts.length - 1) - 1.5, 6 + (h - 12) * (1 - v) - 1.5, 3, 3); });
       });
-      if (level === "full") {
+      if (level === "motion" || level === "full") {
         var dur = duration(player);
         player.beats.forEach(function (b) {
           if (!b.kairos) return;

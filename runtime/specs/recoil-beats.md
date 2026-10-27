@@ -35,6 +35,7 @@ graph) and the shared `src/ui-kit/recoil-report/_player.js`. The demo (`recoil-p
 `scripts/backlog_graph.py --file runtime/recoil/demo/backlog-demo.jsonl --today 2026-10-27 --json`. All demo
 data is invented.
 
-Tempo: real time plays one call second per second; max recall plays the whole call in about 8 seconds; slow mo
-dwells about 6 seconds on each beat and 12 on a kairos beat. Reverse plays at the chosen tempo backwards.
-Detail: gist (summary only), beats (speaker, time, belief moves), full recall (plus the evidence quote).
+Tempo has two stages. Direction: Reverse or Forward; Play follows it. Speed: real time plays one call second
+per second; max recall plays the whole call in about 8 seconds; slow mo dwells about 6 seconds on each beat and 12
+on a kairos beat. Detail has five levels, each adding to the one before: 1 Gist (summary), 2 Moments (kairos and
+lock state), 3 Beats (speaker, time, belief moves), 4 Motion (the D1 to D3 table), 5 Full recall (the evidence quote).

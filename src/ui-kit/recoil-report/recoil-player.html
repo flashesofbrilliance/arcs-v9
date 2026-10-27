@@ -121,6 +121,11 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 .rung input { position: absolute; opacity: 0; pointer-events: none; }
 .rung input:focus-visible + canvas { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .sqrow { min-width: 0; }
+.pl-detail { grid-column: 1 / -1; }
+.pl-detail .rungs { grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); }
+.pl-stages { display: flex; flex-direction: column; gap: 10px; }
+.pl-stage { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: center; }
+.pl-readout[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -129,17 +134,22 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 <p>Play the call forwards at full recall, or in reverse to trace how each belief moved. Every name, line and number here is invented for the demo.</p></header>
 <section class="pl-controls" aria-label="Playback">
 <div><h2 class="section-label">Transport</h2>
-<div class="tp"><button class="btn" type="button" data-reverse aria-pressed="false">Reverse</button><button class="btn" type="button" data-back>Back</button><button class="btn" type="button" data-play aria-pressed="false">Play</button><button class="btn" type="button" data-fwd>Forward</button><span class="pl-clock" data-clock>0:00</span>
+<div class="tp"><button class="btn" type="button" data-back>Back</button><button class="btn" type="button" data-play aria-pressed="false">Play</button><button class="btn" type="button" data-fwd>Forward</button><span class="pl-clock" data-clock>0:00</span>
 <input type="range" min="0" value="0" data-scrub aria-label="Scrub the call">
 <span class="hint" role="status" data-status></span></div></div>
 <div><h2 class="section-label" id="tempo-h">Tempo</h2>
-<div class="seg" role="radiogroup" aria-labelledby="tempo-h"><input type="radio" name="tempo" id="t1" value="slow"><label for="t1">Slow mo</label><input type="radio" name="tempo" id="t2" value="real" checked><label for="t2">Real time</label><input type="radio" name="tempo" id="t3" value="max"><label for="t3">Max recall</label></div>
-<p class="hint" style="margin-top:8px">Slow mo dwells on each beat, twice as long on a kairos beat.</p></div>
-<div><h2 class="section-label" id="detail-h">Detail</h2>
+<div class="pl-stages">
+<div class="pl-stage"><span class="tpl" id="dir-h">Direction</span><div class="seg" role="radiogroup" aria-labelledby="tempo-h dir-h"><input type="radio" name="dir" id="d1" value="-1"><label for="d1">Reverse</label><input type="radio" name="dir" id="d2" value="1" checked><label for="d2">Forward</label></div></div>
+<div class="pl-stage"><span class="tpl" id="speed-h">Speed</span><div class="seg" role="radiogroup" aria-labelledby="tempo-h speed-h"><input type="radio" name="tempo" id="t1" value="slow"><label for="t1">Slow mo</label><input type="radio" name="tempo" id="t2" value="real" checked><label for="t2">Real time</label><input type="radio" name="tempo" id="t3" value="max"><label for="t3">Max recall</label></div></div>
+</div>
+<p class="hint" style="margin-top:8px">Play follows the direction. Slow mo dwells on each beat, twice as long on a kairos beat.</p></div>
+<div class="pl-detail"><h2 class="section-label" id="detail-h">Detail</h2>
 <div class="rungs" role="radiogroup" aria-labelledby="detail-h">
-<figure class="rung"><label><input type="radio" name="detail" value="gist" aria-label="Gist"><canvas width="128" height="72" data-level="gist" aria-hidden="true"></canvas></label><figcaption>Gist</figcaption></figure>
-<figure class="rung on"><label><input type="radio" name="detail" value="beats" aria-label="Beats" checked><canvas width="128" height="72" data-level="beats" aria-hidden="true"></canvas></label><figcaption>Beats</figcaption></figure>
-<figure class="rung"><label><input type="radio" name="detail" value="full" aria-label="Full recall"><canvas width="128" height="72" data-level="full" aria-hidden="true"></canvas></label><figcaption>Full recall</figcaption></figure>
+<figure class="rung"><label><input type="radio" name="detail" value="gist" aria-label="Gist"><canvas width="128" height="72" data-level="gist" aria-hidden="true"></canvas></label><figcaption>1 Gist</figcaption></figure>
+<figure class="rung"><label><input type="radio" name="detail" value="moments" aria-label="Moments"><canvas width="128" height="72" data-level="moments" aria-hidden="true"></canvas></label><figcaption>2 Moments</figcaption></figure>
+<figure class="rung on"><label><input type="radio" name="detail" value="beats" aria-label="Beats" checked><canvas width="128" height="72" data-level="beats" aria-hidden="true"></canvas></label><figcaption>3 Beats</figcaption></figure>
+<figure class="rung"><label><input type="radio" name="detail" value="motion" aria-label="Motion"><canvas width="128" height="72" data-level="motion" aria-hidden="true"></canvas></label><figcaption>4 Motion</figcaption></figure>
+<figure class="rung"><label><input type="radio" name="detail" value="full" aria-label="Full recall"><canvas width="128" height="72" data-level="full" aria-hidden="true"></canvas></label><figcaption>5 Full recall</figcaption></figure>
 </div></div>
 </section>
 <section aria-labelledby="track-h"><h2 class="section-label" id="track-h">Beats</h2>
@@ -147,7 +157,7 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 <div class="pl-grid">
 <section class="mf" aria-labelledby="mf-h"><h2 class="section-label" id="mf-h">Belief manifold</h2>
 <svg data-manifold role="img" aria-label="Belief confidence over the call, with kairos moments pinned"></svg>
-<div class="mf-scroll" tabindex="0" role="region" aria-label="Kinematics at the scrub head"><table class="mf-table"><thead><tr><th scope="col" style="text-align:left">Belief</th><th scope="col">Confidence</th><th scope="col">D1 speed</th><th scope="col">D2 accel</th><th scope="col">D3 jerk</th></tr></thead><tbody data-readout></tbody></table></div></section>
+<div class="pl-readout" data-readout-wrap><div class="mf-scroll" tabindex="0" role="region" aria-label="Kinematics at the scrub head"><table class="mf-table"><thead><tr><th scope="col" style="text-align:left">Belief</th><th scope="col">Confidence</th><th scope="col">D1 speed</th><th scope="col">D2 accel</th><th scope="col">D3 jerk</th></tr></thead><tbody data-readout></tbody></table></div></div></section>
 <section aria-labelledby="beat-h"><h2 class="section-label" id="beat-h">This beat</h2><div class="pl-beat" data-beat aria-live="polite"></div></section>
 </div>
 <section aria-labelledby="bg-h"><h2 class="section-label" id="bg-h">Induced backlog</h2>
