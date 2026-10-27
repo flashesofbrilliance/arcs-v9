@@ -29,6 +29,12 @@ Files without it render exactly as before.
 
 ## Rendering
 
+The page answers first: one card per belief (before, after, and the moment that moved it most; click to jump
+there). On load it plays the call once at max recall and rests at the end; with reduced motion it starts at rest
+and Play steps one moment at a time. Space plays or pauses, the arrow keys step. The backlog graph is a cascade:
+press a row to mark it done and whatever it unlocks turns "Ready now".
+
+
 The player template is `recoil-player` in `src/ui-kit/templates.json`; organisms 34 (manifold) and 35 (backlog
 graph) and the shared `src/ui-kit/recoil-report/_player.js`. The demo (`recoil-player.html`) embeds the output of
 `--format player` on `runtime/recoil/demo/2026-10-27-player-demo.json` and of

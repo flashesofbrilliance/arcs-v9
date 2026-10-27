@@ -1,4 +1,4 @@
-<!-- @dsCard group="Instrument Lab" name="Backlog Graph" subtitle="backlog_graph.py output · waves left to right · clusters lettered · branches dotted gold · ready rows lit green" -->
+<!-- @dsCard group="Instrument Lab" name="Backlog Graph" subtitle="backlog_graph.py output as a cascade · columns are waves · press a row to finish it and light what it unlocks" -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +26,14 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 .bg-node.ready rect { stroke: var(--green); fill: var(--green-bg); }
 .bg-id { fill: var(--text); font-family: var(--ds-font-mono); font-size: 11px; font-weight: 600; }
 .bg-cl { fill: var(--text-secondary); font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: 0.06em; }
-.bg-fork { fill: var(--gold); }
+.bg-node { cursor: pointer; outline: none; }
+.bg-node:focus-visible rect { stroke: var(--cyan); stroke-width: 2; }
+.bg-node:hover rect { stroke: var(--text-secondary); }
+.bg-node.done rect { fill: var(--surface); stroke: var(--border); stroke-dasharray: 4 3; }
+.bg-node.done .bg-id { fill: var(--text-secondary); }
+.bg-node.ready .bg-cl { fill: var(--green); }
+.bg-edge.lit { stroke: var(--green); }
+.bg-say { min-height: 1.6em; margin-bottom: 10px; color: var(--text); }
 .bg-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 14px; }
 .bg-facts ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .bg-facts li { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text); overflow-wrap: anywhere; }
@@ -35,20 +42,16 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 <body>
 <main>
 <section aria-labelledby="bg-h"><h1 class="section-label" id="bg-h">Backlog graph</h1>
-<div class="bg-scroll" tabindex="0" role="region" aria-label="Backlog graph, scrolls sideways"><svg data-g role="img" aria-label="Backlog rows by wave with their dependencies"></svg></div>
-<div class="bg-facts" data-facts></div>
+<p class="bg-say" role="status" data-say>Press a row when it is finished. Whatever it unlocks lights up.</p>
+<div class="bg-scroll" tabindex="0" role="region" aria-label="Backlog graph, scrolls sideways"><svg data-g role="group" aria-label="Backlog rows by wave with their dependencies"></svg></div>
 <p class="hint">Made-up demo rows, run through scripts/backlog_graph.py --json.</p></section>
 </main>
 <script src="_player.js"></script>
 <script>
 var G={"today":"2026-10-27","rows":11,"active":11,"nodes":[{"id":"brand-refresh","state":"OPEN","wave":0,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":[],"descendants":1,"cost":null,"consent":null,"tier_cue":2,"ready_now":false},{"id":"ops-lead-intro","state":"OPEN","wave":0,"ripeness":"RIPE","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":[],"descendants":3,"cost":null,"consent":null,"tier_cue":2,"ready_now":true},{"id":"pilot-scope","state":"READY","wave":0,"ripeness":"RIPE","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":[],"descendants":3,"cost":null,"consent":null,"tier_cue":2,"ready_now":true},{"id":"vendor-export-path","state":"OPEN","wave":0,"ripeness":"RIPE","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":[],"descendants":4,"cost":null,"consent":null,"tier_cue":2,"ready_now":true},{"id":"export-dry-run","state":"OPEN","wave":1,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":["vendor-export-path"],"descendants":3,"cost":null,"consent":null,"tier_cue":2,"ready_now":false},{"id":"logo-pass","state":"OPEN","wave":1,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":["brand-refresh"],"descendants":0,"cost":null,"consent":null,"tier_cue":2,"ready_now":false},{"id":"pilot-proposal","state":"OPEN","wave":1,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":["ops-lead-intro","pilot-scope"],"descendants":2,"cost":null,"consent":null,"tier_cue":2,"ready_now":false},{"id":"case-note","state":"OPEN","wave":2,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":["export-dry-run"],"descendants":0,"cost":null,"consent":null,"tier_cue":2,"ready_now":false},{"id":"forecast-baseline","state":"OPEN","wave":2,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":["export-dry-run"],"descendants":1,"cost":null,"consent":null,"tier_cue":2,"ready_now":false},{"id":"pricing-sheet","state":"OPEN","wave":2,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":["pilot-proposal"],"descendants":1,"cost":null,"consent":null,"tier_cue":2,"ready_now":false},{"id":"pilot-kickoff","state":"OPEN","wave":3,"ripeness":"WAITING","tool":"NOT-RESOLVED","tool_resolved":[],"tool_missing":[],"tool_planned":[],"deps":["forecast-baseline","pricing-sheet"],"descendants":0,"cost":null,"consent":null,"tier_cue":2,"ready_now":false}],"findings":{"dangling":[],"dead_dependency":[],"cycle_members":[],"unblocks_mismatch":[]},"critical_path_waves":4};
-ArcsRecoil.facts=function(box,g){var bg=new ArcsRecoil.BacklogGraph(box.previousElementSibling.querySelector("svg"),g);
-function list(t,items){var d=document.createElement("div"),h=document.createElement("h2"),u=document.createElement("ul");h.className="section-label";h.textContent=t;items.forEach(function(x){var l=document.createElement("li");l.textContent=x;u.appendChild(l);});d.appendChild(h);d.appendChild(u);box.appendChild(d);}
-list("Can start now",g.nodes.filter(function(n){return n.ready_now;}).map(function(n){return n.id;}));
-list("Clusters",bg.clusters.map(function(c,i){return String.fromCharCode(65+i)+": "+c.length+" rows, from "+c[0];}));
-list("Branches",Object.keys(bg.kids).filter(function(k){return bg.kids[k]>1;}).map(function(k){return k+" opens "+bg.kids[k]+" rows";}));
-list("Waves",[bg.waves+" waves on the critical path"]);};
-ArcsRecoil.facts(document.querySelector("[data-facts]"),G);
+var say=document.querySelector("[data-say]");
+new ArcsRecoil.BacklogGraph(document.querySelector("[data-g]"),G,function(id,fresh,done){if(!id)return;
+say.textContent=done[id]?(id+" done. "+(fresh.length?"Now ready: "+fresh.join(", ")+".":"Nothing new unlocks yet.")):(id+" back to not done.");});
 </script>
 </body>
 </html>
