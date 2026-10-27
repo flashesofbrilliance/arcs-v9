@@ -365,10 +365,18 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 #sum button:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
 @media (max-width:640px){#sum{grid-template-columns:1fr}#sum button{border-right:0!important;border-bottom:1px solid var(--line)!important}#sum button:last-child{border-bottom:0!important}}
 @media (prefers-reduced-motion:reduce){#sum button::before{transition:none}}
-.themetog{flex:none;display:grid;place-items:center;width:36px;height:36px;margin-left:8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--dim);cursor:pointer}
-.themetog:hover{color:var(--accent);border-color:var(--accent)}.themetog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.themetog{flex:none;display:grid;place-items:center;width:40px;height:40px;margin-left:4px;border:0;border-radius:8px;background:transparent;color:var(--dim);cursor:pointer}
+.themetog:hover{color:var(--accent);background:var(--accent-bg)}.themetog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .themetog svg{width:18px;height:18px}.themetog g,.themetog path.moon{display:none}
 .themetog[data-mode="light"] .sun,.themetog[data-mode="dark"] .moon,.themetog[data-mode="std"] .auto{display:inline}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}.toprow .mast-conf{margin:0}
+.toprow .themetog{display:inline-flex;align-items:center;gap:10px;width:auto;height:48px;padding:0 16px;margin:0;font:inherit;font-size:.925rem;font-weight:600;border:1px solid var(--line);border-radius:999px;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.toprow .themetog svg{width:18px;height:18px;order:0}.toprow .themetog .ttl{order:1}
+.trk{order:2;position:relative;width:34px;height:20px;border-radius:999px;background:var(--line);transition:background .2s}
+.trk::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.themetog[data-mode="dark"] .trk{background:var(--accent)}.themetog[data-mode="dark"] .trk::after{transform:translateX(14px)}
+@media (prefers-reduced-motion:reduce){.trk,.trk::after{transition:none}}
+.toprow .themetog .ttl{color:var(--dim)}.toprow .themetog[data-mode="dark"] .ttl{color:var(--accent)}
 .dside,.fmb,#detail .notes{display:none!important}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}.pane-doc{margin:-20px}.pane-doc iframe{display:block;width:100%;border:0;border-radius:0 0 10px 10px;min-height:200px;background:#fff}@media (max-width:640px){.pane-doc{margin:-14px}}
 </style>
 </head>
@@ -386,10 +394,10 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 </svg>
 <main>
 <h1 class="vh">Alyce for My Ally LD: proposal, timeline and primer</h1>
-<p class="sm-conf mast-conf"><span class="ctag">Confidential</span>Confidential under our mutual NDA. I've signed it; it takes full effect when you countersign.</p>
+<div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Confidential</span>Confidential under our mutual NDA. I've signed it; it takes full effect when you countersign.</p><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><span class="ttl">Dark mode</span><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
 <section class="shell" aria-label="Alyce plan, proposal and risks">
 <div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Chelsea, Kelly and Leah, MyAlly LD</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-10-27">October 27, 2026</time></dd></div><div><dt>Status</dt><dd>Draft for discussion</dd></div></dl></div>
-<div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><div class="tabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Proposal</button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="true">Timeline</button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Primer</button></div><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg></button></div>
+<div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><div class="tabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Proposal</button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="true">Timeline</button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Primer</button></div></div>
 <div class="shell-body">
 <div id="pane-plan" role="tabpanel" aria-labelledby="t-plan">
 <p class="tabnote">Weeks from kickoff, at about 20 hours a week. Pick a point between the best and worst case to see the plan stretch. Choose a row for its details. Confidential under our mutual NDA.</p>
@@ -1474,7 +1482,7 @@ addEventListener('message',e=>{const f=[...document.querySelectorAll('iframe')].
 const root=document.documentElement,RK='myAllyRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab');
 let st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{}}catch(e){}
 const KEYS={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',theme:'data-theme'};
-function applyRead(){{const tg=document.getElementById('themetog');if(tg){const m=st.theme||'std';tg.dataset.mode=m;tg.setAttribute('aria-label','Theme: '+({std:'Auto',light:'Light',dark:'Dark'})[m]+'. Click to change.')}}for(const k in KEYS){const v=st[k];v&&v!=='std'?root.setAttribute(KEYS[k],v):root.removeAttribute(KEYS[k])}
+function applyRead(){{const tg=document.getElementById('themetog');if(tg){const m=st.theme&&st.theme!=='std'?st.theme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');tg.dataset.mode=m;tg.setAttribute('aria-pressed',String(m==='dark'));tg.setAttribute('aria-label','Dark mode')}}for(const k in KEYS){const v=st[k];v&&v!=='std'?root.setAttribute(KEYS[k],v):root.removeAttribute(KEYS[k])}
  ro.querySelectorAll('button[data-k]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===(st[b.dataset.k]||'std'))));render();document.querySelectorAll('iframe').forEach(pf=>pf.contentWindow&&pf.contentWindow.postMessage({alyceRead:st},'*'))}
 function saveRead(){try{localStorage.setItem(RK,JSON.stringify(st))}catch(e){}}
 function openRead(o){ro.hidden=!o;fab.setAttribute('aria-expanded',String(o));if(o)(ro.querySelector('button[aria-pressed="true"]')||ro.querySelector('button')).focus();else fab.focus()}
@@ -1483,7 +1491,7 @@ ro.querySelector('.ro-close').onclick=()=>openRead(false);
 ro.querySelector('.ro-reset').onclick=()=>{st={};saveRead();applyRead()};
 ro.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>{st[b.dataset.k]=b.dataset.v;saveRead();applyRead()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ro.hidden)openRead(false)});
-document.getElementById('themetog')?.addEventListener('click',()=>{const order=['std','light','dark'];st.theme=order[(order.indexOf(st.theme||'std')+1)%3];saveRead();applyRead()});
+document.getElementById('themetog')?.addEventListener('click',()=>{const now=st.theme&&st.theme!=='std'?st.theme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');st.theme=now==='dark'?'light':'dark';saveRead();applyRead()});
 applyRead();
 })();
 </script>
