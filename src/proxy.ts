@@ -40,9 +40,11 @@ const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
 // prefix. This middleware entry is kept as the primary, deterministic
 // mechanism; next.config.ts's fix is the belt-and-suspenders backstop.
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
-  // myally.arcs.care: My Ally LD proposal (root) and its technical primer (/primer). Gated end to end
-  // by the myally passcode block in proxy() before this map is consulted.
-  'myally':    { '/primer': '/myally-primer.html', '/mnda-edits': '/myally-mnda-edits.html', default: '/myally.html' },
+  // myally.arcs.care: one tabbed hub (Proposal, Timeline, Primer). Every page path opens the hub,
+  // which picks its tab from the path (/mnda-edits now lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
+  // The signed PDF maps to itself so the default rewrite does not swallow it. Gated end to end by the
+  // myally passcode block in proxy() before this map is consulted.
+  'myally':    { '/proposal': '/myally-hub.html', '/timeline': '/myally-hub.html', '/mnda-edits': '/myally-hub.html', '/primer': '/myally-hub.html', '/myally-mnda-signed.pdf': '/myally-mnda-signed.pdf', default: '/myally-hub.html' },
   // saul.arcs.care — interview bundle (2026-09-03): root = prep, /followup = forked battle cards, /resume = viewer.
   // Asset paths are mapped to themselves so the default-page rewrite does not swallow the PDFs/txt.
   'saul':      { '/followup': '/saul-followup.html', '/resume': '/saul-resume-viewer.html', '/saul-resume.pdf': '/saul-resume.pdf', '/saul-cover.pdf': '/saul-cover.pdf', '/saul-resume-ats.txt': '/saul-resume-ats.txt', default: '/saul.html' },
