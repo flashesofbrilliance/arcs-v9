@@ -3,6 +3,14 @@
  "holds": [
   {
    "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:myally.arcs.care/proposal",
+   "reason": "MyAlly proposal page shipped as a draft 2026-10-26 before a MyAlly job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-26",
+   "resolve_by": "2026-11-09"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
    "id": "tool:surface:concourse.arcs.care/plan",
    "reason": "surface shipped 2026-10-20 before a job row existed",
    "row": "jtbd-graph-triage-2026-10-20",

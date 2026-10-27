@@ -21,6 +21,13 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-10-26 · the MyAlly proposal page scored against the ARCS kit (palette waived, file-scoped)
+- break: the kintsugi ratchet blocked public/myally-proposal.html (new file, 14 findings vs 0 at HEAD): colors and corner radii outside DESIGN.md.
+- found by: the myally.arcs.care/proposal commit.
+- root cause: the page reuses the MyAlly shell already live on the plan and /mnda-edits pages (light palette, 4 to 8px corners), a per-engagement world like the PRL Field Kit, not the dark ARCS kit. The older MyAlly pages predate the ratchet, so only the new file scored.
+- repair: none to the palette, by decision. Zach chose on 2026-10-26 to keep the MyAlly look; `design-system-color` and `design-system-radius` are waived for this one file in `.impeccable/config.json`. The step list was rebuilt as full-width rows after card-gutter flagged dead gutters.
+- guard: the file-scoped waiver keeps the ratchet live for every other rule on this page and for every other page. Not done: a MyAlly kit entry in PRODUCT.md, so each new MyAlly page still needs its own waiver.
+
 ## 2026-10-21 · the eightfold wheel page arrived with 11 design findings, two of them a deliberate 8-bit look
 - break: `_ARTIFACTS/eightfold-scaffold.html` (new page, published as the ARCS Eightfold Wheel artifact) was blocked by the ratchet on 11 findings: pixel labels at 8 to 10px (under the 11px floor), an uppercase label with wide tracking, a decorative scanline gradient, an h1 whose colour the detector read as black because it was inherited, and Press Start 2P plus its pixel sizes sitting outside DESIGN.md.
 - found by: the kintsugi pre-commit ratchet (net-new design debt on a new page).

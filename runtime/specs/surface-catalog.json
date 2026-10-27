@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 291,
+  "rows": 292,
   "hosts": 82,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 232,
+   "product page": 233,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 30,
   "app_routes": 47,
   "missing_purpose": 6,
-  "unlisted": 114
+  "unlisted": 115
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -4155,7 +4155,7 @@
    "unlisted": true,
    "purpose": "Proposed edits to the mutual NDA, each with a short reason.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-26"
   },
   {
    "host": "myally.arcs.care",
@@ -4176,6 +4176,26 @@
    "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/proposal",
+   "catch_all": false,
+   "destination": "/myally-proposal.html",
+   "pattern": false,
+   "file": "public/myally-proposal.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce proposal",
+   "description": "A proposal to build Alyce: five steps, a plain price for each, and where you can stop.",
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "A proposal to build Alyce: five steps, a plain price for each, and where you can stop.",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "omakase.arcs.care",
