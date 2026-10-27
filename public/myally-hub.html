@@ -94,6 +94,7 @@
   --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
 }
 html:not([data-size]){font-size:90%}
+.pane-doc iframe,#pane-prop iframe{opacity:0;transition:opacity .12s}
 </style>
 <script>(function(){var d=document.documentElement;try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}')||{};var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',theme:'data-theme'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();</script>
 <style>
@@ -1583,5 +1584,5 @@ addEventListener('load',()=>{applyRead();placeFab()});addEventListener('resize',
 applyRead();
 })();
 </script>
-<script>(function(){function tell(){document.querySelectorAll('.pane-doc iframe,#pane-prop iframe').forEach(function(f){if(!f.offsetParent||!f.contentWindow)return;var r=f.getBoundingClientRect();f.contentWindow.postMessage({alyceView:{y:-r.top,h:innerHeight}},'*')})}var q=0;function ask(){if(q)return;q=requestAnimationFrame(function(){q=0;tell()})}addEventListener('scroll',function(){clearTimeout(ask.t);ask.t=setTimeout(ask,120)},{passive:true});setTimeout(tell,300);document.querySelectorAll('iframe').forEach(function(f){f.addEventListener('load',function(){setTimeout(tell,100)})});addEventListener('resize',tell);document.addEventListener('click',function(){setTimeout(tell,50)})})();</script></body>
+<script>(function(){function tell(){document.querySelectorAll('.pane-doc iframe,#pane-prop iframe').forEach(function(f){if(!f.offsetParent||!f.contentWindow)return;var r=f.getBoundingClientRect();f.contentWindow.postMessage({alyceView:{y:-r.top,h:innerHeight}},'*')})}var q=0;function ask(){if(q)return;q=requestAnimationFrame(function(){q=0;tell()})}addEventListener('scroll',function(){clearTimeout(ask.t);ask.t=setTimeout(ask,120)},{passive:true});setTimeout(tell,300);document.querySelectorAll('iframe').forEach(function(f){f.addEventListener('load',function(){setTimeout(tell,100);setTimeout(function(){f.style.opacity=1},120)})});addEventListener('resize',tell);document.addEventListener('click',function(){setTimeout(tell,50)})})();</script></body>
 </html>
