@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 293,
+  "rows": 294,
   "hosts": 82,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 234,
+   "product page": 235,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 30,
   "app_routes": 47,
   "missing_purpose": 6,
-  "unlisted": 116
+  "unlisted": 117
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -52,6 +52,7 @@
   "public/blacksmith-resume.html",
   "public/jack-rain-resume.html",
   "public/monday-gate.html",
+  "public/myally-debrief.html",
   "public/myally-gate.html",
   "public/myally-mnda-edits.html",
   "public/myally-primer.html",
@@ -4018,7 +4019,7 @@
    "unlisted": true,
    "purpose": "RET RFP Submission Guide",
    "kind": "product page",
-   "last_commit": "2026-10-26"
+   "last_commit": "2026-10-27"
   },
   {
    "host": "monolith.arcs.care",
@@ -4139,7 +4140,27 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-27"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/debrief",
+   "catch_all": false,
+   "destination": "/myally-hub.html",
+   "pattern": false,
+   "file": "public/myally-hub.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "My Ally LD: Alyce",
+   "kind": "product page",
+   "last_commit": "2026-10-27"
   },
   {
    "host": "myally.arcs.care",
@@ -4159,7 +4180,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-27"
   },
   {
    "host": "myally.arcs.care",
@@ -4179,7 +4200,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-27"
   },
   {
    "host": "myally.arcs.care",
@@ -4199,7 +4220,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-27"
   },
   {
    "host": "myally.arcs.care",
@@ -4219,7 +4240,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-27"
   },
   {
    "host": "omakase.arcs.care",
@@ -5531,7 +5552,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-26"
+   "last_commit": "2026-10-27"
   },
   {
    "host": "thetrueai.arcs.care",
