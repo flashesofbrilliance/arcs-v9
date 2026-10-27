@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <meta name="description" content="A proposal to build Alyce: start with a fixed-price 2-week audit, then priced steps you can stop after.">
 <title>My Ally LD: Alyce proposal</title>
-<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone'};for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();</script>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};(function(){var d=document.documentElement;try{var t=localStorage.getItem('myAllyTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}try{var r=JSON.parse(localStorage.getItem('myAllyRead')||'{}');var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',measure:'data-measure'};if(r.measure==='read')d.style.setProperty('--reader-line','42rem');for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();</script>
 <noscript><style>.alt,.more,.themebtn{display:none}.dek{display:none}</style></noscript>
 <style>/* ARCS Recoil Report — Design Tokens */
 :root {
@@ -323,6 +323,7 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .gm{justify-self:center;width:12px;height:12px;background:var(--pg-text);transform:rotate(45deg);border-radius:2px}
 .you{margin-right:8px;font-size:.925rem;font-weight:600;color:var(--pg-accent);border:1px solid var(--pg-accent);border-radius:999px;padding:0 8px;white-space:nowrap}
 @media (max-width:640px){.wp{--lab:11rem}}
+.prop :is(.lede,.lvl>p,.fold>p,.lvl>ul,.fold>ul,.hand,.sbody p,.sinc,.conf,.nfoot){max-width:var(--reader-line,none)}
 /* type system: H1 title, H2 section takeaway, H3 subhead, lede, body, meta */
 .prop{line-height:1.65}
 .prop h1{margin:24px 0 12px}
@@ -365,5 +366,25 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 <p class="nfoot">Happy to talk any of this through. If something here doesn&#x27;t fit how you work, tell me and we&#x27;ll change it.</p>
 <p class="back"><a href="/">Back to the plan</a></p></main>
 
+<button type="button" class="readfab" id="readfab" aria-expanded="false" aria-controls="readopts" aria-label="Reading options"><span aria-hidden="true">Aa</span></button>
+<section id="readopts" class="readopts" role="dialog" aria-modal="false" aria-labelledby="roh" hidden>
+<p id="roh" class="ro-title">Reading options</p>
+<p class="ro-note">Comfort settings: pick whatever reads best for you. They stay on this device and are not sent anywhere.</p>
+<div class="ro-group" role="group" aria-labelledby="ro-f"><span id="ro-f" class="ro-label">Font</span><span class="ro-btns"><button type="button" data-k="font" data-v="std">Standard</button><button type="button" data-k="font" data-v="easy">Easy-read</button></span><span class="ro-hint">Easy-read is a plain, wide font with no italics and no underlines.</span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-s"><span id="ro-s" class="ro-label">Text size</span><span class="ro-btns"><button type="button" data-k="size" data-v="std">Standard</button><button type="button" data-k="size" data-v="l">Larger</button><button type="button" data-k="size" data-v="xl">Largest</button></span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-p"><span id="ro-p" class="ro-label">Spacing</span><span class="ro-btns"><button type="button" data-k="space" data-v="std">Standard</button><button type="button" data-k="space" data-v="roomy">Roomy</button></span><span class="ro-hint">Roomy adds space between letters, words and lines.</span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-m"><span id="ro-m" class="ro-label">Line length</span><span class="ro-btns"><button type="button" data-k="measure" data-v="std">Full width</button><button type="button" data-k="measure" data-v="read">Comfortable</button></span><span class="ro-hint">Comfortable keeps paragraphs to about 70 characters a line. Tables and charts stay full width.</span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-t"><span id="ro-t" class="ro-label">Background</span><span class="ro-btns"><button type="button" data-k="tone" data-v="std">Standard</button><button type="button" data-k="tone" data-v="warm">Warm paper</button></span></div>
+<div class="ro-actions"><button type="button" class="ro-reset">Reset</button><button type="button" class="ro-close">Close</button></div>
+</section>
+<script>(function(){var root=document.documentElement,RK='myAllyRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab');var st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{};}catch(e){}
+var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',measure:'data-measure'};
+function apply(){root.style.setProperty('--reader-line',st.measure==='read'?'42rem':'none');for(var k in K){var v=st[k];if(v&&v!=='std')root.setAttribute(K[k],v);else root.removeAttribute(K[k]);}[].forEach.call(ro.querySelectorAll('button[data-k]'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-v')===(st[b.getAttribute('data-k')]||'std')));});}
+function save(){try{localStorage.setItem(RK,JSON.stringify(st));}catch(e){}}
+function open(o){ro.hidden=!o;fab.setAttribute('aria-expanded',String(o));if(o){(ro.querySelector('button[aria-pressed="true"]')||ro.querySelector('button')).focus();}else{fab.focus();}}
+fab.addEventListener('click',function(){open(ro.hidden);});ro.querySelector('.ro-close').addEventListener('click',function(){open(false);});
+ro.querySelector('.ro-reset').addEventListener('click',function(){st={};save();apply();});
+[].forEach.call(ro.querySelectorAll('button[data-k]'),function(b){b.addEventListener('click',function(){st[b.getAttribute('data-k')]=b.getAttribute('data-v');save();apply();});});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!ro.hidden)open(false);});apply();})();</script>
 </body>
 </html>
