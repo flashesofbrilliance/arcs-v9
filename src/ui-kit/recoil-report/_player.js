@@ -192,15 +192,27 @@
     cards.sort(function (x, y) { return x.b.t_start - y.b.t_start; });
     cards.forEach(function (c) {
       var m = c.m, b = c.b, first = m.points[0], last = m.points[m.points.length - 1];
-      var move = Math.round(first * 100) + "% → " + Math.round(last * 100) + "%";
+      var f = Math.round(first * 100), t = Math.round(last * 100), lo = Math.min(f, t), hi = Math.max(f, t);
+      var move = f + "% → " + t + "%";
       var li = document.createElement("li"), btn = document.createElement("button");
-      btn.type = "button"; btn.className = "pl-ans";
-      btn.innerHTML = '<span class="pl-ans-t"></span><span class="pl-ans-q"></span><span class="pl-ans-claim"><span class="mf-sw ' + SERIES[c.i % SERIES.length] + '"></span><span></span></span>';
-      btn.querySelector(".pl-ans-t").textContent = fmtT(b.t_start) + ", " + b.speaker;
-      btn.querySelector(".pl-ans-q").textContent = b.evidence ? "“" + b.evidence + "”" : b.summary;
-      btn.querySelector(".pl-ans-claim span:last-child").textContent = m.claim + ": " + move;
-      btn.setAttribute("aria-label", fmtT(b.t_start) + ", " + b.speaker + ": " + btn.querySelector(".pl-ans-q").textContent + ". " + m.claim + ", " + move + ". Jump there.");
+      btn.type = "button"; btn.className = "pl-ans " + SERIES[c.i % SERIES.length];
+      btn.innerHTML = '<span class="pl-ans-t"><span></span><span></span></span><q class="pl-ans-q"></q>' +
+        '<span class="pl-ans-claim"></span>' +
+        '<span class="pl-move" aria-hidden="true"><span class="pl-move-track">' +
+        '<span class="pl-move-seg"></span><span class="pl-move-dot from"></span><span class="pl-move-dot to"></span></span>' +
+        '<span class="pl-move-n"></span></span>';
+      var tt = btn.querySelectorAll(".pl-ans-t span");
+      tt[0].textContent = fmtT(b.t_start); tt[1].textContent = b.speaker;
+      btn.querySelector(".pl-ans-q").textContent = b.evidence || b.summary;
+      btn.querySelector(".pl-ans-claim").textContent = m.claim;
+      var mn = btn.querySelector(".pl-move-n"), tb = document.createElement("b");
+      mn.textContent = f + " \u2192 "; tb.textContent = t + "%"; mn.appendChild(tb);
+      btn.querySelector(".pl-move-seg").style.cssText = "left:" + lo + "%;width:" + (hi - lo) + "%";
+      btn.querySelector(".pl-move-dot.from").style.left = f + "%";
+      btn.querySelector(".pl-move-dot.to").style.left = t + "%";
+      btn.setAttribute("aria-label", fmtT(b.t_start) + ", " + b.speaker + ": " + (b.evidence || b.summary) + ". " + m.claim + ", " + move + ". Jump there.");
       btn.addEventListener("click", function () { stop(); seek(b.t_start + 0.01); rowEls[c.k - 1].focus(); });
+      c.el = btn;
       li.appendChild(btn); ans.appendChild(li);
     });
 
@@ -218,12 +230,27 @@
         if (!at("moments") && !b.kairos && !cur && state.detail === "gist") { btn.parentNode.hidden = true; return; }
         btn.parentNode.hidden = false;
         btn.setAttribute("aria-current", cur ? "true" : "false");
+        var mi = -1, best = 0; /* the row takes the colour of the belief this moment moved most */
+        (b.belief_deltas || []).forEach(function (x) {
+          player.manifold.forEach(function (mm, j) {
+            if (mm.belief !== x.belief) return;
+            var d = Math.abs(x.to - mm.points[i]); if (d > best) { best = d; mi = j; }
+          });
+        });
+        btn.className = "pl-row" + (b.kairos ? " key" : "") + (mi >= 0 ? " " + SERIES[mi % SERIES.length] : "");
         btn.textContent = "";
         var t = document.createElement("span"); t.className = "pl-row-t"; t.textContent = fmtT(b.t_start); btn.appendChild(t);
         var body = document.createElement("span"); body.className = "pl-row-b"; btn.appendChild(body);
+        if (b.kairos && at("moments")) {
+          var cr = document.createElement("span"); cr.className = "pl-crumb";
+          [["Key moment", ""], [b.kairos.label, ""], [b.kairos.lock, "lock " + (LOCK[b.kairos.lock] || "cyan")]].forEach(function (x) {
+            var sp = document.createElement("span"); sp.textContent = x[0]; if (x[1]) sp.className = x[1]; cr.appendChild(sp);
+          });
+          body.appendChild(cr);
+        }
         var sum = document.createElement("span"); sum.className = "pl-row-s";
         sum.textContent = (at("beats") ? b.speaker + ": " : "") + b.summary; body.appendChild(sum);
-        if (b.kairos && at("moments")) { var c = document.createElement("span"); c.className = "chip " + (LOCK[b.kairos.lock] || "cyan"); c.textContent = b.kairos.label + ", " + b.kairos.lock; body.appendChild(c); }
+
         if (cur && at("beats") && b.belief_deltas) b.belief_deltas.forEach(function (x) {
           var m = player.manifold.filter(function (mm) { return mm.belief === x.belief; })[0];
           var d = document.createElement("span"); d.className = "ref"; d.textContent = (m ? m.claim : x.belief) + " now " + Math.round(x.to * 100) + "%"; body.appendChild(d);
@@ -245,7 +272,7 @@
       scrub.setAttribute("aria-valuetext", fmtT(state.t) + " of " + fmtT(dur));
       mf.seek(state.t);
       var i = beatAt(player, state.t);
-      if (i !== state.beat) { state.beat = i; paintRows(); }
+      if (i !== state.beat) { state.beat = i; paintRows(); cards.forEach(function (c) { c.el.classList.toggle("on", c.k - 1 === i); }); }
       readout(q("[data-readout]"), player, mf.index(state.t));
       q("[data-clock]").textContent = fmtT(state.t) + " of " + fmtT(dur);
       status.textContent = "Moment " + (i + 1) + " of " + player.beats.length + ": " + player.beats[i].summary;

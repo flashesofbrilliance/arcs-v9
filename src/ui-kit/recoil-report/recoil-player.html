@@ -115,12 +115,27 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 .pl-head h1 { font-family: var(--ds-font-display); font-size: var(--fs-display); font-weight: 500; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
 .pl-head p { color: var(--text-secondary); margin-top: 8px; }
 .pl-answer { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-.pl-ans { width: 100%; height: 100%; text-align: left; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 14px 16px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+/* Molecule: answer card. Time and speaker, the line heard, the belief, and its move drawn on a 0 to 100 track. */
+.pl-answer { counter-reset: none; }
+.pl-ans { --c: var(--cyan); --c-bg: var(--cyan-bg); width: 100%; height: 100%; text-align: left; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-sm); padding: 18px 20px 16px; cursor: pointer; display: flex; flex-direction: column; gap: 12px; transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
+.pl-ans.green { --c: var(--green); --c-bg: var(--green-bg); }
+.pl-ans.gold { --c: var(--gold); --c-bg: var(--gold-bg); }
 .pl-ans:hover { border-color: var(--text-secondary); }
+.pl-ans.on { border-color: var(--c); background: linear-gradient(var(--c-bg), var(--c-bg)), var(--surface); }
 .pl-ans:focus-visible, .pl-row:focus-visible, .pl-play:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-.pl-ans-t { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-.pl-ans-q { font-family: var(--ds-font-display); font-style: italic; font-size: var(--fs-headline); line-height: 1.4; color: var(--text); }
-.pl-ans-claim { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.pl-ans-t { display: flex; gap: 10px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.pl-ans-t span:first-child { color: var(--text); }
+.pl-ans-q { flex: 1; quotes: "“" "”"; font-family: var(--ds-font-display); font-style: italic; font-size: var(--fs-headline); line-height: 1.4; color: var(--text); text-wrap: pretty; text-indent: -0.42em; }
+.pl-ans-claim { font-size: var(--fs-body); line-height: 1.35; color: var(--text-secondary); text-wrap: balance; }
+.pl-move { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-variant-numeric: tabular-nums; }
+.pl-move-n { color: var(--text-secondary); white-space: nowrap; }
+.pl-move-n b { color: var(--c); font-weight: 700; }
+.pl-move-track { position: relative; height: 12px; }
+.pl-move-track::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; border-radius: var(--ds-r-pill); background: var(--border); }
+.pl-move-seg { position: absolute; top: 5px; height: 2px; border-radius: var(--ds-r-pill); background: var(--c); }
+.pl-move-dot { position: absolute; top: 1px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; }
+.pl-move-dot.from { background: var(--surface); border: 2px solid var(--text-secondary); }
+.pl-move-dot.to { background: var(--c); }
 .pl-stage-main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; align-items: start; }
 @media (max-width: 900px) { .pl-stage-main { grid-template-columns: minmax(0, 1fr); } }
 .pl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 10px; }
@@ -133,10 +148,17 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 .pl-moments li[hidden] { display: none; }
 .pl-row { width: 100%; text-align: left; font: inherit; color: var(--text-secondary); background: none; border: 1px solid transparent; border-radius: var(--ds-r-xs); padding: 8px 10px; cursor: pointer; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; min-height: 44px; }
 .pl-row:hover { border-color: var(--border); }
-.pl-row[aria-current=true] { color: var(--text); background: var(--surface); border-color: var(--cyan); }
+.pl-row { --c: var(--text-secondary); }
+.pl-row.cyan { --c: var(--cyan); } .pl-row.green { --c: var(--green); } .pl-row.gold { --c: var(--gold); }
+.pl-row[aria-current=true] { color: var(--text); background: var(--surface); border-color: var(--c); }
+.pl-row .pl-quote { border-left-color: var(--c); }
 .pl-row-t { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.pl-crumb { display: flex; flex-wrap: wrap; gap: 0 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+.pl-crumb span + span::before { content: "/"; margin-right: 6px; color: var(--border); }
+.pl-crumb .lock { font-weight: 700; }
+.pl-crumb .lock.green { color: var(--green); } .pl-crumb .lock.gold { color: var(--gold); } .pl-crumb .lock.cyan { color: var(--cyan); } .pl-crumb .lock.muted { color: var(--muted); }
 .pl-row-b { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
-.pl-quote { font-family: var(--ds-font-display); font-style: italic; color: var(--text); padding-left: 12px; border-left: 1px solid var(--gold); }
+.pl-quote { font-family: var(--ds-font-display); font-style: italic; color: var(--text); padding-left: 12px; border-left: 1px solid var(--border); }
 .pl-opts { border-top: 1px solid var(--border); padding-top: 12px; }
 .pl-opts summary { cursor: pointer; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); min-height: 44px; display: flex; align-items: center; }
 .pl-opts summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
