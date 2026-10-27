@@ -117,7 +117,7 @@ body{margin:0;padding:24px 16px 40px;font-size:100%;line-height:1.5}
 main{max-width:1280px;margin:0 auto}
 h1{font-size:1.5rem;line-height:1.15;letter-spacing:-.015em;margin:0 0 10px;text-wrap:balance}
 .mast{margin:8px 0 28px;width:fit-content;max-width:100%}.mast-meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin:0 0 12px;font-size:.925rem;font-weight:600;letter-spacing:.04em;color:var(--dim)}.mast-meta span+span::before{content:"";display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;vertical-align:middle;margin-right:10px;opacity:.6}@media (max-width:640px){.mast-meta .mm-d{display:none}}.mast-dek{contain:inline-size;margin:0;font-size:1.15rem;line-height:1.55;color:var(--dim);text-wrap:pretty}
-.lede{color:var(--dim);margin:0 0 20px;max-width:none}
+.lede,.tabnote{color:var(--dim);margin:0 0 20px;max-width:none}
 .bar-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 12px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .seg button{min-height:44px;padding:0 16px;border:0;border-right:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
@@ -252,7 +252,7 @@ button.chip:hover{border-color:var(--accent)}.chip.me{border-color:var(--accent)
 .shell{border:1px solid var(--line);border-radius:10px;background:var(--bg);box-shadow:none} .shell-bar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 28px;padding:0 20px;background:var(--surface);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0} .brand{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.925rem;letter-spacing:.18em;color:var(--dim);padding:16px 0 15px;white-space:nowrap}.brand b{color:var(--accent);font-weight:700} .shell .tabs{margin:0 0 -1px;border-bottom:0} .shell-body{padding:20px} #pane-prop{margin:-20px}#pane-prop>.lede{margin:16px 20px}#pane-prop iframe{display:block;border:0!important;border-top:0!important;border-radius:0 0 10px 10px!important;height:auto;min-height:200px} @media (max-width:640px){.shell-bar{padding:0 12px;gap:0 16px}.brand{padding:12px 0 4px;width:100%}.shell-body{padding:14px}#pane-prop{margin:-14px}}
 
 /* type and hierarchy pass (design-debt.md) */
-.lede{font-size:.925rem}
+.lede,.tabnote{font-size:.925rem}
 .sum button{padding:12px 14px;display:grid;gap:2px;align-content:start}
 .sum b{font-size:1.15rem;font-weight:600}
 .sum span{font-size:.925rem}
@@ -327,7 +327,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Chelsea, Kelly and Leah, MyAlly LD</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-10-27">October 27, 2026</time></dd></div><div><dt>Status</dt><dd>Draft for discussion</dd></div></dl></div>
 <div class="shell-body">
 <div id="pane-plan" role="tabpanel" aria-labelledby="t-plan">
-<p class="lede">Weeks from kickoff, at about 20 hours a week. Pick a bucket to see the plan stretch. Choose a row for its details. Confidential under our mutual NDA.</p>
+<p class="tabnote">Weeks from kickoff, at about 20 hours a week. Pick a bucket to see the plan stretch. Choose a row for its details. Confidential under our mutual NDA.</p>
 <div class="sum" id="sum" role="group" aria-label="Choose a bucket">
 <button type="button" data-s="best" aria-pressed="false"><b>Lite</b><span>225 h · launch-ready week 16</span><em>Build $33,750</em></button>
 <button type="button" data-s="base" aria-pressed="false"><b>Standard</b><span>355 h · launch-ready week 23</span><em>Build $53,250</em></button>
