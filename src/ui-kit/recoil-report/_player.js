@@ -28,7 +28,7 @@
   /* ---- 34 manifold ------------------------------------------------------------------------------- */
   function Manifold(svg, player) {
     this.svg = svg; this.p = player;
-    var W = 640, H = 240, L = 44, R = 16, T = 16, B = 40;
+    var W = 640, H = 252, L = 44, R = 150, T = 20, B = 44;
     this.g = { W: W, H: H, L: L, R: R, T: T, B: B };
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     var dur = duration(player) || 1, self = this;
@@ -38,8 +38,10 @@
       el("line", { "class": "mf-grid", x1: L, x2: W - R, y1: self.y(c), y2: self.y(c) }, svg);
       el("text", { "class": "mf-axis", x: L - 8, y: self.y(c) + 4, "text-anchor": "end" }, svg).textContent = Math.round(c * 100) + "%";
     });
-    el("text", { "class": "mf-axis", x: L, y: H - 8 }, svg).textContent = "0:00";
-    el("text", { "class": "mf-axis", x: W - R, y: H - 8, "text-anchor": "end" }, svg).textContent = fmtT(dur);
+    el("text", { "class": "mf-axis", x: L, y: H - 22 }, svg).textContent = "0:00";
+    el("text", { "class": "mf-axis", x: W - R, y: H - 22, "text-anchor": "end" }, svg).textContent = fmtT(dur);
+    el("text", { "class": "mf-title", x: L + (W - L - R) / 2, y: H - 4, "text-anchor": "middle" }, svg).textContent = "Time in the call";
+    el("text", { "class": "mf-title", x: 0, y: 10 }, svg).textContent = "Confidence: how likely we thought it was true";
     player.beats.forEach(function (b) {
       if (!b.kairos) return;
       var cx = self.x(b.t_end), col = LOCK[b.kairos.lock] || "cyan";
@@ -53,6 +55,17 @@
         return self.x(t).toFixed(1) + "," + self.y(c).toFixed(1);
       });
       el("polyline", { "class": "mf-line " + SERIES[i % SERIES.length], points: pts.join(" ") }, svg);
+    });
+    /* direct labels at each line's end, nudged apart so they never overlap */
+    var ends = player.manifold.map(function (m, i) { return { i: i, y: self.y(m.points[m.points.length - 1]), m: m }; })
+      .sort(function (a, b) { return a.y - b.y; });
+    for (var e = 1; e < ends.length; e++) if (ends[e].y - ends[e - 1].y < 26) ends[e].y = ends[e - 1].y + 26;
+    ends.forEach(function (o) {
+      var t = el("text", { "class": "mf-label " + SERIES[o.i % SERIES.length], x: W - R + 10, y: o.y - 2 }, svg);
+      var words = o.m.claim.split(" "), a = [], b = [];
+      words.forEach(function (w) { (a.join(" ").length + w.length < 18 && !b.length ? a : b).push(w); });
+      el("tspan", { x: W - R + 10 }, t).textContent = a.join(" ");
+      if (b.length) el("tspan", { x: W - R + 10, dy: 12 }, t).textContent = b.join(" ");
     });
     this.head = el("line", { "class": "mf-head", y1: T - 6, y2: H - B }, svg);
     this.dots = player.manifold.map(function (m, i) { return el("circle", { "class": "mf-dot " + SERIES[i % SERIES.length], r: 4 }, svg); });

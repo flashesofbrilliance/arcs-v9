@@ -74,6 +74,10 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 .mf svg { display: block; width: 100%; height: auto; }
 .mf-grid { stroke: var(--border); stroke-width: 1; }
 .mf-axis { fill: var(--text-secondary); font-family: var(--ds-font-mono); font-size: 11px; font-variant-numeric: tabular-nums; }
+.mf-title { fill: var(--text-secondary); font-family: var(--ds-font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.mf-label { font-family: var(--ds-font-sans); font-size: 11px; font-weight: 600; }
+.mf-label.cyan { fill: var(--cyan); } .mf-label.green { fill: var(--green); } .mf-label.gold { fill: var(--gold); }
+.mf-cap { color: var(--text-secondary); font-size: var(--fs-label); line-height: 1.5; margin-top: 6px; }
 .mf-line { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
 .mf-pin { stroke-width: 1; stroke-dasharray: 3 4; }
 .mf-head { stroke: var(--text); stroke-width: 1.5; }
@@ -176,6 +180,7 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 <div class="pl-stage-main">
 <section class="mf" aria-labelledby="mf-h"><h2 class="section-label" id="mf-h">Confidence through the call</h2>
 <svg data-manifold role="img" aria-label="Confidence in each belief over the call. Diamonds mark the key moments."></svg>
+<p class="mf-cap">Each line is one belief; its height is our confidence that it is true, 0% to 100%. Diamonds mark key moments. This chart does not show conviction (how settled a belief is) or coherence (one score for the whole decision).</p>
 <div class="pl-bar"><button class="pl-play" type="button" data-play aria-pressed="false">Play</button><button class="btn" type="button" data-back aria-label="Previous moment">Back</button><button class="btn" type="button" data-fwd aria-label="Next moment">Next</button>
 <input type="range" min="0" value="0" data-scrub aria-label="Position in the call"><span class="pl-clock" data-clock></span>
 <span class="pl-keys">Space plays or pauses. Arrow keys step one moment.</span></div>
