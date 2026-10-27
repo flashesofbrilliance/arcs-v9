@@ -115,7 +115,7 @@ html{font-family:var(--font-body);color:var(--text);background:var(--bg)}
 body{margin:0;padding:24px 16px 40px;font-size:1rem;line-height:1.5}
 ::selection{background:var(--accent-bg)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-main{max-width:1280px;margin:0 auto}
+main{max-width:1008px;margin:0 auto}
 h1{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.25rem);line-height:1.15;letter-spacing:-.015em;margin:0 0 10px;text-wrap:balance}
 .mast{margin:8px 0 28px;width:fit-content;max-width:100%}.mast-meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin:0 0 12px;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--dim)}.mast-meta span+span::before{content:"";display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;vertical-align:middle;margin-right:10px;opacity:.6}@media (max-width:640px){.mast-meta .mm-d{display:none}}.mast-dek{contain:inline-size;margin:0;font-size:1.05rem;line-height:1.55;color:var(--dim);text-wrap:pretty}
 .lede,.tabnote{color:var(--dim);margin:0 0 20px;max-width:none}
@@ -339,6 +339,15 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 :root{--colw:960px}
 .shell-bar,.shell-meta{padding-left:max(20px,calc((100% - var(--colw)) / 2));padding-right:max(20px,calc((100% - var(--colw)) / 2))}
 #pane-plan{max-width:var(--colw);margin-left:auto;margin-right:auto}
+/* header: meta eyebrow band, then a compact nav bar (two-tone) */
+.shell-meta{background:var(--surface2);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;padding-top:8px!important;padding-bottom:8px!important}
+.shell-meta dl{gap:2px 22px;margin:0}
+.shell-meta dl div{display:flex;gap:6px;align-items:baseline}
+.shell-meta dt{font-size:.75rem}.shell-meta dd{font-size:.8rem}
+.shell-bar{border-radius:0!important;align-items:center!important}
+.shell .brand{padding:0!important}
+.shell .tabs button{min-height:40px}
+@media (max-width:640px){.shell-meta dl div{display:grid;gap:0}.shell .brand{padding:8px 0 0!important}}
 .dside,.fmb,#detail .notes{display:none!important}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}.pane-doc{margin:-20px}.pane-doc iframe{display:block;width:100%;border:0;border-radius:0 0 10px 10px;min-height:200px;background:#fff}@media (max-width:640px){.pane-doc{margin:-14px}}
 </style>
 </head>
@@ -358,8 +367,8 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <h1 class="vh">Alyce for My Ally LD: proposal, timeline and primer</h1>
 <p class="sm-conf mast-conf"><span class="ctag">Confidential</span>Confidential under our mutual NDA. I've signed it; it takes full effect when you countersign.</p>
 <section class="shell" aria-label="Alyce plan, proposal and risks">
-<div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><div class="tabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Proposal</button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="true">Timeline</button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Primer</button></div></div>
 <div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Chelsea, Kelly and Leah, MyAlly LD</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-10-27">October 27, 2026</time></dd></div><div><dt>Status</dt><dd>Draft for discussion</dd></div></dl></div>
+<div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><div class="tabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Proposal</button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="true">Timeline</button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Primer</button></div></div>
 <div class="shell-body">
 <div id="pane-plan" role="tabpanel" aria-labelledby="t-plan">
 <p class="tabnote">Weeks from kickoff, at about 20 hours a week. Pick a point between the best and worst case to see the plan stretch. Choose a row for its details. Confidential under our mutual NDA.</p>
