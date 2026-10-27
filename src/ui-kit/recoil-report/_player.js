@@ -70,6 +70,11 @@
     this.head = el("line", { "class": "mf-head", y1: T - 6, y2: H - B }, svg);
     this.dots = player.manifold.map(function (m, i) { return el("circle", { "class": "mf-dot " + SERIES[i % SERIES.length], r: 4 }, svg); });
   }
+  /* Ring the point where a belief moved most, so a card and its spot on the chart read as one thing. */
+  Manifold.prototype.mark = function (k, i) {
+    var t = this.p.beats[k - 1].t_end, c = this.p.manifold[i].points[k];
+    el("circle", { "class": "mf-ring " + SERIES[i % SERIES.length], cx: this.x(t), cy: this.y(c), r: 7 }, this.svg);
+  };
   Manifold.prototype.seek = function (t) {
     var p = this.p, x = this.x(t), self = this;
     this.head.setAttribute("x1", x); this.head.setAttribute("x2", x);
@@ -209,13 +214,15 @@
       var move = f + "% → " + t + "%";
       var li = document.createElement("li"), btn = document.createElement("button");
       btn.type = "button"; btn.className = "pl-ans " + SERIES[c.i % SERIES.length];
-      btn.innerHTML = '<span class="pl-ans-t"><span></span><span></span></span><q class="pl-ans-q"></q>' +
+      btn.innerHTML = '<span class="pl-ans-t"><span></span><span></span><span class="pl-ruler" aria-hidden="true"><i></i></span></span><q class="pl-ans-q"></q>' +
         '<span class="pl-ans-claim"></span>' +
         '<span class="pl-move" aria-hidden="true"><span class="pl-move-track">' +
         '<span class="pl-move-seg"></span><span class="pl-move-dot from"></span><span class="pl-move-dot to"></span></span>' +
         '<span class="pl-move-n"></span></span>';
       var tt = btn.querySelectorAll(".pl-ans-t span");
       tt[0].textContent = fmtT(b.t_start); tt[1].textContent = b.speaker;
+      btn.querySelector(".pl-ruler i").style.left = (100 * b.t_start / dur).toFixed(1) + "%";
+      mf.mark(c.k, c.i); /* the same moment, ringed on the chart */
       btn.querySelector(".pl-ans-q").textContent = b.evidence || b.summary;
       btn.querySelector(".pl-ans-claim").textContent = m.claim;
       var mn = btn.querySelector(".pl-move-n"), tb = document.createElement("b");
@@ -250,7 +257,10 @@
             var d = Math.abs(x.to - mm.points[i]); if (d > best) { best = d; mi = j; }
           });
         });
-        btn.className = "pl-row" + (b.kairos ? " key" : "") + (mi >= 0 ? " " + SERIES[mi % SERIES.length] : "");
+        /* hierarchy by size of move: a moment that moved a belief a lot, or a key moment, reads in full;
+           a quiet moment collapses to one muted line unless it is the current one */
+        var major = best >= 0.15 || !!b.kairos, open = major || cur;
+        btn.className = "pl-row " + (major ? "major" : "minor") + (mi >= 0 ? " " + SERIES[mi % SERIES.length] : "");
         btn.textContent = "";
         var t = document.createElement("span"); t.className = "pl-row-t"; t.textContent = fmtT(b.t_start); btn.appendChild(t);
         var body = document.createElement("span"); body.className = "pl-row-b"; btn.appendChild(body);
@@ -261,14 +271,17 @@
           });
           body.appendChild(cr);
         }
+        if (open && at("beats") && b.evidence) { var e = document.createElement("q"); e.className = "pl-quote"; e.textContent = b.evidence; body.appendChild(e); }
         var sum = document.createElement("span"); sum.className = "pl-row-s";
         sum.textContent = (at("beats") ? b.speaker + ": " : "") + b.summary; body.appendChild(sum);
-
-        if (cur && at("beats") && b.belief_deltas) b.belief_deltas.forEach(function (x) {
-          var m = player.manifold.filter(function (mm) { return mm.belief === x.belief; })[0];
-          var d = document.createElement("span"); d.className = "ref"; d.textContent = (m ? m.claim : x.belief) + " now " + Math.round(x.to * 100) + "%"; body.appendChild(d);
+        if (open && at("beats") && b.belief_deltas) b.belief_deltas.forEach(function (x) {
+          player.manifold.forEach(function (mm, j) {
+            if (mm.belief !== x.belief) return;
+            var d = document.createElement("span"); d.className = "pl-delta " + SERIES[j % SERIES.length];
+            var nb = document.createElement("b"); nb.textContent = Math.round(mm.points[i] * 100) + " → " + Math.round(x.to * 100) + "%";
+            d.appendChild(nb); d.appendChild(document.createTextNode(" " + mm.claim)); body.appendChild(d);
+          });
         });
-        if (at("beats") && b.evidence) { var e = document.createElement("span"); e.className = "pl-quote"; e.textContent = "“" + b.evidence + "”"; body.appendChild(e); }
       });
       var rw = q("[data-readout-wrap]"); if (rw) rw.hidden = !at("motion");
     }
