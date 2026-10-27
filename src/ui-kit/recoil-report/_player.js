@@ -21,6 +21,18 @@
     return { d: d, dir: d > 0 ? "up" : d < 0 ? "down" : "flat",
              text: d === 0 ? "no change" : (d > 0 ? "+" : "\u2212") + Math.abs(d) + " pts" };
   }
+  /* Reversals: a belief whose step changes direction. Returns [{ from: k, at: k }] where point k is
+     the first step that runs against the previous non-zero step (k - 1 indexes the beat). */
+  function reversals(m) {
+    var out = [], prev = 0, prevK = 0;
+    for (var k = 1; k < m.points.length; k++) {
+      var d = Math.round(m.points[k] * 100) - Math.round(m.points[k - 1] * 100);
+      if (!d) continue;
+      if (prev && (d > 0) !== (prev > 0)) out.push({ from: prevK, at: k, dir: d > 0 ? "up" : "down" });
+      prev = d; prevK = k;
+    }
+    return out;
+  }
   function signed(v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(2); }
 
   /* Index of the beat that holds time t (the last beat whose start is at or before t). */
@@ -208,6 +220,30 @@
     scrub.max = String(Math.round(dur));
     function at(level) { return LEVELS.indexOf(state.detail) >= LEVELS.indexOf(level); }
 
+    /* The decision first: the next move, how sure, what it hinges on, and what would flip it. */
+    var dec = q("[data-decide]");
+    if (dec && player.decision) {
+      var D = player.decision, claimOf = function (id) { var m = player.manifold.filter(function (x) { return x.belief === id; })[0]; return m; };
+      var h = claimOf(D.hinges_on), F = player.flip, fm = F && claimOf(F.belief);
+      var html = '<div class="pl-dec-main"><span class="pl-crumb"><span>Next move</span>' +
+        (D.confidence != null ? '<span>Confidence ' + Math.round(D.confidence * 100) + '%</span>' : '') +
+        (D.conviction ? '<span>Conviction ' + D.conviction.toLowerCase() + '</span>' : '') + '</span>' +
+        '<p class="pl-dec-move"></p>' + (h ? '<p class="pl-dec-hinge"></p>' : '') + '</div>';
+      if (F && fm) html += '<div class="pl-dec-flip"><span class="pl-crumb"><span>What would change it</span></span><p class="pl-dec-if"><b></b> <span></span></p><p class="pl-dec-need"></p></div>';
+      dec.innerHTML = html;
+      dec.querySelector(".pl-dec-move").textContent = D.move;
+      if (h) dec.querySelector(".pl-dec-hinge").textContent = "Hinges on: " + h.claim + ", now " + Math.round(h.points[h.points.length - 1] * 100) + "%";
+      if (F && fm) {
+        var cur = fm.points[fm.points.length - 1], tgt = clamp(cur + F.delta_pts / 100, 0, 1), fc = pts(cur, tgt);
+        var b = dec.querySelector(".pl-dec-if b"); b.textContent = fc.text; b.className = "pl-chg " + fc.dir;
+        dec.querySelector(".pl-dec-if span").textContent = "on " + fm.claim + " (" + Math.round(cur * 100) + "% \u2192 " + Math.round(tgt * 100) + "%)";
+        dec.querySelector(".pl-dec-need").textContent = "Listen for: " + F.would_need;
+      }
+      dec.hidden = false;
+    }
+    var revBeat = {}; /* beat index -> [{ claim, dir }] for the moment rows */
+    player.manifold.forEach(function (m) { reversals(m).forEach(function (r) { (revBeat[r.at - 1] = revBeat[r.at - 1] || []).push({ m: m, dir: r.dir }); }); });
+
     /* The answer, in time order: for each belief, the moment that moved it most, what was heard, and the move. */
     var ans = q("[data-answer]"), cards = [];
     player.manifold.forEach(function (m, i) {
@@ -226,13 +262,25 @@
         '<span class="pl-ans-claim"><span class="mf-sw ' + SERIES[c.i % SERIES.length] + '"></span><span></span></span>' +
         '<span class="pl-ans-delta"><b></b><span></span></span>' +
         '<span class="pl-move" aria-hidden="true"><span class="pl-move-track"><span class="pl-move-seg"></span><span class="pl-move-tail"></span><span class="pl-move-head"></span></span></span>';
+      btn.querySelector(".pl-ans-delta b").textContent = ch.text; /* sign with the colour, never colour alone */
       var tt = btn.querySelectorAll(".pl-ans-t span");
       tt[0].textContent = fmtT(b.t_start); tt[1].textContent = b.speaker;
       btn.querySelector(".pl-ruler i").style.left = (100 * b.t_start / dur).toFixed(1) + "%";
       mf.mark(c.k, c.i); /* the same moment, ringed on the chart */
       btn.querySelector(".pl-ans-q").textContent = b.evidence || b.summary;
       btn.querySelector(".pl-ans-claim span:last-child").textContent = m.claim;
-      btn.querySelector(".pl-ans-delta b").textContent = ch.text;
+      var rv = reversals(m);
+      if (rv.length) {
+        var r0 = rv[0], cr = document.createElement("span"); cr.className = "pl-crumb pl-rev";
+        var bt1 = player.beats[r0.from - 1], bt2 = player.beats[r0.at - 1];
+        [["Reversed", "lock " + (r0.dir === "up" ? "green" : "red")],
+         [(r0.dir === "up" ? "fell" : "rose") + " to " + Math.round(m.points[r0.from] * 100) + "% at " + fmtT(bt1.t_start), ""],
+         [(r0.dir === "up" ? "rose" : "fell") + " to " + Math.round(m.points[r0.at] * 100) + "% at " + fmtT(bt2.t_start), ""]].forEach(function (x) {
+          var sp = document.createElement("span"); sp.textContent = x[0]; if (x[1]) sp.className = x[1]; cr.appendChild(sp);
+        });
+        if (rv.length > 1) { var more = document.createElement("span"); more.textContent = "+" + (rv.length - 1) + " more"; cr.appendChild(more); }
+        btn.querySelector(".pl-ans-claim").after(cr);
+      }
       btn.querySelector(".pl-ans-delta span").textContent = move;
       btn.querySelector(".pl-move-seg").style.cssText = "left:" + lo + "%;width:" + (hi - lo) + "%";
       btn.querySelector(".pl-move-tail").style.left = f + "%";
@@ -266,7 +314,7 @@
         });
         /* hierarchy by size of move: a moment that moved a belief a lot, or a key moment, reads in full;
            a quiet moment collapses to one muted line unless it is the current one */
-        var major = best >= 0.15 || !!b.kairos, open = major || cur;
+        var major = best >= 0.15 || !!b.kairos || !!revBeat[i], open = major || cur;
         btn.className = "pl-row " + (major ? "major" : "minor") + (mi >= 0 ? " " + SERIES[mi % SERIES.length] : "");
         btn.textContent = "";
         var t = document.createElement("span"); t.className = "pl-row-t"; t.textContent = fmtT(b.t_start); btn.appendChild(t);
@@ -278,6 +326,13 @@
           });
           body.appendChild(cr);
         }
+        (revBeat[i] || []).forEach(function (r) {
+          var rc = document.createElement("span"); rc.className = "pl-crumb pl-rev";
+          [["Reversal", "lock " + (r.dir === "up" ? "green" : "red")], [r.m.claim, ""], [r.dir === "up" ? "turned up" : "turned down", ""]].forEach(function (x) {
+            var sp = document.createElement("span"); sp.textContent = x[0]; if (x[1]) sp.className = x[1]; rc.appendChild(sp);
+          });
+          body.appendChild(rc);
+        });
         if (open && at("beats") && b.evidence) { var e = document.createElement("q"); e.className = "pl-quote"; e.textContent = b.evidence; body.appendChild(e); }
         var sum = document.createElement("span"); sum.className = "pl-row-s";
         sum.textContent = (at("beats") ? b.speaker + ": " : "") + b.summary; body.appendChild(sum);

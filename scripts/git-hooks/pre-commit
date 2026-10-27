@@ -517,6 +517,19 @@ if [ -f scripts/component_source_gate.py ] && command -v python3 >/dev/null 2>&1
   fi
 fi
 
+# Delta-encoding gate (2026-10-27): in the recoil kit a belief change is never colour alone; the sign and the
+# arrow carry it too (colour-blind safe). Scoped to src/ui-kit; see scripts/delta_encoding_gate.py.
+if [ -f scripts/delta_encoding_gate.py ] && command -v python3 >/dev/null 2>&1; then
+  dfiles=$(git diff --cached --name-only --diff-filter=ACM -- 'src/ui-kit/**/*.js' 'src/ui-kit/**/*.html' 2>/dev/null || true)
+  if [ -n "$dfiles" ]; then
+    # shellcheck disable=SC2086
+    if ! python3 scripts/delta_encoding_gate.py $dfiles; then
+      echo "✖ commit blocked: delta-encoding gate. Route every belief change through pts() and set its .text beside its .dir." >&2
+      exit 1
+    fi
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
 # staged single-file pages when the launcher is installed on this machine. NEW pages block on

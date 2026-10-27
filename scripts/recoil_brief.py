@@ -395,6 +395,7 @@ def render_html(data, audience):
 # Optional top-level "beats" array; reports without it are unchanged. Spec: runtime/specs/recoil-beats.md
 BEAT_REQUIRED = ("id", "t_start", "t_end", "speaker", "summary")
 LOCK_STATES = ("open", "pending", "locked", "released")
+CONVICTION = ("LOW", "MEDIUM", "HIGH")
 
 
 def check_beats(data):
@@ -427,6 +428,27 @@ def check_beats(data):
             to = d.get("to")
             if not isinstance(to, (int, float)) or not 0 <= to <= 1:
                 errs.append(f"{tag}: belief_deltas.to must be a number from 0 to 1")
+    belief_ids = {b["id"] for b in data.get("beliefs", [])}
+    d = data.get("decision")
+    if d is not None:
+        if not isinstance(d, dict) or not d.get("move"):
+            errs.append("decision: needs a move")
+        else:
+            c = d.get("confidence")
+            if c is not None and (not isinstance(c, (int, float)) or not 0 <= c <= 1):
+                errs.append("decision.confidence must be a number from 0 to 1")
+            if d.get("conviction") is not None and d["conviction"] not in CONVICTION:
+                errs.append(f"decision.conviction must be one of {', '.join(CONVICTION)}")
+            if d.get("hinges_on") is not None and d["hinges_on"] not in belief_ids:
+                errs.append(f"decision.hinges_on names unknown belief {d['hinges_on']!r}")
+    f = data.get("flip")
+    if f is not None:
+        if not isinstance(f, dict) or f.get("belief") not in belief_ids:
+            errs.append("flip.belief must name a belief")
+        elif not isinstance(f.get("delta_pts"), int) or f["delta_pts"] == 0:
+            errs.append("flip.delta_pts must be a non-zero whole number of points")
+        elif not f.get("would_need"):
+            errs.append("flip.would_need: say what you would need to hear")
     return errs
 
 
@@ -448,7 +470,8 @@ def project_player(data, audience):
         manifold.append({"belief": bl["id"], "claim": bl.get("claim", ""), "points": pts,
                          "D1": [round(x, 3) for x in v], "D2": [round(x, 3) for x in a],
                          "D3": [round(x, 3) for x in j], "engine": engine})
-    return {"meta": data.get("meta", {}), "audience": audience, "beats": beats, "manifold": manifold,
+    out_extra = {k: data[k] for k in ("decision", "flip") if k in data and visible(data[k], audience)}
+    return {"meta": data.get("meta", {}), "audience": audience, "beats": beats, "manifold": manifold, **out_extra,
             "note": "points[0] is the prior before beat 1; points[i] is confidence after beat i. "
                     "dt = one beat. D3 is marginal below about 6 beats."}
 

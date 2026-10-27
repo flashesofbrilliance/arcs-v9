@@ -20,6 +20,20 @@ Files without it render exactly as before.
 | `belief_deltas` | no | `[{ "belief": "<beliefs[].id>", "to": 0.0 to 1.0 }]`: confidence after this beat |
 | `audience` | no | `both` to show on external projections; anything else is internal only |
 
+## Decision and flip (optional, top level)
+
+| Field | Meaning |
+|---|---|
+| `decision.move` | The next move, one plain sentence (required if `decision` is present) |
+| `decision.confidence` | 0 to 1: how likely the move is right |
+| `decision.conviction` | `LOW`, `MEDIUM` or `HIGH`: how settled that confidence is |
+| `decision.hinges_on` | The belief id the move rests on |
+| `flip.belief` | The belief that would change the move |
+| `flip.delta_pts` | Signed whole points it would need to move (not zero) |
+| `flip.would_need` | What you would need to hear for that to happen |
+
+The player draws these as the decision block above the answer cards. Without them the block stays hidden.
+
 ## Commands
 
 - `./scripts/recoil --data <file> --check-beats` validates the array (exit 1 on any problem).
@@ -33,6 +47,8 @@ The page answers first: one card per belief (before, after, and the moment that 
 there). On load it plays the call once at max recall and rests at the end; with reduced motion it starts at rest
 and Play steps one moment at a time. Space plays or pauses, the arrow keys step. The backlog graph is a cascade:
 press a row to mark it done and whatever it unlocks turns "Ready now".
+
+A belief whose direction changes mid-call carries a Reversed breadcrumb on its card (the two times and values) and a Reversal breadcrumb on the moment where it turned. Every change is a signed point delta from one helper, `pts()`; `scripts/delta_encoding_gate.py` (pre-commit, scoped to src/ui-kit) refuses a change shown by colour alone.
 
 
 The player template is `recoil-player` in `src/ui-kit/templates.json`; organisms 34 (manifold) and 35 (backlog
