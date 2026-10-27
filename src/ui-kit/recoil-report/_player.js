@@ -182,21 +182,25 @@
     scrub.max = String(Math.round(dur));
     function at(level) { return LEVELS.indexOf(state.detail) >= LEVELS.indexOf(level); }
 
-    /* The answer: one row per belief, before and after, and the moment that moved it most. */
-    var ans = q("[data-answer]");
+    /* The answer, in time order: for each belief, the moment that moved it most, what was heard, and the move. */
+    var ans = q("[data-answer]"), cards = [];
     player.manifold.forEach(function (m, i) {
       var k = 1, big = 0;
       for (var j = 1; j < m.points.length; j++) { var d = Math.abs(m.points[j] - m.points[j - 1]); if (d > big) { big = d; k = j; } }
-      var b = player.beats[k - 1], first = m.points[0], last = m.points[m.points.length - 1];
+      cards.push({ m: m, i: i, k: k, b: player.beats[k - 1] });
+    });
+    cards.sort(function (x, y) { return x.b.t_start - y.b.t_start; });
+    cards.forEach(function (c) {
+      var m = c.m, b = c.b, first = m.points[0], last = m.points[m.points.length - 1];
+      var move = Math.round(first * 100) + "% → " + Math.round(last * 100) + "%";
       var li = document.createElement("li"), btn = document.createElement("button");
       btn.type = "button"; btn.className = "pl-ans";
-      btn.innerHTML = '<span class="mf-sw ' + SERIES[i % SERIES.length] + '"></span>' +
-        '<span class="pl-ans-claim"></span><span class="pl-ans-move"></span><span class="pl-ans-why"></span>';
-      btn.querySelector(".pl-ans-claim").textContent = m.claim;
-      btn.querySelector(".pl-ans-move").textContent = Math.round(first * 100) + "% → " + Math.round(last * 100) + "%" + (last > first ? ", rose" : last < first ? ", fell" : ", held");
-      btn.querySelector(".pl-ans-why").textContent = "Moved most at " + fmtT(b.t_start) + ": " + (b.evidence ? "“" + b.evidence + "”" : b.summary);
-      btn.setAttribute("aria-label", m.claim + ", " + btn.querySelector(".pl-ans-move").textContent + ". Jump to the moment at " + fmtT(b.t_start));
-      btn.addEventListener("click", function () { stop(); seek(b.t_start); rowEls[k - 1].focus(); });
+      btn.innerHTML = '<span class="pl-ans-t"></span><span class="pl-ans-q"></span><span class="pl-ans-claim"><span class="mf-sw ' + SERIES[c.i % SERIES.length] + '"></span><span></span></span>';
+      btn.querySelector(".pl-ans-t").textContent = fmtT(b.t_start) + ", " + b.speaker;
+      btn.querySelector(".pl-ans-q").textContent = b.evidence ? "“" + b.evidence + "”" : b.summary;
+      btn.querySelector(".pl-ans-claim span:last-child").textContent = m.claim + ": " + move;
+      btn.setAttribute("aria-label", fmtT(b.t_start) + ", " + b.speaker + ": " + btn.querySelector(".pl-ans-q").textContent + ". " + m.claim + ", " + move + ". Jump there.");
+      btn.addEventListener("click", function () { stop(); seek(b.t_start + 0.01); rowEls[c.k - 1].focus(); });
       li.appendChild(btn); ans.appendChild(li);
     });
 
@@ -224,7 +228,7 @@
           var m = player.manifold.filter(function (mm) { return mm.belief === x.belief; })[0];
           var d = document.createElement("span"); d.className = "ref"; d.textContent = (m ? m.claim : x.belief) + " now " + Math.round(x.to * 100) + "%"; body.appendChild(d);
         });
-        if (cur && at("full") && b.evidence) { var e = document.createElement("span"); e.className = "pl-quote"; e.textContent = "“" + b.evidence + "”"; body.appendChild(e); }
+        if (at("beats") && b.evidence) { var e = document.createElement("span"); e.className = "pl-quote"; e.textContent = "“" + b.evidence + "”"; body.appendChild(e); }
       });
       var rw = q("[data-readout-wrap]"); if (rw) rw.hidden = !at("motion");
     }
