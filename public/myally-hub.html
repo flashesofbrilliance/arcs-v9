@@ -896,7 +896,7 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .calc-out dt{font-size:.925rem;line-height:1.5;color:var(--pg-dim)}.calc-out dd{margin:2px 0 0;font-weight:700;font-variant-numeric:tabular-nums}
 @media (max-width:640px){.calc-out{grid-template-columns:1fr 1fr}.calc-rows li{grid-template-columns:minmax(0,1fr) 4.5em 40px}.calc .cu{display:none}}
 /* terms: label column + reading text (replaces bold-lead bullets) */
-.prop .terms{margin:4px 0 0;padding:0;border-top:1px solid var(--pg-line)}
+.prop .terms{margin:4px 0 0;padding:0}
 .prop .term{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:4px 28px;padding:14px 0;border-bottom:1px solid var(--pg-line)}
 .prop .term dt{font-size:.925rem;font-weight:600;line-height:1.5;color:var(--pg-dim);padding-top:1px}
 .prop .term dd{margin:0;line-height:1.6;text-wrap:pretty}
@@ -904,7 +904,7 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .prop .term:last-child{border-bottom:0}.prop .hand .go:last-child{border-bottom:0}
 @media (max-width:640px){.prop .term{grid-template-columns:1fr}}
 /* start steps: numbered, owner tag, one action per row */
-.prop ol.hand{list-style:none;padding:0;margin:4px 0 0;counter-reset:go;border-top:1px solid var(--pg-line)}
+.prop ol.hand{list-style:none;padding:0;margin:4px 0 0;counter-reset:go}
 .prop .hand .go{counter-increment:go;display:grid;grid-template-columns:2rem 7.5rem minmax(0,1fr);gap:4px 16px;align-items:baseline;margin:0;padding:14px 0;border-bottom:1px solid var(--pg-line)}
 .prop .hand .go::before{content:counter(go);font-weight:700;font-variant-numeric:tabular-nums;color:var(--pg-accent)}
 .prop .go-who{justify-self:start;font-size:.925rem;font-weight:600;line-height:1.4;padding:2px 8px;border:1px solid var(--pg-line);border-radius:999px;color:var(--pg-dim)}
