@@ -136,15 +136,24 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 .pl-ruler i { position: absolute; top: 0; width: 2px; height: 9px; margin-left: -1px; background: var(--c); }
 .pl-ans-q { flex: 1; quotes: "“" "”"; font-family: var(--ds-font-display); font-style: italic; font-size: var(--fs-headline); line-height: 1.4; color: var(--text); text-wrap: pretty; text-indent: -0.42em; }
 .pl-ans-claim { font-size: var(--fs-body); line-height: 1.35; color: var(--text-secondary); text-wrap: balance; }
-.pl-move { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-variant-numeric: tabular-nums; }
-.pl-move-n { color: var(--text-secondary); white-space: nowrap; }
-.pl-move-n b { color: var(--c); font-weight: 700; }
-.pl-move-track { position: relative; height: 12px; }
-.pl-move-track::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; border-radius: var(--ds-r-pill); background: var(--border); }
-.pl-move-seg { position: absolute; top: 5px; height: 2px; border-radius: var(--ds-r-pill); background: var(--c); }
-.pl-move-dot { position: absolute; top: 1px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; }
-.pl-move-dot.from { background: var(--surface); border: 2px solid var(--text-secondary); }
-.pl-move-dot.to { background: var(--c); }
+/* Direction carries the change: red falls, green rises, muted holds. The sign and the arrow say it too. */
+.pl-ans, .pl-delta, .pl-chg { --d: var(--muted); }
+.pl-ans.up, .pl-delta.up, .pl-chg.up { --d: var(--green); }
+.pl-ans.down, .pl-delta.down, .pl-chg.down { --d: var(--red); }
+.pl-ans-claim { display: flex; align-items: baseline; gap: 0; }
+.pl-ans-delta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-family: var(--ds-font-mono); font-variant-numeric: tabular-nums; }
+.pl-ans-delta b { font-size: var(--fs-display); line-height: 1; font-weight: 700; letter-spacing: -0.02em; color: var(--d); }
+.pl-ans-delta span { font-size: var(--fs-label); color: var(--text-secondary); }
+.pl-move { display: block; }
+.pl-move-track { display: block; position: relative; height: 14px; }
+.pl-move-track::before { content: ""; position: absolute; left: 0; right: 0; top: 6px; height: 2px; border-radius: var(--ds-r-pill); background: var(--border); }
+.pl-move-seg { position: absolute; top: 6px; height: 2px; background: var(--d); }
+.pl-move-tail { position: absolute; top: 3px; width: 2px; height: 8px; margin-left: -1px; background: var(--text-secondary); }
+.pl-move-head { position: absolute; top: 1px; width: 12px; height: 12px; background: var(--d); }
+.pl-ans.up .pl-move-head { margin-left: -11px; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.pl-ans.down .pl-move-head { margin-left: -1px; clip-path: polygon(100% 0, 0 50%, 100% 100%); }
+.pl-ans.flat .pl-move-head { margin-left: -5px; width: 10px; height: 10px; top: 2px; border-radius: 50%; }
+.pl-delta b, .pl-chg { color: var(--d); font-weight: 700; }
 .pl-stage-main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; align-items: start; }
 @media (max-width: 900px) { .pl-stage-main { grid-template-columns: minmax(0, 1fr); } }
 .pl-bar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 10px; }
@@ -173,7 +182,6 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 .pl-row.major .pl-row-s { color: var(--text-secondary); }
 .pl-row .pl-quote { quotes: "“" "”"; font-size: var(--fs-headline); line-height: 1.35; }
 .pl-delta { font-family: var(--ds-font-mono); font-size: var(--fs-label); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-.pl-delta b { font-weight: 700; } .pl-delta.cyan b { color: var(--cyan); } .pl-delta.green b { color: var(--green); } .pl-delta.gold b { color: var(--gold); }
 .pl-row-b { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
 .pl-quote { font-family: var(--ds-font-display); font-style: italic; color: var(--text); padding-left: 12px; border-left: 1px solid var(--border); }
 .pl-opts { border-top: 1px solid var(--border); padding-top: 12px; }
@@ -198,7 +206,7 @@ main { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column;
 <input type="range" min="0" value="0" data-scrub aria-label="Position in the call"><span class="pl-clock" data-clock></span>
 <span class="pl-keys">Space plays or pauses. Arrow keys step one moment.</span></div>
 <p class="sr" role="status" data-status></p>
-<div class="pl-readout" data-readout-wrap hidden><div class="mf-scroll" tabindex="0" role="region" aria-label="Kinematics at the scrub head"><table class="mf-table"><thead><tr><th scope="col" style="text-align:left">Belief</th><th scope="col">Confidence</th><th scope="col">D1 speed</th><th scope="col">D2 accel</th><th scope="col">D3 jerk</th></tr></thead><tbody data-readout></tbody></table></div></div></section>
+<div class="pl-readout" data-readout-wrap hidden><div class="mf-scroll" tabindex="0" role="region" aria-label="Kinematics at the scrub head"><table class="mf-table"><thead><tr><th scope="col" style="text-align:left">Belief</th><th scope="col">Confidence</th><th scope="col">Change since start</th><th scope="col">D1 speed</th><th scope="col">D2 accel</th><th scope="col">D3 jerk</th></tr></thead><tbody data-readout></tbody></table></div></div></section>
 <section aria-labelledby="mo-h"><h2 class="section-label" id="mo-h">The call, moment by moment</h2><ol class="pl-moments" data-moments></ol></section>
 </div>
 <details class="pl-opts"><summary>Playback options</summary><div class="pl-opts-grid"><div><span class="pl-opt-label" id="dir-h">Direction</span><div class="seg" role="radiogroup" aria-labelledby="dir-h"><input type="radio" name="dir" id="dir0" value="-1"><label for="dir0">Reverse</label><input type="radio" name="dir" id="dir1" value="1" checked><label for="dir1">Forward</label></div></div><div><span class="pl-opt-label" id="tempo-h">Speed</span><div class="seg" role="radiogroup" aria-labelledby="tempo-h"><input type="radio" name="tempo" id="tempo0" value="slow"><label for="tempo0">Slow mo</label><input type="radio" name="tempo" id="tempo1" value="real"><label for="tempo1">Real time</label><input type="radio" name="tempo" id="tempo2" value="max" checked><label for="tempo2">Max recall</label></div></div><div><span class="pl-opt-label" id="detail-h">Detail</span><div class="seg" role="radiogroup" aria-labelledby="detail-h"><input type="radio" name="detail" id="detail0" value="gist"><label for="detail0">1 Gist</label><input type="radio" name="detail" id="detail1" value="moments"><label for="detail1">2 Moments</label><input type="radio" name="detail" id="detail2" value="beats" checked><label for="detail2">3 Beats</label><input type="radio" name="detail" id="detail3" value="motion"><label for="detail3">4 Motion</label><input type="radio" name="detail" id="detail4" value="full"><label for="detail4">5 Full</label></div></div></div></details>

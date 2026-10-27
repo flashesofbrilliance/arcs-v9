@@ -15,6 +15,12 @@
   }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function fmtT(s) { s = Math.round(s); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
+  /* Signed change in percentage points, true minus sign; dir names the direction for colour and arrow. */
+  function pts(a, b) {
+    var d = Math.round(b * 100) - Math.round(a * 100);
+    return { d: d, dir: d > 0 ? "up" : d < 0 ? "down" : "flat",
+             text: d === 0 ? "no change" : (d > 0 ? "+" : "\u2212") + Math.abs(d) + " pts" };
+  }
   function signed(v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(2); }
 
   /* Index of the beat that holds time t (the last beat whose start is at or before t). */
@@ -94,10 +100,12 @@
     tbody.textContent = "";
     player.manifold.forEach(function (m, i) {
       var tr = document.createElement("tr");
-      var cells = [m.claim, Math.round(m.points[k] * 100) + "%", signed(m.D1[k]), signed(m.D2[k]), signed(m.D3[k])];
+      var ch = pts(m.points[0], m.points[k]);
+      var cells = [m.claim, Math.round(m.points[k] * 100) + "%", ch.text, signed(m.D1[k]), signed(m.D2[k]), signed(m.D3[k])];
       cells.forEach(function (c, j) {
         var td = document.createElement(j === 0 ? "th" : "td");
         if (j === 0) { td.scope = "row"; var sw = document.createElement("span"); sw.className = "mf-sw " + SERIES[i % SERIES.length]; td.appendChild(sw); }
+        if (j === 2) td.className = "pl-chg " + ch.dir;
         td.appendChild(document.createTextNode(c));
         tr.appendChild(td);
       });
@@ -210,27 +218,26 @@
     cards.sort(function (x, y) { return x.b.t_start - y.b.t_start; });
     cards.forEach(function (c) {
       var m = c.m, b = c.b, first = m.points[0], last = m.points[m.points.length - 1];
-      var f = Math.round(first * 100), t = Math.round(last * 100), lo = Math.min(f, t), hi = Math.max(f, t);
+      var f = Math.round(first * 100), t = Math.round(last * 100), lo = Math.min(f, t), hi = Math.max(f, t), ch = pts(first, last);
       var move = f + "% → " + t + "%";
       var li = document.createElement("li"), btn = document.createElement("button");
-      btn.type = "button"; btn.className = "pl-ans " + SERIES[c.i % SERIES.length];
+      btn.type = "button"; btn.className = "pl-ans " + SERIES[c.i % SERIES.length] + " " + ch.dir;
       btn.innerHTML = '<span class="pl-ans-t"><span></span><span></span><span class="pl-ruler" aria-hidden="true"><i></i></span></span><q class="pl-ans-q"></q>' +
-        '<span class="pl-ans-claim"></span>' +
-        '<span class="pl-move" aria-hidden="true"><span class="pl-move-track">' +
-        '<span class="pl-move-seg"></span><span class="pl-move-dot from"></span><span class="pl-move-dot to"></span></span>' +
-        '<span class="pl-move-n"></span></span>';
+        '<span class="pl-ans-claim"><span class="mf-sw ' + SERIES[c.i % SERIES.length] + '"></span><span></span></span>' +
+        '<span class="pl-ans-delta"><b></b><span></span></span>' +
+        '<span class="pl-move" aria-hidden="true"><span class="pl-move-track"><span class="pl-move-seg"></span><span class="pl-move-tail"></span><span class="pl-move-head"></span></span></span>';
       var tt = btn.querySelectorAll(".pl-ans-t span");
       tt[0].textContent = fmtT(b.t_start); tt[1].textContent = b.speaker;
       btn.querySelector(".pl-ruler i").style.left = (100 * b.t_start / dur).toFixed(1) + "%";
       mf.mark(c.k, c.i); /* the same moment, ringed on the chart */
       btn.querySelector(".pl-ans-q").textContent = b.evidence || b.summary;
-      btn.querySelector(".pl-ans-claim").textContent = m.claim;
-      var mn = btn.querySelector(".pl-move-n"), tb = document.createElement("b");
-      mn.textContent = f + " \u2192 "; tb.textContent = t + "%"; mn.appendChild(tb);
+      btn.querySelector(".pl-ans-claim span:last-child").textContent = m.claim;
+      btn.querySelector(".pl-ans-delta b").textContent = ch.text;
+      btn.querySelector(".pl-ans-delta span").textContent = move;
       btn.querySelector(".pl-move-seg").style.cssText = "left:" + lo + "%;width:" + (hi - lo) + "%";
-      btn.querySelector(".pl-move-dot.from").style.left = f + "%";
-      btn.querySelector(".pl-move-dot.to").style.left = t + "%";
-      btn.setAttribute("aria-label", fmtT(b.t_start) + ", " + b.speaker + ": " + (b.evidence || b.summary) + ". " + m.claim + ", " + move + ". Jump there.");
+      btn.querySelector(".pl-move-tail").style.left = f + "%";
+      btn.querySelector(".pl-move-head").style.left = t + "%";
+      btn.setAttribute("aria-label", fmtT(b.t_start) + ", " + b.speaker + ": " + (b.evidence || b.summary) + ". " + m.claim + ", " + ch.text + ", " + move + ". Jump there.");
       btn.addEventListener("click", function () { stop(); seek(b.t_start + 0.01); rowEls[c.k - 1].focus(); });
       c.el = btn;
       li.appendChild(btn); ans.appendChild(li);
@@ -277,9 +284,12 @@
         if (open && at("beats") && b.belief_deltas) b.belief_deltas.forEach(function (x) {
           player.manifold.forEach(function (mm, j) {
             if (mm.belief !== x.belief) return;
-            var d = document.createElement("span"); d.className = "pl-delta " + SERIES[j % SERIES.length];
-            var nb = document.createElement("b"); nb.textContent = Math.round(mm.points[i] * 100) + " → " + Math.round(x.to * 100) + "%";
-            d.appendChild(nb); d.appendChild(document.createTextNode(" " + mm.claim)); body.appendChild(d);
+            var ch = pts(mm.points[i], x.to);
+            var d = document.createElement("span"); d.className = "pl-delta " + ch.dir;
+            var nb = document.createElement("b"); nb.textContent = ch.text;
+            d.appendChild(nb);
+            d.appendChild(document.createTextNode(" " + mm.claim + ", " + Math.round(mm.points[i] * 100) + "% → " + Math.round(x.to * 100) + "%"));
+            body.appendChild(d);
           });
         });
       });
