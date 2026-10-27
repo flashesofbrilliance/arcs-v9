@@ -1493,8 +1493,8 @@ ro.querySelector('.ro-reset').onclick=()=>{st={};saveRead();applyRead()};
 ro.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>{st[b.dataset.k]=b.dataset.v;saveRead();applyRead()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ro.hidden)openRead(false)});
 document.getElementById('themetog')?.addEventListener('click',()=>{const now=st.theme&&st.theme!=='std'?st.theme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');st.theme=now==='dark'?'light':'dark';saveRead();applyRead()});
-function placeFab(){const m=document.querySelector('main');if(!m)return;const g=document.documentElement.clientWidth-m.getBoundingClientRect().right,r=Math.max(16,Math.round((g-48)/2))+'px';fab.style.right=r;ro.style.right=r}
-addEventListener('resize',placeFab);placeFab();
+function placeFab(){const m=document.querySelector('main');if(!m)return;const g=document.documentElement.clientWidth-m.getBoundingClientRect().right,r=Math.max(16,Math.round((g-48)/2))+'px';fab.style.right=r;ro.style.right=r;const sh=document.querySelector('.shell');if(sh){const gap=Math.round(innerHeight-sh.getBoundingClientRect().bottom);fab.style.bottom=Math.max(16,gap)+'px'}}
+addEventListener('resize',placeFab);addEventListener('scroll',placeFab,{passive:true});document.addEventListener('click',()=>setTimeout(placeFab,60));placeFab();
 applyRead();
 })();
 </script>
