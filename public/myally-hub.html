@@ -1216,7 +1216,7 @@ const N=[
 ['g1','P0','ms','NDA countersigned',[0,0,0],[0,0,0],[]],
 ['g2','P0','gate','Services agreement and 50% audit invoice',[0,0,0],[1,1,1],['g1']],
 ['g2b','P0','gap','Audit credit amount',[0,0,0],[0,0,0],['g2']],
-['g5','P0','gate','Intake form, page 1 (8 essentials)',[0,0,0],[1,1,1],['g1']],
+['g5','P0','gate','Intake form, page 1 (8 essentials)',[0,0,0],[1,1,1],['g1'],'Page 1 of https://tally.so/r/xXkrP5 asks for your name, the signed NDA, the build spec, where the app lives, the services you use, who decides, your lawyer and key dates. About 5 minutes.'],
 ['g3','P0','gate','Accounts, documents and call slots',[0,0,0],[1,1,1],['g2']],
 ['g3r','P0','req','Member access, no shared logins',[0,0,0],[1,1,1],['g3']],
 ['g4','P0','gate','Counsel confirmed for Alyce questions',[0,0,0],[1,1,1],['g2']],
@@ -1351,7 +1351,7 @@ function detail(id){
  <section aria-label="When"><h3 class="dl">When</h3>${when}</section>
  <section aria-label="Order"><h3 class="dl">Order</h3>${deps.length?`<p class="fl"><span class="fk">Needs first</span>${deps.map(chip).join('')}</p>`:'<p class="fl"><span class="fk">Needs first</span><span class="none">nothing, can start straight away</span></p>'}${ub.length?`<p class="fl"><span class="fk">Then unlocks</span>${ub.map(chip).join('')}</p>`:''}</section>
  ${kidsL.length?`<section aria-label="Inside this phase, in order"><h3 class="dl">Inside, in order</h3>${insideHTML(id)}</section>`:''}
- ${n[7]?`<p class="dnote">${esc(n[7])}</p>`:''}
+ ${n[7]?`<p class="dnote">${esc(n[7]).replace(/https:\/\/tally\.so\/r\/[A-Za-z0-9]+/g,u=>`<a href="${u}" target="_blank" rel="noopener">the intake form (opens in a new tab)</a>`)}</p>`:''}
  </div></div>`;
  const save=e=>{const f=e.target.dataset.f;if(!f)return;(notes[id]=notes[id]||{})[f]=e.target.value;try{localStorage.setItem(NK,JSON.stringify(notes))}catch(x){}};
  d.oninput=save;d.onchange=save;
