@@ -269,7 +269,8 @@ th{background:var(--pg-surface2);color:var(--pg-dim);font-weight:600}
 .step>summary:focus-visible{outline:3px solid var(--pg-accent);outline-offset:-3px;border-radius:6px}
 .sx::before{content:"+";color:var(--pg-accent);font-weight:700}.step[open] .sx::before{content:"−"}
 .sbody{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:8px 24px;padding:0 14px 12px calc(2rem + 26px)}
-.skeep{padding-left:0}.sh{margin:8px 0 4px;font-weight:700;color:var(--pg-dim)}.sbody p{margin:0 0 6px}
+.skeep{padding-left:0}
+.step[open]>summary{border-bottom:1px solid var(--pg-line);margin-bottom:12px}.sh{margin:8px 0 4px;font-weight:700;color:var(--pg-dim)}.sbody p{margin:0 0 6px}
 .sinc{margin:0 0 6px;padding-left:20px}.sinc li{margin:2px 0}
 .sn{color:var(--pg-accent);font-weight:700}.sname{font-weight:700}.swhat{color:var(--pg-dim)}.scost{font-weight:600}
 @media (max-width:640px){.step>summary{grid-template-columns:2rem minmax(0,1fr) 1.5rem}.swhat,.scost{grid-column:2}.sx{grid-column:3;grid-row:1}.sbody{padding-left:14px;grid-template-columns:minmax(0,1fr)}.skeep{background:none;padding-left:0}}
