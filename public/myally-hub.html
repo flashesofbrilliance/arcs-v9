@@ -305,6 +305,15 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 @media (max-width:640px){.shell-meta{padding:12px}}
 .mast-conf{margin:0 0 16px}
 .shell-bar{min-width:0}.shell .tabs{min-width:0;max-width:100%;overflow-x:auto;scrollbar-width:none}.shell .tabs::-webkit-scrollbar{display:none}.shell .tabs button{flex:none}@media (max-width:640px){.shell .tabs button{padding:0 12px}}
+/* rows read as clickable */
+.row[data-id]{cursor:pointer;transition:background .15s}
+.row[data-id]:hover{background:color-mix(in srgb,var(--accent) 7%,var(--surface))}
+.row.l0[data-id]:hover{background:color-mix(in srgb,var(--accent) 9%,var(--surface2))}
+.row[data-id] .nm{padding-right:26px;position:sticky}
+.row[data-id] .nm::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);transform:translateY(-50%) rotate(-45deg);opacity:.55;transition:opacity .15s,transform .15s}
+.row[data-id]:hover .nm::after,.row[aria-selected="true"] .nm::after{opacity:1;border-color:var(--accent);transform:translate(2px,-50%) rotate(-45deg)}
+.row[data-id]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+@media (prefers-reduced-motion:reduce){.row[data-id],.row[data-id] .nm::after{transition:none}}
 .dside,.fmb,#detail .notes{display:none!important}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}.pane-doc{margin:-20px}.pane-doc iframe{display:block;width:100%;border:0;border-radius:0 0 10px 10px;min-height:200px;background:#fff}@media (max-width:640px){.pane-doc{margin:-14px}}
 </style>
 </head>
@@ -359,7 +368,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 </ul>
 <div class="layout">
 <div class="wrap"><div class="grid" id="g" role="treegrid" aria-label="Alyce build plan by week" aria-describedby="hint"></div></div>
-<section id="detail" aria-live="polite" aria-labelledby="dh"><h2 id="dh" class="vh">Details</h2><p class="empty">Choose a row to see what it depends on, what it unblocks, and to add an owner and notes.</p></section>
+<section id="detail" aria-live="polite" aria-labelledby="dh"><h2 id="dh" class="vh">Details</h2><p class="empty">Choose any row to see what is inside it, what it needs first and what it unlocks.</p></section>
 </div>
 </div>
 <div id="pane-prop" role="tabpanel" aria-labelledby="t-prop" hidden><iframe title="Proposal" srcdoc="&lt;!doctype html&gt;
@@ -1240,7 +1249,7 @@ const COST={P1:['56 h · $8,400 fixed','56 h · $8,400 fixed','56 h · $8,400 fi
 const byId=Object.fromEntries(N.map(n=>[n[0],n]));
 const kids=id=>N.filter(n=>n[1]===id);
 let cs='base',sel=null,arrows=false,cmp=false,lens=false,simple=true;
-const open=new Set(['P0']);
+const open=new Set();
 const NK='alyceGanttNotes';let notes={};try{notes=JSON.parse(localStorage.getItem(NK)||'{}')||{}}catch(e){}
 const g=document.getElementById('g');
 const ci=()=>({best:0,base:1,worst:2})[cs];
@@ -1333,7 +1342,7 @@ document.getElementById('arr').onclick=function(){arrows=!arrows;this.setAttribu
 document.getElementById('tog').onclick=()=>{if(open.size)open.clear();else N.forEach(n=>n[2]==='phase'&&open.add(n[0]));render()};
 addEventListener('resize',()=>render());
 render();
-if(!sel)setTimeout(()=>{sel='g1';render();detail('g1')},0);
+
 /* risk register */
 const RISKS=[];
 const RK2='alyceHubR';let rs={};function resid(r){return{L:r.L,I:r.I}}const band=v=>v>=6?'h':v>=3?'m':'l',bandName={h:'high',m:'medium',l:'low'};function regRender(){}
