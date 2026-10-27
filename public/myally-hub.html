@@ -391,7 +391,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .shell-bar .tabs [role=tab]{text-align:left;padding:12px 16px!important;border-bottom:0!important;min-height:44px}
 .shell-bar .tabs [role=tab][aria-selected=true]{box-shadow:inset 3px 0 0 var(--accent)}}
 @media (min-width:561px){.burger{display:none}}
-.dside,.fmb,#detail .notes{display:none!important}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}.pane-doc{margin:-20px}.pane-doc iframe{display:block;width:100%;border:0;border-radius:0 0 10px 10px;min-height:200px;background:#fff}@media (max-width:640px){.pane-doc{margin:-14px}}
+@media (max-width:560px){.ro-esc{display:none}}.dside,.fmb,#detail .notes{display:none!important}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}.pane-doc{margin:-20px}.pane-doc iframe{display:block;width:100%;border:0;border-radius:0 0 10px 10px;min-height:200px;background:#fff}@media (max-width:640px){.pane-doc{margin:-14px}}
 </style>
 </head>
 <body>
@@ -1423,13 +1423,13 @@ addEventListener(&#x27;pagehide&#x27;,function(){t(&#x27;page_dwell&#x27;,{secon
 <button type="button" class="readfab" id="readfab" aria-expanded="false" aria-controls="readopts" aria-label="Reading options"><span aria-hidden="true">Aa</span></button>
 <section id="readopts" class="readopts" role="dialog" aria-modal="false" aria-labelledby="roh" hidden>
 <p id="roh" class="ro-title">Reading options</p>
-<p class="ro-note">Comfort settings: pick whatever reads best for you. They stay on this device and are not sent anywhere.</p>
+<p class="ro-note">Comfort settings: pick whatever reads best for you. They stay on this device and are not sent anywhere. I recommend reading this on a computer or a larger tablet, where these settings work best too.</p>
 <div class="ro-group" role="group" aria-labelledby="ro-f"><span id="ro-f" class="ro-label">Font</span><span class="ro-btns"><button type="button" data-k="font" data-v="std">Standard</button><button type="button" data-k="font" data-v="easy">Easy-read</button></span><span class="ro-hint">Easy-read is a plain, wide font with no italics.</span></div>
 <div class="ro-group" role="group" aria-labelledby="ro-s"><span id="ro-s" class="ro-label">Text size</span><span class="ro-btns"><button type="button" data-k="size" data-v="std">Standard</button><button type="button" data-k="size" data-v="l">Larger</button><button type="button" data-k="size" data-v="xl">Largest</button></span></div>
 <div class="ro-group" role="group" aria-labelledby="ro-p"><span id="ro-p" class="ro-label">Spacing</span><span class="ro-btns"><button type="button" data-k="space" data-v="std">Standard</button><button type="button" data-k="space" data-v="roomy">Roomy</button></span><span class="ro-hint">Roomy adds space between letters, words and lines.</span></div>
-<div class="ro-group" role="group" aria-labelledby="ro-th"><span id="ro-th" class="ro-label">Theme</span><span class="ro-btns"><button type="button" data-k="theme" data-v="light">Light</button><button type="button" data-k="theme" data-v="dark">Dark</button></span></div><p class="ro-hint" style="margin:10px 0 0;font-size:.8rem;color:var(--muted)">Press Esc to close.</p>
+<div class="ro-group" role="group" aria-labelledby="ro-th"><span id="ro-th" class="ro-label">Theme</span><span class="ro-btns"><button type="button" data-k="theme" data-v="light">Light</button><button type="button" data-k="theme" data-v="dark">Dark</button></span></div>
 <div class="ro-group" role="group" aria-labelledby="ro-t"><span id="ro-t" class="ro-label">Background</span><span class="ro-btns"><button type="button" data-k="tone" data-v="std">Standard</button><button type="button" data-k="tone" data-v="warm">Warm paper</button></span></div>
-<div class="ro-actions"><button type="button" class="ro-reset">Reset</button><button type="button" class="ro-close">Close</button></div>
+<p class="ro-esc" style="margin:12px 0 0;color:var(--muted)">Press Esc to close.</p><div class="ro-actions"><button type="button" class="ro-reset">Reset</button><button type="button" class="ro-close">Close</button></div>
 </section>
 
 <script>
