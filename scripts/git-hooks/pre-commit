@@ -530,6 +530,14 @@ if [ -f scripts/delta_encoding_gate.py ] && command -v python3 >/dev/null 2>&1; 
   fi
 fi
 
+# Kit specimen pages are generated (2026-10-28): a page must match its spec in src/ui-kit/specimens/.
+if [ -f scripts/kit_specimen.py ] && git diff --cached --name-only -- 'src/ui-kit/specimens/*' 'src/ui-kit/recoil-report/*' 'scripts/kit_specimen.py' | grep -q .; then
+  if ! python3 scripts/kit_specimen.py --check; then
+    echo "✖ commit blocked: a kit specimen page differs from its spec. Edit the spec and run python3 scripts/kit_specimen.py --all." >&2
+    exit 1
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
 # staged single-file pages when the launcher is installed on this machine. NEW pages block on

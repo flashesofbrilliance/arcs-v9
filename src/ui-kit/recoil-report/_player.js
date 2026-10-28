@@ -409,5 +409,21 @@
     if (reduce) { seek(dur); stop(); } else start(); /* the page moves on load, then rests on the answer */
   }
 
-  root.ArcsRecoil = { Manifold: Manifold, BacklogGraph: BacklogGraph, Player: Player, readout: readout, clusters: clusters };
+  /* Molecule: change. Signed points first, then before and after, then a directional arrow.
+     The one renderer for a belief change outside the player's own cards. */
+  function change(before, after) {
+    var ch = pts(before, after), f = Math.round(before * 100), t = Math.round(after * 100);
+    var w = document.createElement("span"); w.className = "pl-change " + ch.dir;
+    w.innerHTML = '<span class="pl-ans-delta"><b></b><span></span></span><span class="pl-move" aria-hidden="true"><span class="pl-move-track">' +
+      '<span class="pl-move-seg"></span><span class="pl-move-tail"></span><span class="pl-move-head"></span></span></span>';
+    w.querySelector("b").textContent = ch.text; /* sign with the colour, never colour alone */
+    w.querySelector(".pl-ans-delta span").textContent = f + "% \u2192 " + t + "%";
+    w.querySelector(".pl-move-seg").style.cssText = "left:" + Math.min(f, t) + "%;width:" + Math.abs(t - f) + "%";
+    w.querySelector(".pl-move-tail").style.left = f + "%";
+    w.querySelector(".pl-move-head").style.left = t + "%";
+    w.setAttribute("aria-label", ch.text + ", " + f + "% to " + t + "%");
+    return w;
+  }
+
+  root.ArcsRecoil = { change: change, pts: pts, Manifold: Manifold, BacklogGraph: BacklogGraph, Player: Player, readout: readout, clusters: clusters };
 })(window);
