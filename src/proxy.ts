@@ -41,7 +41,7 @@ const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
 // mechanism; next.config.ts's fix is the belt-and-suspenders backstop.
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // myally.arcs.care: one tabbed hub (Proposal, Timeline, Primer, Debrief). Every page path opens the hub,
-  // which picks its tab from the path (/mnda-edits now lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
+  // which picks its tab from the path (bare host and unknown paths open Debrief; /mnda-edits lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
   // The signed PDF maps to itself so the default rewrite does not swallow it. Gated end to end by the
   // myally passcode block in proxy() before this map is consulted.
   'myally':    { '/proposal': '/myally-hub.html', '/timeline': '/myally-hub.html', '/mnda-edits': '/myally-hub.html', '/primer': '/myally-hub.html', '/debrief': '/myally-hub.html', '/myally-mnda-signed.pdf': '/myally-mnda-signed.pdf', default: '/myally-hub.html' },
