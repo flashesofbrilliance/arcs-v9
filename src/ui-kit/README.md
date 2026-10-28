@@ -123,3 +123,11 @@ Inter + JetBrains Mono. Enrolling a page onto `_tokens.css` therefore trips `des
 (handled by the brand profile above) and shifts sans rendering to a system fallback. The reconciliation
 (`/design-sync` one component at a time) is backlog item `tokens-css-vs-ds-font-stack-drift` and is not
 this change's to decide.
+
+## Specimen pages (2026-10-28)
+
+Every building block gets one standard page: head, live stage, states, anatomy, usage, data, access, relations,
+gates, in that order. Write a spec in `src/ui-kit/specimens/<name>.json`, then run
+`python3 scripts/kit_specimen.py --all`. The page lands in `recoil-report/` as `NN-<slug>.html`, enrolled in the
+`kit-specimen` template, so `component_source_gate` refuses a page that drops a section and
+`kit_specimen.py --check` (pre-commit) refuses a hand edit. First specimen: `36-change.html`.
