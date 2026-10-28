@@ -14,6 +14,8 @@ are reproducible from source.
 Usage:
   python scripts/recoil_brief.py --data runtime/recoil/generated/<id>.json \
       --audience internal|external [--format md|json] [--set key=value ...]
+  python scripts/recoil_brief.py --data <id>.json --format induce [--no-librarian] > candidates.jsonl
+      candidate backlog rows (scripts/recoil_induce.py); never writes the live backlog
 
 Pass-through:
   --set meta.foo=bar   override any dotted meta key at generation time
@@ -480,9 +482,10 @@ def main():
     ap = argparse.ArgumentParser(description="Single-source recoil brief generator.")
     ap.add_argument("--data", required=True)
     ap.add_argument("--audience", choices=["internal", "external"], default="internal")
-    ap.add_argument("--format", choices=["md", "json", "html", "player"], default="md")
+    ap.add_argument("--format", choices=["md", "json", "html", "player", "induce"], default="md")
     ap.add_argument("--check-beats", action="store_true", help="validate the beats array and exit")
     ap.add_argument("--set", action="append", default=[], help="pass-through override key.path=value")
+    ap.add_argument("--no-librarian", action="store_true", help="induce: skip Operator 21 prior-art retrieval")
     a = ap.parse_args()
 
     data = apply_overrides(load(a.data), a.set)
@@ -494,6 +497,13 @@ def main():
         if errs:
             sys.exit("recoil: invalid beats:\n" + "\n".join(errs))
         print(json.dumps(project_player(data, a.audience), indent=2))
+        return
+    if a.format == "induce":
+        if a.audience != "internal":
+            sys.exit("recoil: --format induce is internal only (backlog rows never go to a counterpart)")
+        import recoil_induce
+        for r in recoil_induce.run_all(data=data, librarian=not a.no_librarian):
+            print(json.dumps(r, ensure_ascii=False))
         return
     if a.format == "html":
         print(render_html(data, a.audience))
