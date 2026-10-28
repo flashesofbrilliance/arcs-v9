@@ -53,8 +53,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   // claritai.arcs.care: Head of Operational Excellence & AI Systems bundle (2026-09-28): OPEN (ungated), noindex, for Jeff Kronisch (Harris Allied) to forward to Seth Merrin. root = brief + objections + history; PDF mapped to itself.
   // concourse.arcs.care: Concourse FDE bundle (2026-10-19): OPEN (ungated), noindex. root = candidate page (bet, record, role shape, gaps, kickoff card, ledger), /sara = recruiter brief, /plan = 90-day plan + pre-mortem (draft 2026-10-19), /llms.txt + /candidate.json = agent-readable claims with read-only checks. External cuts only; no counterpart profile content.
-  // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; the panel already has the ZIP and deck, so they are not hosted.
-  'monday':    { default: '/monday-guide.html' },
+  // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; /monday-guide-rc46.zip = the submitted ZIP (sha256 matches dist/submission-rc46.zip.sha256), mapped to itself so the default rewrite does not swallow it.
+  'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'concourse': { '/sara': '/concourse-sara.html', '/plan': '/concourse-plan.html', '/llms.txt': '/concourse-llms.txt', '/candidate.json': '/concourse-candidate.json', default: '/concourse.html' },
   'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
