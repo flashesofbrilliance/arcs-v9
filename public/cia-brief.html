@@ -572,6 +572,18 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <div class="ccard"><h3>Looking in</h3><ul><li><b>Systems and data:</b> every system that holds a person or organization (student records, donor database, ticketing and reservations, point of sale, consulting contracts, email and marketing), its owner, and how data moves today.</li><li><b>Use cases by team:</b> short user stories, such as a gift officer seeing that a donor also took a class and booked an event.</li><li><b>The current reporting loop:</b> how numbers are pulled, checked and turned into decisions today, and where the manual work and blind spots are.</li><li><b>Team skills:</b> what the in-house systems team can own after go-live.</li></ul></div>
 </div>
 
+</div></details><details class="blk"><summary><h3 class="cia-h2">What public signals suggest about the current stack</h3><span class="tk">Microsoft is likely the base layer, and admissions may already run on a Dynamics-based CRM, so Dynamics starts with home-field advantage that Salesforce has to earn.</span></summary><div class="bd">
+<p class="ref">src: public DNS records and BuiltWith, October 29, 2026. Outside-in signals only; to confirm in discovery.</p>
+<div class="tw"><table>
+<thead><tr><th>Signal</th><th>What it suggests</th><th>Why it matters for the decision</th></tr></thead>
+<tbody>
+<tr><td>Email on Microsoft 365; DNS on Azure; some hosting in Azure US East</td><td>Microsoft identity and cloud are already in place</td><td>Single sign-on, licensing bundles and in-house skills favor Dynamics and Fabric; weigh them openly rather than by default</td></tr>
+<tr><td>Ellucian Recruitment detected on the website</td><td>Admissions likely runs on Ellucian CRM Recruit, which as far as I know is built on Dynamics</td><td>Student and prospect data may already live in a Dynamics-based system; it decides how hard unifying with advancement will be</td></tr>
+<tr><td>Mautic for marketing automation</td><td>Open-source email and campaign tool on the public site</td><td>A candidate to keep, integrate or retire; consent data has to move cleanly</td></tr>
+<tr><td>Amazon SES in mail records</td><td>Some sending runs on AWS</td><td>Integration and data residency span more than one cloud</td></tr>
+<tr><td>WordPress on WP Engine behind Cloudflare; DocuSign</td><td>Web and signing are SaaS and separate</td><td>Forms, donations and agreements need clean hand-offs into the new record</td></tr>
+</tbody>
+</table></div>
 </div></details><details class="blk"><summary><h3 class="cia-h2">Needs by horizon</h3><span class="tk">Now a donor system of record, next one profile across the business, later AI on governed data.</span></summary><div class="bd">
 <table>
 <thead><tr><th>Now</th><th>Next</th><th>Later</th></tr></thead>
