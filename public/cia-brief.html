@@ -566,7 +566,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia .raci{min-width:980px}
 .cia td.num{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
 .cia .cgrid.acrd3{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media (max-width:900px){.cia .cgrid.acrd3{grid-template-columns:1fr!important}}.cia .acrd3 .ccard h3{color:var(--accent)}.cia .qlist ol{margin:0;padding-left:24px}.cia .qlist li{margin-bottom:8px}
-@media (min-width:700px){.shell-head .shell-meta,.shell-head .shell-bar{position:static;margin-left:0;margin-right:0}.shell-head .shell-meta::before,.shell-head .shell-meta::after{content:none}.shell-head{position:sticky;top:0;z-index:21;margin:-13px -1px 0;padding-top:12px;background:var(--pg-bg,var(--bg))}.shell-head>.shell-meta{border:1px solid var(--line);border-radius:10px 10px 0 0}.shell-head>.shell-bar{border-left:1px solid var(--line);border-right:1px solid var(--line)}.shell-head.stuck>.shell-bar{box-shadow:0 4px 12px rgba(0,0,0,.08)}}</style></head>
+@media (min-width:700px){.shell-head .shell-meta,.shell-head .shell-bar{position:static;margin-left:0;margin-right:0}.shell-head .shell-meta::before,.shell-head .shell-meta::after{content:none}.shell-head{position:sticky;top:0;z-index:21;margin:-13px -1px 0;padding-top:12px;background:var(--pg-bg,var(--bg))}.shell-head>.shell-meta{border:1px solid var(--line);border-radius:10px 10px 0 0}.shell-head>.shell-bar{border-left:1px solid var(--line);border-right:1px solid var(--line)}.shell-head.stuck>.shell-bar{box-shadow:0 4px 12px rgba(0,0,0,.08)}}@media(min-width:700px){.cia .cgrid:has(>.ccard:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))!important}.cia .cgrid:has(>.ccard:nth-child(3):last-child),.cia .cgrid:has(>.ccard:nth-child(6):last-child){grid-template-columns:repeat(3,minmax(0,1fr))!important}}.cia .ccard>h3+p{margin-top:0}.cia .ccard>.pill{margin:0 0 10px}.cia .ccard>h3{font-size:1.0625rem;line-height:1.3;margin:0 0 4px}.cia .ccard>p{color:var(--quiet,var(--text))}</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="i-task" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="currentColor"/></symbol>
@@ -659,14 +659,11 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <li><b>Data platforms in scope:</b> AWS, Snowflake and Microsoft Fabric, chosen after the CRM on the same framework.</li><li><b>A specialist partner:</b> the role calls for a higher education advancement implementation partner, chosen alongside the platform.</li><li><b>To check with vendors:</b> current packaging and pricing for Salesforce Education Cloud and Nonprofit Cloud, and Microsoft's nonprofit fundraising offer.</li>
 </ul>
 </div></details><details class="blk"><summary><h3 class="cia-h2">Needs by horizon</h3><span class="tk">Now a donor system of record, next one profile across the business, later AI on governed data.</span></summary><div class="bd">
-<table>
-<thead><tr><th>Now</th><th>Next</th><th>Later</th></tr></thead>
-<tbody><tr>
-<td>A system of record for donors and gifts ready before new advancement hires start; clean migration of existing donor data; gift receipting and acknowledgment.</td>
-<td>One constituent profile across students, alumni, class and event buyers and consulting clients; event and ticketing integration; dashboards leadership trusts.</td>
-<td>AI-assisted prospecting and segmentation on governed data; point solutions built by the in-house team without an enterprise license for each.</td>
-</tr></tbody>
-</table>
+<div class="cgrid hz">
+<div class="ccard"><span class="pill" data-k="now">Now</span><h3>Donor system of record</h3><p>Ready before new advancement hires start; clean migration of existing donor data; gift receipting and acknowledgment.</p></div>
+<div class="ccard"><span class="pill" data-k="next">Next</span><h3>One constituent profile</h3><p>Across students, alumni, class and event buyers and consulting clients; event and ticketing integration; dashboards leadership trusts.</p></div>
+<div class="ccard"><span class="pill" data-k="later">Later</span><h3>AI on governed data</h3><p>AI-assisted prospecting and segmentation; point solutions built by the in-house team without an enterprise license for each.</p></div>
+</div>
 
 </div></details><details class="blk"><summary><h3 class="cia-h2">Trade-offs on the table</h3><span class="tk">Five-year total cost, AI and API usage included, so the cheaper license is not the costlier choice.</span></summary><div class="bd">
 <div class="cgrid">
