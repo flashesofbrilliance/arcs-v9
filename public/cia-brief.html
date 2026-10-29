@@ -437,7 +437,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia table{font-variant-numeric:tabular-nums}
 .cia tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--surface) 55%,transparent)}
 .cia td:first-child{font-weight:600}
-.cia .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md);margin-bottom:12px}
+.cia .tw{overflow-x:auto;margin-bottom:12px}
 .cia .tw table{margin:0;min-width:760px}
 .cia .raci td:not(:first-child):not(:last-child),.cia .raci th:not(:first-child):not(:last-child){text-align:center}
 .cia .rk{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:var(--r-sm);font-weight:700;border:1px solid var(--line);color:var(--muted)}
@@ -447,6 +447,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia ::selection{background:var(--pill-now-bg)}
 .cia :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.cia .tw table,.cia .tw thead,.cia .tw tbody,.cia .tw tr{display:revert}.cia .tw td{display:table-cell;border-bottom:1px solid var(--line);padding:12px}.cia .tw thead{display:table-header-group}}
+.cia th{border-bottom:none}.cia tbody tr:last-child td{border-bottom:none}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
