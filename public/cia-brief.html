@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>Zach Harris for CIA</title>
+<style>/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+html:not([data-size]){font-size:90%}
+.pane-doc iframe,#pane-prop iframe{opacity:0;transition:opacity .12s}
+</style>
+<script>(function(){var d=document.documentElement;try{var r=JSON.parse(localStorage.getItem('ciaRead')||'{}')||{};var K={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',theme:'data-theme'};if(!r.theme||r.theme==='std')r.theme='light';for(var k in K){if(r[k]&&r[k]!=='std')d.setAttribute(K[k],r[k]);}}catch(e){}})();</script>
+<style>
+:root{
+ --bg:#f7f8fa;--surface:#fff;--surface2:#eef1f5;--line:#d5dbe3;--text:#1c2430;--dim:#566170;
+ --accent:#00606b;--accent-bg:rgba(0,96,107,.09);--gate:#8a5a00;--risk:#a3263c;--req:#4a4fb0;--gap:#6e4f8f;
+ --font-body:system-ui,-apple-system,"Segoe UI",sans-serif;--col:32px;--nm:300px;--rh:36px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0d1117;--surface:#151b23;--surface2:#1c2430;--line:#2a3340;--text:#e2e8f0;--dim:#a3b0c2;--accent:#3cc6d3;--accent-bg:rgba(60,198,211,.12);--gate:#e0a63a;--risk:#ff7a8e;--req:#a6abff;--gap:#cfadf2}} :root[data-theme="dark"]{color-scheme:dark;--bg:#0d1117;--surface:#151b23;--surface2:#1c2430;--line:#2a3340;--text:#e2e8f0;--dim:#a3b0c2;--accent:#3cc6d3;--accent-bg:rgba(60,198,211,.12);--gate:#e0a63a;--risk:#ff7a8e;--req:#a6abff;--gap:#cfadf2} :root[data-theme="light"]{color-scheme:light}
+[data-tone="warm"]{--bg:#f6f0e4;--surface:#fbf7ef;--surface2:#efe7d6;--line:#ddd2bd}
+[data-font="easy"]{--font-body:Verdana,Tahoma,"Trebuchet MS",Arial,sans-serif}
+[data-font="easy"] *{font-style:normal!important}
+[data-size="l"]{font-size:112.5%;--rh:40px}
+[data-size="xl"]{font-size:125%;--rh:44px}
+[data-space="roomy"] :is(p,li,dd,dt,.tx,button){letter-spacing:.04em;word-spacing:.14em}
+[data-space="roomy"] :is(p,li,dd,dt){line-height:1.8}
+*{box-sizing:border-box}
+html{font-family:var(--font-body);color:var(--text);background:var(--bg)}
+body{margin:0;padding:24px 16px 40px;font-size:1rem;line-height:1.5}
+::selection{background:var(--accent-bg)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main{max-width:1008px;margin:0 auto}
+h1{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.25rem);line-height:1.15;letter-spacing:-.015em;margin:0 0 10px;text-wrap:balance}
+.mast{margin:8px 0 28px;width:fit-content;max-width:100%}.mast-meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin:0 0 12px;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--dim)}.mast-meta span+span::before{content:"";display:inline-block;width:3px;height:3px;border-radius:50%;background:currentColor;vertical-align:middle;margin-right:10px;opacity:.6}@media (max-width:640px){.mast-meta .mm-d{display:none}}.mast-dek{contain:inline-size;margin:0;font-size:1.05rem;line-height:1.55;color:var(--dim);text-wrap:pretty}
+.lede,.tabnote{color:var(--dim);margin:0 0 20px;max-width:none}
+.bar-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{min-height:44px;padding:0 16px;border:0;border-right:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent-bg);color:var(--accent);font-weight:700}
+.btn{min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn:hover,.seg button:hover{border-color:var(--accent)}
+.grow{flex:1}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0 0 12px;padding:0;list-style:none;color:var(--dim);font-size:.9rem}
+.legend li{display:inline-flex;align-items:center;gap:6px}
+.ico{width:14px;height:14px;flex:none}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+
+.wrap{overflow:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface);max-height:70vh}
+.grid{position:relative;min-width:max-content}
+.row{display:flex;height:var(--rh);border-bottom:1px solid var(--line)}
+.row.head{position:sticky;top:0;z-index:3;background:var(--surface2);height:32px}
+.nm{position:sticky;left:0;z-index:2;width:var(--nm);min-width:var(--nm);background:inherit;border-right:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 10px}
+.row{background:var(--surface)}
+.row.l0{background:var(--surface2);font-weight:700}
+.row[aria-selected="true"] .nm{box-shadow:inset 3px 0 0 var(--accent)}
+.row[aria-selected="true"]{background:var(--accent-bg)}
+.row:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+.tw{width:16px;height:16px;flex:none;color:var(--dim);transition:transform .15s ease-out}
+.row[aria-expanded="false"] .tw{transform:rotate(-90deg)}
+.tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wk{width:var(--col);min-width:var(--col);font-size:.75rem;color:var(--dim);text-align:center;line-height:32px;font-variant-numeric:tabular-nums}
+.cells{position:relative;display:flex;padding-right:calc(var(--col) * 2)}
+.cells i{width:var(--col);min-width:var(--col)}
+.cells i:nth-child(even){background:color-mix(in srgb,var(--line) 22%,transparent)}
+.b{position:absolute;top:calc(50% - 8px);height:16px;border-radius:4px;background:var(--accent);z-index:1}
+.b.ph{top:calc(50% - 4px);height:8px;background:color-mix(in srgb,var(--accent) 40%,transparent)}
+.b.gate{background:var(--gate)}.b.req{background:color-mix(in srgb,var(--req) 70%,transparent)}
+.b.risk{background:repeating-linear-gradient(45deg,var(--risk) 0 4px,transparent 4px 8px);outline:1px solid var(--risk)}
+.pt{position:absolute;top:calc(50% - 9px);z-index:2}
+.gh{position:absolute;top:calc(50% - 10px);height:20px;border-radius:5px;z-index:0}
+.gh.best{border:1.5px dashed var(--accent)}.gh.worst{border:1.5px solid var(--risk);opacity:.6}.gh.base{border:1.5px dotted var(--dim)}
+.slip{position:absolute;top:calc(50% - 9px);z-index:2;font-size:.75rem;font-weight:700;color:var(--risk);white-space:nowrap;font-variant-numeric:tabular-nums}
+.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px}
+.sum button{font:inherit;color:var(--text);text-align:left;cursor:pointer;min-height:44px;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:10px 12px}.sum button:hover{border-color:var(--accent)}
+.sum button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg)}
+.sum b{display:block;font-size:1rem}.sum span{color:var(--dim);font-size:.9rem;font-variant-numeric:tabular-nums}
+svg.arrows{position:absolute;left:0;top:0;pointer-events:none;z-index:1;overflow:visible}
+svg.arrows path{fill:none;stroke:var(--dim);stroke-width:1.25;opacity:.75}
+.c-task{color:var(--accent)}.c-gate{color:var(--gate)}.c-req{color:var(--req)}.c-blk{color:var(--risk)}.c-gap{color:var(--gap)}.c-ms{color:var(--text)}.c-risk{color:var(--risk)}.c-phase{color:var(--dim)}
+#detail{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:16px;align-self:start}
+.how{margin:0 0 12px}.how summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--accent)} @media (min-width:1100px){.layout{grid-template-columns:minmax(0,1fr) 360px}#detail{position:sticky;top:12px;max-height:calc(100dvh - 24px);overflow:auto}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}#detail .dside{border-left:0!important;border-top:1px solid var(--line)}#detail .wide{grid-column:auto!important}}@media (min-width:900px){#detail .wide{grid-column:2/-1}}#detail .inside{columns:2 18rem;column-gap:24px;margin:0;padding-left:18px}
+#detail h2{font-size:1.1rem;margin:0 0 10px;display:flex;gap:8px;align-items:center}
+#detail dl{display:grid;grid-template-columns:7.5rem 1fr;gap:6px 12px;margin:0}
+#detail dt{color:var(--dim)}#detail dd{margin:0}
+.edit{min-height:1.5em;border-bottom:1px dashed var(--line);padding:2px 0}
+.edit:empty::before{content:"Add";color:var(--dim)}
+.empty{color:var(--dim);margin:0}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 0 16px}
+.tabs button{min-height:44px;padding:0 16px;border:0;border-bottom:3px solid transparent;background:none;color:var(--dim);font:inherit;font-weight:600;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+#pane-prop iframe{width:100%;height:calc(100dvh - 160px);border:1px solid var(--line);border-radius:6px;background:#fff}
+.rx{--hc:var(--risk);--mc:var(--gate);--lc:var(--accent)} .rx-top{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;margin:0 0 20px} @media (min-width:860px){.rx-top{grid-template-columns:minmax(300px,380px) minmax(0,1fr);align-items:start}} .rx-mx{margin:0} .rx-cap{font-weight:700;margin:0 0 10px} .rx-mxw{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:6px} .rx-ay{writing-mode:vertical-rl;transform:rotate(180deg);font-size:.8rem;color:var(--dim);text-align:center} .rx-ax{grid-column:2;font-size:.8rem;color:var(--dim);text-align:center} .rx-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(76px,auto));gap:4px} .rx-c{position:relative;border-radius:6px;padding:20px 6px 6px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:4px;background:color-mix(in srgb,var(--bc) 10%,var(--surface));border:1px solid color-mix(in srgb,var(--bc) 28%,var(--line))} .rx-c.h{--bc:var(--hc)}.rx-c.m{--bc:var(--mc)}.rx-c.l{--bc:var(--lc)} .rx-c>i{position:absolute;top:4px;left:6px;font-style:normal;font-size:.7rem;color:var(--dim);font-variant-numeric:tabular-nums} .rx-chip{font:inherit;font-size:.8rem;font-weight:700;min-height:28px;min-width:36px;padding:0 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--bc) 60%,var(--line));background:var(--surface);color:var(--text);cursor:pointer;font-variant-numeric:tabular-nums;transition:box-shadow .2s cubic-bezier(.16,1,.3,1)} .rx-chip:hover{box-shadow:0 2px 6px rgba(0,0,0,.12)} .rx-chip[aria-current="true"]{background:var(--text);color:var(--surface);border-color:var(--text)} .rx-chip.dim{opacity:.35} .rx-ghost{font-size:.75rem;min-height:24px;padding:0 6px;border-radius:999px;border:1px dashed var(--dim);color:var(--dim);display:inline-flex;align-items:center} .rx-meter{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:14px 16px;margin:0 0 12px} .rx-meter b{font-size:1.5rem;font-variant-numeric:tabular-nums} .rx-meter p{margin:0}.rx-meter .d{color:var(--dim)} .rx-track{height:8px;border-radius:999px;background:var(--surface2);margin:10px 0 6px;overflow:hidden;display:flex} .rx-track span{display:block;height:100%;background:var(--accent);transition:width .4s cubic-bezier(.16,1,.3,1)} .rx-stats{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.9rem;color:var(--dim);font-variant-numeric:tabular-nums} .rx-stats b{font-size:inherit;color:var(--text)} .rx-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center} .rx-seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden} .rx-seg button{font:inherit;min-height:44px;padding:0 14px;border:0;border-right:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer} .rx-seg button:last-child{border-right:0} .rx-seg button[aria-pressed="true"]{background:var(--accent-bg);color:var(--accent);font-weight:700} .rx-sel{display:inline-flex;align-items:center;gap:8px;color:var(--dim)} .rx-sel select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;min-height:44px;padding:0 10px} .rx-chk{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer} .rx-chk input{width:18px;height:18px;accent-color:var(--accent)} .rx-lnk{font:inherit;min-height:44px;padding:0 4px;border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px} .rx-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden} .rx-it{border-top:1px solid var(--line)} .rx-it:first-child{border-top:0} .rx-it.sel{background:color-mix(in srgb,var(--accent) 5%,var(--surface))} .rx-hd{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:20px 44px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:12px 16px;cursor:pointer} .rx-hd:focus-visible{outline:2px solid var(--accent);outline-offset:-2px} .rx-hd svg{width:16px;height:16px;transition:transform .2s cubic-bezier(.16,1,.3,1)} .rx-hd[aria-expanded="true"] svg{transform:rotate(90deg)} .rx-id{font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums} .rx-nm{font-weight:600} .rx-sub{grid-column:3/-1;font-size:.85rem;color:var(--dim)} .rx-sc{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums} .rx-p{min-width:30px;text-align:center;border-radius:999px;padding:2px 8px;font-weight:700;font-size:.85rem} .rx-p.h{background:var(--risk);color:#fff}.rx-p.m{background:var(--gate);color:#fff}.rx-p.l{background:var(--accent-bg);color:var(--accent);outline:1px solid var(--accent)} .rx-p.was{background:none;color:var(--dim);outline:1px dashed var(--dim);font-weight:600} .rx-bd{padding:4px 16px 18px 52px;display:grid;gap:16px} @media (min-width:900px){.rx-bd{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}} .rx-h4{font-size:.8rem;font-weight:700;color:var(--dim);margin:0 0 8px} .rx-flow{list-style:none;margin:0;padding:0;display:grid;gap:0} .rx-flow li{position:relative;padding:0 0 12px 22px} .rx-flow li::before{content:"";position:absolute;left:5px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--risk)} .rx-flow li:not(:last-child)::after{content:"";position:absolute;left:8.5px;top:16px;bottom:0;width:1px;background:color-mix(in srgb,var(--risk) 40%,var(--line))} .rx-flow li:nth-child(2)::before{opacity:.7}.rx-flow li:nth-child(3)::before{opacity:.45} .rx-sw{list-style:none;margin:0;padding:0;display:grid;gap:8px} .rx-sw label{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;align-items:start;cursor:pointer;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface)} .rx-sw label:has(input:checked){border-color:var(--accent);background:var(--accent-bg)} .rx-sw input{appearance:none;margin:2px 0 0;width:40px;height:22px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .2s} .rx-sw input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.3);transition:transform .2s cubic-bezier(.16,1,.3,1)} .rx-sw input:checked{background:var(--accent)} .rx-sw input:checked::after{transform:translateX(18px)} .rx-sw input:focus-visible{outline:2px solid var(--accent);outline-offset:2px} .rx-sw small{display:block;color:var(--dim);margin-top:2px} .rx-warn{margin:0;padding:10px 12px;border-radius:6px;background:color-mix(in srgb,var(--gate) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--gate) 40%,var(--line))} .rx-rows{display:flex;flex-wrap:wrap;gap:6px} .rx-rows button{font:inherit;font-size:.85rem;min-height:32px;padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--text);cursor:pointer;display:inline-flex;align-items:center;gap:6px} .rx-rows button:hover{border-color:var(--accent);color:var(--accent)} .rx-own input{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;min-height:40px;padding:6px 10px;width:100%} .rx-empty{color:var(--dim)} @media (max-width:640px){.rx-bd{padding-left:16px}.rx-hd{grid-template-columns:20px 36px minmax(0,1fr)}.rx-hd .rx-sc{grid-column:3}} @media (prefers-reduced-motion:reduce){::view-transition-group(*){animation:none!important}} .rsum{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.rsum span{border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:8px 12px;font-variant-numeric:tabular-nums}
+.rk{border:1px solid var(--line);border-radius:6px;background:var(--surface);margin:0 0 12px;padding:14px 16px}
+.rk h3{margin:0 0 4px;font-size:1.05rem;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.rk .meta{color:var(--dim);margin:0 0 8px}
+.sc{display:inline-flex;align-items:center;justify-content:center;min-width:2.2rem;height:1.6rem;border-radius:4px;font-weight:700;font-variant-numeric:tabular-nums;font-size:.9rem}
+.sc.h{background:var(--risk);color:#fff}.sc.m{background:var(--gate);color:#fff}.sc.l{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent)}
+.chain{margin:6px 0 10px;padding-left:18px}.chain li{margin:2px 0}
+.ctls{list-style:none;margin:8px 0;padding:0;display:grid;gap:6px}
+.ctls label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;min-height:32px}
+.ctls input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:none}
+.ctls small{color:var(--dim)}
+.rk dl{display:grid;grid-template-columns:7.5rem 1fr;gap:4px 12px;margin:8px 0 0}.rk dt{color:var(--dim)}.rk dd{margin:0}
+.rb{display:inline-flex;gap:2px;margin-left:auto;flex:none}
+.rb i{font-style:normal;font-size:.7rem;font-weight:700;border-radius:3px;padding:0 4px;color:#fff}
+#fmtip{position:fixed;z-index:40;max-width:340px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 14px;box-shadow:0 4px 12px rgba(0,0,0,.14);pointer-events:none;font-size:.9rem;line-height:1.45}
+#fmtip b{display:block;font-size:.95rem;margin:0 0 4px}#fmtip p{margin:4px 0 0}#fmtip .d{color:var(--dim)}
+[data-fm]{cursor:help}.fmid{text-decoration:underline dotted;text-underline-offset:3px}
+#detail{padding:0;overflow:hidden}
+.dh{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--surface2)}
+.dh h2{margin:0;font-size:1.1rem}.dh .ico{width:16px;height:16px}
+.ty{font-size:.8rem;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:1px 10px;background:var(--surface)}
+.fmb{font-size:.75rem;font-weight:700;color:#fff;border-radius:4px;padding:1px 6px}
+.dbody{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+@media (min-width:900px){.dbody{grid-template-columns:minmax(0,1fr) 260px}.dside{border-left:1px solid var(--line)}}
+.dmain{padding:14px 16px;display:grid;gap:14px}.dside{padding:14px 16px;display:grid;gap:10px;align-content:start;background:color-mix(in srgb,var(--surface2) 50%,var(--surface))}
+.dl{font-size:.8rem;font-weight:700;color:var(--dim);margin:0 0 6px;letter-spacing:.02em}
+.lanes{display:grid;gap:4px}
+.ln{display:grid;grid-template-columns:3.5rem minmax(0,1fr) 8.5rem;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.ln .lk{color:var(--dim);font-size:.9rem}.ln.cur .lk,.ln.cur .lv{color:var(--text);font-weight:700}
+.tr{position:relative;height:12px;border-radius:6px;background:color-mix(in srgb,var(--line) 45%,transparent)}
+.tb{position:absolute;top:0;height:12px;border-radius:6px;min-width:6px}
+.tb.best{background:color-mix(in srgb,var(--accent) 55%,transparent)}.tb.base{background:var(--accent)}.tb.worst{background:var(--risk)}
+.ln.scale .tr{background:none;height:auto}.ticks{display:flex;justify-content:space-between;font-size:.7rem;color:var(--dim)}.ticks i{font-style:normal}
+.lv{font-size:.9rem}
+.flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:start}
+@media (max-width:640px){.flow{grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg);justify-self:center}}
+.fcol{display:flex;flex-direction:column;gap:4px}.fh{font-size:.75rem;color:var(--dim)}
+.arrow{color:var(--dim);padding-top:20px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--text);font:inherit;font-size:.9rem;text-align:left;cursor:pointer}
+button.chip:hover{border-color:var(--accent)}.chip.me{border-color:var(--accent);background:var(--accent-bg);font-weight:700;cursor:default}
+.kids{display:flex;flex-wrap:wrap;gap:6px}.none{color:var(--dim);font-size:.9rem}
+.dnote{margin:0;padding:10px 12px;border-radius:6px;background:var(--surface2);font-size:.95rem}
+.fld{display:grid;gap:4px}.fld span{font-size:.8rem;color:var(--dim);font-weight:700}
+.fld input,.fld select,.fld textarea{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:40px;width:100%}
+.fld textarea{resize:vertical}
+.wl{margin:0}.wc{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 20px}.wc li{font-variant-numeric:tabular-nums}.wc span{color:var(--dim);margin-right:6px}.wc li.cur{font-weight:700}.wc li.cur span{color:var(--text)}
+.wn{margin:6px 0 0;color:var(--risk);font-size:.9rem}
+.fl{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 6px}.fk{color:var(--dim);font-size:.9rem;min-width:7rem}
+.cad-key{margin:0 0 12px;color:var(--dim)}.cad-key b{color:var(--text)}
+.row.cadrow{background:var(--bg);height:28px}.row.cadrow .nm{background:var(--bg);font-size:.85rem;color:var(--dim);cursor:default}
+.cad{width:var(--col);min-width:var(--col);display:flex;align-items:center;justify-content:center;gap:2px}
+.cad i{display:block;width:5px;height:5px;border-radius:50%}.cad .cp{background:var(--dim)}.cad .cd{background:var(--accent);width:7px;height:7px}.cad .cn{background:var(--gate)}
+[hidden]{display:none!important}
+.b.ph{top:calc(50% - 7px);height:14px;background:var(--accent)}
+.pc{position:absolute;top:calc(50% - .7em);background:var(--surface);padding:0 6px;border-radius:4px;line-height:1.4;font-size:.8rem;color:var(--dim);white-space:nowrap;z-index:2;font-variant-numeric:tabular-nums}
+.pc.flip{text-align:right} .dense .wk:nth-child(even){visibility:hidden}
+.pc .sl{color:var(--risk);font-weight:700}
+.slip{background:var(--surface);padding:0 4px;border-radius:4px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:640px){.sum{grid-template-columns:1fr}:root{--nm:180px}.tx{font-size:.9rem}}
+
+.readfab{position:fixed;right:16px;bottom:16px;z-index:4;width:48px;height:48px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.readfab:hover{border-color:var(--accent);color:var(--accent)}
+.readopts{position:fixed;right:16px;bottom:76px;z-index:30;width:min(360px,calc(100vw - 32px));max-height:calc(100dvh - 100px);overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.14)}
+.ro-title{margin:0 0 4px;font-weight:700}.ro-note{margin:0 0 10px;color:var(--dim)}
+.ro-group{margin:0 0 12px}.ro-label{display:block;color:var(--dim);margin:0 0 4px}
+.ro-btns{display:flex;flex-wrap:wrap;gap:6px}.ro-hint{display:block;color:var(--dim);margin-top:4px;font-size:.9rem}
+.ro-btns button,.ro-actions button{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:0 14px;min-height:44px;cursor:pointer}
+.ro-btns button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);font-weight:700}
+.ro-actions{display:flex;gap:8px;justify-content:flex-end}
+@media (forced-colors:active){.b,.pt{forced-color-adjust:none}.readfab,.readopts,.btn,.seg{border:1px solid CanvasText}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.readfab,.readopts,.bar-top{display:none!important}.wrap{max-height:none;overflow:visible}}
+.shell{border:1px solid var(--line);border-radius:10px;background:var(--bg);box-shadow:none} .shell-bar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 28px;padding:0 20px;background:var(--surface);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0} .brand{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.85rem;letter-spacing:.18em;color:var(--dim);padding:16px 0 15px;white-space:nowrap}.brand b{color:var(--accent);font-weight:700} .shell .tabs{margin:0 0 -1px;border-bottom:0} .shell-body{padding:20px} #pane-prop{margin:-20px}#pane-prop>.lede{margin:16px 20px}#pane-prop iframe{display:block;border:0!important;border-top:0!important;border-radius:0 0 10px 10px!important;height:auto;min-height:200px} @media (max-width:640px){.shell-bar{padding:0 12px;gap:0 16px}.brand{padding:12px 0 4px;width:100%}.shell-body{padding:14px}#pane-prop{margin:-14px}}
+
+/* type and hierarchy pass (design-debt.md) */
+.lede,.tabnote{font-size:.95rem}
+.sum button{padding:12px 14px;display:grid;gap:2px;align-content:start}
+.sum b{font-size:1.05rem;font-weight:600}
+.sum span{font-size:.875rem}
+.sum em{font-style:normal;font-weight:600;font-size:.95rem;color:var(--text);font-variant-numeric:tabular-nums;margin-top:4px}
+.sum button[aria-pressed="true"]{border:1px solid var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.how{margin:4px 0 0}.how summary{font-size:.9rem;font-weight:500}
+.bar-top{margin:0 0 10px}.bar-top .how{margin:0 auto 0 0}.bar-top .how[open]{order:9;flex-basis:100%;margin:4px 0 0}
+.bar-top .btn{min-height:40px;font-size:.9rem}
+.l0{font-weight:600}
+.row.l0 .tx{font-size:.95rem}
+.row.l1 .tx{font-size:.9rem;font-weight:400;color:var(--text)}
+.row.head .nm,.row.head .wk{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.row.head .wk{text-transform:none;letter-spacing:0}
+.pc{font-weight:500;font-size:.78rem;color:var(--dim)}
+.layout{align-items:start}.wrap{align-self:start}
+.dh h2{font-size:1.125rem;font-weight:600}
+.advgrp{opacity:0;pointer-events:none}.advgrp[data-open="true"]{opacity:1;pointer-events:auto}
+.advgrp{overflow:hidden}.advgrp{display:inline-flex;max-width:0;gap:8px;transition:max-width .3s cubic-bezier(.16,1,.3,1),opacity .2s}.advgrp[data-open="true"]{max-width:600px}.advgrp .btn{flex:none;white-space:nowrap}
+#det{order:99}#det .chev{width:14px;height:14px;transition:transform .25s cubic-bezier(.16,1,.3,1)}#det[aria-expanded="true"] .chev{transform:rotate(180deg)}#det[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+@media (max-width:640px){.advgrp[data-open="true"]{max-width:100%;flex-wrap:wrap;order:100;flex-basis:100%}}
+@media (prefers-reduced-motion:reduce){.advgrp,#det .chev{transition:none}}
+#cmp{--c:var(--gap)}#lens{--c:var(--risk)}#arr{--c:var(--req)}
+.advgrp .btn{gap:8px}.advgrp .btn::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.advgrp .btn:hover{border-color:var(--c);color:var(--c)}
+.advgrp .btn[aria-pressed="true"]{border-color:var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 12%,var(--surface));font-weight:600}
+svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
+
+/* toolbar glyphs */
+.bar-top .btn{gap:8px}.gl{width:16px;height:16px;flex:none;overflow:visible}
+.gl *{transition:transform .32s cubic-bezier(.16,1,.3,1),opacity .2s}
+.advgrp .btn::before{display:none}.advgrp .gl{color:var(--c)}
+#tog .ca,#tog .cb{transform-origin:8px 8px}
+#tog[data-open="true"] .ca{transform:translateY(4px) rotate(180deg)}#tog[data-open="true"] .cb{transform:translateY(-4px) rotate(180deg)}
+#tog:hover[data-open="false"] .ca{transform:translateY(-1.5px)}#tog:hover[data-open="false"] .cb{transform:translateY(1.5px)}
+#cmp:hover .g2,#cmp[aria-pressed="true"] .g2{transform:translateX(-3px)}
+#lens .g2{transform-origin:8px 9px}#lens:hover .g2,#lens[aria-pressed="true"] .g2{animation:lpulse .9s cubic-bezier(.16,1,.3,1)}
+@keyframes lpulse{30%{transform:scaleY(1.25)}}
+#arr .g2{stroke-dasharray:14;stroke-dashoffset:0}#arr:hover .g2{animation:ldraw .6s cubic-bezier(.16,1,.3,1)}
+@keyframes ldraw{from{stroke-dashoffset:14}}
+#det .k1,#det .k2{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+#det:hover .k1,#det[aria-expanded="true"] .k1{transform:translateX(5px)}#det:hover .k2,#det[aria-expanded="true"] .k2{transform:translateX(-5px)}
+#det .chev{width:16px;height:16px}#det .chev path{transition:transform .32s cubic-bezier(.16,1,.3,1),opacity .2s}
+#det .c2{opacity:0;transform:translateX(-3px)}#det:hover .c2{opacity:.5;transform:translateX(0)}#det:hover .c1{transform:translateX(-2px)}
+#det[aria-expanded="true"] .chev{transform:rotate(180deg)}
+#det[aria-expanded="true"]{background:var(--accent-bg);font-weight:600}
+.btn:active .gl,.btn:active .chev{transform:scale(.9)}
+@media (prefers-reduced-motion:reduce){.gl *,#det .chev path,#det .k1,#det .k2{transition:none!important;animation:none!important}}
+.shell-meta{padding:14px 20px 12px;border-bottom:1px solid var(--line);background:var(--surface)}.shell-meta dl{display:flex;flex-wrap:wrap;gap:6px 28px;margin:0}.shell-meta dl div{display:grid}.shell-meta dt{font-size:.8rem;color:var(--dim)}.shell-meta dd{margin:0;font-weight:600;font-size:.95rem}.sm-conf{margin:0;font-size:.875rem;color:var(--dim);display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}.ctag{font-weight:600;font-size:.8rem;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:1px 10px}
+@media (max-width:640px){.shell-meta{padding:12px}}
+.mast-conf{margin:0 0 16px}
+.shell-bar{min-width:0}.shell .tabs{min-width:0;max-width:100%;overflow-x:auto;scrollbar-width:none}.shell .tabs::-webkit-scrollbar{display:none}.shell .tabs button{flex:none}@media (max-width:640px){.shell .tabs button{padding:0 12px}}
+/* rows read as clickable */
+.row[data-id]{cursor:pointer;transition:background .15s}
+.row[data-id]:hover{background:color-mix(in srgb,var(--accent) 7%,var(--surface))}
+.row.l0[data-id]:hover{background:color-mix(in srgb,var(--accent) 9%,var(--surface2))}
+.row[data-id] .nm{padding-right:26px;position:sticky}
+.row[data-id] .nm::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);transform:translateY(-50%) rotate(-45deg);opacity:.55;transition:opacity .15s,transform .15s}
+.row[data-id]:hover .nm::after,.row[aria-selected="true"] .nm::after{opacity:1;border-color:var(--accent);transform:translate(2px,-50%) rotate(-45deg)}
+.row[data-id]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+@media (prefers-reduced-motion:reduce){.row[data-id],.row[data-id] .nm::after{transition:none}}
+/* best-to-worst spectrum */
+.spec{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 8px;font-size:.8rem;font-weight:600;color:var(--dim)}
+.spec::before{content:"";position:absolute;left:0;right:0;top:calc(100% + 1px);height:3px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--gate),var(--risk));opacity:.55}
+.spec span:nth-child(1){text-align:left}.spec .spec-m{text-align:center;color:var(--accent)}.spec span:nth-child(3){text-align:right}
+.sum{margin-top:10px}
+@media (max-width:640px){.spec{grid-template-columns:1fr 1fr 1fr}}
+/* plan summary panel */
+.glance{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.glance button{all:unset;box-sizing:border-box;width:100%;display:grid;gap:1px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer}
+.glance button:hover{border-color:var(--accent)}.glance button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.glance .gn{font-weight:600}.glance .gw{font-size:.85rem;color:var(--dim);font-variant-numeric:tabular-nums}
+/* ordered, nested Inside */
+.seq{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:none}
+.seq>li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;align-items:start}
+.sqn{width:22px;height:22px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:.75rem;font-weight:700;display:grid;place-items:center;font-variant-numeric:tabular-nums;margin-top:5px}
+.sqi{display:flex;flex-wrap:wrap;gap:6px}.sqc{display:grid;gap:4px}
+.sqa{display:flex;flex-wrap:wrap;gap:4px;padding-left:14px;border-left:2px solid var(--line);margin-left:8px}
+.sqa .chip{font-size:.8rem;min-height:28px}
+.sqk{margin:8px 0 0;font-size:.8rem;color:var(--dim)}
+.likely{font-size:.72rem;font-weight:600;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:2px}
+.shell .tabs{margin-left:auto}
+/* one text column for every tab: the proposal's 960px measure, centred */
+:root{--colw:960px}
+.shell-bar,.shell-meta{padding-left:max(20px,calc((100% - var(--colw)) / 2));padding-right:max(20px,calc((100% - var(--colw)) / 2))}
+#pane-plan{max-width:var(--colw);margin-left:auto;margin-right:auto}
+/* header: meta eyebrow band, then a compact nav bar (two-tone) */
+.shell-meta{background:var(--surface2);border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;padding-top:8px!important;padding-bottom:8px!important}
+.shell-meta dl{gap:2px 22px;margin:0}
+.shell-meta dl div{display:flex;gap:6px;align-items:baseline}
+.shell-meta dt{font-size:.75rem}.shell-meta dd{font-size:.8rem}
+.shell-bar{border-radius:0!important;align-items:center!important}
+.shell .brand{padding:0!important}
+.shell .tabs button{min-height:40px}
+@media (max-width:640px){.shell-meta dl div{display:grid;gap:0}.shell .brand{padding:8px 0 0!important}}
+/* size lockup: one connected best-to-worst scale */
+#sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);margin:4px 0 12px}
+#sum button{position:relative;border:0!important;border-right:1px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;background:var(--surface);padding:18px 16px 14px!important;display:grid;gap:2px;text-align:left}
+#sum button:last-child{border-right:0!important}
+#sum button::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--cc);opacity:.45;transition:opacity .15s,height .15s}
+#sum button:nth-child(1){--cc:var(--accent)}#sum button:nth-child(2){--cc:var(--gate)}#sum button:nth-child(3){--cc:var(--risk)}
+#sum .cap{font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--dim)}
+#sum b{font-size:1.05rem;font-weight:600}
+#sum em{font-style:normal;font-weight:700;font-size:1.15rem;font-variant-numeric:tabular-nums;color:var(--text);margin-top:2px}
+#sum span:last-child{font-size:.85rem;color:var(--dim)}
+#sum button:hover{background:color-mix(in srgb,var(--cc) 6%,var(--surface))}
+#sum button[aria-pressed="true"]{background:color-mix(in srgb,var(--cc) 10%,var(--surface))}
+#sum button[aria-pressed="true"]::before{opacity:1;height:5px}
+#sum button[aria-pressed="true"] .cap{color:var(--text)}
+#sum button:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+@media (max-width:640px){#sum{grid-template-columns:1fr}#sum button{border-right:0!important;border-bottom:1px solid var(--line)!important}#sum button:last-child{border-bottom:0!important}}
+@media (prefers-reduced-motion:reduce){#sum button::before{transition:none}}
+.themetog{flex:none;display:grid;place-items:center;width:40px;height:40px;margin-left:4px;border:0;border-radius:8px;background:transparent;color:var(--dim);cursor:pointer}
+.themetog:hover{color:var(--accent);background:var(--accent-bg)}.themetog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.themetog svg{width:18px;height:18px}.themetog g,.themetog path.moon{display:none}
+.themetog[data-mode="light"] .sun,.themetog[data-mode="dark"] .moon,.themetog[data-mode="std"] .auto{display:inline}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}.toprow .mast-conf{margin:0}
+.toprow .themetog{display:inline-flex;align-items:center;gap:10px;width:auto;height:48px;padding:0 16px;margin:0;font:inherit;font-size:.925rem;font-weight:600;border:1px solid var(--line);border-radius:999px;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.toprow .themetog svg{width:18px;height:18px;order:0}.toprow .themetog .ttl{order:1}
+.trk{order:2;position:relative;width:34px;height:20px;border-radius:999px;background:var(--line);transition:background .2s}
+.trk::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.themetog[data-mode="dark"] .trk{background:var(--accent)}.themetog[data-mode="dark"] .trk::after{transform:translateX(14px)}
+@media (prefers-reduced-motion:reduce){.trk,.trk::after{transition:none}}
+.toprow .themetog .ttl{color:var(--dim)}.toprow .themetog[data-mode="dark"] .ttl{color:var(--accent)}
+.readfab{right:max(16px,calc((100vw - 1008px) / 4 - 24px))}.readopts{right:max(16px,calc((100vw - 1008px) / 4 - 24px))}
+@media (min-width:700px){.shell-meta{position:sticky;top:12px;z-index:21;margin-left:-1px;margin-right:-1px;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0}.shell-meta::after{content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:11px;pointer-events:none;background:radial-gradient(circle at 11px 11px,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) left top/11px 11px no-repeat,radial-gradient(circle at 0 11px,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) right top/11px 11px no-repeat}.shell-meta::before{content:"";position:absolute;left:-2px;right:-2px;bottom:calc(100% + 1px);height:12px;background:var(--pg-bg,var(--bg))}.shell-bar{position:sticky;top:calc(var(--metah,0px) + 12px);z-index:20;background:var(--surface)}.shell-bar.stuck{box-shadow:0 4px 12px rgba(0,0,0,.08)}}
+@media (max-width:560px){.shell-bar{position:relative;flex-wrap:nowrap!important;justify-content:space-between;align-items:center!important;padding:10px 16px!important}
+.burger{display:inline-grid;place-items:center;width:44px;height:44px;margin-right:-8px;border:0;border-radius:6px;background:none;color:var(--text);cursor:pointer}
+.burger span,.burger span::before,.burger span::after{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:transform .15s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded=true] span{background:transparent}.burger[aria-expanded=true] span::before{transform:translateY(6px) rotate(45deg)}.burger[aria-expanded=true] span::after{transform:translateY(-6px) rotate(-45deg)}
+.burger:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.shell-bar .tabs{display:none!important;position:absolute;top:100%;left:0;right:0;z-index:30;flex-direction:column;align-items:stretch;margin:0!important;padding:6px 0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 4px 12px rgba(0,0,0,.14)}
+.shell-bar.menu-open .tabs{display:flex!important}
+.shell-bar .tabs [role=tab]{text-align:left;padding:12px 16px!important;border-bottom:0!important;min-height:44px}
+.shell-bar .tabs [role=tab][aria-selected=true]{box-shadow:inset 3px 0 0 var(--accent)}}
+@media (min-width:561px){.burger{display:none}}
+.shell-bar .tabs [role=tab]:focus-visible{outline:2px solid var(--accent);outline-offset:-4px;border-radius:6px}
+@media (max-width:560px){.ro-esc{display:none}}@media (min-width:700px){#sum{position:sticky;top:calc(var(--metah,0px) + var(--barh,0px) + 12px);z-index:15;background:var(--surface);box-shadow:0 6px 10px -8px rgba(0,0,0,.25)}}@media (min-width:700px){#detail{top:calc(var(--metah,0px) + var(--barh,0px) + var(--sumh,0px) + 24px)!important;max-height:calc(100dvh - var(--metah,0px) - var(--barh,0px) - var(--sumh,0px) - 36px)!important}}.glance2{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.glance2 li+li{border-top:1px solid var(--line)}
+.glance2 .g2h{display:grid;grid-template-columns:minmax(0,1fr) 3.6rem 5.6rem;gap:8px;padding:6px 10px;background:var(--surface2);font-size:.75rem;font-weight:600;letter-spacing:.02em;color:var(--muted)}
+.glance2 .g2h span:nth-child(n+2){text-align:right}
+.glance2 button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 3.6rem 5.6rem;grid-template-rows:auto 4px;gap:5px 8px;width:100%;padding:8px 10px 7px;cursor:pointer}
+.glance2 button:hover{background:var(--surface2)}
+.glance2 button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.g2n{font-weight:600;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g2w,.g2c{text-align:right;font-variant-numeric:tabular-nums;line-height:1.3;white-space:nowrap}
+.g2w{color:var(--muted)}.g2c{font-weight:600}.g2c i{font-style:normal;font-weight:400;color:var(--muted)}
+.g2t{grid-column:1/-1;position:relative;height:4px;border-radius:2px;background:color-mix(in srgb,var(--line) 70%,transparent)}
+.g2t span{position:absolute;top:0;bottom:0;border-radius:2px;background:var(--accent)}
+.g2sum{margin:8px 2px 0;color:var(--muted)}.g2sum b{color:var(--text)}
+.dside,.fmb,#detail .notes{display:none!important}#detail .dbody{grid-template-columns:minmax(0,1fr)!important}.pane-doc{margin:-20px}.pane-doc iframe{display:block;width:100%;border:0;border-radius:0 0 10px 10px;min-height:200px;background:#fff}@media (max-width:640px){.pane-doc{margin:-14px}}
+:root{--pill-now:#116b3a;--pill-now-bg:#e2f3e8;--pill-next:#7a5600;--pill-next-bg:#fbf0cf;--pill-later:#a3263c;--pill-later-bg:#fbe4e8}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--pill-now:#4ade80;--pill-now-bg:rgba(74,222,128,.14);--pill-next:#facc15;--pill-next-bg:rgba(250,204,21,.14);--pill-later:#ff8095;--pill-later-bg:rgba(255,128,149,.14)}}:root[data-theme="dark"]{--pill-now:#4ade80;--pill-now-bg:rgba(74,222,128,.14);--pill-next:#facc15;--pill-next-bg:rgba(250,204,21,.14);--pill-later:#ff8095;--pill-later-bg:rgba(255,128,149,.14)}.pill{display:inline-flex;align-items:center;gap:6px;flex:none;padding:3px 10px;border-radius:999px;font-size:.75em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.4;white-space:nowrap}.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.pill[data-k=now]{color:var(--pill-now);background:var(--pill-now-bg)}.pill[data-k=next]{color:var(--pill-next);background:var(--pill-next-bg)}.pill[data-k=later]{color:var(--pill-later);background:var(--pill-later-bg)}[role=tab] .pill{margin-left:8px;vertical-align:1px}.stamp{display:flex;align-items:baseline;gap:12px;padding:12px 16px;margin:0 0 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text)}.pane-doc>.stamp,#pane-prop>.stamp{margin:20px 20px 0}@media (max-width:640px){.pane-doc>.stamp,#pane-prop>.stamp{margin:14px 14px 0}}.stamp p{margin:0;line-height:1.5}.stamp-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.stamp-go{font:inherit;color:var(--accent);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.stamp-go:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+</style>
+<style>
+.cia{max-width:none;padding:8px 4px 24px;color:var(--text)}
+.cia .cia-h1{font-family:'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;font-size:var(--fs-display);font-weight:500;line-height:1.35;margin:16px 0 12px}
+.cia .lede{font-size:var(--fs-headline);line-height:1.6;margin-bottom:16px}
+.cia .cia-h2{font-size:var(--fs-headline);font-weight:600;line-height:1.5;margin:32px 0 12px}
+.cia h3:not(.cia-h2){font-size:var(--fs-body);font-weight:600;margin-bottom:8px;color:var(--accent)}
+.cia p{margin-bottom:12px;line-height:1.6}
+.cia .cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.cia .cgrid.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){.cia .cgrid.three{grid-template-columns:1fr}}@media (max-width:640px){.cia .cgrid{grid-template-columns:1fr}}
+.cia .ccard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
+.cia ul,.cia ol{padding-left:24px}.cia li{margin-bottom:4px;line-height:1.6}
+.cia table{width:100%;border-collapse:collapse;margin-bottom:12px}
+.cia th,.cia td{text-align:left;padding:12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+.cia th{font-weight:600;color:var(--muted)}
+.cia .pill.g{background:var(--pill-now-bg);color:var(--pill-now)}.cia .pill.y{background:var(--pill-next-bg);color:var(--pill-next)}.cia .pill.r{background:var(--pill-later-bg);color:var(--pill-later)}
+.cia a{color:var(--accent)}
+@media (max-width:640px){.cia table,.cia thead,.cia tbody,.cia tr,.cia td{display:block}.cia thead{display:none}.cia td{border:none;padding:4px 0}.cia tr{border-bottom:1px solid var(--line);padding:12px 0}}
+</style><script defer src="/_vercel/insights/script.js"></script><style>
+.cia{--m:68ch}
+.cia .cia-h1,.cia .cia-h2,.cia h3{text-wrap:balance}.cia p,.cia li,.cia td{text-wrap:pretty}
+.cia .lede{max-width:none}
+.cia .cgrid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))!important}
+.cia .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;margin:8px 0 8px}
+.cia .kpis>div{background:var(--surface);padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.cia .kpis .k{font-size:var(--fs-body);color:var(--muted);font-weight:600}
+.cia .kpis .v{font-size:var(--fs-body);font-weight:600;color:var(--text)}
+.cia table{font-variant-numeric:tabular-nums}
+.cia tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--surface) 55%,transparent)}
+.cia td:first-child{font-weight:600}
+.cia .tblwrap{overflow-x:auto;margin-bottom:12px}
+.cia .tblwrap table{margin:0;min-width:760px}
+.cia .raci td:not(:first-child):not(:last-child),.cia .raci th:not(:first-child):not(:last-child){text-align:center}
+.cia .rk{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:var(--r-sm);font-weight:700;border:1px solid var(--line);color:var(--muted)}
+.cia .rk[data-r="A"]{background:var(--pill-next-bg);color:var(--pill-next);border-color:transparent}
+.cia .rk[data-r="R"]{background:var(--pill-now-bg);color:var(--pill-now);border-color:transparent}
+.cia a{text-underline-offset:3px}
+.cia ::selection{background:var(--pill-now-bg)}
+.cia :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:640px){.cia .tblwrap table,.cia .tblwrap thead,.cia .tblwrap tbody,.cia .tblwrap tr{display:revert}.cia .tblwrap td{display:table-cell;border-bottom:1px solid var(--line);padding:12px}.cia .tblwrap thead{display:table-header-group}}
+.cia th{border-bottom:none}.cia tbody tr:last-child td{border-bottom:none}
+.cia .src{font-size:var(--fs-body);color:var(--muted);margin-bottom:8px}
+/* type system, matched to the hub documents: H1 title, H2 section, H3 subhead, lede, body, meta */
+.cia{font-family:var(--font-body);font-size:1rem;line-height:1.65;color:var(--text)}
+.cia .cia-h1{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:500;line-height:1.3;letter-spacing:-0.02em;margin:24px 0 12px}
+.cia .lede{font-size:1.15rem;font-weight:400;line-height:1.55;margin:0 0 16px;color:var(--text)}
+.cia .cia-h2{font-size:1.5rem;font-weight:600;line-height:1.35;letter-spacing:-0.01em;color:var(--accent);margin:56px 0 12px}
+.cia .cgrid h3,.cia h3:not(.cia-h2){font-size:1.15rem;font-weight:600;line-height:1.35;color:var(--text);margin:0 0 6px}
+.cia p,.cia li,.cia td,.cia th{font-size:1rem;line-height:1.6}
+.cia th{font-weight:600;color:var(--muted)}
+.cia .src,.cia .kpis .k{font-size:.925rem;font-weight:600;color:var(--muted)}
+.cia .kpis .v{font-size:1rem;font-weight:600}
+.cia .ccard p:last-child,.cia .ccard ul:last-child,.cia .ccard ol:last-child{margin-bottom:0}
+.cia .pill.n{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.cia .kpis{margin:16px 0 8px}
+.cia .kpis>div{padding:16px 20px;gap:4px;justify-content:flex-start}
+.cia .kpis .k{font-size:.925rem;font-weight:600;color:var(--muted)}
+.cia .kpis .v{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1.3;color:var(--text);text-wrap:balance}
+.cia .kpis .d{font-size:.925rem;line-height:1.5;color:var(--muted)}
+.cia .blkbar{display:flex;justify-content:flex-end;margin:16px 0 4px}
+.cia .expall{font:inherit;font-size:.925rem;font-weight:600;color:var(--accent);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 14px;cursor:pointer}
+
+
+.cia .blk>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;column-gap:16px;padding:16px 0;align-items:start}
+.cia .blk>summary::-webkit-details-marker{display:none}
+.cia .blk>summary::after{content:"";grid-column:2;grid-row:1/span 2;width:10px;height:10px;margin-top:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s ease-out}
+.cia .blk[open]>summary::after{transform:rotate(-135deg)}
+.cia .blk>summary .cia-h2{margin:0 0 4px;grid-column:1}
+.cia .blk>summary .tk{grid-column:1;font-size:1.15rem;line-height:1.55;color:var(--text);text-wrap:pretty}
+
+.cia .blk .bd{padding:0 0 24px}
+@media print{.cia .blk>.bd{display:block}.cia .blkbar{display:none}}
+/* design system primitives (src/ui-kit/recoil-report: 06 beat stepper, 13 90-day build, 28 chip, 29 tile, 32 evidence ref), colors bound to the shell's theme-aware variables */
+.cia{--sig-r:var(--accent);--sig-a:var(--pill-next);--sig-a-bg:var(--pill-next-bg);--sig-g:var(--pill-now);--sig-g-bg:var(--pill-now-bg)}
+.cia .chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;line-height:1.5}
+.cia .chip.green{color:var(--sig-g);background:var(--sig-g-bg);border-color:transparent}
+.cia .chip.gold{color:var(--sig-a);background:var(--sig-a-bg);border-color:transparent}
+.cia .chip.cyan{color:var(--sig-r);background:color-mix(in srgb,var(--sig-r) 12%,transparent);border-color:transparent}
+.cia .ref{font-family:var(--ds-font-mono);font-size:.75rem;letter-spacing:.04em;line-height:1.5;color:var(--muted);margin:0 0 8px}
+.cia .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0 8px}
+.cia .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
+.cia .tile .v{font-family:var(--ds-font-mono);font-size:clamp(1.5rem,4vw,2.4rem);font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums;color:var(--accent)}
+.cia .tile .k{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin:4px 0 6px;line-height:1.5}
+.cia .tile .ref{margin:0}
+.cia .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.cia .phase{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.cia .phase-header{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.cia .phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ds-font-mono);font-weight:700;border:1px solid var(--accent);color:var(--accent);flex-shrink:0}
+.cia .phase-days{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);line-height:1.5}
+.cia .phase-name{font-weight:600;color:var(--text)}
+.cia .phase-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.cia .phase-item{display:flex;align-items:flex-start;gap:10px}
+.cia .item-dot{width:5px;height:5px;border-radius:50%;margin-top:10px;background:var(--accent);flex-shrink:0}
+.cia .beat-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.cia .beat-item{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 16px;position:relative;overflow:hidden}
+
+.cia .beat-number{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700}
+.cia .beat-content{flex:1;display:flex;flex-direction:column;gap:2px}
+.cia .beat-title{font-weight:600;color:var(--text)}
+.cia .beat-body{color:var(--text)}
+.cia .pwrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px;margin:8px 0 16px}
+.cia .pmap{width:100%;height:auto;display:block;font-family:var(--font-body)}
+.cia .pmap .ax{stroke:var(--line);stroke-width:1.5}.cia .pmap .zone{fill:color-mix(in srgb,var(--accent) 8%,transparent);stroke:var(--accent);stroke-dasharray:4 4}
+.cia .pmap .al{fill:var(--muted);font-size:13px}.cia .pmap .zl{fill:var(--accent);font-size:13px;font-weight:600}
+.cia .pmap .fin{fill:var(--accent)}.cia .pmap .oth{fill:var(--muted)}
+.cia .pmap .pl{font-size:13px}.cia .pmap .fint{fill:var(--text);font-weight:600}.cia .pmap .otht{fill:var(--muted)}
+@media (min-width:700px){.shell-meta{position:sticky;top:12px;z-index:21;margin:-1px -1px 0;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0}
+.shell-meta::before{content:'';position:absolute;left:-1px;right:-1px;top:-14px;bottom:auto;height:23px;z-index:-1;pointer-events:none;background:linear-gradient(var(--pg-bg,var(--bg)),var(--pg-bg,var(--bg))) 0 0/100% 13px no-repeat,radial-gradient(circle at 100% 100%,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) 0 13px/10px 10px no-repeat,radial-gradient(circle at 0 100%,transparent 10px,var(--pg-bg,var(--bg)) 10.5px) 100% 13px/10px 10px no-repeat}
+.shell-bar{margin:0 -1px;border-left:1px solid var(--line);border-right:1px solid var(--line)}}
+.cia .pfig{margin:8px 0 16px}
+.cia .pwrap{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:8px}
+.cia .pmap{width:100%;height:auto;display:block;font-family:var(--font-body);overflow:visible}
+.cia .pmap .q-hi{fill:color-mix(in srgb,var(--accent) 7%,transparent)}
+.cia .pmap .ql{fill:var(--muted);font-size:12px;font-weight:600;letter-spacing:.02em}.cia .pmap .qa{fill:var(--accent)}
+.cia .pmap .mid{stroke:var(--line);stroke-dasharray:3 4}.cia .pmap .ax{stroke:var(--muted);stroke-width:1.5}
+.cia .pmap .at{fill:var(--text);font-size:13px;font-weight:600}.cia .pmap .al{fill:var(--muted);font-size:12px}
+.cia .pmap .hit{fill:transparent}
+.cia .pmap .dot{stroke-width:2.5}.cia .pmap .dot.fin.ms,.cia .pmap .dot.fin.nms{fill:var(--accent);stroke:var(--surface)}
+.cia .pmap .dot.fin.nms{fill:var(--surface);stroke:var(--accent);stroke-width:3}
+.cia .pmap .dot.oth.ms{fill:var(--muted);stroke:var(--surface)}.cia .pmap .dot.oth.nms{fill:var(--surface);stroke:var(--muted)}
+.cia .pmap .det{fill:none;stroke:var(--text);stroke-width:1.5;stroke-dasharray:3 3}
+.cia .pmap .pn{fill:var(--text);font-size:13.5px;font-weight:600}.cia .pmap .pf{font-size:15px;font-weight:700}
+.cia .pmap .pr{fill:var(--muted);font-size:12px}
+.cia .pmap .pt{cursor:default;outline:none}.cia .pmap .pt:focus-visible .dot,.cia .pmap .pt:hover .dot{stroke:var(--text)}
+.cia .ptip{position:absolute;max-width:300px;background:var(--text);color:var(--surface);font-size:.875rem;line-height:1.5;padding:10px 12px;border-radius:8px;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.18);z-index:2}
+.cia .plg{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 4px 4px;font-size:.875rem;color:var(--muted)}
+.cia .plg span{display:inline-flex;align-items:center;gap:8px}
+.cia .lg{width:12px;height:12px;border-radius:50%;display:inline-block;border:2.5px solid var(--muted)}
+.cia .lg.fin{background:var(--accent);border-color:var(--accent)}.cia .lg.oth.ms{background:var(--muted)}.cia .lg.oth.nms{background:transparent}
+.cia .lg.detl{border:1.5px dashed var(--text);width:16px;height:16px}
+.cia .ptab{margin-top:8px}.cia .ptab>summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.925rem}
+.cia{padding-top:0}.cia>.cia-h1:first-child{margin-top:20px}
+
+.shell-body #pane-prop{margin:0}.shell-body #pane-prop>.stamp{margin:0 0 16px}.shell-body #pane-plan{max-width:none;margin:0}
+.toprow .respill{margin-left:auto;margin-right:12px;display:inline-flex;align-items:center;font-size:.925rem;font-weight:600;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--surface);white-space:nowrap}
+.toprow .respill:hover{border-color:var(--accent)}.toprow .respill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cia .acrd .ccard h3{color:var(--accent)}
+.cia .cgrid.acrd{grid-template-columns:repeat(2,minmax(0,1fr))!important}@media (max-width:640px){.cia .cgrid.acrd{grid-template-columns:1fr!important}}
+#pane-primer .cia>.cia-h2:first-child{margin-top:8px}
+@media (max-width:640px){.toprow{flex-wrap:wrap;row-gap:8px}.toprow .sm-conf{flex:1 1 100%}.toprow .respill{margin-left:0}}
+.cia{--quiet:color-mix(in srgb,var(--text) 72%,var(--bg))}
+.cia .ref,.cia th,.cia .chip:not(.green):not(.gold):not(.cyan),.cia .src,.cia .kpis .k,.cia .kpis .d{color:var(--quiet)}
+.cia .ns{margin:8px 0 8px;padding:24px;border-radius:var(--r-md);background:color-mix(in srgb,var(--accent) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line))}
+.cia .ns-k{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+.cia .ns-o{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:clamp(1.35rem,3vw,1.9rem);font-weight:500;line-height:1.35;letter-spacing:-.01em;color:var(--text);margin:0 0 20px;text-wrap:balance}
+.cia .ns-kr{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}@media (max-width:900px){.cia .ns-kr{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:560px){.cia .ns-kr{grid-template-columns:1fr}}
+.cia .ns-kr li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm,6px);padding:12px 14px;margin:0}
+.cia .ns-n{font-family:var(--ds-font-mono);font-size:.75rem;font-weight:700;color:var(--accent);padding-top:3px;flex-shrink:0}
+.cia .rpill{display:inline-flex;align-items:center;gap:6px;font-size:.8125rem;font-weight:600;line-height:1.5;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+.cia .rpill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.cia .rpill[data-k="a"]{color:var(--pill-next);background:var(--pill-next-bg)}
+.cia .rpill[data-k="r"]{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.cia .rpill[data-k="c"],.cia .rpill[data-k="i"]{color:var(--quiet);border-color:var(--line);background:transparent}
+.cia .rpill[data-k="i"]::before{background:transparent;border:1.5px solid currentColor;width:4px;height:4px}
+.cia .rlegend{display:flex;flex-wrap:wrap;gap:8px 20px;margin:4px 0 12px;font-size:.875rem;color:var(--quiet)}
+.cia .rlegend>span{display:inline-flex;align-items:center;gap:8px}
+.cia .raci{min-width:980px}
+.cia td.num{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+.cia .cgrid.acrd3{grid-template-columns:repeat(3,minmax(0,1fr))!important}@media (max-width:900px){.cia .cgrid.acrd3{grid-template-columns:1fr!important}}.cia .acrd3 .ccard h3{color:var(--accent)}.cia .qlist ol{margin:0;padding-left:24px}.cia .qlist li{margin-bottom:8px}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-task" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="currentColor"/></symbol>
+<symbol id="i-gate" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 7h4" stroke="currentColor" stroke-width="2"/></symbol>
+<symbol id="i-req" viewBox="0 0 14 14"><path d="M3 7.5l2.5 2.5L11 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-blk" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="currentColor"/><path d="M4 7h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-gap" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.4 1.8"/></symbol>
+<symbol id="i-ms" viewBox="0 0 14 14"><path d="M7 1l6 6-6 6-6-6z" fill="currentColor"/></symbol>
+<symbol id="i-risk" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 11l6-8M7 11l4-5" stroke="currentColor" stroke-width="1.5"/></symbol>
+<symbol id="i-phase" viewBox="0 0 14 14"><path d="M1 7h12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-tw" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<main>
+<h1 class="vh">Zach Harris: candidate brief for the CIA architect role</h1>
+<div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Private</span>Prepared for Michael Lederman and shared through Syfter.</p><a class="respill" href="/resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
+<section class="shell" aria-label="Candidate brief for the CIA architect role">
+<div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Michael Lederman, The Culinary Institute of America</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-10-29">October 29, 2026</time></dd></div><div><dt>Status</dt><dd>For our intro call</dd></div></dl></div>
+<div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="viewtabs" aria-label="Menu"><span></span></button><div class="tabs" id="viewtabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-debrief" aria-controls="pane-debrief" aria-selected="true">Brief<span class="pill" data-k="now">Now</span></button><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Approach<span class="pill" data-k="next">Next</span></button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="false" tabindex="-1">First 90 days<span class="pill" data-k="later">Later</span></button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Questions</button></div></div>
+<div class="shell-body"><div id="pane-debrief" class="cia-pane" role="tabpanel" aria-labelledby="t-debrief"><div class="stamp" data-k="now" role="note"><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Start here.</strong> The role as I heard it, and where my record does and does not match.</p></div><div class="cia"><h2 class="cia-h1">One constituent view across fundraising, education, events, consulting and retail.</h2><p class="lede">Prepared for Michael Lederman after an intake call with Syfter on October 29, 2026. CIA is at the moment where the right strategy, team and platform can unlock something meaningful for the mission. This is how I would start: mise en place before service, so the CRM and data decisions are ready before new advancement staff need them, and the habits that make it work stay with your team after I step back. The role details come from the description Syfter shared.</p><div class="tiles" role="list" aria-label="At a glance">
+<div class="tile" role="listitem"><div class="v">2</div><div class="k">CRM finalists</div><div class="ref">Salesforce or Dynamics, then data and integration</div></div>
+<div class="tile" role="listitem"><div class="v">5</div><div class="k">Proven fits</div><div class="ref">4 adjacent, 3 not yet tested</div></div>
+<div class="tile" role="listitem"><div class="v">1</div><div class="k">Anchor date</div><div class="ref">New advancement staff start on the chosen platform</div></div>
+<div class="tile" role="listitem"><div class="v">90</div><div class="k">Days to a decision</div><div class="ref">Paced with you; signing likely follows</div></div>
+</div><div class="blkbar"><button type="button" class="expall" aria-pressed="false">Expand all</button></div><details class="blk" open><summary><h3 class="cia-h2">Start with the goals, then the technology</h3><span class="tk">Every technology choice traces to a goal CIA already has: six goals, one roadmap.</span></summary><div class="bd">
+<p>What I heard about where CIA is going, and how each part of the technology roadmap serves it. Sources are marked; all of it is mine to confirm with you.</p>
+<table>
+<thead><tr><th>Goal we heard</th><th>Source</th><th>How the roadmap serves it</th><th>How we would know</th></tr></thead>
+<tbody>
+<tr><td>Modernize and unify systems that run in silos, under new leadership and a multi-year plan</td><td>Role description; Syfter call</td><td>One target architecture and one constituent record across fundraising, education, events, consulting and retail</td><td>Share of people matched to one profile; systems retired</td></tr>
+<tr><td>Grow fundraising, with new advancement staff joining</td><td>Role description; Syfter call</td><td>CRM chosen and donor data clean before they start, with gift, sponsorship, in-kind and event giving supported</td><td>Time to first gift recorded end to end; gift officer adoption</td></tr>
+<tr><td>Serve every line of business from one foundation: restaurants, classes and events, consulting, workforce training, certifications, military programs</td><td>Role description; Syfter call</td><td>Integration layer that connects ticketing, reservations, point of sale and contracts to the same record</td><td>Cross-business views leadership can use without manual reports</td></tr>
+<tr><td>Be ready for AI without paying enterprise licenses for everything</td><td>Role description; Syfter call</td><td>Governed data platform that teams build small AI and analytics tools on; AI and API usage priced into the decision</td><td>Point solutions shipped on governed data; usage costs within plan</td></tr>
+<tr><td>Build a stronger in-house team</td><td>Role description; Syfter call</td><td>Patterns, checklists and decisions owned by the Director of Enterprise Information Systems' team</td><td>Team runs design reviews without outside help</td></tr>
+<tr><td>Grow into lifelong learning, professional education, workforce development, consulting and industry partnerships</td><td>Full role description</td><td>One record and a composable integration layer, so each new program launches on shared customer data instead of a new silo</td><td>New programs live on the shared platform; repeat learners and partners visible across offers</td></tr>
+</tbody>
+</table>
+</div></details><details class="blk"><summary><h3 class="cia-h2">The job, as I heard it</h3><span class="tk">Six jobs: pick the CRM, pick the data layer, land it before advancement hires, leave a stronger team, set the architecture before build, and improve what runs today.</span></summary><div class="bd"><p>Drawn from the role description and my call with Syfter, not yet from you. Each card says where it came from; all four are mine to confirm with you.</p>
+
+<div class="cgrid">
+<div class="ccard"><h3>Pick the CRM</h3><p class="ref">src: Role description; Syfter call</p><p>Salesforce or Microsoft Dynamics, chosen on total cost, licensing (including AI and API usage charges), openness and fit for gift, sponsorship, in-kind and event giving.</p></div>
+<div class="ccard"><h3>Pick the data and integration layer</h3><p class="ref">src: Role description</p><p>Snowflake, Databricks or Fabric; MuleSoft, Boomi or Microsoft's integration tools. Governed data that teams can build point solutions on without an enterprise license for everything.</p></div>
+<div class="ccard"><h3>Land it before advancement hires arrive</h3><p class="ref">src: My inference on the Syfter call; Syfter said it matched what you told them</p><p>Have the platform decision and the diligence done so new fundraising staff start on the chosen system, or help shape its build.</p></div>
+<div class="ccard"><h3>Leave a stronger team</h3><p class="ref">src: Role description; Syfter call</p><p>Partner with the Director of Enterprise Information Systems and set up patterns the in-house team can run on its own.</p></div><div class="ccard"><h3>Set the architecture before build</h3><p class="ref">src: Full role description</p><p>A target architecture and phased roadmap across CRM, integration and APIs, data and analytics, and identity, with standards and governance for security and privacy.</p></div><div class="ccard"><h3>Improve what runs today</h3><p class="ref">src: Full role description</p><p>Integrate on-premise systems (Colleague, Oracle EBS and Hyperion, Oracle Symphony, SQL Server) for near real-time data while the new platform is chosen.</p></div>
+</div>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Fit card: strongest to least tested</h3><span class="tk">5 proven, 4 adjacent, 3 not yet tested, each with how I would close it.</span></summary><div class="bd"><p class="ref">Proven: done before, with evidence. Adjacent: the same shape of work, not yet tested in this setting. Not yet tested: an open question I would research first.</p>
+
+<table>
+<thead><tr><th>What the role asks for</th><th>What I have done</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td>Fundraising or advancement CRM, nonprofit</td><td>Children's Tumor Foundation: modernized Salesforce and built a customer data platform as one source of truth for donors and constituents; net-new revenue up 20 percent.</td><td><span class="chip green">Proven</span></td></tr><tr><td>Platform and vendor selection</td><td>Women's Tennis Association: led the customer data platform selection and stack modernization, Microsoft as delivery partner.</td><td><span class="chip green">Proven</span></td></tr><tr><td>Vendor management, implementation and internal adoption</td><td>Ran vendor selection and rollout at WTA (customer data platform, Microsoft as delivery partner) and the Children's Tumor Foundation (Salesforce), and managed vendors at IBRShop and Grayscale.</td><td><span class="chip green">Proven</span></td></tr><tr><td>Executive communication, tradeoffs for non-technical leaders</td><td>Grayscale: wrote release and risk tradeoffs for legal, risk and compliance leads across ten regulated products.</td><td><span class="chip green">Proven</span></td></tr><tr><td>Embedded consulting with knowledge transfer</td><td>Mañana: embedded partner across Axon, GoPro, Verizon Media and Twill Health, leaving the work with client teams.</td><td><span class="chip green">Proven</span></td></tr><tr><td>Point of view on AI-ready data</td><td>My own product, not yet at enterprise scale: an AI decision platform on Claude with row-level access rules and an append-only decision log on Postgres.</td><td><span class="chip gold">Adjacent</span></td></tr><tr><td>Real-time and event-driven data</td><td>WTA: fan-behavior scoring in under 120 milliseconds.</td><td><span class="chip gold">Adjacent</span></td></tr><tr><td>Identity and customer data platform</td><td>Led the customer data platform selection at WTA and built one at the Children's Tumor Foundation; identity design is adjacent.</td><td><span class="chip gold">Adjacent</span></td></tr><tr><td>iPaaS (MuleSoft, Boomi) and Snowflake, Databricks, Fabric</td><td>API and integration work, but not as a named owner of these platforms. The evaluation framework covers them; hands-on depth would come from the technical reviewer and vendor proofs.</td><td><span class="chip gold">Adjacent</span></td></tr><tr><td>Student systems and higher education ERP</td><td>Not yet in my record. The path: Colleague integration patterns and reference schools on the same stack.</td><td><span class="chip">Not yet tested</span></td></tr><tr><td>Hospitality background</td><td>Sold into hospitality buyers at IBRShop; hotel and restaurant systems are not yet in my record.</td><td><span class="chip">Not yet tested</span></td></tr><tr><td>Hands-on Microsoft Dynamics</td><td>Not yet in my record. The path: Dynamics reference customers, a scripted partner demo, and the same evaluation used for Salesforce.</td><td><span class="chip">Not yet tested</span></td></tr>
+</tbody>
+</table>
+</div></details></div></div><div id="pane-prop" class="cia-pane" role="tabpanel" aria-labelledby="t-prop" hidden><div class="stamp" data-k="next" role="note"><span class="pill" data-k="next" aria-hidden="true">Next</span><p><span class="stamp-vh">Next: </span><strong>How I would run the CRM decision.</strong> Looking out, looking in, needs by horizon, trade-offs and constraints, then the decision itself.</p></div><div class="cia">
+
+<p>A selection like this goes wrong when the decision is argued in a meeting and remembered differently later. I write the decision down before it is made: what we looked at, what we weighed, what we gave up, and what we expect to see after go-live. Then we check the result against that record at 90 days.</p>
+
+<div class="blkbar"><button type="button" class="expall" aria-pressed="false">Expand all</button></div><details class="blk" open><summary><h3 class="cia-h2">The decision, in five steps</h3><span class="tk">Weights before demos, the same scripts for both vendors, references, a written record with dissent, checked at 90 days.</span></summary><div class="bd">
+<div class="beat-list"><div class="beat-item"><div class="beat-number">1</div><div class="beat-content"><div class="beat-title">Weights first</div><div class="beat-body">Agree criteria and weights with the business owners, using everything above, before any vendor demo.</div></div></div><div class="beat-item"><div class="beat-number">2</div><div class="beat-content"><div class="beat-title">Scripted demos</div><div class="beat-body">Both finalists run the same CIA scenarios: a donor who is also an alumnus, a consulting client and an event buyer.</div></div></div><div class="beat-item"><div class="beat-number">3</div><div class="beat-content"><div class="beat-title">Reference checks with peers</div><div class="beat-body">in higher education and nonprofit advancement on both platforms.</div></div></div><div class="beat-item"><div class="beat-number">4</div><div class="beat-content"><div class="beat-title">A written recommendation</div><div class="beat-body">with the dissent recorded, sized to an executive read.</div></div></div><div class="beat-item"><div class="beat-number">5</div><div class="beat-content"><div class="beat-title">Check the call at 90 days</div><div class="beat-body">against the written record, and adjust.</div></div></div></div>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Looking out and looking in</h3><span class="tk">Choose on CIA's real systems and users, checked against what peers and the market show.</span></summary><div class="bd">
+<div class="cgrid">
+<div class="ccard"><h3>Looking out</h3><ul><li>How Salesforce and Dynamics price for nonprofits and education, including AI and API usage charges.</li><li>What peer culinary schools, colleges and hospitality groups run, and what they would change.</li><li>The implementation partner market for each platform: who is good, who is available, at what cost.</li><li>Where each vendor's roadmap is heading on AI features and data access.</li></ul></div>
+<div class="ccard"><h3>Looking in</h3><ul><li><b>Systems and data:</b> every system that holds a person or organization (student records, donor database, ticketing and reservations, point of sale, consulting contracts, email and marketing), its owner, and how data moves today.</li><li><b>Use cases by team:</b> short user stories, such as a gift officer seeing that a donor also took a class and booked an event.</li><li><b>The current reporting loop:</b> how numbers are pulled, checked and turned into decisions today, and where the manual work and blind spots are.</li><li><b>Team skills:</b> what the in-house systems team can own after go-live.</li></ul></div>
+</div>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">The current stack, named and inferred</h3><span class="tk">Colleague, Oracle finance and food service, SQL Server and a Microsoft base: Ellucian and Microsoft give Dynamics home-field advantage that Salesforce has to earn.</span></summary><div class="bd">
+<p><b>Named in the role description</b></p><div class="tblwrap"><table><thead><tr><th>Area</th><th>System today</th><th>What it means for the architecture</th></tr></thead><tbody>
+<tr><td>Student information</td><td>Ellucian Colleague</td><td>Student and alumni records start here; the CRM must sync with it cleanly</td></tr>
+<tr><td>Learning</td><td>Moodle</td><td>Course and learner activity for lifelong and professional education</td></tr>
+<tr><td>Finance</td><td>Oracle EBS and Hyperion</td><td>Gift and revenue posting, budgets and reconciliation</td></tr>
+<tr><td>Food and beverage</td><td>Oracle Symphony</td><td>Restaurant and event spend that belongs on the same customer record</td></tr>
+<tr><td>Data and analytics</td><td>SQL Server warehouse, Informer reporting</td><td>The base for the move to a governed data platform; reports to keep running during the change</td></tr>
+<tr><td>Fundraising CRM</td><td>Outdated system, to be replaced</td><td>Migration scope and contract end date set the deadline</td></tr>
+</tbody></table></div><p><b>Inferred from public signals</b></p><p class="ref">src: public DNS records and BuiltWith, October 29, 2026. Outside-in signals only; to confirm in discovery.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>Signal</th><th>What it suggests</th><th>Why it matters for the decision</th></tr></thead>
+<tbody>
+<tr><td>Email on Microsoft 365; DNS on Azure; some hosting in Azure US East</td><td>Microsoft identity and cloud are already in place</td><td>Single sign-on, licensing bundles and in-house skills favor Dynamics and Fabric; weigh them openly rather than by default</td></tr>
+<tr><td>Ellucian Recruitment detected on the website</td><td>Admissions likely runs on Ellucian CRM Recruit, which as far as I know is built on Dynamics</td><td>Student and prospect data may already live in a Dynamics-based system; it decides how hard unifying with advancement will be</td></tr>
+<tr><td>Mautic for marketing automation</td><td>Open-source email and campaign tool on the public site</td><td>A candidate to keep, integrate or retire; consent data has to move cleanly</td></tr>
+<tr><td>Amazon SES in mail records</td><td>Some sending runs on AWS</td><td>Integration and data residency span more than one cloud</td></tr>
+<tr><td>WordPress on WP Engine behind Cloudflare; DocuSign</td><td>Web and signing are SaaS and separate</td><td>Forms, donations and agreements need clean hand-offs into the new record</td></tr>
+</tbody>
+</table></div>
+</div></details><details class="blk"><summary><h3 class="cia-h2">The wider landscape, filtered for CIA</h3><span class="tk">A quick check that the shortlist covers the specialists schools weigh; in this sketch the two finalists are the only options that span every business line with real advancement depth.</span></summary><div class="bd">
+<p class="ref">Illustration, my read rather than a market study. Positions are judgment against four filters: one record across fundraising, education, events, consulting and retail; advancement depth for gift, sponsorship, in-kind and event giving; fit with a Microsoft base; total cost for a nonprofit.</p>
+<figure class="pfig"><div class="pwrap"><svg viewBox="0 0 720 460" role="img" aria-labelledby="pmt pmd" class="pmap"><title id="pmt">Where the options sit for CIA</title><desc id="pmd">Illustrative positioning. Horizontal: breadth across CIA business lines. Vertical: depth for advancement. Salesforce and Dynamics 365 sit in the full-platform quadrant; specialists sit at the edges. See the table below the chart for the same data.</desc><rect x="380.0" y="24.0" width="316.0" height="186.0" class="q-hi"/><text x="77" y="43" text-anchor="start" class="ql">Specialists for fundraising</text><text x="683" y="43" text-anchor="end" class="ql qa">Full platforms</text><text x="77" y="375" text-anchor="start" class="ql">Point tools</text><text x="683" y="375" text-anchor="end" class="ql">Broad, lighter on giving</text><line x1="380.0" y1="24.0" x2="380.0" y2="396.0" class="mid"/><line x1="64.0" y1="210.0" x2="696.0" y2="210.0" class="mid"/><line x1="64.0" y1="396.0" x2="696.0" y2="396.0" class="ax"/><line x1="64.0" y1="396.0" x2="64.0" y2="24.0" class="ax"/><text x="64.0" y="424" class="al">Narrow</text><text x="696.0" y="424" text-anchor="end" class="al">Broad</text><text x="380.0" y="446" text-anchor="middle" class="at">Breadth across CIA's business lines</text><text transform="translate(20 210) rotate(-90)" text-anchor="middle" class="at">Depth for advancement</text><text transform="translate(40 396) rotate(-90)" class="al">Light</text><text transform="translate(40 54) rotate(-90)" class="al">Deep</text><g class="pt" tabindex="0" role="img" aria-label="Salesforce (Education and Nonprofit Cloud). Spans admissions, advancement, marketing and service on one platform; deep fundraising tooling; would sit beside a Microsoft base rather than inside it." data-tip="Salesforce (Education and Nonprofit Cloud). Spans admissions, advancement, marketing and service on one platform; deep fundraising tooling; would sit beside a Microsoft base rather than inside it."><circle cx="595" cy="98" r="18" class="hit"/><circle cx="595" cy="98" r="9" class="dot fin nms"/><text x="574" y="96" text-anchor="end" class="pn pf">Salesforce</text><text x="574" y="112" text-anchor="end" class="pr">Education and Nonprofit Cloud</text></g><g class="pt" tabindex="0" role="img" aria-label="Dynamics 365 (with Microsoft&#x27;s nonprofit tools). Broad platform on the identity, email and cloud CIA appears to run; fundraising depth depends on partner add-ons, so advancement fit is the question to test." data-tip="Dynamics 365 (with Microsoft&#x27;s nonprofit tools). Broad platform on the identity, email and cloud CIA appears to run; fundraising depth depends on partner add-ons, so advancement fit is the question to test."><circle cx="570" cy="180" r="18" class="hit"/><circle cx="570" cy="180" r="9" class="dot fin ms"/><text x="549" y="178" text-anchor="end" class="pn pf">Dynamics 365</text><text x="549" y="194" text-anchor="end" class="pr">with Microsoft's nonprofit tools</text></g><g class="pt" tabindex="0" role="img" aria-label="Ellucian CRM Advance (advancement, on Dynamics). Advancement CRM now built on Dynamics 365; Ellucian&#x27;s admissions CRM appears on CIA&#x27;s site, so this family may already be in the building." data-tip="Ellucian CRM Advance (advancement, on Dynamics). Advancement CRM now built on Dynamics 365; Ellucian&#x27;s admissions CRM appears on CIA&#x27;s site, so this family may already be in the building."><circle cx="317" cy="150" r="18" class="hit"/><circle cx="317" cy="150" r="13" class="det"/><circle cx="317" cy="150" r="7" class="dot oth ms"/><text x="298" y="148" text-anchor="end" class="pn">Ellucian CRM Advance</text><text x="298" y="164" text-anchor="end" class="pr">advancement, on Dynamics</text></g><g class="pt" tabindex="0" role="img" aria-label="Raiser&#x27;s Edge NXT (Blackbaud, advancement). Deep, widely used fundraising system; narrow beyond advancement, so it would be integrated with rather than chosen as the one record." data-tip="Raiser&#x27;s Edge NXT (Blackbaud, advancement). Deep, widely used fundraising system; narrow beyond advancement, so it would be integrated with rather than chosen as the one record."><circle cx="165" cy="69" r="18" class="hit"/><circle cx="165" cy="69" r="7" class="dot oth nms"/><text x="184" y="67" text-anchor="start" class="pn">Raiser's Edge NXT</text><text x="184" y="83" text-anchor="start" class="pr">Blackbaud, advancement</text></g><g class="pt" tabindex="0" role="img" aria-label="Slate (Technolutions, admissions first). Strong in admissions with an advancement module; mostly chosen for enrollment, not as a whole-institution record." data-tip="Slate (Technolutions, admissions first). Strong in admissions with an advancement module; mostly chosen for enrollment, not as a whole-institution record."><circle cx="254" cy="284" r="18" class="hit"/><circle cx="254" cy="284" r="7" class="dot oth nms"/><text x="273" y="282" text-anchor="start" class="pn">Slate</text><text x="273" y="298" text-anchor="start" class="pr">Technolutions, admissions first</text></g><g class="pt" tabindex="0" role="img" aria-label="Mautic (marketing automation). Open-source campaign tool detected on CIA&#x27;s site; a system to integrate or retire, not a CRM candidate." data-tip="Mautic (marketing automation). Open-source campaign tool detected on CIA&#x27;s site; a system to integrate or retire, not a CRM candidate."><circle cx="203" cy="359" r="18" class="hit"/><circle cx="203" cy="359" r="13" class="det"/><circle cx="203" cy="359" r="7" class="dot oth nms"/><text x="222" y="357" text-anchor="start" class="pn">Mautic</text><text x="222" y="373" text-anchor="start" class="pr">marketing automation</text></g></svg><div class="ptip" role="tooltip" hidden></div></div><div class="plg" aria-hidden="true"><span><i class="lg fin ms"></i>Finalist</span><span><i class="lg oth ms"></i>Filled: runs on Microsoft</span><span><i class="lg oth nms"></i>Open: does not</span><span><i class="lg detl"></i>Ring: detected at CIA today</span></div><figcaption class="ref">Illustration, my read rather than a market study. Hover or tab to a point for the reasoning.</figcaption><details class="ptab"><summary>See the same view as a table</summary><div class="tblwrap"><table><thead><tr><th>Option</th><th>Role</th><th>Status</th><th>On Microsoft</th><th>Detected at CIA</th><th>Why it sits there</th></tr></thead><tbody><tr><td>Salesforce</td><td>Education and Nonprofit Cloud</td><td>Finalist</td><td>No</td><td>No</td><td>Spans admissions, advancement, marketing and service on one platform; deep fundraising tooling; would sit beside a Microsoft base rather than inside it.</td></tr><tr><td>Dynamics 365</td><td>with Microsoft's nonprofit tools</td><td>Finalist</td><td>Yes</td><td>No</td><td>Broad platform on the identity, email and cloud CIA appears to run; fundraising depth depends on partner add-ons, so advancement fit is the question to test.</td></tr><tr><td>Ellucian CRM Advance</td><td>advancement, on Dynamics</td><td>Specialist or tool</td><td>Yes</td><td>Yes</td><td>Advancement CRM now built on Dynamics 365; Ellucian's admissions CRM appears on CIA's site, so this family may already be in the building.</td></tr><tr><td>Raiser's Edge NXT</td><td>Blackbaud, advancement</td><td>Specialist or tool</td><td>No</td><td>No</td><td>Deep, widely used fundraising system; narrow beyond advancement, so it would be integrated with rather than chosen as the one record.</td></tr><tr><td>Slate</td><td>Technolutions, admissions first</td><td>Specialist or tool</td><td>No</td><td>No</td><td>Strong in admissions with an advancement module; mostly chosen for enrollment, not as a whole-institution record.</td></tr><tr><td>Mautic</td><td>marketing automation</td><td>Specialist or tool</td><td>No</td><td>Yes</td><td>Open-source campaign tool detected on CIA's site; a system to integrate or retire, not a CRM candidate.</td></tr></tbody></table></div></details></figure>
+<ul>
+<li><b>Specialists to integrate with, not replace by default:</b> Blackbaud Raiser's Edge NXT is common in advancement offices; Slate is mostly chosen for admissions.</li>
+<li><b>Already in the building:</b> Ellucian has moved CRM Recruit and CRM Advance onto Dynamics 365, so an Ellucian footprint makes Dynamics a natural extension.</li>
+<li><b>Data platforms in scope:</b> AWS, Snowflake and Microsoft Fabric, chosen after the CRM on the same framework.</li><li><b>A specialist partner:</b> the role calls for a higher education advancement implementation partner, chosen alongside the platform.</li><li><b>To check with vendors:</b> current packaging and pricing for Salesforce Education Cloud and Nonprofit Cloud, and Microsoft's nonprofit fundraising offer.</li>
+</ul>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Needs by horizon</h3><span class="tk">Now a donor system of record, next one profile across the business, later AI on governed data.</span></summary><div class="bd">
+<table>
+<thead><tr><th>Now</th><th>Next</th><th>Later</th></tr></thead>
+<tbody><tr>
+<td>A system of record for donors and gifts ready before new advancement hires start; clean migration of existing donor data; gift receipting and acknowledgment.</td>
+<td>One constituent profile across students, alumni, class and event buyers and consulting clients; event and ticketing integration; dashboards leadership trusts.</td>
+<td>AI-assisted prospecting and segmentation on governed data; point solutions built by the in-house team without an enterprise license for each.</td>
+</tr></tbody>
+</table>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Trade-offs on the table</h3><span class="tk">Price everything over five years, AI and API usage included, so the cheaper license is not the costlier choice.</span></summary><div class="bd">
+<div class="cgrid">
+<div class="ccard"><h3>Budget</h3><p>Five-year total cost: licenses, implementation, integration, add-ons, AI and API usage, and the staff time to run it.</p></div>
+<div class="ccard"><h3>Timing</h3><p>What has to be live for the new advancement team versus what can phase in, and how long each platform realistically takes to stand up.</p></div>
+<div class="ccard"><h3>Rollout resources</h3><p>Partner hours, in-house hours, training load on business teams, and who carries support after launch.</p></div>
+<div class="ccard"><h3>Risk</h3><p>Lock-in, migration data quality, adoption by staff, and what we do if a phase slips.</p></div>
+</div>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Shared understanding, the dependency under all of these</h3><span class="tk">Every level reads the project the same way, and business owners sell it to their own teams.</span></summary><div class="bd">
+<p>Budget, timing, resources and risk all depend on one thing: every level of the institution reading the project the same way, and business owners selling it to their own teams. If leadership, managers and the staff who use the system each carry a different picture, the project drifts no matter which platform wins.</p>
+<table>
+<thead><tr><th>Level</th><th>What they need to share</th><th>How we keep it aligned</th></tr></thead>
+<tbody>
+<tr><td>Leadership and board</td><td>Why this, why now, and what success looks like</td><td>A one-page purpose and success statement, agreed before vendor work starts</td></tr>
+<tr><td>Program</td><td>Priorities and the trade-offs we accepted</td><td>The decision record, with dissent, readable by anyone</td></tr>
+<tr><td>Business owners</td><td>What their team gets, gives up and when</td><td>Owners present their own area's plan to their teams</td></tr>
+<tr><td>Team leads</td><td>Requirements and sequence</td><td>User stories they edited, tied to dates</td></tr>
+<tr><td>Staff using the system</td><td>How their daily work changes</td><td>Short walkthroughs on real records before go-live, and a way to flag problems</td></tr>
+</tbody>
+</table>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Constraints that shape the choice</h3><span class="tk">Legal, compliance, security, nonprofit rules and accounting shape the shortlist instead of vetoing it late.</span></summary><div class="bd">
+<table>
+<thead><tr><th>Area</th><th>What it means for the CRM</th></tr></thead>
+<tbody>
+<tr><td>Legal and contracts</td><td>Contract term, data ownership and exit rights, partner statements of work.</td></tr>
+<tr><td>Compliance</td><td>Student records under FERPA, card payments under PCI DSS for restaurants, classes and retail, donor privacy and consent for marketing.</td></tr>
+<tr><td>Security</td><td>Single sign-on, role-based access by team, audit logs, vendor security attestations such as SOC 2.</td></tr>
+<tr><td>Nonprofit rules</td><td>Restricted and unrestricted gifts, in-kind and sponsorship gifts, tax receipts, and nonprofit or education pricing programs.</td></tr>
+<tr><td>Finance and accounting</td><td>How gifts, tuition, events and consulting revenue post to the general ledger, and how the CRM reconciles with the finance system.</td></tr>
+</tbody>
+</table>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Due diligence and RFI intake</h3><span class="tk">One intake packet that covers every type of data CIA holds and the rules each carries.</span></summary><div class="bd">
+<p>One intake packet for both finalists, so legal, finance, compliance and the board review the same answers. Each data set CIA holds carries its own rules.</p>
+<table>
+<thead><tr><th>Area</th><th>Standard or framework</th><th>What we ask each vendor</th></tr></thead>
+<tbody>
+<tr><td>Security</td><td>HECVAT (the higher education vendor questionnaire), SOC 2 Type II, ISO 27001</td><td>Completed HECVAT, current SOC 2 report, penetration test summary, breach notification terms.</td></tr>
+<tr><td>Student records</td><td>FERPA</td><td>Acting as a school official under contract, access controls by role, no reuse of student data.</td></tr>
+<tr><td>Financial aid data</td><td>GLBA Safeguards Rule</td><td>Encryption, access logging and incident response that meet the rule.</td></tr>
+<tr><td>Card payments</td><td>PCI DSS 4.0</td><td>Tokenized payments for classes, events, restaurants and retail; card data kept out of the CRM.</td></tr>
+<tr><td>Donor and marketing data</td><td>State privacy laws (including the New York SHIELD Act), GDPR for international donors and students, CAN-SPAM, donor consent</td><td>Consent tracking, opt-out handling, data residency, deletion on request.</td></tr>
+<tr><td>Gift handling</td><td>IRS substantiation rules: written acknowledgment for gifts of $250 or more, disclosure on event tickets over $75 that include a gift</td><td>Receipts that split the gift and benefit value; in-kind gift records.</td></tr>
+<tr><td>Nonprofit accounting</td><td>GAAP for nonprofits (ASC 958) for gifts and pledges, ASC 606 for tuition and services</td><td>Restricted and unrestricted funds, pledge schedules, clean posting to the general ledger.</td></tr>
+<tr><td>Accessibility</td><td>WCAG 2.1 AA, shown in a VPAT</td><td>Current VPAT for staff and public-facing screens.</td></tr>
+<tr><td>AI use</td><td>NIST AI Risk Management Framework</td><td>Whether CIA data trains vendor models, how AI features are priced, how to switch them off.</td></tr>
+<tr><td>Contract and exit</td><td>Data processing agreement, records retention schedule</td><td>Data ownership, export format and cost at exit, uptime terms, liability and insurance.</td></tr>
+<tr><td>Governance</td><td>Board procurement policy, conflict of interest policy, audit committee oversight of IT risk</td><td>Disclosure of relationships with staff or trustees; a summary sized for the audit committee.</td></tr>
+</tbody>
+</table>
+</div></details></div></div><div id="pane-plan" class="cia-pane" role="tabpanel" aria-labelledby="t-plan" hidden><div class="stamp" data-k="later" role="note"><span class="pill" data-k="later" aria-hidden="true">Later</span><p><span class="stamp-vh">Later: </span><strong>The first 90 days.</strong> A plausible plan, a starting RACI with the helpers that carry the legwork, and one north star to measure against.</p></div><div class="cia"><section class="ns" aria-labelledby="ns-h"><p class="ns-k">North star · the business case</p><h3 id="ns-h" class="ns-o">New advancement staff start on one trusted view of every person and organization CIA works with.</h3><ol class="ns-kr"><li><span class="ns-n">KR1</span><span><b>Decision.</b> CRM decision recorded, with dissent and expected outcomes, on the pace we agree.</span></li><li><span class="ns-n">KR2</span><span><b>One view.</b> Share of constituents matched to one profile across giving, education, events and consulting.</span></li><li><span class="ns-n">KR3</span><span><b>Lifecycle.</b> Student to alumni to donor history visible in one record, so engagement can be read across the whole relationship.</span></li><li><span class="ns-n">KR4</span><span><b>Fundraising.</b> Fundraising plans built from governed data, and time from go-live to the first gift recorded and acknowledged end to end.</span></li><li><span class="ns-n">KR5</span><span><b>Efficiency.</b> Hours of manual reporting per month, measured in discovery and tracked after go-live.</span></li><li><span class="ns-n">KR6</span><span><b>Safe and extensible.</b> No compliance findings on student, payment or donor data; uptime met; new point solutions built on governed data without new enterprise licenses.</span></li></ol></section><div class="blkbar"><button type="button" class="expall" aria-pressed="false">Expand all</button></div><details class="blk" open><summary><h3 class="cia-h2">A plausible first 90 days</h3><span class="tk">Map and weigh, decide the CRM, set up delivery.</span></summary><div class="bd">
+
+<div class="phases"><div class="phase"><div class="phase-header"><div class="phase-num">1</div><div class="phase-meta"><div class="phase-days">Day 1 to 30</div><div class="phase-name">Map and weigh</div></div></div><div class="phase-body"><div class="phase-item"><div class="item-dot"></div><div class="item-text">Inventory systems, data owners and the silos between the four campuses and the business lines.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Workshops with fundraising, education, events, consulting and retail leads.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Agree selection criteria and weights; issue scripted demo scenarios to both CRM finalists.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Target-state architecture draft, one page.</div></div></div></div><div class="phase"><div class="phase-header"><div class="phase-num">2</div><div class="phase-meta"><div class="phase-days">Day 31 to 60</div><div class="phase-name">Decide the CRM (pace set with you, from wherever the selection stands)</div></div></div><div class="phase-body"><div class="phase-item"><div class="item-dot"></div><div class="item-text">Run demos, references and the five-year cost model.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Recommendation to you, written so it can go to the leadership team as is.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Start the data and integration evaluation on the same framework.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Work alongside the Director of Enterprise Information Systems so the team owns these patterns after I step back.</div></div></div></div><div class="phase"><div class="phase-header"><div class="phase-num">3</div><div class="phase-meta"><div class="phase-days">Day 61 to 90</div><div class="phase-name">Set up delivery</div></div></div><div class="phase-body"><div class="phase-item"><div class="item-dot"></div><div class="item-text">Implementation partner selection and statement of work review.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Constituent data model and migration plan.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Design review checklist the in-house team runs on vendor designs.</div></div><div class="phase-item"><div class="item-dot"></div><div class="item-text">Data and integration platform recommendation.</div></div></div></div></div>
+<p>Past 90 days the work is implementation oversight and rollout, which runs well beyond a single quarter. The milestones above are built so each one stands on its own.</p>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Quick wins now, and what waits on an answer</h3><span class="tk">Seven things can start in week one without anyone's sign-off; eight answers from the business unblock the rest.</span></summary><div class="bd">
+<p><b>Unblocked: low lift, high value, start in week one</b></p>
+<div class="tblwrap"><table>
+<thead><tr><th>Move</th><th>Why it pays off early</th></tr></thead>
+<tbody>
+<tr><td>Inventory of systems, owners and data flows</td><td>Every later decision reads from it</td></tr>
+<tr><td>Send the vendor intake packet to both finalists</td><td>Security and compliance answers take the longest to come back</td></tr>
+<tr><td>Profile a sample of donor, student and buyer records</td><td>Sizes the cleanup and sharpens the cost model before anything is signed</td></tr>
+<tr><td>Decision record template and scoring sheet</td><td>Workshops produce weights, not opinions</td></tr>
+<tr><td>Five-year cost model skeleton</td><td>Quotes drop into a structure that already compares like with like</td></tr>
+<tr><td>One near real-time feed between Colleague, Oracle EBS and the warehouse</td><td>Improves today's reporting and proves the integration patterns the new platform will use</td></tr><tr><td>Line up peer reference calls on both platforms</td><td>Calendars, not effort, are the constraint</td></tr>
+</tbody>
+</table></div>
+<p><b>Waiting on a business answer</b></p>
+<div class="tblwrap"><table>
+<thead><tr><th>Answer needed</th><th>Who likely holds it</th><th>What it unblocks</th></tr></thead>
+<tbody>
+<tr><td>Fundraising plan, targets and giving mix</td><td>Advancement lead</td><td>Requirements for gift, sponsorship, in-kind and event giving</td></tr>
+<tr><td>Start date for new advancement staff</td><td>Advancement lead, HR</td><td>The anchor date for the whole work-back plan</td></tr>
+<tr><td>Current CRM and donor system setup, licenses and contract end dates</td><td>Director of Enterprise Information Systems</td><td>Migration scope and the real deadline for switching</td></tr>
+<tr><td>Who uses which systems today, and how much</td><td>System owners</td><td>Seat counts, training load and the cost model</td></tr>
+<tr><td>Known technical debt and workarounds</td><td>Director of Enterprise Information Systems</td><td>What the new platform must retire, and integration risk</td></tr>
+<tr><td>Any platform leaning or configuration already favored by leadership</td><td>Head of technology</td><td>Honest weights, said out loud instead of discovered late</td></tr>
+<tr><td>Budget range and approval thresholds</td><td>Finance, board policy</td><td>Which options are real, and who signs</td></tr>
+<tr><td>Data protection rules in force today</td><td>Compliance owner</td><td>Pass or fail criteria for the shortlist</td></tr>
+</tbody>
+</table></div>
+</div></details><details class="blk"><summary><h3 class="cia-h2">What I am on the hook for, and where I need support most</h3><span class="tk">I own the plan, the process and the record; I need business owners' time and 30 minutes a week with you.</span></summary><div class="bd">
+<div class="cgrid">
+<div class="ccard"><h3>I own, as program lead</h3><ul>
+<li>The plan, the weekly cadence and one status page everyone reads.</li>
+<li>Running discovery, the evaluation and the vendor process end to end.</li>
+<li>The decision record and the written recommendation.</li>
+<li>Reviewing every vendor design before it is built.</li>
+<li>Surfacing risks and slips early, with options, not just news.</li>
+<li>Leaving the Director's team able to run the patterns without me.</li>
+</ul></div>
+<div class="ccard"><h3>Where I need support most</h3><ol>
+<li><b>Business owners' time,</b> about 2 to 3 hours a week each in the first two months. This is the biggest risk to the timeline.</li>
+<li><b>A standing 30 minutes with you each week</b> for decisions, so nothing waits on a meeting.</li>
+<li><b>Finance and procurement early,</b> for budget range, contract terms and vendor quotes.</li>
+<li><b>The compliance owner before demos,</b> so student, payment and donor data rules shape the shortlist rather than veto it late.</li>
+<li><b>The Director of Enterprise Information Systems,</b> about a third of the week, as co-owner of the outcome.</li>
+</ol></div>
+</div>
+</div></details><details class="blk"><summary><h3 class="cia-h2">A starting RACI, people and helpers</h3><span class="tk">I carry the work in every workstream; the people who own each outcome stay accountable for it.</span></summary><div class="bd">
+
+<p>A draft for you to change, by role rather than by name. The helper column lists the delegated workers (scripts and AI assistants) that do the repetitive work for each owner; a person reviews everything they produce.</p>
+<div class="rlegend" role="list" aria-label="RACI key"><span role="listitem"><span class="rpill" data-k="a">Accountable</span> owns the outcome and signs off</span><span role="listitem"><span class="rpill" data-k="r">Responsible</span> does the work</span><span role="listitem"><span class="rpill" data-k="c">Consulted</span> gives input before decisions</span><span role="listitem"><span class="rpill" data-k="i">Informed</span> kept up to date</span></div><div class="tblwrap"><table class="raci">
+<thead><tr><th>Workstream</th><th>Head of technology</th><th>Architect</th><th>Director of Enterprise Information Systems</th><th>Business owner</th><th>Finance and compliance</th><th>Helper doing the legwork</th></tr></thead>
+<tbody>
+<tr><td>Discovery and system map</td><td><span class="rpill" data-k="a">Accountable</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="i">Informed</span></td><td>Inventory script that lists systems, owners and data flows; interview note summarizer</td></tr>
+<tr><td>Use cases and requirements</td><td><span class="rpill" data-k="i">Informed</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="a">Accountable</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td>Draft user stories from workshop notes, for owners to edit</td></tr>
+<tr><td>Criteria and weights</td><td><span class="rpill" data-k="a">Accountable</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td>Weighted scorecard that recalculates as weights change</td></tr>
+<tr><td>Vendor demos and references</td><td><span class="rpill" data-k="a">Accountable</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="i">Informed</span></td><td>Demo script pack; reference-call question bank and notes</td></tr>
+<tr><td>Five-year cost model</td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="i">Informed</span></td><td><span class="rpill" data-k="a">Accountable</span></td><td>Cost model that pulls quotes, license tiers and usage charges into one sheet</td></tr>
+<tr><td>Legal, compliance and security review</td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="i">Informed</span></td><td><span class="rpill" data-k="a">Accountable</span></td><td>Contract and security questionnaire checklist (FERPA, PCI DSS, SOC 2)</td></tr>
+<tr><td>Recommendation and decision record</td><td><span class="rpill" data-k="a">Accountable</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td>Decision record template: options, weights, dissent, expected outcome, 90-day check</td></tr>
+<tr><td>Implementation partner and design review</td><td><span class="rpill" data-k="a">Accountable</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td>Design review checklist the in-house team runs on every vendor design</td></tr>
+<tr><td>Data migration and adoption</td><td><span class="rpill" data-k="i">Informed</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td><span class="rpill" data-k="a">Accountable</span></td><td><span class="rpill" data-k="r">Responsible</span></td><td><span class="rpill" data-k="c">Consulted</span></td><td>Duplicate and data-quality reports; training guides by team</td></tr>
+</tbody>
+</table></div>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Time asked and time saved</h3><span class="tk">About 2 to 3 hours a week per business owner at first; helpers draft so people review. Estimates to check in discovery.</span></summary><div class="bd">
+<table>
+<thead><tr><th>Who</th><th>Time asked, first 90 days</th><th>Where the helpers save time</th><th>Hours saved, first 90 days (pro forma)</th></tr></thead>
+<tbody>
+<tr><td>Each business owner</td><td>About 2 to 3 hours a week in weeks 1 to 8, then about 1 hour a week</td><td>Drafted user stories and meeting summaries replace writing requirements from scratch</td><td class="num">8 to 16 each</td></tr>
+<tr><td>Director of Enterprise Information Systems</td><td>About a third of the week alongside the architect</td><td>Inventory, scorecard and checklists cut repeat analysis; patterns stay with the team</td><td class="num">15 to 30</td></tr>
+<tr><td>Finance and compliance</td><td>About 4 to 6 hours across the selection</td><td>One cost sheet and one questionnaire instead of a separate review per vendor</td><td class="num">4 to 8</td></tr>
+<tr><td>Head of technology</td><td>About 1 hour a week, plus the decision meeting</td><td>One written recommendation to approve instead of assembling it</td><td class="num">3 to 6</td></tr>
+</tbody>
+</table><p class="ref">Pro forma, my estimates to check in discovery. Basis: drafting from notes takes about half the time of writing from scratch; one shared cost sheet and questionnaire replaces a separate review per vendor; the inventory and scorecard are built once and reused. To turn hours into cost, multiply by each role's loaded hourly rate once we have it.</p>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Working back from the date that matters</h3><span class="tk">Everything works back from the day new advancement staff start.</span></summary><div class="bd">
+<p>A first draft to test with you. The anchor is the start date for the new advancement staff; everything else works back from it.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>Step</th><th>Needs first</th><th>Who unblocks it</th></tr></thead>
+<tbody>
+<tr><td>Platform ready for advancement staff</td><td>Contract signed, data model and migration plan agreed</td><td>Head of technology, finance</td></tr>
+<tr><td>Contract signed</td><td>Written recommendation approved; legal, security and compliance review passed</td><td>Head of technology, legal, compliance owner</td></tr>
+<tr><td>Recommendation</td><td>Scripted demos, reference calls, five-year cost model</td><td>Architect, Director of Enterprise Information Systems</td></tr>
+<tr><td>Scripted demos</td><td>Agreed criteria and weights; vendor intake packet returned</td><td>Business owners, both vendors</td></tr>
+<tr><td>Criteria and weights</td><td>System map, use cases by team, a sample of real data profiled</td><td>Business owners, system owners</td></tr>
+</tbody>
+</table></div>
+<p><b>Where this draft is weakest:</b> the advancement start date is not known yet; the plan assumes both finalists are still open; implementation partner availability is untested; and the size of the data cleanup is a guess until a real sample is profiled. Each of these is checked in the first two weeks.</p>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Critical path and the quiet risks</h3><span class="tk">Owners' time and approval drive the schedule; signing likely lands after day 90.</span></summary><div class="bd">
+<p>To see the shape of the schedule before real estimates exist, I ran 30,000 simulated schedules over the work-back plan, using placeholder ranges for each step (best, likely and worst case in weeks). The inputs are my guesses, not CIA data, so trust the shape, not the dates. I would re-run it on real estimates in the first two weeks.</p>
+<table>
+<thead><tr><th>What the simulation shows</th><th>What it means for the plan</th></tr></thead>
+<tbody>
+<tr><td>Discovery and agreeing the weights sit on the critical path in about 7 of 10 runs.</td><td>The biggest lever on the timeline is business owners' time in the first month, not vendor speed.</td></tr>
+<tr><td>Leadership approval of the recommendation is on the critical path in every run, even though it is short.</td><td>Book the decision meeting at kickoff, and send the record ahead so approval is a reading, not a debate.</td></tr>
+<tr><td>Contract negotiation drives the end date in about two thirds of runs; the partner statement of work in the rest.</td><td>Run contract terms and partner selection in parallel, and separate the decision date from the signature date.</td></tr>
+<tr><td>Compliance review and vendor intake answers are quiet: rarely visible, but on the critical path in about a quarter of runs.</td><td>Send the intake packet in week one and start the compliance review before demos.</td></tr>
+<tr><td>Data profiling almost never delays the decision.</td><td>Do it early anyway: it is the largest risk after signing, during migration, and it sharpens the cost model.</td></tr>
+<tr><td>On these placeholder ranges, a signed contract lands around week 17 to 24.</td><td>The 90-day plan covers the decision and the partner choice; signing likely follows it, and the advancement start date should be checked against that.</td></tr>
+</tbody>
+</table>
+</div></details><details class="blk"><summary><h3 class="cia-h2">What could sink this, most likely first</h3><span class="tk">The likeliest failure is business owners running out of time; each of seven risks has a control and an early sign.</span></summary><div class="bd">
+<p>A pre-mortem: imagine it is a year from now and the project failed. These are the likeliest reasons, with the control for each and the early sign to watch.</p>
+<table>
+<thead><tr><th>Failure path</th><th>Control</th><th>Early warning</th></tr></thead>
+<tbody>
+<tr><td>Business owners do not have the time, so requirements come from IT alone and staff do not adopt the system.</td><td>Named owner per area, a fixed weekly slot, drafted user stories they edit instead of write.</td><td>Workshops rescheduled twice; stories unedited after a week.</td></tr>
+<tr><td>Data migration is dirtier than expected: duplicate donors, alumni and buyers across systems.</td><td>Profile and match the data in the first 30 days, before a vendor is signed; budget cleanup as its own line.</td><td>Match rate in the first sample below what the plan assumes.</td></tr>
+<tr><td>Total cost runs over: add-ons, integration, AI and API usage charges appear after signing.</td><td>Five-year cost model with usage scenarios; usage caps and price holds in the contract.</td><td>Quotes that leave usage or add-ons as "to be scoped."</td></tr>
+<tr><td>The decision slips and new advancement staff start on the old system.</td><td>Decision date set with you; the record lets leadership approve on paper without another round of meetings.</td><td>Criteria still being debated after demos begin.</td></tr>
+<tr><td>Compliance raises a blocker late, after a vendor is chosen.</td><td>Compliance owner reviews the questionnaire before demos; FERPA, PCI DSS and donor consent are pass or fail criteria.</td><td>Vendor security answers still missing at shortlist.</td></tr>
+<tr><td>The implementation partner's design drifts from the target architecture.</td><td>Design review checklist on every deliverable; the in-house team signs off, not only the partner.</td><td>Custom code where configuration was planned.</td></tr>
+<tr><td>Knowledge leaves with the contract.</td><td>Director of Enterprise Information Systems co-owns every decision; patterns written down as the team's own playbook.</td><td>Only one person can explain a design choice.</td></tr>
+</tbody>
+</table>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Ground rules that keep the project healthy</h3><span class="tk">No signature without the record; changed assumptions are shown, not hidden.</span></summary><div class="bd">
+<ol>
+<li><b>No signature without the record.</b> No contract is signed until the decision record is written and the compliance review has passed.</li>
+<li><b>Changed assumptions are shown, not hidden.</b> When a belief in the plan changes, we log what changed, when and why, and keep the old version visible, so the plan's history can be read.</li>
+<li><b>Re-plan triggers are agreed in advance.</b> If an indicator below crosses its line, we meet within the week to adjust, before it becomes a slip.</li>
+<li><b>Every owner sees their input used.</b> Within a week of a workshop, each owner sees where their requirements landed.</li>
+<li><b>One page of status, every week.</b> The same five or six indicators, in the same order, so changes stand out.</li>
+</ol>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Leading indicators</h3><span class="tk">Six weekly signals flag a slip before a date moves; the thresholds are a starting point to set with you.</span></summary><div class="bd">
+<div class="tblwrap"><table>
+<thead><tr><th>Indicator</th><th>Healthy</th><th>Time to re-plan</th></tr></thead>
+<tbody>
+<tr><td>Business owner workshop attendance</td><td>Most sessions fully attended</td><td>Under 60 percent two weeks in a row</td></tr>
+<tr><td>Open decisions older than ten days</td><td>Two or fewer</td><td>More than five</td></tr>
+<tr><td>Match rate in data samples</td><td>At or above the plan's assumption</td><td>Ten points below it</td></tr>
+<tr><td>Vendor intake answers outstanding at shortlist</td><td>None on security or compliance</td><td>Any security or compliance item open</td></tr>
+<tr><td>Cost model against budget</td><td>Within 10 percent</td><td>More than 15 percent over</td></tr>
+<tr><td>Team pulse, one question each week</td><td>Steady or rising</td><td>Two drops in a row</td></tr>
+</tbody>
+</table></div>
+</div></details></div></div><div id="pane-primer" class="cia-pane" role="tabpanel" aria-labelledby="t-primer" hidden><div class="cia"><h3 class="cia-h2">Assumptions, risks and dependencies</h3>
+<p>A choice like this succeeds or fails on business owners more than on technology. With a leadership team that is still new, I would rather ask than guess. First-order items only; each one is mine to confirm with you.</p>
+<div class="cgrid acrd3"><div class="ccard"><h3>Assumptions</h3><ul>
+<li>Salesforce and Dynamics are both still open.</li>
+<li>Microsoft is the base layer, from public signals.</li>
+<li>There is a fixed start date for new advancement staff.</li>
+<li>Budget covers licenses and an implementation partner.</li>
+<li>Business owners can give 2 to 3 hours a week early on.</li>
+</ul></div><div class="ccard"><h3>Risks</h3><ul>
+<li>Business owners run out of time.</li>
+<li>Donor and student data is messier than planned.</li>
+<li>Add-ons and AI or API usage push cost over.</li>
+<li>Compliance raises a blocker after a vendor is chosen.</li>
+</ul><p class="ref">Full list with controls: First 90 days tab.</p></div><div class="ccard"><h3>Dependencies</h3><ul>
+<li>The advancement start date.</li>
+<li>The fundraising plan and giving mix.</li>
+<li>Current CRM setup, licenses and contract end dates.</li>
+<li>Budget range and approval thresholds.</li>
+<li>Vendor intake answers on security and compliance.</li>
+</ul></div></div><h3 class="cia-h2">Questions I would ask you</h3><div class="qlist"><ol>
+<li>Where does the shortlist stand today, and what has been ruled in or out?</li>
+<li>Who makes the call for each business area?</li>
+<li>What does bringing the Director of Enterprise Information Systems along look like to you?</li>
+<li>What would make this a success a year from now?</li><li>Which fundraising CRM is being replaced, and when does its contract end?</li><li>Should Informer and the SQL Server warehouse keep running through the change, or retire with the new data platform?</li><li>How should this work set up the future Director of Engineering?</li>
+</ol></div><h3 class="cia-h2">What stays with CIA</h3><p>Whatever the engagement length, the work is built to outlast it: a decision record anyone can read, a design review checklist your team runs on every vendor deliverable, a cost model that updates as quotes change, and a team that owns all three.</p><h3 class="cia-h2">Proof</h3>
+
+<p><a href="/resume.pdf">Resume (PDF, one page)</a>. The numbers come from my own records; happy to walk through any of them. Public writing and the product I build are at <a href="https://arcs.care">arcs.care</a>.</p>
+</div></div></div>
+</section>
+<p id="hint" class="vh">Use up and down arrows to move between rows, right to open a phase, left to close it, Enter to show details.</p>
+</main>
+
+<div id="fmtip" role="tooltip" hidden></div>
+<button type="button" class="readfab" id="readfab" aria-expanded="false" aria-controls="readopts" aria-label="Reading options"><span aria-hidden="true">Aa</span></button>
+<section id="readopts" class="readopts" role="dialog" aria-modal="false" aria-labelledby="roh" hidden>
+<p id="roh" class="ro-title">Reading options</p>
+<p class="ro-note">Comfort settings: pick whatever reads best for you. They stay on this device and are not sent anywhere. I recommend reading this on a computer or a larger tablet, where these settings work best too.</p>
+<div class="ro-group" role="group" aria-labelledby="ro-f"><span id="ro-f" class="ro-label">Font</span><span class="ro-btns"><button type="button" data-k="font" data-v="std">Standard</button><button type="button" data-k="font" data-v="easy">Easy-read</button></span><span class="ro-hint">Easy-read is a plain, wide font with no italics.</span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-s"><span id="ro-s" class="ro-label">Text size</span><span class="ro-btns"><button type="button" data-k="size" data-v="std">Standard</button><button type="button" data-k="size" data-v="l">Larger</button><button type="button" data-k="size" data-v="xl">Largest</button></span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-p"><span id="ro-p" class="ro-label">Spacing</span><span class="ro-btns"><button type="button" data-k="space" data-v="std">Standard</button><button type="button" data-k="space" data-v="roomy">Roomy</button></span><span class="ro-hint">Roomy adds space between letters, words and lines.</span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-th"><span id="ro-th" class="ro-label">Theme</span><span class="ro-btns"><button type="button" data-k="theme" data-v="light">Light</button><button type="button" data-k="theme" data-v="dark">Dark</button></span></div>
+<div class="ro-group" role="group" aria-labelledby="ro-t"><span id="ro-t" class="ro-label">Background</span><span class="ro-btns"><button type="button" data-k="tone" data-v="std">Standard</button><button type="button" data-k="tone" data-v="warm">Warm paper</button></span></div>
+<p class="ro-esc" style="margin:12px 0 0;color:var(--muted)">Press Esc to close.</p><div class="ro-actions"><button type="button" class="ro-reset">Reset</button><button type="button" class="ro-close">Close</button></div>
+</section>
+
+<script>
+(function(){
+const render=()=>{},byId={},select=()=>{};
+/* tabs */
+const tabs=[...document.querySelectorAll('[role=tab]')];
+function alignMeta(){}
+function showTab(t){tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on});
+if(t.id==='t-plan')render();setTimeout(alignMeta,30);}
+tabs.forEach((t,i)=>{t.onclick=()=>showTab(t);t.onkeydown=e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];n.focus();showTab(n)}}});
+{const P={'/proposal':'t-prop','/timeline':'t-plan','/primer':'t-primer','/debrief':'t-debrief'};showTab(document.getElementById(P[location.pathname]||'t-debrief'))}
+/* reading options */
+const root=document.documentElement,RK='ciaRead',ro=document.getElementById('readopts'),fab=document.getElementById('readfab');
+let st={};try{st=JSON.parse(localStorage.getItem(RK)||'{}')||{}}catch(e){}
+const KEYS={font:'data-font',size:'data-size',space:'data-space',tone:'data-tone',theme:'data-theme'};
+const isDarkNow=()=>{const el=document.querySelector('.shell-bar')||document.documentElement;const c=getComputedStyle(el).backgroundColor.match(/[\d.]+/g);if(!c||(c[3]!==undefined&&+c[3]===0))return false;return (0.299*c[0]+0.587*c[1]+0.114*c[2])<128};function applyRead(){if(!st.theme||st.theme==='std')st.theme='light';{const tg=document.getElementById('themetog');if(tg){const m=st.theme&&st.theme!=='std'?st.theme:(isDarkNow()?'dark':'light');tg.dataset.mode=m;tg.setAttribute('aria-pressed',String(m==='dark'));tg.setAttribute('aria-label','Dark mode')}}for(const k in KEYS){const v=st[k];v&&v!=='std'?root.setAttribute(KEYS[k],v):root.removeAttribute(KEYS[k])}
+ ro.querySelectorAll('button[data-k]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===(st[b.dataset.k]||'std'))));render();}
+function saveRead(){try{localStorage.setItem(RK,JSON.stringify(st))}catch(e){}}
+function openRead(o){ro.hidden=!o;fab.setAttribute('aria-expanded',String(o));if(o)(ro.querySelector('button[aria-pressed="true"]')||ro.querySelector('button')).focus();else fab.focus()}
+fab.onclick=()=>openRead(ro.hidden);
+ro.querySelector('.ro-close').onclick=()=>openRead(false);
+ro.querySelector('.ro-reset').onclick=()=>{st={};saveRead();applyRead()};
+ro.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>{st[b.dataset.k]=b.dataset.v;saveRead();applyRead()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ro.hidden)openRead(false)});
+document.getElementById('themetog')?.addEventListener('click',()=>{const now=st.theme&&st.theme!=='std'?st.theme:(isDarkNow()?'dark':'light');st.theme=now==='dark'?'light':'dark';saveRead();applyRead()});
+function placeFab(){const m=document.querySelector('main');if(!m)return;const g=document.documentElement.clientWidth-m.getBoundingClientRect().right,r=Math.max(16,Math.round((g-48)/2))+'px';fab.style.right=r;ro.style.right=r;const sh=document.querySelector('.shell');if(sh){const gap=Math.round(innerHeight-sh.getBoundingClientRect().bottom);fab.style.bottom=Math.max(16,gap)+'px'}}
+addEventListener('load',()=>{applyRead();placeFab()});addEventListener('resize',placeFab);addEventListener('scroll',placeFab,{passive:true});addEventListener('scroll',()=>{const b=document.querySelector('.shell-bar');if(b)b.classList.toggle('stuck',b.getBoundingClientRect().top<=(parseFloat(getComputedStyle(b).top)||0)+1&&scrollY>0)},{passive:true});document.addEventListener('click',()=>setTimeout(placeFab,60));placeFab();
+applyRead();
+})();
+</script>
+<script>(function(){function m(){var e=document.querySelector('.shell-meta'),b=document.querySelector('.shell-bar');if(e)document.documentElement.style.setProperty('--metah',e.offsetHeight+'px');if(b)document.documentElement.style.setProperty('--barh',b.offsetHeight+'px');var u=document.getElementById('sum');if(u&&u.offsetHeight)document.documentElement.style.setProperty('--sumh',u.offsetHeight+'px')}document.addEventListener('click',function(){setTimeout(m,60)});m();addEventListener('resize',m);addEventListener('load',m)})();</script><script>(function(){var b=document.getElementById('burger'),bar=b&&b.closest('.shell-bar');if(!b)return;function set(o){bar.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',String(o))}b.addEventListener('click',function(){set(!bar.classList.contains('menu-open'))});document.getElementById('viewtabs').addEventListener('click',function(e){if(e.target.closest('[role=tab]'))set(false)});document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});document.addEventListener('click',function(e){if(!bar.contains(e.target))set(false)})})();</script><script>document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.stamp-go');if(!b)return;var tb=document.getElementById(b.dataset.go);if(tb){tb.click();tb.focus();scrollTo({top:0})}});</script><script>(function(){document.querySelectorAll('.cia .expall').forEach(function(b){var c=b.closest('.cia');function sync(){var all=[].every.call(c.querySelectorAll('details.blk'),function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-pressed',String(all))}b.addEventListener('click',function(){var all=b.getAttribute('aria-pressed')==='true';c.querySelectorAll('details.blk').forEach(function(d){d.open=!all});sync()});c.addEventListener('toggle',sync,true);sync()});addEventListener('beforeprint',function(){document.querySelectorAll('details.blk').forEach(function(d){d.open=true})})})();</script><script>(function(){var m=document.querySelector('.shell-meta');if(!m)return;function f(){var t=parseFloat(getComputedStyle(m).top)||0;m.classList.toggle('stuck',scrollY>0&&m.getBoundingClientRect().top<=t+1)}addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f()})();</script><script>(function(){document.querySelectorAll('.cia .pwrap').forEach(function(w){var t=w.querySelector('.ptip');function show(g){var r=w.getBoundingClientRect(),d=g.querySelector('.dot').getBoundingClientRect();t.textContent=g.getAttribute('data-tip');t.hidden=false;var x=d.left-r.left+d.width/2,y=d.top-r.top;var tw=t.offsetWidth,th=t.offsetHeight;var left=Math.min(Math.max(8,x-tw/2),r.width-tw-8);var top=y-th-12;if(top<8)top=y+d.height+12;t.style.left=left+'px';t.style.top=top+'px'}function hide(){t.hidden=true}w.querySelectorAll('.pt').forEach(function(g){g.addEventListener('mouseenter',function(){show(g)});g.addEventListener('mouseleave',hide);g.addEventListener('focus',function(){show(g)});g.addEventListener('blur',hide)});w.addEventListener('keydown',function(e){if(e.key==='Escape')hide()})})})();</script></body>
+</html>
