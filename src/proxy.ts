@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
-import { MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
+import { CIA_GATE, MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
@@ -54,6 +54,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // claritai.arcs.care: Head of Operational Excellence & AI Systems bundle (2026-09-28): OPEN (ungated), noindex, for Jeff Kronisch (Harris Allied) to forward to Seth Merrin. root = brief + objections + history; PDF mapped to itself.
   // concourse.arcs.care: Concourse FDE bundle (2026-10-19): OPEN (ungated), noindex. root = candidate page (bet, record, role shape, gaps, kickoff card, ledger), /sara = recruiter brief, /plan = 90-day plan + pre-mortem (draft 2026-10-19), /llms.txt + /candidate.json = agent-readable claims with read-only checks. External cuts only; no counterpart profile content.
   // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; /monday-guide-rc46.zip = the submitted ZIP (sha256 matches dist/submission-rc46.zip.sha256), mapped to itself so the default rewrite does not swallow it.
+  // cia.arcs.care: candidate brief for the Culinary Institute of America architect role (2026-10-29). Gated by CIA_PASSCODE; noindex.
+  'cia':       { default: '/cia-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'concourse': { '/sara': '/concourse-sara.html', '/plan': '/concourse-plan.html', '/llms.txt': '/concourse-llms.txt', '/candidate.json': '/concourse-candidate.json', default: '/concourse.html' },
   'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
@@ -165,6 +167,29 @@ export default async function proxy(request: NextRequest) {
   // after the gate, so the link itself stays behind the passcode.
   if (sub === 'lewoof' && (pathname === '/desk' || pathname === '/desk/')) {
     return NextResponse.redirect('https://claude.ai/artifact/EN1E3113GZGsrc2UobDyvM', 302)
+  }
+
+  // --- cia.arcs.care: candidate brief for the CIA architect role -------------
+  // Same shape as the monday gate, own secret (CIA_PASSCODE) and cookie.
+  if (pathname.startsWith('/cia-gate')) return NextResponse.next()
+  const ciaFile = pathname.startsWith('/cia-brief')
+  const ciaHostOpen =
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/api') ||
+    pathname === '/robots.txt' ||
+    SHARED_ICON_PATH.test(pathname)
+  if (ciaFile || (sub === 'cia' && !ciaHostOpen)) {
+    const ok = await gateUnlocked(
+      CIA_GATE.ns,
+      request.cookies.get(CIA_GATE.cookie)?.value,
+      process.env[CIA_GATE.env],
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/cia-gate.html'
+      return NextResponse.rewrite(url)
+    }
   }
 
   // --- monday.arcs.care: submission guide for the monday.com FDE panel -------

@@ -1,0 +1,268 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zach Harris for CIA</title><meta name="robots" content="noindex"><style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;font-size:0.925rem;line-height:1.6}
+.lane{max-width:1040px;margin:0 auto;padding:48px 16px 64px}
+.eyebrow{font-size:0.925rem;font-weight:600;color:var(--cyan);margin-bottom:12px}
+h1{font-family:'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;font-size:clamp(1.5rem, 4vw, 2.4rem);font-weight:500;line-height:1.35;letter-spacing:-0.02em;margin-bottom:16px}
+.lede{max-width:none;color:var(--text);font-size:1.15rem;line-height:1.6}
+section{margin-top:48px}
+h2{font-family:'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;font-size:clamp(1.5rem, 4vw, 2.4rem);font-weight:500;line-height:1.35;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3.sub{font-size:1.15rem;line-height:1.5;color:var(--text);margin:24px 0 12px}
+h3{font-size:0.925rem;font-weight:600;margin-bottom:8px;color:var(--cyan)}
+p{margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.grid.three{grid-template-columns:repeat(3,1fr)}@media (max-width:900px){.grid.three{grid-template-columns:1fr}}@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px}
+.card ul,ol{padding-left:24px}
+li{margin-bottom:4px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;line-height:1.5;padding:12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-weight:600;color:var(--muted)}
+.pill{display:inline-block;line-height:1.5;padding:4px 12px;border-radius:999px;font-weight:600;white-space:nowrap}
+.pill.g{background:var(--green-bg);color:var(--green)}.pill.y{background:var(--gold-bg);color:var(--gold)}.pill.r{background:var(--red-bg);color:var(--red)}
+a{color:var(--cyan)}
+footer{margin-top:48px;color:var(--muted)}
+@media (max-width:640px){table,thead,tbody,tr,td{display:block}thead{display:none}td{border:none;padding:4px 0}tr{border-bottom:1px solid var(--border);padding:12px 0}}
+</style><script defer src="/_vercel/insights/script.js"></script></head><body>
+<main class="lane">
+<header>
+<p class="eyebrow">Candidate brief · Enterprise and Solutions Architect · The Culinary Institute of America</p>
+<h1>One constituent view across fundraising, education, events, consulting and retail.</h1>
+<p class="lede">Prepared for Michael Lederman by Zach Harris after an intake call with Syfter on October 29, 2026. It covers how I would run the CRM and data platform decisions, what the first 90 days could look like, and where my record does and does not match the brief. The role details come from the description Syfter shared.</p>
+</header>
+
+<section>
+<h2>The job, as I heard it</h2>
+<div class="grid">
+<div class="card"><h3>Pick the CRM</h3><p>Salesforce or Microsoft Dynamics, chosen on total cost, licensing (including AI and API usage charges), openness and fit for gift, sponsorship, in-kind and event giving.</p></div>
+<div class="card"><h3>Pick the data and integration layer</h3><p>Snowflake, Databricks or Fabric; MuleSoft, Boomi or Microsoft's integration tools. Governed data that teams can build point solutions on without an enterprise license for everything.</p></div>
+<div class="card"><h3>Land it before advancement hires arrive</h3><p>Have the platform decision and the diligence done so new fundraising staff start on the chosen system, or help shape its build.</p></div>
+<div class="card"><h3>Leave a stronger team</h3><p>Partner with the Director of Enterprise Systems and set up patterns the in-house team can run on its own.</p></div>
+</div>
+</section>
+
+<section>
+<h2>How I would run the CRM decision</h2>
+<p>A selection like this goes wrong when the decision is argued in a meeting and remembered differently later. I write the decision down before it is made: what we looked at, what we weighed, what we gave up, and what we expect to see after go-live. Then we check the result against that record at 90 days.</p>
+
+<h3 class="sub">Looking out and looking in</h3>
+<div class="grid">
+<div class="card"><h3>Looking out</h3><ul><li>How Salesforce and Dynamics price for nonprofits and education, including AI and API usage charges.</li><li>What peer culinary schools, colleges and hospitality groups run, and what they would change.</li><li>The implementation partner market for each platform: who is good, who is available, at what cost.</li><li>Where each vendor's roadmap is heading on AI features and data access.</li></ul></div>
+<div class="card"><h3>Looking in</h3><ul><li><b>Systems and data:</b> every system that holds a person or organization (student records, donor database, ticketing and reservations, point of sale, consulting contracts, email and marketing), its owner, and how data moves today.</li><li><b>Use cases by team:</b> short user stories, such as a gift officer seeing that a donor also took a class and booked an event.</li><li><b>The current reporting loop:</b> how numbers are pulled, checked and turned into decisions today, and where the manual work and blind spots are.</li><li><b>Team skills:</b> what the in-house systems team can own after go-live.</li></ul></div>
+</div>
+
+<h3 class="sub">Needs by horizon</h3>
+<table>
+<thead><tr><th>Now</th><th>Next</th><th>Later</th></tr></thead>
+<tbody><tr>
+<td>A system of record for donors and gifts ready before new advancement hires start; clean migration of existing donor data; gift receipting and acknowledgment.</td>
+<td>One constituent profile across students, alumni, class and event buyers and consulting clients; event and ticketing integration; dashboards leadership trusts.</td>
+<td>AI-assisted prospecting and segmentation on governed data; point solutions built by the in-house team without an enterprise license for each.</td>
+</tr></tbody>
+</table>
+
+<h3 class="sub">Trade-offs on the table</h3>
+<div class="grid">
+<div class="card"><h3>Budget</h3><p>Five-year total cost: licenses, implementation, integration, add-ons, AI and API usage, and the staff time to run it.</p></div>
+<div class="card"><h3>Timing</h3><p>What has to be live for the new advancement team versus what can phase in, and how long each platform realistically takes to stand up.</p></div>
+<div class="card"><h3>Rollout resources</h3><p>Partner hours, in-house hours, training load on business teams, and who carries support after launch.</p></div>
+<div class="card"><h3>Risk</h3><p>Lock-in, migration data quality, adoption by staff, and what we do if a phase slips.</p></div>
+</div>
+
+<h3 class="sub">Constraints that shape the choice</h3>
+<table>
+<thead><tr><th>Area</th><th>What it means for the CRM</th></tr></thead>
+<tbody>
+<tr><td>Legal and contracts</td><td>Contract term, data ownership and exit rights, partner statements of work.</td></tr>
+<tr><td>Compliance</td><td>Student records under FERPA, card payments under PCI DSS for restaurants, classes and retail, donor privacy and consent for marketing.</td></tr>
+<tr><td>Security</td><td>Single sign-on, role-based access by team, audit logs, vendor security attestations such as SOC 2.</td></tr>
+<tr><td>Nonprofit rules</td><td>Restricted and unrestricted gifts, in-kind and sponsorship gifts, tax receipts, and nonprofit or education pricing programs.</td></tr>
+<tr><td>Finance and accounting</td><td>How gifts, tuition, events and consulting revenue post to the general ledger, and how the CRM reconciles with the finance system.</td></tr>
+</tbody>
+</table>
+
+<h3 class="sub">Then the decision</h3>
+<ol>
+<li><b>Weights first.</b> Agree criteria and weights with the business owners, using everything above, before any vendor demo.</li>
+<li><b>Scripted demos.</b> Both finalists run the same CIA scenarios: a donor who is also an alumnus, a consulting client and an event buyer.</li>
+<li><b>Reference checks with peers</b> in higher education and nonprofit advancement on both platforms.</li>
+<li><b>A written recommendation</b> with the dissent recorded, sized to an executive read.</li>
+<li><b>Check the call at 90 days</b> against the written record, and adjust.</li>
+</ol>
+</section>
+
+<section>
+<h2>Fit card: requirement, evidence, strength</h2>
+<table>
+<thead><tr><th>What the role asks for</th><th>What I have done</th><th>Match</th></tr></thead>
+<tbody>
+<tr><td>Fundraising or advancement CRM, nonprofit</td><td>Children's Tumor Foundation: modernized Salesforce and built a customer data platform as one source of truth for donors and constituents; net-new revenue up 20 percent.</td><td><span class="pill g">Strong</span></td></tr>
+<tr><td>Platform and vendor selection</td><td>Women's Tennis Association: led the customer data platform selection and stack modernization, Microsoft as delivery partner.</td><td><span class="pill g">Strong</span></td></tr>
+<tr><td>Vendor management, implementation and internal adoption</td><td>Ran vendor selection and rollout at WTA (customer data platform, Microsoft as delivery partner) and the Children's Tumor Foundation (Salesforce), and managed vendors at IBRShop and Grayscale.</td><td><span class="pill g">Strong</span></td></tr>
+<tr><td>Executive communication, tradeoffs for non-technical leaders</td><td>Grayscale: wrote release and risk tradeoffs for legal, risk and compliance leads across ten regulated products.</td><td><span class="pill g">Strong</span></td></tr>
+<tr><td>Hospitality background</td><td>Sold into hospitality buyers at IBRShop; I have not run hotel or restaurant systems.</td><td><span class="pill r">Gap</span></td></tr>
+<tr><td>Point of view on AI-ready data</td><td>My own product, not yet at enterprise scale: an AI decision platform on Claude with row-level access rules and an append-only decision log on Postgres.</td><td><span class="pill y">Partial</span></td></tr>
+<tr><td>Real-time and event-driven data</td><td>WTA: fan-behavior scoring in under 120 milliseconds.</td><td><span class="pill y">Partial</span></td></tr>
+<tr><td>Hands-on Microsoft Dynamics</td><td>Not in my record. I would lean on Dynamics reference customers and a partner demo script, and say so in the evaluation.</td><td><span class="pill r">Gap</span></td></tr>
+<tr><td>iPaaS (MuleSoft, Boomi) and Snowflake, Databricks, Fabric</td><td>API and integration work, but not as a named owner of these platforms. The evaluation framework covers them; hands-on depth would come from the technical reviewer and vendor proofs.</td><td><span class="pill r">Gap</span></td></tr>
+</tbody>
+</table>
+</section>
+
+
+
+<section>
+<h2>A plausible first 90 days</h2>
+<div class="grid three">
+<div class="card"><h3>Days 1 to 30: map and weigh</h3><ul><li>Inventory systems, data owners and the silos between the four campuses and the business lines.</li><li>Workshops with fundraising, education, events, consulting and retail leads.</li><li>Agree selection criteria and weights; issue scripted demo scenarios to both CRM finalists.</li><li>Target-state architecture draft, one page.</li></ul></div>
+<div class="card"><h3>Days 31 to 60: decide the CRM (pace set with you, from wherever the selection stands)</h3><ul><li>Run demos, references and the five-year cost model.</li><li>Recommendation to you, written so it can go to the leadership team as is.</li><li>Start the data and integration evaluation on the same framework.</li><li>Work alongside the Director of Enterprise Systems so the team owns these patterns after I step back.</li></ul></div>
+<div class="card"><h3>Days 61 to 90: set up delivery</h3><ul><li>Implementation partner selection and statement of work review.</li><li>Constituent data model and migration plan.</li><li>Design review checklist the in-house team runs on vendor designs.</li><li>Data and integration platform recommendation.</li></ul></div>
+</div>
+<p>Past 90 days the work is implementation oversight and rollout, which runs well beyond a single quarter. The milestones above are built so each one stands on its own.</p>
+</section>
+
+<section>
+<h2>What I would want to ask you</h2>
+<p>A choice like this succeeds or fails on business owners more than on technology. With a leadership team that is still new, I would rather ask than guess.</p>
+<ol>
+<li>Where does the Salesforce and Dynamics shortlist stand today, and what has already been ruled in or out?</li>
+<li>Who do you want deciding for each area: fundraising, education and alumni, consumer classes and events, consulting and workforce training, retail, and on the finance, compliance and security side?</li>
+<li>What does bringing the Director of Enterprise Systems along look like to you?</li>
+</ol>
+</section>
+
+<section>
+<h2>A starting RACI, people and helpers</h2>
+<p>A draft for you to change, by role rather than by name. R is responsible, A is accountable, C is consulted, I is informed. The helper column lists the delegated workers (scripts and AI assistants) that do the repetitive work for each owner; a person reviews everything they produce.</p>
+<table>
+<thead><tr><th>Workstream</th><th>Head of technology</th><th>Architect</th><th>Director of Enterprise Systems</th><th>Business owner</th><th>Finance and compliance</th><th>Helper doing the legwork</th></tr></thead>
+<tbody>
+<tr><td>Discovery and system map</td><td>A</td><td>R</td><td>R</td><td>C</td><td>I</td><td>Inventory script that lists systems, owners and data flows; interview note summarizer</td></tr>
+<tr><td>Use cases and requirements</td><td>I</td><td>R</td><td>C</td><td>A</td><td>C</td><td>Draft user stories from workshop notes, for owners to edit</td></tr>
+<tr><td>Criteria and weights</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>Weighted scorecard that recalculates as weights change</td></tr>
+<tr><td>Vendor demos and references</td><td>A</td><td>R</td><td>R</td><td>C</td><td>I</td><td>Demo script pack; reference-call question bank and notes</td></tr>
+<tr><td>Five-year cost model</td><td>C</td><td>R</td><td>C</td><td>I</td><td>A</td><td>Cost model that pulls quotes, license tiers and usage charges into one sheet</td></tr>
+<tr><td>Legal, compliance and security review</td><td>C</td><td>R</td><td>C</td><td>I</td><td>A</td><td>Contract and security questionnaire checklist (FERPA, PCI DSS, SOC 2)</td></tr>
+<tr><td>Recommendation and decision record</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>Decision record template: options, weights, dissent, expected outcome, 90-day check</td></tr>
+<tr><td>Implementation partner and design review</td><td>A</td><td>R</td><td>R</td><td>C</td><td>C</td><td>Design review checklist the in-house team runs on every vendor design</td></tr>
+<tr><td>Data migration and adoption</td><td>I</td><td>C</td><td>A</td><td>R</td><td>C</td><td>Duplicate and data-quality reports; training guides by team</td></tr>
+</tbody>
+</table>
+
+<h3 class="sub">Time commitment and time saved (estimates to check in discovery)</h3>
+<table>
+<thead><tr><th>Who</th><th>Time asked, first 90 days</th><th>Where the helpers save time</th></tr></thead>
+<tbody>
+<tr><td>Each business owner</td><td>About 2 to 3 hours a week in weeks 1 to 8, then about 1 hour a week</td><td>Drafted user stories and meeting summaries replace writing requirements from scratch</td></tr>
+<tr><td>Director of Enterprise Systems</td><td>About a third of the week alongside the architect</td><td>Inventory, scorecard and checklists cut repeat analysis; patterns stay with the team</td></tr>
+<tr><td>Finance and compliance</td><td>About 4 to 6 hours across the selection</td><td>One cost sheet and one questionnaire instead of a separate review per vendor</td></tr>
+<tr><td>Head of technology</td><td>About 1 hour a week, plus the decision meeting</td><td>One written recommendation to approve instead of assembling it</td></tr>
+</tbody>
+</table>
+
+<h3 class="sub">A north star to measure against</h3>
+<p><b>Objective:</b> new advancement staff start on one trusted view of every person and organization CIA works with.</p>
+<ul>
+<li>CRM decision recorded, with dissent and expected outcomes, on the pace we agree.</li>
+<li>Hours of manual reporting per month, measured in discovery and tracked after go-live.</li>
+<li>Share of constituents matched to one profile across giving, education, events and consulting.</li>
+<li>Time from go-live to the first gift recorded and acknowledged end to end in the new system.</li>
+</ul>
+</section>
+
+<section>
+<h2>Proof</h2>
+<p>Resume: one page. The numbers come from my own records; happy to walk through any of them. Public writing and the product I build are at <a href="https://arcs.care">arcs.care</a>.</p>
+</section>
+<footer><p>Zach Harris · zach.harris@gmail.com · Prepared October 29, 2026</p></footer>
+</main>
+
+</body></html>

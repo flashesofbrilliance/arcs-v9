@@ -5,6 +5,7 @@
 
 export const MYALLY_GATE = { ns: "myally", cookie: "myally_gate", env: "MYALLY_PASSCODE" } as const
 export const MONDAY_GATE = { ns: "monday", cookie: "monday_gate", env: "MONDAY_PASSCODE" } as const
+export const CIA_GATE = { ns: "cia", cookie: "cia_gate", env: "CIA_PASSCODE" } as const
 
 export async function gateToken(ns: string, secret: string): Promise<string> {
   const data = new TextEncoder().encode(ns + ":" + secret)
