@@ -466,6 +466,19 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia .kpis .k{font-size:.925rem;font-weight:600;color:var(--muted)}
 .cia .kpis .v{font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;font-size:1.5rem;font-weight:500;line-height:1.3;color:var(--text);text-wrap:balance}
 .cia .kpis .d{font-size:.925rem;line-height:1.5;color:var(--muted)}
+.cia .blkbar{display:flex;justify-content:flex-end;margin:16px 0 4px}
+.cia .expall{font:inherit;font-size:.925rem;font-weight:600;color:var(--accent);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 14px;cursor:pointer}
+.cia .blk{border-top:1px solid var(--line);padding:4px 0}
+.cia .blk:last-of-type{border-bottom:1px solid var(--line)}
+.cia .blk>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;column-gap:16px;padding:16px 0;align-items:start}
+.cia .blk>summary::-webkit-details-marker{display:none}
+.cia .blk>summary::after{content:"";grid-column:2;grid-row:1/span 2;width:10px;height:10px;margin-top:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s ease-out}
+.cia .blk[open]>summary::after{transform:rotate(-135deg)}
+.cia .blk>summary .cia-h2{margin:0 0 4px;grid-column:1}
+.cia .blk>summary .tk{grid-column:1;font-size:1.15rem;line-height:1.55;color:var(--text);text-wrap:pretty}
+.cia .blk>summary:hover .cia-h2{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.cia .blk .bd{padding:0 0 24px}
+@media print{.cia .blk>.bd{display:block}.cia .blkbar{display:none}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -490,7 +503,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <div role="listitem"><span class="k">Fit to the brief</span><span class="v">4 proven</span><span class="d">3 adjacent, 2 not yet tested</span></div>
 <div role="listitem"><span class="k">First milestone</span><span class="v">Before advancement hires</span><span class="d">Platform chosen, diligence done</span></div>
 <div role="listitem"><span class="k">Plan</span><span class="v">90 days</span><span class="d">Paced with you; signing likely follows</span></div>
-</div><h3 class="cia-h2">Start with the goals, then the technology</h3>
+</div><div class="blkbar"><button type="button" class="expall" aria-pressed="false">Expand all</button></div><details class="blk" open><summary><h3 class="cia-h2">Start with the goals, then the technology</h3><span class="tk">Every technology choice traces to a goal CIA already has: six goals, one roadmap.</span></summary><div class="bd">
 <p>What I heard about where CIA is going, and how each part of the technology roadmap serves it. Sources are marked; all of it is mine to confirm with you.</p>
 <table>
 <thead><tr><th>Goal we heard</th><th>Source</th><th>How the roadmap serves it</th><th>How we would know</th></tr></thead>
@@ -503,7 +516,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <tr><td>Extend the brand to new audiences, for example short-format classes for busy home cooks</td><td>My hypothesis on the Syfter call, to test with you</td><td>One customer record makes new offers measurable from day one</td><td>Repeat buyers across offers</td></tr>
 </tbody>
 </table>
-<h3 class="cia-h2">The job, as I heard it</h3><p>Drawn from the role description and my call with Syfter, not yet from you. Each card says where it came from; all four are mine to confirm with you.</p>
+</div></details><details class="blk"><summary><h3 class="cia-h2">The job, as I heard it</h3><span class="tk">Four jobs: pick the CRM, pick the data layer, land it before advancement hires, leave a stronger team.</span></summary><div class="bd"><p>Drawn from the role description and my call with Syfter, not yet from you. Each card says where it came from; all four are mine to confirm with you.</p>
 
 <div class="cgrid">
 <div class="ccard"><h3>Pick the CRM</h3><p class="src">Source: Role description; Syfter call</p><p>Salesforce or Microsoft Dynamics, chosen on total cost, licensing (including AI and API usage charges), openness and fit for gift, sponsorship, in-kind and event giving.</p></div>
@@ -511,7 +524,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <div class="ccard"><h3>Land it before advancement hires arrive</h3><p class="src">Source: My inference on the Syfter call; Syfter said it matched what you told them</p><p>Have the platform decision and the diligence done so new fundraising staff start on the chosen system, or help shape its build.</p></div>
 <div class="ccard"><h3>Leave a stronger team</h3><p class="src">Source: Role description; Syfter call</p><p>Partner with the Director of Enterprise Systems and set up patterns the in-house team can run on its own.</p></div>
 </div>
-<h3 class="cia-h2">Fit card: strongest to least tested</h3><p class="src">Proven: done before, with evidence. Adjacent: the same shape of work, not yet tested in this setting. Not yet tested: an open question I would research first.</p>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Fit card: strongest to least tested</h3><span class="tk">4 proven, 3 adjacent, 2 not yet tested, each with how I would close it.</span></summary><div class="bd"><p class="src">Proven: done before, with evidence. Adjacent: the same shape of work, not yet tested in this setting. Not yet tested: an open question I would research first.</p>
 
 <table>
 <thead><tr><th>What the role asks for</th><th>What I have done</th><th>Level</th></tr></thead>
@@ -519,17 +532,25 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <tr><td>Fundraising or advancement CRM, nonprofit</td><td>Children's Tumor Foundation: modernized Salesforce and built a customer data platform as one source of truth for donors and constituents; net-new revenue up 20 percent.</td><td><span class="pill g">Proven</span></td></tr><tr><td>Platform and vendor selection</td><td>Women's Tennis Association: led the customer data platform selection and stack modernization, Microsoft as delivery partner.</td><td><span class="pill g">Proven</span></td></tr><tr><td>Vendor management, implementation and internal adoption</td><td>Ran vendor selection and rollout at WTA (customer data platform, Microsoft as delivery partner) and the Children's Tumor Foundation (Salesforce), and managed vendors at IBRShop and Grayscale.</td><td><span class="pill g">Proven</span></td></tr><tr><td>Executive communication, tradeoffs for non-technical leaders</td><td>Grayscale: wrote release and risk tradeoffs for legal, risk and compliance leads across ten regulated products.</td><td><span class="pill g">Proven</span></td></tr><tr><td>Point of view on AI-ready data</td><td>My own product, not yet at enterprise scale: an AI decision platform on Claude with row-level access rules and an append-only decision log on Postgres.</td><td><span class="pill y">Adjacent</span></td></tr><tr><td>Real-time and event-driven data</td><td>WTA: fan-behavior scoring in under 120 milliseconds.</td><td><span class="pill y">Adjacent</span></td></tr><tr><td>iPaaS (MuleSoft, Boomi) and Snowflake, Databricks, Fabric</td><td>API and integration work, but not as a named owner of these platforms. The evaluation framework covers them; hands-on depth would come from the technical reviewer and vendor proofs.</td><td><span class="pill y">Adjacent</span></td></tr><tr><td>Hospitality background</td><td>Sold into hospitality buyers at IBRShop; hotel and restaurant systems are not yet in my record.</td><td><span class="pill n">Not yet tested</span></td></tr><tr><td>Hands-on Microsoft Dynamics</td><td>Not yet in my record. The path: Dynamics reference customers, a scripted partner demo, and the same evaluation used for Salesforce.</td><td><span class="pill n">Not yet tested</span></td></tr>
 </tbody>
 </table>
-</div></div><div id="pane-prop" class="cia-pane" role="tabpanel" aria-labelledby="t-prop" hidden><div class="stamp" data-k="next" role="note"><span class="pill" data-k="next" aria-hidden="true">Next</span><p><span class="stamp-vh">Next: </span><strong>How I would run the CRM decision.</strong> Looking out, looking in, needs by horizon, trade-offs and constraints, then the decision itself.</p></div><div class="cia">
+</div></details></div></div><div id="pane-prop" class="cia-pane" role="tabpanel" aria-labelledby="t-prop" hidden><div class="stamp" data-k="next" role="note"><span class="pill" data-k="next" aria-hidden="true">Next</span><p><span class="stamp-vh">Next: </span><strong>How I would run the CRM decision.</strong> Looking out, looking in, needs by horizon, trade-offs and constraints, then the decision itself.</p></div><div class="cia">
 
 <p>A selection like this goes wrong when the decision is argued in a meeting and remembered differently later. I write the decision down before it is made: what we looked at, what we weighed, what we gave up, and what we expect to see after go-live. Then we check the result against that record at 90 days.</p>
 
-<h3 class="cia-h2">Looking out and looking in</h3>
+<div class="blkbar"><button type="button" class="expall" aria-pressed="false">Expand all</button></div><details class="blk" open><summary><h3 class="cia-h2">The decision, in five steps</h3><span class="tk">Weights before demos, the same scripts for both vendors, references, a written record with dissent, checked at 90 days.</span></summary><div class="bd">
+<ol>
+<li><b>Weights first.</b> Agree criteria and weights with the business owners, using everything above, before any vendor demo.</li>
+<li><b>Scripted demos.</b> Both finalists run the same CIA scenarios: a donor who is also an alumnus, a consulting client and an event buyer.</li>
+<li><b>Reference checks with peers</b> in higher education and nonprofit advancement on both platforms.</li>
+<li><b>A written recommendation</b> with the dissent recorded, sized to an executive read.</li>
+<li><b>Check the call at 90 days</b> against the written record, and adjust.</li>
+</ol>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Looking out and looking in</h3><span class="tk">Choose on CIA's real systems and users, checked against what peers and the market show.</span></summary><div class="bd">
 <div class="cgrid">
 <div class="ccard"><h3>Looking out</h3><ul><li>How Salesforce and Dynamics price for nonprofits and education, including AI and API usage charges.</li><li>What peer culinary schools, colleges and hospitality groups run, and what they would change.</li><li>The implementation partner market for each platform: who is good, who is available, at what cost.</li><li>Where each vendor's roadmap is heading on AI features and data access.</li></ul></div>
 <div class="ccard"><h3>Looking in</h3><ul><li><b>Systems and data:</b> every system that holds a person or organization (student records, donor database, ticketing and reservations, point of sale, consulting contracts, email and marketing), its owner, and how data moves today.</li><li><b>Use cases by team:</b> short user stories, such as a gift officer seeing that a donor also took a class and booked an event.</li><li><b>The current reporting loop:</b> how numbers are pulled, checked and turned into decisions today, and where the manual work and blind spots are.</li><li><b>Team skills:</b> what the in-house systems team can own after go-live.</li></ul></div>
 </div>
 
-<h3 class="cia-h2">Needs by horizon</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Needs by horizon</h3><span class="tk">Now a donor system of record, next one profile across the business, later AI on governed data.</span></summary><div class="bd">
 <table>
 <thead><tr><th>Now</th><th>Next</th><th>Later</th></tr></thead>
 <tbody><tr>
@@ -539,7 +560,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 </tr></tbody>
 </table>
 
-<h3 class="cia-h2">Trade-offs on the table</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Trade-offs on the table</h3><span class="tk">Price everything over five years, AI and API usage included, so the cheaper license is not the costlier choice.</span></summary><div class="bd">
 <div class="cgrid">
 <div class="ccard"><h3>Budget</h3><p>Five-year total cost: licenses, implementation, integration, add-ons, AI and API usage, and the staff time to run it.</p></div>
 <div class="ccard"><h3>Timing</h3><p>What has to be live for the new advancement team versus what can phase in, and how long each platform realistically takes to stand up.</p></div>
@@ -547,7 +568,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <div class="ccard"><h3>Risk</h3><p>Lock-in, migration data quality, adoption by staff, and what we do if a phase slips.</p></div>
 </div>
 
-<h3 class="cia-h2">The dependency under all of these: shared understanding</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Shared understanding, the dependency under all of these</h3><span class="tk">Every level reads the project the same way, and business owners sell it to their own teams.</span></summary><div class="bd">
 <p>Budget, timing, resources and risk all depend on one thing: every level of the institution reading the project the same way, and business owners selling it to their own teams. If leadership, managers and the staff who use the system each carry a different picture, the project drifts no matter which platform wins.</p>
 <table>
 <thead><tr><th>Level</th><th>What they need to share</th><th>How we keep it aligned</th></tr></thead>
@@ -559,7 +580,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <tr><td>Staff using the system</td><td>How their daily work changes</td><td>Short walkthroughs on real records before go-live, and a way to flag problems</td></tr>
 </tbody>
 </table>
-<h3 class="cia-h2">Constraints that shape the choice</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Constraints that shape the choice</h3><span class="tk">Legal, compliance, security, nonprofit rules and accounting shape the shortlist instead of vetoing it late.</span></summary><div class="bd">
 <table>
 <thead><tr><th>Area</th><th>What it means for the CRM</th></tr></thead>
 <tbody>
@@ -571,7 +592,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 </tbody>
 </table>
 
-<h3 class="cia-h2">Due diligence and RFI intake</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Due diligence and RFI intake</h3><span class="tk">One intake packet that covers every type of data CIA holds and the rules each carries.</span></summary><div class="bd">
 <p>One intake packet for both finalists, so legal, finance, compliance and the board review the same answers. Each data set CIA holds carries its own rules.</p>
 <table>
 <thead><tr><th>Area</th><th>Standard or framework</th><th>What we ask each vendor</th></tr></thead>
@@ -589,15 +610,15 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <tr><td>Governance</td><td>Board procurement policy, conflict of interest policy, audit committee oversight of IT risk</td><td>Disclosure of relationships with staff or trustees; a summary sized for the audit committee.</td></tr>
 </tbody>
 </table>
-<h3 class="cia-h2">Then the decision</h3>
-<ol>
-<li><b>Weights first.</b> Agree criteria and weights with the business owners, using everything above, before any vendor demo.</li>
-<li><b>Scripted demos.</b> Both finalists run the same CIA scenarios: a donor who is also an alumnus, a consulting client and an event buyer.</li>
-<li><b>Reference checks with peers</b> in higher education and nonprofit advancement on both platforms.</li>
-<li><b>A written recommendation</b> with the dissent recorded, sized to an executive read.</li>
-<li><b>Check the call at 90 days</b> against the written record, and adjust.</li>
-</ol>
-</div></div><div id="pane-plan" class="cia-pane" role="tabpanel" aria-labelledby="t-plan" hidden><div class="stamp" data-k="later" role="note"><span class="pill" data-k="later" aria-hidden="true">Later</span><p><span class="stamp-vh">Later: </span><strong>The first 90 days.</strong> A plausible plan, a starting RACI with the helpers that carry the legwork, and one north star to measure against.</p></div><div class="cia"><h3 class="cia-h2">A plausible first 90 days</h3>
+</div></details></div></div><div id="pane-plan" class="cia-pane" role="tabpanel" aria-labelledby="t-plan" hidden><div class="stamp" data-k="later" role="note"><span class="pill" data-k="later" aria-hidden="true">Later</span><p><span class="stamp-vh">Later: </span><strong>The first 90 days.</strong> A plausible plan, a starting RACI with the helpers that carry the legwork, and one north star to measure against.</p></div><div class="cia"><div class="blkbar"><button type="button" class="expall" aria-pressed="false">Expand all</button></div><details class="blk" open><summary><h3 class="cia-h2">A north star to measure against</h3><span class="tk">New advancement staff start on one trusted view of every person and organization CIA works with.</span></summary><div class="bd">
+<p><b>Objective:</b> new advancement staff start on one trusted view of every person and organization CIA works with.</p>
+<ul>
+<li>CRM decision recorded, with dissent and expected outcomes, on the pace we agree.</li>
+<li>Hours of manual reporting per month, measured in discovery and tracked after go-live.</li>
+<li>Share of constituents matched to one profile across giving, education, events and consulting.</li>
+<li>Time from go-live to the first gift recorded and acknowledged end to end in the new system.</li>
+</ul>
+</div></details><details class="blk"><summary><h3 class="cia-h2">A plausible first 90 days</h3><span class="tk">Map and weigh, decide the CRM, set up delivery.</span></summary><div class="bd">
 
 <div class="cgrid three">
 <div class="ccard"><h3>Days 1 to 30: map and weigh</h3><ul><li>Inventory systems, data owners and the silos between the four campuses and the business lines.</li><li>Workshops with fundraising, education, events, consulting and retail leads.</li><li>Agree selection criteria and weights; issue scripted demo scenarios to both CRM finalists.</li><li>Target-state architecture draft, one page.</li></ul></div>
@@ -605,25 +626,34 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <div class="ccard"><h3>Days 61 to 90: set up delivery</h3><ul><li>Implementation partner selection and statement of work review.</li><li>Constituent data model and migration plan.</li><li>Design review checklist the in-house team runs on vendor designs.</li><li>Data and integration platform recommendation.</li></ul></div>
 </div>
 <p>Past 90 days the work is implementation oversight and rollout, which runs well beyond a single quarter. The milestones above are built so each one stands on its own.</p>
-<h3 class="cia-h2">A starting RACI, people and helpers</h3>
-
-<p>A draft for you to change, by role rather than by name. R is responsible, A is accountable, C is consulted, I is informed. The helper column lists the delegated workers (scripts and AI assistants) that do the repetitive work for each owner; a person reviews everything they produce.</p>
-<div class="tw"><table class="raci">
-<thead><tr><th>Workstream</th><th>Head of technology</th><th>Architect</th><th>Director of Enterprise Systems</th><th>Business owner</th><th>Finance and compliance</th><th>Helper doing the legwork</th></tr></thead>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Quick wins now, and what waits on an answer</h3><span class="tk">Six things can start in week one without anyone's sign-off; eight answers from the business unblock the rest.</span></summary><div class="bd">
+<p><b>Unblocked: low lift, high value, start in week one</b></p>
+<div class="tw"><table>
+<thead><tr><th>Move</th><th>Why it pays off early</th></tr></thead>
 <tbody>
-<tr><td>Discovery and system map</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td>Inventory script that lists systems, owners and data flows; interview note summarizer</td></tr>
-<tr><td>Use cases and requirements</td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="C">C</span></td><td>Draft user stories from workshop notes, for owners to edit</td></tr>
-<tr><td>Criteria and weights</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Weighted scorecard that recalculates as weights change</td></tr>
-<tr><td>Vendor demos and references</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td>Demo script pack; reference-call question bank and notes</td></tr>
-<tr><td>Five-year cost model</td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="A">A</span></td><td>Cost model that pulls quotes, license tiers and usage charges into one sheet</td></tr>
-<tr><td>Legal, compliance and security review</td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="A">A</span></td><td>Contract and security questionnaire checklist (FERPA, PCI DSS, SOC 2)</td></tr>
-<tr><td>Recommendation and decision record</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Decision record template: options, weights, dissent, expected outcome, 90-day check</td></tr>
-<tr><td>Implementation partner and design review</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Design review checklist the in-house team runs on every vendor design</td></tr>
-<tr><td>Data migration and adoption</td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td>Duplicate and data-quality reports; training guides by team</td></tr>
+<tr><td>Inventory of systems, owners and data flows</td><td>Every later decision reads from it</td></tr>
+<tr><td>Send the vendor intake packet to both finalists</td><td>Security and compliance answers take the longest to come back</td></tr>
+<tr><td>Profile a sample of donor, student and buyer records</td><td>Sizes the cleanup and sharpens the cost model before anything is signed</td></tr>
+<tr><td>Decision record template and scoring sheet</td><td>Workshops produce weights, not opinions</td></tr>
+<tr><td>Five-year cost model skeleton</td><td>Quotes drop into a structure that already compares like with like</td></tr>
+<tr><td>Line up peer reference calls on both platforms</td><td>Calendars, not effort, are the constraint</td></tr>
 </tbody>
 </table></div>
-
-<h3 class="cia-h2">What I am on the hook for, and where I need support most</h3>
+<p><b>Waiting on a business answer</b></p>
+<div class="tw"><table>
+<thead><tr><th>Answer needed</th><th>Who likely holds it</th><th>What it unblocks</th></tr></thead>
+<tbody>
+<tr><td>Fundraising plan, targets and giving mix</td><td>Advancement lead</td><td>Requirements for gift, sponsorship, in-kind and event giving</td></tr>
+<tr><td>Start date for new advancement staff</td><td>Advancement lead, HR</td><td>The anchor date for the whole work-back plan</td></tr>
+<tr><td>Current CRM and donor system setup, licenses and contract end dates</td><td>Director of Enterprise Systems</td><td>Migration scope and the real deadline for switching</td></tr>
+<tr><td>Who uses which systems today, and how much</td><td>System owners</td><td>Seat counts, training load and the cost model</td></tr>
+<tr><td>Known technical debt and workarounds</td><td>Director of Enterprise Systems</td><td>What the new platform must retire, and integration risk</td></tr>
+<tr><td>Any platform leaning or configuration already favored by leadership</td><td>Head of technology</td><td>Honest weights, said out loud instead of discovered late</td></tr>
+<tr><td>Budget range and approval thresholds</td><td>Finance, board policy</td><td>Which options are real, and who signs</td></tr>
+<tr><td>Data protection rules in force today</td><td>Compliance owner</td><td>Pass or fail criteria for the shortlist</td></tr>
+</tbody>
+</table></div>
+</div></details><details class="blk"><summary><h3 class="cia-h2">What I am on the hook for, and where I need support most</h3><span class="tk">I own the plan, the process and the record; I need business owners' time and 30 minutes a week with you.</span></summary><div class="bd">
 <div class="cgrid">
 <div class="ccard"><h3>I own, as program lead</h3><ul>
 <li>The plan, the weekly cadence and one status page everyone reads.</li>
@@ -641,21 +671,36 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <li><b>The Director of Enterprise Systems,</b> about a third of the week, as co-owner of the outcome.</li>
 </ol></div>
 </div>
-<h3 class="cia-h2">What could sink this, most likely first</h3>
-<p>A pre-mortem: imagine it is a year from now and the project failed. These are the likeliest reasons, with the control for each and the early sign to watch.</p>
-<table>
-<thead><tr><th>Failure path</th><th>Control</th><th>Early warning</th></tr></thead>
+</div></details><details class="blk"><summary><h3 class="cia-h2">A starting RACI, people and helpers</h3><span class="tk">I carry the work in every workstream; the people who own each outcome stay accountable for it.</span></summary><div class="bd">
+
+<p>A draft for you to change, by role rather than by name. R is responsible, A is accountable, C is consulted, I is informed. The helper column lists the delegated workers (scripts and AI assistants) that do the repetitive work for each owner; a person reviews everything they produce.</p>
+<div class="tw"><table class="raci">
+<thead><tr><th>Workstream</th><th>Head of technology</th><th>Architect</th><th>Director of Enterprise Systems</th><th>Business owner</th><th>Finance and compliance</th><th>Helper doing the legwork</th></tr></thead>
 <tbody>
-<tr><td>Business owners do not have the time, so requirements come from IT alone and staff do not adopt the system.</td><td>Named owner per area, a fixed weekly slot, drafted user stories they edit instead of write.</td><td>Workshops rescheduled twice; stories unedited after a week.</td></tr>
-<tr><td>Data migration is dirtier than expected: duplicate donors, alumni and buyers across systems.</td><td>Profile and match the data in the first 30 days, before a vendor is signed; budget cleanup as its own line.</td><td>Match rate in the first sample below what the plan assumes.</td></tr>
-<tr><td>Total cost runs over: add-ons, integration, AI and API usage charges appear after signing.</td><td>Five-year cost model with usage scenarios; usage caps and price holds in the contract.</td><td>Quotes that leave usage or add-ons as "to be scoped."</td></tr>
-<tr><td>The decision slips and new advancement staff start on the old system.</td><td>Decision date set with you; the record lets leadership approve on paper without another round of meetings.</td><td>Criteria still being debated after demos begin.</td></tr>
-<tr><td>Compliance raises a blocker late, after a vendor is chosen.</td><td>Compliance owner reviews the questionnaire before demos; FERPA, PCI DSS and donor consent are pass or fail criteria.</td><td>Vendor security answers still missing at shortlist.</td></tr>
-<tr><td>The implementation partner's design drifts from the target architecture.</td><td>Design review checklist on every deliverable; the in-house team signs off, not only the partner.</td><td>Custom code where configuration was planned.</td></tr>
-<tr><td>Knowledge leaves with the contract.</td><td>Director of Enterprise Systems co-owns every decision; patterns written down as the team's own playbook.</td><td>Only one person can explain a design choice.</td></tr>
+<tr><td>Discovery and system map</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td>Inventory script that lists systems, owners and data flows; interview note summarizer</td></tr>
+<tr><td>Use cases and requirements</td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="C">C</span></td><td>Draft user stories from workshop notes, for owners to edit</td></tr>
+<tr><td>Criteria and weights</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Weighted scorecard that recalculates as weights change</td></tr>
+<tr><td>Vendor demos and references</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td>Demo script pack; reference-call question bank and notes</td></tr>
+<tr><td>Five-year cost model</td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="A">A</span></td><td>Cost model that pulls quotes, license tiers and usage charges into one sheet</td></tr>
+<tr><td>Legal, compliance and security review</td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="A">A</span></td><td>Contract and security questionnaire checklist (FERPA, PCI DSS, SOC 2)</td></tr>
+<tr><td>Recommendation and decision record</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Decision record template: options, weights, dissent, expected outcome, 90-day check</td></tr>
+<tr><td>Implementation partner and design review</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Design review checklist the in-house team runs on every vendor design</td></tr>
+<tr><td>Data migration and adoption</td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td>Duplicate and data-quality reports; training guides by team</td></tr>
+</tbody>
+</table></div>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Time asked and time saved</h3><span class="tk">About 2 to 3 hours a week per business owner at first; helpers draft so people review. Estimates to check in discovery.</span></summary><div class="bd">
+<table>
+<thead><tr><th>Who</th><th>Time asked, first 90 days</th><th>Where the helpers save time</th></tr></thead>
+<tbody>
+<tr><td>Each business owner</td><td>About 2 to 3 hours a week in weeks 1 to 8, then about 1 hour a week</td><td>Drafted user stories and meeting summaries replace writing requirements from scratch</td></tr>
+<tr><td>Director of Enterprise Systems</td><td>About a third of the week alongside the architect</td><td>Inventory, scorecard and checklists cut repeat analysis; patterns stay with the team</td></tr>
+<tr><td>Finance and compliance</td><td>About 4 to 6 hours across the selection</td><td>One cost sheet and one questionnaire instead of a separate review per vendor</td></tr>
+<tr><td>Head of technology</td><td>About 1 hour a week, plus the decision meeting</td><td>One written recommendation to approve instead of assembling it</td></tr>
 </tbody>
 </table>
-<h3 class="cia-h2">Working back from the date that matters</h3>
+
+</div></details><details class="blk"><summary><h3 class="cia-h2">Working back from the date that matters</h3><span class="tk">Everything works back from the day new advancement staff start.</span></summary><div class="bd">
 <p>A first draft to test with you. The anchor is the start date for the new advancement staff; everything else works back from it.</p>
 <div class="tw"><table>
 <thead><tr><th>Step</th><th>Needs first</th><th>Who unblocks it</th></tr></thead>
@@ -669,7 +714,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 </table></div>
 <p><b>Where this draft is weakest:</b> the advancement start date is not known yet; the plan assumes both finalists are still open; implementation partner availability is untested; and the size of the data cleanup is a guess until a real sample is profiled. Each of these is checked in the first two weeks.</p>
 
-<h3 class="cia-h2">Critical path and the quiet risks</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Critical path and the quiet risks</h3><span class="tk">Owners' time and approval drive the schedule; signing likely lands after day 90.</span></summary><div class="bd">
 <p>To see the shape of the schedule before real estimates exist, I ran 30,000 simulated schedules over the work-back plan, using placeholder ranges for each step (best, likely and worst case in weeks). The inputs are my guesses, not CIA data, so trust the shape, not the dates. I would re-run it on real estimates in the first two weeks.</p>
 <table>
 <thead><tr><th>What the simulation shows</th><th>What it means for the plan</th></tr></thead>
@@ -682,7 +727,21 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <tr><td>On these placeholder ranges, a signed contract lands around week 17 to 24.</td><td>The 90-day plan covers the decision and the partner choice; signing likely follows it, and the advancement start date should be checked against that.</td></tr>
 </tbody>
 </table>
-<h3 class="cia-h2">Ground rules that keep the project healthy</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">What could sink this, most likely first</h3><span class="tk">The likeliest failure is business owners running out of time; each of seven risks has a control and an early sign.</span></summary><div class="bd">
+<p>A pre-mortem: imagine it is a year from now and the project failed. These are the likeliest reasons, with the control for each and the early sign to watch.</p>
+<table>
+<thead><tr><th>Failure path</th><th>Control</th><th>Early warning</th></tr></thead>
+<tbody>
+<tr><td>Business owners do not have the time, so requirements come from IT alone and staff do not adopt the system.</td><td>Named owner per area, a fixed weekly slot, drafted user stories they edit instead of write.</td><td>Workshops rescheduled twice; stories unedited after a week.</td></tr>
+<tr><td>Data migration is dirtier than expected: duplicate donors, alumni and buyers across systems.</td><td>Profile and match the data in the first 30 days, before a vendor is signed; budget cleanup as its own line.</td><td>Match rate in the first sample below what the plan assumes.</td></tr>
+<tr><td>Total cost runs over: add-ons, integration, AI and API usage charges appear after signing.</td><td>Five-year cost model with usage scenarios; usage caps and price holds in the contract.</td><td>Quotes that leave usage or add-ons as "to be scoped."</td></tr>
+<tr><td>The decision slips and new advancement staff start on the old system.</td><td>Decision date set with you; the record lets leadership approve on paper without another round of meetings.</td><td>Criteria still being debated after demos begin.</td></tr>
+<tr><td>Compliance raises a blocker late, after a vendor is chosen.</td><td>Compliance owner reviews the questionnaire before demos; FERPA, PCI DSS and donor consent are pass or fail criteria.</td><td>Vendor security answers still missing at shortlist.</td></tr>
+<tr><td>The implementation partner's design drifts from the target architecture.</td><td>Design review checklist on every deliverable; the in-house team signs off, not only the partner.</td><td>Custom code where configuration was planned.</td></tr>
+<tr><td>Knowledge leaves with the contract.</td><td>Director of Enterprise Systems co-owns every decision; patterns written down as the team's own playbook.</td><td>Only one person can explain a design choice.</td></tr>
+</tbody>
+</table>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Ground rules that keep the project healthy</h3><span class="tk">No signature without the record; changed assumptions are shown, not hidden.</span></summary><div class="bd">
 <ol>
 <li><b>No signature without the record.</b> No contract is signed until the decision record is written and the compliance review has passed.</li>
 <li><b>Changed assumptions are shown, not hidden.</b> When a belief in the plan changes, we log what changed, when and why, and keep the old version visible, so the plan's history can be read.</li>
@@ -691,7 +750,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <li><b>One page of status, every week.</b> The same five or six indicators, in the same order, so changes stand out.</li>
 </ol>
 
-<h3 class="cia-h2">Leading indicators (starting thresholds, to set with you)</h3>
+</div></details><details class="blk"><summary><h3 class="cia-h2">Leading indicators</h3><span class="tk">Six weekly signals flag a slip before a date moves; the thresholds are a starting point to set with you.</span></summary><div class="bd">
 <div class="tw"><table>
 <thead><tr><th>Indicator</th><th>Healthy</th><th>Time to re-plan</th></tr></thead>
 <tbody>
@@ -703,26 +762,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <tr><td>Team pulse, one question each week</td><td>Steady or rising</td><td>Two drops in a row</td></tr>
 </tbody>
 </table></div>
-<h3 class="cia-h2">Time commitment and time saved (estimates to check in discovery)</h3>
-<table>
-<thead><tr><th>Who</th><th>Time asked, first 90 days</th><th>Where the helpers save time</th></tr></thead>
-<tbody>
-<tr><td>Each business owner</td><td>About 2 to 3 hours a week in weeks 1 to 8, then about 1 hour a week</td><td>Drafted user stories and meeting summaries replace writing requirements from scratch</td></tr>
-<tr><td>Director of Enterprise Systems</td><td>About a third of the week alongside the architect</td><td>Inventory, scorecard and checklists cut repeat analysis; patterns stay with the team</td></tr>
-<tr><td>Finance and compliance</td><td>About 4 to 6 hours across the selection</td><td>One cost sheet and one questionnaire instead of a separate review per vendor</td></tr>
-<tr><td>Head of technology</td><td>About 1 hour a week, plus the decision meeting</td><td>One written recommendation to approve instead of assembling it</td></tr>
-</tbody>
-</table>
-
-<h3 class="cia-h2">A north star to measure against</h3>
-<p><b>Objective:</b> new advancement staff start on one trusted view of every person and organization CIA works with.</p>
-<ul>
-<li>CRM decision recorded, with dissent and expected outcomes, on the pace we agree.</li>
-<li>Hours of manual reporting per month, measured in discovery and tracked after go-live.</li>
-<li>Share of constituents matched to one profile across giving, education, events and consulting.</li>
-<li>Time from go-live to the first gift recorded and acknowledged end to end in the new system.</li>
-</ul>
-</div></div><div id="pane-primer" class="cia-pane" role="tabpanel" aria-labelledby="t-primer" hidden><div class="cia"><h3 class="cia-h2">What I would want to ask you</h3>
+</div></details></div></div><div id="pane-primer" class="cia-pane" role="tabpanel" aria-labelledby="t-primer" hidden><div class="cia"><h3 class="cia-h2">What I would want to ask you</h3>
 
 <p>A choice like this succeeds or fails on business owners more than on technology. With a leadership team that is still new, I would rather ask than guess.</p>
 <ol>
@@ -780,5 +820,5 @@ addEventListener('load',()=>{applyRead();placeFab()});addEventListener('resize',
 applyRead();
 })();
 </script>
-<script>(function(){function m(){var e=document.querySelector('.shell-meta'),b=document.querySelector('.shell-bar');if(e)document.documentElement.style.setProperty('--metah',e.offsetHeight+'px');if(b)document.documentElement.style.setProperty('--barh',b.offsetHeight+'px');var u=document.getElementById('sum');if(u&&u.offsetHeight)document.documentElement.style.setProperty('--sumh',u.offsetHeight+'px')}document.addEventListener('click',function(){setTimeout(m,60)});m();addEventListener('resize',m);addEventListener('load',m)})();</script><script>(function(){var b=document.getElementById('burger'),bar=b&&b.closest('.shell-bar');if(!b)return;function set(o){bar.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',String(o))}b.addEventListener('click',function(){set(!bar.classList.contains('menu-open'))});document.getElementById('viewtabs').addEventListener('click',function(e){if(e.target.closest('[role=tab]'))set(false)});document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});document.addEventListener('click',function(e){if(!bar.contains(e.target))set(false)})})();</script><script>document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.stamp-go');if(!b)return;var tb=document.getElementById(b.dataset.go);if(tb){tb.click();tb.focus();scrollTo({top:0})}});</script></body>
+<script>(function(){function m(){var e=document.querySelector('.shell-meta'),b=document.querySelector('.shell-bar');if(e)document.documentElement.style.setProperty('--metah',e.offsetHeight+'px');if(b)document.documentElement.style.setProperty('--barh',b.offsetHeight+'px');var u=document.getElementById('sum');if(u&&u.offsetHeight)document.documentElement.style.setProperty('--sumh',u.offsetHeight+'px')}document.addEventListener('click',function(){setTimeout(m,60)});m();addEventListener('resize',m);addEventListener('load',m)})();</script><script>(function(){var b=document.getElementById('burger'),bar=b&&b.closest('.shell-bar');if(!b)return;function set(o){bar.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',String(o))}b.addEventListener('click',function(){set(!bar.classList.contains('menu-open'))});document.getElementById('viewtabs').addEventListener('click',function(e){if(e.target.closest('[role=tab]'))set(false)});document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});document.addEventListener('click',function(e){if(!bar.contains(e.target))set(false)})})();</script><script>document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.stamp-go');if(!b)return;var tb=document.getElementById(b.dataset.go);if(tb){tb.click();tb.focus();scrollTo({top:0})}});</script><script>(function(){document.querySelectorAll('.cia .expall').forEach(function(b){var c=b.closest('.cia');function sync(){var all=[].every.call(c.querySelectorAll('details.blk'),function(d){return d.open});b.textContent=all?'Collapse all':'Expand all';b.setAttribute('aria-pressed',String(all))}b.addEventListener('click',function(){var all=b.getAttribute('aria-pressed')==='true';c.querySelectorAll('details.blk').forEach(function(d){d.open=!all});sync()});c.addEventListener('toggle',sync,true);sync()});addEventListener('beforeprint',function(){document.querySelectorAll('details.blk').forEach(function(d){d.open=true})})})();</script></body>
 </html>
