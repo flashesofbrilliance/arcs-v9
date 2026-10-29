@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 295,
+  "rows": 296,
   "hosts": 83,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 236,
+   "product page": 237,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 32,
   "app_routes": 47,
-  "missing_purpose": 6,
+  "missing_purpose": 7,
   "unlisted": 118
  },
  "retired_hosts": [
@@ -1349,6 +1349,26 @@
    "index": "noindex",
    "unlisted": true,
    "purpose": "Zach Harris for CIA",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
+  },
+  {
+   "host": "cia.arcs.care",
+   "path": "/resume.pdf",
+   "catch_all": false,
+   "destination": "/cia-brief-resume.pdf",
+   "pattern": false,
+   "file": "public/cia-brief-resume.pdf",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
    "kind": "product page",
    "last_commit": null
   },
@@ -5573,7 +5593,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-27"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "thetrueai.arcs.care",
