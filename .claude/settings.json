@@ -201,7 +201,12 @@
       "Bash(python3 scripts/unfold.py --self-test)",
       "mcp__scheduled-tasks__list_task_runs",
       "mcp__mcp-registry__search_mcp_registry",
-      "mcp__claude-in-chrome__read_page"
+      "mcp__claude-in-chrome__read_page",
+      "Bash(git show *)",
+      "Bash(git rev-parse *)",
+      "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__inspect_zapier_actions",
+      "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__list_zapier_connections",
+      "mcp__supabase__list_tables"
     ],
     "ask": [
       "Bash(git push:*)"

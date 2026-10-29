@@ -1,0 +1,110 @@
+{
+ "_comment": "RC e2e fixtures, 2026-10-29: live Tidio AI-forward flow 7752845 -> Zap 376827315 v7 -> Sugar sandbox (prlresinstest). Driven through the real chat widget on the staging site. Same rule set as prl-uat-fixtures.json; run with prl_uat_harness.py --fixtures prl-rc-e2e-fixtures.json --actuals <actuals>.",
+ "fixtures": [
+  {
+   "label": "rc-callme-create",
+   "notes": "Call-me branch, new email, US state. Path B create.",
+   "input": {
+    "leg": "chatbot",
+    "branch": "call-me",
+    "full_name": "Claude Testlead",
+    "company": "Claude Test Plastics",
+    "state_raw": "Ohio",
+    "email": "claude.testlead.1029b@example.com",
+    "phone_raw": "+1 860 555 0143",
+    "submission_count": 2
+   },
+   "expected": {
+    "first_name": "Claude",
+    "last_name": "Testlead",
+    "location_c": "OH",
+    "state_parse_failed": false,
+    "lead_source": "Chatbot",
+    "account_name_min_len": 20,
+    "account_name_input": "Claude Test Plastics",
+    "has_note": false,
+    "expected_dedup": true,
+    "phone_work_required": true
+   }
+  },
+  {
+   "label": "rc-knowwhat-create",
+   "notes": "I-know-what-I-need branch, 2-letter state input. Email validation rejected a phone number first (expected).",
+   "input": {
+    "leg": "chatbot",
+    "branch": "know-what",
+    "full_name": "Kim Testbuyer",
+    "company": "Testbuyer Lighting Inc",
+    "state_raw": "TX",
+    "email": "kim.testbuyer.1029@example.com",
+    "phone_raw": "+1 512 555 0177",
+    "submission_count": 1
+   },
+   "expected": {
+    "first_name": "Kim",
+    "last_name": "Testbuyer",
+    "location_c": "TX",
+    "state_parse_failed": false,
+    "lead_source": "Chatbot",
+    "account_name_min_len": 22,
+    "account_name_input": "Testbuyer Lighting Inc",
+    "has_note": false,
+    "expected_dedup": false,
+    "phone_work_required": true
+   }
+  },
+  {
+   "label": "rc-callme-nonus-state",
+   "notes": "Non-US region. Parser falls back to CA; PASS needs the fallback to be flagged (state_parse_failed=true) on what Sugar or the rep can see.",
+   "input": {
+    "leg": "chatbot",
+    "branch": "call-me",
+    "full_name": "Pat Canuck",
+    "company": "Maple Polymers Ltd",
+    "state_raw": "Ontario",
+    "email": "pat.canuck.1029@example.com",
+    "phone_raw": "+1 416 555 0199",
+    "submission_count": 1
+   },
+   "expected": {
+    "first_name": "Pat",
+    "last_name": "Canuck",
+    "location_c": "CA",
+    "state_parse_failed": true,
+    "lead_source": "Chatbot",
+    "account_name_min_len": 18,
+    "account_name_input": "Maple Polymers Ltd",
+    "has_note": false,
+    "expected_dedup": false,
+    "phone_work_required": true
+   }
+  },
+  {
+   "label": "rc-enrichment-real-person",
+   "notes": "Real person (thotes@prlresins.com, Todd's ZoomInfo alt email) so Path B creates and ZoomInfo matches. Proves Zap v8 step 4 parse fix: title must be the ZoomInfo jobTitle, not 'Not specified'.",
+   "input": {
+    "leg": "chatbot",
+    "branch": "call-me",
+    "full_name": "Todd Hotes",
+    "company": "Polymer Resources",
+    "state_raw": "Connecticut",
+    "email": "thotes@prlresins.com",
+    "phone_raw": "+1 860 555 0146",
+    "submission_count": 1
+   },
+   "expected": {
+    "first_name": "Todd",
+    "last_name": "Hotes",
+    "location_c": "CT",
+    "state_parse_failed": false,
+    "lead_source": "Chatbot",
+    "account_name_min_len": 17,
+    "account_name_input": "Polymer Resources",
+    "has_note": false,
+    "expected_dedup": false,
+    "phone_work_required": true,
+    "title_not_fallback": true
+   }
+  }
+ ]
+}
