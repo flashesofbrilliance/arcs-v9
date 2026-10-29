@@ -541,6 +541,12 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia{padding-top:0}.cia>.cia-h1:first-child{margin-top:20px}
 
 .shell-body #pane-prop{margin:0}.shell-body #pane-prop>.stamp{margin:0 0 16px}.shell-body #pane-plan{max-width:none;margin:0}
+.toprow .respill{margin-left:auto;margin-right:12px;display:inline-flex;align-items:center;font-size:.925rem;font-weight:600;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--surface);white-space:nowrap}
+.toprow .respill:hover{border-color:var(--accent)}.toprow .respill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cia .acrd .ccard h3{color:var(--accent)}
+.cia .cgrid.acrd{grid-template-columns:repeat(2,minmax(0,1fr))!important}@media (max-width:640px){.cia .cgrid.acrd{grid-template-columns:1fr!important}}
+#pane-primer .cia>.cia-h2:first-child{margin-top:8px}
+@media (max-width:640px){.toprow{flex-wrap:wrap;row-gap:8px}.toprow .sm-conf{flex:1 1 100%}.toprow .respill{margin-left:0}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -556,7 +562,7 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 </svg>
 <main>
 <h1 class="vh">Zach Harris: candidate brief for the CIA architect role</h1>
-<div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Private</span>Prepared for Michael Lederman and shared through Syfter.</p><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
+<div class="toprow"><p class="sm-conf mast-conf"><span class="ctag">Private</span>Prepared for Michael Lederman and shared through Syfter.</p><a class="respill" href="/resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a><button type="button" class="themetog" id="themetog" aria-label="Theme: Auto"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><g class="sun"><circle cx="10" cy="10" r="3.6"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></g><path class="moon" d="M15.5 12.6A6.5 6.5 0 017.4 4.5a6.5 6.5 0 108.1 8.1z"/><g class="auto"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13" /><path d="M10 3.5a6.5 6.5 0 010 13z" fill="currentColor" stroke="none"/></g></svg><span class="trk" aria-hidden="true"></span></button></div>
 <section class="shell" aria-label="Candidate brief for the CIA architect role">
 <div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Michael Lederman, The Culinary Institute of America</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-10-29">October 29, 2026</time></dd></div><div><dt>Status</dt><dd>For our intro call</dd></div></dl></div>
 <div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="viewtabs" aria-label="Menu"><span></span></button><div class="tabs" id="viewtabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-debrief" aria-controls="pane-debrief" aria-selected="true">Brief<span class="pill" data-k="now">Now</span></button><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Approach<span class="pill" data-k="next">Next</span></button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="false" tabindex="-1">First 90 days<span class="pill" data-k="later">Later</span></button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Questions</button></div></div>
@@ -834,14 +840,36 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <tr><td>Team pulse, one question each week</td><td>Steady or rising</td><td>Two drops in a row</td></tr>
 </tbody>
 </table></div>
-</div></details></div></div><div id="pane-primer" class="cia-pane" role="tabpanel" aria-labelledby="t-primer" hidden><div class="cia"><h3 class="cia-h2">What I would want to ask you</h3>
-
-<p>A choice like this succeeds or fails on business owners more than on technology. With a leadership team that is still new, I would rather ask than guess.</p>
-<ol>
-<li>Where does the Salesforce and Dynamics shortlist stand today, and what has already been ruled in or out?</li>
-<li>Who do you want deciding for each area: fundraising, education and alumni, consumer classes and events, consulting and workforce training, retail, and on the finance, compliance and security side?</li>
+</div></details></div></div><div id="pane-primer" class="cia-pane" role="tabpanel" aria-labelledby="t-primer" hidden><div class="cia"><h3 class="cia-h2">Assumptions, clarifications, risks and dependencies</h3>
+<p>A choice like this succeeds or fails on business owners more than on technology. With a leadership team that is still new, I would rather ask than guess. First-order items only; each one is mine to confirm with you.</p>
+<div class="cgrid acrd">
+<div class="ccard"><h3>Assumptions</h3><ul>
+<li>Salesforce and Dynamics are both still open.</li>
+<li>Microsoft is the base layer, from public signals.</li>
+<li>There is a fixed start date for new advancement staff.</li>
+<li>Budget covers licenses and an implementation partner.</li>
+<li>Business owners can give 2 to 3 hours a week early on.</li>
+</ul></div>
+<div class="ccard"><h3>Clarifications</h3><ol>
+<li>Where does the shortlist stand today, and what has been ruled in or out?</li>
+<li>Who do you want deciding for each area: fundraising, education and alumni, classes and events, consulting and workforce training, retail, and finance, compliance and security?</li>
 <li>What does bringing the Director of Enterprise Systems along look like to you?</li>
-</ol>
+<li>What would make this a success a year from now?</li>
+</ol></div>
+<div class="ccard"><h3>Risks</h3><ul>
+<li>Business owners run out of time.</li>
+<li>Donor and student data is messier than planned.</li>
+<li>Add-ons and AI or API usage push cost over.</li>
+<li>Compliance raises a blocker after a vendor is chosen.</li>
+</ul><p class="ref">Full list with controls: First 90 days tab.</p></div>
+<div class="ccard"><h3>Dependencies</h3><ul>
+<li>The advancement start date.</li>
+<li>The fundraising plan and giving mix.</li>
+<li>Current CRM setup, licenses and contract end dates.</li>
+<li>Budget range and approval thresholds.</li>
+<li>Vendor intake answers on security and compliance.</li>
+</ul></div>
+</div>
 <h3 class="cia-h2">What stays with CIA</h3><p>Whatever the engagement length, the work is built to outlast it: a decision record anyone can read, a design review checklist your team runs on every vendor deliverable, a cost model that updates as quotes change, and a team that owns all three.</p><h3 class="cia-h2">Proof</h3>
 
 <p><a href="/resume.pdf">Resume (PDF, one page)</a>. The numbers come from my own records; happy to walk through any of them. Public writing and the product I build are at <a href="https://arcs.care">arcs.care</a>.</p>
