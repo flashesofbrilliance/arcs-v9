@@ -425,7 +425,29 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 .cia .pill.g{background:var(--pill-now-bg);color:var(--pill-now)}.cia .pill.y{background:var(--pill-next-bg);color:var(--pill-next)}.cia .pill.r{background:var(--pill-later-bg);color:var(--pill-later)}
 .cia a{color:var(--accent)}
 @media (max-width:640px){.cia table,.cia thead,.cia tbody,.cia tr,.cia td{display:block}.cia thead{display:none}.cia td{border:none;padding:4px 0}.cia tr{border-bottom:1px solid var(--line);padding:12px 0}}
-</style><script defer src="/_vercel/insights/script.js"></script></head>
+</style><script defer src="/_vercel/insights/script.js"></script><style>
+.cia{--m:68ch}
+.cia .cia-h1,.cia .cia-h2,.cia h3{text-wrap:balance}.cia p,.cia li,.cia td{text-wrap:pretty}
+.cia .lede{max-width:none}
+.cia .cgrid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))!important}
+.cia .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;margin:8px 0 8px}
+.cia .kpis>div{background:var(--surface);padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.cia .kpis .k{font-size:var(--fs-body);color:var(--muted);font-weight:600}
+.cia .kpis .v{font-size:var(--fs-body);font-weight:600;color:var(--text)}
+.cia table{font-variant-numeric:tabular-nums}
+.cia tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--surface) 55%,transparent)}
+.cia td:first-child{font-weight:600}
+.cia .tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md);margin-bottom:12px}
+.cia .tw table{margin:0;min-width:760px}
+.cia .raci td:not(:first-child):not(:last-child),.cia .raci th:not(:first-child):not(:last-child){text-align:center}
+.cia .rk{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:var(--r-sm);font-weight:700;border:1px solid var(--line);color:var(--muted)}
+.cia .rk[data-r="A"]{background:var(--pill-next-bg);color:var(--pill-next);border-color:transparent}
+.cia .rk[data-r="R"]{background:var(--pill-now-bg);color:var(--pill-now);border-color:transparent}
+.cia a{text-underline-offset:3px}
+.cia ::selection{background:var(--pill-now-bg)}
+.cia :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:640px){.cia .tw table,.cia .tw thead,.cia .tw tbody,.cia .tw tr{display:revert}.cia .tw td{display:table-cell;border-bottom:1px solid var(--line);padding:12px}.cia .tw thead{display:table-header-group}}
+</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="i-task" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" rx="2" fill="currentColor"/></symbol>
@@ -444,7 +466,12 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <section class="shell" aria-label="Candidate brief for the CIA architect role">
 <div class="shell-meta"><dl><div><dt>Prepared for</dt><dd>Michael Lederman, The Culinary Institute of America</dd></div><div><dt>From</dt><dd>Zach Harris</dd></div><div><dt>Updated</dt><dd><time datetime="2026-10-29">October 29, 2026</time></dd></div><div><dt>Status</dt><dd>For our intro call</dd></div></dl></div>
 <div class="shell-bar"><span class="brand" aria-hidden="true"><b>ARCS</b> FIELD OS</span><button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="viewtabs" aria-label="Menu"><span></span></button><div class="tabs" id="viewtabs" role="tablist" aria-label="View"><button type="button" role="tab" id="t-debrief" aria-controls="pane-debrief" aria-selected="true">Brief<span class="pill" data-k="now">Now</span></button><button type="button" role="tab" id="t-prop" aria-controls="pane-prop" aria-selected="false" tabindex="-1">Approach<span class="pill" data-k="next">Next</span></button><button type="button" role="tab" id="t-plan" aria-controls="pane-plan" aria-selected="false" tabindex="-1">First 90 days<span class="pill" data-k="later">Later</span></button><button type="button" role="tab" id="t-primer" aria-controls="pane-primer" aria-selected="false" tabindex="-1">Questions</button></div></div>
-<div class="shell-body"><div id="pane-debrief" class="cia-pane" role="tabpanel" aria-labelledby="t-debrief"><div class="stamp" data-k="now" role="note"><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Start here.</strong> The role as I heard it, and where my record does and does not match.</p></div><div class="cia"><h2 class="cia-h1">One constituent view across fundraising, education, events, consulting and retail.</h2><p class="lede">Prepared for Michael Lederman by Zach Harris after an intake call with Syfter on October 29, 2026. It covers how I would run the CRM and data platform decisions, what the first 90 days could look like, and where my record does and does not match the brief. The role details come from the description Syfter shared.</p><h3 class="cia-h2">The job, as I heard it</h3>
+<div class="shell-body"><div id="pane-debrief" class="cia-pane" role="tabpanel" aria-labelledby="t-debrief"><div class="stamp" data-k="now" role="note"><span class="pill" data-k="now" aria-hidden="true">Now</span><p><span class="stamp-vh">Now: </span><strong>Start here.</strong> The role as I heard it, and where my record does and does not match.</p></div><div class="cia"><h2 class="cia-h1">One constituent view across fundraising, education, events, consulting and retail.</h2><p class="lede">Prepared for Michael Lederman by Zach Harris after an intake call with Syfter on October 29, 2026. It covers how I would run the CRM and data platform decisions, what the first 90 days could look like, and where my record does and does not match the brief. The role details come from the description Syfter shared.</p><div class="kpis" role="list" aria-label="At a glance">
+<div role="listitem"><span class="k">Decision</span><span class="v">Salesforce or Dynamics, then data and integration</span></div>
+<div role="listitem"><span class="k">Fit to the brief</span><span class="v">4 strong · 2 partial · 3 gaps</span></div>
+<div role="listitem"><span class="k">First milestone</span><span class="v">Platform in place before advancement hires start</span></div>
+<div role="listitem"><span class="k">Plan</span><span class="v">90 days, paced with you</span></div>
+</div><h3 class="cia-h2">The job, as I heard it</h3>
 
 <div class="cgrid">
 <div class="ccard"><h3>Pick the CRM</h3><p>Salesforce or Microsoft Dynamics, chosen on total cost, licensing (including AI and API usage charges), openness and fit for gift, sponsorship, in-kind and event giving.</p></div>
@@ -508,6 +535,24 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 </tbody>
 </table>
 
+<h3 class="cia-h2">Due diligence and RFI intake</h3>
+<p>One intake packet for both finalists, so legal, finance, compliance and the board review the same answers. Each data set CIA holds carries its own rules.</p>
+<table>
+<thead><tr><th>Area</th><th>Standard or framework</th><th>What we ask each vendor</th></tr></thead>
+<tbody>
+<tr><td>Security</td><td>HECVAT (the higher education vendor questionnaire), SOC 2 Type II, ISO 27001</td><td>Completed HECVAT, current SOC 2 report, penetration test summary, breach notification terms.</td></tr>
+<tr><td>Student records</td><td>FERPA</td><td>Acting as a school official under contract, access controls by role, no reuse of student data.</td></tr>
+<tr><td>Financial aid data</td><td>GLBA Safeguards Rule</td><td>Encryption, access logging and incident response that meet the rule.</td></tr>
+<tr><td>Card payments</td><td>PCI DSS 4.0</td><td>Tokenized payments for classes, events, restaurants and retail; card data kept out of the CRM.</td></tr>
+<tr><td>Donor and marketing data</td><td>State privacy laws (including the New York SHIELD Act), GDPR for international donors and students, CAN-SPAM, donor consent</td><td>Consent tracking, opt-out handling, data residency, deletion on request.</td></tr>
+<tr><td>Gift handling</td><td>IRS substantiation rules: written acknowledgment for gifts of $250 or more, disclosure on event tickets over $75 that include a gift</td><td>Receipts that split the gift and benefit value; in-kind gift records.</td></tr>
+<tr><td>Nonprofit accounting</td><td>GAAP for nonprofits (ASC 958) for gifts and pledges, ASC 606 for tuition and services</td><td>Restricted and unrestricted funds, pledge schedules, clean posting to the general ledger.</td></tr>
+<tr><td>Accessibility</td><td>WCAG 2.1 AA, shown in a VPAT</td><td>Current VPAT for staff and public-facing screens.</td></tr>
+<tr><td>AI use</td><td>NIST AI Risk Management Framework</td><td>Whether CIA data trains vendor models, how AI features are priced, how to switch them off.</td></tr>
+<tr><td>Contract and exit</td><td>Data processing agreement, records retention schedule</td><td>Data ownership, export format and cost at exit, uptime terms, liability and insurance.</td></tr>
+<tr><td>Governance</td><td>Board procurement policy, conflict of interest policy, audit committee oversight of IT risk</td><td>Disclosure of relationships with staff or trustees; a summary sized for the audit committee.</td></tr>
+</tbody>
+</table>
 <h3 class="cia-h2">Then the decision</h3>
 <ol>
 <li><b>Weights first.</b> Agree criteria and weights with the business owners, using everything above, before any vendor demo.</li>
@@ -527,20 +572,20 @@ svg.arrows path{stroke:var(--req)!important;opacity:.6!important}
 <h3 class="cia-h2">A starting RACI, people and helpers</h3>
 
 <p>A draft for you to change, by role rather than by name. R is responsible, A is accountable, C is consulted, I is informed. The helper column lists the delegated workers (scripts and AI assistants) that do the repetitive work for each owner; a person reviews everything they produce.</p>
-<table>
+<div class="tw"><table class="raci">
 <thead><tr><th>Workstream</th><th>Head of technology</th><th>Architect</th><th>Director of Enterprise Systems</th><th>Business owner</th><th>Finance and compliance</th><th>Helper doing the legwork</th></tr></thead>
 <tbody>
-<tr><td>Discovery and system map</td><td>A</td><td>R</td><td>R</td><td>C</td><td>I</td><td>Inventory script that lists systems, owners and data flows; interview note summarizer</td></tr>
-<tr><td>Use cases and requirements</td><td>I</td><td>R</td><td>C</td><td>A</td><td>C</td><td>Draft user stories from workshop notes, for owners to edit</td></tr>
-<tr><td>Criteria and weights</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>Weighted scorecard that recalculates as weights change</td></tr>
-<tr><td>Vendor demos and references</td><td>A</td><td>R</td><td>R</td><td>C</td><td>I</td><td>Demo script pack; reference-call question bank and notes</td></tr>
-<tr><td>Five-year cost model</td><td>C</td><td>R</td><td>C</td><td>I</td><td>A</td><td>Cost model that pulls quotes, license tiers and usage charges into one sheet</td></tr>
-<tr><td>Legal, compliance and security review</td><td>C</td><td>R</td><td>C</td><td>I</td><td>A</td><td>Contract and security questionnaire checklist (FERPA, PCI DSS, SOC 2)</td></tr>
-<tr><td>Recommendation and decision record</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>Decision record template: options, weights, dissent, expected outcome, 90-day check</td></tr>
-<tr><td>Implementation partner and design review</td><td>A</td><td>R</td><td>R</td><td>C</td><td>C</td><td>Design review checklist the in-house team runs on every vendor design</td></tr>
-<tr><td>Data migration and adoption</td><td>I</td><td>C</td><td>A</td><td>R</td><td>C</td><td>Duplicate and data-quality reports; training guides by team</td></tr>
+<tr><td>Discovery and system map</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td>Inventory script that lists systems, owners and data flows; interview note summarizer</td></tr>
+<tr><td>Use cases and requirements</td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="C">C</span></td><td>Draft user stories from workshop notes, for owners to edit</td></tr>
+<tr><td>Criteria and weights</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Weighted scorecard that recalculates as weights change</td></tr>
+<tr><td>Vendor demos and references</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td>Demo script pack; reference-call question bank and notes</td></tr>
+<tr><td>Five-year cost model</td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="A">A</span></td><td>Cost model that pulls quotes, license tiers and usage charges into one sheet</td></tr>
+<tr><td>Legal, compliance and security review</td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="A">A</span></td><td>Contract and security questionnaire checklist (FERPA, PCI DSS, SOC 2)</td></tr>
+<tr><td>Recommendation and decision record</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Decision record template: options, weights, dissent, expected outcome, 90-day check</td></tr>
+<tr><td>Implementation partner and design review</td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="C">C</span></td><td>Design review checklist the in-house team runs on every vendor design</td></tr>
+<tr><td>Data migration and adoption</td><td><span class="rk" data-r="I">I</span></td><td><span class="rk" data-r="C">C</span></td><td><span class="rk" data-r="A">A</span></td><td><span class="rk" data-r="R">R</span></td><td><span class="rk" data-r="C">C</span></td><td>Duplicate and data-quality reports; training guides by team</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h3 class="cia-h2">What I am on the hook for, and where I need support most</h3>
 <div class="cgrid">
