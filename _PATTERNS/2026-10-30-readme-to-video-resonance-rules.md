@@ -76,7 +76,7 @@ Declared omissions live next to the build, for example `vid/keep.json`:
 
 The checker prints each declared omission as INFO so the decision stays visible.
 
-## The video kit: levels in time (2026-10-30, PROPOSED, not built; Zach approves the spec first)
+## The video kit: levels in time (APPROVED 2026-10-30, Zach)
 
 Zach's direction: the real Field OS components induce a video UI kit with the same atomic pattern, from frame to full
 video, each level a responsive, animatable element that plays in the browser and renders to MP4 from the same source
@@ -107,11 +107,10 @@ frame from GRAIN to SHARP only when the evidence chip arrives (the "show, don't 
 - Gates: motion_policy_gate.py and phosphor_guard_check.mjs on the live page; for the MP4, a frame-sampling check
   (luminance per 1/16 region per frame, flashes counted per second) so the render meets the same limits as the page.
 
-**Conflict flagged, not resolved (2026-10-30):** arcs-mini (DESIGN.md has no motion section) ships literal timings in
-@arcs/theme and @arcs/kit: .15s, .16s, .18s, .2s, .24s, .3s, the curve cubic-bezier(.4,0,.2,1) and plain `ease`, plus an
-`arcs-pulse` loop that swings opacity 1 to 0.5 every cycle. Against this repo's DESIGN.md: the literals are off-token, the
-curve differs from --ease-out, and the pulse is an opacity swing that may count as a flash under --mo-lum-swing and dims
-whatever it wraps. Zach decides which file wins.
+**Ruling (Zach, 2026-10-30, "arcs-mini adopts tokens"):** arcs-mini adopts this repo's DESIGN.md motion: the --dur-fast,
+--dur-base and --dur-sweep durations, the one --ease-out curve and the --mo flash limits. Its `arcs-pulse` becomes a weight or
+underlight pulse, never an opacity fade. The change to @arcs/theme and @arcs/kit is backlog row arcs-mini-adopt-design-md-motion
+(READY), not part of this document.
 
 ### Construction rules: /proof is the reference (Zach, 2026-10-30)
 
@@ -141,12 +140,11 @@ reader how to read before showing the hardest artifact. In video: the z0 card fi
 status glyph appears (anchored to it, said aloud once), progress rather than pressure (no countdowns), and the densest
 frame never first.
 
-**Conflict flagged, not resolved:** the chip grammar (grammar-chips spec) uses ▲ for SAY in cyan, ● for SHOW in green and
-◆ for LIMIT in gold. /proof, already on main, uses ▲ for shown in green, ◆ for on request in cyan and ~ for not yet in
-gold. Same glyphs, different meanings and colours. Zach decides; the likely fix is that the grammar adopts /proof's
-glyphs and colours, since /proof is live and is the reference.
+**Ruling (Zach, 2026-10-30, option A):** the chip grammar adopts /proof's status vocabulary: ▲ shown green, ◆ on request
+cyan, ~ not yet gold. Say became ▸ (text colour), Limit ⚑ (orange), Shift Δ. The emitter's check fails if the spec and
+/proof ever disagree again.
 
-### Typography, density and layout at render (PROPOSED, 2026-10-30; Zach approves before any build)
+### Typography, density and layout at render (APPROVED 2026-10-30, Zach)
 
 Today's renders do not follow these: the frame builder hard-codes seven literal px sizes (68, 34, 30, 26, 24, 22, 18) with
 no _tokens.css, no ramp and no layout targets. Every rule below has a check that can fail the render.
@@ -182,3 +180,28 @@ no _tokens.css, no ramp and no layout targets. Every rule below has a check that
    - motion_policy_gate.py runs on any animated frame.
    - The brand-line-producer verdict must be PASS (the apex design audit, PR 1875).
    - Not built yet: the ramp and density checks. They extend the readme video checker, which already reads the frame text.
+
+### Text processing and punctuation (APPROVED 2026-10-30, Zach: "a professional polish for the video too")
+
+Checked against DESIGN.md, /proof and the house copy before adding. One correction: the house copy does not use the serial
+comma (/proof: "FINRA, HIPAA and GDPR"), so rule 6 keeps that.
+
+1. **Case.** Sentence case for every heading, title and button ("Six rules, enforced in code"), never Title Case. Caps come
+   only from CSS text-transform on short mono labels; the source text stays in sentence case, so captions, transcripts and
+   screen readers get normal text (the chip grammar already stores tags this way: "On request", shown uppercase). No typed
+   ALL CAPS anywhere.
+2. **Quotes.** Curly quotes and apostrophes in rendered text; straight quotes only inside code. One ellipsis character, never
+   three dots.
+3. **Dashes.** Zero em-dashes (house rule). Ranges are written with "to" ("360 to 1440"). Hyphens only inside compound words.
+4. **End punctuation.** Full sentences end with a period; labels, chips, table cells and stat captions do not. Never two
+   spaces, never a space before punctuation.
+5. **Numbers.** One format everywhere ($35,000, 12%, 5 of 5), with a non-breaking space between a number and its unit or word
+   ("8 faults"). Spoken forms can differ (R6); the screen keeps the canonical form.
+6. **Lists.** No serial comma ("amounts, dates and percentages"), matching the house copy; parallel grammar across siblings.
+7. **Line breaks.** No widow in headings or ledes; text-wrap balance on headings and pretty on body (already in
+   _PATTERNS/arcs-artifact-css-base.css).
+8. **Acronyms.** Expand on first use per video, or keep them to on-screen labels people already know; spoken form per R6.
+9. **Gate (R11, built).** The readme video checker now fails a frame on typed ALL CAPS runs, straight quotes outside code,
+   three-dot ellipses, double spaces, a space before punctuation and Title Case headings; em-dashes stay under R9. Widows and
+   non-breaking spaces need the rendered frame and are not checked yet. R11 and the brand-line-producer must both PASS before
+   encode. First run on the Dioptra build: one real finding, straight quotes around the example question on card 8.

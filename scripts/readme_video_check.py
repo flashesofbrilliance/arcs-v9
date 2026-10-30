@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """readme_video_check: diff the claims in a source README against a video's narration and card text.
 
-Rules: _PATTERNS/2026-10-30-readme-to-video-resonance-rules.md (R0-R10; R1 and R7 are human passes). Read-only; never calls a voice or
+Rules: _PATTERNS/2026-10-30-readme-to-video-resonance-rules.md (R0-R11; R1 and R7 are human passes). Read-only; never calls a voice or
 model API. Exit 1 when any FAIL check fires, 0 otherwise (WARN and INFO never fail the run).
 
 Usage:
@@ -74,7 +74,7 @@ def parse_build(path):
     cards = []
     for m in re.finditer(r"\{\s*k:\s*'(.*?)',\s*h:\s*'(.*?)',\s*b:\s*`(.*?)`,\s*v:\s*'(.*?)'\s*\}", src, re.S):
         k, h, b, v = m.groups()
-        cards.append({"kicker": k, "head": h, "body": strip_html(b), "v": v,
+        cards.append({"kicker": k, "head": h, "body": strip_html(b), "raw": b, "v": v,
                       "items": max(len(re.findall(r"<li>", b)), len(re.findall(r"<tr>", b)))})
     return cards
 
@@ -178,6 +178,28 @@ def main():
         wc = len(said.split())
         if wc > 60 or len(sents) > 6:
             add("WARN", "R4", i, f"{wc} words, {len(sents)} sentences; more than one idea is likely riding on this card")
+        # R11 text processing and punctuation on what is shown (the code blocks are exempt).
+        # Inline tags vanish without a space (so "<b>x</b>," stays "x,"); block tags break words apart.
+        prose = re.sub(r"<(pre|code)\b.*?</\1>", " ", c["raw"], flags=re.S)
+        prose = re.sub(r"</?(?:b|i|em|strong|span|a)\b[^>]*>", "", prose)
+        prose = strip_html(prose.replace("&nbsp;", " "))
+        seen = " ".join([c["kicker"], c["head"], prose])
+        caps = [w for w in re.findall(r"\b[A-Z][A-Z]{2,}\b(?:\s+\b[A-Z]{3,}\b)+", seen)]
+        if caps:
+            add("FAIL", "R11", i, f"typed ALL CAPS {caps[:2]}; type sentence case and uppercase short labels in CSS")
+        if re.search(r"[\"']", seen.replace("’", "")) and re.search(r"\w'\w|\"[^\"]+\"|'[^']+'", seen):
+            add("FAIL", "R11", i, "straight quotes or apostrophes outside code; use curly ones")
+        rawtext = re.sub(r"<[^>]+>", "", re.sub(r"<(pre|code)\b.*?</\1>", "", c["raw"], flags=re.S))
+        for txt, where, spaced in ((seen, "card", rawtext), (said, "narration", said)):
+            if re.search(r"\S  +\S", spaced):
+                add("FAIL", "R11", i, f"double space in the {where}")
+            if "..." in txt:
+                add("FAIL", "R11", i, f"three dots in the {where}; use the ellipsis character")
+            if re.search(r"\s[,.;:!?]", txt):
+                add("FAIL", "R11", i, f"space before punctuation in the {where}")
+        words = [w for w in re.findall(r"[A-Za-z]+", c["head"]) if len(w) > 3]
+        if len(words) >= 2 and all(w[0].isupper() for w in words) and not all(w.isupper() for w in words):
+            add("FAIL", "R11", i, f"Title Case heading '{c['head']}'; use sentence case")
         # R9 no em-dashes anywhere.
         if "\u2014" in said + shown:
             add("FAIL", "R9", i, "em-dash present")
