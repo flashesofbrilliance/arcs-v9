@@ -67,6 +67,13 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "mercury.arcs.care" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
+      // zach.md: agent-readable profile (Markdown, AGENTS.md convention). Served as text/markdown at
+      // /, /index.md and /llms.txt; indexable on purpose.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "zach.md" }],
+        headers: [{ key: "Content-Type", value: "text/markdown; charset=utf-8" }],
+      },
       // self-hosted fonts are content-stable: cache them hard for instant repeat loads.
       {
         source: "/fonts/:path*",
@@ -77,6 +84,9 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: withSharedIcons([
+        { source: "/", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/index.md", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/llms.txt", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
         { source: "/forge", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
