@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 306,
+  "rows": 310,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 247,
+   "product page": 251,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 15,
+  "missing_purpose": 19,
   "unlisted": 119
  },
  "retired_hosts": [
@@ -1721,7 +1721,7 @@
    "host": "good.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-agents|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/good.html",
    "pattern": false,
    "file": "public/good.html",
@@ -1738,6 +1738,46 @@
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
    "last_commit": "2026-10-24"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/AGENTS.md",
+   "catch_all": false,
+   "destination": "/good-agents.txt",
+   "pattern": false,
+   "file": "public/good-agents.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/agents.md",
+   "catch_all": false,
+   "destination": "/good-agents.txt",
+   "pattern": false,
+   "file": "public/good-agents.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "good.arcs.care",
@@ -2200,6 +2240,26 @@
    "purpose": "The research behind Light at Thirty-Eight Miles an Hour: a claim check, the 2026 state of the art in slow light and quantum memory, fifteen labelled isomorphisms to ARCS, and five inventions with kill conditions.",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/llms.txt",
+   "catch_all": false,
+   "destination": "/good-nftt-llms.txt",
+   "pattern": false,
+   "file": "public/good-nftt-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "good.arcs.care",
@@ -3420,6 +3480,26 @@
    "purpose": "Three dated, public calls about Apple, each with a falsifier written before the fact, checked against the record after, one correction owned in full.",
    "kind": "product page",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/til/llms.txt",
+   "catch_all": false,
+   "destination": "/good-til-llms.txt",
+   "pattern": false,
+   "file": "public/good-til-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "good.arcs.care",
