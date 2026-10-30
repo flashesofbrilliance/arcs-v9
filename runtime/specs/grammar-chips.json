@@ -1,33 +1,51 @@
 {
-  "version": "0.3.0",
+  "version": "0.4.0",
   "about": "One visual grammar for claim chips (README to video, receipts, briefs). Source of truth: scripts/grammar_chips_emit.py writes src/ui/grammarChipTokens.ts and the CSS block in src/ui-kit/grammar-chips/chips.html from this file. Values come from DESIGN.md (dark: obsidian world; light: Light paper world, every signal at least 4.6:1 on #e9eef4). Dark mode reads the kit tokens (src/ui-kit/recoil-report/_tokens.css, inlined verbatim into the HTML) by name; the hex values here mirror them for JSX.",
   "tones": {
     "say": {
-      "glyph": "▲",
+      "glyph": "▸",
       "tag": "SAY",
-      "meaning": "the claim",
-      "mui": "info",
-      "dark": "#00F0FF",
-      "light": "#00748e",
-      "kitVar": "--cyan"
+      "meaning": "the claim, stated",
+      "mui": "primary",
+      "dark": "#e2e8f0",
+      "light": "#0f172a",
+      "kitVar": "--text"
     },
     "show": {
-      "glyph": "●",
-      "tag": "SHOW",
-      "meaning": "the evidence, measured",
+      "glyph": "▲",
+      "tag": "SHOWN",
+      "meaning": "shown: the record is on the page",
       "mui": "success",
       "dark": "#00FF9D",
       "light": "#0b7a4b",
       "kitVar": "--green"
     },
-    "limit": {
+    "request": {
       "glyph": "◆",
-      "tag": "LIMIT",
-      "meaning": "the caveat that travels with it",
+      "tag": "ON REQUEST",
+      "meaning": "the record exists and is private; shown on request",
+      "mui": "info",
+      "dark": "#00F0FF",
+      "light": "#00748e",
+      "kitVar": "--cyan"
+    },
+    "notyet": {
+      "glyph": "~",
+      "tag": "NOT YET",
+      "meaning": "not yet shown, admitted (the honesty tilde)",
       "mui": "warning",
       "dark": "#FFD700",
       "light": "#8a6200",
       "kitVar": "--gold"
+    },
+    "limit": {
+      "glyph": "⚑",
+      "tag": "LIMIT",
+      "meaning": "the caveat that travels with the claim",
+      "mui": "warning",
+      "dark": "#ff9d3c",
+      "light": "#a34a0b",
+      "kitVar": "--orange"
     },
     "fail": {
       "glyph": "✕",
@@ -39,7 +57,7 @@
       "kitVar": "--red"
     },
     "shift": {
-      "glyph": "◇",
+      "glyph": "Δ",
       "tag": "SHIFT",
       "meaning": "a changed value (DELTA)",
       "mui": "secondary",
@@ -143,6 +161,7 @@
     "sans": "'Inter', system-ui, -apple-system, sans-serif"
   },
   "rules": [
+    "Status glyphs follow /proof (public/proof.html), decided by Zach 2026-10-30 (option A): ▲ shown green, ◆ on request cyan, ~ not yet gold. No other tone may reuse those three glyphs.",
     "Color is never the only cue: every tone carries its glyph and its tag.",
     "Fidelity sets the body text weight and tracking (the WORLD.md render scale); the mono tag holds at 700. Text stays at full opacity at every fidelity; fog shows through weight, tracking and texture (WORLD.md, 2026-10-11).",
     "A claim strip that holds a SAY chip and no LIMIT chip, where the source has a caveat, renders the FAIL state (rule R5).",

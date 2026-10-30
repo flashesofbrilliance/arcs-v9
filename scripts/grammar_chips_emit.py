@@ -74,8 +74,8 @@ def css(spec):
             rule += (f".g-chip[data-fidelity=\"{name}\"]{{background-image:radial-gradient(color-mix(in srgb,var(--c) 30%,transparent) .6px,transparent .8px);"
                      "background-size:5px 5px}")
         if fd["texture"] == "interference":
-                        rule += (f".g-chip[data-fidelity=\"{name}\"]{{background-image:radial-gradient(color-mix(in srgb,var(--g-say) 28%,transparent) .6px,transparent .8px),"
-                     "radial-gradient(color-mix(in srgb,var(--g-limit) 24%,transparent) .6px,transparent .8px);background-size:4px 4px,4.6px 4.6px}")
+                        rule += (f".g-chip[data-fidelity=\"{name}\"]{{background-image:radial-gradient(color-mix(in srgb,var(--g-request) 28%,transparent) .6px,transparent .8px),"
+                     "radial-gradient(color-mix(in srgb,var(--g-notyet) 24%,transparent) .6px,transparent .8px);background-size:4px 4px,4.6px 4.6px}")
         lines.append(rule)
     lines.append(".g-chip:focus-visible{outline:1px solid var(--g-focus);outline-offset:2px}")
     pk = spec["skins"]["pocket"]

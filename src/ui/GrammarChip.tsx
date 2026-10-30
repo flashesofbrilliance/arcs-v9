@@ -12,6 +12,7 @@ export type GrammarSkin = Partial<Record<GrammarTone | 'panel' | 'border' | 'tex
 export interface MuiThemeLike {
   palette?: {
     mode?: 'light' | 'dark'
+    primary?: { main?: string }
     info?: { main?: string }; success?: { main?: string }; warning?: { main?: string }
     error?: { main?: string }; secondary?: { main?: string }
     text?: { primary?: string; secondary?: string }
@@ -24,7 +25,7 @@ export interface MuiThemeLike {
 export function skinFromMuiTheme(theme: MuiThemeLike): GrammarSkin {
   const p = theme.palette ?? {}
   return {
-    say: p.info?.main, show: p.success?.main, limit: p.warning?.main, fail: p.error?.main, shift: p.secondary?.main,
+    say: p.text?.primary, show: p.success?.main, request: p.info?.main, notyet: p.warning?.main, limit: p.warning?.main, fail: p.error?.main, shift: p.secondary?.main,
     neutral: p.text?.secondary, panel: p.background?.paper, border: p.divider, text: p.text?.primary, textSecondary: p.text?.secondary,
   }
 }
@@ -67,7 +68,7 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
   const sh = grammarChips.shape
   const texture =
     f.texture === 'speckle' ? { backgroundImage: `radial-gradient(${pct(c, '30%')} .6px, transparent .8px)`, backgroundSize: '5px 5px' }
-    : f.texture === 'interference' ? { backgroundImage: `repeating-linear-gradient(60deg, ${pct(s.say ?? grammarChips.tones.say[m], '18%')} 0 1px, transparent 1px 4px), repeating-linear-gradient(-60deg, ${pct(s.limit ?? grammarChips.tones.limit[m], '14%')} 0 1px, transparent 1px 5px)` }
+    : f.texture === 'interference' ? { backgroundImage: `repeating-linear-gradient(60deg, ${pct(s.request ?? grammarChips.tones.request[m], '18%')} 0 1px, transparent 1px 4px), repeating-linear-gradient(-60deg, ${pct(s.notyet ?? grammarChips.tones.notyet[m], '14%')} 0 1px, transparent 1px 5px)` }
     : {}
   const d = base.depth
   const pk = grammarChips.skins.pocket[m]
