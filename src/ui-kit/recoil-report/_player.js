@@ -49,6 +49,7 @@
     var W = 640, H = 252, L = 44, R = 150, T = 20, B = 44;
     this.g = { W: W, H: H, L: L, R: R, T: T, B: B };
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    // eslint-disable-next-line @typescript-eslint/no-this-alias -- ES5 closures, no build step
     var dur = duration(player) || 1, self = this;
     this.x = function (t) { return L + (W - L - R) * (t / dur); };
     this.y = function (c) { return T + (H - T - B) * (1 - c); };
@@ -94,6 +95,7 @@
     el("circle", { "class": "mf-ring " + SERIES[i % SERIES.length], cx: this.x(t), cy: this.y(c), r: 7 }, this.svg);
   };
   Manifold.prototype.seek = function (t) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias -- ES5 closures, no build step
     var p = this.p, x = this.x(t), self = this;
     this.head.setAttribute("x1", x); this.head.setAttribute("x2", x);
     var k = this.index(t);

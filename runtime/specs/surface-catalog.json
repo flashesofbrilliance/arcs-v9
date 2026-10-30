@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 293,
-  "hosts": 82,
+  "rows": 306,
+  "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 234,
+   "product page": 247,
    "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 30,
+  "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 6,
-  "unlisted": 116
+  "missing_purpose": 15,
+  "unlisted": 119
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -50,8 +50,11 @@
  "unrouted_public_html": [
   "public/blacksmith-cover.html",
   "public/blacksmith-resume.html",
+  "public/cia-gate.html",
+  "public/dioptra-gate.html",
   "public/jack-rain-resume.html",
   "public/monday-gate.html",
+  "public/myally-debrief.html",
   "public/myally-gate.html",
   "public/myally-mnda-edits.html",
   "public/myally-primer.html",
@@ -1331,6 +1334,46 @@
    "last_commit": "2026-10-18"
   },
   {
+   "host": "cia.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/cia-brief.html",
+   "pattern": false,
+   "file": "public/cia-brief.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach Harris for CIA",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "Zach Harris for CIA",
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "cia.arcs.care",
+   "path": "/resume.pdf",
+   "catch_all": false,
+   "destination": "/cia-brief-resume.pdf",
+   "pattern": false,
+   "file": "public/cia-brief-resume.pdf",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-29"
+  },
+  {
    "host": "claritai.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -1532,6 +1575,26 @@
    "last_commit": "2026-10-09"
   },
   {
+   "host": "dioptra.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/dioptra-brief.html",
+   "pattern": false,
+   "file": "public/dioptra-brief.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach Harris - Dioptra",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Zach Harris - Dioptra",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
+  },
+  {
    "host": "dj.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -1658,7 +1721,7 @@
    "host": "good.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/good.html",
    "pattern": false,
    "file": "public/good.html",
@@ -4018,7 +4081,7 @@
    "unlisted": true,
    "purpose": "RET RFP Submission Guide",
    "kind": "product page",
-   "last_commit": "2026-10-26"
+   "last_commit": "2026-10-27"
   },
   {
    "host": "monolith.arcs.care",
@@ -4139,7 +4202,27 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/debrief",
+   "catch_all": false,
+   "destination": "/myally-hub.html",
+   "pattern": false,
+   "file": "public/myally-hub.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "My Ally LD: Alyce",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4159,7 +4242,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4179,7 +4262,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4199,7 +4282,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4219,7 +4302,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "omakase.arcs.care",
@@ -4757,7 +4840,7 @@
    "host": "resume.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!google).*)",
+   "source": "/:path((?!google|proof|resume-index|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/resume.html",
    "pattern": false,
    "file": "public/resume.html",
@@ -4773,7 +4856,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-21"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "resume.arcs.care",
@@ -4814,6 +4897,26 @@
    "purpose": "Zach Harris · Resume",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "resume.arcs.care",
+   "path": "/index.md",
+   "catch_all": false,
+   "destination": "/resume-index.txt",
+   "pattern": false,
+   "file": "public/resume-index.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "robin-codex.arcs.care",
@@ -5415,7 +5518,7 @@
    "host": "status.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!.*belief|.*gauntlet).*)",
+   "source": "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/status.html",
    "pattern": false,
    "file": "public/status.html",
@@ -5471,6 +5574,26 @@
    "purpose": "The shape of the adversarial gauntlet record: every pre-ship pressure-test, plotted in time. Cadence and scale, never the contents.",
    "kind": "ledger",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "status.arcs.care",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/status-llms.txt",
+   "pattern": false,
+   "file": "public/status-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "success-academy.arcs.care",
@@ -5531,7 +5654,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-26"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -5929,6 +6052,146 @@
    "purpose": "Yuri · one door",
    "kind": "product page",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "zach.md",
+   "path": "/",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/index.md",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/proof",
+   "catch_all": false,
+   "destination": "/proof.html",
+   "pattern": false,
+   "file": "public/proof.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": "Proof · Zach Harris",
+   "description": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
+   "index": null,
+   "unlisted": false,
+   "purpose": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/proof/claims.json",
+   "catch_all": false,
+   "destination": "/proof-claims.json",
+   "pattern": false,
+   "file": "public/proof-claims.json",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/robots.txt",
+   "catch_all": false,
+   "destination": "/zach-robots.txt",
+   "pattern": false,
+   "file": "public/zach-robots.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/sitemap.xml",
+   "catch_all": false,
+   "destination": "/zach-sitemap.xml",
+   "pattern": false,
+   "file": "public/zach-sitemap.xml",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "*",

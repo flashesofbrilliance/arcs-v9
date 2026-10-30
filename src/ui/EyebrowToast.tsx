@@ -182,7 +182,7 @@ export function EyebrowToast() {
               label="Dismiss data notice"
               accent={signal.gold}
               onClick={dismiss}
-              style={{ position: 'absolute', right: 'max(4px, env(safe-area-inset-right))', top: '50%', transform: 'translateY(-50%)' }}
+              style={{ position: 'absolute', right: 'max(4px, env(safe-area-inset-right))', top: 2, height: TOAST_H - 4 }}
             />
           </div>
 

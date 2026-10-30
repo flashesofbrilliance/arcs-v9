@@ -201,7 +201,11 @@
       "Bash(python3 scripts/unfold.py --self-test)",
       "mcp__scheduled-tasks__list_task_runs",
       "mcp__mcp-registry__search_mcp_registry",
-      "mcp__claude-in-chrome__read_page"
+      "mcp__claude-in-chrome__read_page",
+      "Bash(python3 scripts/overflow_gate.py *)",
+      "Bash(~/.claude/skills/impeccable/scripts/impeccable detect *)",
+      "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__execute_zapier_read_action",
+      "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__inspect_zapier_actions"
     ],
     "ask": [
       "Bash(git push:*)"

@@ -20,6 +20,9 @@ export async function POST(req: NextRequest) {
   if (!secret) return NextResponse.json({ error: "gate_unconfigured" }, { status: 503 })
   if (!passcode || passcode !== secret) return NextResponse.json({ error: "invalid" }, { status: 401 })
 
+  // One line per successful unlock, readable in Vercel runtime logs. No IP: country, city, user agent only.
+  console.log("monday_access", JSON.stringify({ event: "unlock", country: req.headers.get("x-vercel-ip-country"), city: req.headers.get("x-vercel-ip-city"), ua: req.headers.get("user-agent")?.slice(0, 120) }))
+
   const res = NextResponse.json({ ok: true })
   res.cookies.set(MONDAY_GATE.cookie, await gateToken(MONDAY_GATE.ns, secret), {
     httpOnly: true,

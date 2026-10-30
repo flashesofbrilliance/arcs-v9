@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { AMMO_COOKIE, ammoUnlocked } from '@/lib/ammo-gate'
-import { MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
+import { CIA_GATE, DIOPTRA_GATE, MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '@/lib/passcode-gate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
@@ -39,12 +39,29 @@ const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
 // in next.config.ts by excluding the substring anywhere, not just as a
 // prefix. This middleware entry is kept as the primary, deterministic
 // mechanism; next.config.ts's fix is the belt-and-suspenders backstop.
+// Agent-readable discovery paths (2026-10-29). On a catch-all host these must never answer
+// with the host's HTML page (a soft 404 an agent reads as content). A host's own llms.txt is
+// mapped here or in its MULTI_PATH_MAP entry (concourse); robots.txt and sitemap.xml serve the
+// shared public/ files; anything else is a real 404. Gate: tests/unit/llms-routes.test.ts.
+const MACHINE_PATH = /^\/(llms\.txt|index\.md|robots\.txt|sitemap\.xml)$/
+const HOST_LLMS: Record<string, string> = {
+  'good':   '/good-llms.txt',
+  'resume': '/resume-llms.txt',
+}
+
+// Exact extra paths on a single-page SUBDOMAIN_MAP host; every other path still collapses to its page.
+// resume.arcs.care (2026-10-30): /proof is the proof ledger (canonical at zach.md/proof; scripts/proof_emit.py),
+// /index.md the no-JavaScript text copy (scripts/resume_static_emit.mjs).
+const SUBDOMAIN_EXTRA: Record<string, Record<string, string>> = {
+  'resume': { '/proof': '/proof.html', '/proof/claims.json': '/proof-claims.json', '/index.md': '/resume-index.txt' },
+}
+
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
-  // myally.arcs.care: one tabbed hub (Proposal, Timeline, Primer). Every page path opens the hub,
-  // which picks its tab from the path (/mnda-edits now lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
+  // myally.arcs.care: one tabbed hub (Proposal, Timeline, Primer, Debrief). Every page path opens the hub,
+  // which picks its tab from the path (bare host and unknown paths open Debrief; /mnda-edits lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
   // The signed PDF maps to itself so the default rewrite does not swallow it. Gated end to end by the
   // myally passcode block in proxy() before this map is consulted.
-  'myally':    { '/proposal': '/myally-hub.html', '/timeline': '/myally-hub.html', '/mnda-edits': '/myally-hub.html', '/primer': '/myally-hub.html', '/myally-mnda-signed.pdf': '/myally-mnda-signed.pdf', default: '/myally-hub.html' },
+  'myally':    { '/proposal': '/myally-hub.html', '/timeline': '/myally-hub.html', '/mnda-edits': '/myally-hub.html', '/primer': '/myally-hub.html', '/debrief': '/myally-hub.html', '/myally-mnda-signed.pdf': '/myally-mnda-signed.pdf', default: '/myally-hub.html' },
   // saul.arcs.care — interview bundle (2026-09-03): root = prep, /followup = forked battle cards, /resume = viewer.
   // Asset paths are mapped to themselves so the default-page rewrite does not swallow the PDFs/txt.
   'saul':      { '/followup': '/saul-followup.html', '/resume': '/saul-resume-viewer.html', '/saul-resume.pdf': '/saul-resume.pdf', '/saul-cover.pdf': '/saul-cover.pdf', '/saul-resume-ats.txt': '/saul-resume-ats.txt', default: '/saul.html' },
@@ -53,8 +70,12 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   // claritai.arcs.care: Head of Operational Excellence & AI Systems bundle (2026-09-28): OPEN (ungated), noindex, for Jeff Kronisch (Harris Allied) to forward to Seth Merrin. root = brief + objections + history; PDF mapped to itself.
   // concourse.arcs.care: Concourse FDE bundle (2026-10-19): OPEN (ungated), noindex. root = candidate page (bet, record, role shape, gaps, kickoff card, ledger), /sara = recruiter brief, /plan = 90-day plan + pre-mortem (draft 2026-10-19), /llms.txt + /candidate.json = agent-readable claims with read-only checks. External cuts only; no counterpart profile content.
-  // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; the panel already has the ZIP and deck, so they are not hosted.
-  'monday':    { default: '/monday-guide.html' },
+  // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; /monday-guide-rc46.zip = the submitted ZIP (sha256 matches dist/submission-rc46.zip.sha256), mapped to itself so the default rewrite does not swallow it.
+  // cia.arcs.care: candidate brief for the Culinary Institute of America architect role (2026-10-29). Gated by CIA_PASSCODE; noindex.
+  'cia':       { '/resume.pdf': '/cia-brief-resume.pdf', default: '/cia-brief.html' },
+  // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex.
+  'dioptra':   { default: '/dioptra-brief.html' },
+  'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'concourse': { '/sara': '/concourse-sara.html', '/plan': '/concourse-plan.html', '/llms.txt': '/concourse-llms.txt', '/candidate.json': '/concourse-candidate.json', default: '/concourse.html' },
   'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
@@ -167,6 +188,52 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.redirect('https://claude.ai/artifact/EN1E3113GZGsrc2UobDyvM', 302)
   }
 
+  // --- cia.arcs.care: candidate brief for the CIA architect role -------------
+  // Same shape as the monday gate, own secret (CIA_PASSCODE) and cookie.
+  if (pathname.startsWith('/cia-gate')) return NextResponse.next()
+  const ciaFile = pathname.startsWith('/cia-brief')
+  const ciaHostOpen =
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/api') ||
+    pathname === '/robots.txt' ||
+    SHARED_ICON_PATH.test(pathname)
+  if (ciaFile || (sub === 'cia' && !ciaHostOpen)) {
+    const ok = await gateUnlocked(
+      CIA_GATE.ns,
+      request.cookies.get(CIA_GATE.cookie)?.value,
+      process.env[CIA_GATE.env],
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/cia-gate.html'
+      return NextResponse.rewrite(url)
+    }
+  }
+
+  // --- dioptra.arcs.care: candidate brief for the Dioptra Staff PM role -----
+  // Same shape as the cia gate, own secret (DIOPTRA_PASSCODE) and cookie.
+  if (pathname.startsWith('/dioptra-gate')) return NextResponse.next()
+  const dioptraFile = pathname.startsWith('/dioptra-brief')
+  const dioptraHostOpen =
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/api') ||
+    pathname === '/robots.txt' ||
+    SHARED_ICON_PATH.test(pathname)
+  if (dioptraFile || (sub === 'dioptra' && !dioptraHostOpen)) {
+    const ok = await gateUnlocked(
+      DIOPTRA_GATE.ns,
+      request.cookies.get(DIOPTRA_GATE.cookie)?.value,
+      process.env[DIOPTRA_GATE.env],
+    )
+    if (!ok) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dioptra-gate.html'
+      return NextResponse.rewrite(url)
+    }
+  }
+
   // --- monday.arcs.care: submission guide for the monday.com FDE panel -------
   // Same shape as the myally gate, own secret (MONDAY_PASSCODE) and cookie.
   // /monday-guide* is locked on every host; the gate page and /api stay open.
@@ -188,6 +255,10 @@ export default async function proxy(request: NextRequest) {
       const url = request.nextUrl.clone()
       url.pathname = '/monday-gate.html'
       return NextResponse.rewrite(url)
+    }
+    // Past the gate: log ZIP downloads (a person with the passcode, not a mail scanner). No IP.
+    if (pathname === '/monday-guide-rc46.zip') {
+      console.log('monday_access', JSON.stringify({ event: 'zip_download', country: request.headers.get('x-vercel-ip-country'), city: request.headers.get('x-vercel-ip-city'), ua: request.headers.get('user-agent')?.slice(0, 120) }))
     }
   }
 
@@ -231,6 +302,17 @@ export default async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = ok ? AMMO_HOSTS[sub].ammoFile : AMMO_HOSTS[sub].gateFile
     return NextResponse.rewrite(url)
+  }
+
+  if ((MULTI_PATH_MAP[sub] || SUBDOMAIN_MAP[sub]) && MACHINE_PATH.test(pathname)) {
+    const own = MULTI_PATH_MAP[sub]?.[pathname] ?? SUBDOMAIN_EXTRA[sub]?.[pathname] ?? (pathname === '/llms.txt' ? HOST_LLMS[sub] : undefined)
+    if (own) {
+      const url = request.nextUrl.clone()
+      url.pathname = own
+      return NextResponse.rewrite(url)
+    }
+    if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return NextResponse.next()
+    return new NextResponse('Not found', { status: 404, headers: { 'content-type': 'text/plain; charset=utf-8' } })
   }
 
   const multiPaths = MULTI_PATH_MAP[sub]
@@ -316,6 +398,12 @@ export default async function proxy(request: NextRequest) {
 
   if (dest) {
     const { pathname } = request.nextUrl
+    const extra = SUBDOMAIN_EXTRA[sub]?.[pathname]
+    if (extra) {
+      const url = request.nextUrl.clone()
+      url.pathname = extra
+      return NextResponse.rewrite(url)
+    }
     if (
       pathname.startsWith(dest) ||
       pathname.startsWith('/_next') ||

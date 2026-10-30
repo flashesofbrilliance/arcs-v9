@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import Link from 'next/link'
 import { text, signal, font } from './tokens'
 import { CloseButton } from './CloseButton'
 import { ButtonLink } from './Button'
+import Link from 'next/link'
 import { useToastDrawer } from './ToastDrawerContext'
 
 export const FOOTER_H = 60
@@ -15,10 +15,28 @@ const legalLinkStyle: React.CSSProperties = {
   color: text.dimmed, textDecoration: 'underline',
 }
 
-// Single fixed bar. Two layers share the same space:
-//   · CTA layer  — fades out when drawer opens or CTA is dismissed
-//   · Legal layer — fades in when drawer opens; becomes permanent when CTA is dismissed
-// On dismiss the CTA layer is removed and the legal layer is locked visible.
+// Fixed offer bar: the sprint CTA, faded while the data drawer is open, gone once dismissed.
+// Trust, Privacy and Terms live in the in-flow SiteFooter at the end of every page except the three
+// legal pages, which carry the same three links in their own footer row.
+export function SiteFooter() {
+  const pathname = usePathname()
+  // /hud carries no chrome; the legal pages carry Trust, Privacy and Terms in their own footer row.
+  if (pathname === '/hud' || pathname === '/trust' || pathname === '/privacy' || pathname === '/terms') return null
+  return (
+    <footer
+      style={{
+        display: 'flex', justifyContent: 'center', gap: '1.5rem',
+        padding: `1.5rem 1.5rem calc(${FOOTER_H}px + 1.5rem + env(safe-area-inset-bottom))`,
+        borderTop: '1px solid rgba(255,255,255,0.05)',
+      }}
+    >
+      <Link href="/trust" style={legalLinkStyle}>Trust</Link>
+      <Link href="/privacy" style={legalLinkStyle}>Privacy</Link>
+      <Link href="/terms" style={legalLinkStyle}>Terms</Link>
+    </footer>
+  )
+}
+
 export function StickyFooter({
   message,
   ctaLabel = 'Inquire directly',
@@ -34,25 +52,22 @@ export function StickyFooter({
   const [dismissed, setDismissed] = useState(false)
   const pathname = usePathname()
 
-  // Legal links are visible when the drawer is open OR the CTA has been dismissed
-  const showLegal = dismissed || open
-
-  // Full-screen instruments (arcs.care/hud) carry no page chrome.
-  if (pathname === '/hud') return null
+  // Full-screen instruments (arcs.care/hud) carry no page chrome; a dismissed offer leaves no bar.
+  if (pathname === '/hud' || dismissed) return null
   return (
     <div
       style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
         height: `calc(${FOOTER_H}px + env(safe-area-inset-bottom))`,
         paddingBottom: 'env(safe-area-inset-bottom)',
-        borderTop: dismissed ? `1px solid rgba(255,255,255,0.05)` : `1px solid ${signal.gold}25`,
-        background: (!dismissed && open) ? 'rgba(0,0,0,0.97)' : 'rgba(2,4,8,0.92)',
+        borderTop: `1px solid ${signal.gold}25`,
+        background: open ? 'rgba(0,0,0,0.97)' : 'rgba(2,4,8,0.92)',
         backdropFilter: 'blur(12px)',
         transition: 'background 0.45s ease',
       }}
     >
       {/* CTA content — fades out when drawer opens or when dismissed */}
-      {!dismissed && (
+      {(
         <div
           style={{
             position: 'absolute', inset: 0, paddingBottom: 'env(safe-area-inset-bottom)',
@@ -74,26 +89,9 @@ export function StickyFooter({
         </div>
       )}
 
-      {/* Legal links — fade in when drawer opens; locked visible once dismissed */}
-      <div
-        style={{
-          position: 'absolute', inset: 0, paddingBottom: 'env(safe-area-inset-bottom)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem',
-          opacity: showLegal ? 1 : 0,
-          // hidden layer must not take focus: visibility drops it from the tab order
-          visibility: showLegal ? 'visible' : 'hidden',
-          transition: dismissed ? 'none' : 'opacity 0.3s ease, visibility 0.3s',
-          pointerEvents: showLegal ? 'auto' : 'none',
-        }}
-      >
-        <Link href="/trust" style={legalLinkStyle}>Trust</Link>
-        <Link href="/privacy" style={legalLinkStyle}>Privacy</Link>
-        <Link href="/terms" style={legalLinkStyle}>Terms</Link>
-      </div>
-
       {/* Dismiss: same right-edge axis as the data-notice X. The CTA row
           reserves that 48px lane (paddingRight below) so the two never overlap. */}
-      {!dismissed && (
+      {(
         <CloseButton
           label="Dismiss sprint offer"
           accent={signal.gold}
