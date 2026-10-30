@@ -900,6 +900,15 @@
         ],
         "createdAt": "2026-10-30T15:05:00.000Z",
         "reason": "Claim chip grammar specimen: mono is DESIGN.md's instrument voice (JetBrains Mono for chip tags and section labels, 'mono for instruments, sans for reading'); the detector's typography parse does not list it. Inherits src/ui-kit/recoil-report/_tokens.css verbatim."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "src/ui-kit/grammar-chips/chips.html"
+        ],
+        "createdAt": "2026-10-30T15:40:00.000Z",
+        "reason": "Claim chip grammar specimen: the glow is the underlit LED of the @arcs/theme grammar (ChipToggle, 'underlit-LED glow, never ambient neon') and the Phosphor Pocket skin LED tiles; it marks tone state only, Zach asked for the skeuomorphic depth on 2026-10-30."
       }
     ]
   },

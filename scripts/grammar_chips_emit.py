@@ -21,7 +21,9 @@ def mode_vars(spec, mode):
     kv = m.get("kitVars", {})
     for key, var in kv.items():
         m[key] = f"var({var})"
-    out = [f"--g-bg:{m['bg']};--g-panel:{m['panel']};--g-elevated:{m['elevated']};--g-border:{m['border']};"
+    dp = spec["modes"][mode]["depth"]
+    out = [f"--g-well:{dp['well']};--g-face:{dp['face']};--g-glass:{dp['glass']};--g-bevel:{dp['bevel']};--g-underlit:{dp['underlit']};"]
+    out += [f"--g-bg:{m['bg']};--g-panel:{m['panel']};--g-elevated:{m['elevated']};--g-border:{m['border']};"
            f"--g-text:{m['text']};--g-text-2:{m['textSecondary']};--g-focus:{m['focus']};"
            f"--g-tint:{m['tint']};--g-edge:{m['edge']};"]
     for name, t in spec["tones"].items():
@@ -41,9 +43,14 @@ def css(spec):
         f":root[data-theme=\"dark\"]{{{dark}color-scheme:dark}}",
         f".g-chip{{--c:var(--g-neutral);display:inline-flex;align-items:center;gap:{s['gap']};padding:{s['padY']} {s['padX']};"
         f"border-radius:{s['radius']};border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);"
-        f"background:color-mix(in srgb,var(--c) var(--g-tint),var(--g-panel));color:var(--g-text);"
+        f"background:color-mix(in srgb,var(--c) var(--g-tint),transparent),var(--g-face);color:var(--g-text);"
+        f"box-shadow:var(--g-well),var(--g-underlit) color-mix(in srgb,var(--c) 30%,transparent);"
         f"font:400 {s['bodySize']}/1.3 {f['sans']};white-space:nowrap;max-width:100%}}",
-        f".g-chip .g-glyph{{color:var(--c);font-size:1em;line-height:1}}",
+        f".g-chip .g-glyph{{color:var(--c);font-size:1em;line-height:1;text-shadow:0 0 {spec['led']['glowRest']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}",
+        f"@keyframes g-led{{from{{text-shadow:0 0 {spec['led']['glowRest']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}to{{text-shadow:0 0 {spec['led']['glowPeak']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}}}",
+        f".g-chip[data-live] .g-glyph{{animation:g-led {spec['led']['period']} var(--ease-out) infinite alternate}}",
+        "@media (prefers-reduced-motion: reduce){.g-chip[data-live] .g-glyph{animation:none}}",
+        ".g-glass{background:var(--g-glass);box-shadow:var(--g-bevel);border:1px solid var(--g-border)}",
         f".g-chip .g-tag{{color:var(--c);font:700 {s['tagSize']}/1 {f['mono']};letter-spacing:.12em;text-transform:uppercase}}",
         ".g-chip .g-body{white-space:normal}",
     ]
@@ -59,12 +66,31 @@ def css(spec):
                      "radial-gradient(color-mix(in srgb,var(--g-limit) 24%,transparent) .6px,transparent .8px);background-size:4px 4px,4.6px 4.6px}")
         lines.append(rule)
     lines.append(".g-chip:focus-visible{outline:1px solid var(--g-focus);outline-offset:2px}")
+    pk = spec["skins"]["pocket"]
+    def pvars(m):
+        v = pk[m]
+        grain = ("url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'>"
+                 "<feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/>"
+                 f"<feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 {v['grainAlpha']} 0'/></filter>"
+                 "<rect width='100%' height='100%' filter='url(%23n)'/></svg>\")")
+        return (f"--pk-key:{v['key']};--pk-key-shadow:{v['keyShadow']};--pk-key-edge:{v['keyEdge']};--pk-bezel:{v['bezel']};"
+                f"--pk-led-well:{v['ledWell']};--pk-led-shadow:{v['ledWellShadow']};--pk-grain:{grain};")
+    lines += [
+        f"[data-skin=\"pocket\"]{{{pvars('dark')}}}",
+        f"@media (prefers-color-scheme: light){{:root:not([data-theme=\"dark\"]) [data-skin=\"pocket\"],:root:not([data-theme=\"dark\"])[data-skin=\"pocket\"]{{{pvars('light')}}}}}",
+        f":root[data-theme=\"light\"] [data-skin=\"pocket\"],:root[data-theme=\"light\"][data-skin=\"pocket\"]{{{pvars('light')}}}",
+        f"[data-skin=\"pocket\"] .g-chip{{border-radius:{pk['radius']};border:1px solid var(--pk-key-edge);background:var(--pk-key);box-shadow:var(--pk-key-shadow);padding:6px 12px 6px 6px}}",
+        "[data-skin=\"pocket\"] .g-chip .g-glyph{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:3px;"
+        "background:var(--pk-led-well);box-shadow:var(--pk-led-shadow);border:1px solid var(--g-border);font-size:.8em}",
+        *[f"[data-skin=\"pocket\"] .g-chip[data-tone=\"{n}\"] .g-glyph{{color:var({t['kitVar']});text-shadow:0 0 6px color-mix(in srgb,var({t['kitVar']}) 60%,transparent)}}" for n, t in spec["tones"].items()],
+        "[data-skin=\"pocket\"] .g-glass{background-color:var(--g-panel);background-image:var(--pk-grain);border:1px solid var(--g-bg);box-shadow:var(--pk-bezel)}",
+    ]
     lines.append(END)
     return "\n".join(lines)
 
 
 def ts(spec):
-    body = json.dumps({k: spec[k] for k in ("version", "tones", "modes", "fidelity", "shape", "fonts")}, indent=2, ensure_ascii=False)
+    body = json.dumps({k: spec[k] for k in ("version", "tones", "modes", "fidelity", "shape", "fonts", "led", "skins")}, indent=2, ensure_ascii=False)
     return ("// Generated by scripts/grammar_chips_emit.py from runtime/specs/grammar-chips.json. Do not edit by hand.\n"
             f"export const grammarChips = {body} as const\n\n"
             "export type GrammarTone = keyof typeof grammarChips.tones\n"

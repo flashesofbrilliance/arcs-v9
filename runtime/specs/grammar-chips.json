@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "about": "One visual grammar for claim chips (README to video, receipts, briefs). Source of truth: scripts/grammar_chips_emit.py writes src/ui/grammarChipTokens.ts and the CSS block in src/ui-kit/grammar-chips/chips.html from this file. Values come from DESIGN.md (dark: obsidian world; light: Light paper world, every signal at least 4.6:1 on #e9eef4). Dark mode reads the kit tokens (src/ui-kit/recoil-report/_tokens.css, inlined verbatim into the HTML) by name; the hex values here mirror them for JSX.",
   "tones": {
     "say": {
@@ -76,6 +76,13 @@
         "text": "--text",
         "textSecondary": "--text-secondary",
         "focus": "--cyan"
+      },
+      "depth": {
+        "well": "inset 0 2px 5px rgba(0,0,0,.55), inset 0 -1px 0 rgba(255,255,255,.04)",
+        "face": "linear-gradient(180deg,#0b1318,#0c1620)",
+        "glass": "linear-gradient(180deg,rgba(17,24,39,.92),rgba(13,17,23,.92))",
+        "bevel": "inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px 0 rgba(0,0,0,.6)",
+        "underlit": "inset 0 -8px 12px -7px"
       }
     },
     "light": {
@@ -87,7 +94,14 @@
       "textSecondary": "#4b5563",
       "tint": "8%",
       "edge": "45%",
-      "focus": "#00748e"
+      "focus": "#00748e",
+      "depth": {
+        "well": "inset 0 1px 3px rgba(15,23,42,.14), inset 0 -1px 0 rgba(255,255,255,.9)",
+        "face": "linear-gradient(180deg,#eef2f6,#f7f9fb)",
+        "glass": "linear-gradient(180deg,rgba(255,255,255,.85),rgba(244,247,250,.85))",
+        "bevel": "inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.08)",
+        "underlit": "inset 0 -7px 10px -7px"
+      }
     }
   },
   "fidelity": {
@@ -132,6 +146,38 @@
     "Color is never the only cue: every tone carries its glyph and its tag.",
     "Fidelity sets the body text weight and tracking (the WORLD.md render scale); the mono tag holds at 700. Text stays at full opacity at every fidelity; fog shows through weight, tracking and texture (WORLD.md, 2026-10-11).",
     "A claim strip that holds a SAY chip and no LIMIT chip, where the source has a caveat, renders the FAIL state (rule R5).",
-    "Signal color tints border, tag and glyph only; the body text stays in the mode's text color."
-  ]
+    "Signal color tints border, tag and glyph only; the body text stays in the mode's text color.",
+    "Depth (from @arcs/theme and ChipToggle): chips sit in a recessed well with an underlit tint from the tone; cards are glass with a bevel. Depth is inset light, never a cast drop shadow."
+  ],
+  "led": {
+    "about": "A slow underlit LED in the glyph, like a hardware status light. Only data-live chips pulse. The pulse moves glow radius, not opacity, over 2x --dur-sweep (3s per breath, well under --mo-flash-max), and stops under reduced motion.",
+    "period": "3000ms",
+    "glowRest": "3px",
+    "glowPeak": "8px",
+    "alpha": "45%"
+  },
+  "skins": {
+    "about": "Skins change depth and material, never tone meaning, glyphs or tags. 'field' is the default (recessed well, underlit). 'pocket' is the Phosphor Pocket skin at dj.arcs.care, read from goldcoastcustoms.xyz: bezel ring, film grain, raised keys, recessed LED tiles.",
+    "pocket": {
+      "dark": {
+        "key": "linear-gradient(135deg,#1e293b,#111827)",
+        "keyShadow": "0 1px 2px rgba(2,4,8,.3), 0 2px 4px rgba(2,4,8,.15), inset 0 1px 0 rgba(226,232,240,.08)",
+        "keyEdge": "rgba(226,232,240,.12)",
+        "bezel": "0 0 0 3px #0d1117, 0 0 0 4px #1e293b, inset 0 1px 0 rgba(226,232,240,.06)",
+        "ledWell": "#020408",
+        "ledWellShadow": "inset 0 2px 8px rgba(2,4,8,.95), inset 0 -1px 2px rgba(2,4,8,.6)",
+        "grainAlpha": ".07"
+      },
+      "light": {
+        "key": "linear-gradient(135deg,#fbfbf8,#e4e6e1)",
+        "keyShadow": "0 1px 2px rgba(15,23,42,.18), 0 2px 4px rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.95)",
+        "keyEdge": "rgba(15,23,42,.14)",
+        "bezel": "0 0 0 3px #f4f7fa, 0 0 0 4px #c9d3de, inset 0 1px 0 rgba(255,255,255,.9)",
+        "ledWell": "#1f2329",
+        "ledWellShadow": "inset 0 2px 6px rgba(0,0,0,.7)",
+        "grainAlpha": ".05"
+      },
+      "radius": "10px"
+    }
+  }
 }
