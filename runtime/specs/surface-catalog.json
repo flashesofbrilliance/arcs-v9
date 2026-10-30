@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 300,
+  "rows": 301,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 241,
+   "product page": 242,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 10,
+  "missing_purpose": 11,
   "unlisted": 119
  },
  "retired_hosts": [
@@ -1721,7 +1721,7 @@
    "host": "good.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/good.html",
    "pattern": false,
    "file": "public/good.html",
@@ -4840,7 +4840,7 @@
    "host": "resume.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!google).*)",
+   "source": "/:path((?!google|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/resume.html",
    "pattern": false,
    "file": "public/resume.html",
@@ -5498,7 +5498,7 @@
    "host": "status.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!.*belief|.*gauntlet).*)",
+   "source": "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/status.html",
    "pattern": false,
    "file": "public/status.html",
@@ -5554,6 +5554,26 @@
    "purpose": "The shape of the adversarial gauntlet record: every pre-ship pressure-test, plotted in time. Cadence and scale, never the contents.",
    "kind": "ledger",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "status.arcs.care",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/status-llms.txt",
+   "pattern": false,
+   "file": "public/status-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "success-academy.arcs.care",
@@ -5614,7 +5634,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "thetrueai.arcs.care",

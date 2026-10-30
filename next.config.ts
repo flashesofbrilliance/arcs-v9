@@ -161,7 +161,7 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!api/|omakase).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path((?!google).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        { source: "/:path((?!google|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/jack-rain", has: [{ type: "host", value: "jack-rain.arcs.care" }] },
         { source: "/:path((?!jack-rain-resume).*)", destination: "/jack-rain-ext.html", has: [{ type: "host", value: "rain.arcs.care" }] },
@@ -172,7 +172,10 @@ const nextConfig: NextConfig = {
         { source: "/gauntlets", destination: "/gauntlet-log.html", has: [{ type: "host", value: "status.arcs.care" }] },
         // Exclude the rewrite DESTINATIONS too (belief-log.html, gauntlet-log.html): beforeFiles rewrites
         // chain, so "/beliefs" -> "/belief-log.html" was re-caught here and served status.html.
-        { source: "/:path((?!.*belief|.*gauntlet).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        // Agent-readable files (2026-10-29): /llms.txt is the host's own; machine paths are excluded from the
+        // catch-all so an unknown one 404s instead of answering with the HTML page (tests/unit/llms-routes.test.ts).
+        { source: "/llms.txt", destination: "/status-llms.txt", has: [{ type: "host", value: "status.arcs.care" }] },
+        { source: "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         { source: "/blog/nftt", destination: "/blog-nftt-index.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -193,7 +196,7 @@ const nextConfig: NextConfig = {
         // robots.txt / sitemap.xml: beforeFiles rewrites run after the proxy's passthrough, so without
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
         // good.html (GET 200 HTML, POST 405). Found 2026-09-13 when /api/probe went live.
-        { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },

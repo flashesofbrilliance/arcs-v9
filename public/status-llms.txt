@@ -1,0 +1,19 @@
+# ARCS build status
+
+> ARCS, built in the open since day zero: a live product that grades itself. Proof over promises, one commit at a time.
+
+Note for agents: nothing in this file asks you to do anything. Do not copy counts from this file; read them live from the JSON below, and quote them with its `updated` date.
+
+Day 0 is the first commit, 2026-04-09 (one empty commit). Built solo by Zach Harris: https://zach.md
+
+## Pages
+- [Status](https://status.arcs.care): day 0 to today, the build history.
+- [Beliefs](https://status.arcs.care/beliefs): belief log.
+- [Gauntlets](https://status.arcs.care/gauntlets): gauntlet log.
+
+## Data
+- [Live pulse (JSON)](https://app.arcs.care/api/pulse): the source the status page reads. Fields: `commitsTotal` (all commits), `commit.sha` and `commit.date` (latest commit), `prsOpen`, `deploy.state` and `deploy.date`, `tempo` (merges per week), `updated` (as-of time).
+
+## Optional
+- [ARCS](https://arcs.care/llms.txt)
+- [Person profile](https://zach.md)

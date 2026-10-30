@@ -39,6 +39,16 @@ const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
 // in next.config.ts by excluding the substring anywhere, not just as a
 // prefix. This middleware entry is kept as the primary, deterministic
 // mechanism; next.config.ts's fix is the belt-and-suspenders backstop.
+// Agent-readable discovery paths (2026-10-29). On a catch-all host these must never answer
+// with the host's HTML page (a soft 404 an agent reads as content). A host's own llms.txt is
+// mapped here or in its MULTI_PATH_MAP entry (concourse); robots.txt and sitemap.xml serve the
+// shared public/ files; anything else is a real 404. Gate: tests/unit/llms-routes.test.ts.
+const MACHINE_PATH = /^\/(llms\.txt|index\.md|robots\.txt|sitemap\.xml)$/
+const HOST_LLMS: Record<string, string> = {
+  'good':   '/good-llms.txt',
+  'resume': '/resume-llms.txt',
+}
+
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // myally.arcs.care: one tabbed hub (Proposal, Timeline, Primer, Debrief). Every page path opens the hub,
   // which picks its tab from the path (bare host and unknown paths open Debrief; /mnda-edits lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
@@ -285,6 +295,17 @@ export default async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = ok ? AMMO_HOSTS[sub].ammoFile : AMMO_HOSTS[sub].gateFile
     return NextResponse.rewrite(url)
+  }
+
+  if ((MULTI_PATH_MAP[sub] || SUBDOMAIN_MAP[sub]) && MACHINE_PATH.test(pathname)) {
+    const own = MULTI_PATH_MAP[sub]?.[pathname] ?? (pathname === '/llms.txt' ? HOST_LLMS[sub] : undefined)
+    if (own) {
+      const url = request.nextUrl.clone()
+      url.pathname = own
+      return NextResponse.rewrite(url)
+    }
+    if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return NextResponse.next()
+    return new NextResponse('Not found', { status: 404, headers: { 'content-type': 'text/plain; charset=utf-8' } })
   }
 
   const multiPaths = MULTI_PATH_MAP[sub]
