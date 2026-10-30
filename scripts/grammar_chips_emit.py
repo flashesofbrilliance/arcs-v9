@@ -4,7 +4,10 @@
   - the CSS block between the GRAMMAR-CHIPS sentinels in src/ui-kit/grammar-chips/chips.html.
 
 Usage: python3 scripts/grammar_chips_emit.py [--check]
---check exits 1 when either output is out of date (never writes).
+--check exits 1 when either output is out of date, or when the spec breaks a rule (never writes):
+  dark tones equal their kit token in _tokens.css; every tone meets its contrast floor (light 4.6:1 on
+  the darkest paper surface, dark 4.5:1 on the panel); no glyph is used twice; the three status glyphs
+  match public/proof.html (shown, on request, not yet).
 """
 import json, re, sys
 from pathlib import Path
@@ -46,13 +49,17 @@ def css(spec):
         f"border-radius:{s['radius']};border:1px solid var(--g-border);background:var(--g-panel);color:var(--g-text);"
         f"font:400 {s['bodySize']}/1.3 {f['sans']};font-variant-numeric:tabular-nums;white-space:nowrap;max-width:100%;overflow:hidden}}",
         ".g-chip::before{content:'';position:absolute;inset:-1px;pointer-events:none;"
-        "background:" + ",".join(f"linear-gradient(var(--c),var(--c)) {pos}/{w} {h} no-repeat" for pos in ("left top", "right top", "left bottom", "right bottom") for (w, h) in (("7px", "1px"), ("1px", "7px"))) + "}",
+        "background:" + ",".join(f"linear-gradient(var(--c),var(--c)) {pos}/{w} {h} no-repeat" for pos in ("left top", "right top", "left bottom", "right bottom") for (w, h) in (("7px", "1px"), ("1px", "7px"))).replace("var(--c)", "var(--g-tick)") + "}",
         ".g-chip .g-glyph{color:var(--c);font-size:.85em;line-height:1}",
-        ".g-chip .g-tag{padding-right:8px;border-right:1px solid color-mix(in srgb,var(--c) 35%,transparent)}",
+        ".g-chip .g-tag{padding-right:8px;border-right:1px solid var(--g-border)}",
+        # Restraint (gauntlet 2026-10-30, /proof precedent): at rest only the glyph carries the tone.
+        # Ticks and tag are neutral; a live or focused chip lights them in the tone.
+        ".g-chip{--g-tick:var(--g-text-2);--g-tag:var(--g-text-2)}",
+        ".g-chip[data-live],.g-chip:focus-visible,[data-skin] .g-chip{--g-tick:var(--c);--g-tag:var(--c)}",
         ".g-chip[data-live]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--c)}",
         ".g-glass{position:relative;background:var(--g-panel);border:1px solid var(--g-border);border-radius:3px}",
         ".g-glass::before{content:'';position:absolute;inset:-1px;pointer-events:none;background:" + ",".join(f"linear-gradient(var(--g-text-2),var(--g-text-2)) {pos}/{w} {h} no-repeat" for pos in ("left top", "right top", "left bottom", "right bottom") for (w, h) in (("12px", "1px"), ("1px", "12px"))) + "}",
-        f".g-chip .g-tag{{color:var(--c);font:700 {s['tagSize']}/1 {f['mono']};letter-spacing:.14em;text-transform:uppercase}}",
+        f".g-chip .g-tag{{color:var(--g-tag);font:700 {s['tagSize']}/1 {f['mono']};letter-spacing:.14em;text-transform:uppercase}}",
         # Field material (opt-in, data-skin="field"): recessed well, underlit tone, breathing LED, glass card.
         "[data-skin=\"field\"] .g-chip{border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);background:color-mix(in srgb,var(--c) var(--g-tint),transparent),var(--g-face);"
         "box-shadow:var(--g-well),var(--g-underlit) color-mix(in srgb,var(--c) 30%,transparent)}",
@@ -110,6 +117,51 @@ def ts(spec):
             "export type GrammarMode = keyof typeof grammarChips.modes\n")
 
 
+def _lum(h):
+    h = h.lstrip("#")
+    c = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+    c = [x / 12.92 if x <= .03928 else ((x + .055) / 1.055) ** 2.4 for x in c]
+    return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]
+
+
+def _ratio(a, b):
+    x, y = sorted([_lum(a), _lum(b)])
+    return (y + .05) / (x + .05)
+
+
+def rule_errors(spec):
+    errs = []
+    kit = dict(re.findall(r"(--[a-z0-9-]+):\s*(#[0-9a-fA-F]{6})", (ROOT / "src/ui-kit/recoil-report/_tokens.css").read_text()))
+    glyphs = {}
+    for name, t in spec["tones"].items():
+        if t["kitVar"] in kit and kit[t["kitVar"]].lower() != t["dark"].lower():
+            errs.append(f"tone {name}: dark {t['dark']} != {t['kitVar']} {kit[t['kitVar']]} in _tokens.css")
+        lr = _ratio(t["light"], spec["modes"]["light"]["elevated"])
+        if lr < 4.6:
+            errs.append(f"tone {name}: light {t['light']} is {lr:.2f}:1 on {spec['modes']['light']['elevated']}, floor 4.6")
+        dr = _ratio(t["dark"], spec["modes"]["dark"]["panel"])
+        if dr < 4.5:
+            errs.append(f"tone {name}: dark {t['dark']} is {dr:.2f}:1 on the panel, floor 4.5")
+        if t["glyph"] in glyphs:
+            errs.append(f"glyph {t['glyph']} used by both {glyphs[t['glyph']]} and {name}")
+        glyphs[t["glyph"]] = name
+    # JSX parity: GrammarChip.tsx hand-writes the same texture recipes and tag tracking as the CSS block.
+    tsx = ROOT / "src/ui/GrammarChip.tsx"
+    if tsx.exists():
+        t = tsx.read_text()
+        for needle in ("'30%', '5px'", "'28%', '4px'", "'24%', '4.6px'", "letterSpacing: '0.14em'"):
+            if needle not in t:
+                errs.append(f"GrammarChip.tsx no longer matches the CSS recipe ({needle} missing)")
+    proof = ROOT / "public/proof.html"
+    if proof.exists():
+        ptxt = proof.read_text()
+        for cls, tone in (("shown", "show"), ("on-request", "request"), ("not-yet", "notyet")):
+            m = re.search(r"\.led\." + cls + r"::before\s*\{\s*content:\s*\"(.)\"", ptxt)
+            if m and spec["tones"].get(tone, {}).get("glyph") != m.group(1):
+                errs.append(f"status glyph for {cls} is {m.group(1)} on /proof but {spec['tones'].get(tone, {}).get('glyph')} in the spec")
+    return errs
+
+
 def main():
     check = "--check" in sys.argv
     spec = json.loads(SPEC.read_text())
@@ -121,9 +173,12 @@ def main():
     want_html = block.sub(lambda _: css(spec), html)
     stale = [p for p, want in ((TS, want_ts), (HTML, want_html)) if not p.exists() or p.read_text() != want]
     if check:
+        errs = rule_errors(spec)
+        for e in errs:
+            print("rule:", e)
         for p in stale:
             print(f"stale: {p.relative_to(ROOT)} (run python3 scripts/grammar_chips_emit.py)")
-        sys.exit(1 if stale else 0)
+        sys.exit(1 if stale or errs else 0)
     TS.write_text(want_ts)
     HTML.write_text(want_html)
     print("wrote", TS.relative_to(ROOT), "and", HTML.relative_to(ROOT))

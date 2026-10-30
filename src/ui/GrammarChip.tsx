@@ -66,20 +66,29 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
   const c = s[tone] ?? t[m]
   const f = grammarChips.fidelity[fidelity]
   const sh = grammarChips.shape
-  const texture =
-    f.texture === 'speckle' ? { backgroundImage: `radial-gradient(${pct(c, '30%')} .6px, transparent .8px)`, backgroundSize: '5px 5px' }
-    : f.texture === 'interference' ? { backgroundImage: `repeating-linear-gradient(60deg, ${pct(s.request ?? grammarChips.tones.request[m], '18%')} 0 1px, transparent 1px 4px), repeating-linear-gradient(-60deg, ${pct(s.notyet ?? grammarChips.tones.notyet[m], '14%')} 0 1px, transparent 1px 5px)` }
-    : {}
+  // Texture layers, same recipes as the emitted CSS (speckle; two offset dot grids for moire). Kept as
+  // background layers so they compose with the face instead of being reset by a background shorthand.
+  const dots = (col: string, a: string, size: string) => ({ img: `radial-gradient(${pct(col, a)} .6px, transparent .8px)`, size: `${size} ${size}` })
+  const tex =
+    f.texture === 'speckle' ? [dots(c, '30%', '5px')]
+    : f.texture === 'interference' ? [dots(s.request ?? grammarChips.tones.request[m], '28%', '4px'), dots(s.notyet ?? grammarChips.tones.notyet[m], '24%', '4.6px')]
+    : []
   const d = base.depth
   const pk = grammarChips.skins.pocket[m]
   const pocket = material === 'pocket'
   const led = grammarChips.tones[tone].dark
   const L = grammarChips.led
-  const ticks = (['left top', 'right top', 'left bottom', 'right bottom'] as const).flatMap((p) => [`linear-gradient(${c}, ${c}) ${p} / 7px 1px no-repeat`, `linear-gradient(${c}, ${c}) ${p} / 1px 7px no-repeat`]).join(', ')
-  const hud: React.CSSProperties = { border: `1px solid ${s.border ?? base.border}`, background: `${ticks}, ${s.panel ?? base.panel}`, fontVariantNumeric: 'tabular-nums', ...(live ? { boxShadow: `inset 0 -1px 0 ${c}` } : {}) }
+  // HUD restraint: at rest only the glyph carries the tone; ticks and tag light up when live.
+  const lit = material !== 'hud' || !!live
+  const tick = lit ? c : (s.textSecondary ?? base.textSecondary)
+  const ticks = (['left top', 'right top', 'left bottom', 'right bottom'] as const).flatMap((p) => [`linear-gradient(${tick}, ${tick}) ${p} / 7px 1px no-repeat`, `linear-gradient(${tick}, ${tick}) ${p} / 1px 7px no-repeat`])
+  const layers = (lead: string[], fill: string): React.CSSProperties => ({
+    background: [...lead, ...tex.map((x) => `${x.img} 0 0 / ${x.size}`), fill].join(', '),
+  })
+  const hud: React.CSSProperties = { border: `1px solid ${s.border ?? base.border}`, ...layers(ticks, s.panel ?? base.panel), fontVariantNumeric: 'tabular-nums', ...(live ? { boxShadow: `inset 0 -1px 0 ${c}` } : {}) }
   const face: React.CSSProperties = material === 'hud' ? hud : pocket
-    ? { borderRadius: grammarChips.skins.pocket.radius, border: `1px solid ${pk.keyEdge}`, background: pk.key, boxShadow: pk.keyShadow, padding: '6px 12px 6px 6px' }
-    : { background: `linear-gradient(${pct(c, base.tint)}, ${pct(c, base.tint)}), ${s.panel ?? d.face}`, boxShadow: `${d.well}, ${d.underlit} ${pct(c, '30%')}` }
+    ? { borderRadius: grammarChips.skins.pocket.radius, border: `1px solid ${pk.keyEdge}`, ...layers([], pk.key), boxShadow: pk.keyShadow, padding: '6px 12px 6px 6px' }
+    : { ...layers([`linear-gradient(${pct(c, base.tint)}, ${pct(c, base.tint)})`], s.panel ?? d.face), boxShadow: `${d.well}, ${d.underlit} ${pct(c, '30%')}` }
   const glyph: React.CSSProperties = pocket
     ? { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 3, background: pk.ledWell, boxShadow: pk.ledWellShadow, border: `1px solid ${base.border}`, fontSize: '0.8em', color: led, textShadow: `0 0 6px ${pct(led, '60%')}` }
     : material === 'hud' ? { color: c, fontSize: '0.85em' }
@@ -88,12 +97,12 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
     <span data-tone={tone} data-fidelity={fidelity} style={{
       display: 'inline-flex', alignItems: 'center', gap: sh.gap, padding: `${sh.padY} ${sh.padX}`, maxWidth: '100%',
       borderRadius: sh.radius, border: `1px solid ${pct(c, base.edge)}`,
-      ...texture,
       color: s.text ?? base.text, fontFamily: grammarChips.fonts.sans, fontSize: sh.bodySize, lineHeight: 1.3, whiteSpace: 'nowrap', ...face, ...style,
     }}>
       {live && material === 'field' && <style>{`@keyframes g-led{to{text-shadow:0 0 ${L.glowPeak} currentColor}}@media (prefers-reduced-motion: reduce){[data-g-live]{animation:none!important}}`}</style>}
       <span aria-hidden="true" data-g-live={live ? '' : undefined} style={{ lineHeight: 1, ...glyph, ...(live && material === 'field' ? { animation: `g-led ${L.period} cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate` } : {}) }}>{t.glyph}</span>
-      <span style={{ color: c, fontFamily: grammarChips.fonts.mono, fontSize: sh.tagSize, fontWeight: 700, letterSpacing: '0.12em', lineHeight: 1 }}>{t.tag}</span>
+      <span style={{ color: lit ? c : (s.textSecondary ?? base.textSecondary), fontFamily: grammarChips.fonts.mono, fontSize: sh.tagSize, fontWeight: 700, letterSpacing: '0.14em', lineHeight: 1, textTransform: 'uppercase',
+        ...(material === 'hud' ? { paddingRight: 8, borderRight: `1px solid ${s.border ?? base.border}` } : {}) }}>{t.tag}</span>
       {children != null && <span style={{ whiteSpace: 'normal', fontWeight: f.weight, letterSpacing: f.tracking }}>{children}</span>}
     </span>
   )
