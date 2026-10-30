@@ -81,7 +81,7 @@ page = f'''<style>
   header{{padding:3.2rem 0 .4rem}}
   .mark{{font-size:1.5rem;color:var(--gold)}}
   h1{{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:500;margin:.8rem 0 .3rem;letter-spacing:-.02em}}
-  .sub{{font-size:.88rem;color:var(--sec);max-width:60ch;margin:0}}
+  .sub{{font-size:.88rem;color:var(--sec);max-width:none;margin:0}}
 
   .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1.5rem}}
   .pcard{{position:relative;background:var(--panel);border:1px solid var(--border);border-radius:8px;
