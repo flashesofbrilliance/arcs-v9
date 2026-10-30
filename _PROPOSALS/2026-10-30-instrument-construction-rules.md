@@ -81,7 +81,7 @@ The HUD default that landed in d5b31ae2 (hairline, tone corner ticks, no glow, n
 
 ## Open for Zach
 
-1. Fold the instrument rules into HUD (one look), or keep a separate `instrument` skin for inputs?
+1. DECIDED 2026-10-30 (Zach: "Fold into HUD"): the instrument rules fold into HUD. One look; `skins.pocket` leaves the shared spec.
 2. Rebuild dj.arcs.care's own Pocket skin to these rules, or leave that page as it is?
 3. Before shipping, check the rules marked "prior knowledge" against product photos (encoder colours, legend placement). Should a session pull photos and check them?
 
