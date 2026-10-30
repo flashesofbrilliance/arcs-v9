@@ -92,3 +92,11 @@ The HUD default that landed in d5b31ae2 (hairline, tone corner ticks, no glow, n
 - [teenage.engineering, OP-1 layout guide](https://teenage.engineering/guides/op-1/original/layout) (19 controls in four groups; the colour-coded encoder rule)
 - [shadcn.io, teenage engineering design system](https://www.shadcn.io/design/teenage-engineering) (third party: 1px grey catalogue rules)
 - [blakecrosley.com, Teenage Engineering guide](https://blakecrosley.com/de/guides/design/teenage-engineering) (third party: monospaced type; depth without skeuomorphism)
+
+## Applied, and three conflicts open for Zach (2026-10-30)
+
+The fold into HUD landed in 188a7ba3 on PR 1877 (grammar branch). `skins.pocket` is gone from the spec, the emitter, the specimen and GrammarChip.tsx; Phosphor's own Pocket skin is untouched. Not adopted, because DESIGN.md says otherwise and the Impeccable detector enforces DESIGN.md:
+
+1. **Radius.** This doc says 2px for chips and keys and 4px for panels. DESIGN.md's scale is xs 3px and sm 6px, and 2px tripped the detector earlier today. The spec keeps 3/6. Recommend: keep DESIGN.md (the difference is not visible at chip size).
+2. **Legend tracking.** This doc says 0.08em. DESIGN.md's mono label tiers are 0.12 to 0.16em, so tags stay at 0.14em. Recommend: keep DESIGN.md.
+3. **Field skin LED.** The opt-in field skin still has a breathing glow, which breaks "LED on or off". Recommend: remove the glow and give field the same on/off LED, so no skin breaks the rule.
