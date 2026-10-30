@@ -73,7 +73,9 @@ Grammar: tones say ▲ cyan, show ● green, limit ◆ gold, fail ✕ red, shift
 | Light paper pages | Sanctioned separate world | The grammar already carries a light column for it. |
 | Pocket skin (dj.arcs.care) | Sanctioned world, source of `pocket` material | Not migrated; it lends the material. |
 
-**CONFLICT (Zach decides): same glyphs, different meanings.**
+**CONFLICT, DECIDED by Zach 2026-10-30: option A, the grammar adopts /proof's vocabulary.** ▲ shown (green), ◆ on request (cyan), ~ not yet shown (gold) become grammar tones; on request is now a first-class tone. The grammar session owns the spec change (one owner per branch). The remaining tones keep their meaning but need glyphs that do not reuse ▲ or ◆; that pick goes with the spec change.
+
+Original framing:
 
 | Glyph | Grammar | /proof |
 |---|---|---|
@@ -138,7 +140,7 @@ Gate each step with `token_source_gate`, `artifact_wrap_lint`, `motion_policy_ga
 
 ## Open decisions (Zach)
 
-1. The glyph conflict: option A (the grammar adopts /proof) or option B (/proof adopts the grammar)? Under either, where does "on request" live?
+1. DECIDED 2026-10-30: option A. Follow-up: new glyphs for say and limit so no glyph carries two meanings.
 2. Two token sources (`_tokens.css` and `src/ui/tokens.ts`): emit both from one JSON (recommended), or keep them hand-synced?
 3. Is the pocket material allowed outside dj.arcs.care for input controls on receipts?
 
