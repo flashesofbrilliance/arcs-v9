@@ -180,5 +180,47 @@
     "belief": "B3",
     "delta_pts": -30,
     "would_need": "The vendor agrees to a direct export, so data access stops being the blocker"
-  }
+  },
+  "induced": [
+    {
+      "title": "Scope the March pilot",
+      "jtbd": "Draft the pilot scope and the next-steps email for the March planting window before any send",
+      "beliefs": [
+        "B1"
+      ],
+      "stakes": "high"
+    },
+    {
+      "title": "Ex-ante before the send",
+      "jtbd": "File an ex-ante receipt before the March pilot send",
+      "tool": "scripts/does_not_exist_exante.py",
+      "beliefs": [
+        "B1"
+      ]
+    },
+    {
+      "title": "Map the ops lead",
+      "jtbd": "Prep a pre-call brief for the ops lead who holds the budget",
+      "beliefs": [
+        "B2"
+      ],
+      "stakes": "medium"
+    },
+    {
+      "title": "Data access audit",
+      "jtbd": "Audit what orchard yield data they can share and in what format",
+      "beliefs": [
+        "B3"
+      ],
+      "stakes": "high",
+      "depends_on": [
+        "induced-rowan-vale-made-up-scope-the-march-pilot"
+      ]
+    },
+    {
+      "title": "Show the cascade",
+      "jtbd": "Graph the induced backlog: dependencies, order and what can start now",
+      "tool": "scripts/backlog_graph.py"
+    }
+  ]
 }
