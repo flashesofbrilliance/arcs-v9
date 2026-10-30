@@ -143,7 +143,16 @@ weddings, proposals, birthdays, product launches, and events.
 - Ask me about: agent governance, audit trails for AI work, evals, and
   building with Claude Code at volume.
 
-### Grayscale Investments, Product Lead (2024 to 2025)
+## Career, newest first
+
+Ordered by start year. Mañana is an independent practice that has run
+alongside full-time roles since 2020; the overlap is real, not a gap.
+
+### ARCS, Founder and Builder (2025 to present)
+
+- See [ARCS](#arcs-founder-and-builder-2025-to-present) above.
+
+### Grayscale Investments (Digital Currency Group), Product Lead (2024 to 2025)
 
 - Ran the operating cadence for ten SEC and FINRA regulated digital-asset
   products, a $7B portfolio, across product, engineering, legal, risk, and
@@ -151,24 +160,39 @@ weddings, proposals, birthdays, product launches, and events.
 - Owned release gates across four time zones: cut release-cycle time 35
   percent with zero SEC or FINRA violations.
 
-### Selectable Media, General Manager, Video Ad Network (2010 to 2011)
+### Mañana, Product Partner, independent practice (2020 to present)
+
+- 0-to-1 partner on regulated client work: Axon (first-responder video
+  launch), GoPro (EMEA and APAC growth under GDPR), Verizon Media (five 5G
+  venture assessments), and Twill Health (three AI-enabled product lines
+  tested under HIPAA, two validated, a no-go on the third).
+
+### Squat New York, Head of Product Innovation and Tech Lead (2019 to 2020)
+
+- Sole product and technology partner to the executive team of a PE-backed,
+  $350M ARR medically supervised diet program (Ideal Protein): qualified
+  leads up 40 percent, program adherence at 73 percent.
+  Case study: <https://www.arcs.care/case-study>
+
+### Children's Tumor Foundation, Senior Director, Data and Strategy (2018 to 2019)
+
+- Rebuilt CRM and customer data into one source of truth; net-new revenue up
+  20 percent.
+
+### Women's Tennis Association, Head of Product and Strategic Partnerships (2016 to 2018)
+
+- Real-time fan scoring under 120 milliseconds; first commercial data
+  partnerships with Twitter and Facebook, $850K in year one.
+
+### IBRShop, Co-founder and EVP, eCommerce (2012 to 2016)
+
+- Grew a direct-to-consumer brand from zero to profitability and more than
+  $2M revenue in 24 months.
+
+### Selectable Media (acquired by Meredith), General Manager, Video Ad Network (2010 to 2011)
 
 - Grew revenue from $4,500 to more than $1M a month with Fortune 500
   advertisers and expanded net operating margin by 25 percent.
-
-### Earlier
-
-- Mañana (independent practice, 2020 to present): 0-to-1 partner on regulated
-  client work, including Axon, GoPro, Verizon Media, and Twill Health.
-- Squat New York (2019 to 2020): sole product and technology partner to the
-  executive team of a PE-backed, $350M ARR behavioral health client.
-- Children's Tumor Foundation (2018 to 2019): rebuilt CRM and customer data
-  into one source of truth; net-new revenue up 20 percent.
-- Women's Tennis Association (2016 to 2018): real-time fan scoring under 120
-  milliseconds; first data partnerships with Twitter and Facebook, $850K in
-  year one.
-- IBRShop (2012 to 2016): co-founded a direct-to-consumer brand; zero to
-  profitability and more than $2M revenue in 24 months.
 
 ## Contact
 
