@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 301,
+  "rows": 302,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 242,
+   "product page": 243,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 11,
+  "missing_purpose": 12,
   "unlisted": 119
  },
  "retired_hosts": [
@@ -1351,7 +1351,7 @@
    "unlisted": true,
    "purpose": "Zach Harris for CIA",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "cia.arcs.care",
@@ -4916,7 +4916,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "robin-codex.arcs.care",
