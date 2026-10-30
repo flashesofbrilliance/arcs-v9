@@ -882,6 +882,33 @@
         ],
         "createdAt": "2026-10-17T22:00:00.000Z",
         "reason": "The studio's Type controls exist to try poster typefaces (Anton, Archivo Black, Bowlby One, Playfair Display, Space Mono) on a print; the faces are user-selectable content of the instrument, not the page's own typography, which stays on the DESIGN.md stack"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "src/ui-kit/grammar-chips/chips.html"
+        ],
+        "createdAt": "2026-10-30T15:00:00.000Z",
+        "reason": "Claim chip grammar specimen: light mode is the sanctioned Light paper world (DESIGN.md, Sanctioned Visual Worlds); every signal is at least 4.6:1 on #e9eef4, measured. Dark mode reads _tokens.css by name. Values live in runtime/specs/grammar-chips.json."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "mono",
+        "files": [
+          "src/ui-kit/grammar-chips/chips.html"
+        ],
+        "createdAt": "2026-10-30T15:05:00.000Z",
+        "reason": "Claim chip grammar specimen: mono is DESIGN.md's instrument voice (JetBrains Mono for chip tags and section labels, 'mono for instruments, sans for reading'); the detector's typography parse does not list it. Inherits src/ui-kit/recoil-report/_tokens.css verbatim."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "src/ui-kit/grammar-chips/chips.html"
+        ],
+        "createdAt": "2026-10-30T15:40:00.000Z",
+        "reason": "Claim chip grammar specimen: the glow is the underlit LED of the @arcs/theme grammar (ChipToggle, 'underlit-LED glow, never ambient neon') and the Phosphor Pocket skin LED tiles; it marks tone state only, Zach asked for the skeuomorphic depth on 2026-10-30."
       }
     ]
   },

@@ -486,6 +486,18 @@ if [ -f scripts/motion_policy_gate.py ] && command -v python3 >/dev/null 2>&1; t
   fi
 fi
 
+# Claim chip grammar (2026-10-30): runtime/specs/grammar-chips.json is the source; the JSX tokens and the
+# specimen CSS are emitted from it. --check fails on drift, on a tone below its contrast floor, on a dark
+# tone that differs from _tokens.css, on a reused glyph, and on status glyphs that differ from /proof.
+if [ -f scripts/grammar_chips_emit.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(runtime/specs/grammar-chips\.json|scripts/grammar_chips_emit\.py|src/ui/grammarChipTokens\.ts|src/ui/GrammarChip\.tsx|src/ui-kit/grammar-chips/|src/ui-kit/recoil-report/_tokens\.css|public/proof\.html)'; then
+    if ! python3 scripts/grammar_chips_emit.py --check; then
+      echo "✖ commit blocked: chip grammar check (see above). Edit runtime/specs/grammar-chips.json, then run python3 scripts/grammar_chips_emit.py." >&2
+      exit 1
+    fi
+  fi
+fi
+
 # Phosphor build (2026-10-17): _ARTIFACTS/phosphor.html is built from _ARTIFACTS/phosphor-src/ by
 # scripts/phosphor_build.py. A commit that touches either side must leave them in agreement.
 if [ -f scripts/phosphor_build.py ] && command -v python3 >/dev/null 2>&1; then
