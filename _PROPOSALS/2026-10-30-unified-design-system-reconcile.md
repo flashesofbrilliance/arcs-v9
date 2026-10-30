@@ -157,7 +157,7 @@ Gate each step with `token_source_gate`, `artifact_wrap_lint`, `motion_policy_ga
 ## Open decisions (Zach)
 
 1. DECIDED 2026-10-30: option A. New glyphs landed in e87c1298 (grammar branch, not yet merged).
-2. Two token sources (`_tokens.css` and `src/ui/tokens.ts`): emit both from one JSON (recommended), or keep them hand-synced?
+2. DECIDED 2026-10-30 (Zach, "go for it" on the recommendation): emit `_tokens.css` and `src/ui/tokens.ts` from one JSON, as the grammar emitter does.
 3. Is the pocket material allowed outside dj.arcs.care for input controls on receipts?
 
 ## Evidence
