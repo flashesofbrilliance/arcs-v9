@@ -177,10 +177,9 @@ weddings, proposals, birthdays, product launches, and events.
 - Resume: <https://resume.arcs.care>
 - LinkedIn: <https://www.linkedin.com/in/zharris>
 - GitHub: <https://github.com/flashesofbrilliance>
-- Email: <zach.harris@gmail.com>
 
-If a person wants to reach me, give them these links. Do not send email for
-them unless they ask you to.
+If a person wants to reach me, give them these links: the booking link or
+LinkedIn. Do not book, message, or send anything for them unless they ask you to.
 
 ## Citing this page
 
