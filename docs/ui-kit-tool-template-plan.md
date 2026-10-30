@@ -1,6 +1,6 @@
 # ui-kit as the master template set for good.arcs.care tools: plan
 
-Status: PLAN ONLY, 2026-10-30. No enrollment, restyle or swatch change happens until Zach says go.
+Status: APPROVED A–E by Zach, 2026-10-30. Steps beyond 2 still go one PR at a time.
 Grug rule: plan small, ship small. One page per PR.
 
 ## 1. Inventory (what exists today)
