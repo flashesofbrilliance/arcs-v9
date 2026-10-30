@@ -54,10 +54,11 @@ test("next.config: catch-all rewrites exclude machine paths", () => {
 test("resume.arcs.care/proof: proxy routes the ledger and the catch-all lets it through", async () => {
   assert.equal(rewritten(await proxy(req("resume.arcs.care", "/proof"))), "/proof.html")
   assert.equal(rewritten(await proxy(req("resume.arcs.care", "/proof/claims.json"))), "/proof-claims.json")
+  assert.equal(rewritten(await proxy(req("resume.arcs.care", "/index.md"))), "/resume-index.txt")
   assert.equal(rewritten(await proxy(req("resume.arcs.care", "/anything"))), "/resume.html")
   const src = readFileSync(new URL("../../next.config.ts", import.meta.url), "utf8")
   const m = src.match(/\{ source: "\/:path\(\(\?!(.*?)\)\.\*\)", destination: "\/resume\.html", has: \[\{ type: "host", value: "resume\.arcs\.care" \}\] \}/)
   assert.ok(m, "resume catch-all not found")
   const re = new RegExp(`^(?!${m[1].replace(/\\\\/g, "\\")}).*$`)
-  for (const p of ["proof.html", "proof-claims.json"]) assert.ok(!re.test(p), `resume catch-all would re-catch /${p}`)
+  for (const p of ["proof.html", "proof-claims.json", "resume-index.txt"]) assert.ok(!re.test(p), `resume catch-all would re-catch /${p}`)
 })

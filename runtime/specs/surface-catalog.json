@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 301,
+  "rows": 302,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 242,
+   "product page": 243,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 11,
+  "missing_purpose": 12,
   "unlisted": 119
  },
  "retired_hosts": [
@@ -4841,7 +4841,7 @@
    "host": "resume.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!google|proof|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!google|proof|resume-index|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/resume.html",
    "pattern": false,
    "file": "public/resume.html",
@@ -4898,6 +4898,26 @@
    "purpose": "Zach Harris · Resume",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "resume.arcs.care",
+   "path": "/index.md",
+   "catch_all": false,
+   "destination": "/resume-index.txt",
+   "pattern": false,
+   "file": "public/resume-index.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "robin-codex.arcs.care",
@@ -6052,7 +6072,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "zach.md",
@@ -6072,7 +6092,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "zach.md",
@@ -6092,7 +6112,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "*",
