@@ -63,12 +63,12 @@
 <p>2025→</p>
 <p>GRAYSCALE</p>
 <p>2024–25</p>
+<p>CONSULTING ↓</p>
+<p>2019–23</p>
 <p>CTF</p>
 <p>2018–19</p>
 <p>WTA</p>
 <p>2016–18</p>
-<p>CONSULTING ↓</p>
-<p>2019–24</p>
 <p>◈ARCS · DECISION INTELLIGENCE PLATFORM</p>
 <p>2025–Present</p>
 <p>Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and a scoring loop that closes each decision against its recorded outcome. Built solo and in the open: 5,300+ commits in 195 days.</p>
@@ -114,14 +114,6 @@
 <p>"How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously, and what does the pre/post-event capture loop look like?"</p>
 <p>02</p>
 <p>SELECT CONSULTING WORK</p>
-<p>◉SQUAT NEW YORK</p>
-<p>Behavioral Health · 2019–20</p>
-<p>Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition; sole tech partner from discovery through QA and handoff.</p>
-<p>7-FIG</p>
-<p>ENGAGEMENT VALUE · $350M ARR CLIENT</p>
-<p>Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul</p>
-<p>Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI</p>
-<p>Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule</p>
 <p>⬡AXON ENTERPRISES</p>
 <p>GovTech · Jun–Dec 2023</p>
 <p>New venture incubation: product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP.</p>
@@ -136,13 +128,6 @@
 <p>AI HEALTH PRODUCT LINES VALIDATED</p>
 <p>Conducted market viability testing for 3 AI-enabled digital health lines; KPI frameworks informed go-forward decisions on 2 of 3</p>
 <p>Validated commercial strategy with primary research and brand health studies in HIPAA-regulated context</p>
-<p>◬GOPRO</p>
-<p>Consumer Tech · Aug 2020–Dec 2021</p>
-<p>Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.</p>
-<p>EMEA/APAC</p>
-<p>INTERNATIONAL GROWTH STRATEGY</p>
-<p>Designed analytics framework for EMEA/APAC international growth initiatives</p>
-<p>Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution</p>
 <p>⊕VERIZON MEDIA</p>
 <p>Moonshot Strategy · Jan–Dec 2021</p>
 <p>Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.</p>
@@ -150,6 +135,21 @@
 <p>5G INNOVATION VENTURES ASSESSED</p>
 <p>Quantitative opportunity assessments for five 5G innovation products; market sizing and competitive analysis</p>
 <p>Analyzed market trends to recommend go/no-go decisions on venture investments</p>
+<p>◬GOPRO</p>
+<p>Consumer Tech · Aug 2020–Dec 2021</p>
+<p>Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.</p>
+<p>EMEA/APAC</p>
+<p>INTERNATIONAL GROWTH STRATEGY</p>
+<p>Designed analytics framework for EMEA/APAC international growth initiatives</p>
+<p>Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution</p>
+<p>◉SQUAT NEW YORK</p>
+<p>Behavioral Health · 2019–20</p>
+<p>Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition; sole tech partner from discovery through QA and handoff.</p>
+<p>7-FIG</p>
+<p>ENGAGEMENT VALUE · $350M ARR CLIENT</p>
+<p>Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul</p>
+<p>Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI</p>
+<p>Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule</p>
 <p>03</p>
 <p>SKILLS</p>
 <p>TYPESCRIPT</p>
@@ -533,13 +533,10 @@ function Steps({ labels, current }) {
   );
 }
 
-// ── Role tab bar — ARCS / GRAYSCALE / CTF / WTA / CONSULTING ─────────────────
+// ── Role tab bar — ARCS / GRAYSCALE / CONSULTING / CTF / WTA ─────────────────
 function RoleTabs({ selectedNode, onSelect, onSelectClient, onConsultingScroll }) {
   const [hovered, setHovered] = useState(null);
-  return (
-    <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}` }}>
-      {/* FT role tabs */}
-      {TRAJ.map(n => {
+  const roleTab = (n) => {
         const role  = ROLES.find(r => r.id === n.roleId);
         const color = role?.color || T.steel;
         const active = selectedNode === n.id;
@@ -564,27 +561,35 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient, onConsultingScroll }
             </span>
           </button>
         );
-      })}
-      {/* CONSULTING tab — scrolls to section 02; never reshapes section 01 */}
-      <button type="button"
-        onClick={onConsultingScroll}
-        onMouseEnter={() => setHovered('consulting')}
-        onMouseLeave={() => setHovered(null)}
-        style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
-          padding:'10px 4px 7px', background:'transparent', border:'none',
-          borderBottom:'2px solid transparent',
-          marginBottom:-1, cursor:'pointer', transition:'all .15s',
-          opacity: 1 }}>
-        <span style={{ fontFamily:T.mono, fontSize:11, fontWeight:700, letterSpacing:'0.06em',
-          color: hovered==='consulting' ? T.fg1 : T.fg3,
-          transition:'color .15s', whiteSpace:'nowrap' }}>
-          CONSULTING ↓
-        </span>
-        <span style={{ fontFamily:T.mono, fontSize:11, color:T.fg4,
-          letterSpacing:'0.02em', marginTop:3, whiteSpace:'nowrap' }}>
-          2019–24
-        </span>
-      </button>
+  };
+  // CONSULTING tab: scrolls to section 02; never reshapes section 01
+  const consultingTab = (
+        <button type="button"
+          onClick={onConsultingScroll}
+          onMouseEnter={() => setHovered('consulting')}
+          onMouseLeave={() => setHovered(null)}
+          style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
+            padding:'10px 4px 7px', background:'transparent', border:'none',
+            borderBottom:'2px solid transparent',
+            marginBottom:-1, cursor:'pointer', transition:'all .15s',
+            opacity: 1 }}>
+          <span style={{ fontFamily:T.mono, fontSize:11, fontWeight:700, letterSpacing:'0.06em',
+            color: hovered==='consulting' ? T.fg1 : T.fg3,
+            transition:'color .15s', whiteSpace:'nowrap' }}>
+            CONSULTING ↓
+          </span>
+          <span style={{ fontFamily:T.mono, fontSize:11, color:T.fg4,
+            letterSpacing:'0.02em', marginTop:3, whiteSpace:'nowrap' }}>
+            2019–23
+          </span>
+        </button>
+  );
+  // Newest first by start year: ARCS 2025, GRAYSCALE 2024, CONSULTING 2019, CTF 2018, WTA 2016
+  return (
+    <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}` }}>
+      {TRAJ.slice(0, 2).map(roleTab)}
+      {consultingTab}
+      {TRAJ.slice(2).map(roleTab)}
     </div>
   );
 }
@@ -706,14 +711,6 @@ const TRAJ = [
 
 // ── Consulting clients — shown via dropdown picker on the 5th pseudo-tab ─────
 const CONSULTING_CLIENTS = [
-  { id:'squat',   glyph:'◉', label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
-    summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition; sole tech partner from discovery through QA and handoff.',
-    metric:'7-FIG', metricLabel:'ENGAGEMENT VALUE · $350M ARR CLIENT',
-    bullets:[
-      { t:'Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul', v:['all','ds'] },
-      { t:'Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI', v:['all','ds'] },
-      { t:'Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule', v:['all'] },
-    ] },
   { id:'axon',    glyph:'⬡', label:'Axon Enterprises',  dates:'Jun–Dec 2023', domain:'GovTech',
     summary:'New venture incubation: product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP.',
     metric:'MVP', metricLabel:'SECURE OTT PLATFORM',
@@ -728,20 +725,27 @@ const CONSULTING_CLIENTS = [
       { t:'Conducted market viability testing for 3 AI-enabled digital health lines; KPI frameworks informed go-forward decisions on 2 of 3', v:['all','ds'] },
       { t:'Validated commercial strategy with primary research and brand health studies in HIPAA-regulated context', v:['all','ds'] },
     ] },
-  { id:'gopro',   glyph:'◬', label:'GoPro',             dates:'Aug 2020–Dec 2021', domain:'Consumer Tech',
-    summary:'Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.',
-    metric:'EMEA/APAC', metricLabel:'INTERNATIONAL GROWTH STRATEGY',
-    bullets:[
-      { t:'Designed analytics framework for EMEA/APAC international growth initiatives', v:['all','ds'] },
-      { t:'Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution', v:['all','ds'] },
-    ] },
   { id:'verizon', glyph:'⊕', label:'Verizon Media',      dates:'Jan–Dec 2021', domain:'Moonshot Strategy',
     summary:'Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.',
     metric:'5', metricLabel:'5G INNOVATION VENTURES ASSESSED',
     bullets:[
       { t:'Quantitative opportunity assessments for five 5G innovation products; market sizing and competitive analysis', v:['all','ds'] },
       { t:'Analyzed market trends to recommend go/no-go decisions on venture investments', v:['all','ds'] },
+    ] },  { id:'gopro',   glyph:'◬', label:'GoPro',             dates:'Aug 2020–Dec 2021', domain:'Consumer Tech',
+    summary:'Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.',
+    metric:'EMEA/APAC', metricLabel:'INTERNATIONAL GROWTH STRATEGY',
+    bullets:[
+      { t:'Designed analytics framework for EMEA/APAC international growth initiatives', v:['all','ds'] },
+      { t:'Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution', v:['all','ds'] },
     ] },
+  { id:'squat',   glyph:'◉', label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
+    summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition; sole tech partner from discovery through QA and handoff.',
+    metric:'7-FIG', metricLabel:'ENGAGEMENT VALUE · $350M ARR CLIENT',
+    bullets:[
+      { t:'Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul', v:['all','ds'] },
+      { t:'Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI', v:['all','ds'] },
+      { t:'Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule', v:['all'] },
+    ] }
 ];
 
 // ── True North content per focus view ────────────────────────────────────────
