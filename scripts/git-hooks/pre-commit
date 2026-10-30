@@ -362,6 +362,21 @@ if [ -n "$rr" ] && [ -f tools/recoil-report/design_check.py ] && command -v pyth
   fi
 fi
 
+# retired-grey guard (2026-10-30, debt renderers-carry-old-greys-and-sizes): #64748b and
+# #475569 fail AA as text on the dark surfaces (scripts/design_debt_sweep.py RETIRED map).
+# The served-page ratchet stops a regenerated page from regressing, but a renderer that
+# still emits them re-seeds the debt. Block any staged script that carries them, except the
+# two tools that name them on purpose (the sweep's codemod map and the contrast ratchet docs).
+rg=$(git diff --cached --name-only --diff-filter=ACM -- 'scripts/*.py' 'scripts/*.mjs' 'tools/**/*.py' 2>/dev/null | grep -vE 'scripts/(design_debt_sweep|nftt_contrast_ratchet)\.py$' || true)
+if [ -n "$rg" ]; then
+  hits=$(echo "$rg" | tr '\n' '\0' | xargs -0 grep -nEi '#(64748b|475569)\b' 2>/dev/null || true)
+  if [ -n "$hits" ]; then
+    echo "$hits" >&2
+    echo "✖ commit blocked: a renderer emits a retired grey (#64748b -> #8391a7, #475569 -> #7a8699)." >&2
+    exit 1
+  fi
+fi
+
 # gutter-consistency guard: in the recoil-report page template, header/footer horizontal
 # padding drifting from the body `.pad` gutter (44px vs 40px) indents every header/footer
 # element a few px inward of the body -- a left edge that lies about its lane, invisible to
