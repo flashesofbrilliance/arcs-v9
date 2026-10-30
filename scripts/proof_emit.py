@@ -35,6 +35,7 @@ TOKENS = os.path.join(ROOT, "src/ui-kit/recoil-report/_tokens.css")
 OUT_HTML = os.path.join(ROOT, "public/proof.html")
 OUT_JSON = os.path.join(ROOT, "public/proof-claims.json")
 STATUS_LABEL = {"shown": "shown", "on-request": "on request", "not-yet": "not yet shown"}
+GLYPH = {"shown": "\u25b2", "on-request": "\u25c6", "not-yet": "~"}  # kit Y-state glyphs: clarity ridge, locked, tilde
 
 e = lambda s: html.escape(str(s), quote=True)
 
@@ -64,7 +65,7 @@ def render(d, ledger, tokens):
     total = len(claims)
 
     def pips(cs):
-        return "".join(f'<i class="pip {c["status"]}" aria-hidden="true"></i>' for c in cs)
+        return "".join(f'<i class="pip {c["status"]}" aria-hidden="true">{GLYPH[c["status"]]}</i>' for c in cs)
 
     def claim_html(c):
         rec = ""
@@ -77,15 +78,17 @@ def render(d, ledger, tokens):
         link = (f'<p class="ref">record: <a href="{e(c["url"])}">{e(c["label"])}</a></p>' if c.get("url")
                 else f'<p class="ref">{e(d["statuses"][c["status"]])}</p>')
         return (f'<details class="claim z2" data-status="{e(c["status"])}"><summary>'
-                f'<span class="led {e(c["status"])}">{e(STATUS_LABEL[c["status"]])}</span>'
-                f'<span class="claim-text">{e(c["claim"])}</span><span class="date">{e(c["date"])}</span>'
+                f'<span class="meta"><span class="led {e(c["status"])}">{e(STATUS_LABEL[c["status"]])}</span>'
+                f'<span class="date">{e(c["date"])}</span></span>'
+                f'<span class="claim-text">{e(c["claim"])}</span>'
                 f'</summary><div class="record z3"><p>{e(c["evidence"])}</p>{rec}{link}</div></details>')
 
     qs = ""
+    nq = len(d["questions"])
     for i, q in enumerate(d["questions"], 1):
-        qs += (f'<details class="q z1" id="{e(q["id"])}"><summary><span class="qn">0{i}</span>'
-               f'<span class="qa"><span class="ask">{e(q["ask"])}</span><span class="answer">{e(q["answer"])}</span></span>'
-               f'<span class="pips">{pips(q["claims"])}</span></summary>'
+        qs += (f'<details class="q z1" id="{e(q["id"])}"><summary>'
+               f'<span class="meta"><span class="qn">{i:02d} / {nq:02d}</span><span class="pips">{pips(q["claims"])}</span></span>'
+               f'<span class="ask">{e(q["ask"])}</span><span class="answer">{e(q["answer"])}</span></summary>'
                f'<div class="claims">{"".join(claim_html(c) for c in q["claims"])}</div></details>')
 
     lede = (f"Every claim below links to the record behind it. Where the record is private it says so, and "
@@ -126,17 +129,25 @@ a:hover, a:focus-visible {{ text-decoration: underline; }}
 .section-label {{ font-family: var(--ds-font-mono); font-size: var(--fs-meta); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }}
 .ref {{ font-family: var(--ds-font-mono); font-size: var(--fs-meta); letter-spacing: 0.04em; color: var(--dimmed); }}
 .led {{ display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-meta); letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); white-space: nowrap; }}
-.led::before {{ content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex: none; }}
-.led.shown::before, .pip.shown {{ background: var(--green); }}
-.led.on-request::before, .pip.on-request {{ background: var(--cyan); }}
-.led.not-yet::before, .pip.not-yet {{ background: var(--gold); }}
+/* status glyphs from the kit's Y-state vocabulary (src/ui/tokens.ts yWeather; DESIGN.md: the tilde is the honesty marker):
+   shown = ▲ clarity ridge, on request = ◆ locked, not yet shown = ~ fog, admitted. Shape carries the state, not color alone. */
+.led::before, .pip {{ font-family: var(--ds-font-mono); font-style: normal; line-height: 1; flex: none; }}
+.led::before {{ font-size: var(--fs-meta); }}
+.led.shown::before {{ content: "▲"; }}
+.led.shown::before, .pip.shown {{ color: var(--green); }}
+.led.on-request::before {{ content: "◆"; }}
+.led.on-request::before, .pip.on-request {{ color: var(--cyan); }}
+.led.not-yet::before {{ content: "~"; }}
+.led.not-yet::before, .pip.not-yet {{ color: var(--gold); font-weight: 700; }}
 
 /* z0: the 5-second card */
-.card {{ border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); padding: 28px 24px; }}
+.card {{ border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); padding: 32px 24px 28px; text-align: center; }}
 h1 {{ font-family: var(--ds-font-mono); font-size: var(--fs-display); font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; margin: 10px 0 14px; }}
 .lede {{ font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height: 1.5; max-width: none; }}
-.score {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }}
+.score {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }}
 .score b {{ display: block; font-family: var(--ds-font-mono); font-size: var(--fs-display); line-height: 1.1; color: var(--text); }}
+.score > div {{ display: flex; flex-direction: column; align-items: center; padding: 0 8px; }}
+.score > div + div {{ border-left: 1px solid var(--border); }}
 .score .led {{ margin-top: 6px; white-space: normal; }}
 .hint {{ margin: 28px 0 12px; display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }}
 .hint button {{ background: none; border: 0; color: var(--accent); font: inherit; cursor: pointer; }}
@@ -146,26 +157,26 @@ details > summary {{ list-style: none; cursor: pointer; }}
 details > summary::-webkit-details-marker {{ display: none; }}
 .q {{ border-top: 1px solid var(--border); }}
 .q:last-of-type {{ border-bottom: 1px solid var(--border); }}
-.q > summary {{ display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 12px; align-items: start; padding: 18px 4px; }}
+.q > summary {{ display: flex; flex-direction: column; gap: 4px; padding: 18px 0; }}
+.meta {{ display: flex; justify-content: space-between; align-items: center; gap: 12px; }}
 .q > summary:hover .ask {{ color: var(--accent); }}
-.qn {{ font-family: var(--ds-font-mono); font-size: var(--fs-meta); color: var(--muted); padding-top: 4px; }}
-.qa {{ display: flex; flex-direction: column; gap: 2px; }}
+.qn {{ font-family: var(--ds-font-mono); font-size: var(--fs-meta); color: var(--muted); }}
 .ask {{ font-weight: 600; font-size: var(--fs-headline); line-height: 1.35; transition: color var(--dur-fast, 120ms); }}
 .answer {{ color: var(--text-secondary); }}
-.pips {{ display: flex; gap: 4px; padding-top: 8px; }}
-.pip {{ width: 6px; height: 6px; border-radius: 50%; display: block; }}
+.pips {{ display: flex; gap: 4px; }}
+.pip {{ display: block; font-size: var(--fs-meta); }}
 .q[open] > summary .ask {{ color: var(--accent); }}
 
 /* z2: claims */
-.claims {{ padding: 0 0 18px 2.2rem; display: flex; flex-direction: column; gap: 8px; }}
+.claims {{ padding: 0 0 18px; display: flex; flex-direction: column; gap: 8px; }}
 .claim {{ border: 1px solid var(--border); border-radius: var(--ds-r-sm); background: var(--surface); }}
-.claim > summary {{ display: grid; grid-template-columns: 8.5rem 1fr auto; gap: 12px; align-items: baseline; padding: 12px 14px; }}
+.claim > summary {{ display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; }}
 .claim > summary:hover {{ background: var(--surface-2); }}
 .claim[open] {{ border-color: var(--text-secondary); }}
 .date {{ font-family: var(--ds-font-mono); font-size: var(--fs-meta); color: var(--muted); white-space: nowrap; }}
 
 /* z3: the record */
-.record {{ padding: 4px 14px 16px calc(8.5rem + 26px); display: flex; flex-direction: column; gap: 10px; color: var(--text-secondary); }}
+.record {{ padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; color: var(--text-secondary); }}
 .entries {{ list-style: none; display: flex; flex-direction: column; gap: 10px; }}
 .entry {{ border-left: 2px solid var(--gold); padding: 2px 0 2px 12px; }}
 .entry b {{ color: var(--text); font-weight: 600; }}
@@ -174,14 +185,12 @@ details > summary::-webkit-details-marker {{ display: none; }}
 @keyframes zoom-in {{ from {{ opacity: 0; transform: translateY(-4px) scale(0.99); }} to {{ opacity: 1; transform: none; }} }}
 @media (prefers-reduced-motion: reduce) {{ .z1[open] > .claims, .z2[open] > .record {{ animation: none; }} }}
 
-footer {{ margin-top: 28px; display: flex; flex-wrap: wrap; gap: 4px 16px; }}
-footer a {{ display: inline-block; padding: 14px 4px; min-width: 44px; text-decoration: underline; text-underline-offset: 3px; }}
-@media (max-width: 640px) {{
-  .claims {{ padding-left: 0; }}
-  .claim > summary {{ grid-template-columns: 1fr auto; }}
-  .claim > summary .led {{ grid-column: 1 / -1; }}
-  .record {{ padding-left: 14px; }}
+@media (max-width: 480px) {{
+  .score .led {{ flex-direction: column; gap: 4px; text-align: center; }}
+  .hint {{ flex-direction: column; align-items: flex-start; gap: 6px; }}
 }}
+footer {{ margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; }}
+footer a {{ display: inline-block; padding: 14px 4px; min-width: 44px; text-decoration: underline; text-underline-offset: 3px; }}
 @media print {{ details > * {{ display: block !important; }} }}
 </style>
 </head>
