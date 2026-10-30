@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0",
+  "version": "0.5.1",
   "about": "One visual grammar for claim chips (README to video, receipts, briefs). Source of truth: scripts/grammar_chips_emit.py writes src/ui/grammarChipTokens.ts and the CSS block in src/ui-kit/grammar-chips/chips.html from this file. Values come from DESIGN.md (dark: obsidian world; light: Light paper world, every signal at least 4.6:1 on #e9eef4). Dark mode reads the kit tokens (src/ui-kit/recoil-report/_tokens.css, inlined verbatim into the HTML) by name; the hex values here mirror them for JSX.",
   "tones": {
     "say": {
@@ -167,17 +167,10 @@
     "Fidelity sets the body text weight and tracking (the WORLD.md render scale); the mono tag holds at 700. Text stays at full opacity at every fidelity; fog shows through weight, tracking and texture (WORLD.md, 2026-10-11).",
     "A claim strip that holds a SAY chip and no LIMIT chip, where the source has a caveat, renders the FAIL state (rule R5).",
     "Signal color tints border, tag and glyph only; the body text stays in the mode's text color.",
-    "Depth: HUD (instrument rules) by default: a solid key face with an inset top highlight and key lip, hairline and corner ticks, no glow, no gradient, no blurred or cast shadow. The field skin is the only opt-in exception."
+    "Depth: HUD (instrument rules) by default: a solid key face with an inset top highlight and key lip, hairline and corner ticks, no glow, no gradient, no blurred or cast shadow. The field skin keeps an inset well and underlit tone; its LEDs are on or off like HUD, with no glow."
   ],
-  "led": {
-    "about": "A slow underlit LED in the glyph, like a hardware status light. Only data-live chips pulse. The pulse moves glow radius, not opacity, over 2x --dur-sweep (3s per breath, well under --mo-flash-max), and stops under reduced motion.",
-    "period": "3000ms",
-    "glowRest": "3px",
-    "glowPeak": "8px",
-    "alpha": "45%"
-  },
   "skins": {
-    "about": "Zach, 2026-10-30, 'Fold into HUD': one look. HUD is the default and follows the instrument construction rules (_PROPOSALS/2026-10-30-instrument-construction-rules.md): 4px unit, solid key face one step lighter than the deck, no gradient, no blurred shadow, only an inset top highlight and an inset key lip, one hairline frame per panel and none on items inside it, tone colour only on glyph, tag, corner ticks and the LED, a 6px LED that is on or off and blinks at 1 Hz when live (stopped under reduced motion), tabular numbers, press = translateY(1px). 'field' (opt-in) remains for hardware-feel surfaces. The Pocket skin left the shared spec; dj.arcs.care keeps its own Pocket skin until Zach decides."
+    "about": "Zach, 2026-10-30, 'Fold into HUD': one look. HUD is the default and follows the instrument construction rules (_PROPOSALS/2026-10-30-instrument-construction-rules.md): 4px unit, solid key face one step lighter than the deck, no gradient, no blurred shadow, only an inset top highlight and an inset key lip, one hairline frame per panel and none on items inside it, tone colour only on glyph, tag, corner ticks and the LED, a 6px LED that is on or off and blinks at 1 Hz when live (stopped under reduced motion), tabular numbers, press = translateY(1px). 'field' (opt-in) keeps its recessed well and underlit tone for hardware-feel surfaces, but its LEDs follow HUD: on or off, live blinks at 1 Hz (Zach, 2026-10-30, 'Yes, all three': no breathing glow). The Pocket skin left the shared spec; dj.arcs.care keeps its own Pocket skin until Zach decides."
   },
   "instrument": {
     "dark": {
@@ -195,6 +188,6 @@
       "blink": "1000ms",
       "duty": "50%"
     },
-    "radiusNote": "The rules doc proposes 2px chips and 4px panels; DESIGN.md's scale is xs 3px and sm 6px and the detector enforces it, so the spec keeps 3px and 6px until Zach rules."
+    "radiusNote": "Zach, 2026-10-30: keep DESIGN.md's scale, 3px chips and 6px panels (not the doc's 2px/4px); tag tracking stays 0.14em."
   }
 }

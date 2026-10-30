@@ -50,9 +50,9 @@ export interface GrammarChipProps {
   mode?: GrammarMode | 'auto'
   skin?: GrammarSkin
   muiTheme?: MuiThemeLike
-  // 'hud' = the instrument look (default): solid key face, hairline, tone corner ticks, a 6px LED, no glow; 'field' = recessed well, underlit
+  // 'hud' = the instrument look (default): solid key face, hairline, tone corner ticks, a 6px LED, no glow; 'field' = recessed well, underlit tone, same LED
   material?: 'hud' | 'field'
-  // a status light that breathes (glow radius, not opacity; stops under reduced motion)
+  // a 6px status LED that blinks at 1 Hz (stops under reduced motion); on or off, never a glow
   live?: boolean
   // a verdict chip announces itself when it changes (role=status, polite)
   verdict?: boolean
@@ -77,7 +77,6 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
     : []
   const d = base.depth
   const ins = grammarChips.instrument[m]
-  const L = grammarChips.led
   // HUD restraint: at rest only the glyph carries the tone; ticks and tag light up when live.
   const lit = material !== 'hud' || !!live
   const tick = lit ? c : (s.textSecondary ?? base.textSecondary)
@@ -90,20 +89,19 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
     : { ...layers([`linear-gradient(${pct(c, base.tint)}, ${pct(c, base.tint)})`], s.panel ?? d.face), boxShadow: `${d.well}, ${d.underlit} ${pct(c, '30%')}` }
   const ledSize = grammarChips.instrument.led.size
   const glyph: React.CSSProperties = material === 'hud' ? { color: c, fontSize: '0.85em' }
-    : { color: c, textShadow: `0 0 ${L.glowRest} ${pct(c, L.alpha)}` }
+    : { color: c }
   return (
     <span data-tone={tone} data-fidelity={fidelity} role={verdict ? 'status' : undefined} style={{
       position: 'relative', display: 'inline-flex', alignItems: 'center', gap: sh.gap, padding: `${sh.padY} ${sh.padX}`, maxWidth: '100%',
       borderRadius: sh.radius, border: `1px solid ${pct(c, base.edge)}`,
       color: s.text ?? base.text, fontFamily: grammarChips.fonts.sans, fontSize: sh.bodySize, lineHeight: 1.3, whiteSpace: 'nowrap', ...face, ...style,
     }}>
-      {live && material === 'field' && <style>{`@keyframes g-led{to{text-shadow:0 0 ${L.glowPeak} currentColor}}@media (prefers-reduced-motion: reduce){[data-g-live]{animation:none!important}}`}</style>}
-      <span aria-hidden="true" data-g-live={live ? '' : undefined} style={{ lineHeight: 1, ...glyph, ...(live && material === 'field' ? { animation: `g-led ${L.period} cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate` } : {}) }}>{t.glyph}</span>
+      <span aria-hidden="true" style={{ lineHeight: 1, ...glyph }}>{t.glyph}</span>
       <span style={{ color: lit ? c : (s.textSecondary ?? base.textSecondary), fontFamily: grammarChips.fonts.mono, fontSize: sh.tagSize, fontWeight: 700, letterSpacing: '0.14em', lineHeight: 1, textTransform: 'uppercase',
         ...(material === 'hud' ? { paddingRight: 8, borderRight: `1px solid ${s.border ?? base.border}` } : {}) }}>{t.tag}</span>
       <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)', whiteSpace: 'nowrap' }}>: </span>
       {children != null && <span style={{ whiteSpace: 'normal', fontWeight: f.weight, letterSpacing: f.tracking }}>{children}</span>}
-      {live && material === 'hud' && <>
+      {live && <>
         <style>{`@keyframes g-blink{0%,${grammarChips.instrument.led.duty}{opacity:1}${grammarChips.instrument.led.duty},100%{opacity:0}}@media (prefers-reduced-motion: reduce){[data-g-led]{animation:none!important}}`}</style>
         <span aria-hidden="true" data-g-led="" style={{ width: ledSize, height: ledSize, borderRadius: '50%', background: c, flex: 'none', animation: `g-blink ${grammarChips.instrument.led.blink} steps(1, end) infinite` }} />
       </>}

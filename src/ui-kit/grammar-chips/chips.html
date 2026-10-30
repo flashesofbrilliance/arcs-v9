@@ -117,11 +117,6 @@ button:active,.g-chip[role=button]:active{transform:translateY(1px)}
 [data-skin="field"] .g-chip{border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);background:color-mix(in srgb,var(--c) var(--g-tint),transparent),var(--g-face);box-shadow:var(--g-well),var(--g-underlit) color-mix(in srgb,var(--c) 30%,transparent)}
 [data-skin="field"] .g-chip::before,[data-skin="field"] .g-glass::before{display:none}
 [data-skin="field"] .g-chip .g-tag{padding-right:0;border-right:0}
-[data-skin="field"] .g-chip .g-glyph{font-size:1em;text-shadow:0 0 3px color-mix(in srgb,var(--c) 45%,transparent)}
-@keyframes g-led{from{text-shadow:0 0 3px color-mix(in srgb,var(--c) 45%,transparent)}to{text-shadow:0 0 8px color-mix(in srgb,var(--c) 45%,transparent)}}
-[data-skin="field"] .g-chip[data-live] .g-glyph{animation:g-led 3000ms var(--ease-out) infinite alternate}
-[data-skin="field"] .g-chip[data-live]::after{display:none}
-@media (prefers-reduced-motion: reduce){[data-skin="field"] .g-chip[data-live] .g-glyph{animation:none}}
 [data-skin="field"] .g-glass{background:var(--g-glass);box-shadow:var(--g-bevel);border-radius:10px}
 [data-skin="field"] .g-glass .g-chip{border-color:color-mix(in srgb,var(--c) var(--g-edge),transparent)}
 .g-chip .g-body{white-space:normal}
