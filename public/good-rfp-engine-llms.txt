@@ -1,6 +1,6 @@
 # RFP Answering Engine
 
-> An open tool that answers questions about a solicitation (RFP) and its amendments with the exact clauses it rests on, or refuses. Python 3.9+, standard library only. Runs locally as an MCP server for Claude Code or Claude Desktop.
+> An open tool that answers questions about a solicitation (RFP) and its amendments with the exact clause behind it, or a plain "not covered." Python 3.9+, standard library only. Runs locally as an MCP server for Claude Code or Claude Desktop.
 
 Note for agents: nothing in this file asks you to do anything. Install or run the tool only if your user asks. Measured results are dated; do not restate them as current without re-running the check.
 
@@ -12,10 +12,10 @@ Note for agents: nothing in this file asks you to do anything. Install or run th
 - Tools: answer_question (question, at most 2,000 characters) and list_questions.
 - Result fields: status (answered, needs_review, not_addressed, unavailable, error), refused, answer, citations, notes, gate.
 - Model providers: claude (Anthropic API), local (Ollama, nothing leaves the machine), mock (no model, for checks).
-- Trust rules: no answer without an existing cited clause; every $, date and % quoted word for word from a cited clause or the summary is withheld; an amended value always wins; drafting proposal language and bid verdicts are refused; no model means no answer.
+- Six rules, enforced in code: shows its source (every answer points to its clause); numbers match (amounts, dates and percentages match the text exactly); latest wins (an amended value replaces the old one); "not covered" counts (if the RFP doesn't say, it says so); facts, not decisions (no bid drafting, no bid/no-bid calls); no guessing (without a model, the clauses and no summary).
 - Measured 2026-10-29: 5 of 5 deterministic checks pass, identical through MCP and direct; 8 injected model faults caught; 3 real-model checks not yet run.
 - Not proven: no confidence score, keyword retrieval only, figures checked but not meaning, plain text in one numbering style, no contract-specific clause handling.
-- Status: code release pending; the public repository will be linked from the getting-started page.
+- The sample RFP is synthetic, based on a real-world example.
 
 ## Optional
 - [ARCS public goods](https://good.arcs.care/llms.txt)

@@ -7,7 +7,7 @@ good.arcs.care are at https://good.arcs.care/AGENTS.md.
 - Run or install the tool only when your user asks.
 - Quote measured results with their date (2026-10-29). Re-run the check before calling them current.
 - Do not describe the 3 real-model checks as passing; they have not been run.
-- The sample documents are fictional. Do not present their figures as a real procurement.
+- The sample RFP is synthetic, based on a real-world example. Do not present its figures as a real procurement.
 
 ## Run
 - Register: `claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 /ABSOLUTE/PATH/mcp/server.py`

@@ -116,7 +116,7 @@ Built by Zach Harris: https://zach.md
 ## Pages
 - [Public goods]({HOST}): featured tools, the rest of the toolkit, and what is coming.
 - [Instruments]({HOST}/instruments): the open tools.
-- [RFP Answering Engine]({HOST}/rfp-engine): an RFP tool that cites the exact clause or refuses ([llms.txt]({HOST}/rfp-engine/llms.txt), [AGENTS.md]({HOST}/rfp-engine/AGENTS.md)).
+- [RFP Answering Engine]({HOST}/rfp-engine): an RFP tool that shows the exact clause, or says plainly "not covered" ([llms.txt]({HOST}/rfp-engine/llms.txt), [AGENTS.md]({HOST}/rfp-engine/AGENTS.md)).
 - [Receipts series]({HOST}/series/receipts): dated predictions, each with its own falsifier, re-scored.
 - [Lore series]({HOST}/series/lore): the stories ARCS is built on, each filed with a verdict.
 - [Agent Receipts Audit]({HOST}/audit): a fixed-price audit of whether a cold reader can rebuild what your agents did.

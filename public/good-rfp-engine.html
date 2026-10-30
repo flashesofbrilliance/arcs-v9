@@ -164,8 +164,8 @@ footer{padding:32px 0 48px;}
 
 <header>
   <div class="wrap hero">
-    <h1>Answers with receipts,<br><span class="g">or a refusal.</span></h1>
-    <p class="lede">An RFP answering engine. Ask about a solicitation and its amendments; get an answer with the <b>exact clauses it rests on</b>, or a refusal that says why. Python standard library only. It runs <b>on your machine</b> as an MCP server for Claude Code or Claude Desktop.</p>
+    <h1>Answers with receipts,<br><span class="g">or a plain &ldquo;not covered.&rdquo;</span></h1>
+    <p class="lede">An RFP answering engine. Ask about a solicitation and its amendments; get an answer with the <b>exact clauses it rests on</b>, or a plain &ldquo;not covered.&rdquo; Python standard library only. It runs <b>on your machine</b> as an MCP server for Claude Code or Claude Desktop.</p>
     <div class="cta">
       <a class="btn p" href="#start">&darr; Get started</a>
       <a class="btn s" href="/rfp-engine/llms.txt">llms.txt</a>
@@ -175,7 +175,7 @@ footer{padding:32px 0 48px;}
       <div class="bar"><span class="l">register the server &middot; Claude Code</span><button class="cp" data-copy="claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 /ABSOLUTE/PATH/mcp/server.py">copy</button></div>
       <pre><code>claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 /ABSOLUTE/PATH/mcp/server.py</code></pre>
     </div>
-    <p class="note"><b>Code release pending:</b> the source is being prepared as a public repository and will be linked here. Use <b>MODEL_PROVIDER=claude</b> with an Anthropic key, or <b>local</b> to keep everything on your machine with Ollama.</p>
+    <p class="note">Use <b>MODEL_PROVIDER=claude</b> with an Anthropic key, or <b>local</b> to keep everything on your machine with Ollama.</p>
   </div>
 </header>
 
@@ -196,7 +196,8 @@ footer{padding:32px 0 48px;}
 
 <section>
   <div class="wrap">
-    <div class="sec-lbl"><h2>What comes back</h2><span class="sub">real output &middot; sample RFP</span></div>
+    <div class="sec-lbl"><h2>What comes back</h2><span class="sub">real output &middot; synthetic RFP</span></div>
+    <p class="note" style="margin:0 0 14px;">The RFP here is synthetic, based on a real-world example.</p>
     <pre class="blk"><code>status   answered
 answer   Section 7.1 (Bid Deposit) is revised: the bid deposit is increased from $20,000 to $35,000.
 cites    RFP 7.1 + Amendment No. 1 A1.2
@@ -208,31 +209,31 @@ gate     fast path: verbatim governing text, no model call</code></pre>
 
 <section>
   <div class="wrap">
-    <div class="sec-lbl"><h2>Trust rules, enforced in code</h2><span class="sub">not prompts &middot; checks</span></div>
+    <div class="sec-lbl"><h2>Six rules, enforced in code</h2><span class="sub">not prompts &middot; checks</span></div>
     <div class="cards">
     <div class="card">
       <div class="cbar"></div>
-      <div class="cbody"><div class="chead"><span class="cname mono">no source, no answer</span></div><p class="cline">A cited clause that does not exist is an error, not an answer.</p></div>
+      <div class="cbody"><div class="chead"><span class="cname mono">Shows its source</span></div><p class="cline">Every answer points to the clause it came from.</p></div>
     </div>
     <div class="card">
       <div class="cbar"></div>
-      <div class="cbody"><div class="chead"><span class="cname mono">figures are quoted</span></div><p class="cline">Every $, date and % must appear word for word in a cited clause, or the summary is withheld.</p></div>
+      <div class="cbody"><div class="chead"><span class="cname mono">Numbers match</span></div><p class="cline">Amounts, dates and percentages match the text exactly.</p></div>
     </div>
     <div class="card">
       <div class="cbar"></div>
-      <div class="cbody"><div class="chead"><span class="cname mono">amendments win</span></div><p class="cline">Citing a base clause pulls in the amendment that replaced it.</p></div>
+      <div class="cbody"><div class="chead"><span class="cname mono">Latest wins</span></div><p class="cline">If an amendment changed it, you get the new value.</p></div>
     </div>
     <div class="card">
       <div class="cbar v"></div>
-      <div class="cbody"><div class="chead"><span class="cname mono">not addressed is valid</span></div><p class="cline">A question about a missing appendix says so instead of guessing.</p></div>
+      <div class="cbody"><div class="chead"><span class="cname mono">&ldquo;Not covered&rdquo; counts</span></div><p class="cline">If the RFP doesn&rsquo;t say, it tells you so.</p></div>
     </div>
     <div class="card">
       <div class="cbar v"></div>
-      <div class="cbody"><div class="chead"><span class="cname mono">no drafting, no bid calls</span></div><p class="cline">Refused before any model call, and withheld if a model does it anyway.</p></div>
+      <div class="cbody"><div class="chead"><span class="cname mono">Facts, not decisions</span></div><p class="cline">It won&rsquo;t write your bid or tell you whether to bid.</p></div>
     </div>
     <div class="card">
       <div class="cbar v"></div>
-      <div class="cbody"><div class="chead"><span class="cname mono">fail closed</span></div><p class="cline">No model reachable means the relevant clauses and no answer.</p></div>
+      <div class="cbody"><div class="chead"><span class="cname mono">No guessing</span></div><p class="cline">Without a model, you get the clauses, not a summary.</p></div>
     </div>
     </div>
   </div>
@@ -272,9 +273,7 @@ gate     fast path: verbatim governing text, no model call</code></pre>
 
 <footer>
   <div class="wrap foot">
-    <span>a public-goods index by <a href="https://arcs.care">ARCS</a> · MIT</span>
-    <span><a href="https://github.com/flashesofbrilliance">github</a> · <a href="https://github.com/flashesofbrilliance/arcs-skills">marketplace</a> · <a href="/instruments">instruments</a> · <a href="https://arcs.care">arcs.care</a></span>
-    <span>built by Zach Harris, one operator accountable end to end · proof over promises, sprint or in-house · <a href="https://zachharris.xyz">zachharris.xyz</a></span>
+    <span>an ARCS public good &middot; <a href="/">all public goods</a> &middot; <a href="/llms.txt">site llms.txt</a> &middot; <a href="/AGENTS.md">site AGENTS.md</a></span>
   </div>
 </footer>
 
