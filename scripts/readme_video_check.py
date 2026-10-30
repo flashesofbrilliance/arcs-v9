@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """readme_video_check: diff the claims in a source README against a video's narration and card text.
 
-Rules: _PATTERNS/2026-10-30-readme-to-video-resonance-rules.md (R1-R10). Read-only; never calls a voice or
+Rules: _PATTERNS/2026-10-30-readme-to-video-resonance-rules.md (R0-R10; R1 and R7 are human passes). Read-only; never calls a voice or
 model API. Exit 1 when any FAIL check fires, 0 otherwise (WARN and INFO never fail the run).
 
 Usage:
