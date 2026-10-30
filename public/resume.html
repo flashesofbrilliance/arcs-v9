@@ -439,13 +439,13 @@ function NCICount({ target=87 }) {
 const ROLES = [
   { id:'arcs', glyph:'◈', label:'ARCS · Decision Intelligence Platform', color:T.cyan,
     dates:'2025–Present', role:'Founder',
-    summary:'Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and compounding feedback loops that make each subsequent decision measurably sharper.',
-    metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
+    summary:'Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and a scoring loop that closes each decision against its recorded outcome. Built solo and in the open: 5,300+ commits in 195 days.',
+    metric:'1,580+', metricLabel:'PRS MERGED, EACH HUMAN-APPROVED',
     compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what\'s the right first wedge to prove the model?',
     bullets:[
-      { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
+      { t:'Shipped solo and in the open: 5,300+ commits in 195 days (as of Oct 21, 2026), every figure on status.arcs.care measured from the repository itself', v:['all','ds'] },
       { t:'Built AI-native analysis pipeline on Claude; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
-      { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions, compounding institutional memory', v:['all','ds'] },
+      { t:'Designed the outcome-capture method: each decision is scored for confidence when made and closed against what actually happened; no accuracy figure is published until enough outcomes close', v:['all','ds'] },
       { t:'Platform guardrails as code: per-tenant Postgres roles with row-level security that fail closed, generated route and tool inventories with drift checks, and pre-commit gates that block whole classes of bugs. Live app at app.arcs.care; commit history and traces on request', v:['all','ds'] },
       { t:['Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,580+ PRs merged, 99 in one day, a human approving every merge. Live counts: ',<a key="s" href="https://status.arcs.care" style={{ color:T.cyan }}>status.arcs.care</a>,'; release notes: ',<a key="t" href="https://good.arcs.care/blog/til/one-day-99-merges" style={{ color:T.cyan }}>one day, 99 merges</a>], v:['all','ds'] },
       { t:'Compounding by design: every merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test', v:['all','ds'] },
@@ -536,11 +536,11 @@ const CONSULTING_CLIENTS = [
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
   all:   { heading:'BUILDING AT THE EDGE · APPLIED AI · DECISION INTELLIGENCE',
-    text:'Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude.' },
+    text:'Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and feedback loops that close each decision against its recorded outcome. Currently: ARCS, a decision intelligence platform built on Claude.' },
   figma: { heading:'GROWTH DEPTH',
     text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch: no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
   ds:    { heading:'SYSTEMS DEPTH',
-    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale GTM across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude in production, not experiments.' },
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale GTM across 10 regulated products. ARCS: 1,580+ PRs merged, each one human-approved and receipted. AI-native on Claude in production, not experiments.' },
 };
 
 const SKILLS = [
@@ -583,9 +583,9 @@ const SKILLS = [
 function GrainResume() {
   const roles = [
     { co:'ARCS · Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
-      metrics:'60% noise reduction  ·  AI-native: Claude  ·  3–5× time-to-insight',
+      metrics:'1,580+ PRs merged  ·  AI-native: Claude  ·  99 merges in one day',
       bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
-               '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
+               '5,300+ commits in 195 days, built solo and in the open (status.arcs.care)',
                'Running on Claude with MCP server: AI-native in production, not experiments',
                'Guardrails as code: per-tenant Postgres row-level security, drift-checked inventories, pre-commit gates for whole bug classes',
                ['Built a human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, and an append-only decision ledger in Postgres. 1,580+ PRs merged, 99 in one day, a human approving every merge. Live counts: ',<a key="s" href="https://status.arcs.care" style={{ color:T.cyan }}>status.arcs.care</a>,'; release notes: ',<a key="t" href="https://good.arcs.care/blog/til/one-day-99-merges" style={{ color:T.cyan }}>one day, 99 merges</a>],
@@ -616,7 +616,7 @@ function GrainResume() {
         Creative technologist and builder with two decades across tech, marketing, data,
         and commercial operations in sports, finance, health, and consumer. Builds the intelligence
         layer before the category for it exists: structured pre-decision framing, AI-native analysis
-        pipelines, and compounding feedback loops that make each decision sharper than the last.
+        pipelines, and feedback loops that close each decision against its recorded outcome.
         Currently: ARCS, a decision intelligence platform built on Claude.
       </p>
 
@@ -967,10 +967,10 @@ function DeepScan() {
             why:'ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.' },
           { id:'B', label:'Decision Intelligence · AI Strategist',
             desc:'Not just measuring outcomes: designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it doesn\'t.',
-            why:'60% decision noise reduction, 3–5× time-to-insight at ARCS. Grayscale: GTM across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
+            why:'ARCS: 1,580+ PRs merged, a human approving every one. Grayscale: GTM across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
           { id:'C', label:'Commercial layer alongside analytical depth',
             desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for, and being able to run the commercial decision, not just report on it.',
-            why:'WTA: $850K year-one from first commercial partnerships. Grayscale: lifecycle strategy with measurable engagement lift. CTF: 20% net-new revenue from data personalization. The intelligence was always in service of a commercial outcome.' },
+            why:'WTA: $850K year-one from first commercial partnerships. Grayscale: release-cycle time cut 35 percent with zero SEC or FINRA violations. CTF: 20% net-new revenue from data personalization. The intelligence was always in service of a commercial outcome.' },
         ].map(j => (
           <div key={j.id} style={{ ...glass({ padding:'14px 16px' }) }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
