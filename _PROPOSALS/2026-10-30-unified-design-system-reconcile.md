@@ -8,13 +8,22 @@ grammar source: runtime/specs/grammar-chips.json v0.2.0 (branch claude/sharp-vis
 
 # One design system for ARCS: reconcile the claim chip grammar with every live surface
 
-Prior art: DESIGN.md "Sanctioned Visual Worlds" and "Motion and safety"; `scripts/token_source_gate.py`; memory `single-file-artifacts-inherit-tokens-never-copy`; `public/proof.html` (PRs 1868, 1871).
+Prior art: grammar branch commit d5b31ae2 (hud material); DESIGN.md "Sanctioned Visual Worlds" and "Motion and safety"; `scripts/token_source_gate.py`; memory `single-file-artifacts-inherit-tokens-never-copy`; `public/proof.html` (PRs 1868, 1871).
 
 Scope split: the apex-design-audit session (local_156f76c6) is auditing the Dioptra index page only (its note `apex-audit-and-gauntlet.md`). No surface overlaps with this pass.
 
 ## The finding in one paragraph
 
 Tokens are already unified on the HTML side: every surface below passes `token_source_gate` (it inlines `_tokens.css` verbatim), and NFTT passes as its own sanctioned world. What is NOT unified is the layer above the tokens. Each page invents its own chip, LED and card classes (`.chip`, `.su-chip`, `.pres-chip`, `.unlock-chip`, `.ezchip`, `.led`, `.pip`, `.mp-dot`, `.pulse-dot`, `.badge`), and none of them uses the grammar's glyph and tag pairs. Worse, `/proof` (the page named as the model) assigns the grammar's glyphs to different meanings. The React app (compass, brief, receipt, debrief) reads a second token source, `src/ui/tokens.ts`, and the grammar branch would add a third, `src/ui/grammarChipTokens.ts`. The fix is one atom layer, not a repaint.
+
+## Direction (Zach, 2026-10-30, relayed by the README-as-video session)
+
+- **Tactical HUD with Porsche Design restraint.** No web 2.0 glow, no gradients. The chip default is now the HUD material (commit d5b31ae2 on the grammar branch): matte face, neutral hairline, corner ticks in the tone, a tag divider, tabular numbers, no glow and no cast shadow. Field and pocket become opt-in. Read "materials" everywhere below as hud (default), field and pocket.
+- **Subtleties to mine, already in code:** translucent HUD panels `rgba(6,9,13,0.82)` with a `1px solid #1e293b` hairline and an `inset 0 1px 0 rgba(255,255,255,0.04)` top highlight (`src/organisms/ScopeHud.tsx:44-45`); rivet rings `inset 0 0 0 1px #2a3442` on `#151b23` (`ScopeHud.tsx:78`); a recessed input well `#0a0f15` (`src/organisms/Landing.tsx:191`). These are hand-typed hexes today. They become kit tokens (`--hud-panel`, `--hud-highlight`, `--hud-ring`, `--well`) before any page uses them.
+- **Voice balance:** /proof already balances the literary NFTT voice against the mono hacker voice. Name and numbers are set in mono, there is one serif lede (`--ds-font-display`) and the reading text is sans. That three-role type rule becomes a kit rule.
+- **Light-mode client surface:** the TIL posts (`public/blog-til-*.html`) and the cia.arcs.care front end (`public/cia-brief.html`, `public/cia-gate.html`) are the reference for the grammar's light column. Gate check 2026-10-30: cia-brief and 5 of 6 TIL pages PASS `token_source_gate`; `blog-til-a-draft-is-not-a-verb.html` FAILS (it re-declares `--cyan`).
+- **Zoom levels:** /proof's z0 card, z1 questions, z2 claims and z3 record are the model for receipts, reports and the video.
+- **Teach the reading first (Ahmed heuristic, memory `project_ahmed_elsamadisi_polyform`):** before the hardest artifact, show how to read it, and anchor the legend to the first chart, not to a separate key.
 
 ## 1. Inventory
 
@@ -47,9 +56,7 @@ Grammar: tones say ▲ cyan, show ● green, limit ◆ gold, fail ✕ red, shift
 
 | Pattern | Verdict | Mapping or gap |
 |---|---|---|
-| proof `.led.shown` ▲ green | **Conflict, must fix** | ▲ is SAY (cyan) in the grammar. "Shown" means evidence: becomes SHOW ●. |
-| proof `.led.on-request` ◆ cyan | **Conflict, needs a new tone** | ◆ is LIMIT (gold). "On request" is evidence that exists but is held private. Neither SHOW nor LIMIT. Propose tone `held` (glyph ◐, tag HELD, slate-cyan), or map to neutral with tag ON REQUEST. Zach's call. |
-| proof `.led.not-yet` ~ gold | Maps (glyph swap) | LIMIT ◆, tag NOT YET. |
+| proof `.led.shown`, `.led.on-request`, `.led.not-yet` | **CONFLICT, surfaced, not resolved** | See the conflict box below. |
 | proof `.pip` per-row glyph strip | Maps | A row of grammar glyphs at `field` material; becomes the `ChipStrip` atom. |
 | status `.su-chip`, `.pres-chip`, `.chip` | Maps | Status words map to show / limit / fail / neutral. |
 | status `.unlock-chip`, `.unlock-card` | Separate (control, not a claim) | A gate affordance, stays a button. |
@@ -66,7 +73,20 @@ Grammar: tones say ▲ cyan, show ● green, limit ◆ gold, fail ✕ red, shift
 | Light paper pages | Sanctioned separate world | The grammar already carries a light column for it. |
 | Pocket skin (dj.arcs.care) | Sanctioned world, source of `pocket` material | Not migrated; it lends the material. |
 
-Needs-new list: one tone (`held`, or a neutral tag), nothing else. No new material.
+**CONFLICT (Zach decides): same glyphs, different meanings.**
+
+| Glyph | Grammar | /proof |
+|---|---|---|
+| ▲ | SAY, the claim, cyan | shown, green |
+| ● | SHOW, the evidence, green | (unused) |
+| ◆ | LIMIT, the caveat, gold | on request, cyan |
+| ~ | (unused) | not yet shown, gold |
+
+- Option A: the grammar adopts /proof's vocabulary (likely, per the grammar session). /proof is live, is the agreed reference for type and density, and its three states (shown, on request, not yet) are what a reader of a receipt needs. Cost: rewrite `grammar-chips.json` tones and regenerate both outputs; SAY loses ▲.
+- Option B: /proof adopts the grammar (shown to ● SHOW, not yet to ◆ LIMIT, and on request to a new tone). Cost: a change to the live page that hiring loops read, plus one new tone.
+- Either way, "on request" (the evidence exists and is held private) has no home in the current six tones.
+
+Needs-new list: the vocabulary decision above. No new material beyond hud, which already landed.
 
 ## 3. Gold standards and what becomes a kit atom
 
@@ -93,14 +113,17 @@ A receipt is a proof ledger for one decision. Same skeleton:
 | ChipStrip | evidence per row from `what_confirmed[]` / `what_unconfirmed[]` | sources per lens | |
 | Fidelity | Y-gate drives the whole page's render resolution | | |
 
-Rules: one lane, one `--measure`, ledes full width, text full opacity (fog through weight and grain only), motion through `--mo-*`. Field material by default; pocket only on input controls.
+Zoom levels follow /proof: z0 the hero card, z1 the questions, z2 the claims, z3 the record. A receipt opens at z0 with a one-line "how to read this" above the first stat, and its legend sits on the first chart (Ahmed heuristic).
+
+Rules: one lane, one `--measure`, ledes full width, text full opacity (fog through weight and grain only), motion through `--mo-*`. Type in three roles: mono for names and numbers, one serif lede, sans for reading. HUD material by default (hairline, tone ticks, no glow); field and pocket only where Zach opts in.
 
 ## 5. Migration order (visitor value against effort)
 
 | # | Step | Visitor value | Effort | Closes |
 |---|---|---|---|---|
-| 0 | Decide the `held` tone and land the grammar branch (spec + emitter + GrammarChip) | enables all | S | |
-| 1 | Fix /proof glyphs to the grammar (▲ to ●, ~ to ◆, ◆ to held) | high (public, live in hiring loops) | XS, `proof_emit.py` only | |
+| 0 | Decide the glyph conflict (A or B), add the hud tokens (`--hud-panel`, `--hud-highlight`, `--hud-ring`, `--well`) and land the grammar branch | enables all | S | |
+| 1 | Align the losing side: under A, the spec and emitter; under B, `proof_emit.py` | high (public, live in hiring loops) | XS | |
+| 1b | Fix the one TIL page that fails the gate (`blog-til-a-draft-is-not-a-verb.html`), so the light reference is clean | low | XS | |
 | 2 | Extract the five /proof atoms into the kit (HTML primitive + TSX) | none directly | M | `tokens-css-vs-ds-font-stack-drift` (atoms force one font stack; reconcile `_tokens.css` GeistMono/InstrumentSans against DESIGN.md first) |
 | 3 | Receipt page on the ledger skeleton | high (the product artifact; also fix the example link, see Evidence) | M | part of `recoil-renderer-design-debt` |
 | 4 | Brief and debrief on the same atoms | high | M | |
@@ -115,7 +138,7 @@ Gate each step with `token_source_gate`, `artifact_wrap_lint`, `motion_policy_ga
 
 ## Open decisions (Zach)
 
-1. "On request" evidence: new `held` tone, or neutral with tag ON REQUEST?
+1. The glyph conflict: option A (the grammar adopts /proof) or option B (/proof adopts the grammar)? Under either, where does "on request" live?
 2. Two token sources (`_tokens.css` and `src/ui/tokens.ts`): emit both from one JSON (recommended), or keep them hand-synced?
 3. Is the pocket material allowed outside dj.arcs.care for input controls on receipts?
 
