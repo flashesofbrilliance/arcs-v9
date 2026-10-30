@@ -351,6 +351,17 @@ if [ -f scripts/migration_rls_lint.py ] && command -v python3 >/dev/null 2>&1; t
 fi
 
 # ---------------------------------------------------------------------------
+# recoil-report renderer design check (2026-10-30, backlog recoil-renderer-design-debt):
+# every rendered report used to carry an em-dash title and ~23 detector findings (10px text,
+# wide tracking on non-labels). Renders the bundled sample and fails on the whole class.
+rr=$(git diff --cached --name-only -- 'tools/recoil-report/*' 2>/dev/null || true)
+if [ -n "$rr" ] && [ -f tools/recoil-report/design_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 tools/recoil-report/design_check.py; then
+    echo "✖ commit blocked: recoil-report renderer output fails its design check (see above)." >&2
+    exit 1
+  fi
+fi
+
 # gutter-consistency guard: in the recoil-report page template, header/footer horizontal
 # padding drifting from the body `.pad` gutter (44px vs 40px) indents every header/footer
 # element a few px inward of the body -- a left edge that lies about its lane, invisible to
