@@ -209,7 +209,17 @@
       "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__get_draft",
       "mcp__elevenlabs__creative_get_generations",
       "mcp__8a7557e7-8da7-4ae7-8290-8030b25385b4__get_user_context",
-      "mcp__d3359ee7-dafa-4919-bf99-6a1afa4dcbce__read_reference"
+      "mcp__d3359ee7-dafa-4919-bf99-6a1afa4dcbce__read_reference",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__count_events",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__count_pageviews",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__aggregate_events",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__aggregate_pageviews",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_runtime_logs",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__search_vercel_documentation",
+      "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__list_zapier_connections",
+      "mcp__elevenlabs__creative_list_voices",
+      "mcp__d3359ee7-dafa-4919-bf99-6a1afa4dcbce__fetch_submissions",
+      "mcp__claude-in-chrome__read_network_requests"
     ],
     "ask": [
       "Bash(git push:*)"
