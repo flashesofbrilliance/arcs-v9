@@ -30,6 +30,7 @@ import html, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "runtime/specs/proof-claims.json")
 LEDGER = os.path.join(ROOT, "_STATE/falsification-ledger.jsonl")
+NFTT = os.path.join(ROOT, "runtime/specs/nftt-published.json")
 TOKENS = os.path.join(ROOT, "src/ui-kit/recoil-report/_tokens.css")
 OUT_HTML = os.path.join(ROOT, "public/proof.html")
 OUT_JSON = os.path.join(ROOT, "public/proof-claims.json")
@@ -228,6 +229,14 @@ footer a {{ display: inline-block; padding: 14px 4px; min-width: 44px; text-deco
 
 def main(argv):
     d = json.load(open(SRC, encoding="utf-8"))
+    # counts come from their own ledgers, never typed: {nftt_count} {nftt_first} {nftt_last}
+    pubs = sorted(v["published_at"][:10] for v in json.load(open(NFTT, encoding="utf-8"))["posts"].values())
+    fill = {"nftt_count": str(len(pubs)), "nftt_first": pubs[0], "nftt_last": pubs[-1]}
+    for q in d["questions"]:
+        for c in q["claims"]:
+            for k in ("claim", "evidence", "date"):
+                for name, val in fill.items():
+                    c[k] = c[k].replace("{" + name + "}", val)
     ledger = {}
     for line in open(LEDGER, encoding="utf-8"):
         if line.strip():

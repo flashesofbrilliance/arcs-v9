@@ -109,7 +109,11 @@
           "date": "2026-09-29",
           "url": "https://status.arcs.care/beliefs",
           "label": "status.arcs.care/beliefs",
-          "ledger": ["F14", "F26", "F25"]
+          "ledger": [
+            "F14",
+            "F26",
+            "F25"
+          ]
         },
         {
           "id": "liabilities",
@@ -137,6 +141,40 @@
           "date": "2026-09-30",
           "url": "https://good.arcs.care/blog/nftt/any-stranger-can-be-a-bar-raiser",
           "label": "Any Stranger Can Be a Bar Raiser"
+        }
+      ]
+    },
+    {
+      "id": "open",
+      "ask": "Does he work in the open?",
+      "answer": "Yes. The build, the mistakes and the lessons are published as they happen, with dates.",
+      "claims": [
+        {
+          "id": "nftt",
+          "claim": "{nftt_count} Notes from the Trenches posts since {nftt_first}: what building ARCS taught him, with the receipts.",
+          "status": "shown",
+          "evidence": "Every post carries a frozen publish timestamp taken from the commit that routed it.",
+          "date": "{nftt_last}",
+          "url": "https://good.arcs.care/blog/nftt",
+          "label": "Notes from the Trenches"
+        },
+        {
+          "id": "til",
+          "claim": "Long-form deep dives with a belief ledger scored before the outcome and re-scored against it.",
+          "status": "shown",
+          "evidence": "Today I Learned: forensic reads, each with its predictions written down first.",
+          "date": "2026-10-20",
+          "url": "https://good.arcs.care/blog/til",
+          "label": "Today I Learned"
+        },
+        {
+          "id": "status-open",
+          "claim": "Built in public since day zero: the live build status is measured from the repository, not written by hand.",
+          "status": "shown",
+          "evidence": "Commits, days and milestones, each tied to a real commit.",
+          "date": "2026-10-30",
+          "url": "https://status.arcs.care",
+          "label": "status.arcs.care"
         }
       ]
     },
