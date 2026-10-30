@@ -84,7 +84,8 @@ def css(spec):
                         rule += (f".g-chip[data-fidelity=\"{name}\"]{{background-image:radial-gradient(color-mix(in srgb,var(--g-request) 28%,transparent) .6px,transparent .8px),"
                      "radial-gradient(color-mix(in srgb,var(--g-notyet) 24%,transparent) .6px,transparent .8px);background-size:4px 4px,4.6px 4.6px}")
         lines.append(rule)
-    lines.append(".g-chip:focus-visible{outline:1px solid var(--g-focus);outline-offset:2px}")
+    lines.append(".g-chip:focus-visible{outline:2px solid var(--g-focus);outline-offset:2px}")
+    lines.append(".g-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}")
     pk = spec["skins"]["pocket"]
     def pvars(m):
         v = pk[m]

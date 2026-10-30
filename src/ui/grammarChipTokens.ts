@@ -4,7 +4,7 @@ export const grammarChips = {
   "tones": {
     "say": {
       "glyph": "▸",
-      "tag": "SAY",
+      "tag": "Say",
       "meaning": "the claim, stated",
       "mui": "primary",
       "dark": "#e2e8f0",
@@ -13,7 +13,7 @@ export const grammarChips = {
     },
     "show": {
       "glyph": "▲",
-      "tag": "SHOWN",
+      "tag": "Shown",
       "meaning": "shown: the record is on the page",
       "mui": "success",
       "dark": "#00FF9D",
@@ -22,7 +22,7 @@ export const grammarChips = {
     },
     "request": {
       "glyph": "◆",
-      "tag": "ON REQUEST",
+      "tag": "On request",
       "meaning": "the record exists and is private; shown on request",
       "mui": "info",
       "dark": "#00F0FF",
@@ -31,7 +31,7 @@ export const grammarChips = {
     },
     "notyet": {
       "glyph": "~",
-      "tag": "NOT YET",
+      "tag": "Not yet",
       "meaning": "not yet shown, admitted (the honesty tilde)",
       "mui": "warning",
       "dark": "#FFD700",
@@ -40,7 +40,7 @@ export const grammarChips = {
     },
     "limit": {
       "glyph": "⚑",
-      "tag": "LIMIT",
+      "tag": "Limit",
       "meaning": "the caveat that travels with the claim",
       "mui": "warning",
       "dark": "#ff9d3c",
@@ -49,7 +49,7 @@ export const grammarChips = {
     },
     "fail": {
       "glyph": "✕",
-      "tag": "FAIL",
+      "tag": "Fail",
       "meaning": "a check that did not pass",
       "mui": "error",
       "dark": "#FF4D6D",
@@ -58,7 +58,7 @@ export const grammarChips = {
     },
     "shift": {
       "glyph": "Δ",
-      "tag": "SHIFT",
+      "tag": "Shift",
       "meaning": "a changed value (DELTA)",
       "mui": "secondary",
       "dark": "#A78BFA",
@@ -67,7 +67,7 @@ export const grammarChips = {
     },
     "neutral": {
       "glyph": "·",
-      "tag": "NOTE",
+      "tag": "Note",
       "meaning": "context, no verdict",
       "mui": "neutral",
       "dark": "#94a3b8",
@@ -180,7 +180,7 @@ export const grammarChips = {
         "grainAlpha": ".07"
       },
       "light": {
-        "key": "linear-gradient(135deg,#fbfbf8,#e4e6e1)",
+        "key": "linear-gradient(135deg,#fbfbf8,#eef0ec)",
         "keyShadow": "0 1px 2px rgba(15,23,42,.18), 0 2px 4px rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.95)",
         "keyEdge": "rgba(15,23,42,.14)",
         "bezel": "0 0 0 3px #f4f7fa, 0 0 0 4px #c9d3de, inset 0 1px 0 rgba(255,255,255,.9)",

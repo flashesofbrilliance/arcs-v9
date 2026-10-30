@@ -54,10 +54,12 @@ export interface GrammarChipProps {
   material?: 'hud' | 'field' | 'pocket'
   // a status light that breathes (glow radius, not opacity; stops under reduced motion)
   live?: boolean
+  // a verdict chip announces itself when it changes (role=status, polite)
+  verdict?: boolean
   style?: React.CSSProperties
 }
 
-export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto', skin, muiTheme, material = 'hud', live, style }: GrammarChipProps) {
+export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto', skin, muiTheme, material = 'hud', live, verdict, style }: GrammarChipProps) {
   const system = useSystemMode()
   const m: GrammarMode = mode === 'auto' ? (muiTheme?.palette?.mode ?? system) : mode
   const base = grammarChips.modes[m]
@@ -94,8 +96,8 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
     : material === 'hud' ? { color: c, fontSize: '0.85em' }
     : { color: c, textShadow: `0 0 ${L.glowRest} ${pct(c, L.alpha)}` }
   return (
-    <span data-tone={tone} data-fidelity={fidelity} style={{
-      display: 'inline-flex', alignItems: 'center', gap: sh.gap, padding: `${sh.padY} ${sh.padX}`, maxWidth: '100%',
+    <span data-tone={tone} data-fidelity={fidelity} role={verdict ? 'status' : undefined} style={{
+      position: 'relative', display: 'inline-flex', alignItems: 'center', gap: sh.gap, padding: `${sh.padY} ${sh.padX}`, maxWidth: '100%',
       borderRadius: sh.radius, border: `1px solid ${pct(c, base.edge)}`,
       color: s.text ?? base.text, fontFamily: grammarChips.fonts.sans, fontSize: sh.bodySize, lineHeight: 1.3, whiteSpace: 'nowrap', ...face, ...style,
     }}>
@@ -103,6 +105,7 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
       <span aria-hidden="true" data-g-live={live ? '' : undefined} style={{ lineHeight: 1, ...glyph, ...(live && material === 'field' ? { animation: `g-led ${L.period} cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate` } : {}) }}>{t.glyph}</span>
       <span style={{ color: lit ? c : (s.textSecondary ?? base.textSecondary), fontFamily: grammarChips.fonts.mono, fontSize: sh.tagSize, fontWeight: 700, letterSpacing: '0.14em', lineHeight: 1, textTransform: 'uppercase',
         ...(material === 'hud' ? { paddingRight: 8, borderRight: `1px solid ${s.border ?? base.border}` } : {}) }}>{t.tag}</span>
+      <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)', whiteSpace: 'nowrap' }}>: </span>
       {children != null && <span style={{ whiteSpace: 'normal', fontWeight: f.weight, letterSpacing: f.tracking }}>{children}</span>}
     </span>
   )
