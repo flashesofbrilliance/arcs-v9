@@ -59,7 +59,8 @@
   "public/myally-mnda-edits.html",
   "public/myally-primer.html",
   "public/myally-proposal.html",
-  "public/myally.html"
+  "public/myally.html",
+  "public/proof.html"
  ],
  "rows": [
   {
@@ -1351,7 +1352,7 @@
    "unlisted": true,
    "purpose": "Zach Harris for CIA",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "cia.arcs.care",
@@ -4840,7 +4841,7 @@
    "host": "resume.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!google|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!google|proof|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/resume.html",
    "pattern": false,
    "file": "public/resume.html",
@@ -4856,7 +4857,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-21"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "resume.arcs.care",
@@ -6051,7 +6052,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "zach.md",
@@ -6071,7 +6072,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "zach.md",
@@ -6091,7 +6092,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "*",

@@ -48,3 +48,16 @@ test("next.config: catch-all rewrites exclude machine paths", () => {
     }
   }
 })
+
+// resume.arcs.care/proof (2026-10-30): the proxy sends the proof ledger's paths to their files, and the
+// next.config resume catch-all must not re-catch those destinations and serve resume.html instead.
+test("resume.arcs.care/proof: proxy routes the ledger and the catch-all lets it through", async () => {
+  assert.equal(rewritten(await proxy(req("resume.arcs.care", "/proof"))), "/proof.html")
+  assert.equal(rewritten(await proxy(req("resume.arcs.care", "/proof/claims.json"))), "/proof-claims.json")
+  assert.equal(rewritten(await proxy(req("resume.arcs.care", "/anything"))), "/resume.html")
+  const src = readFileSync(new URL("../../next.config.ts", import.meta.url), "utf8")
+  const m = src.match(/\{ source: "\/:path\(\(\?!(.*?)\)\.\*\)", destination: "\/resume\.html", has: \[\{ type: "host", value: "resume\.arcs\.care" \}\] \}/)
+  assert.ok(m, "resume catch-all not found")
+  const re = new RegExp(`^(?!${m[1].replace(/\\\\/g, "\\")}).*$`)
+  for (const p of ["proof.html", "proof-claims.json"]) assert.ok(!re.test(p), `resume catch-all would re-catch /${p}`)
+})

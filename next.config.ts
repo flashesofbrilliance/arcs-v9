@@ -161,7 +161,7 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!api/|omakase).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path((?!google|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        { source: "/:path((?!google|proof|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/jack-rain", has: [{ type: "host", value: "jack-rain.arcs.care" }] },
         { source: "/:path((?!jack-rain-resume).*)", destination: "/jack-rain-ext.html", has: [{ type: "host", value: "rain.arcs.care" }] },
