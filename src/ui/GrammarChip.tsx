@@ -115,9 +115,10 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
 // the same grammar. Spread into createTheme({ components: { MuiChip: muiChipOverrides() } }).
 export function muiChipOverrides() {
   const sh = grammarChips.shape
-  const tint = (key: string) => ({ theme }: { theme: { palette: Record<string, any> } }) => {
-    const c = theme.palette[key]?.main
-    const m = (theme.palette.mode ?? 'dark') as GrammarMode
+  type PaletteLike = { mode?: GrammarMode; text?: { primary?: string }; background?: { paper?: string } } & Record<string, unknown>
+  const tint = (key: string) => ({ theme }: { theme: { palette: PaletteLike } }) => {
+    const c = (theme.palette[key] as { main?: string } | undefined)?.main
+    const m = theme.palette.mode ?? 'dark'
     return c ? { color: theme.palette.text?.primary, border: `1px solid ${pct(c, grammarChips.modes[m].edge)}`, backgroundColor: `color-mix(in srgb, ${c} ${grammarChips.modes[m].tint}, ${theme.palette.background?.paper})` } : {}
   }
   return {
