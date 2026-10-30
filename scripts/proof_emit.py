@@ -90,8 +90,11 @@ def render(d, ledger, tokens):
 
     lede = (f"Every claim below links to the record behind it. Where the record is private it says so, and "
             f"{'one claim is' if n['not-yet'] == 1 else str(n['not-yet']) + ' claims are'} marked not yet shown.")
+    person = {"@context": "https://schema.org", "@type": "ProfilePage", "url": "https://zach.md/proof",
+              "dateModified": d["as_of"], "mainEntity": {"@type": "Person", "name": d["subject"],
+              "url": d["profile"], "sameAs": d["same_as"]}}
     return TEMPLATE.format(
-        tokens=tokens, subject=e(d["subject"]), lede=e(lede), total=total, shown=n["shown"],
+        jsonld=json.dumps(person, ensure_ascii=False).replace("</", "<\\/"), tokens=tokens, subject=e(d["subject"]), lede=e(lede), total=total, shown=n["shown"],
         onreq=n["on-request"], notyet=n["not-yet"], questions=qs, as_of=e(d["as_of"]),
         profile=e(d["profile"]))
 
@@ -103,7 +106,10 @@ TEMPLATE = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Proof · {subject}</title>
 <meta name="description" content="{lede}">
-<link rel="alternate" type="application/json" href="/proof/claims.json">
+<link rel="canonical" href="https://zach.md/proof">
+<script type="application/ld+json">{jsonld}</script>
+<link rel="alternate" type="application/json" href="https://zach.md/proof/claims.json">
+<link rel="alternate" type="text/markdown" href="https://zach.md/index.md">
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
 {tokens}
@@ -196,7 +202,7 @@ footer a {{ display: inline-block; padding: 14px 4px; min-width: 44px; text-deco
 <footer>
 <span class="ref"><a href="https://resume.arcs.care">resume</a></span>
 <span class="ref"><a href="{profile}">zach.md</a> (for agents)</span>
-<span class="ref"><a href="/proof/claims.json">claims.json</a></span>
+<span class="ref"><a href="https://zach.md/proof/claims.json">claims.json</a></span>
 </footer>
 </main>
 <script>
