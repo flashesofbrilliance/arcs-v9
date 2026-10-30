@@ -1,0 +1,11 @@
+{"id": "pilot-scope", "jtbd": "Made-up demo row", "state": "READY", "depends_on": [], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27", "trigger": "2026-10-20"}
+{"id": "vendor-export-path", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": [], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27", "trigger": "2026-10-20"}
+{"id": "ops-lead-intro", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": [], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27", "trigger": "2026-10-20"}
+{"id": "export-dry-run", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": ["vendor-export-path"], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27"}
+{"id": "pilot-proposal", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": ["pilot-scope", "ops-lead-intro"], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27"}
+{"id": "forecast-baseline", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": ["export-dry-run"], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27"}
+{"id": "pricing-sheet", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": ["pilot-proposal"], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27"}
+{"id": "pilot-kickoff", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": ["pricing-sheet", "forecast-baseline"], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27"}
+{"id": "case-note", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": ["export-dry-run"], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27"}
+{"id": "brand-refresh", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": [], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27", "trigger": "2026-11-15"}
+{"id": "logo-pass", "jtbd": "Made-up demo row", "state": "OPEN", "depends_on": ["brand-refresh"], "route": {"tool": "scripts/recoil"}, "added": "2026-10-27"}

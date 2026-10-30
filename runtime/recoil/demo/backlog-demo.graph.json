@@ -1,0 +1,206 @@
+{
+ "today": "2026-10-27",
+ "rows": 11,
+ "active": 11,
+ "nodes": [
+  {
+   "id": "brand-refresh",
+   "state": "OPEN",
+   "wave": 0,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 1,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  },
+  {
+   "id": "ops-lead-intro",
+   "state": "OPEN",
+   "wave": 0,
+   "ripeness": "RIPE",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 3,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": true
+  },
+  {
+   "id": "pilot-scope",
+   "state": "READY",
+   "wave": 0,
+   "ripeness": "RIPE",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 3,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": true
+  },
+  {
+   "id": "vendor-export-path",
+   "state": "OPEN",
+   "wave": 0,
+   "ripeness": "RIPE",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 4,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": true
+  },
+  {
+   "id": "export-dry-run",
+   "state": "OPEN",
+   "wave": 1,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "vendor-export-path"
+   ],
+   "descendants": 3,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  },
+  {
+   "id": "logo-pass",
+   "state": "OPEN",
+   "wave": 1,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "brand-refresh"
+   ],
+   "descendants": 0,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  },
+  {
+   "id": "pilot-proposal",
+   "state": "OPEN",
+   "wave": 1,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "ops-lead-intro",
+    "pilot-scope"
+   ],
+   "descendants": 2,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  },
+  {
+   "id": "case-note",
+   "state": "OPEN",
+   "wave": 2,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "export-dry-run"
+   ],
+   "descendants": 0,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  },
+  {
+   "id": "forecast-baseline",
+   "state": "OPEN",
+   "wave": 2,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "export-dry-run"
+   ],
+   "descendants": 1,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  },
+  {
+   "id": "pricing-sheet",
+   "state": "OPEN",
+   "wave": 2,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "pilot-proposal"
+   ],
+   "descendants": 1,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  },
+  {
+   "id": "pilot-kickoff",
+   "state": "OPEN",
+   "wave": 3,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "forecast-baseline",
+    "pricing-sheet"
+   ],
+   "descendants": 0,
+   "cost": null,
+   "consent": null,
+   "tier_cue": 2,
+   "ready_now": false
+  }
+ ],
+ "findings": {
+  "dangling": [],
+  "dead_dependency": [],
+  "cycle_members": [],
+  "unblocks_mismatch": []
+ },
+ "critical_path_waves": 4
+}
