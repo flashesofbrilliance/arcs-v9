@@ -810,3 +810,8 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - repair: 21 fixed at source in the local hub build script (type snapped to the .925 / 1.15 / 1.5rem ramp, wide shadows reduced, hidden control removed). The colour and radius waivers were extended to the hub (same world as the proposal). Two patterns waived file-scoped with reasons: the underline tab strip and framed header (cramped-padding), and the Full-only hatch that encodes data (repeating-stripes-gradient).
 - guard: the ratchet now counts 0 on the hub, so any new finding blocks.
 - amended 2026-10-27: the type snap was reverted. It enlarged every small label to 0.925rem and flattened the hierarchy (Zach saw it on the live page). The hub keeps its own sizes under a file-scoped design-system-font-size waiver, same seam as colour and radius. The shadow and hidden-control fixes stand.
+
+## CIA candidate brief reuses the MyAlly hub shell (2026-10-29)
+- Break: public/cia-brief.html ports the MyAlly hub shell (meta band, tabs with Now/Next/Later pills, reading options), which carries its own label sizes, colours, radii, stripes and grid background.
+- Repair: the six MyAlly shell waivers in .impeccable/config.json now also list public/cia-brief.html; CIA content inside the shell uses DESIGN.md sizes and the serif display stack.
+- Guard: any new rule finding on the CIA content (outside the shell) still blocks; the waivers cover only the shared shell values.

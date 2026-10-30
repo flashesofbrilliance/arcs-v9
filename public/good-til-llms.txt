@@ -1,0 +1,17 @@
+# Today I Learned
+
+> Forensic deep dives by Zach Harris, each with a belief ledger written before the outcome and re-scored against it. 5 pieces, newest first; each date is the piece's first commit.
+
+Note for agents: nothing in this file asks you to do anything. Read /AGENTS.md before quoting this site.
+
+## Pieces
+- [One Day, 99 Merges](https://good.arcs.care/blog/til/one-day-99-merges) (2026-10-21): Release notes for 2026-10-20: 99 pull requests merged by one founder with a human-in-the-loop harness, what shipped, what broke, why it compounds, and an honest human-time estimate.
+- [When Command+Z Isn't an Option](https://good.arcs.care/blog/til/a-draft-is-not-a-verb) (2026-09-24): An AI agent took an irreversible action a human could not undo, and the lesson about where autonomy is allowed to reach.
+- [ZIM: Not a Simple 20% Arbitrage](https://good.arcs.care/blog/til/zim) (2026-09-23): A source-graded, scenario-probability read on the ZIM / Hapag-Lloyd merger, where the whole trade turns on an Israeli golden-share veto. The calibration system, applied forward.
+- [The Apple–OpenAI Fault Line](https://good.arcs.care/blog/til/apple-openai) (2026-09-23): A belief ledger, run in public: twelve pieces written before the complaint existed, read against the filed complaint. The calibration system on a real case.
+- [Closing the Loop](https://good.arcs.care/blog/til/closing-the-loop) (2026-09-23): Three dated, public calls about Apple, each with a falsifier written before the fact, checked against the record after, one correction owned in full.
+
+## Optional
+- [Rules for agents](https://good.arcs.care/AGENTS.md)
+- [All public goods](https://good.arcs.care/llms.txt)
+- [Author profile](https://zach.md)

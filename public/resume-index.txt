@@ -1,0 +1,209 @@
+# Zach Harris
+
+- BUILDING AT THE EDGE
+- linkedin.com/in/zharris · github.com/flashesofbrilliance
+- BUILDING AT THE EDGE · APPLIED AI · DECISION INTELLIGENCE
+- Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and feedback loops that close each decision against its recorded outcome. Currently: ARCS, a decision intelligence platform built on Claude.
+- 01
+- EXPERIENCE
+- ARCS
+- 2025→
+- GRAYSCALE
+- 2024–25
+- CONSULTING ↓
+- 2019–23
+- CTF
+- 2018–19
+- WTA
+- 2016–18
+- ◈ARCS · DECISION INTELLIGENCE PLATFORM
+- 2025–Present
+- Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and a scoring loop that closes each decision against its recorded outcome. Built solo and in the open: 5,300+ commits in 195 days.
+- 1,580+
+- PRS MERGED, EACH HUMAN-APPROVED
+- Shipped solo and in the open: 5,300+ commits in 195 days (as of Oct 21, 2026), every figure on status.arcs.care measured from the repository itself
+- Built AI-native analysis pipeline on Claude; MCP server + agentic orchestration layer handles pre/post-decision capture automatically
+- Designed the outcome-capture method: each decision is scored for confidence when made and closed against what actually happened; no accuracy figure is published until enough outcomes close
+- Platform guardrails as code: per-tenant Postgres roles with row-level security that fail closed, generated route and tool inventories with drift checks, and pre-commit gates that block whole classes of bugs. Live app at app.arcs.care; commit history and traces on request
+- Human-in-the-loop dev harness: parallel agent sessions, merges pinned to the approved commit, an append-only decision ledger in Postgres. 1,580+ PRs merged, 99 in one day, a human approving every merge. Live counts: status.arcs.care; release notes: one day, 99 merges
+- Compounding by design: every merge is receipted to a generated tool graph whose outcome weights steer the next build; graph retrieval beat the flat catalog 16/18 to 6/18 in a pre-registered blind test
+- Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product
+- COMPASS SIGNAL
+- "What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what's the right first wedge to prove the model?"
+- ▣GRAYSCALE INVESTMENTS (DCG)
+- 2024–2025
+- Led go-to-market for 10 SEC/FINRA-regulated digital-asset investment products ($7B AUM): positioning, segmentation, and adoption strategy inside regulated controls and governance.
+- $7B
+- AUM · REGULATED PRODUCT SUITE
+- Led go-to-market and market-expansion strategy across 10 regulated digital-asset products, inside SEC/FINRA controls and governance
+- Owned positioning, segmentation, and adoption strategy across the investor experience
+- Coordinated across product, engineering, legal, risk, and compliance through regulated release gates
+- Translated regulatory requirements into product and go-to-market requirements
+- "How do you take ten regulated investment products to market inside SEC/FINRA controls, and what does the governance-first go-to-market sequence look like?"
+- ◇CHILDREN'S TUMOR FOUNDATION
+- 2018–2019
+- Enterprise data and decision-intelligence layer from scratch: CDP architecture, CRM modernization, and segmentation across marketing, fundraising, and clinical. 20% net-new revenue growth through data-driven lifecycle strategy.
+- 20%
+- NET-NEW REVENUE VIA DATA PERSONALIZATION
+- Built the enterprise data infrastructure end-to-end: CDP evaluation, CRM modernization (Salesforce Lightning), lifecycle segmentation
+- Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units; the first intelligence layer any of these teams had
+- Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and cross-BU growth instrumentation
+- "When a mission-driven org needs to shift from intuition-led to data-led fundraising, what's the right sequence, and how do you get program teams to act on the signal before the next campaign launches?"
+- △WOMEN'S TENNIS ASSOCIATION
+- 2016–2018
+- Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue.
+- <120ms
+- REAL-TIME FAN BEHAVIOR SCORING
+- Led CDP evaluation and selection for global consumer sports platform; built real-time fan behavior scoring at <120ms, serving personalized offers during live events
+- Designed first commercial partnerships with Twitter and Facebook: behavioral data flows, attribution models, event-driven revenue; $850K+ year-one
+- Pre/post-event intelligence loop: pre-tournament fan segmentation → in-event scoring → post-event outcome capture. Applied before "growth intelligence" was a category.
+- Platform load simulation and reliability engineering ahead of Women's Finals: data-informed capacity decisions, not guesses
+- "How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously, and what does the pre/post-event capture loop look like?"
+- 02
+- SELECT CONSULTING WORK
+- ⬡AXON ENTERPRISES
+- GovTech · Jun–Dec 2023
+- New venture incubation: product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP.
+- MVP
+- SECURE OTT PLATFORM
+- Led discovery and business model validation for First Responder OTT network
+- Defined MVP features, instrumentation requirements, and success metrics for secure, video-first content platform
+- ◑TWILL HEALTH
+- HealthTech · Jan 2021–May 2023
+- Market viability testing for 3 AI-enabled digital health product lines across a HIPAA-regulated environment.
+- 3
+- AI HEALTH PRODUCT LINES VALIDATED
+- Conducted market viability testing for 3 AI-enabled digital health lines; KPI frameworks informed go-forward decisions on 2 of 3
+- Validated commercial strategy with primary research and brand health studies in HIPAA-regulated context
+- ⊕VERIZON MEDIA
+- Moonshot Strategy · Jan–Dec 2021
+- Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.
+- 5
+- 5G INNOVATION VENTURES ASSESSED
+- Quantitative opportunity assessments for five 5G innovation products; market sizing and competitive analysis
+- Analyzed market trends to recommend go/no-go decisions on venture investments
+- ◬GOPRO
+- Consumer Tech · Aug 2020–Dec 2021
+- Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.
+- EMEA/APAC
+- INTERNATIONAL GROWTH STRATEGY
+- Designed analytics framework for EMEA/APAC international growth initiatives
+- Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution
+- ◉SQUAT NEW YORK
+- Behavioral Health · 2019–20
+- Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition; sole tech partner from discovery through QA and handoff.
+- 7-FIG
+- ENGAGEMENT VALUE · $350M ARR CLIENT
+- Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul
+- Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI
+- Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule
+- 03
+- SKILLS
+- TYPESCRIPT
+- REACT
+- NEXT.JS (APP ROUTER)
+- PYTHON (FASTAPI)
+- POSTGRESQL
+- SUPABASE
+- PRISMA
+- VERCEL
+- API-DRIVEN ARCHITECTURE
+- ESLINT
+- GITHUB ACTIONS CI/CD
+- CLAUDE CODE
+- CLAUDE
+- MCP SERVER
+- AGENTIC AI PIPELINES
+- GLEAN
+- GROWTH MARKETING
+- LIFECYCLE / CRM
+- GTM STRATEGY
+- SQL
+- PYTHON
+- A/B EXPERIMENTATION
+- FORECASTING
+- DATA MODELING
+- CDP ARCHITECTURE
+- SEGMENT / MPARTICLE
+- EVENT TAXONOMY
+- ATTRIBUTION MODELING
+- SNOWFLAKE
+- DATA GOVERNANCE
+- 04
+- OPEN SOURCE
+- A family of shipped developer tools, published to npm, Homebrew, and a Claude Code plugin marketplace, each verified against its own conformance suite.
+- rosetta-shell
+- Lossless shell / env translation (bash 3.2 ↔ zsh ↔ POSIX) with a CI portability gate. · npm · Homebrew
+- germinate
+- Serializable, provenance-carrying handoff protocol for multi-agent development. · npm · Homebrew
+- arcs skills
+- Claude Code plugin marketplace: root-cause analysis, state-sync, token-budgeting, toolbar triage. · plugin marketplace
+- → github.com/flashesofbrilliance
+- 05
+- EDUCATION
+- Oberlin College · 2002–2006
+- BA, Honors Studio Art
+- Design-first foundation: aesthetic intuition applied to data visualization and developer experience analytics.
+- MIT xPRO · Certificate
+- AI: Business Strategy
+- AI strategy, product instrumentation, and ML system design for enterprise and product contexts.
+- 02
+- DEEP PROFILE
+- CORE STRENGTHS
+- Builds the intelligence layer before the category for it exists, then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, tech, marketing, data, commercial, and security don't live in separate rooms. The rarest thing in this kind of hiring is someone who can hold all of them simultaneously and make decisions that are right across every dimension at once.
+- ENERGY PROFILE
+- ACTIVATES
+- First instrumentation layer: no playbook, invent the taxonomy
+- Cross-domain synthesis: connecting what specialists keep separate
+- High-stakes contexts where measurement actually matters
+- The moment instrumentation reveals what the team did not know to ask
+- Building the thing, then becoming its first analyst
+- DEPLETES
+- Pure optimization once built and proven: attention drops
+- ML / stat work disconnected from product decisions (no "so what")
+- Siloed contexts where cross-domain synthesis is not valued
+- Work that lives permanently in presentations, never ships
+- Bureaucratic consensus without clear decision authority
+- COMPOUND ADVANTAGES
+- ⊗REAL-TIME BEHAVIORAL SCORING × HIGH-STAKES DECISION WINDOWS: SAME ARCHITECTURE
+- WTA <120ms fan scoring · live drops · 10-year gap
+- WTA live-event fan scoring at <120ms is the same architecture as any high-stakes, time-compressed decision window: personalized signal has to land before the window closes. Built the first version in 2016.
+- At WTA (2016–2018): fan at a live event → behavioral signal → personalized offer under 120ms. The system had to read intent and deliver without friction because a delayed offer during a match moment was worthless. Built the real-time architecture, the behavioral taxonomy, and the commercial partnership layer ($850K+ year-one from Twitter and Facebook).
+- High-stakes decision windows are the same problem class: user in a time-boxed window → behavioral signal → post-event intelligence feeds the next decision. The WTA architecture is a direct ancestor. The isomorphism is structural, not superficial.
+- ⊗STUDIO ART × CROSS-DOMAIN INTELLIGENCE
+- Oberlin 2006 × breadth career
+- Aesthetic intelligence applied to system architecture: intelligence products that get used because they're designed to be understood, not just accurate. Creative judgment that holds across product categories and industries.
+- Most intelligence layers are built by people who think in one domain. The Oberlin Studio Art background is a breadth signal: trained to hold composition, material, narrative, and intent simultaneously; the same skill that makes a cross-domain intelligence layer actually work instead of producing reports no one reads.
+- Applied AI and forward-deployed engineering require the same skill: translating between what the system can do, what the customer needs, and what the data is actually showing. That translation is a creative act as much as a technical one.
+- ⊗AI-NATIVE IN PRODUCTION, NOT IN DEMOS
+- Claude + MCP Server · ARCS
+- ARCS is built on Claude with a live MCP server and agentic orchestration. The onboarding question isn't "what can AI do?" but "here's what the pattern in your data is already telling us."
+- Applied AI roles require fluency with the actual production stack, not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
+- Deployed across a full decision lifecycle: intake → analysis → structured receipt → compounding feedback. The architecture is the proof of concept.
+- PRODUCTIVE TENSIONS
+- BUILDER ↔ ANALYST
+- Must build to analyze well. Must analyze to build better. Breaks most job descriptions. Generates practitioner insight no pure analyst has.
+- AESTHETIC ↔ RIGOR
+- "This metric is ugly therefore unused" fires before statistical validation confirms it. Aesthetic judgment accelerates the analytical loop.
+- PIONEER ↔ PRODUCTION
+- Drawn to new territory but has the regulated-environment discipline to ship in high-stakes contexts. Valuable where new products need to be production-grade from day one.
+- ROLE FIT
+- A
+- Forward Deployed · Applied AI Engineering
+- Sits with customers or internal stakeholders, understands their actual workflow, and ships something useful in their context, without needing to be hand-held through the problem.
+- IN PRACTICE ▲ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.
+- B
+- Decision Intelligence · AI Strategist
+- Not just measuring outcomes: designing the pre-decision capture, evidence taxonomy, and feedback loop that closes each decision against its outcome. The intelligence compounds or it doesn't.
+- IN PRACTICE ▲ARCS: 1,580+ PRs merged, a human approving every one. Grayscale: GTM across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.
+- C
+- Commercial layer alongside analytical depth
+- Growth intelligence isn't just measurement. It's knowing what the measurement is for, and being able to run the commercial decision, not just report on it.
+- IN PRACTICE ▲WTA: $850K year-one from first commercial partnerships. Grayscale: release-cycle time cut 35 percent with zero SEC or FINRA violations. CTF: 20% net-new revenue from data personalization. The intelligence was always in service of a commercial outcome.
+- THE DIFFERENTIATOR
+- Most candidates for Applied AI / FDE / Decision Intelligence roles have depth in one lane: analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at VP level and still do the work. Add AI-native in production (not in demos), a working decision intelligence platform built from scratch, and a consistent pattern of building the intelligence layer before it had a name, and the first questions aren't about onboarding. They're about what's already in the data.
+- Zach Harris
+- Zach Harris · resume.arcs.care
+- 2026
+
+Agent-readable profile with sourced, dated facts: https://zach.md
