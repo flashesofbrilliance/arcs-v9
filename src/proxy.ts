@@ -214,6 +214,10 @@ export default async function proxy(request: NextRequest) {
       url.pathname = '/monday-gate.html'
       return NextResponse.rewrite(url)
     }
+    // Past the gate: log ZIP downloads (a person with the passcode, not a mail scanner). No IP.
+    if (pathname === '/monday-guide-rc46.zip') {
+      console.log('monday_access', JSON.stringify({ event: 'zip_download', country: request.headers.get('x-vercel-ip-country'), city: request.headers.get('x-vercel-ip-city'), ua: request.headers.get('user-agent')?.slice(0, 120) }))
+    }
   }
 
   // --- myally.arcs.care: whole host behind its OWN passcode -----------------
