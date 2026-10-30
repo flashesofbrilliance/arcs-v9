@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 300,
+  "rows": 301,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 241,
+   "product page": 242,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 10,
+  "missing_purpose": 11,
   "unlisted": 119
  },
  "retired_hosts": [
@@ -4856,7 +4856,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-21"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "resume.arcs.care",
@@ -4897,6 +4897,26 @@
    "purpose": "Zach Harris · Resume",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "resume.arcs.care",
+   "path": "/index.md",
+   "catch_all": false,
+   "destination": "/resume-index.txt",
+   "pattern": false,
+   "file": "public/resume-index.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "robin-codex.arcs.care",
@@ -6031,7 +6051,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "zach.md",
@@ -6051,7 +6071,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "zach.md",
@@ -6071,7 +6091,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "*",
