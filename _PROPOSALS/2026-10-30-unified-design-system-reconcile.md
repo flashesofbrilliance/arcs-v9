@@ -52,7 +52,22 @@ Counted by `scan.py` over class selectors; React counts are identifier mentions.
 
 ## 2. Reconcile to the grammar
 
-Grammar: tones say ▲ cyan, show ● green, limit ◆ gold, fail ✕ red, shift ◇ violet, neutral · slate; fidelity sharp, degraded, grain, moire; materials field (recessed well, breathing LED) and pocket (bezel, raised keys, LED tiles).
+Grammar (as of e87c1298 on the grammar branch, option A applied):
+
+| Tone | Glyph | Tag | Colour |
+|---|---|---|---|
+| shown | ▲ | SHOWN | green |
+| on request | ◆ | ON REQUEST | cyan (new) |
+| not yet | ~ | NOT YET | gold (new) |
+| say | ▸ | SAY | text colour (a claim is a statement, not a state) |
+| limit | ⚑ | LIMIT | orange (DESIGN.md warning; light #a34a0b, 5.08:1) |
+| shift | Δ | SHIFT | violet |
+| fail | ✕ | FAIL | red |
+| neutral | · | NOTE | steel |
+
+Rule in the spec: no other tone may reuse ▲, ◆ or ~. Fidelity: sharp, degraded, grain, moire. Materials: hud (default), field and pocket (opt-in).
+
+Where the mappings below say show, read shown; read limit as ⚑ orange. Paused or caveated states that were mapped to limit should be checked against not yet (gold) during migration.
 
 | Pattern | Verdict | Mapping or gap |
 |---|---|---|
@@ -74,7 +89,7 @@ Grammar: tones say ▲ cyan, show ● green, limit ◆ gold, fail ✕ red, shift
 | Light paper pages | Sanctioned separate world | The grammar already carries a light column for it. |
 | Pocket skin (dj.arcs.care) | Sanctioned world, source of `pocket` material | Not migrated; it lends the material. |
 
-**CONFLICT, DECIDED by Zach 2026-10-30: option A, the grammar adopts /proof's vocabulary.** ▲ shown (green), ◆ on request (cyan), ~ not yet shown (gold) become grammar tones; on request is now a first-class tone. The grammar session owns the spec change (one owner per branch). The remaining tones keep their meaning but need glyphs that do not reuse ▲ or ◆; that pick goes with the spec change.
+**CONFLICT, DECIDED by Zach 2026-10-30: option A, the grammar adopts /proof's vocabulary.** ▲ shown (green), ◆ on request (cyan), ~ not yet shown (gold) become grammar tones; on request is now a first-class tone. The grammar session owns the spec change (one owner per branch). The remaining tones keep their meaning but need glyphs that do not reuse ▲ or ◆; Applied in e87c1298: SAY ▸, LIMIT ⚑ orange, SHIFT Δ.
 
 Original framing:
 
@@ -141,7 +156,7 @@ Gate each step with `token_source_gate`, `artifact_wrap_lint`, `motion_policy_ga
 
 ## Open decisions (Zach)
 
-1. DECIDED 2026-10-30: option A. Follow-up: new glyphs for say and limit so no glyph carries two meanings.
+1. DECIDED 2026-10-30: option A. New glyphs landed in e87c1298 (grammar branch, not yet merged).
 2. Two token sources (`_tokens.css` and `src/ui/tokens.ts`): emit both from one JSON (recommended), or keep them hand-synced?
 3. Is the pocket material allowed outside dj.arcs.care for input controls on receipts?
 
