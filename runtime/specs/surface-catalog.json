@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 297,
-  "hosts": 84,
+  "rows": 300,
+  "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 238,
+   "product page": 241,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 7,
+  "missing_purpose": 10,
   "unlisted": 119
  },
  "retired_hosts": [
@@ -1592,7 +1592,7 @@
    "unlisted": true,
    "purpose": "Zach Harris - Dioptra",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "dj.arcs.care",
@@ -6012,6 +6012,66 @@
    "purpose": "Yuri · one door",
    "kind": "product page",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "zach.md",
+   "path": "/",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "zach.md",
+   "path": "/index.md",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "zach.md",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "*",
