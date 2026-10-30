@@ -88,10 +88,19 @@
         },
         {
           "id": "guardrails",
-          "claim": "Guardrails as code: per-tenant database roles that fail closed, and pre-commit gates that block whole classes of bugs.",
+          "claim": "Per-tenant database roles with row-level security that fail closed.",
           "status": "on-request",
           "evidence": "In the private repository; walkthrough on request.",
           "date": "2026-10-30"
+        },
+        {
+          "id": "gates",
+          "claim": "Turns a recurring bug into a gate that fails the build on the whole class, not just the instance.",
+          "status": "shown",
+          "evidence": "A recurring bug becomes a gate, a misattribution becomes a named pathogen, and the detector's first true positive lands on the document it was built to protect.",
+          "date": "2026-08-30",
+          "url": "https://good.arcs.care/blog/nftt/post-4",
+          "label": "NFTT Post 4"
         },
         {
           "id": "take-home-trap",
@@ -149,6 +158,24 @@
           "date": "2026-09-11",
           "url": "https://good.arcs.care/blog/nftt/closing-the-loop-receipts",
           "label": "Closing the Loop"
+        },
+        {
+          "id": "seven-calls",
+          "claim": "Published seven market calls with their falsifiers stated up front, then scored them, two corrections owned in public.",
+          "status": "shown",
+          "evidence": "What held, what missed, and one move the calls only partly explain. Misses stay on the record.",
+          "date": "2026-10-06",
+          "url": "https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers",
+          "label": "Seven Calls, Seven Falsifiers"
+        },
+        {
+          "id": "apple-openai",
+          "claim": "Ran a belief ledger in public: twelve pieces written before a lawsuit existed, read against the complaint once it was filed.",
+          "status": "shown",
+          "evidence": "The calibration system applied to a real case, forward in time.",
+          "date": "2026-09-23",
+          "url": "https://good.arcs.care/blog/til/apple-openai",
+          "label": "TIL: Apple and OpenAI"
         },
         {
           "id": "slop",
@@ -227,6 +254,15 @@
           "status": "on-request",
           "evidence": "Co-founder, IBRShop, 2012 to 2016.",
           "date": "2016"
+        },
+        {
+          "id": "audit-offer",
+          "claim": "Packaged the method as a fixed-price offer: an audit of whether a cold reader can rebuild what a team's AI agents did from the record alone.",
+          "status": "shown",
+          "evidence": "The offer page. A productized method, not a revenue figure.",
+          "date": "2026-09-26",
+          "url": "https://good.arcs.care/audit",
+          "label": "Agent Receipts Audit"
         }
       ]
     },
@@ -243,6 +279,24 @@
           "date": "2026-09-24",
           "url": "https://good.arcs.care/blog/nftt/a-draft-is-not-a-verb",
           "label": "A Draft Is Not a Verb"
+        },
+        {
+          "id": "cold-reconstruction",
+          "claim": "Tested whether a second agent, never present, could rebuild an incident from the committed record alone, then ran a controlled cold-versus-warm experiment.",
+          "status": "shown",
+          "evidence": "What the cold reader could not rebuild turned out to be the real finding; the warm reader with the participant's memory did not corrupt the record, it changed something stranger.",
+          "date": "2026-09-25",
+          "url": "https://good.arcs.care/blog/nftt/the-control-and-the-experiment",
+          "label": "The Control and the Experiment"
+        },
+        {
+          "id": "parallel-sessions",
+          "claim": "Runs agent sessions in parallel and publishes where that breaks: two sessions fixed the same bug an hour apart, and the protocol meant to stop it never fired.",
+          "status": "shown",
+          "evidence": "The account of the collision and the lock that was already there.",
+          "date": "2026-09-13",
+          "url": "https://good.arcs.care/blog/nftt/the-lock-that-was-already-there",
+          "label": "The Lock That Was Already There"
         },
         {
           "id": "blind-test",
