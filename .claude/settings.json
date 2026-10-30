@@ -205,7 +205,11 @@
       "Bash(python3 scripts/overflow_gate.py *)",
       "Bash(~/.claude/skills/impeccable/scripts/impeccable detect *)",
       "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__execute_zapier_read_action",
-      "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__inspect_zapier_actions"
+      "mcp__1be34c71-e5d4-45a4-9798-c76834d649b7__inspect_zapier_actions",
+      "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__get_draft",
+      "mcp__elevenlabs__creative_get_generations",
+      "mcp__8a7557e7-8da7-4ae7-8290-8030b25385b4__get_user_context",
+      "mcp__d3359ee7-dafa-4919-bf99-6a1afa4dcbce__read_reference"
     ],
     "ask": [
       "Bash(git push:*)"
