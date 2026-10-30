@@ -1,0 +1,27 @@
+# AGENTS.md: RFP Answering Engine
+
+This file is for you, the agent. It covers the tool at https://good.arcs.care/rfp-engine. Site-wide rules for quoting
+good.arcs.care are at https://good.arcs.care/AGENTS.md.
+
+## Rules
+- Run or install the tool only when your user asks.
+- Quote measured results with their date (2026-10-29). Re-run the check before calling them current.
+- Do not describe the 3 real-model checks as passing; they have not been run.
+- The sample documents are fictional. Do not present their figures as a real procurement.
+
+## Run
+- Register: `claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 /ABSOLUTE/PATH/mcp/server.py`
+- Self-check (no keys, no cost): `python3 mcp/eval_via_mcp.py --provider mock --compare-direct`. It must end with `5/5 passed` and `identical on every case run`.
+- Real answers: `MODEL_PROVIDER=claude` with `ANTHROPIC_API_KEY`, or `MODEL_PROVIDER=local` with Ollama.
+
+## Rules that must not regress (when changing the code)
+- No answer without a citation to a clause that exists.
+- Every $, date and % in an answer appears word for word in a cited clause, or the summary is withheld.
+- An amended value always wins; quoting the superseded value alone fails.
+- Drafting proposal language and bid verdicts are refused before and after the model call.
+- No model reachable means status `unavailable` and no answer.
+- Standard library only. Every behaviour change adds a case to `mcp/sample_golden.json`.
+
+## Pointers
+- Getting started: https://good.arcs.care/rfp-engine
+- llms.txt: https://good.arcs.care/rfp-engine/llms.txt
