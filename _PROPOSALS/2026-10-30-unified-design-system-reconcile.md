@@ -10,7 +10,7 @@ grammar source: runtime/specs/grammar-chips.json v0.2.0 (branch claude/sharp-vis
 
 Prior art: grammar branch commit d5b31ae2 (hud material); DESIGN.md "Sanctioned Visual Worlds" and "Motion and safety"; `scripts/token_source_gate.py`; memory `single-file-artifacts-inherit-tokens-never-copy`; `public/proof.html` (PRs 1868, 1871).
 
-Scope split: the apex-design-audit session (local_156f76c6) is auditing the Dioptra index page only (its note `apex-audit-and-gauntlet.md`). No surface overlaps with this pass.
+Scope split, confirmed by apex-design-audit (local_156f76c6) on 2026-10-30: it covers only the Dioptra RFP index (a scratchpad copy), video frame 03 and the brand-line-producer agent (PR 1875). No surface overlaps with this pass.
 
 ## The finding in one paragraph
 
@@ -69,6 +69,7 @@ Grammar: tones say ▲ cyan, show ● green, limit ◆ gold, fail ✕ red, shift
 | Badge.tsx, ChipToggle.tsx | Maps (become GrammarChip skins) | ChipToggle is input, so pocket material (raised key). |
 | CalibrationChips (conviction) | Maps plus fidelity | Conviction level drives fidelity (sharp to grain), not tone. |
 | Y-gate states on receipts | Maps | GREEN=show sharp, YELLOW/FORK=limit degraded, RED=fail grain, DELTA/DRIFT=shift grain, PARADOX=limit moire, SCRATCH=neutral grain. |
+| Dioptra RFP index "Honest" chip (apex-design-audit, scratchpad copy) | **Misuse** | Red fail tone on a positive claim. Should be shown (green) under the /proof vocabulary. Flagged by the brand-line-producer agent (PR 1875). |
 | NFTT `.ezchip`, `.card`, `.dot` | **Sanctioned separate world** | Stays NFTT unless Zach says otherwise. Only the label heuristics row touches it. |
 | Light paper pages | Sanctioned separate world | The grammar already carries a light column for it. |
 | Pocket skin (dj.arcs.care) | Sanctioned world, source of `pocket` material | Not migrated; it lends the material. |
