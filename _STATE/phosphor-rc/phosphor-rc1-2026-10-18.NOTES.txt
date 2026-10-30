@@ -1,0 +1,4 @@
+Phosphor rc1 on 8f58dad69e9bce97781973aac47abb74b71f73ed (PR #1619 head; merged to main in 0c5c5a22).
+Chromium 45/45, WebKit 45/45, exit 0 under fixed gate.
+FIREFOX NOT RUN: Playwright firefox-1532 fails to launch on this Mac (sandbox_extension_issue_file_to_process: Operation not permitted; RenderCompositorSWGL framebuffer). Exception approved by Zach 2026-10-18.
+Not covered: the merge commit 0c5c5a22 also carries flying faders (0d4b25d3), which landed on main during the run; this tag is the tested tree, not main's head.

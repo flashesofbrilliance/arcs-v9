@@ -2,10 +2,17 @@
   "captured_at": "2026-10-15T15:48:22-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "9d37d2b",
-    "head_message": "Merge pull request #1238 from flashesofbrilliance/claude/handoff-molt-2",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "c5b71cb2",
+    "head_message": "Merge pull request #1718 from flashesofbrilliance/claude/receipt-job-tool-ids",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/pulse.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/pulse.json",
+      "_STATE/snapshot.json",
+      "_STATE/phosphor-rc/"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -43,5 +50,5 @@
   "session_summary": "Built the one-source proposal wiki (human page plus machine JSON), a five-axis ranking with nested decision edges, and a field view on the ui-kit; audited compass cloning exposure and the HUD moire claim; ran one backlog hindcast (nothing passed). No production change, nothing pushed.",
   "next_action": "Zach: approve opening a PR for claude/relaxed-merkle-130db6 so it can merge, log one receipt, and let a molt correct the stale take-home block in CLAUDE.md.",
   "blocking": "PRL go-live: publish the staged step 8 fix in Zap 376827315 (Lead mapped from step 5 ID, not the static Roger A Lamarre pick), after confirming whether empty update fields skip or clear; then repair Roger and run the repeat-chat proof. Empty-email guard is hardening, not the Sep 17 cause (root cause in _ARTIFACTS/prl-1-2-close-loop/2026-10-09-go-live-blockers.md).",
-  "git_refreshed_at": "2026-10-05T17:21:49-04:00"
+  "git_refreshed_at": "2026-10-20T16:25:03Z"
 }
