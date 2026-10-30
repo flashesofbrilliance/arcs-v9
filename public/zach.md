@@ -48,6 +48,7 @@ of fact, rules for using them, and links to the sources.
 | If the person needs… | Point them to |
 |---|---|
 | My background and roles | [Resume](https://resume.arcs.care) |
+| Whether my claims hold up: each one linked to its record, or marked private or not yet shown | [Proof ledger](https://zach.md/proof) ([claims.json](https://zach.md/proof/claims.json)) |
 | Help with AI, systems, or a big decision for their business | [zachharris.xyz](https://zachharris.xyz) |
 | Proof the ARCS build is real, measured from the repository | [status.arcs.care](https://status.arcs.care) |
 | What I believed, what overturned it, and what replaced it | [Beliefs ledger](https://status.arcs.care/beliefs) |

@@ -68,12 +68,13 @@ const nextConfig: NextConfig = {
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
       // zach.md: agent-readable profile (Markdown, AGENTS.md convention). Served as text/markdown at
-      // /, /index.md and /llms.txt; indexable on purpose.
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "zach.md" }],
+      // /, /index.md and /llms.txt; indexable on purpose. /proof is HTML (the proof ledger), so the
+      // markdown type is scoped to the three markdown paths only.
+      ...["/", "/index.md", "/llms.txt"].map((source) => ({
+        source,
+        has: [{ type: "host" as const, value: "zach.md" }],
         headers: [{ key: "Content-Type", value: "text/markdown; charset=utf-8" }],
-      },
+      })),
       {
         source: "/index.md",
         has: [{ type: "host", value: "resume.arcs.care" }],
@@ -92,6 +93,11 @@ const nextConfig: NextConfig = {
         { source: "/", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
         { source: "/index.md", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
         { source: "/llms.txt", destination: "/zach.md", has: [{ type: "host", value: "zach.md" }] },
+        // zach.md/proof: the proof ledger (scripts/proof_emit.py), its data, and the host's own robots + sitemap.
+        { source: "/proof", destination: "/proof.html", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/proof/claims.json", destination: "/proof-claims.json", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/robots.txt", destination: "/zach-robots.txt", has: [{ type: "host", value: "zach.md" }] },
+        { source: "/sitemap.xml", destination: "/zach-sitemap.xml", has: [{ type: "host", value: "zach.md" }] },
         { source: "/forge", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/observatory", destination: "/blacksmith-observatory.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
         { source: "/resume", destination: "/blacksmith-resume-viewer.html", has: [{ type: "host", value: "blacksmith.arcs.care" }] },
@@ -168,7 +174,7 @@ const nextConfig: NextConfig = {
         { source: "/index.md", destination: "/resume-index.txt", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        { source: "/:path((?!google|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        { source: "/:path((?!google|proof|resume-index|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/warroom/jack-rain", has: [{ type: "host", value: "jack-rain.arcs.care" }] },
         { source: "/:path((?!jack-rain-resume).*)", destination: "/jack-rain-ext.html", has: [{ type: "host", value: "rain.arcs.care" }] },

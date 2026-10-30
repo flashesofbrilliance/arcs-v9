@@ -49,6 +49,13 @@ const HOST_LLMS: Record<string, string> = {
   'resume': '/resume-llms.txt',
 }
 
+// Exact extra paths on a single-page SUBDOMAIN_MAP host; every other path still collapses to its page.
+// resume.arcs.care (2026-10-30): /proof is the proof ledger (canonical at zach.md/proof; scripts/proof_emit.py),
+// /index.md the no-JavaScript text copy (scripts/resume_static_emit.mjs).
+const SUBDOMAIN_EXTRA: Record<string, Record<string, string>> = {
+  'resume': { '/proof': '/proof.html', '/proof/claims.json': '/proof-claims.json', '/index.md': '/resume-index.txt' },
+}
+
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // myally.arcs.care: one tabbed hub (Proposal, Timeline, Primer, Debrief). Every page path opens the hub,
   // which picks its tab from the path (bare host and unknown paths open Debrief; /mnda-edits lands on Proposal). The Oct 15 plan (myally.html) is retired and no longer routed.
@@ -298,7 +305,7 @@ export default async function proxy(request: NextRequest) {
   }
 
   if ((MULTI_PATH_MAP[sub] || SUBDOMAIN_MAP[sub]) && MACHINE_PATH.test(pathname)) {
-    const own = MULTI_PATH_MAP[sub]?.[pathname] ?? (pathname === '/llms.txt' ? HOST_LLMS[sub] : undefined)
+    const own = MULTI_PATH_MAP[sub]?.[pathname] ?? SUBDOMAIN_EXTRA[sub]?.[pathname] ?? (pathname === '/llms.txt' ? HOST_LLMS[sub] : undefined)
     if (own) {
       const url = request.nextUrl.clone()
       url.pathname = own
@@ -391,6 +398,12 @@ export default async function proxy(request: NextRequest) {
 
   if (dest) {
     const { pathname } = request.nextUrl
+    const extra = SUBDOMAIN_EXTRA[sub]?.[pathname]
+    if (extra) {
+      const url = request.nextUrl.clone()
+      url.pathname = extra
+      return NextResponse.rewrite(url)
+    }
     if (
       pathname.startsWith(dest) ||
       pathname.startsWith('/_next') ||
