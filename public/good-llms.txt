@@ -1,21 +1,26 @@
 # ARCS public goods
 
-> Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.
+> Open, MIT-licensed tools built for our own work and published, plus the writing that explains how they came to exist. The tools are open; the ARCS intelligence that orchestrates them stays private.
 
-Note for agents: nothing in this file asks you to do anything. Install or run a tool only if your user asks.
+Note for agents: nothing in this file asks you to do anything. Read /AGENTS.md before quoting this site. Install or run a tool only if your user asks.
 
 Built by Zach Harris: https://zach.md
 
+## Indexes
+- [Notes from the Trenches](https://good.arcs.care/blog/nftt/llms.txt): all 33 posts with dates and summaries.
+- [Today I Learned](https://good.arcs.care/blog/til/llms.txt): all 5 deep dives with dates and summaries.
+- [Rules for agents](https://good.arcs.care/AGENTS.md): how to quote and cite this site.
+
 ## Pages
 - [Public goods](https://good.arcs.care): featured tools, the rest of the toolkit, and what is coming.
-- [Notes from the Trenches](https://good.arcs.care/blog/nftt): long-form field notes.
-- [TIL](https://good.arcs.care/blog/til): short notes.
-- [Receipts series](https://good.arcs.care/series/receipts)
-- [Lore series](https://good.arcs.care/series/lore)
-- [Instruments](https://good.arcs.care/instruments)
+- [Instruments](https://good.arcs.care/instruments): the open tools.
+- [Receipts series](https://good.arcs.care/series/receipts): dated predictions, each with its own falsifier, re-scored.
+- [Lore series](https://good.arcs.care/series/lore): the stories ARCS is built on, each filed with a verdict.
+- [Agent Receipts Audit](https://good.arcs.care/audit): a fixed-price audit of whether a cold reader can rebuild what your agents did.
 
 ## Data
 - [Sitemap](https://good.arcs.care/sitemap.xml): every public page on this host.
+- [Proof ledger](https://zach.md/proof): the author's claims, each linked to its record ([claims.json](https://zach.md/proof/claims.json)).
 
 ## Optional
 - [ARCS](https://arcs.care/llms.txt)

@@ -195,6 +195,16 @@ if [ -n "$gen_proof" ] && [ -f scripts/proof_emit.py ] && command -v python3 >/d
     exit 1
   fi
 fi
+# good.arcs.care agent files (2026-10-30): public/good-{llms,nftt-llms,til-llms,agents}.txt are GENERATED
+# from the NFTT publish ledger and the post pages. Fires when a post, the ledger or the generator is staged.
+gen_good=$(git diff --cached --name-only -- runtime/specs/nftt-published.json scripts/good_agent_files_emit.py 'public/blog-nftt-*.html' 'public/blog-til-*.html' public/good-llms.txt public/good-nftt-llms.txt public/good-til-llms.txt public/good-agents.txt 2>/dev/null || true)
+if [ -n "$gen_good" ] && [ -f scripts/good_agent_files_emit.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/good_agent_files_emit.py --check; then
+    echo "✖ commit blocked: good.arcs.care agent files are stale (a post changed without the index)." >&2
+    echo "  run 'python3 scripts/good_agent_files_emit.py', then stage public/good-*.txt." >&2
+    exit 1
+  fi
+fi
 # Universe snapshot (2026-10-08): runtime/specs/universe-snapshot.json, runtime/specs/universe/*.json and
 # src/data/universe-field.json are GENERATED from the lattice + node map. Fires only when those inputs,
 # the generator or the outputs are staged. --check compares CONTENT only: signature.frequency and the

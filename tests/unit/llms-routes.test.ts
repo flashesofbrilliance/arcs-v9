@@ -62,3 +62,16 @@ test("resume.arcs.care/proof: proxy routes the ledger and the catch-all lets it 
   const re = new RegExp(`^(?!${m[1].replace(/\\\\/g, "\\")}).*$`)
   for (const p of ["proof.html", "proof-claims.json", "resume-index.txt"]) assert.ok(!re.test(p), `resume catch-all would re-catch /${p}`)
 })
+
+// good.arcs.care (2026-10-30): section indexes and AGENTS.md are generated files, never the HTML catch-all.
+test("good.arcs.care: section llms.txt and AGENTS.md route to their generated files", async () => {
+  assert.equal(rewritten(await proxy(req("good.arcs.care", "/blog/nftt/llms.txt"))), "/good-nftt-llms.txt")
+  assert.equal(rewritten(await proxy(req("good.arcs.care", "/blog/til/llms.txt"))), "/good-til-llms.txt")
+  assert.equal(rewritten(await proxy(req("good.arcs.care", "/AGENTS.md"))), "/good-agents.txt")
+  assert.equal(rewritten(await proxy(req("good.arcs.care", "/agents.md"))), "/good-agents.txt")
+  const src = readFileSync(new URL("../../next.config.ts", import.meta.url), "utf8")
+  const m = src.match(/\{ source: "\/:path\(\(\?!(.*?)\)\.\*\)", destination: "\/good\.html", has: \[\{ type: "host", value: "good\.arcs\.care" \}\] \}/)
+  assert.ok(m, "good catch-all not found")
+  const re = new RegExp(`^(?!${m[1].replace(/\\\\/g, "\\")}).*$`)
+  for (const p of ["good-nftt-llms.txt", "good-til-llms.txt", "good-agents.txt"]) assert.ok(!re.test(p), `good catch-all would re-catch /${p}`)
+})
