@@ -44,15 +44,17 @@ Everything below ran against the **sandbox** (prlresinstest). Nothing touched pr
 - **v9 wasn't rerun for a valid state.** The warning stays blank when the state parses, so nothing should change for those leads.
 - **The rep-facing alert and the business-email check are still open decisions.**
 
-## Cleanup before close
+## Cleanup (done 2026-10-29, on Zach's go)
 
-These sandbox test leads still exist. Delete them only on Zach's go:
+Deleted from sandbox Sugar, each confirmed gone by a re-query: Claude Testlead, Kim Testbuyer, Pat Canuck, Pat Ontario, Todd Hotes (Oct 29), and the Sept 1 "sales rep / test" lead.
+Kept: an older Todd Hotes lead from 2023-09-05 (0574990c). It predates this testing, so it is not ours to delete.
 
-- Claude Testlead
-- Kim Testbuyer
-- Pat Canuck (v8)
-- Pat Ontario (v9)
-- Two Todd Hotes records
-- The Sept 1 "sales rep / test" lead
+Decision receipts logged: Tidio flow activation, Zap v8, Zap v9, and this cleanup (receipt ids 2026-10-29--prl-*--ZH).
 
-Decision receipts for the flow activation and the v8 and v9 publishes are not logged yet.
+## Running log (newest last)
+
+Append one dated line per test session or observation. Keep earlier lines as they are.
+
+- 2026-10-29: 8 live chats on staging; v8 then v9 published; check 32 of 32; release candidate ready for Todd's review.
+- 2026-10-29: Ontario lead flagged as expected on v9. In Sugar Leads, the flag goes in Lead Source Description because Leads has no plain Description field.
+- 2026-10-29: test leads cleaned up and receipts logged.
