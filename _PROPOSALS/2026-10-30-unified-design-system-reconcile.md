@@ -18,7 +18,7 @@ Tokens are already unified on the HTML side: every surface below passes `token_s
 
 ## Direction (Zach, 2026-10-30, relayed by the README-as-video session)
 
-- **Tactical HUD with Porsche Design restraint.** No web 2.0 glow, no gradients. The chip default is now the HUD material (commit d5b31ae2 on the grammar branch): matte face, neutral hairline, corner ticks in the tone, a tag divider, tabular numbers, no glow and no cast shadow. Field and pocket become opt-in. Read "materials" everywhere below as hud (default), field and pocket.
+- **Tactical HUD with Porsche Design restraint.** No web 2.0 glow, no gradients. The chip default is now the HUD material (commit d5b31ae2 on the grammar branch): matte face, neutral hairline, corner ticks in the tone, a tag divider, tabular numbers, no glow and no cast shadow. Field becomes opt-in. Pocket is dropped from the unified system (Zach, 2026-10-30: "the DJ / teenage instruments theme isn't great tbh"); it stays on dj.arcs.care only. Read "materials" everywhere below as hud (default) and field.
 - **Subtleties to mine, already in code:** translucent HUD panels `rgba(6,9,13,0.82)` with a `1px solid #1e293b` hairline and an `inset 0 1px 0 rgba(255,255,255,0.04)` top highlight (`src/organisms/ScopeHud.tsx:44-45`); rivet rings `inset 0 0 0 1px #2a3442` on `#151b23` (`ScopeHud.tsx:78`); a recessed input well `#0a0f15` (`src/organisms/Landing.tsx:191`). These are hand-typed hexes today. They become kit tokens (`--hud-panel`, `--hud-highlight`, `--hud-ring`, `--well`) before any page uses them.
 - **Voice balance:** /proof already balances the literary NFTT voice against the mono hacker voice. Name and numbers are set in mono, there is one serif lede (`--ds-font-display`) and the reading text is sans. That three-role type rule becomes a kit rule.
 - **Light-mode client surface:** the TIL posts (`public/blog-til-*.html`) and the cia.arcs.care front end (`public/cia-brief.html`, `public/cia-gate.html`) are the reference for the grammar's light column. Gate check 2026-10-30: cia-brief and 5 of 6 TIL pages PASS `token_source_gate`; `blog-til-a-draft-is-not-a-verb.html` FAILS (it re-declares `--cyan`).
@@ -65,7 +65,7 @@ Grammar (as of e87c1298 on the grammar branch, option A applied):
 | fail | ✕ | FAIL | red |
 | neutral | · | NOTE | steel |
 
-Rule in the spec: no other tone may reuse ▲, ◆ or ~. Fidelity: sharp, degraded, grain, moire. Materials: hud (default), field and pocket (opt-in).
+Rule in the spec: no other tone may reuse ▲, ◆ or ~. Fidelity: sharp, degraded, grain, moire. Materials: hud (default), field (opt-in). Pocket is out of the unified system.
 
 Where the mappings below say show, read shown; read limit as ⚑ orange. Paused or caveated states that were mapped to limit should be checked against not yet (gold) during migration.
 
@@ -81,7 +81,7 @@ Where the mappings below say show, read shown; read limit as ⚑ orange. Paused 
 | surfaces `.chip`, `.badge` | Maps | Route kinds are neutral; live/dead status is show/fail. |
 | playground | No chips today | Fidelity grain/moire is the natural home (pf-moire). |
 | ProvenanceTag (receipt) | Maps | Provenance source tags are neutral; verified/unverified = show/limit. |
-| Badge.tsx, ChipToggle.tsx | Maps (become GrammarChip skins) | ChipToggle is input, so pocket material (raised key). |
+| Badge.tsx, ChipToggle.tsx | Maps (become GrammarChip skins) | ChipToggle is input, in hud material. |
 | CalibrationChips (conviction) | Maps plus fidelity | Conviction level drives fidelity (sharp to grain), not tone. |
 | Y-gate states on receipts | Maps | GREEN=show sharp, YELLOW/FORK=limit degraded, RED=fail grain, DELTA/DRIFT=shift grain, PARADOX=limit moire, SCRATCH=neutral grain. |
 | Dioptra RFP index "Honest" chip (apex-design-audit, scratchpad copy) | **Misuse** | Red fail tone on a positive claim. Should be shown (green) under the /proof vocabulary. Flagged by the brand-line-producer agent (PR 1875). |
@@ -108,7 +108,7 @@ Needs-new list: the vocabulary decision above. No new material beyond hud, which
 
 ## 3. Gold standards and what becomes a kit atom
 
-**Question compass (arcs.care)** is `src/organisms/Landing.tsx` on `src/ui/*`. It is polished because it is assembled from atoms, not page CSS. Promote as-is into the kit spec (they already are atoms; they need the grammar wired in): `Button` (primary and ghost), `Card`, `SectionLabel`, `Rule`, `Gauge`, `StepProgress`. `Badge` and `ChipToggle` are replaced by `GrammarChip` (field and pocket).
+**Question compass (arcs.care)** is `src/organisms/Landing.tsx` on `src/ui/*`. It is polished because it is assembled from atoms, not page CSS. Promote as-is into the kit spec (they already are atoms; they need the grammar wired in): `Button` (primary and ghost), `Card`, `SectionLabel`, `Rule`, `Gauge`, `StepProgress`. `Badge` and `ChipToggle` are replaced by `GrammarChip` (hud; ChipToggle as a hud input, not a raised key).
 
 **/proof (zach.md)** is `public/proof.html` from `scripts/proof_emit.py`. What makes it the model for receipts: a ledger hero card with three counted totals, every claim a row with a question, a one-line answer, and a glyph strip, rows that open in place ("tap any line to zoom in"), one lane, one measure. Atoms to extract:
 1. `LedgerHero`: eyebrow with as-of date, title, full-width lede, a 3-up `StatTriad` (number over LED label).
@@ -133,7 +133,7 @@ A receipt is a proof ledger for one decision. Same skeleton:
 
 Zoom levels follow /proof: z0 the hero card, z1 the questions, z2 the claims, z3 the record. A receipt opens at z0 with a one-line "how to read this" above the first stat, and its legend sits on the first chart (Ahmed heuristic).
 
-Rules: one lane, one `--measure`, ledes full width, text full opacity (fog through weight and grain only), motion through `--mo-*`. Type in three roles: mono for names and numbers, one serif lede, sans for reading. HUD material by default (hairline, tone ticks, no glow); field and pocket only where Zach opts in.
+Rules: one lane, one `--measure`, ledes full width, text full opacity (fog through weight and grain only), motion through `--mo-*`. Type in three roles: mono for names and numbers, one serif lede, sans for reading. HUD material by default (hairline, tone ticks, no glow); field only where Zach opts in; no pocket.
 
 ## 5. Migration order (visitor value against effort)
 
@@ -158,7 +158,7 @@ Gate each step with `token_source_gate`, `artifact_wrap_lint`, `motion_policy_ga
 
 1. DECIDED 2026-10-30: option A. New glyphs landed in e87c1298 (grammar branch, not yet merged).
 2. DECIDED 2026-10-30 (Zach, "go for it" on the recommendation): emit `_tokens.css` and `src/ui/tokens.ts` from one JSON, as the grammar emitter does.
-3. Is the pocket material allowed outside dj.arcs.care for input controls on receipts?
+3. DECIDED 2026-10-30: no. Zach does not want the DJ / Teenage Engineering look in the unified system. Pocket stays a dj.arcs.care-only skin; follow-up for the grammar branch: drop pocket from the shared spec or mark it dj-only.
 
 ## Evidence
 
