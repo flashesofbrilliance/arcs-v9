@@ -48,6 +48,7 @@ drives composition).
 | `nftt-essay` | `essay` | editorial longform | `public/blog-nftt-the-loop-closes.html` |
 | `resume-print` | `resume` | print / paper | `public/vico-resume.html` |
 | `instrument-lab` | `operate` | instrument explainer | `_ARTIFACTS/raw-capture.html` |
+| `tool-getting-started` | `read` | tool explainer, one swatch per tool | `public/good-rfp-engine.html` |
 
 Modes are defined in `scripts/slop_lint.py` `MODE_SPEC` (specificity floors; burstiness is
 mode-independent). `essay`/`reflective`/`longform` carry the low 0.10 floor for evidence-dense prose;

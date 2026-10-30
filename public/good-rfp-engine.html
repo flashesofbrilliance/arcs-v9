@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- @arcs-template: tool-getting-started -->
+<!-- @arcs-mode: read -->
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -144,6 +146,13 @@ pre:has(button.copy){padding-right:76px}
 /* rfp-engine: chips on DESIGN.md values (flat panel fill, declared mono stack) */
 .g-chip{background:var(--g-panel)}
 .g-chip .g-tag{font-family:var(--ds-font-mono)}
+
+/* tool swatch: one non-signal accent per tool (honest amber, resume-tailor cyan-green, germinate violet).
+   rfp-engine wears paper teal #00748e (DESIGN.md Light Paper accent). Under AA as text on the dark ground,
+   so it paints structure only: card stripes, the eyebrow rule, the depth of a panel edge. Text stays on signals. */
+:root{--tool-accent:#00748e}
+.rules .panel,.stats .panel{background-image:linear-gradient(var(--tool-accent),var(--tool-accent));background-size:100% 3px;background-repeat:no-repeat;background-position:top}
+main::before{content:"";display:block;width:48px;height:3px;background:var(--tool-accent);margin:0 0 18px}
 </style>
 
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
