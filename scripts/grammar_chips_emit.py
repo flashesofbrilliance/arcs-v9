@@ -25,7 +25,9 @@ def mode_vars(spec, mode):
     for key, var in kv.items():
         m[key] = f"var({var})"
     dp = spec["modes"][mode]["depth"]
-    out = [f"--g-well:{dp['well']};--g-face:{dp['face']};--g-glass:{dp['glass']};--g-bevel:{dp['bevel']};--g-underlit:{dp['underlit']};"]
+    ins = spec["instrument"][mode]
+    out = [f"--g-key:{ins['keyFace']};--g-highlight:{ins['highlight']};--g-lip:{ins['lip']};"]
+    out += [f"--g-well:{dp['well']};--g-face:{dp['face']};--g-glass:{dp['glass']};--g-bevel:{dp['bevel']};--g-underlit:{dp['underlit']};"]
     out += [f"--g-bg:{m['bg']};--g-panel:{m['panel']};--g-elevated:{m['elevated']};--g-border:{m['border']};"
            f"--g-text:{m['text']};--g-text-2:{m['textSecondary']};--g-focus:{m['focus']};"
            f"--g-tint:{m['tint']};--g-edge:{m['edge']};"]
@@ -56,21 +58,31 @@ def css(spec):
         # Ticks and tag are neutral; a live or focused chip lights them in the tone.
         ".g-chip{--g-tick:var(--g-text-2);--g-tag:var(--g-text-2)}",
         ".g-chip[data-live],.g-chip:focus-visible,[data-skin] .g-chip{--g-tick:var(--c);--g-tag:var(--c)}",
-        ".g-chip[data-live]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--c)}",
+        # Instrument rules (Zach, 2026-10-30, "Fold into HUD"): solid key face, inset top highlight and key lip, a 6px LED
+        # that is on or off and blinks at 1 Hz when live, one hairline frame per panel and none on the items inside it.
+        ".g-chip{background:var(--g-key);box-shadow:var(--g-highlight),var(--g-lip)}",
+        f".g-chip[data-live]::after{{content:'';position:absolute;top:50%;right:{s['unit']};width:{spec['instrument']['led']['size']};height:{spec['instrument']['led']['size']};margin-top:-3px;border-radius:50%;background:var(--c)}}",
+        f".g-chip[data-live]{{padding-right:calc({s['padX']} + {spec['instrument']['led']['size']} + {s['unit']})}}",
+        f"@keyframes g-blink{{0%,{spec['instrument']['led']['duty']}{{background:var(--c)}}{spec['instrument']['led']['duty']},100%{{background:var(--g-border)}}}}",
+        f".g-chip[data-live]::after{{animation:g-blink {spec['instrument']['led']['blink']} steps(1,end) infinite}}",
+        "@media (prefers-reduced-motion: reduce){.g-chip[data-live]::after{animation:none}}",
+        ".g-glass .g-chip{border-color:transparent}",
+        "button:active,.g-chip[role=button]:active{transform:translateY(1px)}",
         ".g-glass{position:relative;background:var(--g-panel);border:1px solid var(--g-border);border-radius:3px}",
         ".g-glass::before{content:'';position:absolute;inset:-1px;pointer-events:none;background:" + ",".join(f"linear-gradient(var(--g-text-2),var(--g-text-2)) {pos}/{w} {h} no-repeat" for pos in ("left top", "right top", "left bottom", "right bottom") for (w, h) in (("12px", "1px"), ("1px", "12px"))) + "}",
         f".g-chip .g-tag{{color:var(--g-tag);font:700 {s['tagSize']}/1 {f['mono']};letter-spacing:.14em;text-transform:uppercase}}",
         # Field material (opt-in, data-skin="field"): recessed well, underlit tone, breathing LED, glass card.
         "[data-skin=\"field\"] .g-chip{border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);background:color-mix(in srgb,var(--c) var(--g-tint),transparent),var(--g-face);"
         "box-shadow:var(--g-well),var(--g-underlit) color-mix(in srgb,var(--c) 30%,transparent)}",
-        "[data-skin=\"field\"] .g-chip::before,[data-skin=\"field\"] .g-glass::before,[data-skin=\"pocket\"] .g-chip::before,[data-skin=\"pocket\"] .g-glass::before{display:none}",
-        "[data-skin=\"field\"] .g-chip .g-tag,[data-skin=\"pocket\"] .g-chip .g-tag{padding-right:0;border-right:0}",
+        "[data-skin=\"field\"] .g-chip::before,[data-skin=\"field\"] .g-glass::before{display:none}",
+        "[data-skin=\"field\"] .g-chip .g-tag{padding-right:0;border-right:0}",
         f"[data-skin=\"field\"] .g-chip .g-glyph{{font-size:1em;text-shadow:0 0 {spec['led']['glowRest']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}",
         f"@keyframes g-led{{from{{text-shadow:0 0 {spec['led']['glowRest']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}to{{text-shadow:0 0 {spec['led']['glowPeak']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}}}",
         f"[data-skin=\"field\"] .g-chip[data-live] .g-glyph{{animation:g-led {spec['led']['period']} var(--ease-out) infinite alternate}}",
-        "[data-skin=\"field\"] .g-chip[data-live]::after,[data-skin=\"pocket\"] .g-chip[data-live]::after{display:none}",
+        "[data-skin=\"field\"] .g-chip[data-live]::after{display:none}",
         "@media (prefers-reduced-motion: reduce){[data-skin=\"field\"] .g-chip[data-live] .g-glyph{animation:none}}",
         "[data-skin=\"field\"] .g-glass{background:var(--g-glass);box-shadow:var(--g-bevel);border-radius:10px}",
+        "[data-skin=\"field\"] .g-glass .g-chip{border-color:color-mix(in srgb,var(--c) var(--g-edge),transparent)}",
         ".g-chip .g-body{white-space:normal}",
     ]
     for name in spec["tones"]:
@@ -86,31 +98,12 @@ def css(spec):
         lines.append(rule)
     lines.append(".g-chip:focus-visible{outline:2px solid var(--g-focus);outline-offset:2px}")
     lines.append(".g-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}")
-    pk = spec["skins"]["pocket"]
-    def pvars(m):
-        v = pk[m]
-        grain = ("url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'>"
-                 "<feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/>"
-                 f"<feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 {v['grainAlpha']} 0'/></filter>"
-                 "<rect width='100%' height='100%' filter='url(%23n)'/></svg>\")")
-        return (f"--pk-key:{v['key']};--pk-key-shadow:{v['keyShadow']};--pk-key-edge:{v['keyEdge']};--pk-bezel:{v['bezel']};"
-                f"--pk-led-well:{v['ledWell']};--pk-led-shadow:{v['ledWellShadow']};--pk-grain:{grain};")
-    lines += [
-        f"[data-skin=\"pocket\"]{{{pvars('dark')}}}",
-        f"@media (prefers-color-scheme: light){{:root:not([data-theme=\"dark\"]) [data-skin=\"pocket\"],:root:not([data-theme=\"dark\"])[data-skin=\"pocket\"]{{{pvars('light')}}}}}",
-        f":root[data-theme=\"light\"] [data-skin=\"pocket\"],:root[data-theme=\"light\"][data-skin=\"pocket\"]{{{pvars('light')}}}",
-        f"[data-skin=\"pocket\"] .g-chip{{border-radius:{pk['radius']};border:1px solid var(--pk-key-edge);background:var(--pk-key);box-shadow:var(--pk-key-shadow);padding:6px 12px 6px 6px}}",
-        "[data-skin=\"pocket\"] .g-chip .g-glyph{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:3px;"
-        "background:var(--pk-led-well);box-shadow:var(--pk-led-shadow);border:1px solid var(--g-border);font-size:.8em}",
-        *[f"[data-skin=\"pocket\"] .g-chip[data-tone=\"{n}\"] .g-glyph{{color:var({t['kitVar']});text-shadow:0 0 6px color-mix(in srgb,var({t['kitVar']}) 60%,transparent)}}" for n, t in spec["tones"].items()],
-        "[data-skin=\"pocket\"] .g-glass{background-color:var(--g-panel);background-image:var(--pk-grain);border:1px solid var(--g-bg);box-shadow:var(--pk-bezel)}",
-    ]
     lines.append(END)
     return "\n".join(lines)
 
 
 def ts(spec):
-    body = json.dumps({k: spec[k] for k in ("version", "tones", "modes", "fidelity", "shape", "fonts", "led", "skins")}, indent=2, ensure_ascii=False)
+    body = json.dumps({k: spec[k] for k in ("version", "tones", "modes", "fidelity", "shape", "fonts", "led", "skins", "instrument")}, indent=2, ensure_ascii=False)
     return ("// Generated by scripts/grammar_chips_emit.py from runtime/specs/grammar-chips.json. Do not edit by hand.\n"
             f"export const grammarChips = {body} as const\n\n"
             "export type GrammarTone = keyof typeof grammarChips.tones\n"

@@ -50,8 +50,8 @@ export interface GrammarChipProps {
   mode?: GrammarMode | 'auto'
   skin?: GrammarSkin
   muiTheme?: MuiThemeLike
-  // 'hud' = hairline, tone corner ticks, no glow (default); 'field' = recessed well, underlit; 'pocket' = the dj.arcs.care Pocket skin
-  material?: 'hud' | 'field' | 'pocket'
+  // 'hud' = the instrument look (default): solid key face, hairline, tone corner ticks, a 6px LED, no glow; 'field' = recessed well, underlit
+  material?: 'hud' | 'field'
   // a status light that breathes (glow radius, not opacity; stops under reduced motion)
   live?: boolean
   // a verdict chip announces itself when it changes (role=status, polite)
@@ -76,9 +76,7 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
     : f.texture === 'interference' ? [dots(s.request ?? grammarChips.tones.request[m], '28%', '4px'), dots(s.notyet ?? grammarChips.tones.notyet[m], '24%', '4.6px')]
     : []
   const d = base.depth
-  const pk = grammarChips.skins.pocket[m]
-  const pocket = material === 'pocket'
-  const led = grammarChips.tones[tone].dark
+  const ins = grammarChips.instrument[m]
   const L = grammarChips.led
   // HUD restraint: at rest only the glyph carries the tone; ticks and tag light up when live.
   const lit = material !== 'hud' || !!live
@@ -87,13 +85,11 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
   const layers = (lead: string[], fill: string): React.CSSProperties => ({
     background: [...lead, ...tex.map((x) => `${x.img} 0 0 / ${x.size}`), fill].join(', '),
   })
-  const hud: React.CSSProperties = { border: `1px solid ${s.border ?? base.border}`, ...layers(ticks, s.panel ?? base.panel), fontVariantNumeric: 'tabular-nums', ...(live ? { boxShadow: `inset 0 -1px 0 ${c}` } : {}) }
-  const face: React.CSSProperties = material === 'hud' ? hud : pocket
-    ? { borderRadius: grammarChips.skins.pocket.radius, border: `1px solid ${pk.keyEdge}`, ...layers([], pk.key), boxShadow: pk.keyShadow, padding: '6px 12px 6px 6px' }
+  const hud: React.CSSProperties = { border: `1px solid ${s.border ?? base.border}`, ...layers(ticks, s.panel ?? ins.keyFace), boxShadow: `${ins.highlight}, ${ins.lip}`, fontVariantNumeric: 'tabular-nums' }
+  const face: React.CSSProperties = material === 'hud' ? hud
     : { ...layers([`linear-gradient(${pct(c, base.tint)}, ${pct(c, base.tint)})`], s.panel ?? d.face), boxShadow: `${d.well}, ${d.underlit} ${pct(c, '30%')}` }
-  const glyph: React.CSSProperties = pocket
-    ? { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 3, background: pk.ledWell, boxShadow: pk.ledWellShadow, border: `1px solid ${base.border}`, fontSize: '0.8em', color: led, textShadow: `0 0 6px ${pct(led, '60%')}` }
-    : material === 'hud' ? { color: c, fontSize: '0.85em' }
+  const ledSize = grammarChips.instrument.led.size
+  const glyph: React.CSSProperties = material === 'hud' ? { color: c, fontSize: '0.85em' }
     : { color: c, textShadow: `0 0 ${L.glowRest} ${pct(c, L.alpha)}` }
   return (
     <span data-tone={tone} data-fidelity={fidelity} role={verdict ? 'status' : undefined} style={{
@@ -107,6 +103,10 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
         ...(material === 'hud' ? { paddingRight: 8, borderRight: `1px solid ${s.border ?? base.border}` } : {}) }}>{t.tag}</span>
       <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)', whiteSpace: 'nowrap' }}>: </span>
       {children != null && <span style={{ whiteSpace: 'normal', fontWeight: f.weight, letterSpacing: f.tracking }}>{children}</span>}
+      {live && material === 'hud' && <>
+        <style>{`@keyframes g-blink{0%,${grammarChips.instrument.led.duty}{opacity:1}${grammarChips.instrument.led.duty},100%{opacity:0}}@media (prefers-reduced-motion: reduce){[data-g-led]{animation:none!important}}`}</style>
+        <span aria-hidden="true" data-g-led="" style={{ width: ledSize, height: ledSize, borderRadius: '50%', background: c, flex: 'none', animation: `g-blink ${grammarChips.instrument.led.blink} steps(1, end) infinite` }} />
+      </>}
     </span>
   )
 }
