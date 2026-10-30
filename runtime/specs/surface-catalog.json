@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 296,
-  "hosts": 83,
+  "rows": 297,
+  "hosts": 84,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 237,
+   "product page": 238,
    "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 32,
+  "proxy_hosts": 34,
   "app_routes": 47,
   "missing_purpose": 7,
-  "unlisted": 118
+  "unlisted": 119
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -51,6 +51,7 @@
   "public/blacksmith-cover.html",
   "public/blacksmith-resume.html",
   "public/cia-gate.html",
+  "public/dioptra-gate.html",
   "public/jack-rain-resume.html",
   "public/monday-gate.html",
   "public/myally-debrief.html",
@@ -1370,7 +1371,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-29"
   },
   {
    "host": "claritai.arcs.care",
@@ -1572,6 +1573,26 @@
    "purpose": "Fractional × ARCS · a teardown and a map",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "dioptra.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/dioptra-brief.html",
+   "pattern": false,
+   "file": "public/dioptra-brief.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach Harris - Dioptra",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Zach Harris - Dioptra",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "dj.arcs.care",
@@ -4181,7 +4202,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-28"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4201,7 +4222,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-28"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4221,7 +4242,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-28"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4241,7 +4262,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-28"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4261,7 +4282,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-28"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
@@ -4281,7 +4302,7 @@
    "unlisted": true,
    "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-28"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "omakase.arcs.care",
