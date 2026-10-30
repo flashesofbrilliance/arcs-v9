@@ -1,10 +1,13 @@
 <!DOCTYPE html>
+<!-- @arcs-template: tool-getting-started -->
+<!-- @arcs-mode: read -->
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>resume-tailor · honest resumes</title>
-<meta name="description" content="Honest resumes, tailored to the role and built from your real evidence… with nothing you couldn't defend in the interview. A Claude Code skill + plugin by ARCS.">
+<title>resume-tailor · ARCS public goods</title>
+<meta name="description" content="Honest resumes, tailored to the role and built from your real evidence, with nothing you could not defend in the interview. A Claude Code skill and plugin by ARCS.">
 <style>
+/* GRAMMAR-CHIPS:BEGIN */
 /* ARCS Recoil Report — Design Tokens */
 :root {
   /* Surface */
@@ -47,95 +50,111 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
-  :root{
-    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
-    --fg1:#e6edf5;--fg2:#9fb0c3;--fg3:#7f93a6;--fg4:#7a8699;
-    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
-    --sans:'Inter','Inter Fallback',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',monospace;
-  }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
-  ::selection{background:var(--cyan);color:#001014;}
-  a{color:inherit;text-decoration:none;}
-  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
-  .mono{font-family:var(--mono);}
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
 
-  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
-    background:radial-gradient(900px 420px at 20% -10%,rgba(0,240,255,.10),transparent 60%),radial-gradient(700px 380px at 92% 0,rgba(0,255,157,.07),transparent 55%);}
-  .hero{padding-block:66px 58px;}
-  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
-  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
-  h1{font-size:clamp(46px,9vw,88px);font-weight:800;letter-spacing:-.035em;line-height:.95;margin-top:22px;}
-  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .lede{font-size:clamp(16px,2.5vw,20px);line-height:1.58;color:var(--fg2);max-width:640px;margin-top:22px;}
-  .lede b{color:var(--fg1);font-weight:600;}
-  /* full-width lede matches heading… hero lede spans the container, not a narrow column */
-  .hero .lede{max-width:none;}
-  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;cursor:pointer;border:none;}
-  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
-  .btn.p:hover{transform:translateY(-1px);}
-  .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
-  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
 
-  section{padding:52px 0;border-bottom:1px solid var(--border);}
-  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:24px;}
-  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
-  .sec-lbl h2{font-size:22px;font-weight:700;letter-spacing:-.01em;}
-  .sec-lbl .sub{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
 
-  .thesis{font-size:clamp(19px,3vw,25px);line-height:1.5;font-weight:500;letter-spacing:-.01em;color:var(--fg1);max-width:780px;}
-  .thesis b{color:var(--green);font-weight:600;}
-  .thesis small{display:block;font-size:13.5px;font-weight:400;color:var(--fg3);margin-top:16px;line-height:1.65;}
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;}
-  @media(max-width:720px){.grades{grid-template-columns:1fr;}}
-  .grade{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
-  .grade .g{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
-  .grade.doc .g{color:var(--green);} .grade.self .g{color:var(--gold);} .grade.unv .g{color:var(--red);}
-  .grade p{font-size:12.5px;line-height:1.55;color:var(--fg2);margin-top:9px;}
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  .pipe{display:flex;flex-direction:column;gap:2px;}
-  .step{display:grid;grid-template-columns:38px 128px 1fr;gap:16px;align-items:start;padding:14px 0;border-top:1px solid var(--border);}
-  .step:first-child{border-top:none;}
-  .step .num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cyan);padding-top:2px;}
-  .step .nm{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--fg1);}
-  .step .ds{font-size:13px;line-height:1.5;color:var(--fg2);} .step .ds b{color:var(--fg1);font-weight:600;}
-  @media(max-width:600px){.step{grid-template-columns:28px 1fr;} .step .nm{grid-column:2;} .step .ds{grid-column:2;}}
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+:root{--g-bg:var(--bg);--g-panel:var(--surface);--g-elevated:var(--elevated);--g-border:var(--border);--g-text:var(--text);--g-text-2:var(--text-secondary);--g-focus:var(--cyan);--g-tint:7%;--g-edge:33%;--g-say:var(--cyan);--g-show:var(--green);--g-limit:var(--gold);--g-fail:var(--red);--g-shift:var(--violet);--g-neutral:var(--text-secondary);color-scheme:dark}
+:root[data-theme="dark"]{--g-bg:var(--bg);--g-panel:var(--surface);--g-elevated:var(--elevated);--g-border:var(--border);--g-text:var(--text);--g-text-2:var(--text-secondary);--g-focus:var(--cyan);--g-tint:7%;--g-edge:33%;--g-say:var(--cyan);--g-show:var(--green);--g-limit:var(--gold);--g-fail:var(--red);--g-shift:var(--violet);--g-neutral:var(--text-secondary);color-scheme:dark}
+.g-chip{--c:var(--g-neutral);display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:3px;border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);background:color-mix(in srgb,var(--c) var(--g-tint),var(--g-panel));color:var(--g-text);font:400 0.925rem/1.3 'Inter', system-ui, -apple-system, sans-serif;white-space:nowrap;max-width:100%}
+.g-chip .g-glyph{color:var(--c);font-size:1em;line-height:1}
+.g-chip .g-tag{color:var(--c);font:700 0.6875rem/1 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;letter-spacing:.12em;text-transform:uppercase}
+.g-chip .g-body{white-space:normal}
+.g-chip[data-tone="say"]{--c:var(--g-say)}
+.g-chip[data-tone="show"]{--c:var(--g-show)}
+.g-chip[data-tone="limit"]{--c:var(--g-limit)}
+.g-chip[data-tone="fail"]{--c:var(--g-fail)}
+.g-chip[data-tone="shift"]{--c:var(--g-shift)}
+.g-chip[data-tone="neutral"]{--c:var(--g-neutral)}
+.g-chip[data-fidelity="sharp"] .g-body{font-weight:500;letter-spacing:0}
+.g-chip[data-fidelity="degraded"] .g-body{font-weight:400;letter-spacing:0.01em}
+.g-chip[data-fidelity="grain"] .g-body{font-weight:300;letter-spacing:0.02em}.g-chip[data-fidelity="grain"]{background-image:radial-gradient(color-mix(in srgb,var(--c) 30%,transparent) .6px,transparent .8px);background-size:5px 5px}
+.g-chip[data-fidelity="moire"] .g-body{font-weight:300;letter-spacing:0.03em}.g-chip[data-fidelity="moire"]{background-image:radial-gradient(color-mix(in srgb,var(--g-say) 28%,transparent) .6px,transparent .8px),radial-gradient(color-mix(in srgb,var(--g-limit) 24%,transparent) .6px,transparent .8px);background-size:4px 4px,4.6px 4.6px}
+.g-chip:focus-visible{outline:1px solid var(--g-focus);outline-offset:2px}
+/* GRAMMAR-CHIPS:END */
 
-  .check{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  @media(max-width:720px){.check{grid-template-columns:1fr;}}
-  .ci{display:flex;gap:12px;border:1px solid var(--border);border-radius:12px;padding:15px 16px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
-  .ci .bx{flex-shrink:0;width:18px;height:18px;border-radius:5px;border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:11px;font-weight:800;margin-top:1px;}
-  .ci .t{font-size:13px;font-weight:600;color:var(--fg1);} .ci .t .req{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg4);margin-left:7px;}
-  .ci .w{font-size:12px;line-height:1.5;color:var(--fg3);margin-top:5px;} .ci .w b{color:var(--fg2);font-weight:600;}
+:root{--measure:720px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--g-bg);color:var(--g-text);font-family:var(--ds-font-sans);font-size:0.925rem;line-height:1.6;padding:40px 16px 72px}
+main{max-width:var(--measure);margin:0 auto}
+h1,h2{text-wrap:balance;margin:0}
+h1{font-family:var(--ds-font-sans);font-weight:600;font-size:clamp(1.5rem,4vw,2.4rem);line-height:1.2;margin-bottom:12px}
+h2{font-family:var(--ds-font-mono);font-weight:700;font-size:0.6875rem;line-height:1.3;letter-spacing:.14em;text-transform:uppercase;color:var(--g-say);margin:40px 0 12px}
+p,li{text-wrap:pretty;margin:0 0 10px}
+.lede{color:var(--g-text-2);max-width:none}
+.eyebrow{font:700 var(--fs-label)/1.3 var(--ds-font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--g-text-2);margin-bottom:10px}
+ol,ul{margin:0 0 10px;padding-left:22px}
+a{color:var(--g-say)}
+code{font:400 0.925em var(--ds-font-mono)}
+.panel{background:var(--g-panel);border:1px solid var(--g-border);border-radius:var(--ds-r-sm);padding:16px 18px;margin:0 0 12px}
+pre{position:relative;font-family:var(--ds-font-mono);font-size:0.925rem;line-height:1.6;background:var(--g-bg);border:1px solid var(--g-border);border-radius:var(--ds-r-sm);padding:14px 16px;margin:0 0 12px;white-space:pre-wrap;word-break:break-word}
+.k{color:var(--g-text-2)}.ok{color:var(--g-show)}.bad{color:var(--g-fail)}
+.rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:0 0 12px}
+.rules .panel{margin:0}
+.rules h3{font-family:var(--ds-font-mono);font-weight:700;font-size:0.6875rem;line-height:1.3;letter-spacing:.12em;text-transform:uppercase;color:var(--g-say);margin:0 0 6px}
+.rules p{margin:0;color:var(--g-text-2)}
+.stats{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));margin:0 0 12px}
+.stat{margin:0}.stat b{display:block;font:600 var(--fs-headline)/1.3 var(--ds-font-mono)}
+.stat span{color:var(--g-text-2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+button.copy{position:absolute;top:8px;right:8px;font:700 var(--fs-label)/1 var(--ds-font-mono);letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--g-text-2);border:1px solid var(--g-border);border-radius:var(--ds-r-xs);padding:6px 8px;cursor:pointer}
+button.copy:hover,button.copy:focus-visible{color:var(--g-focus);border-color:var(--g-focus);outline:none}
+button.copy:focus-visible{outline:1px solid var(--g-focus);outline-offset:2px}
+pre:has(button.copy){padding-right:76px}
 
-  .oneshot{position:relative;border:1px solid var(--border2);border-radius:13px;background:linear-gradient(165deg,#0c1219,#080d13);box-shadow:0 12px 34px -18px rgba(0,240,255,.25);overflow:hidden;}
-  .oneshot .bar{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04);}
-  .oneshot .bar .l{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
-  .oneshot .cp{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--fg3);border:1px solid var(--border2);background:var(--elev);border-radius:7px;padding:5px 11px;cursor:pointer;transition:.15s;}
-  .oneshot .cp:hover{color:var(--cyan);border-color:var(--cyan);}
-  .oneshot pre{margin:0;padding:17px 18px;overflow-x:auto;}
-  .oneshot code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--fg1);white-space:pre-wrap;}
-  .oneshot code .v{color:var(--gold);}
+/* rfp-engine: chips on DESIGN.md values (flat panel fill, declared mono stack) */
+.g-chip{background:var(--g-panel)}
+.g-chip .g-tag{font-family:var(--ds-font-mono)}
 
-  pre.blk{background:var(--elev);border:1px solid var(--border);border-radius:11px;padding:15px 17px;overflow-x:auto;margin-top:12px;}
-  pre.blk code{font-family:var(--mono);font-size:12.5px;color:var(--green);line-height:1.7;}
-  pre.blk code .c{color:var(--fg4);} pre.blk code .k{color:var(--cyan);}
-  .steps-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px;}
-  @media(max-width:720px){.steps-2{grid-template-columns:1fr;}}
-  .steps-2 h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-bottom:4px;}
-
-  footer{padding:34px 0 48px;}
-  .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.04em;}
-  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
-
-/* Small screens: code wraps and grid columns may shrink (page gate, 2026-10-08). */
-@media (max-width: 820px){code{white-space:pre-wrap;overflow-wrap:anywhere;}div{min-width:0;}}
-
-  /* Links in running text carry an underline, not color alone (WCAG 1.4.1; axe link-in-text-block, 2026-10-09). */
-  a:not([class]):not(nav a){text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:1px;}
+/* tool swatch: one non-signal accent per tool (honest amber, resume-tailor cyan-green, germinate violet).
+   resume-tailor wears mulberry #9a5b7a (about 330deg, 19deg from ruin red; never beside a red chip). Under AA as text on the dark ground,
+   so it paints structure only: card stripes, the eyebrow rule, the depth of a panel edge. Text stays on signals. */
+:root{--tool-accent:#9a5b7a}
+.rules .panel,.stats .panel{background-image:linear-gradient(var(--tool-accent),var(--tool-accent));background-size:100% 3px;background-repeat:no-repeat;background-position:top}
+main::before{content:"";display:block;width:48px;height:3px;background:var(--tool-accent);margin:0 0 18px}
 </style>
+
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* fonts_selfhost:begin (generated; edit scripts/fonts_selfhost.py) */
@@ -146,179 +165,94 @@
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono-normal-100-800-latin-v1.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
 @font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New'),local('Liberation Mono'),local('Cousine');size-adjust:99.98%;ascent-override:102.02%;descent-override:30.00%;line-gap-override:0.00%;}
 /* fonts_selfhost:end */
+
+  /* rfp-engine: the good.html system minus the traits the design gate retired for new pages
+     (gradient text, glow shadows, hero pill eyebrow, all-caps labels). */
+  h1 .g{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--cyan);}
+  .btn.p,.oneshot{box-shadow:none;}
+  .oneshot .bar .l,.sec-lbl .sub,.grade .g,.chip{text-transform:none;letter-spacing:.02em;}
 </style>
-<script defer src="/_vercel/insights/script.js"></script>
 </head>
+<script defer src="/_vercel/insights/script.js"></script>
 <body>
+<main>
+<div class="eyebrow">ARCS public goods</div>
+<h1>Honest resumes.</h1>
+<p class="lede">Tailored to the role, built from your real evidence, with nothing you couldn't defend in the interview. It runs in Claude.ai or Claude Code today; the plugin makes Claude Code run the full method every time.</p>
+<div class="chips">
+<span class="g-chip" data-tone="show"><span class="g-glyph">●</span><span class="g-tag">Graded</span><span class="g-body">every claim by how checkable it is</span></span>
+<span class="g-chip" data-tone="say"><span class="g-glyph">◆</span><span class="g-tag">Honest</span><span class="g-body">flags what you couldn't defend</span></span>
+<span class="g-chip" data-tone="limit"><span class="g-glyph">▲</span><span class="g-tag">Not measured</span><span class="g-body">no published outcome data</span></span>
+</div>
 
-<header>
-  <div class="wrap hero">
-    <span class="kick"><span class="dot"></span>resume-tailor · a Claude Code skill by ARCS</span>
-    <h1><span class="g">Honest</span> resumes.</h1>
-    <p class="lede">Tailored to the role, built from your <b>real evidence</b>, with nothing you couldn't defend in the interview. That's the whole promise. Everything below is just how it keeps it.</p>
-    <div class="cta">
-      <a class="btn p" href="#start">↓ Get started in 60 seconds</a>
-      <a class="btn s" href="https://github.com/flashesofbrilliance/resume-tailor-skill">◇ GitHub</a>
-    </div>
-  </div>
-</header>
+<h2>How it works</h2>
+<ol>
+<li><b>Read.</b> The posting, plus your LinkedIn export as the source of truth for titles, dates and certs. Old resumes are only your own say-so.</li>
+<li><b>Grade.</b> Every claim gets its evidence and a checkability grade, in one record every draft is built from.</li>
+<li><b>Stress-test.</b> Flag what you couldn't defend: the overclaim, the borrowed jargon, the NDA line. The flags become your prep.</li>
+<li><b>Order.</b> Lead with what the role wants; experience newest first.</li>
+<li><b>Build.</b> A print-clean PDF, a matching cover letter and a plain ATS copy, then a check of the rendered pages.</li>
+<li><b>Red-team.</b> A mock hiring panel picks it apart. Only the hits your evidence confirms change a word.</li>
+</ol>
 
-<section>
-  <div class="wrap">
-    <div class="sec-lbl"><span class="n">01</span><h2>What "honest" buys you</h2><span class="sub">the point</span></div>
-    <p class="thesis">A resume meets a background check and a reference call. So the bar was never <em>impressive</em>… it's <b>true</b>. Every line is graded by how checkable it is, and nothing gets written past its evidence.
-      <small>Which is also the rare part: most tools help you sound better; this one makes sure you can back it up. (Yes… it was run on its own landing page, too.)</small></p>
-    <div class="grades">
-      <div class="grade doc"><div class="g">● documented</div><p>Public and checkable… a repo, a commit count, a live link, a credential. Say it plainly.</p></div>
-      <div class="grade self"><div class="g">● self-reported</div><p>Your number… plausible, consistent, not independently verified. Stated as yours, never past what your profile already shows.</p></div>
-      <div class="grade unv"><div class="g">● unverifiable</div><p>Tacit or subjective. It can frame the work; it never becomes a fact with a number. Flagged as a thing to be ready to defend.</p></div>
-    </div>
-  </div>
-</section>
+<h2>Try it, no install</h2>
+<p>Attach the job posting (URL or text) and your LinkedIn export (.zip or profile PDF). Repos, a portfolio or real numbers help; mention any NDA in one line.</p>
+<pre>Tailor my resume and a cover letter for this role: [paste the job-posting URL]
 
-<section>
-  <div class="wrap">
-    <div class="sec-lbl"><span class="n">02</span><h2>How it works</h2><span class="sub">six steps</span></div>
-    <div class="pipe">
-      <div class="step"><div class="num">1</div><div class="nm">READ</div><div class="ds">Read the posting. Your <b>LinkedIn export</b> is the source of truth for titles, dates, and certs… old resumes are just your own say-so.</div></div>
-      <div class="step"><div class="num">2</div><div class="nm">GRADE</div><div class="ds">Give every claim its evidence and a checkability grade. One graded record; every draft is built from it.</div></div>
-      <div class="step"><div class="num">3</div><div class="nm">STRESS-TEST</div><div class="ds">Flag what you couldn't defend: the overclaim, the one gig dressed as a specialty, the borrowed jargon, the <b>NDA line</b>. The flags become your prep.</div></div>
-      <div class="step"><div class="num">4</div><div class="nm">ORDER</div><div class="ds">Lead with what the role actually wants, differentiator second. Experience newest-first; the framing by relevance.</div></div>
-      <div class="step"><div class="num">5</div><div class="nm">BUILD</div><div class="ds">A print-clean PDF, a matching cover letter, and a plain <b>ATS copy</b> for the upload… then it checks the actual pixels, because page-count isn't a pass.</div></div>
-      <div class="step"><div class="num">6</div><div class="nm">RED-TEAM</div><div class="ds">A mock hiring panel picks it apart. Every hit is checked against your evidence, and only the true ones change a word. Subtractive, never puffed.</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="start">
-  <div class="wrap">
-    <div class="sec-lbl"><span class="n">03</span><h2>What you'll need</h2><span class="sub">and why</span></div>
-    <div class="check">
-      <div class="ci"><div class="bx">✓</div><div><div class="t">The job posting<span class="req">required</span></div><div class="w">A URL or pasted text. So it tailors to the <b>real duties and keywords</b>, not a template.</div></div></div>
-      <div class="ci"><div class="bx">✓</div><div><div class="t">Your LinkedIn export<span class="req">required</span></div><div class="w">The <b>.zip</b> (LinkedIn → Settings → Data privacy → Get a copy) or the profile PDF. The record of record for titles, dates, and certs… so nothing <b>contradicts a background check</b>.</div></div></div>
-      <div class="ci"><div class="bx">✓</div><div><div class="t">Repos, portfolio, or real numbers<span class="req">recommended</span></div><div class="w">The receipts that let a claim read as a <b>fact</b>, not an adjective.</div></div></div>
-      <div class="ci"><div class="bx">✓</div><div><div class="t">A note on any NDA<span class="req">if it applies</span></div><div class="w">One line. It keeps the <b>public facts</b> and cuts the confidential work… and asks before including anything specific.</div></div></div>
-    </div>
-
-    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin:34px 0 12px;">Paste-and-go · works in any Claude</h3>
-    <div class="oneshot">
-      <div class="bar"><span class="l">◈ one-shot prompt</span><button class="cp" id="cpbtn" onclick="copyPrompt()">copy</button></div>
-      <pre><code id="prompt">Tailor my resume and a cover letter for this role: <span class="v">[paste the job-posting URL]</span>
-
-My LinkedIn export is attached: <span class="v">[drag in the .zip or profile PDF]</span>
+My LinkedIn export is attached: [drag in the .zip or profile PDF]
 
 Keep it honest: flag anything I couldn't defend in an interview,
 keep it ATS-safe, and don't state what the evidence doesn't support.
-If I have an NDA, ask before including anything specific.</code></pre>
-    </div>
-    <p class="lede" style="font-size:13.5px;margin-top:14px;">Swap the two <span class="mono" style="color:var(--gold);">[brackets]</span> and send. Describing the job is what triggers it. <b>No install required</b>… this runs in Claude.ai or Claude Code today. Installing the plugin (next) just makes Claude Code run the full graded method every time, with nothing to paste.</p>
+If I have an NDA, ask before including anything specific.</pre>
+<p>You get a resume PDF, a cover letter, an ATS copy and a defend-or-drop list for prep.</p>
 
-    <div class="steps-2">
-      <div>
-        <h3>What comes back</h3>
-        <pre class="blk"><code><span class="k">·</span> a print-clean resume PDF
-<span class="k">·</span> a matching cover letter
-<span class="k">·</span> a plain ATS copy for the upload
-<span class="k">·</span> a defend-or-drop list for prep</code></pre>
-      </div>
-      <div>
-        <h3>Read it first</h3>
-        <pre class="blk"><code><span class="c"># the whole method is MIT + public.</span>
-<span class="c"># read exactly what it does before</span>
-<span class="c"># you install anything:</span>
-github.com/flashesofbrilliance/
-  resume-tailor-skill <span class="c"># → SKILL.md</span></code></pre>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="install">
-  <div class="wrap">
-    <div class="sec-lbl"><span class="n">04</span><h2>Install the plugin</h2><span class="sub">claude code · optional</span></div>
-    <p class="lede" style="max-width:none;font-size:14.5px;">Optional. The paste-and-go prompt already works. Installing the plugin gives <b>Claude Code</b> the full graded method, the print-verified design system, and the red-team pass automatically. Nothing to paste, nothing to remember.</p>
-
-    <div class="steps-2" style="margin-top:24px;">
-      <div>
-        <h3>0 · prerequisite</h3>
-        <pre class="blk"><code><span class="c"># Claude Code, installed + updated</span>
-npm install -g @anthropic-ai/claude-code
-<span class="c"># or: docs.claude.com/claude-code</span></code></pre>
-      </div>
-      <div>
-        <h3>1 · install (once)</h3>
-        <pre class="blk"><code><span class="c"># add the marketplace (accept the trust prompt)</span>
-/plugin marketplace add flashesofbrilliance/arcs-skills
-<span class="c"># install the plugin</span>
+<h2>Install the plugin (Claude Code, optional)</h2>
+<pre>/plugin marketplace add flashesofbrilliance/arcs-skills
 /plugin install resume-tailor@arcs
-<span class="c"># verify (resume-tailor should be listed)</span>
-/plugin</code></pre>
-      </div>
-    </div>
+/plugin</pre>
+<p>Or run it without the marketplace:</p>
+<pre>git clone https://github.com/flashesofbrilliance/resume-tailor-skill
+cp -r resume-tailor-skill .claude/skills/resume-tailor</pre>
 
-    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin:34px 0 12px;">If something's off</h3>
-    <div class="check">
-      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t"><span class="mono">/plugin</span> not recognized</div><div class="w">You're on an older Claude Code build. <b>Update it</b> (re-run the install command above), then retry.</div></div></div>
-      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t">Marketplace not found</div><div class="w">Check the name (<b>flashesofbrilliance/arcs-skills</b>) and that you're online. It's a public repo.</div></div></div>
-      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t">It didn't trigger</div><div class="w">The trigger is <b>describing the task</b>, not a keyword. Describe the job and attach your export, or name it: <span class="mono">use resume-tailor</span>.</div></div></div>
-      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t">You're on Claude.ai, not Claude Code</div><div class="w">The plugin is <b>Claude Code only</b>. Use the paste-and-go prompt above… same honesty rules, no install.</div></div></div>
-    </div>
+<h2>Three grades, enforced on every line</h2>
+<div class="rules">
+<div class="panel"><h3>Documented</h3><p>Public and checkable: a repo, a commit count, a live link, a credential. Said plainly.</p></div>
+<div class="panel"><h3>Self-reported</h3><p>Your number. Stated as yours, never past what your profile already shows.</p></div>
+<div class="panel"><h3>Unverifiable</h3><p>It can frame the work; it never becomes a fact with a number. Flagged for you to defend.</p></div>
+</div>
 
-    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin:34px 0 12px;">Prefer to run it yourself</h3>
-    <pre class="blk"><code><span class="c"># clone the skill (MIT) and run it without the marketplace</span>
-git clone https://github.com/flashesofbrilliance/resume-tailor-skill
-<span class="c"># then, in Claude Code from that folder:</span>
-<span class="c">#   "follow ./SKILL.md to tailor my resume for &lt;job link&gt;"</span>
-<span class="c"># or drop it into your project so it loads automatically:</span>
-cp -r resume-tailor-skill <span class="k">.claude/skills/resume-tailor</span></code></pre>
-  </div>
-</section>
+<h2>If something's off</h2>
+<ul>
+<li><code>/plugin</code> not recognized: update Claude Code, then retry.</li>
+<li>Marketplace not found: check the name <code>flashesofbrilliance/arcs-skills</code> and that you're online.</li>
+<li>It didn't trigger: describe the job and attach your export, or say "use resume-tailor".</li>
+<li>On Claude.ai: the plugin is Claude Code only. Use the prompt above; the same rules apply.</li>
+</ul>
 
-<footer>
-  <div class="wrap foot">
-    <span>resume-tailor · a public good by <a href="https://arcs.care">ARCS</a> · MIT</span>
-    <span><a href="https://github.com/flashesofbrilliance/resume-tailor-skill">github</a> · <a href="https://github.com/flashesofbrilliance/arcs-skills">marketplace</a> · <a href="https://arcs.care">arcs.care</a></span>
-  </div>
-</footer>
+<h2>Not proven yet</h2>
+<ul>
+<li>No published measurement of interview or offer outcomes.</li>
+<li>Grades are assigned by the model from your evidence; nobody independently verifies them.</li>
+<li>The ATS copy is plain text; it is not tested against named ATS products.</li>
+</ul>
 
+<h2>For agents</h2>
+<p>The whole method is MIT and public: read <a href="https://github.com/flashesofbrilliance/resume-tailor-skill">SKILL.md</a> before you install anything.</p>
+<p><a href="/">ARCS public goods</a> · <a href="/llms.txt">site llms.txt</a> · <a href="/AGENTS.md">site AGENTS.md</a></p>
+</main>
 <script>
-  function copyFlash(ok){
-    var b=document.getElementById('cpbtn'); if(!b) return;
-    if(b._t) clearTimeout(b._t); if(!b._o) b._o=b.textContent;
-    b.textContent = ok ? 'copied ✓' : 'select + copy';
-    b.style.color = ok ? '#00FF9D' : '#FFD700';
-    b._t=setTimeout(function(){b.textContent=b._o;b.style.color='';},1800);
-  }
-  function legacyCopy(t){
-    try{
-      var ta=document.createElement('textarea');
-      ta.value=t; ta.setAttribute('readonly','');
-      ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
-      document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length);
-      var ok=document.execCommand('copy'); document.body.removeChild(ta);
-      return ok;
-    }catch(e){ return false; }
-  }
-  function selectPrompt(){
-    try{
-      var el=document.getElementById('prompt'), r=document.createRange();
-      r.selectNodeContents(el); var s=window.getSelection();
-      s.removeAllRanges(); s.addRange(r);
-    }catch(e){}
-  }
-  function copyPrompt(){
-    var t=document.getElementById('prompt').innerText;
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(t).then(
-        function(){ copyFlash(true); },
-        function(){ if(legacyCopy(t)){copyFlash(true);} else {selectPrompt();copyFlash(false);} }
-      );
-    } else if(legacyCopy(t)){
-      copyFlash(true);
-    } else {
-      selectPrompt(); copyFlash(false);
-    }
-  }
+document.querySelectorAll("pre").forEach(function (pre) {
+  if (!navigator.clipboard) return;
+  var text = pre.textContent.trim();
+  var b = document.createElement("button");
+  b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+  b.onclick = function () {
+    navigator.clipboard.writeText(text).then(function () {
+      b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500);
+    });
+  };
+  pre.insertBefore(b, pre.firstChild);
+});
 </script>
 </body>
 </html>
