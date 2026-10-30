@@ -11,7 +11,7 @@ Between January 24 and February 25, 2026, I published seven pieces on tokenized 
 
 A prediction is only worth the falsifier attached to it. Anyone can be right in hindsight. The harder discipline is to write down, before the fact, exactly what would prove you wrong, then go back when the answer is no longer avoidable.
 
-Seven pieces, seven falsifiers. This is the accounting. Draft for review, not yet published.
+Seven pieces, seven falsifiers. This is the accounting. Figures refreshed Oct 30, 2026.
 
 ---
 
@@ -33,12 +33,12 @@ All seven are in my LinkedIn archive. Nothing below was rewritten after the fact
 
 | Call | Falsifier (as published) | Resolution and primary record | Status |
 | :--- | :--- | :--- | :--- |
-| **1. RWA Filtering Event** | Three dated tripwires; 62% of ~$35B vulnerable | Distributed RWA value is $38.8B (rwa.xyz, Oct 5 2026), not a collapse. The SEC staff statement came Jan 28 but names no T-bills. No custodian freeze wave. The Stablecoin Control Act tripwire was a category error: the GENIUS Act was already law in 2025 | **MISSED** on the headline |
-| **3. Flippening**: Section 404 | Section 404 removed, softened, or the bill fails | Compromise text on May 1 kept a ban on idle-balance yield but allowed activity-based rewards. Senate cloture failed 49-50 on Sept 15 | **FALSIFIER FIRED** |
-| **3. Flippening**: USDC supply | USDC returns to Dec 2025 level | $75.3B on Dec 31, $75.2B by Feb 28, a $79.6B peak on Mar 17 (DefiLlama). My baseline of "about $80B" was too high | **FALSIFIER FIRED** |
+| **1. RWA Filtering Event** | Three dated tripwires; 62% of ~$35B vulnerable | Distributed RWA value is about $39.3B (rwa.xyz, Oct 20 2026, secondary reporting), not a collapse. The SEC staff statement came Jan 28 but names no T-bills. No custodian freeze wave. The Stablecoin Control Act tripwire was a category error: the GENIUS Act was already law in 2025 | **MISSED** on the headline |
+| **3. Flippening**: Section 404 | Section 404 removed, softened, or the bill fails | Compromise text on May 1 kept a ban on idle-balance yield but allowed activity-based rewards. Senate cloture failed 49-50 on Sept 15; a motion to reconsider is pending, and counsel expect no movement before the next Congress (Oct 30) | **FALSIFIER FIRED** |
+| **3. Flippening**: USDC supply | USDC returns to Dec 2025 level | $75.3B on Dec 31, $75.2B by Feb 28, a $79.6B peak on Mar 17, $71.5B on Oct 30 (DefiLlama). My baseline of "about $80B" was too high | **FALSIFIER FIRED** |
 | **3. Flippening**: SEC premise | SEC reclassifies synthetic wrappers | The Jan 28 statement does not mention liquid staking tokens or DeFi wrappers. The SEC staff's August 2025 view was that liquid staking receipt tokens, in the structures it described, are not securities offerings | **PREMISE ERROR** |
 | **4. Custody Collateral** | Proof of reserves, borrower substitution, SEC grandfathering | Built on the same misread. No custodian freeze, margin wave or collateralized-loan-obligation downgrade found | **MISSED** |
-| **5. Collateral Wars** | Gold falls more than 20% | Gold peaked at about $5,586 intraday (futures) on Jan 29, five days before publication, then fell about 27% by Mar 23 and about 29% by Jun 30. Tether's excess reserves halved to $4.1B in Q2. No depeg. Bitcoin fell as much as 53% from its October 2025 high. Basel review still open | **FALSIFIER FIRED**, partial |
+| **5. Collateral Wars** | Gold falls more than 20% | Gold peaked at about $5,586 intraday (futures) on Jan 29, five days before publication, then fell about 27% by Mar 23 and sits near $4,000 at the end of October (Tether Gold price). Tether's excess reserves halved to $4.1B in Q2. No depeg. Bitcoin fell as much as 53% from its October 2025 high and trades near $78,500 on Oct 30. Basel review still open | **FALSIFIER FIRED**, partial |
 | **6. Deposit tokens** | Integration phase, banks absorb crypto | JPM Coin live on Base since Nov 2025; a bank group led by JPMorgan, Citi and Bank of America plans a Clearing House tokenized-deposit network for the first half of 2027; BIS Project Agorá real-value test in July, 28 institutions, about CHF 800,000. USDT supply did not shrink | **PARTIAL** |
 | **7. Base and the settlement layer** | Institutions want to own finality | Base announced on Feb 18 that it is leaving the OP Stack. JPMorgan is moving to Canton and a bank-consortium rail instead | **PARTIAL, OPEN** |
 | **2. Hedgefundization** | Causal chain from policy to market structure | Cantor as Tether's Treasury custodian is verified; the legislation meant to complete the "enclosure" stalled | **PARTIAL** |
