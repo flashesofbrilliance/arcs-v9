@@ -41,17 +41,29 @@ def css(spec):
         f"@media (prefers-color-scheme: light){{:root:not([data-theme=\"dark\"]){{{light}color-scheme:light}}}}",
         f":root[data-theme=\"light\"]{{{light}color-scheme:light}}",
         f":root[data-theme=\"dark\"]{{{dark}color-scheme:dark}}",
-        f".g-chip{{--c:var(--g-neutral);display:inline-flex;align-items:center;gap:{s['gap']};padding:{s['padY']} {s['padX']};"
-        f"border-radius:{s['radius']};border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);"
-        f"background:color-mix(in srgb,var(--c) var(--g-tint),transparent),var(--g-face);color:var(--g-text);"
-        f"box-shadow:var(--g-well),var(--g-underlit) color-mix(in srgb,var(--c) 30%,transparent);"
-        f"font:400 {s['bodySize']}/1.3 {f['sans']};white-space:nowrap;max-width:100%}}",
-        f".g-chip .g-glyph{{color:var(--c);font-size:1em;line-height:1;text-shadow:0 0 {spec['led']['glowRest']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}",
+        # HUD material (default): matte face, neutral hairline, corner ticks in the tone, no glow, no cast shadow.
+        f".g-chip{{--c:var(--g-neutral);position:relative;display:inline-flex;align-items:center;gap:{s['gap']};padding:{s['padY']} {s['padX']};"
+        f"border-radius:{s['radius']};border:1px solid var(--g-border);background:var(--g-panel);color:var(--g-text);"
+        f"font:400 {s['bodySize']}/1.3 {f['sans']};font-variant-numeric:tabular-nums;white-space:nowrap;max-width:100%;overflow:hidden}}",
+        ".g-chip::before{content:'';position:absolute;inset:-1px;pointer-events:none;"
+        "background:" + ",".join(f"linear-gradient(var(--c),var(--c)) {pos}/{w} {h} no-repeat" for pos in ("left top", "right top", "left bottom", "right bottom") for (w, h) in (("7px", "1px"), ("1px", "7px"))) + "}",
+        ".g-chip .g-glyph{color:var(--c);font-size:.85em;line-height:1}",
+        ".g-chip .g-tag{padding-right:8px;border-right:1px solid color-mix(in srgb,var(--c) 35%,transparent)}",
+        ".g-chip[data-live]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--c)}",
+        ".g-glass{position:relative;background:var(--g-panel);border:1px solid var(--g-border);border-radius:3px}",
+        ".g-glass::before{content:'';position:absolute;inset:-1px;pointer-events:none;background:" + ",".join(f"linear-gradient(var(--g-text-2),var(--g-text-2)) {pos}/{w} {h} no-repeat" for pos in ("left top", "right top", "left bottom", "right bottom") for (w, h) in (("12px", "1px"), ("1px", "12px"))) + "}",
+        f".g-chip .g-tag{{color:var(--c);font:700 {s['tagSize']}/1 {f['mono']};letter-spacing:.14em;text-transform:uppercase}}",
+        # Field material (opt-in, data-skin="field"): recessed well, underlit tone, breathing LED, glass card.
+        "[data-skin=\"field\"] .g-chip{border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);background:color-mix(in srgb,var(--c) var(--g-tint),transparent),var(--g-face);"
+        "box-shadow:var(--g-well),var(--g-underlit) color-mix(in srgb,var(--c) 30%,transparent)}",
+        "[data-skin=\"field\"] .g-chip::before,[data-skin=\"field\"] .g-glass::before,[data-skin=\"pocket\"] .g-chip::before,[data-skin=\"pocket\"] .g-glass::before{display:none}",
+        "[data-skin=\"field\"] .g-chip .g-tag,[data-skin=\"pocket\"] .g-chip .g-tag{padding-right:0;border-right:0}",
+        f"[data-skin=\"field\"] .g-chip .g-glyph{{font-size:1em;text-shadow:0 0 {spec['led']['glowRest']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}",
         f"@keyframes g-led{{from{{text-shadow:0 0 {spec['led']['glowRest']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}to{{text-shadow:0 0 {spec['led']['glowPeak']} color-mix(in srgb,var(--c) {spec['led']['alpha']},transparent)}}}}",
-        f".g-chip[data-live] .g-glyph{{animation:g-led {spec['led']['period']} var(--ease-out) infinite alternate}}",
-        "@media (prefers-reduced-motion: reduce){.g-chip[data-live] .g-glyph{animation:none}}",
-        ".g-glass{background:var(--g-glass);box-shadow:var(--g-bevel);border:1px solid var(--g-border)}",
-        f".g-chip .g-tag{{color:var(--c);font:700 {s['tagSize']}/1 {f['mono']};letter-spacing:.12em;text-transform:uppercase}}",
+        f"[data-skin=\"field\"] .g-chip[data-live] .g-glyph{{animation:g-led {spec['led']['period']} var(--ease-out) infinite alternate}}",
+        "[data-skin=\"field\"] .g-chip[data-live]::after,[data-skin=\"pocket\"] .g-chip[data-live]::after{display:none}",
+        "@media (prefers-reduced-motion: reduce){[data-skin=\"field\"] .g-chip[data-live] .g-glyph{animation:none}}",
+        "[data-skin=\"field\"] .g-glass{background:var(--g-glass);box-shadow:var(--g-bevel);border-radius:10px}",
         ".g-chip .g-body{white-space:normal}",
     ]
     for name in spec["tones"]:

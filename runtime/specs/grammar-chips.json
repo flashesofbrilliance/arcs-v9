@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "about": "One visual grammar for claim chips (README to video, receipts, briefs). Source of truth: scripts/grammar_chips_emit.py writes src/ui/grammarChipTokens.ts and the CSS block in src/ui-kit/grammar-chips/chips.html from this file. Values come from DESIGN.md (dark: obsidian world; light: Light paper world, every signal at least 4.6:1 on #e9eef4). Dark mode reads the kit tokens (src/ui-kit/recoil-report/_tokens.css, inlined verbatim into the HTML) by name; the hex values here mirror them for JSX.",
   "tones": {
     "say": {
@@ -147,7 +147,7 @@
     "Fidelity sets the body text weight and tracking (the WORLD.md render scale); the mono tag holds at 700. Text stays at full opacity at every fidelity; fog shows through weight, tracking and texture (WORLD.md, 2026-10-11).",
     "A claim strip that holds a SAY chip and no LIMIT chip, where the source has a caveat, renders the FAIL state (rule R5).",
     "Signal color tints border, tag and glyph only; the body text stays in the mode's text color.",
-    "Depth (from @arcs/theme and ChipToggle): chips sit in a recessed well with an underlit tint from the tone; cards are glass with a bevel. Depth is inset light, never a cast drop shadow."
+    "Depth: HUD by default (hairline and corner ticks, no glow, no cast shadow). The field and pocket skins add inset light for surfaces that want hardware feel; never a cast drop shadow."
   ],
   "led": {
     "about": "A slow underlit LED in the glyph, like a hardware status light. Only data-live chips pulse. The pulse moves glow radius, not opacity, over 2x --dur-sweep (3s per breath, well under --mo-flash-max), and stops under reduced motion.",
@@ -157,7 +157,7 @@
     "alpha": "45%"
   },
   "skins": {
-    "about": "Skins change depth and material, never tone meaning, glyphs or tags. 'field' is the default (recessed well, underlit). 'pocket' is the Phosphor Pocket skin at dj.arcs.care, read from goldcoastcustoms.xyz: bezel ring, film grain, raised keys, recessed LED tiles.",
+    "about": "Skins change material, never tone meaning, glyphs or tags. 'hud' is the default (Zach, 2026-10-30: tactical HUD, Porsche Design restraint over web 2.0 glow): matte face, neutral hairline, corner ticks in the tone, a tag divider, tabular numbers, no glow and no cast shadow; live = a 1px hairline sweep along the bottom edge (position only). 'field' (opt-in): recessed well, underlit tone, breathing LED. 'pocket' (opt-in): the dj.arcs.care Pocket skin.",
     "pocket": {
       "dark": {
         "key": "linear-gradient(135deg,#1e293b,#111827)",

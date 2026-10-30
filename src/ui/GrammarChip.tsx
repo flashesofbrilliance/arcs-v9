@@ -49,14 +49,14 @@ export interface GrammarChipProps {
   mode?: GrammarMode | 'auto'
   skin?: GrammarSkin
   muiTheme?: MuiThemeLike
-  // 'field' = recessed well, underlit (default); 'pocket' = the dj.arcs.care Pocket skin: raised key, LED tile
-  material?: 'field' | 'pocket'
+  // 'hud' = hairline, tone corner ticks, no glow (default); 'field' = recessed well, underlit; 'pocket' = the dj.arcs.care Pocket skin
+  material?: 'hud' | 'field' | 'pocket'
   // a status light that breathes (glow radius, not opacity; stops under reduced motion)
   live?: boolean
   style?: React.CSSProperties
 }
 
-export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto', skin, muiTheme, material = 'field', live, style }: GrammarChipProps) {
+export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto', skin, muiTheme, material = 'hud', live, style }: GrammarChipProps) {
   const system = useSystemMode()
   const m: GrammarMode = mode === 'auto' ? (muiTheme?.palette?.mode ?? system) : mode
   const base = grammarChips.modes[m]
@@ -74,11 +74,14 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
   const pocket = material === 'pocket'
   const led = grammarChips.tones[tone].dark
   const L = grammarChips.led
-  const face: React.CSSProperties = pocket
+  const ticks = (['left top', 'right top', 'left bottom', 'right bottom'] as const).flatMap((p) => [`linear-gradient(${c}, ${c}) ${p} / 7px 1px no-repeat`, `linear-gradient(${c}, ${c}) ${p} / 1px 7px no-repeat`]).join(', ')
+  const hud: React.CSSProperties = { border: `1px solid ${s.border ?? base.border}`, background: `${ticks}, ${s.panel ?? base.panel}`, fontVariantNumeric: 'tabular-nums', ...(live ? { boxShadow: `inset 0 -1px 0 ${c}` } : {}) }
+  const face: React.CSSProperties = material === 'hud' ? hud : pocket
     ? { borderRadius: grammarChips.skins.pocket.radius, border: `1px solid ${pk.keyEdge}`, background: pk.key, boxShadow: pk.keyShadow, padding: '6px 12px 6px 6px' }
     : { background: `linear-gradient(${pct(c, base.tint)}, ${pct(c, base.tint)}), ${s.panel ?? d.face}`, boxShadow: `${d.well}, ${d.underlit} ${pct(c, '30%')}` }
   const glyph: React.CSSProperties = pocket
     ? { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 3, background: pk.ledWell, boxShadow: pk.ledWellShadow, border: `1px solid ${base.border}`, fontSize: '0.8em', color: led, textShadow: `0 0 6px ${pct(led, '60%')}` }
+    : material === 'hud' ? { color: c, fontSize: '0.85em' }
     : { color: c, textShadow: `0 0 ${L.glowRest} ${pct(c, L.alpha)}` }
   return (
     <span data-tone={tone} data-fidelity={fidelity} style={{
@@ -87,8 +90,8 @@ export function GrammarChip({ tone, children, fidelity = 'sharp', mode = 'auto',
       ...texture,
       color: s.text ?? base.text, fontFamily: grammarChips.fonts.sans, fontSize: sh.bodySize, lineHeight: 1.3, whiteSpace: 'nowrap', ...face, ...style,
     }}>
-      {live && <style>{`@keyframes g-led{to{text-shadow:0 0 ${L.glowPeak} currentColor}}@media (prefers-reduced-motion: reduce){[data-g-live]{animation:none!important}}`}</style>}
-      <span aria-hidden="true" data-g-live={live ? '' : undefined} style={{ lineHeight: 1, ...glyph, ...(live ? { animation: `g-led ${L.period} cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate` } : {}) }}>{t.glyph}</span>
+      {live && material === 'field' && <style>{`@keyframes g-led{to{text-shadow:0 0 ${L.glowPeak} currentColor}}@media (prefers-reduced-motion: reduce){[data-g-live]{animation:none!important}}`}</style>}
+      <span aria-hidden="true" data-g-live={live ? '' : undefined} style={{ lineHeight: 1, ...glyph, ...(live && material === 'field' ? { animation: `g-led ${L.period} cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate` } : {}) }}>{t.glyph}</span>
       <span style={{ color: c, fontFamily: grammarChips.fonts.mono, fontSize: sh.tagSize, fontWeight: 700, letterSpacing: '0.12em', lineHeight: 1 }}>{t.tag}</span>
       {children != null && <span style={{ whiteSpace: 'normal', fontWeight: f.weight, letterSpacing: f.tracking }}>{children}</span>}
     </span>
