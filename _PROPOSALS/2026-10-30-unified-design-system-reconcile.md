@@ -158,7 +158,7 @@ Gate each step with `token_source_gate`, `artifact_wrap_lint`, `motion_policy_ga
 
 1. DECIDED 2026-10-30: option A. New glyphs landed in e87c1298 (grammar branch, not yet merged).
 2. DECIDED 2026-10-30 (Zach, "go for it" on the recommendation): emit `_tokens.css` and `src/ui/tokens.ts` from one JSON, as the grammar emitter does.
-3. DECIDED 2026-10-30: no. Zach does not want the DJ / Teenage Engineering look in the unified system. Pocket stays a dj.arcs.care-only skin; follow-up for the grammar branch: drop pocket from the shared spec or mark it dj-only.
+3. DECIDED 2026-10-30: no. Zach does not want the DJ / Teenage Engineering look in the unified system. Pocket stays a dj.arcs.care-only skin. Zach then asked to refine the construction rules from the real hardware: see `_PROPOSALS/2026-10-30-instrument-construction-rules.md` (pocket's gradient keys, cast shadows, bezels and glow break the hardware's own rules; recommend folding the fixed rules into HUD).
 
 ## Evidence
 
