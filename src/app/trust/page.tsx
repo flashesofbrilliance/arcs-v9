@@ -180,8 +180,9 @@ export default function TrustPage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
           <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.7 · last updated 2026-10-05</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <Link href='/privacy' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Privacy policy</Link>
-            <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms of service</Link>
+            <span aria-current='page' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.primary }}>Trust</span>
+            <Link href='/privacy' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Privacy</Link>
+            <Link href='/terms' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Terms</Link>
             <Link href='/dashboard' style={{ fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, textDecoration: 'none' }}>Open the compass →</Link>
           </div>
         </div>

@@ -198,8 +198,9 @@ export default function TermsPage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
           <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Terms of service v1.0 · effective 2026-06-30</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <Link href='/trust' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Trust contract</Link>
-            <Link href='/privacy' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Privacy policy</Link>
+            <Link href='/trust' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Trust</Link>
+            <Link href='/privacy' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline' }}>Privacy</Link>
+            <span aria-current='page' style={{ fontFamily: mono, fontSize: '0.75rem', color: text.primary }}>Terms</span>
             <Link href='/dashboard' style={{ fontFamily: mono, fontSize: '0.75rem', color: signal.cyan, textDecoration: 'none' }}>Open the compass →</Link>
           </div>
         </div>

@@ -16,10 +16,12 @@ const legalLinkStyle: React.CSSProperties = {
 }
 
 // Fixed offer bar: the sprint CTA, faded while the data drawer is open, gone once dismissed.
-// Trust, Privacy and Terms live in the in-flow SiteFooter at the end of every page.
+// Trust, Privacy and Terms live in the in-flow SiteFooter at the end of every page except the three
+// legal pages, which carry the same three links in their own footer row.
 export function SiteFooter() {
   const pathname = usePathname()
-  if (pathname === '/hud') return null
+  // /hud carries no chrome; the legal pages carry Trust, Privacy and Terms in their own footer row.
+  if (pathname === '/hud' || pathname === '/trust' || pathname === '/privacy' || pathname === '/terms') return null
   return (
     <footer
       style={{
