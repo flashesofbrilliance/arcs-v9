@@ -3,7 +3,12 @@
   "subject": "Zach Harris",
   "as_of": "2026-10-30",
   "profile": "https://zach.md",
-  "same_as": ["https://www.linkedin.com/in/zharris", "https://github.com/flashesofbrilliance", "https://zachharris.xyz", "https://resume.arcs.care"],
+  "same_as": [
+    "https://www.linkedin.com/in/zharris",
+    "https://github.com/flashesofbrilliance",
+    "https://zachharris.xyz",
+    "https://resume.arcs.care"
+  ],
   "statuses": {
     "shown": "A public record anyone can open.",
     "on-request": "A real record that is private (employer data or a private repository). References available.",
@@ -85,6 +90,15 @@
           "status": "on-request",
           "evidence": "In the private repository; walkthrough on request.",
           "date": "2026-10-30"
+        },
+        {
+          "id": "take-home-trap",
+          "claim": "Spotted a state-sponsored fake-recruiter malware lure, dissected it for defenders, and built a scanner from it.",
+          "status": "shown",
+          "evidence": "The DPRK Famous Chollima (G1052) operation delivering BeaverTail and InvisibleFerret: the matched-pair account, a detection and response dossier, and sbom-payload-scan, which checks an unknown repo's dependencies for payloads before anything runs.",
+          "date": "2026-09-02",
+          "url": "https://good.arcs.care/blog/nftt/take-home-trap/dossier",
+          "label": "The Take-Home Trap: dossier"
         },
         {
           "id": "outage",
