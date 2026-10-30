@@ -55,25 +55,25 @@
   },
   {
    "label": "rc-callme-nonus-state",
-   "notes": "Non-US region. Parser falls back to CA; PASS needs the fallback to be flagged (state_parse_failed=true) on what Sugar or the rep can see.",
+   "notes": "Non-US region. Parser falls back to CA; PASS needs the fallback to be flagged (state_parse_failed=true) on what Sugar or the rep can see. Rerun 2026-10-29 21:23 ET on Zap v9 (state_note mapped to Lead Source Description).",
    "input": {
     "leg": "chatbot",
     "branch": "call-me",
-    "full_name": "Pat Canuck",
-    "company": "Maple Polymers Ltd",
+    "full_name": "Pat Ontario",
+    "company": "Maple Polymers RC",
     "state_raw": "Ontario",
-    "email": "pat.canuck.1029@example.com",
+    "email": "pat.ontario@prlrc-test.com",
     "phone_raw": "+1 416 555 0199",
     "submission_count": 1
    },
    "expected": {
     "first_name": "Pat",
-    "last_name": "Canuck",
+    "last_name": "Ontario",
     "location_c": "CA",
     "state_parse_failed": true,
     "lead_source": "Chatbot",
-    "account_name_min_len": 18,
-    "account_name_input": "Maple Polymers Ltd",
+    "account_name_min_len": 17,
+    "account_name_input": "Maple Polymers RC",
     "has_note": false,
     "expected_dedup": false,
     "phone_work_required": true

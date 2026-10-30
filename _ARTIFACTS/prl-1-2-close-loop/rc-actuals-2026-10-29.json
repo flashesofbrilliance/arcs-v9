@@ -1,5 +1,5 @@
 {
- "_source": "Read back via Sugar REST GET /rest/v11/Leads (Zapier connection chatbot #4, sandbox) at ~16:48 ET 2026-10-29. state_parse_failed: Sugar stores no such field; recorded as false when description/fields carry no fallback flag (description='Chatbot Lead' on all three).",
+ "_source": "Read back via Sugar REST GET /rest/v11/Leads (Zapier connection chatbot #4, sandbox) at ~16:48 ET 2026-10-29. state_parse_failed: Sugar stores no such field; recorded as false when description/fields carry no fallback flag (description='Chatbot Lead' on all three). rc-callme-nonus-state re-read 21:24 ET after Zap v9: state_parse_failed=true because lead_source_description carries the flag. Superseded Pat Canuck lead ee447fe8 (v8, unflagged).",
  "rc-callme-create": {
   "id": "e6fac46c-d3d5-11f1-b035-0eb473bb02df",
   "first_name": "Claude",
@@ -27,15 +27,17 @@
   "assigned_user_name": "Steve Fabrizius"
  },
  "rc-callme-nonus-state": {
-  "id": "ee447fe8-d3d9-11f1-b496-0eb473bb02df",
+  "id": "922232ba-d400-11f1-99e0-0e784e0f5c27",
   "first_name": "Pat",
-  "last_name": "Canuck",
-  "account_name": "Maple Polymers Ltd",
+  "last_name": "Ontario",
+  "account_name": "Maple Polymers RC",
   "location_c": "CA",
-  "state_parse_failed": false,
+  "state_parse_failed": true,
+  "lead_source_description": "State not recognized: 'Ontario' (routed to CA by default, please confirm)",
   "lead_source": "Chatbot",
   "phone_work": "+1 416 555 0199",
-  "assigned_user_name": "Lynn Winston"
+  "assigned_user_name": "Lynn Winston",
+  "zap_version": "v9"
  },
  "rc-enrichment-real-person": {
   "id": "6fa3b5f8-d3db-11f1-a0fa-0eca74d5e2ad",
