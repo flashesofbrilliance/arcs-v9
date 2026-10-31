@@ -941,7 +941,7 @@ for s in nftt_series nftt_published lattice_drift_check seedbank_drift_check tao
          connector_render lore legend fates canon_propagation_check assumptions unfold token_kaizen \
          provenance_lint librarian_hook canon_claims_report case_world_sync nftt_contrast_ratchet backlog_issue_sync milestone_render cold_molt_lint export_apollo blog_render \
          bridge_index_scan research_render probe_tally video_cut blog_provenance gen_recoil_artifact gravity_well_fork_scan \
-         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster decision_receipt_to_accountant risk_underwriter; do
+         linkedin_cut linkedin_render concordance_render essay_atlas gauntlet_report warroom_board sync_family_roster decision_receipt_to_accountant risk_underwriter backlog_append; do
   if git diff --cached --name-only -- "scripts/$s.py" 2>/dev/null | grep -q . && command -v python3 >/dev/null 2>&1; then
     if ! python3 "scripts/$s.py" --self-test >/dev/null 2>&1; then
       python3 "scripts/$s.py" --self-test >&2 || true
