@@ -69,7 +69,7 @@ def strip_bar(sev, rejected):
     seg = lambda n, c: (f'<span style="flex:{n};background:{c}"></span>' if n else "")
     rej = f'<span class="rej">{rejected} over-flags rejected by the verifier</span>' if rejected else ""
     return (f'<div class="sevrow"><div class="sevbar">'
-            f'{seg(sev["pathogen"], "#FF4D6D")}{seg(sev["crack"], "#C9A227")}{seg(sev["nit"], "#475569")}'
+            f'{seg(sev["pathogen"], "#FF4D6D")}{seg(sev["crack"], "#C9A227")}{seg(sev["nit"], "#7a8699")}'
             f'</div><span class="sevlab">{sev["pathogen"]} pathogen &middot; {sev["crack"]} crack &middot; {sev["nit"]} nit</span>{rej}</div>')
 
 def render_runs(runs):
@@ -97,13 +97,13 @@ def render_runs(runs):
 
 def render_ledger(rows):
     ticks = "".join(
-        f'<span class="tick" style="background:{SCOPE_COLORS.get(r["scope"], "#64748b")}" title="{E(r["id"])} {E(r["ts"])} [{E(r["scope"])}] {E(r["claim"][:120])}"></span>'
+        f'<span class="tick" style="background:{SCOPE_COLORS.get(r["scope"], "#8391a7")}" title="{E(r["id"])} {E(r["ts"])} [{E(r["scope"])}] {E(r["claim"][:120])}"></span>'
         for r in rows)
     legend = " ".join(f'<span class="lg"><span class="dot" style="background:{c}"></span>{s}</span>'
                       for s, c in SCOPE_COLORS.items())
     latest = "\n".join(
         f'<div class="frow"><span class="fid">{E(r["id"])}</span><span class="fts">{E(r["ts"])}</span>'
-        f'<span class="fsc" style="color:{SCOPE_COLORS.get(r["scope"], "#64748b")}">{E(r["scope"])}</span>'
+        f'<span class="fsc" style="color:{SCOPE_COLORS.get(r["scope"], "#8391a7")}">{E(r["scope"])}</span>'
         f'<span class="fcl">{E(r["claim"][:150])}</span></div>' for r in rows[::-1][:8])
     return ticks, legend, latest
 
@@ -146,7 +146,7 @@ def main(argv=None):
 <meta name="robots" content="noindex, nofollow"><title>Instrument Board</title>
 <style>
   :root{{color-scheme:dark;--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;
-    --text:#e2e8f0;--muted:#64748b;--dimmed:#475569;--cyan:#00F0FF;--gold:#C9A227;--red:#FF4D6D;
+    --text:#e2e8f0;--muted:#8391a7;--dimmed:#7a8699;--cyan:#00F0FF;--gold:#C9A227;--red:#FF4D6D;
     --sans:"Inter",system-ui,-apple-system,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}}
   *{{margin:0;padding:0;box-sizing:border-box}}
   body{{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;padding:56px 24px 72px;-webkit-font-smoothing:antialiased}}

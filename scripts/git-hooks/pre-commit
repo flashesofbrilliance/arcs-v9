@@ -351,6 +351,32 @@ if [ -f scripts/migration_rls_lint.py ] && command -v python3 >/dev/null 2>&1; t
 fi
 
 # ---------------------------------------------------------------------------
+# recoil-report renderer design check (2026-10-30, backlog recoil-renderer-design-debt):
+# every rendered report used to carry an em-dash title and ~23 detector findings (10px text,
+# wide tracking on non-labels). Renders the bundled sample and fails on the whole class.
+rr=$(git diff --cached --name-only -- 'tools/recoil-report/*' 2>/dev/null || true)
+if [ -n "$rr" ] && [ -f tools/recoil-report/design_check.py ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 tools/recoil-report/design_check.py; then
+    echo "✖ commit blocked: recoil-report renderer output fails its design check (see above)." >&2
+    exit 1
+  fi
+fi
+
+# retired-grey guard (2026-10-30, debt renderers-carry-old-greys-and-sizes): #64748b and
+# #475569 fail AA as text on the dark surfaces (scripts/design_debt_sweep.py RETIRED map).
+# The served-page ratchet stops a regenerated page from regressing, but a renderer that
+# still emits them re-seeds the debt. Block any staged script that carries them, except the
+# two tools that name them on purpose (the sweep's codemod map and the contrast ratchet docs).
+rg=$(git diff --cached --name-only --diff-filter=ACM -- 'scripts/*.py' 'scripts/*.mjs' 'tools/**/*.py' 2>/dev/null | grep -vE 'scripts/(design_debt_sweep|nftt_contrast_ratchet)\.py$' || true)
+if [ -n "$rg" ]; then
+  hits=$(echo "$rg" | tr '\n' '\0' | xargs -0 grep -nEi '#(64748b|475569)\b' 2>/dev/null || true)
+  if [ -n "$hits" ]; then
+    echo "$hits" >&2
+    echo "✖ commit blocked: a renderer emits a retired grey (#64748b -> #8391a7, #475569 -> #7a8699)." >&2
+    exit 1
+  fi
+fi
+
 # gutter-consistency guard: in the recoil-report page template, header/footer horizontal
 # padding drifting from the body `.pad` gutter (44px vs 40px) indents every header/footer
 # element a few px inward of the body -- a left edge that lies about its lane, invisible to
@@ -481,6 +507,18 @@ if [ -f scripts/motion_policy_gate.py ] && command -v python3 >/dev/null 2>&1; t
     # shellcheck disable=SC2086
     if ! python3 scripts/motion_policy_gate.py $mpages; then
       echo "✖ commit blocked: motion policy gate (see above). Edit the --mo-* tokens in src/ui-kit/recoil-report/_tokens.css and re-inline; do not hand-edit a page's copy." >&2
+      exit 1
+    fi
+  fi
+fi
+
+# Claim chip grammar (2026-10-30): runtime/specs/grammar-chips.json is the source; the JSX tokens and the
+# specimen CSS are emitted from it. --check fails on drift, on a tone below its contrast floor, on a dark
+# tone that differs from _tokens.css, on a reused glyph, and on status glyphs that differ from /proof.
+if [ -f scripts/grammar_chips_emit.py ] && command -v python3 >/dev/null 2>&1; then
+  if git diff --cached --name-only | grep -qE '^(runtime/specs/grammar-chips\.json|scripts/grammar_chips_emit\.py|src/ui/grammarChipTokens\.ts|src/ui/GrammarChip\.tsx|src/ui-kit/grammar-chips/|src/ui-kit/recoil-report/_tokens\.css|public/proof\.html)'; then
+    if ! python3 scripts/grammar_chips_emit.py --check; then
+      echo "✖ commit blocked: chip grammar check (see above). Edit runtime/specs/grammar-chips.json, then run python3 scripts/grammar_chips_emit.py." >&2
       exit 1
     fi
   fi
