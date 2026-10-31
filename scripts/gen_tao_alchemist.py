@@ -43,7 +43,7 @@ data_json = json.dumps({p["id"]: p for p in data}, ensure_ascii=False)
 
 page = f'''<style>
   :root{{--bg:#020408;--panel:#0d1117;--elevated:#111827;--border:#1e293b;--text:#e2e8f0;
-    --sec:#94a3b8;--dim:#64748b;--mut:#475569;--cyan:#00F0FF;--gold:#FFD700;
+    --sec:#94a3b8;--dim:#8391a7;--mut:#7a8699;--cyan:#00F0FF;--gold:#FFD700;
     --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
     --sans:'Inter',system-ui,-apple-system,sans-serif;
     --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}}

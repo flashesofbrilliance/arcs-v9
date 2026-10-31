@@ -109,7 +109,7 @@ TEMPLATE = r"""<!doctype html>
 <style>
   :root{
     --bg:#020408; --surface:#0b1017; --elev:#0e141d; --border:#1e2c3a; --border2:#26374a;
-    --fg1:#eff4fa; --fg2:#c6d3e1; --fg3:#a3b4c6; --fg4:#7e8fa4; --dim:#64748b;
+    --fg1:#eff4fa; --fg2:#c6d3e1; --fg3:#a3b4c6; --fg4:#7e8fa4; --dim:#8391a7;
     --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
     /* aggregate status palette (4 buckets, well-separated) + prose accent for node detail */
     --live:#00FF9D; --drift:#FFD700; --stale:#7e8fa4; --unv:#4a5a6d; --prose:#00F0FF;
