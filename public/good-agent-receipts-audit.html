@@ -89,7 +89,7 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   <p class="lede">Your team ships with coding and ops agents. When one marks a task done, the record is the only witness. The Agent Receipts Audit tests whether that record is enough: a reader with no memory of the work tries to reconstruct it from your repo alone, and every place it cannot is a gap you would rather find now than during an incident.</p>
 
   <h2>Why this, why now</h2>
-  <p>The loudest AI argument this year is about accountability: who answers when an agent acts. Liability, not slogans, is where that argument lands, and liability runs on records. An agent that reports a task as shipped when it did not, or a change nobody can trace to a decision, is not a model problem. It is an evidence problem, and evidence problems can be measured.</p>
+  <p data-lane="narrow">The loudest AI argument this year is about accountability: who answers when an agent acts. Liability, not slogans, is where that argument lands, and liability runs on records. An agent that reports a task as shipped when it did not, or a change nobody can trace to a decision, is not a model problem. It is an evidence problem, and evidence problems can be measured.</p>
 
   <h2>What the audit does</h2>
   <ol class="steps">
@@ -100,21 +100,21 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   </ol>
 
   <h2>We ran it on ourselves first</h2>
-  <div class="card">
+  <div class="card" data-lane="narrow">
     <p>The method was built and tested on the ARCS build itself, in public. The first cold run reconstructed <b>90%</b> of the incident from the committed record alone (<a href="/blog/nftt/the-cold-reconstruction/report">the report</a>). A controlled follow-up compared cold and warm readers and found the useful thing: warmth did not corrupt what a reader grounded, it changed whether the reader grounded at all. The runs, the table, and the redacted reports are published.</p>
     <p>Or play the method yourself: <a href="/cases/six-week-outage">Case 001</a> · <a href="/cases/reader-who-remembered">Case 002</a></p>
     <p><a href="/blog/nftt/the-cold-reconstruction">The cold reconstruction</a> · <a href="/blog/nftt/the-control-and-the-experiment">The control and the experiment</a> · <a href="/blog/nftt/receipts-or-it-didnt-happen">Receipts or it didn't happen</a></p>
   </div>
 
   <h2>We keep our own ledger</h2>
-  <div class="card">
+  <div class="card" data-lane="narrow">
     <!--ledger-stamp:start--><p><b>42</b> beliefs we held and later falsified are on the record, the most recent on <b style="white-space:nowrap">2026-09-29</b>.</p><!--ledger-stamp:end-->
     <p>Every entry names the belief, the test that broke it, and what replaced it. Corrections stay on the record instead of being edited away. That number is written from the ledger itself, not typed by hand, so this page cannot claim more honesty than the log can show.</p>
     <p><a href="https://status.arcs.care/beliefs">Read the belief log</a></p>
   </div>
 
   <h2>Two fixed scopes</h2>
-  <p>Both are fixed price, quoted after a twenty-minute scoping call, so the number fits your repo instead of a guess.</p>
+  <p data-lane="narrow">Both are fixed price, quoted after a twenty-minute scoping call, so the number fits your repo instead of a guess.</p>
   <div class="tiers">
     <div class="tier">
       <h3>Audit</h3>
