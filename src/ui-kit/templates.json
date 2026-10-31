@@ -5,39 +5,79 @@
       "mode": "operate",
       "kind": "instrument-dashboard",
       "description": "War-room / counterpart brief assembled from the numbered recoil-report primitives (01-14). The kit's home family.",
-      "canonical_examples": ["src/ui-kit/recoil-report/index.html", "src/ui-kit/recoil-report/03-entity-card.html"],
-      "signature_selectors": ["dsCard", ".recoil-header", ".entity-card", ".prob-track", ".arc-node", ".beat-", ".section-label"],
+      "canonical_examples": [
+        "src/ui-kit/recoil-report/index.html",
+        "src/ui-kit/recoil-report/03-entity-card.html"
+      ],
+      "signature_selectors": [
+        "dsCard",
+        ".recoil-header",
+        ".entity-card",
+        ".prob-track",
+        ".arc-node",
+        ".beat-",
+        ".section-label"
+      ],
       "min_signatures": 2
     },
     "scan-hud": {
       "mode": "operate",
       "kind": "instrument-dashboard",
       "description": "Profile / target-role scan rendered as flight instrumentation (mast + telemetry band + dual-channel comparator + evidence ledger). @media print flattens to a light framed sheet.",
-      "canonical_examples": ["_ARTIFACTS/profile-scan-hud.html"],
-      "signature_selectors": [".mast", ".telemetry", ".comparator", ".ledger", ".thread", ".led", ".sec-hd"],
+      "canonical_examples": [
+        "_ARTIFACTS/profile-scan-hud.html"
+      ],
+      "signature_selectors": [
+        ".mast",
+        ".telemetry",
+        ".comparator",
+        ".ledger",
+        ".thread",
+        ".led",
+        ".sec-hd"
+      ],
       "min_signatures": 3
     },
     "candidate-brief": {
       "mode": "persuade",
       "kind": "persuasion-surface",
       "description": "Discovery-led candidate / counterpart brief: verdict -> pursue-score meter -> reasons -> buyer Q&A. squad.html and success-academy.html are the near-identical reference clones.",
-      "canonical_examples": ["public/success-academy.html", "public/squad.html"],
-      "signature_selectors": [".verdict", ".scorebar", ".slabel", ".stamp", ".scoremeta"],
+      "canonical_examples": [
+        "public/success-academy.html",
+        "public/squad.html"
+      ],
+      "signature_selectors": [
+        ".verdict",
+        ".scorebar",
+        ".slabel",
+        ".stamp",
+        ".scoremeta"
+      ],
       "min_signatures": 2
     },
     "nftt-essay": {
       "mode": "essay",
       "kind": "editorial-longform",
       "description": "Notes-from-the-Trenches literary essay at good.arcs.care/blog/nftt/<slug>. Hero + standfirst + tracked-caps section labels + numbered movements. NOTE: this family has a sanctioned self-authored-under-canonical-names token path (token_source_gate blog-nftt-* exemption); enrolling it in component-source is a later, separate step (see README migration plan).",
-      "canonical_examples": ["public/blog-nftt-the-loop-closes.html"],
-      "signature_selectors": [".hero", ".standfirst", ".eyebrow", ".step"],
+      "canonical_examples": [
+        "public/blog-nftt-the-loop-closes.html"
+      ],
+      "signature_selectors": [
+        ".hero",
+        ".standfirst",
+        ".eyebrow",
+        ".step"
+      ],
       "min_signatures": 2
     },
     "resume-print": {
       "mode": "resume",
       "kind": "print-paper",
       "description": "Designed resume / CV print sheet (often a NOT-A-PALETTE light/paper surface). Signature selectors are intentionally empty until the first resume is enrolled and its shared class vocabulary is verified, so the gate checks only the tokens+mode binding for now and never false-fails on an unverified signature. Finalize signatures when enrolling the first resume (see README migration plan).",
-      "canonical_examples": ["public/vico-resume.html", "public/squad-resume.html"],
+      "canonical_examples": [
+        "public/vico-resume.html",
+        "public/squad-resume.html"
+      ],
       "signature_selectors": [],
       "min_signatures": 0
     },
@@ -45,25 +85,80 @@
       "mode": "operate",
       "kind": "instrument-explainer",
       "description": "One live instrument under a thesis, with deeper altitudes behind closed doors: instrument panel (16), altitude ladder (17), contact sheet (18), gate ladder (19), transport (20). Uses the DESIGN.md conformance tokens in _tokens.css (ds-r, fs, elevated, magenta) so no per-page override layer is needed.",
-      "canonical_examples": ["_ARTIFACTS/raw-capture.html", "src/ui-kit/recoil-report/16-instrument-panel.html"],
-      "signature_selectors": [".inst", ".alt-body", ".gates", ".plug", ".sheet", ".tp", ".kid", ".bb", ".pads", ".sqrow", ".seg", ".rungs"],
+      "canonical_examples": [
+        "_ARTIFACTS/raw-capture.html",
+        "src/ui-kit/recoil-report/16-instrument-panel.html"
+      ],
+      "signature_selectors": [
+        ".inst",
+        ".alt-body",
+        ".gates",
+        ".plug",
+        ".sheet",
+        ".tp",
+        ".kid",
+        ".bb",
+        ".pads",
+        ".sqrow",
+        ".seg",
+        ".rungs"
+      ],
       "min_signatures": 3
     },
     "recoil-player": {
       "mode": "operate",
       "kind": "instrument-replay",
       "description": "Plays a recoil report backwards in slow motion or forwards at full recall. Transport (20) with Reverse, tempo as a segmented control (24: slow mo, real time, max recall), detail as a resolution ladder (25: gist, beats, full recall), the beat track as a step sequencer (23), the belief manifold (34) with kairos pins and a synced scrub head, and the backlog graph (35). Data: ./scripts/recoil --data <report.json> --format player, and scripts/backlog_graph.py --json. Shared code: recoil-report/_player.js.",
-      "canonical_examples": ["src/ui-kit/recoil-report/recoil-player.html", "src/ui-kit/recoil-report/34-manifold.html", "src/ui-kit/recoil-report/35-backlog-graph.html"],
-      "signature_selectors": [".seg", ".mf-line", ".bg-node", ".chip", ".ref", ".section-label"],
+      "canonical_examples": [
+        "src/ui-kit/recoil-report/recoil-player.html",
+        "src/ui-kit/recoil-report/34-manifold.html",
+        "src/ui-kit/recoil-report/35-backlog-graph.html"
+      ],
+      "signature_selectors": [
+        ".seg",
+        ".mf-line",
+        ".bg-node",
+        ".chip",
+        ".ref",
+        ".section-label"
+      ],
       "min_signatures": 4
     },
     "kit-specimen": {
       "mode": "operate",
       "kind": "reference-page",
       "description": "The standard page for one ui-kit building block (atom, molecule, organism, lockup or template): head, live stage, states, anatomy, usage, data, access, relations, gates, always in that order. Generated by scripts/kit_specimen.py from a spec in src/ui-kit/specimens/; never hand-edited.",
-      "canonical_examples": ["src/ui-kit/recoil-report/36-change.html"],
-      "signature_selectors": ["sp-head", "sp-stage", "sp-states", "sp-anatomy", "sp-usage", "sp-data", "sp-access", "sp-relations", "sp-gates"],
+      "canonical_examples": [
+        "src/ui-kit/recoil-report/36-change.html"
+      ],
+      "signature_selectors": [
+        "sp-head",
+        "sp-stage",
+        "sp-states",
+        "sp-anatomy",
+        "sp-usage",
+        "sp-data",
+        "sp-access",
+        "sp-relations",
+        "sp-gates"
+      ],
       "min_signatures": 9
+    },
+    "tool-getting-started": {
+      "mode": "read",
+      "kind": "tool explainer",
+      "description": "Getting-started page for one open tool on good.arcs.care: eyebrow, outcome headline, grammar chips (proven / honest / limit), how it works, copy-ready install and output blocks, rules panels, dated measurement stats, not-proven list, and a For agents section linking the page's own llms.txt and AGENTS.md. Each tool wears one non-signal swatch, --tool-accent, declared in a second :root block and used for structure only (never text, never a signal meaning).",
+      "canonical_examples": [
+        "public/good-rfp-engine.html"
+      ],
+      "signature_selectors": [
+        ".g-chip",
+        ".eyebrow",
+        ".rules",
+        ".stats",
+        ".panel"
+      ],
+      "min_signatures": 3
     }
   }
 }

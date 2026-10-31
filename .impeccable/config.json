@@ -166,7 +166,7 @@
           "public/jack-rain-ext.html"
         ],
         "createdAt": "2026-09-14T17:11:11.261Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
       },
       {
         "rule": "design-system-font-size",
@@ -184,7 +184,7 @@
           "public/jack-rain-ext.html"
         ],
         "createdAt": "2026-09-14T17:11:11.309Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
       },
       {
         "rule": "design-system-color",
@@ -202,7 +202,7 @@
           "public/jack-rain-ext.html"
         ],
         "createdAt": "2026-09-14T17:11:11.350Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
       },
       {
         "rule": "design-system-radius",
@@ -882,6 +882,15 @@
         ],
         "createdAt": "2026-10-17T22:00:00.000Z",
         "reason": "The studio's Type controls exist to try poster typefaces (Anton, Archivo Black, Bowlby One, Playfair Display, Space Mono) on a print; the faces are user-selectable content of the instrument, not the page's own typography, which stays on the DESIGN.md stack"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgb(0, 116, 142)",
+        "files": [
+          "public/good-rfp-engine.html"
+        ],
+        "createdAt": "2026-10-30T15:17:52.160Z",
+        "reason": "tool-getting-started swatch: rfp-engine paper teal #00748e (DESIGN.md Light Paper accent), structure only, see src/ui-kit/templates.json"
       },
       {
         "rule": "design-system-color",
