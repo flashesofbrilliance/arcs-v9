@@ -1,0 +1,11 @@
+{ "omit": {
+  "No confidence score": "product gap; this video is about the bench, and the walkthrough states every gap",
+  "Documents load at start-up only": "server operating detail; stated in mcp/README.md and the walkthrough",
+  "Retrieval is keyword-based": "product gap; stated in the walkthrough",
+  "stdio only": "local deployment limit; stated in mcp/README.md",
+  "Keyword retrieval": "product gap; stated in the walkthrough",
+  "Plain-text documents in one numbering style": "product gap; stated in the walkthrough",
+  "Built for RFPs, not contracts": "product gap; stated in the walkthrough",
+  "That is the fail-closed rule working, not a pass": "applies to running without a key; this video runs the mock and says the three traps are skipped, not counted",
+  "The fictional sample RFP, its amendment and sample questions": "file listing; frame 1 narration says the RFP is fictional"
+} }
