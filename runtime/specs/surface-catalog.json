@@ -6,13 +6,13 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 310,
+  "rows": 311,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 251,
+   "product page": 252,
    "gated": 31
   },
   "next_config_hosts": 79,
@@ -725,7 +725,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Privacy Policy",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "app.arcs.care",
@@ -985,7 +985,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Terms of Service",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "app.arcs.care",
@@ -1005,7 +1005,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Trust Contract",
-   "last_commit": "2026-10-18"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "app.arcs.care",
@@ -1721,7 +1721,7 @@
    "host": "good.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-agents|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-audit-check|good-agents|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/good.html",
    "pattern": false,
    "file": "public/good.html",
@@ -1757,7 +1757,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -1777,7 +1777,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -1798,7 +1798,28 @@
    "unlisted": false,
    "purpose": "A fixed-price audit that tests whether a cold reader can rebuild what your AI agents did from the record alone, and maps every gap it cannot close.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/audit/check",
+   "catch_all": false,
+   "destination": "/good-audit-check.html",
+   "pattern": false,
+   "file": "public/good-audit-check.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts",
+    "src/proxy.ts"
+   ],
+   "title": "Repo Receipts Check · ARCS",
+   "description": "Paste an open-source GitHub repo and see how many of its recent commits a stranger could explain from the record alone. A free sample of the Agent Receipts Audit.",
+   "index": "index, follow",
+   "unlisted": false,
+   "purpose": "Paste an open-source GitHub repo and see how many of its recent commits a stranger could explain from the record alone. A free sample of the Agent Receipts Audit.",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "good.arcs.care",
@@ -1819,7 +1840,7 @@
    "unlisted": false,
    "purpose": "Notes from the Trenches: what building ARCS in the open actually taught me. Real stories from the build, with the receipts.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -2259,7 +2280,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3499,7 +3520,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3560,7 +3581,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3581,7 +3602,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real warm-versus-cold reconstruction experiment. Commit your predictions before the evidence, take each chair, and watch the world sharpen only as your receipt earns it.",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3602,7 +3623,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-19"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3623,7 +3644,7 @@
    "unlisted": false,
    "purpose": "The accountable copypasta: tick only what your agent actually does, and the card claims exactly that. Everything else stays on the card as not yet.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3644,7 +3665,7 @@
    "unlisted": false,
    "purpose": "A founder's nineteen AI fears, each asked one question: what would prove this wrong, and by when? Guess, flip the card, and see which fears the world can actually answer.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3686,7 +3707,7 @@
    "unlisted": false,
    "purpose": "Lore: the stories ARCS is built on, each filed with a verdict. A story may be told before it is cited, and each one names the test that would retire it.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3728,7 +3749,7 @@
    "unlisted": false,
    "purpose": "Receipts: dated public predictions, each written with its own falsifier, then re-scored against the primary documents. Misses stay on the record.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "growth-ai.arcs.care",
