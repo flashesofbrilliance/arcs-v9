@@ -508,7 +508,7 @@ ${SERIES_HTML}  </div>
   .mp-cta{margin-top:18px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.03em;color:#001014;background:linear-gradient(100deg,var(--cyan),var(--green));border:none;border-radius:10px;padding:12px 20px;cursor:pointer;transition:transform .15s;}
   .mp-cta:hover{transform:translateY(-1px);}
   .mp-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
-  .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);}
+  .mp-done{font-size:13.5px;line-height:1.6;color:var(--fg3);margin-top:16px;max-width:none;} .mp-done a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;}
 </style>
 <section class="mcp-probe" aria-label="Connect an agent (demand probe)">
   <div class="wrap">
@@ -562,6 +562,21 @@ ${SERIES_HTML}  </div>
 // preload + metric-matched fallback block from one place (scripts/fonts_selfhost.py).
 const out = execFileSync('python3', [join(__dirname, 'fonts_selfhost.py'), 'transform'],
   { input: page, encoding: 'utf8' });
+
+// Link-underline guard (2026-10-30, debt nftt-index-link-underline): the page resets
+// a{text-decoration:none}, so an inline link inside a <p class="X"> is told apart by color
+// alone (WCAG 1.4.1) unless ".X a{...text-decoration:underline...}" exists. Fail the build.
+{
+  const bad = [];
+  for (const m of out.matchAll(/<p class="([\w-]+)"[^>]*>[^<]*(?:<(?!\/p)[^>]*>[^<]*)*?<a /g)) {
+    const re = new RegExp('\\.' + m[1] + ' a\\{[^}]*text-decoration:underline');
+    if (!re.test(out)) bad.push(m[1]);
+  }
+  if (bad.length) {
+    console.error(`[nftt-index] in-text links without underline in <p class>: ${[...new Set(bad)].join(', ')}`);
+    process.exit(1);
+  }
+}
 
 if (process.argv.includes('--check')) {
   const cur = existsSync(OUT) ? readFileSync(OUT, 'utf8') : null;
