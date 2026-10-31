@@ -101,6 +101,7 @@ p { max-width: var(--measure); }
 .status { font-size: 15px; color: var(--green); min-height: 1.5em; margin: 8px 0 0; }
 .next { display: inline-block; margin: 8px 0 0; padding: 10px 18px; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); font-weight: 600; text-decoration: none; }
 footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
+footer p { max-width: none; }
 @media (max-width: 860px) { .maker { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } .card { padding: 22px 18px 18px; } .card .open { font-size: 21px; } }
 </style>
@@ -132,7 +133,7 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   </div>
 
   <h2>Every not yet is a finding</h2>
-  <p>The unticked lines are the useful part. They are exactly what an outside reader could not reconstruct from your record today. The Agent Receipts Audit finds those lines for you, against your own repo, and closes them.</p>
+  <p data-lane="narrow">The unticked lines are the useful part. They are exactly what an outside reader could not reconstruct from your record today. The Agent Receipts Audit finds those lines for you, against your own repo, and closes them.</p>
   <a class="next" href="/audit">See the audit</a>
   <p style="margin-top:16px">Or practice the habit first: <a href="/fears">nineteen fears, one question</a> · <a href="/cases">take the chair</a>.</p>
 </main>

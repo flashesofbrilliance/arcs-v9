@@ -15,7 +15,7 @@ OUT = os.path.join(ROOT, "_ARTIFACTS/arcs-tao-corpus.html")
 ASPECTS = ["D", "R", "W", "C", "H"]
 VERBS = ["analyze", "assess", "evaluate", "synthesize", "recapitulate"]
 ASPECT_NAME = {"D": "Decision", "R": "Risk / Ruin", "W": "Window", "C": "Clarity", "H": "Horizon"}
-ACOLOR = {"D": "#00F0FF", "R": "#FF4D6D", "W": "#FFD700", "C": "#00FF9D", "H": "#A78BFA", "~": "#64748b"}
+ACOLOR = {"D": "#00F0FF", "R": "#FF4D6D", "W": "#FFD700", "C": "#00FF9D", "H": "#A78BFA", "~": "#8391a7"}
 E = lambda s: html.escape(str(s), quote=True)
 
 d = json.load(open(SSOT))
@@ -30,9 +30,9 @@ def sort_key(p):
 cards = []
 for p in sorted(ps, key=sort_key):
     a = p.get("aspect", "~"); v = p.get("verb", "~"); src = p.get("source", "")
-    col = ACOLOR.get(a, "#64748b")
+    col = ACOLOR.get(a, "#8391a7")
     meta = " &middot; ".join(x for x in [
-        (f'<b style="color:{col}">{E(a)}</b>' if a != "~" else '<b style="color:#64748b">founding</b>'),
+        (f'<b style="color:{col}">{E(a)}</b>' if a != "~" else '<b style="color:#8391a7">founding</b>'),
         (E(v) if v != "~" else ""), E(src)] if x)
     cards.append(
         f'<article class="pcard" data-aspect="{E(a)}" data-verb="{E(v)}" data-source="{E(src)}" '
@@ -81,7 +81,7 @@ page = f'''<style>
   header{{padding:3.2rem 0 .4rem}}
   .mark{{font-size:1.5rem;color:var(--gold)}}
   h1{{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:500;margin:.8rem 0 .3rem;letter-spacing:-.02em}}
-  .sub{{font-size:.88rem;color:var(--sec);max-width:60ch;margin:0}}
+  .sub{{font-size:.88rem;color:var(--sec);max-width:none;margin:0}}
 
   .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1.5rem}}
   .pcard{{position:relative;background:var(--panel);border:1px solid var(--border);border-radius:8px;

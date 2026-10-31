@@ -143,7 +143,7 @@ ARCHETYPES = [
     },
     {
         "name": "Focused Executor",
-        "color": "#64748B",   # slate
+        "color": "#8391a7",   # slate
         "desc": "Ops, program managers, deep domain specialists",
         "title_kw": [
             "operations", "program manager", "project manager",
@@ -462,7 +462,7 @@ def build_viz(contacts: list[dict], stats: dict) -> go.Figure:
         node_y.append(y)
         node_text.append(node[:16] + "…" if len(node) > 16 else node)
         arch = c.get("primary_archetype", "Focused Executor")
-        node_colors.append(color_map.get(arch, "#64748B"))
+        node_colors.append(color_map.get(arch, "#8391a7"))
         node_sizes.append(8 + c.get("nci", 0) * 28)
         node_hover.append(
             f"<b>{node}</b><br>"
@@ -535,7 +535,7 @@ def build_viz(contacts: list[dict], stats: dict) -> go.Figure:
                     x=bx, y=by,
                     text=f"n={t}<br>NCI={n:.2f}",
                     showarrow=False,
-                    font=dict(size=8, color="#64748b", family="monospace"),
+                    font=dict(size=8, color="#8391a7", family="monospace"),
                     yshift=-int(math.sqrt(t) * 1.8 + 16),
                 )
                 for bx, by, t, n in zip(bubble_x, bubble_y, arch_totals, arch_nci)

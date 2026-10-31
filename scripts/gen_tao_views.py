@@ -72,7 +72,7 @@ legend = "".join(
 page = f'''<meta charset="utf-8">
 <style>
   :root{{--bg:#020408;--panel:#0d1117;--border:#1e293b;--text:#e2e8f0;--sec:#94a3b8;
-    --dim:#64748b;--mut:#475569;--cyan:#00F0FF;--gold:#FFD700;
+    --dim:#8391a7;--mut:#7a8699;--cyan:#00F0FF;--gold:#FFD700;
     --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
     --sans:'Inter',system-ui,-apple-system,sans-serif;
     --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}}
@@ -85,7 +85,7 @@ page = f'''<meta charset="utf-8">
   .wordmark{{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.26em;color:var(--text);margin-left:.26em}}
   .wordmark b{{color:var(--cyan)}}
   h1{{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.2rem);font-weight:500;margin:.9rem 0 .4rem;letter-spacing:-.02em}}
-  .sub{{font-size:.9rem;color:var(--sec);max-width:64ch;margin:0}}
+  .sub{{font-size:.9rem;color:var(--sec);max-width:none;margin:0}}
   .meta{{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--dim);margin-top:1rem;text-transform:uppercase}}
   .legend{{display:flex;gap:.4rem 1.2rem;flex-wrap:wrap;margin-top:1.1rem}}
   .leg{{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--sec);display:flex;align-items:center;gap:.4rem}}
@@ -118,7 +118,7 @@ page = f'''<meta charset="utf-8">
     <div><span class="mark">⊕</span><span class="wordmark"><b>ARCS</b> · THE TAO</span></div>
     <h1>Views of the Corpus</h1>
     <p class="sub">Thirty-six views of one form. Every ARCS decision is a face of the same 5&times;5 grid; a cell is lit where a proverb was earned, faint where none was. The empty cells are not absence but <b style="color:var(--text);font-weight:600">&#38291; (ma)</b>: the intentional negative space, the silence between the notes that gives the struck ones their weight. A grid that came back full would have no breath. The honesty is the composition.</p>
-    <div class="meta">{len(ordered)} decisions · {total_cells} lit cells · rows D/R/W/C/H &times; cols analyze&middot;assess&middot;evaluate&middot;synthesize&middot;recapitulate · hover or tab any cell &mdash; arrow keys to walk the grid</div>
+    <div class="meta">{len(ordered)} decisions · {total_cells} lit cells · rows D/R/W/C/H &times; cols analyze&middot;assess&middot;evaluate&middot;synthesize&middot;recapitulate · hover or tab any cell, arrow keys to walk the grid</div>
     <div class="legend">{legend}</div>
   </header>
 
@@ -152,7 +152,7 @@ page = f'''<meta charset="utf-8">
     var coord='<div class="tt-coord" style="color:'+col+'"><b>'+a+'</b> · '+an+' <span>&times;</span> '+v+'</div>';
     var srcline='<div class="tt-src">'+(m||src)+'</div>';
     var body=empty
-      ? '<div class="tt-empty">&#38291; · intentionally silent &mdash; no proverb earned at this coordinate</div>'
+      ? '<div class="tt-empty">&#38291; · intentionally silent: no proverb earned at this coordinate</div>'
       : '<div class="tt-text">'+t+'</div>';
     tt.innerHTML=coord+srcline+body;
     tt.style.borderLeftColor=col;

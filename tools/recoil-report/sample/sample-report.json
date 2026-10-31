@@ -3,14 +3,14 @@
   "notice": "PRIVATE · INTERNAL ONLY · DO NOT FORWARD",
   "meta": {
     "callTitle": "Counterpart x You // Call",
-    "counterpart": "Full name — who they are and current context",
+    "counterpart": "Full name, who they are and current context",
     "counterpartRole": "Role / org / relevant state",
     "callDate": "YYYY-MM-DD",
     "callTime": "10:30 AM EDT",
     "durationMinutes": 30,
     "segmentCount": 5,
     "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(30)))",
-    "prePrepSession": "none — or the id of the ex-ante PrepSession scored against",
+    "prePrepSession": "none, or the id of the ex-ante PrepSession scored against",
     "note": "One-line provenance / caveat."
   },
   "cover": {
@@ -25,7 +25,7 @@
   "loadBearingQuote": {
     "text": "The single most important thing they actually said, verbatim.",
     "attribution": "GRANOLA TRANSCRIPT · NAME (ORG) · YYYY-MM-DD",
-    "significance": "Why this quote is load-bearing — what it reveals that nothing else does."
+    "significance": "Why this quote is load-bearing, what it reveals that nothing else does."
   },
   "callWalk": [
     {
@@ -34,7 +34,7 @@
       "time": "0–6 min",
       "direction": "FORWARD",
       "summary": "What happened in this segment.",
-      "divergenceFlag": "LOW — forward vs backward read agree."
+      "divergenceFlag": "LOW, forward vs backward read agree."
     },
     {
       "segment": 2,
@@ -42,7 +42,7 @@
       "time": "6–20 min",
       "direction": "FORWARD",
       "summary": "The turning point of the call.",
-      "divergenceFlag": "HIGH — where forward and backward reads diverge."
+      "divergenceFlag": "HIGH, where forward and backward reads diverge."
     }
   ],
   "signalThreads": [
@@ -55,7 +55,7 @@
     }
   ],
   "scenarios": [
-    { "id": "A", "probability": 70, "label": "BASE — most likely", "description": "What happens by default.", "trigger": "What sets it off.", "watch": "The leading indicator to watch." }
+    { "id": "A", "probability": 70, "label": "BASE, most likely", "description": "What happens by default.", "trigger": "What sets it off.", "watch": "The leading indicator to watch." }
   ],
   "riskFlags": [
     {
