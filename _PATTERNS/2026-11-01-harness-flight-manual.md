@@ -43,7 +43,7 @@ except the approval line format in section 4.
 | Who else touches this file | `python3 scripts/neighbor_scan.py <path>` (gotcha 19) |
 | Numbers (ADR, seed, receipt) | `python3 scripts/oracle.py next <ns>` (gotcha 12) |
 | Stay current with main | `scripts/sync_worktree.sh`, or the app's `sync_with_base_branch` in an app worktree |
-| Hold heading for you | the `cruise-control` agent (`.claude/agents/cruise-control.md`) |
+| Hold heading for you | the `cruise-control` agent (`.claude/agents/cruise-control.md`); its Bash is fenced by `.claude/hooks/cruise-control-bash-guard.py` (`--self-test`) |
 
 ## 3. Before each one-way door
 
