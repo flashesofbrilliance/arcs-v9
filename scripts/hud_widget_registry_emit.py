@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-hud_widget_registry_emit.py — generate runtime/specs/hud-widgets.json, the registry of the five
+hud_widget_registry_emit.py - generate runtime/specs/hud-widgets.json, the registry of the five
 HUD gauges (fidelity, conviction, clarity, coherence, consonance). stdlib-only.
 
 Patterned on scripts/operator_registry_emit.py: the WIDGETS table below is the declaration, the
@@ -169,7 +169,7 @@ def load_tools() -> set[str]:
 def build(widgets: list[dict] = WIDGETS) -> dict:
     errs = verify(widgets, load_ops(), load_tools())
     if errs:
-        sys.stderr.write("REFUSING TO EMIT — bindings that fail the tree:\n  " + "\n  ".join(errs) + "\n")
+        sys.stderr.write("REFUSING TO EMIT - bindings that fail the tree:\n  " + "\n  ".join(errs) + "\n")
         raise SystemExit(2)
     return {
         "$schema": "arcs-hud-widget-registry/v1",
