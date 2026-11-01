@@ -1,0 +1,287 @@
+{
+  "version": "0.3",
+  "generated": "2026-11-01",
+  "id": "readme-cold-1",
+  "title": "The README, Read Cold",
+  "subtitle": "What a reader with no memory of the work could learn from README.md and the paths it names, checked claim by claim against the code.",
+  "bottom_line": "A cold reader can say roughly what ARCS does but cannot run it, and four of the README's claims are wrong. Fix 1 puts one plain line, one checkable proof and a working way to try it on the first screen.",
+  "repo_alias": "arcs-v9 README.md",
+  "alias_note": "Our own repo, audited on its human entry point. CLAUDE.md, AGENTS.md and WORLD.md are written for agents and were out of scope.",
+  "range": "README.md at ce13ec16",
+  "repo_private_note": "The repo is private, so the source link works only for people with access.",
+  "source_label": "README.md at ce13ec16",
+  "source_url": "https://github.com/flashesofbrilliance/arcs-v9/blob/ce13ec16/README.md",
+  "scope_url": "https://arcs.care/advisory",
+  "labels": {
+    "gaps_label": "gaps in the README",
+    "tile2": [
+      4,
+      "claims that are wrong (Fix 2)"
+    ],
+    "anchor_label": "README claims the repo backs in full",
+    "anchor_unit": "claims checked",
+    "pack_line": "Built from one 48-line README, the paths it names, and two live pages, with no transcript.",
+    "leak_lede": "Paths and features the README named that a reader could not find as described. This is a pointer gap, not a grade.",
+    "show_cta": false
+  },
+  "pack": {
+    "commits": 0,
+    "merges": 0,
+    "artifacts": 1,
+    "transcript": false
+  },
+  "anchors": {
+    "total": 20,
+    "reconstructed": 9,
+    "partial": 7,
+    "leaked": 4,
+    "published_pct": 45,
+    "leaked_paths": [
+      "_CANON/WORLD.md (the file is at the repo root)",
+      "operators/ as the L0-L5 pipeline (its own README says it is not wired into the live compass)",
+      "the Observatory replaying any decision (src/app/observatory/page.tsx holds a fixed dataset about the build itself)",
+      "SQLite in development (prisma.config.ts and src/lib/db.ts use Postgres in every environment)"
+    ],
+    "leak_note": "9 of 20 claims check out in full, 7 hold in part, 4 are wrong. The wrong ones are pointers and setup facts, not product behavior."
+  },
+  "self_authored_note": "Source: the README was written by the same team it describes. The repo shows the code exists, not that the description is complete.",
+  "sections": [
+    {
+      "name": "What ARCS is",
+      "support": 80,
+      "headline": "A question goes in, a bearing comes out, recorded as a receipt.",
+      "shows": "POST /api/compass makes one Claude call and writes a Receipt row (src/app/api/compass/route.ts lines 355 and 539). Anonymous callers are allowed under ADR-016, rate limited to 10 a minute.",
+      "not_shown": "Plain meanings for bearing, terrain, DEWY and Y-gate. The cold reader could not decode them.",
+      "raise": "One plain sentence first, and every term expanded on first use.",
+      "evidence": [
+        "src/app/api/compass/route.ts",
+        "_DECISIONS/ADR-016-arcs-v9-auth-model.md"
+      ]
+    },
+    {
+      "name": "How it works",
+      "support": 55,
+      "headline": "DEWY and the Y-gate are real code; the stage list, the state list and the Observatory replay are described more strongly than they run.",
+      "shows": "src/lib/ygate.ts sets six states (GREEN, YELLOW, FORK, PARADOX, DELTA, SCRATCH), and tests/unit/ygate.test.ts runs 17 tests, all passing. The DEWY receipt schema is in runtime/specs.",
+      "not_shown": "Six separate stages: L0 to L5 is one Claude call with a staged prompt, and its L3 is a premise check, not a cascade. RED is a warning level that becomes DELTA, not a state. The Observatory replays a fixed dataset about the build, not a user's decision.",
+      "raise": "Describe the pipeline as one call with a staged prompt, and the Observatory as a demo of the build's own history.",
+      "evidence": [
+        "src/lib/ygate.ts",
+        "tests/unit/ygate.test.ts",
+        "runtime/specs/dewy-receipt-schema-v1.json",
+        "src/app/observatory/page.tsx"
+      ]
+    },
+    {
+      "name": "Run it",
+      "support": 35,
+      "headline": "The Python CLI exists and uses only the standard library, but the README gives no input to feed it and no way to start the web app.",
+      "shows": "scripts/arcs_cli.py has the six verbs and imports only stdlib modules. scripts/score_me.py runs with no arguments.",
+      "not_shown": "A sample input. Run from the repo root, the example *.json picks up package.json and tsconfig.json. No npm install, env vars or database step for the web app.",
+      "raise": "Lead with the web app (live link plus local setup from package.json and src/lib/env.ts) and a test command that passes, and mark the CLI as needing scan files.",
+      "evidence": [
+        "scripts/arcs_cli.py",
+        "scripts/score_me.py",
+        "package.json",
+        "src/lib/env.ts"
+      ]
+    },
+    {
+      "name": "Stack",
+      "support": 60,
+      "headline": "Next.js 16, Prisma 7, Auth.js v5 and the Anthropic SDK are right; SQLite in development is not.",
+      "shows": "package.json lists each, and globals.css is the one stylesheet.",
+      "not_shown": "SQLite anywhere. prisma.config.ts says there is no SQLite fallback, and src/lib/db.ts throws if DATABASE_URL is unset.",
+      "raise": "Say Postgres in every environment, and list DATABASE_URL in setup.",
+      "evidence": [
+        "package.json",
+        "prisma.config.ts",
+        "src/lib/db.ts"
+      ]
+    },
+    {
+      "name": "Repo topology",
+      "support": 50,
+      "headline": "Four of six rows point the right way; two are wrong.",
+      "shows": "src/app, src/lib/ygate.ts, _DECISIONS (93 files) and runtime/specs hold what the table says.",
+      "not_shown": "WORLD.md in _CANON (it is at the root). A 34-file operator library (46 top-level .py files), presented as the live pipeline although its own README says it is not wired in.",
+      "raise": "Fix the WORLD.md path, drop the count, and label operators as a reference library.",
+      "evidence": [
+        "WORLD.md",
+        "operators/README.md",
+        "_DECISIONS/"
+      ]
+    },
+    {
+      "name": "Live",
+      "support": 90,
+      "headline": "arcs.care and app.arcs.care both load.",
+      "shows": "Both return HTTP 200. The app's compass opens at /dashboard with no account, and an example brief is linked from the home page.",
+      "not_shown": "That full access opens in stages behind a waitlist, which the live page says and the README does not.",
+      "raise": "Say what a visitor gets today: the compass without an account, the waitlist for more.",
+      "evidence": [
+        "https://app.arcs.care",
+        "https://arcs.care"
+      ]
+    }
+  ],
+  "unverified": [
+    {
+      "group": "record",
+      "kind": "path wrong",
+      "closable": true,
+      "claim": "The repo topology says WORLD.md lives in _CANON/.",
+      "why": "_CANON/WORLD.md does not exist; WORLD.md is at the repo root."
+    },
+    {
+      "group": "record",
+      "kind": "stack wrong",
+      "closable": true,
+      "claim": "The stack uses SQLite in development and Postgres in production.",
+      "why": "prisma.config.ts says there is no SQLite fallback; both environments use Postgres."
+    },
+    {
+      "group": "record",
+      "kind": "count stale",
+      "closable": true,
+      "claim": "operators/ is a 34-file Python library.",
+      "why": "operators/ has 46 top-level .py files today; the 34 comes from its own README, also stale."
+    },
+    {
+      "group": "record",
+      "kind": "overclaim",
+      "closable": true,
+      "claim": "operators/ holds L0-L5 as atomic components.",
+      "why": "operators/README.md says it is not wired into the live compass route or any deployed surface."
+    },
+    {
+      "group": "record",
+      "kind": "demo described as product",
+      "closable": true,
+      "claim": "The Observatory replays any decision as a kinematic trajectory.",
+      "why": "src/app/observatory/page.tsx renders a fixed dataset about the build's own history; no code path loads a user's receipt into it."
+    },
+    {
+      "group": "record",
+      "kind": "pipeline described loosely",
+      "closable": true,
+      "claim": "The pipeline runs six stages, signal to global.",
+      "why": "The compass route makes one Claude call; the stages are sections of its prompt."
+    },
+    {
+      "group": "record",
+      "kind": "gate count partial",
+      "closable": true,
+      "claim": "The Y-gate is a 12D manifold.",
+      "why": "src/lib/ygate.ts numbers 10 checks (1 to 6, 8, 9, 10, 12); 7 and 11 are absent."
+    },
+    {
+      "group": "record",
+      "kind": "state list wrong",
+      "closable": true,
+      "claim": "The Y-gate states include RED.",
+      "why": "src/lib/ygate.ts uses RED as a warning level and maps it to DELTA; the states it sets are GREEN, YELLOW, FORK, PARADOX, DELTA and SCRATCH."
+    },
+    {
+      "group": "record",
+      "kind": "no sample input",
+      "closable": true,
+      "claim": "The CLI examples run the full five-verb pipeline.",
+      "why": "They need scan JSON files the repo does not ship; *.json at the root matches config files."
+    },
+    {
+      "group": "record",
+      "kind": "toy described as forensic",
+      "closable": true,
+      "claim": "score_me.py produces a single-contact forensic receipt.",
+      "why": "It applies fixed constants to a name, title, company and year, reads no data, and prints a link to the private repo."
+    },
+    {
+      "group": "record",
+      "kind": "setup missing",
+      "closable": true,
+      "claim": "A reader can run the web app from the README.",
+      "why": "No install, env var, database or dev-server step is given; they exist in package.json and src/lib/env.ts."
+    },
+    {
+      "group": "record",
+      "kind": "universal claim",
+      "closable": false,
+      "claim": "Every architectural decision has a receipt.",
+      "why": "93 ADR files exist; whether every decision got one cannot be checked from the record."
+    },
+    {
+      "group": "run",
+      "kind": "one cold reader",
+      "closable": false,
+      "claim": "A cold reader reaches the stated understanding.",
+      "why": "One agent (Sonnet) given only the README, plus the auditor's checks. Not a human panel."
+    },
+    {
+      "group": "run",
+      "kind": "no paid calls",
+      "closable": false,
+      "claim": "The compass returns a bearing for a real question.",
+      "why": "Not exercised: a compass call spends API tokens. The live checks were HTTP status and page text."
+    }
+  ],
+  "run_note": "One cold reader and no paid calls. A rerun with a human reader and one compass call would check both; these are limits of this run, not gaps in the README.",
+  "fixes": [
+    {
+      "rank": 1,
+      "effort": "rewrite",
+      "fix": "Open with one plain line of what ARCS is, one proof a reader can run (the 17 Y-gate tests), and the live compass link that needs no account.",
+      "closes": [
+        "setup missing",
+        "pipeline described loosely"
+      ]
+    },
+    {
+      "rank": 2,
+      "effort": "edit",
+      "fix": "Correct the four wrong claims: the WORLD.md path, SQLite in development, operators as a reference library with no count, the Observatory as a demo of the build's own history.",
+      "closes": [
+        "path wrong",
+        "stack wrong",
+        "count stale",
+        "overclaim",
+        "demo described as product"
+      ]
+    },
+    {
+      "rank": 3,
+      "effort": "edit",
+      "fix": "Add local web-app setup taken from package.json and src/lib/env.ts: install, env vars, database, dev server.",
+      "closes": [
+        "setup missing"
+      ]
+    },
+    {
+      "rank": 4,
+      "effort": "edit",
+      "fix": "Describe the gate as the checks and states it really has, not a 12D manifold with RED, and say the CLI needs scan files the repo does not ship.",
+      "closes": [
+        "gate count partial",
+        "state list wrong",
+        "no sample input"
+      ]
+    },
+    {
+      "rank": 5,
+      "effort": "edit",
+      "fix": "Replace universal words like every with counts, and label score_me.py as a demo.",
+      "closes": [
+        "universal claim",
+        "toy described as forensic"
+      ]
+    }
+  ],
+  "limits": [
+    "It reads only the README and what it names. The agent-facing files were out of scope on purpose.",
+    "It is not a code review. It checks whether each README claim points at something real.",
+    "It never rates people. It reads the record, not the team."
+  ],
+  "repo_shape": "one README, 48 lines, 20 claims checked, 2 live pages fetched",
+  "self_review_note": "The auditor is an agent working in this repo; the cold reader was a separate agent given only the README.",
+  "corrections": []
+}
