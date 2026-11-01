@@ -1,27 +1,27 @@
 # arcs-v9 README walkthrough narration
 
-One section per card. Each must equal that card's `v` in build.cjs (rule R0). Read in Zach's voice; "Arcs" is said "arks". Written for the ear (2026-11-01 rewrite after the post-mortem): README order, proof on card 1.
+One section per card. Each must equal that card's `v` in build.cjs (rule R0). Read in Zach's voice; "Arcs" is said "arks". Register (Zach, 2026-11-01): inquisitive, erudite, minimalistic, laconic; fewer, load-bearing words. VO mantra: WAIT, why am I talking? A line the screen already carries is not spoken.
 
 ## 01
 
-Arcs helps you think through one hard decision. You ask. It answers with one next step, and a label for how settled that answer is. And you can check it. Seventeen of seventeen tests pass on the code that sets the label. The final call stays yours.
+Arcs helps you think through one hard decision. Ask, and it returns one next step, and how settled it is. Can you verify the labeling? Seventeen tests. All pass.
 
 ## 02
 
-Try it now. Open app dot arcs dot care, and choose open the compass. No account is needed. Anonymous answers live only in your browser tab, and are not stored. Sign in, and each run is saved as a receipt. To run it yourself, you need Node and a Postgres database.
+Try it. Open app dot arcs dot care, then the compass. No account. Anonymous answers stay in your tab, never stored. Sign in, and each run becomes a receipt.
 
 ## 03
 
-Behind each answer is one Claude call. Its prompt walks six steps. Is this a real decision? What are the strongest objections? What evidence bears on it? Is the premise false? Then an honest confidence score. And finally, one next step.
+What happens inside? One Claude call. Is this a real decision? The strongest objection? The evidence? A false premise? Honest confidence? Then, one next step.
 
 ## 04
 
-Then plain code, not the model, labels how settled the answer is. Green, when it holds up. Yellow, when a caution fires. Fork, paradox, delta and scratch name the other ways it can be unsettled. The exact rules are on screen.
+Who sets the label? Code, not the model. Green: it holds. Yellow: caution. Fork, paradox, delta, scratch: the ways it stays unsettled.
 
 ## 05
 
-So what can you check? All seventeen tests on the labeling code pass. The app is live. And a reader with no memory rebuilt seventeen of nineteen parts of one incident, from the repo history alone. About ninety percent. One incident, not the whole repo.
+What is proven? Seventeen of seventeen tests pass. The app is live. A reader with no memory rebuilt seventeen of nineteen parts of one incident from the repo history alone. One incident. Not the whole repo.
 
 ## 06
 
-Some things are not what they may sound like. The app runs six of the eight layers the canon describes. The Observatory replays the history of this build, not your decisions. The operators folder is a reference library, not wired in. And the final call stays yours.
+What is missing, or not what it seems? The app runs six of eight layers. The Observatory replays this build’s history, not your decisions. The operators library is not wired in. And the final call? Yours.
