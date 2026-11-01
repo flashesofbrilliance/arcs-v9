@@ -295,6 +295,13 @@
   }
  },
  "soon": {
+  "rfp-engine": {
+   "group": "skill",
+   "line": "Ask about an RFP and its amendments; get a short answer and the exact clause behind it, or a plain \"not covered.\" Runs locally as an MCP server. Tested with a mock model; the real model has not been run yet.",
+   "chan": "mcp",
+   "tag": "preview",
+   "page": "/rfp-engine"
+  },
   "linkedin-connections-toolkit": {
    "group": "skill",
    "line": "Stdlib Python CLI that parses your LinkedIn Connections export into four honest views of your network.",
