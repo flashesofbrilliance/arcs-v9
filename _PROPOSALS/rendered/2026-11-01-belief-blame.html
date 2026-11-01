@@ -160,7 +160,7 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 @media (max-width: 640px) { .recoil-header { flex-direction: column; } .header-arcs { border-right: 0; border-bottom: 1px solid var(--border); } }
 </style></head><body>
 <main>
-<div class="recoil-header"><div class="header-arcs"><div class="arcs-mark">ARCS</div><div class="arcs-sub">Proposal</div></div><div class="header-center"><div class="receipt-id">prop-2026-11-01-belief-blame · 2026-11-01 · main@ce13ec16</div><h1>Belief blame: blame the assumption, not the author</h1><p>git blame says who last touched a line. Belief blame says which assumption the line encodes, the commit it entered in, which evidence later shifted it, and whether the line is still current or is now a known blindspot. Point it at any line of a process file (AGENTS.md, _PATTERNS, _DECISIONS, .claude/rules, script headers) or any backlog depends_on edge.</p><span class="y-gate-badge">PROPOSED, ethereal stage, nothing built; propose-only, Zach rules · nothing in production has changed</span></div></div>
+<div class="recoil-header"><div class="header-arcs"><div class="arcs-mark">ARCS</div><div class="arcs-sub">Proposal</div></div><div class="header-center"><div class="receipt-id">prop-2026-11-01-belief-blame · 2026-11-01 · main@ce13ec16</div><h1>Belief blame: blame the assumption, not the author</h1><p>git blame says who last touched a line. Belief blame says which assumption the line encodes, the commit it entered in, which evidence later shifted it, and whether the line is still current or is now a known blindspot. Point it at any line of a process file (AGENTS.md, _PATTERNS, _DECISIONS, .claude/rules, script headers) or any backlog depends_on edge.</p><span class="y-gate-badge">RULED 2026-11-01: Zach took all five recommendations (&quot;i&#x27;m good with your recs&quot;). Build: scripts/belief_blame.py, backlog row belief-blame-build. · nothing in production has changed</span></div></div>
 <nav class="toc" aria-label="Contents"><div class="section-label">Contents</div><a href="#short">Short version</a><a href="#decisions">Decisions</a><a href="#heuristics">Heuristics</a><a href="#join">The join: line, then commit,</a><a href="#verdicts">Verdicts</a><a href="#worked">Worked example: AGENTS.md go</a><a href="#reuse">What already exists (reuse, </a><a href="#fields">Fields</a><a href="#leaks">Leak check</a><a href="#controls">Controls</a><a href="#terms">Terms</a><a href="#glossary">Glossary</a><a href="#files">Files</a></nav>
 <section id="short"><div class="section-label">§ The short version</div><div class="grid">
 <div class="cell"><b>The idea (Zach, 2026-11-01)</b>&quot;what if our blame was process assumptions or dependancies or blindspots that changed over time based on observed new evidence that shifted our beliefs&quot;. The thing blamed is a belief and the evidence that moved it, not a person.</div>
@@ -168,12 +168,12 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 <div class="cell"><b>Why git blame alone is wrong here</b>git blame -w -C on gotcha 17 credits 51ddf069 (2026-10-20, safe_merge.sh). The never-squash belief entered on 2026-09-28 (0df06046). Blame gives the last rewording; belief blame must walk the line&#x27;s history (git log -L, then git log -S on the quoted phrase) to the first commit that stated the assumption.</div>
 <div class="cell"><b>What it adds</b>One optional field, anchors, on falsification-ledger and assumptions rows (path plus a quoted phrase, never a line number). One read-only script that joins line to commit to assumption to evidence and prints a verdict. No new store, no model calls. Everything else already exists.</div>
 </div></section>
-<section class="panel" id="decisions"><div class="section-label">§ Decisions waiting on you</div>
-<div class="decision"><h2 class="h3"><span class="did">D1</span>Add an optional anchors field to _STATE/falsification-ledger.jsonl and _STATE/assumptions.jsonl rows: a list of {path, phrase} naming the lines that encode the belief?</h2><p class="rec">Recommended: Yes. It is the one missing join key. Today F-rows cite ADRs, specs and runs, and asm rows cite depends_on_it paths, but nothing points at a line, so no tool can go from a line to its belief.</p><p class="why">A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart.</p></div>
-<div class="decision"><h2 class="h3"><span class="did">D2</span>Report a belief&#x27;s exit on both axes: truth (falsified, or still held) and liveness (moot, superseded), and for a falsified belief say whether the world changed or the old belief was wrong all along?</h2><p class="rec">Recommended: Yes, as fields in the verdict, not prose. Gotcha 17&#x27;s 2026-10-06 shift was revealed incompleteness: the merge-method setting existed on every plan the whole time; the belief that enforcement was impossible was false when written.</p><p class="why">Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss.</p></div>
-<div class="decision"><h2 class="h3"><span class="did">D3</span>Fix the blindspot the trace found (scripts/squash_merge_detector.py line 7 still says branch protection cannot enforce the policy) as its own one-line docs PR, citing commit 1c798b7b?</h2><p class="rec">Recommended: Yes, separately and after this proposal, so the fix is the first receipt that cites a belief-blame finding.</p><p class="why">The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard.</p></div>
-<div class="decision"><h2 class="h3"><span class="did">D4</span>Should a Tuition note in a script header that repeats a falsified belief be required to cite its F-row (and, when none exists, mint one)?</h2><p class="rec">Recommended: Yes, as a warning first (control K2), then a gate after 30 days if the false-positive rate is low.</p><p class="why">F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back.</p></div>
-<div class="decision"><h2 class="h3"><span class="did">D5</span>Where does belief blame render first?</h2><p class="rec">Recommended: CLI only (a read-only script with --self-test), then feed the WORLD.md HUD Time layer, which already promises belief change scrubbed by date with a falsified belief as a gold seam.</p><p class="why">The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration.</p></div>
+<section class="panel" id="decisions"><div class="section-label">§ Decisions, ruled</div>
+<div class="decision"><h2 class="h3"><span class="did">D1</span>Add an optional anchors field to _STATE/falsification-ledger.jsonl and _STATE/assumptions.jsonl rows: a list of {path, phrase} naming the lines that encode the belief?</h2><p class="rec">Recommended: Yes. It is the one missing join key. Today F-rows cite ADRs, specs and runs, and asm rows cite depends_on_it paths, but nothing points at a line, so no tool can go from a line to its belief.</p><p class="rec">Ruled: Yes, add anchors. Old rows stay untouched (both ledgers are append-only); a belief already on the books is anchored through a new asm row that points back at it.</p><p class="why">A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D2</span>Report a belief&#x27;s exit on both axes: truth (falsified, or still held) and liveness (moot, superseded), and for a falsified belief say whether the world changed or the old belief was wrong all along?</h2><p class="rec">Recommended: Yes, as fields in the verdict, not prose. Gotcha 17&#x27;s 2026-10-06 shift was revealed incompleteness: the merge-method setting existed on every plan the whole time; the belief that enforcement was impossible was false when written.</p><p class="rec">Ruled: Yes, as fields: truth (open, held, falsified), liveness (live, moot) and exit (world-change, revealed-incompleteness, moot).</p><p class="why">Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D3</span>Fix the blindspot the trace found (scripts/squash_merge_detector.py line 7 still says branch protection cannot enforce the policy) as its own one-line docs PR, citing commit 1c798b7b?</h2><p class="rec">Recommended: Yes, separately and after this proposal, so the fix is the first receipt that cites a belief-blame finding.</p><p class="rec">Ruled: Yes, a separate one-line PR after the build, citing 1c798b7b.</p><p class="why">The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D4</span>Should a Tuition note in a script header that repeats a falsified belief be required to cite its F-row (and, when none exists, mint one)?</h2><p class="rec">Recommended: Yes, as a warning first (control K2), then a gate after 30 days if the false-positive rate is low.</p><p class="rec">Ruled: Warn only for 30 days (until 2026-12-01), then decide on a gate from the false-positive count.</p><p class="why">F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D5</span>Where does belief blame render first?</h2><p class="rec">Recommended: CLI only (a read-only script with --self-test), then feed the WORLD.md HUD Time layer, which already promises belief change scrubbed by date with a falsified belief as a gold seam.</p><p class="rec">Ruled: CLI first: scripts/belief_blame.py, read-only, with --self-test. HUD Time layer later.</p><p class="why">The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration.</p></div>
 </section>
 <section class="panel" id="heuristics"><div class="section-label">§ Heuristics: for you, and for me</div><div class="two">
 <div class="cell"><b>For you (human)</b><ul><li>When evidence changes your mind about a process rule, say which file states the old belief; the harness rewrites every sibling, not only the one in front of it.</li><li>Ask &quot;did the world change, or were we wrong all along?&quot; A miss called a change is a miss repeated.</li><li>A verdict of UNREGISTERED is not a defect; it is a belief nobody wrote a test for. Register it only if being wrong would cost something.</li></ul></div>
@@ -235,7 +235,7 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
  "id": "prop-2026-11-01-belief-blame",
  "title": "Belief blame: blame the assumption, not the author",
  "date": "2026-11-01",
- "status": "PROPOSED, ethereal stage, nothing built; propose-only, Zach rules",
+ "status": "RULED 2026-11-01: Zach took all five recommendations (\"i'm good with your recs\"). Build: scripts/belief_blame.py, backlog row belief-blame-build.",
  "tone": "gold",
  "worktree": "beautiful-benz-7158a0",
  "base": "main@ce13ec16",
@@ -268,7 +268,8 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
     "derive anchors by text search only (no field)",
     "compost"
    ],
-   "why": "A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart."
+   "why": "A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart.",
+   "ruling": "Yes, add anchors. Old rows stay untouched (both ledgers are append-only); a belief already on the books is anchored through a new asm row that points back at it."
   },
   {
    "id": "D2",
@@ -279,7 +280,8 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
     "truth axis only",
     "free text"
    ],
-   "why": "Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss."
+   "why": "Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss.",
+   "ruling": "Yes, as fields: truth (open, held, falsified), liveness (live, moot) and exit (world-change, revealed-incompleteness, moot)."
   },
   {
    "id": "D3",
@@ -290,7 +292,8 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
     "fold into this PR",
     "leave it, the setting already enforces"
    ],
-   "why": "The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard."
+   "why": "The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard.",
+   "ruling": "Yes, a separate one-line PR after the build, citing 1c798b7b."
   },
   {
    "id": "D4",
@@ -301,7 +304,8 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
     "warn only",
     "no"
    ],
-   "why": "F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back."
+   "why": "F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back.",
+   "ruling": "Warn only for 30 days (until 2026-12-01), then decide on a gate from the false-positive count."
   },
   {
    "id": "D5",
@@ -312,7 +316,8 @@ footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
     "HUD first",
     "belief-log page only"
    ],
-   "why": "The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration."
+   "why": "The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration.",
+   "ruling": "CLI first: scripts/belief_blame.py, read-only, with --self-test. HUD Time layer later."
   }
  ],
  "tables": [
