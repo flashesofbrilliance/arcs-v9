@@ -59,7 +59,7 @@ a { color: var(--cyan); text-underline-offset: 3px; }
 header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
 h1 { font-family: var(--ds-font-display); font-size: var(--fs-display); line-height: 1.3; margin: 40px 0 12px; }
 h2 { font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height: 1.3; margin: 56px 0 14px; }
-.grp { max-width: none; font-family: var(--ds-font-mono); color: var(--text-secondary); margin: 24px 0 10px; }
+.grp { max-width: none; font-family: var(--ds-font-mono); color: var(--text); margin: 28px 0 10px; padding-top: 12px; border-top: 1px solid var(--border); }
 .lede { max-width: none; margin: 0 0 12px; }
 .bottom { max-width: none; margin: 16px 0; font-weight: 500; }
 p, li { max-width: var(--measure); }
@@ -98,6 +98,7 @@ POST_CSS = """.tile .v, .alts .alt-t, .alts .alt-go { line-height: 1.3; }
 .callout.fix1, .caveat, footer p { max-width: none; }
 .led { text-transform: none; letter-spacing: normal; font-size: var(--fs-body); }
 .callout b, .alts .alt-n { font-size: var(--fs-body); }
+.alts .alt-n { color: var(--text-secondary); }
 .tile .k { text-transform: none; letter-spacing: normal; font-size: var(--fs-body); }"""
 
 
@@ -107,44 +108,46 @@ def render(d):
     secs = d["sections"]
     record = [u for u in unv if u["group"] == "record"]
     run = [u for u in unv if u["group"] == "run"]
-    # the headline figure is the source's published one, never recomputed (it drifted once: 89 vs 90)
+    unseen = sum(1 for u in record if u.get("closable") and u["kind"] == "config not committed")
+    # the 90% is the source's published figure, never recomputed (it drifted once: 89 vs 90)
     tiles = "".join(
         f'<div class="tile"><div class="v">{v}</div><div class="k">{e(k)}</div></div>'
-        for v, k in [(f'{a["published_pct"]}%', f'rebuilt cold, as published ({a["reconstructed"]} of {a["total"]} commits and artifacts)'),
-                     (len(unv), "claims the record does not show"),
-                     (a["leaked"], "anchors not surfaced")])
+        for v, k in [(len(record), f"gaps in the repo history (+{len(run)} this run could not check)"),
+                     (1 if unseen else 0, "control described, not shown (Fix 1)"),
+                     (f'{a["published_pct"]}%', f'rebuilt from repo history alone ({a["reconstructed"]} of {a["total"]} commits and artifacts)')])
     weakest = min(range(len(secs)), key=lambda i: secs[i]["support"])
     ladder = []
     for i, s in enumerate(secs):
         st = y_state(s["support"])
         led = "on" if st == "sharp" else ("" if st == "degraded" else "alert")
         refs = ", ".join(s.get("evidence", []))
+        selfr = " · self-reported" if s.get("self_authored") else ""
         cav = f'<p class="caveat">{e(d["self_authored_note"])}</p>' if s.get("self_authored") else ""
         ladder.append(
             f'<details class="alt"{" open" if i == weakest else ""}><summary><span class="alt-n">{i + 1:02d} · {e(s["name"])}</span>'
             f'<span class="alt-t {st}">{e(s["headline"])}</span><span class="alt-go" aria-hidden="true">+</span>'
-            f'<span class="alt-s"><span class="led {led}">record support {s["support"]}% · {BAND_SHORT[st]}</span></span></summary>'
-            f'<div class="alt-body"><div class="bar" role="img" aria-label="record support {s["support"]} percent">'
+            f'<span class="alt-s"><span class="led {led}">support {s["support"]}% · {BAND_SHORT[st]}{selfr}</span></span></summary>'
+            f'<div class="alt-body"><div class="bar" role="img" aria-label="support {s["support"]} percent">'
             f'<i class="band-{st}" style="width:{s["support"]}%"></i></div>'
-            f'<dl><dt>What the record shows</dt><dd>{e(s["shows"])}</dd>'
+            f'<dl><dt>What the repo history shows</dt><dd>{e(s["shows"])}</dd>'
             f'<dt>What it does not show</dt><dd>{e(s["not_shown"])}</dd>'
             f'<dt>What would raise the score</dt><dd>{e(s["raise"])}</dd></dl>{cav}'
             f'<span class="mono">evidence: {e(refs) or "none cited"}</span></div></details>')
 
     def row(u):
-        tone = "moire" if u["kind"] == "record contradicts itself" else "grain"
+        tone = "moire" if u["kind"] == "record contradicts itself" else ("grain" if u.get("closable") else "")
         led = "led alert" if u.get("closable") else "led"
         return (f'<li><span class="{led}">{e(u["kind"])}</span><div class="{tone}">{e(u["claim"])}</div>'
                 f'<div class="why">{e(u["why"])}</div></li>')
     rows_rec = "".join(row(u) for u in record)
     rows_run = "".join(row(u) for u in run)
+    corr = "".join(f'<p class="caveat">Correction: {e(c)}</p>' for c in d.get("corrections", []))
     leaks = "".join(f'<li><span class="led">not surfaced</span> <span class="mono">{e(p)}</span></li>'
                     for p in a["leaked_paths"])
     f1, rest = d["fixes"][0], d["fixes"][1:]
-    fix1 = (f'<div class="callout fix1"><b>Fix 1 · {e(f1["effort"])}</b>{e(f1["fix"])} '
-            f'<span class="mono">closes: {e(", ".join(f1["closes"]))}</span></div>')
-    fixes = "".join(f'<li>{e(f["fix"])} <span class="mono">{e(f["effort"])} · closes: {e(", ".join(f["closes"]))}</span></li>'
-                    for f in rest)
+    fix1 = f'<div class="callout fix1"><b>Fix 1 · {e(f1["effort"])}</b>{e(f1["fix"])}</div>'
+    fixes = "".join(f'<li>{"<b>" if f is f1 else ""}{e(f["fix"])}{"</b>" if f is f1 else ""} <span class="mono">{e(f["effort"])} · closes: {e(", ".join(f["closes"]))}</span></li>'
+                    for f in d["fixes"])
     limits = "".join(f"<li>{e(x)}</li>" for x in d["limits"])
     legend = " · ".join(BANDS[k] for k in ("sharp", "degraded", "grain"))
     tokens = (KIT / "_tokens.css").read_text()
@@ -163,33 +166,37 @@ def render(d):
 </style>
 </head>
 <body>
-<header class="pad"><span class="mono">Agent Receipts Audit · sample report · {e(d["repo_alias"])} · {e(d["range"])}</span></header>
+<header class="pad"><span class="mono">Agent Receipts Audit · {e(d["repo_alias"])}</span></header>
 <main class="pad">
   <h1>{e(d["title"])}</h1>
-  <p class="lede">{e(d["subtitle"])} A reader with no memory of the work rebuilt it from {pk["commits"]} commits and {pk["artifacts"]} artifacts, with no transcript.</p>
   <p class="bottom">{e(d["bottom_line"])}</p>
-  <div class="tiles">{tiles}</div>
+  {fix1}
+  <p class="lede">{e(d["subtitle"])} Built from {pk["commits"]} commits and {pk["artifacts"]} artifacts, with no transcript. <a href="#fixes">See all five fixes</a>.</p>
 
-  <h2>How far a cold reader got</h2>
-  <p class="lede">Each section carries a record support score: how well the committed record backs the claim, not how well it reads. A section that reads well but is thinly grounded scores low on purpose. Bands: {legend}. The weakest section is open; open any other for its evidence.</p>
+  <h2>The numbers</h2>
+  <div class="tiles">{tiles}</div>
+  <p class="lede">{e(a["leak_note"])}</p>
+
+  <h2>How far a reader with no memory got</h2>
+  <p class="lede">Each section carries a support score: how well the repo history backs the claim, not how well it reads. A section that reads well but is thinly backed scores low on purpose. Bands: {legend}. The weakest section is open; open any other for its evidence.</p>
   <div class="alts">{"".join(ladder)}</div>
 
-  <h2>Claims the record cannot back</h2>
-  <p class="lede">Not verified means the record does not show it. It does not mean it is false. A red light marks a gap one of the fixes below closes.</p>
-  <p class="grp">Gaps in the record</p>
+  <h2>Claims not verified</h2>
+  <p class="lede">Not verified means the repo history does not show it. It does not mean it is false. A red light marks a gap a fix below makes checkable.</p>
+  <p class="grp">Gaps in the repo history</p>
   <ul class="rows">{rows_rec}</ul>
+  {corr}
   <p class="grp">Limits of this run</p>
   <p class="lede">{e(d["run_note"])}</p>
   <ul class="rows">{rows_run}</ul>
 
   <h2>Leak map</h2>
-  <p class="lede">Anchors the record named but a cold reader could not surface. This is an observability gap, not a grade. {e(a["leak_note"])}</p>
+  <p class="lede">Commits and artifacts the repo history named but a reader could not surface. This is an observability gap, not a grade.</p>
   <ul class="rows">{leaks}</ul>
 
-  <h2>Five fixes, ranked</h2>
-  <p class="lede">Ranked by the auditor from the gaps above.</p>
-  {fix1}
-  <ol class="fixes" start="2">{fixes}</ol>
+  <h2 id="fixes">Five fixes, ranked</h2>
+  <p class="lede">Ranked by the auditor from the gaps above. Each names the gap it closes.</p>
+  <ol class="fixes">{fixes}</ol>
 
   <h2>What this audit cannot see</h2>
   <ul>{limits}</ul>
@@ -197,10 +204,12 @@ def render(d):
   <h2>Your repo, your worst week</h2>
   <p class="lede">This is what one repo and one window gets you. Pick the week you would least like to explain from memory.</p>
   <a class="cta" href="{e(d["scope_url"])}">Scope an audit (20 min)</a>
+  <p>Or have an engineer run the <a href="https://good.arcs.care/audit/check">free repo check</a> first, in about ten seconds.</p>
 </main>
 <footer class="pad">
-  <p>v{e(d["version"])} · generated {e(d["generated"])} · ARCS · Source: <a href="{e(d["source_url"])}">{e(d["source_label"])}</a>.</p>
-  <p>{e(d["repo_private_note"])} {e(d["alias_note"])}</p>
+  <p>rendered {e(d["generated"])} UTC · v{e(d["version"])} · ARCS · Source: <a href="{e(d["source_url"])}">{e(d["source_label"])}</a>.</p>
+  <p>Range {e(d["range"])} · {e(d["repo_shape"])}. {e(d["alias_note"])} {e(d["repo_private_note"])}</p>
+  <p>{e(d["self_review_note"])}</p>
 </footer>
 </body>
 </html>
@@ -218,11 +227,15 @@ def self_test():
     assert out.count('class="alt"') == len(d["sections"])
     assert f'{d["anchors"]["published_pct"]}%' in body, "headline figure must be the published one"
     assert body.count('class="led alert"') == sum(1 for u in d["unverified"] if u.get("closable")), "red only for closable gaps"
+    rec = sum(1 for u in d["unverified"] if u["group"] == "record")
+    assert f'<div class="v">{rec}</div><div class="k">gaps in the repo history' in body, "gaps tile must equal the record-group count"
+    first = body.split("<h2>", 1)[0]
+    assert "Fix 1" in first and "%" not in first, "grug first screen: the fix before any number"
     assert body.count(" open>") == 1, "exactly one section open by default (the weakest)"
     assert "<script" not in out.lower()
     for word in ("Kintsugi", "fruit-guard", "Y-state"):
         assert word not in body, f"internal vocabulary on a buyer surface: {word}"
-    print("audit_report_build self-test: 10 checks pass")
+    print("audit_report_build self-test: 12 checks pass")
 
 
 def main(argv):
