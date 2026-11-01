@@ -2,7 +2,7 @@
  "id": "prop-2026-11-01-belief-blame",
  "title": "Belief blame: blame the assumption, not the author",
  "date": "2026-11-01",
- "status": "PROPOSED, ethereal stage, nothing built; propose-only, Zach rules",
+ "status": "RULED 2026-11-01: Zach took all five recommendations (\"i'm good with your recs\"). Build: scripts/belief_blame.py, backlog row belief-blame-build.",
  "tone": "gold",
  "worktree": "beautiful-benz-7158a0",
  "base": "main@ce13ec16",
@@ -35,7 +35,8 @@
     "derive anchors by text search only (no field)",
     "compost"
    ],
-   "why": "A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart."
+   "why": "A phrase survives line moves and rewording of nearby text; a line number goes stale on the next edit above it. Text search alone cannot tell two uses of the same words apart.",
+   "ruling": "Yes, add anchors. Old rows stay untouched (both ledgers are append-only); a belief already on the books is anchored through a new asm row that points back at it."
   },
   {
    "id": "D2",
@@ -46,7 +47,8 @@
     "truth axis only",
     "free text"
    ],
-   "why": "Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss."
+   "why": "Memories claim-exit-lattice and defeasible-warrant: a falsified claim you correct, a moot claim you vacate and mark; calling a miss a change hides the miss.",
+   "ruling": "Yes, as fields: truth (open, held, falsified), liveness (live, moot) and exit (world-change, revealed-incompleteness, moot)."
   },
   {
    "id": "D3",
@@ -57,7 +59,8 @@
     "fold into this PR",
     "leave it, the setting already enforces"
    ],
-   "why": "The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard."
+   "why": "The detector still works; only its stated reason is stale. A stale reason misleads the next reader into thinking the detector is the only guard.",
+   "ruling": "Yes, a separate one-line PR after the build, citing 1c798b7b."
   },
   {
    "id": "D4",
@@ -68,7 +71,8 @@
     "warn only",
     "no"
    ],
-   "why": "F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back."
+   "why": "F26 and the safe_merge.sh Tuition are the same failure three months apart. The ledger had the lesson; the fix did not carry it, so the class came back.",
+   "ruling": "Warn only for 30 days (until 2026-12-01), then decide on a gate from the false-positive count."
   },
   {
    "id": "D5",
@@ -79,7 +83,8 @@
     "HUD first",
     "belief-log page only"
    ],
-   "why": "The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration."
+   "why": "The HUD needs the join to exist before it can draw it. A visual that cannot go flat on empty data is decoration.",
+   "ruling": "CLI first: scripts/belief_blame.py, read-only, with --self-test. HUD Time layer later."
   }
  ],
  "tables": [
