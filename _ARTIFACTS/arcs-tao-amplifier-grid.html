@@ -1,9 +1,14 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tao amplifier grid</title>
 <style>
   /* Built to DESIGN.md: "Render Through the Fog". Obsidian, single theme.
      Semantic color per aspect (row). Serif=canon, mono=instrument. Glow, not shadow. */
   :root{
     --bg:#020408; --panel:#0d1117; --elevated:#111827; --border:#1e293b;
-    --text:#e2e8f0; --sec:#94a3b8; --dim:#64748b; --mut:#475569;
+    --text:#e2e8f0; --sec:#94a3b8; --dim:#8391a7; --mut:#7a8699;
     --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --violet:#A78BFA;
     --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
     --sans:'Inter',system-ui,-apple-system,sans-serif;
@@ -24,8 +29,8 @@
   header:hover .mark{animation-duration:6s}
   .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.28em;color:var(--text);margin-left:.28em}
   .wordmark b{color:var(--cyan)}
-  h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.3rem);font-weight:500;letter-spacing:-.02em;margin:1.1rem 0 .5rem;line-height:1.15}
-  .sub{font-size:.9rem;color:var(--sec);max-width:60ch;margin:0}
+  h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.3rem);font-weight:500;letter-spacing:-.02em;margin:1.1rem 0 .5rem;line-height:1.15;color:var(--text)}
+  .sub{font-size:.9rem;color:var(--sec);max-width:none;margin:0}
   .meta{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;color:var(--dim);margin-top:.9rem;text-transform:uppercase}
 
   /* ── legend ── */
@@ -38,13 +43,13 @@
   .band-head{display:flex;align-items:baseline;gap:.9rem;margin-bottom:1rem;padding-left:.1rem}
   .aspect{font-family:var(--mono);font-size:2.1rem;font-weight:700;letter-spacing:-.03em;line-height:1}
   .aspect-name{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--sec)}
-  .aspect-gloss{font-size:.78rem;color:var(--dim);margin-left:auto;text-align:right;max-width:34ch}
+  .aspect-gloss{font-size:.78rem;color:var(--dim);margin-left:auto;text-align:right;max-width:300px}
 
   /* ── grid ── */
   .row{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem}
   .card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem 1rem;
     display:flex;flex-direction:column;min-height:150px;transition:border-color .25s,box-shadow .25s}
-  .card:hover{border-color:var(--ac);box-shadow:0 0 30px var(--glow)}
+  .card:hover{border-color:var(--ac)}
   /* fog-clear reveal: cards resolve grain -> sharp on scroll-in (render-scale as motion) */
   .card{opacity:0;filter:blur(5px) grayscale(.35);transform:translateY(10px)}
   .card.lit{opacity:1;filter:blur(0) grayscale(0);transform:none;transition:opacity .6s ease,filter .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}

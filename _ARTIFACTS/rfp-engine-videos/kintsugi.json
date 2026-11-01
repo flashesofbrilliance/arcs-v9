@@ -42,7 +42,7 @@
     {
       "break": "Long walkthrough card 01 called the RFP 'real-world based'; it is fictional, written for the sample",
       "caught_by": "brand-line-producer re-check, 2026-10-31",
-      "gold": "Card 01 now says 'Fictional RFP, written for this sample'. The engine README said the same wrong thing and was fixed in ret-rfp-intelligence 0e0e25f (public copy cf2001b, not pushed)"
+      "gold": "Card 01 now says 'Fictional RFP, written for this sample'. The engine README said the same wrong thing and was fixed in ret-rfp-intelligence 0e0e25f (also on branch claude/agentalent-public as cf2001b, not pushed; that repo is private, and no public engine repo exists yet)"
     },
     {
       "break": "The video builds hard-code seven pixel font sizes and load no tokens, and the brand gate passed them because it checks colour, contrast, motion and copy, not type",
@@ -53,7 +53,7 @@
   "open": [
     "Nobody has listened to the re-voiced bench card 04 or the making-of 'What broke' card",
     "Type scale in the video builds is still off DESIGN.md (last seam)",
-    "cf2001b push waits on Zach's go"
+    "cf2001b push waits on Zach's go (private repo; low risk)"
   ],
   "verdict": "Five videos pass the brand re-check on 2026-10-31 after seven breaks were sealed with visible gold; one seam (render typography) is named and left open."
 }
