@@ -1,0 +1,77 @@
+{
+  "id": "prop-2026-11-01-kairos-backup-rule",
+  "title": "Kairos backup rule: no window closes in silence",
+  "date": "2026-11-01",
+  "status": "PROPOSED, ethereal stage, nothing built; propose-only, Zach rules",
+  "tone": "gold",
+  "worktree": "fervent-wiles-c957b2",
+  "base": "main@ce13ec16",
+  "one_line": "When a timing window is closing and the human trigger has not come, the harness never stays silent. A reversible step may advance on a default declared ahead of time. A one-way door never advances: it escalates, and if the window closes it files a lapse receipt so the miss is a recorded decision, not negligence.",
+  "bottom_line": [
+    {"label": "The failure", "text": "Silence, not inaction. A window missed because nobody noticed is negligence. A window passed up on the record is a decision."},
+    {"label": "The rule", "text": "Two-way door, known close date, declared undo: advance on the declared default and tell Zach. Anything else: stay at the door, escalate as the window closes, and file a lapse receipt at the close."},
+    {"label": "Already true", "text": "\"Merge when green\" (PR 1919, PR 1920) is the legitimate backup in miniature: Zach released the door ahead of time with a condition, and the harness only watched the condition. Most windows need a release given early, not machinery."},
+    {"label": "What it adds", "text": "Two optional backlog row fields (window_closes, default_if_silent), one gate (default_if_silent is refused on a one-way door), one sort in /loops (closing windows first), and one receipt shape (the lapse receipt). No new store, no model calls."}
+  ],
+  "decisions": [
+    {"id": "D1", "question": "Adopt the rule: an absent trigger never resolves as silence?", "recommended": "Yes, as the principle. It costs nothing to state and every later decision hangs on it.", "options": ["adopt", "amend", "compost"], "why": "The 2026-10-31 to 11-01 friction (a stale BLOCKED note, PRs merged before the batch reached them) were all silent drift, not wrong actions."},
+    {"id": "D2", "question": "Allow default_if_silent on two-way doors only, with the gate refusing it on one-way doors?", "recommended": "Yes. A default on a one-way door is autopilot, which the canon deprecates (ARCS-v9-Chapter-Book-Canon.md:472).", "options": ["two-way only", "never, even two-way", "case by case per row"], "why": "Undo is cheaper than a missed window only when undo exists and was declared before the window, not after."},
+    {"id": "D3", "question": "Make the lapse receipt a decision_receipt row (mode QUICKMOVE, what_unconfirmed naming the ruling that never came)?", "recommended": "Yes, the existing table and form. A lapse is a decision by default and the ledger already holds decisions.", "options": ["decision_receipt row", "a backlog status_note only", "a witness stub"], "why": "A status_note goes stale (the stale BLOCKED note case); the receipt ledger is append-only and the Accountant already reads it."},
+    {"id": "D4", "question": "Should standing conditional releases (\"merge when green\") be recorded as the preferred kairos backup?", "recommended": "Yes: name it in the flight manual as the first thing to ask for when a window has a close date.", "options": ["yes", "no"], "why": "It keeps the human trigger and only moves it earlier in time. NOTOMATION holds."}
+  ],
+  "tables": [
+    {"id": "matrix", "title": "What resolves an absent trigger", "intro": "Rows are the door kind from the row's existing `door` field. A window with no close date is treated as closing never, so only escalation applies.", "columns": ["Door", "Close date known", "Undo declared", "On the close", "Before the close"],
+     "rows": [
+       ["two-way", "yes", "yes", "Run default_if_silent, file a receipt quoting the default and its undo, tell Zach", "Nudge in /loops, sorted by days left"],
+       ["two-way", "yes", "no", "Lapse receipt", "Nudge; ask for an undo or a release"],
+       ["two-way", "no", "any", "Nothing closes; stays OPEN", "Normal backlog cadence"],
+       ["one-way", "yes", "any", "Lapse receipt. Never advance", "Nudge harder as days left falls; ask for a conditional release"],
+       ["one-way", "no", "any", "Nothing closes; stays OPEN", "Normal backlog cadence"]
+     ]},
+    {"id": "prior", "title": "What already exists (reuse, not rebuild)", "intro": "Each part of the rule maps to a tool or record already in the repo.", "columns": ["Need", "Existing", "Gap"],
+     "rows": [
+       ["Is the act reversible", "row field `door` (runtime/specs/backlog-status.json optional_fields)", "none"],
+       ["What undo exists", "row fields `abort`, `rollback`; scripts/readiness_packet.py prints them", "none"],
+       ["When the trigger fires", "row field `trigger`; scripts/backlog_ripeness.py", "no close date"],
+       ["What happens on silence", "nothing", "default_if_silent, lapse receipt"],
+       ["Surface the closing windows", "/loops (scripts/open_loops.py)", "sort by window_closes"],
+       ["Detect a window opening", "ADR-081 Kairos detector (PROPOSED), operators/arcs_operator_kairos.py (unwired)", "out of scope; this rule handles the close, not the opening"],
+       ["Never wait unbounded", "scripts/watchdog.sh (J21)", "the same idea for decisions"]
+     ]}
+  ],
+  "controls": [
+    {"id": "K1", "name": "Default refused on a one-way door", "plain": "The backlog gate fails a row that sets default_if_silent while door is one-way or absent.", "stage": "proposed", "bad": "A row with door one-way and default_if_silent set must fail scripts/backlog_status_check.py --check.", "good": "A row with door two-way, a rollback and default_if_silent passes.", "assay_ready": "fixtures to be written first, in backlog_status_check.py --self-test", "threshold": "known-bad fails, known-good passes"},
+    {"id": "K2", "name": "No close in silence", "plain": "A row whose window_closes is past, still non-terminal, and has no receipt naming it after that date is flagged.", "stage": "proposed", "bad": "A row with window_closes 2026-10-30, state OPEN, and no receipt must print LAPSED-SILENT.", "good": "The same row with a lapse receipt dated on or after 2026-10-30 prints nothing.", "assay_ready": "needs the receipts export (scripts/universe_receipts_adapter.py --export)", "threshold": "known-bad flagged, known-good silent"},
+    {"id": "K3", "name": "Closing windows sort first", "plain": "/loops lists rows with a window_closes date before others, nearest first.", "stage": "proposed", "bad": "A row closing tomorrow listed below one with no date fails the open_loops self-test.", "good": "Nearest close date first.", "assay_ready": "fixtures to be written first", "threshold": "order matches"}
+  ],
+  "heuristics": {
+    "human": [
+      "When a window has a close date, give the release early and with a condition (\"merge when green\", \"send if they reply by Friday\"). That is the backup that keeps the call yours.",
+      "If you let a window pass on purpose, say so in one line; the harness files the lapse receipt from it.",
+      "A default is only as safe as its undo. If you cannot name the undo, it is a one-way door."
+    ],
+    "agent": [
+      "Never advance a one-way door on silence. Escalate, then file the lapse receipt at the close.",
+      "Run default_if_silent only when door is two-way, rollback is declared, and the close date has passed; quote the default and the rollback in the receipt.",
+      "A conditional release covers only the act and condition it names; a later act needs a new release.",
+      "Never call any of this autopilot; the canon deprecates the word. It is NOTOMATION with a declared default."
+    ]
+  },
+  "glossary": [
+    {"term": "Kairos window", "plain": "The stretch of time when an act is worth more than it is before or after (ADR-081)."},
+    {"term": "Absent trigger", "plain": "The human release a row waits for has not come."},
+    {"term": "Lapse receipt", "plain": "A decision_receipt row saying a window closed without the act or a ruling, so the miss is on the record."},
+    {"term": "Conditional release", "plain": "Zach's go given ahead of time with a condition the harness can check, such as \"merge when green\"."},
+    {"term": "One-way door", "plain": "An act that cannot be undone, or whose undo was not declared before it."}
+  ],
+  "sources": [
+    "WORLD.md, THE HUD (never cross a one-way door in fog)",
+    "CLAUDE.md ROM primitives 1 (NOTOMATION) and 7 (WRITE-LOCK)",
+    "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md (propose-only; ratification is human)",
+    "_CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md:472 (autopilot deprecated)",
+    "runtime/specs/backlog-status.json optional_fields (door, abort, rollback)",
+    "scripts/readiness_packet.py, scripts/open_loops.py, scripts/watchdog.sh",
+    "_PATTERNS/2026-11-01-harness-flight-manual.md (Landing: close the loop on every advance)",
+    "Receipts 2026-11-01--harness-flight-manual-pr1919--ZH and 2026-11-01--harness-flight-manual-done-pr1920--ZH"
+  ]
+}
