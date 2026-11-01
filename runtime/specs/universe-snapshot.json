@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "backbone": "runtime/specs/knowledge-lattice-v1.json",
  "lattice_reviewed": "2026-10-06",
  "lattice_drift_check": "2026-10-20T12:45:02",
@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2403,
+  "corpus": 2447,
   "canon": {
-   "files": 122,
+   "files": 125,
    "tao_proverbs": 287,
-   "adrs": 84
+   "adrs": 87
   },
-  "codebase": 765,
+  "codebase": 792,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -45,8 +45,8 @@
    "nodes_clear": 53,
    "nodes": 81,
    "shore_open": 37,
-   "files_mapped": 277,
-   "files_fog": 3011
+   "files_mapped": 288,
+   "files_fog": 3076
   },
   "coherence": {
    "diamonds": 3,
@@ -322,10 +322,10 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 4,
-     "active_days": 3,
-     "last_change": "2026-10-07",
-     "last_28d": 2
+     "file_commits": 5,
+     "active_days": 4,
+     "last_change": "2026-10-08",
+     "last_28d": 3
     }
    },
    "galaxy": "runtime/specs/universe/nci.json",
@@ -588,10 +588,10 @@
      "lib": 0.333
     },
     "frequency": {
-     "file_commits": 3,
-     "active_days": 2,
-     "last_change": "2026-08-28",
-     "last_28d": 1
+     "file_commits": 6,
+     "active_days": 3,
+     "last_change": "2026-10-17",
+     "last_28d": 3
     }
    },
    "galaxy": "runtime/specs/universe/law.json",
@@ -690,10 +690,10 @@
      "lib": 0.429
     },
     "frequency": {
-     "file_commits": 46,
-     "active_days": 17,
-     "last_change": "2026-10-07",
-     "last_28d": 26
+     "file_commits": 48,
+     "active_days": 18,
+     "last_change": "2026-10-08",
+     "last_28d": 28
     }
    },
    "galaxy": "runtime/specs/universe/rec.json",
@@ -724,9 +724,9 @@
      "lib": 0.333
     },
     "frequency": {
-     "file_commits": 2,
-     "active_days": 2,
-     "last_change": "2026-07-19",
+     "file_commits": 3,
+     "active_days": 3,
+     "last_change": "2026-10-08",
      "last_28d": 1
     }
    },
@@ -758,9 +758,9 @@
      "lib": 0.8
     },
     "frequency": {
-     "file_commits": 4,
-     "active_days": 4,
-     "last_change": "2026-09-11",
+     "file_commits": 5,
+     "active_days": 5,
+     "last_change": "2026-10-19",
      "last_28d": 1
     }
    },
@@ -1024,10 +1024,10 @@
      "lib": 0.5
     },
     "frequency": {
-     "file_commits": 9,
-     "active_days": 2,
-     "last_change": "2026-08-28",
-     "last_28d": 8
+     "file_commits": 12,
+     "active_days": 5,
+     "last_change": "2026-10-19",
+     "last_28d": 3
     }
    },
    "galaxy": "runtime/specs/universe/hyp.json",
@@ -1160,10 +1160,10 @@
      "lib": 0.667
     },
     "frequency": {
-     "file_commits": 70,
-     "active_days": 32,
-     "last_change": "2026-10-07",
-     "last_28d": 28
+     "file_commits": 54,
+     "active_days": 27,
+     "last_change": "2026-10-23",
+     "last_28d": 36
     }
    },
    "galaxy": "runtime/specs/universe/drift.json",
@@ -1194,10 +1194,10 @@
      "lib": 0.333
     },
     "frequency": {
-     "file_commits": 45,
-     "active_days": 25,
-     "last_change": "2026-10-07",
-     "last_28d": 8
+     "file_commits": 50,
+     "active_days": 27,
+     "last_change": "2026-10-23",
+     "last_28d": 12
     }
    },
    "galaxy": "runtime/specs/universe/dewy.json",
@@ -1228,10 +1228,10 @@
      "lib": 0.286
     },
     "frequency": {
-     "file_commits": 2,
-     "active_days": 2,
-     "last_change": "2026-05-26",
-     "last_28d": 2
+     "file_commits": 3,
+     "active_days": 3,
+     "last_change": "2026-10-10",
+     "last_28d": 1
     }
    },
    "galaxy": "runtime/specs/universe/ygate.json",
@@ -1398,18 +1398,18 @@
      "lib": 0.25
     },
     "frequency": {
-     "file_commits": 493,
-     "active_days": 58,
-     "last_change": "2026-10-07",
-     "last_28d": 95
+     "file_commits": 623,
+     "active_days": 72,
+     "last_change": "2026-10-31",
+     "last_28d": 180
     }
    },
    "galaxy": "runtime/specs/universe/recoil.json",
    "population": {
-    "corpus": 30,
+    "corpus": 31,
     "canon": 4,
-    "codebase": 57,
-    "files": 263
+    "codebase": 64,
+    "files": 281
    }
   },
   {
@@ -1432,10 +1432,10 @@
      "lib": 0.667
     },
     "frequency": {
-     "file_commits": 4,
-     "active_days": 3,
-     "last_change": "2026-10-07",
-     "last_28d": 2
+     "file_commits": 5,
+     "active_days": 4,
+     "last_change": "2026-10-08",
+     "last_28d": 3
     }
    },
    "galaxy": "runtime/specs/universe/atg.json",
@@ -1466,10 +1466,10 @@
      "lib": 0.286
     },
     "frequency": {
-     "file_commits": 42,
-     "active_days": 16,
-     "last_change": "2026-10-05",
-     "last_28d": 19
+     "file_commits": 46,
+     "active_days": 19,
+     "last_change": "2026-10-17",
+     "last_28d": 22
     }
    },
    "galaxy": "runtime/specs/universe/gaunt.json",
@@ -1500,10 +1500,10 @@
      "lib": 0.375
     },
     "frequency": {
-     "file_commits": 49,
-     "active_days": 25,
-     "last_change": "2026-10-06",
-     "last_28d": 14
+     "file_commits": 31,
+     "active_days": 19,
+     "last_change": "2026-10-20",
+     "last_28d": 10
     }
    },
    "galaxy": "runtime/specs/universe/lat.json",
@@ -1568,10 +1568,10 @@
      "lib": 0.286
     },
     "frequency": {
-     "file_commits": 12,
-     "active_days": 6,
-     "last_change": "2026-10-04",
-     "last_28d": 12
+     "file_commits": 13,
+     "active_days": 7,
+     "last_change": "2026-10-09",
+     "last_28d": 11
     }
    },
    "galaxy": "runtime/specs/universe/noto.json",
@@ -1840,10 +1840,10 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 4,
-     "active_days": 4,
-     "last_change": "2026-09-08",
-     "last_28d": 2
+     "file_commits": 7,
+     "active_days": 7,
+     "last_change": "2026-11-01",
+     "last_28d": 3
     }
    },
    "galaxy": "runtime/specs/universe/world.json",
@@ -1902,10 +1902,10 @@
     "altitude": "l",
     "resonance": {},
     "frequency": {
-     "file_commits": 2,
-     "active_days": 1,
-     "last_change": "2026-06-16",
-     "last_28d": 2
+     "file_commits": 8,
+     "active_days": 3,
+     "last_change": "2026-10-18",
+     "last_28d": 6
     }
    },
    "galaxy": "runtime/specs/universe/canon.json",
@@ -1964,10 +1964,10 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 1,
-     "active_days": 1,
-     "last_change": "2026-06-16",
-     "last_28d": 1
+     "file_commits": 7,
+     "active_days": 3,
+     "last_change": "2026-10-18",
+     "last_28d": 6
     }
    },
    "galaxy": "runtime/specs/universe/lite.json",
@@ -2060,10 +2060,10 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 1,
-     "active_days": 1,
-     "last_change": "2026-06-16",
-     "last_28d": 1
+     "file_commits": 6,
+     "active_days": 3,
+     "last_change": "2026-10-18",
+     "last_28d": 5
     }
    },
    "galaxy": "runtime/specs/universe/yell.json",
@@ -2298,18 +2298,18 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 124,
-     "active_days": 36,
-     "last_change": "2026-10-06",
-     "last_28d": 14
+     "file_commits": 149,
+     "active_days": 43,
+     "last_change": "2026-10-31",
+     "last_28d": 32
     }
    },
    "galaxy": "runtime/specs/universe/adrs.json",
    "population": {
     "corpus": 0,
-    "canon": 84,
+    "canon": 87,
     "codebase": 0,
-    "files": 84
+    "files": 87
    }
   },
   {
@@ -2332,10 +2332,10 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 34,
-     "active_days": 13,
-     "last_change": "2026-10-07",
-     "last_28d": 7
+     "file_commits": 76,
+     "active_days": 27,
+     "last_change": "2026-10-31",
+     "last_28d": 49
     }
    },
    "galaxy": "runtime/specs/universe/audit.json",
@@ -2366,10 +2366,10 @@
      "lib": 0.0
     },
     "frequency": {
-     "file_commits": 14,
-     "active_days": 9,
-     "last_change": "2026-10-06",
-     "last_28d": 7
+     "file_commits": 16,
+     "active_days": 10,
+     "last_change": "2026-10-18",
+     "last_28d": 9
     }
    },
    "galaxy": "runtime/specs/universe/trust.json",
@@ -3301,7 +3301,7 @@
   {
    "path": "_DECISIONS/index.json",
    "kind": "index",
-   "rows": 76,
+   "rows": 79,
    "private": false
   },
   {
@@ -3455,6 +3455,12 @@
    "private": false
   },
   {
+   "path": "runtime/specs/jtbd-s5-quality/catalog-raw.json",
+   "kind": "catalog",
+   "rows": 18,
+   "private": false
+  },
+  {
    "path": "runtime/specs/mcp-tool-index.json",
    "kind": "index",
    "rows": 1037,
@@ -3469,13 +3475,13 @@
   {
    "path": "runtime/specs/surface-catalog.json",
    "kind": "catalog",
-   "rows": 290,
+   "rows": 317,
    "private": false
   },
   {
    "path": "runtime/specs/tool-catalog.json",
    "kind": "catalog",
-   "rows": 362,
+   "rows": 378,
    "private": false
   },
   {
@@ -3487,7 +3493,13 @@
   {
    "path": "scripts/nftt_index_layout.json",
    "kind": "index",
-   "rows": 33,
+   "rows": 34,
+   "private": false
+  },
+  {
+   "path": "src/ui-kit/kit-manifest.json",
+   "kind": "manifest",
+   "rows": 61,
    "private": false
   },
   {

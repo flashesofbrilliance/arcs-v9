@@ -1,0 +1,151 @@
+{
+  "$schema": "arcs-hud-widget-registry/v1",
+  "source_of_truth": "_PROPOSALS/2026-10-15-hud-widget-lockups-spec.md (widget table); ruling _PROPOSALS/2026-10-19-hud-audit-ruling-sheet.md",
+  "generator": "scripts/hud_widget_registry_emit.py",
+  "verification": "every read, operator and tool link resolved against the tree at emit",
+  "widgets": [
+    {
+      "id": "fidelity",
+      "title": "Fidelity",
+      "reads": [
+        {
+          "kind": "symbol",
+          "file": "src/lib/ygate.ts",
+          "symbol": "renderResolution"
+        },
+        {
+          "kind": "json",
+          "file": "src/data/universe-field.json",
+          "path": "nodes"
+        }
+      ],
+      "n": {
+        "unit": "evidence (mapped files + commits in 28 days) or receipts",
+        "threshold": 10
+      },
+      "emits": [
+        "close",
+        "move",
+        "snap"
+      ],
+      "order": 1
+    },
+    {
+      "id": "conviction",
+      "title": "Conviction",
+      "reads": [
+        {
+          "kind": "prisma",
+          "model": "Receipt",
+          "field": "nciScore"
+        },
+        {
+          "kind": "json",
+          "file": "src/data/universe-field.json",
+          "path": "dimensions.conviction.signal"
+        }
+      ],
+      "n": {
+        "unit": "receipts tagged real",
+        "threshold": null,
+        "why": "no reading until receipts are tagged real; prints No signal"
+      },
+      "emits": [
+        "close",
+        "move",
+        "snap"
+      ],
+      "order": 2
+    },
+    {
+      "id": "clarity",
+      "title": "Clarity",
+      "reads": [
+        {
+          "kind": "symbol",
+          "file": "src/app/api/compass/route.ts",
+          "symbol": "nci_by_lens"
+        },
+        {
+          "kind": "json",
+          "file": "src/data/universe-field.json",
+          "path": "dimensions.clarity.nodes_clear"
+        },
+        {
+          "kind": "json",
+          "file": "src/data/universe-field.json",
+          "path": "dimensions.clarity.nodes"
+        }
+      ],
+      "n": {
+        "unit": "questions or lattice nodes",
+        "threshold": 10
+      },
+      "emits": [
+        "close",
+        "move",
+        "snap"
+      ],
+      "order": 3
+    },
+    {
+      "id": "coherence",
+      "title": "Coherence",
+      "reads": [
+        {
+          "kind": "json",
+          "file": "src/data/universe-field.json",
+          "path": "dimensions.coherence.diamonds"
+        },
+        {
+          "kind": "json",
+          "file": "src/data/universe-field.json",
+          "path": "dimensions.coherence.mean_hardness"
+        },
+        {
+          "kind": "json",
+          "file": "src/data/universe-field.json",
+          "path": "dimensions.clarity.nodes"
+        }
+      ],
+      "n": {
+        "unit": "lattice nodes",
+        "threshold": 10
+      },
+      "emits": [
+        "close",
+        "move",
+        "snap"
+      ],
+      "order": 4
+    },
+    {
+      "id": "consonance",
+      "title": "Consonance",
+      "reads": [
+        {
+          "kind": "prisma",
+          "model": "Receipt",
+          "field": "nciScore"
+        },
+        {
+          "kind": "prisma",
+          "model": "Outcome",
+          "field": "matched"
+        }
+      ],
+      "n": {
+        "unit": "closed receipts per cohort",
+        "threshold": 30
+      },
+      "emits": [
+        "close",
+        "move",
+        "snap"
+      ],
+      "operator": 19,
+      "tool": "operator:arcs_accountant.py",
+      "order": 5
+    }
+  ]
+}

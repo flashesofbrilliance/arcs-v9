@@ -84,9 +84,9 @@
   h1{font-weight:800;letter-spacing:-.03em;line-height:1.02;font-size:clamp(40px,8vw,82px);text-wrap:balance}
   h2{font-weight:750;letter-spacing:-.02em;line-height:1.12;font-size:clamp(23px,3.4vw,33px);text-wrap:balance}
   h3{font-weight:700;letter-spacing:-.01em;font-size:17px;line-height:1.28}
-  p{color:#b7c2d0}
+  p{color:var(--text)}
   /* ledes span the full lane, same width as their heading (page-wide rule) */
-  .lede{font-size:clamp(15.5px,1.6vw,17.5px);color:#aeb9c7;max-width:none;line-height:1.62}
+  .lede{font-size:clamp(15.5px,1.6vw,17.5px);color:var(--muted);max-width:none;line-height:1.62}
   .mono{font-family:var(--mono)}
 
   /* ---- the depth log (inline dateline; fidelity sharpens with depth) ---- */
@@ -109,7 +109,7 @@
   .hero h1 .flip{color:var(--gold)}
   .hero .lede{margin-top:22px;max-width:none}
   .hero .thesis{margin-top:14px;font-size:15px;color:var(--muted);max-width:none;line-height:1.6}
-  .hero .thesis b{color:#9fb0c0;font-weight:600}
+  .hero .thesis b{color:var(--muted);font-weight:600}
 
   /* the invariant glyph, drawn once, reused at the core */
   .glyph{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;
@@ -182,7 +182,7 @@
   .tlrow.a .badge{color:var(--cyan);border:1px solid var(--cyan-line)}
   .tlrow.b .badge{color:var(--green);border:1px solid rgba(0,255,157,.3)}
   .tlrow.cd .badge{color:var(--gold);border:1px solid var(--gold-line)}
-  .tlrow .what p{font-size:13px;color:#a6b2c0;margin-top:8px;line-height:1.56}
+  .tlrow .what p{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.56}
   .tlrow .banked{margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--dimmed);letter-spacing:.02em;line-height:1.7}
   .tlrow .banked b{color:var(--muted);font-weight:700}
   .deepcut{display:inline-block;margin-top:26px;font-family:var(--mono);font-size:12px;font-weight:700;
@@ -202,7 +202,7 @@
   .term .who{margin-left:6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}
   .term.narrator .who b{color:var(--cyan)} .term.mckbox .who b{color:var(--gold)}
   .term .body{padding:14px 16px;overflow-x:auto}
-  .term pre{white-space:pre;color:#c6d2e0}
+  .term pre{white-space:pre;color:var(--text)}
   .term .fl{color:var(--cyan)} .term .val{color:var(--gold)} .term .cm{color:var(--dimmed)}
 
   /* divergence table */
@@ -213,10 +213,10 @@
     color:var(--dimmed);background:var(--surface2)}
   tbody th{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--muted);
     text-transform:uppercase;white-space:nowrap}
-  td{color:#cdd8e4}
+  td{color:var(--text)}
   tr:last-child td,tr:last-child th{border-bottom:none}
   tr.spine{background:linear-gradient(90deg,var(--cyan-bg),transparent 82%)}
-  tr.spine th{color:var(--cyan)} tr.spine td{color:#d7e2ee}
+  tr.spine th{color:var(--cyan)} tr.spine td{color:var(--text)}
   .caption{font-family:var(--mono);font-size:11px;color:var(--dimmed);letter-spacing:.05em;margin-top:12px;line-height:1.7}
 
   /* strata layers */
@@ -227,7 +227,7 @@
   .layer .lk{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
   .layer .lk .sub{display:block;margin-top:4px;font-size:11px;letter-spacing:.06em;color:var(--dimmed);font-weight:600}
   .layer.var .lk{color:var(--gold)} .layer.inv .lk{color:var(--cyan)}
-  .layer p{font-size:13.5px;color:#aab6c4}
+  .layer p{font-size:13.5px;color:var(--muted)}
   .layer p code{font-family:var(--mono);font-size:12px;color:var(--text);background:var(--surface2);
     padding:1px 6px;border-radius:5px;border:1px solid var(--border2)}
   .legend{display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--muted)}
@@ -244,7 +244,7 @@
   @media(max-width:640px){.rung{grid-template-columns:1fr;gap:3px;padding:11px 0}}
   .rung .sc{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan)}
   .rung .sc .z{color:var(--dimmed);display:block;font-size:11px;margin-top:3px;letter-spacing:.06em}
-  .rung .bd{font-size:14px;color:#bcc7d4}
+  .rung .bd{font-size:14px;color:var(--text)}
   .rung .bd em{color:var(--gold);font-style:normal;font-family:var(--mono);font-size:12.5px}
 
   /* the three motions (the core is a pump) */
@@ -257,8 +257,8 @@
   .m.ladder .mg{color:var(--cyan)} .m.cascade .mg{color:var(--gold)} .m.spiral .mg{color:var(--green)}
   .m .mk{margin-top:15px;font-weight:750;font-size:18px;letter-spacing:-.01em}
   .m .mt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-top:3px}
-  .m p{font-size:13px;color:#a6b2c0;margin-top:13px;line-height:1.56}
-  .m p b{color:#cdd8e4;font-weight:600}
+  .m p{font-size:13px;color:var(--muted);margin-top:13px;line-height:1.56}
+  .m p b{color:var(--text);font-weight:600}
 
   /* capstone: positioning lightning rod + null->OM->infinite + the vision */
   .capstone{padding:58px 0 8px;border-top:1px solid var(--border2)}
@@ -272,9 +272,9 @@
   .triad .tp:nth-child(1) .tk{color:var(--muted)}
   .triad .tp:nth-child(3) .tk{color:var(--gold)}
   .triad .tp:nth-child(5) .tk{color:var(--cyan)}
-  .tp .tv{font-size:12.5px;color:#9fabb9;line-height:1.5}
+  .tp .tv{font-size:12.5px;color:var(--muted);line-height:1.5}
   .tsep{font-family:var(--mono);color:var(--dimmed);font-size:17px;padding-top:4px}
-  .vision{margin-top:8px;font-size:clamp(16px,2vw,20px);color:#dbe4ef;line-height:1.5;font-weight:500;
+  .vision{margin-top:8px;font-size:clamp(16px,2vw,20px);color:var(--text);line-height:1.5;font-weight:500;
     padding-top:22px}
   .vision::before{content:"";display:block;width:44px;height:2px;margin-bottom:18px;
     background:linear-gradient(90deg,var(--cyan),var(--gold))}
@@ -474,7 +474,7 @@ counterpart-forge \
     </div>
     <div class="coreband">
       <h2>One shape. And it is the same shape at every scale.</h2>
-      <p class="lede" style="color:#c3cede">At the bottom of the core sample there is a single shape that
+      <p class="lede" style="color:var(--text)">At the bottom of the core sample there is a single shape that
         reverberates at every depth. File a bet, mark the line that moved it, update. It does not change as you
         zoom. It is the shape of one row, and the shape of a whole career. That sameness at every depth is why
         one generator can hold a polyform without losing itself.</p>

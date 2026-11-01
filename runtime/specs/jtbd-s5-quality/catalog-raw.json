@@ -1,0 +1,204 @@
+{
+ "label": "EARLY/INTERIM",
+ "procedure": ".claude/commands/catalog.md (Step 0 graph lookup skipped) + runtime/specs/tool-catalog.json at sha 5864abda; fresh general-purpose subagent (opus), one shot, no retries; also read the job-text file",
+ "rows": [
+  {
+   "row": 1,
+   "system": "catalog",
+   "assembly": [
+    "tool:skill:night-moves"
+   ],
+   "raw": {
+    "tool_kind": "skill",
+    "tool_name": "night-moves"
+   }
+  },
+  {
+   "row": 2,
+   "system": "catalog",
+   "assembly": [
+    "tool:skill:fold"
+   ],
+   "raw": {
+    "tool_kind": "skill",
+    "tool_name": "fold"
+   }
+  },
+  {
+   "row": 3,
+   "system": "catalog",
+   "assembly": [
+    "tool:script:handoff_fold.py"
+   ],
+   "raw": {
+    "tool_kind": "script",
+    "tool_name": "handoff_fold.py"
+   }
+  },
+  {
+   "row": 4,
+   "system": "catalog",
+   "assembly": [
+    "tool:command:loops"
+   ],
+   "raw": {
+    "tool_kind": "command",
+    "tool_name": "loops"
+   }
+  },
+  {
+   "row": 5,
+   "system": "catalog",
+   "assembly": [
+    "tool:skill:fold"
+   ],
+   "raw": {
+    "tool_kind": "skill",
+    "tool_name": "fold"
+   }
+  },
+  {
+   "row": 6,
+   "system": "catalog",
+   "assembly": [
+    "tool:script:reconcile_epoch.py"
+   ],
+   "raw": {
+    "tool_kind": "script",
+    "tool_name": "reconcile_epoch.py"
+   }
+  },
+  {
+   "row": 7,
+   "system": "catalog",
+   "assembly": [
+    "tool:agent:idea-curator"
+   ],
+   "raw": {
+    "tool_kind": "agent",
+    "tool_name": "idea-curator"
+   }
+  },
+  {
+   "row": 8,
+   "system": "catalog",
+   "assembly": [
+    "tool:operator:arcs_primitives.py"
+   ],
+   "raw": {
+    "tool_kind": "operator",
+    "tool_name": "arcs_primitives.py"
+   }
+  },
+  {
+   "row": 9,
+   "system": "catalog",
+   "assembly": [
+    "tool:script:jtbd_edge_weights.py"
+   ],
+   "raw": {
+    "tool_kind": "script",
+    "tool_name": "jtbd_edge_weights.py"
+   }
+  },
+  {
+   "row": 10,
+   "system": "catalog",
+   "assembly": [
+    "tool:script:echo_detector_dogfood.py"
+   ],
+   "raw": {
+    "tool_kind": "script",
+    "tool_name": "echo_detector_dogfood.py"
+   }
+  },
+  {
+   "row": 11,
+   "system": "catalog",
+   "assembly": [
+    "tool:command:prior-art"
+   ],
+   "raw": {
+    "tool_kind": "command",
+    "tool_name": "prior-art"
+   }
+  },
+  {
+   "row": 12,
+   "system": "catalog",
+   "assembly": [
+    "tool:skill:night-moves"
+   ],
+   "raw": {
+    "tool_kind": "skill",
+    "tool_name": "night-moves"
+   }
+  },
+  {
+   "row": 13,
+   "system": "catalog",
+   "assembly": [
+    "tool:agent:chief-bayesian"
+   ],
+   "raw": {
+    "tool_kind": "agent",
+    "tool_name": "chief-bayesian"
+   }
+  },
+  {
+   "row": 14,
+   "system": "catalog",
+   "assembly": [
+    "tool:skill:thread-recoil"
+   ],
+   "raw": {
+    "tool_kind": "skill",
+    "tool_name": "thread-recoil"
+   }
+  },
+  {
+   "row": 15,
+   "system": "catalog",
+   "assembly": [
+    "tool:skill:night-moves"
+   ],
+   "raw": {
+    "tool_kind": "skill",
+    "tool_name": "night-moves"
+   }
+  },
+  {
+   "row": 16,
+   "system": "catalog",
+   "assembly": [
+    "tool:script:state_sync_check.py"
+   ],
+   "raw": {
+    "tool_kind": "script",
+    "tool_name": "state_sync_check.py"
+   }
+  },
+  {
+   "row": 17,
+   "system": "catalog",
+   "assembly": [
+    "tool:package:cold-recon"
+   ],
+   "raw": {
+    "tool_kind": "package",
+    "tool_name": "cold-recon"
+   }
+  },
+  {
+   "row": 18,
+   "system": "catalog",
+   "assembly": [
+    "tool:script:reconcile_epoch.py"
+   ],
+   "raw": {
+    "tool_kind": "script",
+    "tool_name": "reconcile_epoch.py"
+   }
+  }
+ ]
+}
