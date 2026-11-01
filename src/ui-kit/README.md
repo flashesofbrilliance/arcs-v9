@@ -17,7 +17,7 @@ to *snap into*. This kit is that SSOT.
 ```
 atoms      → recoil-report/_tokens.css  (color · type · space · radius · glow)
              the ONE palette. Signal hexes #00F0FF #00FF9D #FFD700 #FF4D6D live here and NOWHERE else.
-molecules  → recoil-report/27..33 (@dsCard group=Molecules): 27-section-label · 28-chip (pill/badge) · 29-tile (stat/prob) · 30-button · 31-callout · 32-evidence-ref · 33-led
+molecules  → recoil-report/27..33, 37 (@dsCard group=Molecules): 27-section-label · 28-chip (pill/badge) · 29-tile (stat/prob) · 30-button · 31-callout · 32-evidence-ref · 33-led · 37-fidelity-grain (sharp/degraded/grain/moire)
 organisms  → recoil-report/NN-*.html (the 14 numbered @dsCard primitives):
              01 header · 02 hyperstition-arc · 03 entity-card · 04 signal-delta-table ·
              05 kairos-node · 06 beat-stepper · 07 probability-bar · 08 receipt-table ·
@@ -132,3 +132,17 @@ gates, in that order. Write a spec in `src/ui-kit/specimens/<name>.json`, then r
 `python3 scripts/kit_specimen.py --all`. The page lands in `recoil-report/` as `NN-<slug>.html`, enrolled in the
 `kit-specimen` template, so `component_source_gate` refuses a page that drops a section and
 `kit_specimen.py --check` (pre-commit) refuses a hand edit. First specimen: `36-change.html`.
+
+## Pull: parts flock to the pages and jobs they fit (2026-10-31)
+
+`scripts/kit_pull.py` makes the boids rules countable. Cohesion is job fit (the data shapes a part renders, and
+the backlog rows that name it). Alignment is shared tokens and gates (links `_tokens.css`, ships a `@prim` block a
+generator can pull, paints no raw signal hex). Separation is near-duplicate shapes (a rule copied into another part).
+
+- `python3 scripts/kit_pull.py manifest` writes `kit-manifest.json` (generated, never hand-edited): every kit part,
+  the grammar chips, the `src/ui` React parts, and the cards of the local claude.ai/design export when it exists.
+  `--check` (pre-commit, on kit or `src/ui` changes) fails when a part's own fields drift from its file.
+- `python3 scripts/kit_pull.py score <data.json>` ranks parts for a page's data file by pull. It proposes; it never edits.
+- `python3 scripts/kit_pull.py harvest` writes `kit-harvest.json`: rule shapes, flocks of rules that travel together,
+  and textures repeated across at least two page families outside the kit. A one-off earns no mold; promote on the
+  second real case. Part 37 was the first promotion (the audit report and the good-case pages share the grain).

@@ -5,8 +5,8 @@
     python3 scripts/audit_report_build.py --check runtime/audit/cold-1.json
     python3 scripts/audit_report_build.py --self-test
 
-The page is never hand-edited. Tokens are inlined verbatim from the kit, and the tile, LED, callout and
-altitude-ladder styles are pulled from their kit files at build time, so the report inherits the kit
+The page is never hand-edited. Tokens are inlined verbatim from the kit, and the tile, LED, callout,
+fidelity-grain (part 37) and altitude-ladder styles are pulled from their kit files at build time, so the report inherits the kit
 instead of copying it. Every claim renders at earned fidelity: record support sets the Y-state.
 """
 import html
@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 KIT = ROOT / "src/ui-kit/recoil-report"
 OUT = ROOT / "_ARTIFACTS/audit-report"
-PRIMS = ["29-tile", "33-led", "31-callout"]
+PRIMS = ["29-tile", "33-led", "31-callout", "37-fidelity-grain"]
 
 
 def y_state(support):
@@ -64,10 +64,6 @@ h2 { font-family: var(--ds-font-display); font-size: var(--fs-headline); line-he
 .bottom { max-width: none; margin: 16px 0; font-weight: 500; }
 p, li { max-width: var(--measure); }
 .mono { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); }
-.sharp { font-weight: 500; letter-spacing: normal; }
-.degraded { font-weight: 400; letter-spacing: 0.01em; }
-.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); }
-.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"); }
 .rows { list-style: none; padding: 0; margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); }
 .rows li { max-width: none; padding: 12px 16px; border-top: 1px solid var(--border); }
 .rows li:first-child { border-top: 0; }
@@ -233,9 +229,10 @@ def self_test():
     assert "Fix 1" in first and "%" not in first, "grug first screen: the fix before any number"
     assert body.count(" open>") == 1, "exactly one section open by default (the weakest)"
     assert "<script" not in out.lower()
+    assert ".grain" not in PAGE_CSS and ".grain {" in kit_block("37-fidelity-grain"), "grain and moire come from kit part 37"
     for word in ("Kintsugi", "fruit-guard", "Y-state"):
         assert word not in body, f"internal vocabulary on a buyer surface: {word}"
-    print("audit_report_build self-test: 12 checks pass")
+    print("audit_report_build self-test: 13 checks pass")
 
 
 def main(argv):

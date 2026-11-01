@@ -598,6 +598,19 @@ if [ -f scripts/kit_specimen.py ] && git diff --cached --name-only -- 'src/ui-ki
   fi
 fi
 
+# Kit manifest is generated (2026-10-31): the parts, classes, fidelity states and gate flags in
+# src/ui-kit/kit-manifest.json must match the kit files. Jobs and page usage may lag; kit fields may not.
+if [ -f scripts/kit_pull.py ] && git diff --cached --name-only -- 'src/ui-kit/*' 'src/ui/*' 'scripts/kit_pull.py' | grep -q .; then
+  if ! python3 scripts/kit_pull.py manifest --check; then
+    echo "✖ commit blocked: the kit manifest is stale or hand-edited. Run python3 scripts/kit_pull.py manifest." >&2
+    exit 1
+  fi
+  if git diff --cached --name-only -- 'scripts/kit_pull.py' | grep -q . && ! python3 scripts/kit_pull.py --self-test >/dev/null; then
+    echo "✖ commit blocked: python3 scripts/kit_pull.py --self-test fails." >&2
+    exit 1
+  fi
+fi
+
 # ---------------------------------------------------------------------------
 # kintsugi immune system (ROM #6, visual grammar): run the Impeccable design detector over
 # staged single-file pages when the launcher is installed on this machine. NEW pages block on
