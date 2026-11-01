@@ -64,6 +64,8 @@ export function HudWidgets({ field }: { field: FieldSource }) {
   const ori: Orientation = orientationOf(vp.w, vp.h)
 
   useEffect(() => {
+    // Read after mount: localStorage is client-only, so reading during render would mismatch hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     try { setLayout(parseLayout(window.localStorage.getItem(KEY))) } catch { /* default */ }
     setReduce(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? true)
     const on = () => setVp({ w: window.innerWidth, h: window.innerHeight })
