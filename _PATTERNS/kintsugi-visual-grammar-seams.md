@@ -815,3 +815,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - Break: public/cia-brief.html ports the MyAlly hub shell (meta band, tabs with Now/Next/Later pills, reading options), which carries its own label sizes, colours, radii, stripes and grid background.
 - Repair: the six MyAlly shell waivers in .impeccable/config.json now also list public/cia-brief.html; CIA content inside the shell uses DESIGN.md sizes and the serif display stack.
 - Guard: any new rule finding on the CIA content (outside the shell) still blocks; the waivers cover only the shared shell values.
+
+## 2026-10-31 · repo check page matches /audit (waived, not repaired)
+- break: the kintsugi ratchet blocked public/good-audit-check.html (new file, 11 findings vs 0 at HEAD).
+- found by: the good.arcs.care/audit/check commit.
+- root cause: the page is the free sample for /audit and copies its look (kit token fonts, type sizes, 8/12px corners). /audit carries the same 11 as a frozen baseline.
+- repair: none, by decision. Zach chose on 2026-10-31 to match /audit rather than restyle to DESIGN.md. Three file-scoped waivers (design-system-font, -font-size, -radius) in .impeccable/config.json list only this file.
+- guard: the ratchet counts 0 on the page now, so any other rule finding still blocks.

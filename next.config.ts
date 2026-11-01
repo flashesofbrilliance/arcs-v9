@@ -199,6 +199,7 @@ const nextConfig: NextConfig = {
         { source: "/audit", destination: "/good-agent-receipts-audit.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/fears", destination: "/good-fears.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/copypasta", destination: "/good-copypasta.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/rfp-engine", destination: "/good-rfp-engine.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/six-week-outage", destination: "/good-case-six-week-outage.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/cases/reader-who-remembered", destination: "/good-case-reader-who-remembered.html", has: [{ type: "host", value: "good.arcs.care" }] },
@@ -209,7 +210,7 @@ const nextConfig: NextConfig = {
         // robots.txt / sitemap.xml: beforeFiles rewrites run after the proxy's passthrough, so without
         // these exclusions every /api/* call (and the NFTT robots/sitemap) on this host was rewritten to
         // good.html (GET 200 HTML, POST 405). Found 2026-09-13 when /api/probe went live.
-        { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-agents|good-fears|good-copypasta|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-audit-check|good-agents|good-fears|good-copypasta|good-rfp-engine|rfp-engine/|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path((?!fonts/).*)", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },

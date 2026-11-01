@@ -166,7 +166,7 @@
           "public/jack-rain-ext.html"
         ],
         "createdAt": "2026-09-14T17:11:11.261Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
       },
       {
         "rule": "design-system-font-size",
@@ -184,7 +184,7 @@
           "public/jack-rain-ext.html"
         ],
         "createdAt": "2026-09-14T17:11:11.309Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
       },
       {
         "rule": "design-system-color",
@@ -202,7 +202,7 @@
           "public/jack-rain-ext.html"
         ],
         "createdAt": "2026-09-14T17:11:11.350Z",
-        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit \u2014 a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
+        "reason": "Inherits src/ui-kit/recoil-report/_tokens.css, the recoil-report family's own locked kit — a deliberately separate visual world from DESIGN.md per PRODUCT.md, not drift"
       },
       {
         "rule": "design-system-radius",
@@ -885,6 +885,15 @@
       },
       {
         "rule": "design-system-color",
+        "value": "rgb(0, 116, 142)",
+        "files": [
+          "public/good-rfp-engine.html"
+        ],
+        "createdAt": "2026-10-30T15:17:52.160Z",
+        "reason": "tool-getting-started swatch: rfp-engine paper teal #00748e (DESIGN.md Light Paper accent), structure only, see src/ui-kit/templates.json"
+      },
+      {
+        "rule": "design-system-color",
         "value": "*",
         "files": [
           "src/ui-kit/grammar-chips/chips.html"
@@ -909,6 +918,33 @@
         ],
         "createdAt": "2026-10-30T15:40:00.000Z",
         "reason": "Claim chip grammar specimen: the glow is the underlit LED of the @arcs/theme grammar (ChipToggle, 'underlit-LED glow, never ambient neon') and the Phosphor Pocket skin LED tiles; it marks tone state only, Zach asked for the skeuomorphic depth on 2026-10-30."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "public/good-audit-check.html"
+        ],
+        "createdAt": "2026-10-31T09:30:00.000Z",
+        "reason": "good.arcs.care/audit/check is the free sample for /audit and matches that page's look: the kit token fonts (GeistMono, InstrumentSans, BricolageGrotesque), its 17/20px body and clamp heading sizes, and 8/12px corners. /audit carries the same 11 findings as a frozen baseline. Zach chose match-/audit over DESIGN.md on 2026-10-31. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (repo check, 2026-10-31)"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "public/good-audit-check.html"
+        ],
+        "createdAt": "2026-10-31T09:30:00.000Z",
+        "reason": "good.arcs.care/audit/check is the free sample for /audit and matches that page's look: the kit token fonts (GeistMono, InstrumentSans, BricolageGrotesque), its 17/20px body and clamp heading sizes, and 8/12px corners. /audit carries the same 11 findings as a frozen baseline. Zach chose match-/audit over DESIGN.md on 2026-10-31. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (repo check, 2026-10-31)"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "public/good-audit-check.html"
+        ],
+        "createdAt": "2026-10-31T09:30:00.000Z",
+        "reason": "good.arcs.care/audit/check is the free sample for /audit and matches that page's look: the kit token fonts (GeistMono, InstrumentSans, BricolageGrotesque), its 17/20px body and clamp heading sizes, and 8/12px corners. /audit carries the same 11 findings as a frozen baseline. Zach chose match-/audit over DESIGN.md on 2026-10-31. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (repo check, 2026-10-31)"
       }
     ]
   },
