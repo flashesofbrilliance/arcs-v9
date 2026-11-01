@@ -6,13 +6,13 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 315,
+  "rows": 317,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 256,
+   "product page": 258,
    "gated": 31
   },
   "next_config_hosts": 79,
@@ -3023,6 +3023,46 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/blog/nftt/the-idempotent-fix",
+   "catch_all": false,
+   "destination": "/blog-nftt-the-idempotent-fix.html",
+   "pattern": false,
+   "file": "public/blog-nftt-the-idempotent-fix.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "!Hot-Fix → The Idempotent Fix: == Done, Right. For Good. · NFTT",
+   "description": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "index": "index",
+   "unlisted": false,
+   "purpose": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/the-idempotent-fix/full",
+   "catch_all": false,
+   "destination": "/blog-nftt-the-idempotent-fix.html",
+   "pattern": false,
+   "file": "public/blog-nftt-the-idempotent-fix.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "!Hot-Fix → The Idempotent Fix: == Done, Right. For Good. · NFTT",
+   "description": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "index": "index",
+   "unlisted": false,
+   "purpose": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/blog/nftt/the-instinct-before-it-had-a-name",
    "catch_all": false,
    "destination": "/blog-nftt-the-instinct-before-it-had-a-name.html",
@@ -3706,7 +3746,7 @@
    "unlisted": false,
    "purpose": "An open RFP answering engine that cites the exact clause or refuses. Python standard library only, runs locally as an MCP server.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3726,7 +3766,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3746,7 +3786,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3766,7 +3806,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
