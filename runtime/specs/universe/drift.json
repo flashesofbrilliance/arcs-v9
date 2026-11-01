@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "id": "drift",
  "label": "Drift",
  "parent": "universe",
@@ -17,10 +17,10 @@
    "lib": 0.667
   },
   "frequency": {
-   "file_commits": 70,
-   "active_days": 32,
-   "last_change": "2026-10-07",
-   "last_28d": 28
+   "file_commits": 54,
+   "active_days": 27,
+   "last_change": "2026-10-23",
+   "last_28d": 36
   }
  },
  "dimensions": {
