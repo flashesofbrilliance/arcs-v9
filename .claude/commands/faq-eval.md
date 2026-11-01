@@ -1,5 +1,6 @@
 ---
 description: Cold-reader FAQ coverage eval: score whether a README or public artifact answers what an adopter asks
+disable-model-invocation: true
 ---
 
 # /faq-eval

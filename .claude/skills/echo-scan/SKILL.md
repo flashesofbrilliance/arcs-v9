@@ -1,6 +1,7 @@
 ---
 name: echo-scan
 description: Turn an outside field of research (a paper, a viral post, a screenshot, a domain name like "stopped light" or "mycorrhizal networks") into ARCS design rules - claim-check the source, survey the state of the art plus adjacent and orthogonal work, map isomorphisms to real ARCS files labelled MECHANISM or METAPHOR, rank inventions each with a pre-registered kill condition, and queue the top ones in the induced backlog. The working form of ROM primitive 5 (Orthogonal Echo Detector). Use whenever Zach shares an article, LinkedIn post, paper or screenshot and asks what ARCS can learn, steal, adapt or invent from it, asks for "isomorphisms", "cross-domain echoes", "state of the art adjacent to this", or "what's the analog in ARCS", even if he never says "scan". Also use `/echo-scan claim-check <source>` alone to verify an outside post or article before trusting it.
+disable-model-invocation: true
 ---
 
 # /echo-scan: an outside field, read as an ARCS design manual

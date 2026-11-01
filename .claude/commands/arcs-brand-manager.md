@@ -1,5 +1,6 @@
 ---
 description: ARCS brand manager: apply ARCS brand colors, type and voice to any ARCS-branded artifact
+disable-model-invocation: true
 ---
 
 # /arcs-brand-manager
