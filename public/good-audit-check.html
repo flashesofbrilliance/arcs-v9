@@ -49,45 +49,97 @@
   --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
 }
 
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
 /* page layer: wrap-safety (one shared measure) */
 :root { --measure: 680px; --lane: 1040px; --gutter: 40px; }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--bg); color: var(--text); }
-body { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; overflow-wrap: break-word; }
+body { font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; overflow-wrap: break-word; }
 a { color: var(--cyan); text-underline-offset: 3px; }
 .pad { max-width: var(--lane); margin: 0 auto; padding: 0 var(--gutter); }
 header.pad, footer.pad { padding-top: 28px; padding-bottom: 28px; }
 header a.mono { display: inline-block; padding: 12px 0; }
-h1 { font-family: var(--font-display); font-size: clamp(34px, 5.2vw, 56px); line-height: 1.08; letter-spacing: -0.01em; margin: 56px 0 20px; }
-h2 { font-family: var(--font-display); font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 56px 0 16px; }
-.lede { max-width: none; font-size: 20px; color: var(--text); margin: 0 0 12px; }
+h1 { font-family: var(--ds-font-display); font-size: var(--fs-display); line-height: 1.3; margin: 56px 0 20px; }
+h2 { font-family: var(--ds-font-display); font-size: var(--fs-headline); line-height: 1.3; margin: 56px 0 16px; }
+.lede { max-width: none; color: var(--text); margin: 0 0 12px; }
 p, li { max-width: var(--measure); }
-.mono { font-family: var(--font-mono); font-size: 15px; color: var(--dimmed); }
+.mono { font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--dimmed); }
 form { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 8px; }
 label.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-input { flex: 1 1 320px; min-width: 0; font: 16px var(--font-mono); color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; }
+input { flex: 1 1 320px; min-width: 0; font: var(--fs-body) var(--ds-font-mono); color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 12px 14px; }
 input:focus { outline: 2px solid var(--cyan); outline-offset: 2px; }
-button { font: 600 16px var(--font-sans); color: var(--bg); background: var(--cyan); border: 0; border-radius: var(--r-md); padding: 13px 22px; min-height: 48px; cursor: pointer; }
+button { font: 600 var(--fs-body) var(--ds-font-sans); color: var(--bg); background: var(--cyan); border: 0; border-radius: var(--ds-r-md); padding: 13px 22px; min-height: 48px; cursor: pointer; }
 button:disabled { opacity: 0.6; cursor: wait; }
 .status { max-width: none; min-height: 1.6em; color: var(--dimmed); }
 .status.err { color: var(--red); }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px 24px; margin: 16px 0; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-lg); padding: 20px 24px; margin: 16px 0; }
 .card p, .card li { max-width: none; }
-.score { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; }
-.score .big { font-family: var(--font-display); font-size: clamp(56px, 9vw, 88px); line-height: 1; color: var(--cyan); }
+/* @prim:begin 29-tile */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px 16px; }
+.tile .v { font-family: var(--ds-font-mono); font-size: var(--fs-display); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.tile .v.cyan { color: var(--cyan); }
+.tile .k { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+/* @prim:end 29-tile */
+.tile .v { line-height: 1.3; }
 .rows { display: grid; gap: 14px; margin: 8px 0 0; }
 .row .top { display: flex; justify-content: space-between; gap: 12px; }
-.bar { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-top: 6px; }
+.bar { height: 8px; background: var(--border); border-radius: var(--ds-r-sm); overflow: hidden; margin-top: 6px; }
 .bar i { display: block; height: 100%; background: var(--cyan); }
 ul.weak { list-style: none; padding: 0; margin: 0; }
 ul.weak li { padding: 10px 0; border-top: 1px solid var(--border); }
 ul.weak li:first-child { border-top: 0; }
-ul.weak .why { color: var(--dimmed); font-size: 15px; }
+ul.weak .why { color: var(--dimmed); }
 .limits li { margin: 0 0 10px; }
-.cta { display: inline-block; margin: 12px 0 0; padding: 12px 20px; border: 1px solid var(--cyan); border-radius: var(--r-md); color: var(--cyan); text-decoration: none; font-weight: 600; }
+.cta { display: inline-block; margin: 12px 0 0; padding: 12px 20px; border: 1px solid var(--cyan); border-radius: var(--ds-r-md); color: var(--cyan); text-decoration: none; font-weight: 600; }
 [hidden] { display: none !important; }
-footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 80px; }
-@media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
+footer { color: var(--dimmed); font-size: var(--fs-body); border-top: 1px solid var(--border); margin-top: 80px; }
+@media (max-width: 600px) { :root { --gutter: 16px; } }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -108,8 +160,9 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   <p class="status" id="status" role="status" aria-live="polite">Open-source repos only. Nothing is stored; the request goes from your browser straight to GitHub.</p>
 
   <section id="result" hidden>
-    <div class="card">
-      <div class="score"><span class="big" id="pct"></span><span id="pctlabel"></span></div>
+    <div class="scorebox">
+      <div class="tiles"><div class="tile"><div class="v cyan" id="pct"></div><div class="k">explain themselves</div></div><div class="tile"><div class="v" id="nscored"></div><div class="k">commits scored</div></div><div class="tile"><div class="v" id="nagent"></div><div class="k">look agent-written</div></div></div>
+      <p id="pctlabel"></p>
       <p id="summary"></p>
     </div>
 
@@ -180,6 +233,8 @@ footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--bord
   function render(repo, gs) {
     var n = gs.length, ok = count(gs, 'ok'), agents = gs.filter(function (g) { return g.agent; });
     document.getElementById('pct').textContent = pct(ok, n) + '%';
+    document.getElementById('nscored').textContent = n;
+    document.getElementById('nagent').textContent = agents.length;
     document.getElementById('pctlabel').textContent = 'of ' + n + ' recent commits in ' + repo + ' explain themselves';
     var s = ok + ' of ' + n + ' commits have a specific subject plus a reason (a message body or a linked issue). ';
     s += agents.length

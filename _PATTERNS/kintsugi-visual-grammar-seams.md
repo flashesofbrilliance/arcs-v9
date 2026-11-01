@@ -822,3 +822,9 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - root cause: the page is the free sample for /audit and copies its look (kit token fonts, type sizes, 8/12px corners). /audit carries the same 11 as a frozen baseline.
 - repair: none, by decision. Zach chose on 2026-10-31 to match /audit rather than restyle to DESIGN.md. Three file-scoped waivers (design-system-font, -font-size, -radius) in .impeccable/config.json list only this file.
 - guard: the ratchet counts 0 on the page now, so any other rule finding still blocks.
+
+## 2026-11-01 · /audit and /audit/check join the kit (seam of 2026-10-31 repaired)
+
+- **Break:** /audit carried 11 design findings as a frozen baseline, and /audit/check matched it under three file-scoped waivers. Both pages inlined an old copy of `_tokens.css` that lacks the `--ds-*` font and radius variables and the `--fs-*` type ramp, so they set fonts and sizes by hand.
+- **Repair:** both pages now inline the current `_tokens.css` verbatim and use `--ds-font-*`, `--fs-*` and `--ds-r-*` throughout. The check page's score is the kit tile primitive (`29-tile`), the same one the audit report uses. The three waivers are deleted from `.impeccable/config.json`. Both pages score 0 findings.
+- **Guard:** the audit report generator (`scripts/audit_report_build.py`) reads tokens and primitives from the kit at build time. The trap here was a stale inlined token copy: undefined variables fail silently to browser defaults, and the detector still scored the broken page 0. Check a re-tokened page in a real browser, not only the detector.
