@@ -61,7 +61,7 @@ A door is open only when every line is true. Zach releases it, per action; an ea
 
 ## 4. Landing
 
-The devops pattern, end to end (first run: PR 1919 then PR 1920, 2026-11-01): ledger, Zach's firsthand "merge when green", `safe_merge.sh` waits and merges, receipt quoting the go verbatim, follow-up PR closes the row. Each merge is its own release.
+The devops pattern: when something advances, close its loop in the same pass (Zach, 2026-11-01; memory `always-nudge-to-close-the-loop-before-opening-new`). For a merge that is: ledger, Zach's firsthand "merge when green", `safe_merge.sh` waits and merges, receipt quoting the go verbatim, follow-up PR moves the row to DONE (first run: PR 1919 then PR 1920). Any other advance (a row claimed, a send, a publish) closes the same way: the record that it moved, then the row's state. Each merge is its own release.
 
 1. Ledger first: `python3 scripts/approvals_ledger.py`. It lists each open PR's owner, check state and approval, and proposes; it never merges.
 2. Merge: `scripts/safe_merge.sh <pr> <expected-head-sha>`. It refuses on a head mismatch, pending or failed checks, zero checks, or CONFLICTING. `--self-test` covers each refusal.
