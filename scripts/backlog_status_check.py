@@ -4,7 +4,9 @@
 FAIL (exit 1): a row with an id but no `state`, a `state` outside the enum, a legacy `status`
 key (prose belongs in `status_note`), or a RUNNING row without `claimed_by` + `claimed_at`.
 STALE (warn; exit 1 only with --strict): RUNNING rows claimed more than --days ago, and with
---gh, non-terminal rows whose status_note cites a PR that is now MERGED or CLOSED.
+--gh, non-terminal rows whose status_note cites a PR that is now MERGED or CLOSED, and rows whose
+status_note opens with a different state word than `state` (a stale "BLOCKED" note on a DONE row
+misled a session, 2026-11-01; the `state` field wins, the note is history).
 Always prints counts per state.
 
   backlog_status_check.py --check          gate (pre-commit + CI)
@@ -18,6 +20,7 @@ QUEUE = ROOT / "_QUEUE" / "induced-backlog.jsonl"
 SPEC = json.loads((ROOT / "runtime" / "specs" / "backlog-status.json").read_text())
 STATES = SPEC["states"]
 PR_RE = re.compile(r"(?:PR\s*#|pull/)(\d+)")
+LEAD_RE = re.compile(r"\W*([A-Z]+)\b")
 
 
 def _when(s):
@@ -42,6 +45,9 @@ def check(rows, now, days, pr_state=None):
         for k in STATES[st].get("requires", []):
             if not r.get(k):
                 fails.append(f"line {n} {rid}: {st} requires `{k}`")
+        lead = LEAD_RE.match(str(r.get("status_note", "")))
+        if lead and lead.group(1) in STATES and lead.group(1) != st:
+            stale.append(f"{rid}: state {st} but status_note opens {lead.group(1)} (state wins; note is stale)")
         if st == "RUNNING":
             at = _when(r.get("claimed_at", ""))
             if r.get("claimed_at") and at is None:
@@ -81,6 +87,8 @@ def self_test():
     old = [(1, {"id": "o", "state": "RUNNING", "claimed_by": "PR #9", "claimed_at": "2026-10-01T00:00:00Z"})]
     _, s, _ = check(old, now, 3, pr_state=lambda p: "MERGED")
     ok &= len(s) == 2  # aged claim + merged PR
+    _, s, _ = check([(1, {"id": "d", "state": "DONE", "status_note": "BLOCKED on #1"})], now, 3)
+    ok &= len(s) == 1  # note contradicts state
     print("self-test", "PASS" if ok else "FAIL")
     return 0 if ok else 1
 
