@@ -43,3 +43,19 @@ description: The induced backlog as a graph: what depends on what, in what order
 The graph is only as good as its edges: many rows carry `unblocks` and few carry `depends_on`, so the
 ordering is shallow outside well-linked chains. Check the tool itself with
 `python3 scripts/backlog_graph.py --self-test` (28 fixtures, no network).
+
+## Adding rows: only through `scripts/backlog_append.py`
+
+Never add a row by rewriting `_QUEUE/induced-backlog.jsonl` (a whole-file write can silently drop lines
+another session added). Put the new rows in a JSONL file and run, from your own worktree:
+
+```
+python3 scripts/backlog_append.py --rows new.jsonl --dry-run   # validate, show graph findings, write nothing
+python3 scripts/backlog_append.py --rows new.jsonl             # append in one write, then show findings and waves
+```
+
+It refuses the whole batch, and changes nothing, if any row is bad JSON, lacks `id`, `state` or `jtbd`, reuses
+an id already in the file or the batch, names a `depends_on` or `unblocks` id that exists in neither, uses a
+state outside `runtime/specs/backlog-status.json`, carries the legacy `status` key, or is RUNNING without a
+claim. Rows also read from stdin. Self-test: `python3 scripts/backlog_append.py --self-test`. Changing an
+existing row is a separate, reviewed edit; this script never touches one.
