@@ -73,8 +73,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; /monday-guide-rc46.zip = the submitted ZIP (sha256 matches dist/submission-rc46.zip.sha256), mapped to itself so the default rewrite does not swallow it.
   // cia.arcs.care: candidate brief for the Culinary Institute of America architect role (2026-10-29). Gated by CIA_PASSCODE; noindex.
   'cia':       { '/resume.pdf': '/cia-brief-resume.pdf', default: '/cia-brief.html' },
-  // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex.
-  'dioptra':   { default: '/dioptra-brief.html' },
+  // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex. /walkthrough.mp4 and /work-sample.zip map to /dioptra-brief-* files, which the prefix gate locks on every host.
+  'dioptra':   { '/walkthrough.mp4': '/dioptra-brief-walkthrough.mp4', '/work-sample.zip': '/dioptra-brief-sample.zip', default: '/dioptra-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
   'concourse': { '/sara': '/concourse-sara.html', '/plan': '/concourse-plan.html', '/llms.txt': '/concourse-llms.txt', '/candidate.json': '/concourse-candidate.json', default: '/concourse.html' },
   'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
