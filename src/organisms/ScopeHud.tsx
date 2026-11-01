@@ -48,6 +48,9 @@ const label: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t2, tex
 // Names keep their own case: lattice labels carry math and Greek that uppercase mangles.
 const name: React.CSSProperties = { textTransform: "none", letterSpacing: "0.02em", fontWeight: 600 }
 const scroll: React.CSSProperties = { overflowY: "auto", scrollbarWidth: "thin", scrollbarColor: "#1e293b transparent" }
+// D2 (ruled 2026-10-19, PR 1658): the ripple rings come from hard-coded roadmap waypoints, not data.
+const RIPPLE_NOTE = "Ripples mark roadmap waypoints, not data."
+const note: React.CSSProperties = { ...label, textTransform: "none", letterSpacing: "0.02em", whiteSpace: "normal" }
 const value: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t5, color: text.primary, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }
 
 // A node's signature: altitude (stratum), resonance (domain mix of its lattice neighbours, one
@@ -158,12 +161,13 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
     <div role="region" aria-label="Survey instruments" style={{ position: "absolute", inset: 0, bottom: 38, pointerEvents: "none" }}>
       {/* Phone: one readout strip carries slope, visibility and depth; the dials need room. */}
       {narrow && (
-        <div style={{ ...panel, left: 16, right: 16, top: 16, display: "flex", justifyContent: "space-between", gap: 10, padding: "8px 12px" }}>
+        <div style={{ ...panel, left: 16, right: 16, top: 16, display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 10, padding: "8px 12px" }}>
           <Screws />
           <span style={label}>Slope <span style={{ ...value, color: b.color }}>{grade.toFixed(0)}°</span></span>
           <label style={{ ...label, display: "inline-flex", alignItems: "center", gap: 6, pointerEvents: "auto" }}>Vis <span style={{ ...value, color: visState.color }}>{vis}%</span>
             <input type="range" min={0} max={100} value={vis} aria-label="Visibility" onChange={(e) => onVis(Number(e.target.value))} style={{ width: 72, height: 24, accentColor: signal.cyan }} /></label>
           <span style={label}>F{Math.round(r.depth)} <span style={value}>{fathoms[Math.max(0, Math.min(fathoms.length - 1, Math.round(r.depth) - 1))].altitude}</span></span>
+          <p style={{ ...note, flexBasis: "100%", margin: 0 }}>{RIPPLE_NOTE}</p>
         </div>
       )}
       {!narrow && (<>
@@ -182,6 +186,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
         <Dial min={0} max={100} v={vis} minor={5} major={25} unit="%" />
         <div style={{ ...value, textAlign: "center" }}>{vis}%</div>
         <input type="range" min={0} max={100} value={vis} aria-label="Visibility" onChange={(e) => onVis(Number(e.target.value))} style={{ width: "100%", height: 24, accentColor: signal.cyan, pointerEvents: "auto", margin: "6px 0 0" }} />
+        <p style={{ ...note, margin: "8px 0 0", maxWidth: 180 }}>{RIPPLE_NOTE}</p>
       </div>
 
       {/* Altimeter: the seven fathoms, continuous needle. */}
@@ -228,7 +233,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
         const row = (k: string, v: string, c: string = text.primary) => (
           <div key={k} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0", borderTop: `1px solid ${faint}` }}><span style={label}>{k}</span><span style={{ ...label, color: c }}>{v}</span></div>)
         return (
-          <div style={{ ...panel, right: 16, top: 250, width: 248, maxHeight: "calc(100% - 350px)", ...scroll, overflowX: "hidden", pointerEvents: "auto" }}>
+          <div style={{ ...panel, right: 16, top: 290, width: 248, maxHeight: "calc(100% - 390px)", ...scroll, overflowX: "hidden", pointerEvents: "auto" }}>
             <Screws />
             <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 6 }}><span style={label}>Universe</span><span style={label}>lattice {universe.lattice_reviewed}</span></div>
             {r.galaxy && (
@@ -262,7 +267,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
 
       {/* GPS: where you are, what you face, the last leg, and the breadcrumbs to back-track. */}
       {r.universe && r.gps && (
-        <div style={{ ...panel, ...scroll, left: narrow ? 16 : "50%", right: narrow ? (land ? "calc(50% + 8px)" : 16) : undefined, top: narrow ? 64 : 16, transform: narrow ? undefined : "translateX(-50%)", width: narrow ? undefined : Math.max(300, Math.min(560, vw - 600)), maxHeight: land ? vh - 64 - 190 : undefined, pointerEvents: "auto" }}>
+        <div style={{ ...panel, ...scroll, left: narrow ? 16 : "50%", right: narrow ? (land ? "calc(50% + 8px)" : 16) : undefined, top: narrow ? 88 : 16, transform: narrow ? undefined : "translateX(-50%)", width: narrow ? undefined : Math.max(300, Math.min(560, vw - 600)), maxHeight: land ? vh - 88 - 190 : undefined, pointerEvents: "auto" }}>
           <Screws />
           <div aria-live="polite" style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 10, rowGap: 3, alignItems: "baseline" }}>
             <span style={label}>You are at</span>
@@ -298,7 +303,7 @@ export function ScopeHud({ read, fathoms, stepH, stepW, onSteer, onBack, onHop, 
 
       {/* Holds: every node one edge away, and whether you can hop to it. */}
       {r.universe && (r.holds.length > 0 || r.bankUp || r.bankDown) && (
-        <div style={{ ...panel, ...(land ? { left: "calc(50% + 8px)", right: 16, top: 64, maxHeight: vh - 64 - 190 } : narrow ? { left: 16, right: 16, bottom: 150, maxHeight: "28%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), ...scroll, pointerEvents: "auto" }}>
+        <div style={{ ...panel, ...(land ? { left: "calc(50% + 8px)", right: 16, top: 88, maxHeight: vh - 88 - 190 } : narrow ? { left: 16, right: 16, bottom: 150, maxHeight: "28%" } : { left: 16, top: 460, width: 228, maxHeight: "calc(100% - 560px)" }), ...scroll, pointerEvents: "auto" }}>
           <Screws />
           {(() => {
             const count = <span style={label}>{r.holds.filter((h) => h.state === "open").length}/{r.holds.length} open</span>
