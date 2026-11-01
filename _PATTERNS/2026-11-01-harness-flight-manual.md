@@ -61,13 +61,16 @@ A door is open only when every line is true. Zach releases it, per action; an ea
 
 ## 4. Landing
 
+The devops pattern: when something advances, close its loop in the same pass (Zach, 2026-11-01; memory `always-nudge-to-close-the-loop-before-opening-new`). For a merge that is: ledger, Zach's firsthand "merge when green", `safe_merge.sh` waits and merges, receipt quoting the go verbatim, follow-up PR moves the row to DONE (first run: PR 1919 then PR 1920). Any other advance (a row claimed, a send, a publish) closes the same way: the record that it moved, then the row's state. Each merge is its own release.
+
 1. Ledger first: `python3 scripts/approvals_ledger.py`. It lists each open PR's owner, check state and approval, and proposes; it never merges.
 2. Merge: `scripts/safe_merge.sh <pr> <expected-head-sha>`. It refuses on a head mismatch, pending or failed checks, zero checks, or CONFLICTING. `--self-test` covers each refusal.
 3. Receipt: one `decision_receipt` row with `job_id` and `tool_id`, from the template safe_merge.sh prints (AGENTS.md, "Receipts or it didn't happen"). The ledger is append-only: correct with `supersedes`. Coverage: `python3 scripts/receipt_coverage.py --export`.
 4. Approval line, in the PR body, commit, or receipt `what_confirmed`, so the ledger can trace it:
    - firsthand: `Zach, 2026-11-01, verbatim: "merge 1917"`
    - relayed: `relayed via local_<id>: Zach, 2026-11-01, verbatim: "merge 1917"`
-5. Hand off: `/handoff` writes a fragment under `_HANDOFFS/fragments/`; `python3 scripts/handoff_fold.py molt` folds fragments into the CLAUDE.md block.
+5. Close the row: a one-line follow-up PR sets the backlog row DONE and cites the merge commit and receipt (the row cannot say DONE before the merge exists). It is its own door: same ledger, same `safe_merge.sh`, same receipt.
+6. Hand off: `/handoff` writes a fragment under `_HANDOFFS/fragments/`; `python3 scripts/handoff_fold.py molt` folds fragments into the CLAUDE.md block.
 
 ## 5. Emergencies
 
