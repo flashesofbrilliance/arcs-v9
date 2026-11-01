@@ -11,6 +11,8 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   { files: ["src/**/*.tsx"], rules: a11yWarn },
+  // .cjs files are CommonJS by definition: require() is the only import they have (tools/readme-video, PR 1894).
+  { files: ["**/*.cjs"], rules: { "@typescript-eslint/no-require-imports": "off" } },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
