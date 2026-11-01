@@ -58,3 +58,8 @@ Append one dated line per test session or observation. Keep earlier lines as the
 - 2026-10-29: 8 live chats on staging; v8 then v9 published; check 32 of 32; release candidate ready for Todd's review.
 - 2026-10-29: Ontario lead flagged as expected on v9. In Sugar Leads, the flag goes in Lead Source Description because Leads has no plain Description field.
 - 2026-10-29: test leads cleaned up and receipts logged.
+- 2026-10-31, test A (call-me, "New York", new lead 58091058): PASS. Location NY, rep Robert Spano, source Chatbot, Lead Source Description blank.
+- 2026-10-31, test B (same email again, region "Bavaria", update path): PARTLY FAILS. No duplicate, and the flag was written. But the note says "routed to CA by default" while the lead stays NY / Robert Spano, because updates never change routing. On repeat visitors the note is wrong. Fix: on the update path, write "State not recognized: '<input>' (lead kept its existing routing)", or no note.
+- 2026-10-31, test C (know-what branch, lowercase "fl", new lead b6eb766a): PASS. Location FL, rep Howard Altman, note blank.
+- 2026-10-31, observation: the know-what answers (resin "PC/ABS 20% glass filled", use "power tool housings", specs "UL94 V-0, black") do not reach Sugar. The Description field only says "Chatbot Lead". The transcript note is not built, and reps lose the spec.
+- 2026-10-31, observation: Sugar Leads returns no industry field at all, so industry cannot land there as mapped. Title was "Not specified" for both fake-domain test leads (expected, ZoomInfo has no match).
