@@ -32,27 +32,27 @@
   },
   "anchors": {
     "total": 20,
-    "reconstructed": 9,
-    "partial": 7,
+    "reconstructed": 8,
+    "partial": 8,
     "leaked": 4,
-    "published_pct": 45,
+    "published_pct": 40,
     "leaked_paths": [
       "_CANON/WORLD.md (the file is at the repo root)",
       "operators/ as the L0-L5 pipeline (its own README says it is not wired into the live compass)",
       "the Observatory replaying any decision (src/app/observatory/page.tsx holds a fixed dataset about the build itself)",
       "SQLite in development (prisma.config.ts and src/lib/db.ts use Postgres in every environment)"
     ],
-    "leak_note": "9 of 20 claims check out in full, 7 hold in part, 4 are wrong. The wrong ones are pointers and setup facts, not product behavior."
+    "leak_note": "8 of 20 claims check out in full, 8 hold in part, 4 are wrong. The wrong ones are pointers and setup facts, not product behavior."
   },
   "self_authored_note": "Source: the README was written by the same team it describes. The repo shows the code exists, not that the description is complete.",
   "sections": [
     {
       "name": "What ARCS is",
-      "support": 80,
-      "headline": "A question goes in, a bearing comes out, recorded as a receipt.",
-      "shows": "POST /api/compass makes one Claude call and writes a Receipt row (src/app/api/compass/route.ts lines 355 and 539). Anonymous callers are allowed under ADR-016, rate limited to 10 a minute.",
-      "not_shown": "Plain meanings for bearing, terrain, DEWY and Y-gate. The cold reader could not decode them.",
-      "raise": "One plain sentence first, and every term expanded on first use.",
+      "support": 65,
+      "headline": "A question goes in and a bearing comes out; it is recorded as a receipt only when you are signed in.",
+      "shows": "POST /api/compass makes one Claude call (src/app/api/compass/route.ts line 355) and writes a Receipt row for signed-in users (line 539). Anonymous callers are allowed under ADR-016 and limited to 10 a minute per address (line 166).",
+      "not_shown": "That every run is recorded: anonymous runs are never written to the database, by design. Plain meanings for bearing, terrain, DEWY and Y-gate; the cold reader could not decode them.",
+      "raise": "One plain sentence first, every term expanded on first use, and the signed-in condition on any claim that runs are saved.",
       "evidence": [
         "src/app/api/compass/route.ts",
         "_DECISIONS/ADR-016-arcs-v9-auth-model.md"
@@ -103,7 +103,7 @@
       "name": "Repo topology",
       "support": 50,
       "headline": "Four of six rows point the right way; two are wrong.",
-      "shows": "src/app, src/lib/ygate.ts, _DECISIONS (93 files) and runtime/specs hold what the table says.",
+      "shows": "src/app, src/lib/ygate.ts, _DECISIONS (87 ADRs) and runtime/specs hold what the table says.",
       "not_shown": "WORLD.md in _CANON (it is at the root). A 34-file operator library (46 top-level .py files), presented as the live pipeline although its own README says it is not wired in.",
       "raise": "Fix the WORLD.md path, drop the count, and label operators as a reference library.",
       "evidence": [
@@ -153,6 +153,13 @@
       "closable": true,
       "claim": "operators/ holds L0-L5 as atomic components.",
       "why": "operators/README.md says it is not wired into the live compass route or any deployed surface."
+    },
+    {
+      "group": "record",
+      "kind": "condition left out",
+      "closable": true,
+      "claim": "Every session is recorded.",
+      "why": "src/app/api/compass/route.ts writes a receipt only for signed-in users; anonymous runs are never stored."
     },
     {
       "group": "record",
@@ -208,7 +215,7 @@
       "kind": "universal claim",
       "closable": false,
       "claim": "Every architectural decision has a receipt.",
-      "why": "93 ADR files exist; whether every decision got one cannot be checked from the record."
+      "why": "87 ADR files exist; whether every decision got one cannot be checked from the record."
     },
     {
       "group": "run",
@@ -233,7 +240,8 @@
       "fix": "Open with one plain line of what ARCS is, one proof a reader can run (the 17 Y-gate tests), and the live compass link that needs no account.",
       "closes": [
         "setup missing",
-        "pipeline described loosely"
+        "pipeline described loosely",
+        "condition left out"
       ]
     },
     {

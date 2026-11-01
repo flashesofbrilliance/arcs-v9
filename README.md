@@ -1,6 +1,6 @@
 # ARCS
 
-**ARCS helps you think through one hard decision.** You type the question. It gives back one next step, the reasons for it, three follow-up questions, and a label for how settled the answer is (GREEN when it holds up; YELLOW, FORK or another warning label when it does not). Each run is saved as a receipt you can come back to.
+**ARCS helps you think through one hard decision.** You type the question. It gives back one next step, the reasons for it, three follow-up questions, and a label for how settled the answer is (GREEN when it holds up; YELLOW, FORK or another warning label when it does not). If you are signed in, each run is saved as a receipt you can come back to. Anonymous runs are not stored.
 
 It does not make the decision for you: the answer is a next step to weigh, and the final call stays yours.
 
@@ -13,7 +13,7 @@ node --experimental-strip-types --import ./tests/unit/register.mjs --test tests/
 
 That runs the 17 tests for the part that labels how settled an answer is (`src/lib/ygate.ts`). All 17 pass on `main`. Needs Node 22.6 or later.
 
-**Try it:** open [app.arcs.care](https://app.arcs.care) and choose **Open the compass**. No account is needed (anonymous use is allowed by `_DECISIONS/ADR-016-arcs-v9-auth-model.md`, limited to 10 questions a minute). The home page also links an example brief. Wider access opens in stages through a waitlist on that page.
+**Try it:** open [app.arcs.care](https://app.arcs.care) and choose **Open the compass**. No account is needed (`_DECISIONS/ADR-016-arcs-v9-auth-model.md`). Anonymous answers live only in your browser tab, and each address is limited to 10 questions a minute (`src/app/api/compass/route.ts`). The home page also links an example brief. Wider access opens in stages through a waitlist on that page.
 
 ---
 
@@ -29,7 +29,7 @@ That runs the 17 tests for the part that labels how settled an answer is (`src/l
    - L5: one next step and up to three reasons.
 3. The answer comes back with exactly three follow-up questions: the deeper question underneath, the uncomfortable one, and a reframe from another field.
 4. Plain code, not the model, then labels how settled the answer is (`src/lib/ygate.ts`, below).
-5. The result is saved as a **receipt**, one database row per run (`prisma.receipt.create` in the compass route), and can be read back as a brief at `/brief/<id>`.
+5. If you are signed in, the result is saved as a **receipt**, one database row per run (`prisma.receipt.create` in the compass route), and can be read back as a brief at `/brief/<id>`. Anonymous runs are never written to the database; the same route says so in a comment above that call.
 
 ### The labels (the "Y-gate")
 
@@ -38,9 +38,9 @@ That runs the 17 tests for the part that labels how settled an answer is (`src/l
 | GREEN | No warning fired and confidence is 65 or more. |
 | YELLOW | A caution fired, or confidence is under 65. |
 | FORK | Two or more workable paths. |
-| PARADOX | Paths exist but none is clearly better. |
-| DELTA | Ruin risk was found, or your confidence moved since the last run. |
-| SCRATCH | Confidence is under 40, or you said you feel lost. |
+| PARADOX | Exactly two workable paths, and confidence is under 60. |
+| DELTA | A blocking objection or ruin risk was found, or your confidence moved since the last run. |
+| SCRATCH | You said you feel lost, or confidence is under 40 with no FORK or PARADOX. |
 
 The gate runs 10 numbered checks (1 to 6, 8, 9, 10 and 12 in `src/lib/ygate.ts`). The receipt page draws each label at a matching sharpness, grainy when unsettled and sharp when settled (`src/app/receipt/[receiptId]/page.tsx`).
 
@@ -49,7 +49,7 @@ The gate runs 10 numbered checks (1 to 6, 8, 9, 10 and 12 in `src/lib/ygate.ts`)
 - **DEWY**: the four parts of a receipt. **D**ecision (the sharpened question), **E**ntity (who else is involved), **W**indow (the time horizon), **Y** (how settled it is). Schema: `runtime/specs/dewy-receipt-schema-v1.json`.
 - **Receipt**: the saved record of one run.
 - **Brief**: the readable page made from a receipt.
-- **ADR**: architecture decision record, a short note on one design choice. 93 of them are in `_DECISIONS/`.
+- **ADR**: architecture decision record, a short note on one design choice. 87 of them are in `_DECISIONS/`.
 
 ## What is proven, and what is not
 
@@ -58,7 +58,7 @@ The gate runs 10 numbered checks (1 to 6, 8, 9, 10 and 12 in `src/lib/ygate.ts`)
 | The labeling code works as described | `tests/unit/ygate.test.ts`, 17 tests passing |
 | The wider unit suite | `npm run test:unit` runs the 20 test files in `tests/unit/` |
 | The app is live | [arcs.care](https://arcs.care) and [app.arcs.care](https://app.arcs.care) |
-| Each run is saved | `src/app/api/compass/route.ts`, the `prisma.receipt.create` call |
+| Signed-in runs are saved; anonymous runs are not | `src/app/api/compass/route.ts`, the comment and `if (userId)` around `prisma.receipt.create` |
 | A reader with no memory rebuilt 17 of 19 parts (about 90%) of one incident from the repo history alone | `runtime/audit/cold-1.json`; one incident, not the whole repo |
 | This README was itself read cold and checked claim by claim | `runtime/audit/readme-cold-1.json`, rendered to `_ARTIFACTS/audit-report/readme-cold-1.html` |
 
