@@ -16,21 +16,13 @@
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 534,
+   "WIRED": 535,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 2,
+   "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
-   {
-    "state": "INSTALLED-UNUSED",
-    "surface": "repo",
-    "kind": "script",
-    "name": "phosphor_buildlog_video.py",
-    "why": "no hook/command/task/CI/doc references it",
-    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
-   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -1904,7 +1896,7 @@
    "path": "scripts/phosphor_buildlog_video.py",
    "jtbd": "phosphor_buildlog_video: assemble _PROPOSALS/video/phosphor-buildlog/video.html from the template, the kit tokens (verbatim, sentinel kept) and the receipts snapshot (data.json).",
    "invoke": "python3 scripts/phosphor_buildlog_video.py",
-   "state": "INSTALLED-UNUSED"
+   "state": "WIRED"
   },
   {
    "kind": "script",

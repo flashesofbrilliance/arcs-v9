@@ -4,12 +4,10 @@
 
 Counts: agent 24 · command 18 · hook 3 · operator 46 · package 3 · script 260 · skill 22 · workflow 2 · total 378 · missing JTBD 1
 
-Install state: WIRED 534 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 2 · DUPLICATE 6 · BROKEN 0
+Install state: WIRED 535 · AVAILABLE-NOT-INSTALLED 0 · INSTALLED-UNUSED 1 · DUPLICATE 6 · BROKEN 0
 
-## install-state gaps (8)
+## install-state gaps (7)
 
-- **INSTALLED-UNUSED** [repo:script] phosphor_buildlog_video.py — no hook/command/task/CI/doc references it  
-  fix: `wire it (command/hook/doc) or retire it to _ARCHIVE`
 - **INSTALLED-UNUSED** [user:plugin] frontend-design@claude-plugins-official — project-scoped to /Users/zharris/arcs only  
   fix: `claude plugin uninstall frontend-design@claude-plugins-official`
 - **DUPLICATE** [multi:duplicate] impeccable — same name: repo:skill:impeccable | user:skill:impeccable  

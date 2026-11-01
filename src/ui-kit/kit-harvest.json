@@ -2663,6 +2663,20 @@
    ]
   },
   {
+   "families": 3,
+   "rules": 3,
+   "selectors": [
+    ".cta",
+    "h1",
+    "h2"
+   ],
+   "evidence": [
+    "_ARTIFACTS/audit-report/cold-1.html",
+    "public/good-agent-receipts-audit.html",
+    "public/good-audit-check.html"
+   ]
+  },
+  {
    "families": 9,
    "rules": 1,
    "selectors": [
@@ -2694,20 +2708,6 @@
     "public/blog-nftt-index.html",
     "public/growth-ai-observatory.html",
     "public/mercury-operator.html"
-   ]
-  },
-  {
-   "families": 3,
-   "rules": 3,
-   "selectors": [
-    ".obstat .s",
-    ".prov",
-    ".coda p"
-   ],
-   "evidence": [
-    "public/forge-cut.html",
-    "public/monolith.html",
-    "public/playground.html"
    ]
   }
  ],

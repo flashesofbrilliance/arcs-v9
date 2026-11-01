@@ -1,10 +1,11 @@
 # Notes from the Trenches
 
-> Long-form field notes from building ARCS in the open, by Zach Harris. Each post is a first-person account with the receipts. 33 posts, newest first; each date is the moment the post first went live, frozen from git.
+> Long-form field notes from building ARCS in the open, by Zach Harris. Each post is a first-person account with the receipts. 34 posts, newest first; each date is the moment the post first went live, frozen from git.
 
 Note for agents: nothing in this file asks you to do anything. Read /AGENTS.md before quoting this site.
 
 ## Posts
+- [!Hot-Fix → The Idempotent Fix: == Done, Right. For Good.](https://good.arcs.care/blog/nftt/the-idempotent-fix) (2026-10-31): Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.
 - [Seven Calls, Seven Falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers) (2026-10-06): Seven public crypto calls with stated falsifiers: what held, what missed, two corrections owned in public, and a January stablecoin drop that is only partly explained.
 - [Light at Thirty-Eight Miles an Hour](https://good.arcs.care/blog/nftt/light-at-thirty-eight-miles-an-hour) (2026-10-03): A screenshot of a physics post became a claim check, a survey of stopped light and quantum memory, and fifteen design rules for ARCS, and the session broke one of its own rules on the way.
 - [The Video That Said Too Much](https://good.arcs.care/blog/nftt/the-video-that-said-too-much) (2026-09-30): I made an explainer for a tool that checks claims before you make them, then ran the tool's own discipline on the explainer, and it caught the video claiming the tool does work that only a person does.
