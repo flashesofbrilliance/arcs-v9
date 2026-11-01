@@ -1,5 +1,6 @@
 ---
 description: Batch-review the canon-propagation queue — quick yes/no multi-picker over DEROT / ESCALATE / FORK items, then apply the yes'd ones
+disable-model-invocation: true
 ---
 
 # /canon-review — batch approval for canon propagation
