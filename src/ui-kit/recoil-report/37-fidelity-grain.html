@@ -1,0 +1,35 @@
+<!-- @dsCard group="Molecules" name="Fidelity Grain" subtitle="Earned-fidelity text treatment: sharp, degraded, grain, moire. Weight and tracking step down; texture shows fog; text stays at full opacity" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fidelity Grain</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.states { list-style: none; display: grid; gap: 12px; }
+.states li { padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--ds-r-md); }
+.states b { display: block; font-family: var(--ds-font-mono); font-size: var(--fs-body); font-weight: 400; color: var(--text-secondary); margin-bottom: 4px; }
+/* @prim:begin 37-fidelity-grain */
+.sharp { font-weight: 500; letter-spacing: normal; }
+.degraded { font-weight: 400; letter-spacing: 0.01em; }
+.grain { font-weight: 300; letter-spacing: 0.02em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); }
+.moire { font-weight: 300; letter-spacing: 0.03em; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.6' numOctaves='1'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E"); }
+/* @prim:end 37-fidelity-grain */
+</style>
+</head>
+<body>
+<main>
+<h1 class="section-label">Fidelity Grain</h1>
+<ul class="states">
+<li class="sharp"><b>Sharp: green, record backs it</b>The agent sent two emails without approval.</li>
+<li class="degraded"><b>Degraded: yellow or fork, partly backed</b>The tool-layer deny exists but is described, not shown.</li>
+<li class="grain"><b>Grain: scratch, delta, drift or red, not confirmed</b>The operator says the scar was right-sized.</li>
+<li class="moire"><b>Moire: paradox, the record contradicts itself</b>Two commits give two different send times.</li>
+</ul>
+</main>
+</body>
+</html>
