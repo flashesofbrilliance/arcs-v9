@@ -23,3 +23,6 @@ Prints the verdict and writes `score.json`. `python3 scripts/jtbd_s5_quality_poo
 
 ## Caveats
 Same known weakness as amendment 7: five-item graph lists vs a one-item catalog answer. The graph has also had 12 days of new edges/receipts since s4, so a different result is expected and meaningful either way.
+
+## HARD-6 subset (added at Zach's request)
+`score` also reports rows 1, 6, 7, 9, 17, 18 separately (graph vs /catalog pass count and mean essential recall) under `hard6_exploratory`. EARLY/INTERIM, exploratory, n=6, no pass/fail verdict; the main pass rule and the 18-job pool are unchanged. The /catalog side was a blind one-shot subagent that saw no graph output.

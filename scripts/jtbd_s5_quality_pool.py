@@ -23,6 +23,7 @@ D5 = ROOT / "runtime/specs/jtbd-s5-quality"
 D4 = ROOT / "runtime/specs/jtbd-s4"
 PASS_N, RECALL = 16, 0.89
 SYSTEMS = {"graph", "catalog"}
+HARD6 = {1, 6, 7, 9, 17, 18}
 LABEL = "EARLY/INTERIM (day 12 of 28); informs, does not replace the official check dated 2026-11-17"
 
 
@@ -114,6 +115,13 @@ def score(marks_by_row, key_rows):
         rec = [r["essential_recall"] for r in v["rows"] if r["essential_recall"] is not None]
         v["mean_essential_recall"] = round(sum(rec) / len(rec), 2) if rec else None
     res["rows_with_missing_essential"] = missing
+    # Exploratory subset (Zach 2026-11-01): the graph's weakest s4 rows. n=6, no verdict.
+    res["hard6_exploratory"] = {"rows": sorted(HARD6), "note": "EARLY/INTERIM, exploratory, n=6, no pass/fail verdict"}
+    for s in sorted(SYSTEMS):
+        sub = [r for r in res[s]["rows"] if r["row"] in HARD6]
+        rec = [r["essential_recall"] for r in sub if r["essential_recall"] is not None]
+        res["hard6_exploratory"][s] = {"pass": sum(r["pass"] for r in sub),
+                                       "mean_essential_recall": round(sum(rec) / len(rec), 2) if rec else None}
     return res
 
 
@@ -135,6 +143,7 @@ def cmd_score(judged_md):
     res["verdict"] = verdict(res)
     (d / "score.json").write_text(json.dumps(res, indent=1) + "\n")
     print(json.dumps(res["verdict"], indent=1))
+    print(json.dumps(res["hard6_exploratory"], indent=1))
 
 
 def self_test():
