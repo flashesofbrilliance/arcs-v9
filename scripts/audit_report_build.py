@@ -99,6 +99,18 @@ POST_CSS = """.tile .v, .alts .alt-t, .alts .alt-go { line-height: 1.3; }
 .tile .k { text-transform: none; letter-spacing: normal; font-size: var(--fs-body); }"""
 
 
+# Optional per-report wording; the defaults reproduce the incident-audit page byte for byte.
+LABELS = {
+    "gaps_label": "gaps in the repo history",
+    "tile2": None,
+    "anchor_label": "rebuilt from repo history alone",
+    "anchor_unit": "commits and artifacts",
+    "pack_line": "",
+    "leak_lede": "Commits and artifacts the repo history named but a reader could not surface. This is an observability gap, not a grade.",
+    "show_cta": True,
+}
+
+
 def render(d):
     a = d["anchors"]
     unv = d["unverified"]
@@ -107,11 +119,12 @@ def render(d):
     run = [u for u in unv if u["group"] == "run"]
     unseen = sum(1 for u in record if u.get("closable") and u["kind"] == "config not committed")
     # the 90% is the source's published figure, never recomputed (it drifted once: 89 vs 90)
+    lab = {**LABELS, **d.get("labels", {})}
     tiles = "".join(
         f'<div class="tile"><div class="v">{v}</div><div class="k">{e(k)}</div></div>'
-        for v, k in [(len(record), f"gaps in the repo history (+{len(run)} this run could not check)"),
-                     (1 if unseen else 0, "control described, not shown (Fix 1)"),
-                     (f'{a["published_pct"]}%', f'rebuilt from repo history alone ({a["reconstructed"]} of {a["total"]} commits and artifacts)')])
+        for v, k in [(len(record), f'{lab["gaps_label"]} (+{len(run)} this run could not check)'),
+                     lab["tile2"] or (1 if unseen else 0, "control described, not shown (Fix 1)"),
+                     (f'{a["published_pct"]}%', f'{lab["anchor_label"]} ({a["reconstructed"]} of {a["total"]} {lab["anchor_unit"]})')])
     weakest = min(range(len(secs)), key=lambda i: secs[i]["support"])
     ladder = []
     for i, s in enumerate(secs):
@@ -150,6 +163,12 @@ def render(d):
     tokens = (KIT / "_tokens.css").read_text()
     css = "\n".join([tokens, PAGE_CSS] + [kit_block(p) for p in PRIMS] + [ladder_block(), POST_CSS])
     pk = d["pack"]
+    pack_line = lab["pack_line"] or f'Built from {pk["commits"]} commits and {pk["artifacts"]} artifacts, with no transcript.'
+    cta = (f'''<h2>Your repo, your worst week</h2>
+  <p class="lede">This is what one repo and one window gets you. Pick the week you would least like to explain from memory.</p>
+  <a class="cta" href="{e(d["scope_url"])}">Scope an audit (20 min)</a>
+  <p>Or have an engineer run the <a href="https://good.arcs.care/audit/check">free repo check</a> first, in about ten seconds.</p>'''
+           if lab["show_cta"] else "")
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -168,7 +187,7 @@ def render(d):
   <h1>{e(d["title"])}</h1>
   <p class="bottom">{e(d["bottom_line"])}</p>
   {fix1}
-  <p class="lede">{e(d["subtitle"])} Built from {pk["commits"]} commits and {pk["artifacts"]} artifacts, with no transcript. <a href="#fixes">See all five fixes</a>.</p>
+  <p class="lede">{e(d["subtitle"])} {e(pack_line)} <a href="#fixes">See all five fixes</a>.</p>
 
   <h2>The numbers</h2>
   <div class="tiles">{tiles}</div>
@@ -188,7 +207,7 @@ def render(d):
   <ul class="rows">{rows_run}</ul>
 
   <h2>Leak map</h2>
-  <p class="lede">Commits and artifacts the repo history named but a reader could not surface. This is an observability gap, not a grade.</p>
+  <p class="lede">{e(lab["leak_lede"])}</p>
   <ul class="rows">{leaks}</ul>
 
   <h2 id="fixes">Five fixes, ranked</h2>
@@ -198,10 +217,7 @@ def render(d):
   <h2>What this audit cannot see</h2>
   <ul>{limits}</ul>
 
-  <h2>Your repo, your worst week</h2>
-  <p class="lede">This is what one repo and one window gets you. Pick the week you would least like to explain from memory.</p>
-  <a class="cta" href="{e(d["scope_url"])}">Scope an audit (20 min)</a>
-  <p>Or have an engineer run the <a href="https://good.arcs.care/audit/check">free repo check</a> first, in about ten seconds.</p>
+  {cta}
 </main>
 <footer class="pad">
   <p>rendered {e(d["generated"])} UTC · v{e(d["version"])} · ARCS · Source: <a href="{e(d["source_url"])}">{e(d["source_label"])}</a>.</p>
