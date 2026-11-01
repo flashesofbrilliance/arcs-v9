@@ -159,6 +159,15 @@ if [ -n "$gen_bl" ] && [ -f scripts/backlog_status_check.py ] && command -v pyth
     exit 1
   fi
 fi
+# Read-only harness tools (2026-11-01): the approvals ledger and the cruise-control Bash guard each
+# prove fail-on-bad / pass-on-good when they or the agent that loads the guard change.
+gen_cc=$(git diff --cached --name-only -- scripts/approvals_ledger.py .claude/hooks/cruise-control-bash-guard.py .claude/agents/cruise-control.md 2>/dev/null || true)
+if [ -n "$gen_cc" ] && command -v python3 >/dev/null 2>&1; then
+  if ! python3 scripts/approvals_ledger.py --self-test >/dev/null || ! python3 .claude/hooks/cruise-control-bash-guard.py --self-test >/dev/null; then
+    echo "✖ commit blocked: approvals_ledger or cruise-control-bash-guard self-test failed (run each with --self-test)." >&2
+    exit 1
+  fi
+fi
 # Seed lineage (2026-10-17): every seed carries a resolvable pointer to its ancestry (a seed id, a commit that is an
 # ancestor of HEAD, an ADR number or a repo path) and ancestry has no cycles. Ratchet over _SEEDS/lineage-baseline.json:
 # today's debt is grandfathered, NEW seeds need a pointer.
