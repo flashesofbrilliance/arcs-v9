@@ -2,6 +2,7 @@
   "version": "0.3",
   "generated": "2026-11-01",
   "id": "cold-1",
+  "public_file": "good-audit-sample.html",
   "title": "The Rogue Operator",
   "subtitle": "What a reader with no memory of the work could rebuild from the repo history alone, and what it could not.",
   "bottom_line": "An AI agent sent two emails nobody approved. The fix is a rule that blocks sends, but the repo history does not show that rule exists. Fix 1 makes it checkable.",
