@@ -2,7 +2,7 @@
 """Isolation gate for HUD widgets (row hud-widget-views-admin-mount).
 
 A widget file in src/organisms/hud/ may import only: tokens and atoms (@/ui/...), react, and its own
-read file, the shared face, reading types and snap. Importing another widget fails.
+read file, the shared face and reading types. Importing another widget fails.
 Widgets: fidelity conviction clarity coherence consonance (.tsx and .read.ts).
 Usage: hud_widget_isolation_gate.py [--check] [--self-test]
 """
