@@ -1,5 +1,6 @@
 ---
 description: Structured root-cause analysis for one specific error worth the full treatment
+disable-model-invocation: true
 ---
 
 # /rca
