@@ -216,6 +216,7 @@ footer { color: var(--dimmed); font-size: var(--fs-body); border-top: 1px solid 
         <div class="callout red"><b>Fix</b>Commit the outbound-send deny as config, with a test that 'send the reply' on another channel yields a draft and a question, never a send.</div>
       </div>
     </div>
+    <p><a href="/audit/sample">See the full sample report</a>: every section, every unverified claim, and all five fixes.</p>
     <p class="note">Not verified means the repo history does not show it. It does not mean it is false. Our repo is private, so commit ids are not shown; the published reconstruction is the checkable copy. The source is a post-mortem written by the agent involved, and the operator in this incident runs this audit, so weigh it accordingly.</p>
   </section>
 
@@ -223,7 +224,7 @@ footer { color: var(--dimmed); font-size: var(--fs-body); border-top: 1px solid 
     <h2 id="ramps-h">Four ways in</h2>
     <ul class="ramps">
       <li><span class="section-label">Try</span><div><a href="/audit/check">Score an open-source repo yourself</a><p>It reads recent commit messages in your browser and shows which ones carry their own reason. It does not store the repo name or its commits.</p></div></li>
-      <li><span class="section-label">See</span><div><a href="/blog/nftt/the-cold-reconstruction/report">Read the published cold run</a><p>The raw first run on our own build, redacted, with its confidence by section. The sample rows above were built from it.</p></div></li>
+      <li><span class="section-label">See</span><div><a href="/audit/sample">Read the full sample report</a><p>What you would buy, run on our own incident: every claim with its evidence, every gap, the ranked fixes. Built from <a href="/blog/nftt/the-cold-reconstruction/report">the published cold run</a>.</p></div></li>
       <li><span class="section-label">Read</span><div><a href="/blog/nftt/the-cold-reconstruction">The reader who was not there</a> · <a href="/blog/nftt/the-idempotent-fix">The idempotent fix</a><p>How the method found its own gaps, and why a fix that holds goes into the thing that makes the page, not the page.</p></div></li>
       <li><span class="section-label">Commit</span><div><a href="https://arcs.care/advisory">Book a twenty-minute scope</a><p>Tell us which repo and which week you would least like to explain from memory.</p></div></li>
     </ul>
