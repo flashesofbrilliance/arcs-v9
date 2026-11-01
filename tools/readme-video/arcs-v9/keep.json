@@ -14,6 +14,10 @@
     "Where things live (repo map)": "navigation for readers of the repo, not a video claim",
     "Stack: Next.js 16, Prisma 7 on Postgres, Auth.js v5 magic links, the Anthropic SDK": "engineering detail; out of scope for a two-minute walkthrough",
     "License: source-available for evaluation and reference; all rights reserved. This repository is private": "legal and access note for repo readers; the video makes no claim about the code being open",
-    "limited to 10 questions a minute per address": "rate-limit detail; cut from card 6 for density (brand gate); stated in README, Try it"
+    "limited to 10 questions a minute per address": "rate-limit detail; cut from card 6 for density (brand gate); stated in README, Try it",
+    "The Python CLI needs your own scan files": "cut from the last card in the rewrite for pace; stated in README, The Python CLI",
+    "The answer comes back with exactly three follow-up questions": "cut from card 1 in the rewrite so the opener carries the proof; stated in README first screen and What happens",
+    "Wider access opens in stages through a waitlist": "shown on card 2, not spoken; listed so the omission from narration is visible",
+    "This README was itself read cold and checked claim by claim": "cut from the proof card in the rewrite for pace; stated in README, What is proven"
   }
 }
