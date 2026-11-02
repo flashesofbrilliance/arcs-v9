@@ -6,13 +6,13 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 319,
+  "rows": 321,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 260,
+   "product page": 262,
    "gated": 31
   },
   "next_config_hosts": 79,
@@ -1592,7 +1592,7 @@
    "unlisted": true,
    "purpose": "Zach Harris - Dioptra",
    "kind": "product page",
-   "last_commit": "2026-11-01"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "dioptra.arcs.care",
@@ -1612,7 +1612,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-11-01"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "dj.arcs.care",
@@ -2160,6 +2160,46 @@
    "purpose": "We pointed the audit harness at real receipts and it turned around and audited its author. An independent strand then caught the false receipt the self-audit could not see.",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/every-mistake-became-a-gate",
+   "catch_all": false,
+   "destination": "/blog-nftt-every-mistake-became-a-gate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-every-mistake-became-a-gate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Every Mistake Became a Gate · NFTT",
+   "description": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "index": "index, follow, max-image-preview:large",
+   "unlisted": false,
+   "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/every-mistake-became-a-gate/full",
+   "catch_all": false,
+   "destination": "/blog-nftt-every-mistake-became-a-gate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-every-mistake-became-a-gate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Every Mistake Became a Gate · NFTT",
+   "description": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "index": "index, follow, max-image-preview:large",
+   "unlisted": false,
+   "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "kind": "product page",
+   "last_commit": null
   },
   {
    "host": "good.arcs.care",
@@ -3786,7 +3826,7 @@
    "unlisted": false,
    "purpose": "An open RFP answering engine that cites the exact clause or refuses. Python standard library only, runs locally as an MCP server.",
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -3806,7 +3846,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -3826,7 +3866,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -3846,7 +3886,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -5915,7 +5955,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-11-01"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "thetrueai.arcs.care",

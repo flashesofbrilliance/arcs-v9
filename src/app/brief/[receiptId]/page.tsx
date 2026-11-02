@@ -5,15 +5,11 @@ import { DeadEnd } from "@/molecules/DeadEnd"
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { track } from "@vercel/analytics"
-import { surface, text, signal, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { surface, text, signal, font, border, getWeather, nciColor, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
-import { Badge } from "@/ui/Badge"
 import { Brief } from "@/organisms/Brief"
-import { TributariesStack } from "@/molecules/TributariesStack"
 import { DebriefCard } from "@/molecules/DebriefCard"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
-import { Card } from "@/ui/Card"
-import { Label } from "@/ui/Label"
 import { Button } from "@/ui/Button"
 import type { CompassResult } from "@/lib/mockCompass"
 import { toCompassResult } from "@/lib/briefView"
@@ -179,9 +175,9 @@ export default function BriefPage() {
       <Brief result={result} situationFraming={framing} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
 
       {/* Sticky share footer */}
-      <div style={{ position: "sticky", bottom: 0, zIndex: 30, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: `0.5px solid rgba(30,41,59,0.5)` }}>
-        <div style={{ ...contentContainer(vw), paddingTop: "0.75rem", paddingBottom: "0.75rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <Label style={{ marginRight: "0.25rem", flexShrink: 0 }}>Share</Label>
+      <div style={{ position: "sticky", bottom: 0, zIndex: 30, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: `1px solid ${border.subtle}` }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "0.75rem", paddingBottom: "0.75rem", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.5rem" }}>
+          <span style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase", color: text.muted, marginRight: "0.25rem", flexShrink: 0 }}>Share</span>
           {authed ? (
             <>
               <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied" : "Copy link"}</Button>
@@ -212,36 +208,31 @@ export default function BriefPage() {
         )}
 
         {children.length > 0 && (
-          <Card style={{ marginBottom: "1.5rem" }}>
-            <Label style={{ marginBottom: "0.75rem" }}>Tributary rounds · where this led</Label>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-              {children.map((child) => {
+          <section aria-labelledby="rounds-kicker" style={{ marginBottom: "1.5rem", border: `1px solid ${border.subtle}`, borderRadius: 6, background: surface.panel, padding: "clamp(1rem, 3vw, 1.4rem)" }}>
+            <h2 id="rounds-kicker" style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase", color: text.muted, margin: "0 0 0.75rem" }}>Where this led · {children.length} {children.length === 1 ? "round" : "rounds"}</h2>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {children.map((child, i) => {
                 const w = getWeather(child.yState)
-                const c = nciColor(child.nciScore)
                 return (
-                  <div
-                    key={child.id}
-                    onClick={() => router.push(`/brief/${child.id}`)}
-                    style={{ cursor: "pointer", padding: "0.75rem", borderRadius: 4, border: `1px solid ${signal.cyan}22`, background: "#0a1520", transition: "border-color 0.15s" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${signal.cyan}66`)}
-                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = `${signal.cyan}22`)}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", marginBottom: "0.35rem" }}>
-                      <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                        <span style={{ fontFamily: font.mono, fontSize: "0.6875rem", color: text.muted, letterSpacing: "0.08em" }}>L{child.version}</span>
-                        <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "0.85rem", color: c }}>{child.nciScore}</span>
+                  <li key={child.id} style={{ borderTop: i ? `1px solid ${border.subtle}` : "none" }}>
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/brief/${child.id}`)}
+                      style={{ display: "block", width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer", padding: "0.8rem 0", color: "inherit" }}
+                    >
+                      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: "0.3rem 0.9rem", marginBottom: "0.3rem", fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase" }}>
+                        <span style={{ color: w.color }}>{w.icon} {w.label}</span>
+                        <span style={{ color: text.muted }}>L{child.version}</span>
+                        <span style={{ color: nciColor(child.nciScore) }}>NCI {child.nciScore}</span>
                       </div>
-                    </div>
-                    <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.primary, lineHeight: 1.4, marginBottom: "0.25rem" }}>{child.decision}</div>
-                    <div style={{ fontFamily: font.sans, fontSize: "0.75rem", color: text.secondary, lineHeight: 1.4 }}>
-                      <span style={{ color: signal.cyan }}>True North · </span>{child.trueNorth}
-                    </div>
-                  </div>
+                      <div style={{ fontFamily: font.sans, fontSize: "0.95rem", fontWeight: 600, color: text.primary, lineHeight: 1.4, textWrap: "pretty" }}>{child.trueNorth}</div>
+                      <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.secondary, lineHeight: 1.45, marginTop: "0.2rem", textWrap: "pretty" }}>{child.decision}</div>
+                    </button>
+                  </li>
                 )
               })}
-            </div>
-          </Card>
+            </ul>
+          </section>
         )}
 
       </div>

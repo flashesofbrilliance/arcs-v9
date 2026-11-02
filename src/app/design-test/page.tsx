@@ -109,6 +109,8 @@ export default function DesignTestPage() {
   const toggleProtect = (c: string) => setMProtect(p => p.includes(c) ? p.filter(x => x !== c) : p.length >= 2 ? p : [...p, c])
   const runwayResult = mockCompass('Should I take the Series A now or extend runway?')
   const hireResult = mockCompass('Do I make the leverage hire this quarter?')
+  // Fogged twin: PARADOX / MOIRE with thin input, as most stored prod briefs are.
+  const foggedResult = { ...mockCompass('Can I take what I built with me if I leave?'), y_state: 'PARADOX', render_resolution: 'MOIRE', stakes: undefined, horizon: undefined }
 
   return (
     <div style={{ minHeight: '100vh', background: surface.bg, padding: '40px 48px', fontFamily: font.sans }}>
@@ -320,6 +322,12 @@ export default function DesignTestPage() {
       <Section title="ORGANISM · Brief">
         <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
           <Brief result={runwayResult} />
+        </div>
+      </Section>
+
+      <Section title="ORGANISM · Brief (fogged: PARADOX)">
+        <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
+          <Brief result={foggedResult} />
         </div>
       </Section>
 

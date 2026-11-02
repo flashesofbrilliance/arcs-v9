@@ -5,7 +5,7 @@
 // /api/brief. Fixtures are receipt contexts in the route's baseContext format; keep real
 // user decisions OUT of the repo (pass a path to a local file).
 //
-// Usage: ANTHROPIC_API_KEY=... node --experimental-strip-types scripts/brief_eval.mts <fixtures.json> <out_dir> [--base origin/main]
+// Usage: ANTHROPIC_API_KEY=... node --experimental-strip-types scripts/brief_eval.mts <fixtures.json> <out_dir> [--base origin/main] [--model <id>]
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs"
 import { execSync } from "node:child_process"
 import { BRIEF_SYSTEM as NEW_PROMPT } from "../src/lib/briefPrompt.ts"
@@ -16,6 +16,15 @@ const baseRef = process.argv.includes("--base") ? process.argv[process.argv.inde
 if (!fixturesPath || !outDir) { console.error("usage: brief_eval.mts <fixtures.json> <out_dir> [--base ref]"); process.exit(2) }
 const key = process.env.ANTHROPIC_API_KEY
 if (!key) { console.error("ANTHROPIC_API_KEY not set"); process.exit(2) }
+
+// Model: the brief route's role (MODELS.brief), read from src/lib/claude-models.ts so the
+// eval grades what production runs. --model <id> tries another model on both arms.
+function briefModel(): string {
+  const m = readFileSync("src/lib/claude-models.ts", "utf8").match(/^\s*brief:\s*"([^"]+)"/m)
+  if (!m) throw new Error("MODELS.brief not found in src/lib/claude-models.ts")
+  return m[1]
+}
+const model = process.argv.includes("--model") ? process.argv[process.argv.indexOf("--model") + 1] : briefModel()
 
 function promptAt(ref: string): string {
   for (const f of ["src/lib/briefPrompt.ts", "src/app/api/brief/[receiptId]/route.ts"]) {
@@ -45,7 +54,8 @@ async function gen(system: string, ctx: string): Promise<string> {
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "x-api-key": key!, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 600, system, messages: [{ role: "user", content: `${ctx}\n\nWrite the Situation Framing section.` }] }),
+    // Same params as /api/brief: thinking counts toward max_tokens, effort low, no temperature.
+    body: JSON.stringify({ model, max_tokens: 2048, output_config: { effort: "low" }, system, messages: [{ role: "user", content: `${ctx}\n\nWrite the Situation Framing section.` }] }),
   })
   const j = await r.json() as { content?: { type: string; text: string }[]; error?: unknown }
   if (!r.ok || !j.content) throw new Error(JSON.stringify(j.error ?? j))
@@ -55,7 +65,7 @@ async function gen(system: string, ctx: string): Promise<string> {
 const fixtures = JSON.parse(readFileSync(fixturesPath, "utf8")) as string[]
 const arms = { base: promptAt(baseRef), candidate: NEW_PROMPT }
 mkdirSync(outDir, { recursive: true })
-const summary: Record<string, unknown> = { base_ref: baseRef, n: fixtures.length, model: "claude-sonnet-4-6", arms: {} }
+const summary: Record<string, unknown> = { base_ref: baseRef, n: fixtures.length, model, arms: {} }
 for (const [arm, system] of Object.entries(arms)) {
   const outs = await Promise.all(fixtures.map((ctx) => gen(system, ctx)))
   const totals: Record<string, number> = {}

@@ -22,6 +22,9 @@ export const MODELS = {
                                // Same 5.5 rules as writer: send no temperature, set depth with output_config.effort.
   guide: "claude-sonnet-5-5",  // guide route (2026-10-06, off Opus 4.5 at $5/$25 on Zach's go; no eval, 0 calls in 30d).
                                // Same 5.5 rules as writer: no temperature, depth via output_config.effort.
+  brief: "claude-opus-5-5",   // /api/brief (the paid brief), 2026-11-02 on Zach's go after scripts/brief_eval.mts:
+                               // Opus named the non-obvious mechanism in 5/5 real receipts, Sonnet 5.5 read templated.
+                               // Same 5.x rules as writer: no temperature, depth via output_config.effort.
   max: "claude-opus-4-7",      // scripts/network_scan
   security: "claude-opus-4-8", // .github/workflows/security.yml (read via scripts/arcs_models.py). Unset, the
                                // action defaults to claude-opus-4-1 at $15/$75 per MTok; 4.8 is $5/$25 and stronger.
