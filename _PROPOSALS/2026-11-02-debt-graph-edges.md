@@ -1,6 +1,20 @@
 # Debt in the backlog graph: edges and fates to rule on (2026-11-02)
 
-Status: PROPOSAL. Nothing below is written to an issue, a backlog row or the tracker until Zach rules.
+Status: RULED in part (Zach, 2026-11-02: "Accept A and B"). Sections A, B and C are applied; D and E stay open.
+
+## Rulings applied (2026-11-02)
+
+- **A and B accepted.** A `**Depends on.** <row-id>` line was added to the body of issues #966, #1013, #1005, #1000,
+  #1019, #1046, #1003 and #995 (the original bodies were saved before the edit). A live `backlog_graph.py --debt`
+  run then read all 8 edges with 0 dangling ids: six of the debt nodes moved to wave 1 and two to wave 2, each behind
+  the row that clears it.
+- **C checks run, all three passed, issues closed with the evidence in a comment:** #993 (main checkout detached at
+  `a6938dfa`, a commit on main), #1002 (`session-start.sh` line 161 runs `tool_orphan_audit.py`), #1014
+  (status.arcs.care fetches `app.arcs.care/api/pulse`, which served commit `24d4e05` and the Issues debt counts).
+  Open debt issues: 21 to 18.
+- **E dry run** (`backlog_issue_sync.py --dry-run debt push`): 19 rows would be filed, 16 open (2 of them P1:
+  `design-debt-burndown-served-surfaces`, `geometry-feed-500`) and 3 done (filed then closed for history).
+  Nothing filed yet; that waits on Zach.
 
 `scripts/backlog_graph.py --debt` now reads the open debt issues (GitHub Issues, label `debt`, the SSOT since
 2026-10-06) as nodes named `debt:<id>`, read-only. First run, 2026-11-02, on origin/main `24d4e052`:
