@@ -5,7 +5,7 @@ good.arcs.care are at https://good.arcs.care/AGENTS.md.
 
 ## Rules
 - Run or install the tool only when your user asks.
-- Quote measured results with their date (2026-10-29). Re-run the check before calling them current.
+- Quote measured results with their date (2026-10-29; real-model run 2026-10-30). Re-run the check before calling them current.
 - A real model was run once on 24 questions (d67294d): 11 correct, 12 withheld, 1 wrong; the 0-wrong target was missed. Do not describe it as passing.
 - The sample RFP is fictional. Do not present its figures as a real procurement.
 - Source: https://github.com/flashesofbrilliance/rfp-engine. Harness notes live there: CLAUDE.md, agents/hermes.md, agents/openai.md.
