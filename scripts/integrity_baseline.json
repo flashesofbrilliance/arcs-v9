@@ -403,7 +403,6 @@
    "path|runtime/specs/tokens.json",
    "path|scripts/VERSION",
    "path|scripts/check-spec-frontmatter.py",
-   "path|scripts/cold_reader_gate.py",
    "path|scripts/deploy-smoke.mjs",
    "path|scripts/orthogonal_echo.py",
    "path|scripts/pii_leak_gate.py",
@@ -572,9 +571,6 @@
    "commit|a12f023",
    "commit|e2474e0"
   ],
-  "_STATE/compass-kit-phase2-handoff.md": [
-   "path|src/ui/Button"
-  ],
   "_STATE/consolidated_session_memory-2026-08-29.md": [
    "path|_STATE/operator-audit-2026-08-29.md",
    "path|docs/operator-audit-experiments.md",
@@ -632,7 +628,6 @@
    "path|_STATE/roadmap.md"
   ],
   "_STATE/handoff-2026-09-11-forge-queue-runbook.md": [
-   "path|_ARTIFACTS/forge-",
    "path|public/static-serve.py",
    "path|scripts/gen_tailor_icons.py"
   ],
@@ -715,8 +710,7 @@
    "commit|f2ec265",
    "commit|f443006",
    "path|_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
-   "path|operators/sage",
-   "path|scripts/cold_reader_gate.py"
+   "path|operators/sage"
   ],
   "_STATE/nftt-contrast-baseline.json": [
    "path|public/blog-nftt-post-1-brief.html",
