@@ -152,11 +152,11 @@ export async function GET(
   ].filter(Boolean).join("\n")
 
   // Fire situation framing + entity analysis in parallel
-  // deep is Sonnet 5.5: thinking counts toward max_tokens, so the caps leave room for it
+  // brief is Opus 5.5: thinking counts toward max_tokens, so the caps leave room for it
   // (the visible text is still ~600/~512 tokens) and effort stays low for short prose.
   const calls: Promise<Anthropic.Beta.Messages.BetaMessage>[] = [
     anthropic.beta.messages.create({
-      model: MODELS.deep,
+      model: MODELS.brief,
       max_tokens: 2048,
       output_config: { effort: "low" },
       system: BRIEF_SYSTEM,
@@ -167,7 +167,7 @@ export async function GET(
   if (receipt.entity) {
     calls.push(
       anthropic.beta.messages.create({
-        model: MODELS.deep,
+        model: MODELS.brief,
         max_tokens: 2048,
         output_config: { effort: "low" },
         system: ENTITY_SYSTEM,
