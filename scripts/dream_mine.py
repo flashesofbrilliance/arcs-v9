@@ -108,12 +108,98 @@ def mine(days: int):
     return n_files, errors, corrections
 
 
+# --- corpus mode: claims in the docs and memory that went stale with no diff to show it ---
+
+ROOT = Path(__file__).resolve().parent.parent
+MEMORY = PROJECTS / "-Users-zharris-arcs-v9" / "memory"
+# a backticked repo path: starts at a known top-level folder or file, has no spaces or globs
+PATH_CITE = re.compile(r"`((?:scripts|src|runtime|_PATTERNS|_DECISIONS|_PROPOSALS|_QUEUE|_SEEDS|"
+                       r"_ARTIFACTS|operators|public|prisma|\.claude|\.github)/[\w./@+-]+)`")
+VERIFIED = re.compile(r"\b(?:verified|confirmed|as of|re-verified|last verified)\b[^.\n]{0,40}?"
+                      r"(\d{4}-\d{2}-\d{2})", re.I)
+# skipped: history by design, generated state, and build output
+SKIP_DIRS = ("_ARCHIVE/", "_STATE/", "node_modules/", "_HANDOFFS/fragments/", "runtime/memory-export/")
+
+
+def corpus_docs():
+    import subprocess
+    tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files"], capture_output=True,
+                             text=True).stdout.split("\n")
+    known = set(tracked)
+    docs = [(p, ROOT / p) for p in tracked if p.endswith(".md") and not p.startswith(SKIP_DIRS)]
+    docs += [("memory/" + f.name, f) for f in sorted(MEMORY.glob("*.md"))]
+    return known, docs
+
+
+def corpus(stale_days):
+    known = corpus_docs()[0]
+    dirs = {str(Path(p).parent) for p in known}
+    by_stem = {}  # a dead cite whose file still exists under another path or extension was moved
+    generic = {"index", "route", "page", "layout", "README", "package", "SKILL", "VERSION"}
+    for p in known:
+        if Path(p).stem not in generic:
+            by_stem.setdefault(Path(p).stem, []).append(p)
+    today = time.time()
+    dead, stale, descs = [], [], []
+    _, docs = corpus_docs()
+    for name, path in docs:
+        try:
+            text = path.read_text(errors="replace")
+        except OSError:
+            continue
+        for i, line in enumerate(text.splitlines(), 1):
+            for m in PATH_CITE.finditer(line):
+                cite = m.group(1).rstrip("./")
+                if cite in known or cite in dirs or (ROOT / cite).exists():
+                    continue
+                # a cite next to "retired/moved/renamed" is history, not a live claim
+                if re.search(r"retir|moved|renam|archiv|deleted|was |old |former", line, re.I):
+                    continue
+                dead.append({"doc": name, "line": i, "cite": cite, "text": line.strip()[:200],
+                             "moved_to": [p for p in by_stem.get(Path(cite).stem, [])
+                                          if p.split("/")[0] == cite.split("/")[0]][:2]})
+            for m in VERIFIED.finditer(line):
+                try:
+                    age = (today - time.mktime(time.strptime(m.group(1), "%Y-%m-%d"))) / 86400
+                except ValueError:
+                    continue
+                if age > stale_days:
+                    stale.append({"doc": name, "line": i, "date": m.group(1), "age_days": int(age),
+                                  "text": line.strip()[:200]})
+        if name.startswith("memory/"):
+            d = re.search(r"^description:\s*(.+)$", text, re.M)
+            if d:
+                descs.append((name, set(re.findall(r"[a-z]{4,}", d.group(1).lower()))))
+    dupes = []
+    for i in range(len(descs)):
+        for j in range(i + 1, len(descs)):
+            a, b = descs[i][1], descs[j][1]
+            if len(a) >= 5 and len(b) >= 5:
+                jac = len(a & b) / len(a | b)
+                if jac >= 0.45:
+                    dupes.append({"a": descs[i][0], "b": descs[j][0], "jaccard": round(jac, 2)})
+    return len(docs), dead, stale, sorted(dupes, key=lambda d: -d["jaccard"])
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--days", type=int, default=7)
     ap.add_argument("--min-sessions", type=int, default=3)
-    ap.add_argument("--out", default="_STATE/dream/mine.json")
+    ap.add_argument("--corpus", action="store_true",
+                    help="scan repo docs + project memory for dead cites, stale verifications, near-duplicate memories")
+    ap.add_argument("--stale-days", type=int, default=45)
+    ap.add_argument("--out", default=None)
     a = ap.parse_args()
+    if a.corpus:
+        n, dead, stale, dupes = corpus(a.stale_days)
+        p = Path(a.out or "_STATE/dream/corpus.json")
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps({"docs": n, "dead_cites": dead, "stale_verified": stale,
+                                 "near_duplicate_memories": dupes}, indent=1))
+        print(f"dream_mine --corpus: {n} docs, {len(dead)} dead cites, {len(stale)} verifications "
+              f"older than {a.stale_days}d, {len(dupes)} near-duplicate memory pairs -> {p}")
+        return
+    a.out = a.out or "_STATE/dream/mine.json"
     n, errors, corrections = mine(a.days)
     clusters = sorted(
         ({"pattern": k, "count": v["count"], "sessions": len(v["sessions"]),
