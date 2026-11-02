@@ -12,6 +12,9 @@
 //   node scripts/jobs_sources.mjs --probe                   # one live board per adapter, raw counts
 //   node scripts/jobs_sources.mjs --selftest                # offline fixtures for every adapter
 //   node scripts/jobs_sources.mjs                           # post new rows, complete IngestRequests
+//   node scripts/jobs_sources.mjs --import rows.json --source fonzi [--dry-run]
+//        rows an agent read from an MCP-only source (Fonzi search_companies): [{id,title,company,location,url,salary?}].
+//        Same title/location filter, dedupe and post as the adapters; read-only on Fonzi, never save interest.
 // Env: JOBS_PIPELINE_TOKEN (falls back to ~/.arcs/jobs-pipeline.env), JOBS_BASE.
 
 import fs from "node:fs"
@@ -22,7 +25,7 @@ import { fileURLToPath } from "node:url"
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 export const SPEC = JSON.parse(fs.readFileSync(path.join(HERE, "..", "runtime", "specs", "job-sources.json"), "utf8"))
 const UA = { "user-agent": "arcs-jobs-sources/1.0 (+https://jobs.arcs.care)", accept: "application/json" }
-const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring" }
+const SOURCE_KEY = { greenhouse: "greenhouse_board", lever: "lever_board", ashby: "ashby_board", yc: "yc_jobs", hn: "hn_whoishiring", fonzi: "fonzi" }
 
 // ---------- filters (pure) ----------
 const rx = (p) => new RegExp(p, "i")
@@ -157,6 +160,14 @@ export async function atsJD(r) {
   return null
 }
 
+// Rows handed in by an agent from an MCP-only source. id must be stable per posting (e.g. company id + title slug).
+export function importRows(file, src) {
+  const list = JSON.parse(fs.readFileSync(file, "utf8"))
+  const rows = (Array.isArray(list) ? list : []).filter((r) => r && r.id && r.title && r.company && r.url)
+    .map((r) => row(src, { id: r.id, title: r.title, company: r.company, location: r.location, url: r.url, salary: r.salary ?? null }))
+  return { rows: rows.filter((r) => r.alertQuery && locationOk(r.location, false, r.title)), raw: rows.length, errors: [] }
+}
+
 // ---------- offline fixtures: each adapter must normalize, filter and keep/drop as expected ----------
 function selftest() {
   const t = (name, ok) => { if (!ok) { console.error(`FAIL ${name}`); process.exitCode = 1 } else console.log(`ok   ${name}`) }
@@ -220,6 +231,7 @@ async function main() {
   const arg = (k, d) => { const i = process.argv.indexOf(k); return i >= 0 ? (process.argv[i + 1] ?? d) : d }
   if (has("--selftest")) return selftest()
   const names = arg("--source", null) ? [arg("--source")] : Object.keys(ADAPTERS)
+  if (names.some((n) => !ADAPTERS[n] && !(has("--import") && SOURCE_KEY[n]))) { console.error(`unknown --source; one of ${Object.keys(SOURCE_KEY).join(", ")} (fonzi needs --import)`); process.exit(2) }
 
   if (has("--probe")) {
     const one = { greenhouse: ["anthropic"], lever: ["palantir"], ashby: ["openai"], yc: [SPEC.yc.pages[0]], hn: undefined }
@@ -243,8 +255,9 @@ async function main() {
   const { sources = [] } = await (await fetch(`${BASE}/api/jobs/lane`, { headers: H })).json()
   const known = new Set(sources.map((s) => s.key))
 
+  const imported = arg("--import", null)
   for (const n of names) {
-    const { rows, raw, errors } = await pull(n)
+    const { rows, raw, errors } = imported ? importRows(imported, n) : await pull(n)
     const seen = new Set(); const fresh = []
     let dupBoard = 0
     for (const r of rows) {
