@@ -1,9 +1,8 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { font, signal, text } from "@/ui/tokens"
-import { Card } from "@/ui/Card"
-import { Label } from "@/ui/Label"
+import type React from "react"
+import { font, signal, text, border, surface, nciColor } from "@/ui/tokens"
 import { Button } from "@/ui/Button"
 
 export interface DebriefCardProps {
@@ -16,7 +15,7 @@ export interface DebriefCardProps {
   protecting?: string[]
 }
 
-export function DebriefCard({ receiptId, question, trueNorth, nciScore, nciGrade, createdAt, protecting = [] }: DebriefCardProps) {
+export function DebriefCard({ receiptId, question, trueNorth, nciScore, nciGrade, createdAt }: DebriefCardProps) {
   const router = useRouter()
   const now = new Date()
   const created = new Date(createdAt)
@@ -53,35 +52,20 @@ ${typeof window !== "undefined" ? window.location.origin : ""}/debrief/${receipt
     return `https://calendar.google.com/calendar/render?${params.toString()}`
   }
 
+  // Same panel language as VerdictPanel: hairline border, mono kicker, one accent.
+  const kicker: React.CSSProperties = { fontFamily: font.mono, ...font.tier.t3, textTransform: "uppercase", color: text.muted, margin: 0 }
   return (
-    <Card style={{ marginBottom: "1.5rem", borderLeft: `3px solid ${signal.cyan}` }}>
-      <div style={{ marginBottom: "1rem" }}>
-        <Label style={{ marginBottom: "0.75rem", display: "block" }}>The shoe has dropped</Label>
-        <div style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.secondary, lineHeight: 1.6, marginBottom: "0.75rem" }}>
-          <div style={{ marginBottom: "0.5rem" }}>
-            <span style={{ color: text.muted, fontFamily: font.mono, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Question</span>
-            <div style={{ color: text.primary, fontSize: "0.9rem", marginTop: "0.25rem" }}>{question}</div>
-          </div>
-          <div style={{ marginBottom: "0.5rem" }}>
-            <span style={{ color: text.muted, fontFamily: font.mono, fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>True North</span>
-            <div style={{ color: signal.cyan, fontSize: "0.9rem", marginTop: "0.25rem" }}>{trueNorth}</div>
-          </div>
-          <div style={{ display: "flex", gap: "2rem", fontSize: "0.8rem", color: text.secondary }}>
-            <div>
-              <span style={{ color: text.muted, fontFamily: font.mono, fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>NCI</span>
-              <div style={{ fontWeight: 700, color: text.primary, marginTop: "0.2rem" }}>{nciScore}/100</div>
-              {nciGrade ? (
-                <div style={{ color: text.muted, fontSize: "0.6875rem", marginTop: "0.15rem", maxWidth: 200, lineHeight: 1.3 }}>{nciGrade}</div>
-              ) : null}
-            </div>
-            <div>
-              <span style={{ color: text.muted, fontFamily: font.mono, fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Days elapsed</span>
-              <div style={{ fontWeight: 700, color: text.primary, marginTop: "0.2rem" }}>{daysElapsed}d</div>
-            </div>
-          </div>
-        </div>
+    <section aria-labelledby="debrief-kicker" style={{ marginBottom: "1.5rem", border: `1px solid ${border.subtle}`, borderRadius: 6, background: surface.panel, padding: "clamp(1rem, 3vw, 1.4rem)" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "0.4rem 1rem", marginBottom: "0.75rem" }}>
+        <h2 id="debrief-kicker" style={{ ...kicker, color: signal.cyan }}>Close the loop</h2>
+        <span style={kicker}>
+          Called {daysElapsed === 0 ? "today" : `${daysElapsed}d ago`} · NCI <span style={{ color: nciColor(nciScore) }}>{nciScore}</span>
+        </span>
       </div>
-
+      <p style={{ fontFamily: font.sans, fontSize: "0.925rem", color: text.primary, lineHeight: 1.55, margin: "0 0 1rem", textWrap: "pretty" }}>
+        When the outcome is in, record whether it landed where the call pointed. Your next brief reads from it.
+      </p>
+      {nciGrade ? <p style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.muted, lineHeight: 1.5, margin: "-0.5rem 0 1rem" }}>{nciGrade}</p> : null}
       <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
         <Button variant="primary" size="sm" onClick={() => router.push(`/debrief/${receiptId}`)}>
           Log how it landed →
@@ -91,9 +75,9 @@ ${typeof window !== "undefined" ? window.location.origin : ""}/debrief/${receipt
             window.open(buildCalendarLink(), "_blank")
           }
         }}>
-          📅 Add reminder
+          Add reminder
         </Button>
       </div>
-    </Card>
+    </section>
   )
 }
