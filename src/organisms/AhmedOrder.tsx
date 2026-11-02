@@ -3,6 +3,7 @@ import React from 'react'
 import { font, text, signal, border, getWeather, resStyle, nciColor, doorLabel, tribColor } from '@/ui/tokens'
 import { FatedGrid } from '@/molecules/FatedGrid'
 import { TerrainPaths } from '@/molecules/TerrainPaths'
+import { VerdictPanel } from '@/molecules/VerdictPanel'
 import { AHMED_ORDER, SUBJECT_LABEL, OPEN_QUESTION_PROMPT, horizonLabel } from '@/lib/vocabulary'
 import type { CourtFinding, FatedDecomposition, TerrainPath, Tributary } from '@/lib/mockCompass'
 
@@ -81,32 +82,34 @@ export function AhmedOrder({ data, onQuestion, after }: {
     ['Stakes', data.stakes ? titleCase(data.stakes) : ''],
     ['Horizon', horizon ?? ''],
   ].filter(([, v]) => v) as [string, string][]
+  // What the call was made without: the fog line under the verdict.
+  const missing = [
+    data.reasons.length === 0 && 'Reasons',
+    data.paths.length === 0 && 'Moves',
+    !(fated && fated.facts?.trim()) && 'Stated facts',
+    !data.stakes && 'Stakes',
+    !data.horizon && 'Horizon',
+  ].filter(Boolean) as string[]
 
   return (
     <div>
+      {/* 1 · Verdict first: the call, the first move, what would change it */}
+      <VerdictPanel
+        trueNorth={data.trueNorth}
+        resolution={res}
+        weather={weather}
+        verdictLabel={AHMED_ORDER.verdict.label}
+        paths={data.paths}
+        questions={data.questions}
+        missing={missing}
+        facts={facts}
+      />
+
       {/* Subject: the decision (a call, a bet or a choice) */}
-      <div style={{ marginBottom: '1.75rem' }}>
+      <div style={{ marginTop: '1.5rem' }}>
         <div style={{ fontFamily: font.mono, ...font.tier.t2, textTransform: 'uppercase', color: text.dimmed, marginBottom: '0.4rem' }}>{SUBJECT_LABEL}</div>
         <p style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.secondary, lineHeight: 1.6, margin: 0, textWrap: 'pretty' }}>{data.decision}</p>
       </div>
-
-      {/* 1 · True North, at the resolution it earned */}
-      <section aria-labelledby="slot-verdict">
-        <SlotHeading id="slot-verdict" color={signal.cyan} as="div">{AHMED_ORDER.verdict.label}</SlotHeading>
-        <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(1.15rem, 2.6vw, 1.55rem)', lineHeight: 1.35, color: text.primary, margin: 0, textWrap: 'pretty', ...rs, fontWeight: Math.max(Number(rs.fontWeight ?? 400), 400) + 100 }}>
-          {data.trueNorth}
-        </h1>
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.4rem 1.25rem', marginTop: '0.9rem' }}>
-          <span style={{ fontFamily: font.mono, ...font.tier.t4, textTransform: 'uppercase', color: weather.color, whiteSpace: 'nowrap' }}>
-            {weather.icon} {weather.label} · {res === 'SHARP' ? 'sharp' : `rendered ${res.toLowerCase()}`}
-          </span>
-          {facts.map(([k, v]) => (
-            <span key={k} style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.muted, whiteSpace: 'nowrap' }}>
-              {k} <span style={{ color: text.secondary }}>{v}</span>
-            </span>
-          ))}
-        </div>
-      </section>
 
       {/* 2 · Reasons */}
       <section aria-labelledby="slot-reasons" style={sectionGap}>
