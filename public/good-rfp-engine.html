@@ -191,7 +191,7 @@ main::before{content:"";display:block;width:48px;height:3px;background:var(--too
 </div>
 
 <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/MzTpUPgtQ88" title="RFP-O-Matic by ARCS: full walkthrough" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-<p class="vid-cap">The full walkthrough, 2:52.</p>
+<p class="vid-cap">RFP-O-Matic is this engine under its video title. Full walkthrough, 2:52.</p>
 
 <h2>How it works</h2>
 <ol>
@@ -202,7 +202,7 @@ main::before{content:"";display:block;width:48px;height:3px;background:var(--too
 
 <h2>Try it</h2>
 <pre>claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 /PATH/TO/mcp/server.py</pre>
-<p>Then ask: "Using rfp-intelligence, what is the bid deposit?" The RFP here is synthetic, based on a real-world example.</p>
+<p>Then ask: "Using rfp-intelligence, what is the bid deposit?" The RFP here is fictional. This demo runs on a mock model, so no API key is needed.</p>
 <pre><span class="k">status</span>   <span class="ok">answered</span>
 <span class="k">answer</span>   the bid deposit is increased from $20,000 to <span class="ok">$35,000</span>
 <span class="k">cites</span>    RFP 7.1 + Amendment No. 1 A1.2
@@ -225,13 +225,16 @@ main::before{content:"";display:block;width:48px;height:3px;background:var(--too
 <div class="stats">
 <div class="panel stat"><b class="ok">5 of 5</b><span>deterministic cases pass through the MCP server, identical to the engine called directly</span></div>
 <div class="panel stat"><b class="ok">8 of 8</b><span>injected faults caught</span></div>
+</div>
+<p>The first three ran on the mock model, the same one "Try it" uses. The next two ran on a real model, once, on 24 questions.</p>
+<div class="stats">
 <div class="panel stat"><b>11 / 12 / 1</b><span>real-model run of 24 questions (d67294d): correct, withheld, wrong. The target, set in advance, was 0 wrong; it was missed</span></div>
 <div class="panel stat"><b>14 of 24</b><span>correct when checked by hand (046e1c0): 3 withheld answers were right, because the figure check was too strict</span></div>
 </div>
 <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/mQwATG-ZfQE" title="RFP engine bench: where the model stops and the code checks" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-<p class="vid-cap">The bench, 2:15: where the model stops and the code checks.</p>
+<p class="vid-cap">The bench, 2:15: how the 24 questions were scored, and where the model stops and the code checks.</p>
 <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/LHfx5utxaP0" title="When the check is too strict: one withheld answer, explained" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-<p class="vid-cap">When the check is too strict: one withheld answer, explained. 0:51.</p>
+<p class="vid-cap">One of the 3 withheld answers that were right, and why the check held it back. 0:51.</p>
 
 <h2>Not proven yet</h2>
 <ul>
@@ -243,6 +246,7 @@ main::before{content:"";display:block;width:48px;height:3px;background:var(--too
 </ul>
 
 <h2>How it was built</h2>
+<p>The engine and its videos were built with Claude Code agents. Every correction became a check that now runs on each change, so the next change is checked for that mistake too.</p>
 <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/7IAyXTOrNh4" title="Making the RFP engine videos: corrections become checks" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
 <p class="vid-cap">Making the videos, 2:23: each correction became a check that runs on every cut.</p>
 
