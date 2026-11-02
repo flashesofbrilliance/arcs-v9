@@ -36,3 +36,17 @@ test("reads tolerate null and malformed sources", () => {
     assert.ok(Number.isFinite(r.grain))
   }
 })
+
+test("alarm line: no signal beats grain; all sharp prints no alarm", async () => {
+  const { alarmLine } = await import("../../src/organisms/hud/alarm.ts")
+  const field = JSON.parse(fs.readFileSync("src/data/universe-field.json", "utf8"))
+  const rs = [
+    { title: "Clarity", reading: readClarity(field) },
+    { title: "Conviction", reading: readConviction(field) },
+    { title: "Consonance", reading: readConsonance(null) },
+  ]
+  assert.match(alarmLine(rs)!, /^Conviction has no signal/)
+  assert.equal(alarmLine([{ title: "Clarity", reading: readClarity(field) }]), null)
+  const low = readClarity({ dimensions: { clarity: { nodes_clear: 2, nodes: 4 } } })
+  assert.match(alarmLine([{ title: "Clarity", reading: low }])!, /below its sample \(n = 4 of 10\)/)
+})
