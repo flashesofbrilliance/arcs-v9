@@ -36,6 +36,7 @@ DATE_RE = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}")
 FILE_EV = ("file_line", "import")
 BACKLOG = "_QUEUE/induced-backlog.jsonl"
 CODE_EXT = (".ts", ".tsx", ".js", ".mjs", ".cjs", ".py", ".sh")  # a probe is code; docs, data and markup are not
+FIXTURE_TODAY = datetime.date(2026, 10, 20)  # fixtures carry literal dates; pin their clock so the self-test cannot expire
 HORIZON_DAYS = 366  # a resolve_by further out than this is a sentinel, not a date (skeptic round 1, class D)
 FLOOR_DATE = datetime.date(2020, 1, 1)
 # a service probe line must name the service by one of these words (skeptic round 1, class J)
@@ -49,7 +50,7 @@ class Ctx:
         self.schema = json.load(open(os.path.join(REPO, SCHEMA)))
         self.fmts = {k: re.compile(v) for k, v in self.schema["evidence_formats"].items()}
         self.probes = probes if probes is not None else _load(os.path.join(root, PROBES), {}).get("probes", {})
-        self.today = datetime.date.today()
+        self.today = FIXTURE_TODAY if fixture_probes else datetime.date.today()
         self._rows = None
 
     def rows(self):
