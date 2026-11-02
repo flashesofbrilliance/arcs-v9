@@ -13,6 +13,8 @@ description: The induced backlog as a graph: what depends on what, in what order
    - none: the text summary
    - `json`: add `--json`; `dot`: add `--dot` (Graphviz text); `gh`: add `--gh` (also checks PR triggers, slow)
    - `top N`: add `--top N`
+   - `debt`: add `--debt` (open GitHub debt issues become `debt:<id>` nodes; read-only gh call)
+   - `risk` or `tradeoff`: add `--lens risk` or `--lens tradeoff` (each lens stands alone; `--json` carries both)
 2. Run `python3 scripts/backlog_graph.py [flags]` from your own worktree, not by the main checkout
    path (AGENTS.md gotcha 14).
 3. Show the output as printed. Without `gh`, say that PR-gated triggers were not checked, because the
