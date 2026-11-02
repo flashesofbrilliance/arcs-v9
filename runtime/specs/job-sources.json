@@ -1,0 +1,123 @@
+{
+ "version": "1.0",
+ "doc": "Where scripts/jobs_sources.mjs looks for roles beyond LinkedIn alerts. Public, unauthenticated JSON only: Greenhouse boards-api, Lever postings API, Ashby posting-api, YC public job pages (Inertia data-page JSON on ycombinator.com/jobs/role/*, robots allows), and the HN 'Who is hiring?' thread via the public Algolia HN API. Getro VC boards are NOT polled: api.getro.com robots.txt is 'Disallow: /' and the board robots.txt asks for their paid API instead (checked 2026-11-02). Company slugs were verified live on 2026-11-02 (each returned jobs); a slug that starts failing is reported, never guessed at. Seeded for fit: AI products, legal/contracts AI, decision and data tools, devtools, fintech and regulated domains, NYC metro or remote.",
+ "titles": {
+  "doc": "A title must match include and must not match exclude (case-insensitive). The lane name becomes the row's alertQuery, which the role page maps to an archetype (forward -> FDE, applied -> Applied AI, product -> AI-Native Product Engineer).",
+  "include": [
+   {
+    "lane": "product engineer",
+    "pattern": "\\bproduct[- ]?(?:minded )?engineer\\b|\\bproduct engineering lead\\b"
+   },
+   {
+    "lane": "forward deployed",
+    "pattern": "forward[- ]deployed|\\bFDE\\b|deployment strategist|deployed engineer"
+   },
+   {
+    "lane": "applied ai",
+    "pattern": "applied ai|\\bai engineer\\b|\\bllm engineer\\b|\\bagent(?:s|ic)? engineer|member of technical staff.{0,20}applied|\\bai solutions (?:engineer|architect)"
+   },
+   {
+    "lane": "product manager",
+    "pattern": "(?:senior|sr\\.?|staff|principal|lead|group|founding|technical|ai)\\b[^|]{0,30}product manager|product manager\\b[^|]{0,30}\\b(?:ai|agents?|llm|platform)\\b|head of product|founding pm\\b|product lead\\b"
+   }
+  ],
+  "exclude": "\\bintern(?:ship)?\\b|new grad|\\bjunior\\b|\\bjr\\.?\\b|\\bassociate\\b|apprentice|product marketing|product design(?:er)?\\b|product support|product operations|product analyst|engineering manager|manager, (?:product )?engineering|\\bdirector of engineering|\\bcontract(?:or)?\\b|\\bpart[- ]time\\b|^\\s*(?:senior |sr\\.? )?manager\\b|engagement manager|technical program manager|\\btpm\\b|product sales|strategy (?:&|and) operations|\\bgtm\\b|https?:"
+ },
+ "location": {
+  "doc": "Split a multi-location string on ; | / 'or'. Keep when any part is NY metro, or remote and not tied to another region, or a US-wide label with no city (United States, US, North America). The title is checked for drop_region too ('(United Kingdom)', 'EMEA'). A bare 'Remote' part counts only when the string names no other region, or also names the US.",
+  "nymetro": "new york|\\bnyc\\b|brooklyn|manhattan|jersey city|hoboken|stamford|greenwich|norwalk|connecticut|\\bct\\b",
+  "remote": "remote|anywhere|distributed|work from home",
+  "us_only": "united states|\\busa?\\b|\\bu\\.s\\.|north america|americas",
+  "drop_region": "emea|europe|\\buk\\b|united kingdom|london|canada|toronto|india|apac|latam|brazil|mexico|germany|france|paris|berlin|dublin|ireland|amsterdam|netherlands|spain|poland|singapore|japan|tokyo|sydney|australia|israel|tel aviv|international|middle east|\\buae\\b|abu dhabi|dubai|saudi|riyadh|emea"
+ },
+ "greenhouse": [
+  "anthropic",
+  "figma",
+  "airtable",
+  "mongodb",
+  "betterment",
+  "scaleai",
+  "databricks",
+  "gleanwork",
+  "gitlab",
+  "stripe",
+  "brex",
+  "robinhood",
+  "coinbase",
+  "everlaw",
+  "vercel",
+  "mercury",
+  "asana",
+  "dropbox",
+  "discord",
+  "squarespace",
+  "oscar",
+  "flatironhealth",
+  "zocdoc",
+  "lattice",
+  "gusto",
+  "carta",
+  "affirm",
+  "peloton",
+  "yext",
+  "justworks",
+  "sigmacomputing",
+  "cockroachlabs",
+  "launchdarkly",
+  "intercom"
+ ],
+ "lever": [
+  "palantir",
+  "spotify",
+  "wealthfront",
+  "ro"
+ ],
+ "ashby": [
+  "openai",
+  "notion",
+  "ramp",
+  "linear",
+  "cursor",
+  "perplexity",
+  "harvey",
+  "sierra",
+  "decagon",
+  "writer",
+  "elevenlabs",
+  "modal",
+  "supabase",
+  "replit",
+  "vanta",
+  "attio",
+  "posthog",
+  "granola",
+  "langchain",
+  "cohere",
+  "hex",
+  "lovable",
+  "browserbase",
+  "baseten",
+  "cartesia",
+  "pylon",
+  "ashby",
+  "legora",
+  "rogo",
+  "sentry",
+  "warp",
+  "tavus",
+  "suno"
+ ],
+ "yc": {
+  "doc": "Public role pages; each embeds its listing as JSON.",
+  "pages": [
+   "/jobs/role/software-engineer/new-york",
+   "/jobs/role/software-engineer/remote",
+   "/jobs/role/product-manager/new-york",
+   "/jobs/role/product-manager/remote"
+  ]
+ },
+ "hn": {
+  "doc": "Latest 'Ask HN: Who is hiring?' story by user whoishiring; top-level comments only.",
+  "story_query": "tags=story,author_whoishiring&query=who%20is%20hiring"
+ }
+}

@@ -4,8 +4,9 @@ squash_merge_detector.py: flag PRs that landed on main WITHOUT a merge commit.
 
 Policy (AGENTS.md gotcha 17): merge with `gh pr merge --merge`, never --squash or --rebase.
 A squash or rebase lands as a 1-parent commit, which erases the branch's own commits and
-the per-PR boundary that receipts cite. Branch protection cannot enforce this on the free
-private plan, so this is detection, not prevention: run daily (.github/workflows/no-squash.yml).
+the per-PR boundary that receipts cite. Since 2026-10-06 (1c798b7b) the repo merge-method
+setting refuses squash and rebase on any plan; this is the backstop that proves it held: run
+daily (.github/workflows/no-squash.yml). Belief blame asm-021 flagged the old reason here.
 
 Usage:
   python3 scripts/squash_merge_detector.py [--days N]   # exit 1 if any merged PR lacks a merge commit

@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 318,
+  "rows": 319,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 259,
+   "product page": 260,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 22,
+  "missing_purpose": 23,
   "unlisted": 120
  },
  "retired_hosts": [
@@ -1592,7 +1592,27 @@
    "unlisted": true,
    "purpose": "Zach Harris - Dioptra",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-01"
+  },
+  {
+   "host": "dioptra.arcs.care",
+   "path": "/work-sample.zip",
+   "catch_all": false,
+   "destination": "/dioptra-brief-sample.zip",
+   "pattern": false,
+   "file": "public/dioptra-brief-sample.zip",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-11-01"
   },
   {
    "host": "dj.arcs.care",
@@ -1654,7 +1674,7 @@
    "unlisted": false,
    "purpose": "The invariant beneath the polyform.",
    "kind": "explorer",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "fun.arcs.care",
@@ -1838,7 +1858,7 @@
    "unlisted": true,
    "purpose": "Audit Report · The Rogue Operator · ARCS",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -2619,7 +2639,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -2639,7 +2659,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -5895,7 +5915,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "thetrueai.arcs.care",

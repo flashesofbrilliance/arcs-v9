@@ -106,7 +106,7 @@ def main():
     root = ua.ROOT; src = os.path.join(root, "sources", "decision-receipts.json")
     if "--export" in argv:
         r = subprocess.run(["supabase", "db", "query", "--linked", "--project-ref", "xbbpiryokswwvcrcutge", "--output-format", "json",
-                            "select receipt_id, question, horizon, stakes, mode, what_confirmed, what_unconfirmed, operator, event_at, source_repo, refs, job_id, tool_id "
+                            "select receipt_id, question, horizon, stakes, mode, what_confirmed, what_unconfirmed, operator, event_at, source_repo, refs, job_id, tool_id, supersedes "
                             "from public.decision_receipt order by event_at"], capture_output=True, text=True)
         if r.returncode != 0:
             sys.exit("export failed: " + r.stderr[-300:])
