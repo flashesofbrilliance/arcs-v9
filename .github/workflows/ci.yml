@@ -143,7 +143,10 @@ jobs:
         run: python3 scripts/surface_catalog_emit.py --check
 
   smoke:
-    runs-on: [self-hosted, arcs-mac]
+    # arcs-light (2026-11-02 leak audit): smoke starts no server and no Postgres, the only reasons a
+    # job stays pinned to the single arcs-mac runner (84f395d4). Pinned, it held arcs-mac 1,000 of
+    # 1,139 job-min over 3.6 days and made PR fe-smoke wait up to 66 min behind cancelled main pushes.
+    runs-on: [self-hosted, arcs-light]
     needs: changes
     if: needs.changes.outputs.code_changed == 'true'
     env:
@@ -228,8 +231,10 @@ jobs:
     steps:
       - name: Start Postgres (docker; service containers are Linux-runner only)
         run: |
-          docker rm -f arcs-ci-pg-ci 2>/dev/null || true
-          docker run -d --name arcs-ci-pg-ci -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=ci -e POSTGRES_DB=arcs -p 55432:5432 postgres:16
+          # -v, --rm and tmpfs data (2026-11-02 leak audit): postgres declares a VOLUME, so each plain
+          # `docker rm -f` orphaned an anonymous volume (94 left, 6 to 16 a day). tmpfs writes no volume.
+          docker rm -fv arcs-ci-pg-ci 2>/dev/null || true
+          docker run -d --rm --name arcs-ci-pg-ci --tmpfs /var/lib/postgresql/data -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=ci -e POSTGRES_DB=arcs -p 55432:5432 postgres:16
           for i in $(seq 1 40); do docker exec arcs-ci-pg-ci pg_isready -h 127.0.0.1 -U postgres && exit 0; sleep 2; done; exit 1
       - uses: actions/checkout@v7
         with: { fetch-depth: 0 }  # page gate needs the merge-base
@@ -308,3 +313,7 @@ jobs:
         run: |
           pids=$(lsof -ti tcp:3000 -sTCP:LISTEN || true)
           if [ -n "$pids" ]; then kill $pids || true; fi
+
+      - name: Stop Postgres
+        if: always()
+        run: docker rm -fv arcs-ci-pg-ci 2>/dev/null || true
