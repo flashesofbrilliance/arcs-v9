@@ -14,7 +14,7 @@ import { DebriefCard } from "@/molecules/DebriefCard"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { Card } from "@/ui/Card"
 import { Label } from "@/ui/Label"
-import { Button } from "@/ui/Button"
+import { Button, ButtonLink } from "@/ui/Button"
 import type { CompassResult } from "@/lib/mockCompass"
 import { toCompassResult } from "@/lib/briefView"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
@@ -39,6 +39,8 @@ export default function BriefPage() {
   const [children, setChildren] = useState<Array<{ id: string; decision: string; trueNorth: string; yState: string; nciScore: number; version: number; createdAt: string }>>([])
 
   const [error, setError] = useState<string | null>(null)
+  // Set when the brief is behind the paywall (402): the Payment Link for this receipt.
+  const [paymentUrl, setPaymentUrl] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   // null = still checking. Only the owner reaches this page (the API 404s anyone else).
   const [authed, setAuthed] = useState<boolean | null>(null)
@@ -46,9 +48,10 @@ export default function BriefPage() {
   useEffect(() => {
     let cancelled = false
     fetch(`/api/brief/${receiptId}`)
-      .then(async (r) => ({ ok: r.ok, data: await r.json() }))
-      .then(({ ok, data }) => {
+      .then(async (r) => ({ ok: r.ok, status: r.status, data: await r.json() }))
+      .then(({ ok, status, data }) => {
         if (cancelled) return
+        if (status === 402 && typeof data.paymentUrl === "string") { setPaymentUrl(data.paymentUrl); return }
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
         setReceipt(data.receipt)
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
@@ -135,6 +138,23 @@ export default function BriefPage() {
     window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(url)}`)
   }
 
+  if (paymentUrl) {
+    return (
+      <main style={{ minHeight: "100vh", background: "radial-gradient(120% 70% at 50% -5%, #0a1422 0%, #020408 62%)", color: text.primary, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
+        <Card style={{ maxWidth: 480, width: "100%" }}>
+          <Label>Decision Brief</Label>
+          <h1 style={{ fontSize: "1.5rem", margin: "0.75rem 0" }}>Your receipt is ready. The brief is one step away.</h1>
+          <p style={{ color: text.secondary, lineHeight: 1.6, margin: "0 0 1.25rem" }}>
+            The brief reads the terrain around your decision: situation framing, the people in it, and the paths through. It is written once and kept.
+          </p>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <ButtonLink href={paymentUrl} onClick={() => track("brief_checkout_click", { receiptId })}>Unlock the brief</ButtonLink>
+            <Button variant="ghost" onClick={() => router.push(`/receipt/${receiptId}`)}>Back to the receipt</Button>
+          </div>
+        </Card>
+      </main>
+    )
+  }
   if (error) {
     // Missing or unreadable record: branded dead end with a way back, not a lone red line.
     const missing = /not found/i.test(error)
