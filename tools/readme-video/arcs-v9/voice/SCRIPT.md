@@ -16,12 +16,20 @@ What happens inside? One Claude call. Is this a real decision? The strongest obj
 
 ## 04
 
-Who sets the label? Code, not the model. Green: it holds. Yellow: caution. Fork, paradox, delta, scratch: the ways it stays unsettled.
+What comes back? Three questions. The one beneath yours. The uncomfortable one. A reframe from another field. Add prep first, if you like.
 
 ## 05
 
-What is proven? Seventeen of seventeen tests pass. The app is live. A reader with no memory rebuilt seventeen of nineteen parts of one incident from the repo history alone. One incident. Not the whole repo.
+Who sets the label? Code, not the model. Green: it holds. Yellow: caution. Fork, paradox, delta, scratch: the ways it stays unsettled.
 
 ## 06
 
-What is missing, or not what it seems? The app runs six of eight layers. The Observatory replays this build’s history, not your decisions. The operators library is not wired in. And the final call? Yours.
+What is proven? Seventeen of seventeen tests pass. The app is live. A reader with no memory rebuilt seventeen of nineteen parts of one incident from the repo history alone. One incident. Not the whole repo.
+
+## 07
+
+What is missing, or not what it seems? The app runs six of eight layers. The Observatory replays this build’s history, not your decisions. The operators library is not wired in.
+
+## 08
+
+Check it yourself. No keys, no database. This README was itself read cold, and checked claim by claim. Arcs does not decide for you. The final call stays yours.

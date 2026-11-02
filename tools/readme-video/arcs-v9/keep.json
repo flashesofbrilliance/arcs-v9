@@ -1,7 +1,5 @@
 {
   "omit": {
-    "Optionally you add prep: the stakes, the time window, what you are protecting, and how sure you already are": "input detail; the walkthrough shows the question in and the answer out; stated in README, What happens when you ask",
-    "The answer comes back with exactly three follow-up questions: the deeper question underneath, the uncomfortable one, and a reframe from another field": "the count is carried on card 1; the three kinds are left to the README for time",
     "can be read back as a brief at /brief/<id>": "route detail; out of scope for a two-minute walkthrough",
     "The gate runs 10 numbered checks (1 to 6, 8, 9, 10 and 12 in src/lib/ygate.ts)": "implementation detail behind card 3; card 3 cites src/lib/ygate.ts",
     "The receipt page draws each label at a matching sharpness": "rendering detail; not a claim a reviewer needs to try the product",
@@ -16,8 +14,6 @@
     "License: source-available for evaluation and reference; all rights reserved. This repository is private": "legal and access note for repo readers; the video makes no claim about the code being open",
     "limited to 10 questions a minute per address": "rate-limit detail; cut from card 6 for density (brand gate); stated in README, Try it",
     "The Python CLI needs your own scan files": "cut from the last card in the rewrite for pace; stated in README, The Python CLI",
-    "The answer comes back with exactly three follow-up questions": "cut from card 1 in the rewrite so the opener carries the proof; stated in README first screen and What happens",
-    "Wider access opens in stages through a waitlist": "shown on card 2, not spoken; listed so the omission from narration is visible",
-    "This README was itself read cold and checked claim by claim": "cut from the proof card in the rewrite for pace; stated in README, What is proven"
+    "Wider access opens in stages through a waitlist": "shown on card 2, not spoken; listed so the omission from narration is visible"
   }
 }

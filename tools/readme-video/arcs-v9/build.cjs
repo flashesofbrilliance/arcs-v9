@@ -45,12 +45,17 @@ const S = [
     v: 'Try it. Open app dot arcs dot care, then the compass. No account. Anonymous answers stay in your tab, never stored. Sign in, and each run becomes a receipt.' },
   { k: 'How it works', h: 'One Claude call, a prompt that walks 6 steps', b: `<ul><li>Is this a real decision?</li><li>The strongest objections</li><li>Evidence and prior odds</li><li>A false premise, or overconfidence?</li><li>A confidence score, 0 to 100</li><li>One next step, up to 3 reasons</li></ul><p class="ref">▲ src/app/api/compass/route.ts</p>`,
     v: 'What happens inside? One Claude call. Is this a real decision? The strongest objection? The evidence? A false premise? Honest confidence? Then, one next step.' },
+  { k: 'What comes back', h: '3 questions, and optional prep', b: `<ul><li>The deeper question beneath yours</li><li>The uncomfortable one</li><li>A reframe from another field</li><li>Prep first, if you like: stakes, time window, what you protect, how sure you are</li></ul><p class="ref">▲ README, what happens when you ask</p>`,
+    v: 'What comes back? Three questions. The one beneath yours. The uncomfortable one. A reframe from another field. Add prep first, if you like.' },
   { k: 'How settled is it', h: 'Code, not the model, sets the label', b: `<ul><li><span class="lab g">Green</span> No warning, confidence 65 or more</li><li><span class="lab y">Yellow</span> A caution, or under 65</li><li><span class="lab">Fork</span> 2 or more workable paths</li><li><span class="lab">Paradox</span> Exactly 2 paths, under 60</li><li><span class="lab">Delta</span> Blocking objection, ruin risk, or confidence moved</li><li><span class="lab">Scratch</span> You feel lost, or under 40 with no fork</li></ul><p class="ref">▲ src/lib/ygate.ts</p>`,
     v: 'Who sets the label? Code, not the model. Green: it holds. Yellow: caution. Fork, paradox, delta, scratch: the ways it stays unsettled.' },
   { k: 'What is proven', h: 'What you can check', b: `<ul><li><span class="g">▲</span> 17 of 17 tests pass on the labeling code</li><li><span class="g">▲</span> The app is live</li><li><span class="g">▲</span> A reader with no memory rebuilt 17 of 19 parts of one incident, about 90%</li><li><span class="o">⚑</span> One incident, not the whole repo</li></ul><p class="ref">▲ tests/unit/ygate.test.ts · runtime/audit/</p>`,
     v: 'What is proven? Seventeen of seventeen tests pass. The app is live. A reader with no memory rebuilt seventeen of nineteen parts of one incident from the repo history alone. One incident. Not the whole repo.' },
   { k: 'Not built', h: 'Or not what it may sound like', b: `<ul><li>The canon describes 8 layers; the app runs 6</li><li>The Observatory replays this build’s own history, not your decisions</li><li><span class="m">operators/</span> is a reference library, not wired in</li></ul><p class="ref">▲ README, not built</p>`,
-    v: 'What is missing, or not what it seems? The app runs six of eight layers. The Observatory replays this build’s history, not your decisions. The operators library is not wired in. And the final call? Yours.' },
+    v: 'What is missing, or not what it seems? The app runs six of eight layers. The Observatory replays this build’s history, not your decisions. The operators library is not wired in.' },
+  { k: 'Check it yourself', h: 'Check one thing yourself, no keys, no database', b: `<pre>npm install
+node --experimental-strip-types --import ./tests/unit/register.mjs --test tests/unit/ygate.test.ts</pre><ul><li><span class="g">▲</span> 17 tests, the labeling code · Node 22.6 or later</li><li>This README was read cold, checked claim by claim</li></ul><p class="ref">▲ README, first screen · what is proven · run it locally</p>`,
+    v: 'Check it yourself. No keys, no database. This README was itself read cold, and checked claim by claim. Arcs does not decide for you. The final call stays yours.' },
 ];
 
 (async () => {
@@ -75,6 +80,11 @@ const S = [
     parts.push(`file '${OUT}/${n}.mp4'`);
   }
   await b.close();
+  // Tail: the last card's frame holds 1.7 s more and fades to black, so the close lands instead of cutting off.
+  const lastPng = `${OUT}/${String(S.length).padStart(2, '0')}.png`;
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-loop', '1', '-i', lastPng, '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo',
+    '-vf', 'fade=t=out:st=0.2:d=1.5', '-c:v', 'libx264', '-tune', 'stillimage', '-pix_fmt', 'yuv420p', '-r', '30', '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', '-t', '1.7', `${OUT}/tail.mp4`]);
+  parts.push(`file '${OUT}/tail.mp4'`);
   fs.writeFileSync(`${OUT}/list.txt`, parts.join('\n'));
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', `${OUT}/list.txt`, '-c', 'copy', `${OUT}/walkthrough.mp4`]);
   console.log('ok', `${OUT}/walkthrough.mp4`);
