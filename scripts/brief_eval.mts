@@ -17,14 +17,14 @@ if (!fixturesPath || !outDir) { console.error("usage: brief_eval.mts <fixtures.j
 const key = process.env.ANTHROPIC_API_KEY
 if (!key) { console.error("ANTHROPIC_API_KEY not set"); process.exit(2) }
 
-// Model: the brief route's role (MODELS.deep), read from src/lib/claude-models.ts so the
+// Model: the brief route's role (MODELS.brief), read from src/lib/claude-models.ts so the
 // eval grades what production runs. --model <id> tries another model on both arms.
-function deepModel(): string {
-  const m = readFileSync("src/lib/claude-models.ts", "utf8").match(/^\s*deep:\s*"([^"]+)"/m)
-  if (!m) throw new Error("MODELS.deep not found in src/lib/claude-models.ts")
+function briefModel(): string {
+  const m = readFileSync("src/lib/claude-models.ts", "utf8").match(/^\s*brief:\s*"([^"]+)"/m)
+  if (!m) throw new Error("MODELS.brief not found in src/lib/claude-models.ts")
   return m[1]
 }
-const model = process.argv.includes("--model") ? process.argv[process.argv.indexOf("--model") + 1] : deepModel()
+const model = process.argv.includes("--model") ? process.argv[process.argv.indexOf("--model") + 1] : briefModel()
 
 function promptAt(ref: string): string {
   for (const f of ["src/lib/briefPrompt.ts", "src/app/api/brief/[receiptId]/route.ts"]) {
