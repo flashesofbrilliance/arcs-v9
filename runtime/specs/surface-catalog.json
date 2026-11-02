@@ -6,19 +6,19 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 320,
+  "rows": 319,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 261,
+   "product page": 260,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 24,
+  "missing_purpose": 23,
   "unlisted": 120
  },
  "retired_hosts": [
@@ -1592,27 +1592,7 @@
    "unlisted": true,
    "purpose": "Zach Harris - Dioptra",
    "kind": "product page",
-   "last_commit": "2026-10-29"
-  },
-  {
-   "host": "dioptra.arcs.care",
-   "path": "/walkthrough.mp4",
-   "catch_all": false,
-   "destination": "/dioptra-brief-walkthrough.mp4",
-   "pattern": false,
-   "file": "public/dioptra-brief-walkthrough.mp4",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": null,
-   "description": null,
-   "index": null,
-   "unlisted": false,
-   "purpose": null,
-   "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-01"
   },
   {
    "host": "dioptra.arcs.care",
@@ -1632,7 +1612,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-01"
   },
   {
    "host": "dj.arcs.care",
