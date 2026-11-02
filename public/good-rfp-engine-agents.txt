@@ -6,8 +6,9 @@ good.arcs.care are at https://good.arcs.care/AGENTS.md.
 ## Rules
 - Run or install the tool only when your user asks.
 - Quote measured results with their date (2026-10-29). Re-run the check before calling them current.
-- Do not describe the 3 real-model checks as passing; they have not been run.
-- The sample RFP is synthetic, based on a real-world example. Do not present its figures as a real procurement.
+- A real model was run once on 24 questions (d67294d): 11 correct, 12 withheld, 1 wrong; the 0-wrong target was missed. Do not describe it as passing.
+- The sample RFP is fictional. Do not present its figures as a real procurement.
+- Source: https://github.com/flashesofbrilliance/rfp-engine. Harness notes live there: CLAUDE.md, agents/hermes.md, agents/openai.md.
 
 ## Run
 - Register: `claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 /ABSOLUTE/PATH/mcp/server.py`
