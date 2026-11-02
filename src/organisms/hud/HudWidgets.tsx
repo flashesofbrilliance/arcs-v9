@@ -4,18 +4,14 @@ import type { FieldSource } from './reading'
 import { isGrain } from './reading'
 import { alarmLine } from './alarm'
 import { FidelityView } from './fidelity'
-import { ConvictionView } from './conviction'
 import { ClarityView } from './clarity'
 import { CoherenceView } from './coherence'
-import { ConsonanceView } from './consonance'
 import { readFidelity } from './fidelity.read'
-import { readConviction } from './conviction.read'
 import { readClarity } from './clarity.read'
 import { readCoherence } from './coherence.read'
-import { readConsonance } from './consonance.read'
 import { border, surface, text, signal } from '@/ui/tokens'
 
-// Admin-only strip of the five gauges, fixed above the field. No drag, grid or saved layout.
+// Admin-only strip of the three gauges that read real data (conviction and consonance have no source yet, so they are not mounted), fixed above the field. No drag, grid or saved layout.
 // One alarm line leads; tapping a gauge opens a drawer with the evidence behind its number.
 const cell: React.CSSProperties = { flex: '1 1 150px', minWidth: 150, maxWidth: 220 }
 const tap: React.CSSProperties = { all: 'unset', display: 'block', width: '100%', height: '100%', cursor: 'pointer', pointerEvents: 'auto', borderRadius: 8 }
@@ -24,10 +20,8 @@ export function HudWidgets({ field }: { field: FieldSource }) {
   const [open, setOpen] = useState<string | null>(null)
   const items = [
     { id: 'fidelity', title: 'Fidelity', reading: readFidelity(field), view: <FidelityView source={field} /> },
-    { id: 'conviction', title: 'Conviction', reading: readConviction(field), view: <ConvictionView source={field} /> },
     { id: 'clarity', title: 'Clarity', reading: readClarity(field), view: <ClarityView source={field} /> },
     { id: 'coherence', title: 'Coherence', reading: readCoherence(field), view: <CoherenceView source={field} /> },
-    { id: 'consonance', title: 'Consonance', reading: readConsonance(null), view: <ConsonanceView source={null} /> },
   ]
   const alarm = alarmLine(items)
   const sel = items.find((i) => i.id === open) ?? null
