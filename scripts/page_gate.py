@@ -17,6 +17,8 @@ STATIC checks (stdlib, no browser):
   W en-dash      en-dash in visible text (sometimes a legitimate range; reviewed by eye)
   W google-fonts page depends on fonts.googleapis.com (render-blocking chain, swap jump)
   W analytics    a public/ page without the /_vercel/insights snippet
+  E voice        with --counterpart only: scripts/voice_gate.py (royal "we" in visible text;
+                 mark a truly joint we with data-voice="joint")
 
 RENDER checks (headless Chromium via Playwright; skipped with --static):
   E overflow     document wider than the viewport at 375, 790, 1280
@@ -27,7 +29,7 @@ RENDER checks (headless Chromium via Playwright; skipped with --static):
                  measure (2026-09-29), opts out explicitly: <p class="lede" data-measure="index">.
 
 USAGE
-  python3 scripts/page_gate.py [--static] [--no-wrap-lint] FILE.html [FILE2.html ...]
+  python3 scripts/page_gate.py [--static] [--no-wrap-lint] [--counterpart] FILE.html [FILE2.html ...]
 EXIT
   0 pass (warnings allowed) · 1 at least one error · 2 render checks requested but no browser
 Stdlib only; the render step shells out to node + playwright (repo, main checkout or global install).
@@ -389,12 +391,22 @@ def main():
     ap.add_argument("--browser", choices=sorted(BROWSERS), help="run the render checks in this installed browser (default: Chrome)")
     ap.add_argument("--no-wrap-lint", action="store_true",
                     help="skip artifact_wrap_lint (when a hook already ran it)")
+    ap.add_argument("--counterpart", action="store_true",
+                    help="the page goes to a counterpart: also fail on the royal we (voice_gate.py)")
     a = ap.parse_args()
 
     results = {}
     for f in a.files:
         with open(f, "rb") as fh:
             results[f] = static_checks(f, fh.read(), not a.no_wrap_lint)
+    if a.counterpart:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import voice_gate
+        for f in a.files:
+            with open(f, encoding="utf-8", errors="replace") as fh:
+                for line, word, ctx in voice_gate.scan(f, fh.read()):
+                    results[f][0].append(f"voice: royal \"{word}\" at line {line}: {ctx} "
+                                         "(write it in I, or mark a joint we data-voice=\"joint\")")
 
     render_skipped = None
     if not a.static:
