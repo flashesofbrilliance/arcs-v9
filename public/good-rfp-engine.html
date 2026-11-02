@@ -201,7 +201,11 @@ main::before{content:"";display:block;width:48px;height:3px;background:var(--too
 </ol>
 
 <h2>Try it</h2>
-<pre>claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 /PATH/TO/mcp/server.py</pre>
+<p>The code is public: <a href="https://github.com/flashesofbrilliance/rfp-engine">github.com/flashesofbrilliance/rfp-engine</a>.</p>
+<pre>git clone https://github.com/flashesofbrilliance/rfp-engine.git
+cd rfp-engine
+python3 mcp/eval_via_mcp.py --provider mock --compare-direct
+claude mcp add rfp-intelligence -e MODEL_PROVIDER=mock -- python3 "$PWD/mcp/server.py"</pre>
 <p>Then ask: "Using rfp-intelligence, what is the bid deposit?" The RFP here is fictional. This demo runs on a mock model, so no API key is needed.</p>
 <pre><span class="k">status</span>   <span class="ok">answered</span>
 <span class="k">answer</span>   the bid deposit is increased from $20,000 to <span class="ok">$35,000</span>
@@ -221,7 +225,7 @@ main::before{content:"";display:block;width:48px;height:3px;background:var(--too
 <p>Example: with <code>MOCK_FAULT=invent</code> the model claims "$80,000 or 12%". Neither figure is in the cited clause, so the summary is withheld:</p>
 <pre><span class="k">gate</span>     <span class="bad">verbatim FAILED: ['12%', '$80,000']</span></pre>
 
-<h2>What was measured, 2026-10-29</h2>
+<h2>What was measured, 2026-10-29 and 10-30</h2>
 <div class="stats">
 <div class="panel stat"><b class="ok">5 of 5</b><span>deterministic cases pass through the MCP server, identical to the engine called directly</span></div>
 <div class="panel stat"><b class="ok">8 of 8</b><span>injected faults caught</span></div>
@@ -251,9 +255,9 @@ main::before{content:"";display:block;width:48px;height:3px;background:var(--too
 <p class="vid-cap">Making the videos, 2:23: each correction became a check that runs on every cut.</p>
 
 <h2>For agents</h2>
-<p><a href="/rfp-engine/llms.txt">llms.txt</a> indexes this tool for language models. <a href="/rfp-engine/AGENTS.md">AGENTS.md</a> tells a coding agent how to run it, check it, and which rules must not change. Paste this into Claude Code from the engine's folder:</p>
+<p><a href="/rfp-engine/llms.txt">llms.txt</a> indexes this tool for language models. <a href="/rfp-engine/AGENTS.md">AGENTS.md</a> tells a coding agent how to run it, check it, and which rules must not change. The repo adds notes for each harness: <a href="https://github.com/flashesofbrilliance/rfp-engine/blob/main/CLAUDE.md">Claude Code</a>, <a href="https://github.com/flashesofbrilliance/rfp-engine/blob/main/agents/hermes.md">Hermes</a> (untested) and <a href="https://github.com/flashesofbrilliance/rfp-engine/blob/main/agents/openai.md">OpenAI Agents</a> (untested). Paste this into Claude Code from the engine's folder:</p>
 <pre>Read AGENTS.md in this folder, run the mock check it names, then register mcp/server.py as an MCP server and ask it what the bid deposit is.</pre>
-<p><a href="/">ARCS public goods</a> · <a href="/llms.txt">site llms.txt</a> · <a href="/AGENTS.md">site AGENTS.md</a></p>
+<p><a href="https://github.com/flashesofbrilliance/rfp-engine">Source on GitHub</a> · <a href="https://zach.md">Zach Harris</a> · <a href="/">ARCS public goods</a> · <a href="/llms.txt">site llms.txt</a> · <a href="/AGENTS.md">site AGENTS.md</a></p>
 </main>
 <script>
 document.querySelectorAll("pre").forEach(function (pre) {
