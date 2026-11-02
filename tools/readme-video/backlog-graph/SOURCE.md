@@ -44,3 +44,10 @@ and exited 1. On a test copy with `claimed_by` and `claimed_at` written, the sam
 - The graph is shallow: 224 of 320 active rows sit in wave 0, and 178 of them have no edge at all, so inside wave 0
   the order is ranking, not dependency. The fix is writing `depends_on` into the rows, not changing the script.
 - The refusal and the claim were run on a test copy. The real row is still OPEN and unclaimed.
+
+## Takes and cut (not committed)
+
+Voiced 2026-11-02 on Zach's go: clone "Zach Harris", eleven_v4, one take per card, 1,152 credits, ElevenLabs flow
+hzOVu5uWZHazawscVmLr. Takes: `voice/01.mp3` to `voice/08.mp3` (90.88 s), durable copy in
+`~/Movies/backlog-graph-glassbox-voice/`. Cut: `~/Movies/backlog-graph-glassbox.mp4`, 97.3 s, checker 0 FAIL 0 WARN,
+brand-line-producer PASS. Not uploaded anywhere.

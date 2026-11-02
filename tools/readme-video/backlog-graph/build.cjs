@@ -117,4 +117,15 @@ console.log(`wrote out/video.html: ${cards.length} cards, ${total.toFixed(1)} s 
 if (process.argv.includes('--render')) {
   execFileSync('node', [path.join(ROOT, 'scripts/html_video_render.mjs'), path.join(OUT, 'video.html'), path.join(OUT, 'animatic.mp4'),
     '--w', '1920', '--h', '1080', '--fps', '30', '--poster', '40'], { cwd: ROOT, stdio: 'inherit' });
+  // Voiced cut: each take followed by the pad as silence (R8), concatenated, then muxed under the picture.
+  if (cards.every((c) => c.take)) {
+    const inputs = cards.flatMap((c) => ['-i', path.join(DIR, c.take)]);
+    const chain = cards.map((c, i) => `[${i}:a]aresample=44100,apad=pad_dur=${PAD},atrim=0:${c.dur}[a${i}]`).join(';');
+    const cat = cards.map((_, i) => `[a${i}]`).join('') + `concat=n=${cards.length}:v=0:a=1[aout]`;
+    const wav = path.join(OUT, 'narration.wav');
+    execFileSync('ffmpeg', ['-y', '-loglevel', 'error', ...inputs, '-filter_complex', `${chain};${cat}`, '-map', '[aout]', wav]);
+    execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', path.join(OUT, 'animatic.mp4'), '-i', wav, '-map', '0:v', '-map', '1:a',
+      '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', path.join(OUT, 'backlog-graph-glassbox.mp4')]);
+    console.log('wrote out/backlog-graph-glassbox.mp4 (voiced)');
+  }
 }
