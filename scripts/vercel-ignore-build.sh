@@ -2,9 +2,15 @@
 # ADR-039 deploy cost guardrail, versioned (was an un-versioned dashboard field that
 # regressed twice — see cost-leaks-ruin-vector-no-silent-toggle-regression memory).
 # Vercel semantics: exit 0 = skip build, exit 1 = run build. Default is BUILD (fail safe).
+# Test without git: `bash scripts/vercel-ignore-build.sh --paths <file> [<file>...]`.
 set -euo pipefail
 
-CHANGED=$(git diff --name-only HEAD^ HEAD || true)
+if [ "${1:-}" = "--paths" ]; then
+  shift
+  CHANGED=$(printf '%s\n' "$@")
+else
+  CHANGED=$(git diff --name-only HEAD^ HEAD || true)
+fi
 
 if [ -z "$CHANGED" ]; then
   exit 1
@@ -15,15 +21,40 @@ fi
 # excluded from this list — both are read at request time (link-search API and the
 # /recoil/[reportId] route respectively) and need a fresh deploy to serve new content.
 # 2026-09-04: .gitignore added after PR #279 (docs-only + .gitignore) triggered a full production build.
-SAFE_PATTERN='^(CLAUDE\.md|MEMORY\.md|AGENTS\.md|\.gitignore|\.claude/|_STATE/|_ARCHIVE/|_PATTERNS/|_MEMORY/|_ARTIFACTS/|_INBOX/|scripts/)'
+# 2026-11-02 (leak audit): added _QUEUE/ _PROPOSALS/ _HANDOFFS/ _SEEDS/ docs/ tools/ tests/
+# .github/ .impeccable/ WORLD.md README.md; src/ names them only in comments and GitHub links.
+# Replayed on 60 main commits since 10-30: skips 29 instead of 9.
+SAFE_PATTERN='^(CLAUDE\.md|MEMORY\.md|AGENTS\.md|WORLD\.md|README\.md|\.gitignore|\.claude/|\.github/|\.impeccable/|_STATE/|_ARCHIVE/|_PATTERNS/|_MEMORY/|_ARTIFACTS/|_INBOX/|_QUEUE/|_PROPOSALS/|_HANDOFFS/|_SEEDS/|docs/|tools/|tests/|scripts/)'
 
-UNSAFE=$(echo "$CHANGED" | grep -Ev "$SAFE_PATTERN" || true)
+# Some _ARTIFACTS/ files are served at request time (the /jobs HUDs, forge bundles, the
+# reading room), so they need a deploy even though the folder is otherwise safe. The list
+# comes from next.config.ts outputFileTracingIncludes so it cannot drift; _ARTIFACTS/atlas/
+# is added by hand because the concordance route reads a file that is not traced there.
+RUNTIME_GLOBS=$(grep -oE '"\./_ARTIFACTS/[^"]+"' next.config.ts 2>/dev/null | tr -d '"' | sed -e 's#^\./##' || true)
+RUNTIME_PATTERN='^_ARTIFACTS/atlas/'
+# while-read, not `for g in $RUNTIME_GLOBS`: an unquoted glob like forge-*/** expands
+# against the checkout and turned into a pattern too large for grep (2026-11-02).
+while IFS= read -r g; do
+  [ -n "$g" ] || continue
+  re=$(printf '%s' "$g" | sed -e 's/\./\\./g' -e 's/\*\*/@@/g' -e 's/\*/[^\/]*/g' -e 's/@@/.*/g')
+  RUNTIME_PATTERN="$RUNTIME_PATTERN|^$re\$"
+done <<< "$RUNTIME_GLOBS"
 
-if [ -z "$UNSAFE" ]; then
+# grep exits 1 for "no match" and 2 for an error. An error must BUILD, never skip.
+pick() {
+  local out rc=0
+  out=$(echo "$CHANGED" | grep "$1" "$2") || rc=$?
+  if [ "$rc" -gt 1 ]; then echo "grep failed (exit $rc); building to be safe."; exit 1; fi
+  printf '%s' "$out"
+}
+UNSAFE=$(pick -Ev "$SAFE_PATTERN")
+RUNTIME=$(pick -E "$RUNTIME_PATTERN")
+
+if [ -z "$UNSAFE" ] && [ -z "$RUNTIME" ]; then
   echo "All changed files are docs/state-only; skipping build."
   exit 0
 fi
 
 echo "Build-relevant files changed:"
-echo "$UNSAFE"
+printf '%s\n' "$UNSAFE" "$RUNTIME" | grep -v '^$' | sort -u
 exit 1
