@@ -4,6 +4,13 @@
 Markdown outside `_ARCHIVE`, `_STATE` and handoff fragments, plus the 356 project memory
 files), 0.75 seconds. Proposals only; mark each **ACCEPT / REJECT / EDIT**.
 
+**Ruling (Zach, 2026-11-02):** D1 notes now (tool merge-or-retire decided later), D2 yes,
+D4 re-verify the 3 oldest. Applied the same day: a dated NOT ON MAIN line on all 8 D1
+memories; the 3 D2 cites corrected; D4 results: domain consolidation still true
+(`get_deployment("arcs.care")` serves arcs-v9 at `05f5d6f6`), the second Supabase MCP's
+"wrong org" claim now false (it lists prod `xbbpiryokswwvcrcutge`), the Resend key blocker
+resolved (`list-domains` returns `arcs.care` verified). Each memory carries the dated note.
+
 - **Found:** 117 backticked repo paths that no longer exist, 107 "verified / confirmed / as of"
   dates older than 45 days, 0 near-duplicate memory pairs (description word overlap of 0.45
   or more).
