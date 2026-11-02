@@ -62,7 +62,13 @@ def main() -> int:
         for ph in ("*", "<", "{"):
             _, _, paths, _ = ig.extract(f"cite `_DECISIONS/ADR-{ph}x` end")
             check(f"cite followed by {ph!r} is not extracted", not paths)
+        for src, why in (("`src/ui/Button|Badge|Card`", "alternation"), ("`_ARTIFACTS/forge-$S/cost.json`", "shell var"),
+                         ("`_ARTIFACTS/forge-` family", "trailing hyphen prefix")):
+            _, _, paths, _ = ig.extract(src)
+            check(f"{why} is not extracted as a path cite", not paths)
         # fail-on-bad
+        _, _, paths, _ = ig.extract("see `src/ui/Button.tsx` and `_DECISIONS/ADR-001-te.md`")
+        check("real file cites are still extracted", paths == {"src/ui/Button.tsx", "_DECISIONS/ADR-001-te.md"})
         v = verdicts(state, "see `src/app/nope/` and `src/app/api/cron/missing.ts`")
         check("missing dir still FAILS", v.get("src/app/nope/") == "FAIL")
         check("typo in full path still FAILS", v.get("src/app/api/cron/missing.ts") == "FAIL")
