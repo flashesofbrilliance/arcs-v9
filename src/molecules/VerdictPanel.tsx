@@ -94,7 +94,7 @@ function FidelityMeter({ step, label, color, weather }: { step: number; label: s
       <span style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: weather.color, whiteSpace: 'nowrap' }}>{weather.icon} {weather.label}</span>
       <span aria-hidden style={{ display: 'flex', gap: 3 }}>
         {[1, 2, 3, 4].map((i) => (
-          <span key={i} style={{ width: 14, height: 6, borderRadius: 1, background: i <= step ? color : 'transparent', border: `1px solid ${i <= step ? color : border.subtle}` }} />
+          <span key={i} style={{ width: 14, height: 6, borderRadius: 1, background: i <= step ? color : 'transparent', border: `1px solid ${i <= step ? color : text.muted}` }} />
         ))}
       </span>
       <span style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: text.primary, whiteSpace: 'nowrap' }}>{label}</span>
