@@ -60,6 +60,12 @@ function publicReceipt(r: object | null | undefined, viewerId: string | null) {
   return { ...rest, ...(isOwner ? { sessionId } : {}), rawResponse: JSON.stringify(reasoning === undefined ? {} : { reasoning }), ...(prep !== undefined ? { prep: safePrep } : {}) }
 }
 
+// True only when the brief is actually for sale (the paywall's Payment Link is set), so
+// the receipt never shows a price that is not charged.
+function briefPriced(): boolean {
+  return !!process.env.STRIPE_PAYMENT_LINK
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ receiptId: string }> }
@@ -103,7 +109,7 @@ export async function GET(
     const entityClean = entityAnalysis
       ? Object.fromEntries(Object.entries(entityAnalysis as Record<string, unknown>).map(([k, v]) => [k, typeof v === "string" ? scrubProse(v) : v]))
       : null
-    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(existing.receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(existing.receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean, priced: briefPriced() })
   }
 
   const receipt = await prisma.receipt.findUnique({
@@ -117,7 +123,7 @@ export async function GET(
   if (req.nextUrl.searchParams.get("generate") === "0") {
     const tributaries = tributariesOf(receipt)
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children) })
+    return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children), priced: briefPriced() })
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {

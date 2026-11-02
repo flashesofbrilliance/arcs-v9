@@ -17,7 +17,9 @@ const PARTS: { title: string; detail: string }[] = [
   { title: 'The deciding question', detail: 'The single question that settles it, asked straight.' },
 ]
 
-export function LockedBrief({ receiptId, hasBrief }: { receiptId: string; hasBrief: boolean }) {
+// priced: the brief is actually charged (paywall on). Off, the button opens it free and
+// shows no price, so the page never states a price it does not charge.
+export function LockedBrief({ receiptId, hasBrief, priced = false }: { receiptId: string; hasBrief: boolean; priced?: boolean }) {
   return (
     <section aria-labelledby="locked-brief" style={{ marginTop: '2.75rem', border: `1px solid ${border.subtle}`, borderTop: `2px solid ${signal.gold}`, borderRadius: 6, background: surface.panel, padding: 'clamp(1.1rem, 3.5vw, 1.75rem)' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', justifyContent: 'space-between', gap: '0.4rem 1rem', marginBottom: '0.6rem' }}>
@@ -45,9 +47,9 @@ export function LockedBrief({ receiptId, hasBrief }: { receiptId: string; hasBri
           href={`/brief/${receiptId}`}
           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', minHeight: 44, padding: '0 1.1rem', borderRadius: 4, background: signal.gold, color: surface.bg, fontFamily: font.mono, ...font.tier.t4, textTransform: 'uppercase', textDecoration: 'none', fontWeight: 700 }}
         >
-          {hasBrief ? 'Open your brief →' : `Unlock the brief · ${BRIEF_PRICE_LABEL}`}
+          {hasBrief ? 'Open your brief →' : priced ? `Unlock the brief · ${BRIEF_PRICE_LABEL}` : 'Open the brief →'}
         </Link>
-        {!hasBrief && <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.muted }}>One payment. Yours to keep and share.</span>}
+        {!hasBrief && priced && <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.muted }}>One payment. Yours to keep and share.</span>}
       </div>
     </section>
   )

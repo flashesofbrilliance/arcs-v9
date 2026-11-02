@@ -327,6 +327,7 @@ export default function DesignTestPage() {
       </Section>
 
       <Section title="MOLECULE · LockedBrief (receipt sales surface)">
+        <LockedBrief receiptId="demo" hasBrief={false} priced />
         <LockedBrief receiptId="demo" hasBrief={false} />
       </Section>
 
