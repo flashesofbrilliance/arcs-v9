@@ -9,6 +9,7 @@ import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { MODELS } from "@/lib/claude-models"
 import { tributariesOf } from "@/lib/tributaries"
+import { briefLocked, paymentUrlFor } from "@/lib/paywall"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -124,6 +125,12 @@ export async function GET(
     const tributaries = tributariesOf(receipt)
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
     return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children), priced: briefPriced() })
+  }
+
+  // Paywall: a new brief is generated only for a paid receipt. Off (free) when
+  // STRIPE_PAYMENT_LINK is unset. Stored briefs above are never gated.
+  if (briefLocked(receipt)) {
+    return NextResponse.json({ error: "Payment required", paymentUrl: paymentUrlFor(receipt.id) }, { status: 402 })
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {
