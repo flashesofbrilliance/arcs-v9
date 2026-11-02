@@ -15,6 +15,15 @@ Status: RULED in part (Zach, 2026-11-02: "Accept A and B"). Sections A, B and C 
 - **E dry run** (`backlog_issue_sync.py --dry-run debt push`): 19 rows would be filed, 16 open (2 of them P1:
   `design-debt-burndown-served-surfaces`, `geometry-feed-500`) and 3 done (filed then closed for history).
   Nothing filed yet; that waits on Zach.
+- **E filed (Zach: "File all 19").** `debt push` filed #1960 to #1978 (the 3 done rows filed, then closed). Then
+  `debt pull`, and the 22 tracker rows whose status or issue number changed were written to the Docs Reconciliation
+  artifact in one atomic batch, each pinned to the version just read. The graph now reads 78 debt issues: 34 open on
+  GitHub, 34 active `debt:` nodes, three of them P1 (`actions-minutes-leak`, `design-debt-burndown-served-surfaces`,
+  `geometry-feed-500`).
+- **Two rows held back, not overwritten:** on the page, `ats-pdf-real-parser-validation` is marked done and
+  `librarian-prescore-calibration` in-progress, but both issues (#975, #992) are open with status:decision. The
+  pull would set the page back to the issue. Someone changed the page by hand, so Zach decides: close the issue
+  (the page was right) or let the next pull reset the page (the issue was right).
 
 `scripts/backlog_graph.py --debt` now reads the open debt issues (GitHub Issues, label `debt`, the SSOT since
 2026-10-06) as nodes named `debt:<id>`, read-only. First run, 2026-11-02, on origin/main `24d4e052`:
