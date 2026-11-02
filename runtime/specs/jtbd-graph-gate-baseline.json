@@ -43,7 +43,6 @@
       "tool:script:arcs_core.py",
       "tool:script:artifact_reuse_catalog.py",
       "tool:script:attribution_provenance_lint.py",
-      "tool:script:backlog_issue_sync.py",
       "tool:script:bank_event.py",
       "tool:script:baseline-prod-migrations.sh",
       "tool:script:beat_reference.py",
