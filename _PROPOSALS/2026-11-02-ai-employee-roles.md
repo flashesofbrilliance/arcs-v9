@@ -1,7 +1,7 @@
 ---
 title: AI-employee roles as job reqs (tools for jobs, backlog as jobs to be done)
 date: 2026-11-02
-status: PROPOSED (no builds until Zach rules)
+status: RULED 2026-11-02 (Zach: "go ahead" on the ruling set below; relayed by the Context engineering resources session)
 source: read-only sweep of .claude/agents, .claude/skills, .claude/commands, runtime/specs/tool-catalog.json, _QUEUE/induced-backlog.jsonl at origin/main 05f5d6f6
 ---
 
@@ -31,7 +31,24 @@ Borrowed from the ai-employees kit, mapped onto what this repo already has:
 | `SCHEDULE.md` | one scheduled task per role, read-only roles only | fire times live in one place |
 | `brief-latest.md` (today, waiting on you, blocked) | one line per role in the `/loops` morning note | Zach reads one page, not eight |
 | `RELEASES.md` ships empty | the one-way-door list: merge, publish, send, push to main, canon change | nothing irreversible without Zach |
-| `## Corrections` at the end of every file | same, appended to each agent `.md` | a dated correction outranks the body on the next run |
+| `## Rulings (Zach, 2026-11-02)
+
+1. **Yes.** Promote `cruise-control` to Backlog Steward, unattended, report only. Its report also
+   carries three lines: FOSTER rows in `_QUEUE/orphanage.jsonl` whose 2026-12-01 revisit is due
+   (read the `note` field; today lab-mint and engagement-flightops), a nudge when `/dream` has not
+   run in 7 days (newest `_PROPOSALS/*-dreaming-*.md`), and the receipt coverage number
+   (`scripts/receipt_coverage.py`).
+2. **No** Receipts Clerk for now. Coverage reads 207 of 207 after PR 1951; the Steward prints it.
+3. **No** `owner` key on backlog rows for two weeks. Ownership stays in this file; revisit after
+   the Steward's reports.
+4. **Yes.** Borrow the Corrections section and the one-line brief from the ai-employees kit. Do
+   not install the kit.
+5. **Neither** role 6 (Filing Paralegal) nor role 8 (Phosphor Producer) is staffed now.
+
+Not yet built: the Steward promotion (ruling 1) and the Corrections sections (ruling 4) are the
+next change, in their own PR.
+
+## Corrections` at the end of every file | same, appended to each agent `.md` | a dated correction outranks the body on the next run |
 
 Recommendation: borrow the three ideas in the last three rows (one brief, empty releases list,
 a Corrections section). Do not install the eight kit employees: their roles (GTM, SEO, ads, sales,
