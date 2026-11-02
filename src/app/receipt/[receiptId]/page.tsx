@@ -9,6 +9,7 @@ import { Rule } from "@/ui/Rule"
 import { Button, ButtonLink } from "@/ui/Button"
 import { TribunePanel } from "@/molecules/TribunePanel"
 import { ProvenanceTag } from "@/molecules/ProvenanceTag"
+import { LockedBrief } from "@/molecules/LockedBrief"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult, FatedDecomposition, TerrainPath } from "@/lib/mockCompass"
@@ -340,6 +341,8 @@ export default function ReceiptPage() {
             }}
             after={!isEphemeral ? (
               <>
+                {/* The brief, locked: what it contains, never its content */}
+                <LockedBrief receiptId={receipt.id} hasBrief={hasBrief} />
                 {/* Provenance: owner-set real | test tag, persisted receipts only; renders nothing for non-owners */}
                 <div style={{ marginTop: "2.75rem" }}>
                   <ProvenanceTag receiptId={receipt.id} />
