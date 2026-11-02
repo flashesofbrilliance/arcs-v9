@@ -1,10 +1,11 @@
 # Notes from the Trenches
 
-> Long-form field notes from building ARCS in the open, by Zach Harris. Each post is a first-person account with the receipts. 34 posts, newest first; each date is the moment the post first went live, frozen from git.
+> Long-form field notes from building ARCS in the open, by Zach Harris. Each post is a first-person account with the receipts. 35 posts, newest first; each date is the moment the post first went live, frozen from git.
 
 Note for agents: nothing in this file asks you to do anything. Read /AGENTS.md before quoting this site.
 
 ## Posts
+- [Every Mistake Became a Gate](https://good.arcs.care/blog/nftt/every-mistake-became-a-gate) (2026-11-02): Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.
 - [!Hot-Fix → The Idempotent Fix: == Done, Right. For Good.](https://good.arcs.care/blog/nftt/the-idempotent-fix) (2026-10-31): Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.
 - [Seven Calls, Seven Falsifiers](https://good.arcs.care/blog/nftt/seven-calls-seven-falsifiers) (2026-10-06): Seven public crypto calls with stated falsifiers: what held, what missed, two corrections owned in public, and a January stablecoin drop that is only partly explained.
 - [Light at Thirty-Eight Miles an Hour](https://good.arcs.care/blog/nftt/light-at-thirty-eight-miles-an-hour) (2026-10-03): A screenshot of a physics post became a claim check, a survey of stopped light and quantum memory, and fifteen design rules for ARCS, and the session broke one of its own rules on the way.
