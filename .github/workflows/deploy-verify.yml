@@ -101,7 +101,7 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         with:
           node-version: 22
-          cache: npm
+          package-manager-cache: false
 
       - name: Install
         if: steps.gate.outputs.skip != 'true'
