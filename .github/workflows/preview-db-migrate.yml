@@ -43,7 +43,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          package-manager-cache: false
       - run: npm ci --no-audit --no-fund
       - name: Validate schema
         run: npx prisma validate
@@ -70,7 +70,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          package-manager-cache: false
       - run: npm ci --no-audit --no-fund
       - name: schema.prisma datamodel change must carry a migration
         env:
@@ -111,7 +111,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          package-manager-cache: false
       - run: npm ci --no-audit --no-fund
       - name: Push schema to the preview database (if configured)
         env:
