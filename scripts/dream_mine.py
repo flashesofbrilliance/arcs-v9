@@ -59,15 +59,21 @@ def mine(days: int):
             continue
         n_files += 1
         sid = f.stem[:8]
+        after_reply = False  # was the last main-thread record an assistant turn?
         with f.open(errors="replace") as fh:
             for raw in fh:
-                if '"user"' not in raw:
+                if '"user"' not in raw and '"assistant"' not in raw:
                     continue
                 try:
                     d = json.loads(raw)
                 except ValueError:
                     continue
-                if d.get("type") != "user" or d.get("isSidechain"):
+                if d.get("isSidechain"):
+                    continue
+                if d.get("type") == "assistant":
+                    after_reply = True
+                    continue
+                if d.get("type") != "user":
                     continue
                 content = (d.get("message") or {}).get("content")
                 if isinstance(content, list) and any(
@@ -89,8 +95,12 @@ def mine(days: int):
                                 e["examples"].append({"session": sid, "ts": d.get("timestamp"),
                                                       "text": body[:300]})
                     continue
-                t = text_of(content).strip()
-                if not t or NOISE.search(t) or len(t) > 600:
+                was_after_reply, after_reply = after_reply, False
+                # drop the user's quotes of the assistant ("> ..." lines from reply/attach chips)
+                t = "\n".join(l for l in text_of(content).splitlines()
+                              if not l.lstrip().startswith((">", "<!--"))).strip()
+                # a correction answers a reply and is short; long turns are new instructions
+                if not t or not was_after_reply or NOISE.search(t) or len(t) > 200:
                     continue
                 if CORRECTION.search(t):
                     corrections.append({"session": sid, "ts": d.get("timestamp"),
