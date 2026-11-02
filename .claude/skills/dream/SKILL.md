@@ -16,7 +16,13 @@ scan is a script (seconds, no tokens) and only its residue costs judgment.
 python3 scripts/dream_mine.py --days 7 --min-sessions 3      # transcripts, this week
 python3 scripts/dream_mine.py --days 120 --min-sessions 5    # transcripts, long sleep
 python3 scripts/dream_mine.py --corpus --stale-days 45        # docs + project memory
+python3 scripts/orphanage.py --check                          # tools cited but stranded on branches
 ```
+
+With corpus mode, always run the orphanage check. A cited orphan with no row in
+`_QUEUE/orphanage.jsonl` gets `python3 scripts/orphanage.py --intake` and a recommended
+fate (ADOPT, FOSTER or RETIRE) in the proposals file. Zach rules the fate. RETIRE
+bundles the branch first and never deletes it.
 
 Output lands in `_STATE/dream/` (gitignored: it holds transcript excerpts).
 

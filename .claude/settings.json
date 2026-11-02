@@ -229,7 +229,10 @@
       "Bash(python3 scripts/audit_report_build.py --check *)",
       "Bash(python3 scripts/kit_specimen.py --check)",
       "mcp__b68305da-65d6-4967-a3b1-ca570da4928c__creative_get_generations",
-      "mcp__Claude_Browser__preview_logs"
+      "mcp__Claude_Browser__preview_logs",
+      "Bash(python3 scripts/proof_emit.py --check)",
+      "Bash(node scripts/resume_static_emit.mjs --check)",
+      "Bash(python3 scripts/belief_blame.py *)"
     ],
     "ask": [
       "Bash(git push:*)"

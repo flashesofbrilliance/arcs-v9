@@ -166,7 +166,7 @@ no _tokens.css, no ramp and no layout targets. Every rule below has a check that
      ~ not yet) and the clause id, for example "▲ RFP 7.1 + A1.2". It is never italic serif. Correction: it does not use the
      say tone, which is now the text colour and means a stated claim, not a source.
    - All text at full opacity.
-3. **Density.** At most about 45 words on screen per frame (memory lean-deck-one-headline-one-organism), at most 3 type sizes,
+3. **Density.** At most about 45 words on screen per frame (memory lean-deck-one-headline-one-organism), at most 3 reading type sizes (ruling, Zach 2026-11-01: the mono label and the --fs-meta citation do not count toward the cap, so a frame with an eyebrow and a citation renders up to 5),
    at most 7 body lines. The on-screen reading time, at about 4 words per second, must fit inside the frame's narration take
    (R8). Density rises one zoom level per cut, never two (the /proof rule above).
 4. **Layout types and breakpoints.** A frame is a responsive element with named render targets: 16:9 at 1920x1080 (the

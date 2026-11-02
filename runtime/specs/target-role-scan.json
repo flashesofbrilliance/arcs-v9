@@ -1,7 +1,8 @@
 {
- "version": "1.3",
+ "version": "1.4",
  "source": "_ARTIFACTS/target-role-scan-hud.html",
  "extracted": "2026-09-08",
+ "candidate_frame": "The candidate is a forward-deployed / applied-AI / product-engineer builder: owns a product surface end to end, regulated-domain fluency, breadth across product + GTM + data, ships LLM/agent systems on Claude + MCP in production, two decades across tech/data/commercial ops.",
  "archetypes": [
   {
    "id": "forward-deployed-ai-engineer",
@@ -43,8 +44,8 @@
    "id": "ai-native-product-engineer-lead",
    "title": "AI-Native Product Engineer / Lead",
    "rail": "asset",
-   "fit": "Asset \u00b7 Strong fit",
-   "summary": "Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.",
+   "fit": "Asset \u00b7 Primary target (2026-11-02)",
+   "summary": "Owns a product surface end to end: talks to users, designs, ships to production. Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.",
    "lead_proof": {
     "company": "Grayscale",
     "claim": "Product \u00d7 engineering \u00d7 GTM in one \u2014 \"breadth is the product.\" Grayscale: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.",
@@ -52,6 +53,10 @@
    },
    "titles": [
     "AI Product Engineer",
+    "Product Engineer",
+    "Senior Product Engineer",
+    "Founding Product Engineer",
+    "Product Engineer, AI",
     "Founding PM / Engineer",
     "Product Lead (AI)",
     "Growth Engineer"
@@ -157,7 +162,7 @@
     "label": "Role-shape fit",
     "weight": 5,
     "anchor0": "maintenance / management",
-    "anchor3": "textbook forward-deployed build role"
+    "anchor3": "textbook build-and-embed role: forward-deployed, applied-AI, or a product engineer who owns a product surface end to end"
    },
    {
     "key": "ai_native",
@@ -217,6 +222,11 @@
    }
   ],
   "max": 81,
+  "scoring_notes": [
+   "Product Engineer, Senior Product Engineer, AI Product Engineer, Founding Product Engineer and close variants (Product Engineer, AI; Full-Stack Product Engineer) are ON-TARGET build roles under the AI-Native Product Engineer / Lead archetype, not off-target. Score role_shape 2-3 when the engineer owns a product surface end to end (works with users, ships features to production); never mark role_shape down because the title lacks 'forward deployed'.",
+   "For a product engineer role, ai_native reads what the product does: an engineer building an AI-native product scores ai_native the same as an applied-AI title would.",
+   "Do not fire the junior/entry gate on a Product Engineer title unless the JD itself states entry level, new grad, or under 3 years."
+  ],
   "gates": [
    "Junior/entry leveling",
    "pure management with no build",

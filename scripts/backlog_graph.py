@@ -14,8 +14,23 @@ Findings it reports instead of hiding: dangling dependency ids, dependencies on 
 (dead), cycles, and rows where `unblocks` and `depends_on` disagree (the graph holds the union).
 It never changes a row. Fates stay human (NOTOMATION).
 
+Debt (2026-11-02): tech debt lives in GitHub Issues (label debt, hidden debt-id marker; ADR of 2026-10-06 in
+backlog_issue_sync.py), not in the backlog file, so the graph could not see it. --debt reads the issues live
+(read-only GraphQL through backlog_issue_sync.debt_issues) and --debt-file reads a saved copy of the same JSON.
+Each issue becomes node `debt:<debt-id>`: status open -> OPEN, in-progress -> RUNNING, decision -> BLOCKED,
+closed or done -> DONE; a `Depends on: <id>, <id>` line in the issue body gives its edges, and a backlog row
+can name `debt:<id>` in depends_on. Issues stay the SSOT; nothing is copied into the backlog file.
+
+Three lenses over the same nodes, each standing alone (never blended into one score):
+  deps      the default: order, ready now, unblockers, tool fit, findings
+  risk      ruin (castellum's scale), door, consent, failure modes, debt severity, how far a slip reaches
+            downstream, and which rows sit under a one-way door or a high or critical ruin upstream
+  tradeoff  cost band (S, M, L from cost_prior prose) against leverage (rows unblocked downstream)
+A lens prints how many rows carry the field it reads; an unrated row is listed as unrated, never guessed.
+
 usage:
   backlog_graph.py [--file F] [--today YYYY-MM-DD] [--gh] [--json] [--dot] [--top N]
+                   [--debt | --debt-file F] [--lens deps|risk|tradeoff]
   backlog_graph.py --self-test            pre-registered known-bad and known-good fixtures, no network
 PR triggers are not checked unless --gh is given (it calls the gh CLI per PR); the ripeness column then says so.
 """
@@ -208,6 +223,182 @@ def build(rows, today, catalog=None, terminal=None, files=None):
             "critical_path_waves": (max(wave.values()) + 1) if wave else 0}
 
 
+DEBT_STATE = {"open": "OPEN", "in-progress": "RUNNING", "decision": "BLOCKED", "done": "DONE"}
+DEBT_MARK_RE = re.compile(r"<!-- debt-id: ([A-Za-z0-9_.\-]+) -->")
+DEP_LINE_RE = re.compile(r"^[*_\s]*depends[ _]on[*_.:\s]+(.+)$", re.I | re.M)
+REF_RE = re.compile(r"\*\*Ref\.\*\*\s*(.+)")
+
+
+def debt_to_row(issue):
+    """One GitHub debt issue as a read-only graph row, id debt:<debt-id>. None when it has no debt-id marker."""
+    body = issue.get("body") or ""
+    m = DEBT_MARK_RE.search(body)
+    if not m:
+        return None
+    names = [l.get("name", "") if isinstance(l, dict) else str(l) for l in issue.get("labels") or []]
+    sev = next((n[4:] for n in names if n.startswith("sev:")), None)
+    st = next((n[7:] for n in names if n.startswith("status:")), "open")
+    if issue.get("state") == "CLOSED":
+        st = "done"
+    deps = []
+    for line in DEP_LINE_RE.findall(body):
+        deps += [d.strip("`.*_ ") for d in re.split(r"[,;\s]+", line) if d.strip("`.*_ ")]
+    row = {"id": "debt:" + m.group(1), "source": "debt", "issue": issue.get("number"), "jtbd": issue.get("title", ""),
+           "state": DEBT_STATE.get(st, "OPEN"), "severity": sev, "depends_on": deps}
+    ref = REF_RE.search(body)
+    if ref:
+        row["route"] = {"tool": ref.group(1).strip()}
+    if row["state"] == "RUNNING":
+        row["claimed_by"] = "issue #%s" % issue.get("number")
+    return row
+
+
+def load_debt(path=None):
+    """Debt issues as rows. path: a saved JSON list of issues; None: read them live with gh (read-only)."""
+    if path:
+        issues = json.loads(Path(path).read_text())
+    else:
+        import backlog_issue_sync as bis
+        issues = bis.debt_issues()
+    return [r for r in (debt_to_row(i) for i in issues) if r]
+
+
+RUIN = {"low": 1, "medium": 2, "high": 4, "critical": 8}  # castellum.py's scale, so the two never disagree
+LOUD = {"high", "critical"}
+
+
+def cost_band(text):
+    """S, M or L from cost_prior prose, or None when it gives no size. The cut points are stated, not tuned:
+    up to 4 h or 1 session is S, up to 16 h, 2 days or 3 sessions is M, anything larger is L."""
+    t = str(text or "").lower()
+    if not t or "tbd" in t or "container" in t:
+        return None
+    for w, b in (("small", "S"), ("medium", "M"), ("large", "L")):
+        if re.search(r"\b%s\b" % w, t):
+            return b
+    nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", t)]
+    if not nums:
+        return None
+    n = max(nums)
+    if re.search(r"\bmin", t):
+        return "S" if n <= 240 else "M"
+    if re.search(r"\bsessions?\b", t):
+        return "S" if n <= 1 else "M" if n <= 3 else "L"
+    if re.search(r"\b(w|wk|weeks?)\b", t):
+        return "L"
+    if re.search(r"\b(d|days?)\b", t):
+        return "M" if n <= 2 else "L"
+    if re.search(r"\b(h|hrs?|hours?)\b", t):
+        return "S" if n <= 4 else "M" if n <= 16 else "L"
+    return None
+
+
+def _ancestors(g):
+    parents = {x["id"]: [d for d in x["deps"]] for x in g["nodes"]}
+    memo = {}
+
+    def up(i):
+        if i in memo:
+            return memo[i]
+        memo[i] = set()
+        out = set()
+        for p in parents.get(i, []):
+            if p in parents:
+                out.add(p)
+                out |= up(p)
+        memo[i] = out
+        return out
+    return {i: up(i) for i in parents}
+
+
+def risk_lens(g, rows):
+    """Per active node: its own risk fields, how far a slip reaches, and the risky rows upstream of it."""
+    by_id = {r["id"]: r for r in rows if r.get("id")}
+    anc = _ancestors(g)
+    own, loud = {}, set()
+    for x in g["nodes"]:
+        r = by_id.get(x["id"], {})
+        ruin = str(r.get("ruin") or "").lower() or None
+        fm = r.get("failure_modes")
+        own[x["id"]] = {"id": x["id"], "ruin": ruin if ruin in RUIN else None, "door": r.get("door"),
+                        "consent": r.get("consent"), "severity": r.get("severity"),
+                        "failure_modes": len(fm) if isinstance(fm, list) else (1 if fm else 0),
+                        "exposure": x["descendants"], "wave": x["wave"], "state": x["state"]}
+        if ruin in LOUD or r.get("door") == "one-way" or r.get("severity") == "P1":
+            loud.add(x["id"])
+    out = []
+    for i, v in own.items():
+        v["under_risk"] = sorted(anc.get(i, set()) & loud)
+        tier = 0 if i in loud else 1 if (v["ruin"] == "medium" or v["severity"] == "P2") else 2 if (v["ruin"] or v["severity"]) else 3
+        v["tier"] = ["loud", "medium", "low", "unrated"][tier]
+        out.append(v)
+    out.sort(key=lambda v: (["loud", "medium", "low", "unrated"].index(v["tier"]), -v["exposure"], v["id"]))
+    rated = sum(1 for v in out if v["ruin"] or v["severity"])
+    return {"rows": out, "coverage": {"rated": rated, "of": len(out),
+            "one_way": sum(1 for v in out if v["door"] == "one-way"), "loud": len(loud),
+            "under_risk": sum(1 for v in out if v["under_risk"])}}
+
+
+def tradeoff_lens(g, rows):
+    """Cost band against leverage, four plain quadrants plus cost unknown. It describes; it does not rank a winner."""
+    by_id = {r["id"]: r for r in rows if r.get("id")}
+    out, quad = [], defaultdict(list)
+    for x in g["nodes"]:
+        r = by_id.get(x["id"], {})
+        band = cost_band(r.get("cost_prior"))
+        lev = x["descendants"]
+        q = ("cost unknown" if band is None else
+             ("small cost, unblocks others" if lev else "small cost, unblocks none") if band == "S" else
+             ("larger cost, unblocks others" if lev else "larger cost, unblocks none"))
+        v = {"id": x["id"], "cost": band, "cost_prior": r.get("cost_prior"), "leverage": lev,
+             "ruin": str(r.get("ruin") or "").lower() or None, "ready_now": x["ready_now"], "quadrant": q}
+        out.append(v)
+        quad[q].append(v)
+    for q in quad:
+        quad[q].sort(key=lambda v: (-v["leverage"], not v["ready_now"], v["id"]))
+    banded = sum(1 for v in out if v["cost"])
+    return {"rows": out, "quadrants": {k: [v["id"] for v in quad[k]] for k in quad},
+            "coverage": {"cost_banded": banded, "of": len(out)}}
+
+
+def render_risk(lens, top=8):
+    c = lens["coverage"]
+    out = [f"risk lens: {c['rated']} of {c['of']} active rows carry a ruin or severity rating; {c['of'] - c['rated']} are unrated",
+           f"loud (ruin high or critical, a one-way door, or debt P1): {c['loud']} · one-way doors: {c['one_way']} · "
+           f"rows downstream of a loud row: {c['under_risk']}", ""]
+    for tier in ("loud", "medium"):
+        rs = [v for v in lens["rows"] if v["tier"] == tier]
+        out.append(f"{tier} ({len(rs)}), most downstream exposure first:")
+        for v in rs[:top]:
+            bits = [f"ruin {v['ruin']}" if v["ruin"] else "", f"door {v['door']}" if v["door"] else "",
+                    f"sev {v['severity']}" if v["severity"] else "", "consent human" if v["consent"] == "human" else "",
+                    f"{v['failure_modes']} failure modes" if v["failure_modes"] else ""]
+            out.append(f"  {v['id']:<44} {v['state']:<8} exposes {v['exposure']:<3} {' · '.join(b for b in bits if b)}")
+        out.append("")
+    under = sorted((v for v in lens["rows"] if v["under_risk"]), key=lambda v: (-len(v["under_risk"]), v["id"]))
+    out.append(f"inherited risk ({len(under)} rows sit downstream of a loud row):")
+    for v in under[:top]:
+        out.append(f"  {v['id']:<44} under {', '.join(v['under_risk'][:3])}")
+    return "\n".join(out)
+
+
+def render_tradeoff(lens, top=8):
+    c = lens["coverage"]
+    out = [f"tradeoff lens: {c['cost_banded']} of {c['of']} active rows give a cost the script can band (S up to 4 h or 1 session, "
+           "M up to 16 h, 2 days or 3 sessions, L above); leverage = rows unblocked downstream", ""]
+    for q in ("small cost, unblocks others", "larger cost, unblocks others", "small cost, unblocks none",
+              "larger cost, unblocks none", "cost unknown"):
+        ids = lens["quadrants"].get(q, [])
+        rows = {v["id"]: v for v in lens["rows"]}
+        out.append(f"{q} ({len(ids)}):")
+        for i in ids[:top]:
+            v = rows[i]
+            out.append(f"  {i:<44} cost {v['cost'] or '?'}  unblocks {v['leverage']:<3}{'  ready now' if v['ready_now'] else ''}"
+                       f"{'  ruin ' + v['ruin'] if v['ruin'] else ''}")
+        out.append("")
+    return "\n".join(out).rstrip()
+
+
 def render(g, top=8):
     n = g["nodes"]
     by_tool = defaultdict(int)
@@ -305,6 +496,44 @@ def self_test():
         ("a resolved short path is HAVE with nothing missing", resolve_tool({"jtbd": "x", "route": {"tool": "compass/route.ts"}}, cat, FX)[:1] + resolve_tool({"jtbd": "x", "route": {"tool": "compass/route.ts"}}, cat, FX)[2:3] == ("HAVE", [])),
         ("rendered text has no em-dash", "\u2014" not in render(g) and "\u2014" not in render(gb)),
     ]
+    # Debt issues as nodes, and the two lenses. Pre-registered 2026-11-02 before the first live run.
+    iss = [{"number": 1, "title": "fix a", "state": "OPEN", "body": "x\n\n**Ref.** scripts/readiness_packet.py\n\n<!-- debt-id: da -->",
+            "labels": [{"name": "debt"}, {"name": "sev:P1"}, {"name": "status:in-progress"}]},
+           {"number": 2, "title": "fix b", "state": "OPEN", "body": "**Depends on.** debt:da, a\n\n<!-- debt-id: db -->",
+            "labels": [{"name": "debt"}, {"name": "status:decision"}]},
+           {"number": 3, "title": "old", "state": "CLOSED", "body": "<!-- debt-id: dc -->", "labels": [{"name": "status:open"}]},
+           {"number": 4, "title": "no marker", "state": "OPEN", "body": "plain issue", "labels": []}]
+    drows = [r for r in (debt_to_row(i) for i in iss) if r]
+    dmap = {r["id"]: r for r in drows}
+    gd = build(chain + drows, today, cat, T)
+    dnode = {x["id"]: x for x in gd["nodes"]}
+    lr = [{"id": "p", "state": "OPEN", "ruin": "high", "door": "one-way", "trigger": "after 2026-10-01", "cost_prior": "author estimate: 2 h"},
+          {"id": "q", "state": "OPEN", "depends_on": ["p"], "trigger": "after 2026-10-01", "cost_prior": "3 d (author estimate)"},
+          {"id": "s", "state": "OPEN", "trigger": "after 2026-10-01", "cost_prior": "tbd"}]
+    gl = build(lr, today, cat, T)
+    rk = {v["id"]: v for v in risk_lens(gl, lr)["rows"]}
+    tl = tradeoff_lens(gl, lr)
+    tq = {v["id"]: v["quadrant"] for v in tl["rows"]}
+    checks += [
+        ("debt: an issue without a debt-id marker is skipped", len(drows) == 3),
+        ("debt: ids are namespaced debt:<id>", set(dmap) == {"debt:da", "debt:db", "debt:dc"}),
+        ("debt: status labels map in-progress RUNNING, decision BLOCKED, closed DONE",
+         (dmap["debt:da"]["state"], dmap["debt:db"]["state"], dmap["debt:dc"]["state"]) == ("RUNNING", "BLOCKED", "DONE")),
+        ("debt: a Depends on line gives edges to debt and backlog ids", dmap["debt:db"]["depends_on"] == ["debt:da", "a"]),
+        ("debt: the Ref line becomes route.tool and resolves", dnode["debt:da"]["tool"] == "HAVE"),
+        ("debt: a closed issue leaves the graph", "debt:dc" not in dnode),
+        ("debt: a debt node waits on its backlog dependency", dnode["debt:db"]["wave"] == 1),
+        ("cost band: hours, days, sessions, words and tbd",
+         [cost_band(x) for x in ("author estimate: 2 h", "3 d (author estimate)", "1 session", "~8 sessions across 3 waves", "small", "tbd", "author estimate: container, no own cost")]
+         == ["S", "L", "S", "L", "S", None, None]),
+        ("risk: a one-way high-ruin row is loud", rk["p"]["tier"] == "loud"),
+        ("risk: a row downstream inherits the loud row", rk["q"]["under_risk"] == ["p"]),
+        ("risk: a row with no rating is unrated, not low", rk["s"]["tier"] == "unrated"),
+        ("risk: the loud row's exposure counts what it blocks", rk["p"]["exposure"] == 1),
+        ("tradeoff: small cost that unblocks others", tq["p"] == "small cost, unblocks others"),
+        ("tradeoff: tbd cost is unknown, not small", tq["s"] == "cost unknown"),
+        ("lens text has no em-dash", "\u2014" not in render_risk(risk_lens(gl, lr)) + render_tradeoff(tl)),
+    ]
     ok = True
     for name, passed in checks:
         print(("PASS " if passed else "FAIL ") + name)
@@ -320,6 +549,10 @@ def main(argv=None):
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--dot", action="store_true")
     ap.add_argument("--top", type=int, default=8)
+    src = ap.add_mutually_exclusive_group()
+    src.add_argument("--debt", action="store_true", help="add open debt issues as nodes (gh, read-only)")
+    src.add_argument("--debt-file", help="add debt issues from a saved JSON list (offline)")
+    ap.add_argument("--lens", choices=["deps", "risk", "tradeoff"], default="deps")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
     if a.self_test:
@@ -327,13 +560,29 @@ def main(argv=None):
     if not a.gh:
         os.environ.setdefault("BACKLOG_RIPENESS_GH_STUB", "{}")
     today = dt.date.fromisoformat(a.today) if a.today else dt.date.today()
-    g = build(rp.load(a.file), today)
+    rows = rp.load(a.file)
+    debt = load_debt(a.debt_file) if (a.debt or a.debt_file) else []
+    rows = rows + debt
+    g = build(rows, today)
+    if debt:
+        g["debt"] = {"issues": len(debt), "active": sum(1 for x in g["nodes"] if x["id"].startswith("debt:")),
+                     "with_edges": sum(1 for r in debt if r["depends_on"]) +
+                     sum(1 for r in rows if not r["id"].startswith("debt:") and any(str(d).startswith("debt:") for d in deps_of(r)))}
     if a.json:
+        g["lenses"] = {"risk": risk_lens(g, rows), "tradeoff": tradeoff_lens(g, rows)}
         print(json.dumps(g, indent=1, ensure_ascii=False))
     elif a.dot:
         print(to_dot(g))
     else:
-        print(render(g, a.top))
+        if a.lens == "risk":
+            print(render_risk(risk_lens(g, rows), a.top))
+        elif a.lens == "tradeoff":
+            print(render_tradeoff(tradeoff_lens(g, rows), a.top))
+        else:
+            print(render(g, a.top))
+        if debt:
+            d = g["debt"]
+            print(f"\ndebt: {d['issues']} issues read, {d['active']} active as debt:<id> nodes, {d['with_edges']} carry or receive an edge")
         if not a.gh:
             print("\n(PR triggers were not checked; pass --gh to include them)")
     return 0
