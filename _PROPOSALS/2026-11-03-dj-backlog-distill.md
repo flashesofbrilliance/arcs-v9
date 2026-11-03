@@ -121,3 +121,13 @@ Everything else waits for evidence. Ranking 70 rows by reasoning alone is the en
 ## Not claimed
 
 The merges and clusters are my judgment from reading the rows; the drift counts in section 2 are mechanical and can be rerun. I did not open the built page or run the Phosphor suite, so "shipped" means the amendment log and release commits say so, not that I watched it work today.
+
+## 7. Rulings applied (2026-11-03, Zach: "Yes R1 R2 R3 R6", then "close 6 of 8")
+
+- **R1, revised to 6 of 8.** DONE: `phosphor-flying-faders`, `phosphor-virtual-pad-mapping`, `phosphor-pad-mute-choke`, `phosphor-render-surface`, `phosphor-pattern-text-box`; SUPERSEDED: `phosphor-smart-replay-note`. Each was checked against a dj.arcs.care release commit (checkpoints 4 to 8). Kept open, gap written into the note: `phosphor-gesture-grab-preset` (the buffer is the recipe log, not the pre-registered 32-bar ring) and `phosphor-first-minute-ritual` (depends on the unbuilt my loops shelf, and its measure needs a real session).
+- **Deviation from 3a.** The Left lists went into one new row, `phosphor-slice-followons`, not into the cluster keepers, because the keepers of those clusters are unrelated features.
+- **R2.** Five notes corrected with the amendment and check script that built the work.
+- **R3.** Seven merges became SUPERSEDED with the keeper named in both rows (eight with `smart-replay-note` from R1). `phosphor-timing-correct-strength` stays live: only its strength dial moved to `phosphor-order-decay-pockets`; overdub record stays.
+- **R6.** 71 rows moved to HELD; each note keeps its prior state for restore on resume. Phosphor rows now: 73 HELD, 20 DONE, 9 SUPERSEDED, 0 OPEN.
+- **Deferred to resume:** R4, R5, R7.
+- **Method.** Every change prepends a dated line to `status_note`; no prose was deleted. Rows whose content did not change were written back byte for byte, so the diff is 84 edited rows plus 1 new row. `scripts/backlog_status_check.py --check` exits 0.
