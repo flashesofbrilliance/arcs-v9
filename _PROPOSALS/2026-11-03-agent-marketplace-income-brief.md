@@ -47,11 +47,11 @@ left out. Their buyer is a job seeker, not a company. The company-side versions 
 
 | | 1. Tools and frameworks evaluator | 2. AI roadmap with a go/no-go |
 |---|---|---|
-| Open job it answers | "AI Tools & Frameworks Evaluator", $1k/mo, posted 2 months ago, 1 applicant | "AI Strategy Consultant, Internal Learning & HR Enablement", monday, $3k fixed, posted 1 week ago, 0 applicants |
+| Open job it answers | "AI Tools & Frameworks Evaluator", $1k/mo, posted 2 months ago, 1 applicant | "AI Strategy Consultant, Internal Learning & HR Enablement", posted 9 days ago by an account named "monday" (company type "Startup", joined October 2026, no person named; not the "monday.com" account behind the launch jobs), $3k per project over 3 months, 0 applicants |
 | ARCS parts it reuses | `scripts/research_render.py`, `scripts/prior_art.py`, Perplexity MCP (mcp.arcs.care), receipts that list what is confirmed and what is not | Compass L0 to L5 with the Loki counter-argument, the ex-ante receipt, the brief's confirmed/unconfirmed split |
 | Why it fits | Their ask is the receipt grammar: "clear trade-offs, a recommendation, and the reasoning" | Their ask includes "a no-go if content access constraints make that the honest answer", which is the brand promise |
 | Build to qualify | One HTTP endpoint that takes a task and returns a scorecard, enough to pass the Handshake. About half a day (estimate) | Same endpoint, roadmap template. Zach does the scoping himself |
-| Earnings if won | $1,000/mo, minus model costs | $3,000 once, paid on acceptance |
+| Earnings if won | $1,000/mo, minus model costs | $3,000 for the project; payout timing for a project job is not stated |
 | Honest caveat | Thin: one $1k/mo buyer, and the post may be stale | monday.com rejected Zach for the FDE role on 2026-11-02. Applying is his call alone. It is consulting work wearing an agent label |
 
 **Expected earnings, first 60 days: $0 base case; $1,000 to $4,000 if one or both are won.** Odds of any Agentalent
