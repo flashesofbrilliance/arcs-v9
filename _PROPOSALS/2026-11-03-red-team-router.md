@@ -47,6 +47,24 @@ Domain seats (`privacy-review` for data or policy pages, `ciso-review` for auth,
 one-way route only after a real one-way merge shows the gap. `devils-advocate` joins when it has a repo agent file, so the cast is the
 same on every machine and harness.
 
+### 4a. The synthesis keeps the disagreement (Zach, 2026-11-03)
+
+Agreement is not the goal of the debate, and the synthesis must never manufacture it. A held impasse can be the load-bearing result:
+it sorts the decision as cleanly as a consensus would. The `## Red team` section therefore has three parts, and the third is required
+even when it is empty:
+1. **Changed:** what the decision changed because of a seat, with the seat named.
+2. **Rejected:** what a seat raised that the session overruled, and why, in the seat's own strongest wording, not a softened one.
+3. **Held open:** each disagreement left standing. For each: both positions at full strength, the evidence that would settle it, and
+   who owns the call to proceed anyway. This is a FORK held deliberately, not a defect to smooth over.
+
+Two guards against sycophancy:
+- A one-way synthesis that reports nothing rejected and nothing held open is flagged for a second look: a red team that found nothing
+  to disagree with on a one-way change has more often been softened than satisfied.
+- The session may not restate a seat's objection more mildly than the seat wrote it. Quote it.
+
+Example from this spec's own review: grug said cut the learning loop; Zach asked for judgment that improves over time. Held open in
+section 2, not averaged away.
+
 ## 5. Enforcement
 
 `scripts/safe_merge.sh` already refuses on a head mismatch, a pending check or a conflict. Add one refusal: if the PR's changed files hit
