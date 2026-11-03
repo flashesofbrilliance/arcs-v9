@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 321,
-  "hosts": 85,
+  "rows": 316,
+  "hosts": 84,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 262,
+   "product page": 257,
    "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 34,
+  "proxy_hosts": 33,
   "app_routes": 47,
-  "missing_purpose": 23,
-  "unlisted": 120
+  "missing_purpose": 21,
+  "unlisted": 117
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -245,7 +245,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Decision Brief",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "app.arcs.care",
@@ -365,7 +365,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "molecule/organism demo state",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "app.arcs.care",
@@ -425,7 +425,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "The ARCS field, full screen: seven fathoms over the knowledge lattice.",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "app.arcs.care",
@@ -585,7 +585,7 @@
    "gate_file": null,
    "unlisted": true,
    "purpose": "Compass Lane",
-   "last_commit": "2026-10-05"
+   "last_commit": "2026-11-03"
   },
   {
    "host": "app.arcs.care",
@@ -785,7 +785,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Decision Receipt",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "app.arcs.care",
@@ -1394,106 +1394,6 @@
    "last_commit": "2026-10-04"
   },
   {
-   "host": "concourse.arcs.care",
-   "path": "/",
-   "catch_all": true,
-   "destination": "/concourse.html",
-   "pattern": false,
-   "file": "public/concourse.html",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": "Zach on a Concourse Pod",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Zach on a Concourse Pod",
-   "kind": "product page",
-   "last_commit": "2026-10-20"
-  },
-  {
-   "host": "concourse.arcs.care",
-   "path": "/candidate.json",
-   "catch_all": false,
-   "destination": "/concourse-candidate.json",
-   "pattern": false,
-   "file": "public/concourse-candidate.json",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": null,
-   "description": null,
-   "index": null,
-   "unlisted": false,
-   "purpose": null,
-   "kind": "product page",
-   "last_commit": "2026-10-20"
-  },
-  {
-   "host": "concourse.arcs.care",
-   "path": "/llms.txt",
-   "catch_all": false,
-   "destination": "/concourse-llms.txt",
-   "pattern": false,
-   "file": "public/concourse-llms.txt",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": null,
-   "description": null,
-   "index": null,
-   "unlisted": false,
-   "purpose": null,
-   "kind": "product page",
-   "last_commit": "2026-10-20"
-  },
-  {
-   "host": "concourse.arcs.care",
-   "path": "/plan",
-   "catch_all": false,
-   "destination": "/concourse-plan.html",
-   "pattern": false,
-   "file": "public/concourse-plan.html",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": "Concourse Deployment Plan",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Concourse Deployment Plan",
-   "kind": "product page",
-   "last_commit": "2026-10-20"
-  },
-  {
-   "host": "concourse.arcs.care",
-   "path": "/sara",
-   "catch_all": false,
-   "destination": "/concourse-sara.html",
-   "pattern": false,
-   "file": "public/concourse-sara.html",
-   "gate": null,
-   "gate_file": null,
-   "declared_in": [
-    "src/proxy.ts"
-   ],
-   "title": "Zach Harris FDE Brief",
-   "description": null,
-   "index": "noindex, nofollow",
-   "unlisted": true,
-   "purpose": "Zach Harris FDE Brief",
-   "kind": "product page",
-   "last_commit": "2026-10-20"
-  },
-  {
    "host": "conduit.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -1879,7 +1779,7 @@
    "unlisted": false,
    "purpose": "Notes from the Trenches: what building ARCS in the open actually taught me. Real stories from the build, with the receipts.",
    "kind": "product page",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -2179,7 +2079,7 @@
    "unlisted": false,
    "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -2199,7 +2099,7 @@
    "unlisted": false,
    "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -2359,7 +2259,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -6432,7 +6332,7 @@
    "unlisted": false,
    "purpose": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
    "kind": "product page",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-03"
   },
   {
    "host": "zach.md",
@@ -6452,7 +6352,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-03"
   },
   {
    "host": "zach.md",
