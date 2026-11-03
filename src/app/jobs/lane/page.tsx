@@ -71,8 +71,16 @@ export default async function LanePage() {
       items: closed.map((r) => item(r)), empty: "Nothing closed yet. Offer, reject, or withdrawn lands here and scores the prediction." },
   ]
 
+  // The send queue is the ready Qualify rows, best fit first (rows arrive sorted by composite).
+  const send = qualify.filter(ready).map((r) => ({
+    jobid: r.jobid, company: r.company, title: r.title, score: r.composite != null ? fmt(r.composite) : undefined,
+    why: r.assessment ? r.assessment.split(/(?<=[.!?])\s/)[0].slice(0, 240) : null, resume: r.forge!.resumeUrl!, post: r.url,
+  }))
+  const dayStart = new Date(); dayStart.setHours(0, 0, 0, 0)
+  const sentToday = rows.filter((r) => r.laneStage === "apply" && r.laneMovedAt && r.laneMovedAt >= dayStart).length
+
   const data: LaneData = {
-    stages,
+    stages, send, sentToday,
     sources: sources.map((s) => ({ key: s.key, label: s.label, adapter: s.adapter, status: s.status, lastRunAt: s.lastRunAt?.toISOString() ?? null, pollWindow: s.pollWindow, note: s.note })),
     requests: requests.map((r) => ({ fromDate: r.fromDate, toDate: r.toDate, query: r.query, status: r.status, rowsAdded: r.rowsAdded, requestedAt: r.requestedAt.toISOString(), note: r.note })),
     outcomes: outcomes.map((o) => ({ jobid: o.jobid, company: o.job.company, fate: o.fate, predicted: fmt(o.predictedComposite), actual: o.actualNote ?? o.fate, honesty: o.honestyLabel ?? "—", reason: reasonOf(o.actualNote) })),
