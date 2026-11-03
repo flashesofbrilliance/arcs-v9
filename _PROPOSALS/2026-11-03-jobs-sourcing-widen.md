@@ -51,6 +51,15 @@ The employer index (`_STATE/job-search/employer-index/index.json`, 133 verified 
 - Path 3 only reaches employers on Greenhouse, Lever or Ashby. 256 list names (mostly Workday, SuccessFactors or iCIMS corporates) are unresolved. Workday's public `/wday/cxs/` endpoint is the next adapter if CT and Fortune corporates matter.
 - Index boards are polled with the target-role filter, which is narrower than the bridge-lane filter they were built for. This is on purpose.
 
+## Hardening rules (learned building this, 2026-11-03)
+
+1. **Read the whole robots.txt, AI-agent groups included.** `User-agent: *  Allow: /` is not permission. lennysjobs.com allows `*` but disallows `anthropic-ai`, and a grep for the `*` group alone missed that. Check with `curl -s <host>/robots.txt | grep -inE -A3 'anthropic|claude|gpt|perplexity|google-extended|^user-agent: \*'`.
+2. **A 403, a bot wall or a ToS ban means no fetch**, whatever robots says. Route the source to an email alert or a pasted list.
+3. **Wire every resolved list into the recurring run.** The September index was ingested once and polled never. In 7 weeks, 3 of 133 boards went 404 and nobody noticed. New lists merge into `index.json`, which the morning run already polls, never into a one-shot pull.
+4. **Mark dead boards, never drop them silently.** When the morning report shows the same board `ERR` on two runs, a session sets `verify: gone` and a dated `verify_note` (by hand: nothing automates this yet). `bridge_index_scan.py verify` re-checks the whole index. Run it when a list is added, and monthly.
+5. **Write each parser against a real digest.** No email format is guessed. The Gmail step for a source is built only after its first alert email arrives.
+6. **Route backlog rows through a catalogued tool.** The tool catalog does not index `scripts/*.mjs`, so a row whose `route.tool` names a `.mjs` file fails the JTBD graph gate. Name the wrapper that runs it (`scripts/jobs_wt.sh node ./scripts/<x>.mjs`) until the catalog learns `.mjs`.
+
 ## Zach's steps (Claude must not create accounts or enter passwords)
 
 1. **Indeed:** sign in or create an account at indeed.com. Set job alerts for "forward deployed engineer", "applied AI engineer", "product engineer" and "AI product manager", each for New York, NY and for Remote. Choose daily email.
