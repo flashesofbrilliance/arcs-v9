@@ -41,7 +41,7 @@ const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
 // mechanism; next.config.ts's fix is the belt-and-suspenders backstop.
 // Agent-readable discovery paths (2026-10-29). On a catch-all host these must never answer
 // with the host's HTML page (a soft 404 an agent reads as content). A host's own llms.txt is
-// mapped here or in its MULTI_PATH_MAP entry (concourse); robots.txt and sitemap.xml serve the
+// mapped here or in its MULTI_PATH_MAP entry; robots.txt and sitemap.xml serve the
 // shared public/ files; anything else is a real 404. Gate: tests/unit/llms-routes.test.ts.
 const MACHINE_PATH = /^\/(llms\.txt|index\.md|robots\.txt|sitemap\.xml)$/
 const HOST_LLMS: Record<string, string> = {
@@ -69,14 +69,12 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'monstro':   { '/full': '/monstro-full.html', '/resume': '/monstro-resume.html', '/cover': '/monstro-cover.html', '/monstro-resume.pdf': '/monstro-resume.pdf', '/monstro-cover.pdf': '/monstro-cover.pdf', default: '/monstro.html' },
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
   // claritai.arcs.care: Head of Operational Excellence & AI Systems bundle (2026-09-28): OPEN (ungated), noindex, for Jeff Kronisch (Harris Allied) to forward to Seth Merrin. root = brief + objections + history; PDF mapped to itself.
-  // concourse.arcs.care: Concourse FDE bundle (2026-10-19): OPEN (ungated), noindex. root = candidate page (bet, record, role shape, gaps, kickoff card, ledger), /sara = recruiter brief, /plan = 90-day plan + pre-mortem (draft 2026-10-19), /llms.txt + /candidate.json = agent-readable claims with read-only checks. External cuts only; no counterpart profile content.
   // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; /monday-guide-rc46.zip = the submitted ZIP (sha256 matches dist/submission-rc46.zip.sha256), mapped to itself so the default rewrite does not swallow it.
   // cia.arcs.care: candidate brief for the Culinary Institute of America architect role (2026-10-29). Gated by CIA_PASSCODE; noindex.
   'cia':       { '/resume.pdf': '/cia-brief-resume.pdf', default: '/cia-brief.html' },
   // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex. /work-sample.zip maps to a /dioptra-brief-* file, which the prefix gate locks on every host.
   'dioptra':   { '/work-sample.zip': '/dioptra-brief-sample.zip', default: '/dioptra-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
-  'concourse': { '/sara': '/concourse-sara.html', '/plan': '/concourse-plan.html', '/llms.txt': '/concourse-llms.txt', '/candidate.json': '/concourse-candidate.json', default: '/concourse.html' },
   'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
   // conduit.arcs.care — Conduit Health PM, Patient Experience bundle (2026-09-28): OPEN (ungated), noindex, for Annie Wasserman (HappyPath) to forward to co-founder Rocky Seftel. root = positioning brief, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
