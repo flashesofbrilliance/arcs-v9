@@ -1,6 +1,6 @@
 # The journey first, then the first product: decision page (2026-11-03)
 
-Status: PROPOSED, waiting on Zach's yes or no on four items (bottom). Nothing was built, sent or published to make this page.
+Status: PROPOSED, waiting on Zach's yes or no on five items (bottom). Nothing was built, sent or published to make this page.
 
 Prior art: `_PATTERNS/2026-07-13-frontend-monetization-queue.md` (July ranking), backlog rows `agent-receipts-audit-offer` (DONE) and
 `agent-receipts-audit-first-conversion` (HOLDING, its one dependency is now DONE), memories on free-to-hold / metered-to-fire,
@@ -167,6 +167,37 @@ with the free check; Claude drafts 10 short first-person notes with the score li
 to explain from memory?"); file the ex-ante receipt (ADR-068); Zach reviews and sends. Kill rule: 0 scope calls from 10 sends in 10
 business days moves the effort to the PRL sprint, starting with proving its prod go-live.
 
+## 5. The growth route: an MCP probe (ADR-076's test)
+
+The audit is sales led, not a product-led hook: the free check is used once, there is no account and no usage that grows, and every
+dollar needs a scope call. It is the right first sale for cash, but it caps at Zach's hours. The growth route is MCP led: the buyer
+works inside Claude Code or Cursor, and the pain shows up mid-session. ADR-076 already adopted this (free in their client as the land,
+metered use as the expand, attribution as the wedge) and set its own gate: ship one cheap read-only probe and measure pull before any
+hosted server.
+
+What exists to build on: `rfp-engine` already runs as a standard-library MCP server (`mcp/server.py`, cite or refuse);
+mcp.arcs.care is live (hosts the Perplexity MCP); the repo-check scoring works today, but as JavaScript inside
+`public/good-audit-check.html`.
+
+| Rung | What | Price |
+|---|---|---|
+| Land | `check_repo_receipts`: one read-only local tool, same scoring as /audit/check, on the repo you are in. Every flagged commit cites its sha; anything it cannot verify says so. MIT, listed in the arcs-skills marketplace | Free |
+| Hook | Inside the developer's own session, their agent reports "8 of your last 30 commits explain themselves; here are the 5 nobody could trace" | Free |
+| Expand | The "Audit + gate" scope as a product: a merge check that fails a commit missing its receipt, then scoring across a team's repos | Metered (to fire) |
+| Top | The cold reconstruction audit, run by Zach (section 4) | Fixed price |
+
+The MCP is the audit's funnel, not its replacement.
+
+**Measuring without breaking the promise.** A local tool that phones home contradicts the privacy pitch, so it does not. Signals are
+public counts only: marketplace installs, GitHub unique clones (traffic API, 14-day window), stars, issues, and inbound asks.
+
+**Kill rule, set before launch.** Within 30 days of listing: at least 10 unique clones from accounts other than Zach's, or at least
+1 inbound ask for the merge gate. Either one advances ADR-076 out of DRAFT. Neither: file a falsified receipt against ADR-076, stop
+there, and build no hosted server.
+
+Cost: about half a day to port the scoring to a Python tool in rfp-engine's pattern, plus a marketplace listing. Brings no cash this
+week, which is why it runs second.
+
 ## Decisions for Zach
 
 1. Outreach for the audit today: yes or no.
@@ -174,5 +205,6 @@ business days moves the effort to the PRL sprint, starting with proving its prod
 3. Theme clustering: go on pass 1 only, or pass 1 plus pass 2 (needs a Python install).
 4. Seed live probes: add inbox, calendar and open-thread checks to `/handoff-pickup` first (harness, cheapest, would have caught
    this morning's miss), before any visitor-facing pause or seed.
+5. MCP probe: go on porting the repo check to one local read-only MCP tool this week, under the section 5 kill rule.
 
 The four rewiring links in section 1 are small edits to existing pages; they wait for the same go.
