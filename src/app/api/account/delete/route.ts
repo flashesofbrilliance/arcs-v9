@@ -89,7 +89,11 @@ export async function POST() {
       await tx.sessionReceipt.deleteMany({ where: { id: { in: sessionReceiptIds } } })
     }
     // Job board swipes carry no children; the JobOpportunity rows are shared.
+    // /api/jobs/swipe writes the admin's email into userId, so match both.
     await tx.jobSwipe.deleteMany({ where: { userId } })
+    if (userEmail) {
+      await tx.jobSwipe.deleteMany({ where: { userId: { equals: userEmail, mode: "insensitive" } } })
+    }
 
     await tx.profileUpload.deleteMany({ where: { userId } })
     if (userEmail) {

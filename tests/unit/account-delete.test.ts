@@ -71,13 +71,17 @@ const seed = (u: string, email: string): Record<string, Row[]> => ({
     { id: `${u}-sr1`, userId: u, parentId: null, bet: "b", outcome: "o", lesson: "l", payload: {} },
     { id: `${u}-sr2`, userId: u, parentId: `${u}-sr1`, bet: "b2" },
   ],
-  jobSwipe: [{ jobid: `${u}-job`, userId: u, direction: "r" }],
+  // /api/jobs/swipe writes the admin's email into userId, not User.id.
+  jobSwipe: [
+    { jobid: `${u}-job`, userId: u, direction: "r" },
+    { jobid: `${u}-job-email`, userId: email, direction: "l" },
+  ],
   lead: [{ id: `${u}-lead`, email }],
 })
 
 const owned = (tables: Record<string, Row[]>, u: string) =>
   Object.entries(tables).flatMap(([name, rows]) =>
-    rows.filter((r) => JSON.stringify(r).includes(u)).map((r) => `${name}:${String(r.id ?? r.jobid)}`),
+    rows.filter((r) => JSON.stringify(r).toLowerCase().includes(u)).map((r) => `${name}:${String(r.id ?? r.jobid)}`),
   )
 
 let tables: Record<string, Row[]>
