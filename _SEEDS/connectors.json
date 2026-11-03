@@ -43,7 +43,57 @@
     }
    },
    "tie_in": "Portability-as-proof is the same discipline ARCS applies to decisions: prove a thing survives every environment instead of trusting that it will. rosetta-shell is one of the open, MIT-licensed public goods in the ARCS family… the tools are open; the ARCS intelligence that orchestrates them is private.",
-   "group": "cli"
+   "group": "cli",
+   "template": "tool-getting-started",
+   "tool": {
+    "stage": "seed",
+    "accent": "#4f5fa0",
+    "accent_note": "rosetta-shell wears slate indigo #4f5fa0 (about 229deg, clear of violet and cyan)",
+    "h1": "Lossless shell portability.",
+    "lede": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh and ksh. A shim library for the scripts that break the moment they change environments, and a runner that proves the output matches in every shell.",
+    "chips": [
+     {
+      "tone": "show",
+      "tag": "Proven",
+      "body": "a pass/fail matrix per shell"
+     },
+     {
+      "tone": "say",
+      "tag": "Advises",
+      "body": "lint never rewrites your code"
+     },
+     {
+      "tone": "limit",
+      "tag": "Four shells",
+      "body": "only those installed are run"
+     }
+    ],
+    "why": "A script written on a modern bash laptop breaks on Apple's frozen bash 3.2, a zsh default or a dash container. rosetta-shell gives it a phrasebook for each shell, and crossrun proves the shim gives identical output everywhere instead of hoping it does.",
+    "what_label": "Four moving parts",
+    "what": [
+     {
+      "t": "crossrun",
+      "p": "Runs your script under every installed shell and reports a pass/fail matrix. Exits nonzero on failure, so it drops into CI."
+     },
+     {
+      "t": "lint",
+      "p": "Finds non-portable constructs and names the shim to use. Advisory; it never rewrites your code."
+     },
+     {
+      "t": "doctor",
+      "p": "Says which shell you're in and which native features are missing."
+     },
+     {
+      "t": "rosetta.sh",
+      "p": "A sourceable shim library: a portable map plus case, echo and split shims that behave the same everywhere."
+     }
+    ],
+    "not_proven": [
+     "crossrun only tests the shells installed on the machine it runs on.",
+     "Covers bash 3.2, zsh, POSIX sh and ksh; fish and PowerShell are out of scope.",
+     "lint flags known constructs; a clean lint is not proof of portability. crossrun is."
+    ]
+   }
   },
   "germinate": {
    "badge_kind": "an agent-handoff protocol by ARCS",
@@ -88,7 +138,57 @@
    },
    "tie_in": "germinate makes the boundary between serialized (git-tracked) and advisory (everything else) state visible and enforceable… the same air-gap discipline ARCS runs on its own artifacts. It is one of the open, MIT-licensed public goods in the ARCS family: the tools are open; the ARCS intelligence that orchestrates them is private.",
    "note_linux": "Homebrew binary is macOS-only; Linux installs via npm.",
-   "group": "cli"
+   "group": "cli",
+   "template": "tool-getting-started",
+   "tool": {
+    "stage": "seed",
+    "accent": "#5f8a3f",
+    "accent_note": "germinate wears fern #5f8a3f (about 95deg, clear of coherent green at 157deg)",
+    "h1": "Durable agent handoffs.",
+    "lede": "Compact one high-entropy session into a dense seed, and let many workers reconcile through git without lost updates. A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work.",
+    "chips": [
+     {
+      "tone": "show",
+      "tag": "Git-serialized",
+      "body": "tracked state goes through git"
+     },
+     {
+      "tone": "say",
+      "tag": "Flags drift",
+      "body": "drift-check exits nonzero"
+     },
+     {
+      "tone": "limit",
+      "tag": "Advisory state",
+      "body": "warned about, not locked"
+     }
+    ],
+    "why": "An agentic session is a conversation, scratch files, several open worktrees and half-formed understanding. Almost none of it survives to the next session. germinate makes the part that keeps sessions durable and mergeable the part you carry forward.",
+    "what_label": "Four primitives",
+    "what": [
+     {
+      "t": "belief-log",
+      "p": "Append-only, OpenTelemetry-shaped JSONL: trace, span, confidence, risk, evidence, status. The trace of how conviction moved."
+     },
+     {
+      "t": "manifest",
+      "p": "A registry of every surface, each stamped with a docset version. A projection older than the header is stale by definition."
+     },
+     {
+      "t": "handoff",
+      "p": "A head with forward pickup pointers and a tail with provenance and lineage."
+     },
+     {
+      "t": "serializability check",
+      "p": "Git serializes tracked files; this warns where advisory state escapes the lock. drift-check exits nonzero, so it works as a CI gate."
+     }
+    ],
+    "not_proven": [
+     "No published measurement of lost updates with and without it.",
+     "Advisory state outside git is warned about, not serialized.",
+     "The Homebrew binary is macOS only."
+    ]
+   }
   },
   "rca-skill": {
    "badge_kind": "a Claude Code skill by ARCS",
@@ -257,7 +357,11 @@
    "group": "skill"
   },
   "arcs-field-scan": {
-   "gallery_soon": {"tag": "prototype", "chan": "prototype", "line": "An in-browser mock of the ARCS scan flow, for trying the experience. It is a UX prototype: it does not parse PDFs or call a model yet."},
+   "gallery_soon": {
+    "tag": "prototype",
+    "chan": "prototype",
+    "line": "An in-browser mock of the ARCS scan flow, for trying the experience. It is a UX prototype: it does not parse PDFs or call a model yet."
+   },
    "badge_kind": "an open web app by ARCS",
    "title_g": "A LinkedIn profile,",
    "title_rest": "scanned.",
