@@ -97,6 +97,8 @@ _STATE/handoff-progress.md
 
 # generated job-search output (scored rows, raw digests); the board + _STATE carry the durable record
 runtime/job-search/
+# prospect ledger: names and profile links for the prospect-scout agent; local only, never in git
+_STATE/job-search/prospects.jsonl
 
 # python venvs (operators/.venv is created by scripts/operator_registry_emit.py --bootstrap)
 .venv/
