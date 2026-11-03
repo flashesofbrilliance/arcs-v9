@@ -17,7 +17,7 @@ const fg1 = text.primary, fg2 = text.secondary
 const PANEL = "linear-gradient(160deg,#ffffff0d,#ffffff03 38%,#0000002e), linear-gradient(165deg,#11181f,#0a1016)"
 const BEVEL = "inset 0 1px 0 #ffffff1a, inset 0 -2px 8px #00000080, 0 5px 16px #00000073"
 
-export type StageItem = { jobid: string; company: string; title: string; meta?: string; score?: string; tone?: string; stage?: string; manual?: boolean }
+export type StageItem = { jobid: string; company: string; title: string; meta?: string; score?: string; tone?: string; stage?: string; manual?: boolean; links?: { label: string; href: string }[] }
 export type Stage = { key: string; verb: string; label: string; print: string; sla?: string; count: number; items: StageItem[]; empty?: string }
 export type Src = { key: string; label: string; adapter: string; status: string; lastRunAt: string | null; pollWindow: string | null; note: string | null }
 export type Req = { fromDate: string | null; toDate: string | null; query: string | null; status: string; rowsAdded: number | null; requestedAt: string; note: string | null }
@@ -141,6 +141,7 @@ function LaneView({ data }: { data: LaneData }) {
                       {(it.manual || moved[it.jobid]) && <span style={{ fontFamily: mono, fontSize: font.ramp.label, color: signal.cyan, letterSpacing: ".08em", textTransform: "uppercase" }}>moved</span>}
                     </span>
                   </Link>
+                  {it.links && it.links.length > 0 && <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 6, fontSize: font.ramp.label }}>{it.links.map((l) => <a key={l.label} href={l.href} target="_blank" rel="noopener" draggable={false} style={{ color: signal.cyan }}>{l.label}</a>)}</div>}
                   <StageControls it={it} onMove={drop} />
                 </div>
               ))}

@@ -46,12 +46,23 @@ export default async function LanePage() {
   const inStage = (k: string) => rows.filter((r) => stageOf(r) === k)
   const research = inStage("research"), qualify = inStage("qualify"), apply = inStage("apply"), interview = inStage("interview"), closed = inStage("outcome")
 
+  // Qualify holds right-swiped rows. A built packet is ready to send, so those
+  // sort first and carry the resume and the job post on the card: open both,
+  // submit on the employer's site, then "mark applied" here, without a trip
+  // back to the board to find the packet.
+  const ready = (r: (typeof rows)[number]) => r.forge?.status === "built" && !!r.forge.resumeUrl
+  const qualifyItems = [...qualify]
+    .sort((a, b) => Number(ready(b)) - Number(ready(a)))
+    .map((r) => item(r, ready(r)
+      ? { meta: "packet ready", links: [{ label: "resume", href: r.forge!.resumeUrl! }, { label: "job post", href: r.url }] }
+      : { meta: r.forge ? `packet ${r.forge.status}` : "swiped right" }))
+
   const stages: Stage[] = [
     { verb: "analyze", key: "research", label: "Research", print: "JD read + record graded", sla: "2d", count: research.length,
       items: research.map((r) => item(r, { score: undefined, meta: r.unscoredWhy ?? "awaiting score" })),
       empty: "Every row is scored. New ingest lands here first." },
     { verb: "assess", key: "qualify", label: "Qualify", print: "band, tier, one-line read", count: qualify.length,
-      items: qualify.map((r) => item(r, { meta: "unswiped" })), empty: "No scored rows awaiting a swipe." },
+      items: qualifyItems, empty: "No scored rows awaiting a swipe." },
     { verb: "evaluate", key: "apply", label: "Apply and screen", print: "resume cut, tailor notes, landing page", sla: "7d", count: apply.length,
       items: apply.map((r) => item(r, { meta: r.forge ? r.forge.status : "swiped" })), empty: "Swipe right to move a role here." },
     { verb: "synthesize", key: "interview", label: "Interview loop", print: "pre-call brief, full-tier artifacts", sla: "21d", count: interview.length,
