@@ -25,7 +25,7 @@
  },
  "location": {
   "doc": "Split a multi-location string on ; | / 'or'. Keep when any part is NY metro, or remote and not tied to another region, or a US-wide label with no city (United States, US, North America). The title is checked for drop_region too ('(United Kingdom)', 'EMEA'). A bare 'Remote' part counts only when the string names no other region, or also names the US.",
-  "nymetro": "new york|\\bnyc\\b|brooklyn|manhattan|jersey city|hoboken|stamford|greenwich|norwalk|connecticut|\\bct\\b",
+  "nymetro": "new york|\\bnyc\\b|brooklyn|manhattan|jersey city|hoboken|stamford|greenwich|norwalk|westport|fairfield|bridgeport|new haven|darien|milford|shelton|stratford|trumbull|danbury|connecticut|\\bct\\b",
   "remote": "remote|anywhere|distributed|work from home",
   "us_only": "united states|\\busa?\\b|\\bu\\.s\\.|north america|americas",
   "drop_region": "emea|europe|\\buk\\b|united kingdom|london|canada|toronto|india|apac|latam|brazil|mexico|germany|france|paris|berlin|dublin|ireland|amsterdam|netherlands|spain|poland|singapore|japan|tokyo|sydney|australia|israel|tel aviv|international|middle east|\\buae\\b|abu dhabi|dubai|saudi|riyadh|emea"

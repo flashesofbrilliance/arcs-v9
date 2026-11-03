@@ -323,14 +323,6 @@
   },
   {
    "rule": "ORPHAN-TOOL",
-   "id": "tool:surface:concourse.arcs.care/plan",
-   "reason": "client-facing page with no live row serving it (all PRL rows HELD); fate is Zach's call",
-   "row": "jtbd-graph-triage-2026-10-20",
-   "added": "2026-11-03",
-   "resolve_by": "2026-11-17"
-  },
-  {
-   "rule": "ORPHAN-TOOL",
    "id": "tool:surface:prl.arcs.care/checkpoint",
    "reason": "client-facing page with no live row serving it (all PRL rows HELD); fate is Zach's call",
    "row": "jtbd-graph-triage-2026-10-20",

@@ -16,7 +16,7 @@ const rewritten = (res: Response) => {
 const MACHINE = ["/llms.txt", "/index.md", "/robots.txt", "/sitemap.xml"]
 
 test("proxy: open catch-all hosts never rewrite a machine path to HTML", async () => {
-  for (const host of ["good.arcs.care", "resume.arcs.care", "concourse.arcs.care", "saul.arcs.care", "honest.arcs.care"]) {
+  for (const host of ["good.arcs.care", "resume.arcs.care", "claritai.arcs.care", "saul.arcs.care", "honest.arcs.care"]) {
     for (const path of MACHINE) {
       const dest = rewritten(await proxy(req(host, path)))
       assert.ok(!dest?.endsWith(".html"), `${host}${path} -> ${dest}`)
@@ -27,7 +27,6 @@ test("proxy: open catch-all hosts never rewrite a machine path to HTML", async (
 test("proxy: hosts with their own llms.txt serve it; unknown machine paths 404", async () => {
   assert.equal(rewritten(await proxy(req("good.arcs.care", "/llms.txt"))), "/good-llms.txt")
   assert.equal(rewritten(await proxy(req("resume.arcs.care", "/llms.txt"))), "/resume-llms.txt")
-  assert.equal(rewritten(await proxy(req("concourse.arcs.care", "/llms.txt"))), "/concourse-llms.txt")
   assert.equal((await proxy(req("good.arcs.care", "/index.md"))).status, 404)
   assert.equal((await proxy(req("dj.arcs.care", "/llms.txt"))).status, 404)
 })
