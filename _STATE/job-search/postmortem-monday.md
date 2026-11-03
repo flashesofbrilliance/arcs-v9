@@ -43,9 +43,14 @@ tracked by mid-September, this was the first human response. n = 1. Treat the re
 
 ## What lost it (the part worth not repeating)
 
-From the recoil close, verdict FORK/YELLOW, about 0.55 at the time:
+From the recoil close (`_ARTIFACTS/forge-monday-fde/walkthrough/2026-10-26-recoil-close.md`), verdict FORK/YELLOW,
+about 0.55 at the time:
 - Opened with the bench, not the deck; Jacob redirected at 11:45.
-- No code walk, even when Kamran asked for the guardrail code.
+- ~~No code walk, even when Kamran asked for the guardrail code.~~ Corrected 2026-11-03: Kamran narrowed his ask to
+  "just one or 2" and Zach walked the eval code and tests, then ended the share himself (recoil close, section
+  "Correction: the guardrail ask was met at Kamran's scope"). The real gap was completeness: the answer and resolve
+  modules of the take-home repo (ret-rfp-intelligence) and the governance tabs were not reached. The first version of this post-mortem took the stale line from memory
+  instead of the recoil close's final section.
 - Number slips in front of an eval-minded panel ($0.76 per cycle said as per question; eval attribution).
 - Prepared PII and retrieval-at-scale answers went unused.
 - Prep built more than it rehearsed: a 134-file catalog and 28 question chains, while the six beats were never said
@@ -53,6 +58,12 @@ From the recoil close, verdict FORK/YELLOW, about 0.55 at the time:
 
 What landed: "incredibly meticulous", the eval-change answer, the policy/RAG answer. The applicant pool was large;
 do not assume the walkthrough alone decided it.
+
+## The forecast
+
+The recoil close's final read was 0.65 to 0.68 to advance; the outcome was no (Brier 0.44). Every upward revision
+came from re-reading the same transcript, not from new evidence. Scored in the recoil close, section "Outcome and
+calibration".
 
 ## The cost
 
