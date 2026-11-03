@@ -52,8 +52,9 @@ export function StickyFooter({
   const [dismissed, setDismissed] = useState(false)
   const pathname = usePathname()
 
-  // Full-screen instruments (arcs.care/hud) carry no page chrome; a dismissed offer leaves no bar.
-  if (pathname === '/hud' || dismissed) return null
+  // Full-screen instruments (arcs.care/hud) and the private jobs workspace carry no
+  // offer bar (on the lane it covered the cards); a dismissed offer leaves no bar.
+  if (pathname === '/hud' || pathname.startsWith('/jobs') || dismissed) return null
   return (
     <div
       style={{
