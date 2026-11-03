@@ -1,4 +1,6 @@
 <!doctype html>
+<!-- @arcs-template: tool-getting-started -->
+<!-- @arcs-mode: read -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -260,6 +262,39 @@ footer { margin-top: 72px; color: var(--soft); font-size: 14px; display: grid; g
 /* last: font shorthands above reset ligatures, so this must come after them */
 code, pre, kbd, textarea, .tool { font-variant-ligatures: none !important; font-feature-settings: "liga" 0, "calt" 0 !important; }
 @media (prefers-reduced-motion: reduce) { .strip::after { animation: none; } .step a, .chev { transition: none; } }
+
+/* tool-getting-started (src/ui-kit/templates.json): grammar chips from the kit, and the template's
+   section styles scoped to .tgs so honest's own .panel step cards keep their look. */
+:root{--g-bg:var(--bg);--g-panel:var(--surface);--g-elevated:var(--elevated);--g-border:var(--border);--g-text:var(--text);--g-text-2:var(--text-secondary);--g-focus:var(--cyan);--g-tint:7%;--g-edge:33%;--g-say:var(--cyan);--g-show:var(--green);--g-limit:var(--gold);--g-fail:var(--red);--g-shift:var(--violet);--g-neutral:var(--text-secondary);color-scheme:dark}
+:root[data-theme="dark"]{--g-bg:var(--bg);--g-panel:var(--surface);--g-elevated:var(--elevated);--g-border:var(--border);--g-text:var(--text);--g-text-2:var(--text-secondary);--g-focus:var(--cyan);--g-tint:7%;--g-edge:33%;--g-say:var(--cyan);--g-show:var(--green);--g-limit:var(--gold);--g-fail:var(--red);--g-shift:var(--violet);--g-neutral:var(--text-secondary);color-scheme:dark}
+.g-chip{--c:var(--g-neutral);display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:3px;border:1px solid color-mix(in srgb,var(--c) var(--g-edge),transparent);background:color-mix(in srgb,var(--c) var(--g-tint),var(--g-panel));color:var(--g-text);font:400 0.925rem/1.3 'Inter', system-ui, -apple-system, sans-serif;white-space:nowrap;max-width:100%}
+.g-chip .g-glyph{color:var(--c);font-size:1em;line-height:1}
+.g-chip .g-tag{color:var(--c);font:700 0.6875rem/1 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;letter-spacing:.12em;text-transform:uppercase}
+.g-chip .g-body{white-space:normal}
+.g-chip[data-tone="say"]{--c:var(--g-say)}
+.g-chip[data-tone="show"]{--c:var(--g-show)}
+.g-chip[data-tone="limit"]{--c:var(--g-limit)}
+.g-chip[data-tone="fail"]{--c:var(--g-fail)}
+.g-chip[data-tone="shift"]{--c:var(--g-shift)}
+.g-chip[data-tone="neutral"]{--c:var(--g-neutral)}
+.g-chip[data-fidelity="sharp"] .g-body{font-weight:500;letter-spacing:0}
+.g-chip[data-fidelity="degraded"] .g-body{font-weight:400;letter-spacing:0.01em}
+.g-chip[data-fidelity="grain"] .g-body{font-weight:300;letter-spacing:0.02em}.g-chip[data-fidelity="grain"]{background-image:radial-gradient(color-mix(in srgb,var(--c) 30%,transparent) .6px,transparent .8px);background-size:5px 5px}
+.g-chip[data-fidelity="moire"] .g-body{font-weight:300;letter-spacing:0.03em}.g-chip[data-fidelity="moire"]{background-image:radial-gradient(color-mix(in srgb,var(--g-say) 28%,transparent) .6px,transparent .8px),radial-gradient(color-mix(in srgb,var(--g-limit) 24%,transparent) .6px,transparent .8px);background-size:4px 4px,4.6px 4.6px}
+.g-chip:focus-visible{outline:1px solid var(--g-focus);outline-offset:2px}
+.tgs{--ds-r-xs:3px;--ds-r-sm:6px;--fs-label:0.6875rem;--ds-font-mono:'JetBrains Mono','JetBrains Mono Fallback','IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
+.g-chip{background:var(--g-panel)}
+.g-chip .g-tag{font-family:'JetBrains Mono','JetBrains Mono Fallback',ui-monospace,monospace}
+.tgs .eyebrow{font:700 var(--fs-label)/1.3 var(--ds-font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--g-text-2);margin-bottom:10px}
+.tgs .rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:0 0 12px}
+.tgs .rules .panel{background:var(--g-panel);border:1px solid var(--g-border);border-radius:var(--ds-r-sm);padding:16px 18px;margin:0}
+.tgs .rules h3{font-family:var(--ds-font-mono);font-weight:700;font-size:var(--fs-label);line-height:1.3;letter-spacing:.12em;text-transform:uppercase;color:var(--g-say);margin:0 0 6px}
+.tgs .rules p{margin:0 0 8px;color:var(--g-text-2)}
+.tgs .rules pre{white-space:pre-wrap;word-break:break-all;margin:0}
+/* tool swatch: honest wears moss #6f8f3a (about 82deg, clear of gold and green); structure only. */
+:root{--tool-accent:#6f8f3a}
+.tgs .rules .panel{background-image:linear-gradient(var(--tool-accent),var(--tool-accent));background-size:100% 3px;background-repeat:no-repeat;background-position:top}
 </style>
 <link rel="preload" href="/fonts/inter-normal-100-900-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -282,6 +317,11 @@ code, pre, kbd, textarea, .tool { font-variant-ligatures: none !important; font-
     <h1>Check it <span>before you say it.</span></h1>
     <p class="lede">Five steps between an idea and a message. Each step gets a stamp: go or stop. If any step says stop, you fix it before anyone hears it.</p>
     <p class="scope">It checks that every fact you mark names a source, that no new marked facts sneak in along the way, and that at least one review disagrees. It can't tell you whether a claim is true. That part is still yours.</p>
+    <div class="chips">
+      <span class="g-chip" data-tone="show"><span class="g-glyph">●</span><span class="g-tag">Sourced</span><span class="g-body">every marked fact names one</span></span>
+      <span class="g-chip" data-tone="say"><span class="g-glyph">◆</span><span class="g-tag">Stops</span><span class="g-body">any step can say stop</span></span>
+      <span class="g-chip" data-tone="limit"><span class="g-glyph">▲</span><span class="g-tag">Not truth</span><span class="g-body">it can't tell you a claim is true</span></span>
+    </div>
   </header>
 
   <ol class="strip" aria-label="The five steps">
@@ -331,6 +371,17 @@ code, pre, kbd, textarea, .tool { font-variant-ligatures: none !important; font-
       <div><dt>What do I need to run it?</dt><dd><strong>This page, or Python.</strong> The checks run here in your browser. For a terminal, code, GitHub or a pre-commit hook, clone <a href="https://github.com/flashesofbrilliance/check-it-before-you-say-it">the open-source repo</a>: Python 3.9+, standard library only, nothing to install.</dd></div>
       <div><dt>Who decides the parts a machine can't?</dt><dd><strong>A person.</strong> Each step has a short scorecard. The tool leaves it blank for you.</dd></div>
     </dl>
+  </section>
+
+  <section class="tgs" aria-labelledby="start">
+    <div class="eyebrow">ARCS public goods · graduate</div>
+    <h2 id="start">Get started</h2>
+    <div class="rules">
+      <div class="panel"><h3>In this page</h3><p>Nothing to install. Paste your work below and press Check it. Nothing you paste is uploaded.</p></div>
+      <div class="panel"><h3>In a terminal</h3><p>Python, MIT-licensed. Clone it, then run the self-test.</p><pre>git clone https://github.com/flashesofbrilliance/check-it-before-you-say-it tools/arcs-verb-eval
+tools/arcs-verb-eval/arcs-verb-eval --self-test</pre></div>
+      <div class="panel"><h3>In a pull request</h3><p>Run all five steps as a GitHub check. The workflow is under For builders.</p><pre>tools/arcs-verb-eval/arcs-verb-eval pipeline --config arc.json</pre></div>
+    </div>
   </section>
 
   <section aria-labelledby="try">
