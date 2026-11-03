@@ -1,6 +1,6 @@
 # The journey first, then the first product: decision page (2026-11-03)
 
-Status: PROPOSED, waiting on Zach's yes or no on three items (bottom). Nothing was built, sent or published to make this page.
+Status: PROPOSED, waiting on Zach's yes or no on four items (bottom). Nothing was built, sent or published to make this page.
 
 Prior art: `_PATTERNS/2026-07-13-frontend-monetization-queue.md` (July ranking), backlog rows `agent-receipts-audit-offer` (DONE) and
 `agent-receipts-audit-first-conversion` (HOLDING, its one dependency is now DONE), memories on free-to-hold / metered-to-fire,
@@ -8,9 +8,9 @@ refusal to overclaim, cut not add, and the product-marketing legibility gap.
 
 ## 1. The journey, as it runs today
 
-The test is WORLD.md's Myst rule: the world teaches you how to read it, with no tour. Four stages: **arrive** at the compass, **pick
-up** instruments, **rest** in the reading room, **return** through receipts. Each link below was read from the live HTML or the source
-on 2026-11-03.
+The test is WORLD.md's Myst rule: the world teaches you how to read it, with no tour. Proposed stages: **arrive** at the compass,
+**navigate** (pick up instruments, travel by the HUD), **pause** (conscious or incubating), **rest** in the reading room, **return** from
+a seed. Pause and the seed are new stages; sections 1a and 1b. Each link below was read from the live HTML or the source on 2026-11-03.
 
 | Stage | Where it lives | What a visitor can actually do next | Verdict |
 |---|---|---|---|
@@ -31,6 +31,38 @@ One pattern already does the rewiring right: good.arcs.care/fears sends each fea
 4. Rest: **Zach's call.** Either open a public, read-only shelf of the reading room, or name good.arcs.care/series (Lore, Receipts)
    as the public reading room and keep the desk private. The second costs one link; the first is a gate change.
 
+### 1a. Navigate: the HUD is the transit layer, not one more instrument
+
+The HUD moves you node to node inside a cluster (zooming along the nested ontology) and cluster to cluster through orthogonal echoes.
+Three axes: **space** = the terrain lattice (ontology), **time** = the belief scrub (epistemology), **lineage** = where each idea came
+from (etymology, not built). Its entry point is the seed in 1b, a null point you can always go back to.
+
+Today: app.arcs.care/hud returns 200 to anyone, but `src/app/hud/page.tsx` passes the field data only to admins. A visitor gets the
+shell with no terrain. No code path in the HUD reads echoes yet. So the transit layer is admin-only, and the cluster-to-cluster move is
+not built. The clusters from section 3 are what it would travel between.
+
+### 1b. Pause, then Return from a seed
+
+**Pause** is a new stage between Navigate and Return. Two modes:
+- **Conscious:** the Shavasana questions (Operator 25: what went out, what came in, does each claim survive without the momentum,
+  certainty now vs at the start). Spec at `runtime/specs/operator-25-shavasana-v0.md`; the spec itself says row 25 is UNBUILT. The
+  mechanical half runs inside handoffs (`scripts/shavasana_handoff.py`).
+- **Subconscious (incubation):** the decision is put down and held until its kairos moment, so nothing one-way happens while the person
+  is away. Fold, molt and handoff are how the state is put down whole. Caution on the word: `scripts/write_lock.py` today locks git
+  refs between sessions (ADR-085). It does not hold a person's decision. A visitor-facing hold would reuse its idea, not its code.
+
+**Return** runs on a **seed**: a cold-start bundle that rebuilds the most relevant context, memory, situation and spatial awareness, so
+a thread can be picked up with as little rebuffering as possible. It needs two halves:
+- **Stored state.** Harness version today: the handoff block and its Cold-start recipe, `_STATE/snapshot.json`, the progressive-handoff
+  ledger, `/handoff-pickup`, `scripts/prior_art.py`.
+- **Live probes** that re-check the outside world on waking. Today `/handoff-pickup` probes only git and Vercel. Nothing re-reads the
+  inbox, calendar or the counterpart's thread. That is why this morning's handoff said "wait for Sam's reply" while her rejection was
+  already in the inbox.
+
+**Metric: time to first useful action after a cold start.** Measured from session start to the first action that changes state
+for the right reason (a send, a merge, a correct "nothing to do"). A stale next action that gets followed counts as a miss, not a
+fast start. The visitor version is the same: time from opening a returning receipt to the next real move.
+
 ## 2. The product kit, per candidate
 
 Zach's standard kit: playground, proof, beliefs, surfaces listing, reconciliation view, status page, OpenTelemetry.
@@ -46,6 +78,20 @@ Cut, not add: beliefs, surfaces and status already exist as single shared ledger
 | Reconciliation view | **Not found as a page.** Closest: status.arcs.care "receipt layer" and the /history ledger | Missing | Missing | Missing |
 | Status page | status.arcs.care (whole-system, Day 0 to today) | Missing | **Yes: 9 status pages** at prl.arcs.care/status/* | Missing |
 | OpenTelemetry | **None anywhere.** No otel package or `instrumentation.ts` in the repo | None | None | None |
+
+Journey pieces, by who can meet them today:
+
+| Piece | Stage | Exists as | Who meets it |
+|---|---|---|---|
+| HUD (space axis, terrain) | Navigate | app.arcs.care/hud | Shell: visitor. Terrain: **harness-only** (admin) |
+| HUD echoes (cluster to cluster) | Navigate | Not built | Nobody |
+| Belief scrub (time axis) | Navigate | status.arcs.care/beliefs | Visitor-facing (as a ledger, not a scrub) |
+| Lineage (etymology axis) | Navigate | Not built | Nobody |
+| Shavasana questions | Pause, conscious | Spec + handoff script | **Harness-only** |
+| Incubation hold | Pause, subconscious | `write_lock.py` (git refs only) | **Harness-only**, and a different job |
+| Fold, cold molt, unfold, handoff | Pause (put down whole) | `/fold`, `cold_molt_lint.py`, `unfold.py`, `handoff_fold.py` | **Harness-only** |
+| Seed, stored half | Return | snapshot, handoff block, `/handoff-pickup`, `prior_art.py` | **Harness-only**. Visitor nearest: /history and debrief |
+| Seed, live probes | Return | git + Vercel only | **Harness-only**, and missing inbox, calendar, threads |
 
 Read: PRL has the most kit and the only revenue. The audit has the best playground and proof. OpenTelemetry and a reconciliation view
 are missing everywhere. Note: I could not find a page named "reconciliation view". If Zach means a specific one, the row above needs
@@ -111,5 +157,7 @@ business days moves the effort to the PRL sprint, starting with proving its prod
 1. Outreach for the audit today: yes or no.
 2. The rest stage: open a public reading-room shelf, or name good.arcs.care/series as the public reading room.
 3. Theme clustering: go on pass 1 only, or pass 1 plus pass 2 (needs a Python install).
+4. Seed live probes: add inbox, calendar and open-thread checks to `/handoff-pickup` first (harness, cheapest, would have caught
+   this morning's miss), before any visitor-facing pause or seed.
 
 The four rewiring links in section 1 are small edits to existing pages; they wait for the same go.
