@@ -18,6 +18,8 @@ Loads when you read, write or edit code. Source: the `agent-protocols:karpathy-g
 
 ## 1. Grug first, then think before coding
 
+- Pre-frame before any investment: is this the right first input, given the binding constraint right now? Argue the other side at
+  full strength in a line or two, then proceed, redirect or ask (memory `preframe-challenge-the-input-before-investing`).
 - Ask whether the thing needs to exist at all. For a new tool, gate, script or process, run the `grug` agent first.
 - State assumptions out loud. If a request has two readings, name both; don't pick one silently. If something is unclear, stop and ask.
 - If a simpler approach exists, say so and push back.
