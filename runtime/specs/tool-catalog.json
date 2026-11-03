@@ -2,21 +2,21 @@
  "schema": "tool-catalog-v1",
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
-  "agent": 24,
+  "agent": 27,
   "command": 18,
   "hook": 3,
   "operator": 46,
-  "package": 3,
-  "script": 260,
-  "skill": 22,
+  "package": 4,
+  "script": 274,
+  "skill": 25,
   "workflow": 2
  },
- "total": 378,
+ "total": 399,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 535,
+   "WIRED": 556,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -88,6 +88,14 @@
    "path": ".claude/skills/cruft-sweep/SKILL.md",
    "jtbd": "Survey, classify, and safely reclaim stale git worktrees in a many-worktree repo, and spread shared files across them. Use when worktrees accumulate (\"clean up worktrees\", \"prune stale branches\", \"spread this to other worktrees\"), before a ",
    "invoke": "/cruft-sweep",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
+   "name": "dream",
+   "path": ".claude/skills/dream/SKILL.md",
+   "jtbd": "Out-of-band dreaming pass. Scan session transcripts (repeat failures, Zach's corrections) or the repo docs plus memory (dead cites, stale verifications), fan the residue out to dream-scout agents, and write memory or doc edit proposals with",
+   "invoke": "/dream",
    "state": "WIRED"
   },
   {
@@ -188,6 +196,14 @@
   },
   {
    "kind": "skill",
+   "name": "readme-to-video",
+   "path": ".claude/skills/readme-to-video/SKILL.md",
+   "jtbd": "Turn a true, checked README into a short narrated walkthrough video in Zach's own voice, and prove the video says nothing the README does not. Nine stages (extract, cut, write, text gate, voice, audio gate, render, video gate, ship) over th",
+   "invoke": "/readme-to-video",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
    "name": "recoil-close",
    "path": ".claude/skills/recoil-close/SKILL.md",
    "jtbd": "T-zero phase (the loop-closing moment). After the call, pull the transcript, score the ex-ante receipt against reality, and fill the Forge / Recoil / War Game / Defensibility tabs. Use right after a call you ran /recoil-prep on.",
@@ -224,6 +240,14 @@
    "path": ".claude/skills/sbom-payload-scan/SKILL.md",
    "jtbd": ">",
    "invoke": "/sbom-payload-scan",
+   "state": "WIRED"
+  },
+  {
+   "kind": "skill",
+   "name": "ship-status",
+   "path": ".claude/skills/ship-status/SKILL.md",
+   "jtbd": "Answer \"did it ship?\" for any branch in one run - committed locally, pushed, PR (number, state), checks (each name and conclusion), merged (merge commit), production deployment contains the commit, live URL serves it. Use for every \"did we ",
+   "invoke": "/ship-status",
    "state": "WIRED"
   },
   {
@@ -484,6 +508,22 @@
   },
   {
    "kind": "agent",
+   "name": "cruise-control",
+   "path": ".claude/agents/cruise-control.md",
+   "jtbd": "[CANDIDATE] Holds heading in reversible airspace: runs the read-only checks, sweeps stale backlog rows, sequences ready work, reports drift and the live-session count against the 4-session budget. Disengages at every one-way door (merge, pu",
+   "invoke": "Agent subagent_type=cruise-control",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "dream-scout",
+   "path": ".claude/agents/dream-scout.md",
+   "jtbd": "The judgment half of a dreaming pass. Takes one slice of scripts/dream_mine.py output (tool-error clusters, corrections, dead cites, stale verifications) and returns a verdict per item with the evidence, plus proposed memory or doc edits. R",
+   "invoke": "Agent subagent_type=dream-scout",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
    "name": "grug",
    "path": ".claude/agents/grug.md",
    "jtbd": "Grug brain check (grugbrain.dev). Call before a plan, a new tool or gate, or when spiraling. Asks if the thing needs to exist at all. Read-only, short answers. Pair with a gigabrain agent (e.g. chief-loki) on the same prompt; agreement mean",
@@ -568,6 +608,14 @@
    "path": ".claude/agents/privacy-review.md",
    "jtbd": "Privacy/compliance review — verifies code matches the published trust contract and privacy claims. Run on changes touching data storage, emails, analytics, retention, or any public claim page.",
    "invoke": "Agent subagent_type=privacy-review",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "prospect-scout",
+   "path": ".claude/agents/prospect-scout.md",
+   "jtbd": "[CANDIDATE] Reverse headhunter for Zach's job search: joins the three instruments that already exist (role scan, profile scan, gatekeeper heuristic) into one triad card per target, with the open-weight wrinkles, an earned fidelity, and the ",
+   "invoke": "Agent subagent_type=prospect-scout",
    "state": "WIRED"
   },
   {
@@ -684,6 +732,14 @@
   },
   {
    "kind": "script",
+   "name": "approvals_ledger.py",
+   "path": "scripts/approvals_ledger.py",
+   "jtbd": "approvals_ledger: every open PR, its owner, its check state, and whether a merge approval exists and how it arrived.",
+   "invoke": "python3 scripts/approvals_ledger.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "archetype_scan.py",
    "path": "scripts/archetype_scan.py",
    "jtbd": "ARCS Archetype Scan — Resonance Scoring & Force-Directed Graph",
@@ -764,6 +820,14 @@
   },
   {
    "kind": "script",
+   "name": "backlog_append.py",
+   "path": "scripts/backlog_append.py",
+   "jtbd": "backlog_append.py: add rows to _QUEUE/induced-backlog.jsonl without rewriting the file. Stdlib, no model calls.",
+   "invoke": "python3 scripts/backlog_append.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "backlog_freshness.py",
    "path": "scripts/backlog_freshness.py",
    "jtbd": "backlog_freshness.py: list induced-backlog rows past their review_by date.",
@@ -840,6 +904,14 @@
    "path": "scripts/beat_truth_tracks.py",
    "jtbd": "beat_truth_tracks.py: synthetic tracks with KNOWN tempo and downbeat for testing the page's beat detection (stdlib plus numpy).",
    "invoke": "python3 scripts/beat_truth_tracks.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "belief_blame.py",
+   "path": "scripts/belief_blame.py",
+   "jtbd": "belief_blame.py: blame the assumption, not the author (read-only, stdlib only).",
+   "invoke": "python3 scripts/belief_blame.py",
    "state": "WIRED"
   },
   {
@@ -1020,6 +1092,14 @@
   },
   {
    "kind": "script",
+   "name": "cold_reader_gate.py",
+   "path": "scripts/cold_reader_gate.py",
+   "jtbd": "cold_reader_gate — the mechanical half of the pre-render legibility gate (ADR-075).",
+   "invoke": "python3 scripts/cold_reader_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "component_source_gate.py",
    "path": "scripts/component_source_gate.py",
    "jtbd": "component_source_gate: enrolled single-file HTML surfaces assemble from the ui-kit",
@@ -1144,6 +1224,14 @@
    "path": "scripts/doll_sprout.py",
    "jtbd": "doll_sprout.py — germinate a doll into a tenant memory dir (UserN+1 side).",
    "invoke": "python3 scripts/doll_sprout.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "dream_mine.py",
+   "path": "scripts/dream_mine.py",
+   "jtbd": "dream_mine.py: the deterministic scout half of an out-of-band \"dreaming\" pass.",
+   "invoke": "python3 scripts/dream_mine.py",
    "state": "WIRED"
   },
   {
@@ -1452,6 +1540,22 @@
   },
   {
    "kind": "script",
+   "name": "hud_widget_isolation_gate.py",
+   "path": "scripts/hud_widget_isolation_gate.py",
+   "jtbd": "Isolation gate for HUD widgets (row hud-widget-views-admin-mount).",
+   "invoke": "python3 scripts/hud_widget_isolation_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "hud_widget_registry_emit.py",
+   "path": "scripts/hud_widget_registry_emit.py",
+   "jtbd": "hud_widget_registry_emit.py - generate runtime/specs/hud-widgets.json, the registry of the five",
+   "invoke": "python3 scripts/hud_widget_registry_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "hypercube_sampler.py",
    "path": "scripts/hypercube_sampler.py",
    "jtbd": "hypercube_sampler.py — the cost-governed hypercube gauntlet sampling engine (v1)",
@@ -1484,10 +1588,26 @@
   },
   {
    "kind": "script",
+   "name": "jobs_morning_preflight.sh",
+   "path": "scripts/jobs_morning_preflight.sh",
+   "jtbd": "jobs_morning_preflight.sh: the morning jobs loop's worktree setup + preflight",
+   "invoke": "scripts/jobs_morning_preflight.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "jobs_prose_gate.py",
    "path": "scripts/jobs_prose_gate.py",
    "jtbd": "jobs_prose_gate: Job Factory slice 7. The NFTT prose factory's gate chain, run on",
    "invoke": "python3 scripts/jobs_prose_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jobs_wt.sh",
+   "path": "scripts/jobs_wt.sh",
+   "jtbd": "jobs_wt.sh: run one morning-jobs step from the dedicated worktree, as ONE command.",
+   "invoke": "scripts/jobs_wt.sh",
    "state": "WIRED"
   },
   {
@@ -1536,6 +1656,14 @@
    "path": "scripts/jtbd_s4_pool.py",
    "jtbd": "Prepare and seal the Sprint 4 blind pool (amendment 7 rule 3).",
    "invoke": "python3 scripts/jtbd_s4_pool.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "jtbd_s5_quality_pool.py",
+   "path": "scripts/jtbd_s5_quality_pool.py",
+   "jtbd": "Prepare the JTBD s5 quality rerun pool and score it (EARLY/INTERIM run, started 2026-11-01).",
+   "invoke": "python3 scripts/jtbd_s5_quality_pool.py",
    "state": "WIRED"
   },
   {
@@ -1868,6 +1996,14 @@
   },
   {
    "kind": "script",
+   "name": "orphanage.py",
+   "path": "scripts/orphanage.py",
+   "jtbd": "orphanage.py: find tools that live only on unmerged branches, and give each one a fate.",
+   "invoke": "python3 scripts/orphanage.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "outcome_funnel.py",
    "path": "scripts/outcome_funnel.py",
    "jtbd": "outcome_funnel.py: the Accountant's raw feed. READ-ONLY.",
@@ -1928,6 +2064,14 @@
    "path": "scripts/phosphor_suite.sh",
    "jtbd": "phosphor_suite.sh: run every Phosphor check ONE process at a time against the built page, N rounds (default 1), and print a flake ledger:",
    "invoke": "scripts/phosphor_suite.sh",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "pre_prep_gate.py",
+   "path": "scripts/pre_prep_gate.py",
+   "jtbd": "pre_prep_gate — the INPUT end of the legibility clean room (ADR-075, amendment A).",
+   "invoke": "python3 scripts/pre_prep_gate.py",
    "state": "WIRED"
   },
   {
@@ -2332,6 +2476,14 @@
   },
   {
    "kind": "script",
+   "name": "ship_status.py",
+   "path": "scripts/ship_status.py",
+   "jtbd": "ship_status.py: report every stage from local commit to live URL for one or more branches.",
+   "invoke": "python3 scripts/ship_status.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "slop_eval.py",
    "path": "scripts/slop_eval.py",
    "jtbd": "slop_eval: the JUDGMENT tier of the slop-free system (companion to the mechanical slop_lint).",
@@ -2684,6 +2836,14 @@
   },
   {
    "kind": "script",
+   "name": "voice_gate.py",
+   "path": "scripts/voice_gate.py",
+   "jtbd": "voice_gate.py: fail counterpart-facing copy that speaks in the royal \"we\".",
+   "invoke": "python3 scripts/voice_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "warroom_board.py",
    "path": "scripts/warroom_board.py",
    "jtbd": "warroom_board.py — sovereign projection service: the instrument board.",
@@ -2728,6 +2888,14 @@
    "path": "tools/cold-recon/README.md",
    "jtbd": "A self-contained, parameterized CLI for the ARCS **cold-reconstruction** post-mortem method:",
    "invoke": "tools/cold-recon/cold-recon",
+   "state": "UNAUDITED"
+  },
+  {
+   "kind": "package",
+   "name": "readme-video",
+   "path": "tools/readme-video/README.md",
+   "jtbd": "Rescued 2026-10-31 from an uncommitted Claude scratchpad (see `ASSETS.md`). The skill that drives it is",
+   "invoke": "see tools/readme-video/README.md",
    "state": "UNAUDITED"
   },
   {
