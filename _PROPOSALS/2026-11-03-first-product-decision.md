@@ -59,6 +59,21 @@ a thread can be picked up with as little rebuffering as possible. It needs two h
   inbox, calendar or the counterpart's thread. That is why this morning's handoff said "wait for Sam's reply" while her rejection was
   already in the inbox.
 
+**The seed's schema: five layers.** Each maps to something that exists. The visitor column is what a returning compass user's seed
+(their receipt, brief, debrief and /history) carries today.
+
+| Layer | What it answers | Harness has | Visitor has today |
+|---|---|---|---|
+| 1. Coordinates and waypoints | Where does the work stand? | Handoff block, backlog row `state` | **Partly.** /history lists receipts; `Outcome.driftState` (ON_TRACK, DRIFTING, LOCKED, LANDED) |
+| 2. Clipped protection | What fixed points can I fall back to? | `decision_receipt` (append-only), `write_lock.py` | **Partly.** Each Receipt is a fixed point with a lineage `version`. No lock or hold |
+| 3. Hazard chart | What capsized earlier tries? | `_STATE/job-search/postmortem-fanatics.md`, Kintsugi seams | **Thin.** The receipt's `loki` field (strongest counter-argument) warns before; nothing records what actually capsized after |
+| 4. Hardening log | What made the craft seaworthy? | Frustration gates, feedback memories | **None** |
+| 5. Blessing | What was intended, and is it released? | Ex-ante receipt, true north, Shavasana disposition | **Half.** `trueNorth` plus the prep (`protecting`, `confidence`, `outcomeHorizon`) is the intention. No release step |
+
+Read: the visitor seed carries where they stand and what they meant, but not what went wrong, what they learned, or a release. Layers
+3 to 5 are the gap. Note: `postmortem-monday.md` is not on this branch or in the main checkout; the memory index names it, so it
+may sit on another branch or be unwritten. Layer 3 is checked against the Fanatics post-mortem only.
+
 **Metric: time to first useful action after a cold start.** Measured from session start to the first action that changes state
 for the right reason (a send, a merge, a correct "nothing to do"). A stale next action that gets followed counts as a miss, not a
 fast start. The visitor version is the same: time from opening a returning receipt to the next real move.
