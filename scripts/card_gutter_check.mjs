@@ -51,6 +51,9 @@ function inPage(gutterPx) {
     const innerRight = cr.right - parseFloat(cs.borderRightWidth) - parseFloat(cs.paddingRight)
     const parent = el.parentElement.getBoundingClientRect()
     if (parent.right < innerRight - 1) continue
+    // A cell of a multi-column grid or a flex row is a column the layout chose, not a capped text block.
+    const pcs = getComputedStyle(el.parentElement)
+    if ((/grid/.test(pcs.display) && pcs.gridTemplateColumns.trim().split(/\s+/).length > 1) || (/flex/.test(pcs.display) && /^row/.test(pcs.flexDirection) && el.parentElement.children.length > 1)) continue
     const gutter = innerRight - el.getBoundingClientRect().right
     if (gutter > gutterPx && multi(el))
       out.push({ tag: el.tagName.toLowerCase(), text: el.textContent.trim().replace(/\s+/g, ' ').slice(0, 50), cardInner: Math.round(innerRight - (cr.left + parseFloat(cs.borderLeftWidth) + parseFloat(cs.paddingLeft))), blockW: Math.round(el.getBoundingClientRect().width), gutter: Math.round(gutter) })
