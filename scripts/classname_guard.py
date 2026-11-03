@@ -16,6 +16,9 @@ from pathlib import Path
 CLASSNAME_ALLOW = {
     "src/app/layout.tsx": 1,  # next/font variable classes on <html> (framework mechanism)
     "src/app/recoil/[reportId]/ReportActions.tsx": 1,  # @media print hide; inline styles can't express media queries
+    # Vanilla DOM script for a self-contained ui-kit artifact: sets element.className on nodes it builds,
+    # styled by the artifact's own CSS (gotcha #13), not JSX className. Red on main since 9cfc8c3f.
+    "src/ui-kit/recoil-report/_player.js": 18,
 }
 CSS_ALLOW = {
     "src/app/globals.css",  # reset + keyframes + font tokens

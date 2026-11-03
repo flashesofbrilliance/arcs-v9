@@ -1,0 +1,193 @@
+{
+  "version": "0.5.1",
+  "about": "One visual grammar for claim chips (README to video, receipts, briefs). Source of truth: scripts/grammar_chips_emit.py writes src/ui/grammarChipTokens.ts and the CSS block in src/ui-kit/grammar-chips/chips.html from this file. Values come from DESIGN.md (dark: obsidian world; light: Light paper world, every signal at least 4.6:1 on #e9eef4). Dark mode reads the kit tokens (src/ui-kit/recoil-report/_tokens.css, inlined verbatim into the HTML) by name; the hex values here mirror them for JSX.",
+  "tones": {
+    "say": {
+      "glyph": "▸",
+      "tag": "Say",
+      "meaning": "the claim, stated",
+      "mui": "primary",
+      "dark": "#e2e8f0",
+      "light": "#0f172a",
+      "kitVar": "--text"
+    },
+    "show": {
+      "glyph": "▲",
+      "tag": "Shown",
+      "meaning": "shown: the record is on the page",
+      "mui": "success",
+      "dark": "#00FF9D",
+      "light": "#0b7a4b",
+      "kitVar": "--green"
+    },
+    "request": {
+      "glyph": "◆",
+      "tag": "On request",
+      "meaning": "the record exists and is private; shown on request",
+      "mui": "info",
+      "dark": "#00F0FF",
+      "light": "#00748e",
+      "kitVar": "--cyan"
+    },
+    "notyet": {
+      "glyph": "~",
+      "tag": "Not yet",
+      "meaning": "not yet shown, admitted (the honesty tilde)",
+      "mui": "warning",
+      "dark": "#FFD700",
+      "light": "#8a6200",
+      "kitVar": "--gold"
+    },
+    "limit": {
+      "glyph": "⚑",
+      "tag": "Limit",
+      "meaning": "the caveat that travels with the claim",
+      "mui": "warning",
+      "dark": "#ff9d3c",
+      "light": "#a34a0b",
+      "kitVar": "--orange"
+    },
+    "fail": {
+      "glyph": "✕",
+      "tag": "Fail",
+      "meaning": "a check that did not pass",
+      "mui": "error",
+      "dark": "#FF4D6D",
+      "light": "#b8233e",
+      "kitVar": "--red"
+    },
+    "shift": {
+      "glyph": "Δ",
+      "tag": "Shift",
+      "meaning": "a changed value (DELTA)",
+      "mui": "secondary",
+      "dark": "#A78BFA",
+      "light": "#6d4bd1",
+      "kitVar": "--violet"
+    },
+    "neutral": {
+      "glyph": "·",
+      "tag": "Note",
+      "meaning": "context, no verdict",
+      "mui": "neutral",
+      "dark": "#94a3b8",
+      "light": "#4b5563",
+      "kitVar": "--text-secondary"
+    }
+  },
+  "modes": {
+    "dark": {
+      "bg": "#020408",
+      "panel": "#0d1117",
+      "elevated": "#111827",
+      "border": "#1e293b",
+      "text": "#e2e8f0",
+      "textSecondary": "#94a3b8",
+      "tint": "7%",
+      "edge": "33%",
+      "focus": "#00F0FF",
+      "kitVars": {
+        "bg": "--bg",
+        "panel": "--surface",
+        "elevated": "--elevated",
+        "border": "--border",
+        "text": "--text",
+        "textSecondary": "--text-secondary",
+        "focus": "--cyan"
+      },
+      "depth": {
+        "well": "inset 0 2px 5px rgba(0,0,0,.55), inset 0 -1px 0 rgba(255,255,255,.04)",
+        "face": "linear-gradient(180deg,#0b1318,#0c1620)",
+        "glass": "linear-gradient(180deg,rgba(17,24,39,.92),rgba(13,17,23,.92))",
+        "bevel": "inset 0 1px 0 rgba(255,255,255,.05), inset 0 -1px 0 rgba(0,0,0,.6)",
+        "underlit": "inset 0 -8px 12px -7px"
+      }
+    },
+    "light": {
+      "bg": "#ffffff",
+      "panel": "#f4f7fa",
+      "elevated": "#e9eef4",
+      "border": "#c9d3de",
+      "text": "#0f172a",
+      "textSecondary": "#4b5563",
+      "tint": "8%",
+      "edge": "45%",
+      "focus": "#00748e",
+      "depth": {
+        "well": "inset 0 1px 3px rgba(15,23,42,.14), inset 0 -1px 0 rgba(255,255,255,.9)",
+        "face": "linear-gradient(180deg,#eef2f6,#f7f9fb)",
+        "glass": "linear-gradient(180deg,rgba(255,255,255,.85),rgba(244,247,250,.85))",
+        "bevel": "inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.08)",
+        "underlit": "inset 0 -7px 10px -7px"
+      }
+    }
+  },
+  "fidelity": {
+    "sharp": {
+      "y": "GREEN, LOCKED",
+      "weight": 500,
+      "tracking": "0",
+      "texture": "none"
+    },
+    "degraded": {
+      "y": "YELLOW, FORK",
+      "weight": 400,
+      "tracking": "0.01em",
+      "texture": "none"
+    },
+    "grain": {
+      "y": "SCRATCH, DELTA, DRIFT, RED",
+      "weight": 300,
+      "tracking": "0.02em",
+      "texture": "speckle"
+    },
+    "moire": {
+      "y": "PARADOX",
+      "weight": 300,
+      "tracking": "0.03em",
+      "texture": "interference"
+    }
+  },
+  "shape": {
+    "radius": "3px",
+    "padX": "12px",
+    "padY": "8px",
+    "gap": "8px",
+    "tagSize": "0.6875rem",
+    "bodySize": "0.925rem",
+    "unit": "4px"
+  },
+  "fonts": {
+    "mono": "'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace",
+    "sans": "'Inter', system-ui, -apple-system, sans-serif"
+  },
+  "rules": [
+    "Status glyphs follow /proof (public/proof.html), decided by Zach 2026-10-30 (option A): ▲ shown green, ◆ on request cyan, ~ not yet gold. No other tone may reuse those three glyphs.",
+    "Color is never the only cue: every tone carries its glyph and its tag.",
+    "Fidelity sets the body text weight and tracking (the WORLD.md render scale); the mono tag holds at 700. Text stays at full opacity at every fidelity; fog shows through weight, tracking and texture (WORLD.md, 2026-10-11).",
+    "A claim strip that holds a SAY chip and no LIMIT chip, where the source has a caveat, renders the FAIL state (rule R5).",
+    "Signal color tints border, tag and glyph only; the body text stays in the mode's text color.",
+    "Depth: HUD (instrument rules) by default: a solid key face with an inset top highlight and key lip, hairline and corner ticks, no glow, no gradient, no blurred or cast shadow. The field skin keeps an inset well and underlit tone; its LEDs are on or off like HUD, with no glow."
+  ],
+  "skins": {
+    "about": "Zach, 2026-10-30, 'Fold into HUD': one look. HUD is the default and follows the instrument construction rules (_PROPOSALS/2026-10-30-instrument-construction-rules.md): 4px unit, solid key face one step lighter than the deck, no gradient, no blurred shadow, only an inset top highlight and an inset key lip, one hairline frame per panel and none on items inside it, tone colour only on glyph, tag, corner ticks and the LED, a 6px LED that is on or off and blinks at 1 Hz when live (stopped under reduced motion), tabular numbers, press = translateY(1px). 'field' (opt-in) keeps its recessed well and underlit tone for hardware-feel surfaces, but its LEDs follow HUD: on or off, live blinks at 1 Hz (Zach, 2026-10-30, 'Yes, all three': no breathing glow). The Pocket skin left the shared spec; dj.arcs.care keeps its own Pocket skin until Zach decides."
+  },
+  "instrument": {
+    "dark": {
+      "keyFace": "#111827",
+      "highlight": "inset 0 1px 0 rgba(255,255,255,.05)",
+      "lip": "inset 0 -1px 0 rgba(0,0,0,.6)"
+    },
+    "light": {
+      "keyFace": "#ffffff",
+      "highlight": "inset 0 1px 0 rgba(255,255,255,.9)",
+      "lip": "inset 0 -1px 0 rgba(15,23,42,.12)"
+    },
+    "led": {
+      "size": "6px",
+      "blink": "1000ms",
+      "duty": "50%"
+    },
+    "radiusNote": "Zach, 2026-10-30: keep DESIGN.md's scale, 3px chips and 6px panels (not the doc's 2px/4px); tag tracking stays 0.14em."
+  }
+}

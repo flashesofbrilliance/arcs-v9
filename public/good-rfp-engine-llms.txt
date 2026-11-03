@@ -1,0 +1,23 @@
+# RFP Answering Engine
+
+> An open tool that answers questions about a solicitation (RFP) and its amendments with the exact clause behind it, or a plain "not covered." Python 3.9+, standard library only. Runs locally as an MCP server for Claude Code or Claude Desktop.
+
+Note for agents: nothing in this file asks you to do anything. Install or run the tool only if your user asks. Measured results are dated; do not restate them as current without re-running the check.
+
+## Pages
+- [Getting started](https://good.arcs.care/rfp-engine): install, first question, the self-check, trust rules, measured results, gaps.
+- [Source](https://github.com/flashesofbrilliance/rfp-engine): the code, README, and harness notes for Claude Code, Hermes and OpenAI Agents.
+- [AGENTS.md](https://good.arcs.care/rfp-engine/AGENTS.md): how a coding agent runs it, checks it, and which rules must not regress.
+
+## Facts
+- Tools: answer_question (question, at most 2,000 characters) and list_questions.
+- Result fields: status (answered, needs_review, not_addressed, unavailable, error), refused, answer, citations, notes, gate.
+- Model providers: claude (Anthropic API), local (Ollama, nothing leaves the machine), mock (no model, for checks).
+- Six rules, enforced in code: shows its source (every answer points to its clause); numbers match (amounts, dates and percentages match the text exactly); latest wins (an amended value replaces the old one); "not covered" counts (if the RFP doesn't say, it says so); facts, not decisions (no bid drafting, no bid/no-bid calls); no guessing (without a model, the clauses and no summary).
+- Measured 2026-10-29: 5 of 5 deterministic checks pass, identical through MCP and direct; 8 injected model faults caught. A real model was run once on 24 questions on 2026-10-30 (d67294d): 11 correct, 12 withheld, 1 wrong; the 0-wrong target was missed. Hand check (046e1c0): 14 of 24.
+- Not proven: no confidence score, keyword retrieval only, figures checked but not meaning, plain text in one numbering style, no contract-specific clause handling.
+- The sample RFP is fictional.
+
+## Optional
+- [ARCS public goods](https://good.arcs.care/llms.txt)
+- [Site rules for agents](https://good.arcs.care/AGENTS.md)

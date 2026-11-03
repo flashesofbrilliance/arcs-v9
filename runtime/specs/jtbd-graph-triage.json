@@ -3,6 +3,30 @@
  "holds": [
   {
    "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:myally.arcs.care/proposal",
+   "reason": "MyAlly proposal page shipped as a draft 2026-10-26 before a MyAlly job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-26",
+   "resolve_by": "2026-11-09"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:myally.arcs.care/timeline",
+   "reason": "MyAlly hub timeline route shipped as a draft 2026-10-27 before a MyAlly job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-27",
+   "resolve_by": "2026-11-09"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:surface:myally.arcs.care/debrief",
+   "reason": "MyAlly hub debrief route shipped 2026-10-27 before a MyAlly job row existed",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-27",
+   "resolve_by": "2026-11-09"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
    "id": "tool:surface:concourse.arcs.care/plan",
    "reason": "surface shipped 2026-10-20 before a job row existed",
    "row": "jtbd-graph-triage-2026-10-20",
@@ -192,6 +216,62 @@
    "row": "jtbd-graph-triage-2026-10-20",
    "added": "2026-10-20",
    "resolve_by": "2026-11-03"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:agent:grug",
+   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-31",
+   "resolve_by": "2026-11-14"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:command:arcs-mode",
+   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-31",
+   "resolve_by": "2026-11-14"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:script:adr_dewy_watch.py",
+   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-31",
+   "resolve_by": "2026-11-14"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:script:drift_fp_sample.py",
+   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-31",
+   "resolve_by": "2026-11-14"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:script:phosphor_buildlog_video.py",
+   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-31",
+   "resolve_by": "2026-11-14"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:script:readme_video_check.py",
+   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-31",
+   "resolve_by": "2026-11-14"
+  },
+  {
+   "rule": "ORPHAN-TOOL",
+   "id": "tool:script:surface_watch.py",
+   "reason": "Landed on main without a backlog row; surfaced when the kit-pull PR regenerated the stale tool catalog to register scripts/kit_pull.py. Owner: the session that added it.",
+   "row": "jtbd-graph-triage-2026-10-20",
+   "added": "2026-10-31",
+   "resolve_by": "2026-11-14"
   }
  ]
 }

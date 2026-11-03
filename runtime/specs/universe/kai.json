@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "id": "kai",
  "label": "Kairos",
  "parent": "universe",
@@ -17,9 +17,9 @@
    "lib": 0.8
   },
   "frequency": {
-   "file_commits": 4,
-   "active_days": 4,
-   "last_change": "2026-09-11",
+   "file_commits": 5,
+   "active_days": 5,
+   "last_change": "2026-10-19",
    "last_28d": 1
   }
  },
@@ -27,9 +27,10 @@
   "corpus": 1,
   "canon": 1,
   "codebase": 2,
-  "files": 4
+  "files": 6
  },
  "systems": {
+  "_PROPOSALS": 2,
   "_DECISIONS": 1,
   "_STATE": 1,
   "operators": 1,
@@ -37,6 +38,8 @@
  },
  "files": [
   "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md",
+  "_PROPOSALS/2026-11-01-kairos-backup-rule.json",
+  "_PROPOSALS/rendered/2026-11-01-kairos-backup-rule.html",
   "_STATE/2026-08-13-activation-service-kairos-sketch.md",
   "operators/arcs_operator_kairos.py",
   "src/ui-kit/recoil-report/05-kairos-node-card.html"

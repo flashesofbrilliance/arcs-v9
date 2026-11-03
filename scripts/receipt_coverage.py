@@ -59,10 +59,14 @@ def self_test():
             {"receipt_id": "c", "event_at": "2026-10-23 00:00:00.010822+00", "job_id": "job:backlog:x", "tool_id": "tool:script:y.py"},
             {"receipt_id": "future", "event_at": "2026-12-01T00:00:00Z"}]
     c = coverage(rows, s, now)
+    sup = rows + [{"receipt_id": "b-v2", "event_at": "2026-10-22T00:00:00Z", "job_id": "job:backlog:x",
+                   "tool_id": "tool:script:y.py", "supersedes": "b"}]
+    cs = coverage(sup, s, now)
     ok = [("counts only [start, now], dedup", c["receipts_since_start"] == 3),
           ("both fields", c["with_job_and_tool"] == 2), ("share", c["share"] == 0.667),
           ("below bar", c["verdict"] == "BELOW"), ("names the gap", c["missing"] == [{"receipt_id": "b", "lacks": ["tool_id"]}]),
-          ("empty", coverage([], s, now)["share"] is None)]
+          ("empty", coverage([], s, now)["share"] is None),
+          ("superseded row skipped", cs["receipts_since_start"] == 3 and cs["missing"] == [] and cs["share"] == 1.0)]
     for n, v in ok:
         print(("PASS " if v else "FAIL ") + n)
     return 0 if all(v for _, v in ok) else 1

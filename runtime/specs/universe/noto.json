@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "id": "noto",
  "label": "NOTOMATION",
  "parent": "universe",
@@ -17,10 +17,10 @@
    "lib": 0.286
   },
   "frequency": {
-   "file_commits": 12,
-   "active_days": 6,
-   "last_change": "2026-10-04",
-   "last_28d": 12
+   "file_commits": 13,
+   "active_days": 7,
+   "last_change": "2026-10-09",
+   "last_28d": 11
   }
  },
  "dimensions": {

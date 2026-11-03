@@ -82,6 +82,20 @@ canonical — not the author's, not the machine's. Every artifact declares its f
 projection factory is a lawful transform; the lossless invariants are what must survive every
 change of basis. Returning to zero returns *you* to *your* null point.
 
+## THE HUD (route-finding, Zach 2026-11-01)
+
+**Pick the destination, see the whole route, take the safest clear step next, never cross a
+one-way door in fog.** The field HUD is not a troubleshooting console or a picture to admire. It
+answers one question: what is the clearest, safest approach to this destination? It loads three
+layers onto one field. **Terrain:** the canon lattice, what is load-bearing, blocked, or thin on
+proof. **Route:** the backlog graph from a chosen job, where slope is ruin and one-way doors,
+visibility is evidence, holds are blocked rows and pending decisions, and the safe bearing is the
+next step that is ready, reversible, tooled and ripe. **Time:** belief change, scrubbed by date,
+where a falsified belief shows as a repaired seam in gold, never silently erased. Every reading
+earns its fidelity: a gauge with too little evidence renders grain and prints its sample size, and a
+visual that cannot go flat on empty data is decoration. Specs: the HUD moire audit and ruling
+sheet in `_PROPOSALS/`.
+
 ---
 
 ## THE PROGRESSION

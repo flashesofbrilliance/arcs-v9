@@ -1,0 +1,4 @@
+{ "omit": {
+  "Documents load at start-up only": "server operating detail; out of scope for a 2:40 walkthrough; stated in mcp/README.md",
+  "stdio only": "local deployment limit; out of scope for a 2:40 walkthrough; stated in mcp/README.md"
+} }

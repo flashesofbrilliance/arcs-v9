@@ -1,0 +1,100 @@
+{
+ "today": "2026-10-28",
+ "rows": 5,
+ "active": 5,
+ "nodes": [
+  {
+   "id": "induced-rowan-vale-made-up-scope-the-march-pilot",
+   "state": "OPEN",
+   "wave": 0,
+   "ripeness": "NEEDS-HUMAN",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 1,
+   "cost": null,
+   "consent": "human",
+   "tier_cue": 4,
+   "ready_now": false
+  },
+  {
+   "id": "induced-rowan-vale-made-up-ex-ante-before-the-send",
+   "state": "OPEN",
+   "wave": 0,
+   "ripeness": "NEEDS-HUMAN",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [
+    "scripts/does_not_exist_exante.py"
+   ],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 0,
+   "cost": null,
+   "consent": "human",
+   "tier_cue": 4,
+   "ready_now": false
+  },
+  {
+   "id": "induced-rowan-vale-made-up-show-the-cascade",
+   "state": "OPEN",
+   "wave": 0,
+   "ripeness": "NEEDS-HUMAN",
+   "tool": "HAVE",
+   "tool_resolved": [
+    "scripts/backlog_graph.py"
+   ],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 0,
+   "cost": null,
+   "consent": "human",
+   "tier_cue": 4,
+   "ready_now": false
+  },
+  {
+   "id": "induced-rowan-vale-made-up-map-the-ops-lead",
+   "state": "OPEN",
+   "wave": 0,
+   "ripeness": "NEEDS-HUMAN",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [],
+   "descendants": 0,
+   "cost": null,
+   "consent": "human",
+   "tier_cue": 4,
+   "ready_now": false
+  },
+  {
+   "id": "induced-rowan-vale-made-up-data-access-audit",
+   "state": "OPEN",
+   "wave": 1,
+   "ripeness": "WAITING",
+   "tool": "NOT-RESOLVED",
+   "tool_resolved": [],
+   "tool_missing": [],
+   "tool_planned": [],
+   "deps": [
+    "induced-rowan-vale-made-up-scope-the-march-pilot"
+   ],
+   "descendants": 0,
+   "cost": null,
+   "consent": "human",
+   "tier_cue": 4,
+   "ready_now": false
+  }
+ ],
+ "findings": {
+  "dangling": [],
+  "dead_dependency": [],
+  "cycle_members": [],
+  "unblocks_mismatch": []
+ },
+ "critical_path_waves": 2
+}

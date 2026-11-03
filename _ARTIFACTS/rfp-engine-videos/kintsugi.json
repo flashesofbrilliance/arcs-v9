@@ -1,0 +1,59 @@
+{
+  "receipt_id": "receipt_rfp_engine_videos_v1",
+  "kintsugi_version": "v9.0-phase4",
+  "ran_at": "2026-10-31",
+  "scope": "Five RFP engine videos for the Dioptra work sample, staged in ~/Movies/rfp-engine-videos/FINAL-2026-10-30/ (not committed: MP4s and voice takes stay local). Build sources are in tools/readme-video/ on PR 1894.",
+  "diagnosis": {
+    "is_healthy": true,
+    "pathogens_detected": [],
+    "satoshi_valid": null
+  },
+  "golden_seam_ledger": [
+    {
+      "break": "A slower read was made by pitch-shifting the voice take, so it sounded lower and off, not slower",
+      "caught_by": "Zach: \"I meant slower but not pitch bent\"",
+      "gold": "Pace is changed by re-generating or time-stretching at constant pitch, never by resampling. Banked as memory slower-means-pace-never-pitch"
+    },
+    {
+      "break": "The 'what broke' cards were read flat and robotic by the voice clone",
+      "caught_by": "Zach, on listening to the making-of cut",
+      "gold": "Those cards re-voiced with rewritten, spoken-register lines. Not yet re-checked by ear: the brand gate cannot hear audio"
+    },
+    {
+      "break": "Each card ran about 1.9 s of silent picture past its line, because ffmpeg -shortest on a looped still overshoots",
+      "caught_by": "scripts/readme_video_check.py rule R8 (8 FAIL with -shortest, 1 FAIL with -t, measured on PR 1894)",
+      "gold": "Card time is set exactly to take + 0.8 s with -t; the fix lives in build.cjs on PR 1894"
+    },
+    {
+      "break": "Making-of end card had no credits, and the re-check blocked it",
+      "caught_by": "brand-line-producer re-check, 2026-10-31",
+      "gold": "Zach ruled credits go in the YouTube description only; the end card stays clean and the re-check passed on that basis"
+    },
+    {
+      "break": "Bench card 04 still said the model-dependent traps were not run, after PR 1877 merged a real-model run (d67294d: 11 correct, 12 withheld, 1 wrong)",
+      "caught_by": "brand-line-producer re-check, 2026-10-31",
+      "gold": "Card 04 re-voiced to cite d67294d. Banked as memory card-facts-go-stale-when-a-pr-merges: re-read every on-screen number against main before a re-render"
+    },
+    {
+      "break": "Bench card 06 drew safe, caught outcomes in red, which reads as failure",
+      "caught_by": "brand-line-producer re-check, 2026-10-31",
+      "gold": "Outcomes recoloured gold with CAUGHT stamps; red is kept for real failures only"
+    },
+    {
+      "break": "Long walkthrough card 01 called the RFP 'real-world based'; it is fictional, written for the sample",
+      "caught_by": "brand-line-producer re-check, 2026-10-31",
+      "gold": "Card 01 now says 'Fictional RFP, written for this sample'. The engine README said the same wrong thing and was fixed in ret-rfp-intelligence 0e0e25f (also on branch claude/agentalent-public as cf2001b, not pushed; that repo is private, and no public engine repo exists yet)"
+    },
+    {
+      "break": "The video builds hard-code seven pixel font sizes and load no tokens, and the brand gate passed them because it checks colour, contrast, motion and copy, not type",
+      "caught_by": "self-audit of kit.cjs against DESIGN.md, 2026-10-30",
+      "gold": "A proposed 'Typography, density and layout at render' section was handed to the resonance-rules owner (PR 1877 lineage). Not fixed in these five cuts: open debt"
+    }
+  ],
+  "open": [
+    "Nobody has listened to the re-voiced bench card 04 or the making-of 'What broke' card",
+    "Type scale in the video builds is still off DESIGN.md (last seam)",
+    "cf2001b push waits on Zach's go (private repo; low risk)"
+  ],
+  "verdict": "Five videos pass the brand re-check on 2026-10-31 after seven breaks were sealed with visible gold; one seam (render typography) is named and left open."
+}

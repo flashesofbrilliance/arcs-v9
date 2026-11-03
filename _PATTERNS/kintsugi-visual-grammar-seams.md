@@ -21,6 +21,13 @@
   warn (ratchet). Machines without the launcher skip cleanly and the seam is caught at the next
   machine that has it.
 
+## 2026-10-26 · the MyAlly proposal page scored against the ARCS kit (palette waived, file-scoped)
+- break: the kintsugi ratchet blocked the MyAlly proposal page (new file, 14 findings vs 0 at HEAD): colors and corner radii outside DESIGN.md.
+- found by: the myally.arcs.care/proposal commit.
+- root cause: the page reuses the MyAlly shell already live on the plan and /mnda-edits pages (light palette, 4 to 8px corners), a per-engagement world like the PRL Field Kit, not the dark ARCS kit. The older MyAlly pages predate the ratchet, so only the new file scored.
+- repair: none to the palette, by decision. Zach chose on 2026-10-26 to keep the MyAlly look; `design-system-color` and `design-system-radius` are waived for this one file in `.impeccable/config.json`. The step list was rebuilt as full-width rows after card-gutter flagged dead gutters.
+- guard: the file-scoped waiver keeps the ratchet live for every other rule on this page and for every other page. Not done: a MyAlly kit entry in PRODUCT.md, so each new MyAlly page still needs its own waiver.
+
 ## 2026-10-21 · the eightfold wheel page arrived with 11 design findings, two of them a deliberate 8-bit look
 - break: `_ARTIFACTS/eightfold-scaffold.html` (new page, published as the ARCS Eightfold Wheel artifact) was blocked by the ratchet on 11 findings: pixel labels at 8 to 10px (under the 11px floor), an uppercase label with wide tracking, a decorative scanline gradient, an h1 whose colour the detector read as black because it was inherited, and Press Start 2P plus its pixel sizes sitting outside DESIGN.md.
 - found by: the kintsugi pre-commit ratchet (net-new design debt on a new page).
@@ -788,3 +795,36 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - found by: the fog-opacity commit; scoring both versions in place gave 5 and 5.
 - repair: the hook's HEAD mirror now extracts HEAD's whole directory of the file (git archive) before writing the blob, so a linked sibling such as _tokens.css resolves at HEAD too.
 - guard: scripts/git-hooks/pre-commit, next to the 2026-10-06 waiver-path fix it extends.
+
+## 2026-10-26 · client-facing guide scored against the ARCS kit (waived, not repaired)
+- break: the kintsugi ratchet blocked public/monday-guide.html (new file, 33 findings vs 0 at HEAD).
+- found by: the monday.arcs.care commit. The findings are kit rules the page was never built for: its light background, card padding, line height, all-caps labels.
+- root cause: the guide matches the look of the submission the monday.com panel already graded (the RET demo), not the dark ARCS kit. Same scope gap as the PRL client pages.
+- repair: none, by decision. Zach chose on 2026-10-26 to ship it on-brand with the submitted demo; this one commit went in with --no-verify. Every other pre-commit gate was run by hand and passed (wrap, page-gate, token source, surface catalog, div balance); the gate page public/monday-gate.html passes the ratchet clean.
+- guard: any later edit to monday-guide.html ratchets on its committed count (33), so new debt still blocks.
+
+### 2026-10-27: myally.arcs.care hub (public/myally-hub.html)
+- break: the kintsugi ratchet blocked the new hub page (25 findings vs 0 at HEAD).
+- found by: the hub commit on PR 1821.
+- root cause: the hub reuses the MyAlly page shell (light palette, 4 to 8px corners) already waived for the MyAlly proposal page, plus the internal plan's own type sizes and shadows.
+- repair: 21 fixed at source in the local hub build script (type snapped to the .925 / 1.15 / 1.5rem ramp, wide shadows reduced, hidden control removed). The colour and radius waivers were extended to the hub (same world as the proposal). Two patterns waived file-scoped with reasons: the underline tab strip and framed header (cramped-padding), and the Full-only hatch that encodes data (repeating-stripes-gradient).
+- guard: the ratchet now counts 0 on the hub, so any new finding blocks.
+- amended 2026-10-27: the type snap was reverted. It enlarged every small label to 0.925rem and flattened the hierarchy (Zach saw it on the live page). The hub keeps its own sizes under a file-scoped design-system-font-size waiver, same seam as colour and radius. The shadow and hidden-control fixes stand.
+
+## CIA candidate brief reuses the MyAlly hub shell (2026-10-29)
+- Break: public/cia-brief.html ports the MyAlly hub shell (meta band, tabs with Now/Next/Later pills, reading options), which carries its own label sizes, colours, radii, stripes and grid background.
+- Repair: the six MyAlly shell waivers in .impeccable/config.json now also list public/cia-brief.html; CIA content inside the shell uses DESIGN.md sizes and the serif display stack.
+- Guard: any new rule finding on the CIA content (outside the shell) still blocks; the waivers cover only the shared shell values.
+
+## 2026-10-31 · repo check page matches /audit (waived, not repaired)
+- break: the kintsugi ratchet blocked public/good-audit-check.html (new file, 11 findings vs 0 at HEAD).
+- found by: the good.arcs.care/audit/check commit.
+- root cause: the page is the free sample for /audit and copies its look (kit token fonts, type sizes, 8/12px corners). /audit carries the same 11 as a frozen baseline.
+- repair: none, by decision. Zach chose on 2026-10-31 to match /audit rather than restyle to DESIGN.md. Three file-scoped waivers (design-system-font, -font-size, -radius) in .impeccable/config.json list only this file.
+- guard: the ratchet counts 0 on the page now, so any other rule finding still blocks.
+
+## 2026-11-01 · /audit and /audit/check join the kit (seam of 2026-10-31 repaired)
+
+- **Break:** /audit carried 11 design findings as a frozen baseline, and /audit/check matched it under three file-scoped waivers. Both pages inlined an old copy of `_tokens.css` that lacks the `--ds-*` font and radius variables and the `--fs-*` type ramp, so they set fonts and sizes by hand.
+- **Repair:** both pages now inline the current `_tokens.css` verbatim and use `--ds-font-*`, `--fs-*` and `--ds-r-*` throughout. The check page's score is the kit tile primitive (`29-tile`), the same one the audit report uses. The three waivers are deleted from `.impeccable/config.json`. Both pages score 0 findings.
+- **Guard:** the audit report generator (`scripts/audit_report_build.py`) reads tokens and primitives from the kit at build time. The trap here was a stale inlined token copy: undefined variables fail silently to browser defaults, and the detector still scored the broken page 0. Check a re-tokened page in a real browser, not only the detector.

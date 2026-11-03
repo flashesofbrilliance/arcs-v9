@@ -1,0 +1,405 @@
+{
+ "note": "EARLY/INTERIM (day 12 of 28); informs, does not replace the official check dated 2026-11-17. Keep out of anything a judge sees.",
+ "map": [
+  {
+   "row": 1,
+   "item": "tool:skill:night-moves",
+   "from": "graph"
+  },
+  {
+   "row": 1,
+   "item": "tool:command:catalog",
+   "from": "graph"
+  },
+  {
+   "row": 1,
+   "item": "tool:script:press_run.py",
+   "from": "graph"
+  },
+  {
+   "row": 2,
+   "item": "tool:script:state_sync_check.py",
+   "from": "graph"
+  },
+  {
+   "row": 2,
+   "item": "tool:command:prior-art",
+   "from": "graph"
+  },
+  {
+   "row": 2,
+   "item": "tool:skill:fold",
+   "from": "graph"
+  },
+  {
+   "row": 2,
+   "item": "tool:script:handoff_fold.py",
+   "from": "graph"
+  },
+  {
+   "row": 2,
+   "item": "tool:script:backlog_status_check.py",
+   "from": "graph"
+  },
+  {
+   "row": 3,
+   "item": "tool:script:handoff_fold.py",
+   "from": "graph"
+  },
+  {
+   "row": 3,
+   "item": "tool:script:handoff_cluster.py",
+   "from": "graph"
+  },
+  {
+   "row": 3,
+   "item": "tool:script:handoff_excavate.py",
+   "from": "graph"
+  },
+  {
+   "row": 3,
+   "item": "tool:script:cold_molt_lint.py",
+   "from": "graph"
+  },
+  {
+   "row": 4,
+   "item": "tool:command:handoff",
+   "from": "graph"
+  },
+  {
+   "row": 4,
+   "item": "tool:script:leak_check.sh",
+   "from": "graph"
+  },
+  {
+   "row": 4,
+   "item": "tool:script:claim_check.py",
+   "from": "graph"
+  },
+  {
+   "row": 4,
+   "item": "tool:script:tao_print_check.py",
+   "from": "graph"
+  },
+  {
+   "row": 4,
+   "item": "tool:script:fork_lineage_check.sh",
+   "from": "graph"
+  },
+  {
+   "row": 5,
+   "item": "tool:script:handoff_fold.py",
+   "from": "graph"
+  },
+  {
+   "row": 5,
+   "item": "tool:command:catalog",
+   "from": "graph"
+  },
+  {
+   "row": 5,
+   "item": "tool:script:handoff_cluster.py",
+   "from": "graph"
+  },
+  {
+   "row": 5,
+   "item": "tool:script:handoff_excavate.py",
+   "from": "graph"
+  },
+  {
+   "row": 5,
+   "item": "tool:skill:fold",
+   "from": "graph"
+  },
+  {
+   "row": 6,
+   "item": "tool:script:design_debt_sweep.py",
+   "from": "graph"
+  },
+  {
+   "row": 6,
+   "item": "tool:script:jtbd_drift_report.py",
+   "from": "graph"
+  },
+  {
+   "row": 7,
+   "item": "tool:script:hud_signal_audit.py",
+   "from": "graph"
+  },
+  {
+   "row": 7,
+   "item": "tool:op:10",
+   "from": "graph"
+  },
+  {
+   "row": 7,
+   "item": "tool:script:risk_sweep.py",
+   "from": "graph"
+  },
+  {
+   "row": 8,
+   "item": "tool:operator:arcs_primitives.py",
+   "from": "graph"
+  },
+  {
+   "row": 8,
+   "item": "tool:operator:arcs_primitives_bridge.py",
+   "from": "graph"
+  },
+  {
+   "row": 9,
+   "item": "tool:script:backlog_graph.py",
+   "from": "graph"
+  },
+  {
+   "row": 9,
+   "item": "tool:script:jtbd_edge_weights.py",
+   "from": "graph"
+  },
+  {
+   "row": 9,
+   "item": "tool:script:universe_jtbd_adapter.py",
+   "from": "graph"
+  },
+  {
+   "row": 9,
+   "item": "tool:script:backlog_ripeness.py",
+   "from": "graph"
+  },
+  {
+   "row": 9,
+   "item": "tool:script:tool_catalog_emit.py",
+   "from": "graph"
+  },
+  {
+   "row": 10,
+   "item": "tool:script:echo_ridgeline_feed.py",
+   "from": "graph"
+  },
+  {
+   "row": 10,
+   "item": "tool:script:echo_detector_dogfood.py",
+   "from": "graph"
+  },
+  {
+   "row": 11,
+   "item": "tool:script:memory_index_sync.py",
+   "from": "graph"
+  },
+  {
+   "row": 11,
+   "item": "tool:command:catalog",
+   "from": "graph"
+  },
+  {
+   "row": 11,
+   "item": "tool:script:memory_catalog_emit.py",
+   "from": "graph"
+  },
+  {
+   "row": 11,
+   "item": "tool:script:handoff_excavate.py",
+   "from": "graph"
+  },
+  {
+   "row": 12,
+   "item": "tool:skill:night-moves",
+   "from": "graph"
+  },
+  {
+   "row": 13,
+   "item": "tool:skill:thread-recoil",
+   "from": "graph"
+  },
+  {
+   "row": 13,
+   "item": "tool:script:belief_log_emit.py",
+   "from": "graph"
+  },
+  {
+   "row": 13,
+   "item": "tool:script:time_machine_data.py",
+   "from": "graph"
+  },
+  {
+   "row": 13,
+   "item": "tool:script:hud_signal_audit.py",
+   "from": "graph"
+  },
+  {
+   "row": 13,
+   "item": "tool:script:audit_report_build.py",
+   "from": "graph"
+  },
+  {
+   "row": 14,
+   "item": "tool:skill:thread-recoil",
+   "from": "graph"
+  },
+  {
+   "row": 14,
+   "item": "tool:command:recoil-report",
+   "from": "graph"
+  },
+  {
+   "row": 14,
+   "item": "tool:workflow:recoil-report",
+   "from": "graph"
+  },
+  {
+   "row": 14,
+   "item": "tool:script:gen_recoil_artifact.py",
+   "from": "graph"
+  },
+  {
+   "row": 14,
+   "item": "tool:script:recoil_induce.py",
+   "from": "graph"
+  },
+  {
+   "row": 15,
+   "item": "tool:skill:night-moves",
+   "from": "graph"
+  },
+  {
+   "row": 15,
+   "item": "tool:command:catalog",
+   "from": "graph"
+  },
+  {
+   "row": 16,
+   "item": "tool:script:beat_reference.py",
+   "from": "graph"
+  },
+  {
+   "row": 16,
+   "item": "tool:command:catalog",
+   "from": "graph"
+  },
+  {
+   "row": 16,
+   "item": "tool:script:beat_truth_tracks.py",
+   "from": "graph"
+  },
+  {
+   "row": 17,
+   "item": "tool:script:handoff_fold.py",
+   "from": "graph"
+  },
+  {
+   "row": 17,
+   "item": "tool:script:cold_molt_lint.py",
+   "from": "graph"
+  },
+  {
+   "row": 17,
+   "item": "tool:command:catalog",
+   "from": "graph"
+  },
+  {
+   "row": 18,
+   "item": "tool:script:open_loops.py",
+   "from": "graph"
+  },
+  {
+   "row": 18,
+   "item": "tool:script:design_debt_sweep.py",
+   "from": "graph"
+  },
+  {
+   "row": 18,
+   "item": "tool:script:state_sync_check.py",
+   "from": "graph"
+  },
+  {
+   "row": 1,
+   "item": "tool:skill:night-moves",
+   "from": "catalog"
+  },
+  {
+   "row": 2,
+   "item": "tool:skill:fold",
+   "from": "catalog"
+  },
+  {
+   "row": 3,
+   "item": "tool:script:handoff_fold.py",
+   "from": "catalog"
+  },
+  {
+   "row": 4,
+   "item": "tool:command:loops",
+   "from": "catalog"
+  },
+  {
+   "row": 5,
+   "item": "tool:skill:fold",
+   "from": "catalog"
+  },
+  {
+   "row": 6,
+   "item": "tool:script:reconcile_epoch.py",
+   "from": "catalog"
+  },
+  {
+   "row": 7,
+   "item": "tool:agent:idea-curator",
+   "from": "catalog"
+  },
+  {
+   "row": 8,
+   "item": "tool:operator:arcs_primitives.py",
+   "from": "catalog"
+  },
+  {
+   "row": 9,
+   "item": "tool:script:jtbd_edge_weights.py",
+   "from": "catalog"
+  },
+  {
+   "row": 10,
+   "item": "tool:script:echo_detector_dogfood.py",
+   "from": "catalog"
+  },
+  {
+   "row": 11,
+   "item": "tool:command:prior-art",
+   "from": "catalog"
+  },
+  {
+   "row": 12,
+   "item": "tool:skill:night-moves",
+   "from": "catalog"
+  },
+  {
+   "row": 13,
+   "item": "tool:agent:chief-bayesian",
+   "from": "catalog"
+  },
+  {
+   "row": 14,
+   "item": "tool:skill:thread-recoil",
+   "from": "catalog"
+  },
+  {
+   "row": 15,
+   "item": "tool:skill:night-moves",
+   "from": "catalog"
+  },
+  {
+   "row": 16,
+   "item": "tool:script:state_sync_check.py",
+   "from": "catalog"
+  },
+  {
+   "row": 17,
+   "item": "tool:package:cold-recon",
+   "from": "catalog"
+  },
+  {
+   "row": 18,
+   "item": "tool:script:reconcile_epoch.py",
+   "from": "catalog"
+  }
+ ]
+}

@@ -101,7 +101,11 @@ def extract(text: str) -> tuple[set[int], set[str], set[str], set[str]]:
     for m in PATH_RE.finditer(text):
         p = m.group(1).rstrip(TRAIL)
         # cite cut short by a placeholder (`ADR-*.md`, `forge-<name>.html`, `x-{a,b}`): not a real cite
-        if text[m.end():m.end() + 1] in ("*", "<", "{", "?"):
+        # (also `src/ui/Button|Badge|Card` alternation and `forge-$S` shell expansion)
+        if text[m.end():m.end() + 1] in ("*", "<", "{", "?", "|", "$"):
+            continue
+        # a trailing '-' or '_' is a name cut mid-word (`_ARTIFACTS/forge-`), never a whole path
+        if p.endswith(("-", "_")):
             continue
         # trailing '/' means a directory cite; keep for prefix check
         if "*" in p or "{" in p or "<" in p or "[" in p and "]" not in p:

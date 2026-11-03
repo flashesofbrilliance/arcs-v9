@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { auth } from "@/lib/auth"
 import { isAdmin } from "@/lib/admin"
 import { HudClient } from "./HudClient"
+import universe from "@/data/universe-field.json"
 
 // arcs.care/hud: the field HUD (src/organisms/Scope.tsx) pinned full screen, no page
 // around it. The ziggurat loader is admin only, decided here on the server
@@ -21,5 +22,7 @@ export default async function HudPage() {
     const session = await auth().catch(() => null)
     admin = isAdmin(session)
   }
-  return <HudClient admin={admin} />
+  // Widgets are admin only: the field slice they read is passed down for admins and never for anyone else.
+  const field = admin ? { as_of_date: universe.as_of_date, nodes: universe.nodes, dimensions: universe.dimensions } : null
+  return <HudClient admin={admin} field={field} />
 }

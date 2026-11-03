@@ -115,6 +115,7 @@ p { max-width: var(--measure); }
 .score { font-family: var(--font-mono); font-size: 18px; color: var(--green); margin: 8px 0 12px; }
 .share { font-family: var(--font-mono); font-size: 15px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; max-width: var(--measure); white-space: pre-wrap; }
 footer { color: var(--dimmed); font-size: 15px; border-top: 1px solid var(--border); margin-top: 64px; }
+footer p { max-width: none; }
 @media (max-width: 760px) { .board { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { :root { --gutter: 16px; } body { font-size: 16px; } .lede { font-size: 18px; } }
 
@@ -217,7 +218,7 @@ body { padding-bottom: 88px; }
   <h1>The Case of the Reader Who Remembered</h1>
   <p class="lede">Four readers reconstructed the same incident from the same record. Two had no memory of it. One was handed the participant's memory and told it could narrate freely. The last had the same memory and was made to cite every claim. The operator had a tidy explanation for how it would turn out. It was flattering, and it was wrong. You start in the fog. The world only sharpens as your receipt earns it.</p>
 
-  <div class="rules">
+  <div class="rules" data-lane="narrow">
     <ol>
       <li><b>Round zero:</b> predict each reader's score before you see the evidence. Your prediction locks, so hindsight cannot edit it later.</li>
       <li>Then take each chair. Stake conviction chips (0 to 10) on each claim, then show evidence or concede.</li>
@@ -233,7 +234,7 @@ body { padding-bottom: 88px; }
     <span class="render"><b id="rnd" class="r-GRAIN">GRAIN</b></span>
   </div>
 
-  <section class="predict" id="predict">
+  <section class="predict" id="predict" data-lane="narrow">
     <h2>Round zero: commit before the evidence</h2>
     <p>The score is provenance: the share of the committed record's anchors (commits, tracked files) that each reconstruction actually cites. 100 means it cited everything. Guess each reader.</p>
     <div id="arms"></div>

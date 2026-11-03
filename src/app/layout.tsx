@@ -4,7 +4,7 @@ import { VercelTelemetry } from "@/components/VercelTelemetry"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
 import { ClaimAnonymousReceipts } from "@/components/ClaimAnonymousReceipts"
 import { EyebrowToast } from "@/ui/EyebrowToast"
-import { StickyFooter } from "@/ui/StickyFooter"
+import { StickyFooter, SiteFooter } from "@/ui/StickyFooter"
 import { Providers } from "./Providers"
 import "./globals.css"
 
@@ -67,6 +67,7 @@ export default function RootLayout({
         <Providers>
           <EyebrowToast />
           {children}
+          <SiteFooter />
           <StickyFooter message="Interested in ARCS powered sprints by Mañana?" maxWidth={960} />
           <ClaimAnonymousReceipts />
           <VercelToolbarToggle />

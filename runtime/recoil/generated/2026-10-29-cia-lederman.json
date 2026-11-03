@@ -1,0 +1,306 @@
+{
+  "_HOW_TO_USE": [
+    "1. cp this file to runtime/recoil/generated/<date>-<name>.json",
+    "2. Fill every {{PLACEHOLDER}} and each block's content. Delete blocks/tabs you don't need.",
+    "3. Tag each field/block audience:'internal' (default, war-room only) or 'both' (safe to share).",
+    "4. Generate: ./scripts/recoil --data <file> --audience internal --format html > public/<name>-war.html",
+    "5. Pass-through args: --audience internal|external  --format html|md|json  --set meta.key=value",
+    "6. Wire the subdomain in next.config.ts + vercel domains add; gate internal with a NON-guessable pw."
+  ],
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+  "meta": {
+    "report_id": "2026-10-29-cia-lederman",
+    "date": "2026-10-29",
+    "counterpart": "Michael Lederman",
+    "company": "Culinary Institute of America",
+    "segments": 5,
+    "gate": {
+      "internal": "NW4bgy66U4HDSrfmysVvfiBg"
+    },
+    "provenance": {
+      "audience": "internal",
+      "captured": "Syfter intake call with Steven Perlman, 2026-10-29 10:45 ET (Granola e8a88f51); Matt Hall JD email 2026-10-28",
+      "load_bearing_quote": "Bro, that's like literally what he said to me. (Steven, on landing the CRM before advancement hires start)"
+    }
+  },
+  "opportunity": {
+    "audience": "internal",
+    "engagement_type": "candidacy",
+    "req_reality": 2,
+    "req_reality_basis": "JD cut and sent by Syfter; contract 6 months likely 12 to 18; decision owner (Michael) not yet met",
+    "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
+    "y_state": "YELLOW",
+    "topology": "CONVERGENT",
+    "nci_prior": 0,
+    "nci_post": 0,
+    "note": "Strong shape fit (CRM selection, constituent data, vendor-neutral method); untested on Dynamics hands-on, Colleague and hospitality systems. Michael meeting decides it."
+  },
+  "beliefs": [
+    {
+      "id": "P1",
+      "audience": "internal",
+      "claim": "The real job is landing a defensible CRM decision before new advancement staff start.",
+      "evidence": "Steven confirmed Zach's framing: 'that's like literally what he said to me.'",
+      "inference": "EXP",
+      "confidence": [
+        0.7
+      ],
+      "conviction": "HIGH",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P2",
+      "audience": "internal",
+      "claim": "Dynamics starts with a fit advantage (Ellucian Colleague and a Microsoft base).",
+      "evidence": "JD names Colleague and on-prem integration; public DNS and BuiltWith signals point to Microsoft.",
+      "inference": "INF",
+      "confidence": [
+        0.55
+      ],
+      "conviction": "MED",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P3",
+      "audience": "internal",
+      "claim": "Michael will probe hospitality systems hardest (Leading Hotels background).",
+      "evidence": "Steven: formerly Leading Hotels of the World; CIA runs restaurants and Oracle Symphony POS.",
+      "inference": "INF",
+      "confidence": [
+        0.6
+      ],
+      "conviction": "MED",
+      "verdict": "NEW"
+    },
+    {
+      "id": "P4",
+      "audience": "internal",
+      "claim": "The Director of Enterprise Information Systems relationship is a hidden gate.",
+      "evidence": "Steven: 'I don't want to say mentor, but kind of help bring them along.'",
+      "inference": "INF",
+      "confidence": [
+        0.6
+      ],
+      "conviction": "MED",
+      "verdict": "NEW"
+    }
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": []
+  },
+  "insights": [
+    {
+      "audience": "internal",
+      "plane": "idea",
+      "title": "Mise en place before service",
+      "text": "The CRM and data decisions have to be ready before the advancement team arrives; the brief is organized around that anchor date."
+    },
+    {
+      "audience": "internal",
+      "plane": "idea",
+      "title": "Honest gap-marking is the trust signal",
+      "text": "Gauntlet (2026-10-29): the 5 proven, 4 adjacent, 3 not yet tested ranking held for both Steven and Michael personas; the WTA Microsoft credit was scoped to tooling and integration consulting to avoid borrowed Dynamics credibility."
+    }
+  ],
+  "next_steps": [
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Send the reply to Matt with the resume PDF (iCloud copy) and the cia.arcs.care link; passcode shared separately."
+    },
+    {
+      "audience": "internal",
+      "owner": "Zach",
+      "text": "Intro call with Michael: personality first, no conversion talk (Steven's guidance)."
+    },
+    {
+      "audience": "internal",
+      "owner": "Claude",
+      "text": "Technical screen prep: Dynamics vs Salesforce for advancement, iPaaS options, Colleague integration, Fabric vs Snowflake vs Databricks (backlog cia-technical-screen-prep)."
+    },
+    {
+      "audience": "internal",
+      "owner": "Claude",
+      "text": "/recoil-close after the Michael call: score the Ex-Ante receipt (backlog cia-recoil-close-michael-intro)."
+    }
+  ],
+  "redaction_policy": {
+    "rules": [
+      "Method can cross; subject-about-them cannot.",
+      "Show your own updates, never their intent-scores.",
+      "Architecture crosses; weights/sauce do not."
+    ]
+  },
+  "page": {
+    "layout": "tabs",
+    "header": {
+      "eyebrow": "ARCS &#183; War Room",
+      "title": "Michael Lederman &#183; Culinary Institute of America",
+      "sub": "Contract Enterprise / Solutions Architect via Syfter. CRM decision (Salesforce or Dynamics), then data and integration platform."
+    },
+    "tabs": [
+      {
+        "id": "pre",
+        "label": "Pre-Call"
+      },
+      {
+        "id": "exante",
+        "label": "Ex-Ante"
+      }
+    ],
+    "blocks": [
+      {
+        "tab": "pre",
+        "type": "prose",
+        "audience": "internal",
+        "h2": "True North",
+        "p": [
+          "Be the person who makes the CRM decision defensible and lands it before the advancement team starts, and leaves the patterns with the Director's team. Let Michael lead the first call; personality before plan."
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "keyvalue",
+        "audience": "internal",
+        "h2": "Context",
+        "rows": [
+          {
+            "k": "Role",
+            "v": "Hands-on Solutions / Enterprise Architect, contract, hybrid with on-site workshops. 6 months, likely 12 to 18; full time possible, not promised."
+          },
+          {
+            "k": "Path",
+            "v": "Intro with Michael (personality), directs by video, technical screen with a former colleague of Michael, offer."
+          },
+          {
+            "k": "Recruiter",
+            "v": "Steven Perlman and Matt Hall, Syfter. Steven: 'Mike's super chill.' Do not raise conversion on the first call."
+          },
+          {
+            "k": "Shipped",
+            "v": "cia.arcs.care (passcode gate), tailored one-page resume at /resume.pdf. PRs 1840, 1844 to 1848, 1852, 1853, 1855."
+          },
+          {
+            "k": "Register",
+            "v": "Ex-CIO, Leading Hotels of the World; now CDTO. Exec altitude first, detail on demand; hospitality is his home turf."
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Intel",
+        "intro": "Most diagnostic first.",
+        "items": [
+          {
+            "dot": "c",
+            "html": "Leadership team turned over in the last year; mandate is to modernize everything (Steven)."
+          },
+          {
+            "dot": "c",
+            "html": "Lines of business: restaurants, classes and events, consulting, workforce development, certifications, military training."
+          },
+          {
+            "dot": "g",
+            "html": "Current stack (JD): Ellucian Colleague, Moodle, Oracle EBS and Hyperion, Oracle Symphony, SQL Server with Informer. Public signals point to a Microsoft base."
+          },
+          {
+            "dot": "g",
+            "html": "Finalists Salesforce and Microsoft Dynamics; 'platform agnostic.' Data platform and iPaaS after the CRM."
+          },
+          {
+            "dot": "",
+            "html": "Works alongside a Director of Enterprise Information Systems whom the role should bring along, not supervise."
+          }
+        ]
+      },
+      {
+        "tab": "pre",
+        "type": "list",
+        "audience": "internal",
+        "h2": "Questions &amp; landmines",
+        "intro": "Ask before pitching.",
+        "items": [
+          {
+            "dot": "g",
+            "html": "Ask: where does the shortlist stand, and who makes the call for each business area?"
+          },
+          {
+            "dot": "g",
+            "html": "Ask: coming from Leading Hotels, what should CIA's guest and donor experience borrow from hospitality?"
+          },
+          {
+            "dot": "r",
+            "html": "Landmine: claiming Dynamics hands-on. WTA Microsoft work was tooling and integration consulting, not Dynamics."
+          },
+          {
+            "dot": "r",
+            "html": "Landmine: implying the current team is weak. Frame as patterns left with the team."
+          },
+          {
+            "dot": "r",
+            "html": "Landmine: conversion to full time on the first call."
+          }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "receipt",
+        "audience": "internal",
+        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+        "fields": [
+          {
+            "label": "D &#183; Sharpened question",
+            "value": "Will Michael move Zach to the directs and technical screen after the intro call?"
+          },
+          {
+            "label": "E &#183; Expected",
+            "value": "Yes, within a week, if the call stays on his priorities and the honest gap ranking. Probability about 0.6 (judgment)."
+          },
+          {
+            "label": "W &#183; Falsifier",
+            "value": "No next step within 7 business days of the intro, or Syfter reports the Dynamics hands-on gap as disqualifying."
+          },
+          {
+            "label": "Y &#183; Gate",
+            "value": "YELLOW: strong shape fit, untested on Dynamics hands-on, Colleague and hospitality systems."
+          },
+          {
+            "label": "Filed",
+            "value": "2026-10-29, before any reply from Syfter or Michael."
+          }
+        ]
+      },
+      {
+        "tab": "exante",
+        "type": "table",
+        "audience": "internal",
+        "h2": "Exhibit 1b &#183; Pre-registered reads",
+        "columns": [
+          "Signal",
+          "What it would mean",
+          "Next move"
+        ],
+        "rows": [
+          [
+            "Michael opens the brief before the call (resume_click or tab_view events)",
+            "The brief did its job as a pre-read",
+            "Lead with his questions, not the brief"
+          ],
+          [
+            "Syfter asks for Dynamics depth",
+            "The screen will test hands-on platform work",
+            "Prep Dynamics for advancement and Colleague integration"
+          ],
+          [
+            "Silence past 7 business days",
+            "Another candidate ahead, or the role paused",
+            "Nudge Steven once; do not chase Michael directly"
+          ]
+        ]
+      }
+    ]
+  }
+}

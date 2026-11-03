@@ -54,6 +54,7 @@ HERE = Path(__file__).resolve().parent
 DEFAULT_ROOT = HERE.parent
 TIERS_REL = Path("runtime/specs/read-friction-tiers.json")
 TRUST_REL = Path("runtime/specs/source-trust.json")
+APEX_SPINE_REL = Path("_CANON/apex-spine-mobius-induction-circuit.md")
 PICKS_REL = Path("_STATE/librarian")
 UNIVERSE_REL = Path("_STATE/job-search/universe")
 
@@ -62,6 +63,9 @@ DEMOTION_PER_FALSIFIED_PICK = 0.15
 DEMOTION_FLOOR = 0.4
 DEFEATED_FACTOR = 0.5
 MAX_TEXT_CHARS = 6000
+# classes the tiers file does not yet name borrow the tier row of a sibling (runtime/specs/read-friction-tiers.json is
+# not this module's to edit); once the file carries the class, the file wins.
+CLASS_TIER_FALLBACK = {"apex-spine": "essay"}
 DEFAULT_SOURCE = "claude-fable"   # repo content is authored by this harness's sessions unless a row says otherwise
 
 SHA_RE = re.compile(r"\b(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b")
@@ -193,6 +197,27 @@ def load_seeds(root: Path) -> List[Candidate]:
         out.append(Candidate(id=sid, cls="seed", text=_clip(text), path="_SEEDS/index.jsonl",
                              date=_first_date(planted.get(sid), row.get("provenance")),
                              aliases=[str(row.get("alias"))] if row.get("alias") else []))
+    return out
+
+
+def load_apex_spine(root: Path) -> List[Candidate]:
+    """The Apex Spine (_CANON/apex-spine-mobius-induction-circuit.md): an associative index of the relations between
+    the night's artifacts. One Candidate per `##` section so a hit points at the section that answers, not the page;
+    the preamble (thesis) is its own item. Refs/shas inside a section feed the same M0/M1 backing rule as every class."""
+    p = root / APEX_SPINE_REL
+    try:
+        txt = p.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return []
+    d = _first_date(txt)
+    parts = re.split(r"(?m)^##\s+", txt)
+    out = [Candidate(id="apex-spine:preamble", cls="apex-spine", text=_clip(parts[0]), path=f"{APEX_SPINE_REL}#preamble",
+                     date=d, aliases=["apex-spine"])]
+    for sec in parts[1:]:
+        head, _, body = sec.partition("\n")
+        slug = re.sub(r"[^a-z0-9]+", "-", head.lower()).strip("-")[:48] or "section"
+        out.append(Candidate(id=f"apex-spine:{slug}", cls="apex-spine", text=_clip(head + "\n" + body),
+                             path=f"{APEX_SPINE_REL}#{slug}", date=d))
     return out
 
 
@@ -461,7 +486,7 @@ class Librarian:
         self.candidates: List[Candidate] = []
         self.prior_picks: List[Dict[str, Any]] = []
         if load_corpus:
-            self.candidates += load_adrs(self.root) + load_seeds(self.root) + load_tao(self.root) + load_legend(self.root) \
+            self.candidates += load_adrs(self.root) + load_apex_spine(self.root) + load_seeds(self.root) + load_tao(self.root) + load_legend(self.root) \
                 + load_lore(self.root) + load_registry(self.root) + load_lattice(self.root) + load_ledgers(self.root) + load_universes(self.root)
             mem = load_memory(self.memory_dir)
             if not mem:
@@ -471,6 +496,25 @@ class Librarian:
             self.candidates += picks
         self.candidates += list(extra_candidates or [])
         self._falsified_rows = [c for c in self.candidates if c.cls == "falsification" and "FALSIFIED" in c.text]
+
+    def quorum_gaps(self) -> List[Dict[str, Any]]:
+        """Quorum members named in s4 query row 11 that no built operator fills. Read from the registry, never assumed:
+        a member is a gap unless the registry binds it. Nothing here stands in for them."""
+        reg: Dict[int, Dict[str, Any]] = {}
+        for rp in (self.root / "operators" / "OPERATOR-REGISTRY.json", DEFAULT_ROOT / "operators" / "OPERATOR-REGISTRY.json"):
+            try:
+                reg = {int(o["op"]): o for o in json.loads(rp.read_text(encoding="utf-8")).get("operators", [])}
+                break
+            except (OSError, ValueError, KeyError):
+                continue
+        def row(op: int) -> str:
+            o = reg.get(op)
+            return f"registry op {op} = {o.get('name')} [{o.get('status')}]" if o else f"registry unreadable or has no op {op}"
+        return [
+            {"member": "Op 25 Sage", "status": "unbuilt", "evidence": row(25) + "; numbering follows operators/docs/PERIODIC-TABLE.md, so the row's 'Sage' label and the table's name for 25 disagree: unresolved here", "consulted": False},
+            {"member": "auditor", "status": "unbuilt", "evidence": row(28) + " (the only auditor in the table)", "consulted": False},
+            {"member": "scholar", "status": "no operator", "evidence": "no scholar in operators/docs/PERIODIC-TABLE.md or the registry", "consulted": False},
+        ]
 
     # ── backing ──────────────────────────────────────────────────────────────
 
@@ -547,7 +591,7 @@ class Librarian:
 
         scored: List[Dict[str, Any]] = []
         for c in cands:
-            cl = self.tiers["classes"].get(c.cls, self.tiers["classes"]["external"])
+            cl = self.tiers["classes"].get(c.cls) or self.tiers["classes"].get(CLASS_TIER_FALLBACK.get(c.cls, ""), self.tiers["classes"]["external"])
             tier = self.tiers["tiers"][cl["tier"]]
             tl = c.text.lower()
             hits = sorted((w for w in qset if w in tl), key=lambda w: -idf[w])
@@ -681,6 +725,7 @@ class Librarian:
             "skipped_for_displacement": skipped_displacement,
             "stopped_because": stopped,
             "not_consulted": self.not_consulted,
+            "gaps": self.quorum_gaps(),
             "corpus": {"candidates": len(cands), "by_class": dict(sorted(counts.items()))},
             "elapsed_s": round(time.time() - t0, 3),
         }

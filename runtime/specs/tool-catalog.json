@@ -2,21 +2,21 @@
  "schema": "tool-catalog-v1",
  "note": "Harvested one-line JTBDs, never inferred. Deterministic — no wall-clock. Regenerate with: python3 scripts/tool_catalog_emit.py",
  "counts": {
-  "agent": 22,
-  "command": 17,
+  "agent": 24,
+  "command": 18,
   "hook": 3,
   "operator": 46,
   "package": 3,
-  "script": 247,
+  "script": 260,
   "skill": 22,
   "workflow": 2
  },
- "total": 362,
+ "total": 378,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 505,
+   "WIRED": 535,
    "AVAILABLE-NOT-INSTALLED": 0,
    "INSTALLED-UNUSED": 1,
    "DUPLICATE": 6,
@@ -268,6 +268,14 @@
   },
   {
    "kind": "command",
+   "name": "arcs-mode",
+   "path": ".claude/commands/arcs-mode.md",
+   "jtbd": "description: Set how this session works. /arcs-mode <mode> [stakes=] [horizon=] [grug=on|off] [loki=on|off]",
+   "invoke": "/arcs-mode",
+   "state": "WIRED"
+  },
+  {
+   "kind": "command",
    "name": "backlog-graph",
    "path": ".claude/commands/backlog-graph.md",
    "jtbd": "Read-only. Wraps `scripts/backlog_graph.py` (stdlib, no model calls). It orders and labels; it never",
@@ -412,6 +420,14 @@
   },
   {
    "kind": "agent",
+   "name": "brand-line-producer",
+   "path": ".claude/agents/brand-line-producer.md",
+   "jtbd": "Render-time brand gate. Run before any ARCS page, artifact or video frame is rendered, published or shipped. Runs the repo's own gates, then judges only what they cannot see (voice, earned fidelity, video kit level, cross-surface consistenc",
+   "invoke": "Agent subagent_type=brand-line-producer",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
    "name": "chief-bayesian",
    "path": ".claude/agents/chief-bayesian.md",
    "jtbd": "[CANDIDATE] Staff of Chiefs, Bayesian: audit every prior and update for evidence.",
@@ -464,6 +480,14 @@
    "path": ".claude/agents/claude-code-config-auditor.md",
    "jtbd": "Audits this repo's Claude Code setup (CLAUDE.md and its imports, .claude/settings*.json, agents, skills, commands, hooks, .mcp.json) against the official Claude Code docs, which are the master standard. Use when adding or changing any Claud",
    "invoke": "Agent subagent_type=claude-code-config-auditor",
+   "state": "WIRED"
+  },
+  {
+   "kind": "agent",
+   "name": "grug",
+   "path": ".claude/agents/grug.md",
+   "jtbd": "Grug brain check (grugbrain.dev). Call before a plan, a new tool or gate, or when spiraling. Asks if the thing needs to exist at all. Read-only, short answers. Pair with a gigabrain agent (e.g. chief-loki) on the same prompt; agreement mean",
+   "invoke": "Agent subagent_type=grug",
    "state": "WIRED"
   },
   {
@@ -628,6 +652,14 @@
   },
   {
    "kind": "script",
+   "name": "adr_dewy_watch.py",
+   "path": "scripts/adr_dewy_watch.py",
+   "jtbd": "ADR / DEWY candidate watcher — heuristic detector (no model, no deps).",
+   "invoke": "python3 scripts/adr_dewy_watch.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "agent_seed_gate.py",
    "path": "scripts/agent_seed_gate.py",
    "jtbd": "agent_seed_gate: merge rule for candidate seed agents (stdlib only).",
@@ -720,6 +752,14 @@
    "path": "scripts/attribution_provenance_lint.py",
    "jtbd": "attribution_provenance_lint.py — the speaker-provenance lambda (ventriloquy paternity test).",
    "invoke": "python3 scripts/attribution_provenance_lint.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "audit_report_build.py",
+   "path": "scripts/audit_report_build.py",
+   "jtbd": "Build an Agent Receipts Audit report page from one audit data file.",
+   "invoke": "python3 scripts/audit_report_build.py",
    "state": "WIRED"
   },
   {
@@ -1044,6 +1084,14 @@
   },
   {
    "kind": "script",
+   "name": "delta_encoding_gate.py",
+   "path": "scripts/delta_encoding_gate.py",
+   "jtbd": "delta_encoding_gate: a belief change is never shown by colour alone.",
+   "invoke": "python3 scripts/delta_encoding_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "dependency_sweep.py",
    "path": "scripts/dependency_sweep.py",
    "jtbd": "Reticulated dependency sweep (seed: induced-dependency-mapping).",
@@ -1096,6 +1144,14 @@
    "path": "scripts/doll_sprout.py",
    "jtbd": "doll_sprout.py — germinate a doll into a tenant memory dir (UserN+1 side).",
    "invoke": "python3 scripts/doll_sprout.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "drift_fp_sample.py",
+   "path": "scripts/drift_fp_sample.py",
+   "jtbd": "drift_fp_sample: how many \"broken path\" findings in the docs are real? Measure, draw a seeded sample, score labels.",
+   "invoke": "python3 scripts/drift_fp_sample.py",
    "state": "WIRED"
   },
   {
@@ -1308,6 +1364,22 @@
   },
   {
    "kind": "script",
+   "name": "good_agent_files_emit.py",
+   "path": "scripts/good_agent_files_emit.py",
+   "jtbd": "good_agent_files_emit: agent-readable files for good.arcs.care, generated so they cannot drift.",
+   "invoke": "python3 scripts/good_agent_files_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "grammar_chips_emit.py",
+   "path": "scripts/grammar_chips_emit.py",
+   "jtbd": "grammar_chips_emit: write the chip grammar from runtime/specs/grammar-chips.json into",
+   "invoke": "python3 scripts/grammar_chips_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "gravity_well_fork_scan.py",
    "path": "scripts/gravity_well_fork_scan.py",
    "jtbd": "gravity_well_fork_scan — the ziggurat decomposition detector.",
@@ -1472,6 +1544,22 @@
    "path": "scripts/kit_primitive_sync.py",
    "jtbd": "kit_primitive_sync: the Instrument Lab primitives promoted from Phosphor stay identical to the page.",
    "invoke": "python3 scripts/kit_primitive_sync.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_pull.py",
+   "path": "scripts/kit_pull.py",
+   "jtbd": "kit_pull.py: give the Field OS kit a measurable pull, so parts flock to the pages and jobs they fit.",
+   "invoke": "python3 scripts/kit_pull.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "kit_specimen.py",
+   "path": "scripts/kit_specimen.py",
+   "jtbd": "kit_specimen: one standard page for every ui-kit building block (atom, molecule, organism, lockup, template).",
+   "invoke": "python3 scripts/kit_specimen.py",
    "state": "WIRED"
   },
   {
@@ -1804,6 +1892,14 @@
   },
   {
    "kind": "script",
+   "name": "phosphor_buildlog_video.py",
+   "path": "scripts/phosphor_buildlog_video.py",
+   "jtbd": "phosphor_buildlog_video: assemble _PROPOSALS/video/phosphor-buildlog/video.html from the template, the kit tokens (verbatim, sentinel kept) and the receipts snapshot (data.json).",
+   "invoke": "python3 scripts/phosphor_buildlog_video.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "phosphor_crosscheck.py",
    "path": "scripts/phosphor_crosscheck.py",
    "jtbd": "phosphor_crosscheck.py: independent numpy recomputation of the Phosphor band values (check V2).",
@@ -1872,6 +1968,14 @@
    "path": "scripts/projection_factory.py",
    "jtbd": "projection_factory.py — the reusable public-projection factory for ARCS.",
    "invoke": "python3 scripts/projection_factory.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "proof_emit.py",
+   "path": "scripts/proof_emit.py",
+   "jtbd": "proof_emit: render resume.arcs.care/proof (an infinite-zoom proof ledger) from one claims file.",
+   "invoke": "python3 scripts/proof_emit.py",
    "state": "WIRED"
   },
   {
@@ -1980,6 +2084,14 @@
   },
   {
    "kind": "script",
+   "name": "readme_video_check.py",
+   "path": "scripts/readme_video_check.py",
+   "jtbd": "readme_video_check: diff the claims in a source README against a video's narration and card text.",
+   "invoke": "python3 scripts/readme_video_check.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
    "name": "recall_coherence_ledger.py",
    "path": "scripts/recall_coherence_ledger.py",
    "jtbd": "recall_coherence_ledger.py: recall of coherence_sweep's contradiction check on the ledger's claim/delta pairs.",
@@ -2032,6 +2144,14 @@
    "path": "scripts/recoil_brief.py",
    "jtbd": "recoil_brief.py -- single-source-of-truth generator for a recoil brief.",
    "invoke": "python3 scripts/recoil_brief.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "recoil_induce.py",
+   "path": "scripts/recoil_induce.py",
+   "jtbd": "recoil_induce.py: induce candidate backlog rows from a recoil report or war room. Stdlib only, no model calls.",
+   "invoke": "python3 scripts/recoil_induce.py",
    "state": "WIRED"
   },
   {
@@ -2288,6 +2408,14 @@
    "path": "scripts/surface_catalog_emit.py",
    "jtbd": "surface_catalog_emit.py: one catalog row per arcs.care surface, harvested from the routing sources.",
    "invoke": "python3 scripts/surface_catalog_emit.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "surface_watch.py",
+   "path": "scripts/surface_watch.py",
+   "jtbd": "Surface watcher — heuristic detector for mini-app / polyform SURFACE candidates (no model, no deps).",
+   "invoke": "python3 scripts/surface_watch.py",
    "state": "WIRED"
   },
   {

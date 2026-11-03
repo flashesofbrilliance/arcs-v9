@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 290,
-  "hosts": 81,
+  "rows": 321,
+  "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 231,
+   "product page": 262,
    "gated": 31
   },
   "next_config_hosts": 79,
-  "proxy_hosts": 28,
+  "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 6,
-  "unlisted": 113
+  "missing_purpose": 23,
+  "unlisted": 120
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -50,8 +50,16 @@
  "unrouted_public_html": [
   "public/blacksmith-cover.html",
   "public/blacksmith-resume.html",
+  "public/cia-gate.html",
+  "public/dioptra-gate.html",
   "public/jack-rain-resume.html",
-  "public/myally-gate.html"
+  "public/monday-gate.html",
+  "public/myally-debrief.html",
+  "public/myally-gate.html",
+  "public/myally-mnda-edits.html",
+  "public/myally-primer.html",
+  "public/myally-proposal.html",
+  "public/myally.html"
  ],
  "rows": [
   {
@@ -717,7 +725,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Privacy Policy",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "app.arcs.care",
@@ -977,7 +985,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Terms of Service",
-   "last_commit": "2026-10-08"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "app.arcs.care",
@@ -997,7 +1005,7 @@
    "gate_file": null,
    "unlisted": false,
    "purpose": "Trust Contract",
-   "last_commit": "2026-10-18"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "app.arcs.care",
@@ -1098,7 +1106,7 @@
    "unlisted": false,
    "purpose": "An open Next.js web app: paste a LinkedIn profile or upload a PDF to generate an adaptive ARCS-style scan. Runs a local mock scan in the browser. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "autopilot.arcs.care",
@@ -1326,6 +1334,46 @@
    "last_commit": "2026-10-18"
   },
   {
+   "host": "cia.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/cia-brief.html",
+   "pattern": false,
+   "file": "public/cia-brief.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach Harris for CIA",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "Zach Harris for CIA",
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "cia.arcs.care",
+   "path": "/resume.pdf",
+   "catch_all": false,
+   "destination": "/cia-brief-resume.pdf",
+   "pattern": false,
+   "file": "public/cia-brief-resume.pdf",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-29"
+  },
+  {
    "host": "claritai.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -1527,6 +1575,46 @@
    "last_commit": "2026-10-09"
   },
   {
+   "host": "dioptra.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/dioptra-brief.html",
+   "pattern": false,
+   "file": "public/dioptra-brief.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Zach Harris - Dioptra",
+   "description": null,
+   "index": "noindex, nofollow",
+   "unlisted": true,
+   "purpose": "Zach Harris - Dioptra",
+   "kind": "product page",
+   "last_commit": "2026-11-02"
+  },
+  {
+   "host": "dioptra.arcs.care",
+   "path": "/work-sample.zip",
+   "catch_all": false,
+   "destination": "/dioptra-brief-sample.zip",
+   "pattern": false,
+   "file": "public/dioptra-brief-sample.zip",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-11-02"
+  },
+  {
    "host": "dj.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -1544,7 +1632,7 @@
    "unlisted": true,
    "purpose": "Phosphor",
    "kind": "product page",
-   "last_commit": "2026-10-23"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "forge-cut.arcs.care",
@@ -1586,7 +1674,7 @@
    "unlisted": false,
    "purpose": "The invariant beneath the polyform.",
    "kind": "explorer",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "fun.arcs.care",
@@ -1647,13 +1735,13 @@
    "unlisted": false,
    "purpose": "A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work. Compact a session into a dense seed; let many workers reconcile through git without lost updates. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "good.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-fears|good-copypasta|api|_next|_vercel|fonts/|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-audit-check|good-audit-sample|good-agents|good-fears|good-copypasta|good-rfp-engine|rfp-engine/|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/good.html",
    "pattern": false,
    "file": "public/good.html",
@@ -1669,7 +1757,47 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-31"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/AGENTS.md",
+   "catch_all": false,
+   "destination": "/good-agents.txt",
+   "pattern": false,
+   "file": "public/good-agents.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/agents.md",
+   "catch_all": false,
+   "destination": "/good-agents.txt",
+   "pattern": false,
+   "file": "public/good-agents.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -1690,7 +1818,47 @@
    "unlisted": false,
    "purpose": "A fixed-price audit that tests whether a cold reader can rebuild what your AI agents did from the record alone, and maps every gap it cannot close.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-11-01"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/audit/check",
+   "catch_all": false,
+   "destination": "/good-audit-check.html",
+   "pattern": false,
+   "file": "public/good-audit-check.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Repo Receipts Check · ARCS",
+   "description": "Paste an open-source GitHub repo and see how many of its recent commits a stranger could explain from the record alone. A free sample of the Agent Receipts Audit.",
+   "index": "index, follow",
+   "unlisted": false,
+   "purpose": "Paste an open-source GitHub repo and see how many of its recent commits a stranger could explain from the record alone. A free sample of the Agent Receipts Audit.",
+   "kind": "product page",
+   "last_commit": "2026-10-31"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/audit/sample",
+   "catch_all": false,
+   "destination": "/good-audit-sample.html",
+   "pattern": false,
+   "file": "public/good-audit-sample.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Audit Report · The Rogue Operator · ARCS",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "Audit Report · The Rogue Operator · ARCS",
+   "kind": "product page",
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -1711,7 +1879,7 @@
    "unlisted": false,
    "purpose": "Notes from the Trenches: what building ARCS in the open actually taught me. Real stories from the build, with the receipts.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -1995,6 +2163,46 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/blog/nftt/every-mistake-became-a-gate",
+   "catch_all": false,
+   "destination": "/blog-nftt-every-mistake-became-a-gate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-every-mistake-became-a-gate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Every Mistake Became a Gate · NFTT",
+   "description": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "index": "index, follow, max-image-preview:large",
+   "unlisted": false,
+   "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/every-mistake-became-a-gate/full",
+   "catch_all": false,
+   "destination": "/blog-nftt-every-mistake-became-a-gate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-every-mistake-became-a-gate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Every Mistake Became a Gate · NFTT",
+   "description": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "index": "index, follow, max-image-preview:large",
+   "unlisted": false,
+   "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/blog/nftt/four-dates-one-thesis-three-confirmations",
    "catch_all": false,
    "destination": "/blog-nftt-four-dates-one-thesis-three-confirmations.html",
@@ -2132,6 +2340,26 @@
    "purpose": "The research behind Light at Thirty-Eight Miles an Hour: a claim check, the 2026 state of the art in slow light and quantum memory, fifteen labelled isomorphisms to ARCS, and five inventions with kill conditions.",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/llms.txt",
+   "catch_all": false,
+   "destination": "/good-nftt-llms.txt",
+   "pattern": false,
+   "file": "public/good-nftt-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -2451,7 +2679,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -2471,7 +2699,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -2872,6 +3100,46 @@
    "purpose": "The tool that stamps every trench post spent five days describing a format the live site had abandoned, and its own docs carried a false proof of life that only the routing table could catch.",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/the-idempotent-fix",
+   "catch_all": false,
+   "destination": "/blog-nftt-the-idempotent-fix.html",
+   "pattern": false,
+   "file": "public/blog-nftt-the-idempotent-fix.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "!Hot-Fix → The Idempotent Fix: == Done, Right. For Good. · NFTT",
+   "description": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "index": "index",
+   "unlisted": false,
+   "purpose": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "kind": "product page",
+   "last_commit": "2026-10-31"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/the-idempotent-fix/full",
+   "catch_all": false,
+   "destination": "/blog-nftt-the-idempotent-fix.html",
+   "pattern": false,
+   "file": "public/blog-nftt-the-idempotent-fix.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "!Hot-Fix → The Idempotent Fix: == Done, Right. For Good. · NFTT",
+   "description": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "index": "index",
+   "unlisted": false,
+   "purpose": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
+   "kind": "product page",
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -3355,6 +3623,26 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/blog/til/llms.txt",
+   "catch_all": false,
+   "destination": "/good-til-llms.txt",
+   "pattern": false,
+   "file": "public/good-til-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/blog/til/one-day-99-merges",
    "catch_all": false,
    "destination": "/blog-til-one-day-99-merges.html",
@@ -3412,7 +3700,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3433,7 +3721,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real warm-versus-cold reconstruction experiment. Commit your predictions before the evidence, take each chair, and watch the world sharpen only as your receipt earns it.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3454,7 +3742,7 @@
    "unlisted": false,
    "purpose": "A playable case built from a real production outage. Take each chair, defend the position with evidence or concede it, and leave with a receipt of what you could and could not show.",
    "kind": "product page",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3475,7 +3763,7 @@
    "unlisted": false,
    "purpose": "The accountable copypasta: tick only what your agent actually does, and the card claims exactly that. Everything else stays on the card as not yet.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3496,7 +3784,7 @@
    "unlisted": false,
    "purpose": "A founder's nineteen AI fears, each asked one question: what would prove this wrong, and by when? Guess, flip the card, and see which fears the world can actually answer.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3521,6 +3809,87 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/rfp-engine",
+   "catch_all": false,
+   "destination": "/good-rfp-engine.html",
+   "pattern": false,
+   "file": "public/good-rfp-engine.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts",
+    "src/proxy.ts"
+   ],
+   "title": "RFP Answering Engine · ARCS public goods",
+   "description": "An open RFP answering engine that cites the exact clause or refuses. Python standard library only, runs locally as an MCP server.",
+   "index": null,
+   "unlisted": false,
+   "purpose": "An open RFP answering engine that cites the exact clause or refuses. Python standard library only, runs locally as an MCP server.",
+   "kind": "product page",
+   "last_commit": "2026-11-02"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/rfp-engine/AGENTS.md",
+   "catch_all": false,
+   "destination": "/good-rfp-engine-agents.txt",
+   "pattern": false,
+   "file": "public/good-rfp-engine-agents.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-11-02"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/rfp-engine/agents.md",
+   "catch_all": false,
+   "destination": "/good-rfp-engine-agents.txt",
+   "pattern": false,
+   "file": "public/good-rfp-engine-agents.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-11-02"
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/rfp-engine/llms.txt",
+   "catch_all": false,
+   "destination": "/good-rfp-engine-llms.txt",
+   "pattern": false,
+   "file": "public/good-rfp-engine-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-11-02"
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/series/lore",
    "catch_all": false,
    "destination": "/good-series-lore.html",
@@ -3538,7 +3907,7 @@
    "unlisted": false,
    "purpose": "Lore: the stories ARCS is built on, each filed with a verdict. A story may be told before it is cited, and each one names the test that would retire it.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "good.arcs.care",
@@ -3580,7 +3949,7 @@
    "unlisted": false,
    "purpose": "Receipts: dated public predictions, each written with its own falsifier, then re-scored against the primary documents. Misses stay on the record.",
    "kind": "product page",
-   "last_commit": "2026-10-04"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "growth-ai.arcs.care",
@@ -3996,6 +4365,26 @@
    "last_commit": "2026-10-17"
   },
   {
+   "host": "monday.arcs.care",
+   "path": "/",
+   "catch_all": true,
+   "destination": "/monday-guide.html",
+   "pattern": false,
+   "file": "public/monday-guide.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "RET RFP Submission Guide",
+   "description": null,
+   "index": "noindex,nofollow",
+   "unlisted": true,
+   "purpose": "RET RFP Submission Guide",
+   "kind": "product page",
+   "last_commit": "2026-10-27"
+  },
+  {
    "host": "monolith.arcs.care",
    "path": "/",
    "catch_all": true,
@@ -4100,61 +4489,121 @@
    "host": "myally.arcs.care",
    "path": "/",
    "catch_all": true,
-   "destination": "/myally.html",
+   "destination": "/myally-hub.html",
    "pattern": false,
-   "file": "public/myally.html",
+   "file": "public/myally-hub.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
     "src/proxy.ts"
    ],
-   "title": "My Ally LD: Simple Plan",
-   "description": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "title": "My Ally LD: Alyce",
+   "description": null,
    "index": "noindex",
    "unlisted": true,
-   "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-29"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/debrief",
+   "catch_all": false,
+   "destination": "/myally-hub.html",
+   "pattern": false,
+   "file": "public/myally-hub.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "My Ally LD: Alyce",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
    "path": "/mnda-edits",
    "catch_all": false,
-   "destination": "/myally-mnda-edits.html",
+   "destination": "/myally-hub.html",
    "pattern": false,
-   "file": "public/myally-mnda-edits.html",
+   "file": "public/myally-hub.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
     "src/proxy.ts"
    ],
-   "title": "My Ally LD: NDA notes",
-   "description": "Proposed edits to the mutual NDA, each with a short reason.",
+   "title": "My Ally LD: Alyce",
+   "description": null,
    "index": "noindex",
    "unlisted": true,
-   "purpose": "Proposed edits to the mutual NDA, each with a short reason.",
+   "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-29"
   },
   {
    "host": "myally.arcs.care",
    "path": "/primer",
    "catch_all": false,
-   "destination": "/myally-primer.html",
+   "destination": "/myally-hub.html",
    "pattern": false,
-   "file": "public/myally-primer.html",
+   "file": "public/myally-hub.html",
    "gate": null,
    "gate_file": null,
    "declared_in": [
     "src/proxy.ts"
    ],
-   "title": "My Ally LD: Technical Primer",
-   "description": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "title": "My Ally LD: Alyce",
+   "description": null,
    "index": "noindex",
    "unlisted": true,
-   "purpose": "A plain-language plan for My Ally LD: four stages, what is in scope under best, base and worst cases, a glossary and an intake preview.",
+   "purpose": "My Ally LD: Alyce",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-10-29"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/proposal",
+   "catch_all": false,
+   "destination": "/myally-hub.html",
+   "pattern": false,
+   "file": "public/myally-hub.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "My Ally LD: Alyce",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
+  },
+  {
+   "host": "myally.arcs.care",
+   "path": "/timeline",
+   "catch_all": false,
+   "destination": "/myally-hub.html",
+   "pattern": false,
+   "file": "public/myally-hub.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "My Ally LD: Alyce",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "My Ally LD: Alyce",
+   "kind": "product page",
+   "last_commit": "2026-10-29"
   },
   {
    "host": "omakase.arcs.care",
@@ -4692,7 +5141,7 @@
    "host": "resume.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!google).*)",
+   "source": "/:path((?!google|proof|resume-index|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/resume.html",
    "pattern": false,
    "file": "public/resume.html",
@@ -4708,7 +5157,7 @@
    "unlisted": false,
    "purpose": "Zach Harris, one operator accountable end to end. Wall Street quality, no middle layer. Proof over promises: the work ships in the open.",
    "kind": "product page",
-   "last_commit": "2026-10-21"
+   "last_commit": "2026-10-30"
   },
   {
    "host": "resume.arcs.care",
@@ -4749,6 +5198,26 @@
    "purpose": "Zach Harris · Resume",
    "kind": "product page",
    "last_commit": "2026-10-09"
+  },
+  {
+   "host": "resume.arcs.care",
+   "path": "/index.md",
+   "catch_all": false,
+   "destination": "/resume-index.txt",
+   "pattern": false,
+   "file": "public/resume-index.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "robin-codex.arcs.care",
@@ -4853,7 +5322,7 @@
    "unlisted": false,
    "purpose": "Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh. A conformance runner proves the shim is identical, not guesses. An MIT tool in the ARCS family.",
    "kind": "product page",
-   "last_commit": "2026-10-20"
+   "last_commit": "2026-10-24"
   },
   {
    "host": "saul.arcs.care",
@@ -5350,7 +5819,7 @@
    "host": "status.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!.*belief|.*gauntlet).*)",
+   "source": "/:path((?!.*belief|.*gauntlet|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/status.html",
    "pattern": false,
    "file": "public/status.html",
@@ -5406,6 +5875,26 @@
    "purpose": "The shape of the adversarial gauntlet record: every pre-ship pressure-test, plotted in time. Cadence and scale, never the contents.",
    "kind": "ledger",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "status.arcs.care",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/status-llms.txt",
+   "pattern": false,
+   "file": "public/status-llms.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "success-academy.arcs.care",
@@ -5466,7 +5955,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-21"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -5864,6 +6353,146 @@
    "purpose": "Yuri · one door",
    "kind": "product page",
    "last_commit": "2026-10-08"
+  },
+  {
+   "host": "zach.md",
+   "path": "/",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/index.md",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/llms.txt",
+   "catch_all": false,
+   "destination": "/zach.md",
+   "pattern": false,
+   "file": "public/zach.md",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/proof",
+   "catch_all": false,
+   "destination": "/proof.html",
+   "pattern": false,
+   "file": "public/proof.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": "Proof · Zach Harris",
+   "description": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
+   "index": null,
+   "unlisted": false,
+   "purpose": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
+   "kind": "product page",
+   "last_commit": "2026-10-31"
+  },
+  {
+   "host": "zach.md",
+   "path": "/proof/claims.json",
+   "catch_all": false,
+   "destination": "/proof-claims.json",
+   "pattern": false,
+   "file": "public/proof-claims.json",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-31"
+  },
+  {
+   "host": "zach.md",
+   "path": "/robots.txt",
+   "catch_all": false,
+   "destination": "/zach-robots.txt",
+   "pattern": false,
+   "file": "public/zach-robots.txt",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
+  },
+  {
+   "host": "zach.md",
+   "path": "/sitemap.xml",
+   "catch_all": false,
+   "destination": "/zach-sitemap.xml",
+   "pattern": false,
+   "file": "public/zach-sitemap.xml",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "next.config.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-10-30"
   },
   {
    "host": "*",
