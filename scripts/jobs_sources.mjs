@@ -176,6 +176,7 @@ function selftest() {
   t("lane: Founding Product Engineer", laneFor("Founding Product Engineer") === "product engineer")
   t("lane: AI Product Engineer", laneFor("AI Product Engineer") === "product engineer")
   t("lane: Forward Deployed Engineer", laneFor("Forward Deployed Engineer") === "forward deployed")
+  t("lane: Founding Forward Deployment Engineer", laneFor("Founding Forward Deployment Engineer") === "forward deployed")
   t("lane: Staff Product Manager, AI", laneFor("Staff Product Manager, AI") === "product manager")
   t("drop: Product Engineering Intern", laneFor("Product Engineering Intern") === null)
   t("drop: Product Marketing Manager", laneFor("Product Marketing Manager") === null)
