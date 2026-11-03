@@ -154,7 +154,8 @@ What runs and what has paid (checked 2026-11-03):
 | README to video | Three videos shipped; two of the gates exist as `scripts/readme_video_check.py` | No |
 | OSS family (23 public repos) | Landing pages live; 0 to 1 star each | No, and should not be (free to hold) |
 
-Why the audit first: there is nothing to build, the free check is a true and personal opener, and it sells the brand promise
+Why the audit first: there is nothing to build, a hand-checked gap from the prospect's own repo is a true and personal opener
+(not the free check's score; see section 5), and it sells the brand promise
 (it labels what the record cannot prove as "not verified"). Pitch it as a craft practice, not a pivot; it shows FDE work in the open.
 Risks: buyer and price unvalidated; the only case is our own incident, run by its operator; "audit" can sound like compliance.
 
@@ -162,9 +163,11 @@ Price hypothesis: Audit (one repo, one window, 2 weeks async) list $3,500, **fou
 a publishable redacted case. Audit plus gate list $6,500, founding $5,000. Prices stay off the page; quote on the scope call; invoice
 first, no Stripe build.
 
-One-day plan (about 4 hours of Zach's time): pick 10 named eng leads (warm first) whose public repos show agent commits; score each
-with the free check; Claude drafts 10 short first-person notes with the score link and one question ("Which week would you least like
-to explain from memory?"); file the ex-ante receipt (ADR-068); Zach reviews and sends. Kill rule: 0 scope calls from 10 sends in 10
+One-day plan (about 4 hours of Zach's time): pick 10 named eng leads (warm first) whose public repos show agent commits. Use the free
+check only to pick repos, never as the opener: agent commits usually pass it (section 5). Claude finds one hand-checked
+claim-vs-record gap per repo (a commit that claims tests or verification and changes no test file, checked by eye). Claude drafts 10
+short first-person notes that lead with that one gap and ask one question ("Which week would you least like to explain from
+memory?"); file the ex-ante receipt (ADR-068); Zach reviews and sends. A repo with no real gap gets no note. Kill rule: 0 scope calls from 10 sends in 10
 business days moves the effort to the PRL sprint, starting with proving its prod go-live.
 
 ## 5. The growth route: an MCP probe (ADR-076's test)
@@ -175,28 +178,46 @@ works inside Claude Code or Cursor, and the pain shows up mid-session. ADR-076 a
 metered use as the expand, attribution as the wedge) and set its own gate: ship one cheap read-only probe and measure pull before any
 hosted server.
 
-What exists to build on: `rfp-engine` already runs as a standard-library MCP server (`mcp/server.py`, cite or refuse);
-mcp.arcs.care is live (hosts the Perplexity MCP); the repo-check scoring works today, but as JavaScript inside
-`public/good-audit-check.html`.
+**The first premise failed its test (2026-11-03).** The probe was to score whether commit messages say why. Run on the last 30
+commits of 20 public repos found through the AI credit line (script: `agent_vs_human.py`, scratch only):
+
+| | Commits that carry a reason |
+|---|---|
+| Agent-written | 417 of 468 (89%) |
+| Human-written | 52 of 63 (83%) |
+
+Agents write better commit messages than people. A message-level tool would tell an agent-heavy team they are fine, which is no hook.
+On anthropics/claude-code this morning, 4 of 4 agent commits passed too. Caveats: the sample is mostly small solo repos, the human
+side is small, and the scoring approximates the page's. Two more weak joints: the old kill rule (clones, inbound asks) measured reach,
+not demand, from a base near zero; and free tools (commitlint, PR templates) already police message format, so a paid message gate
+has free rivals.
+
+**The mend: check claims against the diff, not the message.** That is where our own incident's gap was: the posts described a send
+block that the repo did not contain. No message linter can see that. First look (`claim_vs_diff.py`, 12 of the same repos): 13 agent
+commits claimed testing or verification; 5 changed a test file, 8 did not. Several of the 8 are false matches ("verified" about facts
+in a bio, a CI file naming unit tests); a few look real (one commit says "Verified" across 300 files and touches no test file).
+Direction right, evidence thin.
+
+**The ladder, mended:**
 
 | Rung | What | Price |
 |---|---|---|
-| Land | `check_repo_receipts`: one read-only local tool, same scoring as /audit/check, on the repo you are in. Every flagged commit cites its sha; anything it cannot verify says so. MIT, listed in the arcs-skills marketplace | Free |
-| Hook | Inside the developer's own session, their agent reports "8 of your last 30 commits explain themselves; here are the 5 nobody could trace" | Free |
-| Expand | The "Audit + gate" scope as a product: a merge check that fails a commit missing its receipt, then scoring across a team's repos | Metered (to fire) |
+| Land | One read-only local tool: for each commit that claims something (tests, a fix, a block, verified), does the diff contain it? Each finding cites the sha and the claim; anything it cannot check says so. MIT, arcs-skills marketplace, built in rfp-engine's pattern (`mcp/server.py`, standard library) | Free |
+| Hook | Inside the developer's own session, their agent reports "3 commits claim tests and change none; here they are" | Free |
+| Expand | A merge check that fails a commit whose claim the diff does not back, then the same across a team's repos | Metered (to fire) |
 | Top | The cold reconstruction audit, run by Zach (section 4) | Fixed price |
 
-The MCP is the audit's funnel, not its replacement.
+**Test before building anything (three steps, in order):**
+1. **Precision.** Sharpen the claim matching, rerun on about 50 repos, hand-check 30 flagged commits. Pre-registered: under 50% real
+   gaps and the premise dies here. No build.
+2. **Demand, inside the audit outreach.** The 10 notes in section 4 each lead with one hand-checked gap. This tests whether the
+   finding grabs a buyer, with no tool built.
+3. **Build only if both pass.** About half a day to port the check into an MCP tool, plus a marketplace listing.
 
-**Measuring without breaking the promise.** A local tool that phones home contradicts the privacy pitch, so it does not. Signals are
-public counts only: marketplace installs, GitHub unique clones (traffic API, 14-day window), stars, issues, and inbound asks.
-
-**Kill rule, set before launch.** Within 30 days of listing: at least 10 unique clones from accounts other than Zach's, or at least
-1 inbound ask for the merge gate. Either one advances ADR-076 out of DRAFT. Neither: file a falsified receipt against ADR-076, stop
-there, and build no hosted server.
-
-Cost: about half a day to port the scoring to a Python tool in rfp-engine's pattern, plus a marketplace listing. Brings no cash this
-week, which is why it runs second.
+**Kill rule, set before launch, counted only among the 10 people who saw their gap:** within 10 business days, at least 3 reply about
+their finding, or at least 1 asks to run it on every PR. Either one advances ADR-076 out of DRAFT. Neither: file a falsified receipt
+against ADR-076 and build no MCP tool and no hosted server. Clone and star counts are not part of the rule. A local tool still never
+phones home.
 
 ## Decisions for Zach
 
@@ -205,6 +226,7 @@ week, which is why it runs second.
 3. Theme clustering: go on pass 1 only, or pass 1 plus pass 2 (needs a Python install).
 4. Seed live probes: add inbox, calendar and open-thread checks to `/handoff-pickup` first (harness, cheapest, would have caught
    this morning's miss), before any visitor-facing pause or seed.
-5. MCP probe: go on porting the repo check to one local read-only MCP tool this week, under the section 5 kill rule.
+5. MCP probe: go on the section 5 precision test now (no build). The tool gets built only if the precision test and the outreach
+   replies both pass.
 
 The four rewiring links in section 1 are small edits to existing pages; they wait for the same go.
