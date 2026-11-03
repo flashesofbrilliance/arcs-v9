@@ -348,7 +348,7 @@
   {
    "rule": "ORPHAN-JOB",
    "id": "job:backlog:drift-classifier-productive-destructive",
-   "reason": "row has had no tool since 2026-10-20; compost or keep is Zach's call",
+   "reason": "kept by Zach 2026-11-03 as seed candidate for the receipt -> deceipt sweep; no tool yet, so the job stays orphaned until the sweep or classifier is built",
    "row": "jtbd-graph-triage-2026-10-20",
    "added": "2026-11-03",
    "resolve_by": "2026-11-17"
