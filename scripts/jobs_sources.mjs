@@ -6,6 +6,7 @@
 // new ones to the board UNSCORED. Scoring stays in scripts/jobs_score_sweep.mjs,
 // which imports atsJD() from here to read these rows' JDs from the same APIs.
 // Public JSON only: no logins, no Getro (its robots.txt disallows the API).
+// Boards = the spec's own slugs plus every verified board in the employer index (spec employer_index).
 //
 //   node scripts/jobs_sources.mjs --dry-run                 # print new matches, write nothing
 //   node scripts/jobs_sources.mjs --dry-run --source ashby  # one adapter
@@ -118,9 +119,22 @@ async function latestHnStory() {
   const d = await getJSON(`https://hn.algolia.com/api/v1/search_by_date?${SPEC.hn.story_query}&hitsPerPage=5`)
   return (d.hits || []).find((h) => /who is hiring/i.test(h.title))?.objectID
 }
+// Boards from the curated employer index (family-friendly / best-workplaces lists resolved by
+// scripts/bridge_index_scan.py probe + verify). Only verify "ok" boards; spec slugs win on overlap.
+export function indexSlugs(index, ats) {
+  return Object.values(index || {}).filter((m) => m && m.ats === ats && m.verify === "ok" && m.slug).map((m) => m.slug)
+}
+let INDEX = null
+function employerIndex() {
+  if (INDEX) return INDEX
+  try { INDEX = JSON.parse(fs.readFileSync(path.join(HERE, "..", SPEC.employer_index.path), "utf8")) } catch { INDEX = {} }
+  return INDEX
+}
 function slugsFor(name) {
   if (name === "yc") return SPEC.yc.pages
-  return SPEC[name] || []
+  const own = SPEC[name] || []
+  if (!SPEC.employer_index || !["greenhouse", "lever", "ashby"].includes(name)) return own
+  return [...new Set([...own, ...indexSlugs(employerIndex(), name)])]
 }
 
 // Fetch one adapter across its slugs; returns { rows, raw, errors }.
@@ -213,6 +227,8 @@ function selftest() {
     { id: 11, author: "c", text: "no pipes here, just chat" },
     { id: 12, author: "d", text: "Gamma | Malibu, CA | ONSITE | Founding Product Engineer" },
   ] })
+  const idx = { A: { ats: "ashby", slug: "acme", verify: "ok" }, B: { ats: "ashby", slug: "bad", verify: "REVIEW" }, C: { ats: "greenhouse", slug: "gh", verify: "ok" } }
+  t("employer index: verified boards for one ats only", JSON.stringify(indexSlugs(idx, "ashby")) === '["acme"]' && indexSlugs(null, "lever").length === 0)
   const hnKept = hn.filter((r) => locationOk(r.location, false, r.title))
   t("hn drops a header with an off-target city", hn.length === 2 && hnKept.length === 1)
   t("hn normalize keeps only lane matches", hnKept[0].title === "Senior Product Engineer" && hnKept[0].location === "New York, NY" && hnKept[0].jd.includes("agents"))
