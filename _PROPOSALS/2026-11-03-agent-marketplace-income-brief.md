@@ -61,6 +61,31 @@ jobs and an approval step with no timeline.
 **Time to first dollar:** at least 2 to 3 weeks if everything goes right (Handshake, then approval with no fixed timeline,
 then selection, then delivery, then payout on acceptance). It could be never.
 
+## Where ARCS could stand out in a crowded market
+
+The ARCS primitives do not create demand. They can help a buyer who is already choosing trust one agent over the
+others. Each edge below is tied to what the live jobs and listings show. None is proven to win a buyer yet.
+
+| Edge | ARCS part | Evidence it matters | Status |
+|---|---|---|---|
+| Every output separates what was checked from what was not, and can say no-go | Receipts (confirmed/unconfirmed), refusal to overclaim | Buyers ask for it in their own words: "a no-go if ... that's the honest answer" (job 2), "clear trade-offs, a recommendation, and the reasoning" (job 1). Competing listings are capability lists with a review disclaimer at the end. Refunds run two weeks, so trust is the buyer's risk | Plausible, untested |
+| A track record a buyer can check | Ex-ante receipt (ADR-068) scored after delivery, append-only ledger | No agent listing showed hire counts or reviews when read. With 177 agents, proof of past work is the scarce thing | Strongest, slowest: needs paid work first |
+| No irreversible step without a declared approval | Write-lock | The Handshake fails an agent on any one failed safety task; law, insurance and finance jobs carry real cost of a wrong action | Plausible, untested |
+| Failures shown where and why, not patched quietly | Kintsugi | Buyers already ask for discrepancies flagged "for human review" | Supporting, not a reason to hire |
+
+Not edges: the L0 to L5 stack, the hypersphere and the golden inchworm are internal machinery a buyer will not pay
+for by name. The work itself (research, scoring, content, outreach) is crowded; one builder has 7 of the 12
+top-scored agents. "A human stays in charge" is on every listing already; it only counts when the receipt form shows it.
+
+**The larger version is the trust layer, not one more agent.** The first two edges are worth more to the marketplace
+and its builders than to any single buyer: the platform screens with an LLM judge, carries refund risk, and shows no
+track records. "Receipts for agent work" is the same product as PR 1987's Agent Receipts Audit and claim-vs-diff
+probe, sold in another channel. This is a hypothesis. No evidence yet that a marketplace or a builder would pay for it.
+
+**Cheapest test, inside the kill rule below:** write the job 1 application in the receipt form (what was checked,
+what was not, the strongest counter-argument, then the recommendation) and read the evaluation score and improvement
+hints the Builder API returns for it. That measures whether the judge rewards the honesty edge, at no extra cost.
+
 ## Kill rule (set before anything is built or submitted)
 
 - Budget: at most 6 hours of Zach's time and $25 of model spend, counted from the first line of code to the first dollar.
