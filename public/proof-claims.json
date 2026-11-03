@@ -1,7 +1,7 @@
 {
   "_about": "Source of truth for resume.arcs.care/proof and /proof/claims.json. Rendered by scripts/proof_emit.py; never edit public/proof.html or public/proof-claims.json by hand. Every claim carries a status: shown (a public record anyone can open), on-request (a real record that is private: employer data or the private repo; references available), not-yet (no record yet). A claim with status shown must carry a url. Falsification entries are read by id from _STATE/falsification-ledger.jsonl.",
   "subject": "Zach Harris",
-  "as_of": "2026-10-30",
+  "as_of": "2026-11-03",
   "profile": "https://zach.md",
   "same_as": [
     "https://www.linkedin.com/in/zharris",
@@ -119,6 +119,15 @@
           "date": "2026-09-24",
           "url": "https://good.arcs.care/blog/nftt/the-question-that-found-the-outage",
           "label": "The Question That Found the Outage"
+        },
+        {
+          "id": "rfp-engine",
+          "claim": "Built an open RFP answering engine that cites the exact clause or says \"not covered\", and published its miss.",
+          "status": "shown",
+          "evidence": "Measured 2026-10-29 and 10-30: 5 of 5 deterministic cases pass through the MCP server, 8 of 8 injected faults caught. One real-model run of 24 questions came back 11 correct, 12 withheld, 1 wrong against a target of 0 wrong; the page says the target was missed.",
+          "date": "2026-10-30",
+          "url": "https://good.arcs.care/rfp-engine",
+          "label": "good.arcs.care/rfp-engine"
         }
       ]
     },
@@ -208,6 +217,15 @@
           "date": "2026-09-30",
           "url": "https://good.arcs.care/blog/nftt/any-stranger-can-be-a-bar-raiser",
           "label": "Any Stranger Can Be a Bar Raiser"
+        },
+        {
+          "id": "honest",
+          "claim": "Built a five-step check that stamps go or stop on a message before it is sent; it runs in the browser and uploads nothing.",
+          "status": "shown",
+          "evidence": "The public tool, with its limits stated on the page.",
+          "date": "2026-09-29",
+          "url": "https://honest.arcs.care",
+          "label": "honest.arcs.care"
         }
       ]
     },
@@ -338,5 +356,5 @@
       ]
     }
   ],
-  "claims_total": 30
+  "claims_total": 32
 }
