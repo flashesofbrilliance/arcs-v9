@@ -32,9 +32,11 @@ outcomes needs a canon amendment and 30 days notice (inventory section 4, Build 
 ## 3. The signal that may be stuck
 
 In 285 receipts the Y-gate has never returned GREEN or RED: FORK 141, PARADOX 122, SCRATCH 7, YELLOW 5, DELTA 2 (all users, all time).
-The prompt anchors the model's score in 40 to 60 and the gate's cutoffs sit at 40, 60 and 65, so the combination may make GREEN
-unreachable. Whether GREEN is meant to be that rare is a product call; that nothing would notice a shift is a debt either way.
-Spike result (section 5) says whether a replay snapshot can gate it.
+**Cause, found by the spike (section 5a): GREEN is structurally unreachable, and the score band is not why.** The prompt requires
+"2-3 paths" with status `selected`, `viable` or `blocked` (`route.ts:86`). The gate fires FORK whenever 2 or more paths are not
+`blocked` (`ygate.ts`, condition 3), and a `selected` path counts as not blocked. The model always returns 3 paths, so every receipt
+gets FORK, or PARADOX when two are viable and the score is under 60. A synthetic clear yes scored 82 and a synthetic clear no scored
+94; both came back FORK. My first-pass guess (the 40-60 score band against fixed cutoffs) was wrong; the spike falsified it.
 
 ## 4. Remove-the-AI test
 
@@ -49,15 +51,31 @@ Delete every model call and the compass returns nothing: the intelligence does t
 | 1 | Outcome prompt on the receipt page and /history (no new email), then show navigators their own closed outcomes beside the next bearing (Build A) | High | Low | The per-navigator bar in the loop hypothesis |
 | 2 | Compass replay eval: fixed fixtures (Zach's own plus synthetic), record score and Y-state distribution, fail on drift | High | Medium | Spike, section 5a |
 | 3 | Fix `deep_model_eval.mjs` to fill `SATOSHI_RULE`, then re-check the Oct 6 deep-model choice on the real prompt | High | Low | Re-run against the same inputs |
-| 4 | Y-gate cutoffs vs the model's score band (GREEN and RED never fire) | High | Medium | #2's snapshot before and after; one cutoff per round |
+| 4 | Y-gate FORK rule: count only `viable` paths (not `selected`) toward FORK, so a decision with one selected path can reach GREEN | High | Low | The spike's fixtures as the snapshot: the synthetic clear yes should leave FORK; real receipts should not move without a reason |
 | 5 | Compass retry on 503 and 429 on a second role, one re-ask on bad JSON | Medium | Low | Unit test with a mocked failing client |
 | 6 | Reminder date parsed in code instead of by the model (`reminder_iso`, prompt line 92) | Medium | Low | Table-driven unit test of horizon strings |
 | 7 | Re-run passes the parent's bearing into the prompt, and the receipt says so | Low | Low | Unit test on the user message |
 
 ### 5a. Eval spike result
 
-(Pending: 8 fixtures, 5 of Zach's own receipts and 3 synthetic built to test whether GREEN and RED are reachable, 3 runs each,
-prod prompt and model config. Filled in when the run lands.)
+8 fixtures (5 of Zach's own receipts, 3 synthetic: a clear yes, a clear no, a low-stakes two-way), 3 runs each, the production prompt
+with `SATOSHI_RULE` filled in, the production model per mode, no prep, no SAGE. 24 calls, 0 errors, about 50k output tokens.
+
+| Fixture | Mode | Scores (3 runs) | Spread | Y-state, all 3 runs |
+|---|---|---|:-:|---|
+| z-court-1 | COURT | 52, 52, 52 | 0 | PARADOX |
+| z-court-2 | COURT | 46, 46, 48 | 2 | PARADOX |
+| z-court-3 | COURT | 62, 62, 62 | 0 | FORK |
+| z-plan-1 | PLAN | 58, 62, 62 | 4 | FORK |
+| z-quick-1 | QUICKMOVE | 72, 72, 72 | 0 | FORK |
+| s-green (clear yes) | QUICKMOVE | 82, 82, 82 | 0 | FORK |
+| s-red (clear no) | COURT | 94, 93, 94 | 1 | FORK |
+| s-plan | PLAN | 78, 72, 78 | 6 | FORK |
+
+**Verdict: stable enough to gate on.** Spread is 0 to 6 points per decision; the Y-state agreed on all 24 runs. A snapshot with about
+8 points of tolerance per fixture and an exact Y-state match would catch a real shift without flapping. By-products: the gate is stuck
+on FORK for the reason above, and every mode took about 18 s per call, so QUICKMOVE on Haiku is not faster than COURT on Sonnet for
+these inputs. Inputs and outputs stayed in the session scratchpad, out of the repo.
 
 ## 6. Corrections to the first-pass scorecard
 
