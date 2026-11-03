@@ -30,6 +30,10 @@
   "us_only": "united states|\\busa?\\b|\\bu\\.s\\.|north america|americas",
   "drop_region": "emea|europe|\\buk\\b|united kingdom|london|canada|toronto|india|apac|latam|brazil|mexico|germany|france|paris|berlin|dublin|ireland|amsterdam|netherlands|spain|poland|singapore|japan|tokyo|sydney|australia|israel|tel aviv|international|middle east|\\buae\\b|abu dhabi|dubai|saudi|riyadh|emea"
  },
+ "employer_index": {
+  "doc": "Also poll every board in this file whose verify is 'ok' (Greenhouse, Lever, Ashby only). It holds employers from curated best-workplaces lists (GPTW / Fortune Best Workplaces for Parents, Fortune 100 Best, Seramount, Built In NYC, Disability:IN), resolved by scripts/bridge_index_scan.py probe and checked by its verify verb. To add a list: save its names under _STATE/job-search/employer-index/lists/, probe, verify, then merge hits into index.json. Plan: _PROPOSALS/2026-11-03-jobs-sourcing-widen.md.",
+  "path": "_STATE/job-search/employer-index/index.json"
+ },
  "greenhouse": [
   "anthropic",
   "figma",

@@ -206,7 +206,8 @@
   "lists_tag": "builtin-nyc-2026",
   "n_reqs": 5,
   "slug": "bombora",
-  "verify": "ok"
+  "verify": "gone",
+  "verify_note": "boards-api 404 on 2026-11-03; re-probe before re-adding"
  },
  "Box": {
   "ats": "greenhouse",
@@ -819,7 +820,8 @@
   "lists_tag": "gptw-parents-2025",
   "n_reqs": 1,
   "slug": "invoca",
-  "verify": "ok"
+  "verify": "gone",
+  "verify_note": "boards-api 404 on 2026-11-03; re-probe before re-adding"
  },
  "Ironclad": {
   "ats": "ashby",
@@ -1129,7 +1131,8 @@
   "lists_tag": "builtin-nyc-2026",
   "n_reqs": 3,
   "slug": "philo",
-  "verify": "ok"
+  "verify": "gone",
+  "verify_note": "boards-api 404 on 2026-11-03; re-probe before re-adding"
  },
  "Placements.io": {
   "ats": "greenhouse",
