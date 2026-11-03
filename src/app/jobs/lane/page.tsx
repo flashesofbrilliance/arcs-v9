@@ -71,8 +71,10 @@ export default async function LanePage() {
       items: closed.map((r) => item(r)), empty: "Nothing closed yet. Offer, reject, or withdrawn lands here and scores the prediction." },
   ]
 
-  // The send queue is the ready Qualify rows, best fit first (rows arrive sorted by composite).
-  const send = qualify.filter(ready).map((r) => ({
+  // The send queue is the ready Qualify rows that carry no laneStatus, newest posting first.
+  // Any status takes a row out: applied, rejected, or posting-closed (the employer stopped
+  // accepting applications; scripts/jobs_posting_liveness.mjs reads LinkedIn's closed-job marker).
+  const send = qualify.filter((r) => ready(r) && !r.laneStatus).sort((a, b) => b.firstSeen.getTime() - a.firstSeen.getTime()).map((r) => ({
     jobid: r.jobid, company: r.company, title: r.title, score: r.composite != null ? fmt(r.composite) : undefined,
     why: r.assessment ? r.assessment.split(/(?<=[.!?])\s/)[0].slice(0, 240) : null, resume: r.forge!.resumeUrl!, post: r.url,
   }))
