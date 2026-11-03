@@ -828,3 +828,10 @@ re-serialize with `indent=1` before committing so the diff is only the new entri
 - **Break:** /audit carried 11 design findings as a frozen baseline, and /audit/check matched it under three file-scoped waivers. Both pages inlined an old copy of `_tokens.css` that lacks the `--ds-*` font and radius variables and the `--fs-*` type ramp, so they set fonts and sizes by hand.
 - **Repair:** both pages now inline the current `_tokens.css` verbatim and use `--ds-font-*`, `--fs-*` and `--ds-r-*` throughout. The check page's score is the kit tile primitive (`29-tile`), the same one the audit report uses. The three waivers are deleted from `.impeccable/config.json`. Both pages score 0 findings.
 - **Guard:** the audit report generator (`scripts/audit_report_build.py`) reads tokens and primitives from the kit at build time. The trap here was a stale inlined token copy: undefined variables fail silently to browser defaults, and the detector still scored the broken page 0. Check a re-tokened page in a real browser, not only the detector.
+
+## 2026-11-03 · target-role scan proof text meets the 11px floor
+
+- **Break:** back-propagating the ledger's proof claims into `_ARTIFACTS/target-role-scan-hud.html` lengthened the quad proof paragraphs, and the ratchet counted one net-new `tiny-text` finding (172 vs 171 at HEAD).
+- **Root cause:** the print rule set `.thread p, .quad p, .step p` at 10.5px, below the 11px functional-text floor (commit 79f53b05). Short paragraphs slipped under the body-text threshold; the longer, sourced text crossed it.
+- **Repair:** the print rule now sits at 11px. No other style changed.
+- **Guard:** the ratchet itself. Any further sub-floor text on this page still blocks.
