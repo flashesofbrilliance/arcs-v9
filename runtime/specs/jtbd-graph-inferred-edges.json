@@ -154,6 +154,17 @@
    "match": "operators 19/20/21",
    "by": "claude-opus-5-5 s2 residue pass 2026-10-18 (operator numbers named in route.tool)",
    "rule": "residue-op-number"
+  },
+  {
+   "from": "tool:agent:impeccable-finish-reviewer",
+   "to": "job:backlog:state-of-union-dashboard-ahmed-impeccable-pass",
+   "type": "serves",
+   "evidence": [
+    "route.tool:state-of-union-dashboard-ahmed-impeccable-pass"
+   ],
+   "match": "impeccable-finish-reviewer",
+   "by": "claude-opus-5-5 orphan triage 2026-11-03 (bare tool name in route.tool, no path or /invoke)",
+   "rule": "residue-bare-name"
   }
  ],
  "retype": [
