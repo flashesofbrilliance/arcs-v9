@@ -157,6 +157,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 22. **One owner per PR branch (Zach, 2026-10-20).** Only the session that opened a PR pushes to its branch. Any other session that wants a change sends the owner a message (SendMessage with its session id) and waits, or takes the branch over only on Zach's explicit go, building on the current remote head. Git rejecting a push because the branch moved means another writer is active: stop and ask, never force. Cause: on 2026-10-20 two sessions pushed rewordings to PR 1671 within 30 seconds of each other. For merging several PRs at once, use `scripts/merge_train.sh --lock` (ADR-085, still PROPOSED).
 
+23. **Coding discipline (Zach, 2026-11-03).** Grug first, then the Karpathy guidelines: think before coding, simplicity first, surgical changes, goal-driven execution with a check before the code. Full text in `.claude/rules/coding-discipline.md`, which loads when you touch code.
+
 ## Receipts or it didn't happen
 
 Every merge, deploy, or publish action MUST end with exactly one Decision Receipt row in the
