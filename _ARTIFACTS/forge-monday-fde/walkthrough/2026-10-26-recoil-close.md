@@ -98,3 +98,12 @@ Effect on the read: Kamran's guardrail ask was answered at the level of architec
 ## Correction: the guardrail ask was met at Kamran's scope (added 2026-10-26)
 
 Re-read of 32:31 to 36:33. Kamran scoped his own ask down at 33:00 ("not all of them, of course, just one or 2. Go for it."). Zach delivered one or two through the eval code and tests, then the posture line at 35:07, and ended the share himself at 36:17. Jacob's 36:33 question (wants that turn out to be needs, and how the evals absorb them) builds on that walkthrough. The earlier "biggest miss: no code walk" overstated it: this is a completeness gap (answer.py, resolve.py, governance and change-control tabs not reached), not an unanswered ask. Zach's read: the panel saw prepared answers behind the observability and explainability questions and moved on. Probability of advancing, revised: about 0.65 to 0.68 (judgment, not data). The follow-up video and the guide's Governance and Change control lists cover the unreached part.
+
+## Outcome and calibration (added 2026-11-03)
+
+**Outcome: did not advance.** Sam Turner emailed on 2026-11-02 that the team is moving forward with other candidates, citing "a number of positive takeaways" and a very high volume of applicants. No other reason was given.
+
+**Score.** The final read was about 0.65 to 0.68 to advance. Using the midpoint 0.665, the Brier score is (0.665 - 0)^2 = 0.44. A coin flip scores 0.25 and the first read after the call (0.55) would have scored 0.30.
+
+**What moved the number.** The read went 0.55, 0.6, 0.62 to 0.65, 0.62 to 0.65, then 0.65 to 0.68. Every revision came from re-reading the same transcript or from Zach's recall and challenge. None came from new evidence from monday. The corrections themselves may be right on the facts (the guardrail ask was met at Kamran's scope); the error is letting better-argued readings of the same evidence raise the odds. Rule for the next close: a re-read can change the explanation, but only new outside evidence changes the probability. Applicant volume, the one outside factor named in the rejection, was never in the model.
+
