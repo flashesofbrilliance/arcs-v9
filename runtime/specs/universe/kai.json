@@ -27,9 +27,10 @@
   "corpus": 1,
   "canon": 1,
   "codebase": 2,
-  "files": 4
+  "files": 6
  },
  "systems": {
+  "_PROPOSALS": 2,
   "_DECISIONS": 1,
   "_STATE": 1,
   "operators": 1,
@@ -37,6 +38,8 @@
  },
  "files": [
   "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md",
+  "_PROPOSALS/2026-11-01-kairos-backup-rule.json",
+  "_PROPOSALS/rendered/2026-11-01-kairos-backup-rule.html",
   "_STATE/2026-08-13-activation-service-kairos-sketch.md",
   "operators/arcs_operator_kairos.py",
   "src/ui-kit/recoil-report/05-kairos-node-card.html"

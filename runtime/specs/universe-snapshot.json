@@ -30,13 +30,13 @@
   ]
  },
  "dimensions": {
-  "corpus": 2447,
+  "corpus": 2450,
   "canon": {
    "files": 125,
    "tao_proverbs": 287,
    "adrs": 87
   },
-  "codebase": 792,
+  "codebase": 822,
   "conviction": {
    "signal": null,
    "why": "Y-gate spread lives in the prod Receipt table; not read by this script"
@@ -46,7 +46,7 @@
    "nodes": 81,
    "shore_open": 37,
    "files_mapped": 288,
-   "files_fog": 3076
+   "files_fog": 3109
   },
   "coherence": {
    "diamonds": 3,
@@ -769,7 +769,7 @@
     "corpus": 1,
     "canon": 1,
     "codebase": 2,
-    "files": 4
+    "files": 6
    }
   },
   {
@@ -3475,7 +3475,7 @@
   {
    "path": "runtime/specs/surface-catalog.json",
    "kind": "catalog",
-   "rows": 317,
+   "rows": 321,
    "private": false
   },
   {
@@ -3493,7 +3493,7 @@
   {
    "path": "scripts/nftt_index_layout.json",
    "kind": "index",
-   "rows": 34,
+   "rows": 35,
    "private": false
   },
   {
