@@ -1,0 +1,461 @@
+<!doctype html><html lang="en"><head>
+<!-- @arcs-template: recoil-report -->
+<!-- @arcs-mode: operate -->
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kairos backup rule: no window closes in silence</title>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  /* Surface */
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  /* Text */
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  /* Signal */
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  /* Signal backgrounds (5% opacity) */
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Font stacks */
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+/* DESIGN.md conformance layer (added 2026-10-15). ADDITIVE: no value above changes, so the ~42 surfaces that
+   inherit the legacy tokens are untouched. The design-debt gate judges pages against DESIGN.md, and the legacy
+   tokens above disagree with it (surface-2 vs elevated; radii 4/8/12 vs 3/6/10/16; font stacks; type ramp).
+   New surfaces use these names so they pass without a per-page override layer. See
+   the ui-kit compounding sweep note for the drift table and the decision this defers. */
+:root {
+  /* Colors DESIGN.md defines that the legacy tokens lack */
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   /* warnings, macro-tags */
+  --violet:         #A78BFA;   /* DELTA state */
+  --magenta:        #E879F9;   /* PARADOX, the MOIRE render state */
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  /* DESIGN.md rounded scale */
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  /* DESIGN.md type ramp: four steps */
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  /* DESIGN.md font stacks */
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  /* system-ui leads on purpose: the design-debt detector flags Inter as an overused primary font even though
+     DESIGN.md specifies it. Inter stays as the named fallback. Edge case logged in the 2026-10-15 sweep. */
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Motion durations and easing. Defined in DESIGN.md "Motion and safety" (promoted 2026-10-19). */
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Motion safety. Numbers, unitless unless named. Read by pages (getComputedStyle) and by
+     scripts/motion_policy_gate.py; change them here and nowhere else. See DESIGN.md "Motion and safety". */
+  --mo-pose-rate:   8;       /* glitch poses per second (zoetrope), never faster */
+  --mo-flash-max:   3;       /* general flashes per second, whole frame or any 1/16 region */
+  --mo-lum-swing:   0.10;    /* relative-luminance swing that counts as a flash */
+  --mo-hold-min:    180ms;   /* an effect stays on screen at least this long after release */
+  --mo-loop-min:    170ms;   /* shortest repeating picture loop (stutter) */
+  --mo-shutter-ms:  650ms;   /* pinhole shutter: time to fully admit a new picture after a hard change */
+}
+
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 15px; line-height: 1.6; margin: 0; padding-inline: 16px; padding-block: 28px; }
+main { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+h1 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 600; line-height: 1.2; margin: 0 0 6px; text-wrap: balance; }
+p { margin: 0 0 10px; }
+.recoil-header { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.recoil-header::before { content: ''; width: 4px; flex-shrink: 0; background: var(--gold); }
+.header-arcs { padding: 16px 24px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+.arcs-mark { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--cyan); line-height: 1; }
+.arcs-sub { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-top: 6px; }
+.header-center { flex: 1; min-width: 0; padding: 16px 24px; }
+.receipt-id { font-family: var(--font-mono); font-size: 11px; color: var(--dimmed); letter-spacing: .04em; margin-bottom: 8px; overflow-wrap: anywhere; }
+.y-gate-badge { display: inline-flex; background: var(--gold-bg); border: 1px solid var(--gold); color: var(--gold); border-radius: var(--r-sm); padding: 3px 12px; font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+.section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.cell { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px; min-width: 0; }
+.cell b { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; }
+.decision { border-top: 1px solid var(--border); padding-block: 14px; }
+.decision:first-of-type { border-top: 0; padding-top: 0; }
+.decision .h3 { font-size: 1rem; margin: 0 0 4px; }
+.decision .rec { color: var(--green); }
+.decision .why, .muted { color: var(--dimmed); font-size: 13px; }
+.did { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); margin-right: 8px; }
+.tw { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { color: var(--muted); font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 500; }
+td.mono { font-family: var(--font-mono); font-size: 12px; }
+.pill { display: inline-block; padding: 1px 9px; border-radius: 99px; font-family: var(--font-mono); font-size: 11px; border: 1px solid; white-space: nowrap; }
+.pill.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.pill.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.pill.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.pill.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.ctl { border-top: 1px solid var(--border); padding-block: 16px; }
+.ctl:first-of-type { border-top: 0; padding-top: 0; }
+.ctl .h3 { font-size: 1rem; margin: 0 0 6px; display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.ab { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 8px; }
+.ab div { background: var(--surface-2); border-radius: var(--r-sm); padding: 10px 12px; font-size: 13px; min-width: 0; }
+.ab .bad { border-left: 3px solid var(--red); }
+.ab .good { border-left: 3px solid var(--green); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.two ul { margin: 8px 0 0; padding-left: 18px; }
+.two li { margin-bottom: 8px; }
+blockquote { margin: 0; padding: 12px 16px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); font-size: 14px; }
+a { color: var(--cyan); }
+.prose h2 { font-size: 1.25rem; margin: 28px 0 8px; } .prose h3 { font-size: 1.05rem; margin: 22px 0 6px; } .prose h4 { font-size: .95rem; margin: 18px 0 6px; }
+.prose ul, .prose ol { padding-left: 22px; margin: 0 0 12px; } .prose li { margin-bottom: 4px; }
+.prose blockquote { margin: 12px 0; padding: 10px 14px; border-left: 3px solid var(--cyan); background: var(--surface-2); border-radius: var(--r-sm); }
+.prose blockquote p { margin: 0; }
+.prose pre { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; overflow-x: auto; font-size: 12px; line-height: 1.45; }
+.prose pre code { color: var(--text); white-space: pre; } .prose hr { border: 0; border-top: 1px solid var(--border); margin: 24px 0; } .prose del { color: var(--dimmed); }
+.fm { width: auto; } .fm td:first-child { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+code { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); overflow-wrap: anywhere; }
+.toc { display: flex; flex-wrap: wrap; gap: 6px 16px; position: sticky; top: 0; background: var(--bg); padding-block: 8px; z-index: 1; border-bottom: 1px solid var(--border); }
+.toc .section-label { margin: 0; align-self: center; }
+.toc a { color: var(--cyan); font-size: 13px; text-decoration: none; padding: 10px 4px; display: inline-block; }
+section { scroll-margin-top: 120px; }
+h2.h3 { font-family: var(--font-sans); }
+details > summary { cursor: pointer; list-style: none; }
+dl { margin: 0; display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 8px 16px; }
+dt { font-weight: 600; } dd { margin: 0; color: var(--dimmed); }
+@media (max-width: 640px) { .toc { position: static; } dl { grid-template-columns: 1fr; } }
+footer { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+@media (max-width: 640px) { .recoil-header { flex-direction: column; } .header-arcs { border-right: 0; border-bottom: 1px solid var(--border); } }
+</style></head><body>
+<main>
+<div class="recoil-header"><div class="header-arcs"><div class="arcs-mark">ARCS</div><div class="arcs-sub">Proposal</div></div><div class="header-center"><div class="receipt-id">prop-2026-11-01-kairos-backup-rule · 2026-11-01 · main@ce13ec16</div><h1>Kairos backup rule: no window closes in silence</h1><p>When a timing window is closing and the human trigger has not come, the harness never stays silent. A reversible step may advance on a default declared ahead of time. A one-way door never advances: it escalates, and if the window closes it files a lapse receipt so the miss is a recorded decision, not negligence.</p><span class="y-gate-badge">PROPOSED, ethereal stage, nothing built; propose-only, Zach rules · nothing in production has changed</span></div></div>
+<nav class="toc" aria-label="Contents"><div class="section-label">Contents</div><a href="#short">Short version</a><a href="#decisions">Decisions</a><a href="#heuristics">Heuristics</a><a href="#matrix">What resolves an absent trig</a><a href="#prior">What already exists (reuse, </a><a href="#fields">Fields</a><a href="#leaks">Leak check</a><a href="#controls">Controls</a><a href="#terms">Terms</a><a href="#glossary">Glossary</a><a href="#files">Files</a></nav>
+<section id="short"><div class="section-label">§ The short version</div><div class="grid">
+<div class="cell"><b>The failure</b>Silence, not inaction. A window missed because nobody noticed is negligence. A window passed up on the record is a decision.</div>
+<div class="cell"><b>The rule</b>Two-way door, known close date, declared undo: advance on the declared default and tell Zach. Anything else: stay at the door, escalate as the window closes, and file a lapse receipt at the close.</div>
+<div class="cell"><b>Already true</b>&quot;Merge when green&quot; (PR 1919, PR 1920) is the legitimate backup in miniature: Zach released the door ahead of time with a condition, and the harness only watched the condition. Most windows need a release given early, not machinery.</div>
+<div class="cell"><b>What it adds</b>Two optional backlog row fields (window_closes, default_if_silent), one gate (default_if_silent is refused on a one-way door), one sort in /loops (closing windows first), and one receipt shape (the lapse receipt). No new store, no model calls.</div>
+</div></section>
+<section class="panel" id="decisions"><div class="section-label">§ Decisions waiting on you</div>
+<div class="decision"><h2 class="h3"><span class="did">D1</span>Adopt the rule: an absent trigger never resolves as silence?</h2><p class="rec">Recommended: Yes, as the principle. It costs nothing to state and every later decision hangs on it.</p><p class="why">The 2026-10-31 to 11-01 friction (a stale BLOCKED note, PRs merged before the batch reached them) were all silent drift, not wrong actions.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D2</span>Allow default_if_silent on two-way doors only, with the gate refusing it on one-way doors?</h2><p class="rec">Recommended: Yes. A default on a one-way door is autopilot, which the canon deprecates (ARCS-v9-Chapter-Book-Canon.md:472).</p><p class="why">Undo is cheaper than a missed window only when undo exists and was declared before the window, not after.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D3</span>Make the lapse receipt a decision_receipt row (mode QUICKMOVE, what_unconfirmed naming the ruling that never came)?</h2><p class="rec">Recommended: Yes, the existing table and form. A lapse is a decision by default and the ledger already holds decisions.</p><p class="why">A status_note goes stale (the stale BLOCKED note case); the receipt ledger is append-only and the Accountant already reads it.</p></div>
+<div class="decision"><h2 class="h3"><span class="did">D4</span>Should standing conditional releases (&quot;merge when green&quot;) be recorded as the preferred kairos backup?</h2><p class="rec">Recommended: Yes: name it in the flight manual as the first thing to ask for when a window has a close date.</p><p class="why">It keeps the human trigger and only moves it earlier in time. NOTOMATION holds.</p></div>
+</section>
+<section class="panel" id="heuristics"><div class="section-label">§ Heuristics: for you, and for me</div><div class="two">
+<div class="cell"><b>For you (human)</b><ul><li>When a window has a close date, give the release early and with a condition (&quot;merge when green&quot;, &quot;send if they reply by Friday&quot;). That is the backup that keeps the call yours.</li><li>If you let a window pass on purpose, say so in one line; the harness files the lapse receipt from it.</li><li>A default is only as safe as its undo. If you cannot name the undo, it is a one-way door.</li></ul></div>
+<div class="cell"><b>For the agent (machine)</b><ul><li>Never advance a one-way door on silence. Escalate, then file the lapse receipt at the close.</li><li>Run default_if_silent only when door is two-way, rollback is declared, and the close date has passed; quote the default and the rollback in the receipt.</li><li>A conditional release covers only the act and condition it names; a later act needs a new release.</li><li>Never call any of this autopilot; the canon deprecates the word. It is NOTOMATION with a declared default.</li></ul></div>
+</div></section>
+<section class="panel" id="matrix"><div class="section-label">§ What resolves an absent trigger</div>
+<p class="muted">Rows are the door kind from the row&#x27;s existing `door` field. A window with no close date is treated as closing never, so only escalation applies.</p>
+<div class="tw" tabindex="0"><table><tr><th>Door</th><th>Close date known</th><th>Undo declared</th><th>On the close</th><th>Before the close</th></tr>
+<tr><td>two-way</td><td>yes</td><td>yes</td><td>Run default_if_silent, file a receipt quoting the default and its undo, tell Zach</td><td>Nudge in /loops, sorted by days left</td></tr>
+<tr><td>two-way</td><td>yes</td><td>no</td><td>Lapse receipt</td><td>Nudge; ask for an undo or a release</td></tr>
+<tr><td>two-way</td><td>no</td><td>any</td><td>Nothing closes; stays OPEN</td><td>Normal backlog cadence</td></tr>
+<tr><td>one-way</td><td>yes</td><td>any</td><td>Lapse receipt. Never advance</td><td>Nudge harder as days left falls; ask for a conditional release</td></tr>
+<tr><td>one-way</td><td>no</td><td>any</td><td>Nothing closes; stays OPEN</td><td>Normal backlog cadence</td></tr>
+</table></div></section>
+<section class="panel" id="prior"><div class="section-label">§ What already exists (reuse, not rebuild)</div>
+<p class="muted">Each part of the rule maps to a tool or record already in the repo.</p>
+<div class="tw" tabindex="0"><table><tr><th>Need</th><th>Existing</th><th>Gap</th></tr>
+<tr><td>Is the act reversible</td><td>row field `door` (runtime/specs/backlog-status.json optional_fields)</td><td>none</td></tr>
+<tr><td>What undo exists</td><td>row fields `abort`, `rollback`; scripts/readiness_packet.py prints them</td><td>none</td></tr>
+<tr><td>When the trigger fires</td><td>row field `trigger`; scripts/backlog_ripeness.py</td><td>no close date</td></tr>
+<tr><td>What happens on silence</td><td>nothing</td><td>default_if_silent, lapse receipt</td></tr>
+<tr><td>Surface the closing windows</td><td>/loops (scripts/open_loops.py)</td><td>sort by window_closes</td></tr>
+<tr><td>Detect a window opening</td><td>ADR-081 Kairos detector (PROPOSED), operators/arcs_operator_kairos.py (unwired)</td><td>out of scope; this rule handles the close, not the opening</td></tr>
+<tr><td>Never wait unbounded</td><td>scripts/watchdog.sh (J21)</td><td>the same idea for decisions</td></tr>
+</table></div></section>
+<section class="panel" id="controls"><div class="section-label">§ Proposed controls and how we will know each works</div>
+<p class="muted">Each control is a guess until its test runs. A test has a known-bad case that must fail and a known-good case that must pass.</p>
+<div class="ctl"><h2 class="h3"><span class="did">K1</span>Default refused on a one-way door <span class="pill gold">proposed</span></h2><p>The backlog gate fails a row that sets default_if_silent while door is one-way or absent.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>A row with door one-way and default_if_silent set must fail scripts/backlog_status_check.py --check.</div><div class="good"><b class="muted">Must pass</b><br>A row with door two-way, a rollback and default_if_silent passes.</div></div><p class="muted" style="margin-top:8px">Test status: fixtures to be written first, in backlog_status_check.py --self-test · line: known-bad fails, known-good passes</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">K2</span>No close in silence <span class="pill gold">proposed</span></h2><p>A row whose window_closes is past, still non-terminal, and has no receipt naming it after that date is flagged.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>A row with window_closes 2026-10-30, state OPEN, and no receipt must print LAPSED-SILENT.</div><div class="good"><b class="muted">Must pass</b><br>The same row with a lapse receipt dated on or after 2026-10-30 prints nothing.</div></div><p class="muted" style="margin-top:8px">Test status: needs the receipts export (scripts/universe_receipts_adapter.py --export) · line: known-bad flagged, known-good silent</p></div>
+<div class="ctl"><h2 class="h3"><span class="did">K3</span>Closing windows sort first <span class="pill gold">proposed</span></h2><p>/loops lists rows with a window_closes date before others, nearest first.</p><div class="ab"><div class="bad"><b class="muted">Must fail</b><br>A row closing tomorrow listed below one with no date fails the open_loops self-test.</div><div class="good"><b class="muted">Must pass</b><br>Nearest close date first.</div></div><p class="muted" style="margin-top:8px">Test status: fixtures to be written first · line: order matches</p></div>
+</section>
+<section class="panel" id="glossary"><div class="section-label">§ Glossary</div><dl><dt>Kairos window</dt><dd>The stretch of time when an act is worth more than it is before or after (ADR-081).</dd><dt>Absent trigger</dt><dd>The human release a row waits for has not come.</dd><dt>Lapse receipt</dt><dd>A decision_receipt row saying a window closed without the act or a ruling, so the miss is on the record.</dd><dt>Conditional release</dt><dd>Zach&#x27;s go given ahead of time with a condition the harness can check, such as &quot;merge when green&quot;.</dd><dt>One-way door</dt><dd>An act that cannot be undone, or whose undo was not declared before it.</dd></dl></section>
+<section class="panel" id="files"><div class="section-label">§ Every file this rests on</div><ul><li><code>WORLD.md, THE HUD (never cross a one-way door in fog)</code></li><li><code>CLAUDE.md ROM primitives 1 (NOTOMATION) and 7 (WRITE-LOCK)</code></li><li><code>_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md (propose-only; ratification is human)</code></li><li><code>_CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md:472 (autopilot deprecated)</code></li><li><code>runtime/specs/backlog-status.json optional_fields (door, abort, rollback)</code></li><li><code>scripts/readiness_packet.py, scripts/open_loops.py, scripts/watchdog.sh</code></li><li><code>_PATTERNS/2026-11-01-harness-flight-manual.md (Landing: close the loop on every advance)</code></li><li><code>Receipts 2026-11-01--harness-flight-manual-pr1919--ZH and 2026-11-01--harness-flight-manual-done-pr1920--ZH</code></li><li><code>_PROPOSALS/2026-11-01-kairos-backup-rule.json</code> (source of this page)</li></ul></section>
+<footer>Source: _PROPOSALS/2026-11-01-kairos-backup-rule.json · sources: WORLD.md, THE HUD (never cross a one-way door in fog), CLAUDE.md ROM primitives 1 (NOTOMATION) and 7 (WRITE-LOCK), _DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md (propose-only; ratification is human), _CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md:472 (autopilot deprecated), runtime/specs/backlog-status.json optional_fields (door, abort, rollback), scripts/readiness_packet.py, scripts/open_loops.py, scripts/watchdog.sh, _PATTERNS/2026-11-01-harness-flight-manual.md (Landing: close the loop on every advance), Receipts 2026-11-01--harness-flight-manual-pr1919--ZH and 2026-11-01--harness-flight-manual-done-pr1920--ZH · the machine layer is the JSON block in this page (id arcs-proposal)</footer>
+</main>
+<script type="application/json" id="arcs-proposal">
+{
+ "id": "prop-2026-11-01-kairos-backup-rule",
+ "title": "Kairos backup rule: no window closes in silence",
+ "date": "2026-11-01",
+ "status": "PROPOSED, ethereal stage, nothing built; propose-only, Zach rules",
+ "tone": "gold",
+ "worktree": "fervent-wiles-c957b2",
+ "base": "main@ce13ec16",
+ "one_line": "When a timing window is closing and the human trigger has not come, the harness never stays silent. A reversible step may advance on a default declared ahead of time. A one-way door never advances: it escalates, and if the window closes it files a lapse receipt so the miss is a recorded decision, not negligence.",
+ "bottom_line": [
+  {
+   "label": "The failure",
+   "text": "Silence, not inaction. A window missed because nobody noticed is negligence. A window passed up on the record is a decision."
+  },
+  {
+   "label": "The rule",
+   "text": "Two-way door, known close date, declared undo: advance on the declared default and tell Zach. Anything else: stay at the door, escalate as the window closes, and file a lapse receipt at the close."
+  },
+  {
+   "label": "Already true",
+   "text": "\"Merge when green\" (PR 1919, PR 1920) is the legitimate backup in miniature: Zach released the door ahead of time with a condition, and the harness only watched the condition. Most windows need a release given early, not machinery."
+  },
+  {
+   "label": "What it adds",
+   "text": "Two optional backlog row fields (window_closes, default_if_silent), one gate (default_if_silent is refused on a one-way door), one sort in /loops (closing windows first), and one receipt shape (the lapse receipt). No new store, no model calls."
+  }
+ ],
+ "decisions": [
+  {
+   "id": "D1",
+   "question": "Adopt the rule: an absent trigger never resolves as silence?",
+   "recommended": "Yes, as the principle. It costs nothing to state and every later decision hangs on it.",
+   "options": [
+    "adopt",
+    "amend",
+    "compost"
+   ],
+   "why": "The 2026-10-31 to 11-01 friction (a stale BLOCKED note, PRs merged before the batch reached them) were all silent drift, not wrong actions."
+  },
+  {
+   "id": "D2",
+   "question": "Allow default_if_silent on two-way doors only, with the gate refusing it on one-way doors?",
+   "recommended": "Yes. A default on a one-way door is autopilot, which the canon deprecates (ARCS-v9-Chapter-Book-Canon.md:472).",
+   "options": [
+    "two-way only",
+    "never, even two-way",
+    "case by case per row"
+   ],
+   "why": "Undo is cheaper than a missed window only when undo exists and was declared before the window, not after."
+  },
+  {
+   "id": "D3",
+   "question": "Make the lapse receipt a decision_receipt row (mode QUICKMOVE, what_unconfirmed naming the ruling that never came)?",
+   "recommended": "Yes, the existing table and form. A lapse is a decision by default and the ledger already holds decisions.",
+   "options": [
+    "decision_receipt row",
+    "a backlog status_note only",
+    "a witness stub"
+   ],
+   "why": "A status_note goes stale (the stale BLOCKED note case); the receipt ledger is append-only and the Accountant already reads it."
+  },
+  {
+   "id": "D4",
+   "question": "Should standing conditional releases (\"merge when green\") be recorded as the preferred kairos backup?",
+   "recommended": "Yes: name it in the flight manual as the first thing to ask for when a window has a close date.",
+   "options": [
+    "yes",
+    "no"
+   ],
+   "why": "It keeps the human trigger and only moves it earlier in time. NOTOMATION holds."
+  }
+ ],
+ "tables": [
+  {
+   "id": "matrix",
+   "title": "What resolves an absent trigger",
+   "intro": "Rows are the door kind from the row's existing `door` field. A window with no close date is treated as closing never, so only escalation applies.",
+   "columns": [
+    "Door",
+    "Close date known",
+    "Undo declared",
+    "On the close",
+    "Before the close"
+   ],
+   "rows": [
+    [
+     "two-way",
+     "yes",
+     "yes",
+     "Run default_if_silent, file a receipt quoting the default and its undo, tell Zach",
+     "Nudge in /loops, sorted by days left"
+    ],
+    [
+     "two-way",
+     "yes",
+     "no",
+     "Lapse receipt",
+     "Nudge; ask for an undo or a release"
+    ],
+    [
+     "two-way",
+     "no",
+     "any",
+     "Nothing closes; stays OPEN",
+     "Normal backlog cadence"
+    ],
+    [
+     "one-way",
+     "yes",
+     "any",
+     "Lapse receipt. Never advance",
+     "Nudge harder as days left falls; ask for a conditional release"
+    ],
+    [
+     "one-way",
+     "no",
+     "any",
+     "Nothing closes; stays OPEN",
+     "Normal backlog cadence"
+    ]
+   ]
+  },
+  {
+   "id": "prior",
+   "title": "What already exists (reuse, not rebuild)",
+   "intro": "Each part of the rule maps to a tool or record already in the repo.",
+   "columns": [
+    "Need",
+    "Existing",
+    "Gap"
+   ],
+   "rows": [
+    [
+     "Is the act reversible",
+     "row field `door` (runtime/specs/backlog-status.json optional_fields)",
+     "none"
+    ],
+    [
+     "What undo exists",
+     "row fields `abort`, `rollback`; scripts/readiness_packet.py prints them",
+     "none"
+    ],
+    [
+     "When the trigger fires",
+     "row field `trigger`; scripts/backlog_ripeness.py",
+     "no close date"
+    ],
+    [
+     "What happens on silence",
+     "nothing",
+     "default_if_silent, lapse receipt"
+    ],
+    [
+     "Surface the closing windows",
+     "/loops (scripts/open_loops.py)",
+     "sort by window_closes"
+    ],
+    [
+     "Detect a window opening",
+     "ADR-081 Kairos detector (PROPOSED), operators/arcs_operator_kairos.py (unwired)",
+     "out of scope; this rule handles the close, not the opening"
+    ],
+    [
+     "Never wait unbounded",
+     "scripts/watchdog.sh (J21)",
+     "the same idea for decisions"
+    ]
+   ]
+  }
+ ],
+ "controls": [
+  {
+   "id": "K1",
+   "name": "Default refused on a one-way door",
+   "plain": "The backlog gate fails a row that sets default_if_silent while door is one-way or absent.",
+   "stage": "proposed",
+   "bad": "A row with door one-way and default_if_silent set must fail scripts/backlog_status_check.py --check.",
+   "good": "A row with door two-way, a rollback and default_if_silent passes.",
+   "assay_ready": "fixtures to be written first, in backlog_status_check.py --self-test",
+   "threshold": "known-bad fails, known-good passes"
+  },
+  {
+   "id": "K2",
+   "name": "No close in silence",
+   "plain": "A row whose window_closes is past, still non-terminal, and has no receipt naming it after that date is flagged.",
+   "stage": "proposed",
+   "bad": "A row with window_closes 2026-10-30, state OPEN, and no receipt must print LAPSED-SILENT.",
+   "good": "The same row with a lapse receipt dated on or after 2026-10-30 prints nothing.",
+   "assay_ready": "needs the receipts export (scripts/universe_receipts_adapter.py --export)",
+   "threshold": "known-bad flagged, known-good silent"
+  },
+  {
+   "id": "K3",
+   "name": "Closing windows sort first",
+   "plain": "/loops lists rows with a window_closes date before others, nearest first.",
+   "stage": "proposed",
+   "bad": "A row closing tomorrow listed below one with no date fails the open_loops self-test.",
+   "good": "Nearest close date first.",
+   "assay_ready": "fixtures to be written first",
+   "threshold": "order matches"
+  }
+ ],
+ "heuristics": {
+  "human": [
+   "When a window has a close date, give the release early and with a condition (\"merge when green\", \"send if they reply by Friday\"). That is the backup that keeps the call yours.",
+   "If you let a window pass on purpose, say so in one line; the harness files the lapse receipt from it.",
+   "A default is only as safe as its undo. If you cannot name the undo, it is a one-way door."
+  ],
+  "agent": [
+   "Never advance a one-way door on silence. Escalate, then file the lapse receipt at the close.",
+   "Run default_if_silent only when door is two-way, rollback is declared, and the close date has passed; quote the default and the rollback in the receipt.",
+   "A conditional release covers only the act and condition it names; a later act needs a new release.",
+   "Never call any of this autopilot; the canon deprecates the word. It is NOTOMATION with a declared default."
+  ]
+ },
+ "glossary": [
+  {
+   "term": "Kairos window",
+   "plain": "The stretch of time when an act is worth more than it is before or after (ADR-081)."
+  },
+  {
+   "term": "Absent trigger",
+   "plain": "The human release a row waits for has not come."
+  },
+  {
+   "term": "Lapse receipt",
+   "plain": "A decision_receipt row saying a window closed without the act or a ruling, so the miss is on the record."
+  },
+  {
+   "term": "Conditional release",
+   "plain": "Zach's go given ahead of time with a condition the harness can check, such as \"merge when green\"."
+  },
+  {
+   "term": "One-way door",
+   "plain": "An act that cannot be undone, or whose undo was not declared before it."
+  }
+ ],
+ "sources": [
+  "WORLD.md, THE HUD (never cross a one-way door in fog)",
+  "CLAUDE.md ROM primitives 1 (NOTOMATION) and 7 (WRITE-LOCK)",
+  "_DECISIONS/ADR-081-kairos-detector-attractor-basin-condenser.md (propose-only; ratification is human)",
+  "_CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md:472 (autopilot deprecated)",
+  "runtime/specs/backlog-status.json optional_fields (door, abort, rollback)",
+  "scripts/readiness_packet.py, scripts/open_loops.py, scripts/watchdog.sh",
+  "_PATTERNS/2026-11-01-harness-flight-manual.md (Landing: close the loop on every advance)",
+  "Receipts 2026-11-01--harness-flight-manual-pr1919--ZH and 2026-11-01--harness-flight-manual-done-pr1920--ZH"
+ ],
+ "_stem": "2026-11-01-kairos-backup-rule"
+}
+</script></body></html>

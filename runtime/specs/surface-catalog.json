@@ -6,20 +6,20 @@
   "src/app/**/{page.tsx,route.ts}"
  ],
  "counts": {
-  "rows": 317,
+  "rows": 321,
   "hosts": 85,
   "by_kind": {
    "explorer": 15,
    "status": 10,
    "ledger": 3,
-   "product page": 258,
+   "product page": 262,
    "gated": 31
   },
   "next_config_hosts": 79,
   "proxy_hosts": 34,
   "app_routes": 47,
-  "missing_purpose": 22,
-  "unlisted": 119
+  "missing_purpose": 23,
+  "unlisted": 120
  },
  "retired_hosts": [
   "ahmed.arcs.care",
@@ -1592,7 +1592,27 @@
    "unlisted": true,
    "purpose": "Zach Harris - Dioptra",
    "kind": "product page",
-   "last_commit": "2026-10-29"
+   "last_commit": "2026-11-02"
+  },
+  {
+   "host": "dioptra.arcs.care",
+   "path": "/work-sample.zip",
+   "catch_all": false,
+   "destination": "/dioptra-brief-sample.zip",
+   "pattern": false,
+   "file": "public/dioptra-brief-sample.zip",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": null,
+   "description": null,
+   "index": null,
+   "unlisted": false,
+   "purpose": null,
+   "kind": "product page",
+   "last_commit": "2026-11-02"
   },
   {
    "host": "dj.arcs.care",
@@ -1654,7 +1674,7 @@
    "unlisted": false,
    "purpose": "The invariant beneath the polyform.",
    "kind": "explorer",
-   "last_commit": "2026-10-10"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "fun.arcs.care",
@@ -1721,7 +1741,7 @@
    "host": "good.arcs.care",
    "path": "/",
    "catch_all": true,
-   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-audit-check|good-agents|good-fears|good-copypasta|good-rfp-engine|rfp-engine/|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
+   "source": "/:path((?!blog|series|good-series-|good-instruments|good-case-|good-agent-receipts-audit|good-audit-check|good-audit-sample|good-agents|good-fears|good-copypasta|good-rfp-engine|rfp-engine/|api|_next|_vercel|fonts/|.*llms|index\\.md|robots\\.txt|sitemap\\.xml).*)",
    "destination": "/good.html",
    "pattern": false,
    "file": "public/good.html",
@@ -1737,7 +1757,7 @@
    "unlisted": false,
    "purpose": "Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.",
    "kind": "product page",
-   "last_commit": "2026-10-24"
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -1798,7 +1818,7 @@
    "unlisted": false,
    "purpose": "A fixed-price audit that tests whether a cold reader can rebuild what your AI agents did from the record alone, and maps every gap it cannot close.",
    "kind": "product page",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -1822,6 +1842,26 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/audit/sample",
+   "catch_all": false,
+   "destination": "/good-audit-sample.html",
+   "pattern": false,
+   "file": "public/good-audit-sample.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Audit Report · The Rogue Operator · ARCS",
+   "description": null,
+   "index": "noindex",
+   "unlisted": true,
+   "purpose": "Audit Report · The Rogue Operator · ARCS",
+   "kind": "product page",
+   "last_commit": "2026-11-01"
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/blog/nftt",
    "catch_all": false,
    "destination": "/blog-nftt-index.html",
@@ -1839,7 +1879,7 @@
    "unlisted": false,
    "purpose": "Notes from the Trenches: what building ARCS in the open actually taught me. Real stories from the build, with the receipts.",
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -2123,6 +2163,46 @@
   },
   {
    "host": "good.arcs.care",
+   "path": "/blog/nftt/every-mistake-became-a-gate",
+   "catch_all": false,
+   "destination": "/blog-nftt-every-mistake-became-a-gate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-every-mistake-became-a-gate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Every Mistake Became a Gate · NFTT",
+   "description": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "index": "index, follow, max-image-preview:large",
+   "unlisted": false,
+   "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
+   "path": "/blog/nftt/every-mistake-became-a-gate/full",
+   "catch_all": false,
+   "destination": "/blog-nftt-every-mistake-became-a-gate.html",
+   "pattern": false,
+   "file": "public/blog-nftt-every-mistake-became-a-gate.html",
+   "gate": null,
+   "gate_file": null,
+   "declared_in": [
+    "src/proxy.ts"
+   ],
+   "title": "Every Mistake Became a Gate · NFTT",
+   "description": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "index": "index, follow, max-image-preview:large",
+   "unlisted": false,
+   "purpose": "Five days, 327 commits and 79 logged mistakes building an RFP answering engine, and the four loops that turned each mistake into a check the next change had to pass.",
+   "kind": "product page",
+   "last_commit": null
+  },
+  {
+   "host": "good.arcs.care",
    "path": "/blog/nftt/four-dates-one-thesis-three-confirmations",
    "catch_all": false,
    "destination": "/blog-nftt-four-dates-one-thesis-three-confirmations.html",
@@ -2279,7 +2359,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -2599,7 +2679,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -2619,7 +2699,7 @@
    "unlisted": false,
    "purpose": "Two accounts of one incident, written from the same memory at the same confidence. One narrates from memory. The other cites the record. Hand-waving versus receipts or it didn't happen.",
    "kind": "product page",
-   "last_commit": "2026-10-09"
+   "last_commit": "2026-11-01"
   },
   {
    "host": "good.arcs.care",
@@ -3039,7 +3119,7 @@
    "unlisted": false,
    "purpose": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -3059,7 +3139,7 @@
    "unlisted": false,
    "purpose": "Four fixes in one evening and the same lesson each time: a fix that holds goes into the mold that makes the thing, not the thing it made, so running it again changes nothing.",
    "kind": "product page",
-   "last_commit": null
+   "last_commit": "2026-10-31"
   },
   {
    "host": "good.arcs.care",
@@ -3746,7 +3826,7 @@
    "unlisted": false,
    "purpose": "An open RFP answering engine that cites the exact clause or refuses. Python standard library only, runs locally as an MCP server.",
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -3766,7 +3846,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -3786,7 +3866,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -3806,7 +3886,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "good.arcs.care",
@@ -5875,7 +5955,7 @@
    "unlisted": true,
    "purpose": "Every arcs.care surface in one catalog: host, path, what it serves, what kind of page it is, and when its file last changed. Harvested from the routing config, never hand-listed.",
    "kind": "gated",
-   "last_commit": "2026-10-31"
+   "last_commit": "2026-11-02"
   },
   {
    "host": "thetrueai.arcs.care",
@@ -6352,7 +6432,7 @@
    "unlisted": false,
    "purpose": "Every claim below links to the record behind it. Where the record is private it says so, and one claim is marked not yet shown.",
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-10-31"
   },
   {
    "host": "zach.md",
@@ -6372,7 +6452,7 @@
    "unlisted": false,
    "purpose": null,
    "kind": "product page",
-   "last_commit": "2026-10-30"
+   "last_commit": "2026-10-31"
   },
   {
    "host": "zach.md",

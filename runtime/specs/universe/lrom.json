@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "id": "lrom",
  "label": "lattice-pressure ROM",
  "parent": "universe",

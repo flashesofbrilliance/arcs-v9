@@ -1,0 +1,19 @@
+{
+  "omit": {
+    "can be read back as a brief at /brief/<id>": "route detail; out of scope for a two-minute walkthrough",
+    "The gate runs 10 numbered checks (1 to 6, 8, 9, 10 and 12 in src/lib/ygate.ts)": "implementation detail behind card 3; card 3 cites src/lib/ygate.ts",
+    "The receipt page draws each label at a matching sharpness": "rendering detail; not a claim a reviewer needs to try the product",
+    "DEWY, Receipt, Brief, ADR glossary": "the video avoids these words, so it needs no glossary; the README keeps it",
+    "The wider unit suite: npm run test:unit runs the 20 test files in tests/unit/": "card 4 carries the one runnable proof; the wider suite stays in the README",
+    "Signed-in runs are saved; anonymous runs are not": "carried on card 6, not omitted; listed here so the proof table row is accounted for",
+    "There is no SQLite option: both development and production use Postgres": "card 6 says Postgres; the no-SQLite note stays in the README",
+    "Environment variables DATABASE_URL, ANTHROPIC_API_KEY, AUTH_SECRET, AUTH_RESEND_KEY": "setup detail; a viewer is pointed to the README to run it locally",
+    "score_me.py is a demo: it applies fixed weights to a name, title, company and year, and reads no data": "minor script; the CLI caveat on card 5 covers the Python side",
+    "Where things live (repo map)": "navigation for readers of the repo, not a video claim",
+    "Stack: Next.js 16, Prisma 7 on Postgres, Auth.js v5 magic links, the Anthropic SDK": "engineering detail; out of scope for a two-minute walkthrough",
+    "License: source-available for evaluation and reference; all rights reserved. This repository is private": "legal and access note for repo readers; the video makes no claim about the code being open",
+    "limited to 10 questions a minute per address": "rate-limit detail; cut from card 6 for density (brand gate); stated in README, Try it",
+    "The Python CLI needs your own scan files": "cut from the last card in the rewrite for pace; stated in README, The Python CLI",
+    "Wider access opens in stages through a waitlist": "shown on card 2, not spoken; listed so the omission from narration is visible"
+  }
+}

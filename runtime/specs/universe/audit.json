@@ -1,8 +1,8 @@
 {
  "version": "0.1.0",
- "epoch": null,
- "as_of_sha": null,
- "as_of_date": null,
+ "epoch": 1,
+ "as_of_sha": "286a9dad2b60f3cac5e4a5294dcdb04836a23103",
+ "as_of_date": "2026-11-01",
  "id": "audit",
  "label": "Meta-Audit v1.1 + Surface Map",
  "parent": "universe",
@@ -17,10 +17,10 @@
    "lib": 0.0
   },
   "frequency": {
-   "file_commits": 34,
-   "active_days": 13,
-   "last_change": "2026-10-07",
-   "last_28d": 7
+   "file_commits": 76,
+   "active_days": 27,
+   "last_change": "2026-10-31",
+   "last_28d": 49
   }
  },
  "dimensions": {

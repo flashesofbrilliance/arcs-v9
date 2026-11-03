@@ -140,10 +140,12 @@ def render(p):
             a('<div class="cell"><b>%s</b>%s</div>' % (e(b["label"]), e(b["text"])))
         a('</div></section>')
 
-    a('<section class="panel" id="decisions"><div class="section-label">§ Decisions waiting on you</div>')
+    ruled = all(d.get("ruling") for d in p["decisions"])
+    a('<section class="panel" id="decisions"><div class="section-label">§ %s</div>' % ("Decisions, ruled" if ruled else "Decisions waiting on you"))
     for d in p["decisions"]:
-        a('<div class="decision"><h2 class="h3"><span class="did">%s</span>%s</h2><p class="rec">Recommended: %s</p><p class="why">%s</p></div>'
-          % (e(d["id"]), e(d["question"]), e(d["recommended"]), e(d.get("why", ""))))
+        ruling = '<p class="rec">Ruled: %s</p>' % e(d["ruling"]) if d.get("ruling") else ""
+        a('<div class="decision"><h2 class="h3"><span class="did">%s</span>%s</h2><p class="rec">Recommended: %s</p>%s<p class="why">%s</p></div>'
+          % (e(d["id"]), e(d["question"]), e(d["recommended"]), ruling, e(d.get("why", ""))))
     a('</section>')
 
     a('<section class="panel" id="heuristics"><div class="section-label">§ Heuristics: for you, and for me</div><div class="two">')

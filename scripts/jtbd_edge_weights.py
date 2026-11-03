@@ -78,15 +78,17 @@ def backlog_states(root=REPO):
 
 def eligible(rows, start, now=None):
     """Distinct receipts (by receipt_id) dated in [start, now], oldest first. start None -> none (no backfill).
-    A repeated receipt_id counts once; a future-dated receipt is not counted."""
+    A repeated receipt_id counts once; a future-dated receipt is not counted; a receipt that a later row
+    names in `supersedes` is not counted (its replacement is)."""
     if start is None:
         return []
     now = now or dt.datetime.now(dt.timezone.utc)
     out, seen = [], set()
+    replaced = {str(r.get("supersedes")).strip() for r in rows if r.get("supersedes")}
     for r in rows:
         rid = str(r.get("receipt_id") or "").strip()
         t = _ts(r.get("event_at"))
-        if not rid or rid in seen or t is None or t < start or t > now:
+        if not rid or rid in seen or rid in replaced or t is None or t < start or t > now:
             continue
         seen.add(rid)
         out.append(dict(r, _t=t))

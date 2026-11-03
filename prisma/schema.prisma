@@ -90,6 +90,7 @@ model Receipt {
   surface         String    @default("ORIENT") // ORIENT | CALIBRATE | CHART_COURSE | DETECT | EPHEMERAL_SAVE (post-auth save of an anonymous bearing, client-attested — ADR-049)
   validationState String    @default("PASS") // PASS | HOLD | REJECT
   sessionTs       DateTime? // L5 freeze time (set explicitly; not DB write time)
+  paidAt          DateTime? // set by /api/stripe/webhook when the brief is bought (src/lib/paywall.ts)
 
   // ── D · Decision ──────────────────────────────────────────────────────────
   // decision: legacy field (pre-schema). Maps to schema `sharp_question`.

@@ -9,6 +9,7 @@ import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { MODELS } from "@/lib/claude-models"
 import { tributariesOf } from "@/lib/tributaries"
+import { briefLocked, paymentUrlFor } from "@/lib/paywall"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -60,6 +61,12 @@ function publicReceipt(r: object | null | undefined, viewerId: string | null) {
   return { ...rest, ...(isOwner ? { sessionId } : {}), rawResponse: JSON.stringify(reasoning === undefined ? {} : { reasoning }), ...(prep !== undefined ? { prep: safePrep } : {}) }
 }
 
+// True only when the brief is actually for sale (the paywall's Payment Link is set), so
+// the receipt never shows a price that is not charged.
+function briefPriced(): boolean {
+  return !!process.env.STRIPE_PAYMENT_LINK
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ receiptId: string }> }
@@ -103,7 +110,7 @@ export async function GET(
     const entityClean = entityAnalysis
       ? Object.fromEntries(Object.entries(entityAnalysis as Record<string, unknown>).map(([k, v]) => [k, typeof v === "string" ? scrubProse(v) : v]))
       : null
-    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(existing.receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean })
+    return NextResponse.json({ ok: true, brief, receipt: publicReceipt(scrubReceiptProse(existing.receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: entityClean, priced: briefPriced() })
   }
 
   const receipt = await prisma.receipt.findUnique({
@@ -117,7 +124,13 @@ export async function GET(
   if (req.nextUrl.searchParams.get("generate") === "0") {
     const tributaries = tributariesOf(receipt)
     const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
-    return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children) })
+    return NextResponse.json({ ok: true, brief: null, receipt: publicReceipt(scrubReceiptProse(receipt), userId), tributaries: scrubDeep(tributaries), entityAnalysis: null, children: scrubDeep(children), priced: briefPriced() })
+  }
+
+  // Paywall: a new brief is generated only for a paid receipt. Off (free) when
+  // STRIPE_PAYMENT_LINK is unset. Stored briefs above are never gated.
+  if (briefLocked(receipt)) {
+    return NextResponse.json({ error: "Payment required", paymentUrl: paymentUrlFor(receipt.id) }, { status: 402 })
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -152,11 +165,11 @@ export async function GET(
   ].filter(Boolean).join("\n")
 
   // Fire situation framing + entity analysis in parallel
-  // deep is Sonnet 5.5: thinking counts toward max_tokens, so the caps leave room for it
+  // brief is Opus 5.5: thinking counts toward max_tokens, so the caps leave room for it
   // (the visible text is still ~600/~512 tokens) and effort stays low for short prose.
   const calls: Promise<Anthropic.Beta.Messages.BetaMessage>[] = [
     anthropic.beta.messages.create({
-      model: MODELS.deep,
+      model: MODELS.brief,
       max_tokens: 2048,
       output_config: { effort: "low" },
       system: BRIEF_SYSTEM,
@@ -167,7 +180,7 @@ export async function GET(
   if (receipt.entity) {
     calls.push(
       anthropic.beta.messages.create({
-        model: MODELS.deep,
+        model: MODELS.brief,
         max_tokens: 2048,
         output_config: { effort: "low" },
         system: ENTITY_SYSTEM,
