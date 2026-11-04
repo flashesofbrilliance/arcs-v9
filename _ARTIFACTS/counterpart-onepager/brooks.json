@@ -1,0 +1,176 @@
+{
+  "_comment": "Content for the counterpart-onepager template. Copy is data: scripts/counterpart_onepager_build.py renders it; edit here, then rebuild.",
+  "template": "counterpart-onepager",
+  "out": "_ARTIFACTS/brooks-audit-onepager.html",
+  "title": "Outside Audit: AI Build",
+  "robots": "noindex, nofollow",
+  "theme_key": "brooksTheme",
+  "hero": {
+    "title": "An outside audit of your AI build",
+    "verdict": "Where your AI build is today, where it's least efficient, and which of its hypotheses aren't holding up, tested on one real product decision.",
+    "aside": "You said your team could run this audit yourselves, but checking your own work invites confirmation and recency bias. This is the outside check.",
+    "tiles": [
+      {
+        "value": "$5,000",
+        "key": "Fixed price",
+        "tone": "cyan"
+      },
+      {
+        "value": "2 weeks",
+        "key": "Start to finish"
+      },
+      {
+        "value": "~3 hours",
+        "key": "Of your team's time"
+      }
+    ],
+    "chip": {
+      "tone": "green",
+      "text": "Stop anytime · keep everything"
+    }
+  },
+  "sections": [
+    {
+      "kind": "case-switcher",
+      "heading": "The adobo flavor you mentioned",
+      "deck": "The real decision to test it on. Which one is it? Tell me, and I'll send two start dates.",
+      "group": "adobo",
+      "aria_label": "Where adobo stands",
+      "cases": [
+        {
+          "label": "Not launched",
+          "case": "If it hasn't launched",
+          "body": "Your criteria scores adobo with me watching. I write down what it says, what it relies on, and the date <span data-voice=\"joint\">we'll</span> know, before you place the order."
+        },
+        {
+          "label": "Launched",
+          "case": "If it has launched",
+          "body": "I put your criteria's call next to how it actually sold."
+        },
+        {
+          "label": "Shelved",
+          "case": "If it got shelved",
+          "body": "I use the next drop on your calendar instead, and run the same check on it."
+        }
+      ]
+    },
+    {
+      "kind": "heard-check",
+      "heading": "What I heard, and what I'd check",
+      "deck": "From our Sep 15 call, as I understood it, and mine to confirm with you at kickoff.",
+      "deck_voice": "joint",
+      "left_head": "You said",
+      "right_head": "What I'd check",
+      "mobile_prefix": "I'd check: ",
+      "rows": [
+        {
+          "heard": "You don't want to get stuck with a 20,000-bag minimum order because you didn't see an early indicator.",
+          "check": "Run one upcoming drop through the check before the order is placed."
+        },
+        {
+          "heard": "Volume-based indicators can miss a signal that's still rising, and every day without a decision costs time to market.",
+          "check": "Whether your tools can tell a flavor that has peaked from one that's still rising."
+        },
+        {
+          "heard": "A collab can go wrong after the deal is done. You've built early warnings for that by hand before.",
+          "check": "Whether your current partner screening would have flagged the last collab that went wrong, and whether any partner deal has a written point that triggers a review."
+        },
+        {
+          "heard": "When a customer simulation misses, either the data was bad or the hypothesis was wrong.",
+          "check": "For one simulation that missed, which one broke, and whether your setup can tell the two apart next time."
+        },
+        {
+          "heard": "You asked where you are on your AI build, where it's least efficient, and where your hypotheses are failing.",
+          "check": "That's the one-page answer, plus a stop rule for anything running without one: the number that means it's time to stop."
+        }
+      ]
+    },
+    {
+      "kind": "receipt",
+      "heading": "Getting started",
+      "deck": "What it takes from your side, what you get, and what comes after.",
+      "rows": [
+        {
+          "key": "Your time",
+          "value": "Three meetings, about three hours in total: a kickoff with you, a screen-share of your tools with whoever built them, and a final review. If they can't make it, the screen-share moves inside the two weeks, or a teammate walks me through it."
+        },
+        {
+          "key": "What I need",
+          "value": "A few docs, what you pay to run the tools, the inputs your criteria uses for adobo, and total sales numbers if it has shipped."
+        },
+        {
+          "key": "Your data",
+          "value": "Total sales, not customer-level records. I don't take a copy of customer data, and anything that comes up on the screen-share stays on your screen. Both sides sign an NDA first."
+        },
+        {
+          "key": "What you get",
+          "value": "One page: where you are on the build, what's least efficient, which hypotheses aren't holding up, and what to stop. Plus three next steps, each with a number for success and a date to check it, and a pressure test of one plan: how each person who signs off would argue against it, and what still holds up. I go deep on the two areas you pick at kickoff and give the rest a first pass, marked as first pass. Anything I'm unsure about is marked as unsure, and if you disagree with a finding, your pushback goes on the page at the final review. All of it is yours."
+        },
+        {
+          "key": "Payment",
+          "value": "$5,000 fixed. Half at kickoff, half at the final review. You can stop anytime and keep everything."
+        },
+        {
+          "key": "After",
+          "value": "Nothing, unless you want help with a next step. Each is priced on its own, and the $5,000 is credited toward the first. Each step has its own check date, and your team can run that check; what it shows makes the next step sharper, whoever runs it."
+        },
+        {
+          "key": "Next steps I can take on",
+          "value": "<ul>\n        <li>Rules for your AI tools: what they always do, what needs a check first, what they never do.</li>\n        <li>A small test your team can rerun: past decisions with known outcomes that the tools have to get right.</li>\n        <li>Pulling every number a partner contract commits to, tied to its clause, next to what the partner actually delivered. The gaps are findings to review with whoever owns the deal, not legal or financial advice. New for contracts, and run without sending the text to an outside model.</li>\n      </ul>"
+        },
+        {
+          "key": "Who I am",
+          "value": "Something I built that works the same way: a tool that answers questions about contract documents with the exact clause behind each answer, or says \"not covered.\"<span class=\"proofrow\"><span class=\"led on\">Live</span><a class=\"prooflink\" href=\"https://good.arcs.care/rfp-engine\">good.arcs.care/rfp-engine</a></span>"
+        }
+      ]
+    }
+  ],
+  "ask": {
+    "label": "One question",
+    "body": "Has adobo gone out yet, or is the minimum order still ahead? Either way works. Tell me which, and I'll send two start dates, one this month and one in January."
+  },
+  "depth": {
+    "summary": "The full checklist",
+    "intro": "The five results you said you expect, plus two I'd add. In two weeks I go deep on the two you pick at kickoff and give the rest a first pass, marked as first pass.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Accuracy.",
+        "body": "Where the data warehouse, the MCP environment and your foundational datasets meet the outside world, and which outputs get trusted without anyone checking them."
+      },
+      {
+        "n": "02",
+        "title": "Efficiency.",
+        "body": "Steps that are still done by hand, or automated when they don't need to be."
+      },
+      {
+        "n": "03",
+        "title": "Speed.",
+        "body": "How long it takes to get from a question to a decision you can act on."
+      },
+      {
+        "n": "04",
+        "title": "Cost savings.",
+        "body": "Whether moving it on-prem would actually be cheaper, and what you pay for but don't use."
+      },
+      {
+        "n": "05",
+        "title": "One source of truth.",
+        "body": "Whether it builds on one record, or grows data bloat and tech debt."
+      },
+      {
+        "n": "06",
+        "title": "What reaches an AI model.",
+        "body": "Where data goes, as your builders walk me through it: which customer data, personal details and partner terms reach an AI model or an outside service, and whether they need to.",
+        "added": true
+      },
+      {
+        "n": "07",
+        "title": "Facts or estimates.",
+        "body": "Which numbers are hard facts and which are estimates (customer simulations, trend calls, partner-risk warnings), whether each estimate says how sure it is, and whether anyone checks it against what actually happened.",
+        "added": true
+      }
+    ]
+  },
+  "footer": "Zach Harris · zach.harris@gmail.com"
+}
