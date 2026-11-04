@@ -3,24 +3,6 @@
   "note": "Every npm override in package.json and every ignore entry in .github/dependabot.yml must have an entry here saying when it can be lifted. scripts/held_exceptions.py check (pre-commit) enforces the pairing; scripts/held_exceptions.py watch evaluates lift_when against the npm registry.",
   "exceptions": [
     {
-      "id": "npm-override-mysql2",
-      "kind": "npm-override",
-      "target": "mysql2",
-      "reason": "prisma 7.10.0 pins mysql2 3.15.3 (Dependabot #23 high, #26 medium); forced to 3.23.1.",
-      "lift_when": {
-        "type": "dep-pin-at-least",
-        "package": "prisma",
-        "dep": "mysql2",
-        "min": "3.23.1",
-        "absent_ok": true
-      },
-      "also_recheck": "Dependabot #22 (deepmerge-ts < 8.0.0 via @prisma/config), dismissed not_used 2026-10-09",
-      "added": "2026-10-09",
-      "refs": [
-        "https://github.com/flashesofbrilliance/arcs-v9/pull/1131"
-      ]
-    },
-    {
       "id": "npm-override-vercel-cli-config",
       "kind": "npm-override",
       "target": "@vercel/cli-config",
