@@ -231,4 +231,9 @@ Per H2', Fonzi is read as dated time slices. On 2026-11-04 the Fonzi role prefer
 Product Management to Forward Deployed Engineering (arm A). Slice 1 runs from 2026-11-04 until the next
 logged change. Everything else on the Fonzi profile (headline, bio, company sizes, salary floor) was left
 as it was, so the role preference is the only change in this slice. Fonzi Interview Requests in this
-window are tagged `channel=fonzi, arm=A`, and Fonzi had sent none before this date.
+window are tagged `channel=fonzi, arm=A`.
+
+Baseline before the slice (checked with Fonzi `list_interview_requests`, view all, 2026-11-04): one
+request. Concourse, Forward Deployed Engineer, created 2026-10-14, accepted, outcome `company_rejected`.
+It arrived while the preference was still Product Management, so it counts as pre-slice and is kept out
+of slice 1. A first draft of this block said Fonzi had sent no requests; that was wrong and is corrected here.
