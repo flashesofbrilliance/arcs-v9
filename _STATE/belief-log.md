@@ -4,50 +4,36 @@
 > One field, one SSOT: **generated from `_STATE/falsification-ledger.jsonl`** by
 > `scripts/belief_log_emit.py`. Do not hand-edit — append to the ledger and regenerate.
 
-**42 beliefs overturned** · 20 promoted to canon · span 2026-06-03 → 2026-09-29
+**45 beliefs overturned** · 20 promoted to canon · span 2026-06-03 → 2026-11-04
 
-By scope: canon 11 · infra 9 · process 9 · gauntlet 5 · deploy 4 · security 2 · recoil 1 · surface 1
+By scope: canon 11 · infra 10 · process 10 · gauntlet 5 · deploy 4 · security 2 · surface 2 · recoil 1
 
 ---
 
-## This week — spotlight (2026-09-23 → 2026-09-29)
+## This week — spotlight (2026-10-29 → 2026-11-04)
 
 The reversals that went most against the grain this week:
 
-### F42 · 2026-09-29 · `surface`
-- **Held:** status.arcs.care/beliefs serves the public belief log, so the audit page's belief-log link works (verified by HTTP 200 before linking, #591).
-- **Test:** curl the URL and read the <title>, not the status code; trace the rewrite chain in next.config.ts.
-- **FALSIFIED →** It returned 200 with status.html ('ARCS: Day 0 to Today') since the route landed (3138cdb2, 2026-08-29). beforeFiles rewrites chain: /beliefs -> /belief-log.html was re-caught by the status catch-all, whose lookahead excluded 'beliefs' but not 'belief-log'. /gauntlets had the same bug. A 200 proves a page, not the page.
-- **Now:** Catch-all lookahead widened to belief|gauntlet (#650). Same PR resyncs the no-JS static floor (Day 129 / 1,488 commits -> Day 173) and adds scripts/status_floor_emit.py --check to CI and pre-commit so the floor cannot silently go stale again.
-- _refs: next.config.ts, public/status.html, scripts/status_floor_emit.py, PR #650, PR #591 · confidence: high_
+### F45 · 2026-11-04 · `process`
+- **Held:** Outcome rows are mostly synthetic plumbing probes, so no real outcome has ever been logged (said in this session, from a schema comment).
+- **Test:** Same prod query as F43: Outcome rows split by the synthetic flag.
+- **FALSIFIED →** 5 of 10 Outcome rows are real. The narrower true statement: no outside person has logged one. A schema comment described the flag, not the data; the claim was made without reading the rows.
+- **Now:** Count rows before characterizing them. The session's recommendation stands on the narrower fact (0 outside outcomes).
+- _refs: prisma/schema.prisma · confidence: high_
 
-### F40 · 2026-09-27 · `canon`  — CANON
-- **Held:** External audit (Perplexity, 'Job to Be Done.md'): Operators 1-19 mapped to repo files with 'Full Production' / 'Production Code' status, e.g. Op 4 Accountant = kryptonite_scorer.py, Op 6 Librarian = audit_service/, Op 3 Immune = core/governance.py, Op 9 Shavasana = arcs_substrate.py, Op 18 Hyperstition = arcs_rom.py.
-- **Test:** grep -rli over operators/ for shavasana | hyperstition | accountant | sycophan | OperatorVote (0 hits each); read the five named files; compare the 1-19 enumeration against operators/docs/PERIODIC-TABLE.md (Folksonomy=20, Librarian=21).
-- **FALSIFIED →** The 1-19 numbering was the document's own invention (it admits this in its first clarifying question). Five of its file bindings name files that implement something else (a job-description risk scorer, an informativeness gate, dead code with an undeclared loguru import, a GIGI template library, ROM thresholds). Its first inventory table cites paths that do not exist at all. One idea survived: the sycophancy gate (its FR-3), now component 5 of the Operator 25 spec.
-- **Now:** Numbering LOCKED to the periodic table (AGENTS.md gotcha 16); registry generated and grep-verified; altitude canary + integrity gate pair for this class (fabricated ground returns).
-- _refs: operators/docs/PERIODIC-TABLE.md, scripts/operator_registry_emit.py, scripts/altitude_canary.py, runtime/specs/operator-25-shavasana-v0.md · confidence: high_
+### F44 · 2026-11-04 · `infra`
+- **Held:** The eight track() calls in the app (compass_run, receipt_save_*, brief_*) are live funnel events we can measure the journey with (journey map draft 2, this session).
+- **Test:** Read the receipts and handoff that queried Vercel: count_events and aggregate_events on project arcs-v9 returned 404 'Web Analytics not found' on 2026-09-27, and the analytics query API returned the same 404 on 2026-10-27.
+- **FALSIFIED →** The calls exist in code but Web Analytics is not enabled on arcs-v9, so every event is dropped. A track() call in the code proves an event is sent, not that it is recorded. The journey map's measurement plan already counted from the database first; its 'live' label for events was wrong.
+- **Now:** Journey map relabels the eight events 'in code, not recorded' and makes enabling Web Analytics (and confirming one event lands) step zero of measurement. No new events until one existing event is seen in the dashboard.
+- _refs: src/app/dashboard/page.tsx, src/app/receipt/[receiptId]/page.tsx, receipt 2026-09-28--receipt-save-nudge-v11-flag-merge--ZH, CLAUDE.md handoff v3.142.0 (Vercel 404) · confidence: medium_
 
-### F39 · 2026-09-27 · `infra`
-- **Held:** Operator 21 (Librarian) binds to ARCSStore.query as its entrypoint.
-- **Test:** scripts/operator_registry_emit.py static verify: grep for `def query` on ARCSStore in operators/arcs_store.py.
-- **FALSIFIED →** ARCSStore has no query method (latest / by_phase / by_status / by_nci_range / filter). The generator refused to emit the registry ('entrypoint query not found on ARCSStore') on its first run, catching its own author. Binding corrected to `latest`.
-- **Now:** operators/OPERATOR-REGISTRY.json generated only from grep-verified bindings; --check on pre-commit. ADR-062 self-catch logged as the highest-information row of the day.
-- _refs: scripts/operator_registry_emit.py, operators/OPERATOR-REGISTRY.json, operators/arcs_store.py · confidence: high_
-
-### F38 · 2026-09-27 · `process`
-- **Held:** 'Live evidence this session shows the memory index clipped': the auto-loaded MEMORY.md ending at the consolidation stamp proved the harness truncates at ~24KB.
-- **Test:** Compare the session-start hook's measured size (16982B at 17:06) with the commit that appended the 63KB Uncurated section (17:07). head -107 MEMORY.md | wc -c = 17056.
-- **FALSIFIED →** The file was 17KB when it loaded; nothing was clipped that session. The claim mistook 'small file' for 'truncated file'. The real cap was measured minutes later by a spawned session: 25,000 characters, 144 of 382 lines loaded, warning appended.
-- **Now:** Corrected in-thread within one turn; memory [[memory-index-load-cap-observed]] carries the measured number; MEM_BUDGET guidance set to 24576. Lesson: a load-time size is only evidence of clipping if the file was over the cap AT load time.
-- _refs: _STATE/2026-09-27-forensic-recoil.md, _STATE/night-moves/2026-09-27.md · confidence: high_
-
-### F41 · 2026-09-26 · `canon`  — CANON
-- **Held:** F34's 'Now' fix is scoped but unbuilt, so the Orthogonal Echo Detector (ROM Primitive #5) remains architecturally blind on its stub matcher and keeps failing its own kill-test (adversarial-FP 1.0 at the operating threshold).
-- **Test:** Rebuild the detector, then re-run scripts/echo_detector_dogfood.py --sweep on the UNCHANGED 12-case bench plus a new held-out bench; pre-registered kill-condition adv-FP <= 0.10 at recall >= 0.80 (fixed and committed BEFORE building: _STATE/2026-09-26-echo-detector-seaworthy-prereg.md).
-- **FALSIFIED →** Concept-gated rebuild passes: precision 1.0 / recall 1.0 / adversarial-FP 0.0 across the full 0.10-0.60 sweep on the unchanged bench, and 1.0/1.0/0.0 on a held-out bench that includes a decoy sharing exactly ONE real concept (locks_in). The blindness was lone-keyword-token scoring; replacing the flat keyword library with named kinematic concepts detected only by relational phrases, and gating a match on >= 2 concepts shared on both sides, discriminates genuine isomorphisms from generic-word collisions. RC-OPS-001 graduation criterion 2 (detector precision) CLOSED.
-- **Now:** signature_fn + orthogonality_fn made real and injectable with honest deterministic offline fixtures (make_llm_signature_fn / make_embedding_orthogonality_fn); default orthogonality upgraded from a constant to a char-trigram distance. NOTE still open: a bench is not blind-field proof. RC-OPS-001 criteria 3 (blind-field precision, K source-independent echoes) and 4 (Observatory period) remain OPEN; the candidate stays YELLOW, not graduated.
-- _refs: _STATE/2026-09-26-echo-detector-dogfood-seaworthy.json, _STATE/2026-09-26-echo-detector-seaworthy-prereg.md, operators/arcs_inchworm_echo.py, scripts/echo_detector_dogfood.py, RC-OPS-001, closes-loop:F34 · confidence: high_
+### F43 · 2026-11-04 · `surface`
+- **Held:** The evidence base the gated features wait for builds itself through normal use: every decision and its outcome accumulates calibration data automatically (status.arcs.care, Roadmap and Risk Register).
+- **Test:** Read-only prod query on 2026-11-04 (Supabase ARCS_v9): count Outcome rows with synthetic = false and the distinct people behind them, against the outcome loop shipping on Day 98.
+- **FALSIFIED →** About 110 days after the outcome loop shipped: 10 Outcome rows, 5 real, all 5 from one person, last logged 2026-10-25. 8 users, 6 with real receipts, 2 active in the last 30 days. The page's own counter reads 0 of 30 closed outcomes from outside users. Nothing built itself: the loop records outcomes only when someone is asked, and no outside person has answered.
+- **Now:** Reword the two status lines from 'builds itself' to what is true (outcomes are logged only when a debrief is answered; 0 outside so far). Make the outcome loop the next build (receipt stub, check-in tracker, outcome on the receipt) and run the five-person test before any gated feature.
+- _refs: public/status.html, prisma/schema.prisma (Outcome.synthetic), src/app/debrief/[receiptId]/page.tsx, receipt 2026-09-27--op19-accountant-bind-and-scoreboard-merge--ZH · confidence: high_
 
 ---
 
@@ -55,6 +41,9 @@ The reversals that went most against the grain this week:
 
 | id | date | scope | canon | belief that broke → what replaced it |
 |----|------|-------|-------|--------------------------------------|
+| F45 | 2026-11-04 | process | — | **Outcome rows are mostly synthetic plumbing probes, so no real outcome has ever been logged (said in this session, from a schema comment)** → Count rows before characterizing them |
+| F44 | 2026-11-04 | infra | — | **The eight track() calls in the app (compass_run, receipt_save_*, brief_*) are live funnel events we can measure the journey with (journey map draft 2, this…** → Journey map relabels the eight events 'in code, not recorded' and makes enabling Web Analytics (and confirming one event lands) step zero of measurement |
+| F43 | 2026-11-04 | surface | — | **The evidence base the gated features wait for builds itself through normal use: every decision and its outcome accumulates calibration data automatically…** → Reword the two status lines from 'builds itself' to what is true (outcomes are logged only when a debrief is answered; 0 outside so far) |
 | F42 | 2026-09-29 | surface | — | **status.arcs.care/beliefs serves the public belief log, so the audit page's belief-log link works (verified by HTTP 200 before linking, #591)** → Catch-all lookahead widened to belief\|gauntlet (#650) |
 | F40 | 2026-09-27 | canon | ✓ | **External audit (Perplexity, 'Job to Be Done.md'): Operators 1-19 mapped to repo files with 'Full Production' / 'Production Code' status, e.g** → Numbering LOCKED to the periodic table (AGENTS.md gotcha 16); registry generated and grep-verified; altitude canary + integrity gate pair for this class… |
 | F39 | 2026-09-27 | infra | — | **Operator 21 (Librarian) binds to ARCSStore.query as its entrypoint** → operators/OPERATOR-REGISTRY.json generated only from grep-verified bindings; --check on pre-commit |
@@ -99,4 +88,4 @@ The reversals that went most against the grain this week:
 | F14 | 2026-06-03 | infra | — | **A green Next.js production build means the database layer works** → explicit Pool + PrismaPg with SSL; run a real query against prod before calling the DB layer 'working' |
 
 ---
-_Regenerated by `scripts/belief_log_emit.py` · 42 entries · do not hand-edit — the ledger is the SSOT._
+_Regenerated by `scripts/belief_log_emit.py` · 45 entries · do not hand-edit — the ledger is the SSOT._
