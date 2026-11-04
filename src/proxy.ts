@@ -5,7 +5,6 @@ import { CIA_GATE, DIOPTRA_GATE, MONDAY_GATE, MYALLY_GATE, gateUnlocked } from '
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'resume':       '/resume.html',
-  'schriner-ext': '/schriner-ext.html',
   // honest.arcs.care: "Check it before you say it", the in-browser front door to
   // arcs-verb-eval (tools/arcs-verb-eval). Static; every check runs client-side.
   'honest':       '/honest.html',
@@ -21,7 +20,6 @@ const SUBDOMAIN_MAP: Record<string, string> = {
 // gate page. Adding a new gated host is one line here.
 const AMMO_HOSTS: Record<string, { ammoFile: string; gateFile: string }> = {
   'schriner':  { ammoFile: '/schriner-ammo.html',  gateFile: '/schriner-gate.html' },
-  'autopilot': { ammoFile: '/autopilot-ammo.html', gateFile: '/autopilot-gate.html' },
   // vico intentionally un-gated (2026-09-23): its /ammo "deeper case" is now
   // open, routed by the ungated MULTI_PATH_MAP['vico'] entry below. vico-gate.html
   // was deleted from public/ on 2026-10-07 (unrouted public-file audit).
@@ -62,42 +60,26 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // The signed PDF maps to itself so the default rewrite does not swallow it. Gated end to end by the
   // myally passcode block in proxy() before this map is consulted.
   'myally':    { '/proposal': '/myally-hub.html', '/timeline': '/myally-hub.html', '/mnda-edits': '/myally-hub.html', '/primer': '/myally-hub.html', '/debrief': '/myally-hub.html', '/myally-mnda-signed.pdf': '/myally-mnda-signed.pdf', default: '/myally-hub.html' },
-  // saul.arcs.care — interview bundle (2026-09-03): root = prep, /followup = forked battle cards, /resume = viewer.
-  // Asset paths are mapped to themselves so the default-page rewrite does not swallow the PDFs/txt.
-  'saul':      { '/followup': '/saul-followup.html', '/resume': '/saul-resume-viewer.html', '/saul-resume.pdf': '/saul-resume.pdf', '/saul-cover.pdf': '/saul-cover.pdf', '/saul-resume-ats.txt': '/saul-resume-ats.txt', default: '/saul.html' },
-  // monstro.arcs.care — AI Marketing Engineer bundle (2026-09-08): root = candidate pitch (counterpart-safe, noindex), /resume + /cover = viewers, PDFs mapped to themselves so the default-page rewrite does not swallow them.
-  'monstro':   { '/full': '/monstro-full.html', '/resume': '/monstro-resume.html', '/cover': '/monstro-cover.html', '/monstro-resume.pdf': '/monstro-resume.pdf', '/monstro-cover.pdf': '/monstro-cover.pdf', default: '/monstro.html' },
   // success-academy.arcs.care — AI Product Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
-  // claritai.arcs.care: Head of Operational Excellence & AI Systems bundle (2026-09-28): OPEN (ungated), noindex, for Jeff Kronisch (Harris Allied) to forward to Seth Merrin. root = brief + objections + history; PDF mapped to itself.
   // monday.arcs.care: RET RFP submission guide for the monday.com FDE panel (2026-10-26). Gated end to end by MONDAY_PASSCODE above; noindex. root = guide; /monday-guide-rc46.zip = the submitted ZIP (sha256 matches dist/submission-rc46.zip.sha256), mapped to itself so the default rewrite does not swallow it.
   // cia.arcs.care: candidate brief for the Culinary Institute of America architect role (2026-10-29). Gated by CIA_PASSCODE; noindex.
   'cia':       { '/resume.pdf': '/cia-brief-resume.pdf', default: '/cia-brief.html' },
   // dioptra.arcs.care: candidate brief for the Dioptra Staff PM role (2026-10-29). Gated by DIOPTRA_PASSCODE; noindex. /work-sample.zip maps to a /dioptra-brief-* file, which the prefix gate locks on every host.
   'dioptra':   { '/work-sample.zip': '/dioptra-brief-sample.zip', default: '/dioptra-brief.html' },
   'monday':    { '/monday-guide-rc46.zip': '/monday-guide-rc46.zip', default: '/monday-guide.html' },
-  'claritai': { '/claritai-resume.pdf': '/claritai-resume.pdf', default: '/claritai.html' },
   'success-academy': { '/resume': '/success-academy-resume-viewer.html', '/success-academy-resume.pdf': '/success-academy-resume.pdf', '/success-academy-resume-ats.txt': '/success-academy-resume-ats.txt', default: '/success-academy.html' },
-  // conduit.arcs.care — Conduit Health PM, Patient Experience bundle (2026-09-28): OPEN (ungated), noindex, for Annie Wasserman (HappyPath) to forward to co-founder Rocky Seftel. root = positioning brief, /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
-  'conduit': { '/resume': '/conduit-resume-viewer.html', '/conduit-resume.pdf': '/conduit-resume.pdf', '/conduit-resume-ats.txt': '/conduit-resume-ats.txt', '/conduit-brief.pdf': '/conduit-brief.pdf', '/conduit-case-study.pdf': '/conduit-case-study.pdf', '/case-study': '/conduit-case-study.html', default: '/conduit.html' },
   // squad.arcs.care — Squad (gosquad.ai) Product Engineer bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief + fit score (the thesis mirror aimed at founder Ignacio García León), /resume = print-ready HTML resume (technical cut, leadership scope kept), + ATS txt. Asset paths mapped to themselves so the default-page rewrite does not swallow the resume/txt.
   'squad':     { '/resume': '/squad-resume.html', '/squad-resume.html': '/squad-resume.html', '/squad-resume-ats.txt': '/squad-resume-ats.txt', '/card': '/squad-battlecard.html', '/squad-battlecard.html': '/squad-battlecard.html', default: '/squad.html' },
-  // fun.arcs.care — Fun.xyz Senior Product Marketing Manager bundle (2026-09-24): OPEN (ungated), noindex. root = positioning brief (Grayscale-led, crypto/regulated-finance forward, honest payments gap stated), /resume = viewer. Asset paths mapped to themselves so the default-page rewrite does not swallow the PDF/txt.
-  'fun': { '/resume': '/fun-resume-viewer.html', '/fun-resume.pdf': '/fun-resume.pdf', '/fun-resume-ats.txt': '/fun-resume-ats.txt', default: '/fun.html' },
   // schriner.arcs.care — Oxenham Group recruiter bundle (2026-09-14): root = candidate pitch
   // for Joe (plain-language, non-technical recruiter register), /resume = viewer, PDF + ATS
   // text mapped to themselves so the default-page rewrite does not swallow them.
   'schriner':  { '/resume': '/schriner-resume-viewer.html', '/schriner-resume.pdf': '/schriner-resume.pdf', '/schriner-resume-ats.txt': '/schriner-resume-ats.txt', '/ammo': '/schriner-ammo.html', '/vico': '/schriner-vico.html', default: '/schriner.html' },
-  // autopilot.arcs.care + vico.arcs.care — dedicated per-company subdomains
-  // (2026-09-17), split out of schriner.arcs.care per the actual commitment
-  // made live on the Joe follow-up call ("I can change the subdomain for you,
-  // Joe, where one will just be Autopilot and the other will be Veeqo").
+  // vico.arcs.care — dedicated per-company subdomain (2026-09-17), split out of
+  // schriner.arcs.care per the commitment made live on the Joe follow-up call.
   // schriner.arcs.care is left live and unchanged so any link Joe already has
-  // keeps working; these are additive, not a migration.
-  'autopilot': { '/resume': '/autopilot-resume-viewer.html', '/autopilot-resume.pdf': '/autopilot-resume.pdf', '/autopilot-resume-ats.txt': '/autopilot-resume-ats.txt', '/ammo': '/autopilot-ammo.html', default: '/autopilot.html' },
+  // keeps working. Its sibling autopilot.arcs.care was retired 2026-11-04.
   'vico':      { '/resume': '/vico-resume.html', '/ammo': '/vico-ammo.html', default: '/vico.html' },
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
-  'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
-  'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
   // lewoof.arcs.care (2026-10-07): root = the Le Woof playbook, /invoicing = the deal-intake
   // and invoice builder that used to be the whole host. The host is gated, see the
   // lewoof block in proxy() below.
