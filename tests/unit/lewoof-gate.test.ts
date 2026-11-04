@@ -30,7 +30,7 @@ test("locked: the lewoof root and /invoicing show the gate", async () => {
 })
 
 test("locked: Le Woof files cannot be fetched directly on any host", async () => {
-  for (const host of ["app.arcs.care", "arcs.care", "lewoof.arcs.care", "fun.arcs.care"]) {
+  for (const host of ["app.arcs.care", "arcs.care", "lewoof.arcs.care", "squad.arcs.care"]) {
     for (const path of ["/lewoof-playbook.html", "/lewoof-intake.html", "/lewoof.html"]) {
       assert.equal(rewritten(await proxy(req(host, path))), GATE, `${host}${path}`)
     }
@@ -69,7 +69,7 @@ test("fail closed: with no secret configured, even a well-formed cookie stays lo
 })
 
 test("other hosts keep their routing", async () => {
-  assert.equal(rewritten(await proxy(req("fun.arcs.care", "/"))), "/fun.html")
+  assert.equal(rewritten(await proxy(req("squad.arcs.care", "/"))), "/squad.html")
   assert.equal(rewritten(await proxy(req("resume.arcs.care", "/"))), "/resume.html")
 })
 

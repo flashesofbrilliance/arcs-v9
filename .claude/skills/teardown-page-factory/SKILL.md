@@ -10,7 +10,7 @@ the gauntlet, synthesize is the page (Ship gates below), recapitulate is the not
 gates below). Every stage prints an artifact through a gate to a fate; a skipped mandatory
 print is a drift receipt.
 
-Proven instance: `public/wing.html` (wing.arcs.care, shipped 2026-08-23, PR #153).
+Proven instance: `_ARCHIVE/retired-surfaces/2026-11-04/public/wing.html` (wing.arcs.care, shipped 2026-08-23, PR #153; host retired 2026-11-04).
 Ancestor design system: `public/chan.html` (chan.arcs.care). Do not re-derive either;
 clone `wing.html` and re-fill. The CSS tokens, section mechanics, and PRESENT engine
 are FROZEN; only content and slide data vary per counterpart.
@@ -107,7 +107,7 @@ Advisory prints (recited, never mechanized): witness stub on any live naming mom
 The first wing run paid one-time archaeology costs this skill now amortizes. Rules that
 keep the next run at ~1/3 the spend:
 
-1. **Never read `chan.html`** (1,611 lines). Clone `public/wing.html` and re-fill; the
+1. **Never read `chan.html`** (1,611 lines). Clone `_ARCHIVE/retired-surfaces/2026-11-04/public/wing.html` and re-fill; the
    CSS + PRESENT engine travel with it.
 2. **Dedupe inputs before reading.** If a PDF has an MD twin, the PDF is never opened
    (PDF pages are vision-priced). Sample >200KB logs head/tail only.
