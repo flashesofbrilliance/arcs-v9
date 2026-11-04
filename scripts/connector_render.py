@@ -211,7 +211,7 @@ FONT_REQUEST = ('<link href="https://fonts.googleapis.com/css2?family=Inter:wght
                 '&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">')
 
 
-def tool_template_head(title, desc, accent, note):
+def tool_template_head(title, desc, accent, note, jtbd=None):
     import re
     src = open(TOOL_TEMPLATE_SRC, encoding="utf-8").read()
     head = src[:src.index("</head>")]
@@ -224,6 +224,7 @@ def tool_template_head(title, desc, accent, note):
     head = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{esc(desc)}">', head)
     head = re.sub(r":root\{--tool-accent:#[0-9a-fA-F]{6}\}", ":root{--tool-accent:%s}" % accent, head)
     head = re.sub(r"rfp-engine wears [^.]*?\)", note, head)
+    head = re.sub(r'<html lang="en"[^>]*>', f'<html lang="en" data-jtbd="{esc(jtbd)}">' if jtbd else '<html lang="en">', head, count=1)
     return head, tail
 
 
@@ -231,7 +232,7 @@ def render_tool_page(repo, data, row, live):
     url = row["url"]
     gh = "https://" + url if not url.startswith("http") else url
     t = data["tool"]
-    head, tail = tool_template_head(f"{repo} · ARCS public goods", data["desc"], t["accent"], t["accent_note"])
+    head, tail = tool_template_head(f"{repo} · ARCS public goods", data["desc"], t["accent"], t["accent_note"], t.get("jtbd"))
     chips = "\n".join(
         f'<span class="g-chip" data-tone="{c["tone"]}"><span class="g-glyph">{ {"show": "●", "say": "◆", "limit": "▲"}[c["tone"]] }</span>'
         f'<span class="g-tag">{esc(c["tag"])}</span><span class="g-body">{esc(c["body"])}</span></span>'

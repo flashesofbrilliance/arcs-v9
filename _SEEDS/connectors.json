@@ -46,6 +46,7 @@
    "group": "cli",
    "template": "tool-getting-started",
    "tool": {
+    "jtbd": "rosetta-shell-public-good",
     "stage": "seed",
     "accent": "#4f5fa0",
     "accent_note": "rosetta-shell wears slate indigo #4f5fa0 (about 229deg, clear of violet and cyan)",
@@ -141,6 +142,7 @@
    "group": "cli",
    "template": "tool-getting-started",
    "tool": {
+    "jtbd": "germinate-public-good",
     "stage": "seed",
     "accent": "#5f8a3f",
     "accent_note": "germinate wears fern #5f8a3f (about 95deg, clear of coherent green at 157deg)",
