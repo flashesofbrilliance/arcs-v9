@@ -1,0 +1,12 @@
+# Evidence ledger, GovWell resume. vetted-master=_ARTIFACTS/resume-vico/resume-vico-product-engineer.html
+{"pattern": "\\$7B", "source": "vetted-master:resume-vico-product-engineer.html"}
+{"pattern": "35\\s?(?:%|percent)", "source": "vetted-master:resume-vico-product-engineer.html"}
+{"pattern": "120\\s?(?:ms|milliseconds)", "source": "vetted-master:resume-vico-product-engineer.html"}
+{"pattern": "5 of 5", "source": "repo:src/lib/claude-models.ts brief role comment (scripts/brief_eval.mts, 2026-11-02)"}
+{"pattern": "\\b800\\b", "source": "repo:_PATTERNS/2026-10-18-provenance-retrieval-results.md (0 confident-wrong in 800)"}
+{"pattern": "\\b0 confident", "source": "repo:_PATTERNS/2026-10-18-provenance-retrieval-results.md"}
+{"pattern": "\\bTwo of\\b", "source": "repo:same results doc: H3 FAIL, H5 KILL, shingle index and Bloom prefilter NOT ADOPTED"}
+{"pattern": "\\bten\\b", "source": "vetted-master (10-product regulated launch)"}
+{"pattern": "\\bfour time zones", "source": "vetted-master"}
+{"pattern": "\\bfive 5G", "source": "vetted-master"}
+{"pattern": "\\bthree AI-enabled.*?two validated", "source": "vetted-master"}

@@ -918,6 +918,26 @@
         ],
         "createdAt": "2026-10-30T15:40:00.000Z",
         "reason": "Claim chip grammar specimen: the glow is the underlit LED of the @arcs/theme grammar (ChipToggle, 'underlit-LED glow, never ambient neon') and the Phosphor Pocket skin LED tiles; it marks tone state only, Zach asked for the skeuomorphic depth on 2026-10-30."
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/forge-cursor-forward-deployed-strategist/resume-cursor-forward-deployed-strategist.html",
+          "_ARTIFACTS/forge-govwell-ai-product-engineer/resume-govwell-ai-product-engineer.html"
+        ],
+        "createdAt": "2026-11-04T15:00:00.000Z",
+        "reason": "Print-only one-page conventional resume (resume-tailor-zach base template, Georgia, letter @page), delivered as the PDF. Body line-height is 1.3; the 0.12x/0.14x readings are the detector measuring pt-sized print text, and the even 2-4px spacing is the one-page fit. Not a screen surface."
+      },
+      {
+        "rule": "monotonous-spacing",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/forge-cursor-forward-deployed-strategist/resume-cursor-forward-deployed-strategist.html",
+          "_ARTIFACTS/forge-govwell-ai-product-engineer/resume-govwell-ai-product-engineer.html"
+        ],
+        "createdAt": "2026-11-04T15:00:00.000Z",
+        "reason": "Print-only one-page conventional resume (resume-tailor-zach base template, Georgia, letter @page), delivered as the PDF. Body line-height is 1.3; the 0.12x/0.14x readings are the detector measuring pt-sized print text, and the even 2-4px spacing is the one-page fit. Not a screen surface."
       }
     ]
   },
