@@ -237,3 +237,10 @@ Baseline before the slice (checked with Fonzi `list_interview_requests`, view al
 request. Concourse, Forward Deployed Engineer, created 2026-10-14, accepted, outcome `company_rejected`.
 It arrived while the preference was still Product Management, so it counts as pre-slice and is kept out
 of slice 1. A first draft of this block said Fonzi had sent no requests; that was wrong and is corrected here.
+
+Intermediary (Zach, 2026-11-04): the Concourse contact, Sara, said she is a part-time contract
+recruiter, not affiliated with Concourse. So the one pre-slice request is a recruiter-front signal
+(n=1), not a direct company signal. New tag on every send and request: `intermediary` in {direct,
+contract-recruiter, recruiter-marketplace, agency}. Concourse is booked `contract-recruiter`. Suspected,
+not confirmed: the Paraform contact (Amy) and the fun.xyz recruiter are in the same situation; verify
+each one's affiliation before booking. Per H1, recruiter-front rows stay out of the arm comparison.
