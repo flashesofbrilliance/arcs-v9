@@ -9,7 +9,7 @@ import { BRIEF_SYSTEM } from "@/lib/briefPrompt"
 import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { MODELS } from "@/lib/claude-models"
 import { tributariesOf } from "@/lib/tributaries"
-import { briefLocked, paymentUrlFor } from "@/lib/paywall"
+import { briefLocked, paymentUrlFor, proUrlFor } from "@/lib/paywall"
 
 export const dynamic = "force-dynamic"
 // Generates situation framing + entity analysis via Claude (parallel calls).
@@ -83,7 +83,7 @@ export async function GET(
   // so an id never confirms it exists.
   const notFound = () => NextResponse.json({ error: "Receipt not found" }, { status: 404 })
   if (!userId) return notFound()
-  const owned = await prisma.receipt.findUnique({ where: { id: receiptId }, select: { userId: true } })
+  const owned = await prisma.receipt.findUnique({ where: { id: receiptId }, select: { userId: true, user: { select: { tier: true } } } })
   if (!owned || owned.userId !== userId) return notFound()
 
   // Serve from store if already generated
@@ -129,8 +129,8 @@ export async function GET(
 
   // Paywall: a new brief is generated only for a paid receipt. Off (free) when
   // STRIPE_PAYMENT_LINK is unset. Stored briefs above are never gated.
-  if (briefLocked(receipt)) {
-    return NextResponse.json({ error: "Payment required", paymentUrl: paymentUrlFor(receipt.id) }, { status: 402 })
+  if (briefLocked(receipt, owned.user?.tier)) {
+    return NextResponse.json({ error: "Payment required", paymentUrl: paymentUrlFor(receipt.id), proUrl: proUrlFor(userId) }, { status: 402 })
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {

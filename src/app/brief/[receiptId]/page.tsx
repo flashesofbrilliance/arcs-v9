@@ -13,6 +13,7 @@ import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { Card } from "@/ui/Card"
 import { Label } from "@/ui/Label"
 import { Button, ButtonLink } from "@/ui/Button"
+import { PRO_PRICE } from "@/lib/paywall-copy"
 import type { CompassResult } from "@/lib/mockCompass"
 import { toCompassResult } from "@/lib/briefView"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
@@ -39,6 +40,8 @@ export default function BriefPage() {
   const [error, setError] = useState<string | null>(null)
   // Set when the brief is behind the paywall (402): the Payment Link for this receipt.
   const [paymentUrl, setPaymentUrl] = useState<string | null>(null)
+  // ARCS Pro subscription link (402 reply), when STRIPE_PRO_LINK is set.
+  const [proUrl, setProUrl] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   // null = still checking. Only the owner reaches this page (the API 404s anyone else).
   const [authed, setAuthed] = useState<boolean | null>(null)
@@ -49,7 +52,11 @@ export default function BriefPage() {
       .then(async (r) => ({ ok: r.ok, status: r.status, data: await r.json() }))
       .then(({ ok, status, data }) => {
         if (cancelled) return
-        if (status === 402 && typeof data.paymentUrl === "string") { setPaymentUrl(data.paymentUrl); return }
+        if (status === 402 && (typeof data.paymentUrl === "string" || typeof data.proUrl === "string")) {
+          setPaymentUrl(typeof data.paymentUrl === "string" ? data.paymentUrl : null)
+          setProUrl(typeof data.proUrl === "string" ? data.proUrl : null)
+          return
+        }
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
         setReceipt(data.receipt)
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
@@ -136,7 +143,7 @@ export default function BriefPage() {
     window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(url)}`)
   }
 
-  if (paymentUrl) {
+  if (paymentUrl || proUrl) {
     return (
       <main style={{ minHeight: "100vh", background: "radial-gradient(120% 70% at 50% -5%, #0a1422 0%, #020408 62%)", color: text.primary, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
         <Card style={{ maxWidth: 480, width: "100%" }}>
@@ -146,9 +153,15 @@ export default function BriefPage() {
             The brief reads the terrain around your decision: situation framing, the people in it, and the paths through. It is written once and kept.
           </p>
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-            <ButtonLink href={paymentUrl} onClick={() => track("brief_checkout_click", { receiptId })}>Unlock the brief</ButtonLink>
+            {proUrl && <ButtonLink href={proUrl} onClick={() => track("pro_checkout_click", { receiptId })}>Get ARCS Pro, {PRO_PRICE}</ButtonLink>}
+            {paymentUrl && <ButtonLink href={paymentUrl} variant={proUrl ? "ghost" : undefined} onClick={() => track("brief_checkout_click", { receiptId })}>Unlock this brief only</ButtonLink>}
             <Button variant="ghost" onClick={() => router.push(`/receipt/${receiptId}`)}>Back to the receipt</Button>
           </div>
+          {proUrl && (
+            <p style={{ color: text.secondary, lineHeight: 1.6, margin: "1rem 0 0", fontSize: "0.9rem" }}>
+              Pro opens every brief, keeps your full decision history, and checks in after each decision to ask how it went. Cancel any time. <a href="/pro" style={{ color: signal.cyan }}>What Pro includes</a>
+            </p>
+          )}
         </Card>
       </main>
     )

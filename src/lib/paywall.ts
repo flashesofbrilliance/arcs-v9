@@ -6,11 +6,23 @@ import { createHmac, timingSafeEqual } from "crypto"
 // handles checkout, the webhook below needs only the signing secret.
 
 export function paywallOn(): boolean {
-  return !!process.env.STRIPE_PAYMENT_LINK
+  return !!process.env.STRIPE_PAYMENT_LINK || !!process.env.STRIPE_PRO_LINK
 }
 
-export function briefLocked(r: { paidAt: Date | null }): boolean {
-  return paywallOn() && !r.paidAt
+// ARCS Pro (2026-11-04): a subscription Payment Link. A PRO owner opens every brief.
+// Display price: src/lib/paywall-copy.ts (client-safe).
+
+export function briefLocked(r: { paidAt: Date | null }, ownerTier?: string | null): boolean {
+  return paywallOn() && !r.paidAt && ownerTier !== "PRO"
+}
+
+// client_reference_id carries the user id through the subscription checkout.
+export function proUrlFor(userId: string): string | null {
+  const link = process.env.STRIPE_PRO_LINK
+  if (!link) return null
+  const u = new URL(link)
+  u.searchParams.set("client_reference_id", userId)
+  return u.toString()
 }
 
 // client_reference_id carries the receipt id through checkout to the webhook.

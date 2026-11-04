@@ -22,7 +22,8 @@ model User {
   emailVerified      DateTime?
   name               String?
   image              String?
-  tier               String         @default("FREE")
+  tier               String         @default("FREE") // FREE | PRO (set by /api/stripe/webhook)
+  stripeCustomerId   String?        @unique // links subscription events back to this user
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   receipts           Receipt[]

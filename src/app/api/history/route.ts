@@ -16,6 +16,8 @@ export async function GET() {
     if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
+  // ARCS Pro keeps the full history (cap 500 so one account cannot stall the page).
+  const tier = userId ? (await prisma.user.findUnique({ where: { id: userId }, select: { tier: true } }))?.tier : null
   const receipts = await prisma.receipt.findMany({
     where: {
       status: { not: "EXPIRED" },
@@ -23,7 +25,7 @@ export async function GET() {
       ...(userId ? { userId } : {}), // gated mode: caller's own receipts only
     },
     orderBy: { createdAt: "desc" },
-    take: 50,
+    take: tier === "PRO" ? 500 : 50,
     select: {
       id: true,
       decision: true,
