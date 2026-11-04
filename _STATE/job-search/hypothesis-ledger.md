@@ -224,3 +224,23 @@ one case and is not counted as a result here.
 
 **Not changed:** H2's registered text, H1, H3/H3', H4, the NULL ruin-check, the anti-Goodhart guard and
 the read gates stay as written. This block adds arms, tags and a stopping rule.
+
+### Amendment 2026-11-04 (b) — Fonzi time slice 1 opens on arm A
+
+Per H2', Fonzi is read as dated time slices. On 2026-11-04 the Fonzi role preference changed from
+Product Management to Forward Deployed Engineering (arm A). Slice 1 runs from 2026-11-04 until the next
+logged change. Everything else on the Fonzi profile (headline, bio, company sizes, salary floor) was left
+as it was, so the role preference is the only change in this slice. Fonzi Interview Requests in this
+window are tagged `channel=fonzi, arm=A`.
+
+Baseline before the slice (checked with Fonzi `list_interview_requests`, view all, 2026-11-04): one
+request. Concourse, Forward Deployed Engineer, created 2026-10-14, accepted, outcome `company_rejected`.
+It arrived while the preference was still Product Management, so it counts as pre-slice and is kept out
+of slice 1. A first draft of this block said Fonzi had sent no requests; that was wrong and is corrected here.
+
+Intermediary (Zach, 2026-11-04): the Concourse contact, Sara, said she is a part-time contract
+recruiter, not affiliated with Concourse. So the one pre-slice request is a recruiter-front signal
+(n=1), not a direct company signal. New tag on every send and request: `intermediary` in {direct,
+contract-recruiter, recruiter-marketplace, agency}. Concourse is booked `contract-recruiter`. Suspected,
+not confirmed: the Paraform contact (Amy) and the fun.xyz recruiter are in the same situation; verify
+each one's affiliation before booking. Per H1, recruiter-front rows stay out of the arm comparison.
