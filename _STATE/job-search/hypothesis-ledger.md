@@ -224,3 +224,11 @@ one case and is not counted as a result here.
 
 **Not changed:** H2's registered text, H1, H3/H3', H4, the NULL ruin-check, the anti-Goodhart guard and
 the read gates stay as written. This block adds arms, tags and a stopping rule.
+
+### Amendment 2026-11-04 (b) — Fonzi time slice 1 opens on arm A
+
+Per H2', Fonzi is read as dated time slices. On 2026-11-04 the Fonzi role preference changed from
+Product Management to Forward Deployed Engineering (arm A). Slice 1 runs from 2026-11-04 until the next
+logged change. Everything else on the Fonzi profile (headline, bio, company sizes, salary floor) was left
+as it was, so the role preference is the only change in this slice. Fonzi Interview Requests in this
+window are tagged `channel=fonzi, arm=A`, and Fonzi had sent none before this date.
