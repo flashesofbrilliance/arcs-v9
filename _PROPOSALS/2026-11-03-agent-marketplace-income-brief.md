@@ -1,6 +1,6 @@
 # Agent marketplaces for near-term income: decision brief (2026-11-03)
 
-Status: PROPOSED. Read-only research. Nothing was listed, applied for, signed up for or published.
+Status: DECIDED 2026-11-03 by Zach: no marketplace work. The audit outreach in PR 1987 is the cash move. Read-only research. Nothing was listed, applied for, signed up for or published.
 Builds on PR 1987 (`_PROPOSALS/2026-11-03-first-product-decision.md`, branch `claude/first-product-decision`): sell the
 Agent Receipts Audit for cash now, and test the MCP probe under its kill rule. This brief does not change that plan.
 
@@ -80,8 +80,7 @@ for Zach to edit and send, and file the ex-ante receipt (ADR-068) before the sen
 
 ## Decisions for Zach
 
-1. Go on job 1 only, jobs 1 and 2, or no marketplace work (the audit outreach in PR 1987 continues either way).
-2. If go: approve the kill rule above as written.
+1. Decided 2026-11-03: no marketplace work. Neither job is applied to; the kill rule above is not used.
 
 [c]: https://www.constellationr.com/insights/news/monday-launches-ai-agent-marketplace
 [j]: https://agentalent.ai/jobs
