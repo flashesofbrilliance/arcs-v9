@@ -28,6 +28,7 @@ DENY = [
     (r"\bscripts/safe_merge\.sh\b(?!\s+--self-test\b)", "safe_merge.sh merges; only --self-test is allowed here"),
     (r"\bscripts/(merge_train|ship_docs|sync_worktree)\.sh\b", "merge or push helper"),
     (r"\b(phosphor_build\.py\s+--release|handoff_fold\.py\s+molt|oracle\.py\s+next|backlog_append\.py)\b", "writes a release, handoff, counter or backlog row"),
+    (r"\bscrum\.py\s+(log|fate)\b", "scrum.py log/fate write the ritual ledger or backlog fates"),
     (r"\b(pulse|lattice_drift_check)\.py\b", "appends a receipt under _INBOX/"),
     (r"--(write|regenerate|release|export|fix|apply)\b", "a writing flag"),
     (r"\b(supabase|psql|vercel|curl\s+.*-X\s*(POST|PATCH|PUT|DELETE)|npm\s+(publish|install|i)\b)", "a write to an external service or the dependency tree"),
@@ -58,14 +59,14 @@ def deny(reason):
 
 def self_test():
     bad = ["gh pr merge 1919 --merge", "git push origin main", "git commit -am x", "scripts/safe_merge.sh 1919 abc1234",
-           "scripts/merge_train.sh --lock 1 2", "python3 scripts/pulse.py", "python3 scripts/oracle.py next adr",
+           "scripts/merge_train.sh --lock 1 2", "python3 scripts/pulse.py", "python3 scripts/oracle.py next adr", "python3 scripts/scrum.py fate --compost x",
            "echo hi > notes.md", "git status && git push", "python3 scripts/tool_catalog_emit.py --write",
            "supabase db query --linked 'select 1'", "sed -i '' s/a/b/ f", "python3 -c 'open(\"x\",\"w\")'",
            "gh run rerun 123", "gh api repos/o/r/pulls/1/merge -X PUT", "cat a | tee b", "rm -rf _STATE"]
     good = ["git fetch -q origin main", "git worktree list", "git log origin/main --oneline --since='48 hours ago'",
             "python3 scripts/approvals_ledger.py", "python3 scripts/backlog_status_check.py --check --gh",
             "python3 scripts/backlog_graph.py --top 5", "python3 scripts/readiness_packet.py some-row",
-            "python3 scripts/open_loops.py --summary", "scripts/project_skills_drift.sh", "scripts/safe_merge.sh --self-test",
+            "python3 scripts/open_loops.py --summary", "python3 scripts/scrum.py board --no-gh", "scripts/project_skills_drift.sh", "scripts/safe_merge.sh --self-test",
             "gh pr list --state open --json number", "gh pr view 1919 --json state", "git diff --stat origin/main",
             "python3 scripts/approvals_ledger.py 2>/dev/null", "ls _PATTERNS", "grep -n x file 2>&1 | head"]
     ok = 0
