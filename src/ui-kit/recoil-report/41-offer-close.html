@@ -1,0 +1,46 @@
+<!-- @dsCard group="Molecules" name="Offer Close" subtitle="One locked-up close: offer and terms, a proof link, then the ask. Both themes and US Letter print" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offer Close</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--ds-font-sans); font-size: var(--fs-body); line-height: 1.6; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+main { max-width: var(--measure, 720px); }
+/* @prim:begin 41-offer-close */
+.offer { border: 1px solid var(--border); border-radius: var(--ds-r-md); background: var(--surface); overflow: hidden; }
+.offer > * { padding: var(--sp-3, 24px); }
+.offer-head { display: flex; flex-direction: column; gap: var(--sp-1, 8px); }
+.offer-price { font-family: var(--ds-font-sans); font-size: var(--fs-step, var(--fs-headline)); font-weight: 600; line-height: 1.35; color: var(--text); text-wrap: balance; }
+.offer-fig { color: var(--cyan); font-variant-numeric: tabular-nums; }
+.offer-keep { color: var(--text-secondary); }
+.offer-proof { display: flex; flex-direction: column; gap: var(--sp-1, 8px); border-top: 1px solid var(--border); background: var(--surface-2); }
+.offer-proof p { color: var(--text-secondary); text-wrap: pretty; }
+.offer-link { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; min-height: 44px; font-family: var(--ds-font-mono); font-size: var(--fs-body); color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+.offer-link svg { width: 14px; height: 14px; flex: none; }
+.offer-link:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: var(--ds-r-xs); }
+.offer-ask { border-top: 1px solid var(--border); font-family: var(--ds-font-display); font-size: var(--fs-step, var(--fs-headline)); font-weight: 500; line-height: 1.45; color: var(--text); text-wrap: pretty; }
+@media (max-width: 640px) { .offer > * { padding: var(--sp-2, 16px); } }
+@media print { .offer { break-inside: avoid; background: none; } .offer-proof { background: none; } .offer > * { padding: 12px 16px; } .offer-price, .offer-ask { font-size: 13pt; } .offer-link { min-height: 0; } }
+/* @prim:end 41-offer-close */
+</style>
+</head>
+<body>
+<main>
+<div class="offer">
+  <div class="offer-head">
+    <p class="offer-price"><span class="offer-fig">$5,000</span>, half at kickoff and half at the readout.</p>
+    <p class="offer-keep">You keep all of the work.</p>
+  </div>
+  <div class="offer-proof">
+    <p>Something I built on the same rule: it answers RFP questions with the clause behind it, or says "not covered," and it publishes its own misses.</p>
+    <a class="offer-link" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+  </div>
+  <p class="offer-ask">If this is useful, tell me where Adobo stands and I'll shape it around that. If the timing's off, no reply needed.</p>
+</div>
+</main>
+</body>
+</html>
