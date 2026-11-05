@@ -7,22 +7,30 @@
   "hook": 3,
   "operator": 46,
   "package": 4,
-  "script": 274,
+  "script": 275,
   "skill": 25,
   "workflow": 2
  },
- "total": 399,
+ "total": 400,
  "missing_jtbd": 1,
  "install_audit": {
   "source": "python3 scripts/tool_orphan_audit.py (full report; --line for the session-start summary)",
   "counts": {
-   "WIRED": 556,
+   "WIRED": 557,
    "AVAILABLE-NOT-INSTALLED": 0,
-   "INSTALLED-UNUSED": 1,
+   "INSTALLED-UNUSED": 2,
    "DUPLICATE": 6,
    "BROKEN": 0
   },
   "gaps": [
+   {
+    "state": "INSTALLED-UNUSED",
+    "surface": "repo",
+    "kind": "script",
+    "name": "jobs_posting_liveness.mjs",
+    "why": "no hook/command/task/CI/doc references it",
+    "fix": "wire it (command/hook/doc) or retire it to _ARCHIVE"
+   },
    {
     "state": "INSTALLED-UNUSED",
     "surface": "user",
@@ -2688,6 +2696,14 @@
    "path": "scripts/token_source_gate.py",
    "jtbd": "token_source_gate: single-file HTML surfaces inherit the ARCS tokens, they do not re-author them.",
    "invoke": "python3 scripts/token_source_gate.py",
+   "state": "WIRED"
+  },
+  {
+   "kind": "script",
+   "name": "token_tuner_inline.py",
+   "path": "scripts/token_tuner_inline.py",
+   "jtbd": "token_tuner_inline: put the token tuner into a single-file page, take it out, or check the copy is current.",
+   "invoke": "python3 scripts/token_tuner_inline.py",
    "state": "WIRED"
   },
   {
