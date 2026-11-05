@@ -10,51 +10,11 @@
  "totals": {
   "violations": 1,
   "nodes": 2,
-  "clean": 181,
-  "pages": 182
+  "clean": 143,
+  "pages": 144
  },
  "pages": {
-  "public/ahmed-evening.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/ahmed-ext.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/ahmed-seed.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/ahmed.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
   "public/arcs-field-scan.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/autopilot-ammo.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/autopilot-resume-viewer.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/autopilot.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/ayesha-ext.html": {
    "violations": 0,
    "nodes": 0,
    "rules": {}
@@ -324,32 +284,7 @@
    "nodes": 0,
    "rules": {}
   },
-  "public/claritai.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
   "public/compass-kit/index.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/conduit-case-study.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/conduit-resume-viewer.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/conduit.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/daniel.html": {
    "violations": 0,
    "nodes": 0,
    "rules": {}
@@ -360,16 +295,6 @@
    "rules": {}
   },
   "public/forge-pattern.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/fun-resume-viewer.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/fun.html": {
    "violations": 0,
    "nodes": 0,
    "rules": {}
@@ -454,46 +379,6 @@
    "nodes": 0,
    "rules": {}
   },
-  "public/jack-rain-ext.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/joe-ext.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/joe.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/julia-ext.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/julia-runtime.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/julia.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/kam-codex.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/kiko.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
   "public/lewoof-intake.html": {
    "violations": 0,
    "nodes": 0,
@@ -520,26 +405,6 @@
    "rules": {}
   },
   "public/monolith.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/monstro-cover.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/monstro-full.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/monstro-resume.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/monstro.html": {
    "violations": 0,
    "nodes": 0,
    "rules": {}
@@ -646,11 +511,6 @@
    "nodes": 0,
    "rules": {}
   },
-  "public/rayan.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
   "public/recruithaus-ammo.html": {
    "violations": 0,
    "nodes": 0,
@@ -701,27 +561,7 @@
    "nodes": 0,
    "rules": {}
   },
-  "public/saul-followup.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/saul-resume-viewer.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/saul.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
   "public/schriner-ammo.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/schriner-ext.html": {
    "violations": 0,
    "nodes": 0,
    "rules": {}
@@ -831,16 +671,6 @@
    "nodes": 0,
    "rules": {}
   },
-  "public/thetrueai-proposal.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/thetrueai.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
   "public/todd-call.html": {
    "violations": 0,
    "nodes": 0,
@@ -871,16 +701,6 @@
    "nodes": 0,
    "rules": {}
   },
-  "public/vishal-combined.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "public/wing.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
   "public/yuri-codex.html": {
    "violations": 0,
    "nodes": 0,
@@ -902,16 +722,6 @@
    "rules": {}
   },
   "public/yuri.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "runtime/warroom/brooks.html": {
-   "violations": 0,
-   "nodes": 0,
-   "rules": {}
-  },
-  "runtime/warroom/jack-rain.html": {
    "violations": 0,
    "nodes": 0,
    "rules": {}
