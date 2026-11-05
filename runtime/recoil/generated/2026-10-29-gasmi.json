@@ -1,618 +1,779 @@
 {
-  "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. The disciplined internal method behind ahmed.arcs.care, parameterized.",
-  "_HOW_TO_USE": [
-    "1. cp this file to runtime/recoil/generated/<date>-<name>.json",
-    "2. Fill every {{PLACEHOLDER}} and each block's content. Delete blocks/tabs you don't need.",
-    "3. Tag each field/block audience:'internal' (default, war-room only) or 'both' (safe to share).",
-    "4. Generate: ./scripts/recoil --data <file> --audience internal --format html > public/<name>-war.html",
-    "5. Pass-through args: --audience internal|external  --format html|md|json  --set meta.key=value",
-    "6. Wire the subdomain in next.config.ts + vercel domains add; gate internal with a NON-guessable pw."
-  ],
-  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
-  "meta": {
-    "report_id": "2026-10-29-gasmi",
-    "date": "2026-10-29",
-    "counterpart": "Farah Gasmi",
-    "company": "Dioptra (an Icertis company)",
-    "segments": 5,
-    "gate": {
-      "internal": "_NeGPexRRJoMRQQB"
-    },
-    "provenance": {
-      "audience": "both",
-      "captured": "Recruiter call with Richard (Oxbow Talent), 2026-10-29; follow-up email sent 20:23 UTC, Gmail thread 1a18954897b82d63",
-      "load_bearing_quote": "\"We think of this as a revenue role... measured on that, not on features shipped.\" (company JD)"
-    }
+ "_TEMPLATE": "ARCS 6-TAB WAR-ROOM. The disciplined internal method behind ahmed.arcs.care, parameterized.",
+ "_HOW_TO_USE": [
+  "1. cp this file to runtime/recoil/generated/<date>-<name>.json",
+  "2. Fill every {{PLACEHOLDER}} and each block's content. Delete blocks/tabs you don't need.",
+  "3. Tag each field/block audience:'internal' (default, war-room only) or 'both' (safe to share).",
+  "4. Generate: ./scripts/recoil --data <file> --audience internal --format html > public/<name>-war.html",
+  "5. Pass-through args: --audience internal|external  --format html|md|json  --set meta.key=value",
+  "6. Wire the subdomain in next.config.ts + vercel domains add; gate internal with a NON-guessable pw."
+ ],
+ "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt — belief-update ledger (confidence x conviction), kairos/quiet-signals, risk flags, next steps. WAR GAME: adversarial + kinematic — measured manifold, BAR/LAB/COURT gauntlet, ATG pre-mortem on the critical path vs their real objections. DEFENSIBILITY: translate the method into the counterpart's native register (Rosetta) + a 5-verb x 4-proofing matrix + the antifragile-core / lossless-translation test.",
+ "meta": {
+  "report_id": "2026-10-29-gasmi",
+  "date": "2026-10-29",
+  "counterpart": "Farah Gasmi",
+  "company": "Dioptra (an Icertis company)",
+  "segments": 5,
+  "gate": {
+   "internal": "_NeGPexRRJoMRQQB"
   },
-  "opportunity": {
-    "audience": "internal",
-    "engagement_type": "candidacy",
-    "req_reality": 2,
-    "req_reality_basis": "Company JD posted (first PM hire, Contract OS), $180-250K base; Farah Gasmi (Co-founder & CPO) posted the role 2026-10-07. Zach spoke with Richard at Oxbow Talent (recruiter) on 2026-10-29 and emailed his answer at 20:23 UTC; no founder met yet.",
-    "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
-    "y_state": "YELLOW",
-    "topology": "CONVERGENT",
-    "nci_prior": 55,
-    "nci_post": 0,
-    "note": "Strong fit on AI rigor and trust; open on revenue evidence and founder match. Recruiter stage only."
+  "provenance": {
+   "audience": "both",
+   "captured": "Recruiter call with Richard (Oxbow Talent), 2026-10-29; follow-up email sent 20:23 UTC, Gmail thread 1a18954897b82d63",
+   "load_bearing_quote": "\"We think of this as a revenue role... measured on that, not on features shipped.\" (company JD)"
   },
-  "beliefs": [
-    {
-      "id": "P1",
-      "audience": "internal",
-      "claim": "The trust and evals framing is the strongest hook for Farah.",
-      "evidence": "Her profile publishes 92% accuracy, <1% Unauthorized Action rate, 94% issue detection; JD: 'Design for trust'.",
-      "inference": "EXP",
-      "confidence": [
-        0.7,
-        0.7
-      ],
-      "conviction": "HIGH",
-      "verdict": "NEW"
-    },
-    {
-      "id": "P2",
-      "audience": "internal",
-      "claim": "Revenue evidence is the main gap and will be probed.",
-      "evidence": "JD calls it a revenue role; Zach's email says ARCS does not prove the revenue side yet.",
-      "inference": "EXP",
-      "confidence": [
-        0.75,
-        0.75
-      ],
-      "conviction": "HIGH",
-      "verdict": "NEW"
-    },
-    {
-      "id": "P3",
-      "audience": "internal",
-      "claim": "Agents-as-engineering-team reads as a plus, not a dodge, to this team.",
-      "evidence": "JD requires real Claude Code/Cursor building; Jacques sits on Traycer's board (spec-first agent tooling).",
-      "inference": "EXP",
-      "confidence": [
-        0.55,
-        0.55
-      ],
-      "conviction": "MED",
-      "verdict": "NEW"
-    }
-  ],
-  "kinematic_series": {
-    "dt": 1.0,
-    "series": [
-      {
-        "key": "belief_a",
-        "audience": "both",
-        "label": "{{a belief tracked over time}}",
-        "color": "#00F0FF",
-        "points": [
-          0.6,
-          0.55,
-          0.5,
-          0.45,
-          0.2
-        ],
-        "grounding_quote": "{{their words}}"
-      }
-    ]
-  },
-  "insights": [
-    {
-      "audience": "both",
-      "plane": "idea",
-      "title": "{{cross-plane insight, safe}}",
-      "text": "{{...}}"
-    },
-    {
-      "audience": "internal",
-      "plane": "counterpart",
-      "title": "{{read about them — INTERNAL ONLY}}",
-      "text": "{{...}}"
-    }
-  ],
-  "next_steps": [
-    {
-      "audience": "internal",
-      "owner": "{{You}}",
-      "text": "{{action}}"
-    }
-  ],
-  "redaction_policy": {
-    "rules": [
-      "Method can cross; subject-about-them cannot.",
-      "Show your own updates, never their intent-scores.",
-      "Architecture crosses; weights/sauce do not."
-    ]
-  },
-  "page": {
-    "layout": "tabs",
-    "header": {
-      "eyebrow": "Zach Harris &#183; Candidate brief",
-      "title": "Contract OS &#183; Staff Product Manager",
-      "sub": "How I own an AI product and plan its roadmap, for Dioptra."
-    },
-    "tabs": [
-      {
-        "id": "answer",
-        "label": "The answer"
-      },
-      {
-        "id": "evidence",
-        "label": "How it works"
-      },
-      {
-        "id": "first",
-        "label": "First 30 days"
-      },
-      {
-        "id": "pre",
-        "label": "Pre-Call"
-      },
-      {
-        "id": "exante",
-        "label": "Ex-Ante"
-      },
-      {
-        "id": "forge",
-        "label": "Forge"
-      },
-      {
-        "id": "recoil",
-        "label": "Recoil"
-      },
-      {
-        "id": "wargame",
-        "label": "War Game"
-      },
-      {
-        "id": "defense",
-        "label": "Defensibility"
-      }
-    ],
-    "blocks": [
-      {
-        "tab": "answer",
-        "type": "prose",
-        "audience": "both",
-        "h2": "What AI product have I owned, and how did I plan the roadmap?",
-        "p": [
-          "The AI product I have owned end to end is ARCS, a decision tool that labels every claim confirmed or unconfirmed. A user brings a consequential question. An LLM pipeline returns a recommendation with its reasoning, what is confirmed, what is not, and a confidence state.",
-          "I built it with Claude Code agents as my engineering team. Agents do what the spec says, not what I meant, so I write the acceptance test first. What I have not had is a human engineer pushing back on a decision; I expect Dioptra's team to.",
-          "What ARCS does not prove yet is the revenue side. With Contract OS I would tie every roadmap bet to a deal it wins or an expansion it unlocks, and learn which bets travel through Icertis's customers and which through Dioptra's own deals."
-        ]
-      },
-      {
-        "tab": "answer",
-        "type": "list",
-        "audience": "both",
-        "h2": "Four decisions that shaped the roadmap",
-        "intro": "Each with the reason it exists.",
-        "items": [
-          {
-            "dot": "c",
-            "html": "<strong>Code, not the model, sets the confidence state.</strong> Code maps the model's reported signals plus the user's stated stakes to a state. The model still supplies most of those inputs; checking them against something outside the model is the next step."
-          },
-          {
-            "dot": "c",
-            "html": "<strong>Trust is in the data model.</strong> Each answer stores its confirmed and unconfirmed claims and its computed state, so a user can reopen it later and see why. A claim nothing can verify stays unconfirmed."
-          },
-          {
-            "dot": "g",
-            "html": "<strong>Success is defined before shipping.</strong> Pass rules are frozen before a benchmark runs. Two of my own predictions were wrong, and the benchmark caught both."
-          },
-          {
-            "dot": "g",
-            "html": "<strong>Saying no is on the roadmap.</strong> The backlog records what is deliberately not built and why."
-          }
-        ]
-      },
-      {
-        "tab": "evidence",
-        "type": "keyvalue",
-        "audience": "both",
-        "h2": "How it is enforced, with real numbers",
-        "rows": [
-          {
-            "k": "Release gate",
-            "v": "One pre-registered benchmark, run once, thresholds frozen: 10 checks, 8 passed, 2 failed (an edited-text index at 85.0% against an 85% kill line, and a prefilter). Neither failure was adopted. The one new feature, a lineage index, shipped only after clearing its bar: a 69.9% wall-time cut."
-          },
-          {
-            "k": "Safety",
-            "v": "0 confident-wrong answers in 800 test queries."
-          },
-          {
-            "k": "Audit trail",
-            "v": "Merges, deploys and publishes are logged to a ledger that refuses edits and deletes. A correction is a new row pointing at the one it replaces."
-          },
-          {
-            "k": "Model routing",
-            "v": "Which model handles which job lives in one config file; a pre-commit check blocks hardcoded model IDs."
-          },
-          {
-            "k": "Latency and context",
-            "v": "Not yet measured end to end in ARCS. The one timing I have is a lookup cut from 5.15 s to 1.55 s. This is what I would learn from your team first."
-          },
-          {
-            "k": "Full results",
-            "v": "Pre-registration and every result, failures included, are available on request."
-          }
-        ]
-      },
-      {
-        "tab": "first",
-        "type": "list",
-        "audience": "both",
-        "h2": "What I would do first on Contract OS",
-        "intro": "A proposal to test, not a plan to impose.",
-        "items": [
-          {
-            "dot": "c",
-            "html": "<strong>Weeks 1 to 2:</strong> agree with Farah which decisions move to me first and which stay with her. Sit on customer calls with the legal engineers and trace one contract end to end through the systems that customer actually uses."
-          },
-          {
-            "dot": "c",
-            "html": "<strong>Week 3:</strong> learn how accuracy and unauthorized action rate are measured today, and who owns each eval."
-          },
-          {
-            "dot": "g",
-            "html": "<strong>Week 4:</strong> one written decision doc, argued with the founders before it is a decision: the next bet, the deal it serves, the metric it moves, and what we will not build."
-          }
-        ]
-      },
-      {
-        "tab": "pre",
-        "type": "prose",
-        "audience": "internal",
-        "_doc": "TRUE NORTH: one sentence — the disciplined posture for this interaction.",
-        "h2": "True North",
-        "p": [
-          "Show the work: evidence over polish, name the revenue gap before they do, and ask how their metrics are defined."
-        ]
-      },
-      {
-        "tab": "pre",
-        "type": "keyvalue",
-        "audience": "internal",
-        "_doc": "CONTEXT: logistics + the two hardest reads (register, intent).",
-        "h2": "Context",
-        "rows": [
-          {
-            "k": "Date",
-            "v": "Recruiter call 2026-10-29 (Richard, Oxbow). Founder interview not yet scheduled."
-          },
-          {
-            "k": "Register",
-            "v": "Technical, founder-led, academic (Farah teaches AI PM at Columbia)."
-          },
-          {
-            "k": "Their goal",
-            "v": "Hand off product ownership of Contract OS to a PM who ties roadmap to revenue and trust."
-          },
-          {
-            "k": "Y-Gate",
-            "v": "YELLOW: strong method fit, revenue evidence unproven."
-          }
-        ]
-      },
-      {
-        "tab": "pre",
-        "type": "list",
-        "audience": "internal",
-        "_doc": "INTEL: who they are now, most-diagnostic facts first. dot: c/g/'' for cyan/gold/green.",
-        "h2": "Intel",
-        "intro": "Founders: Pierre Arnoux (CEO, ex-IBM Watson), Jacques Arnoux (CTO), Farah Gasmi (CPO). CLO Laurie Ehrlich not profiled (the PDF on file is a different person).",
-        "items": [
-          {
-            "dot": "c",
-            "html": "<strong>Farah is also VP of AI Products at Icertis</strong> (since Nov 2025): split attention is why she is handing off Contract OS."
-          },
-          {
-            "dot": "c",
-            "html": "<strong>Her published metrics</strong>: >92% review accuracy, <1% Unauthorized Action rate, 94% issue detection."
-          },
-          {
-            "dot": "g",
-            "html": "<strong>Farah's background</strong>: Spotify Data Science Platform PM; Argo Group (insurance) Data &amp; AI platform; adjunct AI PM, Columbia."
-          },
-          {
-            "dot": "g",
-            "html": "<strong>Jacques</strong>: Yahoo, Netsil, Nutanix AI-Ops; published on latency-sensitive web apps; Traycer board."
-          },
-          {
-            "dot": "",
-            "html": "<strong>Logistics</strong>: NYC, 5 days onsite, no equity, no relocation."
-          }
-        ]
-      },
-      {
-        "tab": "pre",
-        "type": "list",
-        "audience": "internal",
-        "_doc": "QUESTIONS + LANDMINES: what to ask, what a good answer sounds like, what not to do.",
-        "h2": "Questions &amp; landmines",
-        "intro": "Ask about measurement; carry the revenue gap honestly.",
-        "items": [
-          {
-            "dot": "",
-            "html": "How is the &lt;1% unauthorized action rate measured, per action or per contract, and who defines authorized? &#183; look for: a named eval owner and reference set."
-          },
-          {
-            "dot": "",
-            "html": "What will Farah keep owning, and what is handed off first? &#183; look for: a concrete first scope."
-          },
-          {
-            "dot": "",
-            "html": "How do the forward-deployed legal engineers feed the roadmap today? &#183; look for: a named breakage."
-          },
-          {
-            "dot": "",
-            "html": "<span style='color:var(--red)'>Landmine:</span> inventing revenue numbers, or implying ARCS had a human engineering team."
-          },
-          {
-            "dot": "",
-            "html": "<span style='color:var(--red)'>Landmine:</span> no equity and 5 days onsite; decide your floor before comp comes up."
-          }
-        ]
-      },
-      {
-        "tab": "exante",
-        "type": "receipt",
-        "audience": "internal",
-        "_doc": "EX-ANTE RECEIPT filed BEFORE the event so it can be scored after. Keep every field.",
-        "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
-        "fields": [
-          {
-            "label": "D &#183; Sharpened question",
-            "value": "Is Dioptra's first-PM seat a real ownership handoff that Zach can win on AI rigor despite thin revenue evidence?"
-          },
-          {
-            "label": "E &#183; Entity",
-            "value": "Farah (HM), Pierre, Jacques, Richard at Oxbow; Icertis as parent."
-          },
-          {
-            "label": "W &#183; Window",
-            "value": "this-quarter"
-          },
-          {
-            "label": "Hypothesis / expecting to see",
-            "value": "Oxbow advances Zach to a founder interview within 7 business days (by 2026-11-09), and the first founder question set probes revenue impact."
-          },
-          {
-            "label": "Predicted Y-gate",
-            "value": "YELLOW: method fit strong, revenue proof unproven."
-          },
-          {
-            "label": "Pre-committed move",
-            "value": "Lead with evals and trust, name the revenue gap with one real past example, ask how their metrics are defined."
-          },
-          {
-            "label": "Belief most likely to update",
-            "value": "P3: agents-as-engineering-team lands as a plus."
-          },
-          {
-            "label": "Falsifier",
-            "value": "No founder interview by 2026-11-09, or feedback that the agent-built framing reads as no team experience."
-          }
-        ]
-      },
-      {
-        "tab": "forge",
-        "type": "prose",
-        "audience": "internal",
-        "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic — you cannot grade your own output.",
-        "h2": "Exhibit 2 &#183; Exogenous Forge",
-        "p": [
-          "Every load-bearing claim run against external substrates ({{sources}}) and adjudicated by an independent skeptic. GROUNDED = source-forced. INFERENCE = my read, not forced. STRUCK = overreach, corrected."
-        ]
-      },
-      {
-        "tab": "forge",
-        "type": "table",
-        "audience": "internal",
-        "_doc": "CLAIM ADJUDICATION. Ruling column values: GROUNDED / INFERENCE / STRUCK.",
-        "h2": "Claim adjudication",
-        "columns": [
-          "Claim",
-          "Ruling",
-          "Source force"
-        ],
-        "rows": [
-          [
-            "{{claim}}",
-            "GROUNDED",
-            "{{two-substrate / verbatim}}"
-          ],
-          [
-            "{{claim}}",
-            "STRUCK",
-            "{{why it was overreach}}"
-          ]
-        ]
-      },
-      {
-        "tab": "recoil",
-        "type": "keyvalue",
-        "audience": "internal",
-        "_doc": "RECEIPT CLOSED: predicted vs actual, which fork hit, the load-bearing quote.",
-        "h2": "Receipt closed &#183; ex-ante vs actual",
-        "rows": [
-          {
-            "k": "Predicted",
-            "v": "{{from Exhibit 1}}"
-          },
-          {
-            "k": "Actual",
-            "v": "{{what happened}}"
-          },
-          {
-            "k": "Fork hit",
-            "v": "{{which branch}}"
-          },
-          {
-            "k": "Load-bearing",
-            "v": "{{their verbatim close}}"
-          }
-        ]
-      },
-      {
-        "tab": "recoil",
-        "type": "belief_log",
-        "audience": "internal",
-        "h2": "Belief Log &#183; confidence x conviction"
-      },
-      {
-        "tab": "recoil",
-        "type": "worked_example",
-        "audience": "internal",
-        "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.",
-        "h2": "Belief trajectory",
-        "intro": "{{what moved}}",
-        "close": "{{the honest correction}}"
-      },
-      {
-        "tab": "recoil",
-        "type": "list",
-        "audience": "internal",
-        "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.",
-        "h2": "Kairos, quiet signals &amp; risks",
-        "intro": "{{...}}",
-        "items": [
-          {
-            "dot": "",
-            "html": "<strong>Kairos:</strong> {{peak-resonance moment}}"
-          },
-          {
-            "dot": "g",
-            "html": "<strong>Quiet signal:</strong> {{non-obvious read}}"
-          }
-        ]
-      },
-      {
-        "tab": "wargame",
-        "type": "kinematics_table",
-        "audience": "internal",
-        "h2": "Kinematic manifold &#183; measured (D1-D3)"
-      },
-      {
-        "tab": "wargame",
-        "type": "list",
-        "audience": "internal",
-        "_doc": "GAUNTLET: BAR (ruin edge) / LAB (Loki/Advisor/Bayesian) / COURT (constitutional) / red-blue-steel.",
-        "h2": "The gauntlet",
-        "intro": "Adversarial pass on the opportunity, not the person.",
-        "items": [
-          {
-            "dot": "",
-            "html": "<strong>BAR (ruin):</strong> {{the exposed edge}}"
-          },
-          {
-            "dot": "g",
-            "html": "<strong>LAB &#183; Loki:</strong> {{adversarial read, steel-manned down}}"
-          },
-          {
-            "dot": "c",
-            "html": "<strong>COURT:</strong> {{constitutional check}}"
-          }
-        ]
-      },
-      {
-        "tab": "wargame",
-        "type": "table",
-        "audience": "internal",
-        "_doc": "ATG PRE-MORTEM: assume it's dead in 90 days; walk the critical path, each node gated by THEIR actual objection. Mark the earliest in-your-court node the bottleneck.",
-        "h2": "ATG pre-mortem &#183; critical path x their objections",
-        "columns": [
-          "Node",
-          "Their objection (verbatim)",
-          "Failure mode",
-          "Handling"
-        ],
-        "rows": [
-          [
-            "1. {{node}}",
-            "{{their words}}",
-            "{{how it dies here}}",
-            "{{your move}}"
-          ]
-        ]
-      },
-      {
-        "tab": "defense",
-        "type": "rosetta",
-        "audience": "internal",
-        "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.",
-        "h2": "The same model, both directions",
-        "left": "Their world",
-        "right": "This engine",
-        "rows": [
-          [
-            "{{their primitive}}",
-            "{{your equivalent}}"
-          ]
-        ]
-      },
-      {
-        "tab": "defense",
-        "type": "table",
-        "audience": "internal",
-        "_doc": "DEFENSIBILITY MATRIX: the 5 verbs x 4 proofings. Air-gap=grounded-external. Water=survives messy input. Fire=survives adversarial scrutiny. Bomb=antifragile (being wrong sharpens it).",
-        "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
-        "columns": [
-          "Verb",
-          "Air-gap",
-          "Water-proof",
-          "Fire-proof",
-          "Bomb-proof"
-        ],
-        "rows": [
-          [
-            "Analyze",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
-          ],
-          [
-            "Assess",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
-          ],
-          [
-            "Evaluate",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
-          ],
-          [
-            "Synthesize",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
-          ],
-          [
-            "Recapitulate",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}",
-            "{{...}}"
-          ]
-        ]
-      },
-      {
-        "tab": "defense",
-        "type": "prose",
-        "audience": "internal",
-        "_doc": "ANTIFRAGILE CORE + LOSSLESS-TRANSLATION TEST. Prove being-wrong is the feature, then restate the whole thing in their vocabulary with zero loss.",
-        "h2": "Antifragile core &amp; the lossless test",
-        "p": [
-          "{{why a falsified prior is the highest-information event, not a failure}}",
-          "Lossless test: {{restate the method entirely in their register; if it holds with no jargon, it is defensible to them}}"
-        ]
-      }
-    ]
+  "closed_call": {
+   "date": "2026-11-04",
+   "with": "Doug Rosa (Dioptra talent), 36 min, Teams",
+   "source": "Granola 4eae3077-a377-4645-9a52-6c4230579634; Gmail thread 1a19ccc405f37e3f"
   }
+ },
+ "opportunity": {
+  "audience": "internal",
+  "engagement_type": "candidacy",
+  "req_reality": 2,
+  "req_reality_basis": "Doug, 2026-11-04 [5:34]: \"this is actually our first product manager hire\" and \"the person coming in here is going to be taking 95 to 100% of that role over.\" JD + budget confirmed; decision owner (Farah) not yet met, so 2, not 3.",
+  "_doc_req_reality": "GATE (scripts/req_reality_gate.py, pre-commit). For a candidacy: 0 no JD/no owner met · 1 verbal shape, no JD or budget · 2 JD posted/cut, budget implied · 3 JD+budget+decision-owner met. y_state cannot be GREEN at <=1. At <=1 spend artifacts only as pilot/product, never as a JD; no negotiation moves (comp, leverage, process). Ask it on the first screen: 'does this land in an existing function, or is it bespoke and still being architected?' Fanatics + HypeLab both failed here: _STATE/job-search/postmortem-fanatics.md",
+  "y_state": "YELLOW",
+  "topology": "CONVERGENT",
+  "nci_prior": 55,
+  "nci_post": 58,
+  "note": "Recruiter screen passed to the founder gate: advocate warm, decision owner unmet. Role sharpened to intake triage + product, not forward-deployed engineering.",
+  "artifacts_after_signal": "n/a: req_reality never fell to <= 1"
+ },
+ "beliefs": [
+  {
+   "id": "P1",
+   "audience": "internal",
+   "claim": "The trust and evals framing is the strongest hook for Farah.",
+   "evidence": "Untested on Farah. Doug's own pitch leaned on it: narrow context per agent \"reduces hallucinations\" [15:49]; guardrails and a sandboxed workspace [19:30].",
+   "inference": "IMP",
+   "confidence": [
+    0.7,
+    0.72
+   ],
+   "conviction": "MED",
+   "verdict": "HOLDS (untested on the HM)"
+  },
+  {
+   "id": "P2",
+   "audience": "internal",
+   "claim": "Revenue evidence is the main gap and will be probed.",
+   "evidence": "Doug never asked for revenue proof; his growth question was about how Zach thinks [27:48, restated 31:56]. He framed value as time saved [32:32]. Zach gave 40% PQL lift and $7B assets launched inside his background answer; neither is a revenue number.",
+   "inference": "EXP",
+   "confidence": [
+    0.75,
+    0.6
+   ],
+   "conviction": "MED",
+   "verdict": "WEAKENED at recruiter stage; still expected with Farah"
+  },
+  {
+   "id": "P3",
+   "audience": "internal",
+   "claim": "Agents-as-engineering-team reads as a plus, not a dodge, to this team.",
+   "evidence": "Doug asked how AI native Zach is and about his own AI workflows [20:23, 27:48]. Zach never said agents replace a team, so silence is not acceptance (skeptic).",
+   "inference": "IMP",
+   "confidence": [
+    0.55,
+    0.55
+   ],
+   "conviction": "LOW",
+   "verdict": "UNTESTED, not falsified"
+  },
+  {
+   "id": "P4",
+   "audience": "internal",
+   "claim": "The seat is product ownership plus intake triage, not forward-deployed engineering.",
+   "evidence": "\"our legal engineers are really those forward-deployed engineers\" [35:32]; enablement lawyers \"constantly bombarded by feature requests\" [8:44-9:36].",
+   "inference": "EXP",
+   "confidence": [
+    0.5,
+    0.8
+   ],
+   "conviction": "MED",
+   "verdict": "NEW, corrects the FDE hat; placement still open (\"always opportunistic\" [35:01])"
+  },
+  {
+   "id": "P5",
+   "audience": "internal",
+   "claim": "Technical jargon will not survive Doug's relay to Farah.",
+   "evidence": "Doug followed it (\"Correct\", \"same page\" [18:44]); his \"grain of salt\" [17:37] was about his own product knowledge. The risk is the retelling, not comprehension.",
+   "inference": "IMP",
+   "confidence": [
+    0.5,
+    0.6
+   ],
+   "conviction": "MED",
+   "verdict": "NEW, INFERENCE (skeptic downgraded my own read)"
+  }
+ ],
+ "kinematic_series": {
+  "dt": 1.0,
+  "series": [
+   {
+    "key": "advance",
+    "audience": "internal",
+    "label": "P(advance to Farah call), by call segment",
+    "color": "#00F0FF",
+    "points": [
+     0.55,
+     0.5,
+     0.58,
+     0.55,
+     0.62
+    ],
+    "grounding_quote": "If she gives me the thumbs up, basically I'd schedule a virtual call for the 2 of you to jump on. If that goes well, then it's a come in and meet the team."
+   }
+  ]
+ },
+ "insights": [
+  {
+   "audience": "both",
+   "plane": "idea",
+   "title": "Their architecture rhymes with the work sample",
+   "text": "Clause-level agents with narrow context, an orchestration agent, and a lawyer-written operating-procedure prompt map onto evidence-only answers and a deterministic boundary around the model."
+  },
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "Doug is a translator, not the judge",
+   "text": "He relays to Farah in his own words. Whatever he can repeat simply is what reaches her; the jargon will not survive the relay."
+  }
+ ],
+ "next_steps": [
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Review and send the Gmail draft with the dioptra.arcs.care link and passcode (drafted 2026-11-04, not sent)."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Prep the Farah call: 60-second career story; lead with feature-request triage; one revenue example; no ARCS vocabulary."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Score the ex-ante on 2026-11-09: Farah call scheduled or not."
+  }
+ ],
+ "redaction_policy": {
+  "rules": [
+   "Method can cross; subject-about-them cannot.",
+   "Show your own updates, never their intent-scores.",
+   "Architecture crosses; weights/sauce do not."
+  ]
+ },
+ "page": {
+  "layout": "tabs",
+  "header": {
+   "eyebrow": "Zach Harris &#183; Candidate brief",
+   "title": "Contract OS &#183; Staff Product Manager",
+   "sub": "How I own an AI product and plan its roadmap, for Dioptra."
+  },
+  "tabs": [
+   {
+    "id": "answer",
+    "label": "The answer"
+   },
+   {
+    "id": "evidence",
+    "label": "How it works"
+   },
+   {
+    "id": "first",
+    "label": "First 30 days"
+   },
+   {
+    "id": "pre",
+    "label": "Pre-Call"
+   },
+   {
+    "id": "exante",
+    "label": "Ex-Ante"
+   },
+   {
+    "id": "forge",
+    "label": "Forge"
+   },
+   {
+    "id": "recoil",
+    "label": "Recoil"
+   },
+   {
+    "id": "wargame",
+    "label": "War Game"
+   },
+   {
+    "id": "defense",
+    "label": "Defensibility"
+   }
+  ],
+  "blocks": [
+   {
+    "tab": "answer",
+    "type": "prose",
+    "audience": "both",
+    "h2": "What AI product have I owned, and how did I plan the roadmap?",
+    "p": [
+     "The AI product I have owned end to end is ARCS, a decision tool that labels every claim confirmed or unconfirmed. A user brings a consequential question. An LLM pipeline returns a recommendation with its reasoning, what is confirmed, what is not, and a confidence state.",
+     "I built it with Claude Code agents as my engineering team. Agents do what the spec says, not what I meant, so I write the acceptance test first. What I have not had is a human engineer pushing back on a decision; I expect Dioptra's team to.",
+     "What ARCS does not prove yet is the revenue side. With Contract OS I would tie every roadmap bet to a deal it wins or an expansion it unlocks, and learn which bets travel through Icertis's customers and which through Dioptra's own deals."
+    ]
+   },
+   {
+    "tab": "answer",
+    "type": "list",
+    "audience": "both",
+    "h2": "Four decisions that shaped the roadmap",
+    "intro": "Each with the reason it exists.",
+    "items": [
+     {
+      "dot": "c",
+      "html": "<strong>Code, not the model, sets the confidence state.</strong> Code maps the model's reported signals plus the user's stated stakes to a state. The model still supplies most of those inputs; checking them against something outside the model is the next step."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Trust is in the data model.</strong> Each answer stores its confirmed and unconfirmed claims and its computed state, so a user can reopen it later and see why. A claim nothing can verify stays unconfirmed."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Success is defined before shipping.</strong> Pass rules are frozen before a benchmark runs. Two of my own predictions were wrong, and the benchmark caught both."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Saying no is on the roadmap.</strong> The backlog records what is deliberately not built and why."
+     }
+    ]
+   },
+   {
+    "tab": "evidence",
+    "type": "keyvalue",
+    "audience": "both",
+    "h2": "How it is enforced, with real numbers",
+    "rows": [
+     {
+      "k": "Release gate",
+      "v": "One pre-registered benchmark, run once, thresholds frozen: 10 checks, 8 passed, 2 failed (an edited-text index at 85.0% against an 85% kill line, and a prefilter). Neither failure was adopted. The one new feature, a lineage index, shipped only after clearing its bar: a 69.9% wall-time cut."
+     },
+     {
+      "k": "Safety",
+      "v": "0 confident-wrong answers in 800 test queries."
+     },
+     {
+      "k": "Audit trail",
+      "v": "Merges, deploys and publishes are logged to a ledger that refuses edits and deletes. A correction is a new row pointing at the one it replaces."
+     },
+     {
+      "k": "Model routing",
+      "v": "Which model handles which job lives in one config file; a pre-commit check blocks hardcoded model IDs."
+     },
+     {
+      "k": "Latency and context",
+      "v": "Not yet measured end to end in ARCS. The one timing I have is a lookup cut from 5.15 s to 1.55 s. This is what I would learn from your team first."
+     },
+     {
+      "k": "Full results",
+      "v": "Pre-registration and every result, failures included, are available on request."
+     }
+    ]
+   },
+   {
+    "tab": "first",
+    "type": "list",
+    "audience": "both",
+    "h2": "What I would do first on Contract OS",
+    "intro": "A proposal to test, not a plan to impose.",
+    "items": [
+     {
+      "dot": "c",
+      "html": "<strong>Weeks 1 to 2:</strong> agree with Farah which decisions move to me first and which stay with her. Sit on customer calls with the legal engineers and trace one contract end to end through the systems that customer actually uses."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Week 3:</strong> learn how accuracy and unauthorized action rate are measured today, and who owns each eval."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Week 4:</strong> one written decision doc, argued with the founders before it is a decision: the next bet, the deal it serves, the metric it moves, and what we will not build."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "TRUE NORTH: one sentence — the disciplined posture for this interaction.",
+    "h2": "True North",
+    "p": [
+     "Show the work: evidence over polish, name the revenue gap before they do, and ask how their metrics are defined."
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "keyvalue",
+    "audience": "internal",
+    "_doc": "CONTEXT: logistics + the two hardest reads (register, intent).",
+    "h2": "Context",
+    "rows": [
+     {
+      "k": "Date",
+      "v": "Recruiter call 2026-10-29 (Richard, Oxbow). Founder interview not yet scheduled."
+     },
+     {
+      "k": "Register",
+      "v": "Technical, founder-led, academic (Farah teaches AI PM at Columbia)."
+     },
+     {
+      "k": "Their goal",
+      "v": "Hand off product ownership of Contract OS to a PM who ties roadmap to revenue and trust."
+     },
+     {
+      "k": "Y-Gate",
+      "v": "YELLOW: strong method fit, revenue evidence unproven."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "INTEL: who they are now, most-diagnostic facts first. dot: c/g/'' for cyan/gold/green.",
+    "h2": "Intel",
+    "intro": "Founders: Pierre Arnoux (CEO, ex-IBM Watson), Jacques Arnoux (CTO), Farah Gasmi (CPO). CLO Laurie Ehrlich not profiled (the PDF on file is a different person).",
+    "items": [
+     {
+      "dot": "c",
+      "html": "<strong>Farah is also VP of AI Products at Icertis</strong> (since Nov 2025): split attention is why she is handing off Contract OS."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>Her published metrics</strong>: >92% review accuracy, <1% Unauthorized Action rate, 94% issue detection."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Farah's background</strong>: Spotify Data Science Platform PM; Argo Group (insurance) Data &amp; AI platform; adjunct AI PM, Columbia."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Jacques</strong>: Yahoo, Netsil, Nutanix AI-Ops; published on latency-sensitive web apps; Traycer board."
+     },
+     {
+      "dot": "",
+      "html": "<strong>Logistics</strong>: NYC, 5 days onsite, no equity, no relocation."
+     }
+    ]
+   },
+   {
+    "tab": "pre",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "QUESTIONS + LANDMINES: what to ask, what a good answer sounds like, what not to do.",
+    "h2": "Questions &amp; landmines",
+    "intro": "Ask about measurement; carry the revenue gap honestly.",
+    "items": [
+     {
+      "dot": "",
+      "html": "How is the &lt;1% unauthorized action rate measured, per action or per contract, and who defines authorized? &#183; look for: a named eval owner and reference set."
+     },
+     {
+      "dot": "",
+      "html": "What will Farah keep owning, and what is handed off first? &#183; look for: a concrete first scope."
+     },
+     {
+      "dot": "",
+      "html": "How do the forward-deployed legal engineers feed the roadmap today? &#183; look for: a named breakage."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Landmine:</span> inventing revenue numbers, or implying ARCS had a human engineering team."
+     },
+     {
+      "dot": "",
+      "html": "<span style='color:var(--red)'>Landmine:</span> no equity and 5 days onsite; decide your floor before comp comes up."
+     }
+    ]
+   },
+   {
+    "tab": "exante",
+    "type": "receipt",
+    "audience": "internal",
+    "_doc": "EX-ANTE RECEIPT filed BEFORE the event so it can be scored after. Keep every field.",
+    "h2": "Exhibit 1 &#183; Ex-Ante Decision Receipt",
+    "fields": [
+     {
+      "label": "D &#183; Sharpened question",
+      "value": "Is Dioptra's first-PM seat a real ownership handoff that Zach can win on AI rigor despite thin revenue evidence?"
+     },
+     {
+      "label": "E &#183; Entity",
+      "value": "Farah (HM), Pierre, Jacques, Richard at Oxbow; Icertis as parent."
+     },
+     {
+      "label": "W &#183; Window",
+      "value": "this-quarter"
+     },
+     {
+      "label": "Hypothesis / expecting to see",
+      "value": "Oxbow advances Zach to a founder interview within 7 business days (by 2026-11-09), and the first founder question set probes revenue impact."
+     },
+     {
+      "label": "Predicted Y-gate",
+      "value": "YELLOW: method fit strong, revenue proof unproven."
+     },
+     {
+      "label": "Pre-committed move",
+      "value": "Lead with evals and trust, name the revenue gap with one real past example, ask how their metrics are defined."
+     },
+     {
+      "label": "Belief most likely to update",
+      "value": "P3: agents-as-engineering-team lands as a plus."
+     },
+     {
+      "label": "Falsifier",
+      "value": "No founder interview by 2026-11-09, or feedback that the agent-built framing reads as no team experience."
+     }
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "FORGE method (ROM #6): a claim only stands if something EXTERNAL forces it. Route through an independent skeptic — you cannot grade your own output.",
+    "h2": "Exhibit 2 &#183; Exogenous Forge",
+    "p": [
+     "Every load-bearing read from the 2026-11-04 Doug call run against the Granola transcript and the Gmail thread, and adjudicated by an independent skeptic agent that fetched the transcript itself. GROUNDED = transcript-forced. INFERENCE = my read, not forced. STRUCK = overreach, corrected.",
+     "Omission drift the skeptic flagged: Doug restated his growth question [31:56] after Zach's answer, a mismatch, not a clean pass · P&L on a grace period [5:05]-[5:16]: Icertis funds growth, 4 to 12 to 25 people · No reaction to the offered 30-day plan; coffee declined for virtual [34:00]"
+    ]
+   },
+   {
+    "tab": "forge",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "CLAIM ADJUDICATION. Ruling column values: GROUNDED / INFERENCE / STRUCK.",
+    "h2": "Claim adjudication",
+    "columns": [
+     "Claim",
+     "Ruling",
+     "Source force"
+    ],
+    "rows": [
+     [
+      "Next step: Doug briefs Farah, then a virtual call, then a team visit; no date",
+      "GROUNDED",
+      "[33:33] verbatim; no timeframe anywhere"
+     ],
+     [
+      "The BC/Newton opener landed",
+      "INFERENCE",
+      "[0:26] \"BC boy myself\" is rapport; no link to how he rated Zach"
+     ],
+     [
+      "Doug never pushed back on agents as the engineering team",
+      "INFERENCE",
+      "Zach never made the claim on the call, so silence is not acceptance; P3 untested"
+     ],
+     [
+      "Revenue not probed; Zach volunteered revenue numbers",
+      "INFERENCE",
+      "Doug asked for background [20:23]; 40% is a PQL lift and $7B is assets launched, neither is revenue"
+     ],
+     [
+      "Trust and evals not discussed at all",
+      "STRUCK",
+      "No metrics, but trust came up both ways: \"reduces hallucinations\" [15:49], \"guardrails\" [19:30], Zach [26:43]"
+     ],
+     [
+      "3-hat framing overlaps an existing function",
+      "GROUNDED",
+      "[35:32] \"our legal engineers are really those forward-deployed engineers\"; overlap is the FDE hat only"
+     ],
+     [
+      "Zach's jargon outran Doug",
+      "INFERENCE",
+      "Doug's \"grain of salt\" [17:37] was about his own product knowledge; he said \"Correct\" and \"same page\" [18:44] to the jargon"
+     ],
+     [
+      "Doug opened the RFP engine link",
+      "GROUNDED",
+      "[27:48] \"I just clicked on it\"; opened, not reviewed"
+     ],
+     [
+      "Doug raised 5-day onsite first; Zach accepted without hesitation",
+      "STRUCK",
+      "Doug asked about Brooklyn onsite [1:14]; Zach asked about 5 days [2:01] and hedged \"for the right opportunities\" [2:23]"
+     ],
+     [
+      "First PM hire, 95-100% of product; Farah not met",
+      "GROUNDED",
+      "[5:34] verbatim; placement still open: \"always opportunistic\" [35:01]"
+     ],
+     [
+      "Doug half-took the 'her baby' framing",
+      "GROUNDED",
+      "[7:57] \"A little bit, a little bit\", then client expectation management"
+     ],
+     [
+      "Career story and receipt explanation ran long",
+      "GROUNDED",
+      "[20:53]-[26:08] one Mm-hmm; again [28:28]-[31:00], Zach: \"I think I'm going off on a tangent\""
+     ],
+     [
+      "Hiring is opportunistic beyond the posted role",
+      "GROUNDED",
+      "[35:01] \"if we see somebody that we like... let's hire them\""
+     ],
+     [
+      "~100% POC adoption, JP Morgan client, 24-48 hour demos",
+      "GROUNDED (hedged)",
+      "[10:35] [32:57] [11:21] \"sometimes\"; unaudited, from a talent lead"
+     ]
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "keyvalue",
+    "audience": "internal",
+    "_doc": "RECEIPT CLOSED: predicted vs actual, which fork hit, the load-bearing quote.",
+    "h2": "Receipt closed &#183; ex-ante vs actual",
+    "rows": [
+     {
+      "k": "Predicted",
+      "v": "Oxbow advances Zach to a founder interview by 2026-11-09; the first founder question set probes revenue."
+     },
+     {
+      "k": "Actual",
+      "v": "Founder-side screen with Doug Rosa (talent) on 2026-11-04, 36 min. Next: Doug briefs Farah, then a virtual call with her if she approves, then an in-person team visit. No date set."
+     },
+     {
+      "k": "Fork hit",
+      "v": "OPEN, on track. Step one of the path happened; the founder interview itself is pending Farah. Falsifier not hit: no feedback that the agent-built framing reads as no team experience."
+     },
+     {
+      "k": "Load-bearing",
+      "v": "If she gives me the thumbs up, basically I'd schedule a virtual call for the 2 of you to jump on. If that goes well, then it's a come in and meet the team."
+     }
+    ]
+   },
+   {
+    "tab": "recoil",
+    "type": "belief_log",
+    "audience": "internal",
+    "h2": "Belief Log &#183; confidence x conviction"
+   },
+   {
+    "tab": "recoil",
+    "type": "worked_example",
+    "audience": "internal",
+    "_doc": "Belief trajectory chart (auto from kinematic_series). For an EXTERNAL twin, only 'both' series render.",
+    "h2": "Belief trajectory",
+    "intro": "Advance odds dipped on the onsite question, recovered on the product walk-through, and closed a little above the prior on a concrete next step.",
+    "close": "The honest correction: my role framing (part forward-deployed engineer) collided with an existing function, and my vocabulary outran the person who will retell my story to Farah."
+   },
+   {
+    "tab": "recoil",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "KAIROS / QUIET SIGNALS / RISK FLAGS. dot: green=resonance, gold=signal, red=risk.",
+    "h2": "Kairos, quiet signals &amp; risks",
+    "intro": "What moved and what to watch.",
+    "items": [
+     {
+      "dot": "",
+      "html": "<strong>Kairos:</strong> the founder-dynamics exchange [6:30-7:48]. Zach named contrarian founders as a green flag; Doug built on it unprompted, then half-took the 'her baby' framing (\"A little bit, a little bit\")."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Quiet signal:</strong> Doug opened the RFP engine link during the call [27:48]. Interest, not a verdict."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>Quiet signal:</strong> \"if we see somebody that we like... let's hire them\" [35:01]. Hiring is opportunistic; there is a risk of being slotted into a different seat."
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Risk:</strong> \"our legal engineers are really those forward-deployed engineers\" [35:32]. The 3-hat pitch overlapped an existing team."
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Risk:</strong> five days in Dumbo from Fairfield County. Doug raised Brooklyn onsite first [1:14]; Zach asked about the 5 days himself and hedged \"for the right opportunities\" [2:23]. Doug: \"we are particular about 5 days a week.\""
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Risk:</strong> Zach did not ask what stood out in his background or what the founders want that is not in the JD."
+     },
+     {
+      "dot": "r",
+      "html": "<strong>Kintsugi:</strong> two of my own post-call reads were struck by the skeptic: that Zach accepted the 5-day onsite without hesitation, and that trust never came up. A third (jargon outran Doug) was downgraded to inference."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "kinematics_table",
+    "audience": "internal",
+    "h2": "Kinematic manifold &#183; measured (D1-D3)"
+   },
+   {
+    "tab": "wargame",
+    "type": "list",
+    "audience": "internal",
+    "_doc": "GAUNTLET: BAR (ruin edge) / LAB (Loki/Advisor/Bayesian) / COURT (constitutional) / red-blue-steel.",
+    "h2": "The gauntlet",
+    "intro": "Adversarial pass on the opportunity, not the person.",
+    "items": [
+     {
+      "dot": "",
+      "html": "<strong>BAR (ruin):</strong> the commute. A 5-day onsite at roughly an hour each way is the edge most likely to fail after an offer, not before."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>LAB &#183; Loki:</strong> Doug's \"really interesting background\" is a talent lead's courtesy. The real gate is Farah reading Doug's summary, and that summary is probably \"consultant with his own AI tool.\""
+     },
+     {
+      "dot": "g",
+      "html": "<strong>LAB &#183; Bayesian:</strong> a warm recruiter screen with a named next step is a moderate signal. Prior 0.55 to about 0.62, not higher until Farah books."
+     },
+     {
+      "dot": "c",
+      "html": "<strong>COURT:</strong> counterpart-facing words stay plain: no ARCS, Manana Sprints or decision-receipt vocabulary. This file stays internal."
+     }
+    ]
+   },
+   {
+    "tab": "wargame",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "ATG PRE-MORTEM: assume it's dead in 90 days; walk the critical path, each node gated by THEIR actual objection. Mark the earliest in-your-court node the bottleneck.",
+    "h2": "ATG pre-mortem &#183; critical path x their objections",
+    "columns": [
+     "Node",
+     "Their objection (verbatim)",
+     "Failure mode",
+     "Handling"
+    ],
+    "rows": [
+     [
+      "1. Doug briefs Farah (BOTTLENECK, in my court)",
+      "\"I have to have a conversation with Farah... see what her thought process is\"",
+      "Doug's retelling flattens Zach into jargon or a consultant",
+      "Send the drafted link email so Farah reads the page, not a paraphrase"
+     ],
+     [
+      "2. Farah virtual call",
+      "\"she prefers virtual because there's no commute time\"",
+      "Fails on revenue proof or on role fit (PM vs FDE)",
+      "Lead with feature-request triage, one revenue example, 60-second story"
+     ],
+     [
+      "3. In-person team visit",
+      "\"we are particular about 5 days a week\"",
+      "Zach's own hedge [2:23] resurfaces as commute doubt",
+      "Decide the 5-day answer before the Farah call; state it once, without a hedge"
+     ],
+     [
+      "4. Offer",
+      "\"if we see somebody that we like... let's hire them\"",
+      "Slotted into a GTM or other seat",
+      "Name the PM seat explicitly"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "rosetta",
+    "audience": "internal",
+    "_doc": "ROSETTA: translate your method into THEIR native register (their framework <-> yours). This is the trust move for a rigor-driven counterpart.",
+    "h2": "The same model, both directions",
+    "left": "Their world",
+    "right": "This engine",
+    "rows": [
+     [
+      "Clause split into 5 to 50 narrow agents",
+      "Each claim labelled confirmed or unconfirmed"
+     ],
+     [
+      "Lawyer-written 10-20 page operating-procedure prompt",
+      "Spec and acceptance test written before the build"
+     ],
+     [
+      "Narrow context reduces hallucination",
+      "Answer only with the cited clause, or say \"not covered\""
+     ],
+     [
+      "Sandboxed workspace the lawyer controls",
+      "A hard line between what code computes and what the model writes"
+     ],
+     [
+      "Filtering enablement feature requests",
+      "Each roadmap bet filed with a prediction and a falsifier, scored later"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "table",
+    "audience": "internal",
+    "_doc": "DEFENSIBILITY MATRIX: the 5 verbs x 4 proofings. Air-gap=grounded-external. Water=survives messy input. Fire=survives adversarial scrutiny. Bomb=antifragile (being wrong sharpens it).",
+    "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings",
+    "columns": [
+     "Verb",
+     "Air-gap",
+     "Water-proof",
+     "Fire-proof",
+     "Bomb-proof"
+    ],
+    "rows": [
+     [
+      "Analyze",
+      "Transcript quoted with timestamps",
+      "Read through Doug's hedges",
+      "Skeptic agent re-read it independently",
+      "Two of my reads struck, two downgraded"
+     ],
+     [
+      "Assess",
+      "req_reality set from Doug's verbatim line",
+      "Holds without a sales-cycle number",
+      "Not raised to 3 on warmth alone",
+      "Kept at 2 until Farah is met"
+     ],
+     [
+      "Evaluate",
+      "Ex-ante scored against the actual next step",
+      "Open fork, not forced to a win",
+      "Falsifier checked and not hit",
+      "P2 weakened, booked rather than smoothed"
+     ],
+     [
+      "Synthesize",
+      "Pre-mortem rows use their words",
+      "Works if Farah never sees the page",
+      "Commute named as the ruin edge",
+      "Bottleneck is in my court"
+     ],
+     [
+      "Recapitulate",
+      "Next steps dated and owned",
+      "Draft waits for Zach's send",
+      "Score again 2026-11-09",
+      "A miss there teaches the base rate"
+     ]
+    ]
+   },
+   {
+    "tab": "defense",
+    "type": "prose",
+    "audience": "internal",
+    "_doc": "ANTIFRAGILE CORE + LOSSLESS-TRANSLATION TEST. Prove being-wrong is the feature, then restate the whole thing in their vocabulary with zero loss.",
+    "h2": "Antifragile core &amp; the lossless test",
+    "p": [
+     "The corrections are the most useful output. Pitching myself as part forward-deployed engineer would have failed in front of Farah, because her legal engineers already do that work. My own post-call read was wrong twice (the onsite hedge, trust never discussed), and an independent re-read caught it. Both kinds of error are cheap to fix before the next call and expensive after it.",
+     "Lossless test, in their words: I sort the feature requests your enablement lawyers bring back, decide what gets built, what becomes process and what waits, and I check each decision later against what customers actually used."
+    ]
+   }
+  ]
+ }
 }

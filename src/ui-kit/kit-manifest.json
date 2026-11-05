@@ -491,12 +491,11 @@
    "jobs": [],
    "pages": [
     "_ARTIFACTS/2026-09-26-loop-closing-wager/loop-closing-wager.html",
-    "_ARTIFACTS/brooks-audit-onepager.html",
     "_ARTIFACTS/postmortem-manufactured-role.html",
     "_ARTIFACTS/til-01-warmth-routes-you.html",
     "scripts/counterpart_onepager_build.py"
    ],
-   "reuse": 5,
+   "reuse": 4,
    "near_duplicates": [
     {
      "rule": ".section-label",
@@ -3067,7 +3066,8 @@
     "recoil-player"
    ],
    "jobs": [
-    "uikit-recoil-player"
+    "uikit-recoil-player",
+    "fc-rows-compost-2026-11"
    ],
    "pages": [
     "scripts/kit_pull.py"
@@ -3367,6 +3367,52 @@
    "near_duplicates": []
   },
   {
+   "id": "40-token-tuner",
+   "number": "40",
+   "name": "Token Tuner",
+   "group": "Tools",
+   "subtitle": "Internal only. Open with ?tune: sliders bound to :root tokens (measure, spacing, type, line-height), Copy CSS gives one line to paste back.",
+   "family": "kit",
+   "path": "src/ui-kit/recoil-report/40-token-tuner.html",
+   "data_shape": [],
+   "fidelity": [],
+   "classes": [
+    "lane"
+   ],
+   "prim_blocks": [
+    "40-token-tuner"
+   ],
+   "alignment": {
+    "tokens": true,
+    "pullable": true,
+    "no_raw_signal_hex": true
+   },
+   "templates": [],
+   "jobs": [
+    "token-tuner-kit"
+   ],
+   "pages": [
+    "_ARTIFACTS/docs-reconciliation.html",
+    "_ARTIFACTS/ds-backlog-inducer.html",
+    "_ARTIFACTS/era-dial/bits-per-frame.html",
+    "_ARTIFACTS/era-dial/era-dial.html",
+    "_ARTIFACTS/phosphor.html",
+    "_ARTIFACTS/raw-capture.html",
+    "_ARTIFACTS/tao-print-paper.html",
+    "_ARTIFACTS/tao-print-prototype.html",
+    "_ARTIFACTS/tao-print-studio.html",
+    "public/dj.html",
+    "public/forge-cut.html",
+    "public/forge-pattern.html",
+    "public/honest.html",
+    "public/lewoof-playbook.html",
+    "public/monolith.html",
+    "public/playground.html"
+   ],
+   "reuse": 16,
+   "near_duplicates": []
+  },
+  {
    "id": "grammar-chips",
    "number": "",
    "name": "Grammar Chips",
@@ -3412,16 +3458,18 @@
    },
    "templates": [
     "candidate-brief",
-    "tool-getting-started"
+    "tool-getting-started",
+    "tool-index"
    ],
    "jobs": [
     "unified-design-system-receipts-reports"
    ],
    "pages": [
     "_ARTIFACTS/job-search/swipe-board.html",
-    "public/good-rfp-engine.html"
+    "public/good-rfp-engine.html",
+    "public/honest.html"
    ],
-   "reuse": 2,
+   "reuse": 3,
    "near_duplicates": [
     {
      "rule": ".row",

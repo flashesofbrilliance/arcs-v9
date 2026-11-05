@@ -180,6 +180,25 @@
         ".themebtn"
       ],
       "min_signatures": 5
+    },
+    "tool-index": {
+      "mode": "read",
+      "kind": "catalog",
+      "description": "Hub page that lists tools as cards linking out, grouped under one section label per stated maturity. Wears no --tool-accent: a hub carries no tool swatch. public/good.html (rendered by scripts/connector_render.py) shares the same card grammar, which is the second page the fork rule requires.",
+      "canonical_examples": [
+        "public/good-instruments.html"
+      ],
+      "signature_selectors": [
+        ".sec-lbl",
+        ".cards",
+        ".card",
+        ".cbar",
+        ".cbody",
+        ".chead",
+        ".cname",
+        ".cfoot"
+      ],
+      "min_signatures": 4
     }
   }
 }
