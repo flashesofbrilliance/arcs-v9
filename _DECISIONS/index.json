@@ -709,5 +709,14 @@
     "stability": "STABLE",
     "gate": "depends on PR #1893 merging",
     "file": "ADR-092-backlog-rows-only-through-the-append-script.md"
+  },
+  {
+    "id": "ADR-093",
+    "title": "ADR-093: Counterpart citation needs consent on record",
+    "status": "PROPOSED",
+    "y_state": "YELLOW",
+    "stability": "SHIFTING",
+    "gate": "Zach's ruling",
+    "file": "ADR-093-counterpart-citation-needs-consent-on-record.md"
   }
 ]
