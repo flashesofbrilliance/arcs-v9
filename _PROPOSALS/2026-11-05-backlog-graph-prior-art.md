@@ -124,6 +124,21 @@ no open row was made obsolete by these findings.
 Graph after the pass: 466 rows, 294 active; the five OPEN repair rows sit in wave 0 and are ready now; 0 new findings;
 `backlog_status_check.py --check` and `universe_jtbd_adapter.py --check` both PASS.
 
+### Reconcile and prioritization follow-up (2026-11-05, from a comment on the page)
+
+- **The 6 job ids that matched no row were real work filed under rows never minted** (22 receipts). Six rows were minted
+  from that evidence, with states taken from the receipts: `monday-fde-offer` COMPOSTED (rejected 2026-11-02), `myally-hub`
+  DONE, `recoil-player-template` DONE, `linkedin-alert-intake` DONE, `myally-revised-offer` BLOCKED on My Ally (due
+  2026-11-06), `prl-phase-1-2` BLOCKED on Zach confirming whether phase 1.2 closed. All 86 backlog job ids now resolve. The
+  ledger was not touched (append-only; no superseding receipts needed).
+- **Families found on the way:** routing `myally-hub` to `public/myally-hub.html` gave 6 orphan My Ally pages a job (3 baseline
+  entries removed, 3 triage holds cleared). Two new triage holds cover `prl-phase-1-2` and `recoil-player-template`, whose
+  tools (Zapier, Tidio, demo data) have no atom.
+- **How rows are prioritized today:** `backlog_graph.py` sorts by dependency wave, then `rank`, `order`, `priority`, then id.
+  169 of 294 active rows carry none of the three, so most ties break alphabetically. New row `backlog-tiebreak-rule` (P2)
+  replaces the alphabetical tie-break with downstream leverage, then cost band. The repair rows above are not given a global
+  `rank`, which would put them ahead of all other work; their order within the set is K1, K4, tie-break rule, K2, K3, test.
+
 ## Worth open sourcing?
 
 Measured against the open-source skills queue (resumeware: standalone, generic, MIT, no ARCS words, gauntlet before publish):
