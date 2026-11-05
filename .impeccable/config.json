@@ -840,6 +840,24 @@
         ],
         "createdAt": "2026-11-04T21:50:00.000Z",
         "reason": "Carried from the hand-built storyboard, not new: 1.25 leading sits on display-size video frame lines (.what at lede size, .v-stat at head size), which the static scan reads as body text. Not repaired here; the storyboard's type is the owning session's call (seam booked in _ARTIFACTS/counterpart-onepager/README.md)."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "public/louisville-proposal.html"
+        ],
+        "createdAt": "2026-11-05T21:00:00.000Z",
+        "reason": "Louisville proposal: the light theme (OS-following, with a toggle) and the print palette Zach asked for, the same light-world scope as the myally pages and the existing _ARTIFACTS/brooks-audit-onepager.html waiver; DESIGN.md is dark-only. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (Louisville proposal, 2026-11-05)"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "public/louisville-proposal.html"
+        ],
+        "createdAt": "2026-11-05T21:00:00.000Z",
+        "reason": "Louisville proposal: the 'For Brooks Thomas, Louisville Brands' byline is a mono tracked label (label role), chosen by the 2026-11-05 brand gate over mixed-case mono, which read as code. Not body copy."
       }
     ]
   },
