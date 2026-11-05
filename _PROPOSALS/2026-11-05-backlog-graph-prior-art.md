@@ -45,7 +45,7 @@ SOX change audits). It also found three places where the draft overstated what o
 | Active rows whose named tool resolves (HAVE) | 116; 147 NOT-RESOLVED | `backlog_graph.py` |
 | Rows with a `door` field | 105 of 460 (13 one-way) | row scan |
 | Active rows with a `ruin` rating | 99 of 288 | `backlog_graph.py --lens risk` |
-| Job and tool gate | PASS with 0 new and **552 held** in the baseline (396 orphan-tool, 153 orphan-job); reading from 2026-11-03, stale since HEAD moved | `universe_jtbd_adapter.py --pulse` |
+| Job and tool gate | PASS with 0 new and **506 held** in the baseline (352 orphan-tool, 151 orphan-job, 1 blocker, 2 probes); the 2026-11-03 pulse read 552 | `universe_jtbd_adapter.py --check`, run 2026-11-05 |
 | Receipts since 2026-10-20 with both `job_id` and `tool_id` | 295 of 323 (91%) | SELECT on `public.decision_receipt` |
 | Of the distinct `job_id` values on those receipts | 152 distinct; 86 are `job:backlog:*`; **80 of the 86 match a row in the file** (6 do not) | SELECT plus a scan of the file |
 
@@ -55,9 +55,11 @@ The receipt number measures filled-in fields, not resolved links: the CHECK cons
 ## Corrections to what the draft said our code does
 
 1. **Ripeness does not only detect.** `backlog_ripeness.py --apply-closes` rewrites SECRETLY-DONE rows.
-2. **A one-way door does not route a human.** `readiness_packet.py` prints "suggested tier 4 (a cue, not a rule)" and runs only
-   when someone calls it or `/readiness`. Today `agent-receipts-audit-first-conversion` (one-way, abort plan still DRAFT) is
-   first in the ready list with no gate in front of it.
+2. **A one-way door routes a person only on the assembly line.** `readiness_packet.py` prints "suggested tier 4 (a cue, not a
+   rule)" and runs only when called. `scripts/line_triage.py` does send one-way rows to R3 (the parent drafts a decision card),
+   so the skeptic's "does not route a human" was too strong. But `/backlog-graph` still lists
+   `agent-receipts-audit-first-conversion` (one-way, abort plan still DRAFT) first under ready now, and its nudge points there.
+   (Kintsugi seam: this item was itself overstated in the corrections list and is fixed here.)
 3. **The state gate is narrower than "pre-commit and CI."** The hook runs only when the hooks path is set and the backlog files are
    staged; the CI step runs on pushes to main, and Actions are off. A stale claim is a warning, not a failure, unless `--strict`.
 4. **Backlog fates are not enforced.** `fates.py` treats the backlog as a soft class (reported, never blocking) and is not wired to
@@ -74,7 +76,7 @@ The receipt number measures filled-in fields, not resolved links: the CHECK cons
 | F3 | Dependency graph, longest-path waves, ready now, biggest unblockers, cycle and dangling findings | Beads `bd ready` ("tasks with no open blockers"); Taskmaster `next`; GitHub issue dependencies | EXISTS | Waves and unblocker ranking are small extensions. |
 | F4 | Ripeness: prose triggers parsed into checks ("PR #N merges", "after <date>", "ADR-N accepted"); SECRETLY-DONE | GitHub [closing keywords](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue) and Projects [PR-merged automation](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations); expiring TODOs ([todo-or-die-python](https://pypi.org/project/todo-or-die-python/), [todo_lint](https://rubygems.org/gems/todo_lint)); [Arnica snooze](https://www.arnica.io/announcement/new-feature-announcement-snooze---unblock-critical-pr-merges-without-losing-track-of-risk) | PARTIAL | One grammar over several event kinds. Each kind exists alone. |
 | F5 | Tool fit: each row's `route.tool` resolved against repo files and the tool catalog | [agentskills required-tools proposal](https://github.com/agentskills/agentskills/discussions/392); [preflight tool detection](https://understandingdata.com/posts/agentic-tool-detection/); [Mem²Evolve](https://arxiv.org/pdf/2604.10923) gap detection; CMDB checks that a named configuration item exists | PARTIAL | Checking a persistent work item against the repo before it is picked. Today 147 of 288 active rows do not resolve. |
-| F6 | Job and tool graph gates (ORPHAN-TOOL, ORPHAN-JOB, DEP-CYCLE, DEAD-FILE-REF, RUNTIME-DEP-NO-PROBE, BLOCKER-NO-RESOLVE-BY) with a shrink-only baseline | Ratchets: [imbue-ai/ratchets](https://docs.rs/crate/ratchets/latest/source/DESIGN.md), [pest-ratchets](https://packagist.org/packages/offset-smoker/pest-ratchets); orphans: Backstage [isOrphan](https://backstage.io/docs/reference/plugin-catalog.isorphan); JTBD orphan checks in the [TBD plugin](https://claudepluginhub.com/plugins/lagz0ne-tbd-skill) | PARTIAL | The rules applied to a graph of jobs and tools. Each rule is standard, and 552 known violations are held. |
+| F6 | Job and tool graph gates (ORPHAN-TOOL, ORPHAN-JOB, DEP-CYCLE, DEAD-FILE-REF, RUNTIME-DEP-NO-PROBE, BLOCKER-NO-RESOLVE-BY) with a shrink-only baseline | Ratchets: [imbue-ai/ratchets](https://docs.rs/crate/ratchets/latest/source/DESIGN.md), [pest-ratchets](https://packagist.org/packages/offset-smoker/pest-ratchets); orphans: Backstage [isOrphan](https://backstage.io/docs/reference/plugin-catalog.isorphan); JTBD orphan checks in the [TBD plugin](https://claudepluginhub.com/plugins/lagz0ne-tbd-skill) | PARTIAL | The rules applied to a graph of jobs and tools. Each rule is standard, and 506 known violations are held. |
 | F7 | `door`, `abort`, `rollback` on the row; readiness card labels each line MEASURED, DECLARED, CUE or UNCONFIRMED | [agentops one-way-door skill](https://www.skills.sh/boshu2/agentops/one-way-door); [Revoco](https://github.com/rsh1k/revoco) rollback-before-act; [GSN assurance cases](https://scsc.uk/gsn-standard) (claims tied to evidence, undeveloped claims marked); NASA and DoD verification matrices (each requirement tagged by how it was verified, or open); [SLSA provenance](https://slsa.dev/provenance/v1) (claims a project makes vs claims the build platform attests); [ICD 203](https://www.dni.gov/files/documents/ICD/ICD-203.pdf) sourcing and confidence | PARTIAL | Four evidence labels on an agent's backlog item. An old idea in a new place, not a new mechanism. |
 | F8 | Risk lens and tradeoff lens kept apart; unrated rows listed as unrated | PMBOK risk register kept separate from prioritization; SAFe ROAM board | EXISTS | Nothing to claim. |
 | F9 | Append-only receipt ledger (UPDATE and DELETE refused, `supersedes` for corrections); each ship event names `job_id` and `tool_id`; coverage metric | Jira [deployments linked to issue keys](https://community.atlassian.com/t5/Jira-questions/What-makes-a-Deployment-appear-in-Jira-for-a-specific-issue/qaq-p/2589141); SOX and ITIL audits of production changes without an approved ticket; [SLSA](https://slsa.dev/provenance/v1) `builder.id`; [Agent Trace](https://github.com/cursor/agent-trace); [OpenTelemetry GenAI spans](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans); hash-chained agent logs ([VerityLedger](https://pypi.org/project/verityledger/), [omega-audit](https://pypi.org/project/omega-audit/)) | EXISTS | Weaker than SOX reconciliation today, because the coverage counts filled fields and does not resolve them. |
@@ -94,12 +96,40 @@ Tally: 7 EXISTS, 7 PARTIAL (counting the combination), 0 with no prior art found
   of them has a door, a backout plan, an evidence label or a ship receipt on a work item. The gap is real; the ideas to fill it
   are old. That is a positioning point ("change management for an agent's backlog"), not an invention.
 
+## Hyperstition pass (ADR-086 pass 2, run 2026-11-05)
+
+One pass, per ADR-086: state the world where the backlog graph already works as a gated change record for agent work, list
+the claims that world needs, try to break each, and emit a repair row only for a crack with citable evidence. A crack with
+no evidence emits no row. Pass 2 may add a gate, never remove one. No new dependency anywhere: every row is stdlib Python,
+`gh` 2.97 (already used) or a git built-in.
+
+| # | Claim the working world needs | Loki result | Evidence | Fate |
+|---|---|---|---|---|
+| K1 | The ready-now list names only rows safe to start | CRACK: a one-way row with a DRAFT abort ranks first | `scripts/backlog_graph.py`, row `agent-receipts-audit-first-conversion` | row `ready-now-door-decision-split` (P2) |
+| K2 | Receipt coverage measures the link to planned work | CRACK: counts filled fields; 6 of 86 backlog ids match no row | `scripts/receipt_coverage.py`, `2026-10-20-job-tool-ids.sql` | row `receipt-coverage-resolved-split` (P3) |
+| K3 | The GitHub projection carries the graph | CRACK: edges are body text; `gh` has `--add-blocked-by` | `scripts/backlog_issue_sync.py` | row `issue-sync-native-blocked-by` (P3) |
+| K4 | Parallel sessions cannot lose backlog edits in a merge | CRACK: no `.gitattributes`; the one existing row proposes `union`, wrong for a file edited in place | `scripts/backlog_merge_by_id.py`, row `jsonl-ledgers-merge-union` | row `backlog-merge-driver-by-id` (P2); gate added to `jsonl-ledgers-merge-union` |
+| K5 | One-way rows reach a person | HOLDS on the assembly line (`line_triage.py` gives R3); the gap is K1 | `scripts/line_triage.py` | no row |
+| K6 | Ripeness never writes rows | HOLDS as declared: `--apply-closes` is opt-in, SECRETLY-DONE only, self-tested | `scripts/backlog_ripeness.py` | no row |
+| K7 | The state gate always runs | HOLDS locally: session start arms the hook; CI off is a standing choice | `.claude/hooks/session-start.sh` | no row |
+| K8 | Backlog fates are enforced | HOLDS by design: soft on purpose to avoid taxonomy overfit | `scripts/fates.py` | no row |
+| K9 | The job and tool graph is clean | CRACK, already owned: 506 held | `universe_jtbd_adapter.py --check` | existing `jtbd-orphan-jobs-groom`, `jtbd-standing-tools` (count refreshed) |
+| U1 | The readiness card is worth extracting | UNKNOWN: no evidence either way | this proposal | falsifier row `readiness-card-decision-test`, then `readiness-card-oss-extract` HOLDING behind it (one-way: public repo, Zach creates it) |
+
+Cut at the Loki step (no row): a "real stop" hook for one-way rows (agents cannot send; Zach does, and K1 covers the nudge),
+making backlog fates hard, a CI path for the state gate, a positioning note (this proposal is the write-up), and a new row for
+the 147 NOT-RESOLVED tools (the assembly line already routes them to R-1, "fill it first"). Nothing existing was composted:
+no open row was made obsolete by these findings.
+
+Graph after the pass: 466 rows, 294 active; the five OPEN repair rows sit in wave 0 and are ready now; 0 new findings;
+`backlog_status_check.py --check` and `universe_jtbd_adapter.py --check` both PASS.
+
 ## Worth open sourcing?
 
 Measured against the open-source skills queue (resumeware: standalone, generic, MIT, no ARCS words, gauntlet before publish):
 
 1. **Do not open source the tracker.** It would be a weaker Beads: private work rows, ARCS vocabulary (COMPOSTED, ripe,
-   NOTOMATION), a 552-row held baseline, no installer.
+   NOTOMATION), a 506-row held baseline, no installer.
 2. **Maybe one small skill, only if a test earns it: `readiness-card`.** Input: any work item (Beads issue, GitHub issue, JSON row).
    Output: six lines (door, prepared, unconfirmed, trigger, abort and undo, evidence coverage), each labelled MEASURED, DECLARED,
    CUE or UNCONFIRMED. Pitch it honestly as verification-matrix labels for agent work items, built to sit beside Beads. Before
