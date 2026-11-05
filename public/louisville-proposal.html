@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Outside Read: AI Build</title>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('brooksTheme');if(t==='light'||t==='dark')d.setAttribute('data-theme',t);}catch(e){}})();</script>
+<style>
+/* ARCS Recoil Report — Design Tokens */
+:root {
+  
+  --bg:        #020408;
+  --surface:   #0d1117;
+  --surface-2: #121820;
+  --border:    #1e293b;
+
+  
+  --text:      #e2e8f0;
+  --muted:     #7a8699;
+  --dimmed:    #8391a7;
+
+  
+  --cyan:      #00F0FF;
+  --green:     #00FF9D;
+  --gold:      #FFD700;
+  --red:       #FF4D6D;
+
+  
+  --cyan-bg:   rgba(0, 240, 255, 0.07);
+  --green-bg:  rgba(0, 255, 157, 0.07);
+  --gold-bg:   rgba(255, 215,   0, 0.07);
+  --red-bg:    rgba(255,  77, 109, 0.07);
+
+  
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
+
+  
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  
+  --font-mono:  'GeistMono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:  'InstrumentSans', 'Work Sans', system-ui, sans-serif;
+  --font-display: 'BricolageGrotesque', 'Work Sans', system-ui, sans-serif;
+}
+
+
+:root {
+  
+  --elevated:       #111827;
+  --text-secondary: #94a3b8;
+  --orange:         #ff9d3c;   
+  --violet:         #A78BFA;   
+  --magenta:        #E879F9;   
+  --orange-bg:      rgba(255, 157, 60, 0.07);
+  --violet-bg:      rgba(167, 139, 250, 0.07);
+  --magenta-bg:     rgba(232, 121, 249, 0.07);
+
+  
+  --ds-r-xs: 3px; --ds-r-sm: 6px; --ds-r-md: 10px; --ds-r-lg: 16px; --ds-r-pill: 999px;
+
+  
+  --fs-label:    0.6875rem;
+  --fs-body:     0.925rem;
+  --fs-headline: 1.15rem;
+  --fs-display:  clamp(1.5rem, 4vw, 2.4rem);
+
+  
+  --ds-font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Newsreader', serif;
+  
+  --ds-font-sans:    system-ui, -apple-system, 'Inter', 'Inter Fallback', sans-serif;
+  --ds-font-mono:    'JetBrains Mono', 'JetBrains Mono Fallback', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  
+  --dur-fast: 120ms; --dur-base: 240ms; --dur-sweep: 1500ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  
+  --mo-pose-rate:   8;       
+  --mo-flash-max:   3;       
+  --mo-lum-swing:   0.10;    
+  --mo-hold-min:    180ms;   
+  --mo-loop-min:    170ms;   
+  --mo-shutter-ms:  650ms;   
+}
+
+
+:root{--secondary:var(--text-secondary);--mono:var(--ds-font-mono);--sans:var(--ds-font-sans);--serif:var(--ds-font-display);--measure:720px;--fs-step:1.25rem;--fs-title:0.95rem;--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:var(--fs-body);line-height:1.6;padding:var(--sp-5) 20px 96px;-webkit-font-smoothing:antialiased;}
+.page{max-width:var(--measure);margin:0 auto;display:flex;flex-direction:column;gap:var(--sp-5);}
+section{display:flex;flex-direction:column;gap:var(--sp-2);}
+p,li{max-width:none;text-wrap:pretty;}
+
+
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--ds-r-pill); border: 1px solid var(--border); color: var(--text-secondary); }
+.chip.cyan { color: var(--cyan); border-color: var(--cyan); background: var(--cyan-bg); }
+.chip.green { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.chip.gold { color: var(--gold); border-color: var(--gold); background: var(--gold-bg); }
+.chip.red { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--ds-r-md); padding: 14px 16px; }
+.tile .v { font-family: var(--ds-font-mono); font-size: var(--fs-display); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.tile .v.cyan { color: var(--cyan); }
+.tile .k { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.callout { max-width: var(--measure, 640px); background: var(--gold-bg); border: 1px solid var(--gold); border-radius: var(--ds-r-sm); padding: 12px 16px; color: var(--text-secondary); }
+.callout.red { background: var(--red-bg); border-color: var(--red); }
+.callout b { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-right: 6px; }
+.callout.red b { color: var(--red); }
+
+
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.ref { font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--dimmed); }
+.ref a { color: var(--cyan); text-decoration: none; }
+.ref a:hover, .ref a:focus-visible { text-decoration: underline; }
+
+
+.section-label { font-family: var(--ds-font-mono); font-size: var(--fs-label); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.led { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ds-font-mono); font-size: var(--fs-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); }
+.led::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.led.on::before { background: var(--green); }
+.led.alert::before { background: var(--red); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; }
+
+
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 1px solid var(--border); border-radius: var(--ds-r-md); overflow: hidden; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { text-align: center; font-size: var(--fs-body); line-height: 1.25; padding: 10px 6px; cursor: pointer; color: var(--text-secondary); background: var(--elevated); border-left: 1px solid var(--border); }
+.seg label:first-of-type { border-left: 0; }
+.seg input:checked + label { background: var(--cyan-bg); color: var(--text); box-shadow: inset 0 -2px 0 var(--cyan); }
+.seg input:focus-visible + label { outline: 2px solid var(--cyan); outline-offset: -2px; }
+
+
+h1{font-family:var(--sans);font-size:var(--fs-display);font-weight:700;letter-spacing:-0.02em;line-height:1.2;text-wrap:balance;}
+.verdict{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);margin-top:var(--sp-3);}
+.aside{color:var(--secondary);margin-top:var(--sp-2);}
+.slabel{font-family:var(--sans);font-size:var(--fs-step);font-weight:600;letter-spacing:-0.01em;line-height:1.25;color:var(--text);text-wrap:balance;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--ds-r-md);padding:20px 22px;}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--sp-4);}
+.hhead{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--secondary);padding-bottom:var(--sp-1);}
+.hhead.c{color:var(--cyan);}
+.hrow{display:contents;}
+.hrow > div{padding:var(--sp-2) 0;border-top:1px solid var(--border);}
+.hrow .ref{display:block;margin-top:6px;}
+.seg-wrap .panel{display:none;}
+.seg-wrap .panels{padding-top:var(--sp-3);min-height:7.5em;}
+.seg-wrap .case{font-family:var(--sans);font-size:var(--fs-title);font-weight:600;color:var(--text);margin-bottom:4px;}
+.seg-wrap .panel p:not(.case){color:var(--text-secondary);}
+.seg label{font-size:var(--fs-body);}
+.lockup{display:flex;flex-direction:column;gap:6px;}
+.lockup .deck{color:var(--secondary);text-wrap:pretty;}
+#c1:checked ~ .panels .p1,#c2:checked ~ .panels .p2,#c3:checked ~ .panels .p3{display:block;}
+.seg-wrap .seg{position:relative;}
+.vh{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;}
+#c1:checked ~ .seg label[for=c1],#c2:checked ~ .seg label[for=c2],#c3:checked ~ .seg label[for=c3]{background:var(--cyan-bg);color:var(--text);box-shadow:inset 0 -2px 0 var(--cyan);}
+#c1:focus-visible ~ .seg label[for=c1],#c2:focus-visible ~ .seg label[for=c2],#c3:focus-visible ~ .seg label[for=c3]{outline:2px solid var(--cyan);outline-offset:-2px;}
+.proof{display:flex;flex-direction:column;gap:6px;}
+.seg-wrap b{font-weight:600;}
+.proofrow{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap;}
+.prooflink{display:inline-block;padding:10px 0;color:var(--cyan);font-family:var(--mono);font-size:var(--fs-body);text-underline-offset:2px;}
+fieldset.card{min-inline-size:0;}
+.seg label{min-height:44px;display:flex;align-items:center;justify-content:center;}
+.prose{display:flex;flex-direction:column;gap:var(--sp-2);}
+.prose .price{font-weight:600;}
+.prooflink:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+.closing{font-family:var(--serif);font-size:var(--fs-step);font-weight:500;line-height:1.45;color:var(--text);}
+footer p{color:var(--secondary);text-align:center;}
+footer a{color:inherit;text-underline-offset:2px;}
+.forline{margin-top:var(--sp-1);}
+@media print{.seg-wrap .seg{display:none;}.seg-wrap .panel{display:block;margin-bottom:var(--sp-2);}.seg-wrap .panels{padding-top:0;min-height:0;}}
+
+:root{color-scheme:dark;}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}}
+:root[data-theme="light"]{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;}
+header{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:var(--sp-2);align-items:start;}
+header > *{grid-column:1 / -1;}
+header > .tools{grid-row:1;justify-self:end;display:flex;align-items:center;gap:0;margin-right:-12px;margin-bottom:var(--sp-2);}
+.pdfbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;width:44px;padding:0;color:var(--secondary);border:0;border-radius:var(--ds-r-sm);text-decoration:none;font-family:var(--mono);font-size:var(--fs-label);font-weight:700;letter-spacing:0.08em;}
+.pdfbtn:hover,.pdfbtn:focus-visible{color:var(--cyan);}
+.pdfbtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+.themebtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;margin:0;color:var(--secondary);background:none;border:0;border-radius:var(--ds-r-sm);cursor:pointer;}
+.themebtn[hidden]{display:none;}
+.themebtn[data-next="light"] .i-moon,.themebtn[data-next="dark"] .i-sun{display:none;}
+.themebtn:hover,.themebtn:focus-visible{color:var(--cyan);}
+.themebtn:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+@media print{:root{--bg:#f7f8fa;--surface:#ffffff;--surface-2:#eef1f5;--elevated:#eef1f5;--border:#d5dbe3;--text:#1c2430;--text-secondary:#475262;--secondary:#475262;--muted:#566170;--dimmed:#475262;--cyan:#00606b;--cyan-bg:rgba(0,96,107,0.09);--green:#047857;--green-bg:rgba(4,120,87,0.09);--gold:#6b5400;--gold-bg:#fff3c4;--red:#b42344;--red-bg:rgba(180,35,68,0.08);color-scheme:light;} .themebtn,.tools{display:none!important;} body{background:#fff!important;padding:0!important;} .page{gap:var(--sp-3);max-width:none;} body{font-size:10.5pt;line-height:1.5;} h1{font-size:22pt;} .verdict{font-size:13pt;margin-top:var(--sp-2);} .slabel{font-size:13pt;} .hrow > div{padding:10px 0;} .card{padding:14px 16px;} section{gap:var(--sp-1);} .lockup,.hrow > div,.prose p,.seg-wrap{break-inside:avoid;} .lockup{break-after:avoid;}}
+@page{size:Letter;margin:0.5in 0.6in;}
+
+@media (max-width:640px){
+  body{padding-top:var(--sp-4);}
+  .page{gap:var(--sp-4);}
+  .hgrid{grid-template-columns:1fr;}
+  .hhead.c{display:none;}
+  .hrow > .hc{border-top:none;padding-top:0;}
+  .hrow > .hc::before{content:"Worth asking: ";font-weight:600;color:var(--cyan);}
+  .card{padding:18px 16px;}
+  .seg label{padding:10px 4px;white-space:nowrap;}
+}
+
+:root{--fs-title:var(--fs-body);}
+.forline{font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:var(--sp-2);}
+.prose .ref{font-family:var(--sans);font-size:var(--fs-body);letter-spacing:normal;color:var(--secondary);}
+.prose .ref .prooflink{display:inline;padding:0;font:inherit;color:var(--cyan);text-decoration:underline;text-underline-offset:2px;}
+section:has(> .closing){margin-top:calc(var(--sp-3) - var(--sp-5));}
+footer p{text-align:left;}
+@media (max-width:640px){.seg label{font-size:var(--fs-body);white-space:nowrap;padding:8px 4px;} section:has(> .closing){margin-top:calc(var(--sp-3) - var(--sp-4));}}
+@media print{:root{--fs-body:0.875rem;--fs-step:1.0833rem;--fs-display:1.6667rem;} body{font-size:var(--fs-body);} h1{font-size:var(--fs-display);} .verdict,.slabel,.closing{font-size:var(--fs-step);} .verdict{line-height:1.4;} .aside{margin-top:var(--sp-1);} .page{gap:var(--sp-2);} section:has(> .closing){margin-top:0;} .card{padding:12px 16px;} .lockup{gap:2px;} .seg-wrap .panel{margin-bottom:var(--sp-1);} .seg-wrap .panel:last-child{margin-bottom:0;} .hhead{padding-bottom:4px;} .hrow > div{padding:8px 0;} .hgrid{break-inside:avoid;}}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<main class="page">
+
+<header>
+  <h1>An outside read on your AI build, through one flavor decision</h1>
+  <div class="tools">
+    <a class="pdfbtn" href="/proposal/outside-read.pdf" download="Outside-read-Louisville-Brands.pdf" aria-label="Download as PDF" title="Download as PDF"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg></a>
+  <button type="button" class="themebtn" id="themebtn" aria-label="Switch to light mode" title="Switch to light mode" hidden><svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
+  </div>
+  <p class="ref forline">For Brooks Thomas, Louisville Brands</p>
+  <p class="verdict">You asked where you are on the arc of your AI build, where it's least efficient, and which hypotheses are failing. I'd answer that through one real decision: Your criteria's call on Adobo, traced from its inputs to how it turns out, before the next 20,000-bag MOQ rides on a call like it.</p>
+  <p class="aside">Analyzing your own stuff from inside is hard: Confirmation and recency bias. An outside read checks the work you and your team have built; it doesn't replace it.</p>
+</header>
+
+<section>
+  <div class="lockup"><h2 class="slabel">The decision: Adobo</h2><p class="deck">Where it stands sets the test.</p></div>
+  <fieldset class="card seg-wrap">
+    <legend class="vh">Where Adobo stands</legend>
+    <input type="radio" name="adobo" id="c1" checked class="vh"><input type="radio" name="adobo" id="c2" class="vh"><input type="radio" name="adobo" id="c3" class="vh">
+    <div class="seg"><label for="c1">Not launched</label><label for="c2">Launched</label><label for="c3">Shelved</label></div>
+    <div class="panels">
+      <div class="panel p1"><p class="case">If it hasn't launched</p><p>Your criteria scores Adobo with me in the room. I write down the call, what it relies on, and the date you'll know, before the order goes in. The readout gives you that written call and the date to check it.</p></div>
+      <div class="panel p2"><p class="case">If it has launched</p><p>I put your criteria's call next to how Adobo actually sold, and trace where it held and where it didn't.</p></div>
+      <div class="panel p3"><p class="case">If it got shelved</p><p>The same test on the next flavor on the calendar.</p></div>
+    </div>
+  </fieldset>
+</section>
+
+<section>
+  <div class="lockup"><h2 class="slabel">Questions worth putting to your team</h2><p class="deck" data-voice="joint">Useful whether or not I'm involved. Each comes from something you raised when we spoke, as I understood it.</p></div>
+  <div class="hgrid">
+    <div class="hhead">What you raised</div><div class="hhead c">Worth asking</div>
+    <div class="hrow"><div class="hh">Volume-based indicators can miss a signal that's still rising, and every day without a call costs time to market.</div><div class="hc">Your criteria already reads whether a flavor has peaked or is still rising. On the calls it made, how often was that read right, and what would have told you it was wrong before the MOQ?</div></div>
+    <div class="hrow"><div class="hh">You've built early-alarm signals for partner risk by hand before, and an analysis before a partnership is signed is critical.</div><div class="hc">Before the next collab is signed, what analysis runs on the partner, and would it catch a problem as it starts to bubble up after?</div></div>
+    <div class="hrow"><div class="hh">When a simulation misses, either the data was bad or the hypothesis was wrong.</div><div class="hc">For the last miss, which was it, and can your setup tell the two apart next time?</div></div>
+    <div class="hrow"><div class="hh">You don't want a 20,000-bag MOQ placed without an early indicator.</div><div class="hc">Which flavor calls carry a number that says stop, agreed before the order?</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="lockup"><h2 class="slabel">If you want the outside read</h2><p class="deck">What it takes, and what you get.</p></div>
+  <div class="prose">
+    <p>Two weeks and about three hours of your team's time, across three sessions: A kickoff with you, a screen‑share where you, and anyone else on the warehouse and MCP side, walk me through how the criteria scored Adobo, and a readout.</p>
+    <p>You get one page: What the Adobo trace shows about where the build stands, what's least efficient and which hypotheses aren't holding, against the five things you said you want from it (accuracy, efficiency, speed, cost, and a single source of truth that isn't growing data bloat and tech debt). Anything one flavor can't show is marked as not checked. Plus three next steps, each with a number for success and a date to check it. Anything I'm unsure of is marked as unsure, and your pushback goes on the page.</p>
+    <p>Your data stays with you: Total sales figures only, nothing at customer level, and a mutual NDA first.</p>
+    <p><span class="price">$5,000, half at kickoff and half at the readout.</span> You keep all of the work.</p>
+    <p class="ref">Something I built on the same rule: It answers RFP questions with the clause behind it, or says "not covered," and it publishes its own misses. <a class="prooflink" href="https://good.arcs.care/rfp-engine">good.arcs.care/rfp-engine</a></p>
+  </div>
+</section>
+
+<section>
+  <p class="closing">If this is useful, tell me where Adobo stands and I'll shape it around that. If the timing's off, no reply needed.</p>
+</section>
+
+<footer><p>Zach Harris · <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a></p></footer>
+
+</main>
+<script>(function(){var d=document.documentElement,b=document.getElementById('themebtn');if(!b)return;var mq=window.matchMedia?matchMedia('(prefers-color-scheme: light)'):null;function cur(){var t=d.getAttribute('data-theme');if(t)return t;return mq&&mq.matches?'light':'dark';}function label(){var n=cur()==='light'?'dark':'light';b.setAttribute('data-next',n);b.setAttribute('aria-label','Switch to '+n+' mode');b.title='Switch to '+n+' mode';}b.hidden=false;label();b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';d.setAttribute('data-theme',n);try{localStorage.setItem('brooksTheme',n);}catch(e){}label();});if(mq&&mq.addEventListener)mq.addEventListener('change',label);})();</script>
+</body>
+</html>

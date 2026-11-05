@@ -830,6 +830,24 @@
         ],
         "createdAt": "2026-11-05T15:30:00.000Z",
         "reason": "Mirrors 81dc7d47: tile values 1.6rem so $5,000 fits one line, phone segment labels 0.85rem, carried from the hand-built page. Plus the US Letter print block (9.5pt root, sizes in rem/pt for a 2-page print), which the static detector reads as screen sizes since it does not scope @media print."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "public/louisville-proposal.html"
+        ],
+        "createdAt": "2026-11-05T21:00:00.000Z",
+        "reason": "Louisville proposal: the light theme (OS-following, with a toggle) and the print palette Zach asked for, the same light-world scope as the myally pages and the existing _ARTIFACTS/brooks-audit-onepager.html waiver; DESIGN.md is dark-only. Seam: _PATTERNS/kintsugi-visual-grammar-seams.md (Louisville proposal, 2026-11-05)"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "public/louisville-proposal.html"
+        ],
+        "createdAt": "2026-11-05T21:00:00.000Z",
+        "reason": "Louisville proposal: the 'For Brooks Thomas, Louisville Brands' byline is a mono tracked label (label role), chosen by the 2026-11-05 brand gate over mixed-case mono, which read as code. Not body copy."
       }
     ]
   },
