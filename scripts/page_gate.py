@@ -407,6 +407,12 @@ def main():
                 for line, word, ctx in voice_gate.scan(f, fh.read()):
                     results[f][0].append(f"voice: royal \"{word}\" at line {line}: {ctx} "
                                          "(write it in I, or mark a joint we data-voice=\"joint\")")
+        import token_tuner_inline
+        for f in a.files:
+            with open(f, encoding="utf-8", errors="replace") as fh:
+                if token_tuner_inline.has_tuner(fh.read()):
+                    results[f][0].append("tuner: the internal token tuner is in a counterpart page "
+                                         "(python3 scripts/token_tuner_inline.py --strip FILE)")
 
     render_skipped = None
     if not a.static:

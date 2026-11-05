@@ -160,6 +160,27 @@
       ],
       "min_signatures": 3
     },
+    "counterpart-onepager": {
+      "mode": "persuade",
+      "kind": "persuasion-surface",
+      "description": "Cold or warm proposal one-pager for one counterpart: offer hero (title, serif verdict, aside, kit 29 tiles, kit 28 chip), a case switcher on the real decision (kit 24 segmented control driving panels, pure CSS), a heard/check paired-row grid, a sans-value receipt table (08 adapted), one ask (kit 31 callout), a depth checklist, kit 39 theme toggle. Built only by scripts/counterpart_onepager_build.py from a data file in _ARTIFACTS/counterpart-onepager/; never hand-edited. Lockup, heard/check grid, case switcher, sans receipt table and depth checklist are candidates until a second page needs them.",
+      "canonical_examples": [
+        "_ARTIFACTS/brooks-audit-onepager.html"
+      ],
+      "data_example": "_ARTIFACTS/counterpart-onepager/brooks.json",
+      "generator": "scripts/counterpart_onepager_build.py",
+      "signature_selectors": [
+        ".lockup",
+        ".hgrid",
+        ".seg-wrap",
+        ".receipt-table",
+        ".tiles",
+        ".callout",
+        "details.depth",
+        ".themebtn"
+      ],
+      "min_signatures": 5
+    },
     "tool-index": {
       "mode": "read",
       "kind": "catalog",
