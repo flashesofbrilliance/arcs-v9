@@ -1,0 +1,89 @@
+{
+  "number": "38",
+  "name": "Wordmark",
+  "slug": "wordmark",
+  "layer": "Atom",
+  "job": "Sign a surface as ARCS Field OS in one line of mono type that scales with whatever size its context sets.",
+  "anatomy": [
+    {
+      "part": "ARCS",
+      "role": "Mono, extra bold, tracked 0.22em, uppercase",
+      "token": "`cyan`"
+    },
+    {
+      "part": "Field OS",
+      "role": "Mono, regular, tracked 0.14em, uppercase",
+      "token": "`text-secondary`"
+    },
+    {
+      "part": "Gap",
+      "role": "0.45em, baseline aligned; the size comes from the parent",
+      "token": "none"
+    }
+  ],
+  "states": [
+    {
+      "name": "Signature",
+      "args": [
+        "0.6875rem"
+      ],
+      "note": "Label size, beside a name and email (the storyboard closing frame)."
+    },
+    {
+      "name": "Body",
+      "args": [
+        "13px"
+      ],
+      "note": "Header size (public/honest.html)."
+    },
+    {
+      "name": "Title card",
+      "args": [
+        "2.4rem"
+      ],
+      "note": "Alone on a frame over the horizon line (the storyboard opening)."
+    }
+  ],
+  "use_when": [
+    "A page or a video frame needs the ARCS Field OS signature.",
+    "The surface inlines or links the kit tokens."
+  ],
+  "avoid_when": [
+    "The surface names a product line instead (ARCS · 12D ORBITAL style headers); those are a different lockup.",
+    "A counterpart page where the ARCS brand would distract from the ask; the Brooks one-pager signs with a name only."
+  ],
+  "data": [
+    {
+      "field": "none",
+      "type": "fixed text",
+      "required": false,
+      "note": "The words are fixed; set `font-size` on the parent or a context rule."
+    }
+  ],
+  "access": [
+    "`aria-label=\"ARCS Field OS\"` on the element so it reads as one name, not two words spelled by letter.",
+    "Colour is decoration only; the words carry the name.",
+    "Not interactive."
+  ],
+  "built_from": [
+    {
+      "name": "Kit tokens (atoms)",
+      "href": "_tokens.css"
+    }
+  ],
+  "used_by": [
+    {
+      "name": "public/honest.html header"
+    },
+    {
+      "name": "Brooks pitch storyboard: opening and closing frames"
+    }
+  ],
+  "gates": [
+    "`scripts/kit_primitive_sync.py --check`: every page that marks this block carries it unchanged.",
+    "`scripts/kit_specimen.py --check`: this page matches its spec.",
+    "`scripts/page_gate.py`, `scripts/token_source_gate.py`, and the Impeccable detector at 0 findings."
+  ],
+  "css": "/* @prim:begin 38-wordmark */\n.wordmark { font-family: var(--ds-font-mono); text-transform: uppercase; display: inline-flex; gap: 0.45em; align-items: baseline; max-width: none; }\n.wordmark .wa { color: var(--cyan); font-weight: 800; letter-spacing: 0.22em; }\n.wordmark .wf { color: var(--text-secondary); font-weight: 400; letter-spacing: 0.14em; }\n/* @prim:end 38-wordmark */\n[data-stage] .wordmark { font-size: var(--fs-headline); }\n",
+  "demo": "function wm(){var p=document.createElement('p');p.className='wordmark';p.setAttribute('aria-label','ARCS Field OS');p.innerHTML='<span class=\"wa\">ARCS</span><span class=\"wf\">Field OS</span>';return p;}\ndocument.querySelector('[data-stage]').appendChild(wm());\ndocument.querySelectorAll('[data-state]').forEach(function(el,i){var w=wm();w.style.fontSize=STATES[i][0];el.appendChild(w);});"
+}

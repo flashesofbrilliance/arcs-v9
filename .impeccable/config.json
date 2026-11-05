@@ -817,10 +817,11 @@
         "rule": "design-system-color",
         "value": "*",
         "files": [
-          "_ARTIFACTS/brooks-audit-onepager.html"
+          "_ARTIFACTS/brooks-audit-onepager.html",
+          "src/ui-kit/recoil-report/39-theme-toggle.html"
         ],
-        "createdAt": "2026-11-05T15:30:00.000Z",
-        "reason": "Mirrors the waiver on unmerged branch claude/brooks-onepager-kit-trueup (81dc7d47): the light remap (the myally.arcs.care pattern) and the print palette are a deliberate second palette over the kit tokens, outside DESIGN.md by design. Contrast stays live (page_gate checks it)."
+        "createdAt": "2026-11-04T21:30:00.000Z",
+        "reason": "Kit 39 theme toggle: the light remap (the myally.arcs.care pattern) is a deliberate second palette over the kit tokens, outside DESIGN.md by design; the recoil-report brand profile exempts design-system-color. Contrast stays live (page_gate checks it)."
       },
       {
         "rule": "design-system-font-size",
@@ -828,8 +829,17 @@
         "files": [
           "_ARTIFACTS/brooks-audit-onepager.html"
         ],
-        "createdAt": "2026-11-05T15:30:00.000Z",
-        "reason": "Mirrors 81dc7d47: tile values 1.6rem so $5,000 fits one line, phone segment labels 0.85rem, carried from the hand-built page. Plus the US Letter print block (9.5pt root, sizes in rem/pt for a 2-page print), which the static detector reads as screen sizes since it does not scope @media print."
+        "createdAt": "2026-11-04T21:40:00.000Z",
+        "reason": "Carried from the hand-built Brooks page, not new: tile values 1.6rem (1rem on a phone) so $5,000 fits one line, and phone segment labels 0.85rem. Kept for pixel parity when the page became generated; repair is the owning session's call (seam booked in _ARTIFACTS/counterpart-onepager/README.md). Plus the US Letter print block (9.5pt root; sizes and gaps as calc() of the screen tokens), which the static detector reads as screen sizes since it does not scope @media print."
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "_ARTIFACTS/brooks-pitch-storyboard.html"
+        ],
+        "createdAt": "2026-11-04T21:50:00.000Z",
+        "reason": "Carried from the hand-built storyboard, not new: 1.25 leading sits on display-size video frame lines (.what at lede size, .v-stat at head size), which the static scan reads as body text. Not repaired here; the storyboard's type is the owning session's call (seam booked in _ARTIFACTS/counterpart-onepager/README.md)."
       }
     ]
   },
